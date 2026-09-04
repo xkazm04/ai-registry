@@ -155,3 +155,47 @@ Gained `author-declared-include-graph` + `rust--author-declared-include-graph` (
 **Strongest evidence in the new technique is negative.** The external tree carries entry-origin provenance *inside* the entry's own key-value payload, which is the free channel, and now maintains a literal length-2-and-contains-exactly-these-two-keys sentinel test at two independent inheritance sites to undo it. `inherited-default-override` already said provenance travels *beside* the values, for a different provenance question; this is what the inside-the-values shortcut costs, measured in a competent tree.
 
 **Return condition for the fleet:** when a managed project grows an extends-shaped configuration format. None has one today.
+
+## 2026-09-04 - /intake `Everywhere` (run `everywhere-build`)
+
+One technique, **`in-place-document-patch`**, and the placement check that
+preceded it is the more useful record.
+
+The mechanism: the stored document is the source of truth and the runtime
+object is **patched from it in place**, never deserialized into a fresh graph
+that replaces the old one. Two forces, and both are about things a replacement
+silently destroys - members written by a version this build does not know
+(so a round trip through an older build deletes the newer build's
+configuration), and the object identity that observers hold (collections keep
+their instance and synchronize items rather than being rebuilt). Preservation
+is the default; pruning is opt-in per subtree and never the default for a
+user-edited section. The honest ceiling is stated: a structural document model
+preserves unknown *members*, not comments, duplicate properties or formatting -
+that is a text-span editor and a much larger commitment.
+
+**All eleven neighbours were read before writing** (the subject grew by one
+mid-run; a sibling landed `author-declared-include-graph` the same morning).
+The two that decided it:
+
+- `key-registry` prescribes the **opposite** for its own regime - stored keys
+  minus registered keys are orphans, reap them - and the tension is real rather
+  than a duplication. The discriminator now stated in prose: the orphan set
+  difference is over keys *this build registered*, never over every member of
+  the document. "The members a build cannot see are not that build's orphans."
+- `read-batching` also prescribes the opposite ("drop the whole map, re-bulk-read"
+  over clever per-key patching), and is correct there. The discriminator is
+  **identity**: nothing holds a reference to a cache behind a typed door, and
+  the presentation layer holds one to the settings graph. That is the strongest
+  evidence the subject did not already model this.
+
+`config-backup-and-restore` already owned the atomic-write half and
+`save-experience` the debounce; both cited, neither restated. Only two
+document-substrate details were added - serialize to memory before touching the
+file, and the debounce must flush at exit.
+
+**Flagged, not fixed:** `author-declared-include-graph` is in this golden path's
+`techniques:` frontmatter with no prose section and no closing bullet. The gate
+cannot catch that (it checks frontmatter against files only), and the owning
+session may still be mid-write.
+
+Unapplied: return condition in `applied.md`.

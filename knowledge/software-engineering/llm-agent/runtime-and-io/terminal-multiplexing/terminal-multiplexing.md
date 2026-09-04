@@ -12,6 +12,10 @@ techniques:
   - multiplexer-state
   - occupant-state-detection
   - multi-client-fan-out
+  - completion-authority-arbitration
+  - readiness-edge-detection
+  - capability-revalidation
+  - injected-hook-reconvergence
 ---
 
 # Terminal emulation & multiplexing
@@ -248,6 +252,63 @@ harvests nothing and calls it a result. The
 technique owns the channel ranking, the manifest-as-data discipline, and the
 contract each state implies for whoever is driving.
 
+## The occupant can be given the hooks it does not have
+
+Those two paragraphs describe a world with two positions in it: the occupant
+announces its own transitions, or it announces nothing and the host reads its
+screen. There is a third, and it is the one a host reaches the moment its
+occupants are shells rather than applications — **inject the hooks.** Start
+the session under a configuration of the host's own that loads a small
+integration first, and the shell begins announcing its own command
+boundaries into the same stream it was already writing output to: a prompt
+about to be drawn, an input path now live, the command line as submitted,
+execution beginning, execution finished with a status. The occupant did not
+ship a protocol; it accepted one.
+
+This is the missing middle tier, and it is worth naming as a tier because it
+buys what neither neighbour can. Screen classification can tell you a session
+looks idle; it can never tell you which command that idleness belongs to, or
+what exit status it ended with. An injected boundary protocol gives exact
+boundaries and a real status from a program that publishes neither. What it
+costs is the thing this cluster is about: **two tiers of evidence now run
+over one stream.** The integration can fail to install, arm before the input
+path is live, or be overridden mid-session by the user's own configuration —
+so the heuristic tier cannot be removed, and nearly every defect in this lane
+is a mis-arbitration between the tier the host installed and the tier it fell
+back to.
+
+Four rules carry it. The first and largest: promoting a run to the protocol
+tier must **revoke** the heuristic tier's authority to conclude, not merely
+outrank it — because the heuristic concludes from *silence*, and silence is
+exactly what a correctly-running protocol tier produces while a command
+sleeps. A build that only reranked the two treated a couple of seconds of
+quiet as completion, tore the pseudo-terminal down on a long sleep, and
+returned the first line of a three-line script as the result. The second:
+detection arms on the **readiness edge**, not on the protocol's first
+sighting — startup emits markers of its own before the line editor accepts
+input — and the marker that advertises a capability is emitted by the
+component that enables it, after it is enabled, so the observer's belief
+follows reality instead of preceding it. The third: **detection is not a
+permanent verdict**; a user's configuration, a line-rewriting shell feature,
+or a script error can swallow the boundary marker long after the probe
+succeeded, so each run re-earns its tier and demotes alone. The fourth: an
+injected hook loads before user-controlled configuration by construction and
+will therefore be overridden by construction, so it **re-converges its
+invariants every prompt cycle** rather than installing them once.
+
+The tier the host installed and the tier it fell back to are covered by
+[completion-authority-arbitration](./techniques/completion-authority-arbitration.md),
+[readiness-edge-detection](./techniques/readiness-edge-detection.md),
+[capability-revalidation](./techniques/capability-revalidation.md) and
+[injected-hook-reconvergence](./techniques/injected-hook-reconvergence.md).
+One design rule spans all four and belongs here rather than in any of them:
+**one reader and one parser serve both the detection phase and the execution
+phase.** A detector with its own private matcher hands the executor a stream
+whose terminal-mode state it can no longer reconstruct, because the bytes
+that established it are already consumed — and the mode state is precisely
+what [keystroke-injection](./techniques/keystroke-injection.md) needs to
+encode the next write correctly.
+
 ## The manager is a singleton with a lifecycle
 
 All of the above needs an owner: one **manager**, keyed by session identity,
@@ -334,3 +395,21 @@ Two rules fall out of the table:
   viewers versus pause-and-notify for byte-faithful subscribers, throttling
   the child only when nobody can consume, size arbitration among many boxes,
   and per-attachment write permission.
+- [completion-authority-arbitration](./techniques/completion-authority-arbitration.md)
+  — the injected middle tier and who may end a run: promotion revokes the
+  idle heuristic's authority rather than outranking it, the closed set of
+  positive terminators, the exit status no screen can produce, and a timeout
+  as an outcome distinct from completion.
+- [readiness-edge-detection](./techniques/readiness-edge-detection.md) —
+  arming on the marker role that means the input path is live rather than on
+  the protocol's first sighting, emitting an advertisement only after the
+  state it advertises is true, and one reader and parser across both phases.
+- [capability-revalidation](./techniques/capability-revalidation.md) — the
+  per-run re-earning of the protocol tier, the bounded acknowledgement window
+  that makes an infinite wait unreachable, and demotion recorded on the
+  result instead of a fabricated status.
+- [injected-hook-reconvergence](./techniques/injected-hook-reconvergence.md)
+  — re-asserting an injected integration's invariants on every prompt cycle
+  because user configuration loads last, assert-and-repair instead of
+  reinstall, the narrow scope that keeps it tolerable in someone else's
+  shell, and stepping down loudly when convergence fails.

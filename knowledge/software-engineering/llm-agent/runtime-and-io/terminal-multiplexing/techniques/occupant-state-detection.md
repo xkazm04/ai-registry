@@ -35,6 +35,16 @@ good enough to hand to the door. It is a supplier to that state machine, not
 a rival for it, and where the occupant *does* emit lifecycle events this
 technique should not be built at all.
 
+There is a middle tier between those two, and it is worth checking before
+settling for this one: where the occupant is a shell rather than an
+application, the host can *inject* the hooks it does not ship, starting the
+session under a configuration that makes it announce its own command
+boundaries — see
+[completion-authority-arbitration](./completion-authority-arbitration.md) for
+that tier and the arbitration it forces with this one. Screen classification
+remains the fallback there, and remains the whole answer for occupants that
+cannot be wrapped, which is why the rules below stay in force on both paths.
+
 ## The screen is a weak channel, so rank what it carries
 
 The neighbouring subject correctly ranks raw output as the weakest evidence

@@ -15,6 +15,7 @@ techniques:
   - applied-defaults-ledger
   - config-backup-and-restore
   - author-declared-include-graph
+  - in-place-document-patch
 ---
 
 # Settings & preferences
@@ -189,6 +190,38 @@ layering), the keep-every-failure rule when the whole chain comes up empty,
 and the boundary against inherited defaults are
 [cross-source-precedence-chain](./techniques/cross-source-precedence-chain.md).
 
+## And sometimes the store is one document, not many rows
+
+Everything above assumes the store's granularity is the key: a write touches
+one row and leaves its neighbours alone by construction. Where the whole
+space is instead a single stored document — one nested tree of named members,
+loaded whole at startup and written whole on save — that guarantee is no
+longer free, and the obvious implementation throws it away. Deserializing the
+document into a fresh object graph and installing that graph in place of the
+old one is one line of code that loses information twice.
+
+It loses information in the document, because a settings document behaves
+like a **user document rather than a payload**: it outlives the build reading
+it, and every member the running schema does not recognize — written by a
+newer build, or by the one the user rolled back from — is missing from the
+new graph and therefore missing from the next save. Nothing errors; the
+user's configuration for everything the *other* build owns is simply gone.
+And it loses information in the process, because everything observing the
+settings holds a reference to the object that was just replaced, so the
+surface quietly stops moving after a reload.
+
+One inversion fixes both: the stored document is the source of truth, and the
+runtime object is **patched** from it in place rather than rebuilt from it.
+Unknown members are preserved by default and pruned only inside subtrees that
+declare themselves lossy; a write replaces the one named subtree and leaves
+its siblings — including the uninterpretable ones — alone. The mechanism also
+has a ceiling that belongs in the same breath as its promise: it preserves
+members, never comments or hand formatting, and preserving those is a
+different and much larger commitment. It is
+[in-place-document-patch](./techniques/in-place-document-patch.md), and it is
+the one place where the next section's instinct must be held back — the
+members a build cannot see are not that build's orphans.
+
 ## Stale keys are reaped
 
 Every registered key names its lifecycle
@@ -269,3 +302,8 @@ surface that has outgrown scrolling. These are
   operator-owned file with no other copy: bounded rotation before every save,
   atomic write, and a restore surface at the point of load failure instead
   of a silent boot on defaults.
+- [in-place-document-patch](./techniques/in-place-document-patch.md) — the
+  store as one document that outlives the build reading it: patch the runtime
+  object instead of replacing it, preserve members the schema does not name,
+  prune only where a subtree opts in, and say plainly that comments and
+  formatting are not preserved.

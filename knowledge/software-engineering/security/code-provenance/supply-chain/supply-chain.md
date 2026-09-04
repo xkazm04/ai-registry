@@ -15,6 +15,8 @@ techniques:
   - update-automation-review
   - toolchain-floor-drift
   - vendored-fork-ledger
+  - patching-mechanism-ladder
+  - signature-preserving-patching
   - build-time-dependency-tier
   - review-attestation-ledger
 ---
@@ -206,6 +208,52 @@ vendored source, which is what proves the index still describes the tree
 re-vendoring walk, and why the overridden version must be pinned exactly are
 [vendored-fork-ledger](./techniques/vendored-fork-ledger.md).
 
+## The record is owed whatever the mechanism, and the mechanism is not a taste
+
+That ledger prices the divergence. It does not decide how the divergence is
+*carried*, and teams answer that question by habit — whoever forked last time
+forks again. There are four mechanisms, and the choice is driven by the
+dependency's shape rather than by preference: taking the upstream tree in as a
+pinned nested checkout, for a framework you will diverge from structurally;
+keeping that tree unmodified and building a parallel definition beside it that
+includes it file by file and substitutes only what changed, with the mirror
+masquerading as the ordinary package reference so the rest of the graph
+resolves normally; rewriting behaviour in memory at start-up; and rewriting the
+same change into the compiled modules during the build. The mechanism also
+decides what the guards can still see, which makes it this subject's business
+and not an ergonomic detail: only the first removes the dependency from the
+resolved graph, and the other three leave a graph that is right about
+provenance and silent about behaviour
+([gate-sees-target](../../../_laws.md#gate-sees-target)). Instructively, the
+mirror's rejected alternatives all *work* and were all refused on grounds
+outside the code — a private feed contradicts a project's own build-it-yourself
+posture, publishing a customized build to the public feed spends a commons, and
+mounting the whole upstream tree bills every build forever to serve a few
+changed files. The rungs, the shape questions that select between them, and the
+record every one of them still owes are
+[patching-mechanism-ladder](./techniques/patching-mechanism-ladder.md).
+
+The last two rungs are functionally interchangeable, and the thing that
+separates them is not correctness — it is **distribution**. Modifying compiled
+modules at start-up is indistinguishable from the injection family that
+platform heuristic malware detection exists to catch, and modules rewritten
+after the process starts cannot inherit the application's signature, so the
+trust chain breaks exactly where the modification lives. Applying the identical
+change during the build produces ordinary statically-modified artifacts that go
+through the signing pipeline like any other output and give a behavioural
+heuristic nothing to observe. The general rule is worth stating past this case:
+a patching mechanism is chosen against the distribution channel, not only
+against the code, and the channel is absent from every test that runs before
+the artifact leaves. The same property makes the modification auditable — it is
+in the artifact you signed rather than applied to memory afterwards — and the
+platform trust machinery itself stays
+[packaging](../../../engineering-process/build-and-release/packaging/packaging.md)'s
+([signing-and-trust](../../../engineering-process/build-and-release/packaging/techniques/signing-and-trust.md)),
+while the chain a product produces over its *own* carried data is signed
+artifacts & provenance. What this subject owns is the mechanism choice upstream
+of both:
+[signature-preserving-patching](./techniques/signature-preserving-patching.md).
+
 ## Permissions are scoped manifests, and every widening is a diff
 
 What an application is *allowed* to do — filesystem reach, shell access,
@@ -295,3 +343,12 @@ are [scheduled-deep-analysis](./techniques/scheduled-deep-analysis.md).
   upstream commit, per-patch entries with falsifiable removal conditions,
   two-way inventory plus reverse-apply verification, the re-vendoring walk,
   and exact-pinning the version being overridden.
+- [patching-mechanism-ladder](./techniques/patching-mechanism-ladder.md) — the
+  four mechanisms for carrying a local modification, the shape questions that
+  select among them, mirror shadowing and its three alternatives rejected on
+  posture rather than capability, and what each rung leaves visible to the
+  graph's guards.
+- [signature-preserving-patching](./techniques/signature-preserving-patching.md)
+  — the distribution channel as the veto over functionally identical
+  mechanisms, heuristic detection and the unsignable start-up modification,
+  and the audit corollary of putting the change in the artifact you signed.

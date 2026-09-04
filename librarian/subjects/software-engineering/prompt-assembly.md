@@ -244,3 +244,40 @@ payload per item and cannot bound an unbounded item count.
 
 Boundary now stated in the golden path under its own heading, between the
 budget sections and the versioned-interface section.
+
+## 2026-09-04 - /intake `Everywhere` (run `everywhere-build`)
+
+One technique, **`contributed-document-admission`**: what an assembler owes when
+it injects a registry of instruction documents **its team did not author**.
+
+Placement was contested between here and `agent-instruction-files`, and this
+golden path decides it in its own words - *"the inverse case, authoring content
+for an assembler you do not control, is the sibling subject; this subject
+governs systems that own their assembler."* These are the assembler's decisions.
+The seam was exact: the trust-classification section enumerates *authored /
+machine-derived / untrusted* and says an untrusted span never enters the
+identity or policy layers, with **no class for a document the operator
+deliberately installed but a stranger wrote** - which wants the capability
+layer and nothing else.
+
+What was already covered and therefore compressed rather than restated: the
+no-execution half leans on `agent-runtime-assembly/operator-tier-code-loading`
+(*"code entry points come only from the startup tier"*), and index-over-body on
+`capability-documentation`'s pointer principle. What was genuinely absent:
+
+- **identity from source root plus container, never from self-declaration** - a
+  document cannot name itself into another source's namespace, and a declared
+  name disagreeing with its location is a warning, not an override;
+- **a declared capability is a precondition, never a grant** - requesting a tool
+  is not acquiring one;
+- **an invalid entry is listed with diagnostics, never silently dropped and
+  never injected**;
+- enable state as deviations-only, with the active set as a fingerprint input.
+
+`agent-instruction-files/sibling-floor-ownership` is the nearest thing in the
+corpus and describes the same artifact class from the **owner's audit** side;
+it says nothing about how a host admits, names or refuses those entries. Cited,
+not duplicated. Nothing under `agent-instruction-files` was edited - a sibling
+held uncommitted work there during this run.
+
+Unapplied: return condition in `applied.md`.

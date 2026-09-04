@@ -228,3 +228,46 @@ licences. Same clock-vs-diff scanning partition too. **Catches:** vendoring
 (`vendored-fork-ledger` — "forking a dependency does not break its guards, it ends
 them" — the source has nothing on vendoring at all) and lockfile trust, where the
 corpus additionally owns the characteristic failure of the freshness check.
+
+## 2026-09-04 - /intake `Everywhere` (run `everywhere-build`)
+
+Two techniques. `vendored-fork-ledger` owned the **record** a fork owes and
+nothing owned the **mechanism** it owes it for.
+
+- **`patching-mechanism-ladder`** - four rungs chosen by the dependency's shape,
+  not by taste: fork-and-carry; mirror shadowing (keep the upstream tree
+  pristine, build a parallel project that includes it file by file and
+  substitutes only what changed, masquerading as the ordinary package reference
+  so the rest of the graph resolves); runtime hooking; build-time rewriting. The
+  rejections for mirror shadowing are all structural - a private feed
+  contradicts an open-source posture, publishing customized builds to the public
+  feed is pollution, mounting the whole upstream source degrades CI. Cites
+  `vendored-fork-ledger` three times as the record and names the trap: the rungs
+  that leave the upstream tree pristine are the ones where the record gets
+  skipped, because it feels like no fork happened.
+- **`signature-preserving-patching`** - **the mechanism is chosen against the
+  distribution channel, not only against the code.** Runtime injection trips
+  heuristic malware detection and cannot inherit the application's signature;
+  build-time rewriting produces ordinary artifacts that do. The worker sharpened
+  the argument past the source: start-up modification does not *invalidate* the
+  signature, it produces a **valid** signature over modules that no longer
+  determine behaviour - the verdict arrives intact at the loader having stopped
+  meaning what the verifier reads it to mean, and nothing errors. Audit
+  corollary: reviewing the shipped artifact answers "what was modified" for a
+  build-time rewrite and cannot for a start-up one, where the only account is a
+  description of the change.
+
+Kept as two rather than one: the first filters by the dependency's shape, the
+second is a veto applied afterwards by the destination, and it discriminates
+between exactly the two rungs the shape questions cannot separate. Boundaries
+with `signed-artifacts` and `packaging/signing-and-trust` cited across with the
+discriminator named - this owns the choice upstream of both, "the choice of
+patching mechanism decides whether there is anything left for either chain to
+sign."
+
+Note for a later sweep: `antivirus` / heuristic-detection as a *design force*
+returned zero across the corpus before this landing. It is now modelled here
+only; if a second source raises it, check whether it wants to be a law.
+
+Unapplied: no authorized fleet project patches a dependency by either
+mechanism. Return condition in `applied.md`.

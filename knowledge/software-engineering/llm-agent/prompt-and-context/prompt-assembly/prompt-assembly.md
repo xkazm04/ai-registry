@@ -12,6 +12,7 @@ techniques:
   - history-compaction
   - tiered-history-projection
   - capability-documentation
+  - contributed-document-admission
   - fingerprinting-and-cache-keys
   - cache-breakpoint-allocation
   - continuation-prompts
@@ -269,6 +270,21 @@ instructions — is the ground of the sibling standard prompt-safety, and
 this subject defers to it entirely: assembly decides *where* and *as what*
 a span enters; safety decides *how it is wrapped*.
 
+There is a class the three labels do not fit, and it wants a higher layer than
+any of them. An instruction document somebody **installed** — written by an
+author who has never seen this deployment, maintained on a cadence that is not
+this team's — is not authored, is not machine-derived, and is not untrusted
+material the operator never chose. It was chosen deliberately, and it asks to
+sit in the capability layer. Admitting it is an assembly decision because
+assembly is the last place its provenance is known: what enters the standing
+text is an index line and a resolvable identifier rather than the document's
+body, the identity it is addressed by comes from where it sits rather than
+from what it says about itself, and the tools or commands it names are a
+description of what it needs rather than a request the host fills.
+[contributed-document-admission](./techniques/contributed-document-admission.md)
+owns that contract, including what a malformed entry does instead of
+disappearing.
+
 ## Failure modes this standard exists to prevent
 
 - **Sprawl** — prompt text born at call sites; no single point of assembly,
@@ -292,6 +308,10 @@ a span enters; safety decides *how it is wrapped*.
   "did it see the new instruction?" question becomes unanswerable the
   moment the call returns. Record at minimum the digest and size of every
   prompt sent, at the send site.
+- **The self-granted entry** — an installed document that named the tools it
+  wanted and got them, turning an install into a roster change nobody
+  reviewed; and its quieter sibling, the malformed entry dropped in silence,
+  whose only symptom is an agent that never uses a document its owner can see.
 
 ## The techniques
 
@@ -322,6 +342,13 @@ a span enters; safety decides *how it is wrapped*.
 - [capability-documentation](./techniques/capability-documentation.md) — the
   ability layer derived from the live registry, doctrine↔registry sync,
   and conditional rendering of what is actually active.
+- [contributed-document-admission](./techniques/contributed-document-admission.md)
+  — the registry entries somebody installed rather than authored: an index line
+  and a resolvable identifier instead of a body, identity taken from the source
+  root rather than from self-declaration, a declared capability treated as a
+  precondition and never as a grant, nothing in the document executed by the
+  host, an invalid entry listed rather than dropped, and the active set as a
+  fingerprint input.
 - [fingerprinting-and-cache-keys](./techniques/fingerprinting-and-cache-keys.md)
   — what goes in the digest, session staleness, per-layer granularity, and
   the fingerprint as the prompt's version stamp.

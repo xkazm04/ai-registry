@@ -3,11 +3,14 @@ layer: golden-path
 type: golden-path
 subject: native-shell-integration
 status: forged
-use_when: [the product ships a native process that holds capabilities the presentation layer cannot reach, deciding what belongs in the host abstraction and what stays a guarded direct call, a feature works for the author and is silently dead for users on another platform, an overlay or a background stream behaves differently once the window is hidden]
+use_when: [the product ships a native process that holds capabilities the presentation layer cannot reach, deciding what belongs in the host abstraction and what stays a guarded direct call, a feature works for the author and is silently dead for users on another platform, an overlay or a background stream behaves differently once the window is hidden, a surface placed over another application changes what the product can read from it]
 techniques:
   - permission-gate-vector
   - capability-presence-contract
   - non-stealing-overlay
+  - query-transparent-overlay
+  - observer-perturbation
+  - unexported-capability-ladder
   - layout-resolved-input-synthesis
   - native-owned-stream
 ---
@@ -153,6 +156,67 @@ the user's clipboard is now full of our text"
 ([record-precedes-effect](../../_laws.md#record-precedes-effect) is the same
 shape one level up).
 
+## The overlay that reads is transparent in a third sense
+
+Focus and clicks are two axes; a surface that *reads* the application beneath it
+has a third, and it is the one nobody enumerates until the feature is built. The
+host's structural interfaces — the ones that answer "what element is at this
+point" — are global and return the **topmost** surface, which is by construction
+the product's own. So a picker built over an always-on-top surface returns that
+surface at every coordinate, and it does so with no error, because the interface
+answered correctly the question it was asked. Visual transparency does not help;
+neither does input transparency. What helps is a property the accessibility
+layer's *own traversal* reads, declaring the surface not part of the tree, after
+which the documented query walks past it unchanged. The two workarounds that
+present themselves instead — observing input globally rather than querying, and
+cloaking the surface at the compositor around each query — are rejected for
+reasons worth carrying:
+[query-transparent-overlay](./techniques/query-transparent-overlay.md) holds
+them, along with the exclusion's construction-path rule and the outside-in
+acceptance test that is to the query axis what clicking is to the click axis.
+
+There is a second failure on the same axis that no amount of transparency
+touches, because it happens in the *other* application. An instrument that
+covers what it measures is inside the scene it measures, and some targets react
+to being covered: an application that concludes it is fully occluded hibernates
+its renderer and moves its accessibility provider out of the subtree the query
+walks, leaving a placeholder behind. The query then returns a bare root with
+nothing in it, no error, and no trace of the cause at the call site. The
+discipline is to suspect the product's own surface before debugging the query,
+to establish causation with a rig that removes the surface's contact with the
+target and changes nothing else on the code path, and to fix at the perturbation
+rather than at the reaction — because there is one surface and an open-ended
+number of occlusion heuristics to defeat one at a time.
+[observer-perturbation](./techniques/observer-perturbation.md) carries the
+mechanism, the four impostors of an empty result, and the experiment.
+
+## Reaching what the host does not export, and the rule that ends the climb
+
+Occasionally the capability the product needs demonstrably exists in the host,
+is used by the host's own components, and is not exported. What follows is a
+ladder — published symbol data, hardcoded offsets, runtime resolution against an
+anchor the function carries with it — where every rung costs more and lasts less
+than the one below, and where the rungs that look cheapest are the ones that
+fail silently: a resolution on a per-event path spends the feature's latency
+budget on bookkeeping, and an offset written down from one release calls an
+unrelated function on the next.
+
+The load-bearing rule is not on the ladder at all; it is the one that says do
+not climb it yet. **When the product's own instrument perturbs a subsystem, look
+for that subsystem's own opt-out before building a scoped replacement for its
+interface.** The two failures above are the demonstration: a scoped replacement
+for the host's structural query, built to ignore the product's surface, was
+retired in a single change by a property on the surface that the queried
+subsystem already honoured. The replacement was not wrong — it was aimed one
+level too low, at the interface used to observe rather than at the subject being
+observed. Where the ladder is genuinely the answer, it is admissible only under
+the obligations that make it survivable: resolve once at startup and never per
+call, treat a failed resolution as a null with a stated fallback to the
+supported interface rather than as a guess, and write the derivation beside the
+result so the next person can re-run it.
+[unexported-capability-ladder](./techniques/unexported-capability-ladder.md)
+owns the search order, the rungs and those obligations.
+
 ## Reaching a foreign application means emitting what it will interpret
 
 Synthesizing input into an application the product does not own is not "send
@@ -205,6 +269,15 @@ it into a hot loop.
   refusing with the right reason; compile-out versus runtime guard.
 - [non-stealing-overlay](./techniques/non-stealing-overlay.md) — the layered
   teardown, the deliberately-omitted focus call, and the clickability test.
+- [query-transparent-overlay](./techniques/query-transparent-overlay.md) — the
+  third transparency, the property the queried layer itself reads, the global
+  hook and compositor-cloak rejections, and verifying from outside the product.
+- [observer-perturbation](./techniques/observer-perturbation.md) — the
+  instrument inside the scene it measures, the empty tree and its four
+  impostors, the self-exclusion experiment, and fixing at the perturbation.
+- [unexported-capability-ladder](./techniques/unexported-capability-ladder.md)
+  — the search order that precedes the ladder, what each rung costs, and the
+  five obligations that make a runtime resolution admissible.
 - [layout-resolved-input-synthesis](./techniques/layout-resolved-input-synthesis.md)
   — which layer the target matches on, resolving there, the main-thread and
   refresh constraints, and the fallback constant.
