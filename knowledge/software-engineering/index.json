@@ -3,9 +3,9 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
-  "subjects": 214,
-  "techniques": 1531,
-  "applications": 871,
+  "subjects": 216,
+  "techniques": 1544,
+  "applications": 875,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1531/1531",
+  "use_when_coverage": "1544/1544",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -1838,7 +1838,7 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-runtime-assembly/agent-runtime-assembly.md",
-   "digest": "sha256:5bf1c2288bad204c",
+   "digest": "sha256:49151d834acbe49a",
    "techniques": [
     {
      "slug": "additive-input-at-the-call-boundary",
@@ -1965,7 +1965,8 @@
       "a restart finds work that was running and nothing knows how it ended",
       "deciding what status a killed run is given",
       "a downstream classifier recovers a cause by matching an error message",
-      "recovery must produce a transcript a later reader can rely on"
+      "recovery must produce a transcript a later reader can rely on",
+      "a crashed streaming generation left a committed partial in the store"
      ]
     },
     {
@@ -2073,6 +2074,13 @@
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-runtime-assembly/applications/node--guard-input-custody.md",
      "verified_on": "2026-09-03",
      "verified_against": "node@20"
+    },
+    {
+     "stack": "node",
+     "technique": "indeterminate-closure-on-interruption",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-runtime-assembly/applications/node--indeterminate-closure-on-interruption.md",
+     "verified_on": "2026-09-04",
+     "verified_against": "node@22.19.0"
     },
     {
      "stack": "node",
@@ -10217,6 +10225,107 @@
     }
    ]
   },
+  "durable-agent-operations": {
+   "category": "llm-agent",
+   "subcategory": "orchestration",
+   "status": "forged",
+   "file": "knowledge/software-engineering/llm-agent/orchestration/durable-agent-operations/durable-agent-operations.md",
+   "digest": "sha256:357ba2c2d1e3b8ab",
+   "techniques": [
+    {
+     "slug": "close-is-a-controlled-crash",
+     "status": "forged",
+     "laws": [
+      "unknown-is-not-a-value",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing shutdown for a runtime that owns durable work",
+      "a graceful-exit path writes different state than a crash",
+      "recovery works in tests and fails on the first real restart",
+      "deciding whether shutdown may cancel in-flight effects"
+     ]
+    },
+    {
+     "slug": "intent-mints-the-identity",
+     "status": "forged",
+     "laws": [
+      "record-precedes-effect",
+      "identity-survives-reuse"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a crash mid-provider-call leaves an unknown outcome",
+      "recovery cannot tell whether a tool ran",
+      "a recovered transcript gains an extra record every restart",
+      "an interrupted generation is billed as free"
+     ]
+    },
+    {
+     "slug": "recovery-prefix-enumeration",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding how much recovery testing is enough",
+      "a recovery suite passes and the first real crash is unhandled",
+      "adding a state to a durable operation machine",
+      "asserting that writes happen in the specified order"
+     ]
+    },
+    {
+     "slug": "settlement-order-is-not-placement-order",
+     "status": "forged",
+     "laws": [
+      "record-precedes-effect",
+      "identity-survives-reuse"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "parallel tool calls must appear in the order the model asked for them",
+      "a crash re-ran effects that had already completed",
+      "a finished call disappears from the display until its result is placed",
+      "deciding when a batch of results enters the transcript"
+     ]
+    },
+    {
+     "slug": "total-restart-point-by-reference",
+     "status": "forged",
+     "laws": [
+      "unknown-is-not-a-value",
+      "one-authority-per-vocabulary",
+      "creation-names-reaper"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing what a crashed agent operation leaves behind",
+      "recovery has to work out where it was",
+      "a full-state checkpoint is rejected as too expensive",
+      "deciding where large in-flight content lives"
+     ]
+    },
+    {
+     "slug": "two-cancellations-and-a-synchronous-door",
+     "status": "forged",
+     "laws": [
+      "one-validation-door",
+      "absent-guard-is-loud"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "closing a browser tab kills an agent run that should have continued",
+      "cancelling work requires somebody to still be watching it",
+      "an effect starts after cancellation was requested",
+      "deciding which calls must pass an admission check"
+     ]
+    }
+   ],
+   "applications": []
+  },
   "dynamic-secret-lifecycle": {
    "category": "secret-custody-and-issuance",
    "subcategory": null,
@@ -15629,7 +15738,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/integration/markdown-vault/markdown-vault.md",
-   "digest": "sha256:764c0c15a865ddd5",
+   "digest": "sha256:8dc4bd2c6059c437",
    "techniques": [
     {
      "slug": "editor-interop",
@@ -15690,6 +15799,21 @@
      ]
     },
     {
+     "slug": "read-triggered-reconciliation",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "derivation-names-recomputation"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a derived index over a store other programs write",
+      "a change watcher is unavailable or silently unreliable",
+      "deciding when a mirror is reconciled rather than how",
+      "a ledger records what was reconciled and nothing ever resolves it"
+     ]
+    },
+    {
      "slug": "replicated-substrate",
      "status": "forged",
      "laws": [
@@ -15739,6 +15863,20 @@
      "file": "knowledge/software-engineering/integration/markdown-vault/applications/node--link-graph-extraction.md",
      "verified_on": "2026-08-30",
      "verified_against": "node@22"
+    },
+    {
+     "stack": "node",
+     "technique": "read-triggered-reconciliation",
+     "file": "knowledge/software-engineering/integration/markdown-vault/applications/node--read-triggered-reconciliation.md",
+     "verified_on": "2026-09-04",
+     "verified_against": "node@22"
+    },
+    {
+     "stack": "python",
+     "technique": "read-triggered-reconciliation",
+     "file": "knowledge/software-engineering/integration/markdown-vault/applications/python--read-triggered-reconciliation.md",
+     "verified_on": "2026-09-04",
+     "verified_against": "python@3.13"
     },
     {
      "stack": "rust",
@@ -15899,7 +16037,7 @@
    "subcategory": "runtime-and-io",
    "status": "reconciled",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/mcp-tools.md",
-   "digest": "sha256:f324c2e2ba5a3794",
+   "digest": "sha256:5a86cdd7c651bf5e",
    "techniques": [
     {
      "slug": "authentication-and-scoping",
@@ -22823,6 +22961,114 @@
      "technique": "sandbox-to-tracker-commit",
      "file": "knowledge/software-engineering/engineering-assessment/reporting-and-remediation/remediation-roadmaps/applications/react--sandbox-to-tracker-commit.md",
      "verified_on": "2026-08-20"
+    }
+   ]
+  },
+  "remote-capability-probing": {
+   "category": "backend-platform",
+   "subcategory": "resilience",
+   "status": "forged",
+   "file": "knowledge/software-engineering/backend-platform/resilience/remote-capability-probing/remote-capability-probing.md",
+   "digest": "sha256:944cd48868c33525",
+   "techniques": [
+    {
+     "slug": "advertised-support-is-not-evidence",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "unknown-is-not-a-value",
+      "derivation-names-recomputation"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a read path is about to branch on a capability header the peer sent",
+      "deciding what observation proves a peer supports partial reads",
+      "a capability verdict was cached and outlived the setting that would have changed it",
+      "a peer returned success and the code concluded the capability works"
+     ]
+    },
+    {
+     "slug": "assertion-permission-and-bypass-are-three-switches",
+     "status": "forged",
+     "laws": [
+      "absent-guard-is-loud",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "adding an operator flag that turns a capability probe off",
+      "a single switch is doing duty for skip-the-probe and use-the-fallback",
+      "choosing the default for an unset probe control",
+      "a test enumerates the settings a subsystem publishes"
+     ]
+    },
+    {
+     "slug": "buffer-by-access-latency-class",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "limits-are-derived"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "one file-shaped abstraction spans backing stores at very different distances",
+      "a buffering layer is copying data that was already in memory",
+      "deciding the page size for reads against a remote store",
+      "a global direct-access mode is being proposed to make one workload faster"
+     ]
+    },
+    {
+     "slug": "degraded-rung-refusal-ceiling",
+     "status": "forged",
+     "laws": [
+      "limits-are-derived",
+      "verdict-survives-boundary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a fallback replaces a bounded fragment read with an unbounded whole-object transfer",
+      "deciding the size above which a degraded path should refuse instead of proceed",
+      "a caller asked for a few kilobytes and the process held the whole object in memory",
+      "announcing that a read has dropped to an expensive path"
+     ]
+    },
+    {
+     "slug": "instrument-by-cause-not-by-hit-rate",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "limits-are-derived"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a buffer or read cache reports hits and misses and nobody can act on the number",
+      "tuning a readahead policy",
+      "deciding whether a peer silently fell back to whole-object transfers",
+      "adding a per-object access histogram to a reader"
+     ]
+    },
+    {
+     "slug": "the-probe-that-is-also-the-first-read",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing between a metadata request and a small real read to establish a capability",
+      "a capability probe costs a round trip against infrastructure you do not own",
+      "a metadata request said yes and the real read behaved differently",
+      "designing the rungs of a capability ladder"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "cpp",
+     "technique": "assertion-permission-and-bypass-are-three-switches",
+     "file": "knowledge/software-engineering/backend-platform/resilience/remote-capability-probing/applications/cpp--assertion-permission-and-bypass-are-three-switches.md",
+     "verified_on": "2026-09-04",
+     "verified_against": "cpp@17"
     }
    ]
   },
@@ -30491,6 +30737,8 @@
     "draft-editing/dirty-tracking",
     "draft-editing/navigation-guards",
     "drag-drop/ownership-boundaries",
+    "durable-agent-operations/close-is-a-controlled-crash",
+    "durable-agent-operations/recovery-prefix-enumeration",
     "edge-queue-policy/drop-accounting",
     "edge-queue-policy/least-recently-used-input-fairness",
     "embedded-db/journal-and-durability-modes",
@@ -30579,6 +30827,7 @@
     "machine-paced-delivery/stake-before-merit",
     "markdown-vault/knowledge-integrity-lint",
     "markdown-vault/mirror-indexes",
+    "markdown-vault/read-triggered-reconciliation",
     "markdown-vault/replicated-substrate",
     "maturity-ladders/ladder-versioning",
     "maturity-ladders/present-vs-enforced",
@@ -30693,6 +30942,8 @@
     "release-pipeline/version-single-truth",
     "remediation-handoff/evidence-based-auto-close",
     "remediation-handoff/finding-refutation-channel",
+    "remote-capability-probing/advertised-support-is-not-evidence",
+    "remote-capability-probing/the-probe-that-is-also-the-first-read",
     "repo-manifest-standard/generated-from-provenance",
     "repo-manifest-standard/spec-ships-with-artifact",
     "repository-landing-document/evidence-linked-badges",
@@ -31184,6 +31435,7 @@
     "remediation-handoff/finding-refutation-channel",
     "remediation-handoff/resolution-trailers",
     "remediation-roadmaps/coverage-guarantee",
+    "remote-capability-probing/assertion-permission-and-bypass-are-three-switches",
     "repo-manifest-standard/must-ignore-unknown",
     "repo-manifest-standard/pointers-not-embeds",
     "retrieval/embedding-lifecycle",
@@ -31730,6 +31982,7 @@
     "remediation-handoff/finding-refutation-channel",
     "remediation-handoff/single-artifact-prompt-construction",
     "remediation-roadmaps/projected-gain-modelling",
+    "remote-capability-probing/instrument-by-cause-not-by-hit-rate",
     "repo-manifest-standard/generated-from-provenance",
     "repository-landing-document/caption-carrying-figures",
     "repository-landing-document/evidence-linked-badges",
@@ -31885,6 +32138,8 @@
     "document-text-extraction/extraction-yield-bands",
     "document-text-extraction/screen-then-confirm-detection",
     "document-text-extraction/unreadable-region-refusal",
+    "durable-agent-operations/close-is-a-controlled-crash",
+    "durable-agent-operations/total-restart-point-by-reference",
     "dynamic-secret-lifecycle/wal-per-external-side-effect",
     "edge-queue-policy/per-edge-depth-and-policy",
     "embedded-tracing-collector/root-discovery-by-counting",
@@ -31946,6 +32201,7 @@
     "quorum-and-recovery-procedures/cancel-leaves-prior-state-valid",
     "read-serving-replicas/evict-not-update-on-commit",
     "register-bytecode-execution/placeholder-patch-jumps",
+    "remote-capability-probing/advertised-support-is-not-evidence",
     "retrieval/query-decomposition-before-the-lanes",
     "retrieval/structural-centrality-lane",
     "retry-backoff/client-retry-and-redirect-conventions",
@@ -32067,6 +32323,7 @@
     "draft-editing/draft-model",
     "draft-editing/field-defaults-and-bounds",
     "drag-drop/ownership-boundaries",
+    "durable-agent-operations/two-cancellations-and-a-synchronous-door",
     "embedded-preview/origin-validation",
     "engine-host-contract/contained-async-module-loader",
     "entity-lifecycle/archive-restore-semantics",
@@ -32305,6 +32562,8 @@
     "docs-content-model/product-location-mapping",
     "draft-editing/draft-model",
     "drag-drop/payload-and-identity",
+    "durable-agent-operations/intent-mints-the-identity",
+    "durable-agent-operations/settlement-order-is-not-placement-order",
     "dynamic-secret-lifecycle/idempotent-revoke-and-give-up",
     "embedded-preview/cross-frame-protocol",
     "embedded-preview/preview-checkpoints",
@@ -32564,6 +32823,7 @@
     "diff-comparison/computation-offload",
     "drag-drop/cross-surface-handoff",
     "drag-drop/drag-lifecycle",
+    "durable-agent-operations/total-restart-point-by-reference",
     "dynamic-secret-lifecycle/idempotent-revoke-and-give-up",
     "dynamic-secret-lifecycle/lease-vs-native-tracking",
     "dynamic-secret-lifecycle/persist-before-provision",
@@ -32880,6 +33140,8 @@
     "docs-sync/source-doc-mapping",
     "draft-editing/field-defaults-and-bounds",
     "drag-drop/cross-surface-handoff",
+    "durable-agent-operations/recovery-prefix-enumeration",
+    "durable-agent-operations/total-restart-point-by-reference",
     "dynamic-secret-lifecycle/ttl-ladder-derivation",
     "edge-queue-policy/eviction-priority-classes",
     "edge-queue-policy/in-band-flush",
@@ -33026,6 +33288,7 @@
     "remediation-handoff/resolution-trailers",
     "remediation-handoff/single-artifact-prompt-construction",
     "remediation-roadmaps/weighted-upside-ranking",
+    "remote-capability-probing/buffer-by-access-latency-class",
     "repo-manifest-standard/capability-not-tool-vocabulary",
     "repo-manifest-standard/pointers-not-embeds",
     "repo-manifest-standard/semver-additive-evolution",
@@ -33226,6 +33489,7 @@
     "long-form-reading-surface/server-parsed-once-reused",
     "markdown-vault/link-graph-extraction",
     "markdown-vault/mirror-indexes",
+    "markdown-vault/read-triggered-reconciliation",
     "maturity-ladders/band-design",
     "maturity-ladders/ladder-versioning",
     "maturity-ladders/migrate-on-read",
@@ -33284,6 +33548,7 @@
     "remediation-handoff/evidence-based-auto-close",
     "remediation-roadmaps/cheapest-path-projection",
     "remediation-roadmaps/projected-gain-modelling",
+    "remote-capability-probing/advertised-support-is-not-evidence",
     "repo-manifest-standard/generated-from-provenance",
     "retrieval/chunking-and-indexing",
     "retrieval/embedding-lifecycle",
@@ -33406,6 +33671,7 @@
     "prompt-assembly/deferred-interface-invalidation",
     "read-serving-replicas/client-carried-index",
     "read-serving-replicas/forward-on-storage-error",
+    "remote-capability-probing/degraded-rung-refusal-ceiling",
     "repository-landing-document/input-channel-distinction",
     "repository-landing-document/multi-surface-degradation",
     "retry-backoff/client-retry-and-redirect-conventions",
@@ -33481,6 +33747,7 @@
     "document-text-extraction/recognition-boundary-and-escalation",
     "document-text-extraction/structural-amplification-caps",
     "document-text-extraction/structure-saturation-guard",
+    "durable-agent-operations/two-cancellations-and-a-synchronous-door",
     "edge-queue-policy/per-edge-depth-and-policy",
     "embedded-tracing-collector/mark-finalize-remark-sweep",
     "embedded-tracing-collector/root-discovery-by-counting",
@@ -33545,6 +33812,7 @@
     "read-serving-replicas/committed-write-invalidation-hook",
     "register-bytecode-execution/leak-checked-register-allocation",
     "release-pipeline/deprecation-by-version-arithmetic",
+    "remote-capability-probing/assertion-permission-and-bypass-are-three-switches",
     "repository-landing-document/style-rule-ships-its-detector",
     "reversible-transform-pipelines/identity-check-with-graceful-fallback",
     "scale-investment-timing/ceiling-as-deadline-not-trigger",
@@ -33618,6 +33886,8 @@
     "cross-instance-cache-lease/renew-from-arrival-not-from-work",
     "decentralized-artifact-distribution/publisher-declared-verification-floor",
     "declarative-resource-lifecycle/deletion-blocked-until-dependents-confirm",
+    "durable-agent-operations/intent-mints-the-identity",
+    "durable-agent-operations/settlement-order-is-not-placement-order",
     "guest-execution-bounding/bounded-shadow-backtrace",
     "job-coordination/no-unrestorable-state-at-a-suspension-point",
     "voice-io/unattended-caller-attribution"
@@ -33646,6 +33916,9 @@
     "paged-block-cache/one-page-size-bought-with-padding",
     "paged-block-cache/release-order-is-the-eviction-policy",
     "quality-gates/deterministic-proxy-gate",
+    "remote-capability-probing/buffer-by-access-latency-class",
+    "remote-capability-probing/degraded-rung-refusal-ceiling",
+    "remote-capability-probing/instrument-by-cause-not-by-hit-rate",
     "scale-investment-timing/execution-model-concurrency-threshold",
     "serving-process-topology/process-count-as-a-formula",
     "watch-cache-and-resync/initial-read-strategy-behind-a-gate",
