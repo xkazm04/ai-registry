@@ -105,7 +105,8 @@
             "structured-output",
             "agent-instruction-files",
             "context-hierarchy",
-            "llm-extracted-entity-graph"
+            "llm-extracted-entity-graph",
+            "tool-result-economy"
           ]
         },
         {

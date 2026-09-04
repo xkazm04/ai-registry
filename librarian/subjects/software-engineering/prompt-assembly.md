@@ -1,7 +1,7 @@
 ---
 domain: software-engineering
 subject: prompt-assembly
-last_touched: 2026-09-03
+last_touched: 2026-09-04
 touched_by: intake
 dry_streak: 0
 ---
@@ -244,3 +244,42 @@ payload per item and cannot bound an unbounded item count.
 
 Boundary now stated in the golden path under its own heading, between the
 budget sections and the versioned-interface section.
+
+## 2026-09-04 - intake (run `copilot-cost`)
+
+Source: a first-party practitioner account of one team's harness cost work.
+One technique landed, plus one application; the run's other three findings went
+to the new sibling subject `tool-result-economy`.
+
+- **compression-hardens-deferred-decisions** - found by the asymmetry hunt, not
+  by a gap. `context-budgeting` models the *economics* of shrinking a standing
+  layer with real care (break-even in inclusions, cache multipliers, a measured
+  2,000-inclusion anchor) and models the *risk* of shrinking it with nothing.
+  The mechanism: compression preferentially deletes hedges, because a hedge adds
+  no assertion and so has no local justification - and a hedge is where
+  authorship declined to decide and delegated to call time. Deleting it does not
+  shorten the rule, it **makes the decision**, and it collapses toward the
+  restrictive branch because that is the branch statable as a rule. The safe
+  compression is the one that is shorter *and weaker*. Second half: the most
+  compressible lines are the least tested lines by construction, so a
+  compression pass walks down the untested column; and the ratchet is ordered -
+  on a regression, write the test **before** changing the text again.
+
+  This also repairs a one-directional edge in
+  `eval-harness/certification-levels`: the ladder says the cheap level gates the
+  expensive one and never says what an empirical catch owes the cheap level. It
+  owes a test.
+
+**Applied `simulation`, verdict `better`**, against an agent platform's
+836-line build prompt. The expected precondition - a big standing layer with no
+behavioural tests - was **wrong**: the project runs a ten-fixture behavioural
+bench over that exact prompt, citing its rules by number. What the bench
+measures is the mechanism instead, and the tree reached this technique's own
+decision rule independently seven weeks earlier, from a regression: *select
+questions by information value, not by template.* Mean 0.48, high band 0.285,
+the round-cap dimension 0 or 1 on all ten fixtures, and the fully-specified
+control drew four questions where the design says zero.
+
+**Boundary with the new subject**, stated in both golden paths: an instruction
+is a set of deferred decisions and compressing it makes them; a tool result has
+no deferrals in it at all.

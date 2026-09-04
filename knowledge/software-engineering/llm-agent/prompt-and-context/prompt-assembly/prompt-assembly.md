@@ -20,6 +20,7 @@ techniques:
   - deferred-interface-invalidation
   - endpoint-sealed-continuation-metadata
   - elision-to-a-refetch-pointer
+  - compression-hardens-deferred-decisions
 ---
 
 # Prompt assembly & context budgeting
