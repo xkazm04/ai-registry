@@ -88,6 +88,66 @@ feature availability; a suite that only ever runs subsets has re-created the
 original failure with a new shape, having made the all-features-together case
 rare instead of the deep case rare.
 
+## Not every feature is eligible for omission
+
+Before the first draw, sort the feature table into three classes. The sort is
+cheap, it is written down beside the table rather than left to be inferred,
+and it is what keeps the draw from producing runs that assert nothing.
+
+- **Suppressor** — it repairs the very state another defect needs. This is
+  the class the omission half was invented for and the highest-value one to
+  drop.
+- **Optional** — ordinary. Omission skews the run and occasionally unmasks.
+- **Mandatory** — the bootstrap: the feature without which the run cannot
+  construct the state everything else is asserted *about*. It is retained in
+  every draw.
+
+The mandatory class is the one worth naming explicitly, because omitting it
+does not produce a weaker run — it produces a **vacuous** one. The workload
+executes, every invariant is evaluated against a structure that was never
+populated, every assertion passes, and the seed reports green having tested
+nothing. That is
+[failure-not-empty-success](../../../../_laws.md#failure-not-empty-success)
+arriving through the generator's *configuration* rather than through its
+inputs, and it hides better than the input version: a vacuous seed is spelled
+exactly like a clean one, and in a campaign of hundreds nobody reads the
+individual tallies.
+
+Note this is a different failure from the one in "when not to use it" below.
+That one is the configuration the system **rejects** — visible, loud, and
+self-correcting, because a refused run is a run somebody investigates. This
+one is the configuration the system **accepts** and that checks nothing, and
+it is the more dangerous of the two precisely because nothing refuses it. The
+property that makes a feature mandatory — it is the sole creator of the state
+under test — is the same property that makes its absence quiet.
+
+## Sampling the configuration changes what a coverage claim may be quantified over
+
+Once each run draws its own feature subset, **a run can no longer be the unit
+of a coverage assertion.** A seed whose draw excluded a feature legitimately
+cannot reach the outcomes that feature produces, so a per-run assertion over
+the full outcome set is unmeetable by construction — the same defect as a
+floor set on a criterion the source cannot satisfy, moved from the criterion
+axis to the run axis.
+
+The gate therefore asserts on the **merged campaign tally** — every class
+reached by *some* run in the campaign — and the per-run tally is a report.
+Two obligations keep that from opening a hole:
+
+- **Pin the campaign's composition.** Its seed count, and the full-feature
+  runs the portfolio rule above already requires, are part of the gate's
+  definition. Otherwise the bar becomes satisfiable by adding seeds, which is
+  a counter walking a changed population.
+- **Keep the merged gate loud.** A class no run in the campaign reached is a
+  finding about the feature table, and the repair is the table — never a
+  weaker assertion, and never a per-seed exemption.
+
+The aggregation direction is the opposite of a verdict's, and the two are
+computed from the same runs: a verdict predicate ("the system behaved
+correctly") is all-of-N, a reach predicate ("the campaign visited this
+class") is a union. Each states its own aggregation unit, or one of them is
+being read with the other's quantifier.
+
 ## Choosing the feature set
 
 The unit of omission should be a **feature the system branches on**, not an

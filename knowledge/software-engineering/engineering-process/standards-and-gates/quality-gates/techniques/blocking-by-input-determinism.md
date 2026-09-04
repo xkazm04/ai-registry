@@ -101,7 +101,14 @@ the two remedies the input axis offers both fail on it:
   ([reliability-aggregation](../../../../llm-agent/evaluation-and-cost/eval-harness/techniques/reliability-aggregation.md)).
   A gate is the all-of-N position by definition: it exists to say *this can be
   relied upon*, and a single green run of a variant instrument has established
-  only that the check passed once.
+  only that the check passed once. That default is stated for a **verdict**
+  predicate. A **reach** predicate — did the campaign visit this class — is a
+  union across runs, and where the generator deliberately partitions its
+  feature set per run
+  ([swarm-feature-sampling](../../../build-and-release/test-input-generation/techniques/swarm-feature-sampling.md)),
+  asserting it all-of-N does not make the gate unfireable-green but
+  *unpassable*, since no single run can clear it. Same runs, opposite
+  quantifier: each predicate names its own aggregation unit.
 
 So the axis extends rather than bends. **Grade on the input, then ask separately
 whether the instrument is a function of that input.** A gate may block only when

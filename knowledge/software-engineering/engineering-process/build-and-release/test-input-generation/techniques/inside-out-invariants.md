@@ -106,6 +106,52 @@ stops the process is frequently the right behaviour rather than an
 embarrassment — it has converted the worst class into a lesser one, at the
 exact moment the system still knew something was wrong.
 
+### Who supplies the value decides whether stopping is the lesser class
+
+The ordering above assumes the trigger is reachable only from inside. Where
+the value that trips the check crosses a trust boundary on its way in —
+bytes off a network, a document a stranger submits, a field an untrusted
+caller fills — the ladder inverts. **"Stops" is then not the lesser class;
+it is the outcome the adversary selected.** A check that halts on malformed
+input hands anyone who can send input the ability to halt the system, and
+the trade has gone the wrong way: the correctness failure it was avoiding
+was hypothetical, and the availability failure it created is now available
+on demand, cheaply, repeatedly.
+
+The test for which case you are in is not how the failure looks at the
+boundary but **who can produce the input** — the same discriminator
+[reclassification-is-not-repair](../../../../backend-platform/resilience/error-handling/techniques/reclassification-is-not-repair.md)
+already uses to separate an internal error from a real one, asked here of
+failure severity rather than of error class.
+
+The remedy is not to drop the assertion, which would surrender everything
+this technique argues for. It is to **split it by build population**:
+
+- **Where the inputs are the suite's own** — test, fuzz, simulation,
+  developer builds — the check stays dense and live. This is where it does
+  its catching, where a violation costs a stack trace rather than an
+  outage, and where no adversary is choosing the bytes.
+- **On the release path it compiles out**, and the same condition is
+  handled as a value: a rejection, a reset, a default response, plus a
+  metric and a log naming the invariant that would have fired. The
+  invariant is still *stated*; only its consequence changes.
+
+Two obligations come with the split, and skipping either turns it into a
+new defect. The gated check must not change behaviour — gate the
+*assertion*, never the assignment beside it, or the shipped binary and the
+tested binary are different programs and the suite has been certifying the
+wrong one. And the handled-as-a-value path needs tests of its own, because
+it is now the only path the adversary reaches and the assertion is no
+longer standing behind it.
+
+This also resolves a tension inside this technique: the procedure asks for
+a checking entry point "compiled out or gated in production builds", while
+the paragraph above describes what to do when one fires in production. Both
+are right, for different populations. Where the invariant is genuinely
+internal — a control path's own bookkeeping, a relationship no caller can
+influence — the ladder stands unchanged and halting is still frequently
+correct.
+
 ## When not to use it
 
 - **For behavioural properties the interface does express.** Assert those from

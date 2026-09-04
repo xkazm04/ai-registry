@@ -187,3 +187,51 @@ three friendly divisors. Widening the bound found 0 failures in 8,000 cases, so
 the neighbouring technique (`generator-bounds-the-space`) closed the gap more
 cheaply and no field lane is earned there yet. The widened generator was kept.
 
+
+## 2026-09-04 - a production reverse proxy (`/intake`, round 23)
+
+Two amendments, both boundaries rather than mechanisms, both from a tree that
+implements this subject's advice more completely than any source read so far
+(1,101 `debug_assert` sites across 44 of 61 files, 14 `check_invariants()` full
+sweeps, two deterministic simulators, four fuzz targets, and a published testing
+doctrine citing TigerStyle, FoundationDB and the swarm paper by name).
+
+**`inside-out-invariants` gained the trust boundary it did not have.** Its
+"prefer a less severe failure class" section argued the severity ladder
+unconditionally — an internal assertion that fires in production and stops the
+process is "frequently the right behaviour" — and none of its four exclusions
+mentioned who supplies the value. Where an adversary chooses the bytes, "stops"
+is the outcome the adversary selected, and the ladder inverts. The amendment
+carries the two-regime split (assertion live in test/fuzz/dev, compiled out on
+the release path, condition handled as a value) plus the obligation that makes
+it safe: gate the *assertion*, never the assignment beside it, or the shipped
+binary and the tested binary are different programs. It also resolves a tension
+the file already carried between its procedure (":compiled out or gated in
+production builds") and that section. The discriminator itself was already in
+the corpus — `reclassification-is-not-repair` asks "who can produce the input" —
+spent on error *class* rather than failure *severity*; the amendment links it.
+
+**`swarm-feature-sampling` gained a feature classification and a quantifier.**
+The MANDATORY class is the one worth having: omitting the sole creator of the
+state under test does not weaken a run, it makes it *vacuous* — every invariant
+evaluated against nothing, everything green, and a vacuous seed spelled exactly
+like a clean one in a 256-seed tally. That is `failure-not-empty-success`
+arriving through the generator's configuration rather than its inputs, and the
+existing "when not to use it" covers only the configuration the system
+*rejects*, which is the visible, self-correcting half. The second half: once
+each run draws a subset, a run can no longer be the unit of a coverage claim, so
+the gate asserts on the merged campaign tally with the campaign's composition
+pinned. That put this subject in contradiction with `quality-gates`'
+`blocking-by-input-determinism` ("a gate is the all-of-N position by
+definition"), and rather than leave it, one sentence landed there naming the
+discriminator: a verdict predicate is all-of-N, a reach predicate is a union,
+same runs, opposite quantifiers.
+
+Two applications written against the source tree (`rust--inside-out-invariants`,
+`rust--swarm-feature-sampling`). Apply: `not-better` on tracklight (4 non-test
+panic sites in the whole API crate, all caller-guaranteed — the tree already
+satisfies the rule) and `unapplied by construction` for swarm (no fleet project
+runs property-based or randomized testing at all, verified against every
+`Cargo.toml`). Catches recorded so nobody re-proposes them: `io-free-core` owns
+the sans-io core completely, and `seed-is-not-a-reproduction` already says to
+record the configuration with the seed.

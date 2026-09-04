@@ -695,3 +695,51 @@ State: 23 → 24 techniques, 21 → 23 applications. Still one of the densest
 subjects in the bundle; both landings sit in the seam between it and the
 `eval-harness` reliability lane, and the amendment now links across to
 `reliability-aggregation` for the aggregation half.
+
+## 2026-09-04 - a production reverse proxy (`/intake`, round 23)
+
+One amendment to `ratchet-design` in two parts, and one sentence into
+`blocking-by-input-determinism` that belongs to a boundary this subject shares
+with `test-input-generation`.
+
+**The second severity split.** `ratchet-design` splits one metric's two
+*directions* by severity — a rise blocks, a drop is a loud counted note. A
+ratchet carrying a **named allowlist** rather than a bare count admits a second
+split along the *population*: the blocking consumer evaluates everything outside
+the list, the advisory consumer evaluates the list itself and emits on every
+run, so the retirement queue does not go dark while the gate is green. The
+source's instance is a 60-line test that walks its own source tree, sharing its
+scanner with a build-time warning emitter through a single included file
+precisely so the gate and the advisory cannot diverge. The amendment states two
+obligations: one implementation feeding both consumers (which is
+`gate-laddering:188-195` applied inside one run rather than across two stages,
+and is cited rather than restated), and the advisory must **count** rather than
+enumerate — a per-entry warning stream with no total is invisible in any
+non-interactive run.
+
+**The retention case, which resolves a contradiction this corpus was already
+carrying.** `ratchet-design`'s "endgame: graduation" instructs deleting an
+emptied baseline; `ipc-contract`'s `node--command-registration` application
+records the opposite decision with a reason ("the empty baseline is kept because
+it *states* zero orphans is the standard"). The source is a third instance — an
+empty `KNOWN_PREEXISTING_VIOLATIONS` list retained with a comment explaining
+why — and a fourth turned up in the fleet during Phase 7.5: a mojibake ratchet
+whose baseline is 14 buckets at zero, kept. Four instances against one
+instruction is not a majority to resolve, it is a missing case, so the amendment
+names both endings and prices the risk the original text worried about
+(re-baselining "just this once") against whether edits to the list are reviewed.
+
+**The catch worth recording**, because it was the run's most promising-looking
+candidate and it is already owned: the dual-consumer detector. `gate-laddering`
+holds all of it — one script wired into both layers, severity splitting by
+audience, rungs differing in scope and severity but never in rule content. The
+source's shared-scanner trick is a placement variant (split by tool inside one
+build rather than by stage), not a mechanism, and no technique was spent on it.
+Also caught: `prose-rule-drift:46-49` already owns which rules go unmechanised.
+The residual — that even among artifact-shaped rules only the *syntactically
+local* one gets a guard — is banked untriaged with anchors.
+
+Apply: `not-better` on personas-web, whose all-zero retained baseline is the
+retention case found in the fleet rather than argued. The population-split half
+is `unmeasurable` there and the row says so: an empty allowlist has no
+population to run an advisory over.

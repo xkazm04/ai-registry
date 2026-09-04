@@ -65,6 +65,39 @@ the single-source rule and the one to reach for by default — a repo that
 copies where it could link has invented a consistency problem it did not
 have.
 
+**That guarantee is a property of the checkout, not of the repository, and
+where it fails it fails silently.** A link is recorded faithfully in the
+version-control index, but materialising it is the working tree's job, and a
+platform whose filesystem or permission model does not create links writes a
+**regular file containing the target's path** instead — a few bytes of text
+where the canonical document was supposed to be. Nothing announces this. The
+bridge file exists, it is readable, it is not empty, and its contents are a
+plausible path, so every check that asks whether the file is present says
+yes. A reader that opens it by name receives the path string as its entire
+instruction set.
+
+That is a worse outcome than the drift the copy regime risks, and the
+comparison is the point: a drifted copy is wrong in places and is caught by
+the obligations the copy regime forces you to adopt, while a materialised
+link is wrong *entirely* and carries no obligations at all, because the
+regime was chosen precisely on the promise that nothing needed checking. The
+sentence above holds only with its precondition attached — drift is
+unrepresentable *where the link exists as a link*. Where it does not, the
+repo has silently entered the copy regime with no assembly step and no
+verification.
+
+So the choice of bridge is a claim about every machine the tree will be
+checked out on, and it is rarely a claim anyone made deliberately. Where the
+platform is not guaranteed, prefer the form the **reader** resolves — a
+one-line directive naming the canonical file, which is ordinary file content
+that every checkout materialises identically — over a filesystem link. Where
+the reader has no such mechanism, take the copy regime and its obligations
+honestly. And under any of the three, the assertion is the same cheap one,
+and it is the one a link regime uniquely tempts you to skip: **the bridge
+resolves to the canonical document.** One line, checkable on every machine,
+and it is the only thing that distinguishes a working bridge from nine bytes
+of text.
+
 **The moment the same content is shipped outside that checkout, the link
 has no target.** A scaffolded project, a starter template, a published
 package, a downstream repository the content is mirrored into — each is a

@@ -62,6 +62,31 @@ enough to actually run:
   prose files never get and instruction files require.
 - **Machine regions are current.** Generated blocks show a recent-enough
   run of their named generator, and no fence has been hand-edited.
+- **The file agrees with itself.** Any fact stated more than once states
+  the same value, and any fact with an external authority is cited rather
+  than restated.
+
+That last check is the only one on the list that does not compare a line
+against the tree, and it is there because the other five cannot reach it. A
+file that gives two different answers to one question — a minimum version in
+the header and a different minimum version in a later section — passes every
+check above: both values resolve to nothing that can be looked up, both
+re-measure to themselves, neither is a path, neither is an enforcement
+claim. The audit walks every line and finds every line individually fine.
+
+What makes this the instruction file's problem rather than ordinary doc rot
+is that there is no arbiter **inside the trusted layer**. Everywhere else a
+document and the tree disagree, the tree settles it. Here the reader has
+been told to follow this file over its own investigation, so it believes
+both halves, picks one silently, and may pick differently in the next
+session — a non-deterministic instruction with no signal that a choice was
+made at all.
+
+The check is cheap enough to be a gate rather than a reading: extract the
+classes that actually get restated — version floors, path names, command
+names — and require one occurrence each. A program can decide that. And the
+stronger move is the one stated above: don't inline the volatile fact
+twice, state the invariant once and point at the artifact that knows.
 
 ## Couple the file to change, not to calendars
 

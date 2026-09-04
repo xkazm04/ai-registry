@@ -105,6 +105,40 @@ A drop that is *entirely* burnt down deserves the recording most: a ceiling
 lowered to zero locks the win, because the next occurrence to arrive is a
 rise.
 
+## The second severity split: by population, not by direction
+
+The split above divides one metric's two *directions*. A ratchet that carries
+a **named allowlist** rather than a bare count admits a second split, along
+the population: the same detector feeds a **blocking** consumer over
+everything outside the list and an **advisory** consumer over the list
+itself, in the same run.
+
+The reason to bother is the concession the allowlist made. It exists so a
+cleanup can retire entries incrementally instead of converting the whole
+surface at once, and the price of that concession is that the remaining work
+goes dark — the gate is green, and the queue becomes a constant in a file
+nobody opens. Emitting the allowlisted population as advisory output on every
+run keeps the queue visible without weakening the gate that protects
+everything else. The gate says *no new ones*; the advisory says *these
+eleven are still here*.
+
+Two obligations, or the pair decays into a lie:
+
+- **One implementation, both consumers.** This is the single-checker rule
+  applied inside one run rather than across two stages: derive the blocking
+  and advisory populations from the same detector, or the advisory drifts
+  until it stops describing what the gate actually holds — and it drifts
+  invisibly, because nothing compares them.
+- **The advisory must count, not merely enumerate.** A per-entry warning
+  stream with no total is a stream nobody reads, cannot be trended, and
+  disappears entirely in any non-interactive run. Emit the number, and the
+  number carries its predicate.
+
+This is not the sanctioned auto-update above wearing different clothes. There,
+visibility *replaces* the gate and mechanical enforcement is gone by design.
+Here it runs beside a gate that still blocks, over a population the gate
+deliberately does not cover.
+
 ## Re-baselining is deliberate, downward, and reviewed
 
 - **Downward re-baselining** (the metric improved): update the baseline in
@@ -198,6 +232,20 @@ blocking severity — a zero-baseline ratchet and a hard ban behave
 identically, but the ban is simpler, and keeping the scaffolding invites
 someone to re-baseline upward "just this once." The ratchet's purpose is to
 make itself unnecessary, one bucket at a time.
+
+**The retention case.** A bucket that reaches zero has two honest endings,
+and the choice is about what the artifact *states*, not about the mechanism.
+Deletion is right where the underlying rule can stand on its own at plain
+blocking severity. **Keeping the emptied list** is right where the list is
+the thing that declares the standard: an allowlist with no entries says
+*zero is the bar* in a place a reader will find it, and it makes the next
+violation a one-line diff on a reviewed file rather than a silent first
+occurrence in a population nobody was enumerating. The risk named above —
+re-baselining upward "just this once" — is priced by whether edits to the
+list are reviewed, not by whether the file exists; where they are, retention
+costs one file and buys a diff. Decide it deliberately and record which
+ending you chose, because the two look identical from outside and only one
+of them will notice the next occurrence.
 
 ## What not to ratchet
 
