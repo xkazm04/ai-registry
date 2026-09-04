@@ -1819,7 +1819,7 @@
     "groups": 8,
     "governingSubjects": 87,
     "weaklyGoverned": 0,
-    "ledgerRows": 4,
+    "ledgerRows": 5,
     "absolutePathsDropped": 0
    },
    "relPath": "kiro/pumper",
@@ -41322,7 +41322,7 @@
    "bundle": "software-engineering",
    "category": "llm-agent",
    "subcategory": "prompt-and-context",
-   "techniques": 13,
+   "techniques": 14,
    "present": [
     {
      "project": "gravity",
@@ -41408,7 +41408,7 @@
    "bundle": "software-engineering",
    "category": "llm-agent",
    "subcategory": "prompt-and-context",
-   "techniques": 15,
+   "techniques": 16,
    "present": [
     {
      "project": "gravity",
@@ -46078,6 +46078,59 @@
    ],
    "absent": []
   },
+  "software-engineering/execution-state-checkpointing": {
+   "bundle": "software-engineering",
+   "category": "backend-platform",
+   "subcategory": "work-execution",
+   "techniques": 4,
+   "present": [],
+   "absent": [
+    {
+     "project": "gravity",
+     "classification": "candidate"
+    },
+    {
+     "project": "tracklight",
+     "classification": "candidate"
+    },
+    {
+     "project": "pumper",
+     "classification": "candidate"
+    },
+    {
+     "project": "politicas",
+     "classification": "candidate"
+    },
+    {
+     "project": "personas",
+     "classification": "candidate"
+    },
+    {
+     "project": "kp",
+     "classification": "candidate"
+    },
+    {
+     "project": "pof",
+     "classification": "candidate"
+    },
+    {
+     "project": "personas-web",
+     "classification": "out-of-scope"
+    },
+    {
+     "project": "systedo-case",
+     "classification": "candidate"
+    },
+    {
+     "project": "ascent",
+     "classification": "candidate"
+    },
+    {
+     "project": "gravitone",
+     "classification": "candidate"
+    }
+   ]
+  },
   "software-engineering/executive-reporting": {
    "bundle": "software-engineering",
    "category": "engineering-assessment",
@@ -50398,7 +50451,7 @@
    "bundle": "software-engineering",
    "category": "llm-agent",
    "subcategory": "prompt-and-context",
-   "techniques": 17,
+   "techniques": 19,
    "present": [
     {
      "project": "gravity",
@@ -53838,7 +53891,8 @@
     },
     {
      "project": "pumper",
-     "classification": "candidate"
+     "classification": "accepted",
+     "date": "2026-09-04"
     },
     {
      "project": "pof",
@@ -54994,7 +55048,7 @@
    "contexts": 18,
    "governingSubjects": 41,
    "scope": "declared",
-   "candidate": 169,
+   "candidate": 170,
    "out-of-scope": 23,
    "declined": 0,
    "deferred": 0,
@@ -55016,7 +55070,7 @@
    "contexts": 34,
    "governingSubjects": 55,
    "scope": "declared",
-   "candidate": 133,
+   "candidate": 134,
    "out-of-scope": 35,
    "declined": 1,
    "deferred": 0,
@@ -55031,14 +55085,14 @@
    "out-of-scope": 48,
    "declined": 0,
    "deferred": 0,
-   "accepted": 2,
+   "accepted": 3,
    "out-of-domain": 181
   },
   "politicas": {
    "contexts": 49,
    "governingSubjects": 79,
    "scope": "declared",
-   "candidate": 142,
+   "candidate": 143,
    "out-of-scope": 24,
    "declined": 0,
    "deferred": 0,
@@ -55049,7 +55103,7 @@
    "contexts": 208,
    "governingSubjects": 155,
    "scope": "declared",
-   "candidate": 79,
+   "candidate": 80,
    "out-of-scope": 9,
    "declined": 0,
    "deferred": 0,
@@ -55060,7 +55114,7 @@
    "contexts": 143,
    "governingSubjects": 155,
    "scope": "declared",
-   "candidate": 118,
+   "candidate": 119,
    "out-of-scope": 17,
    "declined": 0,
    "deferred": 0,
@@ -55071,7 +55125,7 @@
    "contexts": 38,
    "governingSubjects": 83,
    "scope": "declared",
-   "candidate": 164,
+   "candidate": 165,
    "out-of-scope": 17,
    "declined": 0,
    "deferred": 0,
@@ -55083,7 +55137,7 @@
    "governingSubjects": 101,
    "scope": "declared",
    "candidate": 36,
-   "out-of-scope": 76,
+   "out-of-scope": 77,
    "declined": 0,
    "deferred": 0,
    "accepted": 0,
@@ -55093,7 +55147,7 @@
    "contexts": 117,
    "governingSubjects": 117,
    "scope": "declared",
-   "candidate": 104,
+   "candidate": 105,
    "out-of-scope": 12,
    "declined": 0,
    "deferred": 0,
@@ -55104,7 +55158,7 @@
    "contexts": 54,
    "governingSubjects": 91,
    "scope": "declared",
-   "candidate": 113,
+   "candidate": 114,
    "out-of-scope": 9,
    "declined": 0,
    "deferred": 0,
@@ -55115,7 +55169,7 @@
    "contexts": 78,
    "governingSubjects": 110,
    "scope": "declared",
-   "candidate": 82,
+   "candidate": 83,
    "out-of-scope": 21,
    "declined": 0,
    "deferred": 0,

@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 214,
-  "techniques": 1558,
-  "applications": 889,
+  "techniques": 1566,
+  "applications": 898,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1558/1558",
+  "use_when_coverage": "1566/1566",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -1964,7 +1964,7 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-runtime-assembly/agent-runtime-assembly.md",
-   "digest": "sha256:fee09781c71358ab",
+   "digest": "sha256:b666fe13038d50c1",
    "techniques": [
     {
      "slug": "additive-input-at-the-call-boundary",
@@ -2187,6 +2187,13 @@
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-runtime-assembly/applications/next--additive-input-at-the-call-boundary.md",
      "verified_on": "2026-09-03",
      "verified_against": "next@15"
+    },
+    {
+     "stack": "next",
+     "technique": "bounded-projection-of-external-work",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-runtime-assembly/applications/next--bounded-projection-of-external-work.md",
+     "verified_on": "2026-09-04",
+     "verified_against": "next@16.3.3"
     },
     {
      "stack": "node",
@@ -15986,7 +15993,7 @@
    "subcategory": "runtime-and-io",
    "status": "reconciled",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/mcp-tools.md",
-   "digest": "sha256:ecd8acfba7d64217",
+   "digest": "sha256:f079c715717c0911",
    "techniques": [
     {
      "slug": "authentication-and-scoping",
@@ -16050,6 +16057,22 @@
      ]
     },
     {
+     "slug": "enumeration-without-a-scope",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "absent-guard-is-loud"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing a list operation over per-caller resources",
+      "a listing whose access check has no natural scope to check against",
+      "removing a session or tenant boundary that a list endpoint depended on",
+      "deciding whether an unguessable identifier is enough",
+      "reviewing an API that leaks the existence of other callers' objects"
+     ]
+    },
+    {
      "slug": "orchestration-to-tool-migration",
      "status": "forged",
      "laws": [
@@ -16080,6 +16103,23 @@
      ]
     },
     {
+     "slug": "sealed-continuation-state",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "identity-survives-reuse",
+      "record-precedes-effect"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "carrying half-finished work across a call boundary without a shared store",
+      "a resumable operation that must survive an instance restart or a rolling upgrade",
+      "handing intermediate state to an untrusted caller to carry back",
+      "deciding whether an opaque token needs signing",
+      "a continuation that must be used at most once"
+     ]
+    },
+    {
      "slug": "server-composition",
      "status": "forged",
      "laws": [
@@ -16092,6 +16132,22 @@
       "a tool works but is not listed",
       "one handler's crash takes down the transport",
       "deciding how much of an upstream to re-expose"
+     ]
+    },
+    {
+     "slug": "suspendable-request-classes",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding which operations may pause for human input",
+      "a discovery or listing call that can block on a person",
+      "designing a protocol where the callee may need to ask the caller something",
+      "a proxy or cache that stalls behind a consent prompt",
+      "auditing which calls a policy layer is allowed to interrupt"
      ]
     },
     {
@@ -16177,6 +16233,13 @@
    ],
    "applications": [
     {
+     "stack": "axum",
+     "technique": "tool-schema-design",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/applications/axum--tool-schema-design.md",
+     "verified_on": "2026-09-04",
+     "verified_against": "axum@0.8"
+    },
+    {
      "stack": "dotnet",
      "technique": "catalog-projection-modes",
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/applications/dotnet--catalog-projection-modes.md",
@@ -16234,6 +16297,18 @@
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/applications/rust--tool-schema-design.md",
      "verified_on": "2026-09-04",
      "verified_against": "rust@1.96.1"
+    },
+    {
+     "stack": "spec",
+     "technique": "enumeration-without-a-scope",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/applications/spec--enumeration-without-a-scope.md",
+     "verified_on": "2026-09-04"
+    },
+    {
+     "stack": "spec",
+     "technique": "sealed-continuation-state",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/applications/spec--sealed-continuation-state.md",
+     "verified_on": "2026-09-04"
     }
    ]
   },
@@ -17452,7 +17527,7 @@
    "subcategory": "codebase-stewardship",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/module-design/module-design.md",
-   "digest": "sha256:34770b77f0ee0109",
+   "digest": "sha256:85562388ec91e274",
    "techniques": [
     {
      "slug": "borrowed-surface",
@@ -17539,6 +17614,20 @@
      ]
     },
     {
+     "slug": "mirror-type-at-the-edge",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "logic is untestable because its input type can only be constructed by the host that calls it",
+      "a test needs a request scope or a compiler session or a plugin container to exist before it can assert anything",
+      "deciding whether to mock a host-bound type or to stop accepting it",
+      "a whole ecosystem has converged on a shim type and it is not obvious why"
+     ]
+    },
+    {
      "slug": "module-depth",
      "status": "forged",
      "laws": [
@@ -17619,6 +17708,13 @@
      "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/module-design/applications/go--seams-and-adapters.md",
      "verified_on": "2026-08-29",
      "verified_against": "go@1"
+    },
+    {
+     "stack": "next",
+     "technique": "mirror-type-at-the-edge",
+     "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/module-design/applications/next--mirror-type-at-the-edge.md",
+     "verified_on": "2026-09-04",
+     "verified_against": "next@16.3.1"
     },
     {
      "stack": "node",
@@ -20715,7 +20811,7 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/prompt-assembly.md",
-   "digest": "sha256:9dbe72763e90881c",
+   "digest": "sha256:d649beb505cfcc3c",
    "techniques": [
     {
      "slug": "amortized-compaction-cadence",
@@ -20957,6 +21053,21 @@
      ]
     },
     {
+     "slug": "speculative-compaction-splice",
+     "status": "forged",
+     "laws": [
+      "derivation-names-recomputation",
+      "record-precedes-effect"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a session stalls for one long summarization at the moment the window fills",
+      "the per-turn cache break of a rolling summary costs more than the stall it removes",
+      "a compacted session resumes as if the work had just started",
+      "deciding whether compaction latency has to sit on the user's critical path"
+     ]
+    },
+    {
      "slug": "task-envelope",
      "status": "forged",
      "laws": [
@@ -21026,6 +21137,13 @@
     },
     {
      "stack": "rust",
+     "technique": "consumer-coupled-decoration",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/applications/rust--consumer-coupled-decoration.md",
+     "verified_on": "2026-09-04",
+     "verified_against": "rust@1.96.1"
+    },
+    {
+     "stack": "rust",
      "technique": "context-budgeting",
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/applications/rust--context-budgeting.md",
      "verified_on": "2026-08-18"
@@ -21034,7 +21152,7 @@
      "stack": "rust",
      "technique": "elision-to-a-refetch-pointer",
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/applications/rust--elision-to-a-refetch-pointer.md",
-     "verified_on": "2026-09-03",
+     "verified_on": "2026-09-04",
      "verified_against": "rust@1.96.1"
     },
     {
@@ -21042,6 +21160,13 @@
      "technique": "layered-composition",
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/applications/rust--layered-composition.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "rust",
+     "technique": "recovery-path-as-loss-signal",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/applications/rust--recovery-path-as-loss-signal.md",
+     "verified_on": "2026-09-04",
+     "verified_against": "rust@1.96.1"
     },
     {
      "stack": "rust",
@@ -22756,7 +22881,7 @@
    "subcategory": "build-and-release",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/build-and-release/release-pipeline/release-pipeline.md",
-   "digest": "sha256:d5f2406a48fccb0f",
+   "digest": "sha256:5cc06fef68470c44",
    "techniques": [
     {
      "slug": "changelog-generation",
@@ -22787,7 +22912,10 @@
       "a warning that names no removal point",
       "reviewing what a release is allowed to delete",
       "recording a downstream that hard-codes a published name",
-      "deciding whether a fast-moving public catalog owes an alias at all"
+      "deciding whether a fast-moving public catalog owes an alias at all",
+      "retiring surface from a specification or wire contract whose implementations you do not control",
+      "a deprecation window consumers can skip over in one upgrade",
+      "checking that a named migration target still exists"
      ]
     },
     {
@@ -25231,7 +25359,7 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/session-continuation/session-continuation.md",
-   "digest": "sha256:77ce1b165a1e3d4f",
+   "digest": "sha256:0a81b410c372e50e",
    "techniques": [
     {
      "slug": "advisory-guard-fail-mode",
@@ -25290,6 +25418,21 @@
       "adding a new guard that can block a stop",
       "a mode handoff is being disarmed by a cancel it did not ask for",
       "cancel and the loop's re-arm fire on the same turn"
+     ]
+    },
+    {
+     "slug": "ordered-yield-composition",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "two independently authored behaviours each want to hold the session open",
+      "a second loop is being refused because the first one armed first",
+      "deciding whether a stop decision is single-valued or ordered",
+      "an operator cannot end a session because some interceptor will not release it"
      ]
     },
     {
@@ -26696,7 +26839,7 @@
    "subcategory": "prompt-and-context",
    "status": "reconciled",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/structured-output/structured-output.md",
-   "digest": "sha256:15a46f0ad84f1530",
+   "digest": "sha256:f317f1bcdc5da7b8",
    "techniques": [
     {
      "slug": "answer-coverage-gating",
@@ -26726,6 +26869,22 @@
       "designing the states an artifact run walks",
       "flow stuck reporting running forever",
       "deciding what a second start should do"
+     ]
+    },
+    {
+     "slug": "constrained-decoding-is-a-shared-budget",
+     "status": "forged",
+     "laws": [
+      "limits-are-derived",
+      "unknown-is-not-a-value",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "several independently authored contributions each want constrained decoding on the same request",
+      "a provider began rejecting every request after a plugin was installed",
+      "the same model is reachable through a native host and a proxy that accept different grammars",
+      "deciding who owns the wire form of a constraint"
      ]
     },
     {
@@ -26828,6 +26987,13 @@
     },
     {
      "stack": "rust",
+     "technique": "constrained-decoding-is-a-shared-budget",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/structured-output/applications/rust--constrained-decoding-is-a-shared-budget.md",
+     "verified_on": "2026-09-04",
+     "verified_against": "rust@1.96.1"
+    },
+    {
+     "stack": "rust",
      "technique": "op-grammar-allowlisting",
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/structured-output/applications/rust--op-grammar-allowlisting.md",
      "verified_on": "2026-08-18"
@@ -26839,8 +27005,24 @@
    "subcategory": "runtime-and-io",
    "status": "reconciled",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/subprocess-lifecycle/subprocess-lifecycle.md",
-   "digest": "sha256:374f79088a94074f",
+   "digest": "sha256:12968de21f97cdcb",
    "techniques": [
+    {
+     "slug": "cancellation-needs-a-terminable-unit",
+     "status": "forged",
+     "laws": [
+      "creation-names-reaper",
+      "count-carries-predicate",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a cancelled call still burns CPU after the surface stopped painting",
+      "choosing between a cooperative cancellation token and a kill boundary",
+      "an in-process plugin ignored its abort signal",
+      "deciding where work must run so that stopping it is a fact rather than a request"
+     ]
+    },
     {
      "slug": "concurrency-and-slots",
      "status": "forged",
@@ -26955,6 +27137,13 @@
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/subprocess-lifecycle/applications/react--liveness-and-heartbeats.md",
      "verified_on": "2026-09-03",
      "verified_against": "react@19.2"
+    },
+    {
+     "stack": "rust",
+     "technique": "cancellation-needs-a-terminable-unit",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/subprocess-lifecycle/applications/rust--cancellation-needs-a-terminable-unit.md",
+     "verified_on": "2026-09-04",
+     "verified_against": "rust@1.80.0"
     },
     {
      "stack": "rust",
@@ -31154,8 +31343,11 @@
     "mcp-tools/catalog-projection-modes",
     "mcp-tools/client-integration",
     "mcp-tools/egress-argument-gating",
+    "mcp-tools/enumeration-without-a-scope",
     "mcp-tools/orchestration-to-tool-migration",
     "mcp-tools/sanctioned-session-state",
+    "mcp-tools/sealed-continuation-state",
+    "mcp-tools/suspendable-request-classes",
     "mcp-tools/tool-schema-design",
     "mcp-tools/transport-selection",
     "mcp-tools/untrusted-result-handling",
@@ -31177,6 +31369,7 @@
     "model-routing/policy-governance",
     "modelled-performance-estimates/one-ratio-then-a-capability-cap",
     "module-design/io-free-core",
+    "module-design/mirror-type-at-the-edge",
     "module-design/scoreable-designs-are-built-not-argued",
     "module-design/seams-and-adapters",
     "module-design/structural-improvement-loop",
@@ -31833,10 +32026,12 @@
     "streaming-output/stream-parsing",
     "structured-output/answer-coverage-gating",
     "structured-output/artifact-lifecycle",
+    "structured-output/constrained-decoding-is-a-shared-budget",
     "structured-output/extraction-observability",
     "structured-output/extraction-strategies",
     "structured-output/output-budget-signal",
     "structured-output/schema-validation-and-repair",
+    "subprocess-lifecycle/cancellation-needs-a-terminable-unit",
     "subprocess-lifecycle/liveness-and-heartbeats",
     "subprocess-lifecycle/session-reuse",
     "subprocess-lifecycle/termination-and-reaping",
@@ -32362,6 +32557,7 @@
     "structured-output/answer-coverage-gating",
     "structured-output/extraction-observability",
     "structured-output/output-budget-signal",
+    "subprocess-lifecycle/cancellation-needs-a-terminable-unit",
     "subprocess-lifecycle/concurrency-and-slots",
     "subprocess-lifecycle/host-resource-protection",
     "supply-chain/build-time-dependency-tier",
@@ -32502,6 +32698,7 @@
     "machine-authored-documentation/three-gate-acceptance",
     "markdown-vault/replicated-substrate",
     "mcp-tools/egress-argument-gating",
+    "mcp-tools/suspendable-request-classes",
     "measurement-honesty/instrument-exposure-control",
     "metric-surface-contract/fault-localizing-metric-set",
     "metric-surface-contract/metric-removal-is-a-staged-pipeline",
@@ -32553,6 +32750,7 @@
     "serving-process-topology/one-config-object-as-engine-state",
     "serving-process-topology/probe-the-runtime-not-the-config",
     "session-continuation/compaction-checkpoint",
+    "session-continuation/ordered-yield-composition",
     "session-continuation/single-loop-authority",
     "settings/applied-defaults-ledger",
     "settings/author-declared-include-graph",
@@ -32562,6 +32760,7 @@
     "settings/typed-accessors",
     "signed-artifacts/bypass-is-a-versioned-policy",
     "standards-layered-runtime/status-header-per-api",
+    "structured-output/constrained-decoding-is-a-shared-budget",
     "structured-output/schema-validation-and-repair",
     "supply-chain/review-attestation-ledger",
     "telemetry-pii-redaction/exclusion-bounds-reads-not-output",
@@ -32951,6 +33150,7 @@
     "long-form-reading-surface/focus-transfer-on-in-place-navigation",
     "markdown-vault/vault-as-database",
     "mcp-tools/sanctioned-session-state",
+    "mcp-tools/sealed-continuation-state",
     "mcp-tools/tool-identity-vs-tool-name",
     "media-playback/timeline-scheduling",
     "metric-forecasting/pace-against-a-deadline",
@@ -33305,6 +33505,7 @@
     "streaming-output/buffering-and-backpressure",
     "streaming-output/cancellation-and-finalization",
     "structured-output/artifact-lifecycle",
+    "subprocess-lifecycle/cancellation-needs-a-terminable-unit",
     "subprocess-lifecycle/concurrency-and-slots",
     "subprocess-lifecycle/termination-and-reaping",
     "supply-chain/archive-extraction-safety",
@@ -33665,6 +33866,7 @@
     "self-healing/fork-to-outlive-the-healed",
     "self-healing/strategy-selection",
     "serving-process-topology/one-config-object-as-engine-state",
+    "session-continuation/ordered-yield-composition",
     "session-continuation/single-loop-authority",
     "settings/author-declared-include-graph",
     "settings/key-registry",
@@ -33884,6 +34086,7 @@
     "prompt-assembly/cache-breakpoint-allocation",
     "prompt-assembly/elision-to-a-refetch-pointer",
     "prompt-assembly/fingerprinting-and-cache-keys",
+    "prompt-assembly/speculative-compaction-splice",
     "prompt-assembly/tiered-history-projection",
     "public-claim-provenance/build-time-derivation-off-the-client-bundle",
     "public-claim-provenance/derived-numerator-authored-denominator",
@@ -34085,6 +34288,7 @@
     "scale-investment-timing/execution-model-concurrency-threshold",
     "self-healing/consume-once-mode-handoff",
     "serving-process-topology/process-count-as-a-formula",
+    "structured-output/constrained-decoding-is-a-shared-budget",
     "untrusted-extension-host/host-api-import-budget",
     "watch-cache-and-resync/initial-read-strategy-behind-a-gate",
     "windowed-inference-over-oversized-inputs/resolution-decoupled-window-mapping",
@@ -34174,6 +34378,7 @@
     "machine-paced-delivery/stake-before-merit",
     "markdown-vault/knowledge-integrity-lint",
     "mcp-tools/client-integration",
+    "mcp-tools/enumeration-without-a-scope",
     "mcp-tools/tool-identity-vs-tool-name",
     "mcp-tools/transport-selection",
     "metric-surface-contract/fault-localizing-metric-set",
@@ -34289,6 +34494,8 @@
     "execution-state-checkpointing/the-record-outlives-the-rewind",
     "guest-execution-bounding/bounded-shadow-backtrace",
     "job-coordination/no-unrestorable-state-at-a-suspension-point",
+    "mcp-tools/sealed-continuation-state",
+    "prompt-assembly/speculative-compaction-splice",
     "self-healing/consume-once-mode-handoff",
     "self-healing/fork-to-outlive-the-healed",
     "self-healing/healer-death-as-promotion",
