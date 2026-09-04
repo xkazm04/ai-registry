@@ -114,11 +114,13 @@ protocol fact and no choice at all: requests the browser issues **on the
 rendered content's behalf** rather than on the application's. An `<img>` or
 `<video>` source, a stylesheet's `url()`, a font, an iframe, a plain download
 link. The application never touches those requests, so it cannot attach a
-header to them — and if any of their targets sit behind its auth gate, the
-ranking collapses:
+header to them, and any of their targets sitting behind its auth gate inherits
+the same problem the stream client has.
 
-The discriminator is not *content-issued versus app-issued*. It is **who owns
-the URL string, and whether it outlives the credential**:
+It does **not** follow that the ranking collapses. That was this section's first
+reading and a tree refuted it: the discriminator is not *content-issued versus
+app-issued*, but **who owns the URL string, and whether it outlives the
+credential**:
 
 - **The application composes the URL at render time** — a gallery building
   `src` attributes from a run id and a path, a viewer assembling a thumbnail
