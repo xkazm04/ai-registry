@@ -58,8 +58,13 @@ The tree is candid about the cause. The helper's doc comment says:
 > `JoinHandle`.** ... Making these tasks abortable is a separate,
 > behaviour-changing piece of work.
 
-An honest deferral - and the job entry type already carries a slot for the
-handle it never receives.
+An honest deferral. (An earlier draft of this document added that the job
+entry type "already carries a slot for the handle" - it does not. That claim
+was repeated from a second-hand report without opening the struct, which has
+six fields and no handle among them. The slot had to be added, and because the
+entry is `Clone` while a join handle is not, it could not be a plain field.
+The correction matters to the estimate: this is slightly more work than
+"populate an unused field", and the compiler finds the construction sites.)
 
 ## Why this is the technique's thesis rather than a bug report
 
@@ -97,9 +102,12 @@ row is filed as the project's next change rather than shipped here.
    Distinguish *cancellation requested* from *cancelled and reclaimed*. This
    costs a status value and no behaviour change, and it stops the system
    asserting a reclaim it cannot perform.
-2. **Then close the gap**, by storing the handle in the slot the job entry
-   already has and aborting it on the cancel path - at which point signalled
-   and reaped become two real numbers whose difference is the metric.
+2. **Then close the gap**, by giving the job entry somewhere to keep the
+   handle and aborting it on the cancel path - at which point signalled and
+   reaped become two real numbers whose difference is the metric. The entry is
+   cloned, so the handle needs shared interior ownership rather than a bare
+   field; a handle can be awaited once, by one owner, and the registry has to
+   be that owner.
 
 Doing (2) without (1) leaves the window where the claim is still wrong. Doing
 (1) alone is already a net gain in honesty and is reversible.
