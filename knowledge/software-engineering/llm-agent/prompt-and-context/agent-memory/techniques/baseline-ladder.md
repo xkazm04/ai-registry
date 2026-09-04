@@ -246,6 +246,29 @@ is not comparable to one that answers 70% at any accuracy; either hold
 coverage fixed across arms, or report the curve. A single point on each of
 two curves compares two settings of a dial and calls the difference a design.
 
+## A cap inside an arm is a predicate, and it outranks the budget
+
+The budget travels with the rung, which is only half a rule: an arm can carry its own
+ceiling - a top-k, a chunk count, a row limit, a maximum items rendered - and whichever
+binds first is the one that actually ran. When the inner cap is the tighter of the two,
+the declared budget is decoration and every number the arm produced is a fact about the
+constant instead.
+
+This is not hypothetical and it is not small. One ladder gave its retrieval arm six
+thousand context tokens; the arm spent under seven hundred, because a chunk ceiling was
+written as a literal inside the selection loop. The arm scored 0.68 with 29 stale answers,
+and that pair of numbers was read as a property of retrieval over a raw record: that it
+cannot tell which of two similar passages is current. Raising only the ceiling, with no
+other change, produced 0.89 and 16 stale answers from identical code. Twenty-one points of
+accuracy were sitting inside an undeclared constant, and the interpretation drawn from the
+arm was wrong in a way no amount of re-judging would have caught.
+
+So: every arm reports its own limits in the run header beside the consumer, the judge and
+the budget, and an arm that finishes well under the budget it was given is treated as a
+defect to explain rather than as a frugal result to celebrate. Under-spend is the signature
+of this failure - the cheapest check is to compare context actually used against context
+allowed, per arm, and to look hard at any arm that leaves most of it on the table.
+
 ## Re-run, never inherited
 
 Because a consumer swap can move the outcome further than an architecture
