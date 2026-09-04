@@ -203,6 +203,39 @@ that point. Report cost per unit of history next to accuracy, on every rung —
 rungs 1 and 3 are cheap at write time precisely because they defer the work,
 and that is the trade the ladder exists to price.
 
+## Restraint is two numbers, and one of them alone is a lie
+
+Including should-abstain questions in the denominator is the floor, not the
+finish. The rate they produce - the share of unanswerable questions a design
+asserted an answer to anyway - is trivially gamed, because the cheapest way to
+drive it to zero is to answer less. A design that abstains on everything scores
+perfectly on restraint and is worthless, and nothing in an accuracy column
+distinguishes it from a design that is genuinely careful.
+
+So the restraint rate travels with its inverse: the share of *answerable*
+questions, whose fact is demonstrably in the record, that got an abstention.
+Push either one down by tuning eagerness and the other rises. Reported as a
+pair they describe where a design sits on that axis; reported alone, either is
+a number a careless arm can win.
+
+The pair earns its place the first time it runs, on rungs the accuracy column
+already ranks correctly. The empty rung reads a perfect restraint rate against
+a total silent-failure rate, which is the degenerate quiet extreme drawn in two
+numbers. Retrieval over the raw record is the loudest arm on the ladder and its
+restraint rate says so, in the same run where its accuracy looks respectable.
+And a pipeline read through its own production consumer asserted on nothing it
+should have stayed silent about while abstaining on one answerable question in
+eight - where the same store read by the neutral consumer abstained on one in a
+hundred. That gap is a property of the consumer's instructions and effort, not
+of the memory, and only the pair could see it.
+
+Two operating notes. Restraint questions must be authored, not harvested: the
+population is questions with no answer in the record and questions whose answer
+expired, and both have to be planted deliberately because a stream of real usage
+contains few of them and labels none. And keep the two rates unweighted and
+separate rather than folding them into one score - the trade between them is the
+finding, and an average is exactly the thing that hides it.
+
 ## Re-run, never inherited
 
 Because a consumer swap can move the outcome further than an architecture
