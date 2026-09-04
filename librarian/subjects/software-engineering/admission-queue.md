@@ -1,7 +1,7 @@
 ---
 subject: admission-queue
 domain: software-engineering
-last_touched: 2026-09-03
+last_touched: 2026-09-04
 dry_streak: 0
 ---
 
@@ -197,3 +197,63 @@ together rather than in sequence.
 ## 2026-09-03 - `/intake` lightrag (run `intake-lightrag-0902`, intake 2.2.0, Opus workers)
 
 `resource-denominated-bounds` gained "The door sits below the body reader": a content-length bound enforced after the body was read has already paid the transfer it exists to avoid; the position in the transport stack the technique treated as given.
+
+## 2026-09-04 - `/intake` fluxer (run `fluxer`, intake 2.3.2, five Opus design readers)
+
+Source: a 1.35M-line polyglot real-time chat platform, read as a system. Routing
+count 47 design decisions / 6 systems, no system clearing three against a NEW
+home - so no forge, and this subject took the technique triple instead.
+
+**+3 techniques, +1 amendment, +5 applications** (2 python against a fleet peer,
+2 erlang and 1 rust source-tree, plus a second witness appended to the existing
+`rust--admission-vocabulary`).
+
+- `zero-depth-admission` - the missing **stage zero**. This golden path
+  explicitly surfaces two assumptions before it starts (the step trigger, then
+  the definite article in "the queue") and never surfaces the third: whether
+  there is a line at all. Found by the enumeration hunt on a subject that is
+  thorough from stage two onward.
+- `remediation-derived-bounds` - a bound whose breach triggers a destructive
+  remediation elsewhere is derived from that threshold, not configured beside
+  it. Instantiates `limits-are-derived` at the one seam where inversion is
+  unrecoverable.
+- `refusal-without-release` - refusals correlated by a server-side cause;
+  releasing the caller is the synchronizing event.
+- `admission-vocabulary` amended: two arms is correct where there is no waiting
+  room. The technique's "exactly one of three verdicts" presumes somewhere to
+  put a waiting request; an unreachable arm is not a collapsed one. The useful
+  half is where such designs really fail - dropping `queued` is free, dropping
+  the refusal's *reason* is the original outage by another road, and the source
+  tree does exactly that (`{"error": "overloaded"}`, both hops, no taxonomy).
+
+**The apply step refuted the technique it tested, and that is the row worth
+reading.** A fleet peer with the opposite bound (a queue capped at 32, admitting
+non-blocking, autoscaling on its own depth) ran a paired experiment on its real
+admission path: zero depth **halved** useful throughput at the shipped
+configuration (24 completed vs 41). Sweeping the one variable the technique's
+original rule ignored found the crossover: below ~5 service times of caller
+patience zero depth wins decisively (at ratio 1 the queue admitted 88 of 90 and
+served 2); above ~10 the queue wins. `depth-bounds-and-shed`'s existing
+wait-time-honesty formula predicts that crossover exactly, and the peer ships
+32 against a formula answer of 30.
+
+So the technique's proposed *structural* selector - "the caller is synchronous
+and already holds a deadline" - was a strictly worse instrument than the
+arithmetic this subject already had: it is true in every row of the sweep while
+the correct answer flips. It was rewritten to the ratio before landing rather
+than shipped and amended, and the application records the refutation.
+
+**A second correction, caught the same way.** The `remediation-derived-bounds`
+closing section first claimed that a limiter clipping a controller's input puts
+the replica ceiling out of reach. Wrong: a controller that re-evaluates
+converges geometrically, so the clip sets the *gain per interval* and therefore
+the convergence time, not the range. Corrected before commit.
+
+**Open, for the next run.** The peer computes at admission that a deadline-
+bearing arrival cannot be served in time and admits it anyway, degrading quality
+if allowed and recording the miss if not. That is `resource-denominated-bounds`'s
+unsatisfiable arrival with time as the denominating resource - the corpus owns
+the rule, the tree applies it to the quality decision and not the admission
+decision. Not tested here: this run's callers passed no deadline, so the arms
+would have been a different experiment. Return with deadline-bearing traffic.
+

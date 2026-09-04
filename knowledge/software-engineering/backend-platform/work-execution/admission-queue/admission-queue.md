@@ -5,11 +5,14 @@ subject: admission-queue
 status: reconciled
 techniques:
   - self-paced-intake
+  - zero-depth-admission
   - queue-cardinality
   - admission-vocabulary
   - depth-bounds-and-shed
+  - refusal-without-release
   - priority-and-fairness
   - resource-denominated-bounds
+  - remediation-derived-bounds
   - speculative-work-admission
   - load-aware-admission
   - wait-telemetry
@@ -20,8 +23,9 @@ techniques:
 
 This is the subject you own when requests to do expensive work arrive faster,
 or lumpier, than the system can execute them — and something must decide, for
-each request, one of three things: **run it now, hold it for later, or refuse
-it**. That decision layer is the admission queue. It sits between "work was
+each request: **run it now, hold it for later, or refuse it** — with the
+middle option available only where the design keeps somewhere to hold it.
+That decision layer is the admission queue. It sits between "work was
 requested" and "work is running", and it is a real component with its own
 state, its own policies, and its own failure modes — not a buffer that
 happened to grow a waiting line.
@@ -92,6 +96,36 @@ step rate while leaving the step cost unbounded. The trigger question, the
 coalescing rule, the migration and the three exemptions are
 [self-paced-intake](./techniques/self-paced-intake.md).
 
+## Whether there is a line at all
+
+Before the article, the noun. The cheapest unexamined decision in this subject
+is that a waiting room exists at all — that when work outpaces capacity the
+answer is a line, sized and ordered and drained. Depth is a number and zero is
+one of its values, and a gate with no waiting room is a design rather than a
+defect.
+
+What selects it is not a shape but a ratio, and the distinction is worth
+insisting on because the shape is the intuitive answer and it is wrong. "The
+caller is synchronous and already holds a deadline" is true of every request
+service, and it does not decide anything. What decides is **how many service
+times fit inside that deadline** — the wait-time-honesty arithmetic
+[depth-bounds-and-shed](./techniques/depth-bounds-and-shed.md) already
+prescribes, followed to the value it returns rather than rounded up. Where a
+deadline holds one service time, every position in the line is a promise the
+gate has already decided to break; where it holds fifteen, the line is the
+only thing that can spend the caller's patience productively, because a
+refused caller cannot come back fast enough to catch a worker freeing in
+milliseconds.
+
+Zero depth trades away everything the rest of this subject offers — ordering,
+fairness, aging, "later" — for one property: the refusal is immediate,
+attributable, and cheap. Below the crossover that trade is decisively right
+and a queue is a machine for issuing tickets nobody can redeem; above it the
+same trade throws away capacity. The measured crossover, the non-blocking
+acquire zero depth forces, the invariant that a refusal must not queue behind
+the work it refuses, and the per-request generalization that subsumes both
+settings are [zero-depth-admission](./techniques/zero-depth-admission.md).
+
 ## How many lines are there
 
 The next assumption to surface is the definite article. Everything below says
@@ -158,6 +192,32 @@ the choice is stated where operators can read it. The
 the bound, the shed policies, and the backpressure signal that makes
 producers participate instead of retry-hammering.
 
+## A refusal decides something else: whether the caller is released
+
+Shedding assumes that refusing and releasing are one act — the gate says no,
+the caller goes away, the caller comes back later on its own schedule. That
+holds while refusals are *independent*, each one telling a caller something
+about its own request.
+
+A whole class of refusal is not independent. When the reason is a property of
+the server rather than of the arrival — a rollout valve closed, a node
+cordoned for deploy, a ceiling reached during a traffic shift — every caller
+is refused in the same instant, and releasing them is a synchronizing event
+that returns the entire population at once, to a system that is already at
+capacity or deliberately draining. Jitter on the caller's retry does not
+repair this, because the callers were synchronized by an operator action
+rather than by their own timing.
+
+Where re-establishment is expensive and the condition is transient by
+construction, the better move is to refuse *without releasing*: park the
+request, hold the caller, and retry admission on the server's own clock — or,
+better, admit the held population the moment the control-plane change that
+caused the refusal is published. The classification that decides which
+failures may be held, the bound that keeps a hold from becoming an unbounded
+queue wearing a different noun, and the saturation signal that replaces the
+refusal rate once refusals stop happening are
+[refusal-without-release](./techniques/refusal-without-release.md).
+
 ## Ordering is a policy, and fairness is part of it
 
 First-come-first-served is a legitimate policy; it is not a default that
@@ -200,6 +260,22 @@ whole budget — a promise the gate has already decided to break.
 [resource-denominated-bounds](./techniques/resource-denominated-bounds.md)
 owns the unit choice, the derivation, and the cases where a count is still the
 honest instrument.
+
+There is one input to that derivation the subject has not named, and it is the
+one where getting the order wrong is unrecoverable. Most systems that bound a
+queue also run something that **punishes exceeding it** — a supervisor that
+restarts a component whose backlog will not drain, an orchestrator that evicts
+over a memory limit, a watchdog that kills. That threshold and this bound are
+two points on one axis, they are almost always configured independently, and
+their order is the entire behaviour under overload: bound below threshold and
+overload is a refusal rate; bound above it and the gate is still admitting when
+the remediator fires, so the flow control dies — along with the refusals that
+would have shed the load — in exactly the condition it was written for. The
+inversion is not exotic; it is what raising a bound under pressure produces
+when nobody knows the other number exists. Deriving the bound from the
+remediation threshold rather than configuring it alongside, in code rather than
+in a comment, and testing that the two cannot disagree from either side, is
+[remediation-derived-bounds](./techniques/remediation-derived-bounds.md).
 
 ## Not every arrival wants to wait
 
@@ -303,6 +379,10 @@ Two rules fall out of the table:
 - [self-paced-intake](./techniques/self-paced-intake.md) — arrival versus own
   clock as the step trigger, the fixed-cost tell, interval plus drain cap,
   coalescing before work, and the three cases where per-arrival is right.
+- [zero-depth-admission](./techniques/zero-depth-admission.md) — whether the
+  gate needs a waiting room, the caller-already-holds-the-deadline tell, the
+  non-blocking acquire, and the invariant that a refusal must not queue behind
+  the work it refuses.
 - [queue-cardinality](./techniques/queue-cardinality.md) — how many lines,
   precommitment as the discriminator, head-of-line blocking, hashing origins
   into a fixed set, and what a line count does to every bound below.
@@ -311,12 +391,18 @@ Two rules fall out of the table:
   outcome.
 - [depth-bounds-and-shed](./techniques/depth-bounds-and-shed.md) — bounded
   depth, shed policy selection, backpressure to producers.
+- [refusal-without-release](./techniques/refusal-without-release.md) — refusals
+  correlated by a server-side cause, terminal versus transient classification,
+  the bounded hold, and the saturation signal that replaces a refusal rate.
 - [priority-and-fairness](./techniques/priority-and-fairness.md) — priority
   levels, per-tenant/per-class occupancy caps, starvation and aging, and why an
   unattested origin key may order the line but never shard the capacity.
 - [resource-denominated-bounds](./techniques/resource-denominated-bounds.md) —
   the unit a bound is spelled in, host-derived ceilings, the unsatisfiable
   arrival, and where a count is still right.
+- [remediation-derived-bounds](./techniques/remediation-derived-bounds.md) —
+  the bound derived from the threshold that punishes exceeding it, computed
+  rather than commented, and the inversion reachable from either knob.
 - [speculative-work-admission](./techniques/speculative-work-admission.md) —
   probe-and-skip for work nobody is waiting on, release-on-admit, the wait knob
   that must not exist, and skip accounting.
