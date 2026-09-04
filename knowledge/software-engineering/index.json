@@ -23976,7 +23976,7 @@
    "subcategory": "resilience",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/resilience/scale-investment-timing/scale-investment-timing.md",
-   "digest": "sha256:3cfed778d66050c3",
+   "digest": "sha256:c577a2c04c7cf434",
    "techniques": [
     {
      "slug": "ceiling-as-deadline-not-trigger",

@@ -7250,3 +7250,44 @@ in-flight 126-line diff is the one change a parallel fleet cannot absorb quietly
   cheapest moment a technique will ever apply, because nothing has shipped yet.
   **A searched absence is only as good as the search**, and "grep the tree for the
   concept" missed a module whose name did not contain the corpus vocabulary.
+
+## 2.5.0 - 2026-09-04 - system-design-break-order
+
+- **The scored gate cannot cleanly accept a corpus-verified factual correction.**
+  A correction to a false sentence in a forged document scores GAIN 2 and takes the
+  `+2` rewrite penalty, landing at 0 against a `+2` threshold. It was admitted only
+  by reading the penalty's own stated test literally — *a rewrite is a change that
+  makes a standing sentence false*, and correcting a false sentence makes nothing
+  false. This class of landing is the cheapest and safest the skill produces (the
+  evidence is the tree, not the source) and the gate is biased against it. A run
+  that has to argue past its own score has a broken score. Proposed carve-out is in
+  the round-16 closing paragraph.
+
+- **A near-empty from `research-map` is not the only false absence; a concept query
+  can miss a subject entirely.** Two concept maps ("capacity ladder", "when to add
+  infrastructure") never surfaced `resilience/scale-investment-timing`, the one
+  subject owning the source's whole thesis. A directory listing found it in one
+  command. The existing rules cover truncated output and proper-noun queries; this
+  is a third shape — a *well-formed concept query whose vocabulary the target
+  document does not use*. Before writing "no subject owns this", enumerate the
+  plausible category directories. It costs one `ls`.
+
+- **Never chain a existence check and a destructive write with `;`.** This run ran
+  `ls | grep -i scale || echo "no existing note"` immediately followed by a heredoc
+  `>` in the same command. The check printed the file's name and the write clobbered
+  189 lines anyway, because `;` does not gate anything. Recovered with
+  `git checkout --`. The standing memory says to look at the target before
+  overwriting; the operational form of that rule is that the look must be its **own
+  tool call**, whose output is read before the write is composed.
+
+### Redesign proposal
+
+- **Make the promoting question the admission condition for `untriaged`, not a
+  courtesy.** Rounds 12-15 banked 3-5 untriaged rows each and round 16 banked one,
+  and the difference was not discipline about triage — it was that this round
+  actually executed the promoting question on its only `partial` row, which closed
+  it in a single file read. The scorecard has been reading the tail as a funnel loss
+  needing a drain mode. The cheaper reading is that a `partial` row is *unread*, and
+  a row may not be filed as untriaged until one file read has been spent on it. Test
+  this before building `/intake untriaged`; a drain mode would spend a whole run
+  re-deriving rows that one read would have closed on the day they were extracted.

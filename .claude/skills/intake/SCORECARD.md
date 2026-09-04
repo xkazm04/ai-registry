@@ -1706,3 +1706,45 @@ because they were counted together rather than fixed one at a time.
 **The check the next row should make:** did the run either drain untriaged candidates or
 retire the count, and did its apply cell say whether the verdict changed the landing?
 | 2.5.0 | 2026-09-04 | `exoharness/exo` (**vendor repository read as a system**; a self-modifying agent harness over Rust+TS with three sandbox backends; **2,003** landing words against 62,842 in-tree md and 93,945 lines of source, ~31:1; **round 15**) | 1 | 33 (design record, 4 systems, 4 parallel workers) | 9 admitted of 12 scored (10 catches; 14 recorded untriaged with anchors; **0 declined**) | **1 subject (4t + 2 src-apps) + 3 amendments + 1 technique + 4 applications** | 1e/2s/0c/0t + 5 unapplied w/ return conditions | **1** (personas `master`, pathspec) | Focus 1 RESOLVED: the direction lane was not dead - the scorecard's account of it was stale (30 ledger rows, 26 accepted, 8 studies across 7 projects). Focus 2: **2 assertions overturned by a second reader** - the stale scorecard claim (caught by reading the fleet trees) and a phantom bidirectionality break (caught by the mandatory re-read inside the content lock). Focus 3: mid-state printed in the paired A/B; both arms provably ran. | S=1/T=4+1/A=3/Asrc=2+4/task=0 · routing count **4 of 33 NONE, fired on 1 of 4 systems** · handed off: **yes, the system not the repository** · `auto=9/3/1` `fp=0` · refuted=3/9 · directions=study/1 peer · gate=1 open proposal shown |
+| 2.5.0 | 2026-09-04 | `yt:EaXHfuHRWwg` "Your App Will Break in This Exact Order" (**second-hand survey, tutorial-explainer form**; the canonical single-server-to-sharded ladder relayed with no system of its own; 5,964 words; **round 16**) | 1 | 12 | 1 admitted of 12 scored (10 catches; 1 untriaged with anchors; **0 declined**; 1 escalated XL) | **1 golden-path correction** | 1e/0c/0s/0t, verdict **not-better** and it **killed a landing** | **1** (this registry, pathspec) | Focus 1 (untriaged tail): **partially addressed by execution, not by mechanism** - this run banked only 1 untriaged row and executed its promoting question rather than filing it blind; the row resolved *against* itself. The drain mode still does not exist. Focus 2 RESOLVED: the apply cell now says the verdict **changed the landing** (it prevented a checker rule). Focus 3: **2 assertions overturned by a second reader** - (a) "no subject owns the scaling ladder", asserted from two `research-map` concept queries and refuted by a directory enumeration (**catcher: a different instrument layer**); (b) "no subject note exists for this subject", asserted from an `ls` chained to the write with `;` so the check could not gate it, refuted by `git diff --stat` after 189 lines were clobbered and restored (**catcher: post-write verification**). | S=0/T=0/A=1/Asrc=0/task=0 · routing count **n/a (not a repository)** · handed off: no · `auto=1/1/1` `fp=0` · refuted=1/1 · directions=n/a · gate=n/a |
+
+**Funnel, round 16 reading of the last ten rows.** Research 1 each; extract 8-58;
+test 1-22; apply has carried a row per landed finding since 2.2 and ship moved in
+eight of ten. This round is the smallest in the log — 12 extracted, 1 landed — and
+the shape is correct rather than disappointing: a second-hand survey of textbook
+material against a bundle of 214 subjects should yield catches, the class table
+predicts it, and the expected yield was stated before the table so the number would
+read as calibration. **The stage losing most is still `test`**, but this round
+narrows the diagnosis. It banked one untriaged row instead of the usual three to
+five, and only because the promoting question was actually executed on it; the row
+then resolved against itself. Rounds 12-15 banked 3-5 each by filing `partial` rows
+without executing the question the method already requires. **The untriaged tail is
+not primarily a missing drain mode — it is the promoting question being skipped at
+the moment it is cheapest.** A drain mode would re-read rows that a single file read
+would have closed on the day they were extracted.
+
+**The round's real lesson is about the gate, and it is a defect.** The v2.5 score
+nearly rejected the run's only landing. A factual correction to the corpus, verified
+by enumerating the tree, scores GAIN 2 (boundary case + refutes a corpus assertion)
+and takes `+2` for "the landing rewrites rather than appends" — because changing a
+false sentence does change a standing sentence. That lands at 0 against a threshold
+of +2. It was accepted only by reading the rule's own stated test literally: a
+rewrite is a change *that makes a standing sentence false*, and correcting a false
+sentence makes nothing false. **The gate as written cannot cleanly accept
+corpus-verified factual corrections, which are the cheapest and safest landings this
+skill produces.** That is the opposite of the bias it was tuned for.
+
+**Next run's declared focus (round 17).** (1) **Fix the rewrite penalty.** Add an
+explicit carve-out: a correction whose target sentence is *demonstrably false against
+the tree* takes no `+2`, because the penalty exists to price the risk of invalidating
+true content and there is none. Until then, runs will keep talking themselves past
+their own gate, which is the failure the scored gate replaced the rubber stamp to
+prevent. (2) **Move the promoting question earlier and make it the condition for
+filing untriaged at all.** A `partial` row may not be banked until its question has
+been executed; if the run cannot afford the file read, the row is not `partial`, it
+is unread. Test whether that alone collapses the untriaged tail before building a
+drain mode for it. (3) **Keep naming the catcher** — it caught two this round, and
+one of them was a 189-line clobber that only a post-write `git diff` revealed.
+**The check the next row should make:** did the run land a corpus-verified correction
+without having to argue past its own score, and did it bank any untriaged row whose
+promoting question went unexecuted?
