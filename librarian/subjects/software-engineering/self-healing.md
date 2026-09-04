@@ -80,3 +80,13 @@ replica was never replaced. 0/1 → 1/1 correct replacements, 0 false. The gap t
 fix does *not* close is banked in the application: the verdict still does not
 survive the pod restart, so a deterministically broken model re-spends the full
 budget in every new pod.
+
+## 2026-09-04 - [[2026-09-04-cargo-make]] (intake, run cargomake-0904)
+
+Gained `fork-to-outlive-the-healed` + `rust--fork-to-outlive-the-healed`.
+
+**The finding is an interrogation of this subject's own premise.** `healer-death-as-promotion` takes as given that a mandatory component's healer cannot outlive it, and prescribes writing the verdict before the exit. For a large class of system that premise is a *consequence of executing the work in the healer's process*, not a property of the problem: re-express the work as a child process and the shared fate dissolves. The two techniques are now a pair and reference each other - fork when the work is expressible as an invocation, obey the older rule when it is not.
+
+**Tested and rejected at the fleet seam it looked designed for** (see the applied ledger). The disqualifier is sharper than the first draft's "state larger than its invocation": it is *live shared accounting the work mutates as it runs*. A spend counter decremented in one address space satisfies record-precedes-effect for free; across a process boundary it must be re-earned with a write-ahead ledger, and until that exists the fork makes the accounting less trustworthy while making the classification more trustworthy.
+
+**Open lead (return condition, not banked as a technique):** the external tree classifies by exit code alone after forking - the fork bought a surviving handler and no knowledge. A second sighting of a forking supervisor that *does* carry a declared verdict across the boundary would make that pairing a rule rather than an observation.

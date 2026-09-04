@@ -14,6 +14,7 @@ techniques:
   - cross-source-precedence-chain
   - applied-defaults-ledger
   - config-backup-and-restore
+  - author-declared-include-graph
 ---
 
 # Settings & preferences

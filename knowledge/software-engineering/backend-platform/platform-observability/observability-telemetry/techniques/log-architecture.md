@@ -63,6 +63,43 @@ persistent sink, debug and below dark until summoned. A production log
 that defaults to debug drowns rotation and turns every incident read
 into an excavation.
 
+### A level bound to a side effect leaves the vocabulary
+
+The contract above says what each level *means*. A design that also
+gives a level an *effect* — the formatter or the emitter terminating
+the process on an error-level record, so that logging an error and
+aborting are the same act — looks like the strongest possible
+enforcement of that meaning. It is the opposite: it deletes the level.
+
+The reasoning is short. Once `error` terminates, no call site may emit
+`error` for a failure the program intends to survive. But "something
+failed and a human should eventually know" describes an enormous number
+of survivable failures — a version lookup that could not read its
+registry, an unrecognized enumeration member falling back to a default,
+an optional dependency that did not load. Every one of those must now be
+emitted at `warn`, which this contract reserves for "surprising but
+survived, on file for when the later failure comes." The level that was
+supposed to mean *a failure reached a door* now means *the process is
+ending*, and `warn` has silently absorbed both of its own meanings and
+all of `error`'s. An operator filtering for errors sees only crashes,
+and the record of the failure that caused the crash is a rung below,
+mixed in with everything routine.
+
+The tell in a codebase is a population count: if `warn` outnumbers
+`error` by an order of magnitude and the `warn` records include things
+that plainly failed, the vocabulary has already collapsed and the
+binding is why.
+
+Termination is a decision the failure domain makes, and it travels as a
+typed outcome
+([verdict-survives-boundary](../../../../_laws.md#verdict-survives-boundary)),
+not as a severity string that a formatting layer happens to inspect.
+Keep the two separable: severity describes the record, the returned
+outcome decides the fate. A system that wants one authority for "this is
+fatal" should put it in the error taxonomy, where the classification
+already lives, and let the logger report that classification like any
+other field.
+
 ## Filter at the origin, per module
 
 Verbosity is not one global knob. The useful shape is **per-origin

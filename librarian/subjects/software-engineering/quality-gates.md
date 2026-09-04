@@ -597,3 +597,13 @@ Reduces a measured attention point on the #2 worklist subject (52 points).
 The subject also **gave up a stage**: invariant placement now lives in the new
 `invariant-placement` subject, which is the rung-zero this golden path's
 vocabulary could not describe.
+
+## 2026-09-04 - [[2026-09-04-cargo-make]] (intake, run cargomake-0904)
+
+`gate-liveness` gained a section: **reporting could-not-run and routing it are separate decisions.**
+
+The technique's line "any check that folds could-not-run into pass has pre-committed to the worst failure mode" fuses two things. What decides the routing is *what this gate's green authorizes*: a green that authorizes shipping must route could-not-run to fail; a green that authorizes **skipping optional work** (is the installed helper new enough, is the cache still valid) routes it to pass - because there a false green means the system continues with the state it already had, and a false red is a permanent tax the team removes by deleting the check. Three obligations come with the routing: report it anyway, write the blast radius down, and keep it off the ladder and out of gate inventories.
+
+**Corroborated by an asymmetry inside one external tree**, which is why this landed as a boundary rather than a correction: the same binary refuses outright when a document declares it needs a newer reader (a defect would escape) and proceeds when it cannot determine an installed dependency's version (only redundant work is at stake).
+
+**Applied here and shipped:** the registry's catalog builder met obligations 1 and 3 and missed 2 - it drops an unparseable usage contributor and then publishes a derived count whose predicate omits how many files were attempted. Fixed; see the applied ledger. No application document - the node--gate-liveness filename is held by an unrelated tree, which is a real limit of the one-slot-per-(stack, technique) rule and is filed as a lesson.

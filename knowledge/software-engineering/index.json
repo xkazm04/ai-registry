@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 191,
-  "techniques": 1391,
-  "applications": 798,
+  "techniques": 1394,
+  "applications": 801,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1391/1391",
+  "use_when_coverage": "1394/1394",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -16686,7 +16686,7 @@
    "subcategory": "platform-observability",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/platform-observability/observability-telemetry/observability-telemetry.md",
-   "digest": "sha256:38568cd206dd2afa",
+   "digest": "sha256:040028542d1730ec",
    "techniques": [
     {
      "slug": "crash-record-storage",
@@ -19287,7 +19287,7 @@
    "subcategory": "standards-and-gates",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/quality-gates.md",
-   "digest": "sha256:ecfc71a52b739250",
+   "digest": "sha256:bbc86c25ec4bd610",
    "techniques": [
     {
      "slug": "advancement-evidence-fields",
@@ -20809,7 +20809,7 @@
    "subcategory": "standards-and-gates",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/repo-manifest-standard/repo-manifest-standard.md",
-   "digest": "sha256:b15ea4d26169eafd",
+   "digest": "sha256:80af54151f23728e",
    "techniques": [
     {
      "slug": "capability-not-tool-vocabulary",
@@ -20895,6 +20895,22 @@
       "making a repository self-describing offline",
       "keeping a vendored copy of a specification honest"
      ]
+    },
+    {
+     "slug": "version-gate-precedes-schema-gate",
+     "status": "forged",
+     "laws": [
+      "unknown-is-not-a-value",
+      "one-validation-door",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a config file written for a newer tool version fails with a confusing parse error",
+      "deciding whether a reader rejects or ignores unrecognized fields",
+      "an artifact has exactly one reader rather than many",
+      "a version declaration sits inside the document the version governs"
+     ]
     }
    ],
    "applications": [
@@ -20909,6 +20925,13 @@
      "technique": "pointers-not-embeds",
      "file": "knowledge/software-engineering/engineering-process/standards-and-gates/repo-manifest-standard/applications/node--pointers-not-embeds.md",
      "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "node",
+     "technique": "version-gate-precedes-schema-gate",
+     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/repo-manifest-standard/applications/node--version-gate-precedes-schema-gate.md",
+     "verified_on": "2026-09-04",
+     "verified_against": "node@20"
     },
     {
      "stack": "process",
@@ -22273,7 +22296,7 @@
    "subcategory": "resilience",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/resilience/self-healing/self-healing.md",
-   "digest": "sha256:8aa02d58966b87eb",
+   "digest": "sha256:15c00a936d6912ab",
    "techniques": [
     {
      "slug": "auto-rollback",
@@ -22362,6 +22385,23 @@
      ]
     },
     {
+     "slug": "fork-to-outlive-the-healed",
+     "status": "forged",
+     "laws": [
+      "record-precedes-effect",
+      "verdict-survives-boundary",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "the healer and the healed share a process and a fate",
+      "an error handler must run after the work it was configured for has already died",
+      "deciding whether a recovery routine belongs inside or outside the thing it recovers",
+      "a supervisor's own failure path has never been exercised",
+      "output from nested self-invocations has become unreadable"
+     ]
+    },
+    {
      "slug": "healer-death-as-promotion",
      "status": "forged",
      "laws": [
@@ -22438,6 +22478,12 @@
      "technique": "effectiveness-accounting",
      "file": "knowledge/software-engineering/backend-platform/resilience/self-healing/applications/rust--effectiveness-accounting.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "rust",
+     "technique": "fork-to-outlive-the-healed",
+     "file": "knowledge/software-engineering/backend-platform/resilience/self-healing/applications/rust--fork-to-outlive-the-healed.md",
+     "verified_on": "2026-09-04"
     },
     {
      "stack": "rust",
@@ -22780,7 +22826,7 @@
    "subcategory": "governance-and-records",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/governance-and-records/settings/settings.md",
-   "digest": "sha256:c1dfed3c9da2ad38",
+   "digest": "sha256:9c624669c34878a7",
    "techniques": [
     {
      "slug": "applied-defaults-ledger",
@@ -22796,6 +22842,24 @@
       "deciding between a settings schema version and something simpler",
       "a stored collection cannot say whether an entry is missing because the user removed it or because their build never offered it",
       "renaming a shipped default and discovering it breaks every installation"
+     ]
+    },
+    {
+     "slug": "author-declared-include-graph",
+     "status": "forged",
+     "laws": [
+      "unknown-is-not-a-value",
+      "derivation-names-recomputation",
+      "one-authority-per-vocabulary",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a configuration file names the files it inherits from",
+      "a shared config fragment resolves a relative path against the wrong directory",
+      "deciding where an included file's own relative paths are rooted",
+      "an entry's origin cannot be recovered after the merge",
+      "a config include chain can loop"
      ]
     },
     {
@@ -22968,6 +23032,12 @@
      "file": "knowledge/software-engineering/operations/governance-and-records/settings/applications/rust--applied-defaults-ledger.md",
      "verified_on": "2026-09-03",
      "verified_against": "rust@1.80"
+    },
+    {
+     "stack": "rust",
+     "technique": "author-declared-include-graph",
+     "file": "knowledge/software-engineering/operations/governance-and-records/settings/applications/rust--author-declared-include-graph.md",
+     "verified_on": "2026-09-04"
     },
     {
      "stack": "rust",
@@ -28451,6 +28521,7 @@
     "remediation-roadmaps/coverage-guarantee",
     "repo-manifest-standard/must-ignore-unknown",
     "repo-manifest-standard/pointers-not-embeds",
+    "repo-manifest-standard/version-gate-precedes-schema-gate",
     "retrieval/embedding-lifecycle",
     "retrieval/relationship-proximity-lane",
     "retrieval/relevance-floors",
@@ -28485,6 +28556,7 @@
     "session-resume/content-freshness-states",
     "session-resume/delta-briefings",
     "session-resume/first-run-and-quiet-silence",
+    "settings/author-declared-include-graph",
     "settings/config-backup-and-restore",
     "settings/cross-source-precedence-chain",
     "settings/save-experience",
@@ -29168,6 +29240,7 @@
     "quality-gates/fabrication-economics",
     "quorum-and-recovery-procedures/cancel-leaves-prior-state-valid",
     "read-serving-replicas/evict-not-update-on-commit",
+    "repo-manifest-standard/version-gate-precedes-schema-gate",
     "retrieval/query-decomposition-before-the-lanes",
     "retrieval/structural-centrality-lane",
     "retry-backoff/client-retry-and-redirect-conventions",
@@ -29180,6 +29253,7 @@
     "session-continuation/compaction-checkpoint",
     "session-continuation/single-loop-authority",
     "settings/applied-defaults-ledger",
+    "settings/author-declared-include-graph",
     "settings/cross-source-precedence-chain",
     "settings/inherited-default-override",
     "settings/typed-accessors",
@@ -29617,6 +29691,7 @@
     "remediation-handoff/handoff-tenancy-and-idempotence",
     "remediation-roadmaps/sandbox-to-tracker-commit",
     "repo-manifest-standard/must-ignore-unknown",
+    "repo-manifest-standard/version-gate-precedes-schema-gate",
     "runner-fleet/fleet-isolation-boundaries",
     "schema-driven-ui/spec-validation-and-repair",
     "search/query-parsing",
@@ -30208,9 +30283,11 @@
     "search/saved-views",
     "self-healing/declared-verdict-over-inferred-wreckage",
     "self-healing/failure-diagnosis",
+    "self-healing/fork-to-outlive-the-healed",
     "self-healing/strategy-selection",
     "serving-process-topology/one-config-object-as-engine-state",
     "session-continuation/single-loop-authority",
+    "settings/author-declared-include-graph",
     "settings/key-registry",
     "settings/setting-kinds",
     "sidecar-provisioning/change-rate-partitioning",
@@ -30330,6 +30407,7 @@
     "retry-backoff/storm-control",
     "search/typed-filter-language",
     "self-healing/declared-verdict-over-inferred-wreckage",
+    "self-healing/fork-to-outlive-the-healed",
     "self-healing/healer-death-as-promotion",
     "serving-process-topology/hot-loop-isolation",
     "sidecar-provisioning/split-trust-by-registration-path",
@@ -30519,6 +30597,7 @@
     "scoring-rubrics/weight-design",
     "search/full-text-indexing",
     "self-healing/effectiveness-accounting",
+    "settings/author-declared-include-graph",
     "settings/cross-source-precedence-chain",
     "settings/inherited-default-override",
     "settings/read-batching",
@@ -30719,6 +30798,7 @@
     "declarative-resource-lifecycle/deletion-blocked-until-dependents-confirm",
     "job-coordination/no-unrestorable-state-at-a-suspension-point",
     "self-healing/consume-once-mode-handoff",
+    "self-healing/fork-to-outlive-the-healed",
     "self-healing/healer-death-as-promotion",
     "voice-io/unattended-caller-attribution"
    ]

@@ -76,8 +76,16 @@ export function loadTaxonomy(bundleDir, bundleName) {
   }
 
   const rel = `knowledge/${bundleName}/taxonomy.json`;
+  // The version gate returns before the schema gate, and returns `taxonomy: null` — the
+  // same not-usable signal the parse failure above uses. A document declaring a schema
+  // this reader does not know is not a document with v1 defects; validating it against
+  // v1 rules buries the one accurate message ("your tool is old") under a pile of errors
+  // describing rules that no longer apply, and the reader goes and fixes a key that was
+  // never wrong. Returning a truthy taxonomy with an empty subject map is worse still:
+  // callers that guard on `taxonomy` then cross-check every subject against nothing.
   if (tx.schema !== 'rkb-taxonomy/1') {
     errors.push(`${rel}: schema must be "rkb-taxonomy/1", found ${JSON.stringify(tx.schema)}`);
+    return { taxonomy: null, errors, subjects };
   }
   if (tx.bundle !== bundleName) {
     errors.push(`${rel}: bundle "${tx.bundle}" does not match the folder "${bundleName}"`);

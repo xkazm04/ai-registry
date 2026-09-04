@@ -13,6 +13,7 @@ techniques:
   - healer-death-as-promotion
   - declared-verdict-over-inferred-wreckage
   - consume-once-mode-handoff
+  - fork-to-outlive-the-healed
 ---
 
 # Self-healing & automated remediation

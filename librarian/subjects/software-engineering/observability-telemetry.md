@@ -30,3 +30,13 @@ host-supplied store, not crash-record-storage material).
   excluded from the store) → a retry/queue home, likely retry-backoff.
 - Server-issued per-category deadlines (rate-limit parsing) → retry-backoff as
   the server-directed counterpart to the client-side budget pilot.
+
+## 2026-09-04 - [[2026-09-04-cargo-make]] (intake, run cargomake-0904)
+
+`log-architecture` gained a section under "Levels are a contract": **a level bound to a side effect leaves the vocabulary.**
+
+The source binds its error-level macro to process termination inside the logger's format closure, so emitting an error record and terminating are one act. That looks like maximal enforcement of the level contract and is its deletion: no call site may then emit at error level for a failure the program intends to survive, so every survivable-but-notable event is forced into warn - which this technique reserves for "surprising but survived". The level meaning *a failure reached a door* comes to mean *the process is ending*, and warn absorbs both its own meanings and all of error's. The tell is a population count: warn outnumbering error by an order of magnitude with plain failures among the warns.
+
+The rule: termination is a decision the failure domain makes and travels as a typed outcome, not as a severity string a formatting layer inspects. One authority for "this is fatal" belongs in the error taxonomy, where the classification already lives.
+
+**Unapplied in the fleet, established by search:** every termination site in the three authorized trees is print-then-exit at an explicit call site, and both registry gate helpers accumulate and let the caller decide. The corpus needed the boundary stated; no managed project commits the error.
