@@ -381,3 +381,12 @@ Append-only reflection lane. One entry per run that taught something. Format:
 
 - **`git rm` stages, and the stat check must read the file LIST.** Deleting a duplicate suite with `git rm` pre-staged the deletion; the next step's `git add <one file> && git diff --cached --stat | tail -1` printed a two-file total that was read as fine, and the deletion rode into the wrong commit. Phase 7d step 6 says "if the staged file count exceeds the paths you added" — that means counting names, not glancing at the summary line. Cheap fix: `git diff --cached --name-only` and compare to the list you meant to add.
 - **A resume can find that the decision is mostly done by someone else — say so before re-sizing.** The ADR's main remaining step had been shipped by a later session under a different commit prefix; the refresh (Phase 9c) caught it only because the acceptance criteria were re-measured against the tree rather than the backlog line. Re-sizing `m` → `s` and asking once was the right shape; re-executing the done step would have been the failure mode.
+
+## 1.5.0 - 2026-09-01 - kp (model bake-off)
+
+- Context: error-handling.
+- `model: opus`. Run head-to-head with identical inputs, Opus found the finding no defect-shaped search can find (four design-token lint selectors shadowed by later flat-config blocks and dead for their whole life) and shipped a config-resolution guard, an all-routes envelope ratchet, two recorded refutations and a corrected overlay subject row, in half the wall time. Fable executed more code fixes (no-empty at error, structured UNIQUE check, a lockstep test) and a repo ADR; those three commits were cherry-picked onto Opus's branch. Rule that follows: when the theme is a repo whose laws are gates, add an **enforcement-coverage** angle, which inventories the gates and proves each can still fire, by probe. See LESSONS.md.
+
+## 1.6.1 - 2026-09-04 - ai-registry
+
+- The dated `## Model choice (bake-off 2026-09-01, ...)` section moved out of the SKILL.md body into the block above. The lane spec (`docs/skills-lane.md`, "The body is generic") says a body may carry no project name, and this one named kp; a dated finding about a run is what `LESSONS.md` owns. Content preserved verbatim; nothing else in the body changed, so a patch bump.

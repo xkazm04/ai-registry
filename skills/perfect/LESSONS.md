@@ -251,3 +251,12 @@ rule that only this loop's participants currently follow.
 - A `SendMessage` to a builder that has already delivered its final report RESUMES it with full context; a Director addendum ("your sibling landed X, now route your two sites through it") was cheaper and safer than re-briefing or doing it inline in the builder's file. Worth naming in Phase B step 5 as the standard way to close a cross-lot seam discovered at review time.
 - The ai-registry map's `deviation` entries (file:line + why) were the highest-yield direction seed in the session - one per context, both accepted, one shipped as the wildcard. Phase P step 3 should list "read `.ai/registry-map.json` for the cursor context" beside "mine the user's corrections" as a first-class source.
 - Scout counts still need a Director re-measure before they enter a brief: "ai-title on 32/60 transcripts" (relayed from a prior analysis) was 7/60 when the builder counted. The brief's premise was wrong in DEGREE and the builder's correction changed which half of the direction mattered. Same lesson as round 13, still not automated.
+
+## 2.4.0 - 2026-09-01 - kp (model bake-off)
+
+- Context: round 24.
+- The Director role already names Fable with Opus as fallback; the head-to-head confirmed the ordering and sharpened it. Fable shipped six directions across two contexts (including the same dead design-law lint gate the architect run found) and built a refused lot inline; Opus shipped three standard-anchored directions across three disjoint contexts, rejected four candidates with reasons, and reconciled the stale vault claim by claim. Both refuted the same carried lead. The operator merged both. Rule kept: Fable directs; when a slate must be thin and every direction must cite a standard, an Opus director is not a downgrade.
+
+## 2.5.1 - 2026-09-04 - ai-registry
+
+- The dated `## Model choice (bake-off 2026-09-01, ...)` section moved out of the SKILL.md body into the block above. The lane spec (`docs/skills-lane.md`, "The body is generic") says a body may carry no project name, and this one named kp; a dated finding about a run is what `LESSONS.md` owns. Content preserved verbatim; nothing else in the body changed, so a patch bump.

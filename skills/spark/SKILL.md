@@ -5,7 +5,7 @@ memory: vault
 category: workflow
 description: Turn a vague product idea (a "sparkle") into a complete, grounded design through waves of select/multi-select questions - then orchestrate the build. Targets exactly which contexts/files the idea touches, scouts them before asking anything, converges the design across four perspectives (functional, UX, UI, performance/architecture), and executes via builder subagents in a worktree under Director review. Runs live in a memory vault (a linked Obsidian folder, or <repo>/.spark/ with the same schema); every run ends with a self-improvement retro that sharpens the skill itself. Per-repo specifics - vault path, gates, context map, host rituals, repo law - come from the overlay at .claude/spark/config.md, and the loop runs on defaults without it. Invoke with `/spark <idea...>` or `/spark resume <slug> | status | reflect`.
 argument-hint: "<idea...> | resume <slug> | status | reflect"
-version: 1.3.0
+version: 1.3.1
 model: fable
 ---
 
@@ -213,7 +213,3 @@ After the run's real work is done, reflect - autonomously, without asking the us
 
 **Lane 3 - DOMAIN knowledge** is a different artifact from a lesson: a lesson improves this METHOD, a lead proposes knowledge for a bundle. Skills that carry a `## Knowledge sync` section file leads there; a skill without one files none.
 <!-- /clause: skill-reflection -->
-
-## Model choice (bake-off 2026-09-01, ascent / weekly-digest)
-
-`model: fable`. Both models produced a near-identical architecture (a new Bought tab, server panel, no route or table, wire-contract pre-commit, two parallel builders). The operator merged Fable's output (it also retargeted the Slack push and registered a follow-up idea) and asked that Opus's method be kept: the registry subject read before the waves, the snapshot-rewritten-timestamp liveness rule, the doc-ownership field on work packages, and the scout fallback. Those four edits are in Phases 2, 4 and 5 above.

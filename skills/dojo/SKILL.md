@@ -4,7 +4,7 @@ description: "Autonomous infinite training loop for media-generation craft: each
 argument-hint: "[run|status|reflect] [--fixture] [--resume <cycle-id>]"
 category: ai-native
 memory: project
-version: 1.2.0
+version: 1.2.1
 tags: training, media-generation, ab-testing, judge, foundry, loop, craft
 allowed-tools: Read, Write, Edit, Bash, PowerShell, Glob, Grep, Monitor, WebSearch, Agent
 ---
@@ -281,7 +281,3 @@ After the run's real work is done, reflect - autonomously, without asking the us
 
 **Lane 3 - DOMAIN knowledge** is a different artifact from a lesson: a lesson improves this METHOD, a lead proposes knowledge for a bundle. Skills that carry a `## Knowledge sync` section file leads there; a skill without one files none.
 <!-- /clause: skill-reflection -->
-
-## Model choice (bake-off 2026-09-01, gravitone / one local-stack image cycle)
-
-No pin. Both cycles failed on GPU contention: Fable rendered five of eight pairs (one complete duo) before its breaker tripped, Opus two of twelve in eleven hours because a third, foreign dojo job held the card. Neither produced a judgeable set; both kept the registry read-only, released the lock and parked honestly. The operator kept Opus's method: the demand signal is the consuming repo's own conformance record (Fable ranked on the fleet-aggregate scan and picked a subject this repo had never deviated on), an engine-owner check before launch is the interlock, a zero-duo cycle never parks for a human, and Phase 1's registry commands are marked read-only versus writing. Those edits are in Phases 1, 4 and 6 and the safety rails above. Fable's cycle contributed the partial-readback reading that a contradicting tail clause is obeyed as well as an in-block override at ~1.1k characters on Flux 2, recorded in gravitone's overlay as a lead for `/deepen`.

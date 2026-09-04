@@ -5,7 +5,7 @@ argument-hint: "[area] [--triage-all]"
 category: workflow
 memory: vault
 contexts: tracked
-version: 2.1.0
+version: 2.1.1
 ---
 # Explorer
 
@@ -832,7 +832,3 @@ After the run's real work is done, reflect - autonomously, without asking the us
 
 **Lane 3 - DOMAIN knowledge** is a different artifact from a lesson: a lesson improves this METHOD, a lead proposes knowledge for a bundle. Skills that carry a `## Knowledge sync` section file leads there; a skill without one files none.
 <!-- /clause: skill-reflection -->
-
-## Model choice (bake-off 2026-09-01, kp / Job & JD Management)
-
-No pin. Item sets were nearly disjoint: Fable found the deeper data-layer defects (a publish path spanning two SQLite connections, proven by a real-DB test; a salary band lost on re-sync); Opus found the broader abuse and concurrency defects (a CAS under a DEFERRED transaction, a fan-out route with no rate limiter, a session-lifetime leak) and used a gate matrix over the route family. Only the tenancy guard duplicated. The operator merged both. Two runs on one area beat one run at twice the depth; when only one is affordable, Fable for a data-heavy area, Opus for an API-surface area.

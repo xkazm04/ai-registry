@@ -29,3 +29,12 @@
 - A lane bake-off truncated by the operator at ONE complete unit can still be decisive when the wins are categorical (figure present vs absent, interior vs exterior) rather than marginal - park it with the truncation named, and let the full-plan spec ride along for a resume.
 - Big-model unit costs on consumer boxes are RAM stories, not GPU stories: H3 ref2va ran at 12x its reference rate and GLM-5.3 vision at 30x, both from host-RAM starvation paging experts. Record the hardware lever (RAM to spec) beside the verdict, or the lane reads as worse than it is.
 - Before buying parameters, buy a better question: a 321B eye's apparent class-jump over a 27B local eye vanished when the small eye was re-prompted with the vocabulary the big one demonstrated (roles, shapes, layers - free prose, not enums). When comparing eyes, hold the PROMPT constant or the comparison measures elicitation, not capability; and a big model's cheapest contribution may be showing what to ask the small one.
+
+## 1.0.0 - 2026-09-01 - gravitone (model bake-off)
+
+- Context: one local-stack image cycle.
+- No pin. Both cycles failed on GPU contention: Fable rendered five of eight pairs (one complete duo) before its breaker tripped, Opus two of twelve in eleven hours because a third, foreign dojo job held the card. Neither produced a judgeable set; both kept the registry read-only, released the lock and parked honestly. The operator kept Opus's method: the demand signal is the consuming repo's own conformance record (Fable ranked on the fleet-aggregate scan and picked a subject this repo had never deviated on), an engine-owner check before launch is the interlock, a zero-duo cycle never parks for a human, and Phase 1's registry commands are marked read-only versus writing. Those edits are in Phases 1, 4 and 6 and the safety rails above. Fable's cycle contributed the partial-readback reading that a contradicting tail clause is obeyed as well as an in-block override at ~1.1k characters on Flux 2, recorded in gravitone's overlay as a lead for `/deepen`.
+
+## 1.2.1 - 2026-09-04 - ai-registry
+
+- The dated `## Model choice (bake-off 2026-09-01, ...)` section moved out of the SKILL.md body into the block above. The lane spec (`docs/skills-lane.md`, "The body is generic") says a body may carry no project name, and this one named gravitone; a dated finding about a run is what `LESSONS.md` owns. Content preserved verbatim; nothing else in the body changed, so a patch bump.

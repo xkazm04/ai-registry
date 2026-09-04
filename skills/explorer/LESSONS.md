@@ -304,3 +304,12 @@ diffing against what CI actually invokes**: three gates here (`check-readmes`,
 no workflow, and one of them exits 1 today. "Which of this repo's own checkers does CI not
 run" is a two-command sweep that yields items no file read produces. If a second repo
 confirms it, it belongs in Phase 4 as a named probe rather than as a lesson.
+
+## 2.0.0 - 2026-09-01 - kp (model bake-off)
+
+- Context: Job & JD Management.
+- No pin. Item sets were nearly disjoint: Fable found the deeper data-layer defects (a publish path spanning two SQLite connections, proven by a real-DB test; a salary band lost on re-sync); Opus found the broader abuse and concurrency defects (a CAS under a DEFERRED transaction, a fan-out route with no rate limiter, a session-lifetime leak) and used a gate matrix over the route family. Only the tenancy guard duplicated. The operator merged both. Two runs on one area beat one run at twice the depth; when only one is affordable, Fable for a data-heavy area, Opus for an API-surface area.
+
+## 2.1.1 - 2026-09-04 - ai-registry
+
+- The dated `## Model choice (bake-off 2026-09-01, ...)` section moved out of the SKILL.md body into the block above. The lane spec (`docs/skills-lane.md`, "The body is generic") says a body may carry no project name, and this one named kp; a dated finding about a run is what `LESSONS.md` owns. Content preserved verbatim; nothing else in the body changed, so a patch bump.

@@ -204,3 +204,12 @@ bumped independently (that run 1.1→1.2, this one 1.2→1.3).
 - Never read a gate's verdict through a pipe: `npm run validate | tail` reports `tail`'s status. Run the gate bare, capture its exit code, filter afterwards.
 - Restore an injected fault by inverting the edit, never `git checkout -- <file>` on a file carrying uncommitted work; nine annotations were lost that way once.
 - A dead premise whose reason is a deliberate opposite choice ("PoF avoids double-apply by never retrying") is a catch with a reason, not redundancy; record it so a future run does not add retries and manufacture the hazard.
+
+## 1.8.0 - 2026-09-01 - pof (model bake-off)
+
+- Context: unity-mcp.
+- No pin. The two runs shipped disjoint, complementary findings from the same source (Fable: MCP tool annotations on every tool plus an operator skill; Opus: tool-group gating per the server-composition technique plus a build long-poll) and the operator merged both. Fable read more of the source faster; Opus checked whether the repo's composite gate covers the files it changed (it did not) and never wrote outside its worktree. Time-boxed: Fable. Gate-sensitive package under a monorepo root: Opus. Both when the source is rich.
+
+## 1.9.1 - 2026-09-04 - ai-registry
+
+- The dated `## Model choice (bake-off 2026-09-01, ...)` section moved out of the SKILL.md body into the block above. The lane spec (`docs/skills-lane.md`, "The body is generic") says a body may carry no project name, and this one named pof; a dated finding about a run is what `LESSONS.md` owns. Content preserved verbatim; nothing else in the body changed, so a patch bump.
