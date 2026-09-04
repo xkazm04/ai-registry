@@ -349,3 +349,33 @@ alternation merge whose lost exclusivity is recorded nowhere).
 Twelve untriaged design candidates from the same tree - two clusters with existing homes
 in `native-shell-integration` and `terminal-multiplexing` - are in the source note with
 their forces and anchors.
+
+## 2026-09-04 - boundary record only, no change to this subject (run `intake-ghcost-2`)
+
+`server-composition` states, under "Change is announced, not assumed", that a
+list-changed notification's entire content is "re-list" and that **the notification
+deliberately carries no payload** - the listing remains the single authority and the
+notification is only an invalidation hint.
+
+`agent-runtime-assembly/bounded-projection-of-external-work` now states the opposite
+for its own case: a completion delivery carries the result inline. Both are correct,
+and the discriminator is written on that side rather than duplicated here:
+
+> A notification that **invalidates a mutable authority** carries no payload - it would
+> be a racing copy of something that can already be stale, and the reader must re-read
+> anyway. A notification that **announces a completed, immutable result its producer
+> already holds** carries it - the result *is* the authority. The test is one question:
+> told only that something happened, would the reader have to go somewhere else for the
+> truth?
+
+`server-composition`'s rule is the first branch and needs no edit: a tool listing is
+mutable by construction, which is exactly why the notification defers to it. This note
+exists so a later run recognises the shape instead of re-litigating it, and so the
+apparent contradiction between the two subjects reads as a boundary rather than a
+defect. A field test of the discriminator across another tree's completion path found
+8 branches over 7 call sites matching it, with one refinement worth carrying if this
+subject ever restates the rule: **the discriminator applies per fact, not per
+notification** - one message may carry one fact and point at another.
+
+No knowledge file in this subject was modified by this run; another session was live
+in `mcp-tools` at the time.

@@ -183,3 +183,52 @@ stating.
 code-loading surface at all, so it is already on the rule's correct side by
 construction and no arm exists; the instrument that would measure it is a project
 that loads external runner code at runtime.
+
+## 2026-09-04 - /intake `copilot-cost-efficiency` untriaged drain (run `intake-ghcost-2`, intake 2.5.0)
+
+Amendment to `bounded-projection-of-external-work`, from the untriaged tail of a
+first-party account of a coding-agent harness.
+
+**Two sections.** Per-task delivery is right for every durability property the
+technique was built for and never priced the reader: every delivery wakes them, and a
+reader who must then ask for the result spends two turns on one completion. Eligible
+completions on one thread arriving close together are delivered as one run.
+
+**The key question is the part that could have gone wrong, and the file answered it
+from inside.** Keying a grouped delivery *over the set* derives identity from
+delivery-time timing - the set is assembled from whatever happened to be ready, so a
+restart reassembles a different one - which `identity-survives-reuse` forbids by name,
+and it has no representation for "three of five landed". So the batch is
+transport-level grouping over individually keyed items. The strongest argument turned
+out to be the file's own split-rather-than-truncate rule, which already forces the
+partial state to exist.
+
+**The discriminator is the second section and resolves an apparent contradiction with
+`mcp-tools/server-composition`,** which holds the opposite rule and is also correct. A
+notification that invalidates a *mutable authority* carries no payload, because the
+payload would be a racing copy of something that can already be stale and the reader
+must re-read anyway; a notification announcing a *completed, immutable result the
+producer already holds* carries it, because the result is the authority. The test:
+told only that something happened, would the reader have to go somewhere else for the
+truth? Stated from this side with a verified link; the record on the other side is
+now written too.
+
+**Applied `experiment`, verdict `better`, against a different stack** where the reader
+is a person on a serial speech channel rather than a model - so only the wake term was
+claimed and the token claim explicitly refused. The mid-state is the whole finding:
+arm A's announcement queue peaks at its cap on the commit, the overflow sheds an item
+whose key was already claimed at enqueue, and **that completion is silently never
+voiced**. Endpoints alone read "9 utterances vs 1" and hide the lost item entirely.
+The set-key arm is a live defect there rather than hypothetical: the unread list is
+cumulative, so a set key changes on every add and re-speaks everything already said,
+6 repeat deliveries against 0.
+
+**The structural check sharpened the rule.** Enumerating the callers of the optional
+payload half gave 8 branches across 7 call sites, all matching the discriminator - and
+classifying the one site an earlier merged row had hidden forced out a clause the
+technique does not yet state: **the discriminator is applied per fact, not per
+notification**, since one message may carry one fact and point at another. Candidate
+for a later amendment.
+
+Application: `next--bounded-projection-of-external-work` (a new stack for this
+technique; the existing `rust--` document is a different project and was not touched).

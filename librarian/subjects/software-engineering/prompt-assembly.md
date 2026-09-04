@@ -281,3 +281,57 @@ not duplicated. Nothing under `agent-instruction-files` was edited - a sibling
 held uncommitted work there during this run.
 
 Unapplied: return condition in `applied.md`.
+
+## 2026-09-04 - /intake `copilot-cost-efficiency` untriaged drain (run `intake-ghcost-2`, intake 2.5.0)
+
+Two techniques and one amendment, from the untriaged tail of a first-party account
+of a coding-agent harness. The operator approved all four banked rows as a
+multi-select; three landed here, one in `agent-runtime-assembly`.
+
+**`recovery-path-as-loss-signal`** (new) - a lossy transform that keeps the original
+retrievable has an error rate nobody reads: how often the consumer takes the recovery
+path. The technique owns the family of recovery behaviours that do not look like
+recovery (re-ran the producing command, repeated an exploration, narrowed a search,
+simply took more turns), and the reason a per-unit saving is measured at the wrong
+boundary - the coupling is a behaviour of the *consumer*, so the measurement boundary
+must be wide enough to contain it. The two-sided reading is deliberately bounded: a
+high rate is unambiguous, a zero rate cannot distinguish precise targeting from
+timidity, and the defect is reporting a safety result as an optimality result.
+Cross-bundle convergence recorded as prose with no link - another bundle's routing
+technique measures the same fallback at the opposite polarity, where it is a safe
+superset and a non-trivial rate means routing never happened.
+
+**`consumer-coupled-decoration`** (new) - per-item markup whose consumer changed
+method goes on being produced, correct, and unread, at items x payloads x sessions.
+A worker overrode the director's routing to land it here rather than in
+`agent-instruction-files`: this subject "governs systems that own their assembler",
+the cost model there is one-factor where this is two, and `substrate-coupled-expiry`'s
+instrument is a trial against the *model* while this consumer is a peer program - so
+the audit is a code read, not an experiment. Reciprocal cross-reference added there.
+
+**Amendment to `elision-to-a-refetch-pointer`** - bounds its own stated rule rather
+than retracting it. "The threshold is policy, not judgment" holds for homogeneous
+material and fails once the material has classes with different re-read
+probabilities, because size and information density are correlated. Structured result
+sets gain a third option beside keep and elide: lossless regrouping that drops no
+entry.
+
+**The apply step turned the corpus on its own prior landing.** An earlier run shipped
+an elision into a tool server and measured its 4.7x with `arm_a.len()` against
+`arm_b.len()` - the transform's own output, the boundary the new technique forbids -
+and nothing in that crate counts recovery at all. Break-even sits at a 67.5% recovery
+rate and is unresolvable as built.
+
+**A real defect fell out and shipped.** The elision marker is ~44 bytes and fields of
+any size were elided, so a wide trace of small payloads rendered *larger* than the
+un-elided compact form while reporting the content gone: 56,228 -> 85,828 bytes,
++52.6%, measured in the implementation rather than a model. Fixed with a 64-byte
+floor; the case elision was built for is unchanged. **The arms are byte-identical at
+both endpoints and diverge only across the middle** - the false tie the mid-state rule
+exists to catch. One sub-claim came back `not-better` and was kept: the lossless-first
+ordering has no purchase where the trigger already measures the compact form, because
+"lossless suffices" and "the trigger did not fire" are then one predicate.
+
+Applications: `rust--recovery-path-as-loss-signal`, `rust--consumer-coupled-decoration`,
+and `rust--elision-to-a-refetch-pointer` extended with the shipped arm. Four
+`unapplied` rows record searched absences across the rest of the fleet.
