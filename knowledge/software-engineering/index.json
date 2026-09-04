@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 214,
-  "techniques": 1583,
-  "applications": 925,
+  "techniques": 1586,
+  "applications": 931,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1583/1583",
+  "use_when_coverage": "1586/1586",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -1619,7 +1619,7 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/agent-memory.md",
-   "digest": "sha256:4b5d1eb312885464",
+   "digest": "sha256:f5cbb857f85dc452",
    "techniques": [
     {
      "slug": "baseline-ladder",
@@ -2006,6 +2006,13 @@
     },
     {
      "stack": "rust",
+     "technique": "memory-value-model",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/rust--memory-value-model.md",
+     "verified_on": "2026-09-04",
+     "verified_against": "rust@1.97"
+    },
+    {
+     "stack": "rust",
      "technique": "probe-without-write-back",
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/rust--probe-without-write-back.md",
      "verified_on": "2026-08-31",
@@ -2038,7 +2045,7 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-runtime-assembly/agent-runtime-assembly.md",
-   "digest": "sha256:c6db9e4457ffa20f",
+   "digest": "sha256:3ac0b367df14fbd0",
    "techniques": [
     {
      "slug": "additive-input-at-the-call-boundary",
@@ -7856,7 +7863,7 @@
    "subcategory": "codebase-stewardship",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/dead-code/dead-code.md",
-   "digest": "sha256:52099c8e9e65796e",
+   "digest": "sha256:a4d46dc34efafbe7",
    "techniques": [
     {
      "slug": "carrying-cost-economics",
@@ -11441,7 +11448,7 @@
    "subcategory": "resilience",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/resilience/error-handling/error-handling.md",
-   "digest": "sha256:62855e66a4758ff6",
+   "digest": "sha256:7d61cb18c9c8439d",
    "techniques": [
     {
      "slug": "cancellation-attribution",
@@ -11503,6 +11510,22 @@
       "deciding whether a caught failure reaches the user",
       "one incident showing up as three telemetry events",
       "the same failure reporting fresh on every poll cycle"
+     ]
+    },
+    {
+     "slug": "exit-contract-is-a-taxonomy-projection",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a program's callers branch on its exit status",
+      "deciding where the mapping from failure kind to external code lives",
+      "a new failure kind shipped without a code and nobody noticed",
+      "auditing which of a program's failure paths can carry a code at all",
+      "an external code space is narrower than the internal one"
      ]
     },
     {
@@ -11609,6 +11632,13 @@
      "file": "knowledge/software-engineering/backend-platform/resilience/error-handling/applications/rust--crash-capture.md",
      "verified_on": "2026-09-03",
      "verified_against": "rust@1.80"
+    },
+    {
+     "stack": "rust",
+     "technique": "exit-contract-is-a-taxonomy-projection",
+     "file": "knowledge/software-engineering/backend-platform/resilience/error-handling/applications/rust--exit-contract-is-a-taxonomy-projection.md",
+     "verified_on": "2026-09-04",
+     "verified_against": "rust@2021"
     },
     {
      "stack": "rust",
@@ -14398,7 +14428,7 @@
    "subcategory": "standards-and-gates",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/invariant-placement/invariant-placement.md",
-   "digest": "sha256:dc9e59e447dd440a",
+   "digest": "sha256:dbdde652622d81de",
    "techniques": [
     {
      "slug": "build-time-evaluation-of-cross-value-invariants",
@@ -14505,9 +14535,33 @@
       "a rule that keeps being re-broken at newly added call sites",
       "deciding whether to encode a domain you do not understand yet"
      ]
+    },
+    {
+     "slug": "shape-with-a-not-applicable-member",
+     "status": "forged",
+     "laws": [
+      "unknown-is-not-a-value",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a closed set of kinds has gained a member meaning none-of-these",
+      "a resolver returns its own result type to signal that it could not resolve",
+      "an exhaustive branch has an arm nobody can explain the reachability of",
+      "deciding between an absence member and an optional wrapper",
+      "auditing what the compiler actually proves about a value drawn from a named set"
+     ]
     }
    ],
-   "applications": []
+   "applications": [
+    {
+     "stack": "rust",
+     "technique": "shape-with-a-not-applicable-member",
+     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/invariant-placement/applications/rust--shape-with-a-not-applicable-member.md",
+     "verified_on": "2026-09-04",
+     "verified_against": "rust@2021"
+    }
+   ]
   },
   "ipc-contract": {
    "category": "client-architecture",
@@ -17823,7 +17877,7 @@
    "subcategory": "codebase-stewardship",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/module-design/module-design.md",
-   "digest": "sha256:85562388ec91e274",
+   "digest": "sha256:6504a0f64d826c91",
    "techniques": [
     {
      "slug": "borrowed-surface",
@@ -17968,6 +18022,22 @@
      ]
     },
     {
+     "slug": "state-carrier-decides-the-lane",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "silent-state-is-ungoverned"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "adding a parallel or forked lane to a runner that was written sequentially",
+      "shared state has to be copied rather than shared to cross a boundary",
+      "a summary or counter is missing entries nobody can explain",
+      "choosing the container for state that several execution paths will reach",
+      "a spawn site carries a comment apologising for what does not propagate back"
+     ]
+    },
+    {
      "slug": "structural-improvement-loop",
      "status": "forged",
      "laws": [
@@ -18058,6 +18128,13 @@
      "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/module-design/applications/rust--seams-and-adapters.md",
      "verified_on": "2026-09-03",
      "verified_against": "rust@1.89"
+    },
+    {
+     "stack": "rust",
+     "technique": "state-carrier-decides-the-lane",
+     "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/module-design/applications/rust--state-carrier-decides-the-lane.md",
+     "verified_on": "2026-09-04",
+     "verified_against": "rust@2021"
     }
    ]
   },
@@ -21526,7 +21603,7 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-safety/prompt-safety.md",
-   "digest": "sha256:05dcdc2dd10a90d6",
+   "digest": "sha256:1349a818a43a5194",
    "techniques": [
     {
      "slug": "canary-tripwires",
@@ -21905,7 +21982,7 @@
    "subcategory": "standards-and-gates",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/quality-gates.md",
-   "digest": "sha256:a362f95520028e7d",
+   "digest": "sha256:d80c2a54a86f8a4a",
    "techniques": [
     {
      "slug": "advancement-evidence-fields",
@@ -22348,6 +22425,20 @@
      "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/applications/node--chokepoint-tag-registry.md",
      "verified_on": "2026-09-04",
      "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "deterministic-proxy-gate",
+     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/applications/node--deterministic-proxy-gate.md",
+     "verified_on": "2026-09-04",
+     "verified_against": "node@22"
+    },
+    {
+     "stack": "node",
+     "technique": "enforcement-binding",
+     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/applications/node--enforcement-binding.md",
+     "verified_on": "2026-09-04",
+     "verified_against": "node@20"
     },
     {
      "stack": "node",
@@ -32297,6 +32388,7 @@
     "import-normalization/import-validation",
     "import-normalization/lossy-conversion-disclosure",
     "invariant-placement/constraint-deletion-is-silent",
+    "invariant-placement/shape-with-a-not-applicable-member",
     "ipc-contract/call-wrapping",
     "ipc-contract/command-registration",
     "ipc-contract/drift-gates",
@@ -32941,6 +33033,7 @@
     "module-design/locality-and-leverage",
     "module-design/module-depth",
     "module-design/scoreable-designs-are-built-not-argued",
+    "module-design/state-carrier-decides-the-lane",
     "multi-project/cross-project-comparison",
     "multi-project/portfolio-drill-hierarchy",
     "multi-provider-gateway-plane/exclusive-authorship-of-a-measured-decision",
@@ -33179,6 +33272,7 @@
     "embedded-tracing-collector/root-discovery-by-counting",
     "engine-string-representation/dual-encoding-symbol-interner",
     "error-handling/cancellation-attribution",
+    "error-handling/exit-contract-is-a-taxonomy-projection",
     "eval-harness/measurement-revision",
     "execution-state-checkpointing/runtime-bound-checkpoint",
     "extension-trust-boundary/invert-the-default-for-exposed-surface",
@@ -33195,6 +33289,7 @@
     "import-normalization/overlay-merge-absence-semantics",
     "invariant-placement/completeness-at-emission",
     "invariant-placement/initialization-proof-tokens",
+    "invariant-placement/shape-with-a-not-applicable-member",
     "issuance-policy-ladder/float-references-resolve-at-use",
     "issuance-policy-ladder/require-one-constraint",
     "job-coordination/in-flight-is-a-position",
@@ -34215,6 +34310,7 @@
     "entity-lifecycle/change-logging",
     "error-handling/cancellation-attribution",
     "error-handling/consumer-decides-error-shape",
+    "error-handling/exit-contract-is-a-taxonomy-projection",
     "error-handling/parse-failure-keeps-identity",
     "error-handling/reclassification-is-not-repair",
     "error-handling/taxonomy-design",
@@ -34995,6 +35091,7 @@
     "job-coordination/in-flight-is-a-position",
     "llm-extracted-entity-graph/recall-passes-with-a-declared-cap",
     "machine-authored-documentation/preregistered-kill-criterion",
+    "module-design/state-carrier-decides-the-lane",
     "persistent-batch-mutation/declared-skippability-at-batch-granularity",
     "plan-review/decision-sized-slicing",
     "plan-review/fresh-posture-self-challenge",

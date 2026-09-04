@@ -34,18 +34,18 @@
     },
     {
       "name": "architect",
-      "version": "1.6.0",
+      "version": "1.6.1",
       "category": "workflow",
       "path": "skills/architect/SKILL.md",
-      "contentHash": "sha256-n1:5175a68630d88a55",
+      "contentHash": "sha256-n1:d2764cdef1650477",
       "adopters": [
         "personas-web@plugin:1.0.0",
         "personas@plugin:1.0.0"
       ],
       "invokes30d": 2,
-      "lessons": 12,
+      "lessons": 14,
       "lessonsPath": "skills/architect/LESSONS.md",
-      "lessonsHash": "sha256-n1:d0c9d6c93939e506",
+      "lessonsHash": "sha256-n1:c0a667dc3884c16e",
       "usageContributors": [
         "kazda-dev-box"
       ]
@@ -122,31 +122,31 @@
     },
     {
       "name": "dojo",
-      "version": "1.2.0",
+      "version": "1.2.1",
       "category": "ai-native",
       "path": "skills/dojo/SKILL.md",
-      "contentHash": "sha256-n1:a3e168f29053b2fd",
+      "contentHash": "sha256-n1:37a4715f86f6343e",
       "adopters": [],
       "invokes30d": 0,
-      "lessons": 2,
+      "lessons": 4,
       "lessonsPath": "skills/dojo/LESSONS.md",
-      "lessonsHash": "sha256-n1:87aaf12b26a00211",
+      "lessonsHash": "sha256-n1:0ea97ac23134a96f",
       "usageContributors": []
     },
     {
       "name": "explorer",
-      "version": "2.1.0",
+      "version": "2.1.1",
       "category": "workflow",
       "path": "skills/explorer/SKILL.md",
-      "contentHash": "sha256-n1:436a1a1eff4c627f",
+      "contentHash": "sha256-n1:f7d903ef612a34a2",
       "adopters": [
         "personas-web@plugin:1.0.0",
         "personas@plugin:1.0.0"
       ],
       "invokes30d": 2,
-      "lessons": 15,
+      "lessons": 18,
       "lessonsPath": "skills/explorer/LESSONS.md",
-      "lessonsHash": "sha256-n1:42585780b098dea1",
+      "lessonsHash": "sha256-n1:35b0e9b18bd3a1f7",
       "usageContributors": [
         "kazda-dev-box"
       ]
@@ -164,18 +164,18 @@
     },
     {
       "name": "friend",
-      "version": "1.2.0",
+      "version": "1.3.0",
       "category": "workflow",
       "path": "skills/friend/SKILL.md",
-      "contentHash": "sha256-n1:f8354ba40b53d85c",
+      "contentHash": "sha256-n1:77bad54dce311980",
       "adopters": [
         "personas-web@plugin:1.0.0",
         "personas@plugin:1.0.0"
       ],
       "invokes30d": 2,
-      "lessons": 1,
+      "lessons": 4,
       "lessonsPath": "skills/friend/LESSONS.md",
-      "lessonsHash": "sha256-n1:33029dc5e09c0705",
+      "lessonsHash": "sha256-n1:073dedbc41a0ac81",
       "usageContributors": [
         "kazda-dev-box"
       ]
@@ -214,32 +214,34 @@
     },
     {
       "name": "leonardo",
-      "version": "1.2.0",
+      "version": "1.3.0",
       "category": "other",
       "path": "skills/leonardo/SKILL.md",
-      "contentHash": "sha256-n1:59d1b319cc26250a",
+      "contentHash": "sha256-n1:5d9e4d26555f03b2",
       "adopters": [
         "personas-web@plugin:1.0.0",
         "personas@plugin:1.0.0"
       ],
       "invokes30d": 0,
-      "lessons": 1,
+      "lessons": 2,
       "lessonsPath": "skills/leonardo/LESSONS.md",
-      "lessonsHash": "sha256-n1:8438390dc517193a",
+      "lessonsHash": "sha256-n1:cda93aa485109148",
       "usageContributors": []
     },
     {
       "name": "motionize",
-      "version": "1.1.0",
+      "version": "1.2.0",
       "category": "other",
       "path": "skills/motionize/SKILL.md",
-      "contentHash": "sha256-n1:69e3008c4132563c",
+      "contentHash": "sha256-n1:d705fb22284d2659",
       "adopters": [
         "kp@1.0",
         "personas@plugin:1.0.0"
       ],
       "invokes30d": 2,
-      "lessons": 0,
+      "lessons": 1,
+      "lessonsPath": "skills/motionize/LESSONS.md",
+      "lessonsHash": "sha256-n1:1f8f553d26eb2734",
       "usageContributors": [
         "kazda-dev-box"
       ]
@@ -288,10 +290,10 @@
     },
     {
       "name": "perfect",
-      "version": "2.5.0",
+      "version": "2.5.1",
       "category": "workflow",
       "path": "skills/perfect/SKILL.md",
-      "contentHash": "sha256-n1:3401f4a40b75fd96",
+      "contentHash": "sha256-n1:dbfdf409b6625fb7",
       "adopters": [
         "ascent@plugin:2.3.0",
         "kp@plugin:2.3.0",
@@ -301,9 +303,9 @@
         "systedo-case@plugin:2.3.0"
       ],
       "invokes30d": 46,
-      "lessons": 10,
+      "lessons": 12,
       "lessonsPath": "skills/perfect/LESSONS.md",
-      "lessonsHash": "sha256-n1:41573371985153c5",
+      "lessonsHash": "sha256-n1:16f506d9e39ce432",
       "usageContributors": [
         "kazda-dev-box"
       ]
@@ -343,18 +345,18 @@
     },
     {
       "name": "research",
-      "version": "1.9.0",
+      "version": "1.9.1",
       "category": "ai-native",
       "path": "skills/research/SKILL.md",
-      "contentHash": "sha256-n1:a40418b584af8147",
+      "contentHash": "sha256-n1:f032f157b6b42dcf",
       "adopters": [
         "personas@plugin:1.5.0",
         "pof@1.7"
       ],
       "invokes30d": 20,
-      "lessons": 11,
+      "lessons": 13,
       "lessonsPath": "skills/research/LESSONS.md",
-      "lessonsHash": "sha256-n1:a04d2c176aa12b79",
+      "lessonsHash": "sha256-n1:be4a7f8f6a59711a",
       "usageContributors": [
         "kazda-dev-box"
       ]
@@ -372,9 +374,9 @@
         "systedo-case@plugin:1.0.0"
       ],
       "invokes30d": 15,
-      "lessons": 36,
+      "lessons": 38,
       "lessonsPath": "skills/scan-sweep/LESSONS.md",
-      "lessonsHash": "sha256-n1:a0b221db9d090b2f",
+      "lessonsHash": "sha256-n1:7b41f28bb83947d9",
       "usageContributors": [
         "kazda-dev-box"
       ]
@@ -399,17 +401,17 @@
     },
     {
       "name": "spark",
-      "version": "1.3.0",
+      "version": "1.3.1",
       "category": "workflow",
       "path": "skills/spark/SKILL.md",
-      "contentHash": "sha256-n1:5aca6d2fa537b8eb",
+      "contentHash": "sha256-n1:3eafa807cdd1bbb8",
       "adopters": [
         "personas@plugin:1.0.0"
       ],
       "invokes30d": 6,
-      "lessons": 13,
+      "lessons": 15,
       "lessonsPath": "skills/spark/LESSONS.md",
-      "lessonsHash": "sha256-n1:1af501ee645edb95",
+      "lessonsHash": "sha256-n1:f3bb2cd38726fa7d",
       "usageContributors": [
         "kazda-dev-box"
       ]
@@ -621,7 +623,7 @@
     "skills": 29,
     "practices": 8,
     "memory": 6,
-    "lessons": 126
+    "lessons": 146
   },
   "bundles": [
     {
@@ -723,10 +725,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 214,
-      "techniques": 1583,
-      "applications": 925,
-      "files": 2727,
-      "contentHash": "sha256:606d608560bb5ad7"
+      "techniques": 1586,
+      "applications": 931,
+      "files": 2736,
+      "contentHash": "sha256:5961fc93855e9f17"
     }
   ]
 }
