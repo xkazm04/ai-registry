@@ -99,3 +99,40 @@ a null completion — forever. The live-database audit found rows stranded
 this way for 129 days. This is the precedes-the-record rule inverted, and
 it is why the rule is stated as sequencing, not as style: the two lines
 cost the same in either order, and only one order can strand a record.
+
+## A second witness: two arms, and the reason dropped with the third
+
+*Read 2026-09-04 against the shared service framework of an open-source
+real-time chat platform, at* `rust@1.93.0` *(the toolchain its CI pins). This
+section carries the amendment's witness; the sections above are the original
+tree and are unchanged.*
+
+That framework runs every backend service through a gate with **no waiting
+room** — a non-blocking permit acquire at both the routing and the sharded hop,
+refusing immediately when none is free. By the amendment
+[on this technique](../techniques/admission-vocabulary.md), a two-armed
+vocabulary there is correct: `queued` is unreachable by construction, not
+erased in transit, because "later" is not a promise that gate can make.
+
+It passes the first of the amendment's two tests and **fails the second.**
+
+The refusal is the literal object `{"error": "overloaded"}` — one opaque
+string, identical at both hops. There is no reason class, no retry hint, no
+depth, and nothing distinguishing "this shard is saturated" from any other
+condition the same shape could carry. The caller can branch on refused-versus-
+served and on nothing else.
+
+This is exactly the degradation the amendment predicts, and it is worth
+recording because the tree did the hard part correctly. Dropping `queued` was
+free and right. Dropping the *reason* is the same outage this technique's main
+body describes, arrived at by a different road: not by collapsing two verdicts,
+but by letting the surviving refusal arm decay to a bare string once there were
+only two of them. A two-outcome function looks like it wants to return a
+boolean, and a boolean carries no taxonomy.
+
+The contrast with the same framework's other discipline is the sharp part. It
+tests that the refusal cannot queue behind the work it refuses — the invariant
+[zero-depth-admission](../techniques/zero-depth-admission.md) says nobody
+tests — while shipping a refusal that says nothing about why. The *timing* of
+the verdict is guarded by an assertion; the *content* of it was never
+specified.

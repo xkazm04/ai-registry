@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 212,
-  "techniques": 1527,
-  "applications": 872,
+  "techniques": 1530,
+  "applications": 877,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1527/1527",
+  "use_when_coverage": "1530/1530",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -381,7 +381,7 @@
    "subcategory": "work-execution",
    "status": "reconciled",
    "file": "knowledge/software-engineering/backend-platform/work-execution/admission-queue/admission-queue.md",
-   "digest": "sha256:8262b33e4b3e2ebe",
+   "digest": "sha256:cf20fccf9233d655",
    "techniques": [
     {
      "slug": "admission-vocabulary",
@@ -474,6 +474,38 @@
      ]
     },
     {
+     "slug": "refusal-without-release",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "verdict-survives-boundary",
+      "creation-names-reaper"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a capacity refusal is correlated across the whole caller population",
+      "operators drain or cordon a node that holds long-lived callers",
+      "a rollout percentage or feature valve rejects arrivals fleet-wide",
+      "refusing an arrival costs more than holding it"
+     ]
+    },
+    {
+     "slug": "remediation-derived-bounds",
+     "status": "forged",
+     "laws": [
+      "limits-are-derived",
+      "derivation-names-recomputation",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a supervisor kills or restarts a component that exceeds a threshold",
+      "a queue bound and a watchdog threshold are separate settings",
+      "tuning a limit upward without checking what punishes exceeding it",
+      "an overload remediation fires before the flow control that should have prevented it"
+     ]
+    },
+    {
      "slug": "resource-denominated-bounds",
      "status": "forged",
      "laws": [
@@ -529,9 +561,40 @@
       "deciding what a depth count actually counts",
       "mean wait flat while one entry ages forever"
      ]
+    },
+    {
+     "slug": "zero-depth-admission",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "gate-sees-target",
+      "limits-are-derived"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether the gate needs a waiting room at all",
+      "the caller deadline is close to one service time",
+      "a queue depth was chosen without asking whether depth should be zero",
+      "refusals are slower than the work they refuse",
+      "queued arrivals are abandoned before a worker reaches them"
+     ]
     }
    ],
    "applications": [
+    {
+     "stack": "erlang",
+     "technique": "refusal-without-release",
+     "file": "knowledge/software-engineering/backend-platform/work-execution/admission-queue/applications/erlang--refusal-without-release.md",
+     "verified_on": "2026-09-04",
+     "verified_against": "erlang@28"
+    },
+    {
+     "stack": "erlang",
+     "technique": "remediation-derived-bounds",
+     "file": "knowledge/software-engineering/backend-platform/work-execution/admission-queue/applications/erlang--remediation-derived-bounds.md",
+     "verified_on": "2026-09-04",
+     "verified_against": "erlang@28"
+    },
     {
      "stack": "go",
      "technique": "priority-and-fairness",
@@ -550,6 +613,20 @@
      "technique": "speculative-work-admission",
      "file": "knowledge/software-engineering/backend-platform/work-execution/admission-queue/applications/next--speculative-work-admission.md",
      "verified_on": "2026-08-31"
+    },
+    {
+     "stack": "python",
+     "technique": "remediation-derived-bounds",
+     "file": "knowledge/software-engineering/backend-platform/work-execution/admission-queue/applications/python--remediation-derived-bounds.md",
+     "verified_on": "2026-09-04",
+     "verified_against": "python@3.12"
+    },
+    {
+     "stack": "python",
+     "technique": "zero-depth-admission",
+     "file": "knowledge/software-engineering/backend-platform/work-execution/admission-queue/applications/python--zero-depth-admission.md",
+     "verified_on": "2026-09-04",
+     "verified_against": "python@3.12"
     },
     {
      "stack": "rust",
@@ -590,6 +667,13 @@
      "file": "knowledge/software-engineering/backend-platform/work-execution/admission-queue/applications/rust--wait-telemetry.md",
      "verified_on": "2026-08-31",
      "verified_against": "rust@1.85"
+    },
+    {
+     "stack": "rust",
+     "technique": "zero-depth-admission",
+     "file": "knowledge/software-engineering/backend-platform/work-execution/admission-queue/applications/rust--zero-depth-admission.md",
+     "verified_on": "2026-09-04",
+     "verified_against": "rust@1.93.0"
     }
    ]
   },
@@ -30298,6 +30382,7 @@
     "admission-queue/load-aware-admission",
     "admission-queue/resource-denominated-bounds",
     "admission-queue/wait-telemetry",
+    "admission-queue/zero-depth-admission",
     "agent-addressable-ui/opt-in-instrumentation-gate",
     "agent-browser-control/effect-classed-commands",
     "agent-browser-control/socket-scoped-surface",
@@ -30751,6 +30836,8 @@
     "admission-queue/depth-bounds-and-shed",
     "admission-queue/drain-and-shutdown",
     "admission-queue/load-aware-admission",
+    "admission-queue/refusal-without-release",
+    "admission-queue/zero-depth-admission",
     "adoption-measurement/before-after-outcome-pairing",
     "adoption-measurement/dormancy-verdicts",
     "agent-addressable-ui/agent-pasteable-reference-format",
@@ -31376,6 +31463,7 @@
     "admission-queue/depth-bounds-and-shed",
     "admission-queue/priority-and-fairness",
     "admission-queue/queue-cardinality",
+    "admission-queue/remediation-derived-bounds",
     "admission-queue/resource-denominated-bounds",
     "admission-queue/self-paced-intake",
     "admission-queue/speculative-work-admission",
@@ -32419,6 +32507,7 @@
     "adaptive-fidelity-tiers/probe-deferral-to-idle",
     "admission-queue/depth-bounds-and-shed",
     "admission-queue/drain-and-shutdown",
+    "admission-queue/refusal-without-release",
     "admission-queue/speculative-work-admission",
     "agent-addressable-ui/uninstrumented-degradation",
     "agent-browser-control/persistent-browser-daemon",
@@ -33057,6 +33146,7 @@
    "statement": "Any stored derived value names how it is recomputed. A cached count, a denormalized rollup, or a materialized summary without a documented, invokable recomputation path is a future discrepancy with no arbiter.",
    "techniques": [
     "accumulate-then-aggregate-metrics/per-iteration-buffering",
+    "admission-queue/remediation-derived-bounds",
     "admission-queue/resource-denominated-bounds",
     "agent-addressable-ui/build-time-source-stamping",
     "agent-chaining/chain-identity-and-rollup",
@@ -33282,6 +33372,7 @@
    "statement": "A classified outcome reaches every boundary that acts on it as a typed value. A refusal enum erased into a generic error, a server-side failure taxonomy re-derived by matching message text, a policy denial re-thrown as the last underlying failure — in each, the classification exists where it was computed and dies where it mattered. The test is what the outermost consumer can branch on; a verdict that survives only as prose has not survived.",
    "techniques": [
     "admission-queue/admission-vocabulary",
+    "admission-queue/refusal-without-release",
     "agent-browser-control/agent-actionable-errors",
     "agent-browser-control/socket-scoped-surface",
     "agent-cli-transport/output-normalization",
@@ -33368,6 +33459,40 @@
     "web-scraping/soak-mode-and-verdict-replay",
     "windowed-inference-over-oversized-inputs/failure-driven-memory-degradation",
     "workflow-property-contracts/contract-driven-adapters"
+   ]
+  },
+  "limits-are-derived": {
+   "statement": "A capacity limit is derived from a measured property or from another limit, and the derivation is written beside the number — a maximum entry as a multiple of the transport chunk, a transaction cap as a multiple of the entry, a per-transaction cache as the shared cache over the parallelism permit, a default page as a memory budget over a worst-case key, a rotation ceiling as the cipher's bound minus a margin for counts lost in flight. A limit chosen by feel is raised by feel, and when it is raised its consequences are not: the structure that fit under the old limit outgrows the entry it was stored in, the migration meant to escape the limit is capped by the limit it escapes, and nobody can say which. The derivation must be *computed*, not merely written — a formula in a comment beside a constant that no longer tracks its input is the failure in its most convincing disguise. Cousin of count-carries-predicate: that law binds a number to what it counts; this one binds a bound to what it is derived from.",
+   "techniques": [
+    "admission-queue/remediation-derived-bounds",
+    "admission-queue/zero-depth-admission",
+    "concurrency-guards/cache-value-not-handle",
+    "convergence-loop-and-requeue/keyed-queue-with-earliest-wins",
+    "cross-instance-cache-lease/renewal-beats-a-tuned-timeout",
+    "decentralized-artifact-distribution/fail-closed-trust-dependency",
+    "deployment-contract/cache-immutability-licensing",
+    "deterministic-prefix-caching/running-window-replacement",
+    "embedded-tracing-collector/allocation-threshold-growth-policy",
+    "engine-string-representation/compile-time-static-string-table",
+    "guest-execution-bounding/bounded-shadow-backtrace",
+    "guest-execution-bounding/cost-budget-cooperative-yield",
+    "invariant-placement/build-time-evaluation-of-cross-value-invariants",
+    "mcp-tools/catalog-projection-modes",
+    "modelled-performance-estimates/one-ratio-then-a-capability-cap",
+    "native-guest-interop/aligned-native-data-cell",
+    "native-shell-integration/native-owned-stream",
+    "object-shape-representation/dictionary-mode-fallback",
+    "object-shape-representation/weak-forward-transitions-with-counted-prune",
+    "paged-block-cache/one-page-size-bought-with-padding",
+    "paged-block-cache/release-order-is-the-eviction-policy",
+    "quality-gates/deterministic-proxy-gate",
+    "scale-investment-timing/execution-model-concurrency-threshold",
+    "self-healing/consume-once-mode-handoff",
+    "serving-process-topology/process-count-as-a-formula",
+    "untrusted-extension-host/host-api-import-budget",
+    "watch-cache-and-resync/initial-read-strategy-behind-a-gate",
+    "windowed-inference-over-oversized-inputs/resolution-decoupled-window-mapping",
+    "windowed-inference-over-oversized-inputs/split-device-inference-and-stitching"
    ]
   },
   "absent-guard-is-loud": {
@@ -33563,38 +33688,6 @@
     "self-healing/fork-to-outlive-the-healed",
     "self-healing/healer-death-as-promotion",
     "voice-io/unattended-caller-attribution"
-   ]
-  },
-  "limits-are-derived": {
-   "statement": "A capacity limit is derived from a measured property or from another limit, and the derivation is written beside the number — a maximum entry as a multiple of the transport chunk, a transaction cap as a multiple of the entry, a per-transaction cache as the shared cache over the parallelism permit, a default page as a memory budget over a worst-case key, a rotation ceiling as the cipher's bound minus a margin for counts lost in flight. A limit chosen by feel is raised by feel, and when it is raised its consequences are not: the structure that fit under the old limit outgrows the entry it was stored in, the migration meant to escape the limit is capped by the limit it escapes, and nobody can say which. The derivation must be *computed*, not merely written — a formula in a comment beside a constant that no longer tracks its input is the failure in its most convincing disguise. Cousin of count-carries-predicate: that law binds a number to what it counts; this one binds a bound to what it is derived from.",
-   "techniques": [
-    "concurrency-guards/cache-value-not-handle",
-    "convergence-loop-and-requeue/keyed-queue-with-earliest-wins",
-    "cross-instance-cache-lease/renewal-beats-a-tuned-timeout",
-    "decentralized-artifact-distribution/fail-closed-trust-dependency",
-    "deployment-contract/cache-immutability-licensing",
-    "deterministic-prefix-caching/running-window-replacement",
-    "embedded-tracing-collector/allocation-threshold-growth-policy",
-    "engine-string-representation/compile-time-static-string-table",
-    "guest-execution-bounding/bounded-shadow-backtrace",
-    "guest-execution-bounding/cost-budget-cooperative-yield",
-    "invariant-placement/build-time-evaluation-of-cross-value-invariants",
-    "mcp-tools/catalog-projection-modes",
-    "modelled-performance-estimates/one-ratio-then-a-capability-cap",
-    "native-guest-interop/aligned-native-data-cell",
-    "native-shell-integration/native-owned-stream",
-    "object-shape-representation/dictionary-mode-fallback",
-    "object-shape-representation/weak-forward-transitions-with-counted-prune",
-    "paged-block-cache/one-page-size-bought-with-padding",
-    "paged-block-cache/release-order-is-the-eviction-policy",
-    "quality-gates/deterministic-proxy-gate",
-    "scale-investment-timing/execution-model-concurrency-threshold",
-    "self-healing/consume-once-mode-handoff",
-    "serving-process-topology/process-count-as-a-formula",
-    "untrusted-extension-host/host-api-import-budget",
-    "watch-cache-and-resync/initial-read-strategy-behind-a-gate",
-    "windowed-inference-over-oversized-inputs/resolution-decoupled-window-mapping",
-    "windowed-inference-over-oversized-inputs/split-device-inference-and-stitching"
    ]
   }
  }

@@ -75,6 +75,7 @@ the source's drift (its published allowlist omits two libraries the runtime open
 globals test; safe mode untested) and one `rust--` application confirms the amendment
 against a fleet runtime whose observers are non-fatal by signature. Placement: `security`
 is at its ten-subject cap; anything further here is a technique, never a sibling subject.
+
 ## 2026-09-03 - intake run `intake-boa-0903` (source: an embeddable language engine)
 
 Amendment to **`capability-subtraction-sandbox`** ("Where the runtime counts, the ceiling

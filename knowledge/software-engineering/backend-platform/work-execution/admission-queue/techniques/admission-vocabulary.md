@@ -106,6 +106,40 @@ emit one verdict from the one vocabulary. Two failure shapes to refuse:
   in either direction, that the verdict died in transit as data and
   survived only as prose.
 
+## Two arms is correct where there is no waiting room
+
+The three verdicts are a property of a gate that *has* somewhere to put a
+waiting request. Where the design deliberately has none
+([zero-depth-admission](./zero-depth-admission.md)), the vocabulary has two
+arms, and that is not the collapse this technique warns about.
+
+The distinction is between an arm that is **unreachable by construction** and
+one that is **erased in transit**. A zero-depth gate never returns `queued`
+because "later" is not a promise it can make — there is no position to report
+and no line to hold a place in, so the verdict does not exist to be
+collapsed. That is a smaller vocabulary, honestly drawn. The failure this
+technique names is different: a gate that *does* hold work and reports it as
+admitted, or refuses and reports it as queued. Those erase a distinction the
+caller needed and the system had.
+
+So the test is not "how many arms" but **whether every state the gate can
+actually be in has a name the caller can branch on.** Two questions settle it:
+
+- Can a request be accepted and not yet running? If no, `queued` is
+  unreachable and its absence is correct. If yes — even briefly, even in a
+  buffer somebody else owns — the state exists and needs its name.
+- Is the two-armed result *typed*, or is it a boolean? A gate with two
+  outcomes still owes a reason on the refusing arm, from the same closed
+  taxonomy, for the same reasons. The moment it degrades to `true`/`false` it
+  has lost the reason taxonomy, and the collapse this technique warns about
+  has happened after all — not by dropping an arm, but by dropping the payload
+  from the arm that remained.
+
+The second question is where zero-depth designs actually fail. Dropping
+`queued` is free; dropping the reason is the same outage as before, and it is
+tempting precisely because a two-outcome function looks like it wants to
+return a boolean.
+
 ## The verdict is atomic, and it comes first
 
 Two sequencing rules keep the vocabulary honest at the mechanics level:

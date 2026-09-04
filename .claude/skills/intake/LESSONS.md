@@ -6679,6 +6679,85 @@ and wants them tested hard rather than many and tested once.
   was made this round; the three proposals above are lessons awaiting a third
   sighting, per the skill's own promotion rule.
 
+## 2.3.2 - 2026-09-04 - fluxer
+
+- **The apply step may send a finding BACK to Phase 7, and doing so beat the
+  alternative.** The method sequences land (7) then test (7.5), and Phase 7.5's
+  `not-better` arm says the technique "is not deleted; it gains an amendment
+  stating the condition under which it did not hold." That is the right rule for
+  a technique already in the corpus. It is the *wrong* rule inside the run that
+  is minting it: this round's headline technique was refuted by its own apply
+  step before commit, and rewriting its selector produced a single coherent
+  document, where amending would have shipped a wrong rule plus a paragraph
+  retracting it. Nothing in the method says the finding may go back a phase, and
+  a reader following it literally ships the worse artifact.
+  ### Redesign proposal
+  Phase 7.5 gains one sentence: *when the finding being tested has not yet been
+  committed, a `not-better` verdict returns it to Phase 7 for rewriting, and the
+  application document records the refutation. An amendment is for a technique
+  the corpus already published.* The apply row stays `not-better` either way -
+  the verdict is about the test, not about what was done with it.
+
+- **A `not-better` that rewrites its technique, one that confirms a stated
+  exclusion, and one that simply fails are three different results in one cell.**
+  This run produced the first two in the same round (the zero-depth refutation;
+  and `refusal-without-release` landing exactly on the boundary its own closing
+  section draws, against a tree on the release side of it). Both read as
+  `not-better` in `applied.md` and in the scorecard, and the second is a
+  *confirmation* of the technique's judgment. Two runs have now recorded
+  confirmations as `not-better` for want of a word.
+
+- **Phase 7.6 can silently produce nothing, and no step notices.** The direction
+  pass is specified to run per design-record entry whose `corpus:` names a
+  subject. Here every such entry named one subject, whose seam the authorized
+  peer already has - so there was no *absence* to classify and the pass produced
+  no output and no statement that it had run. `directions=0/0` in the depth cell
+  is therefore indistinguishable from `n/a` (a news source with no design
+  record) and from a pass that ran and admitted nothing. The pass needs to report
+  its own outcome in words, which is round 10's first focus item.
+
+- **A worktree is artifact isolation, not only branch isolation, and that is the
+  stronger argument for taking one.** The method's parallel section recommends a
+  worktree for branch safety, and separately warns that regenerating the index in
+  a shared checkout can bake a sibling's uncommitted subject into a hash you then
+  commit - with a `git grep HEAD` check as the remedy. From a worktree the second
+  hazard cannot occur at all: the build reads only that working tree. This run
+  regenerated beside two live siblings and `git status --porcelain knowledge/`
+  returned exactly one file it had not authored - the generated index itself. The
+  remedy is still correct for shared-checkout runs; the worktree removes the
+  class.
+
+- **Five parallel design readers, and two refuted the director's brief - both
+  correctly.** One was told the CI workflows are generated from a Rust program
+  and found the opposite (the YAML is deliberately logic-free glue invoking one
+  typed binary, so there is no generator and therefore no drift surface to
+  check); the other was told to find the LLM pipeline's token/cost budget and
+  found that `tokens.rs` is placeholder protection and that no cost accounting
+  exists anywhere. Both inversions were better than the questions. The forge
+  brief's "tell the worker to override you and say so" clause is doing real work
+  in the design-read lane too, and the readers only overrode because the brief
+  asked them to.
+
+- **Two consecutive rounds now: the routing count is met and the answer is still
+  not a forge.** This one adds a case the previous did not have - the
+  *cross-system* cluster (four independent sightings of forked-policy drift in
+  one tree) was refuted by the corpus rather than by arithmetic, because
+  `quality-gates` already owns it in three techniques. Worth stating in the
+  method that a high routing count is evidence about the tree's density, not
+  about the corpus's gaps, and that the cluster clause needs the same
+  read-the-neighbour discipline as a per-system count.
+
+- **Tooling, for whoever hits it next:** backticks inside a double-quoted
+  `py -c "..."` are command-substituted by the shell before Python sees them, so
+  a Markdown code span silently becomes an empty string and the append succeeds
+  with a hole in it. Caught here only because the substitution printed
+  `command not found`. Use a quoted heredoc (`py - <<'EOF'`) or the Write tool
+  for any content carrying backticks.
+
+- Mid-flight runs on an earlier version: nothing to do. No `SKILL.md` change was
+  made this round - the proposals above are first or second sightings and stay
+  lessons under the skill's own three-sighting promotion rule.
+
 ## 2.3.2 - 2026-09-04 - jetkvm
 
 - **The prior-art maps have a shared blind spot, and running two phrasings does

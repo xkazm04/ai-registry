@@ -765,13 +765,13 @@
     "out_of_scope_subjects": []
    },
    "hasMap": true,
-   "mapGeneratedAt": "2026-09-03T14:57:28Z",
+   "mapGeneratedAt": "2026-09-03T17:12:20Z",
    "stats": {
     "contexts": 34,
     "groups": 8,
-    "governingSubjects": 57,
+    "governingSubjects": 55,
     "weaklyGoverned": 0,
-    "ledgerRows": 7,
+    "ledgerRows": 8,
     "absolutePathsDropped": 0
    },
    "relPath": "kiro/tracklight",
@@ -877,7 +877,7 @@
         "state": "unknown"
        },
        {
-        "subject": "software-engineering/agent-memory",
+        "subject": "software-engineering/test-harness",
         "state": "unknown"
        },
        {
@@ -911,15 +911,15 @@
         "state": "unknown"
        },
        {
+        "subject": "software-engineering/mcp-tools",
+        "state": "unknown"
+       },
+       {
         "subject": "llm-observability/llm-price-book-operations",
         "state": "unknown"
        },
        {
         "subject": "software-engineering/tenant-scoped-agent-runtime",
-        "state": "unknown"
-       },
-       {
-        "subject": "software-engineering/concurrency-guards",
         "state": "unknown"
        }
       ]
@@ -944,11 +944,11 @@
         "state": "unknown"
        },
        {
-        "subject": "software-engineering/rate-limiting",
+        "subject": "software-engineering/mcp-tools",
         "state": "unknown"
        },
        {
-        "subject": "software-engineering/mcp-tools",
+        "subject": "software-engineering/rate-limiting",
         "state": "unknown"
        },
        {
@@ -976,11 +976,11 @@
         "state": "unknown"
        },
        {
-        "subject": "llm-observability/trace-rollup-and-attribution",
+        "subject": "software-engineering/tracing",
         "state": "unknown"
        },
        {
-        "subject": "llm-observability/multi-provider-event-normalization",
+        "subject": "llm-observability/trace-rollup-and-attribution",
         "state": "unknown"
        },
        {
@@ -988,7 +988,7 @@
         "state": "unknown"
        },
        {
-        "subject": "software-engineering/outbound-notifications",
+        "subject": "llm-observability/multi-provider-event-normalization",
         "state": "unknown"
        }
       ]
@@ -1038,15 +1038,15 @@
         "state": "unknown"
        },
        {
+        "subject": "software-engineering/voice-io",
+        "state": "unknown"
+       },
+       {
         "subject": "software-engineering/tracing",
         "state": "unknown"
        },
        {
         "subject": "software-engineering/chat-transcript",
-        "state": "unknown"
-       },
-       {
-        "subject": "software-engineering/eval-harness",
         "state": "unknown"
        },
        {
@@ -1073,11 +1073,11 @@
       "pathsMissing": 0,
       "subjects": [
        {
-        "subject": "llm-observability/operator-surfaces-for-llm-spend",
+        "subject": "software-engineering/tracing",
         "state": "unknown"
        },
        {
-        "subject": "software-engineering/tracing",
+        "subject": "llm-observability/operator-surfaces-for-llm-spend",
         "state": "unknown"
        },
        {
@@ -1120,11 +1120,11 @@
         "state": "unknown"
        },
        {
-        "subject": "llm-observability/cross-provider-benchmark-operations",
+        "subject": "software-engineering/quality-gates",
         "state": "unknown"
        },
        {
-        "subject": "software-engineering/quality-gates",
+        "subject": "llm-observability/cross-provider-benchmark-operations",
         "state": "unknown"
        }
       ]
@@ -1151,14 +1151,6 @@
        },
        {
         "subject": "llm-observability/quality-regression-gating",
-        "state": "unknown"
-       },
-       {
-        "subject": "software-engineering/machine-authored-documentation",
-        "state": "unknown"
-       },
-       {
-        "subject": "llm-observability/cross-provider-benchmark-operations",
         "state": "unknown"
        }
       ]
@@ -1225,19 +1217,15 @@
         "state": "unknown"
        },
        {
-        "subject": "llm-observability/judge-calibration-and-drift",
-        "state": "unknown"
-       },
-       {
         "subject": "llm-observability/production-trace-scoring",
         "state": "unknown"
        },
        {
-        "subject": "software-engineering/voice-io",
+        "subject": "llm-observability/judge-calibration-and-drift",
         "state": "unknown"
        },
        {
-        "subject": "software-engineering/retry-backoff",
+        "subject": "software-engineering/voice-io",
         "state": "unknown"
        }
       ]
@@ -1307,6 +1295,10 @@
         "state": "unknown"
        },
        {
+        "subject": "llm-observability/generator-uncertainty-scoring",
+        "state": "unknown"
+       },
+       {
         "subject": "llm-observability/judge-calibration-and-drift",
         "state": "unknown"
        },
@@ -1316,10 +1308,6 @@
        },
        {
         "subject": "software-engineering/eval-harness",
-        "state": "unknown"
-       },
-       {
-        "subject": "software-engineering/scoring-rubrics",
         "state": "unknown"
        }
       ]
@@ -1378,6 +1366,10 @@
       "pathsMissing": 0,
       "subjects": [
        {
+        "subject": "software-engineering/module-design",
+        "state": "unknown"
+       },
+       {
         "subject": "software-engineering/import-normalization",
         "state": "unknown"
        },
@@ -1386,15 +1378,11 @@
         "state": "unknown"
        },
        {
+        "subject": "llm-observability/generator-uncertainty-scoring",
+        "state": "unknown"
+       },
+       {
         "subject": "software-engineering/ipc-contract",
-        "state": "unknown"
-       },
-       {
-        "subject": "software-engineering/concurrent-vcs",
-        "state": "unknown"
-       },
-       {
-        "subject": "software-engineering/module-design",
         "state": "unknown"
        }
       ]
@@ -1586,15 +1574,15 @@
         "state": "unknown"
        },
        {
-        "subject": "llm-observability/analytics-store-design",
-        "state": "unknown"
-       },
-       {
         "subject": "software-engineering/eval-harness",
         "state": "unknown"
        },
        {
         "subject": "software-engineering/migrations",
+        "state": "unknown"
+       },
+       {
+        "subject": "llm-observability/analytics-store-design",
         "state": "unknown"
        }
       ]
@@ -1722,7 +1710,7 @@
         "state": "unknown"
        },
        {
-        "subject": "software-engineering/agent-memory",
+        "subject": "software-engineering/agent-browser-control",
         "state": "unknown"
        }
       ]
@@ -1741,11 +1729,11 @@
         "state": "unknown"
        },
        {
-        "subject": "software-engineering/concurrency-guards",
+        "subject": "software-engineering/cross-instance-cache-lease",
         "state": "unknown"
        },
        {
-        "subject": "software-engineering/dynamic-secret-lifecycle",
+        "subject": "software-engineering/concurrency-guards",
         "state": "unknown"
        },
        {
@@ -1753,7 +1741,7 @@
         "state": "unknown"
        },
        {
-        "subject": "software-engineering/admission-queue",
+        "subject": "software-engineering/dynamic-secret-lifecycle",
         "state": "unknown"
        }
       ]
@@ -4979,7 +4967,7 @@
     "groups": 16,
     "governingSubjects": 155,
     "weaklyGoverned": 1,
-    "ledgerRows": 7,
+    "ledgerRows": 8,
     "absolutePathsDropped": 0
    },
    "relPath": "kiro/personas",
@@ -34331,9 +34319,9 @@
    "present": [
     {
      "project": "tracklight",
-     "contexts": 3,
+     "contexts": 2,
      "states": {
-      "unknown": 3
+      "unknown": 2
      }
     }
    ],
@@ -34451,15 +34439,19 @@
    "category": "quality-scoring",
    "subcategory": null,
    "techniques": 5,
-   "present": [],
+   "present": [
+    {
+     "project": "tracklight",
+     "contexts": 2,
+     "states": {
+      "unknown": 2
+     }
+    }
+   ],
    "absent": [
     {
      "project": "gravity",
      "classification": "out-of-domain"
-    },
-    {
-     "project": "tracklight",
-     "classification": "candidate"
     },
     {
      "project": "pumper",
@@ -40905,15 +40897,8 @@
    "bundle": "software-engineering",
    "category": "backend-platform",
    "subcategory": "work-execution",
-   "techniques": 10,
+   "techniques": 13,
    "present": [
-    {
-     "project": "tracklight",
-     "contexts": 1,
-     "states": {
-      "unknown": 1
-     }
-    },
     {
      "project": "ascent",
      "contexts": 1,
@@ -40932,6 +40917,10 @@
    "absent": [
     {
      "project": "gravity",
+     "classification": "candidate"
+    },
+    {
+     "project": "tracklight",
      "classification": "candidate"
     },
     {
@@ -41105,6 +41094,13 @@
    "techniques": 5,
    "present": [
     {
+     "project": "tracklight",
+     "contexts": 1,
+     "states": {
+      "unknown": 1
+     }
+    },
+    {
      "project": "pumper",
      "contexts": 2,
      "states": {
@@ -41164,10 +41160,6 @@
    "absent": [
     {
      "project": "gravity",
-     "classification": "candidate"
-    },
-    {
-     "project": "tracklight",
      "classification": "candidate"
     },
     {
@@ -41427,9 +41419,9 @@
     },
     {
      "project": "tracklight",
-     "contexts": 5,
+     "contexts": 3,
      "states": {
-      "unknown": 5
+      "unknown": 3
      }
     },
     {
@@ -43144,9 +43136,9 @@
    "present": [
     {
      "project": "tracklight",
-     "contexts": 2,
+     "contexts": 1,
      "states": {
-      "unknown": 2
+      "unknown": 1
      }
     },
     {
@@ -43219,13 +43211,6 @@
    "techniques": 6,
    "present": [
     {
-     "project": "tracklight",
-     "contexts": 1,
-     "states": {
-      "unknown": 1
-     }
-    },
-    {
      "project": "ascent",
      "contexts": 1,
      "states": {
@@ -43236,6 +43221,10 @@
    "absent": [
     {
      "project": "gravity",
+     "classification": "candidate"
+    },
+    {
+     "project": "tracklight",
      "classification": "candidate"
     },
     {
@@ -43802,14 +43791,18 @@
    "category": "backend-platform",
    "subcategory": "inference-serving",
    "techniques": 4,
-   "present": [],
+   "present": [
+    {
+     "project": "tracklight",
+     "contexts": 1,
+     "states": {
+      "unknown": 1
+     }
+    }
+   ],
    "absent": [
     {
      "project": "gravity",
-     "classification": "candidate"
-    },
-    {
-     "project": "tracklight",
      "classification": "candidate"
     },
     {
@@ -46009,9 +46002,9 @@
     },
     {
      "project": "tracklight",
-     "contexts": 6,
+     "contexts": 5,
      "states": {
-      "unknown": 6
+      "unknown": 5
      }
     },
     {
@@ -47842,13 +47835,6 @@
    "techniques": 7,
    "present": [
     {
-     "project": "tracklight",
-     "contexts": 1,
-     "states": {
-      "unknown": 1
-     }
-    },
-    {
      "project": "politicas",
      "contexts": 1,
      "states": {
@@ -47894,6 +47880,10 @@
    "absent": [
     {
      "project": "gravity",
+     "classification": "candidate"
+    },
+    {
+     "project": "tracklight",
      "classification": "candidate"
     },
     {
@@ -48127,9 +48117,9 @@
     },
     {
      "project": "tracklight",
-     "contexts": 2,
+     "contexts": 3,
      "states": {
-      "unknown": 2
+      "unknown": 3
      }
     },
     {
@@ -48405,7 +48395,7 @@
    "bundle": "software-engineering",
    "category": "backend-platform",
    "subcategory": "platform-observability",
-   "techniques": 5,
+   "techniques": 6,
    "present": [],
    "absent": [
     {
@@ -49493,13 +49483,6 @@
    "techniques": 7,
    "present": [
     {
-     "project": "tracklight",
-     "contexts": 1,
-     "states": {
-      "unknown": 1
-     }
-    },
-    {
      "project": "pumper",
      "contexts": 1,
      "states": {
@@ -49538,6 +49521,10 @@
    "absent": [
     {
      "project": "gravity",
+     "classification": "candidate"
+    },
+    {
+     "project": "tracklight",
      "classification": "candidate"
     },
     {
@@ -49974,7 +49961,7 @@
    "bundle": "software-engineering",
    "category": "engineering-process",
    "subcategory": "continuous-integration",
-   "techniques": 5,
+   "techniques": 6,
    "present": [
     {
      "project": "gravity",
@@ -51321,7 +51308,7 @@
    "bundle": "software-engineering",
    "category": "engineering-process",
    "subcategory": "standards-and-gates",
-   "techniques": 6,
+   "techniques": 7,
    "present": [
     {
      "project": "personas-web",
@@ -51540,13 +51527,6 @@
    "techniques": 9,
    "present": [
     {
-     "project": "tracklight",
-     "contexts": 1,
-     "states": {
-      "unknown": 1
-     }
-    },
-    {
      "project": "pumper",
      "contexts": 2,
      "states": {
@@ -51607,6 +51587,11 @@
     {
      "project": "gravity",
      "classification": "candidate"
+    },
+    {
+     "project": "tracklight",
+     "classification": "accepted",
+     "date": "2026-09-03"
     },
     {
      "project": "ascent",
@@ -51925,9 +51910,9 @@
    "present": [
     {
      "project": "tracklight",
-     "contexts": 2,
+     "contexts": 1,
      "states": {
-      "unknown": 2
+      "unknown": 1
      }
     },
     {
@@ -52244,7 +52229,7 @@
    "bundle": "software-engineering",
    "category": "backend-platform",
    "subcategory": "resilience",
-   "techniques": 6,
+   "techniques": 10,
    "present": [
     {
      "project": "tracklight",
@@ -52496,7 +52481,7 @@
    "bundle": "software-engineering",
    "category": "operations",
    "subcategory": "governance-and-records",
-   "techniques": 10,
+   "techniques": 11,
    "present": [
     {
      "project": "pumper",
@@ -52652,7 +52637,7 @@
    "bundle": "software-engineering",
    "category": "security",
    "subcategory": "code-provenance",
-   "techniques": 6,
+   "techniques": 7,
    "present": [
     {
      "project": "personas",
@@ -53654,7 +53639,7 @@
    "bundle": "software-engineering",
    "category": "engineering-process",
    "subcategory": "build-and-release",
-   "techniques": 16,
+   "techniques": 17,
    "present": [
     {
      "project": "gravity",
@@ -53666,9 +53651,9 @@
     },
     {
      "project": "tracklight",
-     "contexts": 2,
+     "contexts": 3,
      "states": {
-      "unknown": 2
+      "unknown": 3
      }
     },
     {
@@ -53946,9 +53931,9 @@
    "present": [
     {
      "project": "tracklight",
-     "contexts": 3,
+     "contexts": 4,
      "states": {
-      "unknown": 3
+      "unknown": 4
      }
     },
     {
@@ -54276,7 +54261,7 @@
    "bundle": "software-engineering",
    "category": "security",
    "subcategory": "extension-trust",
-   "techniques": 9,
+   "techniques": 10,
    "present": [
     {
      "project": "pumper",
@@ -54484,9 +54469,9 @@
     },
     {
      "project": "tracklight",
-     "contexts": 3,
+     "contexts": 4,
      "states": {
-      "unknown": 3
+      "unknown": 4
      }
     },
     {
@@ -54976,13 +54961,13 @@
   },
   "tracklight": {
    "contexts": 34,
-   "governingSubjects": 57,
+   "governingSubjects": 55,
    "scope": "declared",
-   "candidate": 131,
+   "candidate": 132,
    "out-of-scope": 35,
    "declined": 1,
    "deferred": 0,
-   "accepted": 5,
+   "accepted": 6,
    "out-of-domain": 181
   },
   "pumper": {
