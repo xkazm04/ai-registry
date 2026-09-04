@@ -7261,3 +7261,48 @@ here; finish on the version you loaded.
 - **Nothing a mid-flight sibling should do about this entry.** No `SKILL.md`
   edit was made and the version is unchanged; every bullet above is a lesson or a
   proposal. Finish on the version you loaded.
+
+## 2.3.2 - 2026-09-04 - flatnotes (second pass, rows 2 and 5)
+
+- **A design-record `corpus: NONE` can be wrong in one specific direction: the
+  read hunts the DECISION and misses the subject that owns the CONSTRAINT behind
+  it.** Entry C1 recorded NONE for a session token duplicated into a cookie so
+  that browser-issued subresource loads authenticate. The corpus owned it —
+  `stream-proxy-hop/credential-attachment-at-the-hop` opens on the identical
+  protocol fact (a client that cannot set request headers) and already ranks the
+  auto-attached credential first. Nothing was going to find that by mapping
+  "attachment", "cookie" or "subresource", because the subject is named for a
+  *streaming proxy*. The generalisable move: for a design entry, map the **force**
+  as well as the decision. The decision was "put the token in a cookie"; the force
+  was "this request cannot carry a header", and the force is what the corpus had
+  filed.
+
+- **The verification that DOWNGRADES a row is worth as much as the one that
+  confirms it, and the method should be able to say so.** Row 2 went from
+  `real gap` to an amendment. That is not a miss — it is the check working, and
+  it changed the landing from a new technique in a subject whose stated job
+  excludes it (a misfile that would have sat there for months) to a boundary
+  section in the file that already owns the constraint. The scorecard's Landed
+  column counts shapes; nothing in it records that a shape *changed on
+  verification*, which is the single clearest evidence that Phase 6 is doing
+  work. Worth a depth-cell token.
+
+- **An amendment refuted by its own apply step is the strongest outcome available,
+  and it is only reachable because the apply step is mandatory.** The row-2
+  amendment was written from one tree and was wrong on its discriminator; the
+  second tree it was walked against had reached the same protocol fact, chosen a
+  different rung, and *written down why* — and its reasoning was correct. Had the
+  apply step been optional, the amendment would have shipped with a boundary drawn
+  at "content-issued versus app-issued" instead of at "who owns the URL string and
+  whether it outlives the credential", and the corpus would have carried a rule
+  that makes a good tree worse. The 40-minute gap between landing and refutation is
+  the argument for Phase 7.5 not being skippable.
+
+- **A third tree whose answer is "the question cannot arise here" belongs in the
+  technique, not just in the ledger.** kp's markdown renderer enumerates a closed
+  tag subset with no image syntax, so no content-issued request exists to
+  authenticate — and that fell out of an injection-safety decision, with the
+  credential question never considered by anyone. An empty enumeration whose
+  emptiness is *structural* is a finding; the amendment now says to run the
+  enumeration even when you expect it to be empty. Two of three cases in that
+  application are negative, and it is the most useful application of the run.
