@@ -35,9 +35,9 @@ name: knowledge
 on:
   push:
     branches: [main]
-    paths: ['knowledge/**', 'skills/**', 'practices/**', 'memory/**', 'usage/**', 'signals/**', 'scripts/**', 'catalog.json', '.github/workflows/knowledge.yml']
+    paths: ['knowledge/**', 'skills/**', 'practices/**', 'memory/**', 'usage/**', 'signals/**', 'scripts/**', 'librarian/standard.md', 'catalog.json', '.github/workflows/knowledge.yml']
   pull_request:
-    paths: ['knowledge/**', 'skills/**', 'practices/**', 'memory/**', 'usage/**', 'signals/**', 'scripts/**', 'catalog.json', '.github/workflows/knowledge.yml']
+    paths: ['knowledge/**', 'skills/**', 'practices/**', 'memory/**', 'usage/**', 'signals/**', 'scripts/**', 'librarian/standard.md', 'catalog.json', '.github/workflows/knowledge.yml']
   workflow_dispatch:
   # The citation sweep below is the only check here whose subject is OUTSIDE this
   # repository, so it is the only one whose result can change with no commit. A
@@ -154,6 +154,34 @@ jobs:
           node-version: '20'
       - name: Report external citation liveness
         run: node scripts/check-citations.mjs
+      # Two more instruments that live on the clock rather than on a diff: each asserts
+      # itself first (--self-test plants a known positive) and then reports. Neither
+      # fails the tick; a red here is a finding for /librarian, not a blocked merge.
+      - name: Citation dates - the arithmetic half, self-asserted first
+        run: node scripts/check-citation-dates.mjs --self-test && node scripts/check-citation-dates.mjs
+        continue-on-error: true
+      - name: Compression scan - the deterministic worklist, self-asserted first
+        run: node scripts/compression-scan.mjs --self-test && node scripts/compression-scan.mjs
+        continue-on-error: true
+
+  tooling:
+    name: tooling contracts
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: '20'
+      # Two contracts the scripts declare about themselves. The exit-code vocabulary
+      # (scripts/lib/exit-codes.mjs) is what every hook, CI step and skill procedure
+      # branches on; a script that exits outside it is lying to its caller. The
+      # standard's weight table is STAMPED from the scan (librarian-scan.mjs
+      # --stamp-weights); a hand edit on either side is drift, and this is the only
+      # thing that notices.
+      - name: Check every script exits inside the declared vocabulary
+        run: node scripts/check-exit-contract.mjs
+      - name: Check the standard's weight table still matches the scan
+        run: node scripts/librarian-scan.mjs --check-weights
 
   catalog:
     name: catalog freshness

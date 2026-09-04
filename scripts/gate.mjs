@@ -83,6 +83,10 @@ const CHECK_SIGNALS = step('check-signals.mjs');
 // real staleness.
 const HASH_STABILITY = step('check-hash-stability.mjs');
 const CATALOG = step('build-catalog.mjs', { check: ['--check'], write: [] });
+// Tooling contracts (knowledge.yml `tooling` job): the exit-code vocabulary every
+// script declares against, and the standard's weight table stamped from the scan.
+const EXIT_CONTRACT = step('check-exit-contract.mjs');
+const WEIGHTS = step('librarian-scan.mjs', { check: ['--check-weights'], write: ['--stamp-weights'] });
 
 // The catalog job's path filter covers knowledge/, skills/, practices/, memory/ and
 // usage/ - build-catalog hashes those five lanes - so those five rows end with it.
@@ -98,6 +102,9 @@ const LANES = {
   signals: [CHECK_SIGNALS],
   practices: [...CATALOG_TAIL],
   memory: [...CATALOG_TAIL],
+  // knowledge.yml `tooling` job: scripts/** and librarian/standard.md trigger it.
+  scripts: [EXIT_CONTRACT, WEIGHTS],
+  librarian: [WEIGHTS],
 };
 
 // --all is not the concatenation of the lane rows: the shared tail would run five
@@ -107,6 +114,7 @@ const ALL = [
   CHECK_SKILLS, CLAUSES, MARKETPLACE,
   CHECK_BUNDLES, INDEX, KNOWLEDGE_RULES,
   CHECK_USAGE, CHECK_SIGNALS,
+  EXIT_CONTRACT, WEIGHTS,
   HASH_STABILITY, CATALOG,
 ];
 

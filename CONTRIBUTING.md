@@ -49,6 +49,8 @@ The table below is the same thing spelled out - it is the explanation, and
 | `practices/` or `memory/` | `node scripts/check-hash-stability.mjs && node scripts/build-catalog.mjs` |
 | `usage/` | `node scripts/check-usage.mjs && node scripts/check-hash-stability.mjs && node scripts/build-catalog.mjs` |
 | `signals/` | `node scripts/check-signals.mjs` |
+| `scripts/` | `node scripts/check-exit-contract.mjs && node scripts/librarian-scan.mjs --check-weights` |
+| `librarian/standard.md` | `node scripts/librarian-scan.mjs --check-weights` (edit the script, then `--stamp-weights`) |
 
 `build-index.mjs` runs **before** `build-catalog.mjs` - the catalog's hash covers the
 index. Each build script takes `--check` (the CI form) to verify without rewriting.
