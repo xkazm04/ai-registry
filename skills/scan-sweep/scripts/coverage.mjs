@@ -45,12 +45,21 @@ try {
 
 const byScope = new Map();
 for (const h of hist) {
-  const e = byScope.get(h.scope) ?? { lenses: new Set(), findings: 0, fixed: 0, leads: 0, sweeps: 0, last: null, strategy: null };
+  const e = byScope.get(h.scope) ?? { lenses: new Set(), findings: 0, fixed: 0, leads: 0, sweeps: 0, last: null, strategy: null, carried: 0 };
   for (const k of h.lens_keys ?? []) e.lenses.add(k);
   e.findings += h.findings ?? 0; e.fixed += h.fixed ?? 0; e.leads += h.leads ?? 0; e.sweeps += 1;
-  if (!e.last || h.at > e.last) { e.last = h.at; e.strategy = h.strategy ?? null; }
+  // `carried` is a STATE, not a tally: only the latest snapshot's count is owed (SKILL.md section 5).
+  if (!e.last || h.at > e.last) { e.last = h.at; e.strategy = h.strategy ?? null; e.carried = h.carried ?? 0; }
   byScope.set(h.scope, e);
 }
+
+// The self-correction of section 5: three false positives across the last five rounds on
+// this REPO (any context) and auto-accept needs Method `gate` until three rounds at fp=0.
+// Computed here so the round header can print it without re-deriving the window.
+const recent = [...hist].sort((a, b) => (a.at > b.at ? 1 : -1)).slice(-5);
+const fpRecent = recent.reduce((n, h) => n + (h.fp ?? 0), 0);
+const trailingClean = (() => { let n = 0; for (let i = recent.length - 1; i >= 0 && (recent[i].fp ?? 0) === 0; i--) n++; return n; })();
+const strict = fpRecent >= 3 && trailingClean < 3;
 
 // A context map is either FLAT (`contexts: [...]`) or GROUPED (`groups: [{contexts: [...]}]`,
 // which is what a v2.x map and project-populate both emit). Reading only `map.contexts` made
@@ -69,6 +78,7 @@ const rows = contexts.map((c, order) => {
     files: (c.file_paths ?? c.filePaths ?? []).length,
     lenses: e ? e.lenses.size : 0, sweeps: e ? e.sweeps : 0,
     findings: e ? e.findings : 0, fixed: e ? e.fixed : 0, leads: e ? e.leads : 0,
+    carried: e ? e.carried : 0,
     strategy: e && e.strategy ? e.strategy : '-',
     last: e && e.last ? e.last : null,
     age: e && e.last ? Math.round((Date.now() - Date.parse(e.last)) / 86400000) + 'd' : 'never',
@@ -84,26 +94,29 @@ const queue = [...unswept, ...swept];
 const next = queue[0] ?? null;
 const reason = !next ? 'no contexts'
   : next.sweeps === 0 ? 'never swept'
-  : `lens coverage ${next.lenses}/${TOTAL_LENSES}, last swept ${next.age} ago`;
+  : `lens coverage ${next.lenses}/${TOTAL_LENSES}, last swept ${next.age} ago`
+    + (next.carried ? `, ${next.carried} carried item(s) owed first` : '');
+const strictNote = strict ? `strict: fp=${fpRecent} in last ${recent.length} rounds - auto-accept needs Method gate` : '';
 
 if (nextOnly) {
   if (!next) { console.error('no contexts in the map'); process.exit(2); }
-  if (asJson) console.log(JSON.stringify({ next: next.name, reason, lenses: next.lenses, totalLenses: TOTAL_LENSES, sweeps: next.sweeps }));
-  else console.log(`${next.name}\t${reason}`);
+  if (asJson) console.log(JSON.stringify({ next: next.name, reason, lenses: next.lenses, totalLenses: TOTAL_LENSES, sweeps: next.sweeps, carried: next.carried, strict, fpRecent }));
+  else console.log(`${next.name}\t${reason}${strictNote ? '\t' + strictNote : ''}`);
   process.exit(0);
 }
 
 if (asJson) {
-  console.log(JSON.stringify({ totalLenses: TOTAL_LENSES, contexts: rows.length, swept: rows.filter((r) => r.sweeps > 0).length, next: next && next.name, reason, rows: queue }, null, 2));
+  console.log(JSON.stringify({ totalLenses: TOTAL_LENSES, contexts: rows.length, swept: rows.filter((r) => r.sweeps > 0).length, next: next && next.name, reason, strict, fpRecent, rows: queue }, null, 2));
   process.exit(0);
 }
 
 const shown = all ? queue : queue.slice(0, 30);
 const pad = (s, n, r) => (r ? String(s).padStart(n) : String(s).padEnd(n));
-console.log(pad('CONTEXT', 36) + pad('FILES', 6, 1) + pad('LENSES', 8, 1) + pad('SWEEPS', 7, 1) + pad('FOUND', 6, 1) + pad('FIXED', 6, 1) + pad('LEADS', 6, 1) + pad('STRATEGY', 11, 1) + pad('LAST', 7, 1));
+console.log(pad('CONTEXT', 36) + pad('FILES', 6, 1) + pad('LENSES', 8, 1) + pad('SWEEPS', 7, 1) + pad('FOUND', 6, 1) + pad('FIXED', 6, 1) + pad('CARRY', 6, 1) + pad('LEADS', 6, 1) + pad('STRATEGY', 11, 1) + pad('LAST', 7, 1));
 for (const r of shown) {
-  console.log(pad(r.name.slice(0, 35), 36) + pad(r.files, 6, 1) + pad(r.lenses + '/' + TOTAL_LENSES, 8, 1) + pad(r.sweeps, 7, 1) + pad(r.findings, 6, 1) + pad(r.fixed, 6, 1) + pad(r.leads, 6, 1) + pad(r.strategy, 11, 1) + pad(r.age, 7, 1));
+  console.log(pad(r.name.slice(0, 35), 36) + pad(r.files, 6, 1) + pad(r.lenses + '/' + TOTAL_LENSES, 8, 1) + pad(r.sweeps, 7, 1) + pad(r.findings, 6, 1) + pad(r.fixed, 6, 1) + pad(r.carried, 6, 1) + pad(r.leads, 6, 1) + pad(r.strategy, 11, 1) + pad(r.age, 7, 1));
 }
 const covered = rows.filter((r) => r.sweeps > 0).length;
 console.log('\n' + covered + '/' + rows.length + ' contexts swept; least-covered first' + (all ? '' : ' (top 30 - pass --all for every context)'));
 if (next) console.log('next: ' + next.name + ' (' + reason + ')');
+if (strictNote) console.log(strictNote);

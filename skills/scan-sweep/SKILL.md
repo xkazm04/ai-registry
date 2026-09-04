@@ -1,11 +1,11 @@
 ---
 name: scan-sweep
-description: "Long-running quality sweep that walks a repository context by context, reads each area's code once, judges it through every scan lens, and lands the safe fixes itself with atomic commits. With no arguments it runs the STABILIZE loop - bug hunting, UI perfection, performance - picking the least-covered context each round and keeping a per-context lens-coverage ledger so a codebase gets swept evenly instead of repeatedly in the same corner. S findings are auto-approved and built in-session; M findings are built only when the reward/risk ratio clears the bar; L findings are never built here and always leave as backlog. Use for a standing quality loop, before a hardening milestone, or to work down a backlog of small defects. Pass --develop for new capability, --optimize for deep hardening, --ideas-only to change no code, --coverage for the pick list."
+description: "Long-running quality sweep that walks a repository context by context, reads each area's code once, judges it through every scan lens, and lands what it can PROVE itself with atomic commits. With no arguments it runs the STABILIZE loop - bug hunting, UI perfection, performance - picking the least-covered context each round and keeping a per-context lens-coverage ledger so a codebase gets swept evenly instead of repeatedly in the same corner. Every finding climbs an evidence ladder (gate > probe > experiment > simulation) before it is routed: a measured `better` with no escalation builds in-session, S or M, under any strategy; `not-better` is rejected with its figures; only architecture (L), a direction outside the context's declared scope, an irreversible change, or a loosened policy still waits for a human. Use for a standing quality loop, before a hardening milestone, or to work down a backlog. Pass --develop for new capability, --optimize for deep hardening, --ideas-only to change no code, --coverage for the pick list."
 argument-hint: "[--stabilize|--develop|--optimize] [--one <context>] [--depth N] [--ideas-only] [--lenses k1,k2] [--coverage]"
 category: workflow
 contexts: tracked
 memory: project
-version: 2.10.0
+version: 3.0.0
 tags: sweep, quality, stabilization, backlog, coverage, registry, atomic-commits
 ---
 # Context Sweep
@@ -63,10 +63,26 @@ reads as one runaway session.
   growth-hacker, monetization-advisor. ~70% of the budget at forward-building
   items. Quality lenses still run as a light pass - a real defect is never
   ignored, but marginal cleanups are dropped.
+
+  **"New" is not a reason to write `unmeasurable`.** A capability that lives
+  inside what the context already declares it does is COVERAGE, and its figure
+  is a behaviour test the sweep writes first: Before = `0 of N cases pass`,
+  After = `N of N`, Method = `gate`. Sized S or M, it builds (§5). What stays
+  human under this strategy is a **direction** - a capability the context's
+  declared scope does not name - and anything **L**. Under v2.x every
+  forward-building item was `unmeasurable` on arrival and the strategy had no
+  auto-build path at all; `references/evidence.md` carries the recipe per lens.
 - **`--optimize`** - QUALITY of what exists, deeper than stabilize goes: adds
   tech-debt-tracker, dependency-auditor, devops-optimizer, documentation-auditor,
   mobile-specialist, observability-auditor. ~70% of the budget at hardening, debt
   and coverage.
+
+  **Every hardening claim has a count.** Debt is duplicated sites; a dependency
+  is an audit line, a version delta and a green gate; a pipeline is a duration or
+  a step count; a doc is a stated rule checked against the code it describes; a
+  mobile issue is a reproduced viewport. "Cleaner" or "more maintainable" with
+  no figure is `not-better` (pure churn), never `unmeasurable` - the
+  `unmeasurable` drawer is where this strategy's whole output went under v2.x.
 
 Name the strategy in the report header and record it in the snapshot's `strategy`
 field.
@@ -242,12 +258,13 @@ field.
       promises, one clause>
     Before: <the measurement today - a number, a count, a reproduced
       behaviour, or the sample you looked at>
-    After: <the same measurement under the proposed change - from a probe on a
-      small sample, a simulated run, or the gate you would run>
-    Method: probe | simulation | gate - <what you actually did to get the two
-      figures, in one line>
+    After: <the same measurement under the proposed change - from a gate run,
+      a probe on a small sample, a harness, or three walked cases>
+    Method: gate | probe | experiment | simulation - <what you actually did to
+      get the two figures, and why the rung above was not reachable>
     Result: better | not-better | unmeasurable
-    Gate: none | contract | policy | irreversible
+    Gate: none | contract | policy-tighten | policy-loosen | irreversible |
+      architecture | direction
     ```
 
     **The Evaluation is the routing step (§5), written down - and it is a
@@ -257,16 +274,32 @@ field.
     had checked the claim, and the executors then found premises false at the
     point of build. So: pick the benefit the idea actually promises, take the
     figure BEFORE (count the sites, time the path, reproduce the failure, read
-    the sample), take the same figure AFTER by the cheapest honest means -
-    apply the change to a small sample, walk the code path with the change in
-    your head and state what changes, or name the gate that will decide it -
-    and write both down. `better` means the After figure is better on the
-    claimed dimension without a worse figure on another you can see.
-    `not-better` is a finding you are REJECTING with its numbers attached.
-    `unmeasurable` is reserved for what genuinely has no figure - a new or
-    major capability, a redesign, a matter of taste - and is the only
-    result that goes to a human for the benefit question itself. Pure churn
-    measures the same before and after and is therefore `not-better`.
+    the sample), take the same figure AFTER by the highest rung of the ladder
+    you can reach (§4.11), and write both down. `better` means the After
+    figure is better on the claimed dimension without a worse figure on
+    another you can see. `not-better` is a finding you are REJECTING with its
+    numbers attached. `unmeasurable` is reserved for what genuinely has no
+    figure - a matter of taste, a product bet - and may only be written AFTER
+    the ladder was climbed and the card says which rung failed and why. It is
+    the only result that goes to a human for the benefit question itself. Pure
+    churn measures the same before and after and is therefore `not-better`.
+
+11. **Climb the evidence ladder before writing `unmeasurable`.** The rungs, top
+    down: **`gate`** - a test or repo gate that goes red-then-green on the
+    change, or a gate's exit code on both sides; **`probe`** - the change
+    applied to a small sample and the same figure taken on both sides (three
+    call sites, one timed path, one reproduced flow); **`experiment`** - the
+    same inputs run twice through a harness that ships nothing (a script over
+    a store copy, a replayed session, a dry run of a hook); **`simulation`** -
+    three concrete cases from this tree or its history walked under A and B,
+    with what would falsify the prediction. Take the highest rung reachable in
+    the round and say in the Method line why the one above was not. **When
+    the only thing between a claim and its figure is an S-sized instrument** -
+    a test file, a counter, a timing wrapper, a fixture - **build the
+    instrument as its own S fix first, then measure.** A sweep that writes
+    `unmeasurable` where a twenty-line test would have decided it has skipped
+    its own method. `references/evidence.md` carries the rungs, the reachable
+    conditions and the per-strategy recipes.
 
     `evidence` is SEPARATE from `body` and is the proof, as a code block or a
     `file:line` list - the exact lines, the grep output, the count - never a
@@ -278,16 +311,23 @@ field.
     and reads as the lower-quality item it is. Do not invent extra sections;
     put anything else under Description.
 
-## 5. Routing - the measured evaluation decides, the hard gates override
+## 5. Routing - evidence decides, four escalations stay human
 
-Size still describes the work (and bounds what a single round may build), but
-it no longer decides who approves. **The Evaluation of §4.10 does.** The
-history of this section is three routing rules in one day on one operator's
-deck: reward/risk asked "how dangerous is the edit?"; net delta asked "does it
-sound better?" and passed 85 of 149 on stories; this one asks "is it
-measurably better on the dimension it promises?" - and can say NO, which the
-earlier two never could. A rule that only ever accepts or defers is not a
-gate.
+Size describes the work and bounds what a round may build, but it does not
+decide who approves. **The Evaluation of §4.10 does, after the ladder of §4.11
+has been climbed.** The history of this section is four routing rules on one
+operator's deck: reward/risk asked "how dangerous is the edit?"; net delta
+asked "does it sound better?" and passed 85 of 149 on stories; measured
+evaluation (v2.5) asked "is it measurably better?" and could say NO - but it
+sent every `unmeasurable` and every contract or policy change to a human, and
+under `--develop` and `--optimize` that was the whole output: 21 of 46
+`uncertain` items became `unmeasurable` and zero became `better`, because
+nobody had tried to build the measurement. This rule (v3.0) asks "did you
+TRY to measure it, and what did the instrument say?" - and reserves the human
+for the decisions a human actually owns. It is the same move `/intake` made
+in v2.5 when its ledger showed 134 of 149 human gates changed nothing: the
+run's own read was already selecting, so make the read explicit, veto-first
+and auditable, and narrow the ask to the escalations.
 
 Classify every candidate by size for the build bound:
 
@@ -301,10 +341,16 @@ Classify every candidate by size for the build bound:
 
 | Result | Gate | Route |
 | --- | --- | --- |
-| `better` | `none` | **Auto-accept. Build it** - in-session, or by a coordinator subagent in a wave. |
-| `better` | contract / policy / irreversible | **Human.** The benefit is proven; the change still needs an owner who is not the author. |
+| `better` | `none` / `policy-tighten` / `contract` with its verifier green | **Auto-accept. Build it** - S or M, any strategy - in-session, or by a coordinator subagent in a wave. |
+| `better` | `direction` / `architecture` / `irreversible` / `policy-loosen` / `contract` without its verifier | **Human.** The benefit is proven; the decision is one the run does not own. The card names WHICH escalation. |
 | `not-better` | any | **Reject**, with the Before/After figures as the rejection reason. It leaves the backlog. |
-| `unmeasurable` | any | **Human.** The benefit question itself is a judgement - new or major capability, redesign, taste. |
+| `unmeasurable` | any | **Human**, and only after §4.11: the card names the highest rung attempted, why the next one was out of reach, and the instrument that would decide it. |
+
+**The gate column is an ESCALATION list, not a danger list.** A change is
+escalated when the decision belongs to someone other than the run - because it
+changes what the product IS, cannot be undone, or weakens a protection - never
+because it is merely large or merely touches something important. Important
+things that are verifiable are exactly what a sweep is for.
 
 **What counts as a measurement.** A count (sites, files, keys, renders,
 IPC calls), a duration or a size, a reproduced failure and its absence, a
@@ -315,22 +361,50 @@ attach one, the result is `unmeasurable`, not `better`. A probe on a SMALL
 sample is enough - three call sites, one reproduced flow, one timed path -
 as long as it is the same sample on both sides.
 
-**The hard gates** - a gate applies when the implementation REQUIRES it, not
-when the finding merely mentions it. Design and feature are no longer gates:
-they are the `unmeasurable` result, because what makes them human is that
-their benefit has no figure, and when it does have one they are ordinary work.
+**The four escalations** - an escalation applies when the implementation
+REQUIRES it, not when the finding merely mentions it. Design and feature are
+not escalations: a feature inside scope with a passing test is coverage.
 
-- **contract** - a DB schema, IPC/public API, generated binding, persisted
-  format or cross-repo contract. A reviewer who is not the author owns these.
-- **policy** - security, privacy, spend/cost, audit; what gets logged, stored,
-  sent, or paid for.
+- **direction** - a capability the context's declared scope does not name:
+  the manifest's `scope` block when the repo carries one, else the context
+  map entry's description and keywords. A one-line change that creates a
+  capability the scope does not name is a direction; a two-hundred-line build
+  inside the declared purpose is coverage. This is `--develop`'s human gate,
+  and it is the one `/intake` kept too (its E1).
+- **architecture** - every **L**: a new layer, a protocol redesign, a
+  cross-cutting migration, an edit to the context map itself. Human even with
+  a figure attached - the largest change in the round is the one the owner
+  sees, by definition.
 - **irreversible** - deletes user data, rewrites stored history, a migration
-  with no rollback.
+  with no rollback, or changes what is paid for.
+- **policy-loosen** - removes or weakens a security, privacy or audit check,
+  widens access, or stores or sends MORE than before. Its mirror,
+  **`policy-tighten`** - adds a check, narrows access, logs or audits more -
+  is auto-accepted when a test pins the new behaviour, because a reviewer
+  would only ever say yes to it and the test is the review.
 
-**Size still bounds the build.** An **L** is `unmeasurable` in practice -
-its benefit is architectural - and stays human; an auto-accepted M that grows
-past its seam mid-build is demoted like any other (§7.4). Effort / impact / risk are still scored - they
-order the queue and calibrate the delta - they just no longer gate it.
+**`contract` is evidence-gated, not human by default.** A DB schema, IPC or
+public API, generated binding or persisted format builds in-round when ALL of:
+(a) every consumer is enumerated by instrument (grep for the shared symbol,
+the generated client's call sites, the migration's readers) and updated in
+the same commit; (b) generated artefacts are regenerated by the repo's own
+step; (c) a contract test pins the new shape AND forbids the old (§7.5); (d)
+the gate is green. Missing any one, it is human and the card says which
+letter. A contract another REPOSITORY consumes is always human - the
+consumer is not in this tree and (a) cannot be done.
+
+**Size still bounds the build.** An **L** is `architecture` and stays human;
+an auto-accepted M that grows past its seam mid-build is demoted like any
+other (§7.4). Effort / impact / risk are still scored - they order the queue
+and calibrate the delta - they just no longer gate it.
+
+**The mechanism measures itself.** The snapshot (§10) carries
+`auto=<accepted>/<rejected>/<escalated>` and `fp=<n>`, where a false positive
+is an auto-accepted item that an executor demoted or that failed its gate at
+build. **Three `fp` across the last five rounds on a repo and auto-accept
+requires Method `gate` - a probe no longer suffices - until three consecutive
+rounds at `fp=0`.** This is `/intake`'s `fp` rule carried over: a gate that
+never counts its own false positives drifts toward accepting everything.
 
 **So does the repo's own mechanical gate, and it binds on the SITE, not on the
 idea.** A ratchet - a LOC ceiling on a file, a bundle-size budget, a dependency
@@ -356,45 +430,62 @@ reject it with both reasons attached - rather than re-queuing it for a third
 attempt. Measured 2026-08-29: three ideas reached a third executor and were
 demoted a third time, at ~200k tokens each.
 
-**Name the missing instrument.** `unmeasurable` covers two different things:
-a benefit that has no figure (taste, product direction), and a benefit that
-HAS a figure nobody can take yet (a performance claim with no benchmark, a
-resilience claim with no fault injector). For the second kind, say which
-instrument is missing in the Evaluation's After line - that sentence is a
-finding of its own for the next round, and it keeps `unmeasurable` from
-becoming the drawer where measurable-but-inconvenient claims go.
+**Name the missing instrument - then build it when it is small.**
+`unmeasurable` covers two different things: a benefit that has no figure
+(taste, product direction), and a benefit that HAS a figure nobody can take
+yet (a performance claim with no benchmark, a resilience claim with no fault
+injector). For the second kind the rule is §4.11: if the instrument is
+S-sized, build it in-round as its own fix and re-measure; if it is not, say
+which instrument is missing in the Evaluation's After line - that sentence is
+a finding of its own for the next round. Measured 2026-08-29 on kp: two of
+three `unmeasurable` results were avoidable, each by a small instrument the
+round had budget for.
 
 ### The four vetoes - they override every route above
 
-An item is backlogged regardless of size or RRR when it:
+An item is backlogged regardless of size or result when it:
 
 1. **touches a file outside this context's declared paths** (see the parallel
    rules in §7) - not yours to change this round;
-2. **changes a schema, a protocol, a public API or a generated-artifact
-   contract** - those need a reviewer who is not the author;
-3. **has no gate that can verify it** - if nothing in the repo can tell you the
-   fix worked, you are committing a belief;
+2. **changes a contract whose consumers you cannot enumerate by instrument**
+   - another repository's, a public SDK's, a wire format with readers outside
+   this tree. An in-tree contract with its verifier green is not vetoed; see
+   the contract rule above;
+3. **has no gate that can verify it and none can be built at S** - if nothing
+   in the repo can tell you the fix worked, you are committing a belief. A
+   missing test you could write in twenty lines is not this veto; write it;
 4. **is a foreign session's in-flight file** - a coordination call, not a triage
    call. Say so in the finding so the next session knows the difference.
 
 **Unattended runs** (dispatched by an app or a fleet, no operator present):
-nothing changes - there is no "ask" band. `better` + no hard gate builds,
+nothing changes - there is no "ask" band. `better` with no escalation builds,
 `not-better` is rejected with its figures, everything else waits for the deck.
+
+**`carry` - approved and not built is a state, and it goes first next time.**
+A `better` item with no escalation that the round could not build (budget,
+time, a tree that would not take a commit) is emitted with
+`disposition: carry`, never as a plain backlog card - it needs no decision.
+The next round on the same context builds its carries BEFORE it scans, and
+counts them in `fixed`. Measured 2026-09-01 on pof: a `--one` round left
+approved items unbuilt and the next run presented one as a discovery.
 
 **What the backlog is FOR - and what never goes in it.** The Personas idea
 backlog (the memory outbox → `dev_ideas` → the Quick Answer triage deck) is the
 surface where a HUMAN or Athena decides. It holds exactly three things: the
-**ask** band, every **L**, and anything a veto turned back. An item the routing
-table already approved (an S, or an M that clears the bar) does **not** need a
-decision and must not be parked there - it is executed, in this CLI session:
+**escalated** band (`direction`, `architecture`, `irreversible`,
+`policy-loosen`, unverifiable `contract`), the **`unmeasurable`-after-ladder**
+band with its named instrument, and anything a veto turned back. An item the
+routing table already approved does **not** need a decision and must not be
+parked there - it is executed, in this CLI session:
 by the sweep itself in a single-context round, or, in a **coordinator wave**
 (many contexts, workers that return results instead of committing), by
 subagents the coordinator dispatches from the returned list, one context per
-subagent, each re-checking vetoes 2 and 3 before building and demoting to the
-backlog what fails them. Vetoes 1 and 4 are parallel-session vetoes: under a
-single coordinator they do not bind, and an S a worker turned back only for
+subagent, each re-checking vetoes 2 and 3 and RE-MEASURING the Evaluation's
+Before on the real tree before building, and demoting to the backlog what
+fails them. Vetoes 1 and 4 are parallel-session vetoes: under a single
+coordinator they do not bind, and an S a worker turned back only for
 "outside my paths" or "shared surface" is still an S. A backlog full of
-approved-but-unbuilt S items is a sweep that stopped one step early - measured
+approved-but-unbuilt items is a sweep that stopped one step early - measured
 2026-08-28: 149 of 240 backlogged wave findings were auto-approvable by the
 sweep's own table.
 
@@ -460,10 +551,16 @@ you filed one, and say plainly when you filed none.
 
 ## 7. Execution — land the approved list
 
-Work the approved queue highest-reward first, one finding at a time:
+Work the approved queue - this context's `carry` items from prior rounds
+first, then this round's, highest-reward first - one finding at a time:
 
 1. **One atomic commit per finding.** Fix, verify, commit, then start the next.
-   Never stack two findings' edits in one working state.
+   Never stack two findings' edits in one working state. **Re-measure the
+   Evaluation's After on the real change before committing**, and put the
+   re-measured figure in the commit body: a probe on three sites is what
+   routed the item, the gate on the whole change is what lands it. An After
+   that comes back `not-better` on the real change is a demotion (§7.4) and
+   a false positive for the snapshot's `fp` count.
 2. **Verify before committing** with the repo's own gates for the surface you
    touched (`.claude/conventions.json` or the manifest's capabilities name them;
    else the obvious ones). A fix that fails its gate is repaired inline or fully
@@ -552,14 +649,17 @@ Header first:
   sweep.**
 - `registry: <domain>/<subject>` — or `none` / `declared, unmapped`.
 
-Then what SHIPPED, one line each (`fixed  <title> - <sha>`), then the backlogged
-findings — each in the standard form of §4.10 (Summary / Description / Flow /
-Expected impact, evidence separate), plus **Scores** (size + effort / impact /
-risk, and the RRR for every M).
+Then what SHIPPED, one line each (`fixed  <title> - <sha> - <re-measured
+After>`), then what was REJECTED (`rejected  <title> - <Before> vs <After>`),
+then the carried and backlogged findings — each in the standard form of §4.10
+(Summary / Description / Flow / Expected impact / Evaluation, evidence
+separate), plus **Scores** (size + effort / impact / risk) and, for every
+backlogged card, **the escalation or the failed rung** that put it there.
 
-Close each round with: X built, Y backlogged, Z lenses evaluated, leads filed,
-the trend for this context (`12 -> 7 -> 5 findings`), and **the next context the
-loop will take**.
+Close each round with: X built (of which carries), Y rejected, Z backlogged
+(escalated / unmeasurable / vetoed / carry), lenses evaluated, `auto=` and
+`fp=`, leads filed, the trend for this context (`12 -> 7 -> 5 findings`), and
+**the next context the loop will take**.
 
 ## 9. Emit to the memory outbox
 
@@ -576,15 +676,17 @@ backlog as open work:
 Each BACKLOGGED finding:
 
 ```json
-{"type":"finding","skill":"scan-sweep","lens":"<lens-key>","context":"<context>","title":"<title>","body":"## Summary\n...\n\n## Description\n...\n\n## Flow\n- ...\n\n## Expected impact\n...\n\n## Evaluation\nClaim: performance - ...\nBefore: ...\nAfter: ...\nMethod: probe - ...\nResult: better\nGate: none","evidence":"<code block or file:line list - the proof, not the prose>","size":"S|M|L","effort":3,"impact":7,"risk":2,"result":"better|not-better|unmeasurable","gate":"none|contract|policy|irreversible"}
+{"type":"finding","skill":"scan-sweep","lens":"<lens-key>","context":"<context>","title":"<title>","body":"## Summary\n...\n\n## Description\n...\n\n## Flow\n- ...\n\n## Expected impact\n...\n\n## Evaluation\nClaim: performance - ...\nBefore: ...\nAfter: ...\nMethod: probe - ...\nResult: better\nGate: none","evidence":"<code block or file:line list - the proof, not the prose>","size":"S|M|L","effort":3,"impact":7,"risk":2,"result":"better|not-better|unmeasurable","method":"gate|probe|experiment|simulation","gate":"none|contract|policy-tighten|policy-loosen|irreversible|architecture|direction","disposition":"backlog|carry"}
 ```
 
 `body` is the §4.10 form verbatim — the five `## ` sections, newline-escaped in
-the JSON; `result` and `gate` repeat the Evaluation's verdict as fields so a
-consumer can route without parsing prose. A backlogged finding is, by
-construction, one whose result or gate said "human" — say which, on the card.
-A `not-better` finding is never emitted: it was rejected in the report. A finding emitted in any other shape is rejected at review, not
-reformatted.
+the JSON; `result`, `method` and `gate` repeat the Evaluation's verdict as
+fields so a consumer can route without parsing prose. A `backlog` finding is,
+by construction, one whose result or gate said "human" — say which, on the
+card. A `carry` finding is approved and owed to the next round on this
+context, and a consumer must not present it for a decision. A `not-better`
+finding is never emitted: it was rejected in the report. A finding emitted in
+any other shape is rejected at review, not reformatted.
 
 Escalation — at most one per lens, ONLY when that lens produced a critical
 finding (impact >= 8) or 3 real findings in this context:
@@ -615,10 +717,13 @@ will claim the context was swept.
 Append one line per round to `.claude/scan-history/scan-sweep.jsonl` (create the
 directory if needed). `lens_keys` = every lens actually evaluated — this is the
 per-context coverage ledger the picker and the lens ordering both read.
-`findings` counts BOTH built and backlogged.
+`findings` counts built, rejected, carried and backlogged. `auto` is the
+routing tally (`accepted/rejected/escalated`), `fp` the auto-accepted items
+demoted at build, `carried` the approved items left for the next round - the
+three numbers §5's self-correction reads.
 
 ```json
-{"at":"<ISO-8601>","scope":"<context>","mode":"resolve|ideas","strategy":"stabilize|develop|optimize","lens_keys":["<key>"],"lenses":<n>,"findings":<n>,"fixed":<n>,"escalations":<n>,"leads":<n>,"degraded":<bool>,"note":"<<=80 chars>"}
+{"at":"<ISO-8601>","scope":"<context>","mode":"resolve|ideas","strategy":"stabilize|develop|optimize","lens_keys":["<key>"],"lenses":<n>,"findings":<n>,"fixed":<n>,"auto":"<a>/<r>/<e>","fp":<n>,"carried":<n>,"escalations":<n>,"leads":<n>,"degraded":<bool>,"note":"<<=80 chars>"}
 ```
 
 ## Project overlay
