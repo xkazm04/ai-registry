@@ -7306,3 +7306,49 @@ here; finish on the version you loaded.
   emptiness is *structural* is a finding; the amendment now says to run the
   enumeration even when you expect it to be empty. Two of three cases in that
   application are negative, and it is the most useful application of the run.
+
+## 2.3.2 - 2026-09-04 - `pi` (correction: a stale belief under a correct lock)
+
+- **The `ledger` lock protects the append; it does not protect the belief the
+  append asserts.** This run re-read `applied.md`, `sources/index.md` and
+  `SCORECARD.md` inside the lock before appending to each - the discipline the
+  method names, correctly applied, and no line was lost. It then wrote a cell
+  and a focus item asserting that `techniques_absent` was on its **ninth
+  deferral**. It had been **closed** four commits earlier by a sibling this run
+  had watched on the board all afternoon, and the run appended its own lessons
+  entry directly below that closure without reading it. The re-read protected
+  the *rows*; the *claim* came from a Phase 1 read of a different file. **A
+  parallel run must re-read the file that carries a decision before asserting
+  the decision's status - and for a standing item that file is `LESSONS.md`,
+  which Phase 1 never sends anyone to.** Phase 1 step 5 says read `SCORECARD.md`'s
+  last row and closing paragraph; the closing paragraph carries the *focus*, and
+  the *decision* lives elsewhere.
+
+- **The blast radius of a stale claim is larger than a lost line, which is why
+  this is worth a method edit rather than a note.** A dropped ledger row costs
+  one row. This wrote an instruction into the one paragraph every subsequent run
+  reads at its own Phase 1 - "the next run that answers at subject grain owes the
+  closure" - so the error was not merely recorded, it was **queued for
+  re-execution**, and two runs had already started against it. The anti-pattern
+  "appending to a ledger from a read taken before the lock" has a sibling that
+  the list does not carry: **writing the NEXT run's focus from a read taken
+  before the lock.**
+
+  ### Redesign proposal - not applied here
+
+  One clause in Phase 11 lane 0, and it is cheap: **before writing the closing
+  focus paragraph, re-read `LESSONS.md`'s entries added since this run's Phase 1**
+  (`git log -p --since` on that file, or simply its tail), because that is where
+  siblings record decisions that retire focus items. The focus paragraph is the
+  only artifact this skill writes whose audience is every future run, and it is
+  currently the one written from the oldest read. Not applied from one sighting -
+  but this sighting cost a real instruction to a live fleet, so the bar for the
+  second should be low.
+
+- **A closed item's reopen condition is the thing to check, and checking it is
+  one question.** The closure states: reopen on two runs blocked at technique
+  grain within one round-window that a single file read does not resolve. Round
+  11 was **not** such a sighting - its direction pass never ran at all, for an
+  unrelated reason (the project carries no `scope` block), so it produced no
+  technique-grain evidence in either direction. Recorded so the next run does not
+  have to re-derive that either. The item stays closed.
