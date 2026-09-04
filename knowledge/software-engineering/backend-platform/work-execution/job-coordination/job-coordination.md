@@ -8,6 +8,7 @@ techniques:
   - lease-renewal
   - liveness-proof-reclaim
   - step-position-and-resumability
+  - in-flight-is-a-position
   - no-unrestorable-state-at-a-suspension-point
   - terminal-state-recovery
   - job-observability
@@ -84,6 +85,12 @@ The consequences of the stance form the spine:
    stage before it is to ensure no such point straddles state that is neither
    durable, reconstructible nor compensable (see
    [no-unrestorable-state-at-a-suspension-point](./techniques/no-unrestorable-state-at-a-suspension-point.md)).
+   The guarantee is also per *position vocabulary*: with two values, `pending`
+   and `complete`, a crashed step is indistinguishable from one that never
+   started, and at-least-once is the only honest reading. A step whose effect
+   the far side will not dedupe can be given a third value that records the
+   dispatch itself, so recovery reads a decision instead of assuming one (see
+   [in-flight-is-a-position](./techniques/in-flight-is-a-position.md)).
 4. **Every job ends in exactly one of a declared terminal set, and every
    non-terminal state names the mechanism that can move it there** even when
    the executor is gone. Recovery at boot walks the survivors and issues a
