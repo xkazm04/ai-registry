@@ -12,6 +12,7 @@ techniques:
   - reversible-debit-and-settle
   - spend-attribution
   - spend-observability
+  - unit-classes-are-open
 ---
 
 # Cost metering & budgets
@@ -122,6 +123,35 @@ perfectly reasonable. The table's jobs are estimation before the call and
 sanity-bounding after it; it is not a substitute for the meter's reading.
 Rates, versioning, unit classes, and the default discipline are the
 [price-tables](./techniques/price-tables.md) technique.
+
+## The unit axis is open, and it is the undefended one
+
+That last paragraph names a danger the table cannot fix and then leaves it
+there, so it is worth finishing. Two axes of a row are defended by a lookup
+that can miss loudly: an unrecognized *model* prices at a declared default and
+counts the miss, and a call fitting no *spend class* lands in a counted
+bucket. The **unit** axis has neither, and it cannot be given a lookup miss,
+because nothing looks a unit class up. An extractor reads the keys it knows,
+a permissive decoder defaults the rest away, and the row is accepted, costed
+and dashboarded — smaller. Providers now routinely report units that are
+neither input nor output: planning units spent deciding what to inspect,
+tool-invocation units for content fetched mid-call, internal turns the caller
+never composed.
+
+So the row's discipline is that every reported class either **nests** — a
+declared subset of one direction, priced at that direction's rate, normalized
+by the extractor into the row's convention rather than the provider's — or
+lands in a **counted residual** under its own name. A row carrying residual
+units has a cost that is a *floor*, not a number, and the floor propagates to
+every total, margin and remaining-budget figure computed over it.
+
+This is also what makes an efficiency claim checkable: units are not fungible
+across these classes, so a change that relocates consumption is
+indistinguishable from one that eliminates it in any unit-denominated
+comparison, and trivially distinguishable in currency. Spend-reducing changes
+are therefore scored in money, on both arms, through one price table. The
+nesting rule, the residual, the floor and the two-arm measurement are the
+[unit-classes-are-open](./techniques/unit-classes-are-open.md) technique.
 
 ## Estimate before, measure after, track the gap
 
@@ -273,3 +303,6 @@ surfaces show and which anomalies they must make visible is the
 - [spend-observability](./techniques/spend-observability.md) — per-class and
   per-axis surfaces; anomaly visibility; estimate-drift and
   table-staleness as monitored numbers.
+- [unit-classes-are-open](./techniques/unit-classes-are-open.md) — the unit
+  axis as an open vocabulary; nest a class or count it as residual; unmodeled
+  units make a cost a floor; efficiency scored in currency on two arms.
