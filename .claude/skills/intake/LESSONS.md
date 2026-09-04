@@ -7002,3 +7002,58 @@ a lesson becomes a rule at three.
   acts on it. It is the inverse of the technique under test and security-shaped, so it
   went in the source note with a return condition rather than into a landing this run
   was not asked for.
+
+## 2.3.2 - 2026-09-04 - flatnotes
+
+- **Where a tree has no design documents, its abstract surfaces are the design
+  documents.** The method's Phase 2b sweep leads with `docs/`, `design/`, `ADR/`,
+  and round 10 already added the correction that they may live in source header
+  comments. This tree has neither: 4,222 words of server code, no `docs/`, no
+  ADRs, no tests, no CHANGELOG. It still produced a full seven-entry design
+  record, because three abstract base classes, a config object whose every field
+  validates-or-exits, and a models module state the contract exactly and **cannot
+  hedge, because something compiles against them**. The sweep order's item 4
+  ("the types and the config schema") is doing more work than its position
+  suggests: for a small tree it is not the fourth-best source, it is the *only*
+  one, and it is where the decisions are. Worth one sentence in the sweep order
+  saying the ranking inverts as the tree gets smaller.
+
+- **The enumeration hunt works best against a passage that is confident and
+  right.** The finding came from `editor-interop:78-94`, which is one of the
+  better-argued passages in the whole bundle: it enumerates the watcher's silent
+  failure modes individually, concludes they promote the time bound "from
+  prudence into the load-bearing mechanism", and demotes the watcher explicitly.
+  Every sentence of that is correct. It is also a two-member enumeration asserted
+  with enough confidence to read as exhaustive, and the third member was sitting
+  in the source. **A hedged passage invites no question; a confident one names
+  its own boundary.** The method already says an enumeration is worth exactly one
+  question — what it does not say is that the *best* enumerations to interrogate
+  are the ones you would least expect to be incomplete, because vagueness is what
+  usually protects a document from this check.
+
+- **The corpus corroborated the source's non-obvious half, in the direction the
+  method usually runs the other way.** The tree compares mtimes with `!=` and
+  never says why. `replicated-substrate` — already in this subject — says exactly
+  why: a checkout or timestamp-preserving copy installs an *older* file, so an
+  ordering comparison serves the superseded derivation forever. The usual shape
+  is a fetched primary correcting a source; here the registry supplied the
+  argument a correct implementation had left implicit, and the technique is
+  stronger than the tree it was read from. Worth naming as a third corroboration
+  route beside "primary fetched in-run" and "training-data convergence":
+  **corpus-internal justification of an unexplained choice**, which costs no
+  fetch and is only available because someone forged the neighbour first.
+
+### Redesign proposal - the triage gate returns one row because it asks for one
+
+  Not applied this run. Eleven candidates extracted, three carrying a `real gap`
+  read, one verified — and the same shape is visible in the last four rows, where
+  the design record has steadily widened Extract while Landed stayed flat. The
+  gate's question ("which should I verify and land? numbers / all / none /
+  leads-only") is not wrong, but it prices nothing, so a single number is the
+  path of least effort and it is also a perfectly reasonable answer. The proposal
+  is one clause: **state the `real gap` count and the marginal cost before the
+  question** — "3 rows read as real gaps; taking all three is roughly one extra
+  verification round and no extra fetches" — so that a one-row answer is a
+  decision about cost rather than a default. This is a Phase 5 wording change and
+  it should not be made from one run's evidence; it wants the round-11 row to
+  confirm the pattern first.
