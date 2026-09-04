@@ -6678,3 +6678,43 @@ and wants them tested hard rather than many and tested once.
 - Mid-flight runs on an earlier version: nothing to do. No `SKILL.md` change
   was made this round; the three proposals above are lessons awaiting a third
   sighting, per the skill's own promotion rule.
+
+## 2.3.2 - 2026-09-04 - agentic-video
+
+- **For a vendor release announcement, the finding is the SPREAD between two
+  published figures, not either figure.** The class rule from 2026-08-28 says
+  "an announcement states NUMBERS, and its numbers are the yield." Two runs
+  have now read that as *mine each number*. This run got its entire result
+  from a number nobody printed: the post advertises -88% tokens and -66% cost
+  for the same workload and separately that the mode carries no feature fee,
+  and those three facts together force a conclusion the post never draws.
+  Marketing prints savings on whichever denominators flatter it and never
+  divides them, because the ratio is the mechanism and the mechanism is not a
+  selling point. **The sharpening: when an announcement quotes improvements on
+  two different denominators, compute the ratio and ask what could make them
+  differ.** That question is free, it needs no fetch, and it is the highest
+  yield-per-token move available on this class. Third sighting promotes it
+  into the class table in `references/source-classes.md`; this is the first.
+
+- **The `use_when` on a technique should be written for the day the world
+  changes, not for the day the reader has a problem.** `unit-classes-are-open`
+  landed with "a provider ships a mode that reports token counters you do not
+  read" as its first trigger - a *world event*, not a symptom. Every existing
+  `use_when` in the subject is symptom-shaped ("bills exceeding what the gate
+  approved", "two current-month spend figures disagreeing"). Symptom triggers
+  only fire after the damage; this defect's whole nature is that it produces
+  no symptom, so a symptom trigger would never have matched it. Not yet a
+  rule - one instance - but worth watching for whether silent-failure
+  techniques systematically need event-shaped triggers.
+
+- **The corpus was corrected by a fleet project for the second consecutive
+  run**, and both times the correction came from executing round 9's focus
+  item 2 (on a tree that is ahead, ask what it knows before writing the row).
+  The mechanism is now clear enough to state: a mature consumer tree has
+  *already paid* for the boundary cases the corpus reasons about abstractly,
+  so where the tree and the technique disagree, the tree usually has the
+  better rule and the corpus has the more general one. Take the tree's rule
+  and keep the corpus's generality. Second sighting.
+
+- Mid-flight runs on an earlier version: nothing to do. No `SKILL.md` change
+  was made this round.
