@@ -7327,3 +7327,67 @@ in-flight 126-line diff is the one change a parallel fleet cannot absorb quietly
   request accessor alone. The wrong framing would have aimed a whole technique at the
   wrong constraint. A stack's documented restriction is a claim about the stack, not
   about this tree; the tree's test config is the authority on what the tree can reach.
+
+## 2.5.0 - 2026-09-04 - modelcontextprotocol specification (round 18)
+
+- **The rewrite carve-out is discharged, and it is incomplete.** Rounds 16 and 17
+  asked for it and neither could exercise it; this run needed it six times. Five
+  of the six corrections have a target sentence that is *demonstrably false*
+  against the primary, which is exactly what the carve-out was written for. The
+  sixth is a **currency** correction - the file said a question was open, and it
+  was open on the day it was written. Nothing there is false, so there is nothing
+  for the carve-out to exempt, and the full `+2` rewrite penalty lands on the
+  cheapest and safest edit this skill makes. **The carve-out must read "false *or
+  superseded*".** Not applying it yet: one run is one sighting, and the scorecard
+  focus carries it to round 19 where a second currency correction can confirm it.
+
+- **Mining implementations of a standard teaches you its architecture and not its
+  rules.** Six load-bearing statements in a mature twelve-technique subject
+  reproduced a superseded revision, and nothing about the run that wrote them was
+  sloppy - it mined a large vendor implementation catalog, which is a legitimate
+  and productive source. But an implementation shows you one vendor's *reading* of
+  a standard, and a reading is not a citation. The architecture section that run
+  wrote is still correct; every rule that depended on the standard's own wording
+  was wrong. **Where a subject's material is a published standard, the standard is
+  a distinct source that must be mined on its own**, and `rescan_when` does not
+  create that obligation because it attaches to the source that was mined - a
+  repository re-scan re-checks the repository, never the specification behind it.
+
+- **An application can carry a mechanism its subject never learned.** The corpus
+  already held this source's continuation-state mechanism in full - envelope,
+  key floor, TTL, principal binding, constant-time compare - inside a *dated
+  application* about one SDK's transport behaviour, described using the vocabulary
+  of the rule it is an exception to. The gap was placement, not coverage, and
+  nothing in the structure surfaces it: applications are read as evidence *for*
+  techniques, never as candidates *to become* them. Worth a lane in some later
+  sweep - "which applications describe a mechanism no technique states?" - but it
+  is a librarian question, not an intake one.
+
+- **The untriaged tail has two causes and the count conflates them.** Round 16
+  said 13 untriaged and meant rows whose promoting question was never executed.
+  This run says 13 and means something else entirely: 21 of 43 design entries had
+  no home, 12 were admitted, and nine real, verified, corpus-absent mechanisms
+  were banked for **writing capacity** alone - two of them after their promoting
+  question had already been executed and promoted them. A drain mode is genuinely
+  the right instrument for this second cause and genuinely the wrong one for the
+  first. Report the cause with the count.
+
+- **A specification repository is a source class this method does not have a row
+  for.** It behaves like none of the fifteen: its ADR directory is first-party
+  design record at a density no vendor repo matches (43 proposals each carrying
+  Motivation, Alternatives Considered, Backwards Compatibility), it is
+  simultaneously the *primary* that other sources are corroborated against, and it
+  ships several published revisions in one checkout so a claim's history is a diff
+  rather than a memory. That last property did most of the work here - the
+  strongest finding was available only because 2025-06-18, 2025-11-25 and
+  2026-07-28 were all in the tree at once. Not proposing a class row yet; one
+  sighting.
+
+- **The one that cost time: naming a defect before reading the tree's tests.**
+  The pumper finding was first written as "the tool surface has no validation",
+  which the tree's own test names refuted in one grep - the handlers validate by
+  hand and already used the in-band channel correctly. The corrected finding is
+  narrower and better (the *enforced* set had drifted from the *published* set),
+  but the first version would have shipped a wrong sentence into an application.
+  **Read the target's tests before writing the finding, not before writing the
+  fix** - a test file is the cheapest statement of what a tree believes it does.
