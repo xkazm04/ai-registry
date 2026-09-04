@@ -232,3 +232,35 @@ for a later amendment.
 
 Application: `next--bounded-projection-of-external-work` (a new stack for this
 technique; the existing `rust--` document is a different project and was not touched).
+
+## 2026-09-04 - intake `yt:B-YQANvDOq0` function hooks (run `intake-yt-byqan`)
+
+New technique `substituted-result-attribution`. Found by the asymmetry hunt rather
+than by the source: `rewrite-before-the-gate` models a mutator surface's rewrite
+power in full - position relative to the gates, a provenance rule carrying the
+original beside the effective value, the wrapping arity contract, three fall-through
+states - and disposes of the third power in one clause, "a frame that short-circuits
+deliberately is a legitimate use of a wrapping point, not a failure". Correct, and it
+settles only whether the frame *may*. What it returns is a value the model reads as
+the tool's output, and nothing does on the return path what that technique does on
+the way in.
+
+The shape of the finding: rewriting makes the gate judge a value the model did not
+write; substituting makes the gate judge a producer that did not answer. An unmarked
+substituted result asserts three things falsely - that the tool ran
+(`record-precedes-effect` read from the other side), that the result is current
+(replay; `unknown-is-not-a-value` at the tool boundary), and that the named producer
+produced it (`gate-sees-target` on the return path, because the egress rule, trust
+class, credential scope and cost meter were all resolved against the tool's identity).
+Two shapes distinguished, replay and substitution, because only one is fixed by
+re-running the call.
+
+Subject was **contended**: a live sibling held it. The row was an append (new file
+plus one golden-path entry), so it proceeded, with the golden-path edit made under
+the `content` lock and released immediately. The board's `check` reported clear while
+`list` showed the sibling holding it - second sighting of that contradiction.
+
+No application written here; the technique's structural witness lives in the
+`agent-cli-transport` application, where a fleet project already satisfied the
+freshness half of this technique (a probe timestamp stamped at probe time, not serve
+time) without the technique existing.

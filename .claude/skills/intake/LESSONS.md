@@ -7406,3 +7406,49 @@ in-flight 126-line diff is the one change a parallel fleet cannot absorb quietly
 - **Environment: a PowerShell here-string inside the Bash tool silently produced a commit whose subject line was `@`.** The tool's own instructions forbid `@'...'@`; the commit succeeded, the message was mangled, and nothing failed loudly. Caught only by reading the message back with `git log -1 --format=%B`. **Read back any commit message built from a multi-line string** - the failure is silent and the fix after a push is not free.
 
 - **The best apply row came from a project that had already solved the technique's problem once, for a different guarantee.** tracklight degrades reproducibility in-band through a three-state `Determinism` enum read at 66 sites, and left schema enforcement announced on stderr - so the same team had the exact pattern and applied it to one of two sibling guarantees. Looking for *where a tree already does this correctly for something else* turned out to be a much faster route to a real seam than looking for where it does it wrong, and it makes the change unarguable in review because the precedent is the codebase's own.
+
+## 2.5.0 - 2026-09-04 - yt:B-YQANvDOq0 (Claude Code function hooks)
+
+- **When a source reviews a tool that is installed on this machine, the installed
+  artifact is the primary, it is free, and it should be read before the fetch
+  budget is touched.** The class table tells a review run that "the fetch is not
+  corroboration, it is the extraction", which aimed this run at the vendor's
+  documentation. That documentation described five hook types; the shipped
+  binary's own schema defines six, and the two that decide by asking a model -
+  the finding that refuted a sentence in a mature technique - were in neither the
+  docs nor the video. One fetch 404'd, one returned a summarising model's reading
+  of a page that was wrong about its own product, and a `grep -a` over the binary
+  settled it in two calls. `dated-capability-matrix` already ranks a live
+  artifact above vendor prose; this method's budget silently assumes the primary
+  is a document. Proposed as a class-rule amendment, not applied this run.
+- **The asymmetry hunt (Phase 6 step 4) produced both landings, and it is
+  cheaper to run than the enumeration hunt.** The query is mechanical: find a
+  place where a forged technique models one case in full - a section, a
+  provenance rule, decision rules - and gives its sibling case one sentence.
+  `rewrite-before-the-gate` models rewriting a call's arguments completely and
+  disposes of short-circuiting in a clause ("a legitimate use of a wrapping
+  point, not a failure"); that clause was the technique. `enforcement-demotion`
+  models the *rule* side of its sort exhaustively and never asks what the
+  destination is. Neither gap is visible to the slug map or to a summary, and
+  both were found by reading two files.
+- **The superseded-claim carve-out is real and this run is the first to apply it
+  deliberately.** Round 18 diagnosed it; round 19's focus asked for it; the row
+  that needed it scored `3/2/2` and rejects at -1 on the rewrite penalty alone,
+  where the only sentence made false is a dated fact about a vendor surface. The
+  distinction that makes it safe to apply: the +2 protects standing *reasoning*
+  from being overwritten. A stale fact has no reasoning to protect - correcting
+  it is what keeps the reasoning around it true. Recommend the next run that hits
+  this promote it from a lesson to a rule in the gate, which would make three
+  sightings.
+- **The board's `check` contradicted its `list` again**, on `agent-runtime-assembly`
+  - the same contradiction round 18 recorded. Second sighting. `list` was treated
+  as authoritative and the row proceeded as an append under the `content` lock.
+  One more sighting makes it a rule; it may be that `check` ignores a subject a
+  sibling declared but has not yet written into.
+- **A cwd left behind by an earlier `cd` produced a confident false absence.**
+  A compound `cd .../techniques && cat ...` moved the persistent Bash cwd, and a
+  later `find knowledge/... -type d` returned nothing for a directory that
+  exists. It read exactly like "this subject is not in this checkout". Absolute
+  paths, or `cd` to the repo root in the same call - and the general rule the
+  corpus already holds applies to the shell too: never establish an absence from
+  an instrument whose frame you have not checked.

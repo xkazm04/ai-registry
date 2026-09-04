@@ -1824,3 +1824,42 @@ untriaged" and meant opposite things. **The check the next row should make:** di
 the run land a currency correction without arguing past its own score, and does
 its untriaged count say which of the two causes it is?
 | 2.5.0 | 2026-09-04 | `web:stencil.so/blog/harness-playbook` "The Harness Playbook" (**first-party practitioner account in BOOK form, design-dense** — a harness author's postmortem of `omp` plus the architecture of `omp²`; 21,593 words, seven chapters, two appendices one of which is a complete TLA+ spec; **round 18**) | 1 | 30 (design record, 6 systems, 4 parallel design-read workers) | 4 accepted of 10 scored, `auto=4/0/0`, `fp=0`, 3 deferred on V5 contention, 1 promotion read flipped a row | **4 techniques + 1 boundary scope + 2 applications** | 4 rows: `1c/1e/0s/0t` + 2 unapplied with return conditions | 1 (tracklight, gates green) | **Focus (round 17) answered on all three counts.** (1) The rewrite-penalty carve-out was needed twice and the ambiguity is REAL, not a wording problem — see below. (2) No untriaged row was banked without its promoting question executed; both banked rows were promoted to `real gap` by the question and held back for a stated reason rather than a score. (3) The catcher earned its keep: the board's `check` contradicted the board's own `list` on a contended subject, and a PowerShell here-string inside the Bash tool silently produced a commit whose subject was `@` | **S/T/A/Asrc/task = 0/4/1/0/0**; routing count 30+ decisions / 6 systems / **15 unhomed**, three systems clear per-system, **neither clause fires** — every home is an existing subject's techniques/ dir and no three share a NEW home; handoff structurally unavailable (an article has no clone to scout); directions=study/0 (peer lane: personas is a peer, comparison study dispatched) |
+| 2.5.0 | 2026-09-04 | `yt:B-YQANvDOq0` "Claude Code Just Made CLAUDE.md Feel Obsolete" (**second-hand practitioner review** — a creator demoing a vendor's preview-gated release; thin first-party half, ~2 of 16 minutes a course pitch; **round 19**) | 1 | 12 | 3 accepted of 12 scored, `auto=3/0/0`, `fp=0`, 7 catches, 1 lead, 1 promoting question executed | **1 technique + 2 amendments + 1 application** | 2 rows: `1c/0e/1s/0t` | 1 (personas, gates green, lefthook clean) | **Focus (round 19) answered on all three counts, and item (1) is the headline.** (1) The superseded-claim carve-out was *needed* and was applied deliberately rather than discovered: row 1 scores `3/2/2` literally and rejects at −1 purely on the rewrite penalty, where the only sentence made false is a stale fact about a vendor surface. Applied, argued in the note, accepted at +3. (2) The subject's material here IS a published contract, and the check paid immediately — the public docs describe five hook types and the **shipped binary's own schema defines six**, two of which reach a verdict by asking a model. The corpus was citing the vendor's prose. (3) The untriaged tail is one row and its cause is stated: *verified but unwritten*, promoting question executed, held back because the source never built the thing. | **S/T/A/Asrc/task = 0/1/2/0/0**; not a repository — no clone, no design record, routing count `n/a`, handoff structurally unavailable; `directions=n/a`. **Class-rule correction: the review class says "the fetch carries the extraction"; here the fetch 404'd once and returned a summary once, and the decisive corroboration came from grepping the installed binary at zero fetch cost.** |
+
+**Weakest stage across the last ten rows: `ship`.** Nine of the ten rows land
+content and eight carry apply rows, but project commits stay at one or zero per
+run, and the reason is now visible rather than guessed: an apply row reaches
+`better` when the run finds a seam the technique *changes*, and most rows find a
+seam the technique merely *describes*. This run shipped because the finding was
+a false claim in a comment — the cheapest possible edit — beside a five-line
+behavioural marker. That is the shape to look for, not a bigger change.
+
+**The round's own finding is about where a review's extraction actually lives,
+and it corrects this method's class rule.** The source-class table says a
+second-hand review is a lossy pointer to a primary, and that for such a source
+"the fetch is not corroboration, it is the extraction". That sent this run at
+the vendor's documentation, which was **wrong about its own product**: five hook
+types published, six shipped, and the two that decide by model — the ones that
+refute a sentence a mature technique states as fact — appear in neither the
+docs nor, except as a passing `$model` demo, the video. The extraction was on
+disk the whole time, in the installed binary's own schema, at zero fetch cost.
+Docs describe the version the vendor wishes you had; this subject's own
+`dated-capability-matrix` already ranks a live artifact above vendor prose, and
+the intake method does not, because its fetch budget silently assumes the
+primary is a *document*. **When a source reviews a tool that is installed on
+this machine, the installed artifact is the primary and it is free.**
+
+**Next run's declared focus (round 20).** (1) **Before spending a fetch on a
+review's primary, check whether the artifact is on disk** — a binary, a package,
+a schema, a lockfile — and grep it first; report in the row whether the artifact
+and the documentation disagreed, because two runs now say they do. (2) **Hunt
+the asymmetry deliberately, not incidentally.** Both landings this run came from
+one move: find where a mature technique models one case in full and gives its
+sibling a single sentence (`rewrite-before-the-gate` on short-circuit;
+`enforcement-demotion` on what a gate is). That is a repeatable query against
+any forged subject and it outperformed the enumeration hunt here. (3) **Keep
+naming the untriaged cause** — this run's tail was one row and the cause was
+stated, which took a sentence; do it again so the distinction round 18 asked for
+becomes a habit rather than a one-off. **The check the next row should make:**
+did the run grep an installed artifact before spending a fetch, and did the
+asymmetry hunt produce a landing?

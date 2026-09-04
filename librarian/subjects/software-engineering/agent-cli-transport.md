@@ -126,3 +126,34 @@ either way. The **negative arm is the half worth paying for** — it is what sho
 the probe is necessary rather than that today's wiring happens to be right. A
 second harness did not complete inside budget and is recorded **not exercised**
 rather than as a negative.
+
+## 2026-09-04 - intake `yt:B-YQANvDOq0` function hooks (run `intake-yt-byqan`)
+
+Amendment to `dated-capability-matrix`: a **third axis**, and the notable thing is
+that it defeats the technique's *strongest* verification method rather than its
+weakest. The technique already ranks a live run above help text above vendor docs,
+and already carries a blind-spot section about the service behind the artifact (an
+eligibility tier withdrawn while the binary keeps shipping). This one sits between
+those: part of a CLI's surface is resolved at startup from a remotely-fetched flag
+payload, disk-cached from the previous session and overridable per process. So a live
+run proves the capability existed **in that session, on that machine, under that
+payload** - it does not transfer to a colleague on the same version and plan, and it
+can differ on the next spawn with nothing local changed. The three axes now named
+together: artifact (what shipped), account (what the payer is entitled to), session
+(what was switched on when the process started).
+
+Measured, not argued: two headless spawns of one CLI, one machine, one account, one
+self-reported version (2.1.260), minutes apart, differing only in one environment
+variable on the child - `skills` 24 vs 25, `slash_commands` 59 vs 61, `plugins` 1 vs
+2; `tools` (30) and `agents` (5) unchanged. New application
+`claude-code--dated-capability-matrix` carries the table and the honest limit: the
+axis is proven at the surface a fleet project reads, and its reach into the two
+arrays that project's feature gate actually derives from is *not*, which is why the
+project change was a corrected scope claim plus a replay marker rather than a
+re-keying of the matrix.
+
+**Method note worth carrying:** this run reached the finding by grepping the installed
+binary's own schema after the vendor's documentation proved wrong about its own
+product (five hook types published, six shipped). That is this technique's own
+verification ladder - live artifact over vendor prose - applied to the research
+method rather than to the adapter.

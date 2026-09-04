@@ -394,3 +394,40 @@ proposed in `LESSONS.md` and not applied.
 Untriaged from the same source, with a home already named: a third expiry axis for
 `substrate-coupled-expiry` (a per-item payload decoration whose *peer tool* changed its
 method - neither repo nor model moved), measured at ~5% offline and ~3% online cost.
+
+## 2026-09-04 - intake `yt:B-YQANvDOq0` function hooks (run `intake-yt-byqan`)
+
+Amendment to `enforcement-demotion`: § "A model-backed hook is not a demotion either",
+plus a correction to the technique's opening, which stated as fact that "hooks,
+linters, type systems and CI gates are deterministic".
+
+That sentence was true when a harness's hook surface ran shell commands. The shipped
+schema of a current coding harness defines **six** hook types and two of them reach a
+verdict by asking a language model - one an "LLM prompt hook type" defaulting to a
+small fast model, one described in the schema itself as an **"Agentic verifier hook
+type"**, defaulting to Haiku with a 60-second timeout. Both return the same blocking
+decision the deterministic types return. The sort's yes-branch says "demote it to a
+gate" and silently assumed the destination decides by program.
+
+This is the sibling of the section already in the file: a hook that prints prose is
+an impostor that looks wrong on inspection; a model-backed hook is an impostor that
+looks *right* - it produces a verdict, it blocks, it appears on the operator surface
+exactly as a gate does. What travelled is the location of the judgment, not its
+determinism. The amendment adds the third question (*does this gate decide by program
+or by model?*), keeps the relocation's genuine benefits explicit rather than arguing
+against it, and states the general form: **a rule has been demoted when its verdict
+stopped depending on a model's judgment, not when its text stopped living in the
+file.**
+
+Scoring note: the row scored `3/2/2` and rejects at -1 on the rewrite penalty alone,
+because the only sentence made false is a superseded fact about a vendor surface.
+Round 18 diagnosed this defect and round 19's declared focus asked for the carve-out;
+this is the first run to apply it deliberately.
+
+Applied fleet-wide as a `simulation` with a measured negative: of twelve projects,
+three carry hooks and **all three are the deterministic `command` type** - zero
+model-backed hooks, so the amendment is preventive here. Its live content is the
+destination sort applied to the doc-sync hook those three share, whose trigger is
+program-decidable (a path-coupling map) while its verdict is a judgment - exactly the
+case the amendment's step 2 newly routes. No instruction file over-claims it; all
+three name the gate without calling it enforcement.

@@ -18,6 +18,7 @@ techniques:
   - guard-input-custody
   - additive-input-at-the-call-boundary
   - indeterminate-closure-on-interruption
+  - substituted-result-attribution
 ---
 
 # Agent runtime assembly
@@ -359,6 +360,11 @@ special-case it.
   policy judges what executes; the original travels beside the effective
   value with per-frame provenance; the continuation is single-use, and
   fall-through is conditioned on whether the call beneath already ran.
+- [substituted-result-attribution](./techniques/substituted-result-attribution.md)
+  — a frame that returns without entering the continuation is a producer, so
+  the result names it: replay and substitution spelled differently, freshness
+  stamped at the time the value was obtained, and the decisions made against
+  the named tool's identity re-evaluated when a different producer answered.
 - [honest-hook-registry](./techniques/honest-hook-registry.md) — a timeout
   is available only where abandonment has a safe direction, so coverage is
   an allowlist whose exemptions are named with reasons; no event name
