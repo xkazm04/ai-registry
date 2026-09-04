@@ -1,7 +1,7 @@
 ---
 domain: software-engineering
 subject: eval-harness
-last_touched: 2026-08-31
+last_touched: 2026-09-04
 touched_by: intake
 dry_streak: 0
 ---
@@ -555,3 +555,37 @@ miss, because it is the cheap misreading and this run made it first: the UNKNOWN
 the runner is scoped to **unaided-baseline screening**, where excluding those probes is
 precisely what keeps them in the score. Ask which pass a filter belongs to, not whether a
 filter exists.
+
+## 2026-09-04 - intake, `zvec-grep` (vendor repository)
+
+Two techniques, from the measurement half of a vendor repository that ships a
+300-trial paired A/B (`benchmarks/browse-comp-plus/LATEST_REPORT.md`, commit
+`7d73ca1`). Both are stages the subject's three comparison modes assume away.
+
+- **`treatment-election-rate`.** Every mode in `comparison-modes` assumes the
+  treatment is *applied*. The most common treatment in agent evaluation is a
+  capability the candidate elects, so the arms are "with it available" and
+  "without" - and a null is ambiguous between no effect and no use. The source
+  reports `300/300 (100.00%)` and 989 calls for exactly this reason. It also
+  **corrects `unaided-baseline-screening`**: that technique discards a scenario
+  both arms satisfy, and cannot tell a bad scenario from a candidate that
+  declined its instrument. Screen on the deprived arm's success *and* the aided
+  arm's election, and keep the two rejection reasons apart.
+- **`outcome-conditioned-cost`.** A failed trial's score is an observation; its
+  *cost* is not, and the contamination runs in both directions (premature
+  stopping looks cheap, thrashing looks dear). The both-succeeded subset is the
+  comparable denominator, the unconditioned primary stays because conditioning
+  selects on a post-treatment variable, and the incomplete trial belongs in
+  neither.
+
+**Applied, and one shipped.** `outcome-conditioned-cost` found the exact defect
+in a fleet lab's aggregation - quality metrics conditioned, cost metrics not,
+in one row, neither denominator disclosed - and the fix **inverted a cost
+comparison** on the added fixture. `treatment-election-rate` came back
+`unmeasurable` in the same tree, with the instrument named: the schema stores
+"the agent called nothing" as NULL, so no election rate is recoverable.
+
+**Boundary worth remembering.** The source's case-level improved/tied/regressed
+table (67/0/33 on input tokens against a -37.56% aggregate) is *not* a gap -
+`comparison-modes` owns it as "the collapsed margin". Recorded as a catch so a
+later run does not propose it.

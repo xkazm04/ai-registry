@@ -21,6 +21,8 @@ techniques:
   - resolution-precondition
   - selection-over-noise
   - monitor-inside-the-loop
+  - treatment-election-rate
+  - outcome-conditioned-cost
 ---
 
 # Evaluation & benchmarking
@@ -419,3 +421,12 @@ are a design input, not an afterthought: [eval-economics](./techniques/eval-econ
 - [certification-levels](./techniques/certification-levels.md) — theoretical
   passes gating empirical ones, promotion criteria, what only the live level
   can see.
+- [treatment-election-rate](./techniques/treatment-election-rate.md) — when
+  the treatment is a capability the candidate may decline: the arm is "with
+  it available", the election rate is part of the delta's predicate, and a
+  scenario discarded for showing no difference may be a routing failure
+  rather than a bad question.
+- [outcome-conditioned-cost](./techniques/outcome-conditioned-cost.md) — cost
+  metrics over arms that can fail: the both-succeeded subset as the
+  comparable denominator, the unconditioned primary that keeps it honest,
+  and the incomplete trial that belongs in neither.

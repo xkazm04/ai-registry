@@ -1384,6 +1384,7 @@ should make:** did a run report that number, and did a `not-better` row carry
 something read out of the tree into the corpus?
 | 2.3.2 | 2026-09-04 | `agentic-video` (**vendor release announcement**, 1,151 words; 2 live siblings) | 1 | 9 | 1 (operator picked row 1 of 7; rows 2-4 untriaged with anchors, not declined) | 1 technique (`unit-classes-are-open`) + 1 golden-path section + 1 source-tree-adjacent application | **1 row: 0c/1e/0s/0t** - 1:1 with landings | 1 commit (tracklight, branch `direction/unit-class-residual-0904`, not pushed) | **Round-9 focus: item 2 held and carried the run; item 3 held; item 1 deferred a seventh time.** (2) On a tree that was ahead, I asked what it knew before writing the row - and `tracklight`'s null-cost-plus-FLOOR turned out to beat `price-tables`' conservative-declared-default, so the technique shipped carrying the *tree's* rule, not the corpus's. This is the second consecutive run where a consumer corrected the corpus. (3) Fleet reach: **0 landings unapplied for want of a seam** - the one landing found a seam immediately, so the "corpus outran the fleet" state did not arise this run and the count is a real 0, not an absent one. (1) `techniques_absent` untouched again; the map answered at subject grain and the run never needed it - which is now the seventh consecutive argument for closing it in writing rather than building it. **The fetch was the extraction, exactly as this class's two prior runs predicted** (1 of 3 spent), and it inverted one of my own candidates: I extracted a *cost* crossover for the agentic loop, the docs state a *latency* one (TTFT under 5 minutes). Ship 1 of 1 with no zero to explain. Branch rather than `main` because another session held WIP in two files. | S0/T1/A0/Asrc0/task-lines=0 (plan written, first step landed: ~9-12 files / ~250-350 lines scoped) - routing n/a (not a repository, no design record); directions=n/a; gate=n/a (no proposals this run) |
 | 2.3.2 | 2026-09-04 | `worldlabs-atlas` (**vendor release announcement**, 2,835 words; 3 live siblings, none in this bundle) | 1 | 12 (5 design + 7 claim) | 2 (operator picked both real-gap rows; 3 partial rows resolved by the promoting question, 2 untriaged with anchors) | 2 techniques | **2 rows: 1c/0e/0s/0t** - 1:1 with landings; the second is `unapplied`, no seam in any of the 8 authorized trees | 1 commit (gravity, `code`/`better`/`structural-only`, 41 lines, typecheck green) + 1 applied-row commit | Focus moved: **(1)** `techniques_absent` not closed - seventh deferral, and this run had no standing to close it (it wrote no absence claim); **(2) answered, and it produced the run's best result** - the apply row came back with the tree AHEAD of the technique on one axis, and reading the tree as a source is what found the inverting pair; **(3) answered** - the fleet's reach is reported as its own state: 1 of 2 findings has no seam anywhere | S0/T2/A0/Asrc0/task0; routing count **2** of 5 design entries with no corpus home, no shared home-if-new -> **stayed in intake, no handoff, no XL trigger** (correct: both NONE entries are foundation-model architecture decisions); directions=0/0 (`build-fleet-map` classified every absence for both subjects `out-of-domain`); fetches 0/3 |
+| 2.3.2 | 2026-09-04 | `zvec-grep` (**vendor repository**, 1,325 landing / 16,284 in-tree; 0 siblings at claim, 2 by Phase 7) | 1 | 10 (7 design + 3 claim) | 4 (operator picked rows 1-4, both design pairs; rows 5-6 promoted by their questions and left untriaged because a sibling held their subject) | **4 techniques + 1 amendment + 4 applications** | **4 rows: 1c/0e/3s/0t** - 1:1 with landings | 1 commit (personas `ed5fd8058`, pathspec, not pushed) | **No zero to explain in Apply, and the one zero in Ship is a reach fact, not a funnel loss.** Three of four apply rows could not be `code`: one tree had nothing to change (the technique was already there), one had no stored quantity to measure, and one landing has no seam in any authorized tree. **Focus 3 executed: the fleet's reach is 1 of 4** - `fluent-syntax-bounded-grammar` needs a project that takes a notation rather than a schema from a model, and the fleet has none. **Focus 2 executed deliberately and paid for the second consecutive run**: the `not-better` row against pumper produced the run's only amendment (a four-verdict refusal gate whose code argues that collapsing *expired* into *unknown* would hide a leaked token behind something that looks like a working guard). **Focus 1 not exercised** - seventh deferral of `techniques_absent`; the subject-grain map answered every question this run had, so the run neither argues for it nor against it, and the closure is still owed. **The class prediction was wrong in a recordable direction:** a vendor repository is supposed to yield its docs' rules page and its client's types, and this one shipped a 300-trial paired benchmark with its aggregation choices argued in prose - which produced 2 of the 4 landings. A `benchmarks/` directory with a published protocol makes a vendor repo two sources, and the benchmark half ranks first. **The `code` row inverted its own comparison**, which is the strongest apply result the board has carried: a variant reading 25% cheaper on total cost reads 45% dearer per completed sample once the denominator is disclosed. 0 of 3 fetches, fourteenth consecutive zero-fetch run on a source carrying its own primary material. | **S=0 / T=4 / A=1 / Asrc=2 / task-lines=0.** Routing count computed on both clauses before the triage table: per system A=2 B=0 C=2 D=0; per home-if-new `mcp-tools`=2, `eval-harness`=2. **Neither clause reached three -> no handoff**, two design pairs landed as techniques, which is the shape the method prescribes for exactly two sharing a home. `directions=0/3` - three candidate absences named by the fleet map (eval-harness/grant, mcp-tools/gravity, mcp-tools/politicas) and none proposed, because all three projects report `scope=missing` and the pass's eligibility test reads `scope.does`. `gate=empty` (zero `status: proposed` proposals fleet-wide). |
 
 **The funnel reading over the last ten rows (round 9).** Apply is no longer where
 this pipeline leaks. Nine of the last ten rows are 1:1 apply-to-landing, and eight
@@ -1428,3 +1429,51 @@ by never asking. Phase 2d is written for trees; this run suggests the trigger is
 stated architecture with forces, not a clone. **The check the next row should make:**
 did a run ask the tree-as-source question on a passing apply row, and did it carry a
 fleet-reach count?
+
+---
+
+**Round 9 (`zvec-grep`), the funnel over the last ten rows.** Research is fed.
+Extract and Test are healthy (10 -> 4 picks, all four landed). **Apply moved,
+and it moved for a reason worth naming: this is the first row in ten with a
+1:1 landing-to-row ratio where the reason for every non-`code` mode is a
+property of the fleet rather than of the run.** Round 8 said the loss is reach
+rather than laziness; round 9 measured the reach and put a number on it - one
+of four landings has preconditions no authorized tree meets. That number
+belongs in the row permanently, because a scorecard that reads it as a miss is
+measuring the wrong thing.
+
+**Depth check across the last ten rows.** The shape matched the source: a
+repository was read as a system, the design record preceded extraction, the
+routing count was computed on both clauses and written down before the triage
+table, and the honest answer was *no handoff* - both clauses at two. That is
+the count doing its job in the negative direction for the first time, which is
+worth as much as a handoff: v2 exists because runs mined systems with the news
+method, and a run that computes the count and correctly declines is the same
+discipline working.
+
+**Round 8's checks, answered.** (1) Did the design record name a consumer or an
+explicit none before the handoff? There was no handoff, and the record named
+its corpus home per entry, which is the same obligation one level down. (2) Did
+`Asrc` travel with a non-zero apply count? Yes - two source-tree applications
+beside four apply rows, one of them a shipped `code` row.
+
+**The class-prediction miss is the most reusable thing this run produced.**
+A vendor repository is predicted to yield its docs' rules page and its client's
+types. This one shipped a 300-trial paired A/B with locked selections, an
+isolated reference set, and its aggregation choices argued in prose - and that
+half produced half the landings. **A vendor repository carrying a
+`benchmarks/` directory with a published protocol is two sources, and the
+benchmark half ranks first.** The class table should carry it.
+
+**Next run's declared focus (round 10).** (1) **Close `techniques_absent` in
+writing.** Seventh deferral. It is now the longest-standing open item on this
+board and no run has argued *against* it either; write the closure or build it,
+but stop carrying it. (2) **Read a vendor repository's `benchmarks/` before its
+`docs/`.** This run found it second and got lucky; make it the sweep order when
+the directory exists with a published protocol. (3) **When the direction pass
+is blocked by a missing `scope` block, say so as a fleet fact and count it.**
+Seven of eight projects have no declared scope, which silently disables Phase
+7.6 for almost the whole fleet - that is a standing condition, not a per-run
+note, and it should be visible as one. **The check the next row should make:**
+did the run report the fleet's reach as its own number, and did it say whether
+the direction pass could run at all?

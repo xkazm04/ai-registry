@@ -1,7 +1,7 @@
 ---
 domain: software-engineering
 subject: mcp-tools
-last_touched: 2026-09-03
+last_touched: 2026-09-04
 touched_by: intake
 dry_streak: 0
 ---
@@ -314,3 +314,34 @@ contract, where the real defect lives - a client returns accept even when the us
 reject, because the choice is in the declared payload field and not the envelope.
 
 Four leads and eleven untriaged rows with anchors are in the source note.
+
+## 2026-09-04 - intake, `zvec-grep` (vendor repository)
+
+Two techniques from the agent-surface half of a search tool that exposes one
+engine to both a human CLI and an agent over MCP (commit `7d73ca1`).
+
+- **`caller-differentiated-capability`.** `catalog-projection-modes` publishes
+  one tree at several resolutions and requires that nothing downstream differ;
+  this is the case where the difference is deliberate and downstream. The agent's
+  option set is a strict subset of the human's, and the subtraction is chosen by
+  an *invariant* (every path resolves inside the root) rather than by what looks
+  risky - so symlink following and the output-format flags go, while matching,
+  context, glob, type and regex-engine options all stay. The refusal names the
+  surface, not just the option.
+- **`fluent-syntax-bounded-grammar`.** Zero corpus-wide hits for the concept
+  before this run. When the operation has a notation the model writes better
+  than it fills in forms, take the string, **parse it yourself**, and admit only
+  the fragment the operation needs - here one trailing output bound, because the
+  tool's contract is exhaustive-by-default. The whitelist is a whitelist, never
+  a denylist over a shell grammar.
+
+**The amendment came from a fleet tree, not the source.** A `not-better` apply
+row against a research runtime that already implements the first technique at
+both its rules produced a third: its token gate enumerates **four** verdicts,
+because an expired grant and an unknown token are different facts and collapsing
+them would make a leaked token indistinguishable from an ordinary late call -
+both of which look like a guard working correctly. `caller-differentiated-capability`
+now carries "The refusals are a channel, and they must not collapse either."
+
+**`fluent-syntax-bounded-grammar` is landed and unapplied**: no fleet project
+takes a notation rather than a schema from a model. Return when one does.

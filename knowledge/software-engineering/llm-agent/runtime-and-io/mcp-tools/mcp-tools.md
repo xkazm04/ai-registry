@@ -16,6 +16,8 @@ techniques:
   - catalog-projection-modes
   - tool-identity-vs-tool-name
   - sanctioned-session-state
+  - caller-differentiated-capability
+  - fluent-syntax-bounded-grammar
 ---
 
 # Tool protocols (MCP)
@@ -275,3 +277,13 @@ same obligations as the wire itself:
   needs proof the model saw its current version, the proof is a hash on
   the read result so context loss is proof loss, writes never refresh it,
   and check-plus-write is one critical section per path.
+- [caller-differentiated-capability](./techniques/caller-differentiated-capability.md)
+  — one engine, a human surface and an agent surface: the agent's option set
+  as a strict subset, subtraction chosen by the invariant rather than by
+  feel, the refusal that names the surface, and when to split the tool
+  instead.
+- [fluent-syntax-bounded-grammar](./techniques/fluent-syntax-bounded-grammar.md)
+  — accepting a notation the model writes fluently without granting the
+  authority that notation normally implies: parse it yourself, whitelist the
+  fragment the operation needs, and justify every admitted operator from the
+  operation.
