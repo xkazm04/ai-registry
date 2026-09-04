@@ -131,3 +131,7 @@ only reasoned about.
 
 - 2026-09-04: first run in this repo. Overlay authored from CONTRIBUTING.md + the two CI
   workflows; no context map exists, so the area menu above is hand-cut by lane.
+- 2026-09-04: run exp1 (scripts/ gates). Measured a gate exit code through a `| tail`
+  and read the pipe's status as the gate's - the hazard this overlay's ## Gates section
+  already names. Remove the pipeline when you want the exit code; read the output in a
+  separate command.
