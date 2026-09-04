@@ -7402,3 +7402,113 @@ here; finish on the version you loaded.
   grep. It is that a structural count is only publishable after every member has been
   opened - the same rule this method already carries for establishing an absence from a
   truncated result, applied to a *presence*.
+
+## 2.4.0 - 2026-09-04 - open_deep_research
+
+- **The map names a home; the golden path's opening decides it.** Two design
+  candidates mapped cleanly to `agent-chaining` on slug and `use_when`. Its
+  first three paragraphs draw a boundary that excludes them both: an
+  orchestrator-driven pipeline holds the whole authored graph, a chain is
+  event-wired with the topology implicit in subscriptions - and a fan-out a
+  language model decides per turn is neither, because the topology does not
+  exist before the turn. `fleet-orchestration` took them without strain once
+  the dispatcher was allowed to be a model. Phase 6 already says to read the
+  file; this is narrower and mechanical: **read the chosen subject's own
+  boundary statement, which this corpus always puts in the golden path's
+  opening, and quote it in the source note.** Cost: one read. It was the
+  difference between two techniques in the right subject and two in a subject
+  whose first paragraph argues against them.
+
+- **A refutation at two of three sites is the run's best row, and the verdict
+  column still cannot say it.** The escape-hatch amendment predicted uncapped
+  failure fallbacks in bounding stages. Walked against three real sites in the
+  applied tree, two already cap their fallback below the trigger exactly as the
+  amendment prescribes, and the third states the amendment's disclosure rule in
+  its own source comment - *a refusal is loud, a truncated command line is not*
+  - and refuses rather than truncating, which is **stronger** than what the
+  amendment asks for. The row reads `not-better`, which in every summary reads
+  as "the technique failed". It did not: it was confirmed by a tree that had
+  reached it independently and gone one step further. Third consecutive run to
+  report this shape.
+
+  ### Redesign proposal - a fourth apply verdict
+
+  Add `converges` to the closed set. `not-better` means the test ran and the
+  technique did not help. `converges` means the seam already implements the
+  mechanism, the test's value was the confirmation, and the correct next move
+  is to cite the seam in the technique rather than to amend it. The distinction
+  is not cosmetic - it decides whether the next run treats the technique as
+  weakened or as corroborated, and two `not-better` rows currently demote a
+  technique to a lead. Round 11 proposed it, round 12 supplied the instance,
+  this run supplies the case where the target is ahead of the registry. Three
+  sightings is this file's own bar. Not applied here: it changes Phase 7.5's
+  vocabulary and the demotion rule that reads it, and eleven sessions are
+  holding this file.
+
+- **Run the falsifier as arm A, not as a check afterwards.** The shipped row's
+  test was written to fail against the unmodified tree and run there first. Its
+  first three assertions passed - the loop really did charge 96 of 200
+  requested turns and really did say nothing - so the defect was established by
+  the instrument rather than by the argument that produced the hypothesis, and
+  the same file became the after-arm with no extra work. Cheaper than proving
+  it twice, and the failure output is the paired proof's A arm verbatim.
+
+- **A mid-flight run should finish on the version it loaded.** This edit adds
+  no procedure; the lesson above proposes one and does not apply it.
+
+## 2.4.0 - 2026-09-04 - agent-reach
+
+- **A subject that already found a category once is the cheapest place to find
+  its second member.** `docs-sync` wall 12 had discovered the permanent-
+  `unverifiable` state for figures and written the sentence "unverifiable
+  permanently rather than occasionally". The source's promise-pinning material
+  fell straight into that shape, and the technique got its whole spine from the
+  **contrast** rather than from the source: a figure is unverifiable because it
+  cannot be read (fix: digest the inputs), a promise because it has no inputs
+  (so the comparison cannot be inverted at all). Phase 6's hunt 3 says to test
+  an enumeration for what it excludes; this is the adjacent move and it is
+  cheaper — **when a subject names a permanent or degenerate STATE, ask what
+  else lands in it**, because the author reached that state from one direction
+  and a state with one member is usually a state with two.
+
+- **`not-better` against a technique's own stated disqualifier is not a
+  rejection, and the method's default reflex is wrong for it.** Phase 7.5 says a
+  `not-better` row earns the technique an amendment naming the condition under
+  which it did not hold. Here the technique *already named the condition* — the
+  fleet owns every namespace it names, which is verbatim its `When not to use
+  this` — so the honest outcome is that the boundary was measured and held, and
+  writing an amendment would have been padding a technique with a restatement of
+  its own last section. **Check the technique's exclusions before writing the
+  amendment a `not-better` seems to owe**; if the row landed inside a stated
+  exclusion, the finding is the confirmation, and the ledger note is where it
+  goes. Second vocabulary gap now standing alongside `already-convergent`, and
+  the same shape: a verdict set built for outcomes being asked to carry reasons.
+
+- **Three sightings now say a design-deep repository keeps its design record
+  somewhere other than a design folder**, and the sweep order should say so.
+  Source header comments (duckdb-wasm), abstract base classes and a
+  validate-or-exit config object (flatnotes), and now a **policy test suite**
+  that asserts prose. In all three the tree had no `docs/design` and no ADRs,
+  and in all three the README named none of it. The sweep order's item 1 is
+  "the operating documents", which sends a run looking for a folder; items 2, 4
+  and 5 are where these actually were. Not applied as an edit from this run
+  alone — but the *tell* generalizes and is cheap: **a test-to-source line ratio
+  above 1 is a design record living in the assertions**, and this tree was at
+  1.36:1 before a single file was opened.
+
+  ### Redesign proposal - not applied here
+
+  Phase 2d could carry one line: before the sweep, compute the tree's
+  test-to-source ratio and its markdown-outside-README word count, and let those
+  two numbers pick the sweep's *entry point* rather than walking items 1-6 in
+  order. This run walked the order, found nothing at item 1, and only reached
+  the yield because the routing count sent it back. Two runs have now paid that
+  cost. The bar for the third should be low.
+
+- **The direction pass has been skipped four runs running for one structural
+  reason, and calling that a note is now the error.** `fleet-map.json` is a
+  shared committed artifact; a parallel checkout is almost always dirty; so a
+  pass gated on regenerating it is gated on a condition that a busy fleet
+  rarely satisfies. Ten proposals have accumulated unread across two projects.
+  This is not four runs being unlucky — it is a design fault in where the
+  gating artifact lives, and the next run should report it as one.
