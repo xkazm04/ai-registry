@@ -262,3 +262,63 @@ trigger fire on real events, does it hand the checker the real target, and
 does the checker's verdict reach an exit code someone obeys. Any link in
 that chain can be dead while every other link is healthy — and the
 observable, in every case, is green.
+
+## When the observable is absence rather than green
+
+Every death above ends the same way, and the section before this one says so:
+the observable, in every case, is green. There is one that does not reach
+green, and it hides better for it — **the gate that stops existing.**
+
+A gate assembled from third-party parts has three failure surfaces that
+produce no commit, no config change, and no run at all: the hosted runner
+whose free tier is withdrawn, the transport the code host removes, and the
+checker's own upstream repository going away. None of them touch the
+repository. Every in-repo liveness signal a reviewer would consult stays
+healthy — the configuration file is present, well-formed, parses, names a
+real command, and reads as a working gate to anyone who opens it.
+
+What it no longer does is run. And a gate that never runs emits no verdict to
+audit: it does not go false-green, it leaves the board. The standing metric
+this technique recommends — *time since last red, per gate* — is defined over
+a gate inventory, and this failure removes the gate from the inventory rather
+than aging its row. The metric cannot fire on a gate it can no longer see.
+
+One public curated index shows the whole arc. Its liveness checker was wired
+once and tuned for five years; the configuration's last edit is six years old
+and still describes a coherent check. In the interval its runner's free tier
+ended, the code host removed the transport its install line uses, and the
+checker's upstream repository began returning 404 — three independent
+decommissionings, none of which produced a diff. The project accepted
+sixty-five further content commits under a gate that could not have run for
+any of them, and nothing anywhere rendered its absence: there was no badge, no
+required check, and no consumer of a verdict that had stopped arriving. The
+only surviving evidence that the gate ever existed is its **tuning** — an
+accept-list and a per-host exemption list, both accreted from real failures,
+both now configuration for a program that cannot be installed.
+
+Three obligations, and the third is the one no repository-local check can
+satisfy:
+
+- **Well-formed is not alive.** A gate's configuration parsing, and naming a
+  command that would work, is evidence about the file and none about the
+  pipeline. Never read config health as gate health — it is the exact
+  substitution [gate-sees-target](../../../../_laws.md#gate-sees-target)
+  forbids, applied to the gate's own definition.
+- **Give every gate a surface that decays visibly.** A badge, a required
+  check, a recorded last-run timestamp the repository can display. The
+  failure above is undetectable precisely because a gate that never runs and
+  a gate that always passes present identically to a contributor — both are a
+  merge button with nothing in the way. A last-run date renders the
+  difference for free.
+- **Audit the inventory against the provider, not only the gates against
+  their targets.** Everything else in this technique asks whether a known
+  gate still works. This asks whether the gate is still *there* — a
+  reconciliation between the gates the repository believes it has and the
+  runs the provider says it executed. It is the only check that catches a
+  gate whose death was administrative, and it belongs on the same clock as
+  the dependency audit, because that is what it is.
+
+The general form, and the reason this belongs beside the trigger section: a
+gate is a chain of parts the repository does not own, and **liveness auditing
+that only walks inward from the config cannot see a link that was removed
+from outside.**

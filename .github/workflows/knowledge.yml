@@ -29,6 +29,17 @@ on:
   pull_request:
     paths: ['knowledge/**', 'usage/**', 'signals/**', 'scripts/**', 'catalog.json', '.github/workflows/knowledge.yml']
   workflow_dispatch:
+  # The citation sweep below is the only check here whose subject is OUTSIDE this
+  # repository, so it is the only one whose result can change with no commit. A
+  # change-triggered gate cannot see that class at all; a clock can.
+  #
+  # The weekly tick also runs every other job, and that is the point rather than a
+  # side effect: a workflow that only ever runs on changes has no heartbeat, so a
+  # gate decommissioned from outside — a withdrawn runner, a pinned action that
+  # stops resolving — is indistinguishable from a quiet week. A dated run in the
+  # history is the cheapest surface on which that decays visibly.
+  schedule:
+    - cron: '17 6 * * 1'
 
 jobs:
   bundles:
@@ -105,6 +116,34 @@ jobs:
       # trend is visible in CI history without anyone running a sweep.
       - name: Report the maintenance scorecard
         run: node scripts/librarian-scan.mjs --top 10
+
+  citations:
+    name: external citation liveness
+    # ADVISORY, and scheduled rather than change-triggered. Two reasons, both
+    # structural rather than a matter of taste:
+    #
+    # 1. Its subject is outside this repository. Every other job here answers a
+    #    question about content in the checkout, so a change is the right trigger.
+    #    An external citation dies when a third party reorganises a website - no
+    #    commit, no diff, and `verified_on` beside it goes on asserting a
+    #    resolution that is no longer true. Only a clock catches that.
+    # 2. It makes ~170 outbound requests. On every pull request that is both slow
+    #    and self-defeating: the hosts that matter most start returning 429, and a
+    #    check that is flaky on the merge path is a check somebody deletes.
+    #
+    # It never fails the build. A citation that answered 403 was REFUSED, not
+    # removed, and on this corpus 20 of the 21 non-2xx responses are that class -
+    # failing on them would delete good citations at a 95% false rate. Deletion is
+    # a human decision made from the report, which is why this job only reports.
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: '20'
+      - name: Report external citation liveness
+        run: node scripts/check-citations.mjs
 
   catalog:
     name: catalog freshness

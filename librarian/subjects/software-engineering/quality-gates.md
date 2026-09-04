@@ -1,7 +1,7 @@
 ---
 subject: quality-gates
 domain: software-engineering
-last_touched: 2026-09-03
+last_touched: 2026-09-04
 touched_by: intake
 dry_streak: 0
 ---
@@ -621,3 +621,34 @@ The technique's line "any check that folds could-not-run into pass has pre-commi
 **Corroborated by an asymmetry inside one external tree**, which is why this landed as a boundary rather than a correction: the same binary refuses outright when a document declares it needs a newer reader (a defect would escape) and proceeds when it cannot determine an installed dependency's version (only redundant work is at stake).
 
 **Applied here and shipped:** the registry's catalog builder met obligations 1 and 3 and missed 2 - it drops an unparseable usage contributor and then publishes a derived count whose predicate omits how many files were attempted. Fixed; see the applied ledger. No application document - the node--gate-liveness filename is held by an unrelated tree, which is a real limit of the one-slot-per-(stack, technique) rule and is filed as a lesson.
+
+## 2026-09-04 - `gamedev-res` (intake, `github:Kavex/GameDev-Resources` @ `f7c89aa`)
+
+Amendment to `gate-liveness`: **"When the observable is absence rather than
+green"** - plus `applications/process--gate-liveness.md`.
+
+The trigger section closed with "the observable, in every case, is green," which
+is an enumeration and invited exactly one question. The case it does not contain
+is the gate **decommissioned from outside**: a hosted runner's free tier
+withdrawn, a transport the code host removed, an upstream checker repository now
+404. None produce a commit, so every repository-local signal stays healthy while
+the gate stops existing. It does not go false-green - it leaves the inventory, and
+the subject's standing metric (*time since last red, per gate*) is defined over
+that inventory and so cannot fire.
+
+Three obligations added: well-formed is not alive; give every gate a surface that
+decays visibly; audit the inventory against the provider, not only the gates
+against their targets. The last is the only one no repository-local check can
+satisfy, which is why the class survived twelve techniques.
+
+Evidence is a twelve-year public curated index that accepted **65 content commits**
+under a gate that could not have run for any of them, with no badge and no required
+check. The structural fact nobody designed: its only surviving in-repo evidence of
+a gate is the gate's *tuning* - an accept list and a nine-host exemption list,
+accreted from real diagnosed failures, now configuration for a program that cannot
+be installed. Accumulated tuning reads as proof a gate runs; it is only proof one
+once ran.
+
+Applied here in this registry: `.github/workflows/knowledge.yml` gained a weekly
+`schedule:` (it had none) so every job has a heartbeat, plus an advisory
+`citations` job. Ship row in `librarian/applied.md`.
