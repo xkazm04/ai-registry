@@ -1,8 +1,8 @@
 ---
 domain: media-generation
 subject: generated-output-grading
-last_touched: 2026-08-28
-touched_by: librarian
+last_touched: 2026-09-04
+touched_by: intake
 dry_streak: 0
 ---
 
@@ -111,3 +111,53 @@ already uses to condemn an inert annotator field, pointed at the outputs.
   consumer's CI pins node 22 while the tree runs node 24 locally and every
   `verified_against` in this corpus reads `node@24`. Not a defect in these
   applications - they document the tree, not CI - but somebody owns it.
+
+### 2026-09-04 - `/intake` (`worldlabs-atlas`), the arms that cannot be made identical
+
+Landed **`input-channel-parity`** (7 -> 8 techniques). Source was a vendor's own
+release announcement benchmarking its model against video models on camera control:
+it encodes the camera path in its native format, the baselines get the same path
+described in a sentence, and the post discloses the confound itself while reporting
+that its lead *grows with trajectory complexity*.
+
+**Why it is a technique and not a caveat on `cross-provider-flip-analysis`.** That
+technique declares its own completeness - "the diff is only valid if the generator was
+the *only* variable… any second difference contaminates every flip" - and the
+enumeration does not contain the case where the second difference **cannot be
+removed**, because it is a property of what the arms *are* rather than of how they were
+run. `arena-benchmark-protocol` next door has the same hole from the budget side. The
+resolution is a procedure the subject did not have (enumerate channels per arm, run the
+typed arm through prose as a parity column, report both numbers labelled), so:
+technique. Counted uncapped greps returned zero hits for affordance / native input /
+typed input / input channel across the subject.
+
+The corpus already owned the design half as a law (`typed-input-owns-its-channel`).
+The finding sits one level down, at the measurement consequence, rather than restating
+it.
+
+**Applied `code` in the consumer, verdict `better`, shipped.** The tree had
+independently built this technique's step 1 for *one* control dimension - a
+channel-capability flag on the provider descriptor, enforced as a routing constraint,
+with the reasoning written into the type. A second dimension had the identical property
+and no declaration at all, and the two **invert across the same provider pair**: nobody
+designed that, it fell out of the first one being the dimension whose failure was
+visible on sight. Declaration rather than routing, because both arms honour it. Paired
+counter against `HEAD`: declared 1/2 -> 2/2, recorded 0/2 -> 1/2.
+
+**This closes the open lead below about the node pin.** The new application writes
+`verified_against: node@22` and says in its first paragraph *which witness* - the CI
+workflow's own `node-version: 22`, on the grounds that it is the version the gate that
+graded the change actually runs on. That is the v2.2 witness rule applied; the older
+`node@24` rows in this subject document the local tree instead, which is a different
+claim and not a wrong one.
+
+## Open leads
+
+- A third sighting of the parity idea would justify asking whether "the arms differ in
+  what they can be told" belongs beside `trial-matrix-design` as a shared prerequisite
+  rather than as a sibling technique. Two sightings so far (this one; the consumer's
+  own reference flag). Return on a third.
+- The behavioural half of `input-channel-parity` is unrun everywhere: no tree has yet
+  driven a typed-input arm through prose on the same briefs to size its interface
+  advantage. The consumer named above has the trial set and the grid already built, so
+  it is the cheapest place to run it.
