@@ -7164,3 +7164,89 @@ re-ranks banked candidates against the *current* corpus before proposing them - 
 banked when their home did not exist, which is precisely the condition that changes. Not
 applied in this run for the same reason as above: a method edit against a sibling's
 in-flight 126-line diff is the one change a parallel fleet cannot absorb quietly.
+
+## 2.4.0 -> 2.5.0 - 2026-09-04 - exo
+
+- **The Phase 5 human gate was replaced by a scored admission gate, at the
+  operator's instruction, and the calibration is the part worth keeping.** The
+  instinct was to automate the yes. The ledger said something more useful: **149
+  source notes carry a `declined` field and 134 read `declined: 0`**, with the
+  scorecard's own prose recording the modal answer as "rows 1-6 per your
+  recommendation". So the gate was changing roughly one run in ten by a median of
+  one row, and the thing actually doing the selecting was the run's own `real
+  gap`/`partial`/`likely catch` read. That reframes the change: not "ask less",
+  but *a filter that decides everything while appearing to defer to someone else
+  never has to justify itself*. The new gate is therefore **stricter** than the
+  stamp it replaced, not more permissive. Any future loosening of it should have
+  to answer that sentence.
+- **Order is the safety property, not the arithmetic.** Vetoes, then escalations,
+  then the score, with a score forbidden from overturning a veto. Without that
+  ordering a scored gate is a rubber stamp that has learned to show its working.
+- **The threshold is asymmetric on purpose and the asymmetry is already in the
+  method.** A false reject costs a banked row with anchors that a later run picks
+  up cheaply - the method guarantees this by never filing an unpicked row as
+  declined - while a false accept puts an unearned claim in the upper layers.
+  `GAIN - RISK >= 2` rather than `> 0` is that asymmetry priced.
+- **The placement veto paid for the whole design on its first run.** Row 8 was a
+  genuinely good finding (at-most-once chosen *because retry is the dangerous
+  direction*, which no subject models) and its home was `llm-agent/runtime-and-io`
+  at 10 of 10. Under the old gate it would have been proposed, picked, and
+  discovered at the point where a forge worker built into a folder
+  `check-bundles.mjs` rejects - the 2026-08-22 failure. Counting a category costs
+  one command before drafting and a whole dispatch after it.
+- **The promotion read is the piece to keep if only one survives.** Two rows were
+  blocked solely by the "rests on an unre-checked worker report" penalty; one file
+  read each flipped both, and one came back *stronger* than the worker had stated
+  it. That converts the gate from something that punishes gaps in verification
+  into something that aims verification where it changes an outcome. Its cost was
+  two reads; its yield was two landings.
+- **Known bias, recorded now so it is not discovered as a surprise:** `GAIN` gives
+  its top score partly for landing in a subject `librarian-scan` names in its top
+  15, so an excellent finding in a low-attention subject is structurally
+  penalised. Defensible - attention points are the corpus's own measure of need -
+  but not free. If `fp` stays at 0 while good rows keep landing just under
+  threshold, that is the term to revisit first.
+- **Mid-flight runs: finish on the version you loaded.** This edit changes one
+  phase and leaves every other phase, the six outcomes and the corroboration table
+  untouched, so a run that loaded 2.4.0 loses nothing by finishing on it.
+
+### On the run itself
+
+- **Parallel design-read workers produce within-source convergence, and the method
+  has no name for it.** Two workers reading two *different* systems of one tree
+  independently reached the same finding (a stop request whose receipt is
+  observable needs two deadlines) and independently concluded the corpus does not
+  model it. The method names within-batch convergence for the batch lane and
+  within-index convergence for reference waves; it does not name this, and it is
+  the same signal from a different geometry - arguably stronger, because the two
+  readers had *different evidence* rather than different sources for the same
+  claim. It promoted that row to the top of the table and it deserves a line in
+  the method next time this shape appears. Not applied now: one sighting.
+- **Both of this round's overturned assertions were absences read off capped
+  output, and one of them was mine while quoting the rule against it.** I read a
+  golden path's frontmatter with a 20-line cap, counted 14 techniques against 15
+  files, and asserted a bidirectionality break; the fifteenth entry is on line 20.
+  It was caught by the mandatory re-read *inside* the content lock - a discipline
+  that exists for staleness and happened to catch a truncation error instead. The
+  other was the scorecard's own stale account of the direction lane, caught by
+  reading the fleet trees rather than the prose about them. **The pattern across
+  both: the corrective for a capped read is not "read more carefully", it is to
+  derive the claim from a different layer.**
+- **A `code` arm can be blocked by the project rather than by the finding, and the
+  distinction belongs in the row.** The seam was real, the fix was five lines, and
+  the crate's build script fails on a pre-existing capability error before any code
+  compiles. That is not `unmeasurable` - the policy difference was measurable and
+  was measured on a faithful replication - so the row reads `experiment` with the
+  blocker named and the committed test pointed at it. A mode downgrade caused by a
+  broken gate should never be recorded as an absence of evidence.
+
+- **An "unapplied, no seam" row is an absence claim and gets the same scrutiny as
+  any other.** Three rows were filed saying no fleet project captures execution
+  state; the peer study then found a 272-line checkpoint/snapshot/rollback/fork
+  module in the peer, declared `pub mod`, backed by a migrated table, with zero
+  call sites - verified independently before the rows were corrected. The rows are
+  now *better* than they were: an unwired seam has a far sharper return condition
+  than an absent one ("when the module gains its first caller"), and it is the
+  cheapest moment a technique will ever apply, because nothing has shipped yet.
+  **A searched absence is only as good as the search**, and "grep the tree for the
+  concept" missed a module whose name did not contain the corpus vocabulary.

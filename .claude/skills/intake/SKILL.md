@@ -3,8 +3,8 @@ name: intake
 description: "Mine an external source - a YouTube video, a news roundup, an article, pasted notes, a repository - for what it should change in THIS registry, and in the connected projects that consume it. Ingests the source, reads its design decisions as well as its claims, maps both against existing bundles for prior art, triages with the operator, and lands what survives corroboration - amendments for boundary cases, techniques and subjects for mechanisms, forge handoffs for systems whose architecture the corpus lacks. News sources mostly yield currency signals and leads; that is a successful run. Use when someone shares a link and asks what it means for us."
 category: ai-native
 memory: project
-version: 2.4.0
-tags: research, sources, triage, currency, cross-repo, leads, apply, ab-test, parallel, reference-index, design-read, forge-handoff, directions, fleet-map, peer-study, opus-workers, decision-gate
+version: 2.5.0
+tags: research, sources, admission-gate, triage, currency, cross-repo, leads, apply, ab-test, parallel, reference-index, design-read, forge-handoff, directions, fleet-map, peer-study, opus-workers, decision-gate
 ---
 
 # Intake
@@ -36,6 +36,7 @@ ORIGINATES a finding. It never AUTHORIZES one.**
 /intake reflect               # update LESSONS.md, SCORECARD.md and this method from recent runs
 /intake apply <technique> [--project <slug>] [--mode code|experiment|simulation]
                               # run Phase 7.5 alone against knowledge that already landed
+/intake <url> --ask           # restore the pre-2.5 human gate: show the scored table and wait for picks
 /intake <url> --no-apply      # land without applying; the reason goes in the scorecard row
 /intake <url> --run <id>      # join the run board under a chosen id (default: derived)
 /intake <url> --wave          # reference-index source: mine its references in waves, not its top 3
@@ -785,18 +786,108 @@ inside a nine-technique subject whose golden path already produced the thing in
 question. Read the top prior-art subject's golden path before believing a near-empty,
 and prefer writing the boundary over writing a duplicate.
 
-### Phase 5 - Triage with the operator (the cheap steering gate)
+### Phase 5 - The admission gate (v2.5: scored, not asked)
 
 ```
-#  Lane  Shape      Eff  Title                            Prior art (subject)        Impact           Anchor
-1  K     technique  M    Separate weights from a license  se/llm-agent/model-routing new-technique    [04:12]
-2  K     currency   S    Context-window claim moved       se/.../prompt-assembly     resets-clock     [11:40]
-3  X     applicat.  M    Personas already does this       -                          fills-stack-gap  [17:05]
+#  Lane  Shape      Eff  Title                            Prior art (subject)        Impact           G/R/C  Decision
+1  K     technique  M    Separate weights from a license  se/llm-agent/model-routing new-technique    3/0/2  accept
+2  K     currency   S    Context-window claim moved       se/.../prompt-assembly     resets-clock     1/2/1  untriaged
+3  X     applicat.  M    Personas already does this       -                          fills-stack-gap  2/0/2  accept
 ```
 
-Then ask for the picks:
+**Why this phase stopped asking.** Until v2.4 this gate ended with *"which should
+I verify and land?"*, and the run stopped until a human answered. The ledger says
+what that bought: of **149 source notes carrying a `declined` field, 134 read
+`declined: 0`** - the gate changed the outcome in roughly one run in ten, by a
+median of one row, and the scorecard's own prose records the modal answer as
+"rows 1-6 per your recommendation". The gate was not selecting. **The run's own
+`real gap` / `partial` / `likely catch` read was selecting**, and the operator was
+ratifying a filter that had already run.
 
-> **"Which should I verify and (if real) land? (numbers / all / none / leads-only)"**
+That is the problem worth fixing, and it is not "ask less". A filter that decides
+everything while appearing to defer to someone else is a filter that never has to
+justify itself. So the read becomes an explicit, veto-first, reject-biased score
+that is written into the source note and can be audited after the fact - and
+**stricter than the stamp it replaces**, because the stamp carried almost no
+information.
+
+Run the three steps in order. **A score may never overturn a veto**; that ordering
+is what keeps this from being a rubber stamp with arithmetic on top.
+
+#### Step 1 - Vetoes (absolute; a vetoed row is recorded UNTRIAGED, never declined)
+
+| | Veto | Why it is absolute |
+| --- | --- | --- |
+| **V1** | **Placement.** The row's home is a category already at `MAX_CHILD_DIRS` (10, `scripts/lib/taxonomy.mjs`). | `check-bundles.mjs` rejects the landing. A spec that names a full category sends a worker to build in a folder the tooling refuses - the 2026-08-22 failure, now mechanical. **Count the category before scoring, not after drafting.** |
+| **V2** | **Corroboration.** Target is a golden path or technique and the row has none of: a primary fetched in-run, training-data convergence, code read in a tree. | The corroboration table already forbids it. The veto stops the score from arguing around it. |
+| **V3** | **Law.** Shape is `law` without convergence across runs. | Laws need convergence, never a source. |
+| **V4** | **Strip.** `strip: nothing` and the shape is not `application`, `lead` or `currency`. | An upper layer carrying a proper noun fails the gate and the review. |
+| **V5** | **Contention** (defer, not reject). A live sibling holds the target file and this row would restructure rather than append. | Their write lands first; re-enter behind it. |
+
+#### Step 2 - Escalations (the human gate, narrowed to where a human actually decides)
+
+Four things still stop and ask, because none of them is a judgment the run owns:
+
+- **E1 - a direction.** A new context or capability a project's `scope.does` does
+  not name. Unchanged: proposed at Phase 7.6, decided at the 7.7 gate.
+- **E2 - a taxonomy change.** Subdividing a category or moving a subject is a
+  corpus-wide link rewrite that goes through `scripts/apply-taxonomy.mjs`.
+- **E3 - a new law**, if one ever survives V3.
+- **E4 - an XL row**, and any cross-repo change that is not coverage or is too
+  large to read in one diff. A subject is a forge dispatch; the operator sees it.
+
+#### Step 3 - Score the survivors
+
+**GAIN (cap 5)** - what lands if the row is right.
+
+- **3** - a new subject, or a new technique in a subject `librarian-scan` names in its top 15
+- **2** - a new technique elsewhere; or an amendment that **inverts** a rule the target file states
+- **1** - an amendment adding a boundary case; a currency signal that resets a clock
+- **+1** - **convergence**: two independent readers, sources or runs reached it without seeing each other
+- **+1** - the row **refutes** something the corpus asserts (a negative finding)
+
+**RISK (cap 5)** - probability x damage of being wrong.
+
+- **2** - the claim rests on the source's prose alone
+- **1** - it rests on one worker's report the director has not re-checked
+- **0** - the director opened the file or the tree and confirmed it
+- **+2** - the landing **rewrites** rather than appends. The test is mechanical:
+  *do the file's existing sentences stay true?* A new row beside three true rows
+  is an append; a change that makes a standing sentence false is a rewrite.
+- **+1** - the home is contested between two subjects
+- **+1** - the source contradicts itself here and the run had to pick a side
+
+**COST** - `S`=1, `M`=2, `L`=3.
+
+> **Auto-accept when `GAIN - RISK >= 2` and `GAIN >= COST`. Otherwise the row is
+> recorded untriaged with its anchors.**
+
+**The threshold sits at +2 rather than 0 because the two errors are not
+symmetric.** A false reject costs almost nothing - the row is banked with its
+anchors, carries no judgment, and a later run picks it up for the price of a
+re-read; the method already guarantees this by never filing an unpicked row as
+declined. A false accept puts an unearned claim in the upper layers, which is the
+one failure that damages the corpus rather than wasting a run. Bias the gate
+toward the recoverable error.
+
+**The promotion read.** When a row's *only* blocker is the `+1` for resting on an
+unre-checked worker report, do not reject it - **spend one file read and re-score**.
+That is the difference between a gate that punishes gaps in verification and one
+that *directs* verification at the rows where it changes an outcome. It is the
+same move v2 made for `partial` rows with the promoting question, applied to the
+score. A row blocked by anything else as well is rejected without the read.
+
+#### Step 4 - Record, and let the mechanism correct itself
+
+Every row's `G/R/C` and decision go in the source note's triage table, so a wrong
+call is diagnosable six weeks later instead of mysterious. The scorecard row
+carries `auto=<accepted>/<rejected>/<escalated>` and `fp=<n>`.
+
+**`fp` is the mechanism's own error rate: an auto-accepted row that dies at Phase
+6 is a false positive.** Three of those across runs and the accept threshold rises
+to `+3`. Three consecutive runs at `fp=0` whose rejected rows a later run had to
+re-derive, and it falls to `+1`. The gate is measured by the same discipline this
+skill applies to its lessons - confirmed three runs running, or it is not a rule.
 
 **The ship authorization is standing and does not need to be asked for
 (operator rule, 2026-09-04).** Where a run identifies a real seam in a managed
@@ -828,27 +919,27 @@ critique (2026-08-25): low-level numbers and per-provider practices age in month
 the synthesis step must come from the skill, not from the operator.
 
 **Carry your own read on every row**, in its own column: `real gap` / `partial` /
-`likely catch` / `thin`. It is the column that makes the gate work - on 2026-08-22 the
-operator took four rows marked real and skipped three of four marked likely-catch, which
-is a better allocation than either party would have reached alone. Withholding the read
-to seem neutral just moves the guesswork to the person with less context.
+`likely catch` / `thin`. It is an input the score is computed from, not decoration -
+on 2026-08-22 the operator took four rows marked real and skipped three of four
+marked likely-catch, and that column is what made the difference legible. Under
+v2.5 the read no longer routes the row on its own: it feeds GAIN and RISK, and the
+score routes it. Withholding the read to seem neutral just moves the guesswork.
 
 Say the expected yield for the source class out loud before the table, so a small
 number reads as calibration rather than as failure. Flag any candidate that matches a
 prior run's decline or a banked lead as `reconsider?` with the earlier reason.
 
-Only picked candidates go deep. If the run is unattended, **rows whose own read is
-`real gap` advance**, and **every `partial` row gets its promoting question executed
-before it is filed (v2)**: write the one question whose answer would promote the row
-to `real gap`, answer it with one file read - the technique or golden path the row's
-prior art names - and advance the row if the answer promotes it. Under v1 `partial`
-rows were banked with their anchors, and the mechanisms sat there: a design decision
-always overlaps some subject, so it always reads `partial`, and the rule that protected
-the verification budget spent it on the cheapest rows instead. `likely catch` rows are
-still recorded untriaged with their anchors - unverified, never declined - and a
-`design` row is never `likely catch`, because the design record already checked.
-Pick among the advancing rows with the registry impact as the tie-breaker and say which
-you picked and why (operator rule, 2026-08-28; amended 2026-09-02).
+Only admitted rows go deep, and **every `partial` row gets its promoting question
+executed before it is filed (v2)**: write the one question whose answer would promote
+the row to `real gap`, answer it with one file read - the technique or golden path the
+row's prior art names - and re-score the row if the answer promotes it. Under v1
+`partial` rows were banked with their anchors, and the mechanisms sat there: a design
+decision always overlaps some subject, so it always reads `partial`, and the rule that
+protected the verification budget spent it on the cheapest rows instead. A `design`
+row is never `likely catch`, because the design record already checked. The promoting
+question and the promotion read of Step 3 are the same instrument aimed at two
+different blockers, and a row may take both (operator rule, 2026-08-28; amended
+2026-09-02 and 2026-09-04).
 
 ### Phase 6 - Verify the picks
 
@@ -1356,7 +1447,9 @@ directory **by its run id**, never by sweeping the scratch root.
 - **Scorecard** `.claude/skills/intake/SCORECARD.md`: one row per run with the five
   stage counts - research (sources), extract (candidates), test (picks verified),
   apply (rows, by mode), ship (project commits) - the reason for any zero in the
-  last two, **and the depth cell (v2)**: `subjects/techniques/amendments/apps-vs-source/
+  last two, the admission cell (v2.5: `auto=<accepted>/<rejected>/<escalated>` and
+  `fp=<n>`, the count of auto-accepted rows that died at Phase 6), **and the depth
+  cell (v2)**: `subjects/techniques/amendments/apps-vs-source/
   task-lines`, plus the routing count from Phase 2d and whether the run handed off.
   Five one-paragraph amendments and one subject no longer score the same.
 - **Subject notes** `librarian/subjects/<domain>/<subject>.md` for every subject
@@ -1517,6 +1610,13 @@ corroboration behind it.
 - **Padding the findings list.** Nine catches and one lead is a result. Report it.
 - **Proposing what the bundle already says.** Phase 4 exists to prevent this; skipping
   it to save a second costs a whole verification round.
+- **Scoring a row into a category that is full.** V1 is the first veto for a reason:
+  the count is free before drafting and a whole forge dispatch after it.
+- **Letting the score overturn a veto**, or auto-accepting an `XL`. The vetoes and the
+  escalations run first and are absolute; the arithmetic only ranks what survives them.
+- **Reporting `auto=` without `fp=`.** A gate that never counts its own false positives
+  drifts toward accepting everything, which is the failure the human gate was there to
+  prevent and the reason it was replaced by a measured one rather than by nothing.
 - **Constructing a subject path** instead of using the index's `file`.
 - **Writing `verified_on` for a tree nobody opened.** That is the one field whose only
   value is that it is a fact.
