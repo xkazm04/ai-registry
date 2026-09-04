@@ -6690,3 +6690,54 @@ and wants them tested hard rather than many and tested once.
 
 *Mid-flight runs: nothing to do. No `SKILL.md` edit was made this round; these are
 lessons pending the three-run confirmation rule.*
+
+## 2.3.2 - 2026-09-04 - Sylinko/Everywhere
+
+- **The ship authorization is now standing, and the method changed to say so
+  (v2.4.0).** The operator lifted the cross-repo gate permanently: where a run
+  identifies the impact, it may change the project tree without asking. Phase 5's
+  two-part question became one, Phase 8 step 2 became "no confirmation needed", and
+  the anti-pattern inverted - asking again for permission already given is now the
+  anti-pattern. What stayed gated is the pair that was never about permission:
+  a *direction* still waits for its ledger row, and a diff too large to read in one
+  sitting still takes a branch. **A mid-flight run on 2.3.2 should finish on 2.3.2**;
+  the only difference is one question it will ask and need not.
+
+- **`corpus: NONE` over-reports, two rounds running, and the failure is the same
+  both times.** The map ranks by slug and `use_when` overlap, so a design decision
+  whose forces a subject models but whose vocabulary it does not share reads as a
+  hole. Round 9 caught it by reading `taxonomy.json`'s category listing; this round
+  caught it because the neighbour happened to rank first. The instrument is right and
+  its negative is soft: **NONE means "no subject shares this finding's words", never
+  "no subject owns these forces".** Before a routing decision, read the taxonomy
+  listing for the implicated area. This is a candidate rule for the file after one
+  more sighting.
+
+- **A `better` verdict does not mean the technique was complete.** The apply step's
+  focus item was written for `not-better` rows - on a rejection, ask what the tree
+  knows. This round returned `better` and the tree was *still* ahead: it had reached
+  the amendment's discipline independently and applied it more consistently than the
+  mined source, and its refinement (demote the *reason* with the bound, because the
+  reader on that rung reasons) is now the amendment's second paragraph and is better
+  than anything the source offered. **Ask the tree what it knows on every apply row.**
+  The verdict grades the change, not the technique.
+
+- **A repository's routing count can clear the threshold and still correctly refuse a
+  handoff.** Two clusters at 3 and 5 unhomed decisions, both naming an *existing*
+  subject. Under v2.2 that is a technique cluster, not a forge - and the run is worth
+  reporting as a **compliment to the corpus**: the subjects were scoped well enough
+  that a system this dense lands inside them. A run that reads a high count as
+  automatically forge-shaped has skipped the second clause.
+
+- **Two of the five design series were in Chinese, and they were the two largest**
+  (12,162 and 4,539 words). A sweep that reads only the English documents would have
+  reported this tree at roughly half its size and would have missed System B
+  entirely. Add to the repository sweep: check the language of every doc series
+  before deciding the tree is thin.
+
+- **The narrative design series is the highest-yield document shape a repository
+  offers.** ScreenPicker's four chapters are organised as *what we tried and why it
+  failed*, ending on a solution that made the previous two chapters unnecessary. Every
+  `rejects:` line in the design record for that system came free. When a tree has one
+  of these, read it first and read all of it - the forces are already written, which
+  is the expensive half of a design entry.
