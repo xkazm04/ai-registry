@@ -6838,3 +6838,66 @@ and wants them tested hard rather than many and tested once.
 
 - **For a mid-flight run on an earlier version: nothing to do.** No `SKILL.md` edit was
   made this run; all four items above are lessons awaiting confirming sightings.
+
+## 2.3.2 - 2026-09-04 - copilot-cost-efficiency
+
+- **The tree-as-source step is triggered too narrowly.** Round 9's focus item says to
+  run it when an apply row comes back `not-better`. This run had no `not-better` row
+  and the step still produced its best corroboration: the seam was picked because the
+  tree looked like it lacked behavioural tests over a standing prompt, the tree in fact
+  ran a ten-fixture behavioural bench over exactly that prompt, and reading it as a
+  source found that its own recorded baseline had reached the landing technique's
+  central decision rule seven weeks earlier, from a measurement. **The trigger is not
+  the verdict, it is the contradiction:** run the step whenever the tree refutes the
+  reading that picked it. Second sighting of the general shape (2026-09-03 rowboat was
+  the first, via `not-better`); a third makes it a `SKILL.md` edit to Phase 7.5.
+
+- **An unapplied landing's precondition is often shared, and reporting per-row hides
+  it.** Three of five landings here are unapplied. Counted per row that is a 60% miss
+  rate; in fact all three wait on one precondition — no authorized project owns a layer
+  that shapes tool results before a model reads them — so it is one missing capability
+  class with one return condition. Propose for Phase 9's scorecard line: report
+  unapplied rows **grouped by precondition**, with the count of distinct preconditions
+  beside the count of rows. First sighting.
+
+- **A negative-result-dense source outyields its class prediction, and the density is
+  predictable from the shape.** The class (first-party practitioner account) predicts
+  two to four landings; this one produced five from 2,225 words. The reason is
+  recordable: the post leads with a change it measured and **did not ship**, and then
+  describes a rewrite that regressed in production and was stopped. **Each negative
+  result is a boundary already drawn by somebody who paid for it**, and a boundary is
+  the expensive half of a technique. Worth adding to the source-class reference as a
+  yield signal: count the source's own negative results before predicting its yield.
+  First sighting.
+
+- **Two runs landed cost-measurement techniques one shelf apart on the same day
+  without seeing each other.** `end-to-end-unit-of-optimization` (this run, the
+  boundary a cost is measured inside) and a sibling's `outcome-conditioned-cost`
+  (which trials may enter a cost mean). They do not collide, but the board was the only
+  instrument that showed the sibling existed and only opening their uncommitted file
+  settled it — the index cannot see an uncommitted subject, which is the failure the
+  board exists for. Proposal: before landing a technique whose subject matter is *how a
+  number is measured*, open what live siblings hold rather than trusting the map. First
+  sighting.
+
+- **A pre-commit hook rejecting formatting is not a reason to skip the hook.** The
+  cross-repo commit was refused by a rustfmt hook; running the formatter and restaging
+  cost one command. Recorded because the tempting move under a run budget is
+  `--no-verify`, and the method forbids it for good reason.
+
+- **The 2026-09-01 quoting lesson exists and I reproduced its failure three times
+  anyway.** That entry says plainly: *"For prose documents containing backticks,
+  apostrophes and em dashes, use the file-writing tools directly rather than shell
+  heredocs."* This run wrote a subject note, a scorecard block and this very entry
+  through `node -e` inside a double-quoted shell string, and the shell
+  command-substituted every backticked slug out of all three — silently, with a
+  zero exit code. **The lesson is not new; what is new is that reading it did not
+  prevent it, because the failure arrives at write time and the lesson is read at
+  reflection time.** The corrective is mechanical rather than remembered: the
+  document-writing tools for any prose file, always, and never a shell string as
+  the transport. Second sighting, and it belongs in `SKILL.md` Phase 9 rather than
+  here — a lesson that cannot be applied at the moment it is needed is a lesson in
+  the wrong file.
+
+- **For a mid-flight run on an earlier version: nothing to do.** No `SKILL.md` edit
+  was made this run; every item above is a lesson awaiting a confirming sighting.
