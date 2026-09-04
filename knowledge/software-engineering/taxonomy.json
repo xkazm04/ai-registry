@@ -205,7 +205,8 @@
             "stream-proxy-hop",
             "optional-dependency-degradation",
             "scale-investment-timing",
-            "multi-provider-gateway-plane"
+            "multi-provider-gateway-plane",
+            "remote-capability-probing"
           ]
         },
         {

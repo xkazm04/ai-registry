@@ -11,6 +11,7 @@ techniques:
   - budget-preflight-and-ceiling
   - async-run-queue-with-cancel
   - failure-clustering-recommendations
+  - handicap-disclosure-in-the-result-row
 ---
 
 # Cross-provider benchmark operations
