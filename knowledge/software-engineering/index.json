@@ -18231,7 +18231,7 @@
    "subcategory": "resilience",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/resilience/multi-provider-gateway-plane/multi-provider-gateway-plane.md",
-   "digest": "sha256:e50f0d360ad1fbfc",
+   "digest": "sha256:70e20c83a0f96b9f",
    "techniques": [
     {
      "slug": "adapter-direction-asymmetry",

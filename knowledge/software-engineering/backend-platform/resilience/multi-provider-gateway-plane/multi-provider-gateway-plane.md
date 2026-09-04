@@ -81,9 +81,11 @@ draw the seam — routing decides, failover retries, metering bills — and this
 subject sits underneath all three: the mechanics that carry a decision the
 neighbour made. The discriminator is that this plane's decisions are
 **transport-and-envelope** decisions (framing, status space, config inheritance,
-failure attribution) rather than which-model decisions. A rule that would change
-if the upstreams stopped being models belongs here; a rule that would not belongs
-there.
+failure attribution) rather than which-model decisions. A rule that would still
+hold if the upstreams stopped being models belongs here; a rule that would stop
+making sense belongs there. Framing, attribution and policy inheritance survive
+the upstreams becoming search backends or transcoders; a capability tier does
+not.
 
 Two further neighbours are cited rather than absorbed.
 [Streaming-output](../../../llm-agent/runtime-and-io/streaming-output/streaming-output.md)
