@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 214,
   "techniques": 1583,
-  "applications": 924,
+  "applications": 925,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -1619,7 +1619,7 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/agent-memory.md",
-   "digest": "sha256:00ab66c57a876d9d",
+   "digest": "sha256:4b5d1eb312885464",
    "techniques": [
     {
      "slug": "baseline-ladder",
@@ -1916,6 +1916,13 @@
     },
     {
      "stack": "claude-code",
+     "technique": "memory-governance",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/claude-code--memory-governance.md",
+     "verified_on": "2026-09-04",
+     "verified_against": "claude-code@2.1.261"
+    },
+    {
+     "stack": "claude-code",
      "technique": "procedure-promotion",
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/claude-code--procedure-promotion.md",
      "verified_on": "2026-09-02",
@@ -1925,8 +1932,8 @@
      "stack": "node",
      "technique": "lane-reconciliation",
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/node--lane-reconciliation.md",
-     "verified_on": "2026-08-31",
-     "verified_against": "node@22"
+     "verified_on": "2026-09-04",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
@@ -1938,8 +1945,8 @@
      "stack": "node",
      "technique": "probe-without-write-back",
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/node--probe-without-write-back.md",
-     "verified_on": "2026-08-31",
-     "verified_against": "node@22"
+     "verified_on": "2026-09-04",
+     "verified_against": "node@24"
     },
     {
      "stack": "python",
@@ -1987,7 +1994,7 @@
      "stack": "rust",
      "technique": "decay-and-forgetting",
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/rust--decay-and-forgetting.md",
-     "verified_on": "2026-09-02",
+     "verified_on": "2026-09-04",
      "verified_against": "rust@1.97"
     },
     {
@@ -2031,7 +2038,7 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-runtime-assembly/agent-runtime-assembly.md",
-   "digest": "sha256:8397de708cfde96b",
+   "digest": "sha256:c6db9e4457ffa20f",
    "techniques": [
     {
      "slug": "additive-input-at-the-call-boundary",
@@ -2269,8 +2276,8 @@
      "stack": "next",
      "technique": "additive-input-at-the-call-boundary",
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-runtime-assembly/applications/next--additive-input-at-the-call-boundary.md",
-     "verified_on": "2026-09-03",
-     "verified_against": "next@15"
+     "verified_on": "2026-09-04",
+     "verified_against": "next@16"
     },
     {
      "stack": "next",
@@ -2290,7 +2297,7 @@
      "stack": "node",
      "technique": "guard-input-custody",
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-runtime-assembly/applications/node--guard-input-custody.md",
-     "verified_on": "2026-09-03",
+     "verified_on": "2026-09-04",
      "verified_against": "node@20"
     },
     {
@@ -2304,8 +2311,7 @@
      "stack": "node",
      "technique": "operator-tier-code-loading",
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-runtime-assembly/applications/node--operator-tier-code-loading.md",
-     "verified_on": "2026-09-02",
-     "verified_against": "node@22"
+     "verified_on": "2026-09-04"
     },
     {
      "stack": "python",
@@ -21899,7 +21905,7 @@
    "subcategory": "standards-and-gates",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/quality-gates.md",
-   "digest": "sha256:f71436fd4e715fcd",
+   "digest": "sha256:a362f95520028e7d",
    "techniques": [
     {
      "slug": "advancement-evidence-fields",
@@ -22319,8 +22325,8 @@
      "stack": "next",
      "technique": "prose-rule-drift",
      "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/applications/next--prose-rule-drift.md",
-     "verified_on": "2026-09-01",
-     "verified_against": "next@15"
+     "verified_on": "2026-09-04",
+     "verified_against": "next@16"
     },
     {
      "stack": "node",
@@ -22340,8 +22346,8 @@
      "stack": "node",
      "technique": "chokepoint-tag-registry",
      "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/applications/node--chokepoint-tag-registry.md",
-     "verified_on": "2026-08-22",
-     "verified_against": "node@22"
+     "verified_on": "2026-09-04",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
@@ -22380,8 +22386,8 @@
      "stack": "node",
      "technique": "prose-rule-drift",
      "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/applications/node--prose-rule-drift.md",
-     "verified_on": "2026-08-30",
-     "verified_against": "node@22"
+     "verified_on": "2026-09-04",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
