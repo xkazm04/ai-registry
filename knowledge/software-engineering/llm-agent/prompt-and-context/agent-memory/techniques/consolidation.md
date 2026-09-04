@@ -118,6 +118,19 @@ is to run it less often. The excerpt cap matters as much as the shortlist
 cap: one enormous item can otherwise consume the whole comparison window and
 crowd out its own competitors.
 
+**A cap that is not a shortlist becomes a blind spot.** The two caps above are not
+interchangeable with a single global limit on how much of the store the judgment sees.
+A system that skips the prefilter and instead hands the pass its *N most important, most
+recently updated* items has bounded the prompt and bought a permanent exclusion with it:
+everything below the cut is never a candidate again, so a duplicate or a contradiction
+that settles in the low-importance tail is never retired, and nothing counts the miss.
+The shortlist is what keeps the cap honest, because it is redrawn per new item and
+relevance moves; a store-ordered truncation does not move, and its exclusions compound.
+The cost half of the same mistake arrives first and is the one that gets noticed: a fixed
+timeout on a call whose prompt grows with the active set will start failing partway up,
+and on one store replayed over a simulated year of use it cost about a third of the
+passes before the store had even reached its cut.
+
 **And the measure it ranks by must fit the question being asked.** Duplicate
 and correction detection is *directional*: a short, sharp correction ("we
 moved off the shared credential") must score high against the long item it
