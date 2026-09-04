@@ -6,7 +6,7 @@ technique: decay-and-forgetting
 stack: rust
 verified_on: 2026-09-04
 verified_against: rust@1.97
-applied: simulation
+applied: experiment
 ab_verdict: better
 proof: structural-only
 ---
@@ -285,3 +285,44 @@ citation above resolves; no code was changed and no gate was run. The
 `expected_valid_days` column, the `extend` action and the source clocks through
 `synthesize` filed on 2026-09-02 are not in `HEAD`; that return condition is
 still open.
+
+## The cap against the value model, measured on the live store (2026-09-04)
+
+The section above worked one constructed case. This one runs both orderings
+over the real rows: the app's `personas.db` copied and read with the app
+untouched, 42 `persona_memories` rows, of which one persona holds 40 in the
+`active` tier (plus one `core`, cap-exempt by construction).
+
+**Seam.** `run_lifecycle`'s `ACTIVE_CAP = 60` keep-set, `ORDER BY importance
+DESC, access_count DESC, created_at DESC` (`memories.rs:2017-2027`), against
+`decay_score` (`memory_recall.rs:155-172`) computed at the snapshot instant.
+
+**Measurable, chosen before running.** Of the rows the cap archives under A,
+how many does B rank above the lowest-valued row A keeps.
+
+**Arms.** A: the column sort as shipped. B: the same cap, ranked by the store's
+own `decay_score`.
+
+**n and result.** At the production cap of 60 the store is under the line: A
+archives 0 of 40, and the arms are identical because the operation never runs.
+Sweeping the cap over the same 40 rows: cap 30 → A archives 10, B ranks 1 of
+them above a row A keeps; cap 20 → 20 archived, 2 above; cap 10 → 30 archived,
+3 above. The concrete row is the one the technique's clause predicts: an
+importance-4 `fact` read 28 times in the last day scores 7.34 and sits 5th
+under B, but 14th under A behind every importance-5 row, including two
+importance-5 rows with zero accesses that B ranks 20th and 21st (4.95, 4.75).
+At cap 10, A archives the row recall would serve fifth.
+
+The effect is small because the store is young: every row is 0.5-5.4 days old
+against half-lives of 60-90 days, so the decay term has not yet separated the
+two orders, and the lexicographic sort's first key still agrees with the
+value model on 37 of 40 positions within three places. The disagreement the
+constructed case above shows (a 300-day-old importance-4 row at 0.40) needs an
+age spread of at least one half-life to appear in the data.
+
+**Verdict: `better`** — the direction is confirmed on every cap tried and no
+row went the other way — with the magnitude bounded by the store's age.
+**Falsifier:** a persona crossing 60 active rows whose A-archived set contains
+no row B ranks above a kept one. **Return condition:** the first persona that
+crosses the cap, or the store's age spread exceeding one half-life, whichever
+comes first; both are readable from the same query used here.

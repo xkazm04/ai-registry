@@ -205,7 +205,14 @@ The discipline:
   model asked to compare timestamps drifts as the candidate set grows and
   lets its training prior override an explicit newer value. Type the claim,
   and where it is a state whose authority spoke again, the pass compares
-  instants and never weighs.
+  instants and never weighs. The comparison presupposes a **code-owned key**:
+  two rows can only be ordered by instant if the store knows they are the
+  same state, and a distiller that mints its own keys per episode does not -
+  one measured store minted 3.6 keys per state on average (max 9), so the
+  newest-wins rule had nothing to join on for a third of the cases it should
+  have fixed, and the dominant cause of a stale answer there was distillation
+  latency, which no ordering rule touches. Canonicalise the key in the pass
+  before the instant comparison, or the rule is unreachable.
 - **Except when the source is the human.** An explicit operator correction
   supersedes immediately regardless of the standing belief's weight — it is
   the highest evidence grade the system knows, and the superseding item's
