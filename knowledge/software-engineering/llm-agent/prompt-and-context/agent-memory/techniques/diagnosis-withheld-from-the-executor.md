@@ -79,6 +79,19 @@ The magnitudes are not symmetric and should not be read as a wash. The
 reviser's access is the reason to have the layer; the executor's access is a
 2.8-to-3.4 point tax for opening it to the wrong reader.
 
+Carry the measurement's own limits with it. The ablation cells are reported
+for one inference model with no spread — the study's repeated runs cover its
+headline results, not this table — so the 2.8 and the 3.4 are each one
+observation, of the size this subject's own ladder calls instrument spread.
+And the arm without a reviser has no maintainer either, so the store the
+executor read there was never being accumulated; the 3.4 in that arm was
+measured against near-empty content and is the weaker of the two
+observations, not a second sighting. The mechanism above is the study's
+stated hypothesis, not something it measured: nothing scored the traces
+for informativeness. What survives without the numbers is the structural
+argument — a trace produced with a side channel open observes the side
+channel — and the discriminator below stands on that alone.
+
 ## The failure signature is a plateau, not an error
 
 Nothing breaks. Every gate stays green, every benchmark still reports, and the

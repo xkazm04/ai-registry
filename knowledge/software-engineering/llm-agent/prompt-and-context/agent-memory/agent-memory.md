@@ -430,6 +430,11 @@ comparison a stated result instead of an unexamined premise.
 - **The silent second writer** — some code path that inserts "memories"
   without passing the distillation judgment, producing beliefs of a
   different (and unmarked) grade.
+- **The laundered instruction** — a third party's text captured as an
+  episode, distilled through the one door into a preference or a rule, and
+  recalled thereafter as the agent's own belief with the pass's confidence;
+  every writer was legitimate and only the evidence's author was never
+  asked (memory-governance).
 - **The invisible gap** — a store that is inspected only through its own
   contents, so the subjects it holds nothing about are never noticed by
   anyone.

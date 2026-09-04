@@ -190,7 +190,22 @@ The discipline:
 - **Contradiction lowers confidence before it flips conclusions.** One
   conflicting episode against a many-times-reinforced belief is a reason to
   doubt, not yet a reason to reverse. Weight of evidence decides; recency
-  is a tiebreaker, not a trump.
+  is a tiebreaker, not a trump. That rule is for *inferred* beliefs, where
+  the episodes are evidence and the belief is the distiller's reading of
+  them. It inverts for a **state-valued claim restated by its own
+  authority**: when the person whose state it is says the value changed,
+  the later statement closes the earlier one whatever the reinforcement
+  count, because ten confirmations of the old address are not evidence
+  against a move — they are the history of the state. Reading them as
+  weight is the measured failure of this class: on a 2026 consolidation
+  benchmark every published memory system lost most of the questions where
+  a later statement should have overridden an earlier one, and the
+  strongest reported fix moved the newest-wins comparison *out of the
+  model* into deterministic code over the candidates' order, because a
+  model asked to compare timestamps drifts as the candidate set grows and
+  lets its training prior override an explicit newer value. Type the claim,
+  and where it is a state whose authority spoke again, the pass compares
+  instants and never weighs.
 - **Except when the source is the human.** An explicit operator correction
   supersedes immediately regardless of the standing belief's weight — it is
   the highest evidence grade the system knows, and the superseding item's

@@ -105,9 +105,21 @@ That means, concretely:
   instant is in the future has an age of zero, not a negative age — otherwise
   a bad timestamp lifts an item above its own confidence ceiling and a clock
   bug on one writer silently promotes its rows above everyone else's.
-- **An unparseable instant is treated as new, not as poison.** One malformed
-  timestamp must not propagate a non-number through the arithmetic and
-  destroy the ordering of the whole result set.
+- **An unparseable instant is treated as unknown, not as new and not as
+  poison.** One malformed timestamp must not propagate a non-number through
+  the arithmetic and destroy the ordering of the whole result set — and the
+  reflex fix, "score it as brand new", is the clause above violated from the
+  other side. Age zero is the maximum freshness the model can award, so a
+  writer that emits timestamps the parser rejects promotes every one of its
+  rows above correctly-dated rows of equal trust, and a sweep that skips rows
+  it cannot date makes them immortal as well. Two independent stores were read
+  with exactly this pair of defaults, each reasoned as "never punish a row for
+  a malformed timestamp", and each holds rows in two timestamp formats — the
+  one condition under which a stricter parser would have pinned a whole
+  writer's output to the top. Treat the instant the way this technique already
+  treats an unknown *kind*: a declared default age — the grace-period boundary
+  or one half-life of the row's kind — never zero and never exempt, and count
+  the rows that took it, because a rising count names a broken writer.
 - **Round before comparing.** Two items whose values differ only in float
   noise must not swap places between two calls; ties break on a stable
   identity so the order is total and reproducible.

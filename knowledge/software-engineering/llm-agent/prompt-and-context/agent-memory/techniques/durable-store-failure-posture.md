@@ -11,9 +11,16 @@ use_when: [a durable memory store fails to parse and more than one code path mus
 
 # Durable store failure posture
 
-Every technique in this subject assumes the store can be read. This one covers
-the turn where it cannot: the artifact is present, and it does not parse, or it
-parses into something that is not the shape the store promised. That is not an
+[recall-injection](./recall-injection.md) already separates *empty* recall from
+*failed* recall — the store unreachable, the query errored — and demands a
+status signal between them. That covers the read path when the store is
+absent or offline. This technique covers a third state the read-side rule
+cannot see and the write path has no answer for: the artifact is present, it
+is reachable, and it does not parse, or it parses into something that is not
+the shape the store promised. The degraded read here *is* recall-injection's
+failed-recall state carried through to the model as content; what is new is
+what the write path owes at that moment, and the distinction between a store
+that is missing and one that is broken. That is not an
 exotic state — a partial write, an interrupted migration, a hand-edit, a version
 skew all produce it — and the reason it deserves its own rule is that **the two
 paths that touch the store want opposite answers, and the obvious design gives

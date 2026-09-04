@@ -87,6 +87,52 @@ Four rules make the observation writer a lane rather than a leak:
   most worth recording. Scope the comparison window (recent items, same
   scope, same tenant) so the check's cost does not grow with the store.
 
+## The evidence has an author, and the lanes must read it
+
+The three lanes above sort writes by what a wrong belief costs, and the door
+below sorts writers by code path. Neither asks who **authored the evidence**,
+and that is the axis an attacker uses. A durable memory is how a one-turn
+injection becomes a standing instruction: a string planted in a page, a
+document or a tool result is captured as an episode — capture is generous by
+design — distilled by the consolidation pass into a preference or a rule, and
+recalled into every later session with full provenance and the pass's own
+confidence. The one door was honoured. The writer was legitimate. The belief
+is the attacker's, in the agent's voice.
+
+The systematic form of this has now been measured, and two of its findings
+bind here. First, the write channels that carry it are this subject's own
+stages: the compaction that summarises a window into memory, and the pass
+that turns execution traces into procedures — the third and fourth of the
+four channels one 2026 study enumerates, with success rates that roughly
+doubled between two agents differing mainly in how *aggressively* they
+write. Generous capture is the attack surface, not merely the design
+choice. Second, detection at the input does not close it: the fabricated
+fact with no instruction in it — the weak-signal form — evaded every
+injection detector tested by more than forty points against the explicit
+form, because it reads as ordinary content. It *is* ordinary content. What
+distinguishes it is only who wrote it, which is the one property the
+detectors were not given.
+
+So the lane assignment reads a fourth input: **the trust of the evidence's
+author, carried through provenance from capture.** Material whose author is
+the operator or the agent's own direct observation may reach the lanes it
+qualifies for by stakes. Material whose author is a third party — anything
+read from a document, a page, a message, a tool's response — commits to the
+auto lane only as an observation *about that source* ("the page said"), and
+cannot commit to the preference lane or to any standing rule at all, however
+many episodes repeat it, because repetition by an attacker is cheap and
+repetition is exactly what the proposal lane reads as reinforcement. The
+promotion from "the source said" to "this is so" is a change of standing, and
+it goes through the reviewed lane like every other change of standing.
+
+This is the receiving end of a rule
+[prompt-safety](../../prompt-safety/prompt-safety.md) states from the input
+side — every span whose author is not the application is attacker-controlled,
+and an agent-written store is the ordinary path an injection takes. That
+subject owns the taint model; this one owns what the store does with a
+tainted author at the write door. The two are not redundant: input-side
+fencing protects the turn, and only the lane protects the year.
+
 ## The door, and the enumerable writers
 
 Governance is structural, not exhortative, per

@@ -236,6 +236,16 @@ contains few of them and labels none. And keep the two rates unweighted and
 separate rather than folding them into one score - the trade between them is the
 finding, and an average is exactly the thing that hides it.
 
+The pair is not new to measurement; it is the risk-coverage trade-off of
+selective prediction, where coverage is the share answered and risk the error
+among the answered, and that literature's founding observation is the one
+above — either number alone is won by moving along the curve. Its operating
+rule is sharper than "report both": **compare two arms at matched coverage.**
+One eagerness knob traces a curve, and a design that answers 90% of questions
+is not comparable to one that answers 70% at any accuracy; either hold
+coverage fixed across arms, or report the curve. A single point on each of
+two curves compares two settings of a dial and calls the difference a design.
+
 ## Re-run, never inherited
 
 Because a consumer swap can move the outcome further than an architecture
