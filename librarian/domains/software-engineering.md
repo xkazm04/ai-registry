@@ -334,3 +334,34 @@ third occurrence. Regenerated here.
 - A feature-flags subject: the bundle has none, and plan-entitlements now has
   a seam with nothing to link to. Forge candidate.
 - The frontier question above is unchanged.
+
+## Run [[2026-09-04-1]] - three demand-ranked subjects, no new technique, eleven absolutes down
+
+Shape at close (record, not input): 214 subjects, 1583 techniques, 931
+applications, expired 0, at-risk 0, 58 stack-drift applications before the run.
+
+Three `/deepen` workers at the top two demand subjects (agent-memory, quality-gates)
+and the never-deepened, highest-drift one (agent-runtime-assembly). No new technique
+- every candidate had prior art or an ambiguous home - and the yield was corrections:
+six absolutes or numbers refuted, three internal contradictions the blind lane caught,
+three banked leads whose return condition was met, ten drift applications
+re-witnessed. Eight apply rows, three of them `not-better` with the condition written
+back the same hour.
+
+### What is owed (updated)
+
+- **quality-gates at 25 techniques holds two subjects** - a `metric-gates` split is
+  proposed with its seam and its five techniques named; operator decision.
+- **Merge-result gating is a coverage hole** with zero prior art; second sighting
+  wanted, home ambiguous.
+- `check-currency` compares against the fleet's maximum runtime major; four of ten
+  drift rows this run were the developer box outrunning the tree's own CI pin.
+  Read the tree's pin where the application records one.
+- A `bun` stack witness, or a rule for a tree that pins no node at all.
+- **Fleet-wide 247 of 287 recorded verdicts are stale** and nobody has run
+  `/conform --stale` since the per-subject digest landed (2026-09-02). Regenerating
+  maps every run keeps the queue honest; it does not drain it.
+- Node 20 is past end-of-life and still pinned by ai-registry, pumper and one personas
+  job - the deployment-contract lane's, not this one's.
+- Unchanged from [[2026-09-02-1]]: the 81 unruled inbox rows, the single-stack wave,
+  the maturity ladder, the frontier question.
