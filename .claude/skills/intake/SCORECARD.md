@@ -1863,6 +1863,43 @@ stated, which took a sentence; do it again so the distinction round 18 asked for
 becomes a habit rather than a one-off. **The check the next row should make:**
 did the run grep an installed artifact before spending a fetch, and did the
 asymmetry hunt produce a landing?
+| 2.5.0 | 2026-09-04 | `yt:mnlzEnXNwSc` "Claude Is Not the Best Writing Model Anymore" (**dialogue**, hybrid — a first-party account of a blind-preference harness welded to a vendor-news survey; 13,358 words; **round 19**) | 1 | 15 | 4 accepted of 14 scored, `auto=4/0/1`, `fp=0`, 2 promoting questions both flipped their row to real gap, 0 of 3 fetches spent | **1 technique + 3 amendments + 1 forged subject (golden path + 6 techniques)** | 4 rows: `0c/0e/4s/0t` — **3 `not-better` from prior fleet conformance, 1 `better`** | 1 (ascent, pathspec on its active branch, not pushed) | **Focus (round 18) answered on 2 of 3.** (1) The superseded-claim carve-out did not arise — no landing was a currency correction; recorded n/a rather than as a miss. (2) *Mine the standard, not its implementations* decided the run largest output: the forge worker was given a primary-only budget and its load-bearing number (reference-*based* metrics recover under 60% of pairwise human preferences at segment level) is what turns "a score is not a verdict" into a measurement. (3) The untriaged tail is reported with causes and the two rows differ — one unverified (no promoting question spent), one verified-but-unwritten (a 56-point subject under active attention). **The board `check`/`list` contradiction from round 18 reproduced exactly**; this run trusted `list`. Two instrument errors caught in-run, both substring false positives (`elo` inside "below", `TER` inside "better"), both caught only because a known-positive assertion was run | **S/T/A/Asrc/task = 1/1/3/0/0**; routing count n/a (no repository, no design record — `directions=n/a`); handoff structurally unavailable for a video, but the XL escalation was forged in-session |
+
+**Where the funnel is losing most, over the last ten rows: `apply` — but the
+reading has changed, and the change is this round's finding.** Apply is no longer
+losing rows to *absence* (four owed, four written, none skipped). It is losing
+them to a vocabulary that cannot say what happened. Three of this round's four
+rows are `not-better` **because the fleet already did the thing the corpus had
+just written down** — a pooled leaderboard already widening its interval by
+between-source variance, a judge already selected on spread, an eval already
+pinning its production prompt and guarding the pin with a test. The ledger files
+those beside genuine refutations, and they are close to opposite signals: a
+refutation says the technique is wrong somewhere; prior conformance says the
+technique is *right and was independently arrived at*, which is the cheapest
+corroboration this method can obtain — and it is currently recorded as a failure
+to improve anything.
+
+The same round shows what that costs and what it buys. The strongest row in this
+run is a `not-better`: the pairing technique told a disconnected comparison graph
+to report components rather than a leaderboard; a fleet project could not do that
+because the ranking *is* its product, and its answer — keep the order, widen the
+interval by the between-source variance — was written back into the technique as
+a second branch with a stated discriminator. **The corpus improved because a
+managed project disagreed with it**, and no cell in the row records that this
+happened.
+
+**Next run's declared focus (round 20).** (1) **Split the `not-better` verdict at
+the point where it stops being one fact** — a row where the tree refutes the
+technique and a row where the tree already implements it are different findings
+with different follow-ups, and only the second should feed the convergence `+1`
+that Phase 5 awards. Propose the vocabulary change from a run that has hit it,
+not in the abstract. (2) **When an apply row comes back `not-better` on prior
+conformance, ask what the tree does that the technique does not, before closing
+the row** — that question produced this round's best content, and it was asked on
+one of three chances. (3) Keep reporting the untriaged tail with its cause; two
+rounds running is not yet a habit. **The check the next row should make:** did a
+`not-better` row change the technique it tested, and does the scorecard say which
+of the two kinds of `not-better` it was?
 | 2.5.0 | 2026-09-04 | `yt:KZw8et-e6vk` "Forget SQS, RabbitMQ and Kafka. Just use Postgres." (**second-hand practitioner review, thin** — 590 words, a vendor dev-content channel demoing a third party's queue extension; **round 20**) | 1 | 7 | 2 accepted of 7 scored, `auto=2/0/0`, `fp=0`, 2 promoting questions executed and **both resolved against their rows** | **1 technique + 1 golden-path correction + 1 rewrite of a standing denial + 1 application** | 1 row: `0c/1e/0s/0t` | 1 (tracklight, fmt+clippy green, not pushed) | **Focus read at Phase 1 was round 19's; a concurrent sibling landed round 20's focus mid-run, and this run independently confirms its item (2).** Round 19 applied on 1 of 3 counts and that one carried the run: item (2) — *mine the standard, not only its implementations* — generalises past what the focus stated, because this subject's material is **not** a standard yet failed the same way, its prose written in the **vendor's** frame ("systems that advertise exactly-once") rather than the literature's, so it never drew the delivery-vs-effect split. Drawing it is what made a fourth posture expressible. Round 19 item (1), the superseded-claim carve-out, was **not** needed: the landing's `+2` rewrite penalty was earned honestly and cleared the threshold at exactly `+2`. Item (3) discharged with a **new** cause — see the depth cell. **Round 20's item (2), the deliberate asymmetry hunt, is confirmed from a second entry point**: the sibling reached it by looking for a technique that models one case in full and gives its sibling a sentence; this run reached the same shape by reading what a *refutation* is made of. Two concurrent runs, no contact, same hunt paying out | **S/T/A/Asrc/task = 0/1/0/1/0**; routing count **n/a** (a 590-word video is not a system — no design record, no handoff possible); `directions=n/a`. **Untriaged cause is a third kind neither round 19 label covers**: both rows had their promoting question executed and both **resolved against the row** — not `unverified`, not `verified-but-unwritten`, but finished work with a negative answer. **Depth note: the smallest source of rounds 15–20 produced the round's only inverted denial**, and the mechanism is new to this scorecard — the yield came from the source being confidently **wrong** about a claim the corpus refutes, which routed attention to the refutation's own construction |
 
 **Two runs converged on one hunt this afternoon, from opposite ends, without

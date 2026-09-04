@@ -7453,6 +7453,114 @@ in-flight 126-line diff is the one change a parallel fleet cannot absorb quietly
   corpus already holds applies to the shell too: never establish an absence from
   an instrument whose frame you have not checked.
 
+## 2.5.0 - 2026-09-04 - authority-hacker-writing-models
+
+### Redesign proposal: `not-better` is two verdicts wearing one word
+
+Four apply rows, three `not-better`, and none of the three was a refutation. In
+every case the fleet project **already implemented the technique**, sometimes
+better than the technique stated it. The closed vocabulary
+(`better` / `not-better` / `unmeasurable`) cannot express that, so the ledger
+files prior conformance beside genuine failure, and the two demand opposite
+follow-ups:
+
+- a **refutation** says the rule is wrong under some condition, and owes the
+  technique an amendment naming that condition (the method already says this, and
+  says two of them demote a technique to a lead);
+- **prior conformance** says an independent tree reached the same rule without
+  seeing the corpus, which is *convergence* — the corroboration Phase 5 awards
+  `+1` for, arriving through the apply lane instead of the source lane, and
+  currently thrown away.
+
+The demotion rule makes the conflation actively dangerous: "two `not-better` rows
+on one technique from different projects demote it to a lead" would demote a
+technique that two projects independently confirmed.
+
+Proposed: split into `not-better` (the seam showed the rule failing) and
+`already-holds` (the tree implements it; nothing to adopt), with `already-holds`
+feeding the convergence count and never the demotion rule. Not applied here —
+one round is one round, and the method's own bar is three.
+
+### The `already-holds` row is worth more if you ask one more question
+
+The three conforming rows were not equally productive, and the difference was a
+single question: **what does this tree do that the technique does not?** Asked
+once, on the pooled-leaderboard row, it produced the run's best content — the
+tree could not adopt the technique's remedy (report components, not a
+leaderboard) because its ranking *is* the product, and its actual answer, widen
+the interval by a between-source variance term, went back into the technique as a
+second branch with a discriminator. Not asked on the other two, which closed as
+"already conforms" and taught the corpus nothing.
+
+A conforming tree is not a dead end; it is a tree that has already solved the
+problem and can be read for the solution. That is nearly the inverse of how the
+apply phase is currently framed, which asks whether the *project* would be better
+off.
+
+### Assert the instrument, twice, and both times it was a substring
+
+Two confident wrong answers in one run, both from an unanchored pattern, both
+caught only because a known-positive assertion ran beside them:
+
+- `elo` matched **"below"** across five fleet trees, returning a page of comment
+  lines that looked like a real ranking seam;
+- `TER` matched **"better"**, **"register"** and **"counter"** across the newly
+  forged localization subject, which briefly read as a purity-gate failure on a
+  metric name.
+
+Both were `grep -E` without `-w`. The existing memory covers `grep -L` with `-q`
+and multi-`-e`; this is the same family and the corrective is the same one, so it
+is worth stating as the general rule rather than as a third special case:
+**a proper-noun or acronym pattern needs `-w`, and any absence or presence claim
+needs a known positive run beside it in the same call.** The second one mattered
+more than it looked: a false purity hit on a forge worker's output is exactly the
+kind of thing a director rejects a good subject over.
+
+### Backticks in a shell-quoted `node -e` are substituted, again
+
+Reproduced verbatim from an existing memory, in the *appending* direction this
+time: a scorecard paragraph written through `node -e "...\`apply\`..."` inside a
+double-quoted Bash string had **every** backtick span silently replaced by the
+output of a failed command. The append reported success; the file lost eight
+inline-code spans and the sentences around them became ungrammatical.
+
+What makes this worth re-recording is the detection cost. The corruption is
+invisible in the tool's own output (it printed `scorecard appended`), and the
+only reason it was caught was reading the tail back with `cat -A`. **Any prose
+containing Markdown code spans goes through a file** — Write it, then `node -e`
+reading that file — and the append is verified by reading back, not by trusting
+the exit code.
+
+### The board's `check` contradicted its `list` again - second sighting
+
+Round 18 recorded this; this run reproduced it exactly. `run-board.mjs list`
+showed a quiet sibling holding `model-routing` among nine subjects; `check`
+against that subject's golden path returned `clear: no live sibling holds 3
+target(s)`, exit 0. Trusting `check` would have meant editing a contended spine
+believing it uncontended.
+
+Two sightings, so this is a lesson and not yet a rule, but the operational
+advice is already unambiguous and cost nothing here: **when the two disagree,
+trust `list`** - it is the conservative reading, and the price of being wrong in
+that direction is a short wait rather than a lost write. A third sighting should
+produce an instrument fix rather than another lesson, since `check`'s whole
+purpose is to be the cheap call you make immediately before writing.
+
+### The enumeration hunt produced the only new technique, from two different lists
+
+Both promoted rows and the run's single technique came from Phase 6's third hunt
+- a document declaring its own completeness. `comparison-modes` says "Its
+pathologies are specific and standard:" and lists five; every one is a property
+of a *comparison*, and the missing sixth is a property of the *set* of
+comparisons - which pairs ran and how often each candidate appeared. That became
+`pairing-schedule`. `turn-classification` says "The recurring axes:" and lists
+three; all three describe how a call is *consumed*, and the missing fourth
+describes what it *produces*.
+
+Worth naming because it is cheap and repeatable: in a mature subject the
+enumeration is where the gap is, and the tell is a colon followed by a list. The
+hunt costs one read of a file the map already named.
+
 ## 2.5.0 - 2026-09-04 - pgmq-just-use-postgres
 
 - **When a source states a claim the corpus refutes, read what the refutation is
