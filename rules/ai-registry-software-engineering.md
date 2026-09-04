@@ -1,6 +1,6 @@
 # Software engineering - the subjects this registry carries
 
-`software-engineering` - 212 subjects, 1530 techniques, 877 applications.
+`software-engineering` - 214 subjects, 1556 techniques, 889 applications.
 Slugs only; resolve one through `index.json` as the access rule beside this file describes.
 
 ### ui-surfaces
@@ -29,7 +29,7 @@ Slugs only; resolve one through `index.json` as the access rule beside this file
 - **platform-observability** - alerting, metric-surface-contract, metrics-rollups, observability-telemetry, outbound-notifications
 - **process-graph-runtime** - correlated-exchange-over-broadcast, data-plane-transport-selection, declared-process-graph, edge-queue-policy, fault-signal-propagation
 - **resilience** - error-handling, multi-provider-gateway-plane, optional-dependency-degradation, rate-limiting, retry-backoff, scale-investment-timing, self-healing, stream-proxy-hop, webhook-ingestion
-- **work-execution** - admission-queue, background-jobs, concurrency-guards, delivery-guarantees, job-coordination, pipeline-dag, scheduling
+- **work-execution** - admission-queue, background-jobs, concurrency-guards, delivery-guarantees, execution-state-checkpointing, job-coordination, pipeline-dag, scheduling
 
 ### operations
 - **control-plane-operations** - convergence-loop-and-requeue, declarative-resource-lifecycle, watch-cache-and-resync
@@ -43,7 +43,7 @@ Slugs only; resolve one through `index.json` as the access rule beside this file
 - **identity-and-access** - authorization, credential-vault, device-pairing
 
 ### integration
-- cicd-monitoring, connector-catalog, document-text-extraction, embedded-preview, import-normalization, markdown-vault, sql-console, templates-scaffolding, web-scraping
+- cicd-monitoring, connector-catalog, document-text-extraction, embedded-preview, import-normalization, markdown-vault, native-document-format, sql-console, templates-scaffolding, web-scraping
 
 ### engineering-process
 - **build-and-release** - build-economics, codegen, packaging, release-pipeline, test-harness, test-input-generation

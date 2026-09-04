@@ -5,7 +5,7 @@
   "source": "knowledge/llm-observability/ (frontmatter only)",
   "subjects": 17,
   "techniques": 110,
-  "applications": 59,
+  "applications": 60,
   "laws": 9,
   "categories": [
    "telemetry-and-data",
@@ -1023,7 +1023,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/llm-observability/telemetry-and-data/llm-call-telemetry-model/llm-call-telemetry-model.md",
-   "digest": "sha256:9d0b71ce4b115284",
+   "digest": "sha256:691abe9c064cf12e",
    "techniques": [
     {
      "slug": "dual-clock-event-time",
@@ -1115,6 +1115,13 @@
      "file": "knowledge/llm-observability/telemetry-and-data/llm-call-telemetry-model/applications/node--metadata-attribution-keys.md",
      "verified_on": "2026-08-24",
      "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "token-usage-quadruple",
+     "file": "knowledge/llm-observability/telemetry-and-data/llm-call-telemetry-model/applications/node--token-usage-quadruple.md",
+     "verified_on": "2026-09-04",
+     "verified_against": "node@22.15"
     },
     {
      "stack": "process",

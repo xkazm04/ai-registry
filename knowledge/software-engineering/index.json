@@ -3,9 +3,9 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
-  "subjects": 212,
-  "techniques": 1530,
-  "applications": 877,
+  "subjects": 214,
+  "techniques": 1556,
+  "applications": 889,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1530/1530",
+  "use_when_coverage": "1556/1556",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -1301,7 +1301,7 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-instruction-files/agent-instruction-files.md",
-   "digest": "sha256:279abf471ace6ad7",
+   "digest": "sha256:c118184b9afa5e92",
    "techniques": [
     {
      "slug": "capability-before-steering",
@@ -1440,6 +1440,22 @@
      ]
     },
     {
+     "slug": "rewrite-behavior-pinning",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "silent-state-is-ungoverned"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a bulk or machine-authored rewrite of an always-loaded instruction asset is proposed",
+      "a prompt or instruction file is being compressed for cost",
+      "an agent behaviour stopped happening and no error or failing test marks when",
+      "deciding what to assert before editing guidance whose origin nobody remembers",
+      "a compression loop has returned a shorter candidate file"
+     ]
+    },
+    {
      "slug": "sibling-floor-ownership",
      "status": "forged",
      "laws": [
@@ -1559,6 +1575,13 @@
     },
     {
      "stack": "node",
+     "technique": "rewrite-behavior-pinning",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-instruction-files/applications/node--rewrite-behavior-pinning.md",
+     "verified_on": "2026-09-04",
+     "verified_against": "node@20"
+    },
+    {
+     "stack": "node",
      "technique": "single-source-topology",
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-instruction-files/applications/node--single-source-topology.md",
      "verified_on": "2026-08-25",
@@ -1578,7 +1601,7 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/agent-memory.md",
-   "digest": "sha256:f32486e1d128852f",
+   "digest": "sha256:2d199ae463231844",
    "techniques": [
     {
      "slug": "baseline-ladder",
@@ -1638,6 +1661,23 @@
       "stale beliefs crowd out fresh recall",
       "a refuted belief still gets recalled",
       "a fact that was true for a window is still recited after the window closed"
+     ]
+    },
+    {
+     "slug": "durable-store-failure-posture",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "unknown-is-not-a-value",
+      "deletion-is-not-repair"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a durable memory store fails to parse and more than one code path must react",
+      "deciding whether a corrupt store reads as empty",
+      "the read path runs on every turn and cannot be allowed to throw",
+      "choosing what the model is told when its own memory is unreadable",
+      "a store the agent both reads and writes is shared across concurrent sessions"
      ]
     },
     {
@@ -1924,7 +1964,7 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-runtime-assembly/agent-runtime-assembly.md",
-   "digest": "sha256:5bf1c2288bad204c",
+   "digest": "sha256:ed00487b3c280d5e",
    "techniques": [
     {
      "slug": "additive-input-at-the-call-boundary",
@@ -2162,6 +2202,13 @@
     },
     {
      "stack": "node",
+     "technique": "indeterminate-closure-on-interruption",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-runtime-assembly/applications/node--indeterminate-closure-on-interruption.md",
+     "verified_on": "2026-09-04",
+     "verified_against": "node@22.15"
+    },
+    {
+     "stack": "node",
      "technique": "operator-tier-code-loading",
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-runtime-assembly/applications/node--operator-tier-code-loading.md",
      "verified_on": "2026-09-02",
@@ -2215,6 +2262,13 @@
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-runtime-assembly/applications/rust--indeterminate-closure-on-interruption.md",
      "verified_on": "2026-09-03",
      "verified_against": "rust@1.80.0"
+    },
+    {
+     "stack": "rust",
+     "technique": "operator-tier-code-loading",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-runtime-assembly/applications/rust--operator-tier-code-loading.md",
+     "verified_on": "2026-09-04",
+     "verified_against": "rust@1.95"
     },
     {
      "stack": "rust",
@@ -5858,7 +5912,7 @@
    "subcategory": "maturity-and-conformance",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-assessment/maturity-and-conformance/conformance-checking/conformance-checking.md",
-   "digest": "sha256:6fbfe4f44c629749",
+   "digest": "sha256:dc327be35448d1e2",
    "techniques": [
     {
      "slug": "checker-false-positive-discipline",
@@ -6005,6 +6059,12 @@
      "technique": "fixture-repo-testing",
      "file": "knowledge/software-engineering/engineering-assessment/maturity-and-conformance/conformance-checking/applications/node--fixture-repo-testing.md",
      "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "process",
+     "technique": "checker-false-positive-discipline",
+     "file": "knowledge/software-engineering/engineering-assessment/maturity-and-conformance/conformance-checking/applications/process--checker-false-positive-discipline.md",
+     "verified_on": "2026-09-04"
     },
     {
      "stack": "process",
@@ -8487,7 +8547,7 @@
    "subcategory": "work-execution",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/work-execution/delivery-guarantees/delivery-guarantees.md",
-   "digest": "sha256:309129574ca07a01",
+   "digest": "sha256:09aae50d540fc8eb",
    "techniques": [
     {
      "slug": "atomic-claiming",
@@ -8611,6 +8671,13 @@
      "technique": "atomic-claiming",
      "file": "knowledge/software-engineering/backend-platform/work-execution/delivery-guarantees/applications/rust--atomic-claiming.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "rust",
+     "technique": "dead-letter-design",
+     "file": "knowledge/software-engineering/backend-platform/work-execution/delivery-guarantees/applications/rust--dead-letter-design.md",
+     "verified_on": "2026-09-04",
+     "verified_against": "rust@1.95"
     }
    ]
   },
@@ -11760,6 +11827,93 @@
     }
    ]
   },
+  "execution-state-checkpointing": {
+   "category": "backend-platform",
+   "subcategory": "work-execution",
+   "status": "forged",
+   "file": "knowledge/software-engineering/backend-platform/work-execution/execution-state-checkpointing/execution-state-checkpointing.md",
+   "digest": "sha256:efb8e034d1f9c195",
+   "techniques": [
+    {
+     "slug": "restore-semantics-belong-to-the-format",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "failure-not-empty-success",
+      "verdict-survives-boundary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "one capture API must cover backends whose restores mean different things",
+      "deciding where a stored capture is checked against the thing that will restore it",
+      "a backend genuinely cannot capture and needs a way to say so",
+      "publishing which captures can move between backends"
+     ]
+    },
+    {
+     "slug": "resume-mints-a-duplicate",
+     "status": "forged",
+     "laws": [
+      "identity-survives-reuse",
+      "absent-guard-is-loud"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a capture will be restored more than once or forked",
+      "two resumed environments behave identically when they should not",
+      "deciding what a restored environment must re-derive before it is usable",
+      "auditing what a capture froze that was supposed to be unique"
+     ]
+    },
+    {
+     "slug": "runtime-bound-checkpoint",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "unknown-is-not-a-value",
+      "one-validation-door"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether a stored capture may be resumed on this host",
+      "a restored environment boots and then misbehaves inexplicably",
+      "choosing what a capture must record about the runtime that made it",
+      "deciding what has to be copied while a source is paused"
+     ]
+    },
+    {
+     "slug": "the-record-outlives-the-rewind",
+     "status": "forged",
+     "laws": [
+      "record-precedes-effect",
+      "deletion-is-not-repair",
+      "silent-state-is-ungoverned"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a system can reset the environment it is running work in",
+      "deciding where durable memory may and may not live",
+      "the system offers more than one reset and nobody can say what each one cuts",
+      "an automated retry repeats the attempt that caused the rollback"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "the-record-outlives-the-rewind",
+     "file": "knowledge/software-engineering/backend-platform/work-execution/execution-state-checkpointing/applications/process--the-record-outlives-the-rewind.md",
+     "verified_on": "2026-09-04"
+    },
+    {
+     "stack": "rust",
+     "technique": "runtime-bound-checkpoint",
+     "file": "knowledge/software-engineering/backend-platform/work-execution/execution-state-checkpointing/applications/rust--runtime-bound-checkpoint.md",
+     "verified_on": "2026-09-04",
+     "verified_against": "rust@1.95"
+    }
+   ]
+  },
   "executive-reporting": {
    "category": "engineering-assessment",
    "subcategory": "reporting-and-remediation",
@@ -13322,7 +13476,7 @@
    "subcategory": "service-operations",
    "status": "reconciled",
    "file": "knowledge/software-engineering/operations/service-operations/health-checks/health-checks.md",
-   "digest": "sha256:c1543277f7da493e",
+   "digest": "sha256:53d576c91adb4d7f",
    "techniques": [
     {
      "slug": "check-scheduling",
@@ -13420,6 +13574,12 @@
      "file": "knowledge/software-engineering/operations/service-operations/health-checks/applications/node--three-state-outcomes.md",
      "verified_on": "2026-08-31",
      "verified_against": "node@22"
+    },
+    {
+     "stack": "process",
+     "technique": "three-state-outcomes",
+     "file": "knowledge/software-engineering/operations/service-operations/health-checks/applications/process--three-state-outcomes.md",
+     "verified_on": "2026-09-04"
     },
     {
      "stack": "react",
@@ -17968,6 +18128,105 @@
     }
    ]
   },
+  "native-document-format": {
+   "category": "integration",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/software-engineering/integration/native-document-format/native-document-format.md",
+   "digest": "sha256:80e272ef02b485a1",
+   "techniques": [
+    {
+     "slug": "format-generations-are-declared",
+     "status": "forged",
+     "laws": [
+      "unknown-is-not-a-value",
+      "verdict-survives-boundary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a saved document must open in a version of the application that did not exist when it was written",
+      "deciding whether a release may stop reading files an older release wrote",
+      "a reader has to guess a document's vintage from which fields are present",
+      "moving properties between containers as the model grows a new level"
+     ]
+    },
+    {
+     "slug": "format-is-the-engines-input",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing a save format for an application whose output another program consumes",
+      "an export step keeps producing something different from what the editor showed",
+      "deciding whether editor-only state needs a format of its own",
+      "a user asks why they cannot open the program's own output as a document"
+     ]
+    },
+    {
+     "slug": "ignorable-extensions-must-be-declared",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "absent-guard-is-loud"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "adding application-specific data to a document in a format somebody else defines",
+      "outside tools reject documents that the application and its consumer both accept",
+      "relying on a reader to skip what it does not understand",
+      "deciding what proves a written document is valid"
+     ]
+    },
+    {
+     "slug": "one-writer-per-fact",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "derivation-names-recomputation"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "the result a downstream consumer produces disagrees with the parameters the user set",
+      "document state is written twice so a second reader can understand it",
+      "somebody proposes a save-time synchroniser between two copies of the same state",
+      "deciding whether a compatibility break is worth removing a duplicate"
+     ]
+    },
+    {
+     "slug": "reference-or-embed",
+     "status": "forged",
+     "laws": [
+      "identity-survives-reuse",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether the document carries content or points at it",
+      "a document opens with missing content because a referenced file moved",
+      "users send each other documents and the recipient sees nothing",
+      "choosing between locations relative to the document and absolute ones"
+     ]
+    },
+    {
+     "slug": "serialization-is-locale-free",
+     "status": "forged",
+     "laws": [
+      "absent-guard-is-loud",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "documents saved in one region fail to open in another",
+      "numbers in a saved file appear with an unexpected decimal separator",
+      "a dependency sets a process-wide regional convention at startup",
+      "deciding what a test suite must run under before a format ships"
+     ]
+    }
+   ],
+   "applications": []
+  },
   "native-guest-interop": {
    "category": "backend-platform",
    "subcategory": "language-runtime",
@@ -18082,7 +18341,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/client-architecture/native-shell-integration/native-shell-integration.md",
-   "digest": "sha256:34e3dedc82846a2b",
+   "digest": "sha256:d0a9900439717735",
    "techniques": [
     {
      "slug": "capability-presence-contract",
@@ -18150,6 +18409,22 @@
      ]
     },
     {
+     "slug": "observer-perturbation",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a structural query over another application returns only a root element with nothing inside it",
+      "reading a foreign application works for some targets and returns an empty tree for a whole class of them",
+      "deciding whether the product's own surface is causing the defect it is trying to observe",
+      "an instrument shares screen space or a lock or a device with the thing it measures",
+      "a fullscreen surface changes the behaviour of the applications underneath it"
+     ]
+    },
+    {
      "slug": "permission-gate-vector",
      "status": "forged",
      "laws": [
@@ -18164,6 +18439,38 @@
       "users grant a permission in system settings and the product still says it is missing",
       "deciding whether a missing permission should disable a control or annotate it",
       "a permission prompt only ever appears once and users have already dismissed it"
+     ]
+    },
+    {
+     "slug": "query-transparent-overlay",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "absent-guard-is-loud"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a point-under-cursor query returns the product's own overlay instead of the application underneath",
+      "an element picker works with the overlay hidden and returns nothing with it shown",
+      "deciding between making a surface click-through and making it invisible to the accessibility layer",
+      "a global input hook installed to work around an overlay leaves the user's mouse button stuck",
+      "hiding and reshowing a surface around each query produces visible flicker"
+     ]
+    },
+    {
+     "slug": "unexported-capability-ladder",
+     "status": "forged",
+     "laws": [
+      "unknown-is-not-a-value",
+      "derivation-names-recomputation"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "the capability the product needs exists in the host and is not exported",
+      "deciding between hardcoded offsets and a runtime scan to reach an unexported entry point",
+      "a workaround that worked on one platform release calls the wrong function on the next",
+      "weeks of reverse engineering are underway and nobody has checked whether the queried subsystem has an opt-out",
+      "choosing where a resolution step runs when the caller is on a per-input-event path"
      ]
     }
    ],
@@ -19769,8 +20076,24 @@
    "subcategory": "work-execution",
    "status": "reconciled",
    "file": "knowledge/software-engineering/backend-platform/work-execution/pipeline-dag/pipeline-dag.md",
-   "digest": "sha256:fc7ecb87f082c58c",
+   "digest": "sha256:4b2a106213b41810",
    "techniques": [
+    {
+     "slug": "composite-condition-verdicts",
+     "status": "forged",
+     "laws": [
+      "unknown-is-not-a-value",
+      "verdict-survives-boundary",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a guard written as none-of these apply fires while its data source is down",
+      "combining child conditions where a child can fail to answer",
+      "deciding what a timed-out condition contributes to an and or an or",
+      "a branch record says not-fired and nobody can tell whether the predicate ever ran"
+     ]
+    },
     {
      "slug": "conditional-edges",
      "status": "forged",
@@ -20390,7 +20713,7 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/prompt-assembly.md",
-   "digest": "sha256:14a38e2a6a839fdc",
+   "digest": "sha256:c51193fcf82ede9a",
    "techniques": [
     {
      "slug": "amortized-compaction-cadence",
@@ -20476,6 +20799,23 @@
       "deciding whether the session survived or must be rebuilt",
       "resumed model relitigates decisions already settled",
       "checking carried facts for drift before resuming"
+     ]
+    },
+    {
+     "slug": "contributed-document-admission",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "gate-sees-target",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "injecting a registry of instruction documents your team did not author",
+      "a document declares the tools it wants and something grants them",
+      "two installed sources publish an entry under the same name",
+      "an installed document is ignored and nobody can tell whether it loaded",
+      "deciding whether to inject a document's body or a pointer to it"
      ]
     },
     {
@@ -21060,7 +21400,7 @@
    "subcategory": "standards-and-gates",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/quality-gates.md",
-   "digest": "sha256:629eb95d6d5f245f",
+   "digest": "sha256:24a0c6dcc70042e3",
    "techniques": [
     {
      "slug": "advancement-evidence-fields",
@@ -21529,6 +21869,12 @@
      "technique": "gate-laddering",
      "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/applications/process--gate-laddering.md",
      "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "process",
+     "technique": "gate-liveness",
+     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/applications/process--gate-liveness.md",
+     "verified_on": "2026-09-04"
     },
     {
      "stack": "process",
@@ -24553,7 +24899,7 @@
    "subcategory": "resilience",
    "status": "reconciled",
    "file": "knowledge/software-engineering/backend-platform/resilience/self-healing/self-healing.md",
-   "digest": "sha256:74124d6030b01c7f",
+   "digest": "sha256:36f871dc53a083e0",
    "techniques": [
     {
      "slug": "auto-rollback",
@@ -25083,7 +25429,7 @@
    "subcategory": "governance-and-records",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/governance-and-records/settings/settings.md",
-   "digest": "sha256:9c624669c34878a7",
+   "digest": "sha256:4b6026021bd23370",
    "techniques": [
     {
      "slug": "applied-defaults-ledger",
@@ -25149,6 +25495,23 @@
       "a value is right on one machine and wrong on another with no code difference",
       "an operator typo'd a config file and the process kept running against something else",
       "deciding whether a second configuration source layers per key or replaces the first wholesale"
+     ]
+    },
+    {
+     "slug": "in-place-document-patch",
+     "status": "forged",
+     "laws": [
+      "unknown-is-not-a-value",
+      "identity-survives-reuse",
+      "derivation-names-recomputation"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a round trip through an older build silently deleted configuration the newer build had written",
+      "the settings surface stopped updating after a reload because the object it was bound to was swapped out",
+      "deciding whether a load replaces the runtime settings object or patches it",
+      "a machine-generated map inside the settings document accumulates entries nobody prunes",
+      "deciding whether comments and hand formatting must survive a settings round trip"
      ]
     },
     {
@@ -26440,7 +26803,7 @@
    "subcategory": "runtime-and-io",
    "status": "reconciled",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/subprocess-lifecycle/subprocess-lifecycle.md",
-   "digest": "sha256:7e4c3914f788d462",
+   "digest": "sha256:374f79088a94074f",
    "techniques": [
     {
      "slug": "concurrency-and-slots",
@@ -26576,7 +26939,7 @@
    "subcategory": "code-provenance",
    "status": "forged",
    "file": "knowledge/software-engineering/security/code-provenance/supply-chain/supply-chain.md",
-   "digest": "sha256:4d5a7cc0a027964c",
+   "digest": "sha256:18c9e5ead4f07a64",
    "techniques": [
     {
      "slug": "archive-extraction-safety",
@@ -26640,6 +27003,20 @@
      ]
     },
     {
+     "slug": "patching-mechanism-ladder",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a dependency needs a change upstream will not ship in time",
+      "choosing between forking a library and hooking it at runtime",
+      "a small fix is wanted in a large framework nobody wants to fork",
+      "deciding how to carry a local modification so the rest of the dependency graph still resolves"
+     ]
+    },
+    {
      "slug": "permission-manifest-scoping",
      "status": "forged",
      "laws": [
@@ -26696,6 +27073,21 @@
       "deciding what a commit-time scanner should read",
       "the scanner engine is missing on some machines",
       "an allowlist entry no longer matches anything"
+     ]
+    },
+    {
+     "slug": "signature-preserving-patching",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "verdict-survives-boundary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing between modifying a dependency at start-up and modifying it during the build",
+      "a shipped build is quarantined by endpoint protection and nothing in the code changed",
+      "modified modules fail platform verification while the installer passes",
+      "deciding whether a patching mechanism survives the channel the product ships through"
      ]
     },
     {
@@ -27417,7 +27809,7 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/terminal-multiplexing/terminal-multiplexing.md",
-   "digest": "sha256:cf81865f1e3384c8",
+   "digest": "sha256:b2a6f2e8669dd52c",
    "techniques": [
     {
      "slug": "attach-detach-lifecycle",
@@ -27446,6 +27838,52 @@
       "replay doubles or drops at the attach seam",
       "reading an unwatched session's screen without rendering it",
       "asking the ring for history a full-screen program never sent it"
+     ]
+    },
+    {
+     "slug": "capability-revalidation",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "the protocol worked at startup and stopped mid-session",
+      "a run hangs waiting for a marker that will never arrive",
+      "a user's own configuration swallows the command-start marker",
+      "deciding whether a capability probe is per session or per run"
+     ]
+    },
+    {
+     "slug": "completion-authority-arbitration",
+     "status": "forged",
+     "laws": [
+      "unknown-is-not-a-value",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a command that sleeps returns before it finishes",
+      "the session was killed mid-run because output went quiet",
+      "only the first line of a multi-line script comes back",
+      "two evidence tiers over one stream disagree about whether a run ended",
+      "a driver reports an exit status nobody produced"
+     ]
+    },
+    {
+     "slug": "injected-hook-reconvergence",
+     "status": "forged",
+     "laws": [
+      "absent-guard-is-loud",
+      "derivation-names-recomputation"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "user configuration loads after the integration and overrides it",
+      "the integration works on a clean profile and not on a real one",
+      "settings the integration depends on drift back after the first command",
+      "a hook chain grows a duplicate entry on every prompt"
      ]
     },
     {
@@ -27519,6 +27957,21 @@
       "placing a platform terminal quirk behind one seam",
       "resized output still wraps to the old width",
       "telling process exit apart from stream end"
+     ]
+    },
+    {
+     "slug": "readiness-edge-detection",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "the first command after startup is swallowed",
+      "a capability probe passes on markers emitted during startup",
+      "the detector believes an input mode that is not yet enabled",
+      "a detector and an executor each parse the same stream"
      ]
     },
     {
@@ -27917,7 +28370,7 @@
    "subcategory": "build-and-release",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/build-and-release/test-input-generation/test-input-generation.md",
-   "digest": "sha256:251107ec9e2c1a40",
+   "digest": "sha256:d3d766efc609f74f",
    "techniques": [
     {
      "slug": "exhaustive-when-bounded",
@@ -27931,6 +28384,22 @@
       "reaching for a randomized test by reflex",
       "the input space may be small enough to enumerate",
       "a suite cannot say whether it has finished covering a space"
+     ]
+    },
+    {
+     "slug": "field-captured-operation-traces",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "gate-sees-target",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a randomized suite that has stopped finding defects users still hit",
+      "deciding what a bug report from the field should turn into",
+      "choosing the vocabulary a generator emits its cases in",
+      "a defect reproducible only by a long interactive sequence"
      ]
     },
     {
@@ -28049,6 +28518,20 @@
     }
    ],
    "applications": [
+    {
+     "stack": "cpp",
+     "technique": "field-captured-operation-traces",
+     "file": "knowledge/software-engineering/engineering-process/build-and-release/test-input-generation/applications/cpp--field-captured-operation-traces.md",
+     "verified_on": "2026-09-04",
+     "verified_against": "cpp@14"
+    },
+    {
+     "stack": "cpp",
+     "technique": "inside-out-invariants",
+     "file": "knowledge/software-engineering/engineering-process/build-and-release/test-input-generation/applications/cpp--inside-out-invariants.md",
+     "verified_on": "2026-09-04",
+     "verified_against": "cpp@14"
+    },
     {
      "stack": "rust",
      "technique": "generator-bounds-the-space",
@@ -28778,7 +29261,7 @@
    "subcategory": "input-and-editing",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/undo-history/undo-history.md",
-   "digest": "sha256:e8aeccf7729b1547",
+   "digest": "sha256:558c31fd4198667e",
    "techniques": [
     {
      "slug": "checkpoint-restore",
@@ -28792,6 +29275,21 @@
       "choosing which moments earn a checkpoint",
       "deciding whether restore can be undone",
       "undo after restore corrupts state"
+     ]
+    },
+    {
+     "slug": "execution-emitted-inverse",
+     "status": "forged",
+     "laws": [
+      "derivation-names-recomputation",
+      "absent-guard-is-loud"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "inverses drifting from the forward operations they mirror",
+      "an operation that destroys information or fans out through derived state",
+      "needing rollback for a partially applied multi-step operation",
+      "deciding whether undo history must be serializable"
      ]
     },
     {
@@ -28859,6 +29357,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "cpp",
+     "technique": "execution-emitted-inverse",
+     "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/undo-history/applications/cpp--execution-emitted-inverse.md",
+     "verified_on": "2026-09-04",
+     "verified_against": "cpp@14"
+    },
     {
      "stack": "react",
      "technique": "gesture-coalescing",
@@ -30395,6 +30900,7 @@
     "agent-instruction-files/capability-coverage-contract",
     "agent-instruction-files/enforcement-demotion",
     "agent-instruction-files/host-contract-compilation",
+    "agent-instruction-files/rewrite-behavior-pinning",
     "agent-instruction-files/substrate-coupled-expiry",
     "agent-instruction-files/workspace-ancestry-isolation",
     "agent-memory/probe-without-write-back",
@@ -30540,6 +31046,7 @@
     "eval-harness/reliability-aggregation",
     "eval-harness/selection-over-noise",
     "eval-harness/unaided-baseline-screening",
+    "execution-state-checkpointing/runtime-bound-checkpoint",
     "executive-reporting/expiring-share-links",
     "executive-reporting/grounded-narrative-generation",
     "extension-trust-boundary/unenforced-collision-is-a-documented-capability",
@@ -30639,7 +31146,10 @@
     "module-design/structural-improvement-loop",
     "multi-project/project-identity-and-joins",
     "multi-provider-gateway-plane/upstream-identity-before-inventory",
+    "native-document-format/ignorable-extensions-must-be-declared",
+    "native-document-format/serialization-is-locale-free",
     "native-guest-interop/aligned-native-data-cell",
+    "native-shell-integration/observer-perturbation",
     "node-boot-and-declarative-bootstrap/ordered-boot-dag",
     "node-boot-and-declarative-bootstrap/request-chain-not-dsl",
     "observability-telemetry/diagnostic-access",
@@ -30671,6 +31181,7 @@
     "priced-authority/single-use-cubbyhole-wrap",
     "priced-authority/write-ahead-revocation-marker",
     "proactive-nudges/quiet-windows",
+    "prompt-assembly/contributed-document-admission",
     "prompt-assembly/fingerprinting-and-cache-keys",
     "prompt-assembly/task-envelope",
     "prompt-safety/canary-tripwires",
@@ -30765,9 +31276,11 @@
     "supply-chain/build-time-dependency-tier",
     "supply-chain/dependency-policy-gates",
     "supply-chain/lockfile-freshness-oracle",
+    "supply-chain/patching-mechanism-ladder",
     "supply-chain/permission-manifest-scoping",
     "supply-chain/scheduled-deep-analysis",
     "supply-chain/secret-scanning-architecture",
+    "supply-chain/signature-preserving-patching",
     "supply-chain/toolchain-floor-drift",
     "supply-chain/unsafe-deserialization-off-by-default",
     "supply-chain/update-automation-review",
@@ -30782,7 +31295,9 @@
     "templates-scaffolding/integrity-and-provenance",
     "templates-scaffolding/readiness-prerequisites",
     "templates-scaffolding/template-portability",
+    "terminal-multiplexing/capability-revalidation",
     "terminal-multiplexing/occupant-state-detection",
+    "terminal-multiplexing/readiness-edge-detection",
     "test-harness/approval-snapshots-with-guarded-update",
     "test-harness/context-starved-executor",
     "test-harness/dynamic-verifier-classes",
@@ -30794,6 +31309,7 @@
     "test-harness/recorded-interaction-fixtures",
     "test-harness/suite-partitioning",
     "test-harness/verification-inherits-driver-reach",
+    "test-input-generation/field-captured-operation-traces",
     "test-input-generation/generator-bounds-the-space",
     "test-input-generation/inside-out-invariants",
     "test-input-generation/liveness-needs-a-quiet-period",
@@ -30858,6 +31374,7 @@
     "agent-cli-transport/output-normalization",
     "agent-instruction-files/capability-before-steering",
     "agent-memory/coverage-instrumentation",
+    "agent-memory/durable-store-failure-posture",
     "agent-memory/recall-injection",
     "agent-memory/rollup-compaction",
     "agent-runtime-assembly/bounded-projection-of-external-work",
@@ -31021,6 +31538,7 @@
     "eval-harness/overshoot-and-restore",
     "eval-harness/resolution-precondition",
     "eval-harness/selection-over-noise",
+    "execution-state-checkpointing/restore-semantics-belong-to-the-format",
     "executive-reporting/grounded-narrative-generation",
     "executive-reporting/provenance-caveats",
     "executive-reporting/single-ranked-next-move",
@@ -31122,6 +31640,8 @@
     "multi-provider-gateway-plane/router-versus-candidate-failure",
     "native-shell-integration/capability-presence-contract",
     "native-shell-integration/native-owned-stream",
+    "native-shell-integration/observer-perturbation",
+    "native-shell-integration/query-transparent-overlay",
     "node-boot-and-declarative-bootstrap/once-only-bootstrap-with-marker",
     "node-boot-and-declarative-bootstrap/reload-partition",
     "observability-telemetry/remote-telemetry-economics",
@@ -31150,6 +31670,7 @@
     "pipeline-authoring/change-scoped-work-selection",
     "pipeline-authoring/foreign-config-replay",
     "pipeline-authoring/runtime-pipeline-generation",
+    "pipeline-dag/composite-condition-verdicts",
     "pipeline-dag/conditional-edges",
     "pipeline-dag/deterministic-vs-model-nodes",
     "pipeline-dag/external-adapter-nodes",
@@ -31167,6 +31688,7 @@
     "proactive-nudges/trigger-evaluators",
     "prompt-assembly/amortized-compaction-cadence",
     "prompt-assembly/context-reachability",
+    "prompt-assembly/contributed-document-admission",
     "prompt-assembly/endpoint-sealed-continuation-metadata",
     "prompt-assembly/history-compaction",
     "prompt-assembly/tiered-history-projection",
@@ -31295,6 +31817,7 @@
     "templates-scaffolding/integrity-and-provenance",
     "templates-scaffolding/readiness-prerequisites",
     "tenant-scoped-agent-runtime/fail-direction-follows-deployment-mode",
+    "terminal-multiplexing/completion-authority-arbitration",
     "terminal-multiplexing/multi-client-fan-out",
     "terminal-multiplexing/pty-management",
     "test-harness/approval-snapshots-with-guarded-update",
@@ -31306,6 +31829,7 @@
     "test-harness/negative-control-tests",
     "test-harness/platform-quirk-absorption",
     "test-input-generation/exhaustive-when-bounded",
+    "test-input-generation/field-captured-operation-traces",
     "test-input-generation/generator-bounds-the-space",
     "test-input-generation/inside-out-invariants",
     "test-input-generation/liveness-needs-a-quiet-period",
@@ -31371,6 +31895,7 @@
     "accessibility/keyboard-navigation-models",
     "accessibility/primitive-level-a11y",
     "agent-memory/decay-and-forgetting",
+    "agent-memory/durable-store-failure-posture",
     "agent-memory/memory-governance",
     "agent-memory/read-set-bounded-links",
     "audit-logging/append-only-design",
@@ -31400,6 +31925,7 @@
     "embedded-db/storage-accounting-and-pruning",
     "entity-lifecycle/change-logging",
     "error-handling/reclassification-is-not-repair",
+    "execution-state-checkpointing/the-record-outlives-the-rewind",
     "executive-reporting/bad-news-labelling",
     "hash-pinned-translation-pipeline/shape-sync-is-not-content-sync",
     "health-checks/remediation-affordances",
@@ -31860,6 +32386,7 @@
     "agent-instruction-files/instruction-freshness",
     "agent-instruction-files/substrate-coupled-expiry",
     "agent-memory/decay-and-forgetting",
+    "agent-memory/durable-store-failure-posture",
     "agent-memory/lane-reconciliation",
     "agent-memory/probe-without-write-back",
     "agent-runtime-assembly/additive-input-at-the-call-boundary",
@@ -31910,6 +32437,7 @@
     "engine-string-representation/dual-encoding-symbol-interner",
     "error-handling/cancellation-attribution",
     "eval-harness/measurement-revision",
+    "execution-state-checkpointing/runtime-bound-checkpoint",
     "extension-trust-boundary/invert-the-default-for-exposed-surface",
     "extension-trust-boundary/two-phase-attach-then-initialize",
     "fault-signal-propagation/edge-deadline-arming",
@@ -31948,14 +32476,18 @@
     "multi-provider-gateway-plane/join-breadth-follows-the-wrong-match-cost",
     "multi-provider-gateway-plane/strategy-tree-with-inherited-policy",
     "multi-provider-gateway-plane/upstream-identity-before-inventory",
+    "native-document-format/format-generations-are-declared",
+    "native-document-format/reference-or-embed",
     "native-guest-interop/explicit-lossy-conversion",
     "native-guest-interop/typed-downcast-access",
     "native-shell-integration/capability-presence-contract",
     "native-shell-integration/layout-resolved-input-synthesis",
     "native-shell-integration/permission-gate-vector",
+    "native-shell-integration/unexported-capability-ladder",
     "optional-dependency-degradation/capability-honest-refusal",
     "optional-dependency-degradation/fallback-retirement-condition",
     "p2p-networking/peer-state-honesty",
+    "pipeline-dag/composite-condition-verdicts",
     "plan-review/informational-fold-in",
     "priced-authority/write-ahead-revocation-marker",
     "prompt-assembly/elision-to-a-refetch-pointer",
@@ -31984,6 +32516,7 @@
     "settings/applied-defaults-ledger",
     "settings/author-declared-include-graph",
     "settings/cross-source-precedence-chain",
+    "settings/in-place-document-patch",
     "settings/inherited-default-override",
     "settings/typed-accessors",
     "signed-artifacts/bypass-is-a-versioned-policy",
@@ -31993,6 +32526,8 @@
     "telemetry-pii-redaction/exclusion-bounds-reads-not-output",
     "tenant-scoped-agent-runtime/fail-direction-follows-deployment-mode",
     "tenant-scoped-agent-runtime/stamp-ownership-before-the-router",
+    "terminal-multiplexing/capability-revalidation",
+    "terminal-multiplexing/completion-authority-arbitration",
     "terminal-multiplexing/occupant-state-detection",
     "transactions-over-a-replicated-log/capture-index-before-snapshot",
     "transactions-over-a-replicated-log/live-file-is-the-snapshot",
@@ -32095,6 +32630,7 @@
     "engine-host-contract/contained-async-module-loader",
     "entity-lifecycle/archive-restore-semantics",
     "entity-lifecycle/cascade-design",
+    "execution-state-checkpointing/runtime-bound-checkpoint",
     "executive-reporting/grounded-narrative-generation",
     "federated-client-contracts/payload-filter-chain",
     "file-browsing/file-mutations",
@@ -32337,6 +32873,7 @@
     "eval-harness/comparison-modes",
     "eval-harness/discriminating-task-selection",
     "eval-harness/scenario-design",
+    "execution-state-checkpointing/resume-mints-a-duplicate",
     "executive-reporting/expiring-share-links",
     "fault-signal-propagation/last-value-degradation",
     "fault-signal-propagation/recoverable-vs-closed",
@@ -32385,6 +32922,7 @@
     "multi-project/project-identity-and-joins",
     "multi-provider-gateway-plane/join-breadth-follows-the-wrong-match-cost",
     "multi-provider-gateway-plane/strategy-tree-with-inherited-policy",
+    "native-document-format/reference-or-embed",
     "object-shape-representation/dictionary-mode-fallback",
     "object-shape-representation/polymorphic-inline-cache-with-weak-shapes",
     "object-shape-representation/transition-tree-with-shared-table",
@@ -32445,6 +32983,7 @@
     "self-healing/incident-promotion",
     "session-continuation/sealed-stage-advance",
     "settings/applied-defaults-ledger",
+    "settings/in-place-document-patch",
     "sidecar-provisioning/grade-selection",
     "sidecar-provisioning/model-storage-lifecycle",
     "sidecar-provisioning/plugin-lazy-load-and-reload",
@@ -32924,6 +33463,7 @@
     "error-handling/user-facing-mapping",
     "eval-harness/judge-stability",
     "eval-harness/metric-role-contract",
+    "execution-state-checkpointing/restore-semantics-belong-to-the-format",
     "executive-reporting/bad-news-labelling",
     "executive-reporting/single-ranked-next-move",
     "extension-trust-boundary/re-entrant-registration-across-processes",
@@ -33003,6 +33543,8 @@
     "multi-provider-gateway-plane/adapter-direction-asymmetry",
     "multi-provider-gateway-plane/policy-verdict-in-the-status-space",
     "multi-provider-gateway-plane/upstream-identity-before-inventory",
+    "native-document-format/format-is-the-engines-input",
+    "native-document-format/one-writer-per-fact",
     "native-shell-integration/layout-resolved-input-synthesis",
     "native-shell-integration/permission-gate-vector",
     "node-boot-and-declarative-bootstrap/config-objects-are-api-immutable",
@@ -33032,6 +33574,7 @@
     "priced-authority/never-persisted-token-class",
     "prompt-assembly/capability-documentation",
     "prompt-assembly/context-reachability",
+    "prompt-assembly/contributed-document-admission",
     "prompt-assembly/house-vocabulary-layer",
     "prompt-safety/cross-language-rule-parity",
     "prompt-safety/payoff-removal",
@@ -33113,7 +33656,9 @@
     "templates-scaffolding/template-anatomy",
     "terminal-multiplexing/keystroke-injection",
     "terminal-multiplexing/occupant-state-detection",
+    "terminal-multiplexing/readiness-edge-detection",
     "test-harness/fixture-economics",
+    "test-input-generation/field-captured-operation-traces",
     "test-input-generation/model-based-oracle",
     "time-travel-replay/renderer-reuse",
     "toasts-notifications/announcement-accessibility",
@@ -33278,6 +33823,8 @@
     "multi-project/passive-signal-ingestion",
     "multi-project/portfolio-drill-hierarchy",
     "multi-project/project-onboarding-lifecycle",
+    "native-document-format/one-writer-per-fact",
+    "native-shell-integration/unexported-capability-ladder",
     "object-shape-representation/polymorphic-inline-cache-with-weak-shapes",
     "object-shape-representation/transition-tree-with-shared-table",
     "outbound-notifications/channel-health-tracking",
@@ -33331,6 +33878,7 @@
     "self-healing/effectiveness-accounting",
     "settings/author-declared-include-graph",
     "settings/cross-source-precedence-chain",
+    "settings/in-place-document-patch",
     "settings/inherited-default-override",
     "settings/read-batching",
     "sidecar-provisioning/grade-selection",
@@ -33346,6 +33894,7 @@
     "templates-scaffolding/adoption-lifecycle",
     "templates-scaffolding/template-anatomy",
     "tenant-scoped-agent-runtime/tenant-keyed-cache-evicts-loaded-code",
+    "terminal-multiplexing/injected-hook-reconvergence",
     "test-harness/fixture-economics",
     "test-harness/recorded-interaction-fixtures",
     "time-travel-replay/accrual-overlays",
@@ -33356,6 +33905,7 @@
     "tracing/vocabulary-source-selection",
     "triage-queues/queue-lifecycle",
     "ui-controls/control-inventory-and-discovery",
+    "undo-history/execution-emitted-inverse",
     "undo-history/undo-model-selection",
     "untrusted-extension-host/canonicalizable-privilege-declaration",
     "voice-io/authored-voice-identity",
@@ -33406,6 +33956,7 @@
     "embedded-db/corruption-class-response",
     "error-handling/cancellation-attribution",
     "error-handling/consumer-decides-error-shape",
+    "execution-state-checkpointing/restore-semantics-belong-to-the-format",
     "fault-signal-propagation/no-synthetic-terminal",
     "fault-signal-propagation/restart-notification-scope",
     "fault-signal-propagation/typed-edge-events-in-band",
@@ -33423,6 +33974,7 @@
     "modelled-performance-estimates/refuse-rather-than-emit-a-sentinel",
     "multi-provider-gateway-plane/policy-verdict-in-the-status-space",
     "multi-provider-gateway-plane/router-versus-candidate-failure",
+    "native-document-format/format-generations-are-declared",
     "native-guest-interop/async-native-as-promise",
     "native-guest-interop/class-from-impl-with-borrow-warning",
     "native-guest-interop/explicit-lossy-conversion",
@@ -33431,6 +33983,7 @@
     "node-boot-and-declarative-bootstrap/config-objects-are-api-immutable",
     "optional-dependency-degradation/guarded-singleton-accessor",
     "optional-dependency-degradation/refusal-is-not-failure",
+    "pipeline-dag/composite-condition-verdicts",
     "priced-authority/approver-not-requester",
     "prompt-assembly/deferred-interface-invalidation",
     "read-serving-replicas/client-carried-index",
@@ -33448,6 +34001,7 @@
     "sidecar-provisioning/split-trust-by-registration-path",
     "standards-layered-runtime/backend-parameterised-web-api",
     "structured-output/schema-validation-and-repair",
+    "supply-chain/signature-preserving-patching",
     "transactions-over-a-replicated-log/same-value-still-conflicts",
     "transactions-over-a-replicated-log/snapshot-read-plus-verify-log",
     "untrusted-extension-host/per-callback-failure-policy",
@@ -33552,6 +34106,7 @@
     "engine-host-contract/null-and-blocking-executors",
     "entity-lifecycle/archive-restore-semantics",
     "error-handling/crash-capture",
+    "execution-state-checkpointing/resume-mints-a-duplicate",
     "extension-trust-boundary/invert-the-default-for-exposed-surface",
     "extension-trust-boundary/unenforced-collision-is-a-documented-capability",
     "fault-signal-propagation/edge-deadline-arming",
@@ -33583,11 +34138,14 @@
     "model-routing/failover-path-liveness",
     "module-design/borrowed-surface",
     "multi-provider-gateway-plane/caller-scoped-normalization-strictness",
+    "native-document-format/ignorable-extensions-must-be-declared",
+    "native-document-format/serialization-is-locale-free",
     "native-guest-interop/async-native-as-promise",
     "native-guest-interop/class-from-impl-with-borrow-warning",
     "native-guest-interop/copy-closure-safe-api",
     "native-shell-integration/non-stealing-overlay",
     "native-shell-integration/permission-gate-vector",
+    "native-shell-integration/query-transparent-overlay",
     "node-boot-and-declarative-bootstrap/seal-before-storage-plugins",
     "optional-dependency-degradation/absent-degrades-malformed-fails-fast",
     "optional-dependency-degradation/capability-honest-refusal",
@@ -33626,9 +34184,11 @@
     "supply-chain/verification-scope",
     "tenant-scoped-agent-runtime/fail-direction-follows-deployment-mode",
     "tenant-scoped-agent-runtime/written-inventory-of-what-stays-global",
+    "terminal-multiplexing/injected-hook-reconvergence",
     "test-harness/approval-snapshots-with-guarded-update",
     "test-harness/recorded-interaction-fixtures",
     "tracing/cross-boundary-propagation",
+    "undo-history/execution-emitted-inverse",
     "untrusted-extension-host/capability-subtraction-sandbox",
     "untrusted-extension-host/grant-change-consent",
     "untrusted-extension-host/pluggable-isolation-runner",
@@ -33646,6 +34206,7 @@
    "statement": "An agent's internal state — its assumptions, its uncertainty, its belief that it has finished — shapes the outcome whether or not anyone can see it, and it can be governed only once it is converted into an artifact something else can read: an assumption stated before it is built on, alternatives presented instead of one silently chosen, a completion claim checked against what actually landed. The failure signature is uniform across every corpus that has measured it: the agent is wrong at the same confidence as when it is right, the decisive error precedes its first observable signal by most of the trajectory, and unverified completion claims concentrate exactly where recovery is no longer possible. Rules, gates and reviews bind only surfaced state; whatever remains internal is outside their reach by construction. Sibling of unknown-is-not-a-value, one level up: that law forbids rendering unknown as definite in *data*; this one demands the conversion of private epistemic state into inspectable output before anything downstream relies on it.",
    "techniques": [
     "agent-instruction-files/restraint-amplifier-balance",
+    "agent-instruction-files/rewrite-behavior-pinning",
     "agent-memory/owner-and-counterpart-scope",
     "context-hierarchy/digest-gated-upward-refresh",
     "decentralized-artifact-distribution/signal-that-only-subtracts",
@@ -33653,6 +34214,7 @@
     "deployment-contract/deployment-config-as-code",
     "deterministic-prefix-caching/enumerate-the-non-working-cases",
     "engine-host-contract/spec-mirrored-hook-surface",
+    "execution-state-checkpointing/the-record-outlives-the-rewind",
     "extension-trust-boundary/unenforced-collision-is-a-documented-capability",
     "fault-signal-propagation/last-value-degradation",
     "fleet-orchestration/completion-claim-verification",
@@ -33682,6 +34244,7 @@
     "cross-instance-cache-lease/renew-from-arrival-not-from-work",
     "decentralized-artifact-distribution/publisher-declared-verification-floor",
     "declarative-resource-lifecycle/deletion-blocked-until-dependents-confirm",
+    "execution-state-checkpointing/the-record-outlives-the-rewind",
     "guest-execution-bounding/bounded-shadow-backtrace",
     "job-coordination/no-unrestorable-state-at-a-suspension-point",
     "self-healing/consume-once-mode-handoff",
