@@ -7832,3 +7832,65 @@ possible corroboration a technique can get - independent convergence in real cod
 and the ledger currently spells it the same way as a rejection. If a later round
 agrees, the vocabulary gains `confirmed` beside `better`/`not-better`/`unmeasurable`
 and the scorecard's `ship` zero stops reading as a funnel loss when it is not one.
+
+## 2.5.0 - 2026-09-04 - pi (earendil-works/pi)
+
+- **A peer-shaped source may already have been studied by the consumer, and
+  nothing in Phase 1 asks.** The operator asked for a comparison against
+  `personas`; at Phase 7.6 the scout found
+  `.ai/directions/2026-09-04-harness-playbook-comparison.md` - a 43-point study
+  against omp/omp², which is *a fork of pi itself*, with three more peer
+  studies beside it. A fresh 43-point study would have re-derived most of it.
+  The source ledger answers "did this registry mine it" and the board answers
+  "is a sibling mining it now"; **nothing answers "has a consumer already
+  compared itself to it"**, and for a peer-shaped source that is the question
+  that decides whether the run's headline deliverable is new work or a
+  duplicate. One grep over the fleet's `.ai/directions/` at Phase 1 is the
+  whole fix. Round 24 item 1.
+
+- **The apply step produced a landing the design read could not have.** The
+  amendment to `terminal-state-recovery` did not come from pi at all. It came
+  from hunting pi's technique for a seam in `pumper` and finding that the tree
+  *cites this subject in its own source comment*, has adopted it faithfully for
+  the `running` class, and therefore built precisely the gap the technique's
+  reachability table invites by saying terminal states need no mover. A
+  correctly-adopted technique produced a defect **because** it was correctly
+  adopted - which is a class of finding only Phase 7.5 can reach, and only in a
+  fleet that actually consumes the corpus. Third round running that the apply
+  step changed or produced the landing; the depth cell still files these as
+  Phase 7 output. Round 24 item 2.
+
+- **The routing count can be met while neither v2.2 clause fires, and the
+  method has no word for it.** Three load-bearing decisions with no corpus home
+  (the in-flight position, the deleted deadline, the race catalog) - count met.
+  But they home into three *different* existing subjects, so no system reaches
+  three NONE and no three share a home-if-new. "Count met, no cluster" is a
+  third outcome that reads to any later reader as a declined handoff, which is
+  a different and worse thing. Say it explicitly in the depth cell until the
+  method names it. Round 24 item 3.
+
+- **A reject-biased gate on a single-reader run converges on one row, and that
+  is working correctly.** `auto=1/6/0` over eleven candidates. Six untriaged
+  rows are all real absences; every one carried the contested-home `+1` on
+  RISK, and only the row that *refutes an enumeration the corpus asserts*
+  reached GAIN 3. Worth stating plainly so a future round does not read a
+  1-of-11 accept rate as a weak source: it is the designed asymmetry, and the
+  six are banked with anchors precisely so a second sighting promotes them at
+  no fetch cost.
+
+- **A sibling's commit can absorb your ledger appends, and the evidence looks
+  like loss.** This run's commit reported 6 files where 9 were expected; the
+  three shared ledgers (`applied.md`, `sources/index.md`, `SCORECARD.md`) were
+  already in `HEAD`, carrying this run's lines, committed by the concurrent
+  `sozu` run. Nothing was lost and nothing needed repair. The check that
+  settles it in one command is `git grep -c <your marker> HEAD -- <ledger>`,
+  not the commit's own stat - and a run that reacts to the short stat by
+  re-appending would have duplicated every row. The pathspec discipline is what
+  made this benign in both directions.
+
+- **`verified_against` must be `<stack>@<version>`, and the gate says so late.**
+  Cost one cycle here (`node >=22.19.0` rejected, `node@22.19.0` accepted) and
+  the same error was sitting in a sibling's two uncommitted applications when
+  the index lock was taken - so the gate went red on files this run did not
+  own, and the method's rule applied: unlock first, then report, do not fix a
+  neighbour's file inside the lock.
