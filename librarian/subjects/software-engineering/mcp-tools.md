@@ -379,3 +379,48 @@ notification** - one message may carry one fact and point at another.
 
 No knowledge file in this subject was modified by this run; another session was live
 in `mcp-tools` at the time.
+
+
+## 2026-09-04 - the subject claimed a revision it did not document (run `intake-mcp-1`)
+
+Source: the Model Context Protocol specification repository at `e76e9c5`, mined
+because the operator routed a vendor blog post to the standard it describes.
+
+**Six load-bearing statements reproduced the 2025-06-18 protocol while the golden
+path claimed to describe 2026-07-28.** Each was verified against normative text,
+the wire schema, and the diff across three published revisions in one checkout -
+not from a worker's report. The error-channel rule was the worst of them: input
+validation was filed as a protocol error, which the standard reversed fifteen
+months before the revision this subject claims to document, and the corrected
+discriminator is not "did the call happen" but **who can act on the answer** -
+provable because the same failure changes channel between a user-invoked prompt
+and a model-invoked tool.
+
+**The provenance is the finding worth carrying forward.** That section was
+written by the round-5 mine of a large vendor *implementation catalog*. Mining
+implementations of a standard teaches you its architecture, and this subject's
+architecture section is correct. It does not teach you the rules, because an
+implementation shows one vendor's reading and a reading is not a citation. **A
+subject forged from implementations of a published standard carries a standing
+debt against the standard itself**, and nothing in the method currently creates
+one - `rescan_when` attaches to the source that was mined, so a repository
+re-scan re-checks the repository and never the specification behind it.
+
+Three techniques added, all consequences of one force (statelessness removed the
+container, so everything leaning on it had to be re-derived):
+`suspendable-request-classes`, `sealed-continuation-state`,
+`enumeration-without-a-scope`. `server-composition` gained list ordering as a
+prompt-cache determinant and the sharing half of a discovery hint.
+
+**One structural lesson about this corpus, not about the source.** The
+`requestState` mechanism was already here - fully, accurately, with the HMAC
+envelope and the TTL and the principal binding - inside a *dated application*
+about one SDK's transport, framed as "echoed back as an ordinary argument",
+which is the vocabulary of the rule it is an exception to. The gap was placement,
+not coverage. **An application can carry a mechanism its subject never learned,
+and nothing structural surfaces it**, because applications are read as evidence
+for techniques rather than as candidates to become them.
+
+Contention: `intake-stencil-harness` claimed this subject at its Phase 6 while
+this run was at Phase 9. This run's writes were complete and are committed first;
+the sibling re-enters behind them on the `techniques:` list.

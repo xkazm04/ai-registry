@@ -134,18 +134,42 @@ places at once and only one of them is the decision.
   consent prompt.
 - **An elicitation that throws is a denial too.** Any exception in the consent
   round trip resolves to not-approved.
-- **All of these return a result, not a protocol error.** The call was valid;
-  the user declined. That is an outcome addressed to the model, which can
-  explain it and choose differently — the two-channel rule of
-  [tool-schema-design](./tool-schema-design.md), applied to consent. A consent
-  failure routed through the protocol channel kills a conversation that could
-  have recovered.
+- **The last three return a result; the first does not, and the split is the
+  two-channel rule working correctly.** An envelope-accept with a
+  payload-reject, an explicit decline and a mechanism error are all outcomes
+  addressed to the model, which can explain them and choose differently — a
+  consent failure routed through the protocol channel kills a conversation
+  that could have recovered. But a caller that never declared the consent
+  capability at all cannot be talked into consenting by anything the model
+  says: the remediation is a host or configuration change, so it belongs to
+  the machinery, and the right answer is a typed protocol error naming
+  **which capability would have made the call succeed**. Apply the actor test
+  from [tool-schema-design](./tool-schema-design.md) rather than a blanket
+  rule, and a consent architecture routes each outcome to the party that can
+  move it.
 
-The general shape is worth naming: a consent mechanism has **four distinct
+The general shape is worth naming: a consent mechanism has **five distinct
 not-approved outcomes** — capability absent, envelope-accept with
-payload-reject, explicit decline, and mechanism error. A server that collapses
-them into a single boolean will get at least one of them wrong, silently, and
-in the permissive direction.
+payload-reject, explicit decline, mechanism error, and **silence**. A server
+that collapses them into a single boolean will get at least one of them wrong,
+silently, and in the permissive direction.
+
+**The fifth is the one a blocking design never had, and it is invisible by
+construction.** When the consent round trip is a held call, silence has a
+deadline — the wait times out and the server learns something. When the round
+trip is instead *terminate now, resume later* — the shape a stateless
+protocol forces, because a server may not hold a slot open for a human — the
+original call has already **completed successfully**, and a caller that
+simply never comes back is indistinguishable from one still thinking, one
+whose user walked away, one that crashed, and one whose host policy
+suppressed the prompt without telling anybody. Three consequences follow, and
+each has bitten someone: a refusal that must be *recorded* may never be
+recorded, so no approval gate may treat "no decline seen" as "not declined";
+there is nothing in flight to cancel, so a user dismissing the dialog
+generates no cancellation; and any progress channel scoped to the original
+call dies with it. Anything the server reserved pending an answer is
+therefore reclaimed **by expiry, not by a decline** — the timeout is the only
+mechanism that fires, so it must exist and be short enough to matter.
 
 ## Failure at the seam
 

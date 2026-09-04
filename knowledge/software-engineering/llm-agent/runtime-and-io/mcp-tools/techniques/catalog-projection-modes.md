@@ -36,9 +36,15 @@ with a feeling.
 
 The response is not a smaller catalog. It is **the same command tree published
 at several resolutions**, with the resolution chosen by an operator flag at
-startup — never per request, because a catalog whose shape varies by caller
-cannot be cached, reasoned about, or reproduced in an incident. Four
-projections cover the observed range:
+startup — never per request. Not because a caller-varying catalog cannot be
+cached: it can, per caller, and a protocol that lets a listing declare its
+sharing scope says so explicitly. The reason is the other two, and they are
+the load-bearing ones — a shape that varies per request cannot be **reasoned
+about** or **reproduced in an incident**, and the caching you keep is the
+expensive kind. Choosing per-request projection converts one shared, warm,
+verifiable answer into one cache entry per principal, each of which must now
+be scoped, keyed and got right, and none of which reconstructs what a given
+caller saw last Tuesday. Four projections cover the observed range:
 
 - **one tool per operation** — the uncompressed truth, correct when the budget
   allows it;

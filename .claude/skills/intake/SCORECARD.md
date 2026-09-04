@@ -1710,6 +1710,8 @@ retire the count, and did its apply cell say whether the verdict changed the lan
 | 2.5.0 | 2026-09-04 | `web:github.blog` cost-efficiency - **the untriaged drain** (run `intake-ghcost-2`; same source as round 15, operator approved all four banked rows as a multi-select and asked for worker execution; **round 15b**) | 0 - no new source | 0 - the four candidates were already extracted and banked in round 15 | 4 of 4 verified and landed | **2 techniques + 2 amendments + 1 reciprocal cross-reference** (`recovery-path-as-loss-signal`, `consumer-coupled-decoration`; producer-class elision, completion batching + the payload discriminator) | **8 rows: 0c/3e/0s/0t + 1 code + 4 unapplied** - all four tested rows `better` | **1** (`tracklight` `7c746eb`, plus 4 registry-side applications) | Ship is 1 and the zero-reason does not apply. The four `unapplied` rows are searched absences with the failed precondition named, not skipped work. | S=0 / T=2 / A=2 / Asrc=0 / task-lines=0. Routing n/a - this run mined no source, it drained a banked tail. `directions=n/a`. **Five workers, three overrode the director and all three were right**: the payload-decoration routing (to `prompt-assembly`, on the strength of "this subject governs systems that own their assembler" plus a two-factor cost model and an instrument that assumes the model is the reader); the three decoration sites I named (per-payload truncation markers, not per-item decorations - the multiplier collapses and `context-budgeting` already owns them); and the apply project for the batching amendment. A fourth moderated a claim I overstated, bounding the two-sided recovery rate to what n=1 supports. **Assertions overturned by a second reader: 9, catcher named on each** - 3 by an assertion harness (a similarity floor tuned to suppress false pairs suppresses true ones first, one layer at a time), 2 by a worker's own instrument failing its known positive (serde integral-f64 formatting; Rust byte length vs JS UTF-16), 1 by a known-positive assertion catching an all-empty sweep across six projects as a false negative from an over-specified regex, and 3 by the director opening cited lines (a carrier line number 38 lines out, a constant 2 lines out, and an 8/8 count that did not reconcile against 7 call sites - which on forcing produced a genuine sharpening: **the discriminator applies per fact, not per notification**). **Mid-state printed in every paired test, and it was decisive twice**: the elision arms are byte-identical at BOTH endpoints and diverge only across the middle (a 400-span trace of 4-byte payloads renders 52.6% LARGER than the un-elided compact form it replaces), and the announcement arms read "9 vs 1" at the endpoints while hiding that one completion is silently never voiced. **The corpus measured its own prior landing at the boundary it had just forbidden** - an earlier run's elision reported 4.7x from `arm_a.len()` against `arm_b.len()`, and nothing in that crate counts recovery, so the break-even at a 67.5% recovery rate is unresolvable as built. |
 | 2.5.0 | 2026-09-04 | `yt:VIsKIzFz_zA` "Rust's God Mode" (**first-party practitioner account, tutorial-explainer form**; an educator building three procedural macros live; 3,257 words; **round 17**) | 1 | 7 | 1 admitted of 5 scored (1 catch; 3 untriaged with anchors, **every promoting question executed**; **0 declined**; 1 escalated XL) | **1 technique + 1 application** | 1c/0e/0s/0t, verdict **better** | **1** (politicas `master`, pathspec, doc-sync trailers, not pushed) | Focus 1 (rewrite-penalty carve-out): **not exercised** — the accepted row was a pure append (a 12th technique beside 11 whose sentences all stay true), so the `+2` never applied and the defect stays untested. It is still owed. Focus 2 (no `partial` banked without its promoting question) **RESOLVED and it changed two outcomes**: the question promoted row 2 from `partial` to `real gap` (which is the whole landing), and on rows 1/4/5 it produced the *negative* that matters — their nearest homes were read and rejected on evidence rather than left as "no prior art", which is what turned three loose rows into one coherent escalation. Focus 3 (name the catcher): **2 assertions overturned, catcher named on each** — (a) "`server-only` makes this untestable" refuted by the project's own vitest alias plus an existing sibling test (**catcher: reading the config instead of assuming the framework**), which mattered because the wrong framing would have aimed the technique at the wrong constraint; (b) the technique's own "the shim contains no branches" refuted by the tree (**catcher: the paired proof forcing a behaviour-preservation check before the commit**). | S=0/T=1/A=0/Asrc=0/task=0 · routing count **n/a (not a repository)** · handed off: no · `auto=1/0/1` `fp=0` · refuted=1/1 · directions=n/a · gate=n/a |
 
+| 2.5.0 | 2026-09-04 | `github:modelcontextprotocol/modelcontextprotocol` @ `e76e9c5` (**a vendor release announcement routed to the standard it describes**; the operator asked for protocol mastery rather than framework usage, so a 1,372-word post became the trigger and 800,505 words of specification became the source, with `seps/` as its ADR directory; **round 18**) | 1 | 43 design + 12 scored (5 parallel readers) | 12 admitted of 12 scored (9 catches; 13 untriaged with anchors; **0 declined**) | **3 techniques + 6 corrections + 3 amendments + 3 applications** | 1c/2s/0e/0t + 2 unapplied w/ return conditions | **1** (pumper `master`, pathspec, `1158645`) | **Focus 2 DISCHARGED — the carve-out was owed for three rounds and this run had to use it six times.** Every correction here changes a standing sentence, so each takes the `+2` rewrite penalty as written and five of six land at or below threshold; each target sentence is demonstrably false against the primary, so the penalty prices a risk that is absent. Without the carve-out the run's entire headline scores itself out. **It also exposed a second defect in the same rule:** the carve-out as round 16 phrased it covers a *false* sentence, and correction 6 is a **currency** row — a claim that was true when written and has since been overtaken. Nothing false, nothing to make false, and the same `+2` applies. The rule needs "false **or superseded**". Focus 1 met by a stronger move: every candidate home's golden path and implicated technique files were read **in full** before scoring, not just the top hit, and no row reached Phase 6 with a rejectable home. Focus 3: **3 assertions overturned by a second reader** — (a) "pumper's tool surface has no validation", refuted by the tree's own test names (**catcher: reading the existing tests before writing the finding**); (b) pumper's `-32002` as a conformance defect, refuted by asking which revision it advertises (**catcher: the discriminating question, asked before the commit**); (c) "0 of 28 constraints enforced", refuted by the same file and restated correctly as drift between the published set and the enforced set. All three were mine, not a worker's. | S=0/T=3/A=3+6corr/Asrc=2/task=0 · routing count **21 of 43 NONE, 5/4/5/4/4 per system, every system clearing three** · handed off: **no — V1 vetoed it mechanically** (`runtime-and-io` at 10/10 = `MAX_CHILD_DIRS`) and 18 of 21 homed into an existing subject anyway · `auto=12/0/0` `fp=0` · refuted=6/12 · directions=0 proposed (n/a — no design entry named a fleet capability gap; all five fleet MCP surfaces already have the seams) · gate=n/a (unattended) |
+
 **Funnel, round 17 reading of the last ten rows.** Research 1 each; extract 7-58;
 test 1-22; apply has carried a row per landed finding since 2.2 and ship moved in
 nine of ten. This round extracted 7 and landed 1 — the smallest extract in the log —
@@ -1767,3 +1769,57 @@ again this round, and the more useful of the two was the technique being refuted
 the tree it was applied to, which no amount of corpus reading would have produced.
 **The check the next row should make:** did any row reach Phase 6 whose home was
 rejectable from a golden path the run could have read at Phase 4?
+
+**Funnel, round 18 reading of the last ten rows.** Research 1 each; extract 7-58;
+test 1-22; apply has carried a row per landed finding since 2.2 and ship moved in
+nine of ten. This round is the largest extract in the log (43 design entries) and
+the largest landing (12), and both numbers are properties of the *source class*
+rather than of the run: a specification repository is the only source that is
+simultaneously a primary, an ADR directory, and a thing the corpus already has a
+subject about.
+
+**Focus 2 is discharged after three rounds owed, and it broke on contact.** The
+carve-out was written for a correction whose target sentence is *demonstrably
+false*. Five of this run's six corrections are exactly that and it worked. The
+sixth is a **currency** row — `authentication-and-scoping` said a question was
+open, and it was true on the day it was written. Nothing there is false, so
+there is nothing for the carve-out to exempt, and the `+2` rewrite penalty
+applies at full strength to the safest edit this skill makes: replacing a dated
+claim with what actually happened. **The rule needs to read "false *or
+superseded*"**, and that is a one-line fix the next method edit should carry.
+
+**The stage now losing most is `extract`, and this round says something new about
+why.** Round 17 diagnosed extract as rows dying at Phase 6 for want of a home.
+This run had the opposite problem and it is the more expensive one: **21 of 43
+design entries had no home and 12 were admitted, so 9 real, verified,
+corpus-absent mechanisms were banked untriaged for budget alone.** They are not
+`partial` and their promoting questions are not unexecuted — two were promoted by
+a file read and then still not landed. The tail is no longer a verification
+failure; it is a writing-capacity failure, and a drain mode would genuinely help
+*here* in a way round 16 correctly said it would not help there.
+
+**The round's own finding is about where corpus error comes from, and it
+generalises past this source.** Six load-bearing statements in a mature,
+twelve-technique subject reproduced a superseded revision of the standard they
+describe. Nothing was sloppy: the section was written by round 5's mine of a
+large vendor **implementation catalog**, and it got the architecture right
+because implementations show you architecture. It got the *rules* wrong because
+implementations do not show you rules — they show you one vendor's reading of
+them, and a reading is not a citation. **A subject forged from implementations
+of a standard should carry a standing debt against the standard itself**, and
+nothing in this method currently creates one: `rescan_when` attaches to the
+*source* that was mined, so a repo re-scan re-checks the repo and never the
+specification the repo was implementing.
+
+**Next run's declared focus (round 19).** (1) **Extend the carve-out to
+superseded claims**, per the defect above — the currency correction is the
+cheapest, safest edit the skill makes and the gate currently penalises it hardest.
+(2) **When a subject's material is a published standard, mine the standard and
+not only its implementations** — and check, before landing anything, whether the
+subject's normative claims cite the standard or a vendor's rendering of it. This
+run's entire headline came from asking that once. (3) **Report the untriaged tail
+with a cause**, distinguishing *unverified* (no promoting question) from
+*verified but unwritten* (budget). Round 16 and this round both said "13
+untriaged" and meant opposite things. **The check the next row should make:** did
+the run land a currency correction without arguing past its own score, and does
+its untriaged count say which of the two causes it is?

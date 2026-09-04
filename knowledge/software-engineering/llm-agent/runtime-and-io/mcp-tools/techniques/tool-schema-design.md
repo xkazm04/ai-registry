@@ -118,10 +118,14 @@ express that, and forcing it to try costs twice:
 - Declaring the argument required in the parser makes requiredness part of
   the published contract, so widening or narrowing it later is a schema
   change on every surface that carries the argument.
-- Worse, it puts the failure in the wrong channel. A parser rejection is a
-  **protocol error** addressed to the machinery, when what is wanted is an
-  in-band, model-readable **domain error** the caller can recover from in one
-  turn — exactly the distinction drawn below.
+- Worse, it makes the failure *unexplainable*. Both a schema rejection and a
+  runtime rule reach the model in-band — the channel does not change, and a
+  design that assumes it does has picked the wrong axis (see the two error
+  channels below). What changes is what the model is told: a schema validator
+  can only say *this property is required*, universally, while the rule the
+  tool actually enforces is *required **for this operation***. The caller
+  reads a flat contradiction of the schema it was just handed, cannot see
+  which operation moved the requirement, and retries the same shape.
 
 So declare it schema-optional and enforce it as a uniform runtime rule at the
 dispatch door, returning one consistent in-band message. Requiredness becomes
@@ -234,17 +238,41 @@ This subject's instance of
 [failure-not-empty-success](../../../../_laws.md#failure-not-empty-success) is the
 split between:
 
-- **Protocol errors** — unknown tool, malformed arguments, failed
-  authentication. The *call itself* was invalid; the error is addressed to
-  the machinery, carries a machine-readable code, and never pretends to be a
-  domain outcome.
+- **Protocol errors** — unknown tool, a request that fails the *call
+  envelope's* own schema, a server fault. What unites them is not that the
+  call was invalid but that **no differently-composed retry by the model
+  could fix them**; the error is addressed to the machinery, carries a
+  machine-readable code, and never pretends to be a domain outcome. Note the
+  narrowness of the envelope clause: a request missing its tool name is a
+  protocol error, and a request whose *arguments* fail the tool's published
+  input schema is not.
 - **In-band tool errors** — the search found nothing, the upstream API
-  rejected the request, the file is missing. The call was valid and this is
-  its *outcome*, flagged as an error but delivered as a result, addressed to
-  the model — which can read it, explain it, and try a different approach.
-  An in-band error worth returning tells the model what to do next: "date
-  must be in the future" recovers in one turn; "error 422" burns a turn on
-  archaeology.
+  rejected the request, the file is missing, **and every argument-validation
+  failure**: a malformed date, a value out of range, a rule the published
+  schema could not express. This is the *outcome*, flagged as an error but
+  delivered as a result, addressed to the model — which can read it, explain
+  it, and try a different approach. An in-band error worth returning tells
+  the model what to do next: "date must be in the future" recovers in one
+  turn; "error 422" burns a turn on archaeology.
+- **Authorization failures are a third destination**, not a harder protocol
+  error. They are addressed to the caller's *authorization* machinery, which
+  is expected to widen its grant and retry, so the answer carries what would
+  have sufficed rather than a refusal the model will try to reason around.
+  Two consequences follow. A caller with **no consent-granting principal
+  behind it** — an unattended agent holding a machine credential — cannot
+  widen anything, so for that caller an authorization shortfall is terminal
+  and the honest response is to abort rather than to loop. And where naming
+  the missing grant would let an unauthorized caller enumerate a surface, the
+  refusal is deliberately made opaque and indistinguishable from "no such
+  tool" — a real and correct exception, which must be a decision recorded
+  next to the code rather than an accident of which branch was written first.
+
+Note what this rules out: **the channel is not a function of which layer
+caught the failure.** A check moved from a hand-written runtime guard into
+the published schema, or back, does not change where its failure goes — both
+are argument validation, both are in-band. A design in which tightening a
+schema silently converts a recoverable domain error into a dead protocol
+error has picked the wrong axis.
 
 Routing domain failures through the protocol channel kills conversations
 that could have self-corrected; routing infrastructure failures in-band

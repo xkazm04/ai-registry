@@ -88,3 +88,32 @@ One coupling worth keeping: the synthetic baseline is unsigned, so the rehearsal
 depends on the signature exemption being a real tested production path — see
 `signed-artifacts/bypass-is-a-versioned-policy`, landed the same run. Unapplied:
 no authorized fleet project ships a self-updating client.
+
+
+## 2026-09-04 - two regimes the deprecation arithmetic assumes away (run `intake-mcp-1`)
+
+Source: the Model Context Protocol specification repository at `e76e9c5` - its
+feature-lifecycle policy, read against `deprecation-by-version-arithmetic`.
+
+The technique's failing regime assumes the party who *declares* a deprecation can
+also *execute* the removal. A specification cannot: removing on schedule deletes
+the document's description of a feature that keeps working in every
+implementation, which is worse than leaving the tag in place, because
+implementations then diverge with nothing left saying what the divergence was. So
+`removed` degrades honestly from a promise to an **eligibility floor** - and the
+amendment records the three controls that have to be bought in exchange: one
+enumerable registry of live deprecations, a standing announcement channel, and a
+marker obligation delegated to the implementations that *do* have a runtime, made
+a criterion of whatever ladder grades them and chosen so a test can observe it.
+
+The second half is the more general one and the corpus had no trace of it:
+**a deprecation window only warns someone whose upgrade step is smaller than the
+window.** All of the technique's arithmetic reasons about the declarer's release
+cadence and none of it about the consumer's upgrade granularity, so a consumer
+who jumps from before the deprecation to after the removal in one hop was never
+warned however correct the window was. The source states this against itself, in
+its own open questions, which is the strongest form the observation can take.
+
+Unapplied: no fleet project publishes a contract whose implementations it does not
+control, and none currently carries a deprecated public symbol with a named
+removal version. Both halves have return conditions in `librarian/applied.md`.
