@@ -9,6 +9,7 @@ techniques:
   - knowledge-integrity-lint
   - vault-walking
   - mirror-indexes
+  - read-triggered-reconciliation
   - editor-interop
   - replicated-substrate
 ---
@@ -132,6 +133,17 @@ authoritative; the mirror names how it is rebuilt from a full walk, gates its
 writes on recorded state so re-runs are cheap and idempotent, and never lets
 its own failure break the primary write path.
 
+*When* it is rebuilt is a separate decision from *how*, and it has a third
+answer beyond the watcher and the time bound below: bind the reconcile to the
+read, so the derivation is swept immediately before the query it exists to serve
+and the staleness window closes entirely
+([read-triggered-reconciliation](./techniques/read-triggered-reconciliation.md)).
+That trades a per-read enumeration for the entire class of invalidation bugs,
+and it also disposes of the ledger — the mirror carries each source record's own
+change-stamp, so the gate stats the file it is making a claim about instead of
+consulting a third store about it. It is affordable while the corpus is small
+and reads are human-paced, and the trigger moves when either stops holding.
+
 Direction is the contract. A one-way projection (application data rendered
 *into* the vault for the human to read and link) declares that human edits to
 projected notes are overwritten — or it upgrades to two-way sync, which
@@ -197,6 +209,9 @@ computed over what was present at the time.
   policies, disagreeing about depth, hidden files, and errors.
 - **The lying mirror** — a derived index with no named recomputation,
   trusted long after it diverged from the files.
+- **The stamp nobody resolves** — a record of what the derivation was last
+  reconciled to, written on every reconcile and read back by no gate, so it can
+  hold a value that resolves to nothing while the store reports clean.
 - **Fighting the user for the file** — locks, torn writes, or last-writer-
   wins against the human's editor.
 - **The predicate-free count** — "12 orphans" from one feature and "31
@@ -228,6 +243,12 @@ computed over what was present at the time.
 - [mirror-indexes](./techniques/mirror-indexes.md) — secondary stores as named
   derivations: hash-gated incremental writes, projection vs two-way sync,
   and the ledger-vs-disk gap a skip-gate must confess.
+- [read-triggered-reconciliation](./techniques/read-triggered-reconciliation.md) —
+  the reconcile's trigger rather than its mechanism: the read as the staleness
+  bound, the source's change-stamp stored in the mirror so the gate needs no
+  ledger, inequality rather than ordering against a stamp the substrate owns,
+  schema version as the derivation's name, and contention that degrades the
+  answer instead of failing it.
 - [editor-interop](./techniques/editor-interop.md) — coexisting with a peer
   writer: atomic writes and what replacing a file costs, change watching and
   what a watcher cannot see, deep links, native syntax, and conflicts escalated
