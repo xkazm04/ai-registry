@@ -6718,3 +6718,75 @@ and wants them tested hard rather than many and tested once.
 
 - Mid-flight runs on an earlier version: nothing to do. No `SKILL.md` change
   was made this round.
+
+## 2.3.2 - 2026-09-04 - worldlabs-atlas
+
+- **The highest-yield paragraph in a vendor release announcement is the one that
+  hedges its own benchmark.** This run's shipped technique came entirely from a
+  sentence the post did not have to write: "it is possible that more sophisticated
+  prompt engineering or creative multimodal prompts could improve camera following
+  for some models." A release announcement is written to be quoted, and the one place
+  it is not is where it explains why its own number might be generous - which is
+  exactly where the *protocol* becomes visible, and the protocol is what strips.
+  Read that paragraph before the results table. Candidate line for
+  `references/source-classes.md` under the vendor-release-announcement row, whose
+  current guidance ("reliable for its numbers") points at the wrong half.
+
+- **The v2 promoting question earned its cost, and it earned it by DEMOTING.** All
+  three `partial` rows moved; two moved down. A currency row ("sparse-view
+  reconstruction now beats specialists") became a bundle-scope lead when one counted
+  grep showed the bundle carries zero files on the topic - there was no clock to
+  reset because there was nothing there. A lead became a catch when the named law
+  turned out to model its forces exactly. Under v1 both would have been banked with
+  their anchors and re-derived later at full price. The rule as written implies
+  promotion is the point; the value here was that the question is cheap enough to
+  answer honestly in the losing direction. Cost: three file reads.
+
+- **A promoting question can only be answered honestly with an uncapped count.** The
+  currency demotion above rests on "zero files in the bundle mention this", and that
+  claim is exactly the shape the method already warns about twice (truncated output,
+  banned vocabulary). It was run as `grep -rlin ... | wc -l` first and the file list
+  second. A promoting question answered from a `head`-ed grep would have produced a
+  confident promotion instead of a correct demotion, and nothing would have caught it.
+
+- **Ask the tree-as-source question on PASSING apply rows too.** Round 9's focus item
+  aimed it at `not-better`. This row came back `better`, and the finding that made the
+  run still came from asking what the tree already knew: it had independently
+  implemented the technique's first step for one control dimension, with the reasoning
+  written into the type, and the second dimension **inverted across the same provider
+  pair** with no declaration at all. A passing verdict hides that as effectively as a
+  failing one. Proposed for the next version as an edit to Phase 7.5 step 1 rather
+  than to the verdict handling.
+
+- **The design read works on a source with no tree, and the trigger should probably be
+  a stated architecture with forces rather than a clone.** Phase 2d is written for
+  repositories. Run against a 2,835-word blog's Technical Details section it produced
+  five entries with honest `forces:` and `rejects:` lines, a routing count of 2, and
+  the decision to stay in intake - all before the triage table, which is where that
+  decision is supposed to be made and where twelve v1 runs never made it. The one
+  honest degradation: `where:` is a section name, so no source-tree application is
+  writable and the entries cannot be diffed by a later pass the way a pinned commit
+  can. Cost about five minutes.
+
+  ### Redesign proposal (not applied)
+
+  Phase 2d's entry condition currently reads as "if the source is a repository, after
+  the sweep". Consider inverting it to a property of the source's content: **run the
+  design read whenever the source states an architecture together with the forces that
+  chose it**, which a release announcement's technical section, a conference talk and
+  an ADR all satisfy and a listicle does not. The routing count is the cheapest
+  correct answer to "is this a forge job", and gating it on `git clone` means the
+  question is never asked of the sources most likely to be over-mined for claims.
+  Not applied here because one blog is one data point, and because the honest
+  degradation above (no anchors, no diffable baseline) may matter more than it looked
+  like it did in this run.
+
+- **Fleet reach is a state, and it now has two sightings.** One of this run's two
+  techniques has no seam in any of the eight authorized trees, and the fleet map
+  classified every absence for both landed subjects as `out-of-domain`. Filing that as
+  an apply zero would be wrong twice: nothing was skipped, and the correct next move is
+  a fleet decision (a new domain, or a narrower landing bar), not a better apply step.
+  Proposed as a standing scorecard column rather than a sentence.
+
+- **For a mid-flight run on an earlier version: nothing to do.** No `SKILL.md` edit was
+  made this run; the three proposals above are lessons awaiting a confirming sighting.

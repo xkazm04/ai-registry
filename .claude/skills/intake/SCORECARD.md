@@ -1383,3 +1383,48 @@ visible as its own state rather than as a zero. **The check the next row
 should make:** did a run report that number, and did a `not-better` row carry
 something read out of the tree into the corpus?
 | 2.3.2 | 2026-09-04 | `agentic-video` (**vendor release announcement**, 1,151 words; 2 live siblings) | 1 | 9 | 1 (operator picked row 1 of 7; rows 2-4 untriaged with anchors, not declined) | 1 technique (`unit-classes-are-open`) + 1 golden-path section + 1 source-tree-adjacent application | **1 row: 0c/1e/0s/0t** - 1:1 with landings | 1 commit (tracklight, branch `direction/unit-class-residual-0904`, not pushed) | **Round-9 focus: item 2 held and carried the run; item 3 held; item 1 deferred a seventh time.** (2) On a tree that was ahead, I asked what it knew before writing the row - and `tracklight`'s null-cost-plus-FLOOR turned out to beat `price-tables`' conservative-declared-default, so the technique shipped carrying the *tree's* rule, not the corpus's. This is the second consecutive run where a consumer corrected the corpus. (3) Fleet reach: **0 landings unapplied for want of a seam** - the one landing found a seam immediately, so the "corpus outran the fleet" state did not arise this run and the count is a real 0, not an absent one. (1) `techniques_absent` untouched again; the map answered at subject grain and the run never needed it - which is now the seventh consecutive argument for closing it in writing rather than building it. **The fetch was the extraction, exactly as this class's two prior runs predicted** (1 of 3 spent), and it inverted one of my own candidates: I extracted a *cost* crossover for the agentic loop, the docs state a *latency* one (TTFT under 5 minutes). Ship 1 of 1 with no zero to explain. Branch rather than `main` because another session held WIP in two files. | S0/T1/A0/Asrc0/task-lines=0 (plan written, first step landed: ~9-12 files / ~250-350 lines scoped) - routing n/a (not a repository, no design record); directions=n/a; gate=n/a (no proposals this run) |
+| 2.3.2 | 2026-09-04 | `worldlabs-atlas` (**vendor release announcement**, 2,835 words; 3 live siblings, none in this bundle) | 1 | 12 (5 design + 7 claim) | 2 (operator picked both real-gap rows; 3 partial rows resolved by the promoting question, 2 untriaged with anchors) | 2 techniques | **2 rows: 1c/0e/0s/0t** - 1:1 with landings; the second is `unapplied`, no seam in any of the 8 authorized trees | 1 commit (gravity, `code`/`better`/`structural-only`, 41 lines, typecheck green) + 1 applied-row commit | Focus moved: **(1)** `techniques_absent` not closed - seventh deferral, and this run had no standing to close it (it wrote no absence claim); **(2) answered, and it produced the run's best result** - the apply row came back with the tree AHEAD of the technique on one axis, and reading the tree as a source is what found the inverting pair; **(3) answered** - the fleet's reach is reported as its own state: 1 of 2 findings has no seam anywhere | S0/T2/A0/Asrc0/task0; routing count **2** of 5 design entries with no corpus home, no shared home-if-new -> **stayed in intake, no handoff, no XL trigger** (correct: both NONE entries are foundation-model architecture decisions); directions=0/0 (`build-fleet-map` classified every absence for both subjects `out-of-domain`); fetches 0/3 |
+
+**The funnel reading over the last ten rows (round 9).** Apply is no longer where
+this pipeline leaks. Nine of the last ten rows are 1:1 apply-to-landing, and eight
+carry a project commit; v2.3's decision gate and the ship-authorization half of the
+Phase 5 question fixed the stage that three consecutive rows used to lose. The loss
+has moved to the two ends. At the front, **`research` is still one source per run,
+ten runs running** - the parallel board is the remedy and it is now genuinely in use
+(three live siblings this run), but a single terminal still buys a single source. At
+the back, a stage the scorecard could not previously see: **the corpus can land
+faster than any authorized tree can host.** This run's second technique has no seam
+in any of the eight fleet trees, and `build-fleet-map` classified every absence for
+both landed subjects as `out-of-domain`. That is not a miss and it is not a zero; it
+is the corpus outrunning the fleet, and a scorecard that reads it as an apply failure
+is measuring the wrong thing.
+
+**Round 9's checks, answered.** (1) Was `techniques_absent` closed? **No - seventh
+deferral**, and this run had no standing to close it: it wrote no absence claim, so
+the closure would have been written from nothing. The deferral should stop being
+counted against runs that never touched an absence. (2) Did a `not-better` row treat
+the tree as a source? **The stronger version happened.** The row came back `better`,
+but only because the tree was already AHEAD of the technique on one axis - it had
+independently built the channel declaration for one control dimension and written the
+reasoning into the type. Reading that as a source rather than as a pass is what
+surfaced the finding the run actually shipped: the same provider pair **inverts** on
+the second dimension, and nobody designed that. The rule generalizes past
+`not-better`: **on any apply row, ask what the tree knows that the technique does
+not.** (3) Was the fleet's reach reported? **Yes**, as its own state, above and in the
+row's apply cell.
+
+**Next run's declared focus (round 10).** (1) **Promote the round-9 finding into the
+method: read the tree as a source on EVERY apply row, not only on `not-better`.** The
+question that paid here was "what does this tree already know that the technique does
+not", asked of a tree that was passing. (2) **Report fleet reach as a standing
+column, not as a sentence somebody remembers to write.** Two runs have now produced
+findings no authorized tree can host; a corpus that keeps outrunning its fleet needs
+that number visible per run, so the operator can decide whether the answer is a new
+project domain or a narrower landing bar. (3) **Run the design read on non-repository
+sources whose architecture section states forces.** It cost about five minutes over a
+2,835-word blog, produced a routing count of 2, and correctly said "stay in intake"
+before the triage table was built - the same decision that twelve v1 runs got wrong
+by never asking. Phase 2d is written for trees; this run suggests the trigger is a
+stated architecture with forces, not a clone. **The check the next row should make:**
+did a run ask the tree-as-source question on a passing apply row, and did it carry a
+fleet-reach count?
