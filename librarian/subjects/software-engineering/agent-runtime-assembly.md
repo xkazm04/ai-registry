@@ -1,7 +1,7 @@
 ---
 subject: agent-runtime-assembly
 domain: software-engineering
-last_touched: 2026-09-03
+last_touched: 2026-09-04
 dry_streak: 0
 ---
 
@@ -141,3 +141,47 @@ A second application against a game-production harness came back
 and no verb that carries a message, and the only working mid-run steering
 path (pause, hand-edit the config the resume rehydrates from, resume) is
 undesigned and unrecorded.
+
+## 2026-09-04 - amended by intake `pi` ([[2026-09-04-pi]], run pi-2026-09-04)
+
+**A second agent harness, and it converges.** This subject was born on
+2026-09-02 from a routing count over one agent harness; `pi` is an independent
+one, and its Phase 2d count returned four decisions with no home *beside* this
+subject rather than inside it - durable operation state, outcome-vs-placement
+order, the two cancellations, and close-as-crash. Those went to the new sibling
+`durable-agent-operations` (see [[durable-agent-operations]]). What landed here
+is the one place the two harnesses genuinely disagree.
+
+**`indeterminate-closure-on-interruption` gained a section: the re-issue
+exemption is narrower than it reads.** The technique's four-case sort put a
+model request in the side-effect-free class and disposed of it with "re-issuing
+costs nothing". That is right for a pure read and wrong for a generation, and
+the refutation needed no fetch - it is corpus-internal. `cost-metering/
+usage-ledgers` counts mid-stream cancellations among the units a provider bills
+and lists a killed call recorded at cost zero as a defect, so the clause
+contradicts its own bundle. The second half is content: a streamed generation
+leaves a committed partial the user has already seen, and re-issuing produces a
+second divergent answer to a question that appears once in the record. The sort
+gains a fourth case rather than losing its third, and the file's own voice was
+kept - the technique's rule survives the finding, which is what made this an
+amendment and not a competing technique.
+
+**This is the enumeration hunt paying out.** The section that was contradicted
+is the one that declares its own completeness ("Not every interruption is
+indeterminate", four bullets). Phase 6 hunt 3 says to read those first; it was
+the only part of the file read twice.
+
+**Applications.** One source-tree application, `node--indeterminate-closure-on-
+interruption`, `verified_against: node@22.19.0` witnessed by the tree's own
+`engines.node` and CI matrix rather than a guessed version, `applied:
+simulation`, `ab_verdict: better` on two of three real cases and neutral on the
+third. One fleet apply row: `task` mode against `pumper`, verdict `better` -
+and it found a defect at the seam. That tree had already reasoned about this
+family carefully, names the anti-pattern in its own doc comment, and tests that
+the cost travels in a field rather than a message; the residue is one level
+down, where an unmetered timeout's amount is a summable `0.0` and the
+unknown-ness lives only in the detail string beside it. The falsifier (does any
+consumer branch on that string before summing?) was run in-session: one
+production consumer, and it does not. Plan committed to the project at
+`.ai/tasks/2026-09-04-unmetered-timeout-is-a-value.md`; first step not taken
+because that tree held a sibling session's uncommitted work.

@@ -121,7 +121,8 @@
             "proactive-nudges",
             "plan-review",
             "session-continuation",
-            "tenant-scoped-agent-runtime"
+            "tenant-scoped-agent-runtime",
+            "durable-agent-operations"
           ]
         },
         {
