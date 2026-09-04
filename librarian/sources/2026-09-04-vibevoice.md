@@ -14,7 +14,7 @@ already_covered: 5
 untriaged: 3
 dispatched: 0
 applied: 2
-shipped: 0
+shipped: 6
 run_id: vibevoice-0904
 siblings: 0
 rescan_when: the streaming-TTS "streaming text input" TODO ships (it is checked-off-adjacent
@@ -307,3 +307,40 @@ mechanism with one whose precondition the project does not meet.
 - **Fetch budget: 0 of 3.** Every landing corroborated by code read in the source tree, by
   the corpus's own files, or by a fleet project's tree. Eleventh consecutive run where the
   corpus was its own second source.
+
+
+## Postscript — the peer study, run the same session
+
+The `directions=0/0` above was recorded as **owed**, and the operator called it
+in. gravitone is a peer of this source under v2.2, so the pass produced a
+**comparison study** rather than proposals: 39 points, adopt 6 / adapt 8 /
+keep ours 19 / different forces 6, from two workers over disjoint areas plus one
+director point, merged and reviewed. All four ranked features were accepted at
+the 7.7 gate and executed in-session on two branches split by file ownership.
+
+**Three outcomes, and only one of them is a feature we adopted:**
+
+1. **Two live defects in the consumer, neither present in the peer.** A cost
+   model that multiplied a text-token chunk budget by an audio-seconds constant
+   and clamped every estimate to 1.0 s — 2 of 7 request sizes distinguishable,
+   now 7 of 7, feeding the deadline header, `Retry-After` and the quality
+   ladder. And a chart that never told a pod its replica count, so a four-replica
+   deployment admitted 4x its pool and silenced the 429 that would have said so.
+2. **A refutation of this run's own technique.** `cache-residency-sets-the-balancing-unit`
+   answers interchangeability from the cache; the study answered it from the
+   **transport**, and showed the peer's stated reason for refusing data-parallel
+   does not survive the peer's own WebSocket. Landed as a layer enumeration.
+3. **Both execution workers overrode their briefs and both were right** — a
+   stamp that must not be trusted unconditionally, and a retry whose repetition
+   is evidence in the opposite direction from the obvious one.
+
+**What this says about the class.** Every prior round treated a peer study as a
+way to find features worth adopting. Six of thirty-nine points were `adopt`, and
+none of the three outcomes above is one of them. **A peer study is an instrument
+for auditing yourself against someone who made different choices**, and its
+adopt list is the least of what it returns.
+
+**Still owed, recorded so it is not re-derived:** T-D1 (whether the identity
+*score* moves) needs `sherpa-onnx`, absent from this checkout while the model
+file is present; three of four voice installers remain unstamped; and a fifth
+resampler in the operator CLI is named in the new register rather than fixed.
