@@ -8019,3 +8019,131 @@ and the scorecard's `ship` zero stops reading as a funnel loss when it is not on
   when a positive write manufactures the presence on the healthy path and the
   ambiguous reading is the cautious one. **An apply row that says "already
   satisfied" is only cheap if it also says what would make it unsatisfied.**
+
+## 2.5.0 - 2026-09-04 - wan2gp
+
+- **The absolutes hunt produced every landing in this run, and it is cheap enough to
+  be a step rather than a habit.** Round 24 proposed reading the host file for its
+  unqualified sentences — "always", "never", "nothing can", "this is the whole cure"
+  — before drafting anything. Run deliberately over three host files, it returned
+  three landings from three reads. The reason it works is structural rather than
+  lucky: **an absolute is a claim with a suppressed quantifier**, so a tree that
+  violates it either refutes the claim or reveals the scope the claim forgot to
+  state, and both of those are landings. It also aims the verification budget at the
+  one paragraph most likely to be wrong, which is the opposite of where novelty-hunting
+  aims it. Second confirming round; a third makes it a Phase 6 step rather than a
+  lesson.
+
+- **A `not-better` on a *second* measurable is what stops a landing from
+  overclaiming, and it only exists if the experiment prints both arms.** This run's
+  experiment carried two numbers: origin retention (A=5/14, B=14/14 — a clean win)
+  and distinct masters over the sequence (A=14, B=14 — **unchanged**). The fix was
+  right and shipped on the first number. But the amendment, as drafted, had implied
+  the second number would move, and nothing except the printed arm would have caught
+  that — a verdict-only harness returns `better` and the corpus quietly carries an
+  overclaim. **A single-measurable experiment can confirm a fix and still ratify a
+  wrong reason for it.** Where a landing's prose names a property, that property
+  wants its own arm even when it is not the one being fixed.
+
+- **`unapplied` needs its predicate carried, and the reason can be a fact about the
+  subject rather than about the run.** Two of three landings had no seam in any fleet
+  project, established by searching six trees per-project rather than by assuming.
+  The finding underneath is more useful than the rows: `mcp-tools` has 15 techniques,
+  12 applications, and **every application is an external stack**, because the fleet
+  consumes MCP and the subject is written for publishers. A subject whose apply rows
+  can only ever be source-tree applications is not a funnel loss — it is a subject
+  whose audience we are not. Recording that once in the subject's note would save the
+  next two runs a six-tree search each.
+
+  ### Redesign proposal (not applied now)
+
+  Phase 7.5 could ask, once per subject rather than once per run: **is this subject's
+  audience the fleet at all?** A subject whose last three apply rows all read
+  `unapplied — no seam` is answering that question already, and the answer belongs in
+  `librarian/subjects/<domain>/<subject>.md` as a standing note that later runs read
+  before searching. The risk is obvious and is why this is a proposal rather than an
+  edit: a standing "no seam here" note is exactly the kind of cached negative that
+  stops being true the moment a project grows the capability, so it would need a
+  return condition like any lead, and a run that accepts it without checking the
+  condition has cached a stale absence. Worth doing only with that condition attached.
+
+- **"Count met, cluster collapses" is the third routing outcome, and it is not the
+  one round 24 was describing.** Round 24 named "count met, no cluster" for decisions
+  that scatter across different homes. This run hit a different case: the decisions
+  did cluster — one system, three unhomed entries, one shared home-if-new — and the
+  *cluster itself* dissolved when this round's own second focus item was applied
+  ("which two share a force?"). All three were arms of one rule. So the count can be
+  met, the cluster can form, and the forge still correctly does not fire, because
+  three entries are not three ideas. Both outcomes read as "count N, no handoff" in
+  the depth cell and a reader will assume a decline for either. The shared-force test
+  belongs *before* the routing count, not after it, or the count is counting entries
+  when it means to count ideas.
+
+- **A repository's verification can live in its documents rather than its tests, and
+  the sweep order should expect that.** Phase 2b ranks tests fifth and measurement
+  third. This tree has **one** test file over ~89,500 lines of Python, and 76,498
+  words of operating documents that carry the failure modes, the settings contract,
+  the flag vocabulary and the agent's own operating rules. Reading its single test as
+  a signal about quality would have been wrong in both directions. The sweep order
+  held anyway — documents first, README last — but the ordering's *rationale* should
+  say that a thin test directory is not evidence of a thin tree, only evidence about
+  where that tree keeps its contracts.
+
+- **Two absences I asserted in a draft application were both wrong, and both were
+  wrong in the same direction: the tree had the material and stopped one step short.**
+  I wrote "the routing tools carry no per-action behaviour annotations at all" and
+  "the skill file separates them by instruction rather than by mechanism". In fact
+  every action declares an `access` tier used for gating, and the write-path routing
+  is stated in the schema description as well as the skill. The corrected paragraphs
+  are sharper than the originals — "classified correctly and never published" is a
+  better finding than "never classified". **When about to write that a tree lacks
+  something, grep for the thing it would have been called instead**, because a mature
+  tree usually has the concept under a local name, and the interesting failure is
+  almost never absence — it is the boundary the concept does not cross.
+
+## 2.5.0 - 2026-09-04 - monty
+
+- **The score's rewrite penalty nearly rejected the run's best finding, and the
+  reason is a missing third category.** Phase 5 scores `+2 RISK` for a landing
+  that "rewrites rather than appends", tested mechanically: *does a standing
+  sentence become false?* This run's strongest row **scoped** three unqualified
+  sentences in a one-day-old golden path — the measurements stayed true, the
+  design stayed right for the system it came from, and only the *unqualified
+  reading* changed. Scored as a rewrite it lands at GAIN 3 − RISK 2 = +1 and is
+  banked; scored as an append it lands at +3 and ships. The mechanical test has
+  no word for **adding a scope condition to a true-but-unqualified claim**, which
+  is precisely the landing a second independent source is uniquely able to
+  produce — so the penalty is heaviest exactly where cross-source corroboration
+  is most valuable. I scored it as an append and said so in the note with the
+  reasoning, which is what Step 4's audit trail is for. *Not yet a rule: one
+  sighting. If two more runs hit it, the fix is a third category — `scopes` at
+  RISK +0 when every existing sentence stays true of the population it was
+  derived from, distinct from `rewrites` at +2 when one becomes false.*
+
+- **A grep count over a file holding two constructs of the same shape counts the
+  file, not the construct.** I reported 144 opcode variants from
+  `grep -c "^    [A-Z]..."` and wrote the number into an application before
+  checking it; the file holds a second `#[repr(u8)]` enum and the real count is
+  122. The corrected number was *stronger* — 122 variants with discriminants
+  0–121 contiguous is positive evidence of no reserved band, which 144 could not
+  have shown. The rule the last round already wrote (a number is not a finding
+  until its mechanism is read) has a corollary: **parse the construct's own
+  bounds before counting inside it.** One `node -e` walking brace depth cost
+  thirty seconds and changed the finding.
+
+- **An instrument reporting 100% positive on a population is reporting about
+  itself.** My first drift check said all four generated/source pairs had
+  DRIFTED at line 1 — implausible for four independently generated files, and it
+  was a CRLF assumption in my frontmatter regex. Normalised, all four are
+  identical. This is `excess-indicts-the-instrument` from the corpus applied to
+  the run's own tooling, and the tell is the same: a uniform verdict across a
+  heterogeneous population is a fact about the check.
+
+- **The focus mechanism worked as designed and is worth recording as a
+  positive.** Round 24 asked for the home's age before the routing count; reading
+  it converted a forge-shaped repository (two systems, thirteen design entries)
+  into a corroboration run, because both homes were forged the day before and
+  were single-sourced. Three rounds have now written focus items that changed a
+  run's *shape* rather than its wording. The scorecard should keep saying whether
+  the focus fired, because a focus that never changes a decision is a lesson
+  that should have been a rule.
