@@ -2,12 +2,13 @@
 layer: golden-path
 type: golden-path
 subject: job-coordination
-status: forged
+status: reconciled
 techniques:
   - job-state-machines
   - lease-renewal
   - liveness-proof-reclaim
   - step-position-and-resumability
+  - no-unrestorable-state-at-a-suspension-point
   - terminal-state-recovery
   - job-observability
   - atomic-claiming@delivery-guarantees
@@ -78,6 +79,11 @@ The consequences of the stance form the spine:
    itself is made safe — so recovery *resumes* instead of restarting, and a
    re-run of the boundary step is a defined event rather than a gamble (see
    [step-position-and-resumability](./techniques/step-position-and-resumability.md)).
+   That guarantee is per *step*, and it says nothing about what a step holds
+   between two points at which the executor may simply cease — so the design
+   stage before it is to ensure no such point straddles state that is neither
+   durable, reconstructible nor compensable (see
+   [no-unrestorable-state-at-a-suspension-point](./techniques/no-unrestorable-state-at-a-suspension-point.md)).
 4. **Every job ends in exactly one of a declared terminal set, and every
    non-terminal state names the mechanism that can move it there** even when
    the executor is gone. Recovery at boot walks the survivors and issues a

@@ -54,8 +54,17 @@ trigger. The contract:
   once one is open, moving to an adjacent trigger opens the next one
   without the delay (warm mode). Closing tolerates the pointer crossing the
   gap between trigger and tip.
-- **Focus opens it too.** Keyboard focus shows the tooltip; it dismisses on
-  the escape key without moving focus.
+- **Focus opens it too — and hover and focus are two flags, not one.**
+  Keyboard focus shows the tooltip; it dismisses on the escape key without
+  moving focus. The state shape is where this is usually lost: track
+  *hovered* and *focused* as separate booleans, reveal on **(hovered OR
+  focused)**, and let each entry path clear only its own flag. A single
+  shared open flag written by both paths lets a pointer merely crossing the
+  region erase a hint that keyboard focus still needs — the one flag
+  inverts the affordance for the modality it exists to teach. The
+  accessibility standard says the same thing as a persistence rule:
+  revealed content stays until *the* trigger is removed, and a still-focused
+  trigger has not been removed.
 - **It is never the only carrier of essential information.** A tooltip
   supplements a visible affordance; content a user *must* see cannot live
   behind hover.
@@ -144,7 +153,10 @@ focus — so the reason needs a **focusable carrier around the control**
 (a wrapper that takes the tab stop, announces the disabled state, and hosts
 the explanation tooltip) while the control itself lets hover fall through.
 No call site gets that right ad hoc; a `disabledReason` seam on the button
-primitive gets it right everywhere at once. The form subject's related
+primitive gets it right everywhere at once — and because that wrapper is the
+carrier for *both* modalities, it inherits the two-flag rule above: a
+keyboard user parked on the explained control must not lose the explanation
+because a pointer wandered past it. The form subject's related
 prohibition (never use a disabled submit as the error surface) still
 stands — this contract is for the cases where disabled is *correct*, and
 turns the remaining mystery-grey buttons into explained ones.

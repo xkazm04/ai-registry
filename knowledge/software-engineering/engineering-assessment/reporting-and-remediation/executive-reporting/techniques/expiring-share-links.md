@@ -85,7 +85,7 @@ snapshot, which is exactly the lesson.
 
 Distinct from all of this: signing a **build output** so its origin and
 integrity can be verified downstream is the
-[signed-artifacts](../../../../security/signed-artifacts/signed-artifacts.md) subject. A
+[signed-artifacts](../../../../security/code-provenance/signed-artifacts/signed-artifacts.md) subject. A
 share capability grants read access to a rendered document; it is not a
 provenance attestation, and borrowing that vocabulary invites someone to treat
 a share link as proof the numbers are authentic.

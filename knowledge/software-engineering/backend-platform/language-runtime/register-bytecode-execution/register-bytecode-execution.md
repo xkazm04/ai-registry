@@ -190,7 +190,7 @@ the loop back-edge counter, the instruction budget, the backtrace depth, and the
 cooperative yield through a second dispatch table. This subject owns the frame, the
 stack layout, the suspension and the compiler that produce the thing being counted; when
 a rule is about how many, it is the sibling's, and when it is about where, it is this
-one's. The security subject [untrusted-extension-host](../../../security/untrusted-extension-host/untrusted-extension-host.md)
+one's. The security subject [untrusted-extension-host](../../../security/extension-trust/untrusted-extension-host/untrusted-extension-host.md)
 sits one layer further out and asks whether an in-process interpreter is an isolation
 tier at all; nothing here answers that, and a reader who arrived from there wanting a
 sandbox should go back.

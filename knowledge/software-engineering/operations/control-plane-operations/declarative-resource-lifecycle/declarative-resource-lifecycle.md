@@ -131,7 +131,7 @@ optimisation lost rather than a fact lost, and why the one message it refuses
 to depend on is the one announcing a removal.
 
 Finally, two subjects that look like the fourth contract and are not.
-[authorization](../../../security/authorization/authorization.md) owns the
+[authorization](../../../security/identity-and-access/authorization/authorization.md) owns the
 chokepoint that grades the **caller** — identity to permitted action, inside
 the program that serves the request, with one failure direction: when in
 doubt, refuse. The gate in this subject grades the **content of the write**,

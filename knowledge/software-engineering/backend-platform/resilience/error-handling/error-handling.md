@@ -13,6 +13,7 @@ techniques:
   - swallowed-error-prevention
   - crash-capture
   - cancellation-attribution
+  - consumer-decides-error-shape
 ---
 
 # Error taxonomy & handling
@@ -204,6 +205,24 @@ decision, a failure crosses layers, and each crossing must obey two rules:
 The typed-error shapes, the boundary conversions, and the enrichment
 discipline are [structured-propagation](./techniques/structured-propagation.md).
 
+## And a second axis: who consumes it, not where it was raised
+
+Everything above is vertical — one tree, one release, layers a single set of
+authors can change together. Cutting across it is an **ownership** question
+that decides the failure's representation before any of the vertical rules get
+a vote: is the code that will branch on this failure shipped on your schedule,
+or on somebody else's? Across a boundary whose two sides release
+independently, the category is part of the published interface and must be a
+value the far side can branch on — a unit that hands out an opaque failure has
+forced every consumer into prose matching, which is the one thing this subject
+forbids outright. Inside a unit that terminates in a door, the opposite is
+true: nothing branches, and one aggregate carrying the accumulated context
+trail is cheaper and more informative than an enumeration nobody consumes.
+Most systems are both, and the line between the two regions is where the
+conversion belongs.
+[consumer-decides-error-shape](./techniques/consumer-decides-error-shape.md)
+owns the two shapes, the direction the conversion may run, and the
+compatibility obligations a published enumeration takes on.
 ## Some failures never rise, and those need an address
 
 Propagation assumes the failure is going somewhere — up, to a layer that
@@ -275,3 +294,7 @@ swallowed-catch population larger than anyone predicted.
   that keep benign cancels out of the error door.
 - [crash-capture](./techniques/crash-capture.md) — last-resort handlers,
   breadcrumbs, sanitization before persistence, and crash-loop protection.
+- [consumer-decides-error-shape](./techniques/consumer-decides-error-shape.md)
+  — the ownership axis: a closed enumeration where two sides ship
+  independently, an opaque aggregate where the consumer is a door in the same
+  release, and why the conversion only runs one way.

@@ -126,7 +126,7 @@ whose page is unbounded cannot be priced and therefore cannot be rate-limited
 honestly. Bound the page first; then the rate has a unit.
 
 The boundary against
-[scope design](../../../security/authorization/techniques/scope-design.md)
+[scope design](../../../security/identity-and-access/authorization/techniques/scope-design.md)
 is the difference between the vocabulary and one word in it. Scope design
 owns scopes as contracts: one registry, an enforcement point per scope, exact
 matching, intersection as the only combination rule. This subject owns the

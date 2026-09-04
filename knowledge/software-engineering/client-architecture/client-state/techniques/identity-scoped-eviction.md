@@ -66,6 +66,20 @@ interval. A trigger list is only useful if it also says what is not on
 it, with the reason attached — a maintainer who adds refresh because "it
 is the safe direction" is exactly the event the note is written for.
 
+**Every trigger names its edge.** A trigger written as *an identifier
+changing* is silently ambiguous until the list says which edge of the
+change fires it. Where the identifier is a lifecycle handle that is absent
+between operations — empty while idle, populated while one runs — the
+tempting edge is the one where it becomes populated, and it is the wrong
+one: an operation carries state assembled before it started, so a reset on
+the opening edge erases exactly what the operation just took custody of,
+and the erasure is invisible because the screen is already in transition.
+Key such a reset on the **return to empty** instead, the edge where the
+operation has settled and the state it carried is genuinely spent. Write
+the edge down beside the event, because a maintainer reading "resets when
+the run identifier changes" cannot recover which of the two transitions
+was meant, and will pick whichever one their next bug argues for.
+
 Identity itself is compared by durable identifier, never by display name
 or address: those change without the person changing, and a reclaimed
 handle stays equal while pointing at somebody else

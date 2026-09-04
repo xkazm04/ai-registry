@@ -49,7 +49,7 @@ because the engine cannot continue without the hook's answer. The rule a reader 
 if several parties register against a name and the host decides their order, go there;
 if one host fills a seam the specification cut, it is here.
 
-[Untrusted-extension-host](../../../security/untrusted-extension-host/untrusted-extension-host.md)
+[Untrusted-extension-host](../../../security/extension-trust/untrusted-extension-host/untrusted-extension-host.md)
 owns whether an in-process runtime is an isolation tier at all, what reach an
 administrator-installed bundle may be granted, and the honest statement of what such a
 sandbox cannot contain; here the host is trusted, the seams are filled by the operator's

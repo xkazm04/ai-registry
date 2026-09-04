@@ -3,9 +3,9 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "llm-observability",
   "source": "knowledge/llm-observability/ (frontmatter only)",
-  "subjects": 16,
-  "techniques": 105,
-  "applications": 58,
+  "subjects": 17,
+  "techniques": 110,
+  "applications": 59,
   "laws": 9,
   "categories": [
    "telemetry-and-data",
@@ -14,7 +14,7 @@
    "federation-and-surfaces"
   ],
   "layout": "nested",
-  "use_when_coverage": "105/105",
+  "use_when_coverage": "110/110",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -367,9 +367,9 @@
   "cross-provider-benchmark-operations": {
    "category": "quality-scoring",
    "subcategory": null,
-   "status": "forged",
+   "status": "reconciled",
    "file": "knowledge/llm-observability/quality-scoring/cross-provider-benchmark-operations/cross-provider-benchmark-operations.md",
-   "digest": "sha256:3c1147d95adcc480",
+   "digest": "sha256:096041c00e39a184",
    "techniques": [
     {
      "slug": "async-run-queue-with-cancel",
@@ -485,9 +485,9 @@
   "federated-benchmark-sharing": {
    "category": "federation-and-surfaces",
    "subcategory": null,
-   "status": "forged",
+   "status": "reconciled",
    "file": "knowledge/llm-observability/federation-and-surfaces/federated-benchmark-sharing/federated-benchmark-sharing.md",
-   "digest": "sha256:8ababf4b62390be2",
+   "digest": "sha256:754460ecae5e056c",
    "techniques": [
     {
      "slug": "aggregate-only-digests",
@@ -670,6 +670,95 @@
      "verified_against": "rust@1.85"
     }
    ]
+  },
+  "generator-uncertainty-scoring": {
+   "category": "quality-scoring",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/llm-observability/quality-scoring/generator-uncertainty-scoring/generator-uncertainty-scoring.md",
+   "digest": "sha256:07c79704a464fa5d",
+   "techniques": [
+    {
+     "slug": "generator-vs-itself",
+     "status": "forged",
+     "laws": [
+      "statistical-verdicts-or-no-verdict",
+      "estimation-announces-itself"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "the same prompt returns different answers on different runs",
+      "deciding whether generator variance is noise or signal",
+      "choosing how many samples a consistency score should draw",
+      "a gate and a scorer disagree about the same spread"
+     ]
+    },
+    {
+     "slug": "probability-calibration-is-not-agreement",
+     "status": "forged",
+     "laws": [
+      "estimation-announces-itself",
+      "statistical-verdicts-or-no-verdict",
+      "never-present-absence-as-an-answer"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a threshold or floor is set on a confidence score",
+      "a score is shown to a reader as a percentage",
+      "an agreement or correlation statistic is offered as evidence that a number is trustworthy",
+      "choosing between a rank decision and an absolute-level decision"
+     ]
+    },
+    {
+     "slug": "score-source-ensembling",
+     "status": "forged",
+     "laws": [
+      "estimation-announces-itself",
+      "statistical-verdicts-or-no-verdict",
+      "never-present-absence-as-an-answer"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "combining a judge score with a judge-free confidence score",
+      "weights for a composite confidence score need to be chosen",
+      "a scorer that worked on one workload is carried to another",
+      "deciding whether a scoring configuration transfers across a model upgrade"
+     ],
+     "stage": "team"
+    },
+    {
+     "slug": "score-source-kinds",
+     "status": "forged",
+     "laws": [
+      "never-present-absence-as-an-answer",
+      "estimation-announces-itself"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a scoring contract types its dimensions by who decides them",
+      "a quality signal is needed where no rubric and no reference answer exist",
+      "deciding whether a confidence number may be aggregated with judged scores"
+     ]
+    },
+    {
+     "slug": "scorer-cost-class",
+     "status": "forged",
+     "laws": [
+      "quality-apparatus-stays-unbudgeted",
+      "never-present-absence-as-an-answer",
+      "nullable-never-zero"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing a scorer for high-volume traffic",
+      "a serving API does not return token probabilities",
+      "deciding whether scoring may run inside the serving path",
+      "judge spend is growing faster than traffic"
+     ],
+     "stage": "team"
+    }
+   ],
+   "applications": []
   },
   "judge-calibration-and-drift": {
    "category": "quality-scoring",
@@ -1161,9 +1250,9 @@
   "margin-and-unit-economics": {
    "category": "economics-and-governance",
    "subcategory": null,
-   "status": "forged",
+   "status": "reconciled",
    "file": "knowledge/llm-observability/economics-and-governance/margin-and-unit-economics/margin-and-unit-economics.md",
-   "digest": "sha256:28a5b67e40e197ff",
+   "digest": "sha256:855a43399693409e",
    "techniques": [
     {
      "slug": "below-filter-honesty",
@@ -1272,7 +1361,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/llm-observability/telemetry-and-data/multi-provider-event-normalization/multi-provider-event-normalization.md",
-   "digest": "sha256:81ab9181ba71f68f",
+   "digest": "sha256:20d80bd47dbe78cc",
    "techniques": [
     {
      "slug": "attribute-precedence-lists",
@@ -1481,9 +1570,9 @@
   "production-trace-scoring": {
    "category": "quality-scoring",
    "subcategory": null,
-   "status": "forged",
+   "status": "reconciled",
    "file": "knowledge/llm-observability/quality-scoring/production-trace-scoring/production-trace-scoring.md",
-   "digest": "sha256:e689501da78d13ac",
+   "digest": "sha256:42c8e8ea9199995d",
    "techniques": [
     {
      "slug": "drift-classified-rescoring",
@@ -1613,9 +1702,9 @@
   "quality-regression-gating": {
    "category": "quality-scoring",
    "subcategory": null,
-   "status": "forged",
+   "status": "reconciled",
    "file": "knowledge/llm-observability/quality-scoring/quality-regression-gating/quality-regression-gating.md",
-   "digest": "sha256:ba2d6a5236fe483d",
+   "digest": "sha256:625763675c86f196",
    "techniques": [
     {
      "slug": "baseline-carries-its-conditions",
@@ -1752,9 +1841,9 @@
   "trace-rollup-and-attribution": {
    "category": "telemetry-and-data",
    "subcategory": null,
-   "status": "forged",
+   "status": "reconciled",
    "file": "knowledge/llm-observability/telemetry-and-data/trace-rollup-and-attribution/trace-rollup-and-attribution.md",
-   "digest": "sha256:f14126914563fd4a",
+   "digest": "sha256:fa3bcbaca1840db4",
    "techniques": [
     {
      "slug": "derived-trace-rollup",
@@ -1790,7 +1879,8 @@
      "use_when": [
       "list and detail views report the same derived number",
       "defining trace duration or status",
-      "two computation paths must agree to the integer"
+      "two computation paths must agree to the integer",
+      "a summary tile sits above the itemized list of the same things"
      ]
     },
     {
@@ -1848,6 +1938,13 @@
      "technique": "derived-trace-rollup",
      "file": "knowledge/llm-observability/telemetry-and-data/trace-rollup-and-attribution/applications/react--derived-trace-rollup.md",
      "verified_on": "2026-08-29",
+     "verified_against": "react@19"
+    },
+    {
+     "stack": "react",
+     "technique": "single-shape-rule",
+     "file": "knowledge/llm-observability/telemetry-and-data/trace-rollup-and-attribution/applications/react--single-shape-rule.md",
+     "verified_on": "2026-09-01",
      "verified_against": "react@19"
     },
     {
@@ -2040,6 +2137,10 @@
     "federated-benchmark-sharing/hub-ingest-plausibility-gates",
     "federated-benchmark-sharing/k-anonymity-cases-and-sources",
     "federated-benchmark-sharing/strict-ingestion-lenient-consumption",
+    "generator-uncertainty-scoring/probability-calibration-is-not-agreement",
+    "generator-uncertainty-scoring/score-source-ensembling",
+    "generator-uncertainty-scoring/score-source-kinds",
+    "generator-uncertainty-scoring/scorer-cost-class",
     "judge-calibration-and-drift/trust-bar-verdict",
     "judge-calibration-and-drift/windowed-score-drop-alerting",
     "judge-contract-design/deterministic-dimension-kinds",
@@ -2077,6 +2178,10 @@
     "cross-provider-benchmark-operations/failure-clustering-recommendations",
     "federated-benchmark-sharing/bounded-contributor-influence",
     "federated-benchmark-sharing/cost-bucketing-side-channels",
+    "generator-uncertainty-scoring/generator-vs-itself",
+    "generator-uncertainty-scoring/probability-calibration-is-not-agreement",
+    "generator-uncertainty-scoring/score-source-ensembling",
+    "generator-uncertainty-scoring/score-source-kinds",
     "judge-calibration-and-drift/reserved-rubric-persistence",
     "judge-contract-design/mixed-rubric-honesty",
     "judge-contract-design/nonce-fenced-candidate-isolation",
@@ -2106,6 +2211,7 @@
     "analytics-store-design/flat-events-plus-json-linkage",
     "breach-alerting-and-attribution/top-contributor-attribution",
     "federated-benchmark-sharing/strict-ingestion-lenient-consumption",
+    "generator-uncertainty-scoring/scorer-cost-class",
     "judge-contract-design/deterministic-dimension-kinds",
     "llm-call-telemetry-model/nullable-cost-never-zero",
     "llm-call-telemetry-model/token-usage-quadruple",
@@ -2162,6 +2268,9 @@
     "breach-alerting-and-attribution/pre-breach-forecasting",
     "cross-provider-benchmark-operations/async-run-queue-with-cancel",
     "cross-provider-benchmark-operations/budget-preflight-and-ceiling",
+    "generator-uncertainty-scoring/generator-vs-itself",
+    "generator-uncertainty-scoring/probability-calibration-is-not-agreement",
+    "generator-uncertainty-scoring/score-source-ensembling",
     "judge-calibration-and-drift/golden-set-agreement-measurement",
     "judge-calibration-and-drift/repeatability-floor",
     "judge-calibration-and-drift/windowed-score-drop-alerting",
@@ -2179,6 +2288,7 @@
    "techniques": [
     "cross-provider-benchmark-operations/budget-preflight-and-ceiling",
     "federated-benchmark-sharing/capture-locally-publish-separately",
+    "generator-uncertainty-scoring/scorer-cost-class",
     "judge-calibration-and-drift/judge-selection-by-spread",
     "judge-calibration-and-drift/scheduled-recalibration",
     "margin-and-unit-economics/cogs-by-construction",

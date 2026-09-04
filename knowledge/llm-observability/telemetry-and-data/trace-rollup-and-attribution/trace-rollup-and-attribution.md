@@ -2,7 +2,7 @@
 layer: golden-path
 type: golden-path
 subject: trace-rollup-and-attribution
-status: forged
+status: reconciled
 use_when: [building per-request views over raw call events, designing trace list and detail endpoints, defending an aggregate cost or latency number an operator reads, deciding whether to materialize a traces table]
 techniques:
   - derived-trace-rollup
@@ -74,7 +74,10 @@ contested derived value (duration, status) lives in exactly one place, and
 both computation paths terminate in it. Definitions worth centralizing are the
 ones with a genuine choice inside them — where does a trace end, what does one
 failed span do to the whole — because those are the ones two authors will
-answer differently.
+answer differently. The shape has to pin the *collection* as well as the rule:
+a summary strip that folds the raw arrival set while the list beneath it
+renders the merged one obeys the shared definition perfectly and still prints a
+smaller number than the rows it sits on top of.
 
 Choose the definitions deliberately. Duration should run from the first span's
 start to the last span's **finish** (start plus latency), so a trailing call's

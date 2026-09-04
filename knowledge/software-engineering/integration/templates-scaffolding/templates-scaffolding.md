@@ -119,7 +119,7 @@ readiness gate converts a cheap guided fix at adoption time (human present,
 context fresh, remedy one click away) into the *only* fix; skipping it
 converts the same defect into an incident. The matching machinery — how
 declared requirements are matched against a live
-[credential vault](../../security/credential-vault/credential-vault.md), the three-state
+[credential vault](../../security/identity-and-access/credential-vault/credential-vault.md), the three-state
 readiness verdict, and when degraded adoption is legitimate — is the
 [readiness-prerequisites](./techniques/readiness-prerequisites.md) technique.
 

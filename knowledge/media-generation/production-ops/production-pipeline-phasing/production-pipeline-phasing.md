@@ -103,7 +103,10 @@ knows must not draw an invented completion fraction; concurrency policy is
 per kind of work, not global (independent investigations may run in
 parallel; anything that mutates a shared document is one-at-a-time); and an
 interruption is reported as an interruption — never quietly promoted to
-"done" or demoted to "never happened".
+"done" or demoted to "never happened". And a finished job's claim may not
+outlive the result it claims: either the result carries the job's lifetime,
+or the surface reconciles the two out loud, because the reload correction
+only reaches runs still in flight.
 
 ## Progress is a claim, and claims are audited
 

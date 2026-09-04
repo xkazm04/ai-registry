@@ -1,6 +1,6 @@
 # Software engineering - the subjects this registry carries
 
-`software-engineering` - 182 subjects, 1291 techniques, 722 applications.
+`software-engineering` - 212 subjects, 1512 techniques, 857 applications.
 Slugs only; resolve one through `index.json` as the access rule beside this file describes.
 
 ### ui-surfaces
@@ -11,7 +11,7 @@ Slugs only; resolve one through `index.json` as the access rule beside this file
 - **shell-and-navigation** - app-shell, chat-transcript, guided-tours, media-playback, modal-stack, session-resume
 
 ### client-architecture
-- client-fetch-cache, client-state, demo-data-plane, hash-pinned-translation-pipeline, i18n, ipc-contract, realtime-events
+- client-fetch-cache, client-state, demo-data-plane, hash-pinned-translation-pipeline, i18n, ipc-contract, native-shell-integration, realtime-events
 
 ### llm-agent
 - **companion** - companion-identity, companion-runtime, conversation-orchestration
@@ -22,7 +22,11 @@ Slugs only; resolve one through `index.json` as the access rule beside this file
 
 ### backend-platform
 - **data-layer** - bounded-enumeration, data-access, embedded-db, migrations, read-serving-replicas, sync-replication, transactions-over-a-replicated-log
-- **platform-observability** - alerting, metrics-rollups, observability-telemetry, outbound-notifications
+- **data-pipeline-semantics** - deferred-operation-fusion, deterministic-prefix-caching, keyed-sample-transforms, reversible-transform-pipelines, self-describing-data-envelopes
+- **inference-serving** - cross-instance-cache-lease, paged-block-cache, persistent-batch-mutation, serving-process-topology
+- **language-runtime** - embedded-tracing-collector, engine-host-contract, engine-string-representation, guest-execution-bounding, guest-language-introspection, native-guest-interop, object-shape-representation, register-bytecode-execution, standards-layered-runtime
+- **model-workflow-contracts** - accumulate-then-aggregate-metrics, declarative-object-graph-configs, federated-client-contracts, generated-workflow-candidates, self-describing-model-packages, windowed-inference-over-oversized-inputs, workflow-property-contracts
+- **platform-observability** - alerting, metric-surface-contract, metrics-rollups, observability-telemetry, outbound-notifications
 - **process-graph-runtime** - correlated-exchange-over-broadcast, data-plane-transport-selection, declared-process-graph, edge-queue-policy, fault-signal-propagation
 - **resilience** - error-handling, multi-provider-gateway-plane, optional-dependency-degradation, rate-limiting, retry-backoff, scale-investment-timing, self-healing, stream-proxy-hop, webhook-ingestion
 - **work-execution** - admission-queue, background-jobs, concurrency-guards, delivery-guarantees, job-coordination, pipeline-dag, scheduling
@@ -33,7 +37,10 @@ Slugs only; resolve one through `index.json` as the access rule beside this file
 - **service-operations** - health-checks, node-boot-and-declarative-bootstrap, perf-instrumentation, plan-entitlements, quorum-and-recovery-procedures, scoring-rubrics, triage-queues, usage-analytics
 
 ### security
-- authorization, browser-credential-boundary, credential-vault, decentralized-artifact-distribution, device-pairing, p2p-networking, signed-artifacts, supply-chain, telemetry-pii-redaction, untrusted-extension-host
+- **code-provenance** - decentralized-artifact-distribution, signed-artifacts, supply-chain
+- **data-and-transport** - browser-credential-boundary, p2p-networking, telemetry-pii-redaction
+- **extension-trust** - extension-trust-boundary, untrusted-extension-host
+- **identity-and-access** - authorization, credential-vault, device-pairing
 
 ### integration
 - cicd-monitoring, connector-catalog, document-text-extraction, embedded-preview, import-normalization, markdown-vault, sql-console, templates-scaffolding, web-scraping
@@ -42,11 +49,11 @@ Slugs only; resolve one through `index.json` as the access rule beside this file
 - **build-and-release** - build-economics, codegen, packaging, release-pipeline, test-harness, test-input-generation
 - **codebase-stewardship** - codebase-scanning, concurrent-vcs, dead-code, dependency-declaration, docs-sync, machine-authored-documentation, module-design, repository-landing-document
 - **continuous-integration** - ci-execution-trust, deployment-contract, machine-paced-delivery, pipeline-authoring, runner-fleet
-- **standards-and-gates** - knowledge-registry, multi-project, quality-gates, repo-manifest-standard
+- **standards-and-gates** - invariant-placement, knowledge-registry, multi-project, quality-gates, repo-manifest-standard
 
 ### engineering-assessment
 - **maturity-and-conformance** - conformance-checking, maturity-ladders, public-verdict-badge, readiness-passports
-- **measurement-method** - analytics-time-windows, measurement-honesty, metric-forecasting, peer-benchmarking, people-analytics-ethics
+- **measurement-method** - analytics-time-windows, measurement-honesty, metric-forecasting, modelled-performance-estimates, peer-benchmarking, people-analytics-ethics
 - **reporting-and-remediation** - adoption-measurement, delivery-analytics, executive-reporting, remediation-roadmaps
 
 ### secret-custody-and-issuance

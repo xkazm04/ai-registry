@@ -69,6 +69,20 @@ policy**:
   timestamp*: it names exactly which vocabulary grew without its label,
   which makes the fix a one-line catalog addition instead of a bug hunt.
 
+The identifier-as-degradation rule earns its licence from a property tokens
+have and content does not: **a token never travels alone.** It sits under a
+column header, inside a chip beside its own field name, in a row whose
+neighbours already say what kind of thing is being named — so a
+case-normalized token reads as a gap in the vocabulary rather than as a
+broken screen. A content key has no such neighbour; when the missing value
+*is* the card's title, its list row, its step, rendering the address
+explains nothing and asserts that a record exists which the reader cannot
+read. **So the resolution policy splits by what missed, not by where:** a
+lookup miss on a *token* renders the identifier and reports it; a lookup
+miss on *content* omits the record entirely, reports it the same way, and
+lets the surface fall through to its real empty state — a shorter list is
+honest, a list of addresses is not.
+
 The runtime report is the reactive half. The proactive half is build-time:
 diff each category's label map against its vocabulary's authoritative
 definition, because a label absent for a token is absent identically in

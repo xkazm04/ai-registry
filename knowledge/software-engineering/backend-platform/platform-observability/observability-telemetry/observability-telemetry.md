@@ -2,7 +2,7 @@
 layer: golden-path
 type: golden-path
 subject: observability-telemetry
-status: forged
+status: reconciled
 techniques:
   - log-architecture
   - pre-boot-and-foreign-capture

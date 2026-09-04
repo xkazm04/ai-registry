@@ -212,9 +212,9 @@ determined payload sometimes pays it. The defenses that hold categorically are
 the ones that constrain **what acting on the output can do at all**: a closed
 operation grammar, identifiers checked against a store the model cannot edit,
 credentials the acting layer never holds
-([credential-vault](../../../security/credential-vault/credential-vault.md)'s brokered use),
+([credential-vault](../../../security/identity-and-access/credential-vault/credential-vault.md)'s brokered use),
 entitlements enforced at the acting door
-([authorization](../../../security/authorization/authorization.md)), and a human gate in front
+([authorization](../../../security/identity-and-access/authorization/authorization.md)), and a human gate in front
 of the irreversible ([hitl-approval](../../orchestration/hitl-approval/hitl-approval.md)). The
 model can be talked into *saying* nearly anything; the architecture decides
 whether saying it makes anything happen. Design so that the worst fully

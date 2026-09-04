@@ -12,6 +12,7 @@ techniques:
   - policy-governance
   - model-identity
   - failover-horizon
+  - failover-path-liveness
   - candidate-ranking
   - quality-axis-separation
   - cache-continuity

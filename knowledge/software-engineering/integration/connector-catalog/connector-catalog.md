@@ -25,7 +25,7 @@ the credential form, the health probe, the import matcher, the adapter
 dispatch, the licensing gate.
 
 The subject is the **knowledge layer**, and its boundary is worth drawing
-precisely. It is not the [credential vault](../../security/credential-vault/credential-vault.md) —
+precisely. It is not the [credential vault](../../security/identity-and-access/credential-vault/credential-vault.md) —
 the vault holds *instances* (this user's key for that service, sealed and
 brokered); the catalog holds *types* (what a key for that service looks like
 at all). It is not the outbound door that applies credentials to requests —

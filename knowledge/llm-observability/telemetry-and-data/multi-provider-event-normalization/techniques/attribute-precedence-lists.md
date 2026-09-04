@@ -77,6 +77,27 @@ into a bounded, auditable table.
   span convention now declares per-category cost attributes in currency
   units, so those names graduate from flagged non-standard entries toward
   the front of the cost field's list as sender populations adopt them.
+  The same observation holds more sharply for the **token counts**, and it
+  is the one to plan the list around: a convention's settled core carries
+  the two mandatory counters and stops there, while every token class the
+  providers *price differently* — cached input, cache creation, reasoning —
+  sits in extension namespaces where several mutually incompatible spellings
+  are deployed simultaneously. Field sightings include one implementation
+  declaring two different spellings of the same cached-input count in a
+  single constants file, and another whose published attribute document and
+  whose compiled constants disagree about whether cost belongs in the
+  standard namespace or the vendor's. The lists therefore *need* to be
+  longest exactly on the fields that carry money, and do not read a single
+  implementation as evidence of its own convention's settled state.
+  **Expect to find the opposite, and check for it.** A receiver observed in
+  the field carried five-name lists with test coverage on the two mandatory
+  counters, three names and zero assertions on the priced extension classes,
+  and no field at all for the largest priced class in its own fixture —
+  because list length tracks how easy the names were to enumerate, not how
+  much the field is worth. Audit list length against the **price book**
+  rather than against the convention's table: a class the book charges for
+  and the list barely covers is where the money leaks, and it leaks silently,
+  because a missing name reads as a zero rather than as an error.
 
 ## Maintenance discipline
 
@@ -91,7 +112,17 @@ outlives deprecation notices by years.
 On the builder side — normalizing the one SDK you call at a version you pin
 — a precedence list is over-engineering; read the one shape you know.
 Precedence lists earn their complexity exactly when the sender population's
-instrumentation versions are outside your control. And a list is not a
+instrumentation versions are outside your control.
+
+Those two sentences use different discriminators, and the second one is the
+correct one. "Builder side" is a proxy for the pinning, not the reason for it,
+and the proxy fails for an emitter that ships as a **library**: it wraps clients
+whose versions its author does not choose and emits into backends its author
+will never see, so it pins neither end and carries the same multi-generation
+obligations a receiver carries. Such emitters are observed keeping dozens of
+superseded spellings alive deliberately, for exactly that reason. Read the
+exemption as *whoever controls both ends of the version skew may read one
+shape* — which is usually an application, and is never a library. And a list is not a
 license to map semantically different attributes to one field: names may
 only share a list when they name the *same fact* across generations, never
 when they name related-but-different facts (a total is not an input count —

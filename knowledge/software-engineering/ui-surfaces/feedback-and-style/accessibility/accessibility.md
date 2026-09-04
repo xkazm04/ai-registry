@@ -6,6 +6,7 @@ status: forged
 techniques:
   - primitive-level-a11y
   - keyboard-navigation-models
+  - hidden-but-mounted-inertness
   - live-region-architecture
   - name-and-description-wiring
   - preference-respect
@@ -99,6 +100,32 @@ overlay stack, and that containment is owned by the modal subject —
 [focus-and-scroll-containment](../../shell-and-navigation/modal-stack/techniques/focus-and-scroll-containment.md)
 — this subject supplies the demand (focus must never be trapped except
 there) and defers the mechanics.
+
+## Hiding is two channels, and styling closes only one
+
+The tab order's other silent leak is not a missing stop but an extra
+one. Interfaces keep things mounted deliberately — a panel that must not
+lose its state, a subtree that has to be painted to transition out — and
+then hide them the way the design needs them hidden: faded, translated
+off-screen, clipped, covered. Every one of those closes the *visual*
+channel and leaves the subtree exactly where it was in the accessibility
+tree and the tab order. The keyboard user tabs into a panel nobody can
+see; the screen reader describes a surface that is not on screen. Only
+some hides close both channels; the ones that animate are precisely the
+ones that close neither.
+
+So the rule pairs with the keyboard model rather than restating it:
+**visual hiding and accessibility-tree hiding are separate channels, and
+every keep-mounted hide closes both, from the same condition.** The
+mechanism ladder (unmount, then a hide that closes both by itself, then
+explicit inertness at the subtree root for anything that must stay
+painted), the timing rules, and the check that reads the tree instead of
+the class are
+[hidden-but-mounted-inertness](./techniques/hidden-but-mounted-inertness.md).
+The same rule applied *across* surfaces — the whole background of an
+overlay made inert — belongs to the modal subject; this subject owns the
+in-surface case, where nothing about the layout hints that anything is
+being hidden at all.
 
 ## Announcements are engineered, not emitted
 
@@ -252,6 +279,10 @@ mechanics and are held to this subject's standard:
 - [keyboard-navigation-models](./techniques/keyboard-navigation-models.md) —
   tab-between/arrows-within, roving focus, shortcuts and discoverability,
   focus order, escape hatches, the false-affordance ban.
+- [hidden-but-mounted-inertness](./techniques/hidden-but-mounted-inertness.md) —
+  what each hiding mechanism actually closes, the both-channels rule for
+  anything kept mounted, inertness timing and placement, and the check
+  that reads the tree instead of the class.
 - [live-region-architecture](./techniques/live-region-architecture.md) —
   one persistent provider, polite/assertive channels, drain queues for
   bursts, deliberate re-announcement.

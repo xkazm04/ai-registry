@@ -17,6 +17,19 @@ First touch: [[2026-08-22-4]] — the 2026-08-22 harvest wave. Class: NEW.
 
 - **a control is only as strong as the fact's cheapest publication** (proposed law, not added). Three sightings in this subject: error opacity against the address published in the bundle, a revoke against a grant never explicitly issued, an omitted column against a widenable policy predicate. Return on a sighting outside security.
 
+## 2026-09-01 - inbox leads landed under the librarian sweep ([[2026-09-01-1]])
+
+One lead (kp), NOVEL. New technique `outbound-fetch-destination-validation`, homed here in
+its narrowed form (regime two: the server's reach is an unnamed credential spent whenever
+something other than configuration picks the address): judge the resolved address not the
+string, bind the check to the connection, every hop is a new destination, one door with the
+raw client unreachable, the response is a channel too. Corroborated by the server-side
+request-forgery category, the cloud-metadata breach class, and current rebinding advisories
+that bypass resolve-then-fetch fixes. Application `node--outbound-fetch-destination-validation`
+at kp `c6a63199` with four recorded deviations, the sharpest being a feed pull that runs the
+string gate only and then fetches with a bearer secret and no redirect control. The general
+form is proposed for credential-vault `brokered-egress`; the model-chosen-URL shape for a
+tool-runtime subject.
 ## 2026-09-02 - deepen batch [[2026-09-02-1]]
 
 **Single-stack closed**: a `next` application against a public starter tree read
@@ -60,6 +73,9 @@ forced - a runtime role that ran the migrations is the realistic miss.
 - Renaming the key vocabulary in the two sql applications - they cite a tree at
   2026-08-22; re-reading it is not public work.
 
+### Impact (2026-09-02)
+
+Stale verdicts after this landing: ascent (4). Apply row: see `librarian/applied.md`.
 ## 2026-09-02 - `/intake` portkey-gateway (run `intake-portkey-0902`, intake 2.1.1, Opus workers)
 
 New technique `allowlisted-operator-stream` (design candidate, corpus NONE): an operator debug stream that survives only through a fixed allowlist of keys with every header redacted, behind an admin token the process refuses to boot without. Slug argued against the subject`s X-plus-Y idiom. Source-tree application `node--allowlisted-operator-stream` with five shortfalls, the sharpest: the tree`s "throws at startup" is a per-request 500 in all three callers, and the allowlist covers three sub-objects rather than the record. Direction proposals written for tracklight (the strongest transfer in the run: self-hosted, holds provider keys, serves an operator dashboard).

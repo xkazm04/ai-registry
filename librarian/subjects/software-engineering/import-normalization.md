@@ -7,6 +7,22 @@ dry_streak: 0
 
 # import-normalization
 
+First touch: [[2026-09-01-1]], the librarian sweep that drained the consumer-lead inbox. Never swept before; it sat 8th on the worklist on demand alone.
+
+## 2026-09-01 - inbox leads landed
+
+Two leads (personas, systedo-case). New technique `overlay-merge-absence-semantics`, written as
+a stated design choice not a universal: three states (absent / present-and-empty / filled),
+empty means "not mentioned", wholesale replacement needs an explicit marker; the vacuous
+guard ("all of them are X" is an authorization the empty set always wins); integrity must
+cover the merged result, not its ancestor. `intermediate-representation` gains "nothing
+writes to the IR after the waist has run" (an override runs before the waist or re-applies
+every guarantee by name; a guarantee attaches at a moment). Applications:
+`node--overlay-merge-absence-semantics` (personas `b6dcf28aa`, the landed fix and three
+honest divergences) and `node--intermediate-representation` (systedo-case `6279066f`, the
+legitimate override form with guarantees re-applied in the caller rather than the override).
+Proposals: the vacuous-guard rule belongs beside `gate-sees-target` in quality-gates;
+"digest what lands" is a checksum-scope sighting for versioning-snapshots.
 First touch: [[2026-09-02-1]]. Class: MATURE (6 techniques, 2 applications
 node + rust; never swept before, 8 consumer deviations on the floor).
 
@@ -58,6 +74,9 @@ proof) is carried as the measured trap without the reporting project.
 - The JSON deserializer's recursion-limit figure into the rust application — no
   tree read this run, no honest `verified_on` move.
 
+### Impact (2026-09-02)
+
+Stale verdicts after this landing: personas (1). Apply row: see `librarian/applied.md`.
 ## 2026-09-03 - `/intake` lightrag (run `intake-lightrag-0902`, intake 2.2.0, Opus workers)
 
 New technique `durable-intermediate-representation`: the parsed IR persisted beside the source as a sidecar carrying parser identity and version, so re-chunking, re-extraction and parser unavailability never re-pay the parse. `intermediate-representation` says of itself that it is a staging shape, not the persistence model; this is the durable sibling, and the slug keeps the noun and changes the discriminating adjective. Golden path narrow-waist paragraph amended.

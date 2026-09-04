@@ -2,7 +2,7 @@
 layer: golden-path
 type: golden-path
 subject: quality-regression-gating
-status: forged
+status: reconciled
 use_when: [wiring an eval run into a deploy gate, deciding whether a score drop is real, designing benchmark exit codes, a leaderboard needs a defensible winner line]
 techniques:
   - paired-per-case-testing

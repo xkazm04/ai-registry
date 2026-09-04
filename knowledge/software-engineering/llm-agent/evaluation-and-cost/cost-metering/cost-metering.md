@@ -2,7 +2,7 @@
 layer: golden-path
 type: golden-path
 subject: cost-metering
-status: forged
+status: reconciled
 techniques:
   - price-tables
   - preflight-estimation

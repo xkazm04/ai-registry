@@ -2,7 +2,7 @@
 layer: golden-path
 type: golden-path
 subject: modal-stack
-status: forged
+status: reconciled
 techniques:
   - stack-ownership
   - dismissal-semantics

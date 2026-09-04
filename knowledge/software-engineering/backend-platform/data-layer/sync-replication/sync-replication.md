@@ -2,7 +2,7 @@
 layer: golden-path
 type: golden-path
 subject: sync-replication
-status: forged
+status: reconciled
 techniques:
   - topology-declaration
   - change-tracking-and-cursors
@@ -156,7 +156,7 @@ re-derives anything secret-adjacent, and — where the transport or the
 far store is less trusted than the source — encrypts payloads so the
 relay learns nothing. Secrets themselves never replicate at all; they
 live behind their own boundary with their own custody rules
-([credential vault](../../../security/credential-vault/credential-vault.md)), and what
+([credential vault](../../../security/identity-and-access/credential-vault/credential-vault.md)), and what
 crosses is at most a reference. The receiving side has its own half of
 the boundary: every inbound write lands scoped to its tenant, because a
 merge that trusts the payload's claimed ownership is a cross-tenant

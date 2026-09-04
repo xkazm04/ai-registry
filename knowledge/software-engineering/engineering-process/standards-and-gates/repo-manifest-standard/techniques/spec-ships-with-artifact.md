@@ -70,6 +70,19 @@ The practical test: hand the shipped document to someone with no access to the
 reference implementation and ask them to write the checker. Every question they
 have to ask is a hole in the specification.
 
+The clause also has a consequence for the test bed, and it is the one most often
+missed: **if the shipped reader is the only reader in the suite, the clause is
+unproven.** A reference reader is normally written against a deliberate *subset*
+of the serialization — treating every value as opaque text, say — which makes it
+structurally blind to exactly the portability defects the clause exists to
+prevent, and checking the generator's output against the generator's own reader
+is green forever for the same reason a synthesis-against-synthesis drift check
+is. So the suite must contain **at least one independent, full implementation of
+the underlying format**, reading the real emitted artifact. The defect class this
+catches is small and famous: a bare token that the subset reader passes through
+as a string while a conforming parser coerces it into another type entirely — a
+legal name that a foreign reader silently turns into a boolean.
+
 ## Decision rules
 
 - **When the specification is long, ship it anyway.** Size is not the objection
@@ -83,6 +96,10 @@ have to ask is a hole in the specification.
   single literal constant with the drift test pinning it, and never as prose
   reassembled from fragments. Reassembly makes the comparison impossible, which
   removes the only thing making the copy safe.
+- **When the kit ships a reference reader, never let it be the only reader in
+  the suite.** A round trip against the shipped reader proves the pair agrees
+  with itself; portability is a claim about readers written elsewhere, and only
+  a second, independent full-format reader tests it.
 - **When a consumer asks for a machine-readable schema as well as prose**, ship
   both and pin both. Two artifacts, one source, one check each.
 

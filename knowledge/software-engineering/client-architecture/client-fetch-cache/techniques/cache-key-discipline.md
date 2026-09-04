@@ -27,6 +27,17 @@ directions are not symmetric:
 When in doubt, err toward fragmentation. A duplicate fetch costs
 milliseconds; a collision costs correctness.
 
+That asymmetry is the usual case, not a universal one, and it is worth naming
+its precondition: it holds while a miss is nearly free. Where the authority
+behind the cache is slow, metered, or both, a miss costs seconds and money
+rather than milliseconds, and the two failures move onto the same scale — at
+which point buying a bounded collision rate can be the correct trade rather
+than a mistake. The rule inverts only when the cost of a miss is deliberately
+priced, and a cache that has made that trade is keyed on resemblance rather
+than identity; see
+[similarity-keyed-admission](./similarity-keyed-admission.md). Everywhere else,
+prefer fragmentation.
+
 ## Keys are derived, never hand-written
 
 The key is a **pure function of every argument that changes the answer** —
@@ -52,7 +63,17 @@ The builder is where the discipline lives:
   inherit injection: parts containing the separator make two different
   questions spell one key — a collision by string accident. Escape, use a
   structured encoding, or choose a separator the parts cannot contain, and
-  say which at the builder.
+  say which at the builder. The same reasoning governs the *values*: an
+  optional component that is absent must render as a sentinel the caller's
+  vocabulary cannot produce — built from the joiner the builder already
+  chose to be unforgeable, not from ordinary text. Spell absence as the
+  empty string, or as a word a caller could legitimately pass, and the
+  caller who passes exactly that value keys onto the entry belonging to the
+  unfiltered question: an unfiltered answer served to a filtered ask, which
+  is the collision direction that costs correctness. Dropping the component
+  from the key entirely is the same defect in positional clothes — a key
+  whose segment count varies with which options were supplied lets one
+  arrangement of present components spell another arrangement's key.
 
 The identity law applies to the key itself
 ([identity-survives-reuse](../../../_laws.md#identity-survives-reuse)): a key
@@ -104,6 +125,8 @@ test that does not vary the axis.
   tenant, locale, environment.
 - Serialize compound arguments canonically; unordered parts get ordered,
   defaults get normalized.
+- Give every optional component a fixed position and an absent-sentinel the
+  caller cannot spell; never let omission shorten the key.
 - Prefer fragmentation over collision whenever the axis list is uncertain.
 - Bump a key-namespace version on value-shape change; let eviction retire
   the orphans.

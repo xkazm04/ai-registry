@@ -68,7 +68,7 @@ secret-bearing entities, the reference crosses (an identifier, a
 non-sensitive label, a status) and the secret material stays behind its
 own boundary with its own rules — custody, encryption at rest, rotation
 — which are the [credential
-vault](../../../../security/credential-vault/credential-vault.md)'s subject, not this
+vault](../../../../security/identity-and-access/credential-vault/credential-vault.md)'s subject, not this
 one. The test that keeps the promise honest: enumerate the secret
 custody class, then assert that no stream's declared projection
 intersects it — an assertion over declarations, which the one-door rule

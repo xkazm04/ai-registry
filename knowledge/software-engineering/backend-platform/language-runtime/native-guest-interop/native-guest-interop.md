@@ -51,7 +51,7 @@ for a reader holding both is that a question about *which* hook exists and
 what it must promise belongs to the sibling, and a question about *what shape*
 a host thing takes on the guest side of any hook belongs here. The security
 subject
-[untrusted-extension-host](../../../security/untrusted-extension-host/untrusted-extension-host.md)
+[untrusted-extension-host](../../../security/extension-trust/untrusted-extension-host/untrusted-extension-host.md)
 owns what an extension may *reach* — the brokered grant, the isolation tier,
 the capability subtraction — and this subject owns how any host value is
 *represented* once reached; a reach decision belongs there and a representation

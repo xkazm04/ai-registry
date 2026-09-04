@@ -128,7 +128,7 @@ disarms while its request is in flight, because a double-fired deploy is
 two deploys. Confirmation shapes are shared with
 [hitl-approval](../../llm-agent/orchestration/hitl-approval/hitl-approval.md); scoped write
 credentials belong to
-[credential-vault](../../security/credential-vault/credential-vault.md). The blast
+[credential-vault](../../security/identity-and-access/credential-vault/credential-vault.md). The blast
 ladder and the fire-then-watch contract are
 [remote-action-consent](./techniques/remote-action-consent.md).
 

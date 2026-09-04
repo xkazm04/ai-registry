@@ -42,7 +42,7 @@ honest design says so beside the ceilings it does publish rather than letting th
 The security subject `untrusted-extension-host` owns what an in-process sandbox can and
 cannot contain - reach, grants, isolation tiers, and the publication of a runtime's
 ceiling set as two lists, *counted* and *uncounted*. Its technique
-[capability-subtraction-sandbox](../../../security/untrusted-extension-host/techniques/capability-subtraction-sandbox.md)
+[capability-subtraction-sandbox](../../../security/extension-trust/untrusted-extension-host/techniques/capability-subtraction-sandbox.md)
 states, in its section on where the runtime counts, that the counted set is not empty for
 an interpreter the host embeds, and that a counted ceiling must raise a failure the guest
 cannot catch. This subject owns the *mechanism* of counting and stopping - which counters

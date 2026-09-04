@@ -35,7 +35,23 @@ The mechanism is a map from request key to pending result:
   cache: the failed pending result sits under the key forever, and every
   future caller joins a flight that already lost. The settle handler is the
   entry's reaper, named at insertion
-  ([creation-names-reaper](../../../_laws.md#creation-names-reaper)).
+  ([creation-names-reaper](../../../_laws.md#creation-names-reaper)). But the
+  reaper removes *its own* entry, never whatever the key holds now: it
+  compares the registered flight against the current occupant and deletes
+  only on a match. An unconditional removal lets a slow loser's settle
+  evict the newer flight that replaced it, and the callers already joined to
+  that newer flight are joined to an entry the registry no longer admits.
+- **Invalidation reaches the flight, not just the entry.** Once a cache
+  exposes an invalidation surface, dropping the cached value is half the
+  work — the flight already in the air was launched against the
+  pre-invalidation world, and on settle it will write its answer back and
+  answer every caller that arrived after the invalidation. Each flight
+  therefore carries an identity token minted at launch, checked at settle
+  against the key's current token: a flight whose token no longer matches
+  may resolve its existing joiners but must not populate the cache and must
+  not be joinable. Invalidation bumps the token, which retires the in-flight
+  answer and the cached one in one act; a caller arriving after it finds no
+  joinable flight and launches a current one.
 - **Bounded by construction.** The registry holds only in-flight work, so
   its size is the client's concurrency, not its history. That property is
   worth protecting: a flight that can hang forever (a transport with no
@@ -115,7 +131,11 @@ callers that should share.
 - Install dedup at the fetch layer, keyed by full request identity, so
   every caller inherits it; a per-view guard protects one call site.
 - Register the pending result synchronously at launch; remove on settle,
-  success and failure alike.
+  success and failure alike — and remove only the entry this flight
+  registered, never whatever the key holds by then.
+- Mint a per-flight identity token at launch and check it at settle; a
+  flight the cache's invalidation surface has since superseded resolves its
+  joiners but writes nothing back and accepts no new ones.
 - Fan the rejection out to all joiners; design telemetry so N joiner
   failures count as one flight failure.
 - Joiners abandon locally; they never abort the shared flight.
