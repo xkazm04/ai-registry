@@ -544,6 +544,13 @@
       ]
     },
     {
+      "id": "self-declaring-spec-debt",
+      "dimension": "D5",
+      "path": "practices/self-declaring-spec-debt/PRACTICE.md",
+      "contentHash": "sha256-n1:c16f2302832a98f2",
+      "starter": []
+    },
+    {
       "id": "supply-chain-security",
       "dimension": "D9",
       "path": "practices/supply-chain-security/PRACTICE.md",
@@ -612,7 +619,7 @@
   ],
   "counts": {
     "skills": 29,
-    "practices": 7,
+    "practices": 8,
     "memory": 6,
     "lessons": 124
   },
@@ -693,7 +700,7 @@
       "techniques": 132,
       "applications": 61,
       "files": 218,
-      "contentHash": "sha256:7af8e54015d63df4"
+      "contentHash": "sha256:f7e1c062b61fe545"
     },
     {
       "name": "recruiting",
@@ -716,10 +723,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 214,
-      "techniques": 1577,
-      "applications": 916,
-      "files": 2712,
-      "contentHash": "sha256:d59f08190f9ae81f"
+      "techniques": 1583,
+      "applications": 924,
+      "files": 2726,
+      "contentHash": "sha256:6c1e572dc190fff8"
     }
   ]
 }

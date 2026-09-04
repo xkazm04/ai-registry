@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 214,
-  "techniques": 1577,
-  "applications": 916,
+  "techniques": 1583,
+  "applications": 924,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1577/1577",
+  "use_when_coverage": "1583/1583",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -1619,7 +1619,7 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/agent-memory.md",
-   "digest": "sha256:2d199ae463231844",
+   "digest": "sha256:5415388368123133",
    "techniques": [
     {
      "slug": "baseline-ladder",
@@ -1679,6 +1679,23 @@
       "stale beliefs crowd out fresh recall",
       "a refuted belief still gets recalled",
       "a fact that was true for a window is still recited after the window closed"
+     ]
+    },
+    {
+     "slug": "diagnosis-withheld-from-the-executor",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "silent-state-is-ungoverned",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding who may read the consolidated store during a run whose trace will be used to revise a procedure",
+      "an improvement loop's proposals stop landing while task success stays flat",
+      "a self-revising agent reads its own accumulated lessons while performing the task",
+      "deciding whether accumulated diagnostics belong in the executing agent's prompt",
+      "a promoted procedure library plateaus and every run still passes"
      ]
     },
     {
@@ -1843,6 +1860,24 @@
      ]
     },
     {
+     "slug": "rejected-revision-leaves-its-evidence",
+     "status": "forged",
+     "laws": [
+      "deletion-is-not-repair",
+      "one-validation-door",
+      "count-carries-predicate",
+      "identity-survives-reuse"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a revision loop keeps proposing a change it already tried",
+      "deciding what survives when a proposed procedure change is rolled back",
+      "designing the record a validation gate writes after its verdict",
+      "an improvement loop cycles instead of compounding",
+      "deciding whether a rejected proposal's reason or its measurement is the durable artifact"
+     ]
+    },
+    {
      "slug": "rollup-compaction",
      "status": "forged",
      "laws": [
@@ -1872,6 +1907,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "claude-code",
+     "technique": "diagnosis-withheld-from-the-executor",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/claude-code--diagnosis-withheld-from-the-executor.md",
+     "verified_on": "2026-09-04",
+     "verified_against": "claude-code@2.1.260"
+    },
     {
      "stack": "claude-code",
      "technique": "procedure-promotion",
@@ -1968,6 +2010,13 @@
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/rust--recall-injection.md",
      "verified_on": "2026-08-30",
      "verified_against": "rust@1.97"
+    },
+    {
+     "stack": "rust",
+     "technique": "rejected-revision-leaves-its-evidence",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/rust--rejected-revision-leaves-its-evidence.md",
+     "verified_on": "2026-09-04",
+     "verified_against": "rust@1.80"
     },
     {
      "stack": "sql",
@@ -5606,7 +5655,7 @@
    "subcategory": "work-execution",
    "status": "reconciled",
    "file": "knowledge/software-engineering/backend-platform/work-execution/concurrency-guards/concurrency-guards.md",
-   "digest": "sha256:91470f745bc05b6c",
+   "digest": "sha256:8b527f5be877cd00",
    "techniques": [
     {
      "slug": "atomic-file-publish",
@@ -5745,6 +5794,22 @@
      "stage": "multi-service"
     },
     {
+     "slug": "race-catalog-with-two-histories",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "silent-state-is-ungoverned",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "concurrency is intended rather than accidental and guards do not describe it",
+      "specifying what two colliding operations are each allowed to produce",
+      "a concurrent system's correctness lives in prose nobody can test",
+      "deciding whether an interleaving is a defect or a legal outcome"
+     ]
+    },
+    {
      "slug": "release-guarantees",
      "status": "forged",
      "laws": [
@@ -5818,6 +5883,13 @@
      "file": "knowledge/software-engineering/backend-platform/work-execution/concurrency-guards/applications/node--cache-value-not-handle.md",
      "verified_on": "2026-09-03",
      "verified_against": "node@20"
+    },
+    {
+     "stack": "node",
+     "technique": "race-catalog-with-two-histories",
+     "file": "knowledge/software-engineering/backend-platform/work-execution/concurrency-guards/applications/node--race-catalog-with-two-histories.md",
+     "verified_on": "2026-09-04",
+     "verified_against": "node@22.19.0"
     },
     {
      "stack": "rust",
@@ -14697,7 +14769,7 @@
    "subcategory": "work-execution",
    "status": "reconciled",
    "file": "knowledge/software-engineering/backend-platform/work-execution/job-coordination/job-coordination.md",
-   "digest": "sha256:9140a15c810de004",
+   "digest": "sha256:4bdf08d3be113f36",
    "techniques": [
     {
      "slug": "in-flight-is-a-position",
@@ -14793,6 +14865,22 @@
      ]
     },
     {
+     "slug": "no-wall-clock-in-the-advance-contract",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "unknown-is-not-a-value",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "adding a deadline or time budget to the call that advances durable work",
+      "a timeout is being proposed to bound work the caller does not execute",
+      "deciding what a runtime may promise about wall time it does not own",
+      "a partial-progress return value is being added beside a terminal one"
+     ]
+    },
+    {
      "slug": "step-position-and-resumability",
      "status": "forged",
      "laws": [
@@ -14833,6 +14921,13 @@
      "stack": "node",
      "technique": "in-flight-is-a-position",
      "file": "knowledge/software-engineering/backend-platform/work-execution/job-coordination/applications/node--in-flight-is-a-position.md",
+     "verified_on": "2026-09-04",
+     "verified_against": "node@22.19.0"
+    },
+    {
+     "stack": "node",
+     "technique": "no-wall-clock-in-the-advance-contract",
+     "file": "knowledge/software-engineering/backend-platform/work-execution/job-coordination/applications/node--no-wall-clock-in-the-advance-contract.md",
      "verified_on": "2026-09-04",
      "verified_against": "node@22.19.0"
     },
@@ -16110,7 +16205,7 @@
    "subcategory": "runtime-and-io",
    "status": "reconciled",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/mcp-tools.md",
-   "digest": "sha256:f079c715717c0911",
+   "digest": "sha256:db3919147e24468b",
    "techniques": [
     {
      "slug": "authentication-and-scoping",
@@ -16139,7 +16234,8 @@
      "use_when": [
       "a host refuses the request because too many tools are listed",
       "one server's catalog crowds out every other installed server",
-      "deciding whether to fold operations behind a routing tool"
+      "deciding whether to fold operations behind a routing tool",
+      "a model knows a compressed operation name but not its arguments"
      ]
     },
     {
@@ -16344,7 +16440,9 @@
       "two parallel tool calls write one path in the same turn",
       "an agent keeps appending a section it already wrote",
       "deciding whether a write tool needs a precondition",
-      "a summarised context still holds an edit in flight"
+      "a summarised context still holds an edit in flight",
+      "an agent re-reads every document it just wrote in full",
+      "deciding whether a write result may license skipping the readback"
      ]
     }
    ],
@@ -16389,6 +16487,20 @@
      "technique": "transport-selection",
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/applications/node--transport-selection.md",
      "verified_on": "2026-08-22"
+    },
+    {
+     "stack": "python",
+     "technique": "catalog-projection-modes",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/applications/python--catalog-projection-modes.md",
+     "verified_on": "2026-09-04",
+     "verified_against": "python@3.11.14"
+    },
+    {
+     "stack": "python",
+     "technique": "write-freshness-gate",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/applications/python--write-freshness-gate.md",
+     "verified_on": "2026-09-04",
+     "verified_against": "python@3.11.14"
     },
     {
      "stack": "react",
@@ -21787,7 +21899,7 @@
    "subcategory": "standards-and-gates",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/quality-gates.md",
-   "digest": "sha256:d0aaae9457a78357",
+   "digest": "sha256:f71436fd4e715fcd",
    "techniques": [
     {
      "slug": "advancement-evidence-fields",
@@ -22131,6 +22243,22 @@
      ]
     },
     {
+     "slug": "shared-substrate-check-partition",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "two checks run on the same judgment engine over the same artifact",
+      "a judgment gate withholds approval on nearly everything",
+      "splitting an automated reviewer into a correctness check and an eligibility check",
+      "an automated check keeps reporting findings another check already owns",
+      "writing the brief for a check whose scope cannot be set by configuration"
+     ]
+    },
+    {
      "slug": "unmeasurable-criteria",
      "status": "forged",
      "laws": [
@@ -22299,6 +22427,12 @@
      "technique": "item-liveness",
      "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/applications/process--item-liveness.md",
      "verified_on": "2026-08-31"
+    },
+    {
+     "stack": "process",
+     "technique": "shared-substrate-check-partition",
+     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/applications/process--shared-substrate-check-partition.md",
+     "verified_on": "2026-09-04"
     },
     {
      "stack": "react",
@@ -23005,7 +23139,7 @@
    "subcategory": "language-runtime",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/language-runtime/register-bytecode-execution/register-bytecode-execution.md",
-   "digest": "sha256:bf6f5a4a5370e5c3",
+   "digest": "sha256:2147ae265d47d49f",
    "techniques": [
     {
      "slug": "dce-refuses-hoisted-declarations",
@@ -23075,6 +23209,22 @@
      ]
     },
     {
+     "slug": "instruction-format-follows-program-lifetime",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "limits-are-derived"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing the instruction format of a new bytecode interpreter",
+      "an interpreter's programs are generated per request and executed once",
+      "a dispatch-count measurement is being used to settle a design choice",
+      "deciding whether an operand's width may vary",
+      "the opcode enum is filling up and a family of near-identical instructions is proposed"
+     ]
+    },
+    {
      "slug": "leak-checked-register-allocation",
      "status": "forged",
      "laws": [
@@ -23130,6 +23280,13 @@
      "file": "knowledge/software-engineering/backend-platform/language-runtime/register-bytecode-execution/applications/rust--frame-as-two-pointers-into-one-stack.md",
      "verified_on": "2026-09-03",
      "verified_against": "rust@1.91"
+    },
+    {
+     "stack": "rust",
+     "technique": "instruction-format-follows-program-lifetime",
+     "file": "knowledge/software-engineering/backend-platform/language-runtime/register-bytecode-execution/applications/rust--instruction-format-follows-program-lifetime.md",
+     "verified_on": "2026-09-04",
+     "verified_against": "rust@1.95"
     }
    ]
   },
@@ -31449,6 +31606,7 @@
     "agent-instruction-files/rewrite-behavior-pinning",
     "agent-instruction-files/substrate-coupled-expiry",
     "agent-instruction-files/workspace-ancestry-isolation",
+    "agent-memory/diagnosis-withheld-from-the-executor",
     "agent-memory/probe-without-write-back",
     "agent-runtime-assembly/assembly-identity",
     "agent-runtime-assembly/checkpoint-mode-custody",
@@ -31639,6 +31797,7 @@
     "issuance-policy-ladder/float-references-resolve-at-use",
     "issuance-policy-ladder/program-role-returns-the-artifact",
     "job-coordination/lease-renewal",
+    "job-coordination/no-wall-clock-in-the-advance-contract",
     "judgment-guardbands/deterministic-backbone",
     "judgment-guardbands/narrate-dont-rescore",
     "judgment-guardbands/self-audit-budget",
@@ -32459,6 +32618,7 @@
     "agent-memory/durable-store-failure-posture",
     "agent-memory/memory-governance",
     "agent-memory/read-set-bounded-links",
+    "agent-memory/rejected-revision-leaves-its-evidence",
     "audit-logging/append-only-design",
     "audit-logging/decision-records",
     "background-jobs/tick-isolation",
@@ -32569,10 +32729,12 @@
     "agent-instruction-files/sibling-floor-ownership",
     "agent-memory/baseline-ladder",
     "agent-memory/coverage-instrumentation",
+    "agent-memory/diagnosis-withheld-from-the-executor",
     "agent-memory/lane-reconciliation",
     "agent-memory/probe-without-write-back",
     "agent-memory/procedure-promotion",
     "agent-memory/recall-injection",
+    "agent-memory/rejected-revision-leaves-its-evidence",
     "alerting/dedup-and-cooldown",
     "analytics-time-windows/baseline-as-window-start",
     "analytics-time-windows/cohort-matched-comparison",
@@ -32608,6 +32770,7 @@
     "companion-identity/operator-profile-synthesis",
     "companion-runtime/signal-economy-contract",
     "concurrency-guards/attempt-attribution",
+    "concurrency-guards/race-catalog-with-two-histories",
     "concurrent-vcs/commit-verification",
     "conformance-checking/declared-deviation-register",
     "conformance-checking/edition-stratified-conformance",
@@ -32717,6 +32880,7 @@
     "import-normalization/lossy-conversion-disclosure",
     "ipc-contract/casing-and-naming",
     "job-coordination/job-observability",
+    "job-coordination/no-wall-clock-in-the-advance-contract",
     "judgment-guardbands/confidence-weighted-blend",
     "judgment-guardbands/deterministic-backbone",
     "judgment-guardbands/judgment-integrity-record",
@@ -32830,6 +32994,7 @@
     "quality-gates/ratchet-design",
     "quality-gates/renameable-detector-keys",
     "quality-gates/severity-by-construction",
+    "quality-gates/shared-substrate-check-partition",
     "quality-gates/vacuous-by-evaluation",
     "quorum-and-recovery-procedures/pick-highest-applied-index",
     "rate-limiting/limit-derivation",
@@ -32842,6 +33007,7 @@
     "realtime-events/capacity-packed-subscription-pool",
     "realtime-events/change-data-capture",
     "register-bytecode-execution/fixpoint-pass-with-iteration-cap",
+    "register-bytecode-execution/instruction-format-follows-program-lifetime",
     "release-pipeline/changelog-generation",
     "release-pipeline/size-budgets",
     "remediation-handoff/batch-shaping-for-one-session",
@@ -33027,6 +33193,7 @@
     "issuance-policy-ladder/require-one-constraint",
     "job-coordination/in-flight-is-a-position",
     "job-coordination/liveness-proof-reclaim",
+    "job-coordination/no-wall-clock-in-the-advance-contract",
     "knowledge-registry/verification-is-contributed",
     "llm-extracted-entity-graph/surface-form-identity-and-its-risk",
     "machine-authored-documentation/declared-truth-boundary",
@@ -33135,6 +33302,7 @@
     "agent-memory/consolidation",
     "agent-memory/memory-governance",
     "agent-memory/procedure-promotion",
+    "agent-memory/rejected-revision-leaves-its-evidence",
     "agent-memory/rollup-compaction",
     "agent-runtime-assembly/checkpoint-mode-custody",
     "agent-runtime-assembly/guard-input-custody",
@@ -33357,6 +33525,7 @@
     "agent-memory/owner-and-counterpart-scope",
     "agent-memory/procedure-promotion",
     "agent-memory/read-set-bounded-links",
+    "agent-memory/rejected-revision-leaves-its-evidence",
     "agent-memory/working-memory",
     "agent-runtime-assembly/additive-input-at-the-call-boundary",
     "agent-runtime-assembly/bounded-projection-of-external-work",
@@ -33958,6 +34127,7 @@
     "companion-runtime/action-catalog-single-source",
     "companion-runtime/host-seam-contracts",
     "concurrency-guards/guard-key-design",
+    "concurrency-guards/race-catalog-with-two-histories",
     "conformance-checking/declared-deviation-register",
     "conformance-checking/declared-then-proven",
     "conformance-checking/edition-stratified-conformance",
@@ -34167,6 +34337,7 @@
     "public-verdict-badge/neutral-state-vocabulary",
     "quality-gates/chokepoint-tag-registry",
     "quality-gates/policy-projection",
+    "quality-gates/shared-substrate-check-partition",
     "rate-limiting/metered-step-selection",
     "read-serving-replicas/preemptive-forward-for-known-writes",
     "readiness-passports/named-vs-capability-metadata",
@@ -34628,6 +34799,7 @@
     "paged-block-cache/release-order-is-the-eviction-policy",
     "prompt-assembly/elision-to-a-refetch-pointer",
     "quality-gates/deterministic-proxy-gate",
+    "register-bytecode-execution/instruction-format-follows-program-lifetime",
     "scale-investment-timing/execution-model-concurrency-threshold",
     "self-healing/consume-once-mode-handoff",
     "serving-process-topology/cache-residency-sets-the-balancing-unit",
@@ -34799,7 +34971,9 @@
    "techniques": [
     "agent-instruction-files/restraint-amplifier-balance",
     "agent-instruction-files/rewrite-behavior-pinning",
+    "agent-memory/diagnosis-withheld-from-the-executor",
     "agent-memory/owner-and-counterpart-scope",
+    "concurrency-guards/race-catalog-with-two-histories",
     "context-hierarchy/digest-gated-upward-refresh",
     "decentralized-artifact-distribution/signal-that-only-subtracts",
     "declarative-object-graph-configs/escape-hatch-expressions",

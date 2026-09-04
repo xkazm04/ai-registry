@@ -8147,3 +8147,78 @@ and the scorecard's `ship` zero stops reading as a funnel loss when it is not on
   run's *shape* rather than its wording. The scorecard should keep saying whether
   the focus fired, because a focus that never changes a decision is a lesson
   that should have been a rule.
+
+## 2.5.0 - 2026-09-04 - wikiskill (arxiv:2608.27454)
+
+- **The class rule that predicts yield can also refuse a landing, and refusing is
+  the more valuable use.** "A paper is authoritative for its measurement, weak
+  for its framework" has until now been read as a *routing* hint - look at the
+  tables, skim the architecture. This run used it as a **veto**: row 4 was a real
+  corpus gap, the promoting question confirmed no technique owned it, and it was
+  still sent to leads, because the source's support for it was an unmeasured
+  design choice. The generalisation is worth carrying: **every source class's
+  "reliable for" column is also a "may not authorize" column**, and the second
+  reading is the one that keeps a corpus from filling with well-argued
+  architecture. Nothing to edit yet; if two more runs decline a believed row on a
+  class rule, the corroboration table should say so explicitly.
+
+- **Assert an instrument against a known NEGATIVE, not only a known positive -
+  and pick the negative from the same week.** The Phase 7.5 scorer passed its
+  positives on the first try and was still worthless: bag-of-words overlap scored
+  a known-absent focus item at **1.00**, because the file it searched is long
+  enough to contain almost any content word. A positives-only assertion would
+  have certified it. The negative that caught it was a rule written days earlier
+  and demonstrably not yet landed - close enough to the target to share
+  vocabulary, which is exactly what made it discriminating. A negative drawn from
+  nonsense would have passed too.
+
+- **An A/B whose two arms agree has three things to check, and "the change did
+  nothing" is the least likely.** The personas schema gate returned 0 on both
+  arms; the cause was a placeholder substituted as a predicate when it was a
+  member list, so neither arm's DDL parsed. This is already a lesson in the
+  operator's memory and it is **not in `SKILL.md`** - which is itself this run's
+  apply finding, measured at 83 imperatives against 9 carried. Phase 8 step 3
+  should require the mid-state, not merely permit it.
+
+- **Two design candidates that share a FORCE are one technique, and the test is
+  cheap enough to run every time.** Round 24's focus asked for this and it fired
+  here: "the knowledge layer is never rolled back" and "the harness writes the
+  rejection record" looked like two techniques and are two arms of one rule - the
+  gate's verdict and its evidence outlive the artifact they rejected. Asking the
+  question cost one sentence and removed a padded landing. Second consecutive
+  round where it changed the count; a third makes it a rule for `SKILL.md`.
+
+- **`routing=n/a` needs to be said out loud on a non-repository source.** A paper
+  has no tree, so there is no design record, no forge count and no Phase 7.6 -
+  but the depth cell renders that identically to "count met, handoff declined",
+  which is a completely different decision. Round 24 asked for a word for the
+  third outcome ("count met, cluster collapses"); this is a *fourth* ("no count
+  to take"). The column needs the distinction, not more prose.
+
+### Redesign proposal - the design record needs the measurement/framework test
+
+Not applying this now, because one run is thin evidence for a phase change.
+
+Phase 2d reconstructs load-bearing decisions from a tree's ADRs, module guides
+and rejected approaches, and it treats what it recovers as material a technique
+can be written from. But **a decision recovered from a design document has
+exactly the epistemic status of a framework paper's architecture section**: it is
+the authors' account of why they did it, unmeasured, and often written to
+persuade a reviewer. This run's class rule refused a landing on that basis for a
+paper; the design lane has no equivalent, and eleven rounds of design reads have
+never once sent a design entry to leads for want of measurement.
+
+The proposed addition to the design record's shape is one line beside `forces:`:
+
+```
+disconfirms:  what this tree would have to show for the decision to be wrong,
+              and whether it shows it - or NOT-CHECKABLE, with the reason
+```
+
+An entry that cannot fill it is a lead with anchors, not a technique candidate.
+The prediction this makes, which is what would falsify the proposal: the
+`disconfirms:` line will most often be answerable from the tests or the
+measurement directory the sweep already reads, so it should cost little and
+should reclassify a minority of entries. If it turns out to reclassify most of
+them, the design lane has been landing accounts rather than mechanisms and that
+is a larger finding than this proposal.

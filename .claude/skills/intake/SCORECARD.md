@@ -2015,6 +2015,7 @@ and did it say which kind of zero its ship cell is?
 | 2.5.0 | 2026-09-04 | `github:workweave/router` @ `1699cf6` — "Model router for agentic systems" (**vendor repository**; ran round 23's focus, loaded at Phase 1) | 1 | 12 (8 design + 4 claim) | 3 verified of 3 scored, `auto=3/0/0`, `fp=0` | **2 techniques + 1 amendment + 1 golden-path correction** (the gateway subject stated its `model-routing` discriminator **inverted**, sending every reader to the wrong subject; found by reading the boundary before homing candidates, which is what Phase 6 step 6 asks for) | 3 rows: `1c/1e/0s/0t` — **1 `unmeasurable` (shipped; corrected DOWN from `better` by the peer study, see the depth cell), 1 `not-better` (wrote back into the landing), 1 `unapplied by construction` (verified per project)** | **1/tested** — one commit to personas, hooks green, not pushed | **Round 23's focus carried on all three counts.** (1) **Priced before ingest** and the justification was specific rather than generic: 2-5 landings weighted to design, *because* the home subject was 48 hours old and single-sourced, so a second independent gateway is the cheapest corroboration it will get. Actual 3, weighted to design — `priced=2-5 design-weighted / 4 design-weighted`, calibrated. (2) **Preferred a source the fleet is behind**, and the refinement appended after round 23 predicted the run exactly: personas *emits* the routing evidence its manifest says it tunes from, and no gate reads it — an instrument held and not consumed, which the note said predicts `better`, and it did. (3) **Peer-study debt discharged** — dispatched against personas, the fleet's one universal-wrapper peer, which is also what the operator's framing asked for. | **S/T/A/Asrc/task = 0/2/2/2/0** (the second A is the golden-path correction); routing count **8 decisions / 3 systems / 4 unhomed, largest system 3 — no forge, because the home already existed**; `directions=1 study/0 proposals` — **48 points (14 adopt / 15 adapt / 15 keep-ours / 4 different-forces); the study corrected 4 of 13 seeds, including one that forced this run to downgrade its own shipped verdict.** The peer ladder advances only on spawn failure, so `was_failover=0` on 6,163 rows means the mechanism never fires, not that substitutions are hidden — the fix stands as a `gate-sees-target` correction with no traffic behind it. The peer's routing *mechanics* transferred badly and its *record discipline* almost wholesale. `priced=2-5 design-weighted / 4 design-weighted`. Fetch **0 of 3**, as the class predicts for a repository: corroboration came from the tree, the corpus, and 6,163 rows of a connected project's live data. 3 caught, 6 untriaged (two of them **real gaps held for budget, with anchors**), 2 leads |
 | 2.5.0 | 2026-09-04 | `github:earendil-works/pi` @ `92d8e2d1` — **operator triage of run `pi-01`'s untriaged tail** (same source, second pass; no re-ingest) | 0 (re-clone only, same commit) | 6 (the banked tail) | 4 verified of 6 put to the operator | **2 techniques + 1 amendment + 1 practice + 2 source-tree applications** | 3 rows: `0c/2e/0s/1t` — **1 `better`, 2 `not-better`** | **1 plan shipped into pumper** (`4071643`, not pushed); 0 code commits — both `not-better` rows found the rule already satisfied, so there was nothing honest to commit | **The gate auto-accepted 1 of 11; the operator accepted 4 more, and every one of those had been blocked by the contested-home or single-sighting `+1` on RISK — none by corroboration, placement or strip.** That is the accept threshold behaving exactly as designed for a single-reader run, overridden by the one input a score cannot hold: a human judging that a banked row's re-derivation cost exceeds its landing cost. Two rows were declined with reasons and are now real ledger entries rather than untriaged; row 10's decline is conditional and its condition is written, so it declines this run's evidence rather than the finding. | **S/T/A/Asrc/task = 0/2/1/2/1** (+1 practice, which the depth cell has no column for). Fetch **0 of 3**. The apply step spent all three owed rows and **two came back negative, both usefully**: the deadline rule is satisfied fleet-wide because *no project has a separable advance call* — the anti-pattern is unexpressible, not merely absent — and personas' absence-as-signal boot recovery is a deliberate, safe inversion of the total-state amendment that produced a boundary one sighting does not earn. |
 | 2.5.0 | 2026-09-04 | `github:pydantic/monty` @ `fdd26283` | 1 (392-word README / ~63,000 words of in-tree operating docs — 160x, the widest ratio this ledger records) | 13 design entries (8 process, 5 runtime) | 3 verified (2 landed, 1 catch) | **2 techniques + 1 golden-path scoping correction + 2 source-tree applications** | 2 rows: `0c/1e/0s/0t` + **1 unapplied** — 1 `better` | **1 project commit** (politicas `3cf7ed4`, not pushed) | **Focus was consumed and it changed the run's shape.** Round 24 said *read the home's age before believing the routing count*; both of this run's homes were forged **the day before** (`register-bytecode-execution` 2026-09-03 from a JS engine; `untrusted-extension-host` 2026-09-03), and that single fact converted a forge-shaped repository into a corroboration run. A one-day-old single-sourced subject both suppresses a forge and makes a second independent system the highest-value thing available. | S/T/A/Asrc/task = **0/2/0/2/0**; routing count **met twice, fired neither clause** — system A (review process) 5 unmodelled decisions with 3+ sharing an **existing** home (quality-gates), system B (interpreter) 3 sharing an **existing** home one day old; cross-system HOME-IF-NEW never reached 3, so no forge and no XL. This is round 24's third outcome — *count met, no new home* — and it is a **routing hit, not a miss**. `auto=2/5/0`, `fp=0`. `absolutes=3/3` — all three landings came from unqualified sentences in the host file ("the measured trade is not close", "Operands are fixed-width, one word each", "a healthy instruction set leaves a reserved band"), and all three were scoped rather than deleted. `directions=0/2` (both cut: the two peer-shaped projects hold no language runtime and no second LLM check). Two design entries **shared one force** and landed as **one** technique, not two — the focus's second item, applied at the drafting step. Home ages stated: 1 day (register-bytecode-execution, 1 source) and 17 days (quality-gates, 24 techniques). 0 of 3 fetches — the tree carried every primary. |
+| 2.5.0 | 2026-09-04 | `arxiv:2608.27454` (WikiSkill) | 1 (698-word landing / 14,416-word full text; 2 of 3 fetches) | 11 | 5 | 3 (2 techniques + 1 amendment) | 3 rows: 0c/2e/0s/1t — **1:1 with landings** | 1 (personas, branch `intake/evolution-variant-provenance`, gates: DDL paired green, `cargo check` not reached) | **Class prediction paid twice, and the second time it REJECTED a real gap.** A framework paper is authoritative for its measurement and weak for its framework; both techniques came out of the ablation and the transfer table, and row 4 — the push-a-sample / hand-an-index asymmetry between the store's two readers — is a corpus gap the promoting question confirmed against two techniques and the score still refused, because the paper measures nothing there. A gap the run believes in and declines to land on the source's authority is the class rule working, not a miss. **Focus items: all three round-24 blocks carried.** Home age stated before the count (`agent-memory`, 15 days, **9 prior sources** — no suppression, and the landing is corroboration into a mature subject). Absolutes hunted on purpose rather than by accident: `absolutes=3/1`, and the one that moved is the framing of the whole run. Prior fleet study checked before extraction (nothing). Landing provenance reported: **all three came from Phase 6**, none from extraction. | S/T/A/Asrc/task-lines = 0/2/1/0/147 · `routing=n/a` · `directions=n/a` · `absolutes=3/1` · `auto=3/2/0` `fp=0` · a paper is not a tree, so there was no design record, no forge count and no Phase 7.6 — recorded explicitly because "no count to take" and "count met, handoff declined" read identically in this column and are not the same outcome |
 
 ---
 
@@ -2334,3 +2335,85 @@ existed only because the experiment printed both arms rather than a verdict.
 unqualified sentences before it drafted anything — and did any measurable in its apply
 step come back *unchanged*, which is the one result that cannot be produced by wanting
 it?
+
+---
+
+**Round 26 (wikiskill, 2026-09-04).** Numbered 26 rather than 25 because a
+sibling's `wan2gp` round landed in `HEAD` mid-run and took 25 — the round counter
+is single-writer and the fleet is not, which round 24 already noted about the
+focus mechanism and which applies to the number itself.
+
+A single paper, mined under the class rule
+that a framework paper is authoritative for its measurement and weak for its
+framework. The rule earned its keep twice, and the second time is the one worth
+recording.
+
+**It paid first as a predictor.** The expected yield was stated before
+extraction: the ablation and the transfer table would carry the run and the named
+architecture would not. Both landed techniques came from the ablation and the
+transfer table; the framework's three other design choices became one lead and
+two catches.
+
+**It paid second as a REJECTION, which is rarer and more useful.** Row 4 — the
+store's two readers get opposite context strategies, a stratified sample pushed
+to the consolidator and an index the reviser pulls from — is a real gap. The
+promoting question was executed against both candidate owners and neither covers
+delivery shape. Under the old habit that is a technique. But the paper *measures
+nothing there*: it is a design choice justified by context exhaustion, with no
+ablation, and by the class's own rule the framework cannot authorize a landing.
+It went to leads with its anchors. **A gap the run believes in and declines to
+land on the source's authority is the class rule working, not a miss** — and it
+is the first time this ledger records the rule cutting against a row the run
+wanted.
+
+**The stage now losing most is `ship`, and this is the seventh consecutive round
+naming it — but the reason changed and the number moved off zero.** One project
+commit landed, on a branch, with a paired proof: 0 of 3 candidates recoverable
+against 3 of 3. The remaining loss is no longer *confirmation* (the standing
+authorization removed that) and no longer *no seam*. It is **toolchain reach**:
+the DDL gate ran in seconds and `cargo check` did not run at all, so a change
+whose SQL is proven has unproven Rust around it, and step 1 stayed a branch
+because merging a table nothing writes to is half a feature. That is a real and
+nameable blocker rather than a shrug, and it is the first time this column can
+say which gate passed and which was never reached.
+
+**Two instruments caught themselves in one run, and neither failure was subtle
+in hindsight.** The Phase 7.5 scorer began as bag-of-words overlap and scored a
+known negative at **1.00**, because a 40,000-word method file contains almost any
+single content word somewhere; a phrase-level predicate replaced it, and the
+bag-of-words version would have reported a comfortable, wrong number. The
+personas schema gate then returned **0 on both arms** because a `CHECK` member
+list had been substituted as though it were a whole predicate — a tie meaning
+nothing had run, visible only because the mid-state was printed. Both are the
+same discipline (assert the instrument against a known positive *and* a known
+negative before reporting) and both would have produced publishable-looking
+output without it.
+
+**The apply step measured the method against itself and the number is large.**
+This method's diagnostic layer carries **83 distinct declared-focus imperatives**
+across 56 blocks; **9 are carried by the gated file** under strict phrase
+matching, hand-sampled to a real range of **9-25 of 83**. One demand appears
+**27 times**, its own text counting *sixth* through *tenth deferral*, and the
+gated file mentions it zero times. The technique landed hours earlier says to
+read exactly that as a promotion backlog rather than a discipline failure, and
+reading it that way turns a decade of shrugging into a list with a priority order
+repetition already wrote.
+
+**Next run's declared focus (round 26).** (1) **Apply the measurement/framework
+test to the DESIGN RECORD, not only to papers.** Phase 2d reconstructs decisions
+from a tree's ADRs and module guides, and a decision recovered from a design
+document is exactly as unmeasured as a framework paper's §3.2.3 — yet the design
+lane has no equivalent of the rule that just rejected row 4. Ask of every design
+entry: *what would this tree have to show for this decision to be wrong, and does
+it show it?* An entry that cannot answer is a lead, whatever its forces say.
+(2) **Report the instrument self-catch as a first-class number**, as
+`selfcatch=<n>` in the depth cell. Two happened here and the scorecard has
+nowhere to put them; it is the cheapest available evidence that the measurement
+discipline is live rather than decorative, and its absence over several rounds
+would be worth knowing. (3) **A `not-better` that means "unexpressible, not
+absent" must name what would make it expressible, in the project's own
+vocabulary.** This run did it for the transfer row — cross-persona genome seeding
+lands, then one named field is the fix — and that sentence is what makes the row
+re-openable instead of archival. **The check the next row should make:** did the
+run decline to land something it believed in, and did it say which rule made it
+decline?

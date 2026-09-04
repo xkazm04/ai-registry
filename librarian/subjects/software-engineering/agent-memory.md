@@ -387,3 +387,85 @@ A=0 of 35, B=35 of 35, three observation points because a two-point pair ties wh
 the corruption never lands. Product fix shipped; the paired test is committed
 beside it but could not run against a pre-existing build-script failure in that
 crate.
+
+## 2026-09-04 - intake `wikiskill` (run `arxiv-27454`, intake 2.5.0)
+
+Source: a single cs.AI paper on a skill-evolution loop ([[2026-09-04-wikiskill]]).
+Class prediction stated before extraction and confirmed: a framework paper is
+authoritative for its measurement and weak for its framework, so both techniques
+came out of the ablation and the transfer table and the named architecture
+yielded one lead and two catches. Home age read first, per the round-24 focus:
+this subject is 15 days old with **9 prior sources**, so nothing was suppressed
+and the landing is corroboration into a mature subject.
+
+**The absolute that moved.** The golden path's hierarchy holds that "one policy
+cannot govern" three layers of different physics, and calls the consolidated
+layer "the only layer allowed to speak as knowledge". The paper splits that
+layer: the procedures an executor runs on, and the accumulated diagnosis used to
+revise them, need **opposite** read policies for the executing agent. Measured
+2x2, one model, four benchmarks - the reviser's access to the store is worth
+**+15.0** points (48.7 to 63.7); the executor's access **costs 2.8 to 3.4 in both
+arms**, which is what makes it a property of the role and not an interaction. New
+technique `diagnosis-withheld-from-the-executor`, plus a golden-path section
+saying the hierarchy's own rule holds one level down.
+
+**Two design candidates folded into one technique**, per the same round's second
+focus item. "The knowledge layer is never rolled back" and "the harness, not the
+proposer, writes the record" share a force - the gate's verdict and its evidence
+outlive the artifact they rejected - so they landed as
+`rejected-revision-leaves-its-evidence` rather than as a pair. Its sharpest line
+is a boundary the paper does not draw: **store the diff and the number, not the
+reason.** A reason written at rejection time is a hypothesis authored at the
+moment of least information.
+
+**`procedure-promotion` declared its own completeness and was incomplete.** "Two
+sources feed promotion ... neither is sufficient alone" - Observation and
+Demonstration. The third is **another agent's experience**, measured across five
+models and two families: transferred procedures beat self-distilled ones in many
+pairs (24.3 / 33.6 / **50.5** on one benchmark; 33.9 / 56.7 / **73.7** on
+another), and transfer ran *upward* from a 4B-class author to a 31B-class
+executor. The reason is recoverable from the host's own weakness analysis, which
+is why it is an amendment: an author whose runs never failed at a step compresses
+it out as incidental, so **a weaker author records more of the method.** The
+enumeration got a forward pointer rather than a contradiction.
+
+**Apply - all three landings were found in Phase 6, not Phase 3.** The eleven
+extraction rows produced none of the three techniques in the shape they landed
+in; the absolutes hunt and the enumeration hunt produced all three.
+
+- `rejected-revision-leaves-its-evidence` -> **personas, `task`, `better`,
+  `ab-paired`**. Its prompt-evolution loop stores `variants_tested` (a count),
+  two fitness numbers and a prose `summary`, and no tested candidate anywhere.
+  The structural fact: **the tree already holds the opposite design on its newer
+  surface**, which carries `variant_prompt` and a provenance snapshot but whose
+  fitness loop is deferred - so the surface that keeps the diff does not run and
+  the surface that runs and rejects keeps no diff. Paired on a scratch database,
+  0 of 3 recoverable at HEAD against 3 of 3 on the branch, with the CHECK, FK,
+  UNIQUE and CASCADE exercised rather than assumed. Step 1 of 3 on a branch, not
+  merged, not pushed. **Gate reached: the DDL. Gate not reached: `cargo check`.**
+  An earlier run of that gate returned 0 on *both* arms from a bad schema-marker
+  substitution - a tie meaning nothing ran, caught by printing the mid-state.
+- `diagnosis-withheld-from-the-executor` -> **the registry's own skill lane,
+  `experiment`, `better`**, and **personas verified conformant** (its evolution
+  engine writes nothing into the memory store the executing persona reads; its
+  only read of execution history is a `COUNT(*)`). The registry lane is
+  configured the way the ablation measures as worse, and the size of it is now
+  counted: 56 declared-focus blocks, **83 distinct imperatives, 9 carried by the
+  gated file** under strict phrase matching, hand-sampled to a real range of
+  **9-25 of 83**. The worst instance is the technique's promotion-signal clause
+  verbatim - one demand appears **27 times**, its own text counting *sixth*
+  through *tenth deferral*, and the gated file mentions it **zero** times.
+- `procedure-promotion` amendment -> **personas, `experiment`, `not-better`**.
+  The third source is unexpressible rather than absent: the genome is derived
+  from the same persona, and a variant's `source_persona_id` is stamped with a
+  minted `evo-<uuid>` - a generated value in exactly the field the amendment asks
+  to carry an authoring lineage.
+
+Two leads, both real gaps this source could not authorize: the push-a-sample /
+hand-an-index asymmetry between the store's two readers (a design choice with no
+ablation behind it - the class rule rejected it), and the monotone acceptance bar
+excluding neutral proposals (the paper's own limitation 2, folded into technique
+2 as a stated cost). Two catches where the corpus is ahead of the paper: store
+pruning, which the paper names as future work and this subject models in three
+places, and retrieval, whose absence here is a scope condition on citing the
+paper rather than a gap.
