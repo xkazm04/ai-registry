@@ -1,7 +1,7 @@
 ---
 subject: agent-instruction-files
 domain: software-engineering
-last_touched: 2026-09-02
+last_touched: 2026-09-04
 dry_streak: 0
 ---
 
@@ -286,3 +286,55 @@ against the pinned clone (verified_against carries the runtime; the commit is in
 Phase 7.5 (registry skills lane, simulation, `better` on 2 of 3): six links to one host
 need nothing; the desktop-surface zip delivery and the trigger-collision check are the
 two cases a host contract would give a field to. Boundary stated to agent-cli-transport.
+
+## 2026-09-04 - /intake `opik` (run `opik-0904`)
+
+Amendment to `single-source-topology`: § "The second boundary is a format edge,
+and it sits inside the checkout".
+
+The technique put the link/copy boundary at the edge of a single checkout and
+said, correctly for that case, that a repo copying where it could link "has
+invented a consistency problem it did not have". A link is one inode, so it is
+available only while every reader accepts the same **bytes** - and hosts do not
+reliably agree on that. The source tree symlinks the host that reads the
+canonical rule format and *generates* a tree for the host that wants a different
+extension and a renamed frontmatter key. Same checkout, no distance, and no
+single byte sequence both readers accept. The discriminating question is one
+line: could one file satisfy both readers? What the copy must transform stays
+`host-contract-compilation`'s subject; what carries over unchanged is the drift
+obligation.
+
+The evidence is negative and it is the good kind. The tree derives its **entire
+lint matrix** from one config file specifically so local and remote gates cannot
+disagree, and applies **no drift check at all** to the instruction tree it
+generates - zero references to the source directory, the generated directory or
+the sync target across all 82 workflow files and the hook config, with the
+instrument asserted against a known positive first. The drift rule exists only as
+an anti-pattern bullet inside a subagent's prompt: a checkable condition promoted
+into advice, which is `enforcement-demotion`'s failure run backwards, by a
+repository that demonstrably knows how to build the gate.
+
+The section also absorbs the **half-generated directory**: the sync step
+deliberately preserves destination files with no counterpart in the source and
+the cleanup step will not delete them, so the destination is not a function of
+the source and "regenerate and compare" has no defined answer. That is
+`machine-owned-regions` owed at *directory* granularity - either the generated
+set is fenced by a manifest the generator writes and a checker reads, or the
+directory admits no local files at all.
+
+Applied `simulation`/`not-better` against the one fleet project with two
+substantial instruction files. The amendment's own question routes it to the link
+regime, and it is already there correctly - the second file is a bridge that
+points at the canonical one and cites rather than restates its doc-sync
+obligation. So the amendment recommends no fleet change today; recorded as a
+confirmation of the routing question. Return: when a fleet project adds a host
+needing a different rule-file format.
+
+## Open lead
+
+The source declares one directory canonical and names a foreign vendor's
+instruction directory an **ignored surface** other agents must not read. A
+negative pointer is not a bridge and is not modelled by the import-or-pointer
+rule. One tree is not enough to say whether it is a pattern. Return: a second
+independent repository declaring an instruction directory out of scope for agents
+other than its owner.
