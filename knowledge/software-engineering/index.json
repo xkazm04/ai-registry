@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 214,
-  "techniques": 1572,
-  "applications": 908,
+  "techniques": 1574,
+  "applications": 910,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1572/1572",
+  "use_when_coverage": "1574/1574",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -16597,8 +16597,23 @@
    "subcategory": "shell-and-navigation",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/media-playback/media-playback.md",
-   "digest": "sha256:20f6106deaa27de2",
+   "digest": "sha256:7093df6e3e229b3e",
    "techniques": [
+    {
+     "slug": "committed-buffer-steering",
+     "status": "forged",
+     "laws": [
+      "limits-are-derived",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "input should change content that is produced ahead of the playhead",
+      "a steer appears to be ignored because it lands seconds later",
+      "deciding whether to discard produced-but-unplayed content",
+      "many contributors steer one timeline"
+     ]
+    },
     {
      "slug": "engine-adapters",
      "status": "forged",
@@ -16611,6 +16626,22 @@
       "deciding whether an unsupported verb hides or lies",
       "state flickers between local guess and remote echo",
       "switching engines leaves double audio"
+     ]
+    },
+    {
+     "slug": "generated-supply-margin",
+     "status": "forged",
+     "laws": [
+      "limits-are-derived",
+      "count-carries-predicate",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "content is produced just ahead of the playhead rather than read from a store",
+      "deciding whether a continuous stream can be sustained at all",
+      "sizing the buffer for a producer that is nearly as slow as playback",
+      "a capacity gate certifies a mean rate against real time"
      ]
     },
     {
@@ -16685,6 +16716,20 @@
     }
    ],
    "applications": [
+    {
+     "stack": "python",
+     "technique": "committed-buffer-steering",
+     "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/media-playback/applications/python--committed-buffer-steering.md",
+     "verified_on": "2026-09-04",
+     "verified_against": "python@3.14"
+    },
+    {
+     "stack": "python",
+     "technique": "generated-supply-margin",
+     "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/media-playback/applications/python--generated-supply-margin.md",
+     "verified_on": "2026-09-04",
+     "verified_against": "python@3.14"
+    },
     {
      "stack": "react",
      "technique": "engine-adapters",
@@ -25399,7 +25444,7 @@
    "subcategory": "inference-serving",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/inference-serving/serving-process-topology/serving-process-topology.md",
-   "digest": "sha256:74ceec5ae581ab21",
+   "digest": "sha256:e213be8c538e7596",
    "techniques": [
     {
      "slug": "cache-residency-sets-the-balancing-unit",
@@ -25414,7 +25459,8 @@
       "a request's cost depends on which replica served the one before it",
       "deciding whether a general-purpose load balancer can front a stateful serving path",
       "one deployment mode supports a scaling flag and its sibling does not",
-      "sizing concurrency for a service whose per-client state lives in a cache"
+      "sizing concurrency for a service whose per-client state lives in a cache",
+      "a team refuses replication for a reason its own transport already prevents"
      ]
     },
     {
@@ -31539,6 +31585,7 @@
     "measurement-honesty/incomplete-not-verdict",
     "measurement-honesty/tuning-corpus-disjointness",
     "measurement-honesty/unelidable-measurement",
+    "media-playback/generated-supply-margin",
     "metric-forecasting/projection-presentability-gates",
     "migrations/dynamic-table-set-migrations",
     "migrations/error-propagation",
@@ -32030,6 +32077,7 @@
     "measurement-honesty/tuning-corpus-disjointness",
     "measurement-honesty/unelidable-measurement",
     "measurement-honesty/unmeasurable-vs-zero",
+    "media-playback/committed-buffer-steering",
     "media-playback/engine-adapters",
     "media-playback/source-resilience",
     "media-playback/transport-contract",
@@ -32604,6 +32652,7 @@
     "measurement-honesty/renormalize-over-present",
     "measurement-honesty/tuning-corpus-disjointness",
     "measurement-honesty/unmeasurable-vs-zero",
+    "media-playback/generated-supply-margin",
     "metric-forecasting/fit-confidence-honesty",
     "metric-forecasting/threshold-crossing-eta",
     "metric-forecasting/trend-fitting-and-anchoring",
@@ -34469,6 +34518,8 @@
     "guest-execution-bounding/cost-budget-cooperative-yield",
     "invariant-placement/build-time-evaluation-of-cross-value-invariants",
     "mcp-tools/catalog-projection-modes",
+    "media-playback/committed-buffer-steering",
+    "media-playback/generated-supply-margin",
     "modelled-performance-estimates/one-ratio-then-a-capability-cap",
     "native-guest-interop/aligned-native-data-cell",
     "native-shell-integration/native-owned-stream",

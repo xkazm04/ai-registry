@@ -6,7 +6,7 @@ technique: cache-residency-sets-the-balancing-unit
 status: forged
 laws: [failure-not-empty-success, limits-are-derived]
 shared_with: []
-use_when: [adding replicas in front of a service that reuses state between related requests, a request's cost depends on which replica served the one before it, deciding whether a general-purpose load balancer can front a stateful serving path, one deployment mode supports a scaling flag and its sibling does not, sizing concurrency for a service whose per-client state lives in a cache]
+use_when: [adding replicas in front of a service that reuses state between related requests, a request's cost depends on which replica served the one before it, deciding whether a general-purpose load balancer can front a stateful serving path, one deployment mode supports a scaling flag and its sibling does not, sizing concurrency for a service whose per-client state lives in a cache, a team refuses replication for a reason its own transport already prevents]
 ---
 
 # Cache residency sets the balancing unit
@@ -75,6 +75,41 @@ expects to find is usually identifiable, and a replica that is handed a
 continuation whose prefix it does not hold should refuse rather than answer
 from nothing. That refusal is the only signal in the system that names the
 actual fault.
+
+## Ask which layer can still re-route, because one of them may already pin it
+
+The question above is necessary and it is not sufficient, because "the balancer
+sends the next request elsewhere" presumes a balancer that gets to decide. Often
+something already decided for it, and the deployment is safe for a reason nobody
+wrote down — or unsafe at a layer nobody looked at. **Enumerate the layers that
+can re-route, and answer at each one:**
+
+- **A connection-oriented transport pins affinity for free.** Where the whole
+  span rides one connection — a socket held open for its duration — a
+  general-purpose proxy forwards that connection to one upstream and every
+  later message on it lands where the first did. No affinity rule is needed,
+  because none is possible. This is worth checking *first*: it is the cheapest
+  possible answer, it is invisible in a topology diagram, and a team that has it
+  may be arguing about sticky routing they do not need.
+- **A scheduler below the transport is not pinned by it.** A runtime that
+  distributes work across internal replicas does so beneath the connection, so
+  the transport's guarantee stops at the process boundary and the span scatters
+  anyway. A pinned connection into an internally-replicated engine is the case
+  that looks safest and is not.
+- **A stateless surface beside the affine one has no pinning at all.** The same
+  service commonly exposes both — a session transport and a whole-request
+  endpoint — and they have *different* answers. Deciding once, for the service,
+  is how the affine half gets governed by the stateless half's reasoning.
+
+The failure this catches is a wrong *reason* rather than a wrong conclusion, and
+that is worse than it sounds. A team that refuses replication citing a hazard its
+transport already prevents has recorded a rule nobody can maintain: the stated
+reason is checkable and false, so the next reader either dismisses the rule or
+preserves it as folklore. Meanwhile the real constraint — usually per-replica
+memory for the retained state, which multiplies exactly as any other per-process
+budget does — goes unstated and unsized. **State the reason at the layer that
+actually binds**, and if the answer is "our transport already guarantees this",
+write that down too: it is the fact that makes the next scaling decision cheap.
 
 ## The shape that follows
 
