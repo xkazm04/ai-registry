@@ -165,7 +165,12 @@ available:
   names that spread.
 - Pin the machine class and the toolchain the count is taken on, and compare
   only counts taken under the same pin; a count from another machine is a
-  different instrument's reading.
+  different instrument's reading. Which pin carries the weight is a property
+  of the counter class: for an artifact-size counter under a lockfile the
+  toolchain pin is the whole pin (one measured ratchet held its baseline
+  unchanged across a bundler major, and its first cross-machine run agreed
+  to 0.1 KB per chunk), while the machine-class pin belongs to simulated-CPU
+  and hardware counters. State which one the gate relies on.
 - Scope the counting lane to the paths the standard is about; the slowdown
   makes whole-suite counting a lane that gets deleted.
 - Derive the threshold from the counter's measured repeat variance, never from

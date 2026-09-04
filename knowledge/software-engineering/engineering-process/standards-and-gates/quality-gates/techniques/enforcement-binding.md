@@ -105,6 +105,11 @@ intent, opposite defaults; so the audit reads the platform's own
 documentation for the version in use rather than reasoning from the shape,
 and a migration between platforms re-runs the seeded refusal below, because
 the skip semantics do not travel with the pipeline definition.
+On a fleet that sits on one platform in effect, the platform read is a
+constant and changes no verdict - one audit of eleven pipelines found every
+conditional-and-required job on the platform the old rule described; the read
+earns its cost only where a conditional job exists on the platform whose
+default blocks, or at a migration.
 
 ## The configuration is a guard living outside the thing it guards
 

@@ -8,6 +8,8 @@ status: forged
 verified_on: 2026-09-04
 verified_against: rust@1.95
 proof: structural-only
+applied: simulation
+ab_verdict: better
 ---
 
 # The immutable core is named three times, and mounted read-write
@@ -83,3 +85,83 @@ running modified harness — that requires executing the rebuild path, which nee
 the full toolchain and a live model, and was not run here. What the structure
 establishes is narrower and sufficient for the technique: **no mechanism is
 positioned to refuse it.**
+
+## 2026-09-04 — A/B on a second tree: a registry that knows the kind and has no load-time policy for the kind that matters
+
+The load-failure rule flipped on 2026-09-04: the default used to be *optional
+unless the operator marked required*; it now *derives from the declared kind* —
+observational skips, intercepting is required unless explicitly downgraded, and
+one declaration decides both the load-time and the run-time fail direction. This
+section tests the flip against a tree that is not the one above: **personas**, a
+Tauri desktop agent runner, read at commit `e6ed57e55` (`src-tauri/Cargo.toml`
+declares `rust-version = "1.80.0"`; the tree pins no toolchain file). Mode
+`simulation`; the tree was not modified.
+
+**Seam.** The runner's hook registry, `src-tauri/src/engine/runner/hooks/`
+(observer/mutator split landed 2026-09-03). Registration *does* distinguish
+kinds, by type rather than by flag: `Observer::observe` returns `()` by signature
+and `Interceptor::intercept` returns a typed `Decision`, and they enter the
+registry through two methods, `register_observer` (`mod.rs:529`) and
+`register_interceptor` (`mod.rs:554`). Both are fallible — a contribution naming
+a point the host does not declare is refused, not stored (`tests.rs:383`). The
+only load-time policy in the tree is the process-wide `LazyLock` initialiser
+(`mod.rs:583-596`): the one shipped hook, `RunTelemetryObserver`, is registered
+with `if let Err(e) = ... { tracing::error!(...) }` — log and continue. No
+interceptor ships (`observers.rs` says "one, deliberately"; `MutationPoint` has a
+single variant because a single emit site exists), so `register_interceptor` has
+no caller and no load-time policy at all.
+
+**Measurable, chosen before walking.** Registration failures after which the
+process runs with a declared control absent and no refusal — counted over the
+three real failure paths the tree already has tests or a handler for.
+
+**Arms.** A = the rule before the flip: every load failure skips with attribution
+unless the operator marked the extension required, and nothing in this tree marks
+anything required, so A is the shipped `tracing::error` branch applied to every
+kind. B = the rule after the flip: the fail direction follows the declared kind.
+
+**The three cases, walked under both.**
+
+1. *The built-in observer's registration fails in the initialiser* (`mod.rs:589`
+   — the tree's own comment says this means "a declared point was removed without
+   updating the observer"). A: skip, log. B: observational, so skip, log. Same.
+2. *An observer registered against an unknown `ObservationPoint`* (`mod.rs:535`,
+   exercised by `registration_against_an_unknown_point_is_refused_not_stored`).
+   A: refused and the host continues. B: same — an absent observer is a gap in
+   telemetry, which is the honest state. Same.
+3. *An interceptor registered against an unknown `MutationPoint`* (`mod.rs:555`,
+   the refusal exists ahead of its first consumer "so the path is reviewed on its
+   own"). A: the only shipped policy is the observer branch, and a first
+   interceptor added to the initialiser inherits it — log and continue, and the
+   `ApiRequest` chain runs for the process lifetime with the contributed guard
+   absent while the host reports itself started. B: intercepting defaults to
+   required; the registration failure refuses start unless the declaration
+   carries a recorded downgrade. **A: 1 of 3 runs with a control silently absent.
+   B: 0 of 3**, at no cost on the two observer cases.
+
+The walk also surfaced the shape B has to account for in *this* runtime: the
+registry is a `LazyLock`, so "refuse to start" is not the primitive available. A
+panic inside the initialiser poisons the lock and every later `emit` or
+`run_api_request_chain` panics — fail-closed at *first use*, not at startup,
+which is the wrong moment (a caller's request, attribution lost — the host-routes
+rule's build-late failure). B's implementation here is a registration step in
+`boot::services` that runs before the runner accepts work, with the interceptor's
+declaration carrying the fail direction, and the `LazyLock` reduced to storage.
+
+**What the tree already argues.** The module doc reaches B's reasoning at run
+time on its own: "a panicking observer ... cannot have withheld a decision, so
+continuing is the only correct direction, and it is available precisely because
+returns are discarded". That is *fail direction derived from the declared kind*,
+applied to `emit`. The flip extends the same derivation to load time, where the
+tree has one branch for one kind and nothing for the other — the two-policies
+shape the technique warns about, waiting for its first interceptor.
+
+**Floor and its limit.** Three real failure paths from one tree, each with a
+handler or a test; but one hook ships and zero interceptors, so the "three real
+hooks" floor is met over paths, not hooks, and case 3 is a shipped refusal with
+no shipped registrant. **Falsifier:** an interceptor lands whose registration
+failure is routed to refuse-start by a mechanism that is *not* its declaration —
+a global flag, a required list — and no disagreement between its load-time and
+run-time directions ever follows. If that holds for a year, one declaration
+deciding both is a preference, not a rule. Return condition: the first
+interceptor registered in `boot::services`.
