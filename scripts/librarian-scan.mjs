@@ -32,12 +32,16 @@
  *   node scripts/librarian-scan.mjs --json        # what the skill reads
  *   node scripts/librarian-scan.mjs --top 20      # the worklist head
  *   node scripts/librarian-scan.mjs --domain software-engineering
+ *   node scripts/librarian-scan.mjs --weights       # the floor table, as markdown
+ *   node scripts/librarian-scan.mjs --stamp-weights # write it into librarian/standard.md
+ *   node scripts/librarian-scan.mjs --check-weights # 1 when the stamped copy has drifted
  */
 
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { loadTaxonomy, walkSubjects, MAX_CHILD_DIRS } from './lib/taxonomy.mjs';
+import { EXIT } from './lib/exit-codes.mjs';
 
 const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 const KNOWLEDGE = path.join(ROOT, 'knowledge');
@@ -199,31 +203,160 @@ if (fs.existsSync(path.join(VAULT, 'subjects'))) {
 }
 
 /**
- * Attention points. Each weight is a claim about how much a defect costs a CONSUMING
- * agent, and they are here rather than in a prompt so they can be argued with.
+ * Attention points — ONE declaration, carrying both the number and the argument for it.
  *
- *   use_when     the field an agent routes on. Without it a technique is unreachable
- *                except by a human reading prose, so it is weighted per missing file.
- *   applications a subject with no application has never been reconciled against real
- *                code; it is a standard nobody has tested.
- *   thin         the forge designs 4-6 techniques per subject. Below 4 usually means the
- *                subject was cut short, not that it is simple.
- *   expired      a claim past its clock is worse than a missing one: it asserts currency
- *                it does not have.
- *   gone         a consumer reports the cited anchors no longer exist. The strongest
- *                signal in the file, because somebody measured it against a real tree.
+ * Each weight is a claim about how much a defect costs a CONSUMING agent, so the number
+ * is worthless without the sentence beside it. They used to live twice: as bare numbers
+ * here and as a hand-written table in `librarian/standard.md`, under a disclaimer saying
+ * they could not disagree. Nothing enforced that, and the disclaimer is exactly the kind
+ * of sentence that makes a reviewer stop checking. So the table over there is now STAMPED
+ * from this array (`--weights` renders it, `--stamp-weights` writes it, `--check-weights`
+ * fails when the two have parted), and this is the only place a weight is decided.
+ *
+ * `clause` and `why` are the standard's prose, not comments: they ship into the document.
+ * Edit them here.
  */
-const W = {
-  missingUseWhen: 2,
-  noApplications: 6,
-  thinTechniques: 4,
-  singleStack: 2,
-  expiredApplication: 5,
-  atRiskApplication: 1,
-  neverSwept: 3,
-  citationGone: 6,
-  deviation: 4,
-};
+const WEIGHTS = [
+  {
+    key: 'missingUseWhen',
+    points: 2,
+    per: 'each',
+    clause: 'A technique carries no `use_when`',
+    why: 'It is the field a consuming agent routes on. Without it a technique is reachable only by a human reading prose - the difference between a bundle that can be consulted and one that can only be read.',
+  },
+  {
+    key: 'noApplications',
+    points: 6,
+    clause: 'The subject has no application',
+    why: 'It has never been reconciled against real code. It is a standard nobody has tested against anything.',
+  },
+  {
+    key: 'thinTechniques',
+    points: 4,
+    clause: 'Fewer than 4 techniques',
+    why: 'The forge designs 4-6 per subject. Below that usually means the subject was cut short, not that it is simple.',
+  },
+  {
+    key: 'singleStack',
+    points: 2,
+    clause: 'One stack across all applications',
+    why: 'The transplant claim is untested. Two stacks is where "this is general" stops being an assertion.',
+  },
+  {
+    key: 'expiredApplication',
+    points: 5,
+    per: 'each',
+    clause: 'An application is past its clock',
+    why: 'Worse than a missing claim: it asserts a currency it does not have.',
+  },
+  {
+    key: 'atRiskApplication',
+    points: 1,
+    per: 'each',
+    clause: 'An application is within 30 days of its clock',
+    why: 'Cheap to catch before it expires.',
+  },
+  {
+    key: 'neverSwept',
+    points: 3,
+    clause: 'Never swept by the librarian',
+    why: 'Not a defect in the subject - a gap in what we know about it.',
+  },
+  {
+    key: 'citationGone',
+    points: 6,
+    per: 'each',
+    clause: 'A consumer reports citations `gone`',
+    why: 'The strongest signal available, because somebody measured it against a real tree.',
+  },
+  {
+    key: 'deviation',
+    points: 4,
+    per: 'each',
+    clause: 'A consumer records a deviation',
+    why: 'Demand pointing directly at a subject.',
+  },
+];
+
+/** The numbers alone, for the scorer. Derived — never edited on its own. */
+const W = Object.fromEntries(WEIGHTS.map((w) => [w.key, w.points]));
+
+// ------------------------------------------------------------------ the stamped table
+//
+// The standard carries this table so the bar can be argued with in prose. It is a COPY,
+// and a copy that nothing compares is a copy that drifts. These three flags close that:
+// render it, write it, or prove the written one still matches.
+
+const STANDARD = path.join(VAULT, 'standard.md');
+const STAMP_OPEN = '<!-- weights: stamped by scripts/librarian-scan.mjs --weights; edit the script, then re-stamp -->';
+const STAMP_CLOSE = '<!-- /weights -->';
+
+/** The weights as the markdown table the standard carries. */
+function renderWeights() {
+  const rows = WEIGHTS.map((w) => `| ${w.clause} | ${w.why} | ${w.points}${w.per ? ` ${w.per}` : ''} |`);
+  return ['| Clause | Why | Points |', '| --- | --- | --- |', ...rows].join('\n');
+}
+
+/** The stamped block's body, or null when the markers are absent. */
+function stampedTable(text) {
+  const a = text.indexOf(STAMP_OPEN);
+  if (a === -1) return null;
+  const b = text.indexOf(STAMP_CLOSE, a);
+  if (b === -1) return null;
+  return text.slice(a + STAMP_OPEN.length, b).trim();
+}
+
+if (argv.includes('--weights')) {
+  console.log(renderWeights());
+  process.exit(EXIT.OK);
+}
+
+if (argv.includes('--stamp-weights') || argv.includes('--check-weights')) {
+  const checking = argv.includes('--check-weights');
+  if (!fs.existsSync(STANDARD)) {
+    console.error(`librarian-scan FATAL: ${path.relative(ROOT, STANDARD)} does not exist. Nothing to ${checking ? 'check' : 'stamp'}.`);
+    process.exit(EXIT.FATAL);
+  }
+  const text = fs.readFileSync(STANDARD, 'utf8');
+  const found = stampedTable(text);
+  if (found === null) {
+    // Not a mismatch — the instrument could not run. Reporting nothing is not finding
+    // nothing, so this is FATAL rather than a clean pass over an unmarked file.
+    console.error('librarian-scan FATAL: librarian/standard.md carries no stamped weights block.');
+    console.error(`  expected the markers:\n    ${STAMP_OPEN}\n    ${STAMP_CLOSE}`);
+    process.exit(EXIT.FATAL);
+  }
+  const want = renderWeights();
+  if (checking) {
+    if (found === want) {
+      console.log(`weights: librarian/standard.md matches this script (${WEIGHTS.length} clauses).`);
+      process.exit(EXIT.OK);
+    }
+    console.error('librarian-scan: the standard\'s weights table DISAGREES with the scan that runs.');
+    console.error('  librarian/standard.md is stamped and has been edited by hand, or a weight moved here');
+    console.error('  and was not re-stamped. The script is the source; fix it there, then run:');
+    console.error('    node scripts/librarian-scan.mjs --stamp-weights');
+    const a = found.split('\n');
+    const b = want.split('\n');
+    for (let i = 0; i < Math.max(a.length, b.length); i++) {
+      if (a[i] !== b[i]) {
+        console.error(`\n  line ${i + 1} of the block differs:`);
+        console.error(`    standard.md: ${a[i] ?? '(missing)'}`);
+        console.error(`    this script: ${b[i] ?? '(missing)'}`);
+      }
+    }
+    process.exit(EXIT.VIOLATIONS);
+  }
+  if (found === want) {
+    console.log('weights: already current — librarian/standard.md unchanged.');
+    process.exit(EXIT.OK);
+  }
+  const a = text.indexOf(STAMP_OPEN);
+  const b = text.indexOf(STAMP_CLOSE, a);
+  fs.writeFileSync(STANDARD, `${text.slice(0, a + STAMP_OPEN.length)}\n${want}\n${text.slice(b)}`, 'utf8');
+  console.log(`weights: stamped ${WEIGHTS.length} clauses into librarian/standard.md.`);
+  process.exit(EXIT.OK);
+}
 
 const domains = fs
   .readdirSync(KNOWLEDGE, { withFileTypes: true })
