@@ -99,7 +99,13 @@ about that loss are load-bearing:
   author holds over dilution, and there is still no safe position in it;
   but at file scale the measured leak is the session, which is the
   delivery axis ([context-reset-redelivery](./techniques/context-reset-redelivery.md)),
-  not the line count.
+  not the line count. One condition, measured 2026-09-05 on a fleet tree
+  ([application](./applications/claude-code--line-earning.md)): in a
+  Director/Builder topology where the sessions that edit are single-event
+  builders, the session-length axis has nothing to leak along — nearly every
+  dropped rule was dropped at the *first* event with the file freshly
+  delivered — so neither shortening nor re-delivery reaches the loss, and the
+  lever is a gate on the builder surface ([enforcement-demotion](./techniques/enforcement-demotion.md)).
 - **A rule that must always hold does not belong in prose.** The harness's
   deterministic surfaces — hooks, linters, type systems, CI gates — fire
   regardless of what the model decides. A style rule an agent follows 90% of
