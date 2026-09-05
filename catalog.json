@@ -316,7 +316,7 @@
       "invokes30d": 46,
       "lessons": 18,
       "lessonsPath": "skills/perfect/LESSONS.md",
-      "lessonsHash": "sha256-n1:1e969a1fc42ae500",
+      "lessonsHash": "sha256-n1:5e410f613364fb3f",
       "usageContributors": [
         "kazda-dev-box"
       ]
@@ -459,9 +459,9 @@
         "systedo-case@plugin:2.1.0"
       ],
       "invokes30d": 0,
-      "lessons": 3,
+      "lessons": 4,
       "lessonsPath": "skills/tiger/LESSONS.md",
-      "lessonsHash": "sha256-n1:7a7242e3e06e4e36",
+      "lessonsHash": "sha256-n1:a5ff5ac17f4c6fc0",
       "usageContributors": []
     },
     {
@@ -560,7 +560,7 @@
       "id": "self-declaring-spec-debt",
       "dimension": "D5",
       "path": "practices/self-declaring-spec-debt/PRACTICE.md",
-      "contentHash": "sha256-n1:c16f2302832a98f2",
+      "contentHash": "sha256-n1:aafcef07606fa049",
       "starter": []
     },
     {
@@ -634,7 +634,7 @@
     "skills": 30,
     "practices": 8,
     "memory": 6,
-    "lessons": 155
+    "lessons": 156
   },
   "bundles": [
     {
@@ -735,11 +735,11 @@
       "okfVersion": "0.1",
       "profile": "rkb/0.1",
       "purity": "software",
-      "subjects": 219,
-      "techniques": 1632,
-      "applications": 964,
-      "files": 2820,
-      "contentHash": "sha256:b22a1f48de664d83"
+      "subjects": 220,
+      "techniques": 1642,
+      "applications": 971,
+      "files": 2838,
+      "contentHash": "sha256:b3ef31ac6ae98739"
     }
   ]
 }

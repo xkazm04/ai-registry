@@ -149,7 +149,8 @@
             "judgment-guardbands",
             "cost-metering",
             "tracing",
-            "time-travel-replay"
+            "time-travel-replay",
+            "model-call-outcome-integrity"
           ]
         },
         {

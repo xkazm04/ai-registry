@@ -3,9 +3,9 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
-  "subjects": 219,
-  "techniques": 1632,
-  "applications": 964,
+  "subjects": 220,
+  "techniques": 1642,
+  "applications": 971,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1632/1632",
+  "use_when_coverage": "1642/1642",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -1632,7 +1632,7 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/agent-memory.md",
-   "digest": "sha256:632fbdeaefbf653f",
+   "digest": "sha256:151393ac245c55ae",
    "techniques": [
     {
      "slug": "baseline-ladder",
@@ -1802,6 +1802,25 @@
       "the same person talks to the agent through several channels or bots",
       "a memory about one counterpart surfaces in a conversation with another",
       "migrating a store keyed by the runtime that wrote it"
+     ]
+    },
+    {
+     "slug": "pending-beliefs-live-apart",
+     "status": "forged",
+     "laws": [
+      "silent-state-is-ungoverned",
+      "one-validation-door",
+      "deletion-is-not-repair",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing the store for beliefs an agent proposed and nobody has confirmed",
+      "a forgotten filter could recall an unconfirmed item as settled",
+      "deciding what a review card must show beside an extracted claim",
+      "a rejected proposal comes back on the next pass",
+      "an assistant replies before its extraction has run",
+      "several agents write memory under one person's identity"
      ]
     },
     {
@@ -2023,6 +2042,13 @@
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/rust--memory-value-model.md",
      "verified_on": "2026-09-04",
      "verified_against": "rust@1.97"
+    },
+    {
+     "stack": "rust",
+     "technique": "pending-beliefs-live-apart",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/rust--pending-beliefs-live-apart.md",
+     "verified_on": "2026-09-05",
+     "verified_against": "rust@1.85"
     },
     {
      "stack": "rust",
@@ -2902,7 +2928,7 @@
    "subcategory": "governance-and-records",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/governance-and-records/audit-logging/audit-logging.md",
-   "digest": "sha256:f7ce3d08d3dbd8f2",
+   "digest": "sha256:a4f6149a3b0705d5",
    "techniques": [
     {
      "slug": "append-only-design",
@@ -2959,6 +2985,23 @@
       "recording that a human accepted or declined a finding",
       "letting users dismiss recomputed items",
       "keeping judgments alive across regeneration"
+     ]
+    },
+    {
+     "slug": "record-axis-predicate",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "unknown-is-not-a-value",
+      "silent-state-is-ungoverned"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a ledger keeps two clocks but every read hard-codes now",
+      "adding an as-of parameter to reads over a two-clock store",
+      "a rewind must reach every table a read joins",
+      "deciding which write paths may ignore the record clock",
+      "a state that was rewritten in place has no record-clock column of its own"
      ]
     },
     {
@@ -3051,6 +3094,13 @@
      "verified_against": "go@1.27"
     },
     {
+     "stack": "next",
+     "technique": "record-axis-predicate",
+     "file": "knowledge/software-engineering/operations/governance-and-records/audit-logging/applications/next--record-axis-predicate.md",
+     "verified_on": "2026-09-05",
+     "verified_against": "next@16.3.1"
+    },
+    {
      "stack": "node",
      "technique": "best-effort-with-accounting",
      "file": "knowledge/software-engineering/operations/governance-and-records/audit-logging/applications/node--best-effort-with-accounting.md",
@@ -3068,6 +3118,13 @@
      "technique": "tamper-evidence",
      "file": "knowledge/software-engineering/operations/governance-and-records/audit-logging/applications/node--tamper-evidence.md",
      "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "rust",
+     "technique": "record-axis-predicate",
+     "file": "knowledge/software-engineering/operations/governance-and-records/audit-logging/applications/rust--record-axis-predicate.md",
+     "verified_on": "2026-09-05",
+     "verified_against": "rust@1.85"
     },
     {
      "stack": "rust",
@@ -11880,7 +11937,7 @@
    "subcategory": "resilience",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/resilience/error-handling/error-handling.md",
-   "digest": "sha256:7d61cb18c9c8439d",
+   "digest": "sha256:bff8a6f2a4c150ac",
    "techniques": [
     {
      "slug": "cancellation-attribution",
@@ -12085,6 +12142,13 @@
      "file": "knowledge/software-engineering/backend-platform/resilience/error-handling/applications/rust--reclassification-is-not-repair.md",
      "verified_on": "2026-08-31",
      "verified_against": "rust@1.96.1"
+    },
+    {
+     "stack": "rust",
+     "technique": "structured-propagation",
+     "file": "knowledge/software-engineering/backend-platform/resilience/error-handling/applications/rust--structured-propagation.md",
+     "verified_on": "2026-09-05",
+     "verified_against": "rust@1.85"
     },
     {
      "stack": "rust",
@@ -18001,7 +18065,7 @@
    "subcategory": "data-layer",
    "status": "reconciled",
    "file": "knowledge/software-engineering/backend-platform/data-layer/migrations/migrations.md",
-   "digest": "sha256:236c5264a1e85d15",
+   "digest": "sha256:3285e1d8524603bd",
    "techniques": [
     {
      "slug": "data-migrations",
@@ -18265,6 +18329,151 @@
      "technique": "stack-ownership",
      "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/modal-stack/applications/react--stack-ownership.md",
      "verified_on": "2026-08-18"
+    }
+   ]
+  },
+  "model-call-outcome-integrity": {
+   "category": "llm-agent",
+   "subcategory": "evaluation-and-cost",
+   "status": "forged",
+   "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/model-call-outcome-integrity/model-call-outcome-integrity.md",
+   "digest": "sha256:c9eeeaa8fa7c9944",
+   "techniques": [
+    {
+     "slug": "credential-posture-at-the-call-door",
+     "status": "forged",
+     "laws": [
+      "absent-guard-is-loud",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a flat-rate seat and a metered account can both serve the same call",
+      "spawning a child process that may inherit credentials",
+      "an outcome must record which billing relationship paid",
+      "redaction lists and environment lists have drifted apart"
+     ]
+    },
+    {
+     "slug": "declared-call-site-identity",
+     "status": "forged",
+     "laws": [
+      "identity-survives-reuse",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "outcomes cannot be grouped by what the call was for",
+      "deciding what identifier a call carries into telemetry",
+      "a new call path shipped and nobody noticed it spending",
+      "telling a use case that went quiet from one that was never instrumented"
+     ]
+    },
+    {
+     "slug": "elimination-reasons-are-a-closed-vocabulary",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "silent-state-is-ungoverned"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "no candidate engine was eligible and the caller must be told why",
+      "a fallback fired and the answer will be published as though it had not",
+      "an operator is fixing the wrong cause of an unavailability",
+      "deciding what a degrade must carry with it"
+     ]
+    },
+    {
+     "slug": "enforcement-demotion-on-translation-loss",
+     "status": "forged",
+     "laws": [
+      "one-validation-door",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a structured-output contract is translated into a vendor's own constraint dialect",
+      "deciding whether to trust that a vendor enforced what was sent",
+      "documentation claims enforcement the adapters do not perform",
+      "choosing what to validate after a constrained generation"
+     ]
+    },
+    {
+     "slug": "one-deadline-across-attempts",
+     "status": "forged",
+     "laws": [
+      "limits-are-derived",
+      "record-precedes-effect"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a retry ladder sits inside a caller that has its own deadline",
+      "a supervising process can kill the seam mid-call",
+      "deciding whether a stated retry delay may be shortened",
+      "a remote window ends calls the local timeout never sees"
+     ]
+    },
+    {
+     "slug": "spend-precedes-the-error",
+     "status": "forged",
+     "laws": [
+      "record-precedes-effect",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a call consumed budget and then failed",
+      "deciding the order of the ledger write and the error raise",
+      "a budget ceiling can be defeated by failing",
+      "reconciling metered spend against a vendor invoice"
+     ]
+    },
+    {
+     "slug": "the-measurement-runs-the-served-configuration",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a benchmark and production disagree about which settings were used",
+      "choosing a model from a comparison whose harness was configured separately",
+      "a measurement is about to be published as a fact about a vendor",
+      "deciding what a result row must disclose"
+     ]
+    },
+    {
+     "slug": "unattempted-is-not-failed",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a model returns nothing and the seam must decide what that means",
+      "output is present but ends mid-structure",
+      "a model scores badly and the configuration has not been ruled out",
+      "choosing what a completion ceiling does to a reported outcome"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "next",
+     "technique": "elimination-reasons-are-a-closed-vocabulary",
+     "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/model-call-outcome-integrity/applications/next--elimination-reasons-are-a-closed-vocabulary.md",
+     "verified_on": "2026-09-05",
+     "verified_against": "next@16.3.3"
+    },
+    {
+     "stack": "rust",
+     "technique": "spend-precedes-the-error",
+     "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/model-call-outcome-integrity/applications/rust--spend-precedes-the-error.md",
+     "verified_on": "2026-09-05",
+     "verified_against": "rust@1.96.1"
     }
    ]
   },
@@ -22723,7 +22932,7 @@
    "subcategory": "standards-and-gates",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/quality-gates.md",
-   "digest": "sha256:d80c2a54a86f8a4a",
+   "digest": "sha256:9c468fedc8e99a24",
    "techniques": [
     {
      "slug": "advancement-evidence-fields",
@@ -23291,6 +23500,13 @@
      "technique": "false-positive-economics",
      "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/applications/rust--false-positive-economics.md",
      "verified_on": "2026-08-31"
+    },
+    {
+     "stack": "rust",
+     "technique": "gate-liveness",
+     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/applications/rust--gate-liveness.md",
+     "verified_on": "2026-09-05",
+     "verified_against": "rust@1.85"
     }
    ]
   },
@@ -32942,6 +33158,7 @@
     "migrations/pre-migration-snapshots",
     "migrations/schema-drift-detection",
     "migrations/transactional-ddl",
+    "model-call-outcome-integrity/the-measurement-runs-the-served-configuration",
     "model-routing/effort-calibration",
     "model-routing/failover-path-liveness",
     "model-routing/policy-governance",
@@ -33453,6 +33670,8 @@
     "migrations/idempotent-steps",
     "migrations/migrate-from-data-shape",
     "migrations/transactional-ddl",
+    "model-call-outcome-integrity/spend-precedes-the-error",
+    "model-call-outcome-integrity/unattempted-is-not-failed",
     "model-routing/capability-floors",
     "model-routing/failover-horizon",
     "model-routing/quality-axis-separation",
@@ -33730,6 +33949,7 @@
     "agent-memory/decay-and-forgetting",
     "agent-memory/durable-store-failure-posture",
     "agent-memory/memory-governance",
+    "agent-memory/pending-beliefs-live-apart",
     "agent-memory/read-set-bounded-links",
     "agent-memory/rejected-revision-leaves-its-evidence",
     "audit-logging/append-only-design",
@@ -33856,6 +34076,7 @@
     "async-ui-states/windowing-vs-identifying-keys",
     "audit-logging/audit-querying",
     "audit-logging/best-effort-with-accounting",
+    "audit-logging/record-axis-predicate",
     "audit-logging/retention-and-partitioning",
     "audit-logging/two-clock-records",
     "authorization/authorization-audit",
@@ -34049,6 +34270,7 @@
     "migrations/pre-migration-snapshots",
     "migrations/schema-drift-detection",
     "modal-stack/destructive-confirmation",
+    "model-call-outcome-integrity/the-measurement-runs-the-served-configuration",
     "model-routing/cache-continuity",
     "model-routing/candidate-ranking",
     "model-routing/effort-calibration",
@@ -34252,6 +34474,7 @@
     "agent-memory/decay-and-forgetting",
     "agent-memory/durable-store-failure-posture",
     "agent-memory/lane-reconciliation",
+    "agent-memory/pending-beliefs-live-apart",
     "agent-memory/probe-without-write-back",
     "agent-runtime-assembly/additive-input-at-the-call-boundary",
     "agent-runtime-assembly/checkpoint-mode-custody",
@@ -34259,6 +34482,7 @@
     "agent-runtime-assembly/indeterminate-closure-on-interruption",
     "agent-runtime-assembly/session-scoped-capability",
     "agent-runtime-assembly/substituted-result-attribution",
+    "audit-logging/record-axis-predicate",
     "audit-logging/two-clock-records",
     "authorization/delegated-authority",
     "authorization/read-write-predicate-symmetry",
@@ -34347,6 +34571,9 @@
     "migrations/error-propagation",
     "migrations/expand-deploy-contract",
     "migrations/migrate-from-data-shape",
+    "model-call-outcome-integrity/declared-call-site-identity",
+    "model-call-outcome-integrity/enforcement-demotion-on-translation-loss",
+    "model-call-outcome-integrity/unattempted-is-not-failed",
     "model-routing/quality-axis-separation",
     "modelled-performance-estimates/refuse-rather-than-emit-a-sentinel",
     "multi-provider-gateway-plane/caller-scoped-normalization-strictness",
@@ -34440,6 +34667,7 @@
     "agent-cli-transport/subscription-auth-selection",
     "agent-memory/consolidation",
     "agent-memory/memory-governance",
+    "agent-memory/pending-beliefs-live-apart",
     "agent-memory/procedure-promotion",
     "agent-memory/rejected-revision-leaves-its-evidence",
     "agent-memory/rollup-compaction",
@@ -34556,6 +34784,7 @@
     "mcp-tools/write-freshness-gate",
     "metric-forecasting/projection-presentability-gates",
     "modal-stack/stack-ownership",
+    "model-call-outcome-integrity/enforcement-demotion-on-translation-loss",
     "model-routing/routing-policy",
     "module-design/borrowed-surface",
     "module-design/concurrency-at-the-edge",
@@ -34809,6 +35038,7 @@
     "metric-forecasting/pace-against-a-deadline",
     "migrations/data-migrations",
     "modal-stack/stack-ownership",
+    "model-call-outcome-integrity/declared-call-site-identity",
     "model-routing/model-identity",
     "motion/one-shot-guarding",
     "multi-project/cross-project-comparison",
@@ -35441,6 +35671,8 @@
     "migrations/dynamic-table-set-migrations",
     "migrations/schema-drift-detection",
     "modal-stack/layering-and-precedence",
+    "model-call-outcome-integrity/credential-posture-at-the-call-door",
+    "model-call-outcome-integrity/elimination-reasons-are-a-closed-vocabulary",
     "model-routing/failover-horizon",
     "model-routing/model-identity",
     "model-routing/turn-classification",
@@ -35960,6 +36192,7 @@
     "mcp-tools/catalog-projection-modes",
     "media-playback/committed-buffer-steering",
     "media-playback/generated-supply-margin",
+    "model-call-outcome-integrity/one-deadline-across-attempts",
     "modelled-performance-estimates/one-ratio-then-a-capability-cap",
     "native-guest-interop/aligned-native-data-cell",
     "native-shell-integration/native-owned-stream",
@@ -36083,6 +36316,7 @@
     "mcp-tools/tool-identity-vs-tool-name",
     "mcp-tools/transport-selection",
     "metric-surface-contract/fault-localizing-metric-set",
+    "model-call-outcome-integrity/credential-posture-at-the-call-door",
     "model-routing/failover-path-liveness",
     "module-design/borrowed-surface",
     "multi-provider-gateway-plane/caller-scoped-normalization-strictness",
@@ -36159,6 +36393,8 @@
     "agent-instruction-files/rewrite-behavior-pinning",
     "agent-memory/diagnosis-withheld-from-the-executor",
     "agent-memory/owner-and-counterpart-scope",
+    "agent-memory/pending-beliefs-live-apart",
+    "audit-logging/record-axis-predicate",
     "concurrency-guards/race-catalog-with-two-histories",
     "context-hierarchy/digest-gated-upward-refresh",
     "decentralized-artifact-distribution/signal-that-only-subtracts",
@@ -36176,6 +36412,7 @@
     "job-coordination/in-flight-is-a-position",
     "llm-extracted-entity-graph/recall-passes-with-a-declared-cap",
     "machine-authored-documentation/preregistered-kill-criterion",
+    "model-call-outcome-integrity/elimination-reasons-are-a-closed-vocabulary",
     "module-design/state-carrier-decides-the-lane",
     "persistent-batch-mutation/declared-skippability-at-batch-granularity",
     "plan-review/decision-sized-slicing",
@@ -36210,6 +36447,8 @@
     "job-coordination/in-flight-is-a-position",
     "job-coordination/no-unrestorable-state-at-a-suspension-point",
     "mcp-tools/sealed-continuation-state",
+    "model-call-outcome-integrity/one-deadline-across-attempts",
+    "model-call-outcome-integrity/spend-precedes-the-error",
     "prompt-assembly/speculative-compaction-splice",
     "self-healing/consume-once-mode-handoff",
     "self-healing/fork-to-outlive-the-healed",
