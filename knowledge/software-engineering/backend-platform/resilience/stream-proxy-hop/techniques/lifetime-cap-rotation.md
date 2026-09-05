@@ -96,6 +96,21 @@ works.
   closes at a terminal state well inside any cap. Then the cap is a bug budget
   for a stuck job rather than a lifetime, and the right declaration is a cap
   generous enough for a slow legitimate run plus a watchdog on the job.
+  **Bounded by construction is a sum, not a term** (condition earned
+  2026-09-05, from a function-platform origin stream that reached `not-better`). A
+  stream whose body is N sequential calls, each under its own timeout, is not
+  bounded until one cross-call deadline exists: its lifetime is N times the
+  per-call ceiling plus whatever runs between calls, and where that ceiling is
+  an environment knob the bound is not a constant at all. Paired on the same
+  inputs, a multi-leg tool loop under per-call ceilings only reached the cap
+  by moving one variable, while the same loop under a single cross-leg
+  deadline lived exactly that deadline at every latency and ended as a
+  truncated answer rather than a dead socket (the run and its numbers are in
+  the subject's next application). So the check before choosing this exclusion over the
+  rotation is the **sum of the per-call ceilings along the longest path**
+  against the cap minus the epilogue; if that sum is env-controlled, the first
+  move is the single deadline, and the rotation is the answer only for streams
+  whose useful length survives it.
 - **When the client cannot resume.** A one-shot consumer with no reconnect
   logic gains nothing from a rotation it will not follow; for it the cap is a
   hard ceiling on the stream's useful length, and that ceiling belongs in the
