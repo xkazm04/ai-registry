@@ -9231,3 +9231,35 @@ the note format.
   failed on a plugin permission until `--features desktop` was passed, which the tree's own
   applied rows and clippy policy state. Read the project's documented test command before
   the first compile, not after the first failure.
+
+## 2.5.0 - 2026-09-05 - codecompanion (github:olimorris/codecompanion.nvim)
+
+- **An operator focus is a sweep scope, and it should be written down as one.** The
+  invocation named four concerns; the run swept four subsystems and left the rest
+  of a 455-file plugin unread. That is the right economics for a mature subject,
+  but the note has to say what was left, as a count, or the next pass re-derives
+  the scope from scratch. Proposed as round 29's focus (1).
+- **The measured apply row came from a fleet project's own instrument, found by
+  reading the subject's applications directory.** personas had a per-block content
+  hash ledger built for an unrelated cache investigation; replaying it gave the new
+  technique its only number. The seam grep (terms against trees) would not have
+  found it, because the instrument is named for what it measures, not for the
+  technique. Check the subject's existing applications for the fleet stack first.
+- **A source that contradicts itself on the exact design decision being reconstructed
+  is the best case, and the resolution has two halves.** The architecture doc kept
+  client editing under server-side compaction; the code at HEAD switched both lanes
+  off and the changelog named the fix. Code won by tier and decided the technique;
+  the doc's intent became the technique's recorded trade (the wire cost). Record
+  both or the boundary is lost.
+- **The long-path clone failure has a cheap fix worth stating in the method:** clone
+  `--filter=blob:none --sparse` to a short path and exclude the fixture directory
+  whose names blow the platform limit (`tests/screenshots/` here), then
+  `core.longpaths true`. Two minutes, no worktree, no scratch-root hazard.
+- **The commit-message hook in a fleet project is part of its gate.** kp rejected an
+  `ai:` type and then a long subject; the row landed on the third try as
+  `chore(ai): <one clause>` with the detail in the body. Read the project's
+  CONTRIBUTING commit convention before the first ledger commit, not after the
+  first rejection.
+- **Long heredocs through the shell tool broke twice this run** (a parse error with
+  nothing written); the Write tool into scratch and a `cat >>` under the lock is the
+  reliable shape for a ledger append.

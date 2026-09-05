@@ -2865,3 +2865,50 @@ count collapses into one technique, say the count in the depth cell** (`2T (7 NO
 the librarian can read routing and landing apart. (3) **The registry-self experiment is
 reusable**: the proposal-status check is one loop and it found 5/17; wire it into the
 librarian sweep rather than re-deriving it per run.
+
+
+---
+
+**Round 28 (`codecompanion`).** v2.5.0 · 2026-09-05 · `github:olimorris/codecompanion.nvim` @ `f73f40e9`
+
+| stage | count |
+| --- | --- |
+| research | 1 source (practitioner build-walkthrough in repository form, cloned at a short path with the screenshot fixtures excluded; 973 landing / ~64,000 in-tree words; 4 subsystems swept under the operator's focus) |
+| extract | 15 candidates (11 design across 5 systems + 4 claim/craft) |
+| test | 4 picks verified with the host file open (elision, history-compaction, endpoint-sealed-continuation-metadata, unattended-mode), 7 catches, 4 untriaged with anchors; fetches 0/3 |
+| apply | `0c/1e/2s/0t` - one `experiment` row (`ab-paired`, **better**, 65 recorded turn pairs), two `simulation` rows (personas `unmeasurable` with the instrument named; kp **not-better**, which improved the amendment) |
+| ship | 0 project code commits - the `better` row's change is a few lines but its proof needs live turns, so it is filed with its measurable; 2 project ledger commits (personas `b0ead7cd7`, kp `40ffd8aa`), pathspec, not pushed |
+| admission | `auto=4/4/0`, `fp=0` |
+| depth | `0S/2T (2 NONE of 11)/2A/4Asrc+3 fleet/0 task-lines` · routing count **C 1 NONE, W 1 NONE, P/M/B 0 - both NONE homed in prompt-assembly; no system at three, no home-if-new shared by three** · XL not fired · no handoff · `directions=0/0` (prompt-assembly and agent-runtime-assembly have no absent project) · `gate=n/a` · self-contradiction in the source resolved by tier (code over doc) |
+
+**What the row says.** The operator's focus (chatbot/voicebot proficiency) did the
+routing this round: four subsystems read, the rest of a large plugin left unread on
+purpose, and the count says it was the right cut - 11 design entries, 9 of them
+catches or partials against a subject that already carries 21 techniques, and the
+two mechanisms it did not have (who holds the transcript; what enters the record for
+material that keeps changing) both landed. The apply column is the strongest
+evidence: the experiment did not need the source's tree at all, because a fleet
+project had built the witness (a per-block content hash) for its own reasons, and
+the replay over its ledger gave the technique its number (86% unchanged) and the
+project its next change with the measurable that decides it. The `not-better` row
+did what the method says it should: the amendment was written from the source, tested
+on a seam class the source never had (spoken utterances, no tool results), and came
+back with a precondition the source could not have supplied.
+
+**Declared focus, answered in the note:** (1) the seam search ran across ten
+checkouts before any row read "unapplied", found only usage accounting outside two
+projects, and the two amendments applied as a simulation on the nearest seam instead;
+(2) the depth cell carries the decision count beside the technique count;
+(3) not applicable to this source.
+
+**Next run's declared focus (round 29).** (1) **When the operator names a focus,
+write the unread half into the note as a count** (files, docs, subsystems not swept)
+so a later run over the same source knows what is still mining-grade there; this
+round said "the rest was left unread" without a number. (2) **A fleet project that
+already carries the technique's witness is the first seam to look for**, before the
+source's own tree: this round's only measured row came from an instrument personas had
+built for itself, and the search that found it was the applications directory of the
+subject, not the seam grep. Make that the first step of Phase 7.5's seam search.
+(3) **Say which reader a source's self-contradiction was resolved for.** Code over
+doc settled the technique; the doc's intent was the trade worth recording. A run that
+only records the winner loses the boundary.
