@@ -166,6 +166,22 @@
       "category": "other"
     },
     {
+      "name": "llm-bench",
+      "source": "./skills/llm-bench",
+      "description": "Compare models head-to-head on ONE declared LLM use case of a connected project, and return a rating table a human can act on. Picks the project and the use case from tracklight's use-case registry (registering them if the project has none), fans the identical task across an arm per model - hosted Nebius open-weight models, an OpenAI-compatible endpoint, and the local Claude Code CLI - mirrors eve",
+      "version": "0.1.0",
+      "category": "ai-native",
+      "tags": [
+        "llm",
+        "model-comparison",
+        "benchmark",
+        "use-cases",
+        "tracklight",
+        "nebius",
+        "judge"
+      ]
+    },
+    {
       "name": "motionize",
       "source": "./skills/motionize",
       "description": "Upgrade a generic UI icon or loading/empty state into a traced, motion-animated SVG. Generates flat trace-friendly art (via /leonardo tools), validates with Qwen vision, vectorizes to a clean multi-path SVG, and emits a motion reveal component driven by the shared motion-preset library (draw, staggered-draw, fade-pop, float, pulse, hover-response, success-settle). For icon + loading-state visual u",
