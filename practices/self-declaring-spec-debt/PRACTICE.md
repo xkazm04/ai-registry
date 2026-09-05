@@ -68,6 +68,34 @@ Collapsing these is what makes a status section unreadable:
 - **Corrections** — the spec was wrong about its own source and has been fixed;
   worth listing while readers may still hold the old version.
 
+## The change that closes a gap moves its label, in the same change
+
+The inventory decays from one direction only: code lands and the label stays.
+Nobody writes a status section and forgets to add a gap; everybody closes a
+gap and forgets the label, because the person changing the code is reading the
+code, not the document that qualifies it. The fix is a rule about the change,
+not about the document: **the change that implements or overturns a labelled
+item updates that item's label, and the review asks which item it moved.** A
+change description that cannot name the label it moved is either not closing a
+gap or has left one stale. One measured design-record set had three status
+lines behind their code *in the same change, by the same author* before this
+rule; a registry of subject proposals checked against its own index had five of
+seventeen status lines reading "proposed" or "dispatched" for subjects that had
+been on disk for days.
+
+Two consequences keep the inventory honest as it moves:
+
+- **Revisions stay where the claim stood.** When checking the code overturns a
+  labelled claim, the correction is written *at the claim* with its date, what
+  the claim said, why it was wrong, and what changed it. Rewriting the sentence
+  in place erases the most useful thing the document can carry: that a reader
+  once believed this, checked, and found otherwise. A document that has never
+  been wrong is one nobody has checked.
+- **Superseded, never rewritten.** When too much has changed for a dated
+  revision, a new document states the new position and the old one is marked
+  superseded by it at the top. The old text is still the record of what was
+  decided under the old facts.
+
 ## Deny the coverage claim explicitly
 
 A specification that includes a conformance matrix, an invariant list or a test

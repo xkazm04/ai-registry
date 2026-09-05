@@ -148,6 +148,20 @@ schemas — they must be identical, mechanically, in a test that runs before
 release. That test and its siblings are
 [schema-drift-detection](./techniques/schema-drift-detection.md).
 
+There is a third road, and it is the one no per-change check walks: **the
+merge.** A runner that indexes steps by version number has a collision class
+the version control system cannot see — two branches each add step 25, each
+passes its own checks against its own chain, and the merge is clean at the
+file level because the files have different names. The first boot after the
+merge is the first time the merged chain has ever run, and it fails. Two
+mechanical checks close it, both cheap: refuse duplicate version numbers
+explicitly (a directory listing and a uniqueness test, in the pipeline, since
+nothing else will say a word), and run the whole chain on a **fresh store in
+the pipeline**, twice — the second pass proves a renumbered step replays
+safely over a store that already ran the old number. The convergence test
+above covers fresh versus upgraded; this covers *merged*, which is neither
+until it has run.
+
 ## Schema changes and data changes are different animals
 
 Adding a nullable column is a schema change: instantaneous, shape-only,
@@ -217,6 +231,22 @@ detectable *before shipping* — compile every query the code can issue
 against the real current schema; sweep referential integrity as a test —
 and that sweep-shaped countermeasure family is
 [schema-drift-detection](./techniques/schema-drift-detection.md).
+
+The class has a second member that survives even a query compiled against
+the current schema: **a column made nullable.** The migration is one line;
+the application's type system then lists every consumer of the new optional
+value and refuses to build until each is handled. SQL lists nothing. Every
+`<>` against that column now evaluates to null for the rows that matter
+most — the ones with no value — and selects nothing, raising nothing; every
+inner join through it becomes a silent filter that drops those rows from the
+result while their dependents stay. One measured store hit this twice on its
+main path in the same change, with green tests, because the affected rows
+were exactly the ones the feature was written for. The repair is
+`IS DISTINCT FROM` and a left join with a fallback, but the discipline is the
+point: **a nullability migration is a query audit**, every comparison and
+join on the column re-read by hand, and a database-backed test on the paths
+whose input is mostly null — the compiler will not do this half, and a suite
+that never runs against a real store cannot either.
 
 ## When not to migrate in place
 

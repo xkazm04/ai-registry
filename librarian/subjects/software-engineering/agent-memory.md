@@ -652,3 +652,25 @@ moved: personas (2), ascent (2). The personas count the scan reports as "14 devi
 is the map's *unknown* count for this subject on that project (14 unknown + 2
 deviations, both UI groups with no seam text) - a demand number to read as unjudged,
 not as fourteen shortfalls.
+
+## Intake 2026-09-05 (`intake-utopia-0905`, source `github:deeplethe/utopia`)
+
+**Landed:** `pending-beliefs-live-apart` (new technique, four sections: the pending
+store is a separate table because a forgotten read must hide the queue rather than leak
+a belief; the review card shows the utterance above the extraction and the reply never
+claims a completion extraction has not reached; the proposer checks asserted, pending
+and rejected by whole-claim identity, literal values exempt; the agent credential is
+recorded beside the person when several agents share one identity). Application
+`rust--pending-beliefs-live-apart` over the source tree, with the personas paired proof.
+
+**Single-source debt, named on day one.** The technique is sourced on one tree's
+decision record 0015 and its `pending.rs`. Counterpart already sighted: the personas
+companion's consolidation review had rules one and two by construction and lacked rule
+three, which the apply step added (branch `intake/utopia-pending-rejections`). A second
+*independent* counterpart for the reconcile lane: any memory system with a review inbox
+and a rejection verb - the harness's own auto-memory (`claude-code--memory-governance`)
+has no rejection path at all, which is a sighting of the absence.
+
+**Boundary drawn:** the technique assumes `memory-governance` has already classed the
+write as proposal-reviewed; it decides the lane's shape, not its membership. Bulk ingest
+stays optimistic.

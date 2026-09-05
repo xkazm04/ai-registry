@@ -22,6 +22,7 @@ techniques:
   - owner-and-counterpart-scope
   - read-set-bounded-links
   - durable-store-failure-posture
+  - pending-beliefs-live-apart
 ---
 
 # Agent memory
@@ -500,3 +501,9 @@ comparison a stated result instead of an unexamined premise.
 - [probe-without-write-back](./techniques/probe-without-write-back.md) — the
   read path is not read-only, so a scheduled measurement through it entrenches
   its own fixtures: suppress the feedback write, per caller.
+- [pending-beliefs-live-apart](./techniques/pending-beliefs-live-apart.md) —
+  the shape of the proposal-reviewed lane: pending items in their own table so
+  a forgotten read hides the queue instead of leaking a belief, the review card
+  shows the utterance above the extraction, the proposer checks rejections by
+  whole-claim identity before asking again, and the reply never claims a
+  completion extraction has not reached.

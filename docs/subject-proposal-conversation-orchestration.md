@@ -1,6 +1,7 @@
 # Subject proposal — `conversation-orchestration`
 
-**Status:** dispatched, class `NEW`. This is a forge input, not knowledge.
+**Status:** **EXECUTED** - on disk since 2026-08-23 at `knowledge/software-engineering/llm-agent/companion/conversation-orchestration/` (in the bundle index). The line below is the status as it stood until 2026-09-05, kept in place: run `intake-utopia-0905` found five of seventeen proposal status lines lagging the disk and moved them in one change, per the practice rule that the change closing a gap moves its label.
+**Status as originally written (stale until 2026-09-05):** dispatched, class `NEW`. This is a forge input, not knowledge.
 **Bundle:** `software-engineering`
 **Category:** `llm-agent` · **Subcategory:** `companion` (already in `taxonomy.json`)
 **Siblings in the same wave:** `companion-identity`, `companion-runtime`

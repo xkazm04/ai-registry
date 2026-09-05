@@ -27,3 +27,23 @@ project builds a surface-form graph, so the apply step is a source-tree task. De
 for the backlog: the case contract is a prompt request not code; recall passes run once
 whatever the knob says; longest description wins instead of accumulating; identity
 collisions and extraction recall are unmeasured.
+
+## Intake 2026-09-05 (`intake-utopia-0905`, source `github:deeplethe/utopia`) - counterpart found, banked
+
+The subject was forged 2026-09-03 from one source. This tree is a second implementation
+under a stronger regime (imported vocabulary with signatures on 97.8% of properties, a
+bitemporal ledger beneath, review queues) and it disagrees with the source on the
+identity question: same-name entities are kept apart by type and profile and the
+doubtful pair goes to a person, where the subject's source normalises and hopes.
+
+**Routing count against this subject: 2 NONE + 2 partial, all four with this home** -
+signature enforces argument order but not type (record 0012: prompt wording measured
+flat, write-time swap with a trace took reversals 39 → 0); counting decides vocabulary
+adoption (0007: `MIN_DOCS = 2` as a union across documents, the model keeps only synonym
+merging); an undecided type or relation stays empty (0009/0010); split over merge, a
+namesake tie to review, a merge redirects pending pairs (`docs/pipeline.md` § 2, four
+runs 14 → 57 merges). **Banked** in
+[`librarian/handoffs/2026-09-05-utopia-extraction-system.md`](../../handoffs/2026-09-05-utopia-extraction-system.md)
+because the run's operator focus excluded this system; the count says a scoped
+`/deepen` or `/reconcile` inside this subject, not a forge. This is the subject's
+reconcile debt, and the counterpart is now named with its commit.
