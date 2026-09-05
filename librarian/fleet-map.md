@@ -22,7 +22,7 @@ A `candidate` is a subject the project has no context for, inside its declared d
 
 **Purpose:** UI-first content-creation studio — research, script, frames, score, cut — over a governed multi-vendor imaging chokepoint  
 **Domains:** `software-engineering`, `media-generation`  
-**Map:** 18 contexts in 7 groups, 38 governing subjects, 0 weakly governed (generated 2026-09-05T12:56:32Z)
+**Map:** 18 contexts in 7 groups, 38 governing subjects, 0 weakly governed (generated 2026-09-05T13:39:52Z)
 
 **Scope.** Does: research, script, frames, score, cut - a content studio over a governed multi-vendor imaging chokepoint; captioned asset library; server-side music seam. Does not: shipping anywhere - no deployment target, no auth, no multi-tenant; agent fleets, companions, orchestration; recruiting, civic, game domains.
 Excluded by list: `software-engineering/llm-agent/companion`, `software-engineering/llm-agent/orchestration`, `software-engineering/engineering-assessment`, `software-engineering/deployment-contract`.
@@ -80,7 +80,7 @@ Excluded by list: `software-engineering/llm-agent/companion`, `software-engineer
 
 **Purpose:** G.O.A.T. — Next.js app for building and ranking custom top-N lists via a drag-and-drop match grid  
 **Domains:** `software-engineering`, `media-generation`  
-**Map:** 64 contexts in 22 groups, 90 governing subjects, 0 weakly governed (generated 2026-09-05T12:56:32Z)
+**Map:** 64 contexts in 22 groups, 90 governing subjects, 0 weakly governed (generated 2026-09-05T13:39:53Z)
 
 **Scope:** missing - every in-domain absence below is counted as a candidate until the manifest carries a `scope:` block.
 
@@ -158,7 +158,7 @@ Excluded by list: `software-engineering/llm-agent/companion`, `software-engineer
 
 **Purpose:** Self-hosted LLM observability + LLM-as-judge scoring/benchmark service (Rust workspace)  
 **Domains:** `software-engineering`, `llm-observability`  
-**Map:** 34 contexts in 8 groups, 55 governing subjects, 0 weakly governed (generated 2026-09-05T12:56:33Z)
+**Map:** 34 contexts in 8 groups, 55 governing subjects, 0 weakly governed (generated 2026-09-05T13:39:54Z)
 
 **Scope.** Does: ingest LLM telemetry, score with judges, benchmark providers, serve an operator API. Does not: end-user product UI beyond an operator dashboard; agent runtime, companions or orchestration; localization, recruiting, media.
 Excluded by list: `software-engineering/ui-surfaces/input-and-editing`, `software-engineering/ui-surfaces/shell-and-navigation`, `software-engineering/llm-agent/companion`, `software-engineering/llm-agent/orchestration`, `software-engineering/engineering-assessment`.
@@ -212,7 +212,7 @@ Excluded by list: `software-engineering/ui-surfaces/input-and-editing`, `softwar
 
 **Purpose:** Local-first scraping service: one Rust binary exposing an HTTP API over a durable SQLite job queue and pluggable scrape engines  
 **Domains:** `software-engineering`, `llm-observability`  
-**Map:** 46 contexts in 8 groups, 74 governing subjects, 0 weakly governed (generated 2026-09-05T12:56:33Z)
+**Map:** 46 contexts in 8 groups, 74 governing subjects, 0 weakly governed (generated 2026-09-05T13:39:54Z)
 
 **Scope:** missing - every in-domain absence below is counted as a candidate until the manifest carries a `scope:` block.
 
@@ -274,7 +274,7 @@ Excluded by list: `software-engineering/ui-surfaces/input-and-editing`, `softwar
 
 **Purpose:** Grant discovery, AI-assisted proposal drafting and post-award reporting for nonprofits  
 **Domains:** `software-engineering`, `grant-funding`, `llm-observability`  
-**Map:** 40 contexts in 9 groups, 68 governing subjects, 0 weakly governed (generated 2026-09-05T12:56:33Z)
+**Map:** 40 contexts in 9 groups, 68 governing subjects, 0 weakly governed (generated 2026-09-05T13:39:55Z)
 
 **Scope:** missing - every in-domain absence below is counted as a candidate until the manifest carries a `scope:` block.
 
@@ -340,7 +340,7 @@ Excluded by list: `software-engineering/ui-surfaces/input-and-editing`, `softwar
 
 **Purpose:** Czech-first public-accountability platform: five civic modules over one shared entity graph, every rendered number citing its source  
 **Domains:** `software-engineering`, `civic-intelligence`, `llm-observability`  
-**Map:** 49 contexts in 10 groups, 84 governing subjects, 0 weakly governed (generated 2026-09-05T12:56:34Z)
+**Map:** 49 contexts in 10 groups, 84 governing subjects, 0 weakly governed (generated 2026-09-05T13:39:56Z)
 
 **Scope.** Does: five civic modules over one shared entity graph; every rendered number cites its source; ingestion adapters for public data; LLM-assisted extraction with cost tracking. Does not: agent runtime, companions or fleet orchestration; recruiting, media, game domains; localization beyond Czech and English.
 Excluded by list: `software-engineering/llm-agent/companion`, `software-engineering/llm-agent/runtime-and-io`, `software-engineering/llm-agent/orchestration`, `software-engineering/engineering-assessment`.
@@ -401,7 +401,7 @@ Excluded by list: `software-engineering/llm-agent/companion`, `software-engineer
 
 **Purpose:** Local-first desktop app for orchestrating AI agent personas  
 **Domains:** `software-engineering`, `llm-observability`, `localization`  
-**Map:** 208 contexts in 16 groups, 153 governing subjects, 2 weakly governed (generated 2026-09-05T12:56:41Z)
+**Map:** 208 contexts in 16 groups, 153 governing subjects, 2 weakly governed (generated 2026-09-05T13:40:07Z)
 
 **Scope.** Does: run local AI agent personas over wrapped CLIs, local-first storage, one operator per install; observe runs - cost, health, traces - and tune routing from evidence; multi-locale desktop UI; companion voice dictation. Does not: hosted multi-tenant service, billing, or public web surfaces; CI/CD or deployment pipelines for other repositories; game, media, civic or recruiting domains.
 Excluded by list: `software-engineering/ui-surfaces/published-surfaces`, `software-engineering/engineering-assessment`.
@@ -469,7 +469,7 @@ Excluded by list: `software-engineering/ui-surfaces/published-surfaces`, `softwa
 
 **Purpose:** A self-hostable hiring workspace: screening behind human approval gates, work samples, voice interviews  
 **Domains:** `recruiting`, `software-engineering`, `localization`  
-**Map:** 161 contexts in 17 groups, 167 governing subjects, 0 weakly governed (generated 2026-09-05T12:56:43Z)
+**Map:** 161 contexts in 17 groups, 167 governing subjects, 0 weakly governed (generated 2026-09-05T13:40:09Z)
 
 **Scope.** Does: screening behind human approval gates, work samples, voice interviews; self-hostable (Docker), multi-locale, one organisation per install. Does not: agent fleets or companions; game, media, civic domains; an observability product.
 Excluded by list: `software-engineering/llm-agent/companion`, `software-engineering/llm-agent/orchestration`, `software-engineering/engineering-assessment`.
@@ -544,7 +544,7 @@ Excluded by list: `software-engineering/llm-agent/companion`, `software-engineer
 
 **Purpose:** The maturity index for AI-native engineering, and the reference consumer of the ai-registry  
 **Domains:** `software-engineering`  
-**Map:** 54 contexts in 11 groups, 92 governing subjects, 0 weakly governed (generated 2026-09-05T12:56:44Z)
+**Map:** 54 contexts in 11 groups, 92 governing subjects, 0 weakly governed (generated 2026-09-05T13:40:11Z)
 
 **Scope.** Does: the maturity index for AI-native engineering: scores repositories and manifests, consumes the registry index. Does not: agent runtime or companions; product UI beyond the index's own surfaces; media, civic, recruiting domains.
 Excluded by list: `software-engineering/llm-agent/companion`, `software-engineering/llm-agent/runtime-and-io`, `software-engineering/ui-surfaces/input-and-editing`.
