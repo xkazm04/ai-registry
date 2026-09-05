@@ -6,15 +6,17 @@ technique: enforcement-demotion
 status: forged
 laws: [gate-sees-target, absent-guard-is-loud]
 shared_with: []
-use_when: [a style or formatting rule keeps being violated despite being in the instruction file, deciding whether a new rule should be prose or a hook, an instruction file reads like a linting config, the file claims a rule is enforced and the claim has not been verified]
+use_when: [a style or formatting rule keeps being violated despite being in the instruction file, deciding whether a new rule should be prose or a hook, an instruction file reads like a linting config, the file claims a rule is enforced and the claim has not been verified, a hook reaches its verdict by asking a model, choosing between prose and a verifier hook for a rule that needs judgment]
 ---
 
 # Enforcement demotion
 
 An instruction file is delivered to the model as context, not as
 configuration. The harness's own framing is explicit: the file is
-advisory; hooks, linters, type systems and CI gates are deterministic.
-An agent follows a prose rule most of the time — which means a rule that
+advisory; linters, type systems and CI gates are deterministic, and so is
+most of what a harness calls a hook — with an exception that has since
+grown large enough to need its own section below. An agent follows a
+prose rule most of the time — which means a rule that
 must *always* hold, written as prose, is violated on schedule. The
 technique is a sorting discipline: **everything mechanically checkable
 demotes out of the file into a gate; the file keeps only what requires
@@ -123,3 +125,80 @@ fifteen to twenty-five times the words (85,700 against 5,500; 201,300
 against 7,900), and 86% of the turns it spoke on would have contained no
 edit at all. Replayed with the hook's own decision function over the
 recorded transcripts, 2026-09-02.
+
+## A model-backed hook is not a demotion either
+
+The sort's yes-branch says "demote it to a gate" and quietly assumes the
+destination decides by program. That assumption held while a harness's
+hook surface ran shell commands. It no longer does. A current published
+hook contract accepts six kinds of hook, and two of them reach a verdict
+by asking a language model: one that evaluates a prompt against the hook's
+input, and one described in the schema itself as an *agentic verifier* —
+given a brief like "verify that unit tests ran and passed", defaulting to a
+small fast model, with a timeout because it is a network call. Both can
+return the same blocking decision the deterministic types return.
+
+This is the second impostor, and it is far more convincing than the
+prose-printing one above. That shape at least looks wrong on inspection —
+it emits a reminder and decides nothing. This one is registered beside the
+gates, it *does* produce a verdict, it blocks the tool call, and it appears
+on the operator's surface exactly as a gate does. What travelled is not
+determinism. It is the location of the judgment: out of the file, where it
+was diluted by instruction count and weighed against everything else in
+context, and into a second model that sees only the hook's input, decides
+under a timeout, and is not the model whose behaviour is being governed.
+
+That relocation buys real things, and the technique is not an argument
+against it. The second model's judgment is not competing with the task for
+attention; it cannot be argued out of its verdict by the session's own
+reasoning; it is redelivered on every triggering event rather than once at
+session start; and it can decide questions no program can — *did this
+change deserve a doc update*, *is this test meaningful* — which is exactly
+the class the sort's no-branch was forced to leave in prose. A judgment
+call moved to a verifier hook is a genuine improvement over the same
+judgment call written as a line.
+
+What it does not buy is the property the demotion was for. Two failure
+modes follow, and both are the file's problem rather than the hook's:
+
+- **The enforcement claim becomes a probability.** "Enforced by X" retires
+  the agent's own caution, and the section above admits the claim only with
+  evidence the gate fires. A model-backed gate fires and then *sometimes*
+  reaches the wrong verdict — including the direction that costs most, a
+  pass it should have blocked. An optional or silently-dead guard is an
+  absent guard; a guard that is right most of the time is a guard whose
+  false-negative rate the file has silently promised is zero.
+- **The rule stops being reviewable.** A demoted rule's content moves to a
+  place where it can be read: a lint config, a schema, a script. A rule
+  demoted into a verifier prompt moves into a natural-language brief that
+  is neither reviewed like prose nor testable like a program, and the
+  per-line admission discipline that governs the file — line-earning, the
+  sibling-floor enumeration — does not reach it, for the same reason it
+  does not reach the prose-printing hook.
+
+So the sort takes a third question, asked of the destination rather than of
+the rule: **does this gate decide by program or by model?**
+
+1. *Could a program decide compliance?* If yes, demote it — to a
+   destination that is itself a program. This is the original sort and
+   nothing about it changes.
+2. If no, the rule needs judgment, and there are now two homes for it
+   rather than one: prose in the file, or a model-backed hook. Choose the
+   hook when the judgment has a **trigger a program can decide** — the
+   condition that made "sort the trigger, not the channel" the rule above
+   — and when a wrong verdict is affordable. Choose prose when neither
+   holds.
+3. Never let step 2's hook be described in the file as enforcement. It is
+   a second opinion delivered on a schedule, and that is what the file
+   should say it is: name it, say what it checks, and say that it can be
+   wrong — the same honesty the "name the gate" line already requires,
+   applied to a gate whose authority is weaker than its registration
+   suggests.
+
+The general form, which outlives any one harness's hook menu: **a rule has
+been demoted when its verdict stopped depending on a model's judgment, not
+when its text stopped living in the file.** Moving text out of the file and
+into a configuration directory is a change of channel. Only the first is
+the demotion this technique is about, and as a harness's extension surface
+grows richer the two stop being the same act — the menu of destinations now
+contains several that are the channel change wearing the demotion's clothes.

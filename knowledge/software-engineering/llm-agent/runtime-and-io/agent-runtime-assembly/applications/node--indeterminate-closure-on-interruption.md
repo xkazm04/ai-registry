@@ -4,97 +4,85 @@ type: application
 subject: agent-runtime-assembly
 technique: indeterminate-closure-on-interruption
 stack: node
+status: forged
 verified_on: 2026-09-04
-verified_against: node@22.19.0
-applied: simulation
-ab_verdict: better
+verified_against: node@22.15
+proof: structural-only
 ---
 
-# A harness that carries the partial into the unknown result
+# Both halves of the rule inverted, in a harness that thought about the problem
 
-An open-source agent toolkit whose durable harness is specified normatively
-in a 27,820-word document beside the code. The version witness is the
-repository's own declaration, not a guess: the root manifest pins
-`engines.node` to `>=22.19.0` and every continuous-integration lane runs
-node 22, so `node@22.19.0` is the floor the tree actually builds against.
-The harness package was read at its published version 0.84.4.
+The version witness is `mise.toml`, which pins `nodejs = "22.15.0"` alongside
+`pnpm = "10.26.2"`; the TypeScript harness runs under that pin. Read at commit
+`7801005`, and re-read on 2026-09-04 from a fresh clone at the same commit:
+the pin is unchanged, and the materializer (`flushDanglingToolResults` in the
+harness's `index.ts`), the synthesized sentence, and the test that pins the
+flush-before-later-messages behaviour all resolve. The tree still runs the
+major recorded above; the drift reported against it is the fleet's.
 
-This tree is where the technique's re-issue exemption was found to be too
-wide. It is recorded as an application rather than a correction of the tree,
-because the tree is right and the registry's clause was the thing that moved.
+This is the negative case the technique names in advance, found in a system that
+is otherwise careful. The harness keeps an append-only conversation event log and
+replays it into a prompt on every model round. A turn can end with a tool call
+outstanding — a crash, an interrupt, a service restart, a drain — and provider
+APIs reject a message history containing a tool call with no matching result. So
+the harness must close the gap. It does, and it makes both of the two choices the
+technique exists to warn against.
 
-## What the tree does at the seam
+## The verdict is a prose string inside a failure
 
-Recovery is driven from one durable value per operation, and the branch
-that matters is the one for an interrupted model generation. The harness
-does not re-issue it. It reads the frames it committed while the response
-was streaming, reduces them into the partial the user had already seen, and
-commits that partial **as a synthetic error response under the identifiers
-the request reserved before it was sent** — then lets ordinary retry
-classification decide whether a fresh attempt follows, under fresh
-identifiers and counted as a later numbered attempt.
+The synthetic result written for every unresolved call is a failure flag carrying
+a distinguishing sentence: `ok: false` with an error reading "tool execution did
+not complete before the previous turn ended".
 
-The synthetic response carries an explicit warning with three clauses: the
-request was interrupted, the content above is the latest committed partial
-and newer live output may be missing, and the outcome at the provider is
-unknown. Any tool calls inside that partial never execute, and the
-response-transformation hook never runs, because there is no trustworthy
-complete result to transform.
+The technique calls this out by name and predicts the trajectory: *"the recovery
+sweep marks the work failed with a distinctive sentence, and later, when
+something downstream needs to know these were not real failures, a classifier is
+added that matches on the sentence."* The tell it gives — a string comparison
+against an error message — is not yet present in this tree, which is what makes
+the instance useful: it is the state *before* the classifier, where the cost has
+been incurred and not yet paid. Every consumer that later needs to distinguish
+"the tool failed" from "nobody knows whether the tool ran" will have to re-parse
+that sentence, and the first reword silently reclassifies history.
 
-Two guards stop the stored partial from becoming a claim of completion. The
-frames are declared observation and are stated never to establish provider
-completion or to suppress unknown-outcome recovery — a stream that ended
-without its terminating event and a stream killed mid-flight leave the same
-bytes. And every settlement, whether real, recovered or cancelled, deletes
-its frame list in the same transaction that writes the result, so no reader
-can ever see a settled response and a live-looking partial for it at once.
+The model is the immediate consumer here, and it is being told something false
+about the world it is about to act in: a call that may well have completed —
+written a file, sent a message, charged something — is presented as a definite
+failure. The technique's argument is that this is not a logging preference but a
+correctness property, and the agent case sharpens it, because the reader acts.
 
-- `packages/agent/docs/harness.md` §4.5, the orphaned-restart-point table,
-  row "assistant generation effect_pending"
-- `packages/agent/docs/harness.md` §9.1, invariants 31 and 32
-- `packages/agent/docs/tool-durability.md`, "Problem" and "Goals"
+## The closure happens at read time, and writes nothing
 
-## The A/B, and why the mode is simulation
+The second half is the one the technique flags as easy to miss: *"Every
+unresolved call is given its synthetic result before the terminal event is
+written. Not after, not lazily at read time, and not never."*
 
-No arm was runnable here: this is a read of somebody else's tree, and the
-effect is a recovery path that only a killed process reaches. Three real
-cases were walked from the tree's own documents instead.
+This harness closes lazily at read time, by construction. The repair lives in the
+function that materializes events into provider messages: it tracks pending tool
+call ids while scanning, flushes synthesized results before each later message
+event and again at the end of the scan, and appends nothing to the log. The
+durable record keeps terminal events sitting above calls that have no results.
 
-**A — the technique as it stood.** A model request is side-effect-free, so
-re-issue it and close the old call as interrupted.
+What is notable is that the choice is *principled*, and the reasoning is sound as
+far as it goes: writing a repair event would put a fact into an append-only log
+that the runtime does not actually know, and this tree treats its event log as
+the agent's one immutable history. Preferring an honest log to a convenient one
+is the right instinct. But the technique's answer is that the dilemma is false —
+the third status exists precisely so the closure can be *written* without
+claiming a verdict nobody has. Choosing between "write a lie" and "write
+nothing" is what a two-value vocabulary forces, and the vocabulary is the defect.
 
-**B — the tree's rule.** Close the old call carrying its committed partial;
-retry afterwards under the ordinary policy.
+The cost is the one the technique states: the record is structurally incomplete,
+so every consumer must invent a gap policy, and two consumers will invent
+different ones. This tree already has two runtimes reading the same log — a Rust
+executor and a TypeScript one — which is exactly the condition under which the
+policies diverge.
 
-1. *Streaming answer, killed at 80% of the response.* A discards content the
-   user watched arrive and produces a second, divergent answer to a question
-   that appears once in the record. B keeps the prefix, marks it unknown,
-   and retries beside it. B is better, and the difference is visible to the
-   user, not just to the record.
-2. *Request killed after the provider accepted it, before any frame.* A and
-   B write the same thing. Neither is better; both are honest.
-3. *Long generation killed twice in a restart loop.* A re-issues twice and
-   bills twice while recording zero cost for the interrupted attempts. B
-   records each attempt's reserved usage row and hands the escalation cap
-   the restart count it needs. B is better, and it is better for the reason
-   the technique's own later section already argues about restart counters.
+## Why this counts as evidence
 
-**Verdict: better**, on two of three cases and neutral on the third.
-
-**What would falsify it.** A runtime that commits no partial while streaming
-has nothing to carry, and case 1 collapses into case 2 — there B is not
-better, only equal, and the amendment's third bullet correctly does not
-apply. A runtime whose provider does not bill interrupted requests would
-also void case 3; none of the tree's supported providers is claimed to work
-that way, and the registry's own spend subject says the opposite.
-
-## What this realization cannot do
-
-The tree proves the *record* is exact. It does not and cannot prove the
-spend reconciliation, because it commits a usage row at request time and
-never re-reads the provider's own accounting to confirm the interrupted
-request was billed as reserved. The reserved row is an estimate that
-survives the crash, which is strictly better than a zero — but an
-application that wanted to verify the amendment's cost clause end to end
-would need a provider invoice beside the ledger, and no tree in reach has
-one.
+An inverted case from a careless system is worth little. This one is worth
+recording because the tree demonstrably reasoned about the surrounding
+constraints: it kept the log append-only on purpose, it documented the dangling
+call as a known case, and it pinned the flush behaviour with a test asserting
+that results are synthesized before later message events. It arrived at both
+wrong answers *through* care, which is the strongest available argument that the
+technique's two rules are non-obvious and worth stating explicitly.

@@ -17,6 +17,7 @@ techniques:
   - sibling-floor-ownership
   - capability-coverage-contract
   - host-contract-compilation
+  - rewrite-behavior-pinning
 ---
 
 # Agent instruction files
@@ -181,6 +182,30 @@ extends the standard to that half — enumerate before judging, review
 descriptions rather than bodies, and treat installing and keeping as the
 two separate decisions only one of which anybody ever makes.
 
+## The funnel assumes a diff it can read
+
+Every instrument above — admission, expiry, freshness — is run per line by
+an owner reading a diff, and both of its assumptions fail in practice.
+`sibling-floor-ownership` covers the case where the diff is **absent**: an
+install adds to the floor and produces nothing to review. The mirror case is
+a diff that is **total** — a file rewritten in bulk by a compression loop, a
+model shortening its own instructions, a migration that reflows the document
+— where every instrument keeps reporting and none of them is still working,
+because there is no line whose removal to test and no origin story that
+survived.
+
+The failure it produces is not a missing behaviour but an inverted one.
+Hedges are the cheapest tokens in the file and the first a compressor
+deletes, and a hedge is where a rule keeps its *strength*; so an advisory
+compresses into a mandate, the agent complies with a policy nobody wrote,
+and nothing errors.
+[rewrite-behavior-pinning](./techniques/rewrite-behavior-pinning.md) owns
+the instrument: assertions over behaviour, written before the rewrite while
+the file still works, pinning the permissive branch rather than the obvious
+one — and the admission that they are a filter rather than a gate, because
+the behaviours nobody remembers are in the file are exactly the set a
+rewrite deletes.
+
 ## Failure modes this standard exists to prevent
 
 - **The generated overview** — a machine-written tour of what the tree
@@ -200,6 +225,9 @@ two separate decisions only one of which anybody ever makes.
 - **The cage without its animal** — a restraint minted against a failure
   mode the current model no longer has; accurate, inert, and actively
   suppressing behavior the model would now get right.
+- **The compressed hedge** — a rewrite that shortened the file and, with
+  the qualifications, removed the permission; the agent now follows a policy
+  no author wrote, correctly, and nothing fails.
 - **The unauthored floor** — a catalog of installed capabilities, each
   admitted on its own merits and the aggregate on nobody's, loading
   descriptions into every session that the owner can no longer enumerate.
@@ -247,6 +275,11 @@ two separate decisions only one of which anybody ever makes.
   agent holds a *copy*, taken at one moment, and a clear or a compaction
   re-delivers whatever the injector cached rather than what the file now
   says; the tell is an instruction obeyed early in a session and not late.
+- [rewrite-behavior-pinning](./techniques/rewrite-behavior-pinning.md) —
+  the funnel's second blind spot: a bulk or machine-authored rewrite leaves
+  no line to withhold and no origin story, compression deletes hedges before
+  facts so advisory guidance hardens into policy, and the counter is
+  behavioural pins written before the edit — a filter, not a gate.
 - [sibling-floor-ownership](./techniques/sibling-floor-ownership.md) —
   the installed half of the always-loaded floor: the discovery budget
   nobody authored, install versus retain as separate decisions, the

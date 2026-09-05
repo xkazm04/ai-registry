@@ -1,7 +1,7 @@
 ---
 subject: subprocess-lifecycle
 domain: software-engineering
-last_touched: 2026-09-03
+last_touched: 2026-09-04
 touched_by: intake
 dry_streak: 0
 ---
@@ -13,6 +13,14 @@ First touch: [[2026-08-22-9]], external reconcile against
 `go--termination-and-reaping` (uncovered) - second stack; single-stack debt
 cleared. Liveness hint partly refuted: the instrument is one budgeted ttrpc
 round-trip at daemon load, not heartbeats - no periodic pulse exists.
+
+## 2026-09-04 - /intake run (stencil harness playbook)
+
+- New technique `cancellation-needs-a-terminable-unit`, and it is a **discriminator rather than a contradiction**. `guest-execution-bounding` opens by stating its own precondition - the guest runs "on the host's thread, inside the host's process", so the OS remedy is the host's own death - which means the corpus is right that cooperative counting is the answer *where no terminable unit exists*, and a harness postmortem is right that a kill boundary is mandatory *where one does*. Neither had written the question that separates them.
+- The gap it also closes: `streaming-output/cancellation-and-finalization` step 1 concedes the signal is "Best effort: the producer may comply promptly, slowly, or never" and then spends every remaining step on the surface. Honest about the display, silent about the work that keeps burning.
+- The operative rule is ordering: **placement decides cancellability, so decide it in that order.** Running contributions in the host's own isolate and then discovering cancellation must be cooperative *because of that placement* is writing the consequence down as the requirement.
+- Also states the two counts (units signalled, units reaped) and the honesty obligation: publish what a cancel *reclaims* versus what it merely *stops watching*, the way `guest-execution-bounding` publishes counted and uncounted ceilings.
+- **Applied `experiment` to a fleet desktop agent host, verdict `better`, `structural-only` - and the tree holds BOTH SIDES of the discriminator, which is better evidence than a tree that simply got it wrong.** Its agent-execution canceller runs the full ladder: mark cancelled, kill the child OS process (the comment names the stake - stop API credit consumption), then await the held handle under a bounded 5s grace so metrics finish writing. Its background-job path has nothing to terminate and writes the same terminal status anyway - **29 guarded-spawn sites, 2 bind the handle and both are the same unit test**, so 27 production tasks are un-abortable and reaped is structurally zero, and the job entry type had no handle slot at all - a detail asserted here from a second-hand report and corrected by the worker that executed the fix. The two paths differ in exactly one property, and neither was designed against the other: placement decided cancellability, as an accident of which spawn helper a caller reached for. An earlier over-broad reading of this row (that the whole tree lacked reclamation) was corrected by a peer comparison study and re-verified at source. Order of work: stop asserting a reclaim on the path that cannot perform one, THEN close the gap.
 
 ## Open leads (banked, convergence rule applies)
 
@@ -75,3 +83,39 @@ reconnect loop on the first post-resume failure; with the guard it re-probes onc
 three assertions fail on the original, three of three pass on the change, control intact,
 merged after a green gate. The `react--liveness-and-heartbeats` application carries the
 table.
+
+## 2026-09-04 - intake `exo` v2.5.0 ([[2026-09-04-exo]], run intake-exo)
+
+**Amendment to `termination-and-reaping`: rung 2 splits when rung 1 is
+acknowledged.** The ladder's single grace period is written for a polite stop
+whose receipt is invisible. Where the stop request is delivered by a mechanism
+the child must actively *consume*, receipt becomes observable and one constant is
+standing in for two questions - "did you hear me?" and "are you done yet?" -
+which fail for unrelated reasons and want opposite durations. Size it long and a
+child that never heard holds its slot on every shutdown; size it short and a
+healthy child mid-flush is killed. So: a short claim deadline bounded by delivery,
+then the original completion window starting only once the claim is observed, and
+a child that misses the claim escalates straight to forcible kill because it has
+demonstrated it cannot participate. Make the acknowledgement the same act as the
+receipt - a token the requester creates and the child consumes atomically - since
+a separate "I heard you" message is a second thing that can be lost. Record which
+deadline was missed: version skew and workload overrun are different defect
+reports, and collapsing them is `unknown-is-not-a-value` in the ladder's own books.
+
+**This is the run's convergent finding.** Two design-read workers, on two
+different systems of the source tree (the host supervisor and the adapter
+runtime), reached it independently without seeing each other's output, and both
+concluded the technique does not model the split. Verified by the director against
+the technique text before landing.
+
+**Apply: unapplied**, and the absence was searched rather than assumed. No fleet
+project has a cooperative stop with an acknowledgement; children are spawned with
+a deadline and killed when it fires, so there is no rung 1 to split.
+
+## 2026-09-04 - lead from the `/deepen` batch ([[2026-09-04-1]])
+
+- **Grace-deadline cancellation for a hook that ignores the host signal**
+  (cooperative-then-forced). Reached by the agent-runtime-assembly worker from the
+  origin-of-cancellation rule; home contested between this subject and
+  agent-runtime-assembly/operator-tier-code-loading, so not landed. Return condition: a
+  fleet tree that kills a contributed hook after a grace period, or a second sighting.

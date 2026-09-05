@@ -1,4 +1,9 @@
 #!/usr/bin/env node
+// CONTRACT — commissioned and verified against the corpus in
+// `librarian/sources/2026-09-03-microsoft-mcp.md` (8 bundles / 377 subjects / 2,489
+// techniques; 0 on self-diff, 1 on a synthetic change, 2 on a missing snapshot). Run on
+// demand around a surface-changing landing; no scheduled tick, because a diff needs a
+// deliberate before-capture that nothing but an operator can decide to take.
 /**
  * surface-snapshot — capture the published surface as of this commit, and diff two captures.
  *

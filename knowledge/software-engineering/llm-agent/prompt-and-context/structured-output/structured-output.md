@@ -9,6 +9,7 @@ techniques:
   - answer-coverage-gating
   - output-budget-signal
   - op-grammar-allowlisting
+  - constrained-decoding-is-a-shared-budget
   - artifact-lifecycle
   - display-vs-machine-channels
   - extraction-observability
@@ -307,6 +308,11 @@ by [extraction-observability](./techniques/extraction-observability.md).
 - [output-budget-signal](./techniques/output-budget-signal.md) — the output
   ceiling as a measurement that triggers splitting a call, the two kinds of
   unknown ceiling, and why "not measured" is not zero.
+- [constrained-decoding-is-a-shared-budget](./techniques/constrained-decoding-is-a-shared-budget.md)
+  — what changes once more than one contribution can request a constraint on
+  the same request: a provider-capped capacity that fails on the innocent
+  request, shedding by declared priority with the shed party told, and a
+  grammar dialect that belongs to the route rather than to the model.
 - [op-grammar-allowlisting](./techniques/op-grammar-allowlisting.md) — closed
   operation vocabularies, the unknown-op policy, reference validation before
   action, and the one dispatch door.

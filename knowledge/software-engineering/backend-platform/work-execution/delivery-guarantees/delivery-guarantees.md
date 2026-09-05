@@ -5,6 +5,7 @@ subject: delivery-guarantees
 status: forged
 techniques:
   - guarantee-selection
+  - co-transactional-consume
   - atomic-claiming
   - stuck-reaping
   - retry-escalation
@@ -54,8 +55,12 @@ The consequences of that stance form the spine of this subject:
 1. **The guarantee is selected, per event class, from the three honest
    postures.** At-most-once for events whose duplicate is worse than their
    loss; at-least-once plus deduplication for events that must not be lost;
-   the exactly-once *experience* only ever emerges from at-least-once delivery
-   composed with idempotent or deduplicated effects (see guarantee-selection).
+   the exactly-once *experience* emerges from at-least-once delivery composed
+   with idempotent or deduplicated effects (see guarantee-selection) — or, for
+   a handler whose every effect lands in the store that holds the queue, from
+   letting the consume and the effect be one commit, which buys the same
+   experience by deleting the boundary instead of policing it (see
+   co-transactional-consume).
 2. **The claim is atomic and carries evidence.** The transition from *pending*
    to *processing* is a single conditional write that exactly one worker can
    win, and the winning claim records who holds it and since when. A claim

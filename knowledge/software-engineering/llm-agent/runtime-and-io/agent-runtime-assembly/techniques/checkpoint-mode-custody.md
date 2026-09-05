@@ -28,10 +28,13 @@ branch.
 
 **Full** checkpoints store the complete state — the whole message list and
 every channel value — at every step. Each checkpoint stands alone: read it
-and you have the conversation. The cost is quadratic in the turn count,
-because a conversation of N turns writes N checkpoints each carrying up to N
-messages; a long-running thread's store grows into the tens of gigabytes
-before anyone notices, and the serialization cost grows with it.
+and you have the conversation. The cost is quadratic in the turn count in
+*message references*, because a conversation of N turns writes N
+checkpoints each carrying up to N messages; it is quadratic in *bytes* only
+when each checkpoint copies message content rather than pointing at
+content-addressed blobs, which is the representation most stores default
+to. A long-running thread's store under that default grows into the tens of
+gigabytes before anyone notices, and the serialization cost grows with it.
 
 **Delta** checkpoints store what changed. Growth is linear, which is the
 whole reason to want them. But a delta checkpoint is meaningful only with

@@ -111,12 +111,28 @@ implementation review:
   2026-08 roadmap), so a design choosing today should not build anything that
   *assumes* tokens stay bearer.
 
-What remains open — dated 2026-08 — is **non-interactive agent identity**:
-an agent acting with nobody present to complete an OAuth dance. The declared
-direction is workload identity federation and standard token exchange rather
-than protocol-invented mechanisms. Until that lands, the honest pattern for
-unattended callers remains a pre-provisioned per-consumer capability token
-with a named reaper, exactly as above.
+**Non-interactive agent identity** — an agent acting with nobody present to
+complete an OAuth dance — was the open question here, and as of 2026-09 it
+has an answer whose *shape* is worth more than its details. The direction
+held: standard token exchange rather than protocol-invented mechanisms, with
+an asymmetric assertion as the recommended credential and a shared secret
+tolerated only for compatibility, carrying the custody obligations any
+long-lived secret carries. What is instructive is where it landed — **as an
+opt-in extension rather than in the core**, negotiated per request, so the
+core protocol's authorization story stays "a user delegates" with one
+documented branch out of it, and a peer that does not implement the branch
+falls back to the human flow rather than failing.
+
+Two rules generalise past any one protocol. **A capability that must ship
+before its underlying standards are finished belongs outside the core**, so
+the stub can track the drafts instead of being frozen to the core's release
+cadence — and so it stays out of the conformance denominator every
+implementer is graded on. And **a caller with no consent-granting principal
+behind it cannot widen its own grant**, so for an unattended agent an
+authorization shortfall is *terminal*: the correct response is to abort and
+surface what was missing, never to retry into a step-up flow that requires a
+human who is not there. Designs that treat insufficient-scope as universally
+recoverable will loop forever on exactly the callers that run unattended.
 
 ## Audience and the no-passthrough rule
 

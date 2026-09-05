@@ -6,7 +6,7 @@ technique: single-source-topology
 status: forged
 laws: [one-authority-per-vocabulary, identity-survives-reuse]
 shared_with: []
-use_when: [a repo serves more than one coding harness, deciding where the canonical instruction file lives, per-tool instruction files have drifted apart, structuring instruction files in a monorepo, the always-loaded floor has outgrown its budget and needs scoped overflow, instruction content is copied out into templates or a published package]
+use_when: [a repo serves more than one coding harness, deciding where the canonical instruction file lives, per-tool instruction files have drifted apart, structuring instruction files in a monorepo, the always-loaded floor has outgrown its budget and needs scoped overflow, instruction content is copied out into templates or a published package, two harnesses want the same rule in different file formats, a generated instruction directory also holds hand-written local files]
 ---
 
 # Single-source topology
@@ -49,9 +49,12 @@ file.
 
 ## The topology changes at a distribution edge
 
-Which bridge is available is not a free choice, and the constraint is not
-the harness — it is **distance**. There are two regimes, and the boundary
-between them is the edge of a single checkout.
+Which bridge is available is not a free choice. There are two regimes — link
+and copy — and two different boundaries push a repo across into the copy one.
+The first is **distance**, and it is the edge of a single checkout; the second
+is **format**, and it sits inside the checkout. Distance is the one to
+understand first, because the copy regime's obligations are easiest to see
+where the copy is visibly far away.
 
 **Inside one checkout, the bridge can be a filesystem link.** A
 differently-named file is a link to the canonical one, a per-tool skills
@@ -61,6 +64,39 @@ needs checking, because nothing can differ. This is the strongest form of
 the single-source rule and the one to reach for by default — a repo that
 copies where it could link has invented a consistency problem it did not
 have.
+
+**That guarantee is a property of the checkout, not of the repository, and
+where it fails it fails silently.** A link is recorded faithfully in the
+version-control index, but materialising it is the working tree's job, and a
+platform whose filesystem or permission model does not create links writes a
+**regular file containing the target's path** instead — a few bytes of text
+where the canonical document was supposed to be. Nothing announces this. The
+bridge file exists, it is readable, it is not empty, and its contents are a
+plausible path, so every check that asks whether the file is present says
+yes. A reader that opens it by name receives the path string as its entire
+instruction set.
+
+That is a worse outcome than the drift the copy regime risks, and the
+comparison is the point: a drifted copy is wrong in places and is caught by
+the obligations the copy regime forces you to adopt, while a materialised
+link is wrong *entirely* and carries no obligations at all, because the
+regime was chosen precisely on the promise that nothing needed checking. The
+sentence above holds only with its precondition attached — drift is
+unrepresentable *where the link exists as a link*. Where it does not, the
+repo has silently entered the copy regime with no assembly step and no
+verification.
+
+So the choice of bridge is a claim about every machine the tree will be
+checked out on, and it is rarely a claim anyone made deliberately. Where the
+platform is not guaranteed, prefer the form the **reader** resolves — a
+one-line directive naming the canonical file, which is ordinary file content
+that every checkout materialises identically — over a filesystem link. Where
+the reader has no such mechanism, take the copy regime and its obligations
+honestly. And under any of the three, the assertion is the same cheap one,
+and it is the one a link regime uniquely tempts you to skip: **the bridge
+resolves to the canonical document.** One line, checkable on every machine,
+and it is the only thing that distinguishes a working bridge from nine bytes
+of text.
 
 **The moment the same content is shipped outside that checkout, the link
 has no target.** A scaffolded project, a starter template, a published
@@ -81,6 +117,58 @@ build. Without it, "generated" is a claim in a comment header rather than
 a property of the tree, and the copies drift the first time someone edits a
 shipped file in place — which is the normal way to fix a template, because
 the shipped file is what the person is looking at.
+
+## The second boundary is a format edge, and it sits inside the checkout
+
+The distribution edge is the boundary that is easy to name, and it is not the
+only one. A link is a single inode read by every reader, so it is available
+only while every reader accepts **the same bytes**. Harnesses do not reliably
+agree on that: one wants a rule file with one frontmatter vocabulary and one
+extension, another wants a different vocabulary and a different extension for
+the same rule; one reads a tool-server manifest in a shape the other rejects.
+Where two hosts differ in *syntax* rather than in *location*, the link has no
+target either — not because the destination tree is elsewhere, but because
+there is no single byte sequence both hosts can read.
+
+So the rule stated above inverts for that case, and the inversion is worth
+saying plainly because a tree in this state reads like a mistake: **a repo that
+copies where it could link has invented a consistency problem it did not have,
+unless the hosts disagree about the format — and then it has no choice.** The
+tell that distinguishes the two is one question about a single pair: could one
+file satisfy both readers? A repository doing this well is legible precisely
+because it does both at once — a symlink for the host that accepts the
+canonical bytes, a generated tree for the host that does not.
+
+What the copy must *transform*, and how to keep the transformation from
+becoming per-host code scattered through a generator, is
+[host-contract-compilation](./host-contract-compilation.md)'s subject. What
+carries over from the distribution edge unchanged is the obligation: **the copy
+regime needs the drift check regardless of which boundary produced it.** The
+format edge is where that obligation is most often dropped, because the copy
+lives in the same checkout as its source and therefore looks like it is under
+the same review — while in fact nothing regenerates it, nothing compares it,
+and the divergence is a working directory away.
+
+Two failures cluster at this edge specifically, and both were observed in a
+tree that derives its entire lint matrix from one config file to guarantee
+local and remote agree, a few directories away:
+
+- **The check demoted to prose.** The drift rule exists — as a bullet in an
+  agent's own instructions telling it to notice when the generated tree is
+  stale. That is a checkable condition delivered as advice, which
+  [enforcement-demotion](./enforcement-demotion.md) says is a rule violated
+  daily, and it is the same error in the opposite direction: a gate the
+  repository already knows how to build, promoted into a prompt.
+- **The half-generated directory.** A sync step that *preserves* files in the
+  destination with no counterpart in the source produces a tree that is the
+  union of generated content and unmanaged local content, with nothing marking
+  which is which. The destination is then not a function of the source, so
+  "regenerate and compare" has no defined answer and the cleanup step cannot
+  safely delete. This is
+  [machine-owned-regions](./machine-owned-regions.md)'s marker discipline owed
+  at directory granularity: either the generated set is fenced — a manifest the
+  generator writes and the checker reads — or the directory admits no local
+  files at all and per-user content lives somewhere the generator never visits.
 
 The discipline is easy to hold inside the boundary and easy to lose at it,
 and the failure is legible in trees that otherwise do this well: a

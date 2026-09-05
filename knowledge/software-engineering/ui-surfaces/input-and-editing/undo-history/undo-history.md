@@ -10,6 +10,7 @@ techniques:
   - redo-semantics
   - undo-scope
   - checkpoint-restore
+  - execution-emitted-inverse
 ---
 
 # Undo & history
@@ -57,11 +58,12 @@ point, not the last gesture. A surface can and often does carry all three:
 gesture undo inside the draft, checkpoints across operations, durable
 versions at commit.
 
-## The two architectures, priced honestly
+## The architectures, priced honestly
 
-There are two ways to make an action reversible, and the choice is the
+There are three ways to make an action reversible, and the choice is the
 load-bearing decision of the whole subject (the
-[undo-model-selection](./techniques/undo-model-selection.md) technique):
+[undo-model-selection](./techniques/undo-model-selection.md) technique). Two of
+them are the familiar pair:
 
 - **Command-inverse**: record each operation with enough information to
   construct its inverse; undo executes the inverse. Memory-proportional to
@@ -75,7 +77,20 @@ load-bearing decision of the whole subject (the
   the *document*, so it collapses when the document is large or steps are
   frequent.
 
-Neither is the default. The honest question is arithmetic: document size ×
+The third sits between them and is reached for less often than it should be.
+**Execution-emitted**: the forward operation returns its own inverse as a
+closure, built as it runs, capturing the values it overwrote at the instant it
+overwrote them. There is no second implementation to drift and no document to
+capture, information-destroying and fan-out operations reverse themselves, and
+the same accumulator is the rollback path when a compound operation fails
+partway. It buys that by making the history *unreadable* — a closure is not
+data, so nothing outside this session's stack can inspect, persist or replay
+it, which disqualifies it wherever undo must survive a restart or cross a
+process (the
+[execution-emitted-inverse](./techniques/execution-emitted-inverse.md)
+technique).
+
+None of the three is the default. The honest question is arithmetic: document size ×
 stack depth × step frequency against memory budget, and inverse-derivation
 difficulty against correctness budget. Small documents with complex
 operations want snapshots; large documents with local edits want commands;

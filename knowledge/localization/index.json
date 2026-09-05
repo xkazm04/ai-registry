@@ -3,10 +3,10 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "localization",
   "source": "knowledge/localization/ (frontmatter only)",
-  "subjects": 14,
-  "techniques": 85,
+  "subjects": 15,
+  "techniques": 91,
   "applications": 45,
-  "laws": 7,
+  "laws": 8,
   "categories": [
    "european",
    "east-asian",
@@ -15,7 +15,7 @@
    "craft"
   ],
   "layout": "nested",
-  "use_when_coverage": "85/85",
+  "use_when_coverage": "91/91",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -1491,6 +1491,113 @@
     }
    ]
   },
+  "translation-quality-measurement": {
+   "category": "craft",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/localization/craft/translation-quality-measurement/translation-quality-measurement.md",
+   "digest": "sha256:574907b9185733aa",
+   "techniques": [
+    {
+     "slug": "deterministic-checks-before-estimates",
+     "status": "forged",
+     "laws": [
+      "format-skeleton-is-inviolable",
+      "one-concept-one-rendering",
+      "identical-source-identical-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing the check suite for a machine-translated store",
+      "deciding whether a defect class needs a model or a rule",
+      "a termbase exists and nothing verifies the store honours it",
+      "a reviewer's time is being spent on defects a script could have found",
+      "choosing what blocks a regeneration from publishing"
+     ]
+    },
+    {
+     "slug": "error-typology-over-a-single-score",
+     "status": "forged",
+     "laws": [
+      "every-finding-cites-an-anchor",
+      "format-skeleton-is-inviolable"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing what a reviewer records when they find a translation defect",
+      "a quality dashboard shows one number per locale and nobody can act on it",
+      "deciding whether a defect blocks a release or joins a backlog",
+      "comparing two engines that score the same overall",
+      "routing findings to the person who can fix them"
+     ]
+    },
+    {
+     "slug": "human-review-sampling-under-a-budget",
+     "status": "forged",
+     "laws": [
+      "coverage-is-counted-not-claimed",
+      "every-finding-cites-an-anchor"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a corpus is too large for full human review and someone must decide what gets reviewed",
+      "reporting a quality estimate for a locale nobody reviewed completely",
+      "a reviewer was told to check some strings and reported a percentage",
+      "deciding how much of a native speaker's time a new language gets",
+      "measuring how much correction machine output actually needed"
+     ]
+    },
+    {
+     "slug": "per-pair-engine-selection",
+     "status": "forged",
+     "laws": [
+      "the-authority-is-a-hypothesis",
+      "coverage-is-counted-not-claimed"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing a machine-translation engine for a new language",
+      "a published ranking is about to decide which engine a pipeline uses",
+      "one locale reads noticeably worse than the others on the same engine",
+      "deciding whether to run different engines for different languages",
+      "stating a quality claim about a translated store"
+     ]
+    },
+    {
+     "slug": "reference-free-quality-estimation",
+     "status": "forged",
+     "laws": [
+      "coverage-is-counted-not-claimed",
+      "every-finding-cites-an-anchor"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "scoring a machine-translated store that has no human translation to compare against",
+      "deciding which translated segments a reviewer should open first",
+      "setting a quality floor for a derived store before it is served",
+      "a quality score is about to be quoted as a pass",
+      "comparing two engine configurations on a corpus nobody has translated by hand"
+     ]
+    },
+    {
+     "slug": "regression-detection-under-a-moving-engine",
+     "status": "forged",
+     "laws": [
+      "clean-strings-stay-untouched",
+      "the-source-locale-is-the-source-of-truth"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a hosted translation engine can change model behind a stable interface",
+      "changing the translation prompt or glossary for a live pipeline",
+      "a regeneration is about to rewrite text nobody asked to change",
+      "deciding what a pipeline must re-prove before publishing a rebuilt store",
+      "translated text changed and nobody can say why"
+     ]
+    }
+   ],
+   "applications": []
+  },
   "vietnamese": {
    "category": "south-and-southeast-asian",
    "subcategory": null,
@@ -1623,6 +1730,8 @@
     "russian/de-anglicization-constructions",
     "russian/plural-and-count-agreement",
     "spanish/plural-and-gender-agreement",
+    "translation-quality-measurement/deterministic-checks-before-estimates",
+    "translation-quality-measurement/error-typology-over-a-single-score",
     "vietnamese/classifiers-and-quantity",
     "vietnamese/diacritics-and-typography"
    ]
@@ -1648,6 +1757,7 @@
     "translation-pipeline-topology/language-registry-single-source",
     "translation-pipeline-topology/sharded-translation-ci",
     "translation-pipeline-topology/source-hash-translation-cache",
+    "translation-quality-measurement/regression-detection-under-a-moving-engine",
     "vietnamese/classifiers-and-quantity"
    ]
   },
@@ -1677,6 +1787,9 @@
     "russian/register-and-address",
     "spanish/de-anglicization-constructions",
     "spanish/register-and-address",
+    "translation-quality-measurement/error-typology-over-a-single-score",
+    "translation-quality-measurement/human-review-sampling-under-a-budget",
+    "translation-quality-measurement/reference-free-quality-estimation",
     "vietnamese/de-anglicization-constructions",
     "vietnamese/register-and-address",
     "vietnamese/ui-conventions-and-length"
@@ -1699,6 +1812,7 @@
     "translation-pipeline-topology/hand-authored-exception-contract",
     "translation-pipeline-topology/sharded-translation-ci",
     "translation-pipeline-topology/source-hash-translation-cache",
+    "translation-quality-measurement/regression-detection-under-a-moving-engine",
     "vietnamese/de-anglicization-constructions",
     "vietnamese/diacritics-and-typography"
    ]
@@ -1723,6 +1837,7 @@
     "korean/terminology-and-loanwords",
     "russian/terminology-and-loanwords",
     "spanish/terminology-and-loanwords",
+    "translation-quality-measurement/deterministic-checks-before-estimates",
     "vietnamese/terminology-and-loanwords"
    ]
   },
@@ -1754,6 +1869,7 @@
     "spanish/register-and-address",
     "spanish/terminology-and-loanwords",
     "translation-pipeline-topology/source-identical-value-audit",
+    "translation-quality-measurement/per-pair-engine-selection",
     "vietnamese/terminology-and-loanwords"
    ]
   },
@@ -1764,7 +1880,16 @@
     "translation-pipeline-topology/canonical-fallback-serving",
     "translation-pipeline-topology/language-registry-single-source",
     "translation-pipeline-topology/sharded-translation-ci",
-    "translation-pipeline-topology/source-identical-value-audit"
+    "translation-pipeline-topology/source-identical-value-audit",
+    "translation-quality-measurement/human-review-sampling-under-a-budget",
+    "translation-quality-measurement/per-pair-engine-selection",
+    "translation-quality-measurement/reference-free-quality-estimation"
+   ]
+  },
+  "identical-source-identical-target": {
+   "statement": "When the same source-language value appears verbatim under two or more keys — a mirror pair across sections, near-duplicate feature keys — the target value must be identical across all occurrences. This is the sentence-level extension of one-concept-one-rendering: that law governs a recurring term across different sentences; this one governs a duplicated sentence across keys, where the observed drift is worse — one copy correctly translated, its twin left in the source language or reworded to say something else entirely. The check is mechanical (group keys by source value, compare targets) and the fix usually is too: copy the reviewed rendering to the twin. Five languages surfaced this independently in one review wave; it is a property of how catalogs grow, not of any language.",
+   "techniques": [
+    "translation-quality-measurement/deterministic-checks-before-estimates"
    ]
   }
  }

@@ -14,6 +14,7 @@ techniques:
   - liveness-needs-a-quiet-period
   - seed-is-not-a-reproduction
   - stage-ordered-fuzz-targets
+  - field-captured-operation-traces
 ---
 
 # Test input generation
@@ -211,6 +212,25 @@ exercising an input nobody chose, which is worse than losing it, because an
 absent test is visible and a lying one is not.
 [seed-is-not-a-reproduction](./techniques/seed-is-not-a-reproduction.md) carries
 the rule and the three input lanes it implies.
+
+Those three lanes — fresh randomness, the persisted corpus, hand-written cases
+— share one property that is easy to miss because it is true of all of them:
+every one is **authored**. The generator's distribution is its author's model of
+what happens, the corpus is the subset of that model which once failed, and the
+hand-written lane is the imagination the generator was meant to replace. So a
+suite can be green across all three and still miss the region its users
+actually occupy, and nothing in the three lanes can report that.
+
+There is a fourth source, and its distribution is the only one nobody chose:
+the running product, instrumented so a real session emits its operation
+sequence **in the generator's own vocabulary**. One reflection table names the
+model's mutating operations; the generator composes from it and the logger
+records against it, so a user's crash and a fuzzer find minimize into the same
+artifact and enter the same regression lane. The constraint that makes this
+work is the shared vocabulary rather than the logging — a log written in the
+interface's terms cannot be replayed against the model at all (the
+[field-captured-operation-traces](./techniques/field-captured-operation-traces.md)
+technique).
 
 ## What this subject does not own
 

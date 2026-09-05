@@ -13,6 +13,7 @@ techniques:
   - leak-checked-register-allocation
   - fixpoint-pass-with-iteration-cap
   - dce-refuses-hoisted-declarations
+  - instruction-format-follows-program-lifetime
 ---
 
 # Register bytecode execution
@@ -37,19 +38,34 @@ The stack form is denser per instruction and the register form executes fewer
 instructions, and the measured trade is not close: a register encoding of the same
 program executes roughly half the instructions at a code-size cost of a quarter, and
 because every executed instruction is an indirect branch the dispatcher pays for, fewer
-instructions is the win that matters. A principal practitioner chooses the register form
+instructions is the win that matters — **wherever a program is executed far more often
+than it is compiled**, which is the premise this subject is written on and is worth
+saying rather than assuming. The dispatch saving is paid per executed instruction and
+the allocator and the wider stream are paid per compiled program, so an interpreter
+whose programs are generated per request and run once sits on the other side of the
+ratio and takes the stack form; the discriminator, and the same trade one level down at
+operand width, are
+[instruction-format-follows-program-lifetime](./techniques/instruction-format-follows-program-lifetime.md).
+A principal practitioner chooses the register form
 for an interpreter and accepts the larger code, then keeps the code from growing further
 by refusing the temptation that comes with it: variable-width operand encoding. A
 compact encoding that picks the narrowest width per operand saves bytes and costs a
 decode branch on every operand of every instruction, which is the same indirect-branch
 tax the register form was chosen to avoid. **Operands are fixed-width, one word each,
 decoded by offset**, and the code-size argument for narrow operands is made once with
-a measurement and usually lost.
+a measurement and usually lost. It is lost against the option as posed — a width read
+from the stream, costing a branch. It is not lost against the option that pair leaves
+out, where the width is lifted into the opcode itself and paid for in slots rather than
+in branches; the three prices are in the technique above.
 
 The dispatch table is the other place the format is decided. One byte of opcode gives
 256 entries, and a healthy instruction set leaves a reserved band unused so that a new
 opcode is an appended entry and never a renumbering of the ones a snapshot test already
-knows. Where the interpreter needs a second execution mode (a budgeted loop for the
+knows. The band is the protection while the numbering is private to one build; where the
+interpreter can serialize a compiled program or a paused frame, the opcode byte is a
+format on disk as well, and what carries is an explicit discriminant plus a version bump
+for the renumbering the band will eventually force. Where the interpreter needs a second
+execution mode (a budgeted loop for the
 sibling subject's cooperative yield, a tracing loop for a debugger), it gets a **second
 table of the same shape**, not a branch inside every handler, so that the mode nobody
 asked for costs nothing on the path everybody runs.

@@ -4,7 +4,7 @@ description: "Autonomous infinite training loop for media-generation craft: each
 argument-hint: "[run|status|reflect] [--fixture] [--resume <cycle-id>]"
 category: ai-native
 memory: project
-version: 1.2.0
+version: 1.2.2
 tags: training, media-generation, ab-testing, judge, foundry, loop, craft
 allowed-tools: Read, Write, Edit, Bash, PowerShell, Glob, Grep, Monitor, WebSearch, Agent
 ---
@@ -265,12 +265,12 @@ knowledge-shaped evidence:
 
 ---
 
-<!-- clause: skill-reflection v2 - stamped by scripts/apply-skill-clauses.mjs from docs/skill-clauses/skill-reflection.md; edit the template, then re-stamp -->
+<!-- clause: skill-reflection v3 - stamped by scripts/apply-skill-clauses.mjs from docs/skill-clauses/skill-reflection.md; edit the template, then re-stamp -->
 ## Skill Reflection
 
 After the run's real work is done, reflect - autonomously, without asking the user. Be honest about volume: most runs produce NOTHING beyond lane 1. An empty reflection is a valid result; a forced lesson is pollution. Calibration: nothing (common) / one line (sometimes) / a lesson entry (occasionally) / a redesign proposal (rare).
 
-**Lane 1 - PROJECT learnings** (what the next session in THIS repo needs). Repo-specific rules go to this skill's overlay in the consuming repo - a dated one-liner under `## Skill improvement log` in `.claude/dojo/config.md`, or in the overlay/vault location this skill's `## Project overlay` section names (create the heading on first use). When the repo carries a `.personas/` directory, also write via the MEMORY BLOCK contract if this prompt carries one, else append node lines to `.personas/memory-outbox.jsonl` per that contract. Never into this file: a project's bytes in a shared method are exactly what made the fleet's copies diverge.
+**Lane 1 - PROJECT learnings** (what the next session in THIS repo needs). Repo-specific rules go to this skill's overlay in the consuming repo - a dated one-liner under `## Skill improvement log` in the overlay/vault location this skill's `## Project overlay` section names (create the heading on first use). If this skill carries no `## Project overlay` section, or its overlay section names no location, write that dated one-liner to `.claude/dojo/config.md` in the consuming repo under `## Skill improvement log`, creating the file and the heading if they are absent - so the instruction is executable in every skill. When the repo carries a `.personas/` directory, also write via the MEMORY BLOCK contract if this prompt carries one, else append node lines to `.personas/memory-outbox.jsonl` per that contract. Never into this file: a project's bytes in a shared method are exactly what made the fleet's copies diverge.
 
 **Lane 2 - METHOD learnings** (what would improve THIS SKILL for every project):
 1. If nothing generalizes beyond this repo, stop here.
@@ -281,7 +281,3 @@ After the run's real work is done, reflect - autonomously, without asking the us
 
 **Lane 3 - DOMAIN knowledge** is a different artifact from a lesson: a lesson improves this METHOD, a lead proposes knowledge for a bundle. Skills that carry a `## Knowledge sync` section file leads there; a skill without one files none.
 <!-- /clause: skill-reflection -->
-
-## Model choice (bake-off 2026-09-01, gravitone / one local-stack image cycle)
-
-No pin. Both cycles failed on GPU contention: Fable rendered five of eight pairs (one complete duo) before its breaker tripped, Opus two of twelve in eleven hours because a third, foreign dojo job held the card. Neither produced a judgeable set; both kept the registry read-only, released the lock and parked honestly. The operator kept Opus's method: the demand signal is the consuming repo's own conformance record (Fable ranked on the fleet-aggregate scan and picked a subject this repo had never deviated on), an engine-owner check before launch is the interlock, a zero-duo cycle never parks for a human, and Phase 1's registry commands are marked read-only versus writing. Those edits are in Phases 1, 4 and 6 and the safety rails above. Fable's cycle contributed the partial-readback reading that a contradicting tail clause is obeyed as well as an in-block override at ~1.1k characters on Flux 2, recorded in gravitone's overlay as a lead for `/deepen`.

@@ -114,6 +114,37 @@ family, and a maximum length for the rollup body — a summary longer than that
 is not a summary, and the cap is a cheap check on whether the pass is doing
 its job at all.
 
+## What a rollup buys is currency, and it pays in detail
+
+The reason to compact is usually stated as size, and size is the least of it. Measured
+head to head over a simulated year, the store shapes separate on a different axis
+entirely, and the separation is sharp enough to design against.
+
+A store of rows keeps everything that was ever written and answers *why* questions well,
+because the incidental material - the recurring cause, the fix someone taught once, the
+step nobody restated - is still there to be retrieved. It goes stale, because a row that
+was superseded is still a row, and a retriever ranking on similarity has no reason to
+prefer the newer one.
+
+A store that rewrites - a summary regenerated whenever new material lands, stating only
+what currently holds - inverts both properties. Staleness becomes structurally hard,
+because the superseded value is not annotated as old, it is simply absent from the text
+that gets retrieved. And the incidental material goes with it, because a rewrite states
+the current position and a recurring cause is not a position.
+
+The measured shape, one scenario, one consumer, same budget: on questions about a value
+that changed, the rewriting store scored 0.98 and the row store 0.85. On questions about
+a recurring failure cause, the rewriting store scored 0.36 and the row store 0.68. Stale
+answers across the whole set ran 3 for the rewriting store against 16 for the row store.
+Neither shape is better; they fail in opposite directions.
+
+The design consequence is not to pick one. It is that **a rollup must not become the only
+thing recall can see.** The evidence it was built from has to stay addressable, and the
+retrieval path has to reach it for the questions that need it - which is a routing
+decision at read time, not a storage decision at write time. A system that keeps its
+episodes and consults only its summaries has paid for the detail twice and retrieves it
+never.
+
 ## Routing-grade and assertion-grade are different bars
 
 Every rule above is written for a summary the consumer may **cite** — the

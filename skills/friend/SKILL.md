@@ -5,14 +5,14 @@ argument-hint: "[context]"
 category: workflow
 memory: vault
 contexts: tracked
-version: 1.2.0
+version: 1.3.1
 model: fable
 ---
 # Friend
 
-Endless companion loop scoped to one area of the personas codebase. Each cycle: scan → propose **5 development directions** → user picks a number → execute with repo conventions → report → propose 5 new directions. Designed for **parallel CLI sessions** where the user wants to keep adding UX / product value to a corner of the codebase with the least typing possible.
+Endless companion loop scoped to **one area of a codebase** — the areas are whatever the overlay's `## Areas` table names (see `## Project overlay`), never a taxonomy baked into this file. Each cycle: scan → propose **5 development directions** → user picks a number → execute with repo conventions → report → propose 5 new directions. Designed for **parallel CLI sessions** where the user wants to keep adding UX / product value to a corner of the codebase with the least typing possible.
 
-`/friend` is the **light, in-session, single-area companion**: one session, one worktree, one picked direction executed *immediately* per cycle. No builder fleet, no acceptance pool, no review gates — momentum, not orchestration. This skill is **personas-specific** and **development-flavored**. It does not do stabilization — that is `/explorer`'s job. It does not do heavy structural rewrites — that is `/architect`'s job. It does not look outside the repo — that is `/research`'s job.
+`/friend` is the **light, in-session, single-area companion**: one session, one worktree, one picked direction executed *immediately* per cycle. No builder fleet, no acceptance pool, no review gates — momentum, not orchestration. This skill is **development-flavored**, and it is portable: it runs with no overlay at all on defaults, and everything a particular repo is comes from the overlay. It does not do stabilization — that is `/explorer`'s job. It does not do heavy structural rewrites — that is `/architect`'s job. It does not look outside the repo — that is `/research`'s job.
 
 Companion to:
 - `/perfect` — the heavy sibling: Director/Builder loop, 10-accepted-directions gate, per-context worktree builders, vault-resident queue. When a `/friend` idea outgrows one area (multi-context scope, schema breaks, needs review gates or a human checkpoint mid-arc), **graduate it to `/perfect`** instead of stretching the cycle — see "Graduation lane" in Phase 2.
@@ -30,6 +30,45 @@ Built for parallel CLI control — every user prompt is single-keystroke answera
 - Long free-text answers are still accepted everywhere; the menu makes the common case instant.
 - **No exit option in the menu.** The loop runs until the user interrupts, types a stop word in the deviation lane (`stop`, `done`, `bye`, `quit`), or the context window forces a wrap. On any of those, run the clean-exit ritual (Phase 6).
 
+## Project overlay
+
+This file is the **method** and is repo-agnostic. Everything a repo *is* — its areas, vault, gates, conventions, codegen, context taxonomy — lives in ONE overlay read at Phase 0: **`.claude/friend/config.md` in the consuming repo** (a tracked file, so it travels with the clone and survives the vault, which is not version-controlled). **The loop runs with no overlay at all** — every key below has a default — but say so once in the first cycle header (`overlay: defaults`). Never paste one repo's overlay into this file: a project's bytes in a shared method are exactly what made the fleet's copies diverge.
+
+Overlay shape: YAML frontmatter for scalars, markdown `##` sections for lists and prose. Keys (default in brackets):
+
+```yaml
+---
+product: "<product name>"          # cycle header  [the repo directory name]
+stack: "<one-line stack>"          # sizing + gate detection  [detected from package.json / manifest, else "unknown"]
+vault: ["<abs vault root>", ...]   # candidate roots, first existing wins  [<repo>/.friend/]
+vault_subdir: Friend               # namespace inside the vault; "" = the root itself  [Friend]
+base_branch: main                  # the exit summary's merge/inspect commands target it  [origin/HEAD, else current]
+worktree_dir: .claude/worktrees    # where Phase 0c puts the cycle worktree  [.claude/worktrees]
+active_runs_ledger: ""             # a live-sessions ledger, if the repo keeps one  [none; git status only]
+context_taxonomy: ""               # file naming the areas/contexts  [none; derive from top-level source dirs]
+context_outbox: ""                 # append-only per-context coverage file a host app ingests  [none; skip that step]
+verify_url: ""                     # the running app a verified cycle drives  [none; verified mode unavailable]
+locale_count: 1                    # sizing multiplier for string-heavy work  [1]
+commit_types: "feat, polish"       # allowed commit types for this loop  [feat, polish]
+---
+```
+
+| Section | What it carries | Default when absent |
+|---|---|---|
+| `## Areas` | the area menu — one row per area, `name -> paths -> entry points`. Q1 offers these rows; Phase 0e resolves the ledger's `Paths:` and the scan scope from them | derive one area per top-level source directory and say the menu was derived |
+| `## Gates` | `builder:` (what every cycle passes before each commit) and `integration:` (what passes before the exit summary), each an exact command with a when-clause | detect from `package.json` scripts (`typecheck`/`check`, `lint`, `test`) or the build manifest; else `npx tsc --noEmit` when a tsconfig exists — say what was detected |
+| `## Repo law` | the convention digest Phase 4 treats as binding: the reusable-component catalog, string/i18n rules, design tokens, call/error wrappers, staging discipline, max-lines — and where the authoritative rules file lives | "read the repo's CLAUDE.md / AGENTS.md first; reuse before building" |
+| `## Codegen` | commands a change can oblige (binding export, command-name generation, catalog regeneration, locale merge), each with its trigger and whether a hook enforces it | none; nothing is generated |
+| `## Docs` | source-area -> doc-file map, and whether a hook enforces it | none; no doc obligation |
+| `## Verified mode` | how to boot the app a cycle drives, its port, the driver primitive to use, and the driver paths known to drop work | offered only when `verify_url` is set; otherwise Q2b is skipped and behavior-changing cycles carry a manual-verify checklist |
+| `## Context sources` | which name set `context_outbox` anchors to, and any known-stale map NOT to read | the `## Areas` table is the name source |
+| `## Direction taste` | learned acceptance pattern; Phase 2 weights the slate by it | outcome-value over cosmetic churn |
+| `## Skill improvement log` | the dated one-liners the reflection clause produces | created on first wrap |
+
+Writes to the overlay (taste, improvement log) are committed scoped — `git commit --only .claude/friend/config.md` — never via a bare commit.
+
+---
+
 ## Input
 
 Ask **two** numbered-menu questions, in this order.
@@ -39,18 +78,11 @@ Ask **two** numbered-menu questions, in this order.
 ```
 Area? (Enter = pick for me)
   1. other -> type a hint (path fragment, keyword, or context id)
-  2. agents
-  3. vault
-  4. orchestration
-  5. triggers
-  6. execution
-  7. templates
-  8. deployment
-  9. platform
-  10. pick for me   <- default
+  2..N. <one row of the overlay's `## Areas` table, in overlay order>
+  N+1. pick for me   <- default
 ```
 
-Numeric options 2–9 map 1:1 to the 8 groups in `.claude/codebase-context.md` — same mapping as `/explorer` and `/architect`. Option 1's free text falls through to the resolver (path fragment / keyword / exact context id). Option 10 / Enter triggers an auto-pick weighted by which area has had the least recent `/friend` activity (see Coverage below) — fall back to round-robin if no Coverage file exists yet.
+Options `2..N` are the overlay's `## Areas` rows — the same taxonomy `/explorer` and `/architect` resolve against in this repo. With no overlay, derive one row per top-level source directory and say the menu was derived. Option 1's free text falls through to the resolver (path fragment / keyword / exact context id). The last option / Enter triggers an auto-pick weighted by which area has had the least recent `/friend` activity (see Coverage below) — fall back to round-robin if no Coverage file exists yet.
 
 ### Q2 — Goal
 
@@ -69,25 +101,27 @@ If the user typed `/friend` with no arguments, treat as area=`pick for me` + goa
 
 ### Q2b — Verified loop? (opt-in)
 
+**Skip this question entirely when the overlay sets no `verify_url`** — there is nothing to drive, so the session is checklist-only and says so once.
+
 ```
 Verify each cycle against the running app? (Enter = no)
   1. other -> free text
-  2. no - validate with tsc / lint / cargo only   <- default (fast loop)
-  3. yes - drive the real UI on :17320 and observe the DOM before reporting done
+  2. no - validate with the overlay's builder gates only   <- default (fast loop)
+  3. yes - drive the real UI at <verify_url> and observe the DOM before reporting done
 ```
 
-`yes` enables **verified mode** for the whole session (see Phase 4.5). It assumes — or boots once at Phase 0 (step 0f) — a worktree-local `tauri:dev:test` instance on port 17320. The cost is a running instance plus, for Rust-touching cycles, a rebuild; the payoff is that no cycle is reported "done" on a clean compile alone — this is the standing rule from the `feedback_verify_before_claiming_done` memory ("never mark a UI phase done on tsc/cargo pass alone; drive the scenario and observe real DOM"). `no` keeps the fast loop and instead emits a concrete manual-verify checklist in the Phase 5 report for any behavior-changing cycle. Verified mode can be toggled mid-session from the deviation lane (`verify on` / `verify off`).
+`yes` enables **verified mode** for the whole session (see Phase 4.5). It assumes — or boots once at Phase 0 (step 0f) — a worktree-local instance per the overlay's `## Verified mode`. The cost is a running instance plus, for compiled-language cycles, a rebuild; the payoff is that no cycle is reported "done" on a clean compile alone: **never mark a UI change done on a typecheck/compile pass alone; drive the scenario and observe real DOM.** `no` keeps the fast loop and instead emits a concrete manual-verify checklist in the Phase 5 report for any behavior-changing cycle. Verified mode can be toggled mid-session from the deviation lane (`verify on` / `verify off`).
 
 ---
 
 ## Constants
 
-- **Codebase reference files** (always loaded):
-  - `.claude/codebase-context.md` — DB-derived feature map (8 groups, 49 contexts). The natural area taxonomy.
-  - `.claude/codebase-stack.md` — hand-curated architecture, conventions, engine internals.
-  - `.claude/CLAUDE.md` — project rules (i18n, design tokens + styling conventions, error handling, lint baseline, parallel-safety primitives).
-- **Active-runs ledger**: `.claude/active-runs.md` — register at Phase 0, deregister at Phase 6.
-- **Vault root** (resolved at Phase 0): one of two paths, whichever exists. The vault is where `/friend` accumulates cross-session learning so feature selection improves over time. Mirror of the `/explorer` pattern, scoped to development-flavored directions instead of paper cuts.
+- **Codebase reference files** (always loaded, all from the overlay — skip any that is absent):
+  - the overlay itself, `.claude/friend/config.md`: `## Areas`, `## Gates`, `## Repo law`, `## Codegen`, `## Docs`, `## Direction taste`.
+  - `context_taxonomy` — the repo's own feature/context map, when it declares one. The natural area taxonomy.
+  - the authoritative rules file the overlay's `## Repo law` points at (`CLAUDE.md` / `AGENTS.md` / equivalent).
+- **Active-runs ledger**: `active_runs_ledger` — register at Phase 0, deregister at Phase 6. Absent: skip both, and read `git status` / `git worktree list` for collision signal instead.
+- **Vault root** (resolved at Phase 0): the first existing `vault` candidate, else `<repo>/.friend/`. The vault is where `/friend` accumulates cross-session learning so feature selection improves over time. Mirror of the `/explorer` pattern, scoped to development-flavored directions instead of paper cuts. Paths below are relative to `$VAULT/<vault_subdir>/` unless written otherwise.
   - `Friend/sessions/` — one note per session, the canonical artifact (mirrors `Explorer/sweeps/`)
   - `Friend/coverage.md` — heatmap of last `/friend` visit per area + acceptance density
   - `Friend/passes.md` — **rejected direction fingerprints per area**; Phase 2 reads this and avoids re-proposing. Hard rejects only (user typed "no", refresh, or "other" with reason); soft skips (user picked a different option this cycle) do NOT land here.
@@ -98,24 +132,20 @@ Verify each cycle against the running app? (Enter = no)
   - Add or polish **user-visible product surface** (a new control, a clearer flow, a missing affordance, a new capability, an interaction that makes an existing feature feel more finished).
   - **Name the concrete files it would touch and the user-visible outcome.** "Polish X", "improve the Y experience", "make Z nicer" without named files and a stated outcome are banned menu items — if you can't name the files, you haven't scanned enough to propose it.
   - **Match learned taste** (from `/perfect` and `/friend` vault memory): outcome-value directions — a user can do or see something they couldn't before — yes; cosmetic churn with no new capability (dark-mode remount tweaks, restyling that changes nothing behavioral) — no.
-  - Ship as **one or more atomic commits** — each individually compiling and lint-clean. A small self-contained polish is one commit; a complete vertical slice (schema → IPC → UI → polish) is a short ordered sequence of atomic commits delivered in the **same cycle** (see Phase 2 "two shapes for ambitious work" and Phase 4). The invariant is per-commit atomicity and never carrying a >30-min uncommitted blob (CLAUDE.md parallel-safety §3) — NOT one-commit-per-cycle.
+  - Ship as **one or more atomic commits** — each individually compiling and lint-clean. A small self-contained polish is one commit; a complete vertical slice (schema → IPC → UI → polish) is a short ordered sequence of atomic commits delivered in the **same cycle** (see Phase 2 "two shapes for ambitious work" and Phase 4). The invariant is per-commit atomicity and never carrying a >30-min uncommitted blob (the overlay's parallel-safety rules) — NOT one-commit-per-cycle.
   - NOT be pure cleanup, dead-code removal, test-only changes, dependency bumps, or refactors without user-visible payoff. Those belong to `/explorer` / `/architect`.
 
 ---
 
 ## Phase 0: Setup (vault, ledger, worktree)
 
-### 0a — Resolve vault path
+### 0a — Read the overlay, resolve the vault
 
-```bash
-if [ -d "C:/Users/kazda/Documents/Obsidian/personas" ]; then
-  VAULT="C:/Users/kazda/Documents/Obsidian/personas"
-else
-  VAULT=""   # vault is optional for /friend; we degrade gracefully
-fi
-```
+Read `.claude/friend/config.md`. Every key it omits takes the default in `## Project overlay`; when the file is absent, say `overlay: defaults` once in the first cycle header and continue — the loop never blocks on it.
 
-If `$VAULT` is non-empty, bootstrap the Friend vault tree (idempotent — only create what's missing):
+Then `VAULT` = the first `vault` candidate that exists on disk, else `<repo>/.friend/` (created on demand; git-ignore it when a parallel session shares the branch). A vault is optional for `/friend` — degrade gracefully and never invent one outside the repo.
+
+Bootstrap the Friend vault tree (idempotent — only create what's missing):
 
 - `$VAULT/Friend/` (directory)
 - `$VAULT/Friend/sessions/` (directory)
@@ -151,7 +181,7 @@ Do NOT create `$VAULT/Lessons/` if it's missing — that folder is shared with `
 
 ### 0b — Read the active-runs ledger
 
-Read `.claude/active-runs.md`. Scan `## Active` for entries whose declared `Paths:` overlap with the resolved area's path glob (see area→path mapping below) AND are `started`-status AND less than 2 hours old.
+If the overlay sets `active_runs_ledger`, read it and scan `## Active` for entries whose declared `Paths:` overlap the resolved area's paths (Phase 0e) AND are `started`-status AND less than 2 hours old. With no ledger, take the same signal from `git worktree list` and `git status`.
 
 If overlap is found, present:
 
@@ -174,55 +204,39 @@ Compute a short slug: `friend-<area>-<HHMMSS>`. For example: `friend-agents-1430
 
 ```bash
 SLUG="friend-<area>-$(date +%H%M%S)"
-git worktree add ".claude/worktrees/$SLUG" -b "worktree-$SLUG"
-cd ".claude/worktrees/$SLUG"
+git worktree add "<worktree_dir>/$SLUG" -b "worktree-$SLUG"
+cd "<worktree_dir>/$SLUG"
 ```
 
 The entire loop runs inside the worktree. Branch name = `worktree-<slug>`. On clean exit (Phase 6), the worktree and branch are left in place — the user owns the merge decision.
 
 ### 0d — Append to active-runs ledger
 
-Append to `## Active` in the **main checkout's** `.claude/active-runs.md` (not the worktree's copy — they share the same file via git's worktree semantics, so the Edit lands in the same place):
+Skip this step when the overlay sets no `active_runs_ledger`. Otherwise append to its `## Active` section in the **main checkout's** copy (not the worktree's — they share the same file via git's worktree semantics, so the Edit lands in the same place):
 
 ```
 ### friend - <area>
 - Started: <YYYY-MM-DD HH:MM>
 - Status: started
 - Branch: worktree-friend-<area>-<HHMMSS>
-- Worktree: .claude/worktrees/friend-<area>-<HHMMSS>/
-- Paths: <area's path glob - e.g. src/features/agents/ src-tauri/src/commands/core/personas.rs>
+- Worktree: <worktree_dir>/friend-<area>-<HHMMSS>/
+- Paths: <the area's paths, from the overlay's `## Areas` row>
 - Note: /friend endless development loop
 ```
 
 ### 0e — Area → path mapping
 
-For the ledger entry and for scoping the scan, resolve area to paths:
-
-| Area | Primary paths |
-| --- | --- |
-| agents | `src/features/agents/` `src-tauri/src/commands/core/personas.rs` |
-| vault | `src/features/vault/` `src-tauri/src/commands/credentials/` |
-| orchestration | `src/features/teams/` `src/features/schedules/` `src-tauri/src/engine/` |
-| triggers | `src/features/triggers/` `src-tauri/src/commands/communication/` `src-tauri/src/engine/event_registry.rs` |
-| execution | `src/features/agents/sub_executions/` `src-tauri/src/commands/execution/` `src-tauri/src/engine/runner.rs` |
-| templates | `src/features/templates/` `src-tauri/src/commands/design/` `src-tauri/src/engine/build_session/` |
-| deployment | `src/features/deployment/` `src/features/share/` |
-| platform | `src/features/settings/` `src/features/overview/` `src-tauri/src/commands/admin/` |
+For the ledger entry and for scoping the scan, resolve the area to paths from the overlay's `## Areas` table: each row gives `name -> paths -> entry points`, and the paths are the scan scope and the collision surface. With no overlay, derive the mapping from the repo's top-level source directories and say the mapping was derived.
 
 For free-text areas (Q1 option 1), use the same resolver as `/explorer` to map a hint → context → primary paths.
 
 ### 0f — Boot the verified-mode instance (only if Q2b = yes)
 
-If the user enabled verified mode, start **one** worktree-local test-automation instance for the whole session (not per cycle):
+If the user enabled verified mode, start **one** worktree-local instance for the whole session (not per cycle), with the boot command the overlay's `## Verified mode` names, run from inside the worktree.
 
-```bash
-# from inside the worktree
-npm run tauri:dev:test   # HTTP automation server on :17320, Vite HMR for frontend cycles
-```
-
-- Probe `http://127.0.0.1:17320` for readiness before the first verification. If the port is already held by another instance, surface it — that instance won't have this worktree's code, so offer to (a) reuse it read-only for verification only, (b) pick a different port via the dev:test env overrides, or (c) downgrade to checklist-only.
-- Frontend-only cycles are picked up live via HMR — no restart. Rust-touching cycles need the instance rebuilt; budget for it or batch Rust changes within a slice.
-- Drive the UI with `clickTestId` (the `__test_respond` path), never the `/eval` queue — it silently drops scripts mid-session (`feedback_tauri_eval_queue_drops` memory). Add the `data-testid`s you intend to assert on while writing the UI in Phase 4.
+- Probe `verify_url` for readiness before the first verification. If the port is already held by another instance, surface it — that instance won't have this worktree's code, so offer to (a) reuse it read-only for verification only, (b) pick a different port if the boot command supports one, or (c) downgrade to checklist-only.
+- Hot-reloaded cycles are picked up live — no restart. Cycles that touch a compiled layer need the instance rebuilt; budget for it or batch those changes within a slice.
+- Drive the UI with the driver primitive the overlay names, and avoid any driver path it flags as lossy. Add the test ids you intend to assert on while writing the UI in Phase 4.
 - If the instance can't be booted, tell the user once and downgrade the session to checklist-only verification rather than blocking the loop.
 
 ---
@@ -233,9 +247,9 @@ npm run tauri:dev:test   # HTTP automation server on :17320, Vite HMR for fronte
 
 If `$VAULT` is set, read in parallel and hold in session context for the rest of the loop:
 
-1. `.claude/codebase-context.md` — area taxonomy.
-2. `.claude/codebase-stack.md` — engine internals, conventions.
-3. `.claude/CLAUDE.md` — project rules (i18n, design tokens, IPC, parallel-safety).
+1. `context_taxonomy` — area taxonomy (skip when unset).
+2. the overlay's `## Repo law` and the authoritative rules file it points at — conventions, string rules, wrappers, parallel-safety.
+3. the overlay's `## Gates`, `## Codegen` and `## Docs` — what a cycle owes before it can commit.
 4. `$VAULT/Patterns/friend-preferences.md` — distilled rules from prior sessions. Treat each rule as a Phase 2 constraint (e.g. "user prefers polish on hover/focus states over modal-style overlays" → bias proposals accordingly).
 5. `$VAULT/Friend/passes.md` — the area's section, if present. Each line is a rejected-direction fingerprint. Phase 2 must filter against these.
 6. `$VAULT/Friend/coverage.md` — last-visit date and acceptance density per area. Used by Phase 0 auto-pick; also surfaces here for the scan summary.
@@ -253,8 +267,8 @@ Pull in parallel:
 1. `git log --oneline --since="14 days ago" -- <area-paths>` — what's been moving here lately
 2. `git diff --stat HEAD~10..HEAD -- <area-paths>` — recent volume by file
 3. A `Grep` for `TODO|FIXME|XXX` scoped to the area
-4. A `Grep` for `useTranslation\|t\.` to spot text-heavy components (potential UX surfaces)
-5. The top of `.claude/codebase-context.md` group description for that area
+4. A `Grep` for the repo's string-lookup call (from `## Repo law`) to spot text-heavy components (potential UX surfaces)
+5. The area's description in `context_taxonomy`, or its `## Areas` row's entry points
 6. 5–10 most-recently-modified files in the area (Glob with sorted-by-mtime)
 
 For the `surprise me` goal, also pull two random non-trivial files from the area to seed something less obvious.
@@ -275,7 +289,7 @@ Produce **exactly 5** development directions. Each direction is:
 N. <short title - verb-led, 3-6 words>
    What:  <one line, <=90 chars - concrete UX/product change>
    Why:   <one line, <=90 chars - the user-visible outcome once it lands>
-   Files: <the actual files to touch, e.g. "AgentChatPanel.tsx, agents.rs, en.json (+12 locales)">
+   Files: <the actual files to touch - component, backend module, string catalogue, ...>
 ```
 
 A direction with no named files or no stated outcome is malformed — rework it or drop it before presenting.
@@ -288,8 +302,8 @@ Constraints on the 5:
 - **Two shapes for ambitious work — pick the honest one:**
   - **Vertical slice (default for self-contained features):** the whole feature lands *this cycle* as a sequence of atomic commits (e.g. `feat(db): add view` → `feat(ipc): expose command` → `feat(ui): tab + chart` → `polish: empty/loading states`). Each commit compiles and lints clean; the cycle is "done" only when the slice is whole and — in verified mode — observed working. This is the primary way `/friend` now tackles real product work; reach for it freely.
   - **Stages-of-N (only when a gate between stages helps the user):** reserve this for work that is genuinely sequential *and* worth a human checkpoint mid-way — e.g. a risky schema migration the user wants to eyeball before the UI builds on it. Mark it `Stage 1 of N — ships <X>; next stage wires <Y>.` If the arc would span days or multiple contexts, don't stage it — graduate it to `/perfect`.
-- **Each commit is atomic; a cycle may be several.** Every commit individually compiles and lints clean and represents one logical step. A polish cycle is one commit; a vertical-slice cycle is a short ordered sequence. Never carry more than ~30 minutes of uncommitted work between commits (CLAUDE.md parallel-safety §3). The old "one commit per cycle" rule is retired — it was a proxy for "don't bite off more than you can finish," which the model now handles directly.
-- **Honor CLAUDE.md.** Every direction must be implementable without violating i18n / design-token / IPC / error-handling / max-lines / parallel-safety rules.
+- **Each commit is atomic; a cycle may be several.** Every commit individually compiles and lints clean and represents one logical step. A polish cycle is one commit; a vertical-slice cycle is a short ordered sequence. Never carry more than ~30 minutes of uncommitted work between commits. The old "one commit per cycle" rule is retired — it was a proxy for "don't bite off more than you can finish," which the model now handles directly.
+- **Honor `## Repo law`.** Every direction must be implementable without violating the repo's string / design-token / call-wrapper / error-handling / max-lines / parallel-safety rules.
 - **No repeats.** Track proposed-and-completed direction titles within the session; do not re-propose. Track proposed-and-rejected titles within the session too — only re-propose if the user explicitly says "you can re-propose."
 - **Drop in-session 2× soft-skips.** Maintain a set of direction titles the user has soft-skipped (i.e. picked something else when this was on the menu) in the current session. If a title hits the set twice and is still unpicked, **stop re-proposing it for the rest of the session**. The same direction can return in a future session (it's not a hard reject), but burning a 5-slot menu position on something the user has already passed on twice is noise. Net-new-surface ideas in particular tend to keep getting re-proposed because they're easy to generate — this rule is the in-session brake.
 - **Filter against `Friend/passes.md`.** Any candidate whose fingerprint (area + short title + one-line What) closely matches a past hard-reject in this area is silently dropped before presentation. If it's a *near*-match (same target file, different angle), surface it but annotate `↻ previously passed; resurfacing because <reason>`.
@@ -336,8 +350,8 @@ If the user types a stop word (`stop`, `done`, `bye`, `quit`, `exit`) in the fre
 Before executing the chosen direction, you (the model) **silently judge** whether the path is materially risky. There is no hardcoded checklist — use judgment. Things that should trip the gate include but are not limited to:
 
 - Changes to database schema, migrations, or table shape
-- Renaming or removing a Tauri command, IPC contract, or exported ts-rs binding
-- Touching credential storage, keyring backends, or AES-encrypted fields
+- Renaming or removing a public command, an IPC/API contract, or a generated binding
+- Touching credential storage, keyring backends, or encrypted fields
 - Cross-area scope creep (the direction reads like one area but actually touches many)
 - Deleting >50 lines of any single file, or removing a component / module
 - Anything that would change behavior of a currently-active scheduler / runner / cron path
@@ -363,48 +377,34 @@ If the gate does **not** trip, execute immediately without asking. Do not ask fo
 
 ## Phase 4: Execute
 
-Implement the chosen direction inside the worktree. Treat CLAUDE.md as binding. The non-negotiables most likely to apply on a `/friend` cycle:
+Implement the chosen direction inside the worktree. **The overlay's `## Repo law` is binding** — read it as a checklist, not as background. The shapes it typically pins, and what to do when it pins none:
 
-### Frontend
-- **Reuse before building (CLAUDE.md's #1 UI-drift source)** — before writing any UI, check `src/features/shared/components/CATALOG.md` (~115 components). Import the existing spinner / empty-state / modal / button / tooltip / copy-button / relative-time / toggle / listbox rather than hand-rolling it: `feedback/LoadingSpinner`, `feedback/EmptyState`, `buttons/Button` + `buttons/AsyncButton`, `buttons/CopyButton`, `display/Tooltip`, `display/RelativeTime`, `display/Numeric`, `forms/AccessibleToggle` / `forms/Listbox` / `forms/FormField`. `BaseModal` for any backdrop (enforced by `custom/enforce-base-modal`). Add a genuinely new reusable pattern to `shared/components/` (with a `@catalog` tag + `npm run gen:catalog`), never to a feature folder.
-- **i18n (no localization gaps — pre-commit ENFORCED)** — every new user-visible string goes to `src/i18n/locales/en.json` under the right section; access via `useTranslation()` / `t.section.key`. Never hardcode JSX text, placeholder, title, or aria-label. Every cycle that adds English keys MUST translate them into all 13 non-English locales in the **same commit** — the `i18n-no-gaps` pre-commit hook blocks the commit otherwise. Don't hand-edit 13 files; use the repo pipeline: `node scripts/i18n/translate-extract.mjs` → spawn one Sonnet subagent per locale to fill `.i18n-work/missing-<code>.json` (preserve `{placeholders}`, keep brand/technical terms) → `node scripts/i18n/translate-merge.mjs`. For a ≤5-key polish cycle, inline Edits per locale file are fine. Gate: `npm run check:i18n:strict` clean before commit.
-- **Design tokens** — `typo-*` for text, `rounded-{interactive,input,card,modal}`, `shadow-elevation-1..4`, `bg-secondary/*` / `text-foreground/*` instead of `bg-white/*` / `text-white/*` (CLAUDE.md Styling section).
-- **Tauri IPC** — always `invokeWithTimeout` from `@/lib/tauriInvoke`.
-- **Errors** — `toastCatch()` for user-facing, `silentCatch()` for background. No empty `catch {}`.
-- **Status tokens** — Rust ships machine tokens (e.g. `"queued"`); use `tokenLabel(t, 'execution', row.status)` to display.
-
-### Backend
-- **ts-rs** — if you `#[derive(TS)] #[ts(export)]` a new struct or change a derived one, run from the worktree:
-  ```bash
-  cargo test --manifest-path src-tauri/Cargo.toml export_bindings
-  ```
-  Commit the resulting changes in `src/lib/bindings/` — it is the single source of truth (ts-rs writes there directly; the old `src-tauri/bindings/` dual tree is retired and gitignored).
-- **New Tauri commands** — also run `node scripts/generate-command-names.mjs` (or any `npm run dev` / `npm run build` will trigger it).
-- **AppError** — new error variants need both the enum addition and the `Serialize` match arm.
-- **Migrations** — additive only on `/friend` cycles. Anything destructive trips the Phase 3 gate.
-
-### Docs
-- If the direction is user-visible and touches one of the source areas mapped in `scripts/docs/feature-doc-map.json`, update the matching `docs/features/<area>/README.md` in the **same commit**. The Stop hook will catch this otherwise.
+- **Reuse before building** — the single largest source of UI drift. Before writing any surface, read the repo's reusable-component catalogue (from `## Repo law`) and import the existing spinner / empty-state / modal / button / tooltip / toggle rather than hand-rolling it. A genuinely new reusable pattern goes into the shared location the catalogue documents, never into a feature folder. No catalogue declared: grep the shared directory for a component with the same job before writing one.
+- **User-visible strings** — every new string goes through the repo's string catalogue and lookup call; never hardcode text, placeholder, title or label. When the repo ships more than one locale (`locale_count > 1`), a cycle that adds keys fills every locale in the **same commit** — hand-editing N files is the wrong tool, use the repo's extract/merge pipeline from `## Codegen` and parallelize the fill one subagent per locale, preserving placeholders and brand terms. For a tiny (<=5 key) polish cycle, inline edits per locale file are fine.
+- **Design tokens and call wrappers** — use the token scales and the call/error wrappers `## Repo law` names, never their raw equivalents, and never an empty catch. Machine tokens from the backend are displayed through the repo's label helper, not string-cased in the view.
+- **Generated artifacts** — when a change trips a trigger in `## Codegen` (a derived binding, a command registry, a component catalogue, a locale merge), run that command from the worktree and commit its output in the **same commit** as the change that obliged it. A generated tree is never hand-edited.
+- **Schema and data** — additive only on `/friend` cycles; anything destructive trips the Phase 3 gate.
+- **Docs** — when the direction is user-visible and the overlay's `## Docs` maps the area to a doc file, update it in the **same commit**. Assume a hook will catch it otherwise.
 
 ### Self-review (before validation)
 
 Now that cycles run longer, spend one deliberate adversarial pass on the diff before validating — you are the only reviewer this code gets before it lands. Read your own `git diff` and check:
 
 - **Correctness:** edge cases, null/empty/error states, off-by-one, races, stale closures, missing `await`. Would this break if the list were empty or the request failed?
-- **Reuse & drift:** did you re-implement something CATALOG.md already has? Raw Tailwind (`bg-white/*`, `text-white/*`) where a token belongs? Raw `invoke` instead of `invokeWithTimeout`? An empty `catch {}`?
-- **i18n:** any hardcoded JSX text / placeholder / title / aria-label that escaped extraction?
+- **Reuse & drift:** did you re-implement something the component catalogue already has? A raw utility class where a design token belongs? A raw call where the repo's wrapper belongs? An empty catch?
+- **Strings:** any hardcoded user-visible text / placeholder / title / label that escaped extraction, and every locale filled?
 - **Scope:** does the diff touch only files this direction needed? Anything accidental swept in?
 
 For a small polish cycle, do this inline. For a vertical-slice cycle (multi-file, multi-commit), spawn a `general-purpose` review subagent on the staged diff (or run `/code-review`) and fix what it surfaces before committing — cheap insurance against a plausible-but-wrong change shipping. Fix findings in the worktree, then validate.
 
 ### Validation (before the commit)
 
-Run, scoped to what was touched:
+Run the overlay's `## Gates` `builder:` list, scoped to what was touched — each entry names its command and the condition that selects it (a typecheck when typed sources changed, a lint, a compile check when a compiled layer changed, the string-catalogue check when keys moved). With no overlay, detect the equivalents from the build manifest and say what was detected.
 
-- TypeScript: `npx tsc --noEmit` if any `.ts`/`.tsx` changed.
-- Lint: `npm run lint` (silenced — only fail on new errors above the baseline; warnings are fine on the `custom/no-raw-*-classes` / `custom/no-hardcoded-jsx-text` migrations, but never on the lines you just wrote).
-- Rust: `cargo check --manifest-path src-tauri/Cargo.toml` if any `.rs` changed in `src-tauri/`.
-- Tests: skip by default — `/friend` is fast cycles. Only run `npm run test -- <path>` if the direction explicitly added or changed test files.
+Two standing rules on top of whatever the list says:
+
+- **Lint verdicts are read against the baseline** — a repo mid-migration carries warnings; fail on new errors and on anything on the lines you just wrote, never on the pre-existing floor.
+- **Tests are skipped by default** — `/friend` is fast cycles. Run the narrowest test command only when the direction added or changed test files.
 
 If a check fails: fix inline in the worktree, re-validate, then commit. Do **not** stack failing work into the next cycle.
 
@@ -420,9 +420,9 @@ If a check fails: fix inline in the worktree, re-validate, then commit. Do **not
 Co-Authored-By: Claude Fable 5 <noreply@anthropic.com>
 ```
 
-`<type>` from {`feat`, `feat(ux)`, `feat(ui)`, `polish`}. `/friend` rarely produces `fix` / `refactor` / `chore` — if you find yourself reaching for those types, the direction was probably stabilization and should have been rejected at Phase 2.
+`<type>` from the overlay's `commit_types` (default `feat`, `polish`); a repo whose commit-message hook enforces a closed set declares it there. `/friend` rarely produces `fix` / `refactor` / `chore` — if you find yourself reaching for those types, the direction was probably stabilization and should have been rejected at Phase 2.
 
-Stage only the files you intentionally touched (`git add <path>` per file, never `git add -A` / `git add .` / `git add -u`). Before **each** commit, verify the staged count matches: `git diff --cached --stat`. If the staged-file count exceeds what you wrote, run `git restore --staged <unrelated-file>` per file before committing. This is the discipline from CLAUDE.md's parallel-safety section §5, and it matters more across a multi-commit slice — re-check the index before every commit in the sequence, since a parallel session may have pre-staged files between your commits.
+Stage only the files you intentionally touched (`git add <path>` per file, never `git add -A` / `git add .` / `git add -u`). Before **each** commit, verify the staged count matches: `git diff --cached --stat`. If the staged-file count exceeds what you wrote, run `git restore --staged <unrelated-file>` per file before committing. This is the parallel-safety discipline the overlay's `## Repo law` carries, and it matters more across a multi-commit slice — re-check the index before every commit in the sequence, since a parallel session may have pre-staged files between your commits.
 
 After each commit: `git rev-parse --short HEAD` to capture the SHA. Collect the range (`<first-sha>..<last-sha>`) for the report.
 
@@ -432,10 +432,10 @@ After each commit: `git rev-parse --short HEAD` to capture the SHA. Collect the 
 
 Skip this phase entirely if the session is not in verified mode (Q2b = no) — the Phase 5 report carries a manual-verify checklist instead (see below).
 
-In verified mode, after the cycle's commits land, **prove the change works before reporting it done** (a clean compile is not evidence of behavior — the `feedback_verify_before_claiming_done` rule):
+In verified mode, after the cycle's commits land, **prove the change works before reporting it done** — a clean compile is not evidence of behavior:
 
-1. Ensure the worktree-local `tauri:dev:test` instance (Phase 0f) is up and has the change — frontend via HMR; Rust-touching cycles need it rebuilt first.
-2. Drive the actual scenario the direction claims to deliver, using `clickTestId` against :17320 (never the `/eval` queue). Assert on real DOM: the new control renders, the flow advances, the empty/error states appear when forced.
+1. Ensure the worktree-local instance (Phase 0f) is up and has the change — hot-reloaded layers arrive by themselves; compiled layers need a rebuild first.
+2. Drive the actual scenario the direction claims to deliver, using the overlay's driver primitive against `verify_url`. Assert on real DOM: the new control renders, the flow advances, the empty/error states appear when forced.
 3. If the observed behavior contradicts the claim, the cycle is **not done** — fix in the worktree, add a follow-up atomic commit, and re-verify. Never report a red scenario as green.
 4. Record what you drove and saw for the Phase 5 report (`Verified: <scenario> → <observed>`).
 
@@ -453,9 +453,9 @@ Print the report:
 OK <direction title>  (cycle <n>)
   Commits: <first-sha>..<last-sha>  (<count>)  -  Files: <N>  -  +<a>/-<b>
   Did:  <one sentence - what changed, behavior-first>
-  Checks: tsc <OK|->  lint <OK|->  cargo <OK|->
+  Checks: <one <gate> <OK|-> pair per builder gate that applied>
   Verified: <scenario -> observed | manual checklist below | - no behavior change>
-  Worktree: .claude/worktrees/<slug>/   Branch: worktree-<slug>
+  Worktree: <worktree_dir>/<slug>/   Branch: worktree-<slug>
 
 <non-verified + behavior changed only:>
   To verify: <exact clicks/inputs -> expected result>
@@ -489,7 +489,7 @@ Triggered by: user typing a stop word in the free-text lane, an explicit interru
 ### 6a — Stabilize the worktree
 
 1. **If anything uncommitted:** decide whether to commit. If the last cycle was interrupted mid-execute, prefer to discard the partial change (`git restore .`) rather than commit broken work; surface this decision to the user with a numbered confirm if they are still responsive.
-2. **Update active-runs.md** in the main checkout: move your `## Active` entry to the top of `## Recently completed`. Status: `completed (branch: worktree-<slug>, commits: <count>, last: <sha>)`. Keep the entry under 6 lines.
+2. **Update the active-runs ledger** in the main checkout (skip when the overlay declares none): move your `## Active` entry to the top of `## Recently completed`. Status: `completed (branch: worktree-<slug>, commits: <count>, last: <sha>)`. Keep the entry under 6 lines.
 
 ### 6b — Capture rejection reasons (one batched question)
 
@@ -520,7 +520,7 @@ Distinguish:
 ```markdown
 # Friend session: {area} - {YYYY-MM-DD HH:MM}
 
-Worktree: `.claude/worktrees/{slug}/`
+Worktree: `{worktree_dir}/{slug}/`
 Branch: `worktree-{slug}`
 Cycles: {N}
 Commits: {first-sha}..{last-sha}
@@ -620,12 +620,12 @@ If the user picks 1 (or Enter), append to `Patterns/friend-preferences.md` with 
 
 ### 6h — Print the exit summary
 
-**Do NOT auto-merge to master.** Do NOT delete the worktree or branch. The user owns the merge decision. Print:
+**Do NOT auto-merge to the base branch.** Do NOT delete the worktree or branch. The user owns the merge decision. Print:
 
 ```
 Session done.
   Branch:    worktree-{slug}
-  Worktree:  .claude/worktrees/{slug}/
+  Worktree:  {worktree_dir}/{slug}/
   Commits:   {count}  ({first-sha}..{last-sha})
   Area:      {area}
   Acceptance: {picked}/{proposed}  ({pct}%)
@@ -633,18 +633,18 @@ Session done.
 To merge: from the main checkout,
   git merge --no-ff worktree-{slug}
 To inspect first:
-  git log --oneline worktree-{slug} ^master
-  git diff master...worktree-{slug}
+  git log --oneline worktree-{slug} ^{base_branch}
+  git diff {base_branch}...worktree-{slug}
 To discard:
-  git worktree remove .claude/worktrees/{slug} && git branch -D worktree-{slug}
+  git worktree remove {worktree_dir}/{slug} && git branch -D worktree-{slug}
 
 Files updated:
-  + Obsidian/personas/Friend/sessions/{date}-{slug}.md
-  + Obsidian/personas/Lessons/{date}-friend.md   (if Lessons/ exists)
-  ~ Obsidian/personas/Friend/coverage.md
-  ~ Obsidian/personas/Friend/passes.md           (if any hard rejects)
-  ~ Obsidian/personas/Patterns/friend-preferences.md  (if pattern promoted)
-  ~ .claude/active-runs.md                       (ledger entry moved to completed)
+  + {VAULT}/{vault_subdir}/sessions/{date}-{slug}.md
+  + {VAULT}/Lessons/{date}-friend.md              (if Lessons/ exists)
+  ~ {VAULT}/{vault_subdir}/coverage.md
+  ~ {VAULT}/{vault_subdir}/passes.md              (if any hard rejects)
+  ~ {VAULT}/Patterns/friend-preferences.md        (if pattern promoted)
+  ~ {active_runs_ledger}                          (entry moved to completed; omit if none)
 ```
 
 ---
@@ -683,7 +683,7 @@ If the user expects "/friend will adapt to my taste by cycle 2," they'll be disa
 - **No cross-area scope creep.** If executing a chosen direction reveals it needs to touch files outside the area, Phase 3's risk gate should trip and ask the user — often the right answer is graduating it to `/perfect`.
 - **No orchestration.** No builder subagent fleets, no multi-cycle autonomous arcs, no acceptance pools — that machinery is `/perfect`'s. `/friend` executes exactly one picked direction per cycle, in-session.
 - **No auto-merge.** The worktree and branch are left for the user to inspect and merge on their own time.
-- **No silent stash.** Per CLAUDE.md parallel-safety §1: never `git stash` to clean the tree. Use `git add <path>` per file in Phase 4 and verify the staged count.
+- **No silent stash.** Never `git stash` to clean the tree. Use `git add <path>` per file in Phase 4 and verify the staged count.
 - **No `--no-verify` / `--no-gpg-sign`.** If a hook fails on commit, fix the underlying issue.
 - **No memory writes** about routine cycles. Only write a `feedback_*` memory if the user gives explicit guidance during a `/friend` session that would generalize across future sessions.
 
@@ -693,17 +693,17 @@ If the user expects "/friend will adapt to my taste by cycle 2," they'll be disa
 
 ```
 /friend
-  Q1:  Area? (1=other, 2..9=area, 10=pick for me)         <- Enter = 10
+  Q1:  Area? (1=other, 2..N=overlay area, N+1=pick for me)  <- Enter = last
   Q2:  Goal? (1=other, 2=scan-and-propose, 3=surprise)    <- Enter = 2
-  Q2b: Verified loop? (2=no, 3=yes)                       <- Enter = 2 (no)
-  ->  Phase 0  vault + learning files + ledger + worktree (+ boot :17320 if verified)
+  Q2b: Verified loop? (2=no, 3=yes)                       <- Enter = 2 (no; skipped with no verify_url)
+  ->  Phase 0  overlay + vault + learning files + ledger + worktree (+ boot the app if verified)
   ->  Phase 1  load passes + preferences + recent lessons, then scan area
   ->  Phase 2  propose 5 dev directions (each names files + outcome)
               mix: 1 small / 2 medium / 2 stretch  (one slot may be a /perfect graduation)
 LOOP:
   ->  Phase 3   silent risk gate; ask only if risky
   ->  Phase 4   execute slice -> self-review -> validate -> atomic commit(s)
-  ->  Phase 4.5 verified mode: drive :17320, observe DOM (else manual-verify checklist)
+  ->  Phase 4.5 verified mode: drive verify_url, observe DOM (else manual-verify checklist)
   ->  Phase 5   report + propose 5 new directions  ─┐
                                                    │ user picks number -> Phase 3
                             (graduation pick -> record in vault, point at /perfect)
@@ -713,24 +713,23 @@ EXIT (stop word / interrupt / context wrap):
               (worktree + branch left intact for user merge)
 ```
 
-## App context coverage (Personas-managed repos)
+## App context coverage (host-app-managed repos)
 
-This skill declares `contexts: tracked` — the Personas app measures per-context memory coverage for it. When run inside a Personas-managed repo (a `.personas/` dir exists, or the app dispatched this run), before finishing append JSON lines to `.personas/memory-outbox.jsonl` at the repo root (append, never rewrite) — one node per context you meaningfully worked on:
+This skill declares `contexts: tracked` — a host app that manages the repo can measure per-context memory coverage for it. **Skip this section silently when the overlay sets no `context_outbox`.** When it does, before finishing append JSON lines to that file (append, never rewrite) — one node per context you meaningfully worked on:
 
 ```json
-{"type":"node","kind":"progress","title":"<=200 chars: what you did in this context","body":"optional detail","context":"<exact context name from .claude/codebase-context.md>","skill":"friend"}
+{"type":"node","kind":"progress","title":"<=200 chars: what you did in this context","body":"optional detail","context":"<exact context name from the overlay's name source>","skill":"friend"}
 ```
 
 **Which name — this is the part that silently fails.** The ingest anchors a node
-by matching `context` against the names the app actually knows, case-insensitively.
-A name it does not recognize is NOT an error: the node is stored with a null
-context and simply never counts toward coverage. Use the **product-level context
-names in `.claude/codebase-context.md`** (49 names under 8 groups — the taxonomy
-CLAUDE's project map describes). Do NOT use repo-root `context-map.json`: it is a
-stale (2026-07-10) Vibeman auto-map with 236 mechanical names like
-`tauri:engine [3/10]` and `plugins/dev-tools [2/3]`, none of which the app knows.
+by matching `context` against the names the host app actually knows,
+case-insensitively. A name it does not recognize is NOT an error: the node is
+stored with a null context and simply never counts toward coverage. Take names
+only from the name source the overlay's `## Context sources` declares (falling
+back to the `## Areas` table), and never from a map that section marks stale — a
+mechanically generated map usually carries names no app knows.
 
-Always set both `"skill":"friend"` and `"context":"<name>"` — together they drive the per-skill context-coverage % (last 30 days). The app ingests and deletes the file when the session ends. Skip silently when not Personas-managed.
+Always set both `"skill":"friend"` and `"context":"<name>"` — together they drive the per-skill context-coverage % (last 30 days). The app ingests and deletes the file when the session ends.
 
 ---
 
@@ -751,12 +750,12 @@ This skill proposes and executes backlog items. Every item it proposes is judged
 **Send back what a LANDED fix taught.** When a change you made and verified generalizes past this repo - a rule that would transplant to an unrelated team, a case where a technique's rule broke against real code, or a place this repo does it BETTER than the golden path - append one line to `.ai/registry-leads.jsonl`: `{"ts":"<ISO>","bundle":"<domain>","nearest":"<subject-slug or null>","kind":"technique|application|subject","claim":"<when X, do Y, because Z - one sentence>","because":"<what this run measured or broke and fixed>","confidence":"low|medium|high","from":"friend@<version>"}`. Earned only: it came from code you changed, not from a fix you proposed. A lead ORIGINATES a finding and never authorizes one - nothing here edits a bundle; the registry's `leads-collect.mjs` -> `librarian/inbox.md` -> `/intake` decides what survives. Say in the report that you filed one, and say plainly when you filed none. Verdicts on a pair's state belong to `/conform`: close by naming the contexts you touched so it can re-judge them.
 <!-- /clause: knowledge-sync -->
 
-<!-- clause: skill-reflection v2 - stamped by scripts/apply-skill-clauses.mjs from docs/skill-clauses/skill-reflection.md; edit the template, then re-stamp -->
+<!-- clause: skill-reflection v3 - stamped by scripts/apply-skill-clauses.mjs from docs/skill-clauses/skill-reflection.md; edit the template, then re-stamp -->
 ## Skill Reflection
 
 After the run's real work is done, reflect - autonomously, without asking the user. Be honest about volume: most runs produce NOTHING beyond lane 1. An empty reflection is a valid result; a forced lesson is pollution. Calibration: nothing (common) / one line (sometimes) / a lesson entry (occasionally) / a redesign proposal (rare).
 
-**Lane 1 - PROJECT learnings** (what the next session in THIS repo needs). Repo-specific rules go to this skill's overlay in the consuming repo - a dated one-liner under `## Skill improvement log` in `.claude/friend/config.md`, or in the overlay/vault location this skill's `## Project overlay` section names (create the heading on first use). When the repo carries a `.personas/` directory, also write via the MEMORY BLOCK contract if this prompt carries one, else append node lines to `.personas/memory-outbox.jsonl` per that contract. Never into this file: a project's bytes in a shared method are exactly what made the fleet's copies diverge.
+**Lane 1 - PROJECT learnings** (what the next session in THIS repo needs). Repo-specific rules go to this skill's overlay in the consuming repo - a dated one-liner under `## Skill improvement log` in the overlay/vault location this skill's `## Project overlay` section names (create the heading on first use). If this skill carries no `## Project overlay` section, or its overlay section names no location, write that dated one-liner to `.claude/friend/config.md` in the consuming repo under `## Skill improvement log`, creating the file and the heading if they are absent - so the instruction is executable in every skill. When the repo carries a `.personas/` directory, also write via the MEMORY BLOCK contract if this prompt carries one, else append node lines to `.personas/memory-outbox.jsonl` per that contract. Never into this file: a project's bytes in a shared method are exactly what made the fleet's copies diverge.
 
 **Lane 2 - METHOD learnings** (what would improve THIS SKILL for every project):
 1. If nothing generalizes beyond this repo, stop here.
@@ -767,7 +766,3 @@ After the run's real work is done, reflect - autonomously, without asking the us
 
 **Lane 3 - DOMAIN knowledge** is a different artifact from a lesson: a lesson improves this METHOD, a lead proposes knowledge for a bundle. Skills that carry a `## Knowledge sync` section file leads there; a skill without one files none.
 <!-- /clause: skill-reflection -->
-
-## Model choice (bake-off 2026-09-01, kp / Hiring Pipeline)
-
-`model: fable`. Run head-to-head with identical inputs, Fable read the registry subject before proposing and shipped the direction it named (role-keyed aging thresholds, one group boundary crossed and declared); Opus stayed strictly in-area, shipped the editor + tooltip half, and deferred the role-keyed change as its next direction. The operator picked Fable's cycle. Opus's method notes were folded in: the knowledge-sync read is a Phase 1 input (not a closing ritual), the recency signal in a fresh worktree comes from `git log --since`, never from mtime, and Phase 6b can only write `passes.md` in an interactive session. See LESSONS.md.

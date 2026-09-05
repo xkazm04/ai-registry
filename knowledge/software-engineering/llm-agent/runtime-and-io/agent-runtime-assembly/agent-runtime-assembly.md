@@ -18,6 +18,7 @@ techniques:
   - guard-input-custody
   - additive-input-at-the-call-boundary
   - indeterminate-closure-on-interruption
+  - substituted-result-attribution
 ---
 
 # Agent runtime assembly
@@ -169,18 +170,22 @@ the service itself**, and the second must never be able to name code. An
 administrator with service access may configure behaviour; only the operator
 who controls the process's startup may load code into it.
 
-Two consequences follow. A load failure is fatal only when the operator marked
-that contribution *required* — the default is that a broken extension is
+Two consequences follow. A load failure's severity is derived from the
+contribution's declared kind: an observational extension that breaks is
 diagnosed, attributed, and skipped, because the alternative turns every later
 failure (a missing native library, a deleted snapshot) into a startup abort
-recoverable only by shell access. And at run time a contributed hook runs
-*isolated*: its failure emits an attributed diagnostic and the chain passes
-through without repeating a downstream side effect. The subtle rule is how
-fail-open decides what a failure *is*: by the **origin** of a cancellation,
-not its class. A contributor's internal timeout raises the same exception the
-host raises when it cancels a run, and propagating it would end an otherwise
-successful run as cancelled and skip every successor. Only a genuine host
-cancellation propagates.
+recoverable only by shell access; an *intercepting* one is required unless
+the operator explicitly downgrades it, because a guard that fails to load is
+an absent guard for the life of the process. And at run time a contributed
+hook runs *isolated*: its failure emits an attributed diagnostic and the
+chain passes through without repeating a downstream side effect. The subtle
+rule is how fail-open decides what a failure *is*: by the **origin** of a
+cancellation, not its class. In a runtime whose timeouts are cancellations, a
+contributor's internal timeout raises the same exception the host raises when
+it cancels a run, and propagating it would end an otherwise successful run as
+cancelled and skip every successor. Only a genuine host cancellation
+propagates — and a runtime that scopes its own cancellations has already
+done that sorting for the wrapper.
 [operator-tier-code-loading](./techniques/operator-tier-code-loading.md) owns
 the two tiers, the required flag, the isolation wrapper, and the origin rule.
 
@@ -188,12 +193,15 @@ Routes are the second seam of the same surface. A contribution that mounts
 handlers onto the host's service is claiming paths, and a path it claims may
 already be the host's — including an authentication-exempt one. The standard
 builds contributed routers early, so their construction failures surface with
-the rest of loading, but mounts them *last*, so the host's handler always
-wins; and it rejects a contribution atomically when an existing route
-*provably* covers one of its paths for the same method, while allowing what
-it cannot prove rather than guessing. [host-routes-win](./techniques/host-routes-win.md)
-owns the mount order, the proof, and why the predicate must classify the path
-the router actually matches on.
+the rest of loading, but mounts them *last*, so that on a first-match router
+the host's handler always wins — on a specificity router mount order decides
+nothing and the same invariant is carried by a register-time check instead;
+and it rejects a contribution atomically when an existing route *provably*
+covers one of its paths for the same method, while allowing what it cannot
+prove rather than guessing. [host-routes-win](./techniques/host-routes-win.md)
+owns the mount order, the proof, the dependence on the router's matching
+discipline, and why the predicate must classify the path the router actually
+matches on.
 
 ## The loop holds only what survives
 
@@ -226,8 +234,10 @@ owns the visibility rule, the discard rules, and the framed delivery.
 The conversation's durable record is written by the graph engine in a
 representation the runtime chooses, and that choice has consequences the
 runtime must own. A store that writes the complete state at every step is
-self-contained and expensive — storage grows with the square of the turn
-count. A store that writes deltas is cheap and *not* self-contained: reading
+self-contained and expensive — the message references it holds grow with
+the square of the turn count, and so do the bytes unless content is shared
+rather than copied. A store that writes deltas is cheap and *not*
+self-contained: reading
 one checkpoint means walking its ancestry, and a shared parent carries the
 abandoned sibling's writes as well as the live branch's. The two
 representations cannot be mixed by accident, so the **mode is frozen once per
@@ -288,14 +298,20 @@ special-case it.
   list the host later grows, now wrapping the wrong thing.
 - **The gapped ledger** — a receipt layer inside a short-circuiting gate, so
   the calls that were refused are the calls no verifier can see.
+- **The self-wrapped hook** — a hook that calls the model or a tool through
+  the chain it sits in, so it gates its own call and the ledger books the
+  call to the model; or bypasses the chain, and holds an unwrapped path.
 - **The moving identity** — an assembly digest that includes the build, so
   every redeploy reads as an agent change and the comparison means nothing.
 - **The probed hook** — assembly identity computed by reading a hook's private
   attributes, which the next refactor silently renames.
 - **Code through the service door** — an authenticated caller who can write
   configuration can name an entry point, and configuration becomes execution.
-- **The fatal optional** — a broken contribution nobody marked required takes
-  the whole host down.
+- **The fatal optional** — a broken observational contribution nobody
+  marked required takes the whole host down.
+- **The skipped guard** — an intercepting contribution that fails to load
+  under an optional-by-default rule, so the host starts without the control
+  the operator installed and reports it as a known gap nobody reads.
 - **The propagated timeout** — a contributor's cancellation ends the host's
   run as cancelled and skips its successors.
 - **The shadowed host route** — a contributed handler mounted before the
@@ -359,6 +375,11 @@ special-case it.
   policy judges what executes; the original travels beside the effective
   value with per-frame provenance; the continuation is single-use, and
   fall-through is conditioned on whether the call beneath already ran.
+- [substituted-result-attribution](./techniques/substituted-result-attribution.md)
+  — a frame that returns without entering the continuation is a producer, so
+  the result names it: replay and substitution spelled differently, freshness
+  stamped at the time the value was obtained, and the decisions made against
+  the named tool's identity re-evaluated when a different producer answered.
 - [honest-hook-registry](./techniques/honest-hook-registry.md) — a timeout
   is available only where abandonment has a safe direction, so coverage is
   an allowlist whose exemptions are named with reasons; no event name

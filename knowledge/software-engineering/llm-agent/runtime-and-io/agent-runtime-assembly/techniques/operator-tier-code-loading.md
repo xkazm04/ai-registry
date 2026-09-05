@@ -123,6 +123,63 @@ verified, how privileges are represented and revoked — belong to the subject
 that owns hosting third-party extensions, and a runtime adopting the third row
 takes them from there rather than reinventing them at the assembly layer.
 
+## The fourth row: when the agent writes the configuration
+
+The three rows above are ordered by **who can write the configuration**, and
+every writer in them is a person: an operator with host access, an
+administrator with a login. A runtime that lets the agent it runs extend its
+own tool roster adds a fourth writer, and that writer is not a person who
+happens to be automated — it is a different kind of principal, and the
+difference lands on exactly one of the four conditions.
+
+| tier | written by | may name code |
+| --- | --- | --- |
+| **agent-writable configuration** | the model, through a tool call, at its own discretion | see below — the third row's inversion is **unavailable** |
+
+Read condition 3 again: *the administrator sees those privileges and consents
+at install time*. For this tier there is no administrator at install time,
+and that is not an oversight to be patched with a confirmation dialog — it is
+the tier's entire purpose. A runtime grants the agent an extension surface
+precisely so that capability can be added without a human in the loop; a
+consent step at install time removes the property the tier was built to have.
+The condition is not unmet, it is **structurally unavailable**.
+
+Because the four conditions are joint, that settles it. A host cannot take
+the third row's inversion on an agent-writable tier by satisfying the other
+three, for the same reason the third row already gives: three of four is not
+three-quarters of this rule, it is none of it. So the agent-writable tier has
+two honest resolutions and no third:
+
+- **Deny code entry, and extend through data.** The agent's durable
+  contributions are declarative — a schema, an instruction document, a
+  procedure the runtime interprets — and none of them is an entry point. New
+  *code* capability goes down the ladder to the startup tier, where a human
+  performs the build. This is row 2's rule applied to a non-human writer, and
+  it is the resolution that keeps the guarantee intact.
+- **Move consent in time, and say what that costs.** Where the surface must
+  load code, consent becomes *review-time* rather than install-time, and it
+  is a strictly weaker guarantee that may only be claimed when three things
+  hold together: every installation appends to a record the operator actually
+  reads, that record names the privileges rather than the fact of an install,
+  and the contributed code cannot take an irreversible action before the
+  review window closes. Without the third, review is an audit of damage
+  already done — and
+  [an audit record of an unrecoverable action is not a substitute for being
+  able to undo it](../../../../_laws.md#record-precedes-effect).
+
+**The isolation that counts is the one wrapping the contributed code, not the
+one wrapping the agent.** This is the specific way a runtime talks itself into
+row 3 without owning it: the agent's shell runs in a sandbox, the product page
+says the system is sandboxed, and the tool module the agent just wrote is
+imported into the host's own process with the host's privileges. Two different
+boundaries, one word. Condition 1 asks about the second one.
+
+The mechanical test transfers unchanged, with the writer swapped: have the
+agent install a code-naming extension through its own tool surface, and see
+what the runtime does. A runtime that loads it has granted a model the
+operator tier — and, unlike a misconfigured administrator account, this
+writer's whole design is to keep writing.
+
 ## Load order is deterministic and load failure is attributed
 
 Extensions load in the order the startup configuration lists them, never in
@@ -135,15 +192,33 @@ A load failure — an import error, a missing native dependency, a broken
 manifest — produces a diagnostic *attributed to the extension*, and then one
 of two things happens, decided by the operator in advance:
 
-- **Optional (the default):** the extension is skipped, the diagnostic is
+- **Optional:** the extension is skipped, the diagnostic is
   recorded and surfaced, and the host starts. The runtime that started
   without it is a runtime with a *known* gap, which is the honest state.
-- **Required:** the host refuses to start. This is opt-in, per extension,
-  because it converts every later failure — a native library removed by an
-  image update, a snapshot deleted from disk — into a startup abort that only
-  someone with shell access can recover. That is the right cost for an
-  extension the deployment cannot function without, and the wrong cost for
-  everything else.
+- **Required:** the host refuses to start. This converts every later
+  failure — a native library removed by an image update, a snapshot deleted
+  from disk — into a startup abort that only someone with shell access can
+  recover. That is the right cost for an extension the deployment cannot
+  function without, and the wrong cost for everything else.
+
+Which one is the default is decided by the **same declaration that decides
+the run-time fail direction below**, not by a global setting. An
+observational contribution — one that records, measures or annotates —
+defaults to optional: the run that starts without it is a run with a gap in
+its telemetry. An **intercepting** contribution defaults to required, for
+the reason the run-time rule gives: a guard that fails to load is an absent
+guard on every call for the whole process lifetime, and a host that starts
+without it has silently dropped a control the operator installed. The
+operator may downgrade an intercepting contribution to optional explicitly,
+per extension, and the downgrade is recorded beside the declaration so the
+gap is a decision rather than a default. Deriving both fail directions from
+one declaration is what keeps them from disagreeing about the same
+contribution — a hook that fails closed at run time and open at load time
+has two policies and the weaker one wins on the day that matters. The
+field's admission-control systems land on the same default: a policy
+webhook that cannot be reached fails the request unless its configuration
+says otherwise, and the exception is written per webhook, in the same object
+that declares what it checks.
 
 The failure-versus-empty distinction of
 [failure-not-empty-success](../../../../_laws.md#failure-not-empty-success)
@@ -204,18 +279,35 @@ others — because a wrapper that implements a hook the inner does not is a
 silent pass-through the chain will count as participation, and one that
 omits a hook the inner has is a contribution half-installed.
 
-Fail-open has one exception, and the exception is decided by the wrong
-criterion in most runtimes. A **cancellation** must propagate, because the
-host cancelling a run is not a hook failing. But the exception the host
-raises to cancel is the same exception a contributor's own internal timeout
-raises — an operation that gave up waiting produces a cancellation from
-*inside* the hook. If the wrapper decides by exception class, a
-contributor's timeout is read as the host's cancel: the run ends as
-cancelled, its successor hooks never run, and a successful turn is reported
-as aborted. So the wrapper decides by **origin**, not class: it checks
-whether the host's own cancellation signal for this run is set, and only
-then propagates. A cancellation that arrives with no host signal behind it
-is a contributor failure, diagnosed and passed through like any other.
+Fail-open has one exception, and the exception is easy to decide by the
+wrong criterion. A **cancellation** must propagate, because the host
+cancelling a run is not a hook failing. But in a runtime whose timeouts are
+implemented *as* cancellations — the common shape in cooperative async
+runtimes — the exception the host raises to cancel is the same exception a
+contributor's own internal timeout raises: an operation that gave up waiting
+produces a cancellation from *inside* the hook. If the wrapper decides by
+exception class, a contributor's timeout is read as the host's cancel: the
+run ends as cancelled, its successor hooks never run, and a successful turn
+is reported as aborted. So the wrapper decides by **origin**, not class: it
+checks whether the host's own cancellation signal for this run is set, and
+only then propagates. A cancellation that arrives with no host signal behind
+it is a contributor failure, diagnosed and passed through like any other.
+
+The premise is a property of the runtime, not a law, and the correction
+scales with it. A runtime with **scoped cancellation** — a timeout context
+that owns the cancellation it issued and converts it into a timeout error at
+its own boundary, or a cancellation token the callee can compare against the
+host's — has already distinguished the two origins before the wrapper sees
+anything: the contributor's timeout leaves the contributor as a timeout, and
+only the host's cancellation arrives as a cancellation. That is the origin
+rule enforced by the runtime instead of the wrapper, and the wrapper should
+lean on it rather than reimplementing it. The wrapper's own check is still
+correct there and still cheap; what it must never do is *reintroduce* the
+class-based read on top of a runtime that has a scoped primitive, by
+catching the translated timeout and re-raising it as a cancellation. Where
+the runtime counts cancellation requests rather than classifying exceptions,
+consume the count the way the runtime's own structured constructs do, or the
+host's later cancellation is swallowed by the contributor's earlier one.
 
 This is [verdict-survives-boundary](../../../../_laws.md#verdict-survives-boundary)
 at the isolation wrapper: the classification *host cancelled this run* is
@@ -270,8 +362,11 @@ technique.
   ceilings the runner actually enforces, because they are the ceiling on the
   whole arrangement.
 - Load in declared order, never enumerated order.
-- Default a load failure to skip-with-attribution; make it fatal only for an
-  extension the operator marked required, and make required opt-in.
+- Derive the load-failure default from the contribution's declared kind:
+  observational skips with attribution; intercepting is required unless the
+  operator downgrades it explicitly, per extension, with the downgrade
+  recorded beside the declaration. One declaration decides both the
+  load-time and the run-time fail direction.
 - Report a skipped extension as skipped, with reason, on every surface that
   reports loaded extensions.
 - Install as one transaction over declaration, lock and snapshot; validate
@@ -282,7 +377,9 @@ technique.
   chain passes through without repeating a downstream side effect; require
   an intercepting contribution to declare itself and fail closed.
 - Decide fail-open by the origin of a cancellation — the host's own signal
-  for this run — never by the exception's class.
+  for this run — never by the exception's class. Where the runtime scopes
+  cancellation itself, use its translated timeout and its request count
+  rather than re-deriving origin from exception shape.
 - Bind one immutable extension snapshot per run; keep the management tool
   independent of the extension group; never accept a registration the host
   does not yet handle.

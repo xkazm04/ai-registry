@@ -1,7 +1,7 @@
 ---
 subject: model-routing
 domain: software-engineering
-last_touched: 2026-09-03
+last_touched: 2026-09-04
 touched_by: intake
 dry_streak: 0
 ---
@@ -69,6 +69,62 @@ is precisely the state in which turning outcomes into a "quality" score looks li
 obvious few-line improvement. The decisive case came from the tree's own history: a
 frame-planning step whose first version produced schema-valid, deterministic, semantically
 worthless output that single-axis scoring would rate maximal.
+
+## 2026-09-04 - `/intake`, from an external source
+
+Two amendments, both appends to technique files rather than restructures, so V5
+did not fire even though a quiet sibling held this subject. Source:
+[[2026-09-04-authority-hacker-writing-models]]. **Note for whoever reads this
+next:** the board's `check` reported this subject clear while its own `list`
+showed the sibling holding it — the second sighting of that contradiction. This
+run trusted `list`.
+
+**`effort-calibration` amended: a tie is a property of the instrument.** The
+technique's cheapest rule — when quality signals tie, cost decides — carries an
+unstated precondition, that the instrument reporting the tie could separate these
+candidates on this axis. The second inversion already says model judges favour
+their own family; the consequential half is what that disagreement does to the
+aggregate. Judges pulling in different directions on a stylistic axis do not
+produce a spread, they **cancel**, and cancellation is reported as parity. So the
+instrument most likely to be used on prose work is the one most likely to
+manufacture the tie that hands the decision to cost.
+
+A forced-choice comparison between unlabelled outputs, judged by the audience the
+copy is for, separates candidates a judge panel calls tied — and it is not
+reliably ordered by tier. A cheaper model can win a register axis outright, not
+"acceptably close for the price". Two record consequences: a tie is written with
+the instrument that found it, and where the cheaper tier *wins*, the entry's
+reason is quality rather than cost. They select the same model today, which is
+why the distinction gets dropped — and a cost-justified entry loses the next
+budget review, while a preference-justified one survives it.
+
+Corroborated from a fleet tree rather than from the video: a benchmark product
+selects its judge on **spread**, the gap between the score it gives good and bad
+answers, on the stated grounds that a narrow-spread judge cannot separate quality
+from deflection at any threshold. Its cheapest candidate judge had respectable
+error and the worst spread; its dearest failed by passing a factually wrong
+answer in the middle of its range.
+
+**`turn-classification` amended: a fourth axis.** Its three recurring axes — who
+waits, blast radius, expected output shape — all describe how a call is
+*consumed*. The fourth describes what it *produces*: whether the call decides what
+the artifact should be (the plan, the audience read, the brief another call will
+execute) or renders the surface a person receives. It is the axis that gets left
+out because a single capable model doing both hides the seam; the seam appears the
+moment the brief exists as text. The two classes want opposite ends of the roster
+— the judgment call is short, rare and rewards capability; the rendering call is
+long, frequent and rewards whatever produces the register the audience wants,
+which measurement does not reliably place at the top tier.
+
+Two guards, both learned from the fleet read: the split is real only when the
+intermediate artifact is **explicit** and could be handed to a different executor
+(a split asserted over one model's internal phases is a class with no call site),
+and it is a product distinction rather than a prompt-engineering one. The
+application against a managed project is the sharpest evidence for the axis: that
+tree separates structured assessment from free-form text at the *contract* layer,
+with the reason in a header comment, and then explicitly keeps one answer for
+which provider — so a scoring pass, a background write gate and an interactive
+chat turn share one model id and one global reasoning budget.
 
 ## Open leads (banked, with return conditions)
 

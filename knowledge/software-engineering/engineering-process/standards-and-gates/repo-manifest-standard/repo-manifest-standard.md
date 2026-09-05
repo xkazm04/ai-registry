@@ -11,6 +11,7 @@ techniques:
   - semver-additive-evolution
   - spec-ships-with-artifact
   - generated-from-provenance
+  - version-gate-precedes-schema-gate
 ---
 
 # A repository manifest standard
@@ -214,7 +215,7 @@ never-commit pattern actually tracked?) is small and worth the wiring.
 Two further seams are worth naming so nobody looks for them here. The mechanics
 of *emitting* files into a repository — the catalog, the parameter interview,
 the adoption lifecycle — belong to
-[templates-scaffolding](../../../integration/templates-scaffolding/templates-scaffolding.md); this
+[templates-scaffolding](../../../integration/external-systems/templates-scaffolding/templates-scaffolding.md); this
 subject cares only about what the emitted contract says. And the opposite
 direction of authority — an externally derived, comparable fingerprint that a
 third party computes *about* a repository — belongs to [`readiness-passports`](../../../engineering-assessment/maturity-and-conformance/readiness-passports/readiness-passports.md). A

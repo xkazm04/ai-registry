@@ -1,7 +1,7 @@
 ---
 subject: invariant-placement
 domain: software-engineering
-last_touched: 2026-09-03
+last_touched: 2026-09-04
 dry_streak: 0
 ---
 
@@ -69,3 +69,23 @@ Expiry machinery is handed to the subjects that own it.
 composite that is a function of its parts is computed, never declared. Adjacent
 to but distinct from `derivation-names-recomputation` and `absent-guard-is-loud`.
 One family of evidence today; return at three independent sightings.
+
+## 2026-09-04 - `/intake`, cargo-make read for language craft
+
+One technique, from [[../../sources/2026-09-04-cargo-make-rust-craft]].
+
+- **`shape-with-a-not-applicable-member`** (new). A failure mode of this
+  subject's **Shape** altitude that the golden path's own framing invites: the
+  path says nothing is checked at Shape because there is nothing to check, and a
+  set that gains a member meaning *none of these* does not merely readmit the
+  illegal state - it inverts the mechanism. Exhaustiveness now **compels** every
+  consumer to invent a semantics for a state that cannot occur, and the cheapest
+  invention that compiles is silence. Shape regresses past Call-site, into a
+  runtime handler nobody designed that reads as deliberate.
+- The audit is mechanical and it is the technique's whole value: enumerate the
+  **producers**, never the consumers. In the source, no path can emit the seventh
+  member, so its arm is compiler-mandated dead code whose body returns a benign
+  false - which the caller reads as "there was no work to do".
+- The golden path's existing line - *a set of independent flags obliges every
+  write site to prevent every illegal combination* - now has its mirror: a union
+  with an extra member obliges every read site to invent a semantics for it.

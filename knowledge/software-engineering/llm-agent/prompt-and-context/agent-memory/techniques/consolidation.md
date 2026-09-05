@@ -118,6 +118,19 @@ is to run it less often. The excerpt cap matters as much as the shortlist
 cap: one enormous item can otherwise consume the whole comparison window and
 crowd out its own competitors.
 
+**A cap that is not a shortlist becomes a blind spot.** The two caps above are not
+interchangeable with a single global limit on how much of the store the judgment sees.
+A system that skips the prefilter and instead hands the pass its *N most important, most
+recently updated* items has bounded the prompt and bought a permanent exclusion with it:
+everything below the cut is never a candidate again, so a duplicate or a contradiction
+that settles in the low-importance tail is never retired, and nothing counts the miss.
+The shortlist is what keeps the cap honest, because it is redrawn per new item and
+relevance moves; a store-ordered truncation does not move, and its exclusions compound.
+The cost half of the same mistake arrives first and is the one that gets noticed: a fixed
+timeout on a call whose prompt grows with the active set will start failing partway up,
+and on one store replayed over a simulated year of use it cost about a third of the
+passes before the store had even reached its cut.
+
 **And the measure it ranks by must fit the question being asked.** Duplicate
 and correction detection is *directional*: a short, sharp correction ("we
 moved off the shared credential") must score high against the long item it
@@ -177,7 +190,29 @@ The discipline:
 - **Contradiction lowers confidence before it flips conclusions.** One
   conflicting episode against a many-times-reinforced belief is a reason to
   doubt, not yet a reason to reverse. Weight of evidence decides; recency
-  is a tiebreaker, not a trump.
+  is a tiebreaker, not a trump. That rule is for *inferred* beliefs, where
+  the episodes are evidence and the belief is the distiller's reading of
+  them. It inverts for a **state-valued claim restated by its own
+  authority**: when the person whose state it is says the value changed,
+  the later statement closes the earlier one whatever the reinforcement
+  count, because ten confirmations of the old address are not evidence
+  against a move — they are the history of the state. Reading them as
+  weight is the measured failure of this class: on a 2026 consolidation
+  benchmark every published memory system lost most of the questions where
+  a later statement should have overridden an earlier one, and the
+  strongest reported fix moved the newest-wins comparison *out of the
+  model* into deterministic code over the candidates' order, because a
+  model asked to compare timestamps drifts as the candidate set grows and
+  lets its training prior override an explicit newer value. Type the claim,
+  and where it is a state whose authority spoke again, the pass compares
+  instants and never weighs. The comparison presupposes a **code-owned key**:
+  two rows can only be ordered by instant if the store knows they are the
+  same state, and a distiller that mints its own keys per episode does not -
+  one measured store minted 3.6 keys per state on average (max 9), so the
+  newest-wins rule had nothing to join on for a third of the cases it should
+  have fixed, and the dominant cause of a stale answer there was distillation
+  latency, which no ordering rule touches. Canonicalise the key in the pass
+  before the instant comparison, or the rule is unreachable.
 - **Except when the source is the human.** An explicit operator correction
   supersedes immediately regardless of the standing belief's weight — it is
   the highest evidence grade the system knows, and the superseding item's

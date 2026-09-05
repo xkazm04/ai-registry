@@ -18,9 +18,14 @@ techniques:
 Every subject that touches load presupposes an answer to a question none of them
 asks. Limiting a request rate presupposes a ceiling somebody chose. Sharding
 presupposes that one node was not enough. Replication presupposes two stores that
-must converge; shedding presupposes a capacity already fixed. Those mechanisms are
-well understood and this bundle covers them thoroughly. **The decision that summons
-them is this subject, and it is the stage most systems skip.**
+must converge; shedding presupposes a capacity already fixed. Most of those
+mechanisms are well understood and this bundle covers them thoroughly — rate
+limiting, replication on both of its shapes, and shedding each have a subject.
+**Partitioning does not**, and the omission is worth naming here rather than
+leaving a reader to discover it: this subject can tell you when one node stopped
+being enough, and the bundle currently hands you nothing for what to do next on
+that axis. **The decision that summons these mechanisms is this subject, and it is
+the stage most systems skip.**
 
 The naive reading is that this is capacity planning, that it is arithmetic, and that
 it belongs to whoever owns the infrastructure budget. The principal reading is that

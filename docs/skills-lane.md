@@ -24,10 +24,36 @@ earns its place):
   `agent-memory/procedure-promotion`, "Selection is the scaling failure". Two
   colliding skills are one skill with a parameter, or two whose descriptions
   must name their boundary.
-- **Deterministic script tests and behavioral evals** — not yet standing. A lane
-  skill that ships scripts should carry its own `test_*.mjs` beside them; the
-  harness's plugin-eval schema is the target for behavioral cases when a skill's
-  behaviour, not its structure, regresses. Adopt per skill when one earns it.
+- **Deterministic script tests** — standing, as a convention plus a note. A lane
+  skill that ships `scripts/` or `tools/` carries `tests/test_*.mjs` beside them,
+  run with the runtime's own runner and nothing else:
+
+  ```sh
+  node --test "skills/<name>/tests/*.mjs"
+  ```
+
+  **No install.** A test that needs `npm install` to run is a test nobody runs, and
+  this lane's toolchain is `git clone` plus a recent Node. So a test imports the
+  **pure** functions of a tool — the parse, the layout, the transform — and never
+  the parts that resolve a native module or call an API. When a pure function is not
+  reachable without pulling those in, the tool is the thing to fix: split the pure
+  half into its own builtins-only module (`tools/og-text.mjs` is the worked example)
+  rather than skipping the test or installing the dependency.
+
+  Two notes report the convention without making it retroactive:
+
+  - a skill with `scripts/` or `tools/` and no `tests/` directory;
+  - a skill whose `memory:` is `project` or `vault` and whose body carries no
+    `## Project overlay` heading — that scope is a promise to read per-repo state,
+    and the section naming the overlay location and its defaults is what keeps it.
+
+  Both are **notes, never failures**: they name a convention adopted after the
+  skills that predate it, and a gate that fails a skill for the absence of a
+  section nobody has written yet is a gate somebody deletes.
+
+- **Behavioral evals** — not yet standing. The harness's plugin-eval schema is the
+  target for cases where a skill's behaviour, not its structure, regresses. Adopt
+  per skill when one earns it.
 
 ## The shape
 
@@ -37,6 +63,7 @@ skills/<name>/LESSONS.md      # optional - append-only, one block per run
 skills/<name>/references/     # optional - material the method loads on demand
 skills/<name>/scripts/        # optional - instruments the method runs
 skills/<name>/tools/          # optional - same, for tooling with its own deps
+skills/<name>/tests/          # optional - node --test cases for the pure half of the above
 skills/<name>/assets/         # optional - templates, images, fixtures
 skills/<name>/package.json    # optional - WITH a lockfile; never node_modules/
 ```

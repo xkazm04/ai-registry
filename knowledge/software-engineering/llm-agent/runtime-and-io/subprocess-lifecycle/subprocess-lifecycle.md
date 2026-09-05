@@ -6,6 +6,7 @@ status: reconciled
 techniques:
   - spawn-contract
   - termination-and-reaping
+  - cancellation-needs-a-terminable-unit
   - concurrency-and-slots
   - session-reuse
   - liveness-and-heartbeats

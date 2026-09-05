@@ -1,7 +1,7 @@
 ---
 domain: software-engineering
 subject: module-design
-last_touched: 2026-09-03
+last_touched: 2026-09-04
 touched_by: intake
 dry_streak: 0
 ---
@@ -11,6 +11,28 @@ dry_streak: 0
 Subject note. Part of [[index]]; graded against [[standard]].
 
 ## Touch log
+
+### 2026-09-04 - `/intake`, cargo-make read for language craft
+
+One technique, from [[../../sources/2026-09-04-cargo-make-rust-craft]]. Second lens on a repository the architecture run
+mined the same morning; the two runs overlap in zero candidates.
+
+- **`state-carrier-decides-the-lane`** (new). Sits in front of
+  `concurrency-at-the-edge` rather than beside it: that technique asks where a
+  flow-control model should live and assumes the question is open, and this one
+  says the container holding shared state usually answered it first. The source
+  threads a single-flow reference cell through its runner, the cell cannot cross
+  a thread boundary, and the parallel lane therefore deep-copies and discards -
+  with a one-line comment at the spawn site as the only record anywhere. The
+  sharp half is that **the copy is written once over one struct and its
+  correctness is per-field**: per-branch state, an accumulator and a latched
+  decision all get identical treatment from one clone.
+- Amended in the same run by its own apply row. A `not-better` verdict against a
+  worker boundary in a fleet project showed the technique was over-triggering: it
+  applies to an existing shared carrier copied in order to cross, **not** to a
+  payload built for the crossing. Added as a precondition section. The seam that
+  produced the technique concealed this, because there the carrier pre-existed
+  the lane.
 
 ### 2026-08-28 - `/intake`, from a practitioner listicle on design canon
 
@@ -203,3 +225,28 @@ second-source corroboration, it having been forged from one repo).
 ## 2026-09-03 - `/intake` kube-rs (run `intake-kube-0903`, intake 2.3.1, Opus workers)
 
 Application `rust--seams-and-adapters` against a control-plane client library@1.89: the store and dispatcher seams in its reflector module (implementation at `reflector/mod.rs:112-131`).
+
+### 2026-09-04 - `/intake`, from a procedural-macro tutorial
+
+One new technique, applied and shipped, from
+[[../../sources/2026-09-04-rust-proc-macros]].
+
+- `mirror-type-at-the-edge` — the case `io-free-core` presupposes away. All four
+  of its properties assume a test can *construct* the input; some types are
+  minted only by the host that supplies them (a request scope's cookie jar, a
+  compiler session's token stream, a device handle) and have no constructor
+  outside it, so "hand it in as a value" leaves the test where it was. The
+  disposal is an ordinary mirror of what the module actually reads, conversion
+  at both edges, and a shim that takes no verdict branch. Cited into the seams
+  section as the third answer to the testability question.
+- The promoting question is why this is a technique and not an amendment:
+  `io-free-core`'s decision rule and its "when not to use it" section were read
+  in full and neither contemplates an unconstructible input. A mechanism the
+  corpus lacks, not a boundary case of one it has.
+- **Applied `code` / `better` / `ab-paired`** against a Next operator-console
+  gate: verdict branches reachable by the project's own unit runner went **1 → 4**
+  (arm A was run — three of four threw `cookies was called outside a request
+  scope`). See `applications/next--mirror-type-at-the-edge.md`.
+- The tree amended the draft: the shim keeps one guard deciding *whether to
+  touch the host*, because reading cookies opts a route out of prerendering.
+  "No branches" was wrong; "no verdict branch" is the rule.

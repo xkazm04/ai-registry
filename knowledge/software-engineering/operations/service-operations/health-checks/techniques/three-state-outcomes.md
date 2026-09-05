@@ -97,6 +97,80 @@ its definition.
   network returns, when the tool is installed, when permission is granted —
   eagerly on those events, with backoff otherwise.
 
+## Remediation semantics differ per state — and this is the one with teeth
+
+Render and retry differ per state, above. So does the third consequence, and
+it is the one that can destroy something: **what the verdict authorizes
+somebody to do about it.**
+
+For a probe against a live dependency the question barely arises, because
+`failed` authorizes a page and a fix, and both are reversible. It becomes
+load-bearing the moment the checked population is *content* rather than
+infrastructure — a citation list, a curated index, a link graph, a
+dependency allowlist — because there the standard remediation for `failed`
+is **deletion of the row**, and the row carries information the checker
+cannot regenerate. A URL can be re-fetched. The annotation somebody wrote
+beside it, the reason it was included, and the judgment that it belonged
+there cannot.
+
+That asymmetry inverts the usual error economics. Elsewhere in this
+discipline a false green is the expensive error and a false red is noise.
+Here a false red is *irreversible* and a false green is merely stale, so the
+rule is:
+
+> **A destructive remediation is gated on a stronger predicate than the
+> display verdict.** `failed` is enough to render red. It is not enough to
+> delete.
+
+The stronger predicate is built from the states, not instead of them:
+
+- **Deletion requires a definitive failure, not merely a non-success.** For
+  HTTP that is 404 and 410 — the codes that assert the resource is gone.
+  401, 403, 405, 406, 429 and every 5xx say the *checker* was refused or the
+  server was unwell; they are `unverifiable`, and the ratio is not close. A
+  sweep of one corpus's 172 prose citations found 1 definitively gone and 21
+  unverifiable, 18 of them 403: deleting on any non-2xx would have removed
+  22 rows to retire 1, a 95% false-deletion rate, and the 21 survivors were
+  the *most* aggressively defended sites rather than the least maintained.
+- **Deletion requires persistence.** A definitive failure observed once is a
+  moment; observed on N consecutive runs spanning a real interval it is a
+  fact. Carry the first-failure timestamp on the row so the clock is the
+  row's, not the run's.
+- **Unverifiable accrues a visible marker on the row, and nothing else.** Not
+  a deletion, and not silence. A row that has been unverifiable for a year is
+  a curation question for a human, surfaced as such.
+
+### Widening the success class is the wrong fix, and it is the one teams reach for
+
+The failure mode this section exists to prevent does not look like a bug. A
+maintainer watching a checker delete good rows will fix it by moving the
+refusal codes into the *success* class — accept 403, accept 429, accept 503,
+because those rows were fine. One curated public index reached exactly this
+configuration over twelve years, one status code at a time, each added in its
+own commit naming the host that had just been wrongly flagged.
+
+It works, and it costs the third state. Every genuinely dead link behind a
+bot wall is now permanently certified alive, which is the collapse this
+technique opens by calling poisonous, arrived at through a sequence of
+individually reasonable commits. The distinction that survives both errors is
+not *which codes mean success* — it is **which codes may authorize a
+deletion**, and the answer is a much smaller set than the one that may
+authorize a green.
+
+### Exemptions are rows too, and they need the same reaper
+
+The same maintainer's second instrument is a per-host exemption list, and it
+decays the way [item-liveness](../../../../engineering-process/standards-and-gates/quality-gates/techniques/item-liveness.md)
+describes: created against a live referent, never re-evaluated, outliving it
+silently ([creation-names-reaper](../../../../_laws.md#creation-names-reaper)).
+In the index above, two of nine exempted hosts had no remaining row in the
+checked file at all — one of them exempted in 2020 for a service shut down in
+2016, still in the configuration six years after its last link was removed. An
+exemption whose referent is gone is not neutral: it is a standing instruction
+to not look, aimed at nothing, and it is indistinguishable from a live one.
+Audit the exemption list against the population it exempts, and expire an
+exemption that matches no row.
+
 ## A check with several finding classes needs the third state per class
 
 The three verdicts above are stated per *check*, which is the right granularity

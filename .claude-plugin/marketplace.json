@@ -14,7 +14,7 @@
       "name": "agent-guidance-bootstrap",
       "source": "./skills/agent-guidance-bootstrap",
       "description": "Create or refresh a repo's AGENTS.md so an agent joining the codebase gets commands, architecture and constraints without guessing. Use on a repo with no agent guidance, or when the existing file has gone stale.",
-      "version": "0.5.0",
+      "version": "0.5.1",
       "category": "ai-native",
       "tags": [
         "agents-md",
@@ -27,14 +27,14 @@
       "name": "architect",
       "source": "./skills/architect",
       "description": "Heavy structural codebase scan - surfaces weak patterns to upgrade and strong patterns to codify, producing ADR-style decisions with a durable cross-session backlog. The highest-risk / highest-payoff scan in the suite; walks the context map area by area.",
-      "version": "1.6.0",
+      "version": "1.6.2",
       "category": "workflow"
     },
     {
       "name": "ci-bootstrap",
       "source": "./skills/ci-bootstrap",
       "description": "Give a project its first real CI gate, built only from commands the repo already declares, and ratcheted so it goes green on day one. Use when a repo has no CI, has CI that has never passed, or has CI nobody trusts.",
-      "version": "0.2.0",
+      "version": "0.2.1",
       "category": "ci-cd",
       "tags": [
         "bootstrap",
@@ -48,7 +48,7 @@
       "name": "ci-gate-check",
       "source": "./skills/ci-gate-check",
       "description": "Run the exact checks CI enforces before you push, so a red pipeline is never how you find out. Use before every push, before opening a PR, and after an agent finishes a batch of edits.",
-      "version": "1.4.0",
+      "version": "1.4.1",
       "category": "ci-cd",
       "tags": [
         "pre-push",
@@ -62,7 +62,7 @@
       "name": "ci-triage",
       "source": "./skills/ci-triage",
       "description": "Turn a red build into a located first cause and a scoped fix proposal, without scrolling the whole log or weakening the check. Use when CI fails and you need the actual reason.",
-      "version": "0.2.0",
+      "version": "0.2.1",
       "category": "ci-cd",
       "tags": [
         "triage",
@@ -76,7 +76,7 @@
       "name": "conform",
       "source": "./skills/conform",
       "description": "Evaluate this repository against the registry standards that govern it, one context at a time, and keep the verdicts. Reads .ai/registry-map.json (the generated join between this repo's contexts and the registry's subjects), picks the highest-value unevaluated or stale pairs, reads the governing golden path and techniques against the context's real code, and writes back conformant / deviation / no",
-      "version": "1.4.0",
+      "version": "1.4.1",
       "category": "ai-native",
       "tags": [
         "conformance",
@@ -90,7 +90,7 @@
       "name": "consult",
       "source": "./skills/consult",
       "description": "Consult the ai-registry's knowledge bundles before a product, architecture or domain decision: resolve the registry (local checkout or GitHub), pick the bundle(s) this repo consumes, match the task against subjects and techniques by their use_when triggers, read the golden path + the techniques that apply, apply them, and log the consult so the signals lane can count demand. Use before designing a",
-      "version": "1.2.0",
+      "version": "1.2.1",
       "category": "ai-native",
       "tags": [
         "knowledge",
@@ -104,7 +104,7 @@
       "name": "dojo",
       "source": "./skills/dojo",
       "description": "Autonomous infinite training loop for media-generation craft: each cycle reflects prior human verdicts into the consuming repo's prompt surfaces, scans the registry for the weakest knowledge dimension, researches one candidate technique, generates seed-matched A/B pairs with the LOCAL image/video stack, machine-judges them pairwise, and parks the cycle for human gating in the app's Foundry -> Dojo",
-      "version": "1.2.0",
+      "version": "1.2.2",
       "category": "ai-native",
       "tags": [
         "training",
@@ -120,14 +120,14 @@
       "name": "explorer",
       "source": "./skills/explorer",
       "description": "Wander one logical area of a codebase, surface 10 items worth fixing, build the small ones (xs/s) without asking, and triage only the larger ones with the user. Every item is premise-verified, gated and committed atomically. Daily low-friction quality sweeps with per-context coverage memory.",
-      "version": "2.1.0",
+      "version": "2.1.2",
       "category": "workflow"
     },
     {
       "name": "flake-register",
       "source": "./skills/flake-register",
       "description": "Quarantine an intermittently failing test as tracked debt - owner, cause, expiry - instead of deleting it or leaving it to rot. Use before muting or skipping any test, and on a schedule to review the register.",
-      "version": "0.2.0",
+      "version": "0.2.1",
       "category": "testing",
       "tags": [
         "flaky",
@@ -141,56 +141,56 @@
       "name": "friend",
       "source": "./skills/friend",
       "description": "Endless single-area companion loop: scan -> propose 5 development directions -> user picks a number -> execute with repo conventions -> repeat. Momentum-first, parallel-session UX/product building, scoped to one context.",
-      "version": "1.2.0",
+      "version": "1.3.1",
       "category": "workflow"
     },
     {
       "name": "i18n-translate",
       "source": "./skills/i18n-translate",
       "description": "Copywriting-grade, context-aware localization for any managed app - a transcreation loop (draft -> typed MQM estimate -> gated refine) with an engineering guardrail. Portable across i18n stacks via a per-repo contract artifact; keeps a glossary, per-locale style guides, and gold exemplar pairs in the target repo so run N+1 stays consistent with run N. Invoke with /i18n-translate <mode> [locale] [s",
-      "version": "1.3.0",
+      "version": "1.3.1",
       "category": "workflow"
     },
     {
       "name": "kpi-sim",
       "source": "./skills/kpi-sim",
       "description": "KPI Simulation - measure a project's KPIs locally, simulate user behavior with UAT-style Characters, and predict real-world targets from web benchmarks, writing a result.json the Personas app ingests into its KPI module (env-tagged simulated series + proposal-gated adjustments). Engine doctrine mirrors src/features/teams/sub_kpis/kpiSimPrompt.ts - the app dispatches the same contract into managed ",
-      "version": "1.1.0",
+      "version": "1.1.1",
       "category": "testing"
     },
     {
       "name": "leonardo",
       "source": "./skills/leonardo",
       "description": "Generate images with OpenAI gpt-image-2 (primary) or Leonardo AI (fallback), remove backgrounds, analyze with Gemini vision, and write SVG. For brand assets, UI illustrations, backgrounds, and icons.",
-      "version": "1.2.0",
+      "version": "1.3.1",
       "category": "other"
     },
     {
       "name": "motionize",
       "source": "./skills/motionize",
       "description": "Upgrade a generic UI icon or loading/empty state into a traced, motion-animated SVG. Generates flat trace-friendly art (via /leonardo tools), validates with Qwen vision, vectorizes to a clean multi-path SVG, and emits a motion reveal component driven by the shared motion-preset library (draw, staggered-draw, fade-pop, float, pulse, hover-response, success-settle). For icon + loading-state visual u",
-      "version": "1.1.0",
+      "version": "1.2.1",
       "category": "other"
     },
     {
       "name": "mvp",
       "source": "./skills/mvp",
       "description": "Launch-readiness orchestrator for taking a dev project (typically NextJS) from \"advanced WIP\" to first market release. Assesses 21 checklist items across 7 chronological phases (Define -> Rails -> Automate -> Harden -> Polish -> Market -> Launch gate), reports an honest scorecard, then walks each phase with batched select decisions and executes accepted work with subagents. Delegates infra to pass",
-      "version": "1.1.0",
+      "version": "1.1.1",
       "category": "workflow"
     },
     {
       "name": "npm-updates",
       "source": "./skills/npm-updates",
       "description": "Fetch npm package updates, analyze new features, and identify improvement opportunities for this app. Use when the user wants to explore what's new in dependencies or plan next development directions.",
-      "version": "1.1.0",
+      "version": "1.1.1",
       "category": "workflow"
     },
     {
       "name": "onboarding",
       "source": "./skills/onboarding",
       "description": "Take a fresh clone of an app repo to a running, honestly-labelled install in one conversation: probe runtime deps, ask which connector capabilities the operator wants, collect keys into .env.local without ever echoing a secret, verify by booting the app, and hand back a capability matrix with three honest states per group (works / degraded with a stated fallback / hidden). Runs on generic defaults",
-      "version": "0.4.0",
+      "version": "0.4.1",
       "category": "workflow",
       "tags": [
         "onboarding",
@@ -206,7 +206,7 @@
       "name": "perfect",
       "source": "./skills/perfect",
       "description": "Session-after-session product perfection loop. The strongest available model at xhigh reasoning (currently Fable 5) directs - it walks the repo's context map context-by-context, proposes up to 5 challenged, high-value directions per context (features, design elevations, significant optimizations), gates them with the user until the pool is full, then orchestrates Opus-class builder subagents on ON",
-      "version": "2.5.0",
+      "version": "2.5.2",
       "category": "workflow",
       "tags": [
         "loop",
@@ -221,28 +221,28 @@
       "name": "project-populate",
       "source": "./skills/project-populate",
       "description": "Populate a newly managed repository with the data Personas needs to maintain and develop it - a context map, a feature (use-case) inventory, a triaged KPI set, and optionally simulated KPI data for a product that has not shipped yet. Contexts and features are assigned autonomously; KPIs are negotiated with the operator wave by wave. Scopeable - run all four lanes or just the ones you name. Dispatc",
-      "version": "1.2.0",
+      "version": "1.2.1",
       "category": "workflow"
     },
     {
       "name": "promote",
       "source": "./skills/promote",
       "description": "Promote a specific, already-existing pattern in this repo into the Personas workspace knowledge library - the grounded CLI equivalent of the \"New practice\" button in Dev Tools -> Workspaces -> Knowledge Library. Unlike /practice-harvest (a broad <=15-item sweep the agent chooses), /promote is targeted at ONE pattern the operator names, reads the real code, and writes the evidence. Emits the same `",
-      "version": "1.1.0",
+      "version": "1.1.1",
       "category": "ai-native"
     },
     {
       "name": "research",
       "source": "./skills/research",
       "description": "Extract actionable improvements for a project from external sources (video, blog, article, raw text). Scores ideas against the codebase, buckets into Code / Template / Credential, and persists findings to an Obsidian memory vault.",
-      "version": "1.9.0",
+      "version": "1.9.2",
       "category": "ai-native"
     },
     {
       "name": "scan-sweep",
       "source": "./skills/scan-sweep",
-      "description": "Long-running quality sweep that walks a repository context by context, reads each area's code once, judges it through every scan lens, and lands the safe fixes itself with atomic commits. With no arguments it runs the STABILIZE loop - bug hunting, UI perfection, performance - picking the least-covered context each round and keeping a per-context lens-coverage ledger so a codebase gets swept evenly",
-      "version": "2.9.0",
+      "description": "Long-running quality sweep that walks a repository context by context, reads each area's code once, judges it through every scan lens, and lands what it can PROVE itself with atomic commits. With no arguments it runs the STABILIZE loop - bug hunting, UI perfection, performance - picking the least-covered context each round and keeping a per-context lens-coverage ledger so a codebase gets swept eve",
+      "version": "3.0.1",
       "category": "workflow",
       "tags": [
         "sweep",
@@ -258,7 +258,7 @@
       "name": "ship-loop",
       "source": "./skills/ship-loop",
       "description": "Milestone-driven ship-readiness loop for any app repo, resumable across sessions. Boots by profiling the stack, running the verification gate once, and fanning out read-only audit lenses into a 9-dimension scorecard plus an append-only numbered backlog; when the repo's overlay declares value journeys, a value ledger (one readiness light per journey) sits above the scorecard, every item carries a j",
-      "version": "2.2.0",
+      "version": "2.2.1",
       "category": "workflow",
       "tags": [
         "loop",
@@ -275,14 +275,14 @@
       "name": "spark",
       "source": "./skills/spark",
       "description": "Turn a vague product idea (a \"sparkle\") into a complete, grounded design through waves of select/multi-select questions - then orchestrate the build. Targets exactly which contexts/files the idea touches, scouts them before asking anything, converges the design across four perspectives (functional, UX, UI, performance/architecture), and executes via builder subagents in a worktree under Director r",
-      "version": "1.3.0",
+      "version": "1.3.2",
       "category": "workflow"
     },
     {
       "name": "test-before-commit",
       "source": "./skills/test-before-commit",
       "description": "Prove a change works before it is committed by writing or extending a test that fails first and then passes. Use whenever you change behaviour, fix a bug, or accept AI-generated code.",
-      "version": "2.2.0",
+      "version": "2.2.1",
       "category": "testing",
       "tags": [
         "verification",
@@ -295,7 +295,7 @@
       "name": "tiger",
       "source": "./skills/tiger",
       "description": "Hunts the highest-value surface of an LLM-powered app - its LLM call sites, the highest-value / highest-cost / highest-variance part a normal test suite is blind to - and certifies each across three lenses, judged against the jobs (use cases) the app declares. (A) Engine quality of the integration code: wrapping/chokepoint, retry/timeout/abort, schema + validation + self-repair, logging/telemetry,",
-      "version": "2.2.0",
+      "version": "2.2.1",
       "category": "testing",
       "tags": [
         "llm",
@@ -311,14 +311,14 @@
       "name": "uat",
       "source": "./skills/uat",
       "description": "Simulated User Acceptance Testing driven by Characters (representative users with jobs-to-be-done), not feature/code coverage. A capable LLM verifies each user journey in two chronological certification levels - L1 theoretical (over a code-derived surface model, cheap + mass-parallel) then L2 empirical (real browser against the live app, serial) - judging through each Character's own consistent le",
-      "version": "1.8.0",
+      "version": "1.8.1",
       "category": "testing"
     },
     {
       "name": "value-ledger",
       "source": "./skills/value-ledger",
       "description": "Model a product's value per user journey from its UAT Characters - time and money saved against the LLM-less way, risk avoided (mis-hires, wrong decisions, compliance exposure), and segment gates - normalized to a reference journey so the output ranks work by user value instead of by what a code scan found. Sits UPSTREAM of code-derived KPIs - a KPI worth adopting is one derived from a journey's m",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "category": "workflow",
       "tags": [
         "value",

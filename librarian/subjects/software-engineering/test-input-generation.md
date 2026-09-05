@@ -1,7 +1,7 @@
 ---
 subject: test-input-generation
 domain: software-engineering
-last_touched: 2026-09-03
+last_touched: 2026-09-04
 dry_streak: 0
 ---
 
@@ -152,3 +152,86 @@ predicate that read as a pass; the source engine as the origin with its three ta
 anchored). The amendment is **unapplied**: no fleet project feeds a structural generator
 into a rejecting consumer; return when one grows one. Direction proposed in the scraping
 service's own tree (a per-stage harness, S), gate skipped - unattended run.
+
+[[2026-09-04-kdenlive]] — **the three-lane enumeration was incomplete, and the
+missing member is the only lane nobody authored.** `seed-is-not-a-reproduction`
+closes with "The suites that get this right run the same code through three
+distinct sources of input" — fresh randomness, the persisted corpus,
+hand-written cases. All three are *authored*: the generator's distribution is
+its author's model of what happens, the corpus is the subset of that model
+which once failed, and the hand-written lane is the imagination the generator
+was meant to replace. So a suite can be green across all three and miss the
+region its users occupy, and none of the three can report that.
+
+Added `field-captured-operation-traces`: the running product instrumented so a
+real session emits its operation sequence **in the generator's own
+vocabulary**. The constraint is the shared vocabulary rather than the logging —
+one reflection table names the model's mutating operations, the generator
+composes from it, the logger records against it with depth suppression, and a
+user's crash and a fuzzer find minimize into the same artifact. A log written
+in the interface's terms cannot be replayed against the model at all.
+
+Two source-tree applications from the same tree (`cpp@14`):
+`cpp--field-captured-operation-traces` (448 of that suite's 775 whole-model
+invariant assertions live in the machine-generated regression file — more than
+all fourteen hand-written suites combined; and the tree implements the whole
+mechanism while *not running the lane*, because the trace macros ship only in
+the fuzzer) and `cpp--inside-out-invariants`, a catch recorded as evidence: a
+194-line checking entry point asserted 775 times, which reproduces that
+technique's own predicted under-investment — the cross-component direction sits
+behind a boolean parameter defaulting to false.
+
+Applied to personas, **`not-better`**: the render-plan compiler accepts any
+`fps > 0` and snaps every boundary to `1/fps` while its generator drew from
+three friendly divisors. Widening the bound found 0 failures in 8,000 cases, so
+the neighbouring technique (`generator-bounds-the-space`) closed the gap more
+cheaply and no field lane is earned there yet. The widened generator was kept.
+
+
+## 2026-09-04 - a production reverse proxy (`/intake`, round 23)
+
+Two amendments, both boundaries rather than mechanisms, both from a tree that
+implements this subject's advice more completely than any source read so far
+(1,101 `debug_assert` sites across 44 of 61 files, 14 `check_invariants()` full
+sweeps, two deterministic simulators, four fuzz targets, and a published testing
+doctrine citing TigerStyle, FoundationDB and the swarm paper by name).
+
+**`inside-out-invariants` gained the trust boundary it did not have.** Its
+"prefer a less severe failure class" section argued the severity ladder
+unconditionally — an internal assertion that fires in production and stops the
+process is "frequently the right behaviour" — and none of its four exclusions
+mentioned who supplies the value. Where an adversary chooses the bytes, "stops"
+is the outcome the adversary selected, and the ladder inverts. The amendment
+carries the two-regime split (assertion live in test/fuzz/dev, compiled out on
+the release path, condition handled as a value) plus the obligation that makes
+it safe: gate the *assertion*, never the assignment beside it, or the shipped
+binary and the tested binary are different programs. It also resolves a tension
+the file already carried between its procedure (":compiled out or gated in
+production builds") and that section. The discriminator itself was already in
+the corpus — `reclassification-is-not-repair` asks "who can produce the input" —
+spent on error *class* rather than failure *severity*; the amendment links it.
+
+**`swarm-feature-sampling` gained a feature classification and a quantifier.**
+The MANDATORY class is the one worth having: omitting the sole creator of the
+state under test does not weaken a run, it makes it *vacuous* — every invariant
+evaluated against nothing, everything green, and a vacuous seed spelled exactly
+like a clean one in a 256-seed tally. That is `failure-not-empty-success`
+arriving through the generator's configuration rather than its inputs, and the
+existing "when not to use it" covers only the configuration the system
+*rejects*, which is the visible, self-correcting half. The second half: once
+each run draws a subset, a run can no longer be the unit of a coverage claim, so
+the gate asserts on the merged campaign tally with the campaign's composition
+pinned. That put this subject in contradiction with `quality-gates`'
+`blocking-by-input-determinism` ("a gate is the all-of-N position by
+definition"), and rather than leave it, one sentence landed there naming the
+discriminator: a verdict predicate is all-of-N, a reach predicate is a union,
+same runs, opposite quantifiers.
+
+Two applications written against the source tree (`rust--inside-out-invariants`,
+`rust--swarm-feature-sampling`). Apply: `not-better` on tracklight (4 non-test
+panic sites in the whole API crate, all caller-guaranteed — the tree already
+satisfies the rule) and `unapplied by construction` for swarm (no fleet project
+runs property-based or randomized testing at all, verified against every
+`Cargo.toml`). Catches recorded so nobody re-proposes them: `io-free-core` owns
+the sans-io core completely, and `seed-is-not-a-reproduction` already says to
+record the configuration with the seed.

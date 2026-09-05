@@ -6,7 +6,7 @@ technique: generated-shot-sourcing
 status: forged
 laws: [cost-per-usable-output, refusal-is-a-state, style-is-restated-not-remembered]
 shared_with: []
-use_when: [briefing a generative video model to produce shots for a cut, deciding between text-only and image-anchored conditioning for a shot, accepting or rejecting generated clips into an assembly, handling clips that arrive with their own baked-in audio, a subject drifts steadily across a long sequence of generated shots, planning a scene that will be built by chaining extensions, a pipeline's derived durations must survive a model's fixed generation steps, animating a designed graphic whose artwork must stay exact across the shot, a walk or other cyclic movement comes back stiff from an anchored generation]
+use_when: [briefing a generative video model to produce shots for a cut, deciding between text-only and image-anchored conditioning for a shot, accepting or rejecting generated clips into an assembly, handling clips that arrive with their own baked-in audio, a subject drifts steadily across a long sequence of generated shots, planning a scene that will be built by chaining extensions, a pipeline's derived durations must survive a model's fixed generation steps, animating a designed graphic whose artwork must stay exact across the shot, a walk or other cyclic movement comes back stiff from an anchored generation, minting a series of keyframes or end-frame anchors for a multi-shot sequence]
 ---
 
 # Generated-shot sourcing
@@ -100,6 +100,82 @@ between distant states, gate the last state against the first, and keep chains
 short. Where the graphic's exactness is load-bearing for a factual claim, this
 rung is the floor and not the ceiling — a graphic that must be *right* is
 composited from a deterministic render, not sampled.
+
+### The states are a chain only when they accumulate
+
+The exact-graphic rule above says to mint each state from the state before it,
+and warns that a state derived from the *first* state "disagrees with state 2
+about everything the prompt did not pin." That is true, and it is true for a
+stated reason that is easy to lose: those states **accumulate**. State 3 is
+state 2 plus one addition, so it cannot be reached from state 1 without
+re-specifying state 2's addition — the chain is not a stylistic preference, it
+is the only route to the content.
+
+Most anchor series are not built that way. A set of end-frame anchors for a
+sequence of windows, or a set of keyframes for a scene, are **independent
+variations on one subject**: same character, same wardrobe, same world, a
+different pose or camera or action in each. Nothing in anchor 3 needs anything
+that first appeared in anchor 2. And the moment that is so, the chain stops
+being the route to the content and becomes nothing but a drift pump — each edit
+conditions on a rendering, which conditioned on a rendering, and every error is
+inherited and built on, which is the failure "adjacency anchoring does not
+scale to a chain" already names one level up.
+
+So the topology is a decision, and it is decided by one question asked of the
+series and not of the medium:
+
+> **Does each state need what the state before it added?** If yes, chain, and
+> pay the drift the section above prices — gate the last state against the
+> first and keep the chain short. If no, derive **every** state from one master
+> and pay none of it.
+
+Under a star the master is the only conditioning input any anchor ever sees, so
+the anchors' errors are independent rather than composed: there is no path
+along which a mistake in anchor 2 can reach anchor 7. Two consequences that a
+chain cannot offer at any length:
+
+- **The series has no length limit.** "Keep chains short" is a chain's rule.
+  Thirty star-derived anchors are exactly as close to the master as three,
+  which is what makes the topology the answer to sequence-scale drift rather
+  than a mitigation of it — **provided the master holds still.** That proviso
+  is not free and is the star's own failure mode: a master assembled from a
+  rolling selection of accepted material changes whenever the selection
+  changes, so anchors minted before and after silently hang off different
+  masters, and a series that looks like one star is several. **Origin
+  retention and master stability are different properties and the bank rule
+  buys only the first.** Pinning guarantees the founding material is still
+  present; it does not stop the rolling remainder from moving. Where the
+  series must demonstrably share one master, *freeze the reference set for
+  the series* and record it with the material — otherwise the star's whole
+  claim is unaudited, because nothing says which anchor saw which master.
+- **Any anchor can be regenerated alone.** A rejected anchor is re-minted from
+  the master and dropped back into place; under a chain it invalidates every
+  state downstream of it.
+
+The cost is real and lands on the master. Every anchor inherits whatever the
+master got wrong, so a flawed master produces a uniformly flawed series with no
+warning — the drift a chain would have shown as a slow slide appears as
+nothing at all, because there is nothing to compare against. **The master is
+therefore the most expensive review in the run**, in exactly the way pinned
+slots are, and for the same reason: only accepted material may be promoted into
+a position everything downstream is derived from. Grade it, check it against
+the contract, and only then fan out.
+
+The three topologies now on the table are worth holding together, because a
+sequence usually needs more than one of them:
+
+| Topology | Each state conditions on | Use when |
+| --- | --- | --- |
+| Chain | its immediate predecessor | states accumulate, or the next beat depends on what just happened |
+| Star | one master, always | states are independent variations on a fixed subject |
+| Pinned bank | fixed early slots plus recent ones | motion or continuity must follow the previous shot *and* hold the origin |
+
+They compose along the pipeline rather than competing: the still anchors for a
+sequence are minted **star** from one graded master, and the clips generated
+between those anchors are conditioned by the **pinned bank**, which still has
+to carry the origin because moving picture must also follow what just happened.
+Choosing one topology for a whole pipeline is how a run ends up paying a
+chain's drift for stills that never needed to be a chain.
 
 ### Rung 3 across two worlds: the pair stops being a move and becomes a cut
 

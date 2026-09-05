@@ -3,12 +3,13 @@ layer: golden-path
 type: golden-path
 subject: serving-process-topology
 status: forged
-use_when: [decomposing a latency-critical service into processes, deciding what may run between iterations of a hot loop, sizing a deployment whose process count has several independent inputs, choosing a process-creation strategy the operator cannot be asked about, configuration is being threaded through a deep class hierarchy]
+use_when: [decomposing a latency-critical service into processes, deciding what may run between iterations of a hot loop, sizing a deployment whose process count has several independent inputs, choosing a process-creation strategy the operator cannot be asked about, configuration is being threaded through a deep class hierarchy, putting a load balancer in front of a service that reuses state between related requests]
 techniques:
   - hot-loop-isolation
   - process-count-as-a-formula
   - probe-the-runtime-not-the-config
   - one-config-object-as-engine-state
+  - cache-residency-sets-the-balancing-unit
 ---
 
 # Serving process topology
@@ -150,6 +151,13 @@ the next start fails on a resource nobody can see being held.
 
 ## Sizing is arithmetic, not advice
 
+Before any of this arithmetic means anything, one property has to be checked
+rather than assumed: **that any replica can serve any request.** It is a
+property of what the replicas cache, not of the service, and where it does not
+hold the width is a correctness decision wearing a capacity decision's clothes
+— see
+[cache-residency-sets-the-balancing-unit](./techniques/cache-residency-sets-the-balancing-unit.md).
+
 A deployment's process count is almost never one number. It is a product and a
 sum over several knobs that were designed independently — a front-end pool, a
 replication width, a per-replica worker count, sometimes a coordinator that
@@ -231,6 +239,11 @@ carries both halves.
   an unbounded recursion or a device-context error inside somebody else's stack.
 - **Parameter threading.** A new option added to nine constructors so the tenth
   can read it, after which nobody can state the effective configuration.
+- **The width that is really a router change.** Replicas added in front of a
+  service whose members accumulate per-caller state, so a span's later requests
+  reach a replica that never saw its earlier ones. Nothing errors; the answers
+  are wrong only in the tail, only at width, and the balancer is the last place
+  anyone looks.
 - **The verdict lost at the boundary.** A typed decision inside the loop —
   refused, preempted, aborted — flattened into a generic failure on the way out,
   so the caller retries what it should have surrendered.
@@ -249,3 +262,6 @@ carries both halves.
 - [one-config-object-as-engine-state](./techniques/one-config-object-as-engine-state.md)
   — one validated configuration value carried intact through a deep hierarchy,
   what that buys, what it costs, and the factory that pays the cost back.
+- [cache-residency-sets-the-balancing-unit](./techniques/cache-residency-sets-the-balancing-unit.md)
+  — when replicas stop being interchangeable, why the failure is a wrong answer
+  rather than an error, and the topology that follows.

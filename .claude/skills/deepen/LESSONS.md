@@ -192,3 +192,44 @@ Format: `## <version used> - <YYYY-MM-DD> - <project>` followed by `- ` bullets.
 - **`build-knowledge-rules` belongs in this skill's gate list.** Found stale on trunk
   three times in a week, always after a non-librarian landing; the sequence in this
   file was the reason.
+
+## 1.2.0 - 2026-09-04 - software-engineering (3-wide demand batch; first full step-4 run inside one session)
+
+- **A live sibling session in the same checkout is the normal case now, and the
+  generated files are where it bites.** Three registry sessions were committing
+  interleaved with this one. Every landing commit was pathspec'd, which held; but
+  `build-index` in the shared working tree swept the sibling's half-landed subjects
+  into trunk's `index.json`. The fix that worked: build the generated artifacts in a
+  detached `git worktree` of HEAD at a short path and copy them back, so trunk's
+  generated files describe trunk. Cheap, and it should be the default whenever
+  `git status` shows a subject you did not touch.
+- **Drift is not always the document's.** `check-currency` compares against the
+  fleet's *maximum* reported runtime major; four of ten drift rows this run were a
+  developer box on node 24 reading trees whose own CI pins 20. The honest witness is
+  the tree's pin, and the instrument should read it where the application records
+  one. A fifth row had a `node@22` witness on a tree that pins bun and no node at all
+  - the first `verified_against` found to be a guess. Re-verification found both;
+  neither would have surfaced without opening the tree.
+- **Blind-lane-first inside one worker is a workable convergence control.** Asking
+  each worker to write its predictions to a file before any search, and reporting
+  which items the web lane later reached independently, gave the Director a
+  convergence read per subject without a second agent. Yields: 4/5, 2/2, 2/5 - and
+  the blind-only items were internal contradictions the web could not have found,
+  which is the lane's second job.
+- **The step-4 apply rows paid immediately.** Three of eight were `not-better`, and
+  each earned a condition that went back into the technique the same hour
+  (canonical key before instant comparison; toolchain pin is the whole pin for an
+  artifact-size counter; the platform read is a constant on a single-platform fleet).
+  Two `unapplied` rows were honest searches, not gaps. The cost was two workers after
+  the diff review, and the landing-to-condition loop closed in one session for the
+  first time.
+- **Corrections outnumbered techniques 25:0 and that is the right ratio for these
+  subjects.** Three subjects at 25, 18 and 14 techniques; every new-technique
+  candidate had prior art in a sibling or an ambiguous home. The qualifier-edge lane
+  refuted six absolutes, the blind lane caught three internal contradictions, and
+  three banked leads had their return conditions met. A batch that lands no file is
+  not dry when it moves eleven rules.
+- **The scan's "deviations" for agent-memory were the map's `unknown` count.** The
+  worker read the personas map: 14 unknown + 2 deviations with no seam text. The
+  2026-08-29 lesson ("check a deviation count's provenance") holds a second way -
+  the number can be real and still not mean what the worklist implies.

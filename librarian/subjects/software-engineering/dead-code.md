@@ -99,3 +99,10 @@ one this project already has for findings and not for reach - a committed count 
 run compares against, which turns the axis into an ordinary ratchet. Adjacent from
 the other side: `quality-gates/severity-by-construction` owns the enforcement-vs-display
 two-channel model for **flags**; neither subject owned an entry's firing volume.
+
+## 2026-09-04 - lead from the `/deepen` batch ([[2026-09-04-1]])
+
+- Landed (Director, one paragraph): suppression-hygiene's "prefer the suppression
+  that fails when the defect is repaired" now carries the reverse link to
+  quality-gates/false-positive-economics, which today gained the forward one. The
+  lifecycle stays here; the severity decision stays there.

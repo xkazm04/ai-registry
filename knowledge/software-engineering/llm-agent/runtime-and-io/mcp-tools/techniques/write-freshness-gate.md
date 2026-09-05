@@ -6,7 +6,7 @@ technique: write-freshness-gate
 status: forged
 laws: [gate-sees-target, one-validation-door, failure-not-empty-success]
 shared_with: []
-use_when: [a model edits a file it read many turns ago, two parallel tool calls write one path in the same turn, an agent keeps appending a section it already wrote, deciding whether a write tool needs a precondition, a summarised context still holds an edit in flight]
+use_when: [a model edits a file it read many turns ago, two parallel tool calls write one path in the same turn, an agent keeps appending a section it already wrote, deciding whether a write tool needs a precondition, a summarised context still holds an edit in flight, an agent re-reads every document it just wrote in full, deciding whether a write result may license skipping the readback]
 ---
 
 # Write-freshness gate
@@ -99,11 +99,65 @@ there is an error result, never one of the inspection fail-open paths.
   lines forty to sixty stamps the full-content hash, because the question
   is whether the file changed, not whether the viewed slice did.
 
+## The one write that carries its own proof
+
+"Writes never refresh marks" is stated above without qualification, and the
+reason given is that a refreshed mark would let the model "edit its own stale
+intent forever." That reason is sound for the writes the rule was drawn
+against — **append** and **substring replace** — where the resulting file is a
+function of prior content the writer did not supply. After one of those the
+writer genuinely does not know what the file now says, and a re-read is the
+only way to find out.
+
+It does not hold for a write whose content the writer supplied **in full**.
+There the resulting bytes are the writer's own argument. Forcing a re-read
+after a whole-artifact write buys the model a copy of a document it authored
+verbatim seconds earlier, at full token price, and the drift the gate exists
+to stop cannot occur — there is no prior content left to be stale about.
+
+So the rule splits on one mechanical question, and it is not the write's size:
+
+> **Does the file's new content depend on content the writer did not supply?**
+> If yes — append, substring replace, patch — the mark expires and the next
+> edit re-reads. If no, the write may stamp a fresh mark, because the writer
+> is already holding the authoritative copy.
+
+Two conditions make the refresh honest, and a server that cannot meet both
+should keep the strict rule:
+
+- **The server verified what landed, and says so in the result.** The refresh
+  travels as evidence, not as an assurance: the post-write content hash, the
+  byte and line counts, and cheap structural facts about the parsed document —
+  a heading count, its first and last headings. A writer that can compare
+  those against what it sent has checked the write more precisely than a
+  re-read would let it.
+- **The completeness of the source is reported separately from the success of
+  the write.** A whole-artifact write can succeed over a source that is itself
+  still partial, and those are different questions. Return the shortfall as its
+  own field — items expected against items exported — so a writer is never told
+  "complete" about a document that is merely *written*.
+
+The strongest form removes the wire from the question entirely: where the
+content already lives server-side under a handle, the write moves bytes the
+server holds rather than bytes the model sent, and the model could not learn
+anything by reading them back even in principle. A tool built that way is right
+to **refuse literal text** for that operation, which turns the discipline into
+a type error instead of a convention.
+
+**Say it in the result, never in the client.** Permission to skip the re-read
+is the server's to grant, because the server is the only party that knows
+whether it verified the landing; a client-side rule that skips readbacks after
+"big" writes is the drift bug with extra steps. An explicit
+`readback_required: false` beside the evidence is a statement the writer can
+audit — and its absence must mean the strict rule, so that a server which never
+learned to verify keeps the gate it always had.
+
 ## Decision rules
 
 - Stamp a full-content hash on every successful read; require a matching
-  newest mark for every write to an existing path; never refresh a mark on
-  write.
+  newest mark for every write to an existing path; refresh a mark on write
+  only for a whole-artifact write whose landing the server verified and
+  reported, never for an append, a patch or a substring replace.
 - Keep the mark on the read message so context loss is proof loss.
 - Serialise check-and-write per (writer, normalised path); refuse the
   second same-turn write and the same-turn read-then-write.

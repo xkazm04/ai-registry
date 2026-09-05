@@ -35,12 +35,34 @@ way. Building late, at first request, converts a load error into a runtime
 error on a caller's request, and the attribution is lost.
 
 But it is **mounted** after every host route, so that the host's handlers
-are matched first. Most routers resolve a request by first match in mount
-order, which makes mount order a security property: whatever is mounted
-first owns every path it matches, including paths it matches by accident
-through a wildcard or a parameter segment. The host's routes are the ones
-whose behaviour the host's own gates assume, so the host's routes go first,
-and there is no configuration that lets a contribution jump the queue.
+are matched first. In a router that resolves a request by first match in
+mount order — one large family of routers, and the one the runtime this
+technique was raised from uses — mount order is a security property:
+whatever is mounted first owns every path it matches, including paths it
+matches by accident through a wildcard or a parameter segment. The host's
+routes are the ones whose behaviour the host's own gates assume, so the
+host's routes go first, and there is no configuration that lets a
+contribution jump the queue.
+
+The rule is conditional on the router's matching discipline, and the
+condition must be checked rather than assumed. A second family of routers
+resolves by **specificity**: the pattern matching the narrowest set of
+requests wins regardless of registration order, and two patterns that
+overlap with neither more specific than the other are a registration-time
+conflict the router refuses outright. Under that discipline mount order is
+not a security property at all — a contributed `/auth/{id}` outranks the
+host's `/auth/*` however late it was mounted — and "mount last" protects
+nothing. What such a router gives instead is the shadow proof of the next
+section, performed by the router itself: a provable overlap is a refused
+registration, and a contribution whose pattern is *more specific* than a
+host path is admitted as the winner, which is the shadow this technique
+exists to prevent. So on a specificity router the host must run its own
+shadow check before registration, against the reserved set below, and treat
+"more specific than a host route" as a proven shadow rather than as a
+legitimate win. Know which family the host's router is; the mount-last rule
+and the register-time check are two implementations of one invariant — the
+host's handler answers on every path the host's gates assume — and each
+family needs the one that works there.
 
 ## Reject on a proven shadow, atomically
 
@@ -139,11 +161,17 @@ learn about the caller" is one answer, not one per handler.
 
 - Build contributed routers at load time, with load-time attribution of
   failures; mount them after every host route, with no override.
+- Establish which matching discipline the host's router uses. Mount-last
+  is the invariant's implementation on a first-match router only; on a
+  specificity router, run the shadow check before registration and treat a
+  contributed pattern more specific than a host route as a proven shadow.
 - At mount, reject a contribution atomically when an existing route provably
   covers one of its paths for the same method; name the covering route.
-- Allow the unprovable; never guess in either direction. Mount-last already
-  makes the host win where the proof cannot reach — except against the
-  host's reserved security paths, where the unprovable fails closed.
+- Allow the unprovable; never guess in either direction. On a first-match
+  router, mount-last already makes the host win where the proof cannot
+  reach — except against the host's reserved security paths, where the
+  unprovable fails closed. On a specificity router there is no such
+  backstop, so the reserved set is the minimum the proof must cover.
 - Run the proof on the routes as they will be compiled into the host, with
   the host's own converter registry.
 - Roll back one rejected router whole, without preventing later routers from

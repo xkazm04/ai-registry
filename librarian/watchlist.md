@@ -92,6 +92,14 @@ Stack in parentheses; `zig`/`c`/`go` beyond the declared set would need
   no-PR-signal caveats by construction - see the register's honesty qualifiers.
 - Update grades in place; move consumed entries into the run note that consumed
   them rather than deleting the row silently.
+- **The upstream lane does not touch this list.** `/librarian upstream` re-reads trees
+  this registry has already mined through `/intake`, and it excludes by construction
+  every repository named here outside Track A - `scripts/upstream-check.mjs` parses this
+  file for exactly that. Track B is admitted on premium engineering reputation, an axis
+  [[2026-08-22-2]] measured near-orthogonal to "this tree's feature set matches ours", so
+  a Track B re-read yields more mastery and belongs to `/reconcile`, which pins and
+  re-pins its counterparts on its own terms. The standards and register tables below
+  carry the same exclusion: a specification is re-pinned by the wave that cites it.
 
 ### localization counterparts (wave 1, [[2026-08-29-1]]) — class A/B
 

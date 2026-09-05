@@ -5,8 +5,8 @@ subject: agent-memory
 technique: lane-reconciliation
 stack: node
 status: forged
-verified_on: 2026-08-31
-verified_against: node@22
+verified_on: 2026-09-04
+verified_against: node@24
 applied: experiment
 ab_verdict: better
 proof: ab-paired
@@ -68,7 +68,7 @@ Two components derive the same cache key by different rules:
 - `cache-utils.ts:47` looks the entry up under the **group's own** category:
   `` `${group.category}-${group.subcategory || ''}` `` — and the groups were
   fetched from `resolveApiCategory(category)` (`actions-data.ts:107`), which
-  lowercases and applies an alias map (`category-config.ts:257-260`).
+  lowercases and applies an alias map (`src/lib/config/category-config.ts:257-260`).
 
 When those two strings differ, `syncCacheFromGroups` finds no entry and returns
 silently (`cache-utils.ts:49`). The mutation lands in the record and never
@@ -123,3 +123,12 @@ reachable from the real key-derivation logic — not that it is reached in
 production traffic. How often depends on how many UI category strings differ
 from their resolved API form, which is deployment data this comparison does not
 have. No product code was changed.
+
+## Verification standing (2026-09-04)
+
+Re-read against the source checkout on `main` at `d35b2b3`. Every citation
+above resolves at the line cited; the cited files have no commits since
+2026-08-31. The tree declares no runtime — no `.nvmrc`, no `engines`, no CI
+matrix — so the observed stack is the checkout's own `node --version`, 24.x,
+under a framework whose floor is 20. The earlier `node@22` was not the tree's
+claim; this document now carries what was observed.

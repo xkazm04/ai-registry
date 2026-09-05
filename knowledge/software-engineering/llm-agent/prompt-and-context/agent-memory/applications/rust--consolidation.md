@@ -6,6 +6,8 @@ technique: consolidation
 stack: rust
 verified_on: 2026-08-30
 verified_against: rust@1.97
+applied: simulation
+ab_verdict: not-better
 ---
 
 # Consolidation in the companion brain (Rust)
@@ -117,3 +119,75 @@ drop appears in `stats_json` and in the report", because "a cycle that does
 less but reports truthfully beats one that does more silently", which the
 header ties directly to the 30 stale facts recited as current for 70 days
 "while no instrument noticed".
+
+## Recency in code, tested on the memory-year store (2026-09-04)
+
+The technique's contradiction rule now inverts for a state-valued claim
+restated by its own authority: compare instants in code, never weigh. This
+tree has the seam and, unusually, has the data to test it — the simulated-year
+harness under `evals/memory-year/` drove the sleep cycle through its production
+legs for 102 cycles on 2026-09-03, and the store it built (536 facts, 128
+supersede links) survived in the harness's working directory, beside the run's
+per-probe verdicts.
+
+**Seam.** The reconcile leg (`sleep_cycle/phases.rs`, `phase_reconcile`) lists
+the live facts as `` `id` [scope/key] value `` with **no instant** in the
+prompt (`prompts.rs:181-189`) and asks the model for a winner that "says it
+better or more currently" (`:158-159`); `apply_supersedes` (`apply.rs:30-93`)
+demotes whichever loser the model named. The compress leg lets the model set
+`supersedes_id` on a new candidate (`prompts.rs:87`). Nothing in either leg
+compares `created_at`.
+
+**Measurable, chosen before running.** Three counts on the real rows: (1) of
+the supersede links the model wrote, how many have a winner created *before*
+its loser, and of those how many pair different values — the older state
+beating the newer one; (2) of the reversal probes the run answered with the
+old value, how many had the new value distilled into the store by probe time,
+and of those how many hold it under a `fact_key` shared with a live old-value
+row; (3) at year end, in every key group holding two or more live rows with
+two or more values, whether the row each arm serves holds the ground truth.
+
+**Arms.** A: the tree as run — the model weighs, the store keeps what it
+demotes. B: for two live rows under one `(scope, fact_key)`, code closes the
+older by `created_at`; the model is not asked.
+
+**n and result.**
+
+1. 128 links; 59 winners older than their losers; **0** of the 59 pair
+   different values — every one is a restatement folded onto its first
+   sighting (a heuristic flagged 10; each read by eye says the same thing
+   twice). The reconcile leg never inverted a state change.
+2. 11 wrong-old answers on 95 reversal and preference probes, 10 of them
+   three days after the update. In **5** the store held no row asserting the
+   new value at probe time — the update had not been distilled yet. In **6**
+   it had; **4** of those share a `fact_key` with a live old-value row (host,
+   two databases, a framework: old-value rows outnumber new 8:2 and 10:3) and
+   B would close them; 2 do not (`atlas_db_migrated_to_mongodb` beside
+   `atlas_database`; `communication_language_english` beside
+   `language_preference_czech`) and B has nothing to join on.
+3. 14 groups; the row A serves and the row B serves hold the year-end truth in
+   all 14 — later rows carry higher importance in this store, so the column
+   order and the instant order agree once the cycle has caught up.
+
+**What the rows say about the rule.** The failure the flip describes — a
+reinforced old value outweighing the authority's newer statement — did not
+occur in this store's judgments (0/128). The wrong-olds are distillation
+latency first (5 of 11, all within three days of the update) and recall
+serving a majority of same-value rows second (6 of 11). B reaches the second
+class only under a key the code owns, and the compress leg does not give it
+one: the world's 44 state keys became **160** `fact_key`s (mean 3.6 per state,
+max 9 — `atlas_database`, `atlas_db_postgres16`, `project_atlas_database`,
+`atlas_database_postgres16`, `atlas_db_migrated_to_mongodb` for one column of
+one project). A same-key instant comparison would have fired on 4 of 11
+wrong-olds and stayed silent on 7.
+
+**Verdict: `not-better`** as the rule reads. The condition it gains: *compare
+instants in code* presupposes a key the code owns, and a distiller that mints
+the key per cycle has to canonicalize it before any comparison exists to run;
+and the rule does not touch the larger cause here, which is that the newer
+statement is not yet a fact when the question arrives. **Falsifier:** re-run
+the four shared-key probes (`p0029`, `p0030`, `p0047`, `p0048`) with the older
+same-key rows demoted by instant and the answers still wrong-old — then the
+majority is coming through the episode tier, not the fact tier, and B was the
+wrong lever entirely. **Return condition:** a canonical-key step landing in
+the compress leg, at which point count (2) becomes a code A/B on the harness.

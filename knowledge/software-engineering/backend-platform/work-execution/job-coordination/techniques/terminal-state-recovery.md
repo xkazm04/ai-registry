@@ -59,6 +59,54 @@ Walk the vocabulary state by state and demand an answer:
 | paused / awaiting-input | the awaited event — plus an age policy, because some questions are never answered |
 | terminal | nobody; verdicts are final |
 
+**The terminal row is honest about the record and silent about the work.**
+"Verdicts are final" is a claim about the row, and it is true. It is read as a
+claim that nothing further is owed, and that reading is false in one specific
+and common shape: **a system that performs irreversible side effects *after*
+writing the terminal verdict.** Fan-out is the usual form — the job succeeds,
+its result is committed, and then webhooks fire, alerts send, downstream
+indexes update, often deliberately moved off the executor's slot so the worker
+can take the next job. Between the terminal write and the last of those
+effects, the record says *finished* and the work is not.
+
+Every mechanism in this subject is keyed on a live state, so none of them can
+see that window. A lease covers *running*. A heartbeat proves liveness while
+*running*. The boot sweep and the reaper both select the non-terminal rows —
+that is what makes them safe. A process that dies inside the fan-out leaves a
+row that is terminal, unleased, unreaped, and correct, beside side effects that
+are half delivered and that nothing will ever finish or report. It is not the
+stuck-row failure this technique's guards are built for; it is the opposite,
+and the guards are structurally incapable of finding it because the row looks
+perfect.
+
+So the reachability walk has one more question, asked of the terminal state
+rather than answered for it: **does anything happen after the verdict is
+written?** If yes, that work is a second execution class with its own
+liveness problem, and it needs its own position and its own mover — the row's
+status cannot serve as either. The repairs are the ordinary ones, and which is
+right depends on reversibility:
+
+- **Move the effects before the terminal write** where they can be, so the
+  verdict means what the table says it means. This is the cleanest answer and
+  it is available whenever the effects are cheap and the executor can hold its
+  slot.
+- **Give the post-terminal work its own record** — a position with an
+  in-flight value ([in-flight-is-a-position](./in-flight-is-a-position.md)),
+  and a sweep that selects on *that* rather than on the job's status.
+  Irreversible effects need this: a webhook cannot be recalled, so a blind
+  re-run of the fan-out is not a repair either.
+- **Accept the loss in writing**, with the class named and countable. A
+  dropped alert on a crashed process may genuinely be tolerable. What is not
+  tolerable is discovering the class exists during an incident, because every
+  dashboard said the job succeeded.
+
+The diagnostic is one read, and it is the mirror of the sweep diagnostic
+below: **look at what runs after the completion write.** If the answer is
+anything at all, ask which sweep would find it half-done. In a system whose
+recovery is keyed on live states, the honest answer is usually *none*, and
+usually nobody has noticed, because the failure produces no stuck row, no
+alert, and no error — only an effect that silently did not happen.
+
 The age policies are the easy ones to forget. A paused job is healthy at
 any age (the golden path's rule), but *healthy* and *immortal* are
 different claims: a job awaiting an input that its requester abandoned two

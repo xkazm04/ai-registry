@@ -1,8 +1,8 @@
 ---
 domain: software-engineering
 subject: agent-memory
-last_touched: 2026-08-31
-touched_by: intake
+last_touched: 2026-09-04
+touched_by: deepen
 dry_streak: 0
 ---
 
@@ -347,3 +347,308 @@ conditions in `librarian/applied.md`.
   store, two files on one trigger merged; `code`, `better`).
 - Apply row in `librarian/applied.md`. Return condition: the store passing ~50 entries,
   when scoping joins the door.
+
+## 2026-09-04 - intake `exo` v2.5.0 ([[2026-09-04-exo]], run intake-exo)
+
+**New technique `durable-store-failure-posture`.** Every other technique here
+assumes the store can be read; this one covers the turn where it parses into
+something that is not the shape it promised. The rule: **the read path degrades
+and says so, the write path refuses.** The two symmetric designs are both wrong -
+fail-open-to-empty on both paths means the next write serialises over recoverable
+bytes (`deletion-is-not-repair`, executed by the component least aware it is
+happening, with the audit trail recording a normal save); fail-hard on both bricks
+a consumer that reads before every model call. And the degraded read must say
+**"unavailable", never "empty"**, because the consumer here is an actor that
+responds to "empty" by writing. Assert the asymmetry in one *paired* test: a test
+on either posture alone passes on a codebase that has quietly aligned them, and
+alignment is what a later refactor does, since two different handlers around one
+store read like an inconsistency to anyone who does not know why.
+
+Boundary written into the technique: this does not cover **concurrent loss**. A
+refusing write path protects against a caller that could not read; it does nothing
+about two callers that both read successfully and both write N+1. The source
+discloses exactly that in its own tree - a `TODO(storage-rework)` noting no
+compare-and-swap on an agent-scoped store whose default topology is concurrent
+conversations - and has not fixed it, which is why the technique names it rather
+than implying durability it does not deliver.
+
+**Also recorded as a catch:** the source rejects embedding retrieval for
+always-inject-the-whole-store, which is `baseline-ladder` rung 2. The corpus says
+it better, with the measurement that rung 2 is the rung most often skipped and the
+one that most often wins. `recall-injection` disagrees with the *sizing* though -
+the source's own caps admit a ~120KB ceiling against a design note justifying the
+choice on "a small set of short facts".
+
+**Apply: `experiment`, `better`, shipped.** Seam in the fleet peer: a
+read-modify-write over one durable JSON column parsed with a tolerant default, so
+a corrupt payload was replaced by a one-element array while the call reported
+success. Measurable: bytes of the unreadable payload surviving the next write -
+A=0 of 35, B=35 of 35, three observation points because a two-point pair ties when
+the corruption never lands. Product fix shipped; the paired test is committed
+beside it but could not run against a pre-existing build-script failure in that
+crate.
+
+## 2026-09-04 - intake `wikiskill` (run `arxiv-27454`, intake 2.5.0)
+
+Source: a single cs.AI paper on a skill-evolution loop ([[2026-09-04-wikiskill]]).
+Class prediction stated before extraction and confirmed: a framework paper is
+authoritative for its measurement and weak for its framework, so both techniques
+came out of the ablation and the transfer table and the named architecture
+yielded one lead and two catches. Home age read first, per the round-24 focus:
+this subject is 15 days old with **9 prior sources**, so nothing was suppressed
+and the landing is corroboration into a mature subject.
+
+**The absolute that moved.** The golden path's hierarchy holds that "one policy
+cannot govern" three layers of different physics, and calls the consolidated
+layer "the only layer allowed to speak as knowledge". The paper splits that
+layer: the procedures an executor runs on, and the accumulated diagnosis used to
+revise them, need **opposite** read policies for the executing agent. Measured
+2x2, one model, four benchmarks - the reviser's access to the store is worth
+**+15.0** points (48.7 to 63.7); the executor's access **costs 2.8 to 3.4 in both
+arms**, which is what makes it a property of the role and not an interaction. New
+technique `diagnosis-withheld-from-the-executor`, plus a golden-path section
+saying the hierarchy's own rule holds one level down.
+
+**Two design candidates folded into one technique**, per the same round's second
+focus item. "The knowledge layer is never rolled back" and "the harness, not the
+proposer, writes the record" share a force - the gate's verdict and its evidence
+outlive the artifact they rejected - so they landed as
+`rejected-revision-leaves-its-evidence` rather than as a pair. Its sharpest line
+is a boundary the paper does not draw: **store the diff and the number, not the
+reason.** A reason written at rejection time is a hypothesis authored at the
+moment of least information.
+
+**`procedure-promotion` declared its own completeness and was incomplete.** "Two
+sources feed promotion ... neither is sufficient alone" - Observation and
+Demonstration. The third is **another agent's experience**, measured across five
+models and two families: transferred procedures beat self-distilled ones in many
+pairs (24.3 / 33.6 / **50.5** on one benchmark; 33.9 / 56.7 / **73.7** on
+another), and transfer ran *upward* from a 4B-class author to a 31B-class
+executor. The reason is recoverable from the host's own weakness analysis, which
+is why it is an amendment: an author whose runs never failed at a step compresses
+it out as incidental, so **a weaker author records more of the method.** The
+enumeration got a forward pointer rather than a contradiction.
+
+**Apply - all three landings were found in Phase 6, not Phase 3.** The eleven
+extraction rows produced none of the three techniques in the shape they landed
+in; the absolutes hunt and the enumeration hunt produced all three.
+
+- `rejected-revision-leaves-its-evidence` -> **personas, `task`, `better`,
+  `ab-paired`**. Its prompt-evolution loop stores `variants_tested` (a count),
+  two fitness numbers and a prose `summary`, and no tested candidate anywhere.
+  The structural fact: **the tree already holds the opposite design on its newer
+  surface**, which carries `variant_prompt` and a provenance snapshot but whose
+  fitness loop is deferred - so the surface that keeps the diff does not run and
+  the surface that runs and rejects keeps no diff. Paired on a scratch database,
+  0 of 3 recoverable at HEAD against 3 of 3 on the branch, with the CHECK, FK,
+  UNIQUE and CASCADE exercised rather than assumed. Step 1 of 3 on a branch, not
+  merged, not pushed. **Gate reached: the DDL. Gate not reached: `cargo check`.**
+  An earlier run of that gate returned 0 on *both* arms from a bad schema-marker
+  substitution - a tie meaning nothing ran, caught by printing the mid-state.
+- `diagnosis-withheld-from-the-executor` -> **the registry's own skill lane,
+  `experiment`, `better`**, and **personas verified conformant** (its evolution
+  engine writes nothing into the memory store the executing persona reads; its
+  only read of execution history is a `COUNT(*)`). The registry lane is
+  configured the way the ablation measures as worse, and the size of it is now
+  counted: 56 declared-focus blocks, **83 distinct imperatives, 9 carried by the
+  gated file** under strict phrase matching, hand-sampled to a real range of
+  **9-25 of 83**. The worst instance is the technique's promotion-signal clause
+  verbatim - one demand appears **27 times**, its own text counting *sixth*
+  through *tenth deferral*, and the gated file mentions it **zero** times.
+- `procedure-promotion` amendment -> **personas, `experiment`, `not-better`**.
+  The third source is unexpressible rather than absent: the genome is derived
+  from the same persona, and a variant's `source_persona_id` is stamped with a
+  minted `evo-<uuid>` - a generated value in exactly the field the amendment asks
+  to carry an authoring lineage.
+
+Two leads, both real gaps this source could not authorize: the push-a-sample /
+hand-an-index asymmetry between the store's two readers (a design choice with no
+ablation behind it - the class rule rejected it), and the monotone acceptance bar
+excluding neutral proposals (the paper's own limitation 2, folded into technique
+2 as a stated cost). Two catches where the corpus is ahead of the paper: store
+pruning, which the paper names as future work and this subject models in three
+places, and retrieval, whose absence here is a scope condition on citing the
+paper rather than a gap.
+
+## 2026-09-04 - `/deepen` batch ([[2026-09-04-1]])
+
+Worker brief: attack the four claims the 2026-08-30 pass did not examine, then
+the three fresh single-source landings of 2026-09-04. Blind lane written before
+any search (`agent-memory-blind.md` in the run's scratch). 9 searches, 7 fetches.
+
+### What landed, file by file
+
+- `techniques/memory-value-model.md` - **corrected.** The clause "An unparseable
+  instant is treated as new, not as poison" contradicted the clause above it
+  ("clock skew clamps, it never boosts"): age zero is the maximum freshness the
+  model awards, so a writer emitting timestamps the parser rejects promotes every
+  one of its rows above correctly-dated rows of equal trust. Two independent
+  stores (the node org-memory tree and personas' `memory_recall.rs`) carry exactly
+  this default, both reasoned as "never punish a row for a malformed timestamp",
+  and personas' sweep additionally returns `false` for a row it cannot date -
+  ranked first and immortal. Both tolerate two timestamp formats because their
+  tables hold both, which is the one condition under which a stricter parser
+  would pin a whole writer's output to the top. Now: treat like an unknown kind -
+  declared default age, never zero, never exempt, count the rows that took it.
+- `techniques/durable-store-failure-posture.md` - **corrected** the opening
+  sentence "Every technique in this subject assumes the store can be read."
+  `recall-injection` already defines failed recall (store unreachable, query
+  errored) as a signalled state distinct from empty. The opening now states the
+  boundary: the degraded read *is* that state carried to the model as content;
+  what is new is the write path's obligation and missing-versus-corrupt.
+- `techniques/decay-and-forgetting.md` - **new section** "A deliberate forget
+  bars re-derivation; an expiry does not" (the 2026-08-26 lead, come due - see
+  below) and **corrected** the cap clause "the lowest-importance members demote
+  one tier" to lowest-*valued* by the shared model, with the personas cap as the
+  measured deviation.
+- `techniques/memory-governance.md` - **new section** "The evidence has an
+  author, and the lanes must read it." Lane convergence: the blind lane named
+  memory poisoning as the field's technique the subject lacks; the web lane
+  found a 2026 systematic study whose four write channels include compaction and
+  experience-to-procedure (this subject's own stages), whose weak-signal
+  fabricated facts evade every injection detector by >40 points against the
+  explicit form, and whose two agents differ ~2x in attack success mainly by
+  write-policy aggressiveness. No write-path defence was evaluated anywhere.
+  `prompt-safety` owns the taint model (its golden path already names the
+  agent-written store as the ordinary path an injection takes); this subject
+  now owns what the lanes do with a third-party author: auto lane as "the
+  source said", never the preference lane or a standing rule by repetition.
+  Landed as a section, not a technique, because the home is split across two
+  subjects and the mechanism is a lane input.
+- `techniques/consolidation.md` - **qualified** "One conflicting episode against
+  a many-times-reinforced belief is a reason to doubt, not yet a reason to
+  reverse. Weight of evidence decides; recency is a tiebreaker, not a trump."
+  Holds for inferred beliefs; inverts for a state-valued claim restated by its
+  own authority. Web: a 2026 consolidation benchmark where every published
+  system loses most later-overrides-earlier questions (best 54%), and a paper
+  whose fix moves newest-wins out of the model into deterministic order over
+  candidates, because a model comparing timestamps drifts with candidate-set
+  size and lets its prior override an explicit newer value.
+- `techniques/baseline-ladder.md` - **amended** the restraint section (landed
+  today by the harness commit): the pair is selective prediction's risk-coverage
+  trade-off, and its operating rule is compare at matched coverage or report the
+  curve. Blind and web converged.
+- `techniques/diagnosis-withheld-from-the-executor.md` - **qualified**, table
+  **confirmed** verbatim against the paper (the intake's reading was right; a
+  first fetch summary mislabeled the rows and was rejected against the paper's
+  own sentences). Added: one model, no spread on ablation cells (repeats cover
+  the headline only), the no-reviser arm's store is unmaintained so its 3.4 is
+  the weaker observation, and the mechanism is the paper's stated hypothesis.
+- `agent-memory.md` - one failure-mode bullet, "The laundered instruction".
+- `applications/rust--decay-and-forgetting.md` - two sections (operator-forget
+  lane in both stores; the cap's second ordering with a worked 10x
+  disagreement), `verified_on` 2026-09-04, `rust@1.97` kept (rustc 1.97.1
+  observed, MSRV 1.80).
+- `applications/node--lane-reconciliation.md`, `node--probe-without-write-back.md`
+  - drift re-verification (below).
+- `applications/claude-code--memory-governance.md` - **new.** Closes the
+  2026-08-22 lead "this registry is itself an instance": the instance is the
+  harness's auto-memory, not the knowledge lane. 34 files; `type` vocabulary
+  (22 feedback / 10 project / 1 reference); `originSessionId` provenance on 30
+  of 33 topic files; index = always-include tier at a 200-line cap. Deviations:
+  the kind is chosen by the writer it governs (lane-shopping is open); a
+  standing operator rule is human-issued and agent-committed with no approval
+  recorded; provenance optional in practice; the always-include tier has a cap
+  and no admission argument.
+
+### Counter-evidence that confirmed (no edit)
+
+- *One value model, two callers* - **confirmed from outside the field**:
+  cognitive-architecture activation models drive retrieval probability and
+  forgetting with a single base-level activation, and 2026 LLM-agent work
+  imports that equation under one unified activation metric. One sharpening
+  banked rather than written: that model terminates the retrieval bonus by
+  letting each retrieval *age* rather than by bounding the count; both
+  terminate, the per-retrieval form needs per-retrieval timestamps.
+- *Provenance is the trust anchor* - **confirmed as a standard, scope
+  qualified** through the governance section: provenance to an episode proves
+  derivation, not authorship; the new lane input is the missing axis.
+- *Human-gated identity, always* - **confirmed as a posture, not refuted.** A
+  2026 five-layer mutability paper reports identity hysteresis (0.68-0.95 of a
+  behavioural shift surviving a self-description revert after memory
+  accumulation, n=30 per cell, 240 generations) - evidence that memory is a
+  governance surface, which is this subject's claim. It prescribes "governance
+  depth matches mutation depth", not a gate; no incident cited. The harness
+  instance above is the one place the absolute is measurably not met.
+- *Empty vs failed recall* - confirmed; the seam with the new technique is now
+  stated once.
+- *Rung 2 "most often wins"* - confirmed within the window by the fleet's own
+  year replay (0.90 at <=45 days, 0.23 at 46-120); the crossover framing
+  already carries it. No edit.
+- *WikiSkill 2x2* - confirmed verbatim; qualifiers landed.
+
+### Drift re-verification (Lane 5)
+
+| application | tree opened | runtime observed | before -> after | citations |
+| --- | --- | --- | --- | --- |
+| node--lane-reconciliation | `goat` `main` @ d35b2b3 (not in the dispatch's fleet list; the fleet map knows it with scope missing) | no `.nvmrc`/`engines`/CI; checkout `node` 24.14, framework floor 20 | node@22 -> node@24 | 13/13 (one path corrected: `category-config.ts` lives under `src/lib/config/`) |
+| node--probe-without-write-back | same | same | node@22 -> node@24 | 8/8 |
+
+The earlier `node@22` was never the tree's claim; the tree declares nothing.
+The drift is the fleet's default node, not the applications'.
+
+### Return conditions checked
+
+- **Deliberate forget vs expiry** (2026-08-26) - **met.** Both personas stores
+  now carry an operator-forget tombstone keyed on `(scope, key)`, consulted by
+  consolidation, lifted only by an explicit write in its own transaction, with
+  no un-forget entry point. Landed in the technique and the application.
+- **Head-to-head memory harness** (2026-08-26 / 2026-08-30) - **met
+  structurally, measurement pending.** `evals/memory-year/` now holds the four
+  rungs plus three peer-mechanism arms over one four-call contract
+  (hybrid-verbatim, write-verdict, compiled-truth) and a `--pin` learned rung.
+  Smoke only (40 probes, all within a week of their fact - separates nothing).
+  Return when the year run reports the arms; the `write-verdict` arm is the
+  first measurement `consolidation`'s "batched, because judgment needs a
+  horizon" will ever face.
+- **Review window** (2026-09-02) - not met; `expected_valid_days` absent from
+  `HEAD`.
+
+### Open leads (added 2026-09-04)
+
+- **Per-retrieval aging as the bound.** Return if a connected store gains
+  per-retrieval timestamps, or when the harness prices the uncapped personas
+  access boost against the capped node one (the 2026-08-30 nearest candidate,
+  still unrun).
+- **Sub-run flush isolation** (untriaged since 2026-09-02): a delegated sub-run
+  sharing the parent's thread id flushes its internal turns into the parent's
+  durable memory. Blind lane's answer: the unit of capture is the delegating
+  boundary. Return on a second sighting or a connected tree that delegates with
+  a shared thread id.
+- **Fleet map reads 14 unknown, 2 deviations for personas**, and the two
+  deviations are UI groups (`overview-memories`, `team-memory`) with no seam
+  text. The dispatch's "14 deviations" is the unknown count. Worth a Director
+  look at how the count is rolled up.
+
+### Declines
+
+- No new technique. Memory poisoning converged on both lanes but its home is
+  split (taint model in `prompt-safety`, lane input here); landed as a section
+  and a pointer, not a file.
+- The unparseable-instant correction was not softened to accommodate the two
+  trees that share the defect; two trees agreeing is a convention, and the
+  technique's own neighbouring clause is the arbiter.
+- A "useful memories become faulty when continuously updated" paper returned a
+  summary inconsistent with its own title (fine-tuning, wrong models); rejected
+  unread rather than cited.
+
+### Proposals for other subjects
+
+- `prompt-safety`: one sentence pointing at `memory-governance`'s new section as
+  the write-door counterpart of its provenance-tracking rule.
+- `eval-harness` / judge subjects: the personas harness's judge defect (a judge
+  tuned to a terse consumer reads a conversational reply's dated history as a
+  stale answer; +37 points on re-judging) is a judge-stability sighting.
+
+Saturation self-forecast: the four un-attacked claims are now attacked and the
+fresh landings confirmed with qualifiers; the next pass should find the harness's
+year run and the `write-verdict` arm, and little else until a second human
+reaches a connected store. One more productive pass, then dry.
+
+## Impact (step 4, run 2026-09-04-1)
+
+Fleet maps regenerated after the landing. Verdicts now judged against a subject that
+moved: personas (2), ascent (2). The personas count the scan reports as "14 deviations"
+is the map's *unknown* count for this subject on that project (14 unknown + 2
+deviations, both UI groups with no seam text) - a demand number to read as unjudged,
+not as fourteen shortfalls.

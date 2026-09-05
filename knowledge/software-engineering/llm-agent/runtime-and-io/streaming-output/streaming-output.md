@@ -11,6 +11,7 @@ techniques:
   - phase-derivation
   - cancellation-and-finalization
   - mid-turn-steering
+  - emit-behind-the-revision-window
 ---
 
 # Streaming model output
@@ -34,6 +35,12 @@ That definition decides when *not* to stream:
 - **When the producer's increments are not monotone** — it revises earlier
   output as it goes — a live transcript will visibly rewrite itself. Either
   render checkpoints (replace whole sections at coherent boundaries) or wait.
+  Both of those answer the case where the revision can reach arbitrarily far
+  back. Ask first how far it *can* reach: where the answer is a bounded,
+  nameable distance — a detector's lookback, a resume point, an unterminated
+  element — the stream can be shown live and append-only by holding the
+  emission cursor that far behind the frontier, which is
+  [emit-behind-the-revision-window](./techniques/emit-behind-the-revision-window.md).
 
 ## The stream is a typed event sequence, not text
 
@@ -197,3 +204,6 @@ technology handles worst if left undeclared.
 - [mid-turn-steering](./techniques/mid-turn-steering.md) — user input against
   the live turn: steer as a declared capability, queue as its one degrade,
   refuse-between-turns, and the observable join event.
+- [emit-behind-the-revision-window](./techniques/emit-behind-the-revision-window.md)
+  — streaming a producer that revises itself, by deriving the display lag from
+  the corrector's reach and treating what was emitted as binding on the retry.

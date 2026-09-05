@@ -4,8 +4,8 @@ type: application
 subject: quality-gates
 technique: prose-rule-drift
 stack: node
-verified_on: 2026-08-30
-verified_against: node@22
+verified_on: 2026-09-04
+verified_against: node@24
 applied: experiment
 ab_verdict: better
 proof: ab-paired
@@ -106,3 +106,25 @@ Nothing here measures whether the drift caused a defect. Three of the four
 affected repositories are working normally with their links missing, which
 means the rule's cost is latent rather than realized — and an audit that
 cannot price a violation cannot rank its own findings.
+
+## Re-read 2026-09-04, both rules re-measured
+
+The same two rules, five days on, with the same instruments.
+
+The **file-length rule** is still unbacked — no lint rule, no gate script
+reads a line count — and still holding: 0 of 588 files under the governed
+feature tree exceed the cap (predicate: every `.ts`/`.tsx` under that tree,
+counted by line, against the 200-line bound the standing document states;
+the first read's 785 was a wider population under the older, component-only
+wording). The boundary confirmation stands and has now been observed twice.
+
+The **shared-tooling rule** is still backed on paper and unbacked in fact:
+the checker's filename appears in no hook, pipeline definition or task-runner
+script in the registry that owns it or in any of the four consumer trees
+grepped, and running it by hand once reports **50 violations across six
+repositories** (18, 15, 14, 1, 1, 1), up from 27 across four. The two new
+repositories carrying the bulk are the two most recently linked, which is
+the same concentration the first read found. The gap between arm A and arm B
+has widened by exactly the amount nothing invoking the checker predicts. The
+tree behind the file-length rule declares node 24 in its version file and
+pipeline; the first read recorded 22, and the bump is the tree's.

@@ -14,11 +14,14 @@ techniques:
   - rollup-compaction
   - coverage-instrumentation
   - procedure-promotion
+  - diagnosis-withheld-from-the-executor
+  - rejected-revision-leaves-its-evidence
   - baseline-ladder
   - lane-reconciliation
   - probe-without-write-back
   - owner-and-counterpart-scope
   - read-set-bounded-links
+  - durable-store-failure-posture
 ---
 
 # Agent memory
@@ -101,6 +104,34 @@ under comparison differ from each other, which means most published
 shape comparisons are not evidence about shape (baseline-ladder). A tie is
 not the finding; the finding is that the instrument is not sharp enough to
 report the difference anyone is arguing about.
+
+## One policy cannot govern a layer's readers either
+
+The table above sorts by layer because write rate, lifetime and trust sort that
+way. There is a second axis it does not carry, and it only appears once a system
+starts using its own memory to revise its own procedures — at which point the
+consolidated layer has **two readers with different jobs**: the agent executing
+a task, and the pass proposing a change to the procedure that task ran under.
+
+The same store then has opposite value to the two of them, measured. Giving the
+proposing pass access to accumulated diagnosis was worth +15.0 points of final
+accuracy in a 2026 four-benchmark ablation; giving the executing agent access to
+the same store *cost* 2.8 to 3.4 points, in both arms of the same 2x2 — because
+an executor with a second source solves the task by some route other than the
+procedure, and the trace it leaves can no longer say whether the procedure
+works. The consequence for this subject's framing is narrow but real: the
+hierarchy's rule that one policy cannot govern layers of different physics holds
+one level down as well, and the access decision belongs to the *reader's role*
+rather than to the store (diagnosis-withheld-from-the-executor).
+
+The revision loop that reader serves adds one obligation of its own. Most
+proposed changes to a promoted procedure are rejected, and the two stores part
+company at that moment: the artifact reverts, the diagnosis does not
+(rejected-revision-leaves-its-evidence). A loop that discards the observation
+along with the proposal re-derives the same rejected change indefinitely, which
+is the accretion failure this subject warns about running in reverse — not a
+store that grows without bound, but one that cannot remember what it already
+tried.
 
 ## Raw transcripts are not memory
 
@@ -399,6 +430,11 @@ comparison a stated result instead of an unexamined premise.
 - **The silent second writer** — some code path that inserts "memories"
   without passing the distillation judgment, producing beliefs of a
   different (and unmarked) grade.
+- **The laundered instruction** — a third party's text captured as an
+  episode, distilled through the one door into a preference or a rule, and
+  recalled thereafter as the agent's own belief with the pass's confidence;
+  every writer was legitimate and only the evidence's author was never
+  asked (memory-governance).
 - **The invisible gap** — a store that is inspected only through its own
   contents, so the subjects it holds nothing about are never noticed by
   anyone.

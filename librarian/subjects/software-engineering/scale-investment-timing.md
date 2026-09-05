@@ -194,3 +194,32 @@ sites across ~48 files and "that cascade, not the SQL, is the cost", while the
 technique above it carried no general rule. Now it does, with the four transitive
 surfaces the application lacked (shared-state ownership, exclusion primitive, test
 harness, diagnostic surface).
+
+## 2026-09-04 — intake, `intake-eaxh`
+
+Touched by an intake run over a tutorial explainer on system-design fundamentals
+([[2026-09-04-system-design-break-order]]). The source landed nothing of its own;
+the subject corrected a claim about itself.
+
+**What changed.** The golden path's opening listed four mechanisms whose summoning
+decision this subject owns — rate limiting, sharding, replication, shedding — and
+asserted "this bundle covers them thoroughly." Three of the four do have subjects.
+**Partitioning has none**, in any bundle: no subject slug contains `shard` or
+`partition`. The opening now names the omission instead of asserting past it.
+
+**Why it matters beyond the sentence.** A golden path that overstates its
+neighbourhood's coverage sends a reader looking for a subject that is not there,
+and this one is the bundle's entry point for every load decision — the highest-
+traffic place in the corpus for that error to sit.
+
+**The standing gap.** `backend-platform/data-layer` holds 7 subjects under a cap of
+10, so a partitioning subject has a home and no placement veto. It is banked as a
+lead rather than specced: a tutorial explainer proves the gap but cannot author the
+content. Return condition in the source note.
+
+**The subject won its own argument, twice.** The source's pedagogy — break it, then
+fix the piece that broke — is the naive reading `ceiling-as-deadline-not-trigger`
+exists to correct. And the run's own proposed fix (a gate asserting coverage claims
+in `check-bundles.mjs`) was refuted by this subject's over-building asymmetry: the
+detector, asserted against a true positive in `HEAD` and 411 negatives, found the
+population to be **exactly one** — the sentence already fixed by hand.

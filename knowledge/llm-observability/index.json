@@ -4,8 +4,8 @@
   "bundle": "llm-observability",
   "source": "knowledge/llm-observability/ (frontmatter only)",
   "subjects": 17,
-  "techniques": 110,
-  "applications": 59,
+  "techniques": 111,
+  "applications": 60,
   "laws": 9,
   "categories": [
    "telemetry-and-data",
@@ -14,7 +14,7 @@
    "federation-and-surfaces"
   ],
   "layout": "nested",
-  "use_when_coverage": "110/110",
+  "use_when_coverage": "111/111",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -369,7 +369,7 @@
    "subcategory": null,
    "status": "reconciled",
    "file": "knowledge/llm-observability/quality-scoring/cross-provider-benchmark-operations/cross-provider-benchmark-operations.md",
-   "digest": "sha256:096041c00e39a184",
+   "digest": "sha256:35373301db7f53ac",
    "techniques": [
     {
      "slug": "async-run-queue-with-cancel",
@@ -440,6 +440,20 @@
       "turning a scorecard into prompt or routing changes",
       "a benchmark report must end in actions",
       "diagnosing why a target's mean dropped"
+     ]
+    },
+    {
+     "slug": "handicap-disclosure-in-the-result-row",
+     "status": "forged",
+     "laws": [
+      "estimation-announces-itself",
+      "never-present-absence-as-an-answer"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a competitor or model could not run the benchmark's workload unmodified",
+      "publishing a comparison your own system wins",
+      "deciding whether a weakened case still belongs in the scorecard"
      ]
     },
     {
@@ -1023,7 +1037,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/llm-observability/telemetry-and-data/llm-call-telemetry-model/llm-call-telemetry-model.md",
-   "digest": "sha256:9d0b71ce4b115284",
+   "digest": "sha256:691abe9c064cf12e",
    "techniques": [
     {
      "slug": "dual-clock-event-time",
@@ -1115,6 +1129,13 @@
      "file": "knowledge/llm-observability/telemetry-and-data/llm-call-telemetry-model/applications/node--metadata-attribution-keys.md",
      "verified_on": "2026-08-24",
      "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "token-usage-quadruple",
+     "file": "knowledge/llm-observability/telemetry-and-data/llm-call-telemetry-model/applications/node--token-usage-quadruple.md",
+     "verified_on": "2026-09-04",
+     "verified_against": "node@22.15"
     },
     {
      "stack": "process",
@@ -2131,6 +2152,7 @@
     "cross-provider-benchmark-operations/async-run-queue-with-cancel",
     "cross-provider-benchmark-operations/determinism-stamping",
     "cross-provider-benchmark-operations/failure-clustering-recommendations",
+    "cross-provider-benchmark-operations/handicap-disclosure-in-the-result-row",
     "federated-benchmark-sharing/aggregate-only-digests",
     "federated-benchmark-sharing/capture-locally-publish-separately",
     "federated-benchmark-sharing/content-addressed-contribution",
@@ -2176,6 +2198,7 @@
     "cross-provider-benchmark-operations/dataset-sampling-anonymize-freeze",
     "cross-provider-benchmark-operations/determinism-stamping",
     "cross-provider-benchmark-operations/failure-clustering-recommendations",
+    "cross-provider-benchmark-operations/handicap-disclosure-in-the-result-row",
     "federated-benchmark-sharing/bounded-contributor-influence",
     "federated-benchmark-sharing/cost-bucketing-side-channels",
     "generator-uncertainty-scoring/generator-vs-itself",

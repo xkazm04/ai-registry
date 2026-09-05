@@ -12,6 +12,7 @@ writing it down is that a reviewer applies it.
 
 A subject is below the floor when any of these hold. Attention points in brackets.
 
+<!-- weights: stamped by scripts/librarian-scan.mjs --weights; edit the script, then re-stamp -->
 | Clause | Why | Points |
 | --- | --- | --- |
 | A technique carries no `use_when` | It is the field a consuming agent routes on. Without it a technique is reachable only by a human reading prose - the difference between a bundle that can be consulted and one that can only be read. | 2 each |
@@ -23,9 +24,16 @@ A subject is below the floor when any of these hold. Attention points in bracket
 | Never swept by the librarian | Not a defect in the subject - a gap in what we know about it. | 3 |
 | A consumer reports citations `gone` | The strongest signal available, because somebody measured it against a real tree. | 6 each |
 | A consumer records a deviation | Demand pointing directly at a subject. | 4 each |
+<!-- /weights -->
 
-The weights live in the scan script, not here, so they cannot disagree with what runs.
-This table is the argument for them; that file is the implementation.
+That table is not typed here. It is **stamped** from the `WEIGHTS` declaration in
+[`librarian-scan.mjs`](../scripts/librarian-scan.mjs), which carries each number together
+with the sentence arguing for it, by `node scripts/librarian-scan.mjs --stamp-weights`;
+`--check-weights` exits 1 when this copy and that declaration have parted. Edit the
+script, re-stamp, commit both. The earlier version of this line said the weights lived in
+the script "so they cannot disagree with what runs" while the table beside it was
+hand-maintained - true on the day it was written, and unenforced, which is the shape of
+sentence that stops a reviewer checking.
 
 ## The bar (judged, not measured)
 

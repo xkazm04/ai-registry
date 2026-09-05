@@ -345,3 +345,167 @@ now carries "The refusals are a channel, and they must not collapse either."
 
 **`fluent-syntax-bounded-grammar` is landed and unapplied**: no fleet project
 takes a notation rather than a schema from a model. Return when one does.
+## 2026-09-04 - the transport rung (from `Sylinko/Everywhere`, applied on `tracklight`)
+
+`tool-schema-design` gained a second exit from the schema, and the shape is the one the
+subject keeps producing: **an enumeration that denied too much.** The file named
+conditional requiredness as "the one constraint that leaves the schema" and carved the
+boundary tightly - "formats, ranges, enums and unconditional requiredness stay". A
+consumer that forwards tools to an endpoint accepting a *narrower subset* than the
+schema was authored in must strip exactly formats and ranges, and there the rule
+resolves to the worst outcome available: enforced by nobody and invisible to the model,
+strictly weaker than the prose it was steering away from. The amendment replaces
+"schema over prose" with **place each constraint on the highest rung the transport
+carries** - exact lowering that keeps enforcement, demotion into the description where
+no equivalent exists, and silence as the outcome to make impossible rather than choose.
+
+Two things came from the *applied* tree rather than the mined one, and they are the
+better half. A generated catalog of 64 tools and 203 parameters, published with six
+schema keywords and no bounds at all, demotes constraints to prose as house style and
+carries **the reason with the bound** - "clamped to 4..=90, below the evidence floor a
+trend cannot be presented" - which the mined source does not; it emits a bare
+`Constraints: minimum=1, maxItems=10.` The reader on the prose rung reasons, so a bare
+numeral wastes the rung. And the structural fact nobody built that tree to prove: its
+pinned tool contract covers names, types and required sets and **not descriptions**, so
+a surface that demotes as policy has routed its load-bearing constraints into the one
+part of the published surface with no drift guard. Demotion trades silent
+non-enforcement for silent drift, and the amendment now says so.
+
+Applications: `rust--tool-schema-design` (the publisher side, A=1 -> B=0, shipped) and
+`dotnet--tool-schema-design` (the consumer side - the allowlist, the reference-integrity
+gate that must run *after* pruning because pruning is what orphans a definition, and the
+alternation merge whose lost exclusivity is recorded nowhere).
+
+Twelve untriaged design candidates from the same tree - two clusters with existing homes
+in `native-shell-integration` and `terminal-multiplexing` - are in the source note with
+their forces and anchors.
+
+## 2026-09-04 - boundary record only, no change to this subject (run `intake-ghcost-2`)
+
+`server-composition` states, under "Change is announced, not assumed", that a
+list-changed notification's entire content is "re-list" and that **the notification
+deliberately carries no payload** - the listing remains the single authority and the
+notification is only an invalidation hint.
+
+`agent-runtime-assembly/bounded-projection-of-external-work` now states the opposite
+for its own case: a completion delivery carries the result inline. Both are correct,
+and the discriminator is written on that side rather than duplicated here:
+
+> A notification that **invalidates a mutable authority** carries no payload - it would
+> be a racing copy of something that can already be stale, and the reader must re-read
+> anyway. A notification that **announces a completed, immutable result its producer
+> already holds** carries it - the result *is* the authority. The test is one question:
+> told only that something happened, would the reader have to go somewhere else for the
+> truth?
+
+`server-composition`'s rule is the first branch and needs no edit: a tool listing is
+mutable by construction, which is exactly why the notification defers to it. This note
+exists so a later run recognises the shape instead of re-litigating it, and so the
+apparent contradiction between the two subjects reads as a boundary rather than a
+defect. A field test of the discriminator across another tree's completion path found
+8 branches over 7 call sites matching it, with one refinement worth carrying if this
+subject ever restates the rule: **the discriminator applies per fact, not per
+notification** - one message may carry one fact and point at another.
+
+No knowledge file in this subject was modified by this run; another session was live
+in `mcp-tools` at the time.
+
+
+## 2026-09-04 - the subject claimed a revision it did not document (run `intake-mcp-1`)
+
+Source: the Model Context Protocol specification repository at `e76e9c5`, mined
+because the operator routed a vendor blog post to the standard it describes.
+
+**Six load-bearing statements reproduced the 2025-06-18 protocol while the golden
+path claimed to describe 2026-07-28.** Each was verified against normative text,
+the wire schema, and the diff across three published revisions in one checkout -
+not from a worker's report. The error-channel rule was the worst of them: input
+validation was filed as a protocol error, which the standard reversed fifteen
+months before the revision this subject claims to document, and the corrected
+discriminator is not "did the call happen" but **who can act on the answer** -
+provable because the same failure changes channel between a user-invoked prompt
+and a model-invoked tool.
+
+**The provenance is the finding worth carrying forward.** That section was
+written by the round-5 mine of a large vendor *implementation catalog*. Mining
+implementations of a standard teaches you its architecture, and this subject's
+architecture section is correct. It does not teach you the rules, because an
+implementation shows one vendor's reading and a reading is not a citation. **A
+subject forged from implementations of a published standard carries a standing
+debt against the standard itself**, and nothing in the method currently creates
+one - `rescan_when` attaches to the source that was mined, so a repository
+re-scan re-checks the repository and never the specification behind it.
+
+Three techniques added, all consequences of one force (statelessness removed the
+container, so everything leaning on it had to be re-derived):
+`suspendable-request-classes`, `sealed-continuation-state`,
+`enumeration-without-a-scope`. `server-composition` gained list ordering as a
+prompt-cache determinant and the sharing half of a discovery hint.
+
+**One structural lesson about this corpus, not about the source.** The
+`requestState` mechanism was already here - fully, accurately, with the HMAC
+envelope and the TTL and the principal binding - inside a *dated application*
+about one SDK's transport, framed as "echoed back as an ordinary argument",
+which is the vocabulary of the rule it is an exception to. The gap was placement,
+not coverage. **An application can carry a mechanism its subject never learned,
+and nothing structural surfaces it**, because applications are read as evidence
+for techniques rather than as candidates to become them.
+
+Contention: `intake-stencil-harness` claimed this subject at its Phase 6 while
+this run was at Phase 9. This run's writes were complete and are committed first;
+the sibling re-enters behind them on the `techniques:` list.
+
+
+## 2026-09-04 - wan2gp (intake)
+
+Two amendments, both found by reading this subject's files for their **unqualified
+sentences** before drafting anything, and both landing on the scope those sentences
+suppress.
+
+- `write-freshness-gate` said "Writes never refresh marks" and called it "the whole
+  cure for drift". The reason it gives is sound for appends and substring replaces,
+  whose result depends on content the writer did not supply — and does not reach a
+  whole-artifact write, where the writer holds the authoritative copy and a readback
+  returns its own argument. The amendment gives the mechanical discriminator and the
+  two conditions that make a refresh honest (server-verified evidence in the result;
+  source completeness reported separately from write success).
+- `catalog-projection-modes` made a routing tool self-teaching for the *operation
+  name* and stopped there, leaving the model holding a name and inventing its
+  arguments — the failing first call that section exists to prevent, arriving one
+  round trip later. The second rung answers the omitted `arguments` with that
+  operation's schema, which is how the file's own claim that "the original rule
+  stands" inside a compressed server becomes true: the constraint is served as a
+  result because the listing is what the budget took away.
+
+**The subject-level fact worth recording, which is not about either amendment.**
+Both landings are `unapplied` fleet-side, and the search was done rather than
+assumed: six trees, per-project `git grep`, **zero agent-facing write tools and zero
+compressed catalogs**. All twelve of this subject's applications are external stacks.
+That is not an accident of one run — **this fleet consumes MCP and this subject is
+written for publishers**, so its apply rows can only ever be source-tree applications
+until a fleet project starts publishing. A later run should read this paragraph
+instead of re-searching six trees.
+
+**Return condition on that fact** (it is a cached absence and must expire like any
+lead): when a managed project publishes an agent-facing write tool over shared
+artifacts, or runs a tool catalog against a host ceiling it does not control.
+
+Two source-tree applications landed instead, both recording where the source does
+**not** meet the standard: it has no freshness gate at all, and its per-action
+`access` tiers — which correctly classify blast radius — never cross the wire as
+behaviour annotations, so the honest annotation set the technique demands is already
+computable there and simply is not published.
+
+Board: 2 siblings live by Phase 7, neither holding these two technique files;
+`check` was clear immediately before the first write.
+
+## 2026-09-04 - lead from the `/deepen` batch ([[2026-09-04-1]])
+
+- **The task extension as wire facts.** The protocol's task extension (2025-11,
+  experimental) carries `execution.taskSupport` required/optional/forbidden, a
+  receiver-overridable TTL that deletes a task *and its result* regardless of status,
+  and a model-immediate-response path. `spec--enumeration-without-a-scope` mentions
+  tasks; the lifecycle contract is not modelled here. The consuming side (a purged
+  result read as *expired unread*) landed in agent-runtime-assembly/
+  bounded-projection-of-external-work today. Return condition: an intake of the
+  extension's specification text, or a fleet server that advertises taskSupport.

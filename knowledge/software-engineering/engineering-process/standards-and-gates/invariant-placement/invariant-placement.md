@@ -12,6 +12,7 @@ techniques:
   - consumption-bounds-at-most-once
   - build-time-evaluation-of-cross-value-invariants
   - derived-properties-cannot-be-forged
+  - shape-with-a-not-applicable-member
 ---
 
 # Invariant placement

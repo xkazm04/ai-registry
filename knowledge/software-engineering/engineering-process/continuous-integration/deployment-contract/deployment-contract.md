@@ -155,7 +155,7 @@ whenever a deploy token appears. Serializing two deploys that would otherwise ov
 The artifact's own staging and its opt-in publish door belong to
 [release-pipeline](../../build-and-release/release-pipeline/release-pipeline.md); watching a
 deployment you do not own, and per-environment deployment history, are
-[cicd-monitoring](../../../integration/cicd-monitoring/cicd-monitoring.md). Running the gate's
+[cicd-monitoring](../../../integration/external-systems/cicd-monitoring/cicd-monitoring.md). Running the gate's
 own commands before authoring a change is
 [pre-authorship-verification@machine-paced-delivery](../machine-paced-delivery/techniques/pre-authorship-verification.md);
 this subject turns that from a discipline into a topology's load-bearing precondition. What is

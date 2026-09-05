@@ -16,6 +16,7 @@ techniques:
   - leadership-is-the-lock
   - fence-inside-write-transaction
   - renewal-deadline-two-thirds-ttl
+  - race-catalog-with-two-histories
 ---
 
 # Idempotency & in-flight guards

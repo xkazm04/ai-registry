@@ -6,7 +6,7 @@ technique: dated-capability-matrix
 status: forged
 laws: [derivation-names-recomputation, unknown-is-not-a-value]
 shared_with: []
-use_when: [encoding what a given agent CLI supports, an adapter hardcodes flags a version bump may break, deciding whether a feature can rely on schema-constrained output]
+use_when: [encoding what a given agent CLI supports, an adapter hardcodes flags a version bump may break, deciding whether a feature can rely on schema-constrained output, a capability works on one machine and not another at the same version, a feature is gated by a remotely-fetched flag payload]
 ---
 
 # The dated capability matrix
@@ -94,7 +94,35 @@ different vendors in this class, which makes it a pattern rather than an
 incident. So the matrix carries an **eligibility row that is dated
 independently of the version row**, refreshed on a vendor-landscape clock
 rather than on release events, and sourced from vendor announcements rather
-than from the artifact — because nothing inside the artifact can report it. Comments in adapter code that pin flag semantics carry the
+than from the artifact — because nothing inside the artifact can report it.
+
+**There is a third axis, and it defeats the strongest method rather than
+the weakest.** A capability can ship in the artifact, be fully available to
+the account, and still be switched off — because the tool consults a
+remotely-fetched flag payload at startup to decide which of its features
+exist for this session, caching the previous session's payload on disk and
+accepting a per-process environment override. Capabilities in this state
+have been observed shipping in a released binary, with their schemas and
+their code present and greppable, while the feature is absent from the
+published documentation and present or absent at runtime by remote
+decision. The consequence for the matrix is specific and it is not fixed by
+verifying harder: **a live run proves the capability existed in that
+session, on that machine, under that payload** — it does not prove the
+version supports it, and it does not transfer to a colleague on the same
+version and the same plan. The strongest method's authority is real and its
+*scope* is narrower than the row it is written into.
+
+So capability rows are keyed by what actually decides them. A row whose
+capability is remotely flagged records that fact, records the override
+that pins it where one exists, and never generalizes a single observation
+to the version — and where a feature binds to such a row, the honest
+surface is the **degrade** branch above, because the requirement may be met
+now and unmet on the next launch with nothing local having changed. The
+three axes are worth naming together, since a matrix that models one and
+not the others reads healthy while being wrong: the **artifact** answers
+what shipped, the **account** answers what this payer is entitled to, and
+the **session** answers what was switched on when the process started.
+Comments in adapter code that pin flag semantics carry the
 same discipline in miniature: "verified against the tool's help output on
 this date" beats a bare flag every time an upgrade breaks one.
 

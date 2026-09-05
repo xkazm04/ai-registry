@@ -19,6 +19,7 @@
  */
 import { readFileSync, writeFileSync, mkdirSync } from "fs";
 import { dirname, resolve } from "path";
+import { pathToFileURL } from "url";
 
 function parseArgs(argv) {
   const a = {};
@@ -139,5 +140,10 @@ function main() {
   console.log(JSON.stringify({ success: true, output: abs, elements, dropped }, null, 2));
 }
 
-// Run as CLI only when invoked directly (not when imported by trace.mjs).
-if (import.meta.url === `file://${process.argv[1]}` || process.argv[1]?.endsWith("emit-glyph.mjs")) main();
+// Run as CLI only when invoked directly (not when imported by trace.mjs or a test).
+// `file://${argv[1]}` never matches on Windows (a drive path is not a URL path), which
+// is why an `endsWith` fallback was bolted on - and that fallback fires for ANY entry
+// point whose name ends in "emit-glyph.mjs", including `tests/test_emit-glyph.mjs`,
+// so importing the pure core ran the CLI and exited. pathToFileURL compares the two
+// the way the runtime does, on every platform, with no substring guess.
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) main();

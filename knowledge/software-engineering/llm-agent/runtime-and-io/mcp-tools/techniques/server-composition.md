@@ -68,9 +68,9 @@ Two door-level obligations that handlers must not own individually:
 ## Request correlation under concurrency
 
 JSON-RPC multiplexes: multiple requests may be in flight on one channel, and
-responses match requests by id, not by order. A server (or a bidirectional
-peer that also *sends* requests — elicitation makes servers requesters too)
-therefore keeps a pending-request map: id → completion slot, with three
+responses match requests by id, not by order. **The requester** — which under
+a stateless tool protocol means the client, and only the client — therefore
+keeps a pending-request map: id → completion slot, with three
 invariants. Ids are never reused while pending; every pending entry has a
 timeout that fails it (the map is not a place requests go to be forgotten);
 and channel teardown fails *all* pending entries immediately — the callers
@@ -82,6 +82,19 @@ insert, on a periodic tick) bounds the map's size but not the caller's wait —
 a blocked caller whose expiry fires only when someone *else* submits a
 request has a timeout in name only. Registry-side sweeping and waiter-side
 clocks are both required; they answer different questions.
+
+**The server holds no such map, and that is a design constraint rather than
+an omission.** A stateless tool protocol runs requests in one direction only:
+the client sends requests, the server sends responses and notifications, and
+there is no message a server may originate. A server that must ask its caller
+something mid-operation therefore does not invert the direction — it
+*terminates the call* with a "not yet, here is what I need" result and lets
+the client re-drive. That is what buys statelessness: a bidirectional peer
+needs a completion slot pinned to one connection on one instance, which is
+either affinity or a shared store, and both are the cost the direction rule
+exists to avoid. Building a server-side pending map for a question the server
+wants to ask is the shape to catch in review; the answer is a result type,
+not a request.
 
 ## Listing at scale: pagination and change
 
@@ -99,12 +112,35 @@ The listing surface has its own contract:
   hint. Delivery is best-effort — a correct client also refreshes on its own
   schedule, and a correct server never treats "I notified them" as "they
   know."
-- **Discovery is cacheable, and the server sets the terms.** Under the
-  stateless architecture, the server's self-description (identity,
-  capabilities, supported versions) carries explicit freshness and sharing
-  hints. Cache lifetimes here are a contract: advertise long freshness on a
-  listing that mutates hourly and every consumer holds a stale map exactly
-  when it matters.
+- **Order the listing deterministically, because the listing is somebody
+  else's cached prompt prefix.** Tool declarations are rendered into the
+  model's context, usually at the front where the cache breakpoints are, so
+  a listing that returns the same set in a different order every call
+  invalidates a prefix the consumer is paying to keep warm. The asymmetry is
+  the point: the **server** is the only party that can make the order stable,
+  and the **client** is the only party that pays when it is not, so nothing
+  in the client's own code review will ever surface it. Sort by a stable key
+  the registry already has, and treat a reordering as a change to a published
+  contract rather than as a cosmetic diff.
+- **Discovery is cacheable, and the server sets the terms — two of them.**
+  Under the stateless architecture, the server's self-description (identity,
+  capabilities, supported versions) carries explicit **freshness** and
+  **sharing** hints, and they fail differently. Freshness is a contract:
+  advertise long freshness on a listing that mutates hourly and every
+  consumer holds a stale map exactly when it matters. Sharing is a *scope* —
+  a declaration of which callers may reuse one cached copy — and its failure
+  is silent and one-directional. A listing that varies by the caller's
+  credential and is declared shareable may be served to a different caller
+  by any intermediary on the path, **including from an authenticated
+  endpoint**, leaking the shape of one principal's surface to another. Neither
+  endpoint can detect it: the server saw one well-formed request, the victim
+  received a well-formed catalog, and the only party that could see the
+  substitution is the cache, which behaved correctly. So the scope is a
+  *hint about sharing*, never an access control — per-caller authorization is
+  still enforced at dispatch
+  ([gate-sees-target](../../../../_laws.md#gate-sees-target)), and a listing
+  whose contents you would refuse to another principal must be declared
+  private no matter how much cheaper the shared answer would be.
 
 ## Composition patterns above one server
 

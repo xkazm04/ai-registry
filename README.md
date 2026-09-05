@@ -52,6 +52,7 @@ docs/skills-lane.md       # the skills lane's format spec: shape, sub-resources,
 docs/usage-lane.md        # the usage lane's format spec + what may never go in it
 docs/signals-lane.md      # the signals lane's format spec: verdicts, never pointers
 docs/reconcile-brief.md   # the external-reconcile lane's contract, and how it extends past repositories
+scripts/gate.mjs          # runs the gate chain CI enforces, in CI order: --all, or --lane <lane>
 scripts/check-bundles.mjs # the knowledge lane's gate (zero dependencies)
 scripts/check-skills.mjs  # the skills lane's gate: shape, sub-resources, the version-bump rule
 scripts/apply-skill-clauses.mjs # stamps the shared Skill Reflection / Knowledge sync clauses from docs/skill-clauses/ (--check in CI)
@@ -65,10 +66,11 @@ scripts/apply-taxonomy.mjs# the ONLY thing allowed to move a subject (moves + re
 scripts/lib/taxonomy.mjs  # the shared slug -> path resolver; nothing else may build a subject path
 scripts/lib/skills-lane.mjs # the ONE reader of the skills lane: frontmatter, digest, lessons, sub-resources
 scripts/lib/fleet.mjs     # the shared bulk-model dispatcher: retry, budget and model rotation
-scripts/fleet-use-when.mjs# proposes the missing use_when lines, then applies the reviewed ones
+scripts/experiments/fleet-use-when.mjs # proposes the missing use_when lines, then applies the reviewed ones
 scripts/build-index.mjs   # regenerates knowledge/<domain>/index.json (--check in CI)
 scripts/build-catalog.mjs # regenerates catalog.json from every lane (--check in CI)
 scripts/build-marketplace.mjs # regenerates .claude-plugin/marketplace.json from the skills lane (--check in CI)
+scripts/check-hash-stability.mjs # asserts the bundle digest is the same from a CRLF and an LF checkout
 scripts/link-registry.mjs # OPERATOR-SIDE: links each project's .claude/skills + .claude/rules at this registry
 scripts/build-knowledge-rules.mjs # regenerates rules/ - the always-on knowledge context projects link (--check in CI)
 scripts/fleet-audit.mjs   # OPERATOR-SIDE: which installation runs which copy of which skill; writes adopters

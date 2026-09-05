@@ -527,10 +527,13 @@ for (const f of walk(KNOWLEDGE)) {
 //   * No stray C0 control characters. Tab, LF and CR are content; a form feed or a bell
 //     in prose is the same class of accident as the NUL, caught before it lands.
 //
-// Deliberately NOT checked: line endings. This repository has no .gitattributes and
-// contributors run with `core.autocrlf=true`, so the working tree legitimately holds CRLF
-// on Windows and LF elsewhere. A gate whose verdict depends on the checkout is a gate
-// worth distrusting — the same instrument lesson the deepen lane already paid for.
+// Deliberately NOT checked: line endings. `.gitattributes` sets `* text=auto eol=lf`, so
+// what lands in the INDEX is normalised there and this gate would only ever be re-checking
+// git's own work. A working tree can still differ — a contributor's `core.autocrlf`, an
+// editor, or a file that predates the renormalisation — and that is exactly the point: a
+// gate whose verdict depends on the checkout is a gate worth distrusting, the same
+// instrument lesson the deepen lane already paid for. Line endings belong to the
+// attributes file, which enforces them where it can actually be true.
 const walkAll = (d, out = []) => {
   for (const e of fs.readdirSync(d, { withFileTypes: true })) {
     if (e.name.startsWith('.')) continue; // local overlays are not published
@@ -602,6 +605,12 @@ for (const s of stats) {
 console.log(`${conceptFiles} concept documents · ${linksChecked} links checked · ${filesScanned} files scanned for health`);
 console.log('NOT checked here: evidence resolution (consumer-side, by design — rkb-profile §5)');
 console.log('NOT checkable statically: the live transplant test — only it promotes status to transplant-tested');
+// The purity verdict states its own predicate. The key is a list of LITERAL names, and an
+// author can refer to a product without naming it — a periphrasis, an alias, an
+// abbreviation — which refers identically and matches nothing. Extending the list does not
+// close that; only a differently-keyed check (the agent read above) can. So the pass says
+// what it read, never the property it proxies. See quality-gates/renameable-detector-keys.
+console.log('Purity checked against literal names only — a product referred to without being named passes; the denylist is a floor, not a proof of transplantability');
 for (const n of notes) console.log(`  note: ${n}`);
 
 if (failures.length) {

@@ -27,6 +27,15 @@ The non-obvious half, and the part the source did not state: reachable context n
 HIGHER freshness bar than unreachable context, because an error there steers the agent
 away from checking something it would otherwise have found.
 
+## 2026-09-04 - /intake run (stencil harness playbook)
+
+- New technique `speculative-compaction-splice`. `amortized-compaction-cadence` opens **"Two schedules, and what each one buys"** and prices batch against amortized as a deployment-decided trade - but both are *triggered*, and both do the work in the turn's path. That shared assumption is not a law.
+- The third schedule forks at a derived margin below the threshold, compacts beside the conversation, and splices the summary in as a prefix. It takes amortized's stall-free property **without** the per-turn prefix break that document treats as the unavoidable price, because it breaks the prefix exactly as often as batch does - in `cache-breakpoint-allocation`'s arithmetic, the cadence term is unchanged from batch.
+- Second half, which the corpus had no view on: the splice keeps the live turns *after* the summary, so the model does not resume looking at a handoff message standing alone as the newest thing in its history.
+- The landing adds the two things the source omits and any implementation needs: the margin is **derived** from measured summarization latency against tokens-per-turn (a round percentage never revisited is a threshold trigger with extra steps), and the losing case - live branch crosses the hard threshold, or the summarization fails - degrades to blocking on the in-flight request, never silently to no compaction.
+- Explicitly does **not** relax `history-compaction`'s selection rules: cheap compaction off the critical path invites running it more often, and each pass is still a lossy rewrite of the record the session reasons from.
+- **Unapplied.** No fleet project runs a conversation-window compaction it owns; the nearest candidate's compaction hits are memory records and review summaries, not transcript spend-down. Return condition: a project compacts a transcript against a context window it must stay inside.
+
 ## Open leads
 
 - **The classification has to reach the feeders.** The technique says each feeder
@@ -283,3 +292,123 @@ control drew four questions where the design says zero.
 **Boundary with the new subject**, stated in both golden paths: an instruction
 is a set of deferred decisions and compressing it makes them; a tool result has
 no deferrals in it at all.
+## 2026-09-04 - /intake `Everywhere` (run `everywhere-build`)
+
+One technique, **`contributed-document-admission`**: what an assembler owes when
+it injects a registry of instruction documents **its team did not author**.
+
+Placement was contested between here and `agent-instruction-files`, and this
+golden path decides it in its own words - *"the inverse case, authoring content
+for an assembler you do not control, is the sibling subject; this subject
+governs systems that own their assembler."* These are the assembler's decisions.
+The seam was exact: the trust-classification section enumerates *authored /
+machine-derived / untrusted* and says an untrusted span never enters the
+identity or policy layers, with **no class for a document the operator
+deliberately installed but a stranger wrote** - which wants the capability
+layer and nothing else.
+
+What was already covered and therefore compressed rather than restated: the
+no-execution half leans on `agent-runtime-assembly/operator-tier-code-loading`
+(*"code entry points come only from the startup tier"*), and index-over-body on
+`capability-documentation`'s pointer principle. What was genuinely absent:
+
+- **identity from source root plus container, never from self-declaration** - a
+  document cannot name itself into another source's namespace, and a declared
+  name disagreeing with its location is a warning, not an override;
+- **a declared capability is a precondition, never a grant** - requesting a tool
+  is not acquiring one;
+- **an invalid entry is listed with diagnostics, never silently dropped and
+  never injected**;
+- enable state as deviations-only, with the active set as a fingerprint input.
+
+`agent-instruction-files/sibling-floor-ownership` is the nearest thing in the
+corpus and describes the same artifact class from the **owner's audit** side;
+it says nothing about how a host admits, names or refuses those entries. Cited,
+not duplicated. Nothing under `agent-instruction-files` was edited - a sibling
+held uncommitted work there during this run.
+
+Unapplied: return condition in `applied.md`.
+
+## 2026-09-04 - /intake `copilot-cost-efficiency` untriaged drain (run `intake-ghcost-2`, intake 2.5.0)
+
+Two techniques and one amendment, from the untriaged tail of a first-party account
+of a coding-agent harness. The operator approved all four banked rows as a
+multi-select; three landed here, one in `agent-runtime-assembly`.
+
+**`recovery-path-as-loss-signal`** (new) - a lossy transform that keeps the original
+retrievable has an error rate nobody reads: how often the consumer takes the recovery
+path. The technique owns the family of recovery behaviours that do not look like
+recovery (re-ran the producing command, repeated an exploration, narrowed a search,
+simply took more turns), and the reason a per-unit saving is measured at the wrong
+boundary - the coupling is a behaviour of the *consumer*, so the measurement boundary
+must be wide enough to contain it. The two-sided reading is deliberately bounded: a
+high rate is unambiguous, a zero rate cannot distinguish precise targeting from
+timidity, and the defect is reporting a safety result as an optimality result.
+Cross-bundle convergence recorded as prose with no link - another bundle's routing
+technique measures the same fallback at the opposite polarity, where it is a safe
+superset and a non-trivial rate means routing never happened.
+
+**`consumer-coupled-decoration`** (new) - per-item markup whose consumer changed
+method goes on being produced, correct, and unread, at items x payloads x sessions.
+A worker overrode the director's routing to land it here rather than in
+`agent-instruction-files`: this subject "governs systems that own their assembler",
+the cost model there is one-factor where this is two, and `substrate-coupled-expiry`'s
+instrument is a trial against the *model* while this consumer is a peer program - so
+the audit is a code read, not an experiment. Reciprocal cross-reference added there.
+
+**Amendment to `elision-to-a-refetch-pointer`** - bounds its own stated rule rather
+than retracting it. "The threshold is policy, not judgment" holds for homogeneous
+material and fails once the material has classes with different re-read
+probabilities, because size and information density are correlated. Structured result
+sets gain a third option beside keep and elide: lossless regrouping that drops no
+entry.
+
+**The apply step turned the corpus on its own prior landing.** An earlier run shipped
+an elision into a tool server and measured its 4.7x with `arm_a.len()` against
+`arm_b.len()` - the transform's own output, the boundary the new technique forbids -
+and nothing in that crate counts recovery at all. Break-even sits at a 67.5% recovery
+rate and is unresolvable as built.
+
+**A real defect fell out and shipped.** The elision marker is ~44 bytes and fields of
+any size were elided, so a wide trace of small payloads rendered *larger* than the
+un-elided compact form while reporting the content gone: 56,228 -> 85,828 bytes,
++52.6%, measured in the implementation rather than a model. Fixed with a 64-byte
+floor; the case elision was built for is unchanged. **The arms are byte-identical at
+both endpoints and diverge only across the middle** - the false tie the mid-state rule
+exists to catch. One sub-claim came back `not-better` and was kept: the lossless-first
+ordering has no purchase where the trigger already measures the compact form, because
+"lossless suffices" and "the trigger did not fire" are then one predicate.
+
+Applications: `rust--recovery-path-as-loss-signal`, `rust--consumer-coupled-decoration`,
+and `rust--elision-to-a-refetch-pointer` extended with the shipped arm. Four
+`unapplied` rows record searched absences across the rest of the fleet.
+
+## 2026-09-04 (second touch) - the last writer is not always yours (`workweave-router-0904`)
+
+`/intake` 2.5.0 over `weave-os/router` @ `1699cf6`. One amendment to
+`layered-composition`, from the promoting question rather than from the headline.
+
+The subject states its door as *enumerable* — "all prompt text for a family passes
+through one assembler, and the writers are enumerable — they are the assembler's
+callers". A format-translating proxy in the path is a writer that is not a caller,
+in another process, owned by another party, and it rewrites for a reason the
+assembler cannot argue with: the destination rejects a shape the source format
+permits. The faithful fix is the destructive one — hoisting every system message
+into the destination's system field preserves meaning exactly and moves a per-turn
+system reminder to the front of the prompt, re-writing the cached prefix every turn.
+Measured on the source's production traffic: **~890k cache-creation tokens per turn
+against a flat 17.5k of reads.**
+
+What this corrects is a *sufficiency* claim the subject makes in two places — that
+byte-determinism per message gives a stable prefix. It does not, when the last hop
+reorders. The correction is that a required rewrite must be **position-preserving**
+rather than merely meaning-preserving: hoist only the leading run, demote the rest
+in place.
+
+**The apply row came back `not-better` and improved the amendment.** Its prescribed
+guard was run against a fleet composer rather than argued: cached reads against
+cache creations over recorded runs, **15,830,327 : 941,777 = 16.8:1** — the healthy
+pole, two orders of magnitude from the pathological ~0.02:1. The guard had no number
+and was therefore unusable; it now has two poles far enough apart that it needs no
+threshold, only the sign of `ratio - 1`. Nothing shipped to the project, and nothing
+should have.

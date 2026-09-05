@@ -49,3 +49,22 @@ fleet-*.proposals.json
 # Benchmark evidence: regenerable run rows and worktrees. Per rkb-profile §5 the
 # FINDING is what gets committed, not the evidence it was derived from.
 .bench/
+
+# The registry's own copy of a LANE skill, linked not copied.
+#
+# `.claude/skills/` here holds the registry's native maintenance skills (/forge, /deepen,
+# /librarian, /intake, ...) as real, committed directories. A lane skill under `skills/`
+# that the registry also wants to RUN on itself is linked in instead, by the same rule
+# scripts/link-registry.mjs applies to every consumer: one home per name, the link is
+# machine state, the target is the lane file. Committing the link would be a dangling
+# path on a checkout whose git does not materialise symlinks (core.symlinks=false here).
+.claude/skills/explorer
+.claude/skills/perfect
+
+# /explorer run memory. Regenerable evidence, not registry content (rkb-profile §5:
+# the FINDING is committed, the evidence it came from is not). Same rule as .bench/.
+.explorer/
+
+# /perfect loop state: an Obsidian-openable vault, regenerable working memory of a
+# skill that runs on this repo. Not content; and the checkout hosts concurrent sessions.
+.perfect/

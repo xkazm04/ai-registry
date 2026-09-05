@@ -4,9 +4,9 @@ type: application
 subject: agent-memory
 technique: decay-and-forgetting
 stack: rust
-verified_on: 2026-09-02
+verified_on: 2026-09-04
 verified_against: rust@1.97
-applied: simulation
+applied: experiment
 ab_verdict: better
 proof: structural-only
 ---
@@ -209,3 +209,120 @@ exists for the comparison.
 it beside the rank, `extend` as a proposal action, and the reflection pass
 carrying the sources' clocks through `synthesize`. Return: the first two
 review cycles under both selectors, compared on keep-rate.
+
+## The operator-forget lane landed, in both stores (2026-09-04)
+
+The distinction section above was written against a tree that had the expiry
+exit and no operator-issued forget, and it left a note at
+`consolidation.rs:538` for whoever added one. Both stores now have it, and
+they converged on the same shape without sharing code.
+
+**Companion brain.** `src-tauri/src/companion/brain/semantic.rs` deletes a
+fact and writes a row into `companion_fact_tombstone (scope, fact_key,
+value_excerpt)` inside the same transaction (`:450-482`); the doc comment
+states the reason in the technique's words — the deletion removes the fact
+but not the episodes, so the next cycle re-derives what was just deleted "and
+the correction looks ignored." Consolidation consults the bar before it
+re-derives (`:427-437`), and `sleep_cycle::apply` refuses first. A deliberate
+explicit write under the key clears the bar as part of its own transaction
+(`:184-188`), and there is no separate un-forget entry point, "deliberately
+so: an unused one would be a second door" (`:422-423`). The test module
+(`:621-790`) pins the contract: a deleted fact leaves a tombstone on its key;
+a tombstone is scoped; an explicit write lifts it; forgetting twice refreshes
+one row rather than duplicating; and the recorded value excerpt "is never
+matched against — forgetting a key forgets the subject, and matching on the
+value would let the next cycle re-derive the same fact."
+
+**Persona memory store.** `src-tauri/db/src/repos/core/memories.rs` reaches
+the same design from its own door: `delete` (`:1416`) tombstones the
+`(persona_id, fact_key)` with the reason "memory deleted by user" as a
+best-effort side effect that never fails the delete (`:1427-1444`);
+`create_consolidated` (`:549`) counts a barred key as `skipped_tombstoned`
+(`:600-612`) instead of writing, and the outcome vocabulary is
+`created | updated | skipped_tombstoned | rejected`, so the skip is a counted
+state rather than an absence. Two tests (`:3711`, `:3833`) assert that a
+tombstoned key is skipped and counted and that a user delete tombstones the
+key.
+
+The technique's new section is the two stores' shared rule stated once. The
+one place they differ is worth recording: the companion brain writes the bar
+in the delete's transaction; the persona store writes it best-effort after
+the row is gone, which is the ordering the technique's tombstone rule warns
+about — a delete that commits and a bar that does not leaves the silent
+relearn reachable for exactly one cycle.
+
+## The cap ranks by a second model (2026-09-04)
+
+`run_lifecycle` (`memories.rs:1987`) enforces `ACTIVE_CAP = 60` by keeping
+the top rows under `ORDER BY importance DESC, access_count DESC, created_at
+DESC` (`:2017-2027`) and archiving the rest, while recall and the decay
+sweep in `src-tauri/db/src/memory_recall.rs` rank by `decay_score` (`:157`):
+`importance × 0.5^(age/half_life) × (1 + 0.25·ln(1 + accesses)) ×
+dispute_penalty`. Worked on the tree's own half-life table (`:118-129`):
+a `fact` of importance 4, created 300 days ago and never accessed, scores
+4 × 0.5^(300/90) ≈ 0.40; a `fact` of importance 3, twenty days old with ten
+accesses, scores 3 × 0.86 × 1.60 ≈ 4.1. Under the cap's order the first
+survives and the second is archived; under the store's own value model the
+second is worth ten times the first. The cap is a janitor with a private
+importance score, and the technique's cap clause now names it. A fourth
+ordering, `get_archivable_candidates` (`:1391`), selects the reviewer's
+batch by `importance ASC, access_count ASC, created_at ASC` — the same
+disagreement on the review path, already recorded above as case 1.
+
+Also read on this pass: `decay_score` treats an unparseable timestamp as age
+zero (`:155-156`, `:165`), and `should_forget` (`:428-434`) returns `false`
+for a row it cannot date. Together that is the pair the value-model technique
+now corrects: a malformed instant ranks first and is exempt from the sweep.
+The tree tolerates two timestamp formats (`parse_ts`, `:131-140`) precisely
+because the table holds both, which is the condition under which a stricter
+parser would pin a whole writer's rows to the top.
+
+## Verification standing (2026-09-04)
+
+Re-read against the checkout on `master` at `bf95ffb4b`, toolchain `rustc
+1.97.1` (`Cargo.toml` declares `rust-version = "1.80.0"` as the floor). Every
+citation above resolves; no code was changed and no gate was run. The
+`expected_valid_days` column, the `extend` action and the source clocks through
+`synthesize` filed on 2026-09-02 are not in `HEAD`; that return condition is
+still open.
+
+## The cap against the value model, measured on the live store (2026-09-04)
+
+The section above worked one constructed case. This one runs both orderings
+over the real rows: the app's `personas.db` copied and read with the app
+untouched, 42 `persona_memories` rows, of which one persona holds 40 in the
+`active` tier (plus one `core`, cap-exempt by construction).
+
+**Seam.** `run_lifecycle`'s `ACTIVE_CAP = 60` keep-set, `ORDER BY importance
+DESC, access_count DESC, created_at DESC` (`memories.rs:2017-2027`), against
+`decay_score` (`memory_recall.rs:155-172`) computed at the snapshot instant.
+
+**Measurable, chosen before running.** Of the rows the cap archives under A,
+how many does B rank above the lowest-valued row A keeps.
+
+**Arms.** A: the column sort as shipped. B: the same cap, ranked by the store's
+own `decay_score`.
+
+**n and result.** At the production cap of 60 the store is under the line: A
+archives 0 of 40, and the arms are identical because the operation never runs.
+Sweeping the cap over the same 40 rows: cap 30 → A archives 10, B ranks 1 of
+them above a row A keeps; cap 20 → 20 archived, 2 above; cap 10 → 30 archived,
+3 above. The concrete row is the one the technique's clause predicts: an
+importance-4 `fact` read 28 times in the last day scores 7.34 and sits 5th
+under B, but 14th under A behind every importance-5 row, including two
+importance-5 rows with zero accesses that B ranks 20th and 21st (4.95, 4.75).
+At cap 10, A archives the row recall would serve fifth.
+
+The effect is small because the store is young: every row is 0.5-5.4 days old
+against half-lives of 60-90 days, so the decay term has not yet separated the
+two orders, and the lexicographic sort's first key still agrees with the
+value model on 37 of 40 positions within three places. The disagreement the
+constructed case above shows (a 300-day-old importance-4 row at 0.40) needs an
+age spread of at least one half-life to appear in the data.
+
+**Verdict: `better`** — the direction is confirmed on every cap tried and no
+row went the other way — with the magnitude bounded by the store's age.
+**Falsifier:** a persona crossing 60 active rows whose A-archived set contains
+no row B ranks above a kept one. **Return condition:** the first persona that
+crosses the cap, or the store's age spread exceeding one half-life, whichever
+comes first; both are readable from the same query used here.

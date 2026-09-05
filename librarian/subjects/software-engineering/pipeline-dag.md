@@ -70,3 +70,39 @@ admission gate can reach at all, so it does not close it.
 - The inert-edge rule generalises past graphs: any ratio over a declared set
   whose members have unequal ability to fail is capped. Candidate for
   convergence with a measurement subject if a second sighting appears.
+
+## 2026-09-04 - /intake `Everywhere` (run `everywhere-build`)
+
+One technique, **`composite-condition-verdicts`**, filling an enumeration gap
+inside `conditional-edges`.
+
+That technique already owns the single-condition case, and owns it well:
+*"Evaluation has three outcomes, not two: fired, not fired, and unevaluable"*,
+with both collapse poles named (*"Collapsing unevaluable into either verdict is
+the same defect; the two poles just choose which lie to tell"*). Then line 27
+says compound conditions *"compose these with explicit and/or"* and defines
+nothing about how the third outcome composes. The new technique is that
+definition: the operator tables, the definite-answer-wins rule, the
+short-circuit constraint (stop on a deciding value, never on an unknown), and
+deadline-yields-unevaluable.
+
+The load-bearing row is negation. A `none-of` implemented as the boolean
+inverse of a folded `any` returns **true exactly when the engine could not find
+out** - so a rule guarded by "none of these apply" fires because its data source
+is down. That is `unknown-is-not-a-value` at the composition layer rather than
+the value layer.
+
+**Placement note worth keeping.** `research-map` did not return this subject at
+all; its top hits were a cross-bundle instance, `module-design`, and
+`native-shell-integration` - none of them the home. What found it was a raw grep
+for the vocabulary (`unevaluable|indeterminate|truth table|three-valued`) plus
+the taxonomy category listing. Third recent run where the map's ranking missed a
+home that a taxonomy read found, and the second where the map's *negative* was
+soft. Considered and rejected: `trigger-evaluators` (its own "one evaluator, one
+question" rule argues against composite trees), `rule-authoring-validation`
+(threshold anatomy, not composition), `optional-dependency-degradation` (right
+forces, wrong regime). Near-miss in a subject held by a live sibling and
+therefore untouched: `health-checks/health-rollup` covers three-state
+aggregation and has no negation row either - a candidate for a later pass.
+
+Unapplied: return condition in `applied.md`.

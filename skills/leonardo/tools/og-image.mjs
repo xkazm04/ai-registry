@@ -28,6 +28,9 @@ import { readFileSync } from 'fs';
 import { resolve, dirname } from 'path';
 import { mkdirSync, writeFileSync } from 'fs';
 import { createRequire } from 'module';
+// Pure and builtins-only, so they can be tested without resolving sharp - importing
+// THIS file to check a wrap or an escape would run the whole tool. See tests/.
+import { wrapText, svgEscape } from './og-text.mjs';
 
 function parseArgs(argv) {
   const args = {};
@@ -85,22 +88,6 @@ const LOGO_SIZE = 120;
 const ACCENT_BAR_H = 6;
 
 // Title wraps at ~22 chars per line for the chosen size.
-function wrapText(text, maxChars) {
-  const words = text.split(/\s+/);
-  const lines = [];
-  let line = '';
-  for (const w of words) {
-    if ((line + ' ' + w).trim().length > maxChars && line) {
-      lines.push(line);
-      line = w;
-    } else {
-      line = (line ? line + ' ' : '') + w;
-    }
-  }
-  if (line) lines.push(line);
-  return lines;
-}
-
 const titleLines = wrapText(title, 22).slice(0, 2);
 const taglineLines = tagline ? wrapText(tagline, 56).slice(0, 2) : [];
 
@@ -110,8 +97,6 @@ const TITLE_LH = 104;
 const TAGLINE_SIZE = 34;
 const TAGLINE_LH = 44;
 const taglineStartY = titleStartY + titleLines.length * TITLE_LH + 36;
-
-const svgEscape = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
 const svg = `<?xml version="1.0"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">

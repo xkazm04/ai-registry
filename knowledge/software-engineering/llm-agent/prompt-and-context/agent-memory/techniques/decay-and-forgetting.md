@@ -176,9 +176,18 @@ growth has a named reaper from day one, per
 panic purge scheduled implicitly for the day the store gets slow. Caps are
 per category, not global: one global cap means the chattiest category evicts
 everything else, and observation volume starves procedure retention. When a
-category exceeds its cap, the lowest-importance members demote one tier —
-the caps drive the demotion machinery; nothing jumps to deletion because a
-counter crossed a line.
+category exceeds its cap, the lowest-*valued* members demote one tier —
+ranked by the shared value model, not by a column sort — and the caps drive
+the demotion machinery; nothing jumps to deletion because a counter crossed a
+line. The ranking clause is load-bearing, because a cap is the janitor
+arriving through a second door: one store read for this technique ranks its
+recall and its decay sweep by one score and then enforces its active-tier cap
+by `importance, then accesses, then age` — a lexicographic order under which a
+never-read item of importance four outranks a recently and repeatedly read
+item of importance three whose shared-model value is ten times higher. The
+cap archives what recall would have served first, which is precisely the
+disagreement the one-model rule exists to prevent, and nothing in the cap's
+own code reads as wrong.
 
 ## Forgetting never orphans provenance
 
@@ -319,3 +328,42 @@ The discriminator to carry: a date the claim stated is an exit and runs on
 its own clause; a date the store estimated is a question and runs through
 the review. A store that treats the second as the first has reinvented the
 trapdoor with a confidence score attached.
+
+## A deliberate forget bars re-derivation; an expiry does not
+
+Every exit above retires an item and leaves the episodes that grounded it in
+place. That is correct, and it has a consequence the tombstone section does
+not cover: the next distillation pass reads the same episodes and **derives
+the item again.** For an expired claim that is the right outcome — October
+closing is exactly the moment a fresh fact under that key becomes learnable.
+For an operator's "forget that" it is the correction being reversed, silently,
+on the next cycle, by a pass doing its job. The person who asked sees the
+fact return and concludes, correctly, that forgetting did not happen.
+
+So forgetting is two operations with opposite re-derivation policies, and a
+store with one forget verb cannot express both:
+
+- **An expiry** retires the item and leaves the key learnable.
+- **A deliberate forget** retires the item *and* writes a bar on the key —
+  scoped to the owner or scope it was forgotten in, so one scope's silence
+  does not fall on another — that consolidation consults before it mints.
+  The bar is keyed on the **key, never the value**: matching on the value
+  would let the next cycle re-derive the same fact under slightly different
+  wording, which is the silent relearn the bar exists to prevent. It records
+  what was forgotten for the audit trail and is never matched against.
+
+Two stores in one tree converged on this shape independently, and both chose
+the same lifting rule, which is the part worth taking: **the bar is lifted
+only by the person speaking again** — an explicit write under that key clears
+it inside the write's own transaction, and there is deliberately no separate
+un-forget operation, because an unused one would be a second door. A
+consolidation pass never lifts it; a pass that reaches a barred key skips the
+candidate and counts the skip, so the operator can see how often the store
+wanted the fact back. This bar is a different artifact from the provenance
+tombstone above — that one terminates chains so audit can tell forgotten from
+lost; this one faces forward, at the writer — and a store needs both, because
+neither answers the other's question.
+
+The bound is the same as the expiry's: the bar fires only on a forget the
+human issued. An automated sweep, a cap, a decay floor — none of them may
+write one, or the store's own hygiene starts forbidding itself knowledge.

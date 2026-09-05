@@ -80,7 +80,7 @@ only a clean environment sees — and the response is the promotion model's roll
 known-good build first, then fix forward. Either way the deploy history must make "which
 build is serving, and what was its verdict" answerable in one place — the observing side of
 that record is
-[deployment-history@cicd-monitoring](../../../../integration/cicd-monitoring/techniques/deployment-history.md).
+[deployment-history@cicd-monitoring](../../../../integration/external-systems/cicd-monitoring/techniques/deployment-history.md).
 
 ## Decision rules
 

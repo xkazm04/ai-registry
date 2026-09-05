@@ -1,7 +1,8 @@
 ---
 subject: voice-io
 domain: software-engineering
-last_touched: 2026-09-02
+last_touched: 2026-09-04
+touched_by: intake
 dry_streak: 0
 ---
 
@@ -10,6 +11,14 @@ dry_streak: 0
 First touch: [[2026-08-27-s1-mini-transcript-cleanup]] — run 28, an
 operator-dispatched intake. Class: MATURE (the subject was forged 2026-08-18
 and widened since; this run added its tenth technique).
+
+## 2026-09-04 - /intake run (microsoft/VibeVoice @ 1541f59)
+
+- **`authored-voice-identity` gains a fourth specification kind.** It opened "There are three specification kinds" - selected / described / cloned - and the source ships a voice that is none of them: the model's own conditioning state, computed once and distributed as an opaque artifact, with the processor entrypoint that would accept raw audio raising a not-implemented error. Named **materialized**.
+- **The technique's central pairing inverts on it.** For described and cloned voices *the specification is durable and the timbre is volatile*, and the whole storage rule exists to keep the specification. Here the timbre is durable and there IS no specification, so "the specification inputs are the system of record" has no referent. It buys total reproducibility and a safety property - no code path from a sample to a voice, so cloning is *absent* rather than gated - and pays in portability that is gone rather than reduced.
+- The source states the trade itself: the embedded format mitigates deepfake risk **and** meets a first-chunk latency budget. One artifact substitution, two unrelated constraints, one answer.
+- **Applied `experiment` to a fleet voice service, verdict `not-better`, and it corrected the amendment twice.** (1) The consent paragraph was drafted claiming a materialized artifact's provenance evidence is gone; the project stores a **content hash of the source clip** in the consent receipt, stamps it forward onto every rebuild, and has a one-directional consent-laundering guard on export. Rewritten around that hash as the field that makes the chain checkable. (2) The A/B substituted a content hash for the project's metadata artifact fingerprint - correct on 6/6 delivery scenarios against 4/6 - and is still `not-better`, because the fingerprint sits inside the cache **key** and therefore runs before the cache **lookup**: **18.369 ms against 0.005 ms** on ~10 MB artifacts, a 3,700x tax on the exact path the cache exists to make instant. The rule the tree forced: **establish the artifact's identity when it is installed, not when it is used**, and make whatever installs it responsible for moving the cheap identity - because a metadata-preserving delivery installs new bytes under an unchanged fingerprint and the product then serves the previous voice with no error anywhere.
+- Seam class recorded so the next run does not re-run it: a per-request cache key over a large identity artifact. Fixing that at the read side is the expensive answer to a problem the write side closes for nothing.
 
 ## State
 

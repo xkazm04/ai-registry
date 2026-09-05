@@ -34,10 +34,22 @@ scheduler, the thermal state, and every neighbour process — which is precisely
 why it answers *partly*, and why partly disqualifies it from blocking.
 
 A count of work performed — instructions retired, allocations made, calls into
-a boundary, syscalls issued — is a function of the tree alone. Same revision,
-same number; a different machine or a different afternoon does not move it. The
-gate's verdict becomes reproducible on an unchanged commit, which is the whole
-of what the two-class axis was asking for. A regression is then attributable to
+a boundary, syscalls issued — is a function of the tree and the toolchain that
+built it, and of nothing the afternoon changes. Same revision, same build,
+same machine: the same number, or close enough that the counter's own manual
+calls it *highly* reproducible and only for some programs *perfectly* so. Be
+exact about the residue, because a gate that promises zero and delivers a
+handful is bypassed the first time the handful shows. A simulated counter is
+perturbed by address-space randomisation and by the sizes of the executable
+and every shared library it loads — so a different machine, with a different
+system library, is a different number even on an unchanged tree — and a
+hardware counter additionally attributes interrupt handling to the process on
+some counter configurations. None of that is the scheduler noise a clock
+carries, and all of it is small; the point is that the threshold is derived
+from the counter's *measured* repeat variance on one machine (the decision
+rule below), not asserted to be zero from the counter's description. The
+gate's verdict becomes reproducible on an unchanged commit on the machine
+that gates, which is the whole of what the two-class axis was asking for. A regression is then attributable to
 its author, so refusing on it does not spend the trust budget the way a noisy
 timing wall does.
 
@@ -146,9 +158,19 @@ available:
 - Before adopting the substitution, classify the workload. Compute-bound:
   proceed. Bound by input/output, system calls, memory bandwidth, or
   parallelism: do not — keep the clock on the non-gating rung.
-- Prove the counter's determinism before it blocks: two runs on one revision,
-  identical numbers, or the gate is not deterministic and does not get to
-  refuse.
+- Prove the counter's determinism before it blocks: repeated runs on one
+  revision, on the machine that will gate, with the spread recorded — zero is
+  the claim to verify, not the premise; a counter that moves by a few units
+  under address-space randomisation is still usable, at a threshold that
+  names that spread.
+- Pin the machine class and the toolchain the count is taken on, and compare
+  only counts taken under the same pin; a count from another machine is a
+  different instrument's reading. Which pin carries the weight is a property
+  of the counter class: for an artifact-size counter under a lockfile the
+  toolchain pin is the whole pin (one measured ratchet held its baseline
+  unchanged across a bundler major, and its first cross-machine run agreed
+  to 0.1 KB per chunk), while the machine-class pin belongs to simulated-CPU
+  and hardware counters. State which one the gate relies on.
 - Scope the counting lane to the paths the standard is about; the slowdown
   makes whole-suite counting a lane that gets deleted.
 - Derive the threshold from the counter's measured repeat variance, never from

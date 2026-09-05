@@ -139,6 +139,6 @@ from the credential having expired. The holder's obligation is to reconstruct
 the binding from whatever it can observe at the moment of harvest and to refuse
 its own reuse on a mismatch, rather than discovering the mismatch from the far
 side. That is
-[holder-reconstructed-binding](../../../../integration/contested-acquisition/techniques/holder-reconstructed-binding.md),
+[holder-reconstructed-binding](../../../../integration/acquisition-and-ingest/contested-acquisition/techniques/holder-reconstructed-binding.md),
 and it belongs to acquisition rather than to the pairing ceremony because it
 only arises where no ceremony happened.

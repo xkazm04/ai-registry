@@ -6,7 +6,7 @@ technique: deprecation-by-version-arithmetic
 status: forged
 laws: [gate-sees-target, absent-guard-is-loud]
 shared_with: []
-use_when: [marking a public symbol deprecated, a deprecation tag that has outlived several releases with callers still attached, deciding which version removes a replaced API, a warning that names no removal point, reviewing what a release is allowed to delete, recording a downstream that hard-codes a published name, deciding whether a fast-moving public catalog owes an alias at all]
+use_when: [marking a public symbol deprecated, a deprecation tag that has outlived several releases with callers still attached, deciding which version removes a replaced API, a warning that names no removal point, reviewing what a release is allowed to delete, recording a downstream that hard-codes a published name, deciding whether a fast-moving public catalog owes an alias at all, retiring surface from a specification or wire contract whose implementations you do not control, a deprecation window consumers can skip over in one upgrade, checking that a named migration target still exists]
 ---
 
 # Deprecation by version arithmetic
@@ -236,6 +236,65 @@ finding the renamed capability — no warning, no message naming a removal
 version, just a capability that is no longer there. Declining the window buys
 catalog quality and pays in silent breakage for the minority who cache. A
 scope exemption stated without its bill is an excuse.
+
+## Two assumptions the arithmetic makes, and what to do where they fail
+
+Everything above assumes the declaring party can also *execute* the removal:
+the symbol is deleted, the comparison fires in the caller's own process, and
+the blast radius is bounded by one release the declarer controls. Two
+regimes break that, and each needs a different substitute.
+
+**The declarer does not own the running artifacts.** A specification, a wire
+protocol, a published schema, an interoperability contract — here "removal"
+deletes a line of prose, and every implementation of it keeps working. Worse,
+removing on schedule does not retire the feature; it retires the *document
+that described it*, so implementations diverge with nothing left saying what
+the divergence was. In this regime `removed` honestly degrades from a promise
+to an **eligibility floor**: the earliest release at which removal may
+happen, not the one at which it must. That is a real weakening, and it must
+be paid for, or the tag rots exactly as it does with no date at all. Three
+controls together are the substitute:
+
+- **One enumerable registry** of everything currently deprecated with its
+  earliest removal, so "what is on the way out" is a query rather than a
+  survey of prose. The registry is derived and carries no authority of its
+  own — the removal decision stays where it was.
+- **A standing announcement channel** — a permanent changelog heading —
+  so a removal cannot land as a silent diff.
+- **A marker obligation pushed onto the implementations that DO have a
+  runtime**, made a criterion of whatever ladder grades them. This is the
+  one that does the work: the declarer has no runtime, so it borrows one,
+  and the requirement is chosen so a test can observe it — a native
+  deprecation attribute plus a warning emitted when the feature is
+  exercised. Delegated enforcement that cannot be asserted against is
+  exhortation.
+
+**The consumer's upgrade step is larger than the window.** This one is
+subtler and it voids the window entirely rather than weakening it. All the
+arithmetic reasons about the *declarer's* release cadence and never about the
+*consumer's* upgrade granularity — but a consumer who jumps from a version
+predating the deprecation to one postdating the removal, in a single hop,
+**was never warned, however correct the window was.** Every marker fired in
+releases they skipped.
+
+> A deprecation window only warns someone whose upgrade step is smaller than
+> the window.
+
+So the window has a precondition, and it is about the consumer, not about
+you: either upgrades are known to be incremental, or the artifacts consumers
+actually upgrade must support a trailing range at least as long as the
+window, so any single hop lands inside it and the marker is seen on the way
+through. Where neither holds, the window is decoration and the honest options
+are a longer trailing range, a migration the consumer runs rather than reads,
+or a hard failure at the new version that names what was removed.
+
+One corollary for the declaration itself: **verify the named replacement is
+still live at both ends of the window** — when the deprecation is published
+and again immediately before the removal executes. A window long enough to be
+useful is long enough for its own migration target to be deprecated,
+superseded, or never shipped, and a migration instruction pointing at
+something that no longer exists is worse than none, because implementers
+acted on it.
 
 ## When not to use this
 

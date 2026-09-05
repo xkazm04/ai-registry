@@ -4,8 +4,8 @@ type: application
 subject: quality-gates
 technique: chokepoint-tag-registry
 stack: node
-verified_on: 2026-08-22
-verified_against: node@22
+verified_on: 2026-09-04
+verified_against: node@24
 ---
 
 # Proving one LLM wrapper is the only door
@@ -45,12 +45,14 @@ one per provider:
 
 ```js
 if (/\bnew GoogleGenAI\b/.test(text) && r !== GEMINI_PROVIDER) …
-if (/from ["']node:child_process["']/.test(text) && r !== CLAUDE_PROVIDER) …
+if (/from ["']node:child_process["']/.test(text) && !CLI_PROVIDERS.includes(r)) …
 ```
 
 The vendor SDK constructor may only be constructed in the one provider
-module; the subprocess import that spawns the local CLI provider may only be
-imported in the other. That is what makes "everything goes through
+module; the subprocess import that spawns a local CLI provider may only be
+imported in the enumerated CLI provider modules — a list now, where the
+first read found a single constant, which is the door table the technique
+asks for and the same negative-space rule. That is what makes "everything goes through
 `generateStructured`" an invariant instead of a habit — and it is exactly
 the pattern-match limit the technique names: an aliased re-export or a
 dynamic import of either would pass. A ratchet against accident.
@@ -80,8 +82,9 @@ Both refinements the technique asks for are present:
 
 ## The copied-fixture drift axis, priced
 
-`test-llm/registry.mjs` (~970 lines, ~20 tools) holds *copies* of the
-production prompts and request shapes with "keep in sync" comments — the
+`test-llm/registry.mjs` (~970 lines and ~20 tools at first read; ~1,265
+lines and 24 committed goldens on the 2026-09-04 re-read) holds *copies* of
+the production prompts and request shapes with "keep in sync" comments — the
 isolation benefit and the second authority, exactly as the technique
 describes. The fingerprint gate that makes the copy defensible is the second
 half of `llm-gate.mjs` (`:80-86`): `scripts/llm-eval.mjs --strict` compares
@@ -99,3 +102,15 @@ commands that replace it (`npm run test:llm`, `npm run llm:quality`). This
 is the rung decision written where the next contributor will read it, so the
 absence of live proving on the commit path reads as a decision rather than
 an oversight.
+
+## Re-read 2026-09-04
+
+Every line range above re-resolved at the tree's head (the gate and the
+walk were last edited 2026-08-31). Two things moved and neither weakens the
+gate: the subprocess confinement now reads from a list of CLI provider
+modules instead of one constant, and the copied registry grew by a quarter
+with its goldens growing to match. The pre-commit hook still invokes the
+gate by name, and the pipeline's aggregate check still carries the
+`llm:gate:check` step. The tree declares its runtime as node 24 in both its
+version file and its pipeline; the first read recorded 22, and the bump here
+is the tree's, not a re-measurement of the gate.

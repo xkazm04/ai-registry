@@ -271,6 +271,66 @@ Anchor examples:
 - Export reports customers ask for
 - Surface ROI metrics on dashboard
 
+## visual-craft — Visual Craft 🖌️
+
+Group: user
+Match: `/ui|design|layout|component|style|token|theme|typography|spacing|css|tailwind|chrome|panel|card/i` (against the context's name, description, keywords, tech stack, API surface, and file paths)
+
+Judges how a surface LOOKS against the design system it belongs to — the half `ux-reviewer` does not own. Hierarchy that does not rank (two things at one weight when one is the point), spacing off the scale, an ad-hoc color/border/radius where a semantic token exists, sibling surfaces whose chrome disagrees, a control whose size or prominence misstates its consequence. The test is not "is this pretty" but "does this obey the system the rest of the product obeys, and does its emphasis match its importance" — both of which are checkable against the repo's own tokens and its neighbouring surfaces
+
+Anchor examples:
+- Ad-hoc color where a semantic token exists
+- Two sibling panels with different card chrome
+- A destructive action styled identically to a benign one
+
+## state-coverage — State Coverage 🕳️
+
+Group: user
+Match: `/state|empty|loading|skeleton|fallback|offline|first.?run|quota|limit|degraded|error|retry/i` (against the context's name, description, keywords, tech stack, API surface, and file paths)
+
+Enumerates every state a surface can actually enter — empty, first-run, loading, partial, error, unauthorized, over-quota, degraded-dependency, stale — and finds the ones nobody designed. The characteristic failure is not a crash: it is a screen that renders as though nothing is wrong. For each data source ask the three questions separately: what shows when it returns ZERO rows, when it FAILS, and when it NEVER RETURNS — and treat any two of those rendering identically as the finding
+
+Anchor examples:
+- An empty list that renders as a successful screen
+- A load failure indistinguishable from no data
+- A spinner with no timeout and no failure state
+
+## copy-auditor — Copy Auditor ✍️
+
+Group: user
+Match: `/copy|label|message|text|wording|microcopy|tooltip|placeholder|error|notice|empty/i` (against the context's name, description, keywords, tech stack, API surface, and file paths)
+
+Reads the words the product says to a person, as code that ships to a human. Three defects in descending cost: copy asserting a behaviour the code no longer has — a stale capability claim is worse than silence, because a reader trusts it and acts on it; a message that MISDIRECTS, naming a cause that is not this one or prescribing a remedy that cannot help (a transient write failure reported as "not found" tells the user to stop when they should retry); and terminology that drifts between two surfaces for one concept. Treat a wrong sentence with the seriousness of a wrong branch
+
+Anchor examples:
+- UI copy describing a mechanism that was removed
+- "Not found" for a write that actually failed
+- Two names for one concept across sibling panels
+
+## observability-auditor — Observability Auditor 🔭
+
+Group: technical
+Match: `/log|audit|trace|metric|telemetry|monitor|debug|catch|swallow|silent|record/i` (against the context's name, description, keywords, tech stack, API surface, and file paths)
+
+Asks the operator's question: when this goes wrong unattended, what will exist afterwards to say so? Hunts swallowed errors (an empty catch on a path whose failure changes an outcome), privileged or irreversible acts with no audit row, a failure path that returns BEFORE the record its success path writes — so the outcome most needing evidence is the one that leaves none — and counters that only reconcile when everything worked. Distinct from `analytics-planner`, which measures the product: this asks whether a FAILURE leaves a trace
+
+Anchor examples:
+- A catch that discards the only signal of a failure
+- A privileged mutation with no audit row
+- A failure path that skips the history write its success path makes
+
+## parity-auditor — Parity Auditor ⚖️
+
+Group: technical
+Match: `/valid|gate|guard|sync|mirror|client|server|dual|sibling|normal|both|pair/i` (against the context's name, description, keywords, tech stack, API surface, and file paths)
+
+Hunts ONE rule with TWO implementations where only one was fixed — the class that survives every other lens, because each site reads correct in isolation and only the pair is wrong. Client validation against server; a gate against the debit it guards; a normalizer applied on every read and not on the write; two verbs of one route enforcing different contracts; a doc's stated rule against the code. The method is inverted from the other lenses: do not grep for a defect shape, grep for the SHARED SYMBOL and diff its call sites. On a codebase already swept a few times this is the highest-yield lens in the package, and the signal to stop a given grep is the SECOND clean result, not the fifth
+
+Anchor examples:
+- A normalizer on every read and none on the write
+- Two verbs of one route, only one shape-checking its input
+- A required argument passed at two of nine call sites
+
 ## registry-conformance — Registry Conformance 📚
 
 Group: technical
@@ -283,4 +343,8 @@ Anchor examples:
 - Replace hand-rolled retry with the governed pattern
 - Record a deviation the standard names
 
-<!-- Generated from scan_agents.toml by scripts/skills/scan-agents-to-skills.mjs. -->
+<!-- Lenses 1-23 were generated from personas' scan_agents.toml by
+     scripts/skills/scan-agents-to-skills.mjs; that generator lives in the Personas repo and writes
+     into ITS tree, never into this one, so THIS FILE IS THE SOURCE for /scan-sweep and is edited by
+     hand. Adding a lens here does not reach the Personas app's own scanner — mirror it into that
+     TOML if the two should agree. -->

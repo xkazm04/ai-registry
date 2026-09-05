@@ -36,7 +36,7 @@ length they can read as a field.
 
 ## Where this stops, and the neighbour starts
 
-[Import-normalization](../../../integration/import-normalization/import-normalization.md)
+[Import-normalization](../../../integration/acquisition-and-ingest/import-normalization/import-normalization.md)
 also owns a representation of text, and the two are easy to confuse because both talk
 about an intermediate form that consumers speak instead of the raw input. That subject's
 representation is *durable* and *foreign*: a serialised artifact produced by software you

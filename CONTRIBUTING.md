@@ -17,9 +17,12 @@ with zero dependencies - `git clone` and a recent Node is the whole toolchain.
    `## <version used> - <YYYY-MM-DD> - <project>` followed by `-` bullets. Record the
    version the run *used*, not the bump target. Appending a lesson alone needs no bump -
    a lesson records a run against a version.
-3. Run the gates for the lane you touched (below), always ending with
+3. Run the gates for the lane you touched (below). Most rows end with
    `node scripts/build-catalog.mjs` - the marketplace and the catalog are generated
-   views, and CI fails when they are stale.
+   views, and CI fails when they are stale. The `signals/` row is the exception:
+   `build-catalog.mjs` hashes five lanes (knowledge, skills, practices, memory,
+   usage) and does not read `signals/`, so a signals-only change cannot make the
+   catalog stale.
 4. Open a pull request - one focused change, pathspec-scoped commits (never
    `git add -A`), docs updated in the same PR as what they describe.
 5. A [`CODEOWNERS`](CODEOWNERS) owner reviews and merges. **Merging is adopting** - the
@@ -28,16 +31,48 @@ with zero dependencies - `git clone` and a recent Node is the whole toolchain.
 
 ## Lane gates (run locally before pushing)
 
-| You touched | Run |
+One command runs the whole chain in the order CI runs it:
+
+```sh
+node scripts/gate.mjs --all             # every gate CI enforces, first red wins
+node scripts/gate.mjs --lane skills     # just the row for the lane you touched
+node scripts/gate.mjs --lane knowledge --write   # regenerate instead of --check
+```
+
+The table below is the same thing spelled out - it is the explanation, and
+`.github/workflows/` is the enforcement. When they disagree, the workflows win.
+
+| You touched | Run, in this order |
 | --- | --- |
-| `skills/` | `node scripts/check-skills.mjs && node scripts/build-marketplace.mjs && node scripts/build-catalog.mjs` |
-| `knowledge/` | `node scripts/check-bundles.mjs && node scripts/build-index.mjs && node scripts/build-knowledge-rules.mjs && node scripts/build-catalog.mjs` |
-| `practices/` or `memory/` | `node scripts/build-catalog.mjs` |
-| `usage/` | `node scripts/check-usage.mjs && node scripts/build-catalog.mjs` |
+| `skills/` | `node scripts/check-skills.mjs && node scripts/apply-skill-clauses.mjs --check && node scripts/build-marketplace.mjs && node scripts/check-hash-stability.mjs && node scripts/build-catalog.mjs` |
+| `knowledge/` | `node scripts/check-bundles.mjs && node scripts/build-index.mjs && node scripts/build-knowledge-rules.mjs && node scripts/check-hash-stability.mjs && node scripts/build-catalog.mjs` |
+| `practices/` or `memory/` | `node scripts/check-hash-stability.mjs && node scripts/build-catalog.mjs` |
+| `usage/` | `node scripts/check-usage.mjs && node scripts/check-hash-stability.mjs && node scripts/build-catalog.mjs` |
 | `signals/` | `node scripts/check-signals.mjs` |
+| `scripts/` | `node scripts/check-exit-contract.mjs && node scripts/librarian-scan.mjs --check-weights` |
+| `librarian/standard.md` | `node scripts/librarian-scan.mjs --check-weights` (edit the script, then `--stamp-weights`) |
 
 `build-index.mjs` runs **before** `build-catalog.mjs` - the catalog's hash covers the
 index. Each build script takes `--check` (the CI form) to verify without rewriting.
+
+`check-hash-stability.mjs` runs immediately before the catalog check in CI, and asks a
+prior question: that "current" means the same thing here as on the machine that wrote
+the catalog. The digest used to hash raw bytes, which made it a property of the
+checkout's line endings - every commit written from a CRLF clone then failed the
+catalog check indistinguishably from real staleness.
+
+`apply-skill-clauses.mjs --check` is in the `skills/` row because the shared clauses
+(`## Skill Reflection`, `## Knowledge sync`) are stamped from one template in
+`docs/skill-clauses/`; a hand edit inside a stamped block is drift, and CI fails it.
+
+Two more gates run in CI and are not in the table because they are not a local
+pre-push step:
+
+- `node scripts/check-skills.mjs --since <base>` - the version-bump rule, run on
+  **pull requests only**, against the merge base. A push to `main` has no merge base,
+  and by then the decision it guards has been made. Locally, `--since origin/main`.
+- `check-currency.mjs`, `librarian-scan.mjs` and `check-citations.mjs` **report** and
+  never fail a build, so nothing waits on them.
 
 ## The privacy rule
 

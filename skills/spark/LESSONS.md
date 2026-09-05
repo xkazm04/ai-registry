@@ -82,3 +82,12 @@ Phase 4's `### Work packages` schema should carry a doc-ownership field alongsid
 - An API session limit killed the Director and both builders mid-report on both runs. Everything the builders had written survived; recovery is to re-read the tree and review the files, not to re-dispatch.
 - When a gate cannot run for an environmental reason (Turbopack refuses a `node_modules` junction), substitute the narrowest command that still exercises the property (`next build --webpack`) and report both the refusal and the substitute; never "passed", never merely "skipped".
 - A delegate that takes 9/9 recommended options produces no `## Question taste` signal; do not mirror it.
+
+## 1.2.0 - 2026-09-01 - ascent (model bake-off)
+
+- Context: weekly-digest.
+- `model: fable`. Both models produced a near-identical architecture (a new Bought tab, server panel, no route or table, wire-contract pre-commit, two parallel builders). The operator merged Fable's output (it also retargeted the Slack push and registered a follow-up idea) and asked that Opus's method be kept: the registry subject read before the waves, the snapshot-rewritten-timestamp liveness rule, the doc-ownership field on work packages, and the scout fallback. Those four edits are in Phases 2, 4 and 5 above.
+
+## 1.3.1 - 2026-09-04 - ai-registry
+
+- The dated `## Model choice (bake-off 2026-09-01, ...)` section moved out of the SKILL.md body into the block above. The lane spec (`docs/skills-lane.md`, "The body is generic") says a body may carry no project name, and this one named ascent; a dated finding about a run is what `LESSONS.md` owns. Content preserved verbatim; nothing else in the body changed, so a patch bump.

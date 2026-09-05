@@ -102,6 +102,59 @@ The test for whether something is a new family or a variant: if it needs a
 different layer set or a different budget allocation, it is a family; if it
 only needs different inputs, it is a call.
 
+## The last writer is not always yours
+
+The door above enumerates its writers, and the enumeration holds inside one
+process. It does not hold across a proxy. Where the composed prompt is sent
+through a gateway that fronts several providers, that gateway is a writer the
+assembler cannot see, cannot enumerate, and did not authorise — and it rewrites
+for a reason the assembler cannot argue with: the destination rejects a shape
+the source format permits, so *something* must move before the call is legal.
+
+The rewrite is where the gradient breaks, because the faithful version of it is
+the destructive one. When a destination refuses system-role messages inside the
+message list, the semantically clean fix is to hoist every one of them into the
+destination's dedicated system field. Meaning is preserved exactly. Position is
+not: a system message the client emits *once per turn*, at the end of the
+history, arrives at the front of the prompt — and moves there again, with new
+text, on every subsequent turn. A prefix that was stable by construction becomes
+volatile at byte zero. Measured on production agent traffic, that single
+transformation cost roughly **890k cache-creation tokens per turn against a flat
+17.5k of cache reads**: the entire prompt rewritten every turn, at the cache's
+write price, for a rewrite the composer never made and cannot see.
+
+The correction is to make the rewrite **position-preserving** rather than
+merely meaning-preserving: hoist only the *leading* run of system content, which
+is already at the front and cannot move anything, and demote a mid-conversation
+system message in place — to a neutral role the destination accepts, at the
+offset it already occupied. The prompt is legal, the text is in the same order,
+and the prefix survives.
+
+Two things follow for a composer that will be proxied:
+
+- **Byte-determinism per message is not prefix stability.** A composition rule
+  can be perfectly deterministic — the same input always yielding the same
+  bytes — and still be reordered downstream into a different prefix every turn.
+  Stability is a property of the byte sequence *as the provider receives it*,
+  and the last hop owns that.
+- **A per-turn section is the one that cannot be moved safely.** The volatility
+  gradient already puts it last; what this adds is that its *position* is now
+  load-bearing for a party that does not know the gradient exists. Where a
+  proxy is in the path and the destination format differs from the source, the
+  cheapest guard is to check what the last hop does to per-turn content before
+  attributing a cache bill to the model.
+
+The guard needs a number to be usable, and the two poles are far enough apart
+that one query settles it: **compare cached-read tokens against cache-creation
+tokens over recent calls.** The pathological case above reads about **0.02** of
+what it writes — the prefix is being rebuilt every turn. A composer whose prefix
+survives its last hop, measured over a fleet application's own recorded runs,
+reads about **17** times what it writes. Two orders of magnitude separate them,
+so the check does not need a careful threshold; it needs only to notice which
+side of 1 the ratio is on. A ratio below 1 on a long conversation means
+something between the assembler and the provider is moving bytes, and the
+assembler is the last place to look.
+
 ## What decays without this
 
 Sprawl is not a style problem; it is compounding. Each call-site fragment

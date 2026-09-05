@@ -5,7 +5,7 @@ subject: agent-runtime-assembly
 technique: guard-input-custody
 stack: node
 status: forged
-verified_on: 2026-09-03
+verified_on: 2026-09-04
 verified_against: node@20
 applied: code
 ab_verdict: better
@@ -15,9 +15,13 @@ proof: ab-paired
 # The purity gate read its own denylist selector out of the content it was guarding
 
 The witness for `node@20` is the CI pin: every job in this repository's
-knowledge workflow runs `node-version: '20'` (`.github/workflows/knowledge.yml`,
-four jobs). There is no `engines` field; the pin is the tree's own statement of
-what it runs on.
+knowledge workflow runs `node-version: '20'` (`.github/workflows/knowledge.yml`;
+seven jobs on 2026-09-04, up from four when this was first written). There is
+no `engines` field and no `.nvmrc`; the pin is the tree's own statement of
+what it runs on. The developer machine that reports this installation runs a
+newer major (24 on 2026-09-04), so the drift `check-currency` reports here is
+the fleet's local runtime moving ahead of the tree's own pin, not the
+document's; `REQUIRED_PURITY` still resolves in `scripts/check-bundles.mjs`.
 
 This registry publishes knowledge documents whose top two layers must survive
 being transplanted into an unrelated codebase, and it enforces that with a

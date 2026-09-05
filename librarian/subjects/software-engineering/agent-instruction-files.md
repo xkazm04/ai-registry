@@ -1,7 +1,7 @@
 ---
 subject: agent-instruction-files
 domain: software-engineering
-last_touched: 2026-09-02
+last_touched: 2026-09-04
 dry_streak: 0
 ---
 
@@ -255,22 +255,6 @@ One amendment, one application.
   scratch clone) was confirmed working on this very run, which read the
   source's file as material and obeyed none of it.
 
-## 2026-09-02 - intake `claudeception` (run `claudeception`)
-
-- Amendment to `enforcement-demotion`: § "A hook that prints prose is not a demotion" -
-  a lifecycle hook whose only effect is text for the model is on the prose branch of
-  the sort with a per-turn multiplier and no reviewer; sort the trigger, not the
-  channel. Fleet measurement inside: two projects, 1,631 human turns replayed with
-  their doc-sync hook's own predicate, 122 fires (7.5%); every-prompt delivery would
-  inject 15-25x the words.
-- Applications: `claude-code--enforcement-demotion` (the source's every-prompt banner
-  hook, read against the tree and its commit log) and `node--enforcement-demotion`
-  (the replay; `experiment`, `better` for the condition-observed form, cost only -
-  the compliance falsifier is named and has no fleet instrument).
-- Structural fact carried into the node application: three copies of the fleet hook
-  at 185/204/320 lines; the longest records a lifetime silent-green before a
-  turn-boundary fix and a third exit code for could-not-check.
-
 ## 2026-09-02 - `/intake` gstack (run `intake-gstack-0902`, intake 2.1.0)
 
 New technique `host-contract-compilation`, the first `design` candidate landed under
@@ -286,3 +270,230 @@ against the pinned clone (verified_against carries the runtime; the commit is in
 Phase 7.5 (registry skills lane, simulation, `better` on 2 of 3): six links to one host
 need nothing; the desktop-surface zip delivery and the trigger-collision check are the
 two cases a host contract would give a field to. Boundary stated to agent-cli-transport.
+
+## 2026-09-02 - intake `claudeception` (run `claudeception`)
+
+- Amendment to `enforcement-demotion`: § "A hook that prints prose is not a demotion" -
+  a lifecycle hook whose only effect is text for the model is on the prose branch of
+  the sort with a per-turn multiplier and no reviewer; sort the trigger, not the
+  channel. Fleet measurement inside: two projects, 1,631 human turns replayed with
+  their doc-sync hook's own predicate, 122 fires (7.5%); every-prompt delivery would
+  inject 15-25x the words.
+- Applications: `claude-code--enforcement-demotion` (the source's every-prompt banner
+  hook, read against the tree and its commit log) and `node--enforcement-demotion`
+  (the replay; `experiment`, `better` for the condition-observed form, cost only -
+  the compliance falsifier is named and has no fleet instrument).
+- Structural fact carried into the node application: three copies of the fleet hook
+  at 185/204/320 lines; the longest records a lifetime silent-green before a
+  turn-boundary fix and a third exit code for could-not-check.
+## 2026-09-04 - /intake `opik` (run `opik-0904`)
+
+Amendment to `single-source-topology`: § "The second boundary is a format edge,
+and it sits inside the checkout".
+
+The technique put the link/copy boundary at the edge of a single checkout and
+said, correctly for that case, that a repo copying where it could link "has
+invented a consistency problem it did not have". A link is one inode, so it is
+available only while every reader accepts the same **bytes** - and hosts do not
+reliably agree on that. The source tree symlinks the host that reads the
+canonical rule format and *generates* a tree for the host that wants a different
+extension and a renamed frontmatter key. Same checkout, no distance, and no
+single byte sequence both readers accept. The discriminating question is one
+line: could one file satisfy both readers? What the copy must transform stays
+`host-contract-compilation`'s subject; what carries over unchanged is the drift
+obligation.
+
+The evidence is negative and it is the good kind. The tree derives its **entire
+lint matrix** from one config file specifically so local and remote gates cannot
+disagree, and applies **no drift check at all** to the instruction tree it
+generates - zero references to the source directory, the generated directory or
+the sync target across all 82 workflow files and the hook config, with the
+instrument asserted against a known positive first. The drift rule exists only as
+an anti-pattern bullet inside a subagent's prompt: a checkable condition promoted
+into advice, which is `enforcement-demotion`'s failure run backwards, by a
+repository that demonstrably knows how to build the gate.
+
+The section also absorbs the **half-generated directory**: the sync step
+deliberately preserves destination files with no counterpart in the source and
+the cleanup step will not delete them, so the destination is not a function of
+the source and "regenerate and compare" has no defined answer. That is
+`machine-owned-regions` owed at *directory* granularity - either the generated
+set is fenced by a manifest the generator writes and a checker reads, or the
+directory admits no local files at all.
+
+Applied `simulation`/`not-better` against the one fleet project with two
+substantial instruction files. The amendment's own question routes it to the link
+regime, and it is already there correctly - the second file is a bridge that
+points at the canonical one and cites rather than restates its doc-sync
+obligation. So the amendment recommends no fleet change today; recorded as a
+confirmation of the routing question. Return: when a fleet project adds a host
+needing a different rule-file format.
+
+## Open lead
+
+The source declares one directory canonical and names a foreign vendor's
+instruction directory an **ignored surface** other agents must not read. A
+negative pointer is not a bridge and is not modelled by the import-or-pointer
+rule. One tree is not enough to say whether it is a pattern. Return: a second
+independent repository declaring an instruction directory out of scope for agents
+other than its owner.
+
+## 2026-09-04 - /intake `copilot-cost-efficiency` (run `intake-ghcost`, intake 2.5.0)
+
+New technique `rewrite-behavior-pinning`, from a first-party account of a coding-agent
+harness. Operator focus was library skills and their design, and the pick was the
+instruction-asset row.
+
+**The gap the subject had already half-drawn.** All three maintenance instruments here -
+`line-earning`, `substrate-coupled-expiry`, `instruction-freshness` - are per line and
+read a diff. `sibling-floor-ownership` states the funnel "is never run per install,
+because an install produces no diff for anyone to read": the case where the diff is
+*absent*. The new technique is the mirror, a diff that is *total*. A bulk
+machine-authored rewrite leaves no line to withhold, no per-line origin story, and a
+review that collapses into a judgement about prose while the property at risk is
+behaviour (`gate-sees-target`). `capability-coverage-contract` stays green through the
+whole failure - the capability is still named; only the guidance about when to reach for
+it changed - which is the sharpest evidence the gap is real rather than a restatement.
+
+**The causal half, folded in rather than banked as a second candidate.** Compression
+deletes hedges before facts. Hedge tokens carry almost nothing about *what* to do and
+almost everything about *how strongly*, so a compressor reads them as filler and the
+residue of an advisory is a bare imperative: the failure signature is not a missing
+behaviour but one that became unconditional. The source's own rollback is the instance,
+and the corrective inverts the instinct - the fix was shorter than the compressed version
+and *less* restrictive than either, an allowlist plus denylist collapsed into one sentence
+handing the choice back to the model. Length and strictness are independent axes. Closing
+symmetry with `substrate-coupled-expiry`: the judgement-shaped lines that go inert when
+the model improves are the same lines a rewrite breaks, because their content is in their
+strength rather than in their facts - which also makes `restraint-amplifier-balance`'s
+amplifiers the highest-value pins, since a permission compresses to nothing while a
+prohibition compresses to itself.
+
+**Applied `experiment`, verdict `not-better`, and the rejection improved the technique.**
+12 always-loaded instruction assets across 7 repositories, 152 revisions, 35 bulk
+rewrites; a modality detector asserted against 3 known positives and 4 known negatives
+flagged 10 and confirmed 0, every candidate a pairing artifact. The technique's own rule
+predicted it - a lexical check re-implements the per-line funnel it exists to escape - so
+the amendment carries the number, because the lexical pin is what everyone builds first.
+Application: `node--rewrite-behavior-pinning`.
+
+**Two structural facts nobody designed.** 24 of the 35 bulk rewrites *grew* the file and
+not one was undertaken to cut per-turn cost, so this technique's trigger has never fired
+in the fleet - the population was missing, not the instrument - and the largest asset is a
+114 KB method file at 30 revisions never once reduced, a live instance of the accretion
+`line-earning` warns about. And the registry's own skill gate asserts shape only and
+nothing about behaviour, so the run that landed the technique found its own tree unpinned.
+
+**Direction pass ran and returned empty mechanically**: `fleet-map.json` reports
+`absent: []` for this subject because all eleven projects already carry a context for it.
+The pass tests *presence*, so a universally present subject has no candidate absences
+ever - a trigger diagnosis rather than a skip, with a coverage-depth eligibility test
+proposed in `LESSONS.md` and not applied.
+
+Untriaged from the same source, with a home already named: a third expiry axis for
+`substrate-coupled-expiry` (a per-item payload decoration whose *peer tool* changed its
+method - neither repo nor model moved), measured at ~5% offline and ~3% online cost.
+
+## 2026-09-04 - intake `yt:B-YQANvDOq0` function hooks (run `intake-yt-byqan`)
+
+Amendment to `enforcement-demotion`: § "A model-backed hook is not a demotion either",
+plus a correction to the technique's opening, which stated as fact that "hooks,
+linters, type systems and CI gates are deterministic".
+
+That sentence was true when a harness's hook surface ran shell commands. The shipped
+schema of a current coding harness defines **six** hook types and two of them reach a
+verdict by asking a language model - one an "LLM prompt hook type" defaulting to a
+small fast model, one described in the schema itself as an **"Agentic verifier hook
+type"**, defaulting to Haiku with a 60-second timeout. Both return the same blocking
+decision the deterministic types return. The sort's yes-branch says "demote it to a
+gate" and silently assumed the destination decides by program.
+
+This is the sibling of the section already in the file: a hook that prints prose is
+an impostor that looks wrong on inspection; a model-backed hook is an impostor that
+looks *right* - it produces a verdict, it blocks, it appears on the operator surface
+exactly as a gate does. What travelled is the location of the judgment, not its
+determinism. The amendment adds the third question (*does this gate decide by program
+or by model?*), keeps the relocation's genuine benefits explicit rather than arguing
+against it, and states the general form: **a rule has been demoted when its verdict
+stopped depending on a model's judgment, not when its text stopped living in the
+file.**
+
+Scoring note: the row scored `3/2/2` and rejects at -1 on the rewrite penalty alone,
+because the only sentence made false is a superseded fact about a vendor surface.
+Round 18 diagnosed this defect and round 19's declared focus asked for the carve-out;
+this is the first run to apply it deliberately.
+
+Applied fleet-wide as a `simulation` with a measured negative: of twelve projects,
+three carry hooks and **all three are the deterministic `command` type** - zero
+model-backed hooks, so the amendment is preventive here. Its live content is the
+destination sort applied to the doc-sync hook those three share, whose trigger is
+program-decidable (a path-coupling map) while its verdict is a judgment - exactly the
+case the amendment's step 2 newly routes. No instruction file over-claims it; all
+three name the gate without calling it enforcement.
+
+## 2026-09-04 - a production reverse proxy (`/intake`, round 23)
+
+Two amendments, and the first is the strongest kind this subject can receive: a
+claim it states without qualification, falsified in the run's own checkout.
+
+**`single-source-topology` gained the link regime's platform precondition.** The
+technique names the filesystem link as "the strongest form of the single-source
+rule and the one to reach for by default", on the ground that "drift is not
+*representable*: there is one inode and no second copy to diverge. Nothing needs
+checking, because nothing can differ." The source does exactly that — one
+instruction file, the second vendor's filename a symlink, explained in its own
+second paragraph. In this run's clone the second filename is a **nine-byte
+regular file containing the text `CLAUDE.md`**: the index records mode `120000`,
+the platform did not grant link creation, and the checkout materialised a text
+pointer. An agent opening it by name receives nine bytes where 2,399 words were
+intended.
+
+The failure is worse than the drift the regime was avoiding, and that is the
+argument the amendment makes: a drifted copy is wrong in places and is caught by
+the obligations the copy regime forces on you, while a materialised link is
+wrong *entirely* and carries none, because the regime was chosen precisely to
+retire them. Every cheap check passes — the file exists, is readable, is
+non-empty, and its content is a plausible path. The amendment states the
+precondition, routes to the reader-resolved import directive where the platform
+is not guaranteed, and ends with the one-line assertion no regime should skip:
+the bridge resolves to the canonical document.
+
+The counter-arm is the fleet, and it is why this landed as a refutation rather
+than a caution: six fleet repositories ship both filenames, every one uses an
+import directive rather than a link, and all seven directives resolve. They
+converged on the platform-correct form with no rule telling them to. One of them
+carries the failure mode as prose — "if your reader did not resolve the import
+on the line above, open the other file now" — a hand-written apology for a
+bridge nobody was checking. Application: `rust--single-source-topology`.
+
+**`instruction-freshness` gained a sixth audit check: the file agrees with
+itself.** The source's instruction file states one minimum toolchain version in
+its header and a different one in its Code style section. That file passes all
+five existing checks — both values resolve to nothing lookup-able, both
+re-measure to themselves, neither is a path, neither is an enforcement claim —
+which is the enumeration hunt paying out: the audit "walks every line" and finds
+every line individually fine. What makes it this subject's problem rather than
+ordinary doc rot is that there is no arbiter **inside the trusted layer**;
+everywhere else the tree settles a disagreement, and here the reader has been
+told to follow the file over its own investigation, so it believes both halves
+and resolves silently, possibly differently each session. The check is
+mechanical and therefore a gate rather than a reading.
+
+Catches: the symlink *as a default* is covered and correct (the technique names
+it, and `host-contract-compilation` routes link-vs-compile properly — two
+vendors differing only in filename route to link); and `line-earning` already
+owns the non-derivable-half principle, with the source's four "what reading code
+won't tell you" facts mapping one-for-one onto its catalogue. Banked untriaged:
+citing the commits that exist only because a rule was skipped, proposed against
+`substrate-coupled-expiry:130-135`, which stamps a rule with its origin but
+treats the origin as prose recollection rather than a retrievable, re-measurable
+artifact.
+
+Apply: `not-better` fleet-wide on both. Six projects already use import bridges;
+kp goes furthest, declaring canonical and projections in its manifest and
+enforcing "each projection must name the canonical path" in a 539-line checker
+that runs in CI — the amendment's prescription, implemented before the
+amendment, more completely than the source that prompted it. The self-agreement
+scan across eight projects found no restated version floor and so no
+contradiction; the honest limit is that it scanned version floors only, not the
+path names and command names the amendment also names.

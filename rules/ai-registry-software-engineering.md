@@ -1,6 +1,6 @@
 # Software engineering - the subjects this registry carries
 
-`software-engineering` - 212 subjects, 1516 techniques, 862 applications.
+`software-engineering` - 218 subjects, 1626 techniques, 956 applications.
 Slugs only; resolve one through `index.json` as the access rule beside this file describes.
 
 ### ui-surfaces
@@ -16,8 +16,8 @@ Slugs only; resolve one through `index.json` as the access rule beside this file
 ### llm-agent
 - **companion** - companion-identity, companion-runtime, conversation-orchestration
 - **evaluation-and-cost** - cost-metering, eval-harness, judgment-guardbands, time-travel-replay, tracing
-- **orchestration** - agent-chaining, fleet-orchestration, hitl-approval, model-routing, plan-review, proactive-nudges, remediation-handoff, session-continuation, tenant-scoped-agent-runtime
-- **prompt-and-context** - agent-instruction-files, agent-memory, context-hierarchy, llm-extracted-entity-graph, prompt-assembly, prompt-safety, retrieval, structured-output
+- **orchestration** - agent-chaining, durable-agent-operations, fleet-orchestration, hitl-approval, model-routing, plan-review, proactive-nudges, remediation-handoff, session-continuation, tenant-scoped-agent-runtime
+- **prompt-and-context** - agent-instruction-files, agent-memory, context-hierarchy, llm-extracted-entity-graph, prompt-assembly, prompt-safety, retrieval, structured-output, tool-result-economy
 - **runtime-and-io** - agent-addressable-ui, agent-browser-control, agent-cli-transport, agent-runtime-assembly, mcp-tools, sidecar-provisioning, streaming-output, subprocess-lifecycle, terminal-multiplexing, voice-io
 
 ### backend-platform
@@ -28,8 +28,8 @@ Slugs only; resolve one through `index.json` as the access rule beside this file
 - **model-workflow-contracts** - accumulate-then-aggregate-metrics, declarative-object-graph-configs, federated-client-contracts, generated-workflow-candidates, self-describing-model-packages, windowed-inference-over-oversized-inputs, workflow-property-contracts
 - **platform-observability** - alerting, metric-surface-contract, metrics-rollups, observability-telemetry, outbound-notifications
 - **process-graph-runtime** - correlated-exchange-over-broadcast, data-plane-transport-selection, declared-process-graph, edge-queue-policy, fault-signal-propagation
-- **resilience** - error-handling, multi-provider-gateway-plane, optional-dependency-degradation, rate-limiting, retry-backoff, scale-investment-timing, self-healing, stream-proxy-hop, webhook-ingestion
-- **work-execution** - admission-queue, background-jobs, concurrency-guards, delivery-guarantees, job-coordination, pipeline-dag, scheduling
+- **resilience** - error-handling, multi-provider-gateway-plane, optional-dependency-degradation, rate-limiting, remote-capability-probing, retry-backoff, scale-investment-timing, self-healing, stream-proxy-hop, webhook-ingestion
+- **work-execution** - admission-queue, background-jobs, concurrency-guards, delivery-guarantees, execution-state-checkpointing, job-coordination, pipeline-dag, scheduling
 
 ### operations
 - **control-plane-operations** - convergence-loop-and-requeue, declarative-resource-lifecycle, watch-cache-and-resync
@@ -43,7 +43,9 @@ Slugs only; resolve one through `index.json` as the access rule beside this file
 - **identity-and-access** - authorization, credential-vault, device-pairing
 
 ### integration
-- cicd-monitoring, connector-catalog, document-text-extraction, embedded-preview, import-normalization, markdown-vault, sql-console, templates-scaffolding, web-scraping
+- **acquisition-and-ingest** - contested-acquisition, document-text-extraction, import-normalization, native-document-format, web-scraping
+- **embedded-surfaces** - embedded-preview, markdown-vault, sql-console
+- **external-systems** - cicd-monitoring, connector-catalog, templates-scaffolding
 
 ### engineering-process
 - **build-and-release** - build-economics, codegen, packaging, release-pipeline, test-harness, test-input-generation

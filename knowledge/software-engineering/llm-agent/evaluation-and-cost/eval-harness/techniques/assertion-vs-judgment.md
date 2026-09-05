@@ -104,6 +104,52 @@ for the expensive one (see [eval-economics](./eval-economics.md)) — and an
 epistemic one: every property asserted mechanically is a property whose
 measurement can never drift when the judge does.
 
+## An assertion over free text carries a format assumption
+
+The band above is real, and one of its entries hides the failure that costs
+most when a suite outlives the system it was written against. **Required and
+forbidden content** is normally written as presence and absence over the raw
+reply, and presence over free text is not a property of the answer. It is a
+property of the answer *plus the shape the answer happens to be written in*.
+
+The shape is inherited from whatever produced the first outputs the suite ever
+saw. A harness built against a system instructed to reply with the value alone
+grows assertions that read the reply as if it were the value. Point the same
+suite at a system that answers in its own voice, and the assertions keep
+running, keep returning verdicts, and quietly measure something else.
+
+> **A correct answer that explains itself trips a content assertion written for
+> a terse one. Nothing errors; the score simply drops.**
+
+Two forms of this are worth memorising because they invert the verdict rather
+than blurring it:
+
+- **Narrated history reads as a stale answer.** A reply that names the current
+  value and then dates the one it replaced contains both values. An assertion
+  looking for the superseded value to catch staleness finds it, and scores the
+  most *informative* possible correct answer as the failure mode it was written
+  to detect.
+- **A sentence-shaped refusal reads as a hallucination.** A system that says it
+  has no record, in a sentence, does not match a marker token, so an
+  abstention-aware suite counts it as an answer — and if it helpfully lists what
+  it *does* know, it now contains several values, none of which was asserted.
+
+The corrective keeps the boundary where this technique puts it, rather than
+surrendering the property to a judge. **Normalize the reply to the claim it
+asserts, then assert on that.** Extraction is a narrow, checkable job with one
+right answer, unlike the scoring it feeds; it is the same extraction problem the
+band's first entry already delegates, applied to prose instead of structure. Run
+it only where the deterministic reading is unsafe — a long reply, or one
+containing more than one candidate value — so terse systems keep the pure
+deterministic path and the cost stays proportional to the ambiguity.
+
+Two habits follow, and they are cheap. State the answer shape the suite assumes
+as an explicit premise of the numbers, beside the judge's identity and the
+budget. And before comparing a new system against an existing set of rows, read
+a handful of its actual replies against the assertions: a suite that scores a
+system near zero on a class where a sibling row scores high is more likely to be
+mis-reading the format than to have found a system that fails everything.
+
 ## The boundary moves — police it in one direction
 
 Two forces erode the boundary over time. Judgment creeps into the

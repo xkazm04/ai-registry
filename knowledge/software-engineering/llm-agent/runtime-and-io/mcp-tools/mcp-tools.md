@@ -18,6 +18,9 @@ techniques:
   - sanctioned-session-state
   - caller-differentiated-capability
   - fluent-syntax-bounded-grammar
+  - suspendable-request-classes
+  - sealed-continuation-state
+  - enumeration-without-a-scope
 ---
 
 # Tool protocols (MCP)
@@ -81,12 +84,24 @@ dead weight. The load-bearing facts:
   stream naming the notification types it wants, and still polls, because
   delivery across reconnects is not guaranteed. Correctness never rests on a
   notification arriving.
-- **Two client-side primitives were retired.** Sampling — servers borrowing
-  the client's model — is deprecated; a server that needs a model integrates
-  with one directly. Protocol-level logging is deprecated in favor of the
-  transport's native error stream and standard telemetry. What remains on the
-  client side is **elicitation**: a server asking the user a structured
-  question mid-operation, through the client, over a multi-round-trip pattern.
+- **Three capabilities were retired in one decision, on one criterion.**
+  *Sampling* — servers borrowing the client's model — and *roots* — the
+  client advertising which directories a server may consider — are the two
+  client-side capabilities deprecated; *logging* is a **server** capability
+  deprecated alongside them, and its level-setting request was removed
+  outright rather than deprecated. The criterion that made three features one
+  decision is the reusable part: **a capability belongs in a protocol only if
+  it cannot be obtained outside it.** Each of the three had a working
+  substitute one layer out — a model integrated with directly, directories
+  passed as ordinary tool arguments, the transport's native error stream and
+  standard telemetry — so each was a convenience re-export of an existing
+  capability through the protocol's socket, priced against every
+  implementation on both sides. Roots is the sharpest case, and it shows the
+  second-order rule: it was *advisory*, servers were never required to honour
+  it, and **a field nobody must respect decays into a field nobody sends.**
+  What remains on the client side is **elicitation**: a server asking the
+  user a structured question mid-operation, through the client, over a
+  multi-round-trip pattern.
 - **Long-running work gets a durable handle, not a held connection.** The
   tasks extension lets a server return a pollable handle for an operation that
   outlives any reasonable request timeout — the request/response shape stays
@@ -123,13 +138,30 @@ and the two distinct error channels — is
 
 The error-channel distinction deserves its headline early because it is this
 subject's instance of
-[failure-not-empty-success](../../../_laws.md#failure-not-empty-success): a
-**protocol error** (unknown tool, malformed arguments, unauthorized caller)
-says the *call* never validly happened and is addressed to the machinery; an
-**in-band tool error** (the flight search failed, the file does not exist) is
-a *result* addressed to the model, which can read it and try something else.
-Conflating them either hides infrastructure failures inside model-visible
-prose or converts recoverable domain failures into dead connections.
+[failure-not-empty-success](../../../_laws.md#failure-not-empty-success) — and
+because the axis that routes it is **not** whether the call validly happened.
+It is **who can act on the answer**. A failure a differently-composed retry
+could fix belongs to the model, and it is a *result*: flagged as an error,
+delivered in-band, read and recovered from in one turn. That includes
+argument validation — a date in the wrong format, a value out of range, a
+rule the published schema could not express — because the party that wrote
+the arguments is the only party that can rewrite them. A failure only a
+re-listing, a re-encoding, or a different tool could fix belongs to the
+machinery, and it is a *protocol error*: an unknown tool, a request that
+fails the call envelope's own schema, a server fault. And a failure only a
+new credential could fix belongs to neither — it is a third destination,
+addressed to the caller's authorization machinery, which is expected to
+widen its grant and retry.
+
+The tell that the axis is the actor and not the call boundary is that **the
+same failure changes channel with the primitive**. A missing required
+argument is a protocol error for a user-invoked prompt and an in-band result
+for a model-invoked tool: the fixer differs, so the channel differs. Nothing
+about "did the call happen" separates those two, and an argument that failed
+validation means the handler never ran in both. Conflating the three either
+hides infrastructure failures inside model-visible prose, or converts
+recoverable domain failures into dead conversations, or leaves an
+authorization shortfall looking like a defect the model should reason about.
 
 ## Transport is a security decision
 
@@ -287,3 +319,35 @@ same obligations as the wire itself:
   authority that notation normally implies: parse it yourself, whitelist the
   fragment the operation needs, and justify every admitted operator from the
   operation.
+- [suspendable-request-classes](./techniques/suspendable-request-classes.md)
+  — which calls may pause for a person and which may not: invocation verbs
+  can suspend, the protocol's own metadata surface cannot, and the partition
+  is total or it is a habit.
+- [sealed-continuation-state](./techniques/sealed-continuation-state.md) —
+  half-finished work handed to the caller to carry: a carrier is not a
+  reference, so it is signed, principal-bound, operation-bound and expiring —
+  and at-most-once still costs a server-side record.
+- [enumeration-without-a-scope](./techniques/enumeration-without-a-scope.md)
+  — a list operation whose scope nothing can define: recognising one handle
+  needs no caller identity and correlating two does, so delete the operation
+  rather than documenting the obligation.
+
+## What a removed boundary was silently scoping
+
+The three techniques above are one story told three times, and the story is
+worth naming because it recurs whenever a system sheds a container. The
+protocol removed sessions for good reasons — scale, resilience, the fact that
+no two hosts agreed what a session *was*, so servers were designing against
+an abstraction whose lifetime their callers controlled. But a session is
+never only what it was for. It was also the place a half-finished operation
+lived, the thing a listing was implicitly scoped to, and the channel that
+made "the server asks the client a question" expressible at all.
+
+Each of those had to be re-derived explicitly, and each landed somewhere
+different: the paused operation became a result shape plus a sealed
+continuation, the listing became a per-item handle check with the list
+deleted, and the server's question became a value in a reply that the client
+re-drives. **Ask of any boundary before removing it what it was scoping that
+nobody wrote down** — the answer is rarely one thing, and the residue that
+cannot be re-derived from a per-item check is the part that needs a design
+decision rather than a translation.

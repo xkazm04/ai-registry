@@ -5,8 +5,8 @@ subject: agent-memory
 technique: probe-without-write-back
 stack: node
 status: forged
-verified_on: 2026-08-31
-verified_against: node@22
+verified_on: 2026-09-04
+verified_against: node@24
 applied: experiment
 ab_verdict: better
 proof: structural-only
@@ -105,3 +105,12 @@ The tree also has no memory-system property the technique's other half needs: no
 scheduled probe replays a fixed set through this path, so the golden-set
 entrenchment case is untested here and remains supported only by the source it
 came from.
+
+## Verification standing (2026-09-04)
+
+Re-read against the source checkout on `main` at `d35b2b3`. Every citation
+above resolves at the line cited; the cited files have no commits since
+2026-08-31. The tree declares no runtime — no `.nvmrc`, no `engines`, no CI
+matrix — so the observed stack is the checkout's own `node --version`, 24.x,
+under a framework whose floor is 20. The earlier `node@22` was not the tree's
+claim; this document now carries what was observed.

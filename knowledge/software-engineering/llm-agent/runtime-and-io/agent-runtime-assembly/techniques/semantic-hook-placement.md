@@ -146,6 +146,45 @@ The list grows by incident, and each addition is a relation with a sentence
 of reason attached. What does not grow is the set of hooks that are exempt
 from the check.
 
+## A hook that calls through the surface it wraps
+
+Some hooks are not passive. A model-backed guard asks a model whether a
+command looks safe; a summarizing observer calls the model to compress what
+it saw; a policy hook reads a file through the tool executor; a delegate
+spawned by a hook runs a whole inner loop. Each of those is a hook
+*originating* a call on the very surface the chain wraps, and the chain now
+has a question its placement vocabulary does not answer: **does the inner
+call traverse the chain, and if so, which hooks see it?**
+
+Both wrong answers are common and each fails silently. If the inner call
+traverses the full chain, the originating hook wraps its own call: a gate
+that evaluates its own model request can refuse it, wait on it, or loop on
+it, and a ledger stamps the inner call as if the model had issued it — the
+receipt says the agent ran a tool the agent never asked for. The
+infrastructure version of this is an admission control that intercepts the
+resources its own process needs, so an upgrade of the controller is blocked
+by the controller it replaces; the fix there is to exclude the controller's
+own scope from its own matching, and the rule transfers unchanged. If the
+inner call bypasses the chain entirely, the hook has been handed an
+unwrapped path to the model and the executor — no sanitizer, no authorizer,
+no receipt — and a contributed hook can now do through its inner call what
+the chain exists to forbid on the outer one.
+
+The composer's answer is a third placement fact beside class and order key:
+every call carries an **originator**, and the chain is rendered per
+originator. A hook-originated call traverses every hook whose class needs
+to see it, *minus the originating hook and the hooks inside it*, so nothing
+wraps itself; and the ledger records the originator, so a receipt for an
+inner call names the hook (or the delegate) that issued it rather than the
+model. The exclusion is a relation the composer can validate like any
+other: *H does not wrap calls originated by H*. Where a delegate is a full
+inner unit rather than a single call, the runtime already builds the
+delegate's own chain, and the same rule says what that chain must carry —
+the delegate's identity as originator — so that a ledger reader can tell a
+delegate's tool calls from the lead's. A runtime that reported hooks as
+"not firing" for delegate tool calls, and later fixed it by stamping the
+delegate's identity on every hook payload, walked exactly this path.
+
 ## What the composer refuses
 
 A contribution whose class the composer does not know is refused at compose
@@ -176,6 +215,10 @@ one host hook breaks when that hook is renamed or split.
   resolved.
 - Refuse an unknown class, a double class, and a positional name; do not
   default any of them.
+- Stamp every call with its originator. Render the chain for a
+  hook-originated call without the originating hook and the hooks inside
+  it, validate *H does not wrap calls originated by H* as an invariant, and
+  make the ledger name the originator rather than the model.
 
 ## When not to use it
 

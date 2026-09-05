@@ -59,7 +59,9 @@ state — it is the correct destination for most of them.
 
 ## Capture, and why demonstration is not enough on its own
 
-Two sources feed promotion, and they have opposite weaknesses.
+Two sources feed promotion in the ordinary case, and they have opposite
+weaknesses. A third — another agent's experience — behaves unlike either and is
+treated below.
 
 **Observation** — the agent's own [episodic](./episodic-capture.md) record of
 having done the task, repeatedly, in the ordinary course of work. High
@@ -87,6 +89,47 @@ episodes or the demonstration it came from, for the same reason every other
 item in this subject does: when it later behaves wrongly, the question is what
 it was learned from, and a capability with no trail back to its evidence cannot
 be debugged, only deleted.
+
+## The third source: another agent's experience
+
+The pair above is not the whole set, and the missing member is the one the
+weakness analysis would not predict: a procedure distilled from a **different**
+agent's episodes, then handed to this one.
+
+Measured in 2026 across five inference models spanning two model families and
+four to five task benchmarks, transferred procedures beat both the no-procedure
+baseline and the agent's own self-distilled set in many model pairs. On
+spreadsheet manipulation a mid-size model went 24.3 with no procedures, 33.6
+with its own, and **50.5 with a larger sibling's**; on competition mathematics a
+31B-class model went 33.9, then 56.7 with its own, then **73.7**. Transfer also
+ran *upward*: procedures distilled by a 4B-class model lifted the 31B-class
+model to 73.1 on competition mathematics and 66.9 on the embodied benchmark. A
+stronger author did not reliably produce a better procedure.
+
+**Self-distillation is therefore not the ceiling**, and the reason is already in
+the weakness analysis above. Observation's blind spot is which steps were
+essential, and it is resolved by variation — but an author whose own runs never
+failed at a step has no evidence that the step is load-bearing, and will
+compress it out as incidental. A weaker author fails in more places and
+therefore *records more of the method*. The corollary is worth stating plainly
+because it inverts the instinct: the agent that will execute a procedure is not
+necessarily the best agent to write it, and "distil from our strongest model"
+is a preference, not a rule.
+
+What transfers badly is scope rather than confidence. A transferred procedure
+inherits its author's environment assumptions — tool surface, context budget,
+the failure repertoire it was written against — and none of those announce
+themselves in the artifact. The provenance requirement above already covers it
+with one addition: **name the authoring agent, not only the episodes.** "Who
+failed their way to this" is what predicts where it will stop working, and it is
+the first thing a debugger of a transferred procedure needs.
+
+One scope condition binds every number in this section, and it is the reason
+they do not settle as much as they appear to: the procedures were **injected in
+full**, with no retrieval or triggering step, deliberately, to keep selection
+from confounding the comparison. So these results say nothing about whether a
+transferred procedure gets *selected* correctly — which is precisely where the
+next section's measurements say the real degradation lives.
 
 ## What the artifact contains: actions, not facts
 

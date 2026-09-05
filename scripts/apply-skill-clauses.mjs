@@ -60,7 +60,7 @@ if (bump && !['minor', 'patch'].includes(bump)) { console.error(`FATAL: --bump t
  * consult ARE the knowledge sync) - stamping the generic block there would say it twice.
  */
 const CLAUSES = [
-  { id: 'skill-reflection', version: 2, all: true },
+  { id: 'skill-reflection', version: 3, all: true },
   {
     id: 'knowledge-sync', version: 1,
     skills: ['architect', 'explorer', 'friend', 'perfect', 'ship-loop', 'spark', 'tiger', 'uat', 'mvp',

@@ -8,6 +8,7 @@ techniques:
   - runtime-pipeline-generation
   - step-identity-stability
   - change-scoped-work-selection
+  - foreign-config-replay
   - human-checkpoints-in-a-pipeline
   - pipeline-plan-auditability
 ---
@@ -19,7 +20,7 @@ Three subjects surround this one and none of them is it.
 check refuses and where it sits on the ladder.
 [release-pipeline](../../build-and-release/release-pipeline/release-pipeline.md) is the
 owner's side of shipping — versions, changelogs, publish keys.
-[cicd-monitoring](../../../integration/cicd-monitoring/cicd-monitoring.md) is the
+[cicd-monitoring](../../../integration/external-systems/cicd-monitoring/cicd-monitoring.md) is the
 observer's side, watching pipelines somebody else owns. This subject is the **plan
 itself**: the structure of work a delivery system executes on a change, who decided that
 structure, and when.
@@ -140,7 +141,7 @@ proceeding will do, and every checkpoint names what happens if nobody ever answe
 [creation-names-reaper](../../../_laws.md#creation-names-reaper). Consent shapes are shared
 with [hitl-approval](../../../llm-agent/orchestration/hitl-approval/hitl-approval.md), and the
 blast-radius ladder with
-[remote-action-consent](../../../integration/cicd-monitoring/techniques/remote-action-consent.md);
+[remote-action-consent](../../../integration/external-systems/cicd-monitoring/techniques/remote-action-consent.md);
 what this subject owns is the checkpoint's place in the graph. The forms, the timeout rule,
 and the anti-patterns are
 [human-checkpoints-in-a-pipeline](./techniques/human-checkpoints-in-a-pipeline.md).
@@ -172,6 +173,10 @@ rules, the local mode, and the "one code path, two modes" pattern are
 - [change-scoped-work-selection](./techniques/change-scoped-work-selection.md) —
   dependency closure over path matching, three distinguishable outcomes, and the unscoped
   backstop run.
+- [foreign-config-replay](./techniques/foreign-config-replay.md) — planning from a
+  config file another tool interprets: replay its matcher rather than approximate it,
+  declare the modeled subset and refuse configuration outside it, and address a unit by
+  the tuple that isolates one entry.
 - [human-checkpoints-in-a-pipeline](./techniques/human-checkpoints-in-a-pipeline.md) — the
   approval as a graph node, capacity while waiting, and the never-answered rule.
 - [pipeline-plan-auditability](./techniques/pipeline-plan-auditability.md) — the resolved

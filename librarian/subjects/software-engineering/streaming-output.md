@@ -1,14 +1,22 @@
 ---
 domain: software-engineering
 subject: streaming-output
-last_touched: 2026-08-22
-touched_by: research
+last_touched: 2026-09-04
+touched_by: intake
 dry_streak: 0
 ---
 
 # streaming-output
 
 Subject note. Part of [[index]]; graded against [[standard]].
+
+## 2026-09-04 - /intake run (microsoft/VibeVoice @ 1541f59)
+
+- New technique `emit-behind-the-revision-window`, found by the **refutation hunt** on this subject's own "when *not* to stream" list. The bullet on a non-monotone producer closes with two remedies - render checkpoints, or wait - and both are answers to a question the bullet never asks: **how far back can the revision reach?** They are correct for an unbounded reach. Where the reach is bounded and nameable (a detector's lookback, a resume point, an unterminated element), a third remedy keeps the live tail AND monotonicity: hold the emission cursor at `frontier - reach`, snap to a semantic boundary, and the stream is append-only by construction.
+- **The load-bearing half inverts this subject's usual posture.** Everywhere else the live region is the weak tier and the settled record binds; here the emitted prefix is the strongest thing in the system, because it is the only part that has already left. So a retry must resume from **what was shown**, not from what the corrector thinks is the best cut - and before the first emission nothing is binding, which makes a clean restart strictly better than any resume, available only in that window.
+- The bullet was edited as an **append, not a rewrite**: it never claimed exhaustiveness, so both prior remedies stay true and gain a scoping clause. `voice-io` cites this same denial for partial transcripts, and a denial repeated across two subjects is what proved it load-bearing rather than incidental.
+- **Applied `simulation` to a fleet voice service, verdict `not-better`, and it improved the technique.** That project solves the same problem with a different instrument - the prefix two successive decodes agree on, under the rule that a speculation is invisible until the turn is confirmed, with a normalized continuation check before anything speculative may be heard. Agreement needs **no knowledge of the corrector's reach**, which is exactly the case the cursor cannot serve. The technique had conflated two questions that project separates: *what may be shown* (needs the guarantee) and *what may be acted on* (a heuristic plus a gate, because unshown work is discardable). A section was added for it.
+- Return condition for a real apply: a fleet seam whose revision reach is **bounded**. The one tested is unknown-reach, so the cursor mechanism has no home in this fleet yet.
 
 ## Touch log
 
@@ -61,3 +69,8 @@ duplicating them.
   laggard, with the gap disclosed (failure-not-empty-success). Generic, not
   terminal-shaped; belongs beside buffering-and-backpressure with the terminal
   subject deferring. Return when this subject is next opened.
+
+## 2026-09-04 - /intake run (youtube: infinite AI stream) - boundary note
+
+- A sibling subject now holds the **inverse regime** of this subject's buffering model. `buffering-and-backpressure` states, correctly and as its operating condition, that the producer is faster than the consumer; `media-playback/generated-supply-margin` owns the case where the consumer is a clock that cannot be slowed and the producer is nearly as slow, so the failure is underflow, head-eviction is wrong (every unit is needed in order) and neither backpressure nor shedding is available. **Nothing here needed correcting** - the honest scope statement is what made the neighbouring hole findable, and it is recorded in both notes rather than written twice.
+- `mid-turn-steering`'s contract is cited from `media-playback/committed-buffer-steering` for the two rules that carry over (steering is a declared capability; an accepted steer needs an observable join). What does not carry over is the steer-or-queue binary: on a continuous timeline there is no turn to be inside or outside of, and the question is how far the commitment already extends and what buying it back would cost.

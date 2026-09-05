@@ -112,3 +112,54 @@ pane; the tree discards and redraws, and "wait for the stuck display" is the
 ### Impact (2026-09-02)
 
 Stale verdicts after this landing: personas (1). Apply row for `multi-client-fan-out`: see `librarian/applied.md`.
+
+## 2026-09-04 - /intake `Everywhere` (run `everywhere-build`)
+
+Four techniques, and a tier the subject did not have. It modelled tier one (the
+occupant announces its own transitions, deferred to `lifecycle-signals`) and
+tier three (it announces nothing, so `occupant-state-detection` classifies its
+screen, which says in its own words that where the occupant emits events "this
+technique should not be built at all"). **Tier two is hooks you inject into a
+third party** - the occupant did not ship a protocol, it accepted one - and the
+distinctive cost is not parsing, it is that the host now runs two tiers of
+evidence over one stream.
+
+- **`completion-authority-arbitration`** - promotion must **revoke**, not
+  outrank. Ranking answers the case where both tiers speak and disagree; it does
+  not answer the case that occurs, where the protocol tier says a command
+  started and then correctly says nothing because the command is sleeping. A
+  lower-ranked rule that can still fire while the higher-ranked one is silent
+  has not been outranked, it has been made the default. Observed: a two-second
+  quiet window read as completion, the pseudo-terminal torn down on a
+  ten-second sleep, one line of a three-line script returned as the result.
+- **`readiness-edge-detection`** - wait for the edge, not the first sighting;
+  and emit the readiness marker only after the mode it advertises is actually
+  enabled. One rule from two sides, kept in one file deliberately.
+- **`capability-revalidation`** - a capability probed once and trusted forever
+  is the failure. Adds a **bounded acknowledgement window** the brief did not
+  ask for, and the argument is sound: "silence is not completion" plus "the
+  start marker can be swallowed" compose into a run that waits forever, because
+  every protocol terminator is a positive event and a run that never entered
+  the tier has no reachable terminator.
+- **`injected-hook-reconvergence`** - an injected hook loading before
+  user-controlled configuration must re-converge, because load order guarantees
+  it will be overridden. Adds **assert-and-repair, never reinstall** (per-cycle
+  re-convergence implemented as re-running the installer appends a duplicate
+  hook every prompt) and a narrow-scope clause: re-converge the protocol's
+  invariants, never the user's preferences, or the integration gets disabled
+  and takes the tier with it.
+
+`occupant-state-detection` gained a paragraph pointing at the middle tier, so
+the boundary is stated from both sides.
+
+**The subject-split question was raised and declined, with a revisit
+condition.** The worker's argument: these four are not about *driving* a session
+but about what the host may believe from a stream, which is the same question
+the other two tiers answer; split out, this golden path would carry a tier-two
+hole and `occupant-state-detection` would need a cross-subject pointer. The
+subject's stated scope ("N sessions, K eyes") is about cost, and tier two costs
+nothing per session. Revisit if the cluster passes roughly six techniques, at
+which point `occupant-state-detection` moves with it.
+
+Unapplied: no authorized fleet project injects a shell-integration script.
+Return condition in `applied.md`.

@@ -210,3 +210,79 @@ an improvement on a fully compliant population. **Return when the checkpointing
 population outgrows one reviewer, or when an application first checkpoints an
 accumulator its own marker does not gate.** The structural fact: safety is real,
 compliance is total, and the mechanism is convention the runtime cannot inspect.
+
+---
+
+## 2026-09-04 — `in-flight-is-a-position` (+ an amendment the apply step earned)
+
+**Source:** `github:earendil-works/pi` @ `92d8e2d1` (intake `pi-01`), a
+crash-durable agent harness. See [[2026-09-04-pi-agent-toolkit]].
+
+**Where the finding came from.** The enumeration hunt, aimed rather than
+stumbled into. `step-position-and-resumability` enumerates four idempotency
+declarations and, for the `honestly non-idempotent` rung, exactly three
+repairs: a far-side idempotency key, restructuring so the irrevocable part is
+the final smallest step, or accepting duplicate cost in writing. All three
+require either cooperation from the far side or a change to the effect. pi's
+answer is in none of them and changes neither: it adds a **third position
+value**. That is the shape the method says to trust — an enumeration is a
+claim, and it invites exactly one question.
+
+**The mechanism.** A two-valued position (`pending`/`complete`) cannot
+distinguish "never dispatched" from "dispatched, outcome unknown", which is
+*why* at-least-once is the only honest reading and why the technique's
+ordering rule (effects durable first, position second) is correct given two
+values. Committing `in-flight` before the effect, carrying the effect's
+declared replay disposition, lets recovery read a decision instead of making
+one. Two details make it a mechanism rather than a comment: the disposition is
+written by the step's author at dispatch, and it is **re-checked against the
+currently registered declaration** before it is honoured — because a deploy
+happens inside the crash-to-recovery interval. pi defaults an undeclared tool
+to `replay: "never"` (`tools.ts:496`), so the expensive disposition is the
+default.
+
+**Seam with the neighbours, stated so a later run does not re-litigate it.**
+`indeterminate-closure-on-interruption` (in `agent-runtime-assembly`) owns
+what is *written* when the outcome is unknown, and owns it well — this
+technique cites it rather than competing. But that technique's case analysis
+presumes a record distinguishing "unstarted" from "started, outcome unknown"
+and never says what writes one. This is what writes one. The two are
+complementary and the boundary is: **that one is the closure, this one is the
+dispatch record that makes the closure decidable.**
+
+**The amendment, and it was earned at Phase 7.5 rather than Phase 7.** Looking
+for the seam in `pumper` turned up something better than a seam. That tree
+cites this very subject in a source comment
+(`crates/core/src/storage.rs:1223-1231`, naming
+`job-coordination/terminal-state-recovery` and its "build one verdict function
+and give it two callers" rule), and has adopted it faithfully — one verdict
+path, two callers, lease-aware selection. And *because* it adopted the
+technique's reachability table, which says of the terminal state "nobody;
+verdicts are final", it built the gap that table invites: `finalize_fanout`
+runs **after** the completion write and fires irreversible webhooks
+(`crates/server/src/worker.rs:1249-1290`, whose own comment says "A webhook is
+irreversible once sent"), while both recovery sweeps select
+`WHERE status = 'running'` (`storage.rs:1234`, `:1332`) and therefore cannot
+see it. A crash mid-fan-out leaves a row that is terminal, unleased, unreaped,
+and perfect, beside half-delivered effects nothing will finish or report.
+`terminal-state-recovery` now carries that boundary: **the terminal row is
+honest about the record and silent about the work**, and the reachability walk
+gains one question asked of the terminal state rather than answered for it.
+
+**Applied (`personas`, `task`, `better`, proof `structural-only`).** The
+project's restart classifier already writes a third position value
+(`recovery_state='resume_pending'`) and keeps a durable resume pointer, and
+the re-admission path selects on status alone and discards both — under a doc
+comment whose enumeration of reconstructed fields predates the second
+population the classifier now feeds it. Because that tree has no tool-level
+idempotency, every re-admitted run replays every side-effecting tool call. The
+plan shipped into the project; the behavioural arm is not runnable there and
+the row names why rather than reporting a number it did not measure.
+
+**Untriaged from the same source, with anchors** (see the source note): a
+deadline is not a correctness boundary (pi *removed* `DriveOptions.deadline`
+and forbade re-adding it by invariant); and the race catalog — every durable
+mutation race enumerated with exactly two legal durable histories, tested in
+both orders against an instrumented commit decorator. Both are real absences,
+both single-sighted, both scored below the accept bar and banked so a second
+sighting promotes them on convergence at no fetch cost.

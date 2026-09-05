@@ -156,6 +156,11 @@ Where both forms are available, the first is mandatory. This is the one case whe
 clause at all, because the instrument is the reaper — and it is strictly better than any clause,
 since it fires on the real condition rather than on a proxy for it.
 
+The severity side of the same escape - why a sanctioned suppression must exist at all, and what
+an escape whose form cannot expire does to a ratchet - is
+[quality-gates/false-positive-economics](../../../standards-and-gates/quality-gates/techniques/false-positive-economics.md);
+this technique owns only the entry's lifecycle.
+
 The rule has a sharp corollary for the case where you believe the instrument is wrong. When a
 finding is a suspected defect in the tool rather than in the code, the tempting move is to reshape
 the code until the tool stops complaining. Do not: a reshaped workaround is indistinguishable from

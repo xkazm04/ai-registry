@@ -7,6 +7,7 @@ techniques:
   - graph-validation
   - node-execution-model
   - conditional-edges
+  - composite-condition-verdicts
   - pause-and-gate-nodes
   - deterministic-vs-model-nodes
   - external-adapter-nodes
@@ -105,6 +106,19 @@ history — keys on it. The load-bearing distinctions:
   branch that silently doesn't fire because of a typo is the single most
   expensive lie a pipeline engine tells
   (see [conditional-edges](./techniques/conditional-edges.md)).
+
+The third distinction survives exactly as far as the first operator that
+combines two conditions, and usually no further. A compound guard folds its
+children with and/or/none, and a fold written over booleans reintroduces the
+collapse one call frame below the evaluator that was careful about it —
+worst at the negative operator, where inverting an already-folded result
+makes *none of these apply* return true precisely when the engine could not
+find out whether they apply. The operator tables that keep the third value
+alive through composition, the deadline that yields unevaluable rather than
+false, the short-circuit rule that may stop on a deciding value and never on
+an unknown one, and what the branch record owes when a verdict came from a
+fold are
+[composite-condition-verdicts](./techniques/composite-condition-verdicts.md).
 
 ## Nodes are not all alike, and the engine must know it
 

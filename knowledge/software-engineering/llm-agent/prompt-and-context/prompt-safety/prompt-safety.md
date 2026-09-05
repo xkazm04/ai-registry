@@ -49,7 +49,11 @@ teams expect. Attacker-controlled text is not "the user's message"; it is
   team's agent, which read a hostile document and stored what it "learned",
   is recalled into another team's run. There is no human in that loop at any
   point, by design, which makes an agent-written store the ordinary path an
-  injection takes rather than the exotic one;
+  injection takes rather than the exotic one. What the store does with a
+  tainted author at its write door - which lanes third-party evidence may
+  reach, and why repetition is not reinforcement - is the receiving end of
+  this rule and lives in
+  [agent-memory/memory-governance](../agent-memory/techniques/memory-governance.md);
 - prior model output fed back into a later turn — tainted by whatever tainted
   the earlier run (this is how injections *propagate* across turns);
 - names, titles, and descriptions of user-created entities, which render as

@@ -7,6 +7,7 @@ use_when: [an agent stops after a positive review verdict or a partial result, d
 techniques:
   - continuation-as-state
   - single-loop-authority
+  - ordered-yield-composition
   - advisory-guard-fail-mode
   - ordered-teardown
   - compaction-checkpoint

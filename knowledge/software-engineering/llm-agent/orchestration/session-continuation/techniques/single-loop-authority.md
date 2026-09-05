@@ -35,6 +35,16 @@ be unable to stop on one channel while it is told to stop on the other.
 
 ## Conflict is resolved from an enumerated set
 
+This section governs claimants with **no defined order between them**, which
+is the common case: two modes that can each be armed independently, where the
+only thing distinguishing them is which one armed first. Where an order does
+exist and comes from somewhere other than arrival time — nesting, an explicit
+priority, a parent that pushed a child — the authority can be an ordered
+arbiter instead of a single-valued field, and
+[ordered-yield-composition](./ordered-yield-composition.md) governs. The law
+below is unchanged either way: it constrains how many parties may *decide*,
+not how many may be consulted.
+
 When a second loop is armed, the harness resolves the conflict by a policy
 chosen from a **closed set**:
 

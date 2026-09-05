@@ -4,9 +4,9 @@ type: technique
 subject: deferred-operation-fusion
 technique: equivalence-oracle-testing
 status: forged
-laws: [gate-sees-target, failure-not-empty-success]
+laws: [gate-sees-target, failure-not-empty-success, count-carries-predicate]
 shared_with: []
-use_when: [an operation is being declared deferrable, a lazy pipeline's output is suspected to differ from the eager one, deciding what tolerance a deferred-equals-eager assertion should use]
+use_when: [an operation is being declared deferrable, a lazy pipeline's output is suspected to differ from the eager one, deciding what tolerance a deferred-equals-eager assertion should use, an argmax or a threshold consumes the pipeline's output, swapping one implementation of a transform for another]
 ---
 
 # Equivalence oracle testing
@@ -90,6 +90,55 @@ was not available — reports that, distinctly from a test that ran and agreed
 ([failure-not-empty-success](../../../../_laws.md#failure-not-empty-success)). An
 oracle that catches the exception and reports "no difference found" has converted an
 untested operation into a certified one.
+
+## A tolerance on the array is not a tolerance on the result
+
+Every assertion above compares two continuous arrays and is held to a stated
+tolerance, and the reasoning for that is sound: bit equality is the wrong bar
+for arithmetic that legitimately differs. The reasoning has a boundary, and the
+technique already stands on it twice without naming it — nearest mode is held
+to exact equality "because there is nothing to accumulate", and a global
+tolerance is refused because it would pass "the label image whose fused values
+were interpolated between classes". Both of those are the same fact: **a
+discrete-valued output has no meaningful tolerance.**
+
+The general rule is about what consumes the array, not about what produced it.
+Where the pipeline's output feeds a **discontinuous selector** — an argmax, a
+threshold, a nearest-class assignment, a ranking, a token decode — the
+selector's output is not a continuous function of its input, so *no* bound on
+the array's error bounds the error in the result. A perturbation far inside any
+tolerance a reviewer would accept flips a near-tie, and one flipped tie can
+change every element that follows it when the selection is autoregressive. The
+array comparison passes and the product's actual output is different.
+
+So the oracle's assertion goes at **the last continuous stage before the first
+discrete one**, and where a selector sits downstream of the compared arrays,
+the oracle asserts on the *selection*:
+
+- **Compare the decisions, not the values.** Run both paths through the
+  selector and assert the outputs are identical — exactly, because they are
+  discrete. A difference here is a defect regardless of how small the array
+  difference was.
+- **Where exactness is genuinely unavailable**, report the disagreement *rate*
+  over a fixed corpus rather than a per-element tolerance, and treat any
+  increase as the verdict. A rate carries what it counted
+  ([count-carries-predicate](../../../../_laws.md#count-carries-predicate));
+  a tolerance on the upstream array carries nothing about the decisions.
+- **Count the near-ties.** The population at risk is the elements whose top two
+  candidates are within the array tolerance of each other, and it is
+  measurable on the eager path alone. A pipeline with none is safe to compare
+  loosely; a pipeline where the count is large has no safe array tolerance at
+  all, and knowing which one you have is a single pass.
+
+The same boundary governs a decision this technique does not otherwise reach:
+**substituting one implementation for another** — a different library computing
+the same transform, a different decoder, a fused kernel — is exactly the
+deferred-versus-eager comparison with a longer lever, and it is routinely
+waved through on the grounds that the two agree to a fraction of a percent.
+Where a discrete selector is downstream, that agreement is not evidence. The
+implementation the model or the threshold was *calibrated against* is part of
+the contract, and swapping it is a change to the pipeline, not to its
+performance.
 
 ## When not to use it
 

@@ -97,6 +97,52 @@ UX, validation, navigation — is
 [wizard-flows](../../../../ui-surfaces/input-and-editing/wizard-flows/wizard-flows.md)' subject; the record
 underneath is this one's.
 
+## Write the position as a total state, not as a journal
+
+"Position is a persisted fact" leaves the *shape* of that fact open, and the two
+shapes available behave differently under exactly the conditions recovery runs
+in. The rule is that each transition writes the **complete current state**,
+replacing what was there, never depending on what it replaced. Recovery then
+performs one read and enters at the procedure that state names.
+
+The alternative — appending what changed and folding the entries at read time —
+is a journal, and it buys nothing here while costing three things. Every entry
+must be individually idempotent and correctly ordered, because a fold is only as
+sound as its weakest element. The fold itself is unbounded work on the hot path,
+growing with the job's history rather than with what recovery needs to know. And
+a partially-written tail is indistinguishable from a shorter history, so the
+reader has to decide what an incomplete entry means — which is a decision the
+total-state form never presents.
+
+The sharper half of the rule is a prohibition, and it is the one that gets
+violated by accident:
+
+> **No recovery or execution path may infer state from an absent value.**
+
+Absence is not a value ([unknown-is-not-a-value](../../../../_laws.md#unknown-is-not-a-value)).
+"There is no completion row, so the step did not complete" is a reading, not a
+fact, and it is wrong in precisely the case recovery exists for — the write that
+was about to happen when the process died. A record that answers questions by
+what it does *not* contain has no way to distinguish a step that never ran from
+a step whose bookkeeping was interrupted, which is the distinction
+[in-flight-is-a-position](./in-flight-is-a-position.md) exists to preserve. Make
+each state say what is true, including the negatives that matter, so no consumer
+has to interpret a gap.
+
+Two practical consequences. **Bounded content only**: the state carries policy
+and identifiers, and large payloads live at addresses it names, so a total
+rewrite stays cheap enough to do on every transition. And **there is no
+finished state**: terminal completion deletes the position record and writes an
+immutable result, so "no position exists" means exactly one thing rather than
+two.
+
+The counter-case is a genuine one. Where the *history* of transitions is itself
+a product requirement — an audit trail, a replayable timeline, a debugger — you
+need the journal, and you should keep it. Keep it *beside* the total state
+rather than instead of it: the journal is for readers, the total state is for
+recovery, and a system that makes recovery reconstruct itself from the audit log
+has given its most correctness-critical path its slowest and most fragile input.
+
 ## When restart beats resume
 
 Resume is the default, not a dogma. Restart-from-zero is the *correct*

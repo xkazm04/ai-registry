@@ -83,3 +83,31 @@ and its regression-alert lane by nothing - a rubric bump would have paged every 
 once - and a nine-line guard moved dispatches 1 -> 0 under the file's own suite. Lead
 banked: spec-step comments as a per-line deviation register (`declared-then-proven`'s
 neighbour), return condition a second stepped-specification implementation.
+
+## 2026-09-04 - `gamedev-res` (intake, `github:Kavex/GameDev-Resources` @ `f7c89aa`)
+
+No technique. One application - `applications/process--checker-false-positive-discipline.md`
+- and it is a **confirmation**, which is the outcome worth recording.
+
+`checker-false-positive-discipline` ends its decision rules with a warning it did
+not evidence: *"Provide an exemption path, and make exemptions expire. Permanent
+silent suppressions recreate the false-pass problem with paperwork."* A twelve-year
+public curated index built the exemption path exactly as prescribed - declared in
+the repository, a stated reason per entry in its own commit, host-scoped rather
+than check-scoped, reviewable in one place - and omitted only expiry. Measurement:
+**two of nine exempted hosts have no remaining row in the checked file**, the
+clearer one exempted in 2020 for a service shut down in 2016 and still present
+three years after its last link was removed.
+
+The subject predicted the failure and the tree supplies the number. Also recorded:
+one 2016 commit performs this technique's whole dispute procedure by hand - removes
+a link that answered 500, exempts two hosts that answered 403, same change, status
+code as the sole discriminator. The maintainer could always tell a true finding
+from a narrowable detector. What had no clock on it was the artifact that telling
+them apart produced.
+
+This run's own instrument then reproduced the subject's canonical false positive:
+a URL regex over raw markdown reported 6 dead citations, of which 5 were template
+literals and regex fragments inside fenced code blocks - *"never pattern-match a
+language you have a parser for"*, in this run, before the commit. Narrowed, not
+deleted.

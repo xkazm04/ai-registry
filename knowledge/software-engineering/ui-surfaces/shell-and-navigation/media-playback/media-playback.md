@@ -10,6 +10,8 @@ techniques:
   - source-resilience
   - timeline-scheduling
   - media-resource-lifecycle
+  - generated-supply-margin
+  - committed-buffer-steering
 ---
 
 # Media playback
@@ -151,6 +153,36 @@ lookahead window as the tradeoff dial between seek latency and edit
 responsiveness. [timeline-scheduling](./techniques/timeline-scheduling.md)
 owns clip scheduling, lookahead, gap handling, and multi-lane sync.
 
+## When the tail of the timeline does not exist yet
+
+Everything above assumes the content exists and the only question is when to
+start it. A newer shape breaks that assumption: the timeline is fed by a
+**producer working just ahead of the playhead**, and each unit of content
+costs real time to bring into existence — synthesized speech played as it is
+produced, live-composed generated video, a feed assembled on demand.
+
+The physics invert, and the familiar live-buffer instinct is exactly wrong.
+In the ordinary case a producer outruns a consumer and the buffer's job is to
+bound memory: the failure is overflow, and the answers are eviction and
+backpressure. Here the consumer is a clock that advances whether or not
+anything is ready, cannot be slowed, and cannot be asked to wait. The failure
+is **underflow**, every unit is needed in order so eviction is nonsense, and
+there is no backpressure available in either direction. What governs the
+surface is the *margin* between production time and playing duration:
+buffer depth stops being a dial and becomes a quantity the system earns at a
+rate the margin sets, sustainability stops being certifiable from a mean
+rate, and output fidelity stops being a quality decision and becomes the
+latency lever. [generated-supply-margin](./techniques/generated-supply-margin.md)
+owns that regime.
+
+The interaction consequence gets its own technique because it is
+counter-intuitive and structural: the buffer that guarantees continuity is
+also the delay between an instruction and its effect, so responsiveness and
+continuity are bought from the same budget and cannot both be maximized.
+[committed-buffer-steering](./techniques/committed-buffer-steering.md) owns
+the steerable frontier, the cost of discarding produced-but-unplayed content,
+and contention when many contributors steer one timeline.
+
 ## Every media resource names its reaper
 
 Playback is the most resource-intensive thing most products do: decoded
@@ -202,3 +234,11 @@ arming, and any engine whose load is asynchronous — which is all of them.
 - [media-resource-lifecycle](./techniques/media-resource-lifecycle.md) —
   the resource inventory and its reapers: minted URLs, buffers, element
   pools, derived artifacts, memory pressure.
+- [generated-supply-margin](./techniques/generated-supply-margin.md) — the
+  timeline whose tail does not exist yet: the supply ratio and its margin,
+  buffer depth as an earned quantity, certifying the excursion rather than
+  the mean, fidelity as the latency lever, and why there is no idle state.
+- [committed-buffer-steering](./techniques/committed-buffer-steering.md) —
+  instructions against produced-but-unplayed content: the steerable
+  frontier, append against discard against a shallow acknowledgement lane,
+  and contention when many contributors share one timeline.

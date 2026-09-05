@@ -5,8 +5,8 @@ subject: quality-gates
 technique: prose-rule-drift
 stack: next
 status: forged
-verified_on: 2026-09-01
-verified_against: next@15
+verified_on: 2026-09-04
+verified_against: next@16
 applied: code
 ab_verdict: better
 proof: ab-paired
@@ -110,3 +110,15 @@ append and the next session's check. That window is the fallback shape the
 technique names, strictly better than prose and strictly worse than a
 refusing appender, and there is no appending tool in this tree to put the
 refusal in.
+
+## Re-read 2026-09-04
+
+Every citation re-resolved against the tree at its current head. The
+standing rule is still the same paragraph (append at most two one-line
+entries; prune the oldest disposable entries past about two hundred lines);
+the cap check is present and invoked at the end of the per-CLI gate and as
+its own package script; and the memory file sits at exactly two hundred
+lines — the cap has held for the three days since the prune, which is the
+smallest observation window that says anything and is recorded as such. The
+tree's meta-framework moved one major since the first read, and the check
+does not touch it.

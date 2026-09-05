@@ -1,7 +1,7 @@
 ---
 subject: video-assembly
 domain: media-generation
-last_touched: 2026-08-31
+last_touched: 2026-09-04
 dry_streak: 0
 ---
 
@@ -80,3 +80,48 @@ First note: [[2026-08-26-joyai-echo]] - /intake run 23. Subject predates the not
 - **The structural fact is the better half, and nobody designed it.** That tree could not have been built to say anything about anchor pairs - it makes no motion requests at all. It demonstrates the amendment's cost anyway: one picked frame per scene, one span per clip, one offset. **A clip containing its own cut is unrepresentable there.** The assembly owning every cut is not a policy that project chose and could revisit; it is a shape.
 - **THE STRUCTURAL DEBT IS NOW THREE RUNS OLD AND THIS RUN MADE IT WORSE AGAIN.** 2026-08-27 flagged five riders and said the next pass should rebuild the golden path around a widened ladder "rather than accreting a sixth section". 2026-08-28 added the sixth and called it overdue. **This is the seventh, and the file is now 444 lines across 13 sections.** The content of each rider has been right every time and the shape has been wrong every time - which is precisely the pattern the method says stops being a lesson and becomes a rule at three sightings. The rung ladder is no longer a ladder; it is four rungs plus five special-case subsections hanging off rung 3 alone (one cloth, exact graphic, two worlds) and three more off frame anchors. **Escalate: this is a `/deepen` job on `video-assembly` to rebuild the ladder as a first-class decision structure, and intake should stop accreting onto this file until it happens.** A run that finds an eighth rider should bank it as a lead rather than land it.
 
+
+
+## 2026-09-04 - wan2gp (intake)
+
+One amendment to `generated-shot-sourcing`, on the **derivation topology of a series
+of conditioning images** — found by reading the technique for its unqualified
+sentences rather than for its gaps.
+
+The exact-graphic section says to mint each state from the state before it, and warns
+that "state 3 derived from state 1 disagrees with state 2 about everything the prompt
+did not pin". That is true, and true for a reason the sentence does not carry: those
+states **accumulate**, so state 3 cannot be reached from state 1 without re-specifying
+state 2's addition. Most anchor series do not accumulate — a set of end-frame anchors
+or keyframes are independent variations on one subject — and for those the chain stops
+being the route to the content and becomes a pure drift pump, which is the same
+failure "adjacency anchoring does not scale to a chain" already names one level up.
+
+The discriminator is now stated (*does each state need what the state before it
+added?*), and the three topologies this subject holds — chain, star, and the pinned
+bank it already owned — sit in one table. They **compose along a pipeline** rather
+than competing: still anchors minted star from one graded master, clips between them
+conditioned by the pinned bank, which still has to carry the origin because moving
+picture must also follow what just happened.
+
+**The apply step corrected this amendment, and that is the note's real content.**
+Applied to a fleet studio that mints frame plates: the tree was **already a pure star
+and nobody designed it that way** — references are memoized per *theme*, not per
+frame, so no path exists along which one frame's error reaches another. The defect
+was the property the star silently depends on. Its selector took the *newest* four
+approved proofs from a pool of up to fourteen, so the founding proof left the
+reference set at approval 5 of 14, and late frames in a sheet were judged against four
+references sharing nothing with the four the theme was founded on.
+
+Pinning the founding proofs fixed that (5/14 -> 14/14, shipped). But the experiment's
+**second** measurable came back unchanged — 14 distinct masters in both arms — and
+that is what corrected the corpus: **origin retention and master stability are
+different properties, and the bank rule buys only the first.** The amendment now says
+so, and names freezing the reference set per series as what would actually deliver
+stability. A verdict-only harness would have returned `better` and left the
+overclaim standing.
+
+Neighbour note: `character-identity-continuity` explicitly "stops at the cut and
+hands over" to this subject for sequence-scale drift, and this amendment lands on the
+handover itself — the topology governs how the *anchors* are minted, which is shot
+sourcing, not conditioning-within-a-generation. No edit was made there.

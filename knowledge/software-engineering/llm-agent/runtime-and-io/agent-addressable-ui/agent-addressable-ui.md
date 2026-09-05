@@ -239,7 +239,7 @@ instruments *itself*, the consumer is the person at the keyboard and the coding
 agent they are talking to, and the entire transport is the system clipboard. The
 rule for picking: if the thing being addressed runs behind someone else's server
 and you reach it through a frame, that is
-[embedded-preview](../../../integration/embedded-preview/embedded-preview.md);
+[embedded-preview](../../../integration/embedded-surfaces/embedded-preview/embedded-preview.md);
 if it is your own application talking to your own operator, it is this one.
 **Build economics** owns the general design of a development-only build shape —
 which variant is the default, what it cannot see, what it costs — through
