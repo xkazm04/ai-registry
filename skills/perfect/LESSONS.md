@@ -286,3 +286,44 @@ rule that only this loop's participants currently follow.
 - **Verify the base gate is green BEFORE dispatching builders.** On a fresh device the generated Prisma client was stale (572 tsc errors) and two lockfile packages were missing (`server-only`, `libsodium-wrappers`), so every one of five builders spent effort classifying "errors outside my write set" and the Director could not tell a rotten baseline from a sibling mid-edit. One `prisma generate` + `npm install` + dropping stale `.next/dev/types` at Phase 0 costs minutes; a Phase 0 step should run the overlay's `always` gate on the clean base and refuse to dispatch on a red it cannot attribute.
 - **Pre-approved deviations are the best first slate on a registry-mapped repo.** Nine directions, all `deviation` pairs from `.ai/registry-map.json` re-verified by scouts, 8/9 accepted, 8/8 shipped with KEEP on review and one redo note. The scout prompt that asked "re-verify each clause with file:line AND symbol" found one extra unsigned writer the prior audit missed and moved two line numbers - the map is a queue of hypotheses, not of facts.
 - **Make docs Director-only when two lots share a feature doc.** Two audit lots would both have edited `org-intelligence.md`; declaring `docs/**` Class C for the wave and asking builders to report "doc-worthy changes" produced two clean Director doc commits and zero registry-style conflicts. Cheaper than teaching five builders anchored-insert discipline on prose.
+
+## 2.5.0 - 2026-09-05 - personas-web
+
+- **A `vault:` candidate can name a user that does not exist on this machine.** The init rule says to
+  CREATE the first named root when none exists, "rather than silently falling back". Here the first
+  candidate was another machine's home directory; creating it would have built a vault under a
+  non-existent user and hidden the fact that a prior round's notes were unreachable. Falling through to
+  the second candidate and writing a loud RECONSTRUCTION NOTICE was the honest move. Suggest the rule
+  become: create the first named root only if its PARENT exists; otherwise fall through and say so.
+- **A stale registry verdict is worth re-verifying even when it is `strong`.** Both deviations this round
+  carried `stale: true` and both were wrong in the details that mattered. One was half-refuted (it
+  conflated two live mechanisms and called a by-design absence "unrealized"); the other named the wrong
+  symptom ("duplicates accumulate") because a dedupe downstream was masking it - the load-bearing half
+  was real and its true cause was sharper than the verdict. Re-verification changed what got built, not
+  just how it was described. The method already says to re-verify; what it does not say is that the
+  correction itself is worth writing down as a lead.
+- **"Layer on the existing X" is ambiguous and can itself be the defect.** A brief criterion said to layer
+  on the repo's existing relative-time formatter rather than fork one. The builder complied exactly - and
+  reused the *staleness label*, putting "Just now" / "15m ago" into a five-tick chart axis where a terse
+  "now" / "{n}m" belonged. The instruction meant "do not fork the mechanism"; it read as "reuse the
+  value". Worth a line in the brief template: when a criterion says reuse, say whether it means the
+  mechanism, the formatter, or the copy.
+- **Builders assume `DECISION NEEDED` has no answering channel.** One lot touched four files outside its
+  write set and reported "I could not raise these as blocking questions and wait - no interactive
+  channel, so I implemented the minimum". The channel exists and round-trips in about a minute. The brief
+  says to return the question; it never says the Director is listening and will reply. Add that sentence.
+- **Two lots writing the same append-only registry make history order-dependent, not lossy.** Three of
+  four lots added i18n keys to the same 14 locale files; `git commit --only` took whole files, so one
+  lot's edits landed inside another's commit. Nothing was lost, and the ordering happened to be correct
+  (keys before consumers). It could as easily have been reversed, leaving a commit whose components
+  reference keys that arrive later. Consider naming a Class-B owner per wave the way feature docs already
+  get one, or explicitly stating that Class-B ordering is not guaranteed and commits touching it may not
+  bisect.
+- **A gate at exactly its warning ceiling is a wave-planning constraint.** Lint ran `--max-warnings 24`
+  with exactly 24 present. Any direction adding one warning would have failed the integration gate at
+  quiescence, after all builder work was done. One builder discovered this and trimmed a file to 199
+  lines to stay under a separate LOC rule rather than spend the last slot. Worth measuring headroom in
+  Phase B step 1 and telling builders what it is.
+- **Re-running the integration gate after a fast-forward merge is ceremony.** The tree is byte-identical
+  to the branch just gated. Step 8 says to re-run on the base; that is right after a `--no-ff` content
+  merge and pure cost after a fast-forward. Worth distinguishing.
