@@ -134,5 +134,6 @@ platform (decides if the missing lifetime is live or latent).
 
 Four projects carry one `unknown` pair each (goat, personas, kp, ascent - keyword
 matches on auth or streaming contexts); no judged verdict, so no stale row. The one
-real node hop in the fleet sits in a project this machine's fleet declaration does not
-list, so its map was not regenerated here.
+real node hop in the fleet sat in a project this machine's fleet declaration did not
+list; declared the same day, its map now carries 2 `unknown` pairs for this subject,
+so the two live defects wait on a first `/conform`, not a re-judge.
