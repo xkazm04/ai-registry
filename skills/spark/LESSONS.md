@@ -91,3 +91,8 @@ Phase 4's `### Work packages` schema should carry a doc-ownership field alongsid
 ## 1.3.1 - 2026-09-04 - ai-registry
 
 - The dated `## Model choice (bake-off 2026-09-01, ...)` section moved out of the SKILL.md body into the block above. The lane spec (`docs/skills-lane.md`, "The body is generic") says a body may carry no project name, and this one named ascent; a dated finding about a run is what `LESSONS.md` owns. Content preserved verbatim; nothing else in the body changed, so a patch bump.
+
+## 1.3.2 - 2026-09-05 - personas
+- Builders die at provider rate limits at their LAST step (2 of 3 here, both after gates, before the report). Brief builders to write their handoff file FIRST and append as they go; a cut-off builder resumes with SendMessage to the same agent id with its context intact, so resume, do not relaunch.
+- When a worktree shares the cargo target dir with a sibling session, every cargo command serialises behind that session and a test compile can read a mid-edit tree; run one cargo command at a time and never treat such a compile as a verdict.
+- Attribute census rises by applying each risen rule regex to the changed-files list only (a 20-line script); it turned 20 rises into a 15-minute fix list and surfaced two shared primitives worth extracting.
