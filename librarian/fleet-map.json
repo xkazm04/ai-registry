@@ -22238,6 +22238,2011 @@
     ]
    }
   },
+  "personas-web": {
+   "slug": "personas-web",
+   "purpose": "The public web companion to personas: marketing site, product guide, roadmap, demo dashboard",
+   "domains": [
+    "software-engineering"
+   ],
+   "scope": {
+    "does": [
+     "multi-locale marketing site, product guide, public roadmap, mock-driven demo dashboard"
+    ],
+    "does_not": [
+     "backend services, data layer, agent runtime, observability - the desktop app owns those"
+    ],
+    "out_of_scope_categories": [
+     "software-engineering/backend-platform",
+     "software-engineering/llm-agent",
+     "software-engineering/operations",
+     "software-engineering/integration",
+     "software-engineering/engineering-assessment"
+    ],
+    "out_of_scope_subjects": []
+   },
+   "hasMap": true,
+   "mapGeneratedAt": "2026-09-05T13:47:09Z",
+   "stats": {
+    "contexts": 56,
+    "groups": 12,
+    "governingSubjects": 102,
+    "weaklyGoverned": 0,
+    "ledgerRows": 0,
+    "absolutePathsDropped": 0
+   },
+   "relPath": "dolla/personas-web",
+   "groups": {
+    "Marketing & Landing": [
+     {
+      "name": "Guided Product Tour",
+      "paths": [
+       "src/components/tour/AthenaCompanion.tsx",
+       "src/components/tour/AvatarCountdown.tsx",
+       "src/components/tour/TourBridgeCard.tsx",
+       "src/components/tour/TourCaptionCard.tsx",
+       "src/components/tour/TourIntroCard.tsx",
+       "src/components/tour/TourLauncher.tsx",
+       "src/components/tour/TourOverlay.tsx",
+       "src/components/tour/TourSpotlight.tsx",
+       "src/components/tour/TourVolumeControl.tsx",
+       "src/contexts/TourContext.tsx",
+       "src/data/tour.ts",
+       "src/hooks/useTourAudio.ts"
+      ],
+      "pathsMissing": 0,
+      "subjects": [
+       {
+        "subject": "software-engineering/guided-tours",
+        "state": "deviation"
+       }
+      ]
+     },
+     {
+      "name": "Conversion: Get Started, FAQ & Footer",
+      "paths": [
+       "src/components/PrimaryCTA.tsx",
+       "src/components/sections/DownloadCTA.tsx",
+       "src/components/sections/FAQ.tsx",
+       "src/components/sections/Footer.tsx",
+       "src/components/sections/download-cta/DownloadStepGrid.tsx",
+       "src/components/sections/download-cta/DownloadTrustSignals.tsx",
+       "src/components/sections/download-cta/PlatformPills.tsx",
+       "src/components/sections/download-cta/downloadCtaTypes.ts",
+       "src/components/sections/download-cta/useDownloadPlatforms.ts",
+       "src/components/sections/download-cta/useFreshRelease.ts",
+       "src/components/sections/faq/FAQDiscordCTA.tsx",
+       "src/components/sections/faq/FAQHeader.tsx"
+      ],
+      "pathsMissing": 0,
+      "subjects": [
+       {
+        "subject": "software-engineering/native-guest-interop",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/agent-runtime-assembly",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/prompt-assembly",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/job-coordination",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/rate-limiting",
+        "state": "unknown"
+       }
+      ]
+     },
+     {
+      "name": "Why Agents & Use Cases",
+      "paths": [
+       "src/components/sections/use-cases/components/AgentArmyGrid.tsx",
+       "src/components/sections/use-cases/components/ConnectorIcon.tsx",
+       "src/components/sections/use-cases/components/ToolButton.tsx",
+       "src/components/sections/use-cases/components/ToolDetailCard.tsx",
+       "src/components/sections/use-cases/components/ToolGrid.tsx",
+       "src/components/sections/use-cases/data.ts",
+       "src/components/sections/use-cases/index.tsx",
+       "src/components/sections/use-cases/types.ts",
+       "src/components/sections/use-cases/useConnectorPath.ts",
+       "src/components/sections/use-cases/useToolSelection.ts"
+      ],
+      "pathsMissing": 12,
+      "subjects": [
+       {
+        "subject": "software-engineering/mcp-tools",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/eval-harness",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/test-input-generation",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/agent-instruction-files",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/agent-runtime-assembly",
+        "state": "unknown"
+       }
+      ]
+     },
+     {
+      "name": "Features Overview & Pricing",
+      "paths": [
+       "src/app/features/page.tsx",
+       "src/components/sections/features/components/FeatureBridge.tsx",
+       "src/components/sections/features/components/FeatureCardHeader.tsx",
+       "src/components/sections/features/components/GuideLinks.tsx",
+       "src/components/sections/features/components/ProgressionThread.tsx",
+       "src/components/sections/features/components/visuals.tsx",
+       "src/components/sections/features/data.ts",
+       "src/components/sections/features/index.tsx",
+       "src/components/sections/features/types.ts",
+       "src/components/sections/pricing/FeatureGroupCard.tsx",
+       "src/components/sections/pricing/data.ts",
+       "src/components/sections/pricing/index.tsx"
+      ],
+      "pathsMissing": 0,
+      "subjects": [
+       {
+        "subject": "software-engineering/plan-entitlements",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/sidecar-provisioning",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/markdown-vault",
+        "state": "unknown"
+       }
+      ]
+     },
+     {
+      "name": "Homepage & Hero",
+      "paths": [
+       "src/app/homeJsonLd.ts",
+       "src/app/page.tsx",
+       "src/components/sections/Hero.tsx",
+       "src/components/sections/HeroClient.tsx",
+       "src/components/sections/LazySection.tsx",
+       "src/components/sections/hero/AgentConstellation.tsx",
+       "src/components/sections/hero/CommandCenterIllustration.tsx",
+       "src/components/sections/hero/HeroStatRow.tsx",
+       "src/components/sections/hero/command-center-geometry.ts",
+       "src/components/sections/lazy.tsx"
+      ],
+      "pathsMissing": 0,
+      "subjects": [
+       {
+        "subject": "software-engineering/lazy-section-addressability",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/app-shell",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/repository-landing-document",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/mcp-tools",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/agent-browser-control",
+        "state": "unknown"
+       }
+      ]
+     }
+    ],
+    "Product Feature Showcase": [
+     {
+      "name": "Observability Deck & Security Vault",
+      "paths": [
+       "src/components/feature-sections/CinematicBg.tsx",
+       "src/components/feature-sections/ContextHint.tsx",
+       "src/components/feature-sections/ObservabilityDeck.tsx",
+       "src/components/feature-sections/SecurityVault.tsx",
+       "src/components/feature-sections/SecurityVaultPillars.tsx",
+       "src/components/feature-sections/feature-lazy.tsx",
+       "src/components/feature-sections/observability-deck/components/AnimatedMetric.tsx",
+       "src/components/feature-sections/observability-deck/components/ModuleTag.tsx",
+       "src/components/feature-sections/observability-deck/data.ts",
+       "src/components/feature-sections/observability-deck/index.tsx",
+       "src/components/feature-sections/observability-deck/types.ts",
+       "src/components/feature-sections/observability-deck/variants/PulseGridDeck.tsx"
+      ],
+      "pathsMissing": 2,
+      "subjects": [
+       {
+        "subject": "software-engineering/markdown-vault",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/test-harness",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/sync-replication",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/credential-vault",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/triage-queues",
+        "state": "unknown"
+       }
+      ]
+     },
+     {
+      "name": "Agent Lab & Plugin Ecosystem",
+      "paths": [
+       "src/components/feature-sections/Lab.tsx",
+       "src/components/feature-sections/Plugins.tsx",
+       "src/components/feature-sections/lab/components/ArenaTab.tsx",
+       "src/components/feature-sections/lab/components/ChatTab.tsx",
+       "src/components/feature-sections/lab/components/EvalTab.tsx",
+       "src/components/feature-sections/lab/components/EvolutionTab.tsx",
+       "src/components/feature-sections/lab/components/TabBackdrop.tsx",
+       "src/components/feature-sections/lab/components/TabSwitcher.tsx",
+       "src/components/feature-sections/lab/data.ts",
+       "src/components/feature-sections/lab/index.tsx",
+       "src/components/feature-sections/lab/types.ts",
+       "src/components/feature-sections/plugins/ArtistGrid.tsx"
+      ],
+      "pathsMissing": 0,
+      "subjects": [
+       {
+        "subject": "software-engineering/sidecar-provisioning",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/companion-identity",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/eval-harness",
+        "state": "unknown"
+       }
+      ]
+     },
+     {
+      "name": "Memory Layers & Multi-Provider AI",
+      "paths": [
+       "src/components/feature-sections/DesignEngine.tsx",
+       "src/components/feature-sections/DesignEngineMatrix.tsx",
+       "src/components/feature-sections/MemoryLayers.tsx",
+       "src/components/feature-sections/MemoryLayersStack.tsx",
+       "src/components/feature-sections/MultiProviderAI.tsx",
+       "src/components/feature-sections/design-engine-matrix/components/IntentTile.tsx",
+       "src/components/feature-sections/design-engine-matrix/components/MatrixTile.tsx",
+       "src/components/feature-sections/design-engine-matrix/components/RadiateOverlay.tsx",
+       "src/components/feature-sections/design-engine-matrix/components/TileValue.tsx",
+       "src/components/feature-sections/design-engine-matrix/data.ts",
+       "src/components/feature-sections/design-engine-matrix/index.tsx",
+       "src/components/feature-sections/design-matrix/designMatrixCells.ts"
+      ],
+      "pathsMissing": 0,
+      "subjects": [
+       {
+        "subject": "software-engineering/agent-memory",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/eval-harness",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/quality-gates",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/voice-io",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/multi-provider-gateway-plane",
+        "state": "unknown"
+       }
+      ]
+     },
+     {
+      "name": "Self-Healing & Trigger Automation",
+      "paths": [
+       "src/components/feature-sections/HealingCircuit.tsx",
+       "src/components/feature-sections/TriggerSystem.tsx",
+       "src/components/feature-sections/healing-circuit/components/CircuitBoard.tsx",
+       "src/components/feature-sections/healing-circuit/components/CircuitHeader.tsx",
+       "src/components/feature-sections/healing-circuit/components/CircuitNodes.tsx",
+       "src/components/feature-sections/healing-circuit/components/CircuitTraces.tsx",
+       "src/components/feature-sections/healing-circuit/components/StageDescription.tsx",
+       "src/components/feature-sections/healing-circuit/components/StageTimeline.tsx",
+       "src/components/feature-sections/healing-circuit/components/StatusPanel.tsx",
+       "src/components/feature-sections/healing-circuit/components/SvgDefs.tsx",
+       "src/components/feature-sections/healing-circuit/components/effects.tsx",
+       "src/components/feature-sections/healing-circuit/data.ts"
+      ],
+      "pathsMissing": 0,
+      "subjects": [
+       {
+        "subject": "software-engineering/self-healing",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/plan-entitlements",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/test-input-generation",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/retry-backoff",
+        "state": "unknown"
+       }
+      ]
+     }
+    ],
+    "Interactive Demos & Playground": [
+     {
+      "name": "Section Preview & Demo Harness",
+      "paths": [
+       "src/app/demo/page.tsx",
+       "src/app/preview/[section]/page.tsx",
+       "src/app/preview/page.tsx",
+       "src/app/preview/registry.ts"
+      ],
+      "pathsMissing": 1,
+      "subjects": [
+       {
+        "subject": "software-engineering/embedded-preview",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/demo-data-plane",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/agent-instruction-files",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/lazy-section-addressability",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/test-harness",
+        "state": "unknown"
+       }
+      ]
+     },
+     {
+      "name": "Visual Flow Composer & Playground Page",
+      "paths": [
+       "src/app/playground/PromptSelector.tsx",
+       "src/app/playground/TerminalSim.tsx",
+       "src/app/playground/data.ts",
+       "src/app/playground/layout.tsx",
+       "src/app/playground/page.tsx",
+       "src/components/FlowComposer.tsx",
+       "src/components/flow-composer/components/EventQueueBar.tsx",
+       "src/components/flow-composer/components/FlowCTA.tsx",
+       "src/components/flow-composer/components/FlowCanvasDefs.tsx",
+       "src/components/flow-composer/components/FlowHeader.tsx",
+       "src/components/flow-composer/components/FlowLegend.tsx",
+       "src/components/flow-composer/components/FlowNodes.tsx"
+      ],
+      "pathsMissing": 0,
+      "subjects": [
+       {
+        "subject": "software-engineering/chat-transcript",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/mcp-tools",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/wizard-flows",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/admission-queue",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/module-design",
+        "state": "unknown"
+       }
+      ]
+     },
+     {
+      "name": "Orchestration & Platform Visualizers",
+      "paths": [
+       "src/components/sections/event-bus-showcase/components/EventBusLegend.tsx",
+       "src/components/sections/event-bus-showcase/components/LanesView.tsx",
+       "src/components/sections/event-bus-showcase/components/SwarmView.tsx",
+       "src/components/sections/event-bus-showcase/components/VariantTabs.tsx",
+       "src/components/sections/event-bus-showcase/data.ts",
+       "src/components/sections/event-bus-showcase/index.tsx",
+       "src/components/sections/orchestration-hub/HubNode.tsx",
+       "src/components/sections/orchestration-hub/HubRing.tsx",
+       "src/components/sections/orchestration-hub/TriggerDetail.tsx",
+       "src/components/sections/orchestration-hub/data.ts",
+       "src/components/sections/orchestration-hub/index.tsx",
+       "src/components/sections/platform-command/components/CommandBadge.tsx"
+      ],
+      "pathsMissing": 0,
+      "subjects": [
+       {
+        "subject": "software-engineering/terminal-multiplexing",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/prompt-assembly",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/native-shell-integration",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/mcp-tools",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/deployment-contract",
+        "state": "unknown"
+       }
+      ]
+     },
+     {
+      "name": "Split & Pipeline Playground",
+      "paths": [
+       "src/components/sections/playground-split/components/AgentMindPanel.tsx",
+       "src/components/sections/playground-split/components/ConnectionLine.tsx",
+       "src/components/sections/playground-split/components/FlowNodeCard.tsx",
+       "src/components/sections/playground-split/components/PromptEditorPanel.tsx",
+       "src/components/sections/playground-split/components/ResultCapabilitiesList.tsx",
+       "src/components/sections/playground-split/components/SyntaxPrompt.tsx",
+       "src/components/sections/playground-split/data.ts",
+       "src/components/sections/playground-split/index.tsx",
+       "src/components/sections/playground-split/types.ts",
+       "src/components/sections/playground-split/use-playground-simulation.ts",
+       "src/components/sections/playground-timeline/components/ExampleSelector.tsx",
+       "src/components/sections/playground-timeline/components/PipelinePanelFooter.tsx"
+      ],
+      "pathsMissing": 0,
+      "subjects": [
+       {
+        "subject": "software-engineering/mcp-tools",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/quality-gates",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/pipeline-dag",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/prompt-assembly",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/structured-output",
+        "state": "unknown"
+       }
+      ]
+     },
+     {
+      "name": "Agent Execution Timeline Race",
+      "paths": [
+       "src/components/sections/agents-timeline/components/ComparisonSummary.tsx",
+       "src/components/sections/agents-timeline/components/RaceTimer.tsx",
+       "src/components/sections/agents-timeline/components/ResultCard.tsx",
+       "src/components/sections/agents-timeline/components/ScenarioTrigger.tsx",
+       "src/components/sections/agents-timeline/components/StepBlock.tsx",
+       "src/components/sections/agents-timeline/components/TimelineControls.tsx",
+       "src/components/sections/agents-timeline/components/TimelineRaceBody.tsx",
+       "src/components/sections/agents-timeline/components/Track.tsx",
+       "src/components/sections/agents-timeline/data.ts",
+       "src/components/sections/agents-timeline/index.tsx",
+       "src/components/sections/agents-timeline/types.ts"
+      ],
+      "pathsMissing": 0,
+      "subjects": [
+       {
+        "subject": "software-engineering/eval-harness",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/agent-instruction-files",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/machine-paced-delivery",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/prompt-assembly",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/time-travel-replay",
+        "state": "unknown"
+       }
+      ]
+     },
+     {
+      "name": "Agent Playground & Multi-Agent Chat",
+      "paths": [
+       "src/components/sections/agent-playground/components/ExampleChips.tsx",
+       "src/components/sections/agent-playground/components/PlaygroundForm.tsx",
+       "src/components/sections/agent-playground/components/PlaygroundTerminal.tsx",
+       "src/components/sections/agent-playground/data.ts",
+       "src/components/sections/agent-playground/index.tsx",
+       "src/components/sections/agent-playground/types.ts",
+       "src/components/sections/agents-chat/components/ChatProgressBar.tsx",
+       "src/components/sections/agents-chat/components/ChatTimelineVariant.tsx",
+       "src/components/sections/agents-chat/components/StarRating.tsx",
+       "src/components/sections/agents-chat/components/TimelineRaceSummary.tsx",
+       "src/components/sections/agents-chat/components/TimelineRow.tsx",
+       "src/components/sections/agents-chat/components/TypingIndicator.tsx"
+      ],
+      "pathsMissing": 0,
+      "subjects": [
+       {
+        "subject": "software-engineering/chat-transcript",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/conversation-orchestration",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/machine-paced-delivery",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/agent-instruction-files",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/fleet-orchestration",
+        "state": "unknown"
+       }
+      ]
+     }
+    ],
+    "Product Documentation (Guide)": [
+     {
+      "name": "Localized Guide Content (14 locales)",
+      "paths": [
+       "src/data/guide/locales/ar/content/agents-prompts.ts",
+       "src/data/guide/locales/ar/content/credentials.ts",
+       "src/data/guide/locales/ar/content/deployment.ts",
+       "src/data/guide/locales/ar/content/getting-started.ts",
+       "src/data/guide/locales/ar/content/memories.ts",
+       "src/data/guide/locales/ar/content/monitoring.ts",
+       "src/data/guide/locales/ar/content/pipelines.ts",
+       "src/data/guide/locales/ar/content/testing.ts",
+       "src/data/guide/locales/ar/content/triggers.ts",
+       "src/data/guide/locales/ar/content/troubleshooting.ts",
+       "src/data/guide/locales/ar/topics.ts",
+       "src/data/guide/locales/bn/content/agents-prompts.ts"
+      ],
+      "pathsMissing": 0,
+      "subjects": [
+       {
+        "subject": "software-engineering/hash-pinned-translation-pipeline",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/data-access",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/docs-sync",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/agent-instruction-files",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/async-ui-states",
+        "state": "unknown"
+       }
+      ]
+     },
+     {
+      "name": "Guide Data, Content & Search Index",
+      "paths": [
+       "src/data/guide/categories.ts",
+       "src/data/guide/content/agents-prompts.ts",
+       "src/data/guide/content/companion.ts",
+       "src/data/guide/content/credentials.ts",
+       "src/data/guide/content/deployment.ts",
+       "src/data/guide/content/getting-started.ts",
+       "src/data/guide/content/index.ts",
+       "src/data/guide/content/memories.ts",
+       "src/data/guide/content/monitoring.ts",
+       "src/data/guide/content/pipelines.ts",
+       "src/data/guide/content/testing.ts",
+       "src/data/guide/content/triggers.ts"
+      ],
+      "pathsMissing": 0,
+      "subjects": [
+       {
+        "subject": "software-engineering/docs-sync",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/companion-identity",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/async-ui-states",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/docs-content-model",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/prompt-assembly",
+        "state": "unknown"
+       }
+      ]
+     },
+     {
+      "name": "Guide Content Blocks & Markdown",
+      "paths": [
+       "src/components/guide/GuideBlocks.tsx",
+       "src/components/guide/GuideMarkdown.tsx",
+       "src/components/guide/blocks/ArchitectureDiagram.tsx",
+       "src/components/guide/blocks/Callout.tsx",
+       "src/components/guide/blocks/CalloutStack.tsx",
+       "src/components/guide/blocks/CardsBlock.tsx",
+       "src/components/guide/blocks/Checklist.tsx",
+       "src/components/guide/blocks/CliBlock.tsx",
+       "src/components/guide/blocks/CodeCompare.tsx",
+       "src/components/guide/blocks/CodeFence.tsx",
+       "src/components/guide/blocks/CompareBlock.tsx",
+       "src/components/guide/blocks/CopyButton.tsx"
+      ],
+      "pathsMissing": 0,
+      "subjects": [
+       {
+        "subject": "software-engineering/authoring-block-vocabulary",
+        "state": "deviation"
+       },
+       {
+        "subject": "software-engineering/chat-transcript",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/register-bytecode-execution",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/quality-gates",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/hitl-approval",
+        "state": "unknown"
+       }
+      ]
+     },
+     {
+      "name": "Guide Pages & Navigation",
+      "paths": [
+       "src/app/guide/[category]/CategoryHeaderBar.tsx",
+       "src/app/guide/[category]/CategoryTopics.tsx",
+       "src/app/guide/[category]/[topic]/TopicView.tsx",
+       "src/app/guide/[category]/[topic]/not-found.tsx",
+       "src/app/guide/[category]/[topic]/page.tsx",
+       "src/app/guide/[category]/not-found.tsx",
+       "src/app/guide/[category]/page.tsx",
+       "src/app/guide/guide-page/GuideCategoryGrid.tsx",
+       "src/app/guide/guide-page/GuideDiscordCTA.tsx",
+       "src/app/guide/guide-page/GuideModeToggle.tsx",
+       "src/app/guide/guide-page/guidePageData.ts",
+       "src/app/guide/layout.tsx"
+      ],
+      "pathsMissing": 0,
+      "subjects": [
+       {
+        "subject": "software-engineering/docs-content-model",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/long-form-reading-surface",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/repository-landing-document",
+        "state": "unknown"
+       }
+      ]
+     }
+    ],
+    "Content & Informational Pages": [
+     {
+      "name": "How It Works & Changelog",
+      "paths": [
+       "src/app/how/layout.tsx",
+       "src/app/how/page.tsx",
+       "src/components/sections/Changelog.tsx",
+       "src/components/sections/changelog-timeline/index.tsx",
+       "src/components/sections/how-lazy.tsx",
+       "src/data/changelog.ts"
+      ],
+      "pathsMissing": 0,
+      "subjects": [
+       {
+        "subject": "software-engineering/lazy-section-addressability",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/app-shell",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/release-pipeline",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/native-shell-integration",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/data-access",
+        "state": "unknown"
+       }
+      ]
+     },
+     {
+      "name": "Legal & Policy",
+      "paths": [
+       "src/app/legal/LegalContent.tsx",
+       "src/app/legal/PolicyChangelog.tsx",
+       "src/app/legal/page.tsx",
+       "src/app/legal/policies/CookiePolicy.tsx",
+       "src/app/legal/policies/PrivacyPolicy.tsx",
+       "src/app/legal/policies/TermsOfService.tsx",
+       "src/data/policy-changelog.ts"
+      ],
+      "pathsMissing": 0,
+      "subjects": [
+       {
+        "subject": "software-engineering/agent-runtime-assembly",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/concurrency-guards",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/multi-provider-gateway-plane",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/quality-gates",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/edge-queue-policy",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/hitl-approval",
+        "state": "not-applicable"
+       }
+      ]
+     },
+     {
+      "name": "Security & Compliance",
+      "paths": [
+       "src/app/security/ArchitectureFlow.tsx",
+       "src/app/security/layout.tsx",
+       "src/app/security/page.tsx",
+       "src/app/security/security-page/ComplianceRow.tsx",
+       "src/app/security/security-page/SecurityFAQItem.tsx",
+       "src/app/security/security-page/SecurityPillarsGrid.tsx",
+       "src/data/security.ts"
+      ],
+      "pathsMissing": 0,
+      "subjects": [
+       {
+        "subject": "software-engineering/sync-replication",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/supply-chain",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/quality-gates",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/extension-trust-boundary",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/multi-provider-gateway-plane",
+        "state": "unknown"
+       }
+      ]
+     },
+     {
+      "name": "Blog",
+      "paths": [
+       "src/app/blog/BlogPostCard.tsx",
+       "src/app/blog/CategoryFilter.tsx",
+       "src/app/blog/FeaturedPost.tsx",
+       "src/app/blog/[slug]/BlogArticle.tsx",
+       "src/app/blog/[slug]/blog-article/BlogArticleByline.tsx",
+       "src/app/blog/[slug]/blog-article/BlogArticleContent.tsx",
+       "src/app/blog/[slug]/blog-article/BlogArticleCrossLinks.tsx",
+       "src/app/blog/[slug]/not-found.tsx",
+       "src/app/blog/[slug]/page.tsx",
+       "src/app/blog/category-meta.ts",
+       "src/app/blog/feed.xml/route.ts",
+       "src/app/blog/layout.tsx"
+      ],
+      "pathsMissing": 0,
+      "subjects": [
+       {
+        "subject": "software-engineering/long-form-reading-surface",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/feed",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/docs-sync",
+        "state": "unknown"
+       }
+      ]
+     }
+    ],
+    "Roadmap, Voting & Waitlist": [
+     {
+      "name": "Server-Side Vote Persistence",
+      "paths": [
+       "src/lib/fileLock.ts",
+       "src/lib/server/json-file-store.ts",
+       "src/lib/server/rate-limit.ts"
+      ],
+      "pathsMissing": 0,
+      "subjects": [
+       {
+        "subject": "software-engineering/concurrency-guards",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/mcp-tools",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/settings",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/agent-instruction-files",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/declarative-resource-lifecycle",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/client-state",
+        "state": "not-applicable"
+       }
+      ]
+     },
+     {
+      "name": "Waitlist & App Download",
+      "paths": [
+       "src/app/api/download/route.ts",
+       "src/app/api/waitlist/route.ts",
+       "src/components/WaitlistModal.tsx",
+       "src/components/waitlist-modal/AnimatedCheckmark.tsx",
+       "src/components/waitlist-modal/WaitlistForm.tsx",
+       "src/components/waitlist-modal/WaitlistHeader.tsx",
+       "src/components/waitlist-modal/WaitlistSuccessPanel.tsx",
+       "src/components/waitlist-modal/waitlistCounts.ts",
+       "src/components/waitlist-modal/waitlistUtils.ts"
+      ],
+      "pathsMissing": 0,
+      "subjects": [
+       {
+        "subject": "software-engineering/sidecar-provisioning",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/public-claim-provenance",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/modal-stack",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/stream-proxy-hop",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/node-boot-and-declarative-bootstrap",
+        "state": "unknown"
+       }
+      ]
+     },
+     {
+      "name": "Feature Voting & Comments",
+      "paths": [
+       "src/app/api/feature-boosts/route.ts",
+       "src/app/api/feature-comments/route.ts",
+       "src/app/api/feature-requests/route.ts",
+       "src/app/api/votes/rate-limit.ts",
+       "src/app/api/votes/route.ts",
+       "src/app/api/votes/storage.ts",
+       "src/components/sections/feature-voting/components/CommentBubble.tsx",
+       "src/components/sections/feature-voting/components/CommentInput.tsx",
+       "src/components/sections/feature-voting/components/CommentThread.tsx",
+       "src/components/sections/feature-voting/components/CustomFeatureRequest.tsx",
+       "src/components/sections/feature-voting/components/FeatureBoostButton.tsx",
+       "src/components/sections/feature-voting/components/FeatureVoteCard.tsx"
+      ],
+      "pathsMissing": 3,
+      "subjects": [
+       {
+        "subject": "software-engineering/standards-layered-runtime",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/sidecar-provisioning",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/agent-cli-transport",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/browser-credential-boundary",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/agent-runtime-assembly",
+        "state": "unknown"
+       }
+      ]
+     },
+     {
+      "name": "Public Roadmap",
+      "paths": [
+       "src/app/api/roadmap/route.ts",
+       "src/app/api/roadmap/types.ts",
+       "src/app/roadmap/page.tsx",
+       "src/components/sections/roadmap/areas.ts",
+       "src/components/sections/roadmap/roadmap-area-counts.ts",
+       "src/components/sections/roadmap/components/AreaCardShell.tsx",
+       "src/components/sections/roadmap/components/FlagArt.tsx",
+       "src/components/sections/roadmap/components/RoadmapAreas.tsx",
+       "src/components/sections/roadmap/components/RoadmapProgress.tsx",
+       "src/components/sections/roadmap/index.tsx",
+       "src/components/sections/roadmap/types.ts",
+       "src/data/roadmap-phases.ts"
+      ],
+      "pathsMissing": 0,
+      "subjects": [
+       {
+        "subject": "software-engineering/public-claim-provenance",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/browser-credential-boundary",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/docs-sync",
+        "state": "unknown"
+       }
+      ]
+     }
+    ],
+    "Connectors & Templates": [
+     {
+      "name": "Templates Gallery & Detail",
+      "paths": [
+       "src/app/templates/[id]/TemplateDetail.tsx",
+       "src/app/templates/[id]/YamlHighlighter.tsx",
+       "src/app/templates/[id]/not-found.tsx",
+       "src/app/templates/[id]/page.tsx",
+       "src/app/templates/[id]/template-detail/RelatedTemplates.tsx",
+       "src/app/templates/[id]/template-detail/TemplateConfiguration.tsx",
+       "src/app/templates/[id]/template-detail/TemplateDownloadCta.tsx",
+       "src/app/templates/[id]/template-detail/TemplateFallbackModal.tsx",
+       "src/app/templates/[id]/template-detail/TemplateHero.tsx",
+       "src/app/templates/[id]/template-detail/TemplateJsonLd.tsx",
+       "src/app/templates/[id]/template-detail/templateDetailMeta.ts",
+       "src/app/templates/layout.tsx"
+      ],
+      "pathsMissing": 0,
+      "subjects": [
+       {
+        "subject": "software-engineering/templates-scaffolding",
+        "state": "not-applicable"
+       },
+       {
+        "subject": "software-engineering/generated-workflow-candidates",
+        "state": "unknown"
+       }
+      ]
+     },
+     {
+      "name": "Connector Detail Modal",
+      "paths": [
+       "src/components/sections/connector-modal/components/ConnectorModalHeader.tsx",
+       "src/components/sections/connector-modal/components/CopyButton.tsx",
+       "src/components/sections/connector-modal/components/SetupCTA.tsx",
+       "src/components/sections/connector-modal/components/TerminalSimulator.tsx",
+       "src/components/sections/connector-modal/components/TryItToggle.tsx",
+       "src/components/sections/connector-modal/components/UseCaseList.tsx",
+       "src/components/sections/connector-modal/index.tsx"
+      ],
+      "pathsMissing": 0,
+      "subjects": [
+       {
+        "subject": "software-engineering/optional-dependency-degradation",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/connector-catalog",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/modal-stack",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/settings",
+        "state": "unknown"
+       }
+      ]
+     },
+     {
+      "name": "Connectors Catalog",
+      "paths": [
+       "src/app/connections/layout.tsx",
+       "src/app/connections/page.tsx",
+       "src/components/sections/connections-catalog/components/CatalogFilters.tsx",
+       "src/components/sections/connections-catalog/components/CategorySidebar.tsx",
+       "src/components/sections/connections-catalog/components/ConnectorCard.tsx",
+       "src/components/sections/connections-catalog/components/ExtendCard.tsx",
+       "src/components/sections/connections-catalog/data.ts",
+       "src/components/sections/connections-catalog/index.tsx",
+       "src/data/connectors.ts",
+       "src/lib/tool-catalogue.ts"
+      ],
+      "pathsMissing": 0,
+      "subjects": [
+       {
+        "subject": "software-engineering/connector-catalog",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/mcp-tools",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/docs-content-model",
+        "state": "unknown"
+       }
+      ]
+     }
+    ],
+    "Agent Operations Dashboard": [
+     {
+      "name": "Messages & Settings",
+      "paths": [
+       "src/app/dashboard/messages/messages-page/MessagesPagination.tsx",
+       "src/app/dashboard/messages/messages-page/MessageRow.tsx",
+       "src/app/dashboard/messages/messages-page/ThreadDetailModal.tsx",
+       "src/app/dashboard/messages/messages-page/ThreadRow.tsx",
+       "src/app/dashboard/messages/page.tsx",
+       "src/app/dashboard/messages/useMessagesData.ts",
+       "src/app/dashboard/settings/SettingsHeader.tsx",
+       "src/app/dashboard/settings/page.tsx",
+       "src/app/dashboard/settings/settings-sections/ModelProvidersCard.tsx",
+       "src/app/dashboard/settings/settings-sections/NotificationsCard.tsx",
+       "src/app/dashboard/settings/settings-sections/RotationOverviewCard.tsx",
+       "src/app/dashboard/settings/settings-sections/SettingToggle.tsx"
+      ],
+      "pathsMissing": 0,
+      "subjects": [
+       {
+        "subject": "software-engineering/settings",
+        "state": "unknown"
+       }
+      ]
+     },
+     {
+      "name": "Knowledge Base",
+      "paths": [
+       "src/app/dashboard/knowledge/KnowledgeClusterGraph.tsx",
+       "src/app/dashboard/knowledge/KnowledgeDenseTable.tsx",
+       "src/app/dashboard/knowledge/MemoriesView.tsx",
+       "src/app/dashboard/knowledge/knowledge-cluster-graph/KnowledgeClusterDetailPanel.tsx",
+       "src/app/dashboard/knowledge/knowledge-cluster-graph/KnowledgeClusterLabels.tsx",
+       "src/app/dashboard/knowledge/knowledge-cluster-graph/KnowledgeClusterLegends.tsx",
+       "src/app/dashboard/knowledge/knowledge-cluster-graph/KnowledgeClusterSvg.tsx",
+       "src/app/dashboard/knowledge/knowledge-cluster-graph/KnowledgeClusterTopBar.tsx",
+       "src/app/dashboard/knowledge/knowledge-cluster-graph/KnowledgeGraphNode.tsx",
+       "src/app/dashboard/knowledge/knowledge-cluster-graph/knowledgeClusterConfig.ts",
+       "src/app/dashboard/knowledge/knowledge-cluster-graph/knowledgeClusterLayout.ts",
+       "src/app/dashboard/knowledge/knowledge-dense-table/KnowledgeDenseTopBar.tsx"
+      ],
+      "pathsMissing": 1,
+      "subjects": [
+       {
+        "subject": "software-engineering/knowledge-registry",
+        "state": "not-applicable"
+       },
+       {
+        "subject": "software-engineering/markdown-vault",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/metrics-rollups",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/declarative-object-graph-configs",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/settings",
+        "state": "unknown"
+       }
+      ]
+     },
+     {
+      "name": "Manual Review Queue",
+      "paths": [
+       "src/app/dashboard/reviews/ReviewsFocusFlow.tsx",
+       "src/app/dashboard/reviews/ReviewsSplitPane.tsx",
+       "src/app/dashboard/reviews/ShortcutsHud.tsx",
+       "src/app/dashboard/reviews/page.tsx",
+       "src/app/dashboard/reviews/reviews-focus-flow/FocusEmptyState.tsx",
+       "src/app/dashboard/reviews/reviews-focus-flow/FocusProgressHeader.tsx",
+       "src/app/dashboard/reviews/reviews-focus-flow/FocusReviewCard.tsx",
+       "src/app/dashboard/reviews/reviews-focus-flow/focusSeverityConfig.ts",
+       "src/app/dashboard/reviews/reviews-split-pane/ReviewDetailPanel.tsx",
+       "src/app/dashboard/reviews/reviews-split-pane/ReviewList.tsx",
+       "src/app/dashboard/reviews/reviews-split-pane/ReviewRow.tsx",
+       "src/app/dashboard/reviews/reviews-split-pane/ReviewStatusDot.tsx"
+      ],
+      "pathsMissing": 0,
+      "subjects": [
+       {
+        "subject": "software-engineering/hitl-approval",
+        "state": "deviation"
+       },
+       {
+        "subject": "software-engineering/voice-io",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/eval-harness",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/quality-gates",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/modal-stack",
+        "state": "unknown"
+       }
+      ]
+     },
+     {
+      "name": "Agents (Personas) Management",
+      "paths": [
+       "src/app/dashboard/agents/agents-page/AgentCardImage.tsx",
+       "src/app/dashboard/agents/agents-page/AgentsLoadingGrid.tsx",
+       "src/app/dashboard/agents/agents-page/ExecuteToast.tsx",
+       "src/app/dashboard/agents/agents-page/agentAccent.ts",
+       "src/app/dashboard/agents/agents-page/personaVisuals.tsx",
+       "src/app/dashboard/agents/page.tsx",
+       "src/app/dashboard/page.tsx",
+       "src/components/dashboard/AgentDetail.tsx",
+       "src/components/dashboard/AgentMetrics.tsx",
+       "src/components/dashboard/MemoryActionsPanel.tsx",
+       "src/components/dashboard/PersonaAvatar.tsx",
+       "src/components/dashboard/SubscriptionsPanel.tsx"
+      ],
+      "pathsMissing": 1,
+      "subjects": [
+       {
+        "subject": "software-engineering/client-state",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/agent-memory",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/realtime-events",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/machine-paced-delivery",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/agent-instruction-files",
+        "state": "unknown"
+       }
+      ]
+     }
+    ],
+    "Observability & Event Monitoring": [
+     {
+      "name": "Execution History & Streaming",
+      "paths": [
+       "src/app/api/executions/[id]/stream/route.ts",
+       "src/app/dashboard/executions/executions-page/ExecutionDetailModal.tsx",
+       "src/app/dashboard/executions/executions-page/ExecutionOutput.tsx",
+       "src/app/dashboard/executions/executions-page/ExecutionsEmptyState.tsx",
+       "src/app/dashboard/executions/executions-page/ExecutionsFilters.tsx",
+       "src/app/dashboard/executions/executions-page/buildExecutionColumns.tsx",
+       "src/app/dashboard/executions/page.tsx",
+       "src/components/dashboard/DataTable.tsx",
+       "src/components/dashboard/FilterBar.tsx",
+       "src/components/dashboard/MarkdownReport.tsx",
+       "src/components/dashboard/markdown-report/markdownInline.tsx",
+       "src/hooks/useExecutionPolling.ts"
+      ],
+      "pathsMissing": 0,
+      "subjects": [
+       {
+        "subject": "software-engineering/chat-transcript",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/docs-sync",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/agent-runtime-assembly",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/agent-chaining",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/streaming-output",
+        "state": "unknown"
+       }
+      ]
+     },
+     {
+      "name": "Leaderboard & Rankings",
+      "paths": [
+       "src/app/dashboard/leaderboard/leaderboard-page/LeaderboardPodium.tsx",
+       "src/app/dashboard/leaderboard/leaderboard-page/LeaderboardRadarCard.tsx",
+       "src/app/dashboard/leaderboard/leaderboard-page/LeaderboardSortHeader.tsx",
+       "src/app/dashboard/leaderboard/leaderboard-page/LeaderboardTable.tsx",
+       "src/app/dashboard/leaderboard/leaderboard-page/RankDimensionTabs.tsx",
+       "src/app/dashboard/leaderboard/leaderboard-page/leaderboardRank.ts",
+       "src/app/dashboard/leaderboard/leaderboard-page/leaderboardSort.ts",
+       "src/app/dashboard/leaderboard/leaderboard-page/leaderboardStyles.tsx",
+       "src/app/dashboard/leaderboard/page.tsx",
+       "src/app/dashboard/leaderboard/useLeaderboardData.ts"
+      ],
+      "pathsMissing": 0,
+      "subjects": [
+       {
+        "subject": "software-engineering/eval-harness",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/scoring-rubrics",
+        "state": "unknown"
+       }
+      ]
+     },
+     {
+      "name": "Director Coaching",
+      "paths": [
+       "src/app/dashboard/director/director-page/AttentionTriageBar.tsx",
+       "src/app/dashboard/director/director-page/CoachingTable.tsx",
+       "src/app/dashboard/director/director-page/DirectorKpiGrid.tsx",
+       "src/app/dashboard/director/director-page/MomentumStrip.tsx",
+       "src/app/dashboard/director/director-page/ScoreDistributionCard.tsx",
+       "src/app/dashboard/director/director-page/ValueBreakdownCard.tsx",
+       "src/app/dashboard/director/director-page/VerdictFeedCard.tsx",
+       "src/app/dashboard/director/director-page/directorMeta.ts",
+       "src/app/dashboard/director/director-page/scoreVisuals.tsx",
+       "src/app/dashboard/director/page.tsx",
+       "src/app/dashboard/director/useDirectorData.ts"
+      ],
+      "pathsMissing": 0,
+      "subjects": [
+       {
+        "subject": "software-engineering/quality-gates",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/measurement-honesty",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/people-analytics-ethics",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/multi-provider-gateway-plane",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/adoption-measurement",
+        "state": "unknown"
+       }
+      ]
+     },
+     {
+      "name": "Observability Charts & SLA",
+      "paths": [
+       "src/app/dashboard/observability/ActivityMetricsView.tsx",
+       "src/app/dashboard/observability/PerformanceView.tsx",
+       "src/app/dashboard/observability/UsageView.tsx",
+       "src/app/dashboard/observability/activity-view/AthenaActionMixCard.tsx",
+       "src/app/dashboard/observability/activity-view/AthenaSpendLane.tsx",
+       "src/app/dashboard/observability/activity-view/AthenaUsageCard.tsx",
+       "src/app/dashboard/observability/activity-view/ValueRollupCard.tsx",
+       "src/app/dashboard/observability/activity-view/useActivityMetrics.ts",
+       "src/app/dashboard/observability/page.tsx",
+       "src/app/dashboard/observability/performance-view/CostAnomalyBanner.tsx",
+       "src/app/dashboard/observability/performance-view/PerformanceChartGrid.tsx",
+       "src/app/dashboard/observability/performance-view/PerformanceHealthIssueRow.tsx"
+      ],
+      "pathsMissing": 4,
+      "subjects": [
+       {
+        "subject": "software-engineering/cost-metering",
+        "state": "not-applicable"
+       },
+       {
+        "subject": "software-engineering/quality-gates",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/data-viz",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/agent-memory",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/hitl-approval",
+        "state": "not-applicable"
+       }
+      ]
+     },
+     {
+      "name": "Event Bus & Stream Monitoring",
+      "paths": [
+       "src/app/api/events/stream/route.ts",
+       "src/app/dashboard/events/events-page/EventsPageTabs.tsx",
+       "src/app/dashboard/events/events-page/EventsVisualizationView.tsx",
+       "src/app/dashboard/events/page.tsx",
+       "src/components/dashboard/EventBusStats.tsx",
+       "src/components/dashboard/EventBusVisualization.tsx",
+       "src/components/dashboard/EventDetailDrawer.tsx",
+       "src/components/dashboard/EventSwimlane.tsx",
+       "src/components/dashboard/EventsListPanel.tsx",
+       "src/components/dashboard/JsonViewer.tsx",
+       "src/components/dashboard/SwimlaneLane.tsx",
+       "src/components/dashboard/event-bus-visualization/EventBusDefs.tsx"
+      ],
+      "pathsMissing": 0,
+      "subjects": [
+       {
+        "subject": "software-engineering/correlated-exchange-over-broadcast",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/realtime-events",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/delivery-guarantees",
+        "state": "deviation"
+       },
+       {
+        "subject": "software-engineering/client-state",
+        "state": "deviation"
+       },
+       {
+        "subject": "software-engineering/streaming-output",
+        "state": "unknown"
+       }
+      ]
+     },
+     {
+      "name": "Dashboard Home Overview",
+      "paths": [
+       "src/app/dashboard/home/home-page/ApprovedWorkCard.tsx",
+       "src/app/dashboard/home/home-page/DashboardGreetingHeader.tsx",
+       "src/app/dashboard/home/home-page/DashboardIntelligencePanels.tsx",
+       "src/app/dashboard/home/home-page/DashboardQuickLinks.tsx",
+       "src/app/dashboard/home/home-page/ExecutionHeatmapCard.tsx",
+       "src/app/dashboard/home/home-page/FleetSessionsStrip.tsx",
+       "src/app/dashboard/home/home-page/InstrumentsBay.tsx",
+       "src/app/dashboard/home/home-page/RecentActivityCard.tsx",
+       "src/app/dashboard/home/home-page/StatusTicker.tsx",
+       "src/app/dashboard/home/home-page/TopPerformersCard.tsx",
+       "src/app/dashboard/home/home-page/TrafficErrorsCard.tsx",
+       "src/app/dashboard/home/home-page/TriagePane.tsx"
+      ],
+      "pathsMissing": 0,
+      "subjects": [
+       {
+        "subject": "software-engineering/fleet-orchestration",
+        "state": "not-applicable"
+       }
+      ]
+     },
+     {
+      "name": "Incidents Inbox",
+      "paths": [
+       "src/app/dashboard/incidents/page.tsx",
+       "src/app/dashboard/incidents/incidents-page/incidentFormat.ts",
+       "src/app/dashboard/incidents/incidents-page/useIncidentsFilterStore.ts",
+       "src/app/dashboard/incidents/incidents-page/useAuditIncidents.ts",
+       "src/app/dashboard/incidents/incidents-page/IncidentsKpiHeader.tsx",
+       "src/app/dashboard/incidents/incidents-page/IncidentsFilters.tsx",
+       "src/app/dashboard/incidents/incidents-page/IncidentsGroupByTabs.tsx",
+       "src/app/dashboard/incidents/incidents-page/IncidentRow.tsx",
+       "src/app/dashboard/incidents/incidents-page/IncidentList.tsx",
+       "src/app/dashboard/incidents/incidents-page/IncidentDetailModal.tsx"
+      ],
+      "pathsMissing": 0,
+      "subjects": [
+       {
+        "subject": "software-engineering/self-healing",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/docs-sync",
+        "state": "unknown"
+       }
+      ]
+     },
+     {
+      "name": "System Health Panel",
+      "paths": [
+       "src/app/dashboard/health/page.tsx",
+       "src/app/dashboard/health/health-page/healthFormat.ts",
+       "src/app/dashboard/health/health-page/useSystemHealth.ts",
+       "src/app/dashboard/health/health-page/HealthSectionCard.tsx",
+       "src/app/dashboard/health/health-page/DiskUsageBar.tsx"
+      ],
+      "pathsMissing": 0,
+      "subjects": [
+       {
+        "subject": "software-engineering/agent-memory",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/health-checks",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/observability-telemetry",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/background-jobs",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/docs-sync",
+        "state": "unknown"
+       }
+      ]
+     }
+    ],
+    "Platform Foundation: Shell, UI & Motion": [
+     {
+      "name": "Mobile App Shell & Views",
+      "paths": [
+       "src/app/m/alerts/page.tsx",
+       "src/app/m/layout.tsx",
+       "src/app/m/messages/page.tsx",
+       "src/app/m/overview/page.tsx",
+       "src/app/m/page.tsx",
+       "src/app/m/reviews/page.tsx",
+       "src/components/mobile/MobileAppBar.tsx",
+       "src/components/mobile/MobileSheet.tsx",
+       "src/components/mobile/MobileShell.tsx",
+       "src/components/mobile/MobileStatCard.tsx",
+       "src/components/mobile/MobileTabBar.tsx",
+       "src/components/mobile/MobileThreadSheet.tsx"
+      ],
+      "pathsMissing": 1,
+      "subjects": [
+       {
+        "subject": "software-engineering/app-shell",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/native-shell-integration",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/search",
+        "state": "unknown"
+       }
+      ]
+     },
+     {
+      "name": "Animation & Motion System",
+      "paths": [
+       "src/components/AmbientOrbs.tsx",
+       "src/components/AnimationPauseObserver.tsx",
+       "src/components/CinematicBreather.tsx",
+       "src/components/FloatingParticles.tsx",
+       "src/components/LazyMount.tsx",
+       "src/components/ParallaxAccents.tsx",
+       "src/components/ParticleHost.tsx",
+       "src/components/ScrollMap.tsx",
+       "src/components/TopoBackground.tsx",
+       "src/components/particle-host/particleHostRegistry.ts",
+       "src/contexts/QualityContext.tsx",
+       "src/contexts/SectionObserverContext.tsx"
+      ],
+      "pathsMissing": 0,
+      "subjects": [
+       {
+        "subject": "software-engineering/motion",
+        "state": "conformant"
+       }
+      ]
+     },
+     {
+      "name": "Shared UI Primitives & Illustrations",
+      "paths": [
+       "src/components/GlowCard.tsx",
+       "src/components/GradientText.tsx",
+       "src/components/HoneycombMark.tsx",
+       "src/components/ImageBackground.tsx",
+       "src/components/SVGFocusRing.tsx",
+       "src/components/ShortcutHint.tsx",
+       "src/components/TerminalChrome.tsx",
+       "src/components/icons/brand-icons.tsx",
+       "src/components/illustrations/AgentGridIllustration.tsx",
+       "src/components/illustrations/CloudInfraIllustration.tsx",
+       "src/components/illustrations/HealthyShieldIllustration.tsx",
+       "src/components/illustrations/LocalCloudIllustration.tsx"
+      ],
+      "pathsMissing": 0,
+      "subjects": [
+       {
+        "subject": "software-engineering/terminal-multiplexing",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/concurrency-guards",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/voice-io",
+        "state": "unknown"
+       }
+      ]
+     },
+     {
+      "name": "Dashboard Shell, Chrome & Realtime",
+      "paths": [
+       "src/app/dashboard/layout.tsx",
+       "src/components/dashboard/ConnectionStatusIndicator.tsx",
+       "src/components/dashboard/DashboardErrorBanner.tsx",
+       "src/components/dashboard/DashboardErrorBoundary.tsx",
+       "src/components/dashboard/DashboardNavbar.tsx",
+       "src/components/dashboard/DashboardNavigation.tsx",
+       "src/components/dashboard/DashboardScopeBar.tsx",
+       "src/components/dashboard/DashboardSidebar.tsx",
+       "src/components/dashboard/DashboardSkeleton.tsx",
+       "src/components/dashboard/DesktopSidebar.tsx",
+       "src/components/dashboard/EmptyState.tsx",
+       "src/components/dashboard/FleetOptimizationCard.tsx"
+      ],
+      "pathsMissing": 0,
+      "subjects": [
+       {
+        "subject": "software-engineering/app-shell",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/multi-provider-gateway-plane",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/realtime-events",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/native-shell-integration",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/fleet-orchestration",
+        "state": "unknown"
+       }
+      ]
+     },
+     {
+      "name": "Layout, Navigation & Page Shell",
+      "paths": [
+       "src/app/error.tsx",
+       "src/app/global-error.tsx",
+       "src/app/layout.tsx",
+       "src/app/loading.tsx",
+       "src/app/not-found.tsx",
+       "src/components/CookieConsent.tsx",
+       "src/components/InfoPageLayout.tsx",
+       "src/components/MobilePageTOC.tsx",
+       "src/components/Navbar.tsx",
+       "src/components/NavbarLogoGlyph.tsx",
+       "src/components/PageShell.tsx",
+       "src/components/SectionBreadcrumb.tsx"
+      ],
+      "pathsMissing": 2,
+      "subjects": [
+       {
+        "subject": "software-engineering/app-shell",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/lazy-section-addressability",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/long-form-reading-surface",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/native-shell-integration",
+        "state": "unknown"
+       }
+      ]
+     }
+    ],
+    "Infrastructure & Telemetry": [
+     {
+      "name": "Build Config & E2E Tests",
+      "paths": [
+       "e2e/blog.spec.ts",
+       "e2e/connections.spec.ts",
+       "e2e/cookie-consent.spec.ts",
+       "e2e/guide.spec.ts",
+       "e2e/legal.spec.ts",
+       "e2e/playground.spec.ts",
+       "e2e/roadmap.spec.ts",
+       "e2e/templates.spec.ts",
+       "e2e/tour.spec.ts",
+       "next.config.ts",
+       "playwright.config.ts"
+      ],
+      "pathsMissing": 4,
+      "subjects": [
+       {
+        "subject": "software-engineering/test-harness",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/settings",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/schema-driven-ui",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/quality-gates",
+        "state": "unknown"
+       }
+      ]
+     },
+     {
+      "name": "Supabase Client",
+      "paths": [
+       "src/lib/supabase.ts",
+       "src/lib/supabaseApi.ts"
+      ],
+      "pathsMissing": 0,
+      "subjects": [
+       {
+        "subject": "software-engineering/optional-dependency-degradation",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/multi-provider-gateway-plane",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/voice-io",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/terminal-multiplexing",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/settings",
+        "state": "unknown"
+       }
+      ]
+     },
+     {
+      "name": "SEO & Social Metadata",
+      "paths": [
+       "src/app/blog/[slug]/opengraph-image.tsx",
+       "src/app/connections/opengraph-image.tsx",
+       "src/app/features/opengraph-image.tsx",
+       "src/app/guide/[category]/[topic]/opengraph-image.tsx",
+       "src/app/guide/[category]/opengraph-image.tsx",
+       "src/app/how/opengraph-image.tsx",
+       "src/app/manifest.ts",
+       "src/app/opengraph-image.tsx",
+       "src/app/roadmap/opengraph-image.tsx",
+       "src/app/robots.ts",
+       "src/app/sitemap.ts",
+       "src/app/templates/opengraph-image.tsx"
+      ],
+      "pathsMissing": 0,
+      "subjects": [
+       {
+        "subject": "software-engineering/self-describing-data-envelopes",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/docs-content-model",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/voice-io",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/repository-landing-document",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/self-describing-model-packages",
+        "state": "unknown"
+       }
+      ]
+     },
+     {
+      "name": "Error Monitoring & Analytics",
+      "paths": [
+       "sentry.client.config.ts",
+       "sentry.edge.config.ts",
+       "sentry.server.config.ts",
+       "src/app/api/stats/route.ts",
+       "src/components/PageViewTracker.tsx",
+       "src/instrumentation.ts",
+       "src/lib/analytics.ts",
+       "src/lib/sentry-pii.ts",
+       "src/lib/sentry.ts"
+      ],
+      "pathsMissing": 0,
+      "subjects": [
+       {
+        "subject": "software-engineering/telemetry-pii-redaction",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/usage-analytics",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/browser-credential-boundary",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/stream-proxy-hop",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/people-analytics-ethics",
+        "state": "unknown"
+       }
+      ]
+     },
+     {
+      "name": "Orchestrator API Client & Mock Data",
+      "paths": [
+       "src/lib/api-fetch.ts",
+       "src/lib/api.ts",
+       "src/lib/dashboard-queries.ts",
+       "src/lib/mock-dashboard-data.ts",
+       "src/lib/mockApi.ts",
+       "src/lib/mockData.ts",
+       "src/lib/orchestrator-config.ts",
+       "src/proxy.ts"
+      ],
+      "pathsMissing": 0,
+      "subjects": [
+       {
+        "subject": "software-engineering/data-access",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/browser-credential-boundary",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/client-fetch-cache",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/untrusted-extension-host",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/demo-data-plane",
+        "state": "unknown"
+       }
+      ]
+     },
+     {
+      "name": "Authentication & User Session",
+      "paths": [
+       "src/components/AuthProvider.tsx",
+       "src/components/AuthToast.tsx",
+       "src/components/RoleSelector.tsx",
+       "src/components/dashboard/AuthGuard.tsx",
+       "src/components/dashboard/AuthLayout.tsx",
+       "src/components/dashboard/SignInPrompt.tsx",
+       "src/lib/clearUserCaches.ts",
+       "src/lib/mockAuth.ts",
+       "src/stores/authStore.ts"
+      ],
+      "pathsMissing": 0,
+      "subjects": [
+       {
+        "subject": "software-engineering/prompt-assembly",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/agent-runtime-assembly",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/terminal-multiplexing",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/client-state",
+        "state": "conformant"
+       }
+      ]
+     }
+    ],
+    "Theming, i18n & Shared Utilities": [
+     {
+      "name": "Shared Types, Utilities & Hooks",
+      "paths": [
+       "src/hooks/useAbortableEffect.ts",
+       "src/hooks/useFocusTrap.ts",
+       "src/hooks/usePolling.ts",
+       "src/hooks/useSearchParamState.ts",
+       "src/lib/bodyScrollLock.ts",
+       "src/lib/constants.ts",
+       "src/lib/format-date.ts",
+       "src/lib/format.ts",
+       "src/lib/highlight-match.tsx",
+       "src/lib/server/env.ts",
+       "src/lib/server/request.ts",
+       "src/lib/timings.ts"
+      ],
+      "pathsMissing": 0,
+      "subjects": [
+       {
+        "subject": "software-engineering/concurrency-guards",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/import-normalization",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/browser-credential-boundary",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/long-form-reading-surface",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/form",
+        "state": "unknown"
+       }
+      ]
+     },
+     {
+      "name": "Theme System",
+      "paths": [
+       "src/components/ThemeInit.tsx",
+       "src/components/ThemeSwitcher.tsx",
+       "src/lib/brand-theme.ts",
+       "src/lib/colors.ts",
+       "src/lib/typography.ts",
+       "src/stores/themeStore.ts"
+      ],
+      "pathsMissing": 0,
+      "subjects": [
+       {
+        "subject": "software-engineering/design-tokens",
+        "state": "unknown"
+       }
+      ]
+     },
+     {
+      "name": "Internationalization (14 locales)",
+      "paths": [
+       "src/i18n/ar.ts",
+       "src/i18n/bn.ts",
+       "src/i18n/cs.ts",
+       "src/i18n/de.ts",
+       "src/i18n/en.ts",
+       "src/i18n/es.ts",
+       "src/i18n/fr.ts",
+       "src/i18n/hi.ts",
+       "src/i18n/id.ts",
+       "src/i18n/ja.ts",
+       "src/i18n/ko.ts",
+       "src/i18n/ru.ts"
+      ],
+      "pathsMissing": 0,
+      "subjects": [
+       {
+        "subject": "software-engineering/i18n",
+        "state": "unknown"
+       }
+      ]
+     }
+    ]
+   }
+  },
   "ascent": {
    "slug": "ascent",
    "purpose": "The maturity index for AI-native engineering, and the reference consumer of the ai-registry",
@@ -24319,6 +26324,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -24365,6 +26374,10 @@
     },
     {
      "project": "kp",
+     "classification": "out-of-domain"
+    },
+    {
+     "project": "personas-web",
      "classification": "out-of-domain"
     },
     {
@@ -24417,6 +26430,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -24463,6 +26480,10 @@
     },
     {
      "project": "kp",
+     "classification": "out-of-domain"
+    },
+    {
+     "project": "personas-web",
      "classification": "out-of-domain"
     },
     {
@@ -24515,6 +26536,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -24561,6 +26586,10 @@
     },
     {
      "project": "kp",
+     "classification": "out-of-domain"
+    },
+    {
+     "project": "personas-web",
      "classification": "out-of-domain"
     },
     {
@@ -24613,6 +26642,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -24659,6 +26692,10 @@
     },
     {
      "project": "kp",
+     "classification": "out-of-domain"
+    },
+    {
+     "project": "personas-web",
      "classification": "out-of-domain"
     },
     {
@@ -24711,6 +26748,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -24757,6 +26798,10 @@
     },
     {
      "project": "kp",
+     "classification": "out-of-domain"
+    },
+    {
+     "project": "personas-web",
      "classification": "out-of-domain"
     },
     {
@@ -24809,6 +26854,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -24855,6 +26904,10 @@
     },
     {
      "project": "kp",
+     "classification": "out-of-domain"
+    },
+    {
+     "project": "personas-web",
      "classification": "out-of-domain"
     },
     {
@@ -24907,6 +26960,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -24953,6 +27010,10 @@
     },
     {
      "project": "kp",
+     "classification": "out-of-domain"
+    },
+    {
+     "project": "personas-web",
      "classification": "out-of-domain"
     },
     {
@@ -25005,6 +27066,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -25047,6 +27112,10 @@
     },
     {
      "project": "kp",
+     "classification": "out-of-domain"
+    },
+    {
+     "project": "personas-web",
      "classification": "out-of-domain"
     },
     {
@@ -25095,6 +27164,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -25137,6 +27210,10 @@
     },
     {
      "project": "kp",
+     "classification": "out-of-domain"
+    },
+    {
+     "project": "personas-web",
      "classification": "out-of-domain"
     },
     {
@@ -25185,6 +27262,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -25227,6 +27308,10 @@
     },
     {
      "project": "kp",
+     "classification": "out-of-domain"
+    },
+    {
+     "project": "personas-web",
      "classification": "out-of-domain"
     },
     {
@@ -25275,6 +27360,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -25317,6 +27406,10 @@
     },
     {
      "project": "kp",
+     "classification": "out-of-domain"
+    },
+    {
+     "project": "personas-web",
      "classification": "out-of-domain"
     },
     {
@@ -25365,6 +27458,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -25407,6 +27504,10 @@
     },
     {
      "project": "kp",
+     "classification": "out-of-domain"
+    },
+    {
+     "project": "personas-web",
      "classification": "out-of-domain"
     },
     {
@@ -25455,6 +27556,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -25497,6 +27602,10 @@
     },
     {
      "project": "kp",
+     "classification": "out-of-domain"
+    },
+    {
+     "project": "personas-web",
      "classification": "out-of-domain"
     },
     {
@@ -25545,6 +27654,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -25587,6 +27700,10 @@
     },
     {
      "project": "kp",
+     "classification": "out-of-domain"
+    },
+    {
+     "project": "personas-web",
      "classification": "out-of-domain"
     },
     {
@@ -25635,6 +27752,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -25677,6 +27798,10 @@
     },
     {
      "project": "kp",
+     "classification": "out-of-domain"
+    },
+    {
+     "project": "personas-web",
      "classification": "out-of-domain"
     },
     {
@@ -25725,6 +27850,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -25767,6 +27896,10 @@
     },
     {
      "project": "kp",
+     "classification": "out-of-domain"
+    },
+    {
+     "project": "personas-web",
      "classification": "out-of-domain"
     },
     {
@@ -25815,6 +27948,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -25857,6 +27994,10 @@
     },
     {
      "project": "kp",
+     "classification": "out-of-domain"
+    },
+    {
+     "project": "personas-web",
      "classification": "out-of-domain"
     },
     {
@@ -25905,6 +28046,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -25947,6 +28092,10 @@
     },
     {
      "project": "kp",
+     "classification": "out-of-domain"
+    },
+    {
+     "project": "personas-web",
      "classification": "out-of-domain"
     },
     {
@@ -25995,6 +28144,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -26037,6 +28190,10 @@
     },
     {
      "project": "kp",
+     "classification": "out-of-domain"
+    },
+    {
+     "project": "personas-web",
      "classification": "out-of-domain"
     },
     {
@@ -26085,6 +28242,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -26127,6 +28288,10 @@
     },
     {
      "project": "kp",
+     "classification": "out-of-domain"
+    },
+    {
+     "project": "personas-web",
      "classification": "out-of-domain"
     },
     {
@@ -26175,6 +28340,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -26217,6 +28386,10 @@
     },
     {
      "project": "kp",
+     "classification": "out-of-domain"
+    },
+    {
+     "project": "personas-web",
      "classification": "out-of-domain"
     },
     {
@@ -26265,6 +28438,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -26307,6 +28484,10 @@
     },
     {
      "project": "kp",
+     "classification": "out-of-domain"
+    },
+    {
+     "project": "personas-web",
      "classification": "out-of-domain"
     },
     {
@@ -26355,6 +28536,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -26397,6 +28582,10 @@
     },
     {
      "project": "kp",
+     "classification": "out-of-domain"
+    },
+    {
+     "project": "personas-web",
      "classification": "out-of-domain"
     },
     {
@@ -26445,6 +28634,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -26487,6 +28680,10 @@
     },
     {
      "project": "kp",
+     "classification": "out-of-domain"
+    },
+    {
+     "project": "personas-web",
      "classification": "out-of-domain"
     },
     {
@@ -26535,6 +28732,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -26577,6 +28778,10 @@
     },
     {
      "project": "kp",
+     "classification": "out-of-domain"
+    },
+    {
+     "project": "personas-web",
      "classification": "out-of-domain"
     },
     {
@@ -26625,6 +28830,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -26667,6 +28876,10 @@
     },
     {
      "project": "kp",
+     "classification": "out-of-domain"
+    },
+    {
+     "project": "personas-web",
      "classification": "out-of-domain"
     },
     {
@@ -26715,6 +28928,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -26757,6 +28974,10 @@
     },
     {
      "project": "kp",
+     "classification": "out-of-domain"
+    },
+    {
+     "project": "personas-web",
      "classification": "out-of-domain"
     },
     {
@@ -26805,6 +29026,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -26847,6 +29072,10 @@
     },
     {
      "project": "kp",
+     "classification": "out-of-domain"
+    },
+    {
+     "project": "personas-web",
      "classification": "out-of-domain"
     },
     {
@@ -26895,6 +29124,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -26937,6 +29170,10 @@
     },
     {
      "project": "kp",
+     "classification": "out-of-domain"
+    },
+    {
+     "project": "personas-web",
      "classification": "out-of-domain"
     },
     {
@@ -26985,6 +29222,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -27027,6 +29268,10 @@
     },
     {
      "project": "kp",
+     "classification": "out-of-domain"
+    },
+    {
+     "project": "personas-web",
      "classification": "out-of-domain"
     },
     {
@@ -27075,6 +29320,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -27117,6 +29366,10 @@
     },
     {
      "project": "kp",
+     "classification": "out-of-domain"
+    },
+    {
+     "project": "personas-web",
      "classification": "out-of-domain"
     },
     {
@@ -27165,6 +29418,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -27207,6 +29464,10 @@
     },
     {
      "project": "kp",
+     "classification": "out-of-domain"
+    },
+    {
+     "project": "personas-web",
      "classification": "out-of-domain"
     },
     {
@@ -27255,6 +29516,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -27300,6 +29565,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -27342,6 +29611,10 @@
     },
     {
      "project": "kp",
+     "classification": "out-of-domain"
+    },
+    {
+     "project": "personas-web",
      "classification": "out-of-domain"
     },
     {
@@ -27394,6 +29667,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -27440,6 +29717,10 @@
     },
     {
      "project": "kp",
+     "classification": "out-of-domain"
+    },
+    {
+     "project": "personas-web",
      "classification": "out-of-domain"
     },
     {
@@ -27492,6 +29773,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -27538,6 +29823,10 @@
     },
     {
      "project": "kp",
+     "classification": "out-of-domain"
+    },
+    {
+     "project": "personas-web",
      "classification": "out-of-domain"
     },
     {
@@ -27590,6 +29879,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -27636,6 +29929,10 @@
     },
     {
      "project": "kp",
+     "classification": "out-of-domain"
+    },
+    {
+     "project": "personas-web",
      "classification": "out-of-domain"
     },
     {
@@ -27688,6 +29985,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -27737,6 +30038,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -27779,6 +30084,10 @@
     },
     {
      "project": "kp",
+     "classification": "out-of-domain"
+    },
+    {
+     "project": "personas-web",
      "classification": "out-of-domain"
     },
     {
@@ -27831,6 +30140,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -27877,6 +30190,10 @@
     },
     {
      "project": "kp",
+     "classification": "out-of-domain"
+    },
+    {
+     "project": "personas-web",
      "classification": "out-of-domain"
     },
     {
@@ -27929,6 +30246,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -27975,6 +30296,10 @@
     },
     {
      "project": "kp",
+     "classification": "out-of-domain"
+    },
+    {
+     "project": "personas-web",
      "classification": "out-of-domain"
     },
     {
@@ -28027,6 +30352,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -28076,6 +30405,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -28122,6 +30455,10 @@
     },
     {
      "project": "kp",
+     "classification": "out-of-domain"
+    },
+    {
+     "project": "personas-web",
      "classification": "out-of-domain"
     },
     {
@@ -28177,6 +30514,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -28229,6 +30570,10 @@
     },
     {
      "project": "kp",
+     "classification": "out-of-domain"
+    },
+    {
+     "project": "personas-web",
      "classification": "out-of-domain"
     },
     {
@@ -28288,6 +30633,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -28334,6 +30683,10 @@
     },
     {
      "project": "kp",
+     "classification": "out-of-domain"
+    },
+    {
+     "project": "personas-web",
      "classification": "out-of-domain"
     },
     {
@@ -28398,6 +30751,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -28444,6 +30801,10 @@
     },
     {
      "project": "kp",
+     "classification": "out-of-domain"
+    },
+    {
+     "project": "personas-web",
      "classification": "out-of-domain"
     },
     {
@@ -28499,6 +30860,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -28545,6 +30910,10 @@
     },
     {
      "project": "kp",
+     "classification": "out-of-domain"
+    },
+    {
+     "project": "personas-web",
      "classification": "out-of-domain"
     },
     {
@@ -28607,6 +30976,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -28665,6 +31038,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -28714,6 +31091,10 @@
     },
     {
      "project": "kp",
+     "classification": "out-of-domain"
+    },
+    {
+     "project": "personas-web",
      "classification": "out-of-domain"
     },
     {
@@ -28769,6 +31150,10 @@
     },
     {
      "project": "kp",
+     "classification": "out-of-domain"
+    },
+    {
+     "project": "personas-web",
      "classification": "out-of-domain"
     },
     {
@@ -28831,6 +31216,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -28877,6 +31266,10 @@
     },
     {
      "project": "kp",
+     "classification": "out-of-domain"
+    },
+    {
+     "project": "personas-web",
      "classification": "out-of-domain"
     },
     {
@@ -28935,6 +31328,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -28984,6 +31381,10 @@
     },
     {
      "project": "kp",
+     "classification": "out-of-domain"
+    },
+    {
+     "project": "personas-web",
      "classification": "out-of-domain"
     },
     {
@@ -29039,6 +31440,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -29082,6 +31487,10 @@
     {
      "project": "kp",
      "classification": "candidate"
+    },
+    {
+     "project": "personas-web",
+     "classification": "out-of-domain"
     },
     {
      "project": "ascent",
@@ -29129,6 +31538,10 @@
      "classification": "candidate"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -29172,6 +31585,10 @@
     {
      "project": "kp",
      "classification": "candidate"
+    },
+    {
+     "project": "personas-web",
+     "classification": "out-of-domain"
     },
     {
      "project": "ascent",
@@ -29219,6 +31636,10 @@
      "classification": "candidate"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -29262,6 +31683,10 @@
     {
      "project": "kp",
      "classification": "candidate"
+    },
+    {
+     "project": "personas-web",
+     "classification": "out-of-domain"
     },
     {
      "project": "ascent",
@@ -29309,6 +31734,10 @@
      "classification": "candidate"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -29352,6 +31781,10 @@
     {
      "project": "kp",
      "classification": "candidate"
+    },
+    {
+     "project": "personas-web",
+     "classification": "out-of-domain"
     },
     {
      "project": "ascent",
@@ -29399,6 +31832,10 @@
      "classification": "candidate"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -29444,6 +31881,10 @@
      "classification": "candidate"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -29487,6 +31928,10 @@
     {
      "project": "kp",
      "classification": "candidate"
+    },
+    {
+     "project": "personas-web",
+     "classification": "out-of-domain"
     },
     {
      "project": "ascent",
@@ -29538,6 +31983,10 @@
      "classification": "candidate"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -29581,6 +32030,10 @@
     {
      "project": "kp",
      "classification": "candidate"
+    },
+    {
+     "project": "personas-web",
+     "classification": "out-of-domain"
     },
     {
      "project": "ascent",
@@ -29635,6 +32088,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -29680,6 +32137,10 @@
      "classification": "candidate"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -29723,6 +32184,10 @@
     {
      "project": "kp",
      "classification": "candidate"
+    },
+    {
+     "project": "personas-web",
+     "classification": "out-of-domain"
     },
     {
      "project": "ascent",
@@ -29774,6 +32239,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -29820,6 +32289,10 @@
     },
     {
      "project": "kp",
+     "classification": "out-of-domain"
+    },
+    {
+     "project": "personas-web",
      "classification": "out-of-domain"
     },
     {
@@ -29873,6 +32346,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -29915,6 +32392,10 @@
     },
     {
      "project": "kp",
+     "classification": "out-of-domain"
+    },
+    {
+     "project": "personas-web",
      "classification": "out-of-domain"
     },
     {
@@ -29971,6 +32452,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -30020,6 +32505,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -30066,6 +32555,10 @@
     },
     {
      "project": "kp",
+     "classification": "out-of-domain"
+    },
+    {
+     "project": "personas-web",
      "classification": "out-of-domain"
     },
     {
@@ -30121,6 +32614,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -30167,6 +32664,10 @@
     },
     {
      "project": "kp",
+     "classification": "out-of-domain"
+    },
+    {
+     "project": "personas-web",
      "classification": "out-of-domain"
     },
     {
@@ -30223,6 +32724,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -30272,6 +32777,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -30317,6 +32826,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -30359,6 +32872,10 @@
     },
     {
      "project": "kp",
+     "classification": "out-of-domain"
+    },
+    {
+     "project": "personas-web",
      "classification": "out-of-domain"
     },
     {
@@ -30408,6 +32925,10 @@
     },
     {
      "project": "kp",
+     "classification": "out-of-domain"
+    },
+    {
+     "project": "personas-web",
      "classification": "out-of-domain"
     },
     {
@@ -30463,6 +32984,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -30512,6 +33037,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -30554,6 +33083,10 @@
     },
     {
      "project": "kp",
+     "classification": "out-of-domain"
+    },
+    {
+     "project": "personas-web",
      "classification": "out-of-domain"
     },
     {
@@ -30603,6 +33136,10 @@
     },
     {
      "project": "kp",
+     "classification": "out-of-domain"
+    },
+    {
+     "project": "personas-web",
      "classification": "out-of-domain"
     },
     {
@@ -30660,6 +33197,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -30712,6 +33253,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -30758,6 +33303,10 @@
     },
     {
      "project": "personas",
+     "classification": "out-of-domain"
+    },
+    {
+     "project": "personas-web",
      "classification": "out-of-domain"
     },
     {
@@ -30810,6 +33359,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -30853,6 +33406,10 @@
     {
      "project": "kp",
      "classification": "candidate"
+    },
+    {
+     "project": "personas-web",
+     "classification": "out-of-domain"
     },
     {
      "project": "ascent",
@@ -30901,6 +33458,10 @@
     },
     {
      "project": "personas",
+     "classification": "out-of-domain"
+    },
+    {
+     "project": "personas-web",
      "classification": "out-of-domain"
     },
     {
@@ -30953,6 +33514,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -31002,6 +33567,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -31045,6 +33614,10 @@
     {
      "project": "kp",
      "classification": "candidate"
+    },
+    {
+     "project": "personas-web",
+     "classification": "out-of-domain"
     },
     {
      "project": "ascent",
@@ -31097,6 +33670,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -31143,6 +33720,10 @@
     },
     {
      "project": "personas",
+     "classification": "out-of-domain"
+    },
+    {
+     "project": "personas-web",
      "classification": "out-of-domain"
     },
     {
@@ -31195,6 +33776,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -31241,6 +33826,10 @@
     },
     {
      "project": "personas",
+     "classification": "out-of-domain"
+    },
+    {
+     "project": "personas-web",
      "classification": "out-of-domain"
     },
     {
@@ -31293,6 +33882,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -31339,6 +33932,10 @@
     },
     {
      "project": "personas",
+     "classification": "out-of-domain"
+    },
+    {
+     "project": "personas-web",
      "classification": "out-of-domain"
     },
     {
@@ -31391,6 +33988,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -31437,6 +34038,10 @@
     },
     {
      "project": "personas",
+     "classification": "out-of-domain"
+    },
+    {
+     "project": "personas-web",
      "classification": "out-of-domain"
     },
     {
@@ -31489,6 +34094,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -31535,6 +34144,10 @@
     },
     {
      "project": "personas",
+     "classification": "out-of-domain"
+    },
+    {
+     "project": "personas-web",
      "classification": "out-of-domain"
     },
     {
@@ -31588,6 +34201,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -31634,6 +34251,10 @@
     },
     {
      "project": "personas",
+     "classification": "out-of-domain"
+    },
+    {
+     "project": "personas-web",
      "classification": "out-of-domain"
     },
     {
@@ -31686,6 +34307,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -31731,6 +34356,10 @@
      "classification": "candidate"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -31774,6 +34403,10 @@
     {
      "project": "kp",
      "classification": "candidate"
+    },
+    {
+     "project": "personas-web",
+     "classification": "out-of-domain"
     },
     {
      "project": "ascent",
@@ -31822,6 +34455,10 @@
     },
     {
      "project": "personas",
+     "classification": "out-of-domain"
+    },
+    {
+     "project": "personas-web",
      "classification": "out-of-domain"
     },
     {
@@ -31874,6 +34511,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -31920,6 +34561,10 @@
     },
     {
      "project": "personas",
+     "classification": "out-of-domain"
+    },
+    {
+     "project": "personas-web",
      "classification": "out-of-domain"
     },
     {
@@ -31972,6 +34617,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -32018,6 +34667,10 @@
     },
     {
      "project": "personas",
+     "classification": "out-of-domain"
+    },
+    {
+     "project": "personas-web",
      "classification": "out-of-domain"
     },
     {
@@ -32070,6 +34723,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -32119,6 +34776,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -32162,6 +34823,10 @@
     {
      "project": "kp",
      "classification": "candidate"
+    },
+    {
+     "project": "personas-web",
+     "classification": "out-of-domain"
     },
     {
      "project": "ascent",
@@ -32210,6 +34875,10 @@
     },
     {
      "project": "personas",
+     "classification": "out-of-domain"
+    },
+    {
+     "project": "personas-web",
      "classification": "out-of-domain"
     },
     {
@@ -32262,6 +34931,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -32305,6 +34978,10 @@
     {
      "project": "kp",
      "classification": "candidate"
+    },
+    {
+     "project": "personas-web",
+     "classification": "out-of-domain"
     },
     {
      "project": "ascent",
@@ -32353,6 +35030,10 @@
     },
     {
      "project": "personas",
+     "classification": "out-of-domain"
+    },
+    {
+     "project": "personas-web",
      "classification": "out-of-domain"
     },
     {
@@ -32405,6 +35086,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -32454,6 +35139,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -32497,6 +35186,10 @@
     {
      "project": "kp",
      "classification": "candidate"
+    },
+    {
+     "project": "personas-web",
+     "classification": "out-of-domain"
     },
     {
      "project": "ascent",
@@ -32545,6 +35238,10 @@
     },
     {
      "project": "personas",
+     "classification": "out-of-domain"
+    },
+    {
+     "project": "personas-web",
      "classification": "out-of-domain"
     },
     {
@@ -32597,6 +35294,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -32640,6 +35341,10 @@
     {
      "project": "kp",
      "classification": "candidate"
+    },
+    {
+     "project": "personas-web",
+     "classification": "out-of-domain"
     },
     {
      "project": "ascent",
@@ -32688,6 +35393,10 @@
     },
     {
      "project": "personas",
+     "classification": "out-of-domain"
+    },
+    {
+     "project": "personas-web",
      "classification": "out-of-domain"
     },
     {
@@ -32740,6 +35449,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -32783,6 +35496,10 @@
     {
      "project": "kp",
      "classification": "candidate"
+    },
+    {
+     "project": "personas-web",
+     "classification": "out-of-domain"
     },
     {
      "project": "ascent",
@@ -32834,6 +35551,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -32877,6 +35598,10 @@
     {
      "project": "kp",
      "classification": "candidate"
+    },
+    {
+     "project": "personas-web",
+     "classification": "out-of-domain"
     },
     {
      "project": "ascent",
@@ -32925,6 +35650,10 @@
     },
     {
      "project": "personas",
+     "classification": "out-of-domain"
+    },
+    {
+     "project": "personas-web",
      "classification": "out-of-domain"
     },
     {
@@ -32977,6 +35706,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -33023,6 +35756,10 @@
     },
     {
      "project": "personas",
+     "classification": "out-of-domain"
+    },
+    {
+     "project": "personas-web",
      "classification": "out-of-domain"
     },
     {
@@ -33075,6 +35812,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -33118,6 +35859,10 @@
     {
      "project": "kp",
      "classification": "candidate"
+    },
+    {
+     "project": "personas-web",
+     "classification": "out-of-domain"
     },
     {
      "project": "ascent",
@@ -33169,6 +35914,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -33212,6 +35961,10 @@
     {
      "project": "kp",
      "classification": "candidate"
+    },
+    {
+     "project": "personas-web",
+     "classification": "out-of-domain"
     },
     {
      "project": "ascent",
@@ -33263,6 +36016,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -33306,6 +36063,10 @@
     {
      "project": "kp",
      "classification": "candidate"
+    },
+    {
+     "project": "personas-web",
+     "classification": "out-of-domain"
     },
     {
      "project": "ascent",
@@ -33354,6 +36115,10 @@
     },
     {
      "project": "personas",
+     "classification": "out-of-domain"
+    },
+    {
+     "project": "personas-web",
      "classification": "out-of-domain"
     },
     {
@@ -33406,6 +36171,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -33452,6 +36221,10 @@
     },
     {
      "project": "personas",
+     "classification": "out-of-domain"
+    },
+    {
+     "project": "personas-web",
      "classification": "out-of-domain"
     },
     {
@@ -33504,6 +36277,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -33550,6 +36327,10 @@
     },
     {
      "project": "personas",
+     "classification": "out-of-domain"
+    },
+    {
+     "project": "personas-web",
      "classification": "out-of-domain"
     },
     {
@@ -33603,6 +36384,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -33649,6 +36434,10 @@
     },
     {
      "project": "personas",
+     "classification": "out-of-domain"
+    },
+    {
+     "project": "personas-web",
      "classification": "out-of-domain"
     },
     {
@@ -33701,6 +36490,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -33750,6 +36543,10 @@
      "classification": "out-of-domain"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-domain"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-domain"
     }
@@ -33796,6 +36593,10 @@
     },
     {
      "project": "personas",
+     "classification": "out-of-domain"
+    },
+    {
+     "project": "personas-web",
      "classification": "out-of-domain"
     },
     {
@@ -33864,6 +36665,10 @@
     {
      "project": "grant",
      "classification": "candidate"
+    },
+    {
+     "project": "personas-web",
+     "classification": "candidate"
     }
    ]
   },
@@ -33905,6 +36710,10 @@
     {
      "project": "kp",
      "classification": "candidate"
+    },
+    {
+     "project": "personas-web",
+     "classification": "out-of-scope"
     },
     {
      "project": "ascent",
@@ -33956,6 +36765,10 @@
      "classification": "candidate"
     },
     {
+     "project": "personas-web",
+     "classification": "candidate"
+    },
+    {
      "project": "ascent",
      "classification": "candidate"
     }
@@ -33983,6 +36796,13 @@
     },
     {
      "project": "pumper",
+     "contexts": 1,
+     "states": {
+      "unknown": 1
+     }
+    },
+    {
+     "project": "personas-web",
      "contexts": 1,
      "states": {
       "unknown": 1
@@ -34031,6 +36851,13 @@
      "states": {
       "unknown": 3,
       "not-applicable": 2
+     }
+    },
+    {
+     "project": "personas-web",
+     "contexts": 1,
+     "states": {
+      "unknown": 1
      }
     },
     {
@@ -34121,6 +36948,10 @@
     {
      "project": "personas",
      "classification": "candidate"
+    },
+    {
+     "project": "personas-web",
+     "classification": "out-of-scope"
     }
    ]
   },
@@ -34156,6 +36987,13 @@
      "contexts": 6,
      "states": {
       "unknown": 6
+     }
+    },
+    {
+     "project": "personas-web",
+     "contexts": 1,
+     "states": {
+      "unknown": 1
      }
     }
    ],
@@ -34212,6 +37050,13 @@
     },
     {
      "project": "kp",
+     "contexts": 1,
+     "states": {
+      "unknown": 1
+     }
+    },
+    {
+     "project": "personas-web",
      "contexts": 1,
      "states": {
       "unknown": 1
@@ -34290,6 +37135,13 @@
       "unknown": 1,
       "conformant": 4,
       "not-applicable": 10
+     }
+    },
+    {
+     "project": "personas-web",
+     "contexts": 1,
+     "states": {
+      "unknown": 1
      }
     },
     {
@@ -34374,6 +37226,13 @@
      }
     },
     {
+     "project": "personas-web",
+     "contexts": 7,
+     "states": {
+      "unknown": 7
+     }
+    },
+    {
      "project": "ascent",
      "contexts": 9,
      "states": {
@@ -34444,6 +37303,13 @@
      "contexts": 13,
      "states": {
       "unknown": 13
+     }
+    },
+    {
+     "project": "personas-web",
+     "contexts": 4,
+     "states": {
+      "unknown": 4
      }
     },
     {
@@ -34521,6 +37387,13 @@
      }
     },
     {
+     "project": "personas-web",
+     "contexts": 6,
+     "states": {
+      "unknown": 6
+     }
+    },
+    {
      "project": "ascent",
      "contexts": 4,
      "states": {
@@ -34579,6 +37452,10 @@
     {
      "project": "kp",
      "classification": "candidate"
+    },
+    {
+     "project": "personas-web",
+     "classification": "out-of-scope"
     }
    ]
   },
@@ -34637,6 +37514,10 @@
     {
      "project": "politicas",
      "classification": "out-of-scope"
+    },
+    {
+     "project": "personas-web",
+     "classification": "out-of-scope"
     }
    ]
   },
@@ -34681,6 +37562,13 @@
      "states": {
       "unknown": 7,
       "deviation": 2
+     }
+    },
+    {
+     "project": "personas-web",
+     "contexts": 5,
+     "states": {
+      "unknown": 5
      }
     },
     {
@@ -34732,6 +37620,13 @@
      "states": {
       "unknown": 2,
       "deviation": 1
+     }
+    },
+    {
+     "project": "personas-web",
+     "contexts": 2,
+     "states": {
+      "unknown": 2
      }
     }
    ],
@@ -34817,6 +37712,10 @@
     {
      "project": "grant",
      "classification": "candidate"
+    },
+    {
+     "project": "personas-web",
+     "classification": "out-of-scope"
     }
    ]
   },
@@ -34825,7 +37724,15 @@
    "category": "ui-surfaces",
    "subcategory": "published-surfaces",
    "techniques": 5,
-   "present": [],
+   "present": [
+    {
+     "project": "personas-web",
+     "contexts": 1,
+     "states": {
+      "deviation": 1
+     }
+    }
+   ],
    "absent": [
     {
      "project": "gravity",
@@ -34917,6 +37824,10 @@
     {
      "project": "kp",
      "classification": "candidate"
+    },
+    {
+     "project": "personas-web",
+     "classification": "candidate"
     }
    ]
   },
@@ -34952,6 +37863,13 @@
      "contexts": 3,
      "states": {
       "unknown": 3
+     }
+    },
+    {
+     "project": "personas-web",
+     "contexts": 1,
+     "states": {
+      "unknown": 1
      }
     }
    ],
@@ -35018,6 +37936,10 @@
      "classification": "candidate"
     },
     {
+     "project": "personas-web",
+     "classification": "candidate"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-scope"
     }
@@ -35070,6 +37992,10 @@
      "classification": "candidate"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-scope"
+    },
+    {
      "project": "ascent",
      "classification": "candidate"
     }
@@ -35100,6 +38026,13 @@
      "contexts": 3,
      "states": {
       "unknown": 3
+     }
+    },
+    {
+     "project": "personas-web",
+     "contexts": 5,
+     "states": {
+      "unknown": 5
      }
     },
     {
@@ -35185,6 +38118,10 @@
     {
      "project": "personas",
      "classification": "candidate"
+    },
+    {
+     "project": "personas-web",
+     "classification": "candidate"
     }
    ]
   },
@@ -35242,6 +38179,10 @@
      "classification": "candidate"
     },
     {
+     "project": "personas-web",
+     "classification": "candidate"
+    },
+    {
      "project": "ascent",
      "classification": "candidate"
     }
@@ -35276,6 +38217,13 @@
     },
     {
      "project": "kp",
+     "contexts": 4,
+     "states": {
+      "unknown": 4
+     }
+    },
+    {
+     "project": "personas-web",
      "contexts": 4,
      "states": {
       "unknown": 4
@@ -35352,6 +38300,10 @@
      "classification": "candidate"
     },
     {
+     "project": "personas-web",
+     "classification": "candidate"
+    },
+    {
      "project": "ascent",
      "classification": "candidate"
     }
@@ -35409,6 +38361,10 @@
     {
      "project": "kp",
      "classification": "candidate"
+    },
+    {
+     "project": "personas-web",
+     "classification": "out-of-scope"
     }
    ]
   },
@@ -35444,6 +38400,13 @@
      "contexts": 3,
      "states": {
       "unknown": 3
+     }
+    },
+    {
+     "project": "personas-web",
+     "contexts": 1,
+     "states": {
+      "unknown": 1
      }
     },
     {
@@ -35523,6 +38486,16 @@
      }
     },
     {
+     "project": "personas-web",
+     "contexts": 4,
+     "states": {
+      "not-applicable": 1,
+      "unknown": 1,
+      "deviation": 1,
+      "conformant": 1
+     }
+    },
+    {
      "project": "ascent",
      "contexts": 1,
      "states": {
@@ -35599,6 +38572,10 @@
     {
      "project": "politicas",
      "classification": "candidate"
+    },
+    {
+     "project": "personas-web",
+     "classification": "candidate"
     }
    ]
   },
@@ -35649,6 +38626,10 @@
      "classification": "candidate"
     },
     {
+     "project": "personas-web",
+     "classification": "candidate"
+    },
+    {
      "project": "ascent",
      "classification": "candidate"
     }
@@ -35682,6 +38663,13 @@
      "contexts": 3,
      "states": {
       "unknown": 3
+     }
+    },
+    {
+     "project": "personas-web",
+     "contexts": 2,
+     "states": {
+      "unknown": 2
      }
     }
    ],
@@ -35765,6 +38753,10 @@
     {
      "project": "politicas",
      "classification": "out-of-scope"
+    },
+    {
+     "project": "personas-web",
+     "classification": "out-of-scope"
     }
    ]
   },
@@ -35814,6 +38806,13 @@
      "contexts": 3,
      "states": {
       "unknown": 3
+     }
+    },
+    {
+     "project": "personas-web",
+     "contexts": 4,
+     "states": {
+      "unknown": 4
      }
     },
     {
@@ -35884,6 +38883,10 @@
     {
      "project": "kp",
      "classification": "candidate"
+    },
+    {
+     "project": "personas-web",
+     "classification": "candidate"
     }
    ]
   },
@@ -35927,6 +38930,10 @@
      "classification": "out-of-scope"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-scope"
+    },
+    {
      "project": "ascent",
      "classification": "candidate"
     }
@@ -35952,6 +38959,13 @@
       "unknown": 1,
       "conformant": 1,
       "deviation": 3
+     }
+    },
+    {
+     "project": "personas-web",
+     "contexts": 2,
+     "states": {
+      "unknown": 2
      }
     },
     {
@@ -36029,6 +39043,10 @@
      "classification": "candidate"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-scope"
+    },
+    {
      "project": "ascent",
      "classification": "candidate"
     }
@@ -36072,6 +39090,10 @@
     {
      "project": "kp",
      "classification": "candidate"
+    },
+    {
+     "project": "personas-web",
+     "classification": "out-of-scope"
     },
     {
      "project": "ascent",
@@ -36123,6 +39145,10 @@
      "classification": "candidate"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-scope"
+    },
+    {
      "project": "ascent",
      "classification": "candidate"
     }
@@ -36153,6 +39179,13 @@
     },
     {
      "project": "kp",
+     "contexts": 1,
+     "states": {
+      "unknown": 1
+     }
+    },
+    {
+     "project": "personas-web",
      "contexts": 1,
      "states": {
       "unknown": 1
@@ -36194,7 +39227,15 @@
    "category": "backend-platform",
    "subcategory": "process-graph-runtime",
    "techniques": 6,
-   "present": [],
+   "present": [
+    {
+     "project": "personas-web",
+     "contexts": 1,
+     "states": {
+      "unknown": 1
+     }
+    }
+   ],
    "absent": [
     {
      "project": "gravity",
@@ -36262,6 +39303,13 @@
      }
     },
     {
+     "project": "personas-web",
+     "contexts": 1,
+     "states": {
+      "not-applicable": 1
+     }
+    },
+    {
      "project": "ascent",
      "contexts": 3,
      "states": {
@@ -36320,6 +39368,13 @@
      "contexts": 3,
      "states": {
       "unknown": 3
+     }
+    },
+    {
+     "project": "personas-web",
+     "contexts": 1,
+     "states": {
+      "unknown": 1
      }
     },
     {
@@ -36399,6 +39454,10 @@
      "classification": "candidate"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-scope"
+    },
+    {
      "project": "ascent",
      "classification": "candidate"
     }
@@ -36455,6 +39514,13 @@
     },
     {
      "project": "kp",
+     "contexts": 3,
+     "states": {
+      "unknown": 3
+     }
+    },
+    {
+     "project": "personas-web",
      "contexts": 3,
      "states": {
       "unknown": 3
@@ -36519,6 +39585,10 @@
      "classification": "candidate"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-scope"
+    },
+    {
      "project": "ascent",
      "classification": "candidate"
     }
@@ -36570,6 +39640,10 @@
     {
      "project": "kp",
      "classification": "candidate"
+    },
+    {
+     "project": "personas-web",
+     "classification": "out-of-scope"
     }
    ]
   },
@@ -36603,6 +39677,13 @@
     },
     {
      "project": "kp",
+     "contexts": 1,
+     "states": {
+      "unknown": 1
+     }
+    },
+    {
+     "project": "personas-web",
      "contexts": 1,
      "states": {
       "unknown": 1
@@ -36675,6 +39756,10 @@
      "classification": "candidate"
     },
     {
+     "project": "personas-web",
+     "classification": "candidate"
+    },
+    {
      "project": "ascent",
      "classification": "candidate"
     }
@@ -36724,6 +39809,10 @@
      "classification": "candidate"
     },
     {
+     "project": "personas-web",
+     "classification": "candidate"
+    },
+    {
      "project": "ascent",
      "classification": "candidate"
     }
@@ -36769,6 +39858,13 @@
      "states": {
       "unknown": 2
      }
+    },
+    {
+     "project": "personas-web",
+     "contexts": 1,
+     "states": {
+      "unknown": 1
+     }
     }
    ],
    "absent": [
@@ -36796,6 +39892,13 @@
    "subcategory": "control-plane-operations",
    "techniques": 4,
    "present": [
+    {
+     "project": "personas-web",
+     "contexts": 1,
+     "states": {
+      "unknown": 1
+     }
+    },
     {
      "project": "ascent",
      "contexts": 1,
@@ -36883,6 +39986,10 @@
      "classification": "candidate"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-scope"
+    },
+    {
      "project": "ascent",
      "classification": "candidate"
     }
@@ -36926,6 +40033,10 @@
     {
      "project": "kp",
      "classification": "candidate"
+    },
+    {
+     "project": "personas-web",
+     "classification": "out-of-scope"
     },
     {
      "project": "ascent",
@@ -36988,6 +40099,10 @@
     {
      "project": "personas",
      "classification": "out-of-scope"
+    },
+    {
+     "project": "personas-web",
+     "classification": "out-of-scope"
     }
    ]
   },
@@ -37009,6 +40124,13 @@
      "contexts": 1,
      "states": {
       "unknown": 1
+     }
+    },
+    {
+     "project": "personas-web",
+     "contexts": 1,
+     "states": {
+      "deviation": 1
      }
     },
     {
@@ -37061,6 +40183,13 @@
     },
     {
      "project": "kp",
+     "contexts": 2,
+     "states": {
+      "unknown": 2
+     }
+    },
+    {
+     "project": "personas-web",
      "contexts": 2,
      "states": {
       "unknown": 2
@@ -37148,6 +40277,10 @@
      "classification": "candidate"
     },
     {
+     "project": "personas-web",
+     "classification": "candidate"
+    },
+    {
      "project": "ascent",
      "classification": "candidate"
     }
@@ -37176,6 +40309,13 @@
     },
     {
      "project": "kp",
+     "contexts": 1,
+     "states": {
+      "unknown": 1
+     }
+    },
+    {
+     "project": "personas-web",
      "contexts": 1,
      "states": {
       "unknown": 1
@@ -37258,6 +40398,13 @@
      "states": {
       "unknown": 2
      }
+    },
+    {
+     "project": "personas-web",
+     "contexts": 1,
+     "states": {
+      "unknown": 1
+     }
     }
    ],
    "absent": [
@@ -37324,6 +40471,10 @@
     {
      "project": "kp",
      "classification": "candidate"
+    },
+    {
+     "project": "personas-web",
+     "classification": "out-of-scope"
     }
    ]
   },
@@ -37364,6 +40515,10 @@
     },
     {
      "project": "kp",
+     "classification": "candidate"
+    },
+    {
+     "project": "personas-web",
      "classification": "candidate"
     },
     {
@@ -37420,6 +40575,10 @@
      "classification": "candidate"
     },
     {
+     "project": "personas-web",
+     "classification": "candidate"
+    },
+    {
      "project": "ascent",
      "classification": "candidate"
     }
@@ -37457,6 +40616,13 @@
      "contexts": 1,
      "states": {
       "unknown": 1
+     }
+    },
+    {
+     "project": "personas-web",
+     "contexts": 4,
+     "states": {
+      "unknown": 4
      }
     }
    ],
@@ -37541,6 +40707,13 @@
      }
     },
     {
+     "project": "personas-web",
+     "contexts": 7,
+     "states": {
+      "unknown": 7
+     }
+    },
+    {
      "project": "ascent",
      "contexts": 7,
      "states": {
@@ -37602,6 +40775,10 @@
      "classification": "candidate"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-scope"
+    },
+    {
      "project": "ascent",
      "classification": "candidate"
     }
@@ -37653,6 +40830,10 @@
     },
     {
      "project": "politicas",
+     "classification": "candidate"
+    },
+    {
+     "project": "personas-web",
      "classification": "candidate"
     },
     {
@@ -37711,6 +40892,10 @@
      "classification": "candidate"
     },
     {
+     "project": "personas-web",
+     "classification": "candidate"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-scope"
     }
@@ -37753,6 +40938,10 @@
     },
     {
      "project": "kp",
+     "classification": "out-of-scope"
+    },
+    {
+     "project": "personas-web",
      "classification": "out-of-scope"
     },
     {
@@ -37811,6 +41000,10 @@
      "classification": "candidate"
     },
     {
+     "project": "personas-web",
+     "classification": "candidate"
+    },
+    {
      "project": "ascent",
      "classification": "candidate"
     }
@@ -37824,6 +41017,13 @@
    "present": [
     {
      "project": "kp",
+     "contexts": 1,
+     "states": {
+      "unknown": 1
+     }
+    },
+    {
+     "project": "personas-web",
      "contexts": 1,
      "states": {
       "unknown": 1
@@ -37932,6 +41132,10 @@
     {
      "project": "gravity",
      "classification": "candidate"
+    },
+    {
+     "project": "personas-web",
+     "classification": "out-of-scope"
     }
    ]
   },
@@ -37968,6 +41172,13 @@
      "contexts": 4,
      "states": {
       "unknown": 4
+     }
+    },
+    {
+     "project": "personas-web",
+     "contexts": 1,
+     "states": {
+      "unknown": 1
      }
     },
     {
@@ -38037,6 +41248,10 @@
      "classification": "candidate"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-scope"
+    },
+    {
      "project": "ascent",
      "classification": "candidate"
     }
@@ -38080,6 +41295,10 @@
     {
      "project": "kp",
      "classification": "candidate"
+    },
+    {
+     "project": "personas-web",
+     "classification": "out-of-scope"
     },
     {
      "project": "ascent",
@@ -38145,6 +41364,10 @@
     {
      "project": "politicas",
      "classification": "candidate"
+    },
+    {
+     "project": "personas-web",
+     "classification": "out-of-scope"
     }
    ]
   },
@@ -38190,6 +41413,10 @@
     {
      "project": "kp",
      "classification": "candidate"
+    },
+    {
+     "project": "personas-web",
+     "classification": "out-of-scope"
     },
     {
      "project": "ascent",
@@ -38239,6 +41466,10 @@
     {
      "project": "kp",
      "classification": "candidate"
+    },
+    {
+     "project": "personas-web",
+     "classification": "out-of-scope"
     },
     {
      "project": "ascent",
@@ -38299,6 +41530,10 @@
     {
      "project": "kp",
      "classification": "candidate"
+    },
+    {
+     "project": "personas-web",
+     "classification": "out-of-scope"
     }
    ]
   },
@@ -38362,6 +41597,13 @@
      }
     },
     {
+     "project": "personas-web",
+     "contexts": 6,
+     "states": {
+      "unknown": 6
+     }
+    },
+    {
      "project": "ascent",
      "contexts": 10,
      "states": {
@@ -38417,6 +41659,10 @@
      "classification": "candidate"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-scope"
+    },
+    {
      "project": "ascent",
      "classification": "candidate"
     }
@@ -38468,6 +41714,10 @@
     {
      "project": "kp",
      "classification": "out-of-scope"
+    },
+    {
+     "project": "personas-web",
+     "classification": "out-of-scope"
     }
    ]
   },
@@ -38479,6 +41729,13 @@
    "present": [
     {
      "project": "pumper",
+     "contexts": 1,
+     "states": {
+      "unknown": 1
+     }
+    },
+    {
+     "project": "personas-web",
      "contexts": 1,
      "states": {
       "unknown": 1
@@ -38564,6 +41821,10 @@
      "classification": "candidate"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-scope"
+    },
+    {
      "project": "ascent",
      "classification": "candidate"
     }
@@ -38613,6 +41874,10 @@
      "classification": "candidate"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-scope"
+    },
+    {
      "project": "ascent",
      "classification": "candidate"
     }
@@ -38640,6 +41905,13 @@
     },
     {
      "project": "personas",
+     "contexts": 1,
+     "states": {
+      "unknown": 1
+     }
+    },
+    {
+     "project": "personas-web",
      "contexts": 1,
      "states": {
       "unknown": 1
@@ -38723,6 +41995,10 @@
      "classification": "candidate"
     },
     {
+     "project": "personas-web",
+     "classification": "candidate"
+    },
+    {
      "project": "ascent",
      "classification": "candidate"
     }
@@ -38794,6 +42070,14 @@
      }
     },
     {
+     "project": "personas-web",
+     "contexts": 3,
+     "states": {
+      "unknown": 2,
+      "not-applicable": 1
+     }
+    },
+    {
      "project": "ascent",
      "contexts": 8,
      "states": {
@@ -38814,6 +42098,13 @@
      "contexts": 2,
      "states": {
       "deviation": 1,
+      "unknown": 1
+     }
+    },
+    {
+     "project": "personas-web",
+     "contexts": 1,
+     "states": {
       "unknown": 1
      }
     }
@@ -38878,6 +42169,13 @@
      "contexts": 3,
      "states": {
       "unknown": 3
+     }
+    },
+    {
+     "project": "personas-web",
+     "contexts": 1,
+     "states": {
+      "unknown": 1
      }
     }
    ],
@@ -38964,6 +42262,10 @@
      "classification": "candidate"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-scope"
+    },
+    {
      "project": "ascent",
      "classification": "candidate"
     }
@@ -39013,6 +42315,10 @@
      "classification": "candidate"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-scope"
+    },
+    {
      "project": "ascent",
      "classification": "candidate"
     }
@@ -39030,6 +42336,13 @@
      "states": {
       "unknown": 1,
       "conformant": 1,
+      "deviation": 1
+     }
+    },
+    {
+     "project": "personas-web",
+     "contexts": 1,
+     "states": {
       "deviation": 1
      }
     },
@@ -39080,6 +42393,13 @@
    "present": [
     {
      "project": "politicas",
+     "contexts": 1,
+     "states": {
+      "unknown": 1
+     }
+    },
+    {
+     "project": "personas-web",
      "contexts": 1,
      "states": {
       "unknown": 1
@@ -39144,6 +42464,13 @@
     },
     {
      "project": "kp",
+     "contexts": 1,
+     "states": {
+      "unknown": 1
+     }
+    },
+    {
+     "project": "personas-web",
      "contexts": 1,
      "states": {
       "unknown": 1
@@ -39236,6 +42563,15 @@
      }
     },
     {
+     "project": "personas-web",
+     "contexts": 4,
+     "states": {
+      "unknown": 1,
+      "not-applicable": 2,
+      "deviation": 1
+     }
+    },
+    {
      "project": "ascent",
      "contexts": 4,
      "states": {
@@ -39283,6 +42619,13 @@
      "contexts": 2,
      "states": {
       "unknown": 2
+     }
+    },
+    {
+     "project": "personas-web",
+     "contexts": 1,
+     "states": {
+      "unknown": 1
      }
     },
     {
@@ -39342,6 +42685,13 @@
     },
     {
      "project": "kp",
+     "contexts": 1,
+     "states": {
+      "unknown": 1
+     }
+    },
+    {
+     "project": "personas-web",
      "contexts": 1,
      "states": {
       "unknown": 1
@@ -39416,6 +42766,10 @@
      "classification": "candidate"
     },
     {
+     "project": "personas-web",
+     "classification": "candidate"
+    },
+    {
      "project": "ascent",
      "classification": "candidate"
     }
@@ -39458,6 +42812,10 @@
     },
     {
      "project": "kp",
+     "classification": "candidate"
+    },
+    {
+     "project": "personas-web",
      "classification": "candidate"
     },
     {
@@ -39513,6 +42871,10 @@
      "classification": "candidate"
     },
     {
+     "project": "personas-web",
+     "classification": "candidate"
+    },
+    {
      "project": "ascent",
      "classification": "candidate"
     }
@@ -39550,6 +42912,13 @@
      "contexts": 4,
      "states": {
       "unknown": 4
+     }
+    },
+    {
+     "project": "personas-web",
+     "contexts": 1,
+     "states": {
+      "unknown": 1
      }
     }
    ],
@@ -39616,6 +42985,10 @@
      "classification": "candidate"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-scope"
+    },
+    {
      "project": "ascent",
      "classification": "candidate"
     }
@@ -39671,6 +43044,10 @@
      "classification": "candidate"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-scope"
+    },
+    {
      "project": "ascent",
      "classification": "candidate"
     }
@@ -39687,6 +43064,13 @@
      "contexts": 1,
      "states": {
       "unknown": 1
+     }
+    },
+    {
+     "project": "personas-web",
+     "contexts": 1,
+     "states": {
+      "not-applicable": 1
      }
     },
     {
@@ -39746,6 +43130,13 @@
      "contexts": 2,
      "states": {
       "unknown": 2
+     }
+    },
+    {
+     "project": "personas-web",
+     "contexts": 4,
+     "states": {
+      "unknown": 4
      }
     }
    ],
@@ -39827,6 +43218,10 @@
      "classification": "candidate"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-scope"
+    },
+    {
      "project": "ascent",
      "classification": "candidate"
     }
@@ -39857,6 +43252,13 @@
      "contexts": 1,
      "states": {
       "unknown": 1
+     }
+    },
+    {
+     "project": "personas-web",
+     "contexts": 4,
+     "states": {
+      "unknown": 4
      }
     }
    ],
@@ -39927,6 +43329,10 @@
      "classification": "candidate"
     },
     {
+     "project": "personas-web",
+     "classification": "candidate"
+    },
+    {
      "project": "ascent",
      "classification": "candidate"
     }
@@ -39950,6 +43356,13 @@
      "contexts": 2,
      "states": {
       "unknown": 2
+     }
+    },
+    {
+     "project": "personas-web",
+     "contexts": 3,
+     "states": {
+      "unknown": 3
      }
     },
     {
@@ -40029,6 +43442,13 @@
      "states": {
       "unknown": 5
      }
+    },
+    {
+     "project": "personas-web",
+     "contexts": 3,
+     "states": {
+      "unknown": 3
+     }
     }
    ],
    "absent": [
@@ -40087,6 +43507,10 @@
     },
     {
      "project": "kp",
+     "classification": "out-of-scope"
+    },
+    {
+     "project": "personas-web",
      "classification": "out-of-scope"
     },
     {
@@ -40160,6 +43584,13 @@
      }
     },
     {
+     "project": "personas-web",
+     "contexts": 7,
+     "states": {
+      "unknown": 7
+     }
+    },
+    {
      "project": "ascent",
      "contexts": 7,
      "states": {
@@ -40180,6 +43611,13 @@
      "contexts": 2,
      "states": {
       "unknown": 2
+     }
+    },
+    {
+     "project": "personas-web",
+     "contexts": 1,
+     "states": {
+      "unknown": 1
      }
     },
     {
@@ -40269,6 +43707,10 @@
      "classification": "candidate"
     },
     {
+     "project": "personas-web",
+     "classification": "candidate"
+    },
+    {
      "project": "ascent",
      "classification": "candidate"
     }
@@ -40329,6 +43771,10 @@
     {
      "project": "kp",
      "classification": "out-of-scope"
+    },
+    {
+     "project": "personas-web",
+     "classification": "out-of-scope"
     }
    ]
   },
@@ -40376,6 +43822,10 @@
      "classification": "candidate"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-scope"
+    },
+    {
      "project": "ascent",
      "classification": "candidate"
     }
@@ -40392,6 +43842,13 @@
      "contexts": 3,
      "states": {
       "unknown": 3
+     }
+    },
+    {
+     "project": "personas-web",
+     "contexts": 1,
+     "states": {
+      "unknown": 1
      }
     }
    ],
@@ -40492,6 +43949,10 @@
      "classification": "candidate"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-scope"
+    },
+    {
      "project": "ascent",
      "classification": "candidate"
     }
@@ -40508,6 +43969,13 @@
      "contexts": 1,
      "states": {
       "unknown": 1
+     }
+    },
+    {
+     "project": "personas-web",
+     "contexts": 3,
+     "states": {
+      "unknown": 3
      }
     },
     {
@@ -40610,6 +44078,10 @@
      "classification": "candidate"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-scope"
+    },
+    {
      "project": "ascent",
      "classification": "candidate"
     }
@@ -40652,6 +44124,10 @@
     },
     {
      "project": "kp",
+     "classification": "out-of-scope"
+    },
+    {
+     "project": "personas-web",
      "classification": "out-of-scope"
     },
     {
@@ -40724,6 +44200,13 @@
      }
     },
     {
+     "project": "personas-web",
+     "contexts": 1,
+     "states": {
+      "unknown": 1
+     }
+    },
+    {
      "project": "ascent",
      "contexts": 2,
      "states": {
@@ -40773,6 +44256,13 @@
      "contexts": 1,
      "states": {
       "unknown": 1
+     }
+    },
+    {
+     "project": "personas-web",
+     "contexts": 1,
+     "states": {
+      "conformant": 1
      }
     },
     {
@@ -40858,6 +44348,10 @@
     {
      "project": "kp",
      "classification": "candidate"
+    },
+    {
+     "project": "personas-web",
+     "classification": "candidate"
     }
    ]
   },
@@ -40921,6 +44415,13 @@
      "contexts": 10,
      "states": {
       "unknown": 10
+     }
+    },
+    {
+     "project": "personas-web",
+     "contexts": 6,
+     "states": {
+      "unknown": 6
      }
     },
     {
@@ -40988,6 +44489,10 @@
     {
      "project": "grant",
      "classification": "candidate"
+    },
+    {
+     "project": "personas-web",
+     "classification": "out-of-scope"
     }
    ]
   },
@@ -41002,6 +44507,13 @@
      "contexts": 3,
      "states": {
       "unknown": 3
+     }
+    },
+    {
+     "project": "personas-web",
+     "contexts": 1,
+     "states": {
+      "unknown": 1
      }
     }
    ],
@@ -41089,6 +44601,13 @@
      }
     },
     {
+     "project": "personas-web",
+     "contexts": 5,
+     "states": {
+      "unknown": 5
+     }
+    },
+    {
      "project": "ascent",
      "contexts": 3,
      "states": {
@@ -41146,6 +44665,13 @@
      "contexts": 2,
      "states": {
       "unknown": 2
+     }
+    },
+    {
+     "project": "personas-web",
+     "contexts": 1,
+     "states": {
+      "unknown": 1
      }
     },
     {
@@ -41218,6 +44744,10 @@
      "classification": "candidate"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-scope"
+    },
+    {
      "project": "ascent",
      "classification": "candidate"
     }
@@ -41234,6 +44764,13 @@
      "contexts": 2,
      "states": {
       "unknown": 2
+     }
+    },
+    {
+     "project": "personas-web",
+     "contexts": 1,
+     "states": {
+      "unknown": 1
      }
     }
    ],
@@ -41287,6 +44824,13 @@
     },
     {
      "project": "personas",
+     "contexts": 2,
+     "states": {
+      "unknown": 2
+     }
+    },
+    {
+     "project": "personas-web",
      "contexts": 2,
      "states": {
       "unknown": 2
@@ -41383,6 +44927,10 @@
      "classification": "candidate"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-scope"
+    },
+    {
      "project": "ascent",
      "classification": "candidate"
     }
@@ -41432,6 +44980,10 @@
      "classification": "candidate"
     },
     {
+     "project": "personas-web",
+     "classification": "candidate"
+    },
+    {
      "project": "ascent",
      "classification": "candidate"
     }
@@ -41478,6 +45030,10 @@
     },
     {
      "project": "personas",
+     "classification": "candidate"
+    },
+    {
+     "project": "personas-web",
      "classification": "candidate"
     },
     {
@@ -41535,6 +45091,10 @@
     {
      "project": "personas",
      "classification": "candidate"
+    },
+    {
+     "project": "personas-web",
+     "classification": "out-of-scope"
     }
    ]
   },
@@ -41578,6 +45138,10 @@
      "classification": "out-of-scope"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-scope"
+    },
+    {
      "project": "ascent",
      "classification": "candidate"
     }
@@ -41615,6 +45179,13 @@
      "contexts": 3,
      "states": {
       "unknown": 3
+     }
+    },
+    {
+     "project": "personas-web",
+     "contexts": 2,
+     "states": {
+      "unknown": 2
      }
     },
     {
@@ -41688,6 +45259,10 @@
      "classification": "candidate"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-scope"
+    },
+    {
      "project": "ascent",
      "classification": "candidate"
     }
@@ -41731,6 +45306,10 @@
     {
      "project": "kp",
      "classification": "candidate"
+    },
+    {
+     "project": "personas-web",
+     "classification": "out-of-scope"
     },
     {
      "project": "ascent",
@@ -41788,6 +45367,10 @@
      "classification": "candidate"
     },
     {
+     "project": "personas-web",
+     "classification": "candidate"
+    },
+    {
      "project": "ascent",
      "classification": "candidate"
     }
@@ -41805,6 +45388,13 @@
      "states": {
       "deviation": 1,
       "unknown": 2
+     }
+    },
+    {
+     "project": "personas-web",
+     "contexts": 1,
+     "states": {
+      "unknown": 1
      }
     }
    ],
@@ -41858,6 +45448,13 @@
     },
     {
      "project": "kp",
+     "contexts": 2,
+     "states": {
+      "unknown": 2
+     }
+    },
+    {
+     "project": "personas-web",
      "contexts": 2,
      "states": {
       "unknown": 2
@@ -41939,6 +45536,10 @@
      "classification": "out-of-scope"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-scope"
+    },
+    {
      "project": "ascent",
      "classification": "candidate"
     }
@@ -41994,6 +45595,10 @@
      "classification": "candidate"
     },
     {
+     "project": "personas-web",
+     "classification": "candidate"
+    },
+    {
      "project": "ascent",
      "classification": "candidate"
     }
@@ -42041,6 +45646,10 @@
     },
     {
      "project": "kp",
+     "classification": "out-of-scope"
+    },
+    {
+     "project": "personas-web",
      "classification": "out-of-scope"
     },
     {
@@ -42113,6 +45722,13 @@
      }
     },
     {
+     "project": "personas-web",
+     "contexts": 6,
+     "states": {
+      "unknown": 6
+     }
+    },
+    {
      "project": "ascent",
      "contexts": 10,
      "states": {
@@ -42160,6 +45776,10 @@
     {
      "project": "kp",
      "classification": "candidate"
+    },
+    {
+     "project": "personas-web",
+     "classification": "out-of-scope"
     },
     {
      "project": "ascent",
@@ -42213,6 +45833,13 @@
      "contexts": 1,
      "states": {
       "unknown": 1
+     }
+    },
+    {
+     "project": "personas-web",
+     "contexts": 2,
+     "states": {
+      "unknown": 2
      }
     },
     {
@@ -42278,6 +45905,10 @@
     },
     {
      "project": "kp",
+     "classification": "out-of-scope"
+    },
+    {
+     "project": "personas-web",
      "classification": "out-of-scope"
     },
     {
@@ -42351,6 +45982,13 @@
      }
     },
     {
+     "project": "personas-web",
+     "contexts": 9,
+     "states": {
+      "unknown": 9
+     }
+    },
+    {
      "project": "ascent",
      "contexts": 18,
      "states": {
@@ -42404,6 +46042,10 @@
      "classification": "candidate"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-scope"
+    },
+    {
      "project": "ascent",
      "classification": "candidate"
     }
@@ -42445,6 +46087,13 @@
     },
     {
      "project": "kp",
+     "contexts": 1,
+     "states": {
+      "unknown": 1
+     }
+    },
+    {
+     "project": "personas-web",
      "contexts": 1,
      "states": {
       "unknown": 1
@@ -42525,6 +46174,10 @@
     {
      "project": "kp",
      "classification": "candidate"
+    },
+    {
+     "project": "personas-web",
+     "classification": "out-of-scope"
     }
    ]
   },
@@ -42580,6 +46233,10 @@
     {
      "project": "kp",
      "classification": "out-of-scope"
+    },
+    {
+     "project": "personas-web",
+     "classification": "out-of-scope"
     }
    ]
   },
@@ -42595,6 +46252,13 @@
      "states": {
       "deviation": 1,
       "unknown": 1
+     }
+    },
+    {
+     "project": "personas-web",
+     "contexts": 3,
+     "states": {
+      "unknown": 3
      }
     }
    ],
@@ -42641,6 +46305,13 @@
    "present": [
     {
      "project": "kp",
+     "contexts": 1,
+     "states": {
+      "unknown": 1
+     }
+    },
+    {
+     "project": "personas-web",
      "contexts": 1,
      "states": {
       "unknown": 1
@@ -42697,6 +46368,13 @@
     },
     {
      "project": "kp",
+     "contexts": 1,
+     "states": {
+      "unknown": 1
+     }
+    },
+    {
+     "project": "personas-web",
      "contexts": 1,
      "states": {
       "unknown": 1
@@ -42780,6 +46458,10 @@
     {
      "project": "kp",
      "classification": "out-of-scope"
+    },
+    {
+     "project": "personas-web",
+     "classification": "out-of-scope"
     }
    ]
   },
@@ -42829,6 +46511,10 @@
     {
      "project": "kp",
      "classification": "out-of-scope"
+    },
+    {
+     "project": "personas-web",
+     "classification": "out-of-scope"
     }
    ]
   },
@@ -42877,6 +46563,10 @@
     {
      "project": "kp",
      "classification": "candidate"
+    },
+    {
+     "project": "personas-web",
+     "classification": "out-of-scope"
     },
     {
      "project": "ascent",
@@ -42933,6 +46623,10 @@
     {
      "project": "personas",
      "classification": "candidate"
+    },
+    {
+     "project": "personas-web",
+     "classification": "candidate"
     }
    ]
   },
@@ -42982,6 +46676,13 @@
      "contexts": 5,
      "states": {
       "unknown": 5
+     }
+    },
+    {
+     "project": "personas-web",
+     "contexts": 3,
+     "states": {
+      "unknown": 3
      }
     },
     {
@@ -43056,6 +46757,10 @@
      "classification": "candidate"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-scope"
+    },
+    {
      "project": "ascent",
      "classification": "candidate"
     }
@@ -43086,6 +46791,13 @@
      "contexts": 2,
      "states": {
       "unknown": 2
+     }
+    },
+    {
+     "project": "personas-web",
+     "contexts": 1,
+     "states": {
+      "unknown": 1
      }
     }
    ],
@@ -43161,6 +46873,10 @@
      "classification": "candidate"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-scope"
+    },
+    {
      "project": "ascent",
      "classification": "candidate"
     }
@@ -43215,6 +46931,10 @@
     {
      "project": "kp",
      "classification": "candidate"
+    },
+    {
+     "project": "personas-web",
+     "classification": "candidate"
     }
    ]
   },
@@ -43263,6 +46983,10 @@
     {
      "project": "kp",
      "classification": "candidate"
+    },
+    {
+     "project": "personas-web",
+     "classification": "out-of-scope"
     },
     {
      "project": "ascent",
@@ -43318,6 +47042,10 @@
      "classification": "candidate"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-scope"
+    },
+    {
      "project": "ascent",
      "classification": "candidate"
     }
@@ -43338,6 +47066,13 @@
     },
     {
      "project": "kp",
+     "contexts": 1,
+     "states": {
+      "unknown": 1
+     }
+    },
+    {
+     "project": "personas-web",
      "contexts": 1,
      "states": {
       "unknown": 1
@@ -43415,6 +47150,13 @@
      "states": {
       "unknown": 1
      }
+    },
+    {
+     "project": "personas-web",
+     "contexts": 1,
+     "states": {
+      "unknown": 1
+     }
     }
    ],
    "absent": [
@@ -43488,6 +47230,10 @@
     {
      "project": "kp",
      "classification": "candidate"
+    },
+    {
+     "project": "personas-web",
+     "classification": "candidate"
     }
    ]
   },
@@ -43523,6 +47269,13 @@
      "contexts": 2,
      "states": {
       "unknown": 2
+     }
+    },
+    {
+     "project": "personas-web",
+     "contexts": 1,
+     "states": {
+      "unknown": 1
      }
     }
    ],
@@ -43571,6 +47324,13 @@
     },
     {
      "project": "kp",
+     "contexts": 1,
+     "states": {
+      "unknown": 1
+     }
+    },
+    {
+     "project": "personas-web",
      "contexts": 1,
      "states": {
       "unknown": 1
@@ -43651,6 +47411,13 @@
      "states": {
       "unknown": 2
      }
+    },
+    {
+     "project": "personas-web",
+     "contexts": 1,
+     "states": {
+      "unknown": 1
+     }
     }
    ],
    "absent": [
@@ -43687,6 +47454,13 @@
      "states": {
       "unknown": 3,
       "deviation": 1
+     }
+    },
+    {
+     "project": "personas-web",
+     "contexts": 2,
+     "states": {
+      "unknown": 2
      }
     }
    ],
@@ -43768,6 +47542,10 @@
      "classification": "candidate"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-scope"
+    },
+    {
      "project": "ascent",
      "classification": "candidate"
     }
@@ -43823,6 +47601,10 @@
     },
     {
      "project": "kp",
+     "classification": "out-of-scope"
+    },
+    {
+     "project": "personas-web",
      "classification": "out-of-scope"
     },
     {
@@ -43882,6 +47664,10 @@
     },
     {
      "project": "kp",
+     "classification": "candidate"
+    },
+    {
+     "project": "personas-web",
      "classification": "candidate"
     }
    ]
@@ -43945,6 +47731,13 @@
      }
     },
     {
+     "project": "personas-web",
+     "contexts": 6,
+     "states": {
+      "unknown": 6
+     }
+    },
+    {
      "project": "ascent",
      "contexts": 10,
      "states": {
@@ -43998,6 +47791,13 @@
      "contexts": 2,
      "states": {
       "unknown": 2
+     }
+    },
+    {
+     "project": "personas-web",
+     "contexts": 4,
+     "states": {
+      "unknown": 4
      }
     }
    ],
@@ -44064,6 +47864,10 @@
      "classification": "candidate"
     },
     {
+     "project": "personas-web",
+     "classification": "candidate"
+    },
+    {
      "project": "ascent",
      "classification": "candidate"
     }
@@ -44126,6 +47930,10 @@
     {
      "project": "politicas",
      "classification": "candidate"
+    },
+    {
+     "project": "personas-web",
+     "classification": "out-of-scope"
     }
    ]
   },
@@ -44161,6 +47969,13 @@
      "contexts": 4,
      "states": {
       "unknown": 4
+     }
+    },
+    {
+     "project": "personas-web",
+     "contexts": 1,
+     "states": {
+      "unknown": 1
      }
     },
     {
@@ -44242,6 +48057,10 @@
     {
      "project": "kp",
      "classification": "candidate"
+    },
+    {
+     "project": "personas-web",
+     "classification": "candidate"
     }
    ]
   },
@@ -44270,6 +48089,13 @@
      "contexts": 1,
      "states": {
       "unknown": 1
+     }
+    },
+    {
+     "project": "personas-web",
+     "contexts": 2,
+     "states": {
+      "unknown": 2
      }
     },
     {
@@ -44311,6 +48137,13 @@
    "present": [
     {
      "project": "personas",
+     "contexts": 2,
+     "states": {
+      "unknown": 2
+     }
+    },
+    {
+     "project": "personas-web",
      "contexts": 2,
      "states": {
       "unknown": 2
@@ -44370,6 +48203,13 @@
      "contexts": 2,
      "states": {
       "unknown": 2
+     }
+    },
+    {
+     "project": "personas-web",
+     "contexts": 1,
+     "states": {
+      "unknown": 1
      }
     }
    ],
@@ -44445,6 +48285,10 @@
      "classification": "candidate"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-scope"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-scope"
     }
@@ -44499,6 +48343,13 @@
      }
     },
     {
+     "project": "personas-web",
+     "contexts": 1,
+     "states": {
+      "unknown": 1
+     }
+    },
+    {
      "project": "ascent",
      "contexts": 3,
      "states": {
@@ -44536,6 +48387,13 @@
      "states": {
       "unknown": 1,
       "deviation": 1
+     }
+    },
+    {
+     "project": "personas-web",
+     "contexts": 2,
+     "states": {
+      "unknown": 2
      }
     }
    ],
@@ -44614,6 +48472,10 @@
      "classification": "candidate"
     },
     {
+     "project": "personas-web",
+     "classification": "candidate"
+    },
+    {
      "project": "ascent",
      "classification": "candidate"
     }
@@ -44634,6 +48496,13 @@
     },
     {
      "project": "kp",
+     "contexts": 1,
+     "states": {
+      "unknown": 1
+     }
+    },
+    {
+     "project": "personas-web",
      "contexts": 1,
      "states": {
       "unknown": 1
@@ -44698,6 +48567,13 @@
      "contexts": 1,
      "states": {
       "unknown": 1
+     }
+    },
+    {
+     "project": "personas-web",
+     "contexts": 1,
+     "states": {
+      "not-applicable": 1
      }
     }
    ],
@@ -44775,6 +48651,10 @@
      "classification": "out-of-scope"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-scope"
+    },
+    {
      "project": "ascent",
      "classification": "candidate"
     }
@@ -44820,6 +48700,13 @@
      "contexts": 3,
      "states": {
       "unknown": 3
+     }
+    },
+    {
+     "project": "personas-web",
+     "contexts": 4,
+     "states": {
+      "unknown": 4
      }
     },
     {
@@ -44911,6 +48798,13 @@
      }
     },
     {
+     "project": "personas-web",
+     "contexts": 3,
+     "states": {
+      "unknown": 3
+     }
+    },
+    {
      "project": "ascent",
      "contexts": 10,
      "states": {
@@ -44945,6 +48839,13 @@
      "contexts": 4,
      "states": {
       "unknown": 4
+     }
+    },
+    {
+     "project": "personas-web",
+     "contexts": 2,
+     "states": {
+      "unknown": 2
      }
     },
     {
@@ -44989,6 +48890,13 @@
      "contexts": 1,
      "states": {
       "deviation": 1
+     }
+    },
+    {
+     "project": "personas-web",
+     "contexts": 1,
+     "states": {
+      "unknown": 1
      }
     }
    ],
@@ -45074,6 +48982,10 @@
      "classification": "candidate"
     },
     {
+     "project": "personas-web",
+     "classification": "candidate"
+    },
+    {
      "project": "ascent",
      "classification": "candidate"
     }
@@ -45121,6 +49033,10 @@
     {
      "project": "kp",
      "classification": "candidate"
+    },
+    {
+     "project": "personas-web",
+     "classification": "out-of-scope"
     },
     {
      "project": "ascent",
@@ -45173,6 +49089,10 @@
     {
      "project": "kp",
      "classification": "candidate"
+    },
+    {
+     "project": "personas-web",
+     "classification": "out-of-scope"
     },
     {
      "project": "ascent",
@@ -45244,6 +49164,10 @@
     {
      "project": "personas",
      "classification": "candidate"
+    },
+    {
+     "project": "personas-web",
+     "classification": "out-of-scope"
     }
    ]
   },
@@ -45280,6 +49204,13 @@
      "contexts": 2,
      "states": {
       "unknown": 2
+     }
+    },
+    {
+     "project": "personas-web",
+     "contexts": 1,
+     "states": {
+      "unknown": 1
      }
     },
     {
@@ -45349,6 +49280,10 @@
      "classification": "candidate"
     },
     {
+     "project": "personas-web",
+     "classification": "candidate"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-scope"
     }
@@ -45398,6 +49333,10 @@
      "classification": "candidate"
     },
     {
+     "project": "personas-web",
+     "classification": "candidate"
+    },
+    {
      "project": "ascent",
      "classification": "out-of-scope"
     }
@@ -45428,6 +49367,13 @@
      "contexts": 3,
      "states": {
       "unknown": 3
+     }
+    },
+    {
+     "project": "personas-web",
+     "contexts": 1,
+     "states": {
+      "unknown": 1
      }
     },
     {
@@ -45479,6 +49425,13 @@
      "contexts": 4,
      "states": {
       "unknown": 4
+     }
+    },
+    {
+     "project": "personas-web",
+     "contexts": 1,
+     "states": {
+      "unknown": 1
      }
     },
     {
@@ -45561,6 +49514,10 @@
      "classification": "candidate"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-scope"
+    },
+    {
      "project": "ascent",
      "classification": "candidate"
     }
@@ -45633,6 +49590,13 @@
      }
     },
     {
+     "project": "personas-web",
+     "contexts": 5,
+     "states": {
+      "unknown": 5
+     }
+    },
+    {
      "project": "ascent",
      "contexts": 7,
      "states": {
@@ -45684,6 +49648,10 @@
     {
      "project": "kp",
      "classification": "candidate"
+    },
+    {
+     "project": "personas-web",
+     "classification": "out-of-scope"
     },
     {
      "project": "ascent",
@@ -45739,6 +49707,10 @@
     {
      "project": "kp",
      "classification": "candidate"
+    },
+    {
+     "project": "personas-web",
+     "classification": "out-of-scope"
     },
     {
      "project": "ascent",
@@ -45802,6 +49774,10 @@
     {
      "project": "politicas",
      "classification": "candidate"
+    },
+    {
+     "project": "personas-web",
+     "classification": "out-of-scope"
     }
    ]
   },
@@ -45849,6 +49825,10 @@
      "classification": "candidate"
     },
     {
+     "project": "personas-web",
+     "classification": "out-of-scope"
+    },
+    {
      "project": "ascent",
      "classification": "candidate"
     }
@@ -45876,6 +49856,13 @@
     },
     {
      "project": "kp",
+     "contexts": 1,
+     "states": {
+      "unknown": 1
+     }
+    },
+    {
+     "project": "personas-web",
      "contexts": 1,
      "states": {
       "unknown": 1
@@ -45958,6 +49945,10 @@
     {
      "project": "personas",
      "classification": "candidate"
+    },
+    {
+     "project": "personas-web",
+     "classification": "out-of-scope"
     },
     {
      "project": "ascent",
@@ -46054,6 +50045,17 @@
    "deferred": 0,
    "accepted": 0,
    "out-of-domain": 120
+  },
+  "personas-web": {
+   "contexts": 56,
+   "governingSubjects": 102,
+   "scope": "declared",
+   "candidate": 39,
+   "out-of-scope": 78,
+   "declined": 0,
+   "deferred": 0,
+   "accepted": 0,
+   "out-of-domain": 199
   },
   "ascent": {
    "contexts": 54,

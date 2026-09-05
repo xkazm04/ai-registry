@@ -171,4 +171,6 @@ Prior prediction ("yield from fleet deviations, not survey") held.
 Judged verdicts now stale against this subject's digest: personas 3 contexts (the
 three `conformant` verdicts of 2026-08-30). Every other joined project (tracklight 2,
 goat 3, grant 1, politicas 1, kp 1, ascent 1) carries only `unknown` pairs - never
-judged, so nothing to re-judge. `/conform --stale` queue: personas.
+judged, so nothing to re-judge. Added after the checkout was declared (same day):
+personas-web 3 stale verdicts, including its one `deviation` and one `conformant`.
+`/conform --stale` queue: personas, personas-web.
