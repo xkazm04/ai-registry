@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 219,
-  "techniques": 1631,
-  "applications": 959,
+  "techniques": 1632,
+  "applications": 962,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1631/1631",
+  "use_when_coverage": "1632/1632",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -1310,7 +1310,7 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-instruction-files/agent-instruction-files.md",
-   "digest": "sha256:77d429762d4c4d61",
+   "digest": "sha256:2b22ab2d80042cf1",
    "techniques": [
     {
      "slug": "capability-before-steering",
@@ -1574,28 +1574,34 @@
      "stack": "node",
      "technique": "enforcement-demotion",
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-instruction-files/applications/node--enforcement-demotion.md",
-     "verified_on": "2026-09-02",
-     "verified_against": "node@22"
+     "verified_on": "2026-09-05",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "host-contract-compilation",
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-instruction-files/applications/node--host-contract-compilation.md",
-     "verified_on": "2026-09-02",
-     "verified_against": "node@22"
+     "verified_on": "2026-09-05"
+    },
+    {
+     "stack": "node",
+     "technique": "machine-owned-regions",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-instruction-files/applications/node--machine-owned-regions.md",
+     "verified_on": "2026-09-05",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "rewrite-behavior-pinning",
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-instruction-files/applications/node--rewrite-behavior-pinning.md",
-     "verified_on": "2026-09-04",
+     "verified_on": "2026-09-05",
      "verified_against": "node@20"
     },
     {
      "stack": "node",
      "technique": "single-source-topology",
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-instruction-files/applications/node--single-source-topology.md",
-     "verified_on": "2026-08-25",
+     "verified_on": "2026-09-05",
      "verified_against": "node@22"
     },
     {
@@ -4752,7 +4758,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/client-architecture/client-state/client-state.md",
-   "digest": "sha256:926f4d3e75e92e75",
+   "digest": "sha256:084c2956d1ea0133",
    "techniques": [
     {
      "slug": "async-race-guards",
@@ -4994,13 +5000,15 @@
      "stack": "react",
      "technique": "singleton-lifecycle",
      "file": "knowledge/software-engineering/client-architecture/client-state/applications/react--singleton-lifecycle.md",
-     "verified_on": "2026-08-18"
+     "verified_on": "2026-09-05",
+     "verified_against": "react@19"
     },
     {
      "stack": "react",
      "technique": "status-fsms",
      "file": "knowledge/software-engineering/client-architecture/client-state/applications/react--status-fsms.md",
-     "verified_on": "2026-08-18"
+     "verified_on": "2026-09-05",
+     "verified_against": "react@19"
     },
     {
      "stack": "react",
@@ -5015,6 +5023,13 @@
      "file": "knowledge/software-engineering/client-architecture/client-state/applications/rust--persistence-and-migration.md",
      "verified_on": "2026-08-29",
      "verified_against": "rust@1.97"
+    },
+    {
+     "stack": "rust",
+     "technique": "status-fsms",
+     "file": "knowledge/software-engineering/client-architecture/client-state/applications/rust--status-fsms.md",
+     "verified_on": "2026-09-05",
+     "verified_against": "rust@1.96"
     }
    ]
   },
@@ -27992,7 +28007,7 @@
    "subcategory": "resilience",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/resilience/stream-proxy-hop/stream-proxy-hop.md",
-   "digest": "sha256:48ac5313cbb47711",
+   "digest": "sha256:2a41d0204d5adb8f",
    "techniques": [
     {
      "slug": "abort-versus-unreachable",
@@ -28036,6 +28051,21 @@
       "a stream dies silently after about a minute",
       "deciding who emits keep-alives across a proxy",
       "a connection indicator that stays green with no data"
+     ]
+    },
+    {
+     "slug": "lifetime-cap-rotation",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "creation-names-reaper"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a stream dies at the same age every time regardless of traffic",
+      "a heartbeat is running and the stream still drops",
+      "deploying a streaming route on a function platform with a maximum duration",
+      "an error handler that never runs on the failures it was written for"
      ]
     },
     {
@@ -28086,22 +28116,28 @@
      "stack": "node",
      "technique": "credential-attachment-at-the-hop",
      "file": "knowledge/software-engineering/backend-platform/resilience/stream-proxy-hop/applications/node--credential-attachment-at-the-hop.md",
-     "verified_on": "2026-09-04",
-     "verified_against": "node@22"
+     "verified_on": "2026-09-05"
     },
     {
      "stack": "node",
      "technique": "idle-heartbeat-injection",
      "file": "knowledge/software-engineering/backend-platform/resilience/stream-proxy-hop/applications/node--idle-heartbeat-injection.md",
-     "verified_on": "2026-08-22",
+     "verified_on": "2026-09-05",
      "verified_against": "node@22"
     },
     {
      "stack": "node",
      "technique": "upstream-status-normalization",
      "file": "knowledge/software-engineering/backend-platform/resilience/stream-proxy-hop/applications/node--upstream-status-normalization.md",
-     "verified_on": "2026-08-22",
+     "verified_on": "2026-09-05",
      "verified_against": "node@22"
+    },
+    {
+     "stack": "rust",
+     "technique": "reconnect-storm-hygiene",
+     "file": "knowledge/software-engineering/backend-platform/resilience/stream-proxy-hop/applications/rust--reconnect-storm-hygiene.md",
+     "verified_on": "2026-09-05",
+     "verified_against": "rust@1.96"
     }
    ]
   },
@@ -33568,6 +33604,7 @@
     "status-vocabulary/vocabulary-chain-integrity",
     "stream-proxy-hop/abort-versus-unreachable",
     "stream-proxy-hop/idle-heartbeat-injection",
+    "stream-proxy-hop/lifetime-cap-rotation",
     "stream-proxy-hop/upstream-status-normalization",
     "streaming-output/cancellation-and-finalization",
     "streaming-output/mid-turn-steering",
@@ -35109,6 +35146,7 @@
     "sql-console/editor-ergonomics",
     "stream-proxy-hop/abort-versus-unreachable",
     "stream-proxy-hop/idle-heartbeat-injection",
+    "stream-proxy-hop/lifetime-cap-rotation",
     "stream-proxy-hop/reconnect-storm-hygiene",
     "streaming-output/buffering-and-backpressure",
     "streaming-output/cancellation-and-finalization",

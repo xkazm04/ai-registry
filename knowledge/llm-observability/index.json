@@ -5,7 +5,7 @@
   "source": "knowledge/llm-observability/ (frontmatter only)",
   "subjects": 17,
   "techniques": 111,
-  "applications": 60,
+  "applications": 61,
   "laws": 9,
   "categories": [
    "telemetry-and-data",
@@ -1996,7 +1996,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/llm-observability/economics-and-governance/usage-limit-governance/usage-limit-governance.md",
-   "digest": "sha256:73b98ff8e4f5e9f3",
+   "digest": "sha256:7c1f41e2c3bf8309",
    "techniques": [
     {
      "slug": "concurrent-admission-integrity",
@@ -2097,20 +2097,29 @@
      "stack": "process",
      "technique": "enforcement-placement-and-reconciliation",
      "file": "knowledge/llm-observability/economics-and-governance/usage-limit-governance/applications/process--enforcement-placement-and-reconciliation.md",
-     "verified_on": "2026-08-20",
-     "refresh_by": "2026-11-20"
+     "verified_on": "2026-09-05",
+     "refresh_by": "2026-12-05"
     },
     {
      "stack": "rust",
      "technique": "concurrent-admission-integrity",
      "file": "knowledge/llm-observability/economics-and-governance/usage-limit-governance/applications/rust--concurrent-admission-integrity.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-05",
+     "verified_against": "rust@1.96"
+    },
+    {
+     "stack": "rust",
+     "technique": "enforcement-placement-and-reconciliation",
+     "file": "knowledge/llm-observability/economics-and-governance/usage-limit-governance/applications/rust--enforcement-placement-and-reconciliation.md",
+     "verified_on": "2026-09-05",
+     "verified_against": "rust@1.96"
     },
     {
      "stack": "rust",
      "technique": "graduated-throttle-with-deterministic-shed",
      "file": "knowledge/llm-observability/economics-and-governance/usage-limit-governance/applications/rust--graduated-throttle-with-deterministic-shed.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-05",
+     "verified_against": "rust@1.96"
     }
    ]
   }

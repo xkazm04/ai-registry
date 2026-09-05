@@ -229,6 +229,17 @@
       "usageContributors": []
     },
     {
+      "name": "llm-bench",
+      "version": "0.1.0",
+      "category": "ai-native",
+      "path": "skills/llm-bench/SKILL.md",
+      "contentHash": "sha256-n1:52f5eeb6a5aacc5a",
+      "adopters": [],
+      "invokes30d": 0,
+      "lessons": 0,
+      "usageContributors": []
+    },
+    {
       "name": "motionize",
       "version": "1.2.1",
       "category": "other",
@@ -303,9 +314,9 @@
         "systedo-case@plugin:2.3.0"
       ],
       "invokes30d": 46,
-      "lessons": 15,
+      "lessons": 18,
       "lessonsPath": "skills/perfect/LESSONS.md",
-      "lessonsHash": "sha256-n1:21c6eef3989663a1",
+      "lessonsHash": "sha256-n1:1e969a1fc42ae500",
       "usageContributors": [
         "kazda-dev-box"
       ]
@@ -620,10 +631,10 @@
     }
   ],
   "counts": {
-    "skills": 29,
+    "skills": 30,
     "practices": 8,
     "memory": 6,
-    "lessons": 150
+    "lessons": 153
   },
   "bundles": [
     {
@@ -674,9 +685,9 @@
       "purity": "software",
       "subjects": 17,
       "techniques": 111,
-      "applications": 60,
-      "files": 193,
-      "contentHash": "sha256:fd8983a37155c770"
+      "applications": 61,
+      "files": 194,
+      "contentHash": "sha256:8189c7757b0a3e35"
     },
     {
       "name": "localization",
@@ -725,10 +736,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 219,
-      "techniques": 1631,
-      "applications": 959,
-      "files": 2814,
-      "contentHash": "sha256:568ea0c8b44535ee"
+      "techniques": 1632,
+      "applications": 962,
+      "files": 2818,
+      "contentHash": "sha256:8bfff22b34b3cd31"
     }
   ]
 }
