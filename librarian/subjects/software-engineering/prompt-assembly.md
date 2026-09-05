@@ -412,3 +412,33 @@ pole, two orders of magnitude from the pathological ~0.02:1. The guard had no nu
 and was therefore unusable; it now has two poles far enough apart that it needs no
 threshold, only the sign of `ratio - 1`. Nothing shipped to the project, and nothing
 should have.
+
+## 2026-09-05 — intake, codecompanion.nvim (`intake-codecompanion-20260905`)
+
+Two techniques and two amendments from an editor-resident chat client read for
+context management, the turn pipeline and attachments (source note
+`sources/2026-09-05-codecompanion.md`).
+
+- **context-ownership-regimes** (new): who holds the transcript between turns
+  decides which client lanes run. Both off when the provider manages the window
+  (thresholds passed through; the provider's compaction block replayed verbatim,
+  after a thinking block), both off by adapter type for a stateful agent protocol.
+  The source contradicts itself here — its architecture doc keeps client editing
+  under server-side compaction, its gate at HEAD does not — and the code won; the
+  doc's intent is recorded as the wire-cost trade the exclusivity gave up.
+- **live-attachment-delta-resharing** (new): share once with a witness, diff
+  against the last-shared content when it moves, nothing when it does not,
+  deletion as a message. Measured on personas' per-block hash ledger: 86% of the
+  composed prefix unchanged turn over turn; the churning block sits third of eight.
+- **history-compaction** gained two subsections: the lossless lane's own lower
+  trigger (0.65 against 0.85, aged by cycle, reclaim-gated; precondition from the
+  kp simulation: only where the transcript carries re-fetchable bulk), and the
+  provider-anchored count (last reported usage plus a local estimate of the unsent
+  delta). Three decision rules added, one of them the hand-off to the ownership
+  technique.
+- Applications: four against the source (`neovim--*`, a new stack slug added to
+  the bundle's `stacks:`), one experiment on personas (`better`), one simulation on
+  personas (`unmeasurable`), one simulation on kp (`not-better`, improved A1).
+- Untriaged, with anchors in the source note: the second summary is a summary of a
+  summary (a possible amendment saying how many turns and prior summaries a
+  summary stands for).

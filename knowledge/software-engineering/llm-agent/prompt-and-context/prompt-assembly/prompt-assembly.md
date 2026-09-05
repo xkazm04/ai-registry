@@ -25,6 +25,8 @@ techniques:
   - compression-hardens-deferred-decisions
   - recovery-path-as-loss-signal
   - consumer-coupled-decoration
+  - context-ownership-regimes
+  - live-attachment-delta-resharing
 ---
 
 # Prompt assembly & context budgeting
@@ -395,6 +397,18 @@ disappearing.
   the one layer nobody authored: the pairing invariant a cut must not break,
   repairing a record left malformed by an interrupted turn, and compacting
   both before the request and on the provider's refusal.
+- [context-ownership-regimes](./techniques/context-ownership-regimes.md) —
+  who holds the transcript between turns decides which client-side context
+  operations still run: both lanes in the client-held stateless regime, both
+  off with thresholds passed through when the provider manages the window,
+  both off with resume delegated when a stateful agent holds the list; the
+  provider's compaction block replayed verbatim; the switch resolved per
+  adapter and per model at request time.
+- [live-attachment-delta-resharing](./techniques/live-attachment-delta-resharing.md)
+  — an attachment as a stream of versions: shared once with a witness, then a
+  diff against the last-shared content when the witness moves and nothing at
+  all when it does not; deletion as a message; the boundary where the base is
+  a rebuilt prefix rather than the record.
 - [tiered-history-projection](./techniques/tiered-history-projection.md) —
   the history layer as a regenerable view over an immutable record:
   geometrically coarsening summary tiers that reach back to the start,

@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 220,
-  "techniques": 1642,
-  "applications": 971,
+  "techniques": 1644,
+  "applications": 978,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1642/1642",
+  "use_when_coverage": "1644/1644",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -2084,7 +2084,7 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-runtime-assembly/agent-runtime-assembly.md",
-   "digest": "sha256:87ecffe5a332546f",
+   "digest": "sha256:7a4cd9dc7884b122",
    "techniques": [
     {
      "slug": "additive-input-at-the-call-boundary",
@@ -2319,6 +2319,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "neovim",
+     "technique": "indeterminate-closure-on-interruption",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-runtime-assembly/applications/neovim--indeterminate-closure-on-interruption.md",
+     "verified_on": "2026-09-05",
+     "verified_against": "neovim@0.11.0"
+    },
     {
      "stack": "next",
      "technique": "additive-input-at-the-call-boundary",
@@ -22159,7 +22166,7 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/prompt-assembly.md",
-   "digest": "sha256:998c621db389a462",
+   "digest": "sha256:de3ef4a9b48f73ee",
    "techniques": [
     {
      "slug": "amortized-compaction-cadence",
@@ -22248,6 +22255,24 @@
       "each section fits its cap but the total still overflows",
       "deciding whether heavy material rides every call",
       "deciding whether shrinking a standing layer repays the authoring cost"
+     ]
+    },
+    {
+     "slug": "context-ownership-regimes",
+     "status": "forged",
+     "laws": [
+      "limits-are-derived",
+      "silent-state-is-ungoverned",
+      "derivation-names-recomputation"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a provider offers context editing or compaction on its side beside the client's own",
+      "a stateful agent protocol holds the conversation and the client sends only new messages",
+      "a transcript was edited or compacted twice in one turn",
+      "deciding which client-side context operations still run when the window is managed elsewhere",
+      "a client rewrite would orphan an opaque continuation block the provider returned",
+      "the same threshold has to be expressed to two different owners"
      ]
     },
     {
@@ -22401,6 +22426,24 @@
      ]
     },
     {
+     "slug": "live-attachment-delta-resharing",
+     "status": "forged",
+     "laws": [
+      "derivation-names-recomputation",
+      "identity-survives-reuse",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an attached file or buffer changes under a conversation that already saw it",
+      "deciding whether to re-send an attachment the model was shown earlier",
+      "a composed block is re-rendered every turn although its content is unchanged",
+      "the model is handed a fresh copy and has to work out what moved",
+      "an attachment is deleted or closed mid-conversation",
+      "a cached prefix is invalidated by material that did not change"
+     ]
+    },
+    {
      "slug": "recovery-path-as-loss-signal",
      "status": "forged",
      "laws": [
@@ -22479,11 +22522,39 @@
    ],
    "applications": [
     {
+     "stack": "neovim",
+     "technique": "context-ownership-regimes",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/applications/neovim--context-ownership-regimes.md",
+     "verified_on": "2026-09-05",
+     "verified_against": "neovim@0.11.0"
+    },
+    {
+     "stack": "neovim",
+     "technique": "history-compaction",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/applications/neovim--history-compaction.md",
+     "verified_on": "2026-09-05",
+     "verified_against": "neovim@0.11.0"
+    },
+    {
+     "stack": "neovim",
+     "technique": "live-attachment-delta-resharing",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/applications/neovim--live-attachment-delta-resharing.md",
+     "verified_on": "2026-09-05",
+     "verified_against": "neovim@0.11.0"
+    },
+    {
      "stack": "node",
      "technique": "endpoint-sealed-continuation-metadata",
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/applications/node--endpoint-sealed-continuation-metadata.md",
      "verified_on": "2026-09-03",
      "verified_against": "node@24.15.0"
+    },
+    {
+     "stack": "node",
+     "technique": "history-compaction",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/applications/node--history-compaction.md",
+     "verified_on": "2026-09-05",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
@@ -22521,6 +22592,13 @@
     },
     {
      "stack": "rust",
+     "technique": "context-ownership-regimes",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/applications/rust--context-ownership-regimes.md",
+     "verified_on": "2026-09-05",
+     "verified_against": "rust@1.96.1"
+    },
+    {
+     "stack": "rust",
      "technique": "elision-to-a-refetch-pointer",
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/applications/rust--elision-to-a-refetch-pointer.md",
      "verified_on": "2026-09-04",
@@ -22531,6 +22609,13 @@
      "technique": "layered-composition",
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/applications/rust--layered-composition.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "rust",
+     "technique": "live-attachment-delta-resharing",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/applications/rust--live-attachment-delta-resharing.md",
+     "verified_on": "2026-09-05",
+     "verified_against": "rust@1.96.1"
     },
     {
      "stack": "rust",
@@ -34597,6 +34682,7 @@
     "priced-authority/write-ahead-revocation-marker",
     "prompt-assembly/elision-to-a-refetch-pointer",
     "prompt-assembly/endpoint-sealed-continuation-metadata",
+    "prompt-assembly/live-attachment-delta-resharing",
     "prompt-assembly/recovery-path-as-loss-signal",
     "quality-gates/advancement-evidence-fields",
     "quality-gates/enforcement-binding",
@@ -35074,6 +35160,7 @@
     "prompt-assembly/endpoint-sealed-continuation-metadata",
     "prompt-assembly/history-compaction",
     "prompt-assembly/house-vocabulary-layer",
+    "prompt-assembly/live-attachment-delta-resharing",
     "prompt-assembly/tiered-history-projection",
     "quorum-and-recovery-procedures/nonce-progress-verify",
     "rate-limiting/unattributable-client-bucketing",
@@ -35990,8 +36077,10 @@
     "proactive-nudges/attention-budgets",
     "prompt-assembly/amortized-compaction-cadence",
     "prompt-assembly/cache-breakpoint-allocation",
+    "prompt-assembly/context-ownership-regimes",
     "prompt-assembly/elision-to-a-refetch-pointer",
     "prompt-assembly/fingerprinting-and-cache-keys",
+    "prompt-assembly/live-attachment-delta-resharing",
     "prompt-assembly/speculative-compaction-splice",
     "prompt-assembly/tiered-history-projection",
     "public-claim-provenance/build-time-derivation-off-the-client-bundle",
@@ -36200,6 +36289,7 @@
     "object-shape-representation/weak-forward-transitions-with-counted-prune",
     "paged-block-cache/one-page-size-bought-with-padding",
     "paged-block-cache/release-order-is-the-eviction-policy",
+    "prompt-assembly/context-ownership-regimes",
     "prompt-assembly/elision-to-a-refetch-pointer",
     "quality-gates/deterministic-proxy-gate",
     "register-bytecode-execution/instruction-format-follows-program-lifetime",
@@ -36420,6 +36510,7 @@
     "plan-review/objection-before-artifacts",
     "plan-review/silent-decision-surfacing",
     "prompt-assembly/compression-hardens-deferred-decisions",
+    "prompt-assembly/context-ownership-regimes",
     "prompt-assembly/deferred-interface-invalidation",
     "prompt-assembly/task-envelope",
     "quality-gates/prose-rule-drift",

@@ -457,3 +457,12 @@ Fleet maps regenerated after the landing. No project carries a judged verdict ag
 this subject (every pair `unknown`), so the stale queue is empty and demand stays
 unknown. The seams personas and pof recorded in their `.ai/applied.jsonl` are the only
 fleet evidence; two of today's corrections came from them.
+
+## 2026-09-05 — intake, codecompanion.nvim (`intake-codecompanion-20260905`)
+
+One application, no content change. `neovim--indeterminate-closure-on-interruption`:
+the source closes orphaned tool calls before every send, on stop, and before its
+context manager may run (a catch for the technique's closure half), and carries the
+technique's named hazard latently — the synthesized result's verdict lives only in
+its reason prose, with no status in a closed vocabulary and, so far, no classifier
+matching it. Recorded as the negative structural fact.
