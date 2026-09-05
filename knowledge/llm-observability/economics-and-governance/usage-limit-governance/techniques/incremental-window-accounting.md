@@ -15,12 +15,13 @@ Admission control puts an aggregate on the hot path: every ingest must know
 the current rolling usage for every (window, scope) an applicable rule
 reads. The naive implementation re-aggregates the whole window per event — a
 sum over every stored event inside the look-back, per distinct ledger, under
-whatever lock serializes admission. At a thirty-day cap and steady traffic
-that is a scan over hundreds of thousands of rows on *every* event, and the
-cost grows with the window: the operator who widens a cap from a day to a
-month has silently multiplied admission latency thirtyfold. Aggregation
-cost proportional to window population is a defect that presents as a
-capacity problem; the fix is structural, not more hardware.
+whatever lock serializes admission. At a thirty-day cap the scan covers a
+month of events on *every* admission, and the cost grows with the window:
+the operator who widens a cap from a day to a month has multiplied the rows
+under the scan thirtyfold, and admission latency with them unless the store
+aggregates sub-linearly. Aggregation cost proportional to window population
+is a defect that presents as a capacity problem; the fix is structural, not
+more hardware.
 
 ## The rolling cache
 
@@ -74,9 +75,12 @@ be discovered by a customer's cap.
 
 State the clock assumption the same way: eviction is one-way, which is
 correct only if the admission clock never runs backwards. Wall-clock time
-at ingest satisfies this in practice; a test environment driving the
-clock manually can violate it, so the assumption belongs in the module's
-documentation, not in an engineer's memory.
+at ingest satisfies this almost always, and "almost" has named exceptions —
+a stepped time-sync correction, a virtual machine restored from a snapshot,
+a test environment driving the clock by hand — so either read admission
+time as the maximum of the wall clock and the last admission time, or write
+the assumption and its under-count consequence into the module's
+documentation rather than into an engineer's memory.
 
 ## Declare the coherence boundary
 
@@ -89,12 +93,36 @@ stance is one admission process per store, write that sentence down where
 operators will read it; a cap that is strictly honored in one topology
 and best-effort in another, without saying so, is a support incident with
 a delay timer. Multi-process admission needs the shared-store critical
-section instead (see concurrent-admission-integrity).
+section instead (see concurrent-admission-integrity). The field's inline
+gateways declare the same boundary in the same voice: a major cloud
+gateway's token-limit policy documents that it tracks usage independently
+at each gateway instance and does not aggregate across the deployment —
+so the declaration is not an apology, it is what a shipped product does.
+
+## The memory the cache does not avoid
+
+The per-admission *work* is delta-bounded, but the cache's *state* is the
+window population itself: one contribution per live event per (tenant,
+window, scope) ledger, held until it ages out. A month-long window over a
+busy tenant is millions of contributions per ledger, and every scoped rule
+adds another. The field's memory-bounded alternative is the two-bucket
+sliding-window counter — the current fixed sub-window's count plus the
+previous one weighted by its overlap with the look-back — which holds a
+handful of integers per key regardless of traffic. It is an approximation
+that assumes the previous bucket's traffic was uniform: at one large edge
+network's scale (400 million requests from 270 thousand sources, published
+2017) it produced a wrong verdict on 0.003% of requests, an average 6% gap
+between the estimated and true rate, and no false positives. That is a
+sound trade for pacing, and an explicit one for a budget: a 6% error on a
+rate is a 6% overshoot on a cap, and the choice belongs in the cap's
+documented worst case, not in a data-structure decision nobody wrote down.
 
 ## When not to bother
 
-Below a few thousand events per window, the full scan is simpler and fast
-enough — the cache earns its complexity only when window population, not
-event rate, dominates admission cost. And never cache across restarts
-without rebuilding from the store: the contribution list is derivable
-state, and a persisted-but-stale copy is worse than a cold rebuild.
+While the window's population is small enough that the full scan's latency
+is invisible beside the insert — a threshold to measure on the target store,
+not to assume — the full scan is simpler; the cache earns its complexity
+only when window population, not event rate, dominates admission cost. And
+never cache across restarts without rebuilding from the store: the
+contribution list is derivable state, and a persisted-but-stale copy is
+worse than a cold rebuild.

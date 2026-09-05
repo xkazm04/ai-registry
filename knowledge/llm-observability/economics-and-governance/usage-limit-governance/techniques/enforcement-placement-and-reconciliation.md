@@ -12,7 +12,7 @@ use_when: [deciding where a cap physically sits relative to the provider call, a
 # Enforcement placement and reconciliation
 
 A cap is a policy; where it sits decides what the policy can physically do.
-There are three seats, and each buys a different guarantee:
+There are four seats, and each buys a different guarantee:
 
 - **Record-side (ingest).** The cap governs what is *recorded* and applies
   back-pressure to cooperative clients. It cannot un-spend the provider
@@ -23,11 +23,33 @@ There are three seats, and each buys a different guarantee:
   refuse the call itself — prevention, not back-pressure. But it decides
   with less evidence: at admission time the response does not exist yet,
   so the very metrics operators cap on are only partly knowable.
+- **Client-side (the emitting SDK, deciding from the last published
+  signal).** The record-side seat already publishes proximity — usage
+  ratio, shed fraction, the advertised wait, the binding rule and its
+  scope — on every response it returns. A client that caches those and
+  answers "may I make this call" locally, with no network on the path,
+  prevents the spend without putting the platform on the request path.
+  Its evidence is as old as the last response, so the seat is honest only
+  with three rules written down: it is off unless the operator opts in (an
+  observability SDK must not change what the app does by default); it
+  fails open past a stated staleness — a telemetry client that halts an
+  app because it is itself confused is worse than one that records
+  nothing; and a graduated shed is decided with the *server's own*
+  deterministic function over the same ids, or the client and the server
+  will disagree about which events are shed. A call the client refuses is
+  not spend and must not be recorded as cost — but a zero-usage marker for
+  it keeps a throttled week from reading as a quiet one.
 - **Provider-side (the ceiling the provider itself enforces).** Coarse —
-  typically one monthly number per organization or project, breached as a
-  quota error — but it is the only cap that still holds when everything
-  the operator built is down. Where the provider offers one, set it; a
-  platform cap is layered above it, never sold as a substitute for it.
+  typically a monthly number per organization or project, breached as a
+  quota error, sometimes nested (a workspace ceiling bounded above by the
+  organization's, with the organization's still binding when the children
+  sum past it), and for some providers absent altogether in money terms,
+  with only request and token quotas on offer. It is the only cap that
+  still holds when everything the operator built is down — and it too
+  overshoots: at least one major provider's documentation states that
+  enforcement is not instantaneous and recorded spend can exceed the
+  configured amount. Where the provider offers one, set it; a platform cap
+  is layered above it, never sold as a substitute for it.
 
 ## Inline enforcement is estimate-then-reconcile
 
@@ -67,7 +89,10 @@ of it — the spend happened; only the benefit was refused — so debit is
 the ordinary answer, with cut-off reserved for runaway protection at a
 multiple of the cap rather than at the cap itself. Whichever posture,
 the window must be charged with what actually streamed, not with what
-admission assumed.
+admission assumed — and note that an inline seat may not get to see it:
+a gateway that counts from the response's usage block has no usage block
+on a stream, so the field's gateways estimate *both* sides of a streamed
+call, which makes the reconcile step the only place the truth ever lands.
 
 ## Caps in different seats will disagree
 
@@ -75,7 +100,11 @@ A layered deployment has the same dollar counted on three clocks: the
 provider's billing meter, the inline gateway's price table, the record-
 side platform's stamped-at-ingest cost. They will not match — different
 price books, different receipt times, different treatment of failures and
-retries — and reconciling them into one number is not the goal. The goal
+retries, different windows (the provider's calendar cycle and the
+gateway's truncated UTC period against the platform's rolling look-back)
+and even different refusal vocabularies (one gateway family answers a
+per-minute pace with 429 and an exhausted period quota with 403) — and
+reconciling them into one number is not the goal. The goal
 is knowing which seat's number each surface is quoting, and which cap is
 the *binding* one at any moment. Treat the provider ceiling as the
 backstop that catches everything including your own outage; treat the

@@ -30,7 +30,16 @@ a new metric or action never perturbs the others.
 - **Window** — the rolling look-back the metric is summed over: hour, day,
   month. Rolling, not calendar-aligned: a calendar window resets to zero at
   a boundary and invites the midnight burst; a rolling window drains
-  continuously and has no gameable edge. The window also owns the hard-stop
+  continuously and has no reset edge to game (its remaining edge — a
+  backdated event aging out of the window it just consumed — is closed by
+  the accounting substrate, not by the policy; see
+  incremental-window-accounting). Know that the seats around this one are
+  calendar-aligned by design: provider ceilings reset with the billing
+  cycle, gateway quotas truncate to the UTC hour, day, or month, and the
+  invoice the operator reconciles against is a calendar month. A rolling
+  platform cap will therefore never agree with its backstop about when
+  capacity returns, and the status surface should say which clock it is
+  quoting. The window also owns the hard-stop
   retry hint: nothing frees capacity until usage ages out, so each window
   publishes its own advisory wait — deliberately far shorter than the window
   itself, because a rolling window drains continuously rather than all at

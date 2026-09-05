@@ -46,9 +46,15 @@ The rule's virtues are exactly its constraints:
 
 Know the rule's failure directions before arming it: a cheap-model window
 under-charges an expensive unpriced model (the cap goes soft), an
-expensive window over-charges a cheap one (the cap goes strict). Both
-errors shrink as the operator prices the model — which the disclosure
-below is designed to prompt.
+expensive window over-charges a cheap one (the cap goes strict), and
+because the estimator is a mean, one outsized priced call — a single
+long-context request in a window of short ones — drags every unpriced
+call's charge up with it until it ages out. The mean is still the right
+choice: it is what makes the imputed share recoverable by subtraction and
+the estimate self-correcting from stored sums alone, where a median would
+need the window's distribution on every admission. All three errors
+shrink as the operator prices the model — which the disclosure below is
+designed to prompt.
 
 ## The evidence structure
 

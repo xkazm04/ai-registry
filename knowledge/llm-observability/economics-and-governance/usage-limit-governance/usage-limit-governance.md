@@ -35,13 +35,17 @@ honest structural limit which must be stated, not papered over: **rejecting an
 event at ingest cannot prevent the provider spend it describes — the call
 already happened; only its recording is refused.** The refusal is still real
 governance — well-behaved clients treat 429 as back-pressure and slow the
-traffic itself, and the breach alert reaches a human — but only an inline
-gateway or proxy, sitting *before* the provider call, converts the cap from
-back-pressure into prevention — and even that seat prevents approximately,
-because a call's true token and cost spend is only known after the response
-it was supposed to gate (see enforcement-placement-and-reconciliation). A
-product that lets its documentation imply prevention it does not perform
-has already failed the governance test.
+traffic itself, and the breach alert reaches a human — but only a seat that
+sits *before* the provider call converts the cap from back-pressure into
+prevention: an inline gateway or proxy, the provider's own spend ceiling, or
+the emitting client deciding from the proximity signal the platform last
+published to it. Each of those prevents approximately — a call's true token
+and cost spend is only known after the response it was supposed to gate, the
+provider's own documentation admits its enforcement is not instantaneous, and
+a client's view of the cap is as old as its last response (see
+enforcement-placement-and-reconciliation). A product that lets its
+documentation imply prevention it does not perform has already failed the
+governance test.
 
 ## The core stance: a cap is only as real as its accounting
 
@@ -141,11 +145,15 @@ cheapest cooperative-governance channel the platform has.
 ## What the cap must never throttle
 
 The platform's own quality apparatus — judges, benchmark runs, the scoring
-path — is exempt from every cap by construction, not by configuration. A
-governance layer that meters its measuring instrument alongside the traffic
-it measures will blind itself precisely when traffic spikes, which is
-precisely when measurement matters. Monitored traffic trips limits; the
-instrument never does.
+path — is exempt from every cap written about monitored traffic, by
+construction, not by configuration. A governance layer that meters its
+measuring instrument alongside the traffic it measures will blind itself
+precisely when traffic spikes, which is precisely when measurement matters.
+Monitored traffic trips limits; the instrument never does. Exempt is not
+unbounded: the instrument's own provider spend is real money, and it is
+bounded by its own preflight ceiling on the benchmark side of the platform —
+never by these rules, whose evidence it must not pollute and whose
+enforcement it must not suffer.
 
 ## One evaluator, every surface
 

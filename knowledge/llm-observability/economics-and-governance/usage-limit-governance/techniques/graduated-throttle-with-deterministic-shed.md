@@ -56,7 +56,12 @@ properties a random draw cannot offer:
   shed set — no event is un-shed as pressure rises. This is the anti-flap
   property: as usage creeps up, the accepted population shrinks smoothly
   instead of oscillating, and a client that was shed does not get teased
-  back in and thrown out again by noise.
+  back in and thrown out again by noise. Be precise about what population
+  it holds over: a fixed set of event ids — the replayed rejection, the
+  retried event, the test's synthetic batch. A client minting fresh ids
+  experiences the ramp as a rising *rate* of refusal, which is the point;
+  determinism smooths re-evaluation, and the continuous ramp smooths the
+  stream.
 - **Unflappable under re-evaluation.** Admission paths re-evaluate — on
   retries, in tests, across replicas reading the same totals. A random
   draw makes every re-evaluation a new lottery; a deterministic one makes
@@ -71,17 +76,27 @@ hashes mix short inputs unevenly, so finish with an avalanche step and take
 the top bits onto the exactly-representable unit-interval grid, or the shed
 set will cluster instead of sampling traffic evenly.
 
-Know where this sits against the wider field. General overload control
-sheds probabilistically — random early drop in network queues, adaptive
-client-side throttling that rejects with a computed probability — and is
-right to: those regulators face transient overload on a feedback loop of
-milliseconds, where a re-rolled verdict costs nothing and flap is noise.
-A budget cap's pressure moves on the window's timescale and its verdicts
-are re-read — by retries, by tests, by the status surface a support
-engineer replays — which is why determinism wins here. The precedent is
-not absent from large systems either: overload frameworks that need
-per-user consistency partition users into admission levels by a stable
-hash of user id, for exactly the anti-flap reason. And if events carry a
+Know where this sits against the wider field. Much of general overload
+control sheds probabilistically — random early drop in network queues,
+adaptive client-side throttling that rejects with a probability computed
+from the accept ratio — and is right to: those regulators face transient
+overload on a feedback loop of milliseconds, where a re-rolled verdict
+costs nothing and flap is noise (the queue-delay regulators in the same
+family are deterministic in a different sense, dropping on measured sojourn
+time rather than on a draw). A budget cap's pressure moves on the window's
+timescale and its verdicts are re-read — by retries, by tests, by the
+status surface a support engineer replays — which is why determinism wins
+here. The precedent is not absent from large systems either: a published
+overload framework from a very large messaging backend attaches 128
+user-priority levels to each business priority, assigned by hashing the
+user id, so one user's requests share one admission verdict across a call
+path. The same design rotates that hash function hourly, so that the users
+parked in the lowest levels are not the same users all day — which is the
+warning for anyone tempted to key this lottery on a client identity rather
+than on the event: a permanent verdict per identity is fairness debt, and
+either the key is per-event (as here, so no client is permanently in the
+shed set) or the identity hash must be re-rolled on a stated period. And
+if events carry a
 criticality dimension, shed by it before the lottery — a uniform draw
 treats a health probe and a customer's call alike; ordering the ramp by
 criticality tier, with the deterministic lottery breaking ties within a
