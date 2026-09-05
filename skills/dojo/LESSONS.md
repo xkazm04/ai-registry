@@ -38,3 +38,11 @@
 ## 1.2.1 - 2026-09-04 - ai-registry
 
 - The dated `## Model choice (bake-off 2026-09-01, ...)` section moved out of the SKILL.md body into the block above. The lane spec (`docs/skills-lane.md`, "The body is generic") says a body may carry no project name, and this one named gravitone; a dated finding about a run is what `LESSONS.md` owns. Content preserved verbatim; nothing else in the body changed, so a patch bump.
+
+## 1.2.2 - 2026-09-05 - gravitone
+
+- Context: five consecutive local-stack image cycles in one operator-authorised window (40 renders, one vanish-race fill), one allowed subject each; all parked, none gated yet.
+- Where a property under test has a NUMBER, give the chokepoint judge the number, blind: an edge-density meter on the reserved caption zone and a calibrated face-distance ruler each separated arms the enum readback called identical (it labelled every arm of the key-flip cycle "low-key"). Map the measure into the worksheet's A/B before the pick so the judge stays blind, and keep the number a pre-filter beside the human, never a verdict. This is the technique-under-test's own tell made mechanical, and it is cheap - both meters ran in seconds on PNGs already on disk.
+- A reference-conditioned arm on a latent-reference runner (Flux 2 `ReferenceLatent`) is a CONTENT arm when it joins early: an "approved style sheet" at 0-35% of the denoise returned its own subject in three of four challengers. Plan reference cycles on such runners with the technique's timing dial (`late`), and treat "reference as style amplifier" as a labelled-attachment-stack claim only.
+- Two arms of a seed-matched duo can render at very different speeds (44s vs 120-180s) when the second shares the first's text encode; a fast arm is not a skipped arm. Verify with a pixel delta and the workflow sidecar before calling it a bug or waiting on it as contention.
+- Seed-matched control cuts both ways: when the challenger's clause changes nothing the render does (cycle 1, a leading function sentence), the arms come back near-identical and the judge picks on seed-level detail. A pick rate near 0.25 with near-identical arms is NULL, not a loss - say so in the park note rather than letting the number read as a rejection.
