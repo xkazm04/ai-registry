@@ -2737,3 +2737,93 @@ lands, then one named field is the fix — and that sentence is what makes the r
 re-openable instead of archival. **The check the next row should make:** did the
 run decline to land something it believed in, and did it say which rule made it
 decline?
+
+---
+
+**Round 26 (`rustyv8`).** v2.5.0 · 2026-09-05 · `github:denoland/rusty_v8` @ `49f5ab4d`
+
+| stage | count |
+| --- | --- |
+| research | 1 source (vendor repository, cloned; 2,606 landing / **33,590** in-tree design prose, 13:1 — no `docs/` at all) |
+| extract | 10 candidates (9 design + 1 derived from a catch) |
+| test | 6 picks verified against the host file AND the source tree, 2 catches |
+| apply | `1c/0e/0s/0t` — one `code` row, `ab-paired`, **better** |
+| ship | 1 (pumper, `96411db`, 32 tests green vs 31 baseline + clippy clean, branch, not pushed) |
+| admission | `auto=2/2/1`, `fp=0` |
+| depth | `1S/5T/1A/3Asrc/0 task-lines` · routing count **3 NONE / 1 system, 6 sharing one HOME IF NEW** · **XL trigger fired mechanically** · handoff **declined by the count** (cluster, not scatter) · `directions=0/0` · `selfcatch=1` · fetches `0/3` |
+
+**The first `1S` in twenty-six rounds, and the trigger that produced it was the
+`HOME IF NEW` clause rather than the `corpus: NONE` clause.** Three entries had
+no home at all — under the older reading that is a scoped forge, and it would
+have been the wrong call, because the three did not scatter. Six entries wanted
+*the same* home. v2.2 added the second count precisely for this shape and this
+is the first round where it decided the outcome: counting only unhomed entries
+would have produced a forge dispatch over a repository; counting the shared
+home produced one subject with five techniques. **Write both counts, and let the
+larger one route.**
+
+**`ship` is off zero for the second consecutive round, and the blocker named in
+round 25 is the one that moved.** That round's reason was toolchain reach — the
+DDL gate ran and `cargo check` did not run at all, so the Rust half of a change
+was unproven. This round the Rust toolchain ran: a 5m37s baseline `cargo check`,
+then `cargo test` and `cargo clippy` on both arms. The cost is real and worth
+recording for planning — a cold Rust workspace check is minutes, not seconds —
+but it is a *budget* item now rather than a capability gap. **The stage the
+funnel is losing most at is no longer `ship`.**
+
+**It is `test`, and specifically the promoting read on contested homes.** Two
+candidates (D7, D9) died at the admission gate for the same reason: their home
+was contested and nobody read the rival. Both are one file read away from a
+verdict, and the gate's own promotion read does not cover them — it covers rows
+blocked *only* by an unre-checked worker report. `auto=2/2/1` is the first row
+this ledger has carrying a rejection count above zero, which is the mechanism
+working, but a rejection that is one read away from a promotion is a cheaper
+loss than the score admits.
+
+**The measurement test applied to a design record is much cheaper in a
+repository than in a paper, and the reason is mechanical.** Round 25 asked for
+the falsifier question — *what would this tree have to show for this decision to
+be wrong, and does it show it?* — to be run on design entries. In a tree the
+answer is usually a **test named after the hazard**, so the check costs one grep
+over test names rather than a reconstruction. Three entries answered by name
+(`global_off_thread_drop_is_drained_on_home_thread`,
+`global_drop_from_cold_tls_destructor`,
+`global_clone_inside_unlock_window_panics`) and those three became the subject's
+spine; two could not answer and are untriaged. **Run the falsifier grep before
+scoring, not after drafting** — it is the cheapest discriminator this method has
+acquired since the absolutes hunt.
+
+**The apply row is the fourth consecutive one where the tree corrected the
+reading that selected it, and this time the correction made the row stronger
+rather than smaller.** The seam was picked expecting an unguarded destructor.
+The project had already reasoned about the family, aborts the capability-free
+half unconditionally, and writes its failure modes into comments. Under the old
+habit that is a `not-better` and a catch. But the technique's claim was never
+"you forgot cleanup" — it was that a destructor lacking a capability has a
+*third* option between performing and abandoning, and the project had only two.
+**A tree that has thought hard about a problem and stopped one move short is the
+best possible apply seam**, because everything except the move is already there
+to measure against.
+
+**`selfcatch=1`, and it was designed in rather than discovered.** Round 25 asked
+for this number because two instruments caught themselves. Here the catch is
+structural: the paired test contains arm A (the old behaviour, no queue) *inside
+it*, so a harness that reported nothing for both arms would fail visibly instead
+of passing. A one-armed version of that test would have proved a channel works.
+**The cheapest place to put a known-negative is inside the test that needs one.**
+
+**Next run's declared focus (round 27).** (1) **Extend the promotion read to
+contested homes.** The gate promotes a row whose only blocker is an unre-checked
+worker report; it should equally promote one whose only blocker is `+1 contested
+home`, because that is also a single file read that changes an outcome, and this
+round lost two rows to it. Try it once and report whether either row survives.
+(2) **Run the falsifier grep at Phase 2d, before the design record is scored.**
+This round ran it during the record and it reordered everything; run it earlier
+and see whether it changes which entries get written at all. (3) **A subject born
+from one source carries reconcile debt on day one — say so in the subject note
+and name the counterpart.** Done here (a binding layer over a different engine
+in a different host language), and it should be a habit rather than this run's
+good manners, because `1S` rounds will keep arriving now that the second routing
+count is live. **The check the next row should make:** did the run name what its
+new content is single-sourced on, before the librarian had to find out?
+

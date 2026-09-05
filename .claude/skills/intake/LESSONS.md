@@ -9131,3 +9131,76 @@ confirmed distinct by exactly one run, so this stays a proposal - but the cheap
 half is free now: **a repository-class source note should record which of Phase
 2b's two sweeps it ran**, which costs one frontmatter line and makes the
 question answerable without re-reading the triage table.
+
+## 2.5.0 - 2026-09-05 - rustyv8
+
+- **Write BOTH Phase 2d counts, and let the larger one route — this is the round
+  where the difference decided the outcome.** Three design entries carried
+  `corpus: NONE`, which under the unhomed clause alone reads as a scoped forge
+  over the repository. Six entries shared one `HOME IF NEW`, which reads as one
+  subject. The second is right, and the discriminator is *scatter versus
+  cluster*: unhomed entries that want different homes are a forge job, unhomed
+  entries that want the same missing home are a subject. v2.2 added the shared-
+  home count for exactly this and it had never yet been the deciding one. The
+  method already says to write both; what this round adds is **the reason the
+  larger count wins** — a forge dispatch over a cluster would have built the same
+  subject with more machinery and less context.
+
+- **The falsifier question is cheap in a repository and expensive in a paper,
+  because a tree answers it by NAME.** Round 25's focus asked for the
+  measurement test to be applied to design records: *what would this tree have
+  to show for this decision to be wrong, and does it show it?* In a paper that
+  means reading for an ablation. In a repository it means grepping test names,
+  because a test written for a hazard is named after the hazard. Three entries
+  answered in one grep and became the subject's spine; two could not and are
+  untriaged. **Run this before scoring, not during drafting** — it reordered
+  every row this round, and it would have cost less if it had run at Phase 2d.
+  First sighting as a stated rule; two more and it belongs in the design-read
+  section of `SKILL.md`.
+
+- **A tree that has thought hard about the problem and stopped one move short is
+  the best apply seam available, and it looks like a rejection right up until it
+  is not.** The pumper seam was picked expecting an unguarded destructor and the
+  tree refuted that immediately — it already split its cleanup into the half that
+  needs no runtime and the half that does, and documented the gap. The reflex is
+  to file `not-better` and move on. The correct move was to check whether the
+  technique's actual claim was the one the tree had answered: it was not. The
+  tree had *two* options where the technique offers three, and everything needed
+  to measure the third was already in the tree, including the harness. **A
+  refuted premise is a reason to re-read the technique's claim, not to close the
+  row.** This is the fourth consecutive round where the tree corrected the
+  reading, and the first where the correction made the row larger.
+
+- **Put the known-negative inside the test that needs one.** The apply arm's
+  paired test contains arm A (the previous behaviour) in the same function as
+  arm B. That is not tidiness: a harness that silently reported nothing would
+  pass a one-armed arm-B-only test, and the whole measurement would have been a
+  channel working. The scorecard's new `selfcatch` count is meant to record
+  instruments catching themselves; the cheaper move is to make the instrument
+  unable to pass vacuously in the first place, and in an A/B the old behaviour
+  is a free known-negative that is already written.
+
+- **The admission gate rejected two rows for a contested home, and both were one
+  file read from a verdict.** `auto=2/2/1` is this ledger's first non-zero
+  rejection count, which is the mechanism doing its job. But the promotion read
+  currently only covers rows blocked by an unre-checked worker report, and
+  `+1 contested home` has the same shape: one read of the rival subject settles
+  it. Proposed as the next round's focus rather than applied here, because
+  changing the gate on the round that first exercised it would be scoring my own
+  homework.
+
+### Redesign proposal - the `dispatched` field cannot distinguish two very different zeros
+
+This run recorded `dispatched: 0` on an XL row that was nonetheless *executed*:
+the operator accepted the subject and the director drafted it, because no
+subagent was available in this session's harness. The field currently means
+"forge workers dispatched", and a reader six weeks from now cannot tell that
+zero from the zero on a run that banked its spec and walked away — which is the
+failure mode the field exists to make visible. The scorecard's `depth` cell
+carries the real answer (`1S/5T/...`), so nothing was lost this time, but the
+two zeros should not look alike. Suggest either an `executed_by:
+worker|director|banked` field on the source note, or folding the distinction
+into `dispatched` as a value rather than a count. Not applied: it is a schema
+change to 200+ existing notes' vocabulary and belongs to whoever next touches
+the note format.
+
