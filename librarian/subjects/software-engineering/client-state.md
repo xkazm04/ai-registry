@@ -1,8 +1,8 @@
 ---
 subject: client-state
 domain: software-engineering
-last_touched: 2026-09-02
-touched_by: intake
+last_touched: 2026-09-05
+touched_by: deepen
 dry_streak: 0
 ---
 
@@ -118,3 +118,57 @@ a handshake version). New application `next--persistence-and-migration`
 policy is honest only because its encoding is keyed and whose
 "every field optional" clause nothing enforces; next change filed as a
 fifth policy rule plus a type-level test.
+
+## 2026-09-05 - /deepen batch (dry_streak 0)
+
+12 techniques, 12 -> 13 applications (`rust--status-fsms` from a fleet desktop
+backend's job-lifecycle module - the banked lead's return condition fired: the tree
+added a typed job status on 2026-09-04). Two 2026-08-18 applications re-witnessed
+at react@19; the react--status-fsms "known gap" (no latest-wins token) had closed
+in-tree 2026-08-29/30 and was replaced by a live defect the new correction names.
+
+Landed: status-fsms - `stale` must carry the failed reload's evidence (blind-only
+self-contradiction with the failure-not-empty-success law; web confirmed the
+two-axis model); persistence-and-migration - middleware version-skew corrected to the
+two real shapes (migrate-everything-and-write-back vs adopt-future-unchanged);
+optimistic-write-path - settle-time invalidate as a bounded-damage alternative with
+its count-not-mutex limit; async-race-guards - dedup key is canonical, not only
+complete; rehydration-narrowing - "narrower = default" predicated on the default
+being the tightest member; invalidation floor "minutes not seconds" predicated, and
+the conditional-request qualifier on "maximal load"; singleton-lifecycle - the
+bundler's per-module carry-over object; effect-identity - compiler memoization is an
+optimization the runtime may discard, not a correctness guarantee.
+
+Lane 2 refuted or predicated 4 absolutes/numbers; counter-evidence confirmed 8 (the
+never-a-timestamp token rule against clock coarsening; settlement removes the dedup
+entry; abort advisory; first-class non-reactive handler now stable upstream).
+Blind lane 9 of 14 reached by web/tree; blind-only items were both internal.
+
+Fleet: personas seam text item 1 (scene store, no latest-wins) is stale - closed in
+tree; items 2-5 stand (6/7 persisted stores lack version+migrate; 6/8 global owners
+lack hatches; envelope hand-parsed; 89 storage keys, 8 prefixes, no registry). The
+one recorded deviation is on personas-web, not on this machine. tracklight's two
+contexts are storage crates - scan noise for this subject.
+
+Banked (return conditions): retained-old-version migration fixture - personas
+CURRENT_SCHEMA_VERSION still 1 (when it bumps); gcTime-vs-staleTime two-timer
+amendment to invalidation-strategy (a fleet tree setting both deliberately);
+JobStatus four-state repair in personas - 52 literal writes, 2 typed sites (any
+personas run authorized to edit); ascent react--effect-identity note on the stable
+non-reactive handler (next drift pass on that application).
+
+Proposals (Director-held): "the safe default is the failure you can see" - six
+in-subject sightings now, rehydration correction rests on it; still a proposal for
+`_laws.md`, operator call. URL-addressed state as a fourth species (home-ambiguous,
+no routing subject in the bundle). Tear-safe external-store reads (web only, no
+fleet sighting - not a technique until a tree shows it). Credential refresh that
+changes claims as a partial identity flip (training-data only).
+
+Prior prediction ("yield from fleet deviations, not survey") held.
+
+### Impact (registry map, regenerated 2026-09-05 after this landing)
+
+Judged verdicts now stale against this subject's digest: personas 3 contexts (the
+three `conformant` verdicts of 2026-08-30). Every other joined project (tracklight 2,
+goat 3, grant 1, politicas 1, kp 1, ascent 1) carries only `unknown` pairs - never
+judged, so nothing to re-judge. `/conform --stale` queue: personas.

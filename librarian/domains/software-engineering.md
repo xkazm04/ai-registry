@@ -1,6 +1,6 @@
 ---
 domain: software-engineering
-last_swept: 2026-09-02
+last_swept: 2026-09-05
 layout: nested
 demand_known: true
 ---
@@ -365,3 +365,34 @@ back the same hour.
   job - the deployment-contract lane's, not this one's.
 - Unchanged from [[2026-09-02-1]]: the 81 unruled inbox rows, the single-stack wave,
   the maturity ladder, the frontier question.
+
+## Run [[2026-09-05-1]] - one demand subject, two never-deepened drift subjects, one technique
+
+Shape at close (record, not input): 219 subjects, 1632 techniques, 962
+applications, expired 0, at-risk 0, 59 stack-drift applications after the run.
+
+Three workers here (client-state at demand #6; agent-instruction-files and
+stream-proxy-hop as never-deepened drift subjects) plus one in llm-observability.
+One new technique (`stream-proxy-hop/lifetime-cap-rotation`, on blind + web + tree
+convergence). Two foundations fell to counter-evidence: the instruction-file dilution
+claim was a density result stated without its scale, and the stream subject's "client
+does not reconnect" was the hand-rolled reader's shape, not the standard client's.
+Three second-stack or first-of-kind applications from fleet trees; nine drift
+applications re-witnessed, two witnesses withdrawn (a bun-pinned tree; three trees
+with three pins).
+
+### What is owed (updated)
+
+- **Fleet declaration gap**: a project whose checkout exists on this machine is not
+  listed for it in `projects.json`, so its map was not regenerated and the one real
+  node stream hop in the fleet carries two live defects nobody's map can see.
+- **Two rust witnesses for one tree in one batch** (MSRV floor vs observed toolchain);
+  aligned to the observed toolchain with the floor in the body, but the convention is
+  undocumented - the currency instrument should say which it reads.
+- Four of the remaining drift rows on the touched subjects are trees whose own CI
+  pins the lower major - the [[2026-09-04-1]] instrument item, unchanged.
+- The "safe default is the failure you can see" law candidate now has six sightings
+  in client-state alone; operator call on `_laws.md`.
+- Unchanged from [[2026-09-04-1]]: the quality-gates split, merge-result gating, the
+  bun witness, the 247 stale verdicts nobody has drained (215 after this run's
+  regeneration - the number moves with digests, not with conform runs).

@@ -1,7 +1,8 @@
 ---
 subject: stream-proxy-hop
 domain: software-engineering
-last_touched: 2026-09-04
+last_touched: 2026-09-05
+touched_by: deepen
 dry_streak: 0
 ---
 
@@ -72,3 +73,66 @@ decision made for other reasons.
   streaming lane's single-stack debt is unchanged.
 
 Source note: [[2026-09-04-flatnotes]]
+
+## 2026-09-05 - /deepen batch (first deepen; 6 -> 7 techniques, 3 -> 4 applications; dry_streak 0)
+
+Second stack landed: rust, from a fleet desktop backend's webhook relay - the
+consumer half of reconnect-storm-hygiene (single socket by task map, doubling
+backoff without jitter, stable-connection reset, bounded dedup on the resume
+cursor; defects: one error string for four causes, no attempt limit, retryability
+discarded with the status in hand).
+
+Lane 1 refuted the subject's central mechanism as stated: the standard
+server-pushed-stream client reconnects on a clean end of body and fires its error
+event (HTML living standard, end-of-body step); "the client does not reconnect"
+belongs to hand-rolled readers only. The node heartbeat application had endorsed a
+tree comment saying the opposite; it now names that comment as a defect. Numbers:
+"typically 30-60s" -> documented defaults 10s to 125s across five vendor documents,
+60 most common; one gateway's 20s is a first-response timer, not idle. Two timer
+classes now distinguished: between-bytes (a heartbeat defeats) vs total-duration
+cap (it cannot).
+
+New technique lifetime-cap-rotation on lane convergence (blind prediction, a
+function platform's duration docs, and a fleet route's header comment); prior-art
+grep over the bundle's use_when and slugs found none. no-transform corrected: it
+stops re-encoding, not buffering; a vendor anti-buffer header is needed beside it.
+The hop's own upstream client carries a between-chunks timeout (one runtime's
+default fetch abandons a quiet body at five minutes) - the inner leg now has its own
+sizing rule. Resume cursor added to the allowlist rule; backoff resets on a stable
+connection, not on open (cross-referenced to retry-backoff).
+
+Two live defects found in the fleet's one node hop: the inner-leg timeout cuts the
+upstream read every five quiet minutes while the outer heartbeat runs; the
+from-scratch allowlist drops the resume cursor. A third is latent until the deploy
+target is known (no lifetime declared).
+
+Drift: two node applications kept at node@22 (the tree's CI pins 22, stated in the
+body); the credential application's witness withdrawn (three trees, three pins,
+written per tree). Blind lane 7 of 8 reached; the blind-only item was the three-way
+contradiction between technique, golden path and application on reconnect shape.
+
+Demand: the map's rows for this subject on two projects are keyword candidates on
+auth contexts (state unknown, no deviation text). Real hops in the fleet: one node
+hop and one rust consumer; two other projects' stream routes are origins with good
+hygiene, not hops - declined as applications here.
+
+Proposals (Director-held): retry-backoff owns the stable-connection reset rule and
+should point back here as a second sighting; realtime-events - an origin-side
+replay window with a `reset` event when the gap exceeds the ring (a rust origin in
+the fleet) is a neighbour's application; error-handling/crash-capture - a platform
+timeout killing the function so the catch never runs is a live instance;
+webhook-ingestion - HMAC over a relay-re-serialised body as a sender-authentication
+boundary case.
+
+Banked (return conditions): instrumented proof of the inner-leg reap (a worktree
+the operator will run against a quiet origin for over five minutes); the smallest
+documented default rule's second sighting (a fleet tree behind a content network
+whose clustered timer is uneditable); whether the node hop is deployed on a function
+platform (decides if the missing lifetime is live or latent).
+
+### Impact (registry map, regenerated 2026-09-05 after this landing)
+
+Four projects carry one `unknown` pair each (goat, personas, kp, ascent - keyword
+matches on auth or streaming contexts); no judged verdict, so no stale row. The one
+real node hop in the fleet sits in a project this machine's fleet declaration does not
+list, so its map was not regenerated here.

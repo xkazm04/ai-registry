@@ -1,7 +1,8 @@
 ---
 subject: agent-instruction-files
 domain: software-engineering
-last_touched: 2026-09-04
+last_touched: 2026-09-05
+touched_by: deepen
 dry_streak: 0
 ---
 
@@ -497,3 +498,55 @@ amendment, more completely than the source that prompted it. The self-agreement
 scan across eight projects found no restated version floor and so no
 contradiction; the honest limit is that it scanned version floors only, not the
 path names and command names the amendment also names.
+
+## 2026-09-05 - /deepen batch (first deepen; 14 -> 14 techniques, 11 -> 12 applications; dry_streak 0)
+
+Foundation re-measured. The subject's load-bearing claim - compliance falls with
+instruction count, roughly uniformly, position barely matters - rested on a density
+benchmark (10-500 instructions in one prompt) and was stated without its scale. The
+one file-scale factorial study (arxiv 2605.10039: 1,650 sessions on one harness,
+25-500 lines, five positions) returns an affirmative null for both size and position
+and finds the leak in session length (OR 0.944 per function, first omission at the
+4th). Golden path, line-earning, capability-before-steering and
+context-reset-redelivery corrected: the tax is a bound the author cannot measure per
+line; "obeyed early, not late" now requires the rule to have changed. The "measured
+twice" record is three studies with contradictory-looking numbers that reconcile on
+predicates (output tokens vs total cost); all predicated now.
+
+Discovery semantics de-universalised: only one host walks to the filesystem root;
+two walk down from the project root; most concatenate, one nearest-only; hosts cap
+the floor (32 KiB root-first = the nearest file is dropped first). Provenance:
+38.3% / 49.5% / 32.3% verified against arxiv 2605.29442 (16,118 validated episodes);
+"unattended" is our gloss, now flagged in the technique. The 80% prompt cut re-dated
+to 2026-07-24 from the vendor post. Skill-listing budget: the 1% denominator was a
+fixed reference window in a closed-duplicate report, not the model's.
+
+New application node--machine-owned-regions: a framework stamps its own fence into
+fleet AGENTS.md files; two vintages in one fleet (one nameless, one naming its
+generator); no run date. Drift: one tree pins bun only -> verified_against
+withdrawn; one bumped to node@24; two kept at their trees' CI pins (20, 22); two
+false citations found at a pinned public commit and corrected.
+
+Blind lane 7 of 11 reached by web/tree; blind-only catches were three internal
+contradictions between techniques added one at a time (line-earning "never
+admitted" vs capability-coverage-contract; the uniformity tell; a 3-seed inference
+stated as measured).
+
+Owed pair check (from the 08-28 entry): answered by that day's cleave (authored vs
+what-loads); no third what-loads technique arrived.
+
+Proposals (Director-held): the factorial study's adjacent-contradiction null (n=1)
+against "contradictions resolve arbitrarily" - a second study moves it; a per-host
+discovery-semantics table belongs with the harness capability matrix.
+
+Banked (return conditions): agent-authored floor lines as a third author class (a
+fleet tree whose auto-memory contradicts its instruction file); within-session
+decay as a measurable for enforcement-demotion (a project counting rule compliance
+per turn).
+
+### Impact (registry map, regenerated 2026-09-05 after this landing)
+
+No judged verdict exists for this subject anywhere in the fleet: personas 33, kp 11,
+ascent 9, gravity 3, grant 3, politicas 3, pumper 2, tracklight 2, goat 1 pairs, all
+`unknown`. Nothing is stale because nothing was ever judged; the queue for this
+subject is a first `/conform`, not a `--stale` re-judge.
