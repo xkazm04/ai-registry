@@ -255,22 +255,6 @@ One amendment, one application.
   scratch clone) was confirmed working on this very run, which read the
   source's file as material and obeyed none of it.
 
-## 2026-09-02 - intake `claudeception` (run `claudeception`)
-
-- Amendment to `enforcement-demotion`: § "A hook that prints prose is not a demotion" -
-  a lifecycle hook whose only effect is text for the model is on the prose branch of
-  the sort with a per-turn multiplier and no reviewer; sort the trigger, not the
-  channel. Fleet measurement inside: two projects, 1,631 human turns replayed with
-  their doc-sync hook's own predicate, 122 fires (7.5%); every-prompt delivery would
-  inject 15-25x the words.
-- Applications: `claude-code--enforcement-demotion` (the source's every-prompt banner
-  hook, read against the tree and its commit log) and `node--enforcement-demotion`
-  (the replay; `experiment`, `better` for the condition-observed form, cost only -
-  the compliance falsifier is named and has no fleet instrument).
-- Structural fact carried into the node application: three copies of the fleet hook
-  at 185/204/320 lines; the longest records a lifetime silent-green before a
-  turn-boundary fix and a third exit code for could-not-check.
-
 ## 2026-09-02 - `/intake` gstack (run `intake-gstack-0902`, intake 2.1.0)
 
 New technique `host-contract-compilation`, the first `design` candidate landed under
@@ -287,6 +271,21 @@ Phase 7.5 (registry skills lane, simulation, `better` on 2 of 3): six links to o
 need nothing; the desktop-surface zip delivery and the trigger-collision check are the
 two cases a host contract would give a field to. Boundary stated to agent-cli-transport.
 
+## 2026-09-02 - intake `claudeception` (run `claudeception`)
+
+- Amendment to `enforcement-demotion`: § "A hook that prints prose is not a demotion" -
+  a lifecycle hook whose only effect is text for the model is on the prose branch of
+  the sort with a per-turn multiplier and no reviewer; sort the trigger, not the
+  channel. Fleet measurement inside: two projects, 1,631 human turns replayed with
+  their doc-sync hook's own predicate, 122 fires (7.5%); every-prompt delivery would
+  inject 15-25x the words.
+- Applications: `claude-code--enforcement-demotion` (the source's every-prompt banner
+  hook, read against the tree and its commit log) and `node--enforcement-demotion`
+  (the replay; `experiment`, `better` for the condition-observed form, cost only -
+  the compliance falsifier is named and has no fleet instrument).
+- Structural fact carried into the node application: three copies of the fleet hook
+  at 185/204/320 lines; the longest records a lifetime silent-green before a
+  turn-boundary fix and a third exit code for could-not-check.
 ## 2026-09-04 - /intake `opik` (run `opik-0904`)
 
 Amendment to `single-source-topology`: § "The second boundary is a format edge,
@@ -430,6 +429,7 @@ model-backed hooks, so the amendment is preventive here. Its live content is the
 destination sort applied to the doc-sync hook those three share, whose trigger is
 program-decidable (a path-coupling map) while its verdict is a judgment - exactly the
 case the amendment's step 2 newly routes. No instruction file over-claims it; all
+three name the gate without calling it enforcement.
 
 ## 2026-09-04 - a production reverse proxy (`/intake`, round 23)
 
@@ -497,4 +497,3 @@ amendment, more completely than the source that prompted it. The self-agreement
 scan across eight projects found no restated version floor and so no
 contradiction; the honest limit is that it scanned version floors only, not the
 path names and command names the amendment also names.
-three name the gate without calling it enforcement.
