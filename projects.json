@@ -75,7 +75,8 @@
     },
     "ascent": {
       "checkouts": {
-        "Wolf": "kiro/ascent"
+        "Wolf": "kiro/ascent",
+        "Fox": "dolla/ascent"
       }
     },
     "gravitone": {
