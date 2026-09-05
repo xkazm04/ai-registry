@@ -9204,3 +9204,30 @@ into `dispatched` as a value rather than a count. Not applied: it is a schema
 change to 200+ existing notes' vocabulary and belongs to whoever next touches
 the note format.
 
+
+## 2.5.0 - 2026-09-05 - utopia (github:deeplethe/utopia)
+
+- **An operator focus is a `--domain` on a forge-shaped tree, and the method should say so.**
+  Three questions routed everything: the extraction system (the tree's largest, 2 NONE + 2
+  partial in an existing home) was banked as a handoff without a design-record entry being
+  scored, and the routing count was written per system so the next run can dispatch from
+  the handoff in one step. Nothing in SKILL.md names this; it should, as a sentence under
+  Phase 2d: *a focus argument scopes which systems land here; the others get their count
+  and a handoff, never silence.*
+- **The seam search is the second falsifier grep.** Writing "unapplied - no fleet project
+  keeps two clocks" was wrong within the hour: politicas has an as-of lens with six states,
+  and reading it added a section to the technique. Two lessons: the apply step's grep must
+  run over every checkout before the ledger row is written, and a fleet counterpart found
+  at apply time is a *second sighting* that counts toward the technique's sourcing - the
+  reconcile debt closed itself. Proposed as round 28's focus (1).
+- **The design-count-to-technique collapse needs its own number.** Seven NONE entries became
+  two techniques on purpose (one mechanism, four rules). The depth cell reads `2T`, which a
+  later reader will score as a routing miss against the count. Say both.
+- **The registry can be a project for Phase 7.5.** The practice amendment's experiment ran
+  against the registry's own proposal documents and found the source's exact failure (status
+  lines lagging the disk) at 5/17. It shipped in the run's own commit. A practice lane
+  finding needs no fleet project when the registry is itself an instance.
+- **A build flag the tree documents is part of the gate.** The personas worktree compile
+  failed on a plugin permission until `--features desktop` was passed, which the tree's own
+  applied rows and clippy policy state. Read the project's documented test command before
+  the first compile, not after the first failure.

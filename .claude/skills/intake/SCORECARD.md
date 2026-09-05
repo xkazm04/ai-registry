@@ -2827,3 +2827,41 @@ good manners, because `1S` rounds will keep arriving now that the second routing
 count is live. **The check the next row should make:** did the run name what its
 new content is single-sourced on, before the librarian had to find out?
 
+
+---
+
+**Round 27 (`utopia`).** v2.5.0 · 2026-09-05 · `github:deeplethe/utopia` @ `75a44cbc`
+
+| stage | count |
+| --- | --- |
+| research | 1 source (vendor repository, cloned; 1,596 landing / **36,854** in-tree design prose, 1:23; 21 decision records + a pipeline document; read under a three-question operator focus) |
+| extract | 22 candidates (15 design across 5 systems + 7 claim/craft) |
+| test | 10 picks verified with the host file open (6 of them also against the source tree's tests), 7 catches |
+| apply | `1c/2e/1s/0t` - one `code` row (`ab-paired`, **better**), one registry-self experiment (**better**, 5/17 → 0/17), one experiment **unmeasurable** with the instrument named, one simulation over a fleet tree found by the seam search (**better** for the section it contributed) |
+| ship | 2 (personas branch `intake/utopia-pending-rejections`, `50bdbb5fc` merged as `41752ff97`, not pushed; the registry's own five proposal status lines, in this commit) |
+| admission | `auto=10/0/1`, `fp=0` |
+| depth | `0S/2T/3A/5Asrc+fleet/0 task-lines` · routing count **M 3 NONE, L 2 NONE, X 2 NONE - every system in an EXISTING home; no HOME IF NEW shared by three** · XL not fired · handoff **banked** (system X, out of focus; scoped deepen/reconcile on `llm-extracted-entity-graph`) · `directions=0/5` (candidates read, none admitted by forces) · `selfcatch=1` (the paired test's arm A) · fetches `0/3` |
+
+**What the row says.** The technique count (2) is below the design count that reached
+`NONE` (7) by choice: M's four entries share one mechanism and were written as one file with
+four sections; L's two folded. Said in the note so the depth cell is not read as a routing
+miss. The apply column is the strongest this skill has filed on a repository round: every
+landed technique or amendment has a row, two rows are `better` with the arm A inside the
+harness, and the seam search for the technique that looked unapplied found a second
+independent implementation in the fleet and pulled a section out of it - which is the
+single-source debt the round-27 focus asked to be *named* being *closed* instead.
+
+**Declared focus, answered in the note:** (1) the contested-home promotion read settled the
+home and not the row - it works for boundary cases and is not sufficient for a mechanism;
+(2) the falsifier map before the design record changed what got written; (3) single-source
+debt named on both techniques and closed on one.
+
+**Next run's declared focus (round 28).** (1) **Run the seam search for every technique
+before writing "unapplied"** - this round's second technique was one grep away from a
+fleet counterpart that improved it, and the first pass had already written the unapplied
+row. Make the grep mandatory and cheap: the technique's own `use_when` terms against every
+fleet checkout, before the applied ledger is touched. (2) **When a repository's decision
+count collapses into one technique, say the count in the depth cell** (`2T (7 NONE)`) so
+the librarian can read routing and landing apart. (3) **The registry-self experiment is
+reusable**: the proposal-status check is one loop and it found 5/17; wire it into the
+librarian sweep rather than re-deriving it per run.
