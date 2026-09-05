@@ -4,14 +4,17 @@ type: application
 subject: agent-instruction-files
 technique: single-source-topology
 stack: node
-verified_on: 2026-08-25
+verified_on: 2026-09-05
 verified_against: node@22
 ---
 
 # One data file, three consumers: a prompt library that generates its own agent skill (Node)
 
 A public prompt-template library for a text-capable image model —
-`freestylefly/awesome-gpt-image-2` at `6854698`, 2026-08-25 — that serves a
+`freestylefly/awesome-gpt-image-2` at `6854698`, 2026-08-25; citations
+re-resolved against a fresh checkout of that commit 2026-09-05, runtime
+witness the publish workflow's `node-version: 22` (no `engines`, no
+`.nvmrc`) — that serves a
 static website, an npm-installable agent skill, and a coding-harness
 plugin marketplace from one hand-edited data file. The technique this
 subject states for instruction files (content exists once; every other
@@ -37,9 +40,10 @@ Three consumers derive from it:
   generated file opens by naming its source ("Generated from
   `data/style-library.json`").
 - **The plugin marketplace** — `.claude-plugin/marketplace.json` points
-  at the skill directory; `bin/install.mjs` copies `SKILL.md`, `agents/`,
-  `assets/` and `references/` into a harness's skill folder (`codex`,
-  `claude-code`, or a generic `agents` target).
+  at the skill directory; `scripts/install-style-skill.mjs` (the
+  `install:skill` npm script) copies the skill directory into a harness's
+  skill folder (`codex`, `claude-code`, or a generic `agents` target,
+  chosen by argument).
 
 The hand-written half, `SKILL.md`, is the bridge in this subject's sense:
 a short method (detect language, classify the target output, match
@@ -74,11 +78,13 @@ result.
   summary in the JSON agrees with the guide it points at. Two hand-edited
   files with a link between them is the fork this technique warns about,
   held together by a check that sees the link and not the content.
-- **Installation is a copy, not a link.** `install.mjs` uses `cpSync`
-  into each harness's skill folder, so an installed skill drifts from the
-  repository until re-synced; the `sync` command exists, and nothing runs
-  it. The registry that hosts this application chose symlinks for the
-  same reason.
+- **Installation is a copy, not a link.** `install-style-skill.mjs` uses
+  `cpSync` into each harness's skill folder, so an installed skill drifts
+  from the repository until the install is re-run; the tree ships no sync
+  command and no check that an installed copy matches the source (an
+  earlier revision of this application named a `sync` command — none
+  exists at the pinned commit). The registry that hosts this application
+  chose symlinks for the same reason.
 - **No measure of whether "prefer the reference over memory" is
   obeyed.** The tree gives the agent a reference and an instruction; it
   records nothing about whether a generated prompt actually used the

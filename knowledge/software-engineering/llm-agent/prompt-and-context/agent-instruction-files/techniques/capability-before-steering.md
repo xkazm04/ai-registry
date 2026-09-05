@@ -64,9 +64,10 @@ thing that remains impossible. This is the observable signature: a rule
 restated with escalating force across several revisions is nearly always a
 capability gap being treated as a steering gap.
 
-**It taxes every other line.** Compliance across the whole file falls with
-instruction count, roughly uniformly — the measured result this subject is
-built on. A line that cannot work still charges that tax, so the file pays
+**It taxes every other line.** Compliance falls with instruction density —
+measured on dense instruction lists, undetected at file scale in the one
+factorial study to date, and treated by this subject as a bound rather than
+a per-line rate. A line that cannot work still charges that tax, so the file pays
 for it in the adherence of the rules that *could* have worked. A steering
 patch aimed at a capability gap therefore makes the agent worse at
 everything else it was correctly told, which is the only kind of
@@ -89,10 +90,14 @@ that reads a proxy rather than the target
 will readily accept blame for an impossibility.
 
 Two tells short-circuit the check in practice. A failure that is **uniform
-across every session** is a capability gap; genuine steering failures are
-probabilistic, because the file is advisory and dilution is statistical, so
-a rule that is followed 70% of the time is a steering problem and a rule
-followed 0% of the time is usually not. And a failure that **persists at
+across every session** is not a steering failure; genuine steering failures
+are probabilistic, because the file is advisory and dilution is statistical,
+so a rule that is followed 70% of the time is a steering problem and a rule
+followed 0% of the time is usually not. Uniformity has two causes, though,
+and only the mechanical test separates them: the agent *could not* (this
+technique), or the agent could and no planning surface ever named the means
+([capability-coverage-contract](./capability-coverage-contract.md)) —
+succeeds outside the agent, never reached for inside it. And a failure that **persists at
 the top of a fresh, minimal file** — where dilution is near zero and the
 instruction is the only thing present — has excluded steering by
 construction.

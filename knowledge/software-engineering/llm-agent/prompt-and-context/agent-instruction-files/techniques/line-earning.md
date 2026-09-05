@@ -14,10 +14,14 @@ use_when: [deciding whether a rule belongs in the always-loaded instruction file
 Every line in an agent instruction file is loaded into every session — the
 ones that touch what the line governs and the thousands that do not. The
 line's price is therefore not its tokens; it is its tokens **times every
-future session**, plus the measured dilution tax: compliance with the whole
-file falls as the file grows, roughly uniformly across lines. A line does
-not merely cost its own weight — it makes every other line slightly less
-followed. Admission must be earned.
+future session**, plus the dilution tax — which is measured at instruction
+densities well above a repository file (a 2025 benchmark, 10–500 instructions
+in one prompt, three distinct decay curves rather than one uniform slope),
+and which the one file-scale factorial study to date (25–500 lines, one
+harness, 2026) could *not* detect, finding compliance decaying with session
+length instead. Treat the tax as a bound the author cannot measure per line,
+not as a per-line rate: a line still costs its own weight on every session,
+and the file has no safe position to spend. Admission must be earned.
 
 ## The admission test
 
@@ -34,7 +38,12 @@ A line earns its place by passing both halves:
    [context-reachability](../../prompt-assembly/techniques/context-reachability.md)
    applied to a file the author cannot size per-task: because the floor
    cannot flex, reachable material is not "safe to include" — it is
-   never admitted.
+   never admitted. One exception, and it is one line wide: a capability
+   that is listable but never *planned with* — a generator in a scripts
+   directory, a tool no planning document names — is admitted as its name
+   and its when, because listability is not reach at planning time
+   ([capability-coverage-contract](./capability-coverage-contract.md)
+   owns that test); its content stays out.
 2. **Behavior-changing.** Removing the line would cause an agent to act
    differently, and worse. A line whose removal changes nothing is dead
    weight still charging the dilution tax. The honest way to know is the
@@ -43,12 +52,14 @@ A line earns its place by passing both halves:
    happened. A rule added because it *might* help was speculation at
    admission and is unfalsifiable ever after.
 
-The measured field record backs the test from both sides: developer-written
-files (which skew unreachable — commands, gotchas, house rules) bought
-large efficiency gains; machine-generated repo overviews (reachable by
-construction — they were generated *from* the reachable repo) bought
-nothing and slightly hurt. The overview pre-caches the agent's first five
-minutes at the price of every session's attention.
+The measured field record backs the test from both sides, with the
+predicates the golden path carries: developer-written files (which skew
+unreachable — commands, gotchas, house rules) bought efficiency in time and
+output tokens in one study and a non-significant success gain at higher
+total cost in another; machine-generated repo overviews (reachable by
+construction — they were generated *from* the reachable repo) moved success
+by nothing significant at 20–23% more cost. The overview pre-caches the
+agent's first five minutes at the price of every session's attention.
 
 ## What passes, what does not
 

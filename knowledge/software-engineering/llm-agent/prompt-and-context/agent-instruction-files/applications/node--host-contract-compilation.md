@@ -5,8 +5,7 @@ subject: agent-instruction-files
 technique: host-contract-compilation
 stack: node
 status: forged
-verified_on: 2026-09-02
-verified_against: node@22
+verified_on: 2026-09-05
 applied: simulation
 ab_verdict: better
 proof: structural-only
@@ -17,7 +16,11 @@ proof: structural-only
 gstack ships some fifty workflow skills for Claude Code and compiles the same
 sources for nine other harnesses (Codex, Factory, Kiro, OpenCode, Slate,
 Cursor, OpenClaw, Hermes, GBrain). This application records the design as it
-stands at the pinned commit, read from the tree rather than the README.
+stands at the pinned commit (`0d1bd561`, 2026-09-01; re-read from a fresh
+shallow clone 2026-09-05, every path below still resolving). The tree carries
+no node witness at all — `engines` pins `bun >=1.0.0`, the lockfile is
+`bun.lock`, and CI installs bun — so this application states no runtime
+version; the stack label describes the language, not a pinned runtime.
 
 ## The decision and its forces
 

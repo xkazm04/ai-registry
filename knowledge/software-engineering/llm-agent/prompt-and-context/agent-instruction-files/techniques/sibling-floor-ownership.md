@@ -36,12 +36,18 @@ install is ever the one that is too expensive, and the listing budget ends
 up consumed by an aggregate that nobody authored and nobody reviews.
 
 The budget itself is a moving number, commonly expressed as a fraction of
-the context window rather than a fixed size. It therefore changes with the
-model, with the harness version, and with the catalog — so a floor sized
-once and quoted thereafter is not a fact about the current session
-([count-carries-predicate](../../../../_laws.md#count-carries-predicate)).
-Either measure the loaded listing against the window in use, or state the
-invariant and let the harness's own report answer the number.
+the context window rather than a fixed size — one harness documents 1%, with
+a per-description character cap applied first. It therefore changes with the
+harness version and with the catalog, and *nominally* with the model — but a
+documented fraction is a claim about a denominator, and in at least one
+reported case (2026-05) the denominator was a fixed reference window rather
+than the model's actual one, so a larger-context model bought no more room
+and the listing was culled at the same size. A floor sized once and quoted
+thereafter is not a fact about the current session
+([count-carries-predicate](../../../../_laws.md#count-carries-predicate)),
+and neither is a floor derived from the documented formula. Measure the
+loaded listing against the harness's own report — the report is what the
+culling reads — or state the invariant and let that report answer the number.
 
 ## Installing and keeping are separate decisions — only one is ever made
 

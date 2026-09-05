@@ -38,6 +38,20 @@ A machine-owned region is legitimate exactly when it honors three rules:
    edit the source, or rescan"), because the person most likely to hand-
    edit it is an agent reading the file mid-task. A hand edit inside the
    fence is not a small fix; it is work scheduled for silent deletion.
+   Put that sentence in visible prose, not inside the marker comment: at
+   least one major harness strips block-level comments from the file
+   before injecting it, so a notice that lives only in the fence reaches
+   the agent that opens the file by hand and never the one that was
+   handed it at session start — which is the one about to edit it.
+
+A block's content is a function of its generator's *version*, not of a run
+date, when the generator ships inside a dependency — a framework that stamps
+its rules block on dev-server start writes whatever wording that release
+carries, recognizes an older release's wording as stale, and upserts over it
+on the next start. Two checkouts on two releases then hold two vintages of
+one block, each current for its tree, and only the newer wording names its
+generator; the stamp that makes them comparable is the dependency version,
+which the tree already records.
 
 ## Admission is not waived for machines
 

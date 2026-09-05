@@ -42,22 +42,30 @@ The position: **the instruction file is a paid, advisory, always-loaded floor
 — so every line must be unreachable by the agent, load-bearing in behavior,
 and owned by exactly one source.** Paid: its tokens are spent on every
 session, including the thousands that never touch what the line governs.
-Advisory: the harness delivers it as context, not enforcement — the model
-weighs it against everything else it reads, and compliance measurably dilutes
-as the file grows. A floor: it cannot be cut per-task, so it competes only
-against itself.
+Advisory: the harness delivers it as context, not enforcement — on at least
+one major harness it arrives as a user-turn message after the system prompt —
+and the model weighs it against everything else it reads. A floor: it cannot
+be cut per-task, so it competes only against itself.
 
 ## What the file is for — and the measured record
 
-The field measured this in 2026, twice, with results that look contradictory
-and are not. Instruction files bought large efficiency gains — agents with a
-developer-written file finish faster and spend fewer tokens, because the file
+The field measured this in 2026, three times, with results that look
+contradictory and are not — provided each number keeps its predicate. One
+study (one agent family, 10 repositories, 124 small pull requests, correctness
+not scored) found agents with a developer-written file finishing faster —
+median wall-clock down 28.6%, output tokens down 16.6% — because the file
 pre-answers the questions every session otherwise re-derives (which command,
-which gate, which convention). The same files bought essentially **no
-task-success gain**, and machine-generated overview files — the "describe
-your repo" dumps the tooling offers to write — slightly *hurt* while raising
-cost, because they pre-cache what the agent would have discovered anyway and
-tax attention for it.
+which gate, which convention). A second (four agents, two benchmarks) found
+developer-written files raising resolve rate by 2.4% — not significant — at
+up to 19% more total inference cost and about three extra steps, while
+machine-generated overview files — the "describe your repo" dumps the tooling
+offers to write — moved success by −0.5% and −2% (not significant) at 20–23%
+more cost. A third (two agents, 288 runs) bounded any correctness effect at
+≤10–15 points. So: a developer-written file buys **efficiency in output and
+time**, not task success; the same file shows as *more* total cost where the
+file's own tokens and the extra steps it prompts are counted; and a generated
+overview buys nothing measurable at higher cost, because it pre-caches what
+the agent would have discovered anyway and taxes attention for it.
 
 Both results point at one selection rule: the file is a path-compressor for
 **unreachable** material only. What the agent can grep, list, or read is
@@ -73,12 +81,25 @@ afternoon — is where the file earns its load.
 The file's instructions are read, weighed, and sometimes lost. Two facts
 about that loss are load-bearing:
 
-- **Compliance falls with instruction count, roughly uniformly.** The
-  folklore says put important rules first or last because models lose the
-  middle; the measured result on instruction lists is that position barely
-  matters and *count* does. Every line added makes every existing line
-  slightly less followed. There is no safe place in the file for the line
-  that matters — only a shorter file.
+- **Compliance falls with instruction density — and the scale at which
+  that is measured matters.** The folklore says put important rules first or
+  last because models lose the middle; that is a retrieval result on long
+  documents, and it does not transfer. On dense instruction lists (a 2025
+  benchmark, 20 models, 10–500 keyword instructions in one prompt) *count* is
+  what degrades compliance, position bias is near zero at low density and
+  peaks in the mid-hundreds, and the decay is not uniform: models fall on
+  three distinct curves — a threshold, a line, an early exponential collapse
+  — and the best still hold above 60% at 500. At the scale of a repository
+  file the one factorial study to date (1,650 sessions on one harness,
+  three models of one family, files of 25/100/250/500 lines, a target rule
+  at five positions) found an *affirmative null* for both file size and
+  position, and found compliance decaying instead with **session length** —
+  about 5.6% lower odds per function generated, first omission at a median
+  of the fourth. Read together: a shorter file is still the only lever the
+  author holds over dilution, and there is still no safe position in it;
+  but at file scale the measured leak is the session, which is the
+  delivery axis ([context-reset-redelivery](./techniques/context-reset-redelivery.md)),
+  not the line count.
 - **A rule that must always hold does not belong in prose.** The harness's
   deterministic surfaces — hooks, linters, type systems, CI gates — fire
   regardless of what the model decides. A style rule an agent follows 90% of
@@ -118,10 +139,12 @@ though it were a wording problem.
 
 The author decides what the lines say; the harness decides where they
 land, and *where* is broader than the repository. Discovery is an ancestry
-walk with no boundary at the repo root — every directory from the launch
-point up to the filesystem root contributes, all of it concatenated rather
-than overridden — plus, lazily, the per-directory files beneath the launch
-point that get touched. So the governed region is a cone, and any
+walk, and where it stops is per host: one major harness walks from the
+launch point up to the filesystem root with no boundary at the repo root,
+while others start at the project root and walk down to the launch point —
+most concatenate what they find, at least one loads only the nearest file —
+plus, lazily, the per-directory files beneath the launch point that get
+touched. So the governed region is a cone whose apex is host-defined, and any
 directory a program creates inside it is briefed by a file written about
 something else. This is the case where a well-earned, freshly maintained
 file is nonetheless wrong, and it is
@@ -214,8 +237,11 @@ rewrite deletes.
   diluting the lines only prose can carry.
 - **The fork** — per-harness copies of the same guidance, refined
   independently until two agents follow different projects.
-- **The 25k-token floor** — a file grown by accretion until it outweighs
-  the task on every session and no line stands out.
+- **The accreted floor** — a file grown until it outweighs the task on every
+  session and no line stands out (one fleet floor measured ~25k tokens before
+  it was cut, 2026-08; vendor guidance targets a couple of hundred lines).
+- **The capped tail** — a host that stops loading at a byte limit, consumed
+  root-first, so the file nearest the work is the first one silently dropped.
 - **The confident stale line** — guidance the agent trusts over its own
   eyes, describing a repo that no longer exists.
 - **The phantom gate** — "enforced by X" where X has never fired; worse

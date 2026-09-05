@@ -38,7 +38,7 @@ is not.
 The vendor record is an existence proof for how large the residue gets.
 A harness vendor reported removing **over 80% of its own coding agent's
 system prompt** on a new model generation, with no measurable loss on its
-internal coding evaluations (published 2026-08). Treat the fraction as a
+internal coding evaluations (published 2026-07-24). Treat the fraction as a
 demonstration and never as a target: those evaluations are not public,
 and the result covers particular models in one harness. The *reason* is
 the transferable part, and the example given was a guardrail — "default

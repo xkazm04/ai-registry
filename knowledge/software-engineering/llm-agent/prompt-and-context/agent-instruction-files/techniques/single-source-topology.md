@@ -189,10 +189,12 @@ build when its copy goes stale.
 The convergence on one file name hides a divergence in how files
 *combine*, and it bites monorepos. The standard's semantics are
 **nearest-file-wins**: the file closest to the code being edited takes
-precedence, so a nested file can override the root. At least one major
-harness instead **concatenates** every file it discovers up the tree —
-root and nested load together, and a contradiction between them is
-resolved arbitrarily by the model. An author targeting both cannot write
+precedence, so a nested file can override the root. Most major harnesses
+instead **concatenate** every file they discover along the path — root and
+nested load together, ordered root-first so the nearest is merely *last*,
+and a contradiction between them is resolved arbitrarily by the model — while
+at least one implements the standard literally and loads the nearest file
+only. An author targeting both cannot write
 nested files as overrides. The portable rule: **nested files are
 additive** — a package's file carries only what is *extra* about that
 package, never a contradiction of the root, and anything that must
@@ -218,7 +220,18 @@ categories:
   personal preference, never repo policy — a rule the repo needs must
   not live where only one machine loads it.
 
+The cap is not only the author's. Hosts cap the floor themselves, and the
+caps disagree in kind: one stops *adding files* once the concatenated total
+reaches a configurable byte limit (32 KiB by default), consumed root-first —
+so under a nested layout the file nearest the work is the first to be
+silently dropped, which inverts the loaded-on-touch category above; another
+skips any single file over a much larger size outright; a third states its
+limit in pages. None of them errors. A floor sized against the author's cap
+and not the host's is a floor whose tail is loaded by some tools and not by
+others, and the per-directory overflow valve is exactly where the loss lands.
+
 The topology is verifiable, cheaply: a repo-audit that checks every
 bridge resolves to the canonical file, no bridge carries body text, and
-the floor's byte total stays under a stated cap makes the whole
+the floor's byte total stays under a stated cap — the smallest cap among
+the hosts the repo serves, not a number the author likes — makes the whole
 discipline a gate instead of a hope.

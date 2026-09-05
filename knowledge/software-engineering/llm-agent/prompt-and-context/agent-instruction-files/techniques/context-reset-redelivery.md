@@ -94,10 +94,17 @@ already right. That is how the dilution tax gets paid for nothing:
 line that was admitted correctly and never delivered.
 
 The signature to recognize: **an instruction that is obeyed early in a
-session and not late**, with no edit to the file in between. Anything that
-degrades with session length and recovers on restart is a delivery
-question, not an authorship question, and no amount of rewriting the line
-will touch it.
+session and not late**, and the instruction is one the file *changed*. The
+first half alone is not enough. Compliance decays with session length on a
+file nobody edited — the one file-scale factorial study to date (2026, one
+harness, 1,650 sessions) measured about 5.6% lower odds of following a rule
+per function generated, with the first omission at a median of the fourth —
+so "obeyed early, not late, recovers on restart" is also the signature of
+ordinary in-session dilution, and that one *is* a length question. What
+separates the two is the version: a stale copy disobeys the rule as it is
+now and obeys the rule as it was, and the marker check below tells them
+apart in one pass. Neither is an authorship question, and no amount of
+rewriting the line will touch either.
 
 ## Verify it once, cheaply
 

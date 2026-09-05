@@ -4,7 +4,7 @@ type: application
 subject: agent-instruction-files
 technique: rewrite-behavior-pinning
 stack: node
-verified_on: 2026-09-04
+verified_on: 2026-09-05
 verified_against: node@20
 applied: experiment
 ab_verdict: not-better
@@ -84,11 +84,12 @@ instrument, is what is missing.
 That absence is itself evidence for a sibling technique: `line-earning` names
 "a file grown by accretion until it outweighs the task on every session" as a
 failure mode, and the largest asset in the sweep is a 114 KB method file that
-has taken 30 revisions and has never once been reduced. The fleet is a live
+has taken 30 revisions and has never once been reduced (32 revisions and
+114,270 bytes on 2026-09-05 — still growing). The fleet is a live
 instance of the accretion it publishes a rule against.
 
 **The gate is structural by construction.** The registry's own skill gate
-(307 lines) asserts file presence, frontmatter keys, ASCII in the blocks that
+(307 lines at the run; 339 on 2026-09-05) asserts file presence, frontmatter keys, ASCII in the blocks that
 hand-rolled parsers read, kebab-case names, the routing-description cap and a
 body-length note. Every assertion is about the file's *shape*; none is about
 what an agent does under it. The published rule and the gate that guards it
@@ -111,7 +112,10 @@ because two of them are the same bias:
 
 ## What this realization cannot do
 
-It reports on **committed history only**, so it says nothing about a rewrite
+The runtime witness is the registry's own CI, which pins node 20 across its
+three gate jobs while the machine that ran the sweep carried node 24; the
+lower major is kept because it is the tree's own pin. It reports on
+**committed history only**, so it says nothing about a rewrite
 still in a working tree, which is where a pin would have to fire to be useful.
 It has no behavioural arm at all: nothing here ran an agent under either
 version of any file, so "the behaviour survived" is never established — only
