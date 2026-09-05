@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 219,
   "techniques": 1632,
-  "applications": 962,
+  "applications": 964,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -1310,7 +1310,7 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-instruction-files/agent-instruction-files.md",
-   "digest": "sha256:2b22ab2d80042cf1",
+   "digest": "sha256:7a99dfc7bf066ac2",
    "techniques": [
     {
      "slug": "capability-before-steering",
@@ -1555,6 +1555,13 @@
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-instruction-files/applications/claude-code--instruction-freshness.md",
      "verified_on": "2026-08-24",
      "verified_against": "claude-code@2"
+    },
+    {
+     "stack": "claude-code",
+     "technique": "line-earning",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-instruction-files/applications/claude-code--line-earning.md",
+     "verified_on": "2026-09-05",
+     "verified_against": "claude-code@2.1"
     },
     {
      "stack": "claude-code",
@@ -28007,7 +28014,7 @@
    "subcategory": "resilience",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/resilience/stream-proxy-hop/stream-proxy-hop.md",
-   "digest": "sha256:2a41d0204d5adb8f",
+   "digest": "sha256:458226e8e2adff39",
    "techniques": [
     {
      "slug": "abort-versus-unreachable",
@@ -28112,6 +28119,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "next",
+     "technique": "lifetime-cap-rotation",
+     "file": "knowledge/software-engineering/backend-platform/resilience/stream-proxy-hop/applications/next--lifetime-cap-rotation.md",
+     "verified_on": "2026-09-05",
+     "verified_against": "next@16"
+    },
     {
      "stack": "node",
      "technique": "credential-attachment-at-the-hop",

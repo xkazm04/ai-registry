@@ -1,6 +1,6 @@
 # LLM observability - the subjects this registry carries
 
-`llm-observability` - 17 subjects, 111 techniques, 61 applications.
+`llm-observability` - 17 subjects, 111 techniques, 62 applications.
 Slugs only; resolve one through `index.json` as the access rule beside this file describes.
 
 ### telemetry-and-data

@@ -5,7 +5,7 @@
   "source": "knowledge/llm-observability/ (frontmatter only)",
   "subjects": 17,
   "techniques": 111,
-  "applications": 61,
+  "applications": 62,
   "laws": 9,
   "categories": [
    "telemetry-and-data",
@@ -1996,7 +1996,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/llm-observability/economics-and-governance/usage-limit-governance/usage-limit-governance.md",
-   "digest": "sha256:7c1f41e2c3bf8309",
+   "digest": "sha256:eeec489bd0977863",
    "techniques": [
     {
      "slug": "concurrent-admission-integrity",
@@ -2093,6 +2093,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "enforcement-placement-and-reconciliation",
+     "file": "knowledge/llm-observability/economics-and-governance/usage-limit-governance/applications/node--enforcement-placement-and-reconciliation.md",
+     "verified_on": "2026-09-05",
+     "verified_against": "node@20"
+    },
     {
      "stack": "process",
      "technique": "enforcement-placement-and-reconciliation",

@@ -385,9 +385,9 @@
         "systedo-case@plugin:1.0.0"
       ],
       "invokes30d": 15,
-      "lessons": 39,
+      "lessons": 40,
       "lessonsPath": "skills/scan-sweep/LESSONS.md",
-      "lessonsHash": "sha256-n1:da0498b3228cdcb2",
+      "lessonsHash": "sha256-n1:1e4940c0d551b5d7",
       "usageContributors": [
         "kazda-dev-box"
       ]
@@ -459,9 +459,9 @@
         "systedo-case@plugin:2.1.0"
       ],
       "invokes30d": 0,
-      "lessons": 2,
+      "lessons": 3,
       "lessonsPath": "skills/tiger/LESSONS.md",
-      "lessonsHash": "sha256-n1:1b157a16fe2ca09d",
+      "lessonsHash": "sha256-n1:7a7242e3e06e4e36",
       "usageContributors": []
     },
     {
@@ -634,7 +634,7 @@
     "skills": 30,
     "practices": 8,
     "memory": 6,
-    "lessons": 153
+    "lessons": 155
   },
   "bundles": [
     {
@@ -685,9 +685,9 @@
       "purity": "software",
       "subjects": 17,
       "techniques": 111,
-      "applications": 61,
-      "files": 194,
-      "contentHash": "sha256:8189c7757b0a3e35"
+      "applications": 62,
+      "files": 195,
+      "contentHash": "sha256:d8513092d9c1b556"
     },
     {
       "name": "localization",
@@ -737,9 +737,9 @@
       "purity": "software",
       "subjects": 219,
       "techniques": 1632,
-      "applications": 962,
-      "files": 2818,
-      "contentHash": "sha256:8bfff22b34b3cd31"
+      "applications": 964,
+      "files": 2820,
+      "contentHash": "sha256:b22a1f48de664d83"
     }
   ]
 }
