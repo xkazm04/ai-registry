@@ -63,6 +63,23 @@ invalidation event, a focus return) still lands, which is why the
 conditional revert below remains load-bearing even where cancellation
 is wired.
 
+A fourth measure, equally standard, bounds the damage instead of
+preventing it: **invalidate the entity on settlement, success or
+failure alike**, so a wrong revert is overwritten by the refetch that
+follows it. Together with paint-time cancellation this is the recipe
+the mainstream cache layers document, and it is legitimate where a
+brief frame of the wrong value is tolerable and the refetch is cheap.
+Its limits are the reason the rest of this technique exists: it costs a
+second request on every mutation; under concurrent mutations the
+settlement refetch *is* the second operation above — it lands between a
+sibling attempt's paint and its settlement and erases the sibling's
+paint — so the mature form of the recipe also suppresses invalidation
+while any other mutation for the entity is still in flight, leaving the
+last settler to refetch (a count, not a mutex: the attempts still
+overlap, only the refetch is deferred); and it says nothing about the
+wrong frame itself, which the compare-and-swap revert below removes.
+Choose it knowingly, as a bounded-damage design, not as the discipline.
+
 ## Serialize per entity: the mutation mutex
 
 At most one in-flight mutation per entity identity; a second attempt

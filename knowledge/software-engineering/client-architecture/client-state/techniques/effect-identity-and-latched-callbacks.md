@@ -32,10 +32,13 @@ into a restart loop.
 ## Why a caller-supplied callback is never part of the identity
 
 A callback passed down from a caller is re-created on every render of that
-caller unless the caller works to prevent it. Its identity therefore
-changes for reasons that have nothing to do with the session: the caller
-re-rendered because something unrelated changed, or — the fatal case —
-because *this very effect wrote state*.
+caller unless the caller works to prevent it. A toolchain that memoizes on
+the caller's behalf does not change the rule: its own contract is that
+memoization is an optimization the runtime may discard, so a session that
+is correct only while a callback's identity happens to hold is incorrect.
+The identity therefore changes for reasons that have nothing to do with
+the session: the caller re-rendered because something unrelated changed,
+or — the fatal case — because *this very effect wrote state*.
 
 That closes a loop that sustains itself:
 

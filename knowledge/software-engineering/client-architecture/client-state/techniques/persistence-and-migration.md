@@ -129,9 +129,17 @@ composed until the payload is current. Rules that keep the chain sound:
   payload back** — not by "migrating" it down, and not by a routine
   write-through that re-saves it in the older shape, which converts a
   rollback into data loss on the user's first edit. Note that common
-  persistence middleware does none of this by default: the usual
-  version-mismatch behavior is discard-or-migrate with no
-  future-version branch, so the deliberate handling must be written.
+  persistence middleware does none of this by default, and the two
+  usual shapes fail differently: one routes *every* mismatch — a future
+  version included — through the same migrate function (or discards the
+  payload when none is supplied) and writes the result straight back;
+  the other detects the future case, logs that downgrading is
+  unsupported, and then adopts the newer payload *unchanged*, which is
+  the worse of the two, because the older build now holds a shape it
+  does not understand and re-saves it in its own on the first write.
+  Neither preserves-and-defaults, so the deliberate handling must be
+  written, and written as its own branch rather than as a case inside
+  the forward migration.
 - **The version covers everything under it.** One version for one payload;
   per-field versioning is a combinatorial trap. If two persisted domains
   evolve at different speeds, give them separate payloads with separate
