@@ -73,8 +73,16 @@ so the outbound header set is a closed vocabulary rather than an accident
 [one-authority-per-vocabulary](../../../../_laws.md#one-authority-per-vocabulary)).
 Typically that list is short: the content type the hop is actually sending, the
 accept type for the stream, the caller's forwarded identity when the origin
-needs it, and a correlation identifier. Anything else earns its place by being
-named.
+needs it, a correlation identifier — and **the resume cursor**. The standard
+stream client sends the identifier of the last event it received, on its own,
+on every reconnect; that header is the only state the automatic reconnect
+carries, and an origin that keeps a replay window uses it to fill the gap. An
+allowlist built from scratch that omits it turns every reconnect into a fresh
+subscription: the client silently loses whatever was emitted between the reap
+and the reopen, and the origin's replay machinery is never exercised through
+the hop. It is the header the enumerate-don't-spread rule most reliably drops,
+because it is one the application never sets and so never thinks to forward.
+Anything else earns its place by being named.
 
 The same discipline governs the return direction — upstream headers are not
 copied downstream — for the reasons in
@@ -93,8 +101,10 @@ reach the hop by another route, and the options rank clearly:
 - **A short-lived token in the query string** is the common fallback and is
   acceptable *only* if it is minted for this purpose: narrowly scoped, expiring
   in minutes, single-audience, and never the caller's long-lived credential.
-  URLs are logged by every intermediary, recorded in browser history, and
-  attached to outbound requests as referrer information; a long-lived token
+  URLs are logged by every intermediary that terminates the transport
+  security — the load balancer, the content network, the hop itself — are
+  recorded in browser history, and travel as referrer information wherever the
+  page's referrer policy lets the path cross an origin; a long-lived token
   placed there should be considered disclosed.
 - **A prior exchange that establishes a session, then a bare stream URL** is
   the most disciplined answer and the most machinery: the client authenticates

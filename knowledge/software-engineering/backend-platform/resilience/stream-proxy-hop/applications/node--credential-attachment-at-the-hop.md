@@ -5,8 +5,7 @@ subject: stream-proxy-hop
 technique: credential-attachment-at-the-hop
 stack: node
 status: forged
-verified_on: 2026-09-04
-verified_against: node@22
+verified_on: 2026-09-05
 applied: simulation
 ab_verdict: not-better
 proof: structural-only
@@ -17,6 +16,13 @@ proof: structural-only
 The technique's amendment for content-issued requests was written from one tree
 and then walked against three, which moved its discriminator. This application
 records the walk, because the refutation is the useful part.
+
+The three trees pin three different runtimes, so no single version witness
+is honest and none is written. Re-resolved 2026-09-05: case 1 is `gravity`
+at `6e918aa` (`app/api/foundry/file/route.ts:8-11`, CI runs node 22); case 3
+is `kp` at `c571bfde` (`app/_components/Markdown.tsx:6,18`, `engines`
+`>=24.0.0 <25.0.0`); case 2 is the source tree the amendment was written
+from, not a fleet project, and was not re-opened.
 
 The amendment as first written said the ranking of credential routes collapses
 for requests **the browser issues on the rendered content's behalf**, leaving
