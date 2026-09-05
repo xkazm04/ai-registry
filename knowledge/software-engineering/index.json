@@ -3,9 +3,9 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
-  "subjects": 218,
-  "techniques": 1626,
-  "applications": 956,
+  "subjects": 219,
+  "techniques": 1631,
+  "applications": 959,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1626/1626",
+  "use_when_coverage": "1631/1631",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -11385,6 +11385,113 @@
     }
    ]
   },
+  "engine-binding-surface": {
+   "category": "backend-platform",
+   "subcategory": "language-runtime",
+   "status": "forged",
+   "file": "knowledge/software-engineering/backend-platform/language-runtime/engine-binding-surface/engine-binding-surface.md",
+   "digest": "sha256:18fd56b71665e315",
+   "techniques": [
+    {
+     "slug": "address-sensitive-construction",
+     "status": "forged",
+     "laws": [
+      "one-validation-door",
+      "absent-guard-is-loud"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a foreign call records the address of a structure the host allocated",
+      "a wrapper is being made non-movable and the API got much harder to use",
+      "deciding whether a foreign object belongs on the host stack or behind an allocation",
+      "a destructor must run only for a structure that was actually initialized"
+     ]
+    },
+    {
+     "slug": "ask-the-authority-not-the-shadow",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "caching a foreign runtime's answer to a safety-critical question",
+      "a thread-local is being used to avoid a call across a boundary",
+      "a cached flag must stay correct across a window the cache does not observe",
+      "deciding whether a provenance check may answer optimistically when it cannot decide"
+     ]
+    },
+    {
+     "slug": "capability-deferred-release",
+     "status": "forged",
+     "laws": [
+      "creation-names-reaper",
+      "record-precedes-effect"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a destructor must release a foreign resource that only one thread is allowed to touch",
+      "a handle is sendable but its release is not",
+      "a cleanup path is being made conditional on where it happens to run",
+      "deciding where deferred cleanup is drained and how to prove it drains"
+     ]
+    },
+    {
+     "slug": "hierarchy-as-three-relations",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "re-expressing a foreign class hierarchy in a host language without inheritance",
+      "a wrapper is growing one conversion method per pair of foreign types",
+      "deciding whether a downcast may be a cast or must consult a predicate",
+      "an unsafe reinterpretation rests on a layout assumption"
+     ]
+    },
+    {
+     "slug": "phantom-capability-parameter",
+     "status": "forged",
+     "laws": [
+      "absent-guard-is-loud",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an operation is only legal after some foreign region has been entered",
+      "a wrapper has a method that panics when a precondition was not met",
+      "deciding whether a run-time state of a foreign runtime should become a type distinction",
+      "a type parameter is being added that carries no data"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "rust",
+     "technique": "address-sensitive-construction",
+     "file": "knowledge/software-engineering/backend-platform/language-runtime/engine-binding-surface/applications/rust--address-sensitive-construction.md",
+     "verified_on": "2026-09-05",
+     "verified_against": "rust@1.91.0"
+    },
+    {
+     "stack": "rust",
+     "technique": "ask-the-authority-not-the-shadow",
+     "file": "knowledge/software-engineering/backend-platform/language-runtime/engine-binding-surface/applications/rust--ask-the-authority-not-the-shadow.md",
+     "verified_on": "2026-09-05",
+     "verified_against": "rust@1.91.0"
+    },
+    {
+     "stack": "rust",
+     "technique": "capability-deferred-release",
+     "file": "knowledge/software-engineering/backend-platform/language-runtime/engine-binding-surface/applications/rust--capability-deferred-release.md",
+     "verified_on": "2026-09-05",
+     "verified_against": "rust@1.91.0"
+    }
+   ]
+  },
   "engine-host-contract": {
    "category": "backend-platform",
    "subcategory": "language-runtime",
@@ -14942,7 +15049,7 @@
    "subcategory": "standards-and-gates",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/invariant-placement/invariant-placement.md",
-   "digest": "sha256:dbdde652622d81de",
+   "digest": "sha256:79063c2976d10b8c",
    "techniques": [
     {
      "slug": "build-time-evaluation-of-cross-value-invariants",
@@ -32668,6 +32775,7 @@
     "embedded-db/quiet-window-maintenance",
     "embedded-preview/dev-server-registry",
     "embedded-preview/origin-validation",
+    "engine-binding-surface/hierarchy-as-three-relations",
     "engine-host-contract/contained-async-module-loader",
     "entity-lifecycle/blast-radius-computation",
     "entity-lifecycle/bulk-deletion-rails",
@@ -34145,6 +34253,8 @@
     "dynamic-secret-lifecycle/wal-per-external-side-effect",
     "edge-queue-policy/per-edge-depth-and-policy",
     "embedded-tracing-collector/root-discovery-by-counting",
+    "engine-binding-surface/ask-the-authority-not-the-shadow",
+    "engine-binding-surface/phantom-capability-parameter",
     "engine-string-representation/dual-encoding-symbol-interner",
     "error-handling/cancellation-attribution",
     "error-handling/exit-contract-is-a-taxonomy-projection",
@@ -34351,6 +34461,7 @@
     "drag-drop/ownership-boundaries",
     "durable-agent-operations/two-cancellations-and-a-synchronous-door",
     "embedded-preview/origin-validation",
+    "engine-binding-surface/address-sensitive-construction",
     "engine-host-contract/contained-async-module-loader",
     "entity-lifecycle/archive-restore-semantics",
     "entity-lifecycle/cascade-design",
@@ -34876,6 +34987,7 @@
     "embedded-tracing-collector/derived-trace-with-escape-hatches",
     "embedded-tracing-collector/ephemeron-fixpoint-marking",
     "embedded-tracing-collector/mark-finalize-remark-sweep",
+    "engine-binding-surface/capability-deferred-release",
     "engine-host-contract/idle-aware-job-loop",
     "engine-host-contract/untraceable-jobs-as-roots",
     "entity-lifecycle/cascade-design",
@@ -35193,6 +35305,8 @@
     "embedded-db/extension-lifecycle",
     "embedded-preview/cross-frame-protocol",
     "embedded-tracing-collector/derived-trace-with-escape-hatches",
+    "engine-binding-surface/ask-the-authority-not-the-shadow",
+    "engine-binding-surface/hierarchy-as-three-relations",
     "engine-host-contract/spec-mirrored-hook-surface",
     "engine-string-representation/compile-time-static-string-table",
     "engine-string-representation/dual-encoding-symbol-interner",
@@ -35877,6 +35991,8 @@
     "edge-queue-policy/per-edge-depth-and-policy",
     "embedded-tracing-collector/mark-finalize-remark-sweep",
     "embedded-tracing-collector/root-discovery-by-counting",
+    "engine-binding-surface/address-sensitive-construction",
+    "engine-binding-surface/phantom-capability-parameter",
     "engine-host-contract/null-and-blocking-executors",
     "entity-lifecycle/archive-restore-semantics",
     "error-handling/crash-capture",
@@ -36036,6 +36152,7 @@
     "delivery-guarantees/co-transactional-consume",
     "durable-agent-operations/intent-mints-the-identity",
     "durable-agent-operations/settlement-order-is-not-placement-order",
+    "engine-binding-surface/capability-deferred-release",
     "execution-state-checkpointing/the-record-outlives-the-rewind",
     "guest-execution-bounding/bounded-shadow-backtrace",
     "job-coordination/in-flight-is-a-position",

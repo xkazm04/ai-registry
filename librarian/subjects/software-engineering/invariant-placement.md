@@ -89,3 +89,23 @@ One technique, from [[../../sources/2026-09-04-cargo-make-rust-craft]].
 - The golden path's existing line - *a set of independent flags obliges every
   write site to prevent every illegal combination* - now has its mirror: a union
   with an extra member obliges every read site to invent a semantics for it.
+
+### 2026-09-05 - `/intake`, amendment
+
+One amendment to `constraint-deletion-is-silent` from [[2026-09-05-rusty-v8]]:
+**the negative artifact is the test most likely to be excluded by
+configuration.** Its output is the checker's own diagnostics, which vary by
+toolchain version and target, so it acquires version and platform guards for
+entirely honest reasons — and on every configuration a guard excludes it, the
+altitude is back to having no liveness signal at all. The remedy, applied
+naively, reproduces the disease. Two rules landed with it: a guard on a negative
+artifact is a written coverage statement, and at least one blocking
+configuration must run it.
+
+The source keeps fourteen compile-fail fixtures with committed golden
+diagnostics — the shape the technique advises against — and this was scored a
+**catch, not a refutation**: the host language offers no stable error identifier
+for lifetime diagnostics, so the tree sits in the technique's own third fallback
+branch, small fixture count and all. The corpus priced the tree's choice before
+the tree was read.
+

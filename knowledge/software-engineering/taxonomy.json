@@ -279,7 +279,8 @@
             "engine-host-contract",
             "native-guest-interop",
             "standards-layered-runtime",
-            "guest-language-introspection"
+            "guest-language-introspection",
+            "engine-binding-surface"
           ]
         }
       ]

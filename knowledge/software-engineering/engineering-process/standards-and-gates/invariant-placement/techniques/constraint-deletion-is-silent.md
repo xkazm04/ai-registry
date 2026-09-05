@@ -118,6 +118,44 @@ The repair, in order of preference:
 runtime check, it already has a failing test available, and a negative
 compile-time artifact for it is theatre.
 
+## The artifact is the one most likely to be configured away
+
+There is a boundary case in which this technique's own remedy reproduces the
+disease, and it arrives through entirely honest reasoning.
+
+The negative artifact's output is the *checker's* output, and a checker's
+diagnostics vary by version and by target in ways nothing about the invariant
+does. A pre-release toolchain rewords a message; an emulated or
+cross-compiled target cannot run the harness at all. Both produce failures that
+mean nothing about the constraint, so the artifact acquires a version guard and
+a platform guard — and both guards are correct in the narrow sense that they
+suppress noise.
+
+What they also do is switch off the only instrument that can see the deletion,
+on precisely the configurations where the toolchain is different. Everywhere a
+guard excludes the artifact, the altitude is back to where this technique found
+it: removing the constraint makes strictly more programs valid, every other
+test still passes, and no configuration is watching. The suppression is
+invisible in the ordinary run, because the ordinary run is on the configuration
+where the artifact *does* execute and go green.
+
+Two rules keep the guard from becoming a hole:
+
+- **A guard on a negative artifact is a coverage statement, and it is written
+  down where the artifact lives** — which toolchains and targets run it, and
+  therefore which do not. A conditional attribute with no comment reads as a
+  flake suppression rather than as a gap in the guarantee.
+- **At least one configuration in the blocking set must run it.** If every
+  configuration that runs the artifact is advisory and every blocking one skips
+  it, the artifact is not on the binding rung at all
+  ([gate-sees-target](../../../../_laws.md#gate-sees-target)), and the decision
+  rule below about the binding rung has been satisfied on paper only.
+
+The cost of getting this wrong is bounded and worth stating plainly: it is not
+that the constraint breaks, but that its removal stops being *observable* on
+some configurations. That is the same failure this technique names, one level
+up — the instrument is present, and it is the thing that is absent.
+
 ## Decision rules
 
 - No invariant rises above the call site without a negative artifact in the
@@ -130,3 +168,5 @@ compile-time artifact for it is theatre.
 - A change that retires validation tests on the strength of a shape states the
   exchange and names the artifact that replaces them.
 - Treat a fixture regeneration as a review item, never as maintenance.
+- A version or platform guard on the artifact is a written coverage
+  statement, and at least one blocking configuration runs it.
