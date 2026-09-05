@@ -89,16 +89,24 @@ read as silence.
 ## Where the seat's worst case sits
 
 The technique says every pre-provider seat prevents approximately; here
-the approximation is the TTL. A client's view is at most 30 seconds old,
-so the worst-case overshoot is whatever the app spends in 30 seconds after
-the server's position changed — plus the bootstrap gap, since a client
-that has never reached the server admits everything. The reconcile step is
+the approximation is the TTL — and, read carefully, the TTL bounds the wrong
+side. This seat fails open, so a stale view is thrown away, never obeyed:
+the 30 seconds bound how long a *refusal* can stand on old evidence, not
+how much the app can spend past the cap. Spend past the cap is bounded by
+the next response when the server is reachable (one send round-trip of
+over-admission, since every response carries the current position) and by
+the provider's own ceiling alone when it is not — plus the bootstrap gap,
+since a client that has never reached the server admits everything. (The
+first draft of this paragraph stated "whatever the app spends in 30
+seconds"; the 2026-09-05 apply pass ran that prediction against all three
+SDKs' admission caches and it held in none — see the node application.)
+The reconcile step is
 the record-side cap itself: the calls that slipped through the stale view
 are ingested, charged to the window, and turned away one call later. What
 the tree does not do is state that bound in numbers anywhere an operator
-reads — the README names the 30-second staleness but not the spend it
-implies — which is the technique's "state your mode and worst case"
-obligation, half met.
+reads — the README named the 30-second staleness but not the bound it
+implies — which was the technique's "state your mode and worst case"
+obligation, half met; the apply pass wrote that paragraph into the README.
 
 The verdicts are fixed across the three SDKs by
 `clients/contract/fixtures/limits.json` and a `pre_spend_admission_verdicts`

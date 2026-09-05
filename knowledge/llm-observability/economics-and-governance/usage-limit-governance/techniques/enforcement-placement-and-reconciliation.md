@@ -34,7 +34,11 @@ There are four seats, and each buys a different guarantee:
   observability SDK must not change what the app does by default); it
   fails open past a stated staleness — a telemetry client that halts an
   app because it is itself confused is worse than one that records
-  nothing; and a graduated shed is decided with the *server's own*
+  nothing — and that staleness bounds how long a refusal may stand on old
+  evidence, not how much can be spent past the cap, which a fail-open seat
+  never bounds on its own (spend is bounded by the next response while the
+  platform is reachable, and by the provider's ceiling alone when it is
+  not); and a graduated shed is decided with the *server's own*
   deterministic function over the same ids, or the client and the server
   will disagree about which events are shed. A call the client refuses is
   not spend and must not be recorded as cost — but a zero-usage marker for
