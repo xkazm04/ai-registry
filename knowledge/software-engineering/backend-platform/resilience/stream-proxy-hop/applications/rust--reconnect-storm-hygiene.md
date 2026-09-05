@@ -7,12 +7,17 @@ stack: rust
 status: forged
 verified_on: 2026-09-05
 verified_against: rust@1.96
+applied: code
+ab_verdict: better
+proof: ab-paired
 ---
 
 # The reconnecting half of a webhook relay, in a Tauri backend
 
 Citations are against `personas` at `ee124810f` (2026-09-05); the file last
-changed at `e6716a1b4` (2026-08-20, a formatting pass). The workspace declares
+changed at `e6716a1b4` (2026-08-20, a formatting pass) before this pass, and
+at `d5ca84fd2` (2026-09-05, on a branch) by it - the "Applied" section at
+the end cites the post-change lines. The workspace declares
 `rust-version = "1.80.0"` in `src-tauri/Cargo.toml:115`; CI runs
 `dtolnay/rust-toolchain@stable` with no pinned channel, and the local toolchain
 that built this read is `rustc 1.96.1`; the witness above is the observed
@@ -80,6 +85,13 @@ showed `connected` each time. Here a close inside thirty seconds keeps the
 current rung. The number is named, beside the buffer cap, at the top of the
 file.
 
+Read a second time against the technique's sentence *whatever the close looked
+like*, the reset was asymmetric: it lived in the `Ok` arm only, so a
+connection that lived ten hours and then ended in a read error - the
+laptop-sleep and Wi-Fi-drop shapes the tree's own bug-hunt note names - kept
+whatever rung the failure ladder before it had reached. That is the finding
+the apply pass below moved.
+
 ## The stream is bounded and the cursor is carried (`:36-38`, `:242-248`, `:292-295`)
 
 Two disciplines the technique does not own but the subject does:
@@ -129,3 +141,88 @@ tree's, and the tree's response — opt-in HMAC over the forwarded signature
 [webhook-ingestion](../../webhook-ingestion/webhook-ingestion.md)'s ground, not
 this subject's; it is noted here only because a reader of this file will meet
 it first.
+
+## Applied 2026-09-05
+
+**Seam class:** a hand-rolled server-pushed-stream reader with an in-task
+reconnect ladder. The subject's golden path was flipped today - whether a
+reaped idle connection re-opens endlessly or goes dead is a property of the
+client type - and this is the hand-rolled type, so the question was how the
+tree classifies a clean end of body against a read error and a refused
+handshake, and what each does to the ladder.
+
+**What the tree already did.** A clean end of body (`stream.next()` yielding
+`None`, `:356-358`) breaks out to `Ok(())`; the loop does not exit on `Ok`,
+it falls through to the sleep and re-opens (`:795-830`). So this hand-rolled
+reader does *not* go dead on a clean close - the subject's "lane stays dead
+until the user reloads" is the default a general fetch hands you, and this
+tree overrode it by putting the read inside a loop that treats every return as
+a close to recover from. And the reset already keyed on
+`MIN_STABLE_CONNECTION_SECS`, not on the open. Both halves of the finding were
+in place; a `code` row against them would have been a bookmark.
+
+**What the technique found.** The reset was in the `Ok` arm alone. The three
+close shapes were classified by *arm* - clean close in one, network error and
+non-2xx handshake together in the other - and the arm decided whether the
+lifetime was consulted at all. A refused handshake lives zero seconds and
+must not reset; a read error after ten hours is the same stable connection
+the clean-close arm resets on, and it did not.
+
+**A and B.** A is the rule as it stood, transcribed verbatim into the test
+module as `policy_a`: reset to the base only when the close was clean *and* the
+connection was stable. B is `backoff_after_close` (`:48-54`): reset when the
+connection was stable, whatever the close. The loop now measures `lived` once,
+before the arms (`:793`), and applies the rung after them (`:822`). The base
+and cap became named constants beside the stable threshold (`:41-42`), which
+is the technique's "read together" rule and cost two lines.
+
+**Instrument and result.** Four unit tests (`:871-969`) replay recorded close
+sequences through both policies and read the sequence of sleeps. The cases are
+the three shapes the tree's bug-hunt note of 2026-06-07 names for this relay,
+plus the refused handshake:
+
+| case | closes replayed | A sleeps | B sleeps |
+| --- | --- | --- | --- |
+| smee rate-limit: accept, close within seconds, six times | clean at 2s,1s,3s,2s,1s,2s | 1,2,4,8,16,30 | 1,2,4,8,16,30 |
+| reaped idle stream: two failed opens, then a clean close after 600s | err 0s, err 0s, clean 600s | 1,2,1 | 1,2,1 |
+| laptop resume: five refused handshakes, then ten hours, then a read error | err 0s x5, err 36000s | 1,2,4,8,16,**30** | 1,2,4,8,16,**1** |
+| channel gone (`HTTP 404`) seven times | err 0s x7 | 1,2,4,8,16,30,30 | same |
+
+Same inputs, both arms, one number per row: `ab-paired`, n=4 sequences. The
+two policies agree on every clean-close case - which is the confirmation that
+the tree's clean-close handling already matched the technique - and differ on
+exactly one, where B takes the first retry from the cap to the base after a
+connection that had plainly proven the origin healthy. Verdict `better`, on
+the measurable "first reconnect delay after a stable connection ended in an
+error, given a prior ladder at the cap": 30s -> 1s. It is a small number; the
+storm direction (the accept-then-close case) was already right and stayed
+right, and the tests now pin it.
+
+**Falsifier.** If a stable connection ending in a read error were commonly
+followed by an origin that is *still* unwell - a laptop that wakes and sleeps
+again within a second - B would retry once at 1s where A waited 30s; the
+ladder climbs from there either way, so the cost is one extra request per
+such episode. If that request were expensive (it is a `GET` with
+`Last-Event-ID`, and the origin replays history on it), the tree's dedup set
+absorbs the replay; the falsifier would be a replay that exceeds the set's cap
+of 512 in one reconnect.
+
+**Not moved, and why.** Three deviations recorded above stand: one error
+string for four causes, no attempt limit and no disconnected state, and - seen
+in this pass - the `Ok` arm touches no status, so the surface reads
+`connected: true` through the whole backoff that follows a clean close. Each
+is a classification or a state-machine change larger than a few readable
+lines in a closure that also owns persistence and the event bus, and the
+technique's retryability rule needs the status code carried out of
+`relay_sse_core` first. They are the next `task` row, not this one.
+
+**Where it sits.** On branch `apply/reconnect-backoff-stable-reset-0905` at
+`d5ca84fd2`, by pathspec, not on `master`: the desktop crate compiles with
+the change, but every lib-test binary of that crate on the machine that ran
+this pass - including ones built on 2026-08-13, before any of this - fails to
+load with `STATUS_ENTRYPOINT_NOT_FOUND`, so the project's own gate could not
+execute here. The four tests ran green in a standalone crate holding the
+module verbatim (constants, function and test module extracted by line
+range). The return condition is the gate itself: `cargo test -p
+personas-desktop --lib --features desktop reconnect_backoff_tests` on a machine
+whose test binary loads, then a fast-forward of `master`.
