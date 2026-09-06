@@ -3,14 +3,17 @@ layer: golden-path
 type: golden-path
 subject: cross-provider-benchmark-operations
 status: reconciled
-use_when: [choosing which model should serve a workload, standing up a recurring benchmark over real traffic, a benchmark run needs a cost ceiling or a cancel button, a scorecard must be comparable to last month's]
+use_when: [choosing which model should serve a workload, choosing a reasoning-effort or thinking-budget setting, standing up a recurring benchmark over real traffic, a benchmark run needs a cost ceiling or a cancel button, a scorecard must be comparable to last month's, a scorecard must end in a routing recommendation]
 techniques:
   - target-matrix-runs
+  - sampling-knobs-are-axes-not-strings
   - dataset-sampling-anonymize-freeze
+  - graded-case-difficulty
   - determinism-stamping
   - budget-preflight-and-ceiling
   - async-run-queue-with-cancel
   - failure-clustering-recommendations
+  - cheapest-sufficient-configuration
 ---
 
 # Cross-provider benchmark operations
@@ -49,9 +52,12 @@ honest. Run it out of order and the failure is silent, which is the worst kind.
    then **freeze**. A frozen, versioned dataset is what makes two runs a
    comparison instead of two anecdotes (dataset-sampling-anonymize-freeze).
 2. **The matrix is declared, not accreted.** A benchmark names its targets —
-   the cross product of providers, models, and prompt variants under test —
-   up front, so every target sees the same cases and the scorecard's columns
-   are commensurable (target-matrix-runs).
+   the cross product of providers, models, prompt variants, and the sampling
+   knobs each runs under — up front, so every target sees the same cases and the
+   scorecard's columns are commensurable (target-matrix-runs). A knob that
+   changes what the provider charges is part of the target, not a decoration on
+   its model string; encoded as a string it is invisible to every adapter that
+   does not happen to parse it (sampling-knobs-are-axes-not-strings).
 3. **Spend is asked for, not discovered on the invoice.** A matrix multiplies:
    targets × cases × generation samples × judge samples. Estimate before the
    first paid call, enforce a ceiling during the run, and mark a halted run
@@ -68,13 +74,18 @@ honest. Run it out of order and the failure is silent, which is the worst kind.
    clustered by dimension and pattern, and the scorecard closes with concrete
    recommendations — including the cost-aware kind the whole exercise exists
    for: a cheaper model within noise of the expensive one is a finding, not a
-   footnote (failure-clustering-recommendations).
+   footnote (failure-clustering-recommendations). Where the program is ready to
+   name one configuration, "cheapest not significantly worse than the best" is
+   the primitive, and both halves are tested rather than eyeballed
+   (cheapest-sufficient-configuration).
 
 ## The three-axis reading is the point
 
 The single most common corruption of a benchmark program is collapsing the
 scorecard to one number. A quality-only leaderboard answers "which model is
-best", which is almost never the question a routing decision asks. The real
+best", which is almost never the question a routing decision asks — the question
+is which is *sufficient*, and the two answers differ whenever the workload is
+not uniformly hard, which is almost always (graded-case-difficulty). The real
 question is "which model clears the quality bar for this task at the best
 cost and latency" — and that question needs all three axes reported per
 target: score and pass-rate, latency at the median *and* the tail, tokens and

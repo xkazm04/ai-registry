@@ -4,7 +4,7 @@
   "bundle": "llm-observability",
   "source": "knowledge/llm-observability/ (frontmatter only)",
   "subjects": 17,
-  "techniques": 110,
+  "techniques": 113,
   "applications": 60,
   "laws": 9,
   "categories": [
@@ -14,7 +14,7 @@
    "federation-and-surfaces"
   ],
   "layout": "nested",
-  "use_when_coverage": "110/110",
+  "use_when_coverage": "113/113",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -369,7 +369,7 @@
    "subcategory": null,
    "status": "reconciled",
    "file": "knowledge/llm-observability/quality-scoring/cross-provider-benchmark-operations/cross-provider-benchmark-operations.md",
-   "digest": "sha256:096041c00e39a184",
+   "digest": "sha256:a7ad421a0abaaae9",
    "techniques": [
     {
      "slug": "async-run-queue-with-cancel",
@@ -398,6 +398,22 @@
       "a benchmark matrix could cost real money",
       "an operator must approve spend before it happens",
       "a halted run must not read as a passing one"
+     ]
+    },
+    {
+     "slug": "cheapest-sufficient-configuration",
+     "status": "forged",
+     "laws": [
+      "statistical-verdicts-or-no-verdict",
+      "nullable-never-zero",
+      "estimation-announces-itself"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "turning a three-axis scorecard into one routing recommendation",
+      "choosing between a premium and a cheap configuration",
+      "a leaderboard must not just rank",
+      "reporting a cost-quality trade-off"
      ]
     },
     {
@@ -440,6 +456,36 @@
       "turning a scorecard into prompt or routing changes",
       "a benchmark report must end in actions",
       "diagnosing why a target's mean dropped"
+     ]
+    },
+    {
+     "slug": "graded-case-difficulty",
+     "status": "forged",
+     "laws": [
+      "never-present-absence-as-an-answer",
+      "statistical-verdicts-or-no-verdict"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a scorecard must answer which model is sufficient rather than which is best",
+      "an eval corpus has stopped separating targets",
+      "deciding whether cases need more than tags",
+      "routing an easy majority away from an expensive model"
+     ]
+    },
+    {
+     "slug": "sampling-knobs-are-axes-not-strings",
+     "status": "forged",
+     "laws": [
+      "never-present-absence-as-an-answer",
+      "estimation-announces-itself"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "comparing reasoning-effort or thinking-budget settings of one model",
+      "designing a benchmark's target declaration",
+      "a model spec carries a suffix like model@effort",
+      "deciding where a per-call generation knob belongs"
      ]
     },
     {
@@ -2138,6 +2184,8 @@
     "cross-provider-benchmark-operations/async-run-queue-with-cancel",
     "cross-provider-benchmark-operations/determinism-stamping",
     "cross-provider-benchmark-operations/failure-clustering-recommendations",
+    "cross-provider-benchmark-operations/graded-case-difficulty",
+    "cross-provider-benchmark-operations/sampling-knobs-are-axes-not-strings",
     "federated-benchmark-sharing/aggregate-only-digests",
     "federated-benchmark-sharing/capture-locally-publish-separately",
     "federated-benchmark-sharing/content-addressed-contribution",
@@ -2180,9 +2228,11 @@
     "analytics-store-design/backend-parity-as-contract",
     "breach-alerting-and-attribution/pre-breach-forecasting",
     "cross-provider-benchmark-operations/budget-preflight-and-ceiling",
+    "cross-provider-benchmark-operations/cheapest-sufficient-configuration",
     "cross-provider-benchmark-operations/dataset-sampling-anonymize-freeze",
     "cross-provider-benchmark-operations/determinism-stamping",
     "cross-provider-benchmark-operations/failure-clustering-recommendations",
+    "cross-provider-benchmark-operations/sampling-knobs-are-axes-not-strings",
     "federated-benchmark-sharing/bounded-contributor-influence",
     "federated-benchmark-sharing/cost-bucketing-side-channels",
     "generator-uncertainty-scoring/generator-vs-itself",
@@ -2217,6 +2267,7 @@
    "techniques": [
     "analytics-store-design/flat-events-plus-json-linkage",
     "breach-alerting-and-attribution/top-contributor-attribution",
+    "cross-provider-benchmark-operations/cheapest-sufficient-configuration",
     "federated-benchmark-sharing/strict-ingestion-lenient-consumption",
     "generator-uncertainty-scoring/scorer-cost-class",
     "judge-contract-design/deterministic-dimension-kinds",
@@ -2275,6 +2326,8 @@
     "breach-alerting-and-attribution/pre-breach-forecasting",
     "cross-provider-benchmark-operations/async-run-queue-with-cancel",
     "cross-provider-benchmark-operations/budget-preflight-and-ceiling",
+    "cross-provider-benchmark-operations/cheapest-sufficient-configuration",
+    "cross-provider-benchmark-operations/graded-case-difficulty",
     "generator-uncertainty-scoring/generator-vs-itself",
     "generator-uncertainty-scoring/probability-calibration-is-not-agreement",
     "generator-uncertainty-scoring/score-source-ensembling",
