@@ -1,0 +1,30 @@
+{
+ "meta": {
+  "generated_by": "scripts/build-recipes-index.mjs",
+  "lane": "recipes",
+  "source": "recipes/<domain>/<topic>/<slug>/recipe.json",
+  "recipes": 1,
+  "by_status": {
+   "seed": 1
+  },
+  "by_domain": {
+   "sales_marketing": 1
+  },
+  "excludes": "description, activities, outcomes, guidance, examples, lessons - open the recipe"
+ },
+ "recipes": {
+  "web-analytics-performance-review": {
+   "path": "recipes/sales_marketing/web-analytics/web-analytics-performance-review",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "sales_marketing",
+   "topic": "web-analytics",
+   "title": "Web analytics performance review",
+   "connector_types": [
+    "analytics",
+    "social"
+   ],
+   "recommended_trigger_kind": "time"
+  }
+ }
+}

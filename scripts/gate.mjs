@@ -72,6 +72,8 @@ const CHECK_SKILLS = step('check-skills.mjs');
 // Stamper, not a generator: --check here even under --write. See the header.
 const CLAUSES = step('apply-skill-clauses.mjs', { check: ['--check'] });
 const MARKETPLACE = step('build-marketplace.mjs', { check: ['--check'], write: [] });
+const CHECK_RECIPES = step('check-recipes.mjs');
+const RECIPES_INDEX = step('build-recipes-index.mjs', { check: ['--check'], write: [] });
 const CHECK_BUNDLES = step('check-bundles.mjs');
 const INDEX = step('build-index.mjs', { check: ['--check'], write: [] });
 const KNOWLEDGE_RULES = step('build-knowledge-rules.mjs', { check: ['--check'], write: [] });
@@ -98,6 +100,10 @@ const LANES = {
   knowledge: [CHECK_BUNDLES, INDEX, KNOWLEDGE_RULES, ...CATALOG_TAIL],
   // skills.yml `shape` job, then the catalog job skills/** also triggers.
   skills: [CHECK_SKILLS, CLAUSES, MARKETPLACE, ...CATALOG_TAIL],
+  // The gate first, then the index it presupposes - an index built over a lane that
+  // failed its shape check describes a tree nobody has. recipes/ is NOT one of
+  // build-catalog's five hashed lanes, so this row correctly stops before the tail.
+  recipes: [CHECK_RECIPES, RECIPES_INDEX],
   usage: [CHECK_USAGE, ...CATALOG_TAIL],
   signals: [CHECK_SIGNALS],
   practices: [...CATALOG_TAIL],
@@ -113,6 +119,7 @@ const LANES = {
 const ALL = [
   CHECK_SKILLS, CLAUSES, MARKETPLACE,
   CHECK_BUNDLES, INDEX, KNOWLEDGE_RULES,
+  CHECK_RECIPES, RECIPES_INDEX,
   CHECK_USAGE, CHECK_SIGNALS,
   EXIT_CONTRACT, WEIGHTS,
   HASH_STABILITY, CATALOG,
