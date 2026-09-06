@@ -336,3 +336,35 @@ rule that only this loop's participants currently follow.
   <base> <wave-tip>` lands a fast-forward without ever writing HEAD and is the safer form when the
   merge is known to be a fast-forward. Phase B step 8 could name it as the fallback.
 
+## 2.5.2 - 2026-09-06 - tracklight (wave 2)
+
+- **Review the case the test suite does NOT cover — that is where a builder's blind spot lives.**
+  The wave-2 builder wrote nine tests, proved all ten of its falsifiability breaks, and still shipped
+  a defect, because every test it wrote exercised a matrix where the best target was *not* also the
+  cheapest. The Director found it by listing the test names, asking which outcome was missing, and
+  writing a throwaway probe that printed the output for that input. Cost: one probe test. Phase B
+  step 6 tells the Director to read the diff and re-measure headline numbers; it should also say
+  *enumerate the outcome space and probe the cell the tests skipped.* A builder's suite is evidence
+  about the cases it imagined.
+- **A safety disclosure can fail in the flattering direction, and that is harder to see than a
+  missing one.** The bug was not an absent caveat but a power caveat firing on the *strongest*
+  possible run — "this run could distinguish nothing" printed over a matrix that separated its
+  targets cleanly, because the dominated rows had been removed before the test walk and the only
+  remaining "test" was the best target against itself. Reviewers check whether a disclosure is
+  present; this one was present, correct-looking, and inverted. Worth a line in the direction-quality
+  bar: *a caveat that can fire when the underlying condition is absent is as wrong as a caveat that
+  never fires.*
+- **When a builder MODIFIES an existing test to accommodate its change, review that specific hunk
+  for weakening — it is the one edit that can silently delete a guard.** Here the modification was
+  legitimate and the test came out stronger (it gained `candidates_tested: 2`, a numeric p, and the
+  corrected alpha), but the Director had to read it to know that, and nothing in the method currently
+  says to. A builder that adjusts a test to make its own change pass is doing the single most
+  dangerous edit available to it.
+- **`git switch` failing is a transient environment condition, not a permanent one — retry it before
+  designing around it.** The `Permission denied` symref failure that forced `git branch -f` in wave 1
+  had cleared by wave 2, and the ordinary `git switch` + `git merge --ff-only` + `git branch -d`
+  sequence completed normally. But retrying it mid-session moves the worktree: `git switch main`
+  succeeded while `main` was two commits BEHIND the wave branch, so the frontier work vanished from
+  the tree until the merge ran. Both facts belong together in step 8 - *retry the clean form, and
+  expect the retry to change the tree.*
+
