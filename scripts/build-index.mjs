@@ -34,10 +34,30 @@ import { fileURLToPath } from 'node:url';
 import { loadTaxonomy, walkSubjects } from './lib/taxonomy.mjs';
 import { sameIgnoringNewlines, hashBundle } from './lib/bundle-hash.mjs';
 import { extractLawStatements } from './lib/laws.mjs';
+import { deriveSubjectRevisions } from './lib/subject-revision.mjs';
 
 const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 const LANE = path.join(ROOT, 'knowledge');
 const check = process.argv.includes('--check');
+
+/** The previous index's `revision`/`changedAt` per subject directory, so the shallow /
+ *  no-git fallback in subject-revision.mjs has something to carry forward. Read BEFORE
+ *  the index is rewritten; an unreadable or absent index simply carries nothing. */
+function previousRevisions(domain) {
+  const out = new Map();
+  const file = path.join(LANE, domain, 'index.json');
+  if (!fs.existsSync(file)) return out;
+  let idx;
+  try { idx = JSON.parse(fs.readFileSync(file, 'utf8')); } catch { return out; }
+  for (const s of Object.values(idx.subjects ?? {})) {
+    if (typeof s.file !== 'string') continue;
+    out.set(path.dirname(path.join(ROOT, s.file)), {
+      revision: typeof s.revision === 'number' ? s.revision : null,
+      changedAt: typeof s.changedAt === 'string' ? s.changedAt : null,
+    });
+  }
+  return out;
+}
 
 /**
  * The frontmatter subset bundles use: scalars, `- ` block lists, `[]` and
@@ -77,7 +97,7 @@ const mdFiles = (dir) =>
     ? fs.readdirSync(dir).filter((f) => f.endsWith('.md') && !f.startsWith('.')).sort()
     : [];
 
-function buildBundle(domain) {
+function buildBundle(domain, revisions) {
   const base = path.join(LANE, domain);
 
   // The taxonomy is the authority on grouping AND on location. Reading it through the
@@ -181,6 +201,17 @@ function buildBundle(domain) {
       // bundle-level check reported all 287 fleet verdicts stale at once, which is the
       // same as reporting none. `build-registry-map` stamps it on every pair.
       digest: hashBundle(path.join(fileURLToPath(new URL('../knowledge/', import.meta.url)), domain, at)).hash,
+      // ORDERING beside IDENTITY. The digest says whether a verdict was made against
+      // this subject as it is now; it cannot say how far behind the verdict is, because
+      // two digests do not order. `revision` counts the commits that touched the
+      // subject's folder (+1 while it has uncommitted edits, so this file is current on
+      // both sides of the commit), `changedAt` dates the newest one. A consumer that
+      // copies `revision` into its verdict can compute `revisionsBehind`; the digest
+      // stays the sync key. Null only where git could not answer (shallow clone, no
+      // git) and no previous index carried a value - never a count from a truncated
+      // history. Derived in scripts/lib/subject-revision.mjs; docs/subject-revisions.md.
+      revision: revisions.get(dir)?.revision ?? null,
+      changedAt: revisions.get(dir)?.changedAt ?? null,
       techniques,
       applications,
     };
@@ -233,9 +264,22 @@ if (domains.length === 0) {
   process.exit(2);
 }
 
+// One git derivation for every bundle's subjects, not one per bundle: the cost is the
+// history walk, not the subject count, so eight bundles share five spawns instead of
+// paying them eight times over. The previous indexes are read here, before any is
+// rewritten, so the shallow / no-git fallback can carry their values forward.
+const subjectDirs = [];
+const previous = new Map();
+for (const domain of domains) {
+  const base = path.join(LANE, domain);
+  for (const at of walkSubjects(base).found.values()) subjectDirs.push(path.join(base, at));
+  for (const [dir, v] of previousRevisions(domain)) previous.set(dir, v);
+}
+const revisions = deriveSubjectRevisions(ROOT, subjectDirs, { previous }).values;
+
 let stale = 0;
 for (const domain of domains) {
-  const index = buildBundle(domain);
+  const index = buildBundle(domain, revisions);
   if (index.meta.subjects === 0) {
     console.error(`build-index FATAL: bundle "${domain}" yielded zero subjects.`);
     process.exit(2);

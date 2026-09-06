@@ -25,6 +25,8 @@
    "status": "forged",
    "file": "knowledge/localization/right-to-left/arabic/arabic.md",
    "digest": "sha256:0e23cd9477709d99",
+   "revision": 5,
+   "changedAt": "2026-08-29",
    "techniques": [
     {
      "slug": "bidirectional-text-and-interpolation",
@@ -144,6 +146,8 @@
    "status": "forged",
    "file": "knowledge/localization/south-and-southeast-asian/bengali/bengali.md",
    "digest": "sha256:67761819d7497ace",
+   "revision": 3,
+   "changedAt": "2026-08-29",
    "techniques": [
     {
      "slug": "bengali-script-and-numerals",
@@ -254,6 +258,8 @@
    "status": "forged",
    "file": "knowledge/localization/east-asian/chinese/chinese.md",
    "digest": "sha256:0c68d2977bb25063",
+   "revision": 4,
+   "changedAt": "2026-08-29",
    "techniques": [
     {
      "slug": "character-width-and-typography",
@@ -366,6 +372,8 @@
    "status": "forged",
    "file": "knowledge/localization/european/czech/czech.md",
    "digest": "sha256:70bd206e21f2b90a",
+   "revision": 4,
+   "changedAt": "2026-08-29",
    "techniques": [
     {
      "slug": "de-anglicization-constructions",
@@ -482,6 +490,8 @@
    "status": "forged",
    "file": "knowledge/localization/european/french/french.md",
    "digest": "sha256:37de266c4bda40ea",
+   "revision": 6,
+   "changedAt": "2026-08-29",
    "techniques": [
     {
      "slug": "de-anglicization-constructions",
@@ -593,6 +603,8 @@
    "status": "forged",
    "file": "knowledge/localization/european/german/german.md",
    "digest": "sha256:900b0980558b6c24",
+   "revision": 4,
+   "changedAt": "2026-08-29",
    "techniques": [
     {
      "slug": "capitalization-and-compounds",
@@ -700,6 +712,8 @@
    "status": "forged",
    "file": "knowledge/localization/south-and-southeast-asian/hindi/hindi.md",
    "digest": "sha256:918aa4a77fa87e5b",
+   "revision": 4,
+   "changedAt": "2026-08-29",
    "techniques": [
     {
      "slug": "de-anglicization-constructions",
@@ -810,6 +824,8 @@
    "status": "forged",
    "file": "knowledge/localization/south-and-southeast-asian/indonesian/indonesian.md",
    "digest": "sha256:2e67410d0dfee334",
+   "revision": 4,
+   "changedAt": "2026-08-29",
    "techniques": [
     {
      "slug": "de-anglicization-constructions",
@@ -907,6 +923,8 @@
    "status": "forged",
    "file": "knowledge/localization/east-asian/japanese/japanese.md",
    "digest": "sha256:25fed1d7e31269bf",
+   "revision": 4,
+   "changedAt": "2026-08-29",
    "techniques": [
     {
      "slug": "character-width-and-typography",
@@ -1016,6 +1034,8 @@
    "status": "forged",
    "file": "knowledge/localization/east-asian/korean/korean.md",
    "digest": "sha256:d5b9041a7deb5c77",
+   "revision": 6,
+   "changedAt": "2026-08-29",
    "techniques": [
     {
      "slug": "counting-and-quantity",
@@ -1133,6 +1153,8 @@
    "status": "forged",
    "file": "knowledge/localization/european/russian/russian.md",
    "digest": "sha256:9ec11ad6bb8dd8cb",
+   "revision": 5,
+   "changedAt": "2026-08-29",
    "techniques": [
     {
      "slug": "de-anglicization-constructions",
@@ -1244,6 +1266,8 @@
    "status": "forged",
    "file": "knowledge/localization/european/spanish/spanish.md",
    "digest": "sha256:bdddc1bff1c2f77e",
+   "revision": 4,
+   "changedAt": "2026-08-29",
    "techniques": [
     {
      "slug": "de-anglicization-constructions",
@@ -1354,6 +1378,8 @@
    "status": "reconciled",
    "file": "knowledge/localization/craft/translation-pipeline-topology/translation-pipeline-topology.md",
    "digest": "sha256:c81d3f4df17e0824",
+   "revision": 7,
+   "changedAt": "2026-09-01",
    "techniques": [
     {
      "slug": "canonical-and-derived-split",
@@ -1497,6 +1523,8 @@
    "status": "forged",
    "file": "knowledge/localization/craft/translation-quality-measurement/translation-quality-measurement.md",
    "digest": "sha256:574907b9185733aa",
+   "revision": 1,
+   "changedAt": "2026-09-04",
    "techniques": [
     {
      "slug": "deterministic-checks-before-estimates",
@@ -1604,6 +1632,8 @@
    "status": "forged",
    "file": "knowledge/localization/south-and-southeast-asian/vietnamese/vietnamese.md",
    "digest": "sha256:5c32dd26e0cbac09",
+   "revision": 3,
+   "changedAt": "2026-08-29",
    "techniques": [
     {
      "slug": "classifiers-and-quantity",
