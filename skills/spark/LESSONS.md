@@ -91,3 +91,19 @@ Phase 4's `### Work packages` schema should carry a doc-ownership field alongsid
 ## 1.3.1 - 2026-09-04 - ai-registry
 
 - The dated `## Model choice (bake-off 2026-09-01, ...)` section moved out of the SKILL.md body into the block above. The lane spec (`docs/skills-lane.md`, "The body is generic") says a body may carry no project name, and this one named ascent; a dated finding about a run is what `LESSONS.md` owns. Content preserved verbatim; nothing else in the body changed, so a patch bump.
+
+## 1.3.2 - 2026-09-06 - ascent
+
+- **A new optional input needs a named CALLER in the contract, or it ships dead.** The brief listed
+  the wire-level inputs a pure brief builder would accept (`subjectContexts`, `repo`) and the
+  package that produces the function; no package owned the call site (the dispatch route), which
+  sat outside every territory. The builder shipped the pure half and correctly said "no caller";
+  the Director wired it. Phase 4's contract-completeness rule should read: every new field names its
+  producer AND its first consumer, and the consumer is inside some package's file scope.
+- **Two builders coding the same absent value drift on omit-vs-null.** A skill doc said a missing
+  revision "reads as `revisionsBehind: null`"; the script omits the key. State the absent-value
+  convention once in `### Data & API` (omit / null / 0, and why) so parallel packages inherit it.
+- **The merge step must not assume the main checkout is on `base_branch`.** Both hosts' main
+  checkouts were on foreign branches with dirty trees; the fix that worked was `git checkout
+  <base> && git merge --ff-only` inside the spark worktree (a branch can be checked out in only one
+  worktree, and the base was free), after rebasing the spark branch onto it there.
