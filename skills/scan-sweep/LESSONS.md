@@ -1448,3 +1448,30 @@ that check stays cheap.
   (with gravitone's `test` context) where the deep tier was wrong for the context's CATEGORY. The
   skill should let `category` reorder the deep tier under any strategy: `api`/`data` promote
   parity-auditor, observability-auditor, risk-assessor and test-strategist and demote the market four.
+
+### Redesign proposal — the skill should say where NOT to run the gate
+
+- **§7's parallel-session rules cover STAGING and VERIFICATION, and miss the third hazard: WHERE the
+  verification runs.** Shipping three rounds from a checkout shared with another live agent cost two
+  self-inflicted repo injuries, both from running gates in the wrong place rather than from any code
+  change. (a) The repo's test suite contains git-fixture tests that COMMIT into whatever branch the
+  tree they run in has checked out — run inside a worktree on `master`, they buried the real tip
+  under 19 fixture commits and set `core.bare=true` on the shared config, breaking `git status` for
+  the other session. (b) Junctioning `node_modules` into a scratch worktree and then
+  `git worktree remove --force` deleted THROUGH the link, destroying the real `.bin` and several deep
+  packages and breaking `npm`/`npx` repo-wide.
+  Neither is exotic: any repo whose suite shells out to `git`, and any Windows worktree with a
+  linked `node_modules`, has both. The generalizable rules are short enough to state:
+  **run a whole-repo gate in a `--detach`ed worktree** (fixture commits then cannot move a branch
+  ref), **never link a dependency tree into a worktree you will force-remove** (unlink first), and
+  **after any whole-suite run in a shared checkout, re-check `git rev-parse --is-bare-repository`
+  and the branch tip you care about** before trusting either.
+  §7 already tells the sweep to stage by explicit pathspec and to distrust a red whole-tree gate that
+  is not its own. It should also tell it that running the gate can itself be the destructive act.
+
+- **A pre-push gate that runs in the working tree cannot verify a push from a shared checkout.** This
+  repo's hook runs `npm run verify` where the push is issued, not on the ref being pushed — so with
+  the checkout on a sibling session's branch it verifies the wrong tree, and a green result is
+  evidence about someone else's work. The honest route (run each stage against the exact commit in a
+  detached worktree, then use the documented skip flag and record the stage-by-stage evidence where
+  the repo keeps such records) is worth naming in §7 as the shared-checkout push procedure.
