@@ -288,3 +288,51 @@ rule that only this loop's participants currently follow.
 - **Re-cut every L slice at dispatch, not at triage.** author-engine-fleet-wide's backlog phase-1 had already shipped in a wave that never wrote the vault; the operator promoted the L two weeks later on the stale description. The Director caught it only by re-reading the backlog entry against `git log` minutes before dispatch. A promoted L's `phase1:` line is a hypothesis until the write-set read confirms the slice is still open.
 - **The walker is the only gate that sees a bundle boundary.** A `use client` component that imports one constant from a server-only lib puts `node:child_process` in the browser bundle; tsgo passes, every vitest suite passes, and the root page will not build. Run the dev-server-backed e2e per wave as a real gate, and add to the review checklist: any new import from a `use client` file into `src/lib/**` gets its transitive imports checked for `node:` / DB / spawn modules.
 - **Gate chains that pipe through `grep | head` return the pipe's exit code, not the gate's.** A red vitest run joined with `&&` still let the commit step run (one broken commit landed, fixed by a follow-up — never an amend). Capture the summary line into a variable and test it for `failed` before committing.
+
+## 2.5.2 - 2026-09-06 - tracklight
+
+- **Phase 0 step 1 reads "shadowed" but not "absent", and they need the same fix.** `/perfect` was
+  declared in this repo's `.ai/manifest.yaml` `skills:` list and had no link on the machine, so it
+  was not in the harness skill listing at all — the step's own check ("compare a distinctive phrase
+  of this file's `description:` against the available-skills listing") passes silently for a
+  *missing* skill in a way it does not for a shadowed one, because there is nothing to compare.
+  `node <registry>/scripts/link-registry.mjs` fixed it and created 45 links across 11 projects,
+  which suggests the absent case is the common one on a secondary machine. Worth one clause in step
+  1: *absent is shadowed's twin; the fix for both is the link script, never a copy.*
+- **A repo's own CLAUDE.md can carry a stale harness claim that costs a capability.** The root
+  guidance asserted the agent harness "refuses to write anything under `.claude/` (sensitive path)"
+  and that fixing it "needs a human", citing two prior failed sessions. Both Bash and Write wrote
+  `.claude/perfect/config.md` on the first attempt. The overlay is where the whole method's
+  per-repo state lives, so a false belief that it is unwritable is expensive. Phase 0 could say:
+  *a guidance claim that the overlay cannot be written is a claim to TEST, not to believe — write
+  a probe file before concluding the loop must run on defaults.*
+- **The `--fix`-then-revert check deserves promotion from tactic to rule, in Phase B step 6.** The
+  method already says "re-measure a builder's headline number before repeating it". Stronger and
+  cheaper: *write the regression test, apply the fix, then REVERT the fix and confirm the test
+  fails.* It caught two opposite errors in one session — a conformance test that passed on the
+  broken code (two identical queries reuse one query plan, so "list twice and compare" cannot
+  detect a plan-dependent ordering bug), and a builder-reported bug whose fix was a no-op (the test
+  still passed after reverting, which is what stopped a commit message going out claiming a costing
+  bug had been closed). Both would have shipped as confident, wrong prose.
+- **"Builder refusals are signal" undersells it — a refusal against an EXTERNAL fact must be
+  independently verified by the Director, not just weighed.** Both builders refused a brief
+  instruction and both were right; one refusal ("`thinking.budget_tokens` is a 400 on every model
+  this resolves") was a claim about a third-party API that the brief had asserted wrongly. Weighing
+  the builder's evidence is not enough there, because the Director wrote the wrong instruction from
+  the same stale prior. Reading the reference directly is what converted "the builder sounds
+  confident" into "the brief was wrong". Suggest step 6 gain: *when a refusal turns on an external
+  contract, verify it at the source before accepting OR overruling — the Director's prior is the
+  thing that produced the bad instruction.*
+- **A cross-lot failure report can name the wrong file, and the Director must diagnose rather than
+  route.** Lot B reported a red test and attributed it to Lot A's commit (plausible: that commit
+  renamed the symbol the test's subject is keyed on). The real cause was Lot B's own index changing
+  a query plan, exposing a latent missing tie-break. The method's "report the FILE it names" rule
+  worked exactly as designed — the report was honest and specific — but a builder can only see its
+  own write set, so **attribution across lots is Director work by construction.** Worth stating in
+  step 6 beside the existing rule.
+- **`git switch` can half-complete on Windows.** `unable to write symref for HEAD: Permission
+  denied` left the worktree and index holding the target branch's content while HEAD still pointed
+  at the wave branch — i.e. a staged revert of the entire wave, with no commits lost. `git branch -f
+  <base> <wave-tip>` lands a fast-forward without ever writing HEAD and is the safer form when the
+  merge is known to be a fast-forward. Phase B step 8 could name it as the fallback.
+
