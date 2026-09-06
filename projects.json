@@ -84,6 +84,11 @@
       "checkouts": {
         "Wolf": "kiro/gravitone"
       }
+    },
+    "athena-everywhere": {
+      "checkouts": {
+        "Fox": "dolla/athena-everywhere"
+      }
     }
   }
 }
