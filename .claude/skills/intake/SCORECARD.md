@@ -16,6 +16,7 @@ consecutive 1.x runs over large systems scored the same as twelve runs over vide
 
 | Version | Date | Source | Research | Extract | Test | Landed | Apply | Ship | Zero reason / focus moved? | Depth |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2.5.0 | 2026-09-06 | `flatnotes` | 1 (784 landing / **917 in-tree markdown**; vendor repository) | 8 | 2 | **2 techniques + 2 source-tree applications** | 2 rows: 1c/**1e**/0s/0t — 1:1 with landings | **2** (`pumper` `b086a30`, node lane 34/34, not pushed; + this registry's own map instrument) | **Focus applied, and it produced a rejection rather than a landing.** Round 27 item 1 — score the landing *shape* before the row — decided row 3: version-as-index-identity reads as a technique (G3, lands) and honestly *is* a boundary case of `mirror-indexes`' existing rebuild rule, so at its least-rewriting shape it is an amendment at G1 against a +2 threshold. Banked with anchors. The focus's value here was **stopping** a landing that a shape chosen after scoring would have justified. Item 3 also paid: the pumper checker was asserted against a known positive *and* cross-checked from another layer. | `0S/2T/0A/2Asrc/0 task-lines` · routing count **8 entries / 2 systems / 2 unhomed; per system max 1; two different existing homes, so no three share one HOME IF NEW — neither v2.2 clause fires** · handoff **declined by count, not by choice** · `directions=n/a` (no candidate absence: the design record's two unhomed entries both landed as techniques) · `auto=2/0/0`, `fp=0` · `selfcatch=1` (a fleet mode-flag grep returned 93–962 files per project; reading the matched rows cut it to one real seam — `readOnly` matches React props and DB transactions) · fetches **0/3**, twelfth consecutive zero · **doc surface the smallest recorded (917 words) and test count zero**, so both landings were read from code and one was verified by executing it |
 | 2.5.0 | 2026-09-06 | `aws-agent-exposure` | 1 (15,572 words; **vendor educational guide** — a class the reference does not name) | 24 | 2 | 2 amendments | 2 rows: **1c**/0e/0s + 1 unapplied — 1:1 with landings | **1** (`pof` `cb9cdbac`, vitest+tsgo+eslint green, not pushed) | **Focus applied and paid twice.** Round 30 asked for the *unstated premise* as a fifth Phase 6 move — a rule that is **inapplicable rather than false** — and both accepted rows are exactly that, from two different bundles. Neither survives any of the other four hunts: in both the corpus owns the mechanism and states it better than the source, and is wrong only about what it may assume. This is the first run where the declared focus, not the source, decided what landed. | `0S/0T/2A/0Asrc/0 task-lines` · routing count **n/a** (not a repository — the source *reports*, so no design read) · handoff n/a · `directions=n/a` · `generalised=no/—` (the 1 code row landed unweakened; the other is unapplied) · `auto=2/0/0`, `fp=0` · `selfcatch=1` (a 136-file population narrowed to 1 by reading the matched rows) · fetches `0/3`, eleventh consecutive zero |
 | 1.5.0 | 2026-08-31 | `pgrust` | 1 (2,480 landing / ~7,500 in-tree operating docs + a 1,241-row unit catalog) | 13 | 6 | 3 (1 technique + 2 amendments) | 3 rows: 0c/2e/1s — **1:1 with landings** | 0 (declined: no change warranted for 1 of 3; blocked: confirmation for 2 of 3 — the changes are argued and the measurables named, but the triage answer named no project and Phase 8 step 2 gates the tree write) | **Ship written with its predicate, as the focus asked, and the split matters: 1 of the 3 zeros is not a funnel loss.** The oracle row's tree already implements the remedy, so no change was warranted; the other two are the modal `confirmation` blocker again. **Focus's other half could not fire** — parallelising Phase 6's mechanical lane needs a wave, and one repository is one document; agent dispatch is also off in this session by standing operator instruction. Said so rather than manufacturing it. Extract→Test was 13→6 (46%) serially, above the window. **All three landings came from one hunt — an enumeration that claims completeness and misses a case the same file describes**: two rot axes named with a third in the prose; "no self-check exists" true for only one direction of an undrawn distinction; "compare against that one rather than writing a third" silent on what that oracle cannot see. Third consecutive run where the denial hunt carried the yield. **The apply refuted the run's own document before commit** (second consecutive run): the new technique covered the fitted *corpus* and not the fitted *predicate*, and the arm that found it scored **11/11 while 9 of 11 payloads passed through unmodified** — a section was added. **A first hypothesis was wrong and one command settled it** (fourth consecutive run of this): I expected a project's non-default test arms to be env-gated out of CI; the workflow runs all three. 0 of 3 fetches, thirteenth consecutive zero-fetch run on a source carrying its own primary material. |
 | 1.5.0 | 2026-08-31 | `semantica` | 1 | 18 | 6 | 5 techniques + 1 amendment | 6 rows: 2c/3e/0s + 1 unapplied | 0 (declined: confirmation — 2 `better` rows had the change argued and the measurable named, but the triage answer named no project, and Phase 8 step 2 gates on it) | Focus **did not apply** — it was scoped to the reference-index wave lane and this was a single-source repository run; said so rather than manufacturing parallelism. Extract→Test landed at 18→6 (a third) anyway, via the enumeration hunt rather than via parallelism |
@@ -2770,3 +2771,36 @@ difference. A deferred row needs a return trigger (the sibling's commit), and
 this run gave it none. **The check the next row should make:** did any untriaged
 row lose to contention rather than to score, and if so, was a return condition
 written for it?
+---
+
+**Next run's declared focus (round 32).** Read the funnel across the last ten
+rows: `research` is still 1 source per run in every one of them, and it is still
+the stage the funnel loses most at - but `apply` and `ship` have now been
+non-zero for six consecutive runs, so the standing complaint that landings never
+reach a tree is answered and should stop being restated. The two items below
+come from what this run actually hit.
+
+(1) **The focus block is appended, and the last block in this file is not the
+newest.** This run read the file's tail at Phase 1, found round 27, declared it,
+and applied it - correctly and productively, as the row says. Round 31 was
+appended by a live sibling later in the same afternoon, and the blocks now sit
+in the file as 30, then 27, then 31. So "read the last row and the closing
+paragraph" (Phase 1 step 5) does **not** reliably yield the current focus in a
+shared checkout, and every run that follows the instruction literally can get an
+arbitrary one. Until the block carries its own date or the file is reordered,
+**a run must grep for every `Next run's declared focus` block and take the
+highest round number**, not the last one in the file. Cheap, and it removes a
+silent class of runs optimising for a two-week-old instruction.
+
+(2) **Add the route table to the Phase 2b sweep list.** The sweep ranks
+operating documents, the instrument, the measurement, the types, the tests, then
+the README. For a served application the *route table* is where the
+authorization shape is literally written, and it is ranked nowhere - this run's
+second landing came out of a 266-line routing file that the sweep order would
+have reached last or not at all. It belongs beside "the instrument and its
+rules", because that is what it is: the file that says what the system will
+answer, in a form that cannot hedge.
+
+**The check the next row should make:** did the run take its focus from the
+highest-numbered block rather than the last one, and did its sweep of a served
+tree open the route table before the README?

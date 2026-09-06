@@ -8629,3 +8629,50 @@ the row says so instead of reporting an absence.
   reading *that* file reduced it to 0 (a resemblance matcher, not a cache).
   Two reductions, both of which a count would have concealed, and either one
   alone would have manufactured a seam.
+
+## 2.5.0 — 2026-09-06 — flatnotes
+
+- **A repository with no operating documents is not a thin source; it is a
+  source whose sweep order inverts.** The method ranks `docs/`, ADRs and
+  CHANGELOGs first because they are usually the densest surface by an order of
+  magnitude. This tree had 917 markdown words total and no design prose at all,
+  and still produced two techniques — from the instrument, the types and the
+  route table, which the sweep ranks second, fourth and (implicitly) nowhere.
+  Worth saying because the `--min-words` reflex and the "read the operating
+  documents" reflex both point at absence here and neither is the right read.
+  **The route table is not in the Phase 2b sweep list and should be**: for any
+  served application it is where the authorization shape is literally written,
+  and it is the file this run's second landing came from.
+
+- **`0 of N` and `0 of 40` are the same verdict and completely different
+  evidence.** The scorecard has warned twice about establishing an absence from
+  a truncated result. This run found the sharper version: the registry's own map
+  instrument returned **forty confident rows** for a concept whose owning subject
+  was in none of them, and the instrument's own header comment told readers to
+  reach for the body-reading mode *"before believing any empty"* — while neither
+  recorded failure was ever empty (2026-08-31: six rows; this run: forty). A
+  guidance line can be narrower than the evidence printed directly beneath it,
+  and nobody notices because the line is true as far as it goes. **When writing
+  an instrument's caveat, check it against the failures already recorded for
+  that instrument**, not against the failure you are imagining.
+
+- **The declared focus is more valuable when it stops a landing than when it
+  produces one.** Round 27 item 1 (shape before score) has now been exercised
+  twice and both times it *rejected*. That is the intended behaviour and it
+  should be said plainly in the scorecard prose, because a focus that only ever
+  shows up in the landed column looks like a rule for justifying work, and a
+  reader six weeks later cannot tell the difference between "the focus helped"
+  and "the focus was the excuse".
+
+- **A source that implements a technique BETTER than the corpus's consumer is a
+  different and better apply row than one that implements it worse.** The
+  authorization row landed against a fleet project that already had the
+  construction — and had it more completely than the source that supplied it.
+  The apply step therefore was not "adopt this"; it was "you have the
+  construction, here is the seam the construction opens, which the source does
+  not have because it is too small to have it". The method's Phase 7.5 framing
+  ("would a project be better off doing what the corpus now says") does not
+  quite reach this case, and the honest answer came from asking instead **what
+  does this project's more advanced version of the mechanism cost it that the
+  source's version does not?** Worth a line in the method if a second run hits
+  it.
