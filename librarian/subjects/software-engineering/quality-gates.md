@@ -983,7 +983,7 @@ maps had not been regenerated since 2026-08-31 - and remain so after it.
 ## 2026-09-06 - split executed: metric-gates ([[2026-09-06-1]])
 
 The standing question from [[2026-09-04-1]] answered by the operator. 25 -> 21
-techniques, 24 -> 21 applications. Moved whole into `metric-gates` (same category):
+techniques, 26 -> 23 applications. Moved whole into `metric-gates` (same category):
 `ratchet-design`, `counted-set-snapshot`, `operation-assertion-gates`,
 `deterministic-proxy-gate` and their three node applications. Kept here against the
 proposal's "half of excess-indicts-the-instrument": the technique's subject is the scope
@@ -996,3 +996,11 @@ a boundary paragraph before the first section names metric-gates and the hinge; 
 two migrated sections are replaced by short pointer sections ("When the verdict is a
 measurement, the question moves next door"; "Ratchets live next door"). Nothing else
 in the golden path changed.
+
+## Impact (step 4, run 2026-09-06-1)
+
+Fleet maps regenerated after the split. Verdicts judged against this subject that
+moved: gravity (1), personas (1) - the same two as 2026-09-04, now stale twice over.
+The four moved techniques' triggers left this slug's matching; no project lost a
+judged pair by it. Maps committed on nine projects; kp and ascent were mid-merge in
+another session and keep the regenerated map uncommitted in their working tree.

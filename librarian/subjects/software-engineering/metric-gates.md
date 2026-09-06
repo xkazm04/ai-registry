@@ -56,3 +56,12 @@ was true when the test ran. The project ledgers (`.ai/applied.jsonl`) likewise.
 - Demand unknown: no installation has reported on this slug; the pairs the fleet maps
   held against quality-gates for these four techniques re-match on the next
   regeneration.
+
+## Impact (step 4, run 2026-09-06-1)
+
+First regeneration with the slug present: metric-gates matched two contexts, both in
+systedo-case (a tree with a committed contract-snapshot ratchet), and no other project.
+Every pair `unknown`; no judged verdict exists yet. Four techniques with narrow
+`use_when` phrases match narrowly - that is the matcher working, not a coverage gap;
+the size gate in personas and the CI-ratchet trees the 2026-09-04 apply rows walked are
+the contexts a `/conform` pass would judge first.
