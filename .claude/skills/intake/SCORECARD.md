@@ -16,6 +16,7 @@ consecutive 1.x runs over large systems scored the same as twelve runs over vide
 
 | Version | Date | Source | Research | Extract | Test | Landed | Apply | Ship | Zero reason / focus moved? | Depth |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2.5.0 | 2026-09-06 | `aws-agent-exposure` | 1 (15,572 words; **vendor educational guide** — a class the reference does not name) | 24 | 2 | 2 amendments | 2 rows: **1c**/0e/0s + 1 unapplied — 1:1 with landings | **1** (`pof` `cb9cdbac`, vitest+tsgo+eslint green, not pushed) | **Focus applied and paid twice.** Round 30 asked for the *unstated premise* as a fifth Phase 6 move — a rule that is **inapplicable rather than false** — and both accepted rows are exactly that, from two different bundles. Neither survives any of the other four hunts: in both the corpus owns the mechanism and states it better than the source, and is wrong only about what it may assume. This is the first run where the declared focus, not the source, decided what landed. | `0S/0T/2A/0Asrc/0 task-lines` · routing count **n/a** (not a repository — the source *reports*, so no design read) · handoff n/a · `directions=n/a` · `generalised=no/—` (the 1 code row landed unweakened; the other is unapplied) · `auto=2/0/0`, `fp=0` · `selfcatch=1` (a 136-file population narrowed to 1 by reading the matched rows) · fetches `0/3`, eleventh consecutive zero |
 | 1.5.0 | 2026-08-31 | `pgrust` | 1 (2,480 landing / ~7,500 in-tree operating docs + a 1,241-row unit catalog) | 13 | 6 | 3 (1 technique + 2 amendments) | 3 rows: 0c/2e/1s — **1:1 with landings** | 0 (declined: no change warranted for 1 of 3; blocked: confirmation for 2 of 3 — the changes are argued and the measurables named, but the triage answer named no project and Phase 8 step 2 gates the tree write) | **Ship written with its predicate, as the focus asked, and the split matters: 1 of the 3 zeros is not a funnel loss.** The oracle row's tree already implements the remedy, so no change was warranted; the other two are the modal `confirmation` blocker again. **Focus's other half could not fire** — parallelising Phase 6's mechanical lane needs a wave, and one repository is one document; agent dispatch is also off in this session by standing operator instruction. Said so rather than manufacturing it. Extract→Test was 13→6 (46%) serially, above the window. **All three landings came from one hunt — an enumeration that claims completeness and misses a case the same file describes**: two rot axes named with a third in the prose; "no self-check exists" true for only one direction of an undrawn distinction; "compare against that one rather than writing a third" silent on what that oracle cannot see. Third consecutive run where the denial hunt carried the yield. **The apply refuted the run's own document before commit** (second consecutive run): the new technique covered the fitted *corpus* and not the fitted *predicate*, and the arm that found it scored **11/11 while 9 of 11 payloads passed through unmodified** — a section was added. **A first hypothesis was wrong and one command settled it** (fourth consecutive run of this): I expected a project's non-default test arms to be env-gated out of CI; the workflow runs all three. 0 of 3 fetches, thirteenth consecutive zero-fetch run on a source carrying its own primary material. |
 | 1.5.0 | 2026-08-31 | `semantica` | 1 | 18 | 6 | 5 techniques + 1 amendment | 6 rows: 2c/3e/0s + 1 unapplied | 0 (declined: confirmation — 2 `better` rows had the change argued and the measurable named, but the triage answer named no project, and Phase 8 step 2 gates on it) | Focus **did not apply** — it was scoped to the reference-index wave lane and this was a single-source repository run; said so rather than manufacturing parallelism. Extract→Test landed at 18→6 (a third) anyway, via the enumeration hunt rather than via parallelism |
 | 0.15.0 | 2026-08-29 | ai-native-sdlc-and-ci-on-call | 2 | 15 | 8 | 5 | 0c/0e/0s | 0 | Phase 7.5 did not exist; run landed five and applied none. Backfill owed: `oracle-frozen-during-repair`, and the four amendments. |
@@ -2740,3 +2741,32 @@ that four of its five members are test fixtures. A non-zero result is not an
 assertion; the assertion is reading the matched rows. **The check the next row
 should make:** did any row's decision turn on a number the run never looked
 behind?
+
+
+---
+
+**Weakest stage, read across the last ten rows.** `extract -> test` is now the
+narrow point by a wide margin: 24 candidates in, 2 verified, and the eight rows
+above this one sit between a third and a sixth. That is not a defect on its own -
+this source was unusually dense and the corpus was ahead of it almost everywhere -
+but the *reason* only two were verified is worth naming, because it is not
+scarcity. Twelve rows reached the table as `partial` or `real gap` and lost on
+score to two rows that scored higher, and two of those twelve lost because a
+sibling held their only home for the run's whole life. **The funnel is losing
+most at `test`, and the loss is contention and budget rather than quality.**
+
+**Next run's declared focus (round 31).** (1) **Keep the unstated-premise hunt,
+and promote it out of "focus" into a standing Phase 6 move.** It paid twice here,
+from two bundles, and both landings were invisible to the other four hunts.
+Round 30 proposed it; this run confirms it a second time; a third confirmation
+makes it a rule this file carries and `SKILL.md` states. The tell held exactly as
+written - *a rule that is inapplicable rather than false* - and the diagnostic
+that found both was mechanical: **read the sentence the technique treats as a
+given, and ask who established it.** (2) **When a sibling holds a row's only
+home, say so in the row and re-enter behind them rather than banking it.** Two
+real-gap rows here went untriaged for contention alone, which the method's own
+V5 veto calls a *defer*, not a reject - and nothing in this run acted on the
+difference. A deferred row needs a return trigger (the sibling's commit), and
+this run gave it none. **The check the next row should make:** did any untriaged
+row lose to contention rather than to score, and if so, was a return condition
+written for it?

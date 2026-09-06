@@ -8588,3 +8588,44 @@ answers: score the apply stage against *seam availability* rather than against
 landings, or admit a fifth mode - a **counterpart reading**, where the source's
 own tree is the A/B subject (as three of this run's applications in fact are) and
 the row says so instead of reporting an absence.
+
+
+## 2.5.0 - 2026-09-06 - aws-agent-exposure
+
+- **The unstated-premise hunt paid twice, and it is the first focus that decided
+  a run's landings rather than describing them afterwards.** Both accepted rows
+  came from asking what a mature technique treats as *given*, and neither was
+  reachable by the four standing Phase 6 hunts, because in both cases the corpus
+  already owned the mechanism and stated it better than the source did. Second
+  consecutive confirmation; one more and it belongs in `SKILL.md` as a fifth
+  hunt rather than in a focus paragraph.
+- **The diagnostic is mechanical enough to write down.** Read the clause the
+  technique treats as an input to its own trade, and ask **who established it**.
+  In `similarity-keyed-admission` that clause is "an expensive authority" and
+  nothing establishes the cost; in `failover-horizon` it is "abort with a stated,
+  honest truncation" and nothing establishes that a channel exists to state it
+  on. Both read as already-covered to every other hunt.
+- **A source class the reference does not carry: the vendor educational guide.**
+  A long-form reference architecture with a marketplace sales surface at both
+  ends. It is *not* the vendor release announcement, and the discriminator is
+  the one that class already names: an announcement states what is now possible
+  and never what was wrong, while this guide states failure modes throughout
+  ("teams often learn this from a surprise invoice"). Its guide half behaves
+  like a first-party practitioner account and its tools half yields **zero**.
+  Worth adding to `references/source-classes.md` after a second sighting.
+- **Contention is a defer, and this run treated it as a reject.** Two real-gap
+  rows lost their only home to a sibling for the whole run and were filed
+  untriaged with no return trigger. V5 already calls that a defer; the method
+  has no mechanism that makes a deferred row come back when the sibling commits,
+  and until it does, "untriaged" quietly absorbs a category the vetoes deliberately
+  kept separate.
+- **A control arm is what separates a defect from a broken harness, and it is
+  nearly free.** The `pof` A/B ran a second case where the terminal event *was*
+  present and asserted success. Without it, arm A's failure is equally
+  consistent with a test that never wired the stream up. It cost four lines and
+  it is the difference between a paired proof and a claim.
+- **The 136 -> 1 narrowing is the memory rule paying off again.** A population
+  query returned 136 files; reading the matched rows reduced it to 1, and
+  reading *that* file reduced it to 0 (a resemblance matcher, not a cache).
+  Two reductions, both of which a count would have concealed, and either one
+  alone would have manufactured a seam.
