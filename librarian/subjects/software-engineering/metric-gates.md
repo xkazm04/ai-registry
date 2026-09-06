@@ -2,7 +2,7 @@
 subject: metric-gates
 domain: software-engineering
 last_touched: 2026-09-06
-touched_by: deepen
+touched_by: intake
 dry_streak: 0
 ---
 
@@ -65,3 +65,27 @@ Every pair `unknown`; no judged verdict exists yet. Four techniques with narrow
 `use_when` phrases match narrowly - that is the matcher working, not a coverage gap;
 the size gate in personas and the CI-ratchet trees the 2026-09-04 apply rows walked are
 the contexts a `/conform` pass would judge first.
+
+## 2026-09-06 - /intake run (praisonai)
+
+- New technique `proxy-metric-counts-its-own-satisfiers`, the subject's fifth.
+  `deterministic-proxy-gate` swaps a **noisy** instrument for a deterministic one;
+  this covers the substitution nobody chose - a metric cheap enough to compute
+  that its **population can be moved toward it directly**. Name existence standing
+  in for feature parity is the emblem: when the cheapest way to clear a row is to
+  export the name, the row clears and the tracker truthfully reports progress.
+- Three-part corrective, all three present in the source and measured: the artifact
+  states in itself what a green cell does not mean **and refuses its own
+  cross-side comparison** (411 vs 2,018 features, "not directly comparable"); a
+  strictly stronger tier gates, with unevaluable failing closed to a named waiver
+  rather than passing; and **the metric carries a column counting the shims built
+  only to satisfy it**. The two tiers disagreed in the direction the proxy is
+  structurally unable to disagree in - 0 gaps beside 28 parameter mismatches over
+  the same 17 surfaces.
+- The third part is the one almost never built and the cheapest of the three,
+  because the generator already knows which module provided each name. Its
+  precondition is that satisfiers are structurally identifiable; a codebase where
+  they are scattered indistinguishably cannot have the column, **and that is itself
+  the finding**.
+- No fleet seam: no fleet project maintains a cross-language parity tracker.
+  Application is against the source tree only.

@@ -1,7 +1,7 @@
 ---
 subject: test-harness
 domain: software-engineering
-last_touched: 2026-09-04
+last_touched: 2026-09-06
 dry_streak: 0
 ---
 
@@ -216,3 +216,27 @@ arriving through a door this subject had not used. Unapplied — no authorized
 fleet tree has the seam; the one project that drives a system it does not own
 already reads far-side filesystem state and skips-not-fails, and lacks only the
 deployed runtime agent.
+
+## 2026-09-06 - /intake run (praisonai)
+
+- New technique `derived-selection-must-be-measured`. `suite-partitioning` rules
+  that membership is by **location, not annotation**, and names the forgotten-tag
+  failure. This is the arrangement where nobody writes a tag at all: membership
+  **derived by the harness from the file's text**, then composed with filter
+  expressions written elsewhere. Source instance, three defensible steps - a regex
+  over the whole file assigns a provider tag to every item in it; any provider tag
+  implies `network`; every pipeline expression carries `not network` - producing
+  `7 collected / 7 deselected / 0 selected`, with **4 of the 7 failing when
+  actually executed**.
+- **The half that generalizes is the diagnostic rule**, and it is where the
+  source's own audit went wrong: the audit named the visible clause, and removing
+  that clause left the count at zero because a different clause did it alone. **A
+  clause consistent with the observed zero is not the cause until removing it moves
+  the count.** A fix built on the audit would have shipped, been reviewed, been
+  merged, and changed nothing.
+- Second rule, additive to the subject's existing counting discipline: **a lane
+  declares a floor on what it must select**, because every common runner exits
+  green when a filter matches nothing.
+- No fleet seam. The fleet's projects define test lanes explicitly rather than by
+  content derivation, so the population is absent rather than unmeasured - the
+  application is against the source tree only.

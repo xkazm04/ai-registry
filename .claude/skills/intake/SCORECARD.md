@@ -2495,3 +2495,94 @@ is checkable; "no seam" and "too expensive" are different outcomes and the
 ledger has been blurring them. **The check the next row should make:** did the
 run apply the measurement test to its design record, and did it change any
 outcome — or was it recorded as done with nothing to show?
+---
+
+**Round 28 (`praisonai`).** v2.5.0 · 2026-09-06 · `github:MervinPraison/PraisonAI` @ `54244695b`
+
+| stage | count |
+| --- | --- |
+| research | 1 source (vendor repository, cloned; **4,888 landing / 159,943 in-tree markdown words — a 33x ratio, the widest this ledger records**) |
+| extract | 9 candidates (9 design entries, of which 7 reached the table) |
+| test | 4 picks verified against the host file AND the source's measurements, 1 catch, 1 untriaged |
+| apply | `1c/1e/0s/0t` |
+| ship | 1 (kp, `0301c4f9`, commit-msg hook green, not pushed) |
+| admission | `auto=4/0/0`, `fp=0` |
+| depth | `0S/4T/0A/4Asrc/0 task-lines` · routing count 9 entries / 7 systems / 2 unhomed · **count not met on either clause** (no system at 3 unhomed; no 3 sharing one HOME IF NEW) · handoff **not** fired · `directions=n/a` · `selfcatch=1` · fetches `0/3` |
+
+**Round 26's first focus item, answered a second time and this time it changed
+the output.** Round 27 applied the measurement test to its design record and
+reported that it cut nothing. Here it cut two of nine entries. The work-order
+ledger (per-order file ownership for stateless agents) and the nine-package
+tiered model both state their forces clearly and neither tree-fact would change
+if the decision were wrong: nothing records a collision the ownership rule
+prevented, and no alternative was measured against the tiers. Both went to leads
+with return conditions naming the missing evidence. **The rule that rejected them
+is the one the paper lane has used since round 25** — a framework justified by
+context rather than by ablation cannot authorize a landing — and this is the
+first round in which the design lane and the paper lane have been held to the
+same bar. The rule is now confirmed on two consecutive rounds where it was
+*applied*; a third makes it a line in `SKILL.md` rather than a focus item.
+
+**The ratio is the finding about the class, not about this repo.** 33x is
+extreme, but the direction is now recorded on every repository round: 20,415/1,221
+(round 27), 159,943/4,888 (here). The class rule says mine from a clone; what the
+ledger can now say is *how much* the ingest would have cost — 3% of the source
+here, and the 3% written to be quoted. A repository note whose `words:` is a
+single small number is not a style problem, it is a 97% miss, and the ratio is
+one `wc -w` away at Phase 2b.
+
+**The instrument self-caught once, and the catch is the reason the apply row is
+trustworthy.** The dead-method census — the new technique's own instrument, run
+against a managed project — reported three dead methods on kp's provider
+abstraction. All three were private helpers called from inside the declaring
+module, which the technique excludes by design because there the names are
+definitions. The exclusion is right for public surface and wrong for intra-module
+helpers, and the correction turned a reported 21% dead surface into the true zero.
+**A `not-better` row is exactly where an over-reporting instrument is least likely
+to be questioned**, because the finding would have been *interesting*; the
+discipline that caught it was re-running against the excluded file's own call
+graph before writing the row, which cost one command.
+
+That row also did what round 26's third focus item asked, in the negative
+direction: it distinguished **absent from unexpressible.** The census ran, produced
+a number, and the number was zero — so nothing is owed to make it measurable, and
+the row says so rather than reaching for an instrument it does not need. The
+technique gained the boundary the row bought (*"Where the population does not
+exist"*), with the discriminator stated as a ratio rather than a size: the
+population needs a surface wider than its adopters, and the strongest tell of the
+defective case is members carrying overrides but no callers.
+
+**One row refutes the corpus, and it is the run's best.** The `structured-output`
+golden path said of constrained decoding, without qualification, "where the
+producer supports it, use it". The source measured a case where using it makes
+the tool-call token unemittable, so the model cannot call the tool and fills the
+schema from nothing — HTTP 200, a validating object, an invention. The corpus was
+not wrong about the mechanism; it was silent about a precondition. Then a managed
+project turned out to have reached the same exclusion rule independently and
+stopped one step short of it, which is convergence and a gap in one seam.
+
+**The stage now losing most is still `ship`, at 1, and for the first time the
+reason is neither confirmation nor toolchain reach nor absence of seam.** It is
+that three of four landed techniques had **no seam in any managed project** —
+their populations are a dead extension point, a derived test-selection chain and a
+proxy parity metric, and the fleet's projects have healthy abstractions, explicit
+test lanes and no cross-language parity tracker. The census proves the first one
+rather than assuming it: 14 methods, 0 dead. That is a genuine and reportable
+result — the corpus learned something the fleet does not currently need — but it
+means `ship` is now bounded by fleet composition rather than by this method, and
+counting it as a funnel loss without that qualifier would misread the number.
+
+**Next run's declared focus (round 29).** (1) **When a landed technique has no
+fleet seam, say which project would grow one and under what change**, rather than
+recording an absence. Three rows here stopped at "no seam"; the useful sentence is
+"kp's provider layer would enter this population if it added a fourth adapter
+without removing the methods only the third one overrides", and that sentence is
+what makes the row re-openable. (2) **Report the landing-page-to-tree word ratio
+in the depth cell of every repository round** as `ratio=<n>x` — two rounds now
+carry it in prose and it is the cheapest available measure of how much the
+anti-pattern would have cost. (3) **A design entry rejected for lacking a
+falsifier must name the tree-fact that would supply one**, the way this run's two
+leads do; an entry cut with no return condition is a decline wearing a lead's
+label. **The check the next row should make:** did any row's instrument get
+asserted against a known negative *before* the row was written, and did that
+assertion change the number?

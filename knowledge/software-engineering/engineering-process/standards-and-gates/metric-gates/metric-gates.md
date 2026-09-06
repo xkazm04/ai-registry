@@ -8,6 +8,7 @@ techniques:
   - counted-set-snapshot
   - operation-assertion-gates
   - deterministic-proxy-gate
+  - proxy-metric-counts-its-own-satisfiers
 ---
 
 # Metric gates
@@ -48,7 +49,12 @@ when the measurement itself is the unreliable part — restate the standard
 so the source text can hold it
 ([operation-assertion-gates](./techniques/operation-assertion-gates.md)), or
 keep the standard and swap the apparatus for a count of work performed
-([deterministic-proxy-gate](./techniques/deterministic-proxy-gate.md)). The
+([deterministic-proxy-gate](./techniques/deterministic-proxy-gate.md)). A fifth
+covers the substitution nobody chose — a metric cheap enough to compute that its
+population can be moved toward it directly, which is answered by publishing the
+proxy's blindness in its own artifact, gating on a strictly stronger tier, and
+counting the artifacts built only to satisfy it
+([proxy-metric-counts-its-own-satisfiers](./techniques/proxy-metric-counts-its-own-satisfiers.md)). The
 first reading of a metric — the one frozen as a founding baseline — is the
 moment a scope error becomes permanent, and the plausibility test that
 guards it is

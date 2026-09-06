@@ -1,8 +1,8 @@
 ---
 subject: structured-output
 domain: software-engineering
-last_touched: 2026-09-04
-touched_by: external-reconcile
+last_touched: 2026-09-06
+touched_by: intake
 dry_streak: 0
 ---
 
@@ -50,3 +50,29 @@ a ladder.
 ## 2026-08-25 - /intake run 13 ([[2026-08-25-awesome-llm-apps]])
 
 - `schema-validation-and-repair` gained "The schema can carry the epistemic contract": cross-field validators reject the incoherent quadrants (answered-without-citations; refused-with-citations), generalised to any artifact whose fields jointly assert what none asserts alone. Sighting: a tutorial tree enforcing it with tests, plus the fleet's own enum-armed review-resolution schema as convergence. (Edit itself reached HEAD via a sibling session's commit f0463ff, which swept the in-flight file - content correct, attribution noted here.)
+
+## 2026-09-06 - /intake run (praisonai)
+
+- New technique `constraint-and-tool-channel-exclusion`. The golden path's "When
+  generation can be constrained" bullet said *use it*, qualified only by "syntax
+  was never the contract"; [[2026-09-04-1]] added the capacity qualification
+  (several claimants, finite budget). Neither could see the case where the
+  constraint is granted **uncontested to the only claimant and disables something
+  else**: on providers that emit tool calls through the content channel, a grammar
+  over that channel makes the tool-call token unemittable, so the model fills the
+  schema from nothing. HTTP 200, a validating object, an invention. Measured
+  two-arm reproduction in [[../../sources/2026-09-06-praisonai]]. The golden-path
+  bullet now carries the precondition.
+- **This is the run's only row that refutes something the corpus asserts**, and the
+  refutation is of an omission rather than of a claim - the mechanism was right and
+  a precondition was missing.
+- **Second sighting of the shed-visibility rule, in a second project.** The
+  2026-09-04 run landed "shedding must be visible to the shed party" inside
+  `constrained-decoding-is-a-shared-budget` and shipped a `code` change to a fleet
+  evaluation engine whose measurable was *call sites able to distinguish an
+  enforced schema from a prose fallback*, `A=0 -> B=all`. This run found the same
+  defect shape in an unrelated project (kp's document-analysis seam) with the same
+  measurable and the same result, `A=0 of 1 -> B=1 of 1`. Two independent projects,
+  two runs, one rule. **That is convergence and it is the strongest evidence this
+  subject has produced for the shed-visibility half** - named here so a third
+  sighting is recognised as a promotion candidate rather than a repeat.
