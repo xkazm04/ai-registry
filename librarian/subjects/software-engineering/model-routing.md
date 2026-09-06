@@ -248,3 +248,41 @@ technique's pre-existing rule is a different row.
 
 The subject's open edge from 2026-09-04 (the tier table has an honest date but no
 re-measure cadence) is untouched and still open.
+
+## 2026-09-06 - the first byte commits the verdict ([[2026-09-06-aws-agent-exposure]])
+
+`failover-horizon` gained an amendment, and it is a **bounding of the subject's
+own strongest claim** rather than an addition beside it.
+
+The technique already owns the moment the first byte is released - it is where
+substitution stops being free - and states two post-horizon options with the
+insistence that there is no third: finish on the chosen candidate, or abort with
+a stated, honest truncation. The finding is that the same instant does a second
+thing the technique never mentions. On a transport that frames its outcome ahead
+of its body, the status is committed before the first content byte and cannot be
+revised, so the honest abort **presumes a channel that can carry the statement**.
+Where the outcome lives in the status alone there is none: aborting is
+expressible only as stopping, and stopping is spelled the same as finishing.
+
+The rule is inapplicable rather than false, which is why every other Phase 6 hunt
+read this as already-covered. It also bounds the unusable-success enumeration,
+whose closing claim is that every form on it is detectable by **shape** and that
+only a seventh form (well-formed but wrong) escapes, needing agreement across
+repeated draws. A stream of **prose** that ends early escapes both: there is no
+structure whose closing bracket is missing, so shape cannot see it; and the
+content is *incomplete* rather than wrong, so resampling cannot either - each
+draw would have to be complete to serve as the comparison.
+
+The consequence worth carrying is that this form's remedy is the **cheapest** on
+the page rather than the dearest, which inverts the technique's usual trade. No
+held frame, no extra draw, no scanner - a fixed protocol cost, paid once, before
+anyone knows it will be needed. That is precisely why it was missing from a list
+organised by what a check can see: nothing can see it, and nothing needs to,
+provided the contract was written to say so.
+
+Applied to a consuming project as a **code A/B, verdict better**: a stream
+consumer whose reader loop broke on stream end and set no verdict at all, so a
+short stream rendered as "running" forever behind a 200. Arm A reached the
+completion handler 0 times, arm B once with a failure; a control case carrying
+the terminal event returned success in both arms, which is what isolates the
+defect from the harness.
