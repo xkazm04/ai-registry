@@ -1004,3 +1004,12 @@ moved: gravity (1), personas (1) - the same two as 2026-09-04, now stale twice o
 The four moved techniques' triggers left this slug's matching; no project lost a
 judged pair by it. Maps committed on nine projects; kp and ascent were mid-merge in
 another session and keep the regenerated map uncommitted in their working tree.
+[[2026-09-06-ace-step-1-5]] (intake, research-model release) added
+`branch-provenance-gate`: a push-stage gate whose target is the branch's ancestry
+rather than its content - is this branch descended from the integration ref, and
+does any commit it adds already appear on another proposal branch. Neither
+question is answerable by a content gate or by CI, which sees the merge result.
+Its value scales with independent contributors and collapses to zero on a
+single-owner repository, which is why the fleet carries no applied row for it.
+Also holds this run's one lead: a committed capacity table naming a calibration
+script that nothing runs, with no calibration date and no measured-on hardware.

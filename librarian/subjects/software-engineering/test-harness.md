@@ -240,3 +240,15 @@ deployed runtime agent.
 - No fleet seam. The fleet's projects define test lanes explicitly rather than by
   content derivation, so the population is absent rather than unmeasured - the
   application is against the source tree only.
+[[2026-09-06-ace-step-1-5]] (intake, research-model release) added
+`constraint-injection-for-unreachable-tiers`: override the capacity *probe*, not
+the resolved tier and not the consumers, so the real adaptation logic runs against
+a number it cannot distinguish from a true reading - and make the per-rung sweep a
+named mode whose table is the artifact. The honest limit is stated in the
+technique: an overridden probe constrains a number, not the resource, so it proves
+the decision logic and nothing about genuine exhaustion. `adaptive-fidelity-tiers`
+holds the runtime side of the same ladder and rejects declared capability
+wholesale; this subject holds the case where injecting a false declaration is the
+instrument. Contention note: `praisonai` (run 2026-09-06) landed
+`derived-selection-must-be-measured` in this golden path in the same hour; both
+hunks coexist and were staged separately.

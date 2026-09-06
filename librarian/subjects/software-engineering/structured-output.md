@@ -76,3 +76,15 @@ a ladder.
   two runs, one rule. **That is convergence and it is the strongest evidence this
   subject has produced for the shed-visibility half** - named here so a third
   sighting is recognised as a promotion candidate rather than a repeat.
+[[2026-09-06-ace-step-1-5]] (intake, research-model release) added
+`enumerable-domain-decoding`. The promoting question was executed against this
+subject's own golden path and it answered in one sentence: constrained decoding
+"guarantees syntax, and syntax was never the contract... a quantity out of range
+... is exactly as dangerous well-formed as malformed." Two of that sentence's
+three examples are enumerable domains and one is not, and the technique draws the
+line: a domain is enforceable in the decoder when it can be materialised and
+compiled to a token-prefix tree in the context it will be emitted in. The
+validation door does not move - referential existence, cross-field consistency
+and truncation all survive - but it stops being the only thing between the model
+and a corrupt field. Application is the inverse case, a fleet pipeline with 17
+imperative repairs and 1 declared domain across 153 exported fields.

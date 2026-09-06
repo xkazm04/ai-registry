@@ -25,6 +25,7 @@ techniques:
   - renameable-detector-keys
   - instrument-answers-only-its-own-question
   - shared-substrate-check-partition
+  - branch-provenance-gate
 ---
 
 # Quality gates
