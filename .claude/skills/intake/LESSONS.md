@@ -8524,3 +8524,79 @@ should finish on v2.5.0.
   serial conversation between consecutive rounds: at this concurrency it is closer
   to a broadcast, and an item aimed at "the next run" may reach three runs at once
   or none.
+
+## 2.5.0 - 2026-09-06 - openclaude
+
+- **The unstated premise is a fifth Phase 6 hunt, and it is the one that survives
+  a corpus this mature.** Both landings this run were premise catches. The four
+  documented hunts — missing stage, enumeration/denial, asymmetry, neighbours —
+  all ask what a document failed to *say*. This asks what it is standing *on*.
+  The tell is mechanical and worth the sentence: **a rule that is inapplicable
+  rather than false.** `turn-classification`'s "an unclassified call fails loudly"
+  is not wrong; it has nothing to point at when the caller is a person and there
+  is no call site. `capability-feature-gating`'s "there is no flag whose absence
+  breaks the default build" is not wrong; it is silent on a flag whose *presence*
+  does. A source that violates a premise reads as `already covered` to every
+  other hunt, because every slug and every `use_when` still matches. Proposed as
+  round 30's focus item 1; if it carries two more runs it belongs in the Phase 6
+  list rather than here.
+
+- **A concept-shaped query that returns zero is not evidence either.** The method
+  already forbids establishing an absence from a proper-noun query, and separately
+  from a truncated one. This run hit a third variant with neither defect: a grep
+  for *capability … does not authorize* over the whole knowledge tree, no product
+  names anywhere in it, returned **zero** — over a corpus that states exactly that
+  concept in `capability-is-not-registry-membership`, in different words. A corpus
+  written by many hands says one idea in many vocabularies, and slug/prose matching
+  cannot see a synonym. The cheap corrective is already in the method for a
+  different reason and just needs extending: **an absence is provisional until the
+  top prior-art subject's own file has been read.** Cost one file open; would have
+  cost a duplicate technique.
+
+- **The run board does not extend to a shared consumer checkout, and this is the
+  first time it has cost anything.** Every collision rule in this method is about
+  registry subjects, and it worked: 0 siblings at claim, 5 by Phase 9, none holding
+  a subject this run touched. Meanwhile a sibling session in the `personas`
+  checkout ran `git commit` while this run's cross-repo change was staged in the
+  same index, and swept this run's `package.json` wiring and `.ai/applied.jsonl`
+  row into its own commit. No content was lost and history was not rewritten, so
+  the cost was only attribution — but the same race over a *modified* shared file
+  rather than two appends would have been a real loss. Phase 8 tells a run to
+  check for another session's uncommitted work in files it touches; it has no
+  equivalent of the `commit` lock for the consumer side, and the board cannot
+  provide one because it lives in the registry's git common directory. Recording
+  rather than proposing: the honest options (a lock file in the consumer tree, or
+  staging-free `git commit -- <paths>` for consumer commits, which has its own
+  known failure) both need a second sighting before either is worth the method's
+  weight.
+
+- **An apply step that generalises the landing is a different event from one that
+  refutes it, and only one of them is currently counted.** The gating amendment was
+  written from a fork where the flag and its source have different *owners*; no
+  fleet project is a fork of anything, so on its landed wording the row was
+  `unapplied`. It survived because Phase 7.5 asked what the ownership split was
+  actually buying and found a weaker sufficient condition — the split need only
+  cross a **decision**, not an organisation — which then made a project that owns
+  every byte of both halves of its gates a valid seam, and produced the run's only
+  `better` row plus a live production defect. The generalisation went back into the
+  published text. Prior rounds have logged the apply step *refuting* a landing
+  (round 24, round 27); this is the apply step *widening* one, and the two have
+  opposite implications for whether the landing was drafted well. Proposed as round
+  30's focus item 2 (`generalised=yes/no` in the depth cell) so the ratio becomes
+  visible before either reading is assumed.
+
+- **Nothing in `SKILL.md` changed and no version was bumped.** All four lessons are
+  first sightings; the method's own rule is that a lesson confirmed three runs
+  running becomes a rule the file carries. With five sibling sessions live and
+  reading their own loaded copy, a mid-afternoon method edit would also have been
+  the one change a parallel fleet cannot absorb quietly.
+
+- **Calibration note for the scorecard's own instrument.** This run read round 26's
+  declared focus at Phase 1 and answered it; rounds 27 and 28 both landed while it
+  was running, so the focus nominally addressed to round 29 was written after this
+  run had already passed the phase that reads it. That is not a failure of anyone's
+  discipline — it is what a dozen-at-a-time cadence does to a single-threaded
+  hand-off channel. Worth knowing before the focus mechanism is trusted as a
+  serial conversation between consecutive rounds: at this concurrency it is closer
+  to a broadcast, and an item aimed at "the next run" may reach three runs at once
+  or none.
