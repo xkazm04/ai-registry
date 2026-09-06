@@ -128,9 +128,9 @@
       "contentHash": "sha256-n1:c5b1379732e4a513",
       "adopters": [],
       "invokes30d": 0,
-      "lessons": 4,
+      "lessons": 5,
       "lessonsPath": "skills/dojo/LESSONS.md",
-      "lessonsHash": "sha256-n1:0ea97ac23134a96f",
+      "lessonsHash": "sha256-n1:45d3f630cafa66b6",
       "usageContributors": []
     },
     {
@@ -303,9 +303,9 @@
         "systedo-case@plugin:2.3.0"
       ],
       "invokes30d": 46,
-      "lessons": 15,
+      "lessons": 16,
       "lessonsPath": "skills/perfect/LESSONS.md",
-      "lessonsHash": "sha256-n1:21c6eef3989663a1",
+      "lessonsHash": "sha256-n1:edd599d57045afa6",
       "usageContributors": [
         "kazda-dev-box"
       ]
@@ -623,7 +623,7 @@
     "skills": 29,
     "practices": 8,
     "memory": 6,
-    "lessons": 149
+    "lessons": 151
   },
   "bundles": [
     {
@@ -724,11 +724,11 @@
       "okfVersion": "0.1",
       "profile": "rkb/0.1",
       "purity": "software",
-      "subjects": 214,
+      "subjects": 215,
       "techniques": 1586,
       "applications": 931,
-      "files": 2736,
-      "contentHash": "sha256:9fddabde01b33e35"
+      "files": 2737,
+      "contentHash": "sha256:85ca7c4922e06945"
     }
   ]
 }

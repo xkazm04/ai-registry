@@ -3,7 +3,7 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
-  "subjects": 214,
+  "subjects": 215,
   "techniques": 1586,
   "applications": 931,
   "laws": 15,
@@ -14097,7 +14097,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/client-architecture/i18n/i18n.md",
-   "digest": "sha256:52e0e02324367b2d",
+   "digest": "sha256:63c2ac2d6aa9baca",
    "techniques": [
     {
      "slug": "catalog-architecture",
@@ -17052,6 +17052,101 @@
      "technique": "trend-fitting-and-anchoring",
      "file": "knowledge/software-engineering/engineering-assessment/measurement-method/metric-forecasting/applications/node--trend-fitting-and-anchoring.md",
      "verified_on": "2026-08-20"
+    }
+   ]
+  },
+  "metric-gates": {
+   "category": "engineering-process",
+   "subcategory": "standards-and-gates",
+   "status": "forged",
+   "file": "knowledge/software-engineering/engineering-process/standards-and-gates/metric-gates/metric-gates.md",
+   "digest": "sha256:e932e86aac4186c5",
+   "techniques": [
+    {
+     "slug": "counted-set-snapshot",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a regression snapshot records only totals",
+      "a change swapped one counted item for another and nothing went red",
+      "deciding what a committed baseline should contain",
+      "a recorded artifact has gone stale without any gate noticing",
+      "normalising a generated snapshot so it stops churning"
+     ]
+    },
+    {
+     "slug": "deterministic-proxy-gate",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "limits-are-derived"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a cost standard cannot be restated as an operation the source text contains",
+      "a timing gate keeps failing on runner noise and the team wants it blocking anyway",
+      "choosing an instrument for a performance ratchet",
+      "deciding whether a work-count regression is evidence of a slowdown"
+     ]
+    },
+    {
+     "slug": "operation-assertion-gates",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a performance rule keeps failing on runner noise",
+      "deciding how to gate a cost standard that has no stable threshold",
+      "a benchmark gate that has been advisory since the day it was added",
+      "turning \"do not do expensive work here\" into something a pipeline can refuse"
+     ]
+    },
+    {
+     "slug": "ratchet-design",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "derivation-names-recomputation",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "gating a metric that cannot be zeroed today",
+      "a below-baseline reading passes silently",
+      "upward re-baselines are becoming routine",
+      "the baseline's editors are a smaller set than the authors who trip it",
+      "the metric can only be produced by a build the change's author cannot run"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "deterministic-proxy-gate",
+     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/metric-gates/applications/node--deterministic-proxy-gate.md",
+     "verified_on": "2026-09-04",
+     "verified_against": "node@22"
+    },
+    {
+     "stack": "node",
+     "technique": "operation-assertion-gates",
+     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/metric-gates/applications/node--operation-assertion-gates.md",
+     "verified_on": "2026-08-31",
+     "verified_against": "node@24.12.0"
+    },
+    {
+     "stack": "node",
+     "technique": "ratchet-design",
+     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/metric-gates/applications/node--ratchet-design.md",
+     "verified_on": "2026-09-01",
+     "verified_against": "node@24"
     }
    ]
   },
@@ -21982,7 +22077,7 @@
    "subcategory": "standards-and-gates",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/quality-gates.md",
-   "digest": "sha256:d80c2a54a86f8a4a",
+   "digest": "sha256:ebf92ece54c38bff",
    "techniques": [
     {
      "slug": "advancement-evidence-fields",
@@ -22027,37 +22122,6 @@
       "proving statically that no call escaped a declared wrapper",
       "a new capability shipped unassignable in a policy table",
       "a registry row whose call site was deleted"
-     ]
-    },
-    {
-     "slug": "counted-set-snapshot",
-     "status": "forged",
-     "laws": [
-      "count-carries-predicate",
-      "gate-sees-target"
-     ],
-     "shared_with": [],
-     "use_when": [
-      "a regression snapshot records only totals",
-      "a change swapped one counted item for another and nothing went red",
-      "deciding what a committed baseline should contain",
-      "a recorded artifact has gone stale without any gate noticing",
-      "normalising a generated snapshot so it stops churning"
-     ]
-    },
-    {
-     "slug": "deterministic-proxy-gate",
-     "status": "forged",
-     "laws": [
-      "gate-sees-target",
-      "limits-are-derived"
-     ],
-     "shared_with": [],
-     "use_when": [
-      "a cost standard cannot be restated as an operation the source text contains",
-      "a timing gate keeps failing on runner noise and the team wants it blocking anyway",
-      "choosing an instrument for a performance ratchet",
-      "deciding whether a work-count regression is evidence of a slowdown"
      ]
     },
     {
@@ -22197,21 +22261,6 @@
      ]
     },
     {
-     "slug": "operation-assertion-gates",
-     "status": "forged",
-     "laws": [
-      "gate-sees-target",
-      "failure-not-empty-success"
-     ],
-     "shared_with": [],
-     "use_when": [
-      "a performance rule keeps failing on runner noise",
-      "deciding how to gate a cost standard that has no stable threshold",
-      "a benchmark gate that has been advisory since the day it was added",
-      "turning \"do not do expensive work here\" into something a pipeline can refuse"
-     ]
-    },
-    {
      "slug": "oracle-frozen-during-repair",
      "status": "forged",
      "laws": [
@@ -22259,23 +22308,6 @@
       "a file or page has a stated size cap and every edit to it obeys a per-edit cap",
       "an accreting artifact is over its bound and no commit broke a rule",
       "a rule is about intent and no parser can express it"
-     ]
-    },
-    {
-     "slug": "ratchet-design",
-     "status": "forged",
-     "laws": [
-      "count-carries-predicate",
-      "derivation-names-recomputation",
-      "failure-not-empty-success"
-     ],
-     "shared_with": [],
-     "use_when": [
-      "gating a metric that cannot be zeroed today",
-      "a below-baseline reading passes silently",
-      "upward re-baselines are becoming routine",
-      "the baseline's editors are a smaller set than the authors who trip it",
-      "the metric can only be produced by a build the change's author cannot run"
      ]
     },
     {
@@ -22428,13 +22460,6 @@
     },
     {
      "stack": "node",
-     "technique": "deterministic-proxy-gate",
-     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/applications/node--deterministic-proxy-gate.md",
-     "verified_on": "2026-09-04",
-     "verified_against": "node@22"
-    },
-    {
-     "stack": "node",
      "technique": "enforcement-binding",
      "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/applications/node--enforcement-binding.md",
      "verified_on": "2026-09-04",
@@ -22462,13 +22487,6 @@
     },
     {
      "stack": "node",
-     "technique": "operation-assertion-gates",
-     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/applications/node--operation-assertion-gates.md",
-     "verified_on": "2026-08-31",
-     "verified_against": "node@24.12.0"
-    },
-    {
-     "stack": "node",
      "technique": "policy-projection",
      "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/applications/node--policy-projection.md",
      "verified_on": "2026-08-20"
@@ -22478,13 +22496,6 @@
      "technique": "prose-rule-drift",
      "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/applications/node--prose-rule-drift.md",
      "verified_on": "2026-09-04",
-     "verified_against": "node@24"
-    },
-    {
-     "stack": "node",
-     "technique": "ratchet-design",
-     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/applications/node--ratchet-design.md",
-     "verified_on": "2026-09-01",
      "verified_against": "node@24"
     },
     {
@@ -27723,7 +27734,7 @@
    "subcategory": "code-provenance",
    "status": "forged",
    "file": "knowledge/software-engineering/security/code-provenance/supply-chain/supply-chain.md",
-   "digest": "sha256:18c9e5ead4f07a64",
+   "digest": "sha256:b1b326b5855d4ef1",
    "techniques": [
     {
      "slug": "archive-extraction-safety",
@@ -31935,6 +31946,9 @@
     "measurement-honesty/unelidable-measurement",
     "media-playback/generated-supply-margin",
     "metric-forecasting/projection-presentability-gates",
+    "metric-gates/counted-set-snapshot",
+    "metric-gates/deterministic-proxy-gate",
+    "metric-gates/operation-assertion-gates",
     "migrations/dynamic-table-set-migrations",
     "migrations/error-propagation",
     "migrations/expand-deploy-contract",
@@ -32002,8 +32016,6 @@
     "public-claim-provenance/provenance-as-a-build-gate",
     "quality-gates/blocking-by-input-determinism",
     "quality-gates/chokepoint-tag-registry",
-    "quality-gates/counted-set-snapshot",
-    "quality-gates/deterministic-proxy-gate",
     "quality-gates/enforcement-binding",
     "quality-gates/excess-indicts-the-instrument",
     "quality-gates/fabrication-economics",
@@ -32011,7 +32023,6 @@
     "quality-gates/gate-liveness",
     "quality-gates/hook-hygiene",
     "quality-gates/instrument-answers-only-its-own-question",
-    "quality-gates/operation-assertion-gates",
     "quality-gates/oracle-frozen-during-repair",
     "quality-gates/policy-projection",
     "quality-gates/prose-rule-drift",
@@ -32432,6 +32443,8 @@
     "media-playback/source-resilience",
     "media-playback/transport-contract",
     "metric-forecasting/fit-confidence-honesty",
+    "metric-gates/operation-assertion-gates",
+    "metric-gates/ratchet-design",
     "metric-surface-contract/metric-removal-is-a-staged-pipeline",
     "metrics-rollups/aggregate-honesty",
     "metrics-rollups/bundle-endpoints",
@@ -32520,9 +32533,7 @@
     "quality-gates/excess-indicts-the-instrument",
     "quality-gates/gate-liveness",
     "quality-gates/hook-hygiene",
-    "quality-gates/operation-assertion-gates",
     "quality-gates/oracle-frozen-during-repair",
-    "quality-gates/ratchet-design",
     "quality-gates/self-reported-gate-inputs",
     "quality-gates/unmeasurable-criteria",
     "quality-gates/vacuous-by-evaluation",
@@ -33012,6 +33023,8 @@
     "metric-forecasting/fit-confidence-honesty",
     "metric-forecasting/threshold-crossing-eta",
     "metric-forecasting/trend-fitting-and-anchoring",
+    "metric-gates/counted-set-snapshot",
+    "metric-gates/ratchet-design",
     "metric-surface-contract/derive-outside-the-hot-loop",
     "metric-surface-contract/export-terms-not-ratios",
     "metric-surface-contract/fault-localizing-metric-set",
@@ -33085,12 +33098,10 @@
     "public-verdict-badge/embed-snippet-contract",
     "public-verdict-badge/verdict-honesty-qualifiers",
     "quality-gates/advancement-evidence-fields",
-    "quality-gates/counted-set-snapshot",
     "quality-gates/excess-indicts-the-instrument",
     "quality-gates/false-positive-economics",
     "quality-gates/instrument-answers-only-its-own-question",
     "quality-gates/item-liveness",
-    "quality-gates/ratchet-design",
     "quality-gates/renameable-detector-keys",
     "quality-gates/severity-by-construction",
     "quality-gates/shared-substrate-check-partition",
@@ -34667,6 +34678,7 @@
     "media-playback/playback-clock",
     "media-playback/timeline-scheduling",
     "metric-forecasting/trend-fitting-and-anchoring",
+    "metric-gates/ratchet-design",
     "metric-surface-contract/derive-outside-the-hot-loop",
     "metric-surface-contract/export-terms-not-ratios",
     "metrics-rollups/stored-rollups",
@@ -34704,7 +34716,6 @@
     "prompt-assembly/tiered-history-projection",
     "public-claim-provenance/build-time-derivation-off-the-client-bundle",
     "public-claim-provenance/derived-numerator-authored-denominator",
-    "quality-gates/ratchet-design",
     "rate-limiting/limit-derivation",
     "rate-limiting/limit-observability",
     "read-serving-replicas/committed-write-invalidation-hook",
@@ -34892,6 +34903,7 @@
     "mcp-tools/catalog-projection-modes",
     "media-playback/committed-buffer-steering",
     "media-playback/generated-supply-margin",
+    "metric-gates/deterministic-proxy-gate",
     "modelled-performance-estimates/one-ratio-then-a-capability-cap",
     "native-guest-interop/aligned-native-data-cell",
     "native-shell-integration/native-owned-stream",
@@ -34900,7 +34912,6 @@
     "paged-block-cache/one-page-size-bought-with-padding",
     "paged-block-cache/release-order-is-the-eviction-policy",
     "prompt-assembly/elision-to-a-refetch-pointer",
-    "quality-gates/deterministic-proxy-gate",
     "register-bytecode-execution/instruction-format-follows-program-lifetime",
     "scale-investment-timing/execution-model-concurrency-threshold",
     "self-healing/consume-once-mode-handoff",
