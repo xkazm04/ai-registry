@@ -1353,3 +1353,43 @@ that check stays cheap.
 - **The `--develop` deep tier is chosen by strategy, not by the context's `category`, and on a `test` context the wrong eight lead.** feature-scout, growth-hacker, monetization-advisor and business-strategist had nothing real for a probe suite; all nine builds came from the five never-applied quality lenses and test-strategist. The "new capability" a test context can absorb is a new DERIVED probe over a population previously asserted only in prose (here: walking a public route's import graph). A `category: test` or `config` context should promote test-strategist / state-coverage / parity-auditor into the deep tier under every strategy and demote the market lenses to the tail.
 - **A derived check that accepts a cleanup hook by PRESENCE is the coverage-theater shape §4.7 describes, one level up.** The check derived its population correctly (every probe that writes env) and then read the fix off a hand-shaped predicate (`test.afterEach(` exists). Ask of every derived check: does its acceptance predicate read the hook's BODY against the resource, or its name? Filed as a registry lead; recording it here because the §4.7 clause names lists and not predicates.
 - **On a test context the operator's temp folder is an evidence surface.** 392 `gravitone-argv-*` directories were the measurement for a leak no lens looks for; a sweep of a `test` context should glance at `$TEMP` for the repo's prefix before declaring code-optimizer clean.
+
+## 4.0.0 - 2026-09-06 - ascent (Members & Access Control, --develop)
+
+- **"A gate you could not run is a gate that did not pass" needs a third branch: a gate that CANNOT
+  be run, for reasons that will not clear.** §7.2's advice for a red whole-tree gate is "wait for the
+  tree to settle." In a checkout several agents share, the tree does not settle: a foreign `next dev`
+  rewrote `.next/dev/types/**` (which the repo's tsconfig *includes*) continuously for the whole
+  round, leaving it truncated mid-write, while a second session half-applied a feature whose imports
+  did not exist yet. Waiting is unbounded, and reporting DEGRADED for nine commits abandons the
+  typecheck entirely. What worked, and what the skill should name: build a **closure typecheck** - a
+  tsconfig extending the repo's, whose `files` are the round's changed files plus each one's
+  CONSUMERS. TypeScript pulls the full import closure, so it is a real compile-time assertion on
+  everything the change can break, and it is immune to unrelated churn. The trap worth writing down
+  with it: **`exclude` cannot drop a transitively-imported tree** - excluding the foreign directory
+  still typechecks it, because a non-excluded file imports it. `files` is the only lever.
+
+- **Veto 1 (out-of-scope -> Lane B) mis-routes a change that the repo's OWN gate makes mandatory.**
+  Adding a `recordOrgAudit` call site in this repo fails a static test unless a line is appended to a
+  registry file in a DIFFERENT context. Read literally, veto 1 sends that to a Lane B worker who owns
+  the registry's context - but that worker does not own the route, so neither of them can build the
+  finding, and it is unbuildable forever. The distinction the section needs: a file outside your paths
+  that you are changing to **alter another context's behaviour** is veto 1; one you are changing
+  because **a gate in your own path names it as the mechanical consequence** is part of your atomic
+  unit. The test for it is objective - would the repo's gate go red without the second edit? If yes,
+  it is one change; declare the crossing in the commit and keep the edit minimal.
+
+- **`--develop` found its best forward-building item by grepping for a field's CONSUMERS, not by
+  imagining a feature.** Four of the nine builds were the same shape: a value the backend already
+  computes, stores and documents, with zero readers in the UI (`emailed`, `invitedBy`, and the
+  audit action that was never recorded). The repo's own backlog had named that class after a UAT
+  measured 22 instances of it. A `--develop` round should run the zero-consumer grep over the
+  context's exported fields, route response keys and db columns BEFORE opening the market lenses:
+  a capability the product has already paid for and not delivered outranks one it has not built, it
+  is always inside declared scope (so never a `direction`), and its Before figure is a grep count -
+  which is exactly the `gate`-rung evidence the market lenses cannot produce.
+
+- **A test file split under a LOC cap is a warning-generating event.** Splitting a jsdom test into
+  sibling theme files copies the whole preamble into each, and most of it is dead in each half. Eight
+  unused-helper warnings shipped in one commit before the next `eslint` over the directory caught
+  them. Run the linter over the DIRECTORY immediately after any split, not over the changed files.
