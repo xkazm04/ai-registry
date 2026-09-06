@@ -8524,79 +8524,67 @@ should finish on v2.5.0.
   serial conversation between consecutive rounds: at this concurrency it is closer
   to a broadcast, and an item aimed at "the next run" may reach three runs at once
   or none.
+## 2.5.0 - 2026-09-06 - ace-step-1-5
 
-## 2.5.0 - 2026-09-06 - openclaude
+- **The score is a function of the landing shape, and the method never says to
+  pick the shape first.** The run's strongest row (a decoder that enforces value
+  domains, refining a golden-path sentence that says constrained decoding buys
+  syntax only) scored `G3/R2/C2` when read as a prose correction to that
+  sentence - G-R=1, below the +2 threshold, untriaged. Read as a new technique
+  plus a `techniques:` list append it scores `G3/R0/C2` and lands. Same finding,
+  same evidence, same corpus; the rewrite penalty was the whole difference and
+  the penalty is chosen by the author. Phase 5 Step 3 should say: choose the
+  least-rewriting shape that still lands the mechanism, then score. Until it
+  does, the +2 threshold will reject findings for a cost the run inflicted on
+  itself.
+- **"Do the file's existing sentences stay true?" needs the incompleteness case
+  stated.** Applying the mechanical test twice in one run produced two different
+  answers for structurally similar edits, and the distinction that separated them
+  is worth carrying: a sentence that becomes *less complete* is an append; a
+  sentence whose *scope* becomes false is a rewrite. Row 1 (the golden path still
+  correctly says the validation door stays) was an append. Row 3 (an amendment
+  making `per-tier-budget-tables`' flat "it fails" false as a universal) was a
+  rewrite and was banked. If a later run finds that line too fine, this pair is
+  the one to read.
+- **An `unapplied` row should owe its instrument the way `unmeasurable` owes
+  one.** Three of four apply rows here were `unapplied`, and the only reason two
+  bogus ones were caught is that each absence was established by a named scan
+  whose matches were then read. The method already forbids reporting
+  `unmeasurable` without naming the instrument; the symmetric rule is missing and
+  is cheaper, because an unexamined absence produces a *confident* zero.
+- **A non-zero result is not an assertion of the instrument.** The existing lesson
+  says to assert a scan against a known positive before trusting an absence. That
+  is insufficient in the direction that invents work: a committer count over
+  `ascent` returned 5, which is plausible, non-zero, and would have manufactured a
+  fleet seam for the branch-provenance gate - four of the five were that
+  project's own `*@ascent.test/.invalid` harness identities. A count cannot show
+  what it counted. The assertion is *reading the matched rows*, not observing that
+  the number is not zero. Same failure, milder, in the other direction: a grep for
+  a capability ladder in kp returned three files that turned out to be a
+  rate-limit constant, its contract test and a vendor URL.
+- **The class prediction was exact and the ratio record keeps growing.** A
+  research-model release is reliable for its prompt artifacts and its config, and
+  those were precisely the two productive surfaces (the constrained decoder, the
+  capacity table). The landing-page-to-in-tree ratio was **46x** (2,248 against
+  103,048), against 33x for the previous record. Phase 2b's "clone it, always" is
+  now carrying most of this method's value on repository sources, and no run has
+  yet found a repository where the README was worth mining.
+- **Routing count: size is not the trigger, and this is the third run to say
+  so.** A 1,588-line capacity module, a 2,339-line constrained decoder and 187
+  test files is forge-shaped by any intuition, and neither v2.2 clause fired -
+  the tree's load-bearing decisions that the corpus lacks were three, in three
+  different existing subjects. Writing both counts before deciding is what kept
+  this from becoming either a spurious handoff or a set of amendments.
 
-- **The unstated premise is a fifth Phase 6 hunt, and it is the one that survives
-  a corpus this mature.** Both landings this run were premise catches. The four
-  documented hunts — missing stage, enumeration/denial, asymmetry, neighbours —
-  all ask what a document failed to *say*. This asks what it is standing *on*.
-  The tell is mechanical and worth the sentence: **a rule that is inapplicable
-  rather than false.** `turn-classification`'s "an unclassified call fails loudly"
-  is not wrong; it has nothing to point at when the caller is a person and there
-  is no call site. `capability-feature-gating`'s "there is no flag whose absence
-  breaks the default build" is not wrong; it is silent on a flag whose *presence*
-  does. A source that violates a premise reads as `already covered` to every
-  other hunt, because every slug and every `use_when` still matches. Proposed as
-  round 30's focus item 1; if it carries two more runs it belongs in the Phase 6
-  list rather than here.
+### Redesign proposal (not applied)
 
-- **A concept-shaped query that returns zero is not evidence either.** The method
-  already forbids establishing an absence from a proper-noun query, and separately
-  from a truncated one. This run hit a third variant with neither defect: a grep
-  for *capability … does not authorize* over the whole knowledge tree, no product
-  names anywhere in it, returned **zero** — over a corpus that states exactly that
-  concept in `capability-is-not-registry-membership`, in different words. A corpus
-  written by many hands says one idea in many vocabularies, and slug/prose matching
-  cannot see a synonym. The cheap corrective is already in the method for a
-  different reason and just needs extending: **an absence is provisional until the
-  top prior-art subject's own file has been read.** Cost one file open; would have
-  cost a duplicate technique.
-
-- **The run board does not extend to a shared consumer checkout, and this is the
-  first time it has cost anything.** Every collision rule in this method is about
-  registry subjects, and it worked: 0 siblings at claim, 5 by Phase 9, none holding
-  a subject this run touched. Meanwhile a sibling session in the `personas`
-  checkout ran `git commit` while this run's cross-repo change was staged in the
-  same index, and swept this run's `package.json` wiring and `.ai/applied.jsonl`
-  row into its own commit. No content was lost and history was not rewritten, so
-  the cost was only attribution — but the same race over a *modified* shared file
-  rather than two appends would have been a real loss. Phase 8 tells a run to
-  check for another session's uncommitted work in files it touches; it has no
-  equivalent of the `commit` lock for the consumer side, and the board cannot
-  provide one because it lives in the registry's git common directory. Recording
-  rather than proposing: the honest options (a lock file in the consumer tree, or
-  staging-free `git commit -- <paths>` for consumer commits, which has its own
-  known failure) both need a second sighting before either is worth the method's
-  weight.
-
-- **An apply step that generalises the landing is a different event from one that
-  refutes it, and only one of them is currently counted.** The gating amendment was
-  written from a fork where the flag and its source have different *owners*; no
-  fleet project is a fork of anything, so on its landed wording the row was
-  `unapplied`. It survived because Phase 7.5 asked what the ownership split was
-  actually buying and found a weaker sufficient condition — the split need only
-  cross a **decision**, not an organisation — which then made a project that owns
-  every byte of both halves of its gates a valid seam, and produced the run's only
-  `better` row plus a live production defect. The generalisation went back into the
-  published text. Prior rounds have logged the apply step *refuting* a landing
-  (round 24, round 27); this is the apply step *widening* one, and the two have
-  opposite implications for whether the landing was drafted well. Proposed as round
-  30's focus item 2 (`generalised=yes/no` in the depth cell) so the ratio becomes
-  visible before either reading is assumed.
-
-- **Nothing in `SKILL.md` changed and no version was bumped.** All four lessons are
-  first sightings; the method's own rule is that a lesson confirmed three runs
-  running becomes a rule the file carries. With five sibling sessions live and
-  reading their own loaded copy, a mid-afternoon method edit would also have been
-  the one change a parallel fleet cannot absorb quietly.
-
-- **Calibration note for the scorecard's own instrument.** This run read round 26's
-  declared focus at Phase 1 and answered it; rounds 27 and 28 both landed while it
-  was running, so the focus nominally addressed to round 29 was written after this
-  run had already passed the phase that reads it. That is not a failure of anyone's
-  discipline — it is what a dozen-at-a-time cadence does to a single-threaded
-  hand-off channel. Worth knowing before the focus mechanism is trusted as a
-  serial conversation between consecutive rounds: at this concurrency it is closer
-  to a broadcast, and an item aimed at "the next run" may reach three runs at once
-  or none.
+The Phase 7.5 budget assumes a fleet whose stacks overlap the source's. This run
+landed four techniques against a Python ML runtime and found one seam in twelve
+projects, because the fleet is TypeScript web applications plus one Python
+pipeline. That is not a discipline failure and the `unapplied` rows are honest,
+but `apply=1/4` will recur for every source outside the fleet's stack band, and
+the scorecard currently reads it as weakness at the apply stage. Two candidate
+answers: score the apply stage against *seam availability* rather than against
+landings, or admit a fifth mode - a **counterpart reading**, where the source's
+own tree is the A/B subject (as three of this run's applications in fact are) and
+the row says so instead of reporting an absence.
