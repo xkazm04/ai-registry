@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 216,
-  "techniques": 1601,
-  "applications": 943,
+  "techniques": 1603,
+  "applications": 945,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1601/1601",
+  "use_when_coverage": "1603/1603",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -3207,7 +3207,7 @@
    "subcategory": "identity-and-access",
    "status": "reconciled",
    "file": "knowledge/software-engineering/security/identity-and-access/authorization/authorization.md",
-   "digest": "sha256:088440eaf997ec6d",
+   "digest": "sha256:0582b8ac15863bc8",
    "techniques": [
     {
      "slug": "authorization-audit",
@@ -3359,6 +3359,21 @@
       "a pin on one resource opening another",
       "a check passing after the grant narrowed"
      ]
+    },
+    {
+     "slug": "unregistered-is-stronger-than-refused",
+     "status": "forged",
+     "laws": [
+      "absent-guard-is-loud",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an authorization dimension is fixed for the whole process lifetime",
+      "a deployment mode must remove a class of operation rather than restrict it",
+      "deciding whether a mode belongs in the gate or in the route table",
+      "a read-only or degraded deployment still exposes its mutating surface"
+     ]
     }
    ],
    "applications": [
@@ -3402,6 +3417,13 @@
      "file": "knowledge/software-engineering/security/identity-and-access/authorization/applications/node--scope-design.md",
      "verified_on": "2026-09-02",
      "verified_against": "node@24.14"
+    },
+    {
+     "stack": "python",
+     "technique": "unregistered-is-stronger-than-refused",
+     "file": "knowledge/software-engineering/security/identity-and-access/authorization/applications/python--unregistered-is-stronger-than-refused.md",
+     "verified_on": "2026-09-06",
+     "verified_against": "python@3.13"
     },
     {
      "stack": "rust",
@@ -4578,7 +4600,7 @@
    "subcategory": null,
    "status": "reconciled",
    "file": "knowledge/software-engineering/client-architecture/client-fetch-cache/client-fetch-cache.md",
-   "digest": "sha256:82eec4974811c25d",
+   "digest": "sha256:3962af6122fb2f0a",
    "techniques": [
     {
      "slug": "admission-hypothesis",
@@ -16175,7 +16197,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/integration/markdown-vault/markdown-vault.md",
-   "digest": "sha256:764c0c15a865ddd5",
+   "digest": "sha256:967288ac2e5f3c37",
    "techniques": [
     {
      "slug": "editor-interop",
@@ -16236,6 +16258,21 @@
      ]
     },
     {
+     "slug": "projection-covers-the-record",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "derivation-names-recomputation"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a record is split into several indexed fields before it is written to a mirror",
+      "a note is provably present and search still cannot find it",
+      "one pass extracts a construct and another removes it",
+      "deciding what a mirror is allowed to store"
+     ]
+    },
+    {
      "slug": "replicated-substrate",
      "status": "forged",
      "laws": [
@@ -16285,6 +16322,13 @@
      "file": "knowledge/software-engineering/integration/markdown-vault/applications/node--link-graph-extraction.md",
      "verified_on": "2026-08-30",
      "verified_against": "node@22"
+    },
+    {
+     "stack": "python",
+     "technique": "projection-covers-the-record",
+     "file": "knowledge/software-engineering/integration/markdown-vault/applications/python--projection-covers-the-record.md",
+     "verified_on": "2026-09-06",
+     "verified_against": "python@3.13"
     },
     {
      "stack": "rust",
@@ -17875,7 +17919,7 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/model-routing/model-routing.md",
-   "digest": "sha256:bb6a810bd162fea3",
+   "digest": "sha256:ffafeb385b44238b",
    "techniques": [
     {
      "slug": "cache-continuity",
@@ -32273,6 +32317,7 @@
     "machine-paced-delivery/stake-before-merit",
     "markdown-vault/knowledge-integrity-lint",
     "markdown-vault/mirror-indexes",
+    "markdown-vault/projection-covers-the-record",
     "markdown-vault/replicated-substrate",
     "maturity-ladders/ladder-versioning",
     "maturity-ladders/present-vs-enforced",
@@ -34592,6 +34637,7 @@
     "authorization/privilege-tiers",
     "authorization/read-write-predicate-symmetry",
     "authorization/scope-design",
+    "authorization/unregistered-is-stronger-than-refused",
     "bounded-enumeration/deny-absorbs-and-lowest-limit-wins",
     "browser-credential-boundary/opaque-upstream-errors",
     "browser-credential-boundary/public-vs-server-env-split",
@@ -35051,6 +35097,7 @@
     "long-form-reading-surface/server-parsed-once-reused",
     "markdown-vault/link-graph-extraction",
     "markdown-vault/mirror-indexes",
+    "markdown-vault/projection-covers-the-record",
     "maturity-ladders/band-design",
     "maturity-ladders/ladder-versioning",
     "maturity-ladders/migrate-on-read",
@@ -35325,6 +35372,7 @@
     "agent-runtime-assembly/honest-hook-registry",
     "agent-runtime-assembly/observer-and-mutator-surfaces",
     "audit-logging/best-effort-with-accounting",
+    "authorization/unregistered-is-stronger-than-refused",
     "bounded-enumeration/required-limit-breaks-unaware-clients",
     "browser-credential-boundary/allowlisted-operator-stream",
     "browser-credential-boundary/outbound-fetch-destination-validation",
