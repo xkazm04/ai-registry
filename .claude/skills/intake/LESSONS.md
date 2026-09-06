@@ -8676,3 +8676,34 @@ the row says so instead of reporting an absence.
   does this project's more advanced version of the mechanism cost it that the
   source's version does not?** Worth a line in the method if a second run hits
   it.
+
+## 2.6.0 — 2026-09-06 — the memory lane (no source; a measured series)
+
+Not a run. This entry records where a body of evidence went, because the next memory
+source needs to meet it rather than re-derive it.
+
+- **A domain with a measured baseline is triaged differently from a domain with only a
+  corpus.** Four rounds of simulated-year replay gave agent memory something no other
+  subject here has: nine arms on one ladder, sharing a consumer, judge, budget and
+  elaboration regime. A memory source is now priced against that table before prior art
+  is consulted, because most such sources report a number for a shape already measured.
+  The general form, worth watching for elsewhere: **when a subject acquires a harness,
+  the skill's first question about a claim stops being "is this new?" and becomes "what
+  does it score?"**
+- **A mechanism becomes an arm before it becomes a technique.** Three public memory
+  repositories were read in one session and none of their published numbers survived
+  inspection - one contaminated held-out split, one set of benchmark scripts that did not
+  exist, one honest but self-against-self. What survived was three *mechanisms*, each
+  wired as an adapter in a few hundred lines and given a row. That is a stronger apply
+  step than a thought simulation and the method now says so.
+- **The best finding of the series was an absence, and no source would have reported
+  it.** The tier a system injects into every prompt had never been governed by
+  supersedence at all: the retirement code existed with no caller, so 0 of 133 behaviour
+  rules were ever retired while 261 of 375 facts were. Sources describe what a system
+  does; a harness is what finds what it never does. **Budget a run for the thing the
+  corpus and the source both assume is happening.**
+- **A reliability failure inside a pipeline is not automatically an accuracy failure.**
+  Losing a third of the consolidation cycles to a timeout cost two accuracy points. The
+  prediction attached to that bug was much larger, and stating it wrong would have aimed
+  the next fix at the wrong target. Predict what a fix buys before measuring it, then
+  record the miss.
