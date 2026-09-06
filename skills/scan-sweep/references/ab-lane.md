@@ -52,6 +52,16 @@ Short path, per the long-path rule. The worktree shares the git common dir, so h
 `.claude/`, and the registry link follow it; `node_modules` does not — junction it
 (`mklink /J`) rather than reinstalling.
 
+**And then never run `npm ci` or `npm install` inside the worktree.** The junction is a
+door into the base checkout's `node_modules`, and `npm ci` DELETES that directory before
+it installs — through the door. Measured 2026-09-06, the first wave this contract ran:
+one worker's `npm ci` emptied the base checkout's `node_modules` mid-run, two sibling
+workers saw an empty tree and reinstalled locally, and the director found the base
+repopulated only because the same `npm ci` finished. The base checkout is the
+director's arm A and every other worker's toolchain; a worker that finds it empty
+reports `unmeasurable: toolchain` and stops rather than reinstalling. The director
+says this in the dispatch prompt, every time.
+
 The worker does these **in order**, and stops at the first that fails:
 
 1. **Re-measure A.** Take the card's `Before` figure on the base tree with the card's
