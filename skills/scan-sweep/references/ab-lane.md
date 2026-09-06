@@ -107,7 +107,17 @@ dispatches, reads, and merges.
   present), `seeded_red` is true, the After matches what the gate could see, the size
   did not creep, only the card's files moved.
 - **Merge** a `better` with green gates into the active branch, `--no-ff`, message
-  naming the item and the gate date. Remove the worktree. Emit a progress node.
+  naming the item and the gate date. **Unlink the junction before removing the
+  worktree** — `git worktree remove --force` deletes THROUGH a junction on Windows
+  and empties the base checkout's `node_modules` (measured 2026-09-06: the last
+  worktree removed still held its junction, and the director's own gate run then
+  found 0 packages and read three red gates that were nothing but a missing
+  compiler). `cmd /c rmdir <worktree>\node_modules` removes the link only; then
+  `git worktree remove`. Emit a progress node.
+- **A red gate the branch did not cause is main's red, not the worker's.** Before
+  refusing a merge for it, run the same gate on the active branch WITHOUT the
+  worker's commits; if it fails identically there, merge on the worker's own gates,
+  name the pre-existing red in the merge message, and carry it as a finding.
 - **Reject** a `not-better` with both figures attached — the most valuable row, and it
   never re-enters the backlog. Delete the branch. Record it in the ledger (below).
 - **Escalate** an `unmeasurable` to Lane C with the worker's named instrument; keep the
