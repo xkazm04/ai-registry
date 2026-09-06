@@ -73,6 +73,15 @@ record of what happened last cycle is stale within a month, while a procedure
 that works is good for a year. One global half-life necessarily overstates one
 and understates the other.
 
+The long end of that table carries a warning the short end does not. **A
+generous half-life is most expensive on the kind with the most standing.** A
+behaviour rule is usually the longest-lived kind *and* the one an always-on
+lane injects into every prompt, so a slow decay there is not a slow decay at
+all: nothing else ever competes it out of the context. Where a kind's entries
+are seen regardless of relevance, its half-life is not the only thing holding
+it alive, and generosity has to be paid for with a supersedence path that
+actually runs (see [decay-and-forgetting](./decay-and-forgetting.md)).
+
 Two disciplines make the table honest:
 
 - **The table is the claim, and it lives in one place.** Each entry is a

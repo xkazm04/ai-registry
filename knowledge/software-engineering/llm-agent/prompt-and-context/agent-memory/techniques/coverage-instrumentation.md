@@ -130,6 +130,36 @@ that lives in a log — a pass that skipped a file and a pass that processed it
 and found nothing are the same `0` in every downstream metric, which is the
 absence distinction this subject exists to keep.
 
+## A reliability rate is not an accuracy delta
+
+The same instrument answers a second question, and reading the answer wrong is
+common enough to name. When a stage of a pipeline fails *operationally* — a
+pass times out, a worker dies, a batch is skipped — the temptation is to
+predict its cost in end-to-end quality and then treat the quality number as the
+measure of the bug.
+
+Measured: a consolidation pass that lost **31 of 102 cycles** to a fixed
+timeout cost **two points** of end-to-end accuracy. The prediction attached to
+that failure had been much larger, and it was wrong in a way that would have
+misdirected the next repair: a third of the passes never ran, and the store was
+still able to answer most questions, because the surviving passes covered the
+same ground on their next attempt and the retrieval path was doing more of the
+work than the architecture diagram suggested.
+
+> **The accuracy delta is not the size of the reliability bug.** Classifying an
+> operational failure as an accuracy failure aims the next fix at the wrong
+> target, and classifying it as harmless because accuracy held is the same
+> error with the opposite sign.
+
+Fixing that pass bought what a reliability fix should buy and what the accuracy
+column could barely see: long-horizon recall rose sharply, and the classes that
+depend on the pass having actually run improved by ten to twenty points each
+while the aggregate moved by two. So report the two axes separately — a
+completion rate per pass (cycles finished over cycles attempted, beside items
+admitted over items eligible) and the quality score — and predict what a fix
+will buy *before* measuring it, then record the miss. A prediction nobody wrote
+down cannot be wrong, which is why it keeps being made.
+
 ## When not to use it
 
 Coverage requires an enumerable population. When the territory an agent is

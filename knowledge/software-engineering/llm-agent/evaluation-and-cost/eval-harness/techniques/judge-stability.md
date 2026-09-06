@@ -56,6 +56,17 @@ constant whose value at scoring time nobody recorded — and the anchor set then
 detects a drift it cannot attribute to anything.
 ([_laws: count-carries-predicate_](../../../../_laws.md#count-carries-predicate)).
 
+**The consumer's answer register is part of the judge's premise.** A rubric written while
+looking at one system's output silently encodes how that system talks — its length,
+whether it volunteers history, whether it refuses with a marker token or with a sentence.
+Point the same judge at a system with a different register and it scores the register:
+one measured swap put a correct system at 0.36 where it belonged at 0.73, because its
+habit of naming the current value and then dating the one it replaced tripped a staleness
+check. Record the register the rubric was calibrated against beside the model and the
+prompt, and re-read a handful of raw outputs whenever a new system joins the comparison.
+A system scoring near zero on a class where its siblings score well is more often a
+register mismatch than a real collapse.
+
 ## Measure drift; never assume it away
 
 Pinning shrinks drift; it does not eliminate it — hosted model versions

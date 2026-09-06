@@ -74,9 +74,70 @@ would cause.** A defensible gate is roughly four conjunctive conditions:
    gate that lets decay reach it quietly erases the organization's history
    while reporting a healthy store.
 4. **Not of an exempt kind** — the longest-lived and most expensive-to-lose
-   category (typically procedures: what was tried and what worked) is exempt
-   from automatic forgetting outright. Not decayed more slowly — exempt. A
-   procedure is rediscovered only by repeating the work that produced it.
+   items are exempt from automatic forgetting outright. Not decayed more
+   slowly — exempt. Identity, standing operator corrections, and anything
+   whose loss cannot be recovered by repeating work belong here.
+
+   **Read the exemption narrowly, and never grant it to a whole tier.** An
+   earlier reading of this clause exempted *procedures* as a category, on the
+   reasoning that a procedure is rediscovered only by repeating the work that
+   produced it. That reasoning is sound about the cost of losing a good
+   procedure and silent about the cost of keeping a bad one, and the second
+   cost is the larger of the two — because a procedure is an instruction, and
+   an instruction that is still injected is still obeyed. A superseded fact is
+   a wrong answer when retrieved; a superseded rule is wrong behaviour whether
+   or not anyone asks. Exempt the *kind whose loss is unrecoverable*, never
+   the *kind that is expensive to derive*.
+
+### The exemption's most expensive form: a tier nothing ever calls
+
+The failure this clause invites is not a sweep that spares too much. It is a
+tier that was never swept at all, and it hides better than a bad policy
+because the policy reads correctly in the code that implements it.
+
+Measured on one long-lived store replayed over a simulated year of use: the
+state tier retired 261 of 375 entries on schedule, and the behaviour tier
+retired **0 of 133, ever**. The demotion function existed, was correct, and had
+no caller — the distillation pass asked for a supersedence link on state and
+not on rules, and the reconciliation pass compared state to state and never
+compared a rule to anything. Nothing errored. Every dashboard read healthy.
+
+What made it costly rather than untidy is *which* tier it was:
+
+> **The tier the always-on lane draws from must be governed at least as
+> strictly as the tier retrieved on demand, because standing beats relevance.**
+
+A retrieved-on-demand entry has to win a relevance contest to be seen at all,
+so a stale one competes against its own replacement and often loses. An
+always-injected entry faces no contest: it is in the prompt for every question
+regardless of what was asked. So the tier with the *least* retrieval pressure
+is where a dead entry survives longest and acts with the most authority. In the
+replayed store a behaviour rule from January still said to default to one code
+style in December, months after the operator changed it and after the *fact*
+recording that preference had been correctly retired — and the rule, not the
+fact, is what the assistant acted on.
+
+Governing both tiers through one path was worth four points of end-to-end
+accuracy and retired 68 of 131 rules. It also cost something worth naming: a
+narrow class regressed when retirement switched on, because a pass that can now
+retire rules can also be over-eager about it. That is the ordinary price of
+turning a lane on, and it argues for watching the first sweeps, not for leaving
+the lane off.
+
+Two instruments follow, both cheap:
+
+- **Report retired-per-tier, not retired.** One number over a store whose tiers
+  are governed differently is an average that hides a zero. This is
+  [coverage-instrumentation](./coverage-instrumentation.md)'s rule applied to
+  forgetting: the denominator is the population, and each tier is a population.
+- **Assert the contract per tier, in a test.** "Forgetting is demotion" is a
+  claim about behaviour, and a claim no test makes is a comment. A test that
+  writes a superseding entry into each tier and asserts the prior one leaves
+  the retrievable set would have caught this on the day the tier was added.
+
+The same shape has already been solved one subject over, for the same reason:
+an always-on instruction file earns each line or loses it, and pruning is
+treated as admission's other half rather than as a later favour.
 
 Two consequences worth stating explicitly. First, the conjunction is what
 makes automation acceptable at all: any one clause alone is wrong, and their

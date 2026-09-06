@@ -85,7 +85,10 @@ this morning (confidence 0.3) must survive long enough to be confirmed"),
 `DECAY_MAX_CONFIDENCE` 0.3 ("old and TRUE is the normal state of a semantic
 memory, and letting decay touch it would quietly erase the org's history"),
 and `DECAY_EXEMPT_KINDS = ["procedural"]` ("the most expensive to lose…
-exempt from automatic forgetting, full stop").
+exempt from automatic forgetting, full stop") — a setting later measured to be
+the wrong shape of exemption, because the exempted kind was the one an
+always-on lane injects into every prompt, and nothing else ever competed a
+dead entry out of it.
 
 The header then drew an implication that read as a feature and was in fact the
 defect: "conditions 1+3 imply together: an old, low-confidence memory that is

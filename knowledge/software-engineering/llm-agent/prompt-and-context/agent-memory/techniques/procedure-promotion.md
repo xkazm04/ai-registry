@@ -245,6 +245,18 @@ surfaced for retirement rather than left to be discovered by the run that
 depended on one. Retirement returns the procedure to its honest state: a
 memory of how something used to be done.
 
+**Name the caller, not just the reaper.** "Surfaced for retirement" is where
+this rule is usually satisfied on paper and violated in fact. One measured
+store had a correct demotion function, an accurate accounting table, and a
+promoted tier that retired nothing in a year of use, because no pass was
+wired to read the one and call the other; the tier that governed itself was
+the one whose distillation pass happened to ask for a supersedence link. A
+reaper with no scheduled caller is a comment, and the tell is a retirement
+count of exactly zero over a period in which the store demonstrably churned.
+Say which pass calls it, on what trigger, and count what it retired — per
+tier, because one number across tiers governed differently is an average that
+hides a zero.
+
 ## When the promoted store is the only durable store
 
 The four conditions assume a place to count in: an episodic layer that
