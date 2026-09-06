@@ -308,7 +308,8 @@
             "plan-entitlements",
             "scoring-rubrics",
             "node-boot-and-declarative-bootstrap",
-            "quorum-and-recovery-procedures"
+            "quorum-and-recovery-procedures",
+      "conditional-service-composition"
           ]
         },
         {

@@ -2,6 +2,62 @@
 
 Coverage notes for `software-engineering/engineering-assessment/maturity-and-conformance/conformance-checking`.
 
+## 2026-09-06 — `harbor-0906` (intake, `github:av/harbor` @ `4c20a82`)
+
+Landed two techniques — `inline-predicate-rung-inference` (9th) and
+`rule-registry-enumerated-fixtures` (10th) — plus two source-tree applications.
+
+**Both sit against `declared-then-proven`'s assumption of two artifacts.** That
+technique's proof ladder (presence / shape / execution) assumes a declaration
+the project writes and a checker somebody else wrote, with the rung assigned
+deliberately by the checker's author. The source collapses the pair: every
+claim in a 593-entry specification carries its own inline shell predicate, so
+there is no checker to drift into a transcriber — the failure `declared-then-proven`
+exists to prevent is structurally removed, and the rung choice moves to the
+claim's author with nowhere to record it.
+
+The finding is measured rather than argued, and the measurement is the
+technique's own subject: 543 of 593 claims (91.6%) carry a command, but
+classified by the binary each actually **invokes**, 62.8% are text matches,
+16.0% parse-and-assert, and only 20.8% execution. The headline coverage number
+answers "has a command"; it is read as "is proven"; the two are five times
+apart. The first classifier written for this got it wrong in the flattering
+direction — matching a binary name anywhere in the command string rather than
+at invocation position reported execution at 40% — and that error is now in the
+technique as its instrument warning, because a rung classifier is written by
+someone who already believes the spec is well proven.
+
+`rule-registry-enumerated-fixtures` extends `fixture-repo-testing` downward.
+That technique pairs fixtures at repository granularity ("one per clause where
+affordable") and mentions the per-rule fixture only in a closing clause, as the
+fallback when a live path cannot be mutated. For a checker that is a **registry
+of independent rules** rather than one program, the fallback is the primary
+form and can be made structural: pair per rule id, enumerate the pairing from
+the registry, and an unfixtured rule then fails discovery instead of review.
+
+**The boundary was witnessed, not hypothesized.** The source's own suite has
+four passes; the enumeration covers the declarative one, and a rule implemented
+in code in another pass is bridged by a hand-maintained map inside the harness —
+precisely the hole the enumeration was built to close, reopened one entry at a
+time. It also produces a false reading in the other direction, which caught
+this run first: the fixture directories show an unbroken numeric sequence with
+one id missing, and the natural inference (a retired rule) is wrong.
+
+Placement was not contested. Both techniques answer this subject's stated
+question — what an executable verdict about a repository may claim — and
+neither belongs in `quality-gates`, whose audience is the author who just broke
+the build rather than an owner being assessed.
+
+Applied: `bash--inline-predicate-rung-inference` (experiment, `better`,
+ab-paired, 1.9x arm difference on the execution share) and
+`deno--rule-registry-enumerated-fixtures` (simulation, `unmeasurable`,
+structural-only — the instrument that would make it measurable is named, and it
+is the union enumeration the technique recommends).
+
+Shipped downstream: the second technique's seam in a managed desktop project —
+22 gate scripts reachable from its `check:*` registry, 2 with a negative
+control — now carries an enumerating ratchet and its own self-test.
+
 ## 2026-08-31 — `whatwg-html-0831` (intake, `github:whatwg/html` @ `778afd9`)
 
 Landed `declared-deviation-register` (7th technique) plus a golden-path section,

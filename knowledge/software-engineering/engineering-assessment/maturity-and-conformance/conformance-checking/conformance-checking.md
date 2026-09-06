@@ -13,6 +13,8 @@ techniques:
   - fixture-repo-testing
   - declared-deviation-register
   - edition-stratified-conformance
+  - inline-predicate-rung-inference
+  - rule-registry-enumerated-fixtures
 ---
 
 # Conformance checking
