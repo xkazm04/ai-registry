@@ -205,7 +205,7 @@ which is deterministic given the commit and therefore blockable by the ordinary
 rule, and keep the measurement on a non-gating scheduled lane where it reports
 to a person instead of refusing a change. The translation, what it deliberately
 stops catching, and the scanner discipline it requires are
-[operation-assertion-gates](./operation-assertion-gates.md).
+[operation-assertion-gates](../../metric-gates/techniques/operation-assertion-gates.md).
 
 The general test this adds to the axis: *what could a re-run of the same commit
 produce* — and if the answer varies, ask **whether the variance is in the input
@@ -214,7 +214,7 @@ second is a reason to pick a different instrument.
 
 ## Boundary against ratchet design
 
-[ratchet-design](./ratchet-design.md) and this technique both appear when a
+[ratchet-design](../../metric-gates/techniques/ratchet-design.md) and this technique both appear when a
 check cannot block today, and they answer different questions.
 
 A ratchet is about a **metric that cannot be zeroed**: the input is entirely

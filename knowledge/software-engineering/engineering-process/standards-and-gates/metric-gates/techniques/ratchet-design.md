@@ -1,7 +1,7 @@
 ---
 layer: technique
 type: technique
-subject: quality-gates
+subject: metric-gates
 technique: ratchet-design
 status: forged
 laws: [count-carries-predicate, derivation-names-recomputation, failure-not-empty-success]
@@ -207,7 +207,7 @@ under three conditions, and only three:
 - **The regenerated artifact is small and legible enough to be read.** A
   reviewer who has learned to collapse the generated diff is not reading
   it, and the mechanism is then producing nothing at all — the same
-  decorative green the rest of this subject is about, wearing an
+  decorative green the neighbouring quality-gates subject is about, wearing an
   auto-generated table.
 
 Where any of the three fails, the original absolute stands. An

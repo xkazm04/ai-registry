@@ -1,7 +1,7 @@
 ---
 layer: application
 type: application
-subject: quality-gates
+subject: metric-gates
 technique: deterministic-proxy-gate
 stack: node
 status: forged

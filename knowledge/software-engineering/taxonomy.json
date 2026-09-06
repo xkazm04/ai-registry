@@ -417,6 +417,7 @@
           "title": "Standards and gates",
           "subjects": [
             "quality-gates",
+            "metric-gates",
             "knowledge-registry",
             "repo-manifest-standard",
             "multi-project",

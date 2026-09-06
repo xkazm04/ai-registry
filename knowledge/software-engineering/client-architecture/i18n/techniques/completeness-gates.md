@@ -117,7 +117,7 @@ Two mechanisms cover the two kinds of ruling, and they are mirror images:
 - **Ratchets, for a construction ruled out.** Count the occurrences of the
   swept form in the target locale's column and gate on direction — it may
   fall, never rise
-  ([ratchet-design](../../../engineering-process/standards-and-gates/quality-gates/techniques/ratchet-design.md)).
+  ([ratchet-design](../../../engineering-process/standards-and-gates/metric-gates/techniques/ratchet-design.md)).
   The value of this is entirely in the *rise*: a translator recasting an
   unrelated sentence reintroduces the swept form naturally, because it is
   the idiomatic thing to write, and nothing else in the pipeline would ever

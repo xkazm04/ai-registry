@@ -1,7 +1,7 @@
 ---
 layer: application
 type: application
-subject: quality-gates
+subject: metric-gates
 technique: operation-assertion-gates
 stack: node
 verified_on: 2026-08-31

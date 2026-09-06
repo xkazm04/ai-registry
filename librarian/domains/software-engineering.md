@@ -365,3 +365,16 @@ back the same hour.
   job - the deployment-contract lane's, not this one's.
 - Unchanged from [[2026-09-02-1]]: the 81 unruled inbox rows, the single-stack wave,
   the maturity ladder, the frontier question.
+
+## Run [[2026-09-06-1]] - quality-gates split; metric-gates is the bundle's 215th subject
+
+Operator executed the split proposed on 2026-09-04. Four techniques and three
+applications moved whole; `excess-indicts-the-instrument` stayed (predicate-side, and a
+half-technique is two weak ones). quality-gates 25 -> 21 techniques. The split changes
+no rule; it changes which golden path a reader lands on when the verdict is a number.
+
+### What is owed (updated)
+
+- metric-gates: demand unknown, four techniques, two named candidates waiting on a
+  second sighting. First `/conform` on a project with a ratchet or size gate.
+- The quality-gates split item is closed. Everything else from [[2026-09-04-1]] stands.

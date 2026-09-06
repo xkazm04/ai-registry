@@ -1,7 +1,7 @@
 ---
 layer: technique
 type: technique
-subject: quality-gates
+subject: metric-gates
 technique: operation-assertion-gates
 status: forged
 laws: [gate-sees-target, failure-not-empty-success]
@@ -19,7 +19,7 @@ wrong; it is the gate being **unrepeatable on an unchanged tree**.
 
 ## Why the measurement cannot hold the standard
 
-[blocking-by-input-determinism](./blocking-by-input-determinism.md) grades a
+[blocking-by-input-determinism](../../quality-gates/techniques/blocking-by-input-determinism.md) grades a
 gate by asking whether its verdict is a function of the repository's contents.
 A timing gate answers *partly*, and partly is the worst available answer. The
 same commit measured twice produces two numbers, because the second measurement
@@ -36,7 +36,7 @@ Both honest configurations then fail:
   The bar is now above the regressions worth catching, and the gate's real
   function is to occasionally wall an innocent change on a noisy afternoon —
   a true positive that is not attributable to its author, which is exactly the
-  refusal [false-positive-economics](./false-positive-economics.md) says spends
+  refusal [false-positive-economics](../../quality-gates/techniques/false-positive-economics.md) says spends
   the trust budget across the whole ladder.
 - **Advisory**, permanently, because no work on the tree makes the noise go
   away. That violates the promotion-trigger rule: the exit condition cannot be
@@ -108,7 +108,7 @@ Two consequences follow, and both are usually skipped:
   its cheapest form — a directory rename retires the gate silently. The check
   refuses an empty scope as a fatal error, never as a pass. And note what the
   hand-enumeration in step 2 is and is not licensing:
-  [self-reported-gate-inputs](./self-reported-gate-inputs.md) requires a
+  [self-reported-gate-inputs](../../quality-gates/techniques/self-reported-gate-inputs.md) requires a
   gate's *population* to be derived rather than typed, which stands — these
   scopes are the narrower thing, a policy statement about where the rule is
   stricter than the default, so they may be written by hand, must be resolved

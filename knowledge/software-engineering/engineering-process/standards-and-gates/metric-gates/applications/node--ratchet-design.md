@@ -1,7 +1,7 @@
 ---
 layer: application
 type: application
-subject: quality-gates
+subject: metric-gates
 technique: ratchet-design
 stack: node
 verified_on: 2026-09-01

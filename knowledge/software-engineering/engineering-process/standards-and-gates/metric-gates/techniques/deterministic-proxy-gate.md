@@ -1,7 +1,7 @@
 ---
 layer: technique
 type: technique
-subject: quality-gates
+subject: metric-gates
 technique: deterministic-proxy-gate
 status: forged
 laws: [gate-sees-target, limits-are-derived]
@@ -13,7 +13,7 @@ use_when: [a cost standard cannot be restated as an operation the source text co
 
 [operation-assertion-gates](./operation-assertion-gates.md) works the cost-gate
 problem to a stated dead end. Grading on the two-class axis of
-[blocking-by-input-determinism](./blocking-by-input-determinism.md) leaves a
+[blocking-by-input-determinism](../../quality-gates/techniques/blocking-by-input-determinism.md) leaves a
 timing gate with two honest configurations, both bad — blocking at a threshold
 loose enough to survive a bad runner, or advisory forever with no exit
 condition — and the escape it offers, restating the standard as a property of

@@ -1,7 +1,7 @@
 ---
 layer: technique
 type: technique
-subject: quality-gates
+subject: metric-gates
 technique: counted-set-snapshot
 status: forged
 laws: [count-carries-predicate, gate-sees-target]
