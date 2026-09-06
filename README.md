@@ -160,7 +160,7 @@ the technique is over-engineering and a consumer is right to skip it; at or abov
 absence is a gap. The field is optional and rare on purpose, and it is carried into each
 bundle's `index.json` so a consumer can filter on it.
 
-### Skills (25)
+### Skills (26)
 
 The fleet's shared library. Every skill is generic: project specifics live in a **per-repo
 overlay** the skill names in its `## Project overlay` section and runs without. Full spec,
@@ -191,6 +191,7 @@ including sub-resources, the ASCII rule, versions, distribution and resolution:
 | [`scan-sweep`](skills/scan-sweep/SKILL.md) | `workflow` | 1.0.0 | One context, every scan lens, fix the accepted S/M findings in-session. Carries [`LESSONS.md`](skills/scan-sweep/LESSONS.md). |
 | [`ship-loop`](skills/ship-loop/SKILL.md) | `workflow` | 2.1.0 | Milestone-driven ship-readiness loop: scorecard, append-only backlog, user-gated milestones, hard gate. Carries [`LESSONS.md`](skills/ship-loop/LESSONS.md). |
 | [`spark`](skills/spark/SKILL.md) | `workflow` | 1.0.0 | Turn a vague product idea into a complete, grounded design through waves of questions, then orchestrate the build. Carries [`LESSONS.md`](skills/spark/LESSONS.md). |
+| [`straighten`](skills/straighten/SKILL.md) | `ai-native` | 1.0.0 | Drain the fleet's version debt against the registry: rebuild every reachable `.ai/registry-map.json`, rank stale verdicts and orphaned contexts in one table, run `/conform --stale` per project in that order with pathspec commits. Carries [`LESSONS.md`](skills/straighten/LESSONS.md). |
 | [`test-before-commit`](skills/test-before-commit/SKILL.md) | `testing` | 2.1.0 | Prove a change works before it is committed. Carries [`LESSONS.md`](skills/test-before-commit/LESSONS.md). |
 | [`tiger`](skills/tiger/SKILL.md) | `testing` | 2.1.0 | Certify an LLM app's call sites across three lenses: engine quality, business value, model/cost optimization. Carries [`LESSONS.md`](skills/tiger/LESSONS.md). |
 | [`uat`](skills/uat/SKILL.md) | `testing` | 1.7.0 | Simulated User Acceptance Testing driven by Characters, two certification levels, then drained into a design backlog. Carries [`LESSONS.md`](skills/uat/LESSONS.md). |

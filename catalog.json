@@ -91,10 +91,10 @@
     },
     {
       "name": "conform",
-      "version": "1.4.1",
+      "version": "1.4.2",
       "category": "ai-native",
       "path": "skills/conform/SKILL.md",
-      "contentHash": "sha256-n1:710dabe45efe5395",
+      "contentHash": "sha256-n1:b3fc6b801a8ff26e",
       "adopters": [],
       "invokes30d": 0,
       "lessons": 2,
@@ -229,17 +229,6 @@
       "usageContributors": []
     },
     {
-      "name": "llm-bench",
-      "version": "0.1.0",
-      "category": "ai-native",
-      "path": "skills/llm-bench/SKILL.md",
-      "contentHash": "sha256-n1:52f5eeb6a5aacc5a",
-      "adopters": [],
-      "invokes30d": 0,
-      "lessons": 0,
-      "usageContributors": []
-    },
-    {
       "name": "motionize",
       "version": "1.2.1",
       "category": "other",
@@ -316,17 +305,17 @@
       "invokes30d": 46,
       "lessons": 18,
       "lessonsPath": "skills/perfect/LESSONS.md",
-      "lessonsHash": "sha256-n1:1e969a1fc42ae500",
+      "lessonsHash": "sha256-n1:5e410f613364fb3f",
       "usageContributors": [
         "kazda-dev-box"
       ]
     },
     {
       "name": "project-populate",
-      "version": "1.2.1",
+      "version": "1.2.2",
       "category": "workflow",
       "path": "skills/project-populate/SKILL.md",
-      "contentHash": "sha256-n1:6e6282e8ba8debdb",
+      "contentHash": "sha256-n1:97ef82607bbc3dd1",
       "adopters": [
         "ascent@plugin:1.0.0",
         "kp@plugin:1.0.0",
@@ -428,6 +417,19 @@
       ]
     },
     {
+      "name": "straighten",
+      "version": "1.0.0",
+      "category": "ai-native",
+      "path": "skills/straighten/SKILL.md",
+      "contentHash": "sha256-n1:748b1c49c460b7c2",
+      "adopters": [],
+      "invokes30d": 0,
+      "lessons": 1,
+      "lessonsPath": "skills/straighten/LESSONS.md",
+      "lessonsHash": "sha256-n1:61176a042f43b547",
+      "usageContributors": []
+    },
+    {
       "name": "test-before-commit",
       "version": "2.2.1",
       "category": "testing",
@@ -459,9 +461,9 @@
         "systedo-case@plugin:2.1.0"
       ],
       "invokes30d": 0,
-      "lessons": 3,
+      "lessons": 2,
       "lessonsPath": "skills/tiger/LESSONS.md",
-      "lessonsHash": "sha256-n1:7a7242e3e06e4e36",
+      "lessonsHash": "sha256-n1:1b157a16fe2ca09d",
       "usageContributors": []
     },
     {
@@ -648,7 +650,7 @@
       "techniques": 92,
       "applications": 35,
       "files": 147,
-      "contentHash": "sha256:a22f8368414f8116"
+      "contentHash": "sha256:de3da6ca3d400a10"
     },
     {
       "name": "game-production",
@@ -661,7 +663,7 @@
       "techniques": 319,
       "applications": 136,
       "files": 510,
-      "contentHash": "sha256:7dffb52b05d68e2e"
+      "contentHash": "sha256:24b11253b1673c9d"
     },
     {
       "name": "grant-funding",
@@ -674,7 +676,7 @@
       "techniques": 105,
       "applications": 38,
       "files": 165,
-      "contentHash": "sha256:df80ca4e2ca6bf66"
+      "contentHash": "sha256:3ded70d12925e858"
     },
     {
       "name": "llm-observability",
@@ -687,7 +689,7 @@
       "techniques": 111,
       "applications": 62,
       "files": 195,
-      "contentHash": "sha256:d8513092d9c1b556"
+      "contentHash": "sha256:52ee771450f099a1"
     },
     {
       "name": "localization",
@@ -700,7 +702,7 @@
       "techniques": 91,
       "applications": 45,
       "files": 155,
-      "contentHash": "sha256:734df28e974a4d19"
+      "contentHash": "sha256:affe8c9feda10682"
     },
     {
       "name": "media-generation",
@@ -713,7 +715,7 @@
       "techniques": 134,
       "applications": 62,
       "files": 221,
-      "contentHash": "sha256:94efb609cfbb91a2"
+      "contentHash": "sha256:9efa0fd998362c58"
     },
     {
       "name": "recruiting",
@@ -726,7 +728,7 @@
       "techniques": 384,
       "applications": 194,
       "files": 646,
-      "contentHash": "sha256:1cb82da820fa3090"
+      "contentHash": "sha256:d705797303973603"
     },
     {
       "name": "software-engineering",
@@ -739,7 +741,7 @@
       "techniques": 1632,
       "applications": 964,
       "files": 2820,
-      "contentHash": "sha256:b22a1f48de664d83"
+      "contentHash": "sha256:0125039ea649b00a"
     }
   ]
 }
