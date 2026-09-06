@@ -3,9 +3,9 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
-  "subjects": 215,
-  "techniques": 1586,
-  "applications": 931,
+  "subjects": 216,
+  "techniques": 1601,
+  "applications": 943,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1586/1586",
+  "use_when_coverage": "1601/1601",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -381,7 +381,7 @@
    "subcategory": "work-execution",
    "status": "reconciled",
    "file": "knowledge/software-engineering/backend-platform/work-execution/admission-queue/admission-queue.md",
-   "digest": "sha256:cf20fccf9233d655",
+   "digest": "sha256:266922a3143bdd72",
    "techniques": [
     {
      "slug": "admission-vocabulary",
@@ -396,6 +396,23 @@
       "naming the verdicts a queue's gate may return",
       "deciding whether refusal throws or returns",
       "refusal reasons drifting into two spellings"
+     ]
+    },
+    {
+     "slug": "budget-includes-the-callers-own-cache",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "count-carries-predicate",
+      "derivation-names-recomputation"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a resource-denominated gate refuses work on a machine that is visibly idle",
+      "the platform reports zero free capacity while the process is doing nothing",
+      "admission recovered only after a restart",
+      "choosing which free-capacity figure a bound is measured against",
+      "a pooling allocator or connection pool sits between the process and the resource"
      ]
     },
     {
@@ -613,6 +630,13 @@
      "technique": "speculative-work-admission",
      "file": "knowledge/software-engineering/backend-platform/work-execution/admission-queue/applications/next--speculative-work-admission.md",
      "verified_on": "2026-08-31"
+    },
+    {
+     "stack": "python",
+     "technique": "budget-includes-the-callers-own-cache",
+     "file": "knowledge/software-engineering/backend-platform/work-execution/admission-queue/applications/python--budget-includes-the-callers-own-cache.md",
+     "verified_on": "2026-09-06",
+     "verified_against": "python@3.12"
     },
     {
      "stack": "python",
@@ -3902,7 +3926,7 @@
    "subcategory": "build-and-release",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/build-and-release/build-economics/build-economics.md",
-   "digest": "sha256:3175027a3e598da2",
+   "digest": "sha256:83a15c26d468607c",
    "techniques": [
     {
      "slug": "build-measurement",
@@ -3946,7 +3970,9 @@
      "use_when": [
       "deciding whether a heavy capability deserves a build-time gate",
       "everyone pays compile cost for a capability few ever touch",
-      "gated code rots because the default build never type-checks it"
+      "gated code rots because the default build never type-checks it",
+      "a build flag is enabled but the source its capability needs may not have arrived",
+      "a resolver substitutes a placeholder for a missing module and the build stays green"
      ]
     },
     {
@@ -4021,7 +4047,7 @@
      "stack": "rust",
      "technique": "capability-feature-gating",
      "file": "knowledge/software-engineering/engineering-process/build-and-release/build-economics/applications/rust--capability-feature-gating.md",
-     "verified_on": "2026-08-29",
+     "verified_on": "2026-09-06",
      "verified_against": "rust@1.96"
     },
     {
@@ -6036,12 +6062,73 @@
     }
    ]
   },
+  "conditional-service-composition": {
+   "category": "operations",
+   "subcategory": "service-operations",
+   "status": "forged",
+   "file": "knowledge/software-engineering/operations/service-operations/conditional-service-composition/conditional-service-composition.md",
+   "digest": "sha256:6baf30a748b43f30",
+   "techniques": [
+    {
+     "slug": "conjunction-activated-fragments",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an integration between two services belongs to neither service's own description",
+      "the list of which overlays apply to which service combinations has outgrown a reviewer",
+      "adding a service means editing every other service's description",
+      "a topology fragment appears to be ignored and nothing errors"
+     ],
+     "stage": "multi-service"
+    },
+    {
+     "slug": "intent-and-environment-in-one-namespace",
+     "status": "forged",
+     "laws": [
+      "unknown-is-not-a-value",
+      "failure-not-empty-success",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a startup selects an accelerator path the host does not actually have",
+      "an operator asks to start everything and gets more than the services",
+      "host capabilities and operator requests are held in one set of tokens",
+      "a hardware probe cannot run and the code treats that as the hardware being absent",
+      "deciding whether a wildcard should expand over probed capabilities"
+     ],
+     "stage": "multi-service"
+    },
+    {
+     "slug": "specificity-ordered-layering",
+     "status": "forged",
+     "laws": [
+      "derivation-names-recomputation",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "the set of documents in a merge is discovered rather than declared",
+      "the same request produces different results on two machines",
+      "a precedence list of overlays has grown past what anyone maintains",
+      "deciding whether merge order should be written down or computed",
+      "an operator asks which fragment set a value came from and nobody can answer"
+     ],
+     "stage": "multi-service"
+    }
+   ],
+   "applications": []
+  },
   "conformance-checking": {
    "category": "engineering-assessment",
    "subcategory": "maturity-and-conformance",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-assessment/maturity-and-conformance/conformance-checking/conformance-checking.md",
-   "digest": "sha256:dc327be35448d1e2",
+   "digest": "sha256:8ff9654370ac5576",
    "techniques": [
     {
      "slug": "checker-false-positive-discipline",
@@ -6148,6 +6235,23 @@
      ]
     },
     {
+     "slug": "inline-predicate-rung-inference",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "failure-not-empty-success",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a specification format lets each claim carry its own verification command",
+      "reporting what fraction of a spec is machine-checked",
+      "a spec sheet's coverage number is quoted as a proof number",
+      "deciding whether a claim's predicate proves the claim or only its text",
+      "auditing a self-verifying spec whose checks are almost all green"
+     ]
+    },
+    {
      "slug": "pass-ratio-comparability",
      "status": "forged",
      "laws": [
@@ -6160,9 +6264,40 @@
       "comparing two conformance runs",
       "defending a score to the repository being judged"
      ]
+    },
+    {
+     "slug": "rule-registry-enumerated-fixtures",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "one-authority-per-vocabulary",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a checker is a registry of independent rules rather than one program",
+      "adding a rule to a linter or gate suite",
+      "proving every rule in a suite can actually fire",
+      "a rule was tightened and nothing went red",
+      "deciding where a rule's negative control lives"
+     ]
     }
    ],
    "applications": [
+    {
+     "stack": "bash",
+     "technique": "inline-predicate-rung-inference",
+     "file": "knowledge/software-engineering/engineering-assessment/maturity-and-conformance/conformance-checking/applications/bash--inline-predicate-rung-inference.md",
+     "verified_on": "2026-09-06",
+     "verified_against": "bash@5"
+    },
+    {
+     "stack": "deno",
+     "technique": "rule-registry-enumerated-fixtures",
+     "file": "knowledge/software-engineering/engineering-assessment/maturity-and-conformance/conformance-checking/applications/deno--rule-registry-enumerated-fixtures.md",
+     "verified_on": "2026-09-06",
+     "verified_against": "deno@1.46.3"
+    },
     {
      "stack": "node",
      "technique": "declared-deviation-register",
@@ -7863,7 +7998,7 @@
    "subcategory": "codebase-stewardship",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/dead-code/dead-code.md",
-   "digest": "sha256:a4d46dc34efafbe7",
+   "digest": "sha256:ea3094b57b45db2e",
    "techniques": [
     {
      "slug": "carrying-cost-economics",
@@ -7953,6 +8088,23 @@
       "an exemption points at deleted code",
       "deciding whether an ignore delegates or hides"
      ]
+    },
+    {
+     "slug": "unadopted-extension-point",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "failure-not-empty-success",
+      "deletion-is-not-repair"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an abstraction's methods have no call sites",
+      "deciding whether to wire or delete an unused hook",
+      "a protocol declares fewer members than its default implementation",
+      "a refactor plan says wire up the adapter",
+      "the behaviour an interface declares is written inline at every call site"
+     ]
     }
    ],
    "applications": [
@@ -7986,6 +8138,13 @@
      "technique": "deletion-protocols",
      "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/dead-code/applications/process--deletion-protocols.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "python",
+     "technique": "unadopted-extension-point",
+     "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/dead-code/applications/python--unadopted-extension-point.md",
+     "verified_on": "2026-09-06",
+     "verified_against": "python@3.10"
     },
     {
      "stack": "rust",
@@ -9609,8 +9768,22 @@
    "subcategory": "data-display",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/data-display/diff-comparison/diff-comparison.md",
-   "digest": "sha256:0df03bbd2dcbaf5d",
+   "digest": "sha256:a2109f78c6591155",
    "techniques": [
+    {
+     "slug": "baseline-species-degradation",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "the baseline a surface wants is missing for a whole class of objects",
+      "choosing what a diff shows when the declared side does not exist",
+      "a comparison surface silently answers a different question than its default promises"
+     ]
+    },
     {
      "slug": "computation-offload",
      "status": "forged",
@@ -9739,6 +9912,13 @@
      "file": "knowledge/software-engineering/ui-surfaces/data-display/diff-comparison/applications/react--semantic-level-selection.md",
      "verified_on": "2026-08-30",
      "verified_against": "react@19"
+    },
+    {
+     "stack": "rust",
+     "technique": "baseline-species-degradation",
+     "file": "knowledge/software-engineering/ui-surfaces/data-display/diff-comparison/applications/rust--baseline-species-degradation.md",
+     "verified_on": "2026-09-06",
+     "verified_against": "rust@1.97"
     },
     {
      "stack": "rust",
@@ -16606,7 +16786,7 @@
    "subcategory": "measurement-method",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-assessment/measurement-method/measurement-honesty/measurement-honesty.md",
-   "digest": "sha256:0a0a2787319adc97",
+   "digest": "sha256:9666d6048175eadc",
    "techniques": [
     {
      "slug": "co-published-numbers-must-reconcile",
@@ -16621,6 +16801,21 @@
       "citing an association or correlation figure from an external report",
       "a dashboard shows a total and its parts on one screen",
       "deciding whether an outside number is strong enough to build on"
+     ]
+    },
+    {
+     "slug": "control-failure-is-not-a-datum-state",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a comparison ran cleanly but its control did not hold",
+      "deciding what to publish about an axis you measured and cannot compare",
+      "an axis quietly missing from a comparison that promised it",
+      "both arms of an A/B look fine and the difference is uninterpretable"
      ]
     },
     {
@@ -16777,6 +16972,12 @@
      "technique": "unmeasurable-vs-zero",
      "file": "knowledge/software-engineering/engineering-assessment/measurement-method/measurement-honesty/applications/node--unmeasurable-vs-zero.md",
      "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "process",
+     "technique": "control-failure-is-not-a-datum-state",
+     "file": "knowledge/software-engineering/engineering-assessment/measurement-method/measurement-honesty/applications/process--control-failure-is-not-a-datum-state.md",
+     "verified_on": "2026-09-06"
     },
     {
      "stack": "react",
@@ -17060,7 +17261,7 @@
    "subcategory": "standards-and-gates",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/metric-gates/metric-gates.md",
-   "digest": "sha256:e932e86aac4186c5",
+   "digest": "sha256:e5447110c341ba82",
    "techniques": [
     {
      "slug": "counted-set-snapshot",
@@ -17109,6 +17310,23 @@
      ]
     },
     {
+     "slug": "proxy-metric-counts-its-own-satisfiers",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "count-carries-predicate",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a coverage or parity metric reads zero gaps",
+      "a metric can be satisfied by an artifact built to satisfy it",
+      "publishing a number whose predicate is weaker than the claim readers make from it",
+      "deciding what a generated status artifact must say about itself",
+      "two sides of a comparison report totals that are not comparable"
+     ]
+    },
+    {
      "slug": "ratchet-design",
      "status": "forged",
      "laws": [
@@ -17147,6 +17365,13 @@
      "file": "knowledge/software-engineering/engineering-process/standards-and-gates/metric-gates/applications/node--ratchet-design.md",
      "verified_on": "2026-09-01",
      "verified_against": "node@24"
+    },
+    {
+     "stack": "python",
+     "technique": "proxy-metric-counts-its-own-satisfiers",
+     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/metric-gates/applications/python--proxy-metric-counts-its-own-satisfiers.md",
+     "verified_on": "2026-09-06",
+     "verified_against": "python@3.10"
     }
    ]
   },
@@ -17650,7 +17875,7 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/model-routing/model-routing.md",
-   "digest": "sha256:9bea1cabc0576eb9",
+   "digest": "sha256:bb6a810bd162fea3",
    "techniques": [
     {
      "slug": "cache-continuity",
@@ -17822,7 +18047,9 @@
       "designing a closed vocabulary of call classes",
       "a new class shows up unlabeled on one chart",
       "effort half of a routed pair going missing",
-      "one class both plans a deliverable and writes it"
+      "one class both plans a deliverable and writes it",
+      "the caller is a person at an interactive prompt and no call site can assert a class",
+      "a routing decision flapping between tiers inside one turn"
      ]
     }
    ],
@@ -22077,7 +22304,7 @@
    "subcategory": "standards-and-gates",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/quality-gates.md",
-   "digest": "sha256:ebf92ece54c38bff",
+   "digest": "sha256:ba5156f77ad80bc8",
    "techniques": [
     {
      "slug": "advancement-evidence-fields",
@@ -22107,6 +22334,23 @@
       "a gate advisory since the day it was added",
       "one invocation mixing deterministic and externally-moving checks",
       "a gate whose verdict varies on an unchanged commit"
+     ]
+    },
+    {
+     "slug": "branch-provenance-gate",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "absent-guard-is-loud",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a proposal's diff contains commits its author did not write",
+      "reviewers keep approving work that belongs to another proposal",
+      "a contributor branches from their own previous branch by habit",
+      "deciding what a push-stage gate can check that a content gate cannot",
+      "a merged proposal silently delivered a second unreviewed change"
      ]
     },
     {
@@ -22541,6 +22785,13 @@
      "technique": "shared-substrate-check-partition",
      "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/applications/process--shared-substrate-check-partition.md",
      "verified_on": "2026-09-04"
+    },
+    {
+     "stack": "python",
+     "technique": "branch-provenance-gate",
+     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/applications/python--branch-provenance-gate.md",
+     "verified_on": "2026-09-06",
+     "verified_against": "python@3.12"
     },
     {
      "stack": "react",
@@ -27409,7 +27660,7 @@
    "subcategory": "prompt-and-context",
    "status": "reconciled",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/structured-output/structured-output.md",
-   "digest": "sha256:f317f1bcdc5da7b8",
+   "digest": "sha256:89a19f1e918f1d65",
    "techniques": [
     {
      "slug": "answer-coverage-gating",
@@ -27458,6 +27709,21 @@
      ]
     },
     {
+     "slug": "constraint-and-tool-channel-exclusion",
+     "status": "forged",
+     "laws": [
+      "unknown-is-not-a-value",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a request carries both an output schema and tool definitions",
+      "a model stopped calling tools after strict output was switched on",
+      "deciding whether a constraint may be applied to a turn that may need to act",
+      "a provider returns a well-formed answer where a tool call was expected"
+     ]
+    },
+    {
      "slug": "display-vs-machine-channels",
      "status": "forged",
      "laws": [],
@@ -27466,6 +27732,23 @@
       "deciding whether the user sees raw payload or a card",
       "a parser breaks when prompt phrasing changes",
       "prose reads fine but the action never happened"
+     ]
+    },
+    {
+     "slug": "enumerable-domain-decoding",
+     "status": "forged",
+     "laws": [
+      "one-validation-door",
+      "unknown-is-not-a-value",
+      "limits-are-derived"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a numeric field keeps arriving out of range despite a schema",
+      "deciding whether constrained decoding can carry a value domain or only a shape",
+      "a repair step exists solely to clamp or reject one field",
+      "the same field is validated in three places and still gets through",
+      "choosing which of a payload's fields deserve decoder-level enforcement"
      ]
     },
     {
@@ -27548,6 +27831,20 @@
      "technique": "schema-validation-and-repair",
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/structured-output/applications/node--schema-validation-and-repair.md",
      "verified_on": "2026-08-22"
+    },
+    {
+     "stack": "python",
+     "technique": "constraint-and-tool-channel-exclusion",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/structured-output/applications/python--constraint-and-tool-channel-exclusion.md",
+     "verified_on": "2026-09-06",
+     "verified_against": "python@3.10"
+    },
+    {
+     "stack": "python",
+     "technique": "enumerable-domain-decoding",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/structured-output/applications/python--enumerable-domain-decoding.md",
+     "verified_on": "2026-09-06",
+     "verified_against": "python@3.12"
     },
     {
      "stack": "rust",
@@ -28823,7 +29120,7 @@
    "subcategory": "build-and-release",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/build-and-release/test-harness/test-harness.md",
-   "digest": "sha256:0fa3aa64f246f286",
+   "digest": "sha256:7cb7991a4e730b08",
    "techniques": [
     {
      "slug": "approval-snapshots-with-guarded-update",
@@ -28842,6 +29139,23 @@
      ]
     },
     {
+     "slug": "constraint-injection-for-unreachable-tiers",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "failure-not-empty-success",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a degradation path is only exercised by users who own hardware the team does not",
+      "a capability ladder has more rungs than the team has machines",
+      "a low-capacity configuration regressed and nobody noticed for a release",
+      "deciding whether a fallback path is tested or merely written",
+      "choosing where to intercept a capacity probe for testing"
+     ]
+    },
+    {
      "slug": "context-starved-executor",
      "status": "forged",
      "laws": [
@@ -28856,6 +29170,23 @@
       "an executor's own claim of completion is being taken as the test result",
       "acceptance runs score infrastructure faults as product defects",
       "a journey case runs against a fixture that does not supply its preconditions"
+     ]
+    },
+    {
+     "slug": "derived-selection-must-be-measured",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "failure-not-empty-success",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a suite selects zero tests and the run is green",
+      "membership tags are computed from file content",
+      "one marker implies another",
+      "diagnosing why a filter expression excluded a suite",
+      "removing a filter clause did not change what ran"
      ]
     },
     {
@@ -29131,6 +29462,20 @@
      "file": "knowledge/software-engineering/engineering-process/build-and-release/test-harness/applications/node--suite-partitioning.md",
      "verified_on": "2026-08-29",
      "verified_against": "node@24"
+    },
+    {
+     "stack": "python",
+     "technique": "constraint-injection-for-unreachable-tiers",
+     "file": "knowledge/software-engineering/engineering-process/build-and-release/test-harness/applications/python--constraint-injection-for-unreachable-tiers.md",
+     "verified_on": "2026-09-06",
+     "verified_against": "python@3.12"
+    },
+    {
+     "stack": "python",
+     "technique": "derived-selection-must-be-measured",
+     "file": "knowledge/software-engineering/engineering-process/build-and-release/test-harness/applications/python--derived-selection-must-be-measured.md",
+     "verified_on": "2026-09-06",
+     "verified_against": "python@3.10"
     },
     {
      "stack": "rust",
@@ -31694,6 +32039,7 @@
     "accessibility/a11y-verification",
     "accessibility/hidden-but-mounted-inertness",
     "adaptive-fidelity-tiers/measured-not-declared-capability",
+    "admission-queue/budget-includes-the-callers-own-cache",
     "admission-queue/depth-bounds-and-shed",
     "admission-queue/load-aware-admission",
     "admission-queue/resource-denominated-bounds",
@@ -31781,6 +32127,8 @@
     "conformance-checking/checker-false-positive-discipline",
     "conformance-checking/claim-write-back",
     "conformance-checking/declared-then-proven",
+    "conformance-checking/inline-predicate-rung-inference",
+    "conformance-checking/rule-registry-enumerated-fixtures",
     "connector-catalog/schema-driven-forms",
     "connector-catalog/shipped-vs-operator-ownership",
     "cost-metering/budget-enforcement",
@@ -31949,6 +32297,7 @@
     "metric-gates/counted-set-snapshot",
     "metric-gates/deterministic-proxy-gate",
     "metric-gates/operation-assertion-gates",
+    "metric-gates/proxy-metric-counts-its-own-satisfiers",
     "migrations/dynamic-table-set-migrations",
     "migrations/error-propagation",
     "migrations/expand-deploy-contract",
@@ -32015,6 +32364,7 @@
     "public-claim-provenance/build-time-derivation-off-the-client-bundle",
     "public-claim-provenance/provenance-as-a-build-gate",
     "quality-gates/blocking-by-input-determinism",
+    "quality-gates/branch-provenance-gate",
     "quality-gates/chokepoint-tag-registry",
     "quality-gates/enforcement-binding",
     "quality-gates/excess-indicts-the-instrument",
@@ -32122,7 +32472,9 @@
     "terminal-multiplexing/occupant-state-detection",
     "terminal-multiplexing/readiness-edge-detection",
     "test-harness/approval-snapshots-with-guarded-update",
+    "test-harness/constraint-injection-for-unreachable-tiers",
     "test-harness/context-starved-executor",
+    "test-harness/derived-selection-must-be-measured",
     "test-harness/dynamic-verifier-classes",
     "test-harness/far-side-oracle",
     "test-harness/isolation-lanes",
@@ -32266,8 +32618,12 @@
     "concurrent-vcs/commit-verification",
     "concurrent-vcs/intent-ledgers",
     "concurrent-vcs/shared-resource-arbitration",
+    "conditional-service-composition/conjunction-activated-fragments",
+    "conditional-service-composition/intent-and-environment-in-one-namespace",
     "conformance-checking/finding-severity-ladder",
     "conformance-checking/fixture-repo-testing",
+    "conformance-checking/inline-predicate-rung-inference",
+    "conformance-checking/rule-registry-enumerated-fixtures",
     "connector-catalog/adapter-normalization",
     "connector-catalog/matching-and-ranking",
     "context-hierarchy/seeded-descent-retrieval",
@@ -32294,6 +32650,7 @@
     "dead-code/instrument-per-orphan-class",
     "dead-code/quarantine-vs-delete",
     "dead-code/suppression-hygiene",
+    "dead-code/unadopted-extension-point",
     "decentralized-artifact-distribution/fail-closed-trust-dependency",
     "decentralized-artifact-distribution/origin-signed-record-with-index-as-cache",
     "declarative-object-graph-configs/reference-resolution-with-cycle-detection",
@@ -32316,6 +32673,7 @@
     "design-tokens/token-enforcement",
     "deterministic-prefix-caching/atomic-write-then-move",
     "device-pairing/timing-defenses",
+    "diff-comparison/baseline-species-degradation",
     "diff-comparison/computation-offload",
     "diff-comparison/diff-honesty",
     "docs-content-model/catalog-referential-invariants",
@@ -32433,6 +32791,7 @@
     "mcp-tools/server-composition",
     "mcp-tools/tool-schema-design",
     "mcp-tools/write-freshness-gate",
+    "measurement-honesty/control-failure-is-not-a-datum-state",
     "measurement-honesty/incomplete-not-verdict",
     "measurement-honesty/renormalize-over-present",
     "measurement-honesty/tuning-corpus-disjointness",
@@ -32444,6 +32803,7 @@
     "media-playback/transport-contract",
     "metric-forecasting/fit-confidence-honesty",
     "metric-gates/operation-assertion-gates",
+    "metric-gates/proxy-metric-counts-its-own-satisfiers",
     "metric-gates/ratchet-design",
     "metric-surface-contract/metric-removal-is-a-staged-pipeline",
     "metrics-rollups/aggregate-honesty",
@@ -32623,6 +32983,7 @@
     "structured-output/answer-coverage-gating",
     "structured-output/artifact-lifecycle",
     "structured-output/constrained-decoding-is-a-shared-budget",
+    "structured-output/constraint-and-tool-channel-exclusion",
     "structured-output/extraction-observability",
     "structured-output/extraction-strategies",
     "structured-output/output-budget-signal",
@@ -32650,7 +33011,9 @@
     "terminal-multiplexing/multi-client-fan-out",
     "terminal-multiplexing/pty-management",
     "test-harness/approval-snapshots-with-guarded-update",
+    "test-harness/constraint-injection-for-unreachable-tiers",
     "test-harness/context-starved-executor",
+    "test-harness/derived-selection-must-be-measured",
     "test-harness/far-side-oracle",
     "test-harness/gate-scope-is-not-report-scope",
     "test-harness/live-app-harness",
@@ -32744,6 +33107,7 @@
     "dead-code/deletion-protocols",
     "dead-code/quarantine-vs-delete",
     "dead-code/suppression-hygiene",
+    "dead-code/unadopted-extension-point",
     "delivery-guarantees/dead-letter-design",
     "delivery-guarantees/ordered-lane-blocking",
     "delivery-guarantees/retry-escalation",
@@ -32817,6 +33181,7 @@
     "accumulate-then-aggregate-metrics/lazy-rank-synchronization",
     "accumulate-then-aggregate-metrics/nan-as-undefined-not-zero",
     "adaptive-fidelity-tiers/measured-not-declared-capability",
+    "admission-queue/budget-includes-the-callers-own-cache",
     "admission-queue/depth-bounds-and-shed",
     "admission-queue/priority-and-fairness",
     "admission-queue/queue-cardinality",
@@ -32883,6 +33248,7 @@
     "concurrent-vcs/commit-verification",
     "conformance-checking/declared-deviation-register",
     "conformance-checking/edition-stratified-conformance",
+    "conformance-checking/inline-predicate-rung-inference",
     "conformance-checking/pass-ratio-comparability",
     "context-hierarchy/seeded-descent-retrieval",
     "context-hierarchy/stable-sampling-for-wide-nodes",
@@ -32905,6 +33271,7 @@
     "dead-code/configuration-union-proof",
     "dead-code/deletion-protocols",
     "dead-code/instrument-per-orphan-class",
+    "dead-code/unadopted-extension-point",
     "deferred-operation-fusion/equivalence-oracle-testing",
     "delivery-analytics/attribution-channels",
     "delivery-analytics/batch-size-thresholds",
@@ -32916,6 +33283,7 @@
     "demo-data-plane/fake-surface-honesty-contract",
     "dependency-declaration/declaration-cost-floor",
     "device-pairing/verb-allowlists",
+    "diff-comparison/baseline-species-degradation",
     "diff-comparison/diff-honesty",
     "diff-comparison/pair-and-baseline-selection",
     "diff-comparison/presentation-modes",
@@ -33012,6 +33380,7 @@
     "maturity-ladders/rung-criteria",
     "mcp-tools/orchestration-to-tool-migration",
     "measurement-honesty/co-published-numbers-must-reconcile",
+    "measurement-honesty/control-failure-is-not-a-datum-state",
     "measurement-honesty/instrument-exposure-control",
     "measurement-honesty/lower-bound-disclosure",
     "measurement-honesty/minimum-sample-floors",
@@ -33024,6 +33393,7 @@
     "metric-forecasting/threshold-crossing-eta",
     "metric-forecasting/trend-fitting-and-anchoring",
     "metric-gates/counted-set-snapshot",
+    "metric-gates/proxy-metric-counts-its-own-satisfiers",
     "metric-gates/ratchet-design",
     "metric-surface-contract/derive-outside-the-hot-loop",
     "metric-surface-contract/export-terms-not-ratios",
@@ -33098,6 +33468,7 @@
     "public-verdict-badge/embed-snippet-contract",
     "public-verdict-badge/verdict-honesty-qualifiers",
     "quality-gates/advancement-evidence-fields",
+    "quality-gates/branch-provenance-gate",
     "quality-gates/excess-indicts-the-instrument",
     "quality-gates/false-positive-economics",
     "quality-gates/instrument-answers-only-its-own-question",
@@ -33180,6 +33551,8 @@
     "templates-scaffolding/catalog-curation",
     "templates-scaffolding/integrity-and-provenance",
     "terminal-multiplexing/bounded-replay-buffers",
+    "test-harness/constraint-injection-for-unreachable-tiers",
+    "test-harness/derived-selection-must-be-measured",
     "test-harness/far-side-oracle",
     "test-harness/flake-lifecycle",
     "test-harness/gate-scope-is-not-report-scope",
@@ -33252,6 +33625,7 @@
     "companion-runtime/metered-llm-seam",
     "companion-runtime/operative-working-set",
     "concurrency-guards/cache-value-not-handle",
+    "conditional-service-composition/intent-and-environment-in-one-namespace",
     "conformance-checking/edition-stratified-conformance",
     "context-hierarchy/digest-gated-upward-refresh",
     "convergence-loop-and-requeue/told-that-not-why",
@@ -33377,6 +33751,8 @@
     "signed-artifacts/bypass-is-a-versioned-policy",
     "standards-layered-runtime/status-header-per-api",
     "structured-output/constrained-decoding-is-a-shared-budget",
+    "structured-output/constraint-and-tool-channel-exclusion",
+    "structured-output/enumerable-domain-decoding",
     "structured-output/schema-validation-and-repair",
     "supply-chain/review-attestation-ledger",
     "telemetry-pii-redaction/exclusion-bounds-reads-not-output",
@@ -33588,6 +33964,7 @@
     "status-vocabulary/untrusted-label-rendering",
     "stream-proxy-hop/credential-attachment-at-the-hop",
     "stream-proxy-hop/origin-non-disclosure",
+    "structured-output/enumerable-domain-decoding",
     "structured-output/op-grammar-allowlisting",
     "structured-output/schema-validation-and-repair",
     "subprocess-lifecycle/spawn-contract",
@@ -34240,10 +34617,14 @@
     "companion-runtime/host-seam-contracts",
     "concurrency-guards/guard-key-design",
     "concurrency-guards/race-catalog-with-two-histories",
+    "conditional-service-composition/conjunction-activated-fragments",
+    "conditional-service-composition/intent-and-environment-in-one-namespace",
+    "conditional-service-composition/specificity-ordered-layering",
     "conformance-checking/declared-deviation-register",
     "conformance-checking/declared-then-proven",
     "conformance-checking/edition-stratified-conformance",
     "conformance-checking/finding-severity-ladder",
+    "conformance-checking/rule-registry-enumerated-fixtures",
     "connector-catalog/adapter-normalization",
     "connector-catalog/catalog-as-data",
     "connector-catalog/schema-driven-forms",
@@ -34559,6 +34940,7 @@
    "statement": "Any stored derived value names how it is recomputed. A cached count, a denormalized rollup, or a materialized summary without a documented, invokable recomputation path is a future discrepancy with no arbiter.",
    "techniques": [
     "accumulate-then-aggregate-metrics/per-iteration-buffering",
+    "admission-queue/budget-includes-the-callers-own-cache",
     "admission-queue/remediation-derived-bounds",
     "admission-queue/resource-denominated-bounds",
     "agent-addressable-ui/build-time-source-stamping",
@@ -34600,6 +34982,7 @@
     "companion-identity/capability-exercise-ledger",
     "companion-identity/disk-truth-db-index",
     "companion-runtime/action-catalog-single-source",
+    "conditional-service-composition/specificity-ordered-layering",
     "conformance-checking/claim-write-back",
     "conformance-checking/edition-stratified-conformance",
     "conformance-checking/pass-ratio-comparability",
@@ -34919,6 +35302,7 @@
     "serving-process-topology/process-count-as-a-formula",
     "streaming-output/emit-behind-the-revision-window",
     "structured-output/constrained-decoding-is-a-shared-budget",
+    "structured-output/enumerable-domain-decoding",
     "untrusted-extension-host/host-api-import-budget",
     "watch-cache-and-resync/initial-read-strategy-behind-a-gate",
     "windowed-inference-over-oversized-inputs/resolution-decoupled-window-mapping",
@@ -35034,6 +35418,7 @@
     "priced-authority/approver-not-requester",
     "public-claim-provenance/provenance-as-a-build-gate",
     "quality-gates/blocking-by-input-determinism",
+    "quality-gates/branch-provenance-gate",
     "quality-gates/enforcement-binding",
     "quality-gates/gate-laddering",
     "quality-gates/oracle-frozen-during-repair",
