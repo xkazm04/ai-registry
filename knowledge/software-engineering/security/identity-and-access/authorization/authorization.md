@@ -14,6 +14,7 @@ techniques:
   - delegated-authority
   - read-write-predicate-symmetry
   - machine-credential-consumption
+  - unregistered-is-stronger-than-refused
 ---
 
 # Authorization & capability scoping
@@ -89,6 +90,41 @@ mechanics — including how the caller proves channel identity and why that
 proof is compared in constant time — are the
 [dispatch-chokepoint-gating](./techniques/dispatch-chokepoint-gating.md)
 technique.
+
+## Some dimensions are decided before the first request
+
+The chokepoint is the right home for every decision that has to be made *per
+request*. It is worth asking, per dimension, whether it does. An authorization
+dimension that is fixed when the process starts and cannot change while it runs
+— a deployment configured read-only, a build shipped without an administrative
+surface, an instance whose tier forbids a whole feature class — is not a
+question about this caller. It is a question about this process, answered before
+any request arrives.
+
+For that dimension there is a construction stronger than a gate: **do not build
+the operation**. Bind the mode into the route table, so the restricted class of
+operation is never registered with the dispatcher. There is then no handler to
+reach, no requirement to declare, no evaluation to get wrong, and no code path
+in which the answer could come out differently; the dispatcher's own not-found
+response is the refusal. It is the operation-level form of the move
+[identity-bearing-keys](./techniques/identity-bearing-keys.md) makes on data —
+the caller cannot spell a reference to the operation — and it survives the
+authorization kernel's own failure, because nothing was bound for a broken
+kernel to uncover.
+
+The discriminator is one question: can the answer differ between two requests to
+the same process? Where it cannot, the route table is where the decision belongs.
+Where it can, the chokepoint is, and resolving a caller-varying dimension at
+startup instead is an authorization decision cached for the process lifetime with
+no invalidation. Both constructions usually belong in one system at once. The
+pairing carries one asymmetry worth stating at this altitude: this construction
+removes *routes* when its restrictive mode is on, while the adjacent habit of
+assembling a guard list and attaching it to every route removes *guards* when its
+permissive mode is on — by evaluating to an empty list, which attaches cleanly,
+logs nothing, and leaves the whole surface addressable and open. The two fail in
+opposite directions under the same misconfiguration, which is why a guard list
+that can degrade to empty must say so at startup and a route that was never built
+need not ([unregistered-is-stronger-than-refused](./techniques/unregistered-is-stronger-than-refused.md)).
 
 ## The local-application twist: the caller is not a network principal
 
@@ -375,6 +411,10 @@ side — storage, consumption, counting, renewal, refusal — is
   from one named predicate, the refusal borrowed from the read so writes
   disclose no existence, gating before the spend, and the enumeration of
   by-identifier write paths that proves it.
+- [unregistered-is-stronger-than-refused](./techniques/unregistered-is-stronger-than-refused.md)
+  — a process-constant dimension bound into the route table instead of the gate:
+  the can-it-differ-per-request test, derived artifacts restricted for free, and
+  the companion guard list whose disabled state is a silent empty.
 - [machine-credential-consumption](./techniques/machine-credential-consumption.md)
   — the issuer's side of a machine login: keyed-hash storage addressed by
   an accessor, use counting under an upgraded lock where the last use
