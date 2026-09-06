@@ -1,7 +1,7 @@
 ---
 subject: model-routing
 domain: software-engineering
-last_touched: 2026-09-04
+last_touched: 2026-09-06
 touched_by: intake
 dry_streak: 0
 ---
@@ -201,3 +201,50 @@ had no standing to authorize.
 The subject's open edge: that table has no re-measure *cadence*, only an honest
 date. A vendor shipping three releases of one tier in six weeks outruns an
 unscheduled manual pass, and nothing in the tree will ask again.
+
+## 2026-09-06 — `/intake` openclaude: the lane where the caller cannot be asked
+
+Landed one amendment to `turn-classification`: **"When there is no call site to
+ask"**.
+
+`turn-classification` is a strong technique that rests on one premise it never
+states, because in the systems it was forged from the premise always held: **the
+caller is code**. Its § "The caller asserts the class" rejects content inference
+on three grounds that remain correct (fragile, unauditable, inverts the
+dependency), and its rule "an unclassified call fails loudly" locates the fault
+at a call site. A single-user interactive client breaks the premise rather than
+the rule — one call site, every class of work, and a human caller who will not
+annotate a turn. The absence of an asserted class is the *normal* condition
+there, so "fails loudly" has nothing to point at.
+
+The amendment states the lane and what makes inference acceptable inside it,
+which is deliberately **not** accuracy: abstain toward the expensive tier so the
+error is a missed saving rather than a degraded answer, and publish that
+direction where the feature is enabled; pin the decision for the whole turn so it
+cannot flap across the turn's tool calls (the "one call, one class" rule restated
+for a unit the user experiences as a turn); scope a fallback retry to failures a
+different tier could plausibly fix; and record that the class was *inferred*, so
+the retrospective question the technique cares about stays separable from the
+prior one this lane adds — was the class right at all.
+
+**Not applied — and the reason is the finding.** No project in the fleet routes
+per turn by inferring from a human's input. `personas` carries the closest seam
+and carries it *correctly*: `personaCore` is an explicit tier × effort selection
+made by a person in a config panel, which is the caller-asserts contract with a
+human in the caller's chair. `tracklight`'s agent asserts a model per action in
+`action.toml`. Neither infers. *Return condition:* when a fleet project adds a
+model choice made from the user's own input rather than an asserted class — the
+first candidate is any command palette or chat surface that grows a cheap tier.
+
+**Noted in passing, against the original technique rather than the amendment,
+and not landed:** `tracklight/crates/agent/src/actions.rs:82` defaults an
+action's model to a literal model name (`default_model() -> "sonnet"`), and
+`ActionSpec.model` is a model string rather than a class. That is exactly the
+decision rule "class names survive roster changes; tier assignments do not — if a
+roster change forces call-site edits, model knowledge leaked into the callers".
+It is a real seam for a *future* apply row on `turn-classification` proper; this
+run did not open it because the run's landing was the amendment, and applying a
+technique's pre-existing rule is a different row.
+
+The subject's open edge from 2026-09-04 (the tier table has an honest date but no
+re-measure cadence) is untouched and still open.

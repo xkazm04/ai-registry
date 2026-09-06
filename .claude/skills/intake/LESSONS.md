@@ -8316,3 +8316,77 @@ question answerable without re-reading the triage table.
   mining a system with the news method; the converse is worth stating too —
   a well-built system whose architecture the corpus already models yields
   edges, and forcing a subject out of it would be padding.
+
+## v2.5.0 - 2026-09-06 - praisonai
+
+- **Report the landing-page-to-tree word ratio, not just the tree's word count.**
+  This tree was 4,888 landing words against 159,943 in-tree markdown words - 33x.
+  The class rule already says mine from a clone; the ratio says what the ingest
+  would have *cost*, and it is one `wc -w` at Phase 2b. Two rounds now carry it in
+  prose (20,415/1,221 for sofka, this one) and neither has a field for it. Proposed
+  as `ratio=<n>x` in the depth cell.
+
+- **The measurement test cut two design entries, and this is the second round it
+  was applied.** Round 26 asked for it, round 27 applied it and cut nothing, this
+  round cut two of nine: a work-order ledger and a nine-package tier model, both
+  stating forces clearly and neither leaving a tree-fact that would differ if the
+  decision were wrong. Both went to leads naming the missing evidence. One more
+  round of it *changing an outcome* and it belongs in `SKILL.md` beside the
+  paper-lane rule it mirrors.
+
+- **A `not-better` row is where an over-reporting instrument is least likely to be
+  questioned.** The dead-method census - the run's own new technique, aimed at a
+  managed project - reported three dead methods on a healthy abstraction. All three
+  were private helpers called inside the declaring module, which the technique
+  excludes because there the names are definitions; correct for public surface,
+  wrong for intra-module helpers. Uncorrected it would have published a 21% dead
+  surface. The reason it nearly survived is that the finding was *interesting*: a
+  clean zero invites a second look, a defect does not. **Assert the instrument
+  hardest when it agrees with the technique you just wrote.**
+
+### The staging instrument self-caught three times in one Phase 10
+
+Worth writing up as one lesson because all three are the same failure wearing
+different clothes, and the phase is now the most collision-prone in the method -
+three sibling runs were live, two at phase 9.
+
+1. **A separator pattern missed across a line-ending seam.** Cutting my scorecard
+   block on `\n---\n\n` silently returned the sibling's block too, because my
+   appended block is LF and the file is CRLF. A pattern that spans the boundary
+   between two authors' writes cannot assume either author's line endings.
+2. **A prefix matched my own text.** Cutting on `**Round ` truncated my block
+   inside itself, because the block contains "**Round 26's first focus item". The
+   marker that ends a block must match a block *definition*, not a mention of one.
+3. **A guard fired on my own words.** Asserting `b"Round 29" not in block` failed
+   on my own "next run's declared focus (round 29)" line. That one was a false
+   positive and the cheapest of the three - which is the argument for writing the
+   crude guard first anyway.
+
+Each of the three would have committed something wrong and none would have failed
+loudly: a swept sibling block, a truncated scorecard entry, a missing focus line.
+**The generalizable rule: when slicing a shared append-only file, assert on the
+slice's CONTENT (exactly one definition, none of the sibling's identifiers, this
+run's own closing line present) rather than on the correctness of the pattern that
+produced it.** The pattern was wrong three times; the content assertions caught it
+three times.
+
+### A sibling committed this run's ledger rows before this run did
+
+Both `librarian/applied.md` rows appeared in `HEAD` under a sibling's commit while
+this run was still at Phase 9. The content survived and the attribution did not.
+The method already forbids `git add -A` and prescribes pathspec commits; what it
+does not yet say is the reciprocal:
+
+> **Before staging a shared ledger, check whether your append is already in
+> `HEAD`.** If it is, do not commit that file at all - committing it now would take
+> the working tree for that path and sweep whatever siblings have appended since.
+
+This run found it by comparing `git diff --numstat` against its own row count and
+finding the numbers disagreed, which is a check worth running deliberately rather
+than stumbling into. Not proposed as a `SKILL.md` edit on one sighting; recorded so
+a second sighting promotes it.
+
+### A note on what a mid-flight run should do about this file
+
+Nothing. No `SKILL.md` change was made this round, so a run that loaded v2.5.0
+should finish on v2.5.0.
