@@ -1414,3 +1414,37 @@ that check stays cheap.
 - **SKILL 6's read side is ordered wrong for anything security- or contract-shaped, and this run paid for it.** The skill says to resolve the governing subject before judging (§4.3), which I did — for the subject the map ranked highest. But a lens does not know which technique governs its *fix* until the fix has a shape, and by then the code is written. This round built a credential-header guard as a substring denylist, committed it, and only afterwards found `broker-proxy-attaches-secret`, which forbids denylists by name and gives the reason ("the header added to the protocol next year is forwarded by default"). Four real secret-bearing header names walked straight through the shipped version. The correction cost a second commit and is now the more interesting of the two. Proposal for §7: **before committing a fix whose shape is a policy decision — an allow/deny set, a retry rule, a validation boundary, a redaction — grep the registry for the technique that governs THAT SHAPE, not the one that governs the context.** The context-level read (§4.3) and the fix-level read are different lookups, and only the first is currently in the skill.
 - **A round's leads should be checked against the corpus before they are written, not after — and three of three dying there is a healthy result worth reporting as one.** All three lead candidates this round turned out to be in the bundle already, stated better: `_laws.md#unknown-is-not-a-value` and error-handling's "one observable, four answers" cover the two-facts-one-message rule; `broker-proxy-attaches-secret` covers third-party header forwarding. §6's bar 3 ("novel against the corpus") reads like a formality next to the other three bars and is in fact the expensive one, because clearing it honestly means reading subjects the round did not otherwise need. Worth saying in §6 that a round filing zero leads after checking is a *better* outcome than one filing two unchecked, and that the check often pays for itself in the read direction — here it did, by correcting a build.
 - **The strongest single-file findings this run were all "two states, one observable value".** Across two contexts: an inverted date range answered like an empty archive; an unreadable index reported as an unarchived URL; a discarded poisoned checkpoint indistinguishable from a first attempt; a blank credential reported as ready; over-cap schedule requests counted nowhere. Five of eleven builds, from four different lenses, all one shape — and `state-coverage`'s current blurb frames it as a UI concern ("a screen that renders as though nothing is wrong"), which is why three of the five were found by other lenses instead. Proposal: generalise that lens's description from surfaces to **observables** — for each value a caller can see, ask which distinct runtime states produce it, and treat any two that a caller would act on differently as the finding. It is the highest-yield question available on a mature backend context, and today the skill only asks it about screens.
+
+## 4.0.0 - 2026-09-06 - ascent (Org Import/Scan/Watchlist, --develop)
+
+- **The zero-consumer scan is not a dead-code check, it is a DEFECT check, and the docstring is the
+  tell.** Round 2's lesson proposed grepping a context's exported fields for readers. Run three times
+  now, the refinement that matters is which survivors to look at: a field that is merely unused is
+  usually fine (queue-row internals, DB-only columns), while a field whose DOCSTRING ASSERTS A
+  PURPOSE and has no reader is where the defects are — because the docstring is the consumer nobody
+  wrote, and the code around it was designed on the assumption that consumer exists. Three examples,
+  ascending in cost: `OrgBenchmark.corpusBasis` ("a percentile without its basis is not an auditable
+  number") — nobody renders the basis; `TeamRollup.onboardedRepos` ("reported separately") — nobody
+  reports it; `ScanJob.creditCharged` ("the single record of the reservation - a process kill leaves
+  it attributable") — nobody read it, so a process-killed worker's job reserved a SECOND credit on
+  retry, up to five times for one repo. The first two are gaps. The third is money. **Sort the
+  survivors by how strongly their docstring claims a consumer, and start at the top.**
+
+- **A `.catch(() => <empty>)` is safe on a read that feeds a DISPLAY and unsafe on a read that feeds
+  a DECISION TO WARN.** `/api/org/scan` computes its unfinished-work remainder as
+  `(await listJobsForRun(...).catch(() => [])).filter(...).length`, then emits its "N still queued"
+  frame only `if (remaining > 0)` — so a failed read is indistinguishable from a finished run, two
+  lines below a comment explaining that a remainder which "only ever existed in a lost frame is
+  exactly the silence this fixes". Worth adding to `error-handler` / `observability-auditor` as a
+  standing question: for each swallowed error, is the fallback VALUE rendered, or does it select a
+  BRANCH? A fallback that selects the quiet branch converts a failure into a false all-clear, and no
+  test will ever see it because the catch makes the function total.
+
+- **`--develop` on an `api`-category context produces safety work, and that is the correct result,
+  not a strategy failure.** All three builds were correctness/observability (a money double-charge, a
+  half-applied org-row stamp, an invisible failure mode); the eight market lenses produced nothing
+  real between them. A queue, a cron and a fan-out pool have no user-facing capability of their own —
+  their "new capability" is always someone else's render. This is now the second `--develop` round
+  (with gravitone's `test` context) where the deep tier was wrong for the context's CATEGORY. The
+  skill should let `category` reorder the deep tier under any strategy: `api`/`data` promote
+  parity-auditor, observability-auditor, risk-assessor and test-strategist and demote the market four.
