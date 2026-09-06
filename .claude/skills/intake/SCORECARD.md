@@ -2418,3 +2418,80 @@ lands, then one named field is the fix — and that sentence is what makes the r
 re-openable instead of archival. **The check the next row should make:** did the
 run decline to land something it believed in, and did it say which rule made it
 decline?
+
+---
+
+**Round 27 (`sofka`).** v2.5.0 · 2026-09-06 · `github:nklmilojevic/sofka` @ `fdb58c0d`
+
+| stage | count |
+| --- | --- |
+| research | 1 source (vendor/practitioner repository, cloned; 1,221 landing / 20,415 in-tree doc words) |
+| extract | 11 candidates (4 design + 7 claim) |
+| test | 2 picks verified against the host file AND the source's code, 3 catches |
+| apply | `1c/0e/1s/0t` |
+| ship | 1 (personas, `62482a90`, lefthook green, not pushed) |
+| admission | `auto=2/0/0`, `fp=0` |
+| depth | `0S/2T/0A/2Asrc/0 task-lines` · routing count 12 entries / 4 systems / 4 unhomed · **count not met on either clause** · handoff **not** fired · `directions=0/0` · `selfcatch=1` · fetches `0/3` |
+
+**Round 26's first focus item, answered: the measurement test applied to the
+design record.** The instruction was to ask of every design entry *what would
+this tree have to show for this decision to be wrong, and does it show it?* —
+and to file an entry that cannot answer as a lead, whatever its forces say.
+Run against all twelve entries it changed two outcomes and both are in the
+note. The **guardrail composition** entry answered cleanly: the falsifier is a
+config wanting an exception ("deny all prod, EXCEPT this namespace"), and the
+tree shows the answer in its schema rather than its prose — `deny: bool` with
+no `allow` field, so the exception is unrepresentable and the decision is
+falsifiable by inspection. It survived the test and was then held back for an
+unrelated reason (contested home), which is the right pair of reasons to keep
+separate. The **read-only-is-two-axes** entry could not answer — nothing in the
+tree distinguishes a `network_load` plugin's outcome from a `mutating` one, so
+the split is asserted rather than shown — and it is filed untriaged rather
+than landed as the amendment it first looked like. **The test earns its place:
+it demoted an entry whose forces read well.**
+
+**Both landings came from an enumeration, and neither was in the extraction
+rows.** This is now the third round where Phase 6 outproduced Phase 3, and the
+shape is sharpening: it was not "read the neighbours" that found them, it was
+that both host files make a **completeness claim** — five baseline species,
+seven states of a datum — and a completeness claim invites exactly one
+question. `diff-comparison` says how a baseline is CHOSEN and never what
+happens when the chosen species does not exist for a whole class; the
+seven-state model is built entirely from properties of ONE value and has no
+slot for a defect in a PAIRING. Neither gap is visible to the slug map, and
+neither candidate existed at Phase 3 in the shape it landed in — row 1 entered
+as "diff falls back to the previous revision" and row 2 as "they withheld the
+CPU data".
+
+**`selfcatch=1`, the number round 26 asked for.** The apply predicate's first
+boundary regex required a cell name to be followed by a pipe or whitespace, so
+`s-low: 14 runs dropped` scored zero — it would have under-counted arm B and,
+worse, it passed both known negatives, so only the *positive* assertions caught
+it. That is the argument for asserting a predicate in both directions rather
+than one: a predicate that is too narrow looks identical to a correct one from
+the negative side.
+
+**The honest small number.** No forge handoff, no subject, no `task` row: the
+routing count is 12 entries across 4 systems and no clause fires. That is a
+real reading of a well-built system whose architecture this corpus already
+models — the catches (harness floor, redaction manifest, generation-tagged
+streams) are all places the corpus is AHEAD of a good repository, and the two
+landings sit at its edges. A run that produced two techniques from a tree this
+strong should not have produced more.
+
+**Next run's declared focus (round 27).** (1) **When a landing is held back for
+a contested home, name the two or three candidate subjects and what each one's
+stated job is** — this run banked the guardrail-composition mechanism with
+anchors and a one-line reason, and that is thinner than it should be, because
+the next run will re-derive the home question from scratch. The untriaged table
+should carry the *home argument*, not just the finding. (2) **Report the
+enumeration that produced a landing**, as `fromenum=<n>` in the depth cell.
+Three rounds running, the best findings have come from a host file's own
+completeness claim, and if that holds a fourth time it is a rule this method
+should carry in Phase 6 rather than a habit. (3) **A `simulation` row whose
+return condition is its own `code` row must say what specifically made code
+unreachable** — this run said "a Rust workspace build exceeds the run", which
+is checkable; "no seam" and "too expensive" are different outcomes and the
+ledger has been blurring them. **The check the next row should make:** did the
+run apply the measurement test to its design record, and did it change any
+outcome — or was it recorded as done with nothing to show?

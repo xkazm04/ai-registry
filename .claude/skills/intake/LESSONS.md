@@ -8279,3 +8279,40 @@ confirmed distinct by exactly one run, so this stays a proposal - but the cheap
 half is free now: **a repository-class source note should record which of Phase
 2b's two sweeps it ran**, which costs one frontmatter line and makes the
 question answerable without re-reading the triage table.
+
+## v2.5.0 - 2026-09-06 - sofka
+
+- **A host file's completeness claim is the highest-yield thing to read, and
+  it is now three rounds running.** Both landings came from one: "the baseline
+  species" (five, enumerated) and "a datum has seven states, not two". The
+  method already says to hunt enumerations at Phase 6 step 3; what this run
+  adds is *which* enumerations pay. Neither of these was a list of cases — both
+  were **taxonomies of a thing**, and a taxonomy is falsified by finding an
+  instance outside it, which is a cheaper search than finding a missing case.
+  The seven-state model was additionally falsifiable by a **category** error
+  rather than an instance one: every state is a property of one value, so any
+  defect belonging to a *pairing* is outside the model by construction, and
+  that was visible from the model's shape before any candidate was tested.
+- **Assert a predicate against known positives AND known negatives, because the
+  two failures are asymmetric and only one is visible from each side.** This
+  run's apply predicate passed both negatives and failed a positive: a
+  too-narrow predicate is indistinguishable from a correct one when you only
+  test that wrong things score zero. The existing lesson says assert the
+  instrument; the refinement is that a one-sided assertion certifies exactly
+  the half that cannot fail.
+- **"Contested home" and "not a real finding" are different reasons to hold a
+  row back, and collapsing them loses the better half.** The guardrail
+  composition mechanism survived every test this method has — forces, the
+  measurement test, a schema-level falsifier — and was banked only because
+  three subjects each own a piece of "policy" and none owns multi-rule
+  composition. Filed as untriaged it carries no judgment, which is correct, but
+  it also carries no *home argument*, so the next run re-derives the hardest
+  part. Proposed for the untriaged table: when the blocker is placement, record
+  the candidate homes and each one's stated job.
+- **A repository that produces no handoff is a result, not a miss.** The
+  routing count came in at 12 entries / 4 systems / 4 unhomed with neither v2.2
+  clause firing, and three of the four strongest things in the tree were
+  catches where the corpus is already ahead. The v2 anti-pattern warns about
+  mining a system with the news method; the converse is worth stating too —
+  a well-built system whose architecture the corpus already models yields
+  edges, and forcing a subject out of it would be padding.
