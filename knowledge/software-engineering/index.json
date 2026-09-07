@@ -22574,7 +22574,7 @@
    "subcategory": "standards-and-gates",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/quality-gates.md",
-   "digest": "sha256:ba5156f77ad80bc8",
+   "digest": "sha256:b6f3f79024c97b1b",
    "techniques": [
     {
      "slug": "advancement-evidence-fields",
@@ -22727,7 +22727,11 @@
      "use_when": [
       "deciding whether a clean exit means anything was checked",
       "seeding a known violation to watch a new gate go red",
-      "a gate that has been green for a year"
+      "a gate that has been green for a year",
+      "a checker whose population is computed from a date ref or ordering rather than the whole tree",
+      "retrofitting a rule onto an artifact that already violates it",
+      "a check reports a plausible non-zero count and the rule still drifts",
+      "a gate whose scope is empty unless a flag is passed"
      ]
     },
     {
