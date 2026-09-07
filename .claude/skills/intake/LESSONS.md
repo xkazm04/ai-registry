@@ -9151,3 +9151,17 @@ has no reason to state. Not applied to `SKILL.md` this round: a sibling was live
 run, a method edit is the one change a parallel fleet cannot absorb quietly, and this is one
 run's evidence. It is filed as round 35's focus item (2) so the next two runs can confirm or
 kill it on the three-runs rule.
+
+## 2.7.0 - 2026-09-07 - grimstone-opening-cinematic
+
+- **A connected tree's recorded A/B cycles are a paired experiment already run, and a new
+  ruler over them is an apply step at zero generation cost.** The strongest fact this run
+  produced came from four webm files gravity's dojo lane had kept beside its judge's
+  reasons: the harness built to test the corpus's motion rules had penalised a clip that
+  quoted one of them, and a consecutive-frame delta measured after the fact showed the
+  clip had obeyed. Third media-generation run in a row to find its falsifying seam in
+  that archive. The instrument was asserted on both ends first - a known moving clip and
+  a synthetic frozen floor through the same codec - which is what let 0.210 be read as
+  "moved" rather than as noise. Filed as round 37's focus item (1); not applied to
+  `SKILL.md` on one run's evidence.
+- Mid-flight runs: nothing to do. No method text changed; the version used was 2.7.0.

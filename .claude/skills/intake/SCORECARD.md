@@ -3144,3 +3144,32 @@ comment now bounds itself to a change of stance rather than drift. This is the t
 scorecard entry to say some version of "assert the instrument"; if a fourth run pays for
 it, it belongs in Phase 8 step 3 beside the paired-proof rules rather than in this
 paragraph.
+
+| 2.7.0 | 2026-09-07 | `youtube:EdCUpP4_8y4` "I Built an Opening Cinematic for My Game Using AI (Full Process)", Building Aeon (**first-party practitioner account in build-walkthrough form**; operator brief `domain media-generation`; 1,080 words, real subtitle track, container checked) | 1 source, read whole; class and expected yield (LOW) said before the table. **0 of 3 fetches - sixteenth consecutive corpus-internal run**; corroboration was code read in a connected tree plus training-data convergence | 12 | 4 scored (2 accepted, 1 lead, 1 promoting read that did not promote), **0 declined**, 7 already covered | **2 amendments + 1 new application + 1 extended application**, in two subjects of one bundle | **2 rows of 2 owed: 0c/1e/1s/0t** | **1** (gravity `577524b`, ledger `5a8550e`) | **Focus (round 36) on all three points.** (1) Subjects claimed by the address `research-map` printed and the pre-write check compared the same strings - clear, but 0 siblings were live for the whole run, so the item passed trivially and still has not been *tested*; it needs a run with live siblings. (2) **The caught-arm pre-check was written before arm one and it is why the confirmation counts**: had the near-still clip measured at the frozen floor, the finding would have inverted into a boundary on the directive rather than on the judge. It measured 0.210 against 0.000, the judge had called it "frozen", and the instrument's blindness became the landing's second half. Fifth consecutive round of seam-to-falsify; v2.7 already carries it as a step. (3) No fetch needed, so the young-release rule did not apply - stated rather than skipped. Round 35's premise hunt fired again: the larger landing is an enumeration whose members all silently share a premise (every rung makes a generation). **Both landings are amendments and that is the right shape for this source**: a mechanism boundary (rung zero) and a channel boundary (the zero-beat performer), each appended with every standing sentence true; a video is not a system and no subject was implied. **The strongest fact came from the connected tree's own recorded cycles, not from the source** - the harness that tests the corpus's motion rules had penalised a clip that quoted one of them, and the recorded webm files were a paired experiment already run, waiting for a ruler. Ship 1 of 2 with the reason for the zero stated: the rung-zero field cannot be added before the renderer that would read it | `subjects=0 / techniques=0 / amendments=2 / apps-vs-source=0 (2 fleet apps: 1 new, 1 extended) / task-lines=0`; routing count n/a (video); no handoff; `auto=2/1/0` `fp=0`; `directions=n/a` |
+
+**Funnel read over the last ten rows.** Extract holds at 10-12 candidates per source and
+test at 4-9 scored; landed is 1-2 per run; apply is now consistently `N of N owed`; ship
+is 1 in eight of ten rows, with the zero reasons stated. The stage losing most is still
+**research** - the sources arriving are 900-1,900-word videos whose class predicts one
+landing, and the class is right every time. The corrective is not more runs of this
+shape; it is the source queue, and three consecutive media-generation runs found their
+strongest fact in the *connected tree's recorded cycles* rather than in the video. The
+depth column matches the source's shape in every row (amendments from accounts, a
+technique from the one review that carried a mechanism); no routing miss.
+
+**Next run's declared focus (round 37).** (1) **Read the connected tree's recorded
+experiments before the source's transcript, when the domain has a lane that keeps
+them.** Gravity's dojo cycles are paired, seed-matched, on disk, with the judge's reasons
+beside the clips; three runs in a row found the falsifying seam there, and this one found
+a technique's own example being penalised by the harness built to test it. For a
+media-generation source, the check the next row should make: was the recorded-cycle
+archive read at Phase 1 with the worklist, or found at Phase 7.5 by accident. (2) **The
+board-address item has passed trivially twice.** Both runs since round 36 had zero live
+siblings, so "did a claim and an index address agree" has been asserted and never tested;
+the next run with a live sibling on the board owes the actual comparison, and until then
+the item stays open rather than being marked done. (3) **A ruler that ships is calibrated
+on both ends before the number is read** - this run asserted the frame-delta instrument
+on a known moving clip *and* on a synthetic frozen floor before trusting 0.210, and the
+floor is written beside the number in the shipped file. Round 35's guard-calibration item
+said the same thing about a test; the two are one rule, and if a third run pays for it, it
+belongs in Phase 8 step 3 beside the paired-proof rules.
