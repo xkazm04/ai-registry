@@ -3,7 +3,7 @@ name: assay
 description: "Mine an external source - a skills library, a repository, an article, pasted notes - for craft that belongs in the `recipes/` lane. Cross-checks every candidate against the existing corpus, gives each finding a recommended disposition (new recipe, enrich, example, lesson, lead, discard), puts the whole set in front of the operator on one screen, executes what is accepted, and remembers every deviation from its recommendation so the next run recommends better. Discarding a whole source is a successful run. Use when someone shares a skills repository, a connector's documentation, or a body of practice and asks what it means for our recipes."
 category: ai-native
 memory: project
-version: 1.1.0
+version: 1.5.0
 tags: recipes, sources, cross-check, disposition, decision-gate, taste-ledger, obsidian-memory, connector-examples, discard
 ---
 
@@ -52,7 +52,7 @@ And the distinction this lane exists on, which a skills library will try to blur
 Three, and none of them decides anything.
 
 ```sh
-node scripts/recipe-map.mjs "<term>" ...          # terms -> prior art in the 106-recipe corpus
+node scripts/recipe-map.mjs "<term>" ...          # terms -> prior art in the corpus
 node scripts/recipe-map.mjs --json "<term>" ...   # the same, machine-readable
 node scripts/check-recipes.mjs                    # the lane gate: shape, vocabularies, rendered-view coupling
 node ../personas/scripts/templates/_migration/verify.mjs   # the corpus against ITSELF (ids, examples, shape)
@@ -64,8 +64,53 @@ clean result. Its `path` field is the recipe's **address**: the lane is nested a
 depth is ours to change, so a constructed path writes into a folder no consumer walks.
 
 **Never cross-check by hand.** A grep for one word finds one neighbour and misses the
-one that matters, and reading 106 recipes burns the run. The instrument puts you in the
-neighbourhood; you still open the recipe before deciding.
+one that matters, and reading the whole corpus burns the run. The instrument puts you in
+the neighbourhood; you still open the recipe before deciding.
+
+**`recipe-map` scores on words, so it collides, and it collides hardest on abstract
+nouns.** Three verified collisions in the spellbook run alone, each of which would have
+sent a finding to the wrong recipe:
+
+| the query was about | it returned STRONG against | the shared word |
+|---|---|---|
+| migrating a data contract | `contract-renewal-window-watch`, a legal recipe about lease renewals | contract |
+| reading the source of real systems | `source-grounded-error-root-cause-analysis` | source |
+| deriving a reusable rule and deciding where it belongs | `routing-rule-management`, about where events go | rule, belongs |
+
+The last one scored **7.0**, higher than any true positive in that run. **A high score
+with matches listed in every field is not corroboration; it is one word counted seven
+times**, and the long match list is what makes it read as thorough. So: never accept a
+`strong` without opening the recipe it named and confirming the work is the same work,
+and be most suspicious when the score is highest.
+
+**The dangerous direction is the other one: a false LOW on the closest prior art.** A
+false `strong` costs you the minute it takes to open a recipe and see it is unrelated. A
+false `related` costs you a duplicate recipe authored at high confidence, and nothing
+downstream will catch it. Both happened in the same run. One evaluator's proposed new
+recipe had its nearest neighbour sitting at **4.1 `related`**, holding two of the exact
+judgments the proposal claimed were new, and it was found only by opening the list
+anyway. Another query returned its own subject nowhere in the top five, on a freshly
+rebuilt index, because the recipe and the query shared almost no vocabulary.
+
+So the rule has two halves and the second is the one that saves you:
+
+- Never accept a `strong` without opening the recipe it named.
+- **On any query central to a proposed `new-recipe`, open the top five whatever they
+  scored.** `related` is not a clearance. A new recipe is the most expensive thing this
+  skill can produce and the only one nothing downstream will catch.
+
+Scores seen in one run: a false positive at **9.1**, higher than any true positive, and a
+true nearest neighbour at **4.1**. The bands do not separate the cases. Treat the ordering
+as a reading list, never as a verdict, which is the same thing the corpus already says
+about scores in `scouted-opportunity-triage`.
+
+**A stale generated index makes the instrument lie quietly.** `recipe-map` reads
+`recipes/index.json`, not the lane, so a recipe on disk and absent from the index scores
+zero and reads as `none`. This happened: the index held 106 while the lane held 109, the
+lane gate passed green the whole time because it walks the lane itself, and the failure
+surfaced only because an evaluator distrusted a verdict. The gate now fails on index
+drift, but check the first line of `recipe-map`'s output anyway: **if the recipe count it
+reports is not the number of `recipe.json` on disk, stop and rebuild the index.**
 
 ## Where things land, and why it is only one repository
 
@@ -122,7 +167,17 @@ operator's decision.
    label) and the sentence that changes. An enrichment that cannot name the field it
    changes is a `lead`.
 3. **`example`** - the source carries knowledge about ONE concrete connector that a
-   recipe already declares a type for. Lands as `examples/<connector>.md`, written so it
+   recipe already declares a type for.
+
+   > **The name filter is INVERTED for this one disposition.** Everywhere else in this
+   > skill a name stating a judgment outranks a name stating a procedure. For `example`
+   > the opposite holds, and it has been measured: in the spellbook run the connector
+   > knowledge sat in a skill indexed as "generate copy and images", a name promising a
+   > content template, while the skill promising judgment about the same platform turned
+   > out to be voice craft. **Connector knowledge hides behind template-shaped names**,
+   > because a team that has learned what a destination really does writes it down beside
+   > the thing that posts to it. When hunting this class, open the files the judgment
+   > filter told you to skip. Lands as `examples/<connector>.md`, written so it
    stops applying when the connector is swapped and not when the recipe changes.
 4. **`lesson`** - the source records an actual RUN and what it taught. Appends to that
    recipe's `LESSONS.md` in the lane format. **Only from a real run**: a source's
@@ -158,6 +213,20 @@ Assay/
   sources/<slug>.md   # one note per source: what it was, what it yielded, the leads
   sessions/<date>.md  # run records, immutable, ending in a `next:` pointer
 ```
+
+`Assay.md` carries a second table under the source ledger: **the followups, and what
+happened to them.** A followup is a finding too large to fold into the run that found it,
+so it is the operator's to schedule, and without this table nobody ever learns whether
+raising one was worth anything. Add the row when the followup is raised, and close it when
+it is acted on, with the commits.
+
+The first one closed the same day it was raised, and taught the rule that governs the rest:
+**the finding was a count, and closing the count was the wrong execution.** 87 recipes did
+not treat a human correction as a signal; adding a correction sentence to 87 recipes would
+have left the corpus looking repaired and taught it nothing. What worked was asking one
+question of each recipe and accepting that a real number of answers would be no. 74 yes,
+14 no. When you raise a followup, phrase it as the question to ask, never as the number to
+close.
 
 **`taste.md` is written only when the operator departs from a recommendation**, and it
 records three things, never two:
@@ -269,7 +338,27 @@ and say so** - never decide on the operator's behalf.
 ### Phase 7 - Execute
 
 In the order `example` → `enrich` → `lesson` → `new-recipe`, because the first three
-inform the last. For every recipe touched:
+inform the last.
+
+**Before dispatching anything, reconcile the assignment set against the approved set, by
+number.** Fan-out loses work at the dispatch step, not at the work step, and it loses it
+without a trace: every executor reports success, every gate is green, and a dropped
+finding appears nowhere at all. It happened in the spellbook run, where one approved
+enrichment fell between the findings table and the eight prompts written from it, and
+surfaced only because the per-agent counts were added up by hand before committing. Count
+the approved items, count the items named across your prompts, and do not dispatch until
+the two match.
+
+**Executors verify sources; evaluators do not.** In that same run three of five sets of
+citations were wrong, including the load-bearing sentence behind a new recipe, which was
+not in the file credited to it. Tell every executor to open the source and check the
+quotation before writing, and to report corrected citations. Executors also catch what no
+evaluator can, because it is a property of the recipe AFTER the edit rather than of the
+source: an enrichment that makes an existing guidance sentence false, a field choice that
+would commit the very error the finding names, a source rule carrying a number the source
+never defends.
+
+For every recipe touched:
 
 1. edit `recipe.json` - it is the authored artifact;
 2. bump its `version` per the discipline above;
@@ -306,6 +395,10 @@ Write `sources/<slug>.md` (what the source was, its class, its commit, findings 
 disposition, the leads with return conditions), add one row to `Assay.md`'s ledger, and
 write `taste.md` entries for **every deviation**, with the inferred rule. Then the
 session note with a `next:` pointer.
+
+If the run raised a followup, add its row to the followups table in the same pass. If a
+previously raised followup was acted on since the last run, close its row with the commits,
+whether or not this run touched it.
 
 ### Phase 10 - Commit
 

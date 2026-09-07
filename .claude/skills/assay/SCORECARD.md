@@ -9,6 +9,7 @@ rather than rules, and that is the finding.
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 
 | 1.0.0 | 2026-09-07 | gbrain | skills library | 24 | 3 | 13 | 0 | 0 | 3 declined | 1 class (10) | 16 | 1/4 | rich |
+| 1.1.0 | 2026-09-07 | spellbook | skills library | 62 | 3 of 4 | 22 | 2 | 0 | 1 accepted | the catalogue class (34 of 45) | 27 of 28 | 1/4 | rich |
 
 **Weakest stage after one run: `example`.** Zero landed. The source was a skills library
 whose own integration folder turned out to be install configuration for its product, so
@@ -17,3 +18,30 @@ next run should be a source with real connector documentation, or that path stay
 
 **Deviation rate 1 of 4** is the baseline, not a result. It means something only against
 the second run.
+
+**`example` is no longer the weakest stage.** Two landed, and the prediction that a source
+with real connector documentation would settle it was right about the source and wrong
+about how to find the class in it. The name filter is inverted for this disposition; that
+is now in `SKILL.md` (1.5.0).
+
+**The new weakest stage is `lesson`: zero in two runs, and it cannot be otherwise while
+every source is a skills library.** A lesson may only come from a real run, and a library
+publishes practice rather than runs. The next source must not be a skills library, or the
+stage stays unexercised for a third time and the disposition is decoration.
+
+**Deviation stayed at 1 of 4, and the raw number is misleading.** Read alone it says the
+taste ledger is not working. What actually happened is the opposite: run 1's rule was
+about leads, this run applied it by proposing exactly one lead carrying a concrete return
+condition, and the operator accepted it, so **the ledger converted what would have been a
+deviation into an acceptance**. The remaining deviation came from a class that had no rule
+yet, new recipes, and now has one.
+
+So the metric needs its denominator read: deviations should fall **within a class that has
+a rule**, and a new class will keep producing them. Track it that way from run 3, and
+treat a deviation in a class the ledger already covers as the real alarm.
+
+**The reason this run cost more than gbrain and was worth it:** 62 candidates against 24,
+five evaluators against a lighter pass, and two gate defects surfaced that had nothing to
+do with the source. The source's own worst practices were the most transferable thing in
+it, because each was a mirror: a self-contradicting doctrine, a uniqueness gate blind to
+duplicated content, and a verification step only one machine can run.
