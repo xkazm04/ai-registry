@@ -129,9 +129,49 @@ function loadRuns() {
   return out.sort((a, b) => String(a.startedAt).localeCompare(String(b.startedAt)));
 }
 
-/** Normalise a claim token so `knowledge/x/y/z.md` and `x/y/z` compare equal. */
+/** Fold case, separators and trailing slashes. The raw token, nothing more. */
 function norm(s) {
   return String(s).trim().replace(/\\/g, '/').replace(/^\.\//, '').replace(/\/+$/, '').toLowerCase();
+}
+
+/**
+ * One identity for one ADDRESS, however it was spelled — the claim side and the
+ * check side of this board speak two different dialects by design, and until
+ * 2026-09-07 they never met.
+ *
+ * `norm`'s docstring claimed this fold ("so `knowledge/x/y/z.md` and `x/y/z`
+ * compare equal") and `norm` never implemented it; `touches` compared the raw
+ * tokens. The method's own phases guarantee the mismatch: Phase 4 claims a
+ * SUBJECT SLUG (`beat --subject <domain/category/subject>`) and Phase 7 checks
+ * the INDEX FILE ADDRESS (`check <every file you are about to touch>`), which
+ * is what `research-map` returns. Measured 2026-09-07 against a live sibling
+ * holding `.../quality-gates`, three of the four realistic pairs reported
+ * `clear`:
+ *
+ *   slug claim      vs file check           -> MISS (the documented workflow)
+ *   path claim      vs slug check           -> MISS
+ *   subject-doc claim vs technique under it -> MISS (the doubled leaf breaks
+ *                                              the prefix relation)
+ *   identical spelling                      -> hit (the pair nobody produces)
+ *
+ * So every `check` a run made against a subject a sibling held returned a
+ * false all-clear, silently, for the whole life of the board — the exact
+ * collision it exists to prevent. A subject address folds to its slug: drop a
+ * leading `knowledge/`, drop a trailing `.md`, then collapse the doubled leaf
+ * a subject document carries (`.../quality-gates/quality-gates`), which is
+ * what restores the prefix relation to everything nested under it.
+ *
+ * The fold deliberately over-matches rather than under-matches. A false
+ * CONTENDED costs one wait and is visible; a false clear costs a lost write
+ * and announces nothing, which is the failure this whole board is for.
+ */
+function normAddress(s) {
+  let t = norm(s);
+  if (!t) return t;
+  t = t.replace(/^knowledge\//, '').replace(/\.md$/, '');
+  const seg = t.split('/');
+  if (seg.length > 1 && seg[seg.length - 1] === seg[seg.length - 2]) seg.pop();
+  return seg.join('/');
 }
 
 /**
@@ -185,12 +225,51 @@ function normSource(s) {
   }
 }
 
-/** Do two claim tokens touch? Prefix containment in either direction counts. */
+/**
+ * Do two claim tokens touch? Prefix containment in either direction counts,
+ * over the folded ADDRESS (`normAddress`) rather than the raw token — see the
+ * measurement recorded there for why comparing raw tokens made this function
+ * answer `false` for every cross-dialect pair the method actually produces.
+ */
 function touches(a, b) {
-  const x = norm(a);
-  const y = norm(b);
+  const x = normAddress(a);
+  const y = normAddress(b);
   if (!x || !y) return false;
   return x === y || x.startsWith(y + '/') || y.startsWith(x + '/');
+}
+
+/**
+ * Assert the fold before anything trusts it. `normSource` was fixed twice
+ * (2026-09-02, 2026-09-04) because it was tested against real spellings;
+ * `norm`'s address claim was never tested at all and was false from the first
+ * commit. A board whose collision check silently answers `clear` is worse than
+ * no board, so the cases that were measured broken are pinned here and run on
+ * every invocation — the cost is microseconds and the failure it catches is
+ * invisible by construction.
+ */
+function assertAddressFold() {
+  const SUBJ = 'software-engineering/engineering-process/standards-and-gates/quality-gates';
+  const DOC = 'knowledge/' + SUBJ + '/quality-gates.md';
+  const TECH = 'knowledge/' + SUBJ + '/techniques/prose-rule-drift.md';
+  const cases = [
+    [SUBJ, DOC, true, 'subject slug (Phase 4 claim) vs index file address (Phase 7 check)'],
+    [DOC, SUBJ, true, 'path claim vs slug check'],
+    [SUBJ, TECH, true, 'subject claim vs a technique nested under it'],
+    [DOC, TECH, true, 'subject document vs a technique beside it'],
+    [SUBJ, SUBJ, true, 'identical slugs'],
+    [SUBJ, 'software-engineering/engineering-process/standards-and-gates/metric-gates', false,
+      'two sibling subjects in one category must NOT touch'],
+    ['librarian/sources', 'scripts/run-board.mjs', false, 'unrelated paths must NOT touch'],
+  ];
+  const bad = [];
+  for (const [a, b, want, why] of cases) {
+    if (touches(a, b) !== want) bad.push('  expected ' + (want ? 'CONTENDED' : 'clear') + ': ' + why);
+  }
+  if (bad.length) {
+    console.error('run-board: address fold is broken — the collision check cannot be trusted.');
+    for (const b of bad) console.error(b);
+    process.exit(2);
+  }
 }
 
 /* ---------------------------------------------------------------- args */
@@ -499,4 +578,5 @@ if (!cmd || cmd === '--help' || cmd === '-h' || !TABLE[cmd]) {
   console.error(header);
   process.exit(cmd && cmd !== '--help' && cmd !== '-h' ? 1 : 0);
 }
+assertAddressFold();
 process.exit(TABLE[cmd]() || 0);
