@@ -2,7 +2,7 @@
   "id": "328df264-fffa-55ca-b666-85e2ed37c19e",
   "slug": "change-implementation-and-review",
   "title": "Code change implementation and review follow-through",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "status": "seed",
   "path": "software_engineering/code-review",
   "domain": "software_engineering",
@@ -15,7 +15,7 @@
   "activities": [
     {
       "id": "revalidate",
-      "label": "Re-read the accepted item against the code as it stands now, and decline with a reason if the premise has been overtaken",
+      "label": "Re-read the accepted item against the code as it stands now, decline with a reason if the premise has been overtaken, and return the one blocking question where guessing wrong would be expensive",
       "kind": "observe"
     },
     {
@@ -57,7 +57,9 @@
         "The item is checked against current code before work starts, and one the code has already overtaken comes back declined with what was found rather than built anyway",
         "The change is scoped to the accepted item and nothing else, and a change that has grown past what one sitting can review is split rather than explained",
         "The repository's own checks pass before the change is offered",
+        "An item whose ambiguity would cost a large rewrite, a production effect or a destructive act if it were guessed wrong comes back with the one blocking question rather than with a change built on the guess, and the test is the cost of being wrong rather than how uncertain the work feels",
         "An item that cannot be completed comes back with what was learned rather than a partial change left behind",
+        "A number of failed attempts at which the work stops and escalates is fixed before the first attempt, because each next attempt looks cheap from inside and only the run of them is evidence, and a run of them is evidence about the model of the system rather than about the change",
         "A decline that the person who accepted the item overturns is written back beside the reason that produced it, because declining is the one call here nobody sees the cost of, and the next re-validation of an item of that shape weighs a premise test that has already been overruled once rather than reaching the same decline again"
       ]
     },
@@ -84,7 +86,8 @@
       "success_criteria": [
         "The item's own record carries where the change is and what state it is in, not only the code repository",
         "A change still open after enough time for the branch it was cut from to have moved is re-proved against current code rather than resting on checks that passed against a codebase that no longer exists",
-        "A change that was abandoned is recorded as abandoned, so nothing sits indefinitely in a state that reads as in progress"
+        "A change that was abandoned is recorded as abandoned, so nothing sits indefinitely in a state that reads as in progress",
+        "An approval covers the action it was given for and the diff it was given against, so approval to commit is not approval to merge, and a change made afterwards, including one made to satisfy a review comment, makes the approval stale and it is sought again rather than carried forward"
       ]
     }
   ],
@@ -108,7 +111,8 @@
     "How much autonomy this work has, from proposing a change to merging one, which is the single most consequential setting here and must be stated rather than inferred",
     "Which checks are the real gate in this repository, since every repository has checks that block and checks that advise, and treating an advisory check as a gate wastes as much time as ignoring a blocking one",
     "Who reviews here and what each reviewer cares about, because repeating a preference a reviewer has already stated exhausts their patience fastest",
-    "Where the accepted item lives and how its state is written back, because a change that merged without the item being closed leaves the queue lying about what is still outstanding"
+    "Where the accepted item lives and how its state is written back, because a change that merged without the item being closed leaves the queue lying about what is still outstanding",
+    "How many failed attempts at one item may pass before the work stops and escalates, because a person accumulates fatigue after a few and stops of their own accord, while this work has no such signal and needs the count named from outside before the first attempt"
   ],
   "dependencies": [
     "git, since the work creates branches and commits in a real checkout",

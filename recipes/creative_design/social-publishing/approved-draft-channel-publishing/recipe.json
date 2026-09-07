@@ -2,7 +2,7 @@
   "id": "5e07793e-c964-590f-95dc-f72631789f48",
   "slug": "approved-draft-channel-publishing",
   "title": "Approved draft channel publishing",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "status": "seed",
   "path": "creative_design/social-publishing",
   "domain": "creative_design",
@@ -120,6 +120,12 @@
       "connector": "x_twitter",
       "connector_type": "social",
       "notes": "See examples/x_twitter.md."
+    },
+    {
+      "title": "Xiaohongshu as a direct destination that ranks what it accepts",
+      "connector": "xiaohongshu",
+      "connector_type": "social",
+      "notes": "See examples/xiaohongshu.md."
     },
     {
       "title": "Notion as the long form destination",

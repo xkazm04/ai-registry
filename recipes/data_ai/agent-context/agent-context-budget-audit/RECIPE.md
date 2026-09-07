@@ -1,6 +1,6 @@
 ---
 name: agent-context-budget-audit
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: data_ai
 path: data_ai/agent-context
@@ -50,6 +50,10 @@ Linear and branch-free, by contract. This is the shape of the work, not a runboo
 
 - Every file that loads on every turn appears in the total, and nothing loaded on demand
   is counted in it.
+- Each file in the total is recorded as present, configured for discovery, or observed
+  loaded, and only runtime evidence puts a file in the third class, because the auditor
+  is reading the stack it is itself loading and an agent's own account of what it read
+  is not evidence about what was loaded.
 - The total is recorded where the next audit will read it, so the next run reports
   movement rather than restating the size.
 - Every saving figure traces to a measurement, and an estimate says that it is one.
@@ -65,6 +69,9 @@ Linear and branch-free, by contract. This is the shape of the work, not a runboo
 
 - Anything stated in more than one place is reported with each version quoted beside the
   other.
+- Two texts reached through a link, an install copy or a generator are one rule seen
+  twice and are not reported as a duplication, and identical content at two entrypoints
+  is a duplication only when both are separately maintained.
 - A contradiction appears first however little it weighs, because it is not a weight
   finding.
 - A recommendation to drop a duplicate names which copy is the one that stays.
@@ -74,8 +81,9 @@ Linear and branch-free, by contract. This is the shape of the work, not a runboo
 Weight is the symptom and residence is the question. Ask of each passage how often it is
 needed, not whether it is true: a rule needed on one task in twenty is not free where it
 sits, and moving it costs nothing a reachable copy does not pay back. Contradictions
-come first, however little they weigh, because they cost correctness rather than tokens.
-Measure before you claim a saving, and change nothing yourself.
+come first, because they cost correctness rather than tokens. A deviation is a finding
+only when something actually went wrong because of it, not when it departs from the
+shape you would have chosen or a file you expected.
 
 ## Where this is worth adopting
 

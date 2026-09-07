@@ -1,6 +1,6 @@
 ---
 name: codebase-improvement-backlog-scan
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: software_engineering
 path: software_engineering/codebase-health
@@ -30,7 +30,8 @@ accept or reject it without opening the repository.
 
 **Output.** A short list of candidates, each naming the files it touches, the approach
 it proposes and the reason it ranked where it did, alongside a record of what was
-covered, and one plain statement when a pass found nothing worth surfacing.
+covered, one plain statement when a pass found nothing worth surfacing, and a named list
+of whatever the pass could not examine.
 
 ## Activities
 
@@ -70,6 +71,10 @@ was skipped has expired.**
   record names the category and the refusals that stopped it.
 - The first pass over a tree says it is establishing coverage and reports no trend,
   rather than presenting a first inventory as a deterioration.
+- Anything the pass set out to examine and could not, whether an area it failed to read
+  or a kind of finding it had no way to evaluate, is named as not examined with the
+  reason, and is never counted among what it found clean, because a thing it could not
+  open and a thing with nothing in it are the same silence from outside.
 
 **The scan proposes and never edits, so a candidate is a question put to a person rather
 than a change already made.**

@@ -2,7 +2,7 @@
   "id": "8751850c-6824-588f-ab7d-f2abe3c1b2eb",
   "slug": "work-candidate-triage-gate",
   "title": "Work candidate triage gate",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "status": "seed",
   "path": "software_engineering/work-intake",
   "domain": "software_engineering",
@@ -65,7 +65,8 @@
       "success_criteria": [
         "A refusal carries a typed reason from a small closed set, because a category can be suppressed from a type and cannot be suppressed from free text.",
         "Repeated refusals of one shape measurably reduce how often that shape arrives, and the reduction is reported so the reviewer can see the gate learning.",
-        "A refusal is cheap to reverse and says so, because a meaningful share of decisions at any intake gate are wrong in both directions and an irreversible no is the expensive kind."
+        "A refusal is cheap to reverse and says so, because a meaningful share of decisions at any intake gate are wrong in both directions and an irreversible no is the expensive kind.",
+        "A candidate that should be refused is refused, rather than moved into whatever list of accepted risks or known issues sits beside the gate, which carries only what was accepted before this candidate arrived; an acceptance with a note counts as a decision, teaches the producer nothing, and leaves the same shape arriving."
       ]
     }
   ],

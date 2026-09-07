@@ -1,6 +1,6 @@
 ---
 name: per-channel-voice-profiling
-version: 0.2.0
+version: 0.3.0
 status: seed
 domain: creative_design
 path: creative_design/social-publishing
@@ -53,6 +53,9 @@ because each channel is different.**
   one channel is not copied onto a channel where it does not work.
 - The description separates voice from subject, so writing often about one topic does
   not become a rule that every draft is about that topic.
+- A draft is checked against the description at its close as deliberately as at its
+  opening, because a long draft drifts back toward whatever its writer defaults to and
+  the opening is not evidence about the rest.
 
 **The description is specific enough to turn work down, which is the only way it can be
 useful to anyone drafting.**
@@ -61,8 +64,16 @@ useful to anyone drafting.**
   rather than by saying it feels wrong.
 - The description includes what the person never says, because a list of what somebody
   avoids identifies them faster than a list of what they favour.
+- Beneath whatever this person avoids, the description names the register a draft falls
+  back to when the description runs out, and a thin sample makes that floor more
+  necessary rather than less, because a description that is mostly a guess leaves the
+  draft to default to it.
 - A sample too thin or too narrow to support a confident description is reported as
   thin, and the description says which parts of it are a guess.
+- Whether the description discriminates is settled by a person picking the off voice
+  draft blind rather than by a score, and a mechanical check may find candidates but is
+  never the standard, because a proxy adopted as the standard becomes the thing drafts
+  are written to.
 
 **A correction made three times becomes a change to the description instead of a
 correction made a fourth time.**
@@ -82,10 +93,11 @@ correction made a fourth time.**
 
 A voice description earns its place by rejecting things. Friendly and authoritative
 reject nothing, so write the moves: how they open, how long a sentence runs, whether
-they use contractions, what they close with, and above all what they never say. A banned
-list identifies somebody faster than a preferred one. Keep subject matter out of it,
-because writing about pricing is a topic rather than a voice, and encoding it makes
-every draft about pricing. Say when the sample was too thin.
+they use contractions, what they close with, and what they never say. A description made
+only of prohibitions produces prose that violates nothing and sounds like nobody, its
+own recognisable failure. Keep subject matter out of it, because writing about pricing
+is a topic rather than a voice, and encoding it makes every draft about pricing. Say
+when the sample was too thin.
 
 ## Where this is worth adopting
 

@@ -3,15 +3,15 @@
   "generated_by": "scripts/build-recipes-index.mjs",
   "lane": "recipes",
   "source": "recipes/<domain>/<topic>/<slug>/recipe.json",
-  "recipes": 109,
+  "recipes": 112,
   "by_status": {
-   "seed": 109
+   "seed": 112
   },
   "by_domain": {
    "legal_compliance": 7,
    "operations_logistics": 2,
    "data_ai": 7,
-   "software_engineering": 37,
+   "software_engineering": 40,
    "creative_design": 11,
    "finance_accounting": 8,
    "sales_marketing": 17,
@@ -63,7 +63,7 @@
   },
   "agent-context-budget-audit": {
    "path": "recipes/data_ai/agent-context/agent-context-budget-audit",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "data_ai",
    "topic": "agent-context",
@@ -115,9 +115,21 @@
    ],
    "recommended_trigger_kind": "self_paced"
   },
+  "application-log-diagnosability-audit": {
+   "path": "recipes/software_engineering/observability/application-log-diagnosability-audit",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "software_engineering",
+   "topic": "observability",
+   "title": "Application log diagnosability audit",
+   "connector_types": [
+    "source_control"
+   ],
+   "recommended_trigger_kind": "self_paced"
+  },
   "approved-draft-channel-publishing": {
    "path": "recipes/creative_design/social-publishing/approved-draft-channel-publishing",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "creative_design",
    "topic": "social-publishing",
@@ -178,7 +190,7 @@
   },
   "change-implementation-and-review": {
    "path": "recipes/software_engineering/code-review/change-implementation-and-review",
-   "version": "0.2.0",
+   "version": "0.3.0",
    "status": "seed",
    "domain": "software_engineering",
    "topic": "code-review",
@@ -238,7 +250,7 @@
   },
   "codebase-improvement-backlog-scan": {
    "path": "recipes/software_engineering/codebase-health/codebase-improvement-backlog-scan",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "software_engineering",
    "topic": "codebase-health",
@@ -250,7 +262,7 @@
   },
   "codebase-latent-defect-hunt": {
    "path": "recipes/software_engineering/codebase-health/codebase-latent-defect-hunt",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "software_engineering",
    "topic": "codebase-health",
@@ -287,7 +299,7 @@
   },
   "competitor-positioning-comparison": {
    "path": "recipes/sales_marketing/conversion-optimization/competitor-positioning-comparison",
-   "version": "0.2.0",
+   "version": "0.3.0",
    "status": "seed",
    "domain": "sales_marketing",
    "topic": "conversion-optimization",
@@ -471,7 +483,7 @@
   },
   "correspondence-drafting-and-reply-review": {
    "path": "recipes/general_professional/correspondence/correspondence-drafting-and-reply-review",
-   "version": "0.2.0",
+   "version": "0.3.0",
    "status": "seed",
    "domain": "general_professional",
    "topic": "correspondence",
@@ -636,6 +648,18 @@
    ],
    "recommended_trigger_kind": "self_paced"
   },
+  "dependency-compromise-exposure-assessment": {
+   "path": "recipes/software_engineering/incident-response/dependency-compromise-exposure-assessment",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "software_engineering",
+   "topic": "incident-response",
+   "title": "Dependency compromise exposure assessment",
+   "connector_types": [
+    "source_control"
+   ],
+   "recommended_trigger_kind": "event"
+  },
   "deploy-regression-correlation": {
    "path": "recipes/software_engineering/observability/deploy-regression-correlation",
    "version": "0.2.0",
@@ -676,7 +700,7 @@
   },
   "feature-walkthrough-capture": {
    "path": "recipes/creative_design/video/feature-walkthrough-capture",
-   "version": "0.2.0",
+   "version": "0.3.0",
    "status": "seed",
    "domain": "creative_design",
    "topic": "video",
@@ -951,6 +975,19 @@
    ],
    "recommended_trigger_kind": "self_paced"
   },
+  "outside-system-capability-reading": {
+   "path": "recipes/software_engineering/engineering-records/outside-system-capability-reading",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "software_engineering",
+   "topic": "engineering-records",
+   "title": "Outside system capability reading",
+   "connector_types": [
+    "source_control",
+    "research"
+   ],
+   "recommended_trigger_kind": "event"
+  },
   "paid-organic-cannibalization-watch": {
    "path": "recipes/sales_marketing/web-analytics/paid-organic-cannibalization-watch",
    "version": "0.2.0",
@@ -992,7 +1029,7 @@
   },
   "per-channel-voice-profiling": {
    "path": "recipes/creative_design/social-publishing/per-channel-voice-profiling",
-   "version": "0.2.0",
+   "version": "0.3.0",
    "status": "seed",
    "domain": "creative_design",
    "topic": "social-publishing",
@@ -1053,7 +1090,7 @@
   },
   "pull-request-test-verdict": {
    "path": "recipes/software_engineering/code-review/pull-request-test-verdict",
-   "version": "0.2.0",
+   "version": "0.3.0",
    "status": "seed",
    "domain": "software_engineering",
    "topic": "code-review",
@@ -1149,7 +1186,7 @@
   },
   "skill-library-audit": {
    "path": "recipes/software_engineering/engineering-records/skill-library-audit",
-   "version": "0.2.0",
+   "version": "0.3.0",
    "status": "seed",
    "domain": "software_engineering",
    "topic": "engineering-records",
@@ -1373,7 +1410,7 @@
   },
   "work-candidate-triage-gate": {
    "path": "recipes/software_engineering/work-intake/work-candidate-triage-gate",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "software_engineering",
    "topic": "work-intake",

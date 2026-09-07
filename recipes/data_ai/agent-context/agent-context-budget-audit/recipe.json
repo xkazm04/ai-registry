@@ -2,7 +2,7 @@
   "id": "5bf4b502-c294-43d8-b660-5dbd1e0ba2e2",
   "slug": "agent-context-budget-audit",
   "title": "Agent context budget audit",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "status": "seed",
   "path": "data_ai/agent-context",
   "domain": "data_ai",
@@ -29,6 +29,7 @@
       "statement": "The size of the always loaded stack is a measured number somebody now owns.",
       "success_criteria": [
         "Every file that loads on every turn appears in the total, and nothing loaded on demand is counted in it.",
+        "Each file in the total is recorded as present, configured for discovery, or observed loaded, and only runtime evidence puts a file in the third class, because the auditor is reading the stack it is itself loading and an agent's own account of what it read is not evidence about what was loaded.",
         "The total is recorded where the next audit will read it, so the next run reports movement rather than restating the size.",
         "Every saving figure traces to a measurement, and an estimate says that it is one."
       ]
@@ -47,13 +48,14 @@
       "statement": "Rules that disagree with each other are surfaced ahead of rules that merely cost.",
       "success_criteria": [
         "Anything stated in more than one place is reported with each version quoted beside the other.",
+        "Two texts reached through a link, an install copy or a generator are one rule seen twice and are not reported as a duplication, and identical content at two entrypoints is a duplication only when both are separately maintained.",
         "A contradiction appears first however little it weighs, because it is not a weight finding.",
         "A recommendation to drop a duplicate names which copy is the one that stays."
       ]
     }
   ],
 
-  "guidance": "Weight is the symptom and residence is the question. Ask of each passage how often it is needed, not whether it is true: a rule needed on one task in twenty is not free where it sits, and moving it costs nothing a reachable copy does not pay back. Contradictions come first, however little they weigh, because they cost correctness rather than tokens. Measure before you claim a saving, and change nothing yourself.",
+  "guidance": "Weight is the symptom and residence is the question. Ask of each passage how often it is needed, not whether it is true: a rule needed on one task in twenty is not free where it sits, and moving it costs nothing a reachable copy does not pay back. Contradictions come first, because they cost correctness rather than tokens. A deviation is a finding only when something actually went wrong because of it, not when it departs from the shape you would have chosen or a file you expected.",
 
   "use_cases": [
     "An agent whose instruction file has been appended to by a dozen people over a year, where every addition was obviously worth its lines at the time and nobody has read the result end to end since.",

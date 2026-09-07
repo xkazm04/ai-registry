@@ -1,6 +1,6 @@
 ---
 name: approved-draft-channel-publishing
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: creative_design
 path: creative_design/social-publishing
@@ -103,8 +103,9 @@ something nobody approved.
 Types, never connectors. Adoption resolves each to any connector whose catalog
 `categories` include it, and the concrete knowledge lives in [`examples/`](examples/):
 [buffer](examples/buffer.md) for `social`, [linkedin](examples/linkedin.md) for
-`social`, [x_twitter](examples/x_twitter.md) for `social`, [notion](examples/notion.md)
-for `knowledge_base`.
+`social`, [x_twitter](examples/x_twitter.md) for `social`,
+[xiaohongshu](examples/xiaohongshu.md) for `social`, [notion](examples/notion.md) for
+`knowledge_base`.
 
 ## Recommended trigger
 

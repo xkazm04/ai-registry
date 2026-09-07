@@ -2,7 +2,7 @@
   "id": "f6ee8fac-c783-5607-819e-e5722c54b89f",
   "slug": "codebase-improvement-backlog-scan",
   "title": "Codebase improvement backlog scan",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "status": "seed",
   "path": "software_engineering/codebase-health",
   "domain": "software_engineering",
@@ -10,7 +10,7 @@
     "need": "The work a codebase most needs is already written down inside it, in markers, deprecated calls and the files everybody edits nervously, and none of it reaches the place where work is chosen. The scan that goes looking usually fails the other way. It reports everything it can detect, and a standing list of several hundred correct findings is the configuration with the lowest fix rate anybody has measured: not because the findings are wrong, but because a list that arrives nowhere near the moment work is chosen is read once and then never again.",
     "input": "The code itself, its change history, whatever portfolio level health and risk signals exist for it, and the record of which kinds of candidate this operator has already turned down.",
     "core_action": "Separate the findings that are genuinely worth someone's time from the ones that are merely detectable, ranking by where the code actually changes rather than by how many markers it carries, and describe each survivor well enough that a person can accept or reject it without opening the repository.",
-    "output": "A short list of candidates, each naming the files it touches, the approach it proposes and the reason it ranked where it did, alongside a record of what was covered, and one plain statement when a pass found nothing worth surfacing."
+    "output": "A short list of candidates, each naming the files it touches, the approach it proposes and the reason it ranked where it did, alongside a record of what was covered, one plain statement when a pass found nothing worth surfacing, and a named list of whatever the pass could not examine."
   },
   "activities": [
     {
@@ -61,7 +61,8 @@
       "success_criteria": [
         "A pass that surfaced nothing records that it looked, what it covered and that it found nothing, rather than being silent.",
         "A category the operator has turned down repeatedly stops being surfaced, and the record names the category and the refusals that stopped it.",
-        "The first pass over a tree says it is establishing coverage and reports no trend, rather than presenting a first inventory as a deterioration."
+        "The first pass over a tree says it is establishing coverage and reports no trend, rather than presenting a first inventory as a deterioration.",
+        "Anything the pass set out to examine and could not, whether an area it failed to read or a kind of finding it had no way to evaluate, is named as not examined with the reason, and is never counted among what it found clean, because a thing it could not open and a thing with nothing in it are the same silence from outside."
       ]
     },
     {

@@ -2,7 +2,7 @@
   "id": "ccb41ed3-bc75-5bf6-9e7d-e2afbc0c7896",
   "slug": "per-channel-voice-profiling",
   "title": "Per channel writing voice profiling",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "status": "seed",
   "path": "creative_design/social-publishing",
   "domain": "creative_design",
@@ -46,7 +46,8 @@
       "success_criteria": [
         "Each channel has its own written description, derived from real examples rather than from adjectives.",
         "A change to one channel's voice does not leak into another's, and a strong voice on one channel is not copied onto a channel where it does not work.",
-        "The description separates voice from subject, so writing often about one topic does not become a rule that every draft is about that topic."
+        "The description separates voice from subject, so writing often about one topic does not become a rule that every draft is about that topic.",
+        "A draft is checked against the description at its close as deliberately as at its opening, because a long draft drifts back toward whatever its writer defaults to and the opening is not evidence about the rest."
       ]
     },
     {
@@ -55,7 +56,9 @@
       "success_criteria": [
         "A draft that is off voice can be rejected by pointing at a line in the description rather than by saying it feels wrong.",
         "The description includes what the person never says, because a list of what somebody avoids identifies them faster than a list of what they favour.",
-        "A sample too thin or too narrow to support a confident description is reported as thin, and the description says which parts of it are a guess."
+        "Beneath whatever this person avoids, the description names the register a draft falls back to when the description runs out, and a thin sample makes that floor more necessary rather than less, because a description that is mostly a guess leaves the draft to default to it.",
+        "A sample too thin or too narrow to support a confident description is reported as thin, and the description says which parts of it are a guess.",
+        "Whether the description discriminates is settled by a person picking the off voice draft blind rather than by a score, and a mechanical check may find candidates but is never the standard, because a proxy adopted as the standard becomes the thing drafts are written to."
       ]
     },
     {
@@ -69,7 +72,7 @@
       ]
     }
   ],
-  "guidance": "A voice description earns its place by rejecting things. Friendly and authoritative reject nothing, so write the moves: how they open, how long a sentence runs, whether they use contractions, what they close with, and above all what they never say. A banned list identifies somebody faster than a preferred one. Keep subject matter out of it, because writing about pricing is a topic rather than a voice, and encoding it makes every draft about pricing. Say when the sample was too thin.",
+  "guidance": "A voice description earns its place by rejecting things. Friendly and authoritative reject nothing, so write the moves: how they open, how long a sentence runs, whether they use contractions, what they close with, and what they never say. A description made only of prohibitions produces prose that violates nothing and sounds like nobody, its own recognisable failure. Keep subject matter out of it, because writing about pricing is a topic rather than a voice, and encoding it makes every draft about pricing. Say when the sample was too thin.",
   "use_cases": [
     "A founder who rewrites every draft an assistant produces, making the same three changes each time, and has never written down what the three changes are.",
     "Four people posting from one company account, where the account reads as four people and nobody can say which one of them is right.",

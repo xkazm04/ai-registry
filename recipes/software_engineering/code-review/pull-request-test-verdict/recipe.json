@@ -2,7 +2,7 @@
   "id": "c0a5e300-4b1d-4c0a-9e30-73a5c0a5e300",
   "slug": "pull-request-test-verdict",
   "title": "Pull request test verdict",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "status": "seed",
   "path": "software_engineering/code-review",
   "domain": "software_engineering",
@@ -25,7 +25,7 @@
     },
     {
       "id": "attribute",
-      "label": "Attribute any failure to the change, to the suite's own instability, or to a breakage already on the target",
+      "label": "Attribute any failure to the change, to the suite's own instability, to a breakage already on the target, or to the repository or the machine making the path unexercisable",
       "kind": "decide"
     },
     {
@@ -62,6 +62,7 @@
         "The same suite is run against the target as it stands before a failure is attributed to the change",
         "A failure that reproduces on the target is reported as a pre-existing breakage and escalated, rather than held against the change",
         "A re-run is treated as a diagnostic and its outcome recorded; a test that passed only on a second attempt is reported as unstable and never reported as a pass",
+        "A failure that is neither the change, nor the suite, nor the target is attributed rather than left as a bare red: the path may be unexercisable because of how this repository is built, scripted or packaged, or blocked by the machine the run happened on, and neither reading is a defect in the change nor a licence to repair somebody's environment uninvited",
         "An attribution a person reverses, most often a failure called unstable that turned out to be the change, is written back to whatever this project keeps as its record of which tests are trusted, so the next verdict on that test opens from the corrected reading instead of re-deriving instability from another re-run"
       ]
     },
@@ -71,11 +72,12 @@
       "success_criteria": [
         "The verdict says whether any test actually exercised the changed code, so a green run over an untouched area is not read as evidence about it",
         "A change that could not be exercised by the suite is handed on with that stated, rather than approved on the suite's silence",
-        "A skipped or filtered portion of the suite is named rather than counted as passed"
+        "A skipped or filtered portion of the suite is named rather than counted as passed",
+        "A suite whose runner aggregates other checks is read for the subcheck results, not for its own exit status, because a wrapper that swallows a child failure and still exits zero produces the one green nobody re-examines"
       ]
     }
   ],
-  "guidance": "Test what will land, not what was written: a change green on its own branch can break the target because the target moved. A red suite has three causes and the verdict is worthless until it says which, so run the same suite on the target before blaming the change. A re-run is a diagnostic, never a route to green; a test that passed on the second attempt is a finding. Green says the suite passed, not that the change was exercised.",
+  "guidance": "Test what will land, not what was written: a branch green against a target that has moved proves nothing. A red suite has several causes and the verdict is worthless until it says which, so run it on the target before blaming the change. A re-run is a diagnostic, never a route to green; a pass on retry is a finding. Green says the suite passed, not that the change was exercised. Permission to test is not permission to change, and it does not widen with the session.",
   "use_cases": [
     "A team on a busy main branch, where changes are proposed faster than they merge and the ones that break on landing were all green on their own branches an hour earlier.",
     "A repository with a suite that fails intermittently, where everybody re-runs until it goes green and nobody can say how many real failures have been retried away.",

@@ -1,6 +1,6 @@
 ---
 name: feature-walkthrough-capture
-version: 0.2.0
+version: 0.3.0
 status: seed
 domain: creative_design
 path: creative_design/video
@@ -63,6 +63,11 @@ implements it.**
   including whatever the flow requires to be true before it can be reached.
 - The app is in a state that shows the feature working, so an empty list or a spinner is
   not captured as though it were the thing being demonstrated.
+- The surface driven on screen is the one the walkthrough claims to show, so a record
+  visible in a data store, a log line or a diagnostics view is evidence about that place
+  rather than about the path being demonstrated, and a path that could not be made to
+  work is delivered as a stated failure rather than replaced by a neighbouring one that
+  could.
 - A limitation of the capture method available on this machine is stated in the artifact
   rather than hidden behind a lesser one.
 - A step order the reviewer changes, or an entry point they say users do not use, is

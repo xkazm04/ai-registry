@@ -1,6 +1,6 @@
 ---
 name: change-implementation-and-review
-version: 0.2.0
+version: 0.3.0
 status: seed
 domain: software_engineering
 path: software_engineering/code-review
@@ -32,8 +32,9 @@ comment was answered or acted on.
 
 ## Activities
 
-1. Re-read the accepted item against the code as it stands now, and decline with a
-reason if the premise has been overtaken *(observe)*
+1. Re-read the accepted item against the code as it stands now, decline with a reason if
+the premise has been overtaken, and return the one blocking question where guessing
+wrong would be expensive *(observe)*
 2. Understand the affected code before changing it *(observe)*
 3. Make the change scoped to the accepted item, small enough to be reviewed in one
 sitting *(act)*
@@ -56,8 +57,16 @@ report of why it should not be built.**
 - The change is scoped to the accepted item and nothing else, and a change that has
   grown past what one sitting can review is split rather than explained
 - The repository's own checks pass before the change is offered
+- An item whose ambiguity would cost a large rewrite, a production effect or a
+  destructive act if it were guessed wrong comes back with the one blocking question
+  rather than with a change built on the guess, and the test is the cost of being wrong
+  rather than how uncertain the work feels
 - An item that cannot be completed comes back with what was learned rather than a
   partial change left behind
+- A number of failed attempts at which the work stops and escalates is fixed before the
+  first attempt, because each next attempt looks cheap from inside and only the run of
+  them is evidence, and a run of them is evidence about the model of the system rather
+  than about the change
 - A decline that the person who accepted the item overturns is written back beside the
   reason that produced it, because declining is the one call here nobody sees the cost
   of, and the next re-validation of an item of that shape weighs a premise test that has
@@ -87,6 +96,10 @@ of being coded around.**
   codebase that no longer exists
 - A change that was abandoned is recorded as abandoned, so nothing sits indefinitely in
   a state that reads as in progress
+- An approval covers the action it was given for and the diff it was given against, so
+  approval to commit is not approval to merge, and a change made afterwards, including
+  one made to satisfy a review comment, makes the approval stale and it is sought again
+  rather than carried forward
 
 ## Guidance
 
@@ -148,6 +161,10 @@ adoption or later.
 - Where the accepted item lives and how its state is written back, because a change that
   merged without the item being closed leaves the queue lying about what is still
   outstanding
+- How many failed attempts at one item may pass before the work stops and escalates,
+  because a person accumulates fatigue after a few and stops of their own accord, while
+  this work has no such signal and needs the count named from outside before the first
+  attempt
 
 ## Dependencies
 

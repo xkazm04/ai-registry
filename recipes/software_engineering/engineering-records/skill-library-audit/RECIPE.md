@@ -1,6 +1,6 @@
 ---
 name: skill-library-audit
-version: 0.2.0
+version: 0.3.0
 status: seed
 domain: software_engineering
 path: software_engineering/engineering-records
@@ -49,6 +49,15 @@ follows it.**
 - Each entry carries when it was last confirmed to work, kept separate from when it was
   last edited, because an edit date says an entry is recent and says nothing about
   whether it is right.
+- A maintainer who declines an edit by saying the entry was right all along has
+  confirmed it, so that decline advances the entry's last confirmed date and is kept
+  apart from a decline about how the proposal was shaped, because pooling the two damps
+  the entry under one cooldown while the audit goes on reading it as unconfirmed and
+  proposes the same drift again the moment that cooldown expires.
+- An entry reached for on work it does not cover, or not reached for under the phrase it
+  names for itself, is read as the entry describing itself wrongly rather than as the
+  reader choosing badly, and a verification command an entry names that no longer exists
+  is drift provable without reading the code at all.
 - An entry describing code that has moved is proposed as a concrete edit with the change
   in full, not flagged for somebody else to go and investigate.
 - An entry that is wrong is treated as more urgent than a gap where an entry is missing,
@@ -59,6 +68,10 @@ smaller without losing the thing that covers the rare case.**
 
 - A low usage count produces an enquiry naming what the entry covers and asking whether
   it is still wanted, never an automatic retirement.
+- A heavily reached entry that changes nothing is a retirement candidate on the same
+  evidence as a rarely reached one, and a count cannot separate them, so an entry is
+  credited with effect only where the same work run without it came out worse, and never
+  where the entry was created or last edited inside the window its use was counted in.
 - Retirement happens in two steps: the entry is marked deprecated with its replacement
   named, and only later removed, with removal decided by what is still reaching for it
   rather than by a date.

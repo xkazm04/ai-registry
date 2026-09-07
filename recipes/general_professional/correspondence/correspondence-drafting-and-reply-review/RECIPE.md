@@ -1,6 +1,6 @@
 ---
 name: correspondence-drafting-and-reply-review
-version: 0.2.0
+version: 0.3.0
 status: seed
 domain: general_professional
 path: general_professional/correspondence
@@ -77,6 +77,10 @@ rather than filled in with something plausible.**
   context problem rather than as a quiet week.
 - No draft is produced from a profile with too little history behind it to be that
   recipient's, since a generic draft is the output most likely to be approved unread.
+- A draft that comes out in the register a model falls back to, the servile opening, the
+  inflated significance, the group of three, is evidence the profile was too thin rather
+  than a draft to be edited, because a reviewer approves that register faster than they
+  approve a wrong one.
 - A message returned undrafted that the requester then answers themselves has handed
   over the very writing the profile was too thin to produce, so their reply is folded
   into that recipient's profile the way an edit to a draft would be, because a decline

@@ -1,6 +1,6 @@
 ---
 name: codebase-latent-defect-hunt
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: software_engineering
 path: software_engineering/codebase-health
@@ -61,6 +61,16 @@ the queue.**
   rather than by wording.
 - A pass that read an area and found nothing worth filing records that it looked and
   what it covered, so the next pass does not pay for the same read.
+- Every finding is put to a second reading whose standing assumption is that it is
+  wrong, one that goes looking for the guard, the caller, the configuration or the
+  unreachable branch that would make it a non issue, and a finding that does not survive
+  is kept with the reason it was dropped rather than deleted, so a reader can see what
+  the pass declined to file.
+- A finding from an earlier pass that this pass did not raise is opened and checked in
+  the file before it is recorded as fixed, because a finding the reader missed and one
+  somebody resolved look identical from outside; a finding is tracked across passes by
+  what it is rather than by the line it sat on, and one that returns after being closed
+  is reported as a regression rather than as new.
 
 **A finding reaches the person who can act on it, on the path its severity deserves.**
 
@@ -73,12 +83,13 @@ the queue.**
 
 ## Guidance
 
-Most catastrophic failures come from code that already caught an error and then did
-nothing useful with it, so read the handlers before the happy path. Do not repeat what
-the project's own tools already report; what they miss is ordering, resource lifetime
-and swallowed failure. File few. The confirm rate is the measure that matters, because a
-queue a person mostly dismisses stops being opened, and the one real finding then
-arrives into a list nobody reads.
+Most catastrophic failures come from code that caught an error and then did nothing
+useful with it, so read the handlers before the happy path. Do not repeat what the
+project's own tools report; they miss ordering, resource lifetime and swallowed failure.
+File few. Two readers agreeing is not two pieces of evidence when both are the same
+reader over the same file; treat the second as a restatement, not as confidence. The
+confirm rate is the measure that matters, because a queue mostly dismissed stops being
+opened.
 
 ## Where this is worth adopting
 

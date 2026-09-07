@@ -1,6 +1,6 @@
 ---
 name: pull-request-test-verdict
-version: 0.2.0
+version: 0.3.0
 status: seed
 domain: software_engineering
 path: software_engineering/code-review
@@ -34,8 +34,9 @@ never ran, or never touched the change.
 1. Check out what will actually land, merged with its target, in a scratch tree nobody
 else is using *(act)*
 2. Run the project's own suite there *(act)*
-3. Attribute any failure to the change, to the suite's own instability, or to a breakage
-already on the target *(decide)*
+3. Attribute any failure to the change, to the suite's own instability, to a breakage
+already on the target, or to the repository or the machine making the path unexercisable
+*(decide)*
 4. Decide between approving, asking for changes, and handing it on with the failure
 named *(decide)*
 5. Record the verdict where the merge decision is made, and apply it as far as policy
@@ -63,6 +64,11 @@ Linear and branch-free, by contract. This is the shape of the work, not a runboo
   escalated, rather than held against the change
 - A re-run is treated as a diagnostic and its outcome recorded; a test that passed only
   on a second attempt is reported as unstable and never reported as a pass
+- A failure that is neither the change, nor the suite, nor the target is attributed
+  rather than left as a bare red: the path may be unexercisable because of how this
+  repository is built, scripted or packaged, or blocked by the machine the run happened
+  on, and neither reading is a defect in the change nor a licence to repair somebody's
+  environment uninvited
 - An attribution a person reverses, most often a failure called unstable that turned out
   to be the change, is written back to whatever this project keeps as its record of
   which tests are trusted, so the next verdict on that test opens from the corrected
@@ -75,15 +81,18 @@ Linear and branch-free, by contract. This is the shape of the work, not a runboo
 - A change that could not be exercised by the suite is handed on with that stated,
   rather than approved on the suite's silence
 - A skipped or filtered portion of the suite is named rather than counted as passed
+- A suite whose runner aggregates other checks is read for the subcheck results, not for
+  its own exit status, because a wrapper that swallows a child failure and still exits
+  zero produces the one green nobody re-examines
 
 ## Guidance
 
-Test what will land, not what was written: a change green on its own branch can break
-the target because the target moved. A red suite has three causes and the verdict is
-worthless until it says which, so run the same suite on the target before blaming the
-change. A re-run is a diagnostic, never a route to green; a test that passed on the
-second attempt is a finding. Green says the suite passed, not that the change was
-exercised.
+Test what will land, not what was written: a branch green against a target that has
+moved proves nothing. A red suite has several causes and the verdict is worthless until
+it says which, so run it on the target before blaming the change. A re-run is a
+diagnostic, never a route to green; a pass on retry is a finding. Green says the suite
+passed, not that the change was exercised. Permission to test is not permission to
+change, and it does not widen with the session.
 
 ## Where this is worth adopting
 

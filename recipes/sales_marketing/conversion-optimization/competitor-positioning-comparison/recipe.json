@@ -2,7 +2,7 @@
   "id": "cee0f180-00d5-5ce0-be9e-75a9e05387ad",
   "slug": "competitor-positioning-comparison",
   "title": "Competitor conversion and positioning comparison",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "status": "seed",
   "path": "sales_marketing/conversion-optimization",
   "domain": "sales_marketing",
@@ -70,7 +70,7 @@
       ]
     }
   ],
-  "guidance": "A page is a claim, not a product, and it is cheap to change and cheap to reverse. What matters is what survives: a claim still there three looks later is a commitment, one that vanished was a test, and many sites are testing their own pages, so a single fetch may have sampled a variant rather than a position. Score on the same categories you score your own property with, keep what you saw apart from what you inferred, and say plainly where somebody is ahead.",
+  "guidance": "A page is a claim, not a product, and it is cheap to change and cheap to reverse. What matters is what survives: a claim still there three looks later is a commitment, one that vanished was a test. Finding no competitor at all is a reading about the need rather than about the market: the likelier reading is that nobody hurts enough, and it is cheap to falsify, so falsify it before treating emptiness as an opening. Say plainly where somebody is ahead.",
   "use_cases": [
     "An operator asked in every investor conversation how he is positioned against three named companies, who answers from whatever he last happened to read.",
     "A market where two of the four tracked competitors have changed nothing in a year, which is the most useful thing in the report and is currently invisible because they appear every time with the same scores and no comment.",

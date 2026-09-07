@@ -1,6 +1,6 @@
 ---
 name: competitor-positioning-comparison
-version: 0.2.0
+version: 0.3.0
 status: seed
 domain: sales_marketing
 path: sales_marketing/conversion-optimization
@@ -87,10 +87,10 @@ is ahead.**
 
 A page is a claim, not a product, and it is cheap to change and cheap to reverse. What
 matters is what survives: a claim still there three looks later is a commitment, one
-that vanished was a test, and many sites are testing their own pages, so a single fetch
-may have sampled a variant rather than a position. Score on the same categories you
-score your own property with, keep what you saw apart from what you inferred, and say
-plainly where somebody is ahead.
+that vanished was a test. Finding no competitor at all is a reading about the need
+rather than about the market: the likelier reading is that nobody hurts enough, and it
+is cheap to falsify, so falsify it before treating emptiness as an opening. Say plainly
+where somebody is ahead.
 
 ## Where this is worth adopting
 

@@ -1,6 +1,6 @@
 ---
 name: work-candidate-triage-gate
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: software_engineering
 path: software_engineering/work-intake
@@ -79,6 +79,10 @@ a few times.**
 - A refusal is cheap to reverse and says so, because a meaningful share of decisions at
   any intake gate are wrong in both directions and an irreversible no is the expensive
   kind.
+- A candidate that should be refused is refused, rather than moved into whatever list of
+  accepted risks or known issues sits beside the gate, which carries only what was
+  accepted before this candidate arrived; an acceptance with a note counts as a
+  decision, teaches the producer nothing, and leaves the same shape arriving.
 
 ## Guidance
 
