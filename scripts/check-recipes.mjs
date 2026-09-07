@@ -78,6 +78,10 @@ const MAX_CHILD_DIRS = 10;
 // `guidance` is 40 to 90 words of judgment. A NOTE, never a failure: failing prose
 // on a word count is how a gate earns its deletion. The bound is still worth
 // reporting, because guidance that has drifted to 300 words is a runbook again.
+const USE_CASES_MIN = 3;
+const USE_CASES_MAX = 6;
+const USE_CASE_MIN_WORDS = 6;
+
 const GUIDANCE_MIN_WORDS = 40;
 const GUIDANCE_MAX_WORDS = 90;
 
@@ -411,6 +415,26 @@ for (const r of walked.recipes) {
     for (const banned of ['cron', 'interval', 'event_name', 'schedule', 'cadence']) {
       if (banned in trig) at(`recommended_trigger carries \`${banned}\` - a recipe recommends a KIND; the adopter assigns the actual trigger`);
     }
+  }
+
+  // --- use_cases: the adoption signal
+  // Required, because a corpus of two hundred recipes is selected FROM, and
+  // need/core_action describe the craft rather than the situation that should
+  // reach for it. Three to six, each naming a concrete situation and why this
+  // recipe earns its place there; a bare noun phrase ("marketing teams") is the
+  // failure mode this length floor catches.
+  if (!Array.isArray(obj.use_cases)) {
+    at('missing required array `use_cases` - three to six situations where this recipe is worth adopting, each naming the situation and why this work pays there');
+  } else {
+    if (obj.use_cases.length < USE_CASES_MIN || obj.use_cases.length > USE_CASES_MAX) {
+      at(`use_cases has ${obj.use_cases.length} entries (the contract asks ${USE_CASES_MIN}-${USE_CASES_MAX}) - fewer reads as a stub, more reads as a list of everyone`);
+    }
+    obj.use_cases.forEach((u, i) => {
+      if (typeof u !== 'string' || !u.trim()) { at(`use_cases[${i}] is not a non-empty string`); return; }
+      if (words(u) < USE_CASE_MIN_WORDS) {
+        notes.push(`${r.rel}/${RECIPE_JSON}: use_cases[${i}] is ${words(u)} words - name the situation and why the work pays there, not an audience`);
+      }
+    });
   }
 
   // --- the remaining arrays

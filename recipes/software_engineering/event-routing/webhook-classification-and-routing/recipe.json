@@ -1,0 +1,164 @@
+{
+  "id": "95cfab27-c6a7-5aa1-9da4-546992542379",
+  "slug": "webhook-classification-and-routing",
+  "title": "Webhook classification and routing",
+  "version": "0.1.0",
+  "status": "seed",
+  "path": "software_engineering/event-routing",
+  "domain": "software_engineering",
+  "description": {
+    "need": "Incoming events arrive in every shape from every system, and without one door that classifies and fans them out they either reach nobody or reach everybody. The door itself has three failure modes that are all silent: it reads a payload before establishing who sent it, it does work before acknowledging receipt and so trains the sender to send everything twice, and it drops what matches no rule without anybody being able to count what was dropped.",
+    "input": "An incoming payload with the headers that authenticate it, the routing rules currently in force, and the record of what has already been received.",
+    "core_action": "Establish that the payload is genuine and durably held before anything is decided from it, classify it well enough that the right rule applies, and treat both losing an event and acting on one twice as failures, knowing that repeat delivery is normal rather than exceptional.",
+    "output": "The event delivered once in effect to every destination its rule names, or held where somebody is watching, with what matched no rule counted rather than discarded."
+  },
+  "activities": [
+    {
+      "id": "verify",
+      "label": "Establish the payload came from who it claims, before reading it",
+      "kind": "observe"
+    },
+    {
+      "id": "persist",
+      "label": "Hold the raw payload and acknowledge receipt before doing any work",
+      "kind": "act"
+    },
+    {
+      "id": "classify",
+      "label": "Classify by source, kind and consequence",
+      "kind": "decide"
+    },
+    {
+      "id": "match",
+      "label": "Find the rule that applies, or take the catch all path",
+      "kind": "decide"
+    },
+    {
+      "id": "transform",
+      "label": "Shape the payload for each destination the rule names",
+      "kind": "act"
+    },
+    {
+      "id": "deliver",
+      "label": "Fan out, and land what could not be delivered where somebody is watching",
+      "kind": "deliver"
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "nothing-is-lost-and-nothing-is-counted-as-lost-quietly",
+      "statement": "Every event that arrives is either delivered or held somewhere a person is looking, and never merely gone.",
+      "success_criteria": [
+        "An event that fails every destination is held with its original payload and the headers that authenticated it, so it can be replayed later without being re-authenticated by guesswork.",
+        "The holding place is watched by both how much is in it and how old the oldest thing in it is, because a queue nobody reads is a discard with extra steps.",
+        "An event matching no rule takes an explicit catch all path and is counted, so an unrouted event is a number somebody can look at rather than a silence."
+      ]
+    },
+    {
+      "id": "repeat-delivery-is-normal-and-does-not-produce-repeat-effects",
+      "statement": "The same event arriving twice has the effect of arriving once.",
+      "success_criteria": [
+        "Identity comes from what the sender assigned to the delivery, not from the shape of the payload, so two genuinely separate events that look identical are both acted on.",
+        "The window over which repeats are recognised is longer than the sender's own retry and manual replay surface, and that surface is established at adoption rather than assumed.",
+        "Where a destination is outside the operation, the identity is passed to it rather than only checked locally, since nothing held here makes a remote effect safe."
+      ]
+    },
+    {
+      "id": "the-door-does-not-become-the-outage",
+      "statement": "The receiver stays fast and available under the loads it is actually given.",
+      "success_criteria": [
+        "Receipt is acknowledged after the payload is durably held and before any routing work, so slow downstream work does not read to the sender as a failed delivery.",
+        "An event of a kind this operation does not handle is accepted and counted rather than refused, because a refusal is retried for as long as the sender retries and can end with the sender turning the connection off.",
+        "A payload that will never succeed however often it is retried is separated from one whose destination is merely down, so the first does not consume the retry budget of the second."
+      ]
+    }
+  ],
+  "guidance": "Two disciplines carry this work. Authenticate before you read, because a classifier fed an unverified payload is routing on an attacker's say so. Acknowledge after you have kept it and before you have used it, because work done ahead of the acknowledgement is what turns one event into a retry storm. Assume repeats. Take identity from the sender, never from the payload's shape, since two identical real events are not one event.",
+  "use_cases": [
+    "A small operation wiring up its first few external systems, where the receiver is a single script and the failure that has not happened yet is the one where a destination is down for an hour.",
+    "An operation whose sender turned the connection off after a slow deploy made every delivery time out, so events stopped arriving entirely and nothing reported that they had.",
+    "A payments or billing flow, where the same notification is redelivered for days and a receiver that acts each time charges, emails or credits more than once.",
+    "A team that has been dropping unmatched payloads for months and has no idea how many, so nobody can argue about whether a rule is missing.",
+    "An event source that fans out several notifications for one underlying change and does not promise their order, so a receiver treating arrival order as truth overwrites the newer state with the older."
+  ],
+  "connector_types": [
+    "messaging",
+    "knowledge_base",
+    "spreadsheet",
+    "email"
+  ],
+  "recommended_trigger": {
+    "kind": "event",
+    "rationale": "An external system posting a payload is as literal an external event as this corpus contains, and the work has no existence apart from it. This is the clearest event case in the lane, and the reason the receiver's speed is part of the craft: the sender is waiting."
+  },
+  "personalization_needs": [
+    "Which systems actually post here and how each one authenticates itself, because verification is the first step and it is different for every sender.",
+    "How long each sender keeps retrying and how far back it can be asked to replay, since that surface is what sets the window over which repeats have to be recognised.",
+    "Where each kind of event should land, since the destinations are the whole point and no default can guess them.",
+    "Which effects need to be gated by a person before they run, which differs sharply between operations and is usually about money or about anything that reaches a customer."
+  ],
+  "dependencies": [],
+  "input_schema": [
+    {
+      "name": "webhook_focus",
+      "type": "enum",
+      "options": [
+        "payment_billing",
+        "developer_ci_cd",
+        "forms_crm",
+        "ecommerce",
+        "mixed_custom"
+      ],
+      "default": "mixed_custom",
+      "description": "Primary category of sources, used to seed a starting rule set. It is a starting point, not a classification the work depends on."
+    },
+    {
+      "name": "unknown_payload_handling",
+      "type": "enum",
+      "options": [
+        "log_and_alert",
+        "catchall_channel",
+        "email_raw_payload",
+        "discard_silently"
+      ],
+      "default": "log_and_alert",
+      "description": "What the catch all path does when classification matches no rule. Discarding silently is offered because some operations want it, and it is the setting that makes a missing rule undetectable."
+    },
+    {
+      "name": "urgent_approval",
+      "type": "enum",
+      "options": [
+        "urgent_only",
+        "all_financial",
+        "above_normal",
+        "fully_autonomous"
+      ],
+      "default": "urgent_only",
+      "description": "Which classes of event require a person to approve before their routes execute."
+    }
+  ],
+  "examples": [
+    {
+      "title": "In app messaging as a destination",
+      "connector": "local-messaging",
+      "connector_type": "messaging",
+      "notes": "See examples/local-messaging.md."
+    },
+    {
+      "title": "A spreadsheet as a destination",
+      "connector": "google-sheets",
+      "connector_type": "spreadsheet",
+      "notes": "See examples/google-sheets.md."
+    }
+  ],
+  "lessons": [],
+  "provenance": {
+    "from_recipes": [
+      "95cfab27-c6a7-5aa1-9da4-546992542379"
+    ],
+    "from_templates": [
+      "router"
+    ],
+    "source_template_id": "router"
+  }
+}

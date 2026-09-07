@@ -1,0 +1,126 @@
+---
+name: issue-handling-trend-review
+version: 0.1.0
+status: seed
+domain: customer_support
+path: customer_support/service-health
+---
+
+# Issue handling trend review
+
+The rendered view of [`recipe.json`](recipe.json). When the two disagree, the JSON is
+right and this file is stale.
+
+**Need.** A count of resolved issues says nothing about whether the queue is getting
+better, and the counts that are easiest to report are the ones easiest to move without
+helping anybody. A period that closed more tickets faster can be a period that closed
+them early, and nothing in the totals says which it was.
+
+**Input.** This period's triage activity, the account the last review left behind, and
+whichever of the sources behind them is currently answering.
+
+**Core action.** Compare rather than count: state what moved against the previous
+period, pair every speed figure with the figure that would move the other way if it were
+being gamed, and be explicit about which number came from the live source and which from
+a local copy.
+
+**Output.** A comparison anyone can read to see whether issue handling is improving or
+degrading, with its own uncertainty on the page, archived so the trend line survives a
+failed delivery.
+
+## Activities
+
+1. Gather this period's activity and the account the last review left behind *(observe)*
+2. Say which figure came from the live source and which from a local copy *(observe)*
+3. Compare throughput, the age of what is still open, and returned work against the
+previous period *(decide)*
+4. Pair each speed figure with the quality figure that would expose it being gamed
+*(decide)*
+5. Lead with what changed rather than restating totals people have already seen *(act)*
+6. Archive the account so the trend line survives a failed delivery *(act)*
+7. Hand the comparison to whoever owns the backlog *(deliver)*
+
+Linear and branch-free, by contract. This is the shape of the work, not a runbook.
+
+## Outcomes
+
+**Anyone can see whether issue handling is improving or degrading without going through
+raw ticket history.**
+
+- The account states throughput, the age of what is still open, and how much work came
+  back, each against the previous period
+- Age is reported as a distribution rather than an average, because a handful of ancient
+  tickets move an average and hide everything behind them
+- A gap in the underlying data is called out rather than silently omitted
+- Which figure came from the live source and which from a local copy is always stated
+
+**An apparent improvement that came from closing work early is described as what it
+is.**
+
+- No speed figure is reported alone; each travels with the quality figure that would
+  move the other way under pressure
+- A period where the queue got faster and returned work rose is reported as one finding
+  rather than as two unrelated numbers
+- A figure the source reports about itself, rather than one derived from the underlying
+  events, is labelled as self reported
+
+**The history of these comparisons outlives any single failed delivery.**
+
+- Every account is archived whether or not it was delivered successfully
+- A later account can be built from the archive alone
+- The first account says it is establishing a baseline rather than reporting a change
+  against nothing
+
+## Guidance
+
+Turn a period into a comparison, not a count. The numbers easiest to report are the
+easiest to move without helping anybody, so never let a speed figure travel alone:
+closing faster while more work comes back is one finding, not two. Report age as a
+distribution, because an average hides the queue behind its oldest ticket. Say which
+numbers came from the live source. Archive every account, and say plainly when a period
+simply did not move.
+
+## Where this is worth adopting
+
+- A support lead whose weekly number went up, who cannot tell whether the queue improved
+  or the team started closing tickets that will come back next week.
+- A team that has just put a self service layer in front of the queue, where volume fell
+  and nobody can say whether customers were helped or gave up.
+- An engineering manager reporting a support trend into a planning meeting, where the
+  last three reports were the same totals restated and the room has stopped listening.
+- A queue holding a handful of very old tickets, where every average is dominated by
+  them and the question that actually matters, whether recent work is getting faster,
+  has never been answered.
+- A first month on a new tracker, when there is no previous period to compare against
+  and the temptation is to present the current numbers as though they were a result.
+
+## Connector types
+
+`ticketing`, `messaging`.
+
+Types, never connectors. Adoption resolves each to any connector whose catalog
+`categories` include it, and the concrete knowledge lives in [`examples/`](examples/).
+
+## Recommended trigger
+
+`self_paced`. A comparison needs enough movement between accounts to be a comparison.
+Act when the picture has changed enough to be worth saying, rather than manufacturing a
+report about a quiet week. The period the adopter thinks in belongs to them, not to this
+recipe.
+
+A recommendation is a default, not a binding: the adopter assigns the real trigger at
+adoption or later.
+
+## Personalization needs
+
+- Who owns the backlog and what they decide from this, which sets the shape
+- What period this adopter thinks in, since the comparison is only meaningful against
+  their own rhythm
+- Which metrics matter here, because throughput and time to resolution mean different
+  things to a bug tracker and to a support queue
+- What counts as work coming back here, and inside how long, because that pairing is
+  what stops a speed figure from being read as an improvement on its own
+
+## Dependencies
+
+None.

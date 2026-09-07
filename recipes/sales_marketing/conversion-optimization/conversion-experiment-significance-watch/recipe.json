@@ -1,0 +1,157 @@
+{
+  "id": "5f9bbd4a-20c7-53c2-b5a4-c7bb691281ff",
+  "slug": "conversion-experiment-significance-watch",
+  "title": "Conversion experiment significance watch",
+  "version": "0.1.0",
+  "status": "seed",
+  "path": "sales_marketing/conversion-optimization",
+  "domain": "sales_marketing",
+  "description": {
+    "need": "An experiment called early is worse than no experiment, because the wrong variant then ships carrying the authority of a measurement. The usual way it happens is not carelessness: it is a team looking at the numbers whenever they change and stopping the first time the line goes green, which turns a nominal one in twenty chance of a false winner into something closer to one in four.",
+    "input": "The ledger of in flight experiments with their per arm exposure counts, the metric each was declared against, the horizon each declared before it started, and the record of what has already been proposed and refused.",
+    "core_action": "Decide for each experiment whether it has actually earned a verdict under a rule fixed before the data was seen, check that the measurement itself is sound before reading any effect from it, and propose what to do rather than doing it.",
+    "output": "Each in flight experiment carries a current classification that names which rule produced it, experiments that cannot answer their own question are said to be unanswerable, and every promote, revert or archive sits as a proposal a person accepts or refuses."
+  },
+  "activities": [
+    {
+      "id": "read-state",
+      "label": "Read every in flight experiment, its declared horizon and its per arm exposure counts",
+      "kind": "observe"
+    },
+    {
+      "id": "health",
+      "label": "Check the health of the measurement before reading any effect from it",
+      "kind": "decide"
+    },
+    {
+      "id": "horizon",
+      "label": "Judge each experiment against the horizon it declared before it started",
+      "kind": "decide"
+    },
+    {
+      "id": "classify",
+      "label": "Classify each as still running, decided, or unable to resolve at this traffic",
+      "kind": "act"
+    },
+    {
+      "id": "propose",
+      "label": "Put each promote, revert or archive up as a proposal and record the look either way",
+      "kind": "deliver"
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "no-premature-calls",
+      "statement": "No experiment is called before the horizon it declared, and no verdict rests on a statistic that repeated looking has already invalidated.",
+      "success_criteria": [
+        "An experiment that declared no horizon before it started is reported as unreadable rather than given a verdict, because a fixed horizon significance test read at a moment the data chose is not evidence.",
+        "Either a look before the horizon reports progress toward it and says nothing about the effect, or the statistic used is one that remains valid under repeated looking, and the read says which of the two it is.",
+        "Repeated looking is treated as the normal condition of this work rather than as an exception, because a watch that runs whenever data arrives is peeking by construction.",
+        "A declared duration covers whole weeks, so a stop does not land on an unrepresentative slice of the weekly cycle.",
+        "An experiment whose declared effect is unreachable at this traffic within any duration the adopter would tolerate is reported as unable to answer, and that is delivered as a verdict rather than left quietly running."
+      ]
+    },
+    {
+      "id": "broken-measurement-caught-first",
+      "statement": "A broken measurement is caught before anybody reads a result from it, rather than after the result has shipped.",
+      "success_criteria": [
+        "The observed split between arms is tested against the intended split before any effect is reported, and an experiment whose allocation has drifted is reported as invalid with its effect withheld rather than shown alongside a caveat.",
+        "That test runs at a far stricter threshold than the one applied to the effect, because it is applied to every experiment at every look and a false alarm there halts a sound experiment.",
+        "A result the arithmetic argues against, a negative lift reading as a win or a rate outside the range the counts allow, is reported as a defect in the measurement rather than as a surprising finding."
+      ]
+    },
+    {
+      "id": "no-silent-traffic-changes",
+      "statement": "Nobody's live traffic changes without a person having approved it, and the number of times the experiment was looked at is itself on the record.",
+      "success_criteria": [
+        "Every promote, revert or archive sits in review before anything is called, and a refusal is recorded with its reason rather than retried silently.",
+        "Every look leaves a durable record, including the looks that changed nothing, so how often an experiment has been examined is observable rather than assumed."
+      ]
+    }
+  ],
+  "guidance": "Significance is not a line an experiment eventually crosses; it is a property of a test whose stopping rule was fixed before it began. A watch that looks whenever data arrives breaks that by construction, so either report progress toward the declared horizon and stay quiet about the effect, or use a statistic that survives repeated looking, and say which you did. Check the allocation before the effect: a split that has drifted has no valid result to caveat. Tell an underpowered experiment early.",
+  "use_cases": [
+    "A team that opens the experiment dashboard every morning and ships whichever variant is green that day, which is the most reliable way there is to ship a coin flip with a measurement behind it.",
+    "A site with a few thousand visitors a week to the page under test, where the lift the team is hoping for would take months of traffic to detect and nobody has ever worked out that it cannot be found.",
+    "A program where a redirect, a bot filter or a caching layer sends more traffic to one arm than the other, and every result since it started has been read as a finding.",
+    "An operator running experiments alone with no statistician to argue with, who needs the watch itself to be the thing that refuses to call a winner early.",
+    "A quarter in which every experiment came back positive, where the honest reading is that the stopping rule produced the results rather than the variants."
+  ],
+  "connector_types": [
+    "analytics"
+  ],
+  "recommended_trigger": {
+    "kind": "self_paced",
+    "rationale": "An experiment reaches its horizon on its own traffic rather than on a calendar, so a clock is the wrong instrument. The honest consequence is that this recipe looks repeatedly and at moments the data influences, which is exactly the condition that invalidates a fixed horizon test, and the method has to account for it rather than the schedule pretending it does not happen. Look when enough new exposure has accumulated to move an experiment toward its horizon, and less often once every one is far from it."
+  },
+  "personalization_needs": [
+    "What the adopter counts as a conversion here, since every verdict is computed against one metric and the wrong one produces confident nonsense.",
+    "The smallest change the adopter would actually act on, because that number together with the traffic decides whether any of these experiments can be answered at all, and it is the input nobody supplies unprompted.",
+    "How much traffic the page under test really gets, since a sample size floor set without it either never fires or never lets anything finish.",
+    "Whether the binding that reports the per arm counts can also deploy a variant, because when it cannot, an accepted proposal has nowhere to land and the adoption needs a second binding or the loop honestly stops at the proposal.",
+    "How consequential a live traffic change is considered here, which sets how cautious a classification has to be before it is offered at all."
+  ],
+  "dependencies": [
+    "an experimentation backend able to split traffic and report per arm exposure counts"
+  ],
+  "input_schema": [
+    {
+      "name": "min_detectable_effect_percent",
+      "type": "number",
+      "default": 10,
+      "min": 1,
+      "max": 100,
+      "description": "The smallest relative change worth detecting. With the baseline rate and the traffic it fixes the sample size and therefore whether the experiment is answerable at all: at a three percent baseline, detecting a ten percent relative change needs roughly fifty thousand exposures per arm, and halving the target quadruples that."
+    },
+    {
+      "name": "false_positive_tolerance",
+      "type": "number",
+      "default": 0.05,
+      "min": 0.01,
+      "max": 0.1,
+      "description": "The false positive rate the adopter accepts across the whole experiment, not per look. Under continuous looking a nominal five percent can reach roughly a quarter, so this is a budget the method must spend correctly rather than a line a number crosses."
+    },
+    {
+      "name": "min_duration_days",
+      "type": "number",
+      "default": 14,
+      "min": 7,
+      "max": 90,
+      "description": "Minimum duration before any verdict, regardless of sample size, and best set in whole weeks. Traffic composition varies across the week, so a stop part way through one weights whichever days happened to be included."
+    },
+    {
+      "name": "min_sample_size",
+      "type": "number",
+      "default": 1000,
+      "min": 100,
+      "max": 100000,
+      "description": "Exposures per arm below which nothing is computed at all. This is a floor for suppressing noise, not the horizon: the horizon comes from the detectable effect above."
+    },
+    {
+      "name": "srm_alert_threshold",
+      "type": "number",
+      "default": 0.0005,
+      "min": 0.00001,
+      "max": 0.01,
+      "description": "Probability at or below which the observed split between arms is treated as broken rather than unlucky. Deliberately far stricter than the threshold used on the effect, because this test runs on every experiment at every look and a false alarm here stops a sound experiment."
+    }
+  ],
+  "examples": [
+    {
+      "title": "PostHog as the experimentation backend",
+      "connector": "posthog",
+      "connector_type": "analytics",
+      "notes": "See examples/posthog.md."
+    }
+  ],
+  "lessons": [],
+  "provenance": {
+    "from_recipes": [
+      "5f9bbd4a-20c7-53c2-b5a4-c7bb691281ff"
+    ],
+    "from_templates": [
+      "autonomous-cro-experiment-runner"
+    ],
+    "source_template_id": "autonomous-cro-experiment-runner"
+  }
+}

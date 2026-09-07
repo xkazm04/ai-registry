@@ -1,0 +1,128 @@
+{
+  "id": "d872e8c7-ca52-517a-99aa-08ff353d7b0a",
+  "slug": "content-metrics-anomaly-check",
+  "title": "Content metrics anomaly check",
+  "version": "0.1.0",
+  "status": "seed",
+  "path": "sales_marketing/web-analytics",
+  "domain": "sales_marketing",
+  "description": {
+    "need": "A move is only actionable while the period is still running, but a check that compares the period so far against a flat percentage fires every Monday and on every page with forty views, and once a team has learned to ignore it the early warning is worth less than no check at all.",
+    "input": "The metrics accumulated so far in the current period, how much of the period has elapsed and how much of its data has finished landing, the expectation the property's own history gives for this point in a period, and the deviations already raised and still open.",
+    "core_action": "Build the expectation for this point in the period out of the weekly shape the history actually has, judge the gap against how much variance a page of this volume produces on its own, and stay silent when the gap sits inside it.",
+    "output": "Silence on a period that is tracking, a named deviation carrying its size and the band it fell outside when it is not, and in both cases a record that the check ran, so silence is never confused with a watch that stopped."
+  },
+  "activities": [
+    {
+      "id": "read-partial",
+      "label": "Read the period so far and how complete its data is",
+      "kind": "observe"
+    },
+    {
+      "id": "expect",
+      "label": "Derive the expectation for this point in the period from the property's weekly shape",
+      "kind": "decide"
+    },
+    {
+      "id": "judge",
+      "label": "Judge the gap against the variance a page of this volume produces on its own",
+      "kind": "decide"
+    },
+    {
+      "id": "raise",
+      "label": "Raise only the deviations that clear that variance and are not already open",
+      "kind": "act"
+    },
+    {
+      "id": "record",
+      "label": "Record that the check ran and what window it read, including when it found nothing",
+      "kind": "deliver"
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "silent-when-normal",
+      "statement": "The adopter hears from this check only when something has moved off the trajectory their own history predicted.",
+      "success_criteria": [
+        "The expectation a gap is measured against carries the period's weekly shape, so an ordinary Monday is not a deviation.",
+        "The band a gap must clear widens as volume falls, rather than one percentage governing a page with forty views and a page with forty thousand.",
+        "A deviation already open is not raised a second time on the next look.",
+        "A first run raises nothing and says it established the baseline, rather than reporting a delta against no history."
+      ]
+    },
+    {
+      "id": "silence-is-evidence",
+      "statement": "Hearing nothing from this check is evidence that the period is normal, not evidence that the check has stopped running.",
+      "success_criteria": [
+        "Every run leaves a durable record of the window it read and the verdict it reached, and a run that found nothing records that it found nothing.",
+        "A source that could not be reached, or a window whose data has not finished landing, is recorded as not judged rather than reported as normal."
+      ]
+    }
+  ],
+  "guidance": "Restraint is the value here, and restraint is only credible when silence is written down. Build the expectation from the shape the history actually has, weekday against weekday, and let the band widen as volume falls: a quarter of forty views is counting noise and a quarter of forty thousand is an event. A gap that appears only because the period's data is still arriving is a freshness problem rather than a deviation, and saying which of the two you found is most of the work.",
+  "use_cases": [
+    "A product team that ships on a Tuesday and reads its numbers on a Friday, where a regression introduced on the Tuesday has three days to run before anyone opens the period that contains it.",
+    "A site with a hard weekly shape, where the alerting that already exists fires every Monday morning and every Saturday night and has quietly been muted by everyone it was built for.",
+    "A long tail of content where most pages see a few dozen views a week, and a percentage rule flags forty of them every run because a page that went from six views to nine moved fifty percent.",
+    "An operator running one property alone, who needs the check trustworthy enough that hearing nothing is a reason to spend the afternoon on something else rather than a reason to go and look anyway.",
+    "A redesign or migration week, when a drop is expected and the only useful question is whether it is the size that was expected."
+  ],
+  "connector_types": [
+    "database"
+  ],
+  "recommended_trigger": {
+    "kind": "self_paced",
+    "rationale": "The check is worth running when enough new data has landed to change a verdict, which is a property of the traffic rather than of a calendar. A fixed clock runs the same look twice on a quiet property and misses the day the volume actually arrived. Look when the period has accumulated enough to be judged, and less often once it is plainly tracking."
+  },
+  "personalization_needs": [
+    "How long this adopter's data takes to finish landing, because a check that reads a window before it is complete produces a drop on every single run and cannot tell that from a real one.",
+    "What a normal period looks like for this property including its weekly shape, since the entire check is a comparison against an expectation only the adopter's own history can supply.",
+    "How much deviation is worth interrupting someone for, because a check people have learned to ignore is worse than no check and the threshold is the only thing standing between the two.",
+    "Where the record of a quiet run goes and how the adopter wants to be reached when it is not quiet, given that the normal outcome of this recipe is silence and silence still has to be observable."
+  ],
+  "dependencies": [],
+  "input_schema": [
+    {
+      "name": "deviation_sensitivity",
+      "type": "number",
+      "default": 3,
+      "min": 2,
+      "max": 5,
+      "description": "How many standard deviations of the page's own seasonally matched history a gap must clear before it is raised. Expressed in the page's own variance rather than a flat percentage, so a low volume page is not flagged for ordinary counting noise."
+    },
+    {
+      "name": "min_volume_for_judgement",
+      "type": "number",
+      "default": 50,
+      "min": 0,
+      "max": 5000,
+      "description": "Period to date volume below which a page is reported as too quiet to judge rather than compared. Below this the percentage gap is dominated by counting noise and any verdict is a coin flip with a number attached."
+    },
+    {
+      "name": "min_period_elapsed_percent",
+      "type": "number",
+      "default": 40,
+      "min": 10,
+      "max": 90,
+      "description": "How much of the period must have elapsed before a comparison is attempted at all. Early in a period the expectation is dominated by the shape of a single day."
+    }
+  ],
+  "examples": [
+    {
+      "title": "Postgres as the metrics store",
+      "connector": "postgres",
+      "connector_type": "database",
+      "notes": "See examples/postgres.md."
+    }
+  ],
+  "lessons": [],
+  "provenance": {
+    "from_recipes": [
+      "d872e8c7-ca52-517a-99aa-08ff353d7b0a"
+    ],
+    "from_templates": [
+      "content-performance-reporter"
+    ],
+    "source_template_id": "content-performance-reporter"
+  }
+}

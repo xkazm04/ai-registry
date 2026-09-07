@@ -1,0 +1,141 @@
+{
+  "id": "5e07793e-c964-590f-95dc-f72631789f48",
+  "slug": "approved-draft-channel-publishing",
+  "title": "Approved draft channel publishing",
+  "version": "0.1.0",
+  "status": "seed",
+  "path": "creative_design/social-publishing",
+  "domain": "creative_design",
+  "description": {
+    "need": "Approved work sits unpublished, and the person who approved it has no way to tell whether their decision reached the world. The automated version of the same gap is worse: a request that timed out after the post went up gets retried and the audience sees it twice, or a piece is trimmed to fit a channel it was not approved at that length for.",
+    "input": "A draft that has been approved for one named channel, that channel's own limits and required fields, and the adopter's preference for whether approved work goes live now or joins a queue.",
+    "core_action": "Carry the approved draft through to being live or scheduled on the channel it was approved for, without changing what was approved to make it fit, and confirm what actually happened by reading the destination rather than by trusting the response.",
+    "output": "The piece is live or queued on its channel, the approver has a link or a scheduled time and knows which of the two it is, and a piece that could not be published is back in their hands unchanged with the reason."
+  },
+  "activities": [
+    {
+      "id": "read-approval",
+      "label": "Read the approval, the channel it names and what was actually approved",
+      "kind": "observe"
+    },
+    {
+      "id": "check-fit",
+      "label": "Check the piece against that channel's limits and required fields, and hand it back rather than trim it",
+      "kind": "decide"
+    },
+    {
+      "id": "publish",
+      "label": "Publish or queue it once, carrying something that makes a repeat recognisable",
+      "kind": "act"
+    },
+    {
+      "id": "verify",
+      "label": "Read the destination back to learn whether the piece is live, queued or neither",
+      "kind": "observe"
+    },
+    {
+      "id": "confirm",
+      "label": "Confirm to the approver with the link, or with the scheduled time and how its outcome will be observed",
+      "kind": "deliver"
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "approved-work-actually-ships",
+      "statement": "An approved draft reaches the channel it was approved for, or the person who approved it hears why not.",
+      "success_criteria": [
+        "The destination matches the channel the draft was approved for, rather than one dispatch path applied to everything.",
+        "A piece that does not fit the channel is handed back with what does not fit named, never trimmed to fit, because trimming publishes something nobody approved.",
+        "A destination failure leaves the draft intact and says what to do about it, rather than dropping it or rerouting it to a different channel."
+      ]
+    },
+    {
+      "id": "queued-is-not-published",
+      "statement": "Live and queued are reported as different states, and a queued piece has an observable end.",
+      "success_criteria": [
+        "A confirmation says which of the two happened. A scheduled time is never reported as publication.",
+        "Something later observes whether a scheduled piece actually posted, and the approver hears about it when it did not.",
+        "A piece still sitting in a queue past its scheduled time is visible as stuck rather than indistinguishable from one that went out."
+      ]
+    },
+    {
+      "id": "a-retry-cannot-double-post",
+      "statement": "Retrying after an uncertain result does not put the same piece in front of the audience twice.",
+      "success_criteria": [
+        "The publish carries something that lets the destination or the recipe recognise a repeat, so a request that timed out after succeeding does not become two posts.",
+        "Before any retry the destination is read back, rather than the previous response being taken as evidence of what happened."
+      ]
+    }
+  ],
+  "guidance": "The dangerous case is not a failure, it is a success that looked like a failure: a request that timed out after the post went up, retried, becomes two. Read the destination back before you retry. Scheduled is not published, and a confirmation carrying only a time has told the approver nothing about whether it went out. Where the approved text does not fit the channel, hand it back. Trimming it to fit publishes something nobody approved.",
+  "use_cases": [
+    "A team whose approvals live in one place and whose posting is done by hand somewhere else, where the gap between the two is a person who has other work and the backlog is invisible until someone asks.",
+    "A creator whose automation double posted once in front of an audience, who now checks every publish by hand and has lost the whole benefit of automating it.",
+    "A publisher on three channels with different limits, where the same approved copy fits two of them and arrives on the third with its last sentence missing.",
+    "An approver who cannot say whether the things they approved last week actually went out, and has no way to find out short of opening each channel.",
+    "A team that schedules a week ahead, where a piece that failed at its scheduled time looks exactly like a piece that succeeded until somebody notices the silence."
+  ],
+  "connector_types": [
+    "social",
+    "knowledge_base"
+  ],
+  "recommended_trigger": {
+    "kind": "event",
+    "rationale": "An approval is a real external event and the only honest starting point. Publishing before it would defeat the gate, and polling for it would add latency for nothing. The scheduled half of the work needs its own later observation, which is a different question from what starts this recipe."
+  },
+  "personalization_needs": [
+    "Which channels the adopter actually posts to, since a destination with no working account is a failure waiting for the first approval rather than a gap discovered gradually.",
+    "Whether approved work publishes immediately or joins a queue, which is a control preference rather than a configuration value, and which decides whether this recipe ever produces a link.",
+    "Who should be told when a publish fails, because the failure is only useful if it reaches the person who approved the draft, and the person who approved is not always the person who set the recipe up.",
+    "What each channel counts as a duplicate, since that decides whether a safe retry is possible at all or whether an uncertain result has to be resolved by a human."
+  ],
+  "dependencies": [],
+  "input_schema": [
+    {
+      "name": "scheduling_preference",
+      "type": "enum",
+      "options": [
+        "immediate",
+        "queue"
+      ],
+      "default": "immediate",
+      "description": "Whether approved drafts publish straight away or join a scheduling queue. The two produce different confirmations and only the first can produce a link at the time of the run."
+    }
+  ],
+  "examples": [
+    {
+      "title": "Buffer as the scheduling destination",
+      "connector": "buffer",
+      "connector_type": "social",
+      "notes": "See examples/buffer.md."
+    },
+    {
+      "title": "LinkedIn as a direct destination",
+      "connector": "linkedin",
+      "connector_type": "social",
+      "notes": "See examples/linkedin.md."
+    },
+    {
+      "title": "X as a direct destination",
+      "connector": "x_twitter",
+      "connector_type": "social",
+      "notes": "See examples/x_twitter.md."
+    },
+    {
+      "title": "Notion as the long form destination",
+      "connector": "notion",
+      "connector_type": "knowledge_base",
+      "notes": "See examples/notion.md."
+    }
+  ],
+  "lessons": [],
+  "provenance": {
+    "from_recipes": [
+      "5e07793e-c964-590f-95dc-f72631789f48"
+    ],
+    "from_templates": [
+      "content-cascade"
+    ],
+    "source_template_id": "content-cascade"
+  }
+}

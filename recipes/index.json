@@ -3,16 +3,1276 @@
   "generated_by": "scripts/build-recipes-index.mjs",
   "lane": "recipes",
   "source": "recipes/<domain>/<topic>/<slug>/recipe.json",
-  "recipes": 1,
+  "recipes": 106,
   "by_status": {
-   "seed": 1
+   "seed": 106
   },
   "by_domain": {
-   "sales_marketing": 1
+   "legal_compliance": 7,
+   "operations_logistics": 2,
+   "software_engineering": 37,
+   "creative_design": 11,
+   "finance_accounting": 8,
+   "sales_marketing": 17,
+   "general_professional": 10,
+   "data_ai": 5,
+   "customer_support": 6,
+   "product_project": 3
   },
   "excludes": "description, activities, outcomes, guidance, examples, lessons - open the recipe"
  },
  "recipes": {
+  "access-grant-audit-and-compliance-reporting": {
+   "path": "recipes/legal_compliance/compliance-monitoring/access-grant-audit-and-compliance-reporting",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "legal_compliance",
+   "topic": "compliance-monitoring",
+   "title": "Access grant audit and compliance reporting",
+   "connector_types": [
+    "database",
+    "messaging",
+    "knowledge_base"
+   ],
+   "recommended_trigger_kind": "time"
+  },
+  "access-request-approval-chain": {
+   "path": "recipes/operations_logistics/approvals/access-request-approval-chain",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "operations_logistics",
+   "topic": "approvals",
+   "title": "Access request approval chain",
+   "connector_types": [
+    "messaging"
+   ],
+   "recommended_trigger_kind": "self_paced"
+  },
+  "access-request-intake-and-triage": {
+   "path": "recipes/operations_logistics/intake/access-request-intake-and-triage",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "operations_logistics",
+   "topic": "intake",
+   "title": "Access request intake and triage",
+   "connector_types": [
+    "email",
+    "messaging"
+   ],
+   "recommended_trigger_kind": "event"
+  },
+  "agent-platform-error-classification": {
+   "path": "recipes/software_engineering/error-triage/agent-platform-error-classification",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "software_engineering",
+   "topic": "error-triage",
+   "title": "Agent platform error classification",
+   "connector_types": [],
+   "recommended_trigger_kind": "event"
+  },
+  "agent-platform-error-ingestion": {
+   "path": "recipes/software_engineering/error-triage/agent-platform-error-ingestion",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "software_engineering",
+   "topic": "error-triage",
+   "title": "Agent platform error ingestion",
+   "connector_types": [],
+   "recommended_trigger_kind": "time"
+  },
+  "agent-reliability-reporting": {
+   "path": "recipes/software_engineering/error-triage/agent-reliability-reporting",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "software_engineering",
+   "topic": "error-triage",
+   "title": "Agent reliability reporting",
+   "connector_types": [
+    "messaging"
+   ],
+   "recommended_trigger_kind": "self_paced"
+  },
+  "application-error-scan": {
+   "path": "recipes/software_engineering/error-triage/application-error-scan",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "software_engineering",
+   "topic": "error-triage",
+   "title": "Application error scan",
+   "connector_types": [
+    "monitoring"
+   ],
+   "recommended_trigger_kind": "self_paced"
+  },
+  "approved-draft-channel-publishing": {
+   "path": "recipes/creative_design/social-publishing/approved-draft-channel-publishing",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "creative_design",
+   "topic": "social-publishing",
+   "title": "Approved draft channel publishing",
+   "connector_types": [
+    "social",
+    "knowledge_base"
+   ],
+   "recommended_trigger_kind": "event"
+  },
+  "approved-maintenance-issue-filing": {
+   "path": "recipes/software_engineering/engineering-records/approved-maintenance-issue-filing",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "software_engineering",
+   "topic": "engineering-records",
+   "title": "Approved maintenance issue filing",
+   "connector_types": [
+    "source_control"
+   ],
+   "recommended_trigger_kind": "event"
+  },
+  "audio-briefing-production": {
+   "path": "recipes/creative_design/audio/audio-briefing-production",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "creative_design",
+   "topic": "audio",
+   "title": "Audio briefing production",
+   "connector_types": [
+    "voice_generation"
+   ],
+   "recommended_trigger_kind": "event"
+  },
+  "audio-briefing-script-drafting": {
+   "path": "recipes/creative_design/audio/audio-briefing-script-drafting",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "creative_design",
+   "topic": "audio",
+   "title": "Audio briefing script drafting",
+   "connector_types": [],
+   "recommended_trigger_kind": "self_paced"
+  },
+  "brand-visual-asset-production": {
+   "path": "recipes/creative_design/visual-assets/brand-visual-asset-production",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "creative_design",
+   "topic": "visual-assets",
+   "title": "On brand visual asset production",
+   "connector_types": [
+    "development",
+    "image_generation",
+    "vision"
+   ],
+   "recommended_trigger_kind": "self_paced"
+  },
+  "change-implementation-and-review": {
+   "path": "recipes/software_engineering/code-review/change-implementation-and-review",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "software_engineering",
+   "topic": "code-review",
+   "title": "Code change implementation and review follow-through",
+   "connector_types": [
+    "source_control"
+   ],
+   "recommended_trigger_kind": "event"
+  },
+  "cloud-billing-access-failure-alerting": {
+   "path": "recipes/finance_accounting/spend-and-budget/cloud-billing-access-failure-alerting",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "finance_accounting",
+   "topic": "spend-and-budget",
+   "title": "Cloud billing access failure alerting",
+   "connector_types": [
+    "cloud"
+   ],
+   "recommended_trigger_kind": "event"
+  },
+  "cloud-cost-and-resource-reporting": {
+   "path": "recipes/finance_accounting/spend-and-budget/cloud-cost-and-resource-reporting",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "finance_accounting",
+   "topic": "spend-and-budget",
+   "title": "Cloud cost and resource reporting",
+   "connector_types": [
+    "cloud"
+   ],
+   "recommended_trigger_kind": "time"
+  },
+  "cloud-spend-threshold-watch": {
+   "path": "recipes/finance_accounting/spend-and-budget/cloud-spend-threshold-watch",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "finance_accounting",
+   "topic": "spend-and-budget",
+   "title": "Cloud spend threshold watch",
+   "connector_types": [
+    "cloud"
+   ],
+   "recommended_trigger_kind": "time"
+  },
+  "codebase-feasibility-analysis": {
+   "path": "recipes/software_engineering/codebase-health/codebase-feasibility-analysis",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "software_engineering",
+   "topic": "codebase-health",
+   "title": "Codebase feasibility analysis",
+   "connector_types": [
+    "source_control"
+   ],
+   "recommended_trigger_kind": "event"
+  },
+  "codebase-improvement-backlog-scan": {
+   "path": "recipes/software_engineering/codebase-health/codebase-improvement-backlog-scan",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "software_engineering",
+   "topic": "codebase-health",
+   "title": "Codebase improvement backlog scan",
+   "connector_types": [
+    "source_control"
+   ],
+   "recommended_trigger_kind": "self_paced"
+  },
+  "codebase-latent-defect-hunt": {
+   "path": "recipes/software_engineering/codebase-health/codebase-latent-defect-hunt",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "software_engineering",
+   "topic": "codebase-health",
+   "title": "Codebase latent defect hunt",
+   "connector_types": [
+    "source_control"
+   ],
+   "recommended_trigger_kind": "self_paced"
+  },
+  "codebase-test-coverage-advance": {
+   "path": "recipes/software_engineering/codebase-health/codebase-test-coverage-advance",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "software_engineering",
+   "topic": "codebase-health",
+   "title": "Codebase test coverage advance",
+   "connector_types": [
+    "source_control"
+   ],
+   "recommended_trigger_kind": "self_paced"
+  },
+  "community-trend-digest": {
+   "path": "recipes/sales_marketing/community-channels/community-trend-digest",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "sales_marketing",
+   "topic": "community-channels",
+   "title": "Community discussion trend digest",
+   "connector_types": [
+    "social",
+    "messaging"
+   ],
+   "recommended_trigger_kind": "self_paced"
+  },
+  "competitor-positioning-comparison": {
+   "path": "recipes/sales_marketing/conversion-optimization/competitor-positioning-comparison",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "sales_marketing",
+   "topic": "conversion-optimization",
+   "title": "Competitor conversion and positioning comparison",
+   "connector_types": [],
+   "recommended_trigger_kind": "self_paced"
+  },
+  "congressional-stock-disclosure-coverage": {
+   "path": "recipes/finance_accounting/investing/congressional-stock-disclosure-coverage",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "finance_accounting",
+   "topic": "investing",
+   "title": "Congressional stock disclosure coverage",
+   "connector_types": [],
+   "recommended_trigger_kind": "self_paced"
+  },
+  "content-feed-intake-for-curation": {
+   "path": "recipes/general_professional/knowledge-curation/content-feed-intake-for-curation",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "general_professional",
+   "topic": "knowledge-curation",
+   "title": "Content feed intake for curation",
+   "connector_types": [
+    "knowledge_base"
+   ],
+   "recommended_trigger_kind": "self_paced"
+  },
+  "content-metrics-anomaly-check": {
+   "path": "recipes/sales_marketing/web-analytics/content-metrics-anomaly-check",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "sales_marketing",
+   "topic": "web-analytics",
+   "title": "Content metrics anomaly check",
+   "connector_types": [
+    "database"
+   ],
+   "recommended_trigger_kind": "self_paced"
+  },
+  "content-source-health-tracking": {
+   "path": "recipes/sales_marketing/community-channels/content-source-health-tracking",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "sales_marketing",
+   "topic": "community-channels",
+   "title": "Content source health tracking",
+   "connector_types": [],
+   "recommended_trigger_kind": "event"
+  },
+  "contract-envelope-event-sync": {
+   "path": "recipes/legal_compliance/contracts/contract-envelope-event-sync",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "legal_compliance",
+   "topic": "contracts",
+   "title": "Contract envelope event sync",
+   "connector_types": [
+    "forms",
+    "spreadsheet",
+    "messaging"
+   ],
+   "recommended_trigger_kind": "event"
+  },
+  "contract-intake-and-risk-analysis": {
+   "path": "recipes/legal_compliance/contracts/contract-intake-and-risk-analysis",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "legal_compliance",
+   "topic": "contracts",
+   "title": "Contract intake and risk analysis",
+   "connector_types": [
+    "email",
+    "storage",
+    "knowledge_base"
+   ],
+   "recommended_trigger_kind": "event"
+  },
+  "contract-obligation-and-deadline-watch": {
+   "path": "recipes/legal_compliance/deadlines/contract-obligation-and-deadline-watch",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "legal_compliance",
+   "topic": "deadlines",
+   "title": "Contract obligation and deadline watch",
+   "connector_types": [
+    "spreadsheet",
+    "email",
+    "messaging"
+   ],
+   "recommended_trigger_kind": "self_paced"
+  },
+  "contract-renewal-window-watch": {
+   "path": "recipes/legal_compliance/deadlines/contract-renewal-window-watch",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "legal_compliance",
+   "topic": "deadlines",
+   "title": "Contract renewal window watch",
+   "connector_types": [
+    "spreadsheet",
+    "messaging",
+    "email"
+   ],
+   "recommended_trigger_kind": "self_paced"
+  },
+  "contract-review-publication-and-risk-alert": {
+   "path": "recipes/legal_compliance/contracts/contract-review-publication-and-risk-alert",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "legal_compliance",
+   "topic": "contracts",
+   "title": "Contract review publication and risk alert",
+   "connector_types": [
+    "knowledge_base",
+    "email",
+    "messaging"
+   ],
+   "recommended_trigger_kind": "event"
+  },
+  "conversion-experiment-program-digest": {
+   "path": "recipes/sales_marketing/conversion-optimization/conversion-experiment-program-digest",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "sales_marketing",
+   "topic": "conversion-optimization",
+   "title": "Conversion experiment program digest",
+   "connector_types": [],
+   "recommended_trigger_kind": "time"
+  },
+  "conversion-experiment-significance-watch": {
+   "path": "recipes/sales_marketing/conversion-optimization/conversion-experiment-significance-watch",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "sales_marketing",
+   "topic": "conversion-optimization",
+   "title": "Conversion experiment significance watch",
+   "connector_types": [
+    "analytics"
+   ],
+   "recommended_trigger_kind": "self_paced"
+  },
+  "conversion-variant-hypothesis-proposals": {
+   "path": "recipes/sales_marketing/conversion-optimization/conversion-variant-hypothesis-proposals",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "sales_marketing",
+   "topic": "conversion-optimization",
+   "title": "Conversion variant hypothesis proposals",
+   "connector_types": [
+    "analytics"
+   ],
+   "recommended_trigger_kind": "self_paced"
+  },
+  "correspondence-activity-digest": {
+   "path": "recipes/general_professional/digests/correspondence-activity-digest",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "general_professional",
+   "topic": "digests",
+   "title": "Correspondence activity digest",
+   "connector_types": [
+    "database"
+   ],
+   "recommended_trigger_kind": "self_paced"
+  },
+  "correspondence-drafting-and-reply-review": {
+   "path": "recipes/general_professional/correspondence/correspondence-drafting-and-reply-review",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "general_professional",
+   "topic": "correspondence",
+   "title": "Correspondence drafting and reply review",
+   "connector_types": [
+    "email",
+    "messaging",
+    "database"
+   ],
+   "recommended_trigger_kind": "event"
+  },
+  "cross-project-progress-briefing": {
+   "path": "recipes/general_professional/digests/cross-project-progress-briefing",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "general_professional",
+   "topic": "digests",
+   "title": "Cross-project progress briefing",
+   "connector_types": [
+    "messaging"
+   ],
+   "recommended_trigger_kind": "self_paced"
+  },
+  "cross-workflow-error-pattern-detection": {
+   "path": "recipes/software_engineering/error-triage/cross-workflow-error-pattern-detection",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "software_engineering",
+   "topic": "error-triage",
+   "title": "Cross-workflow error pattern detection",
+   "connector_types": [
+    "messaging"
+   ],
+   "recommended_trigger_kind": "event"
+  },
+  "data-assistant-quality-review-from-real-traffic": {
+   "path": "recipes/data_ai/data-access/data-assistant-quality-review-from-real-traffic",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "data_ai",
+   "topic": "data-access",
+   "title": "Data assistant quality review from real traffic",
+   "connector_types": [
+    "database",
+    "messaging"
+   ],
+   "recommended_trigger_kind": "self_paced"
+  },
+  "database-activity-digest": {
+   "path": "recipes/software_engineering/observability/database-activity-digest",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "software_engineering",
+   "topic": "observability",
+   "title": "Database activity digest",
+   "connector_types": [
+    "database",
+    "messaging"
+   ],
+   "recommended_trigger_kind": "self_paced"
+  },
+  "database-anomaly-baseline-refresh": {
+   "path": "recipes/software_engineering/observability/database-anomaly-baseline-refresh",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "software_engineering",
+   "topic": "observability",
+   "title": "Database anomaly baseline refresh",
+   "connector_types": [
+    "database"
+   ],
+   "recommended_trigger_kind": "self_paced"
+  },
+  "database-anomaly-incident-diagnosis": {
+   "path": "recipes/software_engineering/incident-response/database-anomaly-incident-diagnosis",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "software_engineering",
+   "topic": "incident-response",
+   "title": "Database anomaly incident diagnosis",
+   "connector_types": [
+    "database",
+    "messaging"
+   ],
+   "recommended_trigger_kind": "event"
+  },
+  "database-health-check": {
+   "path": "recipes/software_engineering/observability/database-health-check",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "software_engineering",
+   "topic": "observability",
+   "title": "Database health check",
+   "connector_types": [
+    "database"
+   ],
+   "recommended_trigger_kind": "self_paced"
+  },
+  "database-performance-baseline-monitoring": {
+   "path": "recipes/software_engineering/observability/database-performance-baseline-monitoring",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "software_engineering",
+   "topic": "observability",
+   "title": "Database performance baseline monitoring",
+   "connector_types": [
+    "database",
+    "messaging"
+   ],
+   "recommended_trigger_kind": "time"
+  },
+  "database-row-change-watch": {
+   "path": "recipes/software_engineering/observability/database-row-change-watch",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "software_engineering",
+   "topic": "observability",
+   "title": "Database row change watch",
+   "connector_types": [
+    "database",
+    "messaging",
+    "email"
+   ],
+   "recommended_trigger_kind": "event"
+  },
+  "database-schema-picture-refresh": {
+   "path": "recipes/data_ai/data-access/database-schema-picture-refresh",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "data_ai",
+   "topic": "data-access",
+   "title": "Database schema picture refresh",
+   "connector_types": [
+    "database",
+    "messaging"
+   ],
+   "recommended_trigger_kind": "self_paced"
+  },
+  "decision-record-rot-watch": {
+   "path": "recipes/software_engineering/engineering-records/decision-record-rot-watch",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "software_engineering",
+   "topic": "engineering-records",
+   "title": "Decision record rot watch",
+   "connector_types": [
+    "knowledge_base",
+    "source_control"
+   ],
+   "recommended_trigger_kind": "self_paced"
+  },
+  "decision-to-code-linking": {
+   "path": "recipes/software_engineering/engineering-records/decision-to-code-linking",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "software_engineering",
+   "topic": "engineering-records",
+   "title": "Decision record to code linking",
+   "connector_types": [
+    "knowledge_base",
+    "source_control"
+   ],
+   "recommended_trigger_kind": "self_paced"
+  },
+  "deploy-regression-correlation": {
+   "path": "recipes/software_engineering/observability/deploy-regression-correlation",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "software_engineering",
+   "topic": "observability",
+   "title": "Deploy regression correlation",
+   "connector_types": [
+    "cloud",
+    "monitoring"
+   ],
+   "recommended_trigger_kind": "self_paced"
+  },
+  "email-inbox-attention-digest": {
+   "path": "recipes/general_professional/digests/email-inbox-attention-digest",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "general_professional",
+   "topic": "digests",
+   "title": "Email inbox attention digest",
+   "connector_types": [
+    "email"
+   ],
+   "recommended_trigger_kind": "self_paced"
+  },
+  "feature-announcement-video-production": {
+   "path": "recipes/creative_design/video/feature-announcement-video-production",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "creative_design",
+   "topic": "video",
+   "title": "Feature announcement video production",
+   "connector_types": [
+    "voice_generation",
+    "video_generation"
+   ],
+   "recommended_trigger_kind": "self_paced"
+  },
+  "feature-walkthrough-capture": {
+   "path": "recipes/creative_design/video/feature-walkthrough-capture",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "creative_design",
+   "topic": "video",
+   "title": "Feature walkthrough capture from the running app",
+   "connector_types": [
+    "development",
+    "browser_automation"
+   ],
+   "recommended_trigger_kind": "self_paced"
+  },
+  "form-lead-intake-and-scoring": {
+   "path": "recipes/sales_marketing/lead-handling/form-lead-intake-and-scoring",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "sales_marketing",
+   "topic": "lead-handling",
+   "title": "Form lead intake and scoring",
+   "connector_types": [
+    "forms",
+    "crm"
+   ],
+   "recommended_trigger_kind": "event"
+  },
+  "free-promotion-surface-discovery": {
+   "path": "recipes/sales_marketing/community-channels/free-promotion-surface-discovery",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "sales_marketing",
+   "topic": "community-channels",
+   "title": "Free promotion surface discovery",
+   "connector_types": [
+    "development"
+   ],
+   "recommended_trigger_kind": "self_paced"
+  },
+  "goal-accountability-and-idea-triage-review": {
+   "path": "recipes/general_professional/goals-and-reviews/goal-accountability-and-idea-triage-review",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "general_professional",
+   "topic": "goals-and-reviews",
+   "title": "Goal accountability and idea triage review",
+   "connector_types": [],
+   "recommended_trigger_kind": "self_paced"
+  },
+  "harvested-idea-triage": {
+   "path": "recipes/software_engineering/work-intake/harvested-idea-triage",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "software_engineering",
+   "topic": "work-intake",
+   "title": "Harvested idea triage",
+   "connector_types": [
+    "source_control"
+   ],
+   "recommended_trigger_kind": "event"
+  },
+  "high-intent-lead-alerting": {
+   "path": "recipes/sales_marketing/lead-handling/high-intent-lead-alerting",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "sales_marketing",
+   "topic": "lead-handling",
+   "title": "High intent lead alerting",
+   "connector_types": [
+    "messaging",
+    "crm"
+   ],
+   "recommended_trigger_kind": "event"
+  },
+  "idea-architecture-verdict": {
+   "path": "recipes/software_engineering/codebase-health/idea-architecture-verdict",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "software_engineering",
+   "topic": "codebase-health",
+   "title": "Idea architectural fit verdict",
+   "connector_types": [
+    "source_control"
+   ],
+   "recommended_trigger_kind": "event"
+  },
+  "inbound-message-triage-across-channels": {
+   "path": "recipes/general_professional/correspondence/inbound-message-triage-across-channels",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "general_professional",
+   "topic": "correspondence",
+   "title": "Inbound message triage across channels",
+   "connector_types": [
+    "email",
+    "messaging",
+    "database"
+   ],
+   "recommended_trigger_kind": "event"
+  },
+  "incident-capture-and-classification": {
+   "path": "recipes/software_engineering/incident-response/incident-capture-and-classification",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "software_engineering",
+   "topic": "incident-response",
+   "title": "Incident capture and classification",
+   "connector_types": [
+    "monitoring"
+   ],
+   "recommended_trigger_kind": "event"
+  },
+  "infrastructure-metrics-scan": {
+   "path": "recipes/software_engineering/observability/infrastructure-metrics-scan",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "software_engineering",
+   "topic": "observability",
+   "title": "Infrastructure metrics scan",
+   "connector_types": [
+    "monitoring"
+   ],
+   "recommended_trigger_kind": "self_paced"
+  },
+  "issue-handling-trend-review": {
+   "path": "recipes/customer_support/service-health/issue-handling-trend-review",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "customer_support",
+   "topic": "service-health",
+   "title": "Issue handling trend review",
+   "connector_types": [
+    "ticketing",
+    "messaging"
+   ],
+   "recommended_trigger_kind": "self_paced"
+  },
+  "issue-source-coverage-and-triage": {
+   "path": "recipes/customer_support/ticket-handling/issue-source-coverage-and-triage",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "customer_support",
+   "topic": "ticket-handling",
+   "title": "Issue source coverage and triage",
+   "connector_types": [
+    "ticketing",
+    "knowledge_base",
+    "messaging"
+   ],
+   "recommended_trigger_kind": "self_paced"
+  },
+  "knowledge-base-content-curation": {
+   "path": "recipes/general_professional/knowledge-curation/knowledge-base-content-curation",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "general_professional",
+   "topic": "knowledge-curation",
+   "title": "Knowledge base content curation",
+   "connector_types": [
+    "knowledge_base"
+   ],
+   "recommended_trigger_kind": "event"
+  },
+  "knowledge-base-contradiction-audit": {
+   "path": "recipes/data_ai/data-quality/knowledge-base-contradiction-audit",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "data_ai",
+   "topic": "data-quality",
+   "title": "Knowledge base contradiction audit",
+   "connector_types": [
+    "knowledge_base",
+    "source_control"
+   ],
+   "recommended_trigger_kind": "self_paced"
+  },
+  "knowledge-base-curation-audit": {
+   "path": "recipes/general_professional/knowledge-curation/knowledge-base-curation-audit",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "general_professional",
+   "topic": "knowledge-curation",
+   "title": "Knowledge base curation audit",
+   "connector_types": [
+    "knowledge_base"
+   ],
+   "recommended_trigger_kind": "self_paced"
+  },
+  "lead-welcome-email-drafting": {
+   "path": "recipes/sales_marketing/lead-handling/lead-welcome-email-drafting",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "sales_marketing",
+   "topic": "lead-handling",
+   "title": "Lead welcome email drafting",
+   "connector_types": [
+    "email"
+   ],
+   "recommended_trigger_kind": "event"
+  },
+  "live-database-question-answering": {
+   "path": "recipes/data_ai/data-access/live-database-question-answering",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "data_ai",
+   "topic": "data-access",
+   "title": "Live database question answering",
+   "connector_types": [
+    "database",
+    "messaging"
+   ],
+   "recommended_trigger_kind": "event"
+  },
+  "marketing-optimization-proposals": {
+   "path": "recipes/sales_marketing/web-analytics/marketing-optimization-proposals",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "sales_marketing",
+   "topic": "web-analytics",
+   "title": "Marketing optimization proposals",
+   "connector_types": [
+    "advertising",
+    "analytics"
+   ],
+   "recommended_trigger_kind": "self_paced"
+  },
+  "memory-and-knowledge-base-health-audit": {
+   "path": "recipes/data_ai/data-quality/memory-and-knowledge-base-health-audit",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "data_ai",
+   "topic": "data-quality",
+   "title": "Memory and knowledge base health audit",
+   "connector_types": [
+    "knowledge_base",
+    "source_control"
+   ],
+   "recommended_trigger_kind": "self_paced"
+  },
+  "newsletter-issue-curation": {
+   "path": "recipes/creative_design/newsletters/newsletter-issue-curation",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "creative_design",
+   "topic": "newsletters",
+   "title": "Newsletter issue curation and delivery",
+   "connector_types": [
+    "web_scraping",
+    "email"
+   ],
+   "recommended_trigger_kind": "self_paced"
+  },
+  "open-incident-vigilance": {
+   "path": "recipes/software_engineering/incident-response/open-incident-vigilance",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "software_engineering",
+   "topic": "incident-response",
+   "title": "Open incident vigilance and escalation",
+   "connector_types": [
+    "messaging",
+    "notifications"
+   ],
+   "recommended_trigger_kind": "self_paced"
+  },
+  "original-2d-art-curation": {
+   "path": "recipes/creative_design/visual-assets/original-2d-art-curation",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "creative_design",
+   "topic": "visual-assets",
+   "title": "Original 2D art generation and curation",
+   "connector_types": [
+    "image_generation",
+    "storage"
+   ],
+   "recommended_trigger_kind": "self_paced"
+  },
+  "paid-organic-cannibalization-watch": {
+   "path": "recipes/sales_marketing/web-analytics/paid-organic-cannibalization-watch",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "sales_marketing",
+   "topic": "web-analytics",
+   "title": "Paid and organic keyword cannibalization watch",
+   "connector_types": [
+    "advertising",
+    "analytics"
+   ],
+   "recommended_trigger_kind": "self_paced"
+  },
+  "paid-organic-performance-scan": {
+   "path": "recipes/sales_marketing/web-analytics/paid-organic-performance-scan",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "sales_marketing",
+   "topic": "web-analytics",
+   "title": "Paid and organic channel performance scan",
+   "connector_types": [
+    "advertising",
+    "analytics"
+   ],
+   "recommended_trigger_kind": "self_paced"
+  },
+  "payment-event-scoring-for-churn-and-expansion": {
+   "path": "recipes/finance_accounting/revenue/payment-event-scoring-for-churn-and-expansion",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "finance_accounting",
+   "topic": "revenue",
+   "title": "Payment event scoring for churn and expansion",
+   "connector_types": [
+    "finance",
+    "crm"
+   ],
+   "recommended_trigger_kind": "event"
+  },
+  "per-channel-voice-profiling": {
+   "path": "recipes/creative_design/social-publishing/per-channel-voice-profiling",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "creative_design",
+   "topic": "social-publishing",
+   "title": "Per channel writing voice profiling",
+   "connector_types": [],
+   "recommended_trigger_kind": "self_paced"
+  },
+  "post-incident-review": {
+   "path": "recipes/software_engineering/incident-response/post-incident-review",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "software_engineering",
+   "topic": "incident-response",
+   "title": "Post-incident review and prevention proposals",
+   "connector_types": [
+    "knowledge_base",
+    "productivity"
+   ],
+   "recommended_trigger_kind": "self_paced"
+  },
+  "product-design-brief-authoring": {
+   "path": "recipes/creative_design/visual-assets/product-design-brief-authoring",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "creative_design",
+   "topic": "visual-assets",
+   "title": "Product design brief authoring",
+   "connector_types": [
+    "development"
+   ],
+   "recommended_trigger_kind": "self_paced"
+  },
+  "product-idea-harvesting-from-codebase-and-web": {
+   "path": "recipes/product_project/ideation/product-idea-harvesting-from-codebase-and-web",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "product_project",
+   "topic": "ideation",
+   "title": "Product idea harvesting from codebase and web",
+   "connector_types": [
+    "development",
+    "messaging",
+    "knowledge_base"
+   ],
+   "recommended_trigger_kind": "self_paced"
+  },
+  "production-error-issue-filter": {
+   "path": "recipes/software_engineering/error-triage/production-error-issue-filter",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "software_engineering",
+   "topic": "error-triage",
+   "title": "Production error issue filter",
+   "connector_types": [
+    "monitoring"
+   ],
+   "recommended_trigger_kind": "self_paced"
+  },
+  "pull-request-test-verdict": {
+   "path": "recipes/software_engineering/code-review/pull-request-test-verdict",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "software_engineering",
+   "topic": "code-review",
+   "title": "Pull request test verdict",
+   "connector_types": [
+    "source_control"
+   ],
+   "recommended_trigger_kind": "event"
+  },
+  "release-candidate-review": {
+   "path": "recipes/software_engineering/release/release-candidate-review",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "software_engineering",
+   "topic": "release",
+   "title": "Release candidate review and approval",
+   "connector_types": [
+    "source_control"
+   ],
+   "recommended_trigger_kind": "self_paced"
+  },
+  "release-record-and-version-bump": {
+   "path": "recipes/software_engineering/release/release-record-and-version-bump",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "software_engineering",
+   "topic": "release",
+   "title": "Release record and version bump",
+   "connector_types": [
+    "source_control"
+   ],
+   "recommended_trigger_kind": "event"
+  },
+  "revenue-movement-report-and-prediction-calibration": {
+   "path": "recipes/finance_accounting/revenue/revenue-movement-report-and-prediction-calibration",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "finance_accounting",
+   "topic": "revenue",
+   "title": "Revenue movement report and prediction calibration",
+   "connector_types": [
+    "finance",
+    "messaging",
+    "email"
+   ],
+   "recommended_trigger_kind": "self_paced"
+  },
+  "revenue-signal-alerting-and-outreach": {
+   "path": "recipes/customer_support/retention/revenue-signal-alerting-and-outreach",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "customer_support",
+   "topic": "retention",
+   "title": "Revenue signal alerting and outreach",
+   "connector_types": [
+    "finance",
+    "messaging",
+    "email"
+   ],
+   "recommended_trigger_kind": "event"
+  },
+  "routing-rule-management": {
+   "path": "recipes/software_engineering/event-routing/routing-rule-management",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "software_engineering",
+   "topic": "event-routing",
+   "title": "Event routing rule management",
+   "connector_types": [],
+   "recommended_trigger_kind": "event"
+  },
+  "scouted-opportunity-triage": {
+   "path": "recipes/software_engineering/work-intake/scouted-opportunity-triage",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "software_engineering",
+   "topic": "work-intake",
+   "title": "Scouted opportunity triage",
+   "connector_types": [],
+   "recommended_trigger_kind": "event"
+  },
+  "skill-library-audit": {
+   "path": "recipes/software_engineering/engineering-records/skill-library-audit",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "software_engineering",
+   "topic": "engineering-records",
+   "title": "Skill library audit and proposal",
+   "connector_types": [
+    "source_control"
+   ],
+   "recommended_trigger_kind": "self_paced"
+  },
+  "source-artifact-channel-repurposing": {
+   "path": "recipes/creative_design/social-publishing/source-artifact-channel-repurposing",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "creative_design",
+   "topic": "social-publishing",
+   "title": "Source artifact repurposing for channels",
+   "connector_types": [
+    "research",
+    "web_scraping"
+   ],
+   "recommended_trigger_kind": "event"
+  },
+  "source-grounded-error-root-cause-analysis": {
+   "path": "recipes/software_engineering/error-triage/source-grounded-error-root-cause-analysis",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "software_engineering",
+   "topic": "error-triage",
+   "title": "Source-grounded error root cause analysis",
+   "connector_types": [
+    "monitoring",
+    "source_control"
+   ],
+   "recommended_trigger_kind": "event"
+  },
+  "stack-grounded-opportunity-research": {
+   "path": "recipes/software_engineering/work-intake/stack-grounded-opportunity-research",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "software_engineering",
+   "topic": "work-intake",
+   "title": "Stack grounded implementation opportunity research",
+   "connector_types": [
+    "source_control",
+    "email"
+   ],
+   "recommended_trigger_kind": "self_paced"
+  },
+  "support-escalation-pattern-review": {
+   "path": "recipes/customer_support/service-health/support-escalation-pattern-review",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "customer_support",
+   "topic": "service-health",
+   "title": "Support escalation pattern review",
+   "connector_types": [
+    "support",
+    "ticketing",
+    "knowledge_base",
+    "email"
+   ],
+   "recommended_trigger_kind": "self_paced"
+  },
+  "support-issue-disposition-account": {
+   "path": "recipes/customer_support/service-health/support-issue-disposition-account",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "customer_support",
+   "topic": "service-health",
+   "title": "Support issue disposition account",
+   "connector_types": [
+    "ticketing",
+    "messaging"
+   ],
+   "recommended_trigger_kind": "self_paced"
+  },
+  "support-request-sla-watch-and-escalation": {
+   "path": "recipes/customer_support/sla/support-request-sla-watch-and-escalation",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "customer_support",
+   "topic": "sla",
+   "title": "Support request SLA watch and escalation",
+   "connector_types": [
+    "support",
+    "messaging",
+    "email",
+    "knowledge_base"
+   ],
+   "recommended_trigger_kind": "self_paced"
+  },
+  "survey-insight-report-delivery": {
+   "path": "recipes/product_project/customer-feedback/survey-insight-report-delivery",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "product_project",
+   "topic": "customer-feedback",
+   "title": "Survey insight report delivery",
+   "connector_types": [
+    "database",
+    "knowledge_base",
+    "messaging",
+    "email"
+   ],
+   "recommended_trigger_kind": "event"
+  },
+  "survey-response-theme-and-sentiment-analysis": {
+   "path": "recipes/product_project/customer-feedback/survey-response-theme-and-sentiment-analysis",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "product_project",
+   "topic": "customer-feedback",
+   "title": "Survey response theme and sentiment analysis",
+   "connector_types": [
+    "database"
+   ],
+   "recommended_trigger_kind": "self_paced"
+  },
+  "under-covered-equity-discovery-by-sector": {
+   "path": "recipes/finance_accounting/investing/under-covered-equity-discovery-by-sector",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "finance_accounting",
+   "topic": "investing",
+   "title": "Under-covered equity discovery by sector",
+   "connector_types": [
+    "finance",
+    "research"
+   ],
+   "recommended_trigger_kind": "self_paced"
+  },
+  "unsigned-contract-signature-chasing": {
+   "path": "recipes/legal_compliance/deadlines/unsigned-contract-signature-chasing",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "legal_compliance",
+   "topic": "deadlines",
+   "title": "Unsigned contract signature chasing",
+   "connector_types": [
+    "spreadsheet",
+    "forms",
+    "email",
+    "messaging"
+   ],
+   "recommended_trigger_kind": "self_paced"
+  },
+  "watchlist-technical-signal-digest": {
+   "path": "recipes/finance_accounting/investing/watchlist-technical-signal-digest",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "finance_accounting",
+   "topic": "investing",
+   "title": "Watchlist technical signal digest",
+   "connector_types": [
+    "finance",
+    "research"
+   ],
+   "recommended_trigger_kind": "time"
+  },
   "web-analytics-performance-review": {
    "path": "recipes/sales_marketing/web-analytics/web-analytics-performance-review",
    "version": "0.1.0",
@@ -25,6 +1285,65 @@
     "social"
    ],
    "recommended_trigger_kind": "time"
+  },
+  "web-content-performance-review": {
+   "path": "recipes/sales_marketing/web-analytics/web-content-performance-review",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "sales_marketing",
+   "topic": "web-analytics",
+   "title": "Web content performance review",
+   "connector_types": [
+    "database"
+   ],
+   "recommended_trigger_kind": "self_paced"
+  },
+  "webhook-classification-and-routing": {
+   "path": "recipes/software_engineering/event-routing/webhook-classification-and-routing",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "software_engineering",
+   "topic": "event-routing",
+   "title": "Webhook classification and routing",
+   "connector_types": [
+    "messaging",
+    "knowledge_base",
+    "spreadsheet",
+    "email"
+   ],
+   "recommended_trigger_kind": "event"
+  },
+  "website-conversion-gap-audit": {
+   "path": "recipes/sales_marketing/conversion-optimization/website-conversion-gap-audit",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "sales_marketing",
+   "topic": "conversion-optimization",
+   "title": "Website conversion gap audit",
+   "connector_types": [],
+   "recommended_trigger_kind": "self_paced"
+  },
+  "weighted-decision-analysis-and-checkpoint-review": {
+   "path": "recipes/general_professional/decisions/weighted-decision-analysis-and-checkpoint-review",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "general_professional",
+   "topic": "decisions",
+   "title": "Weighted decision analysis and checkpoint review",
+   "connector_types": [
+    "knowledge_base"
+   ],
+   "recommended_trigger_kind": "self_paced"
+  },
+  "work-candidate-triage-gate": {
+   "path": "recipes/software_engineering/work-intake/work-candidate-triage-gate",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "software_engineering",
+   "topic": "work-intake",
+   "title": "Work candidate triage gate",
+   "connector_types": [],
+   "recommended_trigger_kind": "event"
   }
  }
 }

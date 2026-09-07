@@ -1,0 +1,114 @@
+{
+  "id": "ccb41ed3-bc75-5bf6-9e7d-e2afbc0c7896",
+  "slug": "per-channel-voice-profiling",
+  "title": "Per channel writing voice profiling",
+  "version": "0.1.0",
+  "status": "seed",
+  "path": "creative_design/social-publishing",
+  "domain": "creative_design",
+  "description": {
+    "need": "Drafts written without a written description of how this person sounds read like nobody, and the same correction gets made on every draft forever because nothing records it. The descriptions that do exist are usually adjectives, and a description that would accept any competent writing rejects nothing and so decides nothing.",
+    "input": "A set of the person's own work on one channel, chosen for being representative rather than for having performed well, and the corrections that have accumulated on drafts for that channel.",
+    "core_action": "Derive from real examples how they open, how long their sentences run, what they never say and how they close, keeping subject matter out of it, and write it down concretely enough that a draft can be rejected by pointing at a line.",
+    "output": "One written voice description per channel, derived from real work rather than adjectives, carrying the sample it came from and its date, revised when corrections start clustering rather than repeated on every draft."
+  },
+  "activities": [
+    {
+      "id": "gather",
+      "label": "Gather the person's own work for one channel, representative rather than best performing",
+      "kind": "observe"
+    },
+    {
+      "id": "extract",
+      "label": "Extract opening move, sentence rhythm, vocabulary, what they never say and closing shape, separating voice from subject",
+      "kind": "decide"
+    },
+    {
+      "id": "write",
+      "label": "Write the description concretely enough to check a draft against",
+      "kind": "act"
+    },
+    {
+      "id": "test",
+      "label": "Test it by using it to reject work it should reject and accept work it should accept",
+      "kind": "decide"
+    },
+    {
+      "id": "review",
+      "label": "Put it in front of the person, with the sample and date it came from, before drafts are made from it",
+      "kind": "deliver"
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "voice-per-channel-survives-fanout",
+      "statement": "Drafts read as though the person wrote them, and read differently on each channel because each channel is different.",
+      "success_criteria": [
+        "Each channel has its own written description, derived from real examples rather than from adjectives.",
+        "A change to one channel's voice does not leak into another's, and a strong voice on one channel is not copied onto a channel where it does not work.",
+        "The description separates voice from subject, so writing often about one topic does not become a rule that every draft is about that topic."
+      ]
+    },
+    {
+      "id": "the-description-discriminates",
+      "statement": "The description is specific enough to turn work down, which is the only way it can be useful to anyone drafting.",
+      "success_criteria": [
+        "A draft that is off voice can be rejected by pointing at a line in the description rather than by saying it feels wrong.",
+        "The description includes what the person never says, because a list of what somebody avoids identifies them faster than a list of what they favour.",
+        "A sample too thin or too narrow to support a confident description is reported as thin, and the description says which parts of it are a guess."
+      ]
+    },
+    {
+      "id": "revised-not-repeated",
+      "statement": "A correction made three times becomes a change to the description instead of a correction made a fourth time.",
+      "success_criteria": [
+        "Corrections are counted by dimension, so a cluster is visible as one problem rather than as several unrelated notes.",
+        "A revision records what changed and what it was derived from, so a later reader can tell a deliberate shift from a drift.",
+        "A description whose sample is old enough that the person's own writing has moved is flagged as stale rather than defended against their current work."
+      ]
+    }
+  ],
+  "guidance": "A voice description earns its place by rejecting things. Friendly and authoritative reject nothing, so write the moves: how they open, how long a sentence runs, whether they use contractions, what they close with, and above all what they never say. A banned list identifies somebody faster than a preferred one. Keep subject matter out of it, because writing about pricing is a topic rather than a voice, and encoding it makes every draft about pricing. Say when the sample was too thin.",
+  "use_cases": [
+    "A founder who rewrites every draft an assistant produces, making the same three changes each time, and has never written down what the three changes are.",
+    "Four people posting from one company account, where the account reads as four people and nobody can say which one of them is right.",
+    "An agency or ghostwriter onboarding a client, where the first month goes on discovering by rejection what the client sounds like and none of it survives the handover to the next writer.",
+    "Someone who is good on one channel and stiff on another, whose good channel's voice keeps being copied across and makes the other one worse every time.",
+    "A person whose writing has genuinely changed over two years, working against a profile built from their older work that now rejects the way they currently write."
+  ],
+  "connector_types": [],
+  "recommended_trigger": {
+    "kind": "self_paced",
+    "rationale": "Act when corrections on a channel start clustering on one dimension, when a new channel is added, or when the person's own recent work has moved away from the description. None of those arrives as an event and none is due on a date: each is noticed by looking, which is what self paced is for."
+  },
+  "personalization_needs": [
+    "Real examples of the person's own work per channel, which is the only usable input here and cannot be substituted with a style label from a list.",
+    "Which channels matter, since building a description for a channel nobody posts to is waste and maintaining it is worse.",
+    "What the person considers off voice, which is usually far easier for them to state than what is on voice, and which is the fastest route to a description that can reject something.",
+    "How their sample was chosen, because work picked for having performed well selects for the topic that landed rather than for how they write."
+  ],
+  "dependencies": [],
+  "input_schema": [
+    {
+      "name": "target_channel",
+      "type": "text",
+      "description": "Which channel's voice description to build. One per channel, built and revised independently, because a voice that works in one place is not evidence about another."
+    },
+    {
+      "name": "sample_posts",
+      "type": "text",
+      "description": "The person's own work on that channel, pasted or referenced. Representative pieces rather than best performing ones: the strongest posts are usually strong because of their subject, and profiling them encodes the subject as a style rule."
+    }
+  ],
+  "examples": [],
+  "lessons": [],
+  "provenance": {
+    "from_recipes": [
+      "ccb41ed3-bc75-5bf6-9e7d-e2afbc0c7896"
+    ],
+    "from_templates": [
+      "content-cascade"
+    ],
+    "source_template_id": "content-cascade"
+  }
+}

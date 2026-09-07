@@ -43,6 +43,13 @@
 
   "guidance": "Baselines are the whole judgment. A post that beat last week is not the same claim as a post that beat its own rolling median, and the second is the one worth acting on. Compare like against like: same platform, same format, same window. Treat a single spike as a question rather than a finding, and let the baseline absorb it before you call it a pattern.",
 
+  "use_cases": [
+      "A team publishing several times a week across more than one platform, where the numbers get read aloud in a meeting and the loudest post wins the argument whether or not it beat its own history.",
+      "A founder running content alone, who cannot tell a format that is working from a week that happened to be busy, and keeps rewriting the one that was already working.",
+      "An agency reporting to a client monthly, where every verdict has to survive the client asking \"compared to what\" and the honest answer cannot be \"the other posts in the batch\".",
+      "A launch window, when three weeks of unusual traffic would otherwise be absorbed into the baseline and quietly raise the bar every later post is judged against."
+  ],
+
   "connector_types": ["analytics", "social"],
 
   "recommended_trigger": {

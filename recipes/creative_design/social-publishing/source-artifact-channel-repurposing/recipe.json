@@ -1,0 +1,138 @@
+{
+  "id": "b1c5780a-ff95-5663-b9e1-c42174b5daee",
+  "slug": "source-artifact-channel-repurposing",
+  "title": "Source artifact repurposing for channels",
+  "version": "0.1.0",
+  "status": "seed",
+  "path": "creative_design/social-publishing",
+  "domain": "creative_design",
+  "description": {
+    "need": "Something published once reaches only the audience of the place it was published, and reformatting it by hand for every other channel is the work that quietly stops getting done. The automated version usually makes it worse: the piece is cut into excerpts, each of which was written assuming what came before it, so every variant reads as a fragment of something the reader cannot see.",
+    "input": "One published artifact in whatever form it exists, a video, an article, a transcript or pasted text, plus the written voice description for each channel in scope and each channel's hard constraints.",
+    "core_action": "Decide what each channel actually wants from this source, then write it as a piece that stands on its own in that channel, grounded in that channel's own voice, rather than reformatting the same text or lifting a passage out of the middle.",
+    "output": "One draft per channel in scope, each complete without the source in front of the reader, each respecting that channel's constraints and voice, each waiting on its own separate approval."
+  },
+  "activities": [
+    {
+      "id": "resolve-source",
+      "label": "Resolve the source artifact into text worth working from, and name what could not be resolved",
+      "kind": "observe"
+    },
+    {
+      "id": "read-voices",
+      "label": "Read the voice description and the hard constraints for each channel in scope",
+      "kind": "observe"
+    },
+    {
+      "id": "decide-fit",
+      "label": "Decide what each channel wants from this source, or that it wants nothing from it",
+      "kind": "decide"
+    },
+    {
+      "id": "draft",
+      "label": "Write a channel specific draft that stands on its own, rather than an excerpt",
+      "kind": "act"
+    },
+    {
+      "id": "present",
+      "label": "Present each draft for its own separate approval, with any constraint it could not meet",
+      "kind": "deliver"
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "one-source-many-channel-drafts",
+      "statement": "Something published once is present wherever its audience is, in a form that belongs to each place.",
+      "success_criteria": [
+        "Each draft is a rewrite grounded in that channel's own written voice, not the same text reformatted and not a passage lifted out of the middle.",
+        "Each draft restates whatever the source assumed its reader already knew, because a reader who met this in a feed did not arrive through the link.",
+        "Nothing is published without an explicit approval for that specific channel, and one refusal does not hold the others."
+      ]
+    },
+    {
+      "id": "deliver-or-point",
+      "statement": "Each variant has decided whether it delivers the value or points at it, and the rest of the draft follows from that decision.",
+      "success_criteria": [
+        "A draft that delivers the value is complete in the channel, so a reader who never follows the link has still had the thing.",
+        "A draft that points at the source says what the reader gets by going there. Withholding the finding as bait is not pointing at it.",
+        "Where a channel's hard constraint cannot be met, the failure is shown beside the draft rather than resolved by truncating it."
+      ]
+    },
+    {
+      "id": "what-should-be-left-alone-is",
+      "statement": "A source or a channel that should be left alone is left alone, and the decision is written down rather than left as an absence.",
+      "success_criteria": [
+        "A channel whose voice description is missing is held back and named, rather than drafted for generically.",
+        "A source judged not worth repurposing produces that finding, instead of four drafts nobody is going to approve.",
+        "A source whose claim has been overtaken since it was published is checked before it is rewritten, and the check has the authority to decline and say why."
+      ]
+    }
+  ],
+  "guidance": "The claim transfers between channels and almost nothing else does. An opening written for someone who followed a link fails in a feed, where the reader arrived by accident and knows nothing. So restate the premise every time, and never lift an excerpt, which was written assuming what came before it. Decide per channel whether the draft delivers the value or points at it, because that one choice sets the length, the structure and the ending. Withholding the finding as bait is not pointing at it.",
+  "use_cases": [
+    "A team that publishes one substantial piece a week and announces it on three channels as a title plus a link, and cannot work out why almost nobody follows it.",
+    "A solo operator whose best work is a video or a talk, whose buyers read written channels instead, and for whom reformatting takes about as long as making the original did.",
+    "A company where the same paragraph goes out everywhere on the same morning, reaching one heavily overlapping audience that experiences the reach as noise.",
+    "A team whose repurposing is an automation that cuts a long piece into five excerpts, each of which reads as a fragment of something the reader cannot see.",
+    "A channel newly added to the mix whose voice nobody has written down, where every draft made for it comes back rejected on tone and nobody can say what the tone should have been."
+  ],
+  "connector_types": [
+    "research",
+    "web_scraping"
+  ],
+  "recommended_trigger": {
+    "kind": "event",
+    "rationale": "The work begins when a source artifact is published. There is nothing to repurpose before that and no reason to look on a clock. An adopter with a backlog of already published work should expect a first run to be a batch and say so, rather than treating the backlog as a stream of events."
+  },
+  "personalization_needs": [
+    "Which channels are in scope, since drafting for a channel with no account is waste and drafting for one whose voice has never been written down produces rejections.",
+    "Where source artifacts come from and whether their arrival should trigger this at all, because a channel feed and a manual paste are different levels of automation and only one of them needs a judgment about what deserves a fan out.",
+    "What the adopter considers a source worth repurposing, since not everything published deserves one, and the recipe needs permission to say so.",
+    "Whether the variants are meant to land together or be spread out, because a single overlapping audience seeing the same claim five times in a morning experiences reach as repetition."
+  ],
+  "dependencies": [],
+  "input_schema": [
+    {
+      "name": "source_input",
+      "type": "text",
+      "description": "The source artifact: a link to a video or article, a transcript, or pasted text. The shape of the input decides which resolution path applies and what can be recovered from it."
+    },
+    {
+      "name": "target_platforms",
+      "type": "text",
+      "description": "Which channels to draft for, from the set the adopter has in scope. A channel is only drafted for when its voice description exists, so this list is an upper bound rather than a guarantee."
+    },
+    {
+      "name": "max_drafts_per_run",
+      "type": "number",
+      "default": 4,
+      "min": 1,
+      "max": 4,
+      "description": "Cap on channel variants per run. The cap exists to keep human review tractable, since every draft here needs its own separate approval and an unreviewed draft has no value at all."
+    }
+  ],
+  "examples": [
+    {
+      "title": "YouTube Data as the video source connector",
+      "connector": "youtube_data",
+      "connector_type": "research",
+      "notes": "See examples/youtube_data.md."
+    },
+    {
+      "title": "Firecrawl as the article source connector",
+      "connector": "firecrawl",
+      "connector_type": "web_scraping",
+      "notes": "See examples/firecrawl.md."
+    }
+  ],
+  "lessons": [],
+  "provenance": {
+    "from_recipes": [
+      "b1c5780a-ff95-5663-b9e1-c42174b5daee"
+    ],
+    "from_templates": [
+      "content-cascade"
+    ],
+    "source_template_id": "content-cascade"
+  }
+}

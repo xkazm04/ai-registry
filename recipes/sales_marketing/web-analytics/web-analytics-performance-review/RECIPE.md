@@ -56,6 +56,18 @@ like against like: same platform, same format, same window. Treat a single spike
 question rather than a finding, and let the baseline absorb it before you call it a
 pattern.
 
+## Where this is worth adopting
+
+- A team publishing several times a week across more than one platform, where the numbers
+  get read aloud in a meeting and the loudest post wins the argument whether or not it
+  beat its own history.
+- A founder running content alone, who cannot tell a format that is working from a week
+  that happened to be busy, and keeps rewriting the one that was already working.
+- An agency reporting to a client monthly, where every verdict has to survive the client
+  asking "compared to what" and the honest answer cannot be "the other posts in the batch".
+- A launch window, when three weeks of unusual traffic would otherwise be absorbed into
+  the baseline and quietly raise the bar every later post is judged against.
+
 ## Connector types
 
 `analytics`, `social`.

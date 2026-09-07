@@ -1,0 +1,127 @@
+{
+  "id": "7a90ad49-bf04-5235-9f46-9b42bc6ee230",
+  "slug": "production-error-issue-filter",
+  "title": "Production error issue filter",
+  "version": "0.1.0",
+  "status": "seed",
+  "path": "software_engineering/error-triage",
+  "domain": "software_engineering",
+  "description": {
+    "need": "Root cause analysis costs real time per issue, so a filter that forwards everything makes the analysis step worthless and a filter tuned only on occurrence count forwards the wrong things: it measures how much traffic an error saw rather than how much harm it did, and it sends six copies of one outage because six services each reported their own timeout.",
+    "input": "The window's issues from the error monitor for the scoped projects and environment, each with its state, its occurrence count, the users or sessions it reached, the release it last fired in, and the record of which signatures this team has already judged to be nothing.",
+    "core_action": "Decide which issues are worth an expensive investigation, collapsing the ones that are a single failure seen from several places, dropping the ones whose premise the code has already overtaken, and qualifying on consequence rather than on count, without forming any opinion about what caused them.",
+    "output": "A short qualified set sized to what the downstream step can actually absorb, each entry naming why it qualified, alongside a recorded verdict for the window even when nothing qualified."
+  },
+  "activities": [
+    {
+      "id": "query",
+      "label": "Pull the window's issues for the scoped projects and environment",
+      "kind": "observe"
+    },
+    {
+      "id": "collapse",
+      "label": "Collapse issues that are one failure seen from several places",
+      "kind": "decide"
+    },
+    {
+      "id": "qualify",
+      "label": "Qualify on reach, consequence and novelty rather than on count alone",
+      "kind": "decide"
+    },
+    {
+      "id": "suppress",
+      "label": "Drop signatures this team has repeatedly judged to be nothing",
+      "kind": "decide"
+    },
+    {
+      "id": "hand-on",
+      "label": "Hand on the budgeted set, or record the window as clear",
+      "kind": "deliver"
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "the-expensive-step-only-sees-work-worth-doing",
+      "statement": "Everything reaching the analysis step is worth the analysis, and everything worth it gets there.",
+      "success_criteria": [
+        "Each forwarded issue carries the reason it qualified: how many people it reached, that it is new or has returned, or that it sits on a path the adopter named as consequential.",
+        "A cluster of issues that are one underlying failure is forwarded once, naming the one that failed first and listing the rest as its downstream symptoms.",
+        "An issue whose last occurrence predates a release that has since shipped is not forwarded, and the reason it was declined is recorded rather than left silent.",
+        "The forwarded set never exceeds what the downstream step was told it can absorb, and an over-full window says which qualified issues it held back."
+      ]
+    },
+    {
+      "id": "the-filter-can-be-judged",
+      "statement": "Whether the filter is set too tight or too loose is answerable from its own record rather than from an argument.",
+      "success_criteria": [
+        "The share of forwarded issues that turned out to be worth investigating is carried forward run to run, and a share far below a third is treated as evidence the filter is too loose.",
+        "A window where nothing qualified is recorded as scanned and clear, with the scope and window it covered, so the same window is not paid for twice.",
+        "The first run states that it is establishing the suppression record and forwards on present evidence alone, rather than implying it learned anything from history it does not have."
+      ]
+    }
+  ],
+  "guidance": "This is a gate in front of something expensive, so its job is to be wrong in a stated direction rather than to be permissive. Count is the weakest signal it has: a hundred failures in one retry loop is one person, and three failures at checkout may be every customer who tried. Never editorialise about cause, but do notice when several issues moved together, because forwarding all of them buys the same answer several times. Say what was declined and why.",
+  "use_cases": [
+    "A team that turned on automated root cause analysis and quietly turned it off again, because it ran against everything unresolved and produced more reading than the errors did.",
+    "An outage where a connection pool filled and every service that called through it reported its own timeout, so the honest count of problems is one and the queue says six.",
+    "A product with a small number of high value accounts, where an error touching four of them is the most important thing in the window and will never clear a count floor set for consumer traffic.",
+    "A monitoring account shared across several products, where the person responsible for one of them needs the queue scoped before it is filtered, not after.",
+    "The week after a fix ships, when the backlog is still full of issues that stopped happening and each one still costs a full investigation to discover that."
+  ],
+  "connector_types": [
+    "monitoring"
+  ],
+  "recommended_trigger": {
+    "kind": "self_paced",
+    "rationale": "Nothing outside obliges the filter to run at a given hour, and running it on an empty window spends the same effort as running it on a full one. It should run when enough unread issues have accumulated to make the pass worthwhile, or when a release has just shipped and the shape of the queue is about to change."
+  },
+  "personalization_needs": [
+    "Which projects and which environment this filter covers, because a monitor account almost always spans more than the system in question and a staging exception in the queue costs the same investigation as a real one.",
+    "Which code paths the adopter considers consequential, since that is the only way an error with a small count can outrank one with a large one and it cannot be derived from the monitor.",
+    "How many investigations the downstream step can absorb in the time between runs, which is the real budget and is what turns a ranked list into a cut.",
+    "What this team has already dismissed, so the filter starts from their history rather than spending its first month rediscovering it."
+  ],
+  "dependencies": [],
+  "input_schema": [
+    {
+      "name": "severity_threshold",
+      "type": "number",
+      "default": 5,
+      "min": 1,
+      "max": 1000,
+      "description": "Occurrence count below which an issue does not qualify on count alone. Reach, novelty, regression and a consequential path all override it."
+    },
+    {
+      "name": "lookback_hours",
+      "type": "number",
+      "default": 24,
+      "min": 1,
+      "max": 168,
+      "description": "Scan window in hours. Should follow the interval between runs so consecutive passes neither overlap heavily nor leave a gap."
+    },
+    {
+      "name": "environment_filter",
+      "type": "text",
+      "default": "production",
+      "description": "Environment tag to filter by, such as production, staging, or a comma-separated list."
+    }
+  ],
+  "examples": [
+    {
+      "title": "Sentry as the monitoring connector",
+      "connector": "sentry",
+      "connector_type": "monitoring",
+      "notes": "See examples/sentry.md."
+    }
+  ],
+  "lessons": [],
+  "provenance": {
+    "from_recipes": [
+      "7a90ad49-bf04-5235-9f46-9b42bc6ee230"
+    ],
+    "from_templates": [
+      "sentry-production-monitor"
+    ],
+    "source_template_id": "sentry-production-monitor"
+  }
+}

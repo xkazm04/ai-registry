@@ -1,0 +1,128 @@
+{
+  "id": "ed6cfd3a-ecb2-5b72-bde3-28d49bcb9c3f",
+  "slug": "cloud-billing-access-failure-alerting",
+  "title": "Cloud billing access failure alerting",
+  "version": "0.1.0",
+  "status": "seed",
+  "path": "finance_accounting/spend-and-budget",
+  "domain": "finance_accounting",
+  "description": {
+    "need": "A spend watch that cannot read billing looks exactly like a spend watch that found nothing wrong, so an outage quietly becomes weeks of unmeasured cost. The worse case is a partial read, which does not look like nothing: it looks like a good month, and nobody investigates a bill that went down.",
+    "input": "A failed or incomplete read of the billing source, carrying the reason it failed, whatever partial data came back, and how recently this same failure was seen.",
+    "core_action": "Separate a source that is broken from one that is merely not finished publishing yet, name the specific failure mode behind the first, and give the next step for that provider rather than a generic error notice.",
+    "output": "An alert the person who can fix it can act on today, the affected period marked unmeasured wherever the spend figures are read, and a record of how often this failure mode has recurred."
+  },
+  "activities": [
+    {
+      "id": "read-failure",
+      "label": "Read the failure reason and any partial data from the billing check",
+      "kind": "observe"
+    },
+    {
+      "id": "recheck",
+      "label": "Read the source again to see whether the failure persists or was transient",
+      "kind": "observe"
+    },
+    {
+      "id": "classify",
+      "label": "Classify the failure as credential, missing permission, rate limit, missing or stale export, partial period, or a period the provider has simply not published yet",
+      "kind": "decide"
+    },
+    {
+      "id": "weigh-recurrence",
+      "label": "Weigh whether this failure mode has recurred often enough to need a permanent fix rather than another alert",
+      "kind": "decide"
+    },
+    {
+      "id": "compose",
+      "label": "Compose the alert with provider-specific next steps and the size of the window now unmeasured",
+      "kind": "act"
+    },
+    {
+      "id": "raise",
+      "label": "Raise it to whoever holds the access that would fix it",
+      "kind": "deliver"
+    },
+    {
+      "id": "mark-unmeasured",
+      "label": "Mark the affected period unmeasured wherever the spend figures are read, so a later comparison does not treat the gap as a cheap month",
+      "kind": "deliver"
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "blind-spots-explained",
+      "statement": "When the billing check cannot see real data, the reason and the fix are in the alert, not a mystery.",
+      "success_criteria": [
+        "The alert names the specific cause: an expired credential, a missing cost permission on a credential that is otherwise valid, a rate limit, a missing or stale export, or partial data",
+        "Provider-specific next steps are included, not a generic instruction to check the API key",
+        "A period the provider has not finished publishing is reported as not yet available and never as a failure, because alerting on it once teaches everyone to ignore this alert"
+      ]
+    },
+    {
+      "id": "blindness-not-read-as-safety",
+      "statement": "An unreachable or half readable billing source is reported as blindness rather than read as an improvement.",
+      "success_criteria": [
+        "A period the check could not read fully is marked unmeasured wherever the spend figures are later read, not merely mentioned in one alert",
+        "A partial period is never reported as a fall in spend, and any figure derived from it carries the fact that it is partial",
+        "The alert states how long the source has now been unreadable, because the cost of the blindness grows with that number and the first hour and the third week are different problems"
+      ]
+    },
+    {
+      "id": "recurring-failures-become-fixes",
+      "statement": "A failure mode that keeps happening is treated as a standing problem rather than restated as news.",
+      "success_criteria": [
+        "A failure seen repeatedly is raised once as a pattern with its frequency, not alerted on every occurrence",
+        "A failure that resolves on its own is closed rather than left open, so the count of open blind spots is true",
+        "A transient failure that cleared on a re-read produces no alert at all"
+      ]
+    }
+  ],
+  "guidance": "Silence has to mean measured, so the first judgment is whether the source is broken or simply not finished. Cost data arrives late and is estimated until the period closes, and alerting on that lag once is enough to make everyone ignore this alert forever. The dangerous case is partial data, because it reads as a cheap month rather than as a gap. Diagnose the provider's own failure mode and say who can fix it. If the same failure keeps recurring, ask for a fix, not another alert.",
+  "use_cases": [
+    "A team whose cloud spend watch has been quietly reporting nothing for six weeks because a rotated credential lost one permission, and who will find out at the invoice that the figures they trusted covered half the account.",
+    "An organisation with several linked accounts under one payer, where billing access exists at the top and not on the accounts the watch actually reads, so the coverage gap is structural rather than an outage.",
+    "A finance owner who is not the person holding the cloud credential, and for whom an alert saying the API key is bad is unactionable, while an alert naming which permission is missing and who administers it is not.",
+    "Any operation whose cost trend is used for a decision, where a month that reads low because the source was half readable is worse than a month that reads as missing.",
+    "A newly adopted spend watch on a provider whose cost data is published from an export rather than an API, where the first real failure will be a stale export and not a broken credential."
+  ],
+  "connector_types": [
+    "cloud"
+  ],
+  "recommended_trigger": {
+    "kind": "event",
+    "rationale": "The work exists only when a billing read fails, and it has a short window in which the access can be repaired before another reporting period is lost. Nothing is gained by pacing or scheduling it, and a schedule would either alert late or alert on a source that had already recovered."
+  },
+  "personalization_needs": [
+    "Which provider and account the billing credential covers, because the troubleshooting steps are entirely provider-specific and a generic message is what this recipe exists to replace",
+    "Who holds the access that would fix it, which is usually not the person who owns the bill, because an alert delivered to someone without provider administration is noise",
+    "How long the provider takes to publish a closed period, because without that number the recipe cannot tell a source that is broken from one that is simply not finished",
+    "How long a blind period is tolerable before it should be escalated rather than reported, because the answer differs between a hobby account and a production bill"
+  ],
+  "dependencies": [],
+  "input_schema": [],
+  "examples": [
+    {
+      "title": "AWS as the cloud connector",
+      "connector": "aws_cloud",
+      "connector_type": "cloud",
+      "notes": "See examples/aws_cloud.md."
+    },
+    {
+      "title": "Google Cloud as the cloud connector",
+      "connector": "gcp_cloud",
+      "connector_type": "cloud",
+      "notes": "See examples/gcp_cloud.md."
+    }
+  ],
+  "lessons": [],
+  "provenance": {
+    "from_recipes": [
+      "ed6cfd3a-ecb2-5b72-bde3-28d49bcb9c3f"
+    ],
+    "from_templates": [
+      "budget-spending-monitor"
+    ],
+    "source_template_id": "budget-spending-monitor"
+  }
+}

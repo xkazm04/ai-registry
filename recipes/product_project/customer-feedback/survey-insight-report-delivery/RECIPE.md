@@ -1,0 +1,134 @@
+---
+name: survey-insight-report-delivery
+version: 0.1.0
+status: seed
+domain: product_project
+path: product_project/customer-feedback
+---
+
+# Survey insight report delivery
+
+The rendered view of [`recipe.json`](recipe.json). When the two disagree, the JSON is
+right and this file is stale.
+
+**Need.** A completed feedback analysis that nobody receives is work done twice, and one
+that leaves the baseline untouched makes the next comparison lie. The more common
+failure is quieter: the report is read, the caveats that were attached to the analysis
+are not, and a decision about every customer gets made from the subset who felt strongly
+enough to answer.
+
+**Input.** A completed analysis with its themes, sentiment, anomalies and confidence,
+who did and did not respond, and the baselines the next comparison will read.
+
+**Core action.** Turn the analysis into something a person receives and can act on,
+carry its limits into the report itself rather than leaving them behind in the analysis,
+and write the baselines forward so the next comparison starts from fresh ground.
+
+**Output.** A delivered report that says what was said, who said it and who did not,
+items filed as changes somebody could actually make, and updated baselines that the next
+run will read rather than a description of them.
+
+## Activities
+
+1. Read the completed analysis, its confidence and who it represents *(observe)*
+2. Decide the report's priority from the severity of what it found, not from its length
+*(decide)*
+3. Compose the report so its limits travel with it, flagging low confidence readings for
+a person *(act)*
+4. File each theme worth acting on as a change somebody could make, growing an existing
+item rather than duplicating it *(act)*
+5. Deliver the report and archive it where the adopter asked *(deliver)*
+6. Write the baselines forward so the next comparison reads them *(deliver)*
+
+Linear and branch-free, by contract. This is the shape of the work, not a runbook.
+
+## Outcomes
+
+**A completed analysis becomes a report a person received and a baseline the next
+analysis will read.**
+
+- Every completed analysis produces a delivered report, and a delivery that failed is
+  retried rather than logged.
+- The baselines the next run reads are the ones this run wrote, verified by reading them
+  back rather than by having composed them, since a baseline described in a report is
+  not a baseline.
+- A first run says plainly that it is establishing the baseline instead of reporting a
+  change against nothing.
+
+**What people said turns into work somebody can pick up, rather than a chart nobody acts
+on.**
+
+- Each filed item names the theme, roughly how many respondents raised it, and what
+  changing it would fix.
+- A theme already filed grows in weight rather than producing a second item, so a
+  recurring complaint accumulates instead of resetting each period.
+- Nothing is filed that cannot be phrased as a change someone could make, and a period
+  whose themes are all of that kind is reported without filing anything.
+
+**A reader can tell whose opinion they are reading before they act on it.**
+
+- The report states how many were asked and how many answered, not only how many
+  answered.
+- Where the respondents are known to differ from the population, that difference is
+  stated in the report rather than left in the analysis, because the caveat has to
+  travel with the number that will be quoted.
+- A confidence that was low in the analysis is visible in the report at the same
+  prominence as the finding it qualifies.
+
+## Guidance
+
+The report is where a finding becomes a decision, so its limits have to travel with it.
+Say how many were asked, not only how many answered, because the people who did not
+reply are the ones a conclusion about everybody most easily gets wrong. File a theme
+only as a change somebody could make, and let an existing item grow rather than
+duplicating it. Then write the baselines forward and read them back, since describing a
+baseline in a report does not move it.
+
+## Where this is worth adopting
+
+- A team that runs a quarterly survey, discusses the results once, and finds a year
+  later that nobody can say whether the top complaint from the first quarter ever got
+  smaller.
+- A product organisation where the same three themes come back every period and each one
+  is filed as a fresh ticket, so the backlog grows and no single item ever looks big
+  enough to schedule.
+- A company about to make a pricing or roadmap decision from a survey that fifty of two
+  thousand customers answered, where the useful contribution is not the analysis but the
+  sentence about the one thousand nine hundred and fifty.
+- A support or research lead who already has good analysis and no reliable delivery, so
+  the findings land in a document that is read the week it is written and never again.
+- Any adoption where the same pipeline runs every period, since the baseline write is
+  invisible when it works and produces a silently wrong trend for months when it does
+  not.
+
+## Connector types
+
+`database`, `knowledge_base`, `messaging`, `email`.
+
+Types, never connectors. Adoption resolves each to any connector whose catalog
+`categories` include it, and the concrete knowledge lives in [`examples/`](examples/).
+
+## Recommended trigger
+
+`event`. This is the second half of a pipeline and has nothing to do until an analysis
+completes. Pacing it would mean waking to find no analysis waiting, and putting it on a
+clock would mean reporting whatever the last analysis happened to leave behind, which is
+the specific way a periodic report starts restating itself.
+
+A recommendation is a default, not a binding: the adopter assigns the real trigger at
+adoption or later.
+
+## Personalization needs
+
+- What the adopter wants the output to be, an item in a backlog, an entry in a knowledge
+  base, or both, because the report is written differently for each.
+- Who the respondents are and who the population is, because that comparison is the only
+  thing that lets the report say whose opinion it carries.
+- Which respondents count for more, since the same complaint from a trial user and a
+  paying one deserves different weight in what gets filed.
+- What severity is worth escalating the whole report for, because an escalation that
+  fires every run stops being an escalation.
+
+## Dependencies
+
+None.

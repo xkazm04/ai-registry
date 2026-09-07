@@ -1,0 +1,109 @@
+{
+  "id": "8751850c-6824-588f-ab7d-f2abe3c1b2eb",
+  "slug": "work-candidate-triage-gate",
+  "title": "Work candidate triage gate",
+  "version": "0.1.0",
+  "status": "seed",
+  "path": "software_engineering/work-intake",
+  "domain": "software_engineering",
+  "description": {
+    "need": "Anything that generates candidates will eventually generate more than anyone can absorb, and the two ways a gate then fails are the same failure wearing different clothes: it accepts everything, or it grows a queue nobody drains. Both follow from never saying how many decisions actually fit in a week. There is a third failure that looks like health, which is a gate kept green by a rule that closes old items on its own: the counts improve, the reviewer feels faster, and what quietly falls is how much anybody bothers to submit.",
+    "input": "Candidates from whatever produced them, the context each carries, the capacity the reviewer has declared for this period, and the record of what this person has already refused and why.",
+    "core_action": "Hold the decision to a declared capacity: admit only as many candidates as this person can genuinely decide on, give each one enough context to decide without further digging, and turn what they decide into a signal the producer upstream learns from.",
+    "output": "A decision on every admitted candidate, an accepted one leaving with somebody carrying it rather than with a changed status, a refusal carrying a reason from a small closed set, and a visible count of what is being held rather than decided."
+  },
+  "activities": [
+    {
+      "id": "admit",
+      "label": "Admit candidates up to the capacity declared for this period and hold the rest visibly",
+      "kind": "observe"
+    },
+    {
+      "id": "present",
+      "label": "Present each with enough context to decide without more digging",
+      "kind": "deliver"
+    },
+    {
+      "id": "record",
+      "label": "Record accept, decline or defer with a reason from a closed set",
+      "kind": "act"
+    },
+    {
+      "id": "carry",
+      "label": "Send an accepted candidate on with an owner and a next step",
+      "kind": "deliver"
+    },
+    {
+      "id": "teach",
+      "label": "Feed the reasons back so the producer stops surfacing that shape",
+      "kind": "act"
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "the-gate-is-bounded-and-it-drains",
+      "statement": "The gate closes at least as fast as it opens, and what it cannot reach is held in the open rather than accepted by default or quietly lost.",
+      "success_criteria": [
+        "The number admitted in a period is set by what the reviewer can decide on, not by how many candidates the producers made.",
+        "The health of the gate is read from decisions made against candidates arriving over a rolling window, never from the depth of the queue, which improves for good and bad reasons alike.",
+        "A queue that grows across several windows is reported as a capacity problem and answered by narrowing the producers, not by asking the reviewer to decide faster.",
+        "An item that ages past its window is declined by a person with a reason, and where a rule closes items automatically the recipe reports what stopped being submitted as well as what stopped being queued."
+      ]
+    },
+    {
+      "id": "an-accept-is-a-commitment-somebody-carries",
+      "statement": "Accepting a candidate puts it in somebody's hands, so an acceptance is distinguishable from an item that was merely marked accepted.",
+      "success_criteria": [
+        "An accepted candidate leaves with an owner and a next step; a changed status on its own is not an acceptance and is not reported as one.",
+        "Completion comes back to the gate, so an accepted item nobody ever carried is visible as exactly that rather than looking identical to one that was delivered.",
+        "An item still open is distinguishable from one that finished and never reported, because otherwise the gate defers work that is already done."
+      ]
+    },
+    {
+      "id": "refusals-teach-the-producer",
+      "statement": "The same shape of low value candidate stops arriving once the reviewer has refused it a few times.",
+      "success_criteria": [
+        "A refusal carries a typed reason from a small closed set, because a category can be suppressed from a type and cannot be suppressed from free text.",
+        "Repeated refusals of one shape measurably reduce how often that shape arrives, and the reduction is reported so the reviewer can see the gate learning.",
+        "A refusal is cheap to reverse and says so, because a meaningful share of decisions at any intake gate are wrong in both directions and an irreversible no is the expensive kind."
+      ]
+    }
+  ],
+  "guidance": "The scarce thing is the reviewer's attention, not the work, so start by declaring how many decisions fit in a week and admit that many. Judge the gate on whether it closes at least as fast as it opens, never on how deep the queue is. Make declining cheap and typed: a reason from a small closed set can suppress a whole category, and free text cannot. An accepted item that nobody carries is a decision that never happened.",
+  "use_cases": [
+    "A setup where a code scan, an idea harvester and an outside scout all file into one place, so the person in the middle now spends more time deciding than all three producers spent producing.",
+    "A team whose backlog grows every week and whose review always ends before the bottom of it, so the oldest items are decided by never being reached and nobody has to own that.",
+    "An automated loop where producing candidates is cheap and accepting one is the single act reserved for a person, so every worker downstream idles at full capacity while the queue fills up.",
+    "A project that turned on a rule to close stale items, watched the queue depth improve, and has not connected that to the fact that fewer people bother submitting anything now.",
+    "A solo operator who wants to say no in one word and have that word mean that the same shape stops arriving, rather than having to say it again next month."
+  ],
+  "connector_types": [],
+  "recommended_trigger": {
+    "kind": "event",
+    "rationale": "A candidate arriving is what creates the work, and a gate that only sweeps on its own schedule delays every candidate by up to one sweep for no benefit. Waking on arrival is not the same as deciding on arrival: batching the decisions into a fixed slot with a named reviewer is the arrangement that survives at scale, and that batching belongs to the adopter's cadence rather than to this recipe."
+  },
+  "personalization_needs": [
+    "How many decisions this person can genuinely make in a period, because that number is the capacity the gate is built around and every other property follows from it.",
+    "How much context they need to decide, since too little means digging and too much means the queue goes unread, and the two failures look nothing alike.",
+    "How a refusal should shape the producer, because suppressing a category permanently and damping it are different promises and only one of them is safe to make from three refusals.",
+    "How long an undecided candidate should wait before it is surfaced again rather than dropped, and who is allowed to close one without deciding on it.",
+    "Who carries an accepted candidate and how the gate learns that they finished, because without that half an acceptance is a status and not a commitment."
+  ],
+  "dependencies": [],
+  "input_schema": [],
+  "examples": [],
+  "lessons": [],
+  "provenance": {
+    "from_recipes": [
+      "8751850c-6824-588f-ab7d-f2abe3c1b2eb",
+      "bbace830-43f9-5583-b675-a71aa969127d",
+      "d7d804cf-5ac3-55d5-8b43-a1ba0d74a1f1"
+    ],
+    "from_templates": [
+      "dev-clone",
+      "idea-harvester",
+      "product-scout"
+    ],
+    "source_template_id": "dev-clone"
+  }
+}

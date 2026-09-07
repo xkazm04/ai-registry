@@ -1,0 +1,133 @@
+---
+name: content-source-health-tracking
+version: 0.1.0
+status: seed
+domain: sales_marketing
+path: sales_marketing/community-channels
+---
+
+# Content source health tracking
+
+The rendered view of [`recipe.json`](recipe.json). When the two disagree, the JSON is
+right and this file is stale.
+
+**Need.** Three different things look identical from the outside: a source that is
+merely quiet, a source that has stopped producing anything worth reading, and a source
+that is broken. So dead entries stay on a follow list forever spending budget every
+pass, and an expired credential gets filed as an ordinary quiet week while a whole
+community goes missing from the digest for a month before anyone notices.
+
+**Input.** The outcome of each fetch against each followed source, what kind of outcome
+it was, each source's own normal yield, and the record of when it last produced
+something usable.
+
+**Core action.** Tell a quiet source from a broken one from a source that has genuinely
+died, judged against that source's own normal rate rather than a fixed count of empty
+passes, and rule out a shared outage before blaming any individual source.
+
+**Output.** Each followed source carries a current state and the date it last produced
+something, and a source whose failures have become a real pattern is named for removal
+in the next digest, with the reason and the evidence, for somebody else to decide.
+
+## Activities
+
+1. Record each fetch outcome against its source, and which kind of outcome it was
+*(observe)*
+2. Rule out a shared failure before blaming any single source *(decide)*
+3. Decide whether the pattern is quiet, broken, dead, or too new to say *(decide)*
+4. Re-check the source directly before saying anything about it *(observe)*
+5. Raise a source whose failures have become a clear pattern *(act)*
+6. Carry every source's state and any removal case into the next digest *(deliver)*
+
+Linear and branch-free, by contract. This is the shape of the work, not a runbook.
+
+## Outcomes
+
+**A source that has stopped being worth fetching is named for removal, and a source that
+is merely broken is named for repair, and neither is mistaken for the other.**
+
+- A fetch that errored and a fetch that succeeded with nothing usable are recorded as
+  different outcomes, because one is fixable today and the other is a curation question.
+- A source failing often enough to be a pattern raises a case in the next digest
+  carrying the reason and the evidence, not just a state.
+- The case is re-checked against the source directly before it is raised, so a counter
+  accumulated against a configuration that has since changed does not become a
+  recommendation.
+
+**No source is recommended for removal on evidence that would not survive being
+questioned.**
+
+- A single failure, or a genuinely quiet period for a source that is normally quiet,
+  raises nothing.
+- Failures that hit every source in the same pass are read as one shared fault rather
+  than as the whole follow list dying at once.
+- A newly added source is marked as establishing its normal rather than judged against a
+  normal it does not have yet.
+- The threshold is expressed against each source's own yield, so a community that
+  produces once a month is not condemned on the same evidence as one that produces
+  hourly.
+
+**Anyone can read the current state of every followed source without running anything,
+including that everything is fine.**
+
+- A pass in which every source was healthy is recorded as a healthy pass, so nobody has
+  to tell an all clear from a run that never happened.
+- Every source carries the date it last produced something usable, which is the one fact
+  that makes a removal argument checkable.
+- The recommendation goes to whoever decides; this work never prunes the follow list
+  itself.
+
+## Guidance
+
+Two failures look identical and are not: a fetch that errored and a fetch that worked
+and returned nothing. The first is usually a credential or a rename and is fixable
+today; the second is a curation question. Rule out a shared outage before blaming any
+one source, because a network fault will otherwise recommend deleting the whole follow
+list. The errors here are asymmetric: a wrongly removed source is a permanent blind
+spot, a dead one costs a little budget per pass. Lean slow.
+
+## Where this is worth adopting
+
+- A follow list that has been added to for two years and never pruned, where nobody can
+  say which entries still produce anything and every pass costs more than the last.
+- A team that lost a source silently when a credential expired, kept shipping a normal
+  looking digest, and found out six weeks later that an entire community had been
+  missing from it.
+- A follow list that mixes very busy communities with a few niche ones that produce once
+  a month, where any fixed number of empty passes is the wrong threshold for at least
+  half of them.
+- An operation running on a metered API, where dead entries are a visible line item and
+  the question is which ones to cut without cutting one that is merely seasonal.
+- The week after an outage, when a naive health tracker would have recorded every source
+  failing at once and would now be recommending that the entire list be deleted.
+
+## Connector types
+
+None. This work needs no external connector: the tools the agent already has are enough.
+
+## Recommended trigger
+
+`event`. The only thing this work reacts to is a fetch outcome, which is a real
+observable event produced by whatever is doing the fetching. There is nothing to look at
+between fetches and a clock would only add passes with no new evidence in them. It runs
+as a background responsibility beside the work that fetches, not as a job of its own.
+
+A recommendation is a default, not a binding: the adopter assigns the real trigger at
+adoption or later.
+
+## Personalization needs
+
+- What the adopter counts as a usable item from a source, because everything here rests
+  on that definition and it is theirs rather than this work's.
+- How much silence is a pattern rather than an outage, expressed against each source's
+  own normal yield, since being too eager removes a source that was down for an
+  afternoon and being too slow keeps paying for one that died a year ago.
+- Who decides whether a flagged source is actually removed, because this work recommends
+  and does not prune, and a recommendation with no named reader is a note nobody reads.
+- Which sources the adopter considers load bearing, since a high value source failing
+  deserves an interruption today while a marginal one deserves a line in the next
+  digest.
+
+## Dependencies
+
+None.

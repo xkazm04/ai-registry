@@ -1,0 +1,130 @@
+{
+  "id": "136c0300-30bf-59af-a13d-4b55efb99489",
+  "slug": "high-intent-lead-alerting",
+  "title": "High intent lead alerting",
+  "version": "0.1.0",
+  "status": "seed",
+  "path": "sales_marketing/lead-handling",
+  "domain": "sales_marketing",
+  "description": {
+    "need": "A lead judged promising decays over minutes rather than hours, so the gap between the judgment and a person seeing it is where most of the loss happens. The plausible version of the failure is not silence but noise: a channel that fires on every enquiry gets tuned out within weeks, and the one submission that genuinely earned an interruption then arrives into a feed nobody opens any more.",
+    "input": "A lead that has just been judged promising, the reasoning and signals behind that judgment, who owns leads of that kind, and the adopter's rule for which cases are worth interrupting somebody over.",
+    "core_action": "Decide whether this lead earns an interruption and at what level, then put it in front of the person who owns it with enough context that they can act without going to look anything up. The threshold is half the work, because it is what keeps the channel worth opening.",
+    "output": "The person who owns the lead knows about it while acting is still worth more than the interruption, holding the reasoning, the signals and a way straight into the record, plus a durable note of when the alert went out and whether anyone picked it up."
+  },
+  "activities": [
+    {
+      "id": "receive",
+      "label": "Take in the newly judged lead, its reasoning and its signals",
+      "kind": "observe"
+    },
+    {
+      "id": "threshold",
+      "label": "Decide whether this one earns an interruption, and at which level",
+      "kind": "decide"
+    },
+    {
+      "id": "compose",
+      "label": "Compose the alert so the reader can act without going to look",
+      "kind": "act"
+    },
+    {
+      "id": "route",
+      "label": "Send it to whoever owns this kind of lead, on the route the level earned",
+      "kind": "act"
+    },
+    {
+      "id": "record",
+      "label": "Record that the alert went, when, and whether it was picked up",
+      "kind": "deliver"
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "promising-leads-reach-a-person-fast",
+      "statement": "A lead judged worth attention is in front of the person who owns it while acting on it is still worth more than the interruption.",
+      "success_criteria": [
+        "The alert carries the reasoning behind the judgment, the signals that drove it, and a way straight into the record, so acting on it needs no lookup.",
+        "The most promising cases reach the assigned person directly rather than only a shared channel.",
+        "The delay between the judgment and the send is recorded, so the share of response time this recipe owns is told apart from the share a human owns.",
+        "A delivery failure never silently drops a promising lead: it falls back or queues, and says which of the two it did."
+      ]
+    },
+    {
+      "id": "the-channel-stays-worth-reading",
+      "statement": "The alert route is still read months later, because what arrives on it has stayed rare enough to be worth opening.",
+      "success_criteria": [
+        "How often each route fires is reviewable, so a threshold that has drifted into alerting on everything is visible before the channel is abandoned.",
+        "An alert that fired and was never picked up is visible as unpicked, rather than indistinguishable from one that was acted on.",
+        "A period in which nothing crossed the threshold is reported as a quiet period, so nobody has to guess whether the pipeline was empty or the alerter was broken."
+      ]
+    }
+  ],
+  "guidance": "Speed is the asset. Contact and qualification odds fall away over minutes, not hours, so everything done between the judgment and the send is spent from one budget: spend it on context rather than on formatting. The threshold is the other half of the craft and it is a claim about the reader's attention, not about the lead. A route that fires on everything has already been tuned out, and the alert that mattered arrives there too.",
+  "use_cases": [
+    "A small sales team where every enquiry lands in one shared channel, so the person who would have called the serious one back inside the hour is scrolling past it alongside forty newsletter signups.",
+    "A founder who is the only person able to answer a technical enquiry and is not at a desk most of the day, who needs the difference between what can wait until evening and what cannot decided before their phone buzzes.",
+    "A team that already tried alerting on every lead, watched the channel go unread within a month, and now has no working route at all for the ones that matter.",
+    "A business whose enquiries arrive from a time zone where its own people are asleep, where the honest question is not how fast the alert fires but what should happen to it until somebody is awake.",
+    "An operation where the CRM is the system of record and nobody opens it unprompted, so a lead that was captured perfectly still sits untouched until somebody happens to look."
+  ],
+  "connector_types": [
+    "messaging",
+    "crm"
+  ],
+  "recommended_trigger": {
+    "kind": "event",
+    "rationale": "The alert is worth exactly as much as its freshness and the decay is measured in minutes, so a schedule would guarantee the loss it exists to prevent. It fires when a lead is judged. What the adopter still owns is what happens to an alert that fires outside working hours, which is a decision rather than a cadence."
+  },
+  "personalization_needs": [
+    "Which cases are actually worth interrupting somebody over, in the adopter's own terms, because this is the single setting that decides whether the channel keeps being read.",
+    "Where the people who act on leads actually are, and who owns which kind of lead, since a shared channel and a direct message are different levels of interruption and reach different people.",
+    "What context that person needs in order to act without going to look it up, which differs by how their first sales conversation usually opens.",
+    "What should happen to a lead that crosses the threshold outside working hours, because the decay does not pause overnight and holding the alert until morning is a decision the adopter should make deliberately rather than inherit."
+  ],
+  "dependencies": [],
+  "input_schema": [
+    {
+      "name": "alert_threshold",
+      "type": "enum",
+      "options": [
+        "on_fire_81_plus",
+        "hot_and_on_fire_61_plus",
+        "warm_plus_31_plus",
+        "all_tiers"
+      ],
+      "default": "hot_and_on_fire_61_plus",
+      "description": "Minimum tier that earns an interruption at all. Set it against how many leads a day the reader can absorb, not against how promising the tier sounds: a threshold most leads clear has stopped selecting anything, and the channel is abandoned before anyone notices."
+    }
+  ],
+  "examples": [
+    {
+      "title": "Slack as the alert channel",
+      "connector": "slack",
+      "connector_type": "messaging",
+      "notes": "See examples/slack.md."
+    },
+    {
+      "title": "Microsoft Teams as the alert channel",
+      "connector": "microsoft-teams",
+      "connector_type": "messaging",
+      "notes": "See examples/microsoft-teams.md."
+    },
+    {
+      "title": "HubSpot as the record the alert links into",
+      "connector": "hubspot",
+      "connector_type": "crm",
+      "notes": "See examples/hubspot.md."
+    }
+  ],
+  "lessons": [],
+  "provenance": {
+    "from_recipes": [
+      "136c0300-30bf-59af-a13d-4b55efb99489"
+    ],
+    "from_templates": [
+      "lead-capture-pipeline"
+    ],
+    "source_template_id": "lead-capture-pipeline"
+  }
+}

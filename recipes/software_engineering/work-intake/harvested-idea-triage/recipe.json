@@ -1,0 +1,117 @@
+{
+  "id": "bbace830-43f9-5583-b675-a71aa969127d",
+  "slug": "harvested-idea-triage",
+  "title": "Harvested idea triage",
+  "version": "0.1.0",
+  "status": "seed",
+  "path": "software_engineering/work-intake",
+  "domain": "software_engineering",
+  "description": {
+    "need": "A harvested idea costs nothing to produce and a great deal to read, so the supply is unbounded and the queue is not. Worse, it describes a codebase as it was: by the time anyone reaches it the change may already be done, half done, or overtaken by something better, and the expensive analysis step is then spent proving that. A harvest with no memory of what was refused produces the same twenty thoughts every pass in slightly different words, and the reader learns to skip the list rather than the item.",
+    "input": "One harvested idea with whatever the harvest captured about it, the code as it stands now, what is already queued or already decided, and the record of which categories this person keeps refusing.",
+    "core_action": "Read the premise against the current code before putting the idea to anyone, with the authority to decline it as already done or overtaken and to name what is actually left underneath, then take a decision before any analysis effort is spent.",
+    "output": "A decision on every harvested idea, an accepted one carrying the date its premise was last confirmed, a declined one carrying a reason from a closed set, and a refused category suppressed at the harvester rather than only at this gate."
+  },
+  "activities": [
+    {
+      "id": "receive",
+      "label": "Take the harvested idea as the harvest produced it",
+      "kind": "observe"
+    },
+    {
+      "id": "revalidate",
+      "label": "Read the premise against the code as it stands now",
+      "kind": "observe"
+    },
+    {
+      "id": "dedupe",
+      "label": "Match it against what is already queued and already decided",
+      "kind": "decide"
+    },
+    {
+      "id": "present",
+      "label": "Present it for accept or decline with the state of its premise attached",
+      "kind": "deliver"
+    },
+    {
+      "id": "record",
+      "label": "Record the decision with a reason from a closed set",
+      "kind": "act"
+    },
+    {
+      "id": "route",
+      "label": "Send an accepted idea on to analysis, or the refusal back to the harvester",
+      "kind": "deliver"
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "the-premise-is-checked-before-the-idea-is",
+      "statement": "Nobody spends analysis effort on an idea whose premise the code has already overtaken.",
+      "success_criteria": [
+        "An idea whose premise no longer holds is declined as overtaken, and where something useful remains underneath it, that remainder is named rather than being lost with the idea.",
+        "An accepted idea carries the date its premise was last confirmed against the code, so a later reader can tell whether it has gone stale again while waiting.",
+        "Declining for staleness is recorded as a fact about the code rather than as a judgment about the idea, so the same idea is allowed back if the code moves again."
+      ]
+    },
+    {
+      "id": "nothing-is-analysed-before-it-is-wanted",
+      "statement": "A harvested idea reaches a human decision before it consumes the expensive step downstream.",
+      "success_criteria": [
+        "Every harvested idea admitted reaches an accept or a decline, and an accepted one reliably arrives at analysis with somebody named.",
+        "Duplicates are matched at intake, where a match is cheap and obvious, rather than after two ideas have each been analysed separately.",
+        "A pass with nothing worth putting to anyone says so, because a harvester that always yields something is reporting its own eagerness."
+      ]
+    },
+    {
+      "id": "the-refusals-reach-the-harvester",
+      "statement": "A category the reader keeps refusing stops being generated, not merely stops being shown.",
+      "success_criteria": [
+        "A refusal carries a typed reason from a small closed set, because a category can be suppressed from a type and cannot be suppressed from prose.",
+        "Repeated refusals of one category change what the harvest produces, and the change is reported so the reader can see it happen.",
+        "A harvest whose output is refused most of the time is reported as a producer problem, rather than absorbed by this gate reading faster."
+      ]
+    }
+  ],
+  "guidance": "Read the premise before you read the idea. A harvested item describes a codebase as it was, and by the time anyone reaches it the change may be done, half done, or overtaken by something better, with the work that is actually needed sitting underneath. Decline for staleness openly and say what is really left. Match duplicates at intake, where it is cheap. When one category keeps being refused, the fix belongs at the harvester and not at this gate.",
+  "use_cases": [
+    "A harvester that reads the codebase every night, where the fifth pass produces the same twenty ideas as the first and the person reading them has started skipping the list rather than the item.",
+    "An idea that has waited months while the code moved underneath it, so building it now would either redo work that has already landed or fix the half of the problem that was never the problem.",
+    "A pipeline where analysis is the expensive step and harvesting is free, so a single unwanted idea reaching analysis costs more than the entire harvest that produced it.",
+    "A team whose harvested queue and hand written backlog have grown into each other, so the same request exists three times in three wordings and is decided three different ways.",
+    "An operator who wants a whole category of idea to stop being generated rather than merely stop being displayed, and currently has no way to say so that anything upstream hears."
+  ],
+  "connector_types": [
+    "source_control"
+  ],
+  "recommended_trigger": {
+    "kind": "event",
+    "rationale": "A harvested idea arriving is what creates the work, and this gate stands between it and the expensive analysis step, so waiting for a sweep spends nothing and delays everything. The premise check that makes this gate different from a plain queue is a cheap read at the moment of arrival, and it is worth least when it is oldest."
+  },
+  "personalization_needs": [
+    "How much context this person needs to decide on an idea whose source they did not see, since a harvested idea arrives without the conversation that would normally accompany it.",
+    "Whether a refused category should stop being harvested or merely be ranked lower, because those are different promises and only one of them can be undone quietly.",
+    "How deep a premise check is worth paying for here, because a shallow read that says the premise looks intact is a different claim from one that confirms it, and both are useful if they are labelled.",
+    "How this codebase records that work has already been done, since that is what the premise check compares against and every project keeps it somewhere different."
+  ],
+  "dependencies": [],
+  "input_schema": [],
+  "examples": [
+    {
+      "title": "A registered local checkout as the source_control connector",
+      "connector": "codebase",
+      "connector_type": "source_control",
+      "notes": "See examples/codebase.md."
+    }
+  ],
+  "lessons": [],
+  "provenance": {
+    "from_recipes": [
+      "bbace830-43f9-5583-b675-a71aa969127d"
+    ],
+    "from_templates": [
+      "idea-harvester"
+    ],
+    "source_template_id": "idea-harvester"
+  }
+}

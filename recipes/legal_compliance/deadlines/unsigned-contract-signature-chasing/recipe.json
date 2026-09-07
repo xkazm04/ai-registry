@@ -1,0 +1,140 @@
+{
+  "id": "2d6945b7-5cca-5f28-b91c-26b03249ea70",
+  "slug": "unsigned-contract-signature-chasing",
+  "title": "Unsigned contract signature chasing",
+  "version": "0.1.0",
+  "status": "seed",
+  "path": "legal_compliance/deadlines",
+  "domain": "legal_compliance",
+  "description": {
+    "need": "A contract sitting unsigned costs whatever it was going to be worth, and chasing it is a relationship rather than a queue. Too few nudges and it dies quietly; too many and the counterparty stops reading anything from that address. Most reminders fail for a third reason, which is that they repeat a request the recipient never disagreed with, when what is actually holding the contract up is a question on their side that nobody asked about.",
+    "input": "Contracts still out for signature, which recipient each is actually waiting on, how long it has waited, what has already been sent, and how this counterparty has responded before.",
+    "core_action": "Work out who is genuinely holding the contract and what is likely blocking them, ask about that rather than repeating the request, and judge when chasing has stopped producing information and the contract belongs to a person instead.",
+    "output": "Every unsigned contract has either moved, been handed to somebody with a name, or been called dead, and none is still cycling reminders at a recipient who stopped reading them weeks ago."
+  },
+  "activities": [
+    {
+      "id": "survey",
+      "label": "Survey contracts still unsigned, and which recipient each one is actually waiting on",
+      "kind": "observe"
+    },
+    {
+      "id": "check",
+      "label": "Check whether the signer already responded somewhere the tracker did not see",
+      "kind": "observe"
+    },
+    {
+      "id": "weigh",
+      "label": "Weigh how this counterparty normally responds, and what is plausibly blocking this one",
+      "kind": "decide"
+    },
+    {
+      "id": "nudge",
+      "label": "Ask about the blocker rather than repeating the request, within what the relationship can bear",
+      "kind": "act"
+    },
+    {
+      "id": "escalate",
+      "label": "Hand a contract that has stopped producing information to the owner, and then to a person",
+      "kind": "act"
+    },
+    {
+      "id": "record",
+      "label": "Record what was sent, what came back, and when a contract was called dead",
+      "kind": "deliver"
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "chased-then-handed-over",
+      "statement": "An unsigned contract is chased a sensible number of times and then belongs to a named person, never to the reminder loop.",
+      "success_criteria": [
+        "Reminders to a signer never exceed the cap the adopter set, and the cap is a property of the relationship rather than of the deadline.",
+        "A contract past the point where chasing is still producing information reaches a person, and that handoff is observably picked up rather than only sent.",
+        "A contract nobody is going to sign is marked as such, because a dead contract left open looks exactly like an active one and keeps costing attention."
+      ]
+    },
+    {
+      "id": "the-nudge-goes-to-whoever-is-actually-blocked",
+      "statement": "The message reaches the person who can move the contract, and asks about what is holding it.",
+      "success_criteria": [
+        "Where a contract routes through several signers, the nudge addresses the one it is currently waiting on rather than the original contact.",
+        "A second nudge differs from the first: it offers to resolve something, or asks what is needed, rather than restating the request.",
+        "A signer who already replied outside the tracker is not nudged, because a reminder to somebody who answered is the fastest way to be filtered."
+      ]
+    },
+    {
+      "id": "chasing-respects-the-relationship",
+      "statement": "A counterparty who is slow but reliable is not treated like one who has gone silent.",
+      "success_criteria": [
+        "How long this counterparty has historically taken informs when the next nudge is due, so a signer who always takes two weeks is not chased on day four.",
+        "Anything leaving for an external party is seen by a person first, unless the adopter has explicitly said otherwise.",
+        "A sweep with nothing due to chase says so, rather than lowering its own bar to have something to send."
+      ]
+    }
+  ],
+  "guidance": "A stalled contract is usually not forgetfulness. It is a question on the other side that nobody asked about, so the second nudge should offer something the first did not: a shorter path, a different signer, an answer. Chase whoever the document is actually waiting on, not whoever you know. Stop when the nudges stop producing information, because a fourth message teaches you nothing the third did not and costs you the address. Calling a contract dead is a result.",
+  "use_cases": [
+    "A small sales team where the founder is the only person who chases, so chasing happens on the days they remember and the contracts that go quiet are the ones nobody liked chasing.",
+    "A company selling into larger organisations, where a contract sits for three weeks in a procurement queue the sender cannot see and every reminder to the champion is a message they can do nothing with.",
+    "An operation that has been sending automatic reminders for a year and cannot say whether they work, because nothing recorded which contracts moved after a nudge and which moved anyway.",
+    "A renewals desk carrying dozens of open envelopes at once, where the real cost is not the unsigned contract but the attention spent every week rereading a list that includes deals which died in March.",
+    "Any team whose counterparties include both a two day signer and a two month one, where a single reminder interval is wrong for both and being wrong in the fast direction is the expensive one."
+  ],
+  "connector_types": [
+    "spreadsheet",
+    "forms",
+    "email",
+    "messaging"
+  ],
+  "recommended_trigger": {
+    "kind": "self_paced",
+    "rationale": "Act from the state of each contract rather than from a calendar: check whether any has reached the point where a nudge would say something new, and stay quiet when none has. A weekday sweep nudges on the schedule's terms rather than the counterparty's, which is precisely the failure the recipe exists to avoid."
+  },
+  "personalization_needs": [
+    "How long the adopter is willing to wait before nudging, which is a relationship judgment and differs by counterparty type more than by contract value.",
+    "How many times a signer may be nudged before it becomes harassment, since the same three messages are attentive from a supplier and pushy from a vendor.",
+    "What is usually blocking contracts here, because the useful second nudge names it, and a team selling into procurement heavy buyers has a different answer from one selling to founders.",
+    "Which outbound messages need a person's approval before they leave, especially anything going to an external party.",
+    "What the adopter wants done with a contract that will never be signed, since marking it dead is a commercial decision rather than an administrative one."
+  ],
+  "dependencies": [],
+  "input_schema": [
+    {
+      "name": "remind_threshold_days",
+      "type": "number",
+      "default": 3,
+      "description": "Days unsigned before the first nudge. A starting point only: once this counterparty has a response history, that history is the better signal and this number should give way to it."
+    },
+    {
+      "name": "escalate_threshold_days",
+      "type": "number",
+      "default": 7,
+      "description": "Days unsigned before the contract is handed from the signer to its owner. Set it from how long the adopter can afford to keep the contract in the loop rather than from how long a signer ought to take."
+    }
+  ],
+  "examples": [
+    {
+      "title": "DocuSign as the signature platform",
+      "connector": "docusign",
+      "connector_type": "forms",
+      "notes": "See examples/docusign.md."
+    },
+    {
+      "title": "Gmail as the chase channel",
+      "connector": "gmail",
+      "connector_type": "email",
+      "notes": "See examples/gmail.md."
+    }
+  ],
+  "lessons": [],
+  "provenance": {
+    "from_recipes": [
+      "2d6945b7-5cca-5f28-b91c-26b03249ea70"
+    ],
+    "from_templates": [
+      "contract-lifecycle-use-case"
+    ],
+    "source_template_id": "contract-lifecycle-use-case"
+  }
+}

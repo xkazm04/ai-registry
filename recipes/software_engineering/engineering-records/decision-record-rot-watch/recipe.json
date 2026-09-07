@@ -1,0 +1,143 @@
+{
+  "id": "43eb2670-30f4-54c7-8f40-cbd8bebac8c0",
+  "slug": "decision-record-rot-watch",
+  "title": "Decision record rot watch",
+  "version": "0.1.0",
+  "status": "seed",
+  "path": "software_engineering/engineering-records",
+  "domain": "software_engineering",
+  "description": {
+    "need": "A decision stays presented as current long after the thing it assumed stopped being true, and the reader who arrives at the old record has no way to tell. There is a quieter version that a date based review will never catch: the record still says something true while its implication has stopped being true, because what moved was underneath it rather than in it. And a record set is not automatically an architecture, so a handful of records nobody has added to in a year is usually a practice that was tried and dropped, which is a different finding and needs saying before anything is audited.",
+    "input": "The recorded decisions with the assumption each rests on, when each was last examined rather than merely last edited, activity in the code and dependencies each governs, and the record of what has already been reaffirmed.",
+    "core_action": "Watch the assumptions rather than the dates, concentrate on the records most likely to be wrong instead of working through a rota, and never silently reaffirm: if nothing has changed, say that nothing has changed.",
+    "output": "Decisions whose assumptions have been contradicted reopened rather than left standing, a superseded decision that points at what replaced it from its own page, and a record set too thin or too abandoned to audit reported as exactly that."
+  },
+  "activities": [
+    {
+      "id": "survey",
+      "label": "Establish whether there is a record set here worth watching at all",
+      "kind": "observe"
+    },
+    {
+      "id": "watch",
+      "label": "Watch for a dependency replaced, a constraint lifted, a service retired",
+      "kind": "observe"
+    },
+    {
+      "id": "select",
+      "label": "Concentrate on the records most likely to be wrong rather than a rota",
+      "kind": "decide"
+    },
+    {
+      "id": "present",
+      "label": "Put each due decision to a person to reaffirm, re-evaluate or deprecate",
+      "kind": "deliver"
+    },
+    {
+      "id": "point",
+      "label": "Make a replacement findable from the old record, not only from the new one",
+      "kind": "act"
+    },
+    {
+      "id": "archive",
+      "label": "Archive a deprecated decision once nothing active still references it",
+      "kind": "act"
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "nothing-reads-as-current-that-is-no-longer-true",
+      "statement": "No decision is still presented as current after the reasoning that supported it stopped holding.",
+      "success_criteria": [
+        "Each record carries the assumption it depended on, because a record that does not name one cannot be watched and can only be aged.",
+        "A decision whose assumption has been contradicted is reopened rather than left standing, and the contradiction names what moved.",
+        "A record whose text is still accurate while its implication has stopped being true is caught as well, since that failure is invisible to any check based on whether the record has changed.",
+        "The status field alone is not read as evidence of currency, because in most record sets nearly everything says accepted and the field therefore separates nothing."
+      ]
+    },
+    {
+      "id": "supersession-is-findable-from-the-side-a-reader-arrives-on",
+      "statement": "Somebody who lands on the old record finds the one that replaced it without knowing to look.",
+      "success_criteria": [
+        "A superseded decision points at its replacement from its own page, in the part a reader sees first rather than in a field near the bottom.",
+        "A supersession recorded on one side only is treated as a signal that the record was written by hand, and the other side is checked rather than assumed.",
+        "The old record is kept rather than removed or rewritten, because it is still true that it was the decision, and only false that it still is."
+      ]
+    },
+    {
+      "id": "no-silent-reaffirmation-and-no-premature-archive",
+      "statement": "A due decision is judged by a person, and archiving never pulls a record out from under one that still depends on it.",
+      "success_criteria": [
+        "Every due decision is put to a person to reaffirm, re-evaluate or deprecate, and none is reaffirmed by nothing happening.",
+        "A pass that examined records and found nothing that has moved records that it looked and what it covered, so a quiet corpus and an unexamined one are not confused.",
+        "A decision still referenced by other active decisions is not archived, and the references are checked rather than inferred from age.",
+        "A record set too small or too long untouched to be a working practice is reported as an abandoned practice, and the pass stops rather than auditing it as though it were an architecture."
+      ]
+    }
+  ],
+  "guidance": "A decision goes stale when the world it assumed changes, not on a calendar, so watch the assumptions and treat a date as a backstop. Watch for the quieter failure too: the record still says something true while its implication has stopped being true. Never silently reaffirm; if nothing has changed, say that nothing has changed. Make a replacement findable from the old record, because the reader arrives at the old one first, and archive only when nothing active still points at it.",
+  "use_cases": [
+    "A record set several years old whose earliest entries describe a system that no longer exists, where a new joiner reads them as current because nothing on the page says otherwise.",
+    "A set of four records, none touched in a year, where the useful finding is that the practice was tried and stopped rather than that four records are overdue for review.",
+    "A decision that was right when the team was three people and is wrong now that it is fifteen, whose text has not changed and does not need to, because what moved was underneath it.",
+    "The month a dependency or a hosted service is replaced, when several standing decisions rest on the thing that went away and nobody has connected the change to any of them.",
+    "A reader who arrives at a superseded record through a search and has no way to reach the one that replaced it, because the link was only ever written on the new record and searches do not start there."
+  ],
+  "connector_types": [
+    "knowledge_base",
+    "source_control"
+  ],
+  "recommended_trigger": {
+    "kind": "self_paced",
+    "rationale": "Look when something a decision assumed appears to have moved: a dependency replaced, a constraint lifted, a service retired. A fixed review cycle with a fixed review period turns staleness into an age, which is the substitution this work exists to reject, and it produces its worst output on the records that are oldest and most obviously still correct."
+  },
+  "personalization_needs": [
+    "Which assumptions this operation considers load bearing rather than incidental, because every decision rests on dozens and only a few of them decide whether it is still right.",
+    "How much activity around the area a decision governs counts as a signal here, since that is the cheapest available proxy for an assumption moving and its sensitivity is a taste judgment.",
+    "Where the records live and whether they sit beside the code, because a record set inside the repository can be superseded in the same change that caused the supersession and one outside it cannot.",
+    "Whether these records carry a date they were last examined, separate from the date they were last edited, since without it the whole watch degrades to the age based review it is meant to replace."
+  ],
+  "dependencies": [],
+  "input_schema": [
+    {
+      "name": "decision_review_period_days",
+      "type": "number",
+      "default": 30,
+      "min": 7,
+      "max": 365,
+      "description": "A backstop, not the trigger. A record nothing has happened around still gets looked at eventually, but a record surfaced only because this many days passed should be presented as a routine check rather than as a finding, or the reader learns that the queue means nothing."
+    },
+    {
+      "name": "auto_archive_after_days",
+      "type": "number",
+      "default": 365,
+      "min": 0,
+      "max": 1825,
+      "description": "A ceiling on how long a deprecated decision stays in the active set, never a schedule. Nothing is archived while something active still points at it however long it has been, and zero disables the ceiling entirely, which is the right setting wherever archiving is hard to undo."
+    }
+  ],
+  "examples": [
+    {
+      "title": "A note store as the knowledge_base connector",
+      "connector": "obsidian",
+      "connector_type": "knowledge_base",
+      "notes": "See examples/obsidian.md."
+    },
+    {
+      "title": "A hosted repository as the source_control connector",
+      "connector": "github",
+      "connector_type": "source_control",
+      "notes": "See examples/github.md."
+    }
+  ],
+  "lessons": [],
+  "provenance": {
+    "from_recipes": [
+      "43eb2670-30f4-54c7-8f40-cbd8bebac8c0"
+    ],
+    "from_templates": [
+      "technical-decision-tracker"
+    ],
+    "source_template_id": "technical-decision-tracker"
+  }
+}

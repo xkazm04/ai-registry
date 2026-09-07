@@ -1,0 +1,117 @@
+{
+  "id": "fcff41fe-7d00-5ecf-a303-97dee11d5274",
+  "slug": "database-health-check",
+  "title": "Database health check",
+  "version": "0.1.0",
+  "status": "seed",
+  "path": "software_engineering/observability",
+  "domain": "software_engineering",
+  "description": {
+    "need": "A connection pool filling up, a bloating table, a replica falling behind or a counter walking toward an engine limit is visible for days before it is an outage, and the reports that would have shown it are usually too long to read, so nobody looks until it is the outage.",
+    "input": "Read only health queries against one database, the record of what those same queries returned on earlier passes, and the findings from earlier passes that are still open.",
+    "core_action": "Judge each signal by how much headroom is left to a limit that will actually be enforced and how fast that headroom is closing, then rank the findings so a short list of them can be acted on rather than a long list read.",
+    "output": "A ranked account naming what is wrong, why it matters and what closes it, with checks that could not run named as unchecked, an unreachable database raised as its own critical, and a clean pass recorded as a clean pass."
+  },
+  "activities": [
+    {
+      "id": "query",
+      "label": "Run the read only checks this engine actually supports",
+      "kind": "observe"
+    },
+    {
+      "id": "headroom",
+      "label": "Measure each signal's distance to the limit it is heading toward and its rate of approach",
+      "kind": "decide"
+    },
+    {
+      "id": "rank",
+      "label": "Rank findings by what happens next and how soon, not by how many there are",
+      "kind": "decide"
+    },
+    {
+      "id": "carry",
+      "label": "Set aside findings already filed and still open, and note how long they have stood",
+      "kind": "act"
+    },
+    {
+      "id": "report",
+      "label": "Report the ranked account, naming unchecked signals and raising unreachability as its own critical",
+      "kind": "deliver"
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "db-problems-known-before-outage",
+      "statement": "A degrading pool, a growing table, a lagging replica or a counter approaching an engine limit is known while it is still a trend, not after it becomes an outage.",
+      "success_criteria": [
+        "Every finding states what is wrong, why it matters and what would close it, rather than reporting a number",
+        "A signal with a hard engine limit behind it is judged on remaining headroom and rate of approach, not on deviation from its own history",
+        "Database unreachability is surfaced as its own critical, never folded into a generic failure"
+      ]
+    },
+    {
+      "id": "unchecked-is-never-reported-as-passed",
+      "statement": "The account distinguishes what was checked and found clean from what could not be checked at all.",
+      "success_criteria": [
+        "A check that failed on a missing permission or an absent extension is reported as unchecked, with what it would need, and is never counted as a pass",
+        "A pass in which every check ran and nothing was found says so, so the next pass knows the look already happened",
+        "A read that returned no rows because the credential cannot see them is distinguishable from a read that returned no rows because there are none"
+      ]
+    },
+    {
+      "id": "a-standing-finding-stops-being-news",
+      "statement": "A finding that keeps coming back is escalated as a decision somebody owes rather than reported again identically.",
+      "success_criteria": [
+        "A finding already open is carried with its age rather than filed a second time",
+        "A finding that has survived several passes unchanged is raised differently from a new one"
+      ]
+    }
+  ],
+  "guidance": "A check that reports everything is a data dump, not a health check. Rank by consequence: how much headroom is left to a limit this engine will actually enforce, and how fast it is closing. Bloat and an unused index rarely deserve the same line as a counter walking toward a hard ceiling. A check that could not run for want of a permission is unchecked, never passed. A finding raised on three consecutive passes has stopped being a finding and is a decision somebody owes.",
+  "use_cases": [
+    "A team whose database is managed by the application developers because there is no DBA, where nobody currently knows whether the last backup restored or whether autovacuum has kept up.",
+    "A service that has been running well for two years and has never been looked at since launch, where the slow accumulations are exactly the ones that build silently over that timescale.",
+    "The handover when a database changes owner, and the new owner needs a short ranked list of what is actually wrong rather than the previous owner's assurance that it is fine.",
+    "A production incident review where the question is which of the signals were visible beforehand, and the honest answer depends on whether anyone had a repeatable read to compare against.",
+    "An operator who already runs a monitoring tool but gets a two hundred line report from it, has stopped opening it, and needs a handful of findings with consequences attached instead."
+  ],
+  "connector_types": [
+    "database"
+  ],
+  "recommended_trigger": {
+    "kind": "self_paced",
+    "rationale": "Nothing outside obliges this pass and no baseline depends on its regularity, unlike the sampling that feeds performance monitoring. The signals here move over days and weeks, so look when the database has changed enough to be worth re reading, or when a finding reported last time should now be verifiably better or worse."
+  },
+  "personalization_needs": [
+    "Which database and which engine, because the checks that exist at all differ per engine and a check absent from one engine must not be reported as passing there",
+    "Which read only credential this work holds and what it is permitted to see, because a health check must never be able to write and a credential that cannot read a catalogue view produces silence that looks like health",
+    "What the adopter already knows to be abnormal by design, such as a table that grows fast on purpose, so it is not reported as a finding every pass",
+    "What the adopter can actually act on, since a finding that needs a maintenance window they cannot get is a different conversation from one they can close this afternoon"
+  ],
+  "dependencies": [],
+  "input_schema": [],
+  "examples": [
+    {
+      "title": "PostgreSQL as the database connector",
+      "connector": "postgres",
+      "connector_type": "database",
+      "notes": "See examples/postgres.md."
+    },
+    {
+      "title": "Supabase as a managed database connector",
+      "connector": "supabase",
+      "connector_type": "database",
+      "notes": "See examples/supabase.md."
+    }
+  ],
+  "lessons": [],
+  "provenance": {
+    "from_recipes": [
+      "fcff41fe-7d00-5ecf-a303-97dee11d5274"
+    ],
+    "from_templates": [
+      "devops-guardian"
+    ],
+    "source_template_id": "devops-guardian"
+  }
+}

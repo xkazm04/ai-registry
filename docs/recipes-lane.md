@@ -80,6 +80,11 @@ does not name is allowed and ignored, because this registry guarantees
   "outcomes": [ { "id": "...", "statement": "...", "success_criteria": ["..."] } ],
   "guidance": "40-90 words of judgment, never numbered steps, never a tool order.",
 
+  "use_cases": [                                 // 3..6 situations where adopting this pays. The selection signal.
+    "A team publishing several times a week across more than one platform, where ...",
+    "A founder running content alone, who cannot tell a format that is working from ..."
+  ],
+
   "connector_types": ["analytics", "social"],      // connector CATEGORIES, NEVER a connector id
   "recommended_trigger": { "kind": "self_paced", "rationale": "..." },   // event | time | self_paced
   "personalization_needs": ["what adoption must learn from the adopter, and why"],
@@ -105,6 +110,29 @@ rather than an instruction. If it needs a branch it is a runbook and it does not
 in a recipe. The predecessor field this replaced (`useCaseFlow`) was a node and edge
 graph, which is a script for a machine; this is a shape a reader and a diagram can take
 in at a glance.
+
+### `use_cases` is the selection signal
+
+Three to six, required. `need` and `core_action` describe **the craft**; `use_cases`
+describe **the situations that should reach for it**, and they are not the same sentence.
+A corpus of two hundred recipes is selected FROM, by an operator scanning for what fits
+their week and by an agent proposing an adoption, and neither can tell from a well-written
+`need` whether this recipe is for them.
+
+Each entry names a **situation and why the work pays there**: who is in it, what is going
+wrong or about to, and what this recipe changes about that. An audience is not a use case:
+"marketing teams" names a group, and every recipe in the domain would claim it. The gate
+requires three to six entries and notes anything under six words, which is the length at
+which a bare noun phrase stops being possible.
+
+Write them last, after the four description fields and the guidance, so they describe the
+recipe that exists rather than the one that was planned. `RECIPE.md` renders them under
+`## Where this is worth adopting`.
+
+They are deliberately **not** in `recipes/index.json`. The index is loaded whole to pick a
+recipe by shape (domain, topic, connector types, trigger); use cases are prose, four of
+them per recipe would multiply the index by an order of magnitude, and the index already
+tells a reader where to open the recipe.
 
 ### `description` is four fields, always
 
@@ -172,6 +200,7 @@ path: sales_marketing/web-analytics
 
 ## Outcomes
 ## Guidance
+## Where this is worth adopting
 ## Connector types
 ## Recommended trigger
 ```
@@ -253,6 +282,8 @@ What it checks:
   (`observe`, `decide`, `act`, `deliver`), `recommended_trigger.kind` (`event`, `time`,
   `self_paced`);
 - three to eight activities, with unique kebab-case ids;
+- three to six `use_cases`, each a non-empty string (a short one is reported as a note,
+  because an audience where a situation belongs is the failure this field exists to stop);
 - `slug` matches its folder, `domain` matches its top folder, `path` matches
   `<domain>/<topic>`;
 - `RECIPE.md` exists, opens with frontmatter, and its `name`, `version`, `status`,
