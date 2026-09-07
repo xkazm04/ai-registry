@@ -2936,3 +2936,64 @@ benchmark claim in the source. Say in the row whether any other domain now
 deserves the same treatment; the honest answer today is that only memory has a
 ladder, and building a second one is a bigger decision than a focus item.
 | 2.6.0 | 2026-09-07 | `github:getlago/lago` -> `github:getlago/lago-api` @ `a24f3abe` (**vendor repository, design-deep**; the given URL is a META repo, 171 files with two empty submodules - the engine is a separate clone. 1,884 landing words / **5,676 in-tree md total, 105-word README** / 142,610 LOC app Ruby / **396,197 LOC spec, 2.8:1** / 16,017-line schema. Operator brief: "forging of path around SaaS billing/paywall", and to check kp and ascent's Polar work on the way) | 6 parallel design-read workers, one per system; **route table before README per the round-32 focus** and it paid - `config/routes.rb` (96 lines) carried the sentence that reframed the API system. **0 of 3 fetches** (thirteenth consecutive corpus-internal run) | **46** (design record, 6 systems) | 9 scored, **0 declined** | **6 subjects + 27 techniques + 18 applications** (24 new-subject techniques + 3 into an existing subject) | 1 row: 0c/0e/0s/**1t** | **1** (kp `66ee5f0d`) | **Routing count fired on FIVE of six systems** (34 of 46 entries unhomed; metering 8/8, pricing 7/7, subscription 7/7, payments 6/8, api 4/8, entitlement 2/8) - the deepest routing result this file has recorded, and the operator scoped it at the gate rather than the run taking all of it. **The finding that decided the run is a missing SEAT, not a missing subject**: `cost-metering` is written from the *payer's* seat and `plan-entitlements` from the *consumer's*, so nothing owned charging your own customers for usage - `research-map` returns zero for `monetization`, `proration` and `rounding`. **Placement was arithmetic done before drafting (V1 as intended)**: `software-engineering/` sits at **exactly 10** top-level categories, which killed the obvious answer; `operations/service-operations/` had ONE free slot against five proposed for it; `backend-platform/` had one left that billing would have spent forever. New `operations/metered-billing/` at the E2 gate. **Two systems independently proposed `subscription-proration`** without seeing each other. **Two director brief errors, both caught by workers and both real**: an invented `verified_against: sql@postgres-15` (the regex demands a numeric version) and `half-open-interval-policy` called a law when it is a *technique* - the worker refused the `laws:` citation, linked relatively, and sharpened the boundary (half-open is right when the boundary's identity is an **instant**; a date identity converted once at the storage edge tiles too, and pays with one `+1.second` that must live in exactly one function). A third worker argued `inherited-tier-not-cloned-tier` was half a duplicate of `tier-model-single-source` and was right; resolved by shortening the old bullet to a pointer rather than shipping two half-answers. **depth: S6/T27/A0/Asrc18/1-task; routing 5-of-6 fired, handoff banked (2 clusters, 10 unhomed); directions=0/0 (n/a - no fleet project is a billing PROVIDER)** | auto=9/0/2, fp=0 |
+| 2.6.0 | 2026-09-07 | `youtube:Vh8HxyTQ6EY` - "I Gave ChatGPT and Claude $200 to Build Rival Anime Studios" (Noble Goose, 1,780 words). Operator brief: `domain media-generation`. **First-party practitioner account in DEMO form** - the creator built the harness and reports it, but the segment he is proudest of (two finished trailers, judged by taste at n=1 over a comparison he himself names as confounded on four axes) is where the boundary is missing. Routed per half: the entire yield came from the operating half | **0 of 3 fetches** (fourteenth consecutive corpus-internal run); first `research-ingest` **exit 2 (HTTP 429)**, almost certainly the 2 live siblings ingesting YouTube concurrently - retried unchanged, which is exactly what a 2 is for | **10** | 10 scored, **1 accepted, 0 declined, 4 already-covered, 4 untriaged** | **1 technique + 1 application** | **1 row: 1c/0e/0s/0t of 1 owed** | **1** (gravity `ae79916`) | **The landing is an asymmetry the tree and the corpus each wrote about themselves.** `generative-provider-routing` enumerates spend controls - gate before the call, never re-route around a ceiling, price batches as batches, book actuals, multiply in expected rejects - and **every one points upward**; nothing sees a run that spent *less*, while `capability-to-vendor-plan` says the plan's first entry holds its place because it won a measured grid, with nothing checking that the winner is ever **called**. New `unspent-budget-is-a-defect`. **Written as a technique and not an amendment on the v2 rule** (a mechanism the subject never had, not a boundary case of one it has), with the boundary against `delivery-promise-lock` stated in prose rather than linked - that one catches substitution across delivery *kinds*, this across capability *tiers inside one kind*. Triage signal was **within-source convergence across independent AGENTS**: two producers, different vendors, no contact, both conserving the budget and both leaving the premium platform untouched. **Declared-focus item (1) applied and it changed the cell**: the apply fraction is written as `1c/0e/0s/0t of 1 owed`, and stating the denominator up front is what made a 1/1 legible as complete rather than as the same shape a 1-of-4 renders. **Item (2) fired for the THIRD consecutive round** - the per-capability reach test was chosen to check the technique and instead found a live instance nobody was hunting: dev plans a $0 local eye first for `recognize`, so a cloud-served recognition leaves that top uncalled and the per-call elimination trail cannot see it, because no single call departed from the plan. Three refutations makes seam-to-falsify a rule the method should carry rather than a focus item. **Item (3) n/a** - media-generation has no measured ladder, and this run does not think it should get one from a video. **The gate's discipline is visible in what did NOT land**: row 2 (an off-spec reference image at `[00:04:17]`, absorbed by the producer rewriting its own story bible) had its promoting question executed against `scope-vs-preference-signals`, which models *notes* against scope but not a third signal class - the **output** proposing a scope change. A genuine hole, honestly scored 1/0/1, **left untriaged rather than inflated to justify a second landing**. Four catches, and the best is the corpus stating the source's own "downside" better than the source does (`cut-compiled-from-source`: "Taste still needs eyes on the render; collisions and placements do not"). **The run's synthesis is banked as a lead, not landed**: rows 1, 2, 3 and 5 are one shape - every governance role the corpus assigns to a *separate surface* collapses into the producer when the producer is autonomous, and each collapse is silent. Subject-shaped, and one entertainment video is precisely the evidence that must not author a subject. **depth: S0/T1/A1/Asrc0/0-task; routing n/a (no design record - a video); directions=n/a** | auto=1/0/0, fp=0 |
+
+**The funnel across the last ten rows.** `research` is no longer the weakest
+stage — this run and the two before it fed it from three different source
+classes, and the front of the funnel is being supplied. The stage now losing
+most is **`extract` on non-repository sources**: a repository run routinely
+produces 40+ design-record entries, while the last three video/article runs
+produced 10, 12 and 9 candidates. That is not a defect on its own — a video
+holds less — but the `apply` column shows the consequence, because a run with
+one landing has one place to spend an hour and a run with six has to choose.
+This run's `1c/0e/0s/0t of 1 owed` is complete, and it is complete because the
+denominator was one. **The honest reading is that the funnel's health is now
+dominated by source selection rather than by method**, and no edit to this file
+fixes that; it is what `/harvest` and the graded queue are for.
+
+**The depth column across the same ten rows.** Six of the last ten runs were
+repositories and produced S6/S0/S0/S1/S0/S0 — the lago run's six subjects sit
+beside five repository runs that landed one or two techniques each, and every
+one of those five wrote its routing count and correctly declined to hand off.
+That is the v2.2 two-clause count working as designed rather than a routing
+miss. This run's `S0/T1/A1` matches its source's shape: a video that yields one
+technique and four catches is a video run that went right, and the row says so
+rather than apologising for a small number.
+
+**Next run's declared focus (round 36).** Three, ranked.
+
+(1) **Promote seam-to-falsify from a focus item to a rule this file carries.**
+It has now fired three consecutive rounds — the truncation branch that could
+not fire and exposed a 3.5x confound instead; the anniversary clamp whose
+control broke exactly where the technique predicted; and this run's reach test,
+written to check a technique and returning a second live instance nobody was
+hunting. The bar this file sets is "confirmed three runs running", and it is
+met. The next run should *edit SKILL.md* to say that a Phase 7.5 seam is chosen
+to falsify the finding wherever two seams are available, bump the minor version,
+and record in `LESSONS.md` that a mid-flight run should finish on the version it
+loaded. The check the next row makes: did the edit land, or did a fourth
+confirmation get logged as a focus item again.
+
+(2) **Say the expected yield out loud for a NON-repository source, and then
+report the small number without padding.** This run did it and the discipline
+paid twice — once by making 1/10 legible as calibration, and once at row 2,
+where a genuine hole scored 1/0/1 and was banked untriaged rather than promoted
+to a second landing the run would have liked to report. The failure mode this
+guards is specific and this file has recorded it before: a thin source
+producing three half-corroborated techniques. The check: does the next
+non-repository row carry a stated expectation *before* its triage table, and
+does its `accepted` count sit below its `already_covered` + `untriaged` count
+without the prose defending it.
+
+(3) **When a run's findings share a root, land the root or bank it — never
+half.** Four of this run's ten rows were one shape (every governance role the
+corpus assigns to a separate surface collapses into an autonomous producer, and
+each collapse is silent). The operator's standing critique asks for the
+synthesis step to come from the skill, and it did: the root was named, written
+into the source note as a lead with a return condition, and explicitly *not*
+landed, because one entertainment video authoring a subject is the anti-pattern
+this method opens with. The next run that sees a root should say in its row
+whether it landed it, banked it, or missed it — and a root banked twice from
+two independent sources is the subject proposal, which is exactly the
+convergence rule the corroboration table already carries and which nothing has
+yet exercised.
