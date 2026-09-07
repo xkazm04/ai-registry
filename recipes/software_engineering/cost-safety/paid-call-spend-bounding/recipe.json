@@ -1,0 +1,116 @@
+{
+  "id": "307c70a4-22b3-4f32-9a73-9eb3fc0990cc",
+  "slug": "paid-call-spend-bounding",
+  "title": "Paid call spend bounding",
+  "version": "0.1.0",
+  "status": "seed",
+  "path": "software_engineering/cost-safety",
+  "domain": "software_engineering",
+  "description": {
+    "need": "A loop that calls a paid interface has a third dimension beside time and space, and it is the only one nobody states. Reading the code tells a reviewer how long it runs and how much it holds; nothing in it says what it may spend, so a bug that would merely be slow against a free endpoint instead buys something, on every retry, while the tests pass and the review approves. The failure is never in the loop body. It is that the call site shipped without anybody writing down what it was allowed to cost, and the first time the number is discussed is on the invoice.",
+    "input": "The call site being written or changed, what it bills through and per what unit at today's price, every path that can enter it more than once including the retries the platform performs on its own, and which bound the author can set themselves as against the one that needs somebody holding billing authority.",
+    "core_action": "Work out what can re-enter the call before choosing any number, state what the call site may spend per run and per day in currency as well as in calls, place that bound both in the code and where a bug in the code cannot reach it, and decide what happens at the limit according to whether anybody is waiting on the answer.",
+    "output": "A call site whose two bounds fail independently, a stated behaviour at the limit that matches whether the path is background or user facing, and a record of what could re-enter the call, what price the numbers were chosen against, and who holds the bound the author could not set."
+  },
+  "activities": [
+    {
+      "id": "re-entry",
+      "label": "List every path that can enter this call more than once, including retries the platform performs for you",
+      "kind": "observe"
+    },
+    {
+      "id": "price",
+      "label": "Establish what one call costs today and what an ordinary run of them costs",
+      "kind": "observe"
+    },
+    {
+      "id": "bound",
+      "label": "Choose the bound per run and per day, in calls and in currency",
+      "kind": "decide"
+    },
+    {
+      "id": "limit-behaviour",
+      "label": "Decide what happens at the limit, according to whether somebody is waiting on the call",
+      "kind": "decide"
+    },
+    {
+      "id": "place",
+      "label": "Place the bound in the code and again where code cannot reach it",
+      "kind": "act"
+    },
+    {
+      "id": "record",
+      "label": "Record what the numbers assume and who holds the bound the author could not set",
+      "kind": "deliver"
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "no-paid-call-ships-unbounded",
+      "statement": "A call site that spends money does not reach the main branch without a bound stated in currency.",
+      "success_criteria": [
+        "The bound exists as a number per run and per day, in currency as well as in calls, rather than as an intention to keep an eye on it",
+        "A bound the author cannot set themselves is named together with the person who can, and the call site does not ship before that bound exists",
+        "The record says what one call cost at the time the number was chosen, so a later price change is visible as the thing that invalidated it rather than as a mystery"
+      ]
+    },
+    {
+      "id": "the-two-bounds-fail-independently",
+      "statement": "The bound inside the code and the bound outside it cannot be removed by the same mistake.",
+      "success_criteria": [
+        "The two bounds do not read the same configuration value or environment variable, because one bad deploy would then lift both at once",
+        "The bound outside the code sits where the person writing the code cannot quietly raise it in the same change that needs raising",
+        "A run that stopped at a bound is distinguishable in the record from a run that finished, because a silent stop reads as success and is acted on as one"
+      ]
+    },
+    {
+      "id": "the-limit-behaviour-matches-who-is-waiting",
+      "statement": "Reaching the limit degrades a user facing path and halts a background one, rather than doing the same thing to both.",
+      "success_criteria": [
+        "A path with somebody waiting on it serves something at the limit, whether stale, cheaper or queued, rather than failing closed and turning a spend control into an outage",
+        "A background or batch path halts at the limit and says so, rather than continuing quietly on a smaller budget nobody chose",
+        "Which of the two a call site is, is written down beside it, because the answer changes the day the same function is called from a new place"
+      ]
+    }
+  ],
+  "guidance": "Dollars are the third complexity dimension, and the one nobody states. The bug is never in the loop body; it is that the call site shipped without a number. A bound only in code dies with a bug in that code, and a bound only at the provider takes the product down during ordinary traffic, so place both and do not let them share a value. Local testing is not an exemption. What happens at the limit depends on whether anybody is waiting.",
+  "use_cases": [
+    "A team adding image or video generation to a product, where the list the loop iterates over arrives from a webhook the platform retries, so a loop that obviously terminates doubles the work it does every time the callback fires again.",
+    "An agent that chooses its own next step from model output, where nothing in the code states a depth at which it stops asking, and the cost of each decision is paid before anybody reads the answer.",
+    "A developer wiring a paid endpoint into a prototype on their own machine and treating local work as exempt, when the key in their environment bills the same account that production bills.",
+    "A search or recommendation path that calls a billed model once per request, where a hard daily cap added for safety would take the feature down in the middle of ordinary traffic and nobody has decided what it ought to serve instead.",
+    "A team that has already had one surprise invoice and responded with alerting, which reports afterwards how much was spent rather than preventing the spend, because an alert is not a bound."
+  ],
+  "connector_types": [
+    "development",
+    "model_hosting"
+  ],
+  "recommended_trigger": {
+    "kind": "event",
+    "rationale": "The moment that matters is the one where a call site that bills is introduced or changed, and that moment is visible in a diff. Running this on a cadence instead finds the unbounded call after it has already had a night to run, which is exactly the failure the work exists to prevent."
+  },
+  "personalization_needs": [
+    "Who holds billing authority on each provider used here, because the bound outside the code is frequently not the author's to set, and a call site that ships while that bound is somebody else's intention is unbounded in practice",
+    "Which providers this operation pays for and how each one meters, since a price per token, a price per image and a price per minute of audio make quite different numbers meaningful as a per run cap",
+    "Whether a given path has a person waiting on it, because that single fact decides whether reaching the limit should stop the work or change what it serves",
+    "Where the record of a chosen bound lives, so a later reader can tell whether a number was decided against a price or inherited from whoever wrote the first call"
+  ],
+  "dependencies": [],
+  "input_schema": [
+    {
+      "name": "max_calls_per_run",
+      "type": "number",
+      "default": 50,
+      "min": 1,
+      "max": 100000,
+      "description": "The ceiling on billed calls a single run may make. A default is a starting point and not a decision: it is worth setting against what one call costs here and what an ordinary run needs."
+    }
+  ],
+  "examples": [],
+  "lessons": [],
+  "provenance": {
+    "from_recipes": [],
+    "from_templates": [],
+    "source_note": "Originated 2026-09-07 from the `runaway-guard` skill in sickn33/agentic-awesome-skills at commit 3d343b9d, upstream source_repo morsechimwai/lemmaly. The source states the dollars as a third complexity dimension framing, the two level cap and the reasoning that a cap only in code can be bypassed by a bug in that code while a cap only at the provider degrades the product during normal usage, and the local testing rationalization. The judgment that the behaviour at the limit turns on whether anybody is waiting on the call is derived here and is not the source's: the source states that tension and does not resolve it, and a recipe that failed closed on a synchronous user facing path would convert a spend control into an outage."
+  }
+}

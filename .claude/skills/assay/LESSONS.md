@@ -130,3 +130,41 @@ against six enrichments already committed.
   assertion that passes either way as non-discriminating. We read it, agreed, and folded it
   into a recipe about auditing somebody else's library while shipping 35 enrichments of our
   own on a swap test and an opinion.
+
+## 2.0.0 - 2026-09-07 - agentic-awesome-skills
+
+- **The name filter scales to two thousand skills at the cost of one index read.** This
+  source held 2,015 skill directories against gbrain's 24 and spellbook's 62, and the
+  method did not strain, because sorting names into judgment and procedure was done over
+  a generated index rather than over the tree. Thirty candidates came out of it, and
+  every file eventually opened was chosen from a name and a one-line description. **A
+  large source is not a proportionally larger run.** If a source ever forces reading at
+  scale, that is a signal the index is missing, not that the cap should rise.
+- **An aggregated skills library is a different class from a team's skills library, and
+  the difference is that nobody stands behind any of it.** 63% of entries here carry the
+  aggregator's injected boilerplate, twenty ship the literal placeholder description, and
+  the twelve-skill marketing-psychology family whose names read as the richest judgment
+  vein in the whole index is empty. The craft that did exist came from four or five named
+  upstream repos, each recorded in the skill's own `source_repo`. **Assay the contributed
+  repo, not the aggregate**, and use the aggregate the way the method says to use a link
+  index: as a route to a source, not as one.
+- **A grep for a judgment measures your vocabulary, not the corpus.** A pattern search
+  across the 28 audit-shaped recipes returned one hit and I read it as a corpus-wide gap.
+  Opening the recipes disproved it in minutes: `codebase-latent-defect-hunt` already
+  carried the idea in words the pattern could not match. This is the same failure the
+  registry has recorded twice under other names, and the remedy is the same one: derive
+  the check from a different layer than the instrument, which here means opening three
+  recipes before believing an absence.
+- **Zero of three enrichments survived the A/B, and two of the base arms were better than
+  their enriched twins.** The `deploy-regression-correlation` base arm produced unprompted
+  the exact sentence drafted as its enrichment. Against a corpus this mature the
+  enrichment disposition may have close to no yield from an external source, because a
+  well-written recipe reaches judgments it never states. That is now an open question in
+  the followup table rather than a conclusion, but two runs shipping 35 enrichments on a
+  swap test look different in this light.
+- **A fixture that inventories the evidence available hands the enrichment's behaviour to
+  the base arm.** All three fixtures this run listed the material on offer, and two named
+  the exact artifact the enrichment was about, which is a hint no real practitioner gets.
+  A fixture should state the situation and let the recipe decide what to reach for. This
+  weakens all three verdicts above and is the first known defect in VALIDATION.md
+  section 3.

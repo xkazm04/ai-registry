@@ -10,6 +10,7 @@ rather than rules, and that is the finding.
 
 | 1.0.0 | 2026-09-07 | gbrain | skills library | 24 | 3 | 13 | 0 | 0 | 3 declined | 1 class (10) | 16 | 1/4 | rich |
 | 1.1.0 | 2026-09-07 | spellbook | skills library | 62 | 3 of 4 | 22 | 2 | 0 | 1 accepted | the catalogue class (34 of 45) | 27 of 28 | 1/4 | rich |
+| 2.0.0 | 2026-09-07 | agentic-awesome-skills | skills library (aggregated) | 30 | 1 | 0 of 3 tested | 0 | 0 | 1 accepted | 6 groups (~2,000) | 3 of 3 | 0/3 | thin, and measured |
 
 **Weakest stage after one run: `example`.** Zero landed. The source was a skills library
 whose own integration folder turned out to be install configuration for its product, so
@@ -80,3 +81,23 @@ sufficient, because a rating cannot tell you which specific sentence falls on wh
 
 Two of the six are inert as shipped and are candidates for removal. Both were flagged by
 their own authors, one in the words "the one I would drop first". The swap test passed both.
+
+## After three runs
+
+**Deviation rate: 1/4, 1/4, 0/3.** It fell, and the two standing rules in `taste.md` were
+both live in run 3: the lead carried a concrete return condition, and no medium-confidence
+new recipe was proposed. That is the ledger doing the job it was built for, on a sample of
+three, which is worth exactly what a sample of three is worth.
+
+**The stage the funnel now loses most at is `enrich`.** Runs 1 and 2 landed 35 between
+them on a swap test and an opinion. Run 3 tested three and landed none, and two of the
+three base arms outperformed their enriched twins. The loss has moved: it is no longer
+candidates failing cross-check, it is enrichments failing to change behaviour. Whether
+that is a property of a mature corpus or of this run's fixtures is the open question in
+the followup table, and it should be settled before another run spends its budget here.
+
+**`example` is still unproven at zero across three runs.** Run 3 hunted it deliberately
+with the inverted name filter and returned a clean negative: the source's connector
+skills are one template with the vendor name swapped. Three sources, no examples. The
+disposition has still never been exercised, and the next source chosen should be one with
+real connector documentation or it stays unproven indefinitely.

@@ -3,15 +3,15 @@
   "generated_by": "scripts/build-recipes-index.mjs",
   "lane": "recipes",
   "source": "recipes/<domain>/<topic>/<slug>/recipe.json",
-  "recipes": 112,
+  "recipes": 113,
   "by_status": {
-   "seed": 112
+   "seed": 113
   },
   "by_domain": {
    "legal_compliance": 7,
    "operations_logistics": 2,
    "data_ai": 7,
-   "software_engineering": 40,
+   "software_engineering": 41,
    "creative_design": 11,
    "finance_accounting": 8,
    "sales_marketing": 17,
@@ -985,6 +985,19 @@
    "connector_types": [
     "source_control",
     "research"
+   ],
+   "recommended_trigger_kind": "event"
+  },
+  "paid-call-spend-bounding": {
+   "path": "recipes/software_engineering/cost-safety/paid-call-spend-bounding",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "software_engineering",
+   "topic": "cost-safety",
+   "title": "Paid call spend bounding",
+   "connector_types": [
+    "development",
+    "model_hosting"
    ],
    "recommended_trigger_kind": "event"
   },
