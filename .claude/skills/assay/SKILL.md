@@ -3,7 +3,7 @@ name: assay
 description: "Mine an external source - a skills library, a repository, an article, pasted notes - for craft that belongs in the `recipes/` lane. Cross-checks every candidate against the existing corpus, gives each finding a recommended disposition (new recipe, enrich, example, lesson, lead, discard), puts the whole set in front of the operator on one screen, executes what is accepted, and remembers every deviation from its recommendation so the next run recommends better. Discarding a whole source is a successful run. Use when someone shares a skills repository, a connector's documentation, or a body of practice and asks what it means for our recipes."
 category: ai-native
 memory: project
-version: 1.5.0
+version: 1.6.0
 tags: recipes, sources, cross-check, disposition, decision-gate, taste-ledger, obsidian-memory, connector-examples, discard
 ---
 
@@ -141,6 +141,7 @@ error available here.
 | **practice corpus** | a team's written methods, an internal handbook | `enrich` in quantity; a `new-recipe` where the corpus holds a kind of work ours does not |
 | **single article** | one argument about one kind of work | one or two `enrich`, or a `lead` |
 | **recipe corpus** | somebody else's recipes in a comparable shape | the richest and the most dangerous: their taxonomy is not ours, and importing it wholesale imports their assumptions |
+| **link index** | a curated list pointing at other people's writing | **nothing directly.** It contains no craft; it contains addresses. Do not assay one. Use it in Phase 2 to CHOOSE a source, then assay what it points at. |
 
 A source that is mostly a product pitch is `barren` and the run says so in one line.
 
@@ -179,10 +180,21 @@ operator's decision.
    > the thing that posts to it. When hunting this class, open the files the judgment
    > filter told you to skip. Lands as `examples/<connector>.md`, written so it
    stops applying when the connector is swapped and not when the recipe changes.
-4. **`lesson`** - the source records an actual RUN and what it taught. Appends to that
-   recipe's `LESSONS.md` in the lane format. **Only from a real run**: a source's
-   opinion about how the work should go is `enrich`, never a lesson, and an invented
-   lesson entry is worse than an empty file.
+4. **`lesson`** - **structurally unreachable from an external source, and this
+   disposition should almost never fire.** The lane's entry format is
+   `## <version used> - <date> - <project>`, where the version is *our recipe's*
+   version. A lesson therefore claims that our recipe, at that version, was run in that
+   project and taught this. No repository on the internet has run our recipe. A source's
+   account of how the work should go is `enrich`; a source's account of its own run of
+   its own method is `enrich` too, because it cannot name a version of ours.
+
+   This was recorded as the weakest stage after two runs, with "pick a different class of
+   source" as the remedy. That was wrong: no source of any class will exercise it.
+   **Lessons come from our own executions and from nowhere else.** If the corpus's
+   `LESSONS.md` files are empty, the answer is to run the recipes, not to assay harder.
+   Leave this disposition here for the one case that can reach it, a source that is
+   itself a record of somebody running a recipe from this registry, and expect never to
+   see it.
 5. **`lead`** - real, not yet actionable. Goes to the vault note with a return
    condition, never into the lane.
 6. **`discard`** - the source's claim is wrong, unverifiable, already held better by the
@@ -278,6 +290,17 @@ git clone --depth 1 <url> "$SCRATCH/<slug>"
 
 A shallow clone is enough: history is not craft. Record the commit you read, because a
 finding without one cannot be re-checked and a re-assay cannot tell what is new.
+
+**Not every worthwhile source is a repository.** A published handbook, a vendor's
+documentation or a body of practice on the web has no commit to record, so record the
+URL and the date fetched instead, and say in the source note that the version is a date
+rather than a revision, because that weakens every re-assay against it. Fetch only the
+sections the class table says can yield, never the whole site.
+
+**If the source turns out to be a link index, stop.** It holds addresses rather than
+craft, and assaying it means assaying two hundred other things. Pick the two or three it
+points at that match a known gap in the corpus, and assay those. Record in the source
+note that the index was the route rather than the source.
 
 Read the source's own account of itself first (`README`, the folder names, the index),
 then the class table above. **Do not read every file.** A skills library with sixty

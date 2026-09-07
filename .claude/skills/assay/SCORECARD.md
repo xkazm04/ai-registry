@@ -24,10 +24,19 @@ with real connector documentation would settle it was right about the source and
 about how to find the class in it. The name filter is inverted for this disposition; that
 is now in `SKILL.md` (1.5.0).
 
-**The new weakest stage is `lesson`: zero in two runs, and it cannot be otherwise while
-every source is a skills library.** A lesson may only come from a real run, and a library
-publishes practice rather than runs. The next source must not be a skills library, or the
-stage stays unexercised for a third time and the disposition is decoration.
+**~~The new weakest stage is `lesson`: zero in two runs, and it cannot be otherwise while
+every source is a skills library. The next source must not be a skills library, or the
+stage stays unexercised for a third time.~~ CORRECTED the same day, before run 3 acted on
+it.** `lesson` is not weak, it is **unreachable**, and no choice of source fixes it. The
+lane's entry format is `## <version used> - <date> - <project>` and the version is *our
+recipe's*. A lesson asserts that our recipe at that version ran in that project. Nothing
+external can assert that. Lessons come from our own executions and from nowhere else, so
+an empty `LESSONS.md` is an argument for running the recipes rather than for assaying
+harder. `lesson` is now excluded from this scorecard's stage comparison; counting it as a
+stage was the error.
+
+**So the honest weakest stage after two runs is `example`, at 0 then 2**, and the thing to
+watch is whether it holds on a source that is not a skills library.
 
 **Deviation stayed at 1 of 4, and the raw number is misleading.** Read alone it says the
 taste ledger is not working. What actually happened is the opposite: run 1's rule was
