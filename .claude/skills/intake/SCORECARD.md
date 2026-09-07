@@ -16,6 +16,7 @@ consecutive 1.x runs over large systems scored the same as twelve runs over vide
 
 | Version | Date | Source | Research | Extract | Test | Landed | Apply | Ship | Zero reason / focus moved? | Depth |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2.5.0 | 2026-09-07 | `github:CortexReach/memory-lancedb-pro` @ `1a683cf5` (**vendor repository**, agent-memory plugin; 5,727 landing words against ~16,868 English in-tree markdown and **41,186 lines of TypeScript**) | 1 clone swept in yield-density order, with the **route table read before the README** per round 32's focus — `openclaw.plugin.json` (92KB) is this tree's route table and reading its config schema is what produced the governance-polarity measurement; 4 sweep workers, one per subsystem; **0 of 3 fetches**, as the class predicts | 13 | 3 | **1 technique + 2 amendments + 3 applications** (`agent-memory/self-trained-capture-filter`; `decay-and-forgetting` the-test-enters-through-the-door; `retrieval/relevance-floors` substitute-path-score-space) | **3 of 3** — `0c/2e/0s/0t` + 1 unapplied, personas both times | **0 — and the zero is the result** | **Focus moved twice and both items paid.** Round 32 item (1) — grep every `Next run's declared focus` block and take the highest round, not the file's last — **changed which focus applied** (the file's tail is round 27; the newest is 32) and is the first use of that rule. Item (2), the route table in the sweep order, produced the run's whole-system reading: the config schema is where the ingestion-on/governance-off polarity is legible, and the README would have said the opposite. **Ship 0 with its predicate: 2 seams found, 2 already correct.** Both amendments were tested against personas and personas was already right on both, so the corrections ran **backwards** — its `every_delete_door_records_the_owed_cleanup` supplied the door-test remedy, and its multiplicative `value * (1 + w * similarity)` blend replaced the amendment's weaker "emit no score" wording before commit. That is two landings changed by their own apply step. The third row is honestly `unapplied` with a **measured** absence: no fleet project carries a learned pre-filter, and personas' sleep-cycle gate is the stated-rule screen the technique's own closing section prescribes for stable noise. | `S/T/A/Asrc/task-lines` = **0/1/2/3/0**; routing count **max 1 `corpus: NONE` per system (retrieval 1, write-path 1, lifecycle 0, reflection 0) and max 1 sharing one HOME-IF-NEW — neither v2.2 clause fires, no handoff, no XL spec** (forge-shaped by size at 41k LOC and ~190 test files, intake-shaped by coverage: `agent-memory` already carries 18 techniques modelling most of this system's forces); `auto=3/0/0` `fp=0`; `directions=0/0` (both implicated subjects show personas *present* and already compliant, so every applicable change is coverage and none is a direction); **`selfcatch=3`** — (a) the run's first reading of the lifecycle came from the repo's own architecture document and was **wrong**, because that document is six months stale and its two sharpest lifecycle claims are both false against the code, one flatteringly; (b) the dead-governor instrument over-counted `getStaleMemories` at 2, and the rows opened to an interface declaration plus its implementation, so the worker's zero was right and the director's grep was not; (c) row 13, the 6→5 category projection, was extracted as a consumer-facing defect and is a **catch** — the semantic register is stamped in metadata and the read path checks it first. Two shell hazards hit, both already in memory and both caught by verification rather than by care: backticks substituted inside a double-quoted node argument emptied every code span in two subject notes (repaired from Write'd files), and the ledger append was verified by line count and tail read rather than by the command's exit. `check-bundles` red at Phase 9 on **1 sibling-owned file** (`data-layer/data-access/applications/node--capability-declared-in-the-type.md`, `verified_against: node@lts`), held by the live `unstorage` run — named, not fixed. 3 siblings live at claim, one (`gbrain`) holding `agent-memory`; the golden-path edit took the `content` lock and re-read inside it. |
 | 2.5.0 | 2026-09-06 | `flatnotes` | 1 (784 landing / **917 in-tree markdown**; vendor repository) | 8 | 2 | **2 techniques + 2 source-tree applications** | 2 rows: 1c/**1e**/0s/0t — 1:1 with landings | **2** (`pumper` `b086a30`, node lane 34/34, not pushed; + this registry's own map instrument) | **Focus applied, and it produced a rejection rather than a landing.** Round 27 item 1 — score the landing *shape* before the row — decided row 3: version-as-index-identity reads as a technique (G3, lands) and honestly *is* a boundary case of `mirror-indexes`' existing rebuild rule, so at its least-rewriting shape it is an amendment at G1 against a +2 threshold. Banked with anchors. The focus's value here was **stopping** a landing that a shape chosen after scoring would have justified. Item 3 also paid: the pumper checker was asserted against a known positive *and* cross-checked from another layer. | `0S/2T/0A/2Asrc/0 task-lines` · routing count **8 entries / 2 systems / 2 unhomed; per system max 1; two different existing homes, so no three share one HOME IF NEW — neither v2.2 clause fires** · handoff **declined by count, not by choice** · `directions=n/a` (no candidate absence: the design record's two unhomed entries both landed as techniques) · `auto=2/0/0`, `fp=0` · `selfcatch=1` (a fleet mode-flag grep returned 93–962 files per project; reading the matched rows cut it to one real seam — `readOnly` matches React props and DB transactions) · fetches **0/3**, twelfth consecutive zero · **doc surface the smallest recorded (917 words) and test count zero**, so both landings were read from code and one was verified by executing it |
 | 2.5.0 | 2026-09-06 | `aws-agent-exposure` | 1 (15,572 words; **vendor educational guide** — a class the reference does not name) | 24 | 2 | 2 amendments | 2 rows: **1c**/0e/0s + 1 unapplied — 1:1 with landings | **1** (`pof` `cb9cdbac`, vitest+tsgo+eslint green, not pushed) | **Focus applied and paid twice.** Round 30 asked for the *unstated premise* as a fifth Phase 6 move — a rule that is **inapplicable rather than false** — and both accepted rows are exactly that, from two different bundles. Neither survives any of the other four hunts: in both the corpus owns the mechanism and states it better than the source, and is wrong only about what it may assume. This is the first run where the declared focus, not the source, decided what landed. | `0S/0T/2A/0Asrc/0 task-lines` · routing count **n/a** (not a repository — the source *reports*, so no design read) · handoff n/a · `directions=n/a` · `generalised=no/—` (the 1 code row landed unweakened; the other is unapplied) · `auto=2/0/0`, `fp=0` · `selfcatch=1` (a 136-file population narrowed to 1 by reading the matched rows) · fetches `0/3`, eleventh consecutive zero |
 | 1.5.0 | 2026-08-31 | `pgrust` | 1 (2,480 landing / ~7,500 in-tree operating docs + a 1,241-row unit catalog) | 13 | 6 | 3 (1 technique + 2 amendments) | 3 rows: 0c/2e/1s — **1:1 with landings** | 0 (declined: no change warranted for 1 of 3; blocked: confirmation for 2 of 3 — the changes are argued and the measurables named, but the triage answer named no project and Phase 8 step 2 gates the tree write) | **Ship written with its predicate, as the focus asked, and the split matters: 1 of the 3 zeros is not a funnel loss.** The oracle row's tree already implements the remedy, so no change was warranted; the other two are the modal `confirmation` blocker again. **Focus's other half could not fire** — parallelising Phase 6's mechanical lane needs a wave, and one repository is one document; agent dispatch is also off in this session by standing operator instruction. Said so rather than manufacturing it. Extract→Test was 13→6 (46%) serially, above the window. **All three landings came from one hunt — an enumeration that claims completeness and misses a case the same file describes**: two rot axes named with a third in the prose; "no self-check exists" true for only one direction of an undrawn distinction; "compare against that one rather than writing a third" silent on what that oracle cannot see. Third consecutive run where the denial hunt carried the yield. **The apply refuted the run's own document before commit** (second consecutive run): the new technique covered the fitted *corpus* and not the fitted *predicate*, and the arm that found it scored **11/11 while 9 of 11 payloads passed through unmodified** — a section was added. **A first hypothesis was wrong and one command settled it** (fourth consecutive run of this): I expected a project's non-default test arms to be env-gated out of CI; the workflow runs all three. 0 of 3 fetches, thirteenth consecutive zero-fetch run on a source carrying its own primary material. |
@@ -2846,3 +2847,91 @@ from one side only is an assertion.
 Keep the three standing checks (re-scan conditions, ten notes' lead conditions,
 unconsumed handoffs) and the highest-numbered-block rule, which decided this
 run's focus and would otherwise have handed it round 31.
+
+**Round 33 (`memory-lancedb-pro`).** v2.5.0 · 2026-09-07 · `github:CortexReach/memory-lancedb-pro` @ `1a683cf5`
+
+**The funnel over the last ten rows.** `research` is still one source per run in
+all ten, and it stays the stage that loses most. `apply` has been non-zero for
+eight consecutive rows and `ship` for six — this run breaks the ship streak at
+zero, and the predicate matters: **2 seams found, 2 already correct.** That is
+not a funnel loss and should not be counted as one. The row states it as
+`ship 0 — 2 of 2 seams already compliant`, which is round 22's split-the-ship-zero
+rule doing its job for the first time in the direction nobody anticipated: not
+"no seam was found", but "the fleet was already ahead of the corpus."
+
+**What is new here and worth measuring: the apply step changed two of three
+landings, and in both cases the correction came from the fleet rather than from
+the source.** The door-test amendment was written knowing the failure and not
+the remedy; personas' `every_delete_door_records_the_owed_cleanup` supplied the
+remedy, including the half that is easy to miss — stand-ins for the
+feature-gated dependency so the door test still runs in the build where the
+governor is compiled out. The `relevance-floors` amendment first said "a
+fallback emits no score", which is ambiguous about what the combining step does
+with a missing value; personas' multiplicative blend supplied the sharper rule,
+that absence must be the **identity element** of whatever combines the lanes.
+Neither correction was available from the source, and neither would have been
+found by a run that landed and stopped. Round 29 asked for this as a first-class
+number; this is the row that makes the case, at 2 of 3.
+
+**The self-catch worth carrying is the first one.** The run's initial reading of
+its own central finding came from `docs/memory_architecture_analysis.md` — 2,278
+words, genuinely first-party, densely specific, and **six months stale**. It
+claims the auto-recall path runs the complete lifecycle loop and that the tool
+path does not. The code says neither: the function it names has *zero callers*,
+and so do two other lifecycle entry points. Phase 2b ranks operating documents
+first, ahead of the instrument and the tests, because they are usually the
+densest thing in a tree — and that ranking is what made a stale document the
+run's first authority. The finding survived only because the sweep read the code
+anyway.
+
+**Next run's declared focus (round 33).**
+
+(1) **Date the operating documents against the tree before ranking them first.**
+One cheap comparison at Phase 2b: the document's own stated date, or its last
+commit, against the tree's HEAD date. Where the gap exceeds a release cycle,
+the document is demoted from authority to *hypothesis to check against code*,
+and the gap is stated out loud in the source note before any candidate is
+drafted on it. This costs one `git log -1 --format=%ci -- <doc>` per operating
+document. The check the next repository row should make: did any operating
+document disagree with the code, and was the disagreement found before or after
+a candidate had been drafted on it — and if three runs pass with no document
+ever disagreeing, the check is ceremony and should be dropped.
+
+(2) **Report how many landings were changed by their own apply step**, as a
+column, not as prose. This run: 2 of 3. Round 29 asked for the refutation rate
+and it is still buried. If the ratio stays above half for three runs,
+"write the application before believing the technique" stops being a habit and
+becomes a step in Phase 7.
+
+(3) **Keep the highest-numbered-focus-block rule** until the blocks carry their
+own dates or the file is reordered. It fired correctly for the first time this
+run — the file's tail is round 27, the newest block was 32 — and it changed
+which focus applied, so it is load-bearing rather than tidy.
+| 2.6.0 | 2026-09-07 | `github:garrytan/gbrain` @ `2efaaf8f` (**first-party practitioner account in repository form**, memory domain, mined on the `--memory` lane; 10,680 landing words against ~825,000 in-tree markdown and 3,438 TS files - a 77x ratio) | 1 clone swept changelog-first as the index, then `docs/` (394k, led by `architecture/KEY_FILES.md` at 114k), both incident write-ups, `docs/protocol/MEMORY_VERBS_v1.md`, the eval layer (`evals/`, `docs/eval/`, `.gbrain-evals/`), the search modules and the doctor roster, README last. 4 parallel sweep workers, director held every write. **0 of 3 fetches**, thirteenth consecutive | 12 scored at the table (87 raw findings across four sweep lanes) | 4 | **1 technique + 3 amendments + 2 source-tree applications** | 1 row: 1c/0e/0s/0t - **3 of 4 owed rows not run, and the reason is run budget, not judgment** | 1 (personas `61fbf9b8e`) | **The memory lane paid for itself before Phase 3.** Reading the measured ladder first meant the source's benchmark numbers were priced rather than corroborated, and the lane's "published memory numbers are leads" rule was confirmed *by the source about itself*: its documented benchmark invocation was rejected by its own generated flag validator for ~a month spanning two published releases, so the strict figures came from a shell script in a sibling repo while the shipped CLI reported the looser metric. **The score changed a landing.** Row 1 first came out `GAIN 3 / RISK 2` = 1, below threshold, because the plan was to rewrite the golden path's pipeline sentence to insert the new stage; re-read as a pure append (the stage is optional, and the technique states its own placement) it is RISK 0 and accepts cleanly. The arithmetic caught a restructuring of a shared spine that nothing about the finding required - while a live sibling held that subject. **One promotion read, and it decided a row.** The fourth-honest-zero amendment's only blocker was the +1 for resting on a worker report; one grep for the exported symbol's callers took RISK to 0 and the row to accept. **The apply refuted its own hypothesis and was worth more for it** - see the applied row. **Standing checks: all read, none fired** (re-scan conditions, earliest deadline 2026-10-30; lead conditions across ten notes) - the fourth consecutive "none", and this run agrees with the awesome-game-security prediction that the conditions are written too far out: both leads filed here carry conditions tied to work this fleet can do, not to events in someone else's repository | S0/T1/A3/Asrc2/0 task-lines · **routing count 5 systems / ~10 unhomed entries; per system max 3 (retrieval), and those 3 sit at one stage inside an EXISTING subject, so the v2.2 clause routes them to a technique triple, not a forge; no shared HOME-IF-NEW cluster reached 3** · handoff **not** fired · `directions=0/0` (no direction pass: the fleet's one memory project is the source of three of this run's four landings, not a candidate for them) · `auto=4/8/0` `fp=0` · `selfcatch=1` (the dead-governance finding was already ours at `decay-and-forgetting:101`) · `ratio=77x` · fetches `0/3` |
+
+**The funnel over the last ten rows, read after this one.** `research` is still
+1 source per run in all ten. `apply` and `ship` are non-zero in nine, so the old
+complaint is answered and stays answered. The stage this row loses at is `apply`,
+and not for the usual reason: **4 landings owed 4 apply rows and got 1.** Nothing
+blocked the other three - the seams exist, the fleet has the trees - the run
+simply spent its budget on one deep row and three good landings instead of four
+shallow rows. That is a defensible trade exactly once, and the row says so rather
+than hiding a 1/4 behind a mode letter.
+
+**Next run's declared focus (round 33).** (1) **Write the apply-row debt into the
+scorecard cell as a fraction, always** - `1c/0e/0s/0t of 4 owed` rather than
+`1 row: 1c/...` - so a run that lands four and applies one cannot report the same
+cell as a run that lands one and applies one. The two are very different runs and
+the current cell renders them identically. The check the next row should make: did
+the fraction appear, and did naming it change how the run spent its last hour.
+(2) **Keep seam-to-falsify, and record when it fires.** This is the second
+consecutive round where a seam chosen to falsify refuted the run's own hypothesis
+and produced a better finding than confirmation would have - here the truncation
+branch could not fire at the scenario's scale, and what the same seam exposed
+instead was a 3.5x confound sitting in four published arms. A third refutation
+makes it a rule this file carries rather than a focus item. (3) **When a source's
+domain is one the fleet has a measured baseline for, read the ladder before the
+corpus** - the `--memory` lane did this and it changed the triage of every
+benchmark claim in the source. Say in the row whether any other domain now
+deserves the same treatment; the honest answer today is that only memory has a
+ladder, and building a second one is a bigger decision than a focus item.
