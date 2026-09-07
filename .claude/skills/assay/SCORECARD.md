@@ -54,3 +54,29 @@ five evaluators against a lighter pass, and two gate defects surfaced that had n
 do with the source. The source's own worst practices were the most transferable thing in
 it, because each was a mirror: a self-contradicting doctrine, a uniqueness gate blind to
 duplicated content, and a verification step only one machine can run.
+
+## Validation, from 2.0.0
+
+`VALIDATION.md` adds three protocols. From run 3 every row also carries the A/B verdict
+distribution, because a run reporting only what it landed is reporting its intentions.
+
+**First measurement, taken retroactively against six enrichments already shipped in
+`98f0fcfd`.** Sampled deliberately toward the weak, since an instrument that confirms
+everything has measured nothing.
+
+| enrichment | confidence when shipped | A/B verdict |
+|---|---|---|
+| false-green aggregate exit code | high | **confirmed** |
+| present / configured / observed-loaded classing | high | **confirmed** |
+| zero competitors is a reading about demand | high | **confirmed** |
+| blind comparison rather than a score | medium | **non-discriminating** |
+| a stopping rule keyed on failed attempts | low | weakly discriminating: it changed the reasoning and the durable record, not the decision |
+| an evidence-of-failure bar on a deviation | low | **non-discriminating** |
+
+**The verdicts rank exactly with the confidence assigned before any of it ran.** That is the
+strongest single result available here: it says the A/B is measuring something real, and it
+says the confidence ratings were already carrying information. It does not make the ratings
+sufficient, because a rating cannot tell you which specific sentence falls on which side.
+
+Two of the six are inert as shipped and are candidates for removal. Both were flagged by
+their own authors, one in the words "the one I would drop first". The swap test passed both.

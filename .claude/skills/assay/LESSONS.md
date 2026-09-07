@@ -89,3 +89,44 @@ lesson is pollution.
   to duplicated content, and a committed verification step only one machine can run. Our
   gate has the second blind spot exactly, and our contract has the first exposure. Reading
   a source for what it got wrong is not a courtesy pass; schedule it.
+
+## 1.1.0 - 2026-09-07 - validation protocols built and tested against our own shipped work
+
+Not a source run. The operator asked whether the skill could supply the layer a catalogue
+source omits, and whether new recipes and enrichments could be validated rather than argued
+for. `VALIDATION.md` is the answer, and it was tested the only honest way: retroactively,
+against six enrichments already committed.
+
+- **The A/B discriminates. It is not a rubber stamp, and the test for that was built in.**
+  Six enrichments, weighted deliberately toward the weak: two the executors themselves rated
+  low, one medium that had been a close call in a swap test, three high as controls. The
+  verdicts came back **exactly ranked by the confidence assigned before any of it ran**: all
+  three high confirmed, the medium non-discriminating, and of the two low one
+  non-discriminating and one only weakly discriminating. Had everything confirmed, the
+  instrument would have been measuring its own optimism, and that outcome was named in the
+  protocol before the run so it could not be explained away afterwards.
+- **Two shipped enrichments are measurably inert.** The base recipe already reaches the same
+  answer without them. Both had been flagged by the agent that wrote them, one with the exact
+  words "the one I would drop first". **The swap test passed both.** So the swap test and an
+  author's own doubt are cheaper signals than the A/B and they agree with it, but only the
+  A/B tells you which side of the line a specific sentence falls on.
+- **The protocol found two defects in itself on its first run, and both are the shape a
+  proxy measurement fails in.** (1) Two of the six tests were the same recipe with different
+  sentences removed, batched to one judge; the judge saw a copy carrying the criterion and a
+  copy without it, and the vocabulary leaked into the arm that was supposed to lack it. Both
+  void, re-run in isolation. (2) One discriminating question asked two things at once; both
+  arms satisfied the first, the comparator answered on it, and the half that actually
+  separated them was never scored. Re-asked as a single claim it separated cleanly and the
+  enrichment confirmed. **A bundled question does not fail loudly; it returns a clean, wrong
+  answer.**
+- **A fixture can be better than it was designed to be, and the surplus is where the real
+  result was.** The pull-request fixture carried two exit codes: one for the verdict and one,
+  incidentally, for attribution. Both arms read the subchecks behind the first. Only the
+  enriched arm refused to infer from the second, and the base arm committed, one paragraph
+  later, the exact error it had just rejected. Build fixtures that give the recipe a second
+  chance to make the same mistake in a different role.
+- **The rule we shipped as an enrichment was the rule we were failing.** spellbook's
+  `skill-creator` says to run the with-artifact and baseline in the same turn and treat an
+  assertion that passes either way as non-discriminating. We read it, agreed, and folded it
+  into a recipe about auditing somebody else's library while shipping 35 enrichments of our
+  own on a swap test and an opinion.

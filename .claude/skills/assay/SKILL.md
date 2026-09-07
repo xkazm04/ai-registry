@@ -3,7 +3,7 @@ name: assay
 description: "Mine an external source - a skills library, a repository, an article, pasted notes - for craft that belongs in the `recipes/` lane. Cross-checks every candidate against the existing corpus, gives each finding a recommended disposition (new recipe, enrich, example, lesson, lead, discard), puts the whole set in front of the operator on one screen, executes what is accepted, and remembers every deviation from its recommendation so the next run recommends better. Discarding a whole source is a successful run. Use when someone shares a skills repository, a connector's documentation, or a body of practice and asks what it means for our recipes."
 category: ai-native
 memory: project
-version: 1.6.0
+version: 2.0.0
 tags: recipes, sources, cross-check, disposition, decision-gate, taste-ledger, obsidian-memory, connector-examples, discard
 ---
 
@@ -57,6 +57,13 @@ node scripts/recipe-map.mjs --json "<term>" ...   # the same, machine-readable
 node scripts/check-recipes.mjs                    # the lane gate: shape, vocabularies, rendered-view coupling
 node ../personas/scripts/templates/_migration/verify.mjs   # the corpus against ITSELF (ids, examples, shape)
 ```
+
+The fourth instrument is not a script. **[`VALIDATION.md`](./VALIDATION.md) holds three
+protocols that decide whether a finding has earned its place**: derivation, for a source
+that states a rule and never says what goes wrong; simulation, for a new recipe; and a
+blind A/B, for an enrichment. Read it at Phase 5. Two runs shipped 35 enrichments on a
+swap test and an opinion, which is an argument that a sentence is not padding rather than
+evidence that it changes anything.
 
 `recipe-map` asserts its own measurement functions against a fixture before it reports,
 and exits **2** when the instrument is broken rather than reporting an empty corpus as a
@@ -317,6 +324,15 @@ Cap the extraction. Sixty folders do not produce sixty findings; they produce th
 that are about a kind of work, and the fifty that are procedures for doing something
 with a tool.
 
+**A stated rule with no failure mode is not automatically a discard.** The catalogue
+class tells you what to produce and never what to distrust, and throwing all of it away
+wastes the one real signal it carries: somebody thought the rule worth writing down. The
+source can supply the inventory while we supply the reasoning, provided the split is
+declared and never hidden. `VALIDATION.md` section 1 holds the three-part bar, and its
+third part, **why a competent practitioner would plausibly do the wrong thing**, is the
+platitude filter that does most of the work. Derive only where the corpus has a recipe
+that would carry the result.
+
 ### Phase 4 - Cross-check
 
 One `recipe-map` call per candidate, with **two vocabularies**: the source's words and
@@ -338,6 +354,26 @@ Then sort by disposition class and count. **If the run has produced more than ab
 twenty findings, cut the tail before the gate**, not after: a screen the operator cannot
 read is a screen they accept wholesale, which is worse than a shorter one they actually
 decide. The cut ones become leads with their reason.
+
+**Then validate, before the operator sees anything.** Read `VALIDATION.md` and run it:
+
+- **Every `new-recipe` is walked** against two or three of its own draft use cases, on
+  paper, looking deliberately for a scenario where the recipe as written gives the wrong
+  answer. The walk's findings travel with the proposal. A proposal that survives the walk
+  unchanged is suspicious rather than strong, and the screen says what was looked for.
+- **Enrichments are A/B'd blind** against a fixture: one judge on the recipe as it stands,
+  one on the enriched recipe, neither told what is being tested, and a third comparing
+  their outputs against a question written before either ran. Four verdicts, and only one
+  of them is a pass.
+
+Spend the A/B budget on the weak findings FIRST, not the strong ones. If the low-confidence
+enrichments come back confirmed alongside everything else, the instrument is a rubber stamp
+and that is the run's real finding.
+
+**The decision screen carries the verdicts.** An enrichment that came back
+NON-DISCRIMINATING or INEFFECTIVE does not reach the operator as a recommendation; it
+reaches them as a finding that was tested and failed, or it does not reach them at all.
+Do not ask somebody to approve a sentence you have measured as inert.
 
 ### Phase 6 - The decision screen
 
