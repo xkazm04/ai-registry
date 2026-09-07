@@ -44,7 +44,7 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
-import { execFileSync } from 'node:child_process';
+import { execFileSync, spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { parseFrontmatter, parseSemver, cmpSemver, LESSON_HEAD_RE } from './lib/skills-lane.mjs';
 import { EXIT } from './lib/exit-codes.mjs';
@@ -566,6 +566,27 @@ if (sinceIdx !== -1) {
     } else if (cmpSemver(newV, oldV) < 0) {
       fail(`recipes/${key}: version went BACKWARDS -> ${current.version}. A consumer already at the higher version would resolve as ahead of the registry and never sync again.`);
     }
+  }
+}
+
+// ------------------------------------------------- the generated index
+// A recipe that is on disk but not in recipes/index.json is invisible to every
+// consumer that reads the index instead of walking the lane, and recipe-map.mjs
+// is exactly such a consumer. This gate walked all 109 and passed green while
+// the index held 106, so the lane was correct and the instrument reading it was
+// blind, which is the failure this repository calls a gate that checks nothing.
+// The builder has had a --check mode the whole time and nothing ever ran it.
+{
+  const r = spawnSync(process.execPath, ['scripts/build-recipes-index.mjs', '--check'], {
+    cwd: ROOT, encoding: 'utf8',
+  });
+  if (r.status !== 0) {
+    fail(
+      'recipes/index.json does not match the lane. Every consumer that reads the '
+      + 'index rather than walking the lane is blind to the difference, and this gate '
+      + 'cannot see it because it walks the lane itself. Run '
+      + '`node scripts/build-recipes-index.mjs` and commit the result.'
+    );
   }
 }
 

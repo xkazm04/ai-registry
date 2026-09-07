@@ -3,19 +3,19 @@
   "generated_by": "scripts/build-recipes-index.mjs",
   "lane": "recipes",
   "source": "recipes/<domain>/<topic>/<slug>/recipe.json",
-  "recipes": 106,
+  "recipes": 109,
   "by_status": {
-   "seed": 106
+   "seed": 109
   },
   "by_domain": {
    "legal_compliance": 7,
    "operations_logistics": 2,
+   "data_ai": 7,
    "software_engineering": 37,
    "creative_design": 11,
    "finance_accounting": 8,
    "sales_marketing": 17,
-   "general_professional": 10,
-   "data_ai": 5,
+   "general_professional": 11,
    "customer_support": 6,
    "product_project": 3
   },
@@ -24,7 +24,7 @@
  "recipes": {
   "access-grant-audit-and-compliance-reporting": {
    "path": "recipes/legal_compliance/compliance-monitoring/access-grant-audit-and-compliance-reporting",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "legal_compliance",
    "topic": "compliance-monitoring",
@@ -38,7 +38,7 @@
   },
   "access-request-approval-chain": {
    "path": "recipes/operations_logistics/approvals/access-request-approval-chain",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "operations_logistics",
    "topic": "approvals",
@@ -50,7 +50,7 @@
   },
   "access-request-intake-and-triage": {
    "path": "recipes/operations_logistics/intake/access-request-intake-and-triage",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "operations_logistics",
    "topic": "intake",
@@ -61,9 +61,19 @@
    ],
    "recommended_trigger_kind": "event"
   },
+  "agent-context-budget-audit": {
+   "path": "recipes/data_ai/agent-context/agent-context-budget-audit",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "data_ai",
+   "topic": "agent-context",
+   "title": "Agent context budget audit",
+   "connector_types": [],
+   "recommended_trigger_kind": "self_paced"
+  },
   "agent-platform-error-classification": {
    "path": "recipes/software_engineering/error-triage/agent-platform-error-classification",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "software_engineering",
    "topic": "error-triage",
@@ -73,7 +83,7 @@
   },
   "agent-platform-error-ingestion": {
    "path": "recipes/software_engineering/error-triage/agent-platform-error-ingestion",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "software_engineering",
    "topic": "error-triage",
@@ -95,7 +105,7 @@
   },
   "application-error-scan": {
    "path": "recipes/software_engineering/error-triage/application-error-scan",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "software_engineering",
    "topic": "error-triage",
@@ -120,7 +130,7 @@
   },
   "approved-maintenance-issue-filing": {
    "path": "recipes/software_engineering/engineering-records/approved-maintenance-issue-filing",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "software_engineering",
    "topic": "engineering-records",
@@ -132,7 +142,7 @@
   },
   "audio-briefing-production": {
    "path": "recipes/creative_design/audio/audio-briefing-production",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "creative_design",
    "topic": "audio",
@@ -144,7 +154,7 @@
   },
   "audio-briefing-script-drafting": {
    "path": "recipes/creative_design/audio/audio-briefing-script-drafting",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "creative_design",
    "topic": "audio",
@@ -154,7 +164,7 @@
   },
   "brand-visual-asset-production": {
    "path": "recipes/creative_design/visual-assets/brand-visual-asset-production",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "creative_design",
    "topic": "visual-assets",
@@ -168,7 +178,7 @@
   },
   "change-implementation-and-review": {
    "path": "recipes/software_engineering/code-review/change-implementation-and-review",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "software_engineering",
    "topic": "code-review",
@@ -180,7 +190,7 @@
   },
   "cloud-billing-access-failure-alerting": {
    "path": "recipes/finance_accounting/spend-and-budget/cloud-billing-access-failure-alerting",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "finance_accounting",
    "topic": "spend-and-budget",
@@ -204,7 +214,7 @@
   },
   "cloud-spend-threshold-watch": {
    "path": "recipes/finance_accounting/spend-and-budget/cloud-spend-threshold-watch",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "finance_accounting",
    "topic": "spend-and-budget",
@@ -216,7 +226,7 @@
   },
   "codebase-feasibility-analysis": {
    "path": "recipes/software_engineering/codebase-health/codebase-feasibility-analysis",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "software_engineering",
    "topic": "codebase-health",
@@ -252,7 +262,7 @@
   },
   "codebase-test-coverage-advance": {
    "path": "recipes/software_engineering/codebase-health/codebase-test-coverage-advance",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "software_engineering",
    "topic": "codebase-health",
@@ -264,7 +274,7 @@
   },
   "community-trend-digest": {
    "path": "recipes/sales_marketing/community-channels/community-trend-digest",
-   "version": "0.1.0",
+   "version": "0.3.0",
    "status": "seed",
    "domain": "sales_marketing",
    "topic": "community-channels",
@@ -277,7 +287,7 @@
   },
   "competitor-positioning-comparison": {
    "path": "recipes/sales_marketing/conversion-optimization/competitor-positioning-comparison",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "sales_marketing",
    "topic": "conversion-optimization",
@@ -287,7 +297,7 @@
   },
   "congressional-stock-disclosure-coverage": {
    "path": "recipes/finance_accounting/investing/congressional-stock-disclosure-coverage",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "finance_accounting",
    "topic": "investing",
@@ -297,7 +307,7 @@
   },
   "content-feed-intake-for-curation": {
    "path": "recipes/general_professional/knowledge-curation/content-feed-intake-for-curation",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "general_professional",
    "topic": "knowledge-curation",
@@ -309,7 +319,7 @@
   },
   "content-metrics-anomaly-check": {
    "path": "recipes/sales_marketing/web-analytics/content-metrics-anomaly-check",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "sales_marketing",
    "topic": "web-analytics",
@@ -321,7 +331,7 @@
   },
   "content-source-health-tracking": {
    "path": "recipes/sales_marketing/community-channels/content-source-health-tracking",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "sales_marketing",
    "topic": "community-channels",
@@ -345,7 +355,7 @@
   },
   "contract-intake-and-risk-analysis": {
    "path": "recipes/legal_compliance/contracts/contract-intake-and-risk-analysis",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "legal_compliance",
    "topic": "contracts",
@@ -359,7 +369,7 @@
   },
   "contract-obligation-and-deadline-watch": {
    "path": "recipes/legal_compliance/deadlines/contract-obligation-and-deadline-watch",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "legal_compliance",
    "topic": "deadlines",
@@ -387,7 +397,7 @@
   },
   "contract-review-publication-and-risk-alert": {
    "path": "recipes/legal_compliance/contracts/contract-review-publication-and-risk-alert",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "legal_compliance",
    "topic": "contracts",
@@ -401,7 +411,7 @@
   },
   "conversion-experiment-program-digest": {
    "path": "recipes/sales_marketing/conversion-optimization/conversion-experiment-program-digest",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "sales_marketing",
    "topic": "conversion-optimization",
@@ -411,7 +421,7 @@
   },
   "conversion-experiment-significance-watch": {
    "path": "recipes/sales_marketing/conversion-optimization/conversion-experiment-significance-watch",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "sales_marketing",
    "topic": "conversion-optimization",
@@ -423,7 +433,7 @@
   },
   "conversion-variant-hypothesis-proposals": {
    "path": "recipes/sales_marketing/conversion-optimization/conversion-variant-hypothesis-proposals",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "sales_marketing",
    "topic": "conversion-optimization",
@@ -432,6 +442,20 @@
     "analytics"
    ],
    "recommended_trigger_kind": "self_paced"
+  },
+  "correction-root-cause-and-propagation": {
+   "path": "recipes/data_ai/data-quality/correction-root-cause-and-propagation",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "data_ai",
+   "topic": "data-quality",
+   "title": "Correction root cause and propagation",
+   "connector_types": [
+    "knowledge_base",
+    "database",
+    "source_control"
+   ],
+   "recommended_trigger_kind": "event"
   },
   "correspondence-activity-digest": {
    "path": "recipes/general_professional/digests/correspondence-activity-digest",
@@ -461,7 +485,7 @@
   },
   "cross-project-progress-briefing": {
    "path": "recipes/general_professional/digests/cross-project-progress-briefing",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "general_professional",
    "topic": "digests",
@@ -473,7 +497,7 @@
   },
   "cross-workflow-error-pattern-detection": {
    "path": "recipes/software_engineering/error-triage/cross-workflow-error-pattern-detection",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "software_engineering",
    "topic": "error-triage",
@@ -485,7 +509,7 @@
   },
   "data-assistant-quality-review-from-real-traffic": {
    "path": "recipes/data_ai/data-access/data-assistant-quality-review-from-real-traffic",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "data_ai",
    "topic": "data-access",
@@ -498,7 +522,7 @@
   },
   "database-activity-digest": {
    "path": "recipes/software_engineering/observability/database-activity-digest",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "software_engineering",
    "topic": "observability",
@@ -511,7 +535,7 @@
   },
   "database-anomaly-baseline-refresh": {
    "path": "recipes/software_engineering/observability/database-anomaly-baseline-refresh",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "software_engineering",
    "topic": "observability",
@@ -523,7 +547,7 @@
   },
   "database-anomaly-incident-diagnosis": {
    "path": "recipes/software_engineering/incident-response/database-anomaly-incident-diagnosis",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "software_engineering",
    "topic": "incident-response",
@@ -536,7 +560,7 @@
   },
   "database-health-check": {
    "path": "recipes/software_engineering/observability/database-health-check",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "software_engineering",
    "topic": "observability",
@@ -548,7 +572,7 @@
   },
   "database-performance-baseline-monitoring": {
    "path": "recipes/software_engineering/observability/database-performance-baseline-monitoring",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "software_engineering",
    "topic": "observability",
@@ -561,7 +585,7 @@
   },
   "database-row-change-watch": {
    "path": "recipes/software_engineering/observability/database-row-change-watch",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "software_engineering",
    "topic": "observability",
@@ -575,7 +599,7 @@
   },
   "database-schema-picture-refresh": {
    "path": "recipes/data_ai/data-access/database-schema-picture-refresh",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "data_ai",
    "topic": "data-access",
@@ -588,7 +612,7 @@
   },
   "decision-record-rot-watch": {
    "path": "recipes/software_engineering/engineering-records/decision-record-rot-watch",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "software_engineering",
    "topic": "engineering-records",
@@ -601,7 +625,7 @@
   },
   "decision-to-code-linking": {
    "path": "recipes/software_engineering/engineering-records/decision-to-code-linking",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "software_engineering",
    "topic": "engineering-records",
@@ -614,7 +638,7 @@
   },
   "deploy-regression-correlation": {
    "path": "recipes/software_engineering/observability/deploy-regression-correlation",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "software_engineering",
    "topic": "observability",
@@ -627,7 +651,7 @@
   },
   "email-inbox-attention-digest": {
    "path": "recipes/general_professional/digests/email-inbox-attention-digest",
-   "version": "0.1.0",
+   "version": "0.2.1",
    "status": "seed",
    "domain": "general_professional",
    "topic": "digests",
@@ -639,7 +663,7 @@
   },
   "feature-announcement-video-production": {
    "path": "recipes/creative_design/video/feature-announcement-video-production",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "creative_design",
    "topic": "video",
@@ -652,7 +676,7 @@
   },
   "feature-walkthrough-capture": {
    "path": "recipes/creative_design/video/feature-walkthrough-capture",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "creative_design",
    "topic": "video",
@@ -678,7 +702,7 @@
   },
   "free-promotion-surface-discovery": {
    "path": "recipes/sales_marketing/community-channels/free-promotion-surface-discovery",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "sales_marketing",
    "topic": "community-channels",
@@ -690,7 +714,7 @@
   },
   "goal-accountability-and-idea-triage-review": {
    "path": "recipes/general_professional/goals-and-reviews/goal-accountability-and-idea-triage-review",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "general_professional",
    "topic": "goals-and-reviews",
@@ -700,7 +724,7 @@
   },
   "harvested-idea-triage": {
    "path": "recipes/software_engineering/work-intake/harvested-idea-triage",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "software_engineering",
    "topic": "work-intake",
@@ -712,7 +736,7 @@
   },
   "high-intent-lead-alerting": {
    "path": "recipes/sales_marketing/lead-handling/high-intent-lead-alerting",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "sales_marketing",
    "topic": "lead-handling",
@@ -725,7 +749,7 @@
   },
   "idea-architecture-verdict": {
    "path": "recipes/software_engineering/codebase-health/idea-architecture-verdict",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "software_engineering",
    "topic": "codebase-health",
@@ -737,7 +761,7 @@
   },
   "inbound-message-triage-across-channels": {
    "path": "recipes/general_professional/correspondence/inbound-message-triage-across-channels",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "general_professional",
    "topic": "correspondence",
@@ -751,7 +775,7 @@
   },
   "incident-capture-and-classification": {
    "path": "recipes/software_engineering/incident-response/incident-capture-and-classification",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "software_engineering",
    "topic": "incident-response",
@@ -763,7 +787,7 @@
   },
   "infrastructure-metrics-scan": {
    "path": "recipes/software_engineering/observability/infrastructure-metrics-scan",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "software_engineering",
    "topic": "observability",
@@ -775,7 +799,7 @@
   },
   "issue-handling-trend-review": {
    "path": "recipes/customer_support/service-health/issue-handling-trend-review",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "customer_support",
    "topic": "service-health",
@@ -788,7 +812,7 @@
   },
   "issue-source-coverage-and-triage": {
    "path": "recipes/customer_support/ticket-handling/issue-source-coverage-and-triage",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "customer_support",
    "topic": "ticket-handling",
@@ -802,7 +826,7 @@
   },
   "knowledge-base-content-curation": {
    "path": "recipes/general_professional/knowledge-curation/knowledge-base-content-curation",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "general_professional",
    "topic": "knowledge-curation",
@@ -814,7 +838,7 @@
   },
   "knowledge-base-contradiction-audit": {
    "path": "recipes/data_ai/data-quality/knowledge-base-contradiction-audit",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "data_ai",
    "topic": "data-quality",
@@ -827,7 +851,7 @@
   },
   "knowledge-base-curation-audit": {
    "path": "recipes/general_professional/knowledge-curation/knowledge-base-curation-audit",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "general_professional",
    "topic": "knowledge-curation",
@@ -839,7 +863,7 @@
   },
   "lead-welcome-email-drafting": {
    "path": "recipes/sales_marketing/lead-handling/lead-welcome-email-drafting",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "sales_marketing",
    "topic": "lead-handling",
@@ -851,7 +875,7 @@
   },
   "live-database-question-answering": {
    "path": "recipes/data_ai/data-access/live-database-question-answering",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "data_ai",
    "topic": "data-access",
@@ -877,7 +901,7 @@
   },
   "memory-and-knowledge-base-health-audit": {
    "path": "recipes/data_ai/data-quality/memory-and-knowledge-base-health-audit",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "data_ai",
    "topic": "data-quality",
@@ -890,7 +914,7 @@
   },
   "newsletter-issue-curation": {
    "path": "recipes/creative_design/newsletters/newsletter-issue-curation",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "creative_design",
    "topic": "newsletters",
@@ -903,7 +927,7 @@
   },
   "open-incident-vigilance": {
    "path": "recipes/software_engineering/incident-response/open-incident-vigilance",
-   "version": "0.1.0",
+   "version": "0.3.0",
    "status": "seed",
    "domain": "software_engineering",
    "topic": "incident-response",
@@ -916,7 +940,7 @@
   },
   "original-2d-art-curation": {
    "path": "recipes/creative_design/visual-assets/original-2d-art-curation",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "creative_design",
    "topic": "visual-assets",
@@ -955,7 +979,7 @@
   },
   "payment-event-scoring-for-churn-and-expansion": {
    "path": "recipes/finance_accounting/revenue/payment-event-scoring-for-churn-and-expansion",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "finance_accounting",
    "topic": "revenue",
@@ -1003,7 +1027,7 @@
   },
   "product-idea-harvesting-from-codebase-and-web": {
    "path": "recipes/product_project/ideation/product-idea-harvesting-from-codebase-and-web",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "product_project",
    "topic": "ideation",
@@ -1017,7 +1041,7 @@
   },
   "production-error-issue-filter": {
    "path": "recipes/software_engineering/error-triage/production-error-issue-filter",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "software_engineering",
    "topic": "error-triage",
@@ -1029,7 +1053,7 @@
   },
   "pull-request-test-verdict": {
    "path": "recipes/software_engineering/code-review/pull-request-test-verdict",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "software_engineering",
    "topic": "code-review",
@@ -1041,7 +1065,7 @@
   },
   "release-candidate-review": {
    "path": "recipes/software_engineering/release/release-candidate-review",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "software_engineering",
    "topic": "release",
@@ -1053,7 +1077,7 @@
   },
   "release-record-and-version-bump": {
    "path": "recipes/software_engineering/release/release-record-and-version-bump",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "software_engineering",
    "topic": "release",
@@ -1079,7 +1103,7 @@
   },
   "revenue-signal-alerting-and-outreach": {
    "path": "recipes/customer_support/retention/revenue-signal-alerting-and-outreach",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "customer_support",
    "topic": "retention",
@@ -1093,12 +1117,24 @@
   },
   "routing-rule-management": {
    "path": "recipes/software_engineering/event-routing/routing-rule-management",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "software_engineering",
    "topic": "event-routing",
    "title": "Event routing rule management",
    "connector_types": [],
+   "recommended_trigger_kind": "event"
+  },
+  "sanitized-corpus-derivation": {
+   "path": "recipes/general_professional/knowledge-curation/sanitized-corpus-derivation",
+   "version": "0.2.0",
+   "status": "seed",
+   "domain": "general_professional",
+   "topic": "knowledge-curation",
+   "title": "Sanitized corpus derivation",
+   "connector_types": [
+    "knowledge_base"
+   ],
    "recommended_trigger_kind": "event"
   },
   "scouted-opportunity-triage": {
@@ -1113,7 +1149,7 @@
   },
   "skill-library-audit": {
    "path": "recipes/software_engineering/engineering-records/skill-library-audit",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "software_engineering",
    "topic": "engineering-records",
@@ -1125,7 +1161,7 @@
   },
   "source-artifact-channel-repurposing": {
    "path": "recipes/creative_design/social-publishing/source-artifact-channel-repurposing",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "creative_design",
    "topic": "social-publishing",
@@ -1151,7 +1187,7 @@
   },
   "stack-grounded-opportunity-research": {
    "path": "recipes/software_engineering/work-intake/stack-grounded-opportunity-research",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "software_engineering",
    "topic": "work-intake",
@@ -1164,7 +1200,7 @@
   },
   "support-escalation-pattern-review": {
    "path": "recipes/customer_support/service-health/support-escalation-pattern-review",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "customer_support",
    "topic": "service-health",
@@ -1179,7 +1215,7 @@
   },
   "support-issue-disposition-account": {
    "path": "recipes/customer_support/service-health/support-issue-disposition-account",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "customer_support",
    "topic": "service-health",
@@ -1192,7 +1228,7 @@
   },
   "support-request-sla-watch-and-escalation": {
    "path": "recipes/customer_support/sla/support-request-sla-watch-and-escalation",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "customer_support",
    "topic": "sla",
@@ -1207,7 +1243,7 @@
   },
   "survey-insight-report-delivery": {
    "path": "recipes/product_project/customer-feedback/survey-insight-report-delivery",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "product_project",
    "topic": "customer-feedback",
@@ -1222,7 +1258,7 @@
   },
   "survey-response-theme-and-sentiment-analysis": {
    "path": "recipes/product_project/customer-feedback/survey-response-theme-and-sentiment-analysis",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "product_project",
    "topic": "customer-feedback",
@@ -1247,7 +1283,7 @@
   },
   "unsigned-contract-signature-chasing": {
    "path": "recipes/legal_compliance/deadlines/unsigned-contract-signature-chasing",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "legal_compliance",
    "topic": "deadlines",
@@ -1262,7 +1298,7 @@
   },
   "watchlist-technical-signal-digest": {
    "path": "recipes/finance_accounting/investing/watchlist-technical-signal-digest",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "finance_accounting",
    "topic": "investing",
@@ -1275,7 +1311,7 @@
   },
   "web-analytics-performance-review": {
    "path": "recipes/sales_marketing/web-analytics/web-analytics-performance-review",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "sales_marketing",
    "topic": "web-analytics",
@@ -1288,7 +1324,7 @@
   },
   "web-content-performance-review": {
    "path": "recipes/sales_marketing/web-analytics/web-content-performance-review",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "sales_marketing",
    "topic": "web-analytics",
@@ -1300,7 +1336,7 @@
   },
   "webhook-classification-and-routing": {
    "path": "recipes/software_engineering/event-routing/webhook-classification-and-routing",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "software_engineering",
    "topic": "event-routing",
@@ -1315,7 +1351,7 @@
   },
   "website-conversion-gap-audit": {
    "path": "recipes/sales_marketing/conversion-optimization/website-conversion-gap-audit",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "sales_marketing",
    "topic": "conversion-optimization",
