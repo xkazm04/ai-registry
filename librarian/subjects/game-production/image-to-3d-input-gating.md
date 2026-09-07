@@ -54,3 +54,62 @@ The application's verdict is a prediction with a named falsifier - whether plann
 per-part commissioning costs the same or more credit per accepted asset - and that number
 is measurable from job stores the project already keeps. Return when a part-list artifact
 exists on the image side.
+
+---
+
+Second touch the same day, by a concurrent `/intake` run
+([[../../sources/2026-09-07-rodin-worldgen]], a second-hand practitioner review of a
+scene-generation release). The two runs were inside this golden path simultaneously and
+neither board check saw the other: this run claimed the subject as
+`game-production/sourcing-economics/image-to-3d-input-gating`, the other as
+`game-production/asset-production/sourcing-economics/image-to-3d-input-gating`, and
+`run-board check` compares subject strings. Both hunks survive; each landed under its own
+name. The note above reads the two techniques correctly and the reading is worth keeping:
+one cuts a **subject** into parts a generator can reconstruct, the other cuts a **frame**
+into regions a gate can score.
+
+Landed by the second run:
+
+- `techniques/scene-partition-is-the-gated-unit.md` — the rubric this subject already named
+  and declined. `single-subject-plain-background` closes with "Environment or scene
+  reconstruction, where the whole frame is the subject and isolation is meaningless.
+  Different problem, different rubric", and the capability arrived: one busy frame in,
+  several meshes plus a background out. That declared absence is why the landing is a
+  technique and not an amendment — a mechanism the subject names and does not carry.
+
+  The load-bearing half is **not** per-region scoring. It is that neither gate in this
+  subject's own design can see a missing object: the input gate scores regions that exist,
+  the output gate grades meshes that came back, and an object no region selected produces
+  neither, fails nothing, and is absent from a result whose every verdict is green — L12
+  (`an-instrument-proves-it-had-input`) exactly. So area resolves to one of three states,
+  region / backdrop / **residue**, residue is reported rather than implied, and the frame
+  verdict is the **minimum** over regions plus a separate coverage line, never an average,
+  because an average has no term for a thing that is missing.
+
+  Two rules came from reading the subject rather than the source: **occlusion is this
+  lane's frame-edge hard fail** — the same missing-volume evidence, unrecoverable by crop
+  or re-extraction, and structurally impossible in the isolation rubric because an isolated
+  subject cannot have it — and a region is **re-gated when it crosses the backdrop
+  boundary**, because a verdict is bound to the content it judged and the two sides have
+  different criteria.
+
+- `applications/node--scene-partition-is-the-gated-unit.md` — `code` / `better` /
+  `ab-paired`, and an honest half-case: the consumer generates one asset per submit and its
+  input gate hard-codes "exactly one subject" into a prompt string, so only the residue rule
+  had a seam. Measured in a packaging collector that already implemented the idea
+  independently. A first arm chosen to falsify **refuted the hypothesis** — drifting the
+  extension list was caught by 5 tests — and that failure produced the right arm: four real
+  artifacts in unenumerated formats gave a byte-identical report and an all-green suite,
+  because per-case coverage cannot reach a format nobody enumerated.
+
+## State
+
+7 -> 8 techniques, 1 -> 2 applications after both runs. Unplanned cross-run convergence
+worth recording: the residue finding shares a root with
+`conformance-checking/derived-expectation-needs-an-evidence-floor`, landed the same day from
+an unrelated repository source by a third run.
+
+Still open here, banked with anchors in the source note rather than landed: whether a
+semantic layer added to an asset (physics, articulation) narrows its interchange set to the
+one container whose schema can carry it — real, and its only clean home is outside
+`game-production`.

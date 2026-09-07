@@ -11,6 +11,7 @@ techniques:
   - multi-view-master-reference
   - reference-role-tagging
   - text-is-never-geometry
+  - scene-partition-is-the-gated-unit
   - part-cut-planning
 ---
 
@@ -87,6 +88,27 @@ disguised as material.
 The criteria are enforced by [single-subject-plain-background](./techniques/single-subject-plain-background.md)
 and [canonical-pose-rule](./techniques/canonical-pose-rule.md), which carry the specific
 thresholds and the preparation procedures.
+
+## When one image is meant to yield several assets
+
+All five criteria take the **unit** as given: there is one subject, the image is it, and the
+question is whether that subject reconstructs. Reconstruction in scene mode removes that
+premise — a busy frame goes in and several separate objects come back, plus a background —
+and the criteria then have nothing to run on until the tool has cut the frame into regions.
+Scoring the source frame scores something that will never be reconstructed; scoring each
+region is necessary and is not sufficient, because it skips the only question that is new
+here: **did the cut account for the whole frame?**
+
+That question matters because neither gate in this pipeline can ask it. An input gate scores
+regions that exist and an output gate grades meshes that came back; an object that no region
+selected produces neither, fails nothing, and is simply absent from a result whose every
+verdict is green. So a scene input is gated on its partition first and its regions second,
+with area resolving to exactly one of three states — region, backdrop, or residue — and
+residue reported rather than implied.
+[scene-partition-is-the-gated-unit](./techniques/scene-partition-is-the-gated-unit.md)
+carries the coverage check, the repair channel that adjusts a boundary rather than the
+image, and the occlusion rule that stands in this lane where the frame-edge hard fail stands
+in the single-subject one.
 
 ## A defect's severity comes from what depends on it
 
