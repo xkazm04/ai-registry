@@ -6,7 +6,7 @@ technique: gate-liveness
 status: forged
 laws: [failure-not-empty-success, gate-sees-target]
 shared_with: []
-use_when: [deciding whether a clean exit means anything was checked, seeding a known violation to watch a new gate go red, a gate that has been green for a year]
+use_when: [deciding whether a clean exit means anything was checked, seeding a known violation to watch a new gate go red, a gate that has been green for a year, a checker whose population is computed from a date ref or ordering rather than the whole tree, retrofitting a rule onto an artifact that already violates it, a check reports a plausible non-zero count and the rule still drifts, a gate whose scope is empty unless a flag is passed]
 ---
 
 # Gate liveness
@@ -97,6 +97,76 @@ needs a newer reader (a defect would escape: the tool would misinterpret a
 document it does not understand), and proceeding when it cannot determine an
 installed dependency's version (only redundant work is at stake). The asymmetry
 is deliberate and it is the discriminator above, made twice.
+
+## A scoped population passes the floor test and checks almost nothing
+
+The instrument assertion above catches a population of **zero**: "checked 0
+files" is unmistakable, and a floor beneath the expected count catches the
+moved directory and the broken glob. Between zero and complete there is a
+third state it does not catch, because the count comes back plausible.
+
+A checker whose population is **derived from a predicate** — files changed
+since a ref, sections dated after a rule's adoption, entries under a heading,
+records newer than a migration — reports a non-zero number every run. The
+floor is satisfied honestly. What the number does not say is that the
+predicate, not the tree, decided the population, and that everything the
+predicate excluded is exempt in a way no one reads as an exemption. The
+green means *the rule holds over the part the predicate admitted*, and it is
+reported in the same words as *the rule holds*.
+
+This is the ordinary and correct shape for retrofitting a standard onto an
+artifact that already violates it — the alternative is converting the whole
+surface before the check can go green, which is usually why the rule went
+unmechanised in the first place. The scoping is not the defect. **The defect
+is that the exemption's safety is an unverified claim about the artifact's
+structure**, sitting in the checker as a comment.
+
+The claim is always of the same form: *new content cannot land in the exempt
+region.* For a date-scoped linter over a newest-first document, that holds
+because new sections are inserted at the top — true, load-bearing, and
+nowhere asserted. Reverse the insertion order, let one entry go undated, typo
+one heading, and the checker keeps reporting its plausible non-zero count over
+a population that no longer contains the new work. Nothing goes red, because
+nothing about the count changed.
+
+Two cases separate cleanly, and the second is the one to look for:
+
+- **Enumerated exemption.** The excluded population is a list in the
+  repository. It is reviewable, it is diffable, and its cost is visible —
+  [ratchet-design](../../metric-gates/techniques/ratchet-design.md) governs
+  the pair, down to emitting the allowlisted population as advisory so the
+  queue does not go dark. An allowlist cannot silently grow.
+- **Derived exemption.** The excluded population is computed from a date, an
+  ordering, a ref or a path shape. It costs nothing to maintain, which is why
+  it is chosen over a list of forty, and it can silently grow — the
+  derivation is code, the invariant it depends on is not.
+
+So a derived scope owes one thing an enumerated one does not: **assert the
+premise, not the count.** The check that the artifact is ordered the way the
+scoping assumes belongs in the same run as the rule it protects, and it fails
+the same way. Where the premise cannot be asserted, the honest reporting is
+the count *and its predicate*
+([count-carries-predicate](../../../../_laws.md#count-carries-predicate)) —
+"checked 6 of 41 sections, those dated after 2026-07-17" — which at least puts
+the exemption in front of a reader every run instead of once, in a comment, at
+authoring time.
+
+The audit question the section above asks of a green is "did it check
+anything?" For a derived scope it is one turn sharper:
+
+> **What did the predicate exclude, and what would have to be true for new
+> work to land there?**
+
+A measured instance from the other direction, where the derived population is
+empty by default and the gate is green anyway: a skills checker enforces
+version discipline only over what changed since a ref supplied by a flag, and
+with the flag omitted it prints that the discipline did not run — a correct,
+distinguishable could-not-run — and exits zero. The pipeline passes the flag;
+every human and agent invocation that authorizes a commit does not, and the
+standing instruction that tells them to run it never mentions the flag. The
+three-outcome vocabulary was respected and the routing decision was still
+wrong by this technique's own discriminator: that green authorizes shipping a
+skill change, so a defect escapes rather than work being skipped.
 
 ## Assert the oracle, not only the instrument
 

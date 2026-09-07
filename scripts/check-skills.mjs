@@ -267,24 +267,59 @@ if (parsed === 0) {
 }
 
 // ---------------------------------------------------------------- version discipline
+// The population this discipline runs over is DERIVED, not the whole lane, so a
+// plausible non-zero count is not evidence it covered the change in front of it.
+// Until 2026-09-07 the derivation was `--since <ref>` or nothing: with the flag
+// absent this printed a correct, distinguishable "NOT run" and exited zero. The
+// pipeline passes the flag; every local invocation that authorizes a commit does
+// not, and the standing instruction that says to run this before committing a
+// skill change has never mentioned it. Measured that day: a SKILL.md edited with
+// no version bump reported `skills lane OK`.
+//
+// So an omitted `--since` no longer means "no population". It means the one a
+// local commit is about to create: the working tree and index against HEAD. The
+// flag still selects the branch-wide comparison CI needs; what changed is that
+// the flagless default checks something rather than nothing.
 const sinceIdx = process.argv.indexOf('--since');
 let bumpChecked = 0;
-if (sinceIdx !== -1) {
-  const ref = process.argv[sinceIdx + 1];
-  if (!ref) { console.error('FATAL: --since requires a git ref (e.g. --since origin/main).'); process.exit(2); }
+let scopeLabel = null;
+{
   const git = (args) => execFileSync('git', args, { cwd: ROOT, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] });
-  try { git(['rev-parse', '--verify', `${ref}^{commit}`]); } catch (e) {
-    console.error(`FATAL: --since ref "${ref}" does not resolve in this checkout (${String(e.message).trim()}).`);
-    console.error('A shallow clone is the usual cause; CI needs fetch-depth: 0.');
-    console.error('Refusing to report "no version problems" from a comparison that never ran.');
-    process.exit(2);
-  }
-  let changed;
-  try {
-    changed = git(['diff', '--name-only', `${ref}...HEAD`, '--', 'skills/']).split(/\r?\n/).map((x) => x.trim()).filter(Boolean);
-  } catch (e) {
-    console.error(`FATAL: git diff against "${ref}" failed (${String(e.message).trim()}).`);
-    process.exit(2);
+  let ref, changed;
+
+  if (sinceIdx !== -1) {
+    ref = process.argv[sinceIdx + 1];
+    if (!ref) { console.error('FATAL: --since requires a git ref (e.g. --since origin/main).'); process.exit(2); }
+    try { git(['rev-parse', '--verify', `${ref}^{commit}`]); } catch (e) {
+      console.error(`FATAL: --since ref "${ref}" does not resolve in this checkout (${String(e.message).trim()}).`);
+      console.error('A shallow clone is the usual cause; CI needs fetch-depth: 0.');
+      console.error('Refusing to report "no version problems" from a comparison that never ran.');
+      process.exit(2);
+    }
+    try {
+      changed = git(['diff', '--name-only', `${ref}...HEAD`, '--', 'skills/']).split(/\r?\n/).map((x) => x.trim()).filter(Boolean);
+    } catch (e) {
+      console.error(`FATAL: git diff against "${ref}" failed (${String(e.message).trim()}).`);
+      process.exit(2);
+    }
+    scopeLabel = `changed against ${ref}`;
+  } else {
+    ref = 'HEAD';
+    // Uncommitted work is the population a commit-authorizing run is about to
+    // ship. An instrument failure here is fatal for the same reason an
+    // unresolvable ref is: reporting "no version problems" from a comparison
+    // that never ran is the failure this whole block exists to refuse.
+    try {
+      changed = git(['diff', '--name-only', 'HEAD', '--', 'skills/']).split(/\r?\n/).map((x) => x.trim()).filter(Boolean);
+      const untracked = git(['ls-files', '--others', '--exclude-standard', '--', 'skills/'])
+        .split(/\r?\n/).map((x) => x.trim()).filter(Boolean);
+      changed = [...new Set([...changed, ...untracked])];
+    } catch (e) {
+      console.error(`FATAL: could not read the working tree against HEAD (${String(e.message).trim()}).`);
+      console.error('Refusing to report "no version problems" from a comparison that never ran.');
+      process.exit(2);
+    }
+    scopeLabel = 'uncommitted against HEAD';
   }
   // A LESSONS.md append records a run at the CURRENT version; it is not a change to
   // the method. Everything else under the skill directory is the method or the
@@ -326,8 +361,10 @@ for (const { category } of seen.values()) byCategory.set(category, (byCategory.g
 const catSummary = [...byCategory.entries()].sort().map(([c, n]) => `${c}:${n}`).join(' ');
 console.log(`skills lane: ${skills.length} skill(s) - ${catSummary}`);
 console.log(`${lessonFiles} LESSONS.md file(s) - ${lessonEntries} entries`);
-if (sinceIdx !== -1) console.log(`version discipline: ${bumpChecked} changed skill(s) compared against ${process.argv[sinceIdx + 1]}`);
-else console.log('version discipline: NOT run (pass --since <ref>; CI runs it on every pull request)');
+// The count carries its predicate: a reader must be able to see which
+// population was compared, because the number alone cannot distinguish "the
+// rule holds" from "the rule holds over the part the scoping admitted".
+console.log(`version discipline: ${bumpChecked} changed skill(s), ${scopeLabel}`);
 console.log('NOT checked here: whether a lesson was appended; whether an installation shadows a lane skill (scripts/fleet-audit.mjs)');
 for (const n of notes) console.log(`  note: ${n}`);
 if (failures.length) {
