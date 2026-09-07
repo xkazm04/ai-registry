@@ -9006,3 +9006,41 @@ them* - but not applied to `SKILL.md` on one sighting.
   Not proposed as a version bump on one sighting - but this is the third source note in
   the ledger whose currency signal was recorded and never landed, and a third sighting
   is where this file usually stops calling something a lesson.
+
+## 2.6.0 - 2026-09-07 - rodin-worldgen
+
+- **A board claim at the wrong DEPTH is invisible to every sibling, and the check reports
+  clear.** Two runs worked inside one golden path for an afternoon. One claimed
+  `game-production/sourcing-economics/<subject>`; the real address, which the other claimed,
+  carries `asset-production/` in the middle. `run-board.mjs check` compares subject strings,
+  so both `check` calls returned exit 0 and each run believed it was alone. Nothing was lost
+  here — the collision was on a frontmatter list, both hunks survive, and the sibling's
+  subject note independently described the other's technique correctly — but nothing about
+  the outcome was owed to the board. **This is the constructed-path failure the method
+  already forbids elsewhere**, wearing different clothes: Phase 4 says to take a subject's
+  address from `research-map`'s `file` and never to build one, and then the board asks for a
+  hand-typed subject string. Until the instrument normalizes claims against the index, derive
+  the claim string from the mapped `file` path. A run that types the address from memory is
+  claiming a different subject than the one it is about to write in.
+- **The fetch budget can be spent on a primary that does not exist yet.** The review class
+  says the fetch is the extraction, and that is right about *reviews* and wrong about
+  *recency*: the release was seven days old, and the vendor's documentation site carried an
+  API overview and no feature, format or job-semantics pages at all. Three fetches bought one
+  fragment. The corrective is cheap and belongs before the budget is committed - confirm a
+  primary exists for a release under a month old, exactly as the reference-index lane already
+  confirms a reference resolves before a worker commits to it. The two are the same discipline
+  at different scales.
+- **A falsifying arm that is CAUGHT can be the thing that produces the finding, not just a
+  check on it.** Fourth consecutive round for seam-to-falsify. Here arm one - an ordinary
+  refactor drifting an extension list - was caught by 5 of 18 tests, which killed the run's
+  first hypothesis outright. The correct finding only became visible *because* that arm
+  passed: proving the enumerated cases were well covered is what located the class that
+  cannot be enumerated. Worth stating as a habit rather than a result - **before running a
+  falsifying arm, say what a CAUGHT outcome would teach.** If the answer is "nothing", the
+  arm is a confirmation wearing a falsifier's name.
+- **The threshold did its job in the direction that is hard to see.** The accepted row landed
+  at exactly `+2` because a `+1 refutes` was withdrawn mid-scoring: the neighbour technique
+  turned out to have scoped the criterion I was about to call falsely universal. Reading the
+  neighbour is already Phase 6 step 5, and its usual justification is finding a better
+  finding; here its value was arithmetic honesty about a row that landed anyway. A gate that
+  is only ever tightened by rows it rejects is not being measured.

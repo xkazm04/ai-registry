@@ -3072,3 +3072,37 @@ comment now bounds itself to a change of stance rather than drift. This is the t
 scorecard entry to say some version of "assert the instrument"; if a fourth run pays for
 it, it belongs in Phase 8 step 3 beside the paired-proof rules rather than in this
 paragraph.
+| 2.6.0 | 2026-09-07 | `youtube:KlzzBa1sZX0` "Turn Any Image into an Editable 3D World" (**second-hand practitioner review** of a scene-generation release, 1,868 words, thin first-party operating half; operator brief `domain game-development`) | 1 source. **Fetches 3/3 — ending thirteen consecutive corpus-internal runs, and the return was poor**: the vendor's docs site carried no feature, format or job-semantics pages, so the class's rule that "the fetch IS the extraction" failed for want of a primary to fetch. One usable fragment, banked as an out-of-domain lead | 11 | 9 scored, **0 declined**, 4 banked untriaged with anchors | **1 technique + 1 application** | **1 row of 1 owed: 1c/0e/0s/0t** | **1** (pof `b8408c62`) | Focus (round 34, the highest written) applied on all three points. **(1) The apply-row debt is written as a fraction and it is 1 of 1** — the cell now distinguishes a run that lands one and applies one from a run that lands four and applies one, which was the whole complaint. **(2) Seam-to-falsify fired for the fourth consecutive round and this time refuted the run's own first arm**: drifting the collector's extension list was *caught* by 5 of 18 tests, and only that failure exposed the class per-case coverage structurally cannot reach — a format nobody enumerated has no case. Four rounds running; this is now a rule the method should carry rather than a focus item. **(3) No ladder applies** — `game-production` has no measured baseline; memory remains the only domain with one, and the honest answer is still that building a second is a bigger decision than a focus item | S0/T1/A1/Asrc0/0 task-lines · **no design record — video source, so no routing count and `directions=n/a`** · handoff n/a · `auto=1/4/0` `fp=0` · `selfcatch=2` · `ratio=n/a` · **threshold discipline: the accepted row landed *at* +2, not above it** — a `+1 refutes` for criterion 1's universality was withdrawn at Phase 6 step 5 when the neighbour turned out to have scoped it already, and the second self-catch was a `librarian-scan --top 15` first read through `head -40` and re-read untruncated before scoring. **4 siblings live at claim and at Phase 9; one landed a technique into this same subject mid-run and the board could not see it** — a subject-path mismatch, recorded as a method defect below. `check-bundles` red at Phase 9 on a live sibling's uncommitted file, so `index.json`/`catalog.json` **not** regenerated |
+
+**The funnel over the last ten rows, read after this one.** `research` is 1 source per run
+in all ten and has been for the life of this file. `apply` and `ship` are non-zero in nine
+of ten. The stage this row loses at is **extract**: 11 candidates from a 1,868-word review,
+of which one landed — which is exactly the class's predicted yield and is *not* a failure,
+but it is the stage with the least headroom left, and the previous row's 46-entry design
+record over a repository is the contrast that shows why. A review has no design to read.
+
+**Next run's declared focus (round 36).** Three, and the first is the one that cost this
+run real content.
+
+1. **Claim subjects by their INDEX ADDRESS, and check the address before trusting a clear
+   board.** Two runs sat inside one golden path all afternoon and neither collision check
+   fired, because one claimed `game-production/sourcing-economics/<subject>` and the other
+   `game-production/asset-production/sourcing-economics/<subject>`. `run-board.mjs check`
+   compares subject strings, so a truthful claim at the wrong depth is invisible to
+   everyone — and the method already has the rule that prevents it, in a different
+   context: *use the index's `file`, never a constructed path*. The board is a constructed
+   path today. Until the instrument normalizes, take the address from `research-map`'s
+   `file` output and claim that. The check the next row should make: did a board claim and
+   an index address agree, and did any sibling collision go undetected.
+2. **A first arm that is CAUGHT is the run's most valuable half-hour, and it should be
+   planned rather than stumbled into.** Four consecutive rounds of seam-to-falsify, and in
+   this one the refuted arm did not merely improve the finding, it *produced* it: proving
+   the enumerated formats were well covered is what located the unenumerated ones. Next run
+   should state, before running arm one, what a CAUGHT result would teach — because if the
+   answer is "nothing", the arm is a confirmation dressed as a falsifier.
+3. **When the fetch budget is spent and returns nothing, say so in the class's terms.**
+   This class's entry promises the fetch is the extraction; here the primary did not exist
+   and 3 fetches bought one fragment. That is a fact about the *vendor's documentation
+   maturity a week after release*, not about the class, and the reference should learn the
+   distinction: for a release under a month old, check that a primary exists before
+   budgeting the run around fetching it.
