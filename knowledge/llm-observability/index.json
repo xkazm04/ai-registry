@@ -376,7 +376,7 @@
    "status": "reconciled",
    "file": "knowledge/llm-observability/quality-scoring/cross-provider-benchmark-operations/cross-provider-benchmark-operations.md",
    "digest": "sha256:e8e4c6459e230953",
-   "revision": 7,
+   "revision": 9,
    "changedAt": "2026-09-07",
    "techniques": [
     {

@@ -389,7 +389,7 @@
    "file": "knowledge/software-engineering/backend-platform/work-execution/admission-queue/admission-queue.md",
    "digest": "sha256:266922a3143bdd72",
    "revision": 14,
-   "changedAt": "2026-09-07",
+   "changedAt": "2026-09-06",
    "techniques": [
     {
      "slug": "admission-vocabulary",
@@ -1677,7 +1677,7 @@
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/agent-memory.md",
    "digest": "sha256:76ab7ce8de45f957",
-   "revision": 29,
+   "revision": 35,
    "changedAt": "2026-09-07",
    "techniques": [
     {
@@ -3383,7 +3383,7 @@
    "file": "knowledge/software-engineering/security/identity-and-access/authorization/authorization.md",
    "digest": "sha256:0582b8ac15863bc8",
    "revision": 3,
-   "changedAt": "2026-09-07",
+   "changedAt": "2026-09-06",
    "techniques": [
     {
      "slug": "authorization-audit",
@@ -4134,7 +4134,7 @@
    "file": "knowledge/software-engineering/engineering-process/build-and-release/build-economics/build-economics.md",
    "digest": "sha256:83a15c26d468607c",
    "revision": 7,
-   "changedAt": "2026-09-07",
+   "changedAt": "2026-09-06",
    "techniques": [
     {
      "slug": "build-measurement",
@@ -4796,7 +4796,7 @@
    "file": "knowledge/software-engineering/client-architecture/client-fetch-cache/client-fetch-cache.md",
    "digest": "sha256:3962af6122fb2f0a",
    "revision": 13,
-   "changedAt": "2026-09-07",
+   "changedAt": "2026-09-06",
    "techniques": [
     {
      "slug": "admission-hypothesis",
@@ -6309,7 +6309,7 @@
    "status": "forged",
    "file": "knowledge/software-engineering/operations/service-operations/conditional-service-composition/conditional-service-composition.md",
    "digest": "sha256:080aa3c7fa2cde0d",
-   "revision": 1,
+   "revision": 2,
    "changedAt": "2026-09-07",
    "techniques": [
     {
@@ -6372,7 +6372,7 @@
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-assessment/maturity-and-conformance/conformance-checking/conformance-checking.md",
    "digest": "sha256:939154eedcd46746",
-   "revision": 8,
+   "revision": 9,
    "changedAt": "2026-09-07",
    "techniques": [
     {
@@ -8411,7 +8411,7 @@
    "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/dead-code/dead-code.md",
    "digest": "sha256:ea3094b57b45db2e",
    "revision": 10,
-   "changedAt": "2026-09-07",
+   "changedAt": "2026-09-06",
    "techniques": [
     {
      "slug": "carrying-cost-economics",
@@ -10302,7 +10302,7 @@
    "file": "knowledge/software-engineering/ui-surfaces/data-display/diff-comparison/diff-comparison.md",
    "digest": "sha256:a2109f78c6591155",
    "revision": 5,
-   "changedAt": "2026-09-07",
+   "changedAt": "2026-09-06",
    "techniques": [
     {
      "slug": "baseline-species-degradation",
@@ -12720,7 +12720,7 @@
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/eval-harness/eval-harness.md",
    "digest": "sha256:dfa66dd9b9149cc8",
-   "revision": 28,
+   "revision": 30,
    "changedAt": "2026-09-07",
    "techniques": [
     {
@@ -15396,7 +15396,7 @@
    "file": "knowledge/software-engineering/client-architecture/i18n/i18n.md",
    "digest": "sha256:63c2ac2d6aa9baca",
    "revision": 7,
-   "changedAt": "2026-09-07",
+   "changedAt": "2026-09-06",
    "techniques": [
     {
      "slug": "catalog-architecture",
@@ -18036,7 +18036,7 @@
    "file": "knowledge/software-engineering/engineering-assessment/measurement-method/measurement-honesty/measurement-honesty.md",
    "digest": "sha256:9666d6048175eadc",
    "revision": 8,
-   "changedAt": "2026-09-07",
+   "changedAt": "2026-09-06",
    "techniques": [
     {
      "slug": "co-published-numbers-must-reconcile",
@@ -18516,8 +18516,8 @@
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/metric-gates/metric-gates.md",
    "digest": "sha256:e5447110c341ba82",
-   "revision": 1,
-   "changedAt": "2026-09-07",
+   "revision": 2,
+   "changedAt": "2026-09-06",
    "techniques": [
     {
      "slug": "counted-set-snapshot",
@@ -19287,8 +19287,8 @@
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/model-routing/model-routing.md",
    "digest": "sha256:ffafeb385b44238b",
-   "revision": 14,
-   "changedAt": "2026-09-07",
+   "revision": 15,
+   "changedAt": "2026-09-06",
    "techniques": [
     {
      "slug": "cache-continuity",
@@ -23924,7 +23924,7 @@
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/quality-gates.md",
    "digest": "sha256:7fe67bf32b823144",
-   "revision": 38,
+   "revision": 40,
    "changedAt": "2026-09-07",
    "techniques": [
     {
@@ -26057,7 +26057,7 @@
    "status": "reconciled",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/retrieval/retrieval.md",
    "digest": "sha256:76abe909242cfe47",
-   "revision": 13,
+   "revision": 14,
    "changedAt": "2026-09-07",
    "techniques": [
     {
@@ -29562,8 +29562,8 @@
    "status": "reconciled",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/structured-output/structured-output.md",
    "digest": "sha256:89a19f1e918f1d65",
-   "revision": 10,
-   "changedAt": "2026-09-07",
+   "revision": 11,
+   "changedAt": "2026-09-06",
    "techniques": [
     {
      "slug": "answer-coverage-gating",
@@ -30121,7 +30121,7 @@
    "file": "knowledge/software-engineering/security/code-provenance/supply-chain/supply-chain.md",
    "digest": "sha256:b1b326b5855d4ef1",
    "revision": 3,
-   "changedAt": "2026-09-07",
+   "changedAt": "2026-09-06",
    "techniques": [
     {
      "slug": "archive-extraction-safety",
@@ -31223,8 +31223,8 @@
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/build-and-release/test-harness/test-harness.md",
    "digest": "sha256:7cb7991a4e730b08",
-   "revision": 19,
-   "changedAt": "2026-09-07",
+   "revision": 20,
+   "changedAt": "2026-09-06",
    "techniques": [
     {
      "slug": "approval-snapshots-with-guarded-update",

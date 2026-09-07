@@ -3010,7 +3010,7 @@
    "status": "forged",
    "file": "knowledge/game-production/asset-production/sourcing-economics/image-to-3d-input-gating/image-to-3d-input-gating.md",
    "digest": "sha256:507623277514832d",
-   "revision": 2,
+   "revision": 3,
    "changedAt": "2026-09-07",
    "techniques": [
     {
