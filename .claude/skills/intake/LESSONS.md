@@ -8900,34 +8900,6 @@ force. Proposed as a fourth hunt beside stage, enumeration and asymmetry - *for 
 subject about an exchange, ask who the other party is and whether the corpus models
 them* - but not applied to `SKILL.md` on one sighting.
 
-
-## 2.6.0 - 2026-09-07 - 3d-ai-creature-workflow
-
-- **A falsifying seam can refute the run's own technique, and that is the best case.**
-  The v2.7 clause (written concurrently by another run) frames seam-to-falsify as a test
-  of the *finding* against the tree. This round found the sharper form: the seam showed
-  the technique's central procedure step was **unrunnable** at that seam - the provider
-  accepts only its own prior task ids, so the "probe the service" arm cannot exist. That
-  is not a failed confirmation, it is a boundary the technique did not know it had, and
-  it converted a general rule into one that names its own precondition. Fold into the
-  v2.7 clause on a second sighting.
-- **`unrunnable` and `unspent` are different zeros and the scorecard flattens them.** A
-  `ship 0` because no arm can exist carries no debt; a `ship 0` because the hour went
-  elsewhere does. Raised as round 37 focus item 2 rather than applied, because one
-  sighting is not three.
-- **The score's value showed up as a rejection, not an acceptance.** The strongest
-  untriaged row - that a provider benchmark's "measure alongside quality" enumeration is
-  entirely *resource*-shaped and contains no *correspondence* constraint - is a real gap
-  in a document declaring its own completeness, and it was tempting to reframe it as "an
-  amendment that inverts a rule" to reach GAIN 3. It does not invert; it extends. Scored
-  honestly it is 2/1 = 1 against a threshold of 2 and was banked with anchors. The gate
-  only works if the shape is chosen before the arithmetic is seen, and this is the second
-  round (after round 27) where naming that temptation out loud is what stopped it.
-- **Class calibration held exactly.** For a practitioner build-walkthrough, every accepted
-  and every untriaged row came from a failure sentence and all five catches came from the
-  tour half. The class reference already predicts this; recording the clean split is
-  corroboration for it, not a new rule.
-
 ## 2.6.0 - 2026-09-07 - aios-second-brain
 
 - **The framing of a landing changed its score, and the score was right.** The finding
@@ -9007,6 +8979,33 @@ them* - but not applied to `SKILL.md` on one sighting.
   the ledger whose currency signal was recorded and never landed, and a third sighting
   is where this file usually stops calling something a lesson.
 
+## 2.6.0 - 2026-09-07 - 3d-ai-creature-workflow
+
+- **A falsifying seam can refute the run's own technique, and that is the best case.**
+  The v2.7 clause (written concurrently by another run) frames seam-to-falsify as a test
+  of the *finding* against the tree. This round found the sharper form: the seam showed
+  the technique's central procedure step was **unrunnable** at that seam - the provider
+  accepts only its own prior task ids, so the "probe the service" arm cannot exist. That
+  is not a failed confirmation, it is a boundary the technique did not know it had, and
+  it converted a general rule into one that names its own precondition. Fold into the
+  v2.7 clause on a second sighting.
+- **`unrunnable` and `unspent` are different zeros and the scorecard flattens them.** A
+  `ship 0` because no arm can exist carries no debt; a `ship 0` because the hour went
+  elsewhere does. Raised as round 37 focus item 2 rather than applied, because one
+  sighting is not three.
+- **The score's value showed up as a rejection, not an acceptance.** The strongest
+  untriaged row - that a provider benchmark's "measure alongside quality" enumeration is
+  entirely *resource*-shaped and contains no *correspondence* constraint - is a real gap
+  in a document declaring its own completeness, and it was tempting to reframe it as "an
+  amendment that inverts a rule" to reach GAIN 3. It does not invert; it extends. Scored
+  honestly it is 2/1 = 1 against a threshold of 2 and was banked with anchors. The gate
+  only works if the shape is chosen before the arithmetic is seen, and this is the second
+  round (after round 27) where naming that temptation out loud is what stopped it.
+- **Class calibration held exactly.** For a practitioner build-walkthrough, every accepted
+  and every untriaged row came from a failure sentence and all five catches came from the
+  tour half. The class reference already predicts this; recording the clean split is
+  corroboration for it, not a new rule.
+
 ## 2.6.0 - 2026-09-07 - rodin-worldgen
 
 - **A board claim at the wrong DEPTH is invisible to every sibling, and the check reports
@@ -9044,3 +9043,40 @@ them* - but not applied to `SKILL.md` on one sighting.
   neighbour is already Phase 6 step 5, and its usual justification is finding a better
   finding; here its value was arithmetic honesty about a row that landed anyway. A gate that
   is only ever tightened by rows it rejects is not being measured.
+
+## 2.6.0 - 2026-09-07 - rival-anime-studios (`youtube:Vh8HxyTQ6EY`)
+
+- **Seam-to-falsify is now a rule this file carries, and it was promoted the same hour a
+  sibling reached it independently.** Three consecutive rounds met the bar (the truncation
+  branch that could not fire and exposed a 3.5x confound; the anchor control that broke
+  exactly where the technique predicted; this run's reach test, which found a live second
+  instance in a plan nobody was auditing). Landed in Phase 7.5 step 1 at **2.7.0**. While
+  the edit was waiting on the `ledger` lock, `yt-yysi` appended a lesson on the same idea
+  from a different source, with a sharper front half: **before choosing a falsifying arm,
+  say what a CAUGHT outcome would teach - if the answer is "nothing", the arm is a
+  confirmation wearing a falsifier's name.** That clause is folded into the SKILL.md rule
+  rather than left in two places. Two runs, two sources, no contact, one afternoon: this
+  is the cross-run convergence the corroboration table describes and the first time this
+  file has recorded it happening to a *method* rule rather than to a finding.
+- **A mid-flight run should finish on the version it loaded.** 2.7.0 changes one step of
+  Phase 7.5 and adds one anti-pattern; four sibling intake runs were live on 2.6.0 when it
+  landed and none of them needs to do anything about it.
+- **An `exit 2` from `research-ingest` can be caused by your own siblings.** This run's
+  first ingest failed on HTTP 429 with two siblings mining YouTube concurrently; the retry
+  succeeded unchanged. The code did exactly what it is documented to do, and the lesson is
+  for the reader, not the instrument: **check the board before diagnosing a throttle.**
+  With a dozen terminals on one source class, transport failures are a property of the
+  fleet's own concurrency, and treating one as evidence about the source wastes the run.
+- **A near-empty from an instrument run in the wrong directory reads exactly like an
+  absence.** `research-map` was invoked from inside a bundle subdirectory, threw
+  MODULE_NOT_FOUND to stderr, and the call was piped through `grep`, which discarded the
+  error and returned nothing. For about ten seconds that empty was on its way to becoming
+  "the corpus does not own this". This is `assertion-inherits-its-own-bias` in its cheapest
+  form and the corrective is the one already in the method - never establish an absence
+  from a filtered result - with one addition: **an instrument that reports nothing and an
+  instrument that did not run are the same bytes after a pipe.** Check the exit code, or
+  read the unfiltered output once.
+- **The apply-row denominator changed how the last hour was spent, which was the point of
+  the round-34 focus.** Writing `1c/0e/0s/0t of 1 owed` rather than `1 row: 1c/...` made a
+  complete run legible as complete. The honest caveat for the next reader: a 1/1 is easy,
+  and the cell's value will be tested by the next run that lands four.
