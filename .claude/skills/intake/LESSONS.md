@@ -8707,3 +8707,98 @@ source needs to meet it rather than re-derive it.
   prediction attached to that bug was much larger, and stating it wrong would have aimed
   the next fix at the wrong target. Predict what a fix buys before measuring it, then
   record the miss.
+
+## 2.5.0 - 2026-09-07 - memory-lancedb-pro
+
+- **A first-party operating document can be the run's most dangerous input, and the
+  sweep order is what makes it so.** Phase 2b ranks operating documents first because
+  they are usually the densest thing in a tree, and this tree's densest document was a
+  2,278-word architecture analysis that was genuinely first-party, densely specific,
+  and **six months stale**. Its two sharpest claims about the lifecycle are both false
+  against the code — including one in the flattering direction, asserting that a
+  complete maintenance loop runs on a path whose entry point turns out to have zero
+  callers. The run's first reading of its own central finding came from that document
+  and was wrong. A stale design document is worse than no document: no document sends
+  you to the code, and a confident stale one sends you to a system that no longer
+  exists. **The corrective is one command per document** — the doc's own date or last
+  commit against HEAD's — and a demotion from authority to hypothesis where the gap
+  exceeds a release cycle. Recorded as round 33's first focus item; a rule this file
+  should carry if two more repository runs hit it.
+
+- **The apply step is where an amendment learns its remedy, and this run is the
+  clearest case the ledger holds.** Two of three landings were changed by Phase 7.5,
+  and in both the correction came from a *fleet tree that was already correct* rather
+  than from the source. The door-test amendment knew the failure (a governance test
+  satisfied by dead code) and not the fix; the fleet supplied the door-named test, the
+  synchronous obligation record, and the stand-in-for-the-gated-dependency trick that
+  keeps the test running in the build where the governor is compiled out. The
+  `relevance-floors` amendment first said "a fallback emits no score" and the fleet
+  supplied the sharper form — absence must be the *identity element* of whatever
+  combines the lanes, because a weighted sum contributes zero for a missing term and
+  zero is indistinguishable from a measurement. **Neither correction existed in the
+  source.** A run that lands and stops would have shipped both amendments in their
+  weaker form, gate-clean and slightly wrong.
+
+- **`ship 0` has a second meaning nobody had written down: the fleet was already
+  ahead.** Round 22's rule to split the ship zero anticipated "no seam found". This run
+  found the seam twice and shipped nothing because both seams were already compliant,
+  which is a *good* outcome reported by a column that reads like a failure. The
+  predicate belongs in the cell — `ship 0 — 2 of 2 seams already compliant` — and a
+  reader of the funnel should not be able to confuse it with a run that could not find
+  a project to test against.
+
+- **Two shell hazards, both already in memory, both caught by verification rather than
+  by care.** Backticks are substituted inside *any* double-quoted argument, including a
+  `node -e` script, so every Markdown code span in two subject notes silently became an
+  empty string — the frontmatter edits succeeded, the command reported success, and only
+  reading the file back showed it. The fix that should be the default: write the prose
+  to a file with the Write tool and have the script read it from disk, so no shell ever
+  sees it. Separately, `SCORECARD.md` is ordered **newest-first** while
+  `librarian/applied.md` **appends at the end**; a run touching both in one Phase 9 will
+  put one row in the wrong place unless it checks each table's direction rather than
+  assuming the file's habit. Both were caught only because the append was verified by
+  reading the result, never by trusting the exit code — which is the practice worth
+  generalizing past these two instances.
+
+- **Calibrate the absence instrument, then read the rows it matched.** The run's central
+  claim is an absence — six governance mechanisms with zero callers — and it was
+  established with a grep. Two guards made it trustworthy and both earned their cost: a
+  known-live control in the same tree (two functions returning 4 references each, so a
+  zero is a reading rather than a broken pattern), and reading the matched rows for the
+  one mechanism where the director's grep and the worker's disagreed. The rows resolved
+  to an interface declaration and its implementation, so the worker's zero was right and
+  the director's two was noise. An absence is the one finding that cannot be checked by
+  looking harder at the result; it is checked by pointing the instrument at something
+  that should fire.
+
+## 2.6.0 - 2026-09-07 - unstorage
+
+- **The calibration case is not ceremony, and three rounds called it that
+  because they were checking the wrong half.** Rounds 30-32 each reported the
+  calibration as having changed nothing and floated dropping it. Here it fired,
+  and what it caught was the **fixture**, not the instrument: the known-positive
+  leak was planted through a shell argument that ate its backslashes, so the
+  "leaking" file contained no path separator and the privacy gate correctly
+  passed it. Had the calibration been skipped, arm A would have read green, the
+  gap would have looked absent, and a `not-better` would have been written from
+  an instrument agreeing with a broken fixture. The prior rounds were right that
+  the instrument is usually fine; nobody had been checking the input. **Phase
+  7.5 should say which half the calibration exercised** - a control that only
+  ever confirms the instrument is measuring the cheaper of two failure modes.
+- **Where the corpus already owns the ground, hunt the technique's premises,
+  not its coverage.** Both landings came from one move applied to two mature
+  subjects, and neither is a gap: a three-rung proof ladder whose three rungs are
+  *all unavailable* in a stated situation, and a flat prohibition ("declaration
+  is not reflection") resting on a middle clause that is a premise rather than a
+  universal. A 12-technique subject does not yield to "what is missing"; it
+  yields to "what does this sentence quietly assume". The Phase 6 hunts name
+  missing stages, enumerations, asymmetries and neighbours - the unstated scope
+  of an absolute is a fifth and is not written down.
+- **A boundary confirmed from one side is an assertion.** The amendment landed
+  because two trees were read: the source, with no base class, where presence is
+  the declaration; and a fleet project whose adapters subclass a refusing base,
+  where presence is uninformative and a declared matrix is correct. The second
+  cost one seam search and turned a plausible inversion into a discriminator
+  with both sides witnessed. Worth making explicit in Phase 7.5: when a landing
+  is a boundary case, the apply step's best use is finding the *excluded* side.
+- Mid-flight runs on 2.6.0: nothing to do, no method text changed.
