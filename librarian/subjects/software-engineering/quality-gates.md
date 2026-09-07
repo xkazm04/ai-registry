@@ -1013,3 +1013,25 @@ Its value scales with independent contributors and collapses to zero on a
 single-owner repository, which is why the fleet carries no applied row for it.
 Also holds this run's one lead: a committed capacity table naming a calibration
 script that nothing runs, with no calibration date and no measured-on hardware.
+
+[[2026-09-07-voicestudio]] (intake, repository) amended `gate-liveness` with *a scoped
+population passes the floor test and checks almost nothing*. The technique's instrument
+assertion catches a walked population of zero; `ratchet-design` next door catches the
+enumerated allowlist. Neither reaches the middle: a population **derived** from a
+predicate - files changed since a ref, sections dated after a rule's adoption, records
+newer than a migration - returns a plausible non-zero count every run, so the floor is
+honestly satisfied while everything the predicate excluded sits exempt in a way nobody
+reads as an exemption. The distinguishing obligation is that a derived scope must
+**assert its premise, not its count**: the exemption's safety is always the claim that
+new content cannot land in the excluded region, that claim is an invariant of the
+artifact's structure, and it lives in a comment while the derivation lives in code.
+
+The finding came from a source's changelog linter and was proven against our own tree,
+which is the part worth remembering: `scripts/check-skills.mjs` scoped version discipline
+to `--since <ref>` and, with the flag absent, printed a correct and distinguishable
+`NOT run` before exiting zero - while this registry's own intake method tells every run
+to invoke it exactly that way before committing a skill change. `gate-liveness` already
+held the sentence that convicts it (a could-not-run routed to pass is wrong where the
+green authorizes shipping), so the corpus caught the corpus's own tooling. Fixed and
+paired: a seeded unbumped `SKILL.md` went from `skills lane OK` to red, with the clean
+tree still green and the CI path unchanged.

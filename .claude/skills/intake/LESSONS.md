@@ -9165,3 +9165,59 @@ kill it on the three-runs rule.
   "moved" rather than as noise. Filed as round 37's focus item (1); not applied to
   `SKILL.md` on one run's evidence.
 - Mid-flight runs: nothing to do. No method text changed; the version used was 2.7.0.
+
+## 2.7.0 - 2026-09-07 - voicestudio
+
+- **The board's collision check has never worked, and the method's own phases are what
+  broke it.** Phase 4 says `beat --subject <domain/category/subject>`; Phase 7 says
+  `check <every file you are about to touch>`, and the files come from `research-map`'s
+  `file` field, which is a `knowledge/...md` path. `touches` compared the raw strings, so
+  the two never met - three of four realistic address pairs returned `clear`, including a
+  technique file nested under a subject a sibling explicitly held. Fixed in
+  `run-board.mjs` with an address fold that self-asserts on every invocation. **What
+  generalises past the bug: a skill that tells you to write an address in one dialect and
+  read it in another has to state the fold, and the fold has to be tested.** The
+  docstring claimed it for months; the code never did.
+
+- **The two-round-old focus item was the only reason this was found.** Round 36 and 37
+  both recorded the board-address check as "passed" with zero live siblings, and the
+  scorecard refused to mark it done - correctly. An item that can only be tested under a
+  condition the run does not control stays open until the condition arrives. That is the
+  mechanism working, and it is worth saying because two runs in a row it looked like
+  bookkeeping.
+
+- **Aim the falsifying seam at our own tree when the finding is about tooling.** The
+  obvious seam for the scoped-population amendment was the source's own changelog linter,
+  which could only have restated the landing. Asking instead whether *the registry* had
+  the shape produced a live instance in `check-skills.mjs` - version discipline scoped to
+  a flag that this skill's own Phase 11 never passes - and a `code` A/B with a real
+  before/after. The pre-check the method now requires ("say what a CAUGHT outcome would
+  teach") was what made the choice legible: a clean result would have demoted the
+  amendment to a claim about somebody else's repository.
+
+- **A mechanical trigger cannot tell a clause from a decision.** Phase 4's XL trigger
+  fires on three design candidates sharing one home. The engine-admission bar is a job
+  map, a steward term and a public adapter - three candidates, one home, and **one
+  mechanism**. Firing would have dispatched a forge on a single document's contents. The
+  guard already exists in Phase 2d (a decision is load-bearing when removing it changes
+  the shape of the system, not one feature) but it lives three sections away from the
+  trigger that needs it. Not yet a rule: if a second run has to make this catch by hand,
+  the definition belongs beside the trigger.
+
+- **The repository ratio is worth recording as a class signal, not just as a warning.**
+  3,383 words on the landing page against 341,468 in-tree. The anti-pattern section says
+  "clone it"; what this run adds is that the *ratio itself* is cheap to compute after the
+  clone and predicts the sweep's value before any of it is read. A tree where the two
+  numbers are close is a practitioner account in repository form; a hundred-to-one tree
+  is carrying its knowledge as design and the design read is where the run's value is.
+
+### Redesign proposal (not applied)
+
+The funnel has named **research** as its weakest stage for six consecutive rounds, and
+the corrective has each time been "a better source queue". This round suggests the
+diagnosis is off by one: a 1,000-word video and a 340,000-word tree enter at the same
+Phase 1 and are budgeted identically, so the expensive source is under-read and the cheap
+one is over-processed. A **class-sized budget** - fetch allowance, sweep depth, and
+expected landing count set from the class at Phase 2 rather than by run-wide constants -
+would be a real change to this method. Not proposed as an edit yet: one run is one
+observation, and the batch lane already carries half of this idea for a different reason.

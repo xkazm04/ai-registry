@@ -3146,30 +3146,33 @@ it, it belongs in Phase 8 step 3 beside the paired-proof rules rather than in th
 paragraph.
 
 | 2.7.0 | 2026-09-07 | `youtube:EdCUpP4_8y4` "I Built an Opening Cinematic for My Game Using AI (Full Process)", Building Aeon (**first-party practitioner account in build-walkthrough form**; operator brief `domain media-generation`; 1,080 words, real subtitle track, container checked) | 1 source, read whole; class and expected yield (LOW) said before the table. **0 of 3 fetches - sixteenth consecutive corpus-internal run**; corroboration was code read in a connected tree plus training-data convergence | 12 | 4 scored (2 accepted, 1 lead, 1 promoting read that did not promote), **0 declined**, 7 already covered | **2 amendments + 1 new application + 1 extended application**, in two subjects of one bundle | **2 rows of 2 owed: 0c/1e/1s/0t** | **1** (gravity `577524b`, ledger `5a8550e`) | **Focus (round 36) on all three points.** (1) Subjects claimed by the address `research-map` printed and the pre-write check compared the same strings - clear, but 0 siblings were live for the whole run, so the item passed trivially and still has not been *tested*; it needs a run with live siblings. (2) **The caught-arm pre-check was written before arm one and it is why the confirmation counts**: had the near-still clip measured at the frozen floor, the finding would have inverted into a boundary on the directive rather than on the judge. It measured 0.210 against 0.000, the judge had called it "frozen", and the instrument's blindness became the landing's second half. Fifth consecutive round of seam-to-falsify; v2.7 already carries it as a step. (3) No fetch needed, so the young-release rule did not apply - stated rather than skipped. Round 35's premise hunt fired again: the larger landing is an enumeration whose members all silently share a premise (every rung makes a generation). **Both landings are amendments and that is the right shape for this source**: a mechanism boundary (rung zero) and a channel boundary (the zero-beat performer), each appended with every standing sentence true; a video is not a system and no subject was implied. **The strongest fact came from the connected tree's own recorded cycles, not from the source** - the harness that tests the corpus's motion rules had penalised a clip that quoted one of them, and the recorded webm files were a paired experiment already run, waiting for a ruler. Ship 1 of 2 with the reason for the zero stated: the rung-zero field cannot be added before the renderer that would read it | `subjects=0 / techniques=0 / amendments=2 / apps-vs-source=0 (2 fleet apps: 1 new, 1 extended) / task-lines=0`; routing count n/a (video); no handoff; `auto=2/1/0` `fp=0`; `directions=n/a` |
+| 2.7.0 | 2026-09-07 | `github:debpalash/VoiceStudio` @`9790d289` - a fully-local voice studio over ~15 swappable TTS/ASR engines (**repository**, single-owner, vendor/first-party boundary) | 1 source, cloned and swept in yield order (admission contract, standing rules, 405 test files, ADRs, longform specs); README read last. **The ratio is the class finding: 3,383 words on the landing page against 341,468 in-tree** - a hundred to one, the largest single spec five times the whole README. **0 of 3 fetches - seventeenth consecutive corpus-internal run**; corroboration was code read in the source tree and in ours | 12 | 1 scored and accepted, **0 declined**, 4 already covered, 6 untriaged with anchors, 1 lead | **1 amendment**, to `quality-gates/gate-liveness` | **1 of 1 owed: 1c/0e/0s/0t** | **2**, both into this registry's own tooling (`run-board.mjs`, `check-skills.mjs`) | **Focus (round 37) on both points.** (1) Read the connected tree's recorded state before the source - applied in the form the domain allowed: this is not media-generation and has no cycle archive, so the analogue was aiming the falsifying seam at *our own checkers* rather than at the source's, and that is what produced the apply row. (2) **The board-address item, open two rounds for want of a live sibling, finally executed - and it failed.** `run-board`'s `touches` compared raw tokens while `norm`'s docstring claimed a fold it never implemented, so Phase 4's slug claims and Phase 7's path checks have never met: three of four realistic pairs reported `clear`, including the documented workflow. Every collision check against a held subject has been a false all-clear for the life of the board. Fixed, paired 1/4 -> 4/4, self-asserting on every invocation. **The item is now closed, and it closed red** | `subjects=0 / techniques=0 / amendments=1 / apps-vs-source=0 / task-lines=0`; **routing count 1-2 (per system), no handoff** - the mechanical XL trigger would have fired on three clauses of one admission bar and been wrong; `auto=1/0/0` `fp=0`; `directions=n/a` |
 
 **Funnel read over the last ten rows.** Extract holds at 10-12 candidates per source and
-test at 4-9 scored; landed is 1-2 per run; apply is now consistently `N of N owed`; ship
-is 1 in eight of ten rows, with the zero reasons stated. The stage losing most is still
-**research** - the sources arriving are 900-1,900-word videos whose class predicts one
-landing, and the class is right every time. The corrective is not more runs of this
-shape; it is the source queue, and three consecutive media-generation runs found their
-strongest fact in the *connected tree's recorded cycles* rather than in the video. The
-depth column matches the source's shape in every row (amendments from accounts, a
-technique from the one review that carried a mechanism); no routing miss.
+test at 1-9 scored; landed is 1-2 per run; apply is consistently `N of N owed`; ship is 1
+in nine of ten rows. **Research is still the stage losing most, and this round says
+something sharper about why than "the videos are thin".** The one repository in the last
+ten rows carried 341,468 words of operating documents against a 3,383-word landing page -
+a hundred to one - and produced the round's only two ships. The queue's problem is not
+that sources are short; it is that a 1,000-word video and a 340,000-word tree arrive
+through the same door and are priced the same at Phase 1. The depth column matches each
+source's shape in every row; no routing miss.
 
-**Next run's declared focus (round 37).** (1) **Read the connected tree's recorded
-experiments before the source's transcript, when the domain has a lane that keeps
-them.** Gravity's dojo cycles are paired, seed-matched, on disk, with the judge's reasons
-beside the clips; three runs in a row found the falsifying seam there, and this one found
-a technique's own example being penalised by the harness built to test it. For a
-media-generation source, the check the next row should make: was the recorded-cycle
-archive read at Phase 1 with the worklist, or found at Phase 7.5 by accident. (2) **The
-board-address item has passed trivially twice.** Both runs since round 36 had zero live
-siblings, so "did a claim and an index address agree" has been asserted and never tested;
-the next run with a live sibling on the board owes the actual comparison, and until then
-the item stays open rather than being marked done. (3) **A ruler that ships is calibrated
-on both ends before the number is read** - this run asserted the frame-delta instrument
-on a known moving clip *and* on a synthetic frozen floor before trusting 0.210, and the
-floor is written beside the number in the shipped file. Round 35's guard-calibration item
-said the same thing about a test; the two are one rule, and if a third run pays for it, it
-belongs in Phase 8 step 3 beside the paired-proof rules.
+**Next run's declared focus (round 38).** (1) **An instrument's docstring is not the
+instrument, and the ones nobody has ever seen fail are the ones to test.** `run-board`'s
+address fold was asserted in a comment, contradicted by the code beneath it, and wrong
+for the entire life of the board - while `normSource` twelve lines above it was correct,
+because it had been fixed twice against real spellings. The discriminator is not code
+quality: it is whether anything ever *observed* the instrument answering. The next run
+that relies on a check whose green it has never watched go red owes one seeded violation
+before trusting it, and the scorecard row says which check. (2) **Aim the falsifying seam
+at our own tooling when the finding is about tooling.** This round's apply row exists
+because the question "does the registry itself have this shape?" was asked instead of
+"does the source's own instance confirm it?" - the first can return a refutation, the
+second can only restate the landing. Round 37's focus said read the connected tree first;
+this is the same rule where the connected tree is the registry. (3) **A mechanical
+trigger counts what it can see, and clauses are not decisions.** The XL trigger would
+have fired on three clauses of one admission bar. It did not, because Phase 2d's
+load-bearing test was applied by hand. If a second run has to make that catch manually,
+the counting rule in Phase 4 needs the word *decision* defined where the trigger is
+stated, not three sections earlier.
