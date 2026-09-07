@@ -66,3 +66,47 @@ adds to the technique are in the application document itself.
 ## 2026-09-03 - `/intake` lightrag (run `intake-lightrag-0902`, intake 2.2.0, Opus workers)
 
 Two techniques from a storage abstraction with 18 backends behind 4 interfaces: `capability-declared-in-the-type` (a capability is declared in the type when knowable at construction and checked at runtime only when not; a three-tier ladder - required member / declared data / refusing default; boundary to `cross-driver-invariant-parity`, whose prose list above two drivers does not scale past what one reader holds) and `sequence-token-write-ordering` (heterogeneous durability across stores means ordering rides a sequence token on every write, not a transaction that cannot span them; the token is policy input, not policy). Source-tree application `python--capability-declared-in-the-type` (witness: the CI matrix). Deviations: a declared `required_methods` key nothing evaluates; the capability read reflectively as a string at eight gates so a misspelling reads false forever; the token scoped to two of fifteen backends.
+
+## 2026-09-07 — `unstorage` (intake, `github:unjs/unstorage` @ `7f773be1`)
+
+Amended `capability-declared-in-the-type`; added `node--capability-declared-in-the-type`.
+No new technique — the subject already models this ground, which is the honest
+reading of a 32-driver storage layer against a 12-technique subject.
+
+**The amendment is a precondition, not a correction.** The technique's
+"Declaration is not reflection" rests on a middle clause — a member can be
+*inherited* from the refusing default — and that clause is a premise, not a
+universal. Where the interface is a plain record of optional function fields
+with no base class and no default implementation, a member exists only because
+that implementation's author wrote it, so presence is not correlated with
+capability, it *is* the declaration, held where it cannot drift from the code.
+The discriminating question becomes **whole operation, or option on an
+operation that is always present?** — the second is the residue reflection
+cannot reach, and it is what a declared-data channel is actually for.
+
+**Two costs came with it, both counted in the tree**, and both are now in the
+technique: the residue channel is where the rot concentrates (2 of 32 drivers
+declare any flag; of the two flags defined, `ttl` is declared by no driver and
+read by no line of the core — a capability existing only in the type), and
+presence leaves no room for a refusal, so the absent branch returns and
+*unsupported* and *done* get the same spelling. That library's core does exactly
+that three times, and documents it as a feature.
+
+**The strongest evidence is negative and structural.** The technique closes by
+naming its third conformance assertion — declared-unsupported produces a typed
+refusal rather than an empty success — as "the assertion always missing". In
+this tree it is not missing but *unrepresentable*: the shared driver suite is
+written against the facade that synthesises the absent operations, so every
+driver's observable behaviour is uniform by construction and the suite cannot
+see a capability difference. 30 of 35 driver test files call it; the one
+read-only built-in is tested bespoke, outside it.
+
+**Applied to kp, and the amendment's own verdict there is `not-better` by
+design.** kp sits on the excluded side of the new boundary — adapters subclass a
+base whose `complete_document` raises a typed refusal, so presence is
+uninformative and kp correctly declares a matrix "never probed at call time".
+The amendment predicts that and nothing there should change channels. What the
+boundary directed instead was the owed third assertion: `missing_capability`
+existed once in source and in no test, against five other subtypes that are
+asserted. Two tests now derive both directions from the matrix with a floor on
+the join; negative control fires and names the defect (kp `3f253853`).

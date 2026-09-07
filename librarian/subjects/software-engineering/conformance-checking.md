@@ -167,3 +167,44 @@ a URL regex over raw markdown reported 6 dead citations, of which 5 were templat
 literals and regex fragments inside fenced code blocks - *"never pattern-match a
 language you have a parser for"*, in this run, before the commit. Narrowed, not
 deleted.
+
+## 2026-09-07 — `unstorage` (intake, `github:unjs/unstorage` @ `7f773be1`)
+
+Landed one technique — `derived-expectation-needs-an-evidence-floor` (11th) —
+plus a source-tree application against this registry's own gates.
+
+**It sits beside `declared-then-proven`'s ladder rather than on it.** Presence,
+shape and execution all assume the declaration's subject can be reached at
+check time. The source's dependency manifest cannot be: it describes optional
+peers deliberately not installed, so nothing loads, runs or stats, and the only
+evidence in the room is the source text that imports them. The check derives
+the expected manifest from that text and diffs. That is a fourth shape, and the
+one that fails toward silence — when the derivation stops finding anything the
+superset assertion gets *easier* to satisfy.
+
+Measured on the source tree, two arms: the regex as shipped derives 24
+dependency facts across 33 drivers (14 legitimately empty) and 33 pass;
+renaming the `importLib` helper derives 0 and 33 still pass, with a
+byte-identical report. The legitimate empty cases are what make the broken
+empty case invisible, and they are unavoidable — deriving rather than declaring
+is the right call precisely when most members have nothing to declare.
+
+**The boundary against `negative-control-tests` is worth keeping straight**, and
+it is now written into both files: that technique proves one case's assertion
+can fire, and here the per-case control passes while the derivation shared by
+every case is dead. The control exercised the arm that was never in danger.
+`rule-registry-enumerated-fixtures` is the closer relative — same move, harness
+asserting what no individual case can see — and the two now cite each other.
+
+**Applied to this registry, `better`, shipped.** Three gates here derive
+evidence by pattern-matching source; `check-citations.mjs` already carried the
+floor and its own probe controls, arrived at independently, which is this
+technique's strongest corroboration. The usage and signals gates had neither and
+are the harder must-not-match shape. Four arms on a planted absolute path:
+drifted patterns ship the leak at exit 0 with the lane reporting OK; the added
+control refuses and names the dead pattern, at no false-positive cost on the
+healthy path.
+
+Open for a later run: the technique's per-case clause (separate *derived
+nothing* from *derived and matched*) is unexercised — both shipped gates have a
+single population, so only the citation gate could demonstrate it.
