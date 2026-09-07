@@ -9221,3 +9221,36 @@ one is over-processed. A **class-sized budget** - fetch allowance, sweep depth, 
 expected landing count set from the class at Phase 2 rather than by run-wide constants -
 would be a real change to this method. Not proposed as an edit yet: one run is one
 observation, and the batch lane already carries half of this idea for a different reason.
+
+## 2.7.0 - 2026-09-07 - medieval-house-interior
+
+- **The rewrite test is a subject detector, not only a risk multiplier.** v2.5 adds `+2
+  RISK` when a landing "rewrites rather than appends", and states the test mechanically:
+  do the file's existing sentences stay true? This run hit it on a finding whose best-fit
+  home asserts an enumeration ("the edge disagrees about *two things at once*"), and the
+  finding was a third member. The `+2` correctly refused the amendment - but the *reason*
+  it refused carries information the score throws away: **a finding that would falsify a
+  standing sentence in its own best home is usually a layer, not a paragraph.** The gate
+  routed a subject without anyone noticing it had, which is the same failure v2 fixed for
+  repositories by making the XL trigger mechanical. The next run that scores `+2 for a
+  rewrite` should owe one sentence on whether the row is really XL. Recorded, not applied:
+  first sighting, and the rule here is three.
+- **Two disqualifications by *closing boundary sentences* are a hole; one is a bad guess.**
+  Phase 6 rule 6 says expect the home to be contested and read the golden path's opening
+  boundary statement. This run's two placements were both killed by **closing** sections
+  instead - `mesh-finishing`'s "what finishing does not decide" and
+  `generated-asset-world-scale`'s "what this subject does not own". Openings state what a
+  subject *is*; closings state what it refuses, and a finding nobody owns is found in the
+  refusals. Cheap corollary worth having: when a placement is rejected by a closing
+  section, read the *other* neighbours' closing sections before re-homing - three minutes,
+  and it is the whole difference between a misfiled technique and a forge dispatch.
+- **A source class can predict yield correctly and still under-predict the run.** Expected
+  yield was LOW and the source *was* low - the video contributed one aside about textures
+  looking "washed out and shiny". The subject came from the corpus reading itself. The
+  class model implicitly assumes a run's yield is a property of the source; it is a
+  property of the source *and* of what the source makes you read. No edit proposed - the
+  honest scorecard note is enough, and inflating class expectations would break the
+  calibration that is currently working.
+- **Mid-flight runs on 2.7.0: nothing to do.** No method edit was made and no version was
+  bumped; these are lessons awaiting confirmation.
+
