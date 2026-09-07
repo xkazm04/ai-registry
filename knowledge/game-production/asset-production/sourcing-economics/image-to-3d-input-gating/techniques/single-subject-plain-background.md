@@ -85,7 +85,11 @@ amount of gate tuning.
 ## When not to use this
 
 - **Environment or scene reconstruction**, where the whole frame *is* the subject and
-  isolation is meaningless. Different problem, different rubric.
+  isolation is meaningless. Different problem, different rubric — and where the frame is
+  meant to yield several assets rather than none, that rubric is
+  [scene-partition-is-the-gated-unit](./scene-partition-is-the-gated-unit.md), which gates
+  the cut before it gates anything the cut produced. Step 1 above inverts there: more than
+  one subject is the expected input, not a rejection.
 - **Photogrammetry from real capture**, where a consistent real background across many
   registered shots is an asset rather than a liability — the constraint there is camera
   coverage, not isolation.

@@ -1,0 +1,143 @@
+---
+name: codebase-feasibility-analysis
+version: 0.2.0
+status: seed
+domain: software_engineering
+path: software_engineering/codebase-health
+---
+
+# Codebase feasibility analysis
+
+The rendered view of [`recipe.json`](recipe.json). When the two disagree, the JSON is
+right and this file is stale.
+
+**Need.** Effort and benefit estimates made without opening the code are guesses that
+read like facts, and a backlog built from them is a backlog nobody can plan against. The
+analysis that does open the code fails more quietly: it finds the file whose name
+matches the idea, stops there, and grounds the estimate in the easiest evidence rather
+than in the seams the change would actually have to cross. The verdict that is hardest
+to produce is that the search did not find enough to say, which is also the verdict that
+would have been most useful.
+
+**Input.** An accepted idea, the registered codebase it would land in, how deep a search
+the adopter is willing to pay for, and whatever record exists of what comparable changes
+here actually cost.
+
+**Core action.** Let the code that was found, and the code conspicuously not found,
+drive the call: name the seams the change has to cross rather than the files whose names
+match, count what can reach the change rather than what the change references, and
+refuse to turn an unsuccessful search into a small estimate.
+
+**Output.** A backlog record naming the code that was read, the seams the change would
+cross, the depth the search reached, a size offered as a range with the thing that would
+narrow it, and an explicit statement of what could not be established where that is the
+honest answer.
+
+## Activities
+
+1. Search the codebase for the code the change would land in *(observe)*
+2. Follow the dependents outward rather than counting direct references *(observe)*
+3. Let what was found, and what was not, set the size and its uncertainty *(decide)*
+4. Check the size against what comparable changes in this codebase actually cost
+*(decide)*
+5. Produce the record with the depth searched and anything left unestablished
+*(deliver)*
+
+Linear and branch-free, by contract. This is the shape of the work, not a runbook.
+
+## Outcomes
+
+**An idea's effort and benefit reflect what the codebase actually looks like, not a
+guess made without reading it.**
+
+- Every record names the files and seams that were actually read and the depth the
+  search reached.
+- The affected surface is counted outward through what can reach the change, not by
+  listing the references the change itself makes.
+- A size is offered as a range together with the one or two things that would narrow it,
+  rather than as a single number.
+
+**A search that comes back empty produces an honest unknown rather than a confident
+small.**
+
+- Feasibility is marked unknown, never low, when the search returns nothing.
+- The record works through a fixed list of what the analysis needed to establish and
+  names each item it failed to establish, because a reader is worst at noticing the gaps
+  in its own evidence and will not find them by feel.
+- A codebase that could not be reached queues the idea for another pass rather than
+  producing an ungrounded estimate.
+- A search narrowed because the repository was too large to cover says where it was
+  narrowed, so the unread part is visible rather than implied to be clear.
+
+**The estimates get better because what things actually cost here is written down next
+to what they were predicted to cost.**
+
+- Each record states what would change the estimate, so a later reader can tell whether
+  it has been overtaken.
+- When a change is delivered, its realized cost is recorded against the record that
+  predicted it, so the next comparable idea is sized against this codebase rather than
+  against intuition.
+- A size a person overrides while triaging is kept next to the one that was offered,
+  with what they saw that the search did not, because most ideas are never built and a
+  realized cost therefore never arrives for them: the override is the only correction
+  this work will ever get on the estimates that decided which ideas were dropped.
+
+## Guidance
+
+Blast radius is what can reach the change, not what the change references, so count
+outward until the graph stops growing. The hardest verdict is that the search did not
+find enough to say, and it is the one an eager reader produces least often, so make it a
+checklist rather than a feeling. Size the work against what comparable changes in this
+codebase actually cost, and offer a range with the thing that would narrow it rather
+than a number that reads like a fact.
+
+## Where this is worth adopting
+
+- A team whose backlog carries sizes assigned in a planning meeting where nobody had the
+  repository open, so every item that is large is large for the same reason: it felt
+  large when it was described.
+- An operator running an idea funnel where analysis is the expensive step, so a wrong
+  size at the front of it silently decides which ideas ever get built.
+- A codebase big enough that a change's real cost sits in what depends on the code
+  rather than in the code itself, where something that looks like three files becomes
+  forty at review and the estimate is blamed on the estimator.
+- A change proposed against a part of the system nobody currently working here wrote,
+  where the honest first answer is that it is not yet known and the tempting answer is a
+  confident small.
+- The week before a delivery date is promised, when the useful output is not a number
+  but the two or three unknowns that would move it, named specifically enough to go and
+  resolve.
+
+## Connector types
+
+`source_control`.
+
+Types, never connectors. Adoption resolves each to any connector whose catalog
+`categories` include it, and the concrete knowledge lives in [`examples/`](examples/):
+[codebase](examples/codebase.md) for `source_control`.
+
+## Recommended trigger
+
+`event`. A person accepting an idea is a real event and the analysis exists only in
+response to it. It should also not run earlier: an estimate produced before a decision
+stops being evidence for the decision and becomes an argument for it. Unlike a scan,
+this work never chooses its own subject.
+
+A recommendation is a default, not a binding: the adopter assigns the real trigger at
+adoption or later.
+
+## Personalization needs
+
+- Which codebase an idea should be judged against, because an estimate against the wrong
+  tree is worse than no estimate and reads identically.
+- How the adopter sizes work, since a rough size is what makes triage fast and a scale
+  they do not use is worse than no scale at all.
+- How much search depth is worth paying for per idea, which is a real cost decision and
+  the reason a shallow pass has to say it was shallow.
+- Which parts of the tree are generated, vendored or otherwise not worth counting,
+  because those inflate every reference count and an inflated count makes an estimate
+  worse rather than better.
+
+## Dependencies
+
+None.

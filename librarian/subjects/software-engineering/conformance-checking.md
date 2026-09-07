@@ -2,6 +2,62 @@
 
 Coverage notes for `software-engineering/engineering-assessment/maturity-and-conformance/conformance-checking`.
 
+## 2026-09-06 — `harbor-0906` (intake, `github:av/harbor` @ `4c20a82`)
+
+Landed two techniques — `inline-predicate-rung-inference` (9th) and
+`rule-registry-enumerated-fixtures` (10th) — plus two source-tree applications.
+
+**Both sit against `declared-then-proven`'s assumption of two artifacts.** That
+technique's proof ladder (presence / shape / execution) assumes a declaration
+the project writes and a checker somebody else wrote, with the rung assigned
+deliberately by the checker's author. The source collapses the pair: every
+claim in a 593-entry specification carries its own inline shell predicate, so
+there is no checker to drift into a transcriber — the failure `declared-then-proven`
+exists to prevent is structurally removed, and the rung choice moves to the
+claim's author with nowhere to record it.
+
+The finding is measured rather than argued, and the measurement is the
+technique's own subject: 543 of 593 claims (91.6%) carry a command, but
+classified by the binary each actually **invokes**, 62.8% are text matches,
+16.0% parse-and-assert, and only 20.8% execution. The headline coverage number
+answers "has a command"; it is read as "is proven"; the two are five times
+apart. The first classifier written for this got it wrong in the flattering
+direction — matching a binary name anywhere in the command string rather than
+at invocation position reported execution at 40% — and that error is now in the
+technique as its instrument warning, because a rung classifier is written by
+someone who already believes the spec is well proven.
+
+`rule-registry-enumerated-fixtures` extends `fixture-repo-testing` downward.
+That technique pairs fixtures at repository granularity ("one per clause where
+affordable") and mentions the per-rule fixture only in a closing clause, as the
+fallback when a live path cannot be mutated. For a checker that is a **registry
+of independent rules** rather than one program, the fallback is the primary
+form and can be made structural: pair per rule id, enumerate the pairing from
+the registry, and an unfixtured rule then fails discovery instead of review.
+
+**The boundary was witnessed, not hypothesized.** The source's own suite has
+four passes; the enumeration covers the declarative one, and a rule implemented
+in code in another pass is bridged by a hand-maintained map inside the harness —
+precisely the hole the enumeration was built to close, reopened one entry at a
+time. It also produces a false reading in the other direction, which caught
+this run first: the fixture directories show an unbroken numeric sequence with
+one id missing, and the natural inference (a retired rule) is wrong.
+
+Placement was not contested. Both techniques answer this subject's stated
+question — what an executable verdict about a repository may claim — and
+neither belongs in `quality-gates`, whose audience is the author who just broke
+the build rather than an owner being assessed.
+
+Applied: `bash--inline-predicate-rung-inference` (experiment, `better`,
+ab-paired, 1.9x arm difference on the execution share) and
+`deno--rule-registry-enumerated-fixtures` (simulation, `unmeasurable`,
+structural-only — the instrument that would make it measurable is named, and it
+is the union enumeration the technique recommends).
+
+Shipped downstream: the second technique's seam in a managed desktop project —
+22 gate scripts reachable from its `check:*` registry, 2 with a negative
+control — now carries an enumerating ratchet and its own self-test.
+
 ## 2026-08-31 — `whatwg-html-0831` (intake, `github:whatwg/html` @ `778afd9`)
 
 Landed `declared-deviation-register` (7th technique) plus a golden-path section,
@@ -111,3 +167,44 @@ a URL regex over raw markdown reported 6 dead citations, of which 5 were templat
 literals and regex fragments inside fenced code blocks - *"never pattern-match a
 language you have a parser for"*, in this run, before the commit. Narrowed, not
 deleted.
+
+## 2026-09-07 — `unstorage` (intake, `github:unjs/unstorage` @ `7f773be1`)
+
+Landed one technique — `derived-expectation-needs-an-evidence-floor` (11th) —
+plus a source-tree application against this registry's own gates.
+
+**It sits beside `declared-then-proven`'s ladder rather than on it.** Presence,
+shape and execution all assume the declaration's subject can be reached at
+check time. The source's dependency manifest cannot be: it describes optional
+peers deliberately not installed, so nothing loads, runs or stats, and the only
+evidence in the room is the source text that imports them. The check derives
+the expected manifest from that text and diffs. That is a fourth shape, and the
+one that fails toward silence — when the derivation stops finding anything the
+superset assertion gets *easier* to satisfy.
+
+Measured on the source tree, two arms: the regex as shipped derives 24
+dependency facts across 33 drivers (14 legitimately empty) and 33 pass;
+renaming the `importLib` helper derives 0 and 33 still pass, with a
+byte-identical report. The legitimate empty cases are what make the broken
+empty case invisible, and they are unavoidable — deriving rather than declaring
+is the right call precisely when most members have nothing to declare.
+
+**The boundary against `negative-control-tests` is worth keeping straight**, and
+it is now written into both files: that technique proves one case's assertion
+can fire, and here the per-case control passes while the derivation shared by
+every case is dead. The control exercised the arm that was never in danger.
+`rule-registry-enumerated-fixtures` is the closer relative — same move, harness
+asserting what no individual case can see — and the two now cite each other.
+
+**Applied to this registry, `better`, shipped.** Three gates here derive
+evidence by pattern-matching source; `check-citations.mjs` already carried the
+floor and its own probe controls, arrived at independently, which is this
+technique's strongest corroboration. The usage and signals gates had neither and
+are the harder must-not-match shape. Four arms on a planted absolute path:
+drifted patterns ship the leak at exit 0 with the lane reporting OK; the added
+control refuses and names the dead pattern, at no false-positive cost on the
+healthy path.
+
+Open for a later run: the technique's per-case clause (separate *derived
+nothing* from *derived and matched*) is unexercised — both shipped gates have a
+single population, so only the citation gate could demonstrate it.

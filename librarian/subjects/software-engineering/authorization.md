@@ -1,7 +1,7 @@
 ---
 subject: authorization
 domain: software-engineering
-last_touched: 2026-09-02
+last_touched: 2026-09-06
 dry_streak: 0
 ---
 
@@ -162,3 +162,55 @@ Untriaged here, worth a later look: cross-tenant operations by leaked
 identifier where the fix was *removing* the global-identifier endpoints
 (identity-bearing-keys' single-composer rule from the enforcement side),
 and the two-release default flip for unauthenticated privileged endpoints.
+
+## 2026-09-06 — `/intake` (flatnotes), run `intake-flatnotes-0906`
+
+Source: `github:dullage/flatnotes` @ `7f5b773c`. Landed
+**`unregistered-is-stronger-than-refused`** (new technique, 10 -> 11) plus a
+`python` application — the subject's first Python stack; it was `go,node,rust`.
+
+**The finding sits outside an enumeration the subject states as its thesis.**
+The golden path says the discipline is "moving the decision from N places that
+could forget to one place that cannot be bypassed" — an enumeration of
+{N handlers, one chokepoint} whose minimum is one. For an authorization
+dimension that is **constant for the process lifetime**, the minimum is zero:
+the operation is never bound into the dispatch table, so no check runs, there is
+no requirement to declare, and the dispatcher's own not-found is the refusal.
+
+This is the operation-level form of the move `identity-bearing-keys` already
+makes on data — the subject's "strongest gate is the one that cannot be
+addressed around" section applies unrepresentability to *storage addresses* and
+never to *operation addresses*. The nearest neighbour is
+`declarative-requirements`, which makes "registered but unclassified"
+unrepresentable at registration time; that is registration-time enforcement of
+**the requirement**, not of **the operation**, and the two are adjacent rather
+than overlapping. A seam, not a duplicate.
+
+The discriminator is one question, and it is about the dimension rather than the
+operation: *can the answer differ between two requests to this process?*
+
+**The source wrote the technique's own boundary, twenty lines from its positive
+case**, which is why this landed as a technique rather than a note. The same
+file enforces read-only by omitting the route definitions (`main.py:87`, `:227`)
+and enforces authentication with a dependency list computed once (`:21`) —
+process-constant and request-varying, each getting the construction it should.
+And the second one's disabled state is `[]`: an empty guard list that attaches
+cleanly to every route, logs nothing, and leaves the surface fully addressable.
+One construction removes the door when restricted; the other removes the lock
+when permissive. Hence the pairing rule the technique closes on, and the
+`absent-guard-is-loud` citation.
+
+**Applied `code`, verdict `better`, proof `ab-paired`, shipped to pumper
+(`b086a30`, not pushed).** pumper's MCP surface already implements the
+construction, and better than the source did — the actuating tools are withheld
+from `tools/list` when `[mcp] allow_enqueue` is off *and* a guarded dispatch arm
+returns a readable error naming the switch, where the source can only answer 404
+and publishes its mode through a separate endpoint. What it lacked was the seam
+the construction opens: the gated set is spelled three times
+(`mcp/mod.rs:262`, `:366-370`, `:371-374`) as three hand-maintained copies of
+one closed vocabulary, and the drift directions are not equally loud — a tool
+advertised behind the gate whose dispatch arm loses its guard stays callable
+while the switch is off, silently, and it actuates. Shipped a build-time parity
+checker over the three registration sites: **0 of 4 drift directions detectable
+before, 4 of 4 after**, plus two cannot-check guards so a parser whose shapes
+have moved reports that instead of reporting clean.

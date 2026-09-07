@@ -1,0 +1,145 @@
+{
+  "id": "215be562-1e76-5a51-9d57-4263ca1c13c7",
+  "slug": "stack-grounded-opportunity-research",
+  "title": "Stack grounded implementation opportunity research",
+  "version": "0.2.0",
+  "status": "seed",
+  "path": "software_engineering/work-intake",
+  "domain": "software_engineering",
+  "description": {
+    "need": "Nobody reads release feeds for the dependencies they actually run, so an upstream change that would matter arrives as a surprise while a general developer news feed produces nothing but noise. The harder problem is that the change which hurts most does not appear in any feed: a dependency whose maintainers have quietly stopped is behind on nothing, passes every freshness check, and looks best at exactly the moment it has become the biggest risk in the tree.",
+    "input": "The project's own manifests, lockfiles and imports as the inventory of what is really installed, the sources worth reading, the state this work recorded on its last pass, and the record of what has already been seen or declined.",
+    "core_action": "Read the stack first so that relevance is computed from what is actually installed rather than from a topic list, prefer the few findings that would change something here to broad coverage, and look for silence as deliberately as for news.",
+    "output": "Findings each naming the installed artifact and version they apply to, nothing surfaced twice, nothing invented to fill a quiet period, and any source that went unread stated as unread rather than implied to be clear."
+  },
+  "activities": [
+    {
+      "id": "ground",
+      "label": "Read the manifests and lockfiles to learn what is actually installed",
+      "kind": "observe"
+    },
+    {
+      "id": "watch",
+      "label": "Search release notes, advisories and other sources against that inventory",
+      "kind": "observe"
+    },
+    {
+      "id": "quiet",
+      "label": "Look at the parts of the stack that produced no news at all",
+      "kind": "observe"
+    },
+    {
+      "id": "select",
+      "label": "Keep only what would change something here, and drop what has been seen",
+      "kind": "decide"
+    },
+    {
+      "id": "classify",
+      "label": "Name the installed artifact and version each finding applies to",
+      "kind": "act"
+    },
+    {
+      "id": "hand-on",
+      "label": "Hand the findings on, naming any source that went unread",
+      "kind": "deliver"
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "every-finding-lands-on-something-actually-installed",
+      "statement": "The adopter learns about the changes that touch their own stack, without watching release feeds themselves.",
+      "success_criteria": [
+        "Every finding names the installed artifact and the version in use, so the reader can tell in one line whether it is theirs.",
+        "Something interesting that touches nothing they run is not surfaced, however good it is.",
+        "A claim that something is ready to use cites where it was seen running rather than where it was announced, because an announcement is a plan and a deployment is evidence.",
+        "A finding already surfaced is not surfaced again."
+      ]
+    },
+    {
+      "id": "silence-is-examined-rather-than-trusted",
+      "statement": "A part of the stack that has gone quiet is looked at deliberately, instead of being read as fine because nothing arrived about it.",
+      "success_criteria": [
+        "The pass enumerates the whole installed inventory and compares it against the state the last pass recorded, rather than only reading what arrived since.",
+        "A dependency that has stopped moving upstream is reported as stopped, because being behind by nothing is what an abandoned project looks like on every freshness measure.",
+        "An end of service date is surfaced with enough lead time to actually act on, which is longer than the notice its supplier gives, and the shortfall is not treated as the supplier's schedule being adequate.",
+        "A stopped verdict somebody overrules, saying the project is finished rather than abandoned, is held against that artifact in the state the next pass reads, so later passes stop calling it stopped while still raising it the moment something lands on it."
+      ]
+    },
+    {
+      "id": "coverage-is-stated-rather-than-implied",
+      "statement": "The reader knows what was looked at, and a quiet period is reported as quiet rather than padded.",
+      "success_criteria": [
+        "A source that could not be read is reported as unread, not silently omitted and not counted as clear.",
+        "The window each source has been covered through is recorded, so a gap that grows is visible.",
+        "A period with nothing worth reporting produces a statement that it was quiet, and the first pass says it is establishing the inventory rather than reporting change."
+      ]
+    }
+  ],
+  "guidance": "Read the stack first: a recommendation is only meaningful against something actually installed, and research done from a topic list produces industry news. Prefer a few findings that would change something to broad coverage. Watch for silence as carefully as for news, because a dependency nobody maintains any more emits nothing and looks perfectly current by every freshness measure. Say when a source went unread rather than implying it was clear, and when a period was genuinely quiet, say that.",
+  "use_cases": [
+    "A team whose upgrade decisions all happen at once every year or two, so each one is large and risky and made under time pressure, and nobody can name what they are currently behind on.",
+    "An operator who subscribed to a handful of newsletters and now receives a great deal that is interesting and almost nothing that is theirs, and has started deleting the lot unread.",
+    "A project resting on a dependency that has not released in three years, which passes every currency check precisely because there is nothing newer for it to be behind.",
+    "The year before a runtime, platform or major version reaches end of service, when the lead time actually needed to move is measured in quarters and the supplier's notice is measured in weeks.",
+    "A small team with no time to read anything, where the whole useful output is a few lines a quarter naming what they run and what has changed underneath it."
+  ],
+  "connector_types": [
+    "source_control",
+    "email"
+  ],
+  "recommended_trigger": {
+    "kind": "self_paced",
+    "rationale": "Watch for the conditions that make a pass worthwhile: the installed inventory drifting behind upstream, a topic the adopter has repeatedly accepted, a source whose uncovered gap has grown, or an end of service date coming into the lead time that matters. A fixed weekly slot pays the same cost in a quiet week as in a busy one and produces filler in the quiet one, which is the failure that gets this work switched off."
+  },
+  "personalization_needs": [
+    "Which codebase defines the stack that scopes the search, because relevance is computed from it and without it the work falls back to keywords and produces exactly the noise it exists to avoid.",
+    "Which sources this adopter trusts and which they consider marketing, since covering an untrusted source spends effort producing findings that will always be declined.",
+    "Which senders or feeds are worth reading at all when a mailbox is in scope, because that list is the precision of the whole email half and it decays as subscriptions change.",
+    "What they have already declined and why, because a declined topic returning every week is the fastest way for this work to be switched off.",
+    "How much lead time they need before a change is worth hearing about, since the same end of service date is noise a year early to one team and already late to another."
+  ],
+  "dependencies": [],
+  "input_schema": [
+    {
+      "name": "focus_topics",
+      "type": "text",
+      "required": false,
+      "description": "Topics to scope the search when no codebase is bound. This is the degraded mode of the whole recipe: without an inventory the findings cannot name what they apply to, so a pass that ran on topics alone should say so."
+    },
+    {
+      "name": "enrichment_depth",
+      "type": "enum",
+      "options": [
+        "shallow",
+        "medium",
+        "deep"
+      ],
+      "default": "medium",
+      "description": "How much is checked before a finding is offered: the linked page only, plus the project's own activity and maintenance signals, or plus whether anything comparable is already available here. Depth mostly buys the ability to tell a live project from a dormant one, which is the judgment this recipe is worst at without it."
+    }
+  ],
+  "examples": [
+    {
+      "title": "A registered local checkout as the source_control connector",
+      "connector": "codebase",
+      "connector_type": "source_control",
+      "notes": "See examples/codebase.md."
+    },
+    {
+      "title": "A mailbox as the email connector",
+      "connector": "gmail",
+      "connector_type": "email",
+      "notes": "See examples/gmail.md."
+    }
+  ],
+  "lessons": [],
+  "provenance": {
+    "from_recipes": [
+      "215be562-1e76-5a51-9d57-4263ca1c13c7"
+    ],
+    "from_templates": [
+      "product-scout"
+    ],
+    "source_template_id": "product-scout"
+  }
+}

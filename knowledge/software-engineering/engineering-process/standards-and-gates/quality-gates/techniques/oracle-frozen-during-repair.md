@@ -34,7 +34,7 @@ green without changing the behavior under test:
 - fixtures, golden files, snapshot baselines, recorded responses;
 - skip, quarantine, `only`, retry-count and timeout directives;
 - coverage and lint thresholds, ratchet baselines
-  ([ratchet-design](./ratchet-design.md));
+  ([ratchet-design](../../metric-gates/techniques/ratchet-design.md));
 - the gate's own configuration and the scripts it runs;
 - the assertion library's configuration where it can soften a comparison.
 

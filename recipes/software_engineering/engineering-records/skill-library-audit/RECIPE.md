@@ -1,0 +1,151 @@
+---
+name: skill-library-audit
+version: 0.3.0
+status: seed
+domain: software_engineering
+path: software_engineering/engineering-records
+---
+
+# Skill library audit and proposal
+
+The rendered view of [`recipe.json`](recipe.json). When the two disagree, the JSON is
+right and this file is stale.
+
+**Need.** A library of written procedures drifts away from the code it describes and
+accumulates entries nobody has used in months, and neither drift nor disuse announces
+itself. The entry that has gone wrong is the dangerous one, because somebody will follow
+it and find out at the worst moment, while the missing entry only costs time. The
+obvious remedy makes it worse: retiring whatever nothing has called removes the entry
+that covers the rare situation first, since being rarely needed is what a rare situation
+looks like from a usage count.
+
+**Input.** What has changed in the codebase since the last audit, the entries as
+currently written, when each was last confirmed to still work as distinct from when it
+was last edited, and how often each is actually reached for.
+
+**Core action.** Turn genuine drift or genuine disuse into a proposal a person can
+approve or reject, treating a low usage count as a question to ask rather than a verdict
+to act on, and capping each pass tightly enough that the review queue stays readable.
+
+**Output.** A small number of edit or deprecation proposals, each carrying the change in
+full, an entry marked deprecated with its replacement named rather than deleted where
+retirement is agreed, and nothing proposed that was declined recently.
+
+## Activities
+
+1. Enumerate every entry, not only the ones that changed *(observe)*
+2. Read what changed in the code the entries describe *(observe)*
+3. Count how often each entry is actually reached for *(observe)*
+4. Decide which drift or disuse is worth proposing, within the cap *(decide)*
+5. Offer each as an edit or a deprecation with the change in full *(deliver)*
+
+Linear and branch-free, by contract. This is the shape of the work, not a runbook.
+
+## Outcomes
+
+**An entry that no longer matches the world it describes is corrected before somebody
+follows it.**
+
+- Each entry carries when it was last confirmed to work, kept separate from when it was
+  last edited, because an edit date says an entry is recent and says nothing about
+  whether it is right.
+- A maintainer who declines an edit by saying the entry was right all along has
+  confirmed it, so that decline advances the entry's last confirmed date and is kept
+  apart from a decline about how the proposal was shaped, because pooling the two damps
+  the entry under one cooldown while the audit goes on reading it as unconfirmed and
+  proposes the same drift again the moment that cooldown expires.
+- An entry reached for on work it does not cover, or not reached for under the phrase it
+  names for itself, is read as the entry describing itself wrongly rather than as the
+  reader choosing badly, and a verification command an entry names that no longer exists
+  is drift provable without reading the code at all.
+- An entry describing code that has moved is proposed as a concrete edit with the change
+  in full, not flagged for somebody else to go and investigate.
+- An entry that is wrong is treated as more urgent than a gap where an entry is missing,
+  because the wrong one will be followed and the missing one will not.
+
+**Disuse opens a question about an entry and never closes one, so the library gets
+smaller without losing the thing that covers the rare case.**
+
+- A low usage count produces an enquiry naming what the entry covers and asking whether
+  it is still wanted, never an automatic retirement.
+- A heavily reached entry that changes nothing is a retirement candidate on the same
+  evidence as a rarely reached one, and a count cannot separate them, so an entry is
+  credited with effect only where the same work run without it came out worse, and never
+  where the entry was created or last edited inside the window its use was counted in.
+- Retirement happens in two steps: the entry is marked deprecated with its replacement
+  named, and only later removed, with removal decided by what is still reaching for it
+  rather than by a date.
+- What an entry is depended on for is not assumed to be what it declares, since another
+  entry may rely on the shape of its output or on a name it uses, and neither is written
+  down anywhere.
+
+**The person reading the proposals keeps reading them, pass after pass.**
+
+- No pass exceeds the cap, and a pass that could have exceeded it says how many it held
+  back rather than silently truncating.
+- A proposal the person has already declined is not offered again within the cooldown,
+  and the reason it was declined is carried with the entry.
+- A pass that found no genuine drift and no genuine disuse says so, and the first pass
+  over a library says it is establishing the inventory rather than reporting decay.
+
+## Guidance
+
+An entry that has gone wrong is worse than one that is missing, because somebody follows
+it. Keep when it was last confirmed to work apart from when it was last edited. The
+usage record holds more than a count: a correction right after somebody reached for an
+entry marks the moment it was believed and was wrong, which is sharper evidence of drift
+than any reading of the code. Treat low usage as a question, never a verdict; the entry
+nobody reaches for often covers the rare situation.
+
+## Where this is worth adopting
+
+- A library that grew through a year of enthusiastic writing, where nobody can now say
+  which entries are still true and the safest working assumption has become that none of
+  them are.
+- A team that reached for a procedure during an incident and found it describing a
+  system that had been replaced, so the outage ran longer than it needed to and the
+  library lost its credibility in one night.
+- A maintainer who wants to shrink the library and has only usage counts to work from,
+  which would retire the entry covering the once a year situation before anything else.
+- A library whose entries quietly rely on each other, where removing the one nothing
+  calls breaks three that were being used every week, because the dependency was never
+  written down anywhere.
+- An operator who worked through a batch of proposals once, declined most of them, and
+  found the same batch waiting the following week, and has not opened the proposals
+  since.
+
+## Connector types
+
+`source_control`.
+
+Types, never connectors. Adoption resolves each to any connector whose catalog
+`categories` include it, and the concrete knowledge lives in [`examples/`](examples/):
+[codebase](examples/codebase.md) for `source_control`.
+
+## Recommended trigger
+
+`self_paced`. Act when the code has moved enough that the written procedures could have
+drifted, or when a measurement window has passed with an entry going unreached. A fixed
+weekly slot audits an unchanged library and proposes nothing, which trains its reader to
+stop opening the proposals, and that costs more than the audit was worth.
+
+A recommendation is a default, not a binding: the adopter assigns the real trigger at
+adoption or later.
+
+## Personalization needs
+
+- Where the library lives and what shape an entry takes, because a proposal in the wrong
+  shape cannot be applied and will be declined for a reason that has nothing to do with
+  its content.
+- How this operation marks that an entry was used, since the disuse half of the audit
+  rests entirely on it and many operations have no convention at all, in which case that
+  half is unmeasured rather than zero.
+- How many proposals this person can absorb per pass, which is what the cap is for and
+  is a property of the reader rather than of the library.
+- Which entries this operation considers load bearing regardless of how often they are
+  reached for, because that list is the guard against the audit retiring exactly the
+  wrong thing.
+
+## Dependencies
+
+None.

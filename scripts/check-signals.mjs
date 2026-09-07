@@ -52,6 +52,28 @@ const LEAKY = [
   { re: /[\w.+-]+@[\w-]+\.[\w.]+/, what: 'an email address' },
 ];
 
+// ---- assert the instrument BEFORE the result --------------------------
+// This scan is a must-not-match, so a clean sweep and a dead pattern set are the
+// same output, and the entry count below cannot separate them. One fixed positive
+// per pattern, in pattern order. Kept in step with check-usage.mjs by hand — if a
+// third lane needs it, hoist the table and these controls together, never apart.
+const LEAK_CONTROLS = [
+  'C:\\Users\\x\\y',
+  ' /home/x/y',
+  '../x',
+  'https://x.example',
+  'a@b.co',
+];
+for (const [i, { re, what }] of LEAKY.entries()) {
+  if (!re.test(LEAK_CONTROLS[i])) {
+    console.error(
+      `check-signals: the ${what} pattern did not match its control ` +
+        `(${JSON.stringify(LEAK_CONTROLS[i])}). THE SCANNER IS BROKEN — refusing to report a clean lane.`,
+    );
+    process.exit(2);
+  }
+}
+
 const failures = [];
 const notes = [];
 const fail = (msg) => failures.push(msg);

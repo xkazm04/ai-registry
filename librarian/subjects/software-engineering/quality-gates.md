@@ -1,7 +1,7 @@
 ---
 subject: quality-gates
 domain: software-engineering
-last_touched: 2026-09-04
+last_touched: 2026-09-06
 touched_by: deepen
 dry_streak: 0
 ---
@@ -979,3 +979,37 @@ Fleet maps regenerated after the landing. Verdicts now judged against a subject 
 moved: gravity (1), personas (1). That is the `/conform --stale` queue for this subject.
 Fleet-wide 247 of 287 recorded verdicts were already stale before this run began - the
 maps had not been regenerated since 2026-08-31 - and remain so after it.
+
+## 2026-09-06 - split executed: metric-gates ([[2026-09-06-1]])
+
+The standing question from [[2026-09-04-1]] answered by the operator. 25 -> 21
+techniques, 26 -> 23 applications. Moved whole into `metric-gates` (same category):
+`ratchet-design`, `counted-set-snapshot`, `operation-assertion-gates`,
+`deterministic-proxy-gate` and their three node applications. Kept here against the
+proposal's "half of excess-indicts-the-instrument": the technique's subject is the scope
+declaration, not the number, and a split file would have made two weak techniques;
+metric-gates cites it for the founding baseline. `blocking-by-input-determinism` stays
+as the hinge and its "third class" section now links across.
+
+Golden path: title dropped "& ratchets"; the intro no longer claims the metric problem;
+a boundary paragraph before the first section names metric-gates and the hinge; the
+two migrated sections are replaced by short pointer sections ("When the verdict is a
+measurement, the question moves next door"; "Ratchets live next door"). Nothing else
+in the golden path changed.
+
+## Impact (step 4, run 2026-09-06-1)
+
+Fleet maps regenerated after the split. Verdicts judged against this subject that
+moved: gravity (1), personas (1) - the same two as 2026-09-04, now stale twice over.
+The four moved techniques' triggers left this slug's matching; no project lost a
+judged pair by it. Maps committed on nine projects; kp and ascent were mid-merge in
+another session and keep the regenerated map uncommitted in their working tree.
+[[2026-09-06-ace-step-1-5]] (intake, research-model release) added
+`branch-provenance-gate`: a push-stage gate whose target is the branch's ancestry
+rather than its content - is this branch descended from the integration ref, and
+does any commit it adds already appear on another proposal branch. Neither
+question is answerable by a content gate or by CI, which sees the merge result.
+Its value scales with independent contributors and collapses to zero on a
+single-owner repository, which is why the fleet carries no applied row for it.
+Also holds this run's one lead: a committed capacity table naming a calibration
+script that nothing runs, with no calibration date and no measured-on hardware.

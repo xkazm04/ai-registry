@@ -1,0 +1,144 @@
+{
+  "id": "eff0d838-88c1-5121-8377-48e59da49b5a",
+  "slug": "inbound-message-triage-across-channels",
+  "title": "Inbound message triage across channels",
+  "version": "0.2.0",
+  "status": "seed",
+  "path": "general_professional/correspondence",
+  "domain": "general_professional",
+  "description": {
+    "need": "Messages arrive across several channels at once, and the ones that go missing are not the ones somebody read and misjudged. They are the ones a resumable read stepped over: an item that committed late but carried an earlier timestamp, a cursor advanced before the rows were stored, a channel whose credentials expired while the other four kept working and made the pass look clean.",
+    "input": "New messages from every connected channel, the position each channel was last durably read to, and the record of which source identifiers have already been logged.",
+    "core_action": "Resume each channel from a position taken from the source's own data rather than the reader's clock, overlap it deliberately, and carry both the classification's confidence and the pass's own coverage forward instead of collapsing either into a verdict.",
+    "output": "A logged, classified record of everything that arrived, each carrying the confidence behind its reply-needed judgment, alongside a per-channel account of what was attempted, read and failed, delivered so that a channel which stopped is reported through one that has not."
+  },
+  "activities": [
+    {
+      "id": "resume",
+      "label": "Resume each channel from the position the last pass durably recorded, with a deliberate overlap",
+      "kind": "observe"
+    },
+    {
+      "id": "collect",
+      "label": "Collect from every channel, carrying a per-channel result whether it worked or not",
+      "kind": "observe"
+    },
+    {
+      "id": "dedupe",
+      "label": "Reject what has been seen before by the identifier its source gave it, not by its text",
+      "kind": "decide"
+    },
+    {
+      "id": "classify",
+      "label": "Classify urgency, intent and entities, keeping the confidence rather than a verdict",
+      "kind": "decide"
+    },
+    {
+      "id": "hand-off",
+      "label": "Hand each message on with its confidence, so the bar is set where the action is taken",
+      "kind": "act"
+    },
+    {
+      "id": "advance",
+      "label": "Move each channel's position forward only once its messages are durably stored",
+      "kind": "deliver"
+    },
+    {
+      "id": "report-coverage",
+      "label": "Report attempted, read and failed per channel, warning about a dead channel through one that still works",
+      "kind": "deliver"
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "nothing-is-stepped-over",
+      "statement": "A message that arrived is in the log, including the ones that arrived out of order or during a failure.",
+      "success_criteria": [
+        "Each channel resumes from a position recorded only after the messages before it were durably stored, so an interrupted pass re-reads rather than skips.",
+        "The resume point comes from what the source's own data said, never from the reader's clock, and overlaps far enough back to catch an item that committed late under an earlier timestamp.",
+        "Where a source offers a monotonic sequence or offset it is used in preference to a timestamp, because a timestamp can go backwards and an offset cannot."
+      ]
+    },
+    {
+      "id": "a-partial-pass-says-so",
+      "statement": "A pass that read four channels out of five is not reported as a pass.",
+      "success_criteria": [
+        "Every pass reports channels attempted, read and failed, so a partial run is distinguishable from a clean one without anybody noticing that a person went quiet.",
+        "A channel that could not be read is reported through a path that does not share the failure it is reporting.",
+        "Triage continues on the channels that still work rather than abandoning the pass, and the failure does not roll back what the working channels produced."
+      ]
+    },
+    {
+      "id": "the-judgment-stays-judgeable",
+      "statement": "Whatever acts on a message can still weigh the classification, because it was not decided for them at collection.",
+      "success_criteria": [
+        "A classification is handed on with the confidence behind it rather than collapsed into a flag at the point of collection.",
+        "Re-reading the same message produces one record, keyed on the identifier its source gave it and never on its text.",
+        "Two genuinely separate messages carrying identical text are two records, because a person who says the same thing twice said it twice.",
+        "A reply-needed judgment a person overturns is written back onto that message's record beside the confidence the pass gave it, so a sender whose calls are overturned again and again is read as a miscalibration to fix rather than as a run of unusual messages."
+      ]
+    }
+  ],
+  "guidance": "Resume from what the source's own data said, never from your clock, and overlap the window on purpose so a message that arrived late is read rather than stepped over. Move the position forward only after the messages are stored. Deduplicate on the identifier the source gave, not on the text: somebody who writes the same word twice wrote twice. Carry the confidence forward instead of a verdict, and let whatever acts set its own bar.",
+  "use_cases": [
+    "Somebody whose work arrives across mail, chat and a form inbox, where each channel is checked at a different rhythm and the quiet one is checked least, which is exactly where a missed request sits longest.",
+    "A team that already has triage running and has never once been able to say whether a pass was complete, so a channel whose token expired sat unread for a fortnight while every run reported success.",
+    "An operator whose downstream drafting work trusts a reply-needed flag completely, where the useful change is not a better classifier but handing on the uncertainty so a borderline call gets a human rather than a confident reply.",
+    "Any setup where the same message reaches two connected channels, such as a mail alias that also posts into a chat room, and the cost of the second copy is a duplicate reply to a real person.",
+    "A channel that pushes events rather than being polled, where the pass still needs a resumable position because the events that arrive while the reader is down are the ones nobody will ever look for."
+  ],
+  "connector_types": [
+    "email",
+    "messaging",
+    "database"
+  ],
+  "recommended_trigger": {
+    "kind": "event",
+    "rationale": "Triage exists because a message arrived, which is a real external event with a freshness window attached to it. Where a bound channel cannot push, adoption falls back to a poll, and that is a limitation of the channel rather than a property of the work. Either way the resumable position is still required, because an event stream missed while the reader was down leaves nothing behind to notice."
+  },
+  "personalization_needs": [
+    "Which channels and accounts are in scope, because reading more than was intended is the one mistake here that cannot be taken back.",
+    "What urgency means for this person, because a classification calibrated to somebody else produces confidence values nothing downstream should weigh.",
+    "Which channel is trusted to carry a warning about the others, because the report of a dead channel has to travel a path that is not the one that died.",
+    "Which senders or categories should never be surfaced at all, because filtering after classification still means the message was read, and for some senders that is itself the objection.",
+    "How far back the overlap should reach, because it is sized against how late that source's items can commit, and a source nobody has measured gets an overlap chosen by guess."
+  ],
+  "dependencies": [],
+  "input_schema": [
+    {
+      "name": "monitored_channels",
+      "type": "enum",
+      "options": [
+        "all_connected",
+        "email_only",
+        "chat_only"
+      ],
+      "default": "all_connected",
+      "description": "Which channel set to include in triage."
+    }
+  ],
+  "examples": [
+    {
+      "title": "Local messaging as an event-bearing channel",
+      "connector": "personas_messages",
+      "connector_type": "messaging",
+      "notes": "See examples/personas_messages.md."
+    },
+    {
+      "title": "The built-in database as the message log",
+      "connector": "personas_database",
+      "connector_type": "database",
+      "notes": "See examples/personas_database.md."
+    }
+  ],
+  "lessons": [],
+  "provenance": {
+    "from_recipes": [
+      "eff0d838-88c1-5121-8377-48e59da49b5a"
+    ],
+    "from_templates": [
+      "digital-clone"
+    ],
+    "source_template_id": "digital-clone"
+  }
+}

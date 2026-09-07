@@ -29,7 +29,7 @@ attributed to the codebase.**
 
 ## The moment this is expensive is the founding measurement
 
-Excess is cheap to recover from at any time except one. [ratchet-design](./ratchet-design.md)
+Excess is cheap to recover from at any time except one. [ratchet-design](../../metric-gates/techniques/ratchet-design.md)
 guards the *drop* — a measured value far below baseline is treated as actionable
 divergence, because a matcher that stopped matching produces a smaller number
 and looks like progress. It never asks the same question about the value being

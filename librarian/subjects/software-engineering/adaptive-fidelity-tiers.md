@@ -1,7 +1,7 @@
 ---
 subject: adaptive-fidelity-tiers
 domain: software-engineering
-last_touched: 2026-08-22
+last_touched: 2026-09-06
 dry_streak: 0
 ---
 
@@ -52,3 +52,14 @@ and it is the one file in the corpus that already held the requirement. A
 slug map or a summary would have scored it "covered". Only opening it revealed
 that it prescribed the opposite remedy — which is the run's strongest evidence
 for the rule that a candidate looking already-covered still gets the file read.
+[[2026-09-06-ace-step-1-5]] (intake, research-model release) touched nothing here
+and banked two untriaged rows against it, both worth a later look. The larger one:
+`per-tier-budget-tables` rejects a central tier table and argues it from cost
+locality, registry rot and merge cost - all of which hold *while effect costs are
+independent*. Where the budget is one shared pool the rows must sum into (four
+models in one memory allocation), a central joint table is the only form that can
+express the constraint. That inverts a stated rule but makes the technique's flat
+"it fails" false as a universal, scoring it a scope rewrite; G-R came to 0 against
+a +2 threshold, so it was banked rather than landed. The smaller one: a class
+boundary that needs a tolerance because the reported figure is not the nominal one.
+See the source note's "Row 3" section for the full argument and anchors.

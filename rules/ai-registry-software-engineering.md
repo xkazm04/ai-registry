@@ -1,6 +1,6 @@
 # Software engineering - the subjects this registry carries
 
-`software-engineering` - 219 subjects, 1632 techniques, 964 applications.
+`software-engineering` - 227 subjects, 1680 techniques, 1004 applications.
 Slugs only; resolve one through `index.json` as the access rule beside this file describes.
 
 ### ui-surfaces
@@ -34,7 +34,8 @@ Slugs only; resolve one through `index.json` as the access rule beside this file
 ### operations
 - **control-plane-operations** - convergence-loop-and-requeue, declarative-resource-lifecycle, watch-cache-and-resync
 - **governance-and-records** - audit-logging, data-retention, entity-lifecycle, settings, versioning-snapshots
-- **service-operations** - health-checks, node-boot-and-declarative-bootstrap, perf-instrumentation, plan-entitlements, quorum-and-recovery-procedures, scoring-rubrics, triage-queues, usage-analytics
+- **metered-billing** - deferred-finalization, subscription-billing-periods, subscription-proration, usage-aggregation-semantics, usage-event-ingestion, usage-pricing-models
+- **service-operations** - conditional-service-composition, health-checks, node-boot-and-declarative-bootstrap, perf-instrumentation, plan-entitlements, quorum-and-recovery-procedures, scoring-rubrics, triage-queues, usage-analytics
 
 ### security
 - **code-provenance** - decentralized-artifact-distribution, signed-artifacts, supply-chain
@@ -51,7 +52,7 @@ Slugs only; resolve one through `index.json` as the access rule beside this file
 - **build-and-release** - build-economics, codegen, packaging, release-pipeline, test-harness, test-input-generation
 - **codebase-stewardship** - codebase-scanning, concurrent-vcs, dead-code, dependency-declaration, docs-sync, machine-authored-documentation, module-design, repository-landing-document
 - **continuous-integration** - ci-execution-trust, deployment-contract, machine-paced-delivery, pipeline-authoring, runner-fleet
-- **standards-and-gates** - invariant-placement, knowledge-registry, multi-project, quality-gates, repo-manifest-standard
+- **standards-and-gates** - invariant-placement, knowledge-registry, metric-gates, multi-project, quality-gates, repo-manifest-standard
 
 ### engineering-assessment
 - **maturity-and-conformance** - conformance-checking, maturity-ladders, public-verdict-badge, readiness-passports

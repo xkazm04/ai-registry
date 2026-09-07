@@ -210,6 +210,9 @@ which is why the reduction has to be written down rather than tuned.
   function, separately testable from the metric and the cut-point.
 - Run the axis audit *and* the cut-point audit; the first passing says nothing
   about the second.
+- Establish the residual before stating a tolerance: exhaust the tiers that
+  cannot serve a wrong answer, then price the false-hit rate against what
+  remains of the call's cost.
 
 ## Canonicalization is not resemblance, and the hazard does not transfer
 
@@ -242,6 +245,62 @@ punctuation. Under a resemblance key they can, deliberately. Choosing
 canonicalization where resemblance was tempting is frequently the better
 engineering, and a system that can state its equivalence as a total function
 should prefer that and take none of this technique's costs.
+
+## The tolerance is priced against a residual, not against the call
+
+The trade at the top of this technique — an expensive, slow, approximate
+authority can rationally buy a small false-hit rate, a cheap exact one has
+nothing to pay with — presumes that the authority's cost is a given. It
+frequently is not, and where it is not the rule is not wrong but
+**unexecutable**: the number it asks you to weigh has not been established
+yet.
+
+Many authorities expensive enough to justify a resemblance key also offer
+**reuse of their own internal work** on a repeated request prefix — a
+computation retained between calls, billed at a fraction of the rate for the
+part that did not change. That tier is disclaimed below as outside this
+technique, and rightly, because it makes no admission decision at all: the
+authority still runs, still produces a fresh answer, and cannot return
+something that was never an answer to this request. It has no false-hit rate
+because it has no hits. What it removes is cost, and it removes it from the
+same bill the resemblance cache was going to be paid out of.
+
+So the ordering is forced, and it is an ordering rather than a preference:
+
+> **Exhaust every tier that cannot serve a wrong answer, then price the
+> tolerance against what is left.** A false-hit rate bought against the full
+> cost of the call is bought against a cost that was partly avoidable for
+> free.
+
+The failure this prevents is not a wrong answer; it is a wrong *purchase*.
+A resemblance cache justified by a call cost that a safe tier would have cut
+by most of its value is a cache whose entire correctness risk was taken on
+in exchange for the remainder — and the remainder is the number nobody
+computed, because the safe tier was invisible at the point the trade was
+made. The tell is a design note that reaches for similarity in its first
+paragraph: the residual is establishable before any threshold is chosen, and
+a tolerance stated ahead of it is a tolerance for an unknown quantity.
+
+Two consequences worth carrying:
+
+- **The safe tier's saving is not additive with this one, it is prior to
+  it.** They compete for the same repeats. A design that budgets both as
+  independent savings has double-counted the traffic that the safe tier was
+  already going to serve, and the resemblance cache's measured contribution
+  will come in below its projection for a reason that looks like a tuning
+  problem.
+- **The safe tier constrains the request's *shape*, and that constraint is
+  cheap only if it is adopted early.** Reuse of an authority's internal work
+  is keyed on an unchanged leading segment, so a single variable element
+  placed near the front — a timestamp, a request identifier, anything
+  regenerated per call — forfeits the whole tier while every dashboard still
+  reports the request as well-formed. Establishing the residual therefore
+  means establishing it *after* the request has been ordered for reuse, not
+  against the shape the request happens to have.
+
+Where no such tier exists — an authority that holds nothing between calls,
+or one whose cost is dominated by work that varies every time — the original
+trade applies unchanged and this section costs one question.
 
 ## What this technique does not own
 

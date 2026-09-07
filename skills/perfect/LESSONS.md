@@ -338,3 +338,150 @@ rule that only this loop's participants currently follow.
 - **A change to what the detectors SEE is the product owner's rubric call, not the Director's.** The reproducible-ingestion fix moved no constant and priced nothing, yet its own measurement showed ~15% more content reaching the detectors on budget-bound repos. Ask at the gate with the measurement in hand (bump / document / hold); the owner bumped.
 - **Pre-check every accepted direction's write set against `git status` BEFORE partitioning.** (ascent round 4) A foreign session's dirty `src/lib/types.ts` blocked one criterion mid-wave; the builder stopped correctly and the criterion was parked. The brief already listed the file as reserved, but the direction should never have been dispatched with a criterion that needed it - the Director had the information at planning time. Phase B step 1 should say: intersect each write set with the dirty foreign set and defer or re-scope on any hit.
 - **The wave branch is not private when a sibling session bare-commits.** A concurrent session landed a commit on the wave branch mid-wave; the ff-merge carried it to the base harmlessly, but the Director must read `git log base..HEAD` for foreign commits before merging and say so in the session note.
+## 2.5.0 - 2026-09-05 - pof (waves 27-29)
+- **A dev-server-backed e2e gate cannot run while any builder is mid-edit in the shared tree.** The wave-28 walker started as wave 29 was building; the dev server compiled two siblings' half-written files and 27 of 64 specs failed on page-ready — 17 minutes of pure transient state. vitest is immune (each file imports at its own instant); a live server is not. The integration gate's "once, at quiescence" already says this for the Director's own commits — extend it explicitly to the NEXT wave's builders: dispatch wave N+1 only after wave N's slow gates have finished, or accept that wave N's walker is owed until N+1 is quiet.
+- **Builders can write bytes a text diff cannot show.** One builder typed a literal U+0000 as a string separator; git flagged the file binary (`Bin 12108 -> 12651`) and the diff was empty. The Director's review script only greps `^[+-]` lines, so a binary file reads as "no change". Add to the review step: any `Bin` in `git show --stat` is a finding, and `git diff --numstat` showing `-	-` for a source file blocks the keep until the bytes are inspected.
+- **Re-cut every L slice at dispatch, not at triage.** author-engine-fleet-wide's backlog phase-1 had already shipped in a wave that never wrote the vault; the operator promoted the L two weeks later on the stale description. The Director caught it only by re-reading the backlog entry against `git log` minutes before dispatch. A promoted L's `phase1:` line is a hypothesis until the write-set read confirms the slice is still open.
+- **The walker is the only gate that sees a bundle boundary.** A `use client` component that imports one constant from a server-only lib puts `node:child_process` in the browser bundle; tsgo passes, every vitest suite passes, and the root page will not build. Run the dev-server-backed e2e per wave as a real gate, and add to the review checklist: any new import from a `use client` file into `src/lib/**` gets its transitive imports checked for `node:` / DB / spawn modules.
+- **Gate chains that pipe through `grep | head` return the pipe's exit code, not the gate's.** A red vitest run joined with `&&` still let the commit step run (one broken commit landed, fixed by a follow-up — never an amend). Capture the summary line into a variable and test it for `failed` before committing.
+
+## 2.5.2 - 2026-09-06 - tracklight
+
+- **Phase 0 step 1 reads "shadowed" but not "absent", and they need the same fix.** `/perfect` was
+  declared in this repo's `.ai/manifest.yaml` `skills:` list and had no link on the machine, so it
+  was not in the harness skill listing at all — the step's own check ("compare a distinctive phrase
+  of this file's `description:` against the available-skills listing") passes silently for a
+  *missing* skill in a way it does not for a shadowed one, because there is nothing to compare.
+  `node <registry>/scripts/link-registry.mjs` fixed it and created 45 links across 11 projects,
+  which suggests the absent case is the common one on a secondary machine. Worth one clause in step
+  1: *absent is shadowed's twin; the fix for both is the link script, never a copy.*
+- **A repo's own CLAUDE.md can carry a stale harness claim that costs a capability.** The root
+  guidance asserted the agent harness "refuses to write anything under `.claude/` (sensitive path)"
+  and that fixing it "needs a human", citing two prior failed sessions. Both Bash and Write wrote
+  `.claude/perfect/config.md` on the first attempt. The overlay is where the whole method's
+  per-repo state lives, so a false belief that it is unwritable is expensive. Phase 0 could say:
+  *a guidance claim that the overlay cannot be written is a claim to TEST, not to believe — write
+  a probe file before concluding the loop must run on defaults.*
+- **The `--fix`-then-revert check deserves promotion from tactic to rule, in Phase B step 6.** The
+  method already says "re-measure a builder's headline number before repeating it". Stronger and
+  cheaper: *write the regression test, apply the fix, then REVERT the fix and confirm the test
+  fails.* It caught two opposite errors in one session — a conformance test that passed on the
+  broken code (two identical queries reuse one query plan, so "list twice and compare" cannot
+  detect a plan-dependent ordering bug), and a builder-reported bug whose fix was a no-op (the test
+  still passed after reverting, which is what stopped a commit message going out claiming a costing
+  bug had been closed). Both would have shipped as confident, wrong prose.
+- **"Builder refusals are signal" undersells it — a refusal against an EXTERNAL fact must be
+  independently verified by the Director, not just weighed.** Both builders refused a brief
+  instruction and both were right; one refusal ("`thinking.budget_tokens` is a 400 on every model
+  this resolves") was a claim about a third-party API that the brief had asserted wrongly. Weighing
+  the builder's evidence is not enough there, because the Director wrote the wrong instruction from
+  the same stale prior. Reading the reference directly is what converted "the builder sounds
+  confident" into "the brief was wrong". Suggest step 6 gain: *when a refusal turns on an external
+  contract, verify it at the source before accepting OR overruling — the Director's prior is the
+  thing that produced the bad instruction.*
+- **A cross-lot failure report can name the wrong file, and the Director must diagnose rather than
+  route.** Lot B reported a red test and attributed it to Lot A's commit (plausible: that commit
+  renamed the symbol the test's subject is keyed on). The real cause was Lot B's own index changing
+  a query plan, exposing a latent missing tie-break. The method's "report the FILE it names" rule
+  worked exactly as designed — the report was honest and specific — but a builder can only see its
+  own write set, so **attribution across lots is Director work by construction.** Worth stating in
+  step 6 beside the existing rule.
+- **`git switch` can half-complete on Windows.** `unable to write symref for HEAD: Permission
+  denied` left the worktree and index holding the target branch's content while HEAD still pointed
+  at the wave branch — i.e. a staged revert of the entire wave, with no commits lost. `git branch -f
+  <base> <wave-tip>` lands a fast-forward without ever writing HEAD and is the safer form when the
+  merge is known to be a fast-forward. Phase B step 8 could name it as the fallback.
+
+## 2.5.2 - 2026-09-06 - tracklight (wave 2)
+
+- **Review the case the test suite does NOT cover — that is where a builder's blind spot lives.**
+  The wave-2 builder wrote nine tests, proved all ten of its falsifiability breaks, and still shipped
+  a defect, because every test it wrote exercised a matrix where the best target was *not* also the
+  cheapest. The Director found it by listing the test names, asking which outcome was missing, and
+  writing a throwaway probe that printed the output for that input. Cost: one probe test. Phase B
+  step 6 tells the Director to read the diff and re-measure headline numbers; it should also say
+  *enumerate the outcome space and probe the cell the tests skipped.* A builder's suite is evidence
+  about the cases it imagined.
+- **A safety disclosure can fail in the flattering direction, and that is harder to see than a
+  missing one.** The bug was not an absent caveat but a power caveat firing on the *strongest*
+  possible run — "this run could distinguish nothing" printed over a matrix that separated its
+  targets cleanly, because the dominated rows had been removed before the test walk and the only
+  remaining "test" was the best target against itself. Reviewers check whether a disclosure is
+  present; this one was present, correct-looking, and inverted. Worth a line in the direction-quality
+  bar: *a caveat that can fire when the underlying condition is absent is as wrong as a caveat that
+  never fires.*
+- **When a builder MODIFIES an existing test to accommodate its change, review that specific hunk
+  for weakening — it is the one edit that can silently delete a guard.** Here the modification was
+  legitimate and the test came out stronger (it gained `candidates_tested: 2`, a numeric p, and the
+  corrected alpha), but the Director had to read it to know that, and nothing in the method currently
+  says to. A builder that adjusts a test to make its own change pass is doing the single most
+  dangerous edit available to it.
+- **`git switch` failing is a transient environment condition, not a permanent one — retry it before
+  designing around it.** The `Permission denied` symref failure that forced `git branch -f` in wave 1
+  had cleared by wave 2, and the ordinary `git switch` + `git merge --ff-only` + `git branch -d`
+  sequence completed normally. But retrying it mid-session moves the worktree: `git switch main`
+  succeeded while `main` was two commits BEHIND the wave branch, so the frontier work vanished from
+  the tree until the merge ran. Both facts belong together in step 8 - *retry the clean form, and
+  expect the retry to change the tree.*
+
+## 2.5.2 - 2026-09-07 - tracklight (wave 3)
+
+- **A falsifiability break that does not change the file proves nothing — verify the DIFF, not just
+  the test result.** Both the builder and the Director hit this in one session, from opposite sides:
+  the builder reported one of its own breaks failing to turn a test red (and redid it rather than
+  moving on), and the Director ran a break whose string replacement silently no-opped, watched the
+  test "pass", and briefly had evidence for the opposite of the truth. The apply-then-revert check
+  this skill gained on 2026-09-06 needs one more clause: *confirm the file actually changed before
+  believing the run.* An assert on the replacement, or a `diff`, costs nothing and is the difference
+  between a proof and a coincidence.
+- **Phase B step 1's evidence spot-check earns its keep by changing the DESIGN, not just catching bad
+  line numbers.** The method sells that step as verifying the direction's load-bearing evidence
+  before dispatch. Here it did two better things: it found that one of the three suspected call sites
+  was safe *by construction* and must not be "fixed" (forcing the new type on it would have been the
+  wrong abstraction), and it found the data the fix needed was already persisted and being discarded,
+  turning an assumed schema change into no schema change at all. Worth saying in step 1 that the
+  spot-check is a design input, not only a fact-check — the direction note written a day earlier had
+  both of those wrong.
+- **When a builder modifies a test, check the test's NAME as carefully as its assertions.** Here a
+  renamed test (`paired_deltas_refuses_mismatched_case_sets`) turned out to have been asserting a
+  guard the function had never performed — the name made the same overstatement as the doc comment
+  that hid the bug for months, and anyone grepping for "is this checked?" would have found the name
+  and stopped. Renaming it was part of the fix, not cosmetic. The 2026-09-06 lesson said to review a
+  modified test hunk for weakening; add that a name can lie independently of its body.
+- **A shared render/presentation layer needs its own review pass when a claim gains new fields.** The
+  runner grew `caveats` on its `best` claim and the render layer silently dropped them, because its
+  significant branch returned early — so the strongest sentence the tool printed was the only one
+  that could not say what it rested on. The builder, correctly confined to its write set, compensated
+  with a `println` that reached one of three consumers. Phase B step 6 could ask: *when a diff adds a
+  field to a reported claim, does every renderer of that claim show it?*
+
+## 2.5.2 - 2026-09-07 - tracklight (wave 4)
+
+- **Running the thing finds a class of defect that reading it cannot, and the loop has no phase for
+  it.** Three waves of statistics landed with ~1600 green tests before anyone ran a benchmark. The
+  first live run immediately produced two directions no code review had proposed: an API that
+  accepted an invalid enum with a 200 and silently discarded it, and a scorecard that could not say
+  which part of the corpus was doing the work. `/perfect smoke` exists but is framed as *verification
+  of shipped surfaces*; what paid here was **running the product as a user would and watching what
+  it could not tell me**. Worth widening step `smoke` from "drive the routes we changed" to "use the
+  product for its actual purpose, and treat every question you had to answer by hand as a finding".
+- **An axis a caller cannot see is an axis nobody uses — check the machine-readable contract, not
+  just the code.** Two features shipped, worked, had tests and docs, and were absent from the JSON
+  Schema an agent receives. That absence is *why* the live run used an invalid value. When a wave
+  adds a field to a user-facing structure, the review should ask: where is the contract that tells a
+  caller this exists, and does it name the legal values? Cheap to check, and it fails silently by
+  construction — nothing errors when a schema merely omits something.
+- **The same tolerant-parse function serving a read path and a write path is a design smell worth
+  naming.** Degrading an unknown enum to a default is correct for deserializing stored rows
+  (forward compatibility) and wrong for accepting operator input (silent data loss). Here one
+  function did both, and the *obvious* fix — making it strict — would have destroyed the property the
+  earlier wave deliberately built. Naming that trap in the brief is what stopped it. Generalises:
+  **read-tolerant and write-strict are two jobs, and a codebase that shares one function between them
+  will eventually pick the wrong side.**
+- **A builder reporting that its own falsifiability break failed to turn anything red is the system
+  working, and the Director should have an answer ready.** Lot B flagged an untested call site inside
+  a function that needs live I/O. Rather than accept it as an open risk or demand an unreasonable
+  harness, the Director closed it *empirically* by running the product and observing the output. Worth
+  saying in step 6: when a builder reports untestable wiring, ask whether a live run can observe it
+  before filing it as a permanent risk.
+

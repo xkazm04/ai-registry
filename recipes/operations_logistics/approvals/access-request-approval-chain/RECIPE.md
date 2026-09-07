@@ -1,0 +1,141 @@
+---
+name: access-request-approval-chain
+version: 0.2.0
+status: seed
+domain: operations_logistics
+path: operations_logistics/approvals
+---
+
+# Access request approval chain
+
+The rendered view of [`recipe.json`](recipe.json). When the two disagree, the JSON is
+right and this file is stale.
+
+**Need.** A request nobody decided looks exactly like one that was denied, and the
+person waiting cannot tell which. Left alone, silence becomes the way privileged access
+gets granted, and the access that was granted has no end date, so every approved request
+quietly becomes permanent.
+
+**Input.** A captured and classified request, the approval levels the organisation uses,
+how long it has sat with its current approver, and what the requestor already holds.
+
+**Core action.** Carry each request to an explicit approved, denied or escalated verdict
+that names how long the access lasts, judge when a quiet approver has become an
+escalation, and hold high privilege for a person to say yes out loud while keeping that
+gate rare enough that they still read what reaches it.
+
+**Output.** Every request carries a recorded decision, a decider, a duration and the
+time it took, the granted access is confirmed to have landed with that duration on it,
+and nothing is pending without a stated reason.
+
+## Activities
+
+1. Watch requests in flight and how long each has sat with its current approver
+*(observe)*
+2. Put the request in front of the approver its privilege actually earns, with what the
+requestor already holds shown alongside it *(act)*
+3. Decide whether a quiet approver needs a nudge or has become an escalation *(decide)*
+4. Hold high privilege and sensitive requests for an explicit human decision *(decide)*
+5. Record the verdict, the decider, and the window the access was granted for *(act)*
+6. Confirm the access actually landed and carries the end date the verdict named *(act)*
+7. Tell the requestor where their request ended up and when it lapses *(deliver)*
+
+Linear and branch-free, by contract. This is the shape of the work, not a runbook.
+
+## Outcomes
+
+**No access request sits without a decision or a clear reason it is still pending.**
+
+- Every request reaches approved, denied or escalated within a window that matches its
+  urgency
+- An approver falling behind is nudged before the request runs out of time
+- A request that runs out of time escalates rather than silently expiring
+- A window with no requests at all is recorded as such, so a quiet queue is
+  distinguishable from a stalled chain
+
+**High privilege or sensitive access is never granted without an explicit human
+decision, and the gate stays narrow enough that the human still reads it.**
+
+- Admin level, production and sensitive resource requests always reach a human reviewer
+  regardless of other automation
+- No approval is ever inferred from silence
+- The share of requests reaching the human gate is reported, so a chain that escalates
+  everything is visible before approvers start approving without reading
+- What the requestor already holds is in front of the approver at the moment they decide
+- An approver who sends a request back as not theirs is recorded against that request's
+  privilege classification along with the level they named instead, so the next request
+  of that class is routed there rather than the misrouting showing up only as the time
+  the request took
+
+**No decision made here creates access that nothing will ever take away.**
+
+- Every approval names the period the access is granted for, and a request for permanent
+  access is a separate decision made deliberately
+- The granted access is confirmed to exist and to carry that end date, rather than the
+  approval being treated as the grant
+- A grant that could not be confirmed is reported as unconfirmed rather than closed as
+  approved
+
+## Guidance
+
+The yes and its end date are one decision, not two. An approval with no expiry is how a
+chain that works produces standing privilege nobody remembers granting. Keep the human
+gate narrow: an approver who sees everything stops reading everything, and a rubber
+stamp is worse than no gate because it looks like a control. Give the approver what the
+requestor already holds, since that is what they cannot see and what decides the answer.
+Silence is never approval.
+
+## Where this is worth adopting
+
+- A small platform team where the same three people approve everything, and the volume
+  has grown to the point where the honest description of the process is that they click
+  approve, which nobody will say out loud until an audit says it for them.
+- An organisation that has just written down access levels for the first time and now
+  has to route by them, where the chain will be tested by the first request that does
+  not fit any level cleanly.
+- A team preparing for a security review or a customer questionnaire that asks who
+  approved what and when, and discovering that the approvals live in chat threads and
+  the grants live in a console, with nothing joining them.
+- An incident window where someone needs production access in the next ten minutes, and
+  the choice is between a chain that is too slow to use and a shared credential that
+  leaves no record of who did what.
+- A company past its first year where a handful of long-serving people have accumulated
+  access nobody approved recently, because every grant the chain ever made was permanent
+  by default.
+
+## Connector types
+
+`messaging`.
+
+Types, never connectors. Adoption resolves each to any connector whose catalog
+`categories` include it, and the concrete knowledge lives in [`examples/`](examples/):
+[slack](examples/slack.md) for `messaging`.
+
+## Recommended trigger
+
+`self_paced`. Two conditions drive this work and neither is a clock: a request arriving
+with its first approver, and a request approaching the point where its approver has gone
+quiet. Watching both directly is more honest than a poll, and lets an urgent request be
+chased sooner without reconfiguring anything.
+
+A recommendation is a default, not a binding: the adopter assigns the real trigger at
+adoption or later.
+
+## Personalization needs
+
+- Which approval levels this organisation actually uses and who sits at each, since the
+  chain shape is a property of the org rather than a default
+- What counts as high privilege here, because that line is the only thing standing
+  between automation and an unreviewed grant, and drawing it too wide is as damaging as
+  drawing it too narrow
+- How long the adopter is willing to let a level hold a request before it is escalated,
+  which is a rhythm judgment not a constant
+- What the default duration of a grant is and whether permanent access is available at
+  all, because the recipe will not invent an expiry the organisation has not agreed to
+- Where the approval record lives and where the grant itself lives, because the two are
+  usually different systems and a decision that cannot be reconciled against the access
+  it produced is not evidence of anything
+
+## Dependencies
+
+None.

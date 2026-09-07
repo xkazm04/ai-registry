@@ -4,8 +4,8 @@
   "bundle": "game-production",
   "source": "knowledge/game-production/ (frontmatter only)",
   "subjects": 51,
-  "techniques": 319,
-  "applications": 136,
+  "techniques": 322,
+  "applications": 139,
   "laws": 13,
   "categories": [
    "systems-canon",
@@ -17,7 +17,7 @@
    "production-governance"
   ],
   "layout": "nested",
-  "use_when_coverage": "319/319",
+  "use_when_coverage": "322/322",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -1803,9 +1803,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/balance-validation/difficulty-design-and-adaptation/difficulty-design-and-adaptation.md",
-   "digest": "sha256:a9953289844e92f0",
-   "revision": 3,
-   "changedAt": "2026-08-29",
+   "digest": "sha256:b9c0c9190ed76ce2",
+   "revision": 4,
+   "changedAt": "2026-09-07",
    "techniques": [
     {
      "slug": "four-term-difficulty-decomposition",
@@ -1819,7 +1819,8 @@
       "a difficulty complaint has no agreed cause",
       "deciding which term a difficulty change should move",
       "writing down what a difficulty setting actually scales",
-      "a balance figure assumes a player nobody has described"
+      "a balance figure assumes a player nobody has described",
+      "the first pass at the tuning values was generated or specified rather than played"
      ]
     },
     {
@@ -1887,7 +1888,7 @@
      "stack": "node",
      "technique": "four-term-difficulty-decomposition",
      "file": "knowledge/game-production/balance-validation/difficulty-design-and-adaptation/applications/node--four-term-difficulty-decomposition.md",
-     "verified_on": "2026-08-22",
+     "verified_on": "2026-09-07",
      "verified_against": "node@24"
     }
    ]
@@ -3008,9 +3009,9 @@
    "subcategory": "sourcing-economics",
    "status": "forged",
    "file": "knowledge/game-production/asset-production/sourcing-economics/image-to-3d-input-gating/image-to-3d-input-gating.md",
-   "digest": "sha256:a2a699d4950daad8",
-   "revision": 1,
-   "changedAt": "2026-09-02",
+   "digest": "sha256:507623277514832d",
+   "revision": 2,
+   "changedAt": "2026-09-07",
    "techniques": [
     {
      "slug": "canonical-pose-rule",
@@ -3041,6 +3042,21 @@
      ]
     },
     {
+     "slug": "part-cut-planning",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity",
+      "a-budget-shapes-the-output"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a subject is too complex to reconstruct in one generation",
+      "deciding where to cut a character or creature into separately generated parts",
+      "part generations keep coming back fused or unusable at the joins",
+      "planning the reference set for a multi-part asset"
+     ]
+    },
+    {
      "slug": "reference-role-tagging",
      "status": "forged",
      "laws": [
@@ -3052,6 +3068,22 @@
       "handing more than one reference image to a reconstruction",
       "references are fighting each other",
       "deciding what a colour reference may and may not carry"
+     ]
+    },
+    {
+     "slug": "scene-partition-is-the-gated-unit",
+     "status": "forged",
+     "laws": [
+      "an-instrument-proves-it-had-input",
+      "a-verdict-is-bound-to-its-content",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "one source image is meant to yield several assets",
+      "gating a reconstruction that decomposes a scene into parts",
+      "a generated scene came back looking complete and something is missing from it",
+      "deciding what a scene-mode reconstruction gate actually judges"
      ]
     },
     {
@@ -3099,9 +3131,23 @@
    "applications": [
     {
      "stack": "node",
+     "technique": "part-cut-planning",
+     "file": "knowledge/game-production/asset-production/sourcing-economics/image-to-3d-input-gating/applications/node--part-cut-planning.md",
+     "verified_on": "2026-09-07",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
      "technique": "reference-role-tagging",
      "file": "knowledge/game-production/asset-production/sourcing-economics/image-to-3d-input-gating/applications/node--reference-role-tagging.md",
      "verified_on": "2026-08-30",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "scene-partition-is-the-gated-unit",
+     "file": "knowledge/game-production/asset-production/sourcing-economics/image-to-3d-input-gating/applications/node--scene-partition-is-the-gated-unit.md",
+     "verified_on": "2026-09-07",
      "verified_against": "node@24"
     },
     {
@@ -3358,9 +3404,9 @@
    "subcategory": "geometry",
    "status": "forged",
    "file": "knowledge/game-production/asset-production/geometry/mesh-finishing-for-engine-readiness/mesh-finishing-for-engine-readiness.md",
-   "digest": "sha256:a8939bf0bf242d90",
-   "revision": 1,
-   "changedAt": "2026-09-02",
+   "digest": "sha256:f3423260876a233d",
+   "revision": 2,
+   "changedAt": "2026-09-07",
    "techniques": [
     {
      "slug": "crease-angle-and-custom-normals",
@@ -3436,6 +3482,21 @@
      ]
     },
     {
+     "slug": "texture-pass-must-consume-the-bake",
+     "status": "forged",
+     "laws": [
+      "declaring-an-input-is-not-consuming-it",
+      "one-authority-per-quantity"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "sending a finished mesh to a generative texturing service",
+      "colour and surface detail disagree on a baked asset",
+      "deciding whether to texture before or after the bake",
+      "routing parts between texturing tools"
+     ]
+    },
+    {
      "slug": "unwrap-only-the-low-poly",
      "status": "forged",
      "laws": [
@@ -3456,6 +3517,13 @@
      "technique": "high-to-low-bake-coverage",
      "file": "knowledge/game-production/asset-production/geometry/mesh-finishing-for-engine-readiness/applications/node--high-to-low-bake-coverage.md",
      "verified_on": "2026-08-30",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "texture-pass-must-consume-the-bake",
+     "file": "knowledge/game-production/asset-production/geometry/mesh-finishing-for-engine-readiness/applications/node--texture-pass-must-consume-the-bake.md",
+     "verified_on": "2026-09-07",
      "verified_against": "node@24"
     },
     {
@@ -6293,6 +6361,7 @@
     "generative-provider-auditing/record-negative-benchmarks-in-place",
     "generative-provider-auditing/refuse-with-reason-not-greyed-out",
     "image-to-3d-input-gating/canonical-pose-rule",
+    "image-to-3d-input-gating/scene-partition-is-the-gated-unit",
     "image-to-3d-input-gating/score-defect-verdict-protocol",
     "image-to-3d-input-gating/single-subject-plain-background",
     "judgeable-spec-authoring/register-discipline-in-a-spec",
@@ -6437,6 +6506,7 @@
     "generative-provider-auditing/never-the-account-default",
     "generative-provider-auditing/pin-a-model-per-asset-class",
     "image-to-3d-input-gating/multi-view-master-reference",
+    "image-to-3d-input-gating/part-cut-planning",
     "image-to-3d-input-gating/reference-role-tagging",
     "judgeable-spec-authoring/enumeration-closure-as-arithmetic",
     "judgeable-spec-authoring/interpolated-counts-over-typed-counts",
@@ -6445,6 +6515,7 @@
     "learning-curve-and-teaching-design/skill-atom-inventory",
     "mesh-finishing-for-engine-readiness/crease-angle-and-custom-normals",
     "mesh-finishing-for-engine-readiness/rig-preset-and-bone-remap-binding",
+    "mesh-finishing-for-engine-readiness/texture-pass-must-consume-the-bake",
     "motion-quality-gating/genre-response-latency-norms",
     "playtest-signal-to-defect/complaint-to-owning-subject-routing",
     "procedural-level-planning/seed-determinism-contract",
@@ -6805,6 +6876,7 @@
     "aaa-craft-rubric-authoring/deliberately-overlapping-criteria",
     "adaptive-music-authoring/intensity-mapping-from-declared-game-state",
     "branching-narrative-graph-validation/reachability-and-orphan-detection",
+    "image-to-3d-input-gating/scene-partition-is-the-gated-unit",
     "playtest-signal-to-defect/repro-minimization-protocol",
     "playtest-signal-to-defect/session-instrumentation-contract",
     "playtest-signal-to-defect/unreproducible-is-a-state-not-a-dismissal",
@@ -6831,6 +6903,7 @@
     "generative-artifact-gating/generation-history-as-artifact",
     "generative-artifact-gating/grade-the-selected-candidate",
     "image-to-3d-input-gating/multi-view-master-reference",
+    "image-to-3d-input-gating/scene-partition-is-the-gated-unit",
     "learning-curve-and-teaching-design/time-to-competence-measurement",
     "motion-quality-gating/filmstrip-sampling-discipline",
     "playtest-signal-to-defect/session-instrumentation-contract",
@@ -6887,6 +6960,7 @@
    "statement": "A field a producer fills and no consumer ever reads is, from the producing side, indistinguishable from one that governs everything downstream: it validates, it round-trips, it appears in the schema, and the artifact carrying it looks configured. From the consuming side it does not exist. So the question a pipeline must be able to answer about every declared input is not whether something wrote it but whether something *reads* it — a census of readers, never of writers — and an input with no reader is reported as ignored at the moment it is declared, not discovered later by whoever trusted it. A generator states which of its declared parameters the selected algorithm actually consumes; an authored vocabulary is audited in both directions, for names referenced but never declared and for names declared but never referenced; and a constraint stored as prose in a field no checker parses is worse than an absent one, because absence is visible and prose reads as authored. This is the mirror of the rule that compiling is not wiring: that one governs a produced artifact nothing can reach, this one governs a declared input nothing consults, and they are the same disease at opposite ends of the pipe.",
    "techniques": [
     "ability-authoring-to-engine/declared-vs-referenced-tag-audit",
+    "mesh-finishing-for-engine-readiness/texture-pass-must-consume-the-bake",
     "procedural-level-planning/declare-what-each-engine-ignores"
    ]
   },
@@ -6939,6 +7013,7 @@
     "gameplay-runtime-patterns/pattern-selection-by-force-present",
     "generative-provider-auditing/arena-benchmark-protocol",
     "generative-provider-auditing/pin-a-model-per-asset-class",
+    "image-to-3d-input-gating/part-cut-planning",
     "image-to-3d-input-gating/text-is-never-geometry",
     "learning-curve-and-teaching-design/teaching-escalation-ladder",
     "motion-quality-gating/montage-budget-and-root-motion-lint",

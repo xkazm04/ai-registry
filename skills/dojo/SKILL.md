@@ -4,7 +4,7 @@ description: "Autonomous infinite training loop for media-generation craft: each
 argument-hint: "[run|status|reflect] [--fixture] [--resume <cycle-id>]"
 category: ai-native
 memory: project
-version: 1.2.2
+version: 1.3.0
 tags: training, media-generation, ab-testing, judge, foundry, loop, craft
 allowed-tools: Read, Write, Edit, Bash, PowerShell, Glob, Grep, Monitor, WebSearch, Agent
 ---
@@ -126,6 +126,21 @@ A live deviation the loop's only instrument cannot measure (a schema gap, a
 cross-frame property under a still-image A/B) is a standing blind spot; name it
 and pass.
 
+**Count the parked backlog before you plan, and report it every cycle.** The
+loop never waits on the human, but the human is a resource with a capacity and
+this loop has no backpressure: parked cycles accumulate whether or not anyone
+is gating them. When the count is high and nothing has been gated in a while,
+say so at the TOP of your report rather than in a footnote — the marginal value
+of parked cycle N+1 falls as N grows, because every one of them is waiting on
+the same scarce act. It is still not a reason to stop generating evidence, but
+it IS a reason to prefer, in this order: a cycle that answers a question no
+human verdict is needed for (a measurement, a probe with pre-registered
+branches); a cycle on a subject with NO parked cycle yet; then anything else.
+A reflection branch left unmerged counts as backlog too — check that the shas
+in the ledger's `reflected` field are actually ancestors of the main branch,
+because a row reading `reflected: <sha>` looks identical whether that commit is
+live or has been sitting on a review branch for a week.
+
 ### Phase 2 — Research
 
 Banked leads first: `librarian/subjects/media-generation/*.md` "Open leads"
@@ -136,6 +151,15 @@ subject; never re-implement its lanes here.
 The output of this phase is exactly one candidate technique with a **falsifiable
 claim**: *when X, do Y, because Z*. A technique that cannot lose its A/B is not
 a technique, it is a preference — send it back.
+
+A banked lead that asks for a MEASUREMENT rather than an improvement (a probe
+with pre-registered branches) is not a mismatch for the pairwise instrument —
+it collapses into one experiment when the **baseline arm is what the pipeline
+does today**. Then the baseline arm alone is the probe, the challenger makes it
+a pair, and the two answers are consistent by construction: the branch the
+probe lands in predicts whether the challenger can win at all. Prefer this
+shape, because it discharges a fleet-level lead and a repo-level A/B for one
+render budget.
 
 ### Phase 3 — Plan
 
@@ -175,8 +199,16 @@ job holds the card. Never force-recycle another job's engine. Two loops on one
 card is an interlock problem, not a convention problem; the safety rail below is
 the convention and this check is the interlock. Diagnostic rule while polling:
 **a unit taking more than 3x its measured per-unit time is contention, not a
-bad seed** — re-check the owner instead of waiting out the timeout. When the
-card is contended rather than absent, `--fixture` still exercises the protocol.
+bad seed** — re-check the owner instead of waiting out the timeout. But check
+the owner FIRST and believe the answer: when no foreign job holds the engine
+and the log shows the guard recycling between EVERY unit, the bottleneck is
+host memory, not a neighbour, and the two have opposite remedies. Saturation
+re-bases the per-unit budget (a recycle-per-unit box runs at roughly 1.5-2x its
+measured alone-rate) and no amount of waiting or re-checking improves it; a
+failure arriving seconds after a fresh recycle that just freed tens of GB is
+NOT a free-RAM problem and chasing the number at the moment of death will burn
+a window. When the card is contended rather than absent, `--fixture` still
+exercises the protocol.
 
 Track `fail_streak` on the manifest; the breaker trips at **3** consecutive
 failures -> `status: "failed"`, stop the cycle, move on next wake. `failed` means
@@ -213,7 +245,14 @@ Set `status: "awaiting-gate"`, write the cycle log line, then loop to Phase 1
 for the next cycle. **A cycle with zero complete duos never parks for a human**,
 however it got there: with no pairs there is no thumbnail and no pick rate, and
 an empty cycle in the tab risks a fabricated row in the cross-machine ledger.
-It stays `failed` with its log. Human gating happens in the app (Foundry -> Dojo; K approve
+It stays `failed` with its log. **And a cycle whose claim is a pre-registered
+roster does not park on a partial one**, even with duos to show: when the plan
+fixed which cells decide which branch, a run missing those cells cannot answer
+it, and the cells that die are disproportionately the expensive ones the branch
+turns on. Ask what the surviving duos can conclude, not how many there are —
+three complete duos that all sit on the easy half of the range are a partial
+answer, and a partial answer entering the cross-machine ledger is worse than a
+`failed` row, because the next session reads the ledger as settled. Human gating happens in the app (Foundry -> Dojo; K approve
 / X reject / U clear). Commit from the tab is **destructive**: one tracked
 thumbnail per approved improvement survives; undecided media is preserved until
 someone decides. The loop NEVER waits here — parked cycles accumulate, and

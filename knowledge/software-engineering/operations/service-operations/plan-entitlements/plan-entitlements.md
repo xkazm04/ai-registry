@@ -11,6 +11,9 @@ techniques:
   - entitlement-lifecycle-revocation
   - price-book-authority
   - deployment-mode-short-circuit
+  - provider-publishes-state-not-decision
+  - inherited-tier-not-cloned-tier
+  - subtractive-entitlement
 ---
 
 # Plan entitlements
@@ -280,3 +283,12 @@ gets tuned by whoever is least informed.
 - [deployment-mode-short-circuit](./techniques/deployment-mode-short-circuit.md)
   — declaring what a deployment sells, and short-circuiting capability gates
   in the modes that sell operation.
+- [provider-publishes-state-not-decision](./techniques/provider-publishes-state-not-decision.md)
+  — when the limit vocabulary is operator data served to a third party, publish
+  the value and its declared type; the consumer owns the enumerated decision.
+- [inherited-tier-not-cloned-tier](./techniques/inherited-tier-not-cloned-tier.md)
+  — price overrides copy, capability overrides inherit; a record carrying both
+  cannot express the difference.
+- [subtractive-entitlement](./techniques/subtractive-entitlement.md)
+  — inherited, overridden and removed are three states; an override equal to
+  the inherited value is a coincidence, not a decision.

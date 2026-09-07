@@ -1,0 +1,136 @@
+{
+  "id": "555079dd-836b-532f-a6ad-802a6c1cfdd7",
+  "slug": "survey-response-theme-and-sentiment-analysis",
+  "title": "Survey response theme and sentiment analysis",
+  "version": "0.2.0",
+  "status": "seed",
+  "path": "product_project/customer-feedback",
+  "domain": "product_project",
+  "description": {
+    "need": "Feedback read one batch at a time turns a loud response into a trend and a quietly recurring one into nothing, and a thin batch read eagerly produces a confident conclusion the data cannot carry. The failure that passes for analysis is subtler than either: responses get sorted into buckets named after the nouns they mention, pricing, support, onboarding, and the result is a tidy chart in which nobody has said anything.",
+    "input": "New responses since the last read, the questions they answered, who was asked and who replied, and the rolling baselines for themes, sentiment and score history across prior periods.",
+    "core_action": "Build themes around a shared meaning rather than a shared word, weigh a theme by what it would change and not only by how many raised it, and refuse to conclude when the batch is too thin or too narrow to support one.",
+    "output": "A read on themes, sentiment and score movement against this account's own history, with anomalies separated from ordinary variance, each theme carrying its evidence, and the limits of the sample named rather than implied."
+  },
+  "activities": [
+    {
+      "id": "collect",
+      "label": "Collect responses since the last read and normalise them against the questions asked",
+      "kind": "observe"
+    },
+    {
+      "id": "gate-volume",
+      "label": "Judge whether this batch can support a conclusion at all, on who it covers as well as how many replied",
+      "kind": "decide"
+    },
+    {
+      "id": "read-themes",
+      "label": "Code the responses and build themes around a shared meaning rather than a shared word",
+      "kind": "decide"
+    },
+    {
+      "id": "compare",
+      "label": "Compare against rolling baselines from several prior periods, not only the last one",
+      "kind": "decide"
+    },
+    {
+      "id": "flag",
+      "label": "Flag the anomalies, and route high ambiguity or a schema mismatch to a person",
+      "kind": "act"
+    },
+    {
+      "id": "hand-off",
+      "label": "Hand over the analysis with its evidence, its confidence and what it could not see",
+      "kind": "deliver"
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "themes-carry-meaning-not-vocabulary",
+      "statement": "A theme names something people are saying, not a word they used.",
+      "success_criteria": [
+        "Each theme is stated as a claim somebody could disagree with, and carries the responses it was built from so a reader can check it.",
+        "A theme is weighed by what changing it would fix as well as by how many raised it, so a specific complaint from a few is not automatically outranked by a vague one from many.",
+        "Reading the same responses again produces the same theme set, because a theme set that shifts between passes cannot support a trend.",
+        "When a reader splits a theme, merges two, or pulls responses out of one, that recoding is stored with the theme's evidence and the trailing baselines are restated under it, because a frame that reproduces faithfully reproduces a wrong frame just as faithfully, and a recode nobody wrote down surfaces in the next comparison as a movement in the world."
+      ]
+    },
+    {
+      "id": "a-shift-is-told-apart-from-noise",
+      "statement": "A real move in theme, sentiment or score is caught against this account's own history rather than against a universal bar.",
+      "success_criteria": [
+        "Results are compared against several trailing periods, not only the immediately prior one.",
+        "A theme rising across periods is distinguishable from one that was loud in a single batch.",
+        "The first pass says it is establishing the baseline instead of reporting a change against nothing."
+      ]
+    },
+    {
+      "id": "the-read-declines-what-it-cannot-support",
+      "statement": "The analysis never ships a conclusion the responses did not carry.",
+      "success_criteria": [
+        "Below the volume the adopter set, responses are held rather than producing a thin read, and what is held survives to the next pass rather than being recollected from scratch.",
+        "A batch that is large but narrow, where the respondents are known to differ from the population, is reported as a read of those respondents rather than of everybody.",
+        "High ambiguity or a mismatch between the responses and the questions routes to a person before the analysis is handed on, not after.",
+        "A sentiment or score movement on a sample too small to support it is reported as a count of responses rather than as a number that moved."
+      ]
+    }
+  ],
+  "guidance": "Read for themes, not for scores. A theme is a pattern of shared meaning, not a bucket of responses that happen to mention the same noun, and grouping by noun is the version of this work that looks finished and says nothing. Volume is a floor and not a licence: five hundred replies from the same self selecting fifth is a confident read of that fifth. Compare against several prior periods, and name a thin or skewed sample as thin rather than reporting a number from it.",
+  "use_cases": [
+    "A product team reading a channel of open text feedback that has outgrown anyone's ability to read it all, where the risk is not missing a complaint but mistaking the loudest week for a trend.",
+    "A company whose satisfaction score moved two points and whose next decision depends on whether that is a signal, when the sample was forty replies and the score bucketing threw away most of what they said.",
+    "A team running continuous feedback rather than periodic surveys, where responses arrive a handful at a time and every individual batch is too thin to conclude anything on its own.",
+    "A research function that has been producing theme charts for a year and cannot tell whether the themes are stable or the coding drifted, because nothing checked that the same responses would be coded the same way twice.",
+    "Any account where the people who answer are a known subset, power users, angry churners, a single large customer, and the value of the analysis depends entirely on saying so before anybody generalises from it."
+  ],
+  "connector_types": [
+    "database"
+  ],
+  "recommended_trigger": {
+    "kind": "self_paced",
+    "rationale": "A fixed daily schedule conflicts with the recipe's own volume rule, since it wakes to find nothing to do on most days and then runs anyway on the day the buffer is one response short. Act when enough new responses have accumulated to say something the last pass could not, which is a judgment about signal and coverage rather than a count on a clock."
+  },
+  "personalization_needs": [
+    "Where the responses live and what the questions were, because a theme only means something against the question that was asked, and a question that changed mid period breaks the comparison silently.",
+    "Who was asked and who actually answers, because the gap between those two is what decides whether any conclusion can be generalised, and no amount of volume closes it.",
+    "Which respondents count for more, since the same complaint from a trial user and a paying one deserves different weight.",
+    "What counts as enough to conclude anything here, because the configured minimum is a floor and the real answer depends on how varied the population is and whether new themes are still appearing."
+  ],
+  "dependencies": [],
+  "input_schema": [
+    {
+      "name": "min_responses_for_analysis",
+      "type": "number",
+      "default": 10,
+      "min": 5,
+      "max": 500,
+      "description": "The floor below which responses are held rather than analysed. Ten is roughly where common codes stop appearing for the first time and well below where a rich reading settles, so treat it as the point at which analysis becomes possible and not the point at which it becomes reliable."
+    },
+    {
+      "name": "trend_comparison_periods",
+      "type": "number",
+      "default": 4,
+      "min": 2,
+      "max": 52,
+      "description": "How many prior periods the rolling comparison reads. Two periods can only tell you the last one differed; the point of more is telling a rising theme from a loud week."
+    }
+  ],
+  "examples": [
+    {
+      "title": "The built-in database as the response store and the baseline store",
+      "connector": "personas_database",
+      "connector_type": "database",
+      "notes": "See examples/personas_database.md."
+    }
+  ],
+  "lessons": [],
+  "provenance": {
+    "from_recipes": [
+      "555079dd-836b-532f-a6ad-802a6c1cfdd7"
+    ],
+    "from_templates": [
+      "survey-insights-analyzer"
+    ],
+    "source_template_id": "survey-insights-analyzer"
+  }
+}

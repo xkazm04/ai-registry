@@ -1,0 +1,148 @@
+---
+name: decision-to-code-linking
+version: 0.2.0
+status: seed
+domain: software_engineering
+path: software_engineering/engineering-records
+---
+
+# Decision record to code linking
+
+The rendered view of [`recipe.json`](recipe.json). When the two disagree, the JSON is
+right and this file is stale.
+
+**Need.** A decision record that cannot be traced to the change that implemented it
+becomes a document nobody trusts, and a change that quietly contradicts a standing
+decision is invisible. The tempting shortcut makes both worse: a keyword match produces
+a coincidental link that is confidently wrong, and one of those poisons every other link
+in the set. Meanwhile the evidence that would settle it is created for free at the
+moment the work is done, in the commit and the change request, and nobody has to
+maintain it afterwards.
+
+**Input.** The decisions still unlinked, repository activity in the areas each of them
+governs, the change requests and commits that accompanied that activity, and the
+candidate links already rejected.
+
+**Core action.** Decide first whether a decision is even the kind that leaves a trace in
+code, then confirm a candidate link before recording it, because a wrong link is worse
+than a missing one, and tell a change that implements a decision apart from one that
+works against it.
+
+**Output.** Confirmed links written on both records, decisions that leave no code trace
+by their nature marked as such rather than as unimplemented, decisions genuinely
+unimplemented after a long gap reported with the areas that were searched, and
+contradictions raised rather than absorbed.
+
+## Activities
+
+1. Decide whether this decision is the kind that leaves a trace in code *(decide)*
+2. Watch repository activity in the areas the decision governs *(observe)*
+3. Collect the changes that may implement or contradict it *(observe)*
+4. Decide whether a candidate implements the decision or works against it *(decide)*
+5. Have the link confirmed before it is recorded *(deliver)*
+6. Write the confirmed link on both records, and report what stayed unlinked *(act)*
+
+Linear and branch-free, by contract. This is the shape of the work, not a runbook.
+
+## Outcomes
+
+**A recorded decision can be traced to the change that implemented it, from either
+end.**
+
+- A link is confirmed before it is recorded and is never inferred from a keyword match
+  alone, because one confidently wrong link costs more trust than ten missing ones.
+- The link is written on both records, so a reader arriving at the decision and a reader
+  arriving at the code each find the other.
+- The evidence preferred is the record created at the moment the work was done, which is
+  the commit or the change request, rather than a note added inside the code, because
+  the first exists whether or not anybody maintains it and the second does not.
+- A candidate the confirmer rejects is kept with what had made it look right, so a later
+  pass can tell a coincidence it has already been caught by from one it has not, and
+  rejections concentrated in one area are read as the matching being too loose in that
+  area rather than as that area having nothing to link.
+
+**The absence of a link means something specific, and the report says which of the
+possible things it means.**
+
+- A decision of a kind that leaves no trace in code, such as a principle, a deployment
+  or process choice, or a decision not to do something, is marked as not linkable to
+  code rather than reported as unimplemented.
+- A decision that is genuinely of the linkable kind and still has no implementing change
+  after a long gap is reported as unimplemented, naming the areas that were searched.
+- A pass names the decisions it could not judge, because failing to notice its own
+  insufficient evidence is the most common way this work produces a wrong answer
+  confidently.
+- A candidate sweep that returned only part of the activity says so, since a partial
+  sweep finding nothing looks exactly like a decision that was never implemented.
+
+**A change that works against a standing decision surfaces as a contradiction instead of
+being filed as evidence for it.**
+
+- A candidate that works against a decision is raised as a contradiction and never
+  attached to that decision as support.
+- A supersession is recorded on both records, because a link written on one side only is
+  a sign the record was written by hand and the other side will be found by nobody.
+- The status field is not treated as evidence of currency on its own, since in most
+  corpora nearly every record says accepted and the field therefore separates nothing.
+
+## Guidance
+
+A wrong link is worse than a missing one, so confirm before recording and never take a
+keyword match as evidence. Prefer the record that exists because the work was done, the
+commit or the change request, over a note somebody would have to maintain in the code.
+Code arrives days or weeks after the decision, so this is a cursor rather than a moment.
+And a decision about a principle or about how things are deployed may leave no trace,
+which is not the same as unimplemented.
+
+## Where this is worth adopting
+
+- A team six months into keeping decision records, where nobody has ever opened one
+  while writing code, because there is no path from the file being edited to the
+  decision that governs it.
+- A handover or an audit, where the question is which recorded decisions were actually
+  built and the only honest answer today involves reading every change made since.
+- A codebase where a standing decision has been reversed by a series of individually
+  reasonable changes, none of which mentioned it, while the record still reads as
+  current.
+- A corpus in which nearly every record says accepted, so a reader has no way to tell a
+  live decision from one the code abandoned years ago.
+- A project keeping its decisions outside the repository in a wiki or a chat history,
+  where a recorded link is the only thing that could reconnect them and nobody is going
+  to add it by hand.
+
+## Connector types
+
+`knowledge_base`, `source_control`.
+
+Types, never connectors. Adoption resolves each to any connector whose catalog
+`categories` include it, and the concrete knowledge lives in [`examples/`](examples/):
+[github](examples/github.md) for `source_control`, [obsidian](examples/obsidian.md) for
+`knowledge_base`.
+
+## Recommended trigger
+
+`self_paced`. This is deliberately not driven by the decision being accepted. At the
+moment a decision is agreed the implementing code usually does not exist yet, so a
+trigger on acceptance fires at exactly the wrong time and records nothing. Watch
+repository activity in the areas a decision governs and advance a cursor across passes,
+so the work happens when the evidence appears rather than when the decision did.
+
+A recommendation is a default, not a binding: the adopter assigns the real trigger at
+adoption or later.
+
+## Personalization needs
+
+- Which repositories a decision can plausibly show up in, because searching everything
+  produces coincidental matches and that is the failure that makes a whole link set
+  untrustworthy.
+- How this operation refers to a decision in commit messages or change requests, if at
+  all, because where there is no convention the work has to link by area and content and
+  should say it is doing so rather than claim a precision it does not have.
+- Which kinds of decision this operation makes that are not expected to appear in code
+  at all, so those are classified once rather than reported as unimplemented forever.
+- How long is long enough to count as unimplemented here, since that gap is the pace of
+  this team and not a property of decisions.
+
+## Dependencies
+
+None.

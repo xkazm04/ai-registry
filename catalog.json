@@ -122,15 +122,15 @@
     },
     {
       "name": "dojo",
-      "version": "1.2.2",
+      "version": "1.3.0",
       "category": "ai-native",
       "path": "skills/dojo/SKILL.md",
-      "contentHash": "sha256-n1:c5b1379732e4a513",
+      "contentHash": "sha256-n1:a03ee55d9e186c58",
       "adopters": [],
       "invokes30d": 0,
-      "lessons": 4,
+      "lessons": 6,
       "lessonsPath": "skills/dojo/LESSONS.md",
-      "lessonsHash": "sha256-n1:0ea97ac23134a96f",
+      "lessonsHash": "sha256-n1:9958e04d3a346667",
       "usageContributors": []
     },
     {
@@ -303,9 +303,9 @@
         "systedo-case@plugin:2.3.0"
       ],
       "invokes30d": 46,
-      "lessons": 18,
+      "lessons": 23,
       "lessonsPath": "skills/perfect/LESSONS.md",
-      "lessonsHash": "sha256-n1:5e410f613364fb3f",
+      "lessonsHash": "sha256-n1:29d17d5724cbc8b0",
       "usageContributors": [
         "kazda-dev-box"
       ]
@@ -409,9 +409,9 @@
         "personas@plugin:1.0.0"
       ],
       "invokes30d": 6,
-      "lessons": 15,
+      "lessons": 16,
       "lessonsPath": "skills/spark/LESSONS.md",
-      "lessonsHash": "sha256-n1:f3bb2cd38726fa7d",
+      "lessonsHash": "sha256-n1:04460596dbc36a34",
       "usageContributors": [
         "kazda-dev-box"
       ]
@@ -636,7 +636,7 @@
     "skills": 30,
     "practices": 8,
     "memory": 6,
-    "lessons": 155
+    "lessons": 163
   },
   "bundles": [
     {
@@ -660,10 +660,10 @@
       "profile": "rkb/0.1",
       "purity": "game",
       "subjects": 51,
-      "techniques": 319,
-      "applications": 136,
-      "files": 510,
-      "contentHash": "sha256:24b11253b1673c9d"
+      "techniques": 322,
+      "applications": 139,
+      "files": 516,
+      "contentHash": "sha256:c4ca56bd1472d91e"
     },
     {
       "name": "grant-funding",
@@ -686,10 +686,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 17,
-      "techniques": 111,
-      "applications": 62,
-      "files": 195,
-      "contentHash": "sha256:52ee771450f099a1"
+      "techniques": 115,
+      "applications": 63,
+      "files": 200,
+      "contentHash": "sha256:6f32003fc2f81a6e"
     },
     {
       "name": "localization",
@@ -712,10 +712,10 @@
       "profile": "rkb/0.1",
       "purity": "media",
       "subjects": 20,
-      "techniques": 134,
-      "applications": 62,
-      "files": 221,
-      "contentHash": "sha256:9efa0fd998362c58"
+      "techniques": 135,
+      "applications": 63,
+      "files": 223,
+      "contentHash": "sha256:dcd44a26c9d758f8"
     },
     {
       "name": "recruiting",
@@ -737,11 +737,11 @@
       "okfVersion": "0.1",
       "profile": "rkb/0.1",
       "purity": "software",
-      "subjects": 219,
-      "techniques": 1632,
-      "applications": 964,
-      "files": 2820,
-      "contentHash": "sha256:0125039ea649b00a"
+      "subjects": 227,
+      "techniques": 1680,
+      "applications": 1004,
+      "files": 2916,
+      "contentHash": "sha256:ea8f312d07dc12ce"
     }
   ]
 }

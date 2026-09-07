@@ -35,6 +35,17 @@
  * hardest — the same idea is filed under the vocabulary of whichever domain forged it.
  * Use `--prose` before believing any empty, and always before proposing a new subject.
  *
+ * And do not key that habit on EMPTINESS, which is the narrower reading this comment
+ * used to invite: neither measured failure was empty. The 2026-08-31 case returned six
+ * subjects; a paired run on 2026-09-06 asked for "shared custody" - a phrase carried in
+ * the BODY of `integration/markdown-vault` and of `llm-agent/companion/companion-identity`
+ * and in no slug or use_when anywhere - and this index returned FORTY confident rows
+ * with the owning subject in none of them, where the same query under `--prose` put it
+ * at two. The projection drops the body, so a concept that lives only in prose is
+ * unreachable through this index by any query, and the result set stays full while it
+ * happens. A long list of plausible neighbours is therefore not evidence that the
+ * corpus lacks the concept; it is the shape the blind spot actually takes.
+ *
  * Matching is over slugs and law statements, deliberately. Slugs in this corpus are
  * descriptive noun phrases, so token overlap is a decent recall signal at zero cost;
  * `--deep` additionally reads each concept document's `use_when` frontmatter, which
@@ -482,3 +493,13 @@ for (const r of results) {
 
 console.log('\nNOT answered here: whether any hit actually SAYS the same thing, or says something wrong.');
 console.log('Slug overlap puts you in the neighbourhood. Read the file before writing a correction against it.');
+console.log(
+  'NOT answered here either: whether a subject this list OMITS owns the concept. Matching is over slugs, law'
+);
+console.log(
+  'statements' +
+    (deep ? ', use_when' : '') +
+    (prose ? ' and document BODIES.' : ' and NOT document bodies.') +
+    ' A full result set is not an absence proof - re-run with --prose'
+);
+console.log('before concluding the corpus lacks something.');

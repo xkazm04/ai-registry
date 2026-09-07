@@ -51,6 +51,86 @@ stronger items over more, weaker ones**: past a modest count, each addition
 degrades attention on all the others, so marginal recall is negative well
 before the budget is technically full.
 
+### Where a scoped call still ships an unscoped tier
+
+The three tiers above assume each one's selection logic was *chosen*. The
+failure worth naming is the one where a tier's logic is **inherited** — and the
+tier that inherits is always the cheap one.
+
+A caller that asks for a bundle about named subjects — a session-opening pack, a
+rehydration after compaction — states a scope, and reasonably expects the whole
+envelope to honour it. The expensive arm does: cards are built per named
+subject, because building them requires the name. The cheap arm often does not,
+because there was already a helper that returned recent items with the
+visibility rules and the cache key correct, and reusing it was free where
+threading the scope through would have meant a second query path. So the bundle
+returns tightly-scoped cards beside items selected by nothing but recency, in
+one block, under one heading the consumer reads as answering its request.
+
+Two consequences, and the second is the one that bites later:
+
+- **The least-filtered content arrives in the most-trusted envelope.** A scoped
+  request is exactly the context in which a reader stops asking where an item
+  came from. An unscoped arm is more dangerous inside a scoped bundle than it
+  would be on its own.
+- **A recency window is not governance, and it is the first thing to be
+  swapped.** What keeps such an arm survivable is usually a bound like "the last
+  day" — not retirement, not relevance, just a clock. Re-keying that arm to
+  something more useful-sounding, a session or a conversation, is a small and
+  attractive change that silently removes the only bound the tier had: a caller
+  that reuses one session identifier for a week now has a week of unfiltered
+  items constitutionally present.
+
+The check is per arm, not per bundle: for every tier a bundle emits, name the
+predicate that selected it and confirm the caller's scope reached that
+predicate. A bundle is only as scoped as its loosest arm, and its heading claims
+otherwise.
+
+### The query is not the question
+
+The relevance tier is selected against "the current task and query", and the
+query is almost always the user's sentence, handed to the matcher whole. That
+sentence carries two different things: **what is being asked about, and how the
+answer should be presented.** Only the first is a retrieval key. The second —
+*list the steps in order*, *tell me briefly*, *walk me through* — is an
+instruction to the answerer, and it is not merely inert noise, because a memory
+store is written in the same register as the requests that produced it. The
+presentation words match real bodies, and they match them *well*.
+
+Measured on a year-long replay: "How do we do an invoice for project atlas?
+List the steps in order" put `list`, `steps` and `order` into the keyword
+query, where they matched the body of a rule reading "execute the steps in
+order" — a rule about a **different project**. That single rule took the top
+slot on all ten procedure probes whatever project each asked about, and with
+three slots in the tier the correct rule sat at rank four and was never seen.
+
+Two independent repairs, worth landing together because they fail differently:
+
+- **Strip answer-shape terms from the query**, as a list distinct from
+  stopwords: stopwords carry no meaning anywhere, these carry meaning about the
+  *request*. Drop them only when a subject survives — a question that is nothing
+  but framing still has to search for something, and an empty query turns the
+  tier off for that call. This is a fixed vocabulary and will miss phrasings.
+- **Re-rank candidates on rarity within the candidate set, not within the
+  corpus.** Corpus-frequency weighting (BM25 and its relatives) is the wrong
+  denominator once a lane is already narrowed to one kind and one query: every
+  candidate matched *something*, and the live question is which of them matched
+  the part that distinguishes it. A term present in every candidate cannot be
+  the subject; a term present in one — the project name — almost certainly is.
+  Over-fetch a small multiple, weight each query term by `1 − df/n` over the
+  candidates, order by covered weight with the original rank breaking ties, and
+  the re-rank can promote nothing a wider limit would not have returned. This
+  needs a distinguishing term to exist in the text, which is why the two
+  repairs are complementary.
+
+**Do not expect the other tiers to cover for this.** The always-include tier
+looks like a safety net and is not, whenever its ordering key is effectively
+constant: rank by importance-then-recency while every automatically written
+item shares one importance, and the tier degenerates to "the most recent N",
+which is blind to the subject by construction. Nor does a stored scope
+necessarily help — a scope that names a coarse category rather than the thing
+the user asked about cannot separate two items in the same category.
+
 ## Packing: whole items, skip don't stop
 
 Once candidates are ranked, they must be fitted into the budget, and the

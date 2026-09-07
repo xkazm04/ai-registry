@@ -11,6 +11,7 @@ techniques:
   - pair-and-baseline-selection
   - diff-honesty
   - invisible-differences
+  - baseline-species-degradation
 ---
 
 # Diff & comparison surfaces
@@ -34,6 +35,9 @@ owner, not a default that fell out of the data:
 1. **What pair?** — which two states are compared, and who chose the
    baseline ([pair-and-baseline-selection](./techniques/pair-and-baseline-selection.md)).
    Swapping the baseline silently swaps the question the diff answers.
+   When the chosen species does not exist for a whole class of objects,
+   the surface descends a declared ladder and renames the question it is
+   answering ([baseline-species-degradation](./techniques/baseline-species-degradation.md)).
 2. **At what level?** — bytes, lines, fields, or domain semantics
    ([semantic-level-selection](./techniques/semantic-level-selection.md)).
    A structured entity diffed as text produces noise; noise trains readers

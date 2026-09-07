@@ -9204,3 +9204,874 @@ into `dispatched` as a value rather than a count. Not applied: it is a schema
 change to 200+ existing notes' vocabulary and belongs to whoever next touches
 the note format.
 
+## v2.5.0 - 2026-09-06 - sofka
+
+- **A host file's completeness claim is the highest-yield thing to read, and
+  it is now three rounds running.** Both landings came from one: "the baseline
+  species" (five, enumerated) and "a datum has seven states, not two". The
+  method already says to hunt enumerations at Phase 6 step 3; what this run
+  adds is *which* enumerations pay. Neither of these was a list of cases — both
+  were **taxonomies of a thing**, and a taxonomy is falsified by finding an
+  instance outside it, which is a cheaper search than finding a missing case.
+  The seven-state model was additionally falsifiable by a **category** error
+  rather than an instance one: every state is a property of one value, so any
+  defect belonging to a *pairing* is outside the model by construction, and
+  that was visible from the model's shape before any candidate was tested.
+- **Assert a predicate against known positives AND known negatives, because the
+  two failures are asymmetric and only one is visible from each side.** This
+  run's apply predicate passed both negatives and failed a positive: a
+  too-narrow predicate is indistinguishable from a correct one when you only
+  test that wrong things score zero. The existing lesson says assert the
+  instrument; the refinement is that a one-sided assertion certifies exactly
+  the half that cannot fail.
+- **"Contested home" and "not a real finding" are different reasons to hold a
+  row back, and collapsing them loses the better half.** The guardrail
+  composition mechanism survived every test this method has — forces, the
+  measurement test, a schema-level falsifier — and was banked only because
+  three subjects each own a piece of "policy" and none owns multi-rule
+  composition. Filed as untriaged it carries no judgment, which is correct, but
+  it also carries no *home argument*, so the next run re-derives the hardest
+  part. Proposed for the untriaged table: when the blocker is placement, record
+  the candidate homes and each one's stated job.
+- **A repository that produces no handoff is a result, not a miss.** The
+  routing count came in at 12 entries / 4 systems / 4 unhomed with neither v2.2
+  clause firing, and three of the four strongest things in the tree were
+  catches where the corpus is already ahead. The v2 anti-pattern warns about
+  mining a system with the news method; the converse is worth stating too —
+  a well-built system whose architecture the corpus already models yields
+  edges, and forcing a subject out of it would be padding.
+
+## 2.5.0 - 2026-09-06 - harbor
+
+- **A classifier asserted on hand-written examples is not asserted on the corpus's
+  distribution, and the gap is where the flattering error lives.** This run built a
+  rung classifier over 543 spec predicates, asserted it against one hand-written
+  command per rung, watched all three assertions pass, and quoted a number that was
+  **1.9x wrong**. The hand-written positives tested the logic on the cases the author
+  thought of; the corpus held the case he did not - a predicate whose *filename
+  argument* contained the subject's own name, which a substring match scored as
+  execution. The existing habit ("assert the instrument against a known positive
+  first") is necessary and was followed, and it did not catch this. The addition:
+  after asserting on hand-written cases, **pull five rows the classifier assigned to
+  the most-flattering bucket and read them by hand.** Five reads would have caught
+  this in under a minute, because the misclassified rows are not subtle once you look
+  at them - they are only invisible in aggregate.
+
+- **Three self-catches in one run, all on instruments the run built, all in the
+  direction that flattered the finding.** Beyond the classifier: a paired A/B whose two
+  arms were never written to disk, so both "ran" against a missing file, both exited 1,
+  and arm A appeared to pass (the `paired-ab-tie-means-nothing-ran` shape, arriving as a
+  *tie in the expected direction* rather than an obvious tie); and a missing fixture
+  directory read as a retired lint rule, when the rule was live under a second pass's
+  naming convention. The pattern is not carelessness - it is that a run measuring a
+  source has a hypothesis, and every instrument it builds inherits it. **Report
+  `selfcatch=<n>` in the depth cell** (round 26 asked for this and this run did it);
+  a run reporting zero over a run that built three instruments is the number to
+  distrust.
+
+- **The declared focus's design-record measurement test fired and produced the run's
+  headline - first confirmation, needs two more.** Round 26 asked that every design
+  entry answer *what would this tree have to show for this decision to be wrong, and
+  does it show it?* Applied to an inline-predicate specification, the answer was
+  measurable and it refuted the flattering reading: 91.6% predicate coverage, 20.8%
+  execution rung. **A design entry treated as a claim to be measured is a different and
+  better artifact than one described.** Two more confirmations and this belongs in
+  Phase 2d's entry shape as a `falsifier:` line beside `forces:`.
+
+### Redesign proposal (not applied)
+
+The design record's fixed shape has `decision / forces / buys / rejects / where /
+stage / corpus`. Every field describes the decision; none of them can be *wrong*.
+This run's best finding came from asking a question the shape does not have a slot
+for. Propose adding an eighth field:
+
+    falsifier:  what the tree would have to show for this decision to be a mistake,
+                and whether it shows it - measured where the tree admits a measurement
+
+Held back rather than applied because one run is one run, and because the field has a
+failure mode worth watching first: it invites a plausible sentence in place of a
+measurement, which is exactly the `unmeasurable`-without-an-instrument shrug the
+method already forbids elsewhere. If it lands, it lands with the rule that a
+`falsifier:` naming no observation in the tree is not a falsifier.
+
+- **A repository run spent 0 of 3 fetches again.** Fifteenth consecutive zero-fetch run
+  on a source carrying its own primary material. This is now well past the point of
+  being worth noting per-run; the class table already says the fetch budget does not
+  bind for repositories, and the scorecard should probably stop asking.
+
+## v2.5.0 - 2026-09-06 - praisonai
+
+- **Report the landing-page-to-tree word ratio, not just the tree's word count.**
+  This tree was 4,888 landing words against 159,943 in-tree markdown words - 33x.
+  The class rule already says mine from a clone; the ratio says what the ingest
+  would have *cost*, and it is one `wc -w` at Phase 2b. Two rounds now carry it in
+  prose (20,415/1,221 for sofka, this one) and neither has a field for it. Proposed
+  as `ratio=<n>x` in the depth cell.
+
+- **The measurement test cut two design entries, and this is the second round it
+  was applied.** Round 26 asked for it, round 27 applied it and cut nothing, this
+  round cut two of nine: a work-order ledger and a nine-package tier model, both
+  stating forces clearly and neither leaving a tree-fact that would differ if the
+  decision were wrong. Both went to leads naming the missing evidence. One more
+  round of it *changing an outcome* and it belongs in `SKILL.md` beside the
+  paper-lane rule it mirrors.
+
+- **A `not-better` row is where an over-reporting instrument is least likely to be
+  questioned.** The dead-method census - the run's own new technique, aimed at a
+  managed project - reported three dead methods on a healthy abstraction. All three
+  were private helpers called inside the declaring module, which the technique
+  excludes because there the names are definitions; correct for public surface,
+  wrong for intra-module helpers. Uncorrected it would have published a 21% dead
+  surface. The reason it nearly survived is that the finding was *interesting*: a
+  clean zero invites a second look, a defect does not. **Assert the instrument
+  hardest when it agrees with the technique you just wrote.**
+
+### The staging instrument self-caught three times in one Phase 10
+
+Worth writing up as one lesson because all three are the same failure wearing
+different clothes, and the phase is now the most collision-prone in the method -
+three sibling runs were live, two at phase 9.
+
+1. **A separator pattern missed across a line-ending seam.** Cutting my scorecard
+   block on `\n---\n\n` silently returned the sibling's block too, because my
+   appended block is LF and the file is CRLF. A pattern that spans the boundary
+   between two authors' writes cannot assume either author's line endings.
+2. **A prefix matched my own text.** Cutting on `**Round ` truncated my block
+   inside itself, because the block contains "**Round 26's first focus item". The
+   marker that ends a block must match a block *definition*, not a mention of one.
+3. **A guard fired on my own words.** Asserting `b"Round 29" not in block` failed
+   on my own "next run's declared focus (round 29)" line. That one was a false
+   positive and the cheapest of the three - which is the argument for writing the
+   crude guard first anyway.
+
+Each of the three would have committed something wrong and none would have failed
+loudly: a swept sibling block, a truncated scorecard entry, a missing focus line.
+**The generalizable rule: when slicing a shared append-only file, assert on the
+slice's CONTENT (exactly one definition, none of the sibling's identifiers, this
+run's own closing line present) rather than on the correctness of the pattern that
+produced it.** The pattern was wrong three times; the content assertions caught it
+three times.
+
+### A sibling committed this run's ledger rows before this run did
+
+Both `librarian/applied.md` rows appeared in `HEAD` under a sibling's commit while
+this run was still at Phase 9. The content survived and the attribution did not.
+The method already forbids `git add -A` and prescribes pathspec commits; what it
+does not yet say is the reciprocal:
+
+> **Before staging a shared ledger, check whether your append is already in
+> `HEAD`.** If it is, do not commit that file at all - committing it now would take
+> the working tree for that path and sweep whatever siblings have appended since.
+
+This run found it by comparing `git diff --numstat` against its own row count and
+finding the numbers disagreed, which is a check worth running deliberately rather
+than stumbling into. Not proposed as a `SKILL.md` edit on one sighting; recorded so
+a second sighting promotes it.
+
+### A note on what a mid-flight run should do about this file
+
+Nothing. No `SKILL.md` change was made this round, so a run that loaded v2.5.0
+should finish on v2.5.0.
+
+## 2.5.0 - 2026-09-06 - openclaude
+
+- **The unstated premise is a fifth Phase 6 hunt, and it is the one that survives
+  a corpus this mature.** Both landings this run were premise catches. The four
+  documented hunts — missing stage, enumeration/denial, asymmetry, neighbours —
+  all ask what a document failed to *say*. This asks what it is standing *on*.
+  The tell is mechanical and worth the sentence: **a rule that is inapplicable
+  rather than false.** `turn-classification`'s "an unclassified call fails loudly"
+  is not wrong; it has nothing to point at when the caller is a person and there
+  is no call site. `capability-feature-gating`'s "there is no flag whose absence
+  breaks the default build" is not wrong; it is silent on a flag whose *presence*
+  does. A source that violates a premise reads as `already covered` to every
+  other hunt, because every slug and every `use_when` still matches. Proposed as
+  round 30's focus item 1; if it carries two more runs it belongs in the Phase 6
+  list rather than here.
+
+- **A concept-shaped query that returns zero is not evidence either.** The method
+  already forbids establishing an absence from a proper-noun query, and separately
+  from a truncated one. This run hit a third variant with neither defect: a grep
+  for *capability … does not authorize* over the whole knowledge tree, no product
+  names anywhere in it, returned **zero** — over a corpus that states exactly that
+  concept in `capability-is-not-registry-membership`, in different words. A corpus
+  written by many hands says one idea in many vocabularies, and slug/prose matching
+  cannot see a synonym. The cheap corrective is already in the method for a
+  different reason and just needs extending: **an absence is provisional until the
+  top prior-art subject's own file has been read.** Cost one file open; would have
+  cost a duplicate technique.
+
+- **The run board does not extend to a shared consumer checkout, and this is the
+  first time it has cost anything.** Every collision rule in this method is about
+  registry subjects, and it worked: 0 siblings at claim, 5 by Phase 9, none holding
+  a subject this run touched. Meanwhile a sibling session in the `personas`
+  checkout ran `git commit` while this run's cross-repo change was staged in the
+  same index, and swept this run's `package.json` wiring and `.ai/applied.jsonl`
+  row into its own commit. No content was lost and history was not rewritten, so
+  the cost was only attribution — but the same race over a *modified* shared file
+  rather than two appends would have been a real loss. Phase 8 tells a run to
+  check for another session's uncommitted work in files it touches; it has no
+  equivalent of the `commit` lock for the consumer side, and the board cannot
+  provide one because it lives in the registry's git common directory. Recording
+  rather than proposing: the honest options (a lock file in the consumer tree, or
+  staging-free `git commit -- <paths>` for consumer commits, which has its own
+  known failure) both need a second sighting before either is worth the method's
+  weight.
+
+- **An apply step that generalises the landing is a different event from one that
+  refutes it, and only one of them is currently counted.** The gating amendment was
+  written from a fork where the flag and its source have different *owners*; no
+  fleet project is a fork of anything, so on its landed wording the row was
+  `unapplied`. It survived because Phase 7.5 asked what the ownership split was
+  actually buying and found a weaker sufficient condition — the split need only
+  cross a **decision**, not an organisation — which then made a project that owns
+  every byte of both halves of its gates a valid seam, and produced the run's only
+  `better` row plus a live production defect. The generalisation went back into the
+  published text. Prior rounds have logged the apply step *refuting* a landing
+  (round 24, round 27); this is the apply step *widening* one, and the two have
+  opposite implications for whether the landing was drafted well. Proposed as round
+  30's focus item 2 (`generalised=yes/no` in the depth cell) so the ratio becomes
+  visible before either reading is assumed.
+
+- **Nothing in `SKILL.md` changed and no version was bumped.** All four lessons are
+  first sightings; the method's own rule is that a lesson confirmed three runs
+  running becomes a rule the file carries. With five sibling sessions live and
+  reading their own loaded copy, a mid-afternoon method edit would also have been
+  the one change a parallel fleet cannot absorb quietly.
+
+- **Calibration note for the scorecard's own instrument.** This run read round 26's
+  declared focus at Phase 1 and answered it; rounds 27 and 28 both landed while it
+  was running, so the focus nominally addressed to round 29 was written after this
+  run had already passed the phase that reads it. That is not a failure of anyone's
+  discipline — it is what a dozen-at-a-time cadence does to a single-threaded
+  hand-off channel. Worth knowing before the focus mechanism is trusted as a
+  serial conversation between consecutive rounds: at this concurrency it is closer
+  to a broadcast, and an item aimed at "the next run" may reach three runs at once
+  or none.
+## 2.5.0 - 2026-09-06 - ace-step-1-5
+
+- **The score is a function of the landing shape, and the method never says to
+  pick the shape first.** The run's strongest row (a decoder that enforces value
+  domains, refining a golden-path sentence that says constrained decoding buys
+  syntax only) scored `G3/R2/C2` when read as a prose correction to that
+  sentence - G-R=1, below the +2 threshold, untriaged. Read as a new technique
+  plus a `techniques:` list append it scores `G3/R0/C2` and lands. Same finding,
+  same evidence, same corpus; the rewrite penalty was the whole difference and
+  the penalty is chosen by the author. Phase 5 Step 3 should say: choose the
+  least-rewriting shape that still lands the mechanism, then score. Until it
+  does, the +2 threshold will reject findings for a cost the run inflicted on
+  itself.
+- **"Do the file's existing sentences stay true?" needs the incompleteness case
+  stated.** Applying the mechanical test twice in one run produced two different
+  answers for structurally similar edits, and the distinction that separated them
+  is worth carrying: a sentence that becomes *less complete* is an append; a
+  sentence whose *scope* becomes false is a rewrite. Row 1 (the golden path still
+  correctly says the validation door stays) was an append. Row 3 (an amendment
+  making `per-tier-budget-tables`' flat "it fails" false as a universal) was a
+  rewrite and was banked. If a later run finds that line too fine, this pair is
+  the one to read.
+- **An `unapplied` row should owe its instrument the way `unmeasurable` owes
+  one.** Three of four apply rows here were `unapplied`, and the only reason two
+  bogus ones were caught is that each absence was established by a named scan
+  whose matches were then read. The method already forbids reporting
+  `unmeasurable` without naming the instrument; the symmetric rule is missing and
+  is cheaper, because an unexamined absence produces a *confident* zero.
+- **A non-zero result is not an assertion of the instrument.** The existing lesson
+  says to assert a scan against a known positive before trusting an absence. That
+  is insufficient in the direction that invents work: a committer count over
+  `ascent` returned 5, which is plausible, non-zero, and would have manufactured a
+  fleet seam for the branch-provenance gate - four of the five were that
+  project's own `*@ascent.test/.invalid` harness identities. A count cannot show
+  what it counted. The assertion is *reading the matched rows*, not observing that
+  the number is not zero. Same failure, milder, in the other direction: a grep for
+  a capability ladder in kp returned three files that turned out to be a
+  rate-limit constant, its contract test and a vendor URL.
+- **The class prediction was exact and the ratio record keeps growing.** A
+  research-model release is reliable for its prompt artifacts and its config, and
+  those were precisely the two productive surfaces (the constrained decoder, the
+  capacity table). The landing-page-to-in-tree ratio was **46x** (2,248 against
+  103,048), against 33x for the previous record. Phase 2b's "clone it, always" is
+  now carrying most of this method's value on repository sources, and no run has
+  yet found a repository where the README was worth mining.
+- **Routing count: size is not the trigger, and this is the third run to say
+  so.** A 1,588-line capacity module, a 2,339-line constrained decoder and 187
+  test files is forge-shaped by any intuition, and neither v2.2 clause fired -
+  the tree's load-bearing decisions that the corpus lacks were three, in three
+  different existing subjects. Writing both counts before deciding is what kept
+  this from becoming either a spurious handoff or a set of amendments.
+
+### Redesign proposal (not applied)
+
+The Phase 7.5 budget assumes a fleet whose stacks overlap the source's. This run
+landed four techniques against a Python ML runtime and found one seam in twelve
+projects, because the fleet is TypeScript web applications plus one Python
+pipeline. That is not a discipline failure and the `unapplied` rows are honest,
+but `apply=1/4` will recur for every source outside the fleet's stack band, and
+the scorecard currently reads it as weakness at the apply stage. Two candidate
+answers: score the apply stage against *seam availability* rather than against
+landings, or admit a fifth mode - a **counterpart reading**, where the source's
+own tree is the A/B subject (as three of this run's applications in fact are) and
+the row says so instead of reporting an absence.
+
+
+## 2.5.0 - 2026-09-06 - aws-agent-exposure
+
+- **The unstated-premise hunt paid twice, and it is the first focus that decided
+  a run's landings rather than describing them afterwards.** Both accepted rows
+  came from asking what a mature technique treats as *given*, and neither was
+  reachable by the four standing Phase 6 hunts, because in both cases the corpus
+  already owned the mechanism and stated it better than the source did. Second
+  consecutive confirmation; one more and it belongs in `SKILL.md` as a fifth
+  hunt rather than in a focus paragraph.
+- **The diagnostic is mechanical enough to write down.** Read the clause the
+  technique treats as an input to its own trade, and ask **who established it**.
+  In `similarity-keyed-admission` that clause is "an expensive authority" and
+  nothing establishes the cost; in `failover-horizon` it is "abort with a stated,
+  honest truncation" and nothing establishes that a channel exists to state it
+  on. Both read as already-covered to every other hunt.
+- **A source class the reference does not carry: the vendor educational guide.**
+  A long-form reference architecture with a marketplace sales surface at both
+  ends. It is *not* the vendor release announcement, and the discriminator is
+  the one that class already names: an announcement states what is now possible
+  and never what was wrong, while this guide states failure modes throughout
+  ("teams often learn this from a surprise invoice"). Its guide half behaves
+  like a first-party practitioner account and its tools half yields **zero**.
+  Worth adding to `references/source-classes.md` after a second sighting.
+- **Contention is a defer, and this run treated it as a reject.** Two real-gap
+  rows lost their only home to a sibling for the whole run and were filed
+  untriaged with no return trigger. V5 already calls that a defer; the method
+  has no mechanism that makes a deferred row come back when the sibling commits,
+  and until it does, "untriaged" quietly absorbs a category the vetoes deliberately
+  kept separate.
+- **A control arm is what separates a defect from a broken harness, and it is
+  nearly free.** The `pof` A/B ran a second case where the terminal event *was*
+  present and asserted success. Without it, arm A's failure is equally
+  consistent with a test that never wired the stream up. It cost four lines and
+  it is the difference between a paired proof and a claim.
+- **The 136 -> 1 narrowing is the memory rule paying off again.** A population
+  query returned 136 files; reading the matched rows reduced it to 1, and
+  reading *that* file reduced it to 0 (a resemblance matcher, not a cache).
+  Two reductions, both of which a count would have concealed, and either one
+  alone would have manufactured a seam.
+
+## 2.5.0 — 2026-09-06 — flatnotes
+
+- **A repository with no operating documents is not a thin source; it is a
+  source whose sweep order inverts.** The method ranks `docs/`, ADRs and
+  CHANGELOGs first because they are usually the densest surface by an order of
+  magnitude. This tree had 917 markdown words total and no design prose at all,
+  and still produced two techniques — from the instrument, the types and the
+  route table, which the sweep ranks second, fourth and (implicitly) nowhere.
+  Worth saying because the `--min-words` reflex and the "read the operating
+  documents" reflex both point at absence here and neither is the right read.
+  **The route table is not in the Phase 2b sweep list and should be**: for any
+  served application it is where the authorization shape is literally written,
+  and it is the file this run's second landing came from.
+
+- **`0 of N` and `0 of 40` are the same verdict and completely different
+  evidence.** The scorecard has warned twice about establishing an absence from
+  a truncated result. This run found the sharper version: the registry's own map
+  instrument returned **forty confident rows** for a concept whose owning subject
+  was in none of them, and the instrument's own header comment told readers to
+  reach for the body-reading mode *"before believing any empty"* — while neither
+  recorded failure was ever empty (2026-08-31: six rows; this run: forty). A
+  guidance line can be narrower than the evidence printed directly beneath it,
+  and nobody notices because the line is true as far as it goes. **When writing
+  an instrument's caveat, check it against the failures already recorded for
+  that instrument**, not against the failure you are imagining.
+
+- **The declared focus is more valuable when it stops a landing than when it
+  produces one.** Round 27 item 1 (shape before score) has now been exercised
+  twice and both times it *rejected*. That is the intended behaviour and it
+  should be said plainly in the scorecard prose, because a focus that only ever
+  shows up in the landed column looks like a rule for justifying work, and a
+  reader six weeks later cannot tell the difference between "the focus helped"
+  and "the focus was the excuse".
+
+- **A source that implements a technique BETTER than the corpus's consumer is a
+  different and better apply row than one that implements it worse.** The
+  authorization row landed against a fleet project that already had the
+  construction — and had it more completely than the source that supplied it.
+  The apply step therefore was not "adopt this"; it was "you have the
+  construction, here is the seam the construction opens, which the source does
+  not have because it is too small to have it". The method's Phase 7.5 framing
+  ("would a project be better off doing what the corpus now says") does not
+  quite reach this case, and the honest answer came from asking instead **what
+  does this project's more advanced version of the mechanism cost it that the
+  source's version does not?** Worth a line in the method if a second run hits
+  it.
+
+## 2.6.0 — 2026-09-06 — the memory lane (no source; a measured series)
+
+Not a run. This entry records where a body of evidence went, because the next memory
+source needs to meet it rather than re-derive it.
+
+- **A domain with a measured baseline is triaged differently from a domain with only a
+  corpus.** Four rounds of simulated-year replay gave agent memory something no other
+  subject here has: nine arms on one ladder, sharing a consumer, judge, budget and
+  elaboration regime. A memory source is now priced against that table before prior art
+  is consulted, because most such sources report a number for a shape already measured.
+  The general form, worth watching for elsewhere: **when a subject acquires a harness,
+  the skill's first question about a claim stops being "is this new?" and becomes "what
+  does it score?"**
+- **A mechanism becomes an arm before it becomes a technique.** Three public memory
+  repositories were read in one session and none of their published numbers survived
+  inspection - one contaminated held-out split, one set of benchmark scripts that did not
+  exist, one honest but self-against-self. What survived was three *mechanisms*, each
+  wired as an adapter in a few hundred lines and given a row. That is a stronger apply
+  step than a thought simulation and the method now says so.
+- **The best finding of the series was an absence, and no source would have reported
+  it.** The tier a system injects into every prompt had never been governed by
+  supersedence at all: the retirement code existed with no caller, so 0 of 133 behaviour
+  rules were ever retired while 261 of 375 facts were. Sources describe what a system
+  does; a harness is what finds what it never does. **Budget a run for the thing the
+  corpus and the source both assume is happening.**
+- **A reliability failure inside a pipeline is not automatically an accuracy failure.**
+  Losing a third of the consolidation cycles to a timeout cost two accuracy points. The
+  prediction attached to that bug was much larger, and stating it wrong would have aimed
+  the next fix at the wrong target. Predict what a fix buys before measuring it, then
+  record the miss.
+
+## 2.5.0 - 2026-09-07 - memory-lancedb-pro
+
+- **A first-party operating document can be the run's most dangerous input, and the
+  sweep order is what makes it so.** Phase 2b ranks operating documents first because
+  they are usually the densest thing in a tree, and this tree's densest document was a
+  2,278-word architecture analysis that was genuinely first-party, densely specific,
+  and **six months stale**. Its two sharpest claims about the lifecycle are both false
+  against the code — including one in the flattering direction, asserting that a
+  complete maintenance loop runs on a path whose entry point turns out to have zero
+  callers. The run's first reading of its own central finding came from that document
+  and was wrong. A stale design document is worse than no document: no document sends
+  you to the code, and a confident stale one sends you to a system that no longer
+  exists. **The corrective is one command per document** — the doc's own date or last
+  commit against HEAD's — and a demotion from authority to hypothesis where the gap
+  exceeds a release cycle. Recorded as round 33's first focus item; a rule this file
+  should carry if two more repository runs hit it.
+
+- **The apply step is where an amendment learns its remedy, and this run is the
+  clearest case the ledger holds.** Two of three landings were changed by Phase 7.5,
+  and in both the correction came from a *fleet tree that was already correct* rather
+  than from the source. The door-test amendment knew the failure (a governance test
+  satisfied by dead code) and not the fix; the fleet supplied the door-named test, the
+  synchronous obligation record, and the stand-in-for-the-gated-dependency trick that
+  keeps the test running in the build where the governor is compiled out. The
+  `relevance-floors` amendment first said "a fallback emits no score" and the fleet
+  supplied the sharper form — absence must be the *identity element* of whatever
+  combines the lanes, because a weighted sum contributes zero for a missing term and
+  zero is indistinguishable from a measurement. **Neither correction existed in the
+  source.** A run that lands and stops would have shipped both amendments in their
+  weaker form, gate-clean and slightly wrong.
+
+- **`ship 0` has a second meaning nobody had written down: the fleet was already
+  ahead.** Round 22's rule to split the ship zero anticipated "no seam found". This run
+  found the seam twice and shipped nothing because both seams were already compliant,
+  which is a *good* outcome reported by a column that reads like a failure. The
+  predicate belongs in the cell — `ship 0 — 2 of 2 seams already compliant` — and a
+  reader of the funnel should not be able to confuse it with a run that could not find
+  a project to test against.
+
+- **Two shell hazards, both already in memory, both caught by verification rather than
+  by care.** Backticks are substituted inside *any* double-quoted argument, including a
+  `node -e` script, so every Markdown code span in two subject notes silently became an
+  empty string — the frontmatter edits succeeded, the command reported success, and only
+  reading the file back showed it. The fix that should be the default: write the prose
+  to a file with the Write tool and have the script read it from disk, so no shell ever
+  sees it. Separately, `SCORECARD.md` is ordered **newest-first** while
+  `librarian/applied.md` **appends at the end**; a run touching both in one Phase 9 will
+  put one row in the wrong place unless it checks each table's direction rather than
+  assuming the file's habit. Both were caught only because the append was verified by
+  reading the result, never by trusting the exit code — which is the practice worth
+  generalizing past these two instances.
+
+- **Calibrate the absence instrument, then read the rows it matched.** The run's central
+  claim is an absence — six governance mechanisms with zero callers — and it was
+  established with a grep. Two guards made it trustworthy and both earned their cost: a
+  known-live control in the same tree (two functions returning 4 references each, so a
+  zero is a reading rather than a broken pattern), and reading the matched rows for the
+  one mechanism where the director's grep and the worker's disagreed. The rows resolved
+  to an interface declaration and its implementation, so the worker's zero was right and
+  the director's two was noise. An absence is the one finding that cannot be checked by
+  looking harder at the result; it is checked by pointing the instrument at something
+  that should fire.
+
+## 2.6.0 - 2026-09-07 - unstorage
+
+- **The calibration case is not ceremony, and three rounds called it that
+  because they were checking the wrong half.** Rounds 30-32 each reported the
+  calibration as having changed nothing and floated dropping it. Here it fired,
+  and what it caught was the **fixture**, not the instrument: the known-positive
+  leak was planted through a shell argument that ate its backslashes, so the
+  "leaking" file contained no path separator and the privacy gate correctly
+  passed it. Had the calibration been skipped, arm A would have read green, the
+  gap would have looked absent, and a `not-better` would have been written from
+  an instrument agreeing with a broken fixture. The prior rounds were right that
+  the instrument is usually fine; nobody had been checking the input. **Phase
+  7.5 should say which half the calibration exercised** - a control that only
+  ever confirms the instrument is measuring the cheaper of two failure modes.
+- **Where the corpus already owns the ground, hunt the technique's premises,
+  not its coverage.** Both landings came from one move applied to two mature
+  subjects, and neither is a gap: a three-rung proof ladder whose three rungs are
+  *all unavailable* in a stated situation, and a flat prohibition ("declaration
+  is not reflection") resting on a middle clause that is a premise rather than a
+  universal. A 12-technique subject does not yield to "what is missing"; it
+  yields to "what does this sentence quietly assume". The Phase 6 hunts name
+  missing stages, enumerations, asymmetries and neighbours - the unstated scope
+  of an absolute is a fifth and is not written down.
+- **A boundary confirmed from one side is an assertion.** The amendment landed
+  because two trees were read: the source, with no base class, where presence is
+  the declaration; and a fleet project whose adapters subclass a refusing base,
+  where presence is uninformative and a declared matrix is correct. The second
+  cost one seam search and turned a plausible inversion into a discriminator
+  with both sides witnessed. Worth making explicit in Phase 7.5: when a landing
+  is a boundary case, the apply step's best use is finding the *excluded* side.
+- Mid-flight runs on 2.6.0: nothing to do, no method text changed.
+
+## 2.6.0 - 2026-09-07 - gbrain
+
+- **The admission score changed a landing, and the change was the right one.** Row 1
+  first scored `GAIN 3 / RISK 2` = 1, below the accept threshold, purely because the
+  plan was to rewrite the golden path's stated query-time pipeline to insert a new
+  stage. Re-reading it as a pure append - the stage is optional, and a technique may
+  state its own placement - took RISK to 0 and the row accepted. This is the first
+  recorded case of v2.5's arithmetic *changing what got written* rather than only
+  ranking rows, and what it prevented was a restructuring of a shared spine, while a
+  live sibling held that subject. The mechanical rewrite test ("do the file's existing
+  sentences stay true?") is doing real work; keep it.
+- **A focus block's round number is not unique, and two siblings proved it in one
+  afternoon.** Three `declared focus (round 33)` blocks now sit in `SCORECARD.md`: two
+  from siblings and one this run had to renumber to 34 after the fact. Round 32's own
+  fix - "grep every block and take the highest round number" - assumes the numbers are
+  distinct, and with a dozen parallel runs they are not. The cheap fix is to derive the
+  number rather than choose it: **read the highest round in the file inside the ledger
+  lock, immediately before appending, and take that plus one** - the same
+  re-read-inside-the-lock discipline the ledgers already have, applied to the one field
+  that is a counter. Until then a reader should sort focus blocks by their row's date
+  and position, not trust the label.
+- **The sibling sweep happened again, and it took five files this time.** A parallel
+  run's commit absorbed this run's source-ledger row, applied row, scorecard row and
+  both subject-note entries. Nothing was lost - all five are in `HEAD` - but all five
+  are in `HEAD` under another run's authorship, and the presence check the method
+  prescribes cannot tell the difference. The round-6 focus item already named the fix
+  (`git log --oneline -1 -- <path>` alongside the grep); this run ran it and that is
+  the only reason the sweep was noticed. **Promote it into Phase 10's closing
+  verification rather than leaving it as a focus item** - it is one command and it
+  converts a silent authorship loss into a line in the note.
+- **A seam chosen to falsify refuted the run's own hypothesis for the second
+  consecutive round, and again produced the better finding.** The amendment claimed
+  under-spend is *not* the signature when a cap truncates inside an admitted item; the
+  seam picked to expose that could not fire at the target's scale, and what it exposed
+  instead was the plain form of the rule sitting unnoticed across four published arms
+  (15-54% realized spend of one shared budget, both numbers printed in every report,
+  never subtracted). Two rounds is not three, but the shape is now specific enough to
+  state: **a seam chosen to falsify pays even when the falsification fails, because
+  the instrument you build to look for the exotic case measures the ordinary one on
+  the way past.**
+- **The `--memory` lane earned its place at Phase 2 rather than Phase 3.** Reading the
+  measured ladder before the source meant the source's benchmark numbers were *priced*
+  instead of corroborated - and the lane's "a published memory number is a lead" rule
+  was then confirmed by the source about itself, which is the strongest form that
+  confirmation can take. The lane's instruction says "read this at Phase 2"; this run
+  suggests the stronger version, that a domain with a measured baseline should have its
+  ladder read before the ingest's class is even named, because the class prediction
+  ("high on mechanism, low on currency") is itself sharper once the ladder is in view.
+- **One apply row against four landings is a real shortfall and the cell cannot show
+  it.** `1 row: 1c/0e/0s/0t` renders identically for a run that landed one thing and
+  applied it and a run that landed four and applied one. The scorecard row says so in
+  prose and the round-34 focus asks for the fraction; recording it here because the
+  prose will scroll away and the cell will not.
+## 2.6.0 - 2026-09-07 - lago
+
+- **A repository URL can be a meta repo, and the ingest cannot tell you.** `getlago/lago`
+  is 171 files with `api/` and `front/` as empty submodules; the system is a separate
+  clone. Phase 2b says "clone it" and this run nearly mined a docker-compose file.
+  **Add to the Phase 2b sweep, before the yield-density order: count the files and look
+  for `.gitmodules`.** A tree under ~300 files that carries a compose file, a `deploy/`
+  and submodule stubs is a *deployment* repo, and the engine is elsewhere. Cheap, and it
+  is the difference between a run and a wasted one.
+
+- **The director's own brief is now the largest source of worker error, and workers are
+  catching it.** Two of seven forge workers refused a brief instruction this round and
+  both were right: an invented `verified_against: sql@postgres-15` (the gate's regex
+  demands a numeric version) and `half-open-interval-policy` described as a law when it
+  is a *technique*. Both were fabricated by the director when writing dispatch prose -
+  neither was copied from `docs/forge-brief.md`, which states the rule correctly.
+  **Rule: never invent an example in a dispatch. Quote the brief's own example verbatim,
+  or grep for the artifact before naming its layer.** The cost this round was three files
+  needing a fix and one near-miss on a gate-failing `laws:` citation; the benefit is that
+  the "tell the worker to override you" instruction is demonstrably load-bearing and
+  should stay in every brief.
+
+- **A routing count that fires on five of six systems is a scoping question, not a
+  bigger forge.** 2.2.0 says count per system and hand off the system or the cluster.
+  It does not say what to do when nearly every system fires, and the honest answer is
+  that the run cannot forge 12-15 subjects. **Put the scope to the operator as an
+  explicit choice with the placement arithmetic already done**, because the two
+  decisions are coupled: the wave's width is bounded by where the subjects can legally
+  go, and in a bundle at its category cap that bound is severe. This run computed three
+  numbers (top-level at 10/10, the target subcategory at 9/10, the alternative at 9/10)
+  before asking, and the question took one screen.
+
+### Redesign proposal - the seat, not the subject
+
+The strongest finding this round was not any subject; it was that two mature subjects
+covered the *payer* and the *consumer* of the same money and nothing covered the
+*seller*. Neither `research-map` nor a golden-path read surfaces that, because both
+subjects legitimately "cover billing" - they simply sit in different seats. Phase 6
+already hunts a missing *stage*; this is a missing **seat**: the same pipeline seen
+from the other side of a transaction, where every rule keeps its words and changes its
+force. Proposed as a fourth hunt beside stage, enumeration and asymmetry - *for any
+subject about an exchange, ask who the other party is and whether the corpus models
+them* - but not applied to `SKILL.md` on one sighting.
+
+## 2.6.0 - 2026-09-07 - aios-second-brain
+
+- **The framing of a landing changed its score, and the score was right.** The finding
+  was a missing acquisition path in `agent-memory`. Written the obvious way - a new
+  stage in the pipeline - it falsifies the golden path's own opening enumeration
+  (*"covers the whole pipeline: operative state, capture of what occurred,
+  distillation, decay, injection"*), which makes it a rewrite of a shared spine: RISK
+  +2, total 1, below the accept threshold. Written as an *acquisition path* that
+  manufactures episodes for the existing pipeline, every standing sentence stays true,
+  the mechanism inherits governance, provenance and decay for free, and it scores
+  3/0/2. Same finding, same evidence, two shapes with different risk - and the cheaper
+  shape is also the better design, because it does not mint a second store with its own
+  policies. **Second consecutive round where the rewrite/append test changed a landing
+  rather than merely grading it.** Worth stating as a habit: when a row scores below
+  threshold on the +2 for rewriting, re-ask whether the *finding* requires the rewrite
+  or whether only the first draft did.
+
+- **A subject's own enumeration is still the highest-yield thing to read, and the one
+  here was in the first paragraph.** Phase 6's third hunt found this in under a minute:
+  the golden path enumerates its pipeline, every element of the enumeration is a
+  transformation of something *observed*, and the question an enumeration invites is
+  what feeds the first stage. Nineteen techniques, all assuming observed activity.
+  The hunt works best where a subject is thorough, which is exactly where it feels
+  least likely to pay.
+
+- **`--prose` and a full technique-list read are what make an absence claim safe, and
+  slug matching alone would have got this wrong in both directions.** The slug map put
+  `agent-memory` at the top for the elicitation terms, which looks like prior art; only
+  reading all nineteen `use_when` lines showed every one of them is observational. In
+  the other direction the prose pass surfaced
+  `recruiting/assessment/interview-run-of-show`, which no slug query for a memory term
+  would ever return, and that turned out to be the convergence the row's GAIN `+1`
+  rests on. Neither instrument alone gives the answer; the pair does.
+
+- **Convergence across bundles is corroboration, not a link, and the distinction has a
+  cheap tell.** The method's cross-bundle rule is written for *inversions* - the same
+  pattern correct in one domain and disqualifying in another, where the reader needs a
+  discriminator. This was the other case: the same mechanism reached twice for
+  different purposes, with no tension to resolve. Nothing to discriminate, nothing to
+  state in prose on either side, and the right home is the source note. A one-line
+  test that separates them: **if the two sides would give a reader opposite advice,
+  write the discriminator; if they would give the same advice for different reasons,
+  it is corroboration and it stays in the ledger.**
+
+- **Two runs reached the same method rule on disjoint evidence, in the same afternoon,
+  and the parallel-edit discipline is what let that be visible.** A sibling promoted
+  seam-to-falsify into `SKILL.md` as v2.7.0 from three rounds while this run was
+  independently concluding the same thing from a fourth. Checking `git status` on the
+  skill directory before editing - which the method requires and which costs one
+  command - turned what would have been a conflicting edit into a confirming data
+  point. It also surfaced something better than agreement: their three instances all
+  had the falsifying seam *refute* something, and this run's fourth had it **confirm**,
+  which is the case their rule text already covers and none of their evidence
+  contained. **A rule that arrives covering a case its authors had not run is worth
+  saying out loud**, because it is the cheapest available evidence that the rule was
+  written at the right altitude.
+
+### Redesign proposal - the currency lane has no landing, and this run could not give it one
+
+  A second-hand source's most reliable output is "the world moved", and this method
+  says so in three places. But `currency` has no destination that a run can reach
+  cheaply: the shape's row in Phase 7 points at "the affected application's frontmatter,
+  or a `/deepen` dispatch", and *finding* the affected application means opening
+  candidates to read which roster a `verified_against` names. This run held a clean
+  currency signal - a model generation with named tiers, a per-call effort dial and a
+  weekly subscription cap - and filed it in the source note, because resetting a clock
+  honestly would have cost more reads than the whole landing did.
+
+  That is the wrong shape for the one thing the class is reliable for. Two candidate
+  fixes, neither applied: an instrument that maps a roster or version string to the
+  applications whose `verified_against` cites it, so the affected set is a query rather
+  than a hunt; or an explicit `librarian/currency.md` ledger that accumulates dated
+  signals with the subjects they implicate, which `/librarian` drains on its own clock
+  the way `upstream-check.mjs` drains `rescan_when:`. The second is closer to how this
+  registry already handles work that is real but not yet worth a run's whole budget.
+  Not proposed as a version bump on one sighting - but this is the third source note in
+  the ledger whose currency signal was recorded and never landed, and a third sighting
+  is where this file usually stops calling something a lesson.
+
+## 2.6.0 - 2026-09-07 - 3d-ai-creature-workflow
+
+- **A falsifying seam can refute the run's own technique, and that is the best case.**
+  The v2.7 clause (written concurrently by another run) frames seam-to-falsify as a test
+  of the *finding* against the tree. This round found the sharper form: the seam showed
+  the technique's central procedure step was **unrunnable** at that seam - the provider
+  accepts only its own prior task ids, so the "probe the service" arm cannot exist. That
+  is not a failed confirmation, it is a boundary the technique did not know it had, and
+  it converted a general rule into one that names its own precondition. Fold into the
+  v2.7 clause on a second sighting.
+- **`unrunnable` and `unspent` are different zeros and the scorecard flattens them.** A
+  `ship 0` because no arm can exist carries no debt; a `ship 0` because the hour went
+  elsewhere does. Raised as round 37 focus item 2 rather than applied, because one
+  sighting is not three.
+- **The score's value showed up as a rejection, not an acceptance.** The strongest
+  untriaged row - that a provider benchmark's "measure alongside quality" enumeration is
+  entirely *resource*-shaped and contains no *correspondence* constraint - is a real gap
+  in a document declaring its own completeness, and it was tempting to reframe it as "an
+  amendment that inverts a rule" to reach GAIN 3. It does not invert; it extends. Scored
+  honestly it is 2/1 = 1 against a threshold of 2 and was banked with anchors. The gate
+  only works if the shape is chosen before the arithmetic is seen, and this is the second
+  round (after round 27) where naming that temptation out loud is what stopped it.
+- **Class calibration held exactly.** For a practitioner build-walkthrough, every accepted
+  and every untriaged row came from a failure sentence and all five catches came from the
+  tour half. The class reference already predicts this; recording the clean split is
+  corroboration for it, not a new rule.
+
+## 2.6.0 - 2026-09-07 - rodin-worldgen
+
+- **A board claim at the wrong DEPTH is invisible to every sibling, and the check reports
+  clear.** Two runs worked inside one golden path for an afternoon. One claimed
+  `game-production/sourcing-economics/<subject>`; the real address, which the other claimed,
+  carries `asset-production/` in the middle. `run-board.mjs check` compares subject strings,
+  so both `check` calls returned exit 0 and each run believed it was alone. Nothing was lost
+  here — the collision was on a frontmatter list, both hunks survive, and the sibling's
+  subject note independently described the other's technique correctly — but nothing about
+  the outcome was owed to the board. **This is the constructed-path failure the method
+  already forbids elsewhere**, wearing different clothes: Phase 4 says to take a subject's
+  address from `research-map`'s `file` and never to build one, and then the board asks for a
+  hand-typed subject string. Until the instrument normalizes claims against the index, derive
+  the claim string from the mapped `file` path. A run that types the address from memory is
+  claiming a different subject than the one it is about to write in.
+- **The fetch budget can be spent on a primary that does not exist yet.** The review class
+  says the fetch is the extraction, and that is right about *reviews* and wrong about
+  *recency*: the release was seven days old, and the vendor's documentation site carried an
+  API overview and no feature, format or job-semantics pages at all. Three fetches bought one
+  fragment. The corrective is cheap and belongs before the budget is committed - confirm a
+  primary exists for a release under a month old, exactly as the reference-index lane already
+  confirms a reference resolves before a worker commits to it. The two are the same discipline
+  at different scales.
+- **A falsifying arm that is CAUGHT can be the thing that produces the finding, not just a
+  check on it.** Fourth consecutive round for seam-to-falsify. Here arm one - an ordinary
+  refactor drifting an extension list - was caught by 5 of 18 tests, which killed the run's
+  first hypothesis outright. The correct finding only became visible *because* that arm
+  passed: proving the enumerated cases were well covered is what located the class that
+  cannot be enumerated. Worth stating as a habit rather than a result - **before running a
+  falsifying arm, say what a CAUGHT outcome would teach.** If the answer is "nothing", the
+  arm is a confirmation wearing a falsifier's name.
+- **The threshold did its job in the direction that is hard to see.** The accepted row landed
+  at exactly `+2` because a `+1 refutes` was withdrawn mid-scoring: the neighbour technique
+  turned out to have scoped the criterion I was about to call falsely universal. Reading the
+  neighbour is already Phase 6 step 5, and its usual justification is finding a better
+  finding; here its value was arithmetic honesty about a row that landed anyway. A gate that
+  is only ever tightened by rows it rejects is not being measured.
+
+## 2.6.0 - 2026-09-07 - rival-anime-studios (`youtube:Vh8HxyTQ6EY`)
+
+- **Seam-to-falsify is now a rule this file carries, and it was promoted the same hour a
+  sibling reached it independently.** Three consecutive rounds met the bar (the truncation
+  branch that could not fire and exposed a 3.5x confound; the anchor control that broke
+  exactly where the technique predicted; this run's reach test, which found a live second
+  instance in a plan nobody was auditing). Landed in Phase 7.5 step 1 at **2.7.0**. While
+  the edit was waiting on the `ledger` lock, `yt-yysi` appended a lesson on the same idea
+  from a different source, with a sharper front half: **before choosing a falsifying arm,
+  say what a CAUGHT outcome would teach - if the answer is "nothing", the arm is a
+  confirmation wearing a falsifier's name.** That clause is folded into the SKILL.md rule
+  rather than left in two places. Two runs, two sources, no contact, one afternoon: this
+  is the cross-run convergence the corroboration table describes and the first time this
+  file has recorded it happening to a *method* rule rather than to a finding.
+- **A mid-flight run should finish on the version it loaded.** 2.7.0 changes one step of
+  Phase 7.5 and adds one anti-pattern; four sibling intake runs were live on 2.6.0 when it
+  landed and none of them needs to do anything about it.
+- **An `exit 2` from `research-ingest` can be caused by your own siblings.** This run's
+  first ingest failed on HTTP 429 with two siblings mining YouTube concurrently; the retry
+  succeeded unchanged. The code did exactly what it is documented to do, and the lesson is
+  for the reader, not the instrument: **check the board before diagnosing a throttle.**
+  With a dozen terminals on one source class, transport failures are a property of the
+  fleet's own concurrency, and treating one as evidence about the source wastes the run.
+- **A near-empty from an instrument run in the wrong directory reads exactly like an
+  absence.** `research-map` was invoked from inside a bundle subdirectory, threw
+  MODULE_NOT_FOUND to stderr, and the call was piped through `grep`, which discarded the
+  error and returned nothing. For about ten seconds that empty was on its way to becoming
+  "the corpus does not own this". This is `assertion-inherits-its-own-bias` in its cheapest
+  form and the corrective is the one already in the method - never establish an absence
+  from a filtered result - with one addition: **an instrument that reports nothing and an
+  instrument that did not run are the same bytes after a pipe.** Check the exit code, or
+  read the unfiltered output once.
+- **The apply-row denominator changed how the last hour was spent, which was the point of
+  the round-34 focus.** Writing `1c/0e/0s/0t of 1 owed` rather than `1 row: 1c/...` made a
+  complete run legible as complete. The honest caveat for the next reader: a 1/1 is easy,
+  and the cell's value will be tested by the next run that lands four.
+
+## 2.6.0 - 2026-09-07 - two-models-one-game-benchmark
+
+- **The board broke a sibling's `commit` lock that was ONE SECOND old, because it judges
+  staleness by the holder's HEARTBEAT rather than by the lock's age.** `lock commit` printed
+  `warn: breaking lock 'commit' held by mediagen-vh8h (1s old; holder has no recent
+  heartbeat)` and handed the lock over. Those are two different signals and this method's own
+  shape makes them diverge: a run beats at phase transitions, then goes quiet through a long
+  drafting or verification pass, and takes the commit lock at the *end* of that quiet - so the
+  moment a run is most certainly alive and inside `git add` is exactly the moment its
+  heartbeat looks oldest. My own record read `[QUIET] beat=25m ago` while I was actively
+  writing files. The 15-minute TTL exists so a crashed session cannot deadlock the fleet, and
+  a fresh lock is the one piece of evidence that its holder was alive one second ago. **Until
+  this is fixed, do not trust a break: after breaking any lock, check `git diff --cached`
+  before staging** - I did, it was empty, and that check is the only thing that stood between
+  this run and a commit carrying a neighbour's staged work. Worth a fix in `run-board.mjs`
+  (never break a lock younger than its TTL regardless of heartbeat; and beat when a lock is
+  acquired), which is a change no mid-flight run needs to react to.
+- **The correct recipe for a shared append-only ledger is `HEAD + my scratch file`, staged as
+  a blob - and it detects a moved HEAD for free.** Staging the working tree is wrong whenever
+  a sibling has appended into the same file, and a per-hunk patch is fiddly for pure appends.
+  Rebuilding the blob from `git show HEAD:<path>` plus the exact bytes this run wrote is
+  exact by construction. The diagnostic it produced is the reason to prefer it: printing
+  `staged - working tree` per file showed `SCORECARD.md` at **-407 bytes**, i.e. my staged
+  blob was *larger* than my own working copy, which can only mean HEAD moved under me and my
+  working tree was stale relative to a sibling's commit. A plain `git add` there would have
+  silently committed a revert of 407 bytes of somebody else's landed scorecard row. Two
+  follow-ups the method should carry: **print the three sizes and read them**, and **after
+  committing a shared file this way, `git checkout --` it** so the working tree stops
+  advertising a deletion nobody intends.
+- **Use binary buffers for that, not text.** Concatenating and hashing through `Buffer` kept
+  the staged diff to the appended lines; a text-mode round trip would have rewritten every
+  line ending and staged a whole-file change. Same failure this vault already records for
+  `hash-object`, arriving through a different door.
+- **`git status --short | head` is not a WIP check, it is a sample of one.** Reading ten
+  modified paths in tracklight showed nothing in `crates/runner/`; the truncated remainder was
+  where the live WIP actually was, and only `git status --short -- <the exact paths>` settled
+  it. That scoped form is what correctly blocked the tracklight ship and turned it into a
+  recorded return condition rather than a collision. **Ask the question about the file you
+  are going to touch, never about the repository.**
+- **A characterization test that has never been shown to fail is indistinguishable from one
+  that cannot.** The pof guard passed its first calibration in the wrong sense: nudging one
+  weight by 0.05 left all eleven tests green, so the guard did not protect the ordering the
+  commit message was about to claim it protected. Only the perturbation actually *measured*
+  turned it red. Two things generalize. First, **calibrate against the arm you measured, not
+  against a convenient small delta** - the small delta tests sensitivity nobody claimed.
+  Second, **when the control fails, the honest fix is often to narrow the claim rather than
+  widen the test**: the shipped comment now says the guard catches a change of stance and not
+  drift, which is true, checkable, and more useful to the next reader than a stronger
+  sentence would have been.
+- **An 892-word source produced two landings, two apply rows and a ship; a 142,610-line
+  engine two rows above produced six subjects.** Both are good runs and the ledger should
+  stop implying otherwise. What the small one demonstrates is that `extract` volume is close
+  to uncorrelated with yield: ten candidates, six of them catches or untriaged on sight, and
+  **neither landing was visible in the Phase 3 table at all**. Both were produced at Phase 6
+  out of rows that entered looking like catches. The extraction step's job is to reach the
+  neighbourhood cheaply, not to contain the finding.
+
+### Redesign proposal - hunt the enumeration's PREMISE, not only its missing member
+
+Phase 6's third hunt asks what an enumeration omits. Both of this run's landings came from a
+different question - what does every member of the enumeration silently share? - and neither
+would have been found by the omission question, because both lists are *complete*. Three
+estimators of player skill, and all three play the game. Four truncation causes, and all four
+are things the harness or its operator did. In a mature corpus the omission hunt is subject to
+diminishing returns exactly because the enumerations get complete; the premise hunt is not,
+because a premise that holds for every member at the time of writing is the thing an author
+has no reason to state. Not applied to `SKILL.md` this round: a sibling was live for the whole
+run, a method edit is the one change a parallel fleet cannot absorb quietly, and this is one
+run's evidence. It is filed as round 35's focus item (2) so the next two runs can confirm or
+kill it on the three-runs rule.

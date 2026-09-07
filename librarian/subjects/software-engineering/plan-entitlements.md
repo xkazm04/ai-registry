@@ -55,3 +55,38 @@ landscape, ~3 months) — the first clock this subject has.
 ### Impact (2026-09-02)
 
 Stale verdicts after this landing: systedo-case (1), ascent (2). Apply row: see `librarian/applied.md`.
+
+## 2026-09-07 - the provider seat (3 techniques, via [[2026-09-07-lago]])
+
+Read against an open-source billing engine that *serves* entitlement answers to
+third parties. Three of this subject's rules INVERT once the model is a product
+surface rather than a private in-app tier table, and each became a technique that
+BOUNDS the existing rule rather than contradicting it:
+
+- `provider-publishes-state-not-decision` - inverts `capability-gate-predicates`'
+  "refusing the boolean". A provider refuses the *decision* for this subject's own
+  reason: one level up, the four outcomes are the consumer's enumeration, and a
+  provider computing them would be the second tier model the golden path warns
+  against. It cannot know whether an operator's `max: 0` means nothing or everything.
+- `inherited-tier-not-cloned-tier` - price overrides copy, capability overrides
+  inherit. The engine's override service clones five collections into a child plan
+  and deliberately skips entitlements. **The forging worker argued this was half a
+  duplicate and was right**: `tier-model-single-source` already forbade forking the
+  tier *vocabulary*. Resolved by shortening that bullet to a pointer rather than
+  leaving two half-answers.
+- `subtractive-entitlement` - a negative grant, naming a thing it does NOT confer.
+  Three states (inherited / overridden / removed), because "everything in the plan
+  except X" cannot be written as positive grants without the cloning the technique
+  above forbids. An override equal to the plan value is normalized away, so the
+  subscription keeps tracking the plan.
+
+Not landed but recorded as a lead: the engine's two public read surfaces disagree
+about provenance - one publishes value + plan_value + override_value + an overrides
+map, the other only value (director-verified in both the type surface and the
+serializer). This subject says the read gate and the write gate must agree; it does
+not model read-surface vs read-surface.
+
+Fleet impact: kp and ascent both collapse a negotiated per-customer contract to a
+single `unlimited` boolean and have no override layer at all (kp grep: zero hits).
+That absence is the negative evidence for the two techniques above.
+

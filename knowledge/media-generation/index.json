@@ -4,8 +4,8 @@
   "bundle": "media-generation",
   "source": "knowledge/media-generation/ (frontmatter only)",
   "subjects": 20,
-  "techniques": 134,
-  "applications": 62,
+  "techniques": 135,
+  "applications": 63,
   "laws": 9,
   "categories": [
    "narrative-craft",
@@ -15,7 +15,7 @@
    "production-ops"
   ],
   "layout": "nested",
-  "use_when_coverage": "134/134",
+  "use_when_coverage": "135/135",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -1033,9 +1033,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/visual-generation/generative-provider-routing/generative-provider-routing.md",
-   "digest": "sha256:a7b62ea49e49e7c4",
-   "revision": 8,
-   "changedAt": "2026-08-27",
+   "digest": "sha256:e55f12fc2041ec86",
+   "revision": 9,
+   "changedAt": "2026-09-07",
    "techniques": [
     {
      "slug": "capability-to-vendor-plan",
@@ -1123,6 +1123,21 @@
      ]
     },
     {
+     "slug": "unspent-budget-is-a-defect",
+     "status": "forged",
+     "laws": [
+      "cost-per-usable-output",
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a generation budget is raised to buy access to a higher-capability provider",
+      "a pipeline runs unattended and decides for itself how much to spend",
+      "a run finishes on time, under budget, with no refusals, and the output is flat",
+      "deciding what a spend control should report besides overspend"
+     ]
+    },
+    {
      "slug": "vendor-fact-ledger",
      "status": "forged",
      "laws": [
@@ -1151,6 +1166,13 @@
      "file": "knowledge/media-generation/visual-generation/generative-provider-routing/applications/node--refusal-reroute-hop.md",
      "verified_on": "2026-08-27",
      "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "unspent-budget-is-a-defect",
+     "file": "knowledge/media-generation/visual-generation/generative-provider-routing/applications/node--unspent-budget-is-a-defect.md",
+     "verified_on": "2026-09-07",
+     "verified_against": "node@22"
     },
     {
      "stack": "process",
@@ -2586,6 +2608,7 @@
     "generative-provider-routing/cost-per-usable-economics",
     "generative-provider-routing/extraction-model-bake-off",
     "generative-provider-routing/non-silent-elimination",
+    "generative-provider-routing/unspent-budget-is-a-defect",
     "generative-provider-routing/vendor-fact-ledger",
     "image-prompt-composition/medium-vocabulary-locking",
     "image-prompt-composition/prompt-budget-limits",
@@ -2791,6 +2814,7 @@
     "generative-provider-routing/capability-to-vendor-plan",
     "generative-provider-routing/cost-per-usable-economics",
     "generative-provider-routing/resolution-as-stage-property",
+    "generative-provider-routing/unspent-budget-is-a-defect",
     "generative-provider-routing/vendor-fact-ledger",
     "image-prompt-composition/identity-split-from-state",
     "image-prompt-composition/prompt-budget-limits",

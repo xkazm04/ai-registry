@@ -1,0 +1,155 @@
+{
+  "id": "1ea23fca-d8a2-5333-a6d8-dd5c63dadd87",
+  "slug": "lead-welcome-email-drafting",
+  "title": "Lead welcome email drafting",
+  "version": "0.2.0",
+  "status": "seed",
+  "path": "sales_marketing/lead-handling",
+  "domain": "sales_marketing",
+  "description": {
+    "need": "One template sent to everyone reads as a template to everyone, and the person who wrote three sentences about their problem learns immediately that nobody read them. A merge field makes it worse rather than better: a first name in the greeting is now the recognised signature of an automated send, so the effort spent on it is spent proving the opposite of what it intended.",
+    "input": "A newly judged lead with the reasoning behind that judgment, what they actually wrote, what is true about the product and may be offered, and the adopter's rule for which cases a person should see before anything sends.",
+    "core_action": "Match the reply, and the size of the ask in it, to how ready this person actually is, drawing on what they wrote rather than substituting a name into a template. A reply that asks for more than the enquiry justifies converts a warm contact into an unsubscribe.",
+    "output": "A first reply that reflects the person who sent it, sent or held according to the boundary the adopter set, with what went out recorded against the lead and its arrival confirmed rather than assumed."
+  },
+  "activities": [
+    {
+      "id": "read-lead",
+      "label": "Read the lead, what they wrote, and how promising they were judged",
+      "kind": "observe"
+    },
+    {
+      "id": "pitch",
+      "label": "Decide how direct the reply should be, and how large an ask it earns",
+      "kind": "decide"
+    },
+    {
+      "id": "draft",
+      "label": "Draft a reply grounded in what they actually said",
+      "kind": "act"
+    },
+    {
+      "id": "gate",
+      "label": "Hold for approval where the adopter's boundary says to",
+      "kind": "decide"
+    },
+    {
+      "id": "recheck",
+      "label": "Confirm nobody has already replied and nothing has changed since the draft",
+      "kind": "observe"
+    },
+    {
+      "id": "send",
+      "label": "Send the reply the approval covered, not a later revision of it",
+      "kind": "act"
+    },
+    {
+      "id": "record",
+      "label": "Record what went out against the lead, and whether it arrived",
+      "kind": "deliver"
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "reply-reflects-the-person",
+      "statement": "A new lead's first reply reflects what they actually wrote and how ready they are, rather than one template with a name substituted.",
+      "success_criteria": [
+        "A low intent enquiry gets something useful with no ask attached; a high intent one gets a direct next step.",
+        "The reply draws on the content of the submission, not only on the tier it was placed in.",
+        "The reply would still read as written for this person if the greeting were removed.",
+        "No reply claims something about the product that is not true, and nothing is offered that the adopter has not said may be offered.",
+        "An approver who edits a draft before it goes has corrected it and attached the corrected version, which carries more than an approval or a rejection ever could, so the draft is kept beside what actually went out rather than overwritten by it, and an edit that keeps recurring, an ask softened or a claim cut, changes what the next draft proposes instead of being made by hand on every lead."
+      ]
+    },
+    {
+      "id": "the-approval-boundary-holds",
+      "statement": "The cases the adopter wants to see before they go out do not go out without being seen, and a hold does not quietly become a decision not to reply.",
+      "success_criteria": [
+        "Replies in the gated set wait for a person, and the rest do not wait for no reason.",
+        "A draft nobody has looked at is escalated or expired rather than held forever, because an unbounded hold is a silent choice not to answer.",
+        "What was approved is what was sent, so an edit after approval reopens the gate rather than riding on it."
+      ]
+    },
+    {
+      "id": "the-reply-is-on-the-record-and-arrived",
+      "statement": "Whether the enquirer was answered is a fact anyone can look up, not an inference from silence.",
+      "success_criteria": [
+        "What was sent, when, and to which address is recorded against the lead itself.",
+        "A bounce or a rejection is visible as a delivery failure, so a broken pipe is never read as an unresponsive lead.",
+        "A reply that could not be sent is queued and named rather than silently dropped."
+      ]
+    }
+  ],
+  "guidance": "Match the ask to the readiness. Someone who wrote three sentences about their problem should not get what someone who typed a name gets, and a low intent enquiry pushed toward a meeting turns a warm contact into an unsubscribe. Personalisation is not a merge field; a first name proves nothing was read. Before sending, check nobody has already replied by another route. The moment a reply carries promotion beyond answering, it changes what it legally is, and that boundary belongs to the adopter.",
+  "use_cases": [
+    "A business where enquiries arrive faster than anyone can answer them personally, and the current fallback is silence for two days followed by an apology.",
+    "A team that already sends an automated welcome and can see from the reply rate that nobody is reading it, without knowing whether the problem is the timing, the content or the fact that it is obviously automated.",
+    "A founder who writes every first reply themselves, writes them well, and wants the drafting done for them while keeping the decision to send, at least until the drafts stop needing edits.",
+    "An operation selling into more than one jurisdiction, where the difference between answering an enquiry and marketing to a contact carries different obligations and nobody has yet decided which side the welcome email is on.",
+    "A team where sales sometimes phones a promising lead within the hour, so an automated welcome that arrives afterwards reads as a left hand that does not know what the right one did."
+  ],
+  "connector_types": [
+    "email"
+  ],
+  "recommended_trigger": {
+    "kind": "event",
+    "rationale": "The reply is owed the moment a lead is captured and its value decays over minutes, so a clock would send it after the moment it was worth having. It fires on the capture. A held draft is the one case where time matters, and how long a hold may last before it escalates is the adopter's decision rather than this recipe's cadence."
+  },
+  "personalization_needs": [
+    "Whether replies send automatically or wait for approval, and whether that differs by how promising the lead is, which is a trust boundary rather than a setting.",
+    "What is actually true about the product and what may be offered, since this recipe writes on the adopter's behalf to somebody they have never met.",
+    "Who a serious lead should be handed to and how they should be named in the reply, because a personal note from nobody in particular is worse than an honest general one.",
+    "Which jurisdictions the adopter's enquirers are in, and whether the reply is meant to stay a reply or is allowed to market, because those are different objects in law and the identification and unsubscribe obligations attach to only one of them. This recipe cannot decide that and should not look as though it has."
+  ],
+  "dependencies": [],
+  "input_schema": [
+    {
+      "name": "welcome_email_gate",
+      "type": "enum",
+      "options": [
+        "none",
+        "on_fire_only",
+        "hot_and_on_fire",
+        "all_tiers"
+      ],
+      "default": "none",
+      "description": "Which tiers hold the welcome email for human approval before send."
+    },
+    {
+      "name": "personalization_depth",
+      "type": "enum",
+      "options": [
+        "light",
+        "moderate",
+        "score_tiered",
+        "full"
+      ],
+      "default": "score_tiered",
+      "description": "Depth of form-response use in the welcome email."
+    }
+  ],
+  "examples": [
+    {
+      "title": "Gmail as the sending connector",
+      "connector": "gmail",
+      "connector_type": "email",
+      "notes": "See examples/gmail.md."
+    },
+    {
+      "title": "Resend as the sending connector",
+      "connector": "resend",
+      "connector_type": "email",
+      "notes": "See examples/resend.md."
+    }
+  ],
+  "lessons": [],
+  "provenance": {
+    "from_recipes": [
+      "1ea23fca-d8a2-5333-a6d8-dd5c63dadd87"
+    ],
+    "from_templates": [
+      "lead-capture-pipeline"
+    ],
+    "source_template_id": "lead-capture-pipeline"
+  }
+}

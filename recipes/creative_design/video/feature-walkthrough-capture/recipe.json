@@ -1,0 +1,174 @@
+{
+  "id": "99c24f3f-06ee-5f7c-a13f-fff4cfb52dae",
+  "slug": "feature-walkthrough-capture",
+  "title": "Feature walkthrough capture from the running app",
+  "version": "0.3.0",
+  "status": "seed",
+  "path": "creative_design/video",
+  "domain": "creative_design",
+  "description": {
+    "need": "A feature nobody can watch has to be explained by hand every time. A walkthrough recorded from a guessed script shows screens the app does not produce, and one recorded against a live instance with no prepared state shows a loading spinner where the feature should be, or somebody's real data standing in for a sample.",
+    "input": "The implementation of the feature to be shown, a running instance in a known state, whatever capture tooling exists on the machine, and where the result will be watched.",
+    "core_action": "Read the code first so the walkthrough follows the path a real user takes, put the app into a state that will show the feature rather than the empty case, then drive that path live and pace the capture for a viewer rather than for the machine.",
+    "output": "A walkthrough artifact recorded against a named build, legible at the size it will be watched, accompanied by the steps in writing, with any limitation of the available capture method stated in it rather than hidden."
+  },
+  "activities": [
+    {
+      "id": "read-implementation",
+      "label": "Read the implementation to establish the real user path and what it needs to be in place",
+      "kind": "observe"
+    },
+    {
+      "id": "check-tooling",
+      "label": "Establish what capture the machine can actually do",
+      "kind": "observe"
+    },
+    {
+      "id": "plan",
+      "label": "Plan the steps, their pacing and the state the app has to be in before recording",
+      "kind": "decide"
+    },
+    {
+      "id": "drive",
+      "label": "Drive the path in the running app and capture it",
+      "kind": "act"
+    },
+    {
+      "id": "check",
+      "label": "Check the capture for legibility at the size it will be watched and for anything that should not be in frame",
+      "kind": "decide"
+    },
+    {
+      "id": "deliver",
+      "label": "Deliver the artifact with its build, its written steps and its stated limitations",
+      "kind": "deliver"
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "walkthroughs-stay-current",
+      "statement": "Any feature worth showing has a current walkthrough that matches what the app does today.",
+      "success_criteria": [
+        "Each walkthrough records the build or commit it was captured against, and the parts of the implementation the path went through, so a later change makes it detectably suspect rather than silently wrong.",
+        "A walkthrough whose screens no longer match the app is marked stale rather than served as current.",
+        "A capture that failed produces a stated reason, never a silently empty file or a video of an error page."
+      ]
+    },
+    {
+      "id": "grounded-in-the-code",
+      "statement": "The walkthrough follows the path a real user takes, grounded in the code that implements it.",
+      "success_criteria": [
+        "The steps shown correspond to the implemented flow rather than a guessed one, including whatever the flow requires to be true before it can be reached.",
+        "The app is in a state that shows the feature working, so an empty list or a spinner is not captured as though it were the thing being demonstrated.",
+        "The surface driven on screen is the one the walkthrough claims to show, so a record visible in a data store, a log line or a diagnostics view is evidence about that place rather than about the path being demonstrated, and a path that could not be made to work is delivered as a stated failure rather than replaced by a neighbouring one that could.",
+        "A limitation of the capture method available on this machine is stated in the artifact rather than hidden behind a lesser one.",
+        "A step order the reviewer changes, or an entry point they say users do not use, is kept with the walkthrough's own path record, because the code establishes which flows exist and only a person establishes which of them a user actually takes, and the next capture on that surface should start from the corrected path rather than derive it from the implementation again."
+      ]
+    },
+    {
+      "id": "watchable-by-everyone",
+      "statement": "The result can actually be used by the person it was made for, including someone who cannot watch it.",
+      "success_criteria": [
+        "The interface text is legible at the size the artifact will be played, not only at the size it was captured.",
+        "The steps exist in writing beside the artifact, which is both the accessible equivalent and the only part that survives being searched.",
+        "Nothing is in frame that should not leave the machine: real names, real customer data, tokens, notifications, other people's work."
+      ]
+    }
+  ],
+  "guidance": "Read the code first, or the walkthrough shows a path the app does not have. Put the app into a known state before recording, because a live instance will otherwise hand you a loading spinner as the feature and somebody's real data as the sample. Pace it for a viewer, who needs a moment on each screen to read it. Check the text is legible at the size it will be watched rather than the size it was captured. A silent capture still needs its steps written down.",
+  "use_cases": [
+    "A team whose support answers the same how do I question with a freshly typed paragraph every week, because the answer is four clicks and there is nothing to point at.",
+    "A product whose features page carries screenshots taken fourteen months ago, where nobody can say which of them still match the app and checking means opening each one.",
+    "An onboarding flow that shipped last sprint and which nobody outside the team building it has watched work from beginning to end.",
+    "A team that records its demos by hand before every release, one person and one afternoon each time, and skips it whenever the release is late.",
+    "A company that once published a demo showing a real customer's name in a table, and now reviews every capture frame by frame at a cost nobody budgeted."
+  ],
+  "connector_types": [
+    "development",
+    "browser_automation"
+  ],
+  "recommended_trigger": {
+    "kind": "self_paced",
+    "rationale": "Act when a feature has shipped without a walkthrough, when the screens in an existing one no longer match the app, or when the operator asks. A stale set is worked down over time rather than recaptured wholesale, and the judgment about which one is worth doing next is exactly what a clock cannot make."
+  },
+  "personalization_needs": [
+    "Which app and which of its surfaces are worth recording, because recording everything produces a library nobody watches and a maintenance load nobody agreed to.",
+    "Who the walkthrough is for, since an internal review capture, an operator memory aid and a public demo differ in pacing, in annotation and in whether narration is needed at all.",
+    "Where the result will be watched and at what size, because that is what decides the viewport and whether the interface text will be readable.",
+    "What capture tooling actually exists on this machine, so the adopter is not promised video where only stills are possible.",
+    "What must never appear in frame for this adopter, which is a policy question rather than a technical one and is the one thing a later reviewer cannot fix."
+  ],
+  "dependencies": [
+    "a running local instance of the app being demonstrated, reachable and in a state the walkthrough can use",
+    "browser automation tooling on the machine, which sets the artifact ceiling: without it the recipe degrades from video to stills"
+  ],
+  "input_schema": [
+    {
+      "name": "feature_prompt",
+      "type": "text",
+      "description": "What feature or workflow to show. A free description, used to find the implementation and to plan the walkthrough."
+    },
+    {
+      "name": "recording_mode",
+      "type": "enum",
+      "options": [
+        "auto-detect",
+        "screenshots",
+        "video"
+      ],
+      "default": "auto-detect",
+      "description": "Capture method. Auto detect picks the best tier the machine supports and says which one it picked, because a silently downgraded artifact is the failure this recipe most wants to avoid."
+    },
+    {
+      "name": "walkthrough_speed",
+      "type": "enum",
+      "options": [
+        "slow",
+        "normal",
+        "fast"
+      ],
+      "default": "normal",
+      "description": "Pacing of the interactions. This is the setting that decides whether the result is a walkthrough or a capture: a viewer needs to see where the pointer went and then has to read the screen."
+    },
+    {
+      "name": "viewport_width",
+      "type": "number",
+      "default": 1280,
+      "min": 800,
+      "max": 3840,
+      "description": "Viewport width in pixels. Choose it from where the result will be watched: a wide capture played in a narrow embed shrinks the interface text with it."
+    },
+    {
+      "name": "viewport_height",
+      "type": "number",
+      "default": 800,
+      "min": 600,
+      "max": 2160,
+      "description": "Viewport height in pixels. A tall viewport avoids scrolling mid demonstration, which is the motion viewers find hardest to follow."
+    }
+  ],
+  "examples": [
+    {
+      "title": "The registered local codebase as the grounding source",
+      "connector": "codebase",
+      "connector_type": "development",
+      "notes": "See examples/codebase.md."
+    },
+    {
+      "title": "The local desktop browser as the capture surface",
+      "connector": "desktop_browser",
+      "connector_type": "browser_automation",
+      "notes": "See examples/desktop_browser.md."
+    }
+  ],
+  "lessons": [],
+  "provenance": {
+    "from_recipes": [
+      "99c24f3f-06ee-5f7c-a13f-fff4cfb52dae"
+    ],
+    "from_templates": [
+      "demo-recorder"
+    ],
+    "source_template_id": "demo-recorder"
+  }
+}

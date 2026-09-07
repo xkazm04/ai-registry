@@ -22,6 +22,8 @@ techniques:
   - owner-and-counterpart-scope
   - read-set-bounded-links
   - durable-store-failure-posture
+  - self-trained-capture-filter
+  - gap-directed-elicitation
 ---
 
 # Agent memory
@@ -42,6 +44,17 @@ decay of what stopped mattering, and the injection of the survivors back into
 the agent's context. Cutting any one stage out does not simplify the system;
 it relocates that stage's judgment into whichever stage is left, where it is
 done badly.
+
+One boundary the pipeline does not move, because it is a property of the input
+rather than of any stage: every transformation above begins with something the
+agent **observed**. Knowledge that was never transacted — a goal, a constraint,
+the alternative that was rejected, the reason a convention exists — generates no
+event to capture, and no downstream stage can recover what the stream never
+carried. Detecting that class of absence is
+[coverage-instrumentation](./techniques/coverage-instrumentation.md); acquiring
+it takes a deliberate path that asks the principal and feeds the answer back in
+as an episode
+([gap-directed-elicitation](./techniques/gap-directed-elicitation.md)).
 
 ## The hierarchy: three layers with different physics
 
@@ -447,6 +460,11 @@ comparison a stated result instead of an unexamined premise.
 - **The instrument on the drip** — a scheduled measurement running through the
   production read path, entrenching the very items it uses as ground truth, so
   the metric climbs while the store decays.
+- **The screen that ate a topic** — a learned pre-filter in front of the
+  distiller, trained on the distiller's own silence, widening until a whole
+  subject is dropped before capture; and because it runs upstream of the judge,
+  the evidence that would overturn it is what it prevents from being collected
+  (self-trained-capture-filter).
 
 ## The techniques
 
@@ -500,3 +518,7 @@ comparison a stated result instead of an unexamined premise.
 - [probe-without-write-back](./techniques/probe-without-write-back.md) — the
   read path is not read-only, so a scheduled measurement through it entrenches
   its own fixtures: suppress the feedback write, per caller.
+- [self-trained-capture-filter](./techniques/self-trained-capture-filter.md) —
+  the cheap screen that learns from the distiller's silence: type the null
+  before training on it, and give the loop an exit, because the screen runs
+  upstream of the only oracle that could correct it.

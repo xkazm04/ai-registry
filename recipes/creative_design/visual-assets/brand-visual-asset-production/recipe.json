@@ -1,0 +1,155 @@
+{
+  "id": "e300b1db-400a-5b38-9a53-5f8cdcad95c2",
+  "slug": "brand-visual-asset-production",
+  "title": "On brand visual asset production",
+  "version": "0.2.0",
+  "status": "seed",
+  "path": "creative_design/visual-assets",
+  "domain": "creative_design",
+  "description": {
+    "need": "Surfaces ship with placeholder or stock visuals because making something that belongs to this specific product is slower than shipping without it. When work does get made, whether it is on brand is settled by whoever is in the room, so the answer changes and the drift is only visible once six surfaces have each drifted a little in a different direction.",
+    "input": "The written design brief, the surface that needs art and the size it will actually be seen at, the brand's declared colors and type, and the accumulated record of which phrasings produced approved work and which were turned down.",
+    "core_action": "Compose the work from the brief rather than from scratch, then decide whether it is on brand by checking the properties that can be checked instead of by forming an impression, and iterate a bounded number of times rather than indefinitely.",
+    "output": "An asset that traces to the brief, in the format and size the surface needs, delivered where the project can use it, carrying the checks it passed and any deliberate departure from the brief, after a person has seen it."
+  },
+  "activities": [
+    {
+      "id": "read-brief",
+      "label": "Read the brief, the surface it is for, and the size the asset will really be seen at",
+      "kind": "observe"
+    },
+    {
+      "id": "compose",
+      "label": "Compose the request from the brief and from what has been approved before",
+      "kind": "decide"
+    },
+    {
+      "id": "generate",
+      "label": "Generate the asset",
+      "kind": "act"
+    },
+    {
+      "id": "check",
+      "label": "Check it against the properties that can be checked, and iterate a bounded number of times",
+      "kind": "decide"
+    },
+    {
+      "id": "deliver",
+      "label": "Deliver in the format the surface needs, with the checks and any departure stated, for a human decision",
+      "kind": "deliver"
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "assets-belong-to-this-product",
+      "statement": "Surfaces that would otherwise ship with placeholder or generic visuals carry work that belongs to this product.",
+      "success_criteria": [
+        "Every delivered asset traces to the brief, and a departure from it is stated as a decision rather than left to be noticed later.",
+        "The asset arrives in the format the surface actually consumes: an icon set as vector, a hero within the aspect ratio and the weight budget the page has.",
+        "Nothing is delivered without a person seeing it, and they are shown it at the size it will be seen at rather than full bleed."
+      ]
+    },
+    {
+      "id": "on-brand-is-checked",
+      "statement": "On brand is a set of checks that passed, not an impression somebody formed.",
+      "success_criteria": [
+        "Dimensions, aspect ratio, palette against the declared brand colors, contrast behind any text, and legibility at the smallest size the surface renders are checked every time and reported with the asset.",
+        "Any text rendered inside the image is read back and compared against what it was meant to say, because a generator producing near words is the most common way an asset ships wrong.",
+        "A model's overall score is not one of the checks. Where a model is used it answers one closed question at a time, so two runs can be compared.",
+        "An asset a person turns down after it passed every check is treated as a finding about the check list rather than about the asset, and the property they objected to is added as a check wherever it can be decided, because a rejection that leaves the list unchanged will be reproduced by the next run at exactly the same pass rate."
+      ]
+    }
+  ],
+  "guidance": "On brand has to be a list of checks or it is a feeling that changes with whoever is in the room. Dimensions, aspect ratio, palette against the declared colors, contrast behind any text and legibility at the size the surface really renders are all decidable, and between them they catch most of what gets sent back. Read any text in the image back to yourself, because generators produce near words. When the work cannot reach the bar, ask for a reference rather than generating again.",
+  "use_cases": [
+    "A product whose landing page and six feature sections are still on stock photography, where each section looks like it belongs to a different company and nobody can say which one is the right one.",
+    "A team with no designer, where a placeholder shipped eight months ago is still in production because replacing it was never anybody's job and nothing surfaces it.",
+    "A brand with a documented palette and type scale that nothing actually checks, so assets drift one at a time and the drift is only visible in aggregate, long after the decision that started it.",
+    "A launch needing fourteen assets across five sizes inside a week, where the failures that cost the most are a wrong aspect ratio and a raster icon rather than anything to do with taste.",
+    "A team that once shipped a generated image with a misspelled word rendered into it, and now reviews everything by hand at a cost that has quietly become larger than the work."
+  ],
+  "connector_types": [
+    "development",
+    "image_generation",
+    "vision"
+  ],
+  "recommended_trigger": {
+    "kind": "self_paced",
+    "rationale": "There are two honest sources of work here and neither is a clock: a request that has arrived, and a surface still carrying a placeholder that nobody has noticed. Act on a request immediately, and go looking on the seat's own initiative when the queue is clear. A surface that genuinely does not need art is a finding worth recording rather than a gap to fill."
+  },
+  "personalization_needs": [
+    "Which project surfaces are in scope, because an unbounded remit here produces work nobody asked for and a review load that stops the recipe being used.",
+    "The brand's declared colors, type and any clear space rules, because these are what turn on brand from an opinion into a check, and without them the checking half of this recipe does not exist.",
+    "What kinds of asset the adopter needs most, which shapes what the seat gets good at over time and which per type checks are worth running.",
+    "How assets should reach the project, since a file in a folder and a committed change are different levels of trust and imply different review before delivery."
+  ],
+  "dependencies": [],
+  "input_schema": [
+    {
+      "name": "asset_request",
+      "type": "text",
+      "description": "What to create: hero image, social card, icon set, UI illustration, background. Include dimensions or aspect ratio where the surface fixes them."
+    },
+    {
+      "name": "asset_type",
+      "type": "enum",
+      "options": [
+        "hero",
+        "social_card",
+        "icon_set",
+        "background",
+        "illustration",
+        "brand_kit",
+        "mixed"
+      ],
+      "default": "mixed",
+      "description": "Shapes the memory lookup, the per type prompt, and which checks apply. An icon set and a hero fail in different ways and are not worth checking the same way."
+    },
+    {
+      "name": "quality_threshold",
+      "type": "number",
+      "default": 7,
+      "min": 5,
+      "max": 10,
+      "description": "Minimum score a vision model must give before the asset proceeds to human review. Read it as a patience setting rather than a measurement: a single overall score is a taste claim and is not reproducible between runs. The checkable properties decide separately and are not negotiable at any threshold."
+    },
+    {
+      "name": "max_iterations",
+      "type": "number",
+      "default": 3,
+      "min": 1,
+      "max": 6,
+      "description": "How many times the work is regenerated before it is handed over with its remaining failures named. The bound exists because an asset that has failed three times usually needs a reference image or a changed brief, not a fourth attempt."
+    }
+  ],
+  "examples": [
+    {
+      "title": "The registered local codebase as the project connector",
+      "connector": "codebase",
+      "connector_type": "development",
+      "notes": "See examples/codebase.md."
+    },
+    {
+      "title": "Gemini vision as the quality check",
+      "connector": "gemini-vision",
+      "connector_type": "vision",
+      "notes": "See examples/gemini-vision.md."
+    },
+    {
+      "title": "Leonardo AI as the image connector",
+      "connector": "leonardo-ai",
+      "connector_type": "image_generation",
+      "notes": "See examples/leonardo-ai.md."
+    }
+  ],
+  "lessons": [],
+  "provenance": {
+    "from_recipes": [
+      "e300b1db-400a-5b38-9a53-5f8cdcad95c2"
+    ],
+    "from_templates": [
+      "visual-brand-asset-factory"
+    ],
+    "source_template_id": "visual-brand-asset-factory"
+  }
+}

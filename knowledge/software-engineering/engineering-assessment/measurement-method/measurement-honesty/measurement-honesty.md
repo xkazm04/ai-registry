@@ -15,6 +15,7 @@ techniques:
   - instrument-exposure-control
   - tuning-corpus-disjointness
   - unelidable-measurement
+  - control-failure-is-not-a-datum-state
 ---
 
 # Measurement honesty
@@ -148,6 +149,22 @@ the trustworthy one.
 covers what a second instrument has to satisfy to be one, why the *gap*
 between paired populations is the reading rather than either level, and the
 drift signature that separates a subject improving from an instrument decaying.
+
+A second mechanism sits outside the seven states for a different reason: it is
+not a property of a datum at all. When two measurements are taken in order to
+be *compared*, a condition that was supposed to hold across them can fail —
+the load moved, the population drifted, one arm ran warm — and the contrast is
+then worthless while both values remain measured, well-formed, unrefuted and
+uncontaminated. Every state above is checked per value and none of them fires,
+because nothing is wrong with either value. This is a confound rather than
+measurement error, and the honest handling inverts the instinct to quietly drop
+the axis: the axis and its failed control are published and only the contrast is
+withheld, because a comparison that silently omits the axes whose controls
+failed reports a selected set while looking exactly like one reporting a
+measured set.
+[control-failure-is-not-a-datum-state](./techniques/control-failure-is-not-a-datum-state.md)
+covers why the four plausible existing states are each the wrong home, and why
+this refusal must not be worded like the noise-band refusal.
 
 One mechanism sits outside the seven states entirely, because it corrupts the
 value before any of them applies. Every state above treats the instrument as a

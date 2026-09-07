@@ -136,7 +136,13 @@ The measured shape, one scenario, one consumer, same budget: on questions about 
 that changed, the rewriting store scored 0.98 and the row store 0.85. On questions about
 a recurring failure cause, the rewriting store scored 0.36 and the row store 0.68. Stale
 answers across the whole set ran 3 for the rewriting store against 16 for the row store.
-Neither shape is better; they fail in opposite directions.
+They fail in opposite directions, and the axis is detail against currency — not
+accuracy against cost, which is how the choice is usually argued.
+
+On aggregate accuracy the row store actually wins: 0.89 against 0.86 for the best
+rewriting arm in that run. What the rewriting arm bought was the stale count above and
+**half the read cost** — a compiled position is shorter than the material it was compiled
+from. A compaction pass that can show neither gain is not paying for its write cost.
 
 The design consequence is not to pick one. It is that **a rollup must not become the only
 thing recall can see.** The evidence it was built from has to stay addressable, and the

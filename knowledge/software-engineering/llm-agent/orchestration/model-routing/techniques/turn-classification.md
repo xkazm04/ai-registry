@@ -7,7 +7,7 @@ status: forged
 laws:
   - one-authority-per-vocabulary
 shared_with: []
-use_when: [designing a closed vocabulary of call classes, a new class shows up unlabeled on one chart, effort half of a routed pair going missing, one class both plans a deliverable and writes it]
+use_when: [designing a closed vocabulary of call classes, a new class shows up unlabeled on one chart, effort half of a routed pair going missing, one class both plans a deliverable and writes it, the caller is a person at an interactive prompt and no call site can assert a class, a routing decision flapping between tiers inside one turn]
 ---
 
 # Turn classification
@@ -128,3 +128,65 @@ before adding the caller.
 - **Test and evaluation traffic gets its own class**, not a borrowed one.
   Letting fixtures assert the interactive class poisons both the calibration
   data and the spend attribution for the class that matters most.
+
+## When there is no call site to ask
+
+Everything above rests on a premise worth stating plainly, because a whole class
+of system violates it: **that the caller is code**. A call site inside a product
+knows whether a human is waiting, knows the blast radius of its own output, and
+can be made to pass a required argument. An interactive client whose caller is
+*the person typing* has none of that. There is one call site, it serves every
+class of work the user happens to want, and the only party who knows the class is
+the one party the contract cannot oblige — a user will not annotate their turns,
+and a required-argument rule pointed at a human is a prompt for a label they did
+not come to write.
+
+The rule above does not bend for this case; the case is outside it. "An
+unclassified call fails loudly" presumes a bug at a call site, and here there is
+no call site and no bug — the absence of an asserted class is the normal
+condition. A system in this position either routes everything to one tier, which
+is the cost problem this subject exists to solve, or infers the class from
+content, which this technique rejects for reasons that remain good ones:
+inference from prompt text is fragile, the record says the router guessed, and
+the same string can be two classes.
+
+What changes is what makes the inference *acceptable*, and it is not accuracy. A
+classifier that is right most of the time is still wrong on some turn the user
+cared about, and no reachable accuracy removes that. What removes it is
+**designing the error to be asymmetric, and publishing which way it points**:
+
+- **The uncertain turn goes to the expensive tier.** The classifier's job is not
+  to identify cheap turns; it is to identify turns it is *confident* are cheap
+  and to abstain everywhere else. The failure mode is then a turn that could have
+  been cheap and was not — a missed saving, invisible in the output and
+  recoverable on the next turn — rather than a degraded answer on work that
+  mattered. Document that direction where the feature is enabled: an operator
+  switching it on is deciding about the failure, not about the accuracy, and the
+  honest sentence ("you may lose savings, you will not lose quality") is what
+  makes the decision informed.
+- **The decision is taken once per turn and pinned for that turn's whole
+  execution**, including every underlying call it fans out into. This is where
+  "one call, one class" needs restating for an interactive client: the unit the
+  user experiences is the turn, and a class re-derived per underlying call flaps
+  mid-turn — one piece of work answered partly by each tier, which is neither the
+  cheap outcome nor the good one.
+- **A misroute is repaired, not merely regretted.** A turn routed cheap whose
+  call then fails may retry once on the expensive tier. Scope the retry to
+  failures a different tier could plausibly fix; a refusal, an authorization
+  failure, a malformed request or a user abort is not one, and retrying those
+  buys a second bill and the same answer.
+- **The inference is the router's, so the record says so.** The decision record
+  carries the class *and* the fact that it was inferred rather than asserted.
+  Without that flag the retrospective question this technique cares about — was
+  this class worth what it was routed to — cannot be separated from the prior
+  one, which only exists here: was the class right at all.
+
+Two constraints ride along, and both are ordinary consequences of the tier
+mapping rather than new rules. An inferred tier is still subject to whatever
+roster policy governs the caller, so a tier the operator has disallowed is not
+reachable by inference either — the router coerces to the permitted one, and if
+none is permitted it stops inferring for the session rather than quietly
+selecting. And where the client also exposes a programmatic surface, that surface
+has real call sites: they assert their class in the ordinary way, and only the
+human-facing turn falls back to inference. A system that infers on both has given
+up a contract it was owed.

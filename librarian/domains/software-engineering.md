@@ -396,3 +396,15 @@ with three pins).
 - Unchanged from [[2026-09-04-1]]: the quality-gates split, merge-result gating, the
   bun witness, the 247 stale verdicts nobody has drained (215 after this run's
   regeneration - the number moves with digests, not with conform runs).
+## Run [[2026-09-06-1]] - quality-gates split; metric-gates is the bundle's 215th subject
+
+Operator executed the split proposed on 2026-09-04. Four techniques and three
+applications moved whole; `excess-indicts-the-instrument` stayed (predicate-side, and a
+half-technique is two weak ones). quality-gates 25 -> 21 techniques. The split changes
+no rule; it changes which golden path a reader lands on when the verdict is a number.
+
+### What is owed (updated)
+
+- metric-gates: demand unknown, four techniques, two named candidates waiting on a
+  second sighting. First `/conform` on a project with a ratchet or size gate.
+- The quality-gates split item is closed. Everything else from [[2026-09-04-1]] stands.

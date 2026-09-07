@@ -4,8 +4,10 @@ type: application
 subject: difficulty-design-and-adaptation
 technique: four-term-difficulty-decomposition
 stack: node
-verified_on: 2026-08-22
+verified_on: 2026-09-07
 verified_against: node@24
+applied: code
+ab_verdict: better
 ---
 
 # The four terms as evaluator criteria, in a TypeScript game-tooling app
@@ -76,3 +78,44 @@ as good as its wording. This repository pins the rendered prompts with a golden 
 string without running that rail leaves the prompt goldens red while the module's own
 unit test stays green — a failure this project has recorded and paid for. The rail is
 the closest thing the stack has to a regression gate on knowledge.
+
+## A second seam in the same tree: where the terms are numbers, not prose
+
+The criteria above are how this stack *judges* a design. There is a second place where
+it *scores* one, and it is the seam the technique's unsigned-estimator section applies
+to. A pure module reduces an opposition archetype's stats to a single danger number by
+weighted sum (`src/lib/balance/threat-score.ts`, `WEIGHTS`), and a sibling linter checks
+each archetype against its same-tier peers. In four-term vocabulary the weights are a
+model of **enemy power** alone, which is correct — but the number is used to answer *how
+dangerous is this*, which is a difficulty claim, and a difficulty claim carries its
+assumed skill level or it is not one.
+
+The weights carry no basis, and their author never played the game. That is the
+technique's unsigned case rather than its optimistic one, and the tree confirms the
+distinction matters here rather than merely being available. Both arms were run over the
+same twelve-archetype, three-tier roster: the shipped vector, and an equally defensible
+one that weights defense level with offense on the argument that survivability compounds.
+
+- **Cross-tier ordering: identical.** Tier separation dominates the sum, so the coarse
+  question the score is most often asked — is this a boss or a grunt — is robust to the
+  weights, and the unsigned authorship never reaches it.
+- **Within-tier ordering: flips in all three tiers**, always on the same pair, moving six
+  of twelve archetypes one place. The peer-band linter and encounter budgeting both read
+  the within-tier order, so the part that is fragile is the part that is consumed.
+
+**The structural fact is in the test suite, and nobody designed it.** Every assertion the
+module had was weight-*independent* — damage outranks health, a score is positive, an
+empty stat list is zero, an unknown label still contributes. Each of those passes for any
+vector in which damage outranks health, so a suite that looked like coverage pinned no
+shipped value at all. The unsigned number was not lightly guarded; it was unguarded by
+construction, and a green suite said otherwise.
+
+What shipped is the corrective the technique prescribes, which is explicitly **not** a
+retune: the weights are recorded as unestimated with the reason the usual easing reflex
+does not apply, and the within-tier ordering is pinned by characterization tests that say
+in their own comment that they do not claim the order is right, only that changing it is a
+decision. The guard was calibrated in both directions before being left green — red under
+the full reweighting, green under a single 0.05 nudge — so the document can state its
+reach honestly: it catches a change of stance, not drift. A team copying this should copy
+the calibration, not the number; a characterization test that has never been shown to fail
+is indistinguishable from one that cannot.

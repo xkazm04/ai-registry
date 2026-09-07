@@ -83,7 +83,10 @@ card carry its emphasis.
   grandfathered account), express it as an override *layered over* the tier
   model, resolved in one place, with the tier value as the fallback. Do not
   fork the tier set into per-customer tiers; a tier set that grows one entry
-  per negotiation stops being a vocabulary.
+  per negotiation stops being a vocabulary. What the per-tenant record may and
+  may not carry once it exists — and why a bespoke *price* may be copied onto
+  it while its capabilities must keep inheriting — is
+  [inherited-tier-not-cloned-tier](./inherited-tier-not-cloned-tier.md).
 - **When a tier is retired, keep its entry.** Existing rows still carry its
   identifier, and a lookup miss must not be the way the product discovers
   that. Mark it unavailable-for-purchase and keep it readable, forever.

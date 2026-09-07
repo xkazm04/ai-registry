@@ -82,6 +82,59 @@ behaviour, and the two are only correlated — the same error the transaction
 layer makes inferring "we are inside a boundary" from a handle's method list
 ([transactions-and-units-of-work](./transactions-and-units-of-work.md)).
 
+### The precondition that rule rests on, and where it inverts
+
+That objection is exact, and it is exact *because of the sentence's middle
+clause*: a member can be **inherited** from the refusing default. Where
+inheritance and default implementations exist — a base class, an interface
+with defaults, a trait with provided methods — presence is supplied by the
+type system and says nothing about this implementation. Take those away and
+the argument goes with them. When the interface is a plain record of optional
+function fields, with no prototype to inherit from and no default to fall
+back on, a member exists *only because this implementation's author wrote
+it*. Presence is then not correlated with capability; it **is** the
+declaration, carried in the one place that cannot drift from the code because
+it is the code.
+
+So the discriminating question is not *declared or reflected*. It is:
+
+> **Is the gap a whole operation, or an option on an operation that is always
+> present?**
+
+A whole operation's absence is directly observable, and in a
+no-inheritance interface it is observable *exactly*. An option is not: a
+required list-keys operation is present in every implementation, and whether
+it honours a depth bound is a fact about its behaviour that no amount of
+looking at the object can reach. That residue is what a declared-data channel
+is for, and it is usually small — a handful of behavioural flags beside a
+dozen presence-checked operations, rather than a parallel declaration for
+everything.
+
+Two costs come with taking the presence road, and both were observed in a
+storage-adapter library with thirty-two adapters that takes it:
+
+- **The residue is where the rot concentrates.** Because the flags channel
+  carries only the few facts presence cannot express, it is small enough to
+  be forgotten. In that tree two of thirty-two adapters declared any flag at
+  all, and of the two flags the interface defines, one was declared by no
+  adapter and read by no code — a declared capability nothing evaluates,
+  which is the failure the next paragraph names, arriving through the
+  *narrow* channel precisely because the narrow channel looks like a detail.
+- **Presence has no room for a refusal.** Reflection gives the router two
+  states, present and absent, and the absent branch has to do something. The
+  ladder's Tier 3 answer is to refuse by name; a library that instead lets
+  the absent branch return normally has spelled *unsupported* and *done* the
+  same way, and no channel remains to tell them apart. Presence as the
+  declaration is sound; presence as the excuse for a silent fallback is the
+  same wrong data the tier ladder exists to prevent, and the two travel
+  together because the reflection check makes the silent branch so cheap to
+  write.
+
+The default rule above survives intact under either channel, and matters more
+under presence: silence must still mean no. It does, natively — an absent
+member is absent — which is the one place this road is safer than a declared
+flag that a new implementation forgets to set.
+
 The failure one step out is very common in selection tables: a registry that
 names, per implementation, the members it is *required* to have — and never
 reads that list. A declared requirement nothing evaluates is documentation

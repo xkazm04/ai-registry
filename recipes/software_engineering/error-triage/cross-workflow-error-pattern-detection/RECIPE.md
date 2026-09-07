@@ -1,0 +1,136 @@
+---
+name: cross-workflow-error-pattern-detection
+version: 0.2.0
+status: seed
+domain: software_engineering
+path: software_engineering/error-triage
+---
+
+# Cross-workflow error pattern detection
+
+The rendered view of [`recipe.json`](recipe.json). When the two disagree, the JSON is
+right and this file is stale.
+
+**Need.** One failure arrives as a dozen unrelated looking alerts across a dozen pieces
+of automation, and whoever is responding spends the first stretch working out that it is
+one thing. Joining them is not free either: a second problem folded into the first
+inherits its status and its resolution and vanishes when the first is closed, which is
+the more expensive mistake and the harder one to notice.
+
+**Input.** Classified failures over a recent window, the map of which work depends on
+which, and the state of the patterns already open.
+
+**Core action.** Decide when separate failures are one thing, by repetition, by cascade,
+by clustering in time or by a shared dependency, say which of them failed first, and
+decide whether an open pattern has changed enough to be worth saying again or has ended.
+
+**Output.** One account per pattern rather than one per failure, naming its members and
+the one that failed first, and a pattern record that suppresses repetition while keeping
+the members individually recoverable and saying how the pattern will be known to be
+over.
+
+## Activities
+
+1. Hold classified failures over a recent window *(observe)*
+2. Look for repetition, cascade, clustering in time and a shared dependency *(observe)*
+3. Decide whether these are one thing, and which of them failed first *(decide)*
+4. Decide whether an open pattern has changed enough to say again, or has ended
+*(decide)*
+5. Raise one account naming the pattern, its members and how it ends *(deliver)*
+
+Linear and branch-free, by contract. This is the shape of the work, not a runbook.
+
+## Outcomes
+
+**A failure spanning several pieces of automation reaches the responder as one thing
+with a named starting point, not as several unrelated alerts.**
+
+- A pattern crossing its threshold produces one account naming every member, rather than
+  one account per member.
+- Where the members form a cascade, the account names the failure that came first and
+  marks the rest as downstream of it.
+- The account says which of the four relations it rests on: repetition, cascade,
+  clustering in time, or a shared dependency.
+
+**A failure folded into a pattern is still individually findable, and a pattern that
+turns out to be two is separable without losing either.**
+
+- Every member keeps its own identity and its own state inside the pattern, so closing
+  the pattern does not close a member that is still happening.
+- A member that continues after the pattern is closed is surfaced again on its own
+  rather than staying quiet because it was once part of something resolved.
+- The account names what would have to be true for the join to be wrong, so a responder
+  can reject it in one reading.
+- A join a responder rejects is recorded against the relation it was made on, so the
+  same join is not proposed again and a relation rejected repeatedly here stops being
+  enough on its own.
+
+**Suppression stops repetition without becoming a place where a growing problem hides.**
+
+- An open pattern is said again when it spreads to work not already in it, or when its
+  rate moves materially, and not otherwise.
+- A pattern has a stated condition for being over, and one that has neither recurred nor
+  been closed within that condition is raised as unresolved rather than left open
+  silently.
+- A window in which nothing formed a pattern is recorded as examined, so a stopped
+  detector is distinguishable from a quiet week.
+
+## Guidance
+
+Joining separate failures is a claim, and the wrong join costs more than the missed one:
+a folded-in problem inherits somebody else's resolution and disappears. So join on
+evidence a responder can check, say what would falsify it, and keep the members
+recoverable. The window is a dial with no right setting, since holding longer joins
+better and tells somebody later. Say which failure came first, because that is the one
+worth working on and the rest are its shadow.
+
+## Where this is worth adopting
+
+- An on-call rotation where a single dependency going down produces a page from every
+  piece of automation that touches it, and the first twenty minutes of every such night
+  go into establishing that it is one thing.
+- An operation whose automation has grown a dependency structure nobody wrote down, so a
+  cascade is only recognisable to the two people who remember what calls what.
+- A team that suppressed a repeating alert, and then did not hear about it for a week
+  while it spread to four more workflows, because the suppression was on the pattern and
+  not on its extent.
+- A shared credential or quota nearing its limit, which shows up as unrelated failures
+  in unrelated places and reads as four coincidences until somebody notices the one
+  thing they share.
+- A responder who has learned to ignore a channel because it repeats the same open
+  problem every few minutes, so the one alert that carries new information arrives into
+  an audience that stopped reading.
+
+## Connector types
+
+`messaging`.
+
+Types, never connectors. Adoption resolves each to any connector whose catalog
+`categories` include it, and the concrete knowledge lives in [`examples/`](examples/):
+[local-messaging](examples/local-messaging.md) for `messaging`.
+
+## Recommended trigger
+
+`event`. A pattern is only worth raising while it is still forming, so this runs against
+each newly classified failure rather than sweeping on a clock. It is the third stage of
+a pipeline: the failures arrive already classified and the judgment here is about the
+relations between them.
+
+A recommendation is a default, not a binding: the adopter assigns the real trigger at
+adoption or later.
+
+## Personalization needs
+
+- Which work depends on which, because a cascade cannot be recognised without that map
+  and it is not derivable from the failures themselves.
+- How many repetitions count as a pattern here, since that threshold is the whole
+  difference between an early warning and a noise generator.
+- How long to hold failures before deciding they are related, which trades a cleaner
+  join against a later alert and has no right answer outside the adopter's tolerance for
+  both.
+- What is worth interrupting a person for as against waiting for a periodic report, and
+  who that person is at the moment it happens.
+
+## Dependencies
+
+None.

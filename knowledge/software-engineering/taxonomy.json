@@ -312,7 +312,8 @@
             "plan-entitlements",
             "scoring-rubrics",
             "node-boot-and-declarative-bootstrap",
-            "quorum-and-recovery-procedures"
+            "quorum-and-recovery-procedures",
+            "conditional-service-composition"
           ]
         },
         {
@@ -322,6 +323,18 @@
             "declarative-resource-lifecycle",
             "convergence-loop-and-requeue",
             "watch-cache-and-resync"
+          ]
+        },
+        {
+          "id": "metered-billing",
+          "title": "Metered billing",
+          "subjects": [
+            "usage-event-ingestion",
+            "usage-aggregation-semantics",
+            "usage-pricing-models",
+            "subscription-billing-periods",
+            "subscription-proration",
+            "deferred-finalization"
           ]
         }
       ]
@@ -440,6 +453,7 @@
           "title": "Standards and gates",
           "subjects": [
             "quality-gates",
+            "metric-gates",
             "knowledge-registry",
             "repo-manifest-standard",
             "multi-project",

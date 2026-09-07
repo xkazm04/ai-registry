@@ -1,0 +1,160 @@
+---
+name: correction-root-cause-and-propagation
+version: 0.2.0
+status: seed
+domain: data_ai
+path: data_ai/data-quality
+---
+
+# Correction root cause and propagation
+
+The rendered view of [`recipe.json`](recipe.json). When the two disagree, the JSON is
+right and this file is stale.
+
+**Need.** A correction that is only acknowledged leaves the source that produced it
+exactly as it was, so the same wrong answer returns and the person who corrected it
+learns that correcting is not worth the effort. The wrong fact was also readable for as
+long as it stood, so whatever was written from it in that time is wrong too, and nobody
+is looking for it.
+
+**Input.** The correction as the person stated it, the wrong claim it replaces, and read
+access to every store the answer could have come from: the documents, the stored facts,
+and the generated profiles that sit in front of every conversation.
+
+**Core action.** Decide which of two things happened, because the fix is entirely
+different: something stored is wrong, or nothing stored was wrong and the answer was
+assembled from partial signal. Repair a stored error at the layer that owns it rather
+than at the surface that showed it, guard a confabulation against the signal that seeded
+it, and in both cases go looking for what was already derived from the wrong fact while
+it stood.
+
+**Output.** The stores hold the corrected fact, the work found to have been derived from
+the wrong one is corrected or withdrawn, and a short account naming the wrong claim,
+which of the two classes it was, the exact place it was fixed, and how far the search
+for propagation reached.
+
+## Activities
+
+1. Take the wrong claim and the correction in the words they were given *(observe)*
+2. Search every layer the answer could have come from, including the ones loaded in
+front of every conversation *(observe)*
+3. Decide whether a stored fact was wrong or nothing stored was and the answer was
+assembled from partial signal *(decide)*
+4. Correct the fact at the layer that owns it rather than the one that rendered it
+*(act)*
+5. Leave a guard carrying where the correction came from and what signal produced the
+wrong answer *(act)*
+6. Search for what was written from the wrong fact while it stood, and correct or
+withdraw it *(act)*
+7. Report the wrong claim, the class of error, where it was fixed and how far the
+propagation search reached *(deliver)*
+
+Linear and branch-free, by contract. This is the shape of the work, not a runbook.
+
+## Outcomes
+
+**The stores no longer hold the wrong fact, so the next reader of them gets the
+corrected one.**
+
+- The correction lands in the layer that owns the fact, not only in the reply that
+  acknowledged it
+- A generated document is corrected through whatever it is generated from, because an
+  edit to the rendered copy is discarded the next time it is rendered and the error
+  returns with nothing to show for the fix
+- Where a store is kept in two places that reconcile, both agree before the work is
+  called done, since the side that was not updated restores the error at the next
+  reconciliation
+- Asking the question that produced the wrong answer produces the corrected one
+
+**Every correction is filed as a wrong stored fact or as a confabulation, and the filing
+rests on what the search actually found.**
+
+- A claim the search did locate is fixed where it was found, and the finding names that
+  place rather than describing it in general terms
+- A claim no store was found to contain is treated as confabulated only with the partial
+  signal that seeded it named, since without that it is a guess dressed as a class
+- Where the search reached only some of the stores, the class is stated as provisional
+  and the unreached layers are listed, because the unsearched layer is the one that
+  restores the error
+- A correction is never closed with the wrong fact still standing in a store nobody
+  looked in
+- The same claim arriving as a correction a second time is read against the account
+  written the first time, since a repeat is the only evidence there is that the class
+  assigned then was wrong or that the reach declared then was short, and it is diagnosed
+  from the layers that account listed as unsearched rather than started again as a new
+  correction
+
+**Work produced from the wrong fact while it stood is corrected or withdrawn instead of
+being left to read as true.**
+
+- The search for derived work covers the period the fact was readable rather than only
+  the most recent output
+- Every instance found is dealt with, not only the first one the search returned
+- What the search did not reach is stated, since a propagation check that found nothing
+  and one that looked nowhere read identically
+- A correction that turns out to be an attribution error is resolved on both records,
+  because the fact is true and simply belongs somewhere else
+
+## Guidance
+
+Acknowledge the error before explaining it. The fork decides everything: treat a
+confabulation as a data error and you will hunt for a document nobody ever wrote; treat
+a data error as a confabulation and the store stays wrong for every future reader.
+Search before you classify, and let the search decide. Fix where the fact is owned,
+never where it was rendered. Then assume it spread, because anything written while the
+wrong fact stood is suspect and nobody else is looking for it.
+
+## Where this is worth adopting
+
+- An assistant answering from a store it also writes to, where somebody corrected the
+  same fact three months ago, was thanked for it, and is correcting it again today.
+- A profile or identity document that is generated from an upstream set of answers,
+  where every hand correction to the visible copy survives exactly until the next render
+  and the error comes back with it.
+- A store kept both as files and as an index rebuilt from them, where fixing whichever
+  side is in front of you leaves the other holding the wrong fact until the next rebuild
+  decides which one wins.
+- An agent that has been writing summaries and reports for months from a fact that turns
+  out to be wrong, where correcting the fact takes a minute and finding what was already
+  written from it is the actual work.
+- An operator who has quietly stopped correcting their agent, because nothing they
+  corrected ever stayed corrected and they no longer believe the effort changes
+  anything.
+
+## Connector types
+
+`knowledge_base`, `database`, `source_control`.
+
+Types, never connectors. Adoption resolves each to any connector whose catalog
+`categories` include it. No connector-specific knowledge has been written for this
+recipe yet.
+
+## Recommended trigger
+
+`event`. The work starts the moment a person says the answer was wrong, and that is an
+event with a time attached. A clock would find nothing on most of its runs and arrive
+late on the one that mattered, by which point the wrong fact has been read again and
+more has been written from it. Which channel the correction arrives on belongs to the
+adopter, not to the craft.
+
+A recommendation is a default, not a binding: the adopter assigns the real trigger at
+adoption or later.
+
+## Personalization needs
+
+- Which stores this adopter actually answers from, since a correction can only be traced
+  into a layer somebody knows exists, and the layer nobody named is the one that
+  restores the error
+- Which of those stores are generated rather than edited, and what they are generated
+  from, because a correction written into a rendered copy is discarded silently and
+  looks exactly like a correction that worked
+- Which stores are kept in two places and reconciled, since repairing one side and not
+  the other only postpones the error to the next reconciliation
+- Where this adopter's answers get written to afterwards, because that is the blast
+  radius and only they know where their derived work goes
+- How far a correction may reach without a person, since repairing one stored fact and
+  withdrawing a month of published work are not the same permission
+
+## Dependencies
+
+None.

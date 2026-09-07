@@ -5,8 +5,11 @@ subject: build-economics
 technique: capability-feature-gating
 stack: rust
 status: forged
-verified_on: 2026-08-29
+verified_on: 2026-09-06
 verified_against: rust@1.96
+applied: experiment
+ab_verdict: better
+proof: ab-paired
 ---
 
 # The `p2p` gate, and the screen the lite build renders instead
@@ -156,6 +159,77 @@ they are kept in agreement by a probe that asks the running binary rather than
 by a constant anybody could copy. That is what a designed gap looks like when
 the lite variant ships to users instead of only to developers.
 
+## The other direction: what the union guard cannot see
+
+*This section verified 2026-09-06 against the tree at `62482a902`.*
+
+Everything above is about the variant where a feature is **off** and a surface
+reaches the gap anyway. The tree also carries the opposite exposure, and it had
+no instrument at all until this pass added one — which is the amendment's case
+in a tree that owns both halves of its gates and still gets caught by the second
+selector.
+
+Two selectors decide what a user can call, and they are independent. Cargo
+features (`src-tauri/Cargo.toml`) decide which `#[tauri::command]` functions
+compile and register; the frontend's own imports and tier decide which command
+names the shipped UI will pass to `invoke`. `scripts/check-command-registration.mjs`
+guards the union of the first — every command registered *somewhere* — and says
+so in its own comment: duplicate names are cfg-gated variants "and are not a
+finding". That is the correct question for the orphan direction. It cannot
+express the per-configuration one.
+
+**The paired measurement.** Same tree, same definitions, same registrations; the
+only change is whether the check evaluates them against a feature set or against
+their union. The measurable is *frontend-reachable commands absent from the built
+variant*.
+
+| Build config | Features | Union guard | Feature-partitioned |
+| --- | --- | --- | --- |
+| `tauri.conf.json` | `desktop-full` | 0 | **4** |
+| `tauri.stable.conf.json` | `desktop-full` | 0 | **4** |
+| `tauri.lite.conf.json` | `desktop` | 0 | **72** |
+| `tauri.android.conf.json` | *(none)* | 0 | **97** |
+
+The union guard's row is 0 by construction, not by luck: it reports
+`1627 registrations, 1627 registered, 0 orphaned` and is right about the question
+it asks.
+
+**One of the four is live, and the swallow is why it survived.**
+`companion_list_pending_approvals` is registered only under
+`#[cfg(feature = "test-automation")]` (`src-tauri/src/lib.rs`), and
+`desktop-full = ["desktop", "ml", "p2p"]` does not include it. Three shipped chat
+modules call it — `athenaChatEvents.ts:116`, `athenaChatHydration.ts:56`,
+`athenaChatShell.ts:44` — and every one of the three wraps the call in
+`silentCatch(...)`. So in every production build the invoke fails with
+`Command "…" not found`, the rejection is swallowed by design, and the
+pending-approvals list is permanently empty with nothing logged. Nobody was
+wrong at any single site: the command is genuinely test-only, the callers are
+genuinely defensive, and no instrument joined the two facts.
+
+That is the amendment's shape exactly — a flag on one axis, a caller on another,
+a failure that surfaces at runtime far from the build that caused it — arriving
+here not through a partial mirror but through two independently-owned selectors
+inside one repository. The ownership split does not have to be across an
+organisation; it only has to be across a *decision*.
+
+**What shipped.** `scripts/check-command-feature-coverage.mjs` resolves each
+`tauri.*.conf.json`'s declared features transitively through the `[features]`
+table, evaluates the `#[cfg(...)]` predicate guarding each registration against
+that set, and reports the commands the frontend can name and the binary will not
+answer. It follows the sibling gate's two-sided baseline convention — a rise
+fails, and so does a silent drop, because a drop is what a broken matcher looks
+like — and it refuses rather than guesses: a `cfg` predicate it does not model
+(`target_os`, say) returns null and fails the run, since assuming *satisfied*
+would hide precisely what the gate is for. Both floors and both failure
+directions were exercised before it was wired into `npm run check`.
+
+Two details are load-bearing and were learned by getting them wrong first. The
+handler list must be bracket-matched over **masked** source — `lib.rs` carries an
+unbalanced `[` inside a comment within the list, which is why the repo's own
+generator masks — and a naive matcher silently over-counts (1,634 against the
+true 1,627). And the feature-name string has to be read back from the *raw* text
+at the same offset, because masking blanks string literals and the feature name
+is one.
 ## What this realization cannot do or prove
 
 - **No build-cost measurement backs the headline number.** "~5 min faster than
