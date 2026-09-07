@@ -368,3 +368,34 @@ rule that only this loop's participants currently follow.
   the tree until the merge ran. Both facts belong together in step 8 - *retry the clean form, and
   expect the retry to change the tree.*
 
+## 2.5.2 - 2026-09-07 - tracklight (wave 3)
+
+- **A falsifiability break that does not change the file proves nothing — verify the DIFF, not just
+  the test result.** Both the builder and the Director hit this in one session, from opposite sides:
+  the builder reported one of its own breaks failing to turn a test red (and redid it rather than
+  moving on), and the Director ran a break whose string replacement silently no-opped, watched the
+  test "pass", and briefly had evidence for the opposite of the truth. The apply-then-revert check
+  this skill gained on 2026-09-06 needs one more clause: *confirm the file actually changed before
+  believing the run.* An assert on the replacement, or a `diff`, costs nothing and is the difference
+  between a proof and a coincidence.
+- **Phase B step 1's evidence spot-check earns its keep by changing the DESIGN, not just catching bad
+  line numbers.** The method sells that step as verifying the direction's load-bearing evidence
+  before dispatch. Here it did two better things: it found that one of the three suspected call sites
+  was safe *by construction* and must not be "fixed" (forcing the new type on it would have been the
+  wrong abstraction), and it found the data the fix needed was already persisted and being discarded,
+  turning an assumed schema change into no schema change at all. Worth saying in step 1 that the
+  spot-check is a design input, not only a fact-check — the direction note written a day earlier had
+  both of those wrong.
+- **When a builder modifies a test, check the test's NAME as carefully as its assertions.** Here a
+  renamed test (`paired_deltas_refuses_mismatched_case_sets`) turned out to have been asserting a
+  guard the function had never performed — the name made the same overstatement as the doc comment
+  that hid the bug for months, and anyone grepping for "is this checked?" would have found the name
+  and stopped. Renaming it was part of the fix, not cosmetic. The 2026-09-06 lesson said to review a
+  modified test hunk for weakening; add that a name can lie independently of its body.
+- **A shared render/presentation layer needs its own review pass when a claim gains new fields.** The
+  runner grew `caveats` on its `best` claim and the render layer silently dropped them, because its
+  significant branch returned early — so the strongest sentence the tool printed was the only one
+  that could not say what it rested on. The builder, correctly confined to its write set, compensated
+  with a `println` that reached one of three consumers. Phase B step 6 could ask: *when a diff adds a
+  field to a reported claim, does every renderer of that claim show it?*
+
