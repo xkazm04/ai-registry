@@ -2997,3 +2997,34 @@ whether it landed it, banked it, or missed it — and a root banked twice from
 two independent sources is the subject proposal, which is exactly the
 convergence rule the corroboration table already carries and which nothing has
 yet exercised.
+| 2.6.0 | 2026-09-07 | `youtube:URjhE8QEhJU` "Create Anything with 3D AI - Animals, Monsters, Creatures Tutorial" (**practitioner build-walkthrough**, game-production domain per operator brief; 5,543 words from a real subtitle track, container checked) | 1 source, no clone (not a repository). **Expected yield said out loud as LOW before the table** and low is what it was - the bundle already models this bench in depth. **0 of 3 fetches**, fourteenth consecutive corpus-internal run | 11 | 2 verified, 4 banked untriaged | **2 techniques + 1 amendment (earned by the apply step) + 2 source-consumer applications** | **2 of 2 owed: 0c/0e/2s/0t** | 0 - reason: row 1's next step is running its own named falsifier, not editing code; row 2's arm cannot exist; the only cheap change available was a doc comment with no measurable, which is a lead not a landing | **The class's discriminating question did the entire triage, and the split was the cleanest this file has recorded**: every accepted and every untriaged row came from a failure sentence, every one of the five catches came from the tour half. That is a reusable tell - a demo explains a solved problem, and the corpus is made of solved problems. **The finding is a missing DECISION, not a missing opinion**: the corpus owned every consequence of splitting an asset into parts (budget division consumes the count, finishing assembles whatever arrives) and nothing that chose the boundaries, so cut boundaries were being set by whatever was easy to lasso in the reference. It homed in `image-to-3d-input-gating` rather than the budgeting subject next door because it is that subject's own move on a second axis - `canonical-pose-rule` exists because a rig assumes a rest pose. **Focus item 2 fired for the THIRD consecutive round and this time refuted the run's own technique.** The texture seam was picked to falsify; pof's re-texturing module accepts only a prior task id from its own provider, so a bench-baked mesh cannot be submitted at any price - the technique's central step (*probe the service*) is **unrunnable, not uninformative**, and arm B does not exist. Generator-textured and bench-baked are disjoint product lines there. The refutation earned the technique a section relocating its decision to commissioning time; a confirmation would have taught nothing. On this file's own rule, **three refutations running makes seam-to-falsify a rule SKILL.md should carry rather than a focus item**. **Focus item 1 applied and changed behaviour**: the apply cell is written as a fraction (`2 of 2 owed`), and with the debt visible, dropping the second row was not available as a quiet option. **The most instructive rejection is one that could have been argued up**: `arena-benchmark-protocol` step 5 enumerates what to measure alongside quality and every entry is a **resource** constraint - none is a **correspondence** constraint, a real enumeration gap in a document declaring completeness. GAIN 2 / RISK 1 = 1 against a threshold of 2, banked with anchors rather than reframed into a flattering shape | S0/T2/A1/Asrc2/0 task-lines · **routing count n/a** (not a repository - no design record, no clone) · handoff **n/a** · `directions=n/a` (no design record) · `auto=2/4/0` `fp=0` · `selfcatch=0` · fetches `0/3` · siblings 0 at claim, but a concurrent **uncommitted** sibling technique was landing in the same golden path, so it was **partial-staged by hunk** and `index.json`/`catalog.json` were left uncommitted (the regeneration baked a foreign software-engineering technique not in HEAD) |
+
+**The funnel over the last ten rows, read after this one.** `research` is still 1 source
+per run in all ten - unchanged and now clearly structural rather than incidental.
+`apply` is non-zero in ten of ten and **this row is the first to report it as a
+fraction** (`2 of 2 owed`), which is what the last row asked for; the previous cell
+shape rendered "landed 4, applied 1" and "landed 1, applied 1" identically, and that
+ambiguity is now gone. The stage this row loses at is **`ship` (0)**, and the reason is
+honest rather than evasive: neither row had a runnable code arm, and one of them
+*provably* cannot have one. A zero that names an unrunnable arm is not the same failure
+as a zero that names a missing hour, and the next row should keep that distinction
+visible rather than letting both read as `ship 0`.
+
+**Next run's declared focus (round 37).**
+1. **Promote seam-to-falsify from a focus item to a rule in `SKILL.md`.** This file's own
+   bar is "confirmed three runs running", and rounds 34, 35 and 36 have each produced a
+   better finding from a seam chosen to refute than confirmation would have given - this
+   round refuting the run's own freshly-written technique. It has met the bar. The next
+   run should make the edit (Phase 7.5 step 2, with a version bump) rather than carry it
+   as guidance for a fourth round. The check: did the edit land, and did the first run
+   under it still pick a falsifying seam when nothing was reminding it to.
+2. **Distinguish the two zeros in the `ship` cell.** Write `ship 0 (unrunnable)` when no
+   arm can exist against `ship 0 (unspent)` when one could have been run and was not.
+   Three rows now carry `ship 0` for materially different reasons and the cell flattens
+   them, which is the same defect focus item 1 just fixed one column to the left.
+3. **Say whether a second measured ladder is worth building, once - and then stop
+   asking.** Round 35 raised it, round 36 answered `n/a` because game-production has no
+   ladder and nothing in this source bore on the question. Carrying an item that no
+   ordinary run can advance costs a line in every scorecard row and returns nothing; the
+   next run should either name the domain that would get one and what its four-call
+   contract would be, or retire the item.

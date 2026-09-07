@@ -11,6 +11,7 @@ techniques:
   - multi-view-master-reference
   - reference-role-tagging
   - text-is-never-geometry
+  - part-cut-planning
 ---
 
 # Image-to-3D input gating
@@ -169,6 +170,25 @@ demand views, how many, and what makes a view set self-contradictory. Composing 
 locking a visual style across generated images in general belongs to the neighbouring craft
 of generative media; the part owned here is only what a *reconstruction* needs from the
 images it is handed.
+
+## One subject can be several reconstructions
+
+Past a certain complexity a subject stops being one reconstruction. A creature with
+non-humanoid limbs, an armoured figure, an assembly of dissimilar materials — asked for
+whole, these come back fused where they should articulate and smeared where they should
+be sharp, and no amount of input preparation rescues a request the generator cannot
+satisfy. The remedy is to commission the subject as separate parts and assemble them,
+which is a decision made *here*, on the reference, before anything is generated.
+
+What that decision needs is a plan rather than an instinct, because every cut boundary is
+inherited by a stage that did not choose it: a join someone must close, a seam that may
+land across a bending surface, a repeated limb that gets paid for once or six times, and
+a pair of interpenetrating elements that either arrive clean or arrive fused. The
+boundaries are chosen against those consumers, and the plan is the one authority for how
+many parts exist — every budget downstream derives from it.
+[part-cut-planning](./techniques/part-cut-planning.md) is the plan and its justification
+rules. Dividing a budget across the parts once they are named is a separate, downstream
+arithmetic and belongs to poly budgeting, not here.
 
 ## Things that never become geometry
 

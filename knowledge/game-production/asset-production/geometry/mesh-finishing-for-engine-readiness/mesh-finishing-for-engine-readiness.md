@@ -11,6 +11,7 @@ techniques:
   - pack-existing-vs-smart-unwrap
   - rig-preset-and-bone-remap-binding
   - headless-dcc-capability-limits
+  - texture-pass-must-consume-the-bake
 ---
 
 # Mesh finishing for engine readiness
@@ -114,6 +115,23 @@ its own acceptance rules — is a neighbouring concern about texture authoring, 
 geometry transfer; the two must not be confused, because one produces measurements and the
 other produces estimates. The bake side is
 [high-to-low-bake-coverage](./techniques/high-to-low-bake-coverage.md).
+
+## The bake can be invalidated by the stage after it
+
+The bench hands off a mesh carrying maps, and the colour usually gets authored somewhere
+else — increasingly by a generative service that takes the mesh and returns a base colour.
+That service will accept the normal map the bake just produced, round-trip it, export it,
+and never once read it. What comes back is colour describing a different surface from the
+one the maps describe: relief the colour does not follow, shading cues painted into the
+albedo that fight the real relief under a moving light.
+
+This belongs to finishing rather than to texturing because it is the bench's own question
+in its downstream form — which operation ran on which version of the asset, and what it
+may claim afterwards. A map nothing reads is a declared input, not a consumed one, and an
+asset exported with maps the next stage discards carries a claim it cannot support. The
+routing key is normal salience, it is a property of the *part* rather than of the asset,
+and a character will legitimately split across two texturing paths. See
+[texture-pass-must-consume-the-bake](./techniques/texture-pass-must-consume-the-bake.md).
 
 ## Binding is a mapping with a named target, not a button
 
