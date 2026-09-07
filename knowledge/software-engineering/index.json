@@ -3,9 +3,9 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
-  "subjects": 216,
-  "techniques": 1603,
-  "applications": 945,
+  "subjects": 222,
+  "techniques": 1633,
+  "applications": 970,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1603/1603",
+  "use_when_coverage": "1633/1633",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -1643,7 +1643,7 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/agent-memory.md",
-   "digest": "sha256:a98efbeead58b108",
+   "digest": "sha256:4d6dc814c5060c9a",
    "techniques": [
     {
      "slug": "baseline-ladder",
@@ -1916,6 +1916,22 @@
      ]
     },
     {
+     "slug": "self-trained-capture-filter",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "creation-names-reaper",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a capture filter learns from the distiller returning nothing",
+      "cheap screening runs before the expensive judge that would correct it",
+      "deciding what an empty extraction result is evidence of",
+      "a noise bank grows and nothing ever removes an entry"
+     ]
+    },
+    {
      "slug": "working-memory",
      "status": "forged",
      "laws": [
@@ -1931,6 +1947,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "bun",
+     "technique": "coverage-instrumentation",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/bun--coverage-instrumentation.md",
+     "verified_on": "2026-09-07",
+     "verified_against": "bun@1.3.13"
+    },
     {
      "stack": "claude-code",
      "technique": "diagnosis-withheld-from-the-executor",
@@ -1954,6 +1977,13 @@
     },
     {
      "stack": "node",
+     "technique": "decay-and-forgetting",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/node--decay-and-forgetting.md",
+     "verified_on": "2026-09-07",
+     "verified_against": "node@22"
+    },
+    {
+     "stack": "node",
      "technique": "lane-reconciliation",
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/node--lane-reconciliation.md",
      "verified_on": "2026-09-04",
@@ -1971,6 +2001,13 @@
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/node--probe-without-write-back.md",
      "verified_on": "2026-09-04",
      "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "self-trained-capture-filter",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/node--self-trained-capture-filter.md",
+     "verified_on": "2026-09-07",
+     "verified_against": "node@22"
     },
     {
      "stack": "python",
@@ -6150,7 +6187,7 @@
    "subcategory": "maturity-and-conformance",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-assessment/maturity-and-conformance/conformance-checking/conformance-checking.md",
-   "digest": "sha256:8ff9654370ac5576",
+   "digest": "sha256:939154eedcd46746",
    "techniques": [
     {
      "slug": "checker-false-positive-discipline",
@@ -6209,6 +6246,22 @@
       "designing what each check in a conformance run actually verifies",
       "deciding whether presence is sufficient proof",
       "auditing a checker that reads more than it executes"
+     ]
+    },
+    {
+     "slug": "derived-expectation-needs-an-evidence-floor",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "count-carries-predicate",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a check computes its expected value from the artifact under test instead of from a fixture",
+      "writing a drift check between a published manifest and the code it describes",
+      "a suite is green and nobody can say how much evidence it read",
+      "the population under check legitimately contains empty cases"
      ]
     },
     {
@@ -6332,6 +6385,13 @@
      "technique": "declared-then-proven",
      "file": "knowledge/software-engineering/engineering-assessment/maturity-and-conformance/conformance-checking/applications/node--declared-then-proven.md",
      "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "node",
+     "technique": "derived-expectation-needs-an-evidence-floor",
+     "file": "knowledge/software-engineering/engineering-assessment/maturity-and-conformance/conformance-checking/applications/node--derived-expectation-needs-an-evidence-floor.md",
+     "verified_on": "2026-09-07",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
@@ -7413,7 +7473,7 @@
    "subcategory": "data-layer",
    "status": "reconciled",
    "file": "knowledge/software-engineering/backend-platform/data-layer/data-access/data-access.md",
-   "digest": "sha256:922e6f7cf97cc8ee",
+   "digest": "sha256:de6ed0cda7413b0e",
    "techniques": [
     {
      "slug": "batching-and-n-plus-one",
@@ -7603,6 +7663,13 @@
      "technique": "batching-and-n-plus-one",
      "file": "knowledge/software-engineering/backend-platform/data-layer/data-access/applications/node--batching-and-n-plus-one.md",
      "verified_on": "2026-08-29"
+    },
+    {
+     "stack": "node",
+     "technique": "capability-declared-in-the-type",
+     "file": "knowledge/software-engineering/backend-platform/data-layer/data-access/applications/node--capability-declared-in-the-type.md",
+     "verified_on": "2026-09-07",
+     "verified_against": "node@26"
     },
     {
      "stack": "node",
@@ -8610,6 +8677,97 @@
      "file": "knowledge/software-engineering/backend-platform/process-graph-runtime/declared-process-graph/applications/rust--bounded-expansion.md",
      "verified_on": "2026-09-02",
      "verified_against": "rust@1.95"
+    }
+   ]
+  },
+  "deferred-finalization": {
+   "category": "operations",
+   "subcategory": "metered-billing",
+   "status": "forged",
+   "file": "knowledge/software-engineering/operations/metered-billing/deferred-finalization/deferred-finalization.md",
+   "digest": "sha256:8c144b186b96b3c9",
+   "techniques": [
+    {
+     "slug": "correction-window-is-the-grace-period",
+     "status": "forged",
+     "laws": [
+      "limits-are-derived",
+      "count-carries-predicate",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing how long to wait before issuing a computed record",
+      "a customer reports a bill that missed their usage",
+      "tuning a grace period that was picked by feel"
+     ]
+    },
+    {
+     "slug": "finalization-freezes-the-inputs",
+     "status": "forged",
+     "laws": [
+      "record-precedes-effect",
+      "identity-survives-reuse",
+      "derivation-names-recomputation"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "implementing the transition that makes a derived artifact official",
+      "a document renders differently than the copy that was issued",
+      "deciding what a record must store versus look up"
+     ]
+    },
+    {
+     "slug": "recomputable-draft",
+     "status": "forged",
+     "laws": [
+      "derivation-names-recomputation",
+      "count-carries-predicate",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "building the pre-final version of an artifact that will later be issued",
+      "someone asks to edit a provisional total",
+      "deciding how often a provisional artifact should be rebuilt"
+     ]
+    },
+    {
+     "slug": "void-then-regenerate",
+     "status": "forged",
+     "laws": [
+      "deletion-is-not-repair",
+      "gate-sees-target",
+      "record-precedes-effect"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an already-issued record has to be corrected",
+      "a uniqueness constraint blocks a legitimate re-issue",
+      "deciding between voiding a document and issuing a credit"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "correction-window-is-the-grace-period",
+     "file": "knowledge/software-engineering/operations/metered-billing/deferred-finalization/applications/process--correction-window-is-the-grace-period.md",
+     "verified_on": "2026-09-07"
+    },
+    {
+     "stack": "sql",
+     "technique": "finalization-freezes-the-inputs",
+     "file": "knowledge/software-engineering/operations/metered-billing/deferred-finalization/applications/sql--finalization-freezes-the-inputs.md",
+     "verified_on": "2026-09-07",
+     "verified_against": "sql@15"
+    },
+    {
+     "stack": "sql",
+     "technique": "void-then-regenerate",
+     "file": "knowledge/software-engineering/operations/metered-billing/deferred-finalization/applications/sql--void-then-regenerate.md",
+     "verified_on": "2026-09-07",
+     "verified_against": "sql@15"
     }
    ]
   },
@@ -11869,7 +12027,7 @@
    "subcategory": "evaluation-and-cost",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/eval-harness/eval-harness.md",
-   "digest": "sha256:7e85360e870b4468",
+   "digest": "sha256:c858e4c754b01e3e",
    "techniques": [
     {
      "slug": "assertion-vs-judgment",
@@ -21124,7 +21282,7 @@
    "subcategory": "service-operations",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/service-operations/plan-entitlements/plan-entitlements.md",
-   "digest": "sha256:5f5964288e73197b",
+   "digest": "sha256:1684b2a439c233fc",
    "techniques": [
     {
      "slug": "capability-gate-predicates",
@@ -21186,6 +21344,21 @@
      ]
     },
     {
+     "slug": "inherited-tier-not-cloned-tier",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "derivation-names-recomputation",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "giving one customer a bespoke price",
+      "adding per-customer commercial terms",
+      "a customer who stopped receiving new features"
+     ]
+    },
+    {
      "slug": "price-book-authority",
      "status": "forged",
      "laws": [
@@ -21198,6 +21371,36 @@
       "rendering a price in the product",
       "changing a price",
       "a pricing page that disagrees with the invoice"
+     ]
+    },
+    {
+     "slug": "provider-publishes-state-not-decision",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "unknown-is-not-a-value",
+      "verdict-survives-boundary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "serving entitlement answers to another team's product",
+      "designing an entitlement read contract",
+      "a limit whose meaning the serving side cannot know"
+     ]
+    },
+    {
+     "slug": "subtractive-entitlement",
+     "status": "forged",
+     "laws": [
+      "unknown-is-not-a-value",
+      "one-authority-per-vocabulary",
+      "verdict-survives-boundary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "one customer must lack one thing their tier includes",
+      "building a per-subscription override layer",
+      "a reset button that freezes the current number"
      ]
     },
     {
@@ -24340,7 +24543,7 @@
    "subcategory": "prompt-and-context",
    "status": "reconciled",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/retrieval/retrieval.md",
-   "digest": "sha256:3954e0d101650575",
+   "digest": "sha256:76abe909242cfe47",
    "techniques": [
     {
      "slug": "chunking-and-indexing",
@@ -24482,6 +24685,24 @@
      ]
     },
     {
+     "slug": "second-pass-rescoring",
+     "status": "forged",
+     "laws": [
+      "unknown-is-not-a-value",
+      "gate-sees-target",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a cross-encoder or model reranks an already-fused candidate pool",
+      "one lane's answers disappeared after a reranker shipped",
+      "deciding what a second-pass scorer may do to rows whose evidence it cannot read",
+      "bounding how many candidates an expensive scorer sees",
+      "a trimmer runs after a reranker",
+      "a ranking change looks safe because the suite went byte-identical"
+     ]
+    },
+    {
      "slug": "structural-centrality-lane",
      "status": "forged",
      "laws": [
@@ -24501,10 +24722,24 @@
    ],
    "applications": [
     {
+     "stack": "bun",
+     "technique": "second-pass-rescoring",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/retrieval/applications/bun--second-pass-rescoring.md",
+     "verified_on": "2026-09-07",
+     "verified_against": "bun@1.3.13"
+    },
+    {
      "stack": "go",
      "technique": "relevance-floors",
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/retrieval/applications/go--relevance-floors.md",
      "verified_on": "2026-08-22"
+    },
+    {
+     "stack": "node",
+     "technique": "relevance-floors",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/retrieval/applications/node--relevance-floors.md",
+     "verified_on": "2026-09-07",
+     "verified_against": "node@22"
     },
     {
      "stack": "python",
@@ -28070,6 +28305,185 @@
     }
    ]
   },
+  "subscription-billing-periods": {
+   "category": "operations",
+   "subcategory": "metered-billing",
+   "status": "forged",
+   "file": "knowledge/software-engineering/operations/metered-billing/subscription-billing-periods/subscription-billing-periods.md",
+   "digest": "sha256:0c81dcb426ffaad5",
+   "techniques": [
+    {
+     "slug": "anchor-re-derived-not-chained",
+     "status": "forged",
+     "laws": [
+      "derivation-names-recomputation",
+      "identity-survives-reuse"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "computing the next boundary of a recurring subscription",
+      "a renewal date has walked backwards through the month",
+      "deciding what a subscription row must persist"
+     ],
+     "stage": "solo"
+    },
+    {
+     "slug": "boundary-stitch-on-timezone-change",
+     "status": "forged",
+     "laws": [
+      "limits-are-derived",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a subscriber's timezone or region can be edited",
+      "opening a period whose predecessor exists",
+      "usage appears billed twice or not at all around a boundary"
+     ],
+     "stage": "team"
+    },
+    {
+     "slug": "hourly-pass-with-derived-idempotency",
+     "status": "forged",
+     "laws": [
+      "identity-survives-reuse",
+      "verdict-survives-boundary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing the recurring pass that advances billing periods",
+      "duplicate invoices appeared for one period",
+      "the biller must survive an outage and catch up"
+     ],
+     "stage": "team"
+    },
+    {
+     "slug": "timezone-anchored-period-dates",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "defining what a subscription's period start and end mean",
+      "choosing what to persist for a billing boundary",
+      "a customer disputes the window an invoice covered"
+     ],
+     "stage": "team"
+    }
+   ],
+   "applications": [
+    {
+     "stack": "sql",
+     "technique": "anchor-re-derived-not-chained",
+     "file": "knowledge/software-engineering/operations/metered-billing/subscription-billing-periods/applications/sql--anchor-re-derived-not-chained.md",
+     "verified_on": "2026-09-07",
+     "verified_against": "sql@15"
+    },
+    {
+     "stack": "sql",
+     "technique": "boundary-stitch-on-timezone-change",
+     "file": "knowledge/software-engineering/operations/metered-billing/subscription-billing-periods/applications/sql--boundary-stitch-on-timezone-change.md",
+     "verified_on": "2026-09-07",
+     "verified_against": "sql@15"
+    },
+    {
+     "stack": "sql",
+     "technique": "hourly-pass-with-derived-idempotency",
+     "file": "knowledge/software-engineering/operations/metered-billing/subscription-billing-periods/applications/sql--hourly-pass-with-derived-idempotency.md",
+     "verified_on": "2026-09-07",
+     "verified_against": "sql@15"
+    }
+   ]
+  },
+  "subscription-proration": {
+   "category": "operations",
+   "subcategory": "metered-billing",
+   "status": "forged",
+   "file": "knowledge/software-engineering/operations/metered-billing/subscription-proration/subscription-proration.md",
+   "digest": "sha256:00650314f8f35ab6",
+   "techniques": [
+    {
+     "slug": "prorated-path-inherits-every-convention",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "adding a prorated variant of a pricing path",
+      "a preview that disagrees with the invoice",
+      "auditing two code paths that price the same thing"
+     ]
+    },
+    {
+     "slug": "proration-follows-recurrence-not-price",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "verdict-survives-boundary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether a charge is prorated",
+      "adding a prorated flag to a rate card",
+      "a metered charge that came out too small"
+     ]
+    },
+    {
+     "slug": "upgrade-immediate-downgrade-deferred",
+     "status": "forged",
+     "laws": [
+      "record-precedes-effect",
+      "silent-state-is-ungoverned"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "implementing a plan change",
+      "a customer downgraded and lost access they paid for",
+      "deciding whether a change needs a refund"
+     ]
+    },
+    {
+     "slug": "whole-period-denominator",
+     "status": "forged",
+     "laws": [
+      "derivation-names-recomputation",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "computing a partial-period charge",
+      "a customer disputes a prorated line",
+      "choosing day versus second granularity"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "prorated-path-inherits-every-convention",
+     "file": "knowledge/software-engineering/operations/metered-billing/subscription-proration/applications/process--prorated-path-inherits-every-convention.md",
+     "verified_on": "2026-09-07"
+    },
+    {
+     "stack": "sql",
+     "technique": "proration-follows-recurrence-not-price",
+     "file": "knowledge/software-engineering/operations/metered-billing/subscription-proration/applications/sql--proration-follows-recurrence-not-price.md",
+     "verified_on": "2026-09-07",
+     "verified_against": "sql@16"
+    },
+    {
+     "stack": "sql",
+     "technique": "whole-period-denominator",
+     "file": "knowledge/software-engineering/operations/metered-billing/subscription-proration/applications/sql--whole-period-denominator.md",
+     "verified_on": "2026-09-07",
+     "verified_against": "sql@16"
+    }
+   ]
+  },
   "supply-chain": {
    "category": "security",
    "subcategory": "code-provenance",
@@ -30789,6 +31203,99 @@
     }
    ]
   },
+  "usage-aggregation-semantics": {
+   "category": "operations",
+   "subcategory": "metered-billing",
+   "status": "forged",
+   "file": "knowledge/software-engineering/operations/metered-billing/usage-aggregation-semantics/usage-aggregation-semantics.md",
+   "digest": "sha256:e205564f298ac736",
+   "techniques": [
+    {
+     "slug": "high-water-mark-advance-billing",
+     "status": "forged",
+     "laws": [
+      "record-precedes-effect",
+      "derivation-names-recomputation",
+      "identity-survives-reuse"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "issuing a charge at event time rather than at period close",
+      "a level metric that can decrease within a period",
+      "a retried billing job charged twice",
+      "deciding whether a stored aggregate may be recomputed"
+     ]
+    },
+    {
+     "slug": "level-valued-time-integral",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "derivation-names-recomputation"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "billing something the customer holds rather than consumes",
+      "a metric whose value between events is nonzero",
+      "an invoice line that should be fractional",
+      "deciding what a period with no events costs"
+     ]
+    },
+    {
+     "slug": "replayed-state-machine-count",
+     "status": "forged",
+     "laws": [
+      "identity-survives-reuse",
+      "derivation-names-recomputation"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "billing seats or licences or provisioned units",
+      "a count that must go down when something is removed",
+      "deduplicating repeated add and remove events",
+      "deciding what a remove without an add means"
+     ]
+    },
+    {
+     "slug": "seeded-recurring-aggregate",
+     "status": "forged",
+     "laws": [
+      "unknown-is-not-a-value",
+      "one-authority-per-vocabulary",
+      "derivation-names-recomputation"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a metric measures something that existed before the period opened",
+      "the first period after enabling a recurring metric",
+      "a customer is billed for storage they never re-uploaded",
+      "a recurring count grows every period"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "high-water-mark-advance-billing",
+     "file": "knowledge/software-engineering/operations/metered-billing/usage-aggregation-semantics/applications/process--high-water-mark-advance-billing.md",
+     "verified_on": "2026-09-07"
+    },
+    {
+     "stack": "sql",
+     "technique": "level-valued-time-integral",
+     "file": "knowledge/software-engineering/operations/metered-billing/usage-aggregation-semantics/applications/sql--level-valued-time-integral.md",
+     "verified_on": "2026-09-07",
+     "verified_against": "sql@15"
+    },
+    {
+     "stack": "sql",
+     "technique": "replayed-state-machine-count",
+     "file": "knowledge/software-engineering/operations/metered-billing/usage-aggregation-semantics/applications/sql--replayed-state-machine-count.md",
+     "verified_on": "2026-09-07",
+     "verified_against": "sql@15"
+    }
+   ]
+  },
   "usage-analytics": {
    "category": "operations",
    "subcategory": "service-operations",
@@ -30909,6 +31416,190 @@
      "file": "knowledge/software-engineering/operations/service-operations/usage-analytics/applications/react--sink-abstraction.md",
      "verified_on": "2026-08-29",
      "verified_against": "react@19"
+    }
+   ]
+  },
+  "usage-event-ingestion": {
+   "category": "operations",
+   "subcategory": "metered-billing",
+   "status": "forged",
+   "file": "knowledge/software-engineering/operations/metered-billing/usage-event-ingestion/usage-event-ingestion.md",
+   "digest": "sha256:646deb18f5f6aa86",
+   "techniques": [
+    {
+     "slug": "dedupe-key-survives-soft-delete",
+     "status": "forged",
+     "laws": [
+      "identity-survives-reuse",
+      "deletion-is-not-repair",
+      "limits-are-derived"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "making a usage endpoint idempotent",
+      "choosing a deduplication key",
+      "deciding what deleting a billable event means",
+      "answering a duplicate submission"
+     ],
+     "stage": "team"
+    },
+    {
+     "slug": "ingestion-contract-parity",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "gate-sees-target",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "adding a high-throughput ingest lane beside an existing one",
+      "routing customers between two ingest implementations",
+      "proving two runtimes admit events identically"
+     ],
+     "stage": "multi-service"
+    },
+    {
+     "slug": "late-event-subscription-resolution",
+     "status": "forged",
+     "laws": [
+      "unknown-is-not-a-value",
+      "verdict-survives-boundary",
+      "derivation-names-recomputation"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "attaching a usage event to a subscription",
+      "handling backdated or replayed usage",
+      "deciding what to do when no subscription window matches"
+     ]
+    },
+    {
+     "slug": "thin-ingest-deferred-validation",
+     "status": "forged",
+     "laws": [
+      "one-validation-door",
+      "record-precedes-effect",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing the admission endpoint for high-volume usage",
+      "deciding which checks block a caller",
+      "building the pass that inspects admitted events"
+     ],
+     "stage": "multi-service"
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "ingestion-contract-parity",
+     "file": "knowledge/software-engineering/operations/metered-billing/usage-event-ingestion/applications/process--ingestion-contract-parity.md",
+     "verified_on": "2026-09-07"
+    },
+    {
+     "stack": "sql",
+     "technique": "dedupe-key-survives-soft-delete",
+     "file": "knowledge/software-engineering/operations/metered-billing/usage-event-ingestion/applications/sql--dedupe-key-survives-soft-delete.md",
+     "verified_on": "2026-09-07",
+     "verified_against": "sql@15"
+    },
+    {
+     "stack": "sql",
+     "technique": "late-event-subscription-resolution",
+     "file": "knowledge/software-engineering/operations/metered-billing/usage-event-ingestion/applications/sql--late-event-subscription-resolution.md",
+     "verified_on": "2026-09-07",
+     "verified_against": "sql@15"
+    }
+   ]
+  },
+  "usage-pricing-models": {
+   "category": "operations",
+   "subcategory": "metered-billing",
+   "status": "forged",
+   "file": "knowledge/software-engineering/operations/metered-billing/usage-pricing-models/usage-pricing-models.md",
+   "digest": "sha256:6701676d49877856",
+   "techniques": [
+    {
+     "slug": "advance-billing-refuses-retroactive-models",
+     "status": "forged",
+     "laws": [
+      "absent-guard-is-loud",
+      "verdict-survives-boundary",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing when a usage charge is billed",
+      "someone asks for a volume discount charged upfront",
+      "a fee came out negative"
+     ]
+    },
+    {
+     "slug": "exact-money-with-one-rounding-boundary",
+     "status": "forged",
+     "laws": [
+      "derivation-names-recomputation",
+      "limits-are-derived"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a percentage or sub-minor-unit rate",
+      "a discount split across lines that does not sum",
+      "partial refunds",
+      "designing the columns a priced line stores"
+     ]
+    },
+    {
+     "slug": "grouping-key-reruns-the-ladder",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "someone wants usage broken out by a dimension",
+      "adding a grouping key to a live charge",
+      "an invoice grew from one line to hundreds"
+     ]
+    },
+    {
+     "slug": "inferred-tier-boundary-convention",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "unknown-is-not-a-value",
+      "derivation-names-recomputation"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "defining a tiered charge",
+      "migrating plans between two range encodings",
+      "an invoice off by one unit per tier"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "advance-billing-refuses-retroactive-models",
+     "file": "knowledge/software-engineering/operations/metered-billing/usage-pricing-models/applications/process--advance-billing-refuses-retroactive-models.md",
+     "verified_on": "2026-09-07"
+    },
+    {
+     "stack": "process",
+     "technique": "inferred-tier-boundary-convention",
+     "file": "knowledge/software-engineering/operations/metered-billing/usage-pricing-models/applications/process--inferred-tier-boundary-convention.md",
+     "verified_on": "2026-09-07"
+    },
+    {
+     "stack": "sql",
+     "technique": "exact-money-with-one-rounding-boundary",
+     "file": "knowledge/software-engineering/operations/metered-billing/usage-pricing-models/applications/sql--exact-money-with-one-rounding-boundary.md",
+     "verified_on": "2026-09-07",
+     "verified_against": "sql@16"
     }
    ]
   },
@@ -32171,6 +32862,7 @@
     "conformance-checking/checker-false-positive-discipline",
     "conformance-checking/claim-write-back",
     "conformance-checking/declared-then-proven",
+    "conformance-checking/derived-expectation-needs-an-evidence-floor",
     "conformance-checking/inline-predicate-rung-inference",
     "conformance-checking/rule-registry-enumerated-fixtures",
     "connector-catalog/schema-driven-forms",
@@ -32196,6 +32888,8 @@
     "declarative-resource-lifecycle/synchronous-gate-before-persistence",
     "declared-process-graph/bounded-expansion",
     "declared-process-graph/panic-proof-numeric-fields",
+    "deferred-finalization/recomputable-draft",
+    "deferred-finalization/void-then-regenerate",
     "deferred-operation-fusion/equivalence-oracle-testing",
     "delivery-analytics/off-platform-signal-detection",
     "delivery-analytics/review-coverage-rate",
@@ -32391,6 +33085,7 @@
     "pipeline-dag/valid-but-degraded-plans",
     "plan-entitlements/capability-gate-predicates",
     "plan-entitlements/deployment-mode-short-circuit",
+    "plan-entitlements/inherited-tier-not-cloned-tier",
     "plan-entitlements/price-book-authority",
     "plan-review/fresh-posture-self-challenge",
     "plan-review/objection-before-artifacts",
@@ -32452,6 +33147,7 @@
     "retrieval/embedding-lifecycle",
     "retrieval/relevance-floors",
     "retrieval/retrieval-evaluation",
+    "retrieval/second-pass-rescoring",
     "retry-backoff/circuit-breakers",
     "runner-fleet/ephemeral-versus-warm-runners",
     "runner-fleet/fleet-isolation-boundaries",
@@ -32490,6 +33186,7 @@
     "subprocess-lifecycle/host-resource-protection",
     "subprocess-lifecycle/liveness-and-heartbeats",
     "subprocess-lifecycle/spawn-contract",
+    "subscription-proration/prorated-path-inherits-every-convention",
     "supply-chain/archive-extraction-safety",
     "supply-chain/build-time-dependency-tier",
     "supply-chain/dependency-policy-gates",
@@ -32546,6 +33243,7 @@
     "untrusted-extension-host/grant-change-consent",
     "usage-analytics/activation-and-funnel-honesty",
     "usage-analytics/coverage-from-registries",
+    "usage-event-ingestion/ingestion-contract-parity",
     "versioning-snapshots/promotion-lifecycle",
     "versioning-snapshots/snapshot-scope",
     "voice-io/duplex-agent-sessions",
@@ -32597,6 +33295,7 @@
     "agent-memory/durable-store-failure-posture",
     "agent-memory/recall-injection",
     "agent-memory/rollup-compaction",
+    "agent-memory/self-trained-capture-filter",
     "agent-runtime-assembly/bounded-projection-of-external-work",
     "agent-runtime-assembly/honest-hook-registry",
     "agent-runtime-assembly/indeterminate-closure-on-interruption",
@@ -32665,6 +33364,7 @@
     "concurrent-vcs/shared-resource-arbitration",
     "conditional-service-composition/conjunction-activated-fragments",
     "conditional-service-composition/intent-and-environment-in-one-namespace",
+    "conformance-checking/derived-expectation-needs-an-evidence-floor",
     "conformance-checking/finding-severity-ladder",
     "conformance-checking/fixture-repo-testing",
     "conformance-checking/inline-predicate-rung-inference",
@@ -32700,6 +33400,7 @@
     "decentralized-artifact-distribution/origin-signed-record-with-index-as-cache",
     "declarative-object-graph-configs/reference-resolution-with-cycle-detection",
     "declared-process-graph/per-kind-field-whitelist",
+    "deferred-finalization/correction-window-is-the-grace-period",
     "deferred-operation-fusion/equivalence-oracle-testing",
     "delivery-analytics/delivery-metric-denominators",
     "delivery-analytics/off-platform-signal-detection",
@@ -33090,6 +33791,9 @@
     "untrusted-extension-host/safe-mode-registration",
     "usage-analytics/coverage-from-registries",
     "usage-analytics/sink-abstraction",
+    "usage-event-ingestion/ingestion-contract-parity",
+    "usage-event-ingestion/thin-ingest-deferred-validation",
+    "usage-pricing-models/advance-billing-refuses-retroactive-models",
     "versioning-snapshots/restore-semantics",
     "voice-io/authored-voice-identity",
     "voice-io/caller-scoped-voice-binding",
@@ -33153,6 +33857,7 @@
     "dead-code/quarantine-vs-delete",
     "dead-code/suppression-hygiene",
     "dead-code/unadopted-extension-point",
+    "deferred-finalization/void-then-regenerate",
     "delivery-guarantees/dead-letter-design",
     "delivery-guarantees/ordered-lane-blocking",
     "delivery-guarantees/retry-escalation",
@@ -33213,6 +33918,7 @@
     "triage-queues/queue-lifecycle",
     "undo-history/checkpoint-restore",
     "usage-analytics/activation-and-funnel-honesty",
+    "usage-event-ingestion/dedupe-key-survives-soft-delete",
     "versioning-snapshots/restore-semantics",
     "versioning-snapshots/retention-and-pruning",
     "web-scraping/dedup-and-datasets"
@@ -33292,6 +33998,7 @@
     "concurrency-guards/race-catalog-with-two-histories",
     "concurrent-vcs/commit-verification",
     "conformance-checking/declared-deviation-register",
+    "conformance-checking/derived-expectation-needs-an-evidence-floor",
     "conformance-checking/edition-stratified-conformance",
     "conformance-checking/inline-predicate-rung-inference",
     "conformance-checking/pass-ratio-comparability",
@@ -33317,6 +34024,8 @@
     "dead-code/deletion-protocols",
     "dead-code/instrument-per-orphan-class",
     "dead-code/unadopted-extension-point",
+    "deferred-finalization/correction-window-is-the-grace-period",
+    "deferred-finalization/recomputable-draft",
     "deferred-operation-fusion/equivalence-oracle-testing",
     "delivery-analytics/attribution-channels",
     "delivery-analytics/batch-size-thresholds",
@@ -33550,6 +34259,7 @@
     "retrieval/relationship-proximity-lane",
     "retrieval/retrieval-evaluation",
     "retrieval/retrieval-triggering",
+    "retrieval/second-pass-rescoring",
     "retrieval/structural-centrality-lane",
     "retry-backoff/jittered-revocation-with-irrevocable-terminal",
     "retry-backoff/retry-observability",
@@ -33586,6 +34296,7 @@
     "subprocess-lifecycle/cancellation-needs-a-terminable-unit",
     "subprocess-lifecycle/concurrency-and-slots",
     "subprocess-lifecycle/host-resource-protection",
+    "subscription-proration/whole-period-denominator",
     "supply-chain/build-time-dependency-tier",
     "supply-chain/lockfile-freshness-oracle",
     "supply-chain/review-attestation-ledger",
@@ -33623,6 +34334,7 @@
     "ui-controls/adoption-enforcement",
     "untrusted-extension-host/host-api-import-budget",
     "untrusted-extension-host/safe-mode-registration",
+    "usage-aggregation-semantics/level-valued-time-integral",
     "usage-analytics/activation-and-funnel-honesty",
     "usage-analytics/batching-and-quota",
     "usage-analytics/event-taxonomy",
@@ -33653,6 +34365,7 @@
     "agent-memory/durable-store-failure-posture",
     "agent-memory/lane-reconciliation",
     "agent-memory/probe-without-write-back",
+    "agent-memory/self-trained-capture-filter",
     "agent-runtime-assembly/additive-input-at-the-call-boundary",
     "agent-runtime-assembly/checkpoint-mode-custody",
     "agent-runtime-assembly/host-routes-win",
@@ -33760,6 +34473,8 @@
     "optional-dependency-degradation/fallback-retirement-condition",
     "p2p-networking/peer-state-honesty",
     "pipeline-dag/composite-condition-verdicts",
+    "plan-entitlements/provider-publishes-state-not-decision",
+    "plan-entitlements/subtractive-entitlement",
     "plan-review/informational-fold-in",
     "priced-authority/write-ahead-revocation-marker",
     "prompt-assembly/elision-to-a-refetch-pointer",
@@ -33773,6 +34488,7 @@
     "register-bytecode-execution/placeholder-patch-jumps",
     "repo-manifest-standard/version-gate-precedes-schema-gate",
     "retrieval/query-decomposition-before-the-lanes",
+    "retrieval/second-pass-rescoring",
     "retrieval/structural-centrality-lane",
     "retry-backoff/client-retry-and-redirect-conventions",
     "retry-backoff/suspension-is-not-failure",
@@ -33799,6 +34515,8 @@
     "structured-output/constraint-and-tool-channel-exclusion",
     "structured-output/enumerable-domain-decoding",
     "structured-output/schema-validation-and-repair",
+    "subscription-billing-periods/boundary-stitch-on-timezone-change",
+    "subscription-billing-periods/timezone-anchored-period-dates",
     "supply-chain/review-attestation-ledger",
     "telemetry-pii-redaction/exclusion-bounds-reads-not-output",
     "tenant-scoped-agent-runtime/fail-direction-follows-deployment-mode",
@@ -33811,6 +34529,10 @@
     "untrusted-extension-host/canonicalizable-privilege-declaration",
     "untrusted-extension-host/capability-subtraction-sandbox",
     "untrusted-extension-host/pluggable-isolation-runner",
+    "usage-aggregation-semantics/seeded-recurring-aggregate",
+    "usage-event-ingestion/late-event-subscription-resolution",
+    "usage-pricing-models/grouping-key-reruns-the-ladder",
+    "usage-pricing-models/inferred-tier-boundary-convention",
     "voice-io/caller-scoped-voice-binding",
     "watch-cache-and-resync/desync-is-a-state",
     "watch-cache-and-resync/initial-read-strategy-behind-a-gate",
@@ -34030,6 +34752,7 @@
     "untrusted-extension-host/two-tier-extension-format",
     "usage-analytics/privacy-scrubbing",
     "usage-analytics/sink-abstraction",
+    "usage-event-ingestion/thin-ingest-deferred-validation",
     "versioning-snapshots/snapshot-scope",
     "voice-io/caller-scoped-voice-binding",
     "voice-io/engine-abstraction",
@@ -34126,6 +34849,7 @@
     "declarative-resource-lifecycle/per-field-write-ownership",
     "declared-process-graph/additive-live-mutation",
     "declared-process-graph/composite-expansion-contract",
+    "deferred-finalization/finalization-freezes-the-inputs",
     "delivery-analytics/post-landing-repair-density",
     "delivery-analytics/revert-linkage",
     "delivery-guarantees/atomic-claiming",
@@ -34282,6 +35006,8 @@
     "subprocess-lifecycle/liveness-and-heartbeats",
     "subprocess-lifecycle/session-reuse",
     "subprocess-lifecycle/termination-and-reaping",
+    "subscription-billing-periods/anchor-re-derived-not-chained",
+    "subscription-billing-periods/hourly-pass-with-derived-idempotency",
     "sync-replication/change-tracking-and-cursors",
     "sync-replication/tombstone-propagation",
     "table/pagination",
@@ -34306,7 +35032,10 @@
     "ui-controls/micro-interaction-contracts",
     "undo-history/checkpoint-restore",
     "undo-history/gesture-coalescing",
+    "usage-aggregation-semantics/high-water-mark-advance-billing",
+    "usage-aggregation-semantics/replayed-state-machine-count",
     "usage-analytics/event-taxonomy",
+    "usage-event-ingestion/dedupe-key-survives-soft-delete",
     "versioning-snapshots/lineage-and-variants",
     "versioning-snapshots/version-identity",
     "voice-io/authored-voice-identity",
@@ -34338,6 +35067,7 @@
     "agent-memory/decay-and-forgetting",
     "agent-memory/episodic-capture",
     "agent-memory/procedure-promotion",
+    "agent-memory/self-trained-capture-filter",
     "agent-memory/working-memory",
     "agent-runtime-assembly/bounded-projection-of-external-work",
     "alerting/alert-lifecycle",
@@ -34862,7 +35592,10 @@
     "pipeline-dag/node-execution-model",
     "plan-entitlements/deployment-mode-short-circuit",
     "plan-entitlements/id-vs-label-split",
+    "plan-entitlements/inherited-tier-not-cloned-tier",
     "plan-entitlements/price-book-authority",
+    "plan-entitlements/provider-publishes-state-not-decision",
+    "plan-entitlements/subtractive-entitlement",
     "plan-entitlements/tier-model-single-source",
     "priced-authority/never-persisted-token-class",
     "prompt-assembly/capability-documentation",
@@ -34942,6 +35675,9 @@
     "streaming-output/stream-parsing",
     "structured-output/op-grammar-allowlisting",
     "structured-output/schema-validation-and-repair",
+    "subscription-billing-periods/timezone-anchored-period-dates",
+    "subscription-proration/prorated-path-inherits-every-convention",
+    "subscription-proration/proration-follows-recurrence-not-price",
     "supply-chain/lockfile-freshness-oracle",
     "supply-chain/permission-manifest-scoping",
     "sync-replication/conflict-detection-and-policy",
@@ -34966,8 +35702,12 @@
     "untrusted-extension-host/canonicalizable-privilege-declaration",
     "untrusted-extension-host/host-api-import-budget",
     "untrusted-extension-host/isolation-tier-independent-extension-api",
+    "usage-aggregation-semantics/seeded-recurring-aggregate",
     "usage-analytics/coverage-from-registries",
     "usage-analytics/event-taxonomy",
+    "usage-event-ingestion/ingestion-contract-parity",
+    "usage-pricing-models/grouping-key-reruns-the-ladder",
+    "usage-pricing-models/inferred-tier-boundary-convention",
     "versioning-snapshots/promotion-lifecycle",
     "versioning-snapshots/version-identity",
     "voice-io/duplex-agent-sessions",
@@ -35044,6 +35784,8 @@
     "data-viz/metric-identity",
     "dead-code/carrying-cost-economics",
     "declarative-resource-lifecycle/ownership-edges-that-enqueue-the-parent",
+    "deferred-finalization/finalization-freezes-the-inputs",
+    "deferred-finalization/recomputable-draft",
     "delivery-analytics/delivery-metric-denominators",
     "demo-data-plane/fixture-self-consistency",
     "demo-data-plane/seeded-determinism",
@@ -35135,6 +35877,7 @@
     "perf-instrumentation/ring-buffer-metrics",
     "persistent-batch-mutation/compaction-in-the-protocols-own-operations",
     "pipeline-authoring/pipeline-plan-auditability",
+    "plan-entitlements/inherited-tier-not-cloned-tier",
     "plan-entitlements/price-book-authority",
     "plan-entitlements/tier-model-single-source",
     "proactive-nudges/attention-budgets",
@@ -35187,6 +35930,8 @@
     "sql-console/introspection-architecture",
     "streaming-output/phase-derivation",
     "subprocess-lifecycle/session-reuse",
+    "subscription-billing-periods/anchor-re-derived-not-chained",
+    "subscription-proration/whole-period-denominator",
     "sync-replication/change-tracking-and-cursors",
     "table/pagination",
     "table/performance",
@@ -35207,6 +35952,13 @@
     "undo-history/execution-emitted-inverse",
     "undo-history/undo-model-selection",
     "untrusted-extension-host/canonicalizable-privilege-declaration",
+    "usage-aggregation-semantics/high-water-mark-advance-billing",
+    "usage-aggregation-semantics/level-valued-time-integral",
+    "usage-aggregation-semantics/replayed-state-machine-count",
+    "usage-aggregation-semantics/seeded-recurring-aggregate",
+    "usage-event-ingestion/late-event-subscription-resolution",
+    "usage-pricing-models/exact-money-with-one-rounding-boundary",
+    "usage-pricing-models/inferred-tier-boundary-convention",
     "voice-io/authored-voice-identity",
     "voice-io/render-acceptance",
     "voice-io/tts-pipeline",
@@ -35283,6 +36035,8 @@
     "optional-dependency-degradation/guarded-singleton-accessor",
     "optional-dependency-degradation/refusal-is-not-failure",
     "pipeline-dag/composite-condition-verdicts",
+    "plan-entitlements/provider-publishes-state-not-decision",
+    "plan-entitlements/subtractive-entitlement",
     "priced-authority/approver-not-requester",
     "prompt-assembly/deferred-interface-invalidation",
     "read-serving-replicas/client-carried-index",
@@ -35300,10 +36054,14 @@
     "sidecar-provisioning/split-trust-by-registration-path",
     "standards-layered-runtime/backend-parameterised-web-api",
     "structured-output/schema-validation-and-repair",
+    "subscription-billing-periods/hourly-pass-with-derived-idempotency",
+    "subscription-proration/proration-follows-recurrence-not-price",
     "supply-chain/signature-preserving-patching",
     "transactions-over-a-replicated-log/same-value-still-conflicts",
     "transactions-over-a-replicated-log/snapshot-read-plus-verify-log",
     "untrusted-extension-host/per-callback-failure-policy",
+    "usage-event-ingestion/late-event-subscription-resolution",
+    "usage-pricing-models/advance-billing-refuses-retroactive-models",
     "voice-io/decode-time-vocabulary-biasing",
     "voice-io/portable-provider-package",
     "voice-io/speech-ready-text",
@@ -35323,6 +36081,7 @@
     "convergence-loop-and-requeue/keyed-queue-with-earliest-wins",
     "cross-instance-cache-lease/renewal-beats-a-tuned-timeout",
     "decentralized-artifact-distribution/fail-closed-trust-dependency",
+    "deferred-finalization/correction-window-is-the-grace-period",
     "deployment-contract/cache-immutability-licensing",
     "deterministic-prefix-caching/running-window-replacement",
     "embedded-tracing-collector/allocation-threshold-growth-policy",
@@ -35350,7 +36109,10 @@
     "streaming-output/emit-behind-the-revision-window",
     "structured-output/constrained-decoding-is-a-shared-budget",
     "structured-output/enumerable-domain-decoding",
+    "subscription-billing-periods/boundary-stitch-on-timezone-change",
     "untrusted-extension-host/host-api-import-budget",
+    "usage-event-ingestion/dedupe-key-survives-soft-delete",
+    "usage-pricing-models/exact-money-with-one-rounding-boundary",
     "watch-cache-and-resync/initial-read-strategy-behind-a-gate",
     "windowed-inference-over-oversized-inputs/resolution-decoupled-window-mapping",
     "windowed-inference-over-oversized-inputs/split-device-inference-and-stitching"
@@ -35504,6 +36266,7 @@
     "untrusted-extension-host/pluggable-isolation-runner",
     "untrusted-extension-host/safe-mode-registration",
     "untrusted-extension-host/two-tier-extension-format",
+    "usage-pricing-models/advance-billing-refuses-retroactive-models",
     "voice-io/render-acceptance",
     "voice-io/unattended-caller-attribution",
     "watch-cache-and-resync/completeness-barrier-with-a-warm-queue",
@@ -35547,6 +36310,7 @@
     "quorum-and-recovery-procedures/single-node-recovery-resize",
     "retrieval/query-decomposition-before-the-lanes",
     "session-continuation/compaction-checkpoint",
+    "subscription-proration/upgrade-immediate-downgrade-deferred",
     "tenant-scoped-agent-runtime/written-inventory-of-what-stays-global",
     "test-harness/context-starved-executor"
    ]
@@ -35559,6 +36323,8 @@
     "cross-instance-cache-lease/renew-from-arrival-not-from-work",
     "decentralized-artifact-distribution/publisher-declared-verification-floor",
     "declarative-resource-lifecycle/deletion-blocked-until-dependents-confirm",
+    "deferred-finalization/finalization-freezes-the-inputs",
+    "deferred-finalization/void-then-regenerate",
     "delivery-guarantees/co-transactional-consume",
     "execution-state-checkpointing/the-record-outlives-the-rewind",
     "guest-execution-bounding/bounded-shadow-backtrace",
@@ -35570,6 +36336,9 @@
     "self-healing/fork-to-outlive-the-healed",
     "self-healing/healer-death-as-promotion",
     "streaming-output/emit-behind-the-revision-window",
+    "subscription-proration/upgrade-immediate-downgrade-deferred",
+    "usage-aggregation-semantics/high-water-mark-advance-billing",
+    "usage-event-ingestion/thin-ingest-deferred-validation",
     "voice-io/unattended-caller-attribution"
    ]
   }

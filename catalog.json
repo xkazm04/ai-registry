@@ -122,15 +122,15 @@
     },
     {
       "name": "dojo",
-      "version": "1.2.2",
+      "version": "1.3.0",
       "category": "ai-native",
       "path": "skills/dojo/SKILL.md",
-      "contentHash": "sha256-n1:c5b1379732e4a513",
+      "contentHash": "sha256-n1:a03ee55d9e186c58",
       "adopters": [],
       "invokes30d": 0,
-      "lessons": 5,
+      "lessons": 6,
       "lessonsPath": "skills/dojo/LESSONS.md",
-      "lessonsHash": "sha256-n1:45d3f630cafa66b6",
+      "lessonsHash": "sha256-n1:9958e04d3a346667",
       "usageContributors": []
     },
     {
@@ -303,9 +303,9 @@
         "systedo-case@plugin:2.3.0"
       ],
       "invokes30d": 46,
-      "lessons": 16,
+      "lessons": 18,
       "lessonsPath": "skills/perfect/LESSONS.md",
-      "lessonsHash": "sha256-n1:edd599d57045afa6",
+      "lessonsHash": "sha256-n1:a1e7845d6a0f464e",
       "usageContributors": [
         "kazda-dev-box"
       ]
@@ -623,7 +623,7 @@
     "skills": 29,
     "practices": 8,
     "memory": 6,
-    "lessons": 151
+    "lessons": 154
   },
   "bundles": [
     {
@@ -673,10 +673,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 17,
-      "techniques": 110,
+      "techniques": 113,
       "applications": 60,
-      "files": 192,
-      "contentHash": "sha256:4dd67850fadc4dd4"
+      "files": 195,
+      "contentHash": "sha256:2390b2144611a795"
     },
     {
       "name": "localization",
@@ -724,11 +724,11 @@
       "okfVersion": "0.1",
       "profile": "rkb/0.1",
       "purity": "software",
-      "subjects": 216,
-      "techniques": 1603,
-      "applications": 945,
-      "files": 2769,
-      "contentHash": "sha256:be8d7e40118372b9"
+      "subjects": 222,
+      "techniques": 1633,
+      "applications": 970,
+      "files": 2830,
+      "contentHash": "sha256:602bd78c74b0c1a0"
     }
   ]
 }
