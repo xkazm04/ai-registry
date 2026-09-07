@@ -1,6 +1,6 @@
 # Software engineering - the subjects this registry carries
 
-`software-engineering` - 216 subjects, 1603 techniques, 945 applications.
+`software-engineering` - 222 subjects, 1634 techniques, 971 applications.
 Slugs only; resolve one through `index.json` as the access rule beside this file describes.
 
 ### ui-surfaces
@@ -34,6 +34,7 @@ Slugs only; resolve one through `index.json` as the access rule beside this file
 ### operations
 - **control-plane-operations** - convergence-loop-and-requeue, declarative-resource-lifecycle, watch-cache-and-resync
 - **governance-and-records** - audit-logging, data-retention, entity-lifecycle, settings, versioning-snapshots
+- **metered-billing** - deferred-finalization, subscription-billing-periods, subscription-proration, usage-aggregation-semantics, usage-event-ingestion, usage-pricing-models
 - **service-operations** - conditional-service-composition, health-checks, node-boot-and-declarative-bootstrap, perf-instrumentation, plan-entitlements, quorum-and-recovery-procedures, scoring-rubrics, triage-queues, usage-analytics
 
 ### security

@@ -144,6 +144,38 @@ quality criterion, consider blinding length. The general rule: any feature
 you would not accept as a *reason* for a score must be neutralized as an
 *input* to it.
 
+**And the rubric is an input too.** Presentation sensitivity is usually
+discussed as a property of the *answer*. The same sensitivity lives in the
+grader's own instruction, where it is harder to see because the instruction
+looks like the specification rather than like a variable. A rubric reading
+"answer YES only if the reply applies the fix **as the first thing it
+does**" grades the order of clauses; one reading "…applies the fix
+anywhere" grades whether the fix is applied. Those are different questions,
+and the first is not the stricter version of the second — it is a question
+about register wearing a strictness label.
+
+Measured on one memory harness: re-scoring the *same cached answers* with
+that single clause relaxed moved a form-judged class from 0.56 to 0.92 and
+**swapped the order of the two systems under comparison** (0.86 / 0.84
+became 0.87 / 0.89). What the strict rubric had been penalising was a reply
+reading "First: verify the smoke-test-hits-old-router condition is checked"
+— the fix, applied, first, and hyphenated, which its deterministic
+pre-check wanted spelled out. Nothing about the memory under test differed.
+
+Two consequences, both cheap:
+
+- **Write the rubric against the claim, not the sentence.** If the property
+  is "the reply applies the fix", every clause constraining *where* or *how*
+  it says so is an extra hypothesis you did not mean to test. Strict and
+  lenient should differ in what counts as the claim, never in what counts as
+  acceptable phrasing.
+- **Perturb the rubric as a standing check.** Repeatability sampling
+  re-scores the same items with the same prompt; that measures sampling
+  noise and is blind to this. Re-scoring with a *reworded* rubric of the
+  same intent measures whether the verdict was about the work. See
+  [resolution-precondition](./resolution-precondition.md), which turns the
+  same observation into a rule about when a ranking may be published.
+
 ## Judge health is a lane
 
 All of the above compiles to a small standing checklist — anchor re-scores

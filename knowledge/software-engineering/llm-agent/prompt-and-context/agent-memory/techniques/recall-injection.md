@@ -86,6 +86,51 @@ predicate that selected it and confirm the caller's scope reached that
 predicate. A bundle is only as scoped as its loosest arm, and its heading claims
 otherwise.
 
+### The query is not the question
+
+The relevance tier is selected against "the current task and query", and the
+query is almost always the user's sentence, handed to the matcher whole. That
+sentence carries two different things: **what is being asked about, and how the
+answer should be presented.** Only the first is a retrieval key. The second —
+*list the steps in order*, *tell me briefly*, *walk me through* — is an
+instruction to the answerer, and it is not merely inert noise, because a memory
+store is written in the same register as the requests that produced it. The
+presentation words match real bodies, and they match them *well*.
+
+Measured on a year-long replay: "How do we do an invoice for project atlas?
+List the steps in order" put `list`, `steps` and `order` into the keyword
+query, where they matched the body of a rule reading "execute the steps in
+order" — a rule about a **different project**. That single rule took the top
+slot on all ten procedure probes whatever project each asked about, and with
+three slots in the tier the correct rule sat at rank four and was never seen.
+
+Two independent repairs, worth landing together because they fail differently:
+
+- **Strip answer-shape terms from the query**, as a list distinct from
+  stopwords: stopwords carry no meaning anywhere, these carry meaning about the
+  *request*. Drop them only when a subject survives — a question that is nothing
+  but framing still has to search for something, and an empty query turns the
+  tier off for that call. This is a fixed vocabulary and will miss phrasings.
+- **Re-rank candidates on rarity within the candidate set, not within the
+  corpus.** Corpus-frequency weighting (BM25 and its relatives) is the wrong
+  denominator once a lane is already narrowed to one kind and one query: every
+  candidate matched *something*, and the live question is which of them matched
+  the part that distinguishes it. A term present in every candidate cannot be
+  the subject; a term present in one — the project name — almost certainly is.
+  Over-fetch a small multiple, weight each query term by `1 − df/n` over the
+  candidates, order by covered weight with the original rank breaking ties, and
+  the re-rank can promote nothing a wider limit would not have returned. This
+  needs a distinguishing term to exist in the text, which is why the two
+  repairs are complementary.
+
+**Do not expect the other tiers to cover for this.** The always-include tier
+looks like a safety net and is not, whenever its ordering key is effectively
+constant: rank by importance-then-recency while every automatically written
+item shares one importance, and the tier degenerates to "the most recent N",
+which is blind to the subject by construction. Nor does a stored scope
+necessarily help — a scope that names a coarse category rather than the thing
+the user asked about cannot separate two items in the same category.
+
 ## Packing: whole items, skip don't stop
 
 Once candidates are ranked, they must be fitted into the budget, and the

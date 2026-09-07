@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 222,
-  "techniques": 1633,
-  "applications": 970,
+  "techniques": 1634,
+  "applications": 971,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1633/1633",
+  "use_when_coverage": "1634/1634",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -1643,7 +1643,7 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/agent-memory.md",
-   "digest": "sha256:4d6dc814c5060c9a",
+   "digest": "sha256:86776ee8bd54c4b2",
    "techniques": [
     {
      "slug": "baseline-ladder",
@@ -1753,6 +1753,22 @@
       "two writers claiming the same sequential id",
       "a model swap silently thins what capture writes down",
       "one oversized item crowds a distillation batch"
+     ]
+    },
+    {
+     "slug": "gap-directed-elicitation",
+     "status": "forged",
+     "laws": [
+      "unknown-is-not-a-value",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a coverage instrument names a hole nothing will ever fill",
+      "memory is complete about what happened and empty about what was decided",
+      "a store that has captured for months and still cannot answer why",
+      "deciding whether to ask the principal directly instead of waiting for an event",
+      "a fresh scope that will never accumulate memory on its own"
      ]
     },
     {
@@ -2015,6 +2031,13 @@
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/python--baseline-ladder.md",
      "verified_on": "2026-09-02",
      "verified_against": "python@3.10"
+    },
+    {
+     "stack": "python",
+     "technique": "gap-directed-elicitation",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/python--gap-directed-elicitation.md",
+     "verified_on": "2026-09-07",
+     "verified_against": "python@3.12"
     },
     {
      "stack": "python",
@@ -12027,7 +12050,7 @@
    "subcategory": "evaluation-and-cost",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/eval-harness/eval-harness.md",
-   "digest": "sha256:c858e4c754b01e3e",
+   "digest": "sha256:3b0117f55b857a3b",
    "techniques": [
     {
      "slug": "assertion-vs-judgment",
@@ -33293,6 +33316,7 @@
     "agent-instruction-files/capability-before-steering",
     "agent-memory/coverage-instrumentation",
     "agent-memory/durable-store-failure-posture",
+    "agent-memory/gap-directed-elicitation",
     "agent-memory/recall-injection",
     "agent-memory/rollup-compaction",
     "agent-memory/self-trained-capture-filter",
@@ -34363,6 +34387,7 @@
     "agent-instruction-files/substrate-coupled-expiry",
     "agent-memory/decay-and-forgetting",
     "agent-memory/durable-store-failure-posture",
+    "agent-memory/gap-directed-elicitation",
     "agent-memory/lane-reconciliation",
     "agent-memory/probe-without-write-back",
     "agent-memory/self-trained-capture-filter",

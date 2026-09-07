@@ -26,10 +26,18 @@ Every row below shared one consumer, judge, budget and elaboration regime.
 | retrieval over the raw record, 200 chunks | 0.89 | 16 | 3,253 | 0 |
 | verbatim + hybrid retrieval, no model at write | 0.87 | 5 | 1,912 | 0 |
 | the two-tier pipeline, both tiers governed | 0.86 | 9 | 1,592 | 1,371 |
+| the same, + the query fix and candidate re-rank † | 0.84 | 13 | 1,558 | 1,372 |
 | per-page compiled truth + append-only timeline | 0.84 | 3 | 1,632 | 3,434 |
 | write-time verdict reconciliation | 0.78 | 4 | 918 | 7,341 |
 | whole history in context | 0.65 | 6 | 5,870 | 0 |
 | no memory | 0.08 | 0 | 0 | 0 |
+
+† Unresolved, not a regression: procedures went 0.60 → 1.00 and failure causes
+0.80 → 0.88, while the two points come out of a form-judged class that has scored 0.56,
+0.84 and 0.56 across three runs of nearly identical code and re-scores to 0.92 on both runs
+under a reworded rubric. On the instrument that varies only the code — retrieval coverage
+over a fixed store — the change gained seven probes and lost none. A row like this is how
+the table stays honest: it records what was run, and refuses the ordering it cannot support.
 
 Four claims a source does not get to make unchallenged, because this table already
 answers them:
@@ -73,9 +81,14 @@ Carry the generalisation into any source about a multi-tier memory:
 > real where something calls it, and the tier with the least retrieval pressure is the
 > one where a dead entry survives longest with the most authority.
 
-Governing it: +4 points, 68 of 131 rules retired, stale answers 13 to 9. It also cost
-something, which is why the row is not a clean win: a narrow class regressed when
-retirement switched on, because the leg could now be over-eager.
+Governing it: +4 points, 68 of 131 rules retired, stale answers 13 to 9.
+
+A narrow class regressed in the same run, and the first thing written here about it was
+wrong in a way worth keeping visible: I attributed it to the newly-enabled retirement being
+over-eager, because that was the change and it was the available story. Measured, the rules
+in question were all still live and the same failure reproduced in the pre-fix store. **A
+regression concurrent with a change is not evidence about that change**, and a lane whose
+job is to price other people's claims has no business skipping that check on its own.
 
 ## Instruments this lane owns
 
@@ -97,6 +110,16 @@ should say so rather than land the claim:
 - **A cap that is not a shortlist is a coverage hole.** Bounding a consolidation prompt
   by truncating the store leaves everything below the cut permanently uncomparable.
   (`consolidation`)
+- **A grader's rubric is an input to the score.** Re-scoring the same cached answers with
+  one clause relaxed ("applies the fix as the first thing it does" → "anywhere") moved a
+  class 0.56 → 0.92 and swapped the two systems being compared. Before reading any
+  end-to-end delta, perturb the rubric and the store separately; if the order flips, the
+  cell measured the harness. (`judge-stability`, `resolution-precondition`)
+- **When the end-to-end number cannot resolve the change, shrink the instrument, not the
+  claim.** Fixing the store and dropping the consumer and the judge — measuring only whether
+  the answer reached the context — resolved a retrieval change the full ladder could not
+  see, at zero model cost. Coverage is not accuracy and gets reported as coverage.
+  (`resolution-precondition`)
 
 ## How to run the lane
 
@@ -121,6 +144,10 @@ Named so a run can recognise a genuinely new contribution rather than a re-deriv
 
 - Nothing in the cohort reliably handles a *scope-crossing* supersedence ("we moved from
   X to Y" where the new value is classified into a different category than the old one).
+- Nobody in the cohort separates the *subject* of a question from the *shape of the answer
+  it asks for* before matching. The presentation words match a store written in the same
+  register as the requests that filled it, so a well-phrased question retrieves other
+  people's boilerplate. A source that has a real answer to this is contributing something.
 - No arm has been measured on a store that must serve two users with different
   preferences over the same projects.
 - The detail-against-currency trade has no measured middle: an arm that keeps a rewritten

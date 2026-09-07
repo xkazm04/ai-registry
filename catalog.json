@@ -303,9 +303,9 @@
         "systedo-case@plugin:2.3.0"
       ],
       "invokes30d": 46,
-      "lessons": 18,
+      "lessons": 19,
       "lessonsPath": "skills/perfect/LESSONS.md",
-      "lessonsHash": "sha256-n1:a1e7845d6a0f464e",
+      "lessonsHash": "sha256-n1:ebb0bec810b9392f",
       "usageContributors": [
         "kazda-dev-box"
       ]
@@ -623,7 +623,7 @@
     "skills": 29,
     "practices": 8,
     "memory": 6,
-    "lessons": 154
+    "lessons": 155
   },
   "bundles": [
     {
@@ -647,10 +647,10 @@
       "profile": "rkb/0.1",
       "purity": "game",
       "subjects": 51,
-      "techniques": 319,
-      "applications": 136,
-      "files": 510,
-      "contentHash": "sha256:7dffb52b05d68e2e"
+      "techniques": 322,
+      "applications": 139,
+      "files": 516,
+      "contentHash": "sha256:751fc94dd25dc614"
     },
     {
       "name": "grant-funding",
@@ -673,10 +673,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 17,
-      "techniques": 113,
-      "applications": 60,
-      "files": 195,
-      "contentHash": "sha256:2390b2144611a795"
+      "techniques": 114,
+      "applications": 61,
+      "files": 197,
+      "contentHash": "sha256:e2eb649d21eb4f15"
     },
     {
       "name": "localization",
@@ -699,10 +699,10 @@
       "profile": "rkb/0.1",
       "purity": "media",
       "subjects": 20,
-      "techniques": 132,
-      "applications": 61,
-      "files": 218,
-      "contentHash": "sha256:f7e1c062b61fe545"
+      "techniques": 133,
+      "applications": 62,
+      "files": 220,
+      "contentHash": "sha256:24f49f8204dfad0b"
     },
     {
       "name": "recruiting",
@@ -725,10 +725,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 222,
-      "techniques": 1633,
-      "applications": 970,
-      "files": 2830,
-      "contentHash": "sha256:602bd78c74b0c1a0"
+      "techniques": 1634,
+      "applications": 971,
+      "files": 2832,
+      "contentHash": "sha256:a8b24f2691286002"
     }
   ]
 }
