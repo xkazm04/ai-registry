@@ -9080,3 +9080,74 @@ them* - but not applied to `SKILL.md` on one sighting.
   the round-34 focus.** Writing `1c/0e/0s/0t of 1 owed` rather than `1 row: 1c/...` made a
   complete run legible as complete. The honest caveat for the next reader: a 1/1 is easy,
   and the cell's value will be tested by the next run that lands four.
+
+## 2.6.0 - 2026-09-07 - two-models-one-game-benchmark
+
+- **The board broke a sibling's `commit` lock that was ONE SECOND old, because it judges
+  staleness by the holder's HEARTBEAT rather than by the lock's age.** `lock commit` printed
+  `warn: breaking lock 'commit' held by mediagen-vh8h (1s old; holder has no recent
+  heartbeat)` and handed the lock over. Those are two different signals and this method's own
+  shape makes them diverge: a run beats at phase transitions, then goes quiet through a long
+  drafting or verification pass, and takes the commit lock at the *end* of that quiet - so the
+  moment a run is most certainly alive and inside `git add` is exactly the moment its
+  heartbeat looks oldest. My own record read `[QUIET] beat=25m ago` while I was actively
+  writing files. The 15-minute TTL exists so a crashed session cannot deadlock the fleet, and
+  a fresh lock is the one piece of evidence that its holder was alive one second ago. **Until
+  this is fixed, do not trust a break: after breaking any lock, check `git diff --cached`
+  before staging** - I did, it was empty, and that check is the only thing that stood between
+  this run and a commit carrying a neighbour's staged work. Worth a fix in `run-board.mjs`
+  (never break a lock younger than its TTL regardless of heartbeat; and beat when a lock is
+  acquired), which is a change no mid-flight run needs to react to.
+- **The correct recipe for a shared append-only ledger is `HEAD + my scratch file`, staged as
+  a blob - and it detects a moved HEAD for free.** Staging the working tree is wrong whenever
+  a sibling has appended into the same file, and a per-hunk patch is fiddly for pure appends.
+  Rebuilding the blob from `git show HEAD:<path>` plus the exact bytes this run wrote is
+  exact by construction. The diagnostic it produced is the reason to prefer it: printing
+  `staged - working tree` per file showed `SCORECARD.md` at **-407 bytes**, i.e. my staged
+  blob was *larger* than my own working copy, which can only mean HEAD moved under me and my
+  working tree was stale relative to a sibling's commit. A plain `git add` there would have
+  silently committed a revert of 407 bytes of somebody else's landed scorecard row. Two
+  follow-ups the method should carry: **print the three sizes and read them**, and **after
+  committing a shared file this way, `git checkout --` it** so the working tree stops
+  advertising a deletion nobody intends.
+- **Use binary buffers for that, not text.** Concatenating and hashing through `Buffer` kept
+  the staged diff to the appended lines; a text-mode round trip would have rewritten every
+  line ending and staged a whole-file change. Same failure this vault already records for
+  `hash-object`, arriving through a different door.
+- **`git status --short | head` is not a WIP check, it is a sample of one.** Reading ten
+  modified paths in tracklight showed nothing in `crates/runner/`; the truncated remainder was
+  where the live WIP actually was, and only `git status --short -- <the exact paths>` settled
+  it. That scoped form is what correctly blocked the tracklight ship and turned it into a
+  recorded return condition rather than a collision. **Ask the question about the file you
+  are going to touch, never about the repository.**
+- **A characterization test that has never been shown to fail is indistinguishable from one
+  that cannot.** The pof guard passed its first calibration in the wrong sense: nudging one
+  weight by 0.05 left all eleven tests green, so the guard did not protect the ordering the
+  commit message was about to claim it protected. Only the perturbation actually *measured*
+  turned it red. Two things generalize. First, **calibrate against the arm you measured, not
+  against a convenient small delta** - the small delta tests sensitivity nobody claimed.
+  Second, **when the control fails, the honest fix is often to narrow the claim rather than
+  widen the test**: the shipped comment now says the guard catches a change of stance and not
+  drift, which is true, checkable, and more useful to the next reader than a stronger
+  sentence would have been.
+- **An 892-word source produced two landings, two apply rows and a ship; a 142,610-line
+  engine two rows above produced six subjects.** Both are good runs and the ledger should
+  stop implying otherwise. What the small one demonstrates is that `extract` volume is close
+  to uncorrelated with yield: ten candidates, six of them catches or untriaged on sight, and
+  **neither landing was visible in the Phase 3 table at all**. Both were produced at Phase 6
+  out of rows that entered looking like catches. The extraction step's job is to reach the
+  neighbourhood cheaply, not to contain the finding.
+
+### Redesign proposal - hunt the enumeration's PREMISE, not only its missing member
+
+Phase 6's third hunt asks what an enumeration omits. Both of this run's landings came from a
+different question - what does every member of the enumeration silently share? - and neither
+would have been found by the omission question, because both lists are *complete*. Three
+estimators of player skill, and all three play the game. Four truncation causes, and all four
+are things the harness or its operator did. In a mature corpus the omission hunt is subject to
+diminishing returns exactly because the enumerations get complete; the premise hunt is not,
+because a premise that holds for every member at the time of writing is the thing an author
+has no reason to state. Not applied to `SKILL.md` this round: a sibling was live for the whole
+run, a method edit is the one change a parallel fleet cannot absorb quietly, and this is one
+run's evidence. It is filed as round 35's focus item (2) so the next two runs can confirm or
+kill it on the three-runs rule.
