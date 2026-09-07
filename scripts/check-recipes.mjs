@@ -534,6 +534,24 @@ if (sinceIdx !== -1) {
     console.error(`FATAL: git diff against "${ref}" failed (${String(e.message).trim()}).`);
     process.exit(EXIT.FATAL);
   }
+  // `${ref}...HEAD` compares COMMITTED history. The working tree is invisible to
+  // it. That is right in CI, where the branch is pushed, and wrong the way that
+  // matters locally: run over uncommitted work it finds nothing, reports zero
+  // changed recipes, and prints `recipes lane OK`, which reads as a version
+  // discipline pass over work it never looked at. The shallow-clone guard twenty
+  // lines above already refuses that shape; this is the same refusal.
+  {
+    const dirty = git(['status', '--porcelain', '--', 'recipes/'])
+      .split(/\r?\n/).map((x) => x.trim()).filter(Boolean);
+    if (dirty.length && !changed.length) {
+      console.error(`FATAL: --since ${ref} compares committed history, and ${dirty.length} file(s) under recipes/ are uncommitted.`);
+      console.error('The comparison found nothing because your changes are not in it, not because they carry versions.');
+      console.error('Refusing to report a version-discipline pass over work this run never examined.');
+      console.error('Commit first, or compare against the ref you branched from.');
+      process.exit(EXIT.FATAL);
+    }
+  }
+
   // A LESSONS.md append records a run at the CURRENT version; it is not a change
   // to the craft. Everything else under the directory is the craft or the
   // connector knowledge it ships, and so must move the version.
