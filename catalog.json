@@ -121,6 +121,19 @@
       "usageContributors": []
     },
     {
+      "name": "cx",
+      "version": "1.0.0",
+      "category": "workflow",
+      "path": "skills/cx/SKILL.md",
+      "contentHash": "sha256-n1:b41941302f770a1e",
+      "adopters": [],
+      "invokes30d": 0,
+      "lessons": 1,
+      "lessonsPath": "skills/cx/LESSONS.md",
+      "lessonsHash": "sha256-n1:53354409716c4868",
+      "usageContributors": []
+    },
+    {
       "name": "dojo",
       "version": "1.3.0",
       "category": "ai-native",
@@ -620,10 +633,10 @@
     }
   ],
   "counts": {
-    "skills": 29,
+    "skills": 30,
     "practices": 8,
     "memory": 6,
-    "lessons": 156
+    "lessons": 157
   },
   "bundles": [
     {
