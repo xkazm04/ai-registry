@@ -303,9 +303,9 @@
         "systedo-case@plugin:2.3.0"
       ],
       "invokes30d": 46,
-      "lessons": 19,
+      "lessons": 20,
       "lessonsPath": "skills/perfect/LESSONS.md",
-      "lessonsHash": "sha256-n1:ebb0bec810b9392f",
+      "lessonsHash": "sha256-n1:56417f0fd3aead15",
       "usageContributors": [
         "kazda-dev-box"
       ]
@@ -623,7 +623,7 @@
     "skills": 29,
     "practices": 8,
     "memory": 6,
-    "lessons": 155
+    "lessons": 156
   },
   "bundles": [
     {

@@ -4,8 +4,8 @@
   "bundle": "llm-observability",
   "source": "knowledge/llm-observability/ (frontmatter only)",
   "subjects": 17,
-  "techniques": 113,
-  "applications": 60,
+  "techniques": 114,
+  "applications": 61,
   "laws": 9,
   "categories": [
    "telemetry-and-data",
@@ -14,7 +14,7 @@
    "federation-and-surfaces"
   ],
   "layout": "nested",
-  "use_when_coverage": "113/113",
+  "use_when_coverage": "114/114",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -369,7 +369,7 @@
    "subcategory": null,
    "status": "reconciled",
    "file": "knowledge/llm-observability/quality-scoring/cross-provider-benchmark-operations/cross-provider-benchmark-operations.md",
-   "digest": "sha256:a7ad421a0abaaae9",
+   "digest": "sha256:88d0418c4267e9e6",
    "techniques": [
     {
      "slug": "async-run-queue-with-cancel",
@@ -442,6 +442,23 @@
       "a benchmark verdict must be reproducible",
       "comparing runs across providers with different sampling controls",
       "deciding how much run-to-run delta is dice"
+     ]
+    },
+    {
+     "slug": "entitlement-exhaustion-is-not-ill-health",
+     "status": "forged",
+     "laws": [
+      "never-present-absence-as-an-answer",
+      "estimation-announces-itself",
+      "quality-apparatus-stays-unbudgeted"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a target is reached through a purchased allowance rather than a metered account",
+      "one column of a matrix stopped producing rows and the operator's ceiling never fired",
+      "a rate limit keeps reopening the same target's breaker",
+      "deciding whether a halted target is worth re-running",
+      "a benchmark run is charged to a plan nobody can price per call"
      ]
     },
     {
@@ -525,6 +542,13 @@
      "verified_on": "2026-08-30",
      "verified_against": "rust@1.96",
      "refresh_by": "2026-11-20"
+    },
+    {
+     "stack": "rust",
+     "technique": "entitlement-exhaustion-is-not-ill-health",
+     "file": "knowledge/llm-observability/quality-scoring/cross-provider-benchmark-operations/applications/rust--entitlement-exhaustion-is-not-ill-health.md",
+     "verified_on": "2026-09-07",
+     "verified_against": "rust@2021"
     }
    ]
   },
@@ -2183,6 +2207,7 @@
     "breach-alerting-and-attribution/top-contributor-attribution",
     "cross-provider-benchmark-operations/async-run-queue-with-cancel",
     "cross-provider-benchmark-operations/determinism-stamping",
+    "cross-provider-benchmark-operations/entitlement-exhaustion-is-not-ill-health",
     "cross-provider-benchmark-operations/failure-clustering-recommendations",
     "cross-provider-benchmark-operations/graded-case-difficulty",
     "cross-provider-benchmark-operations/sampling-knobs-are-axes-not-strings",
@@ -2231,6 +2256,7 @@
     "cross-provider-benchmark-operations/cheapest-sufficient-configuration",
     "cross-provider-benchmark-operations/dataset-sampling-anonymize-freeze",
     "cross-provider-benchmark-operations/determinism-stamping",
+    "cross-provider-benchmark-operations/entitlement-exhaustion-is-not-ill-health",
     "cross-provider-benchmark-operations/failure-clustering-recommendations",
     "cross-provider-benchmark-operations/sampling-knobs-are-axes-not-strings",
     "federated-benchmark-sharing/bounded-contributor-influence",
@@ -2347,6 +2373,7 @@
    "statement": "Judge and benchmark spend is segregated from product cost by construction — it never enters COGS, and no usage cap ever throttles the scoring path. An observability product that meters its own measuring instrument alongside the traffic it measures can silently blind itself exactly when traffic spikes.",
    "techniques": [
     "cross-provider-benchmark-operations/budget-preflight-and-ceiling",
+    "cross-provider-benchmark-operations/entitlement-exhaustion-is-not-ill-health",
     "federated-benchmark-sharing/capture-locally-publish-separately",
     "generator-uncertainty-scoring/scorer-cost-class",
     "judge-calibration-and-drift/judge-selection-by-spread",
