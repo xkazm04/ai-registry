@@ -2,7 +2,7 @@
   "id": "ba138faf-c65e-5fd5-84f9-ca94efbd8496",
   "slug": "memory-and-knowledge-base-health-audit",
   "title": "Memory and knowledge base health audit",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "status": "seed",
   "path": "data_ai/data-quality",
   "domain": "data_ai",
@@ -66,6 +66,7 @@
       "success_criteria": [
         "Where the only evidence is a date, the finding is reported as untouched rather than as wrong",
         "Where usage is available, content people reach for and are failed by ranks above content that is merely old and unread",
+        "A recorded correction outranks every other finding, because unlike staleness or orphaning it arrives with its root already known: somebody was told the wrong thing and said so, and the content that produced it is named rather than inferred",
         "The staleness bar is applied per family of content, since a permissions note and a design retrospective do not decay at the same rate and one number across both mis-ranks everything",
         "A last confirmed date, where the layer keeps one, is preferred to a last edited date, because an edit can be a typo fix"
       ]

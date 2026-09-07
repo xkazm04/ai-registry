@@ -2,7 +2,7 @@
   "id": "4a151e59-6b19-5164-8d66-867b66091542",
   "slug": "community-trend-digest",
   "title": "Community discussion trend digest",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "status": "seed",
   "path": "sales_marketing/community-channels",
   "domain": "sales_marketing",
@@ -61,6 +61,7 @@
       "success_criteria": [
         "A period with no new discussion ships a short note saying so rather than going silent.",
         "A source that could not be read is named as unread, so an absent theme is never mistaken for an absent conversation.",
+        "Something that was there in an earlier pass and is gone from this one is reported as removed rather than quietly dropped, since a deletion is evidence about whoever published it, and a digest that reads only what is currently present reports a quiet week that was not quiet.",
         "The first digest declares that it is establishing what normal looks like, rather than reporting a change against nothing."
       ]
     },

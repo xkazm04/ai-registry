@@ -107,7 +107,9 @@ implying it was clear, and when a period was genuinely quiet, say that.
 `source_control`, `email`.
 
 Types, never connectors. Adoption resolves each to any connector whose catalog
-`categories` include it, and the concrete knowledge lives in [`examples/`](examples/).
+`categories` include it, and the concrete knowledge lives in [`examples/`](examples/):
+[codebase](examples/codebase.md) for `source_control`, [gmail](examples/gmail.md) for
+`email`.
 
 ## Recommended trigger
 

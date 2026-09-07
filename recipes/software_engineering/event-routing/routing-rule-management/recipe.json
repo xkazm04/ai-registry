@@ -2,7 +2,7 @@
   "id": "ff49a6f2-9b68-56ed-aac1-26f009e4052d",
   "slug": "routing-rule-management",
   "title": "Event routing rule management",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "status": "seed",
   "path": "software_engineering/event-routing",
   "domain": "software_engineering",
@@ -69,7 +69,7 @@
       ]
     }
   ],
-  "guidance": "The dangerous failure is not a rule that errors, it is a rule that quietly works differently from the sentence that asked for it. Both directions are silent, so review the effect and never the text: what a change means is which real events move. Qualifiers are where meaning is lost, and a rule that lost one still looks right. Say how a new rule interacts with the ones around it, and never let the set lose its path for an event that matches nothing.",
+  "guidance": "The dangerous failure is not a rule that errors, it is a rule that quietly works differently from the sentence that asked for it. Review the effect and never the text: a change means which real events move. Qualifiers are where meaning is lost, and a rule that lost one still looks right. Watch the set's size: one rule per case grows until nobody reads the set, and a set nobody reads routes by accident, so collapse it into fewer rules that decide by area before it gets there.",
   "use_cases": [
     "An operator who wants to change where something goes and would otherwise be editing a configuration file, where the cost of being slightly wrong is events arriving somewhere nobody is looking.",
     "A rule set that has grown for a year, where nobody can say any more which rules still fire and two of them have been unreachable for months.",

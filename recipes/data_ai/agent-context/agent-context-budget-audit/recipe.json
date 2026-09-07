@@ -1,0 +1,119 @@
+{
+  "id": "5bf4b502-c294-43d8-b660-5dbd1e0ba2e2",
+  "slug": "agent-context-budget-audit",
+  "title": "Agent context budget audit",
+  "version": "0.1.0",
+  "status": "seed",
+  "path": "data_ai/agent-context",
+  "domain": "data_ai",
+
+  "description": {
+    "need": "Everything an agent loads on every turn is paid for on every turn, and the stack grows by accretion because each addition is individually small and nobody owns the total. The cost is the least of it: past a certain size the stack stops being read carefully at all, so the twentieth instruction can weaken the other nineteen, and the same rule restated in three places quietly drifts into three different rules.",
+    "input": "The files this agent actually loads on every turn, enumerated for this harness rather than assumed, each one measured, together with whatever an earlier audit recorded so the change since then can be read.",
+    "core_action": "Decide what has earned permanent residence. A fact needed on every task belongs in the always loaded stack; a fact needed on one task in twenty belongs somewhere the agent can reach for it, and the difference is measured rather than argued. Separate a contradiction, which costs correctness, from mere weight, which only costs.",
+    "output": "A ranked list of findings, each quoting the passage it is about, each naming where the fix belongs rather than only what to delete, each carrying how much care it needs, with contradictions first regardless of size and the stack total recorded so the next audit reports change instead of restating the size. Nothing is edited."
+  },
+
+  "activities": [
+    { "id": "enumerate", "label": "Establish what this agent loads on every turn and measure each piece", "kind": "observe" },
+    { "id": "read", "label": "Read the whole stack and set the total against what the last audit recorded", "kind": "observe" },
+    { "id": "judge", "label": "Judge each passage on how often it is actually needed", "kind": "decide" },
+    { "id": "separate", "label": "Separate contradictions from redundancy, staleness and mere weight", "kind": "decide" },
+    { "id": "locate", "label": "Trace each finding to where its content is authored rather than where it appears", "kind": "act" },
+    { "id": "hand-over", "label": "Hand over the ranked findings with their evidence and the recorded total", "kind": "deliver" }
+  ],
+
+  "outcomes": [
+    {
+      "id": "total-is-owned",
+      "statement": "The size of the always loaded stack is a measured number somebody now owns.",
+      "success_criteria": [
+        "Every file that loads on every turn appears in the total, and nothing loaded on demand is counted in it.",
+        "The total is recorded where the next audit will read it, so the next run reports movement rather than restating the size.",
+        "Every saving figure traces to a measurement, and an estimate says that it is one."
+      ]
+    },
+    {
+      "id": "findings-are-actionable",
+      "statement": "Each finding can be acted on without redoing the audit to understand it.",
+      "success_criteria": [
+        "Each finding quotes the passage it is about and names the file it came from.",
+        "Each names where the fix belongs, and a finding about content that is generated from somewhere else points at what generates it rather than at the copy.",
+        "Each says how much care it needs, and nothing was edited to produce the report."
+      ]
+    },
+    {
+      "id": "contradictions-first",
+      "statement": "Rules that disagree with each other are surfaced ahead of rules that merely cost.",
+      "success_criteria": [
+        "Anything stated in more than one place is reported with each version quoted beside the other.",
+        "A contradiction appears first however little it weighs, because it is not a weight finding.",
+        "A recommendation to drop a duplicate names which copy is the one that stays."
+      ]
+    }
+  ],
+
+  "guidance": "Weight is the symptom and residence is the question. Ask of each passage how often it is needed, not whether it is true: a rule needed on one task in twenty is not free where it sits, and moving it costs nothing a reachable copy does not pay back. Contradictions come first, however little they weigh, because they cost correctness rather than tokens. Measure before you claim a saving, and change nothing yourself.",
+
+  "use_cases": [
+    "An agent whose instruction file has been appended to by a dozen people over a year, where every addition was obviously worth its lines at the time and nobody has read the result end to end since.",
+    "A team noticing their agent has started ignoring rules it used to follow, with nothing changed about the rules themselves except how many of them there now are.",
+    "A stack assembled from more than one source, where a project file, a personal file and promoted memory each state the same policy and two of them have since drifted apart without anyone comparing them.",
+    "Handing an agent over to somebody else, when the receiving team inherits every line of the always loaded stack and has no way to tell which lines are still load bearing.",
+    "A long lived agent carrying content that only ever mattered to one workflow, put in the permanent stack because that was the fastest place to put it and paid for on every unrelated turn since."
+  ],
+
+  "connector_types": [],
+
+  "recommended_trigger": {
+    "kind": "self_paced",
+    "rationale": "Accretion is what this work answers, and accretion has no cadence: a stack can sit untouched for a quarter and then double in a week. An agent that can see how much its own always loaded stack has moved since the last audit is the only thing in the loop that knows when the work is owed. Where a stack is edited by many hands and nobody watches it, a clock is a defensible fallback, and the interval belongs to the adopter."
+  },
+
+  "personalization_needs": [
+    "Which files this particular harness loads on every turn, because the list differs per harness and a stack enumerated by assumption audits files nobody pays for while missing the ones they do.",
+    "Which of those files are generated from somewhere else, since a recommendation written against a generated copy is undone the next time it is generated and reads as a fix that did not hold.",
+    "What this adopter treats as reachable on demand, because the whole value of moving something out of the stack depends on whether the agent can still get to it when the one task in twenty arrives."
+  ],
+
+  "dependencies": [],
+
+  "input_schema": [
+    {
+      "name": "residence_threshold",
+      "type": "number",
+      "default": 0.2,
+      "min": 0.01,
+      "max": 1,
+      "description": "The share of tasks a passage has to be needed on to keep its place in the always loaded stack. Below the line a finding is a move rather than a deletion. The value matters far less than that it is stated before the reading starts, because a threshold chosen afterwards is a defence of what was already decided."
+    },
+    {
+      "name": "weight_finding_floor",
+      "type": "number",
+      "default": 200,
+      "min": 0,
+      "max": 5000,
+      "description": "The smallest recoverable weight worth putting in front of a reader, in whatever unit the measuring pass used. Contradictions ignore it and are reported at any size, because they are not weight findings and ranking them by size buries the ones that cost the most."
+    },
+    {
+      "name": "declined_findings",
+      "type": "enum",
+      "options": ["stay_closed", "resurface_when_the_surrounding_file_changed", "resurface_every_run"],
+      "default": "resurface_when_the_surrounding_file_changed",
+      "description": "What happens to a finding the adopter has already turned down. A decline is information, and raising the same finding every run teaches a reader to skim the report, which costs more than the finding was worth. Raising it again is defensible once the surrounding file has changed enough that the earlier decision was made about something else."
+    }
+  ],
+
+  "examples": [],
+
+  "lessons": [],
+
+  "provenance": {
+    "from_recipes": [],
+    "from_templates": [],
+    "source_template_id": "",
+    "source_repository": "gbrain",
+    "source_commit": "2efaaf8f8a817b5b82e023383618fdcdb1cc5f7d",
+    "source_note": "Derived from an accepted assay finding over the gbrain repository, whose context-audit skill is the source of the craft recorded here."
+  }
+}

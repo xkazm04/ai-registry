@@ -109,7 +109,8 @@ address. Calling a contract dead is a result.
 `spreadsheet`, `forms`, `email`, `messaging`.
 
 Types, never connectors. Adoption resolves each to any connector whose catalog
-`categories` include it, and the concrete knowledge lives in [`examples/`](examples/).
+`categories` include it, and the concrete knowledge lives in [`examples/`](examples/):
+[docusign](examples/docusign.md) for `forms`, [gmail](examples/gmail.md) for `email`.
 
 ## Recommended trigger
 

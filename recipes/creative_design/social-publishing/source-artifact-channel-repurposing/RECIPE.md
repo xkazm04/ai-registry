@@ -104,7 +104,9 @@ the ending. Withholding the finding as bait is not pointing at it.
 `research`, `web_scraping`.
 
 Types, never connectors. Adoption resolves each to any connector whose catalog
-`categories` include it, and the concrete knowledge lives in [`examples/`](examples/).
+`categories` include it, and the concrete knowledge lives in [`examples/`](examples/):
+[youtube_data](examples/youtube_data.md) for `research`,
+[firecrawl](examples/firecrawl.md) for `web_scraping`.
 
 ## Recommended trigger
 

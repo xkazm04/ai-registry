@@ -107,7 +107,8 @@ Where the same cause returns, stop reviewing it and propose the change that ends
 `knowledge_base`, `productivity`.
 
 Types, never connectors. Adoption resolves each to any connector whose catalog
-`categories` include it, and the concrete knowledge lives in [`examples/`](examples/).
+`categories` include it. No connector-specific knowledge has been written for this
+recipe yet.
 
 ## Recommended trigger
 

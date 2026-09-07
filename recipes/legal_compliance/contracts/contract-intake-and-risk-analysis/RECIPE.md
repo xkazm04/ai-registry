@@ -106,7 +106,8 @@ original. This prepares a reviewer's judgment; the person who signs owns the ver
 `email`, `storage`, `knowledge_base`.
 
 Types, never connectors. Adoption resolves each to any connector whose catalog
-`categories` include it, and the concrete knowledge lives in [`examples/`](examples/).
+`categories` include it, and the concrete knowledge lives in [`examples/`](examples/):
+[gmail](examples/gmail.md) for `email`.
 
 ## Recommended trigger
 

@@ -104,7 +104,8 @@ it changes what it legally is, and that boundary belongs to the adopter.
 `email`.
 
 Types, never connectors. Adoption resolves each to any connector whose catalog
-`categories` include it, and the concrete knowledge lives in [`examples/`](examples/).
+`categories` include it, and the concrete knowledge lives in [`examples/`](examples/):
+[gmail](examples/gmail.md) for `email`, [resend](examples/resend.md) for `email`.
 
 ## Recommended trigger
 

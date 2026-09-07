@@ -106,7 +106,8 @@ breach window. Repeating it is how a watch stops being read.
 `cloud`.
 
 Types, never connectors. Adoption resolves each to any connector whose catalog
-`categories` include it, and the concrete knowledge lives in [`examples/`](examples/).
+`categories` include it, and the concrete knowledge lives in [`examples/`](examples/):
+[aws_cloud](examples/aws_cloud.md) for `cloud`.
 
 ## Recommended trigger
 

@@ -1,6 +1,6 @@
 ---
 name: memory-and-knowledge-base-health-audit
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: data_ai
 path: data_ai/data-quality
@@ -65,6 +65,9 @@ and queued for a human decision rather than left to accumulate silently.**
   wrong
 - Where usage is available, content people reach for and are failed by ranks above
   content that is merely old and unread
+- A recorded correction outranks every other finding, because unlike staleness or
+  orphaning it arrives with its root already known: somebody was told the wrong thing
+  and said so, and the content that produced it is named rather than inferred
 - The staleness bar is applied per family of content, since a permissions note and a
   design retrospective do not decay at the same rate and one number across both
   mis-ranks everything
@@ -114,7 +117,8 @@ layer quietly and note it.
 `knowledge_base`, `source_control`.
 
 Types, never connectors. Adoption resolves each to any connector whose catalog
-`categories` include it, and the concrete knowledge lives in [`examples/`](examples/).
+`categories` include it, and the concrete knowledge lives in [`examples/`](examples/):
+[obsidian](examples/obsidian.md) for `knowledge_base`.
 
 ## Recommended trigger
 

@@ -117,7 +117,8 @@ produces a short digest. Nothing here is an instruction to trade.
 `finance`, `research`.
 
 Types, never connectors. Adoption resolves each to any connector whose catalog
-`categories` include it, and the concrete knowledge lives in [`examples/`](examples/).
+`categories` include it, and the concrete knowledge lives in [`examples/`](examples/):
+[alpha_vantage](examples/alpha_vantage.md) for `finance`.
 
 ## Recommended trigger
 

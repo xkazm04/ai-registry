@@ -102,7 +102,9 @@ somewhere it can be replayed.
 `source_control`.
 
 Types, never connectors. Adoption resolves each to any connector whose catalog
-`categories` include it, and the concrete knowledge lives in [`examples/`](examples/).
+`categories` include it, and the concrete knowledge lives in [`examples/`](examples/):
+[github](examples/github.md) for `source_control`, [gitlab](examples/gitlab.md) for
+`source_control`.
 
 ## Recommended trigger
 

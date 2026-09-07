@@ -104,7 +104,9 @@ never from the payload's shape, since two identical real events are not one even
 `messaging`, `knowledge_base`, `spreadsheet`, `email`.
 
 Types, never connectors. Adoption resolves each to any connector whose catalog
-`categories` include it, and the concrete knowledge lives in [`examples/`](examples/).
+`categories` include it, and the concrete knowledge lives in [`examples/`](examples/):
+[local-messaging](examples/local-messaging.md) for `messaging`,
+[google-sheets](examples/google-sheets.md) for `spreadsheet`.
 
 ## Recommended trigger
 

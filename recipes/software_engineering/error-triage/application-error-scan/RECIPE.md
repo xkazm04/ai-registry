@@ -1,6 +1,6 @@
 ---
 name: application-error-scan
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: software_engineering
 path: software_engineering/error-triage
@@ -53,6 +53,9 @@ the same settled pattern every day.**
   total rather than listed, and the total is shown so suppression is visible.
 - A suppressed signature whose rate or reach moves materially is surfaced again despite
   its history.
+- A finding that rests on a count crossing the floor names the floor it crossed, since a
+  threshold somebody chose being exceeded is a claim about that number before it is a
+  claim about the system's health.
 - The share of surfaced errors that a person actually acted on is carried forward, so
   the floor is tuned from what the team did rather than from how the list feels.
 
@@ -95,7 +98,9 @@ then. Repeated dismissal is a reason to stay quiet, never to stop looking.
 `monitoring`.
 
 Types, never connectors. Adoption resolves each to any connector whose catalog
-`categories` include it, and the concrete knowledge lives in [`examples/`](examples/).
+`categories` include it, and the concrete knowledge lives in [`examples/`](examples/):
+[sentry](examples/sentry.md) for `monitoring`, [langfuse](examples/langfuse.md) for
+`monitoring`.
 
 ## Recommended trigger
 

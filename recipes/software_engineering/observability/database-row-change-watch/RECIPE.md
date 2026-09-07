@@ -106,7 +106,9 @@ still alive.
 `database`, `messaging`, `email`.
 
 Types, never connectors. Adoption resolves each to any connector whose catalog
-`categories` include it, and the concrete knowledge lives in [`examples/`](examples/).
+`categories` include it, and the concrete knowledge lives in [`examples/`](examples/):
+[supabase](examples/supabase.md) for `database`, [slack](examples/slack.md) for
+`messaging`.
 
 ## Recommended trigger
 

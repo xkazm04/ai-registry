@@ -1,6 +1,6 @@
 ---
 name: open-incident-vigilance
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: software_engineering
 path: software_engineering/incident-response
@@ -62,6 +62,9 @@ impression somebody forms.**
   stale the moment that time passes whatever its status says.
 - An update is expected and made even when there is nothing new, because an update
   saying nothing has changed and naming the next one is information and silence is not.
+- A late incident is recorded as still moving or as stuck rather than as merely late,
+  because the two are indistinguishable from outside the work and one of them wants a
+  longer window while the other wants a different person on it.
 - The share of promised updates that arrived inside their window is recorded, so a
   commitment nobody keeps is visible as that rather than as a busy period.
 - A period the watch did not cover, after a restart or an outage of its own, is caught
@@ -109,7 +112,8 @@ working.
 `messaging`, `notifications`.
 
 Types, never connectors. Adoption resolves each to any connector whose catalog
-`categories` include it, and the concrete knowledge lives in [`examples/`](examples/).
+`categories` include it. No connector-specific knowledge has been written for this
+recipe yet.
 
 ## Recommended trigger
 

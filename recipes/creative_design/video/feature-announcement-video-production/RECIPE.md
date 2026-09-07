@@ -106,7 +106,9 @@ much can be said on screen at all.
 `voice_generation`, `video_generation`.
 
 Types, never connectors. Adoption resolves each to any connector whose catalog
-`categories` include it, and the concrete knowledge lives in [`examples/`](examples/).
+`categories` include it, and the concrete knowledge lives in [`examples/`](examples/):
+[elevenlabs](examples/elevenlabs.md) for `voice_generation`,
+[higgsfield](examples/higgsfield.md) for `video_generation`.
 
 ## Recommended trigger
 

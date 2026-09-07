@@ -112,7 +112,9 @@ first, and archive only when nothing active still points at it.
 `knowledge_base`, `source_control`.
 
 Types, never connectors. Adoption resolves each to any connector whose catalog
-`categories` include it, and the concrete knowledge lives in [`examples/`](examples/).
+`categories` include it, and the concrete knowledge lives in [`examples/`](examples/):
+[obsidian](examples/obsidian.md) for `knowledge_base`, [github](examples/github.md) for
+`source_control`.
 
 ## Recommended trigger
 

@@ -115,7 +115,8 @@ anything goes out. Close every signal one way or the other.
 `finance`, `messaging`, `email`.
 
 Types, never connectors. Adoption resolves each to any connector whose catalog
-`categories` include it, and the concrete knowledge lives in [`examples/`](examples/).
+`categories` include it, and the concrete knowledge lives in [`examples/`](examples/):
+[stripe](examples/stripe.md) for `finance`.
 
 ## Recommended trigger
 

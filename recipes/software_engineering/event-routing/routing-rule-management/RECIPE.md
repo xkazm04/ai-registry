@@ -1,6 +1,6 @@
 ---
 name: routing-rule-management
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: software_engineering
 path: software_engineering/event-routing
@@ -80,11 +80,11 @@ asked about them.**
 ## Guidance
 
 The dangerous failure is not a rule that errors, it is a rule that quietly works
-differently from the sentence that asked for it. Both directions are silent, so review
-the effect and never the text: what a change means is which real events move. Qualifiers
-are where meaning is lost, and a rule that lost one still looks right. Say how a new
-rule interacts with the ones around it, and never let the set lose its path for an event
-that matches nothing.
+differently from the sentence that asked for it. Review the effect and never the text: a
+change means which real events move. Qualifiers are where meaning is lost, and a rule
+that lost one still looks right. Watch the set's size: one rule per case grows until
+nobody reads the set, and a set nobody reads routes by accident, so collapse it into
+fewer rules that decide by area before it gets there.
 
 ## Where this is worth adopting
 

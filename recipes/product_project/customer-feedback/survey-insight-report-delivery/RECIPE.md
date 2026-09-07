@@ -106,7 +106,8 @@ baseline in a report does not move it.
 `database`, `knowledge_base`, `messaging`, `email`.
 
 Types, never connectors. Adoption resolves each to any connector whose catalog
-`categories` include it, and the concrete knowledge lives in [`examples/`](examples/).
+`categories` include it, and the concrete knowledge lives in [`examples/`](examples/):
+[notion](examples/notion.md) for `knowledge_base`.
 
 ## Recommended trigger
 

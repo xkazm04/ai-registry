@@ -2,7 +2,7 @@
   "id": "40c34e72-2b3c-514e-896e-fb48ee29c572",
   "slug": "database-anomaly-incident-diagnosis",
   "title": "Database anomaly incident diagnosis",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "status": "seed",
   "path": "software_engineering/incident-response",
   "domain": "software_engineering",
@@ -79,7 +79,7 @@
       ]
     }
   ],
-  "guidance": "Capture first, always. Everything useful lives in views of the present moment, and the first mitigation anybody reaches for erases them, so the snapshot has to be durable before any option is named. One snapshot cannot tell stuck from busy: take several. Follow contention to its root, which is often something idle rather than something expensive. Do not act on the database. Offer options with costs and say plainly when the evidence supports nothing.",
+  "guidance": "Everything useful lives in views of the present instant that the first mitigation erases, so the snapshot has to be durable before any option is named. One snapshot cannot tell stuck from busy: take several. Follow contention to its root, often something idle rather than something expensive. Do not act on the database. An untimed step is not a diagnosed step: state the measured duration of whatever is being called slow before offering an option sized against it, and say plainly when the evidence supports nothing.",
   "use_cases": [
     "A small team with no database specialist, where a serious deviation currently means somebody restarting things until it stops and nobody afterwards being able to say what happened.",
     "An overnight incident that resolves itself before anyone logs in, so the only durable record is that something was slow and the same thing will happen again next month.",

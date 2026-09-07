@@ -105,7 +105,8 @@ an incident owes afterwards to the worst it ever was rather than to what it ende
 `monitoring`.
 
 Types, never connectors. Adoption resolves each to any connector whose catalog
-`categories` include it, and the concrete knowledge lives in [`examples/`](examples/).
+`categories` include it, and the concrete knowledge lives in [`examples/`](examples/):
+[sentry](examples/sentry.md) for `monitoring`.
 
 ## Recommended trigger
 

@@ -1,6 +1,6 @@
 ---
 name: skill-library-audit
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: software_engineering
 path: software_engineering/engineering-records
@@ -78,11 +78,11 @@ smaller without losing the thing that covers the rare case.**
 ## Guidance
 
 An entry that has gone wrong is worse than one that is missing, because somebody follows
-it. Keep two dates: when it was last edited, and when it was last confirmed to work,
-because the first says an entry is recent and says nothing about whether it is right.
-Treat low usage as a question, never a verdict; the entry nobody reaches for is often
-the one that covers the rare situation. Retire in two steps, and let what is still
-reaching for it decide the second.
+it. Keep when it was last confirmed to work apart from when it was last edited. The
+usage record holds more than a count: a correction right after somebody reached for an
+entry marks the moment it was believed and was wrong, which is sharper evidence of drift
+than any reading of the code. Treat low usage as a question, never a verdict; the entry
+nobody reaches for often covers the rare situation.
 
 ## Where this is worth adopting
 
@@ -106,7 +106,8 @@ reaching for it decide the second.
 `source_control`.
 
 Types, never connectors. Adoption resolves each to any connector whose catalog
-`categories` include it, and the concrete knowledge lives in [`examples/`](examples/).
+`categories` include it, and the concrete knowledge lives in [`examples/`](examples/):
+[codebase](examples/codebase.md) for `source_control`.
 
 ## Recommended trigger
 

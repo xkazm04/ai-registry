@@ -2,7 +2,7 @@
   "id": "b80fc21f-1b22-5355-879e-2fed6c38173d",
   "slug": "knowledge-base-contradiction-audit",
   "title": "Knowledge base contradiction audit",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "status": "seed",
   "path": "data_ai/data-quality",
   "domain": "data_ai",
@@ -76,7 +76,7 @@
       ]
     }
   ],
-  "guidance": "The hard part is not finding the pairs, it is deciding which one is current, and that is not yours to decide. Pair on subject rather than on wording: a plainly stated contradiction is near-identical text, so a similarity filter discards exactly what you were looking for. Hand over the disagreeing sentences and whatever each side says about its own currency, and when neither carries any, say so, because a last edited date tells you a document is old rather than wrong.",
+  "guidance": "The hard part is not finding the pairs, it is deciding which one is current, and that is not yours to decide. Pair on subject rather than on wording, since a plainly stated contradiction is near-identical text. What ranks two disagreeing articles is the reference structure between them: which cites, answers or supersedes which, and what else in the corpus leans on each. A document nothing points at is not load bearing, however recent. Hand over the disagreeing sentences with that lineage, and when neither exists, say so.",
   "use_cases": [
     "A support knowledge base written by four people over three years, where two articles answer the same refund question differently and agents use whichever they find first.",
     "An engineering handbook whose onboarding page and runbook disagree about what may be deployed on a Friday, and both were edited within the month, so recency decides nothing.",

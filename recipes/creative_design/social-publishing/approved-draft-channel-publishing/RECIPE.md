@@ -101,7 +101,10 @@ something nobody approved.
 `social`, `knowledge_base`.
 
 Types, never connectors. Adoption resolves each to any connector whose catalog
-`categories` include it, and the concrete knowledge lives in [`examples/`](examples/).
+`categories` include it, and the concrete knowledge lives in [`examples/`](examples/):
+[buffer](examples/buffer.md) for `social`, [linkedin](examples/linkedin.md) for
+`social`, [x_twitter](examples/x_twitter.md) for `social`, [notion](examples/notion.md)
+for `knowledge_base`.
 
 ## Recommended trigger
 

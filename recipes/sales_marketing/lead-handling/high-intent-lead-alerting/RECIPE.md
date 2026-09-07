@@ -94,7 +94,10 @@ everything has already been tuned out, and the alert that mattered arrives there
 `messaging`, `crm`.
 
 Types, never connectors. Adoption resolves each to any connector whose catalog
-`categories` include it, and the concrete knowledge lives in [`examples/`](examples/).
+`categories` include it, and the concrete knowledge lives in [`examples/`](examples/):
+[slack](examples/slack.md) for `messaging`,
+[microsoft-teams](examples/microsoft-teams.md) for `messaging`,
+[hubspot](examples/hubspot.md) for `crm`.
 
 ## Recommended trigger
 

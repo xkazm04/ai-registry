@@ -1,6 +1,6 @@
 ---
 name: email-inbox-attention-digest
-version: 0.1.0
+version: 0.2.1
 status: seed
 domain: general_professional
 path: general_professional/digests
@@ -17,9 +17,11 @@ problem is that a short list gives a reader no way to tell a good filter from a 
 one, so the first time something important is missing they go back to reading everything
 and the digest has cost them twice.
 
-**Input.** The unread set since the last pass, the model of which senders and subjects
-this reader actually acts on, the corrections they have made to earlier digests, and the
-record of what has already been surfaced.
+**Input.** The unread set since the last pass, plus the threads already read and the
+reader's own sent mail, since a commitment with no closing message lives in both and
+neither is unread. With them, the model of which senders and subjects this reader
+actually acts on, the corrections they have made to earlier digests, and the record of
+what has already been surfaced.
 
 **Core action.** Decide what does not need the reader and account for that decision out
 loud, ranking the remainder on who they actually answer combined with what the message
@@ -77,11 +79,12 @@ showing.**
 
 ## Guidance
 
-The product is what you left out, so say what it was. A digest that names its
-denominator and the classes it dropped can be judged; one that shows three messages can
-only be trusted or not. Learn from who the reader answers, but let a correction outrank
-the inferred pattern, and show a demoted sender occasionally, because a model trained on
-its own selections never finds out it was wrong. When nothing qualifies, send that.
+The useful question is not what arrived; it is who is waiting on the reader and what
+they promised. An open loop is a commitment with no closing message, living in threads
+already read and in mail they sent, so recency and sender ranking miss it. The rest of
+the product is what you left out, so say what it was: a digest naming its denominator
+and the classes it dropped can be judged, one showing three messages can only be trusted
+or not. When nothing qualifies, send that.
 
 ## Where this is worth adopting
 
@@ -106,7 +109,8 @@ its own selections never finds out it was wrong. When nothing qualifies, send th
 `email`.
 
 Types, never connectors. Adoption resolves each to any connector whose catalog
-`categories` include it, and the concrete knowledge lives in [`examples/`](examples/).
+`categories` include it, and the concrete knowledge lives in [`examples/`](examples/):
+[gmail](examples/gmail.md) for `email`.
 
 ## Recommended trigger
 

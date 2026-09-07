@@ -96,7 +96,9 @@ two different prompts land in the same picture.
 `image_generation`, `storage`.
 
 Types, never connectors. Adoption resolves each to any connector whose catalog
-`categories` include it, and the concrete knowledge lives in [`examples/`](examples/).
+`categories` include it, and the concrete knowledge lives in [`examples/`](examples/):
+[leonardo-ai](examples/leonardo-ai.md) for `image_generation`,
+[higgsfield](examples/higgsfield.md) for `image_generation`.
 
 ## Recommended trigger
 

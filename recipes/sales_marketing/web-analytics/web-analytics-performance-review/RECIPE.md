@@ -18,12 +18,13 @@ working is retired before anyone notices it.
 **Input.** Engagement and traffic figures for the posts published in the window under
 review, plus whatever baselines an earlier review left behind.
 
-**Core action.** Judge each post against its own rolling baseline rather than against the
-others in the batch, separate a real move from ordinary variance, and say which of the
-two it is.
+**Core action.** Judge each post against its own rolling baseline rather than against
+the others in the batch, separate a real move from ordinary variance, and say which of
+the two it is.
 
-**Output.** A short review naming the posts that genuinely over- and under-performed, the
-reason offered for each, and an updated set of baselines the next review starts from.
+**Output.** A short review naming the posts that genuinely over- and under-performed,
+the reason offered for each, and an updated set of baselines the next review starts
+from.
 
 ## Activities
 
@@ -46,25 +47,27 @@ Linear and branch-free, by contract. This is the shape of the work, not a runboo
 **The next review starts from what this one learned instead of from zero.**
 
 - Baselines written by this review are the ones the next run reads.
-- A window with no publications leaves the baselines unchanged rather than decaying them.
+- A window with no publications leaves the baselines unchanged rather than decaying
+  them.
 
 ## Guidance
 
 Baselines are the whole judgment. A post that beat last week is not the same claim as a
-post that beat its own rolling median, and the second is the one worth acting on. Compare
-like against like: same platform, same format, same window. Treat a single spike as a
-question rather than a finding, and let the baseline absorb it before you call it a
+post that beat its own rolling median, and the second is the one worth acting on.
+Compare like against like: same platform, same format, same window. Treat a single spike
+as a question rather than a finding, and let the baseline absorb it before you call it a
 pattern.
 
 ## Where this is worth adopting
 
-- A team publishing several times a week across more than one platform, where the numbers
-  get read aloud in a meeting and the loudest post wins the argument whether or not it
-  beat its own history.
+- A team publishing several times a week across more than one platform, where the
+  numbers get read aloud in a meeting and the loudest post wins the argument whether or
+  not it beat its own history.
 - A founder running content alone, who cannot tell a format that is working from a week
   that happened to be busy, and keeps rewriting the one that was already working.
 - An agency reporting to a client monthly, where every verdict has to survive the client
-  asking "compared to what" and the honest answer cannot be "the other posts in the batch".
+  asking "compared to what" and the honest answer cannot be "the other posts in the
+  batch".
 - A launch window, when three weeks of unusual traffic would otherwise be absorbed into
   the baseline and quietly raise the bar every later post is judged against.
 
@@ -74,15 +77,18 @@ pattern.
 
 Types, never connectors. Adoption resolves each to any connector whose catalog
 `categories` include it, and the concrete knowledge lives in [`examples/`](examples/):
-[PostHog](examples/posthog.md) for analytics, [LinkedIn](examples/linkedin.md) for social.
+[posthog](examples/posthog.md) for `analytics`, [linkedin](examples/linkedin.md) for
+`social`.
 
 ## Recommended trigger
 
 `time`. The work is only meaningful over a settled window, because engagement on a fresh
 post is still arriving and would be read as underperformance. A clock is the honest fit.
+The interval belongs to the adopter: it follows their publishing rhythm, not this
+recipe.
 
-The interval belongs to the adopter: it follows their publishing rhythm, not this recipe.
-A recommendation is a default, not a binding.
+A recommendation is a default, not a binding: the adopter assigns the real trigger at
+adoption or later.
 
 ## Personalization needs
 

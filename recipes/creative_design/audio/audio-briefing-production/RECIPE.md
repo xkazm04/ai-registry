@@ -99,7 +99,9 @@ words it owed.
 `voice_generation`.
 
 Types, never connectors. Adoption resolves each to any connector whose catalog
-`categories` include it, and the concrete knowledge lives in [`examples/`](examples/).
+`categories` include it, and the concrete knowledge lives in [`examples/`](examples/):
+[elevenlabs](examples/elevenlabs.md) for `voice_generation`,
+[deepgram](examples/deepgram.md) for `voice_generation`.
 
 ## Recommended trigger
 

@@ -1,6 +1,6 @@
 ---
 name: infrastructure-metrics-scan
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: software_engineering
 path: software_engineering/observability
@@ -74,12 +74,12 @@ scan.**
 
 ## Guidance
 
-Utilization is the weakest of these signals and it is the one everybody watches. A
-resource averaging eighty percent over five minutes can have been fully saturated for
-seconds at a time, so read queue depth and wait time ahead of CPU and memory.
-Percentiles the provider computed over one window cannot be recombined into a longer
-one; compare like window against like. When a signal could not be read, say so in the
-account rather than letting its absence read as calm.
+Utilization is the weakest of these signals and the one everybody watches. A resource
+averaging eighty percent over five minutes can have been fully saturated for seconds at
+a time, so read queue depth and wait time ahead of CPU and memory. Averaging across
+members hides the same way: read the entity the finding names, because a healthy fleet
+with one wedged node in it looks like mild degradation everywhere. When a signal could
+not be read, say so in the account rather than letting its absence read as calm.
 
 ## Where this is worth adopting
 
@@ -103,7 +103,9 @@ account rather than letting its absence read as calm.
 `monitoring`.
 
 Types, never connectors. Adoption resolves each to any connector whose catalog
-`categories` include it, and the concrete knowledge lives in [`examples/`](examples/).
+`categories` include it, and the concrete knowledge lives in [`examples/`](examples/):
+[sentry](examples/sentry.md) for `monitoring`, [posthog](examples/posthog.md) for
+`monitoring`.
 
 ## Recommended trigger
 

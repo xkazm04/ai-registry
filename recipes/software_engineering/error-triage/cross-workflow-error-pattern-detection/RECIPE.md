@@ -103,7 +103,8 @@ worth working on and the rest are its shadow.
 `messaging`.
 
 Types, never connectors. Adoption resolves each to any connector whose catalog
-`categories` include it, and the concrete knowledge lives in [`examples/`](examples/).
+`categories` include it, and the concrete knowledge lives in [`examples/`](examples/):
+[local-messaging](examples/local-messaging.md) for `messaging`.
 
 ## Recommended trigger
 

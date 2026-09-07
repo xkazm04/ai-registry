@@ -1,6 +1,6 @@
 ---
 name: data-assistant-quality-review-from-real-traffic
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: data_ai
 path: data_ai/data-access
@@ -54,6 +54,9 @@ again.**
 
 - Every claimed quality problem points at real recorded exchanges rather than at an
   impression
+- Every case in the review set says where it came from, drawn from real traffic or
+  written from the specification, because a set that stays silent about that cannot tell
+  a path nobody has tested from one that passes, and those are opposite claims
 - A proposed change states what it should improve and how that will be measured
 - A change that shipped is revisited and measured against the rate of the category it
   was meant to fix, never against an overall score, including when there was no effect
@@ -109,7 +112,8 @@ category, never against an overall score.
 `database`, `messaging`.
 
 Types, never connectors. Adoption resolves each to any connector whose catalog
-`categories` include it, and the concrete knowledge lives in [`examples/`](examples/).
+`categories` include it. No connector-specific knowledge has been written for this
+recipe yet.
 
 ## Recommended trigger
 

@@ -2,7 +2,7 @@
   "id": "0c0e441a-fd86-5f63-86e5-cacd0f2c9a46",
   "slug": "open-incident-vigilance",
   "title": "Open incident vigilance and escalation",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "status": "seed",
   "path": "software_engineering/incident-response",
   "domain": "software_engineering",
@@ -55,6 +55,7 @@
       "success_criteria": [
         "Every open incident carries when its next update is due, set by its severity, and is stale the moment that time passes whatever its status says.",
         "An update is expected and made even when there is nothing new, because an update saying nothing has changed and naming the next one is information and silence is not.",
+        "A late incident is recorded as still moving or as stuck rather than as merely late, because the two are indistinguishable from outside the work and one of them wants a longer window while the other wants a different person on it.",
         "The share of promised updates that arrived inside their window is recorded, so a commitment nobody keeps is visible as that rather than as a busy period.",
         "A period the watch did not cover, after a restart or an outage of its own, is caught and sent with the real delay stated rather than sent as though it were on time."
       ]

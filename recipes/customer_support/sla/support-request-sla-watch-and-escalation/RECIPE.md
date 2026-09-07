@@ -107,7 +107,9 @@ actually acted on.
 `support`, `messaging`, `email`, `knowledge_base`.
 
 Types, never connectors. Adoption resolves each to any connector whose catalog
-`categories` include it, and the concrete knowledge lives in [`examples/`](examples/).
+`categories` include it, and the concrete knowledge lives in [`examples/`](examples/):
+[slack](examples/slack.md) for `messaging`, [notion](examples/notion.md) for
+`knowledge_base`.
 
 ## Recommended trigger
 

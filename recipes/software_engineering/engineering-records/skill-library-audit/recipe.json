@@ -2,7 +2,7 @@
   "id": "c1422775-da51-512b-a3bd-de049b2c3f82",
   "slug": "skill-library-audit",
   "title": "Skill library audit and proposal",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "status": "seed",
   "path": "software_engineering/engineering-records",
   "domain": "software_engineering",
@@ -68,7 +68,7 @@
       ]
     }
   ],
-  "guidance": "An entry that has gone wrong is worse than one that is missing, because somebody follows it. Keep two dates: when it was last edited, and when it was last confirmed to work, because the first says an entry is recent and says nothing about whether it is right. Treat low usage as a question, never a verdict; the entry nobody reaches for is often the one that covers the rare situation. Retire in two steps, and let what is still reaching for it decide the second.",
+  "guidance": "An entry that has gone wrong is worse than one that is missing, because somebody follows it. Keep when it was last confirmed to work apart from when it was last edited. The usage record holds more than a count: a correction right after somebody reached for an entry marks the moment it was believed and was wrong, which is sharper evidence of drift than any reading of the code. Treat low usage as a question, never a verdict; the entry nobody reaches for often covers the rare situation.",
   "use_cases": [
     "A library that grew through a year of enthusiastic writing, where nobody can now say which entries are still true and the safest working assumption has become that none of them are.",
     "A team that reached for a procedure during an incident and found it describing a system that had been replaced, so the outage ran longer than it needed to and the library lost its credibility in one night.",

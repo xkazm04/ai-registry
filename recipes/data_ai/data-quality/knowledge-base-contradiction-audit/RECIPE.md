@@ -1,6 +1,6 @@
 ---
 name: knowledge-base-contradiction-audit
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: data_ai
 path: data_ai/data-quality
@@ -83,11 +83,12 @@ and does not go and find it.**
 ## Guidance
 
 The hard part is not finding the pairs, it is deciding which one is current, and that is
-not yours to decide. Pair on subject rather than on wording: a plainly stated
-contradiction is near-identical text, so a similarity filter discards exactly what you
-were looking for. Hand over the disagreeing sentences and whatever each side says about
-its own currency, and when neither carries any, say so, because a last edited date tells
-you a document is old rather than wrong.
+not yours to decide. Pair on subject rather than on wording, since a plainly stated
+contradiction is near-identical text. What ranks two disagreeing articles is the
+reference structure between them: which cites, answers or supersedes which, and what
+else in the corpus leans on each. A document nothing points at is not load bearing,
+however recent. Hand over the disagreeing sentences with that lineage, and when neither
+exists, say so.
 
 ## Where this is worth adopting
 
@@ -110,7 +111,8 @@ you a document is old rather than wrong.
 `knowledge_base`, `source_control`.
 
 Types, never connectors. Adoption resolves each to any connector whose catalog
-`categories` include it, and the concrete knowledge lives in [`examples/`](examples/).
+`categories` include it, and the concrete knowledge lives in [`examples/`](examples/):
+[obsidian](examples/obsidian.md) for `knowledge_base`.
 
 ## Recommended trigger
 

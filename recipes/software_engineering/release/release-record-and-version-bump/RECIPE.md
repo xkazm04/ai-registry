@@ -101,7 +101,8 @@ Where two readings are defensible, take the conservative one and say why.
 `source_control`.
 
 Types, never connectors. Adoption resolves each to any connector whose catalog
-`categories` include it, and the concrete knowledge lives in [`examples/`](examples/).
+`categories` include it, and the concrete knowledge lives in [`examples/`](examples/):
+[github](examples/github.md) for `source_control`.
 
 ## Recommended trigger
 

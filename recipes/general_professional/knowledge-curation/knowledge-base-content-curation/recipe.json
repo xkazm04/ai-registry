@@ -2,7 +2,7 @@
   "id": "7baf2513-9711-552b-8c64-f4ca2a01d421",
   "slug": "knowledge-base-content-curation",
   "title": "Knowledge base content curation",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "status": "seed",
   "path": "general_professional/knowledge-curation",
   "domain": "general_professional",
@@ -62,6 +62,7 @@
         "A page is created only when it answers a question the base does not already answer, and that question is stated on the page.",
         "A rejection is recorded against the source's identity with its reason, so the same item is not weighed again on the next sweep.",
         "Near-duplicate content is caught before a page exists, rather than found by an audit months later.",
+        "Content copied in wholesale, without passing this judgment first, is treated as a defect to undo rather than as a fast path, because afterwards a page that skipped admission is indistinguishable from one that earned it.",
         "A create that appears to have failed does not produce a second page: the write is keyed on the identity the intake supplied and the destination is read back before the work is called done."
       ]
     },

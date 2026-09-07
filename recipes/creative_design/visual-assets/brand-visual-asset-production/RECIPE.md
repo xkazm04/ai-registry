@@ -96,7 +96,10 @@ for a reference rather than generating again.
 `development`, `image_generation`, `vision`.
 
 Types, never connectors. Adoption resolves each to any connector whose catalog
-`categories` include it, and the concrete knowledge lives in [`examples/`](examples/).
+`categories` include it, and the concrete knowledge lives in [`examples/`](examples/):
+[codebase](examples/codebase.md) for `development`,
+[gemini-vision](examples/gemini-vision.md) for `vision`,
+[leonardo-ai](examples/leonardo-ai.md) for `image_generation`.
 
 ## Recommended trigger
 

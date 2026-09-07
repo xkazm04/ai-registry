@@ -1,6 +1,6 @@
 ---
 name: community-trend-digest
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: sales_marketing
 path: sales_marketing/community-channels
@@ -61,6 +61,10 @@ carries information because it was never padded to look consistent.**
 - A period with no new discussion ships a short note saying so rather than going silent.
 - A source that could not be read is named as unread, so an absent theme is never
   mistaken for an absent conversation.
+- Something that was there in an earlier pass and is gone from this one is reported as
+  removed rather than quietly dropped, since a deletion is evidence about whoever
+  published it, and a digest that reads only what is currently present reports a quiet
+  week that was not quiet.
 - The first digest declares that it is establishing what normal looks like, rather than
   reporting a change against nothing.
 
@@ -104,7 +108,8 @@ that padded once is skimmed forever.
 `social`, `messaging`.
 
 Types, never connectors. Adoption resolves each to any connector whose catalog
-`categories` include it, and the concrete knowledge lives in [`examples/`](examples/).
+`categories` include it, and the concrete knowledge lives in [`examples/`](examples/):
+[reddit](examples/reddit.md) for `social`, [slack](examples/slack.md) for `messaging`.
 
 ## Recommended trigger
 

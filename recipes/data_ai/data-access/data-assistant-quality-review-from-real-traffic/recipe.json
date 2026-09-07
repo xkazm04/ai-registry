@@ -2,7 +2,7 @@
   "id": "02383179-2da1-5a73-a4c3-51be0a31eb72",
   "slug": "data-assistant-quality-review-from-real-traffic",
   "title": "Data assistant quality review from real traffic",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "status": "seed",
   "path": "data_ai/data-access",
   "domain": "data_ai",
@@ -55,6 +55,7 @@
       "statement": "The assistant gets better because real failures were found, fixed and measured again.",
       "success_criteria": [
         "Every claimed quality problem points at real recorded exchanges rather than at an impression",
+        "Every case in the review set says where it came from, drawn from real traffic or written from the specification, because a set that stays silent about that cannot tell a path nobody has tested from one that passes, and those are opposite claims",
         "A proposed change states what it should improve and how that will be measured",
         "A change that shipped is revisited and measured against the rate of the category it was meant to fix, never against an overall score, including when there was no effect",
         "A change proposed and never shipped is visible as unshipped rather than quietly assumed done"

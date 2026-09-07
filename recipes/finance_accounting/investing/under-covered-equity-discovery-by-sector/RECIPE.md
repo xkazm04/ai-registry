@@ -114,7 +114,8 @@ the declared sectors. This surfaces names to research; it recommends nothing.
 `finance`, `research`.
 
 Types, never connectors. Adoption resolves each to any connector whose catalog
-`categories` include it, and the concrete knowledge lives in [`examples/`](examples/).
+`categories` include it, and the concrete knowledge lives in [`examples/`](examples/):
+[alpha_vantage](examples/alpha_vantage.md) for `finance`.
 
 ## Recommended trigger
 

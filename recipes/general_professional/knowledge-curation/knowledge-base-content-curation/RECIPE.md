@@ -1,6 +1,6 @@
 ---
 name: knowledge-base-content-curation
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: general_professional
 path: general_professional/knowledge-curation
@@ -56,6 +56,9 @@ the record.**
   item is not weighed again on the next sweep.
 - Near-duplicate content is caught before a page exists, rather than found by an audit
   months later.
+- Content copied in wholesale, without passing this judgment first, is treated as a
+  defect to undo rather than as a fast path, because afterwards a page that skipped
+  admission is indistinguishable from one that earned it.
 - A create that appears to have failed does not produce a second page: the write is
   keyed on the identity the intake supplied and the destination is read back before the
   work is called done.
@@ -112,7 +115,8 @@ gets re-argued forever.
 `knowledge_base`.
 
 Types, never connectors. Adoption resolves each to any connector whose catalog
-`categories` include it, and the concrete knowledge lives in [`examples/`](examples/).
+`categories` include it, and the concrete knowledge lives in [`examples/`](examples/):
+[notion](examples/notion.md) for `knowledge_base`.
 
 ## Recommended trigger
 

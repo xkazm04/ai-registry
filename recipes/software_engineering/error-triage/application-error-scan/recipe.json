@@ -2,7 +2,7 @@
   "id": "db563881-c358-5d0d-aab5-7a22573f050d",
   "slug": "application-error-scan",
   "title": "Application error scan",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "status": "seed",
   "path": "software_engineering/error-triage",
   "domain": "software_engineering",
@@ -47,6 +47,7 @@
         "Every surfaced error names why it surfaced: first seen in this window, rate rising against its own history, reach widened, or resolved and returned.",
         "A signature this team has repeatedly judged unimportant is counted in a suppressed total rather than listed, and the total is shown so suppression is visible.",
         "A suppressed signature whose rate or reach moves materially is surfaced again despite its history.",
+        "A finding that rests on a count crossing the floor names the floor it crossed, since a threshold somebody chose being exceeded is a claim about that number before it is a claim about the system's health.",
         "The share of surfaced errors that a person actually acted on is carried forward, so the floor is tuned from what the team did rather than from how the list feels."
       ]
     },

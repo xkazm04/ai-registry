@@ -105,7 +105,8 @@ sounds. Bring anything ambiguous to a person.
 `ticketing`, `knowledge_base`, `messaging`.
 
 Types, never connectors. Adoption resolves each to any connector whose catalog
-`categories` include it, and the concrete knowledge lives in [`examples/`](examples/).
+`categories` include it, and the concrete knowledge lives in [`examples/`](examples/):
+[jira](examples/jira.md) for `ticketing`, [slack](examples/slack.md) for `messaging`.
 
 ## Recommended trigger
 

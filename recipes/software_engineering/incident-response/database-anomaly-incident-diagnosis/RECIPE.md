@@ -1,6 +1,6 @@
 ---
 name: database-anomaly-incident-diagnosis
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: software_engineering
 path: software_engineering/incident-response
@@ -80,12 +80,13 @@ known to the next diagnosis.**
 
 ## Guidance
 
-Capture first, always. Everything useful lives in views of the present moment, and the
-first mitigation anybody reaches for erases them, so the snapshot has to be durable
-before any option is named. One snapshot cannot tell stuck from busy: take several.
-Follow contention to its root, which is often something idle rather than something
-expensive. Do not act on the database. Offer options with costs and say plainly when the
-evidence supports nothing.
+Everything useful lives in views of the present instant that the first mitigation
+erases, so the snapshot has to be durable before any option is named. One snapshot
+cannot tell stuck from busy: take several. Follow contention to its root, often
+something idle rather than something expensive. Do not act on the database. An untimed
+step is not a diagnosed step: state the measured duration of whatever is being called
+slow before offering an option sized against it, and say plainly when the evidence
+supports nothing.
 
 ## Where this is worth adopting
 
@@ -108,7 +109,9 @@ evidence supports nothing.
 `database`, `messaging`.
 
 Types, never connectors. Adoption resolves each to any connector whose catalog
-`categories` include it, and the concrete knowledge lives in [`examples/`](examples/).
+`categories` include it, and the concrete knowledge lives in [`examples/`](examples/):
+[postgres](examples/postgres.md) for `database`,
+[local-messaging](examples/local-messaging.md) for `messaging`.
 
 ## Recommended trigger
 

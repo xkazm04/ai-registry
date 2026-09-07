@@ -98,7 +98,8 @@ not a claim that the data still means what it did.
 `database`, `messaging`.
 
 Types, never connectors. Adoption resolves each to any connector whose catalog
-`categories` include it, and the concrete knowledge lives in [`examples/`](examples/).
+`categories` include it, and the concrete knowledge lives in [`examples/`](examples/):
+[postgres](examples/postgres.md) for `database`.
 
 ## Recommended trigger
 

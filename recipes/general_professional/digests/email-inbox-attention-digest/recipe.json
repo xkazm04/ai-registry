@@ -2,13 +2,13 @@
   "id": "6cde4c09-5287-53aa-8f38-dfa12d817e88",
   "slug": "email-inbox-attention-digest",
   "title": "Email inbox attention digest",
-  "version": "0.1.0",
+  "version": "0.2.1",
   "status": "seed",
   "path": "general_professional/digests",
   "domain": "general_professional",
   "description": {
     "need": "Reading every unread message to find the few that matter costs more attention than the messages do, and a digest ordered by arrival saves none of it. The harder problem is that a short list gives a reader no way to tell a good filter from a broken one, so the first time something important is missing they go back to reading everything and the digest has cost them twice.",
-    "input": "The unread set since the last pass, the model of which senders and subjects this reader actually acts on, the corrections they have made to earlier digests, and the record of what has already been surfaced.",
+    "input": "The unread set since the last pass, plus the threads already read and the reader's own sent mail, since a commitment with no closing message lives in both and neither is unread. With them, the model of which senders and subjects this reader actually acts on, the corrections they have made to earlier digests, and the record of what has already been surfaced.",
     "core_action": "Decide what does not need the reader and account for that decision out loud, ranking the remainder on who they actually answer combined with what the message says, so the digest can be judged on what it withheld rather than only on what it showed.",
     "output": "A short tiered list of what genuinely needs the reader, carrying the number of messages looked at and the classes that were dropped, delivered even when it holds nothing so that quiet is distinguishable from a watch that stopped."
   },
@@ -74,7 +74,7 @@
       ]
     }
   ],
-  "guidance": "The product is what you left out, so say what it was. A digest that names its denominator and the classes it dropped can be judged; one that shows three messages can only be trusted or not. Learn from who the reader answers, but let a correction outrank the inferred pattern, and show a demoted sender occasionally, because a model trained on its own selections never finds out it was wrong. When nothing qualifies, send that.",
+  "guidance": "The useful question is not what arrived; it is who is waiting on the reader and what they promised. An open loop is a commitment with no closing message, living in threads already read and in mail they sent, so recency and sender ranking miss it. The rest of the product is what you left out, so say what it was: a digest naming its denominator and the classes it dropped can be judged, one showing three messages can only be trusted or not. When nothing qualifies, send that.",
   "use_cases": [
     "Someone whose mail arrives faster than they can read it, who has already tried folders and filters and abandoned both because a rule that was right in March is wrong in September and nothing told them.",
     "A person returning from two weeks away to several hundred unread messages, where the useful answer is the six that still need them and an account of the several hundred that no longer do.",

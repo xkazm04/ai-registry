@@ -1,6 +1,6 @@
 ---
 name: live-database-question-answering
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: data_ai
 path: data_ai/data-access
@@ -80,12 +80,12 @@ it.**
 
 ## Guidance
 
-The dangerous answer is the one that runs. A query that errors is visible, while a join
-that duplicates rows returns a confident total nobody questions, so check that the
-arithmetic survives the data's grain before checking anything else. Resolve ambiguity by
-asking rather than by picking a reading. Refuse plainly: a seat that never refuses is
-not safe, it is unqualified. Read only has to be what the connection permits, not what
-the query promises.
+The dangerous answer is the one that runs. A query that errors is visible; a join that
+duplicates rows returns a confident total nobody questions, so check the arithmetic
+survives the data's grain first. Never pick a reading you were not given; ask only what
+the schema, the recent exchange and a probe cannot settle: a question sent back that the
+system could have answered itself spends the asker's attention and teaches them to stop
+reading. Refuse plainly: a seat that never refuses is not safe, it is unqualified.
 
 ## Where this is worth adopting
 
@@ -108,7 +108,8 @@ the query promises.
 `database`, `messaging`.
 
 Types, never connectors. Adoption resolves each to any connector whose catalog
-`categories` include it, and the concrete knowledge lives in [`examples/`](examples/).
+`categories` include it, and the concrete knowledge lives in [`examples/`](examples/):
+[postgres](examples/postgres.md) for `database`.
 
 ## Recommended trigger
 

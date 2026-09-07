@@ -99,7 +99,8 @@ simply did not move.
 `ticketing`, `messaging`.
 
 Types, never connectors. Adoption resolves each to any connector whose catalog
-`categories` include it, and the concrete knowledge lives in [`examples/`](examples/).
+`categories` include it, and the concrete knowledge lives in [`examples/`](examples/):
+[jira](examples/jira.md) for `ticketing`.
 
 ## Recommended trigger
 

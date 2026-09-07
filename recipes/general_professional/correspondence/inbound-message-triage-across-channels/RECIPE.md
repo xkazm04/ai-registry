@@ -113,7 +113,9 @@ bar.
 `email`, `messaging`, `database`.
 
 Types, never connectors. Adoption resolves each to any connector whose catalog
-`categories` include it, and the concrete knowledge lives in [`examples/`](examples/).
+`categories` include it, and the concrete knowledge lives in [`examples/`](examples/):
+[personas_messages](examples/personas_messages.md) for `messaging`,
+[personas_database](examples/personas_database.md) for `database`.
 
 ## Recommended trigger
 
