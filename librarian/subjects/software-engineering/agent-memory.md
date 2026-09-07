@@ -12,6 +12,49 @@ Subject note. Part of [[index]]; graded against [[standard]].
 
 ## Touch log
 
+### 2026-09-07 - `/intake`, aios-second-brain
+
+One new technique, `gap-directed-elicitation`, plus a source-tree application and
+one paired experiment in the fleet's memory project. Source:
+[[2026-09-07-aios-second-brain]] - a creator's file-and-folder second brain read by
+a coding agent through a routing map. Third run to touch this subject today; write
+set is one new technique file, one new application, and two appended lines in the
+golden path, disjoint from the gbrain run's amendments.
+
+**The finding is a missing stage zero, and the golden path's own enumeration is
+what exposed it.** The opening says the subject "covers the whole pipeline:
+operative state inside a session, **capture of what occurred**, distillation, decay,
+injection". Every input to that pipeline is something the agent witnessed. A fact
+that was never transacted - a goal, a constraint, the alternative that was rejected,
+the reason a convention exists - produces no event, and no downstream stage can
+recover what the stream never carried. All nineteen existing techniques assume
+observed activity. `coverage-instrumentation` measures the hole and stops there by
+design; nothing closed it.
+
+**It landed as an append, and that was the decision that mattered.** Written as a
+new pipeline stage it would have falsified the enumeration above - a rewrite of a
+shared spine, RISK +2, below the accept threshold. Written as an *acquisition path*
+that manufactures episodes for the existing pipeline, every standing sentence stays
+true, the mechanism inherits governance, provenance and decay for free, and the row
+scores 3/0/2. The arithmetic caught a restructuring that nothing about the finding
+required.
+
+**Convergence, deliberately not linked.** `recruiting/assessment/interview-run-of-show`
+carries `question-kit-grounded-in-named-evidence-gaps` - the same mechanism in
+another bundle for another purpose. Cross-bundle links are forbidden and this is
+corroboration rather than an inversion, so it lives in the source note.
+
+**The apply refuted nothing and confirmed the sharpest claim.** The seam was chosen
+to falsify: the technique asserts the whole measurement apparatus is blind to
+unwitnessed knowledge, and the year-replay harness was the place to disprove it. Its
+generator mints every fact and immediately speaks it, across seven construction
+passes, with no assertion guarding the invariant - so no arm on the nine-row ladder
+has ever been asked a question whose answer was never in the event stream. The
+existing `distractor` class is the exact inverse (never stated **and not true**,
+graded UNKNOWN); the true-but-never-stated case did not exist. The ladder's 0.89
+ceiling is a ceiling on *witnessed* knowledge, and that sentence now sits in the
+technique with the application behind it.
+
 ### 2026-09-07 - `/intake`, gbrain
 
 Two amendments (`coverage-instrumentation`, `baseline-ladder`) plus one to

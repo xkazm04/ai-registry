@@ -23,6 +23,7 @@ techniques:
   - read-set-bounded-links
   - durable-store-failure-posture
   - self-trained-capture-filter
+  - gap-directed-elicitation
 ---
 
 # Agent memory
@@ -43,6 +44,17 @@ decay of what stopped mattering, and the injection of the survivors back into
 the agent's context. Cutting any one stage out does not simplify the system;
 it relocates that stage's judgment into whichever stage is left, where it is
 done badly.
+
+One boundary the pipeline does not move, because it is a property of the input
+rather than of any stage: every transformation above begins with something the
+agent **observed**. Knowledge that was never transacted — a goal, a constraint,
+the alternative that was rejected, the reason a convention exists — generates no
+event to capture, and no downstream stage can recover what the stream never
+carried. Detecting that class of absence is
+[coverage-instrumentation](./techniques/coverage-instrumentation.md); acquiring
+it takes a deliberate path that asks the principal and feeds the answer back in
+as an episode
+([gap-directed-elicitation](./techniques/gap-directed-elicitation.md)).
 
 ## The hierarchy: three layers with different physics
 
