@@ -8900,3 +8900,30 @@ force. Proposed as a fourth hunt beside stage, enumeration and asymmetry - *for 
 subject about an exchange, ask who the other party is and whether the corpus models
 them* - but not applied to `SKILL.md` on one sighting.
 
+
+## 2.6.0 - 2026-09-07 - 3d-ai-creature-workflow
+
+- **A falsifying seam can refute the run's own technique, and that is the best case.**
+  The v2.7 clause (written concurrently by another run) frames seam-to-falsify as a test
+  of the *finding* against the tree. This round found the sharper form: the seam showed
+  the technique's central procedure step was **unrunnable** at that seam - the provider
+  accepts only its own prior task ids, so the "probe the service" arm cannot exist. That
+  is not a failed confirmation, it is a boundary the technique did not know it had, and
+  it converted a general rule into one that names its own precondition. Fold into the
+  v2.7 clause on a second sighting.
+- **`unrunnable` and `unspent` are different zeros and the scorecard flattens them.** A
+  `ship 0` because no arm can exist carries no debt; a `ship 0` because the hour went
+  elsewhere does. Raised as round 37 focus item 2 rather than applied, because one
+  sighting is not three.
+- **The score's value showed up as a rejection, not an acceptance.** The strongest
+  untriaged row - that a provider benchmark's "measure alongside quality" enumeration is
+  entirely *resource*-shaped and contains no *correspondence* constraint - is a real gap
+  in a document declaring its own completeness, and it was tempting to reframe it as "an
+  amendment that inverts a rule" to reach GAIN 3. It does not invert; it extends. Scored
+  honestly it is 2/1 = 1 against a threshold of 2 and was banked with anchors. The gate
+  only works if the shape is chosen before the arithmetic is seen, and this is the second
+  round (after round 27) where naming that temptation out loud is what stopped it.
+- **Class calibration held exactly.** For a practitioner build-walkthrough, every accepted
+  and every untriaged row came from a failure sentence and all five catches came from the
+  tour half. The class reference already predicts this; recording the clean split is
+  corroboration for it, not a new rule.

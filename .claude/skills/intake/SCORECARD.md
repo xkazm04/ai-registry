@@ -3011,13 +3011,19 @@ as a zero that names a missing hour, and the next row should keep that distincti
 visible rather than letting both read as `ship 0`.
 
 **Next run's declared focus (round 37).**
-1. **Promote seam-to-falsify from a focus item to a rule in `SKILL.md`.** This file's own
-   bar is "confirmed three runs running", and rounds 34, 35 and 36 have each produced a
-   better finding from a seam chosen to refute than confirmation would have given - this
-   round refuting the run's own freshly-written technique. It has met the bar. The next
-   run should make the edit (Phase 7.5 step 2, with a version bump) rather than carry it
-   as guidance for a fourth round. The check: did the edit land, and did the first run
-   under it still pick a falsifying seam when nothing was reminding it to.
+1. **Seam-to-falsify is already a rule - verify it landed, do not re-write it.**
+   Corrected at Phase 11: this run loaded 2.6.0 and was about to make the edit, and found
+   a concurrent run had already written it as the v2.7 clause in Phase 7.5 step 1, still
+   **uncommitted** in the shared checkout at the time of writing. Two runs editing
+   `SKILL.md` in one afternoon is the collision the method warns about, and the board did
+   not show it because the sibling's claim had lapsed - reading their diff is what caught
+   it. So the next run's job is *not* the edit. It is: confirm 2.7.0 is in `HEAD`, and
+   report whether it picked a falsifying seam **without anything reminding it to**. That
+   is the only evidence that the rule works as a rule rather than as a focus item.
+   One thing the new clause does not yet say, which this round supplies: a falsifying seam
+   can refute the run's **own freshly-written technique**, not just its hypothesis about
+   the tree - and when it does, the technique gains the condition it failed under and is
+   strictly better for it. Worth folding in on a second sighting, not on this one.
 2. **Distinguish the two zeros in the `ship` cell.** Write `ship 0 (unrunnable)` when no
    arm can exist against `ship 0 (unspent)` when one could have been run and was not.
    Three rows now carry `ship 0` for materially different reasons and the cell flattens
