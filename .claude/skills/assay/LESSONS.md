@@ -168,3 +168,36 @@ against six enrichments already committed.
   A fixture should state the situation and let the recipe decide what to reach for. This
   weakens all three verdicts above and is the first known defect in VALIDATION.md
   section 3.
+
+## 2026-09-07 - awesome-agent-skills (link index, route only)
+
+- **A source's domain label does not predict the domain its craft lands in.** Two PM
+  skills libraries were chosen to feed `product_project`, the joint-thinnest domain. Not
+  one finding landed there. The PM-labelled bulk - canvases, PRDs, user stories, framework
+  fill-ins - is deliverable templates, and the only real craft in 145 skills was
+  watch-and-baseline judgment wearing PM vocabulary, which landed in software engineering
+  and sales. Route by the SHAPE of work a source describes (recurring, connector-bound,
+  with a trigger), never by the domain word on its tin. The gap you are aiming at and the
+  gap you hit are different questions.
+- **Read LICENSE in Phase 2, beside the commit.** One of the two routed repos was
+  CC BY-NC-SA 4.0 while this corpus seeds a commercial binary, and it was noticed late.
+  By then both surviving enrichments derived from it, so a single unread licence line
+  nearly decided the entire run's yield, and it would have decided it at execution time
+  rather than at a point where a different source could still be chosen. The licence is
+  acquisition metadata, exactly like the commit.
+- **Confidence ordering does not predict A/B verdicts.** Four enrichments were ranked
+  before testing. The strongest - clean failure mode, passed the three-part derivation
+  bar - came back NON-DISCRIMINATING with both arms independently reaching the same
+  refusal. The weakest CONFIRMED. This is the measured case for VALIDATION.md's existing
+  rule to spend a partial budget on the weak findings first.
+- **The fixture defect biases toward false ties, not false confirmations.** Reproduced
+  independently from the run that first raised it. Two fixtures inventoried the evidence
+  and both returned NON-DISCRIMINATING; a third carried the same defect and CONFIRMED
+  anyway. So a CONFIRMED taken on an inventorying fixture survives, and only the inert
+  verdicts are provisional. That asymmetry is what makes the defect safe to fix later
+  rather than a reason to distrust what has already landed.
+- **Take the lane gate's counts as a baseline at Phase 1, not just its verdict.** A
+  sibling session committed into this shared checkout mid-run; the gate's totals moved
+  112 -> 113 and `software_engineering` 40 -> 41 with none of it this run's. The jump was
+  only legible because a baseline had been taken before any edit. Verify by absence for
+  the gate's problems, and by arithmetic for its counts.

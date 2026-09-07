@@ -3,7 +3,7 @@ name: assay
 description: "Mine an external source - a skills library, a repository, an article, pasted notes - for craft that belongs in the `recipes/` lane. Cross-checks every candidate against the existing corpus, gives each finding a recommended disposition (new recipe, enrich, example, lesson, lead, discard), puts the whole set in front of the operator on one screen, executes what is accepted, and remembers every deviation from its recommendation so the next run recommends better. Discarding a whole source is a successful run. Use when someone shares a skills repository, a connector's documentation, or a body of practice and asks what it means for our recipes."
 category: ai-native
 memory: project
-version: 2.0.0
+version: 2.1.0
 tags: recipes, sources, cross-check, disposition, decision-gate, taste-ledger, obsidian-memory, connector-examples, discard
 ---
 
@@ -297,6 +297,16 @@ git clone --depth 1 <url> "$SCRATCH/<slug>"
 
 A shallow clone is enough: history is not craft. Record the commit you read, because a
 finding without one cannot be re-checked and a re-assay cannot tell what is new.
+
+**Read `LICENSE` here too, and record it beside the commit.** It is acquisition metadata,
+not a formality: this corpus seeds a commercially shipped binary, and a non-commercial or
+share-alike source constrains what its findings can become. Discovered at Phase 2 it is
+one input into choosing a different source; discovered at Phase 7 it can invalidate the
+run's entire yield, which is how it went in the run that added this line - both surviving
+enrichments came from a CC BY-NC-SA repo and the one MIT-sourced enrichment had already
+been measured inert. A finding that survives is our own sentence about a failure mode
+rather than the source's expression, which is usually the answer, but it is the operator's
+answer to give and they can only give it if the licence is on the screen.
 
 **Not every worthwhile source is a repository.** A published handbook, a vendor's
 documentation or a body of practice on the web has no commit to record, so record the

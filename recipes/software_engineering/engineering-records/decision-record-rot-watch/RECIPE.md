@@ -1,6 +1,6 @@
 ---
 name: decision-record-rot-watch
-version: 0.2.0
+version: 0.3.0
 status: seed
 domain: software_engineering
 path: software_engineering/engineering-records
@@ -85,15 +85,22 @@ under one that still depends on it.**
   reaffirmation is the only evidence this work ever gets about which assumptions this
   operation actually treats as load bearing, and a signal reaffirmed away repeatedly is
   watching something incidental and should stop raising records on it.
+- A record that has not moved across several cycles and that no active work, decision or
+  design references is retired from the watched set rather than ranked lower within it,
+  which is a judgment about what is still worth re-reading and not an archival of the
+  record itself, because a watch whose surface only ever grows costs more every cycle
+  until somebody skips a cycle, and the skipped cycle is the one that would have caught
+  the record that did move.
 
 ## Guidance
 
-A decision goes stale when the world it assumed changes, not on a calendar, so watch the
-assumptions and treat a date as a backstop. Watch for the quieter failure too: the
-record still says something true while its implication has stopped being true. Never
-silently reaffirm; if nothing has changed, say that nothing has changed. Make a
-replacement findable from the old record, because the reader arrives at the old one
-first, and archive only when nothing active still points at it.
+A decision goes stale when the world it assumed changes, not on a calendar: watch the
+assumptions, treat a date as a backstop. Watch the quieter failure: the record still
+says something true while its implication has stopped being true. Never silently
+reaffirm; if nothing changed, say so. A record that never moves and that nothing
+references is not a watch item, and re-reading it every cycle is what gets the cycle
+skipped. Make a replacement findable from the old record, and archive only when nothing
+still points at it.
 
 ## Where this is worth adopting
 

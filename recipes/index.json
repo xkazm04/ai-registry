@@ -299,7 +299,7 @@
   },
   "competitor-positioning-comparison": {
    "path": "recipes/sales_marketing/conversion-optimization/competitor-positioning-comparison",
-   "version": "0.3.0",
+   "version": "0.4.0",
    "status": "seed",
    "domain": "sales_marketing",
    "topic": "conversion-optimization",
@@ -624,7 +624,7 @@
   },
   "decision-record-rot-watch": {
    "path": "recipes/software_engineering/engineering-records/decision-record-rot-watch",
-   "version": "0.2.0",
+   "version": "0.3.0",
    "status": "seed",
    "domain": "software_engineering",
    "topic": "engineering-records",

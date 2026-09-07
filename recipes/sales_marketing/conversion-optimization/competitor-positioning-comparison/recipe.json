@@ -2,7 +2,7 @@
   "id": "cee0f180-00d5-5ce0-be9e-75a9e05387ad",
   "slug": "competitor-positioning-comparison",
   "title": "Competitor conversion and positioning comparison",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "status": "seed",
   "path": "sales_marketing/conversion-optimization",
   "domain": "sales_marketing",
@@ -47,7 +47,8 @@
         "Every claim carries the date it was first observed, labelled as when it was seen rather than when it appeared, because the ledger records the watcher's history and not the competitor's.",
         "A comparison reports what changed since the previous comparison, not only current state.",
         "A change seen once is reported as unconfirmed until it survives another look, since many sites test their own pages and a single fetch samples whichever variant was served.",
-        "A competitor that has stopped moving is reported as having stopped rather than being listed again with unchanged scores and no comment."
+        "A competitor that has stopped moving is reported as having stopped rather than being listed again with unchanged scores and no comment.",
+        "Each reported change names the internal artifact it makes out of date, the positioning page, the pricing sheet, the battle card or a roadmap item, and a change that makes nothing out of date is dropped rather than reported, because what somebody would have to revise is the same test as whether the change mattered."
       ]
     },
     {
@@ -70,7 +71,7 @@
       ]
     }
   ],
-  "guidance": "A page is a claim, not a product, and it is cheap to change and cheap to reverse. What matters is what survives: a claim still there three looks later is a commitment, one that vanished was a test. Finding no competitor at all is a reading about the need rather than about the market: the likelier reading is that nobody hurts enough, and it is cheap to falsify, so falsify it before treating emptiness as an opening. Say plainly where somebody is ahead.",
+  "guidance": "A page is a claim, not a product, and it is cheap to change and cheap to reverse. What matters is what survives: a claim still there three looks later is a commitment, one that vanished was a test. Make each change name what it forces you to revise, and drop the one that forces nothing. Finding no competitor is a reading about the need rather than the market, and it is cheap to falsify, so falsify before treating emptiness as an opening. Say plainly where somebody is ahead.",
   "use_cases": [
     "An operator asked in every investor conversation how he is positioned against three named companies, who answers from whatever he last happened to read.",
     "A market where two of the four tracked competitors have changed nothing in a year, which is the most useful thing in the report and is currently invisible because they appear every time with the same scores and no comment.",
@@ -117,6 +118,7 @@
     "from_templates": [
       "website-conversion-audit"
     ],
-    "source_template_id": "website-conversion-audit"
+    "source_template_id": "website-conversion-audit",
+    "source_note": "The artifact-naming rule is stated in deanpeters/Product-Manager-Skills, skill competitive-intel-watch, at commit 1b5a524 under CC BY-NC-SA 4.0, as orphaned intelligence. The sentence here is written independently, and its use as the materiality test rather than as a reporting step is derived here and is not the source argument."
   }
 }

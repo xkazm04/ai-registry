@@ -11,6 +11,7 @@ rather than rules, and that is the finding.
 | 1.0.0 | 2026-09-07 | gbrain | skills library | 24 | 3 | 13 | 0 | 0 | 3 declined | 1 class (10) | 16 | 1/4 | rich |
 | 1.1.0 | 2026-09-07 | spellbook | skills library | 62 | 3 of 4 | 22 | 2 | 0 | 1 accepted | the catalogue class (34 of 45) | 27 of 28 | 1/4 | rich |
 | 2.0.0 | 2026-09-07 | agentic-awesome-skills | skills library (aggregated) | 30 | 1 | 0 of 3 tested | 0 | 0 | 1 accepted | 6 groups (~2,000) | 3 of 3 | 0/3 | thin, and measured |
+| 2.1.0 | 2026-09-07 | awesome-agent-skills | **link index (route only)** | 6 | 0 (1 walked, dropped to lead) | 2 of 4 tested | 0 | 0 | 1 accepted | the template class (~137 of 145) | 3 of 3 | 0/3 | barren as a source, routed |
 
 **Weakest stage after one run: `example`.** Zero landed. The source was a skills library
 whose own integration folder turned out to be install configuration for its product, so
@@ -101,3 +102,35 @@ with the inverted name filter and returned a clean negative: the source's connec
 skills are one template with the vendor name swapped. Three sources, no examples. The
 disposition has still never been exercised, and the next source chosen should be one with
 real connector documentation or it stays unproven indefinitely.
+
+**Run 4 partly answers run 3's open question: `enrich` is not dead, and the fixtures were
+half the problem.** Run 3 tested three enrichments and landed none, and asked whether that
+was a mature corpus or its own fixtures. Run 4 tested four and landed two, which rules out
+"the corpus generalizes past every external sentence". It also reproduced the fixture
+defect independently: two of four fixtures inventoried the evidence the enrichment was
+about and both returned NON-DISCRIMINATING, while a third carried the same defect and
+CONFIRMED anyway. That third case is the control, and it points one way - **the defect
+manufactures false ties, not false confirmations.** So every CONFIRMED across runs 3 and 4
+stands, and every inert verdict taken on an inventorying fixture is provisional. Fix
+VALIDATION.md section 3 before spending another A/B budget.
+
+**Confidence did not predict the verdicts, and this is now measured rather than suspected.**
+Run 4 ranked its four enrichments before testing. The one rated strongest -
+a clean failure mode that passed the three-part derivation bar - came back
+NON-DISCRIMINATING with both arms reaching the same refusal independently. The weakest,
+which was expected to be already-held, CONFIRMED. Ordering by author confidence is not a
+way to spend a partial A/B budget; VALIDATION.md already says spend it on the weak ones
+first, and run 4 is the evidence for why.
+
+**`dev` has been 0 for two consecutive runs.** The taste ledger is doing its job: both of
+run 4's recommendations that could have deviated (a medium-confidence new recipe, and a
+lead) were pre-resolved by rules already written down, and the run proposed what the
+operator would have chosen. The rule against medium-confidence new recipes fired for the
+first time on a live proposal and demoted it before the screen.
+
+**`example` is now unproven at zero across four runs.** Run 4 hunted it with the inverted
+name filter across two 70-skill libraries and returned another clean negative: PM
+libraries carry no connector knowledge at all. It also established why the obvious route
+will not fix this - the corpus already holds 139 example files covering exactly the
+vendors an aggregated index features. The disposition needs a source with connector
+documentation the corpus has no example for, or it should be retired as unreachable.

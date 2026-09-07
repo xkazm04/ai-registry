@@ -1,6 +1,6 @@
 ---
 name: competitor-positioning-comparison
-version: 0.3.0
+version: 0.4.0
 status: seed
 domain: sales_marketing
 path: sales_marketing/conversion-optimization
@@ -56,6 +56,10 @@ than what their pages happen to say today.**
   served.
 - A competitor that has stopped moving is reported as having stopped rather than being
   listed again with unchanged scores and no comment.
+- Each reported change names the internal artifact it makes out of date, the positioning
+  page, the pricing sheet, the battle card or a roadmap item, and a change that makes
+  nothing out of date is dropped rather than reported, because what somebody would have
+  to revise is the same test as whether the change mattered.
 
 **The comparison separates what it saw from what it inferred, and never presents a gap
 in coverage as a finding.**
@@ -87,10 +91,10 @@ is ahead.**
 
 A page is a claim, not a product, and it is cheap to change and cheap to reverse. What
 matters is what survives: a claim still there three looks later is a commitment, one
-that vanished was a test. Finding no competitor at all is a reading about the need
-rather than about the market: the likelier reading is that nobody hurts enough, and it
-is cheap to falsify, so falsify it before treating emptiness as an opening. Say plainly
-where somebody is ahead.
+that vanished was a test. Make each change name what it forces you to revise, and drop
+the one that forces nothing. Finding no competitor is a reading about the need rather
+than the market, and it is cheap to falsify, so falsify before treating emptiness as an
+opening. Say plainly where somebody is ahead.
 
 ## Where this is worth adopting
 
