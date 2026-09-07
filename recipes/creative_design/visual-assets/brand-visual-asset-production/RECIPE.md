@@ -1,6 +1,6 @@
 ---
 name: brand-visual-asset-production
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: creative_design
 path: creative_design/visual-assets
@@ -64,6 +64,10 @@ belongs to this product.**
   wrong.
 - A model's overall score is not one of the checks. Where a model is used it answers one
   closed question at a time, so two runs can be compared.
+- An asset a person turns down after it passed every check is treated as a finding about
+  the check list rather than about the asset, and the property they objected to is added
+  as a check wherever it can be decided, because a rejection that leaves the list
+  unchanged will be reproduced by the next run at exactly the same pass rate.
 
 ## Guidance
 

@@ -2,7 +2,7 @@
   "id": "cee0f180-00d5-5ce0-be9e-75a9e05387ad",
   "slug": "competitor-positioning-comparison",
   "title": "Competitor conversion and positioning comparison",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "status": "seed",
   "path": "sales_marketing/conversion-optimization",
   "domain": "sales_marketing",
@@ -65,6 +65,7 @@
       "statement": "The comparison is one the operator would still believe on the day it says a competitor is ahead.",
       "success_criteria": [
         "Scoring uses the same categories and the same yardstick that were applied to the operator's own property, and a category scored only on one side is dropped rather than estimated.",
+        "A score the operator overturns is corrected against the category rather than against the competitor, since a yardstick that was wrong on one side was wrong on both, and the next comparison rescores the operator's own property on the revised category and marks the scores taken under the old one as no longer comparable.",
         "Where a competitor is simply better it is said plainly, and a comparison containing no such finding says explicitly that there was none rather than leaving the absence to read as a lead."
       ]
     }

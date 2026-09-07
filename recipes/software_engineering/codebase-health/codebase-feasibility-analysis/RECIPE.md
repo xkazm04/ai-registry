@@ -1,6 +1,6 @@
 ---
 name: codebase-feasibility-analysis
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: software_engineering
 path: software_engineering/codebase-health
@@ -77,6 +77,10 @@ to what they were predicted to cost.**
 - When a change is delivered, its realized cost is recorded against the record that
   predicted it, so the next comparable idea is sized against this codebase rather than
   against intuition.
+- A size a person overrides while triaging is kept next to the one that was offered,
+  with what they saw that the search did not, because most ideas are never built and a
+  realized cost therefore never arrives for them: the override is the only correction
+  this work will ever get on the estimates that decided which ideas were dropped.
 
 ## Guidance
 

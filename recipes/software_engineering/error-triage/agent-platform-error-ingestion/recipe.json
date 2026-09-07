@@ -2,7 +2,7 @@
   "id": "228c0d05-6844-58e7-b815-97564ab21f53",
   "slug": "agent-platform-error-ingestion",
   "title": "Agent platform error ingestion",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "status": "seed",
   "path": "software_engineering/error-triage",
   "domain": "software_engineering",
@@ -46,7 +46,8 @@
       "success_criteria": [
         "A run that has been unfinished longer than the horizon the adopter set for its kind of work is recorded as a failure, not left as in progress.",
         "The record distinguishes a failure the platform reported from one inferred by the sweep, because the second carries less detail and a reader should know that.",
-        "A run that was retried and then succeeded is recorded according to a stated policy rather than being counted or dropped by accident."
+        "A run that was retried and then succeeded is recorded according to a stated policy rather than being counted or dropped by accident.",
+        "An inferred failure the operator sends back as a run that was merely long is kept with that verdict against the kind of work it belonged to, and the horizon for that kind widens, rather than the same long runs being declared dead by every sweep."
       ]
     },
     {

@@ -2,7 +2,7 @@
   "id": "95f66218-cd55-503c-8a7d-0c544e54378a",
   "slug": "release-candidate-review",
   "title": "Release candidate review and approval",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "status": "seed",
   "path": "software_engineering/release",
   "domain": "software_engineering",
@@ -74,7 +74,8 @@
       "success_criteria": [
         "The reason a candidate was declined is recorded and shapes the next proposal rather than being re-proposed unchanged",
         "A candidate awaiting approval has a visible age, so one nobody answered is distinguishable from one still being considered",
-        "A period in which the work was reviewed and judged not worth releasing is recorded as such, so the next look starts from that judgement instead of repeating it"
+        "A period in which the work was reviewed and judged not worth releasing is recorded as such, so the next look starts from that judgement instead of repeating it",
+        "When a person says an increment held back should already have gone out, that is recorded against the threshold that held it rather than against the candidate, because from inside this work a hold nobody minded and a hold that was wrong look identical"
       ]
     }
   ],

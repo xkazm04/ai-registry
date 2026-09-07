@@ -1,6 +1,6 @@
 ---
 name: database-anomaly-baseline-refresh
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: software_engineering
 path: software_engineering/observability
@@ -52,6 +52,10 @@ now, without having quietly absorbed the events it was meant to catch.**
   design, are held out of the recomputation
 - The estimator used does not move materially when a small number of extreme rows are
   present, so one bad hour cannot raise the bar for the next month
+- A person overruling an anomaly verdict, saying a flagged period was an ordinary
+  business change or that an unflagged one was not, has that verdict written into the
+  held out set the next recompute reads, so the correction moves the baseline rather
+  than only the alert it was about
 
 **A refresh that cannot be trusted leaves detection exactly as it was rather than
 replacing it with worse numbers.**

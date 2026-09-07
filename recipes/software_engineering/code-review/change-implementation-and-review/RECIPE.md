@@ -1,6 +1,6 @@
 ---
 name: change-implementation-and-review
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: software_engineering
 path: software_engineering/code-review
@@ -58,6 +58,10 @@ report of why it should not be built.**
 - The repository's own checks pass before the change is offered
 - An item that cannot be completed comes back with what was learned rather than a
   partial change left behind
+- A decline that the person who accepted the item overturns is written back beside the
+  reason that produced it, because declining is the one call here nobody sees the cost
+  of, and the next re-validation of an item of that shape weighs a premise test that has
+  already been overruled once rather than reaching the same decline again
 
 **The change looks like it belongs to this codebase.**
 

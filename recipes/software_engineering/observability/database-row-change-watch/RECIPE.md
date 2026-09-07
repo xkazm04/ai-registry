@@ -1,6 +1,6 @@
 ---
 name: database-row-change-watch
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: software_engineering
 path: software_engineering/observability
@@ -73,6 +73,9 @@ happening.**
   known to be unjudged rather than assumed routine
 - The share of surfaced changes somebody acted on is carried forward, so a filter nobody
   responds to is visible as a broken filter
+- A change somebody says afterwards should have been surfaced is recorded against the
+  invariant that failed to catch it, because a bar tuned from what was surfaced is blind
+  in the one direction that matters, which is what the watch stayed quiet about
 
 ## Guidance
 

@@ -1,6 +1,6 @@
 ---
 name: incident-capture-and-classification
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: software_engineering
 path: software_engineering/incident-response
@@ -66,6 +66,10 @@ readable at the end.**
   field.
 - What a resolved incident owes afterwards is decided by the highest severity it ever
   held, so lowering it late cannot remove an obligation.
+- Severity corrections are read as a set rather than one incident at a time, because a
+  class of impact corrected in the same direction every time means the anchor for that
+  level is wrong rather than the callers being careless, and it is the anchor that is
+  revised.
 
 **Every open incident carries an expectation somebody can be held to, and closure is a
 decision rather than a silence.**

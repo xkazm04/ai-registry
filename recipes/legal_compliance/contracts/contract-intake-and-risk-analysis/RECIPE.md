@@ -1,6 +1,6 @@
 ---
 name: contract-intake-and-risk-analysis
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: legal_compliance
 path: legal_compliance/contracts
@@ -57,6 +57,11 @@ nobody was told about.**
 - A contract that cannot be classified, reads suspiciously short, or is an amendment
   whose original is not held, is routed to a person rather than reviewed as if it were
   complete.
+- A deviation class the reviewer accepts contract after contract is carried back to the
+  playbook as a position to reconsider rather than counted again, because one reviewer
+  overruling one finding is the review working as designed and the same overrule
+  repeating is evidence the preferred position is no longer one this team will hold out
+  for.
 
 **The review prepares a human's judgment and is never mistaken for it.**
 

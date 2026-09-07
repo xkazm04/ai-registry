@@ -2,7 +2,7 @@
   "id": "e51901e2-5b39-567a-b89b-890395eb1ed3",
   "slug": "codebase-feasibility-analysis",
   "title": "Codebase feasibility analysis",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "status": "seed",
   "path": "software_engineering/codebase-health",
   "domain": "software_engineering",
@@ -64,7 +64,8 @@
       "statement": "The estimates get better because what things actually cost here is written down next to what they were predicted to cost.",
       "success_criteria": [
         "Each record states what would change the estimate, so a later reader can tell whether it has been overtaken.",
-        "When a change is delivered, its realized cost is recorded against the record that predicted it, so the next comparable idea is sized against this codebase rather than against intuition."
+        "When a change is delivered, its realized cost is recorded against the record that predicted it, so the next comparable idea is sized against this codebase rather than against intuition.",
+        "A size a person overrides while triaging is kept next to the one that was offered, with what they saw that the search did not, because most ideas are never built and a realized cost therefore never arrives for them: the override is the only correction this work will ever get on the estimates that decided which ideas were dropped."
       ]
     }
   ],

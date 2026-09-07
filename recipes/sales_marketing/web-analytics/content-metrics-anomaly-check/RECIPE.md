@@ -1,6 +1,6 @@
 ---
 name: content-metrics-anomaly-check
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: sales_marketing
 path: sales_marketing/web-analytics
@@ -54,6 +54,12 @@ their own history predicted.**
 - A deviation already open is not raised a second time on the next look.
 - A first run raises nothing and says it established the baseline, rather than reporting
   a delta against no history.
+- A deviation the adopter sends back is one of two corrections and only one of them
+  touches the band: told it was wrong to raise this, the check widens there; told it was
+  right to raise it but the cause was already known, a launch or a redesign or a
+  campaign, the band is left alone and the period is recorded as explained, because a
+  check that widens on every dismissal goes blind during exactly the quarter that
+  produces the most dismissals.
 
 **Hearing nothing from this check is evidence that the period is normal, not evidence
 that the check has stopped running.**

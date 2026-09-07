@@ -2,7 +2,7 @@
   "id": "2d6945b7-5cca-5f28-b91c-26b03249ea70",
   "slug": "unsigned-contract-signature-chasing",
   "title": "Unsigned contract signature chasing",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "status": "seed",
   "path": "legal_compliance/deadlines",
   "domain": "legal_compliance",
@@ -60,7 +60,8 @@
       "success_criteria": [
         "Where a contract routes through several signers, the nudge addresses the one it is currently waiting on rather than the original contact.",
         "A second nudge differs from the first: it offers to resolve something, or asks what is needed, rather than restating the request.",
-        "A signer who already replied outside the tracker is not nudged, because a reminder to somebody who answered is the fastest way to be filtered."
+        "A signer who already replied outside the tracker is not nudged, because a reminder to somebody who answered is the fastest way to be filtered.",
+        "When the person approving an outgoing nudge rewrites the blocker it guessed at, the blocker they wrote is kept with the record of what was sent, because that edit is the only direct evidence of what actually stalls contracts with this kind of counterparty, and the next second nudge should open from it rather than from the same guess."
       ]
     },
     {

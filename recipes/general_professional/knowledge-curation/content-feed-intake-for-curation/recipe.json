@@ -2,7 +2,7 @@
   "id": "fb223f0f-dd00-5f3e-bbec-4ba12a58b430",
   "slug": "content-feed-intake-for-curation",
   "title": "Content feed intake for curation",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "status": "seed",
   "path": "general_professional/knowledge-curation",
   "domain": "general_professional",
@@ -65,7 +65,8 @@
       "success_criteria": [
         "The per-run cap is shared across feeds rather than filled in arrival order, so a feed publishing fifty items cannot starve the rest.",
         "Within a feed's share the newest items win and the run says that this is what happened, because newest-first is the wrong tie-break for reference material and the adopter has to be able to see it applying.",
-        "Everything dropped is accounted for by reason, whether seen before, too old, or past the cap, so a limit that is set wrong shows up as a number rather than as a quiet week."
+        "Everything dropped is accounted for by reason, whether seen before, too old, or past the cap, so a limit that is set wrong shows up as a number rather than as a quiet week.",
+        "An item the curator retrieves from what was dropped is recorded against the reason that dropped it, so a feed collecting retrievals under too old has that feed's age limit put in question rather than each retrieval being handled on its own."
       ]
     },
     {

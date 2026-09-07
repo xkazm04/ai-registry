@@ -1,6 +1,6 @@
 ---
 name: database-performance-baseline-monitoring
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: software_engineering
 path: software_engineering/observability
@@ -51,6 +51,9 @@ weekday, not against a generic threshold.**
 - A spike that has already ended by the confirming window does not produce an alert
 - A pattern the operator repeatedly calls a false positive gets quieter without being
   switched off
+- The verdicts that quieten a pattern are held with the baseline bucket they apply to
+  and stay reversible, so a pattern damped as noise can be raised again once it turns
+  real instead of staying quiet because somebody dismissed it a month ago
 
 **Losing sight of the database is itself reported, and a quiet pass is recorded as
 measured rather than left as an absence.**

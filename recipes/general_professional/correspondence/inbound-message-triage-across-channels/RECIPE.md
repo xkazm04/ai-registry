@@ -1,6 +1,6 @@
 ---
 name: inbound-message-triage-across-channels
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: general_professional
 path: general_professional/correspondence
@@ -80,6 +80,9 @@ decided for them at collection.**
   gave it and never on its text.
 - Two genuinely separate messages carrying identical text are two records, because a
   person who says the same thing twice said it twice.
+- A reply-needed judgment a person overturns is written back onto that message's record
+  beside the confidence the pass gave it, so a sender whose calls are overturned again
+  and again is read as a miscalibration to fix rather than as a run of unusual messages.
 
 ## Guidance
 

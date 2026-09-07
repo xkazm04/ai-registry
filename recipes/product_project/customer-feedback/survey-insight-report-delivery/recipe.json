@@ -2,7 +2,7 @@
   "id": "eadf1ac7-ecca-55a5-8cb6-76d68e80283a",
   "slug": "survey-insight-report-delivery",
   "title": "Survey insight report delivery",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "status": "seed",
   "path": "product_project/customer-feedback",
   "domain": "product_project",
@@ -60,7 +60,8 @@
       "success_criteria": [
         "Each filed item names the theme, roughly how many respondents raised it, and what changing it would fix.",
         "A theme already filed grows in weight rather than producing a second item, so a recurring complaint accumulates instead of resetting each period.",
-        "Nothing is filed that cannot be phrased as a change someone could make, and a period whose themes are all of that kind is reported without filing anything."
+        "Nothing is filed that cannot be phrased as a change someone could make, and a period whose themes are all of that kind is reported without filing anything.",
+        "A reader who merges a filed item into one already open, or closes one as not a change this team would ever make, is correcting where that theme belongs, and the decision is kept with the item so the theme lands the same way next period rather than being matched again from scratch."
       ]
     },
     {

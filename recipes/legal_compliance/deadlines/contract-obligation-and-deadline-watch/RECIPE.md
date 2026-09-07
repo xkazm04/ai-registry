@@ -1,6 +1,6 @@
 ---
 name: contract-obligation-and-deadline-watch
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: legal_compliance
 path: legal_compliance/deadlines
@@ -53,6 +53,11 @@ Linear and branch-free, by contract. This is the shape of the work, not a runboo
   unless something about it changed.
 - Urgency is derived from how long the action takes, so an obligation needing a signed
   certificate and one needing an email are not raised on the same ladder.
+- An owner who answers a raise by saying it arrived too late to arrange, or who closes
+  it the same afternoon it landed, has corrected the lead time for that kind of
+  obligation, and the correction is kept alongside what was raised, because the lead
+  time is this work's own estimate rather than a term of the contract and only the
+  person doing the arranging can calibrate it.
 
 **A reminder that went out and produced nothing is visible as such, instead of counting
 as coverage.**

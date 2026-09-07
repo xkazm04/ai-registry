@@ -1,6 +1,6 @@
 ---
 name: cloud-billing-access-failure-alerting
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: finance_accounting
 path: finance_accounting/spend-and-budget
@@ -76,6 +76,10 @@ restated as news.**
 - A failure that resolves on its own is closed rather than left open, so the count of
   open blind spots is true
 - A transient failure that cleared on a re-read produces no alert at all
+- A responder correcting what the failure actually was is recorded against the
+  occurrence that was misclassified, so the next occurrence of that shape is diagnosed
+  as the mode they named, because the recurrence count is kept by failure mode and a
+  wrong mode splits one standing problem into two that each look like news
 
 ## Guidance
 

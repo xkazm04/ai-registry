@@ -1,6 +1,6 @@
 ---
 name: conversion-experiment-program-digest
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: sales_marketing
 path: sales_marketing/conversion-optimization
@@ -61,6 +61,10 @@ results can be read in the light of how they were reached.**
   before one, and what share of concluded experiments were called winners.
 - A share of winners far above what large published programs achieve is reported as a
   question about when experiments are being stopped rather than as a good quarter.
+- An explanation the owner gives for a rate the edition questioned is recorded against
+  the period it explains and tested again in the next one, because a program that speaks
+  only when something wins is exactly the program in which an accepted explanation
+  quietly becomes a standing exemption.
 - The first edition says it is establishing these rates rather than reporting a change
   in them.
 

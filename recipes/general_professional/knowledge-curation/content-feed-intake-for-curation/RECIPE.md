@@ -1,6 +1,6 @@
 ---
 name: content-feed-intake-for-curation
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: general_professional
 path: general_professional/knowledge-curation
@@ -68,6 +68,9 @@ controls.**
 - Everything dropped is accounted for by reason, whether seen before, too old, or past
   the cap, so a limit that is set wrong shows up as a number rather than as a quiet
   week.
+- An item the curator retrieves from what was dropped is recorded against the reason
+  that dropped it, so a feed collecting retrievals under too old has that feed's age
+  limit put in question rather than each retrieval being handled on its own.
 
 **A feed that never produces anything worth keeping is retired rather than swept
 forever.**

@@ -2,7 +2,7 @@
   "id": "0c0e441a-fd86-5f63-86e5-cacd0f2c9a46",
   "slug": "open-incident-vigilance",
   "title": "Open incident vigilance and escalation",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "status": "seed",
   "path": "software_engineering/incident-response",
   "domain": "software_engineering",
@@ -67,7 +67,8 @@
         "A second escalation reaches a different person or carries a different consequence, never the same message to the same person, since a repeated identical nudge carries no new information and is learned away.",
         "The ladder is stated in advance, so what the next rung is can be read rather than improvised during the incident.",
         "Resolution always waits on a person confirming closure, and an incident that merely stopped being discussed is reported as gone quiet rather than as resolved.",
-        "A minor item closed for having genuinely gone away carries that as its recorded reason, so the close is distinguishable from a resolution."
+        "A minor item closed for having genuinely gone away carries that as its recorded reason, so the close is distinguishable from a resolution.",
+        "An item reopened after being closed for having gone quiet has that reopening recorded against the close, since it is the only evidence that what counts as minor here is drawn too wide, and it is the definition rather than the individual close that changes."
       ]
     }
   ],

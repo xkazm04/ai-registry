@@ -1,6 +1,6 @@
 ---
 name: idea-architecture-verdict
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: software_engineering
 path: software_engineering/codebase-health
@@ -67,6 +67,12 @@ and the rest are passed through cheaply and said to be ordinary.**
   returned quickly, rather than given a full verdict that reads like one.
 - A verdict never becomes a design document: this work decides whether, and leaves how
   to whoever builds it.
+- An idea returned as ordinary that a person pulls back for a full verdict is recorded
+  with what made it structural, kept alongside the settled decisions this work reads,
+  since a corrected boundary is itself something this project has now settled. Waving an
+  idea through is the call that fails without anybody noticing, so the line between
+  ordinary and architectural is only ever learned from the ones it was drawn wrongly
+  around.
 
 **When the evidence for a claim is not in the code, the verdict says so instead of
 presenting a guess as a reading.**

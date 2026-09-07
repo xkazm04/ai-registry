@@ -1,6 +1,6 @@
 ---
 name: source-artifact-channel-repurposing
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: creative_design
 path: creative_design/social-publishing
@@ -74,6 +74,11 @@ written down rather than left as an absence.**
   nobody is going to approve.
 - A source whose claim has been overtaken since it was published is checked before it is
   rewritten, and the check has the authority to decline and say why.
+- A channel the approver refuses outright for a source, and a channel they ask for that
+  the run had skipped, are both recorded against the fit decision rather than against
+  the draft that carried them, because what a channel wants from a kind of source is the
+  judgment being overruled and it is the one this recipe will make again on the next
+  source of that shape.
 
 ## Guidance
 

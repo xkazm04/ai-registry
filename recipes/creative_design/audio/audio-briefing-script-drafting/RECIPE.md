@@ -1,6 +1,6 @@
 ---
 name: audio-briefing-script-drafting
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: creative_design
 path: creative_design/audio
@@ -63,6 +63,10 @@ script.**
 - A rejection is recorded with its reason where the next draft reads it, so a third
   rejection of the same shape reads as a style problem rather than as three unrelated
   failures.
+- An approval that arrives with turns rewritten is recorded as a correction rather than
+  as a yes, keeping the lines as drafted beside the lines as approved, because a
+  reviewer who fixes a turn themselves has said the same thing a rejection would and
+  today that lands only in the one script that gets synthesized.
 
 ## Guidance
 

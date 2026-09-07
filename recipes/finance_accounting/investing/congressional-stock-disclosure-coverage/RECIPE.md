@@ -1,6 +1,6 @@
 ---
 name: congressional-stock-disclosure-coverage
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: finance_accounting
 path: finance_accounting/investing
@@ -68,8 +68,10 @@ buried under the individual filings that make it up.**
 - Sector movement is reported against a rolling baseline rather than in absolute counts
 - Where amounts are disclosed only as ranges, the report says which end of the range any
   total was built from, or counts filings instead of summing money
-- Usefulness feedback from the reader tightens the next pass's filters rather than being
-  logged and ignored
+- A reader's verdict that a surfaced filing was noise, or that a named concentration was
+  routine, is recorded against the window it was reported in, so the next pass filters
+  and measures against verdicts already given rather than restating a rejected finding
+  when late filings reopen that window
 
 **The reader is never left believing this report gave them a head start it cannot
 give.**

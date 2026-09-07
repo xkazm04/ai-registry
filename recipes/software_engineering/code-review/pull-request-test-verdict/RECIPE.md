@@ -1,6 +1,6 @@
 ---
 name: pull-request-test-verdict
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: software_engineering
 path: software_engineering/code-review
@@ -63,6 +63,10 @@ Linear and branch-free, by contract. This is the shape of the work, not a runboo
   escalated, rather than held against the change
 - A re-run is treated as a diagnostic and its outcome recorded; a test that passed only
   on a second attempt is reported as unstable and never reported as a pass
+- An attribution a person reverses, most often a failure called unstable that turned out
+  to be the change, is written back to whatever this project keeps as its record of
+  which tests are trusted, so the next verdict on that test opens from the corrected
+  reading instead of re-deriving instability from another re-run
 
 **A verdict says what the run proves, and does not imply more.**
 

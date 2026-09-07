@@ -2,7 +2,7 @@
   "id": "ec061c32-9fef-5a33-ad80-c94df9eef861",
   "slug": "incident-capture-and-classification",
   "title": "Incident capture and classification",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "status": "seed",
   "path": "software_engineering/incident-response",
   "domain": "software_engineering",
@@ -56,7 +56,8 @@
         "Severity is set from what is affected, how many, and what cannot be done, and never from who reported it, their seniority, or the tone of the report.",
         "An uncertain case is opened at the higher severity and lowered later, since over calling costs an hour of a few people's time and under calling costs the people the incident is happening to.",
         "The severity an incident was opened at is kept alongside its current one, and a change of severity is an entry in the record naming who changed it and why, not an edit to a field.",
-        "What a resolved incident owes afterwards is decided by the highest severity it ever held, so lowering it late cannot remove an obligation."
+        "What a resolved incident owes afterwards is decided by the highest severity it ever held, so lowering it late cannot remove an obligation.",
+        "Severity corrections are read as a set rather than one incident at a time, because a class of impact corrected in the same direction every time means the anchor for that level is wrong rather than the callers being careless, and it is the anchor that is revised."
       ]
     },
     {

@@ -1,6 +1,6 @@
 ---
 name: support-escalation-pattern-review
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: customer_support
 path: customer_support/service-health
@@ -67,6 +67,9 @@ somebody who can fix that kind.**
   elsewhere
 - A pattern read entirely off category tags is reported as what it is, since tags are
   applied under time pressure and a pattern in them can be a pattern in the tagging
+- A cause the receiving owner reassigns to a different kind is recorded against the
+  escalations that produced it, so the next pass files that shape of escalation where it
+  was accepted rather than proposing the owner who already declined it
 
 **The person accountable sees what changed, not a repeat of numbers they have already
 read.**

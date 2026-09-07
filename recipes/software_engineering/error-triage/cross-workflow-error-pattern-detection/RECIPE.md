@@ -1,6 +1,6 @@
 ---
 name: cross-workflow-error-pattern-detection
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: software_engineering
 path: software_engineering/error-triage
@@ -61,6 +61,9 @@ turns out to be two is separable without losing either.**
   rather than staying quiet because it was once part of something resolved.
 - The account names what would have to be true for the join to be wrong, so a responder
   can reject it in one reading.
+- A join a responder rejects is recorded against the relation it was made on, so the
+  same join is not proposed again and a relation rejected repeatedly here stops being
+  enough on its own.
 
 **Suppression stops repetition without becoming a place where a growing problem hides.**
 

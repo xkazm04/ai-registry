@@ -1,6 +1,6 @@
 ---
 name: community-trend-digest
-version: 0.2.0
+version: 0.3.0
 status: seed
 domain: sales_marketing
 path: sales_marketing/community-channels
@@ -75,6 +75,10 @@ blank page every period.**
   period as news.
 - A reviewer's reason for rejecting or cutting something is recorded with the reason,
   not just the cut, so the same judgment is not relearned every period.
+- What a pass suppressed as one amplified thread is shown to the reviewer beside what
+  shipped, since a reviewer who sees only the digest can correct a theme that got
+  through but never one the voice count wrongly cut, and the voice count is what the
+  correction has to reach.
 - Which themes anyone actually followed up on is carried forward, so a digest that
   nobody acts on is visible as such rather than continuing indefinitely.
 

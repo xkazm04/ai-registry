@@ -2,7 +2,7 @@
   "id": "3fd414ff-d43a-5df7-8e85-f0b5882601c8",
   "slug": "watchlist-technical-signal-digest",
   "title": "Watchlist technical signal digest",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "status": "seed",
   "path": "finance_accounting/investing",
   "domain": "finance_accounting",
@@ -69,7 +69,8 @@
         "Losing calls remain in the record",
         "The record states that it excludes the cost of actually trading, because a paper result that ignores spread and execution is a better result than the method would have produced",
         "The first digest says it is opening a record and reports no track record, rather than presenting an early run of calls as evidence",
-        "A period with nothing worth saying produces a short digest rather than manufactured signals"
+        "A period with nothing worth saying produces a short digest rather than manufactured signals",
+        "A shape of call the reviewer consistently declines is read back as a signal about what this digest should stop stating as a call, and never as evidence that the method was right or wrong about the market, which only the recorded outcome of those calls can answer"
       ]
     },
     {

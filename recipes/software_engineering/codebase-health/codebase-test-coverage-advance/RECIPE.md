@@ -1,6 +1,6 @@
 ---
 name: codebase-test-coverage-advance
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: software_engineering
 path: software_engineering/codebase-health
@@ -71,6 +71,11 @@ stopped.**
 - A module that cannot be tested without a design change is recorded as exactly that and
   escalated, rather than left looking merely untested.
 - The first pass over a project says it is establishing the state and reports no trend.
+- The adopter's sense of what is load bearing is mostly learned by being corrected, so
+  an area they send back as not worth the hours is written into that module's state with
+  their reason, and a later pass that the same change and usage signals would point at
+  again defers to the reason rather than re-selecting on evidence that has already been
+  overruled once.
 
 ## Guidance
 

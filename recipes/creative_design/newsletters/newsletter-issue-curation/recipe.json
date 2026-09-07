@@ -2,7 +2,7 @@
   "id": "99d7c2b2-f602-553e-a508-4ff143713b2e",
   "slug": "newsletter-issue-curation",
   "title": "Newsletter issue curation and delivery",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "status": "seed",
   "path": "creative_design/newsletters",
   "domain": "creative_design",
@@ -52,7 +52,8 @@
         "How much was considered and how much was included are both recorded, so a ratio drifting towards one is visible as curation having stopped.",
         "Every item carries a line that could not have been written without reading it. A restated headline is not commentary.",
         "No item repeats a claim a past issue already made, matched on the claim rather than the link, because one story arrives from five sources under five headlines.",
-        "Every issue passes a human read before it sends."
+        "Every issue passes a human read before it sends.",
+        "An item the reviewer strikes at that read, or one they put back that the cut had dropped, is kept against the reason it was selected or suppressed, because that is a verdict on what counts as worth a subscriber's attention and it is the only thing that can move the next cut. Corrections to the commentary are a separate signal and belong with the voice."
       ]
     },
     {

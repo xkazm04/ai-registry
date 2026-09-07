@@ -1,6 +1,6 @@
 ---
 name: approved-maintenance-issue-filing
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: software_engineering
 path: software_engineering/engineering-records
@@ -54,6 +54,11 @@ start without a preliminary conversation.**
   not an implied consequence of the approval.
 - The item carries a reference back to the approval it came from, so the same approval
   cannot be filed twice and a reader of either can find the other.
+- An item that still opened with a question once somebody picked it up, and an approval
+  held back for detail the maintainer turned out not to need, are both recorded against
+  the detail floor that decided them, because that floor is a guess about this operation
+  until somebody has been made to correct it in one direction or the other, and it moves
+  on those corrections rather than on how the items read.
 
 **A decision survives the tracker being unreachable, and the record says which of the
 two happened.**

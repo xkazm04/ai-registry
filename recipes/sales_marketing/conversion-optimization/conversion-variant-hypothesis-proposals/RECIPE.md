@@ -1,6 +1,6 @@
 ---
 name: conversion-variant-hypothesis-proposals
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: sales_marketing
 path: sales_marketing/conversion-optimization
@@ -78,6 +78,10 @@ site without a person choosing it.**
   the same against any site.
 - Every proposal sits in review before deployment and only approved proposals reach the
   experimentation backend.
+- A refused proposal is recorded against the belief it rested on rather than against the
+  change it proposed, and an experiment that ran and came back flat is recorded there
+  too, so the next run retires a belief the reviewer or the traffic has contradicted
+  instead of proposing the same belief in different wording.
 - A run with nothing worth testing proposes nothing and records that, rather than
   filling the cap because the cap exists.
 

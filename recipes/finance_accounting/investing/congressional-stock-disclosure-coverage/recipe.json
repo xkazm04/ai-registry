@@ -2,7 +2,7 @@
   "id": "34e9138a-1af0-5323-bbac-712d396d6f50",
   "slug": "congressional-stock-disclosure-coverage",
   "title": "Congressional stock disclosure coverage",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "status": "seed",
   "path": "finance_accounting/investing",
   "domain": "finance_accounting",
@@ -63,7 +63,7 @@
         "Sector movement is measured over the dates the trades happened, so a batch of late filings arriving together is never reported as a burst of activity in the week it appeared",
         "Sector movement is reported against a rolling baseline rather than in absolute counts",
         "Where amounts are disclosed only as ranges, the report says which end of the range any total was built from, or counts filings instead of summing money",
-        "Usefulness feedback from the reader tightens the next pass's filters rather than being logged and ignored"
+        "A reader's verdict that a surfaced filing was noise, or that a named concentration was routine, is recorded against the window it was reported in, so the next pass filters and measures against verdicts already given rather than restating a rejected finding when late filings reopen that window"
       ]
     },
     {

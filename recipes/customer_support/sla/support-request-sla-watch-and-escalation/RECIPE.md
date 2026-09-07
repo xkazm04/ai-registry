@@ -1,6 +1,6 @@
 ---
 name: support-request-sla-watch-and-escalation
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: customer_support
 path: customer_support/sla
@@ -67,6 +67,9 @@ are waiting.**
   so a queue that is green because clocks were stopped is visibly green for that reason
 - A request that has waited on the customer for longer than the promise itself is
   surfaced rather than left parked
+- A request somebody disputes as having been handled inside its promise is logged beside
+  the near misses with whatever stopped its clock, so a state disputed more than once is
+  surfaced as a wait rather than trusted to have stopped the clock honestly
 
 **The cases that need a person reach one directly, the rest do not, and every escalation
 leaves a record somebody can later read for patterns.**

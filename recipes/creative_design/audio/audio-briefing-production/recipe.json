@@ -2,7 +2,7 @@
   "id": "2969b6b1-5462-573c-970e-832844526258",
   "slug": "audio-briefing-production",
   "title": "Audio briefing production",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "status": "seed",
   "path": "creative_design/audio",
   "domain": "creative_design",
@@ -60,7 +60,8 @@
       "success_criteria": [
         "The voice held by each host role, the speaking pace and the gap length are written where the next run reads them.",
         "A run that changed one of them records which one and why.",
-        "A first run states that it is establishing these settings rather than reporting them as unchanged."
+        "A first run states that it is establishing these settings rather than reporting them as unchanged.",
+        "Something the adopter fixed by hand after listening, a track they re-levelled or a pace or gap they asked to be different, is written back as the new settled value beside the one it replaced, because a correction that stays in the delivered file has to be made again on every briefing that follows it."
       ]
     }
   ],

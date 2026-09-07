@@ -1,6 +1,6 @@
 ---
 name: revenue-signal-alerting-and-outreach
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: customer_support
 path: customer_support/retention
@@ -71,6 +71,10 @@ signal is.**
   nor sent to a customer
 - The cause reaches whoever acts on it in the provider's own terms, so it can be looked
   up rather than paraphrased into something unsearchable
+- A signal judged as one the provider would recover, and that a person later had to act
+  on anyway, is recorded against the provider reason that produced that judgment, so the
+  set of causes treated as self recovering narrows to the ones that have actually
+  recovered here
 
 **No customer hears from this seat unless the operator decided they should.**
 

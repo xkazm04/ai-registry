@@ -1,6 +1,6 @@
 ---
 name: knowledge-base-curation-audit
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: general_professional
 path: general_professional/knowledge-curation
@@ -82,6 +82,9 @@ Linear and branch-free, by contract. This is the shape of the work, not a runboo
   number it happened to count.
 - A section that could not run is named and skipped rather than failing the whole
   report.
+- A proposal the owner refuses is recorded with the audit that raised it, and later
+  audits leave it alone until the pages behind it have moved, because an audit that
+  re-raises a settled refusal teaches its owner to read the report as a list.
 
 ## Guidance
 

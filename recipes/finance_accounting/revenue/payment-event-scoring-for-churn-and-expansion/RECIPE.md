@@ -1,6 +1,6 @@
 ---
 name: payment-event-scoring-for-churn-and-expansion
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: finance_accounting
 path: finance_accounting/revenue
@@ -58,6 +58,9 @@ signal appearing, not discovered at the next business review.**
 - A duplicate alert for the same account inside the configured window is suppressed
 - Every score is recorded with the horizon it is claiming over, so a later pass can ask
   whether accounts scored at this level actually did what the score said
+- An account the people who know it say was never at risk is recorded against the score
+  that claimed it was, with their reason, so the next crossing on that account carries
+  what its score has already been wrong about to whoever the alert reaches
 
 **A customer who never decided to leave is never reported as one who did.**
 

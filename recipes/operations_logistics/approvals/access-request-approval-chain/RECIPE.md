@@ -1,6 +1,6 @@
 ---
 name: access-request-approval-chain
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: operations_logistics
 path: operations_logistics/approvals
@@ -62,6 +62,10 @@ decision, and the gate stays narrow enough that the human still reads it.**
 - The share of requests reaching the human gate is reported, so a chain that escalates
   everything is visible before approvers start approving without reading
 - What the requestor already holds is in front of the approver at the moment they decide
+- An approver who sends a request back as not theirs is recorded against that request's
+  privilege classification along with the level they named instead, so the next request
+  of that class is routed there rather than the misrouting showing up only as the time
+  the request took
 
 **No decision made here creates access that nothing will ever take away.**
 

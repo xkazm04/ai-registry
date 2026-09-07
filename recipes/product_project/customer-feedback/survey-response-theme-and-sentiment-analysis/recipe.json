@@ -2,7 +2,7 @@
   "id": "555079dd-836b-532f-a6ad-802a6c1cfdd7",
   "slug": "survey-response-theme-and-sentiment-analysis",
   "title": "Survey response theme and sentiment analysis",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "status": "seed",
   "path": "product_project/customer-feedback",
   "domain": "product_project",
@@ -51,7 +51,8 @@
       "success_criteria": [
         "Each theme is stated as a claim somebody could disagree with, and carries the responses it was built from so a reader can check it.",
         "A theme is weighed by what changing it would fix as well as by how many raised it, so a specific complaint from a few is not automatically outranked by a vague one from many.",
-        "Reading the same responses again produces the same theme set, because a theme set that shifts between passes cannot support a trend."
+        "Reading the same responses again produces the same theme set, because a theme set that shifts between passes cannot support a trend.",
+        "When a reader splits a theme, merges two, or pulls responses out of one, that recoding is stored with the theme's evidence and the trailing baselines are restated under it, because a frame that reproduces faithfully reproduces a wrong frame just as faithfully, and a recode nobody wrote down surfaces in the next comparison as a movement in the world."
       ]
     },
     {

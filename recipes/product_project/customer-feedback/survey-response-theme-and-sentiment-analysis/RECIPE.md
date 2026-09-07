@@ -1,6 +1,6 @@
 ---
 name: survey-response-theme-and-sentiment-analysis
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: product_project
 path: product_project/customer-feedback
@@ -56,6 +56,11 @@ Linear and branch-free, by contract. This is the shape of the work, not a runboo
   many.
 - Reading the same responses again produces the same theme set, because a theme set that
   shifts between passes cannot support a trend.
+- When a reader splits a theme, merges two, or pulls responses out of one, that recoding
+  is stored with the theme's evidence and the trailing baselines are restated under it,
+  because a frame that reproduces faithfully reproduces a wrong frame just as
+  faithfully, and a recode nobody wrote down surfaces in the next comparison as a
+  movement in the world.
 
 **A real move in theme, sentiment or score is caught against this account's own history
 rather than against a universal bar.**

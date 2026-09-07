@@ -1,6 +1,6 @@
 ---
 name: competitor-positioning-comparison
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: sales_marketing
 path: sales_marketing/conversion-optimization
@@ -75,6 +75,10 @@ is ahead.**
 - Scoring uses the same categories and the same yardstick that were applied to the
   operator's own property, and a category scored only on one side is dropped rather than
   estimated.
+- A score the operator overturns is corrected against the category rather than against
+  the competitor, since a yardstick that was wrong on one side was wrong on both, and
+  the next comparison rescores the operator's own property on the revised category and
+  marks the scores taken under the old one as no longer comparable.
 - Where a competitor is simply better it is said plainly, and a comparison containing no
   such finding says explicitly that there was none rather than leaving the absence to
   read as a lead.

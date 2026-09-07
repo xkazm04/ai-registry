@@ -1,6 +1,6 @@
 ---
 name: harvested-idea-triage
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: software_engineering
 path: software_engineering/work-intake
@@ -54,6 +54,10 @@ overtaken.**
   a later reader can tell whether it has gone stale again while waiting.
 - Declining for staleness is recorded as a fact about the code rather than as a judgment
   about the idea, so the same idea is allowed back if the code moves again.
+- A staleness decline somebody overturns, saying the code never overtook the idea at
+  all, is recorded against the premise check that made the call, because an idea wrongly
+  declined as done is the one thing here that never comes back on its own and a shallow
+  read that keeps being wrong is what has to change.
 
 **A harvested idea reaches a human decision before it consumes the expensive step
 downstream.**

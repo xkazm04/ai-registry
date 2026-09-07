@@ -2,7 +2,7 @@
   "id": "14a1f250-19f9-524e-b031-1da3bce5e684",
   "slug": "approved-maintenance-issue-filing",
   "title": "Approved maintenance issue filing",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "status": "seed",
   "path": "software_engineering/engineering-records",
   "domain": "software_engineering",
@@ -47,7 +47,8 @@
         "The item carries the change itself, how to see the situation it addresses, and what finished looks like. A description of the problem alone is a finding and is not filed as a work item.",
         "Somebody is named who can answer a question about it, because what gets an item picked up is the conversation attached to it at least as much as the template it arrived in.",
         "The step from approved to filed is a recorded event with an actor and an identifier, not an implied consequence of the approval.",
-        "The item carries a reference back to the approval it came from, so the same approval cannot be filed twice and a reader of either can find the other."
+        "The item carries a reference back to the approval it came from, so the same approval cannot be filed twice and a reader of either can find the other.",
+        "An item that still opened with a question once somebody picked it up, and an approval held back for detail the maintainer turned out not to need, are both recorded against the detail floor that decided them, because that floor is a guess about this operation until somebody has been made to correct it in one direction or the other, and it moves on those corrections rather than on how the items read."
       ]
     },
     {

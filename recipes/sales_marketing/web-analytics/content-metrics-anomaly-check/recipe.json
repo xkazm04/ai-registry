@@ -2,7 +2,7 @@
   "id": "d872e8c7-ca52-517a-99aa-08ff353d7b0a",
   "slug": "content-metrics-anomaly-check",
   "title": "Content metrics anomaly check",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "status": "seed",
   "path": "sales_marketing/web-analytics",
   "domain": "sales_marketing",
@@ -47,7 +47,8 @@
         "The expectation a gap is measured against carries the period's weekly shape, so an ordinary Monday is not a deviation.",
         "The band a gap must clear widens as volume falls, rather than one percentage governing a page with forty views and a page with forty thousand.",
         "A deviation already open is not raised a second time on the next look.",
-        "A first run raises nothing and says it established the baseline, rather than reporting a delta against no history."
+        "A first run raises nothing and says it established the baseline, rather than reporting a delta against no history.",
+        "A deviation the adopter sends back is one of two corrections and only one of them touches the band: told it was wrong to raise this, the check widens there; told it was right to raise it but the cause was already known, a launch or a redesign or a campaign, the band is left alone and the period is recorded as explained, because a check that widens on every dismissal goes blind during exactly the quarter that produces the most dismissals."
       ]
     },
     {

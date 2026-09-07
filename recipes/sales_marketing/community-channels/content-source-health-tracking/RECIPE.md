@@ -1,6 +1,6 @@
 ---
 name: content-source-health-tracking
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: sales_marketing
 path: sales_marketing/community-channels
@@ -66,6 +66,9 @@ questioned.**
 - The threshold is expressed against each source's own yield, so a community that
   produces once a month is not condemned on the same evidence as one that produces
   hourly.
+- A removal case the decider refuses is recorded against that source as a statement
+  about its own normal yield, so the next pass widens the silence it tolerates there
+  rather than raising the same case again on the same evidence.
 
 **Anyone can read the current state of every followed source without running anything,
 including that everything is fine.**

@@ -2,7 +2,7 @@
   "id": "99c24f3f-06ee-5f7c-a13f-fff4cfb52dae",
   "slug": "feature-walkthrough-capture",
   "title": "Feature walkthrough capture from the running app",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "status": "seed",
   "path": "creative_design/video",
   "domain": "creative_design",
@@ -60,7 +60,8 @@
       "success_criteria": [
         "The steps shown correspond to the implemented flow rather than a guessed one, including whatever the flow requires to be true before it can be reached.",
         "The app is in a state that shows the feature working, so an empty list or a spinner is not captured as though it were the thing being demonstrated.",
-        "A limitation of the capture method available on this machine is stated in the artifact rather than hidden behind a lesser one."
+        "A limitation of the capture method available on this machine is stated in the artifact rather than hidden behind a lesser one.",
+        "A step order the reviewer changes, or an entry point they say users do not use, is kept with the walkthrough's own path record, because the code establishes which flows exist and only a person establishes which of them a user actually takes, and the next capture on that surface should start from the corrected path rather than derive it from the implementation again."
       ]
     },
     {

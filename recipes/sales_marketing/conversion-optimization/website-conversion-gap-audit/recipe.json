@@ -2,7 +2,7 @@
   "id": "26b39db7-df93-55ed-b2c5-a0c20c46c9d1",
   "slug": "website-conversion-gap-audit",
   "title": "Website conversion gap audit",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "status": "seed",
   "path": "sales_marketing/conversion-optimization",
   "domain": "sales_marketing",
@@ -61,7 +61,8 @@
       "success_criteria": [
         "Severity is derived from named inputs, how much of the traffic meets the gap, where in the path to conversion it sits, and how far a measurement falls from a published threshold, rather than assigned, so two passes over an unchanged site produce the same severities.",
         "A critical finding always names what it costs in visitors or position, never what it costs in taste.",
-        "Findings the operator declined stay visible as declined rather than being silently re-raised or quietly dropped."
+        "Findings the operator declined stay visible as declined rather than being silently re-raised or quietly dropped.",
+        "An operator who declines a finding the audit called critical, or fixes a low one ahead of it, has overruled what the severity claimed the gap costs rather than the finding itself, so that overrule is recorded against the category it came from and the next pass derives severity there from the corrected cost instead of re-raising the same rank and waiting to be told again."
       ]
     },
     {

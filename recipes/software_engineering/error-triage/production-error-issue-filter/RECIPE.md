@@ -1,6 +1,6 @@
 ---
 name: production-error-issue-filter
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: software_engineering
 path: software_engineering/error-triage
@@ -67,6 +67,10 @@ rather than from an argument.**
 - The first run states that it is establishing the suppression record and forwards on
   present evidence alone, rather than implying it learned anything from history it does
   not have.
+- When the operator investigates something an over-full window held back, or leaves
+  something forwarded untouched, that choice is recorded against the reason the issue
+  was ranked where it was, because a cut ordered wrongly and a cut sized wrongly are
+  corrected differently.
 
 ## Guidance
 

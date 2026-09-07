@@ -2,7 +2,7 @@
   "id": "efb53700-bed3-55ab-8b58-4257387c9f5a",
   "slug": "contract-intake-and-risk-analysis",
   "title": "Contract intake and risk analysis",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "status": "seed",
   "path": "legal_compliance/contracts",
   "domain": "legal_compliance",
@@ -51,7 +51,8 @@
       "success_criteria": [
         "Every contract taken in produces a list of the clauses that differ from the playbook position, each with how far outside the acceptable fallbacks it sits.",
         "A protection the playbook expects and the contract does not contain is reported as missing, which is a different finding from a clause that is present and unfavourable.",
-        "A contract that cannot be classified, reads suspiciously short, or is an amendment whose original is not held, is routed to a person rather than reviewed as if it were complete."
+        "A contract that cannot be classified, reads suspiciously short, or is an amendment whose original is not held, is routed to a person rather than reviewed as if it were complete.",
+        "A deviation class the reviewer accepts contract after contract is carried back to the playbook as a position to reconsider rather than counted again, because one reviewer overruling one finding is the review working as designed and the same overrule repeating is evidence the preferred position is no longer one this team will hold out for."
       ]
     },
     {

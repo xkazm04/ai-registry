@@ -1,6 +1,6 @@
 ---
 name: watchlist-technical-signal-digest
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: finance_accounting
 path: finance_accounting/investing
@@ -77,6 +77,10 @@ about the reader.**
   presenting an early run of calls as evidence
 - A period with nothing worth saying produces a short digest rather than manufactured
   signals
+- A shape of call the reviewer consistently declines is read back as a signal about what
+  this digest should stop stating as a call, and never as evidence that the method was
+  right or wrong about the market, which only the recorded outcome of those calls can
+  answer
 
 **Nothing the digest produces reaches the world as an order or as advice.**
 

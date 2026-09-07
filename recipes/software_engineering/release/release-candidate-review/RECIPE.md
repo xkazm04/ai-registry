@@ -1,6 +1,6 @@
 ---
 name: release-candidate-review
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: software_engineering
 path: software_engineering/release
@@ -78,6 +78,9 @@ drop.**
   distinguishable from one still being considered
 - A period in which the work was reviewed and judged not worth releasing is recorded as
   such, so the next look starts from that judgement instead of repeating it
+- When a person says an increment held back should already have gone out, that is
+  recorded against the threshold that held it rather than against the candidate, because
+  from inside this work a hold nobody minded and a hold that was wrong look identical
 
 ## Guidance
 

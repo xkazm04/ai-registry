@@ -2,7 +2,7 @@
   "id": "149395d5-a987-55b6-a6ce-c953f3ed11a1",
   "slug": "goal-accountability-and-idea-triage-review",
   "title": "Goal accountability and idea triage review",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "status": "seed",
   "path": "general_professional/goals-and-reviews",
   "domain": "general_professional",
@@ -57,7 +57,8 @@
         "Every goal names the evidence its trend rests on, and whether that evidence is both movable by the requester and predictive of the outcome.",
         "A goal with recent activity but no movement toward its outcome is reported as motion, not as on track.",
         "The date of the last change that moved the outcome is carried separately from the date of the last activity of any kind.",
-        "A review in which every goal is on track says so plainly and names what would have shown otherwise, rather than letting an all-clear stand unexamined."
+        "A review in which every goal is on track says so plainly and names what would have shown otherwise, rather than letting an all-clear stand unexamined.",
+        "A measure the requester defends after this review called it motion is recorded against that goal as evidence they hold to be predictive, and the next review either works from it or names what it has since failed to predict, rather than putting the same measure to them again."
       ]
     },
     {

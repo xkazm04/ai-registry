@@ -2,7 +2,7 @@
   "id": "0b13d1e5-9682-59b9-9e05-a76fbcb4bd18",
   "slug": "support-issue-disposition-account",
   "title": "Support issue disposition account",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "status": "seed",
   "path": "customer_support/service-health",
   "domain": "customer_support",
@@ -74,7 +74,7 @@
       ]
     }
   ],
-  "guidance": "The account is trusted or it is skipped, and what breaks trust is a resolution that did not hold. Report what came back beside what was closed, and reconcile every count against the source rather than your own notes. Name a few issues and link the rest. When a period did not move, say so: a padded account teaches its reader to stop opening it. A first account is a baseline, not a change.",
+  "guidance": "The account is trusted or it is skipped, and what breaks trust is a resolution that did not hold. Report what came back beside what was closed, and reconcile every count against the source rather than your own notes. Name a few issues and link the rest. When a period did not move, say so: a padded account teaches its reader to stop opening it. A resolution somebody says did not hold belongs with the account that claimed it, and should move the window that missed it.",
   "use_cases": [
     "A support lead who is asked in every standup how the queue is going and answers from whichever dashboard was open, so the answer changes with the dashboard rather than with the queue.",
     "A team that has just started closing tickets faster and cannot tell whether the customers came back, because the resolution count and the reopen count are read by different people at different times.",

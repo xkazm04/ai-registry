@@ -1,6 +1,6 @@
 ---
 name: decision-record-rot-watch
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: software_engineering
 path: software_engineering/engineering-records
@@ -80,6 +80,11 @@ under one that still depends on it.**
 - A record set too small or too long untouched to be a working practice is reported as
   an abandoned practice, and the pass stops rather than auditing it as though it were an
   architecture.
+- A record put forward as contradicted and then reaffirmed unchanged is written back
+  against the signal that raised it, not only against the record, because a
+  reaffirmation is the only evidence this work ever gets about which assumptions this
+  operation actually treats as load bearing, and a signal reaffirmed away repeatedly is
+  watching something incidental and should stop raising records on it.
 
 ## Guidance
 

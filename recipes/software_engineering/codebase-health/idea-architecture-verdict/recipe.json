@@ -2,7 +2,7 @@
   "id": "5dc1a002-a5c0-4a02-9e02-5dc1a0020002",
   "slug": "idea-architecture-verdict",
   "title": "Idea architectural fit verdict",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "status": "seed",
   "path": "software_engineering/codebase-health",
   "domain": "software_engineering",
@@ -60,7 +60,8 @@
       "statement": "The expensive verdict is spent on the ideas that can actually move the architecture, and the rest are passed through cheaply and said to be ordinary.",
       "success_criteria": [
         "An idea with no measurable effect on the structure is recorded as ordinary and returned quickly, rather than given a full verdict that reads like one.",
-        "A verdict never becomes a design document: this work decides whether, and leaves how to whoever builds it."
+        "A verdict never becomes a design document: this work decides whether, and leaves how to whoever builds it.",
+        "An idea returned as ordinary that a person pulls back for a full verdict is recorded with what made it structural, kept alongside the settled decisions this work reads, since a corrected boundary is itself something this project has now settled. Waving an idea through is the call that fails without anybody noticing, so the line between ordinary and architectural is only ever learned from the ones it was drawn wrongly around."
       ]
     },
     {

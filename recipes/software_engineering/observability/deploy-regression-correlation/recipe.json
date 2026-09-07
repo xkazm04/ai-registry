@@ -2,7 +2,7 @@
   "id": "590a0c44-7538-5080-9a35-870ed40d31e5",
   "slug": "deploy-regression-correlation",
   "title": "Deploy regression correlation",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "status": "seed",
   "path": "software_engineering/observability",
   "domain": "software_engineering",
@@ -54,7 +54,8 @@
       "statement": "The correlation window is justified by how often this team ships rather than carried over from a default.",
       "success_criteria": [
         "The account states how many changes land in a window of this length on an ordinary day, so a reader can tell whether proximity means anything here",
-        "When several changes fall inside the window, all of them are ranked and what would separate them is named, rather than the nearest one being asserted"
+        "When several changes fall inside the window, all of them are ranked and what would separate them is named, rather than the nearest one being asserted",
+        "Once the real cause is established, it is written back against the hypothesis this work offered, so a window that keeps ranking the wrong change is corrected from incidents that were actually resolved rather than from the shipping rate alone"
       ]
     },
     {

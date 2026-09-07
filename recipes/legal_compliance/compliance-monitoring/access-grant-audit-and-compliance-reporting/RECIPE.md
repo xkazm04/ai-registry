@@ -1,6 +1,6 @@
 ---
 name: access-grant-audit-and-compliance-reporting
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: legal_compliance
 path: legal_compliance/compliance-monitoring
@@ -64,6 +64,11 @@ as a queue that only has a length.**
 - Time to decision and the shape of the verdicts are comparable across consecutive
   periods, and the first account says it is establishing the comparison rather than
   reporting a change.
+- A pattern the security owner reviews and waves through, a standing service grant or an
+  approver whose blanket verdicts sit inside their remit, is recorded as an accepted
+  exception against that pattern rather than dropped from the account, so the next
+  period stops presenting it as a fresh question while an auditor can still see it was
+  raised and answered.
 
 ## Guidance
 

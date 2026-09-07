@@ -2,7 +2,7 @@
   "id": "20ed97c9-0baf-53b4-bc99-71ddf808010d",
   "slug": "product-idea-harvesting-from-codebase-and-web",
   "title": "Product idea harvesting from codebase and web",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "status": "seed",
   "path": "product_project/ideation",
   "domain": "product_project",
@@ -51,7 +51,8 @@
       "success_criteria": [
         "Candidates are seeded from the bound codebase's real domain and stack when one is connected, not from the product category in the abstract.",
         "A candidate the codebase shows is already implemented is dropped before triage, with the place it was found named, because a redundant candidate costs a triage slot and some of the reader's trust in the rest of the list.",
-        "Each candidate carries the source it came from, so a reader can judge the source and not only the idea."
+        "Each candidate carries the source it came from, so a reader can judge the source and not only the idea.",
+        "A candidate the reader rejects because the product already does it counts against the grounding read rather than against the source that surfaced it, because that rejection is evidence the codebase pass missed a part of the product, and docking the source for it teaches the harvest to mine elsewhere while the blind spot stays exactly where it was."
       ]
     },
     {

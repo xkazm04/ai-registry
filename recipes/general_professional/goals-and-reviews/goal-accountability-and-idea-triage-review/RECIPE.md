@@ -1,6 +1,6 @@
 ---
 name: goal-accountability-and-idea-triage-review
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: general_professional
 path: general_professional/goals-and-reviews
@@ -60,6 +60,10 @@ Linear and branch-free, by contract. This is the shape of the work, not a runboo
   of the last activity of any kind.
 - A review in which every goal is on track says so plainly and names what would have
   shown otherwise, rather than letting an all-clear stand unexamined.
+- A measure the requester defends after this review called it motion is recorded against
+  that goal as evidence they hold to be predictive, and the next review either works
+  from it or names what it has since failed to predict, rather than putting the same
+  measure to them again.
 
 **A goal ends by being abandoned deliberately, and the abandonment says where the effort
 goes instead.**

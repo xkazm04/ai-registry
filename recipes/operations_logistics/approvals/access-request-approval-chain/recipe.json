@@ -2,7 +2,7 @@
   "id": "7e2b8d54-a141-5c16-8d76-b2a836a37fd5",
   "slug": "access-request-approval-chain",
   "title": "Access request approval chain",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "status": "seed",
   "path": "operations_logistics/approvals",
   "domain": "operations_logistics",
@@ -67,7 +67,8 @@
         "Admin level, production and sensitive resource requests always reach a human reviewer regardless of other automation",
         "No approval is ever inferred from silence",
         "The share of requests reaching the human gate is reported, so a chain that escalates everything is visible before approvers start approving without reading",
-        "What the requestor already holds is in front of the approver at the moment they decide"
+        "What the requestor already holds is in front of the approver at the moment they decide",
+        "An approver who sends a request back as not theirs is recorded against that request's privilege classification along with the level they named instead, so the next request of that class is routed there rather than the misrouting showing up only as the time the request took"
       ]
     },
     {

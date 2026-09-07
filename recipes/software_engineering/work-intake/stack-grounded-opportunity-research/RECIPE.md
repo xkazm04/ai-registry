@@ -1,6 +1,6 @@
 ---
 name: stack-grounded-opportunity-research
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: software_engineering
 path: software_engineering/work-intake
@@ -66,6 +66,10 @@ read as fine because nothing arrived about it.**
 - An end of service date is surfaced with enough lead time to actually act on, which is
   longer than the notice its supplier gives, and the shortfall is not treated as the
   supplier's schedule being adequate.
+- A stopped verdict somebody overrules, saying the project is finished rather than
+  abandoned, is held against that artifact in the state the next pass reads, so later
+  passes stop calling it stopped while still raising it the moment something lands on
+  it.
 
 **The reader knows what was looked at, and a quiet period is reported as quiet rather
 than padded.**

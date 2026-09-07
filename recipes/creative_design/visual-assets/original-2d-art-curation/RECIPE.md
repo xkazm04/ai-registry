@@ -1,6 +1,6 @@
 ---
 name: original-2d-art-curation
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: creative_design
 path: creative_design/visual-assets
@@ -52,6 +52,10 @@ direction moves with their taste.**
 - A discard leaves a reason that names a property of the work rather than a feeling
   about it, since only the first kind can steer the next run.
 - A reason that has been given three times stops showing up in later work.
+- A piece the curator kept and then altered before using is read for what the alteration
+  was correcting, since the record already holds the change as provenance and nothing
+  yet treats it as taste. It is the strongest signal available here, because it arrives
+  as the fixed work rather than as a reason someone had to articulate.
 - A run that finds no untried direction records that it looked and produced nothing,
   instead of generating a near duplicate so that the run has an output.
 

@@ -1,6 +1,6 @@
 ---
 name: access-request-intake-and-triage
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: operations_logistics
 path: operations_logistics/intake
@@ -68,6 +68,10 @@ answered request.**
   what they hold named, rather than passed on
 - A repeat of an ask that was previously denied is presented as a repeat with the
   earlier reason attached, not as a new request
+- A request the screen closed as already satisfied or as a repeat, and that the
+  requestor raises again because it was neither, is reopened against the record that
+  closed it and the match that closed it, so a match of that shape stops being trusted
+  to end an ask on its own
 
 **What reaches the approver is the access the problem needs, or an honest statement that
 the ask is wider than the reason given.**

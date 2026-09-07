@@ -2,7 +2,7 @@
   "id": "04756772-500e-5f72-a401-dd57b66f7251",
   "slug": "contract-review-publication-and-risk-alert",
   "title": "Contract review publication and risk alert",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "status": "seed",
   "path": "legal_compliance/contracts",
   "domain": "legal_compliance",
@@ -60,7 +60,8 @@
       "success_criteria": [
         "One severe deviation reaches the senior reviewer even when it is the only finding in the document.",
         "A document full of minor departures does not reach the senior reviewer on count alone.",
-        "The routing rule is the team's own written one, so a routing decision can be checked afterwards rather than argued about."
+        "The routing rule is the team's own written one, so a routing decision can be checked afterwards rather than argued about.",
+        "A reviewer who keeps handing the same kind of contract back down, or keeps pulling one up from a junior desk, is correcting the routing rule and not that contract, so the reassignment is recorded against the rule and the next contract of that kind arrives at the desk the team actually wanted."
       ]
     },
     {

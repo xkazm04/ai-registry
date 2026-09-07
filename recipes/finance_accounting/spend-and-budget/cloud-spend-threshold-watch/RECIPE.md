@@ -1,6 +1,6 @@
 ---
 name: cloud-spend-threshold-watch
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: finance_accounting
 path: finance_accounting/spend-and-budget
@@ -75,6 +75,9 @@ of the period left to do something about it.**
   finalised, rather than as a measurement
 - A one time charge that raises the running total without raising the rate is recognised
   as such rather than reported as a trajectory
+- A breach the owner dismisses as a one time charge is recorded against the sample that
+  produced it, so the charge is kept out of the trailing rate every later projection in
+  that period is built from, and the dismissal has to be made only once
 
 ## Guidance
 

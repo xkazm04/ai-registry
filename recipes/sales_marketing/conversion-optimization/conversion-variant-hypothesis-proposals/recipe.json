@@ -2,7 +2,7 @@
   "id": "c6d64e9e-419a-5c90-bac2-a3f2d7039a87",
   "slug": "conversion-variant-hypothesis-proposals",
   "title": "Conversion variant hypothesis proposals",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "status": "seed",
   "path": "sales_marketing/conversion-optimization",
   "domain": "sales_marketing",
@@ -70,6 +70,7 @@
         "Each proposal states the belief it rests on as well as the change it makes and the metric it expects to move, so a result can disagree with it rather than merely disappoint.",
         "Each proposal names the page's specific gap rather than a principle that would read the same against any site.",
         "Every proposal sits in review before deployment and only approved proposals reach the experimentation backend.",
+        "A refused proposal is recorded against the belief it rested on rather than against the change it proposed, and an experiment that ran and came back flat is recorded there too, so the next run retires a belief the reviewer or the traffic has contradicted instead of proposing the same belief in different wording.",
         "A run with nothing worth testing proposes nothing and records that, rather than filling the cap because the cap exists."
       ]
     }

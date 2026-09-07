@@ -1,6 +1,6 @@
 ---
 name: unsigned-contract-signature-chasing
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: legal_compliance
 path: legal_compliance/deadlines
@@ -67,6 +67,10 @@ holding it.**
   needed, rather than restating the request.
 - A signer who already replied outside the tracker is not nudged, because a reminder to
   somebody who answered is the fastest way to be filtered.
+- When the person approving an outgoing nudge rewrites the blocker it guessed at, the
+  blocker they wrote is kept with the record of what was sent, because that edit is the
+  only direct evidence of what actually stalls contracts with this kind of counterparty,
+  and the next second nudge should open from it rather than from the same guess.
 
 **A counterparty who is slow but reliable is not treated like one who has gone silent.**
 

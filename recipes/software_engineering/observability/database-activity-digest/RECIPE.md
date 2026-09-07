@@ -1,6 +1,6 @@
 ---
 name: database-activity-digest
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: software_engineering
 path: software_engineering/observability
@@ -70,6 +70,9 @@ end.**
   that has been resolved is shown as resolved rather than silently dropped
 - Anything suggesting data loss is escalated at the time rather than appearing as a line
   in the next digest
+- A reader asking about something the period covered but the digest left out is recorded
+  against that digest, so what counts as movement worth a line is widened from those
+  questions rather than settled once at adoption
 
 ## Guidance
 

@@ -2,7 +2,7 @@
   "id": "b8e9e785-0c7f-5fe3-ba7b-186969b2b984",
   "slug": "knowledge-base-curation-audit",
   "title": "Knowledge base curation audit",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "status": "seed",
   "path": "general_professional/knowledge-curation",
   "domain": "general_professional",
@@ -76,7 +76,8 @@
         "No merge, deletion or restructuring happens without the owner applying it, because an audit that edits on its own spends precisely the trust it was measuring.",
         "Each proposal carries the evidence behind it, so it can be refused on the evidence rather than on instinct.",
         "An audit that found nothing worth doing says so, rather than promoting the largest number it happened to count.",
-        "A section that could not run is named and skipped rather than failing the whole report."
+        "A section that could not run is named and skipped rather than failing the whole report.",
+        "A proposal the owner refuses is recorded with the audit that raised it, and later audits leave it alone until the pages behind it have moved, because an audit that re-raises a settled refusal teaches its owner to read the report as a list."
       ]
     }
   ],

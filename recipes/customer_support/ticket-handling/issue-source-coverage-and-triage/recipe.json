@@ -2,7 +2,7 @@
   "id": "0c01547d-42e9-580f-9fd9-ed78c53ebce2",
   "slug": "issue-source-coverage-and-triage",
   "title": "Issue source coverage and triage",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "status": "seed",
   "path": "customer_support/ticket-handling",
   "domain": "customer_support",
@@ -57,7 +57,8 @@
         "Coverage is continuous: every issue created or updated since the last pass has been seen",
         "A pass that could not reach the whole window says what it did not reach, rather than leaving a gap that reads as an empty queue",
         "A promoted item carries the symptom, the affected area, and what is already known about it",
-        "The same issue is never promoted twice"
+        "The same issue is never promoted twice",
+        "An issue closed as holding no real work that a person then reopens, and a promoted item the backlog owner sends back, both move the bar the same way a rejected solution moves confidence, so what counts as real work in this source is learned here rather than fixed at setup"
       ]
     },
     {

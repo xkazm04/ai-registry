@@ -1,6 +1,6 @@
 ---
 name: open-incident-vigilance
-version: 0.2.0
+version: 0.3.0
 status: seed
 domain: software_engineering
 path: software_engineering/incident-response
@@ -82,6 +82,10 @@ watch's own say so.**
   stopped being discussed is reported as gone quiet rather than as resolved.
 - A minor item closed for having genuinely gone away carries that as its recorded
   reason, so the close is distinguishable from a resolution.
+- An item reopened after being closed for having gone quiet has that reopening recorded
+  against the close, since it is the only evidence that what counts as minor here is
+  drawn too wide, and it is the definition rather than the individual close that
+  changes.
 
 ## Guidance
 

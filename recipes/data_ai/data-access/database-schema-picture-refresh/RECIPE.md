@@ -1,6 +1,6 @@
 ---
 name: database-schema-picture-refresh
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: data_ai
 path: data_ai/data-access
@@ -52,6 +52,9 @@ Linear and branch-free, by contract. This is the shape of the work, not a runboo
   and is disclosed rather than left silent
 - A structural change that anyone answering questions depends on is announced, not only
   stored
+- A rename this pass inferred and a person rejected, or a drop and an addition they say
+  was really one, is kept on the picture as their answer, so the next refresh does not
+  put the same guess up over that pair again
 
 **A consumer of the picture can tell how old it is and what it is a claim about, instead
 of assuming it is current.**

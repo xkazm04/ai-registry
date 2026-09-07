@@ -1,6 +1,6 @@
 ---
 name: agent-platform-error-classification
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: software_engineering
 path: software_engineering/error-triage
@@ -67,6 +67,11 @@ those is the measure of whether the taxonomy still fits.**
   existing ones.
 - No category is invented to hold a single failure, and no failure is placed in a
   category whose defining question it does not answer.
+- A verdict a person revises downward is kept in the library beside the first call
+  rather than replacing it, because declaring the harder verdict on thin evidence is
+  only worth what it costs while those revisions stay rare, and a failure shape revised
+  down every time it appears has stopped being one the thin evidence should be called
+  hard on.
 
 **A failure of a shape already classified is classified faster and the same way, and
 this is visible rather than assumed.**

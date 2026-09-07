@@ -2,7 +2,7 @@
   "id": "b1c5780a-ff95-5663-b9e1-c42174b5daee",
   "slug": "source-artifact-channel-repurposing",
   "title": "Source artifact repurposing for channels",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "status": "seed",
   "path": "creative_design/social-publishing",
   "domain": "creative_design",
@@ -64,7 +64,8 @@
       "success_criteria": [
         "A channel whose voice description is missing is held back and named, rather than drafted for generically.",
         "A source judged not worth repurposing produces that finding, instead of four drafts nobody is going to approve.",
-        "A source whose claim has been overtaken since it was published is checked before it is rewritten, and the check has the authority to decline and say why."
+        "A source whose claim has been overtaken since it was published is checked before it is rewritten, and the check has the authority to decline and say why.",
+        "A channel the approver refuses outright for a source, and a channel they ask for that the run had skipped, are both recorded against the fit decision rather than against the draft that carried them, because what a channel wants from a kind of source is the judgment being overruled and it is the one this recipe will make again on the next source of that shape."
       ]
     }
   ],

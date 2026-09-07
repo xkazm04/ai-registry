@@ -2,7 +2,7 @@
   "id": "328df264-fffa-55ca-b666-85e2ed37c19e",
   "slug": "change-implementation-and-review",
   "title": "Code change implementation and review follow-through",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "status": "seed",
   "path": "software_engineering/code-review",
   "domain": "software_engineering",
@@ -57,7 +57,8 @@
         "The item is checked against current code before work starts, and one the code has already overtaken comes back declined with what was found rather than built anyway",
         "The change is scoped to the accepted item and nothing else, and a change that has grown past what one sitting can review is split rather than explained",
         "The repository's own checks pass before the change is offered",
-        "An item that cannot be completed comes back with what was learned rather than a partial change left behind"
+        "An item that cannot be completed comes back with what was learned rather than a partial change left behind",
+        "A decline that the person who accepted the item overturns is written back beside the reason that produced it, because declining is the one call here nobody sees the cost of, and the next re-validation of an item of that shape weighs a premise test that has already been overruled once rather than reaching the same decline again"
       ]
     },
     {

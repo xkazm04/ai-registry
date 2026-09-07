@@ -1,6 +1,6 @@
 ---
 name: feature-walkthrough-capture
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: creative_design
 path: creative_design/video
@@ -65,6 +65,11 @@ implements it.**
   not captured as though it were the thing being demonstrated.
 - A limitation of the capture method available on this machine is stated in the artifact
   rather than hidden behind a lesser one.
+- A step order the reviewer changes, or an entry point they say users do not use, is
+  kept with the walkthrough's own path record, because the code establishes which flows
+  exist and only a person establishes which of them a user actually takes, and the next
+  capture on that surface should start from the corrected path rather than derive it
+  from the implementation again.
 
 **The result can actually be used by the person it was made for, including someone who
 cannot watch it.**

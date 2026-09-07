@@ -1,6 +1,6 @@
 ---
 name: contract-review-publication-and-risk-alert
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: legal_compliance
 path: legal_compliance/contracts
@@ -62,6 +62,10 @@ things there were.**
 - A document full of minor departures does not reach the senior reviewer on count alone.
 - The routing rule is the team's own written one, so a routing decision can be checked
   afterwards rather than argued about.
+- A reviewer who keeps handing the same kind of contract back down, or keeps pulling one
+  up from a junior desk, is correcting the routing rule and not that contract, so the
+  reassignment is recorded against the rule and the next contract of that kind arrives
+  at the desk the team actually wanted.
 
 **A review that took real work to produce survives a delivery failure and survives being
 ignored.**

@@ -2,7 +2,7 @@
   "id": "410bed86-bf86-5ef8-8c98-23ff437f33d2",
   "slug": "support-request-sla-watch-and-escalation",
   "title": "Support request SLA watch and escalation",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "status": "seed",
   "path": "customer_support/sla",
   "domain": "customer_support",
@@ -66,7 +66,8 @@
       "success_criteria": [
         "Elapsed time is measured on the clock the promise was made in, so a request arriving on a Friday evening is not counted as breached by Monday when the promise was in working hours",
         "Time a request spent with its clock stopped is reported beside the attainment figure, so a queue that is green because clocks were stopped is visibly green for that reason",
-        "A request that has waited on the customer for longer than the promise itself is surfaced rather than left parked"
+        "A request that has waited on the customer for longer than the promise itself is surfaced rather than left parked",
+        "A request somebody disputes as having been handled inside its promise is logged beside the near misses with whatever stopped its clock, so a state disputed more than once is surfaced as a wait rather than trusted to have stopped the clock honestly"
       ]
     },
     {

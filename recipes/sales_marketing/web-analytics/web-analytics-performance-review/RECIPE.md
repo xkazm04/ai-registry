@@ -1,6 +1,6 @@
 ---
 name: web-analytics-performance-review
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: sales_marketing
 path: sales_marketing/web-analytics
@@ -49,6 +49,11 @@ Linear and branch-free, by contract. This is the shape of the work, not a runboo
 - Baselines written by this review are the ones the next run reads.
 - A window with no publications leaves the baselines unchanged rather than decaying
   them.
+- The reason this review offered for a flagged post is the part most likely to be wrong,
+  so an operator who replaces it with the real one has corrected the review rather than
+  the number, and that reason is stored on the post's baseline entry, where a reason
+  that recurs across posts becomes something the next review checks for before offering
+  a guess of its own.
 
 ## Guidance
 

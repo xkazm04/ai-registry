@@ -1,6 +1,6 @@
 ---
 name: website-conversion-gap-audit
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: sales_marketing
 path: sales_marketing/conversion-optimization
@@ -69,6 +69,11 @@ visitor or a ranking position.**
   costs in taste.
 - Findings the operator declined stay visible as declined rather than being silently
   re-raised or quietly dropped.
+- An operator who declines a finding the audit called critical, or fixes a low one ahead
+  of it, has overruled what the severity claimed the gap costs rather than the finding
+  itself, so that overrule is recorded against the category it came from and the next
+  pass derives severity there from the corrected cost instead of re-raising the same
+  rank and waiting to be told again.
 
 **What the audit measured and what it could not reach are distinguishable to the reader
 without asking.**

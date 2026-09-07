@@ -2,7 +2,7 @@
   "id": "8b2b3e0b-14f0-5af3-9be9-be916e7b2bdf",
   "slug": "cloud-spend-threshold-watch",
   "title": "Cloud spend threshold watch",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "status": "seed",
   "path": "finance_accounting/spend-and-budget",
   "domain": "finance_accounting",
@@ -71,7 +71,8 @@
       "success_criteria": [
         "No projection is published from a fraction of the period too small to support one, because a single busy day early in a period projects into an emergency",
         "The projection is stated as an estimate built on figures the provider has not finalised, rather than as a measurement",
-        "A one time charge that raises the running total without raising the rate is recognised as such rather than reported as a trajectory"
+        "A one time charge that raises the running total without raising the rate is recognised as such rather than reported as a trajectory",
+        "A breach the owner dismisses as a one time charge is recorded against the sample that produced it, so the charge is kept out of the trailing rate every later projection in that period is built from, and the dismissal has to be made only once"
       ]
     }
   ],

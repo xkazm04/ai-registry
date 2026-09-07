@@ -1,6 +1,6 @@
 ---
 name: high-intent-lead-alerting
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: sales_marketing
 path: sales_marketing/lead-handling
@@ -63,6 +63,11 @@ enough to be worth opening.**
   indistinguishable from one that was acted on.
 - A period in which nothing crossed the threshold is reported as a quiet period, so
   nobody has to guess whether the pipeline was empty or the alerter was broken.
+- A recipient who says an alert was not worth the interruption, and a promising lead
+  they had to find for themselves because none fired, are corrections of the threshold
+  rather than complaints about one lead, so both are recorded beside the send and the
+  pickup along with the signals that did or did not clear it, and the next judgment
+  weighs a signal by how often it has bought an interruption nobody wanted.
 
 ## Guidance
 

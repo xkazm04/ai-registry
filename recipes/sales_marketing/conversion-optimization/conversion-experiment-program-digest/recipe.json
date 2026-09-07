@@ -2,7 +2,7 @@
   "id": "244bbdd0-9a0e-5851-8cf1-10ae2727fe32",
   "slug": "conversion-experiment-program-digest",
   "title": "Conversion experiment program digest",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "status": "seed",
   "path": "sales_marketing/conversion-optimization",
   "domain": "sales_marketing",
@@ -56,6 +56,7 @@
       "success_criteria": [
         "Every edition carries how many experiments reached a verdict, how many were abandoned before one, and what share of concluded experiments were called winners.",
         "A share of winners far above what large published programs achieve is reported as a question about when experiments are being stopped rather than as a good quarter.",
+        "An explanation the owner gives for a rate the edition questioned is recorded against the period it explains and tested again in the next one, because a program that speaks only when something wins is exactly the program in which an accepted explanation quietly becomes a standing exemption.",
         "The first edition says it is establishing these rates rather than reporting a change in them."
       ]
     },

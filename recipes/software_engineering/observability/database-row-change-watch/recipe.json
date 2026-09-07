@@ -2,7 +2,7 @@
   "id": "906e8b82-4e28-5960-ac6c-ad7613f00d53",
   "slug": "database-row-change-watch",
   "title": "Database row change watch",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "status": "seed",
   "path": "software_engineering/observability",
   "domain": "software_engineering",
@@ -69,7 +69,8 @@
       "success_criteria": [
         "The watch carries a standing signal that the stream is still delivering, so a stopped subscription surfaces rather than reading as calm",
         "A gap during which the watch was not running is stated, so the changes inside it are known to be unjudged rather than assumed routine",
-        "The share of surfaced changes somebody acted on is carried forward, so a filter nobody responds to is visible as a broken filter"
+        "The share of surfaced changes somebody acted on is carried forward, so a filter nobody responds to is visible as a broken filter",
+        "A change somebody says afterwards should have been surfaced is recorded against the invariant that failed to catch it, because a bar tuned from what was surfaced is blind in the one direction that matters, which is what the watch stayed quiet about"
       ]
     }
   ],

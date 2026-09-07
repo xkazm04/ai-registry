@@ -1,6 +1,6 @@
 ---
 name: cross-project-progress-briefing
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: general_professional
 path: general_professional/digests
@@ -77,6 +77,9 @@ still worth opening.**
   than skipped or padded.
 - A briefing with no uncomfortable finding says that plainly instead of promoting the
   least comfortable item it could find.
+- Something the reader retrieves from what was cut is recorded against the class it was
+  cut under, in the same record the next briefing reads back, and that class is carried
+  from then on rather than cut again.
 
 ## Guidance
 

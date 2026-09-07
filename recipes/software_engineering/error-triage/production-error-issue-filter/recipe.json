@@ -2,7 +2,7 @@
   "id": "7a90ad49-bf04-5235-9f46-9b42bc6ee230",
   "slug": "production-error-issue-filter",
   "title": "Production error issue filter",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "status": "seed",
   "path": "software_engineering/error-triage",
   "domain": "software_engineering",
@@ -56,7 +56,8 @@
       "success_criteria": [
         "The share of forwarded issues that turned out to be worth investigating is carried forward run to run, and a share far below a third is treated as evidence the filter is too loose.",
         "A window where nothing qualified is recorded as scanned and clear, with the scope and window it covered, so the same window is not paid for twice.",
-        "The first run states that it is establishing the suppression record and forwards on present evidence alone, rather than implying it learned anything from history it does not have."
+        "The first run states that it is establishing the suppression record and forwards on present evidence alone, rather than implying it learned anything from history it does not have.",
+        "When the operator investigates something an over-full window held back, or leaves something forwarded untouched, that choice is recorded against the reason the issue was ranked where it was, because a cut ordered wrongly and a cut sized wrongly are corrected differently."
       ]
     }
   ],

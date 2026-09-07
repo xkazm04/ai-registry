@@ -1,6 +1,6 @@
 ---
 name: database-health-check
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: software_engineering
 path: software_engineering/observability
@@ -69,6 +69,9 @@ reported again identically.**
 - A finding already open is carried with its age rather than filed a second time
 - A finding that has survived several passes unchanged is raised differently from a new
   one
+- A person who moves a finding down the ranking or calls it by design here has that
+  recorded against the signal rather than against the pass, so the next ranking starts
+  where the person left it and names what it is holding down
 
 ## Guidance
 

@@ -1,6 +1,6 @@
 ---
 name: issue-handling-trend-review
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: customer_support
 path: customer_support/service-health
@@ -70,6 +70,10 @@ is.**
 - A later account can be built from the archive alone
 - The first account says it is establishing a baseline rather than reporting a change
   against nothing
+- A movement the reader explains away, as a definition that changed or as one requester
+  returning many issues at once, is archived beside the account that flagged it, so the
+  next comparison reports against the changed basis rather than flagging the same step
+  again
 
 ## Guidance
 

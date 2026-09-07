@@ -1,6 +1,6 @@
 ---
 name: agent-platform-error-ingestion
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: software_engineering
 path: software_engineering/error-triage
@@ -49,6 +49,9 @@ that announced themselves.**
   sweep, because the second carries less detail and a reader should know that.
 - A run that was retried and then succeeded is recorded according to a stated policy
   rather than being counted or dropped by accident.
+- An inferred failure the operator sends back as a run that was merely long is kept with
+  that verdict against the kind of work it belonged to, and the horizon for that kind
+  widens, rather than the same long runs being declared dead by every sweep.
 
 **A period the sweep did not cover is distinguishable from a period in which nothing
 failed.**

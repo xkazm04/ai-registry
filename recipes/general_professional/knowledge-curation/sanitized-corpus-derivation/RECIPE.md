@@ -1,6 +1,6 @@
 ---
 name: sanitized-corpus-derivation
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: general_professional
 path: general_professional/knowledge-curation
@@ -54,6 +54,10 @@ same result.**
   is read.
 - Any removed item can be traced to the category that removed it.
 - A second pass over the same corpus under the same rule removes the same things.
+- An item that reached the audience and should not have, or one they turned out to need,
+  amends the category that decided it rather than being settled on its own, because an
+  exception recorded against a single item leaves the next derivation over the same
+  corpus making the same call.
 
 **The derived copy was attacked rather than inspected.**
 

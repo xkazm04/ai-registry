@@ -1,6 +1,6 @@
 ---
 name: feature-announcement-video-production
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: creative_design
 path: creative_design/video
@@ -56,6 +56,10 @@ decision rather than followed by one.**
 - Which stage was rejected and why is recorded, so a tone rejection that has now
   happened three times is visible as one problem with the taste record rather than three
   unlucky drafts.
+- A rejection this recipe attributed to one stage and the approver sent back to another
+  is recorded against that attribution, because deciding which stage a complaint belongs
+  to is this recipe's own call, and getting it wrong is what turns one stage of rework
+  into three.
 - A render that was requested and has not come back is visible as still running with an
   expected end, rather than as either a failure or a success.
 

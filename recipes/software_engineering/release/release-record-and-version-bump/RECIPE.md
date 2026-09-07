@@ -1,6 +1,6 @@
 ---
 name: release-record-and-version-bump
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: software_engineering
 path: software_engineering/release
@@ -71,6 +71,9 @@ rather than from a broken dependent.**
   compatibility claim is being made, rather than implying one
 - A change that should not have shipped is escalated at the time rather than being
   recorded neutrally and shipped
+- A version step somebody overrules is recorded with what they said the change did to
+  the public surface, so an overruled bump adds to the declaration the project was
+  missing instead of only fixing one number
 
 ## Guidance
 

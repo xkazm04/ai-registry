@@ -1,6 +1,6 @@
 ---
 name: deploy-regression-correlation
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: software_engineering
 path: software_engineering/observability
@@ -59,6 +59,9 @@ over from a default.**
   day, so a reader can tell whether proximity means anything here
 - When several changes fall inside the window, all of them are ranked and what would
   separate them is named, rather than the nearest one being asserted
+- Once the real cause is established, it is written back against the hypothesis this
+  work offered, so a window that keeps ranking the wrong change is corrected from
+  incidents that were actually resolved rather than from the shipping rate alone
 
 **A window containing no explanatory change is written down as such, so the next look
 does not repeat it.**

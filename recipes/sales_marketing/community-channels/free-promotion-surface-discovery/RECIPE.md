@@ -1,6 +1,6 @@
 ---
 name: free-promotion-surface-discovery
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: sales_marketing
 path: sales_marketing/community-channels
@@ -74,6 +74,10 @@ circling.**
   reason rather than as a bare no.
 - A category rejected more than once stops being searched, rather than returning under a
   different name.
+- A candidate refused as generic is recorded against its justification rather than
+  against the surface, because the place may still be the right one and it was the
+  reasoning that was hollow, and the next pass drops that shape of argument instead of
+  striking the surface off.
 - A pass that finds nothing new reports that plainly, and does not fill the gap with
   candidates it would not otherwise have proposed.
 - Suggestions are re-derived from the product's current description, so a surface

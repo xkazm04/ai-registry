@@ -2,7 +2,7 @@
   "id": "a7b101bb-c357-5fc5-a2ee-47fde7939daa",
   "slug": "database-activity-digest",
   "title": "Database activity digest",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "status": "seed",
   "path": "software_engineering/observability",
   "domain": "software_engineering",
@@ -64,7 +64,8 @@
       "success_criteria": [
         "Each digest is retained where a later reader can find it, so a claim about a past period can be checked rather than remembered",
         "An item carried from an earlier digest shows how long it has been carried, and one that has been resolved is shown as resolved rather than silently dropped",
-        "Anything suggesting data loss is escalated at the time rather than appearing as a line in the next digest"
+        "Anything suggesting data loss is escalated at the time rather than appearing as a line in the next digest",
+        "A reader asking about something the period covered but the digest left out is recorded against that digest, so what counts as movement worth a line is widened from those questions rather than settled once at adoption"
       ]
     }
   ],

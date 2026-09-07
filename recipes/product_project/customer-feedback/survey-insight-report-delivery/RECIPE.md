@@ -1,6 +1,6 @@
 ---
 name: survey-insight-report-delivery
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: product_project
 path: product_project/customer-feedback
@@ -64,6 +64,10 @@ on.**
   recurring complaint accumulates instead of resetting each period.
 - Nothing is filed that cannot be phrased as a change someone could make, and a period
   whose themes are all of that kind is reported without filing anything.
+- A reader who merges a filed item into one already open, or closes one as not a change
+  this team would ever make, is correcting where that theme belongs, and the decision is
+  kept with the item so the theme lands the same way next period rather than being
+  matched again from scratch.
 
 **A reader can tell whose opinion they are reading before they act on it.**
 

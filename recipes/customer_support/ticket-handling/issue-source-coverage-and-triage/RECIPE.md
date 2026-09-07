@@ -1,6 +1,6 @@
 ---
 name: issue-source-coverage-and-triage
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: customer_support
 path: customer_support/ticket-handling
@@ -57,6 +57,10 @@ reaches the backlog in a shape that can be judged.**
 - A promoted item carries the symptom, the affected area, and what is already known
   about it
 - The same issue is never promoted twice
+- An issue closed as holding no real work that a person then reopens, and a promoted
+  item the backlog owner sends back, both move the bar the same way a rejected solution
+  moves confidence, so what counts as real work in this source is learned here rather
+  than fixed at setup
 
 **An unhappy or high priority reporter always reaches a person, and is never auto closed
 into silence.**

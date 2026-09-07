@@ -2,7 +2,7 @@
   "id": "7329af31-cd20-5e2d-9c1a-ae10787a016a",
   "slug": "web-content-performance-review",
   "title": "Web content performance review",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "status": "seed",
   "path": "sales_marketing/web-analytics",
   "domain": "sales_marketing",
@@ -52,7 +52,8 @@
         "Each attributed move names what was checked and eliminated: the collection, the composition of the traffic, and the underlying demand.",
         "An aggregate move is checked against the segments inside it, and a total that moved while every segment held is reported as a change in the mix rather than a change in performance.",
         "A move is stated against the baseline it deviated from and the size of the gap, rather than as a percentage against the previous period alone.",
-        "A page too quiet to be judged is reported as too quiet rather than ranked, because at a few dozen views a large percentage is counting noise."
+        "A page too quiet to be judged is reported as too quiet rather than ranked, because at a few dozen views a large percentage is counting noise.",
+        "An adopter who answers an attribution with something only they knew, that they changed the page themselves that week or that the collection was reconfigured, has supplied the rule out this read could not perform, so it is recorded against that period rather than against that report and any later read of the same window starts from it, because the alternative is re-attributing the same move to the page every time the window is opened again."
       ]
     },
     {

@@ -1,6 +1,6 @@
 ---
 name: product-idea-harvesting-from-codebase-and-web
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: product_project
 path: product_project/ideation
@@ -55,6 +55,11 @@ do.**
   some of the reader's trust in the rest of the list.
 - Each candidate carries the source it came from, so a reader can judge the source and
   not only the idea.
+- A candidate the reader rejects because the product already does it counts against the
+  grounding read rather than against the source that surfaced it, because that rejection
+  is evidence the codebase pass missed a part of the product, and docking the source for
+  it teaches the harvest to mine elsewhere while the blind spot stays exactly where it
+  was.
 
 **The list stays short enough and good enough that reading it is worth the reader's
 time.**

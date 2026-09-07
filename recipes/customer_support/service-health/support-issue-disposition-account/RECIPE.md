@@ -1,6 +1,6 @@
 ---
 name: support-issue-disposition-account
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: customer_support
 path: customer_support/service-health
@@ -73,7 +73,8 @@ The account is trusted or it is skipped, and what breaks trust is a resolution t
 not hold. Report what came back beside what was closed, and reconcile every count
 against the source rather than your own notes. Name a few issues and link the rest. When
 a period did not move, say so: a padded account teaches its reader to stop opening it. A
-first account is a baseline, not a change.
+resolution somebody says did not hold belongs with the account that claimed it, and
+should move the window that missed it.
 
 ## Where this is worth adopting
 

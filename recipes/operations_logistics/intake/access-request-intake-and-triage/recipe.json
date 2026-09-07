@@ -2,7 +2,7 @@
   "id": "4d59fa79-cd36-5164-995b-a4d1dc1e04dd",
   "slug": "access-request-intake-and-triage",
   "title": "Access request intake and triage",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "status": "seed",
   "path": "operations_logistics/intake",
   "domain": "operations_logistics",
@@ -66,7 +66,8 @@
         "Requests from unverified or external senders are flagged rather than queued for approval",
         "The record exists and is durable before the approval work is notified",
         "A request for access the person already holds is closed as already satisfied, with what they hold named, rather than passed on",
-        "A repeat of an ask that was previously denied is presented as a repeat with the earlier reason attached, not as a new request"
+        "A repeat of an ask that was previously denied is presented as a repeat with the earlier reason attached, not as a new request",
+        "A request the screen closed as already satisfied or as a repeat, and that the requestor raises again because it was neither, is reopened against the record that closed it and the match that closed it, so a match of that shape stops being trusted to end an ask on its own"
       ]
     },
     {

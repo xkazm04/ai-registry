@@ -1,6 +1,6 @@
 ---
 name: decision-to-code-linking
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: software_engineering
 path: software_engineering/engineering-records
@@ -56,6 +56,10 @@ end.**
 - The evidence preferred is the record created at the moment the work was done, which is
   the commit or the change request, rather than a note added inside the code, because
   the first exists whether or not anybody maintains it and the second does not.
+- A candidate the confirmer rejects is kept with what had made it look right, so a later
+  pass can tell a coincidence it has already been caught by from one it has not, and
+  rejections concentrated in one area are read as the matching being too loose in that
+  area rather than as that area having nothing to link.
 
 **The absence of a link means something specific, and the report says which of the
 possible things it means.**

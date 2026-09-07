@@ -2,7 +2,7 @@
   "id": "e9f4f48e-ec0c-52d3-8a0b-918530f2c0b6",
   "slug": "cross-workflow-error-pattern-detection",
   "title": "Cross-workflow error pattern detection",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "status": "seed",
   "path": "software_engineering/error-triage",
   "domain": "software_engineering",
@@ -55,7 +55,8 @@
       "success_criteria": [
         "Every member keeps its own identity and its own state inside the pattern, so closing the pattern does not close a member that is still happening.",
         "A member that continues after the pattern is closed is surfaced again on its own rather than staying quiet because it was once part of something resolved.",
-        "The account names what would have to be true for the join to be wrong, so a responder can reject it in one reading."
+        "The account names what would have to be true for the join to be wrong, so a responder can reject it in one reading.",
+        "A join a responder rejects is recorded against the relation it was made on, so the same join is not proposed again and a relation rejected repeatedly here stops being enough on its own."
       ]
     },
     {

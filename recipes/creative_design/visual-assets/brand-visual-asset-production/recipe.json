@@ -2,7 +2,7 @@
   "id": "e300b1db-400a-5b38-9a53-5f8cdcad95c2",
   "slug": "brand-visual-asset-production",
   "title": "On brand visual asset production",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "status": "seed",
   "path": "creative_design/visual-assets",
   "domain": "creative_design",
@@ -55,7 +55,8 @@
       "success_criteria": [
         "Dimensions, aspect ratio, palette against the declared brand colors, contrast behind any text, and legibility at the smallest size the surface renders are checked every time and reported with the asset.",
         "Any text rendered inside the image is read back and compared against what it was meant to say, because a generator producing near words is the most common way an asset ships wrong.",
-        "A model's overall score is not one of the checks. Where a model is used it answers one closed question at a time, so two runs can be compared."
+        "A model's overall score is not one of the checks. Where a model is used it answers one closed question at a time, so two runs can be compared.",
+        "An asset a person turns down after it passed every check is treated as a finding about the check list rather than about the asset, and the property they objected to is added as a check wherever it can be decided, because a rejection that leaves the list unchanged will be reproduced by the next run at exactly the same pass rate."
       ]
     }
   ],

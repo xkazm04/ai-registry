@@ -2,7 +2,7 @@
   "id": "5c57371e-abb1-5e5f-b57d-3f5ec30cce12",
   "slug": "audio-briefing-script-drafting",
   "title": "Audio briefing script drafting",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "status": "seed",
   "path": "creative_design/audio",
   "domain": "creative_design",
@@ -59,7 +59,8 @@
       "statement": "Nothing reaches paid synthesis without a person having said yes to this specific script.",
       "success_criteria": [
         "Outline, cast and full script are presented together, because a cast decision made without the script in front of it is made blind.",
-        "A rejection is recorded with its reason where the next draft reads it, so a third rejection of the same shape reads as a style problem rather than as three unrelated failures."
+        "A rejection is recorded with its reason where the next draft reads it, so a third rejection of the same shape reads as a style problem rather than as three unrelated failures.",
+        "An approval that arrives with turns rewritten is recorded as a correction rather than as a yes, keeping the lines as drafted beside the lines as approved, because a reviewer who fixes a turn themselves has said the same thing a rejection would and today that lands only in the one script that gets synthesized."
       ]
     }
   ],

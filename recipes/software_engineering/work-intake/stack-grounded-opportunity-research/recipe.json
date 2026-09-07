@@ -2,7 +2,7 @@
   "id": "215be562-1e76-5a51-9d57-4263ca1c13c7",
   "slug": "stack-grounded-opportunity-research",
   "title": "Stack grounded implementation opportunity research",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "status": "seed",
   "path": "software_engineering/work-intake",
   "domain": "software_engineering",
@@ -61,7 +61,8 @@
       "success_criteria": [
         "The pass enumerates the whole installed inventory and compares it against the state the last pass recorded, rather than only reading what arrived since.",
         "A dependency that has stopped moving upstream is reported as stopped, because being behind by nothing is what an abandoned project looks like on every freshness measure.",
-        "An end of service date is surfaced with enough lead time to actually act on, which is longer than the notice its supplier gives, and the shortfall is not treated as the supplier's schedule being adequate."
+        "An end of service date is surfaced with enough lead time to actually act on, which is longer than the notice its supplier gives, and the shortfall is not treated as the supplier's schedule being adequate.",
+        "A stopped verdict somebody overrules, saying the project is finished rather than abandoned, is held against that artifact in the state the next pass reads, so later passes stop calling it stopped while still raising it the moment something lands on it."
       ]
     },
     {

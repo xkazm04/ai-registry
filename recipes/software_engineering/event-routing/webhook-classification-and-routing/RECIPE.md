@@ -1,6 +1,6 @@
 ---
 name: webhook-classification-and-routing
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: software_engineering
 path: software_engineering/event-routing
@@ -77,11 +77,12 @@ and never merely gone.**
 
 ## Guidance
 
-Two disciplines carry this work. Authenticate before you read, because a classifier fed
-an unverified payload is routing on an attacker's say so. Acknowledge after you have
-kept it and before you have used it, because work done ahead of the acknowledgement is
-what turns one event into a retry storm. Assume repeats. Take identity from the sender,
-never from the payload's shape, since two identical real events are not one event.
+Authenticate before you read, because a classifier fed an unverified payload is routing
+on an attacker's say so. Acknowledge after you have kept it and before you have used it,
+because work done ahead of the acknowledgement is what turns one event into a retry
+storm. Assume repeats. Take identity from the sender, never from the payload's shape,
+since two identical real events are not one event. A person redirecting an event by hand
+is correcting the rule that matched it, so the rule is what changes.
 
 ## Where this is worth adopting
 

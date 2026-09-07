@@ -2,7 +2,7 @@
   "id": "d227eebc-94f4-5dfd-8c07-8cad40de7b75",
   "slug": "database-schema-picture-refresh",
   "title": "Database schema picture refresh",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "status": "seed",
   "path": "data_ai/data-access",
   "domain": "data_ai",
@@ -57,7 +57,8 @@
         "New tables, altered columns and dropped entities are detected and reflected",
         "A renamed entity is recorded as a rename with its previous name kept, so a query written against the old name fails with an explanation rather than as a missing table",
         "A failed read leaves the last known good picture in place rather than corrupting it, and is disclosed rather than left silent",
-        "A structural change that anyone answering questions depends on is announced, not only stored"
+        "A structural change that anyone answering questions depends on is announced, not only stored",
+        "A rename this pass inferred and a person rejected, or a drop and an addition they say was really one, is kept on the picture as their answer, so the next refresh does not put the same guess up over that pair again"
       ]
     },
     {

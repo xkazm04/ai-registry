@@ -1,6 +1,6 @@
 ---
 name: newsletter-issue-curation
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: creative_design
 path: creative_design/newsletters
@@ -55,6 +55,11 @@ the reader already has.**
 - No item repeats a claim a past issue already made, matched on the claim rather than
   the link, because one story arrives from five sources under five headlines.
 - Every issue passes a human read before it sends.
+- An item the reviewer strikes at that read, or one they put back that the cut had
+  dropped, is kept against the reason it was selected or suppressed, because that is a
+  verdict on what counts as worth a subscriber's attention and it is the only thing that
+  can move the next cut. Corrections to the commentary are a separate signal and belong
+  with the voice.
 
 **A source that has stopped working is noticed, rather than silently producing nothing
 forever.**

@@ -1,6 +1,6 @@
 ---
 name: conversion-experiment-significance-watch
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: sales_marketing
 path: sales_marketing/conversion-optimization
@@ -60,6 +60,10 @@ statistic that repeated looking has already invalidated.**
 - An experiment whose declared effect is unreachable at this traffic within any duration
   the adopter would tolerate is reported as unable to answer, and that is delivered as a
   verdict rather than left quietly running.
+- A refusal is treated as a claim about the stopping rule rather than about the number,
+  so it is recorded against the rule that later experiments will declare and dated, and
+  never applied to the experiment in flight, whose horizon was fixed before anybody
+  looked.
 
 **A broken measurement is caught before anybody reads a result from it, rather than
 after the result has shipped.**

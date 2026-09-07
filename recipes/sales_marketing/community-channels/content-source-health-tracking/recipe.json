@@ -2,7 +2,7 @@
   "id": "5a0a2392-2d9d-552c-912c-734a6e531550",
   "slug": "content-source-health-tracking",
   "title": "Content source health tracking",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "status": "seed",
   "path": "sales_marketing/community-channels",
   "domain": "sales_marketing",
@@ -61,7 +61,8 @@
         "A single failure, or a genuinely quiet period for a source that is normally quiet, raises nothing.",
         "Failures that hit every source in the same pass are read as one shared fault rather than as the whole follow list dying at once.",
         "A newly added source is marked as establishing its normal rather than judged against a normal it does not have yet.",
-        "The threshold is expressed against each source's own yield, so a community that produces once a month is not condemned on the same evidence as one that produces hourly."
+        "The threshold is expressed against each source's own yield, so a community that produces once a month is not condemned on the same evidence as one that produces hourly.",
+        "A removal case the decider refuses is recorded against that source as a statement about its own normal yield, so the next pass widens the silence it tolerates there rather than raising the same case again on the same evidence."
       ]
     },
     {

@@ -2,7 +2,7 @@
   "id": "e5bf4917-2ab4-5e5d-b184-41f8ef4461c6",
   "slug": "cross-project-progress-briefing",
   "title": "Cross-project progress briefing",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "status": "seed",
   "path": "general_professional/digests",
   "domain": "general_professional",
@@ -75,7 +75,8 @@
       "success_criteria": [
         "The message states how many items were looked at and what class of routine activity was left out.",
         "A period with nothing worth acting on is delivered saying so, with the counts, rather than skipped or padded.",
-        "A briefing with no uncomfortable finding says that plainly instead of promoting the least comfortable item it could find."
+        "A briefing with no uncomfortable finding says that plainly instead of promoting the least comfortable item it could find.",
+        "Something the reader retrieves from what was cut is recorded against the class it was cut under, in the same record the next briefing reads back, and that class is carried from then on rather than cut again."
       ]
     }
   ],

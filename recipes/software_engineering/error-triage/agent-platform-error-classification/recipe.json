@@ -2,7 +2,7 @@
   "id": "b2e9f57f-8c68-5d35-8be9-12045d6cc51b",
   "slug": "agent-platform-error-classification",
   "title": "Agent platform error classification",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "status": "seed",
   "path": "software_engineering/error-triage",
   "domain": "software_engineering",
@@ -56,7 +56,8 @@
       "success_criteria": [
         "An ambiguous failure is classified at the highest plausible severity with the ambiguity recorded, and the record keeps that first verdict when it is later revised.",
         "The uncategorised share of recent failures is reported, and a rising share is treated as evidence the categories need revising rather than as failures to force into existing ones.",
-        "No category is invented to hold a single failure, and no failure is placed in a category whose defining question it does not answer."
+        "No category is invented to hold a single failure, and no failure is placed in a category whose defining question it does not answer.",
+        "A verdict a person revises downward is kept in the library beside the first call rather than replacing it, because declaring the harder verdict on thin evidence is only worth what it costs while those revisions stay rare, and a failure shape revised down every time it appears has stopped being one the thin evidence should be called hard on."
       ]
     },
     {

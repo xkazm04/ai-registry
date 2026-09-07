@@ -2,7 +2,7 @@
   "id": "c0a5e300-4b1d-4c0a-9e30-73a5c0a5e300",
   "slug": "pull-request-test-verdict",
   "title": "Pull request test verdict",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "status": "seed",
   "path": "software_engineering/code-review",
   "domain": "software_engineering",
@@ -61,7 +61,8 @@
       "success_criteria": [
         "The same suite is run against the target as it stands before a failure is attributed to the change",
         "A failure that reproduces on the target is reported as a pre-existing breakage and escalated, rather than held against the change",
-        "A re-run is treated as a diagnostic and its outcome recorded; a test that passed only on a second attempt is reported as unstable and never reported as a pass"
+        "A re-run is treated as a diagnostic and its outcome recorded; a test that passed only on a second attempt is reported as unstable and never reported as a pass",
+        "An attribution a person reverses, most often a failure called unstable that turned out to be the change, is written back to whatever this project keeps as its record of which tests are trusted, so the next verdict on that test opens from the corrected reading instead of re-deriving instability from another re-run"
       ]
     },
     {

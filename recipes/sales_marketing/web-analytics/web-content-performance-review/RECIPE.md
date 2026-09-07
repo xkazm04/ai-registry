@@ -1,6 +1,6 @@
 ---
 name: web-content-performance-review
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: sales_marketing
 path: sales_marketing/web-analytics
@@ -57,6 +57,12 @@ with the page have been ruled out.**
   than as a percentage against the previous period alone.
 - A page too quiet to be judged is reported as too quiet rather than ranked, because at
   a few dozen views a large percentage is counting noise.
+- An adopter who answers an attribution with something only they knew, that they changed
+  the page themselves that week or that the collection was reconfigured, has supplied
+  the rule out this read could not perform, so it is recorded against that period rather
+  than against that report and any later read of the same window starts from it, because
+  the alternative is re-attributing the same move to the page every time the window is
+  opened again.
 
 **Numbers turn into a next step, or into a recorded decision that there is none.**
 

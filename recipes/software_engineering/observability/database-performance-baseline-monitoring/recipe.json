@@ -2,7 +2,7 @@
   "id": "5abd6abc-a2ce-5954-a2b3-25d4473d7868",
   "slug": "database-performance-baseline-monitoring",
   "title": "Database performance baseline monitoring",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "status": "seed",
   "path": "software_engineering/observability",
   "domain": "software_engineering",
@@ -47,7 +47,8 @@
         "An alert names the baseline it deviated from, by how much, and over how long a window",
         "A metric whose baseline does not yet hold a full weekly cycle is reported as unjudged, with the history it does hold stated, rather than alerted on",
         "A spike that has already ended by the confirming window does not produce an alert",
-        "A pattern the operator repeatedly calls a false positive gets quieter without being switched off"
+        "A pattern the operator repeatedly calls a false positive gets quieter without being switched off",
+        "The verdicts that quieten a pattern are held with the baseline bucket they apply to and stay reversible, so a pattern damped as noise can be raised again once it turns real instead of staying quiet because somebody dismissed it a month ago"
       ]
     },
     {

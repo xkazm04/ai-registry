@@ -1,6 +1,6 @@
 ---
 name: lead-welcome-email-drafting
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: sales_marketing
 path: sales_marketing/lead-handling
@@ -55,6 +55,11 @@ rather than one template with a name substituted.**
 - The reply would still read as written for this person if the greeting were removed.
 - No reply claims something about the product that is not true, and nothing is offered
   that the adopter has not said may be offered.
+- An approver who edits a draft before it goes has corrected it and attached the
+  corrected version, which carries more than an approval or a rejection ever could, so
+  the draft is kept beside what actually went out rather than overwritten by it, and an
+  edit that keeps recurring, an ask softened or a claim cut, changes what the next draft
+  proposes instead of being made by hand on every lead.
 
 **The cases the adopter wants to see before they go out do not go out without being
 seen, and a hold does not quietly become a decision not to reply.**
