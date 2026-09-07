@@ -3106,3 +3106,41 @@ run real content.
    maturity a week after release*, not about the class, and the reference should learn the
    distinction: for a release under a month old, check that a primary exists before
    budgeting the run around fetching it.
+| 2.6.0 | 2026-09-07 | `youtube:71BiwHJXu20` "I Let GPT-6 Astra and Fable 5.1 Build the Same Game", Coding Crash Courses (**first-party practitioner account, n=1** — a fixed personal benchmark, one prompt, one small game, re-run per frontier release). **892 words: the shortest source this ledger records** | 1 video, transcript read whole; class named and expected yield stated before the triage table (one landing, several catches, no subject). **0 of 3 fetches**, fourteenth consecutive corpus-internal run | 10 | 6 scored, **0 declined**; both `partial` rows got their promoting question executed and both stayed untriaged | **1 amendment + 1 technique**, in two different bundles | **2 rows of 2 owed: 1c/1e/0s/0t of 2 owed** | **1** (pof `a87224d9`) | **Focus (1) applied: the apply cell carries the fraction, and naming it changed nothing this run because the debt was zero — which is the honest way for a focus item to register, and the check the next row owes is whether it ever reads worse than `of N`.** **Focus (2) fired for the third consecutive round and should now become a rule this file carries**: the tracklight seam was chosen to falsify and refuted the technique's *broad* claim outright — that runner already separates provider-side from money-side absence, comments on it in the technique's own terms, and tests its winner paired on shared cases — leaving a narrower and better finding than confirmation would have produced. **Focus (3): n/a and worth stating — neither of this run's domains has a measured ladder, and the honest answer remains that only memory does.** | **S0/T1/A1/Asrc0/0 task-lines** · routing count **n/a (no design record — a video)** · handoff **not** fired · `directions=n/a` · `auto=2/0/0` `fp=0` · `selfcatch=1` · `ratio=n/a` · fetches `0/3` · siblings 1 at claim, 4 by Phase 4, 0 collisions |
+
+**The funnel over the last ten rows, read after this one.** `research` is still 1 source
+per run in all ten, and this row is the cheapest of the ten by an order of magnitude — 892
+words against a 142,610-line engine two rows up — for two landings, two apply rows and a
+ship. `apply` and `ship` stay non-zero. **The stage this row loses at is `extract`**, and
+not for a bad reason: ten candidates is what an 892-word source honestly holds, and six of
+them were catches or untriaged on their first read. What the row demonstrates instead is
+that *extract* volume and yield are close to unrelated — the two rows that landed were not
+visible in the Phase 3 extraction at all. They were produced at Phase 6, by the
+enumeration hunt, out of candidates that entered the table looking like catches.
+
+**Next run's declared focus (round 35).** (1) **Promote seam-to-falsify into Phase 7.5
+proper — it has now fired three consecutive rounds and its own stated condition is met.**
+Rounds 33 and 34 each recorded a refutation that beat confirmation, and this run's
+tracklight seam refuted the technique's broad claim while leaving a narrower one standing.
+The method text still carries it as a focus item rather than a step. The next run that
+finds itself **alone on the board** makes the edit under a minor bump, exactly as the
+calibration item is still waiting to do; a sibling was live for the whole of this run, so
+it was not made here. Say in the row whether the board was ever clear.
+(2) **Hunt the enumeration's unstated PREMISE, not just its missing member.** Both
+landings this run have that shape and neither was a gap: three estimators listed, all of
+them players, premise never said; four truncation causes listed, all of them harness-side,
+premise never said. The existing Phase 6 hunt asks what an enumeration *omits*; ask also
+what every member of it silently shares, because a mature subject's enumerations are
+usually complete and their premises usually are not. The check the next row should make:
+did any landing come from this reading, and would the omission question alone have found
+it.
+(3) **When a run ships a guard, calibrate it in both directions before calling it green,
+and record the calibration's reach.** This run's pof guard passed its first calibration
+attempt in the wrong sense — a 0.05 weight nudge left all eleven tests green, so the guard
+did not protect what had just been claimed for it. Only re-running against the
+perturbation that was actually *measured* turned it red. A characterization test that has
+never been shown to fail is indistinguishable from one that cannot, and the shipped
+comment now bounds itself to a change of stance rather than drift. This is the third
+scorecard entry to say some version of "assert the instrument"; if a fourth run pays for
+it, it belongs in Phase 8 step 3 beside the paired-proof rules rather than in this
+paragraph.

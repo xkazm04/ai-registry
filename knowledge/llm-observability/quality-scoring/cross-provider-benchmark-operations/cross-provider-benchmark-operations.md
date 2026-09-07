@@ -14,6 +14,7 @@ techniques:
   - async-run-queue-with-cancel
   - failure-clustering-recommendations
   - cheapest-sufficient-configuration
+  - entitlement-exhaustion-is-not-ill-health
 ---
 
 # Cross-provider benchmark operations
@@ -61,7 +62,12 @@ honest. Run it out of order and the failure is silent, which is the worst kind.
 3. **Spend is asked for, not discovered on the invoice.** A matrix multiplies:
    targets × cases × generation samples × judge samples. Estimate before the
    first paid call, enforce a ceiling during the run, and mark a halted run
-   partial — never passed (budget-preflight-and-ceiling).
+   partial — never passed (budget-preflight-and-ceiling). Both halves of that
+   contract assume the spend is yours to estimate and yours to cap. Where a
+   target is reached through a purchased allowance rather than a per-call meter,
+   neither holds — the ceiling belongs to someone else, and the halt it imposes
+   arrives wearing a sick provider's clothes
+   (entitlement-exhaustion-is-not-ill-health).
 4. **Runs are jobs, not blocking calls.** A benchmark is minutes-to-hours of
    paid work; it runs on a claimable queue with live progress, a race-safe
    cancel, and failure accounting that distinguishes a crashed worker from a
