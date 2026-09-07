@@ -22,6 +22,7 @@ techniques:
   - owner-and-counterpart-scope
   - read-set-bounded-links
   - durable-store-failure-posture
+  - self-trained-capture-filter
 ---
 
 # Agent memory
@@ -447,6 +448,11 @@ comparison a stated result instead of an unexamined premise.
 - **The instrument on the drip** — a scheduled measurement running through the
   production read path, entrenching the very items it uses as ground truth, so
   the metric climbs while the store decays.
+- **The screen that ate a topic** — a learned pre-filter in front of the
+  distiller, trained on the distiller's own silence, widening until a whole
+  subject is dropped before capture; and because it runs upstream of the judge,
+  the evidence that would overturn it is what it prevents from being collected
+  (self-trained-capture-filter).
 
 ## The techniques
 
@@ -500,3 +506,7 @@ comparison a stated result instead of an unexamined premise.
 - [probe-without-write-back](./techniques/probe-without-write-back.md) — the
   read path is not read-only, so a scheduled measurement through it entrenches
   its own fixtures: suppress the feedback write, per caller.
+- [self-trained-capture-filter](./techniques/self-trained-capture-filter.md) —
+  the cheap screen that learns from the distiller's silence: type the null
+  before training on it, and give the loop an exit, because the screen runs
+  upstream of the only oracle that could correct it.
