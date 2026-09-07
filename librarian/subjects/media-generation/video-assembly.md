@@ -125,3 +125,18 @@ Neighbour note: `character-identity-continuity` explicitly "stops at the cut and
 hands over" to this subject for sequence-scale drift, and this amendment lands on the
 handover itself — the topology governs how the *anchors* are minted, which is shot
 sourcing, not conditioning-within-a-generation. No edit was made there.
+
+## 2026-09-07 - rung zero on the conditioning ladder ([[2026-09-07-grimstone-opening-cinematic]])
+
+`generated-shot-sourcing` gains "Rung zero: the still that is moved, not generated" under
+the ladder. Every rung shared a premise the ladder never stated - a generation is made -
+and the rung below text-only is the accepted still under an editor move: the most
+controlled rung, not the least, because nothing in it is sampled; what it cannot give
+(parallax, atmosphere, life in the figures) is the only reason to climb, and leaving it
+opens the performer channel. Source: a practitioner's storybook opening that left rung zero
+because the zoom "felt static" and paid at rung two in figure-stillness re-rolls. Applied to
+gravity as a simulation over three real cases; the tree is rung zero by construction and
+says so (`frames.ts:88-90`), and the structural fact is that the decision to generate at
+all is made there by the absence of a renderer - a missing field, named in the extended
+`react--generated-shot-sourcing` application. Boundary: the figure-stillness half lives in
+`cinematic-language/performance-direction` (same run), not here.

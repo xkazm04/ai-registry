@@ -5,7 +5,7 @@ subject: video-assembly
 technique: generated-shot-sourcing
 stack: react
 status: forged
-verified_on: 2026-08-31
+verified_on: 2026-09-07
 verified_against: react@19
 applied: simulation
 ab_verdict: better
@@ -13,7 +13,10 @@ ab_verdict: better
 
 # React: a studio whose cut list cannot hold a cut
 
-*Verified against the consuming tree at commit `7637553`, 2026-08-31.*
+*Verified against the consuming tree at commit `7637553`, 2026-08-31; the
+citations below re-resolved at `e1c31ec`, 2026-09-07 (the turn-marker loop now
+sits at `CutTimeline.tsx:40-47`; the scene and clip fields are unchanged), when
+the rung-zero section was added.*
 
 The technique's rung 3 gained an amendment this run: two anchors from
 unmistakably different spaces do not interpolate and break — they render as a
@@ -116,6 +119,60 @@ edit inside it would enter the timeline as an atom, pass every instrument, and
 be invisible to all three of the checks above. That is better evidence for the
 amendment's warning than an adopting tree would have produced, because nobody
 arranged it.
+
+## Rung zero, measured by absence (added 2026-09-07)
+
+The ladder gained a rung below text-only: the accepted still, moved by the
+editor, with no generation made. This tree *is* that rung by construction,
+and it says so in its own words. `app/_phases/frames/frames.ts:88-90`: "a clip
+in this app is AUTHORED, never rendered, and `status` can only ever hold
+`"not-started"`" — a frame owns a `FrameClip` whose `motion` is the intent
+(what moves, in what direction, how far) and whose four-member status union
+has exactly one reachable member in the product path. The step's header
+(`FramesStep.tsx:12-14`) records that the still-versus-clip picker was
+removed as "the image-to-video architecture this project measured its way
+out of". Nobody called this rung zero; it is where the product landed.
+
+Three real cases, under policy A (the ladder as it stood: text-only is the
+lowest rung, so a shot that wants motion generates) and policy B (start at
+rung zero, climb only for a named reason):
+
+1. **The explainer cut** — sixteen frames, a vector text layer. Under A every
+   frame that "feels static" becomes a generation request, and the text then
+   rides the generated layer, which `sceneSpec.ts:147-148` already refuses
+   ("The motion moves text. Our text layer is vector and ours — move the
+   picture"). Under B rung zero is the shot's contract: exact identity, text
+   untouched, the move typed. Prediction: B and the tree agree, and the tree
+   refuses A's failure at its spec validator. Falsifier: a shipped explainer
+   frame whose beat turns on a parallax or an atmospheric element the editor
+   move cannot express.
+2. **The promotional cut** — the shots lane. `ShotSheet.tsx` decomposes a
+   trailer beat into shots and deliberately offers "no path from a shot to an
+   image". Under A a trailer at rung zero is the "slideshow that scores well"
+   the tree's own consistency spike named (`c99be91`). Under B the climb is
+   named — figures and atmosphere are what a trailer beat is *about* — so
+   these are the shots that leave rung zero, and they leave it with the
+   performer channel open. Prediction: when a motion path is built, trailer
+   shots need zero-beat direction for their set-dressing figures and explainer
+   frames do not. Falsifier: a trailer shot that reads as intended at rung
+   zero.
+3. **Deck 03, "still built to move"** (`pipeline/decks/2026-08-23/`): the
+   still is the variable, the motion line is constant, and the stills are
+   judged first *as stills* — "which of these do I believe will move well?"
+   Under A that is rung-two evaluation. Under B it is also the rung-zero gate:
+   the question is answered before any generation, which is the decision the
+   rung names. Prediction: a still that fails the deck's first-frame checklist
+   is not promoted to a clip. Falsifier: the deck promoting stills to
+   image-to-video that its own checklist marked doubtful.
+
+**Verdict: better** — and the structural fact is the one the amendment's
+closing sentence predicts. The decision to generate at all is made in this
+tree by **the absence of a renderer**. Nothing on `Frame` or `FrameClip` can
+say "this frame stays a still by choice" as distinct from "no render seam
+exists yet"; the day one is built, every frame will read as waiting to be
+rendered, and the rung-zero frames will be indistinguishable from the
+not-yet-rendered ones. That is a field, not a policy, and it is missing.
+Return: re-test as `code` when a render seam exists and the field does.
 
 ## What this realization cannot do
 

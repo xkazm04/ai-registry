@@ -6,7 +6,7 @@ technique: generated-shot-sourcing
 status: forged
 laws: [cost-per-usable-output, refusal-is-a-state, style-is-restated-not-remembered]
 shared_with: []
-use_when: [briefing a generative video model to produce shots for a cut, deciding between text-only and image-anchored conditioning for a shot, accepting or rejecting generated clips into an assembly, handling clips that arrive with their own baked-in audio, a subject drifts steadily across a long sequence of generated shots, planning a scene that will be built by chaining extensions, a pipeline's derived durations must survive a model's fixed generation steps, animating a designed graphic whose artwork must stay exact across the shot, a walk or other cyclic movement comes back stiff from an anchored generation, minting a series of keyframes or end-frame anchors for a multi-shot sequence]
+use_when: [briefing a generative video model to produce shots for a cut, deciding whether a still should be animated by a model at all or moved by the editor, deciding between text-only and image-anchored conditioning for a shot, accepting or rejecting generated clips into an assembly, handling clips that arrive with their own baked-in audio, a subject drifts steadily across a long sequence of generated shots, planning a scene that will be built by chaining extensions, a pipeline's derived durations must survive a model's fixed generation steps, animating a designed graphic whose artwork must stay exact across the shot, a walk or other cyclic movement comes back stiff from an anchored generation, minting a series of keyframes or end-frame anchors for a multi-shot sequence]
 ---
 
 # Generated-shot sourcing
@@ -46,6 +46,41 @@ rungs, ordered by how much control they buy:
 Choose the lowest rung that satisfies the shot's contract. Every rung up
 costs more preparation; every rung skipped is paid for later in rejected
 takes.
+
+### Rung zero: the still that is moved, not generated
+
+Every rung above shares a premise the ladder never states: **a generation is
+made.** Below text-only sits a rung with no request in it at all — the
+accepted still, placed on the timeline and moved by the editor: a slow push,
+a drift, a hold. It is the most controlled rung on the ladder rather than
+the least, because nothing in it is sampled. Identity and style are exactly
+the still's, the move is the number that was typed, the duration is the gap
+the script already decided, and the cost is zero. What it cannot give is
+what generation is for — parallax, atmosphere (smoke, cloth, water, a light
+that flickers), and life in the figures — and those three are also the only
+reasons to climb.
+
+The climb is a decision, and the ladder should price it. A practitioner who
+built a storybook opening from painted stills laid them under a slow zoom
+first, found the result "decent but static", and moved one rung up to a
+single-image anchor with a camera-only brief. The empty establishing shot
+came back right. Every shot with figures in it came back with the figures
+moving — awkwardly, and unasked — and took several re-rolls under explicit
+stillness directives ("statue-like", "posed figures", "no motion") to return
+to what rung zero had given for free. That is the rung's price stated
+plainly: **leaving rung zero opens the performer channel.** A still with
+figures in it now needs the zero-beat direction that the performance craft
+in cinematic-language describes, or the model performs them.
+
+So the rule is *start at rung zero and climb only for a named reason* — a
+parallax the composition needs, an atmospheric element the beat turns on, a
+performance the beat is about. "It feels static" is not a reason until the
+shot can say what should move; a shot that cannot is a rung-zero shot, and
+the editor's move is its motion. The rung is also where a still-first
+pipeline lives before it has a motion path: a frame that owns its authored
+move and no renderer is a rung-zero cut by construction — and the day a
+renderer arrives, the decision to generate at all should become a field on
+the frame, not the absence of one.
 
 One construction rule on rung 3 that practitioners learn as a mid-clip
 glitch: **the two anchors must be cut from one cloth.** Head and tail

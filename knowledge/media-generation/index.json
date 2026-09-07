@@ -5,7 +5,7 @@
   "source": "knowledge/media-generation/ (frontmatter only)",
   "subjects": 20,
   "techniques": 133,
-  "applications": 62,
+  "applications": 63,
   "laws": 9,
   "categories": [
    "narrative-craft",
@@ -114,7 +114,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/visual-generation/cinematic-language/cinematic-language.md",
-   "digest": "sha256:bf0c4a753b67d598",
+   "digest": "sha256:fb97957050b7a568",
    "techniques": [
     {
      "slug": "camera-position-semantics",
@@ -199,7 +199,9 @@
       "a character must act, dance, fight, or gesture in a generated shot",
       "generated performance comes back as vague flailing or inert standing",
       "a beat's meaning depends on what the performer does, not where the camera is",
-      "writing action clauses for a model that renders motion over seconds"
+      "writing action clauses for a model that renders motion over seconds",
+      "figures that should hold still under a camera move come back moving",
+      "a harness's negative prompt or poster-reading judge penalises a directed near-still clip"
      ]
     },
     {
@@ -231,6 +233,12 @@
      "file": "knowledge/media-generation/visual-generation/cinematic-language/applications/process--genre-visual-contracts.md",
      "verified_on": "2026-08-24",
      "refresh_by": "2027-02-24"
+    },
+    {
+     "stack": "process",
+     "technique": "performance-direction",
+     "file": "knowledge/media-generation/visual-generation/cinematic-language/applications/process--performance-direction.md",
+     "verified_on": "2026-09-07"
     },
     {
      "stack": "react",
@@ -2224,7 +2232,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/production-ops/video-assembly/video-assembly.md",
-   "digest": "sha256:75026bd0270b36f9",
+   "digest": "sha256:7be5b6782d3be270",
    "techniques": [
     {
      "slug": "cut-compiled-from-source",
@@ -2295,6 +2303,7 @@
      "shared_with": [],
      "use_when": [
       "briefing a generative video model to produce shots for a cut",
+      "deciding whether a still should be animated by a model at all or moved by the editor",
       "deciding between text-only and image-anchored conditioning for a shot",
       "accepting or rejecting generated clips into an assembly",
       "handling clips that arrive with their own baked-in audio",
@@ -2382,7 +2391,7 @@
      "stack": "react",
      "technique": "generated-shot-sourcing",
      "file": "knowledge/media-generation/production-ops/video-assembly/applications/react--generated-shot-sourcing.md",
-     "verified_on": "2026-08-31",
+     "verified_on": "2026-09-07",
      "verified_against": "react@19"
     }
    ]

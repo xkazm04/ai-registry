@@ -11,6 +11,8 @@ use_when:
   - generated performance comes back as vague flailing or inert standing
   - a beat's meaning depends on what the performer does, not where the camera is
   - writing action clauses for a model that renders motion over seconds
+  - figures that should hold still under a camera move come back moving
+  - a harness's negative prompt or poster-reading judge penalises a directed near-still clip
 ---
 
 # Performance direction
@@ -69,6 +71,49 @@ the prose does not re-describe the feeling the dial already set. This is
 the same law the camera grammar obeys: when a channel is held by a typed
 input, the prose stops fighting it and directs *within* it.
 
+## The zero-beat performance
+
+The procedure assumes the performer has something to do. A large class of
+shots asks the opposite: figures that are set dressing — a crowd in a painted
+establishing frame, sentries on a wall, the statue that is a statue — under a
+camera that does the only move. Left unsaid, that is beat starvation at its
+limit. Zero beats over five seconds is five seconds of the prior, and what
+the prior does with a recognisable figure is animate it: a still with people
+in it, handed to a motion model with a camera-only brief, comes back with the
+people moving, awkwardly and unasked, while the camera obeys. One
+practitioner animating painted storybook frames got the empty establishing
+shot right on the first roll and re-rolled every populated frame several
+times under "statue-like", "posed figures", "no motion" before the figures
+held.
+
+So stillness is a performance, and it is briefed like one: **name the
+figures, say they do not move, and say what the only move is** — "the
+figures are posed and hold; the camera pushes in slowly; nothing else moves."
+Rule 5's "state what the performer does not do" is the whole direction here,
+not the tail of it. The register words still ride alongside (a painted
+world's figures hold *because* it is painted; say so). And the take is chosen
+by the least figure motion, not the best camera — the camera was never at
+risk.
+
+The harness side gets this wrong in two places, and both are one mistake.
+**An anti-freeze negative is written against a failure and cannot tell it
+from a direction.** "Static frame, frozen image, no motion" in a global
+negative exists because a motion model sometimes returns a dead clip; applied
+to every request it also argues against the shot whose contract is
+stillness. Put it where the failure lives — the camera channel, or per shot —
+never on the frame as a whole. And **a judge that reads three posters cannot
+see a directed near-still**, because mist drifting a fraction and a window
+flickering once are below what three frames show; it will call the clip
+frozen and score it down for obeying. One harness did exactly that to a clip
+briefed "almost still — the camera does not move": the judge's stated reason
+was "the same frozen wide with nothing advancing", and a frame-difference
+measurement put the clip two orders of magnitude above a frozen render's
+floor (mean consecutive-frame luma delta 0.21 against 0.000 for a looped
+still; the advancing shot in the same cycle read 8.5). Frozen is a number.
+Measure it before a poster judge is allowed to say the word — per
+[unmeasured-is-not-pass](../../../_laws.md#unmeasured-is-not-pass), a
+stillness verdict from three stills is not a verdict.
+
 ## Decision rules
 
 - When a verb in an action clause names a class of motion, expand it to
@@ -80,6 +125,11 @@ input, the prose stops fighting it and directs *within* it.
 - When the beat's meaning is carried by a single gesture, spend the beats
   on that gesture and let the rest of the body stay quiet — enumerating
   everything is the compound-move failure worn by the performer.
+- When the figures are set dressing under a camera move, brief zero beats
+  explicitly — posed, holding, the camera's move the only motion — and pick
+  the take by least figure motion; the prior animates anything it
+  recognises, and a global anti-freeze negative or a poster-reading judge
+  will then penalise the take that obeyed.
 
 ## Failure modes
 
@@ -91,3 +141,6 @@ input, the prose stops fighting it and directs *within* it.
   nothing in the frame confirms or corrects it.
 - **Register as choreography** — "energetic, fun, loose" doing the work of
   beats; adjectives colour motion, they do not produce it.
+- **The silent hold** — figures meant to stand still and nobody said so;
+  the prior performs them, and the harness's anti-freeze negative or its
+  three-poster judge then scores the obedient take as a dead one.
