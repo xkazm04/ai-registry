@@ -3,8 +3,8 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "game-production",
   "source": "knowledge/game-production/ (frontmatter only)",
-  "subjects": 51,
-  "techniques": 322,
+  "subjects": 52,
+  "techniques": 328,
   "applications": 139,
   "laws": 13,
   "categories": [
@@ -17,7 +17,7 @@
    "production-governance"
   ],
   "layout": "nested",
-  "use_when_coverage": "322/322",
+  "use_when_coverage": "328/328",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -3112,6 +3112,105 @@
      "verified_on": "2026-08-20"
     }
    ]
+  },
+  "imported-material-conformance": {
+   "category": "asset-production",
+   "subcategory": "surface-and-imagery",
+   "status": "forged",
+   "file": "knowledge/game-production/asset-production/surface-and-imagery/imported-material-conformance/imported-material-conformance.md",
+   "digest": "sha256:720549b5c431ae0d",
+   "techniques": [
+    {
+     "slug": "a-fixer-script-is-the-edge-in-the-wrong-place",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a project has a tool everyone runs after importing to make materials look right",
+      "retiring a post-import correction pass",
+      "an import defect ships whenever someone forgets a manual step",
+      "deciding whether a correction belongs to the boundary or to the asset"
+     ]
+    },
+    {
+     "slug": "colour-space-is-per-texture-role",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "one-authority-per-quantity"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "wiring texture import for a delivered material",
+      "imported albedo reads washed out or muddy while the shading response looks right",
+      "an importer applies one colour-space setting to every texture in a delivery",
+      "some maps in a delivery look correct and others do not"
+     ]
+    },
+    {
+     "slug": "format-defaults-are-not-asset-properties",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an imported window or lens arrived opaque",
+      "a delivered material came in fully metallic with no map explaining it",
+      "an emissive surface imported dark",
+      "someone is debugging an exporter for a property that was never exported"
+     ]
+    },
+    {
+     "slug": "gloss-axis-inversion-and-the-midpoint",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "one-authority-per-quantity"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "converting a material between a roughness convention and a smoothness convention",
+      "every imported surface looks uniformly glossy or uniformly flat",
+      "a material reads correct at mid grey and wrong at both ends",
+      "deciding what an import edge must do to a gloss map"
+     ]
+    },
+    {
+     "slug": "materialise-on-import",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity",
+      "compiling-is-not-wiring"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a surface correction has to be re-made after every delivery",
+      "imported materials cannot be selected edited or reused in the project",
+      "deciding what an import step owes beyond geometry",
+      "the same asset is redelivered regularly and loses its fixes each time"
+     ]
+    },
+    {
+     "slug": "surface-conformance-swatch",
+     "status": "forged",
+     "laws": [
+      "an-instrument-proves-it-had-input",
+      "law-and-check-share-one-source"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "building or changing a material import path",
+      "proving a surface conversion before trusting it on real assets",
+      "a spot check on one material cleared an import bug that later shipped",
+      "choosing what to test a material edge with"
+     ]
+    }
+   ],
+   "applications": []
   },
   "judgeable-spec-authoring": {
    "category": "content-pipeline",
@@ -6262,6 +6361,7 @@
     "image-to-3d-input-gating/scene-partition-is-the-gated-unit",
     "image-to-3d-input-gating/score-defect-verdict-protocol",
     "image-to-3d-input-gating/single-subject-plain-background",
+    "imported-material-conformance/format-defaults-are-not-asset-properties",
     "judgeable-spec-authoring/register-discipline-in-a-spec",
     "learning-curve-and-teaching-design/flow-corridor-as-two-sided-envelope",
     "learning-curve-and-teaching-design/skill-atom-inventory",
@@ -6406,6 +6506,10 @@
     "image-to-3d-input-gating/multi-view-master-reference",
     "image-to-3d-input-gating/part-cut-planning",
     "image-to-3d-input-gating/reference-role-tagging",
+    "imported-material-conformance/a-fixer-script-is-the-edge-in-the-wrong-place",
+    "imported-material-conformance/colour-space-is-per-texture-role",
+    "imported-material-conformance/gloss-axis-inversion-and-the-midpoint",
+    "imported-material-conformance/materialise-on-import",
     "judgeable-spec-authoring/enumeration-closure-as-arithmetic",
     "judgeable-spec-authoring/interpolated-counts-over-typed-counts",
     "judgeable-spec-authoring/one-field-one-question",
@@ -6531,6 +6635,9 @@
     "generated-mesh-acceptance/unmeasured-is-not-pass",
     "generative-provider-auditing/record-negative-benchmarks-in-place",
     "image-to-3d-input-gating/reference-role-tagging",
+    "imported-material-conformance/colour-space-is-per-texture-role",
+    "imported-material-conformance/format-defaults-are-not-asset-properties",
+    "imported-material-conformance/gloss-axis-inversion-and-the-midpoint",
     "judgeable-spec-authoring/interpolated-counts-over-typed-counts",
     "judgeable-spec-authoring/one-field-one-question",
     "judgeable-spec-authoring/simulate-the-mechanism-not-the-constant",
@@ -6750,6 +6857,7 @@
     "game-economy-tuning/faucet-sink-balance-band",
     "game-economy-tuning/progression-curve-shape-tests",
     "generative-artifact-gating/generation-history-as-artifact",
+    "imported-material-conformance/surface-conformance-swatch",
     "judgeable-spec-authoring/quantity-ownership-and-the-bindable-row",
     "procedural-level-planning/algorithm-parameter-support-matrix",
     "procedural-level-planning/pacing-linter-rules",
@@ -6775,6 +6883,7 @@
     "adaptive-music-authoring/intensity-mapping-from-declared-game-state",
     "branching-narrative-graph-validation/reachability-and-orphan-detection",
     "image-to-3d-input-gating/scene-partition-is-the-gated-unit",
+    "imported-material-conformance/surface-conformance-swatch",
     "playtest-signal-to-defect/repro-minimization-protocol",
     "playtest-signal-to-defect/session-instrumentation-contract",
     "playtest-signal-to-defect/unreproducible-is-a-state-not-a-dismissal",
@@ -6837,6 +6946,7 @@
     "gameplay-runtime-patterns/event-dispatch-versus-direct-call",
     "generated-mesh-acceptance/face-rig-shell-readiness",
     "image-to-3d-input-gating/score-defect-verdict-protocol",
+    "imported-material-conformance/materialise-on-import",
     "learning-curve-and-teaching-design/unused-mechanic-detection",
     "mesh-finishing-for-engine-readiness/rig-preset-and-bone-remap-binding",
     "motion-quality-gating/asset-reality-ledger",

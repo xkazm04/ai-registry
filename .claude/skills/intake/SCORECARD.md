@@ -3148,6 +3148,8 @@ paragraph.
 | 2.7.0 | 2026-09-07 | `youtube:EdCUpP4_8y4` "I Built an Opening Cinematic for My Game Using AI (Full Process)", Building Aeon (**first-party practitioner account in build-walkthrough form**; operator brief `domain media-generation`; 1,080 words, real subtitle track, container checked) | 1 source, read whole; class and expected yield (LOW) said before the table. **0 of 3 fetches - sixteenth consecutive corpus-internal run**; corroboration was code read in a connected tree plus training-data convergence | 12 | 4 scored (2 accepted, 1 lead, 1 promoting read that did not promote), **0 declined**, 7 already covered | **2 amendments + 1 new application + 1 extended application**, in two subjects of one bundle | **2 rows of 2 owed: 0c/1e/1s/0t** | **1** (gravity `577524b`, ledger `5a8550e`) | **Focus (round 36) on all three points.** (1) Subjects claimed by the address `research-map` printed and the pre-write check compared the same strings - clear, but 0 siblings were live for the whole run, so the item passed trivially and still has not been *tested*; it needs a run with live siblings. (2) **The caught-arm pre-check was written before arm one and it is why the confirmation counts**: had the near-still clip measured at the frozen floor, the finding would have inverted into a boundary on the directive rather than on the judge. It measured 0.210 against 0.000, the judge had called it "frozen", and the instrument's blindness became the landing's second half. Fifth consecutive round of seam-to-falsify; v2.7 already carries it as a step. (3) No fetch needed, so the young-release rule did not apply - stated rather than skipped. Round 35's premise hunt fired again: the larger landing is an enumeration whose members all silently share a premise (every rung makes a generation). **Both landings are amendments and that is the right shape for this source**: a mechanism boundary (rung zero) and a channel boundary (the zero-beat performer), each appended with every standing sentence true; a video is not a system and no subject was implied. **The strongest fact came from the connected tree's own recorded cycles, not from the source** - the harness that tests the corpus's motion rules had penalised a clip that quoted one of them, and the recorded webm files were a paired experiment already run, waiting for a ruler. Ship 1 of 2 with the reason for the zero stated: the rung-zero field cannot be added before the renderer that would read it | `subjects=0 / techniques=0 / amendments=2 / apps-vs-source=0 (2 fleet apps: 1 new, 1 extended) / task-lines=0`; routing count n/a (video); no handoff; `auto=2/1/0` `fp=0`; `directions=n/a` |
 | 2.7.0 | 2026-09-07 | `github:debpalash/VoiceStudio` @`9790d289` - a fully-local voice studio over ~15 swappable TTS/ASR engines (**repository**, single-owner, vendor/first-party boundary) | 1 source, cloned and swept in yield order (admission contract, standing rules, 405 test files, ADRs, longform specs); README read last. **The ratio is the class finding: 3,383 words on the landing page against 341,468 in-tree** - a hundred to one, the largest single spec five times the whole README. **0 of 3 fetches - seventeenth consecutive corpus-internal run**; corroboration was code read in the source tree and in ours | 12 | 1 scored and accepted, **0 declined**, 4 already covered, 6 untriaged with anchors, 1 lead | **1 amendment**, to `quality-gates/gate-liveness` | **1 of 1 owed: 1c/0e/0s/0t** | **2**, both into this registry's own tooling (`run-board.mjs`, `check-skills.mjs`) | **Focus (round 37) on both points.** (1) Read the connected tree's recorded state before the source - applied in the form the domain allowed: this is not media-generation and has no cycle archive, so the analogue was aiming the falsifying seam at *our own checkers* rather than at the source's, and that is what produced the apply row. (2) **The board-address item, open two rounds for want of a live sibling, finally executed - and it failed.** `run-board`'s `touches` compared raw tokens while `norm`'s docstring claimed a fold it never implemented, so Phase 4's slug claims and Phase 7's path checks have never met: three of four realistic pairs reported `clear`, including the documented workflow. Every collision check against a held subject has been a false all-clear for the life of the board. Fixed, paired 1/4 -> 4/4, self-asserting on every invocation. **The item is now closed, and it closed red** | `subjects=0 / techniques=0 / amendments=1 / apps-vs-source=0 / task-lines=0`; **routing count 1-2 (per system), no handoff** - the mechanical XL trigger would have fired on three clauses of one admission bar and been wrong; `auto=1/0/0` `fp=0`; `directions=n/a` |
 
+| 2.7.0 | 2026-09-07 | `youtube:oBCAYESUmZ8` "Can Claude Fable Build a Medieval House Interior?", Building Aeon (**first-party practitioner account in build-walkthrough form**; 2,666 words, real subtitle track, container checked) | 1 source, read whole; class and expected yield (**LOW**) said before the table | 12 | 4 scored (1 escalated `E4` and forged, 3 catches), **0 declined**, 7 untriaged with anchors | **1 new SUBJECT + 6 techniques** (`imported-material-conformance`), forged in session by one worker | **1 row of 1 owed: 0c/0e/0s/0t - `unapplied`, measured not assumed** | **0** | **The calibration miss is the finding about the run.** Expected yield was LOW and the source WAS low: the video did not carry a subject, **the corpus's own boundary statements did**, and the video was only what made anyone read them. A modest technique candidate was drafted into two homes and disqualified by both in their own closing sentences, leaving four neighbours and no owner. The **enumeration hunt** supplied the argument: `unit-convention-at-the-engine-edge` asserts the edge disagrees about *"two things at once"*, both errors **round** - and the third disagreement is **not round**, which is precisely why it survives, because that technique's own diagnostic is blind to it. Extending it would have falsified a standing sentence: **the v2.5 rewrite test did the routing**, telling the run the finding was too big to be a paragraph before any human did. **1 of 3 fetches** (first non-zero in seventeen runs) turned recollection into normative fact and **explained the source better than the source did** - "washed out" and "shiny" are two different convention failures, and the creator's fixer script is the conversion edge written after the import instead of inside it. Ship 0 with the reason stated: no fleet project has an asset import edge, and that absence was measured with an instrument asserted against a known positive, whose single hit turned out to be an *audio* prompt containing "metallic" | `subjects=1 / techniques=6 / amendments=0 / apps-vs-source=0 / task-lines=0`; routing count n/a (video, no design record); no handoff (forged in session); `auto=0/0/1` `fp=0`; `directions=n/a` |
+
 **Funnel read over the last ten rows.** Extract holds at 10-12 candidates per source and
 test at 1-9 scored; landed is 1-2 per run; apply is consistently `N of N owed`; ship is 1
 in nine of ten rows. **Research is still the stage losing most, and this round says
@@ -3176,3 +3178,48 @@ have fired on three clauses of one admission bar. It did not, because Phase 2d's
 load-bearing test was applied by hand. If a second run has to make that catch manually,
 the counting rule in Phase 4 needs the word *decision* defined where the trigger is
 stated, not three sections earlier.
+
+---
+
+## Round 38 (this run) - the funnel read, and what the next run owes
+
+**Funnel read.** Extract holds at 12; test at 4 scored. Landed is 1 subject + 6 techniques,
+the first non-amendment landing in four rows and the first subject from a *video* in the
+ledger's history. Apply is 1 of 1 owed but the mode is `unapplied`, and ship is 0 - both
+with stated reasons. The stage the funnel is losing most is still **apply/ship**, and for
+the first time the cause is not a missing arm but a **missing seam class**: the corpus now
+covers a craft the managed fleet does not practise. That is a real result and it should not
+be papered over with a simulation - but it is also the strongest argument yet that the
+source queue and the fleet's own domains have drifted apart. The depth column matches the
+source's shape only if you accept the run's own account of why (a video producing a subject
+is a routing miss on its face; here the subject came from the corpus's boundaries, and the
+row says so).
+
+**Round 38's focus, executed.** (1) *An instrument's green you have never watched go red.*
+Applied twice, and it paid twice: the purity grep over the new subject was asserted against
+a known positive before its zero was trusted, and the fleet seam search was asserted against
+a 71-file control before its single hit was believed - that hit was an audio prompt using
+the word "metallic", so the assertion is the only reason the run did not report a false
+seam. (2) *Aim the falsifying seam at our own tooling.* Not reachable this round: the
+finding is about a 3D import edge and the registry has no such edge; asked and answered
+honestly rather than forced. (3) *A mechanical trigger counts decisions, not clauses.* The
+XL trigger is a repository instrument and this was a video, so it never ran - but the
+substitute that fired is worth naming: **the rewrite test in the admission gate did the
+subject-routing that Phase 2d's count does for repositories.** That is a second, independent
+path to the same escalation, and nobody wrote it down as one.
+
+**Next run's declared focus (round 39).** (1) **When a candidate is disqualified by a
+target's own closing boundary sentence, read the OTHER neighbours' closing sentences before
+concluding anything.** This run found its subject only because the second disqualification
+prompted a third and fourth read; one disqualification looks like a bad guess at a home, two
+looks like a hole, and the difference is three minutes. The next run that gets a placement
+rejected owes the neighbour sweep, and its row says how many closing sentences it read. (2)
+**The rewrite test is a subject detector, not only a gate.** A finding that would falsify a
+standing sentence in its best-fit home is telling you it is a layer; that reading should be
+made deliberately rather than noticed, and the next run that hits `+2 RISK for a rewrite`
+owes one sentence on whether the row is really an XL. (3) **A run whose landing has no seam
+anywhere in the fleet should say so in the SOURCE-SELECTION column, not only in apply.**
+Three consecutive rows now carry stated zeros; this one carries a zero that no future run
+can fix by trying harder, because the fleet does not do this work. That is a queue signal,
+and it belongs where the queue is chosen.
+
