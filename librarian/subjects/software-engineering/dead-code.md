@@ -1,7 +1,7 @@
 ---
 domain: software-engineering
 subject: dead-code
-last_touched: 2026-08-31
+last_touched: 2026-09-06
 touched_by: intake
 dry_streak: 0
 ---
@@ -106,3 +106,34 @@ two-channel model for **flags**; neither subject owned an entry's firing volume.
   that fails when the defect is repaired" now carries the reverse link to
   quality-gates/false-positive-economics, which today gained the forward one. The
   lifecycle stays here; the severity decision stays there.
+
+## 2026-09-06 - /intake run (praisonai)
+
+- New technique `unadopted-extension-point`. `quarantine-vs-delete` prices three
+  moves for a candidate whose **deadness is uncertain**; this population is
+  certainly dead and its disposition is still open, because it is an extension
+  point nothing extended through and adoption is a live alternative to deletion.
+  The decisive column is whether an inline equivalent exists and whether its
+  **shape** fits the declared signature: a fit is a refactor, a mismatch is a
+  behaviour change wearing one, and **no equivalent anywhere** means adoption
+  invents code no test could ever have failed against. Source instance: 17
+  declared methods, 11 with zero call sites, beside 145 lines of inline dispatch;
+  the tree's own first plan said *wire all twelve*, and its measurement inverted
+  it to twelve deletions and three wirings, six of the deletions having no inline
+  equivalent at all.
+- **Caught, not landed:** the source's `KNOWN_DEAD` three-test ratchet (shrink-only,
+  no-stale-live, no-stale-absent) is a good instrument the corpus already owns
+  better - identity-keyed baseline is `metric-gates/counted-set-snapshot`, stale
+  entry fails the run and the self-retiring form are both `suppression-hygiene`.
+  Cited from the new technique as its seed-the-ratchet step rather than re-landed.
+- **The apply row came back `not-better` and bought a boundary.** The census run
+  against kp's provider abstraction found 14 methods, 0 dead. New section *"Where
+  the population does not exist"*: the discriminator is a ratio, not a size - the
+  population needs a surface wider than its adopters - and the strongest tell of
+  the defective case is members carrying overrides but no callers.
+- **The instrument self-caught.** The first census pass reported three dead methods
+  that were private helpers called inside the declaring module. The technique
+  excludes the declaring module because there the names are definitions; that is
+  right for public surface and wrong for intra-module helpers. Uncorrected it would
+  have reported a 21% dead surface on a healthy abstraction, in a row whose finding
+  would have been interesting enough not to question.

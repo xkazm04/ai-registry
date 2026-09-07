@@ -1,8 +1,8 @@
 ---
 domain: media-generation
 subject: generative-provider-routing
-last_touched: 2026-08-27
-touched_by: librarian
+last_touched: 2026-09-07
+touched_by: intake
 dry_streak: 0
 ---
 
@@ -11,6 +11,47 @@ dry_streak: 0
 Subject note. Part of [[index]]; graded against [[standard]].
 
 ## Touch log
+
+### 2026-09-07 - `/intake` (`youtube:Vh8HxyTQ6EY`), one technique, applied and shipped
+
+A first-party account of two autonomous producers given one brief and one
+credit budget. The finding is an **asymmetry in this subject's own
+enumeration**: the spend controls in `cost-per-usable-economics` are careful
+and complete in one direction only - gate before the call, never re-route
+around a ceiling, price batches as batches, book actuals over estimates,
+multiply in expected rejects - and none of them can see a run that spent
+*less*. Beside them, `capability-to-vendor-plan` asserts the plan's first
+entry holds its position because it won a measured cost-per-usable grid, with
+nothing anywhere checking whether that winner is ever **called**.
+
+New technique `unspent-budget-is-a-defect`: a budget is an allocation with a
+reported floor, not only a ceiling, and plan-top reachability is a measured
+property of the run. Landed as a technique rather than an amendment on the v2
+rule - a mechanism the subject never had. Its boundary against
+`production-pipeline-phasing/delivery-promise-lock` is stated in prose on this
+side: that technique catches substitution across delivery *kinds*, this one
+across capability *tiers inside one kind*, and a run can clear its fulfilment
+ratio while never touching the tier it was funded for.
+
+Applied to `gravity` in mode `code`, verdict `better`, proof `ab-paired`
+(commit `ae79916`, not pushed). The tree is a strong realization of this
+subject already - the plan is ordered by a real 60-cell grid - which is what
+made it a fair test: the gap was a blind spot in a careful instrument, not
+laxity. Its budget module's own header claims "two things" used to happen
+silently and now do not, and both are overspend-direction. Paired arms on one
+measurable (run-level dispositions the meter can distinguish): pre-change
+fields return the same verdict for a thrifty and a healthy window, 1
+disposition; with a reported floor and an unreached-plan-top verdict, 2. The
+arm-A control ships as a committed test.
+
+New application `node--unspent-budget-is-a-defect` (6 -> 7 applications).
+
+Also recorded, not landed: writing the reach test surfaced a second live
+instance in the same tree - the dev plan lists a $0 local eye first for
+`recognize`, so a cloud-served recognition leaves that top uncalled, and the
+per-call elimination trail cannot report it because no single call departed
+from the plan.
+
 
 ### 2026-08-27 - `/librarian run`, second dispatch of the run
 

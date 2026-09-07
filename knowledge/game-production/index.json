@@ -4,8 +4,8 @@
   "bundle": "game-production",
   "source": "knowledge/game-production/ (frontmatter only)",
   "subjects": 51,
-  "techniques": 319,
-  "applications": 136,
+  "techniques": 322,
+  "applications": 139,
   "laws": 13,
   "categories": [
    "systems-canon",
@@ -17,7 +17,7 @@
    "production-governance"
   ],
   "layout": "nested",
-  "use_when_coverage": "319/319",
+  "use_when_coverage": "322/322",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -27,6 +27,8 @@
    "status": "forged",
    "file": "knowledge/game-production/craft-judgment/aaa-craft-rubric-authoring/aaa-craft-rubric-authoring.md",
    "digest": "sha256:0908de004e8247c3",
+   "revision": 2,
+   "changedAt": "2026-09-02",
    "techniques": [
     {
      "slug": "capped-disqualifiers",
@@ -194,6 +196,8 @@
    "status": "forged",
    "file": "knowledge/game-production/production-governance/ability-authoring-to-engine/ability-authoring-to-engine.md",
    "digest": "sha256:480d7a388660fd86",
+   "revision": 3,
+   "changedAt": "2026-09-02",
    "techniques": [
     {
      "slug": "declared-vs-referenced-tag-audit",
@@ -308,6 +312,8 @@
    "status": "forged",
    "file": "knowledge/game-production/content-pipeline/acceptance-verdict-spine/acceptance-verdict-spine.md",
    "digest": "sha256:2c396d7090f2bb11",
+   "revision": 2,
+   "changedAt": "2026-08-30",
    "techniques": [
     {
      "slug": "explain-why-this-verdict",
@@ -426,6 +432,8 @@
    "status": "forged",
    "file": "knowledge/game-production/asset-production/motion-and-audio/adaptive-music-authoring/adaptive-music-authoring.md",
    "digest": "sha256:b6ee87680b6dad44",
+   "revision": 1,
+   "changedAt": "2026-09-02",
    "techniques": [
     {
      "slug": "intensity-mapping-from-declared-game-state",
@@ -537,6 +545,8 @@
    "status": "forged",
    "file": "knowledge/game-production/systems-canon/agent-behaviour-authoring/agent-behaviour-authoring.md",
    "digest": "sha256:8c0f9f7d1b52fbae",
+   "revision": 1,
+   "changedAt": "2026-09-02",
    "techniques": [
     {
      "slug": "behaviour-model-selection",
@@ -650,6 +660,8 @@
    "status": "forged",
    "file": "knowledge/game-production/systems-canon/arpg-systems-canon/arpg-systems-canon.md",
    "digest": "sha256:b12ac8bf1bcf16f8",
+   "revision": 2,
+   "changedAt": "2026-08-30",
    "techniques": [
     {
      "slug": "added-increased-more-stacking",
@@ -759,6 +771,8 @@
    "status": "forged",
    "file": "knowledge/game-production/asset-production/geometry/asset-class-poly-budgeting/asset-class-poly-budgeting.md",
    "digest": "sha256:ad3f9ae671cfd7c6",
+   "revision": 1,
+   "changedAt": "2026-09-02",
    "techniques": [
     {
      "slug": "budget-shapes-output-not-just-caps",
@@ -869,6 +883,8 @@
    "status": "forged",
    "file": "knowledge/game-production/content-pipeline/branching-narrative-graph-validation/branching-narrative-graph-validation.md",
    "digest": "sha256:eda41d48194249c4",
+   "revision": 1,
+   "changedAt": "2026-09-02",
    "techniques": [
     {
      "slug": "dead-end-versus-authored-ending",
@@ -979,6 +995,8 @@
    "status": "forged",
    "file": "knowledge/game-production/content-pipeline/catalog-pipeline-authoring/catalog-pipeline-authoring.md",
    "digest": "sha256:0f122090d1189776",
+   "revision": 2,
+   "changedAt": "2026-08-30",
    "techniques": [
     {
      "slug": "archetype-view-coherence-ratchet",
@@ -1099,6 +1117,8 @@
    "status": "forged",
    "file": "knowledge/game-production/balance-validation/combat-pacing-and-dramatic-arc/combat-pacing-and-dramatic-arc.md",
    "digest": "sha256:74791ba6f05fb35e",
+   "revision": 4,
+   "changedAt": "2026-09-02",
    "techniques": [
     {
      "slug": "beat-taxonomy-climax-comeback-deadzone",
@@ -1191,6 +1211,8 @@
    "status": "forged",
    "file": "knowledge/game-production/content-pipeline/content-acceptance-tiering/content-acceptance-tiering.md",
    "digest": "sha256:f195865b01191e50",
+   "revision": 2,
+   "changedAt": "2026-08-30",
    "techniques": [
     {
      "slug": "config-complete-vs-runtime-verified",
@@ -1298,6 +1320,8 @@
    "status": "forged",
    "file": "knowledge/game-production/content-pipeline/content-drift-and-revision/content-drift-and-revision.md",
    "digest": "sha256:b24b30438b115292",
+   "revision": 3,
+   "changedAt": "2026-08-30",
    "techniques": [
     {
      "slug": "add-only-hydration",
@@ -1426,6 +1450,8 @@
    "status": "forged",
    "file": "knowledge/game-production/engine-integration/crash-forensics-attribution/crash-forensics-attribution.md",
    "digest": "sha256:fd03a0a03435025f",
+   "revision": 2,
+   "changedAt": "2026-08-30",
    "techniques": [
     {
      "slug": "caller-chain-decay",
@@ -1542,6 +1568,8 @@
    "status": "forged",
    "file": "knowledge/game-production/systems-canon/design-canon-as-executable-law/design-canon-as-executable-law.md",
    "digest": "sha256:5294fd12c418816a",
+   "revision": 3,
+   "changedAt": "2026-08-30",
    "techniques": [
     {
      "slug": "archetype-aware-envelopes",
@@ -1657,6 +1685,8 @@
    "status": "forged",
    "file": "knowledge/game-production/craft-judgment/design-doc-compliance-scoring/design-doc-compliance-scoring.md",
    "digest": "sha256:791786a59c2d1e8b",
+   "revision": 2,
+   "changedAt": "2026-08-30",
    "techniques": [
     {
      "slug": "bidirectional-gap-detection",
@@ -1773,7 +1803,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/balance-validation/difficulty-design-and-adaptation/difficulty-design-and-adaptation.md",
-   "digest": "sha256:a9953289844e92f0",
+   "digest": "sha256:b9c0c9190ed76ce2",
+   "revision": 4,
+   "changedAt": "2026-09-07",
    "techniques": [
     {
      "slug": "four-term-difficulty-decomposition",
@@ -1787,7 +1819,8 @@
       "a difficulty complaint has no agreed cause",
       "deciding which term a difficulty change should move",
       "writing down what a difficulty setting actually scales",
-      "a balance figure assumes a player nobody has described"
+      "a balance figure assumes a player nobody has described",
+      "the first pass at the tuning values was generated or specified rather than played"
      ]
     },
     {
@@ -1855,7 +1888,7 @@
      "stack": "node",
      "technique": "four-term-difficulty-decomposition",
      "file": "knowledge/game-production/balance-validation/difficulty-design-and-adaptation/applications/node--four-term-difficulty-decomposition.md",
-     "verified_on": "2026-08-22",
+     "verified_on": "2026-09-07",
      "verified_against": "node@24"
     }
    ]
@@ -1866,6 +1899,8 @@
    "status": "forged",
    "file": "knowledge/game-production/balance-validation/encounter-balance-simulation/encounter-balance-simulation.md",
    "digest": "sha256:4d3065526d21fd1f",
+   "revision": 3,
+   "changedAt": "2026-08-30",
    "techniques": [
     {
      "slug": "goal-seek-on-a-seeded-monotonic-lever",
@@ -1981,6 +2016,8 @@
    "status": "forged",
    "file": "knowledge/game-production/engine-integration/engine-integration-safety/engine-integration-safety.md",
    "digest": "sha256:5d59d38675011278",
+   "revision": 2,
+   "changedAt": "2026-08-30",
    "techniques": [
     {
      "slug": "editor-thread-timeout-budgeting",
@@ -2099,6 +2136,8 @@
    "status": "forged",
    "file": "knowledge/game-production/engine-integration/engine-pitfall-corpus/engine-pitfall-corpus.md",
    "digest": "sha256:3c6621c30d66cf18",
+   "revision": 2,
+   "changedAt": "2026-08-30",
    "techniques": [
     {
      "slug": "binary-content-wall",
@@ -2203,6 +2242,8 @@
    "status": "forged",
    "file": "knowledge/game-production/systems-canon/game-economy-tuning/game-economy-tuning.md",
    "digest": "sha256:cbea1e79760b8811",
+   "revision": 4,
+   "changedAt": "2026-09-02",
    "techniques": [
     {
      "slug": "cost-curve-object-audit",
@@ -2398,6 +2439,8 @@
    "status": "forged",
    "file": "knowledge/game-production/engine-integration/gameplay-runtime-patterns/gameplay-runtime-patterns.md",
    "digest": "sha256:82a03a59ee64e6bd",
+   "revision": 1,
+   "changedAt": "2026-09-02",
    "techniques": [
     {
      "slug": "allocation-discipline-in-the-hot-path",
@@ -2510,6 +2553,8 @@
    "status": "forged",
    "file": "knowledge/game-production/asset-production/geometry/generated-asset-world-scale/generated-asset-world-scale.md",
    "digest": "sha256:84524565171fd9df",
+   "revision": 1,
+   "changedAt": "2026-09-02",
    "techniques": [
     {
      "slug": "generator-normalization-band",
@@ -2606,6 +2651,8 @@
    "status": "forged",
    "file": "knowledge/game-production/asset-production/geometry/generated-mesh-acceptance/generated-mesh-acceptance.md",
    "digest": "sha256:4e19f6fc7b7115d9",
+   "revision": 1,
+   "changedAt": "2026-09-02",
    "techniques": [
     {
      "slug": "defect-code-taxonomy-not-prose",
@@ -2716,6 +2763,8 @@
    "status": "forged",
    "file": "knowledge/game-production/content-pipeline/generative-artifact-gating/generative-artifact-gating.md",
    "digest": "sha256:cb53ef82acb00067",
+   "revision": 4,
+   "changedAt": "2026-09-01",
    "techniques": [
     {
      "slug": "auto-picked-vs-human-chosen-provenance",
@@ -2834,6 +2883,8 @@
    "status": "forged",
    "file": "knowledge/game-production/production-governance/generative-provider-auditing/generative-provider-auditing.md",
    "digest": "sha256:d6c9753d58921e7a",
+   "revision": 3,
+   "changedAt": "2026-09-01",
    "techniques": [
     {
      "slug": "arena-benchmark-protocol",
@@ -2958,7 +3009,9 @@
    "subcategory": "sourcing-economics",
    "status": "forged",
    "file": "knowledge/game-production/asset-production/sourcing-economics/image-to-3d-input-gating/image-to-3d-input-gating.md",
-   "digest": "sha256:a2a699d4950daad8",
+   "digest": "sha256:507623277514832d",
+   "revision": 2,
+   "changedAt": "2026-09-07",
    "techniques": [
     {
      "slug": "canonical-pose-rule",
@@ -2989,6 +3042,21 @@
      ]
     },
     {
+     "slug": "part-cut-planning",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity",
+      "a-budget-shapes-the-output"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a subject is too complex to reconstruct in one generation",
+      "deciding where to cut a character or creature into separately generated parts",
+      "part generations keep coming back fused or unusable at the joins",
+      "planning the reference set for a multi-part asset"
+     ]
+    },
+    {
      "slug": "reference-role-tagging",
      "status": "forged",
      "laws": [
@@ -3000,6 +3068,22 @@
       "handing more than one reference image to a reconstruction",
       "references are fighting each other",
       "deciding what a colour reference may and may not carry"
+     ]
+    },
+    {
+     "slug": "scene-partition-is-the-gated-unit",
+     "status": "forged",
+     "laws": [
+      "an-instrument-proves-it-had-input",
+      "a-verdict-is-bound-to-its-content",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "one source image is meant to yield several assets",
+      "gating a reconstruction that decomposes a scene into parts",
+      "a generated scene came back looking complete and something is missing from it",
+      "deciding what a scene-mode reconstruction gate actually judges"
      ]
     },
     {
@@ -3047,9 +3131,23 @@
    "applications": [
     {
      "stack": "node",
+     "technique": "part-cut-planning",
+     "file": "knowledge/game-production/asset-production/sourcing-economics/image-to-3d-input-gating/applications/node--part-cut-planning.md",
+     "verified_on": "2026-09-07",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
      "technique": "reference-role-tagging",
      "file": "knowledge/game-production/asset-production/sourcing-economics/image-to-3d-input-gating/applications/node--reference-role-tagging.md",
      "verified_on": "2026-08-30",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "scene-partition-is-the-gated-unit",
+     "file": "knowledge/game-production/asset-production/sourcing-economics/image-to-3d-input-gating/applications/node--scene-partition-is-the-gated-unit.md",
+     "verified_on": "2026-09-07",
      "verified_against": "node@24"
     },
     {
@@ -3073,6 +3171,8 @@
    "status": "forged",
    "file": "knowledge/game-production/content-pipeline/judgeable-spec-authoring/judgeable-spec-authoring.md",
    "digest": "sha256:519408b2a5048b8a",
+   "revision": 2,
+   "changedAt": "2026-09-01",
    "techniques": [
     {
      "slug": "enumeration-closure-as-arithmetic",
@@ -3196,6 +3296,8 @@
    "status": "forged",
    "file": "knowledge/game-production/balance-validation/learning-curve-and-teaching-design/learning-curve-and-teaching-design.md",
    "digest": "sha256:4a03fa93db7acb58",
+   "revision": 1,
+   "changedAt": "2026-09-02",
    "techniques": [
     {
      "slug": "flow-corridor-as-two-sided-envelope",
@@ -3302,7 +3404,9 @@
    "subcategory": "geometry",
    "status": "forged",
    "file": "knowledge/game-production/asset-production/geometry/mesh-finishing-for-engine-readiness/mesh-finishing-for-engine-readiness.md",
-   "digest": "sha256:a8939bf0bf242d90",
+   "digest": "sha256:f3423260876a233d",
+   "revision": 2,
+   "changedAt": "2026-09-07",
    "techniques": [
     {
      "slug": "crease-angle-and-custom-normals",
@@ -3378,6 +3482,21 @@
      ]
     },
     {
+     "slug": "texture-pass-must-consume-the-bake",
+     "status": "forged",
+     "laws": [
+      "declaring-an-input-is-not-consuming-it",
+      "one-authority-per-quantity"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "sending a finished mesh to a generative texturing service",
+      "colour and surface detail disagree on a baked asset",
+      "deciding whether to texture before or after the bake",
+      "routing parts between texturing tools"
+     ]
+    },
+    {
      "slug": "unwrap-only-the-low-poly",
      "status": "forged",
      "laws": [
@@ -3402,6 +3521,13 @@
     },
     {
      "stack": "node",
+     "technique": "texture-pass-must-consume-the-bake",
+     "file": "knowledge/game-production/asset-production/geometry/mesh-finishing-for-engine-readiness/applications/node--texture-pass-must-consume-the-bake.md",
+     "verified_on": "2026-09-07",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
      "technique": "unwrap-only-the-low-poly",
      "file": "knowledge/game-production/asset-production/geometry/mesh-finishing-for-engine-readiness/applications/node--unwrap-only-the-low-poly.md",
      "verified_on": "2026-08-30",
@@ -3421,6 +3547,8 @@
    "status": "forged",
    "file": "knowledge/game-production/asset-production/motion-and-audio/motion-quality-gating/motion-quality-gating.md",
    "digest": "sha256:6e0250d10f5ebac1",
+   "revision": 1,
+   "changedAt": "2026-09-02",
    "techniques": [
     {
      "slug": "absolute-not-curved-judgment",
@@ -3541,6 +3669,8 @@
    "status": "forged",
    "file": "knowledge/game-production/craft-judgment/playtest-signal-to-defect/playtest-signal-to-defect.md",
    "digest": "sha256:b9e1aa724c895b57",
+   "revision": 1,
+   "changedAt": "2026-09-02",
    "techniques": [
     {
      "slug": "complaint-to-owning-subject-routing",
@@ -3652,6 +3782,8 @@
    "status": "forged",
    "file": "knowledge/game-production/balance-validation/procedural-level-planning/procedural-level-planning.md",
    "digest": "sha256:f519280ac89d6719",
+   "revision": 5,
+   "changedAt": "2026-09-02",
    "techniques": [
     {
      "slug": "algorithm-parameter-support-matrix",
@@ -3822,6 +3954,8 @@
    "status": "forged",
    "file": "knowledge/game-production/production-governance/production-coverage-measurement/production-coverage-measurement.md",
    "digest": "sha256:f5c545d4ace70164",
+   "revision": 2,
+   "changedAt": "2026-08-30",
    "techniques": [
     {
      "slug": "audited-fact-drift-detection",
@@ -3941,6 +4075,8 @@
    "status": "forged",
    "file": "knowledge/game-production/production-governance/production-prompt-architecture/production-prompt-architecture.md",
    "digest": "sha256:04ef223250cb94b2",
+   "revision": 2,
+   "changedAt": "2026-08-30",
    "techniques": [
     {
      "slug": "acceptance-criteria-appended-not-replaced",
@@ -4049,6 +4185,8 @@
    "status": "forged",
    "file": "knowledge/game-production/production-governance/production-work-prioritization/production-work-prioritization.md",
    "digest": "sha256:7fe8a0d9a34ea372",
+   "revision": 3,
+   "changedAt": "2026-09-02",
    "techniques": [
     {
      "slug": "blocked-if-any-produced-feature-is-blocked",
@@ -4213,6 +4351,8 @@
    "status": "forged",
    "file": "knowledge/game-production/production-governance/prompt-fitness-and-evolution/prompt-fitness-and-evolution.md",
    "digest": "sha256:1e4c8d8d453819e9",
+   "revision": 2,
+   "changedAt": "2026-08-30",
    "techniques": [
     {
      "slug": "exclude-synthetic-fixtures-from-fitness",
@@ -4327,6 +4467,8 @@
    "status": "forged",
    "file": "knowledge/game-production/craft-judgment/quality-verdict-integrity/quality-verdict-integrity.md",
    "digest": "sha256:523a7830a1ecdb06",
+   "revision": 2,
+   "changedAt": "2026-08-30",
    "techniques": [
     {
      "slug": "calibration-against-confirmed-labels-only",
@@ -4445,6 +4587,8 @@
    "status": "forged",
    "file": "knowledge/game-production/systems-canon/realtime-combat-semantics/realtime-combat-semantics.md",
    "digest": "sha256:d81e35ff68e40bae",
+   "revision": 2,
+   "changedAt": "2026-08-30",
    "techniques": [
     {
      "slug": "active-defense-two-axis-split",
@@ -4558,6 +4702,8 @@
    "status": "forged",
    "file": "knowledge/game-production/content-pipeline/reference-parity-gating/reference-parity-gating.md",
    "digest": "sha256:4155fac43bb39973",
+   "revision": 1,
+   "changedAt": "2026-08-31",
    "techniques": [
     {
      "slug": "defect-cap-bounded-to-its-reach",
@@ -4678,6 +4824,8 @@
    "status": "forged",
    "file": "knowledge/game-production/asset-production/sourcing-economics/regeneration-vs-repair-economics/regeneration-vs-repair-economics.md",
    "digest": "sha256:60a55e5315340266",
+   "revision": 1,
+   "changedAt": "2026-09-02",
    "techniques": [
     {
      "slug": "best-of-n-parameter-sweep",
@@ -4787,6 +4935,8 @@
    "status": "forged",
    "file": "knowledge/game-production/engine-integration/runtime-observation-evidence/runtime-observation-evidence.md",
    "digest": "sha256:c39d92e70857c9d1",
+   "revision": 2,
+   "changedAt": "2026-08-30",
    "techniques": [
     {
      "slug": "behavioural-discriminators-over-symbolic-pass",
@@ -4906,6 +5056,8 @@
    "status": "forged",
    "file": "knowledge/game-production/asset-production/surface-and-imagery/shader-budget-authoring/shader-budget-authoring.md",
    "digest": "sha256:814526a142dd175e",
+   "revision": 1,
+   "changedAt": "2026-09-02",
    "techniques": [
     {
      "slug": "channel-packing",
@@ -5021,6 +5173,8 @@
    "status": "forged",
    "file": "knowledge/game-production/engine-integration/ship-pipeline-gating/ship-pipeline-gating.md",
    "digest": "sha256:de0b345e898f6956",
+   "revision": 2,
+   "changedAt": "2026-08-30",
    "techniques": [
     {
      "slug": "editor-only-api-audit-for-shipping",
@@ -5140,6 +5294,8 @@
    "status": "forged",
    "file": "knowledge/game-production/asset-production/motion-and-audio/spatial-audio-scene-authoring/spatial-audio-scene-authoring.md",
    "digest": "sha256:15c3a806b016eed9",
+   "revision": 1,
+   "changedAt": "2026-09-02",
    "techniques": [
     {
      "slug": "attenuation-falloff-and-distance-filtering",
@@ -5249,6 +5405,8 @@
    "status": "forged",
    "file": "knowledge/game-production/asset-production/surface-and-imagery/sprite-and-atlas-production/sprite-and-atlas-production.md",
    "digest": "sha256:e77e8a24eccf56b7",
+   "revision": 1,
+   "changedAt": "2026-09-02",
    "techniques": [
     {
      "slug": "atlas-packing-and-bleed-margins",
@@ -5369,6 +5527,8 @@
    "status": "forged",
    "file": "knowledge/game-production/craft-judgment/subsystem-review-doctrine/subsystem-review-doctrine.md",
    "digest": "sha256:1283ec821397f6bc",
+   "revision": 2,
+   "changedAt": "2026-08-30",
    "techniques": [
     {
      "slug": "four-pass-ordering",
@@ -5484,6 +5644,8 @@
    "status": "forged",
    "file": "knowledge/game-production/balance-validation/terrain-synthesis-acceptance/terrain-synthesis-acceptance.md",
    "digest": "sha256:172b6c4cc91ee150",
+   "revision": 1,
+   "changedAt": "2026-09-02",
    "techniques": [
     {
      "slug": "biome-mask-cross-consistency",
@@ -5601,6 +5763,8 @@
    "status": "forged",
    "file": "knowledge/game-production/asset-production/surface-and-imagery/tiling-texture-acceptance/tiling-texture-acceptance.md",
    "digest": "sha256:9784bddd6401f00f",
+   "revision": 1,
+   "changedAt": "2026-09-02",
    "techniques": [
     {
      "slug": "biome-themed-tile-prompting",
@@ -5725,6 +5889,8 @@
    "status": "forged",
    "file": "knowledge/game-production/craft-judgment/unattended-build-loop/unattended-build-loop.md",
    "digest": "sha256:56104d94acef6086",
+   "revision": 3,
+   "changedAt": "2026-08-30",
    "techniques": [
     {
      "slug": "budget-reservation-and-drain-not-kill",
@@ -5866,6 +6032,8 @@
    "status": "forged",
    "file": "knowledge/game-production/engine-integration/visual-script-to-code-transpilation/visual-script-to-code-transpilation.md",
    "digest": "sha256:04918a29c58b25da",
+   "revision": 2,
+   "changedAt": "2026-08-30",
    "techniques": [
     {
      "slug": "declaration-definition-parity",
@@ -5959,6 +6127,8 @@
    "status": "forged",
    "file": "knowledge/game-production/content-pipeline/wiring-contract-doctrine/wiring-contract-doctrine.md",
    "digest": "sha256:6f9e2fa312b961ba",
+   "revision": 2,
+   "changedAt": "2026-08-30",
    "techniques": [
     {
      "slug": "contract-injection-into-prompts",
@@ -6191,6 +6361,7 @@
     "generative-provider-auditing/record-negative-benchmarks-in-place",
     "generative-provider-auditing/refuse-with-reason-not-greyed-out",
     "image-to-3d-input-gating/canonical-pose-rule",
+    "image-to-3d-input-gating/scene-partition-is-the-gated-unit",
     "image-to-3d-input-gating/score-defect-verdict-protocol",
     "image-to-3d-input-gating/single-subject-plain-background",
     "judgeable-spec-authoring/register-discipline-in-a-spec",
@@ -6335,6 +6506,7 @@
     "generative-provider-auditing/never-the-account-default",
     "generative-provider-auditing/pin-a-model-per-asset-class",
     "image-to-3d-input-gating/multi-view-master-reference",
+    "image-to-3d-input-gating/part-cut-planning",
     "image-to-3d-input-gating/reference-role-tagging",
     "judgeable-spec-authoring/enumeration-closure-as-arithmetic",
     "judgeable-spec-authoring/interpolated-counts-over-typed-counts",
@@ -6343,6 +6515,7 @@
     "learning-curve-and-teaching-design/skill-atom-inventory",
     "mesh-finishing-for-engine-readiness/crease-angle-and-custom-normals",
     "mesh-finishing-for-engine-readiness/rig-preset-and-bone-remap-binding",
+    "mesh-finishing-for-engine-readiness/texture-pass-must-consume-the-bake",
     "motion-quality-gating/genre-response-latency-norms",
     "playtest-signal-to-defect/complaint-to-owning-subject-routing",
     "procedural-level-planning/seed-determinism-contract",
@@ -6703,6 +6876,7 @@
     "aaa-craft-rubric-authoring/deliberately-overlapping-criteria",
     "adaptive-music-authoring/intensity-mapping-from-declared-game-state",
     "branching-narrative-graph-validation/reachability-and-orphan-detection",
+    "image-to-3d-input-gating/scene-partition-is-the-gated-unit",
     "playtest-signal-to-defect/repro-minimization-protocol",
     "playtest-signal-to-defect/session-instrumentation-contract",
     "playtest-signal-to-defect/unreproducible-is-a-state-not-a-dismissal",
@@ -6729,6 +6903,7 @@
     "generative-artifact-gating/generation-history-as-artifact",
     "generative-artifact-gating/grade-the-selected-candidate",
     "image-to-3d-input-gating/multi-view-master-reference",
+    "image-to-3d-input-gating/scene-partition-is-the-gated-unit",
     "learning-curve-and-teaching-design/time-to-competence-measurement",
     "motion-quality-gating/filmstrip-sampling-discipline",
     "playtest-signal-to-defect/session-instrumentation-contract",
@@ -6785,6 +6960,7 @@
    "statement": "A field a producer fills and no consumer ever reads is, from the producing side, indistinguishable from one that governs everything downstream: it validates, it round-trips, it appears in the schema, and the artifact carrying it looks configured. From the consuming side it does not exist. So the question a pipeline must be able to answer about every declared input is not whether something wrote it but whether something *reads* it — a census of readers, never of writers — and an input with no reader is reported as ignored at the moment it is declared, not discovered later by whoever trusted it. A generator states which of its declared parameters the selected algorithm actually consumes; an authored vocabulary is audited in both directions, for names referenced but never declared and for names declared but never referenced; and a constraint stored as prose in a field no checker parses is worse than an absent one, because absence is visible and prose reads as authored. This is the mirror of the rule that compiling is not wiring: that one governs a produced artifact nothing can reach, this one governs a declared input nothing consults, and they are the same disease at opposite ends of the pipe.",
    "techniques": [
     "ability-authoring-to-engine/declared-vs-referenced-tag-audit",
+    "mesh-finishing-for-engine-readiness/texture-pass-must-consume-the-bake",
     "procedural-level-planning/declare-what-each-engine-ignores"
    ]
   },
@@ -6837,6 +7013,7 @@
     "gameplay-runtime-patterns/pattern-selection-by-force-present",
     "generative-provider-auditing/arena-benchmark-protocol",
     "generative-provider-auditing/pin-a-model-per-asset-class",
+    "image-to-3d-input-gating/part-cut-planning",
     "image-to-3d-input-gating/text-is-never-geometry",
     "learning-curve-and-teaching-design/teaching-escalation-ladder",
     "motion-quality-gating/montage-budget-and-root-motion-lint",

@@ -1,0 +1,146 @@
+{
+  "id": "295d0871-6f35-5c8c-b728-5e87c145c72f",
+  "slug": "payment-event-scoring-for-churn-and-expansion",
+  "title": "Payment event scoring for churn and expansion",
+  "version": "0.2.0",
+  "status": "seed",
+  "path": "finance_accounting/revenue",
+  "domain": "finance_accounting",
+  "description": {
+    "need": "An account sliding toward churn, or ready to expand, is visible in payment behaviour long before it shows up in a business review, and a failed payment has a short window in which it can still be recovered. A large share of subscription losses are accounts that never decided to leave at all, and treating those as churn risk is how a team ends up sending a retention offer to a customer whose card simply expired.",
+    "input": "Payment and subscription events as they arrive, the payment credentials due to expire before the next charge, customer context from a CRM where one is bound, and the current per-account scores and open alert windows.",
+    "core_action": "Decide which kind of leaving each signal points at, an account choosing to go or an account about to lapse for a reason nobody chose, then turn the first into a movement in that account's risk and readiness scores and the second into a collection problem, and speak only when a band was crossed that somebody would act on.",
+    "output": "One alert per real crossing, naming the factors behind it and which kind of problem it is, with duplicates inside the window suppressed, resolved failures closed, and every score written down with the claim it is making."
+  },
+  "activities": [
+    {
+      "id": "receive",
+      "label": "Receive payment and subscription events as they arrive, and notice the payment credentials due to expire before the next charge",
+      "kind": "observe"
+    },
+    {
+      "id": "enrich",
+      "label": "Enrich with CRM context where one is bound, degrading gracefully when not",
+      "kind": "observe"
+    },
+    {
+      "id": "classify-failure",
+      "label": "Separate a collection failure that will clear on its own from one the customer has to act on, and both from a decision to leave",
+      "kind": "decide"
+    },
+    {
+      "id": "score",
+      "label": "Move the account's churn risk and expansion readiness scores, keeping a failure to collect out of the risk score",
+      "kind": "decide"
+    },
+    {
+      "id": "judge-crossing",
+      "label": "Judge whether a band was crossed and whether this window is already open",
+      "kind": "decide"
+    },
+    {
+      "id": "record",
+      "label": "Record the score, what it claims, and the horizon it is claiming over",
+      "kind": "act"
+    },
+    {
+      "id": "raise",
+      "label": "Raise the crossing with its factors, or close a failure that resolved on retry",
+      "kind": "deliver"
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "risk-and-expansion-known-fast",
+      "statement": "An account sliding toward churn or ready for expansion is known within minutes of the signal appearing, not discovered at the next business review.",
+      "success_criteria": [
+        "Every threshold crossing, a churn risk band change or an expansion score clearing its bar, fires on its own rather than waiting for a batch report",
+        "A customer too new to have a pattern is scored at low confidence rather than treated as equally reliable as an established account",
+        "A duplicate alert for the same account inside the configured window is suppressed",
+        "Every score is recorded with the horizon it is claiming over, so a later pass can ask whether accounts scored at this level actually did what the score said",
+        "An account the people who know it say was never at risk is recorded against the score that claimed it was, with their reason, so the next crossing on that account carries what its score has already been wrong about to whoever the alert reaches"
+      ]
+    },
+    {
+      "id": "leaving-and-lapsing-stay-separate",
+      "statement": "A customer who never decided to leave is never reported as one who did.",
+      "success_criteria": [
+        "A lapse caused by a payment that could not be collected does not move the churn risk score, because that score is a claim about the customer's intent and a failed card is a claim about a card",
+        "Every alert says which of the two kinds of problem it is, since the useful next step for one is a conversation and for the other is a card update, and doing the wrong one is worse than doing nothing",
+        "An account carrying both, a payment problem and a genuine drop in engagement, is reported as both rather than collapsed into whichever fired first"
+      ]
+    },
+    {
+      "id": "no-revenue-lost-to-a-quiet-failure",
+      "statement": "Revenue is not lost to a payment that failed quietly, or to one that was going to fail and could have been prevented.",
+      "success_criteria": [
+        "A decline the provider will retry on its own is not raised to a person on the first attempt, and one the provider cannot retry without new details from the customer is raised immediately, because waiting on retries that cannot succeed spends the whole recovery window",
+        "A payment credential known to expire before the next charge is surfaced before the charge fails, since a failure that has not happened yet is the cheapest one to prevent",
+        "A failure is raised once with its cause and attempt count rather than on every retry",
+        "A failure that resolves on retry is closed rather than left open, so the count of open collection problems is true",
+        "Repeated failures on one account are reported as a pattern rather than as a series of incidents"
+      ]
+    }
+  ],
+  "guidance": "The most useful judgment here is which kind of leaving this is. An account whose card expired has not decided anything, and scoring it as churn risk produces a save offer where a card update was needed. Separate a decline that will clear on its own from one the customer has to act on, and involve a person only for the second. Degrade to payment data alone with the gap flagged. Suppress repeats inside the window, and never contact a customer unless the adopter has said to.",
+  "use_cases": [
+    "A subscription business that has never separated the customers who left from the ones whose payments stopped working, and for whom the first honest measurement of that split will change what the retention work is aimed at.",
+    "A team whose churn alerts are read as background noise because every retry of the same failed invoice produced another one, and where the value of adoption is mostly in what stops being sent.",
+    "A small revenue team with no dedicated collections process, where a failed payment currently sits until somebody notices at month end and the recovery window has closed by then.",
+    "A product with usage-based or seat-based billing, where an expansion signal appears in payment behaviour weeks before anybody in the company would have thought to ask for the upgrade.",
+    "An operation running a churn score that nobody has ever checked, where writing down what each score claims and by when is the precondition for ever finding out whether it works."
+  ],
+  "connector_types": [
+    "finance",
+    "crm"
+  ],
+  "recommended_trigger": {
+    "kind": "event",
+    "rationale": "A payment event is a real external event with a short recovery window, so the recipe wakes on it rather than pacing itself. A short polling interval is an approximation of this, not a preference: it exists where polling is the only mechanism available, and it should be replaced by the provider's own event delivery where that exists."
+  },
+  "personalization_needs": [
+    "Whether the adopter wants any customer contact at all from this work, because the source template sent retention email automatically and that is a decision they have not made and must not be made for them",
+    "Which accounts and products are in scope, because test and internal accounts otherwise produce scores and alerts for movement that never happened",
+    "What band crossing is worth an interruption, because the same score movement is a crisis in a small book of accounts and noise in a large one",
+    "Who handles a collection problem and who handles a retention conversation, because they are usually different people and an alert that does not know which one it is going to will reach the wrong one",
+    "How long the provider's own retry schedule runs, because that period is the difference between an alert that arrives while something can still be done and one that arrives after the subscription has already ended"
+  ],
+  "dependencies": [],
+  "input_schema": [
+    {
+      "name": "alert_threshold",
+      "type": "enum",
+      "options": [
+        "conservative",
+        "balanced",
+        "aggressive"
+      ],
+      "default": "balanced",
+      "description": "How much movement is worth interrupting somebody for. Conservative raises only the worst band. Balanced adds band transitions in either direction. Aggressive adds any large jump, which is only useful on a book of accounts small enough that a person can read every one."
+    }
+  ],
+  "examples": [
+    {
+      "title": "Stripe as the payments connector",
+      "connector": "stripe",
+      "connector_type": "finance",
+      "notes": "See examples/stripe.md."
+    },
+    {
+      "title": "HubSpot as the enrichment source",
+      "connector": "hubspot",
+      "connector_type": "crm",
+      "notes": "See examples/hubspot.md."
+    }
+  ],
+  "lessons": [],
+  "provenance": {
+    "from_recipes": [
+      "295d0871-6f35-5c8c-b728-5e87c145c72f"
+    ],
+    "from_templates": [
+      "revenue-intelligence-copilot"
+    ],
+    "source_template_id": "revenue-intelligence-copilot"
+  }
+}

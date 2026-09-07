@@ -1,0 +1,125 @@
+{
+  "id": "d227eebc-94f4-5dfd-8c07-8cad40de7b75",
+  "slug": "database-schema-picture-refresh",
+  "title": "Database schema picture refresh",
+  "version": "0.2.0",
+  "status": "seed",
+  "path": "data_ai/data-access",
+  "domain": "data_ai",
+  "description": {
+    "need": "Anything answering questions about a database works from a cached picture of its structure, and the caching is usually done once and never revisited. When the real database moves and the picture does not, the answers stay confident and become wrong, which is worse than failing. The hardest case leaves the structure untouched: a column that kept its name and changed its meaning passes every comparison there is.",
+    "input": "The real structure of the database as this credential is permitted to see it, the picture currently held, and when that picture was last confirmed.",
+    "core_action": "Decide whether a fresh read is trustworthy enough to replace what is held, since a bad read that overwrites a good picture does more damage than a stale one, and decide what a difference actually is, because a rename is not a drop followed by an addition.",
+    "output": "A picture of the schema that either matches the database or is openly known to be the last good one, dated with when it was last confirmed and against which database."
+  },
+  "activities": [
+    {
+      "id": "read",
+      "label": "Read the real structure of the database as this credential can see it",
+      "kind": "observe"
+    },
+    {
+      "id": "diff",
+      "label": "Compare it against the picture currently held",
+      "kind": "decide"
+    },
+    {
+      "id": "interpret",
+      "label": "Read a rename as a rename rather than as a drop and an addition",
+      "kind": "decide"
+    },
+    {
+      "id": "judge",
+      "label": "Decide whether the read is trustworthy enough to replace what is held",
+      "kind": "decide"
+    },
+    {
+      "id": "update",
+      "label": "Replace the picture, or keep the last good one when the read failed",
+      "kind": "act"
+    },
+    {
+      "id": "date",
+      "label": "Date the picture with what was confirmed, when, and against which database",
+      "kind": "act"
+    },
+    {
+      "id": "tell",
+      "label": "Say what moved, and say plainly when the picture could not be refreshed",
+      "kind": "deliver"
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "schema-picture-current",
+      "statement": "The held picture of the schema never lies about what the real database looks like.",
+      "success_criteria": [
+        "New tables, altered columns and dropped entities are detected and reflected",
+        "A renamed entity is recorded as a rename with its previous name kept, so a query written against the old name fails with an explanation rather than as a missing table",
+        "A failed read leaves the last known good picture in place rather than corrupting it, and is disclosed rather than left silent",
+        "A structural change that anyone answering questions depends on is announced, not only stored",
+        "A rename this pass inferred and a person rejected, or a drop and an addition they say was really one, is kept on the picture as their answer, so the next refresh does not put the same guess up over that pair again"
+      ]
+    },
+    {
+      "id": "the-picture-can-be-judged-stale",
+      "statement": "A consumer of the picture can tell how old it is and what it is a claim about, instead of assuming it is current.",
+      "success_criteria": [
+        "The picture carries when it was last confirmed, not only when it was last changed",
+        "A pass that found no change records that it looked and found none, because that is what dates the picture",
+        "The picture names which database it was read from, since a read against a replica or a staging copy is not a claim about the one the answers come from"
+      ]
+    },
+    {
+      "id": "the-limits-of-a-structural-read-are-stated",
+      "statement": "A clean report is not taken as a promise that the data still means what it did.",
+      "success_criteria": [
+        "A column that kept its name while its meaning moved is out of reach of this work, and a clean report says so rather than implying otherwise",
+        "A part of the database this credential is not permitted to see is reported as unseen rather than as absent"
+      ]
+    }
+  ],
+  "guidance": "Protect the picture before improving it: a failed read that overwrites a good one does more damage than a stale one, so keep the last good version and make the failure visible. Read a rename as a rename, because recording it as a drop and an addition destroys every query that used the old name. Date every picture, including the passes that found nothing, and say which database it came from. A clean structural report is not a claim that the data still means what it did.",
+  "use_cases": [
+    "A team that stood up a question answering assistant six months ago, whose schema was read once at setup and never again, and whose answers have been quietly degrading since the first migration.",
+    "A product shipping migrations weekly, where a column rename lands on a Tuesday and everything downstream reports a missing table until somebody notices on Thursday.",
+    "An analytics stack pointed at a read replica, where a schema confirmed on the replica is treated as a statement about production and the two have diverged before.",
+    "A data team inheriting a warehouse whose documentation was written at handover, where nobody can currently say which of two hundred tables are still written to.",
+    "An engineer at three in the morning trying to tell whether an assistant's wrong answer came from a bad question or from a schema that moved underneath it, with nothing on the picture saying when it was last confirmed."
+  ],
+  "connector_types": [
+    "database",
+    "messaging"
+  ],
+  "recommended_trigger": {
+    "kind": "self_paced",
+    "rationale": "What is watched is the picture going stale: time since the last good read, and any sign the structure moved under an answer. A nightly cron is one realisation of that, and it refreshes on quiet nights while still letting a picture be wrong all day after a morning migration."
+  },
+  "personalization_needs": [
+    "Which database and which schema this picture covers, since one picture across several is a different job",
+    "Which environment this picture is a claim about, because reading a replica or a staging copy is cheaper and is not the same claim as reading the database the answers actually come from",
+    "Who needs to hear that the structure moved, because a dropped column breaks whoever was relying on it and not everybody",
+    "How often the structure realistically changes here, which is what makes a refresh worth doing at all",
+    "Whether this adopter has anywhere that records what a column means, since that is the only place the change this work cannot see would be caught"
+  ],
+  "dependencies": [],
+  "input_schema": [],
+  "examples": [
+    {
+      "title": "PostgreSQL as the database connector",
+      "connector": "postgres",
+      "connector_type": "database",
+      "notes": "See examples/postgres.md."
+    }
+  ],
+  "lessons": [],
+  "provenance": {
+    "from_recipes": [
+      "d227eebc-94f4-5dfd-8c07-8cad40de7b75"
+    ],
+    "from_templates": [
+      "conversational-database-analyst"
+    ],
+    "source_template_id": "conversational-database-analyst"
+  }
+}

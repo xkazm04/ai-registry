@@ -13,6 +13,9 @@ techniques:
   - fixture-repo-testing
   - declared-deviation-register
   - edition-stratified-conformance
+  - inline-predicate-rung-inference
+  - rule-registry-enumerated-fixtures
+  - derived-expectation-needs-an-evidence-floor
 ---
 
 # Conformance checking
@@ -66,6 +69,18 @@ should say so, because a reader who sees a green mark will assume execution
 happened. The discipline for structuring this ladder — and for refusing to
 treat a self-declared `verified` flag as evidence of anything — is
 [declared-then-proven](./techniques/declared-then-proven.md).
+
+All three rungs assume the declaration's subject can be reached at check
+time. Sometimes it cannot — a manifest describing dependencies deliberately
+not installed has nothing to stat, load or run — and the only remaining
+evidence is the source of the thing being described. A check can then
+*derive* what the declaration should say and diff it, which is strong
+evidence and the one check shape that fails toward silence: when the
+derivation stops finding anything, the assertion gets easier to satisfy, and
+a suite whose instrument has been disarmed reports the same green as one that
+verified everything. The counter is a floor on the evidence the run derived,
+asserted over the population rather than the case, in
+[derived-expectation-needs-an-evidence-floor](./techniques/derived-expectation-needs-an-evidence-floor.md).
 
 ## What a finding is allowed to do
 

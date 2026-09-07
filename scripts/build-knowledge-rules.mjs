@@ -120,6 +120,15 @@ standard say about this file?" into a lookup:
   in that form. The header's \`stats.staleVerdicts\` counts them and \`staleSubjects\` names
   them. When the count is above zero, treat those states as unknown and run
   \`/conform --stale\` before relying on them; the registry landed something there.
+- **How far behind is a number, not a guess.** Beside \`digest\`, each subject in the
+  registry's \`index.json\` carries \`revision\` (a count of the commits that touched the
+  subject's folder, so it only ever grows) and \`changedAt\` (the date of the newest one).
+  The digest is IDENTITY and stays the sync key; the revision is ORDERING. When
+  \`/conform\` writes a verdict it copies the pair's \`revision\` into \`evaluatedRevision\`,
+  so a stale pair can report \`revisionsBehind = revision - evaluatedRevision\`: one is a
+  touch-up, five is a rewrite, and the two deserve different re-reads. A \`null\` revision
+  means the registry could not count (a shallow clone with no earlier value) - treat it
+  as "unknown distance", never as zero.
 - A row marked \`governance: "weak"\` means the declared domains barely cover that context.
   Treat guidance there with suspicion and say so; it is a coverage question for the
   registry, not a standard to force onto the code.

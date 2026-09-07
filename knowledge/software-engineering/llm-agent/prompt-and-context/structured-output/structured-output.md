@@ -10,9 +10,11 @@ techniques:
   - output-budget-signal
   - op-grammar-allowlisting
   - constrained-decoding-is-a-shared-budget
+  - constraint-and-tool-channel-exclusion
   - artifact-lifecycle
   - display-vs-machine-channels
   - extraction-observability
+  - enumerable-domain-decoding
 ---
 
 # Structured model output & artifact extraction
@@ -56,7 +58,13 @@ When *not* to build this:
   door: constrained decoding guarantees syntax, and syntax was never the
   contract. A well-formed object naming an entity that does not exist, a
   quantity out of range, or an operation outside the allowlist is exactly as
-  dangerous well-formed as malformed.
+  dangerous well-formed as malformed. And it carries one hard precondition: the
+  turn must not also need to **act**. On providers that emit tool calls through
+  the same channel as the content, a grammar over that channel makes the
+  tool-call token unemittable and the model answers from nothing, at success,
+  with a validating object — so a turn carrying both a schema and tools is
+  refused at assembly and split in two
+  ([constraint-and-tool-channel-exclusion](./techniques/constraint-and-tool-channel-exclusion.md)).
 
 ## The model is an unreliable serializer
 

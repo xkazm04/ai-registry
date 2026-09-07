@@ -269,6 +269,25 @@ defect to explain rather than as a frugal result to celebrate. Under-spend is th
 of this failure - the cheapest check is to compare context actually used against context
 allowed, per arm, and to look hard at any arm that leaves most of it on the table.
 
+**Except where the cap trims inside an item that was admitted.** The under-spend
+signature detects a cap that admits *fewer things*; it is blind to a cap that admits the
+right things and shortens them. An arm that selects the correct page and then truncates it
+to fit reports the budget as fully spent, names that page in whatever provenance it
+returns, and hands the consumer a context that looks complete and lacks the answer. Two
+independently built stores carry exactly this shape: one passed a per-item character
+ceiling inherited from an unrelated consumer, five times smaller than the items it was now
+cutting, and its first judged run abstained on 11 of 25 questions whose correct source had
+been retrieved at rank one; another truncates its top item to the remaining budget in a
+single unlogged slice when that item alone overruns.
+
+The signature there is not frugality, it is **abstention, or a confident wrong answer
+against a full-looking context** — and when the consumer is a generator rather than a
+scorer, that is indistinguishable from the arm simply not having the fact. The counter-
+instrument is per-item and belongs beside the per-arm one: **count the items the arm
+truncated, and carry that count on every row**. An arm reporting a full budget and a
+non-zero truncation count has told you where its accuracy went; the same arm without the
+counter has told you its design does not work.
+
 ## Re-run, never inherited
 
 Because a consumer swap can move the outcome further than an architecture

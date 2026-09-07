@@ -1,0 +1,128 @@
+{
+  "id": "db563881-c358-5d0d-aab5-7a22573f050d",
+  "slug": "application-error-scan",
+  "title": "Application error scan",
+  "version": "0.2.0",
+  "status": "seed",
+  "path": "software_engineering/error-triage",
+  "domain": "software_engineering",
+  "description": {
+    "need": "An error list that shows the same dismissed pattern every day teaches its readers to skim, and the one new error that matters goes past unread with the rest. The list also lies about its own shape: a single bug split across hundreds of signatures never crosses any threshold, and two different bugs collapsed into one signature look fixed the moment either is fixed.",
+    "input": "Unresolved errors from the monitoring provider over a window, each with its signature, its occurrence count, how many distinct users or sessions it reached, the release it first appeared in, and the record of how this team has triaged signatures like it before.",
+    "core_action": "Decide which errors are genuinely new, genuinely escalating, or genuinely returning after being resolved, using the count, the reach and the triage history together, and let a signature the team has repeatedly judged unimportant fall quiet without anyone having to judge it again.",
+    "output": "A written account of the window naming what is new, what is escalating and what has regressed, with the suppressed signatures counted rather than hidden, an explicitly stated baseline on the first run, and an explicitly stated zero when there is nothing to report."
+  },
+  "activities": [
+    {
+      "id": "pull",
+      "label": "Pull the window's errors with counts, reach and first seen release",
+      "kind": "observe"
+    },
+    {
+      "id": "recall",
+      "label": "Match each signature against how this team triaged it before",
+      "kind": "observe"
+    },
+    {
+      "id": "classify",
+      "label": "Rank by reach and trajectory rather than by raw count alone",
+      "kind": "decide"
+    },
+    {
+      "id": "separate",
+      "label": "Separate the new, the escalating and the regressed from settled noise",
+      "kind": "decide"
+    },
+    {
+      "id": "record",
+      "label": "Write the account, including a clean window recorded as clean",
+      "kind": "deliver"
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "attention-goes-to-movement",
+      "statement": "The team's attention goes to errors that are new, escalating or returning, and not to the same settled pattern every day.",
+      "success_criteria": [
+        "Every surfaced error names why it surfaced: first seen in this window, rate rising against its own history, reach widened, or resolved and returned.",
+        "A signature this team has repeatedly judged unimportant is counted in a suppressed total rather than listed, and the total is shown so suppression is visible.",
+        "A suppressed signature whose rate or reach moves materially is surfaced again despite its history.",
+        "A finding that rests on a count crossing the floor names the floor it crossed, since a threshold somebody chose being exceeded is a claim about that number before it is a claim about the system's health.",
+        "The share of surfaced errors that a person actually acted on is carried forward, so the floor is tuned from what the team did rather than from how the list feels."
+      ]
+    },
+    {
+      "id": "the-scan-leaves-a-record-either-way",
+      "statement": "A window is only scanned once, because the run before it wrote down what it saw.",
+      "success_criteria": [
+        "A window with nothing worth reporting produces a record saying the window was scanned and found nothing, with the window and the scope it covered.",
+        "The first run states that it is establishing a baseline and reports no trend, rather than reporting movement against nothing.",
+        "A run made against a stale or partial read from the provider says so, gives the age of the data, and is not counted as a clean window."
+      ]
+    }
+  ],
+  "guidance": "Grouping is the hidden dependency: this assumes one bug is one signature, and neither an over- nor an under-grouped signature survives a count threshold honestly. Rank by how many people an error reached and which way it is moving, not by how often it fired: a rare failure on a payment path outranks a noisy log line. A learned baseline needs about a month of history before it is worth trusting, so call the trend provisional until then. Repeated dismissal is a reason to stay quiet, never to stop looking.",
+  "use_cases": [
+    "A small team whose error monitor has been on long enough to accumulate a permanent backlog of unresolved noise, where nobody opens the dashboard any more because the top of the list has not changed in months.",
+    "The days after a release, when the honest question is not how many errors exist but which of them did not exist last week, and a raw count moves with traffic rather than with quality.",
+    "An operation with several services under one monitoring account, where the person responsible for one of them has no way to read a list that is mostly about the others.",
+    "A team that keeps rediscovering an error it already decided was harmless, spending the same ten minutes on it every few weeks because the decision was made in conversation and never written anywhere the next scan could read.",
+    "A handover or an on-call rotation, where the incoming person needs to know what was already looked at and judged, not just what is currently open."
+  ],
+  "connector_types": [
+    "monitoring"
+  ],
+  "recommended_trigger": {
+    "kind": "self_paced",
+    "rationale": "The provider is already collecting continuously, so this is a read of a series that is always there and nothing outside obliges it at a particular hour. Look when enough has accumulated to be worth reading, when a release has just shipped, or when the error rate itself has moved. An adopter who wants it before a standup binds a time trigger on the charter."
+  },
+  "personalization_needs": [
+    "Which projects, services or environments this scan is accountable for, because a monitoring account almost always spans more than one team and a list that is mostly other people's is unreadable.",
+    "What this team already treats as settled noise, since the same signature is a finding in one operation and background in another, and starting from their history rather than from nothing is the difference between the first useful run and the tenth.",
+    "How many findings a person here can absorb in one pass, which is what sets the floor, rather than a default number deciding it for them.",
+    "Whether the deployed code is grouped well by the provider's defaults, because a team whose signatures are dominated by a dynamic value in the message needs its grouping fixed before any threshold in this recipe means anything."
+  ],
+  "dependencies": [],
+  "input_schema": [
+    {
+      "name": "lookback_hours",
+      "type": "number",
+      "default": 24,
+      "min": 1,
+      "max": 168,
+      "description": "How many hours of errors to scan. Should follow the interval between runs, so consecutive scans neither overlap heavily nor leave a gap."
+    },
+    {
+      "name": "severity_threshold",
+      "type": "number",
+      "default": 5,
+      "min": 1,
+      "max": 1000,
+      "description": "Minimum occurrence count below which an error is not surfaced on count alone. It is a floor, not a filter: reach, novelty and regression override it."
+    }
+  ],
+  "examples": [
+    {
+      "title": "An error monitor as the monitoring connector",
+      "connector": "sentry",
+      "connector_type": "monitoring",
+      "notes": "See examples/sentry.md."
+    },
+    {
+      "title": "An LLM observability platform resolving the same type",
+      "connector": "langfuse",
+      "connector_type": "monitoring",
+      "notes": "See examples/langfuse.md."
+    }
+  ],
+  "lessons": [],
+  "provenance": {
+    "from_recipes": [
+      "db563881-c358-5d0d-aab5-7a22573f050d"
+    ],
+    "from_templates": [
+      "devops-guardian"
+    ],
+    "source_template_id": "devops-guardian"
+  }
+}

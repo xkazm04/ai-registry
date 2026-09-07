@@ -4,12 +4,13 @@ An **AI development registry**: the knowledge, skills, practices and shared memo
 organization's agents run from, kept in git, owned by the organization, and reviewed like
 code.
 
-The repository carries seven lanes, declared in [`registry.yaml`](registry.yaml):
+The repository carries eight lanes, declared in [`registry.yaml`](registry.yaml):
 
 | Lane | Holds | Status |
 | --- | --- | --- |
 | [`knowledge/`](knowledge/README.md) | **Reference Knowledge Bundles** - four-layer domain knowledge (Golden Path → Technique → Application → Evidence), one bundle per domain. | Real content. Gated by CI. |
 | [`skills/`](docs/skills-lane.md) | The fleet's shared skill library, one directory per skill, published as a **plugin marketplace** for the reference harness. | Real content (25 skills). Gated by CI. |
+| [`recipes/`](recipes/README.md) | **Craftsman knowledge** - one kind of work done well, connector- and trigger-agnostic, versioned like a skill. Everything that binds a recipe to one installation lives on the adopted charter, never here. | Declared 2026-09-06 with its gate, its index and one worked example. Corpus migrates after operator approval. |
 | `practices/` | Repo-level habits plus the starter artifacts they drop. | Worked example. |
 | `memory/` | Organizational memory notes, one fact per file. | Worked example. |
 | [`usage/`](docs/usage-lane.md) | Which skills actually get used - counts contributed by the installations that run them, one file per contributor. | Real, gated. First contributor reporting. |
@@ -20,8 +21,9 @@ The two example lanes (`practices`, `memory`) are deliberately generic and synth
 company, no product, no proprietary code - so tooling that onboards, indexes and tracks a
 registry has something real to read. The other five are not examples.
 
-Lane depth is declared, not incidental. `knowledge/` is `depth: nested` and caps every level at
-ten folders; `skills/`, `practices/`, `memory/`, `usage/` and `signals/` are `depth: fixed`
+Lane depth is declared, not incidental. `knowledge/` and `recipes/` are `depth: nested` and cap
+every level at ten folders, because their consumers read a GENERATED index rather than walking
+the tree; `skills/`, `practices/`, `memory/`, `usage/` and `signals/` are `depth: fixed`
 because a consumer's indexer selects their artifacts by exact path length - a category folder
 there would not error, it would make every artifact silently vanish from the index.
 
@@ -49,12 +51,15 @@ CODEOWNERS                # who merges = who adopts
 catalog.json              # GENERATED index: skills, practices, memory, bundles, hashes, adopters, counts
 docs/rkb-profile.md       # the knowledge lane's format spec (an OKF profile)
 docs/skills-lane.md       # the skills lane's format spec: shape, sub-resources, versions, distribution, resolution
+docs/recipes-lane.md      # the recipes lane's format spec: the v3 object, the rendered view, versions, dual improvement
 docs/usage-lane.md        # the usage lane's format spec + what may never go in it
 docs/signals-lane.md      # the signals lane's format spec: verdicts, never pointers
 docs/reconcile-brief.md   # the external-reconcile lane's contract, and how it extends past repositories
 scripts/gate.mjs          # runs the gate chain CI enforces, in CI order: --all, or --lane <lane>
 scripts/check-bundles.mjs # the knowledge lane's gate (zero dependencies)
 scripts/check-skills.mjs  # the skills lane's gate: shape, sub-resources, the version-bump rule
+scripts/check-recipes.mjs # the recipes lane's gate: the v3 object, the rendered view's coupling, depth, the version-bump rule
+scripts/build-recipes-index.mjs # GENERATES recipes/index.json (--check in CI)
 scripts/apply-skill-clauses.mjs # stamps the shared Skill Reflection / Knowledge sync clauses from docs/skill-clauses/ (--check in CI)
 scripts/check-usage.mjs   # the usage lane's gate: shape + the counts-only privacy rule
 scripts/check-signals.mjs # the signals lane's gate: shape + the same privacy rule
@@ -160,7 +165,7 @@ the technique is over-engineering and a consumer is right to skip it; at or abov
 absence is a gap. The field is optional and rare on purpose, and it is carried into each
 bundle's `index.json` so a consumer can filter on it.
 
-### Skills (25)
+### Skills (26)
 
 The fleet's shared library. Every skill is generic: project specifics live in a **per-repo
 overlay** the skill names in its `## Project overlay` section and runs without. Full spec,
@@ -191,6 +196,7 @@ including sub-resources, the ASCII rule, versions, distribution and resolution:
 | [`scan-sweep`](skills/scan-sweep/SKILL.md) | `workflow` | 1.0.0 | One context, every scan lens, fix the accepted S/M findings in-session. Carries [`LESSONS.md`](skills/scan-sweep/LESSONS.md). |
 | [`ship-loop`](skills/ship-loop/SKILL.md) | `workflow` | 2.1.0 | Milestone-driven ship-readiness loop: scorecard, append-only backlog, user-gated milestones, hard gate. Carries [`LESSONS.md`](skills/ship-loop/LESSONS.md). |
 | [`spark`](skills/spark/SKILL.md) | `workflow` | 1.0.0 | Turn a vague product idea into a complete, grounded design through waves of questions, then orchestrate the build. Carries [`LESSONS.md`](skills/spark/LESSONS.md). |
+| [`straighten`](skills/straighten/SKILL.md) | `ai-native` | 1.0.0 | Drain the fleet's version debt against the registry: rebuild every reachable `.ai/registry-map.json`, rank stale verdicts and orphaned contexts in one table, run `/conform --stale` per project in that order with pathspec commits. Carries [`LESSONS.md`](skills/straighten/LESSONS.md). |
 | [`test-before-commit`](skills/test-before-commit/SKILL.md) | `testing` | 2.1.0 | Prove a change works before it is committed. Carries [`LESSONS.md`](skills/test-before-commit/LESSONS.md). |
 | [`tiger`](skills/tiger/SKILL.md) | `testing` | 2.1.0 | Certify an LLM app's call sites across three lenses: engine quality, business value, model/cost optimization. Carries [`LESSONS.md`](skills/tiger/LESSONS.md). |
 | [`uat`](skills/uat/SKILL.md) | `testing` | 1.7.0 | Simulated User Acceptance Testing driven by Characters, two certification levels, then drained into a design backlog. Carries [`LESSONS.md`](skills/uat/LESSONS.md). |

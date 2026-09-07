@@ -91,7 +91,7 @@ assigned yet" from "assigned and never recorded" from "nobody has looked."
 Not because the vocabulary enforces anything — neither field blocks
 anything at all — but because a countable backlog attracts work and an
 uncountable one does not. This is the same asymmetry that
-[ratchet-design](./ratchet-design.md) exploits against a metric nobody can
+[ratchet-design](../../metric-gates/techniques/ratchet-design.md) exploits against a metric nobody can
 zero today, arriving at a pipeline where refusal is not available.
 
 ## The fourth resolution: advance anyway, and write the hole into the record

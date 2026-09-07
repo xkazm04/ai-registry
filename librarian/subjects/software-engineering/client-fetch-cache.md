@@ -1,7 +1,7 @@
 ---
 subject: client-fetch-cache
 domain: software-engineering
-last_touched: 2026-09-03
+last_touched: 2026-09-06
 touched_by: intake
 dry_streak: 0
 ---
@@ -57,3 +57,40 @@ Proposals placed in the run note: reciprocal pointer in client-state `async-race
 identity check is a general single-flight rule.
 Precision is unmeasured in every tree examined — all three carry recall-shaped hit
 counters and none has a negative set. Return when a fleet project can produce one.
+
+## 2026-09-06 - the tolerance is priced against a residual ([[2026-09-06-aws-agent-exposure]])
+
+`similarity-keyed-admission` gained a **precondition on its own central trade**,
+not a new mechanism - the mechanism was already in the corpus, in two other
+subjects, and had never been joined to this one.
+
+The technique reads: an expensive, slow, approximate authority can rationally
+buy a small false-hit rate; a cheap exact one has nothing to pay with. The
+unstated premise is that the authority's cost is a **given**. Many authorities
+expensive enough to justify a resemblance key also reuse their own internal work
+on a repeated request prefix, at a fraction of the rate, with no possibility of
+serving a wrong answer - because that tier makes no admission decision at all and
+therefore has no hits to be false. The technique's closing section disclaims that
+tier, correctly. But the disclaimed tier removes cost from **the same bill** the
+resemblance cache is paid out of, so the trade cannot be executed until it has
+been exhausted: the number the rule asks you to weigh has not been established.
+
+Three catches landed against this subject in the same run and are worth
+recording, because they are the calibration for the landing: the source's
+account of the false-hit failure, of hit-rate-as-recall, and of the attractive
+wrong entry are all **already here and stated better** - this technique reaches
+the precision trap through the independently labelled negative set, which the
+source never mentions.
+
+Corroboration was corpus-internal and is the interesting part:
+`model-routing/cache-continuity` already prices this tier (read ~0.1x base,
+write ~1.25x) and `prompt-assembly/cache-breakpoint-allocation` already allocates
+its cut points. Both halves present, in two subjects, never joined - the same
+shape as the 2026-08-31 `reliability-aggregation` landing.
+
+**Unapplied**, with the population stated: one resemblance-lookup site across
+eight fleet projects, and reading it showed a *matcher* that routes and then
+still does the work, not a cache serving a stored answer in its place. No
+false-hit rate is being purchased there, so there is no residual to price.
+Return when a fleet project builds a cache that serves a stored answer on a
+resemblance match.

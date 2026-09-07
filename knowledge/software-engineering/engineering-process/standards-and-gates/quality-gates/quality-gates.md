@@ -8,8 +8,6 @@ techniques:
   - severity-by-construction
   - vacuous-by-evaluation
   - blocking-by-input-determinism
-  - ratchet-design
-  - counted-set-snapshot
   - gate-liveness
   - hook-hygiene
   - false-positive-economics
@@ -19,7 +17,6 @@ techniques:
   - enforcement-binding
   - prose-rule-drift
   - oracle-frozen-during-repair
-  - operation-assertion-gates
   - fabrication-economics
   - advancement-evidence-fields
   - item-liveness
@@ -28,21 +25,30 @@ techniques:
   - renameable-detector-keys
   - instrument-answers-only-its-own-question
   - shared-substrate-check-partition
-  - deterministic-proxy-gate
+  - branch-provenance-gate
 ---
 
-# Quality gates & ratchets
+# Quality gates
 
 A quality standard exists in exactly one of two forms: as prose someone must
 remember, or as a mechanism that can refuse. Only the second form survives
 contact with deadlines, staff turnover, and the two-hundredth pull request.
 The domain of quality gates is the engineering of refusal: which checks run,
-where in the pipeline they run, what severity they carry, how metrics that
-cannot yet be zeroed are prevented from getting worse, and — the part most
+where in the pipeline they run, what severity they carry, and — the part most
 teams never do — how the gates themselves are verified to be alive. A team's
 real quality bar is not what its documents say; it is the precise set of
 states its machinery will refuse to let through. Everything softer is
 aspiration.
+
+Every gate here answers a predicate: the tree either has the property or it
+does not. The gate whose verdict is a *number compared to a recorded number*
+— a violation count against a baseline, bytes against last release, work
+against a budget — inherits everything below and adds two problems of its
+own, baseline provenance and instrument noise, which are the subject of
+[metric-gates](../metric-gates/metric-gates.md). The hinge between the two
+sits here: whether a measured verdict may block at all is graded on the same
+input axis as any other check, and the check that measures rather than reads
+is that axis's third class.
 
 ## A gate exists only if it can fail
 
@@ -122,29 +128,16 @@ The axis, the split, the clock an externally-fed gate needs, and the
 boundary against ratchets are
 [blocking-by-input-determinism](./techniques/blocking-by-input-determinism.md).
 
-## When the input is fine and the instrument is not, change the instrument
+## When the verdict is a measurement, the question moves next door
 
 The axis above assumes the verdict is computed reliably and asks only where
-its input lives. Gates that *measure* rather than read — elapsed time,
-throughput, a sampled resource count — break that assumption from a third
-direction: re-run against the same commit they return a different answer,
-and neither the tree nor any external feed moved. The machine did. Such a
-gate is deterministic in its subject and nondeterministic in its apparatus,
-and both honest configurations fail it: block, and the threshold has to sit
-above the regressions worth catching; stay advisory, and no work inside the
-repository can ever discharge the trigger.
-
-The move is to stop grading the measurement and restate the standard as
-something the source text either contains or does not — *this loop must not
-call these operations* rather than *this loop must finish in this long*. That
-input is deterministic, so the ordinary rule lets it block, and the
-measurement moves to a non-gating scheduled lane comparing against the
-previous release's own artifact rather than a guessed number. The cost is
-real and must be written down: the assertion holds the architecture that
-produces the performance, not the performance. The translation, the scanner
-normalisation that lets a rule be documented in the file it governs, and the
-instrument assertions such a scanner needs are
-[operation-assertion-gates](./techniques/operation-assertion-gates.md).
+its input lives. A check that *measures* — elapsed time, throughput, a
+sampled resource count — returns a different number on an unchanged commit
+because the machine moved, and neither honest configuration fits it. The
+axis names that third class and stops; what to do about it — restate the
+standard so the source text holds it, or keep the standard and count the
+work instead of timing it — is
+[metric-gates](../metric-gates/metric-gates.md).
 
 ## Gates are laddered by cost
 
@@ -355,44 +348,17 @@ model. The enumeration structure, the inexpressible-condition rule, and
 carrying the effective policy alongside the verdict are
 [policy-projection](./techniques/policy-projection.md).
 
-## Ratchets: monotonic improvement as a gate
+## Ratchets live next door
 
-Most quality metrics in a living codebase cannot be zeroed today — hundreds
-of legacy violations, a bundle that grew for two years, a warning class with
-deep roots. The wrong responses are the common ones: block on zero (instant
-bypass culture) or track it on a dashboard (numbers that only ever go up).
-The senior structure is the **ratchet**: record the current value as an
-explicit, committed baseline, and gate on direction — the metric may fall,
-never rise.
-
-A correct ratchet fails in **both** directions. Fail on rise, obviously.
-But also fail — or at minimum refuse silence — when the measured value drops
-below the baseline without a baseline update, because an unexplained
-improvement has more than one explanation and the one nobody checks is that
-**the measurement broke**. Which explanation is likelier depends on the size
-of the drop — a fix or a deletion accounts for most small drops, and a
-walk-found-nothing instrument failure for most drops to zero — and the
-ratchet's contribution is not to guess but to refuse to let the drop pass
-unexamined. A counter that walked zero files reports zero
-violations; celebrating that number buries the instrument failure inside
-good news ([failure-not-empty-success](../../../_laws.md#failure-not-empty-success)).
-Improvements are welcomed by re-baselining as a deliberate, reviewed diff —
-the baseline file is the metric's audit log. Baseline mechanics, bucketing,
-the endgame (a ratchet that reaches zero graduates into a hard ban), and the
-one boundary on "never auto-update" — a metric only a build can produce,
-where the pipeline regenerates the baseline and the diff becomes a mandatory
-review artifact instead of a gate — are
-[ratchet-design](./techniques/ratchet-design.md).
-
-Both halves of that structure assume the baseline says enough to be
-compared against. A baseline of *totals* is silent about substitution: swap
-one counted item for another, or change an item's content without changing
-how many there are, and every reading stays green while the committed
-artifact quietly stops describing the system. What the baseline must
-additionally hold — a normalised, per-bucket map from each counted item's
-identity to its multiplicity, folded hard enough that incidental churn does
-not diff and loosely enough that a real substitution does — is
-[counted-set-snapshot](./techniques/counted-set-snapshot.md).
+A metric that cannot be zeroed today is gated on direction against a
+committed baseline, and the baseline is where the design problems move: a
+drop below it is an instrument failure until examined, a total that says how
+many but not which is silent about substitution, and a number held across a
+toolchain change was never stable, only unread. All of that is
+[metric-gates](../metric-gates/metric-gates.md); what stays here is the
+founding reading — the one frozen as a baseline, which a scope error turns
+into a permanent floor — because the question it raises is about the
+instrument's declaration, not the number.
 
 ## A gate that cannot prove it ran has not run
 
@@ -587,14 +553,6 @@ is asked to refuse something.
   — grading blocking status by whether the input moves with the tree,
   debt-shaped vs input-shaped advisory, splitting a bundled invocation, and
   the written promotion trigger.
-- [ratchet-design](./techniques/ratchet-design.md) — committed baselines,
-  fail-on-rise and fail-on-silent-drop, reviewed re-baselining, the one
-  auto-updating baseline that stays honest and its three preconditions, and
-  graduating to a ban.
-- [counted-set-snapshot](./techniques/counted-set-snapshot.md) — what a
-  total cannot see, the normalised per-bucket identity map committed beside
-  the count, the normalisation rule that folds churn without folding
-  substitutions, and the two artifacts' complementary blind spots.
 - [gate-liveness](./techniques/gate-liveness.md) — instrument assertion,
   portability, chain-abort ordering, and proving a gate red before
   trusting it green.
@@ -635,15 +593,6 @@ is asked to refuse something.
   static call-site ↔ tag ↔ registry bijection, negative-space confinement of
   the underlying capability, extending both to any second per-operation
   table, and the two limits that bound what the result may claim.
-- [operation-assertion-gates](./techniques/operation-assertion-gates.md) —
-  restating a cost standard as an assertion over source text, scoped
-  denylists with their replacements attached, normalising comments and
-  literals out before matching, testing the scanner itself, and the timing
-  lane's demotion to scheduled evidence.
-- [deterministic-proxy-gate](./techniques/deterministic-proxy-gate.md) — the
-  fourth resolution for a cost gate: keep the standard, swap the apparatus for
-  a deterministic count of work performed, and the workload classes where that
-  count is uncorrelated with the cost it stands in for.
 - [advancement-evidence-fields](./techniques/advancement-evidence-fields.md)
   — the field minted at the stage its obligation binds, the closed
   vocabulary its non-satisfied side needs, advancing an item with the hole

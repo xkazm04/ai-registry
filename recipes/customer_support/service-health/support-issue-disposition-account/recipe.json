@@ -1,0 +1,134 @@
+{
+  "id": "0b13d1e5-9682-59b9-9e05-a76fbcb4bd18",
+  "slug": "support-issue-disposition-account",
+  "title": "Support issue disposition account",
+  "version": "0.2.0",
+  "status": "seed",
+  "path": "customer_support/service-health",
+  "domain": "customer_support",
+  "description": {
+    "need": "A tracker can show that issues moved and still cannot say whether anything was resolved. A ticket closed cleanly and a ticket that will be reopened on Monday look identical in it, so whoever is accountable either reconstructs the week by hand or settles for the numbers that flatter it.",
+    "input": "What happened to the issues touched since the last account: what closed, what came back after closing, what is waiting on somebody, and the counts the source itself reports.",
+    "core_action": "Say what happened to each issue that moved, reconciled against the source rather than against local notes, separate a disposition that held from one that was only recorded, and name the few worth naming instead of counting everything.",
+    "output": "A short account anyone accountable can read without opening the tracker, carrying its own gaps, and written somewhere the next account can start from."
+  },
+  "activities": [
+    {
+      "id": "gather",
+      "label": "Gather what happened to issues since the last account, including what came back",
+      "kind": "observe"
+    },
+    {
+      "id": "reconcile",
+      "label": "Reconcile the counts against the source rather than local state alone",
+      "kind": "observe"
+    },
+    {
+      "id": "test-disposition",
+      "label": "Separate a disposition that held from one that was only recorded",
+      "kind": "decide"
+    },
+    {
+      "id": "select",
+      "label": "Decide which issues are worth naming rather than counting",
+      "kind": "decide"
+    },
+    {
+      "id": "compose",
+      "label": "Compose a short account stating its own gaps and whether it is a baseline",
+      "kind": "act"
+    },
+    {
+      "id": "publish",
+      "label": "Publish it where the accountable read, and keep the copy the next account starts from",
+      "kind": "deliver"
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "disposition-is-accountable",
+      "statement": "The seat can account for what happened to every issue it touched, and the account distinguishes resolved from closed.",
+      "success_criteria": [
+        "Each issue named carries its last action and what it is waiting on",
+        "Issues that came back after being marked resolved are reported beside the resolutions rather than in a separate number nobody reads",
+        "Counts reported about the backlog reconcile with the source rather than with local state alone",
+        "A gap in the underlying data is stated plainly rather than presented as a confident number"
+      ]
+    },
+    {
+      "id": "account-is-actually-read",
+      "statement": "The people accountable for the queue stay current on it without opening the tracker.",
+      "success_criteria": [
+        "The account is short enough to be read in full",
+        "Every issue linked from it resolves to a real, currently valid ticket",
+        "A period in which nothing moved is reported as one, rather than padded out to look like work"
+      ]
+    },
+    {
+      "id": "the-account-outlives-its-delivery",
+      "statement": "The account exists as a record, not only as a message that was sent once.",
+      "success_criteria": [
+        "Every account is written down whether or not the delivery to its reader succeeded",
+        "The next account can be built from what this one left behind",
+        "A first account says it is a first account and names the baseline it sets, rather than reporting a change against nothing"
+      ]
+    }
+  ],
+  "guidance": "The account is trusted or it is skipped, and what breaks trust is a resolution that did not hold. Report what came back beside what was closed, and reconcile every count against the source rather than your own notes. Name a few issues and link the rest. When a period did not move, say so: a padded account teaches its reader to stop opening it. A resolution somebody says did not hold belongs with the account that claimed it, and should move the window that missed it.",
+  "use_cases": [
+    "A support lead who is asked in every standup how the queue is going and answers from whichever dashboard was open, so the answer changes with the dashboard rather than with the queue.",
+    "A team that has just started closing tickets faster and cannot tell whether the customers came back, because the resolution count and the reopen count are read by different people at different times.",
+    "A founder whose engineer handles support between features, where nobody minds the backlog being slow and everybody minds finding out three weeks late that a paying customer was waiting.",
+    "A queue shared between two teams, where each assumes the other looked at the overnight items and the tracker cannot tell a triaged issue from an untouched one.",
+    "The weeks after a launch, when volume triples and the habit of skimming the tracker quietly stops working, so the real choice is between an account somebody wrote and nobody reading anything."
+  ],
+  "connector_types": [
+    "ticketing",
+    "messaging"
+  ],
+  "recommended_trigger": {
+    "kind": "self_paced",
+    "rationale": "Act when enough has happened to be worth saying, or when someone asks. A daily cron produces an account into days where nothing moved, which is exactly how a digest becomes something people stop reading. The cadence belongs to the queue's own rhythm and the adopter sets it."
+  },
+  "personalization_needs": [
+    "Who reads this and what they decide with it, which sets the length and shape entirely",
+    "Which queue or project this account covers, since one account over several queues is a different job",
+    "How much movement is worth an account here, because that threshold is what keeps it from becoming noise",
+    "How long after a closure a return still counts as the same issue coming back, since that window is what separates a resolution that held from one that was recorded"
+  ],
+  "dependencies": [],
+  "input_schema": [
+    {
+      "name": "top_issues_per_bucket",
+      "type": "number",
+      "default": 3,
+      "min": 0,
+      "max": 10,
+      "description": "Maximum notable issues to link per bucket."
+    }
+  ],
+  "examples": [
+    {
+      "title": "Jira as the source of truth for counts",
+      "connector": "jira",
+      "connector_type": "ticketing",
+      "notes": "See examples/jira.md."
+    },
+    {
+      "title": "Slack as the delivery channel",
+      "connector": "slack",
+      "connector_type": "messaging",
+      "notes": "See examples/slack.md."
+    }
+  ],
+  "lessons": [],
+  "provenance": {
+    "from_recipes": [
+      "0b13d1e5-9682-59b9-9e05-a76fbcb4bd18"
+    ],
+    "from_templates": [
+      "autonomous-issue-resolver"
+    ],
+    "source_template_id": "autonomous-issue-resolver"
+  }
+}

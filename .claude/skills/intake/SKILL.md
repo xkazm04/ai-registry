@@ -3,8 +3,8 @@ name: intake
 description: "Mine an external source - a YouTube video, a news roundup, an article, pasted notes, a repository - for what it should change in THIS registry, and in the connected projects that consume it. Ingests the source, reads its design decisions as well as its claims, maps both against existing bundles for prior art, triages with the operator, and lands what survives corroboration - amendments for boundary cases, techniques and subjects for mechanisms, forge handoffs for systems whose architecture the corpus lacks. News sources mostly yield currency signals and leads; that is a successful run. Use when someone shares a link and asks what it means for us."
 category: ai-native
 memory: project
-version: 2.5.0
-tags: research, sources, admission-gate, triage, currency, cross-repo, leads, apply, ab-test, parallel, reference-index, design-read, forge-handoff, directions, fleet-map, peer-study, opus-workers, decision-gate
+version: 2.7.0
+tags: research, sources, memory-lane, admission-gate, triage, currency, cross-repo, leads, apply, ab-test, parallel, reference-index, design-read, forge-handoff, directions, fleet-map, peer-study, opus-workers, decision-gate
 ---
 
 # Intake
@@ -43,6 +43,7 @@ ORIGINATES a finding. It never AUTHORIZES one.**
 /intake <url> --no-handoff    # keep a design-deep repository in this skill instead of routing it to /forge
 /intake <url> --design-only   # stop after the design read: write the design record and the source-tree applications, land no techniques
 /intake <url> --delta         # re-scan a repository this registry already mined, at a newer commit; read docs/upstream-brief.md first
+/intake <url> --memory        # agent-memory source: read references/memory-lane.md FIRST and triage against the measured ladder before the corpus
 /intake board                 # read the run board - who else is live, and what they hold
 ```
 
@@ -310,6 +311,39 @@ count:
 in the source note that the count was met and the handoff declined. A run that reaches
 Phase 5 on a forge-shaped repository without having written the count has reproduced
 the failure this section exists to end, and the scorecard's depth column will show it.
+
+## The memory lane (v2.6)
+
+One domain in this registry has a measured baseline instead of only a corpus: agent
+memory. `personas/evals/memory-year/` replays a simulated year against any design that
+implements four calls, and nine arms have rows on that ladder - including three built
+from public memory repositories in a single session, and this fleet's own two-tier
+system before and after two fixes it exposed.
+
+That changes what a memory source is worth. Most of them report an accuracy number for
+a design whose shape we have already priced, so:
+
+> **A memory claim is triaged against the measured ladder before it is triaged against
+> the corpus.** Prior art is the second question. The first is: which arm is this, and
+> what does the table already say it scores?
+
+Enter the lane when the operator passes `--memory`, or on your own judgement when a
+source's subject is memory, recall, consolidation, forgetting, or their evaluation.
+**Read `references/memory-lane.md` before Phase 3.** It carries the ladder, the four
+claims a source does not get to make unchallenged, the measurement rules this series
+paid for, and the open questions that would mark a genuinely new contribution.
+
+Two routing consequences specific to this lane:
+
+- **A mechanism becomes an arm before it becomes a technique.** The harness takes a new
+  adapter in a few hundred lines. A mechanism that cannot be expressed on the four-call
+  contract is a lead, not a candidate; one that can is tested and *then* landed with its
+  row. This is the strongest form of the apply step Phase 7.5 asks for, and it outranks
+  a thought simulation.
+- **A published memory number is a lead, never evidence.** Of three public systems read
+  in one round, one had a contaminated held-out split, one declared benchmark scripts
+  that did not exist, and the third's numbers were self-against-self. Re-run the claim
+  as an arm; do not cite it.
 
 ## The strip test
 
@@ -1138,6 +1172,26 @@ code owns it. Record it in the project's `.ai/applied.jsonl`, never in `libraria
 A technique with no seam in any managed project is not wrong, but it is **unapplied**,
 and the row says so with the return condition "when a project grows the seam".
 
+**Where two seams are available, choose the one that could FALSIFY the finding
+(v2.7).** The instinct is to pick the seam that shows the technique working, and that
+seam teaches nothing the landing did not already assert. Three consecutive rounds now
+say the other choice pays, and pays in a specific way - it does not merely fail to
+confirm, it returns something the run was not hunting. A truncation branch chosen to
+expose a missed case could not fire at the scenario's scale, and the same seam showed
+a 3.5x confound sitting unnoticed in four published arms. A period-anchor seam's
+control broke exactly where the technique predicted it would, which is what made the
+correction worth writing. A per-capability reach test written to check a spend rule
+found a live second instance in a plan nobody was looking at.
+
+**Before committing to a falsifying seam, say what a CAUGHT outcome would teach. If the
+answer is "nothing", the arm is a confirmation wearing a falsifier's name** - the seam
+has to be able to return a result that changes what the landing says, or picking it is
+theatre. Then **say in the applied row that the seam was chosen to falsify, and say what
+it refuted** - including when the answer is "the finding held": a seam that could have
+killed the technique and did not is stronger corroboration than a seam that was never at
+risk. (Converged on independently by two runs on 2026-09-07, from different sources,
+within one hour; the pre-check is the sibling's half.)
+
 **2. Choose the highest reachable mode, and say why not the one above it.**
 
 | Mode | What A and B are | What the verdict is read from | Reachable when |
@@ -1605,6 +1659,8 @@ corroboration behind it.
   The scorecard row makes this visible; do not make it normal.
 - **Simulating with invented cases.** Three cases from a real tree or its history, or
   it is an opinion with a table around it.
+- **Choosing the seam that flatters the finding.** Where two seams exist, the one that
+  could falsify it is the one that returns something the landing did not already say.
 - **Reporting `unmeasurable` without naming the instrument** that would have measured
   it. That word is a return condition, not a shrug.
 - **Padding the findings list.** Nine catches and one lead is a result. Report it.

@@ -10,6 +10,7 @@ techniques:
   - vault-walking
   - mirror-indexes
   - read-triggered-reconciliation
+  - projection-covers-the-record
   - editor-interop
   - replicated-substrate
 ---
@@ -155,6 +156,19 @@ consumed here rather than re-derived. Long-lived agents storing their memory
 as markdown under a relational mirror are the same pattern with higher
 stakes — [agent-memory](../../../llm-agent/prompt-and-context/agent-memory/agent-memory.md) holds that evidence.
 
+Every obligation above is about the mirror being **current**. A separate and
+independent question is whether it is **faithful** — whether what the mirror
+holds represents the record at all. A mirror is written from a projection of the
+record into the mirror's own fields, and that projection is where content is
+lost: a construct one pass extracts and another pass removes, under two
+predicates that were never reconciled, ends up in no field of the index. Rebuild
+frequency cannot detect it, because re-running the rebuild reproduces it exactly
+— a mirror regenerated from scratch on every query is perfectly fresh and still
+cannot find the note. The obligations are a shared predicate per construct, a
+coverage assertion over the union of projected fields rather than a correctness
+test per field, and a declaration of whether the mirror stores content or only
+terms ([projection-covers-the-record](./techniques/projection-covers-the-record.md)).
+
 ## The human's editor is a peer, not a client
 
 The defining constraint, elevated to a design principle: another program —
@@ -212,6 +226,9 @@ computed over what was present at the time.
 - **The stamp nobody resolves** — a record of what the derivation was last
   reconciled to, written on every reconcile and read back by no gate, so it can
   hold a value that resolves to nothing while the store reports clean.
+- **The faithful-looking mirror** — an index kept perfectly fresh whose
+  projection drops a construct into no field at all, so a note the human is
+  looking at is unfindable by any query.
 - **Fighting the user for the file** — locks, torn writes, or last-writer-
   wins against the human's editor.
 - **The predicate-free count** — "12 orphans" from one feature and "31
@@ -249,6 +266,10 @@ computed over what was present at the time.
   ledger, inequality rather than ordering against a stamp the substrate owns,
   schema version as the derivation's name, and contention that degrades the
   answer instead of failing it.
+- [projection-covers-the-record](./techniques/projection-covers-the-record.md) —
+  the mirror's other axis: field projection as a partition with holes, one named
+  predicate shared by extractor and stripper, coverage asserted over the union of
+  fields, and whether the mirror stores content or only terms.
 - [editor-interop](./techniques/editor-interop.md) — coexisting with a peer
   writer: atomic writes and what replacing a file costs, change watching and
   what a watcher cannot see, deep links, native syntax, and conflicts escalated

@@ -6,7 +6,7 @@ technique: capability-feature-gating
 status: forged
 laws: [one-authority-per-vocabulary, gate-sees-target]
 shared_with: []
-use_when: [deciding whether a heavy capability deserves a build-time gate, everyone pays compile cost for a capability few ever touch, gated code rots because the default build never type-checks it]
+use_when: [deciding whether a heavy capability deserves a build-time gate, everyone pays compile cost for a capability few ever touch, gated code rots because the default build never type-checks it, a build flag is enabled but the source its capability needs may not have arrived, a resolver substitutes a placeholder for a missing module and the build stays green]
 ---
 
 # Capability feature-gating
@@ -129,6 +129,55 @@ through the codebase — the gate follows the tangle, the expensive lane's targe
 is the whole tree again, and the flag has bought nothing but a tier to maintain.
 The compilation-unit split comes first, and it does most of the work.
 
+
+## When the flag and the code it gates have different owners
+
+The rules above are written for a tree that owns both halves of a gate: the flag
+is declared here, the capability it admits is compiled from source that is also
+here, and so "the flag is on" and "the capability is present" are the same
+statement. Two arrangements break that identity, and neither is exotic — a build
+assembled from a *partial mirror* of some upstream tree, where which files
+arrive is not this repository's decision; and any gate whose capability is
+delivered through a channel the build does not control.
+
+Once the identity is broken the flag is a **claim** about the source rather than
+a selector over it, and the failure it admits is quiet in a specific way. A
+module resolver that cannot find a gated capability's source usually does not
+stop — it substitutes a placeholder so the graph still resolves. The placeholder
+satisfies the bundler, so the build is green; it satisfies a default import, so
+startup is green; and it fails at the first *named* import reached through it, at
+runtime, inside whatever feature the capability was for — arbitrarily far in both
+time and stack from the flag that caused it. Rule 4 does not cover this: rule 4
+designs the gap for the variant where the flag is **off** and someone reaches the
+entry point anyway. This is the variant where the flag is **on** and there is
+nothing behind it, which rule 1's additive framing implies cannot occur.
+
+Two mechanical obligations restore the identity, and they are cheap enough that
+their absence is the only reason to be surprised by this failure twice:
+
+- **Assert the flag's source precondition where the flag is set.** For every gate
+  whose capability can be absent, a routine check pairs the flag with the paths
+  its capability requires, and fails when a flag is enabled and its source is
+  not present. It reads the build configuration and tests for files, so it costs
+  nothing to run — and it is the only check that fires at the moment the mistake
+  is made rather than at the moment a user reaches the feature. The enabled-and-
+  missing combination is the whole target; a flag that is off, with or without
+  its source, is a legitimate state and must stay one.
+- **Make the substituted placeholder visible in the artifact.** Have the resolver
+  mark each placeholder it inserts, and have a post-build step enumerate those
+  marks and fail on any that reached a shipped artifact. This is rule 3's duty —
+  inspect what the build actually produced rather than trusting the flag's name —
+  turned toward the question rule 3 does not ask. Rule 3 asks whether a heavy
+  dependency is *absent* as intended; this asks whether something the build
+  believed *present* is in fact missing. Key each mark on a path from the source
+  root rather than on a bare file name: same-named files in different
+  directories are the normal case, and a name-keyed mark lets one mask another.
+
+The rot-watch above still applies and substitutes for neither. It compiles every
+tier from the source the tree has; it cannot notice source the tree never
+received. That is the same blind spot in a different costume — a gate stops
+seeing its target when nothing routine observes the far side, and equally when
+nothing checks that a far side arrived.
 ## When not to gate
 
 Gating has overhead — conditional compilation branches, a tier matrix, the

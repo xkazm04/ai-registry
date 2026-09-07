@@ -17,6 +17,7 @@ techniques:
   - load-aware-admission
   - wait-telemetry
   - drain-and-shutdown
+  - budget-includes-the-callers-own-cache
 ---
 
 # Execution queue & admission control

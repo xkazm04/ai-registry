@@ -3,7 +3,7 @@ name: project-populate
 category: workflow
 memory: vault
 description: Populate a newly managed repository with the data Personas needs to maintain and develop it - a context map, a feature (use-case) inventory, a triaged KPI set, and optionally simulated KPI data for a product that has not shipped yet. Contexts and features are assigned autonomously; KPIs are negotiated with the operator wave by wave. Scopeable - run all four lanes or just the ones you name. Dispatched by the passport wall, or run standalone with /project-populate.
-version: 1.2.1
+version: 1.2.2
 argument-hint: "[contexts|features|kpis|kpi-sim ...]"
 ---
 
@@ -151,6 +151,32 @@ So for a `full` verdict on anything beyond a few hundred files:
    above is precisely what leaves `context-map.json` and the generated CLAUDE.md
    block describing a map that no longer exists — and that block tells every
    agent in the repo to scope its edits by that file.
+6. **Re-register with the registry.** The registry map is a join over the
+   context map you just rewrote, so it is now describing contexts that may no
+   longer exist. Resolve the registry root (`.ai/manifest.yaml` ->
+   `registry.local`, default `../ai-registry`; `$AI_REGISTRY_DIR` wins) and run:
+
+   ```sh
+   node <registry>/scripts/build-registry-map.mjs --project <slug>
+   node <registry>/scripts/build-registry-map.mjs --project <slug> --churn
+   ```
+
+   The first rewrites `.ai/registry-map.json` in place, carrying every verdict
+   and every `source: "conform"` pair forward. The second prints only the churn
+   report - show it to the operator as is: `stats.orphanedVerdicts` (a deleted
+   context's verdicts are **retained under `orphans[]`** - `/conform` or
+   `/straighten` adopts or drops them; never hand-delete), `stats.renamedContexts`
+   (`source: "renamed"` pairs carry their verdicts under `renamedFrom`) and
+   `stats.arrivedContexts` (`arrived: true`, never judged - `/conform` picks
+   them right after `--stale`). Then commit the map and nothing else:
+
+   ```sh
+   git commit -m "chore(registry-map): rebuild after context-map rebuild" -- .ai/registry-map.json
+   ```
+
+   Never `git add -A` here; the sweep's other artifacts are committed by their
+   own steps. Skip the commit only when the rebuilt map is byte-identical to the
+   committed one, and say so.
 
 Launching a scan whose `scan_id` you did not capture is not a reason to relaunch
 it: `GET /dev-tools/scans/{project_id}` lists every known scan with its subtree

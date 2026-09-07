@@ -174,6 +174,88 @@ one-authority-per-vocabulary). A parallel "content problems" vocabulary beside
 the transport classes gives the retry loop two sources of truth about the same
 attempt, and they will disagree about whether the attempt counted.
 
+## The first byte closes the window and commits the verdict
+
+The horizon is described above as the moment substitution stops being free.
+On any transport that frames its outcome ahead of its body, the same instant
+does a second thing that this technique's two post-horizon options quietly
+depend on: it **commits the call's success verdict**. Response status is
+written before the first byte of content and cannot be revised once flushed,
+so a call that fails after the horizon has already been reported as having
+succeeded, at the protocol level, to every consumer that reads the status.
+
+That is what makes one of the two post-horizon choices conditional. "Abort
+with a stated, honest truncation" presumes a channel that can carry the
+statement. Where the outcome lives in the status alone, there is no such
+channel: the abort is expressible only as *stopping*, which on the receiving
+side is indistinguishable from finishing. The rule is not wrong; on that
+transport it cannot be executed, and a layer that believes it has an honest
+abort available has an option it does not have.
+
+So the channel is a design obligation with a deadline, and the deadline is
+the horizon:
+
+> **A stream carries its own terminal event, and the consumer requires it.**
+> Absence of the terminal event is the failure, because nothing else on the
+> path is still able to say so.
+
+The terminal event is the abort's only vehicle after the horizon, and it has
+to be in the contract before the first byte, which means before anyone knows
+whether it will be needed. Retrofitting it is not a client change; it is a
+protocol change on both sides, negotiated across every consumer already
+reading the stream as complete.
+
+### A form the shape tests cannot reach, for a different reason than the seventh
+
+The unusable-success list above is closed with the claim that every form on
+it is detectable by **shape** — empty, malformed, truncated mid-structure,
+schema-violating — and that only the seventh form, the well-formed wrong
+answer, escapes shape entirely and needs agreement across draws.
+
+A stream of **prose** that ends early escapes both. It is not empty. It
+parses, because there is nothing to parse. It is not truncated
+mid-structure, because there is no structure whose closing bracket is
+missing — a sentence that stops early is a shorter sentence, and no test on
+the bytes can distinguish the answer that finished from the answer that was
+cut off. Nor does it need the seventh form's instrument: the content is not
+*wrong*, it is *incomplete*, and repeated draws will not reveal that, because
+each draw would have to be complete in the first place to serve as the
+comparison.
+
+This form's remedy is therefore the cheapest on the page rather than the
+dearest, and its price is paid at a different time. There is no per-call
+cost at all — no held frame, no extra draw, no scanner — only a fixed
+protocol cost, paid once, before any of this happens. That inverts the usual
+trade in this technique, where detection is bought with latency or tokens at
+the moment of the call, and it is why the form is missing from a list
+organised by what a check can see: nothing can see it, and nothing needs to,
+provided the contract was written to say so.
+
+The consequence for the enumeration is small and worth stating plainly. Shape
+tests cover the forms whose defect is *in the bytes that arrived*. The
+seventh form covers the defect that is in their meaning. This one is a defect
+in the bytes that **did not** arrive, and a completeness claim about a
+sequence cannot be recovered from any member of it. Where the artifact is a
+stream of independently closed units, the per-unit tests hold and say nothing
+about the sequence: every unit can be complete and the stream still short.
+
+Two operating rules follow:
+
+- **Frame the deliberate stop and the interrupted one differently.** A
+  terminal event that says only "ended" restores nothing, because the honest
+  truncation and the successful completion arrive spelled the same — which is
+  the shape `failure-not-empty-success` forbids, displaced from the status
+  code into the event that replaced it. The terminal event carries the reason,
+  and the reason is drawn from the same taxonomy the rest of this technique
+  uses, not a second one.
+- **A consumer that treats the transport's verdict as the outcome is the
+  defect, not merely a client that could be stricter.** Requiring the terminal
+  event is what converts a silent short answer into a loud failure, and it is
+  the only place in this path where that conversion is still available. Record
+  streams that ended without one; the count is the measurement that says
+  whether the contract is honoured, and it is not derivable from the error
+  rate, which by construction cannot contain any of them.
+
 ## Reproducible failures do not deserve a second attempt
 
 The retry taxonomy answers "is this worth trying again". This technique demands
@@ -215,3 +297,8 @@ silently removes healthy capacity for the rest of the call.
 - **Detect after the horizon, still record.** A content failure caught too late
   to act on is worthless to this call and valuable to the next one: it is the
   measurement that fixes the grace budget or eliminates the candidate.
+- **The honest abort needs a channel, and the channel is designed before the
+  first byte.** On a transport that commits its verdict with the headers, a
+  stream requires a terminal event carrying the reason, and its absence is the
+  failure — otherwise the post-horizon truncation this technique permits cannot
+  be told from success.

@@ -11,6 +11,7 @@ techniques:
   - hybrid-lane-fusion
   - relationship-proximity-lane
   - structural-centrality-lane
+  - second-pass-rescoring
   - ranking-budgets
   - relevance-floors
   - retrieval-evaluation
@@ -224,6 +225,10 @@ memory subject demands when it labels recalled beliefs before injection.
   the corpus's own link structure as a lane, derived graphs, personalization
   over filtering, discriminative edge weights, and the curated importance
   field that has gone constant.
+- [second-pass-rescoring](./techniques/second-pass-rescoring.md) — a reranker
+  over the fused pool, the lanes whose evidence it cannot read, promote-only
+  admission, the rescoring window as a shortlist, and what a trimmer placed
+  after it inherits.
 - [ranking-budgets](./techniques/ranking-budgets.md) — shared budget vs per-lane
   quotas, overfetch-then-select, size-aware cuts, diversity, and the search
   that replaces the greedy pack when admission cost is non-additive.

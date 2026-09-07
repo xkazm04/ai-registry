@@ -8,6 +8,7 @@ techniques:
   - deletion-protocols
   - suppression-hygiene
   - quarantine-vs-delete
+  - unadopted-extension-point
   - carrying-cost-economics
   - configuration-union-proof
   - dead-code-detection@codebase-scanning
@@ -110,6 +111,17 @@ cannot report use is failure spelled as empty success. And quarantine names its
 reaper: an expiry after which recorded silence authorizes the delete. Unexpired
 quarantine is a decision pending; expired, unreaped quarantine is the new dead code.
 The decision table is [quarantine-vs-delete](./techniques/quarantine-vs-delete.md).
+
+One population arrives at that table and does not belong on it. An **extension
+point nothing extended through** — an adapter base, a protocol, a strategy
+hierarchy whose members have no call sites while the concern they abstract varies
+inline at every site — is not uncertainly dead; it is certainly unused, and its
+disposition is still open, because adopting it is a live alternative to deleting
+it. The column that decides which is whether an inline equivalent exists and
+whether its shape fits the declared signature: a fit is a refactor, a mismatch is
+a behaviour change wearing one, and *no equivalent anywhere* is speculative API
+whose adoption means inventing code no test could have failed against
+([unadopted-extension-point](./techniques/unadopted-extension-point.md)).
 
 ### 5. Carrying costs price the backlog
 

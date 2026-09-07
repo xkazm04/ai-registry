@@ -44,7 +44,7 @@ coverage.
 
 ## Honest zeros
 
-Three cases where the instrument must resist the flattering reading:
+Four cases where the instrument must resist the flattering reading:
 
 - **A subject with no memory at all is a stale subject, not an omission.** It
   reports with an explicit "never" for last-confirmed rather than being
@@ -59,6 +59,29 @@ Three cases where the instrument must resist the flattering reading:
   and reporting it as covered means the instrument disagrees with the recall
   path about what the agent knows — which is the same divergence the
   [memory-value-model](./memory-value-model.md) exists to prevent one layer down.
+- **A zero the code cannot raise is not a measurement.** The three cases above
+  are all about the *denominator* — an empty or unreadable population. The
+  fourth is about the instrument's own numerator: a counter incremented only by
+  a status its call site is structurally unable to produce, or a health line
+  whose severity is a tautology over a count. Both report a clean number
+  forever, and by reporting it they certify that the mechanism they watch is
+  working. One measured store kept a supersession counter behind three
+  increment branches that could never execute, because the inserts beneath them
+  passed no supersede reference and the layer below returned that status only
+  when one was present; the same store graded its live-fact health with a
+  predicate of the form `count >= 0`, which no state can fail. Neither is
+  visible from the reporting code, which reads correctly in both. The question
+  that finds them is not "what does this number say" but **"what write would
+  move it, and who performs that write"**.
+
+That last question has to be asked at the *symbol*, not at the module. A
+governance path dies most often by partial adoption: the caller imports the
+cheap arithmetic helper out of the module that also holds the decision
+procedure, and never calls the decision. Every check that asks whether the
+module is wired in — a dependency graph, an unused-file sweep, a coverage run
+over the file — answers yes, and the tests over the uncalled procedure keep
+passing, because a test is a caller. Trace the exported symbol that produces
+the verdict, and confirm a production path reaches it.
 
 ## Freshness is part of coverage
 
@@ -129,6 +152,36 @@ its **per-item success rate is part of coverage**, not an operational detail
 that lives in a log — a pass that skipped a file and a pass that processed it
 and found nothing are the same `0` in every downstream metric, which is the
 absence distinction this subject exists to keep.
+
+## A reliability rate is not an accuracy delta
+
+The same instrument answers a second question, and reading the answer wrong is
+common enough to name. When a stage of a pipeline fails *operationally* — a
+pass times out, a worker dies, a batch is skipped — the temptation is to
+predict its cost in end-to-end quality and then treat the quality number as the
+measure of the bug.
+
+Measured: a consolidation pass that lost **31 of 102 cycles** to a fixed
+timeout cost **two points** of end-to-end accuracy. The prediction attached to
+that failure had been much larger, and it was wrong in a way that would have
+misdirected the next repair: a third of the passes never ran, and the store was
+still able to answer most questions, because the surviving passes covered the
+same ground on their next attempt and the retrieval path was doing more of the
+work than the architecture diagram suggested.
+
+> **The accuracy delta is not the size of the reliability bug.** Classifying an
+> operational failure as an accuracy failure aims the next fix at the wrong
+> target, and classifying it as harmless because accuracy held is the same
+> error with the opposite sign.
+
+Fixing that pass bought what a reliability fix should buy and what the accuracy
+column could barely see: long-horizon recall rose sharply, and the classes that
+depend on the pass having actually run improved by ten to twenty points each
+while the aggregate moved by two. So report the two axes separately — a
+completion rate per pass (cycles finished over cycles attempted, beside items
+admitted over items eligible) and the quality score — and predict what a fix
+will buy *before* measuring it, then record the miss. A prediction nobody wrote
+down cannot be wrong, which is why it keeps being made.
 
 ## When not to use it
 

@@ -73,6 +73,38 @@ differs between them. Selecting scenarios the population is split on is
 [discriminating-task-selection](./discriminating-task-selection.md); this
 technique is the check that tells you when you need it.
 
+## Two cheap resolution tests when repeats are unaffordable
+
+The precondition as stated needs a within-condition SD, which needs repeats,
+and a repeat can be hours of wall clock and real money. Two substitutes cost
+almost nothing and catch the common cases, because they perturb something
+other than the run.
+
+**Perturb the grader.** Re-score the *same cached outputs* with a rubric
+reworded to the same intent — the discipline in
+[judge-stability](./judge-stability.md). If the ordering flips, the cell
+measured the rubric. On one memory harness relaxing a single clause in a
+form rubric moved a class 0.56 → 0.92 and swapped the two systems being
+compared; the outputs were byte-identical. Cost: one re-score, no re-run.
+
+**Vary exactly one thing, and drop the expensive layers to do it.** An
+end-to-end number often stacks several varying components — here a store
+rebuilt by model calls on every run, a model consumer, and a model judge —
+so a two-point difference has three candidate causes and no way to separate
+them. The escape is not more end-to-end runs; it is a smaller instrument
+that holds everything constant except the change, even if it measures
+something narrower than the headline. Fixing the store and asking only
+whether the answer reached the context at all — no consumer, no judge —
+resolved a change the full ladder could not see: seven probes gained and
+none lost, twice, on two different fixed stores.
+
+The narrower metric is the price and it must be named as one. Coverage is
+not accuracy: a consumer can still answer wrongly from a context that
+contains the answer, so the instrument proves the retrieval change and not
+the end-to-end claim ([metric-role-contract](./metric-role-contract.md)).
+What it buys is a result that is *about the change*, which is strictly more
+than a confounded number of the right shape.
+
 ## The floor has two contributors, and the larger one binds
 
 There are two independent sources of unresolvability and a harness needs

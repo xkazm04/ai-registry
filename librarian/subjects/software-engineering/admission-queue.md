@@ -1,7 +1,7 @@
 ---
 subject: admission-queue
 domain: software-engineering
-last_touched: 2026-09-04
+last_touched: 2026-09-06
 dry_streak: 0
 ---
 
@@ -257,3 +257,12 @@ the rule, the tree applies it to the quality decision and not the admission
 decision. Not tested here: this run's callers passed no deadline, so the arms
 would have been a different experiment. Return with deadline-bearing traffic.
 
+[[2026-09-06-ace-step-1-5]] (intake, research-model release) added
+`budget-includes-the-callers-own-cache`. `resource-denominated-bounds` settles
+the unit and the per-item charge and never asks whether the *remaining* figure is
+read correctly; where a pooling allocator sits between the process and the
+resource, the platform's free figure and the process's differ by whatever the
+pool holds reserved-but-unused, so a gate refuses work on an idle machine and
+only a restart clears it. Both terms are required and the clamp by the pool's own
+budget is not optional. Source tree reached the same correction independently and
+wrote the same two regression tests.

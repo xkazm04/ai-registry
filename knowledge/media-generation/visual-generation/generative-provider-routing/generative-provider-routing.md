@@ -11,6 +11,7 @@ techniques:
   - vendor-fact-ledger
   - cost-per-usable-economics
   - resolution-as-stage-property
+  - unspent-budget-is-a-defect
   - extraction-model-bake-off
 ---
 
@@ -152,6 +153,9 @@ step, not a re-roll that voids the grading already done.
   measured at, or an estimate rendered as a receipt.
 - **Flat-rate resolution** — drafts billed at final-render size because
   resolution was one global knob.
+- **The thrifty run** — on time, under budget, no refusals, and the plan's
+  measured-best entry never called; every spend control reports health
+  because all of them only look upward.
 
 ## The techniques
 
@@ -173,3 +177,7 @@ step, not a re-roll that voids the grading already done.
 - [resolution-as-stage-property](./techniques/resolution-as-stage-property.md) —
   the draft → proof → final size ladder, priced per stage, with explicit
   promotion instead of regeneration.
+- [unspent-budget-is-a-defect](./techniques/unspent-budget-is-a-defect.md) —
+  the other direction of the spend control: a budget as a range with a
+  reported floor, and the plan's top entry going uncalled as a run-level
+  finding rather than an economy.

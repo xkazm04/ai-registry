@@ -1,8 +1,8 @@
 ---
 domain: software-engineering
 subject: agent-memory
-last_touched: 2026-09-04
-touched_by: deepen
+last_touched: 2026-09-07
+touched_by: deepen, intake
 dry_streak: 0
 ---
 
@@ -12,6 +12,138 @@ Subject note. Part of [[index]]; graded against [[standard]].
 
 ## Touch log
 
+### 2026-09-07 - `/intake`, aios-second-brain
+
+One new technique, `gap-directed-elicitation`, plus a source-tree application and
+one paired experiment in the fleet's memory project. Source:
+[[2026-09-07-aios-second-brain]] - a creator's file-and-folder second brain read by
+a coding agent through a routing map. Third run to touch this subject today; write
+set is one new technique file, one new application, and two appended lines in the
+golden path, disjoint from the gbrain run's amendments.
+
+**The finding is a missing stage zero, and the golden path's own enumeration is
+what exposed it.** The opening says the subject "covers the whole pipeline:
+operative state inside a session, **capture of what occurred**, distillation, decay,
+injection". Every input to that pipeline is something the agent witnessed. A fact
+that was never transacted - a goal, a constraint, the alternative that was rejected,
+the reason a convention exists - produces no event, and no downstream stage can
+recover what the stream never carried. All nineteen existing techniques assume
+observed activity. `coverage-instrumentation` measures the hole and stops there by
+design; nothing closed it.
+
+**It landed as an append, and that was the decision that mattered.** Written as a
+new pipeline stage it would have falsified the enumeration above - a rewrite of a
+shared spine, RISK +2, below the accept threshold. Written as an *acquisition path*
+that manufactures episodes for the existing pipeline, every standing sentence stays
+true, the mechanism inherits governance, provenance and decay for free, and the row
+scores 3/0/2. The arithmetic caught a restructuring that nothing about the finding
+required.
+
+**Convergence, deliberately not linked.** `recruiting/assessment/interview-run-of-show`
+carries `question-kit-grounded-in-named-evidence-gaps` - the same mechanism in
+another bundle for another purpose. Cross-bundle links are forbidden and this is
+corroboration rather than an inversion, so it lives in the source note.
+
+**The apply refuted nothing and confirmed the sharpest claim.** The seam was chosen
+to falsify: the technique asserts the whole measurement apparatus is blind to
+unwitnessed knowledge, and the year-replay harness was the place to disprove it. Its
+generator mints every fact and immediately speaks it, across seven construction
+passes, with no assertion guarding the invariant - so no arm on the nine-row ladder
+has ever been asked a question whose answer was never in the event stream. The
+existing `distractor` class is the exact inverse (never stated **and not true**,
+graded UNKNOWN); the true-but-never-stated case did not exist. The ladder's 0.89
+ceiling is a ceiling on *witnessed* knowledge, and that sentence now sits in the
+technique with the application behind it.
+
+### 2026-09-07 - `/intake`, gbrain
+
+Two amendments (`coverage-instrumentation`, `baseline-ladder`) plus one to
+`recall-injection`, and a source-tree application. Source: [[2026-09-07-gbrain]] -
+a two-tier agent memory system with a frozen seven-verb wire protocol and an
+unusually disciplined eval layer. Mined on the memory lane, so every claim was
+priced against the seven-arm ladder before it was mapped here. Second run to touch
+this subject today; write sets disjoint from `memory-lancedb-pro`'s.
+
+**The subject's own finding got its second independent sighting, and the sighting
+was worth more than the finding.** `decay-and-forgetting:101` already carries
+"retirement code with no caller", from this fleet's measured run. This source has
+it too - the duplicate/supersede/independent classifier has five test callers and
+zero production callers - but what it adds is the **mechanism** and the
+**instruments that certify it healthy**, and that is what landed. The mechanism is
+partial adoption: the production caller imports the arithmetic helper from the
+module that also holds the decision, so the dependency graph is connected, the file
+is not orphaned, coverage over it is non-zero, and the tests pass because a test is
+a caller. Every "is it wired in" check answers yes. The rule the amendment now
+carries is to trace the exported symbol that produces the verdict, not the module.
+
+**`coverage-instrumentation` had enumerated three honest zeros and they are all
+about the denominator.** The fourth is about the numerator: a counter incremented
+only by a status its call site cannot produce, and a health line whose severity is
+a tautology over a count. Both verified in the tree by the director. The second is
+the more instructive: the check was scoped as a *display* - print the counters so
+an operator can see the pipeline's pulse - and then wired into a harness whose
+contract is pass or fail. A reporting surface asked for a severity gets the
+cheapest expression that typechecks, and over a count that expression is always
+green.
+
+**`baseline-ladder` gained the boundary where its own diagnostic is blind.** The
+file names under-spend as *the* cheapest check for a cap inside an arm. It detects
+a cap that admits fewer things and misses one that admits the right things and
+shortens them - the budget reads fully spent, the provenance names the right item,
+and the consumer gets a full-looking context without the answer. The apply step
+then refuted the run's hypothesis in the fleet's own harness (the truncation branch
+cannot fire at that scenario's scale) and exposed the *plain* form of the rule
+instead, across four published arms at 15-54% realized spend. Both halves are now
+in the technique.
+
+**`recall-injection` gained the case where a scoped call ships an unscoped tier.**
+The three tiers assume each tier's selection logic was chosen; the cheap arm
+inherits it from whatever helper was already correct about visibility and caching.
+The consequence worth carrying is the second one: what keeps such an arm survivable
+is a recency window, not governance, and re-keying it from "the last day" to "this
+session" is a small attractive change that removes the only bound it had.
+
+**Open, and deliberately not landed.** Scope-crossing supersedence. Two
+independently built systems key supersedence on the partition the classifier
+assigns, and neither can see a move that changes the partition - this source at
+same-entity-same-kind, frozen into a v1 contract for a stated indexing reason, and
+this fleet's own harness at a hard scope filter on its neighbour pool. The lane's
+rule is that a mechanism becomes an arm before it becomes a technique, so it is
+filed as a lead with the arm as its return condition.
+
+### 2026-09-07 - `/intake`, memory-lancedb-pro
+
+Gained `self-trained-capture-filter` (18 -> 19 techniques) and an amendment to
+`decay-and-forgetting`, plus two source-tree applications. Source:
+[[2026-09-07-memory-lancedb-pro]] - a 41,186-line LanceDB memory plugin whose
+architecture document is six months stale and wrong about its own lifecycle.
+
+**The new technique covers a door filter the subject did not have.**
+`episodic-capture` states two filters at the capture door and argues both are safe
+because they are *stated*; this source has a third that is *learned* - an embedding
+noise bank trained on the extractor's own empty answers, running upstream of the only
+oracle that could correct it. The source's entrance is exemplary (a five-arm
+discriminated union: an empty result is not a signal until its cause is typed) and its
+loop has no exit whatsoever - two mutators, FIFO at 200, in-memory, with the add bar
+above the match bar so the bank grows with vectors it already covers.
+
+**The amendment is this subject's own finding, caught one level up.** The
+tier-nothing-ever-calls section already names the dead-caller failure and prescribes a
+test. This tree *has* that test and it passes over dead code, because it constructs the
+governor rather than driving the system - six mechanisms at zero callers with a green
+suite, against a calibrated live control at four. The remedy came from the fleet, not
+the source: a door-named test entering through the store's own delete, asserting the
+recorded obligation rather than the asynchronous effect, with plain-table stand-ins for
+the feature-gated dependency so it still runs in the build where the governor is
+compiled out. Ship 0 because personas was already right on both halves.
+
+The amendment closes on defaults, which is where this lands: five governance mechanisms
+opt-in against four ingestion paths opt-out, so the shipped default captures through two
+paths, gates nothing, supersedes nothing on manual writes, and never re-tiers.
+
+One lead answers a memory-lane open question negatively: the per-user scope exists as a
+shape with zero callers and the effective preference key carries no user dimension, so
+the store is multi-tenant in form and single-tenant in fact.
 ### 2026-08-31 - `/intake`, operator-directed at memory
 
 Gained `lane-reconciliation` and `probe-without-write-back` (11 -> 13 techniques), plus

@@ -42,6 +42,30 @@ const LEAKY = [
   { re: /[\w.+-]+@[\w-]+\.[\w.]+/, what: 'an email address' },
 ];
 
+// ---- assert the instrument BEFORE the result --------------------------
+// This scan is a must-not-match, so a clean sweep and a dead pattern set are the
+// same output. Nothing else in this file can tell them apart: the count below
+// says how many files were read, never whether the patterns can still fire.
+// One fixed positive per pattern, in pattern order. (Measured: narrowing the five
+// character classes ships a planted Windows path at exit 0, with the lane
+// reporting OK.)
+const LEAK_CONTROLS = [
+  'C:\\Users\\x\\y',
+  ' /home/x/y',
+  '../x',
+  'https://x.example',
+  'a@b.co',
+];
+for (const [i, { re, what }] of LEAKY.entries()) {
+  if (!re.test(LEAK_CONTROLS[i])) {
+    console.error(
+      `check-usage: the ${what} pattern did not match its control ` +
+        `(${JSON.stringify(LEAK_CONTROLS[i])}). THE SCANNER IS BROKEN — refusing to report a clean lane.`,
+    );
+    process.exit(2);
+  }
+}
+
 const failures = [];
 const fail = (msg) => failures.push(msg);
 

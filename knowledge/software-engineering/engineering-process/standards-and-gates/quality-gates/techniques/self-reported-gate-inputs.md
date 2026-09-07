@@ -96,7 +96,7 @@ the build's own module graph — and the gate then asserts that the derivation
 found something, because a derived-and-empty population is exactly as silent
 as a stale list and much easier to produce
 ([gate-liveness](./gate-liveness.md)). The reconciliation with
-[operation-assertion-gates](./operation-assertion-gates.md), which prescribes
+[operation-assertion-gates](../../metric-gates/techniques/operation-assertion-gates.md), which prescribes
 hand-enumerated scopes, is that its lists are *denylist scopes* — a
 deliberately narrow region where a rule is stricter than elsewhere, and a
 region that quietly loses a member weakens the rule locally without

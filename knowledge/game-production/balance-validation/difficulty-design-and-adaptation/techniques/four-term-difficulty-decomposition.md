@@ -6,7 +6,7 @@ technique: four-term-difficulty-decomposition
 status: forged
 laws: [a-number-carries-its-unit-and-basis, unmeasured-is-not-a-pass]
 shared_with: []
-use_when: [a difficulty complaint has no agreed cause, deciding which term a difficulty change should move, writing down what a difficulty setting actually scales, a balance figure assumes a player nobody has described]
+use_when: [a difficulty complaint has no agreed cause, deciding which term a difficulty change should move, writing down what a difficulty setting actually scales, a balance figure assumes a player nobody has described, the first pass at the tuning values was generated or specified rather than played]
 ---
 
 # Four-term difficulty decomposition
@@ -58,6 +58,43 @@ knows the mechanics and executes cleanly — and that default describes the desi
 test team and every headless harness, which are the three highest-skill readers of the
 system that will ever exist. A silent optimistic default makes a game look better tuned
 than it is, and the error survives review because everyone reviewing shares it.
+
+## The optimistic default has a premise: the estimator plays
+
+That default is not a property of unattended estimation. It is a property of *who was
+estimating*. All three readers named above execute the system — a designer plays it, a
+tester plays it, a headless harness resolves its mechanics at full speed. High-skill
+executors produce a **signed** error, and its sign is knowable before anyone measures
+anything, which is exactly what makes the optimistic default correctable on sight.
+
+A tuner that never executes the system has no skill estimate to be optimistic about. Where
+the authored terms come from a description of the game rather than from playing it — a
+generated first pass, values written to a brief, constants carried over from a system
+nobody on the team has played — the fourth term is not estimated optimistically. It is not
+estimated at all, and an absent estimate has no sign.
+
+The discriminating test is cheap: **two independent authors working from the same brief.**
+A signed error puts both on the same side of the target. An unsigned one puts them
+anywhere, including opposite poles — one build dense enough to be unnavigable once speed
+rises, another with so little opposition that the challenge never arrives at all. Both are
+tuning failures; they are not the same tuning failure, and no single correction addresses
+both.
+
+What this bounds is the corrective, not the model. Step 3 below already makes *unestimated*
+its own epistemic state, but the failure it produces is described here in the optimistic
+register — so the reflex that follows an unestimated value is to ease the system. Against a
+signed error that reflex is right and free. Against an unsigned one it is a coin flip that
+makes half its cases worse while reporting that difficulty was addressed.
+
+- **Ask whether the estimator executed the system at speed.** Reading it, specifying it and
+  generating it all give the same answer, and that answer means the residual's direction is
+  unknown and must be read before its magnitude is touched.
+- **Read the direction before correcting the magnitude.** One session by somebody who did
+  not author the values is enough; it is a one-bit measurement, and it is the only thing a
+  signed-error assumption was supplying for free.
+- **Do not split the difference between two unsigned first passes.** They bracket the target
+  only if they moved the same term, which is what step 1 below is for. Two builds that are
+  unplayable for different reasons have a midpoint that is unplayable for both.
 
 ## Procedure
 

@@ -74,9 +74,130 @@ would cause.** A defensible gate is roughly four conjunctive conditions:
    gate that lets decay reach it quietly erases the organization's history
    while reporting a healthy store.
 4. **Not of an exempt kind** — the longest-lived and most expensive-to-lose
-   category (typically procedures: what was tried and what worked) is exempt
-   from automatic forgetting outright. Not decayed more slowly — exempt. A
-   procedure is rediscovered only by repeating the work that produced it.
+   items are exempt from automatic forgetting outright. Not decayed more
+   slowly — exempt. Identity, standing operator corrections, and anything
+   whose loss cannot be recovered by repeating work belong here.
+
+   **Read the exemption narrowly, and never grant it to a whole tier.** An
+   earlier reading of this clause exempted *procedures* as a category, on the
+   reasoning that a procedure is rediscovered only by repeating the work that
+   produced it. That reasoning is sound about the cost of losing a good
+   procedure and silent about the cost of keeping a bad one, and the second
+   cost is the larger of the two — because a procedure is an instruction, and
+   an instruction that is still injected is still obeyed. A superseded fact is
+   a wrong answer when retrieved; a superseded rule is wrong behaviour whether
+   or not anyone asks. Exempt the *kind whose loss is unrecoverable*, never
+   the *kind that is expensive to derive*.
+
+### The exemption's most expensive form: a tier nothing ever calls
+
+The failure this clause invites is not a sweep that spares too much. It is a
+tier that was never swept at all, and it hides better than a bad policy
+because the policy reads correctly in the code that implements it.
+
+Measured on one long-lived store replayed over a simulated year of use: the
+state tier retired 261 of 375 entries on schedule, and the behaviour tier
+retired **0 of 133, ever**. The demotion function existed, was correct, and had
+no caller — the distillation pass asked for a supersedence link on state and
+not on rules, and the reconciliation pass compared state to state and never
+compared a rule to anything. Nothing errored. Every dashboard read healthy.
+
+What made it costly rather than untidy is *which* tier it was:
+
+> **The tier the always-on lane draws from must be governed at least as
+> strictly as the tier retrieved on demand, because standing beats relevance.**
+
+A retrieved-on-demand entry has to win a relevance contest to be seen at all,
+so a stale one competes against its own replacement and often loses. An
+always-injected entry faces no contest: it is in the prompt for every question
+regardless of what was asked. So the tier with the *least* retrieval pressure
+is where a dead entry survives longest and acts with the most authority. In the
+replayed store a behaviour rule from January still said to default to one code
+style in December, months after the operator changed it and after the *fact*
+recording that preference had been correctly retired — and the rule, not the
+fact, is what the assistant acted on.
+
+Governing both tiers through one path was worth four points of end-to-end
+accuracy and retired 68 of 131 rules. It also cost something worth naming: a
+narrow class regressed when retirement switched on, because a pass that can now
+retire rules can also be over-eager about it. That is the ordinary price of
+turning a lane on, and it argues for watching the first sweeps, not for leaving
+the lane off.
+
+Two instruments follow, both cheap:
+
+- **Report retired-per-tier, not retired.** One number over a store whose tiers
+  are governed differently is an average that hides a zero. This is
+  [coverage-instrumentation](./coverage-instrumentation.md)'s rule applied to
+  forgetting: the denominator is the population, and each tier is a population.
+- **Assert the contract per tier, in a test.** "Forgetting is demotion" is a
+  claim about behaviour, and a claim no test makes is a comment. A test that
+  writes a superseding entry into each tier and asserts the prior one leaves
+  the retrievable set would have caught this on the day the tier was added.
+
+### The test has to enter through the door
+
+That instrument has a failure mode of its own, and a second store found it the
+expensive way: **the test existed, passed, and the governor was dead.** Three
+lifecycle entry points in one memory plugin — the recall-path sweep, a
+per-result tier transition, and the access tracker that feeds both — were
+correct, unit-tested, and had zero callers in the shipped tree. The suite
+constructed the decay engine and the tier manager directly, asserted that they
+produced the right transitions, and went green forever. Nothing asserted that
+anything *called* them.
+
+The distinction is the whole instrument. A test that constructs the governor
+proves the governor works; only a test that enters through the system's own
+door proves the governor runs. Those are different claims, and the second is
+the one this section is about, because a demotion function nobody calls fails
+in exactly the way a correct demotion function passes.
+
+So write the assertion at the door, not at the mechanism:
+
+- **Enumerate the doors and assert the obligation at each.** Every path that
+  retires, deletes, supersedes or caps is a door, and the test drives *that*
+  entry point — the store's own delete, the recall the sweep hangs off — and
+  asserts the governance effect. The counterpart store that got this right
+  names it in the test itself: *every delete door records the owed cleanup*.
+  A test named after the door cannot be satisfied by a mechanism nobody opens.
+- **Assert the caller, not only the effect, where the effect is asynchronous.**
+  Much of this machinery is fire-and-forget by design, so the door test often
+  cannot wait for the outcome. Then the observable is the *obligation* — a
+  ledger row, a queued item, a recorded debt — written synchronously at the
+  door and drained later. That is worth building for its own sake, and it makes
+  the door testable as a side effect.
+- **Substitute for the gated dependency rather than skipping the test.** A
+  governor behind a build feature or a config flag is precisely the one whose
+  caller goes missing, and the default build is where that happens. The test
+  suite that caught this stands in plain tables for the feature-gated vector
+  tables, same names and ordinary schema, *so the whole surface is witnessed in
+  a build where the real mechanism is compiled out*. A test that is skipped
+  under the default configuration is not covering the configuration most
+  installations run.
+
+The generalization is worth carrying past this subject: wherever a component's
+liveness is a property of the deployment rather than of the code — a cargo
+feature, a plugin flag, an optional host lane — the code cannot make itself run,
+but it can make its own absence legible. A skip that records nothing is
+indistinguishable from a sweep that found nothing, which is
+[unknown-is-not-a-value](../../../../_laws.md#unknown-is-not-a-value) raised
+from the item to the pass.
+
+That defaults are where this lands is not incidental. In the plugin above,
+every ingestion path shipped on by default and every governance mechanism
+shipped off: capture, smart extraction and both reflection writers were
+opt-out, while the admission gate, supersedence on manual writes, the
+consolidation sweep and the lane hosting tier maintenance were all opt-in. The
+polarity is legible in one grep of the config reads, and it is worth running on
+your own surface, because the incentives only push one way — ingestion defaults
+on because it demonstrates well and its cost is deferred, governance defaults
+off because it costs a call per item or because enabling it once caused a
+visible bug somewhere else. **A store's forgetting policy is not what its code
+can do; it is what its default configuration runs.**
+
+The same shape has already been solved one subject over, for the same reason:
+an always-on instruction file earns each line or loses it, and pruning is
+treated as admission's other half rather than as a later favour.
 
 Two consequences worth stating explicitly. First, the conjunction is what
 makes automation acceptable at all: any one clause alone is wrong, and their

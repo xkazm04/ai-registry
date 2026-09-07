@@ -11,6 +11,8 @@ techniques:
   - multi-view-master-reference
   - reference-role-tagging
   - text-is-never-geometry
+  - scene-partition-is-the-gated-unit
+  - part-cut-planning
 ---
 
 # Image-to-3D input gating
@@ -86,6 +88,27 @@ disguised as material.
 The criteria are enforced by [single-subject-plain-background](./techniques/single-subject-plain-background.md)
 and [canonical-pose-rule](./techniques/canonical-pose-rule.md), which carry the specific
 thresholds and the preparation procedures.
+
+## When one image is meant to yield several assets
+
+All five criteria take the **unit** as given: there is one subject, the image is it, and the
+question is whether that subject reconstructs. Reconstruction in scene mode removes that
+premise — a busy frame goes in and several separate objects come back, plus a background —
+and the criteria then have nothing to run on until the tool has cut the frame into regions.
+Scoring the source frame scores something that will never be reconstructed; scoring each
+region is necessary and is not sufficient, because it skips the only question that is new
+here: **did the cut account for the whole frame?**
+
+That question matters because neither gate in this pipeline can ask it. An input gate scores
+regions that exist and an output gate grades meshes that came back; an object that no region
+selected produces neither, fails nothing, and is simply absent from a result whose every
+verdict is green. So a scene input is gated on its partition first and its regions second,
+with area resolving to exactly one of three states — region, backdrop, or residue — and
+residue reported rather than implied.
+[scene-partition-is-the-gated-unit](./techniques/scene-partition-is-the-gated-unit.md)
+carries the coverage check, the repair channel that adjusts a boundary rather than the
+image, and the occlusion rule that stands in this lane where the frame-edge hard fail stands
+in the single-subject one.
 
 ## A defect's severity comes from what depends on it
 
@@ -169,6 +192,25 @@ demand views, how many, and what makes a view set self-contradictory. Composing 
 locking a visual style across generated images in general belongs to the neighbouring craft
 of generative media; the part owned here is only what a *reconstruction* needs from the
 images it is handed.
+
+## One subject can be several reconstructions
+
+Past a certain complexity a subject stops being one reconstruction. A creature with
+non-humanoid limbs, an armoured figure, an assembly of dissimilar materials — asked for
+whole, these come back fused where they should articulate and smeared where they should
+be sharp, and no amount of input preparation rescues a request the generator cannot
+satisfy. The remedy is to commission the subject as separate parts and assemble them,
+which is a decision made *here*, on the reference, before anything is generated.
+
+What that decision needs is a plan rather than an instinct, because every cut boundary is
+inherited by a stage that did not choose it: a join someone must close, a seam that may
+land across a bending surface, a repeated limb that gets paid for once or six times, and
+a pair of interpenetrating elements that either arrive clean or arrive fused. The
+boundaries are chosen against those consumers, and the plan is the one authority for how
+many parts exist — every budget downstream derives from it.
+[part-cut-planning](./techniques/part-cut-planning.md) is the plan and its justification
+rules. Dividing a budget across the parts once they are named is a separate, downstream
+arithmetic and belongs to poly budgeting, not here.
 
 ## Things that never become geometry
 

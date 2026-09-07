@@ -29,6 +29,8 @@
    "status": "forged",
    "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/adverse-impact-and-proxy-neutrality/adverse-impact-and-proxy-neutrality.md",
    "digest": "sha256:f8db4449339cd5c5",
+   "revision": 1,
+   "changedAt": "2026-08-21",
    "techniques": [
     {
      "slug": "cohort-shield-is-not-a-protected-class-test",
@@ -140,6 +142,8 @@
    "status": "forged",
    "file": "knowledge/recruiting/assessment/ai-assistance-detection-and-fairness/ai-assistance-detection-and-fairness.md",
    "digest": "sha256:66372c4d859384e1",
+   "revision": 1,
+   "changedAt": "2026-08-21",
    "techniques": [
     {
      "slug": "behaviour-matched-peer-test-for-over-reliance",
@@ -257,6 +261,8 @@
    "status": "forged",
    "file": "knowledge/recruiting/assessment/ai-interviewer-brief-authoring/ai-interviewer-brief-authoring.md",
    "digest": "sha256:e6fe53e3aef6c65b",
+   "revision": 1,
+   "changedAt": "2026-08-21",
    "techniques": [
     {
      "slug": "closing-read-back",
@@ -373,6 +379,8 @@
    "status": "forged",
    "file": "knowledge/recruiting/sourcing-and-intake/application-intake-and-conversion/application-intake-and-conversion.md",
    "digest": "sha256:0e4dd03dde26f688",
+   "revision": 1,
+   "changedAt": "2026-08-21",
    "techniques": [
     {
      "slug": "always-live-submit-that-names-the-blocker",
@@ -487,6 +495,8 @@
    "status": "forged",
    "file": "knowledge/recruiting/assessment/assessment-instrument-validation/assessment-instrument-validation.md",
    "digest": "sha256:94d426b772a62276",
+   "revision": 3,
+   "changedAt": "2026-08-24",
    "techniques": [
     {
      "slug": "adversarial-persona-red-teaming",
@@ -609,6 +619,8 @@
    "status": "forged",
    "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/automated-screening-fairness-gates/automated-screening-fairness-gates.md",
    "digest": "sha256:a7a720f32c1ca821",
+   "revision": 1,
+   "changedAt": "2026-08-21",
    "techniques": [
     {
      "slug": "blocked-rejection-as-an-audited-event",
@@ -728,6 +740,8 @@
    "status": "forged",
    "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/blind-screening-and-redaction/blind-screening-and-redaction.md",
    "digest": "sha256:98c8988d274f43a1",
+   "revision": 1,
+   "changedAt": "2026-08-21",
    "techniques": [
     {
      "slug": "disclose-the-redaction-to-the-assessor",
@@ -843,6 +857,8 @@
    "status": "forged",
    "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/bulk-adverse-action-governance/bulk-adverse-action-governance.md",
    "digest": "sha256:5d415d9df91c2354",
+   "revision": 2,
+   "changedAt": "2026-08-30",
    "techniques": [
     {
      "slug": "cohort-drift-forces-a-fresh-review",
@@ -962,6 +978,8 @@
    "status": "forged",
    "file": "knowledge/recruiting/governance/candidate-ai-disclosure-and-explanation/candidate-ai-disclosure-and-explanation.md",
    "digest": "sha256:af2612d5cb1c1a57",
+   "revision": 1,
+   "changedAt": "2026-08-21",
    "techniques": [
     {
      "slug": "allowlist-of-candidate-visible-decisions",
@@ -1077,6 +1095,8 @@
    "status": "forged",
    "file": "knowledge/recruiting/candidate-evidence/candidate-archetype-routing/candidate-archetype-routing.md",
    "digest": "sha256:350a5258fe2b1a91",
+   "revision": 1,
+   "changedAt": "2026-08-21",
    "techniques": [
     {
      "slug": "confidence-always-returned-with-a-review-threshold",
@@ -1193,6 +1213,8 @@
    "status": "forged",
    "file": "knowledge/recruiting/candidate-experience/candidate-communication-integrity/candidate-communication-integrity.md",
    "digest": "sha256:52dcf11b1515828f",
+   "revision": 2,
+   "changedAt": "2026-08-30",
    "techniques": [
     {
      "slug": "bounce-receipt-supersedes-a-green-send",
@@ -1315,6 +1337,8 @@
    "status": "forged",
    "file": "knowledge/recruiting/governance/candidate-consent-and-retention/candidate-consent-and-retention.md",
    "digest": "sha256:a3bbfb5180a23acd",
+   "revision": 1,
+   "changedAt": "2026-08-21",
    "techniques": [
     {
      "slug": "anonymise-but-retain-the-aggregate-signal",
@@ -1428,6 +1452,8 @@
    "status": "forged",
    "file": "knowledge/recruiting/candidate-evidence/candidate-identity-and-staleness/candidate-identity-and-staleness.md",
    "digest": "sha256:28d64d48caaf0102",
+   "revision": 2,
+   "changedAt": "2026-08-30",
    "techniques": [
     {
      "slug": "content-addressed-document-identity",
@@ -1549,6 +1575,8 @@
    "status": "forged",
    "file": "knowledge/recruiting/sourcing-and-intake/candidate-outreach-and-halt-rules/candidate-outreach-and-halt-rules.md",
    "digest": "sha256:b8289c310a5c847d",
+   "revision": 1,
+   "changedAt": "2026-08-21",
    "techniques": [
     {
      "slug": "audit-the-non-send",
@@ -1664,6 +1692,8 @@
    "status": "forged",
    "file": "knowledge/recruiting/pipeline-operations/candidate-self-scheduling/candidate-self-scheduling.md",
    "digest": "sha256:2c1ce9738bfbf781",
+   "revision": 1,
+   "changedAt": "2026-08-21",
    "techniques": [
     {
      "slug": "interviewer-timezone-anchoring",
@@ -1779,6 +1809,8 @@
    "status": "forged",
    "file": "knowledge/recruiting/candidate-experience/candidate-status-transparency/candidate-status-transparency.md",
    "digest": "sha256:6ecbbeb713a5139c",
+   "revision": 2,
+   "changedAt": "2026-08-30",
    "techniques": [
     {
      "slug": "candidate-legible-timeline",
@@ -1895,6 +1927,8 @@
    "status": "forged",
    "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/collective-and-statutory-hiring-governance/collective-and-statutory-hiring-governance.md",
    "digest": "sha256:fc353cde89802760",
+   "revision": 1,
+   "changedAt": "2026-08-21",
    "techniques": [
     {
      "slug": "advisory-machine-that-never-seals",
@@ -2012,6 +2046,8 @@
    "status": "forged",
    "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/combining-signals-into-a-hire-decision/combining-signals-into-a-hire-decision.md",
    "digest": "sha256:0199df85d4553561",
+   "revision": 1,
+   "changedAt": "2026-08-21",
    "techniques": [
     {
      "slug": "a-hold-that-blocks-auto-advance",
@@ -2131,6 +2167,8 @@
    "status": "forged",
    "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/comparative-shortlist-evaluation/comparative-shortlist-evaluation.md",
    "digest": "sha256:8cfedda53b5e80a5",
+   "revision": 1,
+   "changedAt": "2026-08-21",
    "techniques": [
     {
      "slug": "confidence-band-lead-separation",
@@ -2248,6 +2286,8 @@
    "status": "forged",
    "file": "knowledge/recruiting/measurement/compensation-banding-and-market-honesty/compensation-banding-and-market-honesty.md",
    "digest": "sha256:670fe001561af848",
+   "revision": 1,
+   "changedAt": "2026-08-21",
    "techniques": [
     {
      "slug": "advertised-pay-is-not-earnings",
@@ -2366,6 +2406,8 @@
    "status": "forged",
    "file": "knowledge/recruiting/assessment/conversational-assessment-validation/conversational-assessment-validation.md",
    "digest": "sha256:bc4ef18eb26d1d64",
+   "revision": 1,
+   "changedAt": "2026-08-21",
    "techniques": [
     {
      "slug": "candidate-behaviour-persona-bank",
@@ -2482,6 +2524,8 @@
    "status": "forged",
    "file": "knowledge/recruiting/candidate-evidence/cv-authenticity-screening/cv-authenticity-screening.md",
    "digest": "sha256:e8705b1f18141f80",
+   "revision": 1,
+   "changedAt": "2026-08-21",
    "techniques": [
     {
      "slug": "a-screen-is-not-a-verdict",
@@ -2601,6 +2645,8 @@
    "status": "forged",
    "file": "knowledge/recruiting/candidate-evidence/cv-parsing-and-career-reading/cv-parsing-and-career-reading.md",
    "digest": "sha256:926df0bcb01d2278",
+   "revision": 1,
+   "changedAt": "2026-08-21",
    "techniques": [
     {
      "slug": "degraded-intake-as-a-visible-queue",
@@ -2719,6 +2765,8 @@
    "status": "forged",
    "file": "knowledge/recruiting/governance/decision-audit-and-traceability/decision-audit-and-traceability.md",
    "digest": "sha256:7b27ffc19380f982",
+   "revision": 1,
+   "changedAt": "2026-08-21",
    "techniques": [
     {
      "slug": "capture-the-machine-verdict-before-a-human-overwrites-it",
@@ -2836,6 +2884,8 @@
    "status": "forged",
    "file": "knowledge/recruiting/candidate-experience/degrade-never-block-a-candidate/degrade-never-block-a-candidate.md",
    "digest": "sha256:f9fba1ec37b74315",
+   "revision": 1,
+   "changedAt": "2026-08-21",
    "techniques": [
     {
      "slug": "a-candidate-action-is-debited-never-gated",
@@ -2950,6 +3000,8 @@
    "status": "forged",
    "file": "knowledge/recruiting/candidate-evidence/early-career-potential-assessment/early-career-potential-assessment.md",
    "digest": "sha256:2f2491e8c5432176",
+   "revision": 1,
+   "changedAt": "2026-08-21",
    "techniques": [
     {
      "slug": "domain-distance-grading",
@@ -3065,6 +3117,8 @@
    "status": "forged",
    "file": "knowledge/recruiting/candidate-evidence/evidence-provenance-weighting/evidence-provenance-weighting.md",
    "digest": "sha256:b6e3d384dab511dc",
+   "revision": 1,
+   "changedAt": "2026-08-21",
    "techniques": [
     {
      "slug": "default-provenance-fails-safe",
@@ -3181,6 +3235,8 @@
    "status": "forged",
    "file": "knowledge/recruiting/role-definition/hiring-need-as-structured-brief/hiring-need-as-structured-brief.md",
    "digest": "sha256:66452bd05efba75c",
+   "revision": 1,
+   "changedAt": "2026-08-21",
    "techniques": [
     {
      "slug": "graded-requirements-two-axes",
@@ -3297,6 +3353,8 @@
    "status": "forged",
    "file": "knowledge/recruiting/governance/hiring-policy-defaults-and-tiering/hiring-policy-defaults-and-tiering.md",
    "digest": "sha256:438d88959f0cc90d",
+   "revision": 1,
+   "changedAt": "2026-08-21",
    "techniques": [
     {
      "slug": "a-default-is-a-policy-position",
@@ -3414,6 +3472,8 @@
    "status": "forged",
    "file": "knowledge/recruiting/measurement/honest-measurement-presentation/honest-measurement-presentation.md",
    "digest": "sha256:42d833177a53dc8d",
+   "revision": 1,
+   "changedAt": "2026-08-21",
    "techniques": [
     {
      "slug": "a-capped-table-says-what-it-dropped",
@@ -3533,6 +3593,8 @@
    "status": "forged",
    "file": "knowledge/recruiting/candidate-evidence/hypothesis-not-verdict-soft-signals/hypothesis-not-verdict-soft-signals.md",
    "digest": "sha256:bbafe4c69c943a74",
+   "revision": 1,
+   "changedAt": "2026-08-21",
    "techniques": [
     {
      "slug": "a-confirmation-probe-per-signal",
@@ -3650,6 +3712,8 @@
    "status": "forged",
    "file": "knowledge/recruiting/role-definition/inclusive-job-advertising/inclusive-job-advertising.md",
    "digest": "sha256:caeb4b44f2b26c86",
+   "revision": 1,
+   "changedAt": "2026-08-21",
    "techniques": [
     {
      "slug": "advisory-lint-gated-on-substance",
@@ -3764,6 +3828,8 @@
    "status": "forged",
    "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/inference-labelling-and-refusal/inference-labelling-and-refusal.md",
    "digest": "sha256:78fcfe294220a4fe",
+   "revision": 1,
+   "changedAt": "2026-08-21",
    "techniques": [
     {
      "slug": "could-not-determine-is-not-no-concern",
@@ -3883,6 +3949,8 @@
    "status": "forged",
    "file": "knowledge/recruiting/pipeline-operations/interview-calendar-integrity/interview-calendar-integrity.md",
    "digest": "sha256:4eb1f3089da2d937",
+   "revision": 1,
+   "changedAt": "2026-08-21",
    "techniques": [
     {
      "slug": "audience-scoped-calendar-disclosure",
@@ -3998,6 +4066,8 @@
    "status": "forged",
    "file": "knowledge/recruiting/assessment/interview-round-design/interview-round-design.md",
    "digest": "sha256:f068142266c9abb8",
+   "revision": 1,
+   "changedAt": "2026-08-21",
    "techniques": [
     {
      "slug": "cohort-reducer-between-rounds",
@@ -4117,6 +4187,8 @@
    "status": "forged",
    "file": "knowledge/recruiting/assessment/interview-run-of-show/interview-run-of-show.md",
    "digest": "sha256:a2c0da112153a66c",
+   "revision": 1,
+   "changedAt": "2026-08-21",
    "techniques": [
     {
      "slug": "duration-band-and-clamping",
@@ -4229,6 +4301,8 @@
    "status": "forged",
    "file": "knowledge/recruiting/assessment/llm-era-work-sample-design/llm-era-work-sample-design.md",
    "digest": "sha256:6736a8a87900531a",
+   "revision": 1,
+   "changedAt": "2026-08-21",
    "techniques": [
     {
      "slug": "anchor-the-task-to-the-role-not-the-material",
@@ -4344,6 +4418,8 @@
    "status": "forged",
    "file": "knowledge/recruiting/governance/multi-jurisdiction-hiring-compliance/multi-jurisdiction-hiring-compliance.md",
    "digest": "sha256:844eb04eb91a45a9",
+   "revision": 1,
+   "changedAt": "2026-08-21",
    "techniques": [
     {
      "slug": "codified-threshold-only-where-one-exists",
@@ -4457,6 +4533,8 @@
    "status": "forged",
    "file": "knowledge/recruiting/pipeline-operations/offer-lifecycle-and-deadlines/offer-lifecycle-and-deadlines.md",
    "digest": "sha256:fdcbad73d4312938",
+   "revision": 1,
+   "changedAt": "2026-08-21",
    "techniques": [
     {
      "slug": "expired-is-a-different-answer-from-invalid",
@@ -4570,6 +4648,8 @@
    "status": "forged",
    "file": "knowledge/recruiting/measurement/peer-benchmarking-under-k-anonymity/peer-benchmarking-under-k-anonymity.md",
    "digest": "sha256:0454d4bdf72d04fd",
+   "revision": 1,
+   "changedAt": "2026-08-21",
    "techniques": [
     {
      "slug": "aggregates-only-never-a-row",
@@ -4681,6 +4761,8 @@
    "status": "forged",
    "file": "knowledge/recruiting/pipeline-operations/pipeline-aging-and-attention-triage/pipeline-aging-and-attention-triage.md",
    "digest": "sha256:d6b6a2669466d0a2",
+   "revision": 1,
+   "changedAt": "2026-08-21",
    "techniques": [
     {
      "slug": "aging-versus-stalled-two-tier-alerts",
@@ -4795,6 +4877,8 @@
    "status": "forged",
    "file": "knowledge/recruiting/pipeline-operations/pipeline-stage-modelling/pipeline-stage-modelling.md",
    "digest": "sha256:576fa5b5640bae01",
+   "revision": 1,
+   "changedAt": "2026-08-21",
    "techniques": [
     {
      "slug": "entry-and-terminal-role-requirements",
@@ -4913,6 +4997,8 @@
    "status": "forged",
    "file": "knowledge/recruiting/governance/portable-candidate-credentials/portable-candidate-credentials.md",
    "digest": "sha256:bfcb60246e076fd7",
+   "revision": 1,
+   "changedAt": "2026-08-21",
    "techniques": [
     {
      "slug": "freshness-is-separate-from-integrity",
@@ -5031,6 +5117,8 @@
    "status": "forged",
    "file": "knowledge/recruiting/sourcing-and-intake/portable-hiring-records/portable-hiring-records.md",
    "digest": "sha256:5b84ee840ee2ba5c",
+   "revision": 2,
+   "changedAt": "2026-08-24",
    "techniques": [
     {
      "slug": "external-identifier-as-the-sync-identity",
@@ -5154,6 +5242,8 @@
    "status": "forged",
    "file": "knowledge/recruiting/candidate-experience/pre-boarding-and-first-day-handoff/pre-boarding-and-first-day-handoff.md",
    "digest": "sha256:fc554881ab2f24a4",
+   "revision": 1,
+   "changedAt": "2026-08-21",
    "techniques": [
     {
      "slug": "industry-preset-checklists",
@@ -5265,6 +5355,8 @@
    "status": "forged",
    "file": "knowledge/recruiting/role-definition/pre-publish-fillability-forecast/pre-publish-fillability-forecast.md",
    "digest": "sha256:1c120f9bd4359b7e",
+   "revision": 1,
+   "changedAt": "2026-08-21",
    "techniques": [
     {
      "slug": "counterfactual-gate-loosening",
@@ -5380,6 +5472,8 @@
    "status": "forged",
    "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/presenting-a-score-to-a-recruiter/presenting-a-score-to-a-recruiter.md",
    "digest": "sha256:c355831798da83f4",
+   "revision": 1,
+   "changedAt": "2026-08-21",
    "techniques": [
     {
      "slug": "absent-score-is-its-own-tier",
@@ -5497,6 +5591,8 @@
    "status": "forged",
    "file": "knowledge/recruiting/candidate-evidence/public-work-evidence-bounding/public-work-evidence-bounding.md",
    "digest": "sha256:4b4e4ad2e004bac7",
+   "revision": 1,
+   "changedAt": "2026-08-21",
    "techniques": [
     {
      "slug": "absent-signal-versus-unavailable-source",
@@ -5617,6 +5713,8 @@
    "status": "forged",
    "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/recruiter-anchored-model-evaluation/recruiter-anchored-model-evaluation.md",
    "digest": "sha256:4b8645ba773aac23",
+   "revision": 1,
+   "changedAt": "2026-08-21",
    "techniques": [
     {
      "slug": "decision-anchored-score-bands",
@@ -5733,6 +5831,8 @@
    "status": "forged",
    "file": "knowledge/recruiting/measurement/recruiting-cost-and-automation-economics/recruiting-cost-and-automation-economics.md",
    "digest": "sha256:d56d22a89ea2dfe8",
+   "revision": 1,
+   "changedAt": "2026-08-21",
    "techniques": [
     {
      "slug": "a-human-click-is-not-saved-labour",
@@ -5851,6 +5951,8 @@
    "status": "forged",
    "file": "knowledge/recruiting/measurement/recruiting-funnel-metrics/recruiting-funnel-metrics.md",
    "digest": "sha256:e992dfb5731087da",
+   "revision": 1,
+   "changedAt": "2026-08-21",
    "techniques": [
     {
      "slug": "creation-cohort-versus-terminal-transition-basis",
@@ -5966,6 +6068,8 @@
    "status": "forged",
    "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/regulated-credential-gating/regulated-credential-gating.md",
    "digest": "sha256:ff75b04da7faf6f4",
+   "revision": 3,
+   "changedAt": "2026-08-24",
    "techniques": [
     {
      "slug": "credential-cue-catalog-per-role-family",
@@ -6088,6 +6192,8 @@
    "status": "forged",
    "file": "knowledge/recruiting/candidate-experience/rejection-with-dignity/rejection-with-dignity.md",
    "digest": "sha256:5b43b0abc94e0241",
+   "revision": 1,
+   "changedAt": "2026-08-21",
    "techniques": [
     {
      "slug": "deterministic-dispatch-so-nobody-is-ghosted",
@@ -6202,6 +6308,8 @@
    "status": "forged",
    "file": "knowledge/recruiting/role-definition/requirement-inflation-control/requirement-inflation-control.md",
    "digest": "sha256:a5b73f9ee21ad891",
+   "revision": 1,
+   "changedAt": "2026-08-21",
    "techniques": [
     {
      "slug": "degree-and-tenure-requirement-audit",
@@ -6316,6 +6424,8 @@
    "status": "forged",
    "file": "knowledge/recruiting/role-definition/requisition-lifecycle-governance/requisition-lifecycle-governance.md",
    "digest": "sha256:a3f723778dfdb7e0",
+   "revision": 1,
+   "changedAt": "2026-08-21",
    "techniques": [
     {
      "slug": "best-effort-ingest-with-an-explicit-retry",
@@ -6431,6 +6541,8 @@
    "status": "forged",
    "file": "knowledge/recruiting/role-definition/role-intake-conversation/role-intake-conversation.md",
    "digest": "sha256:22c19d9017a792fc",
+   "revision": 1,
+   "changedAt": "2026-08-21",
    "techniques": [
     {
      "slug": "context-reinstatement-opening",
@@ -6536,6 +6648,8 @@
    "status": "forged",
    "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/selection-score-calibration/selection-score-calibration.md",
    "digest": "sha256:f669ec7ba0a68e98",
+   "revision": 1,
+   "changedAt": "2026-08-21",
    "techniques": [
     {
      "slug": "base-rate-skill-score",
@@ -6653,6 +6767,8 @@
    "status": "forged",
    "file": "knowledge/recruiting/sourcing-and-intake/silver-medalist-rediscovery/silver-medalist-rediscovery.md",
    "digest": "sha256:da071ec41196f6ab",
+   "revision": 1,
+   "changedAt": "2026-08-21",
    "techniques": [
     {
      "slug": "band-limited-prior-depth-boost",
@@ -6770,6 +6886,8 @@
    "status": "forged",
    "file": "knowledge/recruiting/candidate-evidence/skill-adjacency-and-normalization/skill-adjacency-and-normalization.md",
    "digest": "sha256:2e86d6b49c9c00fc",
+   "revision": 3,
+   "changedAt": "2026-08-24",
    "techniques": [
     {
      "slug": "bilingual-surface-parity-and-coverage-floors",
@@ -6893,6 +7011,8 @@
    "status": "forged",
    "file": "knowledge/recruiting/measurement/small-sample-honesty-in-hiring-analytics/small-sample-honesty-in-hiring-analytics.md",
    "digest": "sha256:adee15b12e09c223",
+   "revision": 1,
+   "changedAt": "2026-08-21",
    "techniques": [
     {
      "slug": "a-named-minimum-per-claim",
@@ -7008,6 +7128,8 @@
    "status": "forged",
    "file": "knowledge/recruiting/sourcing-and-intake/sourcing-campaign-honesty/sourcing-campaign-honesty.md",
    "digest": "sha256:1736c7c4461fb8f5",
+   "revision": 1,
+   "changedAt": "2026-08-21",
    "techniques": [
     {
      "slug": "defaulted-value-is-absent-not-advertised",
@@ -7121,6 +7243,8 @@
    "status": "forged",
    "file": "knowledge/recruiting/assessment/structured-interview-scorecards/structured-interview-scorecards.md",
    "digest": "sha256:bd81ff718ea6b339",
+   "revision": 1,
+   "changedAt": "2026-08-21",
    "techniques": [
     {
      "slug": "behaviourally-anchored-level-writing",
@@ -7237,6 +7361,8 @@
    "status": "forged",
    "file": "knowledge/recruiting/assessment/voice-interview-fidelity/voice-interview-fidelity.md",
    "digest": "sha256:3a7d4286dd73edb6",
+   "revision": 1,
+   "changedAt": "2026-08-21",
    "techniques": [
     {
      "slug": "accent-and-first-language-error-disparity",
@@ -7354,6 +7480,8 @@
    "status": "forged",
    "file": "knowledge/recruiting/assessment/work-sample-timeboxing-and-cost/work-sample-timeboxing-and-cost.md",
    "digest": "sha256:d856b890c0fb4372",
+   "revision": 1,
+   "changedAt": "2026-08-21",
    "techniques": [
     {
      "slug": "accommodation-and-device-advisory",

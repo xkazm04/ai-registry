@@ -97,10 +97,25 @@ Phase 4's `### Work packages` schema should carry a doc-ownership field alongsid
 - When a worktree shares the cargo target dir with a sibling session, every cargo command serialises behind that session and a test compile can read a mid-edit tree; run one cargo command at a time and never treat such a compile as a verdict.
 - Attribute census rises by applying each risen rule regex to the changed-files list only (a 20-line script); it turned 20 rises into a 15-minute fix list and surfaced two shared primitives worth extracting.
 
-## 1.3.2 - 2026-09-06 - ascent
+## 1.3.2 - 2026-09-06 - ascent (ui-surfaces-showcase)
 - Context: ui-surfaces-showcase (14 registry subjects turned into composed React scenes by 15 builders).
 - A typecheck gate is void while ANY file in the program has a syntactic error: tsc reports syntactic diagnostics only and skips semantic checking entirely. A dev-server artifact (`.next/dev/types/validator.ts`, truncated by a killed `next dev`) made "tsc shows one unrelated error" read as green for the Director and fifteen builders; ~200 strict-index errors surfaced hours later. Phase 5 should state the gate as "typecheck output is EMPTY", and a scout that sees a syntax error in a generated file deletes it and re-runs before reporting.
 - When the main checkout is used as the spark's branch (no worktree), any parallel session in that checkout commits ONTO the spark branch; 16 foreign commits rode to master here. Either take the worktree cost or say in the merge which commits are not the spark's.
 - Pre-committing per-subject stubs (record + body-map line + placeholder module) turned 13 subject builders into a fully parallel fan-out with exactly one shared file, edited by one `Edit` each; no clobber in 13 concurrent writers. The pattern generalises to any catalog-plus-bodies feature.
 - Builders sharing a scratchpad overwrote each other's helper script (`fix.mjs`); give every builder a uniquely named scratch path in its brief.
 - The operator's one "Other" answer was the biggest lever (one composed scene per subject over a card list) and the options lacked it; when the taste file says "bold option first", the bold option must be the bigger UNIT, not just the bigger scope.
+## 1.3.2 - 2026-09-06 - ascent
+
+- **A new optional input needs a named CALLER in the contract, or it ships dead.** The brief listed
+  the wire-level inputs a pure brief builder would accept (`subjectContexts`, `repo`) and the
+  package that produces the function; no package owned the call site (the dispatch route), which
+  sat outside every territory. The builder shipped the pure half and correctly said "no caller";
+  the Director wired it. Phase 4's contract-completeness rule should read: every new field names its
+  producer AND its first consumer, and the consumer is inside some package's file scope.
+- **Two builders coding the same absent value drift on omit-vs-null.** A skill doc said a missing
+  revision "reads as `revisionsBehind: null`"; the script omits the key. State the absent-value
+  convention once in `### Data & API` (omit / null / 0, and why) so parallel packages inherit it.
+- **The merge step must not assume the main checkout is on `base_branch`.** Both hosts' main
+  checkouts were on foreign branches with dirty trees; the fix that worked was `git checkout
+  <base> && git merge --ff-only` inside the spark worktree (a branch can be checked out in only one
+  worktree, and the base was free), after rebasing the spark branch onto it there.

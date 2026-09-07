@@ -1,7 +1,7 @@
 ---
 domain: software-engineering
 subject: build-economics
-last_touched: 2026-09-03
+last_touched: 2026-09-06
 touched_by: intake
 dry_streak: 0
 ---
@@ -102,3 +102,73 @@ specialisation, cheaper and available before a split is justified.
 covered twice and better — here at `:43-48` (feature unification, which the source
 never names) and `:49-55` ("Ten independent flags is 1,024 configurations"), and
 in `gate-laddering`'s cross-configuration section.
+
+## 2026-09-06 — `/intake` openclaude: a gate whose two halves have different owners
+
+Landed one amendment to `capability-feature-gating`: **"When the flag and the code
+it gates have different owners"** — and, unusually for this skill, shipped the
+instrument it argues for into a connected project on the same day.
+
+**The gap.** Rules 1 and 4 both assume the flag and the capability it admits are
+co-owned, so "the flag is on" and "the capability is present" are one statement.
+Rule 1 says it outright — *"there is no flag whose absence breaks the default
+build"* — and rule 4 designs the runtime gap only for the flag-**off** direction.
+The source is an open fork assembled from a partial mirror of an upstream tree,
+where which files arrive is not the repository's decision. There the flag is a
+*claim* about the source, the bundler's missing-module fallback substitutes a
+stub exporting only `default`, and the result builds green, starts green, and
+throws at the first named import — their issue #856,
+`fetchMcpSkillsForClient is not a function`. Two obligations restore the
+identity: assert the flag's source precondition where the flag is set, and mark
+substituted placeholders so a post-build step fails on any that reached the
+artifact — keyed on a path from the source root, because a basename key lets one
+stub mask another (`stubMarkerGuard.ts` says so in its own header).
+
+**Applied to `personas`, mode `experiment`, verdict `better`, proof `ab-paired`.**
+The generalisation that made this worth applying: the ownership split does not
+have to cross an organisation, it only has to cross a *decision*. `personas` owns
+both halves of every gate and is still caught, because two independent selectors
+decide what a user can call — cargo features decide which `#[tauri::command]`
+functions register, and the frontend's imports and tier decide which names the UI
+passes to `invoke`. Nothing asserted a relationship.
+
+`scripts/check-command-registration.mjs` guards the union of the first and says so
+in its own comment (duplicate names are cfg-gated variants "and are not a
+finding"). Same data, partitioned by the feature set each `tauri.*.conf.json`
+actually builds:
+
+| config | features | union guard | feature-partitioned |
+| --- | --- | --- | --- |
+| `tauri.conf.json` | `desktop-full` | 0 | **4** |
+| `tauri.stable.conf.json` | `desktop-full` | 0 | **4** |
+| `tauri.lite.conf.json` | `desktop` | 0 | **72** |
+| `tauri.android.conf.json` | none | 0 | **97** |
+
+**One of the four is live.** `companion_list_pending_approvals` is registered only
+under `#[cfg(feature = "test-automation")]`, which `desktop-full` does not
+include, and three shipped chat modules call it inside `silentCatch(...)`. In
+every production build the invoke fails with `Command "…" not found`, the
+rejection is swallowed by design, and the pending-approvals list is permanently
+empty with nothing logged. Nobody was wrong at any single site — the command is
+genuinely test-only, the callers are genuinely defensive — and no instrument
+joined the two facts. It is recorded in the new gate's baseline rather than
+repaired, because the repair is a product decision belonging to the owner.
+
+Shipped: `scripts/check-command-feature-coverage.mjs` + a two-sided baseline + a
+20-assertion self-test, wired into `npm run check` (commit `ca1d53ddd`,
+unpushed). Verified red on both a rise and a silent drop before being seeded
+green. Application document updated in place — `rust--capability-feature-gating`
+already covered this tree from rule 4's positive side, so the complement became a
+section there rather than a near-duplicate file, and it closes one of that
+document's own stated limitations ("nothing mechanical requires a gated entry
+point to have a designed gap").
+
+**Two instrument lessons, both from getting it wrong first**, and both now in the
+application: bracket-match the handler list over *masked* source (a naive matcher
+over-counted 1,634 against the true 1,627, because `lib.rs` carries an unbalanced
+`[` inside a comment within the list), and read the feature name back out of the
+*raw* text at the same offset, since masking blanks string literals and the
+feature name is one.
+
+Still open from 2026-09-03: nothing here touches the switch-cost inequality,
+which remains asserted rather than computed.

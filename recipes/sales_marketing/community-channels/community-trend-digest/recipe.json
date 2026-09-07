@@ -1,0 +1,169 @@
+{
+  "id": "4a151e59-6b19-5164-8d66-867b66091542",
+  "slug": "community-trend-digest",
+  "title": "Community discussion trend digest",
+  "version": "0.3.0",
+  "status": "seed",
+  "path": "sales_marketing/community-channels",
+  "domain": "sales_marketing",
+  "description": {
+    "need": "The communities where a product's users talk about it move faster than anyone can read, and the digest that is supposed to fix that fails in a specific way: it pads to a consistent length, so a quiet week arrives looking exactly like a loud one and the reader learns within a month that the length carries no information. What it reports as a trend is usually one thread that got amplified, which is one voice rather than a movement.",
+    "input": "Recent activity from the communities the adopter follows, the index of what previous digests already covered, each source's own normal volume and register, and the corrections reviewers made to earlier digests.",
+    "core_action": "Separate a theme that genuinely ran from a single loud thread by counting distinct voices rather than volume, judge each against what is normal for that particular community, and ship fewer themes on a quiet day rather than stretching thin material to a familiar length.",
+    "output": "A short themed digest of what those communities actually discussed, each theme saying what if anything it asks of the reader, delivered where the team reads, with the covered index and the reviewer's corrections written back so the next run starts from them."
+  },
+  "activities": [
+    {
+      "id": "fetch",
+      "label": "Pull recent activity from the followed communities",
+      "kind": "observe"
+    },
+    {
+      "id": "dedupe",
+      "label": "Set aside what previous digests already covered",
+      "kind": "act"
+    },
+    {
+      "id": "cluster",
+      "label": "Cluster the remainder into the themes that genuinely ran",
+      "kind": "decide"
+    },
+    {
+      "id": "weigh",
+      "label": "Weigh each theme against that community's own volume and register",
+      "kind": "decide"
+    },
+    {
+      "id": "write",
+      "label": "Write it short, saying what each theme asks of the reader",
+      "kind": "act"
+    },
+    {
+      "id": "deliver",
+      "label": "Deliver it where the team reads, and record what was covered",
+      "kind": "deliver"
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "real-themes-not-padding",
+      "statement": "The digest reflects what the followed communities actually discussed, and its length carries information because it was never padded to look consistent.",
+      "success_criteria": [
+        "A theme is supported by distinct voices in the community rather than by the comment count on a single thread.",
+        "The same story appearing across three communities is reported as one theme, not three.",
+        "The digest ships fewer clusters on a quiet day rather than stretching thin material to reach a configured maximum.",
+        "Counts are given as counts where the numbers are small, because a move from three mentions to six is two people and not a doubling."
+      ]
+    },
+    {
+      "id": "the-quiet-periods-are-honest",
+      "statement": "A reader can tell a quiet week from a broken collector without asking anyone.",
+      "success_criteria": [
+        "A period with no new discussion ships a short note saying so rather than going silent.",
+        "A source that could not be read is named as unread, so an absent theme is never mistaken for an absent conversation.",
+        "Something that was there in an earlier pass and is gone from this one is reported as removed rather than quietly dropped, since a deletion is evidence about whoever published it, and a digest that reads only what is currently present reports a quiet week that was not quiet.",
+        "The first digest declares that it is establishing what normal looks like, rather than reporting a change against nothing."
+      ]
+    },
+    {
+      "id": "the-next-digest-starts-from-this-one",
+      "statement": "Each digest leaves the next one better informed, rather than starting from the same blank page every period.",
+      "success_criteria": [
+        "What was covered is written back, so a theme already reported does not return next period as news.",
+        "A reviewer's reason for rejecting or cutting something is recorded with the reason, not just the cut, so the same judgment is not relearned every period.",
+        "What a pass suppressed as one amplified thread is shown to the reviewer beside what shipped, since a reviewer who sees only the digest can correct a theme that got through but never one the voice count wrongly cut, and the voice count is what the correction has to reach.",
+        "Which themes anyone actually followed up on is carried forward, so a digest that nobody acts on is visible as such rather than continuing indefinitely."
+      ]
+    }
+  ],
+  "guidance": "A theme is not volume. One thread with four hundred comments is one voice amplified; three threads in three places is a theme, so count distinct originators rather than posts. Judge each against that community's own normal, including its register: a support forum is negative by construction and reading that as a sentiment shift is the commonest false finding here. Ship fewer themes on a quiet day and say the day was quiet. A digest that padded once is skimmed forever.",
+  "use_cases": [
+    "A product whose users discuss it in three or four communities the team cannot keep up with, where somebody currently skims one of them on a good week and nobody reads the others at all.",
+    "A team that already runs a daily community digest and has watched it become wallpaper, because it is the same length every day whether or not anything happened.",
+    "A company that found out about a serious complaint thread from a customer rather than from its own monitoring, and wants the difference between a bad afternoon and a real pattern decided before it reaches anyone senior.",
+    "A launch or an outage week, when volume rises across the board and the usual reading of a spike as a signal would report the whole week as significant.",
+    "A solo founder whose competitors and users are in the same forums, who needs a short read that is honest about quiet weeks rather than one that manufactures a reason to exist."
+  ],
+  "connector_types": [
+    "social",
+    "messaging"
+  ],
+  "recommended_trigger": {
+    "kind": "self_paced",
+    "rationale": "Communities are busy on their own rhythm, so a fixed cadence guarantees both padded digests on quiet days and truncated ones during a surge. Look when enough new discussion has accumulated to form a theme, and less often on quiet sources. A delivery habit such as a morning standup is a real preference, but it belongs to the charter rather than to the craft."
+  },
+  "personalization_needs": [
+    "Which communities the adopter actually follows and what they are watching for there, because relevance in a community digest is entirely a function of the reader's current work.",
+    "What normal looks like in each of those communities, in volume and in register, since sentiment is only readable against a source's own baseline and a support forum is negative by construction.",
+    "Where the digest should land and who is expected to act on it, since a digest posted where nobody looks is not a digest and the delivery point does more for adoption than the quality of the clustering.",
+    "What the adopter considers out of bounds to surface, which is a judgment about their own team and their own users rather than a content filter setting."
+  ],
+  "dependencies": [],
+  "input_schema": [
+    {
+      "name": "sources",
+      "type": "text",
+      "description": "The communities to follow, named in whatever form the bound connector addresses them. Each one is baselined separately, so adding a source starts its history from nothing rather than inheriting anyone else's."
+    },
+    {
+      "name": "time_window",
+      "type": "enum",
+      "options": [
+        "hour",
+        "day",
+        "week",
+        "month",
+        "year",
+        "all"
+      ],
+      "default": "day",
+      "description": "How far back each pass reads. Derive it from the assigned trigger rather than setting it independently: a window and a cadence are the same fact stated twice, and the moment they disagree the digest either repeats itself or silently skips a period."
+    },
+    {
+      "name": "items_per_source",
+      "type": "number",
+      "default": 25,
+      "min": 5,
+      "max": 100,
+      "description": "How many items are pulled from each source before deduplication and clustering. Higher gives richer themes at more cost, and too low quietly biases every digest toward whatever the source ranks highest."
+    },
+    {
+      "name": "max_clusters",
+      "type": "number",
+      "default": 6,
+      "min": 1,
+      "max": 12,
+      "description": "A ceiling, never a target. Set it to what the reader will actually read; a run that reaches it every period is reporting that the ceiling is doing the editing."
+    },
+    {
+      "name": "human_review_enabled",
+      "type": "boolean",
+      "default": false,
+      "description": "When true, the digest is held for review before delivery, and the reasons for cuts are kept as calibration rather than discarded with the draft."
+    }
+  ],
+  "examples": [
+    {
+      "title": "Reddit as the community source",
+      "connector": "reddit",
+      "connector_type": "social",
+      "notes": "See examples/reddit.md."
+    },
+    {
+      "title": "Slack as the delivery channel",
+      "connector": "slack",
+      "connector_type": "messaging",
+      "notes": "See examples/slack.md."
+    }
+  ],
+  "lessons": [],
+  "provenance": {
+    "from_recipes": [
+      "4a151e59-6b19-5164-8d66-867b66091542"
+    ],
+    "from_templates": [
+      "reddit-trend-digest"
+    ],
+    "source_template_id": "reddit-trend-digest"
+  }
+}

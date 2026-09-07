@@ -5,6 +5,7 @@ subject: test-harness
 status: forged
 techniques:
   - suite-partitioning
+  - derived-selection-must-be-measured
   - history-driven-partitioning
   - fixture-economics
   - live-app-harness
@@ -21,6 +22,7 @@ techniques:
   - context-starved-executor
   - approval-snapshots-with-guarded-update
   - far-side-oracle
+  - constraint-injection-for-unreachable-tiers
 ---
 
 # Test harness architecture
@@ -55,6 +57,14 @@ decided by location rather than annotation, and a partition so legible that a
 directory listing reads as the answer to "what runs where." The
 [suite-partitioning](./techniques/suite-partitioning.md) technique carries the
 full decision table.
+
+Where membership is *derived* rather than written — a plugin tagging files by
+scanning their text, tags implying other tags, filter expressions excluding the
+implied ones — the partition can compose into a lane that selects nothing while
+every rule in it stays defensible. Two disciplines answer it: a lane declares a
+floor on what it must select, because zero selected exits green everywhere; and a
+filter clause is not the cause of an exclusion until removing it moves the count
+([derived-selection-must-be-measured](./techniques/derived-selection-must-be-measured.md)).
 
 Splitting *within* a suite is a separate question with a separate answer.
 Once a machine is defined, distributing it across parallel workers is a

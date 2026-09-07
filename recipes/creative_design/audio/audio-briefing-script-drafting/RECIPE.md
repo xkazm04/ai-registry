@@ -1,0 +1,124 @@
+---
+name: audio-briefing-script-drafting
+version: 0.2.0
+status: seed
+domain: creative_design
+path: creative_design/audio
+---
+
+# Audio briefing script drafting
+
+The rendered view of [`recipe.json`](recipe.json). When the two disagree, the JSON is
+right and this file is stale.
+
+**Need.** Source material read aloud verbatim does not hold a listener. Sentences that
+work on a page carry three clauses and a parenthesis, and a listener gets one pass at
+them with no way to go back. Discovering that after paying for synthesis, at the length
+the script turned out to be rather than the length the slot allows, is the expensive way
+to find out.
+
+**Input.** One piece of source material in whatever form it arrived, pasted text, a
+file, a fetched page or another agent's output, plus the adopter's intent for what to
+emphasise and who is listening.
+
+**Core action.** Find the headline finding, the facts that carry it, the tensions worth
+airing and the questions left open, then shape them into host turns that pace correctly
+when spoken rather than when read, inside the word budget the target runtime allows.
+
+**Output.** A structured script with a named host cast, turn by turn segments, and its
+own word count and intended pace attached, held for a human decision before anything is
+synthesized.
+
+## Activities
+
+1. Read the source material through *(observe)*
+2. Settle the headline finding, the facts that carry it, the tensions and the open
+questions *(decide)*
+3. Choose the host pairing and set the word budget the target runtime allows *(decide)*
+4. Write turn by turn segments paced for speech and inside the budget *(act)*
+5. Read it back aloud against the budget and against how each sentence lands on one
+hearing *(decide)*
+6. Present the outline, cast and script for a decision, with the runtime it implies
+*(deliver)*
+
+Linear and branch-free, by contract. This is the shape of the work, not a runbook.
+
+## Outcomes
+
+**The script's runtime is known before anything is synthesized, rather than discovered
+afterwards.**
+
+- The script carries its word count and the pace it was written for, so its length is
+  arithmetic and not a surprise at production time.
+- A draft over the target is cut back before it is presented, not delivered with the
+  overrun noted.
+- The cut names what was dropped, so a reviewer can disagree with the choice rather than
+  only with the length.
+
+**Nothing reaches paid synthesis without a person having said yes to this specific
+script.**
+
+- Outline, cast and full script are presented together, because a cast decision made
+  without the script in front of it is made blind.
+- A rejection is recorded with its reason where the next draft reads it, so a third
+  rejection of the same shape reads as a style problem rather than as three unrelated
+  failures.
+- An approval that arrives with turns rewritten is recorded as a correction rather than
+  as a yes, keeping the lines as drafted beside the lines as approved, because a
+  reviewer who fixes a turn themselves has said the same thing a rejection would and
+  today that lands only in the one script that gets synthesized.
+
+## Guidance
+
+Write for one hearing. A listener cannot go back, so one idea per sentence, and a
+sentence you cannot say in one comfortable breath is too long. Round the numbers: a
+listener holds about a third, not 32.7 percent. Spend the opening on why this matters
+rather than on who is speaking, because the first minute is where listeners leave. The
+second host earns their place by asking what the listener is already thinking, never by
+agreeing.
+
+## Where this is worth adopting
+
+- An analyst who writes a genuinely good weekly report and knows most of it goes unread,
+  who wants the same material to arrive in a form people take in while walking
+  somewhere.
+- A team that tried reading its own newsletter aloud and found it unlistenable, because
+  every sentence that reads well on the page turns out to have three clauses in it.
+- An operator paying per character for synthesis who has produced four episodes and
+  discarded two after hearing them, and cannot say in advance which drafts are going to
+  survive.
+- A briefing with a fixed slot, seven minutes before a standup or the length of one
+  commute, where an episode that runs eleven is not a longer episode but a missed one.
+- The same source needing to reach a technical audience and an executive one, where
+  sending both the same summary reliably satisfies neither and rewriting by hand happens
+  once and then stops.
+
+## Connector types
+
+None. This work needs no external connector: the tools the agent already has are enough.
+
+## Recommended trigger
+
+`self_paced`. Sources arrive when the adopter has something worth briefing on. There is
+no external event to hang this on and no calendar obligation to meet: the persona works
+down what is waiting and stops when nothing is. A show with a publishing slot gets its
+rhythm from the approval and the production step downstream, not from this one.
+
+A recommendation is a default, not a binding: the adopter assigns the real trigger at
+adoption or later.
+
+## Personalization needs
+
+- What the adopter wants emphasised and what downplayed, in their own words, because the
+  same source yields opposite scripts for a technical audience and an executive one.
+- Who is listening, since host roles, vocabulary and how much context has to be restated
+  all follow from the audience rather than from the source.
+- How long a briefing should run and at what pace, because those two numbers together
+  are the word budget, and a script written without one cannot be checked until it has
+  already been paid for.
+- What has been rejected before and why, since the useful signal is a pattern across
+  rejections rather than any single one, and nothing else in the pipeline is holding it.
+
+## Dependencies
+
+None.
