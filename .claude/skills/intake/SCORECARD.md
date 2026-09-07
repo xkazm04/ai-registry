@@ -2918,7 +2918,7 @@ simply spent its budget on one deep row and three good landings instead of four
 shallow rows. That is a defensible trade exactly once, and the row says so rather
 than hiding a 1/4 behind a mode letter.
 
-**Next run's declared focus (round 33).** (1) **Write the apply-row debt into the
+**Next run's declared focus (round 34).** (1) **Write the apply-row debt into the
 scorecard cell as a fraction, always** - `1c/0e/0s/0t of 4 owed` rather than
 `1 row: 1c/...` - so a run that lands four and applies one cannot report the same
 cell as a run that lands one and applies one. The two are very different runs and

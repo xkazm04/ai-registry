@@ -51,6 +51,41 @@ stronger items over more, weaker ones**: past a modest count, each addition
 degrades attention on all the others, so marginal recall is negative well
 before the budget is technically full.
 
+### Where a scoped call still ships an unscoped tier
+
+The three tiers above assume each one's selection logic was *chosen*. The
+failure worth naming is the one where a tier's logic is **inherited** — and the
+tier that inherits is always the cheap one.
+
+A caller that asks for a bundle about named subjects — a session-opening pack, a
+rehydration after compaction — states a scope, and reasonably expects the whole
+envelope to honour it. The expensive arm does: cards are built per named
+subject, because building them requires the name. The cheap arm often does not,
+because there was already a helper that returned recent items with the
+visibility rules and the cache key correct, and reusing it was free where
+threading the scope through would have meant a second query path. So the bundle
+returns tightly-scoped cards beside items selected by nothing but recency, in
+one block, under one heading the consumer reads as answering its request.
+
+Two consequences, and the second is the one that bites later:
+
+- **The least-filtered content arrives in the most-trusted envelope.** A scoped
+  request is exactly the context in which a reader stops asking where an item
+  came from. An unscoped arm is more dangerous inside a scoped bundle than it
+  would be on its own.
+- **A recency window is not governance, and it is the first thing to be
+  swapped.** What keeps such an arm survivable is usually a bound like "the last
+  day" — not retirement, not relevance, just a clock. Re-keying that arm to
+  something more useful-sounding, a session or a conversation, is a small and
+  attractive change that silently removes the only bound the tier had: a caller
+  that reuses one session identifier for a week now has a week of unfiltered
+  items constitutionally present.
+
+The check is per arm, not per bundle: for every tier a bundle emits, name the
+predicate that selected it and confirm the caller's scope reached that
+predicate. A bundle is only as scoped as its loosest arm, and its heading claims
+otherwise.
+
 ## Packing: whole items, skip don't stop
 
 Once candidates are ranked, they must be fitted into the budget, and the

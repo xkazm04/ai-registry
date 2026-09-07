@@ -44,7 +44,7 @@ coverage.
 
 ## Honest zeros
 
-Three cases where the instrument must resist the flattering reading:
+Four cases where the instrument must resist the flattering reading:
 
 - **A subject with no memory at all is a stale subject, not an omission.** It
   reports with an explicit "never" for last-confirmed rather than being
@@ -59,6 +59,29 @@ Three cases where the instrument must resist the flattering reading:
   and reporting it as covered means the instrument disagrees with the recall
   path about what the agent knows — which is the same divergence the
   [memory-value-model](./memory-value-model.md) exists to prevent one layer down.
+- **A zero the code cannot raise is not a measurement.** The three cases above
+  are all about the *denominator* — an empty or unreadable population. The
+  fourth is about the instrument's own numerator: a counter incremented only by
+  a status its call site is structurally unable to produce, or a health line
+  whose severity is a tautology over a count. Both report a clean number
+  forever, and by reporting it they certify that the mechanism they watch is
+  working. One measured store kept a supersession counter behind three
+  increment branches that could never execute, because the inserts beneath them
+  passed no supersede reference and the layer below returned that status only
+  when one was present; the same store graded its live-fact health with a
+  predicate of the form `count >= 0`, which no state can fail. Neither is
+  visible from the reporting code, which reads correctly in both. The question
+  that finds them is not "what does this number say" but **"what write would
+  move it, and who performs that write"**.
+
+That last question has to be asked at the *symbol*, not at the module. A
+governance path dies most often by partial adoption: the caller imports the
+cheap arithmetic helper out of the module that also holds the decision
+procedure, and never calls the decision. Every check that asks whether the
+module is wired in — a dependency graph, an unused-file sweep, a coverage run
+over the file — answers yes, and the tests over the uncalled procedure keep
+passing, because a test is a caller. Trace the exported symbol that produces
+the verdict, and confirm a production path reaches it.
 
 ## Freshness is part of coverage
 
