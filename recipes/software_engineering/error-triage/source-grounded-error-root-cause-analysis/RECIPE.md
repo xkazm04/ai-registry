@@ -1,6 +1,6 @@
 ---
 name: source-grounded-error-root-cause-analysis
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: software_engineering
 path: software_engineering/error-triage
@@ -73,6 +73,10 @@ before somebody acts on it.**
   verdict is durable rather than a conversation.
 - Reports whose grounding failed for the same reason more than once surface that reason
   as something to fix in the pipeline rather than repeating it per issue.
+- Which resolution the triager actually took, including one the report never offered, is
+  recorded against the ranking that ordered them, because cost is the one thing a report
+  read from source cannot see, and a resolution ranked cheapest that nobody ever takes
+  was priced against the code instead of against the people who would have to change it.
 
 ## Guidance
 

@@ -445,7 +445,7 @@
   },
   "correction-root-cause-and-propagation": {
    "path": "recipes/data_ai/data-quality/correction-root-cause-and-propagation",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "data_ai",
    "topic": "data-quality",
@@ -471,7 +471,7 @@
   },
   "correspondence-drafting-and-reply-review": {
    "path": "recipes/general_professional/correspondence/correspondence-drafting-and-reply-review",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "general_professional",
    "topic": "correspondence",
@@ -509,7 +509,7 @@
   },
   "data-assistant-quality-review-from-real-traffic": {
    "path": "recipes/data_ai/data-access/data-assistant-quality-review-from-real-traffic",
-   "version": "0.2.0",
+   "version": "0.3.0",
    "status": "seed",
    "domain": "data_ai",
    "topic": "data-access",
@@ -689,7 +689,7 @@
   },
   "form-lead-intake-and-scoring": {
    "path": "recipes/sales_marketing/lead-handling/form-lead-intake-and-scoring",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "sales_marketing",
    "topic": "lead-handling",
@@ -826,7 +826,7 @@
   },
   "knowledge-base-content-curation": {
    "path": "recipes/general_professional/knowledge-curation/knowledge-base-content-curation",
-   "version": "0.2.0",
+   "version": "0.3.0",
    "status": "seed",
    "domain": "general_professional",
    "topic": "knowledge-curation",
@@ -838,7 +838,7 @@
   },
   "knowledge-base-contradiction-audit": {
    "path": "recipes/data_ai/data-quality/knowledge-base-contradiction-audit",
-   "version": "0.2.0",
+   "version": "0.3.0",
    "status": "seed",
    "domain": "data_ai",
    "topic": "data-quality",
@@ -875,7 +875,7 @@
   },
   "live-database-question-answering": {
    "path": "recipes/data_ai/data-access/live-database-question-answering",
-   "version": "0.2.0",
+   "version": "0.3.0",
    "status": "seed",
    "domain": "data_ai",
    "topic": "data-access",
@@ -901,7 +901,7 @@
   },
   "memory-and-knowledge-base-health-audit": {
    "path": "recipes/data_ai/data-quality/memory-and-knowledge-base-health-audit",
-   "version": "0.2.0",
+   "version": "0.3.0",
    "status": "seed",
    "domain": "data_ai",
    "topic": "data-quality",
@@ -953,7 +953,7 @@
   },
   "paid-organic-cannibalization-watch": {
    "path": "recipes/sales_marketing/web-analytics/paid-organic-cannibalization-watch",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "sales_marketing",
    "topic": "web-analytics",
@@ -992,7 +992,7 @@
   },
   "per-channel-voice-profiling": {
    "path": "recipes/creative_design/social-publishing/per-channel-voice-profiling",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "creative_design",
    "topic": "social-publishing",
@@ -1002,7 +1002,7 @@
   },
   "post-incident-review": {
    "path": "recipes/software_engineering/incident-response/post-incident-review",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "software_engineering",
    "topic": "incident-response",
@@ -1089,7 +1089,7 @@
   },
   "revenue-movement-report-and-prediction-calibration": {
    "path": "recipes/finance_accounting/revenue/revenue-movement-report-and-prediction-calibration",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "finance_accounting",
    "topic": "revenue",
@@ -1117,7 +1117,7 @@
   },
   "routing-rule-management": {
    "path": "recipes/software_engineering/event-routing/routing-rule-management",
-   "version": "0.2.0",
+   "version": "0.3.0",
    "status": "seed",
    "domain": "software_engineering",
    "topic": "event-routing",
@@ -1174,7 +1174,7 @@
   },
   "source-grounded-error-root-cause-analysis": {
    "path": "recipes/software_engineering/error-triage/source-grounded-error-root-cause-analysis",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "software_engineering",
    "topic": "error-triage",
@@ -1361,7 +1361,7 @@
   },
   "weighted-decision-analysis-and-checkpoint-review": {
    "path": "recipes/general_professional/decisions/weighted-decision-analysis-and-checkpoint-review",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "general_professional",
    "topic": "decisions",

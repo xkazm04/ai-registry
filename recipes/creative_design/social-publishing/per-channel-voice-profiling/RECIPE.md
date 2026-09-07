@@ -1,6 +1,6 @@
 ---
 name: per-channel-voice-profiling
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: creative_design
 path: creative_design/social-publishing
@@ -73,6 +73,10 @@ correction made a fourth time.**
   tell a deliberate shift from a drift.
 - A description whose sample is old enough that the person's own writing has moved is
   flagged as stale rather than defended against their current work.
+- A line on the never-say list that the person then uses themselves retires that line,
+  because everything else here is learned from corrections made on drafts and a
+  description that wrongly forbids something produces no draft to correct, leaving the
+  strictest part of it the part nothing can contradict.
 
 ## Guidance
 

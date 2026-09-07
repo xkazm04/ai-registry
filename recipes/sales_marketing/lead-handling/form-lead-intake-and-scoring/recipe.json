@@ -2,7 +2,7 @@
   "id": "d45de649-64f6-5cbc-9482-5da7e27f37ce",
   "slug": "form-lead-intake-and-scoring",
   "title": "Form lead intake and scoring",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "status": "seed",
   "path": "sales_marketing/lead-handling",
   "domain": "sales_marketing",
@@ -70,7 +70,8 @@
       "success_criteria": [
         "Judgments that turned out wrong are visible as such, so a rubric that has stopped predicting can be seen rather than assumed.",
         "Behavioural signals lose weight as they age, so no record stays promising on the strength of something that happened months ago.",
-        "What share of submissions reach the top tier is reviewable, because a tier most leads reach has stopped selecting anything."
+        "What share of submissions reach the top tier is reviewable, because a tier most leads reach has stopped selecting anything.",
+        "A judgment somebody selling overturns is recorded against whichever half of the reasoning they disputed, the fit read or the behaviour read, because an outcome only ever says the tier was wrong and can never say which of the two produced it, and the two are answered differently: one revises what makes a lead worth attention here, the other how fast a signal should lose its weight."
       ]
     }
   ],

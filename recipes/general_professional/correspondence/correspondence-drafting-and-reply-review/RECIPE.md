@@ -1,6 +1,6 @@
 ---
 name: correspondence-drafting-and-reply-review
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: general_professional
 path: general_professional/correspondence
@@ -77,6 +77,11 @@ rather than filled in with something plausible.**
   context problem rather than as a quiet week.
 - No draft is produced from a profile with too little history behind it to be that
   recipient's, since a generic draft is the output most likely to be approved unread.
+- A message returned undrafted that the requester then answers themselves has handed
+  over the very writing the profile was too thin to produce, so their reply is folded
+  into that recipient's profile the way an edit to a draft would be, because a decline
+  otherwise teaches nothing and the thinness that caused it survives every later message
+  to that contact.
 
 ## Guidance
 

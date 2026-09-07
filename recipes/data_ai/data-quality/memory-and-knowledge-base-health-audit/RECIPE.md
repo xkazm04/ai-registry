@@ -1,6 +1,6 @@
 ---
 name: memory-and-knowledge-base-health-audit
-version: 0.2.0
+version: 0.3.0
 status: seed
 domain: data_ai
 path: data_ai/data-quality
@@ -73,6 +73,11 @@ and queued for a human decision rather than left to accumulate silently.**
   mis-ranks everything
 - A last confirmed date, where the layer keeps one, is preferred to a last edited date,
   because an edit can be a typo fix
+- A reviewer who reads the content a recorded correction pointed at and finds nothing
+  wrong with it has said that correction did not come from stored content at all, and
+  that is kept against the correction rather than counted as one more finding nobody
+  acted on, because this ranking puts that class above every other on the strength of a
+  root it assumed
 
 **The audit never changes a memory layer on its own.**
 

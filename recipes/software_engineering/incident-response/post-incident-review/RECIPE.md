@@ -1,6 +1,6 @@
 ---
 name: post-incident-review
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: software_engineering
 path: software_engineering/incident-response
@@ -57,6 +57,11 @@ Linear and branch-free, by contract. This is the shape of the work, not a runboo
   evidence or stated as a smaller claim that is, since an unsupported one is the easiest
   sentence to write and the least useful.
 - Where the cause is not known, that is the finding, along with what would establish it.
+- What a responder changes when the account is put to them is kept against the
+  reconstruction rather than replacing it, since a tidy account is this work's own named
+  failure and their edit is the only thing that ever names which wrong turn got edited
+  out, and a kind of wrong turn edited out twice is a habit of the reconstruction and
+  not a detail of either incident.
 
 **What the review decided to do is in the same queue as everything else the team has
 committed to.**

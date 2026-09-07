@@ -1,6 +1,6 @@
 ---
 name: correction-root-cause-and-propagation
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: data_ai
 path: data_ai/data-quality
@@ -78,6 +78,11 @@ rests on what the search actually found.**
   restores the error
 - A correction is never closed with the wrong fact still standing in a store nobody
   looked in
+- The same claim arriving as a correction a second time is read against the account
+  written the first time, since a repeat is the only evidence there is that the class
+  assigned then was wrong or that the reach declared then was short, and it is diagnosed
+  from the layers that account listed as unsearched rather than started again as a new
+  correction
 
 **Work produced from the wrong fact while it stood is corrected or withdrawn instead of
 being left to read as true.**

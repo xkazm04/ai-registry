@@ -2,7 +2,7 @@
   "id": "34e0d640-bd1e-51a6-9f30-9b4de55db0fe",
   "slug": "live-database-question-answering",
   "title": "Live database question answering",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "status": "seed",
   "path": "data_ai/data-access",
   "domain": "data_ai",
@@ -57,7 +57,8 @@
         "Every answer ships with the query that produced it",
         "A question that cannot be answered safely is refused with the reason and a narrower suggestion, never guessed at",
         "No answer is produced from a stale picture of the schema",
-        "A refusal rate of zero is read as a defect rather than as success, because every real schema holds questions this work cannot answer honestly"
+        "A refusal rate of zero is read as a defect rather than as success, because every real schema holds questions this work cannot answer honestly",
+        "A refusal somebody then answers by hand is recorded with what they had to know to answer it, because a refusal names missing knowledge of a grain, a boundary or a lag rather than a defect in the question, and that knowledge is precisely what nobody wrote down; what the refusal moves is that record and never the willingness to refuse"
       ]
     },
     {

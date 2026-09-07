@@ -1,6 +1,6 @@
 ---
 name: knowledge-base-content-curation
-version: 0.2.0
+version: 0.3.0
 status: seed
 domain: general_professional
 path: general_professional/knowledge-curation
@@ -62,6 +62,10 @@ the record.**
 - A create that appears to have failed does not produce a second page: the write is
   keyed on the identity the intake supplied and the destination is read back before the
   work is called done.
+- A page a curator later merges away or deletes is read as an answer to the admission
+  test rather than as housekeeping, and is recorded against the question that page was
+  created to answer, so the base stops admitting pages on a question it already answers
+  in different wording.
 
 **A new page does not disagree with the pages already there without somebody saying
 so.**

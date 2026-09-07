@@ -1,6 +1,6 @@
 ---
 name: live-database-question-answering
-version: 0.2.0
+version: 0.3.0
 status: seed
 domain: data_ai
 path: data_ai/data-access
@@ -55,6 +55,10 @@ refused.**
 - No answer is produced from a stale picture of the schema
 - A refusal rate of zero is read as a defect rather than as success, because every real
   schema holds questions this work cannot answer honestly
+- A refusal somebody then answers by hand is recorded with what they had to know to
+  answer it, because a refusal names missing knowledge of a grain, a boundary or a lag
+  rather than a defect in the question, and that knowledge is precisely what nobody
+  wrote down; what the refusal moves is that record and never the willingness to refuse
 
 **A returned figure can be defended by whoever repeats it, without them re-deriving
 it.**

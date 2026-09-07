@@ -1,6 +1,6 @@
 ---
 name: weighted-decision-analysis-and-checkpoint-review
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: general_professional
 path: general_professional/decisions
@@ -62,6 +62,12 @@ says how much of a margin the answer survives.**
 - The report names the smallest weight change that would flip the winner.
 - When the leading two options sit inside that margin they are reported as a tie the
   matrix cannot settle, with the criteria it does not hold named.
+- A requester who goes with an option the matrix did not pick has said a criterion
+  carries weight they did not declare, and that is written on the decision's record as a
+  claim about their weighting rather than about these options, so a later decision of
+  the same shape opens from it; it never reaches the weights of the decision in hand,
+  which were locked before any score existed and are worth nothing if a preference can
+  reopen them.
 
 **A decision can later be judged on the reasoning that produced it, not only on how it
 turned out.**

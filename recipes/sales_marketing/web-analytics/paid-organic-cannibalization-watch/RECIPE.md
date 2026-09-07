@@ -1,6 +1,6 @@
 ---
 name: paid-organic-cannibalization-watch
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: sales_marketing
 path: sales_marketing/web-analytics
@@ -70,6 +70,10 @@ work queue rather than an opinion.**
   in one.
 - Where no holdout is available to the adopter at all, the shortlist says so instead of
   implying the findings are settled.
+- A holdout the adopter actually ran is read back against the overlap that argued for
+  it, because this shortlist refuses to assert the saving and defers to a test, which
+  makes a returned test the only settled evidence it will ever hold, and nothing here
+  reads one.
 
 ## Guidance
 

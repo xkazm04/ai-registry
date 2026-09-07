@@ -2,7 +2,7 @@
   "id": "6a86eaad-5306-5e13-81a1-930cf03972e6",
   "slug": "post-incident-review",
   "title": "Post-incident review and prevention proposals",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "status": "seed",
   "path": "software_engineering/incident-response",
   "domain": "software_engineering",
@@ -52,7 +52,8 @@
         "The timeline records what responders believed and could see at each point, not only what turned out to be true, and the paths that led nowhere are in it rather than removed.",
         "The account names the several things that had to combine, with at most one of them labelled as the trigger for the benefit of readers who need a handle, and does not reduce the incident to a single cause for tidiness.",
         "A claim that something would have prevented the incident is either supported by evidence or stated as a smaller claim that is, since an unsupported one is the easiest sentence to write and the least useful.",
-        "Where the cause is not known, that is the finding, along with what would establish it."
+        "Where the cause is not known, that is the finding, along with what would establish it.",
+        "What a responder changes when the account is put to them is kept against the reconstruction rather than replacing it, since a tidy account is this work's own named failure and their edit is the only thing that ever names which wrong turn got edited out, and a kind of wrong turn edited out twice is a habit of the reconstruction and not a detail of either incident."
       ]
     },
     {

@@ -1,6 +1,6 @@
 ---
 name: knowledge-base-contradiction-audit
-version: 0.2.0
+version: 0.3.0
 status: seed
 domain: data_ai
 path: data_ai/data-quality
@@ -79,6 +79,10 @@ and does not go and find it.**
   near-duplicate it happened to find
 - The share of surfaced pairs a person acted on is carried forward, since a pair nobody
   acted on cost a reader's attention whether or not it was correct
+- A pair nobody acted on says which of two things it was, a pairing that found no real
+  disagreement or a real one this team has chosen to live with, since the share acted on
+  pools them and the second kind teaches the pairing to narrow while the pair itself
+  comes back every pass and is counted as recurring
 
 ## Guidance
 

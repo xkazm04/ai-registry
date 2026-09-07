@@ -1,6 +1,6 @@
 ---
 name: revenue-movement-report-and-prediction-calibration
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: finance_accounting
 path: finance_accounting/revenue
@@ -76,6 +76,11 @@ were popular.**
   dissatisfaction
 - The first calibration report says it is opening a record and scores nothing, rather
   than reporting an accuracy figure over predictions that were never made
+- Somebody who knows an account and says its lapse was sorted wrongly, a failed payment
+  counted as a departure or the reverse, moves that resolved outcome into the other pool
+  and the band it was scored in is restated, with the adjustment record naming a
+  reclassification rather than new outcomes as what moved it, because that split is this
+  work's own call and a band calibrated across both is measuring payment infrastructure
 
 **The scoring changes when the evidence supports a change and holds still when it does
 not, and either way the decision is on the record.**

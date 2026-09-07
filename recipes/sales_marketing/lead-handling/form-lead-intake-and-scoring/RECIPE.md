@@ -1,6 +1,6 @@
 ---
 name: form-lead-intake-and-scoring
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: sales_marketing
 path: sales_marketing/lead-handling
@@ -74,6 +74,11 @@ back into later ones.**
   strength of something that happened months ago.
 - What share of submissions reach the top tier is reviewable, because a tier most leads
   reach has stopped selecting anything.
+- A judgment somebody selling overturns is recorded against whichever half of the
+  reasoning they disputed, the fit read or the behaviour read, because an outcome only
+  ever says the tier was wrong and can never say which of the two produced it, and the
+  two are answered differently: one revises what makes a lead worth attention here, the
+  other how fast a signal should lose its weight.
 
 ## Guidance
 

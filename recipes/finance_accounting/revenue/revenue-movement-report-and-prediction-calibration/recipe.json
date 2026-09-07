@@ -2,7 +2,7 @@
   "id": "06f8a9ba-e1a3-5bff-a8fb-d0f707d842a6",
   "slug": "revenue-movement-report-and-prediction-calibration",
   "title": "Revenue movement report and prediction calibration",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "status": "seed",
   "path": "finance_accounting/revenue",
   "domain": "finance_accounting",
@@ -68,7 +68,8 @@
         "A prediction is recorded with its horizon before the outcome is known, and is scored only after that horizon has elapsed, so a report never claims accuracy for predictions that have not yet had a chance to be wrong",
         "Accounts are grouped by the risk they were scored at, and each group is compared against how many of them actually failed, because a score that says forty percent should be right about four in ten and a count of correct calls cannot tell you whether it was",
         "Accounts that lapsed because a payment could not be collected are separated from accounts that chose to leave, since a model trained on the two together learns to predict payment infrastructure and is then acted on as if it had predicted dissatisfaction",
-        "The first calibration report says it is opening a record and scores nothing, rather than reporting an accuracy figure over predictions that were never made"
+        "The first calibration report says it is opening a record and scores nothing, rather than reporting an accuracy figure over predictions that were never made",
+        "Somebody who knows an account and says its lapse was sorted wrongly, a failed payment counted as a departure or the reverse, moves that resolved outcome into the other pool and the band it was scored in is restated, with the adjustment record naming a reclassification rather than new outcomes as what moved it, because that split is this work's own call and a band calibrated across both is measuring payment infrastructure"
       ]
     },
     {

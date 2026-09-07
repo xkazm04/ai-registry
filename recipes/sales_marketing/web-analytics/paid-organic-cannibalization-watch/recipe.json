@@ -2,7 +2,7 @@
   "id": "41e87ce8-6c73-5361-b10a-81b5978bb176",
   "slug": "paid-organic-cannibalization-watch",
   "title": "Paid and organic keyword cannibalization watch",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "status": "seed",
   "path": "sales_marketing/web-analytics",
   "domain": "sales_marketing",
@@ -62,7 +62,8 @@
         "Each candidate names the holdout that would answer it: what is paused, over which population, and for how long before the answer means anything.",
         "A term the adopter has already decided to defend appears as defended with the reason, rather than being raised again on every run.",
         "A first run says it is establishing the overlap picture rather than reporting a change in one.",
-        "Where no holdout is available to the adopter at all, the shortlist says so instead of implying the findings are settled."
+        "Where no holdout is available to the adopter at all, the shortlist says so instead of implying the findings are settled.",
+        "A holdout the adopter actually ran is read back against the overlap that argued for it, because this shortlist refuses to assert the saving and defers to a test, which makes a returned test the only settled evidence it will ever hold, and nothing here reads one."
       ]
     }
   ],

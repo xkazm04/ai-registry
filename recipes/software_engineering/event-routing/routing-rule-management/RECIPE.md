@@ -1,6 +1,6 @@
 ---
 name: routing-rule-management
-version: 0.2.0
+version: 0.3.0
 status: seed
 domain: software_engineering
 path: software_engineering/event-routing
@@ -76,6 +76,10 @@ asked about them.**
   timing or a judgment, is refused with what it would take, rather than approximated.
 - One clarifying question is asked where the instruction is genuinely ambiguous, and the
   rule is not guessed at instead.
+- A candidate the person turns down at the rehearsal is kept beside the words that
+  produced it, because what they refused is a reading of their own vocabulary rather
+  than a faulty rule, and only the sentence held against the reading they refused stops
+  the same word being read the same way on their next instruction.
 
 ## Guidance
 

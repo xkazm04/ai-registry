@@ -2,7 +2,7 @@
   "id": "02383179-2da1-5a73-a4c3-51be0a31eb72",
   "slug": "data-assistant-quality-review-from-real-traffic",
   "title": "Data assistant quality review from real traffic",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "status": "seed",
   "path": "data_ai/data-access",
   "domain": "data_ai",
@@ -68,7 +68,8 @@
         "Categories are built from the traces themselves, so a failure kind nobody anticipated can still be found",
         "A misunderstood question, a wrong query and data that could not answer it are separated, because the fix differs and only one of the three is a prompt change",
         "A category holding a handful of examples is reported as a handful of examples, not converted into a rate",
-        "A pattern already fixed does not reappear in the next review unless it actually recurred"
+        "A pattern already fixed does not reappear in the next review unless it actually recurred",
+        "A change that shipped against a category and moved nothing, where the same failures then stopped after a fix somewhere else, is recorded as a wrong attribution against that category and not as a change that did not work, because the three attributions carry different fixes and a category holding the wrong one keeps proposing the fix that already failed"
       ]
     },
     {

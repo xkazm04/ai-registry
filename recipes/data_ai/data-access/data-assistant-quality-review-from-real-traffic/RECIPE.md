@@ -1,6 +1,6 @@
 ---
 name: data-assistant-quality-review-from-real-traffic
-version: 0.2.0
+version: 0.3.0
 status: seed
 domain: data_ai
 path: data_ai/data-access
@@ -74,6 +74,11 @@ bad answers.**
   converted into a rate
 - A pattern already fixed does not reappear in the next review unless it actually
   recurred
+- A change that shipped against a category and moved nothing, where the same failures
+  then stopped after a fix somewhere else, is recorded as a wrong attribution against
+  that category and not as a change that did not work, because the three attributions
+  carry different fixes and a category holding the wrong one keeps proposing the fix
+  that already failed
 
 **The review can discover a failure the current signals do not describe.**
 
