@@ -8856,3 +8856,47 @@ source needs to meet it rather than re-derive it.
   applied it and a run that landed four and applied one. The scorecard row says so in
   prose and the round-34 focus asks for the fraction; recording it here because the
   prose will scroll away and the cell will not.
+## 2.6.0 - 2026-09-07 - lago
+
+- **A repository URL can be a meta repo, and the ingest cannot tell you.** `getlago/lago`
+  is 171 files with `api/` and `front/` as empty submodules; the system is a separate
+  clone. Phase 2b says "clone it" and this run nearly mined a docker-compose file.
+  **Add to the Phase 2b sweep, before the yield-density order: count the files and look
+  for `.gitmodules`.** A tree under ~300 files that carries a compose file, a `deploy/`
+  and submodule stubs is a *deployment* repo, and the engine is elsewhere. Cheap, and it
+  is the difference between a run and a wasted one.
+
+- **The director's own brief is now the largest source of worker error, and workers are
+  catching it.** Two of seven forge workers refused a brief instruction this round and
+  both were right: an invented `verified_against: sql@postgres-15` (the gate's regex
+  demands a numeric version) and `half-open-interval-policy` described as a law when it
+  is a *technique*. Both were fabricated by the director when writing dispatch prose -
+  neither was copied from `docs/forge-brief.md`, which states the rule correctly.
+  **Rule: never invent an example in a dispatch. Quote the brief's own example verbatim,
+  or grep for the artifact before naming its layer.** The cost this round was three files
+  needing a fix and one near-miss on a gate-failing `laws:` citation; the benefit is that
+  the "tell the worker to override you" instruction is demonstrably load-bearing and
+  should stay in every brief.
+
+- **A routing count that fires on five of six systems is a scoping question, not a
+  bigger forge.** 2.2.0 says count per system and hand off the system or the cluster.
+  It does not say what to do when nearly every system fires, and the honest answer is
+  that the run cannot forge 12-15 subjects. **Put the scope to the operator as an
+  explicit choice with the placement arithmetic already done**, because the two
+  decisions are coupled: the wave's width is bounded by where the subjects can legally
+  go, and in a bundle at its category cap that bound is severe. This run computed three
+  numbers (top-level at 10/10, the target subcategory at 9/10, the alternative at 9/10)
+  before asking, and the question took one screen.
+
+### Redesign proposal - the seat, not the subject
+
+The strongest finding this round was not any subject; it was that two mature subjects
+covered the *payer* and the *consumer* of the same money and nothing covered the
+*seller*. Neither `research-map` nor a golden-path read surfaces that, because both
+subjects legitimately "cover billing" - they simply sit in different seats. Phase 6
+already hunts a missing *stage*; this is a missing **seat**: the same pipeline seen
+from the other side of a transaction, where every rule keeps its words and changes its
+force. Proposed as a fourth hunt beside stage, enumeration and asymmetry - *for any
+subject about an exchange, ask who the other party is and whether the corpus models
+them* - but not applied to `SKILL.md` on one sighting.
+
