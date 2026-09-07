@@ -1,6 +1,6 @@
 ---
 name: per-channel-voice-profiling
-version: 0.3.0
+version: 0.4.0
 status: seed
 domain: creative_design
 path: creative_design/social-publishing
@@ -70,10 +70,6 @@ useful to anyone drafting.**
   draft to default to it.
 - A sample too thin or too narrow to support a confident description is reported as
   thin, and the description says which parts of it are a guess.
-- Whether the description discriminates is settled by a person picking the off voice
-  draft blind rather than by a score, and a mechanical check may find candidates but is
-  never the standard, because a proxy adopted as the standard becomes the thing drafts
-  are written to.
 
 **A correction made three times becomes a change to the description instead of a
 correction made a fourth time.**

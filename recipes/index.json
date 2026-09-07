@@ -63,7 +63,7 @@
   },
   "agent-context-budget-audit": {
    "path": "recipes/data_ai/agent-context/agent-context-budget-audit",
-   "version": "0.2.0",
+   "version": "0.3.0",
    "status": "seed",
    "domain": "data_ai",
    "topic": "agent-context",
@@ -1029,7 +1029,7 @@
   },
   "per-channel-voice-profiling": {
    "path": "recipes/creative_design/social-publishing/per-channel-voice-profiling",
-   "version": "0.3.0",
+   "version": "0.4.0",
    "status": "seed",
    "domain": "creative_design",
    "topic": "social-publishing",

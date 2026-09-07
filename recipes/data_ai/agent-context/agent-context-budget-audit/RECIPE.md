@@ -1,6 +1,6 @@
 ---
 name: agent-context-budget-audit
-version: 0.2.0
+version: 0.3.0
 status: seed
 domain: data_ai
 path: data_ai/agent-context
@@ -81,9 +81,7 @@ Linear and branch-free, by contract. This is the shape of the work, not a runboo
 Weight is the symptom and residence is the question. Ask of each passage how often it is
 needed, not whether it is true: a rule needed on one task in twenty is not free where it
 sits, and moving it costs nothing a reachable copy does not pay back. Contradictions
-come first, because they cost correctness rather than tokens. A deviation is a finding
-only when something actually went wrong because of it, not when it departs from the
-shape you would have chosen or a file you expected.
+come first, because they cost correctness rather than tokens.
 
 ## Where this is worth adopting
 

@@ -2,7 +2,7 @@
   "id": "ccb41ed3-bc75-5bf6-9e7d-e2afbc0c7896",
   "slug": "per-channel-voice-profiling",
   "title": "Per channel writing voice profiling",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "status": "seed",
   "path": "creative_design/social-publishing",
   "domain": "creative_design",
@@ -57,8 +57,7 @@
         "A draft that is off voice can be rejected by pointing at a line in the description rather than by saying it feels wrong.",
         "The description includes what the person never says, because a list of what somebody avoids identifies them faster than a list of what they favour.",
         "Beneath whatever this person avoids, the description names the register a draft falls back to when the description runs out, and a thin sample makes that floor more necessary rather than less, because a description that is mostly a guess leaves the draft to default to it.",
-        "A sample too thin or too narrow to support a confident description is reported as thin, and the description says which parts of it are a guess.",
-        "Whether the description discriminates is settled by a person picking the off voice draft blind rather than by a score, and a mechanical check may find candidates but is never the standard, because a proxy adopted as the standard becomes the thing drafts are written to."
+        "A sample too thin or too narrow to support a confident description is reported as thin, and the description says which parts of it are a guess."
       ]
     },
     {
