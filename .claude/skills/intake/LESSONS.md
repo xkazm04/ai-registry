@@ -8802,3 +8802,57 @@ source needs to meet it rather than re-derive it.
   with both sides witnessed. Worth making explicit in Phase 7.5: when a landing
   is a boundary case, the apply step's best use is finding the *excluded* side.
 - Mid-flight runs on 2.6.0: nothing to do, no method text changed.
+
+## 2.6.0 - 2026-09-07 - gbrain
+
+- **The admission score changed a landing, and the change was the right one.** Row 1
+  first scored `GAIN 3 / RISK 2` = 1, below the accept threshold, purely because the
+  plan was to rewrite the golden path's stated query-time pipeline to insert a new
+  stage. Re-reading it as a pure append - the stage is optional, and a technique may
+  state its own placement - took RISK to 0 and the row accepted. This is the first
+  recorded case of v2.5's arithmetic *changing what got written* rather than only
+  ranking rows, and what it prevented was a restructuring of a shared spine, while a
+  live sibling held that subject. The mechanical rewrite test ("do the file's existing
+  sentences stay true?") is doing real work; keep it.
+- **A focus block's round number is not unique, and two siblings proved it in one
+  afternoon.** Three `declared focus (round 33)` blocks now sit in `SCORECARD.md`: two
+  from siblings and one this run had to renumber to 34 after the fact. Round 32's own
+  fix - "grep every block and take the highest round number" - assumes the numbers are
+  distinct, and with a dozen parallel runs they are not. The cheap fix is to derive the
+  number rather than choose it: **read the highest round in the file inside the ledger
+  lock, immediately before appending, and take that plus one** - the same
+  re-read-inside-the-lock discipline the ledgers already have, applied to the one field
+  that is a counter. Until then a reader should sort focus blocks by their row's date
+  and position, not trust the label.
+- **The sibling sweep happened again, and it took five files this time.** A parallel
+  run's commit absorbed this run's source-ledger row, applied row, scorecard row and
+  both subject-note entries. Nothing was lost - all five are in `HEAD` - but all five
+  are in `HEAD` under another run's authorship, and the presence check the method
+  prescribes cannot tell the difference. The round-6 focus item already named the fix
+  (`git log --oneline -1 -- <path>` alongside the grep); this run ran it and that is
+  the only reason the sweep was noticed. **Promote it into Phase 10's closing
+  verification rather than leaving it as a focus item** - it is one command and it
+  converts a silent authorship loss into a line in the note.
+- **A seam chosen to falsify refuted the run's own hypothesis for the second
+  consecutive round, and again produced the better finding.** The amendment claimed
+  under-spend is *not* the signature when a cap truncates inside an admitted item; the
+  seam picked to expose that could not fire at the target's scale, and what it exposed
+  instead was the plain form of the rule sitting unnoticed across four published arms
+  (15-54% realized spend of one shared budget, both numbers printed in every report,
+  never subtracted). Two rounds is not three, but the shape is now specific enough to
+  state: **a seam chosen to falsify pays even when the falsification fails, because
+  the instrument you build to look for the exotic case measures the ordinary one on
+  the way past.**
+- **The `--memory` lane earned its place at Phase 2 rather than Phase 3.** Reading the
+  measured ladder before the source meant the source's benchmark numbers were *priced*
+  instead of corroborated - and the lane's "a published memory number is a lead" rule
+  was then confirmed by the source about itself, which is the strongest form that
+  confirmation can take. The lane's instruction says "read this at Phase 2"; this run
+  suggests the stronger version, that a domain with a measured baseline should have its
+  ladder read before the ingest's class is even named, because the class prediction
+  ("high on mechanism, low on currency") is itself sharper once the ladder is in view.
+- **One apply row against four landings is a real shortfall and the cell cannot show
+  it.** `1 row: 1c/0e/0s/0t` renders identically for a run that landed one thing and
+  applied it and a run that landed four and applied one. The scorecard row says so in
+  prose and the round-34 focus asks for the fraction; recording it here because the
+  prose will scroll away and the cell will not.
