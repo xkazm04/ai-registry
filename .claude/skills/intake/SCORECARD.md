@@ -3034,3 +3034,41 @@ visible rather than letting both read as `ship 0`.
    ordinary run can advance costs a line in every scorecard row and returns nothing; the
    next run should either name the domain that would get one and what its four-call
    contract would be, or retire the item.
+| 2.6.0 | 2026-09-07 | `youtube:yysILVsfLFM` - "I Turned GPT-6 Astra Into the Ultimate AI Second Brain" (Nate Herk), **practitioner build-walkthrough**; entered the **memory lane on own judgement** (no `--memory` flag) because the subject is a second brain | 1 source, 5,151 words, real subtitle track (container checked). **0 of 3 fetches - fifteenth consecutive corpus-internal run.** Ladder read BEFORE the corpus per round 34's focus item 3, and it changed the framing of every claim: the design is the *retrieval over the raw record* arm (0.89 / 16 stale) **minus the retriever**, since the read path is a hand-written routing map - an always-on tier, the exact tier the lane's headline finding says goes ungoverned | 12 candidates | 4 verified (1 accepted + 3 promoting/absence reads) | **1 technique + 1 source-tree application**; 6 already-covered, 4 untriaged, 1 currency signal, **0 declined** | **1 of 1 owed** - 0c/**1e**/0s/0t | 1 (personas `565e54569`) | **The corpus was ahead of this source on six of twelve rows, and reporting that as the result is the run.** `line-earning` already draws the exact line the central claim sits on (*"where the docs live and which are authoritative"* passes; *"the directory tree"* fails); `instruction-freshness` owns the audit with six checks against one score; `turn-classification` + `effort-calibration` own the model tiering. **Two catches are the source being contradicted and the corpus being right**: the *"copy `CLAUDE.md` to `AGENTS.md`"* advice is the fork `single-source-topology` forbids, and the LLM-crawl that mints cross-links is `knowledge-integrity-lint`'s judgment tier, which is **propose-only** where the source writes the vault. **The landing is a missing stage zero, found by the Phase 6 enumeration hunt**: the golden path says it *"covers the whole pipeline: operative state, capture of what occurred, distillation, decay, injection"* - every input is witnessed, all 19 techniques assume observed activity, and a fact never transacted produces no event. `coverage-instrumentation` measures that hole and stops there **by design**. **The score changed the landing's shape, for the second round running.** As a new pipeline stage it falsifies that enumeration - a shared-spine rewrite, RISK +2, below threshold. As an *acquisition path* feeding `episodic-capture` it inherits governance/provenance/decay, every standing sentence stays true, and it scores 3/0/2. The arithmetic caught a restructuring nothing about the finding required. **Focus item 1 applied: the apply cell is a fraction** (`1 of 1 owed`), and naming it that way is why the run spent its last hour on the seam instead of a fifth catch. **Focus item 2 fired for the fourth consecutive round**: the seam was chosen to falsify the technique's sharpest claim and did not falsify it - the harness mints every fact and immediately speaks it (7 passes, no guarding assertion), so **the 0.89 ceiling is a ceiling on witnessed knowledge**. Fourth refutation-or-confirmation from a falsifying seam; the method should now carry this as a rule rather than a focus item. | S0/T1/A0/**Asrc1**/0 task-lines · **routing count n/a** (a video carries no design record - no tree, no ADRs, no `file:line`), handoff **not** fired · `directions=n/a` · `gate=nothing pending` (fleet scan found one `status: proposed` file whose three raised proposals were all decided - it is a *study*, not a proposal; filed as a lead, not touched) · `auto=1/0/0` `fp=0` · both `partial` rows had their promoting question executed before filing (one resolved to a catch, one did not promote) · 3 siblings live at claim, none holding a touched subject · fetches `0/3` |
+
+**The funnel over the last ten rows, read after this one.** `research` is still 1 source
+per run in all ten, and this row is the cheapest of the ten by an order of magnitude — 892
+words against a 142,610-line engine two rows up — for two landings, two apply rows and a
+ship. `apply` and `ship` stay non-zero. **The stage this row loses at is `extract`**, and
+not for a bad reason: ten candidates is what an 892-word source honestly holds, and six of
+them were catches or untriaged on their first read. What the row demonstrates instead is
+that *extract* volume and yield are close to unrelated — the two rows that landed were not
+visible in the Phase 3 extraction at all. They were produced at Phase 6, by the
+enumeration hunt, out of candidates that entered the table looking like catches.
+
+**Next run's declared focus (round 35).** (1) **Promote seam-to-falsify into Phase 7.5
+proper — it has now fired three consecutive rounds and its own stated condition is met.**
+Rounds 33 and 34 each recorded a refutation that beat confirmation, and this run's
+tracklight seam refuted the technique's broad claim while leaving a narrower one standing.
+The method text still carries it as a focus item rather than a step. The next run that
+finds itself **alone on the board** makes the edit under a minor bump, exactly as the
+calibration item is still waiting to do; a sibling was live for the whole of this run, so
+it was not made here. Say in the row whether the board was ever clear.
+(2) **Hunt the enumeration's unstated PREMISE, not just its missing member.** Both
+landings this run have that shape and neither was a gap: three estimators listed, all of
+them players, premise never said; four truncation causes listed, all of them harness-side,
+premise never said. The existing Phase 6 hunt asks what an enumeration *omits*; ask also
+what every member of it silently shares, because a mature subject's enumerations are
+usually complete and their premises usually are not. The check the next row should make:
+did any landing come from this reading, and would the omission question alone have found
+it.
+(3) **When a run ships a guard, calibrate it in both directions before calling it green,
+and record the calibration's reach.** This run's pof guard passed its first calibration
+attempt in the wrong sense — a 0.05 weight nudge left all eleven tests green, so the guard
+did not protect what had just been claimed for it. Only re-running against the
+perturbation that was actually *measured* turned it red. A characterization test that has
+never been shown to fail is indistinguishable from one that cannot, and the shipped
+comment now bounds itself to a change of stance rather than drift. This is the third
+scorecard entry to say some version of "assert the instrument"; if a fourth run pays for
+it, it belongs in Phase 8 step 3 beside the paired-proof rules rather than in this
+paragraph.

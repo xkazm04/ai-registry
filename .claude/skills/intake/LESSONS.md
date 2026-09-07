@@ -8927,3 +8927,82 @@ them* - but not applied to `SKILL.md` on one sighting.
   and every untriaged row came from a failure sentence and all five catches came from the
   tour half. The class reference already predicts this; recording the clean split is
   corroboration for it, not a new rule.
+
+## 2.6.0 - 2026-09-07 - aios-second-brain
+
+- **The framing of a landing changed its score, and the score was right.** The finding
+  was a missing acquisition path in `agent-memory`. Written the obvious way - a new
+  stage in the pipeline - it falsifies the golden path's own opening enumeration
+  (*"covers the whole pipeline: operative state, capture of what occurred,
+  distillation, decay, injection"*), which makes it a rewrite of a shared spine: RISK
+  +2, total 1, below the accept threshold. Written as an *acquisition path* that
+  manufactures episodes for the existing pipeline, every standing sentence stays true,
+  the mechanism inherits governance, provenance and decay for free, and it scores
+  3/0/2. Same finding, same evidence, two shapes with different risk - and the cheaper
+  shape is also the better design, because it does not mint a second store with its own
+  policies. **Second consecutive round where the rewrite/append test changed a landing
+  rather than merely grading it.** Worth stating as a habit: when a row scores below
+  threshold on the +2 for rewriting, re-ask whether the *finding* requires the rewrite
+  or whether only the first draft did.
+
+- **A subject's own enumeration is still the highest-yield thing to read, and the one
+  here was in the first paragraph.** Phase 6's third hunt found this in under a minute:
+  the golden path enumerates its pipeline, every element of the enumeration is a
+  transformation of something *observed*, and the question an enumeration invites is
+  what feeds the first stage. Nineteen techniques, all assuming observed activity.
+  The hunt works best where a subject is thorough, which is exactly where it feels
+  least likely to pay.
+
+- **`--prose` and a full technique-list read are what make an absence claim safe, and
+  slug matching alone would have got this wrong in both directions.** The slug map put
+  `agent-memory` at the top for the elicitation terms, which looks like prior art; only
+  reading all nineteen `use_when` lines showed every one of them is observational. In
+  the other direction the prose pass surfaced
+  `recruiting/assessment/interview-run-of-show`, which no slug query for a memory term
+  would ever return, and that turned out to be the convergence the row's GAIN `+1`
+  rests on. Neither instrument alone gives the answer; the pair does.
+
+- **Convergence across bundles is corroboration, not a link, and the distinction has a
+  cheap tell.** The method's cross-bundle rule is written for *inversions* - the same
+  pattern correct in one domain and disqualifying in another, where the reader needs a
+  discriminator. This was the other case: the same mechanism reached twice for
+  different purposes, with no tension to resolve. Nothing to discriminate, nothing to
+  state in prose on either side, and the right home is the source note. A one-line
+  test that separates them: **if the two sides would give a reader opposite advice,
+  write the discriminator; if they would give the same advice for different reasons,
+  it is corroboration and it stays in the ledger.**
+
+- **Two runs reached the same method rule on disjoint evidence, in the same afternoon,
+  and the parallel-edit discipline is what let that be visible.** A sibling promoted
+  seam-to-falsify into `SKILL.md` as v2.7.0 from three rounds while this run was
+  independently concluding the same thing from a fourth. Checking `git status` on the
+  skill directory before editing - which the method requires and which costs one
+  command - turned what would have been a conflicting edit into a confirming data
+  point. It also surfaced something better than agreement: their three instances all
+  had the falsifying seam *refute* something, and this run's fourth had it **confirm**,
+  which is the case their rule text already covers and none of their evidence
+  contained. **A rule that arrives covering a case its authors had not run is worth
+  saying out loud**, because it is the cheapest available evidence that the rule was
+  written at the right altitude.
+
+### Redesign proposal - the currency lane has no landing, and this run could not give it one
+
+  A second-hand source's most reliable output is "the world moved", and this method
+  says so in three places. But `currency` has no destination that a run can reach
+  cheaply: the shape's row in Phase 7 points at "the affected application's frontmatter,
+  or a `/deepen` dispatch", and *finding* the affected application means opening
+  candidates to read which roster a `verified_against` names. This run held a clean
+  currency signal - a model generation with named tiers, a per-call effort dial and a
+  weekly subscription cap - and filed it in the source note, because resetting a clock
+  honestly would have cost more reads than the whole landing did.
+
+  That is the wrong shape for the one thing the class is reliable for. Two candidate
+  fixes, neither applied: an instrument that maps a roster or version string to the
+  applications whose `verified_against` cites it, so the affected set is a query rather
+  than a hunt; or an explicit `librarian/currency.md` ledger that accumulates dated
+  signals with the subjects they implicate, which `/librarian` drains on its own clock
+  the way `upstream-check.mjs` drains `rescan_when:`. The second is closer to how this
+  registry already handles work that is real but not yet worth a run's whole budget.
+  Not proposed as a version bump on one sighting - but this is the third source note in
+  the ledger whose currency signal was recorded and never landed, and a third sighting
+  is where this file usually stops calling something a lesson.
