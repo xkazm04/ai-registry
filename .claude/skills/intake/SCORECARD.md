@@ -2804,3 +2804,45 @@ answer, in a form that cannot hedge.
 **The check the next row should make:** did the run take its focus from the
 highest-numbered block rather than the last one, and did its sweep of a served
 tree open the route table before the README?
+| 2.6.0 | 2026-09-07 | `github:unjs/unstorage` @ `7f773be1` (**vendor repository / library in repo form**; 276 landing words against 10,396 in-tree doc words and 6,462 LOC - a 38x ratio; operator brief scoped the run to architecture over tool use) | 1 clone swept in yield-density order, **route table before README per the round-32 focus** (`src/types.ts` 186 lines, `src/storage.ts` 483, `src/server.ts` 199, `test/drivers/utils.ts` 202, `test/driver-dependencies.test.ts` 85, 32 drivers, 35 driver test files; **0 of 3 fetches**, twelfth consecutive) | 7 (design record) | 2 | **1 technique + 1 amendment + 2 applications** | 2 rows: 2c/0e/0s/0t | 2 (this registry; kp `3f253853`) | **Focus applied twice, both paid.** (1) Taken from the **highest-numbered block (32)**, not the file's last - tail order is 30, 27, 31, 32 - which is that block's own item 1 and would otherwise have handed this run round 31. (2) **Route table opened before the README**: `src/server.ts` carries the method-to-capability map and the authorize seam, and confirmed the new rank, though it was system E and landed nothing - the rule earned its place by ordering the sweep, not by producing the yield. Standing checks: re-scan conditions read, **none fired**; ten notes' lead conditions read, **none fired** (fourth consecutive "none", so this run's lead is written with a *source-fireable* first clause); `librarian/handoffs/` holds 10, newest 2026-09-06, none consumed and none owed here. No `changelog.d` - CHANGELOG is a release-notes stub, so fragments-first cost one sentence and stopped. | S0/T1/A1/Asrc2/0 task-lines · **routing count 5 systems / 15 entries / 3 unhomed; per system max 2 (A=2, C=1, B/D/E=0); 3 NONEs across 2 different homes-if-new, so no three share one. Neither v2.2 clause fires - no handoff, no XL spec** over a 32-driver five-subsystem tree, because four of five systems are already modelled · admission `auto=2/0/0` `fp=0` · directions=0/0 (no candidate: the design record's homed entries map to subjects every scoped fleet project is already present for) · **selfcatch=2**, both absences half-written before checking: `test_llm_capabilities` "does not exist" (`git grep` searches contents, not filenames - the file was there), and a known-positive grep `^def test_` returning zero over 2,540 real test defs |
+
+**The funnel over the last ten rows, read after this one.** `research` is still
+1 source per run in all ten; `apply` and `ship` are non-zero in eight, so that
+complaint stays retired. What this row adds that none of the ten carries is a
+**negative routing count on a tree that looks forge-shaped**: 32 drivers, five
+subsystems, 6,462 LOC, and neither v2.2 clause fires, because four of the five
+systems are already modelled. Every prior 2.x row that wrote a count either
+handed off or was small enough that nobody expected one. The depth cell reads
+`S0/T1/A1/Asrc2` and that is the *right* shape for this source — the count did
+its job by declining, which is a use of the mechanism the scorecard has never
+recorded before and should stop treating as a null result.
+
+**Next run's declared focus (round 33).** Two, both from what this run hit.
+
+(1) **Run the calibration case before the arm, not after — and say what it
+cost.** Round 27 put the calibration in the method and the last three rows have
+reported it as ceremony that changed nothing. It changed something here: the
+first known-positive was planted through a shell argument that ate its
+backslashes, so the fixture contained none of the hazard, the gate correctly
+passed it, and a `not-better` would have been written from an instrument
+agreeing with a broken fixture. That is the run's own landed technique arriving
+one level above itself. The check the next row should make: did the calibration
+fire, and if it did, was the broken half the *fixture* rather than the
+instrument — because three rows now say the instrument is usually fine and
+nobody has been checking the fixture.
+
+(2) **When the corpus already owns the ground, hunt the technique's
+preconditions rather than its coverage.** Both landings here came from the same
+move and neither is a gap: one found a three-rung ladder whose three rungs are
+all unavailable in a stated situation, the other found a flat prohibition
+resting on a middle clause that is a premise rather than a universal. A mature
+subject's absolutes are load-bearing sentences with unstated scopes, and that
+is where a 12-technique subject still yields. The check the next row should
+make: did a landing come from a premise the corpus states as universal, and can
+the excluded side be found in a *second* tree — this run got that for free
+because kp sits on the other side of the boundary, and a boundary confirmed
+from one side only is an assertion.
+
+Keep the three standing checks (re-scan conditions, ten notes' lead conditions,
+unconsumed handoffs) and the highest-numbered-block rule, which decided this
+run's focus and would otherwise have handed it round 31.
