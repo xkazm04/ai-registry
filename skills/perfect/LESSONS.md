@@ -399,3 +399,33 @@ rule that only this loop's participants currently follow.
   with a `println` that reached one of three consumers. Phase B step 6 could ask: *when a diff adds a
   field to a reported claim, does every renderer of that claim show it?*
 
+## 2.5.2 - 2026-09-07 - tracklight (wave 4)
+
+- **Running the thing finds a class of defect that reading it cannot, and the loop has no phase for
+  it.** Three waves of statistics landed with ~1600 green tests before anyone ran a benchmark. The
+  first live run immediately produced two directions no code review had proposed: an API that
+  accepted an invalid enum with a 200 and silently discarded it, and a scorecard that could not say
+  which part of the corpus was doing the work. `/perfect smoke` exists but is framed as *verification
+  of shipped surfaces*; what paid here was **running the product as a user would and watching what
+  it could not tell me**. Worth widening step `smoke` from "drive the routes we changed" to "use the
+  product for its actual purpose, and treat every question you had to answer by hand as a finding".
+- **An axis a caller cannot see is an axis nobody uses — check the machine-readable contract, not
+  just the code.** Two features shipped, worked, had tests and docs, and were absent from the JSON
+  Schema an agent receives. That absence is *why* the live run used an invalid value. When a wave
+  adds a field to a user-facing structure, the review should ask: where is the contract that tells a
+  caller this exists, and does it name the legal values? Cheap to check, and it fails silently by
+  construction — nothing errors when a schema merely omits something.
+- **The same tolerant-parse function serving a read path and a write path is a design smell worth
+  naming.** Degrading an unknown enum to a default is correct for deserializing stored rows
+  (forward compatibility) and wrong for accepting operator input (silent data loss). Here one
+  function did both, and the *obvious* fix — making it strict — would have destroyed the property the
+  earlier wave deliberately built. Naming that trap in the brief is what stopped it. Generalises:
+  **read-tolerant and write-strict are two jobs, and a codebase that shares one function between them
+  will eventually pick the wrong side.**
+- **A builder reporting that its own falsifiability break failed to turn anything red is the system
+  working, and the Director should have an answer ready.** Lot B flagged an untested call site inside
+  a function that needs live I/O. Rather than accept it as an open risk or demand an unreasonable
+  harness, the Director closed it *empirically* by running the product and observing the output. Worth
+  saying in step 6: when a builder reports untestable wiring, ask whether a live run can observe it
+  before filing it as a permanent risk.
+
