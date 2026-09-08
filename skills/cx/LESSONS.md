@@ -187,3 +187,28 @@ stops across five personas, walked from the public landing inward.
   brief and the item became "the drawing has never been given real work to show" - which was the
   actual defect: 19 real generated stills sat committed in the repo while the page drew mock
   gradients. The `What this skill is not` rule about the design doc earned its keep here.
+
+## 1.1.0 - 2026-09-08 - gravitone-gcloud (S4, claim provenance applied)
+- **Tagging every claim in a brief `[VERIFIED <date>]` or `[INHERITED]` worked on first use.** The
+  previous wave sent two false claims downstream with the authority of a measurement; this brief
+  tagged all of them and the executor confirmed each one, reporting "every VERIFIED claim held" —
+  the first brief in the run with nothing wrong in it. The tag costs a few characters and changes
+  the executor's relationship to quoted repo law from *obey* to *confirm*, which is the correct
+  relationship when the law lives in a comment somebody wrote weeks ago. **Proposed for Phase 6:**
+  a brief's quoted law and evidence should carry provenance per claim, and the executor should be
+  told to report any claim it finds false.
+- **The read should name what is already right, not only what is wrong.** S4's note opens with
+  four things left deliberately alone. Two reasons, both practical rather than diplomatic: a walk
+  that only subtracts teaches its reader that nothing in the product was earned, so the reader
+  starts discounting the read; and an unnamed strength is a thing a later stop will "improve".
+  One of the four — a finish button that is *legitimately* disabled — exists only as a contrast
+  with three sibling stages where the same pattern was a defect, which is a distinction the table
+  alone could not carry. **Proposed for Phase 4:** allow a short "left alone, and why" block
+  beside the proposals table.
+- **At any commit point, enumerate what becomes immutable and check the screen says so.** S4's
+  H-impact finding did not come from a heuristic row; it came from asking what the button makes
+  true. Three of the wizard's four decisions stay editable forever and one does not, and the screen
+  that enacted the irreversible one never mentioned it — the fact was stated two stages earlier, at
+  the point of *choosing* rather than the point of *committing*. This generalises past wizards to
+  any create/publish/send/delete: the `recovery` heuristic asks "can the user undo", but nothing in
+  the list asks "does the screen say what cannot be undone, where it happens".
