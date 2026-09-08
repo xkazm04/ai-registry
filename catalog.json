@@ -704,7 +704,7 @@
       "techniques": 115,
       "applications": 63,
       "files": 200,
-      "contentHash": "sha256:2d07959fa1dd7dce"
+      "contentHash": "sha256:e0a7a5ad3689d948"
     },
     {
       "name": "localization",
@@ -730,7 +730,7 @@
       "techniques": 135,
       "applications": 64,
       "files": 224,
-      "contentHash": "sha256:90c21ff16e16387f"
+      "contentHash": "sha256:0773feb91cdd5e2b"
     },
     {
       "name": "recruiting",
@@ -752,11 +752,11 @@
       "okfVersion": "0.1",
       "profile": "rkb/0.1",
       "purity": "software",
-      "subjects": 227,
-      "techniques": 1681,
-      "applications": 1006,
-      "files": 2919,
-      "contentHash": "sha256:fc8cb9d3f9f97666"
+      "subjects": 228,
+      "techniques": 1686,
+      "applications": 1009,
+      "files": 2928,
+      "contentHash": "sha256:382b0f4fd3966401"
     }
   ]
 }

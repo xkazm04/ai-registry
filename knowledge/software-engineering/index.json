@@ -3,9 +3,9 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
-  "subjects": 227,
-  "techniques": 1681,
-  "applications": 1006,
+  "subjects": 228,
+  "techniques": 1686,
+  "applications": 1009,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1681/1681",
+  "use_when_coverage": "1686/1686",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -20198,6 +20198,116 @@
     }
    ]
   },
+  "narrative-scroll-surface": {
+   "category": "ui-surfaces",
+   "subcategory": "published-surfaces",
+   "status": "forged",
+   "file": "knowledge/software-engineering/ui-surfaces/published-surfaces/narrative-scroll-surface/narrative-scroll-surface.md",
+   "digest": "sha256:aabd5cfef103cfb6",
+   "revision": 1,
+   "changedAt": "2026-09-08",
+   "techniques": [
+    {
+     "slug": "illustration-carries-the-claim",
+     "status": "forged",
+     "laws": [
+      "derivation-names-recomputation"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing the art for a step of an explanatory page",
+      "an illustration decorates a claim without evidencing it",
+      "mockup art looks small beside the display copy next to it",
+      "deciding whether a graphic element is content or decoration"
+     ]
+    },
+    {
+     "slug": "no-orientation-tax",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "adding a side index to an explanatory page",
+      "deciding whether navigation entries may be dots",
+      "a deep link into a step lands under the header",
+      "an explanatory page offers the reader a choice of entry points"
+     ]
+    },
+    {
+     "slug": "reveal-without-loss",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "deletion-is-not-repair",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "sections of a page appear as the reader scrolls to them",
+      "a whole-page capture of an animated page comes out empty",
+      "an accessibility sweep of a scroll-driven page finds nothing to report",
+      "deciding whether a reveal may mount its content"
+     ]
+    },
+    {
+     "slug": "scroll-bound-progression",
+     "status": "forged",
+     "laws": [
+      "creation-names-reaper",
+      "deletion-is-not-repair",
+      "limits-are-derived"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an entrance animation plays on a timer and is always at the wrong moment",
+      "a station should grow as the reader reaches it",
+      "scroll-driven motion strobes on a fast wheel",
+      "a scaled element overlaps its neighbour at peak"
+     ]
+    },
+    {
+     "slug": "sequence-as-spine",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "identity-survives-reuse"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an explanatory page reads as a stack of unrelated bands",
+      "deciding whether a set of sections is really a sequence",
+      "numbering the steps of a walkthrough",
+      "choosing what holds a long explanatory page together"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "react",
+     "technique": "no-orientation-tax",
+     "file": "knowledge/software-engineering/ui-surfaces/published-surfaces/narrative-scroll-surface/applications/react--no-orientation-tax.md",
+     "verified_on": "2026-09-08",
+     "verified_against": "react@19"
+    },
+    {
+     "stack": "react",
+     "technique": "scroll-bound-progression",
+     "file": "knowledge/software-engineering/ui-surfaces/published-surfaces/narrative-scroll-surface/applications/react--scroll-bound-progression.md",
+     "verified_on": "2026-09-08",
+     "verified_against": "react@19"
+    },
+    {
+     "stack": "react",
+     "technique": "sequence-as-spine",
+     "file": "knowledge/software-engineering/ui-surfaces/published-surfaces/narrative-scroll-surface/applications/react--sequence-as-spine.md",
+     "verified_on": "2026-09-08",
+     "verified_against": "react@19"
+    }
+   ]
+  },
   "native-document-format": {
    "category": "integration",
    "subcategory": "acquisition-and-ingest",
@@ -34568,6 +34678,7 @@
     "multi-project/project-identity-and-joins",
     "multi-provider-gateway-plane/exclusive-authorship-of-a-measured-decision",
     "multi-provider-gateway-plane/upstream-identity-before-inventory",
+    "narrative-scroll-surface/reveal-without-loss",
     "native-document-format/ignorable-extensions-must-be-declared",
     "native-document-format/serialization-is-locale-free",
     "native-guest-interop/aligned-native-data-cell",
@@ -35097,6 +35208,7 @@
     "multi-provider-gateway-plane/named-members-over-a-uniform-collection",
     "multi-provider-gateway-plane/per-provider-stream-framing",
     "multi-provider-gateway-plane/router-versus-candidate-failure",
+    "narrative-scroll-surface/reveal-without-loss",
     "native-shell-integration/capability-presence-contract",
     "native-shell-integration/native-owned-stream",
     "native-shell-integration/observer-perturbation",
@@ -35419,6 +35531,8 @@
     "modelled-performance-estimates/scoped-calibration-fallback",
     "motion/content-bearing-degradation",
     "motion/reduced-motion-mechanics",
+    "narrative-scroll-surface/reveal-without-loss",
+    "narrative-scroll-surface/scroll-bound-progression",
     "peer-benchmarking/comparability-filters",
     "people-analytics-ethics/risk-framing-anonymization",
     "perf-instrumentation/continuous-monitors",
@@ -36011,6 +36125,7 @@
     "multi-provider-gateway-plane/one-typed-carrier-for-echoed-state",
     "multi-provider-gateway-plane/strategy-tree-with-inherited-policy",
     "multi-provider-gateway-plane/upstream-identity-before-inventory",
+    "narrative-scroll-surface/no-orientation-tax",
     "native-document-format/format-generations-are-declared",
     "native-document-format/reference-or-embed",
     "native-guest-interop/explicit-lossy-conversion",
@@ -36488,6 +36603,7 @@
     "multi-provider-gateway-plane/join-breadth-follows-the-wrong-match-cost",
     "multi-provider-gateway-plane/one-typed-carrier-for-echoed-state",
     "multi-provider-gateway-plane/strategy-tree-with-inherited-policy",
+    "narrative-scroll-surface/sequence-as-spine",
     "native-document-format/reference-or-embed",
     "object-shape-representation/dictionary-mode-fallback",
     "object-shape-representation/polymorphic-inline-cache-with-weak-shapes",
@@ -36770,6 +36886,7 @@
     "multi-project/per-project-tabs-and-state",
     "multi-project/project-onboarding-lifecycle",
     "multi-provider-gateway-plane/per-provider-stream-framing",
+    "narrative-scroll-surface/scroll-bound-progression",
     "native-guest-interop/async-native-as-promise",
     "native-shell-integration/native-owned-stream",
     "native-shell-integration/non-stealing-overlay",
@@ -37137,6 +37254,8 @@
     "multi-provider-gateway-plane/one-typed-carrier-for-echoed-state",
     "multi-provider-gateway-plane/policy-verdict-in-the-status-space",
     "multi-provider-gateway-plane/upstream-identity-before-inventory",
+    "narrative-scroll-surface/no-orientation-tax",
+    "narrative-scroll-surface/sequence-as-spine",
     "native-document-format/format-is-the-engines-input",
     "native-document-format/one-writer-per-fact",
     "native-shell-integration/layout-resolved-input-synthesis",
@@ -37438,6 +37557,7 @@
     "multi-project/passive-signal-ingestion",
     "multi-project/portfolio-drill-hierarchy",
     "multi-project/project-onboarding-lifecycle",
+    "narrative-scroll-surface/illustration-carries-the-claim",
     "native-document-format/one-writer-per-fact",
     "native-shell-integration/unexported-capability-ladder",
     "object-shape-representation/polymorphic-inline-cache-with-weak-shapes",
@@ -37676,6 +37796,7 @@
     "media-playback/generated-supply-margin",
     "metric-gates/deterministic-proxy-gate",
     "modelled-performance-estimates/one-ratio-then-a-capability-cap",
+    "narrative-scroll-surface/scroll-bound-progression",
     "native-guest-interop/aligned-native-data-cell",
     "native-shell-integration/native-owned-stream",
     "object-shape-representation/dictionary-mode-fallback",

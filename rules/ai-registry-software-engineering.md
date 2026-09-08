@@ -1,13 +1,13 @@
 # Software engineering - the subjects this registry carries
 
-`software-engineering` - 227 subjects, 1681 techniques, 1006 applications.
+`software-engineering` - 228 subjects, 1686 techniques, 1009 applications.
 Slugs only; resolve one through `index.json` as the access rule beside this file describes.
 
 ### ui-surfaces
 - **data-display** - canvas-graph, data-viz, diff-comparison, feed, file-browsing, search, table
 - **feedback-and-style** - accessibility, adaptive-fidelity-tiers, async-ui-states, design-tokens, motion, status-vocabulary, toasts-notifications
 - **input-and-editing** - batch-undo-commit-window, draft-editing, drag-drop, form, schema-driven-ui, ui-controls, undo-history, wizard-flows
-- **published-surfaces** - authoring-block-vocabulary, docs-content-model, lazy-section-addressability, long-form-reading-surface, public-claim-provenance
+- **published-surfaces** - authoring-block-vocabulary, docs-content-model, lazy-section-addressability, long-form-reading-surface, narrative-scroll-surface, public-claim-provenance
 - **shell-and-navigation** - app-shell, chat-transcript, guided-tours, media-playback, modal-stack, session-resume
 
 ### client-architecture
