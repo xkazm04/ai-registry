@@ -152,3 +152,38 @@ stops across five personas, walked from the public landing inward.
   instance of a pattern the corpus had no subject for, and the run's own hard-won capture lesson
   became one of its techniques. A `/cx` run over a well-made surface is a harvest site: when a stop's
   read keeps naming craft the corpus cannot cite, that is a subject proposal, not a proposal table.
+
+## 1.1.0 - 2026-09-08 - gravitone-gcloud (ordered walk, S1-S3)
+- **A brief must mark which claims were verified this session and which were inherited.** Twice in
+  one wave my briefs carried a false claim downstream with the authority of a measurement: a design
+  law quoted from a code comment that had gone stale, and a hypothesis I had disproved for ONE
+  element and generalised to another. Executors caught both — one checked the premise it had been
+  handed instead of obeying it, the other noticed that the ARIA rule I cited (focusable descendants
+  are never pruned) does not cover the non-focusable element the fix would introduce, so the fix
+  would have measured as landed while doing nothing. Phase 6 tells the executor to treat quoted
+  repo law as non-negotiable, which is exactly what makes an inherited falsehood dangerous. The fix
+  is not to quote less: it is to mark provenance per claim, so an executor knows which lines are
+  measurements and which are quotations to test.
+- **DEAD CONTROLS deserve their own heuristic.** Two of twelve items were controls that could not
+  do anything: a bake-off switcher shipped ungated to users that was inert on the very stage it
+  appeared on, and a "Next" that could never be enabled because picking already advanced the
+  stage. Neither is a bug, neither breaks a test, and nothing in a normal gate asks "can this
+  control ever do something?". Filed under `primary action` and `input economy`, which undersold
+  both. Proposed row for the core list - **dead control**: *can every control on this screen
+  actually do something, in some reachable state?* Evidence: a disabled control with no path to
+  enabled; a toggle whose effect is overridden where it is shown; a prototype switch with no
+  production gate.
+- **An executor that reports a gate failure it did not cause is doing the right thing, and the
+  reviewer must check WHOSE it is.** One returned with the lint ratchet red and correctly refused
+  to re-baseline, attributing it to a sibling. It was neither sibling but a THIRD, unrelated Claude
+  session working the same repo concurrently, which landed its own commit mid-walk. Two of this
+  session's commits came from agents outside the walk entirely. Phase 6's "run the gates yourself"
+  should add: on a red gate, establish whose change caused it before acting, because in a repo with
+  concurrent sessions the answer is often nobody in this run - and pathspec-scoped commits are what
+  keep the bodies of work separable.
+- **Withholding a proposal and putting the design question to the user produced a better fix than
+  the proposal would have.** The obvious read of a wordless landing page is "it needs a headline",
+  which the page's own stated brief forbids. Raised rather than enacted, the operator confirmed the
+  brief and the item became "the drawing has never been given real work to show" - which was the
+  actual defect: 19 real generated stills sat committed in the repo while the page drew mock
+  gradients. The `What this skill is not` rule about the design doc earned its keep here.
