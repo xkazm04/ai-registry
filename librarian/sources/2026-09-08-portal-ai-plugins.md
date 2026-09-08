@@ -187,3 +187,39 @@ such table, and that is the lead worth more than the plugin.
 
 None: the source's forces (a hosted engine with a delegate-model registry) are
 not in any fleet project's `scope.does`; `directions=0/0`.
+
+## Web corroboration (same day, operator follow-up: "did the repo miss a key point?")
+
+Five fetches over the vendor's own surfaces. The repository is the public
+artifact of a 2026-09 vendor engineering post ("cut my Claude Code token usage
+by 90%"), and the post's architecture matches the tree layer for layer - there
+is no richer private design behind it; what is private is the hosted engine.
+What the post and docs add that the tree omits:
+
+- **Worker model named**: the two modes default to a small fast model from a
+  third provider (any model configured in the instance's AI gateway is
+  accepted). The "savings" are a cross-provider spend shift, not a reduction.
+- **Latency stated**: "responses typically take 10-30 seconds" per delegation,
+  and "each delegation is a network round-trip", so small reads are
+  counterproductive. Absent from the README; it is the cost the paired replay
+  could not measure, and it strengthens `not-better` for size-blocking.
+- **Origin of the hook layer**: the first version was CLAUDE.md rules, and
+  "the rules were advisory, not enforced. Claude could ignore them." The hooks
+  were the response - enforcement-demotion's story told by the vendor.
+- **Two stated failure modes**: worker summaries carry no reliable line
+  numbers (hence "verify before editing"), and the worker "missed a subtle
+  thread-safety bug" - the lossy-delegate cost, admitted.
+- **CLI over MCP is forced, not chosen**: the portal exposes an MCP endpoint
+  of six read-only catalog/search tools; the assistant's modes and
+  `invoke-chat` are not among them and are reachable only through the
+  actions registry the CLI wraps. The tree never says this.
+- **Modes are a larger platform than shunt uses**: declarative agents with
+  pre/post processors (verification with retry, confidence scoring, context
+  management), `maxSteps`, and per-mode MCP tools. shunt uses instructions
+  and temperature only.
+- **The vendor's own internal stance** (a 2026-04 talk): "a fairly simplistic
+  setup that is reproducible across engineers, with a good set of CLAUDE.md
+  setups" - converges with this fleet's topology; no private hook fleet
+  claimed.
+
+Verdicts unchanged. Fetches for the follow-up: 5, outside the run's budget.
