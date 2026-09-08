@@ -315,10 +315,15 @@ emits `use_when` coverage. None of those exist in a recipe. Sharing the file wou
 one script with two disjoint bodies behind a lane flag, which is two scripts wearing one
 name.
 
-## Status: declared ahead of its corpus
+## Status: the corpus has landed
 
 This lane was declared on 2026-09-06 with its spec, its gate, its index builder and one
-worked example, and nothing else. The corpus of recipes migrates from the consuming
-application only after the operator has reviewed and approved it. A lane with a gate and
-a single real item is a lane that can be validated; a lane declared with nothing in it is
-a promise, and the gate would have had nothing to check.
+worked example, and nothing else. A lane with a gate and a single real item is a lane
+that can be validated; a lane declared with nothing in it is a promise, and the gate
+would have had nothing to check.
+
+The corpus has since migrated from the consuming application and grown by assay, and the
+lane now holds recipes across ten domains, every one of them `seed`. The number is
+deliberately not repeated here: `node scripts/build-recipes-index.mjs` prints it, and
+`recipes/README.md` carries the per-domain table beside the generated index it is
+derived from.

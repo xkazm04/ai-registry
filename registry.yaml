@@ -160,11 +160,13 @@ lanes:
     # lesson somebody else would want never stays in a charter.
     boundary: recipe owns the craft; the adopted charter owns connectors, trigger,
       credentials, budget, scope, gates and persona memory
-    note: Declared ahead of its corpus by design (2026-09-06). The lane ships its spec,
-      its gate, its index builder and ONE worked example; the corpus migrates from the
-      consuming application only after operator approval. The worked example is not
-      decoration - a lane declared empty would have a gate checking nothing and an index
-      indexing nothing, both reporting green for however long the approval took.
+    note: Declared ahead of its corpus by design (2026-09-06) with its spec, its gate,
+      its index builder and ONE worked example - a lane declared empty would have had a
+      gate checking nothing and an index indexing nothing, both reporting green for
+      however long the approval took. The corpus has since migrated from the consuming
+      application and grown by assay; it now spans all ten domains and every recipe is
+      still `seed`. The count lives in the generated index and in recipes/README.md,
+      not here.
   practices:
     path: practices/
     holds: Practices — the shape of a repo-level habit plus the starter artifacts it drops.

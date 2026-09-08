@@ -10,7 +10,7 @@ The repository carries eight lanes, declared in [`registry.yaml`](registry.yaml)
 | --- | --- | --- |
 | [`knowledge/`](knowledge/README.md) | **Reference Knowledge Bundles** - four-layer domain knowledge (Golden Path → Technique → Application → Evidence), one bundle per domain. | Real content. Gated by CI. |
 | [`skills/`](docs/skills-lane.md) | The fleet's shared skill library, one directory per skill, published as a **plugin marketplace** for the reference harness. | Real content (25 skills). Gated by CI. |
-| [`recipes/`](recipes/README.md) | **Craftsman knowledge** - one kind of work done well, connector- and trigger-agnostic, versioned like a skill. Everything that binds a recipe to one installation lives on the adopted charter, never here. | Declared 2026-09-06 with its gate, its index and one worked example. Corpus migrates after operator approval. |
+| [`recipes/`](recipes/README.md) | **Craftsman knowledge** - one kind of work done well, connector- and trigger-agnostic, versioned like a skill. Everything that binds a recipe to one installation lives on the adopted charter, never here. | Real content, all ten domains. Gated by CI. Declared 2026-09-06 with one worked example; the corpus migrated after operator approval and grows by assay. |
 | `practices/` | Repo-level habits plus the starter artifacts they drop. | Worked example. |
 | `memory/` | Organizational memory notes, one fact per file. | Worked example. |
 | [`usage/`](docs/usage-lane.md) | Which skills actually get used - counts contributed by the installations that run them, one file per contributor. | Real, gated. First contributor reporting. |

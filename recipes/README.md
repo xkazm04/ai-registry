@@ -34,19 +34,32 @@ knows to find it.
 
 ## What is here
 
-| Recipe | Domain | Status |
+133 recipes, all `seed`, across ten domains and forty-six topics. The authoritative
+list is [`index.json`](index.json), which is generated; this table is the shape of it.
+
+| Domain | Recipes | Topics |
 | --- | --- | --- |
-| [`web-analytics-performance-review`](sales_marketing/web-analytics/web-analytics-performance-review/RECIPE.md) | `sales_marketing` | `seed` |
+| `software_engineering` | 42 | 10 |
+| `sales_marketing` | 19 | 4 |
+| `creative_design` | 13 | 5 |
+| `general_professional` | 13 | 5 |
+| `finance_accounting` | 12 | 4 |
+| `legal_compliance` | 9 | 4 |
+| `customer_support` | 8 | 4 |
+| `data_ai` | 8 | 3 |
+| `product_project` | 5 | 3 |
+| `operations_logistics` | 4 | 4 |
 
-**This lane is declared ahead of its corpus, on purpose.** It was opened on 2026-09-06
-with its spec, its gate, its index builder and one worked example. The corpus migrates
-from the consuming application only after the operator has reviewed and approved it.
+A count in prose goes stale the first time somebody adds a recipe and does not read this
+far. `node scripts/build-recipes-index.mjs` prints exactly these figures, so the way to
+correct this table is to run it rather than to guess.
 
-The single example is not decoration. A lane declared with nothing in it is a promise: the
-gate would have had nothing to check, the index nothing to index, and both would have
-reported green over an empty tree for however long the approval took. One real recipe is
-what makes the instruments testable on the day they are written rather than on the day
-the corpus lands.
+**The lane was declared ahead of its corpus, on purpose.** It opened on 2026-09-06 with
+its spec, its gate, its index builder and one worked example, and nothing else: the
+corpus migrated from the consuming application afterwards, once the operator had reviewed
+it. That first example was not decoration. A lane declared with nothing in it is a
+promise, the gate would have had nothing to check and the index nothing to index, and
+both would have reported green over an empty tree for however long the approval took.
 
 ## Adding a recipe
 
