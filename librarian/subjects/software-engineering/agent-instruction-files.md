@@ -497,3 +497,19 @@ amendment, more completely than the source that prompted it. The self-agreement
 scan across eight projects found no restated version floor and so no
 contradiction; the honest limit is that it scanned version floors only, not the
 path names and command names the amendment also names.
+
+## 2026-09-08 - intake, portal-ai-plugins (run `intake-portal-ai-plugins`)
+
+Amendment to `enforcement-demotion`: a new closing section, "The sort applies
+to procedures, not only rules" - a mechanical procedure written as prose in a
+skill demotes into a script with a named-argument interface, fixture-tested
+without the model; the skill keeps the trigger and the call. Prompted by a
+vendor plugin whose skills are one command line each and whose hooks and
+transport carry a 51-case decision table. Applied `code`/`better` in personas:
+a 30-line Read guard with a 15-case table where nothing had owned the decision.
+
+`claude-code--single-source-topology` application: `verified_on` moved to
+2026-09-08 (the harness memory doc re-fetched) and a negative section added -
+the same vendor's `CLAUDE.md` bridge is the bare text `AGENTS.md`, which the
+harness does not treat as an import, so the bridge resolves to nothing on the
+plugin's primary host. The fleet's bridges use `@AGENTS.md`; nothing to adopt.

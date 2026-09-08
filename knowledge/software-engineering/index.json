@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 222,
   "techniques": 1634,
-  "applications": 971,
+  "applications": 972,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -1334,7 +1334,7 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-instruction-files/agent-instruction-files.md",
-   "digest": "sha256:77d429762d4c4d61",
+   "digest": "sha256:2390d4313659ea78",
    "techniques": [
     {
      "slug": "capability-before-steering",
@@ -1584,7 +1584,7 @@
      "stack": "claude-code",
      "technique": "single-source-topology",
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-instruction-files/applications/claude-code--single-source-topology.md",
-     "verified_on": "2026-08-24",
+     "verified_on": "2026-09-08",
      "verified_against": "claude-code@2"
     },
     {
@@ -21824,7 +21824,7 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/prompt-assembly.md",
-   "digest": "sha256:11edebaca05f8e15",
+   "digest": "sha256:a9e02872c619b6e2",
    "techniques": [
     {
      "slug": "amortized-compaction-cadence",
@@ -22127,6 +22127,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "claude-code",
+     "technique": "elision-to-a-refetch-pointer",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/applications/claude-code--elision-to-a-refetch-pointer.md",
+     "verified_on": "2026-09-08",
+     "verified_against": "claude-code@2.1"
+    },
     {
      "stack": "node",
      "technique": "endpoint-sealed-continuation-metadata",

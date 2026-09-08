@@ -374,3 +374,16 @@ pole, two orders of magnitude from the pathological ~0.02:1. The guard had no nu
 and was therefore unusable; it now has two poles far enough apart that it needs no
 threshold, only the sign of `ratio - 1`. Nothing shipped to the project, and nothing
 should have.
+
+## 2026-09-08 - intake, portal-ai-plugins (run `intake-portal-ai-plugins`)
+
+New application `claude-code--elision-to-a-refetch-pointer`: the technique's
+"class by producer, size only inside a class" rule tested one boundary earlier,
+at the Read tool call, over 30 days of one machine's transcripts (5,957
+sessions, 208 whole reads of text files over 350 lines). A size-only block -
+the shape a vendor plugin ships - lands 84% of its blocks on source; a
+class-based guard (harness overflow files, generated artifacts) recovers 73% of
+the large-read tokens in the highest-rate project with zero working-set blocks.
+Shipped in personas (`code`/`better`); the size-only shape is `not-better` on
+every project measured. Instrument banked at `scripts/measure-large-reads.mjs`.
+Return condition: what the agent does after a block is unmeasured.

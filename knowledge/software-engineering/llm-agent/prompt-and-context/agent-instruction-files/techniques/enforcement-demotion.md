@@ -202,3 +202,46 @@ into a configuration directory is a change of channel. Only the first is
 the demotion this technique is about, and as a harness's extension surface
 grows richer the two stop being the same act — the menu of destinations now
 contains several that are the channel change wearing the demotion's clothes.
+
+## The sort applies to procedures, not only rules
+
+Everything above sorts *rules* — a constraint the agent must hold. A skill
+or instruction file also carries *procedures*: fetch these, wrap each in a
+delimiter, send the batch, strip the fences from what comes back, write it
+to the target. Written as prose, a procedure is executed by the model
+re-deriving it as a shell pipeline on every invocation, and it fails the way
+a prose rule fails — most of the time it holds, and the step it drops is the
+one whose absence is silent (the delimiter, the fence strip, the check that
+the path exists before an empty block is sent and a confident answer about
+nothing comes back).
+
+The same question applies, and it has the same answer: *could a program do
+this?* If yes, the procedure demotes into a **script with a named-argument
+interface**, and the skill keeps only what the sort leaves prose — the
+trigger (when this applies, and when it must not) and the one line that
+calls the script. Three things follow that a prose procedure cannot offer:
+
+- **The procedure is testable without the model.** A script has fixtures; a
+  hook that sorts tool calls has a decision table of inputs and expected
+  verdicts, run in seconds with no harness present. A prose procedure is
+  tested only by watching the model run it, which is the expensive,
+  non-deterministic instrument [blocking-by-input-determinism](../../../../engineering-process/standards-and-gates/quality-gates/techniques/blocking-by-input-determinism.md)
+  says a gate must not depend on.
+- **The refusals live where the input is.** A script that requires a
+  reference file, or refuses a payload over the platform's argument limit
+  with a clear message instead of failing with the kernel's, is a
+  precondition enforced at the invocation — exactly where
+  [prose-rule-drift](../../../../engineering-process/standards-and-gates/quality-gates/techniques/prose-rule-drift.md)
+  says an action-shaped rule belongs. In prose, the same precondition is a
+  sentence the model may skip.
+- **The skill body shrinks to its earning lines.** A skill that is a
+  trigger description and a command line pays the floor for two sentences;
+  the twenty-step procedure it replaced was paid on every session that
+  loaded the skill, whether or not it fired.
+
+The boundary is the sort's own: a step that needs judgment — *which* files
+to send, whether the answer is good enough to act on, whether this task is
+a debugging task that must not be delegated at all — stays in the skill as
+prose, and the skill says so in words ("verify line numbers before editing
+against them"). A procedure whose every step is mechanical and that is
+still written as prose is the style guide in prose, one artifact class over.

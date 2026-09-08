@@ -117,20 +117,22 @@
         "systedo-case@plugin:1.0.0"
       ],
       "invokes30d": 0,
-      "lessons": 0,
+      "lessons": 1,
+      "lessonsPath": "skills/consult/LESSONS.md",
+      "lessonsHash": "sha256-n1:de923fb060a74f2d",
       "usageContributors": []
     },
     {
       "name": "cx",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "category": "workflow",
       "path": "skills/cx/SKILL.md",
-      "contentHash": "sha256-n1:b41941302f770a1e",
+      "contentHash": "sha256-n1:d83f781a7b257b9c",
       "adopters": [],
       "invokes30d": 0,
-      "lessons": 1,
+      "lessons": 4,
       "lessonsPath": "skills/cx/LESSONS.md",
-      "lessonsHash": "sha256-n1:53354409716c4868",
+      "lessonsHash": "sha256-n1:6efcf751f29ba4bb",
       "usageContributors": []
     },
     {
@@ -387,9 +389,9 @@
         "systedo-case@plugin:1.0.0"
       ],
       "invokes30d": 15,
-      "lessons": 38,
+      "lessons": 39,
       "lessonsPath": "skills/scan-sweep/LESSONS.md",
-      "lessonsHash": "sha256-n1:7b41f28bb83947d9",
+      "lessonsHash": "sha256-n1:02fdcafac03b1b43",
       "usageContributors": [
         "kazda-dev-box"
       ]
@@ -636,7 +638,7 @@
     "skills": 30,
     "practices": 8,
     "memory": 6,
-    "lessons": 157
+    "lessons": 162
   },
   "bundles": [
     {
@@ -739,9 +741,9 @@
       "purity": "software",
       "subjects": 222,
       "techniques": 1634,
-      "applications": 971,
-      "files": 2832,
-      "contentHash": "sha256:524782a2ed364224"
+      "applications": 972,
+      "files": 2833,
+      "contentHash": "sha256:9e1cce15304c6ce2"
     }
   ]
 }

@@ -4,7 +4,7 @@ type: application
 subject: agent-instruction-files
 technique: single-source-topology
 stack: claude-code
-verified_on: 2026-08-24
+verified_on: 2026-09-08
 verified_against: claude-code@2
 ---
 
@@ -88,3 +88,31 @@ overviews slightly hurt at >20% added cost (n=300+138 tasks,
 arXiv:2602.11988). Efficiency, not correctness, is what the fleet's
 floors purchase — which prices personas' ~25k tokens as the fleet's
 most expensive efficiency feature.
+
+## A vendor plugin's bridge that resolves to nothing (read 2026-09-08)
+
+A public multi-host plugin repository (a developer-portal vendor's official
+plugin for three coding harnesses, at its 2026-08-17 commit) is the cleanest
+instance of the technique's topology seen outside this fleet: one canonical
+`skills/` directory, three host manifest directories that each point at it,
+an `AGENTS.md` as the canonical instruction file, and a root `CLAUDE.md`
+that is **one line long**. That line is the bare text `AGENTS.md`.
+
+Re-resolved against the harness's documentation the same day: "Claude Code
+reads CLAUDE.md, not AGENTS.md"; the import form is `@AGENTS.md`, and "on
+Windows, creating a symlink requires Administrator privileges or Developer
+Mode, so use the `@AGENTS.md` import instead." A bare filename is not an
+import. So on the harness the plugin most prominently targets, a contributor
+opening the checkout receives the string `AGENTS.md` as the repository's
+entire instruction set — the technique's "nine bytes of text" case, produced
+not by a platform materialising a link but by an author writing the pointer
+in the form a *human* resolves rather than the form the *reader* resolves.
+
+The structural fact is the negative one the technique predicts: nothing in
+the tree can notice. The file exists, is non-empty, and contains a plausible
+path; the repository's own validation step (the host's plugin validator)
+checks manifests and skills, never the bridge. The single cheap assertion the
+technique asks for — *the bridge resolves to the canonical document* — is
+the only check that would have caught it, and it is absent. Compare this
+fleet, where the bridges carry `@AGENTS.md` and one project's bridge says in
+prose what to do if a tool does not expand the import.

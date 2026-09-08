@@ -9254,3 +9254,25 @@ observation, and the batch lane already carries half of this idea for a differen
 - **Mid-flight runs on 2.7.0: nothing to do.** No method edit was made and no version was
   bumped; these are lessons awaiting confirmation.
 
+
+## 2.7.0 - 2026-09-08 - portal-ai-plugins
+
+- **The harness's own session transcripts are a fleet-wide instrument, and this is the
+  second sighting.** On 2026-09-02 a doc-sync reminder was replayed over recorded turns;
+  today a vendor's Read-blocking rule was replayed over 5,957 sessions in under a minute,
+  and the paired arms (as-is, the source's rule, the corrected rule) cost nothing beyond
+  the script. `~/.claude/projects/**/*.jsonl` carries every `tool_use` with its inputs.
+  When a source's mechanism is a decision function over tool calls, the apply step is a
+  replay, not a simulation - and it can *falsify the source's axis* (size → class), which
+  a simulation with three cases never would have. Banked as `scripts/measure-large-reads.mjs`;
+  a third sighting makes this a method rule for hook-shaped candidates.
+- **An operator question of the form "should we adopt X across the fleet" is an apply
+  question, and the yield is a measured table, not landings.** This run landed one amendment
+  and would have read thin on the depth column; the answer the operator wanted was three
+  verdicts with numbers (adopt / reject / ship-per-project) and a rate table naming which
+  projects are next. Say so in the source note's own section rather than padding the table.
+- **A project's own doc said a file was gitignored; `git ls-files` said tracked.** The
+  personas golden path recorded `.claude/settings.json` as gitignored (true when written,
+  the allowlist since changed). One `git ls-files` before trusting a claimed ignore; it
+  changed where the hook could be registered (committed, so the gate travels in a clone).
+- **Mid-flight runs on 2.7.0: nothing to do.** No method edit, no version bump.
