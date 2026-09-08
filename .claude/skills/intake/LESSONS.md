@@ -10345,3 +10345,35 @@ observation, and the batch lane already carries half of this idea for a differen
   it"; the tree has two resume paths and the sentence was true of one. Applications carry
   enumerations too, and they are cheaper to refute than a golden path's because the tree
   they cite is open.
+
+## 2.8.0 - 2026-09-08 - awesome-gpt-6-astra-games
+
+- **The source-note slug collides on title, and nothing in the method checks it.** Two
+  repositories named `awesome-gpt-6-astra` under two owners were mined the same afternoon by
+  two sessions. Phase 1's ledger check is by URL and correctly said "not mined"; the board's
+  same-source check is by URL and correctly cleared; Phase 9 then wrote
+  `<date>-<slug>.md` with the slug derived from the repository name and **overwrote the
+  sibling's committed note**. Recovered from HEAD and renamed with a `-games` suffix. Every
+  check the method runs is blind to this, because the ledger only learns the filename after
+  the note is written.
+  ### Redesign proposal
+  Phase 9 should say: *the source-note filename for a repository is `<date>-<owner>-<repo>`
+  when `<date>-<repo>` already exists in `librarian/sources/`, and the run checks with
+  `ls` before the Write, never after.* One sighting; a lesson until it is seen again.
+- **A reference index whose references are not documents has no wave lane, and saying so is
+  the class read.** The ratio test fired (52 links / 2,301 words) and the references were
+  playable games with a creator statement each - nothing a worker could read for a
+  measurement. The right move was to drop to the repository lanes (2b, 2d) and mine the
+  tree's own system, which is where both landings came from. The class table should carry
+  the question *are the references documents?* beside the ratio.
+- **The seam hunt originated a finding the source never had.** Searching the fleet for a
+  place to apply the layered-lifetime rule found the corpus's exemplar application citing a
+  route removed eleven days earlier - a currency row for three applications, and the
+  strongest structural fact of the run (the removed route carried the exact gap). Phase 7.5
+  should name this explicitly: when the seam hunt opens a tree the corpus cites, diff the
+  citations first.
+- **`rg -iE` is a config error, not a flag pair.** `-E` is ripgrep's encoding flag; the
+  pattern was consumed as an encoding name and every project returned empty. The
+  known-positive assertion caught it only because the positive failed too. Use `-i -e`
+  or plain `-i "pattern"`.
+
