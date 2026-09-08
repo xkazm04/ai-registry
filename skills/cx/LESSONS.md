@@ -216,3 +216,33 @@ stops across five personas, walked from the public landing inward.
 ## 1.0.0 - 2026-09-08 - firetv (third run)
 ### Redesign proposal
 - The default walk treats the existing screen set as the finished path and polishes inside it. On this repo it walked five stops of a homework flow before the operator pointed out that no module had an end-to-end design at all - the camera stop was reachable only because a seeded task list pretended the learning had already happened. The read must challenge the PATH before it reads the SCREEN: a stop's overview should carry a line naming how the user ARRIVED at this screen and what makes that arrival real (a seeded fixture is not an arrival), and a missing upstream is an H finding that stops the walk for design, not a polish item. `complete` mode exists for this; the lesson is that the DEFAULT mode is where the operator was harmed, because nothing in the default read is allowed to say "this path does not exist".
+
+## 1.1.0 - 2026-09-08 - gravitone-gcloud (S5, the largest seam yet)
+- **Every serious finding in this walk came from asking whether two individually-true things
+  AGREED.** Four stops produced four of them and none was visible in any single file: two screens
+  both correct with no data passing between them; two disciplines both valid, neither able to hold
+  both halves of a step; and — at S5 — a mature research prompt demanding 4-8 web searches, a real
+  reasoning chokepoint, and a deliberate `--allowed-tools ""` policy that makes the prompt's first
+  phase impossible. A screen-by-screen read cannot find any of these, and neither can a code
+  review of either side. **This is the strongest argument for the seam as a unit of work, and it
+  should be stated in the skill rather than left for a reviewer to rediscover:** the method's
+  distinctive power is contradiction-hunting across artefacts, not defect-hunting within one.
+- **A state grade must answer "does this step do its job", and file counts do not.** Graded wrong
+  twice in one walk, the same way both times: `built` because a reader existed; `built` because 28
+  files and 4,434 lines existed. Both were real, checkable evidence about the wrong question. The
+  Constants table says to grade from recheckable evidence, which is necessary and NOT sufficient —
+  it should also say *which question the evidence must answer*, and that a grade is provisional
+  until the stop is walked.
+- **The executor's refusals were better than my brief twice, and both refusals came from asking
+  what a thing DOES rather than where it SITS.** I listed a chip among "evaluation scaffolding to
+  gate" because it sat inside the prototype panel; it was the disclosure that the run is a replay,
+  and gating it would have deleted the honesty the same brief demanded. And my acceptance line's
+  word "genuinely researched" was refused in favour of "reasoned" on evidence I had in front of me
+  and had not cross-checked. **Phase 6 should invite the executor to challenge the brief's own
+  framing, not only its facts** — the current wording asks for report of anything "the brief got
+  wrong", which reads as factual error, and both of these were errors of categorisation.
+- **On money: forbid live calls during a build, and make the executor say what that leaves
+  unproven.** This stop wired a billing seam without spending a cent — validator driven offline
+  against 12 inputs, all four route error paths exercised with the engine off. The report then
+  stated plainly that a first real run is unproven and will need prompt tuning. That is the right
+  trade for a walk and the right disclosure; a brief touching a paid seam should require both.
