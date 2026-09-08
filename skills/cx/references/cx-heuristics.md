@@ -23,6 +23,21 @@ additions come from the overlay's `## Heuristics`, never from editing this file 
 | **latency honesty** | Is a slow operation shaped so the wait is used, not endured? | progressive reveal; what appears while waiting; whether the user can do anything meanwhile |
 | **delight, spent once** | Is there one moment of craft, and is everything else quiet? | motion count; the one flourish; ornament with no job |
 
+## Continuity (any product with more than one step)
+
+Applied to a SEAM rather than a screen, and to a screen only in the question "what did the step
+before this one leave me?". These are the rows that find a product whose screens are all built and
+whose chain is broken - the failure no screen-by-screen walk can see, because it is on neither
+screen.
+
+| heuristic | the question | evidence that counts |
+|---|---|---|
+| **the payload crosses** | Does this step actually READ what the previous one wrote? | the writer and the reader named in code; a step that imports a fixture where it should read upstream output; a saved shape nothing consumes |
+| **the thread is visible** | Can the user SEE the decision they made upstream, without navigating back to check? | the upstream choice shown on this screen; a step that starts blank after a step that produced something |
+| **the work travels** | Does the user's own material reach the end, or does it stop somewhere and a stand-in continue? | which step last shows the user's input; where a generic sample takes over |
+| **the ending exists** | Is there a final artefact the user leaves with, and can they reach it from here? | the export / publish / deliver path; what the last step's last button does |
+| **no orphan step** | Does every step both consume and produce, or is one a cul-de-sac? | a step that writes nothing; a step whose output nothing reads |
+
 ## Living-room screen (10-foot UI, D-pad)
 
 | heuristic | the question | evidence |
@@ -69,3 +84,7 @@ additions come from the overlay's `## Heuristics`, never from editing this file 
   journey and wrong for the next; say which.
 - Filling the table. Zero proposals is a finding.
 - Fixing the design doc from inside a stop. Raise it; do not enact it.
+- Reading a seam as if it were a screen. A seam's evidence is the data path - the payload, its
+  writer, its reader - and a screenshot of either end proves nothing about it.
+- Grading a stop `thin` or `fixture` by impression. Count the files, name the fixture it imports,
+  or say `built`. A grade nobody can recheck is an opinion wearing a table's clothes.

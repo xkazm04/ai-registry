@@ -1,12 +1,12 @@
 ---
 name: cx
-description: "Walk a product's user journeys screen by screen with a CX/UX lens. Builds the journey map once, then at each stop gives a short overview of the screen as the user meets it, proposes 3-6 specific improvements graded by impact and effort, takes the user's own read and expectation for that stop, and dispatches executor subagents to make the accepted changes - verified by gates and a screenshot, committed per stop. Resumes across sessions from an Obsidian vault. Use when a prototype or app already exists and the job is to make its experience good rather than to add features; pairs with /explorer (code quality) and /architect (structure)."
-argument-hint: "[map|next|screen <id>|status|replan] [--no-dispatch] [--stops N]"
+description: "Walk a product's user journeys screen by screen with a CX/UX lens. Builds the journey map once, then at each stop gives a short overview of the screen as the user meets it, proposes 3-6 specific improvements graded by impact and effort, takes the user's own read and expectation for that stop, and dispatches executor subagents to make the accepted changes - verified by gates and a screenshot, committed per stop. In `complete` mode the map is the path to the product's final output, the SEAMS between screens are stops too, and a stop that is absent is designed and built rather than deferred - so an unfinished product is walked to completion instead of polished around its holes. Resumes across sessions from an Obsidian vault. Use when a prototype or app already exists and the job is to make its experience good, or to finish it; pairs with /explorer (code quality) and /architect (structure)."
+argument-hint: "[map|complete|next|screen <id>|status|replan] [--no-dispatch] [--stops N]"
 category: workflow
 memory: vault
 contexts: tracked
-version: 1.0.0
-tags: cx, ux, journey, screens, review, dispatch, obsidian
+version: 1.1.0
+tags: cx, ux, journey, screens, review, dispatch, continuity, completion, obsidian
 ---
 # CX
 
@@ -64,6 +64,7 @@ Built for parallel CLI control — every user prompt is single-keystroke answera
 |---|---|
 | *(none)* / `next` | resume: the first stop in `journey.md` not marked done; walk up to `stops_per_session` |
 | `map` | build the journey map (first run), or rebuild it after screens changed; confirms with the user before writing |
+| `complete` | map the **path to the product's final output** rather than a tour of what exists: every stop carries a state grade, the seams between screens are stops, and an absent stop is designed and built instead of deferred. For an unfinished product |
 | `screen <id>` | jump to one stop out of order |
 | `status` | print the journey with each stop's state and the last three decisions; change nothing |
 | `replan` | keep decisions, re-derive the stop order from the current screens |
@@ -74,6 +75,23 @@ Built for parallel CLI control — every user prompt is single-keystroke answera
 
 - **A stop is one screen in one scenario.** The same screen met in two journeys is two stops,
   because the user arrives with different intent and the read differs.
+- **A SEAM is a stop too** (`complete` mode). A seam is the handoff between two consecutive stops:
+  what step A produced and step B is supposed to consume. It has no screenshot, because the failure
+  is not on either screen — it is that B never reads A's output and the user's work silently stops
+  travelling. Read a seam by following the DATA, not the pixels: name the payload, the writer, the
+  reader, and which of the three is missing. A product can have every screen built and still be
+  broken end to end; the seams are where that hides, and no screen-by-screen walk will find it.
+- **Every stop carries a state grade** (`complete` mode), set when the map is built and re-checked
+  when the stop is walked:
+  | grade | means | what the stop does |
+  |---|---|---|
+  | `built` | exists and works | read and polish - the ordinary walk |
+  | `thin` | exists, but a fraction of its siblings | ask what is missing before proposing polish |
+  | `fixture` | renders convincing data it did not compute | honesty first: what would make it real |
+  | `absent` | does not exist | design it, and in `complete` mode build it |
+  Grade from evidence a reader can recheck - file and line counts against sibling surfaces, which
+  fixtures a screen imports, whether anything downstream reads what it writes - never from
+  impression. The gradient across a journey is itself a finding: state it in the map.
 - **3-6 proposals per stop.** Fewer is a screen that is already right; say so. More is a list, and
   lists are not reviewed.
 - **Grade every proposal** by *impact* (`H` the user would notice on first use / `M` on repeat use /
@@ -173,12 +191,43 @@ Write `journey.md`: one stop per line, `[ ] S<n> · J<k>.<i> · <screen> (<surfa
 is trying to do here>`. Stop ids are stable for the life of the vault; a `replan` reorders lines and
 never renumbers.
 
+### In `complete` mode
+
+The map is **the path to the product's final output**, not a tour of what happens to exist. Build it
+in this order, and do the measuring before the drawing:
+
+1. **Name the final output first** — the artefact the user leaves with, in their words ("a cut they
+   would show someone", "a filed return", "a booked trip"). Everything else is judged by whether it
+   carries the work toward that. If the product cannot yet produce it, THE ENDING is stop one of the
+   backlog, not a footnote.
+2. **Grade every existing stop** from recheckable evidence (see Constants), and put the grade in the
+   line. The gradient is usually the story: a front half at `built` and a back half at `fixture` is a
+   product that was demoed, not finished.
+3. **Insert the seams** between consecutive stops and grade each one too. For every seam, follow the
+   data: does B read what A wrote? Name the payload and the reader. A seam nobody reads is `absent`
+   however good both screens look.
+4. **Absent stops get a line like any other**, with `✗` for their grade and a one-line statement of
+   what the user gets instead today (an empty screen, a fixture, a dead end, nothing at all).
+
+Present the map with the grades visible and say plainly how much of the path is real. Then take the
+user's answer as usual — the user picks where to start, and starting at the break rather than at the
+front is often the right call, because polish upstream of a severed seam is spent twice.
+
+Seam lines are written `[ ] S<n> · J<k>.<i> · seam <a>→<b> · <the payload that should cross>`.
+
 ## Phase 3: Arrive at a stop
 
 For the next `[ ]` stop (or the one named), **reach the screen** using the overlay's `## Run`:
 start the product if it is not running, drive it to the screen in the scenario's state, and capture
 a PNG into `$VAULT/Cx/stops/<id>-before.png`. When the product cannot be run here, say so and read
 the screen from its code and inventory instead — a proposal made from code is marked `(from code)`.
+
+**A seam or an `absent` stop has nothing to photograph, and that is the finding.** Capture what the
+user meets *instead* — the screen that shows a fixture, the dead end, the step that starts empty —
+into `<id>-before.png`, and say in one line what a working stop would have shown there. For a seam,
+capture BOTH screens it fails to connect (`<id>-before-a.png` / `-before-b.png`): the two side by
+side are the evidence that the user's work stopped travelling. Then read the data path in code and
+name the payload, its writer, its reader, and which of the three is missing.
 
 Then write the **overview**, five lines, in the user's words not the system's:
 
@@ -212,6 +261,15 @@ Withheld: <proposals considered and dropped, with the one-word reason - "design 
 
 A screen with nothing worth changing gets a read of zero proposals and one sentence saying why it
 is right. That is a legitimate and valuable outcome; do not invent items to fill the table.
+
+**On an `absent` stop or a seam the read has a different shape**, because there is no screen to run
+heuristics against. Give instead: (a) **the design** — what this stop should be, in five lines, and
+what it must carry from upstream and hand downstream; (b) **the smallest thing that proves the
+chain** — the end-to-end path real data would take, which is what gets built first; (c) **the
+proposals**, graded as always, but now they are the pieces of that build. Heuristics still apply and
+are still named — `the thread between steps`, `honesty`, `orientation` — because a new surface obeys
+the same list as an old one. What is forbidden is designing the whole feature: the stop builds the
+path to the final output and stops there.
 
 ## Phase 5: The user's turn
 
@@ -333,8 +391,14 @@ $VAULT/
 
 Not a code sweep — `/explorer` finds defects; this finds friction. Not a redesign — proposals live
 inside the design doc, and a proposal that needs the design doc changed is raised as a question to
-the user, never enacted. Not a feature list — a stop that needs a new capability records it as
-`deferred - new feature` and moves on. And not a lecture: the read is a table and five lines, the
+the user, never enacted. Not a feature list **in the default modes** — there, a stop that
+needs a new capability records it as `deferred - new feature` and moves on, because the job is the
+experience of what exists. **`complete` mode inverts exactly this one rule and nothing else:** the
+product is unfinished, the absent stops ARE the work, and deferring them would defer the whole
+point. Everything else holds in both modes — the heuristics, the user's expectation outranking the
+read, the gates, one commit per stop. A `complete` run that starts inventing capability nobody asked
+for has stopped being this skill; the map is the contract, and a capability that is not on the path
+to the product's stated final output is still `deferred - new feature`. And not a lecture: the read is a table and five lines, the
 user's turn is one prompt, and the run's opinion never outranks the user's expectation.
 
 ---

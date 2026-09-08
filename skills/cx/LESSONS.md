@@ -35,3 +35,39 @@ Append-only reflection lane. One entry per run that taught something. Format:
 ## 1.0.0 - 2026-09-08 - firetv (second run)
 - On a stop whose scenario crosses two surfaces (a TV and a phone), the read must carry both surfaces with their own captures and heuristics; reading the primary surface and mentioning the second in one line let the user find the phone "impossible to operate" after the TV side was accepted. Phase 3 should capture every surface named in the stop line.
 - A toggled state and a focused state must differ in kind, not degree; the practitioner's "focus is the cursor" heuristic should also ask "can the user tell chosen from focused from three metres?".
+
+## 1.0.0 - 2026-09-08 - gravitone-gcloud
+- **The method forbade the job.** Adopted into a content-studio app whose five production steps were
+  built front-to-back and abandoned halfway, the very first scoping question hit `What this skill is
+  not`: *"a stop that needs a new capability records it as `deferred - new feature` and moves on."*
+  Under v1.0.0 the three highest-value stops in the map - two broken seams and a final output that
+  does not exist in any form - were all illegal, and the walk would have polished the entry flow
+  while the product's promise stayed unreachable. A CX method that can only improve what exists is
+  the wrong tool for the majority state of real products, which is *unfinished*. Fixed in v1.1.0 as
+  a MODE rather than a rewrite, so the two apps already mid-walk on v1.0.0 keep their behaviour.
+- **The failure was on neither screen.** Measured: `research` 28 files / 4,434 lines, `script` 44 /
+  9,039, `frames` 15 / 5,268, then `score` 1 / 382 and `cut` 1 / 298. But the file counts were the
+  small half of the finding. The real break was that `score` reads no upstream output at all - it
+  imports a `CUES` fixture while the user's actual scenes sit unread - and `cut` reads a `TIMELINE`
+  fixture and persists only nudge offsets on clips the user never made. Both screens photograph
+  perfectly. A screen-by-screen walk would have proposed polish on both and never found that the
+  user's work stops travelling after step three. Hence the **seam as a unit of work**, read by
+  following the data (payload / writer / reader) rather than the pixels, and the `Continuity`
+  heuristic family in `references/`.
+- **A state grade per stop turns the map into the finding.** Writing `built / thin / fixture /
+  absent` beside each line, from evidence a reader can recheck, made the shape of the product
+  visible in the map itself: a front half at `built` and a back half at `fixture` is a product that
+  was demoed rather than finished. The user picked the start of the walk off that gradient - at the
+  break, not at the front - which is a better decision than the one the ungraded map invited.
+- **Ask where to start AFTER grading, not before.** The first map presented was an ungraded tour of
+  16 screens and the natural answer was "S1, in order". The graded map made "start at the break"
+  obvious, and it is the right call: polish upstream of a severed seam is spent twice.
+
+### Redesign proposal
+- **The overlay should carry the final output, and the skill should refuse to map without one.**
+  `complete` mode currently derives the ending from the product brief and the reviewer's judgement.
+  A `final_output:` key in the overlay frontmatter - "a cut they would show someone" - would make
+  the destination declared rather than inferred, and every stop's grade could then be stated as its
+  contribution to that artefact. Not applied in v1.1.0: it changes the overlay contract for the two
+  consumers already running, and it should be earned by a second `complete` run somewhere else
+  first.
