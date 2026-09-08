@@ -31,3 +31,7 @@ Append-only reflection lane. One entry per run that taught something. Format:
 ## 1.0.0 - 2026-09-08 - firetv
 - A stop for a screen that does not exist yet reads as a spec: the executor builds the read, and the real read only happens on the built screen. When the map adds new screens, budget a second round at that stop for the user's review before moving on.
 - The user's review of a freshly built screen can redirect branding (module names, illustrations, a mark). Keep a hook for an image skill (/leonardo) in the overlay's Repo law or Run section so the executor can generate assets instead of leaving placeholders.
+
+## 1.0.0 - 2026-09-08 - firetv (second run)
+- On a stop whose scenario crosses two surfaces (a TV and a phone), the read must carry both surfaces with their own captures and heuristics; reading the primary surface and mentioning the second in one line let the user find the phone "impossible to operate" after the TV side was accepted. Phase 3 should capture every surface named in the stop line.
+- A toggled state and a focused state must differ in kind, not degree; the practitioner's "focus is the cursor" heuristic should also ask "can the user tell chosen from focused from three metres?".
