@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 228,
   "techniques": 1687,
-  "applications": 1012,
+  "applications": 1013,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -4761,9 +4761,9 @@
    "subcategory": null,
    "status": "reconciled",
    "file": "knowledge/software-engineering/client-architecture/client-fetch-cache/client-fetch-cache.md",
-   "digest": "sha256:3962af6122fb2f0a",
-   "revision": 13,
-   "changedAt": "2026-09-06",
+   "digest": "sha256:4d99e2f5de14142b",
+   "revision": 14,
+   "changedAt": "2026-09-08",
    "techniques": [
     {
      "slug": "admission-hypothesis",
@@ -4942,6 +4942,12 @@
      "technique": "cache-key-discipline",
      "file": "knowledge/software-engineering/client-architecture/client-fetch-cache/applications/node--cache-key-discipline.md",
      "verified_on": "2026-08-22"
+    },
+    {
+     "stack": "node",
+     "technique": "swr-design",
+     "file": "knowledge/software-engineering/client-architecture/client-fetch-cache/applications/node--swr-design.md",
+     "verified_on": "2026-09-08"
     },
     {
      "stack": "react",
@@ -23668,9 +23674,9 @@
    "subcategory": "maturity-and-conformance",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-assessment/maturity-and-conformance/public-verdict-badge/public-verdict-badge.md",
-   "digest": "sha256:d6d06a6346884e00",
-   "revision": 2,
-   "changedAt": "2026-09-03",
+   "digest": "sha256:f1e00fe96416c6ae",
+   "revision": 3,
+   "changedAt": "2026-09-08",
    "techniques": [
     {
      "slug": "customization-scope-guard",
@@ -23761,19 +23767,19 @@
      "stack": "node",
      "technique": "customization-scope-guard",
      "file": "knowledge/software-engineering/engineering-assessment/maturity-and-conformance/public-verdict-badge/applications/node--customization-scope-guard.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-08"
     },
     {
      "stack": "node",
      "technique": "outcome-branched-cache",
      "file": "knowledge/software-engineering/engineering-assessment/maturity-and-conformance/public-verdict-badge/applications/node--outcome-branched-cache.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-08"
     },
     {
      "stack": "react",
      "technique": "embed-snippet-contract",
      "file": "knowledge/software-engineering/engineering-assessment/maturity-and-conformance/public-verdict-badge/applications/react--embed-snippet-contract.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-08"
     }
    ]
   },

@@ -5,10 +5,12 @@ subject: public-verdict-badge
 technique: customization-scope-guard
 stack: node
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-09-08
 ---
 
 # Scoping customization on a public badge renderer
+
+**Currency (2026-09-08).** The public badge feature this document realizes was removed from the project's default branch on 2026-08-29 (commit `773c9aa0`); the paths and lines cited below resolve only in history at `da162859`. Kept as a historical realization.
 
 `src/lib/badge-svg.ts` is Ascent's single badge renderer, imported by both
 public endpoints so neither can fork a near-copy. It is where the open/closed
