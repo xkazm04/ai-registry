@@ -71,3 +71,44 @@ Append-only reflection lane. One entry per run that taught something. Format:
   contribution to that artefact. Not applied in v1.1.0: it changes the overlay contract for the two
   consumers already running, and it should be earned by a second `complete` run somewhere else
   first.
+
+## 1.1.0 - 2026-09-08 - gravitone-gcloud (first `complete` run)
+- **A grade set from the map is a hypothesis; a grade set from walking the stop is a measurement.**
+  `seam script→frames` was graded `built` on good evidence — `useFrames` demonstrably reads
+  `TrailerCutStepData`. Walking the stop DOWNSTREAM of it found that `framesFor` returns `[]`
+  unless the source origin is one specific fixture, so the seam is built for exactly one of the
+  product's disciplines. v1.1.0's Phase 2 should say this out loud: **grades are provisional until
+  the stop is walked, and a stop may regrade its neighbours.** Add a `regraded` note to the journey
+  line rather than silently editing the grade, so the correction is visible.
+- **The deepest finding was one stop downstream of where it lives, and only building revealed it.**
+  The read of S10 was correct and complete, and still could not see that NO PROJECT IN THE BUILD
+  can have both halves of the step: one discipline has the picture and no musical intent, the other
+  has the intent and no picture. That is invisible to a read of either screen AND to a read of the
+  seam — it emerged from an executor trying to make the seam work end to end. **`complete` mode
+  should expect a stop to yield a new blocking stop upstream of itself**, and Phase 7 should ask
+  "did this stop change the map?" before closing. Right now the map is only rebuilt by `map` /
+  `replan`.
+- **A capture that renders is not a capture that is right, and the failure mode is silent.** Twice
+  the tool produced a full-size, plausible PNG of the WRONG screen: once the framework's fresh
+  profile had no seeded project (an error page), once the target step's upstream writer had never
+  run so the screen showed its honest empty state. The second cost a false "failed acceptance"
+  verdict. Phase 3 should require the capture to ASSERT it reached the screen — a title, a
+  testid, a known string — and treat a deep-linked screen as suspect until the steps upstream of
+  it have been walked. In a multi-step product a screen does not only render, it READS what the
+  step before it WROTE.
+- **Executor reports are evidence-shaped and partly wrong.** Both dispatches returned excellent
+  work plus at least one confident false claim (one called a token a type-scale violation that had
+  been fixed earlier in the same session). Phase 6 already says to run the gates yourself; it
+  should also say to **diff the files yourself and verify each report's factual claims**, because
+  the wrong claims arrive in the same register as the right ones.
+- **The most valuable brief content was quoted from the repo, not written by the reviewer.** Two
+  proposals were narrowed or decided before a line was written — one by a code comment that had
+  already settled the question (`stepStore.ts`, on why a step persists nothing), one by the
+  product's own craft knowledge (`knowledge/.../03-score/PATTERNS.md` §1). Phase 1 loads the
+  design doc; for a multi-step product it should also load **the step's own knowledge directory
+  when one exists**, and Phase 6 should require the brief to quote it.
+- **An acceptance line can be unreachable for a structural reason, and that is a finding, not a
+  failure.** S10's "at least one spot PLACED on the captured screen" could not be met by any
+  project in the build. The item still landed — proven by probe and by an injected-fixture
+  capture. Phase 6's "an item that fails acceptance is not landed" needs the caveat: **first ask
+  whether the acceptance line was reachable**, and if not, record why and what was used instead.
