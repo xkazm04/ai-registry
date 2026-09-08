@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 222,
-  "techniques": 1634,
-  "applications": 972,
+  "techniques": 1635,
+  "applications": 973,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1634/1634",
+  "use_when_coverage": "1635/1635",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -1334,7 +1334,7 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-instruction-files/agent-instruction-files.md",
-   "digest": "sha256:2390d4313659ea78",
+   "digest": "sha256:4e3131c6de672576",
    "techniques": [
     {
      "slug": "capability-before-steering",
@@ -1415,6 +1415,23 @@
       "a skill step invokes a second model that some hosts cannot reach",
       "per-host copies of a skill have started to disagree",
       "adding a new harness means editing the generator"
+     ]
+    },
+    {
+     "slug": "inherited-default-ownership",
+     "status": "forged",
+     "laws": [
+      "absent-guard-is-loud",
+      "silent-state-is-ungoverned"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a harness release changed what an agent does at the end of a task and no repository file changed",
+      "deciding whether a behaviour the team relies on needs a line at all",
+      "an unattended run pushed or opened a review request nobody asked for",
+      "a built-in safety interlock stopped applying after a model or harness upgrade",
+      "a bundled check the workflow counted on stopped running by itself",
+      "choosing between a prose line and a permission rule to fix a behaviour the harness supplies"
      ]
     },
     {
@@ -1563,8 +1580,8 @@
      "stack": "claude-code",
      "technique": "context-reset-redelivery",
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-instruction-files/applications/claude-code--context-reset-redelivery.md",
-     "verified_on": "2026-09-01",
-     "verified_against": "claude-code@2.1.252"
+     "verified_on": "2026-09-08",
+     "verified_against": "claude-code@2.1.263"
     },
     {
      "stack": "claude-code",
@@ -1579,6 +1596,13 @@
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-instruction-files/applications/claude-code--instruction-freshness.md",
      "verified_on": "2026-08-24",
      "verified_against": "claude-code@2"
+    },
+    {
+     "stack": "claude-code",
+     "technique": "sibling-floor-ownership",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-instruction-files/applications/claude-code--sibling-floor-ownership.md",
+     "verified_on": "2026-09-08",
+     "verified_against": "claude-code@2.1.263"
     },
     {
      "stack": "claude-code",
@@ -22581,7 +22605,7 @@
    "subcategory": "standards-and-gates",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/quality-gates.md",
-   "digest": "sha256:b6f3f79024c97b1b",
+   "digest": "sha256:549ce400a7f835c4",
    "techniques": [
     {
      "slug": "advancement-evidence-fields",
@@ -36164,6 +36188,7 @@
     "agent-cli-transport/subscription-auth-selection",
     "agent-instruction-files/capability-coverage-contract",
     "agent-instruction-files/enforcement-demotion",
+    "agent-instruction-files/inherited-default-ownership",
     "agent-instruction-files/workspace-ancestry-isolation",
     "agent-memory/probe-without-write-back",
     "agent-runtime-assembly/guard-input-custody",
@@ -36314,6 +36339,7 @@
   "silent-state-is-ungoverned": {
    "statement": "An agent's internal state — its assumptions, its uncertainty, its belief that it has finished — shapes the outcome whether or not anyone can see it, and it can be governed only once it is converted into an artifact something else can read: an assumption stated before it is built on, alternatives presented instead of one silently chosen, a completion claim checked against what actually landed. The failure signature is uniform across every corpus that has measured it: the agent is wrong at the same confidence as when it is right, the decisive error precedes its first observable signal by most of the trajectory, and unverified completion claims concentrate exactly where recovery is no longer possible. Rules, gates and reviews bind only surfaced state; whatever remains internal is outside their reach by construction. Sibling of unknown-is-not-a-value, one level up: that law forbids rendering unknown as definite in *data*; this one demands the conversion of private epistemic state into inspectable output before anything downstream relies on it.",
    "techniques": [
+    "agent-instruction-files/inherited-default-ownership",
     "agent-instruction-files/restraint-amplifier-balance",
     "agent-instruction-files/rewrite-behavior-pinning",
     "agent-memory/diagnosis-withheld-from-the-executor",

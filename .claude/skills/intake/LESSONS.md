@@ -9276,3 +9276,43 @@ observation, and the batch lane already carries half of this idea for a differen
   the allowlist since changed). One `git ls-files` before trusting a claimed ignore; it
   changed where the hook could be registered (committed, so the gate travels in a clone).
 - **Mid-flight runs on 2.7.0: nothing to do.** No method edit, no version bump.
+
+## 2.7.0 - 2026-09-08 - claude-code-release-log-2026-07-09
+
+- **A release log has no dates, and the class table has no row for it.** The
+  changelog carried 66 versions in the window and not one date; the package
+  registry's per-version publish time is the instrument that bounds "the last
+  two months", and it is one HTTP call. Read it before slicing. The class was
+  taken as *vendor release announcement*; the reading that paid was different -
+  **read a release log for what a repository that never wrote a line about the
+  matter now does differently**, not for what was added. Bug-fix lines were
+  where the mechanisms were (a hook output lost on resume reveals hook output is
+  transcript content; a timeout misreported as a user rejection reveals the
+  verdict vocabulary). If a second run mines a changelog, the class table should
+  carry the row.
+- **The declared focus (replay the mechanism over recorded transcripts) produced
+  the run's largest measurement, and the first instrument returned a confident
+  zero.** The replay reported zero sessions for every project because a
+  path-slug regex silently failed to match backslashes; a listing of the
+  transcript directory - a different layer - showed 1,008 files for one project.
+  Fixed, asserted, then trusted. The same rule as round 37's item (1), reached
+  from the other side: the zero was not "nothing there", it was "the key did not
+  match", and only an observation from a different layer separates the two.
+- **Two arms of n=1 decided two landings, and both were chosen to falsify.** The
+  control arm in each pair could have matched its treatment (the -p lane might
+  not carry the background-agent push default; deny might not apply under
+  bypass). Neither did. The cost was four headless runs at about a dollar; the
+  alternative was a simulation. When the seam is the harness itself, a
+  throwaway repository with a local bare remote is the cheapest real tree there
+  is, and the bare remote's commit count is a measurable no prose can argue with.
+- **The score rejected every plain currency row by construction** (GAIN 1 for a
+  clock reset, no convergence bonus available), while the outcome table says
+  currency lands on its own. This run landed currency by the Phase 7 rule - a
+  re-checked citation must move `verified_on` - and recorded the rows as
+  `landed as currency` rather than `accept`. The gate should say which rule
+  governs currency rows, or the next run will file a clock reset as untriaged.
+- **Reader workers over a changelog returned 60 rows for 16 candidates.** The
+  per-slice brief asked for 8-20 rows each and three slices produced 20 each -
+  the cap, not the content, set the count. The consolidation cost more than the
+  reading. Next time: one brief that asks each reader for *mechanisms across
+  rows* first and rows second, and a hard cap of 10 rows per slice.

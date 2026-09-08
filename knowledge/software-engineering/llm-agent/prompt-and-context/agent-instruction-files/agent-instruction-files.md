@@ -18,6 +18,7 @@ techniques:
   - capability-coverage-contract
   - host-contract-compilation
   - rewrite-behavior-pinning
+  - inherited-default-ownership
 ---
 
 # Agent instruction files

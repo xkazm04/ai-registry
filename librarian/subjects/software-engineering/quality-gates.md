@@ -1035,3 +1035,17 @@ held the sentence that convicts it (a could-not-run routed to pass is wrong wher
 green authorizes shipping), so the corpus caught the corpus's own tooling. Fixed and
 paired: a seeded unbumped `SKILL.md` went from `skills lane OK` to red, with the clean
 tree still green and the CI path unchanged.
+
+## 2026-09-08 - intake (claude-code release log 2.1.198..2.1.263)
+
+`hook-hygiene` amendment "When the author is an agent, the bypass is not the
+author's to take": the section "Bypass is a feature" assumed the entity taking
+the bypass is the entity accountable for it. At machine-paced authorship the
+skip flag is the cheapest route to green, so the rule inverts on *who* - the hook
+stays bypassable for the person and the flag is denied to the agent at the
+harness's permission layer, verified by attempting it. The repository's own
+skip variable is the same shape. Applied `code`/`better` in kp with a paired arm
+in a throwaway repo (no deny: `--no-verify` ran; deny: refused twice under
+bypass mode) and an in-tree dry-run probe against kp's own settings. A dated
+fact the vendor's reference does not state: deny rules are honoured under bypass
+mode at 2.1.263.

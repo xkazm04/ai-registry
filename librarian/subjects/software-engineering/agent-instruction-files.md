@@ -513,3 +513,26 @@ a 30-line Read guard with a 15-case table where nothing had owned the decision.
 the same vendor's `CLAUDE.md` bridge is the bare text `AGENTS.md`, which the
 harness does not treat as an import, so the bridge resolves to nothing on the
 plugin's primary host. The fleet's bridges use `@AGENTS.md`; nothing to adopt.
+
+## 2026-09-08 - intake (claude-code release log 2.1.198..2.1.263)
+
+New technique `inherited-default-ownership`: the third blind spot of the per-line
+funnel, beside the absent diff (sibling-floor-ownership) and the total diff
+(rewrite-behavior-pinning) - the diff that happens in the harness's release log.
+Three defaults moved in sixty days with no repository change (push-on-finish for
+unattended sessions, the write tool's read-before-overwrite interlock relaxed per
+model, bundled review skills no longer self-triggering). Permissive defaults pin
+below the model (deny rule, blocking hook); restrictive ones pin by owning the
+step; the harness version is a third freshness coupling. Applied `code`/`better`
+in kp: without a policy line the headless agent pushed, with one it stopped at
+the commit (paired, n=1).
+
+New application `claude-code--sibling-floor-ownership`: a replay over 1,792
+transcripts across twelve fleet repositories - 193 skills loaded, 28 ever
+invoked. The fleet did what the technique's boundary says (skills in the tree,
+not per person) and inherited the floor's cost without the floor's audit.
+`unmeasurable` until the held-out trial; the instrument is named.
+
+`claude-code--context-reset-redelivery`: clock moved 2.1.252 -> 2.1.263; the
+reset-event enumeration gained a `fork` source, in-session scope re-resolution,
+a directory-added event and a staleness payload on resume.

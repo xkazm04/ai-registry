@@ -4,8 +4,8 @@ type: application
 subject: agent-instruction-files
 technique: context-reset-redelivery
 stack: claude-code
-verified_on: 2026-09-01
-verified_against: claude-code@2.1.252
+verified_on: 2026-09-08
+verified_against: claude-code@2.1.263
 applied: experiment
 ab_verdict: better
 proof: ab-paired
@@ -72,3 +72,31 @@ which is the same position the technique warns about one layer down.
 The cheap standing check is the one this run used: a unique marker in the
 file, changed between deliveries, quoted back. It costs one throwaway
 session and it converts an assumption into a row.
+
+## The reset-event enumeration, re-read at 2.1.263 (2026-09-08)
+
+The technique asks the injector to enumerate the reset events the harness
+actually raises and to treat an unenumerated one as unhandled. Between the
+version above and 2.1.263 the release log moved that enumeration four
+times, and none of the four is visible from inside a session:
+
+- the session-start event's `source` field gained a fourth value, `fork`,
+  for a session that begins as a copy of another's context — distinct from
+  `resume`, which the earlier enumeration treated it as;
+- a directory change inside a session now re-resolves the project scope
+  immediately — settings, hooks, skills and agents of the new directory take
+  effect on the move rather than on the next resume — so a scope change is a
+  redelivery event with no reset at all;
+- a new lifecycle event fires when a working directory is added mid-session,
+  which is the same shape: the floor's *set of files* changed and no context
+  was cleared;
+- the session-start event on a resume now carries the session's staleness
+  and an estimated re-cache cost, which is the first time the harness has
+  handed the injector a number it could branch on.
+
+The rule survives unchanged: re-derive from the file on every event, and
+keep the event list as dated data with its verification method. What moved
+is only the list, and it moved in the direction the technique predicts —
+toward events that redeliver without resetting, which a replaying injector
+cannot distinguish from an ordinary turn. Verified by reading the release
+log for the versions between the two dates; no arm was re-run.
