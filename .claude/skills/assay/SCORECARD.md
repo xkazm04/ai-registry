@@ -134,3 +134,23 @@ libraries carry no connector knowledge at all. It also established why the obvio
 will not fix this - the corpus already holds 139 example files covering exactly the
 vendors an aggregated index features. The disposition needs a source with connector
 documentation the corpus has no example for, or it should be retired as unreachable.
+
+| 2.1.0 | 2026-09-08 | kp-jd-candidates | **candidate index (JD-derived)** | 147 | 20 | 0 (none proposed) | 0 | 0 | 0 | 127 (7 groups) | 20 of 20 | n/a, gate substituted | rich, and a new source class |
+
+**Run 5 was the first source that was not somebody's writing.** It was a machine-mined
+candidate index over 50 real job postings: an address plus verbatim evidence per row, with
+no craft attached and no opinion to import. That inverts the usual failure. A skills
+library tries to author the lane; a candidate index cannot, because it holds no judgment
+at all, so every `need`, `core_action` and failure mode had to be supplied here. The
+run's whole cost moved from cross-checking to authoring.
+
+**It also explains the enrichment drought.** Zero enrichments were proposed and that was
+not caution: a source with no judgment in it cannot sharpen one, by construction. Only
+`new-recipe` and `discard` are reachable from this class, and a future run against a
+candidate index should expect exactly those two and budget accordingly.
+
+**The discard classes were where the reading happened.** 127 of 147, and the two largest
+were the same shape twice: work executed in person on physical objects, which no
+connector-bound agent can hold, and a second posting describing a craft already authored
+from the first. Both are properties of job postings rather than of this source, so both
+will recur at the same size on the next JD-derived index.

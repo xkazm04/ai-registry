@@ -201,3 +201,34 @@ against six enrichments already committed.
   112 -> 113 and `software_engineering` 40 -> 41 with none of it this run's. The jump was
   only legible because a baseline had been taken before any edit. Verify by absence for
   the gate's problems, and by arithmetic for its counts.
+
+## 2.1.0 - 2026-09-08 - kp-jd-candidates
+
+- **A source can contain no craft at all and still be the richest run yet.** A
+  machine-mined candidate index over 50 job postings holds only addresses plus verbatim
+  evidence. That makes `enrich`, `example` and `lesson` unreachable by construction: a
+  source with no judgment in it cannot sharpen one. Only `new-recipe` and `discard` fire,
+  and the run's cost moves from cross-checking to authoring. The class table needs this
+  row, and the first thing to do with such a source is say which dispositions it can
+  reach before scoring anything.
+- **Where a source's yield is high, the discards carry the finding.** 127 of 147 were
+  discarded and the two largest groups were properties of job postings rather than of
+  this file: work executed in person on physical objects, which no connector-bound agent
+  can hold, and a second posting describing a craft already authored from the first. Both
+  recur at the same size on any JD-derived source, so both are worth naming in the source
+  note as an expectation for the next run.
+- **A substituted gate produces no taste signal, and the run should say so.** The operator
+  pre-authorized this run, so Phase 6 became a written policy rather than a question. No
+  deviation could be recorded because there was no decision to depart from. Unattended
+  runs are legitimate; what they cost is the ledger, and a scorecard row reading `dev:
+  n/a` should be read as a run that taught taste nothing rather than as a perfect one.
+- **The guidance-length note fires systematically, not randomly.** Four of twenty came
+  back at 95 to 103 words against a 40 to 90 contract, every one long because a fourth
+  sentence restated the third. A gate note appearing on a fifth of a batch is describing a
+  drafting habit, so state the ceiling in the executor brief instead of letting the gate
+  find it.
+- **Keep authoring separate from deciding.** Executors reshaped titles that had encoded an
+  industry or a tool and dropped a connector type redundant with one already present.
+  Neither is visible from a candidate row; both are properties of the recipe after it is
+  written. Second run in a row where the executor stage caught what the recommendation
+  stage could not.
