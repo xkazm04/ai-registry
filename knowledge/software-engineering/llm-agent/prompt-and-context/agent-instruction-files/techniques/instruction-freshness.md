@@ -6,7 +6,7 @@ technique: instruction-freshness
 status: forged
 laws: [count-carries-predicate, unknown-is-not-a-value]
 shared_with: []
-use_when: [auditing an instruction file that has not been reviewed in months, an agent confidently followed guidance that turned out stale, deciding how to record a measured fact in the file, a refactor or stack bump landed and the file was not part of the change]
+use_when: [auditing an instruction file that has not been reviewed in months, an agent confidently followed guidance that turned out stale, deciding how to record a measured fact in the file, a refactor or stack bump landed and the file was not part of the change, the model behind the agent changed and no file did]
 ---
 
 # Instruction freshness
@@ -98,3 +98,25 @@ admits new lines — when an agent errs because the file misled it, the
 fix lands in the file in the same sitting, dated. A repo that only ever
 *adds* on failure and never *corrects* on failure is running half the
 loop, and the halves compound in opposite directions.
+
+**The reader can change while the file does not, and that is a coupling
+event too.** Every trigger above is a change to something the file *refers
+to*. The other half is a change to the thing that *reads* it: a model
+successor. Vendors now say so in their own migration guidance — a successor
+follows longer instructions more strongly, is more sensitive to instructions
+carried in skills and other files, and on unclear or conflicting guidance
+may pause and block work early — and at least one strongly recommends
+auditing every skill and instruction file at the switch. A file's
+restraint-versus-amplifier balance was calibrated against the previous
+reader's compliance; the successor reads the same words harder, so a
+prohibition that was a nudge becomes a stop, and two clauses a lenient
+reader reconciled silently become a conflict that halts work. Nothing in
+the tree changed, no audit class fires, and the drift is invisible until an
+agent stalls. So a model change — a harness default flipped, a pin in a
+skill's frontmatter, a vendor deprecation — joins the definition of done
+beside the stack bump: re-read the file against the new reader, and treat
+every model pin the file carries as an audited class like a version floor.
+A fleet that ran nine skills under two models on one day with identical
+inputs found the better model differed per skill in five of nine and pinned
+a model into three skill files as a result; a pin is a volatile fact, and
+an audit that does not know the class cannot see it age.

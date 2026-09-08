@@ -1,7 +1,7 @@
 ---
 subject: agent-instruction-files
 domain: software-engineering
-last_touched: 2026-09-05
+last_touched: 2026-09-08
 touched_by: deepen
 dry_streak: 0
 ---
@@ -589,3 +589,13 @@ not per person) and inherited the floor's cost without the floor's audit.
 `claude-code--context-reset-redelivery`: clock moved 2.1.252 -> 2.1.263; the
 reset-event enumeration gained a `fork` source, in-session scope re-resolution,
 a directory-added event and a staleness payload on resume.
+
+Touched by [[2026-09-08-awesome-gpt-6-astra]] (2026-09-08). `instruction-freshness`
+gained a paragraph in the coupling section: the reader can change while the file
+does not - a model successor is a coupling trigger, corroborated by a vendor's own
+migration guide (successor more sensitive to instruction files; audit them at the
+switch) and by convergence with a second vendor's earlier guidance. `use_when`
+gained "the model behind the agent changed and no file did". Applied as a
+three-case simulation on recorded events in this registry's skills lane
+(`process--instruction-freshness`, better as a prediction; the
+instrument named is a per-skill gate outcome recorded with the model that ran it).
