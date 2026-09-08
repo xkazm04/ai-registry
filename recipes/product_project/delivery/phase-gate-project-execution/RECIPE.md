@@ -1,0 +1,171 @@
+---
+name: phase-gate-project-execution
+version: 0.1.0
+status: seed
+domain: product_project
+path: product_project/delivery
+---
+
+# Phase gate project execution
+
+The rendered view of [`recipe.json`](recipe.json). When the two disagree, the JSON is
+right and this file is stale.
+
+**Need.** A gate is a date in a calendar and a list of criteria, and the two come apart
+under pressure: the date arrives, the evidence does not, and the criterion is marked met
+with a short qualifier after it. Nobody lied. Every item that passed pending something
+is carried into the next phase where it costs several times more to close, and because
+each individual carry looked small the project reports on schedule through four gates
+and then stops dead at the last one, with minutes showing a pass at every point and
+nobody able to name the gate that should have held it.
+
+**Input.** What this gate is meant to prove, the evidence each function actually
+produced against each criterion, the exceptions earlier gates carried forward and
+whether they closed, the dates the functions and outside partners committed to and when
+those were last confirmed, and the schedule pressure the decision is being taken under.
+
+**Core action.** Judge whether the evidence in hand genuinely satisfies each criterion
+or the project is being carried forward on confidence, and where it does not, choose
+deliberately between holding the project and advancing with a named, owned and dated
+exception, so the difference between the two is never left unspoken.
+
+**Output.** A gate decision on the record with the evidence weighed against each
+criterion, exceptions carried forward with an owner and a closure date, a running count
+of how much unclosed work the project is carrying, and a decision to hold recorded as
+fully and as unapologetically as a decision to pass.
+
+## Activities
+
+1. Restate what this gate is meant to prove before looking at what was produced
+*(observe)*
+2. Collect the evidence each function produced, and what earlier gates carried forward
+*(observe)*
+3. Test each criterion against its evidence rather than against its owner's confidence
+*(decide)*
+4. Separate what is genuinely closed from what is complete pending something *(decide)*
+5. Pass, hold, or advance with a named exception, and say which of the three it was
+*(act)*
+6. Give every open item and carried exception an owner and a closure date *(act)*
+7. Record the decision and its evidence where the next gate will read them back
+*(deliver)*
+
+Linear and branch-free, by contract. This is the shape of the work, not a runbook.
+
+## Outcomes
+
+**Every gate decision is one of three things a reader can tell apart: the criteria were
+met, the project was held, or it advanced on a stated exception.**
+
+- Each criterion carries the evidence it was judged against and a verdict, so a reader
+  can see what was weighed rather than only what was concluded.
+- Complete pending something is recorded as not met with the something named, never as
+  met, because that qualifier is the exact place where optimism enters the record and
+  stops being visible.
+- Advancing without a criterion met is recorded as an exception with an owner and a
+  closure date, which is a decision somebody made, rather than as a pass, which is a
+  fact that turns out not to be one.
+- A criterion that could not be judged because the evidence was never produced is
+  recorded as not judged, and is never absorbed into met on the grounds that nobody
+  raised a concern.
+- Criteria rewritten during the review to match what was produced are recorded as a
+  change to the gate with whoever approved it, because a gate that moves to meet the
+  evidence has stopped being a gate while still reporting like one.
+
+**Work carried past a gate is read back at the next one, so the project always knows how
+much unclosed work it is carrying.**
+
+- Every carried exception is reported at the following gate as closed or still open,
+  with its age in gates as well as in days.
+- The count of open exceptions is reported at every gate, since it is the only measure
+  of accumulated optimism and it is invisible when each is only ever discussed on its
+  own.
+- An exception from two gates ago that is still open blocks the next decision unless
+  somebody explicitly decides again to carry it, which puts the decision in front of a
+  person rather than letting time make it.
+- An exception closed by dropping the requirement rather than by satisfying it is
+  recorded as a scope change, because the two leave identical traces in a checklist and
+  mean opposite things.
+- A project with no open exceptions reports that plainly, so a genuinely clean gate is
+  distinguishable from one where nobody went back to look.
+
+**A date on the plan exists because the function that owes the work agreed to it, and
+where it does not, the plan says so.**
+
+- A date supplied by the project rather than by the function that will do the work is
+  marked as assumed, since an assumed date and a committed one look the same on a chart
+  and behave completely differently.
+- Every dependency on an outside partner carries the date it was last confirmed, because
+  a commitment confirmed before the scope changed and repeated in every deck since is
+  not a current commitment.
+- Silence from a function is reported as unconfirmed rather than read as agreement,
+  which is the default that quietly builds most late schedules.
+- A function that flags it cannot meet a date has that recorded against the gate at the
+  time it was said, so the later question of which decision caused the slip has an
+  answer rather than a set of recollections.
+
+## Guidance
+
+The date arriving and the evidence being ready are two different events, and the whole
+craft is refusing to treat them as one. Read the criterion, then read what was actually
+produced, not the owner's confidence in it. Complete pending something is not complete:
+say so, and if the project advances anyway make that an exception with a name and a
+date, not a pass. Then read the exceptions back at the next gate. Carried work is
+invisible one item at a time and decisive in aggregate.
+
+## Where this is worth adopting
+
+- A program that passed every gate on schedule and is now months late at the final one,
+  where each set of minutes records a pass and nobody can point at the gate that should
+  have held it.
+- A review that is scheduled before the work could possibly be finished, so its real
+  function is deciding what gets carried, and that function has never once been named
+  out loud in the meeting.
+- A cross-functional project whose timeline was built by the project manager alone,
+  where each function saw its own committed date for the first time in the gate deck.
+- A project that carried three small exceptions out of each early phase and now, near
+  launch, holds eleven, none of which has been re-read since the gate that created it.
+- An outside partner whose delivery date has appeared unchanged in every status report
+  for six months, from a confirmation given before two scope changes.
+- A team under pressure to advance where the honest answer is to hold, and the missing
+  artifact is a record of the hold that is as complete and as defensible as a pass would
+  have been.
+
+## Connector types
+
+`project_management`, `documentation`, `knowledge_base`.
+
+Types, never connectors. Adoption resolves each to any connector whose catalog
+`categories` include it. No connector-specific knowledge has been written for this
+recipe yet.
+
+## Recommended trigger
+
+`event`. A project reaching a decision point is what creates this work, and a review on
+a calendar that is not tied to one is a status meeting wearing a gate's name. The event
+worth waking on is the evidence assembling rather than the gate date arriving, because
+those two coming apart is the failure this recipe exists to catch: when the date fires
+first, the meeting decides what to carry instead of whether to advance.
+
+A recommendation is a default, not a binding: the adopter assigns the real trigger at
+adoption or later.
+
+## Personalization needs
+
+- What each gate is genuinely meant to prove in this organization, because the criteria
+  list is usually a checklist inherited from a different product and judging evidence
+  against the wrong question is worse than judging none.
+- Who is entitled to accept an exception and at what size, since the whole method rests
+  on advancing with a stated exception being a real decision made by somebody rather
+  than a formality the project awards itself.
+- Where the evidence for each criterion actually lives, because a gate review that
+  spends its time locating artifacts spends none of it judging them.
+- How much unclosed work this organization can genuinely absorb into a phase, as the
+  ceiling is a property of its capacity and a number copied from a methodology guide
+  will be either constantly breached or never reached.
+- How commitments from other functions and outside partners are made here, and what
+  counts as confirmation, since the difference between an assumed date and a committed
+  one is the whole content of the timeline.
+
+## Dependencies
+
+None.

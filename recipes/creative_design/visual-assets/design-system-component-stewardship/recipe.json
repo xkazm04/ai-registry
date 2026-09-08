@@ -1,0 +1,137 @@
+{
+  "id": "28c76777-e708-48a0-b449-c83c5003854b",
+  "slug": "design-system-component-stewardship",
+  "title": "Design system component stewardship",
+  "version": "0.1.0",
+  "status": "seed",
+  "path": "creative_design/visual-assets",
+  "domain": "creative_design",
+  "description": {
+    "need": "A library that is growing looks like a library that is working, and the two are opposites often enough that growth is the wrong signal to steward by. A component built for one project and adopted by nobody does not sit harmlessly unused: it becomes a second answer to a question the system already answered, so the next person finds two and picks one, and the fragmentation now carries the library's own name. The quieter half is invisible from inside: teams that cannot get what they need fork locally and ship, so the library's inventory stays clean while the real interfaces drift, and nothing in the library reports that it has stopped being the place people go.",
+    "input": "The needs arriving from projects, what the library already covers and how each part of it is actually used, the local forks and one off overrides teams have built around it, the accessibility floor the work is held to, and the record of which past promotions were adopted and which were not.",
+    "core_action": "Decide whether a need is met by a component that exists, by an extension of one, or by a new pattern promoted into the library, and weigh that call on who will actually adopt the result rather than on which option is cleanest to draw. A pattern with one consumer is a project decision wearing a system's authority, and promoting it costs more than leaving it where it is.",
+    "output": "A decision recorded against each need, including the ones answered by something that already existed, and a library whose parts each have named adopters, a stated accessibility floor, usage boundaries that say what the part is not for, and a migration path behind anything being retired. Where nothing was promoted, the pass still leaves a record of the demand it read and the forks it found."
+  },
+  "activities": [
+    {
+      "id": "read-demand",
+      "label": "Read the pending needs alongside the local forks teams have already built",
+      "kind": "observe"
+    },
+    {
+      "id": "test-fit",
+      "label": "Test whether what exists covers the need, stretches to cover it, or breaks",
+      "kind": "decide"
+    },
+    {
+      "id": "weigh-promotion",
+      "label": "Weigh whether a new pattern has enough real consumers to earn a place in the library",
+      "kind": "decide"
+    },
+    {
+      "id": "author",
+      "label": "Author or extend the component with its accessibility floor and its usage boundaries",
+      "kind": "act"
+    },
+    {
+      "id": "land",
+      "label": "Carry it into the projects that asked for it and give what it replaces a migration path",
+      "kind": "act"
+    },
+    {
+      "id": "record",
+      "label": "Record the decision and what the library learned about its own coverage",
+      "kind": "deliver"
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "one-answer-per-question",
+      "statement": "The system holds one answer to each question it claims to answer, and a second answer is a decision somebody made rather than an accident of two projects running at once.",
+      "success_criteria": [
+        "Every need is answered as reuse, extension or promotion, and the reuse answers are written down too, since a library whose record only holds the things it built cannot show that it prevented anything.",
+        "A pattern is promoted only against consumers that are named and real, not against a projection that other teams will want it later.",
+        "A local fork found in a project is read as evidence of a gap in the library and triaged as demand, rather than reverted as a violation, because reverting it removes the only honest report the library gets about where it falls short.",
+        "A component the library shipped that nothing adopted after a fair window is reported as a failed promotion and considered for removal, rather than left in place as inventory that makes the system look larger than it is.",
+        "A first pass with no usage history says so and decides on fit and stated demand, rather than presenting a guess about adoption as a measurement."
+      ]
+    },
+    {
+      "id": "accessible-by-construction",
+      "statement": "Accessibility is a property the component carries rather than a review a project has to remember to run.",
+      "success_criteria": [
+        "Each part states the conformance level it meets, the contrast and target size floors it holds, and the keyboard and assistive behaviour it guarantees.",
+        "An extension that would break the floor is refused as an extension and reopened as a different need, because a component that is accessible in three of its four variants is worse than four separate parts nobody assumed anything about.",
+        "A regression found in a project is traced to the library part or ruled out of it, so the fix lands once rather than in each consumer."
+      ]
+    },
+    {
+      "id": "change-does-not-strand-anyone",
+      "statement": "Changing the library is something consumers can follow rather than something that happens to them.",
+      "success_criteria": [
+        "A breaking change ships with the migration path and the notice period before it ships, not alongside the first project that hits it.",
+        "Deprecation names what replaces the part; a part with nothing to move to is not deprecated, it is unfinished business the library still owns.",
+        "A consumer still on the old part after the notice period is a conversation rather than a silent break, since a library that strands its adopters teaches every other team to fork instead."
+      ]
+    }
+  ],
+  "guidance": "The temptation is to judge a proposed component on how well it is designed. Judge it on who will use it. A component nobody adopts is worse than no component, because it fragments the system while claiming to unify it, and the fragmentation now carries the library's authority. Prefer the extension that keeps one answer over the new part that adds a second. Treat a local fork as the clearest report you get about where the library is failing.",
+  "use_cases": [
+    "A team running four client sites off one library, where each site has quietly added its own button variant and nobody can now say which one the library is supposed to teach.",
+    "A library that has doubled in size over a year while the number of parts the newest project actually reached for went down, and nobody has connected those two facts.",
+    "A designer being asked for a component that would take a day to build and that only one screen in one project will ever use, who needs a defensible reason to say no that is not simply a lack of time.",
+    "An organisation that has just committed to a public accessibility conformance level, where the library is the cheapest place to hold that promise and the most expensive place to discover it was never held.",
+    "A rebuild where an old component has to be retired across six live surfaces at once, and the previous attempt at this stalled because the notice arrived with the change rather than before it.",
+    "A two person team where the same person designs and builds, so the library has never had to explain itself to anyone, and a third person is about to join."
+  ],
+  "connector_types": [
+    "design",
+    "development",
+    "documentation"
+  ],
+  "recommended_trigger": {
+    "kind": "self_paced",
+    "rationale": "A single request cannot tell a one off from a pattern, and answering each one as it lands is exactly how a library fills with parts that have one consumer. The call is only sound when several needs and the forks already built around the library are read together, which is a judgement about when enough demand has accumulated rather than a date. Adoption and deprecation have no arriving event at all: nothing fires when a component stops being reached for."
+  },
+  "personalization_needs": [
+    "Which projects and surfaces the library actually governs, because a part promoted for a scope wider than the one the adopter controls is a rule nobody has agreed to follow.",
+    "The accessibility conformance level the work is held to and whether it is a legal obligation or an internal standard, since that decides what happens when the floor and a preferred colour or size collide.",
+    "How the adopter can see what is really being used, whether that is build time imports, a usage scan or nothing at all, because promotion and deprecation decisions made without it are guesses and should be labelled as such.",
+    "Who is allowed to promote a pattern into the library and who has to be told when one is retired, since stewardship without that boundary becomes either a bottleneck or a free for all, and both end in fragmentation."
+  ],
+  "dependencies": [],
+  "input_schema": [
+    {
+      "name": "min_consumers_for_promotion",
+      "type": "number",
+      "default": 2,
+      "min": 1,
+      "max": 5,
+      "description": "How many independent surfaces must genuinely need a pattern before it is promoted into the library. At one, every project decision becomes a system part and the library grows faster than anyone can hold it. Set it high and teams will have forked three or four times before the library catches up, and by then the fork is the standard and the promotion is a migration."
+    },
+    {
+      "name": "variant_budget",
+      "type": "number",
+      "default": 3,
+      "min": 2,
+      "max": 8,
+      "description": "How many variants one component may carry before the need is re read as two components. Below this, teams fork locally to get the case the library refused. Far above it, the component has an interface nobody can hold in their head, and picking the wrong variant becomes the most common way the system is used incorrectly."
+    },
+    {
+      "name": "deprecation_notice_cycles",
+      "type": "number",
+      "default": 2,
+      "min": 1,
+      "max": 6,
+      "description": "How many release cycles a part stays available after it is deprecated. Too short and consumers are stranded mid project, which teaches them to pin or fork and costs the library far more than the part was worth. Too long and the library carries two answers to the same question for a year, which is the exact fragmentation the deprecation was meant to end."
+    }
+  ],
+  "examples": [],
+  "lessons": [],
+  "provenance": {
+    "from_recipes": [],
+    "from_templates": [],
+    "source_template_id": "",
+    "notes": "Originated from a job-description derived recipe candidate (kp/recipe_candidates@0.1.0, jd:cal-004). The source supplied the inventory of the work; the judgment, the failure modes and the wording are this registry's."
+  }
+}

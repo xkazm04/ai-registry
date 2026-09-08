@@ -1,0 +1,138 @@
+{
+  "id": "501e1f50-e97e-4b10-b17c-7e96f6f2080d",
+  "slug": "accrual-and-prepaid-schedule-maintenance",
+  "title": "Accrual, prepaid and commission schedule maintenance",
+  "version": "0.1.0",
+  "status": "seed",
+  "path": "finance_accounting/spend-and-budget",
+  "domain": "finance_accounting",
+  "description": {
+    "need": "A schedule keeps working long after it stopped being true. This period's amount looks right because it equals last period's, so a prepaid amortizes evenly to a term that was renegotiated in the spring, an accrual is reversed and re-booked at the original guess months after the invoice arrived at a different number, and a commission sits accrued on revenue that was clawed back. Nothing is missing and nothing fails to foot, which is why the error is confident: the arithmetic is checked every month and the basis has not been checked since the schedule was created.",
+    "input": "The open prepaid, accrual, royalty and commission schedules with their opening balances, the contracts and rate agreements that govern them, evidence of what was actually delivered, consumed or earned in the period, the invoices and payments that have landed since the last estimates were set, and the variance between those earlier estimates and the actuals that eventually replaced them.",
+    "core_action": "Judge how much of each obligation and each deferred cost belongs to this period on the basis of what actually happened, not on the pattern the schedule has been repeating, and state what each estimate rests on so a later actual can be measured against it. The call people get wrong is treating a straight line as the default rather than as a claim that consumption is even.",
+    "output": "Schedules rolled forward with opening, movement and closing balances agreeing to the ledger, each period amount carrying the basis that produced it, prior estimates trued up against the actuals that have since landed, and balances released where the thing they represented no longer exists. A period in which nothing changed still records that each schedule was re-tested against its governing terms, so an untouched balance is distinguishable from an unexamined one."
+  },
+  "activities": [
+    {
+      "id": "open-schedules",
+      "label": "Take the open schedules with the contracts and rate terms that govern them",
+      "kind": "observe"
+    },
+    {
+      "id": "retest-basis",
+      "label": "Re-test each schedule against what was delivered, consumed or earned this period",
+      "kind": "decide"
+    },
+    {
+      "id": "set-estimates",
+      "label": "Set the amount where the actual is not yet known and name what the estimate rests on",
+      "kind": "decide"
+    },
+    {
+      "id": "true-up",
+      "label": "True up earlier estimates against the actuals that have since landed",
+      "kind": "act"
+    },
+    {
+      "id": "post-entries",
+      "label": "Post the period entries and release balances that no longer represent anything",
+      "kind": "act"
+    },
+    {
+      "id": "roll-forward",
+      "label": "Leave each schedule rolled forward and agreeing to the trial balance",
+      "kind": "deliver"
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "period-amount-reflects-the-period",
+      "statement": "What lands in the period is what was earned or consumed in it, not what the schedule was in the habit of posting.",
+      "success_criteria": [
+        "A prepaid whose underlying contract was terminated, re-scoped or never delivered is written down when that is known, rather than amortized to the original term because the term is what the schedule holds.",
+        "An amortization pattern other than straight line is used where consumption is uneven, and where a straight line is kept the schedule records that even consumption was checked rather than assumed.",
+        "An accrual is not re-booked at the previous estimate once an invoice, statement or usage record makes a better figure available.",
+        "A commission or royalty accrual carries the reversal and clawback terms of its own agreement, so an amount earned on revenue that can still be reversed is not treated as settled."
+      ]
+    },
+    {
+      "id": "estimates-are-calibrated-not-repeated",
+      "statement": "Every estimate is measured against the actual that eventually replaces it, and that comparison is what sets the next one.",
+      "success_criteria": [
+        "The variance between each prior estimate and its landed actual is retained, so a schedule that is consistently high or low is visible as a bias rather than as a run of unrelated true ups.",
+        "A first period with no history states that the estimate is uncalibrated and what it was based on instead, rather than presenting an opening guess with the same confidence as a tested one.",
+        "A true up that arises from a genuine change in price, volume or terms is recorded as that, and not folded into estimate variance where it would corrupt the calibration of every future period.",
+        "A one off actual far outside the pattern is examined before it is allowed to reset the run rate, since a single duplicated or annual invoice will otherwise govern the next several periods."
+      ]
+    },
+    {
+      "id": "nothing-lingers-unexamined",
+      "statement": "A balance that no longer represents a future benefit or a real obligation does not survive another roll forward.",
+      "success_criteria": [
+        "Schedules whose balance has not moved for an extended run are re-tested against their contract rather than carried, since an unchanging balance is the shape both of a dormant asset and of a live one.",
+        "Every closing balance is supported by a remaining term, a remaining obligation or a remaining entitlement that can be named, and one that cannot is proposed for release.",
+        "A release or write off is posted as its own identifiable entry with a reason, never absorbed into the period's ordinary amortization where it becomes invisible in the movement."
+      ]
+    }
+  ],
+  "guidance": "The danger in a schedule is that it keeps working. Each period's amount looks right because it matches the last one, long after the contract was re-scoped or the invoice arrived at a different number. Re-test the basis, not the arithmetic. A straight line is a claim that consumption is even, and where it is not the claim is wrong. Look back at what earlier estimates turned out to be worth: an estimate nobody has ever compared against an actual is a habit rather than a judgment.",
+  "use_cases": [
+    "A company whose prepaid schedule was built during a growth year and now carries software and marketing commitments that were quietly cancelled or renegotiated without anyone telling the accountant.",
+    "A sales organization with tiered commissions and clawback terms, where the amount owed depends on what happens after the period being closed and the accrual is currently a flat percentage of bookings.",
+    "A publisher or licensor running royalty statements that arrive a quarter in arrears, so every period closes on an estimate and nobody has yet checked how far the estimates have been landing from the statements.",
+    "A team that inherited a set of spreadsheets from a departed colleague and can foot every one of them but cannot say why several of the balances are the size they are.",
+    "The period before an audit or a diligence process, where the question stops being whether the schedules foot and becomes whether each remaining balance still represents something that exists."
+  ],
+  "connector_types": [
+    "finance",
+    "spreadsheet",
+    "database",
+    "documentation"
+  ],
+  "recommended_trigger": {
+    "kind": "time",
+    "rationale": "The judgment here is defined by a period boundary: what belongs to this period against what carries into the next. There is no external event that says an obligation has been incurred or a benefit consumed, and waiting for an invoice to signal it is precisely the failure the work exists to prevent, because the invoice arrives after the period it belongs to. The cadence therefore is the reporting period itself, run early enough that a true up can still be posted before the ledger locks."
+  },
+  "personalization_needs": [
+    "The contract terms behind each schedule and where they are kept, since every amount in this work is a reading of an agreement and a schedule maintained without access to its agreement can only repeat itself.",
+    "How consumption actually behaves for this adopter's major prepaids, because the difference between an evenly consumed support contract and a usage drawn commitment is the difference between a defensible amortization and a plausible looking one.",
+    "The commission and royalty rules in force including reversal and clawback terms, which vary by plan and by period and cannot be inferred from the amounts previously posted.",
+    "How long this adopter's invoices and third party statements typically take to arrive, because that lag determines how much of the period is genuinely estimated and how long a true up should be expected to stay open.",
+    "Who may approve a write off or release, given that the natural end state of this work is proposing that a balance somebody created should now disappear."
+  ],
+  "dependencies": [],
+  "input_schema": [
+    {
+      "name": "estimate_lookback_periods",
+      "type": "number",
+      "default": 3,
+      "min": 1,
+      "max": 12,
+      "description": "How many past periods of estimate against actual variance are weighed when setting this period's amount. Too few and one anomalous or duplicated invoice sets the run rate; too many and a genuine change in price or volume takes half a year to work through, so the schedule is calibrated against a world that has ended."
+    },
+    {
+      "name": "amount_variance_query_percent",
+      "type": "number",
+      "default": 20,
+      "min": 5,
+      "max": 100,
+      "description": "How far this period's amount may drift from what the schedule's own basis predicts before it is queried rather than posted. Set too tight and every ordinary renewal becomes a question until the questions are ignored; set too loose and a doubled accrual or a missed termination posts silently and is only found when the balance is large."
+    },
+    {
+      "name": "dormant_balance_review_periods",
+      "type": "number",
+      "default": 3,
+      "min": 1,
+      "max": 24,
+      "description": "How many periods a balance may sit unchanged before it is re-tested against its contract instead of rolled forward. Too long and dead prepaids accumulate as assets nobody is looking at; too short and long dated commitments are re-examined every close for no gain, which is the fastest way to make the review perfunctory."
+    }
+  ],
+  "examples": [],
+  "lessons": [],
+  "provenance": {
+    "from_recipes": [],
+    "from_templates": [],
+    "source_template_id": "",
+    "notes": "Originated from a job-description derived recipe candidate (kp/recipe_candidates@0.1.0, jd:cal-005). The source supplied the inventory of the work; the judgment, the failure modes and the wording are this registry's."
+  }
+}

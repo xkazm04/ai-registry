@@ -1,0 +1,172 @@
+---
+name: inventory-count-and-on-hand-reconciliation
+version: 0.1.0
+status: seed
+domain: operations_logistics
+path: operations_logistics/inventory
+---
+
+# Inventory count and on-hand reconciliation
+
+The rendered view of [`recipe.json`](recipe.json). When the two disagree, the JSON is
+right and this file is stale.
+
+**Need.** A miscount, a unit sitting in the wrong bin, a receipt that was never posted
+and a genuine theft all arrive as the same line: the shelf and the record disagree by
+four. The cheapest response is to make them agree, and posting that adjustment destroys
+the only evidence of which of the four it was. So the numbers look excellent for a week
+after every count and drift back within the month, the shrink figure grows every year
+with nothing behind it, and the operation ends up counting harder rather than fixing the
+one door, shift or bin that is actually leaking.
+
+**Input.** The recorded on-hand for the items and locations being counted, the physical
+count taken against them, every movement posted since the last count plus the receipts
+and transfers still in flight, and the history of how often this location and this item
+have disagreed before.
+
+**Core action.** Decide what a variance actually is, a miscount, a misplaced unit, a
+movement that was never recorded, or a real loss, and correct the record only once that
+cause is established; a variance with no cause is escalated as unexplained rather than
+adjusted away.
+
+**Output.** A set of on-hand corrections each carrying the cause that justified it, a
+named list of variances deliberately left open because no cause was established, and a
+standing record of which locations and items keep drifting regardless of who counted
+them, which is the finding the adjustments themselves erase.
+
+## Activities
+
+1. Pick what to count from value at risk and the drift history of each location
+*(observe)*
+2. Count physically, blind to the quantity the record expects *(observe)*
+3. Compare against the recorded on-hand and against the movements still in flight
+*(observe)*
+4. Establish what each variance is before deciding what to do about it *(decide)*
+5. Recount blind where a miscount is plausible, before any record is touched *(act)*
+6. Post a correction only where a cause was established, and carry that cause with it
+*(act)*
+7. Hand the unexplained variances and the repeatedly drifting locations to whoever can
+act on them *(deliver)*
+
+Linear and branch-free, by contract. This is the shape of the work, not a runbook.
+
+## Outcomes
+
+**The record is changed because somebody established why it was wrong, never because
+changing it is how the variance list gets cleared.**
+
+- Every posted correction names a cause from a small closed set, because a cause chosen
+  from a type can be counted and acted on later and free text cannot.
+- A variance whose cause could not be established is left open and reported as
+  unexplained, rather than posted so that the record and the shelf agree, which is the
+  adjustment that looks like accuracy and produces none.
+- A suspected miscount is answered with a blind recount before the record moves, since
+  adjusting on the strength of a single count writes the count's own error into the
+  system as fact.
+- The count is taken without the expected quantity in view, because a counter shown the
+  number counts to it and the resulting agreement is evidence of nothing.
+- A unit found in the wrong location is recorded as a movement between locations, not as
+  a loss in one and a find in the other, which would write off stock the building still
+  has and inflate the shrink figure by twice the quantity.
+- A variance that matches a receipt or transfer still in flight is recorded as a timing
+  difference and closed without an adjustment, because posting it corrects the record
+  twice once the movement lands.
+
+**A location or item that keeps disagreeing is visible as a pattern, even where every
+individual variance was small enough to post without comment.**
+
+- Variance is kept per location and per item across counts, so recurrence is a property
+  that survives the correction that made each instance disappear.
+- An over and an under of the same size at one location are reported as two errors,
+  never netted, because a location that nets to zero and disagrees every single count is
+  one of the least accurate places in the building and reads as one of the best.
+- Recurring drift is escalated as a process failure naming the pattern, a receiving
+  door, a shift, a bin, a substitution between similar items, rather than as a shrink
+  total that names nothing anyone can act on.
+- A location whose drift stopped after a change is reported as such, so an operational
+  fix is distinguishable from a run of luck rather than being noticed only if it starts
+  again.
+
+**The counting that gets done is the counting most likely to find something, rather than
+an even rotation that spends the same effort everywhere.**
+
+- Selection is driven by value at risk and by past drift, so a fast moving item in a
+  location that disagrees monthly is counted more often than a stable one of equal
+  value.
+- A first pass with no drift history says it is establishing one and selects on value
+  and movement alone, rather than presenting an even sweep as a risk based plan.
+- An item counted and found correct several times lengthens its own interval, because
+  effort left on a bin that never disagrees is effort taken from one that does.
+- A location that has not been counted at all within the period is reported as
+  uncounted, never rolled into an accuracy figure as if it had passed.
+
+## Guidance
+
+The variance is not the finding. What the variance is caused by is the finding, and the
+adjustment that makes it disappear is what destroys it. Count blind, compare against
+what is still in flight before assuming anything is missing, and recount before touching
+a record. Post only with a cause, and leave the rest open and named rather than clean.
+Then keep the thing nobody keeps: which locations disagree again and again, since that
+survives the corrections and is where the real loss lives.
+
+## Where this is worth adopting
+
+- An operation whose replenishment triggers off recorded on-hand, where a phantom
+  quantity on a fast selling item silently stops the reorder and the shelf stays empty
+  for a week while the system reports stock available.
+- A team that closes its variance list before period end by posting everything
+  unresolved as shrink, so the shrink number grows year over year and not one line of it
+  can be traced to a cause anyone could fix.
+- A building where the same item lives in two locations and a large share of every
+  count's variances are units sitting one aisle over, being written off in one place and
+  found in another.
+- An operation moving from one annual wall to wall count, which produced a number too
+  big to explain and too late to act on, toward counting during the year and needing to
+  know what to count first.
+- A site that has just changed its receiving process, where nobody can yet say whether
+  the counts were drifting before the change or because of it, and the drift history is
+  the only thing that could answer it.
+- A single operator whose ordering decisions rest entirely on the on-hand figure, who
+  needs to know which numbers to trust rather than a global accuracy percentage that is
+  true on average and wrong where it matters.
+
+## Connector types
+
+`database`, `spreadsheet`, `bi`.
+
+Types, never connectors. Adoption resolves each to any connector whose catalog
+`categories` include it. No connector-specific knowledge has been written for this
+recipe yet.
+
+## Recommended trigger
+
+`self_paced`. A fixed rotation spends the same effort on a bin that has never disagreed
+as on the one that leaks every month, which is why counting programs grow in cost
+without improving accuracy. Look where value at risk and drift history point, and bring
+a count forward when something changed the odds: a large receipt, a location
+reorganized, a run of variances on neighbouring items. A financial calendar may impose a
+full count of its own, and that is a separate obligation rather than this work's rhythm.
+
+A recommendation is a default, not a binding: the adopter assigns the real trigger at
+adoption or later.
+
+## Personalization needs
+
+- Which causes actually exist in this operation and which of them anyone can do
+  something about, because the closed set of reason codes is what makes recurrence
+  countable and a set copied from elsewhere collects everything under other.
+- What a material variance is here in value rather than units, since one unit of a high
+  value item and a hundred of a low value one deserve very different investigation and a
+  unit based threshold treats them alike.
+- How late movement postings typically run in this system, because a variance measured
+  against a receipt that has not landed yet is a timing artifact and will otherwise be
+  investigated as a loss every single count.
+- Who is allowed to post a correction without an established cause and who is not, given
+  that the entire value of this work rests on that permission being narrow.
+- How long an unexplained variance may stay open before it is escalated, because too
+  short turns investigations back into adjustments and too long leaves the record
+  knowingly wrong while the operation plans against it.
+
+## Dependencies
+
+None.

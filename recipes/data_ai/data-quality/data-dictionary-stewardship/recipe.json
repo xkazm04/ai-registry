@@ -1,0 +1,146 @@
+{
+  "id": "2e7c6b50-966c-49c4-906c-7cccd53435c5",
+  "slug": "data-dictionary-stewardship",
+  "title": "Data dictionary stewardship for shared fields and metrics",
+  "version": "0.1.0",
+  "status": "seed",
+  "path": "data_ai/data-quality",
+  "domain": "data_ai",
+  "description": {
+    "need": "A dictionary is easy to produce and fails quietly, because the definitions everyone agrees to are the ones nobody was disputing. The term that costs money is the one two teams use confidently in different senses, an active user, revenue, closed, where each number is correct inside the reasoning that produced it and the gap is only visible the day both land on the same page. Writing one definition over that does not settle it: it makes the other team's existing reports wrong without giving them any way to notice.",
+    "input": "The fields and metrics actually referenced by shared queries, reports and downstream consumers, the derivation each is computed by in every place it is computed, whatever definitions already exist and where they disagree with the code that runs, who gets asked when a number looks wrong, and what has previously been ruled.",
+    "core_action": "Rule what a shared term authoritatively means, with the derivation that produces it and the owner who may change it, and judge which kind of collision is in front of you: two teams misusing one term, which a ruling settles, or two genuinely different measures wearing one name, which is settled by splitting the name and migrating one side rather than by picking a winner.",
+    "output": "Definitions for the shared terms carrying their derivation, their allowed values, the owner who may change them and the date the meaning was last ruled on; each collision closed either by a ruling that names what the losing usage must change, or by two distinct terms where there was one; and, when a pass finds nothing to move, a dated record that the shared terms were re-read, so a dictionary that is current is distinguishable from one nobody has opened in a year."
+  },
+  "activities": [
+    {
+      "id": "scope-shared",
+      "label": "Take the terms shared across teams rather than every column in the warehouse",
+      "kind": "observe"
+    },
+    {
+      "id": "read-derivations",
+      "label": "Read how each term is actually derived at every place it is computed",
+      "kind": "observe"
+    },
+    {
+      "id": "classify-collision",
+      "label": "Separate terms that disagree in wording from terms that measure different things",
+      "kind": "decide"
+    },
+    {
+      "id": "rule-meaning",
+      "label": "Rule the meaning, or split a genuine collision into two named terms",
+      "kind": "decide"
+    },
+    {
+      "id": "bind-owner",
+      "label": "Name the owner who may change each definition and what a change obliges them to announce",
+      "kind": "act"
+    },
+    {
+      "id": "publish",
+      "label": "Publish the ruled definitions where the consumers of these numbers actually look",
+      "kind": "deliver"
+    },
+    {
+      "id": "record-pass",
+      "label": "Record that the shared terms were re-read and what was covered, including when nothing moved",
+      "kind": "deliver"
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "one-meaning-or-two-names",
+      "statement": "A shared term has a single authoritative meaning, or it has been split into two terms that each have one.",
+      "success_criteria": [
+        "Each definition carries the derivation that produces the number, not only a sentence describing it, so a consumer can tell whether their own query computes the same thing.",
+        "A collision where the two sides genuinely measure different things is resolved by giving them different names and migrating one usage, rather than by a single definition that silently invalidates one team's existing reports.",
+        "A ruling names what the losing usage must change and by when; a ruling with no migration attached is recorded as unenforced rather than as settled.",
+        "A term used in one place by one team is left out rather than defined for completeness, because a dictionary that grows past what anybody reads stops being read at all.",
+        "A definition contradicted by the derivation that actually runs is raised for a person to rule on, and is never corrected silently toward either side, since either direction changes somebody's published number."
+      ]
+    },
+    {
+      "id": "every-definition-has-someone-who-can-change-it",
+      "statement": "A definition can be challenged and changed by a named person, and a change reaches the people whose numbers move.",
+      "success_criteria": [
+        "Each definition names an owner with the authority to rule on it; an ownerless definition is reported as ownerless rather than attributed to whoever last typed it.",
+        "A change to a definition is dated and announced to the consumers it moves, so a report that changed value is explained rather than investigated as a data incident.",
+        "A field whose name implies something its derivation does not measure is raised as a rename candidate even when its written definition is accurate, because the name is what most consumers ever read.",
+        "A meaning ruled here that a downstream contract, regulator or public report already fixes is recorded as constrained by that, rather than re-decided on internal preference."
+      ]
+    },
+    {
+      "id": "the-dictionary-stays-small-enough-to-be-true",
+      "statement": "The effort goes to the terms whose ambiguity actually costs something, and a quiet pass is still evidence.",
+      "success_criteria": [
+        "A first pass ranks terms by how many independent consumers depend on them and defines that head, rather than attempting the whole surface and shipping a dictionary that is complete on the columns nobody queries.",
+        "A pass that re-read the shared terms and found nothing to rule leaves a dated record of what it covered, so silence is not read as either currency or abandonment.",
+        "A term that has stopped being shared, because the consumers that referenced it are gone, is retired from the dictionary with that reason, not carried forward because removing it feels like losing documentation."
+      ]
+    }
+  ],
+  "guidance": "Define only what is shared: a dictionary that documents every column is abandoned before it is useful. Read the derivation that actually runs rather than the sentence somebody wrote about it, and treat a collision as a question before it is a ruling. Two teams misusing one term is settled by deciding; two different measures wearing one name is settled by splitting it, and forcing one definition over that case just makes one team wrong without telling them. Every definition names who may change it.",
+  "use_cases": [
+    "A weekly leadership pack where two teams report an active user count that differs by a fifth, and each figure is correct inside the query that produced it.",
+    "A warehouse migration where the same metrics are being reimplemented, and the only cheap moment to settle what they mean is before the new derivations are written.",
+    "A finance team and a product team both using closed, one meaning the deal is signed and the other meaning the record stopped changing, in reports that end up side by side.",
+    "An analyst leaving, taking with them the reason a revenue column excludes one customer type, which nothing in the schema, the column name or the transformation records.",
+    "A dictionary produced during a governance push, still published and still linked in onboarding, that now disagrees with the transformations running every night."
+  ],
+  "connector_types": [
+    "database",
+    "knowledge_base",
+    "analytics"
+  ],
+  "recommended_trigger": {
+    "kind": "event",
+    "rationale": "The moments that produce a correct ruling are events: a discrepancy surfacing between two reports, a derivation being rewritten, a term crossing out of one team's queries into a shared surface. A scheduled review re-reads whatever was easiest to re-read and reliably misses the collisions that matter, because a collision announces itself as an argument about a number and not as a date. A periodic sweep is worth keeping only as a backstop against a dictionary nobody has opened."
+  },
+  "personalization_needs": [
+    "Which terms are genuinely shared in this operation, since that boundary sets the dictionary's size and the size decides whether anyone reads it.",
+    "Who is empowered to rule when two teams disagree, because stewardship with no escalation route produces well documented disagreements and no decisions.",
+    "Where the consumers of these numbers actually look a meaning up, given that a definition published somewhere else loses every time to the sentence somebody half remembers.",
+    "How a definition change is announced here, because a number that moves with no notice attached is investigated as an incident, and that investigation costs more than the change did.",
+    "Which meanings are fixed by an outside obligation, a contract, a regulator or a published figure, since those are not available to be ruled on internally however inconvenient they are."
+  ],
+  "dependencies": [],
+  "input_schema": [
+    {
+      "name": "shared_term_threshold",
+      "type": "number",
+      "default": 2,
+      "min": 1,
+      "max": 10,
+      "description": "How many independent consumers must reference a term before it earns an authoritative definition. At one, every column in the warehouse is in scope and the dictionary outgrows its readership; raise it and genuinely contested terms stay out of scope until they have already caused an argument."
+    },
+    {
+      "name": "collision_resolution",
+      "type": "enum",
+      "options": [
+        "rule_one_meaning",
+        "split_when_measures_differ",
+        "always_escalate"
+      ],
+      "default": "split_when_measures_differ",
+      "description": "How a term two teams use differently is settled. Ruling one meaning is fastest and is only correct when one side is plainly misusing the term. Splitting keeps both measures and costs a migration nobody budgeted. Always escalating is the right setting where the numbers are externally reported and nobody running the pass carries the authority to decide."
+    },
+    {
+      "name": "definition_recheck_days",
+      "type": "number",
+      "default": 90,
+      "min": 30,
+      "max": 365,
+      "description": "A backstop for re-reading definitions that no event has forced a question about. Too short and the pass becomes a documentation chore whose findings are all cosmetic, which is how stewardship loses its audience; too long and a definition contradicted by a derivation change sits published and trusted."
+    }
+  ],
+  "examples": [],
+  "lessons": [],
+  "provenance": {
+    "from_recipes": [],
+    "from_templates": [],
+    "source_template_id": "",
+    "notes": "Originated from a job-description derived recipe candidate (kp/recipe_candidates@0.1.0, jd:cal-016). The source supplied the inventory of the work; the judgment, the failure modes and the wording are this registry's."
+  }
+}

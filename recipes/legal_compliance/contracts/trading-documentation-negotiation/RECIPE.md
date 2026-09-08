@@ -1,0 +1,168 @@
+---
+name: trading-documentation-negotiation
+version: 0.1.0
+status: seed
+domain: legal_compliance
+path: legal_compliance/contracts
+---
+
+# Trading documentation negotiation and concession control
+
+The rendered view of [`recipe.json`](recipe.json). When the two disagree, the JSON is
+right and this file is stale.
+
+**Need.** A concession looks free at the moment it is granted, because the party asking
+for it is present and the risk that pays for it is not. The failure is not a term nobody
+noticed: it is a suite of signed agreements, every one of them individually defensible,
+where the same widened threshold and the same softened termination right were granted
+counterparty after counterparty because no one was counting. What looks like the work
+succeeding is that nothing was blocked and everything is on file, which is also what a
+portfolio that has drifted outside its own tolerance looks like from the outside.
+
+**Input.** The departures the counterparty is asking for against the standard document
+suite, the fallback positions the firm has already decided it will accept for each, the
+credit, legal, regulatory and operational tolerances and who owns each of them, what
+this counterparty and comparable ones were granted before, and the trading the paper is
+meant to enable.
+
+**Core action.** For each requested departure, decide whether it can be accepted as
+drafted, reshaped onto a fallback the firm already publishes, traded against something
+the firm wants back, or escalated to the person who owns the tolerance it would spend,
+weighing the ask against that tolerance and against the precedent it sets across the
+book rather than against how soon the desk wants to trade.
+
+**Output.** An executed suite where every departure from the standard position is either
+inside a stated tolerance or carries a named owner's decision to go outside it, each
+recorded with the reason and with whatever was received in exchange, and where a
+negotiation that conceded nothing still leaves an entry saying the standard terms held,
+so the concessions across a book can be counted rather than reconstructed.
+
+## Activities
+
+1. Take in the departures being asked for against the standard suite for this
+relationship *(observe)*
+2. Read what this counterparty and comparable ones were already granted *(observe)*
+3. Judge which tolerance each departure spends and how far outside it lands *(decide)*
+4. Decide for each ask: accept as drafted, reshape onto a published fallback, or trade
+it against something wanted back *(decide)*
+5. Put the asks that exceed a tolerance to the owner who can actually spend it *(act)*
+6. Mark up the language so the paper says the position that was agreed and not the
+intention behind it *(act)*
+7. Record each departure with its decision, its owner and what was received for it
+*(deliver)*
+8. Execute and file the suite so the terms in force are the terms anyone can read
+*(deliver)*
+
+Linear and branch-free, by contract. This is the shape of the work, not a runbook.
+
+## Outcomes
+
+**No agreement is executed carrying a term outside a stated tolerance unless a person
+who owns that tolerance decided to go outside it.**
+
+- Every requested departure is answered with which tolerance it spends, credit, legal,
+  regulatory or operational, rather than with a general impression that it is market
+  standard.
+- A departure that lands beyond the fallback ladder the firm published is escalated to
+  the tolerance owner rather than settled by the negotiator, and the escalation names
+  the tolerance rather than only the clause.
+- Trading urgency is recorded as pressure and never as authority: a term conceded
+  because the desk needed to trade this week is still an escalation, and it reads as one
+  afterwards.
+- A first negotiation with a counterparty that has no history is treated as having no
+  precedent rather than as having a clean one, because an empty record is not evidence
+  that the ask has been fine elsewhere.
+- An owner's decision to grant one departure is recorded as a decision about that
+  relationship, not absorbed into the standard position, since a standard that moves
+  every time a tolerance owner says yes once is no longer a standard anyone is holding.
+
+**Someone can ask what this institution has actually agreed to across its counterparties
+and get an answer from the record rather than from memory.**
+
+- Each executed departure is recorded in the same terms as the standard it departs from,
+  so the same concession granted to eight counterparties is visible as one pattern
+  instead of eight one offs.
+- A negotiation that ended on standard terms leaves a record that it did, so a
+  counterparty with no entries is distinguishable from one nobody documented.
+- A concession that repeats across counterparties is carried back as a question about
+  whether the standard position is still one this firm will hold out for, rather than
+  counted a ninth time.
+- What was received in exchange for a concession is recorded beside it, because a trade
+  with the return half missing is a concession that was described as a trade.
+
+**The agreements in a relationship say compatible things, so a right in one document is
+not disabled by a definition in another.**
+
+- A negotiated change is checked against the other documents in the same relationship,
+  since a threshold agreed in one annex can quietly make a remedy in the master
+  unusable.
+- Where a negotiated term relies on a definition, the definition actually in force
+  between these parties is the one checked, not the version the standard suite assumes.
+- An amendment or a side letter is read together with what it amends, and a suite where
+  the underlying document cannot be located is reported as incomplete rather than
+  negotiated as if it were whole.
+
+## Guidance
+
+Price the ask before answering it. Every departure spends a named tolerance, and the
+question is whose and how much, not how badly the desk wants to trade. A concession
+granted for nothing will be granted again, so reshape it onto a fallback the firm
+already published or ask for something back. Escalate instead of approximating when the
+ask exceeds a tolerance you do not own. Then write down what was traded and why, because
+a book of concessions nobody counted is an exposure nobody can price.
+
+## Where this is worth adopting
+
+- An institution whose standard suite was written once and has been marked up by every
+  counterparty since, where nobody can currently say which of the standard positions
+  still survives in practice.
+- A negotiation running against a trading start date, where the pressure to close is
+  highest on exactly the terms whose cost only appears in a stressed market months
+  later.
+- A team where credit, legal and operational tolerances are owned by three different
+  people who each see only the clauses addressed to them, so an ask that is small in
+  each of the three is approved by all of them.
+- An onboarding of a counterparty type the firm has not papered before, where the
+  absence of precedent is easily mistaken for the absence of a problem.
+- A relationship being repapered after a regulatory change, where the risk is not the
+  new clause but an old side letter that quietly survives the exercise.
+
+## Connector types
+
+`documentation`, `knowledge_base`, `storage`, `email`.
+
+Types, never connectors. Adoption resolves each to any connector whose catalog
+`categories` include it. No connector-specific knowledge has been written for this
+recipe yet.
+
+## Recommended trigger
+
+`event`. The work begins when a counterparty asks for something: a markup lands, a term
+sheet arrives, a relationship is repapered. There is nothing to negotiate before that,
+and once it has happened the counterparty is waiting, so a scheduled sweep adds delay
+without adding judgment. The aging of an open negotiation is a consequence of the same
+record rather than a second occasion to run the work.
+
+A recommendation is a default, not a binding: the adopter assigns the real trigger at
+adoption or later.
+
+## Personalization needs
+
+- The standard suite and the fallback ladder beneath each position, because without a
+  published fallback the recipe has nothing to reshape an ask onto and degrades into one
+  negotiator's sense of what is market.
+- Which tolerance each kind of departure spends and who owns it, since escalation only
+  means something when it reaches the person who can actually decide to spend that
+  tolerance.
+- The precedent set the adopter considers comparable, because the same counterparty, the
+  same counterparty type and the same product produce three different answers to what
+  has been granted before.
+- Which agreements make up a relationship here, since a negotiated term is only safe
+  once the other documents it interacts with are known to have been read.
+- What the adopter wants to happen when trading pressure and tolerance disagree, because
+  that is a governance decision and treating it as a technical default is how urgency
+  becomes authority.
+
+## Dependencies
+
+None.

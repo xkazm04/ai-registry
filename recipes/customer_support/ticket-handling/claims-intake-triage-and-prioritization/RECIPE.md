@@ -1,0 +1,154 @@
+---
+name: claims-intake-triage-and-prioritization
+version: 0.1.0
+status: seed
+domain: customer_support
+path: customer_support/ticket-handling
+---
+
+# Claims correspondence intake and deadline triage
+
+The rendered view of [`recipe.json`](recipe.json). When the two disagree, the JSON is
+right and this file is stale.
+
+**Need.** Most items in a claims queue do not say when they are due. The window is
+implied by what kind of document it is and it starts from the date the sender issued it,
+not the date it reached the queue, so a queue worked in arrival order is a queue ordered
+by the post and by whoever scanned it. Everything in it is marked important, so a worker
+clearing the top steadily is as late on the determination with a short appeal window as
+on the questionnaire nobody is waiting for, and the queue looks healthy the whole time
+because it is moving.
+
+**Input.** The inbound items and whatever can be read out of them, the response window
+each document type carries and which date on the form starts it, the open cases with
+their current state and owner, and what is already sitting in the queue with how long it
+has been there.
+
+**Core action.** Read each item for what kind of document it is and which clock its
+issue date started, attach it to the case it belongs to or say plainly that it could not
+be attached, and order the queue by how little time is left to act after subtracting how
+long that response actually takes to prepare, rather than by arrival, by the urgency the
+sender claimed, or by which items clear fastest.
+
+**Output.** A queue where every item is typed, attached to a case, dated from the window
+that governs it and given a handler who can act; where the items that could not be
+matched are visible as unmatched rather than quietly absent; and where a pass that found
+nothing near its window still records that it looked, so a calm queue is distinguishable
+from a triage that stopped running.
+
+## Activities
+
+1. Take in each inbound item and get its document and its issuing date out of it
+*(observe)*
+2. Identify the document type and the response window that type carries *(decide)*
+3. Attach the item to its case, or mark it unmatched rather than settling for a likely
+one *(decide)*
+4. Set the deadline from the issuing date and the governing window, not from when it
+arrived *(decide)*
+5. Order the queue by time left after subtracting how long that response takes to
+prepare *(act)*
+6. Put each item with a handler who can actually act on it *(act)*
+7. Record what was triaged, what is unmatched and what is aging toward its window
+*(deliver)*
+
+Linear and branch-free, by contract. This is the shape of the work, not a runbook.
+
+## Outcomes
+
+**The item at the top of the queue is the one with the least time left to act, measured
+from the date the window actually started.**
+
+- A deadline is computed from the date the sender issued the document, so a slow
+  delivery shortens the time left rather than resetting it.
+- An item whose issuing date cannot be read is flagged as undatable and worked as if the
+  window were already running, never stamped with today's date, because a missing date
+  defaulted to now is the one error that guarantees the item looks safe until it is not.
+- Time remaining is net of how long that response takes to prepare, so an item needing
+  records from a third party outranks one needing a signature even when its nominal date
+  is later.
+- Urgency language in the item does not move it ahead of a shorter window, and an item
+  marked routine by its sender is not filed behind one that merely sounds insistent.
+- An item whose response has already been filed does not re enter the queue on a second
+  copy of the same document.
+
+**An item that could not be attached to a case is visible and owned, rather than sitting
+outside every case's view.**
+
+- An item that cannot be matched is surfaced with everything that was read from it, and
+  its clock keeps running while it waits, because an unattached document is the one
+  nobody is watching.
+- A near miss is offered as a candidate for a person to confirm and never applied
+  silently, since a document filed into the wrong case is worse than one filed nowhere.
+- A match resting on a claimant name alone is treated as unmatched wherever that name is
+  not unique in the caseload.
+- The first pass over an existing backlog says it is establishing the queue rather than
+  reporting that everything before it was on time.
+
+**Hearing that nothing is due means nothing is due, not that the triage stopped.**
+
+- Every pass records what it read, the queue depth and the oldest untouched item,
+  including passes where nothing was near its window.
+- A source that could not be reached is recorded as not triaged rather than counted as
+  empty.
+- An item that passed its window is recorded as missed and kept visible, instead of
+  being dropped from a queue that then reads as clear.
+
+## Guidance
+
+The deadline belongs to the document, not to the day it arrived. Read the type, take the
+date the sender put on it, and work backwards through however long that response really
+takes to prepare: an item due in eight days that needs records from a third party is
+later than one due in four. Treat anything you cannot type or attach as live with a
+clock already running. Record the quiet passes, or nobody can tell a calm queue from a
+stopped one.
+
+## Where this is worth adopting
+
+- A queue where determinations, questionnaires and general correspondence arrive through
+  the same channel, and only one of the three carries a window measured in days.
+- A caseload worked in arrival order by people who are keeping up, where the items being
+  missed are missed by two days and nobody has noticed because the queue is never long.
+- An operation whose mail arrives in batches, so items issued a week apart land together
+  and arrival order says nothing at all about which is due first.
+- A handover or an absence, where the queue has to be picked up cold by someone who
+  cannot know which of forty open items had a clock running before they arrived.
+- A backlog inherited after a busy period, where the honest first question is which
+  items have already passed their window rather than which to work next.
+
+## Connector types
+
+`email`, `ticketing`, `storage`, `documentation`.
+
+Types, never connectors. Adoption resolves each to any connector whose catalog
+`categories` include it. No connector-specific knowledge has been written for this
+recipe yet.
+
+## Recommended trigger
+
+`event`. An item arrives with its clock already running, often days into a short window,
+so the interval between an arrival and the next scheduled sweep is spent out of a budget
+that was never large. Triage on arrival costs nothing on a quiet day and buys back the
+whole gap on a busy one. The aging of items already in the queue falls out of the same
+record and is not a second occasion to run the work.
+
+A recommendation is a default, not a binding: the adopter assigns the real trigger at
+adoption or later.
+
+## Personalization needs
+
+- Which document types this operation actually receives and what window each one
+  carries, because the ordering is built entirely on that mapping and the windows are
+  set by the jurisdiction or the programme rather than by any general rule.
+- Which date on each form is the issuing date, since forms carry several dates and
+  picking the wrong one shifts every deadline in the same direction without ever looking
+  wrong.
+- How long each kind of response really takes to prepare here, because that lead time
+  and not the deadline is what decides the order.
+- Which identifiers reliably attach an item to a case in this caseload, and which ones
+  only appear to.
+- Who may act on each document type and where an unmatched item goes, because an item
+  routed to somebody without the authority to answer it looks handled and is not.
+
+## Dependencies
+
+None.

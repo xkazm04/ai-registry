@@ -1,0 +1,145 @@
+{
+  "id": "b1a1879e-ac74-4ac7-81ce-8fc7850cdfa2",
+  "slug": "supply-chain-network-scenario-modeling",
+  "title": "Supply chain network scenario modeling",
+  "version": "0.1.0",
+  "status": "seed",
+  "path": "operations_logistics/network-planning",
+  "domain": "operations_logistics",
+  "description": {
+    "need": "A network model always produces a confident number, and two things it cannot check are what make that number wrong. The first is the current state it measures savings against: if the baseline was rebuilt inside the model rather than reconciled to what the business actually paid, the reported saving is the model's own error wearing a currency sign, and it is precise to the dollar. The second is the move itself, because an optimizer scores the steady state a network reaches and never the year of dual running, lease breaks and hiring it takes to get there, so the cheapest scenario on the page is routinely the one the business cannot execute and nobody wrote down why.",
+    "input": "Cost by node, lane and handling for the network as it runs today, traceable to the ledger it should agree with, the volumes and their forecast, the constraints and service commitments the business is willing to stand behind with a named owner for each, and the assumptions any scenario has to borrow where data was not available.",
+    "core_action": "Weigh each scenario's modeled steady state saving against what the transition to it costs and whether the business can actually carry it out, and refuse to quote a saving whose current state baseline has not been reconciled against the books.",
+    "output": "A small set of scenarios that differ on one decision each, one of them recommended with the transition cost and payback beside its steady state saving, every assumption named with whoever stood behind it, the assumption whose movement would flip the ranking called out, and a study whose honest answer was to keep the network as it is delivered with its numbers rather than quietly not delivered."
+  },
+  "activities": [
+    {
+      "id": "baseline",
+      "label": "Reconcile current state cost by node, lane and handling against the books it should agree with",
+      "kind": "observe"
+    },
+    {
+      "id": "bound",
+      "label": "Collect the constraints and service commitments the business will stand behind, with an owner for each",
+      "kind": "observe"
+    },
+    {
+      "id": "frame",
+      "label": "Define a small set of scenarios that differ on one decision each rather than on everything",
+      "kind": "decide"
+    },
+    {
+      "id": "optimize",
+      "label": "Run each scenario against the same volumes and the same reconciled baseline",
+      "kind": "act"
+    },
+    {
+      "id": "cost-the-move",
+      "label": "Cost the transition itself, not only the steady state each scenario arrives at",
+      "kind": "decide"
+    },
+    {
+      "id": "stress",
+      "label": "Find how far a driving assumption has to move before the ranking changes",
+      "kind": "decide"
+    },
+    {
+      "id": "recommend",
+      "label": "Recommend the scenario that is both cheapest and executable, naming what would overturn it",
+      "kind": "deliver"
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "the-saving-is-only-as-good-as-the-baseline",
+      "statement": "Every quoted saving is a difference against a current state that was reconciled to what the business actually paid, and a study that could not reconcile it says so instead of quoting anyway.",
+      "success_criteria": [
+        "The current state cost is compared against the financial record it should agree with and the remaining variance is stated, because a saving smaller than that variance is not a finding.",
+        "The baseline is the network as it is run, never the optimizer's own solution for today's network, which books the model's error as a saving before a single change is made.",
+        "Data a stakeholder could not supply is carried as a named gap with the cost lines it leaves unpriced, rather than filled with an industry average that then behaves like measured data for the rest of the study.",
+        "A first study with no prior model states that it is establishing the baseline and reports the reconciliation, rather than presenting a first pass optimization as a proven opportunity.",
+        "Where the reconciliation fails, the study reports itself unfit to quote savings and says which cost lines are unaccounted for, which is a more useful deliverable than a number with a caveat under it."
+      ]
+    },
+    {
+      "id": "the-recommendation-is-executable-not-only-optimal",
+      "statement": "The scenario put forward is one the business can actually carry out, and where that is not the cheapest one, the gap between the two is stated rather than hidden.",
+      "success_criteria": [
+        "Each scenario carries the constraints it breaks, so a lease that has four years to run, a service commitment or a labor market that cannot supply the roles is visible against the option that assumed past it.",
+        "The transition cost and the period over which it pays back sit beside the steady state saving, because a scenario evaluated only at rest hides the year that decides whether it happens.",
+        "A scenario the optimizer ranks first but that the business cannot execute is reported as ranked first and not recommended, with the reason, rather than dropped before anyone sees it.",
+        "The recommendation names who has to agree for it to proceed, since a network change that no function has committed to is an analysis rather than a plan."
+      ]
+    },
+    {
+      "id": "the-answer-knows-which-assumption-it-rests-on",
+      "statement": "A reader can tell how fragile the ranking is and which single assumption would overturn it.",
+      "success_criteria": [
+        "Every assumption is recorded with the person who stood behind it, so a challenge later goes to someone rather than to the model.",
+        "The study reports how far volume, rate or a cost driver has to move before the ranking changes, and says plainly when the leading two scenarios sit inside that margin and the choice is therefore not a modeling result.",
+        "A run whose result is that the current network is the right one is delivered with its comparison intact, because a study that only reports when it found a change teaches the business that a study means a change is coming.",
+        "The recommendation states what observation would reopen it, so a volume shift or a rate move is recognized as a reason to rerun rather than as a surprise."
+      ]
+    }
+  ],
+  "guidance": "Two numbers decide whether this study is worth anything, and neither comes out of the optimizer. The first is the current state, which has to be reconciled against what the business actually paid, because every saving is a difference from it and a difference is only as good as what it was taken from. The second is the cost of the move. Model few scenarios that differ on one decision each, so a comparison isolates something, and say which assumption the ranking rests on before anyone asks.",
+  "use_cases": [
+    "A distribution network approaching a lease decision on its largest site, where the choice will be locked for a decade and the only analysis in the room is last year's freight spend in a spreadsheet.",
+    "A business that has just acquired an overlapping network and is being asked how much consolidation is worth, before anyone has established that the two cost bases were even measured the same way.",
+    "A team whose optimizer keeps recommending the same closure that the business has already refused twice for reasons the model has never been told, so the study is rerun every year and ignored every year.",
+    "A savings figure that was presented to leadership, approved, and is now being tracked against actuals that will not move, because the baseline it was quoted from came out of the model rather than the ledger.",
+    "A volume forecast that has shifted enough that the network designed around the old one may no longer be the right shape, and the question is whether the change is large enough to be worth a decision at all."
+  ],
+  "connector_types": [
+    "spreadsheet",
+    "database",
+    "finance",
+    "bi"
+  ],
+  "recommended_trigger": {
+    "kind": "event",
+    "rationale": "The work exists because a decision is on the table with a date behind it: a lease expiring, a site under consideration, an acquisition, a volume shift large enough to change the shape of the network. Run on a calendar and the study arrives with nobody holding a question for it, which is how network models become annual documents that get filed. The event that should wake it is the decision opening, not the deadline arriving, because the reconciliation the study depends on takes longer than the modeling does."
+  },
+  "personalization_needs": [
+    "Which cost lines this business actually separates in its own ledger, because a model built on categories the books do not keep can never be reconciled and the whole study rests on that reconciliation.",
+    "Which constraints are genuinely hard and which are merely current practice, since a model told everything is fixed returns the network it started with and a model told nothing is fixed returns one nobody can build.",
+    "Who owns each assumption, because an assumption with no name behind it is challenged in the meeting and cannot be defended by the analyst who inherited it.",
+    "What payback period this leadership treats as an investment rather than a different decision, as that number, not the steady state saving, is usually what settles the recommendation.",
+    "What a decision ready package looks like here, since the same analysis is accepted as a recommendation in one organization and returned as raw output in another."
+  ],
+  "dependencies": [],
+  "input_schema": [
+    {
+      "name": "baseline_reconciliation_tolerance_percent",
+      "type": "number",
+      "default": 3,
+      "description": "How far the modeled current state may sit from the financial record before the study declares itself unfit to quote savings. Set it tighter and no study ever clears the bar because ledgers carry allocations a network model cannot see. Set it looser and the reported saving disappears inside the unexplained gap."
+    },
+    {
+      "name": "max_scenarios",
+      "type": "number",
+      "default": 6,
+      "description": "How many scenarios are carried into the comparison. Above this each option differs from the others on several decisions at once and no comparison isolates anything, so the recommendation becomes a preference. Below about three the executable option is often never modeled at all."
+    },
+    {
+      "name": "ranking_sensitivity_swing_percent",
+      "type": "number",
+      "default": 10,
+      "description": "How far a driving assumption is moved when testing whether the ranking survives. A smaller swing certifies a stability nothing actually tested, while a much larger one makes every ranking look fragile and the sensitivity section stops being read."
+    },
+    {
+      "name": "acceptable_payback_months",
+      "type": "number",
+      "default": 24,
+      "description": "The payback period beyond which a transition cost is reported as a capital decision rather than as an operational saving. Longer, and a scenario that pays back after the forecast horizon is presented as if it were free money. Shorter, and every structural change is ruled out before it is evaluated."
+    }
+  ],
+  "examples": [],
+  "lessons": [],
+  "provenance": {
+    "from_recipes": [],
+    "from_templates": [],
+    "source_template_id": "",
+    "notes": "Originated from a job-description derived recipe candidate (kp/recipe_candidates@0.1.0, jd:cal-009). The source supplied the inventory of the work; the judgment, the failure modes and the wording are this registry's."
+  }
+}

@@ -1,0 +1,138 @@
+{
+  "id": "07aa68be-cc59-4861-9d50-be9ef2b37c0a",
+  "slug": "claims-intake-triage-and-prioritization",
+  "title": "Claims correspondence intake and deadline triage",
+  "version": "0.1.0",
+  "status": "seed",
+  "path": "customer_support/ticket-handling",
+  "domain": "customer_support",
+  "description": {
+    "need": "Most items in a claims queue do not say when they are due. The window is implied by what kind of document it is and it starts from the date the sender issued it, not the date it reached the queue, so a queue worked in arrival order is a queue ordered by the post and by whoever scanned it. Everything in it is marked important, so a worker clearing the top steadily is as late on the determination with a short appeal window as on the questionnaire nobody is waiting for, and the queue looks healthy the whole time because it is moving.",
+    "input": "The inbound items and whatever can be read out of them, the response window each document type carries and which date on the form starts it, the open cases with their current state and owner, and what is already sitting in the queue with how long it has been there.",
+    "core_action": "Read each item for what kind of document it is and which clock its issue date started, attach it to the case it belongs to or say plainly that it could not be attached, and order the queue by how little time is left to act after subtracting how long that response actually takes to prepare, rather than by arrival, by the urgency the sender claimed, or by which items clear fastest.",
+    "output": "A queue where every item is typed, attached to a case, dated from the window that governs it and given a handler who can act; where the items that could not be matched are visible as unmatched rather than quietly absent; and where a pass that found nothing near its window still records that it looked, so a calm queue is distinguishable from a triage that stopped running."
+  },
+  "activities": [
+    {
+      "id": "take-in",
+      "label": "Take in each inbound item and get its document and its issuing date out of it",
+      "kind": "observe"
+    },
+    {
+      "id": "type",
+      "label": "Identify the document type and the response window that type carries",
+      "kind": "decide"
+    },
+    {
+      "id": "match",
+      "label": "Attach the item to its case, or mark it unmatched rather than settling for a likely one",
+      "kind": "decide"
+    },
+    {
+      "id": "date-the-clock",
+      "label": "Set the deadline from the issuing date and the governing window, not from when it arrived",
+      "kind": "decide"
+    },
+    {
+      "id": "order",
+      "label": "Order the queue by time left after subtracting how long that response takes to prepare",
+      "kind": "act"
+    },
+    {
+      "id": "assign",
+      "label": "Put each item with a handler who can actually act on it",
+      "kind": "act"
+    },
+    {
+      "id": "account",
+      "label": "Record what was triaged, what is unmatched and what is aging toward its window",
+      "kind": "deliver"
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "the-order-reflects-the-clock",
+      "statement": "The item at the top of the queue is the one with the least time left to act, measured from the date the window actually started.",
+      "success_criteria": [
+        "A deadline is computed from the date the sender issued the document, so a slow delivery shortens the time left rather than resetting it.",
+        "An item whose issuing date cannot be read is flagged as undatable and worked as if the window were already running, never stamped with today's date, because a missing date defaulted to now is the one error that guarantees the item looks safe until it is not.",
+        "Time remaining is net of how long that response takes to prepare, so an item needing records from a third party outranks one needing a signature even when its nominal date is later.",
+        "Urgency language in the item does not move it ahead of a shorter window, and an item marked routine by its sender is not filed behind one that merely sounds insistent.",
+        "An item whose response has already been filed does not re enter the queue on a second copy of the same document."
+      ]
+    },
+    {
+      "id": "unmatched-is-a-finding-not-a-silence",
+      "statement": "An item that could not be attached to a case is visible and owned, rather than sitting outside every case's view.",
+      "success_criteria": [
+        "An item that cannot be matched is surfaced with everything that was read from it, and its clock keeps running while it waits, because an unattached document is the one nobody is watching.",
+        "A near miss is offered as a candidate for a person to confirm and never applied silently, since a document filed into the wrong case is worse than one filed nowhere.",
+        "A match resting on a claimant name alone is treated as unmatched wherever that name is not unique in the caseload.",
+        "The first pass over an existing backlog says it is establishing the queue rather than reporting that everything before it was on time."
+      ]
+    },
+    {
+      "id": "a-quiet-queue-is-evidence",
+      "statement": "Hearing that nothing is due means nothing is due, not that the triage stopped.",
+      "success_criteria": [
+        "Every pass records what it read, the queue depth and the oldest untouched item, including passes where nothing was near its window.",
+        "A source that could not be reached is recorded as not triaged rather than counted as empty.",
+        "An item that passed its window is recorded as missed and kept visible, instead of being dropped from a queue that then reads as clear."
+      ]
+    }
+  ],
+  "guidance": "The deadline belongs to the document, not to the day it arrived. Read the type, take the date the sender put on it, and work backwards through however long that response really takes to prepare: an item due in eight days that needs records from a third party is later than one due in four. Treat anything you cannot type or attach as live with a clock already running. Record the quiet passes, or nobody can tell a calm queue from a stopped one.",
+  "use_cases": [
+    "A queue where determinations, questionnaires and general correspondence arrive through the same channel, and only one of the three carries a window measured in days.",
+    "A caseload worked in arrival order by people who are keeping up, where the items being missed are missed by two days and nobody has noticed because the queue is never long.",
+    "An operation whose mail arrives in batches, so items issued a week apart land together and arrival order says nothing at all about which is due first.",
+    "A handover or an absence, where the queue has to be picked up cold by someone who cannot know which of forty open items had a clock running before they arrived.",
+    "A backlog inherited after a busy period, where the honest first question is which items have already passed their window rather than which to work next."
+  ],
+  "connector_types": [
+    "email",
+    "ticketing",
+    "storage",
+    "documentation"
+  ],
+  "recommended_trigger": {
+    "kind": "event",
+    "rationale": "An item arrives with its clock already running, often days into a short window, so the interval between an arrival and the next scheduled sweep is spent out of a budget that was never large. Triage on arrival costs nothing on a quiet day and buys back the whole gap on a busy one. The aging of items already in the queue falls out of the same record and is not a second occasion to run the work."
+  },
+  "personalization_needs": [
+    "Which document types this operation actually receives and what window each one carries, because the ordering is built entirely on that mapping and the windows are set by the jurisdiction or the programme rather than by any general rule.",
+    "Which date on each form is the issuing date, since forms carry several dates and picking the wrong one shifts every deadline in the same direction without ever looking wrong.",
+    "How long each kind of response really takes to prepare here, because that lead time and not the deadline is what decides the order.",
+    "Which identifiers reliably attach an item to a case in this caseload, and which ones only appear to.",
+    "Who may act on each document type and where an unmatched item goes, because an item routed to somebody without the authority to answer it looks handled and is not."
+  ],
+  "dependencies": [],
+  "input_schema": [
+    {
+      "name": "min_match_identifiers",
+      "type": "number",
+      "default": 2,
+      "description": "How many independent identifiers must agree before an item is attached to a case without a person confirming it. At one, every pair of claimants sharing a name eventually produces a document in the wrong file. At three, most items fall to manual matching and the queue that was meant to be ordered is instead a pile awaiting attachment."
+    },
+    {
+      "name": "default_response_window_days",
+      "type": "number",
+      "default": 10,
+      "description": "The window assumed for a document type whose real window is not known. Set generously and an unrecognised document drifts to the bottom of the queue for as long as it stays unrecognised. Set very short and every unfamiliar item outranks a genuine statutory deadline, which teaches handlers to overrule the ordering."
+    },
+    {
+      "name": "default_preparation_days",
+      "type": "number",
+      "default": 2,
+      "description": "How long a response is assumed to take when that type has no measured preparation time, subtracted from the window to give the time actually left. Too low and items that need a third party are ordered as though they could be answered this afternoon. Too high and short simple responses crowd the top of the queue ahead of things that matter more."
+    }
+  ],
+  "examples": [],
+  "lessons": [],
+  "provenance": {
+    "from_recipes": [],
+    "from_templates": [],
+    "source_template_id": "",
+    "notes": "Originated from a job-description derived recipe candidate (kp/recipe_candidates@0.1.0, jd:cal-065). The source supplied the inventory of the work; the judgment, the failure modes and the wording are this registry's."
+  }
+}

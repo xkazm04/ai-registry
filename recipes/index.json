@@ -3,21 +3,21 @@
   "generated_by": "scripts/build-recipes-index.mjs",
   "lane": "recipes",
   "source": "recipes/<domain>/<topic>/<slug>/recipe.json",
-  "recipes": 113,
+  "recipes": 133,
   "by_status": {
-   "seed": 113
+   "seed": 133
   },
   "by_domain": {
-   "legal_compliance": 7,
-   "operations_logistics": 2,
-   "data_ai": 7,
-   "software_engineering": 41,
-   "creative_design": 11,
-   "finance_accounting": 8,
-   "sales_marketing": 17,
-   "general_professional": 11,
-   "customer_support": 6,
-   "product_project": 3
+   "legal_compliance": 9,
+   "operations_logistics": 4,
+   "finance_accounting": 12,
+   "data_ai": 8,
+   "software_engineering": 42,
+   "creative_design": 13,
+   "general_professional": 13,
+   "customer_support": 8,
+   "sales_marketing": 19,
+   "product_project": 5
   },
   "excludes": "description, activities, outcomes, guidance, examples, lessons - open the recipe"
  },
@@ -60,6 +60,21 @@
     "messaging"
    ],
    "recommended_trigger_kind": "event"
+  },
+  "accrual-and-prepaid-schedule-maintenance": {
+   "path": "recipes/finance_accounting/spend-and-budget/accrual-and-prepaid-schedule-maintenance",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "finance_accounting",
+   "topic": "spend-and-budget",
+   "title": "Accrual, prepaid and commission schedule maintenance",
+   "connector_types": [
+    "finance",
+    "spreadsheet",
+    "database",
+    "documentation"
+   ],
+   "recommended_trigger_kind": "time"
   },
   "agent-context-budget-audit": {
    "path": "recipes/data_ai/agent-context/agent-context-budget-audit",
@@ -188,6 +203,35 @@
    ],
    "recommended_trigger_kind": "self_paced"
   },
+  "candidate-to-requisition-match-assessment": {
+   "path": "recipes/general_professional/decisions/candidate-to-requisition-match-assessment",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "general_professional",
+   "topic": "decisions",
+   "title": "Candidate to requisition match assessment",
+   "connector_types": [
+    "crm",
+    "database",
+    "documentation"
+   ],
+   "recommended_trigger_kind": "event"
+  },
+  "case-interaction-documentation-upkeep": {
+   "path": "recipes/customer_support/ticket-handling/case-interaction-documentation-upkeep",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "customer_support",
+   "topic": "ticket-handling",
+   "title": "Case interaction record upkeep",
+   "connector_types": [
+    "crm",
+    "support",
+    "documentation",
+    "storage"
+   ],
+   "recommended_trigger_kind": "event"
+  },
   "change-implementation-and-review": {
    "path": "recipes/software_engineering/code-review/change-implementation-and-review",
    "version": "0.3.0",
@@ -197,6 +241,21 @@
    "title": "Code change implementation and review follow-through",
    "connector_types": [
     "source_control"
+   ],
+   "recommended_trigger_kind": "event"
+  },
+  "claims-intake-triage-and-prioritization": {
+   "path": "recipes/customer_support/ticket-handling/claims-intake-triage-and-prioritization",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "customer_support",
+   "topic": "ticket-handling",
+   "title": "Claims correspondence intake and deadline triage",
+   "connector_types": [
+    "email",
+    "ticketing",
+    "storage",
+    "documentation"
    ],
    "recommended_trigger_kind": "event"
   },
@@ -532,6 +591,20 @@
    ],
    "recommended_trigger_kind": "self_paced"
   },
+  "data-dictionary-stewardship": {
+   "path": "recipes/data_ai/data-quality/data-dictionary-stewardship",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "data_ai",
+   "topic": "data-quality",
+   "title": "Data dictionary stewardship for shared fields and metrics",
+   "connector_types": [
+    "database",
+    "knowledge_base",
+    "analytics"
+   ],
+   "recommended_trigger_kind": "event"
+  },
   "database-activity-digest": {
    "path": "recipes/software_engineering/observability/database-activity-digest",
    "version": "0.2.0",
@@ -622,6 +695,20 @@
    ],
    "recommended_trigger_kind": "self_paced"
   },
+  "deal-negotiation-and-close": {
+   "path": "recipes/sales_marketing/conversion-optimization/deal-negotiation-and-close",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "sales_marketing",
+   "topic": "conversion-optimization",
+   "title": "Sales deal negotiation and close",
+   "connector_types": [
+    "crm",
+    "email",
+    "documentation"
+   ],
+   "recommended_trigger_kind": "event"
+  },
   "decision-record-rot-watch": {
    "path": "recipes/software_engineering/engineering-records/decision-record-rot-watch",
    "version": "0.3.0",
@@ -673,6 +760,20 @@
    ],
    "recommended_trigger_kind": "self_paced"
   },
+  "design-system-component-stewardship": {
+   "path": "recipes/creative_design/visual-assets/design-system-component-stewardship",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "creative_design",
+   "topic": "visual-assets",
+   "title": "Design system component stewardship",
+   "connector_types": [
+    "design",
+    "development",
+    "documentation"
+   ],
+   "recommended_trigger_kind": "self_paced"
+  },
   "email-inbox-attention-digest": {
    "path": "recipes/general_professional/digests/email-inbox-attention-digest",
    "version": "0.2.1",
@@ -684,6 +785,20 @@
     "email"
    ],
    "recommended_trigger_kind": "self_paced"
+  },
+  "embedded-software-design-specification": {
+   "path": "recipes/software_engineering/engineering-records/embedded-software-design-specification",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "software_engineering",
+   "topic": "engineering-records",
+   "title": "Embedded software design specification against hardware interfaces",
+   "connector_types": [
+    "source_control",
+    "documentation",
+    "project_management"
+   ],
+   "recommended_trigger_kind": "event"
   },
   "feature-announcement-video-production": {
    "path": "recipes/creative_design/video/feature-announcement-video-production",
@@ -708,6 +823,21 @@
    "connector_types": [
     "development",
     "browser_automation"
+   ],
+   "recommended_trigger_kind": "self_paced"
+  },
+  "financial-statement-audit-fieldwork": {
+   "path": "recipes/finance_accounting/audit/financial-statement-audit-fieldwork",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "finance_accounting",
+   "topic": "audit",
+   "title": "Financial statement audit fieldwork and evidence",
+   "connector_types": [
+    "documentation",
+    "spreadsheet",
+    "storage",
+    "finance"
    ],
    "recommended_trigger_kind": "self_paced"
   },
@@ -736,6 +866,21 @@
    ],
    "recommended_trigger_kind": "self_paced"
   },
+  "general-ledger-close-and-reconciliation": {
+   "path": "recipes/finance_accounting/spend-and-budget/general-ledger-close-and-reconciliation",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "finance_accounting",
+   "topic": "spend-and-budget",
+   "title": "General ledger close and account reconciliation",
+   "connector_types": [
+    "finance",
+    "spreadsheet",
+    "database",
+    "documentation"
+   ],
+   "recommended_trigger_kind": "event"
+  },
   "goal-accountability-and-idea-triage-review": {
    "path": "recipes/general_professional/goals-and-reviews/goal-accountability-and-idea-triage-review",
    "version": "0.2.0",
@@ -745,6 +890,21 @@
    "title": "Goal accountability and idea triage review",
    "connector_types": [],
    "recommended_trigger_kind": "self_paced"
+  },
+  "gross-margin-and-cogs-reporting": {
+   "path": "recipes/finance_accounting/revenue/gross-margin-and-cogs-reporting",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "finance_accounting",
+   "topic": "revenue",
+   "title": "Gross margin and cost of goods sold reporting",
+   "connector_types": [
+    "finance",
+    "spreadsheet",
+    "database",
+    "bi"
+   ],
+   "recommended_trigger_kind": "event"
   },
   "harvested-idea-triage": {
    "path": "recipes/software_engineering/work-intake/harvested-idea-triage",
@@ -818,6 +978,20 @@
    "title": "Infrastructure metrics scan",
    "connector_types": [
     "monitoring"
+   ],
+   "recommended_trigger_kind": "self_paced"
+  },
+  "inventory-count-and-on-hand-reconciliation": {
+   "path": "recipes/operations_logistics/inventory/inventory-count-and-on-hand-reconciliation",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "operations_logistics",
+   "topic": "inventory",
+   "title": "Inventory count and on-hand reconciliation",
+   "connector_types": [
+    "database",
+    "spreadsheet",
+    "bi"
    ],
    "recommended_trigger_kind": "self_paced"
   },
@@ -936,6 +1110,21 @@
    ],
    "recommended_trigger_kind": "self_paced"
   },
+  "motion-and-appellate-brief-drafting": {
+   "path": "recipes/legal_compliance/litigation/motion-and-appellate-brief-drafting",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "legal_compliance",
+   "topic": "litigation",
+   "title": "Litigation motion and appellate brief drafting",
+   "connector_types": [
+    "research",
+    "knowledge_base",
+    "documentation",
+    "storage"
+   ],
+   "recommended_trigger_kind": "event"
+  },
   "newsletter-issue-curation": {
    "path": "recipes/creative_design/newsletters/newsletter-issue-curation",
    "version": "0.2.0",
@@ -1050,6 +1239,20 @@
    "connector_types": [],
    "recommended_trigger_kind": "self_paced"
   },
+  "phase-gate-project-execution": {
+   "path": "recipes/product_project/delivery/phase-gate-project-execution",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "product_project",
+   "topic": "delivery",
+   "title": "Phase gate project execution",
+   "connector_types": [
+    "project_management",
+    "documentation",
+    "knowledge_base"
+   ],
+   "recommended_trigger_kind": "event"
+  },
   "post-incident-review": {
    "path": "recipes/software_engineering/incident-response/post-incident-review",
    "version": "0.2.0",
@@ -1101,6 +1304,21 @@
    ],
    "recommended_trigger_kind": "self_paced"
   },
+  "project-budget-and-resource-forecasting": {
+   "path": "recipes/product_project/delivery/project-budget-and-resource-forecasting",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "product_project",
+   "topic": "delivery",
+   "title": "Project budget and resource forecasting",
+   "connector_types": [
+    "project_management",
+    "spreadsheet",
+    "finance",
+    "bi"
+   ],
+   "recommended_trigger_kind": "self_paced"
+  },
   "pull-request-test-verdict": {
    "path": "recipes/software_engineering/code-review/pull-request-test-verdict",
    "version": "0.3.0",
@@ -1134,6 +1352,20 @@
    "title": "Release record and version bump",
    "connector_types": [
     "source_control"
+   ],
+   "recommended_trigger_kind": "event"
+  },
+  "requirements-elicitation-and-specification": {
+   "path": "recipes/general_professional/decisions/requirements-elicitation-and-specification",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "general_professional",
+   "topic": "decisions",
+   "title": "Requirements elicitation and specification",
+   "connector_types": [
+    "documentation",
+    "knowledge_base",
+    "project_management"
    ],
    "recommended_trigger_kind": "event"
   },
@@ -1248,6 +1480,21 @@
    ],
    "recommended_trigger_kind": "self_paced"
   },
+  "supply-chain-network-scenario-modeling": {
+   "path": "recipes/operations_logistics/network-planning/supply-chain-network-scenario-modeling",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "operations_logistics",
+   "topic": "network-planning",
+   "title": "Supply chain network scenario modeling",
+   "connector_types": [
+    "spreadsheet",
+    "database",
+    "finance",
+    "bi"
+   ],
+   "recommended_trigger_kind": "event"
+  },
   "support-escalation-pattern-review": {
    "path": "recipes/customer_support/service-health/support-escalation-pattern-review",
    "version": "0.2.0",
@@ -1318,6 +1565,36 @@
    ],
    "recommended_trigger_kind": "self_paced"
   },
+  "territory-prospecting-pipeline-generation": {
+   "path": "recipes/sales_marketing/lead-handling/territory-prospecting-pipeline-generation",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "sales_marketing",
+   "topic": "lead-handling",
+   "title": "Territory prospecting and self sourced pipeline generation",
+   "connector_types": [
+    "crm",
+    "research",
+    "email",
+    "messaging"
+   ],
+   "recommended_trigger_kind": "self_paced"
+  },
+  "trading-documentation-negotiation": {
+   "path": "recipes/legal_compliance/contracts/trading-documentation-negotiation",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "legal_compliance",
+   "topic": "contracts",
+   "title": "Trading documentation negotiation and concession control",
+   "connector_types": [
+    "documentation",
+    "knowledge_base",
+    "storage",
+    "email"
+   ],
+   "recommended_trigger_kind": "event"
+  },
   "under-covered-equity-discovery-by-sector": {
    "path": "recipes/finance_accounting/investing/under-covered-equity-discovery-by-sector",
    "version": "0.1.0",
@@ -1383,6 +1660,20 @@
     "database"
    ],
    "recommended_trigger_kind": "self_paced"
+  },
+  "web-design-production-handoff": {
+   "path": "recipes/creative_design/visual-assets/web-design-production-handoff",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "creative_design",
+   "topic": "visual-assets",
+   "title": "Website design production and developer handoff",
+   "connector_types": [
+    "design",
+    "documentation",
+    "project_management"
+   ],
+   "recommended_trigger_kind": "event"
   },
   "webhook-classification-and-routing": {
    "path": "recipes/software_engineering/event-routing/webhook-classification-and-routing",
