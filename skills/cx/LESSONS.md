@@ -112,3 +112,43 @@ Append-only reflection lane. One entry per run that taught something. Format:
   project in the build. The item still landed — proven by probe and by an injected-fixture
   capture. Phase 6's "an item that fails acceptance is not landed" needs the caveat: **first ask
   whether the acceptance line was reachable**, and if not, record why and what was used instead.
+
+## 1.1.0 - 2026-09-08 - kp
+
+First adoption outside the product the skill was authored for: a Next.js recruiting studio with 34
+stops across five personas, walked from the public landing inward.
+
+- **The skill's own commit shape is rejected by exactly the repos that check commits.** `cx(S<n>):`
+  failed kp's commit-msg hook on the first try, because that gate validates the TYPE against a closed
+  list cut from its changelog sections and `cx` is in nobody's list. A method that prescribes a
+  subject line has to yield to the repo's gate, not the other way round. Now an overlay key
+  (`commit_format`) with the skill's shape as the default, and Phase 6 says to read the gate first.
+- **A reveal-on-scroll page photographs as a column of empty color blocks.** The landing's full-page
+  capture rendered its bands unpainted, because the shot is taken before the intersection observers
+  fire; the read would have been made against nothing. Scroll through, return, then capture — and
+  take the fold separately, because the fold is the screen the user actually meets. Phase 3 now says
+  so. This is the same class as the deep-link capture lesson from the previous project: **a capture
+  is a claim about what the user sees, and every claim needs its assertion.**
+- **"No screenshots" is a legal mode, not a degraded one.** The owner declined captures outright and
+  asked that every build go to an executor so the director could stay at journey altitude. That is a
+  coherent way to run the walk — the owner reviews the live product themselves, which is faster and
+  truer than a PNG — and the method should name it rather than treat it as the "cannot run here"
+  fallback. It also made the standing-preferences file earn its place on day one.
+- **A stop that names two screens with a slash is two stops, and the cost is not cosmetic.** S2 was
+  written as `about / trust`. The read spent five proposals across both surfaces; the owner then
+  descoped `/trust` entirely and four of the five were withdrawn in one sentence. Had they been two
+  stops, one would have closed and the other would never have been read. The skill's unit was right
+  and the map violated it; Phase 2 now says to split at map time.
+- **The second round is the good case, not rework.** The owner's instruction was "accept all, I will
+  add scope after the implementation" — and the round-2 items (a closing line that must never wrap, a
+  10% larger illustration peak) were things only the built screen could reveal. A stop stays `[~]`
+  through it and the new items land against the same `S<n>`. Phase 7 now carries this.
+- **The executor measures, the director does not guess.** The no-wrap item looked like a `max-width`
+  edit; the measurement found the widest locale needs 771px against a 720px container, and that the
+  line only clears the page's own fixed rail from 1171px, which moved the breakpoint from `lg` to
+  `xl`. A brief that says "measure, do not guess, and report the numbers" got a better answer than
+  the proposal that prompted it — and surfaced a pre-existing overlap the walk had not seen.
+- **The walk pays a second time as knowledge.** The page this run polished turned out to be an
+  instance of a pattern the corpus had no subject for, and the run's own hard-won capture lesson
+  became one of its techniques. A `/cx` run over a well-made surface is a harvest site: when a stop's
+  read keeps naming craft the corpus cannot cite, that is a subject proposal, not a proposal table.

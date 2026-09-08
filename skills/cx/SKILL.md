@@ -5,7 +5,7 @@ argument-hint: "[map|complete|next|screen <id>|status|replan] [--no-dispatch] [-
 category: workflow
 memory: vault
 contexts: tracked
-version: 1.1.0
+version: 1.2.0
 tags: cx, ux, journey, screens, review, dispatch, continuity, completion, obsidian
 ---
 # CX
@@ -35,6 +35,7 @@ design_doc: docs/DESIGN.md             # the design philosophy every proposal is
 screens_source: docs/SCREENS.md        # where the screen inventory lives  [derived by reading the UI code]
 executor: opus                         # subagent model for dispatch  [opus]
 stops_per_session: 3                   # how many stops one run walks before it closes  [3]
+commit_format: "cx(S<n>): <screen> - <what changed>"   # the subject shape Phase 6 commits under  [this]
 ---
 ```
 
@@ -187,6 +188,11 @@ J2  ...
 4. Rebuild from the code, ignore the seed
 ```
 
+A seed line that names two screens with a slash (`about / trust`, `inbox / thread`) is **two stops,
+not one** — the skill's own unit says so, and bundling them costs more than a line: the read spends
+its proposals across two surfaces, and one word from the user about either can withdraw half of them.
+Split at map time.
+
 Write `journey.md`: one stop per line, `[ ] S<n> · J<k>.<i> · <screen> (<surface>) · <what the user
 is trying to do here>`. Stop ids are stable for the life of the vault; a `replan` reorders lines and
 never renumbers.
@@ -221,6 +227,18 @@ For the next `[ ]` stop (or the one named), **reach the screen** using the overl
 start the product if it is not running, drive it to the screen in the scenario's state, and capture
 a PNG into `$VAULT/Cx/stops/<id>-before.png`. When the product cannot be run here, say so and read
 the screen from its code and inventory instead — a proposal made from code is marked `(from code)`.
+
+**Two things make a capture worse than none, and both are silent.** A page that reveals its content
+on scroll photographs as a column of empty blocks: the full-page shot is taken before the observers
+fire, so the read is made against bands that rendered nothing. Scroll the page through in steps,
+return to the top, and only then capture — and take the fold separately, unscrolled, because the
+fold is what the user actually meets. And a screen reached by a deep link may render without the
+state the steps before it write; assert the capture arrived (a title, a test id, a known string)
+before reading it.
+
+**The user may decline capture outright**, and that is a legal mode, not a degraded one: some owners
+review the live product themselves and want the walk's attention on the read. Record it as a standing
+preference, mark the proposals `(from code)`, and never spend a turn re-asking.
 
 **A seam or an `absent` stop has nothing to photograph, and that is the finding.** Capture what the
 user meets *instead* — the screen that shows a fixture, the dead end, the step that starts empty —
@@ -306,8 +324,12 @@ When the subagents return: run the gates yourself; re-capture the screen to
 `$VAULT/Cx/stops/<id>-after.png`; compare before/after against the acceptance line. An item that
 fails acceptance is not landed — it is `deferred - failed acceptance` with the failure described.
 Commit landed items **per stop, pathspec-scoped** (`git add <paths>` then `git diff --cached
---stat` in the same invocation and check the list is only yours), message
-`cx(S<n>): <screen> - <what changed, in the user's words>`.
+--stat` in the same invocation and check the list is only yours), message from the overlay's `commit_format` (default `cx(S<n>): <screen> - <what changed, in the
+user's words>`). **Check the repo's commit gate before the first commit of a run** — a repository
+that validates subjects usually validates the TYPE against a closed list, and `cx` is in nobody's
+list, so the skill's own default is rejected by exactly the repos that check. Read the gate, pick a
+type it accepts, and write the result into the overlay's `commit_format` so the next run does not
+rediscover it.
 
 With `--no-dispatch`, stop after the briefs are written and say plainly that nothing was built.
 
@@ -340,6 +362,13 @@ Before: ![[<id>-before.png]]   After: ![[<id>-after.png]]
 ## Cross-references
 - previous stop [[S<n-1>]] · next [[S<n+1>]] · design doc rule invoked: <rule>
 ```
+
+**A stop often has a second round, and it is the good case.** An owner who reviews the built screen
+comes back with what only the built thing could reveal — a line that wraps, art that wants to be
+larger, a word that reads wrong. Keep the stop `[~]`, add the new items to the same stop note under a
+dated round-2 heading with the user's request verbatim, dispatch, and commit them against the same
+`S<n>`. A second round is not rework; it is the first time the user has seen the screen with the
+first round's changes in it.
 
 Update `journey.md` (`[x]` done, `[~]` items open, `[-]` skipped) and rewrite `state.md`. Then:
 
