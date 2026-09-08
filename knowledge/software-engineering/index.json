@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 228,
-  "techniques": 1686,
-  "applications": 1009,
+  "techniques": 1687,
+  "applications": 1010,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1686/1686",
+  "use_when_coverage": "1687/1687",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -33324,9 +33324,9 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/voice-io/voice-io.md",
-   "digest": "sha256:3492915962b7057e",
-   "revision": 15,
-   "changedAt": "2026-09-04",
+   "digest": "sha256:8449a5270b333c8f",
+   "revision": 16,
+   "changedAt": "2026-09-08",
    "techniques": [
     {
      "slug": "authored-voice-identity",
@@ -33410,6 +33410,22 @@
       "an engine's name appears in surface code",
       "deciding whether an engine is absent or broken",
       "stored preferences point at a retired engine"
+     ]
+    },
+    {
+     "slug": "engine-choice-on-decisive-terms",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing between speech recognition engines",
+      "a vendor publishes a benchmark ranking that beats the engine in production",
+      "deciding whether a better published score is worth switching for",
+      "a recognition gate passes while the transcript is unusable",
+      "building a selection set for a transcription bake-off"
      ]
     },
     {
@@ -33589,6 +33605,13 @@
      "technique": "caller-scoped-voice-binding",
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/voice-io/applications/python--caller-scoped-voice-binding.md",
      "verified_on": "2026-09-03",
+     "verified_against": "python@3.12"
+    },
+    {
+     "stack": "python",
+     "technique": "engine-choice-on-decisive-terms",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/voice-io/applications/python--engine-choice-on-decisive-terms.md",
+     "verified_on": "2026-09-08",
      "verified_against": "python@3.12"
     },
     {
@@ -34875,6 +34898,7 @@
     "versioning-snapshots/promotion-lifecycle",
     "versioning-snapshots/snapshot-scope",
     "voice-io/duplex-agent-sessions",
+    "voice-io/engine-choice-on-decisive-terms",
     "voice-io/on-device-vs-cloud",
     "web-scraping/dry-run-preview",
     "web-scraping/llm-assisted-rule-authoring",
@@ -35996,6 +36020,7 @@
     "usage-analytics/event-taxonomy",
     "versioning-snapshots/lineage-and-variants",
     "voice-io/decode-time-vocabulary-biasing",
+    "voice-io/engine-choice-on-decisive-terms",
     "web-scraping/dedup-and-datasets",
     "web-scraping/shape-change-detection",
     "webhook-ingestion/delivery-logging-and-replay",

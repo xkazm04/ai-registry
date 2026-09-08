@@ -20,6 +20,7 @@ techniques:
   - unattended-caller-attribution
   - caller-scoped-voice-binding
   - render-acceptance
+  - engine-choice-on-decisive-terms
 ---
 
 # Voice input and output
