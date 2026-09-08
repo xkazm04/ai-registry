@@ -27,3 +27,7 @@ Append-only reflection lane. One entry per run that taught something. Format:
   heuristic list lives in `references/` so a consumer can extend it via the overlay's
   `## Heuristics` without a fork; the 10-foot-UI and second-device sections came straight from the
   product that prompted the skill and are written generally enough to transplant.
+
+## 1.0.0 - 2026-09-08 - firetv
+- A stop for a screen that does not exist yet reads as a spec: the executor builds the read, and the real read only happens on the built screen. When the map adds new screens, budget a second round at that stop for the user's review before moving on.
+- The user's review of a freshly built screen can redirect branding (module names, illustrations, a mark). Keep a hook for an image skill (/leonardo) in the overlay's Repo law or Run section so the executor can generate assets instead of leaving placeholders.
