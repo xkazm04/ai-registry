@@ -290,6 +290,50 @@ seconds the lines need at performance pace, and when a dialogue-heavy beat
 exceeds them, split it across shots at brief time — the exchange in one, the
 reaction in the next — rather than letting the cap squeeze the delivery.
 
+### When the cap stops binding, the beat floor starts
+
+The cap is a moving number, and the rules above are written to survive it
+moving — a scene longer than the cap is still a multi-request scene, whatever
+the cap is. What does *not* survive is the assumption that the cap is the
+constraint a brief collides with first. Single-pass durations have reached the
+length of a whole short sequence, generated in one request with the cuts inside
+it, and at that length **the cap stops refusing anything and the floor starts.**
+
+The old regime was self-policing by accident. A request that could hold two or
+three beats rejected a ten-beat brief by being visibly too small; the author saw
+the arithmetic fail before spending. A long single-pass request accepts the same
+brief, because it *can* hold ten beats — it simply cannot hold ten beats that are
+each long enough to read. It does not refuse. It divides, the model owns the cut
+points, and the division is invisible until the render comes back with every beat
+at a third of the seconds it needed.
+
+So the arithmetic moves to the front of the brief, and it runs in the other
+direction:
+
+> **Derive the beat count from the duration and the floor. Do not enumerate
+> beats and let the division fall where it lands.**
+
+Two rules keep the floor honest, and both are about where the number comes from:
+
+- **The floor is the content's own duration claim, not a pace band borrowed
+  from longer work.** Hold bands measured on long cuts describe a population
+  these lengths are not in, and applying them here is a wrong check rather
+  than a strict one — the same reason a band is gated to the population it was
+  sheeted from. The number that travels is the one this technique already
+  counts: the seconds the lines need at performance pace, plus the reaction and
+  the air the section above names.
+- **When the count and the duration conflict, say which one gave.** A pipeline
+  that resolves the collision by silently reducing the beat count reports a
+  sequence nobody authored, and a brief that keeps the count reports seconds
+  nobody can read. Either resolution is defensible; the silence is not. A tool
+  that shortens the chain and does not say so has made an editorial decision
+  and filed it as arithmetic.
+
+A pipeline that derives its beat count from the clock and a measured floor is
+immune to this by construction, and does not need the check — the exposure
+arrives with the surface that lets an author enumerate beats into one long
+request.
+
 ## Adjacency anchoring does not scale to a chain
 
 Conditioning a shot on its predecessor's tail is the right first move and it

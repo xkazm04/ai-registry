@@ -5,7 +5,7 @@ subject: video-assembly
 technique: generated-shot-sourcing
 stack: react
 status: forged
-verified_on: 2026-09-07
+verified_on: 2026-09-08
 verified_against: react@19
 applied: simulation
 ab_verdict: better
@@ -16,7 +16,12 @@ ab_verdict: better
 *Verified against the consuming tree at commit `7637553`, 2026-08-31; the
 citations below re-resolved at `e1c31ec`, 2026-09-07 (the turn-marker loop now
 sits at `CutTimeline.tsx:40-47`; the scene and clip fields are unchanged), when
-the rung-zero section was added.*
+the rung-zero section was added; the shots-lane citations re-resolved 2026-09-08
+against the working tree when the beat-floor section was added.*
+
+*Two findings, two verdicts. The rung-zero A/B below is `simulation` /
+`better`, and the frontmatter carries it. The beat-floor section added
+2026-09-08 is `unmeasurable`, and states its own instrument.*
 
 The technique's rung 3 gained an amendment this run: two anchors from
 unmistakably different spaces do not interpolate and break — they render as a
@@ -173,6 +178,70 @@ exists yet"; the day one is built, every frame will read as waiting to be
 rendered, and the rung-zero frames will be indistinguishable from the
 not-yet-rendered ones. That is a field, not a policy, and it is missing.
 Return: re-test as `code` when a render seam exists and the field does.
+
+## The beat floor, refuted at the seam that was meant to prove it (added 2026-09-08)
+
+The amendment "when the cap stops binding, the beat floor starts" was tested
+here against the seam chosen because it could **falsify** the finding rather
+than flatter it: the shot decomposition, where a beat's seconds are divided by
+a shot count. `app/_phases/frames/shots.ts:529` does exactly the arithmetic the
+amendment is about — `const holdS = round1(beatS / n)` — and if nothing checked
+the quotient, the amendment would have had its confirming instance.
+
+**It has one, and the check is upstream of where it was looked for.** A caught
+outcome was defined before the arm ran: if this tree already enforced a floor,
+the amendment was restating a solved problem and the row demotes. That is what
+happened, twice over.
+
+`shots.ts:294` declares `const FLOOR_S = 0.5` — "the fastest cut the sheets
+measured. A shot shorter than this is not a shot" — and `shotCountFor` caps the
+count by it before dividing (`:413`, `ceiling = Math.max(1, Math.floor(beatS /
+FLOOR_S))`). The quotient therefore cannot fall below the measured floor. A
+paired probe over the whole parameter space (five roles × 0.5–40 s at 0.5 s
+steps, n=400) found the clamp firing on **1 of 400 pairs** — `rung` at exactly
+0.5 s, wanting 2 shots and getting 1 — with the known-positive assertion firing
+correctly, so the near-absence is a fact about the code and not a broken probe.
+The floor is enforced *and* it is nearly never reached.
+
+The second refutation is the one worth keeping. The clamp is nearly unreachable
+because **this tree derives its beat count instead of enumerating it.** A
+`reset` and a `tail` are one shot by citation; a `rung` is capped at two; only
+`peak` and `setup` scale with the beat's seconds, and both take the conservative
+end of their band because "over-decomposing invents shots nobody asked for"
+(`:404-409`). No surface anywhere lets an author write ten beats into one
+request and discover the division afterwards, and `shotPrompt.ts:5` closes the
+last door: the prompt it builds is "the prompt a downstream image call WOULD use
+for **one shot**". One request, one shot, one still. The model is never asked to
+cut.
+
+**So the verdict is `unmeasurable`, and the structural fact is the finding.**
+The amendment's corrective — derive the beat count from the duration and a
+measured floor rather than enumerating beats and letting the division land
+where it falls — is not a proposal this tree could adopt. It is what this tree
+already is, arrived at independently, for a reason that has nothing to do with
+generative clip caps: a shot list is derived from a script's clock because
+nobody may retype the script. Nobody built this to corroborate the amendment,
+and it corroborates the corrective anyway, which is better evidence than an
+adopting tree would have given.
+
+It also locates the exposure precisely, which is what the amendment needed most.
+The failure is not a property of long single-pass durations by themselves; it
+is a property of **the enumerating surface**, and a pipeline can have the first
+without the second. The return condition is therefore not "when the cap rises"
+but a shape: *when a project grows a surface that sends one prompt enumerating
+several beats into one fixed-duration generation.* This tree does not have it,
+and the two checks that would catch the consequence if it did are the ones
+already gated: `shotReview.ts:342-348` disengages the pace bands below 120 s
+with an explicit and correct population argument — "a band applied outside its
+population is not a stricter check, it is a wrong one" — which is precisely the
+reasoning the amendment adopts for why the floor must come from the content's
+own duration claim rather than from a borrowed band. The tree argued the
+amendment's second rule before the amendment existed.
+
+Instrument that would make this measurable: a beat-enumerating prompt builder
+with a duration parameter, and the review's `unmeasured` verdict wired to the
+seconds-per-beat quotient. Neither exists here, and neither should be built to
+satisfy a test.
 
 ## What this realization cannot do
 

@@ -140,3 +140,38 @@ says so (`frames.ts:88-90`), and the structural fact is that the decision to gen
 all is made there by the absence of a renderer - a missing field, named in the extended
 `react--generated-shot-sourcing` application. Boundary: the figure-stillness half lives in
 `cinematic-language/performance-direction` (same run), not here.
+
+## 2026-09-08 - the cap moved, so the binding constraint moved ([[2026-09-08-seedance-prompt-showcase]])
+
+`generated-shot-sourcing` gains "When the cap stops binding, the beat floor starts" under
+the clip-caps section, and `process--generated-shot-sourcing` moves to `verified_on:
+2026-09-08`. A frontier model now renders 30 s in one pass with no stitch, which retires
+the ledger's ~10 s / 15 s / six-stitched-shot reading but **not** the technique's rule -
+that rule was written cap-agnostic and survives the number changing, which is worth
+recording as evidence the forge got it right. What the cap moving does change is which
+constraint a brief collides with first. Under a short cap the arithmetic was
+self-policing: a ten-beat brief was visibly too big and failed before any spend. At 30 s
+the request accepts it, divides, and the division is invisible until the render returns -
+so the floor replaces the cap, and the amendment adds where the floor may come from (the
+content's own duration claim, never a pace band measured on longer cuts) and the rule that
+a pipeline resolving the collision must say which side gave.
+
+Converges inside the bundle with `creator-voice-and-tone/delivery-rate-budgeting`, which
+reaches the same floor-not-ceiling structure for a narrator's words and already states the
+matching rule ("must never shorten the chain - and the tool should say which of the two it
+is doing"). Two subjects, different material, one rule; that convergence is the row's
+corroboration and it cost no fetch.
+
+Applied to gravity at a seam **chosen to falsify** - the shot decomposition, where
+`shots.ts:529` computes `holdS = beatS / n` - and the falsifier caught it twice: the tree
+declares a measured `FLOOR_S` and caps the count by it before dividing (clamp reachable in
+1 of 400 probed pairs, known-positive asserted), and it derives beat counts from a script
+clock rather than letting an author enumerate them, prompting one shot per request. Verdict
+`unmeasurable`; the corrective is what that tree already is, arrived at independently. The
+refutation was the useful part: it relocated the exposure from long durations to **the
+enumerating surface**, and the return condition was rewritten as a shape rather than a
+number. Recorded in the extended `react--generated-shot-sourcing` application.
+
+Boundary: the untriaged row about a delivery surface setting the top resolution rung
+belongs to `generative-provider-routing/resolution-as-stage-property`, not here, and was
+not landed - it is banked with its anchor in the source note.

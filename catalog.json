@@ -124,15 +124,15 @@
     },
     {
       "name": "cx",
-      "version": "1.1.0",
+      "version": "1.2.0",
       "category": "workflow",
       "path": "skills/cx/SKILL.md",
-      "contentHash": "sha256-n1:d83f781a7b257b9c",
+      "contentHash": "sha256-n1:949a66c8b45433c4",
       "adopters": [],
       "invokes30d": 0,
-      "lessons": 5,
+      "lessons": 9,
       "lessonsPath": "skills/cx/LESSONS.md",
-      "lessonsHash": "sha256-n1:685db8a3e17eeeda",
+      "lessonsHash": "sha256-n1:25c2ffbf20848123",
       "usageContributors": []
     },
     {
@@ -651,7 +651,7 @@
     "skills": 31,
     "practices": 8,
     "memory": 6,
-    "lessons": 170
+    "lessons": 174
   },
   "bundles": [
     {
@@ -730,7 +730,7 @@
       "techniques": 135,
       "applications": 64,
       "files": 224,
-      "contentHash": "sha256:0773feb91cdd5e2b"
+      "contentHash": "sha256:26686979f3898140"
     },
     {
       "name": "recruiting",
