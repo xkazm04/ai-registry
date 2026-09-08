@@ -10284,3 +10284,42 @@ observation, and the batch lane already carries half of this idea for a differen
   was stale and would have been committed stale.
 - **Mid-flight runs:** no method file changed this run beyond `LESSONS.md` and
   `SCORECARD.md`. Nothing to do; finish on the version you loaded.
+
+## 2.7.0 - 2026-09-08 - mai-transcribe-2
+
+- **Rank the queue by TARGET density, not by source length or class.** A ~600-word
+  vendor announcement — bottom of the queue by every heuristic the last four rounds
+  used — landed the round's only technique, because it pointed at a 16-technique
+  subject that had a *shape* to hold it against. Thick sources aimed at thin ground
+  produced catches in the same window. The question to ask before ingesting is not
+  "how long is this" or even "what class is this", but **which subject would this land
+  in, and how many techniques does that subject already have.** Only a dense subject
+  can have a hole worth finding; a thin one absorbs anything and teaches nothing.
+- **The source's yield was its FEATURE LIST, not its prose.** A vendor release post's
+  capability enumeration read as *axes to score against your own measurement set* took
+  minutes and was the run's most reusable artifact: six axes, one scoreable by the
+  fleet, one partial, four structurally unscoreable. The most valuable row was the axis
+  the product **had already been broken by once** and is least able to generate more
+  cases of. Generalizes to every vendor announcement: the prose is marketing, the
+  bullet list is a checklist someone else wrote for free.
+- **Two ship-zeros are not one ship-zero.** "No seam exists anywhere in the fleet"
+  (rounds 37-39) and "a seam exists, the run measured it, and shipping it is the
+  owner's call because it is a direction" (this round) are the same number and opposite
+  situations. Filed apart by hand this round; the Ship column should carry the tag.
+- **The currency rule is now confirmed three runs running and moved into `SKILL.md`
+  (v2.8.0).** Phase 5 now says which rule governs which shape: the score is for
+  upper-layer rows, the corroboration table admits currency and leads. Two prior
+  scorecards diagnosed this and left it to the next run to rediscover.
+- **Both self-catches this run were greps that flattered the run, and neither announced
+  itself.** `git grep -lin` was parsed as `--lin` and returned five consecutive empties
+  that read as a dramatic fleet-wide absence of STT; asserting against a known positive
+  (a file another document cited) exposed it. Then a grep for `from .audio` concluded a
+  project's degradation probes were built-but-unwired, when the import is `from .
+  import audio` — a pattern that matched the *form* I expected rather than the form
+  present. **The second correction deleted a finding and left the fleet ahead of the
+  corpus**, which is the more valuable direction and the one a run is least motivated
+  to look for. Standing expectation, not a per-run surprise: when a grep returns the
+  dramatic answer, the grep is the suspect.
+- **Mid-flight runs:** `SKILL.md` changed this run (2.7.0 -> 2.8.0, one routing
+  paragraph added to Phase 5, nothing removed). Finish on the version you loaded; the
+  change only tells you what you already do for currency rows.

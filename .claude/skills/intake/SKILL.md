@@ -3,7 +3,7 @@ name: intake
 description: "Mine an external source - a YouTube video, a news roundup, an article, pasted notes, a repository - for what it should change in THIS registry, and in the connected projects that consume it. Ingests the source, reads its design decisions as well as its claims, maps both against existing bundles for prior art, triages with the operator, and lands what survives corroboration - amendments for boundary cases, techniques and subjects for mechanisms, forge handoffs for systems whose architecture the corpus lacks. News sources mostly yield currency signals and leads; that is a successful run. Use when someone shares a link and asks what it means for us."
 category: ai-native
 memory: project
-version: 2.7.0
+version: 2.8.0
 tags: research, sources, memory-lane, admission-gate, triage, currency, cross-repo, leads, apply, ab-test, parallel, reference-index, design-read, forge-handoff, directions, fleet-map, peer-study, opus-workers, decision-gate
 ---
 
@@ -844,6 +844,17 @@ justify itself. So the read becomes an explicit, veto-first, reject-biased score
 that is written into the source note and can be audited after the fact - and
 **stricter than the stamp it replaces**, because the stamp carried almost no
 information.
+
+**Which rule governs which shape (v2.8).** This gate does not govern every row,
+and three consecutive runs filed the same diagnosis before the method said so. The
+score is for rows targeting the **upper layers** - a technique, a golden-path
+correction, an amendment, a subject. **A currency row and a lead are governed by the
+corroboration table instead**, which says a source may authorize both alone, because
+"a vendor shipped X" is a statement about the world rather than about the standard.
+Run through Phase 5 they are rejected by construction: a clock reset caps at GAIN 1
+and can never clear a +2 threshold, however well corroborated. So route by shape
+first - score the upper-layer rows, admit currency and leads under the table - and say
+in the source note which rule each admitted row ran under.
 
 Run the three steps in order. **A score may never overturn a veto**; that ordering
 is what keeps this from being a rubber stamp with arithmetic on top.
