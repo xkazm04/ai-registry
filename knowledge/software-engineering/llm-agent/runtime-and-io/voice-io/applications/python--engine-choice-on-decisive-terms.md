@@ -127,9 +127,21 @@ corruption incident above.
 - **Deviation** — the recognition bias is static and agent-level rather than
   per-session, and the code comment states both the cause (per-session keywords
   are not reachable through the client SDK's override type) and the cost.
-- **Absent** — the engine boundary. The harness cannot score a candidate
-  engine, which is the capability the technique requires of a selection
-  instrument.
+- **Closed on 2026-09-08, after this application was written** — the engine
+  boundary. The absence recorded above was the technique's own closing section
+  turned into a change: a recogniser protocol one method wide
+  (`transcribe(pcm, lang) -> str`), a command-driven adapter so an offline
+  open-weights engine is a drop-in without the project taking a dependency on a
+  model runtime, a registry where adding a candidate is a registration rather
+  than a harness edit, and a bake-off that hands every engine the same
+  synthesized bytes and ranks on decisive-term recall with the aggregate demoted
+  to a threshold. The project's gate ran green over 2,646 tests. **The
+  end-to-end run found a defect no unit test had**: formatting the audio path
+  into the command template before splitting it let the shell-style splitter eat
+  the path separators on the platform whose separator is an escape character, so
+  every candidate reported a missing file for a file the harness had just
+  written. Split first, substitute per token. That is the technique's own
+  "assert the instrument before the result" arriving one layer down.
 - **Absent** — the speaker axis. Because the reference audio is synthesized,
   the set cannot vary accent, disfluency, speaking rate, or a speaker changing
   language inside one sentence. That last one is not hypothetical for this
