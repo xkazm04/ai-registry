@@ -5,11 +5,17 @@ subject: stream-proxy-hop
 technique: upstream-status-normalization
 status: forged
 stack: node
-verified_on: 2026-08-22
+verified_on: 2026-09-05
 verified_against: node@22
 ---
 
 # Clamping the upstream status across three Next.js proxy routes
+
+Citations are against `personas-web` at `8cdf054` (2026-09-05); all three
+routes and the hook last changed at `2cfaa88` (2026-07-16), and every line
+fact below re-resolved unchanged. The tree declares no `engines` and no
+`.nvmrc`; its CI runs `node-version: 22`, so the version witness stays at
+node@22 although the fleet's newest trees pin 24.
 
 Three route handlers in this repo terminate a request and re-emit an
 orchestrator response: `src/app/api/events/stream/route.ts`,
@@ -31,7 +37,14 @@ one of them carries the derivation.
 Every link of the standard's chain is here and in past tense — it happened.
 Out-of-range status → `RangeError` from the `Response` constructor → Next.js's
 own handler emits an opaque 500 → the client treats 500 as transient →
-reconnect → the upstream condition is unchanged → loop. The clamp itself is
+reconnect → the upstream condition is unchanged → loop. One attribution in
+the comment is off, and the standard's step 4 says why: the HTML standard
+*fails* an `EventSource` whose handshake status is not 200 — `readyState`
+goes to `CLOSED`, no built-in retry (read 2026-09-05) — so "EventSource
+interpreted as reconnect immediately" is not what the browser did. The loop
+that ran was `useEventStream`'s own `onerror` scheduling `connect()` from
+`RECONNECT_BASE_MS` (`src/hooks/useEventStream.ts:131-153`), which is the
+application's blind handler the standard names. The clamp itself is
 three lines (`:65-66`, and identically at `events/stream/route.ts:58-59`):
 
 ```ts

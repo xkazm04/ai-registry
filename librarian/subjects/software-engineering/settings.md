@@ -1,105 +1,84 @@
 ---
 subject: settings
 domain: software-engineering
-last_touched: 2026-09-03
+last_touched: 2026-09-04
 dry_streak: 0
 ---
 
 # settings
 
-First touch: 2026-08-31, an `/intake` run over a four-post channel corpus by a
-web-standards spec editor (`2026-08-31-verou-2026-blog`). The subject was not
-sought — a dark-mode-toggle essay stripped of its proper nouns turned out to be
-a settings-storage claim, and the map routed it here.
+First touch by `/intake`: 2026-09-04, second pass over a self-hosted markdown
+note service, from a row the first pass had left untriaged.
 
 ## State
 
-6 -> 7 techniques, 2 -> 3 applications (`react`, `rust`, and a new `next`).
+10 → 11 techniques, +1 application (first `node` application on this subject).
 
-Landed `inherited-default-override`: the axis this subject did not carry.
-Every default the subject models is a **static constant declared in code** —
-"the value most installations run with", written where decisions live. A
-minority of keys default instead to a **live upstream source the application
-does not own**, and that difference redefines all three store operations:
-absent means *follow the source continuously*, a write means *detach*, a delete
-means *re-attach*. The stored row's **presence** carries meaning independent of
-its content, which is the fact a content-only model loses silently.
+Landed: **`presence-decides-precedence`** — precedence between two names for one
+setting in a source the application can only read.
 
-Two failure modes came with it, both feedback-free at the moment they occur:
-writing unconditionally pins a key that was merely following (the instant the
-target coincides with the source), and clearing an override when the source
-moves makes pinning *unachievable* for anyone whose environment switches on a
-schedule.
+## Why it is a technique and not an amendment
 
-## Why this was a seam and not a hole
+`key-registry` already answers a rename, and answers it well: register the new
+key, migrate the stored values once at upgrade, retire the old one. The answer
+carries an unstated precondition — **the application can write to the store** —
+which is always true inside a settings store and false for the large share of
+configuration that arrives from an environment block, a mounted file, a command
+line or an orchestrator manifest. No upgrade rewrites the operator's compose
+file, so the migration step does not exist, both spellings stay live for a grace
+period nobody in the process controls, and the only question left is precedence.
 
-Worth recording, because the near-miss is what made the finding trustworthy.
-`setting-kinds` already refuses to store **derived** limits — *store the inputs,
-derive at read* — which is the identical freezing failure. The regimes differ in
-one way that matters: there the correct move is to store nothing at all, while
-here the user must be able to detach, so the row is legitimate and only the
-*reason for writing it* is constrained. A run that had stopped at "the corpus
-already says don't freeze a live value" would have dropped a real finding.
+`key-registry`'s rule does not survive that, so by the v2 boundary-or-mechanism
+test it is a mechanism, and mechanisms get techniques.
 
-## Boundary written on both sides
+## The denial that located it
 
-`ui-surfaces/feedback-and-style/adaptive-fidelity-tiers` reaches the same
-requirement from the rendering side and had prescribed the opposite remedy — an
-explicit third "automatic" control state. Corrected there in the same run; that
-subject's note carries the other half. The distinction that keeps them apart:
-its source is a **measurement the application performs**, which can be re-run
-and can change for reasons unrelated to the user, so it is disqualified twice
-over as a trigger for re-evaluating a stored choice. This subject's source is a
-setting it merely reads.
+`cross-source-precedence-chain`'s *When not to use this* closes with: *order that
+depends on the value is a policy engine, not a chain.* That is correct, and it
+assumes value-dependence is a thing an author **chose**. The finding is the case
+where nobody chose it — the author intended to test presence and wrote a test of
+value, because `typed-accessors` had already substituted the default and
+collapsed unset and set-to-the-default into the same bytes. The chain's rule
+names the smell; the mechanism that prevents it is a read that can say "absent"
+out loud.
 
-## Applied
+This is the Phase 6 denial hunt working exactly as written: *where a subject
+explicitly denies a symmetry, check whether it denied too much.*
 
-`inherited-default-override` → an embed widget on a connected project,
-experiment, **better** (1/2 → 2/2 viewer environments served the palette their
-environment asks for). The widget's config carries a distinct `auto` value and
-resolves it **server-side**, where the viewer is invisible, to a constant — in
-two files, one of which documents the gap in a comment rather than closing it.
+## The second half nobody states
 
-Structural fact worth keeping: the three-state *model* survived intact and the
-subscription died at the *resolution point*. Shape and semantics were maintained
-by different hands and only shape reached the renderer — evidence that
-preserving the model protects nothing on its own.
+A deprecation notice attached to the branch where the old key **wins** is
+invisible to the operator who has migrated and still carries a stale line — the
+one population that needs to hear it. The notice belongs on the key's
+*presence*, in two distinguishable messages, and the two counts are not
+interchangeable when scheduling removal.
 
-## Leads
+## The apply, which found a defect with a security half
 
-- The subject's `save-experience` technique covers debounced honest saves and
-  unsaved guards, but says nothing about a control whose write is a **deletion**
-  — the confirmation copy for "this returned to following your environment" is a
-  save-experience question the new technique only gestures at. Return condition:
-  when a second source describes the feedback problem for a detach/re-attach
-  control.
-- The audit obligation for an inherited-default key is a **transition** (attach
-  or detach), not a value change. Stated in the new technique's third carve-out;
-  `settings-audit-and-history` does not yet model transitions as a record kind.
-  Return condition: when a project grows an org-inherited policy value.
+`goat`, mode `code`, verdict `better`, `ab-paired`, shipped `323b1bd`.
 
-## 2026-08-31 - intake (youtube:3IyKC5EtNkM, "9 Ways to do Inheritance in Rust")
+An enrichment health probe resolved `TMDB_API_KEY || NEXT_PUBLIC_TMDB_API_KEY`
+while the fetcher it reports on reads only the first, so a public-name-only
+deployment got a green health endpoint over a path that threw on every call. The
+dual read was 1 of 5 sibling probes in one file, and the file's own doc comment
+and error string both already named one key.
 
-Amendment to **`typed-accessors`**: the case where the type is the *caller's* parameter
-rather than a per-key declaration, and the case of an **open key space** where "one
-accessor per key" cannot be written at all.
+The sharp edge: arm A did not merely *report* the public value usable, it
+**spent** it in the outbound `api_key` parameter — so a bundle-named variable was
+a working way to supply a secret, and the compatibility fallback is what kept it
+alive. That makes a rename fallback a security decision whenever the two names
+sit on opposite sides of the public/server split.
 
-Found by reading the technique's 4-step contract as the enumeration it is. The contract
-rests on an unstated premise - the type is declared at the accessor - and its step 2 uses
-**parse failure as the type detector**, which is a heuristic rather than a check: a compact
-binary encoding reads one width as another and succeeds, a decoder with optional fields
-reads a foreign record as a fully-defaulted one and succeeds. When it succeeds, step 4
-returns a value "the type system vouches for", which is the subject's own thesis
-(misconfiguration indistinguishable from configuration) arriving through the door meant to
-prevent it - and **worse than the corruption case the subject does model**, because no
-default is substituted and the value looks chosen.
+## Open ground
 
-Grep confirmed the gap rather than assumed it: zero hits for type-mismatch vocabulary
-across the whole subject, and `Boundaries` claims typing rather than scoping it out.
-`ipc-contract` was rejected as an alternative home on its own stated boundary - "no version
-skew in the field, both halves ship together" - which is precisely what a persisted store
-does not have.
+- No application yet from a tree that has the **single resolver** the technique
+  asks for. `goat` was fixed at one call site because it has no configuration
+  module at all; the technique's central prescription is therefore asserted and
+  not witnessed.
+- The two-message notice and the two-count removal rule are likewise unwitnessed.
+  A tree that implements them would be the strongest possible application here.
 
+Source note: [[2026-09-04-flatnotes]]
 Remedies ranked in the amendment: bind the type to the key in the registry (closed key
 space, no runtime tag needed), tag the record (open key space, catches *named*
 disagreements only), or bind the type into the handle at build time.

@@ -1,6 +1,6 @@
 ---
 domain: llm-observability
-last_swept: 2026-09-01
+last_swept: 2026-09-05
 layout: nested
 demand_known: false
 ---
@@ -86,3 +86,17 @@ and-attribution/single-shape-rule` closed its own loophole - the shape pins the 
 as well as the rule. Banked: `llm-call-telemetry-model` (ship the ban as a gate in the same
 change), `quality-regression-gating` (grouping key from parameters, never position). Three
 leads filed here by consumers belonged to software-engineering and were re-homed.
+
+## 2026-09-05 - /deepen batch ([[2026-09-05-1]])
+
+`usage-limit-governance` - never swept, no note - got its first pass and its first
+note ([[usage-limit-governance]]). Demand read as 6 deviations, not the summed 12
+(the duplicate block above). Yield: the golden path's "only inline prevents" refuted
+(any pre-provider seat, each approximate), a fourth enforcement seat (client-side)
+with its honesty rules, a memory section the window cache lacked, five absolutes
+qualified, three applications re-witnessed after the source tree split its module,
+one new rust application. Eleven of sixteen subjects now carry a note.
+
+Owed here: the hierarchical-budget proposal (org > workspace > key; home ambiguous);
+the second SDK stack one tree read away; the first `/conform` on tracklight for this
+subject, which is the only way its demand becomes readable on this machine.

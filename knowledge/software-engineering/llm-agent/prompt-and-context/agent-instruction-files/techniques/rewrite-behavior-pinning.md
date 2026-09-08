@@ -176,10 +176,12 @@ claimed was deleted is in the file today.
 
 The reason is the one this technique already gives: a lexical check reads the
 text as a proxy for the behaviour, which is the per-line funnel wearing a new
-name. It also inherits a bias that runs the wrong way — **the strongest
-inversions rewrite the most words**, so any similarity floor tuned to suppress
-false pairs suppresses the true ones first, and every threshold that made the
-detector quiet also made it blind.
+name. It also inherits a bias that runs the wrong way — on the three seeded
+positives **the strongest inversions rewrote the most words**, so any
+similarity floor tuned to suppress false pairs suppresses the true ones
+first, and every threshold that made the detector quiet also made it blind;
+whether that bias holds on inversions found in the wild is unmeasured, because
+none were.
 
 Two things follow for practice. A modality scan is a **drafting aid for the
 author of the rewrite**, run on their own candidate before review, where a

@@ -13,6 +13,7 @@ techniques:
   - performer-claims-need-a-person
   - screenshots-claim-a-record
   - slots-claim-their-subjects
+  - anchor-removal-ablation
 ---
 
 # Evidence-bound visuals

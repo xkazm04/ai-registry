@@ -92,7 +92,7 @@ picking: if the only consumer is a test, it is the neighbour's; if a human looks
 at it and forms a belief, it is this subject's.
 
 **Hosting somebody else's live application** is
-[embedded-preview](../../integration/embedded-preview/embedded-preview.md), whose
+[embedded-preview](../../integration/embedded-surfaces/embedded-preview/embedded-preview.md), whose
 guest is *real* — separately served, separately built, with its own process and
 its own trust boundary — and whose problem is talking to it safely across a
 frame. This subject's fake plane is neither separate nor live: it is the

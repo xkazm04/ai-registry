@@ -3,7 +3,7 @@ layer: golden-path
 type: golden-path
 subject: guest-execution-bounding
 status: forged
-use_when: [an embedded interpreter must stop guest code that recurses or loops without end, deciding which resource ceilings an in-process runtime can honestly promise, a long guest evaluation must share a host's single-threaded executor with other tasks, a limit failure is being swallowed by the guest's own error handling, a fuzzer or test harness needs non-termination to be a result rather than a hang]
+use_when: [an embedded interpreter must stop guest code that recurses or loops without end, deciding which resource ceilings an in-process runtime can honestly promise, a long guest evaluation must share a host's single-threaded executor with other tasks, a limit failure is being swallowed by the guest's own error handling, a fuzzer or test harness needs non-termination to be a result rather than a hang, the host embeds a third-party engine whose dispatch loop it cannot instrument at all, an asynchronous timeout is being presented as a ceiling over work it does not actually stop]
 techniques:
   - cost-budget-cooperative-yield
   - uncatchable-limit-errors
@@ -11,6 +11,11 @@ techniques:
   - back-edge-iteration-counter
   - instruction-budget-for-fuzzing
   - bounded-shadow-backtrace
+  - terminate-from-outside-when-you-cannot-count
+  - one-terminator-many-armed-slots
+  - nested-liveness-ceilings
+  - budget-tier-from-observed-output
+  - grace-for-the-uninterruptible-host-call
 ---
 
 # Guest execution bounding
@@ -27,7 +32,7 @@ count stays honest when native code re-enters the interpreter, and how the same 
 model that bounds execution also lets a long evaluation yield fairly to a host executor
 without slowing the path that never yields.
 
-The principle underneath every technique here is one sentence: **a ceiling is
+The principle underneath most of the techniques here is one sentence: **a ceiling is
 enforceable exactly where something is counted, and nowhere else.** An interpreter that
 pushes frames can cap frames. One that owns a value stack can cap slots. One whose
 compiler places an explicit counting instruction at every loop's back-edge can cap
@@ -36,6 +41,19 @@ or yield on a budget. What it does not count - wall time inside a native call th
 provided, bytes allocated by that call on the guest's behalf - it cannot cap, and the
 honest design says so beside the ceilings it does publish rather than letting the word
 "limits" imply a completeness it lacks.
+
+That principle has a precondition, and the precondition is load-bearing enough to be
+stated beside it: **the host owns the dispatch loop.** Everything above is available to
+a host that wrote the interpreter, or forked it, or can otherwise place an instruction
+inside its inner loop. A host that embeds a *third-party* engine - a script engine, a
+query engine, a decoder, anything shipped as a library whose loop is not the host's code
+- can count nothing at all, and for it the counted set is empty by construction rather
+than by neglect. That host is not therefore ceiling-less, and the second half of this
+subject is what remains available to it: a bound imposed from outside the engine, on the
+engine's own published terms. The two halves are not alternatives to be chosen between
+by taste. **Which one is available is decided by a single question - can the host place
+a counter in the loop? - and a host that can should count, while a host that cannot has
+exactly one honest option left.**
 
 ## Where this stops, and the neighbours start
 
@@ -47,7 +65,12 @@ states, in its section on where the runtime counts, that the counted set is not 
 an interpreter the host embeds, and that a counted ceiling must raise a failure the guest
 cannot catch. This subject owns the *mechanism* of counting and stopping - which counters
 exist, where they are incremented and checked, how the failure unwinds - and nothing
-about reach or grants. The rule for a reader holding both: if the question is *what may
+about reach or grants. One refinement this subject now sends back across that boundary:
+the neighbour puts wall time on the *uncounted* list, which is right about counting and
+should not be read as "therefore uncapped". Wall time is uncappable from inside the loop
+and remains cappable from outside it, so a runtime publishing its two lists has a third
+thing to say - which ceilings are counted, which are uncounted, and which are bounded
+externally by a terminator rather than by a counter. The rule for a reader holding both: if the question is *what may
 this guest touch*, or *what does "sandboxed" promise the operator*, read the neighbour; if
 the question is *how does the interpreter know it is time to stop, and how does it stop*,
 read here. The neighbour consumes this subject's ceiling list; this subject does not
@@ -185,6 +208,68 @@ A guest-facing setter exists only behind an explicit debug flag, for engine test
 in the guest language; an always-on setter is a ceiling the guest may raise, which is no
 ceiling.
 
+## When the counted set is empty: bounding an engine you did not write
+
+A host embedding a third-party engine has none of the four counters. It has one lever,
+and building a real ceiling out of it takes four decisions rather than one.
+
+The lever is
+[terminate-from-outside-when-you-cannot-count](./techniques/terminate-from-outside-when-you-cannot-count.md):
+a separate thread of control holding the engine's own thread-safe termination handle,
+calling it when a deadline passes, touching nothing else. Its first job is diagnostic
+rather than constructive - it names the thing most hosts have instead of a ceiling. An
+asynchronous timeout around foreign work cancels **the await, not the work**: over a
+synchronous foreign call it cannot fire at all until that call returns, and over a
+handed-off child process or connection it fires on schedule and returns an error while
+the work keeps running. The host's logs then say the bound worked. The question that
+separates a real ceiling from that one is short enough to ask of any timeout in any
+codebase: *when this fires, what happens to the work?*
+
+The remaining three decisions are what stop the lever from being the naive watchdog
+after all.
+
+**Arm it everywhere, which means arming has to be cheap.**
+[one-terminator-many-armed-slots](./techniques/one-terminator-many-armed-slots.md): one
+long-lived terminator thread rather than a thread per call, because a per-call thread
+costs more than the cheap commands it is bounding and therefore gets applied
+selectively - and a selectively armed ceiling covers the calls somebody predicted would
+hang. But the single *slot* that makes it cheap is a correctness trap: with two units of
+work in flight, the second arm overwrites the first and silently leaves it unbounded. A
+set of slots keyed by a monotonic generation is the shape that is both cheap and correct.
+
+**One number cannot bound nested work.**
+[nested-liveness-ceilings](./techniques/nested-liveness-ceilings.md): a per-sub-unit
+budget is defeated by many sub-units each inside budget; a phase ceiling over them is
+defeated by work scheduled after the phase; a per-request ceiling closes that and is
+itself defeated only by the host's own bounding path failing, which is what the process
+deadline is for. Each rung exists because the rung below it can be escaped, and the rung
+that matters most is the outermost, because it is the only one armed by something the
+guest cannot wedge. Write the escape beside every rung or the next reader deletes it as
+redundant caution, correctly, because nothing on the page says it is not.
+
+**One number cannot serve two populations either.**
+[budget-tier-from-observed-output](./techniques/budget-tier-from-observed-output.md):
+guest work that enhances an output the host already holds wants a short budget, and
+guest work that *is* the output wants the full one, and the same deployment gets both on
+different inputs, so no configured value is right. The tier is derived instead from a
+cheap structural observation of what the host is holding at the moment it chooses - a
+populated output means enhancement, a stub means this work is the answer - with
+ambiguous cases biased to the long budget, because the rung above recovers a wasted
+budget and nothing recovers a truncated result.
+
+Finally, the boundary the whole scheme crosses:
+[grace-for-the-uninterruptible-host-call](./techniques/grace-for-the-uninterruptible-host-call.md).
+A deadline that fires while control is inside a host-provided call cannot take effect
+until that call returns, so the design either discards work the host will pay for
+anyway, or lets the begun call finish under a separate, explicitly named grace and takes
+the breach at the boundary. This is the exact mirror of
+[count-host-reentry-in-recursion-depth](./techniques/count-host-reentry-in-recursion-depth.md):
+there the host's frames were invisible to the count and the depth *under*counted; here
+the host's time sits inside a bound only the guest can be stopped for, and the ceiling
+*over*charges the guest for a duration it did not control. Both are the same defect -
+accounting that crosses a boundary without saying so - and both are fixed by naming the
+boundary rather than by adjusting the number.
+
 ## What the naive reading gets wrong
 
 The first naive reading is a watchdog: run the guest on a thread, kill it on a timer. It
@@ -193,6 +278,21 @@ corrupting it; a timer fires at the same point on a slow machine and a slow inpu
 limit is not deterministic; and a thread is exactly what the single-threaded embedded
 host does not have. Counting is deterministic, thread-free, and stops the guest at an
 instruction boundary where every invariant holds.
+
+**All three objections are objections to killing a thread, and none of them survives
+when the host stops trying to.** They are decisive for a host that can count and reached
+for a timer anyway, and they say nothing at all about the host that cannot count. That
+host does not kill a thread: it calls a thread-safe termination handle the engine
+published for the purpose, and the engine unwinds itself at its own safe point, through
+the same machinery that raises a counted breach. Its data is never touched, so the first
+objection is void. Its guest execution stays single-threaded, and the extra thread only
+sleeps on a deadline and calls one function, so the third is void. The second is
+conceded and reframed, because the promise being made is different: an externally
+imposed bound is a **liveness** ceiling - no unit of work holds the host forever - and
+not a correctness limit, so it must be set far above the slowest legitimate work and
+must never be something a guest's *result* depends on.
+[terminate-from-outside-when-you-cannot-count](./techniques/terminate-from-outside-when-you-cannot-count.md)
+owns the mechanism and the distinction.
 
 The second is to count frames only. Every recursion through an accessor, a callback
 passed to a native routine, or a promise resolution re-enters the interpreter from native

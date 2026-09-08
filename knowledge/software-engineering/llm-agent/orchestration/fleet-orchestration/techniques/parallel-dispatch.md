@@ -44,6 +44,46 @@ passes the same admission check.
   full admission — including write-scope validation, because the world
   changed while it waited.
 
+## When the requester cannot survive the wait, refuse instead of queueing
+
+The queue above assumes a requester that persists across the wait: a program
+holding a handle, an operator watching a list, a scheduler that will notice
+the promotion. A **dispatcher that is itself a single model turn** is none of
+those. It emitted its requests from one context and will not exist when the
+queue drains; the promotion delivers a slot to nobody, and whatever comes back
+arrives in a later turn whose context no longer holds the plan that asked for
+it.
+
+For that requester, admission has a third answer beside admit and queue:
+**refuse the overflow, in the same response, and name the cap.** The refusal
+is not an error to be logged somewhere an operator reads. It is addressed to
+the requester, in the channel the requester actually reads — the result
+stream it is about to receive — and the next turn re-plans against a limit it
+now knows. That is the thing a queue cannot buy from a caller that does not
+outlive the queue.
+
+Three rules keep the refusal honest:
+
+- **Admit the prefix, refuse the tail — never refuse the batch.** The
+  requests were emitted together but they are independent. Discarding all of
+  them because the batch was too wide throws away the work that fit and
+  teaches the requester nothing about the cap's size.
+- **The refusal carries the number, not the fact.** "Too many" produces a
+  retry at an arbitrary smaller width, usually one. The cap, stated, produces
+  a re-plan that fits on the next attempt.
+- **Refusals are counted, and the count is how the cap gets sized.** A cap
+  refused on most iterations is set below what the work needs; a cap never
+  refused is not binding and its cost ceiling is imaginary. Report the rate
+  with the population it fired over
+  ([count-carries-predicate](../../../../_laws.md#count-carries-predicate)).
+
+The discriminator is **whether the requester survives the wait**, never the
+size of the overflow. A caller that can be handed a promoted slot is queued; a
+turn that cannot is refused. A fleet with both kinds of requester runs both
+policies behind the same door
+([one door](../../../../_laws.md#one-validation-door)) — what differs is the
+answer, not where the answer is decided.
+
 ## The address: derive it from the work, not the attempt
 
 A dispatch is not finished when the session starts; it is finished when the

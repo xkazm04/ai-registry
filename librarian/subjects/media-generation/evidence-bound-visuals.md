@@ -1,7 +1,7 @@
 ---
 subject: evidence-bound-visuals
 domain: media-generation
-last_touched: 2026-08-25
+last_touched: 2026-09-04
 dry_streak: 0
 ---
 
@@ -31,3 +31,40 @@ First note: [[2026-08-25-awesome-gpt-image-2]] - /intake run 11. Subject predate
 ## Open leads
 
 - The trimming failure mode (cutting the region where invention showed, which removes the evidence and keeps the practice) is stated in two places here. If a third sighting appears it is probably its own small technique about remedies that destroy evidence. Return on a third sighting, not before.
+
+### 2026-09-04 - `/intake` (`worldlabs-atlas`), invention you cannot see, found by removing an anchor
+
+Landed **`anchor-removal-ablation`** (8 -> 9 techniques). The source demonstrated it
+without naming it: one input image and the garden is faithful while the rest is
+imagined; two and the cottage joins it; three and the scene is accurate. "The more it
+sees, the less it imagines."
+
+**The precondition `epistemic-draw-routing` rests on is what this breaks.** That
+technique routes by *layer* - checkable elements to code, the rest to a generated
+plate - and the routing is decided per element before rendering. A reconstruction
+produces one surface on which sourced and invented content are interleaved at the
+pixel, same style, same fidelity, no seam and no element list. So the subject's
+strongest instrument is unavailable exactly where the stakes are highest, and the
+finding is the substitute: **the invented region is the region that changes when you
+remove an anchor.** Run the same view from a shrinking input set, diff the rungs into
+an instability map, route by the map rather than by appearance.
+
+Written with the rules that keep it from over-claiming - stability is necessary and not
+sufficient (two inputs can be consistently wrong, and a region can be stable because
+every rung inherits the same prior), and a region only carries a claim if some input
+actually *sees* it.
+
+**It speaks to the open lead below without being a third sighting of it.** The trimming
+failure mode - cutting the region where invention showed, which removes the evidence
+and keeps the practice - assumes the invention *became obvious*. Against a generator
+whose whole value is that its fills are plausible, it never does. The ablation is the
+instrument that makes the question answerable before anything needs trimming, so the
+lead's third sighting should still be counted independently.
+
+**Unapplied, and deliberately so.** No project in the fleet has the seam: the technique
+needs a generator that fills unobserved regions of a *real referent*, and the two
+projects declaring this domain condition on **style** references explicitly labelled
+"not content to reproduce". Recorded in `librarian/applied.md` as unapplied with a
+return condition rather than simulated - three invented cases would have been an
+opinion with a table around it. This is the corpus outrunning the fleet, which is a
+state and not a miss.

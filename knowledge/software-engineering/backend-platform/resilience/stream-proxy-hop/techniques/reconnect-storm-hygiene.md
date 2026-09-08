@@ -49,14 +49,17 @@ exists for.
 unconditional basis ([creation-names-reaper](../../../../_laws.md#creation-names-reaper)).
 
 The situation that produces the orphan is worth naming because it surprises
-people: a stream client can fire its error handler **more than once** for a
-single failure — once when the connection attempt fails, again as the
-underlying state settles, and again if the client's own internal retry also
-gives up. Each invocation of a naive handler schedules a reconnect. Now two or
-three timers are pending, each will connect, and each connection's failure
-schedules more. What began as one outage is now an exponentially growing
-population of timers on a single client, all of them aimed at an origin that is
-already unwell.
+people: a stream client can fire its error handler **more than once** for what
+the application counts as a single failure. The standard client fires it once
+per attempt, and it makes attempts the application did not schedule — its
+specification reconnects on its own after a network error *and* after a body
+that simply ended, so a wobbly upstream produces a built-in attempt and an
+error for each, interleaved with whatever the application's handler scheduled
+from the previous one. Each invocation of a naive handler schedules a
+reconnect. Now two or three timers are pending, each will connect, and each
+connection's failure schedules more. What began as one outage is now an
+exponentially growing population of timers on a single client, all of them
+aimed at an origin that is already unwell.
 
 So the handler must be **idempotent with respect to scheduling**: clearing the
 prior timer, and refusing to schedule at all when a connection attempt is
@@ -69,13 +72,28 @@ Delay grows exponentially from a small base to a stated ceiling — the ceiling
 matters as much as the growth, because unbounded doubling eventually means a
 client that will not recover for an hour after a thirty-second blip.
 
-Add **jitter**. Every client that lost its connection lost it at the same
-instant, because they all lost it to the same event; without jitter they all
-return at the same instant too, and the origin that just came back is knocked
-over by a synchronized wave from the entire population. Randomizing each delay
-within a window spreads the return across it. This is the one place where the
-client's politeness is load-bearing for someone else's availability, and it is
-cheap.
+Add **jitter** wherever there is a population. Every client that lost its
+connection lost it at the same instant, because they all lost it to the same
+event; without jitter they all return at the same instant too, and the origin
+that just came back is knocked over by a synchronized wave from the entire
+population. Randomizing each delay within a window spreads the return across
+it. This is the one place where the client's politeness is load-bearing for
+someone else's availability, and it is cheap. A single long-running consumer
+— one relay process holding one subscription — has no population to spread
+and may leave it out; the moment a second instance of it is deployed, the
+argument returns.
+
+**Reset the backoff on a stable connection, not on a successful open.** A
+counterpart that accepts the connection and closes it a moment later — a
+rate limiter, a draining instance, an origin that answers the handshake and
+dies on the first write — produces a clean close after a successful open, and
+a client that resets its delay on `open` retries that at full rate forever
+while believing each attempt worked. The delay resets only once the
+connection has lived past a stated threshold; a close before it counts as a
+failure for backoff purposes whatever the close looked like. The general form
+of that rung-advancement rule lives in
+[retry-backoff](../../retry-backoff/retry-backoff.md); here it is the
+difference between a storm and a pause.
 
 The base, the ceiling, the multiplier and the attempt limit belong in **named
 constants, together, beside the heartbeat period** — see

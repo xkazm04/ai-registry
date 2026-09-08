@@ -4,8 +4,8 @@
   "bundle": "media-generation",
   "source": "knowledge/media-generation/ (frontmatter only)",
   "subjects": 20,
-  "techniques": 133,
-  "applications": 63,
+  "techniques": 135,
+  "applications": 64,
   "laws": 9,
   "categories": [
    "narrative-craft",
@@ -15,7 +15,7 @@
    "production-ops"
   ],
   "layout": "nested",
-  "use_when_coverage": "133/133",
+  "use_when_coverage": "135/135",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -25,6 +25,8 @@
    "status": "forged",
    "file": "knowledge/media-generation/visual-generation/character-identity-continuity/character-identity-continuity.md",
    "digest": "sha256:d722e34c8a79aa12",
+   "revision": 3,
+   "changedAt": "2026-08-28",
    "techniques": [
     {
      "slug": "camera-position-not-focal-length",
@@ -115,6 +117,8 @@
    "status": "forged",
    "file": "knowledge/media-generation/visual-generation/cinematic-language/cinematic-language.md",
    "digest": "sha256:fb97957050b7a568",
+   "revision": 8,
+   "changedAt": "2026-09-07",
    "techniques": [
     {
      "slug": "camera-position-semantics",
@@ -256,6 +260,8 @@
    "status": "forged",
    "file": "knowledge/media-generation/research-grounding/content-research-grounding/content-research-grounding.md",
    "digest": "sha256:1d6e798c5f9f21f0",
+   "revision": 3,
+   "changedAt": "2026-08-29",
    "techniques": [
     {
      "slug": "evidence-grading-ladder",
@@ -389,6 +395,8 @@
    "status": "forged",
    "file": "knowledge/media-generation/narrative-craft/creator-voice-and-tone/creator-voice-and-tone.md",
    "digest": "sha256:aa44cb07376b716c",
+   "revision": 2,
+   "changedAt": "2026-08-31",
    "techniques": [
     {
      "slug": "delivery-rate-budgeting",
@@ -497,8 +505,26 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/research-grounding/evidence-bound-visuals/evidence-bound-visuals.md",
-   "digest": "sha256:3b362457132ee869",
+   "digest": "sha256:50341b454060ae16",
+   "revision": 6,
+   "changedAt": "2026-09-08",
    "techniques": [
+    {
+     "slug": "anchor-removal-ablation",
+     "status": "forged",
+     "laws": [
+      "output-never-outruns-evidence",
+      "checkability-routes-the-pixel",
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a generator fills unobserved regions from world knowledge",
+      "an output cannot be separated into a generated plate and a drawn layer",
+      "deciding which parts of a reconstruction are evidence and which are invention",
+      "a single surface mixes sourced and imagined content at the pixel"
+     ]
+    },
     {
      "slug": "causal-arrow-discipline",
      "status": "forged",
@@ -649,6 +675,8 @@
    "status": "forged",
    "file": "knowledge/media-generation/visual-generation/frame-direction/frame-direction.md",
    "digest": "sha256:169a330e538eed24",
+   "revision": 1,
+   "changedAt": "2026-08-21",
    "techniques": [
     {
      "slug": "motif-establish-vary-payoff",
@@ -754,6 +782,8 @@
    "status": "forged",
    "file": "knowledge/media-generation/audio-generation/generated-music-acceptance/generated-music-acceptance.md",
    "digest": "sha256:fa10523eaebe1526",
+   "revision": 2,
+   "changedAt": "2026-08-29",
    "techniques": [
     {
      "slug": "brief-conformance-listen",
@@ -844,7 +874,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/visual-generation/generated-output-grading/generated-output-grading.md",
-   "digest": "sha256:11592fb0cb041a7b",
+   "digest": "sha256:a19617f45fd37ef6",
+   "revision": 8,
+   "changedAt": "2026-09-08",
    "techniques": [
     {
      "slug": "cross-provider-flip-analysis",
@@ -858,6 +890,22 @@
       "deciding whether a failed render indicts the prompt or the model",
       "choosing between two image generators",
       "a generator keeps failing one kind of brief"
+     ]
+    },
+    {
+     "slug": "input-channel-parity",
+     "status": "forged",
+     "laws": [
+      "typed-input-owns-its-channel",
+      "unmeasured-is-not-pass",
+      "cost-per-usable-output"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "comparing generators that do not accept the same input types",
+      "one candidate takes a control dimension as structured input and the others take only prose",
+      "reading a vendor's published comparison against its competitors",
+      "a matrix's identical-brief rule cannot be satisfied"
      ]
     },
     {
@@ -949,6 +997,13 @@
    "applications": [
     {
      "stack": "node",
+     "technique": "input-channel-parity",
+     "file": "knowledge/media-generation/visual-generation/generated-output-grading/applications/node--input-channel-parity.md",
+     "verified_on": "2026-09-04",
+     "verified_against": "node@22"
+    },
+    {
+     "stack": "node",
      "technique": "trial-matrix-design",
      "file": "knowledge/media-generation/visual-generation/generated-output-grading/applications/node--trial-matrix-design.md",
      "verified_on": "2026-08-28",
@@ -987,6 +1042,8 @@
    "status": "forged",
    "file": "knowledge/media-generation/visual-generation/generative-provider-routing/generative-provider-routing.md",
    "digest": "sha256:e55f12fc2041ec86",
+   "revision": 9,
+   "changedAt": "2026-09-07",
    "techniques": [
     {
      "slug": "capability-to-vendor-plan",
@@ -1159,6 +1216,8 @@
    "status": "forged",
    "file": "knowledge/media-generation/visual-generation/image-prompt-composition/image-prompt-composition.md",
    "digest": "sha256:9d562569e82b0a6d",
+   "revision": 10,
+   "changedAt": "2026-08-31",
    "techniques": [
     {
      "slug": "assigned-colour-roles",
@@ -1345,6 +1404,8 @@
    "status": "forged",
    "file": "knowledge/media-generation/audio-generation/music-prompt-composition/music-prompt-composition.md",
    "digest": "sha256:41ed7160af5ec809",
+   "revision": 1,
+   "changedAt": "2026-08-26",
    "techniques": [
     {
      "slug": "duration-and-tempo-locking",
@@ -1443,6 +1504,8 @@
    "status": "forged",
    "file": "knowledge/media-generation/narrative-craft/narrative-engine-selection/narrative-engine-selection.md",
    "digest": "sha256:e76146a6ffbdd34d",
+   "revision": 1,
+   "changedAt": "2026-08-21",
    "techniques": [
     {
      "slug": "adjudication-honesty-tells",
@@ -1534,6 +1597,8 @@
    "status": "forged",
    "file": "knowledge/media-generation/production-ops/platform-format-adaptation/platform-format-adaptation.md",
    "digest": "sha256:f3c7a1753b4f59fe",
+   "revision": 1,
+   "changedAt": "2026-08-21",
    "techniques": [
     {
      "slug": "derived-short-contract",
@@ -1641,6 +1706,8 @@
    "status": "forged",
    "file": "knowledge/media-generation/production-ops/production-pipeline-phasing/production-pipeline-phasing.md",
    "digest": "sha256:a8f14e6aef02a9b4",
+   "revision": 4,
+   "changedAt": "2026-09-01",
    "techniques": [
     {
      "slug": "asset-vs-disposable-render",
@@ -1765,6 +1832,8 @@
    "status": "forged",
    "file": "knowledge/media-generation/production-ops/review-iteration-loops/review-iteration-loops.md",
    "digest": "sha256:08779736175407b3",
+   "revision": 9,
+   "changedAt": "2026-08-31",
    "techniques": [
     {
      "slug": "anchored-variation-slate",
@@ -1934,6 +2003,8 @@
    "status": "forged",
    "file": "knowledge/media-generation/narrative-craft/short-form-narrative-structure/short-form-narrative-structure.md",
    "digest": "sha256:2f8fe8986f5d360f",
+   "revision": 1,
+   "changedAt": "2026-08-21",
    "techniques": [
     {
      "slug": "but-therefore-beat-linking",
@@ -2029,6 +2100,8 @@
    "status": "forged",
    "file": "knowledge/media-generation/audio-generation/sound-effect-generation/sound-effect-generation.md",
    "digest": "sha256:ca3feb2c065143ff",
+   "revision": 3,
+   "changedAt": "2026-08-29",
    "techniques": [
     {
      "slug": "envelope-first-briefing",
@@ -2132,6 +2205,8 @@
    "status": "forged",
    "file": "knowledge/media-generation/narrative-craft/trailer-structure/trailer-structure.md",
    "digest": "sha256:bfabaa7ceaf32dc6",
+   "revision": 3,
+   "changedAt": "2026-09-01",
    "techniques": [
     {
      "slug": "concealment-and-its-tells",
@@ -2233,6 +2308,8 @@
    "status": "forged",
    "file": "knowledge/media-generation/production-ops/video-assembly/video-assembly.md",
    "digest": "sha256:7be5b6782d3be270",
+   "revision": 12,
+   "changedAt": "2026-09-07",
    "techniques": [
     {
      "slug": "cut-compiled-from-source",
@@ -2402,6 +2479,8 @@
    "status": "forged",
    "file": "knowledge/media-generation/visual-generation/visual-style-locking/visual-style-locking.md",
    "digest": "sha256:e2b6a8b9f9a0af7f",
+   "revision": 5,
+   "changedAt": "2026-08-28",
    "techniques": [
     {
      "slug": "approved-reference-sheet",
@@ -2522,12 +2601,14 @@
     "creator-voice-and-tone/dial-vs-subject-property",
     "creator-voice-and-tone/spoken-delivery-direction",
     "creator-voice-and-tone/voice-profile-from-accepted-work",
+    "evidence-bound-visuals/anchor-removal-ablation",
     "evidence-bound-visuals/figure-must-cite-a-fact",
     "frame-direction/per-beat-rejection",
     "generated-music-acceptance/brief-conformance-listen",
     "generated-music-acceptance/loudness-and-peak-acceptance",
     "generated-music-acceptance/structure-verification-against-plan",
     "generated-output-grading/cross-provider-flip-analysis",
+    "generated-output-grading/input-channel-parity",
     "generated-output-grading/replication-as-comprehension-test",
     "generated-output-grading/trial-matrix-design",
     "generated-output-grading/two-grader-disagreement-rule",
@@ -2622,6 +2703,7 @@
     "character-identity-continuity/reference-shows-only-invariants",
     "cinematic-language/movement-motivation",
     "cinematic-language/performance-direction",
+    "generated-output-grading/input-channel-parity",
     "sound-effect-generation/picture-as-timing-brief"
    ]
   },
@@ -2665,6 +2747,7 @@
     "content-research-grounding/unknowns-as-constraints",
     "creator-voice-and-tone/delivery-rate-budgeting",
     "creator-voice-and-tone/dial-vs-subject-property",
+    "evidence-bound-visuals/anchor-removal-ablation",
     "evidence-bound-visuals/causal-arrow-discipline",
     "evidence-bound-visuals/epistemic-draw-routing",
     "evidence-bound-visuals/figure-must-cite-a-fact",
@@ -2714,6 +2797,7 @@
   "checkability-routes-the-pixel": {
    "statement": "If a viewer could check an element against a fact, deterministic code must draw it. If it only has to feel right, a model may. Charts, exact values, and labels are drawn and composited; atmosphere and illustrative scenes are generated. A generated glyph is not a nicer glyph — it is an unusable one.",
    "techniques": [
+    "evidence-bound-visuals/anchor-removal-ablation",
     "evidence-bound-visuals/epistemic-draw-routing",
     "frame-direction/motion-intent-authoring",
     "frame-direction/plate-elements-text-split",
@@ -2734,6 +2818,7 @@
     "generated-music-acceptance/brief-conformance-listen",
     "generated-music-acceptance/generated-audio-defect-taxonomy",
     "generated-output-grading/cross-provider-flip-analysis",
+    "generated-output-grading/input-channel-parity",
     "generated-output-grading/regrade-without-regenerate",
     "generative-provider-routing/capability-to-vendor-plan",
     "generative-provider-routing/cost-per-usable-economics",

@@ -41,9 +41,15 @@ audit covers — a silent widening is not a display bug at all; it is a
 disclosure of rows the user was not asking to see.
 
 So whenever rehydration is uncertain, resolve toward the **narrower**
-legal state. In practice that is nearly always the field's declared
-default, because defaults are chosen conservatively for exactly this
-reason.
+legal state. For a preference, that is the field's declared default,
+because a preference's default is chosen to be its tightest member.
+It is not the default where the default is the *widest* value — a time
+window of "all time", a scope of "every account", a filter of "no
+filter" — since there falling to the default is the widening itself.
+For such a field the narrower legal state is the tightest member the
+vocabulary admits (an empty selection, the smallest window), and the
+surface then shows the unfiltered state as a stated fact rather than
+letting it pass as the unremarkable one.
 
 ## Partial persistence is where widening comes from
 

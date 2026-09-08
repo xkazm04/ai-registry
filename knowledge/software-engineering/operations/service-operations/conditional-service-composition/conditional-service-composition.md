@@ -167,7 +167,7 @@ part, and the set is whatever satisfies the condition. That is why a resolver
 built for either of the other two shapes gets this one wrong — it goes looking
 for the declaration, and there isn't one.
 
-[overlay-merge-absence-semantics](../../../integration/import-normalization/techniques/overlay-merge-absence-semantics.md)
+[overlay-merge-absence-semantics](../../../integration/acquisition-and-ingest/import-normalization/techniques/overlay-merge-absence-semantics.md)
 shares the word *overlay* and owns the opposite half of it: what an overlay's
 **silence about a key** means once the merge is already running. Participation
 versus absence semantics — this subject decides whether a document is in the

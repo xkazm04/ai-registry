@@ -26,7 +26,9 @@ matter.
   atomicity of each admission's own writes, which was never the problem.
 - **Serializable isolation is enough and still wrong.** It converts the
   race into aborts: concurrent admissions for the same tenant abort each
-  other, and every retry re-reads the whole window. A traffic burst — the
+  other, and every retry re-runs the whole multi-rule evaluation (and,
+  without an incremental usage cache, re-reads the whole window). A
+  traffic burst — the
   common case, not the attack — becomes a retry storm on the ingest path,
   with tail latency exploding precisely under load. Correctness bought at
   the price of a self-inflicted outage is the wrong purchase.
@@ -40,9 +42,14 @@ blocks until the first commits, then reads usage that already includes it.
 The properties to insist on:
 
 - **Scoped, not global.** The lock key derives from the tenant, so
-  different tenants never block each other. The cost of a same-tenant
-  burst is latency — waiters queue, one commit per event — never lost
-  enforcement and never livelock.
+  different tenants do not block each other on the lock itself. They still
+  share what the lock lives in: a relational store keeps advisory and
+  ordinary locks in one bounded shared-memory pool sized by configuration,
+  and exhausting it stops the server granting *any* lock — so tenant
+  isolation on the key is not isolation from lock-table capacity, and the
+  pool must be sized for the admission concurrency. The cost of a
+  same-tenant burst is latency — waiters queue, one commit per event —
+  never lost enforcement and never livelock.
 - **Leak-proof by construction.** Bind the lock's lifetime to the
   transaction, so a connection that dies mid-admission releases it
   automatically. A lock released by an explicit unlock call has a leak
@@ -83,7 +90,11 @@ system to the admission path, whose outage forces a fail-open-or-fail-
 closed choice that silently becomes part of the cap's semantics. Reach
 for the counter substrate when throughput outgrows the locked store —
 knowingly, as a re-architecture — not as a default borrowed from rate
-limiting.
+limiting. The field's inline gateways show what the borrowed default costs:
+a major cloud gateway's token-limit policy documents that concurrent or
+near-concurrent requests can temporarily exceed the configured limit,
+because the consumed count is only known once responses return — the race
+this technique closes, shipped as a documented property instead.
 
 ## Batches must count their own admissions
 

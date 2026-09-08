@@ -282,6 +282,62 @@ rule that only this loop's participants currently follow.
 - **Builders must not write session-scoped shared ledgers.** Three lots each appended to the repo's fleet-memory (a "max 2 lines per session" file at its 200-line cap) and each pruned the oldest lines to make room — so one lot's prune could have removed a sibling's fresh line, and the Director had no quota left. The brief should say: report your one-line DELIVERED in the final report; the Director writes the ledger once at quiescence.
 - **`npm run validate`-style compound gates die whole under memory pressure; run them staged.** The gate was OOM-killed mid-lint by the OS (foreign python + WSL VM held 63 of 64 GB). typecheck → lint → `vitest run --maxWorkers=3` passed the same content. Under pressure, stage the gate and cap workers rather than retrying the compound script.
 
+## 2.5.2 - 2026-09-05 - ascent
+- **Verify the base gate is green BEFORE dispatching builders.** On a fresh device the generated Prisma client was stale (572 tsc errors) and two lockfile packages were missing (`server-only`, `libsodium-wrappers`), so every one of five builders spent effort classifying "errors outside my write set" and the Director could not tell a rotten baseline from a sibling mid-edit. One `prisma generate` + `npm install` + dropping stale `.next/dev/types` at Phase 0 costs minutes; a Phase 0 step should run the overlay's `always` gate on the clean base and refuse to dispatch on a red it cannot attribute.
+- **Pre-approved deviations are the best first slate on a registry-mapped repo.** Nine directions, all `deviation` pairs from `.ai/registry-map.json` re-verified by scouts, 8/9 accepted, 8/8 shipped with KEEP on review and one redo note. The scout prompt that asked "re-verify each clause with file:line AND symbol" found one extra unsigned writer the prior audit missed and moved two line numbers - the map is a queue of hypotheses, not of facts.
+- **Make docs Director-only when two lots share a feature doc.** Two audit lots would both have edited `org-intelligence.md`; declaring `docs/**` Class C for the wave and asking builders to report "doc-worthy changes" produced two clean Director doc commits and zero registry-style conflicts. Cheaper than teaching five builders anchored-insert discipline on prose.
+
+## 2.5.0 - 2026-09-05 - personas-web
+
+- **A `vault:` candidate can name a user that does not exist on this machine.** The init rule says to
+  CREATE the first named root when none exists, "rather than silently falling back". Here the first
+  candidate was another machine's home directory; creating it would have built a vault under a
+  non-existent user and hidden the fact that a prior round's notes were unreachable. Falling through to
+  the second candidate and writing a loud RECONSTRUCTION NOTICE was the honest move. Suggest the rule
+  become: create the first named root only if its PARENT exists; otherwise fall through and say so.
+- **A stale registry verdict is worth re-verifying even when it is `strong`.** Both deviations this round
+  carried `stale: true` and both were wrong in the details that mattered. One was half-refuted (it
+  conflated two live mechanisms and called a by-design absence "unrealized"); the other named the wrong
+  symptom ("duplicates accumulate") because a dedupe downstream was masking it - the load-bearing half
+  was real and its true cause was sharper than the verdict. Re-verification changed what got built, not
+  just how it was described. The method already says to re-verify; what it does not say is that the
+  correction itself is worth writing down as a lead.
+- **"Layer on the existing X" is ambiguous and can itself be the defect.** A brief criterion said to layer
+  on the repo's existing relative-time formatter rather than fork one. The builder complied exactly - and
+  reused the *staleness label*, putting "Just now" / "15m ago" into a five-tick chart axis where a terse
+  "now" / "{n}m" belonged. The instruction meant "do not fork the mechanism"; it read as "reuse the
+  value". Worth a line in the brief template: when a criterion says reuse, say whether it means the
+  mechanism, the formatter, or the copy.
+- **Builders assume `DECISION NEEDED` has no answering channel.** One lot touched four files outside its
+  write set and reported "I could not raise these as blocking questions and wait - no interactive
+  channel, so I implemented the minimum". The channel exists and round-trips in about a minute. The brief
+  says to return the question; it never says the Director is listening and will reply. Add that sentence.
+- **Two lots writing the same append-only registry make history order-dependent, not lossy.** Three of
+  four lots added i18n keys to the same 14 locale files; `git commit --only` took whole files, so one
+  lot's edits landed inside another's commit. Nothing was lost, and the ordering happened to be correct
+  (keys before consumers). It could as easily have been reversed, leaving a commit whose components
+  reference keys that arrive later. Consider naming a Class-B owner per wave the way feature docs already
+  get one, or explicitly stating that Class-B ordering is not guaranteed and commits touching it may not
+  bisect.
+- **A gate at exactly its warning ceiling is a wave-planning constraint.** Lint ran `--max-warnings 24`
+  with exactly 24 present. Any direction adding one warning would have failed the integration gate at
+  quiescence, after all builder work was done. One builder discovered this and trimmed a file to 199
+  lines to stay under a separate LOC rule rather than spend the last slot. Worth measuring headroom in
+  Phase B step 1 and telling builders what it is.
+- **Re-running the integration gate after a fast-forward merge is ceremony.** The tree is byte-identical
+  to the branch just gated. Step 8 says to re-run on the base; that is right after a `--no-ff` content
+  merge and pure cost after a fast-forward. Worth distinguishing.
+- **Builders should commit BEFORE the full gate, not after.** (ascent round 2, same day) A lot ran targeted gates green, then launched the tree-wide gate and died there with a complete direction uncommitted on disk. The brief's "commit the moment it is verified" reads as "after every gate"; say explicitly: targeted gates -> commit -> full gate -> follow-up commit if the full gate finds something. Builder death is the norm, and the gate is where it happens.
+- **A builder's "open risk outside my write set" is a Director work item, not a footnote.** The direction-9 builder correctly refused to touch the flow file and named a first-paint number that would GROW (the mirror of the report's forward-only rule). A 15-line Director follow-through closed it before merge; left in the report it would have shipped as a known regression of a rule the same repo already enforces elsewhere.
+
+## 2.5.2 - 2026-09-05 - kp
+- An e2e lot cannot verify itself when the shared worktree cannot build (junctioned node_modules): "enrol these specs in CI" shipped seven never-run specs, and a Director live run found five broken against the current app and one real a11y defect. Method rule: for any lot whose deliverable is a spec, the Director boots the app from the main checkout on a spare port with an isolated DB and puts the base URL in the brief; a spec that needs an app change is dropped from the CI list, never holdout-listed.
+- A builder stalled by the harness watchdog (600 s of silence) is resumed from its own transcript with one SendMessage naming the on-disk state (commits landed, files dirty); two such resumes cost zero rework. Brief builders to keep every command under ~5 minutes so the watchdog does not trip on a long gate.
+- Heredoc/stdin patches on this harness can mangle `\b` into 0x08 bytes inside a regex while the file prints normally; the pins fail with "0 hits". Verify written regex lines with `cat -A` (or patch by line index with plain strings) before trusting a red.
+- **"Is a FAILED read distinguishable from an EMPTY one, per sensor?" is the scout question that finds persisted false negatives.** (ascent round 3) A prior audit had marked the PR sensor fixed and moved on; asking the question sensor by sensor found four more that scored a thrown fetch as absence, one of which wrote a remediation for a control the repo has. Put it in every scout prompt for a pipeline context.
+- **A change to what the detectors SEE is the product owner's rubric call, not the Director's.** The reproducible-ingestion fix moved no constant and priced nothing, yet its own measurement showed ~15% more content reaching the detectors on budget-bound repos. Ask at the gate with the measurement in hand (bump / document / hold); the owner bumped.
+- **Pre-check every accepted direction's write set against `git status` BEFORE partitioning.** (ascent round 4) A foreign session's dirty `src/lib/types.ts` blocked one criterion mid-wave; the builder stopped correctly and the criterion was parked. The brief already listed the file as reserved, but the direction should never have been dispatched with a criterion that needed it - the Director had the information at planning time. Phase B step 1 should say: intersect each write set with the dirty foreign set and defer or re-scope on any hit.
+- **The wave branch is not private when a sibling session bare-commits.** A concurrent session landed a commit on the wave branch mid-wave; the ff-merge carried it to the base harmlessly, but the Director must read `git log base..HEAD` for foreign commits before merging and say so in the session note.
 ## 2.5.0 - 2026-09-05 - pof (waves 27-29)
 - **A dev-server-backed e2e gate cannot run while any builder is mid-edit in the shared tree.** The wave-28 walker started as wave 29 was building; the dev server compiled two siblings' half-written files and 27 of 64 specs failed on page-ready — 17 minutes of pure transient state. vitest is immune (each file imports at its own instant); a live server is not. The integration gate's "once, at quiescence" already says this for the Director's own commits — extend it explicitly to the NEXT wave's builders: dispatch wave N+1 only after wave N's slow gates have finished, or accept that wave N's walker is owed until N+1 is quiet.
 - **Builders can write bytes a text diff cannot show.** One builder typed a literal U+0000 as a string separator; git flagged the file binary (`Bin 12108 -> 12651`) and the diff was empty. The Director's review script only greps `^[+-]` lines, so a binary file reads as "no change". Add to the review step: any `Bin` in `git show --stat` is a finding, and `git diff --numstat` showing `-	-` for a source file blocks the keep until the bytes are inspected.

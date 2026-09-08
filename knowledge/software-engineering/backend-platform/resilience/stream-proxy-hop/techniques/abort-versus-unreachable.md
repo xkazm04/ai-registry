@@ -45,8 +45,18 @@ what makes the conflation so damaging:
 The abort is knowable, and it is knowable *first* — before any attempt to
 interpret an upstream error. The request carries a cancellation signal that the
 runtime raises when the downstream connection goes away, and the hop's error
-handling asks that signal before it asks anything else. Two rules keep the
-detection honest:
+handling asks that signal before it asks anything else. Whether the runtime
+raises it at all is a property to verify, not assume: the same framework's
+request signal has been reported never to fire on client disconnect on an
+edge runtime, on an alternative server runtime, and on one hosting adapter,
+in separate issue threads, while firing on its primary runtime. Where it
+does not fire, the only detection left is the failed write on the next
+heartbeat, so detection latency becomes one heartbeat period and every
+cleanup below runs that much later. The transport shapes the signal too: on
+the multiplexed HTTP version a client abort is an explicit per-stream reset
+and the connection survives, so the hop learns of it promptly; on the first
+version it is a socket close that the hop's server notices on its read side
+or on its next write. Two rules keep the detection honest:
 
 - **Check the signal, not the exception's shape.** A cancelled read often
   surfaces as an exception whose type or message resembles a network error, and

@@ -1,7 +1,7 @@
 ---
 domain: software-engineering
 subject: fleet-orchestration
-last_touched: 2026-08-31
+last_touched: 2026-09-04
 touched_by: intake
 dry_streak: 0
 ---
@@ -225,3 +225,29 @@ subject's forces one layer up from where the corpus wrote them. The design
 record and its routing count live in [[2026-09-02-deer-flow-v2-replication]];
 the catch, the anchors verified against the fresh clone, and what the tree
 adds to the technique are in the application document itself.
+
+### 2026-09-04 - `/intake`, from a vendor repository (deep research agent)
+
+Gained two techniques and one amendment from
+[[../../sources/2026-09-04-open-deep-research]]:
+`deliberation-as-an-elected-turn` (the dispatcher's reasoning as a no-op tool
+it elects, forbidden in parallel with the action it reasons about) and
+`soft-budget-under-the-hard-cap` (an enforced cap that must never fire, and a
+smaller budget in the brief derived from it), plus an amendment to
+`parallel-dispatch` for the requester that cannot survive the wait.
+
+**The structural finding, worth more than either technique.** These first
+mapped to `agent-chaining`, and the map was wrong for a reason that is now
+worth stating in both notes. That subject opens by splitting the world in two:
+an orchestrator-driven pipeline holds the whole authored graph and walks it; a
+chain is event-wired and peer-to-peer with the topology implicit in standing
+subscriptions. A **model-driven fan-out is neither** - the topology is decided
+per turn, by a language model, and exists nowhere before that turn. It lands
+here instead, and it lands cleanly, because this subject's dispatcher /
+worker / brief / harvest model survives the dispatcher being a model. Every
+technique here that assumed a program at the dispatch door is a candidate for
+the same boundary; the amendment landed this run is the first one found.
+
+Two applications: `rust--soft-budget-under-the-hard-cap` (a paired A/B on a
+managed scraping service, shipped) and
+`python--deliberation-as-an-elected-turn` against the source tree.

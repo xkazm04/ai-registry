@@ -99,22 +99,51 @@
  *   `governance: "dead"` with no subjects scored - its carried verdicts survive, its
  *   matcher output does not.
  *
+ * ## Churn: a context-map rebuild must not erase verdicts (2026-09-06)
+ *
+ * The carry-forward key is the context's human string, so a renamed context used to be a
+ * deletion plus an arrival and every verdict on it was dropped silently. Now a vanished
+ * context's judged pairs are either inherited by the context that kept >= 60% of its
+ * recorded paths (`source: "renamed"`, `renamedFrom`), or parked under the top-level
+ * `orphans[]` until something adopts them; a context the previous map did not have is
+ * marked `arrived: true` so `/conform` sees a new queue rather than more of the old one.
+ * The rules, the threshold and the paths-cap caveat live in `scripts/lib/map-churn.mjs`.
+ * Each pair also mirrors its subject's `revision` / `changedAt` from the bundle index and,
+ * once `/conform` has written `evaluatedRevision`, reports `revisionsBehind` - how far a
+ * verdict is behind, which two digests alone cannot say.
+ *
  *   node scripts/build-registry-map.mjs [--check] [--project <slug>] [--top <n>]
+ *   node scripts/build-registry-map.mjs --project <slug> --churn           # report only
+ *   node scripts/build-registry-map.mjs --path <dir> [--project <slug>]    # one checkout, no fleet
+ *   node scripts/build-registry-map.mjs ... --out <file> | --dry-run       # never touch the project
+ *
+ * `--out <file>` writes there instead of `<project>/.ai/registry-map.json`, and reads the
+ * PREVIOUS map from that file when it exists (so repeated `--out` runs converge) and from
+ * the project's map otherwise. `--dry-run` computes and reports, writing nothing. `--churn`
+ * prints only the churn recorded by the last build (`--out` names which file) and exits.
  */
 import fs from 'node:fs';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
-import { loadBridge } from './lib/projects.mjs';
+import { loadBridge, domainsOf } from './lib/projects.mjs';
+import { reconcileContexts, printChurn } from './lib/map-churn.mjs';
 
 const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 const KNOWLEDGE = path.join(ROOT, 'knowledge');
 const CATALOG = path.join(ROOT, 'catalog.json');
+const argAfter = (flag) => { const i = process.argv.indexOf(flag); return i === -1 ? null : process.argv[i + 1] ?? null; };
 const checkOnly = process.argv.includes('--check');
-const pIdx = process.argv.indexOf('--project');
-const onlyProject = pIdx === -1 ? null : process.argv[pIdx + 1];
-const tIdx = process.argv.indexOf('--top');
-const TOP = tIdx === -1 ? 5 : Math.max(1, Number(process.argv[tIdx + 1]) || 5);
+const dryRun = process.argv.includes('--dry-run');
+const churnOnly = process.argv.includes('--churn');
+const onlyProject = argAfter('--project');
+const explicitPath = argAfter('--path');
+const outFile = argAfter('--out');
+const TOP = argAfter('--top') === null ? 5 : Math.max(1, Number(argAfter('--top')) || 5);
+if (outFile && !onlyProject && !explicitPath) {
+  console.error('FATAL: --out names ONE file, so it needs one project: pass --project <slug> or --path <dir>.');
+  process.exit(2);
+}
 const SCORE_FLOOR = 3.0;      // absolute sanity guard: below this there is no signal at all
 const RELATIVE_FLOOR = 0.55;  // keep subjects within 55% of this context's best match
 const STRONG = 0.8;           // ...and call the ones within 80% of it strong
@@ -131,14 +160,34 @@ const WEAK_FRACTION = 0.6;
 // as the dominant mispairing shape.
 const GROUNDING_FLOOR = 0.25;
 
-const fleet = loadBridge(ROOT)._fleet;
-if (!fleet.machine && !Object.keys(fleet.projects).length) {
-  console.error('FATAL: this machine has no resolvable fleet.');
-  for (const p of fleet.problems) console.error(`  - ${p}`);
-  console.error('  Expected a committed projects.json plus a local .machine.local.json (see librarian/projects.md).');
-  process.exit(2);
+// `--path <dir>` is one checkout named on the command line - a fixture, a worktree, a box
+// with no machine identity. It bypasses the fleet entirely; the slug is `--project` or the
+// directory's name, and the domains come from the checkout's own manifest as always.
+let bridge;
+if (explicitPath) {
+  const abs = path.resolve(explicitPath);
+  const slug = onlyProject ?? path.basename(abs);
+  bridge = { projects: { [slug]: { slug, path: abs, exists: fs.existsSync(abs), domains: domainsOf(abs) } } };
+} else {
+  const fleet = loadBridge(ROOT)._fleet;
+  if (!fleet.machine && !Object.keys(fleet.projects).length) {
+    console.error('FATAL: this machine has no resolvable fleet.');
+    for (const p of fleet.problems) console.error(`  - ${p}`);
+    console.error('  Expected a committed projects.json plus a local .machine.local.json (see librarian/projects.md).');
+    console.error('  Or name one checkout directly: --path <dir> [--project <slug>].');
+    process.exit(2);
+  }
+  bridge = fleet;
 }
-const bridge = fleet;
+// Where a project's map lives, and where the PREVIOUS one is read from. With `--out` the
+// previous map is the out file itself when it exists (repeated runs converge on it) and the
+// project's committed map otherwise - so a first `--out` run still inherits every verdict.
+const mapPaths = (projectRoot) => {
+  const committed = path.join(projectRoot, '.ai', 'registry-map.json');
+  const out = outFile ? path.resolve(outFile) : committed;
+  const prevPath = fs.existsSync(out) ? out : committed;
+  return { out, prevPath };
+};
 const catalog = fs.existsSync(CATALOG) ? JSON.parse(fs.readFileSync(CATALOG, 'utf8')) : { bundles: [] };
 const bundleHash = Object.fromEntries((catalog.bundles ?? []).map((b) => [b.name, b.contentHash]));
 
@@ -150,6 +199,11 @@ const bundleHash = Object.fromEntries((catalog.bundles ?? []).map((b) => [b.name
 // as never reading stale. This is the join that makes a `/deepen` landing actionable
 // downstream: the pairs whose `evaluatedAgainst` no longer equals their subject's digest.
 const subjectDigest = {};           // `${bundle}/${slug}` -> digest
+// `revision` (a monotonic commit count) and `changedAt` (YYYY-MM-DD) sit beside `digest`
+// in the index since 2026-09-06. The digest says WHETHER a verdict is behind; the revision
+// says HOW FAR. Read defensively: an index written before they existed, or one built on a
+// shallow clone, carries neither (or null), and a pair then simply omits the keys.
+const subjectRevision = {};         // `${bundle}/${slug}` -> { revision, changedAt } (only the present ones)
 for (const b of fs.readdirSync(KNOWLEDGE, { withFileTypes: true })) {
   if (!b.isDirectory()) continue;
   const idxPath = path.join(KNOWLEDGE, b.name, 'index.json');
@@ -157,8 +211,22 @@ for (const b of fs.readdirSync(KNOWLEDGE, { withFileTypes: true })) {
   const idx = JSON.parse(fs.readFileSync(idxPath, 'utf8'));
   for (const [slug, s] of Object.entries(idx.subjects ?? {})) {
     if (s.digest) subjectDigest[`${b.name}/${slug}`] = s.digest;
+    const rev = {};
+    if (Number.isInteger(s.revision)) rev.revision = s.revision;
+    if (typeof s.changedAt === 'string' && s.changedAt) rev.changedAt = s.changedAt;
+    if (Object.keys(rev).length) subjectRevision[`${b.name}/${slug}`] = rev;
   }
 }
+/** Stamp (or refresh) a pair's `revision` / `changedAt` from the index; drop what the index no longer has. */
+const stampRevision = (s) => {
+  const rev = subjectRevision[`${s.bundle}/${s.subject}`] ?? {};
+  if ('revision' in rev) s.revision = rev.revision; else delete s.revision;
+  if ('changedAt' in rev) s.changedAt = rev.changedAt; else delete s.changedAt;
+  // `evaluatedRevision` is written by /conform beside `evaluatedAgainst`. Both sides
+  // present -> the distance; either missing -> no number, never a 0 that reads as current.
+  if (Number.isInteger(s.evaluatedRevision) && Number.isInteger(s.revision)) s.revisionsBehind = s.revision - s.evaluatedRevision;
+  else delete s.revisionsBehind;
+};
 // Verdicts written before subject digests existed carry the BUNDLE digest in
 // `evaluatedAgainst`. Those are not all stale - most subjects did not move - so they are
 // re-dated from git: the subject folder's last commit date against the verdict's own
@@ -251,9 +319,14 @@ const readContexts = (projectRoot) => {
   if (!fs.existsSync(file)) return null;
   const m = JSON.parse(fs.readFileSync(file, 'utf8'));
   const out = [];
+  let withId = 0;
   const push = (c, group) => {
     const paths = c.file_paths ?? c.filePaths ?? [];
+    if (c.id) withId += 1;
     out.push({
+      // The context KEY: the export's own `id` when it has one (then a rename keeps its
+      // key), else the human `<group>/<name>` string (then a rename is a new key, and
+      // scripts/lib/map-churn.mjs has to recognise it by path overlap).
       id: c.id ?? `${group ? `${group}/` : ''}${c.name}`,
       name: c.name,
       group: c.group ?? group ?? null,
@@ -273,6 +346,9 @@ const readContexts = (projectRoot) => {
   for (const c of m.ungrouped ?? []) push(c, null);
   return {
     contexts: out,
+    // Ids on EVERY context, or the key is not an identity - one export with half its
+    // contexts idd would put the two kinds of key in one namespace.
+    hasIds: out.length > 0 && withId === out.length,
     revision: m.revision ?? m.generated_at ?? m.generatedAt ?? null,
     generator: m.generator ?? (m.$schema ? 'vibeman' : null),
   };
@@ -298,6 +374,16 @@ let staleProjects = 0;
 for (const [slug, p] of Object.entries(bridge.projects ?? {})) {
   if (onlyProject && slug !== onlyProject) continue;
   if (!p?.path || !fs.existsSync(p.path)) { problems.push(`${slug}: checkout not found`); continue; }
+  // `--churn`: report what the LAST build recorded and stop. No matching, no write - the
+  // callers (/straighten, /project-populate) run it right after a rebuild, on the file the
+  // rebuild wrote (`--out` names it when the rebuild used one).
+  if (churnOnly) {
+    const { prevPath: mapFile } = mapPaths(p.path);
+    if (!fs.existsSync(mapFile)) { problems.push(`${slug}: no registry map to read churn from - build it first`); continue; }
+    printChurn(slug, JSON.parse(fs.readFileSync(mapFile, 'utf8')));
+    rows.push({ slug, churnOnly: true });
+    continue;
+  }
   const domains = p.domains ?? [];
   if (!domains.length) { problems.push(`${slug}: the bridge declares no domains`); continue; }
 
@@ -358,7 +444,7 @@ for (const [slug, p] of Object.entries(bridge.projects ?? {})) {
       if (score >= SCORE_FLOOR) {
         hits.sort((a, b) => b[1] - a[1]);
         const grounding = triggerScore / score >= GROUNDING_FLOOR ? 'use_when' : 'lexical-only';
-        scored.push({ subject: s.slug, bundle: s.bundle, score: Math.round(score * 10) / 10, why: hits.slice(0, 3).map((h) => h[0]), grounding, digest: subjectDigest[`${s.bundle}/${s.slug}`] ?? null });
+        scored.push({ subject: s.slug, bundle: s.bundle, score: Math.round(score * 10) / 10, why: hits.slice(0, 3).map((h) => h[0]), grounding, digest: subjectDigest[`${s.bundle}/${s.slug}`] ?? null, ...(subjectRevision[`${s.bundle}/${s.slug}`] ?? {}) });
       }
     }
     scored.sort((a, b) => b.score - a.score);
@@ -415,17 +501,20 @@ for (const [slug, p] of Object.entries(bridge.projects ?? {})) {
     (subjectIndex[s.subject] ??= []).push(r.context);
   }
 
-  const outPath = path.join(p.path, '.ai', 'registry-map.json');
-  const prev = fs.existsSync(outPath) ? JSON.parse(fs.readFileSync(outPath, 'utf8')) : null;
+  const { out: outPath, prevPath } = mapPaths(p.path);
+  const prev = fs.existsSync(prevPath) ? JSON.parse(fs.readFileSync(prevPath, 'utf8')) : null;
   // Carry forward every verdict somebody paid to produce; a regenerated map must never
   // silently discard evaluation work just because the matcher re-ran.
+  //
+  // The context map itself moves too, and the carry key is the context's human string.
+  // `reconcileContexts` decides what each previous context became - matched, renamed,
+  // orphaned - and what each current one is - carried, renamed-into, arrived - so that
+  // the loop below only ever sees pairs already keyed by a CURRENT context.
   let carried = 0;
   let restored = 0;
+  const churn = reconcileContexts(prev, mapped, cm.hasIds);
   if (prev) {
-    const prevPairs = new Map();
-    for (const r of prev.contexts ?? []) for (const s of r.subjects ?? []) {
-      if ((s.state && s.state !== 'unknown') || s.source === 'conform') prevPairs.set(`${r.context}|${s.subject}`, s);
-    }
+    const prevPairs = churn.prevPairs;
     const byContext = new Map(mapped.map((r) => [r.context, r]));
     for (const r of mapped) for (const s of r.subjects) {
       const old = prevPairs.get(`${r.context}|${s.subject}`);
@@ -434,7 +523,9 @@ for (const [slug, p] of Object.entries(bridge.projects ?? {})) {
         if (old.evidence) s.evidence = old.evidence;
         if (old.evaluatedAt) s.evaluatedAt = old.evaluatedAt;
         if (old.evaluatedAgainst) s.evaluatedAgainst = old.evaluatedAgainst;
+        if (Number.isInteger(old.evaluatedRevision)) s.evaluatedRevision = old.evaluatedRevision;
         if (old.source) s.source = old.source;
+        if (old.renamedFrom) s.renamedFrom = old.renamedFrom;
         carried += 1;
         prevPairs.delete(`${r.context}|${s.subject}`);
       }
@@ -451,9 +542,27 @@ for (const [slug, p] of Object.entries(bridge.projects ?? {})) {
     for (const [key, old] of prevPairs) {
       const ctx = key.slice(0, key.lastIndexOf('|'));
       const row = byContext.get(ctx);
+      // Cannot happen: reconcileContexts keys every carried pair by a current context and
+      // parks the rest under `orphans[]`. Kept as a guard so a future regression drops
+      // nothing silently - it would show up as a restore that did not happen.
       if (!row) continue;
-      row.subjects.push({ ...old, digest: subjectDigest[`${old.bundle}/${old.subject}`] ?? old.digest ?? null, source: old.source ?? 'retained' });
+      const { stale: _s, revisionsBehind: _rb, ...kept } = old;
+      row.subjects.push({ ...kept, digest: subjectDigest[`${old.bundle}/${old.subject}`] ?? old.digest ?? null, source: old.source ?? 'retained' });
       restored += 1;
+    }
+    // The churn marks. A rename is recorded on the ROW (the event: which key it came
+    // from, how the match was made) and on every inherited PAIR (`source: "renamed"`,
+    // `renamedFrom` - provenance that carries forward). An arrival is a one-generation
+    // mark on the row and its pairs: next time the context is in the previous map.
+    for (const { from, to, by, overlap } of churn.renames) {
+      const row = byContext.get(to);
+      row.renamedFrom = from;
+      if (by === 'id') row.renameBy = 'id'; else row.renameOverlap = overlap;
+    }
+    for (const key of churn.arrived) {
+      const row = byContext.get(key);
+      row.arrived = true;
+      for (const s of row.subjects) s.arrived = true;
     }
 
     // A subject this project keeps judging not-applicable is unlikely to govern the next
@@ -483,6 +592,7 @@ for (const [slug, p] of Object.entries(bridge.projects ?? {})) {
   const staleBySubject = {};
   let staleVerdicts = 0;
   for (const r of mapped) for (const s of r.subjects) {
+    stampRevision(s);
     if (isStaleVerdict(s)) {
       s.stale = true;
       staleVerdicts += 1;
@@ -491,6 +601,9 @@ for (const [slug, p] of Object.entries(bridge.projects ?? {})) {
       delete s.stale;
     }
   }
+  // Orphaned verdicts keep their revision mirror too, so the debt table can price them.
+  for (const o of churn.orphans) for (const s of o.subjects) stampRevision(s);
+  const orphanedVerdicts = churn.orphans.reduce((n, o) => n + o.subjects.length, 0);
   const doc = {
     schema: 'rkb-registry-map/1',
     _note: 'GENERATED by ai-registry/scripts/build-registry-map.mjs - the join between this repo\'s contexts and the registry\'s subjects. Matching is deterministic and re-runnable; the per-pair `state` is JUDGEMENT, written by /conform, and is carried forward across regenerations. Regenerate after a context scan or a bundle change; `--check` reports what went stale.',
@@ -498,6 +611,9 @@ for (const [slug, p] of Object.entries(bridge.projects ?? {})) {
     generatedAt: new Date().toISOString().replace(/\.\d{3}Z$/, 'Z'),
     projectSha: gitSha(p.path),
     contextMapRevision: cm.revision,
+    // Which kind of key `contexts[].context` carries. `id` means a rename keeps its key
+    // and the next build may skip the path heuristic; `group/name` means it may not.
+    contextKey: cm.hasIds ? 'id' : 'group/name',
     domains,
     bundleDigests: Object.fromEntries(domains.map((d) => [d, bundleHash[d] ?? null])),
     stats: {
@@ -512,10 +628,18 @@ for (const [slug, p] of Object.entries(bridge.projects ?? {})) {
       carriedVerdicts: carried,
       restoredPairs: restored,
       staleVerdicts,
+      // Churn (additive; see scripts/lib/map-churn.mjs). Contexts are counted for the
+      // two events, pairs for the parked verdicts - the thing a person has to re-home.
+      orphanedVerdicts,
+      renamedContexts: churn.renames.length,
+      arrivedContexts: churn.arrived.size,
     },
     staleSubjects: staleBySubject,
     subjectIndex,
     contexts: mapped,
+    // Verdicts whose context left context-map.json. Retained across regenerations until
+    // the key returns, a rename adopts them, or the operator deletes the entry.
+    orphans: churn.orphans,
   };
   const serialized = `${JSON.stringify(doc, null, 2)}\n`;
 
@@ -526,31 +650,56 @@ for (const [slug, p] of Object.entries(bridge.projects ?? {})) {
     || (prev.stats?.contexts ?? -1) !== doc.stats.contexts;
 
   if (stale) staleProjects += 1;
-  if (!checkOnly) { fs.mkdirSync(path.dirname(outPath), { recursive: true }); fs.writeFileSync(outPath, serialized); }
+  if (!checkOnly && !dryRun) { fs.mkdirSync(path.dirname(outPath), { recursive: true }); fs.writeFileSync(outPath, serialized); }
 
   const evaluated = mapped.reduce((n, r) => n + r.subjects.filter((s) => s.state !== 'unknown').length, 0);
   const deviations = mapped.reduce((n, r) => n + r.subjects.filter((s) => s.state === 'deviation').length, 0);
-  rows.push({ slug, contexts: mapped.length, pairs: doc.stats.pairs, weak, evaluated, deviations, stale, dead, lexical: doc.stats.lexicalOnlyPairs, missing: contextsWithMissing, staleVerdicts, staleBySubject });
+  rows.push({
+    slug, contexts: mapped.length, pairs: doc.stats.pairs, weak, evaluated, deviations, stale, dead, lexical: doc.stats.lexicalOnlyPairs, missing: contextsWithMissing, staleVerdicts, staleBySubject,
+    orphanedVerdicts, renamedContexts: churn.renames.length, arrivedContexts: churn.arrived.size, outPath,
+    // Subscribers per subject AFTER restore - `subjectIndex` is the matcher's view and
+    // predates the restored pairs, which is where most stale verdicts sit.
+    subscribers: Object.fromEntries(Object.keys(staleBySubject).map((subject) => [subject, mapped.filter((r) => r.subjects.some((s) => s.subject === subject)).length])),
+  });
+}
+
+if (churnOnly) {
+  if (problems.length) { console.error(`\n${problems.length} problem(s):`); for (const p of problems) console.error(`  - ${p}`); process.exit(2); }
+  process.exit(0);
 }
 
 console.log(`registry map - ${rows.length} project(s), <=${TOP} subject(s) per context, kept within ${Math.round(RELATIVE_FLOOR * 100)}% of each context's best match\n`);
-console.log('  project        contexts  pairs  weak  evaluated  deviations  stale-verdicts  state    dead  stale-paths  lexical-only');
+console.log('  project        contexts  pairs  weak  evaluated  deviations  stale-verdicts  state    dead  stale-paths  lexical-only  orphaned  renamed  arrived');
 for (const r of rows) {
-  console.log(`  ${r.slug.padEnd(14)} ${String(r.contexts).padEnd(9)} ${String(r.pairs).padEnd(6)} ${String(r.weak).padEnd(5)} ${String(r.evaluated).padEnd(10)} ${String(r.deviations).padEnd(11)} ${String(r.staleVerdicts).padEnd(15)} ${(r.stale ? (checkOnly ? 'STALE' : 'rebuilt') : 'current').padEnd(8)} ${String(r.dead).padEnd(5)} ${String(r.missing).padEnd(12)} ${r.lexical}`);
+  console.log(`  ${r.slug.padEnd(14)} ${String(r.contexts).padEnd(9)} ${String(r.pairs).padEnd(6)} ${String(r.weak).padEnd(5)} ${String(r.evaluated).padEnd(10)} ${String(r.deviations).padEnd(11)} ${String(r.staleVerdicts).padEnd(15)} ${(r.stale ? (checkOnly || dryRun ? 'STALE' : 'rebuilt') : 'current').padEnd(8)} ${String(r.dead).padEnd(5)} ${String(r.missing).padEnd(12)} ${String(r.lexical).padEnd(13)} ${String(r.orphanedVerdicts).padEnd(9)} ${String(r.renamedContexts).padEnd(8)} ${r.arrivedContexts}`);
 }
+if (outFile || dryRun) console.log(`\n  ${dryRun ? 'DRY RUN - nothing written' : `written to ${rows[0]?.outPath ?? outFile}`}${outFile ? ' (--out: the project tree was not touched)' : ''}`);
 // The impact view: which subjects moved under which projects' verdicts. This is the list a
 // registry landing owes its consumers - read it after `/deepen` or `/librarian run`, and
-// hand each line to that project's `/conform --stale`.
+// hand each line to that project's `/conform --stale`. `contexts` is how many contexts
+// subscribe to the subject across these projects (stale or not) - the size of the
+// re-judging the landing has bought, not only the part already overdue.
 const impact = {};
 for (const r of rows) for (const [subject, ctxs] of Object.entries(r.staleBySubject)) {
-  (impact[subject] ??= []).push(`${r.slug} (${ctxs.length})`);
+  const row = (impact[subject] ??= { where: [], contexts: 0 });
+  row.where.push(`${r.slug} (${ctxs.length})`);
+  row.contexts += r.subscribers[subject] ?? 0;
 }
-const impactRows = Object.entries(impact).sort((a, b) => b[1].length - a[1].length);
+const impactRows = Object.entries(impact).sort((a, b) => b[1].where.length - a[1].where.length || b[1].contexts - a[1].contexts);
 if (impactRows.length) {
   console.log(`\n  ${rows.reduce((n, r) => n + r.staleVerdicts, 0)} verdict(s) judged against a subject that has since changed, by subject:`);
-  for (const [subject, where] of impactRows.slice(0, 25)) console.log(`    ${subject.padEnd(36)} ${where.join(', ')}`);
+  console.log(`    ${'subject'.padEnd(36)} ${'contexts'.padEnd(9)} stale in`);
+  for (const [subject, { where, contexts }] of impactRows.slice(0, 25)) console.log(`    ${subject.padEnd(36)} ${String(contexts).padEnd(9)} ${where.join(', ')}`);
   if (impactRows.length > 25) console.log(`    ... and ${impactRows.length - 25} more subject(s)`);
   console.log('  Each project\'s map lists them under `staleSubjects`; `/conform --stale` re-judges them.');
+}
+const churnTotals = rows.reduce((t, r) => ({ o: t.o + r.orphanedVerdicts, rn: t.rn + r.renamedContexts, a: t.a + r.arrivedContexts }), { o: 0, rn: 0, a: 0 });
+if (churnTotals.o || churnTotals.rn || churnTotals.a) {
+  console.log(`\n  churn: ${churnTotals.o} orphaned verdict(s), ${churnTotals.rn} renamed context(s), ${churnTotals.a} arrived context(s)`);
+  for (const r of rows) if (r.orphanedVerdicts || r.renamedContexts || r.arrivedContexts) {
+    console.log(`    ${r.slug.padEnd(14)} orphanedVerdicts=${r.orphanedVerdicts}  renamedContexts=${r.renamedContexts}  arrivedContexts=${r.arrivedContexts}`);
+  }
+  console.log('  Orphans sit under `orphans[]` until adopted; `--churn` prints them. `/straighten` drains the fleet.');
 }
 const totalWeak = rows.reduce((n, r) => n + r.weak, 0);
 const totalPairs = rows.reduce((n, r) => n + r.pairs, 0);

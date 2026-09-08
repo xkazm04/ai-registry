@@ -128,6 +128,15 @@ state *means across replacement*:
   replacement (they describe flights the old generation was managing);
   the generation guard plus fresh state is usually right.
 
+Where the replacement machinery itself hands each module an object that
+persists across that module's successive instances, that object — not a
+process-global key — is the disciplined home for the generation token
+and for any resource that must transfer to the next instance: it is
+namespaced by construction (one per module), it dies with the module
+rather than with the process, and it cannot collide with another
+module's slot. Reserve the process-global key for state that must be
+shared *across* modules, which is the rarer case.
+
 Every global entry is namespaced (one collision-proof prefix for the
 application — or better, a key drawn from a process-wide symbol registry,
 which makes collision structurally impossible), enumerated in one place

@@ -1,7 +1,7 @@
 ---
 subject: cost-metering
 domain: software-engineering
-last_touched: 2026-08-30
+last_touched: 2026-09-04
 touched_by: intake
 dry_streak: 0
 ---
@@ -91,3 +91,33 @@ fail the completeness test that the computed-key defect lives behind.
 New application `node--price-tables`. The subject's open edge is that neither
 table can see what actually moved - a successor at the same rate spending more
 tokens - which is metering's job, not the table's.
+
+## 2026-09-04 — intake, `unit-classes-are-open`
+
+From a vendor release announcement of an agentic video mode
+([[2026-09-04-agentic-video-understanding]]). Landed one technique on the
+**unit axis**, which this subject had left undefended while defending the two
+axes beside it.
+
+The shape worth remembering, because it is the reason this was a technique and
+not an amendment: `price-tables` defends the **model** axis and `usage-ledgers`
+defends the **spend-class** axis, both with the same pattern — a lookup that
+can miss, and a loud declared behaviour when it does. The **unit** axis has
+neither and *cannot use that pattern*: an unknown model is a lookup miss
+something can count; an unknown unit class is never looked up, so it fails to
+a slightly smaller number instead of to a counter. The golden path already
+named the danger ("unit classes a local table cannot see") and spent it only
+on "trust the meter" — mentioned in one place, defended in another.
+
+**The corpus was corrected by a consumer here.** `tracklight` stores
+`cost_usd = NULL` for an unpriceable call rather than a conservative declared
+default, ranks the unpriced pairs by traffic, and tells the operator every
+number over the window is a *floor* until priced. That is stronger than
+`price-tables`' declared-default rule, because a default invents a number and
+a floor states a bound. The new technique carries the tree's version. **A
+later pass should ask whether `price-tables` itself should move from
+default-plus-counter to null-plus-floor on the model axis too** — this run did
+not touch it, because one tree is not convergence.
+
+Gained `rust--unit-classes-are-open` (applied `experiment`, verdict `better`,
+proof `ab-paired`: 2,000 tokens reported against 157,000 in the payload).

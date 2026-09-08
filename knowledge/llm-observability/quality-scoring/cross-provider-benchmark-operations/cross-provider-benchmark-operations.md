@@ -13,6 +13,7 @@ techniques:
   - budget-preflight-and-ceiling
   - async-run-queue-with-cancel
   - failure-clustering-recommendations
+  - handicap-disclosure-in-the-result-row
   - cheapest-sufficient-configuration
   - entitlement-exhaustion-is-not-ill-health
 ---

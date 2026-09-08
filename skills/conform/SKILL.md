@@ -3,7 +3,7 @@ name: conform
 description: "Evaluate this repository against the registry standards that govern it, one context at a time, and keep the verdicts. Reads .ai/registry-map.json (the generated join between this repo's contexts and the registry's subjects), picks the highest-value unevaluated or stale pairs, reads the governing golden path and techniques against the context's real code, and writes back conformant / deviation / not-applicable with file:line evidence - so the map becomes a standing, incrementally-completed deviation backlog instead of a one-off audit. Use to answer 'where does this repo fall short of the standard', before a hardening pass, after a bundle changes, or when a context is about to be rewritten. Invoke with /conform [context-or-path] [--subject <slug>] [--stale] [--budget <n>]."
 category: ai-native
 memory: project
-version: 1.4.1
+version: 1.4.2
 tags: conformance, deviations, registry, audit, backlog
 argument-hint: "[context-or-path] [--subject <slug>] [--stale] [--budget <n>]"
 ---
@@ -53,7 +53,13 @@ Choose the pairs to evaluate, in this order:
    a stale `conformant` may now be a deviation. (Before 2026-09-02 staleness was the whole
    bundle's digest, so every verdict read stale after any landing anywhere; if the map
    predates that, regenerate it - legacy verdicts are re-dated from git, not discarded.)
-3. **Otherwise**: `state: "unknown"` pairs with `confidence: "strong"`, preferring contexts
+3. **Arrived** - pairs on a context marked `arrived: true`: the context entered the
+   context map since the last build (a `/project-populate` sweep, a new module) and has
+   never been judged. It is not stale - there was never a verdict - but it is the freshest
+   unjudged code in the repo and the map's `stats.arrivedContexts` says how many there are.
+   A context marked `source: "renamed"` is NOT an arrival: its verdicts were carried over
+   from `renamedFrom`, and they are judged by the `--stale` rule like any other.
+4. **Otherwise**: `state: "unknown"` pairs with `confidence: "strong"`, preferring contexts
    with many governing subjects (a dense context pays back the read) and contexts whose
    paths were touched recently in git.
 
@@ -123,12 +129,19 @@ Update each evaluated pair in `.ai/registry-map.json`, in place, changing nothin
 ```json
 { "subject": "rate-limiting", "state": "deviation",
   "evidence": "src/api/limiter.ts:41 buckets by user id only; untrusted-key-derivation requires a bucket the caller cannot choose",
-  "evaluatedAt": "2026-08-23", "evaluatedAgainst": "sha256:5c2ad4a129529e33" }
+  "evaluatedAt": "2026-08-23", "evaluatedAgainst": "sha256:5c2ad4a129529e33",
+  "evaluatedRevision": 4 }
 ```
 
 - `evaluatedAgainst` is the pair's `digest` at the time you judged - the subject's own
   content digest, not the bundle's. Copy it verbatim; it is what makes `--stale` work later,
   and it goes stale only when THAT subject changes. Remove a `stale: true` you have re-judged.
+- `evaluatedRevision` is the pair's `revision` at the time you judged - the subject's
+  revision counter, mirrored from the bundle index beside `changedAt`. Copy it verbatim
+  beside `evaluatedAgainst`; it is what makes `revisionsBehind` (`revision -
+  evaluatedRevision`) computable, so a later run and `/straighten` can rank how far behind
+  a verdict is instead of only whether it is. A verdict without it carries no
+  `revisionsBehind` key at all (the builder omits it, never writes `null` or `0`) - "unknown, pre-revision verdict" - until re-judged.
 - `evidence` is one line: the anchor plus the consequence. Not a paragraph, not a plan.
 - **Never rewrite the matching fields** (`score`, `why`, `confidence`) - those belong to the
   generator, and hand-edited derived values drift silently.
@@ -156,6 +169,25 @@ worth more than one a token overlap produced. Add the pair, then judge it like a
 Then land the findings where this repo already tracks work: deviations become backlog items
 with their subject slug and anchor. A deviation that lives only in a JSON file is a
 deviation nobody will fix.
+
+#### Orphans
+
+When a context leaves the context map, the generator does not discard its verdicts: they
+are retained under the map's top-level `orphans[]` as
+`{ context, name, group, paths, subjects: [<pairs>] }`, and `stats.orphanedVerdicts` counts
+them. Each is a decision waiting for a reader, and this skill is the reader:
+
+- **Adopt** - when the code the verdicts were about now lives under another context (a
+  split, a move the renamer did not catch), move the pair under that context's
+  `subjects[]` with `source: "conform"` and `adoptedFrom: "<orphan key>"`, then remove it
+  from `orphans[]`. If the pair carries `stale: true`, re-judge it in the same run - a
+  carried verdict is a claim about a document that may have moved twice.
+- **Leave** - when nothing governs that code any more, or you cannot tell. The generator
+  keeps the orphan across rebuilds; an undecided orphan costs a glance, a deleted one costs
+  the verdict somebody paid for. **Never hand-delete an orphan** - dropping one is a
+  decision made by adopting nothing and saying so in the report.
+
+`/straighten` surfaces every orphan fleet-wide and hands each project's to this step.
 
 ### 5. Report demand back to the registry
 

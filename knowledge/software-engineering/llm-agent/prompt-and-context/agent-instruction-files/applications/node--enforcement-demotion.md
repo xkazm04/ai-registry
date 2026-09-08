@@ -5,8 +5,8 @@ subject: agent-instruction-files
 technique: enforcement-demotion
 stack: node
 status: forged
-verified_on: 2026-09-02
-verified_against: node@22
+verified_on: 2026-09-05
+verified_against: node@24
 applied: experiment
 ab_verdict: better
 proof: ab-paired
@@ -65,7 +65,9 @@ adopts a per-prompt prose hook and can count what it changed.
 
 ## The structural fact
 
-Three copies of this hook exist in the fleet at 185, 204 and 320 lines, and
+Three copies of this hook exist in the fleet at 185, 204 and 320 lines
+(re-read 2026-09-05: unchanged; the two 185- and 204-line carriers pin node 24
+in `engines` and CI, the 320-line carrier's CI pins node 20), and
 the longest one's header records that an earlier version "silently detected
 nothing for its entire life" over 1,136 edit calls because its turn-boundary
 check stopped on tool results. A condition-observed hook can be dead and look

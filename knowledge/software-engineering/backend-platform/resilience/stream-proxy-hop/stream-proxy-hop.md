@@ -6,6 +6,7 @@ status: forged
 use_when: [putting a gateway or edge function in front of a streaming backend, a live view claims connected while nothing arrives, an upstream failure makes clients reconnect forever, deciding where a streaming credential lives]
 techniques:
   - idle-heartbeat-injection
+  - lifetime-cap-rotation
   - upstream-status-normalization
   - abort-versus-unreachable
   - origin-non-disclosure
@@ -38,15 +39,21 @@ failure, so that failure is worth naming once, at the top.
 A long-lived stream that stops delivering does not, by default, look broken.
 Intermediaries the deployment did not choose and cannot see — load balancers,
 corporate proxies, content networks, mobile carrier gateways — reap idle
-connections after thirty to sixty seconds. When one does, the client's
-stream reader observes an **orderly end of stream**: no error, no reset, just
-the producer apparently finishing. From there the damage takes one of two
-shapes, and which one it takes depends on client details nobody chose
-deliberately. Either nothing reconnects — there was no error to react to — and
-the lane stays dead until the user reloads the page; or the client re-opens
-endlessly while the interface, whose connection indicator was derived from "did
-we open successfully" rather than from "when did anything last arrive", goes on
-claiming the lane is live. From the screen the two are identical.
+connections on between-bytes timers whose documented defaults run from ten
+seconds to a little over two minutes, with sixty the most common. When one
+does, the client's stream reader often observes an **orderly end of stream**:
+no error, no reset, just the producer apparently finishing — a cut chunked
+body is formally incomplete and some readers do report it, but a terminating
+intermediary that re-frames on the way out hands the client a clean close,
+and that is the shape to design for. From there the damage takes one of two
+shapes, and which one it takes is a property of the client. The standard
+server-pushed-stream client re-opens endlessly — its specification
+reconnects on a clean end of body as on an error — while the interface,
+whose connection indicator was derived from "did we open successfully" rather
+than from "when did anything last arrive", goes on claiming the lane is live.
+A hand-rolled reader over a general fetch sees the producer finish, nothing
+reconnects, and the lane stays dead until the user reloads the page. From the
+screen the two are identical.
 
 **A green indicator over a dead lane** is the signature failure of this
 surface, expensive precisely because it is silent — the user sees a plausible
@@ -78,7 +85,17 @@ A heartbeat the client must filter is not a keep-alive, it is a protocol
 change. Its period is derived from the *shortest* idle timeout anywhere on the
 path, with margin for one missed tick. The
 [idle-heartbeat-injection](./techniques/idle-heartbeat-injection.md) technique
-owns the sizing, the emission point, and the timer's reaper.
+owns the sizing, the emission point, and the timer's reaper — for the leg it
+warms; the hop's own upstream client carries a between-chunks timeout of its
+own, and the technique names that second leg too.
+
+Not every timer on the path is an idle timer. A **total-duration cap** — a
+function platform's maximum invocation time, a gateway's whole-response
+budget — counts from the first byte regardless of traffic, kills the hop's
+process rather than the connection, and takes the hop's error handling with
+it. Against that the only move is to end the stream deliberately before the
+cap with a resumable marker, which
+[lifetime-cap-rotation](./techniques/lifetime-cap-rotation.md) owns.
 
 ## Every upstream failure becomes a client-actionable answer
 
@@ -245,6 +262,9 @@ client can act on — that gap is this subject.
 - [idle-heartbeat-injection](./techniques/idle-heartbeat-injection.md) — the
   ignorable no-op line, sized under the shortest hop timeout, emitted by the
   hop rather than demanded of the origin, and the timer that names its reaper.
+- [lifetime-cap-rotation](./techniques/lifetime-cap-rotation.md) — the
+  total-duration cap a heartbeat cannot defeat, the deliberate close before it
+  with a resume cursor, and the hop that forwards that cursor.
 - [upstream-status-normalization](./techniques/upstream-status-normalization.md)
   — clamping an out-of-range upstream status before constructing a response,
   and why the unclamped throw becomes an infinite reconnect.

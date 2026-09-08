@@ -1,6 +1,6 @@
 # Game production - the subjects this registry carries
 
-`game-production` - 51 subjects, 322 techniques, 139 applications.
+`game-production` - 52 subjects, 328 techniques, 139 applications.
 Slugs only; resolve one through `index.json` as the access rule beside this file describes.
 
 ### systems-canon
@@ -16,7 +16,7 @@ Slugs only; resolve one through `index.json` as the access rule beside this file
 - **geometry** - asset-class-poly-budgeting, generated-asset-world-scale, generated-mesh-acceptance, mesh-finishing-for-engine-readiness
 - **motion-and-audio** - adaptive-music-authoring, motion-quality-gating, spatial-audio-scene-authoring
 - **sourcing-economics** - image-to-3d-input-gating, regeneration-vs-repair-economics
-- **surface-and-imagery** - shader-budget-authoring, sprite-and-atlas-production, tiling-texture-acceptance
+- **surface-and-imagery** - imported-material-conformance, shader-budget-authoring, sprite-and-atlas-production, tiling-texture-acceptance
 
 ### engine-integration
 - crash-forensics-attribution, engine-integration-safety, engine-pitfall-corpus, gameplay-runtime-patterns, runtime-observation-evidence, ship-pipeline-gating, visual-script-to-code-transpilation

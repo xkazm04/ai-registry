@@ -11,6 +11,7 @@ techniques:
   - regrade-without-regenerate
   - cross-provider-flip-analysis
   - trial-matrix-design
+  - input-channel-parity
   - replication-as-comprehension-test
 ---
 

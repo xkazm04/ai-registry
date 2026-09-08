@@ -5,11 +5,17 @@ subject: stream-proxy-hop
 technique: idle-heartbeat-injection
 stack: node
 status: forged
-verified_on: 2026-08-22
+verified_on: 2026-09-05
 verified_against: node@22
 ---
 
 # Heartbeat injection in the Next.js SSE proxy route
+
+Citations are against `personas-web` at `8cdf054` (2026-09-05); the three
+proxy routes and the hook last changed at `2cfaa88` (2026-07-16). The tree
+declares no `engines` and no `.nvmrc`; its CI workflow runs `node-version: 22`
+on both jobs, so the version witness stays at node@22 although the fleet's
+newest trees pin 24. Next.js is `^16.3.3`.
 
 The exemplar is `src/app/api/events/stream/route.ts` — a Next.js route handler
 that terminates the browser's `EventSource` connection, opens its own `fetch`
@@ -34,12 +40,22 @@ names the failure rather than the mechanism:
 // are comments per the SSE spec).
 ```
 
-Both halves of the standard's failure shape are recorded here — the lane is
-re-opened endlessly *and* `ConnectionStatusIndicator`
-(`src/components/dashboard/ConnectionStatusIndicator.tsx`) keeps claiming
-"Connected", because its input is the store's status rather than an
-arrival timestamp. The comment is also the derivation of the constant: 30-60s
-observed, 25s chosen.
+The comment records the reconnect-forever shape correctly and the mechanism
+wrongly. `EventSource` does **not** stay silent on a clean close: the HTML
+standard's end-of-body step reestablishes the connection, which fires
+`error` and sets the state to `CONNECTING` before reopening (read
+2026-09-05). So `useEventStream`'s `onerror` (`src/hooks/useEventStream.ts:131`)
+does run on every reap, flips the store to `reconnecting`, and `onopen`
+flips it back to `connected` a moment later — the indicator
+(`src/components/dashboard/ConnectionStatusIndicator.tsx`, reading
+`connectionStatus` from `src/stores/eventStore.ts:65`) is green almost all the
+time not because no event fired but because each reopen *succeeds*. The
+standard's diagnosis holds — the indicator's input is a connection status
+rather than an arrival timestamp — and the tree's stated reason for it is the
+part that would mislead the next reader. The comment is also the derivation of
+the constant: 30-60s observed, 25s chosen; the standard's vendor range
+(ten seconds to one hundred and twenty-five, five documents) puts the
+observation in the middle and the choice above the floor.
 
 ## The ignorable construct is the spec's own (`route.ts:85`)
 
@@ -89,10 +105,14 @@ throw into an unhandled rejection.
 "Cache-Control": "no-cache, no-transform",
 ```
 
-`no-transform` is the load-bearing half and the one usually omitted: it is what
-stops a compressing or buffering intermediary from accumulating the stream
-before forwarding, which would hold the keep-alives along with the events and
-defeat the timer entirely.
+`no-transform` is the half usually omitted: it is what stops a conformant
+intermediary from recompressing the stream, and a compressor is a buffer. It
+is not what stops a buffering reverse proxy — the standard's correction on
+this point — and the route sets no vendor anti-buffering header
+(`X-Accel-Buffering: no`, honoured by nginx and by at least one function
+platform). A sibling tree in this fleet, `ascent`, sets both in one shared
+constant (`src/lib/sse-server.ts:34-38`) with a comment naming each header's
+job; this route sets one.
 
 ## Deviations
 
@@ -127,3 +147,31 @@ to prevent, reproduced by the hop itself on the one path where the hop knows
 better. The standard-compliant repair is to enqueue a terminal error event from
 the route's own vocabulary before closing, so the client can tell an abnormal
 end from a finished one.
+
+**The inner leg has its own idle timer, and it is shorter than a quiet
+orchestrator.** The upstream read is the runtime's global `fetch` (`:27`)
+with no dispatcher configured anywhere in `src/` (grep for `bodyTimeout` and
+`setGlobalDispatcher`: none). Node's bundled fetch is undici, whose `Client`
+documentation gives `bodyTimeout` — "monitors the time between consecutive
+body chunks" — a default of `300e3` ms (read 2026-09-05). An orchestrator
+with no events for five minutes therefore has its body torn down *by the hop's
+own client*, the `catch` above swallows the `BodyTimeoutError`, the `finally`
+closes cleanly, and the browser reconnects — every five quiet minutes, while
+the 25s heartbeat keeps the outer leg perfectly warm. This is the standard's
+two-leg sizing rule violated on the leg nobody heartbeats; the repair is a
+dispatcher with `bodyTimeout: 0` (or above the longest legitimate silence) for
+this route's fetch, or a keep-alive on the orchestrator's own stream.
+
+**The resume cursor does not cross the hop.** The outbound header set is built
+from scratch (`:21-23`: `Accept`, `Authorization`, `X-User-Token`), which is
+the allowlist discipline done correctly — and `Last-Event-ID`, which the
+browser sends automatically on every one of the reconnects this comment
+describes, is not in it. Every reap-and-reopen is a fresh subscription to the
+orchestrator; whatever it emitted in the gap is lost silently, and no replay
+window upstream could ever be exercised through this route.
+
+**No lifetime declared.** Neither streaming route exports a duration cap of
+its own, so on a function platform each runs on the project default; a stream
+that outlives it is killed with the `finally` unreached. Streams that die at
+the same age regardless of traffic are the standard's signature for that, and
+nothing here would distinguish it from a reap.

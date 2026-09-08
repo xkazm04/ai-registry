@@ -76,7 +76,7 @@
       "name": "conform",
       "source": "./skills/conform",
       "description": "Evaluate this repository against the registry standards that govern it, one context at a time, and keep the verdicts. Reads .ai/registry-map.json (the generated join between this repo's contexts and the registry's subjects), picks the highest-value unevaluated or stale pairs, reads the governing golden path and techniques against the context's real code, and writes back conformant / deviation / no",
-      "version": "1.4.1",
+      "version": "1.4.2",
       "category": "ai-native",
       "tags": [
         "conformance",
@@ -104,7 +104,7 @@
       "name": "cx",
       "source": "./skills/cx",
       "description": "Walk a product's user journeys screen by screen with a CX/UX lens. Builds the journey map once, then at each stop gives a short overview of the screen as the user meets it, proposes 3-6 specific improvements graded by impact and effort, takes the user's own read and expectation for that stop, and dispatches executor subagents to make the accepted changes - verified by gates and a screenshot, commi",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "category": "workflow",
       "tags": [
         "cx",
@@ -113,6 +113,8 @@
         "screens",
         "review",
         "dispatch",
+        "continuity",
+        "completion",
         "obsidian"
       ]
     },
@@ -237,7 +239,7 @@
       "name": "project-populate",
       "source": "./skills/project-populate",
       "description": "Populate a newly managed repository with the data Personas needs to maintain and develop it - a context map, a feature (use-case) inventory, a triaged KPI set, and optionally simulated KPI data for a product that has not shipped yet. Contexts and features are assigned autonomously; KPIs are negotiated with the operator wave by wave. Scopeable - run all four lanes or just the ones you name. Dispatc",
-      "version": "1.2.1",
+      "version": "1.2.2",
       "category": "workflow"
     },
     {
@@ -293,6 +295,21 @@
       "description": "Turn a vague product idea (a \"sparkle\") into a complete, grounded design through waves of select/multi-select questions - then orchestrate the build. Targets exactly which contexts/files the idea touches, scouts them before asking anything, converges the design across four perspectives (functional, UX, UI, performance/architecture), and executes via builder subagents in a worktree under Director r",
       "version": "1.3.2",
       "category": "workflow"
+    },
+    {
+      "name": "straighten",
+      "source": "./skills/straighten",
+      "description": "Drain the fleet's version debt against the registry in one sitting. Run from the registry checkout when a bundle landing, a context-map rebuild or a project rename has left registry maps behind: rebuild every project's .ai/registry-map.json that is checked out on this machine, print one debt table across the fleet (stale verdicts ranked by contexts x revisionsBehind, plus orphaned and arrived cont",
+      "version": "1.0.0",
+      "category": "ai-native",
+      "tags": [
+        "registry-map",
+        "conformance",
+        "stale",
+        "orphans",
+        "fleet",
+        "version-debt"
+      ]
     },
     {
       "name": "test-before-commit",

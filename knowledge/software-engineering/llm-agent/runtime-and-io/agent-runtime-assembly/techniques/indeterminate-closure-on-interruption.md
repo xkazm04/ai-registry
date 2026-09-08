@@ -6,7 +6,7 @@ technique: indeterminate-closure-on-interruption
 status: forged
 laws: [unknown-is-not-a-value, verdict-survives-boundary, failure-not-empty-success]
 shared_with: []
-use_when: [a restart finds work that was running and nothing knows how it ended, deciding what status a killed run is given, a downstream classifier recovers a cause by matching an error message, recovery must produce a transcript a later reader can rely on]
+use_when: [a restart finds work that was running and nothing knows how it ended, deciding what status a killed run is given, a downstream classifier recovers a cause by matching an error message, recovery must produce a transcript a later reader can rely on, a crashed streaming generation left a committed partial in the store]
 ---
 
 # Indeterminate closure on interruption
@@ -81,10 +81,11 @@ whether the effect could have escaped:
 
 - **A side-effecting call that was requested and never reported** is
   indeterminate. This is the case the technique is for.
-- **A side-effect-free call** — a model request, a pure read — is not.
-  Re-issue it and close the old one as interrupted, because re-issuing
-  costs nothing and produces a real answer. Count the re-issue against
-  whatever budget the original consumed.
+- **A side-effect-free call** — a pure read — is not. Re-issue it and close
+  the old one as interrupted, because re-issuing costs nothing and produces
+  a real answer. Count the re-issue against whatever budget the original
+  consumed. A model request looks like this case and is not it; the next
+  section says why and what it gets instead.
 - **Work that was never started** because the record shows only intent and
   no dispatch is not interrupted, it is unstarted, and it can simply be
   started.
@@ -148,6 +149,57 @@ than deleting it: the population of rows written by the old blind sweep
 becomes **countable**, so the migration off it has a number rather than a
 belief.
 
+## The re-issue exemption is narrower than it reads
+
+The sort above puts a model request in the side-effect-free class and
+disposes of it in one clause — re-issue it, because re-issuing costs
+nothing. That clause is right about a pure read and wrong about a generation,
+and the difference is worth drawing because a generation is the single
+commonest interrupted call in an agent runtime.
+
+**Re-issuing a generation is not free, and the record already says so.**
+Tokens the provider consumed before the process died are billed whether or
+not the response arrived; a cancelled or killed call recorded at cost zero is
+a defect this bundle names elsewhere, and
+[usage-ledgers](../../../evaluation-and-cost/cost-metering/techniques/usage-ledgers.md)
+counts mid-stream cancellations among the consumed units. A recovery that
+treats the interrupted request as costless has written a number the ledger
+disagrees with. Where the runtime reserves the usage row at request time, the
+row is already durable at recovery and the disagreement is visible in one
+query; where it does not, the spend is real and unrecorded, which is worse.
+
+**A streamed generation also leaves content behind.** If partial output was
+committed as it arrived — for reconnect, for a live view, for anything — then
+at recovery the store holds a prefix the user has very likely already seen.
+Re-issuing discards it and produces a second, divergent answer to a question
+that appears once in the record. The disposition that keeps both the honesty
+and the content is to **close the old call with the prefix inside it**: write
+the committed partial as the interrupted call's own result, marked with the
+status this technique already requires, and say three things in the text the
+model reads — the request was interrupted, the content above is the latest
+durable partial and newer output may be missing, and the outcome at the
+provider is unknown. Then let the ordinary retry policy decide whether a
+fresh attempt follows, under fresh identities, counted as a new attempt.
+
+Two constraints keep that from becoming a licence to trust partials. The
+committed prefix is **observation, never completion**: its presence must not
+suppress the unknown-outcome path, because a stream that ends without its
+terminating event and a stream that was killed mid-flight leave the same
+bytes behind. And the prefix's storage **dies with settlement** — whatever
+holds the streamed fragments is deleted in the same commit that writes the
+real or synthetic result, so no reader can ever find a settled call and a
+live-looking partial for it at the same time.
+
+So the sort gains a fourth case rather than losing its third:
+
+- **A pure read** — a lookup, a fetch with no billing and no partial — is
+  re-issued, as above.
+- **A metered generation with no committed partial** is closed as
+  indeterminate and its spend is reconciled, not assumed to be zero.
+- **A metered generation with a committed partial** is closed as
+  indeterminate *carrying that partial*, and the retry decision is made
+  afterwards by the policy that already owns retries.
+
 ## Decision rules
 
 When recovery finds outstanding work, close it with an indeterminate result
@@ -156,8 +208,11 @@ not encode it in a message string, and treat an existing string-matching
 classifier as a defect to be paid down rather than a working solution. When
 the synthetic result reaches the model, say that the outcome is unknown and
 that nothing was retried. When a terminal event is about to be written,
-close every unresolved call first. When the interrupted work was
-side-effect-free, re-issue instead. When the record cannot be read, refuse
+close every unresolved call first. When the interrupted work was a pure
+read, re-issue instead — but when it was a metered generation, close it and
+reconcile its spend rather than assuming a re-issue is free, and when a
+committed partial exists, close the call carrying that partial and leave the
+retry decision to the retry policy. When the record cannot be read, refuse
 the read and write nothing. When deciding what happens to the closed work,
 classify against the liveness threshold the system already uses rather than
 declaring one disposition for all of it; count restarts on a key of their

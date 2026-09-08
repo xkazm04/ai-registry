@@ -111,6 +111,16 @@ it silently serves one question's answer to a different question, and
 unlike a race it does so deterministically. When in doubt, over-specify;
 the cost is a duplicate request, not a wrong answer.
 
+The key is also **canonical**, not merely complete. Two callers asking
+the same question with the arguments in a different property order, or
+with an absent field spelled as an explicit undefined, must land on one
+key, or identical flights are never shared and the registry quietly
+degrades to no dedup at all. Derive the key through one deterministic
+serialization in which keyed structures compare order-independently
+while positional ones keep their order significant — the position of an
+argument in a list changes the question, the order of named fields does
+not — and let no call site build a key string by hand.
+
 Dedup entries name their reaper (settlement removes them), and the registry
 is bounded by construction — it holds only in-flight work. An entry that
 can outlive its flight (a promise that never settles) needs a timeout, or

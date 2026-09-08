@@ -33,7 +33,7 @@ else `created_at` (`:159-162`), clamped at zero for a future instant (`:164`).
 The two callers are `pack_by_budget` for recall and `run_decay_forgetting` for
 the sweep (`:437-460`), which is the one-model rule the technique asks for; the
 tier cap in `repos/core/memories.rs:2017-2027` is the exception, recorded in
-[rust--decay-and-forgetting](rust--decay-and-forgetting.md).
+[rust--decay-and-forgetting](./rust--decay-and-forgetting.md).
 
 ## The parser tolerates two formats; the defaults are the pair the technique now rejects
 

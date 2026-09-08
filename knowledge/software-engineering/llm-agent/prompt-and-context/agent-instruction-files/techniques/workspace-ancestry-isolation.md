@@ -21,18 +21,25 @@ inside that span inherits the brief without anyone deciding it should.
 
 ## Discovery walks, and it does not stop at the repository
 
-The loading rule is an ancestry walk. The harness reads its instruction
+The loading rule is an ancestry walk, and where it stops is a per-host fact
+worth reading rather than assuming. One major harness reads its instruction
 files from the working directory and **every directory above it**, to the
-filesystem root — there is no boundary at the repository root, at a
-worktree, or at a package. Everything discovered is **concatenated** into
-context; the nearest file does not replace the ones above it, it is
-appended after them.
+filesystem root — no boundary at the repository root, at a worktree, or at a
+package. Two others bound the walk at the project root (the version-control
+root, or a configured trusted root) and walk *down* from it to the working
+directory, so nothing above the repository is ever read. On the hosts that
+concatenate — most of them — the nearest file does not replace the ones
+above it, it is appended after them; at least one host loads only the
+nearest file. Everything below assumes the unbounded walk, because that is
+the host on which the failure is possible; on a root-bounded host the
+upward case is empty and only the downward one remains.
 
 The walk has a second half that is easy to miss because it is lazy:
 per-directory files *below* the working directory are discovered too, and
 loaded on demand when the agent reads a file in that directory. So the
 governed span is not a chain, it is a cone — everything above the launch
-point, plus everything beneath it that gets touched.
+point up to the host's boundary, plus everything beneath it that gets
+touched.
 
 Two consequences follow immediately, and they run in opposite directions:
 
@@ -124,9 +131,10 @@ can trace to a line. So the isolation claim gets the same treatment
 claim — it is verified against what actually loaded, not asserted from the
 layout.
 
-Every mature harness can report the instruction files a session resolved,
-either as a session-inspection command or as a lifecycle hook that logs
-each load with its reason. An automated run should capture that list into
+Every mature harness can report the instruction files a session resolved —
+as a session-inspection command, as a lifecycle hook that logs each load
+with its reason, or, on the least instrumented of them, only as a debug log
+directory that has to be switched on. An automated run should capture that list into
 its own artifacts and assert it: an evaluation whose runs cannot state
 which briefs they loaded has an uncontrolled input, and an empty expected
 list is the cheapest assertion in the suite. A layout that is correct today

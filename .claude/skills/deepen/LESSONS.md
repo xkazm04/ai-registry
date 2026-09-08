@@ -233,3 +233,49 @@ Format: `## <version used> - <YYYY-MM-DD> - <project>` followed by `- ` bullets.
   worker read the personas map: 14 unknown + 2 deviations with no seam text. The
   2026-08-29 lesson ("check a deviation count's provenance") holds a second way -
   the number can be real and still not mean what the worklist implies.
+
+## 1.2.0 - 2026-09-05 - software-engineering + llm-observability (4-wide batch; second full step-4 run)
+
+- **Two foundations fell in one batch, both to the same failure: a measured result
+  stated without its scale.** The instruction-file subject's "compliance falls with
+  count, roughly uniformly" was a dense-list benchmark applied to repository files;
+  the stream subject's "the client does not reconnect" was a hand-rolled reader's
+  shape stated for every client. Neither was wrong where it was measured. The
+  counter-evidence lane's first question for any load-bearing claim should be "at
+  what scale, on which population" before "is it true".
+- **The apply step refuted the morning's own landing within the hour, twice.** The
+  usage-limit worker wrote "worst-case overshoot is whatever the app spends in 30
+  seconds"; the apply worker ran that as a prediction against three SDK caches and
+  it held in none (a fail-open seat's TTL bounds refusal, not spend). The new
+  lifetime-cap technique's "bounded by construction" exclusion was applied to a tree
+  and came back as "a sum, not a term". Three of four apply rows were `not-better`;
+  every one moved a rule. The landing-to-condition loop is the batch's best
+  instrument and it only exists because step 4 is not skippable.
+- **Measured numbers leak upward through apply workers.** Two condition paragraphs
+  arrived carrying the experiment's figures (lifetimes in seconds, 101 of 107) into a
+  technique and a golden path. The Director trimmed both to mechanism-plus-pointer.
+  The brief should say it: an apply worker writes numbers into the application and
+  the condition into the upper layer, never both into the upper layer.
+- **Rate limits kill background workers silently mid-tree.** Three apply workers died
+  on the session limit; one had a harness file in a project tree. `SendMessage`
+  resumed all three from their transcripts with the tree state as the first ask, and
+  each accounted for its own files against foreign WIP by mtime. Cheap, and it should
+  be the default recovery; the alternative (fresh dispatch) loses the seam read.
+- **One tree, two rust witnesses in one batch.** Two workers read the same desktop
+  backend and wrote `rust@1.80` (the manifest floor) and `rust@1.96` (the observed
+  toolchain). The floor is the only pin the tree writes; the observed toolchain is
+  what yesterday's run and the currency instrument compare against. Aligned to the
+  observed with the floor in the body; the convention belongs in the brief and in
+  `check-currency`, not in a Director's memory.
+- **The fleet declaration can lag the disk.** A project checkout existed on this
+  machine that `projects.json` does not list for it, so its map was not regenerated
+  and the fleet's one real node stream hop carries two live defects no map can see.
+  A pre-flight `ls` of the machine root against the declaration is one line.
+- **A gate rule beat the Director's filename.** The apply brief prescribed an
+  application name bound to no technique; `check-bundles` refused it and the worker
+  landed under the technique the arm actually tested. Correct outcome, and the reason
+  the brief should say "name the file for the technique you are testing" rather than
+  invent a slug.
+- **Convergence held at 7/8, 7/11, 7/11, 9/14 with blind-first inside each worker.**
+  Every blind-only item was again an internal contradiction between techniques
+  landed one at a time by different runs - the lane's second job, third batch running.

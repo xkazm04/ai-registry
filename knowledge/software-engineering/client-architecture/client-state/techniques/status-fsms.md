@@ -66,6 +66,19 @@ for a background refresh dying. Encode this as one shared
 transition-on-failure function so every operation family answers it the
 same way.
 
+The failed reload's evidence travels with it. `stale` answers *what is
+held*; it does not answer *why the last attempt did not land*, and a
+transition that routes a failed reload to `stale` while dropping the
+error into a log has dressed a failure as mere age — the same defect the
+`failed` state exists to prevent, one transition later. So the `stale`
+state carries the last attempt's error beside the held result (or the
+machine keeps two axes, data presence and last-attempt outcome, which
+is how mature query caches expose "an error *and* the stale data at
+once"), and the surface can say "showing the last good copy; the refresh
+failed because …" rather than only "may be out of date". A held result
+and a failed attempt are two facts; a status vocabulary that can only
+record one of them at a time will always lose the second.
+
 Two structural refinements carried over from hard experience:
 
 - **The settled bit is sticky.** "Has this family ever completed at least

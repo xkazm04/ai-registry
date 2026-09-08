@@ -41,15 +41,21 @@ ones demoted to backstops:
    loss, offline), not as the primary mechanism.
 4. **The refetch floor.** A slow periodic revalidation whose only job is to
    bound the damage of a missed event. Its interval is set by asking "how
-   stale is tolerable when everything above this failed?" — minutes, not
-   seconds. A floor doing visible work (users noticing data update on the
-   floor's cadence) is a monitor firing: some event above it is not being
-   emitted or not being mapped, and the fix is there, not in tightening the
-   interval.
+   stale is tolerable when everything above this failed?" — for a shared
+   record that answer is minutes, not seconds. A floor doing visible work
+   (users noticing data update on the floor's cadence) is a monitor
+   firing: some event above it is not being emitted or not being mapped,
+   and the fix is there, not in tightening the interval. A screen whose
+   whole purpose is a live figure with no change feed behind it may
+   legitimately refetch in seconds — but then polling *is* its freshness
+   design, it is named as such, and it is not a floor.
 
 Polling *as the primary mechanism* combines the worst of everything —
-maximal request load and staleness still bounded only by the interval — and
-one more cost that gets missed: it hides missing events. A product that
+maximal request load (a validator-carrying conditional request reduces an
+unchanged poll to a bodiless not-modified reply, which saves the payload
+and not the request, the round trip, or the server's work to answer it)
+and staleness still bounded only by the interval — and one more cost that
+gets missed: it hides missing events. A product that
 polls everywhere never discovers which change facts its backend fails to
 emit, and the discovery arrives years later, as an architecture problem,
 when polling finally has to be removed for load reasons.

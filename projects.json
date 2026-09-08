@@ -65,7 +65,8 @@
     },
     "personas-web": {
       "checkouts": {
-        "Wolf": "kiro/personas-web"
+        "Wolf": "kiro/personas-web",
+        "Fox": "dolla/personas-web"
       }
     },
     "systedo-case": {
@@ -75,7 +76,8 @@
     },
     "ascent": {
       "checkouts": {
-        "Wolf": "kiro/ascent"
+        "Wolf": "kiro/ascent",
+        "Fox": "dolla/ascent"
       }
     },
     "gravitone": {
