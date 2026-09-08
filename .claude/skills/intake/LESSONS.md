@@ -10323,3 +10323,25 @@ observation, and the batch lane already carries half of this idea for a differen
 - **Mid-flight runs:** `SKILL.md` changed this run (2.7.0 -> 2.8.0, one routing
   paragraph added to Phase 5, nothing removed). Finish on the version you loaded; the
   change only tells you what you already do for currency rows.
+
+## 2.8.0 - 2026-09-08 - awesome-gpt-6-astra
+
+- **A relayed vendor sentence that contradicts a technique is a boundary until a second
+  provider says otherwise.** The relay said an effort change "preserves the prompt prefix";
+  the technique said a flip invalidates it. Fetching the primary confirmed the wording;
+  only a paired run on a different provider's harness (held vs flipped effort on a resumed
+  session: 59 vs 9,415 tokens written) showed the wording was a property of one API. Had
+  the run written the inversion from the primary alone, it would have imported one
+  vendor's cache shape into every provider. The cross-provider paired test is the
+  instrument that separates a per-provider clause from a concept-level correction, and
+  it costs cents.
+- **An application filename's second half is the technique slug, not a description.**
+  `rkb-profile §2` is enforced by `check-bundles`: `process--instruction-freshness-model-successor.md`
+  was rejected; `process--instruction-freshness.md` passed. Existing files like
+  `next--quality-axis-separation.md` name techniques, not topics. Cost one regeneration
+  under the index lock.
+- **Denial hunting paid again on an application, not a technique.** The standing
+  `rust--cache-continuity` application asserted "nothing on the resume path can change
+  it"; the tree has two resume paths and the sentence was true of one. Applications carry
+  enumerations too, and they are cheaper to refute than a golden path's because the tree
+  they cite is open.
