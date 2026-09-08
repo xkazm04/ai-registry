@@ -10240,3 +10240,47 @@ observation, and the batch lane already carries half of this idea for a differen
   the cap, not the content, set the count. The consolidation cost more than the
   reading. Next time: one brief that asks each reader for *mechanisms across
   rows* first and rows second, and a hard cap of 10 rows per slice.
+
+## 2.7.0 - 2026-09-08 - seedance-prompt-showcase
+
+- **The admission score cannot express a currency row, and the method has been
+  silent about which rule governs.** A clock reset's maximum GAIN is 1 ("a currency
+  signal that resets a clock"). Even at RISK 0 - a primary fetched in-run, confirmed
+  by the director - it scores +1 against a +2 auto-accept threshold, so **every
+  currency row is auto-rejected by construction**, no matter how well corroborated.
+  The corroboration table says the opposite in plain words ("Currency signal | Yes,
+  on its own"), and the outcome table lands it as one of the six outcomes. The
+  resolution is not to tune the threshold: it is that **Phase 5's arithmetic governs
+  rows targeting the upper layers, and the corroboration table governs a currency
+  row**, which targets an application's frontmatter. Until `SKILL.md` says so, every
+  currency row owes one sentence naming the rule it ran under. Two scorecards have
+  now flagged this; this run diagnosed it. Proposed for the next method edit.
+- **The rewrite test earns its keep by saying NO.** Round 39 asked whether a
+  `+2 RISK for a rewrite` row is really an XL. This run's row scored no rewrite
+  premium at all, and asking *why* was the useful move: the technique's rule survives
+  a capability number changing because it was **written cap-agnostic**, and only the
+  dated application went stale. That is a positive fact about a well-forged
+  technique, and it is only visible if the test is run when you expect it to pass.
+  A detector consulted only when you suspect a subject is a detector that confirms.
+- **A capability moving can change which constraint binds without falsifying any
+  rule.** The whole finding here is one shape: a cap that used to refuse a bad brief
+  by being too small now accepts it and divides silently. Nothing the corpus asserted
+  became false; a constraint that was self-policing stopped being so. This is a third
+  kind of currency, beside "a number went stale" and "a claim was refuted", and it is
+  the kind that produces an amendment rather than a frontmatter edit. Worth naming
+  when a fourth instance shows up.
+- **A falsifying seam that fires is worth more than one that passes, and this run has
+  the cleanest instance yet.** The seam computed the exact quotient the finding was
+  about, and it turned out the tree already enforced a measured floor *and* derived
+  its beat counts instead of enumerating them. The finding did not die - it moved:
+  the exposure is **the enumerating surface**, not the long duration, and the return
+  condition became a shape rather than a number. Converged with 2026-09-07's pre-check
+  ("say what a caught outcome would teach"); a third instance makes it a rule.
+- **Assert an absence instrument even when it is a two-line grep.** The strip-test
+  grep over the amendment returned empty, which was correct - but it was only
+  trustworthy because it was first run against the application beside it, where it
+  returned six product names. Same discipline caught a worse one: `build-index --check`
+  piped through `tail` reports the *shell's* success and hid a real exit 1. The index
+  was stale and would have been committed stale.
+- **Mid-flight runs:** no method file changed this run beyond `LESSONS.md` and
+  `SCORECARD.md`. Nothing to do; finish on the version you loaded.
