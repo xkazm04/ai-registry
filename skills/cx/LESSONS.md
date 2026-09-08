@@ -212,3 +212,7 @@ stops across five personas, walked from the public landing inward.
   the point of *choosing* rather than the point of *committing*. This generalises past wizards to
   any create/publish/send/delete: the `recovery` heuristic asks "can the user undo", but nothing in
   the list asks "does the screen say what cannot be undone, where it happens".
+
+## 1.0.0 - 2026-09-08 - firetv (third run)
+### Redesign proposal
+- The default walk treats the existing screen set as the finished path and polishes inside it. On this repo it walked five stops of a homework flow before the operator pointed out that no module had an end-to-end design at all - the camera stop was reachable only because a seeded task list pretended the learning had already happened. The read must challenge the PATH before it reads the SCREEN: a stop's overview should carry a line naming how the user ARRIVED at this screen and what makes that arrival real (a seeded fixture is not an arrival), and a missing upstream is an H finding that stops the walk for design, not a polish item. `complete` mode exists for this; the lesson is that the DEFAULT mode is where the operator was harmed, because nothing in the default read is allowed to say "this path does not exist".
