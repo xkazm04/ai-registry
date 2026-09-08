@@ -834,7 +834,7 @@
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-addressable-ui/agent-addressable-ui.md",
    "digest": "sha256:26420ee868fae085",
    "revision": 2,
-   "changedAt": "2026-09-08",
+   "changedAt": "2026-09-05",
    "techniques": [
     {
      "slug": "agent-pasteable-reference-format",
@@ -1353,7 +1353,7 @@
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-instruction-files/agent-instruction-files.md",
    "digest": "sha256:c2e2a8537caab633",
-   "revision": 21,
+   "revision": 23,
    "changedAt": "2026-09-08",
    "techniques": [
     {
@@ -1701,8 +1701,8 @@
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/agent-memory.md",
    "digest": "sha256:fa76a3f4605c12da",
-   "revision": 31,
-   "changedAt": "2026-09-08",
+   "revision": 32,
+   "changedAt": "2026-09-07",
    "techniques": [
     {
      "slug": "baseline-ladder",
@@ -2189,8 +2189,8 @@
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-runtime-assembly/agent-runtime-assembly.md",
    "digest": "sha256:87ecffe5a332546f",
-   "revision": 15,
-   "changedAt": "2026-09-08",
+   "revision": 16,
+   "changedAt": "2026-09-05",
    "techniques": [
     {
      "slug": "additive-input-at-the-call-boundary",
@@ -4635,7 +4635,7 @@
    "file": "knowledge/software-engineering/integration/external-systems/cicd-monitoring/cicd-monitoring.md",
    "digest": "sha256:d8518aaccc214d6b",
    "revision": 1,
-   "changedAt": "2026-09-08",
+   "changedAt": "2026-09-05",
    "techniques": [
     {
      "slug": "deployment-history",
@@ -4957,7 +4957,7 @@
    "file": "knowledge/software-engineering/client-architecture/client-state/client-state.md",
    "digest": "sha256:084c2956d1ea0133",
    "revision": 15,
-   "changedAt": "2026-09-08",
+   "changedAt": "2026-09-05",
    "techniques": [
     {
      "slug": "async-race-guards",
@@ -6270,7 +6270,7 @@
    "file": "knowledge/software-engineering/operations/service-operations/conditional-service-composition/conditional-service-composition.md",
    "digest": "sha256:080aa3c7fa2cde0d",
    "revision": 2,
-   "changedAt": "2026-09-08",
+   "changedAt": "2026-09-07",
    "techniques": [
     {
      "slug": "conjunction-activated-fragments",
@@ -6587,7 +6587,7 @@
    "file": "knowledge/software-engineering/integration/external-systems/connector-catalog/connector-catalog.md",
    "digest": "sha256:10a0b6823bd7b6d5",
    "revision": 1,
-   "changedAt": "2026-09-08",
+   "changedAt": "2026-09-05",
    "techniques": [
     {
      "slug": "adapter-normalization",
@@ -6704,7 +6704,7 @@
    "file": "knowledge/software-engineering/integration/acquisition-and-ingest/contested-acquisition/contested-acquisition.md",
    "digest": "sha256:7281ac20ecf1f2c8",
    "revision": 1,
-   "changedAt": "2026-09-08",
+   "changedAt": "2026-09-05",
    "techniques": [
     {
      "slug": "classify-before-you-respond",
@@ -7240,7 +7240,7 @@
    "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/cost-metering/cost-metering.md",
    "digest": "sha256:277c277d0e17e1ab",
    "revision": 12,
-   "changedAt": "2026-09-08",
+   "changedAt": "2026-09-04",
    "techniques": [
     {
      "slug": "budget-enforcement",
@@ -9484,7 +9484,7 @@
    "file": "knowledge/software-engineering/client-architecture/demo-data-plane/demo-data-plane.md",
    "digest": "sha256:cbf45005151d951d",
    "revision": 4,
-   "changedAt": "2026-09-08",
+   "changedAt": "2026-09-05",
    "techniques": [
     {
      "slug": "fake-surface-honesty-contract",
@@ -9752,7 +9752,7 @@
    "file": "knowledge/software-engineering/engineering-process/continuous-integration/deployment-contract/deployment-contract.md",
    "digest": "sha256:5b82707590843e62",
    "revision": 4,
-   "changedAt": "2026-09-08",
+   "changedAt": "2026-09-05",
    "techniques": [
     {
      "slug": "cache-immutability-licensing",
@@ -10121,8 +10121,8 @@
    "status": "forged",
    "file": "knowledge/software-engineering/security/identity-and-access/device-pairing/device-pairing.md",
    "digest": "sha256:8d03414eb899fb48",
-   "revision": 2,
-   "changedAt": "2026-09-08",
+   "revision": 3,
+   "changedAt": "2026-09-05",
    "techniques": [
     {
      "slug": "admission-scoping",
@@ -10529,7 +10529,7 @@
    "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/docs-sync/docs-sync.md",
    "digest": "sha256:e0debca9966dc4a7",
    "revision": 12,
-   "changedAt": "2026-09-08",
+   "changedAt": "2026-09-04",
    "techniques": [
     {
      "slug": "catch-up-markers",
@@ -10833,7 +10833,7 @@
    "file": "knowledge/software-engineering/integration/acquisition-and-ingest/document-text-extraction/document-text-extraction.md",
    "digest": "sha256:dac597f9cfecba3c",
    "revision": 1,
-   "changedAt": "2026-09-08",
+   "changedAt": "2026-09-05",
    "techniques": [
     {
      "slug": "band-calibration-by-construction",
@@ -11192,7 +11192,7 @@
    "file": "knowledge/software-engineering/llm-agent/orchestration/durable-agent-operations/durable-agent-operations.md",
    "digest": "sha256:357ba2c2d1e3b8ab",
    "revision": 1,
-   "changedAt": "2026-09-08",
+   "changedAt": "2026-09-04",
    "techniques": [
     {
      "slug": "close-is-a-controlled-crash",
@@ -11744,7 +11744,7 @@
    "file": "knowledge/software-engineering/integration/embedded-surfaces/embedded-preview/embedded-preview.md",
    "digest": "sha256:d4939a2c97876bc4",
    "revision": 1,
-   "changedAt": "2026-09-08",
+   "changedAt": "2026-09-05",
    "techniques": [
     {
      "slug": "convention-discovery",
@@ -11977,7 +11977,7 @@
    "file": "knowledge/software-engineering/backend-platform/language-runtime/engine-binding-surface/engine-binding-surface.md",
    "digest": "sha256:18fd56b71665e315",
    "revision": 1,
-   "changedAt": "2026-09-08",
+   "changedAt": "2026-09-05",
    "techniques": [
     {
      "slug": "address-sensitive-construction",
@@ -12200,7 +12200,7 @@
    "file": "knowledge/software-engineering/backend-platform/language-runtime/engine-string-representation/engine-string-representation.md",
    "digest": "sha256:ff336bbfd1d63764",
    "revision": 2,
-   "changedAt": "2026-09-08",
+   "changedAt": "2026-09-05",
    "techniques": [
     {
      "slug": "compile-time-static-string-table",
@@ -12673,8 +12673,8 @@
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/eval-harness/eval-harness.md",
    "digest": "sha256:dfa66dd9b9149cc8",
-   "revision": 27,
-   "changedAt": "2026-09-08",
+   "revision": 30,
+   "changedAt": "2026-09-07",
    "techniques": [
     {
      "slug": "assertion-vs-judgment",
@@ -13853,7 +13853,7 @@
    "file": "knowledge/software-engineering/llm-agent/orchestration/fleet-orchestration/fleet-orchestration.md",
    "digest": "sha256:c5b0fa0306b09648",
    "revision": 17,
-   "changedAt": "2026-09-08",
+   "changedAt": "2026-09-04",
    "techniques": [
     {
      "slug": "absent-status-passthrough",
@@ -14392,7 +14392,7 @@
    "file": "knowledge/software-engineering/backend-platform/language-runtime/guest-execution-bounding/guest-execution-bounding.md",
    "digest": "sha256:493f1cbc43905005",
    "revision": 3,
-   "changedAt": "2026-09-08",
+   "changedAt": "2026-09-04",
    "techniques": [
     {
      "slug": "back-edge-iteration-counter",
@@ -15522,7 +15522,7 @@
    "file": "knowledge/software-engineering/integration/acquisition-and-ingest/import-normalization/import-normalization.md",
    "digest": "sha256:ce0ff0c823cef672",
    "revision": 1,
-   "changedAt": "2026-09-08",
+   "changedAt": "2026-09-05",
    "techniques": [
     {
      "slug": "adapter-capability-tables",
@@ -15684,7 +15684,7 @@
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/invariant-placement/invariant-placement.md",
    "digest": "sha256:79063c2976d10b8c",
    "revision": 4,
-   "changedAt": "2026-09-08",
+   "changedAt": "2026-09-05",
    "techniques": [
     {
      "slug": "build-time-evaluation-of-cross-value-invariants",
@@ -17274,8 +17274,8 @@
    "status": "forged",
    "file": "knowledge/software-engineering/integration/embedded-surfaces/markdown-vault/markdown-vault.md",
    "digest": "sha256:f6a2ff361c8b10e4",
-   "revision": 1,
-   "changedAt": "2026-09-08",
+   "revision": 2,
+   "changedAt": "2026-09-07",
    "techniques": [
     {
      "slug": "editor-interop",
@@ -17599,8 +17599,8 @@
    "status": "reconciled",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/mcp-tools.md",
    "digest": "sha256:3b0cf665f97065f6",
-   "revision": 21,
-   "changedAt": "2026-09-08",
+   "revision": 23,
+   "changedAt": "2026-09-05",
    "techniques": [
     {
      "slug": "authentication-and-scoping",
@@ -20205,7 +20205,7 @@
    "file": "knowledge/software-engineering/integration/acquisition-and-ingest/native-document-format/native-document-format.md",
    "digest": "sha256:f7411ccaa5c04a87",
    "revision": 1,
-   "changedAt": "2026-09-08",
+   "changedAt": "2026-09-05",
    "techniques": [
     {
      "slug": "format-generations-are-declared",
@@ -22054,7 +22054,7 @@
    "file": "knowledge/software-engineering/engineering-process/continuous-integration/pipeline-authoring/pipeline-authoring.md",
    "digest": "sha256:cf1c520fc79fd382",
    "revision": 4,
-   "changedAt": "2026-09-08",
+   "changedAt": "2026-09-05",
    "techniques": [
     {
      "slug": "change-scoped-work-selection",
@@ -22871,7 +22871,7 @@
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/prompt-assembly.md",
    "digest": "sha256:d9575f3ba7fb665b",
-   "revision": 27,
+   "revision": 29,
    "changedAt": "2026-09-08",
    "techniques": [
     {
@@ -25408,7 +25408,7 @@
    "file": "knowledge/software-engineering/backend-platform/resilience/remote-capability-probing/remote-capability-probing.md",
    "digest": "sha256:944cd48868c33525",
    "revision": 1,
-   "changedAt": "2026-09-08",
+   "changedAt": "2026-09-04",
    "techniques": [
     {
      "slug": "advertised-support-is-not-evidence",
@@ -25518,7 +25518,7 @@
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/repo-manifest-standard/repo-manifest-standard.md",
    "digest": "sha256:9115a34b9c902784",
    "revision": 8,
-   "changedAt": "2026-09-08",
+   "changedAt": "2026-09-05",
    "techniques": [
     {
      "slug": "capability-not-tool-vocabulary",
@@ -27962,8 +27962,8 @@
    "status": "forged",
    "file": "knowledge/software-engineering/operations/governance-and-records/settings/settings.md",
    "digest": "sha256:e29ad5f70c1e363a",
-   "revision": 12,
-   "changedAt": "2026-09-08",
+   "revision": 13,
+   "changedAt": "2026-09-05",
    "techniques": [
     {
      "slug": "applied-defaults-ledger",
@@ -28615,7 +28615,7 @@
    "file": "knowledge/software-engineering/integration/embedded-surfaces/sql-console/sql-console.md",
    "digest": "sha256:0b492ba3c4dd193b",
    "revision": 1,
-   "changedAt": "2026-09-08",
+   "changedAt": "2026-09-05",
    "techniques": [
     {
      "slug": "dialect-capability-declaration",
@@ -28996,8 +28996,8 @@
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/resilience/stream-proxy-hop/stream-proxy-hop.md",
    "digest": "sha256:458226e8e2adff39",
-   "revision": 2,
-   "changedAt": "2026-09-08",
+   "revision": 6,
+   "changedAt": "2026-09-05",
    "techniques": [
     {
      "slug": "abort-versus-unreachable",
@@ -30496,7 +30496,7 @@
    "file": "knowledge/software-engineering/integration/external-systems/templates-scaffolding/templates-scaffolding.md",
    "digest": "sha256:3c599949a10176d8",
    "revision": 1,
-   "changedAt": "2026-09-08",
+   "changedAt": "2026-09-05",
    "techniques": [
     {
      "slug": "adoption-lifecycle",
@@ -31773,8 +31773,8 @@
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/tool-result-economy/tool-result-economy.md",
    "digest": "sha256:775d27f5414cc557",
-   "revision": 1,
-   "changedAt": "2026-09-08",
+   "revision": 2,
+   "changedAt": "2026-09-04",
    "techniques": [
     {
      "slug": "compressibility-follows-the-producer",
@@ -33653,7 +33653,7 @@
    "file": "knowledge/software-engineering/integration/acquisition-and-ingest/web-scraping/web-scraping.md",
    "digest": "sha256:e836deab7a69bcd5",
    "revision": 1,
-   "changedAt": "2026-09-08",
+   "changedAt": "2026-09-05",
    "techniques": [
     {
      "slug": "dedup-and-datasets",

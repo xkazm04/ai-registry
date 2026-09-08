@@ -507,7 +507,7 @@
    "file": "knowledge/media-generation/research-grounding/evidence-bound-visuals/evidence-bound-visuals.md",
    "digest": "sha256:50341b454060ae16",
    "revision": 6,
-   "changedAt": "2026-09-08",
+   "changedAt": "2026-09-04",
    "techniques": [
     {
      "slug": "anchor-removal-ablation",
@@ -876,7 +876,7 @@
    "file": "knowledge/media-generation/visual-generation/generated-output-grading/generated-output-grading.md",
    "digest": "sha256:a19617f45fd37ef6",
    "revision": 8,
-   "changedAt": "2026-09-08",
+   "changedAt": "2026-09-04",
    "techniques": [
     {
      "slug": "cross-provider-flip-analysis",
