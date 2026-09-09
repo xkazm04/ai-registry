@@ -2,7 +2,7 @@
   "id": "328df264-fffa-55ca-b666-85e2ed37c19e",
   "slug": "change-implementation-and-review",
   "title": "Code change implementation and review follow-through",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "status": "seed",
   "path": "software_engineering/code-review",
   "domain": "software_engineering",
@@ -34,6 +34,11 @@
       "kind": "act"
     },
     {
+      "id": "reconcile",
+      "label": "Read the item, whatever authorised it, and whoever else may have taken it once more in the moment before offering the change",
+      "kind": "observe"
+    },
+    {
       "id": "offer",
       "label": "Offer the change for review in the shape this repository expects",
       "kind": "deliver"
@@ -60,6 +65,7 @@
         "An item whose ambiguity would cost a large rewrite, a production effect or a destructive act if it were guessed wrong comes back with the one blocking question rather than with a change built on the guess, and the test is the cost of being wrong rather than how uncertain the work feels",
         "An item that cannot be completed comes back with what was learned rather than a partial change left behind",
         "A number of failed attempts at which the work stops and escalates is fixed before the first attempt, because each next attempt looks cheap from inside and only the run of them is evidence, and a run of them is evidence about the model of the system rather than about the change",
+        "The item and whatever authorised it are read again in the moment before the change is offered rather than only before the work started, and one that has been withdrawn, completed by somebody else, or claimed elsewhere in the meantime stops there with that recorded; re-proving the code is a different check and does not cover this one, because a diff can be clean against a branch nobody wants any more",
         "A decline that the person who accepted the item overturns is written back beside the reason that produced it, because declining is the one call here nobody sees the cost of, and the next re-validation of an item of that shape weighs a premise test that has already been overruled once rather than reaching the same decline again"
       ]
     },
@@ -91,7 +97,7 @@
       ]
     }
   ],
-  "guidance": "Reviewability is the author's job and it is decided by size, not by the description: a reviewer holds two to four hundred lines well and rubber stamps a thousand. Split rather than explain. Re-read the accepted item against the code before writing anything, because the work that was queued is often not the work now needed, and declining with a reason is a result. Most comments should simply be acted on; an objection to the approach is not yours to settle.",
+  "guidance": "Reviewability is the author's job and it is decided by size, not by the description: a reviewer holds two to four hundred lines well and rubber stamps a thousand. Split rather than explain. Re-read the item against the code before writing, and read it and its authorisation again before offering, because a clean diff proves nothing about an item nobody wants any more. Declining with a reason is a result. Most comments should be acted on; an objection to the approach is not yours to settle.",
   "use_cases": [
     "A backlog of accepted items several weeks deep, where a good proportion of them describe a problem the codebase has since solved a different way and building them faithfully is worse than not building them.",
     "A team where one person reviews everything, and the practical constraint on throughput is how much they can read carefully rather than how fast changes can be written.",
@@ -140,6 +146,7 @@
     "from_templates": [
       "dev-clone"
     ],
-    "source_template_id": "dev-clone"
+    "source_template_id": "dev-clone",
+    "source_note": "The reconcile-before-offering activity, its success criterion and its guidance sentence were added 2026-09-09 from ceptln/quota-burner at commit 64d0ad12 (MIT), whose execution contract states that a task may have been completed or its approval withdrawn while the agent worked and requires claims and the task itself to be re-checked before a PR opens. The distinction drawn here between re-proving the code and re-reading the authorisation is derived rather than the source's: a blind A/B against this recipe at 0.3.0 found the unenriched arm re-diffing against the current head and re-running the checks while never asking whether the item was still wanted, which is what established that the two checks are different axes."
   }
 }

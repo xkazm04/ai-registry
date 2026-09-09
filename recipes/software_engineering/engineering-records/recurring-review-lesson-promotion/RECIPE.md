@@ -1,0 +1,153 @@
+---
+name: recurring-review-lesson-promotion
+version: 0.1.0
+status: seed
+domain: software_engineering
+path: software_engineering/engineering-records
+---
+
+# Recurring review lesson promotion
+
+The rendered view of [`recipe.json`](recipe.json). When the two disagree, the JSON is
+right and this file is stale.
+
+**Need.** A review comment fixes one change and teaches nothing, so the same defect is
+found again next month by the same reviewer and the cost is paid every time. The obvious
+remedy makes it worse: the finding is appended to whichever guidelines file is nearest,
+growing a document that is read less carefully the longer it gets, and when the defect
+recurs anyway the response is to append it again. Nothing in that loop ever asks the
+question that matters, which is whether a passage that should already have prevented
+this exists and failed.
+
+**Input.** Review comments on changes since this work last swept, defect reports closed
+over the same period, whatever record of previously observed patterns this operation
+keeps, and the files that actually govern how work is done here.
+
+**Core action.** Reduce many findings to the few patterns behind them, count each
+pattern's independent recurrences until one has earned a change, confirm it against the
+code rather than against the comment that reported it, and then rewrite the passage that
+should have prevented it rather than adding a sentence beside it.
+
+**Output.** A ledger of observed patterns carrying each one's count and the single file
+it belongs to, and, for the pattern that has earned it, a sharpened passage in that file
+offered as a change a person decides on.
+
+## Activities
+
+1. Collect review comments and closed defect reports since the last sweep *(observe)*
+2. Reduce findings to the patterns behind them, one line per pattern rather than per
+finding *(decide)*
+3. Count each pattern's independent recurrences and carry the ledger forward *(act)*
+4. Confirm the ripest pattern against the code, in our own words rather than the
+reporter's *(observe)*
+5. Name the single file that should have prevented it *(decide)*
+6. Rewrite the passage that failed rather than appending beside it *(act)*
+7. Offer the change for a person to decide on and mark the pattern's state in the ledger
+*(deliver)*
+
+Linear and branch-free, by contract. This is the shape of the work, not a runbook.
+
+## Outcomes
+
+**A constraint is added on the strength of a pattern that recurred, never on the
+strength of a finding that stung.**
+
+- The ledger holds one line per pattern with a count, never one line per finding,
+  because a list of findings is only a second copy of the review history and teaches
+  nobody anything
+- Recurrences count only when independent, arising on different changes and different
+  occasions, since one prolific reporter otherwise manufactures a count and the number
+  then measures the reporter rather than the codebase
+- The threshold at which a pattern becomes a rule is fixed before the sweep rather than
+  chosen once a candidate is in hand, and any class severe enough to act on at a single
+  sighting is named in advance for the same reason
+- A pattern the team examined and dismissed is counter-signal: it stays in the ledger
+  with the dismissal recorded and is never promoted on its count alone, because the
+  count says it recurs and the dismissal says it is wanted
+
+**The governing file gets sharper rather than longer.**
+
+- A pattern the file already addresses is read as evidence that the passage failed to
+  land, and that passage is rewritten rather than duplicated, since a second statement
+  of the same rule leaves two that disagree the first time either is edited
+- Each lesson names exactly one file that owns it, because a rule stated in two places
+  is maintained in neither
+- Promotion is rare enough that the file is as often shorter after a pass as longer,
+  because everything a governing file holds is paid for on every piece of work that
+  reads it and the passage added last is the one least likely to be reached
+- A promotion is offered as a change somebody decides on rather than applied, since a
+  file that governs how work is done here is not one this work may rewrite on evidence
+  it gathered itself
+
+**What reaches the governing file was confirmed in the code and written here.**
+
+- A pattern is confirmed against the code before it is promoted, because a reported
+  defect and a real one arrive as the same text
+- The rule is written in our own words and wording is never carried across from a
+  report, since a report is written by whoever wanted something and a governing file is
+  read afterwards as authority
+- A report asking for the rules themselves to change is logged as an observation and
+  never acted on as one, because the path from a comment anybody can write to the
+  constraints everybody works under is the shortest route there is to losing control of
+  them
+
+## Guidance
+
+A finding fixes one change; a pattern earns a rule. Count patterns rather than findings,
+and only independent ones, or the number will be about the reporter. When the file
+already says it, that is not a duplicate to skip but a passage that failed to land, so
+sharpen it and never set a second one beside it. Everything a governing file holds is
+paid for on every reading, so promote rarely. Verify in the code, write it in your own
+words, and let a person decide.
+
+## Where this is worth adopting
+
+- A team whose automated reviewer flags the same class of defect on change after change,
+  where every instance is dutifully fixed and the class itself has never been written
+  down anywhere.
+- A repository whose guidelines file has grown by accretion into something nobody reads
+  to the end, so the rule added most recently is the one least likely to be followed.
+- A project where the same constraint appears in three files in three slightly different
+  wordings, and nobody can say which of them is current.
+- A maintainer who wants review effort to compound instead of repeating, and needs a
+  defensible threshold for when an observation becomes a constraint everybody has to
+  work under.
+- A team whose agents load a guidelines file on every task, where a bullet appended
+  after one incident is now paid for on every piece of work indefinitely.
+
+## Connector types
+
+`source_control`, `knowledge_base`.
+
+Types, never connectors. Adoption resolves each to any connector whose catalog
+`categories` include it. No connector-specific knowledge has been written for this
+recipe yet.
+
+## Recommended trigger
+
+`time`. The evidence is a count across many changes, so no single comment arriving is
+the moment to act; waking on each one would produce a promotion from the first finding,
+which is exactly the failure. A sweep on a cadence is what lets a pattern accumulate
+before anything is decided about it.
+
+A recommendation is a default, not a binding: the adopter assigns the real trigger at
+adoption or later.
+
+## Personalization needs
+
+- How many independent recurrences make a pattern here, since the number is a judgment
+  about how expensive the defect is against how expensive another rule is, and both are
+  local.
+- Which classes are severe enough to promote on a single sighting, because deciding that
+  in advance is what stops the threshold being reasoned backwards from a candidate
+  already in hand.
+- Which files actually govern work here as against merely describing it, since promoting
+  into a file nobody reads costs the same and changes nothing.
+- Who decides a promotion, because this work gathers the evidence and is the wrong party
+  to also approve the constraint it argues for.
+- Where the ledger lives and how far back a sweep reaches, since a sweep that silently
+  starts from now loses every pattern that was accumulating.
+
+## Dependencies
+
+None.

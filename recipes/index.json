@@ -3,16 +3,16 @@
   "generated_by": "scripts/build-recipes-index.mjs",
   "lane": "recipes",
   "source": "recipes/<domain>/<topic>/<slug>/recipe.json",
-  "recipes": 133,
+  "recipes": 136,
   "by_status": {
-   "seed": 133
+   "seed": 136
   },
   "by_domain": {
    "legal_compliance": 9,
    "operations_logistics": 4,
    "finance_accounting": 12,
    "data_ai": 8,
-   "software_engineering": 42,
+   "software_engineering": 45,
    "creative_design": 13,
    "general_professional": 13,
    "customer_support": 8,
@@ -234,7 +234,7 @@
   },
   "change-implementation-and-review": {
    "path": "recipes/software_engineering/code-review/change-implementation-and-review",
-   "version": "0.3.0",
+   "version": "0.4.0",
    "status": "seed",
    "domain": "software_engineering",
    "topic": "code-review",
@@ -1110,6 +1110,19 @@
    ],
    "recommended_trigger_kind": "self_paced"
   },
+  "metered-capacity-work-admission": {
+   "path": "recipes/software_engineering/cost-safety/metered-capacity-work-admission",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "software_engineering",
+   "topic": "cost-safety",
+   "title": "Metered capacity work admission",
+   "connector_types": [
+    "model_hosting",
+    "source_control"
+   ],
+   "recommended_trigger_kind": "time"
+  },
   "motion-and-appellate-brief-drafting": {
    "path": "recipes/legal_compliance/litigation/motion-and-appellate-brief-drafting",
    "version": "0.1.0",
@@ -1331,6 +1344,19 @@
    ],
    "recommended_trigger_kind": "event"
   },
+  "recurring-review-lesson-promotion": {
+   "path": "recipes/software_engineering/engineering-records/recurring-review-lesson-promotion",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "software_engineering",
+   "topic": "engineering-records",
+   "title": "Recurring review lesson promotion",
+   "connector_types": [
+    "source_control",
+    "knowledge_base"
+   ],
+   "recommended_trigger_kind": "time"
+  },
   "release-candidate-review": {
    "path": "recipes/software_engineering/release/release-candidate-review",
    "version": "0.2.0",
@@ -1427,6 +1453,18 @@
    "topic": "work-intake",
    "title": "Scouted opportunity triage",
    "connector_types": [],
+   "recommended_trigger_kind": "event"
+  },
+  "shared-queue-claim-and-ownership": {
+   "path": "recipes/software_engineering/work-intake/shared-queue-claim-and-ownership",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "software_engineering",
+   "topic": "work-intake",
+   "title": "Shared queue claim and ownership",
+   "connector_types": [
+    "source_control"
+   ],
    "recommended_trigger_kind": "event"
   },
   "skill-library-audit": {

@@ -232,3 +232,30 @@ against six enrichments already committed.
   Neither is visible from a candidate row; both are properties of the recipe after it is
   written. Second run in a row where the executor stage caught what the recommendation
   stage could not.
+
+## 2.1.0 - 2026-09-09 - quota-burner
+- **The name filter can be right about every name and still miss the craft.** This skill's
+  primary instrument sorts a library's folder names into judgments and procedures. Every
+  one of the fifteen menu skills here passes it: `dead-code-sweep`, `docs-drift`,
+  `perf-fix` all name a KIND of work rather than a procedure for operating a product. All
+  fifteen were worth nothing, being one-paragraph task definitions of targeting and done.
+  The craft was in `docs/CONTRACT.md`, which the filter never reaches because it is not a
+  skill. The tell was in plain sight and is reusable: every skill opened with the same line
+  telling the reader to go read the contract first. **A library whose skills all defer to
+  one shared document has told you that its judgments were factored out of them and into
+  that document, and the skills are thin because it exists.** Read that file before the
+  folder names, and expect the name filter to be uninformative in exactly this shape.
+- **A mature recipe generalizes along the axes it already names, and not across to a new
+  one.** Two enrichments were A/B'd blind against `change-implementation-and-review` 0.3.0.
+  The one that sharpened a judgment the recipe already makes came back non-discriminating:
+  both arms refused to sit in a polling loop and both reached for the record over the
+  session unprompted. The one that named a *different thing to check* came back cleanly
+  discriminating: the base arm re-diffed against the head and re-ran the checks, reasoning
+  hard about staleness of code, and never once asked whether the item was still wanted or
+  had been claimed by somebody else. Same recipe, same judge model, same hour, opposite
+  verdicts. This is a partial answer to the open followup from `agentic-awesome-skills`,
+  and a sharper predictor than confidence was: **before proposing an enrichment, ask
+  whether it sharpens an axis the recipe already names or introduces one it never
+  mentions.** The first is nearly always inert against a mature recipe. The second is where
+  the enrichment lane still pays, and five previously measured-inert enrichments are worth
+  re-reading against that question rather than against the fixture defect alone.

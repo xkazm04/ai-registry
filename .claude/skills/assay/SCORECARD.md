@@ -12,6 +12,7 @@ rather than rules, and that is the finding.
 | 1.1.0 | 2026-09-07 | spellbook | skills library | 62 | 3 of 4 | 22 | 2 | 0 | 1 accepted | the catalogue class (34 of 45) | 27 of 28 | 1/4 | rich |
 | 2.0.0 | 2026-09-07 | agentic-awesome-skills | skills library (aggregated) | 30 | 1 | 0 of 3 tested | 0 | 0 | 1 accepted | 6 groups (~2,000) | 3 of 3 | 0/3 | thin, and measured |
 | 2.1.0 | 2026-09-07 | awesome-agent-skills | **link index (route only)** | 6 | 0 (1 walked, dropped to lead) | 2 of 4 tested | 0 | 0 | 1 accepted | the template class (~137 of 145) | 3 of 3 | 0/3 | barren as a source, routed |
+| 2.1.0 | 2026-09-09 | quota-burner | skills library (one dense contract) | 15 | 3 | 1 of 2 tested | 0 | 0 | 0 | 8 groups (15 menu skills + 7) | 4 of 4 | 0/2 | rich, and concentrated in one file |
 
 **Weakest stage after one run: `example`.** Zero landed. The source was a skills library
 whose own integration folder turned out to be install configuration for its product, so

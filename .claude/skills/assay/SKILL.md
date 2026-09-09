@@ -3,7 +3,7 @@ name: assay
 description: "Mine an external source - a skills library, a repository, an article, pasted notes - for craft that belongs in the `recipes/` lane. Cross-checks every candidate against the existing corpus, gives each finding a recommended disposition (new recipe, enrich, example, lesson, lead, discard), puts the whole set in front of the operator on one screen, executes what is accepted, and remembers every deviation from its recommendation so the next run recommends better. Discarding a whole source is a successful run. Use when someone shares a skills repository, a connector's documentation, or a body of practice and asks what it means for our recipes."
 category: ai-native
 memory: project
-version: 2.1.0
+version: 2.2.0
 tags: recipes, sources, cross-check, disposition, decision-gate, taste-ledger, obsidian-memory, connector-examples, discard
 ---
 
@@ -152,7 +152,15 @@ error available here.
 
 A source that is mostly a product pitch is `barren` and the run says so in one line.
 
-**In a skills library, read the names first and sort them into two piles: names that are a
+**First, check whether the skills defer to a shared document.** If every skill opens by
+telling the reader to go read one contract, execution guide or shared rules file, the
+library has told you that its judgments were factored OUT of the skills and INTO that file,
+and the skills are thin precisely because it exists. Read that file before the folder
+names. In the quota-burner run all fifteen menu skills passed the name filter below and all
+fifteen were worthless one-paragraph task definitions, while the entire yield of the run
+came from one `CONTRACT.md` the filter never looks at, because it is not a skill.
+
+**Then read the names and sort them into two piles: names that are a
 JUDGMENT and names that are a PROCEDURE.** `measure-before-you-fix`, `resolve-before-asking`
 and `brain-ingest-gate` are judgments and they are where the craft is. `db-repair`,
 `smoke-test`, `postgres-adopt` and `setup` are procedures for operating the source's own
@@ -170,7 +178,12 @@ operator's decision.
    well as the source's, AND the work has a need, a judgment and an output that are not
    a slice of an existing recipe. A new recipe is authored to the full contract, gate
    included, or it is not a finding.
-2. **`enrich`** - the source sharpens a recipe that exists. Name the recipe, the field
+2. **`enrich`** - the source sharpens a recipe that exists. **Ask first whether the finding
+   sharpens an axis the recipe already names or introduces one it never mentions.** A
+   mature recipe generalizes well along its own axes and not at all across to a new one,
+   and this predicts the A/B better than confidence did: measured on one recipe in one
+   hour, sharpening a named axis came back non-discriminating while naming a new thing to
+   check came back cleanly discriminating. Name the recipe, the field
    (`guidance`, one `outcome`, a `use_case`, a `personalization_need`, an `activity`
    label) and the sentence that changes. An enrichment that cannot name the field it
    changes is a `lead`.

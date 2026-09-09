@@ -1,6 +1,6 @@
 ---
 name: change-implementation-and-review
-version: 0.3.0
+version: 0.4.0
 status: seed
 domain: software_engineering
 path: software_engineering/code-review
@@ -39,10 +39,12 @@ wrong would be expensive *(observe)*
 3. Make the change scoped to the accepted item, small enough to be reviewed in one
 sitting *(act)*
 4. Run the repository's own checks and treat them as the standard *(act)*
-5. Offer the change for review in the shape this repository expects *(deliver)*
-6. Answer each review comment or act on it, saying which comment a change answers
+5. Read the item, whatever authorised it, and whoever else may have taken it once more
+in the moment before offering the change *(observe)*
+6. Offer the change for review in the shape this repository expects *(deliver)*
+7. Answer each review comment or act on it, saying which comment a change answers
 *(act)*
-7. Escalate an objection to the approach, and carry the change to merged or withdrawn
+8. Escalate an objection to the approach, and carry the change to merged or withdrawn
 rather than leaving it open *(deliver)*
 
 Linear and branch-free, by contract. This is the shape of the work, not a runbook.
@@ -67,6 +69,11 @@ report of why it should not be built.**
   first attempt, because each next attempt looks cheap from inside and only the run of
   them is evidence, and a run of them is evidence about the model of the system rather
   than about the change
+- The item and whatever authorised it are read again in the moment before the change is
+  offered rather than only before the work started, and one that has been withdrawn,
+  completed by somebody else, or claimed elsewhere in the meantime stops there with that
+  recorded; re-proving the code is a different check and does not cover this one,
+  because a diff can be clean against a branch nobody wants any more
 - A decline that the person who accepted the item overturns is written back beside the
   reason that produced it, because declining is the one call here nobody sees the cost
   of, and the next re-validation of an item of that shape weighs a premise test that has
@@ -105,10 +112,10 @@ of being coded around.**
 
 Reviewability is the author's job and it is decided by size, not by the description: a
 reviewer holds two to four hundred lines well and rubber stamps a thousand. Split rather
-than explain. Re-read the accepted item against the code before writing anything,
-because the work that was queued is often not the work now needed, and declining with a
-reason is a result. Most comments should simply be acted on; an objection to the
-approach is not yours to settle.
+than explain. Re-read the item against the code before writing, and read it and its
+authorisation again before offering, because a clean diff proves nothing about an item
+nobody wants any more. Declining with a reason is a result. Most comments should be
+acted on; an objection to the approach is not yours to settle.
 
 ## Where this is worth adopting
 

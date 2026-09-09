@@ -1,0 +1,155 @@
+---
+name: shared-queue-claim-and-ownership
+version: 0.1.0
+status: seed
+domain: software_engineering
+path: software_engineering/work-intake
+---
+
+# Shared queue claim and ownership
+
+The rendered view of [`recipe.json`](recipe.json). When the two disagree, the JSON is
+right and this file is stale.
+
+**Need.** Where several workers reach the same queue and the queue cannot lock, the
+coordination that gets built is a claim written into a shared record, and it works until
+it does not. Two workers claim within the same second and both proceed. A claim whose
+worker died looks exactly like a claim whose worker is still thinking. And the worker
+that established ownership when it started delivers hours later into a world that
+reassigned the target while it worked. Each of these costs duplicated effort or a lost
+change, and none of them raises an error, so the arrangement reports itself as healthy
+for as long as nobody counts.
+
+**Input.** The shared record where claims are written, the target under consideration,
+whatever artifacts a worker that was really working would have left behind, and this
+operation's own statement of how many workers may execute at once.
+
+**Core action.** Treat a claim as evidence about ownership rather than as a grant of it:
+write one, then read the record back in order to find out whether it actually held, look
+for artifacts rather than trusting a lease before taking a target from somebody else,
+and establish ownership again at the moment of delivering rather than only at the moment
+of starting.
+
+**Output.** A target worked by one worker or by none, an outcome written against every
+claim so an abandoned one is distinguishable from a running one, and a target whose
+ownership cannot be settled raised to a person instead of being taken or silently left.
+
+## Activities
+
+1. Write a claim naming the target, the worker and the moment *(act)*
+2. Read the record back in order and establish whether this claim is the one that holds
+*(observe)*
+3. Look for the artifacts a working worker would have left before taking a target from
+an expired claim *(observe)*
+4. Work the target under the ownership that was established *(act)*
+5. Establish ownership again in the moment before delivering *(observe)*
+6. Write an outcome against the claim, whether the work delivered, found nothing, or
+stopped *(deliver)*
+7. Raise a target whose ownership cannot be settled to a person rather than deciding it
+*(deliver)*
+
+Linear and branch-free, by contract. This is the shape of the work, not a runbook.
+
+## Outcomes
+
+**Writing a claim is the beginning of finding out who owns the target, not the end of
+it.**
+
+- A claim is written and then read back in order against the others, because writing it
+  establishes nothing until the record says which claim arrived first
+- A stated rule decides which claim wins, ordinarily the earliest, and it is applied by
+  reading the record rather than by assuming the write was uncontested
+- The arrangement says plainly that it reduces collisions rather than preventing them,
+  so an operation that needs genuine exclusion is told to run a single executing worker
+  instead of being left to infer that claims are a lock
+- Where the shared record can be written concurrently, a writer changes only its own
+  line and reads back to confirm the edit survived, because the failure that matters is
+  silently dropping somebody else's line rather than losing your own
+
+**A lease running out opens a question about ownership and never answers one.**
+
+- An expired lease is treated as a question, never as evidence that the worker stopped,
+  since a worker that died and a worker that is slow are identical from the record and
+  only one of them is safe to act on
+- Artifacts are inspected before a target is taken from an expired claim, because a
+  branch or an offered change is evidence a worker existed that the record itself does
+  not carry
+- A target whose lease expired with no outcome and no artifact is raised to a person,
+  since leaving it is a target nobody will work again and taking it is exactly the
+  collision the lease existed to prevent, and this third case is the one an expiry rule
+  otherwise has no answer for
+- A worker ends its own work before its lease expires, so an expiry is rare enough to be
+  worth a person's attention on the occasions it happens rather than routine enough to
+  be automated past
+
+**Nothing is delivered on the strength of a check made before the work started.**
+
+- Ownership established at the start is established again in the moment before
+  delivering, because the interval in which the work happened is precisely the interval
+  in which the world moved
+- Every claim receives an outcome, whether the work delivered, found nothing, or stopped
+  with a reason, since a claim without one is indistinguishable from a worker still
+  running and is what turns every later lease decision into guesswork
+- A worker that finds it lost ownership while working stops and records that, rather
+  than delivering a change nobody now expects on the strength of a check made hours
+  earlier
+
+## Guidance
+
+A claim is evidence about ownership, not a grant of it: write it, then read the record
+back to learn whether it held. An expired lease and a dead worker look identical, so
+inspect what a working worker would have left before taking anything from one, and raise
+a target with neither an outcome nor an artifact rather than deciding it. The interval
+you worked in is the interval the world moved in. Say plainly that this reduces
+collisions without preventing them: an operation needing exclusion runs one worker.
+
+## Where this is worth adopting
+
+- A repository where two scheduled workers wake on the same minute, both find the same
+  oldest unclaimed item, and both offer a change against it an hour later.
+- A team coordinating agents through comments on a tracker, who have realised the
+  tracker orders writes without refusing them and need to decide how much that is
+  actually worth.
+- An operation whose workers are interrupted often enough that leases expire on targets
+  somebody is still working, where reclaiming on the timer alone has already produced
+  duplicated changes.
+- A queue holding an item nobody has touched in weeks because a crashed worker's claim
+  was never closed, and every worker since has correctly declined to take it.
+- A maintainer about to add a second worker who needs an honest answer to whether the
+  coordination they have is exclusion or only an improvement on having none.
+
+## Connector types
+
+`source_control`.
+
+Types, never connectors. Adoption resolves each to any connector whose catalog
+`categories` include it. No connector-specific knowledge has been written for this
+recipe yet.
+
+## Recommended trigger
+
+`event`. The work begins when a worker is about to take a target, which is an event
+inside another piece of work rather than a moment this chooses. Sweeping on a cadence
+would establish ownership at a time unrelated to when it is acted on, which is the same
+staleness the recipe exists to close.
+
+A recommendation is a default, not a binding: the adopter assigns the real trigger at
+adoption or later.
+
+## Personalization needs
+
+- How long a lease runs here, since it is a claim about how long the work takes and a
+  lease shorter than the work guarantees the collisions it was meant to prevent.
+- Which artifacts count as evidence that a worker really existed, because that list is
+  what separates a crashed worker from a slow one and it is different in every
+  operation.
+- Who is raised a target whose ownership cannot be settled, since without a named person
+  that case becomes the silent deferral it was written to avoid.
+- Whether this operation needs strict exclusion, because if it does the answer is one
+  executing worker and this recipe is a safety net rather than the mechanism.
+- Which rule decides a contested claim, as the earliest write is the ordinary answer and
+  a record that does not order writes reliably needs a different one.
+
+## Dependencies
+
+None.
