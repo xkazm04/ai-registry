@@ -10547,3 +10547,65 @@ observation, and the batch lane already carries half of this idea for a differen
   `instrument` count to the depth cell, or state in Phase 11 lane 0 that a `scripts/`
   landing is reported in the depth note. Not applied here because one run is not three, and
   the rule this method carries is confirmed-three-runs-running or it stays a lesson.
+
+## 2.8.0 - 2026-09-09 - ai-video-editing-channel
+
+- **The apply step refuted the landing for the second consecutive round, and the fix was
+  the same both times: correct it in-run.** Round 43's seam refuted a clause of a
+  forty-minute-old technique; this round's seam refuted the *central arithmetic* of a
+  twenty-minute-old one and supplied the replacement. Two of two is not yet the three the
+  method requires to become a rule in `SKILL.md`, but it is now the single most productive
+  thing this skill does, and the scorecard's round-45 focus says so. **The discriminator to
+  promote:** edit the text if it landed this run, amend it if it landed in an earlier one -
+  because an amendment against wet ink publishes an overreach and its correction as two
+  sections of a file nobody has read.
+
+- **The corpus's own dated assertions are a fetch target, and a better one than the
+  source's claims.** This run's landing exists because the blocking claim was a sentence
+  *we* wrote ("a sequence of frames is not evidence anything in the pipeline can currently
+  read as motion") rather than anything the videos said. One primary settled it - and
+  settled it *for* the corpus, which is the outcome the fetch was least likely to be spent
+  on and the most valuable one it returned: the sentence stayed true, and the mechanism
+  behind it (no video input; an animated container is flattened to its first frame) turned
+  a vague practitioner complaint into arithmetic. **Generalisation: when a row is blocked
+  by a corpus assertion with a shelf life, fetch against the assertion, not against the
+  source.**
+
+- **A ship-zero has at least three distinct causes and the scorecard spells them
+  identically.** "No seam exists", "the tree is already right", and "blocked on something"
+  are different results; the second is a *success* of the falsifying-seam rule and reads in
+  the column as a miss. Both of the last two rounds' most valuable outcomes were
+  `not-better` with `ship 0`. Proposed for the next bump: the `ship` cell carries its kind.
+
+- **`research-map` refuses to run when ANY bundle lacks an index, including a sibling's
+  half-built one** - `marketing has no index.json` aborted the whole instrument, over a
+  bundle irrelevant to this run. The right move is not to regenerate (that writes over a
+  live sibling's WIP) but to run the instrument from a **detached worktree of `HEAD`**,
+  where an untracked bundle does not exist; the map then covers exactly the committed
+  corpus, which is the corpus the run should be mapping against anyway. Cost: one
+  `git worktree add` at a short path. This is the read-side counterpart of the
+  already-recorded rule about building generated artifacts in a clean worktree.
+
+- **Contention on a subject is routine and the method's branch was the right one.** A
+  sibling held `visual-style-locking` from Phase 4 while this run mapped into it. V5 asks
+  whether the write *restructures*; a new technique file plus one line on a golden path
+  plus one pointer paragraph is an append, so the run proceeded, checked their tree state
+  first (they had written nothing), and took the `content` lock for each spine edit only.
+  Worth recording because the instinct on seeing CONTENDED is to stop, and stopping would
+  have cost the landing.
+
+- **The apostrophe hazard bit again, in the same session that documented it.** A
+  `node -e '...'` carrying an applied-ledger row with ordinary English possessives
+  ("the technique's central arithmetic") died on a bash syntax error before node ever ran.
+  The memory written last round prescribes exactly the fix used on the retry - write the
+  data to a file, have the script read it - and the lesson is that **knowing the rule is
+  not applying it**: the default for any node script carrying prose should be a file, with
+  inline strings reserved for identifiers and paths.
+
+- **Verify a commit by tree membership, not by `git grep` for a slug.** Two of nine
+  artifacts reported MISSING at the Phase 10 check purely because the patterns were bad -
+  one contained `--`, which git reads as an option separator, and the other was a filename
+  slug that never appears in the file's body. `git cat-file -e HEAD:<path>` answers the
+  actual question ("is this file in the commit") and cannot be fooled by either. A
+  false MISSING is cheap here, but the same grep would return a false PRESENT for a
+  partially-written file.
