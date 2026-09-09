@@ -33,7 +33,9 @@ its merit.
 
 ## Admissibility: an objection needs an anchor
 
-**An objection with no quotable anchor in the plan is inadmissible and is not emitted.**
+**An objection needs inspectable evidence.** Quote the relevant plan span, or
+name a requirement/source constraint and show where the plan fails to address it.
+An omission cannot always be quoted from the document that omits it.
 The reader wins nothing by volume. A list of plausible general concerns is cleared by a
 reviewer in two minutes, and that clearing is the review failing — not because the
 reviewer was careless but because nothing in the list was checkable against the artifact
@@ -50,8 +52,8 @@ record to buy one item.
 Six categories, closed, and the closure is what makes the record readable in aggregate:
 
 - **Premise** — the plan is solving the wrong problem, or a problem that is not the one
-  stated. Only available at plan time, which is most of the argument for running at plan
-  time at all.
+  stated. Prefer raising it at plan time. Newly discovered evidence may expose it later
+  and must remain reportable.
 - **Design** — the approach will not do what it claims.
 - **Threat** — an adversary or an untrusted input reaches something it should not.
 - **Failure** — a runtime condition the plan does not survive.
@@ -69,11 +71,10 @@ may object to the existence of the task.
 
 **Change time** — the risks the realized change carries that the plan could not have
 shown: what the implementation actually touches, what the diff exposes, what the
-operational surface became. This mode may not re-litigate the premise, because the
-premise was dispositioned and re-opening it here is the sunk-cost fight the plan-time
-mode existed to avoid. If the premise is genuinely wrong and only now visible, that is
-an escalation to the person, not an objection in the record — and it is rare enough that
-treating it as routine corrupts the mode.
+operational surface became. Do not reopen an accepted premise without new evidence
+or a changed requirement. When either reveals a premise problem, record the objection
+and escalate it to the authorized decision-maker; do not discard it because the
+plan stage has passed.
 
 The cross-mode signal is the pair's most valuable output: **change-time objection counts
 trending upward, particularly in the premise-adjacent categories, says the plan-time
@@ -83,7 +84,9 @@ the change-time reader, which is doing its job by catching them at all.
 
 ## The hard gate
 
-**The pipeline does not advance while any objection disposition is `pending`.** Not a
+**When this blocking policy is adopted, the pipeline does not advance while a
+material objection remains `pending`.** Reading this technique alone creates no new
+approval requirement and does not override already accepted scope. Not a
 warning, not a summary count, not a soft prompt. An untriaged risk that advances has had
 its question answered by default, and the default is "acceptable" — which is a verdict
 nobody wrote. The gate lives where the pipeline advances, not in the reader's output and
@@ -124,17 +127,17 @@ instrument that separates them is reading a few records beside their plans by ha
   the plan-time mode nothing but design objections it cannot ground, and a reader
   producing hollow items teaches the reviewer to skim the record on the plans where it
   matters.
-- **When the disposition cannot be blocked on.** Without the hard gate this is an
-  advisory list, and advisory lists next to finished plans are read at the rate their
-  authority earns, which is none.
+- **When the workflow intentionally uses advisory review.** Report the objections
+  and their unresolved state without claiming a blocking gate exists. Advisory
+  review can still be useful; its effect must be observed rather than assumed zero.
 - **As a scoring instrument.** Objection counts do not rank plans, authors, or agents.
   The moment they do, plans get written to minimize objectionable surface, which is
   achieved by saying less — and the decision record next door then goes quiet too.
 
 ## What this cannot do
 
-The reader objects to what the plan says. It cannot object to what the plan omits unless
-the omission is visible in the text, and the most expensive premise errors are usually
+The reader can identify omissions against supplied requirements or independent
+evidence, but cannot discover every missing constraint from the plan alone, and the most expensive premise errors are usually
 omissions — the constraint nobody wrote down, the stakeholder nobody consulted. It also
 cannot tell a strong objection from a well-argued wrong one; that judgment is the
 person's, and the record's only contribution is to make sure they were asked while

@@ -17,14 +17,16 @@ segment boundary that reframes the second as somebody else's work. The boundary 
 mechanism. Collapse it and the challenge degenerates into the drafting context arguing
 for its draft, which is the default behaviour and costs a model call to obtain.
 
-State the rung honestly first: **this is the cheap option and it is measurably weaker
-than a genuinely separate context.** Reviews run in a fresh context outperform the same
-model told mid-session to switch roles; models repair errors reliably once the location
-is supplied and find the location in their own output unreliably; and asked to
-reconsider, they tend to move toward whatever the challenge implies rather than toward
-the evidence. None of that makes the posture switch worthless — a structured challenge
-against a fixed question set beats no challenge — but it does mean the design is
-standing on the middle rung of a ladder and should know it.
+State the limitation honestly: a role switch in one context does not isolate
+the reviewer from the draft or its justification. Whether a separate reader
+improves results is task- and procedure-dependent.
+
+[Tyen et al. (2024)](https://aclanthology.org/2024.findings-acl.826/) found mistake
+localization harder than correction with supplied error locations on their
+reasoning tasks. [Wu et al. (2024)](https://aclanthology.org/2024.emnlp-main.714/)
+reported gains from a specific intrinsic verification procedure. Neither result
+establishes that two agents dominate self-review for all architectural work.
+Use frozen tasks and counterexamples to compare the actual alternatives.
 
 ## The boundary, and what makes it real
 
@@ -36,12 +38,13 @@ doing:
   continuing to produce it.
 - **The posture is stated as a role with a licence to disagree** — challenge where the
   evidence allows, and say when it does not.
-- **The construct-phase reasoning is not carried forward.** The justifications are what
-  the challenge is supposed to test; supplying them alongside the artifact is supplying
-  the answer with the question.
+- **Do not repeat the construct-phase justification in the challenge brief.**
+  In one context it remains available; a heading cannot erase it. If isolation is
+  required, use a fresh context with the artifact and the requirements needed to
+  judge it. Do not discard task constraints in pursuit of isolation.
 
-The failure to avoid is a boundary that is only typographic. A section header that says
-"now review" inside an unbroken reasoning flow produces a pass that finds spelling.
+The failure to avoid is treating a typographic boundary as context isolation. A section
+header that says "now review" may help frame the task but cannot establish independence.
 
 ## The fixed question set
 
@@ -84,38 +87,19 @@ below computable at all.
 
 ## The posture's label is a pinned parameter, not a framing choice
 
-The posture is stated as a role, and *which* role is not free. Measured on frozen
-transcripts with the content held byte-identical and only the participant's role
-name changed, a reader's verdict moved by up to thirty-odd points — so the label is
-an input to the output, and an unpinned one wherever it is chosen by whoever wrote
-the prompt that day.
-
-Two things follow for a technique that runs on posture.
-
-- **Pin the label with the rest of the instrument.** It belongs beside the model,
-  the parameters and the rubric in whatever record says how a review was produced.
-  A review whose posture drifted between runs is not comparable to itself, and
-  nothing in the output shows it.
-- **Expertise-derived labels hold position harder than office-derived ones.** In the
-  same measurement, seats named for what they *know* moved their verdicts less
-  under peer pressure than seats named for what they *decide*. That cuts in this
-  technique's favour: the failure being defended against is a reader collapsing
-  into agreement with the plan, so a label that resists movement is the one to
-  pick — and the obvious name for a reviewing seat, the one derived from office,
-  is measurably the weaker instrument.
-
-The same finding bounds the claim, and the bound must travel with it: the
-measurement was on a task with no correct answer, chosen deliberately so that
-convergence could be observed without accuracy confounding it. It shows a label
-moves a verdict. It does not show the movement is toward truth, and a label chosen
-to make a reader stubborn will make it stubborn when it is wrong.
+[Choi et al. (2026)](https://arxiv.org/html/2601.04790v1) studied role labels in
+ChatEval preference discussions using GPT-4o and DeepSeek R1. Their controlled
+condition varied labels while holding conversational content fixed. This supports
+recording role labels as experimental inputs; it does not show that an expert
+label makes a plan reviewer more accurate. Persistence in a wrong judgment is
+also possible. Pin the model, label, evidence packet and rubric when comparing runs.
 
 ## The escalation ladder, with its trigger
 
-Three rungs, in cost order:
+Three available modes; compare cost and error detection on the actual task:
 
-1. **One-context self-review** — no boundary. Cheapest, and worth roughly what it costs.
-   Legitimate only for mechanical checks.
+1. **One-context self-review** — no boundary. Its author-context bias remains;
+   it can still expose useful mistakes and is not limited to mechanical checks.
 2. **Fresh-posture single agent** — this technique.
 3. **Two-agent dispatch** — a separate reader with its own charter and its own context,
    which is what the rest of this subject assumes.
@@ -124,8 +108,9 @@ The observable trigger for moving from rung two to rung three is the **sentinel-
 ratio**: across real invocations, the share of runs where every element came back with
 the sentinel and nothing was revised. A pass that is doing work revises something,
 sometimes. A pass that has degenerated into self-confirmation returns the sentinel
-everywhere while looking exactly like a healthy pass on a clean draft, and the ratio is
-what separates them — a rising ratio against unchanged draft quality is the tell.
+everywhere while looking exactly like a healthy pass on a clean draft, and the ratio alone cannot
+separate them. A rise warrants checking matched drafts or seeded known defects;
+improved inputs can legitimately produce fewer revisions.
 
 **Honesty the technique keeps:** with no invocation corpus the ratio is not computable,
 and the trigger degrades to a manual read of a handful of outputs beside their drafts.
@@ -147,8 +132,9 @@ control.
 
 ## When not to use it
 
-- **When a separate reader is affordable.** Rung three dominates rung two on every axis
-  except cost. This technique is a maturity accommodation, not a preference.
+- **When independent review is required by the task or an adopted policy.** A
+  same-context role switch does not satisfy that requirement. Affordability alone
+  is not evidence that another agent improves the result.
 - **On the highest-consequence plan in the pipeline.** The rung whose known weakness is
   self-confirmation is the wrong rung for the artifact whose approval matters most.
 - **When the pass cannot be blocked on.** A challenge whose output nothing reads is a

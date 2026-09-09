@@ -22679,9 +22679,9 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/plan-review/plan-review.md",
-   "digest": "sha256:2390063a36478f0d",
-   "revision": 2,
-   "changedAt": "2026-09-01",
+   "digest": "sha256:bd0c53f634a72ef4",
+   "revision": 3,
+   "changedAt": "2026-09-09",
    "techniques": [
     {
      "slug": "decision-sized-slicing",

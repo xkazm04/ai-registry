@@ -27,8 +27,8 @@ becoming a gate by accretion.
 ## The four constraints
 
 **It occupies a field, not a step.** The number appears on a surface the person was
-already going to open, in the same interaction. If seeing it costs a navigation or a
-keypress, it is a gate with the verdict removed, and it will acquire a verdict.
+already going to open, in the same interaction. Optional detail may require navigation without becoming a gate. The relevant
+property is whether the workflow requires a new decision or blocks progress.
 
 **It has no verdict and no disposition.** Nothing about the number is `pending`. Nothing
 advances or blocks on it. The moment it gains a disposition it has become a record class
@@ -49,29 +49,27 @@ what assumption
 approval surface is read at a glance and then quoted later in an argument it was never
 sized for; the predicate is what stops that.
 
-## Durability tracks confidence
+## Retention preserves uncertainty
 
-The rule that makes this technique worth writing down separately: **the less grounded
-the figure, the less durable it is allowed to be.**
+**Retained figures carry their evidence and uncertainty.** Retention serves a
+decision, calibration or audit purpose; confidence alone does not determine it.
 
 - A **ballpark** derived from raw task text, before any plan or measurement exists, is
-  surfaced once, at the moment it is useful, and persisted nowhere.
+  labeled as an estimate. Retain it with assumptions and uncertainty when needed
+  for calibration or a decision audit; otherwise avoid unnecessary retention.
 - A **calculated** figure derived from a settled plan against known rates persists with
   its inputs and its assumption stated.
 - A **measured** actual persists as a fact.
 
-The reason is the inversion that happens when a weak estimate is written down. A number
-in a store acquires the authority of an artifact: a later reader finds it, has no access
-to the context that made it a guess, and treats it as a fact about the work — and the
-weakest figures are the ones most likely to be found later, because they are the ones
-produced earliest and referenced in the most places. Ephemerality is not a limitation
-here; it is the property that keeps a guess honest.
+A later reader can mistake a stored estimate for an actual when its context is
+missing. Preserve its basis, date and uncertainty alongside it. Deleting an estimate
+can be appropriate when there is no retention purpose, but deletion is not the only
+way to prevent misuse and can destroy useful calibration evidence.
 
-The corollary is a colocation rule: **a forecast is never stored beside captured
-actuals.** Two numbers in the same shape in the same place will be compared, aggregated
+The corollary is a type distinction: **forecasts must not masquerade as actuals.** Two numbers in the same shape in the same place will be compared, aggregated
 and charted together by somebody who did not read either definition, and the resulting
-series is neither a forecast series nor an actual series. Keep them apart, or make the
-difference structural rather than a column name.
+series is neither a forecast series nor an actual series. Separate them physically or enforce an explicit estimate/actual discriminator
+with query rules. Colocation itself is not the defect.
 
 ## The accretion failure, which is the one to watch for
 
@@ -101,9 +99,8 @@ information is there, or its absence is visible and deliberate.
 - **When the number should genuinely block.** Then it is not this technique. Irreversible
   spend, an external commitment, a threshold with a real consequence on the other side —
   design the gate.
-- **When the surface has no room left.** A gate carrying six advisory fields has none;
-  each one dilutes the reading of the others, and the remedy is to drop the weakest, not
-  to add the seventh in a smaller font.
+- **When the surface has no room left.** Measure whether the fields help the reviewer find the needed evidence;
+  remove or defer low-value detail rather than relying on a universal field count.
 - **When the figure would be the only thing a rushed reviewer reads.** A single prominent
   number beside a dense record becomes the summary, and a summary of a plan produced by
   the pipeline that wrote the plan is the thing the gate exists to refuse.
@@ -111,8 +108,6 @@ information is there, or its absence is visible and deliberate.
 ## What this cannot do
 
 An informational field does not make a decision better; it makes one input to the
-decision cheaper to obtain. It is also invisible in every after-the-fact record, since
-nothing about it is persisted at the moment of the verdict — so when a decision goes
-wrong, there is no way to establish whether the field was read, or what it said at the
-time. That is an accepted cost of not making it a record, and it should be accepted
-knowingly rather than discovered during a post-mortem.
+decision cheaper to obtain. When auditability matters, record the figure, its inputs and uncertainty with
+the decision without giving the figure a separate disposition. Persistence does not
+turn an advisory into a gate; authority and blocking behavior do.

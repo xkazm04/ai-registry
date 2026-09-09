@@ -9,7 +9,7 @@ This log records execution and acceptance evidence without rewriting that baseli
 | 2. Format contracts | Complete | Commit `b2f223bf`; history check passed for all 136 recipes. Full recipe renderer and drift check; all 136 views migrated with patch versions; craft JSON unchanged; practice/memory checks; unfiltered CI runs the shared plan. Ten tests and all 17 local gates pass. |
 | 3. Installation and authority | Implemented; harness smoke pending | Commit `d1150345`; explicit modes and rollback tested in isolated Git fixtures; capability preflight, mode-aware reflection, and private fleet roots. Full chain: 18/18; 13 tests pass. History check passed for 31 changed skills. |
 | 4. Selection and context | Implemented; model comparison pending | Commit `1718d12d`; conditional branches extracted from research and architect with exact text reconstruction; Explorer quota/scope corrected; consult read-only logging corrected; 12 frozen routing cases. History check passed for four changed skills. |
-| 5. Agentic-development subjects | In progress | Agent-chaining: all 13 documents read, concrete source misinterpretations repaired, complete decision record. Live coverage: 1 reviewed / 458 total; 457 pending. |
+| 5. Agentic-development subjects | In progress | Agent-chaining and plan-review: all 21 documents read, source misinterpretations and unconditional workflow claims repaired. Live coverage: 2 reviewed / 458 total; 456 pending. |
 | 6. Remaining domains and recipes | Pending | Remaining subject/topic decisions and evaluation evidence. |
 | 7. Learning loop | Mechanism complete; unresolved identities queued | Commit `e76c81d7`; explicit alias contract, retained unknown counts, report dates/windows, conservative state aggregation and reproducible freshness report. Source identity decisions still require producer evidence. |
 
@@ -100,3 +100,19 @@ application witnesses were not re-executed, and verification dates were preserve
 digest. A fixture proves that missing decisions and changed bytes cannot satisfy
 `--require-complete`. The default reports pending/stale work without pretending it was
 reviewed. Full chain: 19/19; 17 tests pass. See the [semantic review protocol](../semantic-review.md).
+
+## Tranche 5: plan review
+
+Baseline `bc1bd8aa`. All eight owned documents were read. The review corrects two
+local source interpretations: a worker forbidden to commit can still write, and
+Architect's queue disposition defers implementation rather than authorizing it.
+The techniques now permit requirement-anchored omissions, materiality-based output
+counts, observable internal slices, and labeled estimate retention for calibration.
+Blocking review policies apply only when adopted for the workflow.
+
+The self-review claims were checked against primary abstracts from Tyen et al. and
+Wu et al. (2024), and the setup and relevant results of Choi et al. (2026).
+Those studies do not establish universal fresh-context superiority in architectural
+review. No paper experiments or connected-project workflows were reproduced.
+The decision record lists these limits and all eight per-document dispositions.
+Knowledge regeneration and its six checks pass; coverage is current for both subjects.
