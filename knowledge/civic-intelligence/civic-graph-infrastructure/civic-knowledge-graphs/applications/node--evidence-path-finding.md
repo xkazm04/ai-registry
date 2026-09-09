@@ -80,3 +80,27 @@ degree distribution (politicas chose 120 against party/organ degrees in the
 hundreds), and derive the excluded-relation list from ontology metadata
 (relation density) rather than hardcoding, if your ontology grows dense
 relations regularly.
+
+## Source review - 2026-09-09
+
+The path builder and forensic filter were inspected. Duplicate merging takes
+the strongest review state and highest amount independently: a verified
+low-value claim and a pending high-value claim can become one apparently
+verified high-value edge. The tuple key has no source or revision component.
+Even payload determinism has a boundary: zero and null weights compare equal
+through `num`, but the first raw weight is retained, so reversing such
+duplicates can change the returned payload.
+
+Enumeration stops at `enumCap` before ranking the collected paths; returned
+winners are ranked within that subset, not proven best across all equal-cost
+paths. Costs describe an undirected, hub-weighted connection search; hop
+direction is retained, but this is not a money-flow or temporal-overlap proof.
+
+`forensicEdges` honors `keep` for pending edges and counts any non-pending
+input as verified. It implements a display rule, not an authorization or
+publication gate, and cannot distinguish rejected or unknown states unless
+the caller does so first. `hoverCardModel` counts the supplied graph slice,
+not necessarily the complete store. The public source contract must restrict
+inputs before this module receives them. Runtime authorization, permutation
+fixtures, historical density and global ranking outcomes were not rerun;
+the application witness date is unchanged.

@@ -23,9 +23,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/civic-intelligence/accountability-method/accountability-publishing-ethics/accountability-publishing-ethics.md",
-   "digest": "sha256:25abec8828ab9467",
-   "revision": 2,
-   "changedAt": "2026-08-30",
+   "digest": "sha256:9388e3ad0aa405ff",
+   "revision": 3,
+   "changedAt": "2026-09-09",
    "techniques": [
     {
      "slug": "accountless-notification-privacy",
@@ -136,9 +136,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/civic-intelligence/public-money/beneficial-ownership-resolution/beneficial-ownership-resolution.md",
-   "digest": "sha256:c033d9c5f0143009",
-   "revision": 2,
-   "changedAt": "2026-08-30",
+   "digest": "sha256:7be1b2d166c9ad7f",
+   "revision": 3,
+   "changedAt": "2026-09-09",
    "techniques": [
     {
      "slug": "identifier-checksum-validation",
@@ -241,9 +241,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/civic-intelligence/civic-graph-infrastructure/civic-knowledge-graphs/civic-knowledge-graphs.md",
-   "digest": "sha256:159304e69216f7cc",
-   "revision": 3,
-   "changedAt": "2026-08-30",
+   "digest": "sha256:8a8dcf57ae13912a",
+   "revision": 4,
+   "changedAt": "2026-09-09",
    "techniques": [
     {
      "slug": "civic-entity-ontology",

@@ -51,17 +51,24 @@ Three findings, kept as three separate claims because they are:
   survives; those rows do not. This finding needs per-id comparison, because
   identity-level loss hides inside a kind-level match.
 - **Scope honesty** — state what granularity each comparison runs at and why.
-  If edges are judged by relation only (because the run regenerates its own
-  relations wholesale and per-edge comparison would cost a large read to
-  protect nothing), say so in the guard's own documentation. An unstated scope
-  is a future misreading.
+  Comparing only relation names misses changed edges within those relations;
+  comparing only node ids misses enriched properties and review decisions on
+  retained nodes. Use coarse comparisons only under an established exclusive
+  ownership and full-regeneration contract, and report what remains unchecked.
+
+Bind the accounting to the actual deletion. Prevent intervening writers with
+a suitable lock or validate a store revision at commit; separate aggregate
+queries followed by an unguarded wipe leave a race. Stage and validate the
+replacement before switching, or use a transactional replacement with a tested
+failure path. Guard approval does not make a crash after deletion recoverable.
 
 ## Refuse by default, override explicitly, archive regardless
 
 The verdict drives a three-way outcome:
 
-- **Nothing at risk** — the run rebuilds a superset of what a wipe would
-  remove. Proceed; say so.
+- **No loss within verified coverage** — the run preserves every removed
+  claim, property and human decision, or deliberately retires it under the
+  approved scope. Unknown coverage blocks a blanket no-loss verdict.
 - **Data at risk, no override** — refuse, with a message that does the
   teaching: the totals ("this would delete N nodes and M edges it cannot put
   back"), the named kinds and relations with counts, sample orphaned ids, and
@@ -93,9 +100,9 @@ converts a catastrophe into an investigation.
 
 ## When not to use it
 
-A store with exactly one writer that regenerates everything from source on
-every run needs no guard — the wipe and the rebuild are the same set by
-construction. The guard becomes mandatory at the first moment a second
+A disposable store with one writer, retained complete inputs and a tested
+replacement path may use a simpler guard. One writer alone does not prove
+recoverability after a failed ingest or source outage. The guard expands when a second
 writer's claims persist in the store; retrofit it then, not after the first
 loss. And do not substitute the guard for backups: it prevents the *foreseen*
 destructive path, while operator error at the storage layer needs the

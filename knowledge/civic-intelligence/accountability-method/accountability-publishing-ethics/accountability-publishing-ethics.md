@@ -22,15 +22,17 @@ the whole problem of this subject. In a newsroom, a human weighs each naming
 decision against the profession's standards: presumption of innocence, the
 right of reply, the line between public role and private life, the duty to
 correct. On a data-driven surface those judgments cannot be made per-sentence
-at publish time, so they must be made *once, structurally* — encoded in the
+at publish time, so recurring decisions must be encoded structurally in the
 derivation code, the copy templates, the vocabulary, and the visual form — and
-then enforced by the pipeline on every row it will ever emit.
+then enforced by the pipeline. New evidence and exceptional cases still need
+editorial review; a template cannot settle every future naming decision.
 
 The naive reading of this subject is "be careful what you write". The correct
 reading is: **the ethics live in the system, not in the prose.** A platform
 whose framing discipline is a style guide will drift the first time a new
 surface paraphrases an old one; a platform whose framing discipline is a pure
-function that emits gated copy cannot. Every rule below therefore has two
+function that emits gated copy has a testable enforcement point, but can
+still carry an incorrect rule or be bypassed. Every rule below has two
 halves — the editorial principle, and the structural place it is enforced.
 
 ## The three audiences of every sentence
@@ -41,8 +43,8 @@ Each published sentence about a named person is read three ways at once:
   permit. "Flagged for review" reads as "guilty" unless the copy actively
   prevents it.
 - **By the subject**, who has a legal and moral claim against any assertion
-  the evidence does not carry. Defamation law does not care that a model, a
-  join, or a tripwire produced the sentence.
+  the evidence does not carry. Automation does not itself justify the claim;
+  legal duties depend on the publication and jurisdiction.
 - **By a future maintainer**, who will copy the sentence's framing into the
   next surface. The first accusation that ships becomes the template for ten
   more.
@@ -77,11 +79,14 @@ interpretation, a coincidence in time asserted as a relationship. The framing
 techniques below exist to make rung inflation structurally difficult — the
 copy for each rung is generated from the rung, not written per item.
 
-## Symmetry is the non-partisanship guarantee
+## Symmetry within a declared population
 
-An accountability method earns trust not by tone but by coverage: it applies
-to the whole population or to nothing, because any shortlist — even an
-innocently motivated one — is an editorial act that the method cannot defend.
+This subject governs repeatable population-wide accountability surfaces.
+Declare the role and period before running the method and apply the same
+rules to every covered person. Incomplete ingestion remains a disclosed gap,
+not a reason to imply a complete comparison. A targeted investigation is a
+separate editorial product with a stated selection rationale; this population
+rule is not a universal prohibition on investigative selection.
 Two corollaries are easy to miss:
 
 - **Absence of a finding is a finding.** "No detected conflicts" for a named
@@ -111,30 +116,30 @@ without visible marking is a fabricated statistic the moment one reader
 mistakes it for a measurement. The standard: every state a surface can be in —
 loaded, empty, unmeasured, unavailable, illustrative — is a distinct claim,
 and each must be *true*. Genuine absence gets a genuine not-found; outage gets
-an honest "temporarily unreadable, the record exists"; unmeasured gets
+an honest "lookup temporarily unavailable" without assuming existence; unmeasured gets
 "not measured", visually distinct from zero; and sample data carries its
-sample-ness in its visual form, because the caption is the first thing a
-skimming reader drops.
+sample-ness in visible and accessible labels as well as its visual form.
 
 ## Privacy runs in both directions
 
 The subject's privacy: the platform holds public officials accountable for
-public roles, and private life is out of scope, always — family, health,
-lawful private conduct do not enter the graph even when a source offers them.
+public roles. Private-life details with no necessary public-role nexus are
+out of scope even when a source offers them. A public record establishes
+provenance, not automatic permission to republish every personal attribute.
 The *reader's* privacy is the half that data platforms forget: a civic reader's
 follow list — which politicians they watch — is itself sensitive political
-data. A subscription mechanism that requires no account is the strong default,
+data. A subscription mechanism that requires no account is one option,
 but statelessness is not automatically privacy: a list of followed entities in
 a request, joined with an address, is a fingerprint, and it will leak through
-telemetry by default unless scrubbed deliberately. Design the notification
+telemetry or intermediary logs unless those paths are controlled. Design the notification
 path so the server never *stores* who watches whom, and audit what the
 observability stack copies out of requests on its own.
 
 ## What the field's standards add
 
 Professional codes converge on duties that a structural system must translate
-rather than skip: **presumption of innocence** (never publish judgment on an
-unadjudicated matter — the ladder's rung labels are this duty, mechanized);
+rather than skip: **distinguish facts from allegations and interpretation**
+(rung labels support this duty but do not establish truth or legal compliance);
 **right of reply and correction** (a permanent address per claim, a published
 correction history, and a visible route for a named subject to contest — the
 method being public is what makes the contest fair); and **accountability for

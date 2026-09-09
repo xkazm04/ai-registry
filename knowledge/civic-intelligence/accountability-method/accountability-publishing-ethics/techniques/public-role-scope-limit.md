@@ -54,11 +54,13 @@ Enforcement notes:
 Scope also limits *who*, and the rule is symmetric by construction: **cover
 the whole population of the role, or do not cover the role.** Every holder of
 the mandate gets the same detectors, the same metrics, the same surfaces. A
-platform that analyzes some members — even for innocent reasons like data
-availability — has made an editorial selection it cannot defend, and in a
-partisan environment every gap will be read as bias. Where coverage is
+platform that analyzes some members must not present the comparison as
+population-complete. Missing records remain disclosed gaps and are excluded
+from unsupported comparisons. Where coverage is
 genuinely partial (one chamber ingested, one term), the boundary is drawn at
-role-and-period grain and disclosed, never at person grain.
+role-and-period grain and disclosed, never hidden at person grain. This rule
+governs population comparisons; a targeted investigation needs its own
+selection rationale and editorial review.
 
 Two symmetry corollaries live here:
 
@@ -76,16 +78,18 @@ Two symmetry corollaries live here:
 - **When a fact is borderline, ask what record would be cited.** If the only
   citable source is a gossip column, a social profile, or an anonymous claim,
   the fact fails provenance *and* scope together. If a primary registry
-  asserts it, the registry's own scope decision (it is a public record) does
-  most of the ethical work.
+  asserts it, that supports provenance, not automatic republication. Assess
+  relevance, necessity and foreseeable harm separately, and retain only the
+  attributes needed for the public-role claim.
 - **Former officials keep public-role coverage for the period of the role.**
   The record of exercised power stays legitimate after the mandate ends;
   new private conduct after leaving office does not enter unless a new public
   role begins.
-- **Relatives are never entities of their own.** They may appear as the
+- **Kinship alone never creates a covered entity.** Relatives may appear as the
   text of a public record (a declaration names them); they get no page, no
   metrics, no follow key. The platform's unit of coverage is the mandate,
-  not the family.
+  not the family. A relative independently holding a covered public role is
+  covered on the same terms as every other holder of that role.
 - **Refusing out-of-scope material is silent; refusing in-scope material is
   disclosed.** Dropping a private-life fact needs no notice. Excluding an
   in-scope record (a broken row, an unparseable filing) is a coverage gap

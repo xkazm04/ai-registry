@@ -76,6 +76,18 @@ clearance from it produced 5 false clearances before the rule was written.
 
 ## The transplantable shape
 
+Source comments and the feed's input/output contract were inspected during
+the 2026-09-09 review. They support the intended separation of candidate,
+decision and reviewer notes, but do not establish that all write paths,
+authorization checks and public routes enforce it. Runtime tests and the
+historical incident counts above were not reproduced. In particular, the
+public-adjacent flag pattern is not a general exception to human review:
+a caveat alone cannot authorize publishing an accusatory candidate.
+
+Recomputation also needs an invalidation contract for cached pages and feeds;
+it cannot retract copies already delivered. Preserve the decision's source
+snapshot so later corrections can be explained.
+
 What transfers to any stack: (1) stamp the rung where the row is derived, in
 a pure function; (2) put the caveat in the item's own copy, not the page
 around it; (3) make human promotion the only write path to public state, with

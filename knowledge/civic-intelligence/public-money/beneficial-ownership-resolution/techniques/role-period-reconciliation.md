@@ -49,20 +49,22 @@ every re-ingest rather than re-derived from cached conclusions. Each
 derived period cites the register record it came from; a period that cannot
 name its record does not overwrite anything.
 
-## Money against tenure: a four-way verdict, not a boolean
+## Money against tenure: preserve each interval and unknown date
 
-The point of accurate periods is placing money. The naive check —
-"contracts signed while in role" as a yes/no — barely discriminates and
-should be demoted. The workable vocabulary, assigned only after identity is
-registry-confirmed, is:
+The point of accurate periods is placing events. State whether the date is
+signature, award or payment; one cannot stand in for another. Check both
+ends of every confirmed role interval, with the source's boundary convention.
+Do not merge separate tenures into an earliest-start/latest-end envelope:
+events in the intervening gap remain outside those tenures. A useful summary is:
 
-- **current** — the matched role has no end date in the register;
-- **historical** — the role ended, and at least some money fell on or
-  before the end date (payments inside the tenure);
-- **money-postdates-role** — the role ended and *every* payment postdates
-  it. This is the exonerating category, and it must exist: without it,
-  ended roles with later money read identically to sitting officers
-  collecting contracts;
+- **current-as-recorded** — a role began by the as-of date and has no recorded
+  end before that date; disclose freshness and incomplete end-date coverage;
+- **within-role** — a dated event falls inside a confirmed interval;
+- **before-role / between-roles** — the event predates all intervals or falls
+  in a gap; neither is within-role merely because it precedes the latest end;
+- **money-postdates-role** — every relevant event is dated and follows the
+  last confirmed end. State the event type and observed dataset; this temporal
+  fact does not itself exonerate a person or establish lack of influence;
 - **historical-no-money** — the role ended and the entity shows no
   reachable money at all.
 
@@ -70,12 +72,16 @@ One reading rule bought by a real misclassification: **undated money is
 never "postdates"**. A payment whose date is missing cannot be placed on
 either side of the role's end; it gets its own undated category. Defaulting
 undated to either side fabricates a temporal fact in whichever direction
-the default leans.
+the default leans. A mixture of later dated events and undated events also
+remains partly unplaced; filtering out undated rows cannot justify "every
+event postdates the role". Approximate dates carry bounds and remain uncertain
+when those bounds cross a tenure boundary.
 
 ## The postdating boundary is a lead, not an acquittal
 
-Money that postdates the registered role-end is not attributable to the
-tenure — but the *transition itself* may be the story. The technique
+An event after the registered role-end is outside that recorded interval;
+causal influence or an earlier award decision may still relate to the tenure.
+The *transition itself* may be the story. The technique
 therefore distinguishes, by machine trace, a clean handoff (the role ended
 and the stake passed to persons with no established link to the subject)
 from an unresolved exit, and labels the clean-handoff verdict for what it

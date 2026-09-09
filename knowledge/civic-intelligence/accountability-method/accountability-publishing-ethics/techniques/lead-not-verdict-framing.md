@@ -36,9 +36,11 @@ structural rule makes the safe framing the only framing the pipeline can emit.
    on internal, access-gated review surfaces, each item carrying the explicit
    "requires human verification" framing and a direct link into the review
    console where promotion happens. The public surface renders verified
-   findings only. If a candidate is useful context on a public page at all, it
-   renders as a *flag* with the verification sentence in its own copy — the
-   flag's copy carries the caveat, so no consuming surface can drop it.
+   findings, sourced facts and labeled derived figures. A caveat does not
+   authorize publishing an unreviewed accusatory candidate as a *flag*.
+   Any public exception requires a recorded editorial decision about its
+   evidence, wording and foreseeable harm; uncertainty remains in the item's
+   own copy across feeds and exports.
 3. **Make promotion a recorded act.** The only path from candidate to public
    finding is a human decision written to an append-only audit trail: who
    decided, when, what state (verified / rejected / needs-more). The decision
@@ -75,7 +77,8 @@ structural rule makes the safe framing the only framing the pipeline can emit.
 - **When a rule keeps being violated, give it an observable output.** Framing
   discipline restated in review comments erodes; framing discipline enforced
   by a pure function with a test that feeds it a rejected tie and asserts no
-  public copy is emitted does not.
+  accusatory copy is emitted provides a repeatable check. A correction or
+  rejection notice may still be required for an item previously published.
 
 ## When not to use it
 

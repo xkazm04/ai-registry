@@ -67,6 +67,26 @@ landing page and were deleted.
 
 ## The transplantable shape
 
+### Review limits and deviations - 2026-09-09
+
+Source inspection found that `StatTile` defaults its optional `variant` to
+`real`, and its illustrative text tag is also optional. Thus the implementation
+does not enforce the technique's required classification and visible-label
+contract. The length threshold in `SourceNote` is a local typography heuristic,
+not a universal readability threshold; call-site overrides remain possible.
+Historical call-site counts, contrast measurements and reader outcomes above
+were not reproduced in this review.
+
+The unavailability component's comment describes HTTP 200, but a component
+alone does not establish the route's response status. A failed lookup also
+does not prove the entity exists. Choose HTTP status and retry behavior for
+the actual request: [RFC 9110, section 15.6.4](https://www.rfc-editor.org/rfc/rfc9110.html#section-15.6.4)
+defines 503 for temporary service failure. The [color distinction guidance](https://www.w3.org/WAI/WCAG22/Understanding/use-of-color.html)
+supports a visible alternative to color; component variants alone are not
+evidence that readers understand real versus illustrative data.
+
+### Shape to transfer
+
 For any React design system: (1) make illustrative a first-class variant of
 the figure primitive (surface tone + edge + tag + subordinate numeral), never
 a caption-only state; (2) add a page-level outage notice component so

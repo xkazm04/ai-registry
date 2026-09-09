@@ -32,10 +32,10 @@ accuses an innocent person. All defaults resolve toward the drop.
 
 ## The identifier is the hinge; the name is only a lead
 
-Every mature corporate register assigns each entity an authoritative
-identifier at formation — a registration number that never changes, is unique
-within the register, and usually carries a check digit. That identifier is the
-only reliable join key in the entire domain. Names are everything an
+Resolve an entity through its register's documented identifier scheme.
+Carry the scheme with the identifier and check its scope, format and reuse
+rules; neither lifetime immutability nor a check digit is universal. The
+scheme-qualified identifier is the join key. Names are everything an
 identifier is not: they vary by punctuation, abbreviation, legal-form suffix,
 and historical renaming; they collide across unrelated entities; and in
 free-text sources they arrive dirty — the same firm spelled three ways in
@@ -46,8 +46,9 @@ and where only a name exists, the record must say so rather than dress the
 name up as an identifier.
 
 This yields the two ground rules of the subject. First, an identifier is
-validated before it is trusted — structurally, by its check digit, against the
-one canonical implementation of that check ([identifier-checksum-validation](./techniques/identifier-checksum-validation.md)).
+validated before it is trusted — against the scheme's format and any check
+digit, using one canonical implementation
+([identifier-checksum-validation](./techniques/identifier-checksum-validation.md)).
 Second, a name is never converted into an identifier by guesswork. A name goes
 to the register's own search, the result is verified, and when no confident
 resolution comes back, the link is dropped and the drop is counted — never
@@ -66,16 +67,16 @@ Common names are genuinely shared — the same first-and-last combination will
 appear across unrelated firms, and among sole traders a namesake carries the
 person's exact name as the business name itself. The discipline is a strict
 key hierarchy: match on a strong disambiguator the register itself records —
-date of birth is the usual one — and treat a name-only coincidence as a lead
+an official person identifier where available, otherwise corroborating
+attributes with their precision and collision limits — and treat a name-only coincidence as a lead
 requiring human judgment, never as a resolved identity. Where old records
 predate the register's collection of the strong key, a name-based fallback may
 be used, but gated to exactly those records and labeled as the weaker evidence
-it is. The three-way outcome vocabulary matters as much as the matching: the
-register *confirmed* the person, the register *conflicts* with the claim (the
-entity exists but this person is not identifiable among its officers), or the
-check *could not be attempted*. Collapsing the last two into one "no" destroys
-information both directions — a conflict is evidence against the tie, an
-unattempted check is no evidence at all
+it is. A birth date alone is not a unique person identifier. Distinguish
+confirmed, contradicted, inconclusive and not-attempted outcomes. Ambiguity
+after a completed search is inconclusive, not evidence against a tie; a
+contradiction requires adequate role and period coverage. Preserve missing
+keys and failed fetches as separate reasons
 ([officer-record-reading](./techniques/officer-record-reading.md)).
 
 ## Time is part of the claim
@@ -88,8 +89,9 @@ postdate the role's registered end, and a tie that looked current turns out to
 have been stale for a decade. The register's dated record wins over the
 source's rounded one, the disagreement itself is surfaced as a flag rather
 than silently repaired, and every money-versus-tenure comparison distinguishes
-"inside the period", "after the period", and "undated — cannot be placed"
-as three different facts ([role-period-reconciliation](./techniques/role-period-reconciliation.md)).
+"before", "inside", "after", "between disjoint tenures" and
+"undated or imprecise — cannot be placed" as different facts
+([role-period-reconciliation](./techniques/role-period-reconciliation.md)).
 
 ## Ownership is a graph, and death is not absence
 
@@ -108,9 +110,9 @@ nothing from the live lookup endpoint — not a tombstone, nothing — and a
 pipeline that reads that absence as "entity never existed" or "tie
 unverifiable, case closed" has confused a source's window with the world. The
 authoritative archive layer — the register-keeper's own bulk historical
-exports, scoped by year — recovers exactly what the live snapshot cannot show,
-including the officer history of dead entities, and consulting it is mandatory
-before any tie is declared uncheckable
+exports or historical lookup — may recover what the live snapshot cannot show.
+Check documented historical coverage and access conditions before declaring
+a tie uncheckable; a missing or inaccessible archive remains an explicit limit
 ([struck-off-entity-archives](./techniques/struck-off-entity-archives.md)).
 
 ## The state of a check is a published fact
@@ -134,19 +136,19 @@ strengthened by accident.
 - The identifier is the join key; the name is a lead. No identifier is ever
   minted from a name by similarity, and a failed resolution is a counted drop,
   not a guess.
-- Checksum-validate identifiers at the boundary, from one imported
+- Validate the scheme's format and any checksum at the boundary, from one imported
   implementation — a second copy of the check-digit rule is a future
   divergence, and check-digit wrap cases are where hand-rewrites break.
-- Person identity is closed on a strong key the register itself records.
-  Name-only matches are leads, gated and labeled.
-- Corroboration is three-state — confirmed, conflicting, could-not-attempt —
-  and the three are never collapsed.
+- Person identity needs a documented identifier or corroboration rule;
+  names and birth dates alone can collide. Weak matches remain labeled leads.
+- Corroboration separates confirmed, contradicted, inconclusive and
+  not-attempted outcomes; ambiguity never becomes a negative finding.
 - The register's dated periods override the source's rounded ones; the
   override is disclosed, not silent.
 - Ownership is traversed as a dated, sourced graph; depth and caps ship with
   the result; the machine surfaces chains, humans assert exposure.
-- A live-register miss is a fact about the live register. Dead entities live
-  in the archive, and the archive is consulted before "unverifiable" is said.
+- A live-register miss is a fact about that query. Check available historical
+  sources and disclose inaccessible or missing coverage before saying "unverifiable".
 - Every check leaves a machine-readable state; machine review never
   impersonates human review; unknown states render loudly.
 

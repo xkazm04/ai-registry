@@ -67,3 +67,17 @@ relevance are separate downstream checks against the live register
 (`lib/analysis/money-feed.ts`'s ARES resolver) — the checksum only
 certifies "this token has the structure of an identifier", exactly the
 division of labor the technique prescribes.
+
+## Source review - 2026-09-09
+
+The named implementation was inspected and matches the weights and wrap
+expression printed above. The two printed examples also satisfy that
+expression. This verifies agreement with the inspected implementation, not
+independent conformance to a freshly retrieved register specification. The
+historical incident and claimed population impact were not reproduced.
+
+For a fixed seven-digit prefix, this expression accepts one of ten possible
+decimal final digits: the rejection fraction under uniform final digits is
+9/10, not 10/11. The approximate 1/11 claim above concerns the separate
+distribution of prefixes across remainder classes, not random-token
+rejection or a measured fraction of issued company identifiers.

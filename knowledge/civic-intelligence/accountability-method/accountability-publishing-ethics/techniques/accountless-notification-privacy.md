@@ -15,12 +15,13 @@ The readers of an accountability platform are its second population of people
 to protect. Which politicians a citizen follows is political data about the
 citizen — for a journalist, a source-protection matter; for a civil servant,
 a career risk; and the platform's subjects have every incentive to learn who
-is watching them. The strong design is **accountless subscription**: no login,
+is watching them. One design is **accountless subscription**: no login,
 no server-side follow store, no cookies — the reader's watch list lives in
 their own browser storage, and leaves it only as parameters of the feed
 address they poll. The address *is* the subscription: copyable, shareable,
-revocable by deletion, and the server holds no table of who watches whom
-because there is no "who".
+removable from the local client. Deleting it does not revoke copies held by
+other readers or intermediaries. Avoiding an account table does not remove
+the identities inferable from request metadata.
 
 But statelessness is not privacy by itself, and the technique exists because
 of the gap.
@@ -30,22 +31,22 @@ of the gap.
 A list of twenty followed entities in a query string, arriving alongside an
 IP address, is a fingerprint — even though every individual key is public.
 Distinctive combinations identify; that is the whole lesson of
-de-anonymization research, and it applies to your own logs first. The default
-observability stack copies request URLs into events on its own: set a full
-URL attribute and the tracing layer will also derive and attach the query
-string you never explicitly set. With standard sampling, every poll of a
-subscription feed lands the reader's complete watch list plus their IP at a
-third-party telemetry vendor. Nobody decided to collect it; the default did.
+de-anonymization research, and it applies to your own logs first. An
+observability stack may copy request addresses or derive query fields
+without the application setting each field explicitly. Sampled requests can
+therefore disclose the watch list and client address. Inspect the actual
+emitted events and intermediary logs; defaults and sampling vary by deployment.
 
 The countermeasures:
 
 1. **Scrub by parameter, not by path.** The rule that removes follow keys
    from telemetry matches the *parameter* wherever it appears, because the
    URL occurs in events in several shapes (absolute, relative, bare query)
-   and a path-anchored rule silently misses one of them. Every parameter
-   whose value parses as a valid entity key is deleted and replaced by a
-   count: "this request carried 47 keys" is an operational fact that supports
-   debugging without carrying identity.
+   and a path-anchored rule can miss one of them. Remove sensitive parameters
+   regardless of whether their values parse successfully; malformed values
+   may still contain a watch list. Prefer an allowlist of operational fields.
+   Retain counts only where their granularity and other metadata do not
+   reconstruct reader interests.
 2. **Test against real emitted events.** The scrub is verified by driving the
    actual telemetry client and asserting on the event it would send — not on
    a hand-built fixture — because the leak lives precisely in the fields the
@@ -80,6 +81,12 @@ failure the reader can never detect.
 
 ## Decision rules
 
+- **Choose the delivery design against the reader's threat model.** A watch
+  list in an address can persist in browser history, feed clients, proxies,
+  caches and shared copies even after application telemetry is scrubbed.
+  Where that exposure is unacceptable, keep filtering on the client or use
+  a separately reviewed delivery mechanism. An address is not a revocable
+  secret merely because the server stores no account.
 - **Any new egress path re-runs the fingerprint audit.** A share button, a
   server-rendered preview, a cache layer keyed by full URL, a new telemetry
   integration — each is a fresh chance for the address-borne list to persist

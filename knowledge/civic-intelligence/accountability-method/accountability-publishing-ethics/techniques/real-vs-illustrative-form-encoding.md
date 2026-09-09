@@ -16,10 +16,8 @@ sample figures on a landing strip before real data loads, demo content in an
 outage, illustrative values in a methodology explainer. Each is legitimate —
 until a reader mistakes one for a measurement, at which point the platform has
 fabricated a statistic with its credibility attached. The naive defense is a
-caption: "illustrative data". The technique's core insight is that **the
-caption is the first thing a skimming reader drops**. Eye-tracking-obvious and
-still routinely ignored: readers consume the numeral and the headline; the
-small sourced line below is read by a minority. So the real/illustrative
+caption: "illustrative data". A skimming reader may miss a detached caption;
+this is a design failure to test, not a measured reading-rate claim. The real/illustrative
 distinction must be carried in the *form* — the visual variant of the element
 itself — with the caption as the second channel, not the only one.
 
@@ -29,8 +27,9 @@ itself — with the caption as the second channel, not the only one.
    figure component takes real vs illustrative as a declared variant, and the
    illustrative variant differs in ways that survive a glance: a different
    surface tone, a marked edge, a visible tag, and the numeral set in a
-   subordinate color rather than full-strength ink. A reader who reads
-   nothing still perceives "this element is a different kind of thing".
+   subordinate color rather than full-strength ink. Include a visible text
+   label and an accessible equivalent; color differences alone cannot carry
+   the distinction. Check that representative readers understand the label.
 2. **Make the mode a required decision, not a default.** The dangerous path
    is a component that renders identically unless someone remembers to pass
    the flag. Invert it: the call site declares which kind of figure it is
@@ -59,7 +58,7 @@ itself — with the caption as the second channel, not the only one.
 
 - **One question decides the variant: was this value computed from ingested
   data by the published method?** Yes → real, with citation. No → illustrative,
-  with the marked form. There is no third state; a "projected" or "estimated"
+  with the marked form when it is a sample. A "projected" or "estimated"
   figure is a modeled figure and needs its own labeled treatment, not a quiet
   seat among measurements.
 - **Named entities never get illustrative values.** A sample figure may

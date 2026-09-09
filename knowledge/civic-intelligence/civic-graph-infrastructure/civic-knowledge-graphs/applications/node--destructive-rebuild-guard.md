@@ -72,7 +72,26 @@ Both helpers live beside the guard because the guard's advice depends on them:
 
 Port the *inputs contract*, not the code: two cheap aggregate store queries
 (kind→count, rel→count) plus the id list of rebuilt kinds are all the guard
-needs, so it stays O(store summary), not O(store). Keep the verdict a pure
+uses. Its work includes the retained/rebuilt identifier lists, so cost grows
+with those lists as well as the kind/relation summaries. Keep the verdict a pure
 function returning `{allowed, dropped…, orphaned…, message}` — politicas
 unit-tests it on fixture stores without a database, which is what let the
 refusal message's arithmetic be pinned exactly.
+
+## Source review - 2026-09-09
+
+`guardKgReset` was inspected. Its input contains node identifiers and
+kind/relation summaries, but no enriched node properties or human decisions.
+Re-emitting the same node ids can therefore pass while losing properties;
+retaining a relation name can hide loss of individual edges. The guard's
+"drop nothing" message is stronger than its comparison establishes unless
+the caller independently guarantees full regeneration of those contents.
+
+`mergeComputedNodeProps` is a shallow object merge, not an atomic storage
+operation. Two writers merging separate stale snapshots can still lose
+updates. Store inspection and reset also require one protected operation;
+the pure guard supplies no lock, rollback or crash recovery. The
+[transaction isolation contract](https://www.postgresql.org/docs/18/transaction-iso.html)
+illustrates why those guarantees depend on the caller and storage semantics.
+No reset, consumer concurrency test or historical population measurement was
+performed in this review; application witness metadata remains historical.

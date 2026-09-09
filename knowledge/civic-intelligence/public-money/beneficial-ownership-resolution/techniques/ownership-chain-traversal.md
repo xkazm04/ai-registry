@@ -56,7 +56,21 @@ The same records support two different walks with different verdicts:
   municipal owner is the only reliable test. The upward walk resolves
   against a verified allowlist of public owners, sends every unresolved
   case to "unknown" rather than "private", and treats current stakes
-  (no end date, or end after the as-of date) differently from lapsed ones.
+  (started by the as-of date and not ended under the source's date convention)
+  differently from future or lapsed ones. Missing dates remain uncertain.
+
+## Keep a path valid in time and terminate cycles
+
+A path is relevant to an as-of query only when all its edges apply at that
+time. For a historical interval query, intersect the edge intervals; an empty
+intersection cannot establish a contemporaneous chain. Preserve unknown
+boundaries rather than inventing overlap. Two valid edges from different
+decades do not by themselves form a valid present-day ownership path.
+
+Track visited scheme-qualified entities on each path to terminate cycles.
+Deduplicate emitted edges while retaining distinct paths and their provenance;
+a shared ancestor is not a reason to discard another valid path. Record cycle,
+depth and fetch-budget stops separately from a completed search with no parent.
 
 ## Scope honesty: the cap ships with the chain
 

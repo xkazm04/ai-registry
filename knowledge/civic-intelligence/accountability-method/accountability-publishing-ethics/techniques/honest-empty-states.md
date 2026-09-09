@@ -25,15 +25,16 @@ surface can be in, and make each one a sentence that is actually true.
 
 Four different absences, four different truths, four different renderings:
 
-1. **Genuine nonexistence** — the entity is not in the domain. This is the
+1. **Not found within the checked scope** — a successful lookup found no
+   matching record in the declared dataset and period. This is the
    only state that earns a true not-found, and it should be *reserved* for
    that meaning: a not-found that also fires on infrastructure trouble has
    spent its truthfulness.
-2. **Temporary unavailability** — the record exists; the store is unreachable,
-   busy, or degraded. Render a successful page that says exactly that: the
-   record exists, it is temporarily unreadable, here is the way back. Status
-   semantics follow the claim — this page is a success (the platform
-   truthfully reported its own state), not an error dressed as absence.
+2. **Temporary unavailability** — the store is unreachable, busy, or degraded.
+   Say that the lookup could not be completed; do not assert that the record
+   exists unless a separate reliable observation establishes it. Provide a
+   recovery route. A truthful explanation does not make a failed data request
+   successful: transport status and retry behavior follow the service contract.
 3. **Not measured** — the pipeline never ingested this data for this entity
    or period. Render "not measured", visually distinct from zero and from
    perfect, with the coverage note saying what was and wasn't ingested.
@@ -49,7 +50,7 @@ Four different absences, four different truths, four different renderings:
 ## The procedure
 
 1. **Classify at the loader, render by class.** The data layer returns a
-   discriminated state (found / unavailable / not-measured / empty), never a
+   discriminated state (found / not-found / unavailable / not-measured / empty), never a
    bare null that every surface interprets by guess. A null that means three
    things will be rendered as the wrong one somewhere.
 2. **Never let a fallback fabricate.** List surfaces may degrade to labeled
@@ -69,15 +70,12 @@ Four different absences, four different truths, four different renderings:
 
 ## Decision rules
 
-- **When unsure between unavailability and nonexistence, say unavailability.**
-  The false claim "temporarily unreadable" about a truly absent entity costs
-  a confused reader; the false claim "does not exist" about a real person is
-  a published falsehood with a name attached. The asymmetry decides.
-- **Zero-filling is a rendering concern that must not travel.** Display
-  layers legitimately zero-fill empty rows to keep a table's shape; feeding
-  those zero-filled shapes back into any computation or comparison converts
-  missing into zero at scale. The fill happens last, at the edge, in code
-  that nothing downstream consumes.
+- **When the lookup failed, preserve uncertainty about existence.** Say
+  "could not check this record", not "this person does not exist" or "the
+  record exists". A successful lookup establishes only its declared scope.
+- **Missing values stay missing in the display too.** Use an explicit
+  not-measured marker for layout gaps. Render zero only when the measurement
+  and its coverage establish zero; never export a visual placeholder as data.
 - **An empty queue is news, phrase it as such.** "No entries yet — decisions
   appear here as reviews complete" is honest; a blank panel invites the
   reader to conclude either "nothing wrong with anyone" or "this feature is

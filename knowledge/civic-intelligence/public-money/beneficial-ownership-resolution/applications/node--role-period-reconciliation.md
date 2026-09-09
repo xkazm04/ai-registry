@@ -30,9 +30,9 @@ corroboration + `role_valid_from/to` + `temporal_status` per tie. No LLM
 anywhere in the loop; fleet mode writes payloads only, never
 `review_state` — the human gate is untouched.
 
-## The three-state and four-way vocabularies (reconcile-ares-vr.ts:12-25)
+## Historical declared vocabularies (reconcile-ares-vr.ts:12-25)
 
-Corroboration is exactly the technique's three states:
+The script's header describes three corroboration states:
 `registry-confirmed` (one VR entry's birth date matches),
 `conflicting` (record read in full, no match — or multiple people share
 the date), `registry-unconfirmed` (check could not be attempted).
@@ -69,3 +69,27 @@ investigative correction instead of two vintages of one heuristic). The
 fix imports the classifier from `features/money/reviewTypes.ts` — the
 bundle's one-definition law enforced at the exact place a restated literal
 had already lied once.
+
+## Source review - 2026-09-09
+
+Inspection found material differences between the header's intent and the
+implementation. `findMatches` filters by birth date; `mergeMatches` treats
+any positive match set as confirmed without resolving distinct names. It
+also merges roles into the earliest-start/latest-end envelope, which can
+bridge gaps between tenures. A shared birth date is not a unique identity.
+
+The temporal classifier uses contract `signedOn`, not payment dates. It
+tests only `signedOn <= validTo`, so a contract before the role began is
+classified as historical/within-tenure. It filters out undated contracts
+before the comparison; a later dated contract plus an undated contract can
+therefore yield `money-postdates-role`. The dedicated undated state handles
+the all-undated case, not mixed coverage. These are deviations from the
+clarified technique, not examples to transplant.
+
+The [ownership data schema](https://standard.openownership.org/en/latest/standard/reference.html)
+distinguishes identifiers, person attributes and dated interests; its date
+fields do not establish that every source supplies precise tenure dates.
+The historical batch counts and runtime behavior were not reproduced, and
+the application verification date is unchanged. Consumer repair needs
+fixtures for shared birth dates, tenure gaps, pre-role contracts and mixed
+dated/undated contracts before any refreshed verification claim.

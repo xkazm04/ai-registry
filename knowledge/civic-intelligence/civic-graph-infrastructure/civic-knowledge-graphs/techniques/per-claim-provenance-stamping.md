@@ -26,7 +26,7 @@ Every node and every edge carries a provenance object with at least:
 
 - **method** — the closed vocabulary of production methods. Two are load-bearing
   everywhere: `deterministic` (computed by reviewable code from raw rows;
-  recomputable and exact) and `proposed` (suggested by an automated analyst and
+  repeatable at pinned inputs, but not necessarily correct) and `proposed` (suggested by an automated analyst and
   admitted through a validation gate). The method is the reader's first trust
   signal and the system's dispatch key: deterministic claims may be regenerated
   in place; proposed claims may only be superseded by a new gated proposal.
@@ -35,7 +35,10 @@ Every node and every edge carries a provenance object with at least:
   a claim is wrong, the pass points to the code and inputs that made it.
 - **ref** — the machine-checkable source: the registry export, the raw table
   and row, or the id of the proposal verdict the claim came from. "The model
-  said so" is not a ref; the stored verdict the gate approved is.
+  said so" is not a factual source. A stored proposal identifies the derivation,
+  but the claim must also resolve to the underlying source records and their
+  snapshots. Retain method version, source observation time and valid time
+  separately from the computation timestamp.
 - **computed-at** — the timestamp, because registries move and a correct claim
   can be a stale one.
 
@@ -57,9 +60,10 @@ and the gate checks references, not just shape:
 - Every entity identifier cited anywhere in the proposal's prose must resolve.
   A hallucinated person mentioned in a rationale poisons the claim even if the
   edge endpoints are real.
-- The proposal's schema is enforced structurally (hand the validator's schema
-  to the generator as a structured-output contract so drift is physically
-  impossible), and a drifted or fabricated proposal is discarded and re-run —
+- The proposal's schema is validated at admission even when the generator
+  accepts a structured-output contract. Handle refusal, truncation and
+  unsupported constraints explicitly; valid shape does not establish truth.
+  A drifted or fabricated proposal is quarantined and retried within a budget —
   never patched into acceptability, per the domain's refusal to repair.
 
 What survives the gate is still a machine result. Per
@@ -70,8 +74,9 @@ to the store*, not *assertion to the public* — that is the third axis.
 
 Sensitive edges — above all the person-to-firm tie — carry a review state
 alongside provenance: `pending_review` at birth, `verified` only by a named
-human decision, `rejected` as a **terminal** state so a bad match cannot
-re-surface in the review queue forever. Three disciplines make this real:
+human decision, and `rejected` as closed for that claim revision so routine
+re-ingest cannot reopen it. New evidence may justify an explicit audited
+reopening; preserve the old decision and its source snapshot. Three disciplines make this real:
 
 - **One write path.** Exactly one code path in the system may change review
   state. Every other writer — including re-ingests of the same source — must
@@ -106,4 +111,5 @@ relations (tens of thousands of co-membership edges) would drown the reviewers
 and, by exhausting them, *lower* the scrutiny on the edges that matter. Review
 state belongs on the claims whose wrongness harms a person: ties between named
 individuals and firms, forensic flags, anything the product will phrase as an
-allegation. Everything else is defended by determinism plus recomputability.
+allegation. Other claims still need source-quality, coverage and derivation
+checks; deterministic computation does not make false inputs true.
