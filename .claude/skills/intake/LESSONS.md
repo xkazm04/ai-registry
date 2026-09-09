@@ -10650,3 +10650,36 @@ observation, and the batch lane already carries half of this idea for a differen
   **Version bumped 2.8.0 -> 2.8.1** (one paragraph added at Phase 7.5, nothing removed).
   A run mid-flight on 2.8.0 finishes on 2.8.0; the paragraph only names what those runs
   were already doing.
+
+## 2.8.1 - 2026-09-09 - blender-previs-to-video-reference
+
+- **A concentration of catches in ONE file is a signal, not a result.** Four of this
+  run's nine rows were already-covered, and all four mapped to the same technique.
+  The instinct is to close the run at that point: the corpus knows this topic, expected
+  yield met, report the catches. Reading that file instead - and then its siblings -
+  found it taking the opposite position on the same question as the technique one file
+  over, because its rule had been written for the case where the upstream artifact does
+  not exist and never scoped when it does. **Rule to try: when three or more catches
+  land on one document, that document is the run's real subject.** A dense catch cluster
+  means the run has located the corpus's most-covered ground on the topic, which is
+  exactly where an internal contradiction is both most likely and most expensive - and
+  it is invisible to `research-map`, which scores two conflicting files identically
+  because both match the slug. Needs two more sightings before it is a rule this
+  method carries.
+- **The falsifying seam refuted the landing's wording, and the correction landed instead.**
+  v2.7 says to pick the seam that could falsify and to say what it refuted. What it does
+  not say is what happens when the refutation arrives *before* the commit: here the
+  amendment's first draft claimed a prose plate cannot reproduce its render, the seam
+  showed the plates pin a seed and an engine and therefore can, and the corrected
+  claim - reproducible, never editable - is what was written into the technique. The
+  apply step edited the landing rather than merely scoring it. That ordering is only
+  available because Phase 7.5 runs before the commit, and it is an argument for keeping
+  it there rather than deferring the apply to `/intake apply`.
+- **`research-map`'s zero can be a fact about vocabulary rather than coverage, in a
+  direction the method does not yet name.** The existing warning covers proper nouns
+  (banned vocabulary returns zero by construction). This was the other case: an ordinary
+  domain term (`previsualization`) that the corpus simply spells three other ways. Zero
+  hits across 458 subjects, and the concept present in three subjects under `blockout`,
+  `animatic` and a built-previz paragraph. Uncapped greps on synonyms caught it. Worth
+  folding into Phase 4's near-empty paragraph if it fires again: **before believing a
+  total empty on a concept, spell it two other ways.**
