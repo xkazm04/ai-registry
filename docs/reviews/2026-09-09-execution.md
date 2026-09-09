@@ -154,3 +154,12 @@ The existing cancellation fixtures do not establish every concurrent mutation or
 The three application records retain their historical dates and carry reverify
 dispositions for runtime evidence. All six knowledge checks pass with four current
 decisions, zero stale records and zero invalid records.
+
+## Enforcement follow-up
+
+The top-level gate still classified an undeclared child exit as a content violation,
+although the lower-level checker classifier correctly treated it as incomplete.
+Changed the gate's fallback to FATAL. An isolated fixture runs the actual gate with
+a checker exiting 97, verifies exit 2 and confirms later generators never run.
+The complete local chain now passes 19/19 with 18 tests. This does not close the
+remaining semantic coverage or the pending model/harness evaluations.

@@ -152,10 +152,10 @@ for (const s of chain) {
   }
   if (r.status !== EXIT.OK) {
     // Propagate a declared code so "could not run" (2) never arrives as "found
-    // violations" (1); an undeclared code from a child collapses to VIOLATIONS,
-    // because this chain's own vocabulary is the one in exit-codes.mjs.
+    // violations" (1). An undeclared or missing exit status cannot establish
+    // a content verdict, so it is an incomplete check (FATAL).
     const named = nameOf(r.status);
-    const code = named ? r.status : EXIT.VIOLATIONS;
+    const code = named ? r.status : EXIT.FATAL;
     console.error(`\ngate FAILED at scripts/${s.script} - exit ${r.status}${named ? ` (${named})` : ' (undeclared code)'}`);
     console.error(`${ranClean} step(s) passed before it; ${chain.length - ranClean - 1} not run.`);
     console.error(`Re-run just this one: node scripts/${s.script}${args.length ? ` ${args.join(' ')}` : ''}`);
