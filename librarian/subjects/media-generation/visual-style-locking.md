@@ -54,3 +54,57 @@ future run brings a constant that changes.
 - **The third stage is the finding and it generalises past this instance: where no channel can read the evidence, the stage is neither skipped nor guessed - it is hand-authored, and a decomposition supplied before the writing starts is what makes hand-authoring tractable.** Split the frame into asset classes (text, primary subject, ground, secondary dressing, camera) and state each one's behaviour; a practitioner who cannot write "the house motion style" in the abstract can answer five narrow questions whose union is the block.
 - Two consequences carried: **the capture method is a property of the evidence, not of the operator's convenience** - the temptation is to run every stage through the readback because one stage worked, which yields a confident block about a stage nothing actually read; and a hand-authored stage is a hypothesis with a named author, so it is the least validated part of the style and the first thing the reference sheet should be read against.
 - Adjacent and NOT landed: whether a style ratified on stills is ratified for motion at all. The lock lifecycle (drafted -> proofed -> locked) proofs on renders, and `style-block-restated-every-call` already owns restating the contract at the still-to-motion hop - but *ratification* is a different question and the run did not earn it. Return if a second source describes a style that passed on stills and broke in motion.
+
+## 2026-09-09 - the middle case between reading motion and hand-authoring it ([[2026-09-09-ai-video-editing-channel]])
+
+Two videos from one creator (a **channel corpus**, so no within-batch
+convergence) on driving a code-compiled video editor with an agent. Five catches,
+one landing, and the landing came from a sentence this subject asserts rather
+than from anything either video claimed.
+
+`style-onboarding-from-sample` enumerates three capture stages and reaches a hard
+verdict on the third: *a sequence of frames is not evidence anything in the
+pipeline can currently read as motion*, so the motion signature is hand-authored
+from a decomposition. Both sources do exactly that readback and report it
+working, which looked at first like the corpus being out of date.
+
+**It is not.** The one fetch this run spent went to the vendor's vision surface
+and settled it in the subject's favour, with a mechanism neither side had: there
+is **no video input** - only an image block - and where an animated container is
+accepted at all, **only its first frame is used**. Nothing reads a sequence *as*
+motion, exactly as written. What practitioners actually do is a third branch the
+enumeration did not contain - **sampling** stills into one request - and its
+fidelity is bounded by a hard per-request image cap plus a dimension cliff that
+makes density and resolution trade against each other rather than add.
+
+New technique `motion-sampled-under-a-frame-budget`, not an amendment: every
+sentence of the parent stays true, its hand-authoring floor is explicitly kept as
+the floor, and what the sources located is a mechanism the subject never had. A
+pointer paragraph now sits in the parent so the enumeration names its own middle
+case.
+
+**The apply step refuted the technique and it was corrected in the same run** -
+the second consecutive round in which the fleet has corrected a landing whose ink
+was still wet. The seam was the only frame-sampling code in the fleet, a
+filmstrip sampler feeding captured animation frames to a vision judge, and it
+already knew the sharper rule: *the sampling is part of the instrument* - a judge
+scoring timing on a strip whose spacing the sampler made uneven is grading the
+sampler. Two things followed, both now in the technique:
+
+- **A larger sample is routinely the worse instrument.** An even-as-possible pick
+  is uniform only when `(available - 1)` is divisible by `(kept - 1)`; 31
+  count-inversion pairs across nine ordinary capture lengths have a smaller cap
+  uniform where a larger one is not. Where `available - 1` is prime there is no
+  middle uniform pick at all - so a default cap that produces mixed gaps is often
+  the only kind of number available, not a careless one.
+- **Declaring the sampling is the mitigation**, and it is cheap: publish
+  kept-of-available rather than a bare count, publish the gaps, tell the reader
+  the removed frames are the sampler's doing and not the motion's, and report an
+  unmeasured denominator as unknown rather than as a complete capture.
+
+Board: the subject was **CONTENDED** from Phase 4 by a sibling mining a different
+video. Not a stop - the write was an append (one new technique, one line on the
+golden path, one pointer paragraph), so V5 did not fire; their tree state was
+checked first and both spine edits took the `content` lock. `research-map`
+refused to run over a third sibling's half-built bundle, so the map ran from a
+detached worktree of `HEAD`.

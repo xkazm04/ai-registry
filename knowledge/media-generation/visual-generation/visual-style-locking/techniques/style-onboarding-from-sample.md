@@ -6,7 +6,7 @@ technique: style-onboarding-from-sample
 status: forged
 laws: [style-is-restated-not-remembered]
 shared_with: []
-use_when: [a user arrives with a look they cannot describe, importing a house style from existing published work, seeding a new theme from a single admired image, a captured style reproduces the surface of a body of work but none of its editorial decisions, capturing a style stage no model can read the evidence for]
+use_when: [a user arrives with a look they cannot describe, importing a house style from existing published work, seeding a new theme from a single admired image, a captured style reproduces the surface of a body of work but none of its editorial decisions, capturing a style stage no model can read the evidence for, deciding how much of a reference to hand an extractor in one pass]
 ---
 
 # Style onboarding from sample
@@ -93,6 +93,19 @@ different kind:
   unavailable: capture presumes a model that can read the evidence back into
   the grammar, and a sequence of frames is not evidence anything in the
   pipeline can currently read as motion.
+
+That verdict is about *reading*, and it holds: there is no motion channel to
+read — an animated container is flattened to a single frame where it is accepted
+at all. But between reading a sequence back and hand-authoring the block there is
+a third move practitioners actually make, which is to **sample**: choose a set of
+stills from the reference and let the readback run over those. Sampling does not
+promote the stage to readable, and it does not repeal the hand-authoring rule
+above. It has its own arithmetic — a frame budget fixed by the platform, divided
+by the span the caller chooses — and its own silent failure, which is a fluent
+description of motion that was never in evidence.
+[motion-sampled-under-a-frame-budget](./motion-sampled-under-a-frame-budget.md)
+owns that middle case and says when to abandon it for the decomposition below.
+
 
 **That third stage is the finding, and it generalises past this instance.**
 Where no channel can read the evidence, the stage does not get skipped and it
