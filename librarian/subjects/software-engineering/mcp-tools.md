@@ -509,3 +509,47 @@ Board: 2 siblings live by Phase 7, neither holding these two technique files;
   result read as *expired unread*) landed in agent-runtime-assembly/
   bounded-projection-of-external-work today. Return condition: an intake of the
   extension's specification text, or a fleet server that advertises taskSupport.
+
+
+## 2026-09-09 - the tool surface is not the session ([[2026-09-09-resolve-native-mcp]])
+
+A vendor moved a formerly third-party tool server into a **single-seat editing
+application** and a practitioner ran it against real long-form projects. Two
+landings, both saying the same thing from opposite sides.
+
+- **Amendment to `caller-differentiated-capability`** - subtraction holds within a
+  surface, not within a host. The technique holds its invariant by subtraction
+  ("a capability the schema does not accept cannot be smuggled through a check
+  somebody forgets to run") and closes by putting destructive operations off the
+  agent catalog entirely. The source routes around an absent API function by
+  **driving the screen**, and around an earlier one by composing an external
+  binary with the single exposed call. The fetch (1 of 3, the only one spent)
+  established the part that made it a landing: such a control surface is
+  **schema-less by construction**, declarable in the same tool set as
+  purpose-built tools, with application-level mitigations rather than schema
+  validation - so it cannot be given a dispatch door, and subtraction has nothing
+  to attach to. Absence from the catalog bounds what the model can *request*;
+  only absence from the host bounds what it can *cause*.
+
+- **New technique `ambient-selection-is-not-an-argument`** - the subject presumes
+  a server in front of a *service*. In front of a single-seat application the
+  natural argument is "the currently selected timeline": cross-call state the
+  server cannot mint because it does not own it. The golden path's "a cart, a
+  workflow, a cursor" means a pagination cursor; this one is the human's. The
+  load-bearing half is what holds the invariant today - the application is
+  single-threaded against its automation surface, so the operator is locked out
+  for the duration, and that undeclared mutual exclusion is the only reason the
+  selection cannot move mid-run. `write-freshness-gate` cannot reach it: its
+  proof is a hash of content the model read, and here nothing was read.
+
+**Obligation 3 of the new technique was corrected the same day by the apply step.**
+The politicas `live-wrap.mjs` tool already resolves an ambient page reference
+explicitly and refuses *conditionally* - only where the absence could change this
+answer, computed as a predicate over the target the caller did name - against the
+technique's original demand for an unconditional refusal. The tree was right and
+the corpus was wrong; the technique now carries the sharper rule. Recorded as
+`not-better` in the applied ledger, which is what that verdict is for.
+
+Board: 4 siblings live by Phase 7, none holding this subject; `check` clear
+immediately before the first write, and the `content` lock taken twice for the
+two golden-path edits.

@@ -21,6 +21,7 @@ techniques:
   - suspendable-request-classes
   - sealed-continuation-state
   - enumeration-without-a-scope
+  - ambient-selection-is-not-an-argument
 ---
 
 # Tool protocols (MCP)
@@ -106,6 +107,17 @@ dead weight. The load-bearing facts:
   tasks extension lets a server return a pollable handle for an operation that
   outlives any reasonable request timeout — the request/response shape stays
   clean and reconnects stop being failures.
+
+All of that presumes a server in front of a *service*. A server in front of a
+**single-seat interactive application** — a program built for one person at a
+keyboard, given a tool surface over the scripting interface it already had —
+breaks the first bullet rather than the last: its most natural arguments name
+the open document and the current selection, which is cross-call state the
+server did not mint and cannot, so the request stops being self-describing
+while still looking like it is.
+[ambient-selection-is-not-an-argument](./techniques/ambient-selection-is-not-an-argument.md)
+owns that case, and the undeclared mutual exclusion these designs are currently
+resting on.
 
 ## Who controls what
 
