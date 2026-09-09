@@ -10134,3 +10134,64 @@ has no reason to state. Not applied to `SKILL.md` this round: a sibling was live
 run, a method edit is the one change a parallel fleet cannot absorb quietly, and this is one
 run's evidence. It is filed as round 35's focus item (2) so the next two runs can confirm or
 kill it on the three-runs rule.
+
+## 2.7.0 - 2026-09-08 - camoufox (`github:daijro/camoufox`)
+
+- **Never write a file whole that you did not read in this session — and the method only
+  says this for ledgers.** The subject note for a touched subject was written with a
+  whole-file write, over a file that already carried 102 lines of history from three prior
+  runs, and it destroyed all of it. The parallel-safety section covers exactly this hazard
+  for `librarian/sources/index.md`, `applied.md` and the scorecard: take the lock, *re-read
+  inside it*, append. Subject notes are explicitly exempted from the lock — "the source note
+  and the subject notes are yours alone" — and that exemption reads as permission to write
+  them freely. It is not: they are yours alone across *sessions*, not across *phases*. The
+  rule that generalises is about the write, not the lock. Phase 9 should say: an existing
+  file is appended to, never replaced, and a whole-file write over a path that already
+  exists is a bug regardless of who owns it.
+
+- **A falsifying seam that refutes the finding hands you the technique's precondition, and
+  the refutation belongs in the technique before the row is filed.** The claim was "a fixture
+  that pins the variable deciding whether a bug fires blinds the suite". The first seam
+  refuted it: that tree straddles its threshold deliberately, with comments saying so.
+  The reason is the rule — **a declared threshold advertises both of its sides**, so fixture
+  authors cover both, and the blindness needs a *derived* quantity that appears nowhere in
+  the code under test. The narrowed technique is strictly better than the one the seam was
+  picked to confirm. Fifth consecutive round; round 37 set the bar at four. **This is a rule
+  now, and v2.8 should carry it in Phase 7.5.**
+
+- **The +2 admission threshold is doing blast-radius control, not error-cost control, and
+  the method's stated rationale is wrong about its own mechanism.** Two consecutive rounds:
+  a real finding, a first shape that falsifies a standing enumeration (RISK +2, below
+  threshold), and a re-shaping with identical content that leaves every standing sentence
+  true and scores well clear. The method explains the threshold as "bias the gate toward the
+  recoverable error". What it actually did both times was cap how much of the existing corpus
+  one source's evidence is allowed to invalidate — which is a better rule and a different
+  one. Third sighting and the Phase 5 rationale should be rewritten.
+
+- **A reaped sibling is more dangerous than a live one, because the board says the ground is
+  free.** A sibling's claim was GC'd at the 45-minute heartbeat while its forge worker kept
+  running; the worker then landed a golden path declaring five techniques with none of them
+  on disk, and turned the whole bundle red in a subject this run never touched. The board is
+  a liveness signal for *sessions*, and a session's dispatched workers outlive it. Two
+  consequences worth carrying: `check-bundles` going red mid-run is not evidence that your
+  own landing is broken — attribute the failures by path before reacting — and the correct
+  response to a bundle red you do not own is to commit your own content and leave
+  `index.json`/`catalog.json` uncommitted, which the method already says and which this round
+  is the first to actually exercise.
+
+- **Resume a stalled worker with a narrow brief instead of restarting it.** The forge worker
+  stalled at the 600s watchdog having written 5 of 6 files, all of them sound — purity clean,
+  every `use_when` present, all six cited laws real. A restart would have paid for the whole
+  subject again and lost its reconciliation reading. A three-item resume message
+  ("do not redo any of it, do not re-read the briefs, here are the three things left")
+  finished it in 85 seconds, and the finish included the worker overriding the spec on two of
+  five proposed techniques with evidence from both trees it had reached. **Check what a
+  stalled worker actually wrote before deciding it failed.**
+
+- **A patched-upstream fork is a source class whose operating documents are a post-mortem
+  lane.** Landing page 4,227 words, in-tree markdown 20,012, and every catch and the one
+  landing came from the numerator. This class records failures the maintainers paid for in
+  production — dated, with commit anchors, and with the enforcing instrument beside them
+  explaining why review could not have caught them. The ratio to compute on the next one is
+  operating-document words over landing-page words; at 4.7:1 the README was worth reading
+  last and nothing was lost by it.
