@@ -210,6 +210,17 @@ gate compares them, because a rendered surface with no coupling to its input is 
 document that silently stops being true. Frontmatter is ASCII, for the same reason it is
 in `skills/`: every consumer parses it with a small hand-rolled parser.
 
+**Current validation limit:** the gate compares those five metadata keys, not the prose
+body. Activities, outcomes, and guidance can disagree with JSON while this check passes.
+A deterministic renderer with a full-body freshness check is tracked in the
+[architecture upgrade plan](reviews/2026-09-09-architecture.md).
+
+Recipe shape, index freshness, and PR version discipline run in
+`.github/workflows/recipes.yml`. Locally, `node scripts/gate.mjs --lane recipes --write`
+checks source shape before regenerating the index. Its internal `--shape-only` check
+intentionally omits index freshness; run the normal lane gate afterward to verify the
+complete result.
+
 ## `LESSONS.md`
 
 Required, and in the `skills/` lane's format exactly, so one reader serves both:

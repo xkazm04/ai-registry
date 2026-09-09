@@ -4,22 +4,27 @@ An **AI development registry**: the knowledge, skills, practices and shared memo
 organization's agents run from, kept in git, owned by the organization, and reviewed like
 code.
 
+Start with the [workflow selection guide](docs/skill-selection.md) to use the library,
+[CONTRIBUTING.md](CONTRIBUTING.md) to change it, or the
+[architecture review and upgrade plan](docs/reviews/2026-09-09-architecture.md) for the
+folder-by-folder assessment and development tranches. [AGENTS.md](AGENTS.md) gives
+agents a concise entry point.
+
 The repository carries eight lanes, declared in [`registry.yaml`](registry.yaml):
 
 | Lane | Holds | Status |
 | --- | --- | --- |
 | [`knowledge/`](knowledge/README.md) | **Reference Knowledge Bundles** - four-layer domain knowledge (Golden Path → Technique → Application → Evidence), one bundle per domain. | Real content. Gated by CI. |
-| [`skills/`](docs/skills-lane.md) | The fleet's shared skill library, one directory per skill, published as a **plugin marketplace** for the reference harness. | Real content (25 skills). Gated by CI. |
+| [`skills/`](docs/skills-lane.md) | The fleet's shared skill library, one directory per skill, published as a **plugin marketplace** for the reference harness. | Real content; current inventory in catalog.json. Gated by CI. |
 | [`recipes/`](recipes/README.md) | **Craftsman knowledge** - one kind of work done well, connector- and trigger-agnostic, versioned like a skill. Everything that binds a recipe to one installation lives on the adopted charter, never here. | Real content, all ten domains. Gated by CI. Declared 2026-09-06 with one worked example; the corpus migrated after operator approval and grows by assay. |
-| `practices/` | Repo-level habits plus the starter artifacts they drop. | Worked example. |
-| `memory/` | Organizational memory notes, one fact per file. | Worked example. |
+| `practices/` | Repo-level habits plus the starter artifacts they drop. | Templates and reusable practices; inspect each adoption contract. |
+| `memory/` | Organizational memory notes, one fact per file. | Examples and dated observations; inspect scope and confidence. |
 | [`usage/`](docs/usage-lane.md) | Which skills actually get used - counts contributed by the installations that run them, one file per contributor. | Real, gated. First contributor reporting. |
 | [`signals/`](docs/signals-lane.md) | Whether the knowledge is still TRUE where it is used - stack versions, citation-resolution verdicts, deviations and consults, one file per contributor. | Real, gated. First contributor reporting (stack only, so far). |
 | [`librarian/`](librarian/index.md) | Coverage memory for the maintenance loop - what was swept when, what was dispatched, what external sources were mined, and what was declined and why. | Real. Seeded by the founding sweep. |
 
-The two example lanes (`practices`, `memory`) are deliberately generic and synthetic - no
-company, no product, no proprietary code - so tooling that onboards, indexes and tracks a
-registry has something real to read. The other five are not examples.
+The practices and memory lanes include worked examples and subsequently added material.
+Read each artifact's scope and provenance before treating it as an adopted policy.
 
 Lane depth is declared, not incidental. `knowledge/` and `recipes/` are `depth: nested` and cap
 every level at ten folders, because their consumers read a GENERATED index rather than walking
@@ -34,9 +39,9 @@ code: version control, review, an owner, and history.
 
 - **Git is the door for content.** Every change to a skill, a practice or a memory note arrives as
   a pull request. Merging is adopting - see [`CODEOWNERS`](CODEOWNERS).
-- **Nothing here needs an account.** A developer with `git` and a text editor is a first-class
+- **Reading the library needs no account.** A developer with `git` and a text editor is a first-class
   citizen. Clone it, read it, copy what you need.
-- **Indexing is read-only.** A tool (here, [Ascent](https://github.com/)) reads the tree, parses
+- **Indexing is read-only.** A tool (here, [Ascent](.ascent/registry.yaml)) reads the tree, parses
   the frontmatter, and keeps an index. It is never in the write path.
 
 ## Layout
@@ -113,6 +118,7 @@ rewrites the other, and a reader that knows only one of them still works.
 | [`grant-funding`](knowledge/grant-funding/) | Finding, winning and accounting for grant money: the funding landscape, eligibility and matching, proposal craft, and grant operations from deadline to post-award. |
 | [`llm-observability`](knowledge/llm-observability/) | Operating production LLM traffic as a product: telemetry and cost attribution, price books and usage governance, unit economics, judge-scoring of live traces, and federated benchmark sharing. |
 | [`game-production`](knowledge/game-production/) | Producing a game's systems and content at scale with machine assistance: systems canon and balance validation, the content pipeline and its acceptance ladder, generative asset production, engine integration, machine craft judgment, and production governance. |
+| [`localization`](knowledge/localization/) | Language-specific craft, terminology, typography, register, and script/direction concerns, with product voice and termbases kept in the consuming project. |
 | [`recruiting`](knowledge/recruiting/) | Hiring people with machine assistance and staying defensible: role definition and intake, candidate evidence and its provenance, interviews and work samples, automated screening and its fairness gates, pipeline operations, candidate experience, governance and consent, and honest measurement of a small-sample process. |
 | [`marketing`](knowledge/marketing/) | Getting a small or mid-size business found, chosen and measured: search intent and keyword-metric honesty, site architecture and local pages that survive doorway filters, visibility in AI answers, content briefs, brand voice and channel-native social, paid-search triage, budget reallocation, search-term mining and ad craft, profit-aware measurement and diagnosis, zero-budget and local visibility, conversion and lead handling, and honest proof and positioning - with every threshold labelled as measured or convention. |
 
@@ -166,55 +172,18 @@ the technique is over-engineering and a consumer is right to skip it; at or abov
 absence is a gap. The field is optional and rare on purpose, and it is carried into each
 bundle's `index.json` so a consumer can filter on it.
 
-### Skills (26)
+### Skills
 
-The fleet's shared library. Every skill is generic: project specifics live in a **per-repo
-overlay** the skill names in its `## Project overlay` section and runs without. Full spec,
-including sub-resources, the ASCII rule, versions, distribution and resolution:
-[`docs/skills-lane.md`](docs/skills-lane.md).
+Use the [workflow selection guide](docs/skill-selection.md) to choose a coordinating
+skill and its supporting methods. The generated [catalog](catalog.json) carries the
+current names, versions, hashes, and resources; versions are not duplicated here.
 
-| Skill | Category | Version | What it is for |
-| --- | --- | --- | --- |
-| [`agent-guidance-bootstrap`](skills/agent-guidance-bootstrap/SKILL.md) | `ai-native` | 0.4.0 | Create or refresh a repo's AGENTS.md so an agent joining the codebase gets commands, architecture and constraints without guessing. |
-| [`architect`](skills/architect/SKILL.md) | `workflow` | 1.0.0 | Heavy structural codebase scan - weak patterns to upgrade, strong patterns to codify, ADR-style decisions with a durable cross-session backlog. |
-| [`ci-bootstrap`](skills/ci-bootstrap/SKILL.md) | `ci-cd` | 0.1.0 | Give a project its first real CI gate, ratcheted so it is green on day one. |
-| [`ci-gate-check`](skills/ci-gate-check/SKILL.md) | `ci-cd` | 1.3.0 | Run the checks CI enforces, before you push. |
-| [`ci-triage`](skills/ci-triage/SKILL.md) | `ci-cd` | 0.1.0 | Turn a red build into a located first cause and a scoped fix proposal. |
-| [`consult`](skills/consult/SKILL.md) | `ai-native` | 1.0.0 | Read the registry's knowledge bundle(s) at the moment of a product, architecture or domain decision, and log the consult for the signals lane. |
-| [`explorer`](skills/explorer/SKILL.md) | `workflow` | 1.0.0 | Wander one logical area of a codebase, surface 10 items worth fixing, triage with the user, execute the accepted ones. |
-| [`flake-register`](skills/flake-register/SKILL.md) | `testing` | 0.1.0 | Quarantine an intermittent test as tracked debt - owner, cause, expiry. |
-| [`friend`](skills/friend/SKILL.md) | `workflow` | 1.0.0 | Endless single-area companion loop: scan → propose 5 directions → user picks → execute → repeat. |
-| [`i18n-translate`](skills/i18n-translate/SKILL.md) | `workflow` | 1.1.0 | Copywriting-grade, context-aware localization: a transcreation loop with an engineering guardrail. Carries [`LESSONS.md`](skills/i18n-translate/LESSONS.md). |
-| [`kpi-sim`](skills/kpi-sim/SKILL.md) | `testing` | 1.0.0 | Measure a project's KPIs locally, simulate user behavior with UAT-style Characters, predict real-world targets. |
-| [`leonardo`](skills/leonardo/SKILL.md) | `other` | 1.0.0 | Generate images (gpt-image-2 / Leonardo), remove backgrounds, analyze with vision, write SVG. |
-| [`motionize`](skills/motionize/SKILL.md) | `other` | 1.0.0 | Upgrade a generic UI icon or empty state into a traced, motion-animated SVG. |
-| [`mvp`](skills/mvp/SKILL.md) | `workflow` | 1.0.0 | Launch-readiness orchestrator: 21 checklist items across 7 phases, honest scorecard, batched decisions. |
-| [`npm-updates`](skills/npm-updates/SKILL.md) | `workflow` | 1.0.0 | Fetch npm package updates, analyze new features, identify improvement opportunities. |
-| [`perfect`](skills/perfect/SKILL.md) | `workflow` | 2.3.0 | Session-after-session product perfection loop: a directing model, builder subagents on one shared branch, a vault that remembers. Carries [`LESSONS.md`](skills/perfect/LESSONS.md). |
-| [`project-populate`](skills/project-populate/SKILL.md) | `workflow` | 1.0.0 | Populate a newly managed repository with the context map, feature inventory and KPIs its control plane needs. |
-| [`promote`](skills/promote/SKILL.md) | `ai-native` | 1.0.0 | Promote one already-existing pattern in a repo into the workspace knowledge library, with evidence. |
-| [`research`](skills/research/SKILL.md) | `ai-native` | 1.5.0 | Extract actionable improvements for a project from external sources, scored against the codebase. Carries [`LESSONS.md`](skills/research/LESSONS.md). |
-| [`scan-sweep`](skills/scan-sweep/SKILL.md) | `workflow` | 1.0.0 | One context, every scan lens, fix the accepted S/M findings in-session. Carries [`LESSONS.md`](skills/scan-sweep/LESSONS.md). |
-| [`ship-loop`](skills/ship-loop/SKILL.md) | `workflow` | 2.1.0 | Milestone-driven ship-readiness loop: scorecard, append-only backlog, user-gated milestones, hard gate. Carries [`LESSONS.md`](skills/ship-loop/LESSONS.md). |
-| [`spark`](skills/spark/SKILL.md) | `workflow` | 1.0.0 | Turn a vague product idea into a complete, grounded design through waves of questions, then orchestrate the build. Carries [`LESSONS.md`](skills/spark/LESSONS.md). |
-| [`straighten`](skills/straighten/SKILL.md) | `ai-native` | 1.0.0 | Drain the fleet's version debt against the registry: rebuild every reachable `.ai/registry-map.json`, rank stale verdicts and orphaned contexts in one table, run `/conform --stale` per project in that order with pathspec commits. Carries [`LESSONS.md`](skills/straighten/LESSONS.md). |
-| [`test-before-commit`](skills/test-before-commit/SKILL.md) | `testing` | 2.1.0 | Prove a change works before it is committed. Carries [`LESSONS.md`](skills/test-before-commit/LESSONS.md). |
-| [`tiger`](skills/tiger/SKILL.md) | `testing` | 2.1.0 | Certify an LLM app's call sites across three lenses: engine quality, business value, model/cost optimization. Carries [`LESSONS.md`](skills/tiger/LESSONS.md). |
-| [`uat`](skills/uat/SKILL.md) | `testing` | 1.7.0 | Simulated User Acceptance Testing driven by Characters, two certification levels, then drained into a design backlog. Carries [`LESSONS.md`](skills/uat/LESSONS.md). |
+Registry maintenance methods live in [.claude/skills/](.claude/skills/): forge, deepen,
+librarian, intake, reconcile, harvest, and assay. They maintain the library rather than
+belonging to its portable skills lane. The [skills specification](docs/skills-lane.md)
+defines layout, versioning, overlays, and distribution.
 
-The skills that maintain *this* registry - [`/forge`](.claude/skills/forge/SKILL.md) (extract a
-repo's domain knowledge into a new bundle), [`/deepen`](.claude/skills/deepen/SKILL.md) (raise an
-existing bundle above the repo it came from), [`/librarian`](.claude/skills/librarian/SKILL.md)
-(sweep every bundle and dispatch the engines) and [`/intake`](.claude/skills/intake/SKILL.md)
-(mine a source somebody sent for what it changes here) - live in `.claude/skills/`. They are
-slash commands for anyone working *on* the registry, not library items.
-
-`category` comes from a closed set: `ci-cd`, `testing`, `security`, `ai-native`, `docs`,
-`workflow`, `other`. Anything else is normalized to `other` at index time. `name` is a kebab-case
-slug and must match the directory. `description` is one paragraph - it is how an agent decides
-whether to use the skill without reading the body, so it carries the trigger first.
-
-### Practices (5)
+### Practices
 
 | Practice | Dimension | Starter |
 | --- | --- | --- |
@@ -223,15 +192,18 @@ whether to use the skill without reading the body, so it carries the trigger fir
 | [`prior-art-teardown`](practices/prior-art-teardown/PRACTICE.md) | D5 | [`docs/prior-art/`](practices/prior-art-teardown/starter/docs/prior-art/EXAMPLE.md) |
 | [`open-contribution`](practices/open-contribution/PRACTICE.md) | D5 | [`.github/` templates](practices/open-contribution/starter/.github/PULL_REQUEST_TEMPLATE.md), [`CODEOWNERS`](practices/open-contribution/starter/CODEOWNERS), [`CODE_OF_CONDUCT.md`](practices/open-contribution/starter/CODE_OF_CONDUCT.md) |
 | [`supply-chain-security`](practices/supply-chain-security/PRACTICE.md) | D9 | [`SECURITY.md`](practices/supply-chain-security/starter/SECURITY.md), [`supply-chain.yml`](practices/supply-chain-security/starter/.github/workflows/supply-chain.yml) |
+| [`least-powerful-test-first`](practices/least-powerful-test-first/PRACTICE.md) | D6 | Test-tier selection and a hermetic default test command. |
+| [`justified-lint-exemptions`](practices/justified-lint-exemptions/PRACTICE.md) | D6 | Explicit reasons for lint exemptions. |
+| [`self-declaring-spec-debt`](practices/self-declaring-spec-debt/PRACTICE.md) | D5 | Documents identify their known implementation gaps. |
 
 A practice describes the **shape** of what good looks like, never a repo's actual content. Its
 `starter/` files are templates full of `<...>` and `TODO:` markers: they scaffold, they do not
 pretend to know your architecture. The starter workflow lives under `practices/` and does not run
 in this repository - copy it into a target repo's `.github/workflows/` to use it.
 
-### Memory (4)
+### Memory
 
-Four notes, one per kind, indexed in [`memory/_index.md`](memory/_index.md): `semantic` (durable
+Notes and worked examples, indexed in [`memory/_index.md`](memory/_index.md): `semantic` (durable
 facts), `procedural` (what worked), `episodic` (what happened, dated), `summary` (a rollup).
 Confidence is a 0..1 float, banded as 1.0 verified, 0.6 probable, 0.3 a hunch.
 
@@ -301,8 +273,9 @@ issue and AI-assistance expectations - is [`CONTRIBUTING.md`](CONTRIBUTING.md).
    - the marketplace and the catalog are generated views and CI fails when they are stale.
 4. Open a pull request. A `CODEOWNERS` owner reviews and merges - that merge is the adoption
    decision.
-5. Installations update when they choose to: `claude plugin update <name>@ai-registry`, or a
-   fresh copy. Merging here changes nothing anywhere until then.
+5. Cached or copied installations update separately. Linked installations read the
+   working checkout immediately, including uncommitted changes. Review protects the
+   published history; it does not isolate consumers linked to a development checkout.
 
 Version discipline: **versions are the comparison currency, hashes only detect drift.** Bump
 minor or major when behaviour changes, patch when it does not - but bump. A checker cannot

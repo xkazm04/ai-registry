@@ -104,7 +104,7 @@
       "name": "cx",
       "source": "./skills/cx",
       "description": "Walk a product's user journeys screen by screen with a CX/UX lens. Builds the journey map once, then at each stop gives a short overview of the screen as the user meets it, proposes 3-6 specific improvements graded by impact and effort, takes the user's own read and expectation for that stop, and dispatches executor subagents to make the accepted changes - verified by gates and a screenshot, commi",
-      "version": "1.1.0",
+      "version": "1.2.0",
       "category": "workflow",
       "tags": [
         "cx",

@@ -3,9 +3,10 @@
 This registry is maintained by one person plus agents; issues and pull requests are
 triaged weekly. An honest SLA beats a fast one.
 
-Everything here is content, not running code: knowledge bundles, skills, practices,
-memory notes, and the per-contributor usage/signals files. The gates are Node scripts
-with zero dependencies - `git clone` and a recent Node is the whole toolchain.
+The library contains knowledge bundles, skills, recipes, practices, memory notes, and
+per-contributor usage/signals files. It also contains executable generators, validators,
+and operator tools. Registry gates use dependency-free Node scripts; individual skills
+and provider-backed tools may require their own dependencies and credentials.
 
 ## How a change gets in
 
@@ -26,8 +27,9 @@ with zero dependencies - `git clone` and a recent Node is the whole toolchain.
 4. Open a pull request - one focused change, pathspec-scoped commits (never
    `git add -A`), docs updated in the same PR as what they describe.
 5. A [`CODEOWNERS`](CODEOWNERS) owner reviews and merges. **Merging is adopting** - the
-   merge is the decision that the organization's agents run this. Installations update
-   when they choose to; merging here changes nothing anywhere until then.
+   merge is the decision to accept the published proposal. Copied and cached installations
+   update separately. Linked installations read the working checkout immediately, including
+   uncommitted edits; a link to a development checkout is not a release boundary.
 
 ## Lane gates (run locally before pushing)
 
@@ -46,10 +48,11 @@ The table below is the same thing spelled out - it is the explanation, and
 | --- | --- |
 | `skills/` | `node scripts/check-skills.mjs && node scripts/apply-skill-clauses.mjs --check && node scripts/build-marketplace.mjs && node scripts/check-hash-stability.mjs && node scripts/build-catalog.mjs` |
 | `knowledge/` | `node scripts/check-bundles.mjs && node scripts/build-index.mjs && node scripts/build-knowledge-rules.mjs && node scripts/check-hash-stability.mjs && node scripts/build-catalog.mjs` |
+| `recipes/` | `node scripts/gate.mjs --lane recipes --write`, then `node scripts/gate.mjs --lane recipes` |
 | `practices/` or `memory/` | `node scripts/check-hash-stability.mjs && node scripts/build-catalog.mjs` |
 | `usage/` | `node scripts/check-usage.mjs && node scripts/check-hash-stability.mjs && node scripts/build-catalog.mjs` |
 | `signals/` | `node scripts/check-signals.mjs` |
-| `scripts/` | `node scripts/check-exit-contract.mjs && node scripts/librarian-scan.mjs --check-weights` |
+| `scripts/` | `node scripts/gate.mjs --lane scripts`; also run affected lane gates, or `--all` for shared code |
 | `librarian/standard.md` | `node scripts/librarian-scan.mjs --check-weights` (edit the script, then `--stamp-weights`) |
 
 `build-index.mjs` runs **before** `build-catalog.mjs` - the catalog's hash covers the
@@ -65,12 +68,14 @@ catalog check indistinguishably from real staleness.
 (`## Skill Reflection`, `## Knowledge sync`) are stamped from one template in
 `docs/skill-clauses/`; a hand edit inside a stamped block is drift, and CI fails it.
 
-Two more gates run in CI and are not in the table because they are not a local
-pre-push step:
+Additional CI checks have different scopes from the local lane chains:
 
 - `node scripts/check-skills.mjs --since <base>` - the version-bump rule, run on
   **pull requests only**, against the merge base. A push to `main` has no merge base,
   and by then the decision it guards has been made. Locally, `--since origin/main`.
+- `node scripts/check-recipes.mjs --since <base>` - recipe version discipline on
+  pull requests. This compares committed history and rejects uncommitted recipe edits;
+  commit the scoped recipe change before running its history check locally.
 - `check-currency.mjs`, `librarian-scan.mjs` and `check-citations.mjs` **report** and
   never fail a build, so nothing waits on them.
 

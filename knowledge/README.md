@@ -93,11 +93,12 @@ there is exactly one copy of any technique in a bundle.
 ## Contributing
 
 Git is the door. Open a pull request; merging is adopting (see [`CODEOWNERS`](../CODEOWNERS)).
-Two gates run on every change:
+Run the knowledge lane chain after a change. It regenerates the bundle indexes and
+rules before deriving the catalog:
 
 ```bash
-node scripts/check-bundles.mjs        # the four-layer contract + the evidence leak gate
-node scripts/build-catalog.mjs        # refresh catalog.json (--check in CI)
+node scripts/gate.mjs --lane knowledge --write
+node scripts/gate.mjs --lane knowledge
 ```
 
 Write new content two-phase: draft the standard from practitioner knowledge **before**

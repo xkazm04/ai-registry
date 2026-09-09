@@ -72,7 +72,9 @@ const CHECK_SKILLS = step('check-skills.mjs');
 // Stamper, not a generator: --check here even under --write. See the header.
 const CLAUSES = step('apply-skill-clauses.mjs', { check: ['--check'] });
 const MARKETPLACE = step('build-marketplace.mjs', { check: ['--check'], write: [] });
-const CHECK_RECIPES = step('check-recipes.mjs');
+// Validate content before regenerating; the default checker also checks index
+// freshness, which would prevent --write from ever repairing a stale recipe index.
+const CHECK_RECIPES = step('check-recipes.mjs', { write: ['--shape-only'] });
 const RECIPES_INDEX = step('build-recipes-index.mjs', { check: ['--check'], write: [] });
 const CHECK_BUNDLES = step('check-bundles.mjs');
 const INDEX = step('build-index.mjs', { check: ['--check'], write: [] });
@@ -89,6 +91,7 @@ const CATALOG = step('build-catalog.mjs', { check: ['--check'], write: [] });
 // script declares against, and the standard's weight table stamped from the scan.
 const EXIT_CONTRACT = step('check-exit-contract.mjs');
 const WEIGHTS = step('librarian-scan.mjs', { check: ['--check-weights'], write: ['--stamp-weights'] });
+const TOOL_TESTS = step('tests/check-result.test.mjs');
 
 // The catalog job's path filter covers knowledge/, skills/, practices/, memory/ and
 // usage/ - build-catalog hashes those five lanes - so those five rows end with it.
@@ -109,7 +112,7 @@ const LANES = {
   practices: [...CATALOG_TAIL],
   memory: [...CATALOG_TAIL],
   // knowledge.yml `tooling` job: scripts/** and librarian/standard.md trigger it.
-  scripts: [EXIT_CONTRACT, WEIGHTS],
+  scripts: [EXIT_CONTRACT, WEIGHTS, TOOL_TESTS],
   librarian: [WEIGHTS],
 };
 
@@ -121,7 +124,7 @@ const ALL = [
   CHECK_BUNDLES, INDEX, KNOWLEDGE_RULES,
   CHECK_RECIPES, RECIPES_INDEX,
   CHECK_USAGE, CHECK_SIGNALS,
-  EXIT_CONTRACT, WEIGHTS,
+  EXIT_CONTRACT, WEIGHTS, TOOL_TESTS,
   HASH_STABILITY, CATALOG,
 ];
 
@@ -205,5 +208,5 @@ for (const s of chain) {
 
 console.log(`gate OK - ${ranClean}/${chain.length} step(s) green (${label}).`);
 if (!all) console.log('This is one lane\'s row. `--all` runs the whole chain CI enforces.');
-console.log('NOT run here: check-skills.mjs --since <base> (pull requests only), and the');
+console.log('NOT run here: check-skills.mjs / check-recipes.mjs --since <base> (pull requests only), and the');
 console.log('report-only jobs check-currency / librarian-scan / check-citations.');
