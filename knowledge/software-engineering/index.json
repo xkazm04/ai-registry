@@ -1038,9 +1038,9 @@
    "subcategory": "orchestration",
    "status": "reconciled",
    "file": "knowledge/software-engineering/llm-agent/orchestration/agent-chaining/agent-chaining.md",
-   "digest": "sha256:50058b3af565642e",
-   "revision": 10,
-   "changedAt": "2026-09-03",
+   "digest": "sha256:32359a36eb321c82",
+   "revision": 11,
+   "changedAt": "2026-09-09",
    "techniques": [
     {
      "slug": "chain-identity-and-rollup",

@@ -14,19 +14,16 @@ parent agent hands a bounded subtask to a child that runs to completion and
 returns one answer. Citations are against n8n `2.36.0`, commit `fbd9449`
 (2026-08-22), packages `@n8n/agents`, `@n8n/api-types`, `cli/src/modules/agents`;
 an external reconciliation, so the pin lives here, not in `verified_against`. The
-headline: n8n solves the fork-bomb problem by **making depth unrepresentable
-rather than counting it** — stronger than the technique asks on one axis, absent
-on two others.
+headline: delegation depth is constrained by runtime path validation and tool
+attachment policy; the TypeScript path type alone does not enforce one segment.
 
-## 1. Depth is capped at one, and the cap is a type
+## 1. Depth is capped by runtime validation and capability exposure
 
 Every delegated run gets a *task path*: `/root` for the orchestrator,
-`/root/<name>_<index>` for a child (`sub-agent-task-path.ts:28`). The type is a
-template literal admitting exactly one segment and the runtime regex agrees —
-`/^\/root(?:\/[a-z0-9_]+)?$/` (`:48`). A grandchild path is not rejected; it
-cannot be spelled. `createChildSubAgentTaskPath` (`:102-110`) only builds under
-`ROOT_SUB_AGENT_TASK_PATH`, and `assertSubAgentTaskPath` (`:89-93`) re-validates
-at every boundary the path crosses.
+`/root/<name>_<index>` for a child (`sub-agent-task-path.ts:28`). The type is a template literal with a string suffix, which can itself contain
+slashes. The runtime regular expression rejects grandchildren; the constructor
+builds direct children and calls the assertion. These are runtime guarantees,
+not a proof that deeper strings are unrepresentable in the TypeScript type.
 
 The type would be decorative if a child could still delegate, so the tool is
 withheld by construction: `AgentRuntimeProfile` is
@@ -91,9 +88,9 @@ expensive *short* loops is open.
 The agent loop is bounded at `MAX_LOOP_ITERATIONS = 30`
 (`agent-runtime.ts:143`, applied at `:771`, `:849`), and exhaustion is a named
 reason: `lastFinishReason = 'max-iterations'` (`:963-965`), a member of the closed
-`FINISH_REASONS` list (`types/sdk/agent.ts:25-32`). The bound also ratchets — a
-resume may not lower `maxIterations` below the persisted value (`:407-417`,
-`:548-558`), so a continuation cannot loosen the original run's brake.
+`FINISH_REASONS` list (`types/sdk/agent.ts:25-32`). The resume check rejects a lower `maxIterations` but accepts a higher caller
+value. It preserves the iteration count, while allowing the ceiling to increase;
+it is not a non-loosening budget guarantee.
 
 The erasure is at the handoff. `resolveDelegateSubAgentStatus`
 (`delegate-sub-agent-tool.ts:959-971`) maps a child to `completed` unless it
@@ -124,7 +121,15 @@ Confirmed: one enforcement point, named in the code; a depth guard reading
 machinery-owned state the model cannot author; the guard target identified by
 metadata, not by name; corrupt bound fails restrictive while unset falls back to
 a stated default; "unlimited" rejected at the enforcement point; iteration bound
-typed and ratcheted across resume; self-edge rejected at publish. Deviations:
+typed, with resume allowed to raise its ceiling; self-edge rejected at publish. Deviations:
 breadth counted but never gated; cost rolled up but explicitly non-enforcing;
 `max-iterations` presented to the parent as `completed`. Not present by scope:
 cycle detection (unnecessary at depth 1); any depth guard on sub-workflows.
+
+## Source review - 2026-09-09
+
+Re-read the pinned [path helper](https://github.com/n8n-io/n8n/blob/fbd9449/packages/%40n8n/agents/src/runtime/tools/sub-agent-task-path.ts)
+and [runtime resume branches](https://github.com/n8n-io/n8n/blob/fbd9449/packages/%40n8n/agents/src/runtime/loop/agent-runtime.ts).
+Corrected the type-only depth and non-loosening interpretations. Other source
+anchors and application behavior were not re-executed in this review; the original
+verification date above is not refreshed by this limited source check.

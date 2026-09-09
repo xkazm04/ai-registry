@@ -15,7 +15,9 @@ techniques:
 
 # Agent handoff & chaining
 
-A user draws an arrow from one agent to another and means something precise:
+This subject scopes chaining to event-wired handoffs; other systems also use the
+word "chain" for centrally orchestrated workflows. A user draws an arrow from one
+agent to another and means something precise:
 *when this one finishes, that one starts, carrying what the first produced.*
 This subject owns the discipline of making that sentence reliably true — the
 translation of a drawn connection into runtime wiring, the contract governing
@@ -92,9 +94,10 @@ So state it at the wiring pass, where the intent is still visible:
   thing that counts arrivals is itself a link with an identity, a depth, and a stop
   reason — it can hang, and a hang there is indistinguishable from an upstream link
   that never fired unless the barrier reports what it is still waiting on.
-- **The waited-for set is bounded at declaration, never at runtime.** A barrier that
-  learns how many inputs to expect by watching them arrive cannot terminate, which
-  is the fork-bomb failure one section down wearing a different shape.
+- **The waited-for set needs a closure rule and a bound.** It may be declared
+  upfront or registered dynamically before an explicit membership-closed event.
+  Arrival count alone cannot distinguish "all arrived" from "another is still coming".
+  Bound registration and waiting, and record missing members on timeout.
 
 The neighbours' machinery is not portable here — a predecessor map and a roster are
 both the centralized run state this subject gives up on purpose — but the *question*
@@ -150,8 +153,9 @@ criteria for the feature existing at all:
   Every link knows how deep in a chain it is, and the link that would exceed
   the bound does not fire — it records that it declined, and why.
 
-Both halves — static detection and runtime limit — are required; each covers
-the other's blind spot. See
+Use static detection when a complete graph is available, plus runtime limits.
+For topology generated during execution, record the unavailable static check and
+enforce resource bounds at every continuation. See
 [cycle-and-depth-guards](./techniques/cycle-and-depth-guards.md).
 
 ## The handoff payload is a contract, not a dump
@@ -218,14 +222,10 @@ Two moves look symmetric and are not. A **deliberating** step reads the claim
 and forms an opinion: another reviewer, a contrarian persona, a fresh-context
 re-analysis. A **grounding** step forces the claim through something that can
 refuse it: running the code, executing the hypothesis, producing the state
-the claim predicts. Measured on causal claims about a defect's origin, agents
-were wrong about half the time and *multiple independent rounds of analysis
-did not fix it*, while requiring execution removed most of the errors —
-forced execution alone beating independent cross-checking alone, and both
-together beating either. **A grounding step dominates a deliberating one, and
-N deliberating steps do not sum to one grounding step**, because they share a
-model family and a prompt lineage: their agreement measures how similar they
-are, not whether the claim is true.
+the claim predicts. A practitioner account reports benefits from executable checks of bug-origin
+hypotheses, as well as from independent review. This supports preferring a relevant
+refuting check when available; it does not establish that execution universally
+outperforms reasoning. See the technique for source scope and counterexamples.
 
 The corollary is the expensive half. An agent asked to prove a claim will
 build the apparatus that proves it, so the fabrication moves into the

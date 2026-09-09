@@ -37,7 +37,9 @@ two classic mistakes are both re-derivations in disguise:
 The simplest honest rule: at the handoff decision point, if the emitting
 link carries a chain identity, forward it; if it carries none, this link
 *is* the root — mint the identity now and stamp it retroactively on the
-root's own record, so the root is a member of its own chain. The root case
+root's own record, so the root is a member of its own chain. Use an atomic
+get-or-create operation keyed by the root execution: concurrent fan-out handlers
+must receive the same id rather than minting competing roots. The root case
 is where implementations quietly fail: a chain whose identity starts at
 link two cannot answer "what kicked this off?", which is the question the
 whole feature exists to answer.
@@ -73,7 +75,8 @@ keep the rollups honest:
   drifts on every crash between the link write and the increment.
 - **A rollup over a live chain says it is partial.** Chains have no
   orchestrator, so "is it finished?" is itself derived — from leaf stop
-  records (stop-reason-ledgers, this subject), not from a status field
+  records plus closed membership and no pending deliveries or in-flight successors
+  (stop-reason-ledgers, this subject), not from a status field
   nobody owns the writing of. A cost total labeled "so far" and one
   labeled "final" are different claims; conflating them misleads exactly
   when the user is watching most closely.

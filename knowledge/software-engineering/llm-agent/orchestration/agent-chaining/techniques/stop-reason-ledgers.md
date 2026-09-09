@@ -59,15 +59,14 @@ owns the flow. Every one of these is a *reason nothing continued here*, and
 folding them into the nearest policy reason destroys the ledger's
 diagnostic value: "the graph chose to stop" and "the relay malfunctioned"
 demand opposite responses. Budget the vocabulary for both families from the
-start, and keep it extensible without a schema change — the reasons arrive
-with operational experience, not with the design.
+start. New tokens require a versioned vocabulary change and compatible consumers,
+although an open string storage column may need no database migration. Unknown
+tokens remain visible and unclassified until the consumer understands them.
 
-Each entry is either success-shaped or error-shaped, explicitly — that
-one bit drives whether dashboards count the chain green or red, and it is
-a property of the *vocabulary*, decided once, not re-judged by every
-consumer ([failure-not-empty-success](../../../../_laws.md#failure-not-empty-success)
-institutionalized: the spelling difference between "over" and "wrong" is
-in the type).
+Each reason carries an explicit outcome class: success, failure, cancellation,
+or informational suppression. A lost compare-and-swap race may mean another worker
+continued the run, not that the chain stopped. Do not force cancellation into a
+success/failure bit or infer a global outcome from one suppressed edge.
 
 ## A stop record carries its evidence
 
@@ -86,8 +85,10 @@ without re-running anything and without reading logs.
 ## Stopped versus stuck — the distinction only a ledger can make
 
 The ledger's deepest value is negative space. A chain whose every leaf has
-a stop record is **stopped** — the system finished deciding, whatever it
-decided. A chain whose last link completed some time ago, with no stop
+a stop record is a candidate for **stopped**. Confirm that membership is closed
+and no delivery, retry or successor is pending before declaring the whole chain
+finished. Otherwise a delayed edge can arrive after every currently visible leaf
+has stopped. A chain whose last link completed some time ago, with no stop
 record and no running successor, is **stuck** — an event was emitted and
 nothing concluded, which means the machinery itself lost the thread: a
 listener that should exist doesn't (wiring drift), a decision process
@@ -107,23 +108,23 @@ re-creates the stuck/stopped ambiguity one layer down.
 
 ## Decision rules
 
-- One stop vocabulary, closed, each entry pre-classified success- or
-  error-shaped; extending it is a schema change with an owner.
+- One stop vocabulary, closed, each entry outcome-classified; extending it is a vocabulary contract change with an owner.
 
-- **Across a language boundary, one authority means generated, not mirrored.**
+- **Across a language boundary, observe the actual authority.**
   A vocabulary that crosses from the process that writes it to the surface that
   renders it usually crosses as a bare string, and the reflex guard is a parity
-  test on the far side asserting that its list matches. It cannot: the test's
-  list *is* the far-side copy, so it asserts a hand-kept mirror against itself
-  and keeps passing on the day the two diverge — the gate cannot see its target
+  test on the far side asserting that its list matches. If the expected list is
+  another hand-kept copy, the test never reads the producer and can pass when
+  those copies diverge — that gate cannot see its target
   ([gate-sees-target](../../../../_laws.md#gate-sees-target)). One authority here
-  has one mechanical form: the far side's vocabulary is generated from the near
-  side's definition, so a token that fails to propagate is a build failure rather
-  than a rendered token nobody has a label for. Where generation is genuinely
-  unavailable, the honest fallback is a loud unknown-token path at runtime, not a
-  test that certifies a copy.
-- Every terminal link gets exactly one stop record — including the happy
-  path. "Completed" is a written reason, not the absence of one.
+  can be maintained through generation from the producer definition, or a
+  compatibility test that reads the actual producer and consumer artifacts. A test
+  comparing two hand-maintained lists is not that check. Consumers must preserve
+  unknown tokens visibly during rolling upgrades.
+- Every completed link gets a durable handoff disposition: successors admitted,
+  or no continuation with a stop reason. Terminal leaves include a written happy
+  completion. Retries deduplicate by decision identity; several edge suppressions
+  must not be mistaken for several terminal outcomes.
 - Records carry evidence and coordinates: reason, operands, chain id,
   link id, depth, timestamp.
 - Stuck-detection query ships with the ledger: terminal link + no stop

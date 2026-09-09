@@ -67,6 +67,11 @@ the run that finally exceeded the bound.
 
 ## The receiver validates at one door
 
+Truncation must preserve the compartment's contract. Do not byte-cut structured
+output, omit required fields, or summarize away authorization constraints. Reject
+an oversized required payload with a typed reason, or pass an authorized durable
+reference and integrity metadata. A size limit is not permission to corrupt data.
+
 The downstream agent does not spelunk a foreign dictionary. The envelope is
 parsed and validated at one entry point before the link starts
 ([one-validation-door](../../../../_laws.md#one-validation-door)) — required
@@ -137,3 +142,8 @@ four successes unless the envelope has a slot for the silence.
 - The envelope is inspectable after the fact: what crossed each handoff is
   part of the chain's durable record, because "what did B actually
   receive?" is the first question every chain debugging session asks.
+
+Inspection follows access control and retention policy. Keep secrets and sensitive
+content out of broadly readable ledgers; store redacted metadata or restricted
+references where retaining the full payload is inappropriate. Redaction is stated,
+so an investigator can distinguish withheld evidence from missing evidence.
