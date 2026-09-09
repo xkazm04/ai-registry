@@ -432,7 +432,8 @@
             "release-pipeline",
             "codegen",
             "test-harness",
-            "test-input-generation"
+            "test-input-generation",
+            "vendored-patch-stack"
           ]
         },
         {

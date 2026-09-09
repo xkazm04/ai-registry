@@ -13,6 +13,7 @@ techniques:
   - build-time-evaluation-of-cross-value-invariants
   - derived-properties-cannot-be-forged
   - shape-with-a-not-applicable-member
+  - repairing-check-erases-its-evidence
 ---
 
 # Invariant placement
@@ -69,6 +70,13 @@ attrition as sites are added
 ([absent-guard-is-loud](../../../_laws.md#absent-guard-is-loud)). It remains the
 correct answer more often than the enthusiasts of the higher altitudes admit,
 and two whole classes belong here permanently: see *what cannot rise*.
+
+The row above describes a call-site check that **refuses**. A check at this
+altitude may instead **repair** - clamp, saturate, coerce - and a repairing
+check has no violation signature at all, because it turns the invalid state into
+a valid one before anything downstream can see it. That posture is a separate
+placement decision with its own discipline:
+[a repairing check erases its own evidence](./techniques/repairing-check-erases-its-evidence.md).
 
 ## Blast radius chooses the altitude; the price decides whether you can pay
 

@@ -1,7 +1,8 @@
 ---
 subject: invariant-placement
 domain: software-engineering
-last_touched: 2026-09-04
+last_touched: 2026-09-07
+touched_by: intake
 dry_streak: 0
 ---
 
@@ -109,3 +110,56 @@ for lifetime diagnostics, so the tree sits in the technique's own third fallback
 branch, small fixture count and all. The corpus priced the tree's choice before
 the tree was read.
 
+## 2026-09-07 - `/intake` (camoufox), run `intake-camoufox-0907`
+
+One technique, from [[../../sources/2026-09-07-camoufox]]. The source is a
+patched-upstream browser fork and it did not raise this subject; the Phase 6
+enumeration hunt did, with the source as the occasion.
+
+- **`repairing-check-erases-its-evidence`** (new). The four-altitude table is a
+  completeness claim, and every one of its altitudes describes a check that
+  **refuses** - Shape makes the state unwritable, Door refuses at construction,
+  Gate refuses over an artifact, and Call site, per the table's own last column,
+  produces "a failure at run time". A check that **repairs** - clamps, saturates,
+  coerces - sits at the call-site altitude and has none of that signature: it
+  turns the invalid state into a valid one before anything downstream can see it,
+  so every assertion written over the legal range passes either way.
+- The sharp form is one character, and it is worth a fleet grep: **a contract
+  stated half-open against an assertion stated closed, over the same quantity.**
+  Where the two disagree the assertion is describing the clamp, not the contract,
+  and the one value the documentation forbids is the one the test admits.
+- **The score chose the shape.** As a *fifth altitude* it falsifies the golden
+  path's "somewhere has four addresses" - a shared-spine rewrite, RISK +2, score
+  1, below threshold. As a *posture of the fourth altitude* every standing
+  sentence stays true and it scores 4/1/2. The table was not touched, because the
+  table is correct about the refusing posture; the golden path took one appended
+  paragraph under *Call site*.
+- **The apply refuted its own first seam, and the refutation is the technique's
+  precondition.** The claim entering Phase 7.5 was broader - a fixture that pins
+  the variable deciding whether a bug fires blinds the suite to it. The first seam,
+  a *declared* cohort-size threshold, refuted it: that tree's fixtures deliberately
+  straddle the threshold with in-source comments saying so. **A declared threshold
+  advertises both of its sides.** The blindness needs a **derived** quantity, one
+  the repair compares against but which appears nowhere in the code under test.
+  Narrowed claim, second arm, `better`: 50.0% of seeds collapsed onto an excluded
+  bound (n=1,000,000) with the unmodified test still passing.
+- **Cross-bundle sighting, recorded not linked.** Another bundle's saturation-cap
+  technique carries a law requiring every cap to publish the population that hit
+  it. Same mechanism, opposite reading of a non-zero count: where the cap is the
+  designed rule, firing is correct behaviour and a large number is fine; where the
+  clamp is a defensive repair, firing means an upstream contract was violated and
+  the deterministic expectation is zero. Stated in prose on this side. **At a third
+  sighting the shared root - a bound that rewrites a value owes an observable - is
+  a law candidate**, adjacent to `derived-properties-cannot-be-forged` above.
+
+### What is owed
+
+- The fleet has never been swept for the half-open/closed mismatch. It is a cheap
+  grep, the technique predicts instances wherever a doc comment states a range,
+  and the first tree looked at produced one.
+- No application yet from a tree where the repair **is** firing in production.
+  Both arms here concern a clamp that has never fired, which is the dead-code half
+  of the technique; the metric-emitting half is asserted and unwitnessed.
+- The four-altitude table now has a posture its last column does not describe. On a
+  second repairing-check finding, the table should gain a column rather than the
+  golden path gaining a third paragraph.
