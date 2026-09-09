@@ -10377,3 +10377,67 @@ observation, and the batch lane already carries half of this idea for a differen
   known-positive assertion caught it only because the positive failed too. Use `-i -e`
   or plain `-i "pattern"`.
 
+## 2.8.0 - 2026-09-09 - llmfit delta re-scan (`d19380ba..1e7bdb3e`)
+
+- **A delta's citation sweep audits the prior RUN, not only the upstream tree, and
+  that is the higher-yield reading.** `docs/upstream-brief.md` rule 3 is written
+  around the tree moving under a pinned claim, and its three outcomes are all about
+  the tree: lines still there, lines moved, claim no longer holds. This run's sweep
+  found a **fourth** outcome the brief does not name — *the tree never moved and the
+  claim was wrong when it was written*. The application said a trait was implemented
+  eight times; it is seven, at both commits, with the cited file byte-identical
+  across the range. Nothing upstream caused it and no clock would ever have fired on
+  it. **Re-opening a citation is the only routine occasion on which this method
+  re-reads its own finished work against the evidence**, which makes it the corpus's
+  only self-audit, and the brief currently sells it as staleness maintenance. Worth a
+  fourth row in that table: *the claim was never true → correct it, and say the tree
+  did not move, because "re-verified" and "corrected" are different facts about the
+  prior run.*
+- **Byte-identity across the delta range is a stronger citation instrument than
+  re-reading each location, and it is one command.** `git diff --quiet <base>..<head>
+  -- <path>` per cited file clears every line citation into that file at once,
+  without a reader's judgment entering the loop. Re-reading is what you fall back to
+  for the files that *did* change. This run cleared seven applications' citations
+  with one loop and spent its reading budget on the one claim that byte-identity
+  cannot check — a **whole-tree negative** ("dispatched through zero times"), which a
+  delta that adds code is exactly what could falsify. The rule: byte-identity for
+  file-local claims, an explicit re-run for whole-tree claims, and never confuse the
+  two.
+- **A wrong count is worth reconstructing rather than just fixing.** The instinct on
+  finding "eight" where the tree says seven is to correct the numeral. The gap was
+  the finding: eight members over seven implementations, because one member is a free
+  function that *cannot* implement the interface — and it is the same member carrying
+  both asymmetries the document already described. That turned a typo fix into the
+  technique's third and least visible cost (a uniform collection silently decides
+  **membership**, and never enumerates what it excluded). **When a count is wrong, ask
+  what the two numbers are each counting before editing the digit** — the conflation
+  usually has a structure, and the structure is the landing.
+- **A falsifying seam that half-refutes is the best return this lane gives.** The
+  apply seam was chosen because the tree was on record as careful about absence. Three
+  of its four unit-bearing optional renders were correct *by construction* — `Option::map`
+  puts the unit inside the `Some` branch — which genuinely narrowed the amendment: the
+  concatenate-after-the-branch failure is **format-string-shaped**, not universal, and
+  the amendment now says so instead of overclaiming. The surviving mechanism was the
+  one the idiom cannot protect: with `map` the `None` branch is written by hand, and it
+  gets decorated to match its column. Neither half was available from a confirming seam.
+- **`rescan_when:` absent is invisible until someone hands the URL over.** The lane
+  had this repository as `moved` with condition `none` for six days and could not fire.
+  A first scan that skips the field does not fail loudly; it silently removes the source
+  from the clock. Worth a check in `upstream-check.mjs`: a mined repository row whose
+  condition is `none` is a **defect in the prior note**, not a state, and should be
+  listed as owed rather than displayed as blank.
+- **A status line the instrument cannot parse is worse than no status line, because it
+  reads as owed work forever.** `upstream-check.mjs` matches `/^status:\s*EXECUTED/im`.
+  One handoff in `librarian/handoffs/` wrote its status as a Markdown bullet
+  (`- **Status:** DISPATCHED`) instead of the directory's line-initial `status:` form, so
+  the regex could never match it in either state. The subject had been forged in-session
+  on 2026-09-03 with all four techniques present in the tree, and the instrument still
+  reported the repository as *"owed work, not a re-scan"* six days later — which would
+  have suppressed the next scheduled re-scan too. Two things follow: **the handoff
+  template should carry frontmatter like every sibling document** (fixed for that file
+  in this run), and a checker that reads a human-written status field should report
+  *"status field not found"* distinctly from *"status is not EXECUTED"* — one is a
+  document defect and the other is a state, and collapsing them makes the defect
+  invisible for exactly as long as nobody looks. Same shape as the `rescan_when: none`
+  bullet above: **a missing input rendered as a benign state is this lane's recurring
+  failure**, and both instances were found by a run that had no reason to look.
