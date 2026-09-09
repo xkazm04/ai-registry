@@ -1,0 +1,4005 @@
+{
+ "meta": {
+  "generated_by": "scripts/build-index.mjs",
+  "bundle": "marketing",
+  "source": "knowledge/marketing/ (frontmatter only)",
+  "subjects": 30,
+  "techniques": 181,
+  "applications": 80,
+  "laws": 10,
+  "categories": [
+   "search-and-content",
+   "content-production",
+   "paid-advertising",
+   "measurement-and-economics",
+   "local-and-zero-budget",
+   "conversion-and-leads",
+   "positioning-and-proof"
+  ],
+  "layout": "nested",
+  "use_when_coverage": "181/181",
+  "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
+ },
+ "subjects": {
+  "answer-engine-visibility": {
+   "category": "search-and-content",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/marketing/search-and-content/answer-engine-visibility/answer-engine-visibility.md",
+   "digest": "sha256:9e694ef0f5511833",
+   "revision": 1,
+   "changedAt": "2026-09-09",
+   "techniques": [
+    {
+     "slug": "answer-block-under-question-heading",
+     "status": "forged",
+     "laws": [
+      "label-convention-as-convention",
+      "never-invent-proof"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing or grading a page section that opens with a question",
+      "structuring a questions-and-answers block a listing feature or answer engine will extract from",
+      "reviewing why a ranking page is not cited"
+     ]
+    },
+    {
+     "slug": "ask-the-models-baseline",
+     "status": "forged",
+     "laws": [
+      "not-measured-is-not-zero",
+      "statistical-honesty-before-a-verdict",
+      "provenance-is-binary-and-labelled"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "setting up a measurement of AI visibility for a business",
+      "reporting AI visibility to a client",
+      "deciding whether a content change moved citations",
+      "judging a vendor's \"AI share of voice\" number"
+     ]
+    },
+    {
+     "slug": "informational-as-linking-fuel-not-traffic",
+     "status": "forged",
+     "laws": [
+      "not-measured-is-not-zero",
+      "label-convention-as-convention"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether to write an article whose query shows an AI answer",
+      "forecasting traffic for a content calendar",
+      "justifying a blog budget to a client who has seen the click-through studies"
+     ]
+    },
+    {
+     "slug": "self-contained-passages-with-original-data",
+     "status": "forged",
+     "laws": [
+      "never-invent-proof",
+      "provenance-is-binary-and-labelled",
+      "label-convention-as-convention"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding what content a business should publish to be cited",
+      "briefing a page that needs a citable passage",
+      "grading a draft for liftability",
+      "choosing between a generic guide and a data page"
+     ]
+    },
+    {
+     "slug": "third-party-mentions-over-on-page-tricks",
+     "status": "forged",
+     "laws": [
+      "label-convention-as-convention",
+      "platform-reported-is-not-causal"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "prioritising an AI-visibility budget",
+      "judging a vendor's citation checklist",
+      "deciding whether a markup or manifest-file task is worth doing",
+      "explaining why a well-structured page is still not cited"
+     ]
+    },
+    {
+     "slug": "weight-the-map-toward-transactional-and-local",
+     "status": "forged",
+     "laws": [
+      "the-results-page-is-the-verdict",
+      "label-convention-as-convention",
+      "not-measured-is-not-zero"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "building or refreshing a keyword map after AI answers appeared on the results page",
+      "ordering the build queue for a local service business",
+      "explaining to a client why the map has fewer articles than last year"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "prompt-pipeline",
+     "technique": "third-party-mentions-over-on-page-tricks",
+     "file": "knowledge/marketing/search-and-content/answer-engine-visibility/applications/prompt-pipeline--third-party-mentions-over-on-page-tricks.md",
+     "verified_on": "2026-09-09",
+     "verified_against": "prompt-pipeline@2026.09.06"
+    },
+    {
+     "stack": "prompt-pipeline",
+     "technique": "weight-the-map-toward-transactional-and-local",
+     "file": "knowledge/marketing/search-and-content/answer-engine-visibility/applications/prompt-pipeline--weight-the-map-toward-transactional-and-local.md",
+     "verified_on": "2026-09-09",
+     "verified_against": "prompt-pipeline@2026.09.06"
+    }
+   ]
+  },
+  "attribution-and-incrementality": {
+   "category": "measurement-and-economics",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/marketing/measurement-and-economics/attribution-and-incrementality/attribution-and-incrementality.md",
+   "digest": "sha256:921ded23dab7bee6",
+   "revision": 1,
+   "changedAt": "2026-09-09",
+   "techniques": [
+    {
+     "slug": "before-after-is-not-an-experiment",
+     "status": "forged",
+     "laws": [
+      "platform-reported-is-not-causal",
+      "statistical-honesty-before-a-verdict",
+      "not-measured-is-not-zero"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an applied budget change is being measured by the window after it",
+      "a surface or prompt wants to say a change \"produced\" or \"caused\" a delta",
+      "a projection is being calibrated against what actually happened"
+     ]
+    },
+    {
+     "slug": "holdout-test-on-the-biggest-channel",
+     "status": "forged",
+     "laws": [
+      "platform-reported-is-not-causal",
+      "statistical-honesty-before-a-verdict",
+      "label-convention-as-convention"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a business wants to know whether its largest channel actually causes sales",
+      "prospecting or retargeting spend is being defended or cut on attributed numbers",
+      "a small budget cannot afford a platform-run lift study"
+     ]
+    },
+    {
+     "slug": "last-click-under-credits-prospecting",
+     "status": "forged",
+     "laws": [
+      "platform-reported-is-not-causal",
+      "one-target-one-threshold",
+      "label-convention-as-convention"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a display",
+      "video or demand-generation campaign reads red against a portfolio return target",
+      "a triage or reallocation rule judges every campaign by direct return",
+      "a retargeting campaign is being praised as the best in the account"
+     ]
+    },
+    {
+     "slug": "offline-conversion-upload-guards",
+     "status": "forged",
+     "laws": [
+      "not-measured-is-not-zero",
+      "a-gate-before-money-and-copy",
+      "platform-reported-is-not-causal"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "pipeline stages such as qualified or won are being sent back to an ad platform",
+      "an automated job posts conversions to a platform on a schedule",
+      "a conversion export file is being built for manual upload"
+     ]
+    },
+    {
+     "slug": "platform-conversions-are-self-attributed",
+     "status": "forged",
+     "laws": [
+      "platform-reported-is-not-causal",
+      "not-measured-is-not-zero",
+      "provenance-is-binary-and-labelled"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a platform's conversion column is about to be shown as revenue or as proof",
+      "two platforms' conversion values are being summed",
+      "a prompt is being grounded with per-platform conversion numbers"
+     ]
+    },
+    {
+     "slug": "triangulate-attribution-incrementality-and-mix-model",
+     "status": "forged",
+     "laws": [
+      "platform-reported-is-not-causal",
+      "provenance-is-binary-and-labelled",
+      "not-measured-is-not-zero"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a surface shows more than one measurement of the same channel",
+      "an annual channel split or a prospecting budget is being decided",
+      "a mix model's output is about to be shown beside attributed numbers"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "before-after-is-not-an-experiment",
+     "file": "knowledge/marketing/measurement-and-economics/attribution-and-incrementality/applications/node--before-after-is-not-an-experiment.md",
+     "verified_on": "2026-09-09",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "last-click-under-credits-prospecting",
+     "file": "knowledge/marketing/measurement-and-economics/attribution-and-incrementality/applications/node--last-click-under-credits-prospecting.md",
+     "verified_on": "2026-09-09",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "offline-conversion-upload-guards",
+     "file": "knowledge/marketing/measurement-and-economics/attribution-and-incrementality/applications/node--offline-conversion-upload-guards.md",
+     "verified_on": "2026-09-09",
+     "verified_against": "node@24"
+    }
+   ]
+  },
+  "brand-voice-capture": {
+   "category": "content-production",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/marketing/content-production/brand-voice-capture/brand-voice-capture.md",
+   "digest": "sha256:af11cc20ef3f1fb2",
+   "revision": 1,
+   "changedAt": "2026-09-09",
+   "techniques": [
+    {
+     "slug": "distil-only-what-samples-show-else-ask",
+     "status": "forged",
+     "laws": [
+      "never-invent-proof"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing or reviewing a voice-distillation prompt",
+      "deciding what to do when a business has few or no samples",
+      "designing the interview loop that sharpens a voice"
+     ]
+    },
+    {
+     "slug": "editorial-voice-vs-personal-voice-split",
+     "status": "forged",
+     "laws": [
+      "never-invent-proof"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding which voice a generation surface injects",
+      "routing a trained voice through a set of AI tools",
+      "reviewing a site whose articles sound like one person's inbox"
+     ]
+    },
+    {
+     "slug": "rejections-and-edits-become-constraints",
+     "status": "forged",
+     "laws": [
+      "label-convention-as-convention",
+      "a-gate-before-money-and-copy"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing the reject flow for generated drafts",
+      "deciding what a pre-send edit should teach the model",
+      "building the avoid block of a draft prompt"
+     ]
+    },
+    {
+     "slug": "tenant-never-speaks-the-sample-persona",
+     "status": "forged",
+     "laws": [
+      "provenance-is-binary-and-labelled"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "seeding a default voice per business type",
+      "deciding which voice may be injected into a real customer's generation",
+      "reviewing a readiness score that an untrained business passes"
+     ]
+    },
+    {
+     "slug": "voice-maturity-and-retrain-triggers",
+     "status": "forged",
+     "laws": [
+      "label-convention-as-convention",
+      "not-measured-is-not-zero"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether a voice is trained enough to stop asking",
+      "building a readiness ribbon for a voice",
+      "deciding when to nudge a retrain and when not to"
+     ]
+    },
+    {
+     "slug": "voice-profile-dimensions",
+     "status": "forged",
+     "laws": [
+      "label-convention-as-convention"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing the schema a trained voice is stored in",
+      "deciding what a voice prompt block contains",
+      "reviewing a voice that is only a tone word"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "editorial-voice-vs-personal-voice-split",
+     "file": "knowledge/marketing/content-production/brand-voice-capture/applications/node--editorial-voice-vs-personal-voice-split.md",
+     "verified_on": "2026-09-09",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "voice-maturity-and-retrain-triggers",
+     "file": "knowledge/marketing/content-production/brand-voice-capture/applications/node--voice-maturity-and-retrain-triggers.md",
+     "verified_on": "2026-09-09",
+     "verified_against": "node@24"
+    }
+   ]
+  },
+  "budget-reallocation-prescription": {
+   "category": "paid-advertising",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/marketing/paid-advertising/budget-reallocation-prescription/budget-reallocation-prescription.md",
+   "digest": "sha256:0093380477fe2afe",
+   "revision": 1,
+   "changedAt": "2026-09-09",
+   "techniques": [
+    {
+     "slug": "donor-floor-and-movable-amount",
+     "status": "forged",
+     "laws": [
+      "a-gate-before-money-and-copy",
+      "not-measured-is-not-zero"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "converting a recommended period amount into a daily budget change",
+      "deciding how much a donor can actually give",
+      "making a projection reconcile with what the account will apply"
+     ]
+    },
+    {
+     "slug": "donor-ranking-waste-vs-profit-destruction",
+     "status": "forged",
+     "laws": [
+      "efficiency-is-not-profitability",
+      "one-target-one-threshold"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing which under-performing campaigns give up budget",
+      "deciding whether a supplied margin should change the order",
+      "pricing the gain a shift is expected to buy"
+     ]
+    },
+    {
+     "slug": "guardrails-simulate-approve-revert",
+     "status": "forged",
+     "laws": [
+      "a-gate-before-money-and-copy",
+      "provenance-is-binary-and-labelled"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "building or reviewing the path from a recommendation to a live account",
+      "deciding what blocks an apply and what merely warns",
+      "designing a revert that restores rather than inverts"
+     ]
+    },
+    {
+     "slug": "linear-projection-with-confidence-cap",
+     "status": "forged",
+     "laws": [
+      "label-convention-as-convention",
+      "statistical-honesty-before-a-verdict"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "projecting the portfolio after a set of moves",
+      "labelling how sure a projection is",
+      "deciding whether a move is small enough for a linear read"
+     ]
+    },
+    {
+     "slug": "pause-zero-return-before-shifting",
+     "status": "forged",
+     "laws": [
+      "efficiency-is-not-profitability",
+      "a-gate-before-money-and-copy"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a campaign has spent and converted nothing",
+      "ordering the moves inside a prescription",
+      "deciding whether a burner should donate or stop"
+     ]
+    },
+    {
+     "slug": "realized-vs-projected-calibration",
+     "status": "forged",
+     "laws": [
+      "platform-reported-is-not-causal",
+      "not-measured-is-not-zero",
+      "statistical-honesty-before-a-verdict"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "measuring what an applied change set actually did",
+      "feeding realized history back into the next projection",
+      "deciding when a measurement is insufficient rather than zero"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "donor-ranking-waste-vs-profit-destruction",
+     "file": "knowledge/marketing/paid-advertising/budget-reallocation-prescription/applications/node--donor-ranking-waste-vs-profit-destruction.md",
+     "verified_on": "2026-09-09",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "guardrails-simulate-approve-revert",
+     "file": "knowledge/marketing/paid-advertising/budget-reallocation-prescription/applications/node--guardrails-simulate-approve-revert.md",
+     "verified_on": "2026-09-09",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "realized-vs-projected-calibration",
+     "file": "knowledge/marketing/paid-advertising/budget-reallocation-prescription/applications/node--realized-vs-projected-calibration.md",
+     "verified_on": "2026-09-09",
+     "verified_against": "node@24"
+    }
+   ]
+  },
+  "business-profile-and-citations": {
+   "category": "local-and-zero-budget",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/marketing/local-and-zero-budget/business-profile-and-citations/business-profile-and-citations.md",
+   "digest": "sha256:1a329068de94c506",
+   "revision": 1,
+   "changedAt": "2026-09-09",
+   "techniques": [
+    {
+     "slug": "city-in-query-never-in-name",
+     "status": "forged",
+     "laws": [
+      "label-convention-as-convention",
+      "the-results-page-is-the-verdict"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "naming a service or product on a business profile",
+      "measuring local demand for a service",
+      "reviewing a profile name for keywords"
+     ]
+    },
+    {
+     "slug": "hours-and-attributes-only-when-true",
+     "status": "forged",
+     "laws": [
+      "never-invent-proof",
+      "label-convention-as-convention"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "setting hours on a business profile",
+      "deciding whether to tick 24/7",
+      "filling the attributes block",
+      "reviewing a generated profile spec for guessed fields"
+     ]
+    },
+    {
+     "slug": "nap-byte-identical-citations",
+     "status": "forged",
+     "laws": [
+      "label-convention-as-convention",
+      "never-invent-proof"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "building directory citations for a business",
+      "auditing citation consistency",
+      "choosing the phone number a business will publish",
+      "adding a location"
+     ]
+    },
+    {
+     "slug": "one-entry-per-bookable-service",
+     "status": "forged",
+     "laws": [
+      "never-invent-proof",
+      "a-gate-before-money-and-copy"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "building or de-duplicating a profile services list",
+      "deciding whether a category or product belongs on the profile",
+      "reviewing a generated services list before the owner pastes it"
+     ]
+    },
+    {
+     "slug": "profile-marks-not-filled-or-empty",
+     "status": "forged",
+     "laws": [
+      "label-convention-as-convention",
+      "never-invent-proof"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "auditing a business profile",
+      "filling a profile for the first time",
+      "deciding whether a product or service entry counts"
+     ]
+    },
+    {
+     "slug": "suspension-risk-checklist",
+     "status": "forged",
+     "laws": [
+      "a-gate-before-money-and-copy",
+      "never-invent-proof"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "finalizing a profile spec",
+      "before any edit to a profile name or address",
+      "triaging a profile status that is not cleanly verified",
+      "reviewing a multi-location roster for urgency"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "suspension-risk-checklist",
+     "file": "knowledge/marketing/local-and-zero-budget/business-profile-and-citations/applications/node--suspension-risk-checklist.md",
+     "verified_on": "2026-09-09",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "prompt-pipeline",
+     "technique": "profile-marks-not-filled-or-empty",
+     "file": "knowledge/marketing/local-and-zero-budget/business-profile-and-citations/applications/prompt-pipeline--profile-marks-not-filled-or-empty.md",
+     "verified_on": "2026-09-09",
+     "verified_against": "prompt-pipeline@2026.09.06"
+    }
+   ]
+  },
+  "campaign-anomaly-triage": {
+   "category": "paid-advertising",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/marketing/paid-advertising/campaign-anomaly-triage/campaign-anomaly-triage.md",
+   "digest": "sha256:53df8d424528b83e",
+   "revision": 1,
+   "changedAt": "2026-09-09",
+   "techniques": [
+    {
+     "slug": "crater-vs-slow-bleed",
+     "status": "forged",
+     "laws": [
+      "statistical-honesty-before-a-verdict",
+      "not-measured-is-not-zero",
+      "platform-reported-is-not-causal"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether a campaign's decline is a step or a slide",
+      "gating a multi-week decline on the campaign's own noise",
+      "explaining why a still-above-target campaign carries a badge"
+     ]
+    },
+    {
+     "slug": "disjoint-severity-rules-worst-first",
+     "status": "forged",
+     "laws": [
+      "one-target-one-threshold",
+      "efficiency-is-not-profitability",
+      "not-measured-is-not-zero"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing or reordering the rules that badge a campaign",
+      "explaining why a campaign carries the badge it does",
+      "adding a margin-aware rule without disturbing margin-blind clients"
+     ]
+    },
+    {
+     "slug": "hysteresis-and-cooldown-tombstones",
+     "status": "forged",
+     "laws": [
+      "a-gate-before-money-and-copy",
+      "label-convention-as-convention"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing when an alert re-fires",
+      "stopping a campaign that flickers across a threshold from re-alerting every sync",
+      "deciding whether a past-day anomaly should ever remind"
+     ]
+    },
+    {
+     "slug": "one-target-reciprocal-thresholds",
+     "status": "forged",
+     "laws": [
+      "one-target-one-threshold",
+      "label-convention-as-convention"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "adding a coloured cell or badge that judges a campaign",
+      "expressing one target in both a return and a cost-share form",
+      "threading a client's own goal into triage"
+     ]
+    },
+    {
+     "slug": "severity-times-spend-attention-order",
+     "status": "forged",
+     "laws": [
+      "one-target-one-threshold",
+      "a-gate-before-money-and-copy"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "sorting a campaign table for a manager's first hour",
+      "ranking which flagged item an alert should spell out first",
+      "choosing the order in which generated evaluations are spent"
+     ]
+    },
+    {
+     "slug": "spend-spike-without-return",
+     "status": "forged",
+     "laws": [
+      "efficiency-is-not-profitability",
+      "label-convention-as-convention"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "judging whether a rise in spend is a problem",
+      "catching efficiency dilution on a campaign whose return still looks acceptable",
+      "deciding which sync-over-sync changes are material enough to diff"
+     ]
+    },
+    {
+     "slug": "weekday-deseasonalised-baseline",
+     "status": "forged",
+     "laws": [
+      "statistical-honesty-before-a-verdict",
+      "not-measured-is-not-zero",
+      "label-convention-as-convention"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "flagging a day as a spike",
+      "drop or outage",
+      "scoring click-through or cost-per-click as an anomaly",
+      "deciding how much history a daily detector needs before it may speak"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "hysteresis-and-cooldown-tombstones",
+     "file": "knowledge/marketing/paid-advertising/campaign-anomaly-triage/applications/node--hysteresis-and-cooldown-tombstones.md",
+     "verified_on": "2026-09-09",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "one-target-reciprocal-thresholds",
+     "file": "knowledge/marketing/paid-advertising/campaign-anomaly-triage/applications/node--one-target-reciprocal-thresholds.md",
+     "verified_on": "2026-09-09",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "weekday-deseasonalised-baseline",
+     "file": "knowledge/marketing/paid-advertising/campaign-anomaly-triage/applications/node--weekday-deseasonalised-baseline.md",
+     "verified_on": "2026-09-09",
+     "verified_against": "node@24"
+    }
+   ]
+  },
+  "channel-native-social-and-repurposing": {
+   "category": "content-production",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/marketing/content-production/channel-native-social-and-repurposing/channel-native-social-and-repurposing.md",
+   "digest": "sha256:5a0ffc177fb88981",
+   "revision": 1,
+   "changedAt": "2026-09-09",
+   "techniques": [
+    {
+     "slug": "cadence-caps-at-one-chokepoint",
+     "status": "forged",
+     "laws": [
+      "a-gate-before-money-and-copy",
+      "label-convention-as-convention"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a posting-frequency cap exists in a plan or wizard",
+      "several schedulers can create posts for one channel",
+      "deciding what counts against a weekly cap and who may exceed it"
+     ]
+    },
+    {
+     "slug": "ground-in-measured-top-posts",
+     "status": "forged",
+     "laws": [
+      "not-measured-is-not-zero",
+      "platform-reported-is-not-causal",
+      "label-convention-as-convention"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "adding a what-works block to a social prompt",
+      "choosing a window and a ranking key for recent performance",
+      "deciding what to show when no post has been measured"
+     ]
+    },
+    {
+     "slug": "hook-value-cta-triad",
+     "status": "forged",
+     "laws": [
+      "never-invent-proof",
+      "label-convention-as-convention"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing or reviewing a single social post",
+      "specifying what a post generator must produce",
+      "deciding why a post reads as filler"
+     ]
+    },
+    {
+     "slug": "per-network-register-and-limits",
+     "status": "forged",
+     "laws": [
+      "label-convention-as-convention",
+      "a-gate-before-money-and-copy"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing the per-channel section of a social or repurposing prompt",
+      "choosing character budgets for channel variants",
+      "building the validator and clamp for generated posts"
+     ]
+    },
+    {
+     "slug": "retell-not-copy-with-source-digest",
+     "status": "forged",
+     "laws": [
+      "label-convention-as-convention",
+      "provenance-is-binary-and-labelled"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "turning one article into per-channel variants",
+      "bounding a long source before it enters a prompt",
+      "deciding who writes the tracking link into a variant"
+     ]
+    },
+    {
+     "slug": "the-channel-confirms-the-app-promises",
+     "status": "forged",
+     "laws": [
+      "a-gate-before-money-and-copy",
+      "not-measured-is-not-zero"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing the status vocabulary of a post or content board",
+      "deciding when a slot may show as published",
+      "reconciling a plan against a connected channel's state"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "cadence-caps-at-one-chokepoint",
+     "file": "knowledge/marketing/content-production/channel-native-social-and-repurposing/applications/node--cadence-caps-at-one-chokepoint.md",
+     "verified_on": "2026-09-09",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "ground-in-measured-top-posts",
+     "file": "knowledge/marketing/content-production/channel-native-social-and-repurposing/applications/node--ground-in-measured-top-posts.md",
+     "verified_on": "2026-09-09",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "per-network-register-and-limits",
+     "file": "knowledge/marketing/content-production/channel-native-social-and-repurposing/applications/node--per-network-register-and-limits.md",
+     "verified_on": "2026-09-09",
+     "verified_against": "node@24"
+    }
+   ]
+  },
+  "client-reporting-and-data-provenance": {
+   "category": "measurement-and-economics",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/marketing/measurement-and-economics/client-reporting-and-data-provenance/client-reporting-and-data-provenance.md",
+   "digest": "sha256:1da8b89f47ec6267",
+   "revision": 1,
+   "changedAt": "2026-09-09",
+   "techniques": [
+    {
+     "slug": "live-means-synced-rows",
+     "status": "forged",
+     "laws": [
+      "provenance-is-binary-and-labelled",
+      "not-measured-is-not-zero"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding what a \"live\" badge on a report means",
+      "a workspace has a linked account and no data",
+      "choosing whether a report page may be indexed or diagnosed"
+     ]
+    },
+    {
+     "slug": "lower-is-better-inverts-verdict-not-number",
+     "status": "forged",
+     "laws": [
+      "one-target-one-threshold"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "rendering a delta badge for a cost metric",
+      "deriving a profit change for a report",
+      "a colour and a number on the same tile disagree"
+     ]
+    },
+    {
+     "slug": "never-sum-across-currencies",
+     "status": "forged",
+     "laws": [
+      "not-measured-is-not-zero",
+      "provenance-is-binary-and-labelled"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a client runs ad accounts billed in more than one currency",
+      "blending spend or a ratio across platforms",
+      "a report shows a total the client cannot match to any invoice"
+     ]
+    },
+    {
+     "slug": "plain-language-gloss-and-white-label",
+     "status": "forged",
+     "laws": [
+      "never-invent-proof",
+      "provenance-is-binary-and-labelled"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "rendering a shared client report page",
+      "resolving whose name and logo a report carries",
+      "a client asks what a ratio on their report means"
+     ]
+    },
+    {
+     "slug": "stale-caveat-travels-into-the-narrative",
+     "status": "forged",
+     "laws": [
+      "label-convention-as-convention",
+      "never-invent-proof"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a report is generated over data synced some time ago",
+      "grounding a narrative generator with the age of its numbers",
+      "a tile says stale and the paragraph beneath it does not"
+     ]
+    },
+    {
+     "slug": "tile-presets-by-business-type",
+     "status": "forged",
+     "laws": [
+      "not-measured-is-not-zero",
+      "one-target-one-threshold"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing which headline metrics a client report shows",
+      "onboarding a workspace and declaring its business type",
+      "a report renders tiles that are zero or meaningless for the client's business"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "live-means-synced-rows",
+     "file": "knowledge/marketing/measurement-and-economics/client-reporting-and-data-provenance/applications/node--live-means-synced-rows.md",
+     "verified_on": "2026-09-09",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "never-sum-across-currencies",
+     "file": "knowledge/marketing/measurement-and-economics/client-reporting-and-data-provenance/applications/node--never-sum-across-currencies.md",
+     "verified_on": "2026-09-09",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "react",
+     "technique": "plain-language-gloss-and-white-label",
+     "file": "knowledge/marketing/measurement-and-economics/client-reporting-and-data-provenance/applications/react--plain-language-gloss-and-white-label.md",
+     "verified_on": "2026-09-09",
+     "verified_against": "react@19"
+    }
+   ]
+  },
+  "content-brief-and-article-composition": {
+   "category": "content-production",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/marketing/content-production/content-brief-and-article-composition/content-brief-and-article-composition.md",
+   "digest": "sha256:849284ffca11cc19",
+   "revision": 1,
+   "changedAt": "2026-09-09",
+   "techniques": [
+    {
+     "slug": "article-block-budget-one-callout-one-cta",
+     "status": "forged",
+     "laws": [
+      "never-invent-proof",
+      "a-gate-before-money-and-copy"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "prompting a model to draft an article as typed blocks",
+      "designing an article content model",
+      "deciding what a draft validator should reject"
+     ]
+    },
+    {
+     "slug": "brief-carries-keyword-outline-faq-and-links",
+     "status": "forged",
+     "laws": [
+      "never-invent-proof",
+      "the-results-page-is-the-verdict",
+      "label-convention-as-convention"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing a brief for a writer or a model",
+      "designing a brief schema or prompt",
+      "reviewing why a draft came back with invented facts"
+     ]
+    },
+    {
+     "slug": "humour-costs-credibility-proof-zones-stay-straight",
+     "status": "forged",
+     "laws": [
+      "never-invent-proof",
+      "label-convention-as-convention"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding how funny an article may be and where",
+      "reviewing a humour pass on a draft",
+      "writing a voice rule for a publisher who wants jokes"
+     ]
+    },
+    {
+     "slug": "mid-body-anchor-cta",
+     "status": "forged",
+     "laws": [
+      "label-convention-as-convention",
+      "platform-reported-is-not-causal"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "placing the conversion path in an article",
+      "diagnosing a post with traffic and no leads",
+      "writing the link that sends a reader to the money page"
+     ]
+    },
+    {
+     "slug": "quick-answer-in-first-fifty-words",
+     "status": "forged",
+     "laws": [
+      "never-invent-proof",
+      "label-convention-as-convention"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "opening a search-driven article",
+      "reviewing a draft whose first paragraph is a warm-up",
+      "writing the block an answer box or answer engine will lift"
+     ]
+    },
+    {
+     "slug": "retention-structure-subheads-and-sentences",
+     "status": "forged",
+     "laws": [
+      "label-convention-as-convention"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "pacing the body of a long article",
+      "reviewing a draft that reads as a wall",
+      "building a layout or readability check for generated pages"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "article-block-budget-one-callout-one-cta",
+     "file": "knowledge/marketing/content-production/content-brief-and-article-composition/applications/node--article-block-budget-one-callout-one-cta.md",
+     "verified_on": "2026-09-09",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "prompt-pipeline",
+     "technique": "retention-structure-subheads-and-sentences",
+     "file": "knowledge/marketing/content-production/content-brief-and-article-composition/applications/prompt-pipeline--retention-structure-subheads-and-sentences.md",
+     "verified_on": "2026-09-09",
+     "verified_against": "prompt-pipeline@2026.09.06"
+    }
+   ]
+  },
+  "goal-pacing-and-forecast": {
+   "category": "measurement-and-economics",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/marketing/measurement-and-economics/goal-pacing-and-forecast/goal-pacing-and-forecast.md",
+   "digest": "sha256:227ca417960b3bbc",
+   "revision": 1,
+   "changedAt": "2026-09-09",
+   "techniques": [
+    {
+     "slug": "band-and-suppressed-early-probability",
+     "status": "forged",
+     "laws": [
+      "statistical-honesty-before-a-verdict",
+      "label-convention-as-convention"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "showing a confidence band on a month-end forecast",
+      "deciding whether to print a probability of hitting a goal",
+      "sizing daily noise for a forecast"
+     ]
+    },
+    {
+     "slug": "goal-in-force-per-month",
+     "status": "forged",
+     "laws": [
+      "not-measured-is-not-zero",
+      "one-target-one-threshold"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "scoring closed months on a goal-attainment track record",
+      "storing a goal that can change",
+      "deciding whether a past month was a hit after the goal was raised"
+     ]
+    },
+    {
+     "slug": "implied-extra-spend-capped",
+     "status": "forged",
+     "laws": [
+      "a-gate-before-money-and-copy",
+      "efficiency-is-not-profitability",
+      "label-convention-as-convention"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "pricing a revenue-pace shortfall in extra daily spend",
+      "choosing between trailing-average and marginal return as the basis",
+      "bounding a spend prescription so it cannot invent a number"
+     ]
+    },
+    {
+     "slug": "required-pace-divides-by-future-days",
+     "status": "forged",
+     "laws": [
+      "not-measured-is-not-zero",
+      "one-target-one-threshold",
+      "efficiency-is-not-profitability"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "prescribing what the remaining days must average to hit a goal",
+      "showing required versus current pace",
+      "pacing an efficiency target rather than a revenue one"
+     ]
+    },
+    {
+     "slug": "weekday-weighted-month-end-projection",
+     "status": "forged",
+     "laws": [
+      "statistical-honesty-before-a-verdict",
+      "not-measured-is-not-zero"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "projecting a month-end total from a partial month",
+      "replacing a flat run-rate on a goal card",
+      "deciding how much history a projection needs"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "goal-in-force-per-month",
+     "file": "knowledge/marketing/measurement-and-economics/goal-pacing-and-forecast/applications/node--goal-in-force-per-month.md",
+     "verified_on": "2026-09-09",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "weekday-weighted-month-end-projection",
+     "file": "knowledge/marketing/measurement-and-economics/goal-pacing-and-forecast/applications/node--weekday-weighted-month-end-projection.md",
+     "verified_on": "2026-09-09",
+     "verified_against": "node@24"
+    }
+   ]
+  },
+  "grounded-marketing-generation": {
+   "category": "content-production",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/marketing/content-production/grounded-marketing-generation/grounded-marketing-generation.md",
+   "digest": "sha256:de25821e85177ca0",
+   "revision": 1,
+   "changedAt": "2026-09-09",
+   "techniques": [
+    {
+     "slug": "deterministic-clamp-vs-model-reprompt",
+     "status": "forged",
+     "laws": [
+      "a-gate-before-money-and-copy",
+      "not-measured-is-not-zero"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding how a validator violation on model output is repaired",
+      "designing the self-repair loop of a generation wrapper",
+      "reading generation telemetry that reports repaired or clamped output"
+     ]
+    },
+    {
+     "slug": "generation-reads-the-data-spine",
+     "status": "forged",
+     "laws": [
+      "never-invent-proof",
+      "provenance-is-binary-and-labelled",
+      "not-measured-is-not-zero"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "assembling the grounding block for a marketing prompt",
+      "deciding whether a catalog or scan value may reach the model",
+      "adding a mined-lesson or performance block to a generator"
+     ]
+    },
+    {
+     "slug": "judge-rubric-and-drift-thresholds",
+     "status": "forged",
+     "laws": [
+      "statistical-honesty-before-a-verdict",
+      "label-convention-as-convention",
+      "not-measured-is-not-zero"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "setting up a judged quality run for generated marketing output",
+      "choosing the thresholds that turn a quality score into a red build",
+      "deciding whether a cheaper model tier may serve a generation tool"
+     ]
+    },
+    {
+     "slug": "never-invent-proof-price-or-contact",
+     "status": "forged",
+     "laws": [
+      "never-invent-proof",
+      "label-convention-as-convention"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing the prohibition block of a marketing prompt",
+      "handling a missing proof or price during generation",
+      "reviewing generated copy or a generated recommendation for fabricated specifics"
+     ]
+    },
+    {
+     "slug": "publishable-as-is-quality-gate",
+     "status": "forged",
+     "laws": [
+      "a-gate-before-money-and-copy",
+      "never-invent-proof"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "defining what a generated ad set or page or reply must satisfy before it ships",
+      "building the exit gate of a content command",
+      "deciding whether a self-scored quality number may decide publication"
+     ]
+    },
+    {
+     "slug": "structural-anti-fabrication-over-instruction",
+     "status": "forged",
+     "laws": [
+      "never-invent-proof",
+      "provenance-is-binary-and-labelled"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "reviewing whether a generator's anti-fabrication rule is only a sentence",
+      "designing the schema and validator for a new marketing tool",
+      "auditing a demo or fallback path for hardcoded claims"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "deterministic-clamp-vs-model-reprompt",
+     "file": "knowledge/marketing/content-production/grounded-marketing-generation/applications/node--deterministic-clamp-vs-model-reprompt.md",
+     "verified_on": "2026-09-09",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "judge-rubric-and-drift-thresholds",
+     "file": "knowledge/marketing/content-production/grounded-marketing-generation/applications/node--judge-rubric-and-drift-thresholds.md",
+     "verified_on": "2026-09-09",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "prompt-pipeline",
+     "technique": "publishable-as-is-quality-gate",
+     "file": "knowledge/marketing/content-production/grounded-marketing-generation/applications/prompt-pipeline--publishable-as-is-quality-gate.md",
+     "verified_on": "2026-09-09",
+     "verified_against": "prompt-pipeline@2026.09.06"
+    }
+   ]
+  },
+  "honest-proof-and-illustrative-data": {
+   "category": "positioning-and-proof",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/marketing/positioning-and-proof/honest-proof-and-illustrative-data/honest-proof-and-illustrative-data.md",
+   "digest": "sha256:774a6c4760406e74",
+   "revision": 1,
+   "changedAt": "2026-09-09",
+   "techniques": [
+    {
+     "slug": "absent-evidence-inventory",
+     "status": "forged",
+     "laws": [
+      "never-invent-proof"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing the positioning document for a product with no customers yet",
+      "briefing a person or a model to write a landing page",
+      "reviewing a page for a proof element nobody supplied"
+     ]
+    },
+    {
+     "slug": "binary-provenance-no-blending",
+     "status": "forged",
+     "laws": [
+      "provenance-is-binary-and-labelled",
+      "not-measured-is-not-zero"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "building a surface that can show either synced or sample data",
+      "substituting a real series into a template built on a sample",
+      "reviewing a page whose banner does not depend on its data"
+     ]
+    },
+    {
+     "slug": "claims-derived-from-product-code",
+     "status": "forged",
+     "laws": [
+      "never-invent-proof",
+      "label-convention-as-convention"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing pricing or feature copy that quotes a limit or a count",
+      "adding a marketing FAQ that states a fact the product owns",
+      "reviewing copy that drifted from what ships"
+     ]
+    },
+    {
+     "slug": "demo-badge-beside-the-number",
+     "status": "forged",
+     "laws": [
+      "provenance-is-binary-and-labelled",
+      "never-invent-proof"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "placing the illustrative-data label on a proof band or share card",
+      "reviewing a page whose disclaimer sits in a footer",
+      "deciding how to word a demo label"
+     ]
+    },
+    {
+     "slug": "indexability-follows-provenance",
+     "status": "forged",
+     "laws": [
+      "provenance-is-binary-and-labelled",
+      "a-gate-before-money-and-copy"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "setting robots directives on a page that can show demo data",
+      "deciding whether a generated page kind should index",
+      "reviewing why a demo page appears in search results"
+     ]
+    },
+    {
+     "slug": "proof-from-live-computation",
+     "status": "forged",
+     "laws": [
+      "never-invent-proof",
+      "not-measured-is-not-zero"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "adding a quantified proof band to a landing page",
+      "choosing where a marketing figure comes from",
+      "reviewing a page whose numbers were typed from a screenshot"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "claims-derived-from-product-code",
+     "file": "knowledge/marketing/positioning-and-proof/honest-proof-and-illustrative-data/applications/node--claims-derived-from-product-code.md",
+     "verified_on": "2026-09-09",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "indexability-follows-provenance",
+     "file": "knowledge/marketing/positioning-and-proof/honest-proof-and-illustrative-data/applications/node--indexability-follows-provenance.md",
+     "verified_on": "2026-09-09",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "react",
+     "technique": "demo-badge-beside-the-number",
+     "file": "knowledge/marketing/positioning-and-proof/honest-proof-and-illustrative-data/applications/react--demo-badge-beside-the-number.md",
+     "verified_on": "2026-09-09",
+     "verified_against": "react@19"
+    }
+   ]
+  },
+  "keyword-metric-reliability": {
+   "category": "search-and-content",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/marketing/search-and-content/keyword-metric-reliability/keyword-metric-reliability.md",
+   "digest": "sha256:cfab65e0842d917d",
+   "revision": 1,
+   "changedAt": "2026-09-09",
+   "techniques": [
+    {
+     "slug": "authority-ceiling-blogs-not-money-pages",
+     "status": "forged",
+     "laws": [
+      "label-convention-as-convention",
+      "a-gate-before-money-and-copy"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "setting a difficulty ceiling for a keyword map",
+      "a service the business sells has an unrankable head term",
+      "deciding build order between hubs and city pages"
+     ]
+    },
+    {
+     "slug": "difficulty-is-a-link-count",
+     "status": "forged",
+     "laws": [
+      "the-results-page-is-the-verdict",
+      "label-convention-as-convention"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "reading a difficulty column",
+      "a threshold is being carried from one tool to another",
+      "a difficulty score and the live results page disagree"
+     ]
+    },
+    {
+     "slug": "local-terms-rank-by-revenue-not-volume",
+     "status": "forged",
+     "laws": [
+      "label-convention-as-convention",
+      "never-invent-proof"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "building a service-by-city keyword grid",
+      "a local term falls under the volume floor",
+      "deciding which city pages to build first"
+     ]
+    },
+    {
+     "slug": "serp-age-and-topical-proximity",
+     "status": "forged",
+     "laws": [
+      "the-results-page-is-the-verdict",
+      "label-convention-as-convention"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "judging whether a new site can win a root keyword",
+      "choosing between an adjacent term and a bigger isolated one",
+      "a difficulty score looks winnable but nothing new has ranked in years"
+     ]
+    },
+    {
+     "slug": "unknown-metric-sinks-never-flatters",
+     "status": "forged",
+     "laws": [
+      "not-measured-is-not-zero",
+      "provenance-is-binary-and-labelled"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "merging keyword ideas from more than one provider",
+      "a provider omits volume or competition or cost per click for some rows",
+      "choosing a default for a missing metric that feeds a ranking"
+     ]
+    },
+    {
+     "slug": "volume-as-order-of-magnitude",
+     "status": "forged",
+     "laws": [
+      "label-convention-as-convention",
+      "never-invent-proof",
+      "not-measured-is-not-zero"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "sorting or scoring keywords by volume",
+      "a client asks how much traffic a page will bring",
+      "summing volumes across a cluster"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "unknown-metric-sinks-never-flatters",
+     "file": "knowledge/marketing/search-and-content/keyword-metric-reliability/applications/node--unknown-metric-sinks-never-flatters.md",
+     "verified_on": "2026-09-09",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "prompt-pipeline",
+     "technique": "authority-ceiling-blogs-not-money-pages",
+     "file": "knowledge/marketing/search-and-content/keyword-metric-reliability/applications/prompt-pipeline--authority-ceiling-blogs-not-money-pages.md",
+     "verified_on": "2026-09-09",
+     "verified_against": "prompt-pipeline@2026.09.06"
+    }
+   ]
+  },
+  "landing-page-experiment-statistics": {
+   "category": "conversion-and-leads",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/marketing/conversion-and-leads/landing-page-experiment-statistics/landing-page-experiment-statistics.md",
+   "digest": "sha256:dcc619fa4bff470a",
+   "revision": 1,
+   "changedAt": "2026-09-09",
+   "techniques": [
+    {
+     "slug": "distinct-hypothesis-per-arm",
+     "status": "forged",
+     "laws": [
+      "never-invent-proof",
+      "statistical-honesty-before-a-verdict"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing the arms of a test",
+      "drafting challenger copy with a model",
+      "planning the next round after a loser",
+      "reviewing a test whose arms look alike"
+     ]
+    },
+    {
+     "slug": "experiment-pages-print-no-numbers",
+     "status": "forged",
+     "laws": [
+      "never-invent-proof",
+      "provenance-is-binary-and-labelled"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "publishing an experiment arm as a public page",
+      "designing the payload that describes an arm",
+      "deciding indexing and address policy for a test page",
+      "mining lessons from an experiment"
+     ]
+    },
+    {
+     "slug": "multi-arm-alpha-correction",
+     "status": "forged",
+     "laws": [
+      "statistical-honesty-before-a-verdict",
+      "label-convention-as-convention"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a test has more than one challenger",
+      "choosing between correction methods",
+      "explaining why a third arm costs more traffic"
+     ]
+    },
+    {
+     "slug": "peeking-guard",
+     "status": "forged",
+     "laws": [
+      "statistical-honesty-before-a-verdict",
+      "a-gate-before-money-and-copy"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a test is running and someone wants to call it",
+      "designing when a surface may show significance",
+      "distinguishing a stopped test from a finished one"
+     ]
+    },
+    {
+     "slug": "sample-size-trust-gate",
+     "status": "forged",
+     "laws": [
+      "statistical-honesty-before-a-verdict",
+      "not-measured-is-not-zero",
+      "label-convention-as-convention"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether an experiment may show a winner",
+      "building a progress indicator for a running test",
+      "handling a control with no conversions"
+     ]
+    },
+    {
+     "slug": "uniform-split-disclosed-no-ramping",
+     "status": "forged",
+     "laws": [
+      "statistical-honesty-before-a-verdict",
+      "provenance-is-binary-and-labelled"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing how visits are assigned to arms",
+      "deciding whether to shift traffic toward a leader",
+      "writing what an experiment page tells its visitor",
+      "checking whether the arms received the split they were promised"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "distinct-hypothesis-per-arm",
+     "file": "knowledge/marketing/conversion-and-leads/landing-page-experiment-statistics/applications/node--distinct-hypothesis-per-arm.md",
+     "verified_on": "2026-09-09",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "sample-size-trust-gate",
+     "file": "knowledge/marketing/conversion-and-leads/landing-page-experiment-statistics/applications/node--sample-size-trust-gate.md",
+     "verified_on": "2026-09-09",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "uniform-split-disclosed-no-ramping",
+     "file": "knowledge/marketing/conversion-and-leads/landing-page-experiment-statistics/applications/node--uniform-split-disclosed-no-ramping.md",
+     "verified_on": "2026-09-09",
+     "verified_against": "node@24"
+    }
+   ]
+  },
+  "lead-quality-and-source-diagnosis": {
+   "category": "conversion-and-leads",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/marketing/conversion-and-leads/lead-quality-and-source-diagnosis/lead-quality-and-source-diagnosis.md",
+   "digest": "sha256:7e2f3983c8703ebe",
+   "revision": 1,
+   "changedAt": "2026-09-09",
+   "techniques": [
+    {
+     "slug": "cause-taxonomy-spam-mistargeting-pricing-volume",
+     "status": "forged",
+     "laws": [
+      "never-invent-proof",
+      "label-convention-as-convention",
+      "statistical-honesty-before-a-verdict"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "diagnosing why one lead source underperforms",
+      "constraining a model's root-cause output",
+      "designing the deterministic floor under a diagnosis prompt"
+     ]
+    },
+    {
+     "slug": "cheap-cpl-splits-spam-from-mistargeting",
+     "status": "forged",
+     "laws": [
+      "label-convention-as-convention",
+      "not-measured-is-not-zero"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a paid source has a low qualification rate and the diagnosis must choose between spam and mis-targeting",
+      "setting the \"cheap\" threshold for a lead-source rule",
+      "corroborating a spam verdict with form telemetry"
+     ]
+    },
+    {
+     "slug": "junk-source-rule",
+     "status": "forged",
+     "laws": [
+      "label-convention-as-convention",
+      "one-target-one-threshold",
+      "statistical-honesty-before-a-verdict"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "flagging a paid source as junk",
+      "deciding which sources a diagnosis should offer",
+      "writing the alert copy for a lead-quality module"
+     ]
+    },
+    {
+     "slug": "minimum-sample-before-verdict",
+     "status": "forged",
+     "laws": [
+      "statistical-honesty-before-a-verdict",
+      "not-measured-is-not-zero",
+      "label-convention-as-convention"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "setting the lead-count floor for a source verdict",
+      "deciding whether a drift alert may fire",
+      "gating a win-rate claim on the qualified count"
+     ]
+    },
+    {
+     "slug": "quality-score-qualification-and-win",
+     "status": "forged",
+     "laws": [
+      "label-convention-as-convention",
+      "not-measured-is-not-zero",
+      "one-target-one-threshold"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "ranking lead sources by quality",
+      "building a per-source quality figure",
+      "deciding what a source's headline number should be"
+     ]
+    },
+    {
+     "slug": "two-axis-fit-engagement",
+     "status": "forged",
+     "laws": [
+      "not-measured-is-not-zero",
+      "label-convention-as-convention",
+      "never-invent-proof"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "scoring an individual lead for a work queue",
+      "designing a lead grade a rep can predict",
+      "deciding what a missing score component should do"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "cause-taxonomy-spam-mistargeting-pricing-volume",
+     "file": "knowledge/marketing/conversion-and-leads/lead-quality-and-source-diagnosis/applications/node--cause-taxonomy-spam-mistargeting-pricing-volume.md",
+     "verified_on": "2026-09-09",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "quality-score-qualification-and-win",
+     "file": "knowledge/marketing/conversion-and-leads/lead-quality-and-source-diagnosis/applications/node--quality-score-qualification-and-win.md",
+     "verified_on": "2026-09-09",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "two-axis-fit-engagement",
+     "file": "knowledge/marketing/conversion-and-leads/lead-quality-and-source-diagnosis/applications/node--two-axis-fit-engagement.md",
+     "verified_on": "2026-09-09",
+     "verified_against": "node@24"
+    }
+   ]
+  },
+  "local-page-doorway-prevention": {
+   "category": "search-and-content",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/marketing/search-and-content/local-page-doorway-prevention/local-page-doorway-prevention.md",
+   "digest": "sha256:7e3371b222693b75",
+   "revision": 1,
+   "changedAt": "2026-09-09",
+   "techniques": [
+    {
+     "slug": "boilerplate-strip-then-containment",
+     "status": "forged",
+     "laws": [
+      "label-convention-as-convention",
+      "the-results-page-is-the-verdict"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "measuring similarity across a set of templated pages",
+      "auditing a site's area pages for clones",
+      "checking generated pages against their siblings before publishing"
+     ]
+    },
+    {
+     "slug": "funnel-not-city-is-the-doorway-test",
+     "status": "forged",
+     "laws": [
+      "label-convention-as-convention"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether a planned page set is a doorway risk",
+      "answering a client who has read that city pages are banned",
+      "separating a doorway finding from a scaled-content finding in an audit"
+     ]
+    },
+    {
+     "slug": "localize-the-problem-not-the-place",
+     "status": "forged",
+     "laws": [
+      "never-invent-proof",
+      "label-convention-as-convention"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing the body of an area page that passed the material gate",
+      "reviewing an area page whose only local content is the place name",
+      "briefing a writer or a model on what \"local\" means"
+     ]
+    },
+    {
+     "slug": "read-the-engines-verdict-via-url-inspection",
+     "status": "forged",
+     "laws": [
+      "the-results-page-is-the-verdict",
+      "not-measured-is-not-zero"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a set of area pages is not ranking and the cause is disputed",
+      "deciding whether a similarity finding is real",
+      "choosing between rewrite and consolidate for a specific set"
+     ]
+    },
+    {
+     "slug": "rewrite-before-consolidate",
+     "status": "forged",
+     "laws": [
+      "a-gate-before-money-and-copy",
+      "label-convention-as-convention"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an audit has flagged area pages as clones",
+      "choosing between a canonical",
+      "a noindex",
+      "a redirect and a rewrite",
+      "a client wants to delete a city page set"
+     ]
+    },
+    {
+     "slug": "three-of-four-local-material-gate",
+     "status": "forged",
+     "laws": [
+      "never-invent-proof",
+      "label-convention-as-convention",
+      "a-gate-before-money-and-copy"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "before writing any service-by-area page",
+      "sizing how many area pages a business can support",
+      "generating area pages from a template or a model"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "three-of-four-local-material-gate",
+     "file": "knowledge/marketing/search-and-content/local-page-doorway-prevention/applications/node--three-of-four-local-material-gate.md",
+     "verified_on": "2026-09-09",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "prompt-pipeline",
+     "technique": "boilerplate-strip-then-containment",
+     "file": "knowledge/marketing/search-and-content/local-page-doorway-prevention/applications/prompt-pipeline--boilerplate-strip-then-containment.md",
+     "verified_on": "2026-09-09",
+     "verified_against": "prompt-pipeline@2026.09.06"
+    }
+   ]
+  },
+  "local-visibility-and-reputation": {
+   "category": "local-and-zero-budget",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/marketing/local-and-zero-budget/local-visibility-and-reputation/local-visibility-and-reputation.md",
+   "digest": "sha256:c0bcfa7c997a5cdb",
+   "revision": 1,
+   "changedAt": "2026-09-09",
+   "techniques": [
+    {
+     "slug": "attention-score-for-many-locations",
+     "status": "forged",
+     "laws": [
+      "label-convention-as-convention",
+      "not-measured-is-not-zero"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "ordering the locations of a multi-location business by urgency",
+      "importing a listing-status export",
+      "designing a location roster"
+     ]
+    },
+    {
+     "slug": "pack-visibility-per-engine-never-averaged",
+     "status": "forged",
+     "laws": [
+      "not-measured-is-not-zero",
+      "label-convention-as-convention",
+      "provenance-is-binary-and-labelled"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "computing map-pack visibility from imported rank observations",
+      "a market with more than one map engine",
+      "importing a pack export"
+     ]
+    },
+    {
+     "slug": "review-recency-beats-count",
+     "status": "forged",
+     "laws": [
+      "not-measured-is-not-zero",
+      "label-convention-as-convention",
+      "statistical-honesty-before-a-verdict"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "rolling reviews into a health figure",
+      "comparing a business's reviews with competitors'",
+      "deciding whether a review profile is stale"
+     ]
+    },
+    {
+     "slug": "review-reply-by-rating-band",
+     "status": "forged",
+     "laws": [
+      "a-gate-before-money-and-copy",
+      "never-invent-proof",
+      "label-convention-as-convention"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "drafting a public reply to a customer review",
+      "designing a review-reply prompt",
+      "deciding which reviews a model may draft for and which go to the owner"
+     ]
+    },
+    {
+     "slug": "service-area-coverage-gaps-by-volume",
+     "status": "forged",
+     "laws": [
+      "not-measured-is-not-zero",
+      "label-convention-as-convention",
+      "the-results-page-is-the-verdict"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding which local page to build next",
+      "reporting a coverage ratio",
+      "reading a service-by-area matrix"
+     ]
+    },
+    {
+     "slug": "sustained-decline-three-runs-three-positions",
+     "status": "forged",
+     "laws": [
+      "statistical-honesty-before-a-verdict",
+      "label-convention-as-convention",
+      "not-measured-is-not-zero"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether a rank series is in decline",
+      "writing a recap that names worsening keywords",
+      "importing rank history with irregular dates"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "pack-visibility-per-engine-never-averaged",
+     "file": "knowledge/marketing/local-and-zero-budget/local-visibility-and-reputation/applications/node--pack-visibility-per-engine-never-averaged.md",
+     "verified_on": "2026-09-09",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "review-reply-by-rating-band",
+     "file": "knowledge/marketing/local-and-zero-budget/local-visibility-and-reputation/applications/node--review-reply-by-rating-band.md",
+     "verified_on": "2026-09-09",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "service-area-coverage-gaps-by-volume",
+     "file": "knowledge/marketing/local-and-zero-budget/local-visibility-and-reputation/applications/node--service-area-coverage-gaps-by-volume.md",
+     "verified_on": "2026-09-09",
+     "verified_against": "node@24"
+    }
+   ]
+  },
+  "money-page-conversion-craft": {
+   "category": "conversion-and-leads",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/marketing/conversion-and-leads/money-page-conversion-craft/money-page-conversion-craft.md",
+   "digest": "sha256:e89f6e67454d788b",
+   "revision": 1,
+   "changedAt": "2026-09-09",
+   "techniques": [
+    {
+     "slug": "cro-leak-order",
+     "status": "forged",
+     "laws": [
+      "label-convention-as-convention",
+      "never-invent-proof"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a page receives clicks and produces no leads",
+      "running a conversion walkthrough on a drafted money page",
+      "deciding which conversion fix to make first"
+     ]
+    },
+    {
+     "slug": "diagnostic-quadrant-clicks-leads-impressions",
+     "status": "forged",
+     "laws": [
+      "statistical-honesty-before-a-verdict",
+      "platform-reported-is-not-causal",
+      "not-measured-is-not-zero"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a page is underperforming and nobody has said what kind of underperforming",
+      "deciding whether to touch the page or the campaign",
+      "triaging a client's \"the website does not work\" complaint"
+     ]
+    },
+    {
+     "slug": "hero-proof-first-one-cta",
+     "status": "forged",
+     "laws": [
+      "never-invent-proof",
+      "label-convention-as-convention"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing or reviewing the first screen of a service or product page",
+      "deciding whether a second button belongs in the hero",
+      "composing the proof line under a headline"
+     ]
+    },
+    {
+     "slug": "progressive-disclosure-five-visible",
+     "status": "forged",
+     "laws": [
+      "label-convention-as-convention"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding what stays on screen on a sales page and what goes behind a click",
+      "reviewing a money page that reads like an article",
+      "writing the visible label of a collapsed section"
+     ]
+    },
+    {
+     "slug": "proof-count-five-real-and-checkable",
+     "status": "forged",
+     "laws": [
+      "never-invent-proof",
+      "provenance-is-binary-and-labelled",
+      "label-convention-as-convention"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "counting the proof on a service or city page before it ships",
+      "auditing a page for thin proof",
+      "deciding what to show when the business has little real proof"
+     ]
+    },
+    {
+     "slug": "thank-you-page-is-the-conversion-event",
+     "status": "forged",
+     "laws": [
+      "platform-reported-is-not-causal",
+      "not-measured-is-not-zero",
+      "a-gate-before-money-and-copy"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "wiring conversion tracking before a form goes live",
+      "deciding where a conversion event fires",
+      "reviewing why a conversion count is inflated or has silently stopped"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "hero-proof-first-one-cta",
+     "file": "knowledge/marketing/conversion-and-leads/money-page-conversion-craft/applications/node--hero-proof-first-one-cta.md",
+     "verified_on": "2026-09-09",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "prompt-pipeline",
+     "technique": "cro-leak-order",
+     "file": "knowledge/marketing/conversion-and-leads/money-page-conversion-craft/applications/prompt-pipeline--cro-leak-order.md",
+     "verified_on": "2026-09-09",
+     "verified_against": "prompt-pipeline@2026.09.06"
+    }
+   ]
+  },
+  "on-page-and-metadata-craft": {
+   "category": "search-and-content",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/marketing/search-and-content/on-page-and-metadata-craft/on-page-and-metadata-craft.md",
+   "digest": "sha256:35ac9537e9fd006d",
+   "revision": 1,
+   "changedAt": "2026-09-09",
+   "techniques": [
+    {
+     "slug": "ctr-lifts-as-tie-breakers-not-a-stack",
+     "status": "forged",
+     "laws": [
+      "label-convention-as-convention",
+      "the-results-page-is-the-verdict"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing between two title or description variants that both pass the mechanical checks",
+      "reviewing a generated title that reads like bait",
+      "deciding whether to add a year or a bracket to a title"
+     ]
+    },
+    {
+     "slug": "low-ctr-high-impression-rewrite-targets",
+     "status": "forged",
+     "laws": [
+      "statistical-honesty-before-a-verdict",
+      "not-measured-is-not-zero",
+      "platform-reported-is-not-causal"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding which pages get a title and description rewrite",
+      "reading a search-performance export for on-page work",
+      "judging whether a rewrite worked"
+     ]
+    },
+    {
+     "slug": "mechanical-layer-only-never-the-copy",
+     "status": "forged",
+     "laws": [
+      "a-gate-before-money-and-copy",
+      "never-invent-proof"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "running an audit or fix pass on a page the owner wrote",
+      "scoping what an automated on-page fixer may edit",
+      "deciding whether a thin page or a heavy asset may be removed"
+     ]
+    },
+    {
+     "slug": "primary-keyword-triple-placement",
+     "status": "forged",
+     "laws": [
+      "the-results-page-is-the-verdict",
+      "label-convention-as-convention"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing a brief or a page head for one primary keyword",
+      "grading keyword coverage in a generated brief",
+      "deciding whether a heading needs the keyword inserted"
+     ]
+    },
+    {
+     "slug": "structured-data-by-page-kind",
+     "status": "forged",
+     "laws": [
+      "never-invent-proof",
+      "provenance-is-binary-and-labelled",
+      "label-convention-as-convention"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing which markup a page should carry",
+      "generating a structured-data graph from page data",
+      "deciding whether to keep markup after the engine withdraws a rich result"
+     ]
+    },
+    {
+     "slug": "title-and-meta-pixel-budget",
+     "status": "forged",
+     "laws": [
+      "label-convention-as-convention",
+      "not-measured-is-not-zero"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "checking whether a title or description will be cut on the results page",
+      "building or reviewing a snippet preview tool",
+      "choosing a character limit for a prompt or a checklist"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "structured-data-by-page-kind",
+     "file": "knowledge/marketing/search-and-content/on-page-and-metadata-craft/applications/node--structured-data-by-page-kind.md",
+     "verified_on": "2026-09-09",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "title-and-meta-pixel-budget",
+     "file": "knowledge/marketing/search-and-content/on-page-and-metadata-craft/applications/node--title-and-meta-pixel-budget.md",
+     "verified_on": "2026-09-09",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "prompt-pipeline",
+     "technique": "mechanical-layer-only-never-the-copy",
+     "file": "knowledge/marketing/search-and-content/on-page-and-metadata-craft/applications/prompt-pipeline--mechanical-layer-only-never-the-copy.md",
+     "verified_on": "2026-09-09",
+     "verified_against": "prompt-pipeline@2026.09.06"
+    }
+   ]
+  },
+  "performance-root-cause-diagnosis": {
+   "category": "measurement-and-economics",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/marketing/measurement-and-economics/performance-root-cause-diagnosis/performance-root-cause-diagnosis.md",
+   "digest": "sha256:b1b39cf34f901ac8",
+   "revision": 1,
+   "changedAt": "2026-09-09",
+   "techniques": [
+    {
+     "slug": "advice-ledger-scores-past-advice",
+     "status": "forged",
+     "laws": [
+      "provenance-is-binary-and-labelled",
+      "not-measured-is-not-zero",
+      "platform-reported-is-not-causal"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "answering \"did our recommendations work\"",
+      "persisting what a surface showed the operator",
+      "deciding when a recommendation counts as resolved"
+     ]
+    },
+    {
+     "slug": "cause-ladder-tracking-gap-first",
+     "status": "forged",
+     "laws": [
+      "not-measured-is-not-zero",
+      "label-convention-as-convention"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "classifying why a portfolio or cohort misses target",
+      "ordering a closed cause set",
+      "a zero-conversion account is about to be diagnosed as waste"
+     ]
+    },
+    {
+     "slug": "one-lever-from-supplied-entities",
+     "status": "forged",
+     "laws": [
+      "never-invent-proof",
+      "efficiency-is-not-profitability"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a diagnosis must end in an action",
+      "a model names campaigns or sources in its recommendation",
+      "a recommendation quotes a benchmark nobody supplied"
+     ]
+    },
+    {
+     "slug": "outcome-closed-by-own-metric-with-dead-band",
+     "status": "forged",
+     "laws": [
+      "one-target-one-threshold",
+      "not-measured-is-not-zero",
+      "platform-reported-is-not-causal"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether a diagnosed problem is fixed",
+      "rendering an outcome chip on a stored diagnosis",
+      "a lower-is-better metric must show a verdict and a delta"
+     ]
+    },
+    {
+     "slug": "thresholds-mirror-the-prompt",
+     "status": "forged",
+     "laws": [
+      "label-convention-as-convention",
+      "one-target-one-threshold"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a prompt defines causes in words and a program must pick the same cause",
+      "a demo and a live diagnosis disagree about one dataset",
+      "tightening a diagnostic rule"
+     ]
+    },
+    {
+     "slug": "wasted-spend-ranking",
+     "status": "forged",
+     "laws": [
+      "not-measured-is-not-zero",
+      "one-target-one-threshold"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing which campaigns a diagnosis names",
+      "ranking \"worst\" for a prompt or a digest",
+      "a small campaign with a terrible ratio keeps topping the list"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "advice-ledger-scores-past-advice",
+     "file": "knowledge/marketing/measurement-and-economics/performance-root-cause-diagnosis/applications/node--advice-ledger-scores-past-advice.md",
+     "verified_on": "2026-09-09",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "cause-ladder-tracking-gap-first",
+     "file": "knowledge/marketing/measurement-and-economics/performance-root-cause-diagnosis/applications/node--cause-ladder-tracking-gap-first.md",
+     "verified_on": "2026-09-09",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "outcome-closed-by-own-metric-with-dead-band",
+     "file": "knowledge/marketing/measurement-and-economics/performance-root-cause-diagnosis/applications/node--outcome-closed-by-own-metric-with-dead-band.md",
+     "verified_on": "2026-09-09",
+     "verified_against": "node@24"
+    }
+   ]
+  },
+  "period-comparison-significance": {
+   "category": "measurement-and-economics",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/marketing/measurement-and-economics/period-comparison-significance/period-comparison-significance.md",
+   "digest": "sha256:94e071e4fe942ac7",
+   "revision": 1,
+   "changedAt": "2026-09-09",
+   "techniques": [
+    {
+     "slug": "equal-windows-and-truncated-flag",
+     "status": "forged",
+     "laws": [
+      "statistical-honesty-before-a-verdict",
+      "not-measured-is-not-zero"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a period selector offers windows longer than the account's history",
+      "a comparison window is derived from whatever data is left",
+      "a narrative layer wants to say \"rising\" or \"falling\""
+     ]
+    },
+    {
+     "slug": "funnel-decomposition-only-when-strong",
+     "status": "forged",
+     "laws": [
+      "statistical-honesty-before-a-verdict",
+      "platform-reported-is-not-causal",
+      "not-measured-is-not-zero"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a revenue move needs a \"why\" line on a dashboard or in a recap",
+      "attributing a KPI change across multiplicative drivers",
+      "a model is asked to explain a period delta"
+     ]
+    },
+    {
+     "slug": "noise-muted-not-coloured",
+     "status": "forged",
+     "laws": [
+      "statistical-honesty-before-a-verdict",
+      "one-target-one-threshold",
+      "not-measured-is-not-zero"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing a delta badge or change indicator",
+      "ranking auto-generated insight lines",
+      "a channel table prints the same delta on every row"
+     ]
+    },
+    {
+     "slug": "partial-buckets-flagged-not-compared",
+     "status": "forged",
+     "laws": [
+      "statistical-honesty-before-a-verdict",
+      "not-measured-is-not-zero"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "bucketing a daily series into weeks or months for a chart",
+      "computing a last-two-buckets delta",
+      "a monthly chart opens with a cliff or ends with a collapse"
+     ]
+    },
+    {
+     "slug": "significance-tier-per-metric-class",
+     "status": "forged",
+     "laws": [
+      "statistical-honesty-before-a-verdict",
+      "label-convention-as-convention",
+      "not-measured-is-not-zero"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "grading a period-over-period delta as real or noise",
+      "adding a new metric to a comparison surface",
+      "reviewing a dashboard that badges ratio moves as significant"
+     ]
+    },
+    {
+     "slug": "yoy-364-day-shift",
+     "status": "forged",
+     "laws": [
+      "statistical-honesty-before-a-verdict",
+      "not-measured-is-not-zero"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "offering a year-over-year comparison baseline",
+      "a seasonal business compares a peak month against the preceding quarter",
+      "a report narrates \"versus last year\""
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "significance-tier-per-metric-class",
+     "file": "knowledge/marketing/measurement-and-economics/period-comparison-significance/applications/node--significance-tier-per-metric-class.md",
+     "verified_on": "2026-09-09",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "yoy-364-day-shift",
+     "file": "knowledge/marketing/measurement-and-economics/period-comparison-significance/applications/node--yoy-364-day-shift.md",
+     "verified_on": "2026-09-09",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "react",
+     "technique": "noise-muted-not-coloured",
+     "file": "knowledge/marketing/measurement-and-economics/period-comparison-significance/applications/react--noise-muted-not-coloured.md",
+     "verified_on": "2026-09-09",
+     "verified_against": "react@19"
+    }
+   ]
+  },
+  "positioning-and-pricing-transparency": {
+   "category": "positioning-and-proof",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/marketing/positioning-and-proof/positioning-and-pricing-transparency/positioning-and-pricing-transparency.md",
+   "digest": "sha256:7afc6d4266b83f70",
+   "revision": 1,
+   "changedAt": "2026-09-09",
+   "techniques": [
+    {
+     "slug": "competitor-facts-sourced-and-dated",
+     "status": "forged",
+     "laws": [
+      "never-invent-proof",
+      "not-measured-is-not-zero"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing incumbent prices or capabilities into a value case",
+      "building a comparison or \"alternative to\" page",
+      "letting a model generate copy that mentions rivals"
+     ]
+    },
+    {
+     "slug": "documented-intent-pricing-tiers",
+     "status": "forged",
+     "laws": [
+      "never-invent-proof",
+      "a-gate-before-money-and-copy",
+      "label-convention-as-convention"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "publishing a pricing page before billing exists",
+      "deciding what the call to action on an unpurchasable tier should be",
+      "setting the trigger for a pricing revisit",
+      "disclosing a tier whose headline is \"unlimited via your own key\""
+     ]
+    },
+    {
+     "slug": "killer-triad-with-copy-difficulty",
+     "status": "forged",
+     "laws": [
+      "never-invent-proof",
+      "label-convention-as-convention"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing a value case against named incumbents",
+      "deciding which claims belong on the hero versus the feature grid",
+      "reviewing whether a \"differentiator\" is a moat or a backlog gap"
+     ]
+    },
+    {
+     "slug": "lead-claim-currency",
+     "status": "forged",
+     "laws": [
+      "a-gate-before-money-and-copy",
+      "never-invent-proof"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "reviewing landing variants after the product's lead claim moved",
+      "deciding whether to iterate or retire a page",
+      "briefing a new landing direction"
+     ]
+    },
+    {
+     "slug": "ships-today-vs-claim-separation",
+     "status": "forged",
+     "laws": [
+      "never-invent-proof",
+      "provenance-is-binary-and-labelled"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing the per-claim body of a value case",
+      "deciding whether a claim may be rehearsed in a sales conversation",
+      "reviewing positioning copy for future-tense drift"
+     ]
+    },
+    {
+     "slug": "state-support-level-not-parity",
+     "status": "forged",
+     "laws": [
+      "never-invent-proof",
+      "provenance-is-binary-and-labelled"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing the \"works with\" strip on a landing page",
+      "listing integrations or channels anywhere in public copy",
+      "writing a proof line on a hero"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "documented-intent-pricing-tiers",
+     "file": "knowledge/marketing/positioning-and-proof/positioning-and-pricing-transparency/applications/node--documented-intent-pricing-tiers.md",
+     "verified_on": "2026-09-09",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "process",
+     "technique": "ships-today-vs-claim-separation",
+     "file": "knowledge/marketing/positioning-and-proof/positioning-and-pricing-transparency/applications/process--ships-today-vs-claim-separation.md",
+     "verified_on": "2026-09-09"
+    },
+    {
+     "stack": "react",
+     "technique": "state-support-level-not-parity",
+     "file": "knowledge/marketing/positioning-and-proof/positioning-and-pricing-transparency/applications/react--state-support-level-not-parity.md",
+     "verified_on": "2026-09-09",
+     "verified_against": "react@19"
+    }
+   ]
+  },
+  "product-feed-and-catalog-spine": {
+   "category": "paid-advertising",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/marketing/paid-advertising/product-feed-and-catalog-spine/product-feed-and-catalog-spine.md",
+   "digest": "sha256:9c6b95f50aa0b883",
+   "revision": 1,
+   "changedAt": "2026-09-09",
+   "techniques": [
+    {
+     "slug": "custom-labels-as-bidding-buckets",
+     "status": "forged",
+     "laws": [
+      "efficiency-is-not-profitability",
+      "label-convention-as-convention"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing what a feed's custom label slots carry",
+      "letting a merchant bid by margin or stock inside the channel",
+      "keeping feed labels consistent with the stock screen"
+     ]
+    },
+    {
+     "slug": "days-of-cover-pacing-rules",
+     "status": "forged",
+     "laws": [
+      "label-convention-as-convention",
+      "a-gate-before-money-and-copy",
+      "not-measured-is-not-zero"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "pausing or trimming product ads on stock",
+      "planning seasonal budget against available stock",
+      "proposing a budget move away from a stockout"
+     ]
+    },
+    {
+     "slug": "dispatch-delay-truth-per-feed",
+     "status": "forged",
+     "laws": [
+      "never-invent-proof",
+      "not-measured-is-not-zero"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "serializing a catalog into a shopping or price-comparison feed",
+      "parsing a marketplace feed's delivery field",
+      "deciding what to do with an unavailable item per channel"
+     ]
+    },
+    {
+     "slug": "paused-sku-never-advertised",
+     "status": "forged",
+     "laws": [
+      "a-gate-before-money-and-copy",
+      "not-measured-is-not-zero"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "adding a consumer that reads products for ads or feeds",
+      "deciding where the active filter lives",
+      "reconciling a manual pause with an availability import"
+     ]
+    },
+    {
+     "slug": "product-plan-service-routing",
+     "status": "forged",
+     "laws": [
+      "not-measured-is-not-zero"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing the offering model for a mixed business",
+      "deciding which offerings a feed or a pacing rule may read",
+      "adding a marketing module that reads the catalog"
+     ]
+    },
+    {
+     "slug": "usps-become-ad-benefits",
+     "status": "forged",
+     "laws": [
+      "never-invent-proof",
+      "provenance-is-binary-and-labelled"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "building the ad request for a catalog item",
+      "writing a deterministic ad fallback",
+      "deriving a brand context from a catalog"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "custom-labels-as-bidding-buckets",
+     "file": "knowledge/marketing/paid-advertising/product-feed-and-catalog-spine/applications/node--custom-labels-as-bidding-buckets.md",
+     "verified_on": "2026-09-09",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "days-of-cover-pacing-rules",
+     "file": "knowledge/marketing/paid-advertising/product-feed-and-catalog-spine/applications/node--days-of-cover-pacing-rules.md",
+     "verified_on": "2026-09-09",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "dispatch-delay-truth-per-feed",
+     "file": "knowledge/marketing/paid-advertising/product-feed-and-catalog-spine/applications/node--dispatch-delay-truth-per-feed.md",
+     "verified_on": "2026-09-09",
+     "verified_against": "node@24"
+    }
+   ]
+  },
+  "profit-on-ad-spend-economics": {
+   "category": "measurement-and-economics",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/marketing/measurement-and-economics/profit-on-ad-spend-economics/profit-on-ad-spend-economics.md",
+   "digest": "sha256:4d8b270bb1cf63ad",
+   "revision": 1,
+   "changedAt": "2026-09-09",
+   "techniques": [
+    {
+     "slug": "break-even-roas-is-inverse-margin",
+     "status": "forged",
+     "laws": [
+      "efficiency-is-not-profitability",
+      "one-target-one-threshold",
+      "label-convention-as-convention"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a surface needs a break-even target",
+      "a break-even was typed by hand",
+      "overhead or fulfilment must be folded into a target"
+     ]
+    },
+    {
+     "slug": "efficiency-is-not-profitability",
+     "status": "forged",
+     "laws": [
+      "efficiency-is-not-profitability",
+      "never-invent-proof",
+      "label-convention-as-convention"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a report or generated summary uses the word profitable",
+      "a surface has ratios but no margin",
+      "briefing a model to comment on ad performance"
+     ]
+    },
+    {
+     "slug": "overhead-and-fulfilment-loading",
+     "status": "forged",
+     "laws": [
+      "label-convention-as-convention",
+      "never-invent-proof",
+      "not-measured-is-not-zero"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "moving from gross-margin to contribution-margin economics",
+      "choosing how to split fixed costs across channels",
+      "a cost-model input arrives from a form"
+     ]
+    },
+    {
+     "slug": "profitable-means-net-profit-nonnegative",
+     "status": "forged",
+     "laws": [
+      "efficiency-is-not-profitability",
+      "not-measured-is-not-zero",
+      "one-target-one-threshold"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing the predicate that colours a row or counts unprofitable channels",
+      "an organic or direct channel reads as a loss",
+      "two surfaces disagree about whether one channel is profitable"
+     ]
+    },
+    {
+     "slug": "ratio-vocabulary-one-guarded-divide",
+     "status": "forged",
+     "laws": [
+      "not-measured-is-not-zero",
+      "one-target-one-threshold"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "defining the marketing ratios a surface computes",
+      "a ratio is inlined in more than one place",
+      "a zero denominator has produced a verdict"
+     ]
+    },
+    {
+     "slug": "response-curve-gate-and-marginal-return",
+     "status": "forged",
+     "laws": [
+      "label-convention-as-convention",
+      "statistical-honesty-before-a-verdict",
+      "efficiency-is-not-profitability"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether more spend on a channel will still pay",
+      "fitting a diminishing-returns curve to daily spend and revenue",
+      "a surface labels a projection as curve-based"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "overhead-and-fulfilment-loading",
+     "file": "knowledge/marketing/measurement-and-economics/profit-on-ad-spend-economics/applications/node--overhead-and-fulfilment-loading.md",
+     "verified_on": "2026-09-09",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "profitable-means-net-profit-nonnegative",
+     "file": "knowledge/marketing/measurement-and-economics/profit-on-ad-spend-economics/applications/node--profitable-means-net-profit-nonnegative.md",
+     "verified_on": "2026-09-09",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "response-curve-gate-and-marginal-return",
+     "file": "knowledge/marketing/measurement-and-economics/profit-on-ad-spend-economics/applications/node--response-curve-gate-and-marginal-return.md",
+     "verified_on": "2026-09-09",
+     "verified_against": "node@24"
+    }
+   ]
+  },
+  "responsive-search-ad-craft": {
+   "category": "paid-advertising",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/marketing/paid-advertising/responsive-search-ad-craft/responsive-search-ad-craft.md",
+   "digest": "sha256:dc11e0cdf93496a8",
+   "revision": 1,
+   "changedAt": "2026-09-09",
+   "techniques": [
+    {
+     "slug": "ad-strength-is-a-proxy-not-relevance",
+     "status": "forged",
+     "laws": [
+      "label-convention-as-convention",
+      "platform-reported-is-not-causal"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "building or reading a local ad-strength rater",
+      "explaining a platform's strength label to a client",
+      "deciding whether a set is launch-ready"
+     ]
+    },
+    {
+     "slug": "headline-angle-coverage",
+     "status": "forged",
+     "laws": [
+      "never-invent-proof",
+      "label-convention-as-convention"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing the headline set for an ad group",
+      "judging whether a generated set is padded",
+      "briefing a generator on what the headlines must cover"
+     ]
+    },
+    {
+     "slug": "keyword-coverage-half-not-all",
+     "status": "forged",
+     "laws": [
+      "label-convention-as-convention"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding how many headlines carry the ad group's keyword",
+      "scoring keyword presence in a generated set",
+      "explaining why a rater does not reward every headline containing the keyword"
+     ]
+    },
+    {
+     "slug": "length-bucket-spread-and-combination-preview",
+     "status": "forged",
+     "laws": [
+      "label-convention-as-convention"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "checking whether a headline set renders on a phone",
+      "building or reviewing an ad preview",
+      "scoring length variety in a rater"
+     ]
+    },
+    {
+     "slug": "over-limit-omitted-not-truncated",
+     "status": "forged",
+     "laws": [
+      "a-gate-before-money-and-copy"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "building an import sheet or bulk export from an ad set",
+      "deciding what to do with an over-limit asset",
+      "reviewing a generator's clamp step"
+     ]
+    },
+    {
+     "slug": "platform-limits-stay-slightly-under",
+     "status": "forged",
+     "laws": [
+      "label-convention-as-convention",
+      "a-gate-before-money-and-copy"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "instructing a generator on ad character limits",
+      "validating an ad set before upload",
+      "targeting two platforms from one ad set"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "ad-strength-is-a-proxy-not-relevance",
+     "file": "knowledge/marketing/paid-advertising/responsive-search-ad-craft/applications/node--ad-strength-is-a-proxy-not-relevance.md",
+     "verified_on": "2026-09-09",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "headline-angle-coverage",
+     "file": "knowledge/marketing/paid-advertising/responsive-search-ad-craft/applications/node--headline-angle-coverage.md",
+     "verified_on": "2026-09-09",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "over-limit-omitted-not-truncated",
+     "file": "knowledge/marketing/paid-advertising/responsive-search-ad-craft/applications/node--over-limit-omitted-not-truncated.md",
+     "verified_on": "2026-09-09",
+     "verified_against": "node@24"
+    }
+   ]
+  },
+  "search-intent-classification": {
+   "category": "search-and-content",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/marketing/search-and-content/search-intent-classification/search-intent-classification.md",
+   "digest": "sha256:72a331b20fc78ac3",
+   "revision": 1,
+   "changedAt": "2026-09-09",
+   "techniques": [
+    {
+     "slug": "buyer-diyer-peer-test",
+     "status": "forged",
+     "laws": [
+      "the-results-page-is-the-verdict"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing the root keyword of a money page",
+      "a high-volume term reads like a guide title",
+      "deciding between a bigger term and a smaller one with a buying noun"
+     ]
+    },
+    {
+     "slug": "err-toward-transactional",
+     "status": "forged",
+     "laws": [
+      "the-results-page-is-the-verdict",
+      "label-convention-as-convention"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an intent call is a coin flip",
+      "reviewing a classifier or word list that defaults to informational",
+      "deciding which way a marker-free short query falls"
+     ]
+    },
+    {
+     "slug": "local-and-comparison-as-own-intents",
+     "status": "forged",
+     "laws": [
+      "the-results-page-is-the-verdict"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing or reviewing an intent taxonomy",
+      "a near-me or in-city query is about to be routed to a service page",
+      "a best-of or versus query is about to be filed as informational"
+     ]
+    },
+    {
+     "slug": "mixed-serp-money-page-wins",
+     "status": "forged",
+     "laws": [
+      "the-results-page-is-the-verdict",
+      "label-convention-as-convention"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a results page splits between service pages and guides",
+      "two pages of one site want the same primary keyword",
+      "deciding whether a term is mixed"
+     ]
+    },
+    {
+     "slug": "route-losers-to-linking-content",
+     "status": "forged",
+     "laws": [
+      "a-gate-before-money-and-copy",
+      "the-results-page-is-the-verdict"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a high-volume term failed the intent check for a money page",
+      "a keyword map has a cut list",
+      "deciding what to do with the informational half of a mixed page"
+     ]
+    },
+    {
+     "slug": "serp-count-verdict-not-tool-label",
+     "status": "forged",
+     "laws": [
+      "the-results-page-is-the-verdict",
+      "label-convention-as-convention"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "classifying a keyword before a page is planned",
+      "checking a tool's intent column",
+      "recording an intent verdict someone else can verify"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "err-toward-transactional",
+     "file": "knowledge/marketing/search-and-content/search-intent-classification/applications/node--err-toward-transactional.md",
+     "verified_on": "2026-09-09",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "prompt-pipeline",
+     "technique": "serp-count-verdict-not-tool-label",
+     "file": "knowledge/marketing/search-and-content/search-intent-classification/applications/prompt-pipeline--serp-count-verdict-not-tool-label.md",
+     "verified_on": "2026-09-09",
+     "verified_against": "prompt-pipeline@2026.09.06"
+    }
+   ]
+  },
+  "search-term-mining": {
+   "category": "paid-advertising",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/marketing/paid-advertising/search-term-mining/search-term-mining.md",
+   "digest": "sha256:654f5114c0714de9",
+   "revision": 1,
+   "changedAt": "2026-09-09",
+   "techniques": [
+    {
+     "slug": "campaign-level-phrase-negative",
+     "status": "forged",
+     "laws": [
+      "a-gate-before-money-and-copy",
+      "label-convention-as-convention"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing the scope and match type of a mined negative",
+      "the same wasteful query reappears after a negative was added",
+      "deciding when a negative theme graduates to a shared list"
+     ]
+    },
+    {
+     "slug": "exact-promote-into-serving-ad-group",
+     "status": "forged",
+     "laws": [
+      "label-convention-as-convention",
+      "a-gate-before-money-and-copy"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a query converts repeatedly under a broad or phrase keyword",
+      "designing the promote half of a search-term recommender",
+      "deciding what to do with a row whose match type is unknown"
+     ]
+    },
+    {
+     "slug": "negatives-before-promotes",
+     "status": "forged",
+     "laws": [
+      "a-gate-before-money-and-copy"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "ordering the moves a search-term recommender emits",
+      "a blast-radius cap truncates a term change-set",
+      "designing the apply loop for criterion changes"
+     ]
+    },
+    {
+     "slug": "never-mine-demo-data",
+     "status": "forged",
+     "laws": [
+      "provenance-is-binary-and-labelled",
+      "a-gate-before-money-and-copy"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a connector can fall back to sample data",
+      "a search-term sync runs on a degraded fetch",
+      "a demonstration tenant shows negative-keyword recommendations"
+     ]
+    },
+    {
+     "slug": "spend-and-click-floors-before-negation",
+     "status": "forged",
+     "laws": [
+      "statistical-honesty-before-a-verdict",
+      "label-convention-as-convention"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "setting the thresholds of a negative-keyword rule",
+      "a mining pass emits hundreds of cheap negatives",
+      "deciding the lookback window for search-term mining"
+     ]
+    },
+    {
+     "slug": "zero-conversions-on-unrounded-count",
+     "status": "forged",
+     "laws": [
+      "not-measured-is-not-zero",
+      "a-gate-before-money-and-copy"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing or reviewing a negative-keyword eligibility rule",
+      "parsing a search-terms export whose conversion column has decimals",
+      "a converting query stopped serving after a mining pass"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "never-mine-demo-data",
+     "file": "knowledge/marketing/paid-advertising/search-term-mining/applications/node--never-mine-demo-data.md",
+     "verified_on": "2026-09-09",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "zero-conversions-on-unrounded-count",
+     "file": "knowledge/marketing/paid-advertising/search-term-mining/applications/node--zero-conversions-on-unrounded-count.md",
+     "verified_on": "2026-09-09",
+     "verified_against": "node@24"
+    }
+   ]
+  },
+  "site-architecture-and-topic-clusters": {
+   "category": "search-and-content",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/marketing/search-and-content/site-architecture-and-topic-clusters/site-architecture-and-topic-clusters.md",
+   "digest": "sha256:3b2dabe474ee51ff",
+   "revision": 1,
+   "changedAt": "2026-09-09",
+   "techniques": [
+    {
+     "slug": "hub-spoke-sibling-standalone-labels",
+     "status": "forged",
+     "laws": [
+      "label-convention-as-convention"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "labelling a keyword map after clustering",
+      "deciding whether a related service is a spoke or a sibling",
+      "refilling a hub that has one or two spokes"
+     ]
+    },
+    {
+     "slug": "inlink-band-and-anchor-variety",
+     "status": "forged",
+     "laws": [
+      "label-convention-as-convention",
+      "platform-reported-is-not-causal"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding how many internal links a money page or pillar should receive",
+      "choosing anchor text for a link into a target page",
+      "auditing a site where most pages have one inbound link"
+     ]
+    },
+    {
+     "slug": "one-primary-keyword-per-page",
+     "status": "forged",
+     "laws": [
+      "the-results-page-is-the-verdict",
+      "a-gate-before-money-and-copy"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "assigning the root keyword of a page",
+      "adding a page to a map that already has forty rows",
+      "diagnosing two URLs swapping positions on one query"
+     ]
+    },
+    {
+     "slug": "pillar-passage-per-spoke-linking-contract",
+     "status": "forged",
+     "laws": [
+      "label-convention-as-convention"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "shipping a new spoke page or post",
+      "writing or auditing a hub or pillar page",
+      "building a machine check for hub-and-spoke wiring"
+     ]
+    },
+    {
+     "slug": "pillar-weighted-completeness-and-decay",
+     "status": "forged",
+     "laws": [
+      "not-measured-is-not-zero",
+      "statistical-honesty-before-a-verdict",
+      "label-convention-as-convention"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing the next page to write across several clusters",
+      "deciding whether to refresh or build",
+      "building a content queue that ranks clusters"
+     ]
+    },
+    {
+     "slug": "serp-overlap-same-page-test",
+     "status": "forged",
+     "laws": [
+      "the-results-page-is-the-verdict",
+      "label-convention-as-convention"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether two keywords are one page or two",
+      "folding a new term into an existing map",
+      "choosing a clustering method for a keyword pull"
+     ]
+    },
+    {
+     "slug": "three-layer-pyramid-cities-at-layer-three",
+     "status": "forged",
+     "laws": [
+      "label-convention-as-convention",
+      "a-gate-before-money-and-copy"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "laying out the URL tree of a new site",
+      "deciding where a service-and-city page lives",
+      "reviewing a site whose money pages sit four or more clicks deep"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "pillar-weighted-completeness-and-decay",
+     "file": "knowledge/marketing/search-and-content/site-architecture-and-topic-clusters/applications/node--pillar-weighted-completeness-and-decay.md",
+     "verified_on": "2026-09-09",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "prompt-pipeline",
+     "technique": "pillar-passage-per-spoke-linking-contract",
+     "file": "knowledge/marketing/search-and-content/site-architecture-and-topic-clusters/applications/prompt-pipeline--pillar-passage-per-spoke-linking-contract.md",
+     "verified_on": "2026-09-09",
+     "verified_against": "prompt-pipeline@2026.09.06"
+    },
+    {
+     "stack": "prompt-pipeline",
+     "technique": "three-layer-pyramid-cities-at-layer-three",
+     "file": "knowledge/marketing/search-and-content/site-architecture-and-topic-clusters/applications/prompt-pipeline--three-layer-pyramid-cities-at-layer-three.md",
+     "verified_on": "2026-09-09",
+     "verified_against": "prompt-pipeline@2026.09.06"
+    }
+   ]
+  },
+  "speed-to-lead-and-assisted-reply": {
+   "category": "conversion-and-leads",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/marketing/conversion-and-leads/speed-to-lead-and-assisted-reply/speed-to-lead-and-assisted-reply.md",
+   "digest": "sha256:9468b0693864c413",
+   "revision": 1,
+   "changedAt": "2026-09-09",
+   "techniques": [
+    {
+     "slug": "answer-in-first-sentence-never-promise",
+     "status": "forged",
+     "laws": [
+      "never-invent-proof",
+      "a-gate-before-money-and-copy"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing the doctrine a model follows when drafting a customer reply",
+      "designing the reply output schema",
+      "reviewing why a drafted reply was rejected"
+     ]
+    },
+    {
+     "slug": "bant-lite-scoring",
+     "status": "forged",
+     "laws": [
+      "label-convention-as-convention",
+      "not-measured-is-not-zero"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "capturing qualification while answering a lead",
+      "deriving hot and warm bands from a score",
+      "deciding what an unanswered qualification field means"
+     ]
+    },
+    {
+     "slug": "delivery-fails-closed-cap-consent",
+     "status": "forged",
+     "laws": [
+      "a-gate-before-money-and-copy",
+      "not-measured-is-not-zero"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether an approved reply may be sent right now",
+      "adding a weekly send cap or a consent requirement to a channel",
+      "running an unattended send loop"
+     ]
+    },
+    {
+     "slug": "first-reply-promises-channel-not-minutes",
+     "status": "forged",
+     "laws": [
+      "never-invent-proof",
+      "a-gate-before-money-and-copy"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing the deterministic first response to an enquiry",
+      "choosing what an auto-acknowledgement may promise",
+      "building the no-model floor under an assisted reply"
+     ]
+    },
+    {
+     "slug": "five-minute-sla-settled-outcomes-only",
+     "status": "forged",
+     "laws": [
+      "not-measured-is-not-zero",
+      "one-target-one-threshold",
+      "label-convention-as-convention"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "setting a first-response target",
+      "computing or displaying a within-target rate",
+      "choosing what an open lead counts as"
+     ]
+    },
+    {
+     "slug": "risks-gate-not-confidence",
+     "status": "forged",
+     "laws": [
+      "a-gate-before-money-and-copy",
+      "label-convention-as-convention"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether a model-drafted reply may skip a human",
+      "setting an autonomy level per channel",
+      "choosing a model tier for a reply tool"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "bant-lite-scoring",
+     "file": "knowledge/marketing/conversion-and-leads/speed-to-lead-and-assisted-reply/applications/node--bant-lite-scoring.md",
+     "verified_on": "2026-09-09",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "delivery-fails-closed-cap-consent",
+     "file": "knowledge/marketing/conversion-and-leads/speed-to-lead-and-assisted-reply/applications/node--delivery-fails-closed-cap-consent.md",
+     "verified_on": "2026-09-09",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "five-minute-sla-settled-outcomes-only",
+     "file": "knowledge/marketing/conversion-and-leads/speed-to-lead-and-assisted-reply/applications/node--five-minute-sla-settled-outcomes-only.md",
+     "verified_on": "2026-09-09",
+     "verified_against": "node@24"
+    }
+   ]
+  },
+  "zero-budget-channel-planning": {
+   "category": "local-and-zero-budget",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/marketing/local-and-zero-budget/zero-budget-channel-planning/zero-budget-channel-planning.md",
+   "digest": "sha256:2dd975d22b47ab3c",
+   "revision": 1,
+   "changedAt": "2026-09-09",
+   "techniques": [
+    {
+     "slug": "channel-family-taxonomy-by-lifecycle-kind",
+     "status": "forged",
+     "laws": [
+      "label-convention-as-convention"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing the channel model of a free-visibility plan",
+      "deciding what \"done\" means for a channel",
+      "deriving a channel's next step from its stage"
+     ]
+    },
+    {
+     "slug": "fit-effort-quick-win-rule",
+     "status": "forged",
+     "laws": [
+      "label-convention-as-convention",
+      "never-invent-proof"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "ranking free channels for a business",
+      "choosing which channel to surface as the first thing to do",
+      "reviewing a channel-research prompt's output schema"
+     ]
+    },
+    {
+     "slug": "free-channels-lead-onboarding",
+     "status": "forged",
+     "laws": [
+      "label-convention-as-convention",
+      "a-gate-before-money-and-copy"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "ordering a first-run checklist for a marketing product",
+      "deciding which onboarding steps are required per business type",
+      "reviewing why a zero-budget path is undiscoverable"
+     ]
+    },
+    {
+     "slug": "grounding-precedence-catalog-over-scan",
+     "status": "forged",
+     "laws": [
+      "never-invent-proof",
+      "provenance-is-binary-and-labelled"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "assembling the context a channel-plan generator may know about a business",
+      "deciding whether a website scan may overrule a catalog",
+      "handling a sample or placeholder catalog before it reaches a prompt"
+     ]
+    },
+    {
+     "slug": "keyword-to-channel-visibility-plan",
+     "status": "forged",
+     "laws": [
+      "never-invent-proof",
+      "provenance-is-binary-and-labelled",
+      "not-measured-is-not-zero"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "joining a keyword list",
+      "a content library and a channel plan into one weekly plan",
+      "deciding which channels may be paired with a target query",
+      "labelling a plan row's provenance"
+     ]
+    },
+    {
+     "slug": "measured-clicks-beside-not-inside-fit",
+     "status": "forged",
+     "laws": [
+      "not-measured-is-not-zero",
+      "platform-reported-is-not-causal",
+      "provenance-is-binary-and-labelled"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "adding measurement to a channel plan that ranks by a predicted score",
+      "designing a short-link counter for free channels",
+      "deciding what a click count may change in a ranking"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "grounding-precedence-catalog-over-scan",
+     "file": "knowledge/marketing/local-and-zero-budget/zero-budget-channel-planning/applications/node--grounding-precedence-catalog-over-scan.md",
+     "verified_on": "2026-09-09",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "keyword-to-channel-visibility-plan",
+     "file": "knowledge/marketing/local-and-zero-budget/zero-budget-channel-planning/applications/node--keyword-to-channel-visibility-plan.md",
+     "verified_on": "2026-09-09",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "measured-clicks-beside-not-inside-fit",
+     "file": "knowledge/marketing/local-and-zero-budget/zero-budget-channel-planning/applications/node--measured-clicks-beside-not-inside-fit.md",
+     "verified_on": "2026-09-09",
+     "verified_against": "node@24"
+    }
+   ]
+  }
+ },
+ "laws": {
+  "label-convention-as-convention": {
+   "statement": "Every rule in this domain sits on one of three footings: documented platform behaviour, a published measurement, or practitioner convention. A technique says which, and a generated recommendation says which. The difficulty-below-authority ceiling, the six-of-ten intent count, the subhead interval, the four-field form, the cadence cap - useful habits, all of them, and none a law of the engine. A convention presented as documented behaviour is the domain's most reproduced error and the reason a corpus of marketing advice ages into folklore.",
+   "techniques": [
+    "answer-engine-visibility/answer-block-under-question-heading",
+    "answer-engine-visibility/informational-as-linking-fuel-not-traffic",
+    "answer-engine-visibility/self-contained-passages-with-original-data",
+    "answer-engine-visibility/third-party-mentions-over-on-page-tricks",
+    "answer-engine-visibility/weight-the-map-toward-transactional-and-local",
+    "attribution-and-incrementality/holdout-test-on-the-biggest-channel",
+    "attribution-and-incrementality/last-click-under-credits-prospecting",
+    "brand-voice-capture/rejections-and-edits-become-constraints",
+    "brand-voice-capture/voice-maturity-and-retrain-triggers",
+    "brand-voice-capture/voice-profile-dimensions",
+    "budget-reallocation-prescription/linear-projection-with-confidence-cap",
+    "business-profile-and-citations/city-in-query-never-in-name",
+    "business-profile-and-citations/hours-and-attributes-only-when-true",
+    "business-profile-and-citations/nap-byte-identical-citations",
+    "business-profile-and-citations/profile-marks-not-filled-or-empty",
+    "campaign-anomaly-triage/hysteresis-and-cooldown-tombstones",
+    "campaign-anomaly-triage/one-target-reciprocal-thresholds",
+    "campaign-anomaly-triage/spend-spike-without-return",
+    "campaign-anomaly-triage/weekday-deseasonalised-baseline",
+    "channel-native-social-and-repurposing/cadence-caps-at-one-chokepoint",
+    "channel-native-social-and-repurposing/ground-in-measured-top-posts",
+    "channel-native-social-and-repurposing/hook-value-cta-triad",
+    "channel-native-social-and-repurposing/per-network-register-and-limits",
+    "channel-native-social-and-repurposing/retell-not-copy-with-source-digest",
+    "client-reporting-and-data-provenance/stale-caveat-travels-into-the-narrative",
+    "content-brief-and-article-composition/brief-carries-keyword-outline-faq-and-links",
+    "content-brief-and-article-composition/humour-costs-credibility-proof-zones-stay-straight",
+    "content-brief-and-article-composition/mid-body-anchor-cta",
+    "content-brief-and-article-composition/quick-answer-in-first-fifty-words",
+    "content-brief-and-article-composition/retention-structure-subheads-and-sentences",
+    "goal-pacing-and-forecast/band-and-suppressed-early-probability",
+    "goal-pacing-and-forecast/implied-extra-spend-capped",
+    "grounded-marketing-generation/judge-rubric-and-drift-thresholds",
+    "grounded-marketing-generation/never-invent-proof-price-or-contact",
+    "honest-proof-and-illustrative-data/claims-derived-from-product-code",
+    "keyword-metric-reliability/authority-ceiling-blogs-not-money-pages",
+    "keyword-metric-reliability/difficulty-is-a-link-count",
+    "keyword-metric-reliability/local-terms-rank-by-revenue-not-volume",
+    "keyword-metric-reliability/serp-age-and-topical-proximity",
+    "keyword-metric-reliability/volume-as-order-of-magnitude",
+    "landing-page-experiment-statistics/multi-arm-alpha-correction",
+    "landing-page-experiment-statistics/sample-size-trust-gate",
+    "lead-quality-and-source-diagnosis/cause-taxonomy-spam-mistargeting-pricing-volume",
+    "lead-quality-and-source-diagnosis/cheap-cpl-splits-spam-from-mistargeting",
+    "lead-quality-and-source-diagnosis/junk-source-rule",
+    "lead-quality-and-source-diagnosis/minimum-sample-before-verdict",
+    "lead-quality-and-source-diagnosis/quality-score-qualification-and-win",
+    "lead-quality-and-source-diagnosis/two-axis-fit-engagement",
+    "local-page-doorway-prevention/boilerplate-strip-then-containment",
+    "local-page-doorway-prevention/funnel-not-city-is-the-doorway-test",
+    "local-page-doorway-prevention/localize-the-problem-not-the-place",
+    "local-page-doorway-prevention/rewrite-before-consolidate",
+    "local-page-doorway-prevention/three-of-four-local-material-gate",
+    "local-visibility-and-reputation/attention-score-for-many-locations",
+    "local-visibility-and-reputation/pack-visibility-per-engine-never-averaged",
+    "local-visibility-and-reputation/review-recency-beats-count",
+    "local-visibility-and-reputation/review-reply-by-rating-band",
+    "local-visibility-and-reputation/service-area-coverage-gaps-by-volume",
+    "local-visibility-and-reputation/sustained-decline-three-runs-three-positions",
+    "money-page-conversion-craft/cro-leak-order",
+    "money-page-conversion-craft/hero-proof-first-one-cta",
+    "money-page-conversion-craft/progressive-disclosure-five-visible",
+    "money-page-conversion-craft/proof-count-five-real-and-checkable",
+    "on-page-and-metadata-craft/ctr-lifts-as-tie-breakers-not-a-stack",
+    "on-page-and-metadata-craft/primary-keyword-triple-placement",
+    "on-page-and-metadata-craft/structured-data-by-page-kind",
+    "on-page-and-metadata-craft/title-and-meta-pixel-budget",
+    "performance-root-cause-diagnosis/cause-ladder-tracking-gap-first",
+    "performance-root-cause-diagnosis/thresholds-mirror-the-prompt",
+    "period-comparison-significance/significance-tier-per-metric-class",
+    "positioning-and-pricing-transparency/documented-intent-pricing-tiers",
+    "positioning-and-pricing-transparency/killer-triad-with-copy-difficulty",
+    "product-feed-and-catalog-spine/custom-labels-as-bidding-buckets",
+    "product-feed-and-catalog-spine/days-of-cover-pacing-rules",
+    "profit-on-ad-spend-economics/break-even-roas-is-inverse-margin",
+    "profit-on-ad-spend-economics/efficiency-is-not-profitability",
+    "profit-on-ad-spend-economics/overhead-and-fulfilment-loading",
+    "profit-on-ad-spend-economics/response-curve-gate-and-marginal-return",
+    "responsive-search-ad-craft/ad-strength-is-a-proxy-not-relevance",
+    "responsive-search-ad-craft/headline-angle-coverage",
+    "responsive-search-ad-craft/keyword-coverage-half-not-all",
+    "responsive-search-ad-craft/length-bucket-spread-and-combination-preview",
+    "responsive-search-ad-craft/platform-limits-stay-slightly-under",
+    "search-intent-classification/err-toward-transactional",
+    "search-intent-classification/mixed-serp-money-page-wins",
+    "search-intent-classification/serp-count-verdict-not-tool-label",
+    "search-term-mining/campaign-level-phrase-negative",
+    "search-term-mining/exact-promote-into-serving-ad-group",
+    "search-term-mining/spend-and-click-floors-before-negation",
+    "site-architecture-and-topic-clusters/hub-spoke-sibling-standalone-labels",
+    "site-architecture-and-topic-clusters/inlink-band-and-anchor-variety",
+    "site-architecture-and-topic-clusters/pillar-passage-per-spoke-linking-contract",
+    "site-architecture-and-topic-clusters/pillar-weighted-completeness-and-decay",
+    "site-architecture-and-topic-clusters/serp-overlap-same-page-test",
+    "site-architecture-and-topic-clusters/three-layer-pyramid-cities-at-layer-three",
+    "speed-to-lead-and-assisted-reply/bant-lite-scoring",
+    "speed-to-lead-and-assisted-reply/five-minute-sla-settled-outcomes-only",
+    "speed-to-lead-and-assisted-reply/risks-gate-not-confidence",
+    "zero-budget-channel-planning/channel-family-taxonomy-by-lifecycle-kind",
+    "zero-budget-channel-planning/fit-effort-quick-win-rule",
+    "zero-budget-channel-planning/free-channels-lead-onboarding"
+   ]
+  },
+  "never-invent-proof": {
+   "statement": "No number, review, credential, price, address, contact, guarantee or competitor fact goes on any surface or into any prompt output unless the business supplied it. A missing proof is an open question put to the owner, or an explicitly empty slot - never a plausible value, never a blank left silently, never a disclaimer padding it. In generated output this is enforced structurally: schemas that cannot carry a number, validators that drop entities not in the request, grounding that hands only facts to the model. An instruction alone does not satisfy the law.",
+   "techniques": [
+    "answer-engine-visibility/answer-block-under-question-heading",
+    "answer-engine-visibility/self-contained-passages-with-original-data",
+    "brand-voice-capture/distil-only-what-samples-show-else-ask",
+    "brand-voice-capture/editorial-voice-vs-personal-voice-split",
+    "business-profile-and-citations/hours-and-attributes-only-when-true",
+    "business-profile-and-citations/nap-byte-identical-citations",
+    "business-profile-and-citations/one-entry-per-bookable-service",
+    "business-profile-and-citations/profile-marks-not-filled-or-empty",
+    "business-profile-and-citations/suspension-risk-checklist",
+    "channel-native-social-and-repurposing/hook-value-cta-triad",
+    "client-reporting-and-data-provenance/plain-language-gloss-and-white-label",
+    "client-reporting-and-data-provenance/stale-caveat-travels-into-the-narrative",
+    "content-brief-and-article-composition/article-block-budget-one-callout-one-cta",
+    "content-brief-and-article-composition/brief-carries-keyword-outline-faq-and-links",
+    "content-brief-and-article-composition/humour-costs-credibility-proof-zones-stay-straight",
+    "content-brief-and-article-composition/quick-answer-in-first-fifty-words",
+    "grounded-marketing-generation/generation-reads-the-data-spine",
+    "grounded-marketing-generation/never-invent-proof-price-or-contact",
+    "grounded-marketing-generation/publishable-as-is-quality-gate",
+    "grounded-marketing-generation/structural-anti-fabrication-over-instruction",
+    "honest-proof-and-illustrative-data/absent-evidence-inventory",
+    "honest-proof-and-illustrative-data/claims-derived-from-product-code",
+    "honest-proof-and-illustrative-data/demo-badge-beside-the-number",
+    "honest-proof-and-illustrative-data/proof-from-live-computation",
+    "keyword-metric-reliability/local-terms-rank-by-revenue-not-volume",
+    "keyword-metric-reliability/volume-as-order-of-magnitude",
+    "landing-page-experiment-statistics/distinct-hypothesis-per-arm",
+    "landing-page-experiment-statistics/experiment-pages-print-no-numbers",
+    "lead-quality-and-source-diagnosis/cause-taxonomy-spam-mistargeting-pricing-volume",
+    "lead-quality-and-source-diagnosis/two-axis-fit-engagement",
+    "local-page-doorway-prevention/localize-the-problem-not-the-place",
+    "local-page-doorway-prevention/three-of-four-local-material-gate",
+    "local-visibility-and-reputation/review-reply-by-rating-band",
+    "money-page-conversion-craft/cro-leak-order",
+    "money-page-conversion-craft/hero-proof-first-one-cta",
+    "money-page-conversion-craft/proof-count-five-real-and-checkable",
+    "on-page-and-metadata-craft/mechanical-layer-only-never-the-copy",
+    "on-page-and-metadata-craft/structured-data-by-page-kind",
+    "performance-root-cause-diagnosis/one-lever-from-supplied-entities",
+    "positioning-and-pricing-transparency/competitor-facts-sourced-and-dated",
+    "positioning-and-pricing-transparency/documented-intent-pricing-tiers",
+    "positioning-and-pricing-transparency/killer-triad-with-copy-difficulty",
+    "positioning-and-pricing-transparency/lead-claim-currency",
+    "positioning-and-pricing-transparency/ships-today-vs-claim-separation",
+    "positioning-and-pricing-transparency/state-support-level-not-parity",
+    "product-feed-and-catalog-spine/dispatch-delay-truth-per-feed",
+    "product-feed-and-catalog-spine/usps-become-ad-benefits",
+    "profit-on-ad-spend-economics/efficiency-is-not-profitability",
+    "profit-on-ad-spend-economics/overhead-and-fulfilment-loading",
+    "responsive-search-ad-craft/headline-angle-coverage",
+    "speed-to-lead-and-assisted-reply/answer-in-first-sentence-never-promise",
+    "speed-to-lead-and-assisted-reply/first-reply-promises-channel-not-minutes",
+    "zero-budget-channel-planning/fit-effort-quick-win-rule",
+    "zero-budget-channel-planning/grounding-precedence-catalog-over-scan",
+    "zero-budget-channel-planning/keyword-to-channel-visibility-plan"
+   ]
+  },
+  "not-measured-is-not-zero": {
+   "statement": "A missing denominator, an absent prior window, a metric a platform never reported, a link nobody clicked yet, a channel with no read-back - each is absent, and absence is rendered as absent: null, blank, \"not measured\", a dropped column. Zero is a verdict, and a fabricated zero seeds every baseline, average and comparison downstream with a lie. The same rule forbids summing money across currencies and blending a predicted score into a measured one.",
+   "techniques": [
+    "answer-engine-visibility/ask-the-models-baseline",
+    "answer-engine-visibility/informational-as-linking-fuel-not-traffic",
+    "answer-engine-visibility/weight-the-map-toward-transactional-and-local",
+    "attribution-and-incrementality/before-after-is-not-an-experiment",
+    "attribution-and-incrementality/offline-conversion-upload-guards",
+    "attribution-and-incrementality/platform-conversions-are-self-attributed",
+    "attribution-and-incrementality/triangulate-attribution-incrementality-and-mix-model",
+    "brand-voice-capture/voice-maturity-and-retrain-triggers",
+    "budget-reallocation-prescription/donor-floor-and-movable-amount",
+    "budget-reallocation-prescription/realized-vs-projected-calibration",
+    "campaign-anomaly-triage/crater-vs-slow-bleed",
+    "campaign-anomaly-triage/disjoint-severity-rules-worst-first",
+    "campaign-anomaly-triage/weekday-deseasonalised-baseline",
+    "channel-native-social-and-repurposing/ground-in-measured-top-posts",
+    "channel-native-social-and-repurposing/the-channel-confirms-the-app-promises",
+    "client-reporting-and-data-provenance/live-means-synced-rows",
+    "client-reporting-and-data-provenance/never-sum-across-currencies",
+    "client-reporting-and-data-provenance/tile-presets-by-business-type",
+    "goal-pacing-and-forecast/goal-in-force-per-month",
+    "goal-pacing-and-forecast/required-pace-divides-by-future-days",
+    "goal-pacing-and-forecast/weekday-weighted-month-end-projection",
+    "grounded-marketing-generation/deterministic-clamp-vs-model-reprompt",
+    "grounded-marketing-generation/generation-reads-the-data-spine",
+    "grounded-marketing-generation/judge-rubric-and-drift-thresholds",
+    "honest-proof-and-illustrative-data/binary-provenance-no-blending",
+    "honest-proof-and-illustrative-data/proof-from-live-computation",
+    "keyword-metric-reliability/unknown-metric-sinks-never-flatters",
+    "keyword-metric-reliability/volume-as-order-of-magnitude",
+    "landing-page-experiment-statistics/sample-size-trust-gate",
+    "lead-quality-and-source-diagnosis/cheap-cpl-splits-spam-from-mistargeting",
+    "lead-quality-and-source-diagnosis/minimum-sample-before-verdict",
+    "lead-quality-and-source-diagnosis/quality-score-qualification-and-win",
+    "lead-quality-and-source-diagnosis/two-axis-fit-engagement",
+    "local-page-doorway-prevention/read-the-engines-verdict-via-url-inspection",
+    "local-visibility-and-reputation/attention-score-for-many-locations",
+    "local-visibility-and-reputation/pack-visibility-per-engine-never-averaged",
+    "local-visibility-and-reputation/review-recency-beats-count",
+    "local-visibility-and-reputation/service-area-coverage-gaps-by-volume",
+    "local-visibility-and-reputation/sustained-decline-three-runs-three-positions",
+    "money-page-conversion-craft/diagnostic-quadrant-clicks-leads-impressions",
+    "money-page-conversion-craft/thank-you-page-is-the-conversion-event",
+    "on-page-and-metadata-craft/low-ctr-high-impression-rewrite-targets",
+    "on-page-and-metadata-craft/title-and-meta-pixel-budget",
+    "performance-root-cause-diagnosis/advice-ledger-scores-past-advice",
+    "performance-root-cause-diagnosis/cause-ladder-tracking-gap-first",
+    "performance-root-cause-diagnosis/outcome-closed-by-own-metric-with-dead-band",
+    "performance-root-cause-diagnosis/wasted-spend-ranking",
+    "period-comparison-significance/equal-windows-and-truncated-flag",
+    "period-comparison-significance/funnel-decomposition-only-when-strong",
+    "period-comparison-significance/noise-muted-not-coloured",
+    "period-comparison-significance/partial-buckets-flagged-not-compared",
+    "period-comparison-significance/significance-tier-per-metric-class",
+    "period-comparison-significance/yoy-364-day-shift",
+    "positioning-and-pricing-transparency/competitor-facts-sourced-and-dated",
+    "product-feed-and-catalog-spine/days-of-cover-pacing-rules",
+    "product-feed-and-catalog-spine/dispatch-delay-truth-per-feed",
+    "product-feed-and-catalog-spine/paused-sku-never-advertised",
+    "product-feed-and-catalog-spine/product-plan-service-routing",
+    "profit-on-ad-spend-economics/overhead-and-fulfilment-loading",
+    "profit-on-ad-spend-economics/profitable-means-net-profit-nonnegative",
+    "profit-on-ad-spend-economics/ratio-vocabulary-one-guarded-divide",
+    "search-term-mining/zero-conversions-on-unrounded-count",
+    "site-architecture-and-topic-clusters/pillar-weighted-completeness-and-decay",
+    "speed-to-lead-and-assisted-reply/bant-lite-scoring",
+    "speed-to-lead-and-assisted-reply/delivery-fails-closed-cap-consent",
+    "speed-to-lead-and-assisted-reply/five-minute-sla-settled-outcomes-only",
+    "zero-budget-channel-planning/keyword-to-channel-visibility-plan",
+    "zero-budget-channel-planning/measured-clicks-beside-not-inside-fit"
+   ]
+  },
+  "statistical-honesty-before-a-verdict": {
+   "statement": "Comparison windows are weekday-balanced and equal in length, year-over-year lands on the same weekday, partial buckets are flagged and never compared, ratios of sums carry no confidence claim, an experiment needs its sample before it needs its winner, and the multiple-comparison correction is applied before any arm is declared. A verdict without these is a coin flip with a badge; an honest \"not yet measurable\" outranks it.",
+   "techniques": [
+    "answer-engine-visibility/ask-the-models-baseline",
+    "attribution-and-incrementality/before-after-is-not-an-experiment",
+    "attribution-and-incrementality/holdout-test-on-the-biggest-channel",
+    "budget-reallocation-prescription/linear-projection-with-confidence-cap",
+    "budget-reallocation-prescription/realized-vs-projected-calibration",
+    "campaign-anomaly-triage/crater-vs-slow-bleed",
+    "campaign-anomaly-triage/weekday-deseasonalised-baseline",
+    "goal-pacing-and-forecast/band-and-suppressed-early-probability",
+    "goal-pacing-and-forecast/weekday-weighted-month-end-projection",
+    "grounded-marketing-generation/judge-rubric-and-drift-thresholds",
+    "landing-page-experiment-statistics/distinct-hypothesis-per-arm",
+    "landing-page-experiment-statistics/multi-arm-alpha-correction",
+    "landing-page-experiment-statistics/peeking-guard",
+    "landing-page-experiment-statistics/sample-size-trust-gate",
+    "landing-page-experiment-statistics/uniform-split-disclosed-no-ramping",
+    "lead-quality-and-source-diagnosis/cause-taxonomy-spam-mistargeting-pricing-volume",
+    "lead-quality-and-source-diagnosis/junk-source-rule",
+    "lead-quality-and-source-diagnosis/minimum-sample-before-verdict",
+    "local-visibility-and-reputation/review-recency-beats-count",
+    "local-visibility-and-reputation/sustained-decline-three-runs-three-positions",
+    "money-page-conversion-craft/diagnostic-quadrant-clicks-leads-impressions",
+    "on-page-and-metadata-craft/low-ctr-high-impression-rewrite-targets",
+    "period-comparison-significance/equal-windows-and-truncated-flag",
+    "period-comparison-significance/funnel-decomposition-only-when-strong",
+    "period-comparison-significance/noise-muted-not-coloured",
+    "period-comparison-significance/partial-buckets-flagged-not-compared",
+    "period-comparison-significance/significance-tier-per-metric-class",
+    "period-comparison-significance/yoy-364-day-shift",
+    "profit-on-ad-spend-economics/response-curve-gate-and-marginal-return",
+    "search-term-mining/spend-and-click-floors-before-negation",
+    "site-architecture-and-topic-clusters/pillar-weighted-completeness-and-decay"
+   ]
+  },
+  "provenance-is-binary-and-labelled": {
+   "statement": "Every number a marketing surface shows is either the business's own synced data or disclosed illustrative data, decided per surface and per request, never blended, and the label sits beside the number rather than in a footer. Illustrative data is never indexed as proof, never diagnosed as if it were the client's, never scored as a track record, and never lets a generated recommendation read as an account win. The disclosure is dropped on the real branch, because a caveat on real data is the opposite lie.",
+   "techniques": [
+    "answer-engine-visibility/ask-the-models-baseline",
+    "answer-engine-visibility/self-contained-passages-with-original-data",
+    "attribution-and-incrementality/platform-conversions-are-self-attributed",
+    "attribution-and-incrementality/triangulate-attribution-incrementality-and-mix-model",
+    "brand-voice-capture/tenant-never-speaks-the-sample-persona",
+    "budget-reallocation-prescription/guardrails-simulate-approve-revert",
+    "channel-native-social-and-repurposing/retell-not-copy-with-source-digest",
+    "client-reporting-and-data-provenance/live-means-synced-rows",
+    "client-reporting-and-data-provenance/never-sum-across-currencies",
+    "client-reporting-and-data-provenance/plain-language-gloss-and-white-label",
+    "grounded-marketing-generation/generation-reads-the-data-spine",
+    "grounded-marketing-generation/structural-anti-fabrication-over-instruction",
+    "honest-proof-and-illustrative-data/binary-provenance-no-blending",
+    "honest-proof-and-illustrative-data/demo-badge-beside-the-number",
+    "honest-proof-and-illustrative-data/indexability-follows-provenance",
+    "keyword-metric-reliability/unknown-metric-sinks-never-flatters",
+    "landing-page-experiment-statistics/experiment-pages-print-no-numbers",
+    "landing-page-experiment-statistics/uniform-split-disclosed-no-ramping",
+    "local-visibility-and-reputation/pack-visibility-per-engine-never-averaged",
+    "money-page-conversion-craft/proof-count-five-real-and-checkable",
+    "on-page-and-metadata-craft/structured-data-by-page-kind",
+    "performance-root-cause-diagnosis/advice-ledger-scores-past-advice",
+    "positioning-and-pricing-transparency/ships-today-vs-claim-separation",
+    "positioning-and-pricing-transparency/state-support-level-not-parity",
+    "product-feed-and-catalog-spine/usps-become-ad-benefits",
+    "search-term-mining/never-mine-demo-data",
+    "zero-budget-channel-planning/grounding-precedence-catalog-over-scan",
+    "zero-budget-channel-planning/keyword-to-channel-visibility-plan",
+    "zero-budget-channel-planning/measured-clicks-beside-not-inside-fit"
+   ]
+  },
+  "platform-reported-is-not-causal": {
+   "statement": "An ad platform's conversion count is its own attribution of itself, and a before/after read around a change is a description, not an experiment. Last-click credits the channel that closed and starves the channel that prospected; two platforms blended together double-count the same order. Causal claims need a holdout, a geo split or a model that says its own error; everything else is labelled as the descriptive read it is, and a marketer who acts on it says so.",
+   "techniques": [
+    "answer-engine-visibility/third-party-mentions-over-on-page-tricks",
+    "attribution-and-incrementality/before-after-is-not-an-experiment",
+    "attribution-and-incrementality/holdout-test-on-the-biggest-channel",
+    "attribution-and-incrementality/last-click-under-credits-prospecting",
+    "attribution-and-incrementality/offline-conversion-upload-guards",
+    "attribution-and-incrementality/platform-conversions-are-self-attributed",
+    "attribution-and-incrementality/triangulate-attribution-incrementality-and-mix-model",
+    "budget-reallocation-prescription/realized-vs-projected-calibration",
+    "campaign-anomaly-triage/crater-vs-slow-bleed",
+    "channel-native-social-and-repurposing/ground-in-measured-top-posts",
+    "content-brief-and-article-composition/mid-body-anchor-cta",
+    "money-page-conversion-craft/diagnostic-quadrant-clicks-leads-impressions",
+    "money-page-conversion-craft/thank-you-page-is-the-conversion-event",
+    "on-page-and-metadata-craft/low-ctr-high-impression-rewrite-targets",
+    "performance-root-cause-diagnosis/advice-ledger-scores-past-advice",
+    "performance-root-cause-diagnosis/outcome-closed-by-own-metric-with-dead-band",
+    "period-comparison-significance/funnel-decomposition-only-when-strong",
+    "responsive-search-ad-craft/ad-strength-is-a-proxy-not-relevance",
+    "site-architecture-and-topic-clusters/inlink-band-and-anchor-variety",
+    "zero-budget-channel-planning/measured-clicks-beside-not-inside-fit"
+   ]
+  },
+  "the-results-page-is-the-verdict": {
+   "statement": "Search intent, cluster membership, difficulty and competitor choice are all read off the live results page, never off a tool's label or a modifier word. A tool's intent label is a hint that is wrong often enough to be dangerous; a modifier list is a hint that systematically over-labels queries as informational. When a decision about a keyword is made, somebody has searched it and read what the engine chose to rank. The corollary is that any threshold placed on that reading - six of ten, four shared results - is an internal convention and is labelled as one.",
+   "techniques": [
+    "answer-engine-visibility/weight-the-map-toward-transactional-and-local",
+    "business-profile-and-citations/city-in-query-never-in-name",
+    "content-brief-and-article-composition/brief-carries-keyword-outline-faq-and-links",
+    "keyword-metric-reliability/difficulty-is-a-link-count",
+    "keyword-metric-reliability/serp-age-and-topical-proximity",
+    "local-page-doorway-prevention/boilerplate-strip-then-containment",
+    "local-page-doorway-prevention/read-the-engines-verdict-via-url-inspection",
+    "local-visibility-and-reputation/service-area-coverage-gaps-by-volume",
+    "on-page-and-metadata-craft/ctr-lifts-as-tie-breakers-not-a-stack",
+    "on-page-and-metadata-craft/primary-keyword-triple-placement",
+    "search-intent-classification/buyer-diyer-peer-test",
+    "search-intent-classification/err-toward-transactional",
+    "search-intent-classification/local-and-comparison-as-own-intents",
+    "search-intent-classification/mixed-serp-money-page-wins",
+    "search-intent-classification/route-losers-to-linking-content",
+    "search-intent-classification/serp-count-verdict-not-tool-label",
+    "site-architecture-and-topic-clusters/one-primary-keyword-per-page",
+    "site-architecture-and-topic-clusters/serp-overlap-same-page-test"
+   ]
+  },
+  "one-target-one-threshold": {
+   "statement": "A business has one agreed performance target per scope, and every badge, cell colour, sort, alert, report line and prompt reads the same one; a derived threshold is the reciprocal of its sibling by construction so two cells cannot disagree about one campaign. Lower-is-better metrics invert the verdict, never the number. When a target has a narrower scope than the whole business - paid portfolio versus blended - every surface labels the scope, so a looser number is never read as a contradiction.",
+   "techniques": [
+    "attribution-and-incrementality/last-click-under-credits-prospecting",
+    "budget-reallocation-prescription/donor-ranking-waste-vs-profit-destruction",
+    "campaign-anomaly-triage/disjoint-severity-rules-worst-first",
+    "campaign-anomaly-triage/one-target-reciprocal-thresholds",
+    "campaign-anomaly-triage/severity-times-spend-attention-order",
+    "client-reporting-and-data-provenance/lower-is-better-inverts-verdict-not-number",
+    "client-reporting-and-data-provenance/tile-presets-by-business-type",
+    "goal-pacing-and-forecast/goal-in-force-per-month",
+    "goal-pacing-and-forecast/required-pace-divides-by-future-days",
+    "lead-quality-and-source-diagnosis/junk-source-rule",
+    "lead-quality-and-source-diagnosis/quality-score-qualification-and-win",
+    "performance-root-cause-diagnosis/outcome-closed-by-own-metric-with-dead-band",
+    "performance-root-cause-diagnosis/thresholds-mirror-the-prompt",
+    "performance-root-cause-diagnosis/wasted-spend-ranking",
+    "period-comparison-significance/noise-muted-not-coloured",
+    "profit-on-ad-spend-economics/break-even-roas-is-inverse-margin",
+    "profit-on-ad-spend-economics/profitable-means-net-profit-nonnegative",
+    "profit-on-ad-spend-economics/ratio-vocabulary-one-guarded-divide",
+    "speed-to-lead-and-assisted-reply/five-minute-sla-settled-outcomes-only"
+   ]
+  },
+  "a-gate-before-money-and-copy": {
+   "statement": "Nothing changes spend without simulate, guardrail, explicit approval and a reversible ledger; nothing publishes without the channel confirming it; nothing auto-sends to a customer while a risk is listed, whatever the confidence claims. Audits and fix passes change the mechanical layer only - tags, metadata, markup, links, images - and never the body copy a person approved. Deletion of a page, a keyword map, a listing or a review is a recommendation awaiting a yes, because a deleted URL loses its links and rankings permanently.",
+   "techniques": [
+    "attribution-and-incrementality/offline-conversion-upload-guards",
+    "brand-voice-capture/rejections-and-edits-become-constraints",
+    "budget-reallocation-prescription/donor-floor-and-movable-amount",
+    "budget-reallocation-prescription/guardrails-simulate-approve-revert",
+    "budget-reallocation-prescription/pause-zero-return-before-shifting",
+    "business-profile-and-citations/one-entry-per-bookable-service",
+    "business-profile-and-citations/suspension-risk-checklist",
+    "campaign-anomaly-triage/hysteresis-and-cooldown-tombstones",
+    "campaign-anomaly-triage/severity-times-spend-attention-order",
+    "channel-native-social-and-repurposing/cadence-caps-at-one-chokepoint",
+    "channel-native-social-and-repurposing/per-network-register-and-limits",
+    "channel-native-social-and-repurposing/the-channel-confirms-the-app-promises",
+    "content-brief-and-article-composition/article-block-budget-one-callout-one-cta",
+    "goal-pacing-and-forecast/implied-extra-spend-capped",
+    "grounded-marketing-generation/deterministic-clamp-vs-model-reprompt",
+    "grounded-marketing-generation/publishable-as-is-quality-gate",
+    "honest-proof-and-illustrative-data/indexability-follows-provenance",
+    "keyword-metric-reliability/authority-ceiling-blogs-not-money-pages",
+    "landing-page-experiment-statistics/peeking-guard",
+    "local-page-doorway-prevention/rewrite-before-consolidate",
+    "local-page-doorway-prevention/three-of-four-local-material-gate",
+    "local-visibility-and-reputation/review-reply-by-rating-band",
+    "money-page-conversion-craft/thank-you-page-is-the-conversion-event",
+    "on-page-and-metadata-craft/mechanical-layer-only-never-the-copy",
+    "positioning-and-pricing-transparency/documented-intent-pricing-tiers",
+    "positioning-and-pricing-transparency/lead-claim-currency",
+    "product-feed-and-catalog-spine/days-of-cover-pacing-rules",
+    "product-feed-and-catalog-spine/paused-sku-never-advertised",
+    "responsive-search-ad-craft/over-limit-omitted-not-truncated",
+    "responsive-search-ad-craft/platform-limits-stay-slightly-under",
+    "search-intent-classification/route-losers-to-linking-content",
+    "search-term-mining/campaign-level-phrase-negative",
+    "search-term-mining/exact-promote-into-serving-ad-group",
+    "search-term-mining/negatives-before-promotes",
+    "search-term-mining/never-mine-demo-data",
+    "search-term-mining/zero-conversions-on-unrounded-count",
+    "site-architecture-and-topic-clusters/one-primary-keyword-per-page",
+    "site-architecture-and-topic-clusters/three-layer-pyramid-cities-at-layer-three",
+    "speed-to-lead-and-assisted-reply/answer-in-first-sentence-never-promise",
+    "speed-to-lead-and-assisted-reply/delivery-fails-closed-cap-consent",
+    "speed-to-lead-and-assisted-reply/first-reply-promises-channel-not-minutes",
+    "speed-to-lead-and-assisted-reply/risks-gate-not-confidence",
+    "zero-budget-channel-planning/free-channels-lead-onboarding"
+   ]
+  },
+  "efficiency-is-not-profitability": {
+   "statement": "Return on ad spend and its inverse measure spend against revenue, not against profit. Without a margin, a surface speaks of efficiency and refuses to judge profitability; with one, break-even is the inverse of margin, a channel is profitable when its net profit is non-negative rather than when its ratio clears a target, and reallocation ranks by profit destroyed rather than by revenue missed. A zero-cost channel is never a false loss and a high-ratio low-margin channel is never a false win.",
+   "techniques": [
+    "budget-reallocation-prescription/donor-ranking-waste-vs-profit-destruction",
+    "budget-reallocation-prescription/pause-zero-return-before-shifting",
+    "campaign-anomaly-triage/disjoint-severity-rules-worst-first",
+    "campaign-anomaly-triage/spend-spike-without-return",
+    "goal-pacing-and-forecast/implied-extra-spend-capped",
+    "goal-pacing-and-forecast/required-pace-divides-by-future-days",
+    "performance-root-cause-diagnosis/one-lever-from-supplied-entities",
+    "product-feed-and-catalog-spine/custom-labels-as-bidding-buckets",
+    "profit-on-ad-spend-economics/break-even-roas-is-inverse-margin",
+    "profit-on-ad-spend-economics/efficiency-is-not-profitability",
+    "profit-on-ad-spend-economics/profitable-means-net-profit-nonnegative",
+    "profit-on-ad-spend-economics/response-curve-gate-and-marginal-return"
+   ]
+  }
+ }
+}

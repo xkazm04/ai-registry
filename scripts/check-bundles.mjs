@@ -197,6 +197,21 @@ const PURITY_PROFILES = {
     [/\.(?:tsx?|mjs|cjs|jsx|po|xliff|arb|properties)\b/, 'source or catalog file extension'],
     [/\b(?:KandiDate|next-intl|i18next|react-intl|FormatJS|Lingui|Crowdin|Lokalise|Transifex|Weblate|Smartling|Phrase|DeepL|Google Translate|memoQ|Trados)\b/, 'i18n library/TMS/MT product identifier'],
   ],
+  // Marketing domains: the analogue of a repo path is a workspace module path; the analogue
+  // of a framework name is an ad platform, a search-data vendor, a site builder, a CRM or
+  // automation product, a social network, or a model vendor. A marketing standard that
+  // names a platform stops transplanting the moment the platform renames a feature - and
+  // in this domain it also reads as an endorsement or an affiliate pitch, which the upper
+  // layers must never carry. Say "the dominant search engine's ad platform", "a keyword-data
+  // vendor", "a business-profile listing". Bare `Meta` and `Google` are deliberately absent
+  // (they collide with "meta description" and with product names the pattern below already
+  // carries); the fleet's own product and its fictional case-study client are listed by
+  // name. The denylist is a floor, not the whole rule.
+  marketing: [
+    [/\b(?:src|app|lib|features|components|kpi-sim)\//, 'repo path'],
+    [/\.(?:tsx?|mjs|cjs|jsx|py|sql)\b/, 'source-file extension'],
+    [/\b(?:Adamant|Systedo|Mionelo|Next\.js|React|TypeScript|Firestore|Firebase|SQLite|Vercel|WordPress|Novamira|Semrush|Ahrefs|SEMrush|Moz|HubSpot|Mailchimp|Optmyzr|Opteo|Adalysis|Dotidot|Mergado|GoHighLevel|Zapier|n8n|Sklik|Seznam|Google (?:Ads|Analytics|Business Profile|Search Console|Tag Manager|Merchant Center|Trends|Keyword Planner)|Microsoft Advertising|Bing Ads|Meta Ads|Facebook|Instagram|TikTok|LinkedIn|Pinterest|YouTube|Pexels|Unsplash|Claude|Anthropic|OpenAI|GPT-[0-9]|Gemini|Perplexity)\b/, 'platform/vendor/product identifier'],
+  ],
   // Applied when a bundle declares no profile: the domain-independent core only.
   generic: [
     [/\b(?:src|src-tauri|scripts)\//, 'repo path'],
@@ -217,6 +232,7 @@ const REQUIRED_PURITY = {
   'grant-funding': 'funding',
   'llm-observability': 'software',
   localization: 'localization',
+  marketing: 'marketing',
   'media-generation': 'media',
   recruiting: 'recruiting',
   'software-engineering': 'software',

@@ -9,7 +9,7 @@ applied: experiment
 ab_verdict: not-better
 proof: ab-paired
 verified_on: 2026-09-09
-verified_against: next 16.3.3
+verified_against: next@16.3.3
 ---
 
 # A filmstrip sampler that reports its own spacing

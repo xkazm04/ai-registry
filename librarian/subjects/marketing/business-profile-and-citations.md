@@ -1,0 +1,35 @@
+---
+subject: business-profile-and-citations
+domain: marketing
+last_touched: 2026-09-09
+touched_by: intake-marketing-0909 (forge wave)
+dry_streak: 0
+---
+
+# business-profile-and-citations
+
+First touch. Forged 2026-09-09 in the founding wave of the `marketing` bundle
+(category `local-and-zero-budget`), one worker, expert draft first, then reconciled against the
+consumer workspace at `2893314` and the SEO prompt pipeline at `a47c1ecd`.
+
+**use_when:** setting up or auditing a business-profile listing, deciding what to put in a listing's name or service fields, building or re-checking directory citations, judging whether a profile change risks a suspension
+
+**Techniques (6):** city-in-query-never-in-name, hours-and-attributes-only-when-true, nap-byte-identical-citations, one-entry-per-bookable-service, profile-marks-not-filled-or-empty, suspension-risk-checklist.
+
+**Applications (2; stacks: node, prompt-pipeline):** node--suspension-risk-checklist, prompt-pipeline--profile-marks-not-filled-or-empty.
+
+## Sightings
+
+- Every threshold the subject states is labelled documented / measured / convention in
+  the technique that carries it; the worker's report listed the conventions and they
+  are in the files, not only in the report.
+- Deviations of the reconciled trees are recorded in the applications with the standard
+  kept; the source note `librarian/sources/2026-09-09-seo-agent.md` carries the
+  deviation backlog by area.
+
+## Owed
+
+- Single-stack debt: born with the stacks above; an external reconcile against a
+  second tree is the next pass.
+- No `librarian/applied.md` row yet except where the source note says so; the
+  unapplied backlog is every technique here without a row.

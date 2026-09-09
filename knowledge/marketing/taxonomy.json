@@ -1,0 +1,87 @@
+{
+  "$comment": "AUTHORITY on where every subject lives. The folder tree is DERIVED from this file, never the other way round: moves go through scripts/apply-taxonomy.mjs and nothing else. A subject is identified by its bare slug everywhere (technique@owner, shared_with, index.json, signals/); only its location is nested. Categories follow the marketer's own division of labour - what earns search and content, what produces it, what buys attention, what measures it, what a business with no budget does, what turns a visit into a customer, and what the business claims about itself. Born nested on 2026-09-09; no category is near the cap. Gated by scripts/check-bundles.mjs via scripts/lib/taxonomy.mjs.",
+  "schema": "rkb-taxonomy/1",
+  "bundle": "marketing",
+  "layout": "nested",
+  "categories": [
+    {
+      "id": "search-and-content",
+      "title": "Search and content",
+      "order": 1,
+      "subjects": [
+        "answer-engine-visibility",
+        "keyword-metric-reliability",
+        "local-page-doorway-prevention",
+        "on-page-and-metadata-craft",
+        "search-intent-classification",
+        "site-architecture-and-topic-clusters"
+      ]
+    },
+    {
+      "id": "content-production",
+      "title": "Content production",
+      "order": 2,
+      "subjects": [
+        "brand-voice-capture",
+        "channel-native-social-and-repurposing",
+        "content-brief-and-article-composition",
+        "grounded-marketing-generation"
+      ]
+    },
+    {
+      "id": "paid-advertising",
+      "title": "Paid advertising",
+      "order": 3,
+      "subjects": [
+        "budget-reallocation-prescription",
+        "campaign-anomaly-triage",
+        "product-feed-and-catalog-spine",
+        "responsive-search-ad-craft",
+        "search-term-mining"
+      ]
+    },
+    {
+      "id": "measurement-and-economics",
+      "title": "Measurement and economics",
+      "order": 4,
+      "subjects": [
+        "attribution-and-incrementality",
+        "client-reporting-and-data-provenance",
+        "goal-pacing-and-forecast",
+        "performance-root-cause-diagnosis",
+        "period-comparison-significance",
+        "profit-on-ad-spend-economics"
+      ]
+    },
+    {
+      "id": "local-and-zero-budget",
+      "title": "Local and zero-budget visibility",
+      "order": 5,
+      "subjects": [
+        "business-profile-and-citations",
+        "local-visibility-and-reputation",
+        "zero-budget-channel-planning"
+      ]
+    },
+    {
+      "id": "conversion-and-leads",
+      "title": "Conversion and leads",
+      "order": 6,
+      "subjects": [
+        "landing-page-experiment-statistics",
+        "lead-quality-and-source-diagnosis",
+        "money-page-conversion-craft",
+        "speed-to-lead-and-assisted-reply"
+      ]
+    },
+    {
+      "id": "positioning-and-proof",
+      "title": "Positioning and proof",
+      "order": 7,
+      "subjects": [
+        "honest-proof-and-illustrative-data",
+        "positioning-and-pricing-transparency"
+      ]
+    }
+  ]
+}

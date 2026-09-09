@@ -579,9 +579,9 @@
    "subcategory": null,
    "status": "reconciled",
    "file": "knowledge/llm-observability/federation-and-surfaces/federated-benchmark-sharing/federated-benchmark-sharing.md",
-   "digest": "sha256:754460ecae5e056c",
-   "revision": 9,
-   "changedAt": "2026-09-03",
+   "digest": "sha256:65e3f15c43a7b217",
+   "revision": 10,
+   "changedAt": "2026-09-09",
    "techniques": [
     {
      "slug": "aggregate-only-digests",
@@ -732,14 +732,14 @@
      "stack": "rust",
      "technique": "capture-locally-publish-separately",
      "file": "knowledge/llm-observability/federation-and-surfaces/federated-benchmark-sharing/applications/rust--capture-locally-publish-separately.md",
-     "verified_on": "2026-09-03",
+     "verified_on": "2026-09-09",
      "verified_against": "rust@1.85"
     },
     {
      "stack": "rust",
      "technique": "content-addressed-contribution",
      "file": "knowledge/llm-observability/federation-and-surfaces/federated-benchmark-sharing/applications/rust--content-addressed-contribution.md",
-     "verified_on": "2026-09-03",
+     "verified_on": "2026-09-09",
      "verified_against": "rust@1.85"
     },
     {
@@ -760,7 +760,7 @@
      "stack": "rust",
      "technique": "strict-ingestion-lenient-consumption",
      "file": "knowledge/llm-observability/federation-and-surfaces/federated-benchmark-sharing/applications/rust--strict-ingestion-lenient-consumption.md",
-     "verified_on": "2026-09-03",
+     "verified_on": "2026-09-09",
      "verified_against": "rust@1.85"
     }
    ]

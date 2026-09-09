@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 228,
-  "techniques": 1687,
-  "applications": 1013,
+  "techniques": 1688,
+  "applications": 1014,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1687/1687",
+  "use_when_coverage": "1688/1688",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -17611,10 +17611,27 @@
    "subcategory": "runtime-and-io",
    "status": "reconciled",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/mcp-tools.md",
-   "digest": "sha256:3b0cf665f97065f6",
-   "revision": 23,
-   "changedAt": "2026-09-05",
+   "digest": "sha256:02bf76f6ed54fddc",
+   "revision": 24,
+   "changedAt": "2026-09-09",
    "techniques": [
+    {
+     "slug": "ambient-selection-is-not-an-argument",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "identity-survives-reuse",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a tool server drives a single-seat interactive application rather than a service",
+      "a tool argument names the current selection or the active document",
+      "an operator and an agent both act on one running instance",
+      "deciding what a long unattended tool run may assume about the state it started from",
+      "a tool surface is added to a program that was designed for one person at a time"
+     ]
+    },
     {
      "slug": "authentication-and-scoping",
      "status": "forged",
@@ -17643,7 +17660,9 @@
       "one engine serves both a human command line and an agent tool",
       "deciding which options an agent surface may not have",
       "an invariant held by review rather than by construction",
-      "a passthrough tool inherits every flag of the thing it wraps"
+      "a passthrough tool inherits every flag of the thing it wraps",
+      "claiming an operation is out of reach because it is absent from the tool catalog",
+      "the same caller also holds a screen-control surface onto the machine the server runs on"
      ]
     },
     {
@@ -19360,9 +19379,9 @@
    "subcategory": "measurement-method",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-assessment/measurement-method/modelled-performance-estimates/modelled-performance-estimates.md",
-   "digest": "sha256:5b4917716623febb",
-   "revision": 1,
-   "changedAt": "2026-09-03",
+   "digest": "sha256:25c1d6264c3a4e56",
+   "revision": 2,
+   "changedAt": "2026-09-09",
    "techniques": [
     {
      "slug": "one-ratio-then-a-capability-cap",
@@ -19431,7 +19450,7 @@
      "stack": "rust",
      "technique": "one-ratio-then-a-capability-cap",
      "file": "knowledge/software-engineering/engineering-assessment/measurement-method/modelled-performance-estimates/applications/rust--one-ratio-then-a-capability-cap.md",
-     "verified_on": "2026-09-03"
+     "verified_on": "2026-09-09"
     }
    ]
   },
@@ -19995,9 +20014,9 @@
    "subcategory": "resilience",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/resilience/multi-provider-gateway-plane/multi-provider-gateway-plane.md",
-   "digest": "sha256:f2ec9f5ea71df1cc",
-   "revision": 8,
-   "changedAt": "2026-09-04",
+   "digest": "sha256:45bcc427a8ddca15",
+   "revision": 9,
+   "changedAt": "2026-09-09",
    "techniques": [
     {
      "slug": "adapter-direction-asymmetry",
@@ -20075,7 +20094,9 @@
       "deciding whether a set of upstream adapters should be held as a list behind their interface",
       "one slow upstream probe is serializing a startup path",
       "an enrichment source's failure took down the whole aggregate",
-      "two upstreams' results need different matching rules downstream"
+      "two upstreams' results need different matching rules downstream",
+      "a source that should contribute to an aggregate cannot implement the adapter interface",
+      "a stub implementation is being written so a contributor fits the collection"
      ]
     },
     {
@@ -20199,21 +20220,21 @@
      "stack": "rust",
      "technique": "join-breadth-follows-the-wrong-match-cost",
      "file": "knowledge/software-engineering/backend-platform/resilience/multi-provider-gateway-plane/applications/rust--join-breadth-follows-the-wrong-match-cost.md",
-     "verified_on": "2026-09-03",
+     "verified_on": "2026-09-09",
      "verified_against": "rust@1.85"
     },
     {
      "stack": "rust",
      "technique": "named-members-over-a-uniform-collection",
      "file": "knowledge/software-engineering/backend-platform/resilience/multi-provider-gateway-plane/applications/rust--named-members-over-a-uniform-collection.md",
-     "verified_on": "2026-09-03",
+     "verified_on": "2026-09-09",
      "verified_against": "rust@1.85"
     },
     {
      "stack": "rust",
      "technique": "upstream-identity-before-inventory",
      "file": "knowledge/software-engineering/backend-platform/resilience/multi-provider-gateway-plane/applications/rust--upstream-identity-before-inventory.md",
-     "verified_on": "2026-09-03",
+     "verified_on": "2026-09-09",
      "verified_against": "rust@1.85"
     }
    ]
@@ -28991,21 +29012,25 @@
    "subcategory": "feedback-and-style",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/status-vocabulary/status-vocabulary.md",
-   "digest": "sha256:0bdc30b0870393c6",
-   "revision": 3,
-   "changedAt": "2026-09-01",
+   "digest": "sha256:1074e673f8325f01",
+   "revision": 4,
+   "changedAt": "2026-09-09",
    "techniques": [
     {
      "slug": "number-formatting",
      "status": "forged",
      "laws": [
-      "gate-sees-target"
+      "gate-sees-target",
+      "unknown-is-not-a-value"
      ],
      "shared_with": [],
      "use_when": [
       "deciding where locale resolution lives",
       "sub-unit spend rendering as zero",
-      "auditing a checker blind to formatter callbacks"
+      "auditing a checker blind to formatter callbacks",
+      "a unit or symbol is appended to a formatted value at the call site",
+      "a missing-value placeholder renders differently in different columns",
+      "a fixed-width or monospace table renders a quantity that can be absent"
      ]
     },
     {
@@ -29111,6 +29136,13 @@
      "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/status-vocabulary/applications/react--vocabulary-chain-integrity.md",
      "verified_on": "2026-09-01",
      "verified_against": "react@19"
+    },
+    {
+     "stack": "rust",
+     "technique": "number-formatting",
+     "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/status-vocabulary/applications/rust--number-formatting.md",
+     "verified_on": "2026-09-09",
+     "verified_against": "rust@1.85"
     },
     {
      "stack": "rust",
@@ -33344,8 +33376,8 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/voice-io/voice-io.md",
-   "digest": "sha256:8449a5270b333c8f",
-   "revision": 16,
+   "digest": "sha256:11853abeab755689",
+   "revision": 17,
    "changedAt": "2026-09-08",
    "techniques": [
     {
@@ -34678,6 +34710,7 @@
     "markdown-vault/replicated-substrate",
     "maturity-ladders/ladder-versioning",
     "maturity-ladders/present-vs-enforced",
+    "mcp-tools/ambient-selection-is-not-an-argument",
     "mcp-tools/authentication-and-scoping",
     "mcp-tools/caller-differentiated-capability",
     "mcp-tools/catalog-projection-modes",
@@ -36153,6 +36186,7 @@
     "machine-authored-documentation/evidence-without-verdict",
     "machine-authored-documentation/three-gate-acceptance",
     "markdown-vault/replicated-substrate",
+    "mcp-tools/ambient-selection-is-not-an-argument",
     "mcp-tools/egress-argument-gating",
     "mcp-tools/suspendable-request-classes",
     "measurement-honesty/instrument-exposure-control",
@@ -36223,6 +36257,7 @@
     "settings/typed-accessors",
     "signed-artifacts/bypass-is-a-versioned-policy",
     "standards-layered-runtime/status-header-per-api",
+    "status-vocabulary/number-formatting",
     "structured-output/constrained-decoding-is-a-shared-budget",
     "structured-output/constraint-and-tool-channel-exclusion",
     "structured-output/enumerable-domain-decoding",
@@ -36633,6 +36668,7 @@
     "long-form-reading-surface/anchor-id-single-assigner",
     "long-form-reading-surface/focus-transfer-on-in-place-navigation",
     "markdown-vault/vault-as-database",
+    "mcp-tools/ambient-selection-is-not-an-argument",
     "mcp-tools/sanctioned-session-state",
     "mcp-tools/sealed-continuation-state",
     "mcp-tools/tool-identity-vs-tool-name",

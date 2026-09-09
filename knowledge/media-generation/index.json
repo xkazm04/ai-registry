@@ -4,8 +4,8 @@
   "bundle": "media-generation",
   "source": "knowledge/media-generation/ (frontmatter only)",
   "subjects": 20,
-  "techniques": 135,
-  "applications": 64,
+  "techniques": 136,
+  "applications": 65,
   "laws": 9,
   "categories": [
    "narrative-craft",
@@ -15,7 +15,7 @@
    "production-ops"
   ],
   "layout": "nested",
-  "use_when_coverage": "135/135",
+  "use_when_coverage": "136/136",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -2478,9 +2478,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/visual-generation/visual-style-locking/visual-style-locking.md",
-   "digest": "sha256:e2b6a8b9f9a0af7f",
-   "revision": 5,
-   "changedAt": "2026-08-28",
+   "digest": "sha256:6ae563d17a96cda0",
+   "revision": 7,
+   "changedAt": "2026-09-09",
    "techniques": [
     {
      "slug": "approved-reference-sheet",
@@ -2525,6 +2525,23 @@
      ]
     },
     {
+     "slug": "motion-sampled-under-a-frame-budget",
+     "status": "forged",
+     "laws": [
+      "style-is-restated-not-remembered",
+      "unmeasured-is-not-pass",
+      "output-never-outruns-evidence"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "capturing a motion signature from reference footage rather than hand-authoring it",
+      "deciding how much of a reference to hand an extractor in one pass",
+      "a style readback describes the reference fluently and the recreation does not move like it",
+      "choosing the span of a clip to analyse",
+      "a practitioner reports that short excerpts replicate well and long ones drift"
+     ]
+    },
+    {
      "slug": "rejections-as-negative-evidence",
      "status": "forged",
      "laws": [
@@ -2563,11 +2580,19 @@
       "importing a house style from existing published work",
       "seeding a new theme from a single admired image",
       "a captured style reproduces the surface of a body of work but none of its editorial decisions",
-      "capturing a style stage no model can read the evidence for"
+      "capturing a style stage no model can read the evidence for",
+      "deciding how much of a reference to hand an extractor in one pass"
      ]
     }
    ],
    "applications": [
+    {
+     "stack": "next",
+     "technique": "motion-sampled-under-a-frame-budget",
+     "file": "knowledge/media-generation/visual-generation/visual-style-locking/applications/next--motion-sampled-under-a-frame-budget.md",
+     "verified_on": "2026-09-09",
+     "verified_against": "next@16.3.3"
+    },
     {
      "stack": "react",
      "technique": "draft-proofing-locked-ratchet",
@@ -2644,6 +2669,7 @@
     "video-assembly/drift-correction",
     "visual-style-locking/consistency-control-arm",
     "visual-style-locking/draft-proofing-locked-ratchet",
+    "visual-style-locking/motion-sampled-under-a-frame-budget",
     "visual-style-locking/rejections-as-negative-evidence"
    ]
   },
@@ -2693,6 +2719,7 @@
     "video-assembly/motion-plate-library",
     "visual-style-locking/approved-reference-sheet",
     "visual-style-locking/consistency-control-arm",
+    "visual-style-locking/motion-sampled-under-a-frame-budget",
     "visual-style-locking/style-block-restated-every-call",
     "visual-style-locking/style-onboarding-from-sample"
    ]
@@ -2771,7 +2798,8 @@
     "trailer-structure/concealment-and-its-tells",
     "trailer-structure/promise-ledger",
     "video-assembly/gap-and-refusal-honesty",
-    "video-assembly/multitrack-timeline-discipline"
+    "video-assembly/multitrack-timeline-discipline",
+    "visual-style-locking/motion-sampled-under-a-frame-budget"
    ]
   },
   "edit-do-not-regenerate": {

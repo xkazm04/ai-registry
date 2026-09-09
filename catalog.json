@@ -130,9 +130,9 @@
       "contentHash": "sha256-n1:949a66c8b45433c4",
       "adopters": [],
       "invokes30d": 0,
-      "lessons": 9,
+      "lessons": 10,
       "lessonsPath": "skills/cx/LESSONS.md",
-      "lessonsHash": "sha256-n1:25c2ffbf20848123",
+      "lessonsHash": "sha256-n1:99096065c1e05402",
       "usageContributors": []
     },
     {
@@ -651,7 +651,7 @@
     "skills": 31,
     "practices": 8,
     "memory": 6,
-    "lessons": 175
+    "lessons": 176
   },
   "bundles": [
     {
@@ -704,7 +704,7 @@
       "techniques": 115,
       "applications": 63,
       "files": 200,
-      "contentHash": "sha256:e0a7a5ad3689d948"
+      "contentHash": "sha256:1b76611f72e224be"
     },
     {
       "name": "localization",
@@ -720,6 +720,19 @@
       "contentHash": "sha256:affe8c9feda10682"
     },
     {
+      "name": "marketing",
+      "title": "Marketing",
+      "path": "knowledge/marketing",
+      "okfVersion": "0.1",
+      "profile": "rkb/0.1",
+      "purity": "marketing",
+      "subjects": 30,
+      "techniques": 181,
+      "applications": 80,
+      "files": 295,
+      "contentHash": "sha256:c7977387a908298d"
+    },
+    {
       "name": "media-generation",
       "title": "Media generation",
       "path": "knowledge/media-generation",
@@ -727,10 +740,10 @@
       "profile": "rkb/0.1",
       "purity": "media",
       "subjects": 20,
-      "techniques": 135,
-      "applications": 64,
-      "files": 224,
-      "contentHash": "sha256:26686979f3898140"
+      "techniques": 136,
+      "applications": 65,
+      "files": 226,
+      "contentHash": "sha256:06a89db35dc69c49"
     },
     {
       "name": "recruiting",
@@ -753,10 +766,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 228,
-      "techniques": 1687,
-      "applications": 1013,
-      "files": 2933,
-      "contentHash": "sha256:23b261bcb17f2652"
+      "techniques": 1688,
+      "applications": 1014,
+      "files": 2935,
+      "contentHash": "sha256:b8d7ff5ef792199c"
     }
   ]
 }
