@@ -741,9 +741,9 @@
       "purity": "media",
       "subjects": 20,
       "techniques": 136,
-      "applications": 65,
-      "files": 226,
-      "contentHash": "sha256:06a89db35dc69c49"
+      "applications": 66,
+      "files": 227,
+      "contentHash": "sha256:1e183999afa141b1"
     },
     {
       "name": "recruiting",

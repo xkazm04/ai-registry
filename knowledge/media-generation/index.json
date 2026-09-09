@@ -5,7 +5,7 @@
   "source": "knowledge/media-generation/ (frontmatter only)",
   "subjects": 20,
   "techniques": 136,
-  "applications": 65,
+  "applications": 66,
   "laws": 9,
   "categories": [
    "narrative-craft",
@@ -2307,9 +2307,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/production-ops/video-assembly/video-assembly.md",
-   "digest": "sha256:1fc44dbf245efbff",
-   "revision": 13,
-   "changedAt": "2026-09-08",
+   "digest": "sha256:db230d778e13b541",
+   "revision": 14,
+   "changedAt": "2026-09-09",
    "techniques": [
     {
      "slug": "cut-compiled-from-source",
@@ -2470,6 +2470,13 @@
      "file": "knowledge/media-generation/production-ops/video-assembly/applications/react--generated-shot-sourcing.md",
      "verified_on": "2026-09-08",
      "verified_against": "react@19"
+    },
+    {
+     "stack": "react",
+     "technique": "motion-plate-library",
+     "file": "knowledge/media-generation/production-ops/video-assembly/applications/react--motion-plate-library.md",
+     "verified_on": "2026-09-09",
+     "verified_against": "react@19.2"
     }
    ]
   },

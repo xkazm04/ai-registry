@@ -1,7 +1,7 @@
 ---
 subject: video-assembly
 domain: media-generation
-last_touched: 2026-09-04
+last_touched: 2026-09-09
 dry_streak: 0
 ---
 
@@ -175,3 +175,37 @@ number. Recorded in the extended `react--generated-shot-sourcing` application.
 Boundary: the untriaged row about a delivery surface setting the top resolution rung
 belongs to `generative-provider-routing/resolution-as-stage-property`, not here, and was
 not landed - it is banked with its anchor in the source note.
+
+## 2026-09-09 - [[2026-09-09-blender-previs-to-video-reference]] - /intake round 46
+
+A thin second-hand video review (879 words) that authorized nothing and located a real
+split anyway. Its premise - block the shot in 3D, feed the grey-box render to a video
+model as a motion reference - is covered clause by clause in `motion-plate-library`, which
+already names a built previz as a plate source. Four of nine rows were catches.
+
+The finding is the subject disagreeing with itself. `motion-plate-library` says **the plate
+is the asset and the bound render is the disposable**, and lists a built blockout among its
+four sources; `cut-compiled-from-source`, one file over, runs the opposite inversion for the
+assembly layer - compile from a composition, the render is disposable by construction. The
+doctrine was already in the subject and had never reached one stage upstream, because the
+library discipline was written for **sampled** plates, where no upstream representation
+exists. Landed as an amendment (`## When the plate was built, the scene is the asset`) and
+one new decision rule; written as an append, so every prior sentence stays true.
+
+Applied to gravity at a seam **chosen to falsify**, and the falsifier fired usefully: the
+studio's six preset plates pin a seed, a size, a frame rate and an engine, so they *are*
+reproducible and the claim as first drafted was wrong. The corrected claim is the one the
+amendment carries - a sampled plate is reproducible, never **editable**, so "the same move a
+third slower" is a fresh roll rather than a change. Paired arm over the same six plates,
+instrument asserted first: the tree's own authored-clip predicate passes 6/6, the
+technique's magnitude demand 0/6. Structural fact nobody designed: composition is typed to
+four numbers per element and motion sits beside it as free text, and motion is also the only
+dimension with no renderer.
+
+Second independent reading of the same file the 2026-09-07 run reached from
+`generated-shot-sourcing`; two sources, one seam, different findings.
+
+Boundary: the lead about a 3D authoring tool hosting the assistant connector, with vendor
+selection exposed at the point of authoring, belongs to `generative-provider-routing` and
+its caller-names-capabilities rule - not here. Banked with its return condition in the
+source note.
