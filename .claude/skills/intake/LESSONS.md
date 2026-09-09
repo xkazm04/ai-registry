@@ -10441,3 +10441,57 @@ observation, and the batch lane already carries half of this idea for a differen
   invisible for exactly as long as nobody looks. Same shape as the `rescan_when: none`
   bullet above: **a missing input rendered as a benign state is this lane's recurring
   failure**, and both instances were found by a run that had no reason to look.
+
+## 2.8.0 - 2026-09-09 - resolve-native-mcp
+
+- **The apply step can refute the landing, and when it does the landing is corrected in
+  the same run — not amended in a later one.** Phase 7.5 says a `not-better` verdict earns
+  the technique "an amendment stating the condition under which it did not hold". That is
+  written for a technique with age on it. When the falsifying seam contradicts a technique
+  that landed *forty minutes earlier*, an amendment is the wrong instrument: it publishes
+  an overreach and a correction to it as two sections of one file nobody has read yet.
+  This run rewrote obligation 3 in place instead. Proposed rule for a future bump: **if the
+  contradicted text landed in this same run, edit it; if it landed in an earlier run,
+  amend it.** The discriminator is whether anyone could already be relying on the wording.
+
+- **A corpus-internal streak is not a virtue, and fifteen of them started reading like
+  one.** This run's amendment scored `2/1/2` = +1 — below the +2 threshold, blocked on
+  nothing except an account the director had not re-checked. One fetch on the primary took
+  RISK to 0 *and* returned the fact that carried the landing: the control surface is
+  schema-less **by construction** and its schema "can't be modified", which is a stronger
+  statement than the source made and is what turned "an agent did a clever workaround" into
+  "this path cannot be given a dispatch door". The class already said this ("for a review
+  the fetch is not corroboration, it is the extraction"); what was missing was noticing at
+  Phase 5 that a below-threshold row was one fetch from clearing. Hence round 44's focus
+  item (2): check the budget against the class at the gate, not at Phase 9.
+
+- **The slug map cannot see a subject whose name shares no token with the query, and the
+  uncapped concept grep can.** `research-map` was run twice, once with `--prose`, over
+  twelve terms, and never surfaced `mcp-tools` — the subject that ended up owning both
+  landings — because none of the terms shared a slug token with it. An uncapped
+  `grep -rl "tool surface\|tool definition"` over `knowledge/` found it in one call, at
+  rank 1 of 26. The method already forbids establishing an *absence* from a capped result;
+  this is the positive form of the same rule: **before trusting a map's ranking, run one
+  uncapped concept grep for the vocabulary the source actually uses.** It cost one call and
+  it relocated the whole run.
+
+- **Zero hits over 4,956 documents for "computer use / computer control / screen control /
+  driving the GUI" is a real absence and was worth stating.** It is a concept query, not a
+  proper-noun query, so it is not the purity gate answering. That absence is what made the
+  amendment a gap rather than a restatement — and it is a standing lead: the corpus models
+  tool protocols in depth and models coordinate-level control of a host nowhere.
+
+- **A characterization test was shown to fail before being trusted, for the second run
+  running.** Perturbing the REST door to clamp turned the new pumper test red with the
+  expected values, and the perturbation was reverted from `HEAD` rather than from a backup
+  in `/tmp` — which is shared between sessions and had already silently eaten the backup
+  this run tried to write there. The `git checkout -- <one named file>` was safe only
+  because the diff was inspected first and contained exactly the two perturbed lines.
+
+- **Bash consumed an apostrophe inside a single-quoted `node -e` and silently truncated a
+  JS template literal.** `path's` closed the shell's `'...'` argument; the error surfaced as
+  "Unterminated template" pointing at unrelated text, and the target file was untouched
+  (verified). Same family as the backtick-substitution lesson already in memory. The fix
+  used here and worth defaulting to: **write prose to a scratch file and `cat` it in, or
+  read it from the file inside node — never inline prose containing apostrophes into
+  `node -e`.**
