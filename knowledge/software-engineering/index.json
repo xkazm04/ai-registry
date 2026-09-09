@@ -11203,9 +11203,9 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/durable-agent-operations/durable-agent-operations.md",
-   "digest": "sha256:357ba2c2d1e3b8ab",
-   "revision": 1,
-   "changedAt": "2026-09-04",
+   "digest": "sha256:4c4c110e98eea53d",
+   "revision": 2,
+   "changedAt": "2026-09-09",
    "techniques": [
     {
      "slug": "close-is-a-controlled-crash",
