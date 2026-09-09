@@ -42,6 +42,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { loadTaxonomy, walkSubjects, MAX_CHILD_DIRS } from './lib/taxonomy.mjs';
 import { EXIT } from './lib/exit-codes.mjs';
+import {loadIdentities,resolveIdentity,aggregateDemand} from './lib/telemetry.mjs';
 
 const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 const KNOWLEDGE = path.join(ROOT, 'knowledge');
@@ -124,59 +125,8 @@ if (fs.existsSync(SIGNALS)) {
  * count as a lower bound over the witnessed slice. A floor cannot manufacture a worklist;
  * a sum can, and did.
  */
-const demandOf = {}; // `${domain}/${slug}` -> { consults, deviations, deviationsSummed, gone, goneSummed, contributors }
-const witnessed = new Set();
-const bucket = (key) => (demandOf[key] ??= {
-  consults: 0, deviations: 0, deviationsSummed: 0, gone: 0, goneSummed: 0, contributors: 0,
-});
-const namedBy = {}; // `${domain}/${slug}` -> Set(contributor id)
-const blockSig = {}; // bundle -> [{ contributor, sig }] for the duplicate-report diagnostic
-
-for (const c of contributors) {
-  const who = c.contributor ?? '(unnamed)';
-  for (const [bundle, obs] of Object.entries(c.bundles ?? {})) {
-    witnessed.add(bundle);
-    (blockSig[bundle] ??= []).push({
-      contributor: who,
-      sig: JSON.stringify([obs.consults ?? {}, obs.deviations ?? {}, obs.citations ?? {}]),
-    });
-    for (const [slug, n] of Object.entries(obs.consults ?? {})) {
-      bucket(`${bundle}/${slug}`).consults += n; // event: sums
-      (namedBy[`${bundle}/${slug}`] ??= new Set()).add(who);
-    }
-    for (const [slug, n] of Object.entries(obs.deviations ?? {})) {
-      const d = bucket(`${bundle}/${slug}`);
-      d.deviations = Math.max(d.deviations, n); // state: floor across contributors
-      d.deviationsSummed += n;
-      (namedBy[`${bundle}/${slug}`] ??= new Set()).add(who);
-    }
-    // A subject's `gone` is the max over its own documents summed within one contributor,
-    // then the floor across contributors - the same event/state split one level down.
-    const goneWithin = {};
-    for (const [id, v] of Object.entries(obs.citations ?? {})) {
-      const slug = id.split('/')[0];
-      goneWithin[slug] = (goneWithin[slug] ?? 0) + (v.gone ?? 0);
-      (namedBy[`${bundle}/${slug}`] ??= new Set()).add(who);
-    }
-    for (const [slug, n] of Object.entries(goneWithin)) {
-      const d = bucket(`${bundle}/${slug}`);
-      d.gone = Math.max(d.gone, n);
-      d.goneSummed += n;
-    }
-  }
-}
-for (const [key, who] of Object.entries(namedBy)) bucket(key).contributors = who.size;
-
-// Two contributors whose whole bundle block is identical are one fleet counted twice, not
-// two installations that agree. Loud, because it is the shape that inflated the worklist.
-const duplicateBlocks = [];
-for (const [bundle, rows] of Object.entries(blockSig)) {
-  const seen = new Map();
-  for (const r of rows) {
-    if (seen.has(r.sig)) duplicateBlocks.push({ bundle, contributors: [seen.get(r.sig), r.contributor] });
-    else seen.set(r.sig, r.contributor);
-  }
-}
+const identities=loadIdentities(ROOT);
+const {demandOf,witnessed,duplicateBlocks,unresolved}=aggregateDemand(contributors,(lane,id)=>resolveIdentity(identities,lane,id));
 
 // ---------------------------------------------------------------- vault (coverage memory)
 const sweptOf = {}; // `${domain}/${slug}` -> { last_swept, dry_streak }
@@ -510,12 +460,14 @@ if (asJson) {
       deviationsCeiling: subjects.reduce((n, s) => n + (s.demand?.deviationsSummed ?? 0), 0),
       subjectsNamedByMoreThanOne: subjects.filter((s) => (s.demand?.contributors ?? 0) > 1).length,
       duplicateBlocks,
+      unresolvedReferences: unresolved,
     },
     domains: domainRows,
     subjects,
     worklist: worklist.map((s) => ({ id: s.id, points: s.points, reasons: s.reasons })),
   }, null, 2));
 } else {
+  if(unresolved.length)console.log(`Unresolved telemetry: ${unresolved.length} observations retained in --json; identity review needed.`);
   console.log(`librarian scan — ${today}\n`);
   const w = Math.max(...domainRows.map((d) => d.domain.length));
   console.log(`  ${'bundle'.padEnd(w)}  ${'subj'.padStart(4)} ${'tech'.padStart(4)} ${'apps'.padStart(4)}  ${'use_when'.padStart(9)}  ${'expired'.padStart(7)} ${'unswept'.padStart(7)} ${'points'.padStart(6)}  layout  demand`);

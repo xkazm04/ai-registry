@@ -29,6 +29,7 @@
       "_drift": "INTENTIONAL: example-org/internal-tooling-cli sits one minor behind the registry (0.3.0 vs 0.4.0) so a consuming repo resolves to syncState 'stale'. See the README.",
       "adopters": [],
       "invokes30d": 0,
+      "reportedInvokes": 0,
       "lessons": 1,
       "lessonsPath": "skills/agent-guidance-bootstrap/LESSONS.md",
       "lessonsHash": "sha256-n1:e573b3daf8bfb496",
@@ -45,6 +46,7 @@
         "personas@plugin:1.0.0"
       ],
       "invokes30d": 2,
+      "reportedInvokes": 2,
       "lessons": 16,
       "lessonsPath": "skills/architect/LESSONS.md",
       "lessonsHash": "sha256-n1:8e6fd704adaea725",
@@ -60,6 +62,7 @@
       "contentHash": "sha256-n1:1c7816966bee496a",
       "adopters": [],
       "invokes30d": 0,
+      "reportedInvokes": 0,
       "lessons": 1,
       "lessonsPath": "skills/ci-bootstrap/LESSONS.md",
       "lessonsHash": "sha256-n1:872a975d22a1be94",
@@ -79,6 +82,7 @@
       },
       "adopters": [],
       "invokes30d": 0,
+      "reportedInvokes": 0,
       "lessons": 1,
       "lessonsPath": "skills/ci-gate-check/LESSONS.md",
       "lessonsHash": "sha256-n1:28c33e0614848a73",
@@ -92,6 +96,7 @@
       "contentHash": "sha256-n1:205850d24fe5010c",
       "adopters": [],
       "invokes30d": 0,
+      "reportedInvokes": 0,
       "lessons": 1,
       "lessonsPath": "skills/ci-triage/LESSONS.md",
       "lessonsHash": "sha256-n1:30f2131a9244734d",
@@ -105,6 +110,7 @@
       "contentHash": "sha256-n1:ef556af0495f8fc2",
       "adopters": [],
       "invokes30d": 0,
+      "reportedInvokes": 0,
       "lessons": 3,
       "lessonsPath": "skills/conform/LESSONS.md",
       "lessonsHash": "sha256-n1:b60e6567de8b4691",
@@ -125,6 +131,7 @@
         "systedo-case@plugin:1.0.0"
       ],
       "invokes30d": 0,
+      "reportedInvokes": 0,
       "lessons": 3,
       "lessonsPath": "skills/consult/LESSONS.md",
       "lessonsHash": "sha256-n1:3165ec26a0412484",
@@ -138,6 +145,7 @@
       "contentHash": "sha256-n1:5a485674a361366f",
       "adopters": [],
       "invokes30d": 0,
+      "reportedInvokes": 0,
       "lessons": 11,
       "lessonsPath": "skills/cx/LESSONS.md",
       "lessonsHash": "sha256-n1:57256738aafb98d6",
@@ -151,6 +159,7 @@
       "contentHash": "sha256-n1:b43c65b2fc9653f8",
       "adopters": [],
       "invokes30d": 0,
+      "reportedInvokes": 0,
       "lessons": 7,
       "lessonsPath": "skills/dojo/LESSONS.md",
       "lessonsHash": "sha256-n1:b51d4c77bd00160b",
@@ -167,6 +176,7 @@
         "personas@plugin:1.0.0"
       ],
       "invokes30d": 2,
+      "reportedInvokes": 2,
       "lessons": 20,
       "lessonsPath": "skills/explorer/LESSONS.md",
       "lessonsHash": "sha256-n1:f44008e2bd0a4a1d",
@@ -182,6 +192,7 @@
       "contentHash": "sha256-n1:92ebe97c038038e5",
       "adopters": [],
       "invokes30d": 0,
+      "reportedInvokes": 0,
       "lessons": 1,
       "lessonsPath": "skills/flake-register/LESSONS.md",
       "lessonsHash": "sha256-n1:2a336a1a26a1b4cd",
@@ -198,6 +209,7 @@
         "personas@plugin:1.0.0"
       ],
       "invokes30d": 2,
+      "reportedInvokes": 2,
       "lessons": 5,
       "lessonsPath": "skills/friend/LESSONS.md",
       "lessonsHash": "sha256-n1:e1aa5db379c0a0aa",
@@ -217,6 +229,7 @@
         "systedo-case@plugin:1.1.0"
       ],
       "invokes30d": 2,
+      "reportedInvokes": 2,
       "lessons": 3,
       "lessonsPath": "skills/i18n-translate/LESSONS.md",
       "lessonsHash": "sha256-n1:85fd86502f09a9a2",
@@ -234,6 +247,7 @@
         "personas@plugin:1.0.0"
       ],
       "invokes30d": 0,
+      "reportedInvokes": 0,
       "lessons": 1,
       "lessonsPath": "skills/kpi-sim/LESSONS.md",
       "lessonsHash": "sha256-n1:020535bead762f72",
@@ -250,6 +264,7 @@
         "personas@plugin:1.0.0"
       ],
       "invokes30d": 0,
+      "reportedInvokes": 0,
       "lessons": 3,
       "lessonsPath": "skills/leonardo/LESSONS.md",
       "lessonsHash": "sha256-n1:c32ca6ae5331f6e2",
@@ -266,6 +281,7 @@
         "personas@plugin:1.0.0"
       ],
       "invokes30d": 2,
+      "reportedInvokes": 2,
       "lessons": 2,
       "lessonsPath": "skills/motionize/LESSONS.md",
       "lessonsHash": "sha256-n1:fd3f5ac51b7289e4",
@@ -283,6 +299,7 @@
         "personas@plugin:1.0.0"
       ],
       "invokes30d": 0,
+      "reportedInvokes": 0,
       "lessons": 1,
       "lessonsPath": "skills/mvp/LESSONS.md",
       "lessonsHash": "sha256-n1:578e84995ac9b915",
@@ -299,6 +316,7 @@
         "pof@plugin:1.0.0"
       ],
       "invokes30d": 1,
+      "reportedInvokes": 1,
       "lessons": 1,
       "lessonsPath": "skills/npm-updates/LESSONS.md",
       "lessonsHash": "sha256-n1:e459c2ad1e0bd9be",
@@ -314,6 +332,7 @@
       "contentHash": "sha256-n1:c301994eda249671",
       "adopters": [],
       "invokes30d": 0,
+      "reportedInvokes": 0,
       "lessons": 2,
       "lessonsPath": "skills/onboarding/LESSONS.md",
       "lessonsHash": "sha256-n1:7ba45372672d3d5c",
@@ -334,6 +353,7 @@
         "systedo-case@plugin:2.3.0"
       ],
       "invokes30d": 46,
+      "reportedInvokes": 46,
       "lessons": 24,
       "lessonsPath": "skills/perfect/LESSONS.md",
       "lessonsHash": "sha256-n1:49c506eacaad4c84",
@@ -354,6 +374,7 @@
         "systedo-case@plugin:1.0.0"
       ],
       "invokes30d": 5,
+      "reportedInvokes": 5,
       "lessons": 2,
       "lessonsPath": "skills/project-populate/LESSONS.md",
       "lessonsHash": "sha256-n1:163ba9ce0d337cdb",
@@ -371,6 +392,7 @@
         "personas@plugin:1.0.0"
       ],
       "invokes30d": 0,
+      "reportedInvokes": 0,
       "lessons": 1,
       "lessonsPath": "skills/promote/LESSONS.md",
       "lessonsHash": "sha256-n1:665376a2c45ad625",
@@ -387,6 +409,7 @@
         "pof@1.7"
       ],
       "invokes30d": 20,
+      "reportedInvokes": 20,
       "lessons": 15,
       "lessonsPath": "skills/research/LESSONS.md",
       "lessonsHash": "sha256-n1:eaba0dbcdfcba9e4",
@@ -407,6 +430,7 @@
         "systedo-case@plugin:1.0.0"
       ],
       "invokes30d": 15,
+      "reportedInvokes": 15,
       "lessons": 42,
       "lessonsPath": "skills/scan-sweep/LESSONS.md",
       "lessonsHash": "sha256-n1:7cca2b942705eaff",
@@ -427,6 +451,7 @@
         "pof@plugin:2.1.0"
       ],
       "invokes30d": 0,
+      "reportedInvokes": 0,
       "lessons": 3,
       "lessonsPath": "skills/ship-loop/LESSONS.md",
       "lessonsHash": "sha256-n1:f6bb23103330320c",
@@ -442,6 +467,7 @@
         "personas@plugin:1.0.0"
       ],
       "invokes30d": 6,
+      "reportedInvokes": 6,
       "lessons": 18,
       "lessonsPath": "skills/spark/LESSONS.md",
       "lessonsHash": "sha256-n1:73fe7cf6169ef564",
@@ -457,6 +483,7 @@
       "contentHash": "sha256-n1:e715ead0bba62d34",
       "adopters": [],
       "invokes30d": 0,
+      "reportedInvokes": 0,
       "lessons": 2,
       "lessonsPath": "skills/straighten/LESSONS.md",
       "lessonsHash": "sha256-n1:e52a062622fe0046",
@@ -476,6 +503,7 @@
       },
       "adopters": [],
       "invokes30d": 0,
+      "reportedInvokes": 0,
       "lessons": 4,
       "lessonsPath": "skills/test-before-commit/LESSONS.md",
       "lessonsHash": "sha256-n1:f519f3d5d44f23ab",
@@ -494,6 +522,7 @@
         "systedo-case@plugin:2.1.0"
       ],
       "invokes30d": 0,
+      "reportedInvokes": 0,
       "lessons": 3,
       "lessonsPath": "skills/tiger/LESSONS.md",
       "lessonsHash": "sha256-n1:bbc68263303bec1d",
@@ -512,6 +541,7 @@
         "systedo-case@plugin:1.7.0"
       ],
       "invokes30d": 2,
+      "reportedInvokes": 2,
       "lessons": 13,
       "lessonsPath": "skills/uat/LESSONS.md",
       "lessonsHash": "sha256-n1:4c34ea405a8bf6bb",
@@ -527,6 +557,7 @@
       "contentHash": "sha256-n1:6e087284ffe822c4",
       "adopters": [],
       "invokes30d": 0,
+      "reportedInvokes": 0,
       "lessons": 1,
       "lessonsPath": "skills/value-ledger/LESSONS.md",
       "lessonsHash": "sha256-n1:ef153cce1b287a9b",
@@ -791,5 +822,59 @@
       "files": 2935,
       "contentHash": "sha256:b8d7ff5ef792199c"
     }
-  ]
+  ],
+  "usageEvidence": {
+    "reports": [
+      {
+        "contributor": "kazda-dev-box",
+        "generatedAt": "2026-08-22T17:24:57Z",
+        "windowDays": 30
+      }
+    ],
+    "unresolved": [
+      {
+        "contributor": "kazda-dev-box",
+        "name": "craft-loop",
+        "invokes": 2,
+        "lastUsed": "2026-08-04T12:26:28Z"
+      },
+      {
+        "contributor": "kazda-dev-box",
+        "name": "gap-loop",
+        "invokes": 4,
+        "lastUsed": "2026-08-04T12:54:17Z"
+      },
+      {
+        "contributor": "kazda-dev-box",
+        "name": "green-loop",
+        "invokes": 1,
+        "lastUsed": "2026-08-03T19:23:10Z"
+      },
+      {
+        "contributor": "kazda-dev-box",
+        "name": "passport-onboard",
+        "invokes": 1,
+        "lastUsed": "2026-07-26T10:25:09Z"
+      },
+      {
+        "contributor": "kazda-dev-box",
+        "name": "prototype",
+        "invokes": 5,
+        "lastUsed": "2026-08-09T13:11:29Z"
+      },
+      {
+        "contributor": "kazda-dev-box",
+        "name": "readiness-loop",
+        "invokes": 1,
+        "lastUsed": "2026-08-07T16:21:01Z"
+      },
+      {
+        "contributor": "kazda-dev-box",
+        "name": "reflect-me",
+        "invokes": 1,
+        "lastUsed": "2026-08-06T07:08:55Z"
+      }
+    ],
+    "interpretation": "invokes30d includes only reported 30-day windows ending at each report date; reportedInvokes includes all reported windows. Neither is a live rolling count. Unresolved names retain counts here."
+  }
 }

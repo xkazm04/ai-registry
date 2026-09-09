@@ -264,7 +264,7 @@ for (const file of files) {
 }
 
 console.log(`signals lane: ${files.length} contributor file(s) · ${entries} counted observation(s)`);
-for (const n of notes) console.warn(`  note: ${n} — dropped from any aggregate.`);
+for (const n of notes) console.warn(`  note: ${n} — retained in telemetry-report.mjs for identity review.`);
 
 if (failures.length) {
   console.error(`\n${failures.length} failure(s):`);
