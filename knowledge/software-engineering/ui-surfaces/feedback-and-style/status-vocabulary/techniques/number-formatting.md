@@ -4,9 +4,9 @@ type: technique
 subject: status-vocabulary
 technique: number-formatting
 status: forged
-laws: [gate-sees-target]
+laws: [gate-sees-target, unknown-is-not-a-value]
 shared_with: []
-use_when: [deciding where locale resolution lives, sub-unit spend rendering as zero, auditing a checker blind to formatter callbacks]
+use_when: [deciding where locale resolution lives, sub-unit spend rendering as zero, auditing a checker blind to formatter callbacks, a unit or symbol is appended to a formatted value at the call site, a missing-value placeholder renders differently in different columns, a fixed-width or monospace table renders a quantity that can be absent]
 ---
 
 # Number formatting
@@ -57,6 +57,40 @@ groupings exist) that no concatenated letter can approximate. So the
 primitive takes `value` + `unit` and emits the whole string. A hardcoded
 glyph beside the primitive is the same defect as a hardcoded glyph beside
 a raw number.
+
+### The unit belongs to the branch that has a value, not to the column
+
+Handling the absent case *inside* the authority is necessary and it is not
+sufficient, which is the trap: anything concatenated to the authority's
+output after it returns re-opens every case the authority just closed. The
+unit is the concatenation that gets made, because a unit feels like a
+property of the **column** — every row in it is milliseconds — rather than
+of the value, and a column is exactly the scope in which some rows have no
+value.
+
+The measured shape is a fixed-width row built as a padded value slot with
+the unit appended after it. The present branch renders correctly. The
+absent branch renders its placeholder, the placeholder is padded like a
+number, and then the column's unit is glued to it: `n/a` becomes
+`n/ams`. Nothing rounded wrong and no false quantity was claimed — what
+broke is that **the placeholder stopped being the placeholder**. A reader
+scanning for the one token that means *no measurement* now sees a
+different token in every column that has a different unit, which is a
+status vocabulary with no members.
+
+So the uniformity this technique asks of the absent case runs across units
+and columns, not only across precisions, and the structural fix is to bind
+the unit inside the branch that has a quantity — emit `41 ms` or `n/a` as
+whole strings, then pad the composite. Padding the number and appending
+the unit also puts the unit at a ragged position whenever a value
+overflows its slot, so the two defects have one cause and one correction.
+
+The enforcement note is specific, because the obvious test does not catch
+this: **assert the present and absent renders in the same test.** Each
+branch is correct in isolation — `41 ms` is right, `n/a` is right — and
+the defect lives only in what the two have in common. A suite that covers
+the formatter with a value, which is the case an author writes first,
+stays green for as long as the sentinel is wrong.
 
 ## Rounding is a contract about loss
 

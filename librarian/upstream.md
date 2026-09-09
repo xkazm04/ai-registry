@@ -1,6 +1,6 @@
 ---
 kind: upstream-ledger
-updated: 2026-09-04
+updated: 2026-09-09
 ---
 
 # Upstream ledger - the trees we already mined, and when we last looked
@@ -18,61 +18,89 @@ Eligibility, cadence and the two exclusions are specified in
 [`docs/plans/upstream-lane-2026-09-04.md`](../docs/plans/upstream-lane-2026-09-04.md);
 the worker contract is [`docs/upstream-brief.md`](../docs/upstream-brief.md).
 
-## Eligible (39)
+## Eligible (62)
 
 | repo | tier | pinned | last scanned | last checked | upstream | condition | due | note |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| bytedance/deer-flow | 1 | `a5ec7f28` | 2026-09-02 | 2026-09-04 | moved | undecidable | no | ahead by 20, but 28 days short of the tier 1 floor; condition is prose and undecidable here |
-| garrytan/gstack | 1 | `0d1bd561` | 2026-09-02 | 2026-09-04 | unmoved | undecidable | no | handoff 2026-09-02-gstack-source-tree-task.md is not marked EXECUTED - owed work, not a re-scan |
-| HKUDS/LightRAG | 1 | `c1248646` | 2026-09-02 | 2026-09-04 | moved | undecidable | no | handoff 2026-09-03-lightrag-source-tree-task.md is not marked EXECUTED - owed work, not a re-scan |
-| kube-rs/kube | 1 | `7a4641d4` | 2026-09-03 | 2026-09-04 | moved | undecidable | no | handoff 2026-09-03-kube-rs-source-tree-task.md is not marked EXECUTED - owed work, not a re-scan |
-| microsoft/mcp | 1 | `bc2a3b4e` | 2026-09-03 | 2026-09-04 | moved | undecidable | no | ahead by 11, but 29 days short of the tier 1 floor; condition is prose and undecidable here |
-| NousResearch/hermes-agent | 1 | `0cbc6e37` | 2026-09-02 | 2026-09-04 | moved | undecidable | no | handoff 2026-09-02-hermes-agent-source-tree-task.md is not marked EXECUTED - owed work, not a re-scan |
-| openbao/openbao | 1 | `6b5f82e1` | 2026-09-02 | 2026-09-04 | moved | undecidable | no | ahead by 8, but 28 days short of the tier 1 floor; condition is prose and undecidable here |
-| Portkey-AI/gateway | 1 | `669825cb` | 2026-09-02 | 2026-09-04 | dormant | undecidable | no | handoff 2026-09-02-portkey-gateway-source-tree-task.md is not marked EXECUTED - owed work, not a re-scan |
-| Project-MONAI/MONAI | 1 | `02201b86` | 2026-09-02 | 2026-09-04 | moved | undecidable | no | ahead by 6, but 28 days short of the tier 1 floor; condition is prose and undecidable here |
-| AlexsJones/llmfit | 2 | `d19380ba` | 2026-09-03 | 2026-09-04 | unmoved | none | no | handoff 2026-09-03-modelled-performance-estimates.md is not marked EXECUTED - owed work, not a re-scan |
-| calesthio/OpenMontage | 2 | `cd9f3c1f` | 2026-08-31 | 2026-09-04 | unmoved | none | no | no commits since the pin - nothing to read |
-| Chatterino/chatterino2 | 2 | `fda51f0d` | 2026-09-03 | 2026-09-04 | moved | undecidable | no | ahead by 1, but 59 days short of the tier 2 floor; condition is prose and undecidable here |
-| cjpais/Handy | 2 | `fbd4e15f` | 2026-09-02 | 2026-09-04 | unmoved | undecidable | no | no commits since the pin - nothing to read |
-| comet-ml/opik | 2 | `4ef186c6` | 2026-09-04 | 2026-09-04 | moved | none | no | ahead by 2, but 60 days short of the tier 2 floor |
-| diegosouzapw/OmniRoute | 2 | `b7a0c541` | 2026-08-31 | 2026-09-04 | moved | none | no | ahead by 257, but 56 days short of the tier 2 floor |
-| emdash-cms/emdash | 2 | `7a5d9c18` | 2026-09-03 | 2026-09-04 | moved | none | no | handoff 2026-09-03-emdash-decentralized-artifact-distribution.md is not marked EXECUTED - owed work, not a re-scan |
-| firecrawl/anydoc | 2 | `261fc257` | 2026-08-31 | 2026-09-04 | unmoved | none | no | no commits since the pin - nothing to read |
-| jetkvm/kvm | 2 | `3f7c7095` | 2026-09-04 | 2026-09-04 | unmoved | none | no | no commits since the pin - nothing to read |
-| k2-fsa/sherpa-onnx | 2 | `917bed95` | 2026-09-02 | 2026-09-04 | moved | undecidable | no | ahead by 3, but 58 days short of the tier 2 floor; condition is prose and undecidable here |
-| langchain-ai/openwiki | 2 | `64903f92` | 2026-09-01 | 2026-09-04 | moved | none | no | ahead by 8, but 57 days short of the tier 2 floor |
-| matrix-org/matrix-rust-sdk | 2 | `37a0ae4f` | 2026-09-01 | 2026-09-04 | moved | undecidable | no | ahead by 19, but 57 days short of the tier 2 floor; condition is prose and undecidable here |
-| remeda/remeda | 2 | `e11dcf2d` | 2026-08-31 | 2026-09-04 | moved | none | no | ahead by 6, but 56 days short of the tier 2 floor |
-| rowboatlabs/rowboat | 2 | `f4fce64a` | 2026-09-03 | 2026-09-04 | moved | none | no | ahead by 3, but 59 days short of the tier 2 floor |
-| sagiegurari/cargo-make | 2 | `95dcc545` | 2026-09-04 | 2026-09-04 | dormant | none | no | no push in 211 days - nothing to read |
-| Sylinko/Everywhere | 2 | `a4345a51` | 2026-09-04 | 2026-09-04 | unmoved | none | no | no commits since the pin - nothing to read |
-| TanStack/query | 2 | `1566c16d` | 2026-08-31 | 2026-09-04 | moved | none | no | already queued in librarian/harvest/ - that lane owns it |
-| volcengine/OpenViking | 2 | `85b4923d` | 2026-09-02 | 2026-09-04 | moved | undecidable | no | ahead by 34, but 58 days short of the tier 2 floor; condition is prose and undecidable here |
-| Yeachan-Heo/oh-my-claudecode | 2 | `e9e8fa38` | 2026-09-02 | 2026-09-04 | moved | undecidable | no | ahead by 75, but 58 days short of the tier 2 floor; condition is prose and undecidable here |
-| Aider-AI/aider | 3 | `5dc9490b` | 2026-08-31 | 2026-09-04 | dormant | none | no | no push in 105 days - nothing to read |
-| AmanVarshney01/create-better-t-stack | 3 | `1c534b27` | 2026-09-02 | 2026-09-04 | moved | undecidable | no | ahead by 2, but 88 days short of the tier 3 floor; condition is prose and undecidable here |
-| blader/Claudeception | 3 | `62dbb91d` | 2026-09-02 | 2026-09-04 | dormant | undecidable | no | no push in 195 days - nothing to read |
-| burntsushi/ripgrep | 3 | `3fce3b5b` | 2026-08-31 | 2026-09-04 | unmoved | none | no | no commits since the pin - nothing to read |
-| cline/cline | 3 | `48d63852` | 2026-08-31 | 2026-09-04 | moved | none | no | ahead by 36, but 86 days short of the tier 3 floor |
-| dora-rs/dora | 3 | `cb561cc9` | 2026-09-02 | 2026-09-04 | moved | undecidable | no | handoff 2026-09-02-dora-tier2.md is not marked EXECUTED - owed work, not a re-scan |
-| future-agi/future-agi | 3 | `5b84ef4a` | 2026-08-31 | 2026-09-04 | moved | none | no | ahead by 669, but 86 days short of the tier 3 floor |
-| getsentry/self-hosted | 3 | `c1199830` | 2026-09-02 | 2026-09-04 | moved | undecidable | no | ahead by 2, but 88 days short of the tier 3 floor; condition is prose and undecidable here |
-| vllm-project/vllm | 3 | `facd9a74` | 2026-09-03 | 2026-09-04 | moved | none | no | handoff 2026-09-03-vllm-design-record.md is not marked EXECUTED - owed work, not a re-scan |
-| whatwg/html | 3 | `778afd94` | 2026-08-31 | 2026-09-04 | moved | none | no | ahead by 11, but 86 days short of the tier 3 floor |
-| WingedGuardian/GENesis-AGI | 3 | `41382e76` | 2026-08-31 | 2026-09-04 | moved | none | no | ahead by 61, but 86 days short of the tier 3 floor |
+| bytedance/deer-flow | 1 | `a5ec7f28` | 2026-09-02 | 2026-09-09 | moved | undecidable | no | ahead by 76, but 23 days short of the tier 1 floor; condition is prose and undecidable here |
+| garrytan/gstack | 1 | `0d1bd561` | 2026-09-02 | 2026-09-09 | moved | undecidable | no | handoff 2026-09-02-gstack-source-tree-task.md is not marked EXECUTED - owed work, not a re-scan |
+| HKUDS/LightRAG | 1 | `c1248646` | 2026-09-02 | 2026-09-09 | moved | undecidable | no | handoff 2026-09-03-lightrag-source-tree-task.md is not marked EXECUTED - owed work, not a re-scan |
+| kube-rs/kube | 1 | `7a4641d4` | 2026-09-03 | 2026-09-09 | moved | undecidable | no | handoff 2026-09-03-kube-rs-source-tree-task.md is not marked EXECUTED - owed work, not a re-scan |
+| microsoft/mcp | 1 | `bc2a3b4e` | 2026-09-03 | 2026-09-09 | moved | undecidable | no | ahead by 26, but 24 days short of the tier 1 floor; condition is prose and undecidable here |
+| NousResearch/hermes-agent | 1 | `0cbc6e37` | 2026-09-02 | 2026-09-09 | moved | undecidable | no | handoff 2026-09-02-hermes-agent-source-tree-task.md is not marked EXECUTED - owed work, not a re-scan |
+| openbao/openbao | 1 | `6b5f82e1` | 2026-09-02 | 2026-09-09 | moved | undecidable | no | ahead by 24, but 23 days short of the tier 1 floor; condition is prose and undecidable here |
+| Portkey-AI/gateway | 1 | `669825cb` | 2026-09-02 | 2026-09-09 | dormant | undecidable | no | handoff 2026-09-02-portkey-gateway-source-tree-task.md is not marked EXECUTED - owed work, not a re-scan |
+| Project-MONAI/MONAI | 1 | `02201b86` | 2026-09-02 | 2026-09-09 | moved | undecidable | no | ahead by 11, but 23 days short of the tier 1 floor; condition is prose and undecidable here |
+| ace-step/ACE-Step-1.5 | 2 | `ca1e85fe` | 2026-09-06 | 2026-09-09 | unmoved | undecidable | no | no commits since the pin - nothing to read |
+| AlexsJones/llmfit | 2 | `1e7bdb3e` | 2026-09-09 | 2026-09-09 | unmoved | undecidable | no | no commits since the pin - nothing to read |
+| calesthio/OpenMontage | 2 | `cd9f3c1f` | 2026-08-31 | 2026-09-09 | moved | none | no | ahead by 1, but 51 days short of the tier 2 floor |
+| Chatterino/chatterino2 | 2 | `fda51f0d` | 2026-09-03 | 2026-09-09 | moved | undecidable | no | ahead by 28, but 54 days short of the tier 2 floor; condition is prose and undecidable here |
+| cjpais/Handy | 2 | `fbd4e15f` | 2026-09-02 | 2026-09-09 | moved | undecidable | no | ahead by 2, but 53 days short of the tier 2 floor; condition is prose and undecidable here |
+| comet-ml/opik | 2 | `4ef186c6` | 2026-09-04 | 2026-09-09 | moved | none | no | ahead by 54, but 55 days short of the tier 2 floor |
+| debpalash/VoiceStudio | 2 | `9790d289` | 2026-09-07 | 2026-09-09 | moved | undecidable | no | ahead by 22, but 58 days short of the tier 2 floor; condition is prose and undecidable here |
+| deepbeepmeep/Wan2GP | 2 | `cdab3128` | 2026-09-04 | 2026-09-09 | moved | undecidable | no | ahead by 7, but 55 days short of the tier 2 floor; condition is prose and undecidable here |
+| diegosouzapw/OmniRoute | 2 | `b7a0c541` | 2026-08-31 | 2026-09-09 | moved | none | no | ahead by 304, but 51 days short of the tier 2 floor |
+| duckdb/duckdb-wasm | 2 | `def100b4` | 2026-09-04 | 2026-09-09 | unmoved | none | no | no commits since the pin - nothing to read |
+| dullage/flatnotes | 2 | `7f5b773c` | 2026-09-06 | 2026-09-09 | unmoved | undecidable | no | no commits since the pin - nothing to read |
+| earendil-works/pi | 2 | `744a94d7` | 2026-09-04 | 2026-09-09 | moved | undecidable | no | ahead by 45, but 55 days short of the tier 2 floor; condition is prose and undecidable here |
+| emdash-cms/emdash | 2 | `7a5d9c18` | 2026-09-03 | 2026-09-09 | moved | none | no | handoff 2026-09-03-emdash-decentralized-artifact-distribution.md is not marked EXECUTED - owed work, not a re-scan |
+| exoharness/exo | 2 | `7801005e` | 2026-09-04 | 2026-09-09 | moved | undecidable | no | ahead by 8, but 55 days short of the tier 2 floor; condition is prose and undecidable here |
+| firecrawl/anydoc | 2 | `261fc257` | 2026-08-31 | 2026-09-09 | unmoved | none | no | no commits since the pin - nothing to read |
+| garrytan/gbrain | 2 | `2efaaf8f` | 2026-09-07 | 2026-09-09 | moved | undecidable | no | ahead by 1, but 58 days short of the tier 2 floor; condition is prose and undecidable here |
+| getlago/lago | 2 | `lago 245` | 2026-09-07 | 2026-09-09 | pin-unreachable | undecidable | no | handoff 2026-09-07-lago-payments-api.md is not marked EXECUTED - owed work, not a re-scan |
+| Gitlawb/openclaude | 2 | `0abfca30` | 2026-09-06 | 2026-09-09 | moved | undecidable | no | ahead by 4, but 57 days short of the tier 2 floor; condition is prose and undecidable here |
+| h4ckf0r0day/obscura | 2 | `14ce5178` | 2026-09-04 | 2026-09-09 | moved | none | no | handoff 2026-09-04-obscura-design-record.md is not marked EXECUTED - owed work, not a re-scan |
+| jetkvm/kvm | 2 | `3f7c7095` | 2026-09-04 | 2026-09-09 | moved | none | no | ahead by 32, but 55 days short of the tier 2 floor |
+| k2-fsa/sherpa-onnx | 2 | `917bed95` | 2026-09-02 | 2026-09-09 | moved | undecidable | no | ahead by 19, but 53 days short of the tier 2 floor; condition is prose and undecidable here |
+| KDE/kdenlive | 2 | `b7124d97` | 2026-09-04 | 2026-09-09 | moved | none | no | handoff 2026-09-04-native-document-format.md is not marked EXECUTED - owed work, not a re-scan |
+| KnockOutEZ/wigolo | 2 | `c6ad4479` | 2026-09-04 | 2026-09-09 | unmoved | none | no | handoff 2026-09-04-wigolo-contested-acquisition.md is not marked EXECUTED - owed work, not a re-scan |
+| langchain-ai/open_deep_research | 2 | `1b7d2e80` | 2026-09-04 | 2026-09-09 | archived | none | no | archived upstream - retire the row |
+| langchain-ai/openwiki | 2 | `64903f92` | 2026-09-01 | 2026-09-09 | moved | none | no | ahead by 16, but 52 days short of the tier 2 floor |
+| matrix-org/matrix-rust-sdk | 2 | `37a0ae4f` | 2026-09-01 | 2026-09-09 | moved | undecidable | no | ahead by 83, but 52 days short of the tier 2 floor; condition is prose and undecidable here |
+| MervinPraison/PraisonAI | 2 | `54244695` | 2026-09-06 | 2026-09-09 | moved | undecidable | no | ahead by 158, but 57 days short of the tier 2 floor; condition is prose and undecidable here |
+| microsoft/VibeVoice | 2 | `1541f590` | 2026-09-04 | 2026-09-09 | unmoved | undecidable | no | no commits since the pin - nothing to read |
+| nklmilojevic/sofka | 2 | `fdb58c0d` | 2026-09-06 | 2026-09-09 | moved | undecidable | no | ahead by 227, but 57 days short of the tier 2 floor; condition is prose and undecidable here |
+| Panniantong/Agent-Reach | 2 | `da5044d2` | 2026-09-04 | 2026-09-09 | unmoved | none | no | no commits since the pin - nothing to read |
+| pydantic/monty | 2 | `fdd26283` | 2026-09-04 | 2026-09-09 | moved | undecidable | no | ahead by 12, but 55 days short of the tier 2 floor; condition is prose and undecidable here |
+| remeda/remeda | 2 | `e11dcf2d` | 2026-08-31 | 2026-09-09 | moved | none | no | ahead by 10, but 51 days short of the tier 2 floor |
+| rowboatlabs/rowboat | 2 | `f4fce64a` | 2026-09-03 | 2026-09-09 | moved | none | no | ahead by 31, but 54 days short of the tier 2 floor |
+| sagiegurari/cargo-make | 2 | `95dcc545` | 2026-09-04 | 2026-09-09 | dormant | none | no | no push in 216 days - nothing to read |
+| spotify/portal-ai-plugins | 2 | `3c24ca30` | 2026-09-08 | 2026-09-09 | unmoved | undecidable | no | no commits since the pin - nothing to read |
+| Sylinko/Everywhere | 2 | `a4345a51` | 2026-09-04 | 2026-09-09 | moved | none | no | ahead by 5, but 55 days short of the tier 2 floor |
+| TanStack/query | 2 | `1566c16d` | 2026-08-31 | 2026-09-09 | moved | none | no | already queued in librarian/harvest/ - that lane owns it |
+| unjs/unstorage | 2 | `7f773be1` | 2026-09-07 | 2026-09-09 | unmoved | undecidable | no | no commits since the pin - nothing to read |
+| volcengine/OpenViking | 2 | `85b4923d` | 2026-09-02 | 2026-09-09 | moved | undecidable | no | ahead by 90, but 53 days short of the tier 2 floor; condition is prose and undecidable here |
+| workweave/router | 2 | `1699cf60` | 2026-09-04 | 2026-09-09 | moved | undecidable | no | ahead by 29, but 55 days short of the tier 2 floor; condition is prose and undecidable here |
+| Yeachan-Heo/oh-my-claudecode | 2 | `e9e8fa38` | 2026-09-02 | 2026-09-09 | moved | undecidable | no | ahead by 112, but 53 days short of the tier 2 floor; condition is prose and undecidable here |
+| zvec-ai/zvec-grep | 2 | `7d73ca1b` | 2026-09-04 | 2026-09-09 | moved | undecidable | no | ahead by 9, but 55 days short of the tier 2 floor; condition is prose and undecidable here |
+| Aider-AI/aider | 3 | `5dc9490b` | 2026-08-31 | 2026-09-09 | dormant | none | no | no push in 110 days - nothing to read |
+| AmanVarshney01/create-better-t-stack | 3 | `1c534b27` | 2026-09-02 | 2026-09-09 | moved | undecidable | no | ahead by 6, but 83 days short of the tier 3 floor; condition is prose and undecidable here |
+| blader/Claudeception | 3 | `62dbb91d` | 2026-09-02 | 2026-09-09 | dormant | undecidable | no | no push in 200 days - nothing to read |
+| burntsushi/ripgrep | 3 | `3fce3b5b` | 2026-08-31 | 2026-09-09 | unmoved | none | no | no commits since the pin - nothing to read |
+| cline/cline | 3 | `48d63852` | 2026-08-31 | 2026-09-09 | moved | none | no | ahead by 71, but 81 days short of the tier 3 floor |
+| dora-rs/dora | 3 | `cb561cc9` | 2026-09-02 | 2026-09-09 | moved | undecidable | no | handoff 2026-09-02-dora-tier2.md is not marked EXECUTED - owed work, not a re-scan |
+| future-agi/future-agi | 3 | `5b84ef4a` | 2026-08-31 | 2026-09-09 | moved | none | no | ahead by 747, but 81 days short of the tier 3 floor |
+| getsentry/self-hosted | 3 | `c1199830` | 2026-09-02 | 2026-09-09 | moved | undecidable | no | ahead by 2, but 83 days short of the tier 3 floor; condition is prose and undecidable here |
+| vllm-project/vllm | 3 | `facd9a74` | 2026-09-03 | 2026-09-09 | moved | none | no | handoff 2026-09-03-vllm-design-record.md is not marked EXECUTED - owed work, not a re-scan |
+| whatwg/html | 3 | `778afd94` | 2026-08-31 | 2026-09-09 | moved | none | no | ahead by 23, but 81 days short of the tier 3 floor |
+| WingedGuardian/GENesis-AGI | 3 | `41382e76` | 2026-08-31 | 2026-09-09 | moved | none | no | ahead by 139, but 81 days short of the tier 3 floor |
 
-## Excluded (34)
+## Excluded (42)
 
 Not a backlog. Each row states why the lane does not own this tree, so the next run
 does not re-derive it.
 
 | repo | last scanned | why |
 | --- | --- | --- |
+| Anil-matcha/awesome-gpt-6-astra | 2026-09-08 | no fleet evidence: nothing this source landed has been shipped, applied with a better verdict, or made a peer study or a handoff; catalogue class: a delta is more rows, which belong in the harvest queue |
+| av/harbor | 2026-09-06 | no commit pin: a delta has no base, so movement is unknown rather than absent |
 | blue-az/operator-control-plane | 2026-08-30 | no fleet evidence: nothing this source landed has been shipped, applied with a better verdict, or made a peer study or a handoff |
 | boa-dev/boa | 2026-09-03 | no fleet evidence: nothing this source landed has been shipped, applied with a better verdict, or made a peer study or a handoff |
 | context-labs/whip | 2026-08-27 | no fleet evidence: nothing this source landed has been shipped, applied with a better verdict, or made a peer study or a handoff; no commit pin: a delta has no base, so movement is unknown rather than absent |
+| CortexReach/memory-lancedb-pro | 2026-09-07 | no fleet evidence: nothing this source landed has been shipped, applied with a better verdict, or made a peer study or a handoff |
 | DEEP-JLU/Awesome-Graph-Engineering | 2026-08-25 | no fleet evidence: nothing this source landed has been shipped, applied with a better verdict, or made a peer study or a handoff; catalogue class: a delta is more rows, which belong in the harvest queue; no commit pin: a delta has no base, so movement is unknown rather than absent |
+| denoland/rusty_v8 | 2026-09-05 | no commit pin: a delta has no base, so movement is unknown rather than absent |
+| fluxerapp/fluxer | 2026-09-04 | no fleet evidence: nothing this source landed has been shipped, applied with a better verdict, or made a peer study or a handoff |
 | freestylefly/awesome-gpt-image-2 | 2026-08-25 | no fleet evidence: nothing this source landed has been shipped, applied with a better verdict, or made a peer study or a handoff; catalogue class: a delta is more rows, which belong in the harvest queue |
 | glukicov/slideops | 2026-09-01 | no fleet evidence: nothing this source landed has been shipped, applied with a better verdict, or made a peer study or a handoff |
 | gmh5225/awesome-game-security | 2026-09-01 | catalogue class: a delta is more rows, which belong in the harvest queue |
@@ -80,11 +108,13 @@ does not re-derive it.
 | jamiepine/voicebox | 2026-09-03 | no fleet evidence: nothing this source landed has been shipped, applied with a better verdict, or made a peer study or a handoff |
 | jd-opensource/JoyAI-Echo | 2026-08-26 | no fleet evidence: nothing this source landed has been shipped, applied with a better verdict, or made a peer study or a handoff; no commit pin: a delta has no base, so movement is unknown rather than absent |
 | JustVugg/colibri | 2026-09-01 | no fleet evidence: nothing this source landed has been shipped, applied with a better verdict, or made a peer study or a handoff; no commit pin: a delta has no base, so movement is unknown rather than absent |
+| Kavex/GameDev-Resources | 2026-09-04 | catalogue class: a delta is more rows, which belong in the harvest queue |
 | Kevin-Liu-01/Claude-of-Tanks | 2026-08-31 | no fleet evidence: nothing this source landed has been shipped, applied with a better verdict, or made a peer study or a handoff; no commit pin: a delta has no base, so movement is unknown rather than absent |
 | kunchenguid/firstmate | 2026-09-01 | no fleet evidence: nothing this source landed has been shipped, applied with a better verdict, or made a peer study or a handoff |
 | kyrolabs/awesome-langchain | 2026-09-03 | no fleet evidence: nothing this source landed has been shipped, applied with a better verdict, or made a peer study or a handoff; catalogue class: a delta is more rows, which belong in the harvest queue |
 | laude-institute/headlong | 2026-08-30 | no commit pin: a delta has no base, so movement is unknown rather than absent |
 | malisper/pgrust | 2026-08-31 | no fleet evidence: nothing this source landed has been shipped, applied with a better verdict, or made a peer study or a handoff |
+| MartinDelophy/awesome-gpt-6-astra | 2026-09-08 | catalogue class: a delta is more rows, which belong in the harvest queue |
 | microsoft/AutoSaddler | 2026-08-28 | no fleet evidence: nothing this source landed has been shipped, applied with a better verdict, or made a peer study or a handoff; no commit pin: a delta has no base, so movement is unknown rather than absent |
 | microsoft/RustTraining | 2026-09-03 | no fleet evidence: nothing this source landed has been shipped, applied with a better verdict, or made a peer study or a handoff; catalogue class: a delta is more rows, which belong in the harvest queue |
 | nibzard/awesome-agentic-patterns | 2026-08-31 | no fleet evidence: nothing this source landed has been shipped, applied with a better verdict, or made a peer study or a handoff; catalogue class: a delta is more rows, which belong in the harvest queue |
@@ -94,6 +124,7 @@ does not re-derive it.
 | semantica-agi/semantica | 2026-08-31 | no fleet evidence: nothing this source landed has been shipped, applied with a better verdict, or made a peer study or a handoff |
 | SenteLabsAI/OpenExecutive | 2026-08-27 | no fleet evidence: nothing this source landed has been shipped, applied with a better verdict, or made a peer study or a handoff; no commit pin: a delta has no base, so movement is unknown rather than absent |
 | Shubhamsaboo/awesome-llm-apps | 2026-08-25 | no fleet evidence: nothing this source landed has been shipped, applied with a better verdict, or made a peer study or a handoff; catalogue class: a delta is more rows, which belong in the harvest queue |
+| sozu-proxy/sozu | 2026-09-04 | no fleet evidence: nothing this source landed has been shipped, applied with a better verdict, or made a peer study or a handoff |
 | supermemoryai/supermemory | 2026-08-26 | no fleet evidence: nothing this source landed has been shipped, applied with a better verdict, or made a peer study or a handoff; no commit pin: a delta has no base, so movement is unknown rather than absent |
 | tc39/proposals | 2026-08-31 | catalogue class: a delta is more rows, which belong in the harvest queue |
 | tigerbeetle/tigerbeetle | 2026-08-31 | no fleet evidence: nothing this source landed has been shipped, applied with a better verdict, or made a peer study or a handoff |

@@ -5,7 +5,7 @@ subject: modelled-performance-estimates
 technique: one-ratio-then-a-capability-cap
 stack: rust
 status: forged
-verified_on: 2026-09-03
+verified_on: 2026-09-09
 ---
 
 # A memory-fit verdict rebuilt as one ratio plus a run-mode cap
@@ -14,7 +14,7 @@ A model-selection tool written in Rust — a workspace whose `llmfit-core` crate
 computes, for every model in an embedded catalog, whether it will run on the
 machine in front of you — carries the clearest worked example of this
 technique the author has read, because it records the defect **and** the
-refutation in both directions. Citations are against commit `d19380ba`.
+refutation in both directions. Citations are against commit `1e7bdb3e` (re-verified 2026-09-09; every cited file is byte-identical to `d19380ba`).
 
 ## The composition
 

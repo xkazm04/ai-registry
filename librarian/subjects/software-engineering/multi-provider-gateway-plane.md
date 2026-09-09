@@ -50,9 +50,20 @@ does a false positive assert something false?** If a later run finds a third sig
 of this shape, it is law-shaped, not technique-shaped.
 
 **Structural fact from the source tree, worth keeping:** the `ModelProvider` trait is
-implemented eight times and dispatched through zero times in 54k lines. Nobody wrote
-that as a principle; it fell out of two requirements — per-member match semantics and
-per-member failure policy — that a uniform collection cannot express.
+implemented **seven** times and dispatched through zero times in 54k lines, inside an
+aggregate of **eight** named members. Nobody wrote that as a principle; it fell out of
+three requirements a uniform collection cannot express — per-member match semantics,
+per-member failure policy, and a member the interface cannot type at all (the eighth
+probe is a free function, a directory scan that is not a runtime and has no
+`is_available`).
+
+*Corrected 2026-09-09 on delta re-scan.* The original note said "eight times", which
+conflated members with implementations; `providers.rs` is byte-identical between the
+two commits, so the count was wrong when written rather than overtaken. The gap
+between the two numbers turned out to be the sharpest evidence in the file — the
+member that cannot implement the interface is the same member carrying both
+asymmetries — and it is now a section of the technique
+(*"The collection also decides membership, and that decision is silent"*).
 
 ## Open leads
 

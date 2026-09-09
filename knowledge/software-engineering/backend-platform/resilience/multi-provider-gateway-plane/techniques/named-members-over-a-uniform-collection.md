@@ -6,7 +6,7 @@ technique: named-members-over-a-uniform-collection
 status: forged
 laws: [failure-not-empty-success, count-carries-predicate]
 shared_with: []
-use_when: [deciding whether a set of upstream adapters should be held as a list behind their interface, one slow upstream probe is serializing a startup path, an enrichment source's failure took down the whole aggregate, two upstreams' results need different matching rules downstream]
+use_when: [deciding whether a set of upstream adapters should be held as a list behind their interface, one slow upstream probe is serializing a startup path, an enrichment source's failure took down the whole aggregate, two upstreams' results need different matching rules downstream, a source that should contribute to an aggregate cannot implement the adapter interface, a stub implementation is being written so a contributor fits the collection]
 ---
 
 # Named members over a uniform collection
@@ -102,6 +102,48 @@ concurrent waits, or long-lived streams are what threads are bad at, and there
 the asynchronous substrate earns its propagation. The mistake is not picking
 either one — it is picking without naming which consumer is doing the
 constraining.
+
+## The collection also decides *membership*, and that decision is silent
+
+Match semantics and failure policy are the two erasures a reader can find by
+looking at the members. There is a third cost that leaves no trace at all,
+because it acts before there are members to inspect: **a collection of an
+interface has its membership decided by the type.**
+
+The aggregate's real question is *which sources contribute to this picture?* The
+collection can only answer *which types implement this interface?*, and those
+are not the same question. Some of the best contributors to an inventory are not
+adapters and cannot become them — a directory scan, a cache read, a file the
+plane itself wrote, a second view of an upstream that already appears under its
+own name. They answer one of the interface's questions and have no meaning for
+the rest.
+
+Faced with a source like that, a codebase holding a uniform collection has two
+moves and takes one of them without discussion:
+
+- **drop the source**, because it does not fit the container — and the
+  aggregate is now missing a contributor for a reason nobody wrote down and no
+  reviewer can see, since a collection does not enumerate what it excluded; or
+- **force it through a stub implementation**, whose unimplementable methods
+  become unreachable arms that must return *something*. The cheapest thing that
+  compiles is a silent no-op, which is precisely how a mechanism meant to force
+  real decisions is used to manufacture a fake one
+  ([shape-with-a-not-applicable-member](../../../../engineering-process/standards-and-gates/invariant-placement/techniques/shape-with-a-not-applicable-member.md)).
+
+A record with named fields has no opinion about what a member is. The field
+holds the result, and how that result was obtained is the fan-out's business, so
+a scan sits beside an adapter with neither one pretending to be the other. That
+is worth stating as its own reason to prefer the record, because it is the only
+one of the three that a later reader cannot recover: the erased match rule and
+the flattened failure policy are at least visible as defects, while the source
+that was never admitted is not visible as anything.
+
+**Expect the odd member to be the load-bearing one.** Where an aggregate has a
+contributor the interface cannot type, that contributor is frequently also the
+one with the different match rule and the different failure policy — all three
+follow from it not being the same kind of thing. A design review that finds
+itself writing an exception for one member has found the member that was telling
+it the container is wrong.
 
 ## Say why each member's policy is what it is
 

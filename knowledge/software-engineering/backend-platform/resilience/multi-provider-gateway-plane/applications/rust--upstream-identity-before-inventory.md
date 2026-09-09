@@ -5,13 +5,13 @@ subject: multi-provider-gateway-plane
 technique: upstream-identity-before-inventory
 stack: rust
 status: forged
-verified_on: 2026-09-03
+verified_on: 2026-09-09
 verified_against: rust@1.85
 ---
 
 # An enum with an `Unrecognized` arm, filled by dated measurements
 
-`AlexsJones/llmfit` at `d19380bac5d82c5cd3080ff1afef6d1dc20615bf` fronts six local
+`AlexsJones/llmfit` at `1e7bdb3ecf43071597ffd2eb2305dfac35e22a40` fronts six local
 inference runtimes, five of which answer the same OpenAI-compatible HTTP surface.
 The version witness for this document is the maintainer's stated minimum in
 `AGENTS.md:16` — *"Minimum supported Rust version: whatever edition 2024
