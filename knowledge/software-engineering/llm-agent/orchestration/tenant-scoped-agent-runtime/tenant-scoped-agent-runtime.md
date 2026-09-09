@@ -15,260 +15,100 @@ techniques:
 
 # Tenant-scoped agent runtime
 
-An agent process is usually built for one owner. It reads one home
-directory, holds one set of credentials, keeps one session store, loads one
-set of extensions, and every one of those facts is written where a process
-keeps facts: the process environment, a module-level singleton, a handle
-bound in a constructor. Then somebody asks the same binary to serve a
-second configuration — a second workspace, a second bot, a second team's
-keys — and the honest answer is to run a second process. That answer stops
-being honest at about the fourth one, when the memory, the connection
-count and the deploy story all argue for collapsing them, and the process
-becomes a **multiplexer**: one event loop, one listener, one lock, serving
-several configurations that must never observe each other.
+When one process serves several configurations, each operation must use the
+intended tenant's credentials, storage and extensions. Decide first whether
+sharing a process is appropriate. Resource cost, trust boundaries and operational
+requirements determine that choice; there is no tenant-count threshold at which
+separate processes become wrong.
 
-This subject owns that collapse. A **tenant** here is a configuration —
-a home, a credential set, a store, an extension roster — and deliberately
-not a person and not a session. The load-bearing idea is one sentence:
-**the tenant is a task-local scope, never an ambient one.** The process
-environment is a single slot shared by every thread; anything written
-there is written for everybody, including every child process spawned with
-a copy of it. So a per-turn identity cannot live there, and the alternative
-is not a bigger environment but a different kind of variable — one whose
-value belongs to the unit of work rather than to the process, is installed
-at the boundary where that unit begins, and unwinds when it ends. Every
-resolver in the runtime — home paths, credentials, stores, registries,
-extension caches — then reads the tenant from that scope instead of from
-the process, and cross-tenant leakage stops being a rule people remember
-and becomes a thing the resolvers cannot express.
+This subject uses tenant to mean an isolated configuration, not a person or a
+session. It adds ownership and sharing rules to
+[agent-runtime-assembly](../../runtime-and-io/agent-runtime-assembly/agent-runtime-assembly.md).
+[Credential-vault](../../../security/identity-and-access/credential-vault/credential-vault.md)
+owns secret custody; authorization establishes which caller may act for which
+tenant. A task-local variable transports an established identity. It neither
+authenticates that identity nor sandboxes untrusted code in the same address space.
 
-## Where this subject starts and stops
+## Establish and carry tenant identity
 
-The nearest neighbour is
-[agent-runtime-assembly](../../runtime-and-io/agent-runtime-assembly/agent-runtime-assembly.md),
-and the boundary has to be stated in both directions because the two
-subjects touch at every seam. That subject owns how the code around **one**
-model call is assembled: which hooks wrap the call and in what order, who
-may load code into the process and how a bad contribution fails, what the
-loop may hold about work a store owns, and how the durable record is
-written. All of that is correct for a single tenant and stays there. This
-subject owns only what a **second** tenant adds — that the assembly must
-now happen more than once in one process, that two assemblies must not
-share the state each captured, and that every resolver the assembly
-consults must answer for the tenant whose turn is running. The rule a
-reader uses: if the question would still exist with exactly one
-configuration, it is the neighbour's. If it appears only because a second
-configuration is being served from the same process, it is here. Concretely,
-[operator-tier-code-loading](../../runtime-and-io/agent-runtime-assembly/techniques/operator-tier-code-loading.md)
-owns which tier may name code and how a contributed hook fails in
-isolation; this subject cites it and adds only the eviction rule a second
-tenant's same-named extension makes necessary.
-[bounded-projection-of-external-work](../../runtime-and-io/agent-runtime-assembly/techniques/bounded-projection-of-external-work.md)
-already observes, in one line, that work leaving the loop leaves the
-request's credentials behind — this subject is the general form of that
-observation.
+Resolve tenant ownership from an authenticated routing or configuration boundary
+before any tenant-sensitive read, write or batching operation. Pass it explicitly
+or install a task-local scope that nested calls can read. Do not switch a shared
+process environment between concurrent tenants or build a union of tenant secrets
+that child processes inherit. An explicitly constructed child environment can
+contain only the selected tenant's permitted values.
 
-The placement of this subject in `orchestration` rather than beside its
-nearest neighbour was **forced**: the neighbouring grouping stood at its
-browsing cap when this subject was written, and an eleventh entry would
-have triggered a subdivision that moved every sibling and rewrote every
-link into them. The reader should treat the grouping as an accident of
-capacity and the boundary paragraph above as the real answer to "which of
-these two do I want".
+[Task-local tenant scope](./techniques/task-local-tenant-scope.md) covers ingress,
+reconnects, background jobs and worker handoffs. Context propagation depends on
+the actual runtime and primitive. Copying bindings need not copy mutable values,
+and restoring a parent scope does not revoke a child's already captured context.
+Use immutable scope data and bound detached work's authority and lifetime.
 
-Above the process,
-[fleet-orchestration](../fleet-orchestration/fleet-orchestration.md) owns
-what sessions exist, how they are dispatched, and what they collectively
-produced. A tenant is not a session: one tenant runs many sessions, and the
-fleet registry is indifferent to which configuration served them. Beside
-it, [session-continuation](../session-continuation/session-continuation.md)
-owns who may decide one session's loop is over; nothing in that decision
-changes because a second tenant exists, which is exactly why it is not
-here.
+## Make missing scope and missing credentials distinct
 
-Two subjects in other categories own the halves this one deliberately
-refuses. [credential-vault](../../../security/identity-and-access/credential-vault/credential-vault.md)
-owns where a secret lives, how it is sealed, refreshed and retired; this
-subject owns only how a running process decides **which** tenant's secret
-a given unit of work may read, and it inherits the vault's cardinal rule
-rather than restating it.
-[identity-bearing-keys](../../../security/identity-and-access/authorization/techniques/identity-bearing-keys.md)
-is the same instinct applied one layer down — compose the owner into the
-storage address so a cross-owner reference cannot be written — and this
-subject is its in-process twin: compose the owner into the *resolver* so a
-cross-tenant read cannot be performed. The durable record's own lifecycle
-belongs to [embedded-db](../../../backend-platform/data-layer/embedded-db/embedded-db.md);
-what this subject adds is that a multiplexer opens one such store per
-tenant and must therefore satisfy that subject's inventory obligation
-several times over.
+Under isolation, a missing tenant scope is an error; a missing credential is
+explicit absence or a required-input failure. Neither may silently borrow another
+tenant's process value. A compatibility overlay can be appropriate in a verified
+single-tenant deployment, but strict scoping can also be correct there.
+[Fail direction follows deployment mode](./techniques/fail-direction-follows-deployment-mode.md)
+defines the migration choice and the classification of host-owned settings.
 
-And the line that must not blur: **isolating configurations is not
-authenticating users.** A tenant is a configuration, not a person. The
-runtime trusts its transport and its routing table to say which
-configuration an event belongs to; request-level identity and per-user
-authorization sit above this layer and belong to authorization. A design
-that markets tenant scoping as a security boundary for end users has
-promised something it never built.
+Host work uses a distinct host capability or a deliberately selected tenant.
+Do not give every process-level operation a default tenant merely to satisfy
+the resolver. A warning that a subsystem falls back does not make cross-tenant
+access acceptable when isolation was promised.
 
-## The environment is a slot, and a slot cannot hold a scope
+## Caches include every ownership-relevant input
 
-The naive implementation is to union every tenant's configuration into the
-process environment and let the existing resolvers keep working. It is
-attractive precisely because nothing has to change: every call site that
-reads a credential by name keeps reading it by name. It is also wrong in
-two directions at once. Within the process, one slot per name means the
-last writer wins and every concurrent unit of work reads whatever the last
-writer put there — which, under interleaving, is the other tenant.
-Outside the process, every child spawned with a copy of the environment
-inherits the union, so a tool that shells out hands one tenant's keys to a
-subprocess running another tenant's work. There is no version of this that
-is safe under concurrency, and the failure is silent: the wrong credential
-authenticates, the wrong home is read, the run completes.
+Key tenant-derived caches by stable tenant identity, configuration/code revision
+and relevant credential generation. A normalized storage address alone may not
+identify the tenant or its authorization context. Bound cache size and coordinate
+creation, refresh and disposal with in-flight users.
 
-The replacement is a **context-local variable** — a value bound to the
-current unit of work, snapshotted when that unit spawns children, and
-restored when it ends. Its properties are what make the subject possible:
-concurrent units of work each see their own value; a child unit inherits a
-copy at the moment it is created; and a change made inside a copy does not
-travel back to the parent. That last property is the one that makes
-unwinding reliable rather than disciplined, and it is also the one that
-surprises people, because it means a scope installed deep inside a worker
-is invisible to the code that spawned it. [task-local-tenant-scope](./techniques/task-local-tenant-scope.md)
-owns the installation, the seams that must be wrapped, the explicit hand-off
-into worker pools that do not propagate on their own, and the rule that
-process-level work runs under the default tenant's scope on purpose rather
-than under none.
+Loaded code needs a separate isolation strategy. Removing a module-cache entry
+does not destroy objects already referenced by another tenant, stop background
+callbacks or make global re-import safe under concurrency. Prefer shared stateless
+code with explicit tenant state, isolated module namespaces where supported, or
+separate execution boundaries. Use eviction only with a loader-specific, quiescent
+lifecycle. See
+[tenant-keyed-cache-evicts-loaded-code](./techniques/tenant-keyed-cache-evicts-loaded-code.md).
 
-## A scope miss is a decision, and its direction depends on the deployment
+## Resolve storage at a stable operation boundary
 
-Once every credential read goes through one resolver, that resolver needs
-an answer for the case where the name is not in the active scope — and the
-answer is not universal. In a deployment serving one tenant, the scope is
-an **overlay**: a miss falls through to the process environment, because
-single-tenant deployments legitimately inject credentials from a service
-manager or a secret-manager wrapper and there is no second tenant to leak
-from. In a deployment serving several, the scope is **authoritative**: a
-miss returns the declared absence and never consults the process, because
-the process may hold another tenant's value; and a read with *no scope at
-all* raises, so an unmigrated call site fails loudly at its own line
-instead of quietly borrowing a neighbour's credential.
+An instance dedicated to one tenant can bind its handle at construction. A facade
+shared across tenants resolves the correct handle at call time or receives an
+explicit tenant-bound dependency. Capture that handle for the operation or
+transaction so nested scope changes cannot switch storage halfway through it.
+Shared database pools can be valid when their authorization and session-reset
+contracts are enforced. See
+[resolve-handles-at-call-time](./techniques/resolve-handles-at-call-time.md).
 
-Getting this backwards is not a theoretical risk. Applying the
-authoritative rule unconditionally breaks every single-tenant deployment
-whose credentials were never in a configuration file — and it breaks them
-asymmetrically, because the scheduled-job path installs a scope around
-every run while the interactive path does not, so background work
-authenticates with a placeholder and fails while foreground work keeps
-succeeding. That signature — one lane of traffic failing authentication
-while another lane is fine — is the diagnostic fingerprint of a scope that
-became a blindfold. [fail-direction-follows-deployment-mode](./techniques/fail-direction-follows-deployment-mode.md)
-owns the two modes, the small allowlist of names that genuinely describe
-the process rather than a tenant, and the discipline that the fix for an
-unscoped read is to wrap the call path rather than widen the allowlist.
+## Stamp trusted ingress ownership before use
 
-## A cache keyed on the tenant still has to evict what its entry captured
+For a dedicated connector, bind its owner during configuration and retain it
+across reconnects. For multiplexed ingress, authenticate and route before touching
+tenant state. An event field does not outrank a configured owner merely because
+it is more specific: validate who may assert it and reject conflicting identities.
+Use collision-free tenant/connector/conversation keys consistently. See
+[stamp-ownership-before-the-router](./techniques/stamp-ownership-before-the-router.md).
 
-The first correct instinct after installing the scope is to key the
-process's caches on the resolved tenant, and it is necessary and
-insufficient. It is necessary because a single-slot cache is invisible to a
-task-local switch: a guard that asks "did the process-level setting change"
-sees nothing, and the singleton keeps serving the first tenant's object to
-everybody else. It is insufficient because the cached object is rarely the
-only state involved. Loaded extension code lives in a **module cache** keyed
-by name, not by tenant, and rebuilding a registry replaces only the entry
-point it imports. A second tenant's same-named extension then re-executes
-its top level while its own nested imports resolve, from the module cache,
-to the *previous* tenant's already-loaded modules — and to whatever
-module-level state those captured. The rule is to evict the entry point
-**and every name nested beneath it**, on reload and on tenant switch alike,
-and to drop the whole keyed cache between isolated tests so a leak cannot
-hide behind ordering. [tenant-keyed-cache-evicts-loaded-code](./techniques/tenant-keyed-cache-evicts-loaded-code.md)
-owns both floors.
+## State the remaining sharing
 
-## Handles resolve at call time, and ownership is stamped before the router
+Publish the actual trust and isolation boundary, shared surfaces, failure impact,
+owner and planned mitigations. Include memory/code execution, resource quotas,
+logs, caches, queues, mounts and external services as applicable. Separate
+processes still share some infrastructure and require this assessment.
+[Written inventory of what stays global](./techniques/written-inventory-of-what-stays-global.md)
+keeps intentional sharing distinct from a gap in a claimed guarantee.
 
-Two smaller rules follow, and both are about *when* a fact is bound.
+## Acceptance and evidence
 
-A shared store object that binds a handle in its constructor pins the first
-tenant that built it. The alternative that works is to bind nothing at
-construction and resolve the tenant's store on every operation through the
-active scope, caching one handle per resolved address. The rejected
-alternative — one store instance per tenant — is legitimate and is the
-right choice whenever every construction site knows the tenant; it fails
-here only because the pre-routing paths do not.
-[resolve-handles-at-call-time](./techniques/resolve-handles-at-call-time.md)
-states the discriminator.
+Interleave two tenants through every entry path, including retries, reconnects,
+pooled workers and background work. Use synthetic credentials and isolated data
+to verify no cross-owner results, writes, environment inheritance or cache reuse.
+Test missing scope, forged/conflicting ingress stamps, same-named extensions,
+rotation, unload during use and child work surviving its parent.
 
-And some code runs before the routing decision exists at all. Ingress
-handling begins before the inbound event carries a tenant stamp, so
-anything the ingress does first — batching, lane tracking, a busy guard —
-has no tenant to read and defaults to the wrong one, which in practice
-means every tenant's traffic collides in the default tenant's lane. The
-fix is to stamp ownership on the ingress surface at **configuration time**,
-before any event can arrive, and to resolve in a fixed order: the event's
-own stamp, then the ingress owner, then the store resolver.
-[stamp-ownership-before-the-router](./techniques/stamp-ownership-before-the-router.md)
-owns the order and the per-tenant namespacing of every per-lane structure.
-
-## The honest half is a written inventory
-
-No process gets fully scoped, and the ones that claim to are the ones that
-have not looked. A listener, a lock, a discovery pass that races to
-register first, a registry of built-in capabilities — each is genuinely
-shared, and each is a real constraint on what the isolation claim means.
-The defect is not that they exist; it is that they are usually unwritten,
-so an adopter reads "tenants are isolated" and believes something stronger
-than what shipped. The standard is a maintained table naming every surface
-that is **not** tenant-scoped, what that costs, and where the gap is
-tracked, published beside the isolation claim and updated in the same
-change that scopes one of its rows.
-[written-inventory-of-what-stays-global](./techniques/written-inventory-of-what-stays-global.md)
-owns the table, the hybrid overlay pattern for registries that are
-half-scoped, and the enumerated fail directions at the boundary.
-
-## Invariants
-
-- **The tenant lives in a task-local scope. Nothing writes it to the
-  process environment, ever** — not once, not at startup, not "just for
-  this call".
-- **Every seam where tenant-owned code runs is wrapped**, and the scope
-  unwinds on the way out whether the unit succeeded or failed.
-- **Propagation into a worker pool is explicit and tested**, not assumed
-  from the runtime's documented semantics.
-- **The resolver's behaviour on a scope miss is derived from the
-  deployment mode**, and a read with no scope under isolation raises rather
-  than falling back.
-- **A cache keyed on the tenant also evicts the loaded code its entry
-  captured**, including everything nested under the entry point.
-- **No handle to tenant-owned storage is bound at construction time** in an
-  object shared across tenants.
-- **Ownership is stamped before the first event can arrive**, and every
-  per-lane structure is namespaced by tenant.
-- **What stays global is written down**, with its cost, beside the
-  isolation claim.
-- **A tenant is a configuration, not a person.** This layer isolates; it
-  does not authenticate.
-
-## The techniques
-
-- [task-local-tenant-scope](./techniques/task-local-tenant-scope.md) — the
-  tenant as a context-local value, the seams that must be wrapped, explicit
-  propagation into worker pools, deterministic unwinding, and the
-  default-tenant rule for process-level work.
-- [fail-direction-follows-deployment-mode](./techniques/fail-direction-follows-deployment-mode.md)
-  — overlay when nothing can leak, authoritative when something can; the
-  unscoped read that raises; the tight global allowlist and why widening it
-  is never the fix.
-- [tenant-keyed-cache-evicts-loaded-code](./techniques/tenant-keyed-cache-evicts-loaded-code.md)
-  — keying on the resolved tenant, evicting the entry point and everything
-  nested under it, and dropping the whole cache between isolated runs.
-- [resolve-handles-at-call-time](./techniques/resolve-handles-at-call-time.md)
-  — bind nothing at construction, resolve through the active scope, cache
-  one handle per resolved address, and the discriminator against
-  one-instance-per-tenant.
-- [stamp-ownership-before-the-router](./techniques/stamp-ownership-before-the-router.md)
-  — ownership installed at configuration time for code that runs before
-  routing, the fixed resolution order, and per-tenant lane keys.
-- [written-inventory-of-what-stays-global](./techniques/written-inventory-of-what-stays-global.md)
-  — the maintained table of unscoped surfaces, the hybrid overlay for
-  half-scoped registries, and the enumerated fail directions.
+The [Python application](./applications/python--task-local-tenant-scope.md)
+records runtime-specific context semantics and a corrected source claim. These
+mechanism checks do not establish isolation against malicious in-process code.

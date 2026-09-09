@@ -30778,9 +30778,9 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/tenant-scoped-agent-runtime/tenant-scoped-agent-runtime.md",
-   "digest": "sha256:6059733000342fd6",
-   "revision": 2,
-   "changedAt": "2026-09-03",
+   "digest": "sha256:5379db022c5af337",
+   "revision": 3,
+   "changedAt": "2026-09-09",
    "techniques": [
     {
      "slug": "fail-direction-follows-deployment-mode",

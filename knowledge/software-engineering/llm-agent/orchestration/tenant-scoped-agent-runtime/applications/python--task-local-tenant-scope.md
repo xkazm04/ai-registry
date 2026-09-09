@@ -95,15 +95,12 @@ await loop.run_in_executor(None, copy_context().run, discover_mcp_tools)
 
 and `:394-399` repeats it for the context-compression bridge with the reason in a
 comment — "The default executor does not propagate ContextVars on the Python
-runtimes Hermes currently ships." `tools/daemon_pool.py:19-32` states the version dependency the technique
-generalises: stdlib `ThreadPoolExecutor` "only does this from Python 3.14; on the
-3.11-3.13 runtimes Hermes ships, a bare pool worker starts with an EMPTY Context
-and silently drops contextvar-based state (profile secret scope, HERMES_HOME
-override) — under the multiplexed gateway a credential read in such a worker
-fails closed with ``UnscopedSecretError``." `submit` (`:49-60`) copies
-unconditionally, noting that "on 3.14+ the inner ``ctx.run`` re-applies the same
-immutable context and is a no-op" — the wrapper-not-call-site placement the
-technique asks for.
+runtimes Hermes currently ships." The pinned daemon-pool source claims that stdlib ThreadPoolExecutor propagates
+context per submission from Python 3.14. That claim is incorrect: CPython 3.14.0
+submits callable/argument tuples and reuses worker threads without capturing a
+new Context per submission. Thread-start inheritance depends on the build flag
+and is a different operation. The source's explicit copy_context wrapper remains
+useful, but its explanation that the extra copy becomes a no-op is unsupported.
 
 Both proof tests exist. `tests/test_profile_isolation_runtime.py:121-137`,
 `test_raw_thread_loses_override`, asserts the hazard: "A bare thread falls back
@@ -121,7 +118,7 @@ worker, and a scoped miss in the worker still returns `None` rather than the
   one-shot stderr warning (`hermes_constants.py:77-111`) and returns the process
   default, explicitly because raising "would brick 30+ module-level callers that
   import this at load time" (`:126-127`). An unscoped home resolution under
-  multiplexing is therefore a *silent* cross-profile read of config, skills,
+  multiplexing is therefore a warned fallback with cross-profile read risk of config, skills,
   memory and the session store — the exact failure the credential path refuses to
   allow. The import-time constraint is real; the standard is unchanged.
 - **The inventory diverged from the code in the milder direction.**
@@ -147,3 +144,26 @@ worker, and a scoped miss in the worker still returns `None` rather than the
   callers, and `:6234-6244` adopts an injected manager into the keyed cache. The
   technique permits the shim and requires a stated end; none is written here or
   in `docs/ADR.md:38-62`.
+
+## Architecture source check - 2026-09-09
+
+Read the pinned daemon-pool source, CPython 3.14.0 worker submission/dispatch and
+the official context/thread documentation. Context copies preserve bindings;
+mutable values referenced by them are not deep-copied. Python 3.14 Thread has a
+context parameter with build-dependent inheritance defaults; this does not make
+every pooled submission capture its caller. asyncio.to_thread explicitly propagates
+context and is a different bridge.
+
+A local Python 3.12.1 fixture reused one worker for two synthetic tenants: bare
+submission had no scope, fresh per-submission copies saw each tenant, and the
+worker returned to its original context. A second assertion showed a dictionary
+mutation inside a copied context visible to the parent. These are primitive-level
+checks, not a rerun of Hermes or verification of its listed call sites. The
+historical verified_on and verified_against fields remain unchanged.
+
+Sources: [pinned daemon pool](https://github.com/NousResearch/hermes-agent/blob/0cbc6e37ac9fce50905157805c89fae06da93845/tools/daemon_pool.py),
+[CPython 3.14.0 pool](https://github.com/python/cpython/blob/v3.14.0/Lib/concurrent/futures/thread.py),
+[context semantics](https://docs.python.org/3.14/library/contextvars.html),
+[thread inheritance](https://docs.python.org/3.14/library/threading.html#threading.Thread),
+[to_thread](https://docs.python.org/3.14/library/asyncio-task.html#asyncio.to_thread),
+[module cache semantics](https://docs.python.org/3.14/reference/import.html#the-module-cache).

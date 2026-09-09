@@ -9,7 +9,7 @@ This log records execution and acceptance evidence without rewriting that baseli
 | 2. Format contracts | Complete | Commit `b2f223bf`; history check passed for all 136 recipes. Full recipe renderer and drift check; all 136 views migrated with patch versions; craft JSON unchanged; practice/memory checks; unfiltered CI runs the shared plan. Ten tests and all 17 local gates pass. |
 | 3. Installation and authority | Implemented; harness smoke pending | Commit `d1150345`; explicit modes and rollback tested in isolated Git fixtures; capability preflight, mode-aware reflection, and private fleet roots. Full chain: 18/18; 13 tests pass. History check passed for 31 changed skills. |
 | 4. Selection and context | Implemented; model comparison pending | Commit `1718d12d`; conditional branches extracted from research and architect with exact text reconstruction; Explorer quota/scope corrected; consult read-only logging corrected; 12 frozen routing cases. History check passed for four changed skills. |
-| 5. Agentic-development subjects | In progress | Agent-chaining, plan-review, durable-agent-operations and session-continuation: all 40 documents read, source misinterpretations and unconditional workflow claims repaired. Live coverage: 4 reviewed / 458 total; 454 pending. |
+| 5. Agentic-development subjects | In progress | Five orchestration subjects, including tenant-scoped-agent-runtime: all 48 documents read, source misinterpretations and unconditional workflow claims repaired. Live coverage: 5 reviewed / 458 total; 453 pending. |
 | 6. Remaining domains and recipes | Pending | Remaining subject/topic decisions and evaluation evidence. |
 | 7. Learning loop | Mechanism complete; unresolved identities queued | Commit `e76c81d7`; explicit alias contract, retained unknown counts, report dates/windows, conservative state aggregation and reproducible freshness report. Source identity decisions still require producer evidence. |
 
@@ -163,3 +163,20 @@ Changed the gate's fallback to FATAL. An isolated fixture runs the actual gate w
 a checker exiting 97, verifies exit 2 and confirms later generators never run.
 The complete local chain now passes 19/19 with 18 tests. This does not close the
 remaining semantic coverage or the pending model/harness evaluations.
+
+## Tranche 5: tenant-scoped runtime
+
+Baseline `e197423b`. Read all eight documents. The review separates task-local
+identity transport from authentication and code isolation, removes unsafe global
+module-eviction prescriptions under concurrency, and requires trusted ingress
+ownership before accepting an event's tenant stamp. Cache/handle keys now account
+for identity and revision; a shared address or distinct object does not prove
+data isolation. Documented fallback cannot weaken a promised isolation boundary.
+
+Pinned Hermes daemon-pool comments incorrectly claim that Python 3.14's standard
+pool captures context per submission. Read CPython 3.14.0 submission/dispatch and
+official context/thread contracts to correct that claim. A local Python 3.12.1
+fixture confirmed explicit per-submission bindings across a reused worker and
+showed that copied contexts can still share a mutable dictionary. This is a
+primitive check, not a full Hermes rerun; the application remains reverify.
+Knowledge regeneration and all six lane checks pass with five current decisions.
