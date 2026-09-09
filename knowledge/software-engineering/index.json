@@ -22915,9 +22915,9 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/proactive-nudges/proactive-nudges.md",
-   "digest": "sha256:33dd746e7b427a0c",
-   "revision": 3,
-   "changedAt": "2026-08-29",
+   "digest": "sha256:5b5728b74346f548",
+   "revision": 4,
+   "changedAt": "2026-09-09",
    "techniques": [
     {
      "slug": "attention-budgets",

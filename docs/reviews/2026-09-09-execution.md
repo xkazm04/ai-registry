@@ -9,7 +9,7 @@ This log records execution and acceptance evidence without rewriting that baseli
 | 2. Format contracts | Complete | Commit `b2f223bf`; history check passed for all 136 recipes. Full recipe renderer and drift check; all 136 views migrated with patch versions; craft JSON unchanged; practice/memory checks; unfiltered CI runs the shared plan. Ten tests and all 17 local gates pass. |
 | 3. Installation and authority | Implemented; harness smoke pending | Commit `d1150345`; explicit modes and rollback tested in isolated Git fixtures; capability preflight, mode-aware reflection, and private fleet roots. Full chain: 18/18; 13 tests pass. History check passed for 31 changed skills. |
 | 4. Selection and context | Implemented; model comparison pending | Commit `1718d12d`; conditional branches extracted from research and architect with exact text reconstruction; Explorer quota/scope corrected; consult read-only logging corrected; 12 frozen routing cases. History check passed for four changed skills. |
-| 5. Agentic-development subjects | In progress | Five orchestration subjects, including tenant-scoped-agent-runtime: all 48 documents read, source misinterpretations and unconditional workflow claims repaired. Live coverage: 5 reviewed / 458 total; 453 pending. |
+| 5. Agentic-development subjects | In progress | Six orchestration subjects, including proactive-nudges: all 57 documents read, source misinterpretations and unconditional workflow claims repaired. Live coverage: 6 reviewed / 458 total; 452 pending. |
 | 6. Remaining domains and recipes | Pending | Remaining subject/topic decisions and evaluation evidence. |
 | 7. Learning loop | Mechanism complete; unresolved identities queued | Commit `e76c81d7`; explicit alias contract, retained unknown counts, report dates/windows, conservative state aggregation and reproducible freshness report. Source identity decisions still require producer evidence. |
 
@@ -180,3 +180,22 @@ fixture confirmed explicit per-submission bindings across a reused worker and
 showed that copied contexts can still share a mutable dictionary. This is a
 primitive check, not a full Hermes rerun; the application remains reverify.
 Knowledge regeneration and all six lane checks pass with five current decisions.
+
+## Tranche 5: proactive nudges
+
+Baseline `93f1f9d5`. Read all nine documents. The review adds recipient consent,
+scoped occurrence identities, cancellation of queued contact and explicit accounting
+for unknown delivery outcomes. Marking delivered before sending can lose contact;
+refunding a timed-out send can permit duplicates. Short expiry does not establish
+current relevance, and a skipped evaluator cannot retain an uncaptured transient event.
+
+Primary clock documentation distinguishes the execution environment's local clock
+from a recipient's chosen zone and identifies ambiguous/nonexistent local-time
+mappings. Historical private application code and property tests were not rerun.
+Unobserved notices are no longer treated as proven rejection, and requested recurring
+reminders have distinct timing and capacity promises. Application dates are preserved.
+
+Knowledge regeneration passed all six lane checks. The full chain passed 19/19
+with 18 tests, and the inventory command completed. Six current subject decisions
+cover 57 documents, with zero stale or invalid records. The remaining 452 subjects,
+recipe evaluations and pending model/harness evidence are still open.
