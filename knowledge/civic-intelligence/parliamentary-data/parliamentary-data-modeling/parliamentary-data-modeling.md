@@ -21,8 +21,8 @@ relationships between them. Every downstream product — vote analysis,
 performance scoring, conflict detection, a member's profile page — asks the
 same question shape over and over: **who was what, where, when**. The whole
 craft of this subject is arranging the registries so that this question is a
-single indexed lookup at query time, and so that the answer is never wrong
-about a real, named person. In this domain a wrong join is not a bug; it is a
+single indexed lookup at query time, and so that uncertainty and broken joins remain visible
+when the answer concerns a real, named person. In this domain a wrong join is not a bug; it is a
 false public claim about an individual.
 
 The naive reading — "there's a members table and a votes table, join them" —
@@ -30,8 +30,9 @@ fails on four structural facts of how legislatures actually work, and each
 failure attributes something to the wrong person or the wrong period:
 
 1. **A parliament is not one continuous body.** It is a sequence of terms,
-   each legally a distinct institution with its own seats, committees and
-   clubs. Data that looks term-agnostic almost never is.
+   each a distinct data scope where the publisher models it so. Some chambers
+   are continuing bodies with staggered mandates; institutional identity and
+   electoral periods must then remain separate. Data that looks term-agnostic almost never is.
 2. **A person is not a seat.** The same human holds different mandates in
    different terms, and within one term a seat can pass between humans
    (resignation, death, replacement from the list). Votes, absences and
@@ -54,7 +55,7 @@ decisions.
 
 ## The four-registry spine
 
-- **Persons** — one row per human, ever. Identity outlives any term. Stable
+- **Persons** — stable source records with an explicit person-identity mapping. Identity outlives any term. Stable
   publisher id; normalized name for matching; explicit handling of the
   registry's sentinel values (a "date unknown" encoded as a fake real date
   must become a null plus a flag, or the corpus grows phantom
@@ -82,8 +83,8 @@ slightly differently, and the drift always lands on a named person.
 
 ## Time is the first-class dimension
 
-Every question worth asking is time-scoped, so time must be resolved at
-**write time, not read time**. The disciplines:
+Every question worth asking is time-scoped, so source time semantics must be recorded at ingest, with shared temporal
+queries at read time. The disciplines:
 
 - Scope every fact to its term where the publisher does; derive and stamp a
   human-readable term code onto rows at ingest so consumers never re-derive
@@ -158,3 +159,17 @@ absorb rather than fight:
   resolving offices and memberships to one body key at ingest.
 - [cross-term-registry-loading](./techniques/cross-term-registry-loading.md) —
   full registries, scoped facts, and the non-scoped-table trap.
+
+## Source-contract review - 2026-09-09
+
+[PSP's registry schema](https://www.psp.cz/sqw/hp.sqw?k=1301) warns that one
+human may have multiple person records. It distinguishes assignment dates from
+optional mandate dates, documents the membership/function discriminator and
+birth-date sentinel, and separates electoral affiliation from club membership.
+Those are source-specific rules. [Popolo membership](https://www.popoloproject.com/specs/membership.html)
+and [post](https://www.popoloproject.com/specs/post.html) support separate people,
+roles and organizations, without making every jurisdiction one identical schema.
+
+No observed participation does not prove a mandate was never held. Current and
+historical queries require complete, coherent snapshots and explicit uncertainty.
+Re-upsert alone does not propagate deleted or corrected source rows.

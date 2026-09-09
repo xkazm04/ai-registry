@@ -20,8 +20,7 @@ fabrication, is this sentence in the reader's register. A whole-artifact
 invariant asks a question about the *artifact*: given the text that went in
 and the text that came out, did the transformation preserve what a
 transformation must preserve. It has no opinion about any individual claim.
-It is the only check that can catch a defect nobody's claim-level rule was
-written for — and it exists because in measured practice that is the class
+It can catch transformation defects outside the implemented claim-level rules — and it exists because in measured practice that is the class
 that ships.
 
 The incident is worth carrying in full, because the abstract version is
@@ -41,7 +40,7 @@ Each is cheap, deterministic, and stated as a relation between the source
 artifact and the produced one.
 
 1. **Digit multiset preservation.** A rewrite may not alter the multiset of
-   digit sequences in the text. Every intended change is an explicit entry in
+   digit sequences in the text. For quantity-preserving rewrites, every intended change is an explicit entry in
    an allowlist, and the allowlist distinguishes a *drop* (an internal
    identifier the rewrite legitimately removes) from a *transform* (an
    internal identifier legitimately replaced by its public equivalent, whose
@@ -62,8 +61,8 @@ artifact and the produced one.
 4. **Quotation locatability.** Any span the artifact presents as a quotation
    must be findable verbatim in the cached source text, after Unicode
    normalisation and whitespace collapsing and nothing else. A quotation that
-   cannot be located is a fabricated quotation, whatever else is true about
-   the sentence around it.
+   cannot be located is unverified against that source representation; OCR loss,
+   a different version or a declared translation may explain the mismatch.
 
 ## Decision rules
 
@@ -77,8 +76,8 @@ artifact and the produced one.
 - **An allowlist entry is a transform, not a waiver.** "This digit may
   disappear" is a hole; "this digit disappears *because* it is replaced by
   that one, which must therefore appear" is still an invariant. Write the
-  allowlist so it constrains both sides. An entry that only subtracts from the
-  expected set is the beginning of the gate's decay.
+  allowlist so it constrains both sides. An authorized deletion can subtract a specific source occurrence; broad
+  number-only waivers cannot identify what was actually permitted to change.
 - **Compare multisets, never sets.** A set comparison passes when a rewrite
   deletes one of two identical figures, which is exactly the eaten-amount
   defect the invariant exists for. The distinction has been re-learned in the
@@ -118,3 +117,16 @@ a single per-claim gate. The two classes fail in disjoint ways, which is
 precisely why the artifact stayed false while seven claim-level gates passed;
 running the invariants and retiring a citation check would reproduce the same
 incident from the other side.
+
+## What the invariants do not establish
+
+The same digits can move between people, change sign, switch units or change
+decimal grouping. Bind important quantities to claim, unit and source fields;
+multiset equality alone misses those changes. Equal parenthesis counts do not
+prove nesting, and unchanged syntax scores can hide newly introduced damage.
+A located quotation may still omit negation or misattribute a speaker; review
+context and source version. Count closure requires disjoint categories and a
+defined population; overlapping categories need different arithmetic. Use
+explicit span-bound allowances for legitimate deletions or transformations;
+summaries need not preserve every source number. These are bounded detectors,
+not a complete truth invariant.

@@ -46,18 +46,18 @@ per-person metrics must classify them before scoring:
   committee seats. Per [missing-is-not-zero](../../../_laws.md#missing-is-not-zero),
   this is an empty coverage cell, not a work ethic of zero; a ranking that
   lets a declined mandate occupy a "least active member" slot has fabricated
-  a finding. The condition is deterministically detectable — no
-  participation and no memberships — and should be pre-filtered with an
-  explicit reason code before any human or model review spends attention on
-  it.
+  a finding. No participation and no memberships is only a no-observed-activity signal;
+  incomplete ingestion or a genuinely inactive seated member can produce it.
+  Establish never-seated status from authoritative mandate/start evidence,
+  otherwise keep tenure unresolved and disclose the data gap.
 - **Replacement mandates** — seated for a fraction of the term. Every
   volume metric (speeches, sponsored bills, attendance) must be read
   against the mandate's actual window, or normalized to it, or the member
   is penalized for arithmetic.
 - **Role-window mismatches** — a member who took a government office or a
   chamber leadership post mid-term shows depressed floor activity for the
-  remainder. The low number is an artifact of the scoring window crossing a
-  role boundary, not a one-sided work profile. Detect it from the office
+  remainder. The role boundary can affect interpretation of the scoring window; it does
+  not by itself establish why the number is low. Detect it from the office
   windows (see [office-vs-plain-membership](./office-vs-plain-membership.md))
   and tag it structurally.
 
@@ -67,7 +67,7 @@ deterministic rule, per
 applied by hand to one prominent member and not to an obscure one is an
 editorial act wearing a data-cleaning costume. Give every mandate a tenure
 class (full-term / replacement / departed / never-seated) as a stored,
-closed-vocabulary property, computed once.
+closed-vocabulary property, derived from versioned tenure evidence and refreshed when that evidence changes.
 
 ## Decision rules
 
@@ -89,3 +89,14 @@ and no cross-term ambitions, a person-keyed store is workable — but the
 condition is fragile (one mid-term replacement breaks it) and the cost of
 the mandate table is one join. Default to the split; collapse only in
 throwaway analysis that will never publish a per-person claim.
+
+## Seat, mandate and observation
+
+A physical or legal seat and a person's tenure in it are distinct identities;
+follow each table's actual foreign key instead of assuming all publishers use
+mandate IDs. Replacement, departure and short tenure may overlap as attributes,
+so declare any exclusive classification precedence and retain dates. An office
+change can contextualize floor activity but does not prove its cause or remove
+attendance duties. Normalize rates by eligible opportunities where possible;
+raw counts with stated tenure can also be published without implying equal
+exposure. Preserve source person records when identity resolution is uncertain.

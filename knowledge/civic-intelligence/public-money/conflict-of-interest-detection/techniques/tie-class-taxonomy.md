@@ -73,8 +73,8 @@ class is an invented class; the disagreement itself is a review lead.
 ## Decision rules
 
 - **When a tie cannot be classified, it gets no accusatory weight.** An
-  unclassifiable role title falls to the weakest class or is held out
-  entirely; it never defaults to owner-operator. The default direction of
+  unclassifiable role title stays explicitly unknown and is held out
+  of class-based accusatory scoring; it never defaults to owner-operator. The default direction of
   every ambiguity in this subject is away from accusation.
 - **When summing money toward a person, sum per class or not at all.** A
   single mixed total is false at the order of magnitude the steward side
@@ -83,8 +83,8 @@ class is an invented class; the disagreement itself is a review lead.
   and labeled.
 - **When scoring, weight multiplicatively by class.** A class weight that
   merely adds points lets enough steward money outrank a modest
-  owner-operator tie; a multiplicative weight keeps the class distinction
-  dominant at every money scale.
+  owner-operator tie; a multiplicative weight attenuates the amount but does not guarantee
+  class dominance. Use explicit tiers if dominance is required.
 - **When the registry corroborates the role, re-read the class from the
   registry's role text**, which is more precise than a scraped title —
   corroboration and classification reinforce each other.
@@ -99,3 +99,12 @@ apply the taxonomy to *entity-to-entity* relationships (parents,
 subsidiaries) — that is ownership resolution, a different problem with
 different failure modes, and forcing it through a person-tie vocabulary
 mislabels both.
+
+## Taxonomy is an analytic choice
+
+An oversight or nonprofit role can still involve remuneration, competing duties
+or private affiliations. Excluding institutional spending from personal-enrichment
+totals does not establish absence of conflict. Keep ownership, control, employment
+and oversight evidence separately when roles overlap; a title-only classifier
+cannot prove their legal meaning. The three classes are a declared screening
+model, not a universal ordering of seriousness.

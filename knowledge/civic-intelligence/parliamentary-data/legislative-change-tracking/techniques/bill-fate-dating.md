@@ -21,9 +21,9 @@ register's raw material supports those assertions only after three disciplines
 are applied: dates belong to their steps, ties break deterministically, and
 impossible dates are refused rather than repaired.
 
-## The date rule: earliest step at the strongest status
+## Historical milestone dates: earliest step at the strongest status
 
-Procedural state is reconstructed from event history, and a bill often reaches
+For a strongest-ever milestone summary, a bill often reaches
 its strongest recorded status through several events. Two rules, in order:
 
 1. **The reported date is the date of the earliest event at the strongest
@@ -54,7 +54,7 @@ verify by shuffling input in tests.
 ## Publication: refuse, keep, count
 
 Enactment closes the loop with a statute number and a publication date, and
-the citation is *derived from the date's year* — which makes a broken date
+some adapters derive the citation year from an event date — which makes a broken date
 uniquely dangerous: it corrupts a law number, not just a timestamp. Dumps
 contain century typos, month thirteen, and literal "null" strings in date
 fields. The discipline:
@@ -77,18 +77,19 @@ fields. The discipline:
   disagree about which claims render.
 - **A refused date voids the whole citation, keeps the rest, and is
   counted.** Leave statute number and publication date null together (a
-  number without its date is half a fabrication), keep the bill and its
+  derived year without its required source date lacks support), keep the bill and its
   procedural state — those are independently attested — and increment a
   refusal counter that the ingest reports as a corpus total. The gap must be
   countable, not silent; the source keeps the blame.
 - **Distinguish "no publication" from "refused publication".** A bill with
-  empty publication fields was never published (rows whose publication
+  empty publication fields has no publication evidenced by those fields (rows whose publication
   fields are empty or literal "null" are not publication events at all — in
   live data such rows turn out to be different event types entirely);
   a bill with a refused date has a publication the pipeline declined to
   cite. These are different facts and both differ from zero.
-- **When several valid publication steps exist, keep the latest** — reprints
-  and corrections supersede.
+- **When several publication steps exist, classify their relationship.**
+  First publication, correction and reprint are distinct. Do not let the latest
+  date silently replace the original publication or imply supersession.
 
 ## Decision rules
 
@@ -114,3 +115,13 @@ status ladder. And do not backfill historical fates from a later dump's
 current-state column: current state is a snapshot, and reconstructing "where
 was this bill in month M" needs the event history, not today's summary
 field.
+
+## Current state and independent identifiers
+
+Replay source-defined transitions for current state; a return, withdrawal or
+revocation can invalidate a strongest-ever reading. Preserve unknown events and
+ordering gaps rather than allowing an old known state to imply current certainty.
+Reject only fields whose evidence fails: an independently validated collection
+identifier can survive a missing publication date. Date plausibility limits are
+event-specific; future scheduled steps are not past-publication events. A delayed
+ingest must use the snapshot's retrieval date, not automatically its run clock.

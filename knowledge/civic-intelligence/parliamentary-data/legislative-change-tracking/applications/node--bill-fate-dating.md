@@ -73,3 +73,17 @@ authoritative only for written interpellations (`psp-activity.ts:43-50`).
 Rapporteurs are collected from three tables with scope preserved and are
 keyed by seat id, mapped to the person id via the mandate table
 (`:299-333`).
+
+## Review limits - 2026-09-09
+
+The historical incidents and current consumer runtime were not reproduced.
+[PSP's print schema](https://www.psp.cz/sqw/hp.sqw?k=1303) models transitions,
+current state and revocation. It documents proposer data in both the print row
+and the multi-proposer table. It derives the collection year from hist.datum,
+which differs from the publication-date derivation described in the application.
+Resolve that discrepancy against specific records before issuing citations.
+Preserve document version and collection identity throughout extraction.
+Reverify cross-year records before changing the consumer. Also test returns,
+revocations, multiple publication types and undated milestone events; the
+strongest-ever comparator alone cannot prove current state. Witness dates stay
+historical.

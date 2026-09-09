@@ -22,11 +22,12 @@ interval containment against an index — never from a "current" column.
 
 A `party` column on the person or mandate row is wrong by construction: it
 answers "as of when?" with "as of the last ingest", which repaints history.
-The window form answers every temporal question correctly with one
-predicate: `from <= D AND (to IS NULL OR D < to)`. Rules:
+For validated, precisely bounded windows with documented null semantics,
+point-in-time containment uses the predicate: `from <= D AND (to IS NULL OR D < to)`. Rules:
 
-- **Open end means current.** A null `to` is the live affiliation. Never
-  backfill an artificial end date; the absence *is* the fact.
+- **Open end follows the source contract.** A documented null meaning current
+  is current as of that snapshot. Unknown end dates need a separate state and
+  must not pass the current-membership predicate automatically.
 - **Half-open intervals.** Closing a window on the day the successor opens
   produces no gap and no overlap if ends are exclusive. Publishers vary;
   normalize to one convention at ingest and document it.
@@ -35,7 +36,7 @@ predicate: `from <= D AND (to IS NULL OR D < to)`. Rules:
   include the window start: person + body alone is not unique, and an
   upsert keyed on it silently merges the two stints into one, destroying a
   real resignation. Key on (person, body, kind, from) at minimum.
-- **Sub-windows nest.** An office window (chair from March) sits inside a
+- **Sub-windows nest.** Where the institution requires membership, an office window (chair from March) sits inside a
   membership window (member from January). Both rows exist; neither
   substitutes for the other.
 
@@ -76,9 +77,20 @@ opportunity.
 
 ## When not to use windows
 
-Facts that are genuinely instantaneous — a ballot, a speech, an excuse for
-a sitting day — are points, not intervals, and get a timestamp, not a
+Facts that are genuinely instantaneous — a ballot or a speech start — are points, not intervals, and get a timestamp, not a
 window. The trap runs the other way: do not "windowize" point events into
 synthetic presence ranges, and do not flatten real windows into points (a
 join date without a leave date is half a fact). Model each fact in its own
 native temporal shape and let queries relate them.
+
+## Boundary and reconciliation requirements
+
+Retain raw start/end values, precision, timezone and inclusive/exclusive semantics.
+Half-open storage is a chosen representation; convert a documented inclusive
+date end by the appropriate calendar boundary, never by guessing sub-day order.
+Election, assignment and mandate dates may answer different questions. A natural
+key containing start time must handle source corrections without leaving the old
+window active. Office membership implications are body-specific; do not require
+nesting where the institution permits external officeholders. Excuses can be
+intervals within a sitting day. Invalid windows remain available for diagnosis
+even when excluded from point-in-time answers.

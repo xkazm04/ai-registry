@@ -14,10 +14,9 @@ use_when:
 # Statute collision clustering
 
 Two pending bills that issue amendment instructions against the same provision
-of the same statute are on a collision course: whichever is enacted second
-will amend text the first already changed, and the drafters of at least one of
-them are working from a version of the law that will not exist by the time
-their bill passes. Surfacing these overlaps *while both bills are pending* is
+of the same statute create a possible interaction. They may compose cleanly,
+be coordinated, or apply to different effective versions; overlap alone does
+not establish a drafting conflict. Surfacing these overlaps *while both bills are pending* is
 one of the highest-value products of legislative tracking — and one of the
 easiest to get catastrophically wrong, because the naive implementation
 (same provision number appears in both bills' text) is almost pure noise.
@@ -60,7 +59,7 @@ easiest to get catastrophically wrong, because the naive implementation
 - **When the corpus is capped, ship the cap with every count.** Collision
   sweeps typically run over a cached subset of bill documents (fetch
   failures, formats that resist text extraction). "N collisions found" over
-  a partial corpus is a floor; state the denominator — how many pending
+  a partial corpus is a candidate count; state the denominator — how many pending
   bills had readable operative text — or the number reads as a census.
 - **Rank by specificity, then by both bills' procedural velocity.** A
   same-paragraph collision between two bills that both cleared committee
@@ -73,8 +72,8 @@ easiest to get catastrophically wrong, because the naive implementation
 
 ## When not to use it
 
-Do not run collision clustering over enacted statutes — sequencing is
-resolved there by enactment order and the question becomes consolidation,
+Do not run collision clustering over enacted statutes — the question becomes versioned consolidation with commencement and
+transitional provisions,
 a different subject. Do not use it to infer political coordination or
 obstruction: two factions amending one provision is exactly what a
 contested policy area looks like, and reading intent into co-targeting is
@@ -82,3 +81,12 @@ an editorial act the data does not support. And do not extend clusters
 across statutes ("both bills touch pension law") — at that grain the
 technique degenerates into topic modeling, and the collision framing, with
 its implication of textual incompatibility, becomes misleading.
+
+## Versioned collision evidence
+
+Compare a specified version of each pending bill against a specified target-law
+version. Do not concatenate alternative drafts and companion texts as one bill.
+First citation near a block header is a heuristic; ambiguous targets remain
+unresolved. Keep collection, jurisdiction, renumbering and effective dates in
+the comparison. Counts over a partial cache are candidate counts, not proven
+floors on real conflicts when false positives remain.

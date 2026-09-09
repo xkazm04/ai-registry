@@ -109,3 +109,12 @@ a substitute for full-text legislative analysis when a specific case is
 already under human investigation; at that point the reviewer reads the
 amendment itself, and the table's job — bounding machine-generated
 insinuation — is done.
+
+## Version the scope, not just the code
+
+Bind each row to jurisdiction, collection, effective period and the exact
+legislative text version being screened. The table makes analyst judgment
+explicit; it does not eliminate judgment or prove substantive benefit. A
+newly introduced act, secondary rule or repealed framework may not be an
+amendment to a listed statute. Report these exclusions and unmeasured channels;
+do not infer no interest from a zero in an incomplete money layer.

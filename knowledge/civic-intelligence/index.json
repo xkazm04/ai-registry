@@ -467,9 +467,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/civic-intelligence/accountability-method/claim-verification-and-provenance/claim-verification-and-provenance.md",
-   "digest": "sha256:f487db18ae7c283a",
-   "revision": 2,
-   "changedAt": "2026-08-30",
+   "digest": "sha256:3a6b28a10bf954c1",
+   "revision": 3,
+   "changedAt": "2026-09-09",
    "techniques": [
     {
      "slug": "claim-ref-addressing",
@@ -582,9 +582,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/civic-intelligence/public-money/conflict-of-interest-detection/conflict-of-interest-detection.md",
-   "digest": "sha256:5e5d75fdde3aee7c",
-   "revision": 2,
-   "changedAt": "2026-08-30",
+   "digest": "sha256:d9d42fa383865920",
+   "revision": 3,
+   "changedAt": "2026-09-09",
    "techniques": [
     {
      "slug": "registry-corroboration-gating",
@@ -695,9 +695,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/civic-intelligence/parliamentary-data/legislative-change-tracking/legislative-change-tracking.md",
-   "digest": "sha256:c4477b25f1be9c1a",
-   "revision": 2,
-   "changedAt": "2026-08-30",
+   "digest": "sha256:98eb1bce56a2d31a",
+   "revision": 3,
+   "changedAt": "2026-09-09",
    "techniques": [
     {
      "slug": "amendment-instruction-grammar",
@@ -801,9 +801,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/civic-intelligence/accountability-method/llm-forensic-gating/llm-forensic-gating.md",
-   "digest": "sha256:ff6d10101b488fc1",
-   "revision": 5,
-   "changedAt": "2026-08-31",
+   "digest": "sha256:31916ec0c4085bd0",
+   "revision": 6,
+   "changedAt": "2026-09-09",
    "techniques": [
     {
      "slug": "citation-required-per-claim",
@@ -948,9 +948,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/civic-intelligence/parliamentary-data/parliamentary-data-modeling/parliamentary-data-modeling.md",
-   "digest": "sha256:76d570a43bcf2f16",
-   "revision": 2,
-   "changedAt": "2026-08-30",
+   "digest": "sha256:efbd6fc2f06f3cbf",
+   "revision": 3,
+   "changedAt": "2026-09-09",
    "techniques": [
     {
      "slug": "cross-term-registry-loading",

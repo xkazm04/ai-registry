@@ -64,8 +64,8 @@ tier first and money second:
    regardless of money.
 
 Within a tier, money descending. The tier term must *dominate*: implemented
-as a sort key, the tier component is scaled beyond any reachable money value
-so tiers can never interleave. The alternative — money as one weighted input
+as a lexicographic tuple (tier, money descending, stable id), so no
+unbounded amount or floating-point packing can make tiers interleave. The alternative — money as one weighted input
 among several, corroboration as another — reliably floats some huge
 unconfirmed tie to the top, and the queue's most prominent item becomes its
 least verified claim. That is exactly the failure the ordering exists to
@@ -107,3 +107,13 @@ disagreement is preserved and surfaced as its own lead — registers have
 errors, lags and capture risks of their own, and the method's honesty
 depends on disclosing conflicts between authorities rather than silently
 picking a winner.
+
+## Evidence and queue boundaries
+
+Distinguish not checked, failed/unavailable, checked with no match and a
+contradiction in the stored check result. Confirmation needs resolved identity,
+role, effective period, source snapshot and any recorded dispute. Commercial
+register coverage is not universal: other documented primary evidence needs
+an explicit review path. Trust-tier ordering is one queue policy; reserve
+declared capacity for urgent corroboration and coverage gaps so unconfirmed
+leads are not permanently starved.

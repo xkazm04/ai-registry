@@ -21,7 +21,7 @@ console and the offline triage pipeline.
 `scripts/case-loops/money/triage.ts:218-241` computes the story-worthiness
 rank, with `features/money/reviewTypes.ts:300-323` (`reviewSignal`) as the
 shared mirror "kept here so the console and the offline triage agree
-exactly" — the one-definition rule applied to a formula. The components,
+exactly" — two mirrored formulas, not one shared definition. The components,
 verbatim from the code:
 
 ```ts
@@ -86,3 +86,13 @@ that consume them cannot accidentally swap one for another because each
 answers a differently-typed question (a float score, a 0-3 tier plus packed
 rank key, an evidence-part sum). Where a lesser design would expose one
 "risk score" column, this one made the question part of the type.
+
+## Review limits - 2026-09-09
+
+The printed formula is an implementation account, not executable validation.
+Its log terms need guards for zero and negative amounts. A 0.35 multiplier can
+outrank a 1.0 multiplier at larger inputs; it does not enforce class ordering.
+The packed tier key also requires enforced bounds and deterministic boundary
+ties. Separate numeric functions do not by themselves prevent callers swapping
+them. Reverify the current shared/mirrored implementations, guards and callers;
+historical counts and application witness dates were not refreshed.

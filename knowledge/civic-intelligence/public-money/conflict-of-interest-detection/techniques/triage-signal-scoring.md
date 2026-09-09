@@ -29,7 +29,7 @@ questions, and collapsing them is the standard failure:
 
 - **Significance** — *how big a story is this lead if it verifies?* A
   weighted composite of the lead's red-flag structure (below). Right for
-  editorial prioritization and public presentation of verified findings.
+  internal editorial prioritization; publish verified facts separately.
 - **Review order** — *in what sequence should a human clear the queue?*
   Trust tier first (register-confirmed classes by conflict intensity, then
   everything unconfirmed regardless of money), money descending within
@@ -57,7 +57,8 @@ each honest:
   Log-scaling means a 10x money difference moves the score by a constant
   step, so structural signals stay visible at every size.
 - **Tie class as a multiplier**, not an addend — an owner-operator's
-  modest money must outrank a steward's fortune, at every money level.
+  money receives greater weight, but a positive multiplier cannot guarantee
+  dominance over unbounded money. Use lexicographic class tiers when required.
 - **Compounding patterns as bonuses.** The strongest red flags are
   conjunctions: the *accountability triangle* — one entity that
   simultaneously holds public contracts, draws subsidies, and donates to
@@ -113,3 +114,13 @@ publishes is the verified facts and the method, not the triage number that
 got a reviewer there. Nor should the score replace the trust-tiered review
 order: a queue worked purely by significance burns its scarcest resource —
 reviewer attention — on the biggest unconfirmed ifs.
+
+## Arithmetic and interpretation checks
+
+Declare currency, amount basis, zero handling and refund treatment before logs.
+log10(0) is not finite, and negative net amounts need a separate documented
+policy. Test all returned keys for finiteness and stable ties. Repeated correlated
+signals can double-count the same evidence; a donation/contract triangle or
+near-threshold cluster is a pattern, not proof of favor or deliberate splitting.
+Pin the threshold's jurisdiction and effective period. The score is an internal
+priority heuristic, never a probability of wrongdoing or proof of calibration.

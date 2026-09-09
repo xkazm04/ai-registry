@@ -52,8 +52,8 @@ Model them as coexisting windows, and expect the publisher to be
 inconsistent about it. Some registries emit both rows for a chair (member
 since January, chair since March); others emit only the office and imply the
 membership. Decide one representation and normalize toward it at ingest —
-the safe choice is "office implies membership for containment queries, but
-membership rows are never synthesized", so headcounts read `kind = member`
+one possible choice is "office implies membership for containment queries
+where the institution says so, but membership rows are never synthesized", so headcounts read `kind = member`
 where the publisher is dual-row, and read `distinct person` where it is not.
 Whichever convention holds, write it down next to the ingest code; a
 headcount that silently double-counts chairs is a small lie repeated in
@@ -64,8 +64,8 @@ Chamber-level offices (speaker, deputy speaker) and government offices
 analysis is about the floor, because office windows are the deterministic
 input for role-window mismatch detection in per-member scoring (see
 [mandate-vs-person-identity](./mandate-vs-person-identity.md)): a member whose
-floor numbers collapse the month they took a ministry is exhibiting the
-office, not a work profile.
+floor numbers change after taking a ministry needs role-aware context, not
+an automatic causal conclusion or exemption.
 
 ## Decision rules
 
@@ -86,3 +86,13 @@ If the position registry carries rich structure of its own — salaries,
 appointment procedures, statutory powers — it stays a first-class table and
 the denormalization is a projection, not a replacement. Flattening is for
 the belonging query; it must never become the only place office data lives.
+
+## Preserve unresolved roles
+
+An unknown discriminator must remain unknown; do not default it to plain
+membership. Retain raw target and source role metadata and rebuild derived
+body projections after corrected mappings. Some offices do not confer voting
+membership, so headcount queries need documented eligibility and time scope.
+Chair/vice/member weights are declared analytic heuristics, not measurements
+of realized influence. An unresolved function is a referential gap to count,
+not evidence the person held no office.

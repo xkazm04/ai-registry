@@ -18,9 +18,9 @@ points at one. "In § N, paragraph 2, the words … are replaced by …" is an
 instruction; "pursuant to § N" is a citation. The entire honesty of a
 provision-level amendment graph rests on telling these apart — and the reason
 this is a technique rather than a judgment call is that novelization drafting
-is a **small closed grammar**. Legislative drafting manuals prescribe a fixed
-set of operative formulas (insert, replace, repeal, renumber, append), so the
-discrimination is decidable by deterministic pattern code, reviewable and
+can be modeled as a **bounded pattern grammar**. Legislative drafting manuals prescribe a fixed
+set of operative formulas (insert, replace, repeal, renumber, append), so
+supported forms can be recognized by deterministic pattern code, reviewable and
 regression-testable, rather than delegated to a language model whose verdict
 cannot be audited.
 
@@ -56,14 +56,14 @@ grammar anchored only to line starts and sentence breaks reads every
 single-article amendment — the most common bill shape in the corpus — as
 citation-only. In the validation run that surfaced this, that one missing
 anchor produced *all* of the false drops: three genuine amendment findings
-would have been silently discarded. The lesson generalizes: the grammar is
-closed, but the *typography* of extracted text is not, and every anchor in
+would have been silently discarded. The lesson generalizes: the recognized grammar is
+bounded, and the *typography* of extracted text can change, and every anchor in
 the set should be traceable to a measured miss, kept as a fixture.
 
 ## Decision rules
 
-- **When a provision number matches no instruction form, it is a mention,
-  not an amendment** — exclude it from the graph and from collision input,
+- **When a provision number matches no supported instruction form, its role
+  remains unresolved** — exclude it from confirmed amendment and collision input,
   however prominent it looks. The dominant false-positive classes are the
   bill's own internal article numbers (a bill proposing a *new* act has its
   own § 15, which is not anyone else's § 15) and cross-references to a
@@ -73,8 +73,8 @@ the set should be traceable to a measured miss, kept as a fixture.
   Two bills editing different paragraphs of one § is a weaker collision than
   two bills editing the same paragraph, and the grammar is the only place
   that granularity can be recovered.
-- **When the grammar cannot determine the sub-unit, report "the provision as
-  a whole or undeterminable"** — an empty set with a meaning, not a guess.
+- **When the grammar cannot determine the sub-unit, report separate states for
+  whole-provision scope and unresolved scope** — an empty set must not conflate them.
 - **When a new operative formula appears in the wild** (drafting conventions
   evolve), add it to the one shared grammar with the example that forced it,
   and re-run the validation sample — never patch a private copy at one call
@@ -84,10 +84,17 @@ the set should be traceable to a measured miss, kept as a fixture.
 
 Do not apply the grammar to consolidated-text documents that show the current
 law with marked changes — those are *depictions* of the post-amendment state,
-not instruction lists, and the formulas will not appear; use the whole
-document as amendment evidence at the statute level instead. Do not use the
+not instruction lists, and the formulas will not appear; use explicit change metadata or a version comparison as amendment evidence. Do not use the
 grammar across languages or jurisdictions without re-deriving the formula
 set — the closed grammar is closed *per drafting convention*. And do not let
 the grammar's verdict stand in for legal analysis of what the amendment
 *means*: it establishes that provision N is operated on, nothing about the
 substance or effect of the operation.
+
+## Extraction preconditions
+
+Quoted amendments, annexes and OCR errors can imitate or hide operative clauses.
+Record document kind, version, text span and unsupported-form counts. Clause
+anchors alone cannot establish that a quoted instruction is operative. A marked
+consolidation needs an explicit version comparison or change metadata; using
+its whole text does not by itself prove what a bill amends.

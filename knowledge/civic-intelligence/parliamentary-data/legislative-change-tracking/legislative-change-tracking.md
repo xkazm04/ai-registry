@@ -75,8 +75,8 @@ parliamentary open data, and the pipeline is designed around them.
 text proves only that the drafter *pointed* at that statute — as context, as a
 cross-reference, as quoted existing law. An amendment *instruction* says what to
 DO to a provision ("in § N, replace the words…", "§ N is repealed"). The
-drafting conventions of novelization are a small closed grammar, which makes the
-distinction decidable in deterministic code. Everything downstream — the
+drafting conventions support a testable pattern grammar, but extraction errors
+and unsupported forms require an unresolved state rather than certainty. Everything downstream — the
 amendment graph, collision detection, impact claims — is only as honest as this
 distinction, because the incidental-mention class dominates raw matches.
 
@@ -95,7 +95,9 @@ effects. But whether they *substantively* conflict requires reading them.
 Machine-detected overlap is triage input for a human; publishing it as
 "conflict" asserts something the code never established.
 
-**A step's date belongs to that step.** When a print reaches its strongest
+**A step's date belongs to that step.** Current state follows documented
+transitions, including returns and revocations. A strongest-ever summary is a
+historical milestone, not necessarily the current state. When a print reaches its strongest
 recorded status through several events, the honest date is the *earliest* event
 at that *strongest* status — the first moment the print demonstrably held the
 state you are reporting. Never borrow a weaker step's date to fill a gap:
@@ -164,3 +166,11 @@ matters: instruction discrimination and per-statute partitioning must run
 before any collision or impact claim, and every layer's refusal states
 ("unknown" committee status, undated strongest step, refused publication)
 must survive to the published surface rather than being tidied away.
+
+## Source-contract review - 2026-09-09
+
+Publisher schemas can distinguish current state from historical transitions
+and distribute proposer information across single- and multi-proposer records.
+Follow their field contracts rather than generalizing one observed corpus.
+Keep collection-year, publication-date and document-version evidence separate;
+the application review records a concrete discrepancy requiring resolution.

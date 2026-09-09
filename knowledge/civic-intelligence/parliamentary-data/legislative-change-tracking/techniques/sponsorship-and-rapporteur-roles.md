@@ -29,7 +29,7 @@ responsible first signatory, the member who answers for the bill) and a
 **joined-later flag** (signed at submission versus added to the list
 afterward). This structure is the attribution:
 
-- **Rank 1 is authorship; later ranks are association.** A performance
+- **Rank 1 is first-signatory responsibility; later ranks are co-signatures.** A performance
   metric, a profile page, or a news claim that says "sponsored" should mean
   rank 1 or say otherwise. Counting a rank-40 co-signature identically to
   first-signatory responsibility inflates exactly the members who sign
@@ -38,12 +38,12 @@ afterward). This structure is the attribution:
   distinct from submission-time signatures; keep the flag through to the
   surface rather than collapsing it.
 - **Dedupe keeps the strongest claim.** Duplicate (bill, member) rows occur;
-  keep the lowest rank — the strongest claim to authorship — not the first
-  or last row encountered.
-- **When rank is missing, fall back to list position and mark the
-  fallback** — an inferred rank is weaker provenance than a recorded one.
+  collapse identical rows, but surface contradictory rank or timing evidence
+  rather than automatically selecting the strongest attribution.
+- **When rank is missing, keep it unknown** unless the publisher guarantees
+  that list order carries rank; storage order alone is not attribution evidence.
 
-**Do not trust the bill row's own author column.** Registers commonly carry
+**Resolve the publisher's source-selection contract.** Registers commonly carry
 an author field on the bill record that is empty for whole classes of bills
 (typically recent-term member bills) while the signature table is complete —
 or populated only for *other* document kinds (e.g. written questions). Verify
@@ -66,9 +66,8 @@ first reading by the steering body, designation by the chamber's presiding
 officer, the committee's own rapporteur for the bill, and rapporteurs named
 on follow-up documents (committee resolutions). Collect all of them, deduped
 per (bill, member, scope, committee), and **preserve the scope**: the
-committee-level rapporteur is the strongest signal that a member actually did
-the analytical work on the bill; plenary designations are weaker and partly
-ceremonial. A flattened "rapporteur: yes" destroys the only granularity that
+committee-level and plenary assignments describe different responsibilities.
+Their relative workload needs activity evidence, not an assumed hierarchy. A flattened "rapporteur: yes" destroys the only granularity that
 makes the role usable in performance analysis.
 
 One join trap: rapporteur tables are frequently keyed by **seat identifiers**
@@ -99,3 +98,12 @@ flag and the origin classes intact; the raw network mixes conviction,
 logrolling, and bandwagon signatures. And do not attribute drafting
 authorship at all: the signature list records political responsibility, and
 who actually wrote the text is not in the record.
+
+## Attribution limits
+
+First-signatory rank does not establish textual authorship, and rapporteur
+appointment does not demonstrate completed analytical work. Require reports or
+other activity evidence for workload claims. Reconcile print-row and multi-row
+proposer fields by document kind; neither always wins. Conflicting ranks or
+joined-later flags need explicit conflict handling, not lowest-rank promotion.
+Preserve institutional proposal origin separately from named representatives.

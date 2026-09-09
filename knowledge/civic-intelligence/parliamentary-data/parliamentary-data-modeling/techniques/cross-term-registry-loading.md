@@ -26,7 +26,7 @@ list they ran on are body rows created in an earlier term; a returning
 member's person row predates the current bundle. Loading "just this term's
 people and bodies" breaks cross-term joins in ways that surface far from the
 cause — as null regions, unresolvable list references, split person
-identities. Load the full registries on every ingest, unconditionally, and
+identities. For small permitted registries, load the full reference set on ingest, and
 let the term columns on *facts* do the scoping. The term code is a query
 scope, not an ingest filter.
 
@@ -69,7 +69,8 @@ the pressure on natural-key choice:
   shape.
 - **A collision count of zero is an assertion worth making.** Compute
   (rows in − distinct keys) for every batch even where you expect zero;
-  the day it goes nonzero is the day the key design was wrong.
+  nonzero can mean identical source duplicates or distinct facts sharing a key.
+  Classify the collision before attributing it to key design or the publisher.
 
 ## Report coverage, not just success
 
@@ -86,6 +87,17 @@ partially loaded store is a floor, not a total, and must render as one.
 Truly per-term derived tables (a term's committee assignment history has no
 cross-term consumers) may load lazily per analysis need — but keep the
 loaded-terms manifest authoritative so laziness never masquerades as
-completeness. And never lazily load the registries themselves; the whole
-point is that identity and body references must resolve regardless of which
-facts happen to be present.
+completeness. A complete dependency closure or validated incremental mirror can also
+resolve references without loading every historical registry on every run.
+Report unresolved keys and obey acquisition and retention constraints.
+
+## Empty scopes and corrected snapshots
+
+A term with no roll calls can still have mandates or excuses. Derive intended
+scope from an authoritative manifest or term registry and reconcile it with
+event contents; an empty event-derived set is not proof there are no relevant
+facts. Promote a snapshot only after completeness and referential checks.
+Remove or supersede absent records within the confirmed snapshot scope, including
+rows whose corrected start date changed a natural key. Keep prior versions for
+audit under retention policy. Identical duplicates may collapse; conflicting
+values under one key require resolution rather than arbitrary upsert order.

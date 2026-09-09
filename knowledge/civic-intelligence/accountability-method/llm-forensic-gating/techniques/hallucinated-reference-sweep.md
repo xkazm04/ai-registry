@@ -26,12 +26,12 @@ anywhere in prose fails the whole verdict.
 
 ## Procedure
 
-1. **Serialize the whole object and extract references from the serialization.**
-   Sweeping the flattened text of the entire verdict — rather than an
+1. **Traverse decoded strings throughout the schema-valid object.**
+   Sweeping every string value with its field path — rather than an
    enumerated field list — means a new prose field added to the schema next
    quarter is covered by construction, not by someone remembering to register
-   it. Nothing shaped like a reference can hide in a field the sweep does not
-   know about.
+   it. New string fields are traversed automatically; unsupported reference
+   formats still remain outside pattern coverage.
 2. **Use the one canonical reference pattern, imported.** The extraction
    pattern for the citation convention already exists in the ingest layer,
    complete with its hard-won negative lookaheads for sibling numbering series
@@ -39,13 +39,13 @@ anywhere in prose fails the whole verdict.
    from the ingest pattern, and then the sweep and the store will disagree
    about what a reference even is.
 3. **Normalize before membership.** Strip leading zeros, collapse whitespace,
-   reduce each match to the canonical `number/year` form — so formatting
+   reduce each match to a canonical jurisdiction/collection/number/year identity — so formatting
    variants of one real instrument do not read as an unknown one. Then check
    the normalized form against the known set assembled at payload time (the
    store's instruments plus the official consolidated registry, merged).
 4. **Reject with the accusation named.** The error message should say exactly
-   what it means: this cited reference is not a real instrument in scope — a
-   fabricated legal citation. Gate messages are read by the people tuning the
+   what it means: this reference was not found in the checked scope. That is unresolved
+   membership, not proof of fabrication unless authoritative coverage establishes it. Gate messages are read by the people tuning the
    pipeline; a message that names the failure class keeps the severity of
    this class culturally visible.
 
@@ -96,8 +96,9 @@ misrepresents the one thing the citation was included to establish.
 ### The contradiction is usually already inside the citation
 
 Where an identifier encodes its own issuance date — and many registry, docket
-and preprint conventions do — a claimed year earlier than that date is not
-suspicious, it is **impossible**, and the refutation is arithmetic. No network
+and preprint conventions do — an earlier claimed date is a contradiction only if it denotes the same
+event and the identifier convention guarantees that ordering. A later repository
+deposit can cite an earlier journal publication; those are different dates. No network
 call, no known set, no authority to consult: the citation refutes itself from
 two of its own fields. In the corpus above, the fabricated attributions were
 dominated by exactly this shape, a venue-year pair predating the identifier's
@@ -113,8 +114,8 @@ cannot decide.
 The check was run against two corpora and the result split, which is the more
 useful outcome. Over generated research prose citing preprints it found real
 contradictions and produced none against the hand-written half of the same
-repository — the signal is clean, because a preprint citation carries at most
-one year and that year is the claim.
+repository — the reported signal belongs to that sample; a preprint citation can also
+carry a separate journal year or revision date.
 
 Over **legislative** prose it collapsed: of its flags, all but one were correct
 prose. The reason is structural and worth stating, because it decides whether
@@ -128,8 +129,8 @@ merely descriptive here.
 
 The rule that generalises: **the intrinsic check is only decisive where the
 identifier's date and the claimed date answer the same question.** Before
-wiring it, name what the nearby year means in that corpus. Where a document
-has one date, the contradiction is real; where its subject has a lifecycle,
+wiring it, name what the nearby year means in that corpus. Where the two fields demonstrably describe the same event, the contradiction
+can be real; where its subject has a lifecycle,
 the nearby years are stages of that lifecycle and the check must be given the
 one field that carries the claim, or not run at all.
 
@@ -185,3 +186,14 @@ bearing a year the identifier permits survives the arithmetic untouched, and
 only an external lookup or a human who knows the field will catch it. Report
 the arithmetic check's coverage as what it is — the impossible subset — so a
 green result is not read as a verified bibliography.
+
+## Sweep coverage
+
+JSON serialization can escape newlines and characters that the source-pattern
+regex expects literally. Traverse decoded strings, preserve paths, and avoid
+joining unrelated fields into a new match. Patterns can miss references or
+match quotations of known errors; return evidence for adjudication. Even a
+bibliographic entry can contain publication, deposit and revision dates.
+Verify title, author and venue against the resolved work before alleging that
+an older date is invented; arXiv keeps journal-reference metadata separately
+from its submission record ([metadata guide](https://info.arxiv.org/help/jref.html)).

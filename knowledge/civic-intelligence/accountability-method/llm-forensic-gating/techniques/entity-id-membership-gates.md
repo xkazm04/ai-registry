@@ -30,7 +30,7 @@ not an id; it is an aggregate claim smuggled past the schema).
    record identifiers the brief exposes — assembled by code and written into
    the payload itself, so the model sees exactly the list the gate will later
    check. Ship the set's *size* alongside it: a gate scope of zero known ids
-   means the gate is vacuously open, and that must be visible, not silent.
+   means strict membership rejects every nonempty identifier, and that must be visible, not silent.
 2. **Check membership on every identifier slot, not just citations.** Gap
    reports, miscategorization proposals, cross-references — any field typed as
    "an id" gets the check. The rejection message should teach: name the value,
@@ -59,10 +59,9 @@ not an id; it is an aggregate claim smuggled past the schema).
   the additional authoritative registry; do not add an "unknown ids pass"
   mode. A gate with a bypass mode measures nothing.
 - **When two gates check the same membership at different pipeline stages,
-  make their scopes identical.** A pre-persist gate narrower than the
-  write-time gate measures nothing — any verdict passing only the wide scope
-  was always going to be accepted — so collapse to one scope, defined once
-  and imported by both.
+  make their scopes identical.** Divergent scopes give different verdicts; a narrower gate still checks its
+  own scope. Bind equivalent checks to one versioned scope and ensure the
+  publishing path requires the intended result without bypass.
 - **When membership passes, the claim is still only a lead.** Co-occurrence of
   a real entity id and a real reference proves the pieces exist, not that the
   asserted connection between them does. Membership gates feed the human
@@ -78,3 +77,11 @@ model relabels web findings as store facts to pass the gate. The open-world
 slots get the citation-kind discipline instead: an external claim carries an
 external source address, checked by the citation gate, and enters the store
 only as an unverified lead.
+
+## Empty, absent and out-of-scope
+
+Do not interpret an absent allowlist as an empty checked set or silently disable
+validation. Fail preflight when required scope cannot be loaded. An out-of-scope
+ID may be real; record that outcome without calling it fabricated. Pin the scope
+snapshot and namespace, and preserve external-research slots separately. Field
+inventory or keyword checks cannot establish arbitrary prose entailment.

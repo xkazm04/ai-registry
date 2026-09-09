@@ -63,3 +63,12 @@ join at query time."
   repo's own admission that the deterministic version (deriving the
   exclusion from office windows instead of a hand-kept id list) is the next
   step the technique calls for.
+
+## Review limits - 2026-09-09
+
+The publisher documents the two discriminator meanings and function-to-body
+link. Reverify invalid discriminator handling, role-label precedence, separate
+assignment/mandate dates and corrected body mappings in the current consumer.
+The hand-kept role-window exemption list remains a disclosed deviation; no
+runtime check here establishes uniform automated classification or proves
+why floor activity changed. Historical witness dates remain unchanged.

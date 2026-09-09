@@ -40,7 +40,7 @@ machine lead, and both stay leads.
    resolved source content, and nothing else.
 3. **Use the score in the two directions that cannot publish.** Clear
    non-support may hard-reject into the standard discard-and-re-run path —
-   rejection is safe by construction, since nothing rejected ever renders.
+   rejection prevents publication but can discard valid evidence and bias coverage.
    Everything else lands in pending review *ordered* by the score, weakest
    support first, so reviewer attention concentrates where the defamation
    risk is. There is no third direction: no threshold, however high, routes
@@ -97,3 +97,14 @@ ranks poison by plausibility. And do not let its existence relax the door's
 staffing math — the technique buys reviewer *focus*, not reviewer *absence*,
 and a queue that is never actually reviewed has a triage layer as its only
 review, which is the exact state this subject exists to prevent.
+
+## Calibration and verifier limits
+
+A different model or prompt does not prove statistical independence. Evaluate
+on held-out, adjudicated claim/source pairs with language and claim-type slices,
+including supported, contradicted and insufficient-evidence cases. Reviewer
+rejection is not necessarily lack of source support. Record model, prompt,
+source version, refusals and missing context; scores are not calibrated
+probabilities by default. Source text may contain prompt injection and remains
+untrusted. Bound retries and retain sampled false rejections so throughput
+pressure cannot silently erase difficult but valid evidence.

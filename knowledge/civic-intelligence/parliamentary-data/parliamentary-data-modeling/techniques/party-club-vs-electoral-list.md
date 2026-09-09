@@ -11,8 +11,8 @@ use_when: [attributing a member to a party, computing party-level metrics, handl
 
 # Party club vs electoral list
 
-"Which party is this member in?" is two different questions wearing one
-sentence, and a parliamentary model must keep both answers, because they
+"Which party is this member in?" hides distinct affiliations, including
+party membership, electoral list and parliamentary club, and a parliamentary model must keep both answers, because they
 diverge routinely and each is correct for a different consumer:
 
 - **The electoral list** — the candidacy the person was elected on. Fixed
@@ -41,9 +41,9 @@ Consequences for the model:
 - The list is a **body row of kind electoral-list**, referenced by the
   mandate. The club is a **body row of kind club**, referenced by dated
   membership windows. Same registry, two kinds, two link shapes.
-- A "party" node in any derived graph should be the *club*, because nearly
-  every behavioral metric is club-relative; the list stays reachable
-  through the mandate for electoral questions.
+- Keep political party, electoral list and parliamentary club identities
+  distinct. Club-relative behavior uses the club; party membership and party
+  finance use the party, with explicit mappings where supported.
 - Club-relative metrics must be computed against the member's club **on the
   day of each vote**, resolved through the membership window — not against
   the club at ingest time. A defector's pre-defection votes are measured
@@ -84,7 +84,16 @@ interesting cases.
 
 ## When not to split
 
-Chambers elected by pure single-member district with no group system, or
-datasets covering only elections and no chamber behavior, genuinely have
-one affiliation stream — model the one that exists and name it precisely
+For datasets covering only elections and no chamber behavior, retain
+only the affiliation streams their records support — model those and name them precisely
 rather than importing a distinction the institution does not have.
+
+## Membership and discipline are separate evidence
+
+Club membership does not prove an official whip instruction on a vote. Label
+an inferred club-majority position as such. A missing membership row can mean
+unknown coverage rather than confirmed independence; preserve both outcomes.
+An electoral affiliation is historical but its source record can be corrected.
+Single-member-district elections do not eliminate political parties or caucuses;
+model the affiliations actually documented rather than infer them from the
+electoral system.
