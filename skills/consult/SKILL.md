@@ -3,7 +3,7 @@ name: consult
 description: "Consult the ai-registry's knowledge bundles before a product, architecture or domain decision: resolve the registry (local checkout or GitHub), pick the bundle(s) this repo consumes, match the task against subjects and techniques by their use_when triggers, read the golden path + the techniques that apply, apply them, and log the consult so the signals lane can count demand. Use before designing a feature, choosing a pattern, writing a prompt/rubric, or making a product call in any domain the registry covers (software engineering, recruiting, media generation, game production, LLM observability, grant funding, civic intelligence). Invoke with /consult <what you are about to decide or build> [--bundle <name>] [--deep]."
 category: ai-native
 memory: project
-version: 1.3.0
+version: 1.4.0
 tags: knowledge, rkb, consult, routing, signals
 argument-hint: "<topic or decision> [--bundle <name>] [--deep]"
 ---
@@ -45,7 +45,7 @@ says that no domain filter was declared. Resolution order for the registry root:
    `knowledge/<bundle>/index.json` files; never guess a subject path - `index.json`
    carries each subject's `file`, and bundles are nested.
 2. **Pick the bundles.** `--bundle` wins; else the manifest's `knowledge.domains`; else
-   all seven with a note.
+   all bundles declared in the current catalog with a note.
 3. **Match.** Turn the task into 3-8 terms (nouns and the decision being made). With a
    local checkout, ALWAYS route with the script - never by hand:
    `node <registry>/scripts/research-map.mjs "<term>" ... --top 6`. It scores every
@@ -65,7 +65,9 @@ says that no domain filter was declared. Resolution order for the registry root:
    "When X, do Y, because Z" and where the repo falls short. A deviation is a finding:
    record it in the repo's own gap register (whatever it uses) - never lower the
    standard to match the code.
-6. **Log the consult** (one JSON line, append-only, gitignored) to
+6. **Log the consult** only when local writes are within the accepted scope. For a
+   read-only task, report the consulted identities in the response instead. When
+   authorized, append one JSON line (gitignored) to
    `<repo>/.ai/consults.jsonl`:
    `{"ts":"<ISO>","bundle":"<name>","subjects":["<slug>"],"techniques":["<slug>"],"deviations":<n>}`
    Subject and technique are named by bare slug - never by path. The registry's

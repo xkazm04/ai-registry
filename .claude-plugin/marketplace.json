@@ -27,7 +27,7 @@
       "name": "architect",
       "source": "./skills/architect",
       "description": "Heavy structural codebase scan - surfaces weak patterns to upgrade and strong patterns to codify, producing ADR-style decisions with a durable cross-session backlog. The highest-risk / highest-payoff scan in the suite; walks the context map area by area.",
-      "version": "1.7.0",
+      "version": "1.8.0",
       "category": "workflow"
     },
     {
@@ -90,7 +90,7 @@
       "name": "consult",
       "source": "./skills/consult",
       "description": "Consult the ai-registry's knowledge bundles before a product, architecture or domain decision: resolve the registry (local checkout or GitHub), pick the bundle(s) this repo consumes, match the task against subjects and techniques by their use_when triggers, read the golden path + the techniques that apply, apply them, and log the consult so the signals lane can count demand. Use before designing a",
-      "version": "1.3.0",
+      "version": "1.4.0",
       "category": "ai-native",
       "tags": [
         "knowledge",
@@ -137,8 +137,8 @@
     {
       "name": "explorer",
       "source": "./skills/explorer",
-      "description": "Wander one logical area of a codebase, surface 10 items worth fixing, build the small ones (xs/s) without asking, and triage only the larger ones with the user. Every item is premise-verified, gated and committed atomically. Daily low-friction quality sweeps with per-context coverage memory.",
-      "version": "2.2.0",
+      "description": "Wander one logical area of a codebase, surface up to 10 evidence-backed items worth fixing, build the small ones (xs/s) without asking, and triage only the larger ones with the user. Every item is premise-verified, gated and committed atomically. Daily low-friction quality sweeps with per-context coverage memory.",
+      "version": "2.3.0",
       "category": "workflow"
     },
     {
@@ -253,7 +253,7 @@
       "name": "research",
       "source": "./skills/research",
       "description": "Extract actionable improvements for a project from external sources (video, blog, article, raw text). Scores ideas against the codebase, buckets into Code / Template / Credential, and persists findings to an Obsidian memory vault.",
-      "version": "1.10.0",
+      "version": "1.11.0",
       "category": "ai-native"
     },
     {

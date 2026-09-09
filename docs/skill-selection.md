@@ -1,7 +1,10 @@
 # Choose a development workflow
 
 Start with the work's intended result. Select one coordinating workflow for a tranche;
-call supporting skills for specific outputs. This routing guide describes the current
+call supporting skills for specific outputs. A simple bounded edit needs no coordinator.
+Honor the scope and inputs already supplied; skill menus do not require asking again.
+Findings require evidence, with no minimum quota. Missing capabilities must be reported
+before dependent work. Read-only review also keeps reflection and telemetry read-only. This routing guide describes the current
 library and proposes no new runtime or automatic installation.
 
 | Intended result | Start here | Boundary and supporting methods |
@@ -57,3 +60,7 @@ the [execution log](reviews/2026-09-09-execution.md). Do not copy the entire lib
 into always-loaded instructions. Codex uses skill descriptions for selection and loads
 the selected skill body on demand; large bodies still cost context after selection.
 [Source](https://learn.chatgpt.com/docs/build-skills).
+
+The [frozen routing cases](evals/routing-cases.json) cover adjacent workflows, explicit
+read-only scope, missing tools, and tasks that need no skill. See the
+[evaluation protocol](evals/README.md) before claiming a routing improvement.

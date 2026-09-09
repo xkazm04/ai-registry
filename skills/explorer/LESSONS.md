@@ -317,3 +317,7 @@ confirms it, it belongs in Phase 4 as a named probe rather than as a lesson.
 ## 2.1.2 - 2026-09-09 - ai-registry
 
 - Architecture review: the shared reflection clause assumed a writable registry link in every installation. Replaced that assumption with installation-aware scope and explicit adoption. This records an instruction audit, not a field effectiveness result.
+
+## 2.2.0 - 2026-09-09 - ai-registry
+
+- Routing review found a contradiction: an exact ten-item opening and automatic adjacent-area expansion opposed the later no-padding rule. Made ten a ceiling, accepted zero findings, and tied expansion to accepted scope. Behavioral evaluation remains separate from this instruction audit.

@@ -25,3 +25,7 @@
 ## 1.2.1 - 2026-09-09 - ai-registry
 
 - Architecture review: the shared reflection clause assumed a writable registry link in every installation. Replaced that assumption with installation-aware scope and explicit adoption. This records an instruction audit, not a field effectiveness result.
+
+## 1.3.0 - 2026-09-09 - ai-registry
+
+- Routing audit found a stale seven-bundle fallback and an unconditional logging write. Resolve the current catalog and honor read-only tasks when recording consults. This is a scope correction, not a measured improvement in retrieval quality.

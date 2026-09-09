@@ -394,3 +394,7 @@ Append-only reflection lane. One entry per run that taught something. Format:
 ## 1.6.2 - 2026-09-09 - ai-registry
 
 - Architecture review: the shared reflection clause assumed a writable registry link in every installation. Replaced that assumption with installation-aware scope and explicit adoption. This records an instruction audit, not a field effectiveness result.
+
+## 1.7.0 - 2026-09-09 - ai-registry
+
+- Context audit: conditional branch instructions were loaded with every invocation. Moved the branch unchanged to an explicitly triggered reference and verified reconstruction of the original body. This proves preservation of text, not unchanged model behavior.

@@ -1,15 +1,15 @@
 ---
 name: explorer
-description: Wander one logical area of a codebase, surface 10 items worth fixing, build the small ones (xs/s) without asking, and triage only the larger ones with the user. Every item is premise-verified, gated and committed atomically. Daily low-friction quality sweeps with per-context coverage memory.
+description: Wander one logical area of a codebase, surface up to 10 evidence-backed items worth fixing, build the small ones (xs/s) without asking, and triage only the larger ones with the user. Every item is premise-verified, gated and committed atomically. Daily low-friction quality sweeps with per-context coverage memory.
 argument-hint: "[area] [--triage-all]"
 category: workflow
 memory: vault
 contexts: tracked
-version: 2.2.0
+version: 2.3.0
 ---
 # Explorer
 
-Wander a logical section of a codebase, surface exactly **10 items** worth fixing, **build the small ones without asking** and put only the larger ones to the user, then execute in-session. Designed for frequent / low-friction use — daily wandering — and pairs with `/research` (external sources) and `/architect` (heavy structural change).
+Wander a logical section of a codebase, surface **up to 10 evidence-backed items** worth fixing, **build the small ones without asking** and put only the larger ones to the user, then execute in-session. Designed for frequent / low-friction use — daily wandering — and pairs with `/research` (external sources) and `/architect` (heavy structural change).
 
 The method is **repo-agnostic**: it takes its area taxonomy from whatever context source the repo has, and keeps a vault for run records, coverage tracking, and cross-run learning. Everything one repository is lives in the overlay below, each key with a default, so a repo that carries no overlay still gets a full sweep.
 
@@ -54,7 +54,10 @@ Built for parallel CLI control — every user prompt is single-keystroke answera
 
 ## Input
 
-Ask **two** numbered-menu questions, in this order. Numeric input picks the option; **Enter** picks the default; option `1. other → …` is the deviation lane and accepts free text.
+Use the area and category already supplied by the user. Ask only for missing inputs
+that materially affect scope; explicit instructions override default interaction menus.
+
+When inputs are missing, ask **two** numbered-menu questions, in this order. Numeric input picks the option; **Enter** picks the default; option `1. other → …` is the deviation lane and accepts free text.
 
 ### Q1 — Area
 
@@ -259,7 +262,7 @@ Print the claim line to the user so they know what's recorded.
 
 ## Phase 4: Wander the code
 
-Read enough of the area to identify 10 items. Budget your tool calls — don't read every file in a 100-file area. Sample strategically.
+Read enough of the agreed area to identify useful items, up to a ceiling of 10. Zero findings is a valid result. Budget your tool calls — don't read every file in a 100-file area. Sample strategically.
 
 ### 4a. Sampling strategy
 
@@ -368,7 +371,7 @@ Drop any candidate whose anchor was plausibly fixed or reworked by a recent comm
 ### 4e. Stop conditions
 
 - 10 items found → stop scanning, move to Phase 5.
-- Exhausted the area without 10 items → widen scope by pulling in the *adjacent* context from the same group in the area taxonomy. Note the widening in the run record. If still <10 after widening twice, stop with what you have and explain the shortfall.
+- Exhausted the agreed area before 10 items → stop with the supported findings, including zero. Report what was reviewed and what remains uncertain. Widen into an adjacent context only when it is already within the user's accepted scope; a quota never authorizes expansion.
 - Tool budget exceeded (>40 file reads) → stop with what you have.
 
 **Do not pad the list** with low-value items just to hit 10. Quality over quota. If you stop short, the run record explains why.
@@ -583,7 +586,7 @@ run_id: {short id}
 area: {context-id or group}
 files_sampled: {N}
 category_filter: any | quality | ...
-total_items: 10
+total_items: <actual count, 0-10>
 auto_accepted: [1, 4, 5]      # the xs/s band - built without asking
 triaged: [2, 3]               # the m/l band - put to the user
 accepted: [1, 3, 4, 5]        # everything actually built (auto + triaged-in)
@@ -731,7 +734,7 @@ Explorer run complete.
   Area:           {name} (group: {group})
   Category:       {filter}
   Files sampled:  {N}
-  Items surfaced: {M} / 10
+  Items surfaced: {M} (ceiling 10)
   Auto-accepted:  {A} (xs/s, built without asking) -> {commit shas}
   Triaged:        {T} put to you -> {K} actioned, {L} declined
   Deferred:       {D}
