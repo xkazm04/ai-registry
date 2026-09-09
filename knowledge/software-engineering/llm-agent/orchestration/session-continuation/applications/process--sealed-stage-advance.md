@@ -101,9 +101,26 @@ lifecycle, shipping, and cancellation behavior."
   because the authenticated transcript boundary needs no-follow descriptor traversal
   and stale-lock recovery needs kernel advisory locking; other environments reject
   named-profile activation before any state mutation. The technique's standard is
-  platform-neutral; this tree meets it on one platform and refuses honestly elsewhere,
+  platform-neutral; the ADR specifies it on one platform and requires refusal elsewhere,
   which is the right shape for a partial implementation.
 - The record is an ADR at this commit. The persistent-mode hook and the state tools it
   names exist (the cancel-race test and `skills/cancel/SKILL.md:279-288` show the
   primary-first pause with `workflowRunId` and the optional `target_state_sha256`), but
   this application cites the design, not a line-by-line reading of the advance code.
+
+## Architecture source check - 2026-09-09
+
+Re-read the pinned ADR in full. It remains design evidence, not proof that the
+described transition is implemented or correct. Its first stage explicitly consumes
+the invocation task, so inputs are not all produced by earlier stages. The stored
+descriptor is rehashed on resume; the ADR does not require it to match a currently
+configured profile. The hash detects descriptor inconsistency, not an attacker
+able to rewrite both fields and hash.
+
+Authenticated assistant-channel provenance does not establish acceptance of the
+artifact described. Atomic advancement needs actual locking or compare-and-swap;
+the phrase compare-before-write alone is not a concurrency primitive. One tracking
+advance does not guarantee next-prompt delivery or exactly-once external effects.
+These remain implementation and runtime checks; no new verification is claimed.
+
+Source: [pinned stage-profile ADR](https://github.com/Yeachan-Heo/oh-my-claudecode/blob/e9e8fa3847ce0b3529b84d895e841988c7308f3d/docs/adr/03487-named-autopilot-stage-profiles.md).

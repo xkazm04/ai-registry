@@ -1,7 +1,7 @@
 ---
 domain: software-engineering
 subject: session-continuation
-last_touched: 2026-09-04
+last_touched: 2026-09-09
 touched_by: intake
 dry_streak: 0
 ---
@@ -89,3 +89,99 @@ subject by construction.
   evidence for "the handler class fixes the direction", which this technique argues
   from one side. Return condition: the next deliberate edit of the technique, or a
   second harness documenting per-family fail direction.
+
+## Architecture review - 2026-09-09
+
+Historical intake and application outcomes above remain historical. This pass
+corrects unconditional persistence and composition claims, separates required-input
+and resource-limit yields from rejection, and makes cancellation/storage races
+explicit. Source inspection narrows the three application guarantees without
+refreshing their verification dates or claiming live harness evidence.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "software-engineering/session-continuation",
+  "date": "2026-09-09",
+  "baseline": "8ea10877",
+  "digest": "sha256:e1b17473dcda7343",
+  "disposition": "clarify",
+  "coverage": "All twelve owned documents read in full. Pinned dispatcher and stage ADR read; relevant persistent-mode functions checked. No full plugin, hosted workflow or historical runtime suite executed.",
+  "counterexamples": [
+    "A review-only task can be complete at a positive review verdict.",
+    "An authenticated assistant record can contain a false claim that tests passed.",
+    "A timed-out Promise.race loser can continue and write later.",
+    "A writer paused past a short tombstone expiry can resurrect an old run without a generation check.",
+    "A child can push indefinitely even when each yield has one consumer.",
+    "Changing error signatures do not prove progress, so hard budgets remain necessary."
+  ],
+  "sources": [
+    {
+      "url": "https://nodejs.org/download/release/v20.20.0/docs/api/timers.html#timeoutunref",
+      "result": "Primary timer semantics: unref removes timer liveness requirement and does not guarantee callback execution."
+    },
+    {
+      "url": "https://github.com/Yeachan-Heo/oh-my-claudecode/blob/e9e8fa3847ce0b3529b84d895e841988c7308f3d/src/hooks/registry/dispatcher.ts",
+      "result": "Full pinned source read; handler evaluated before timeout promise, no loser cancellation, shadow result only."
+    },
+    {
+      "url": "https://github.com/Yeachan-Heo/oh-my-claudecode/blob/e9e8fa3847ce0b3529b84d895e841988c7308f3d/src/hooks/persistent-mode/index.ts",
+      "result": "Read isStaleState, timestamp and cancellation validation; no complete plugin execution or full module audit."
+    },
+    {
+      "url": "https://github.com/Yeachan-Heo/oh-my-claudecode/blob/e9e8fa3847ce0b3529b84d895e841988c7308f3d/docs/adr/03487-named-autopilot-stage-profiles.md",
+      "result": "Pinned ADR read in full; design intent distinguished from implemented and verified behavior."
+    }
+  ],
+  "documents": {
+    "session-continuation.md": {
+      "disposition": "clarify",
+      "reason": "Continuation respects accepted scope, explicit yield reasons, cancellation and budgets; links all eight techniques and distinguishes claims from acceptance."
+    },
+    "techniques/continuation-as-state.md": {
+      "disposition": "clarify",
+      "reason": "Session/run identity, bounded renewal, required-input and resource-limit yields; intermediate approval does not create new authority."
+    },
+    "techniques/single-loop-authority.md": {
+      "disposition": "clarify",
+      "reason": "One arbiter can compose multiple contributors; adoption cannot expand accepted scope and evaluator roles alone do not determine authority."
+    },
+    "techniques/ordered-yield-composition.md": {
+      "disposition": "clarify",
+      "reason": "Ordering does not prove termination or reconcile incompatible conditions; bound push/continue and preserve protective refusal and cancellation."
+    },
+    "techniques/advisory-guard-fail-mode.md": {
+      "disposition": "clarify",
+      "reason": "Unknown hook classification cannot silently become advisory; timeout bounds waiting, not synchronous execution or later writes."
+    },
+    "techniques/ordered-teardown.md": {
+      "disposition": "clarify",
+      "reason": "Failed durable cancellation must not permit local continued execution; generations defeat writers delayed beyond short signal expiry."
+    },
+    "techniques/compaction-checkpoint.md": {
+      "disposition": "clarify",
+      "reason": "Persist at transitions and restore idempotently against current generation; missing snapshot has unknown cause, and a note cannot re-arm control."
+    },
+    "techniques/sealed-stage-advance.md": {
+      "disposition": "clarify",
+      "reason": "External declared inputs are valid; hash is not authentication, completion phrase is not acceptance, and atomic advance differs from reliable dispatch."
+    },
+    "techniques/stuck-loop-detection.md": {
+      "disposition": "clarify",
+      "reason": "Retain hard resource limits, evidence-sensitive thresholds, reversible integration validation and authority-scoped crash resume."
+    },
+    "applications/node--advisory-guard-fail-mode.md": {
+      "disposition": "reverify",
+      "reason": "Pinned source and timer documentation narrow timeout/shadow guarantees; live enforcement and historical runtime remain unverified."
+    },
+    "applications/process--continuation-as-state.md": {
+      "disposition": "reverify",
+      "reason": "Pinned staleness/cancel source read; future timestamp caveat and distinction between cancel-channel fixtures and concurrent race proof."
+    },
+    "applications/process--sealed-stage-advance.md": {
+      "disposition": "reverify",
+      "reason": "Pinned ADR read; correct self-produced-input and current-profile interpretations; acceptance, atomic implementation and delivery require runtime evidence."
+    }
+  }
+}
+```

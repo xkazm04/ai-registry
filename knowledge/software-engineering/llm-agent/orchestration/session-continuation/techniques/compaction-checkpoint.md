@@ -11,105 +11,58 @@ use_when: [a continuation mode is dropped after the harness compresses context, 
 
 # Compaction checkpoint
 
-Context compaction is the harness rewriting the model's memory to make room,
-usually on its own trigger and rarely while the operator is watching. A
-summariser is handed the transcript and asked to keep what matters, and it
-does — for the meaning of "matters" that a summariser has, which is prose that
-reads as important. Which modes are armed, where the plan anchor points, which
-background jobs are outstanding, how many iterations have run: none of those
-survive as prose, and every one of them is something the control loop depends
-on. After compaction the session is fluent about the task and has forgotten it
-was in a loop. This technique treats compaction as an **explicit control
-boundary** and ferries the loop's state across it by hand.
+Keep authoritative loop control outside the model's lossy conversation summary.
+A harness can persist it continuously and use compaction hooks to capture or
+validate a snapshot. A separate model-writable note may preserve working intent,
+but must not create authority that the control record does not contain.
 
-## What crosses, and who carries it
+## What survives
 
-The rule is that **nothing the loop depends on crosses compaction inside the
-summary.** The harness enumerates the control state that must survive and
-writes it itself, at the pre-compaction event, to a checkpoint the
-post-compaction start reads back. The enumeration is short and it is closed:
+Record session/run identity, schema and control revision, active modes and their
+conditions, loop authority, plan/task references, background operation identities,
+stage position, cancellation, deadlines and remaining counters. Persist these
+at their actual transitions. A checkpoint only at compaction cannot recover
+an earlier crash or a mutation that races with that checkpoint.
 
-- the **active modes**, with the condition each is waiting for;
-- the **loop authority** and its conflict policy;
-- the **plan anchor** — the identity of the plan or task record the loop is
-  executing against, not its content;
-- **background job handles** — the identifiers of any work the session
-  started and has not collected;
-- the **counters** — iteration count, stagnation and failure counts, stage
-  index — because a counter that resets on compaction defeats every rule
-  built on it.
+The control envelope makes operational state inspectable under
+[silent-state-is-ungoverned](../../../../_laws.md#silent-state-is-ungoverned).
+Do not confuse it with project instruction delivery: both are needed when the
+host would otherwise lose them, but they need not use the same lifecycle event.
 
-Each of these is control state that was, until written, internal to the
-session — shaping what the loop does next while readable by nothing outside
-it ([silent-state-is-ungoverned](../../../../_laws.md#silent-state-is-ungoverned)).
-The checkpoint is the conversion into an artifact. Content the model was
-reasoning about is deliberately absent from the list; it belongs to the second
-channel below.
+## Restore against current authority
 
-The neighbour agent-instruction-files owns a different cargo across the same
-boundary: the advisory floor — the rules the project hands its agent — and its
-context-reset-redelivery technique re-reads that file after every reset. The
-two must not be confused. The neighbour restores what the agent should
-*believe*; this technique restores what the harness was *doing*. Both must
-fire on the same event, and a harness that has one and not the other resumes
-with either a rule-following agent that forgot its loop or a looping agent
-that forgot its rules.
+Branch on the host's documented start reason: compaction, explicit resume,
+clear or a new session can have different policies. Resume may require restore;
+it is not inherently double-arming. Make restore idempotent, bind it to the
+current run and compare revisions before applying it. A stale snapshot cannot
+replace a newer cancellation or reset spend/failure counters.
 
-## When it is written and when it is read
+An unrecognized start reason is reported rather than guessed. A missing snapshot
+does not prove no modes were active, nor does it identify the cause as a failed
+write: the event may be unsupported, the path wrong or the record removed.
+Inspect authoritative control where available and report uncertainty under
+[unknown-is-not-a-value](../../../../_laws.md#unknown-is-not-a-value).
 
-The checkpoint is written at the **pre-compaction event**, before the
-summariser runs, from the harness's own control state — never reconstructed
-by parsing the transcript, which is what the summariser is about to destroy.
-It is read at the **post-compaction session start**, and the read is **keyed
-on the reason the session started**. Harnesses report several start reasons —
-a cold open, a clear, a compaction, a resume — and the restore is correct for
-exactly one of them. Restoring after a clear resurrects the loop the operator
-just discarded; restoring on a resume double-arms modes that never left. The
-start hook branches on the reason, and an unrecognised reason is treated as
-unhandled, with a diagnostic, rather than as any of the known ones.
+Reconcile background identities with their current owners; a stale process handle
+or recycled process ID is not proof that the original job is still running.
+Validate schema compatibility and required task references before continuing.
 
-A missing checkpoint on a compaction start is **not** "no modes were active"
-([unknown-is-not-a-value](../../../../_laws.md#unknown-is-not-a-value)). It
-means the pre-compaction write did not happen — the hook failed, the event
-was not delivered, the file was not writable — and the honest restore says
-so, so that a loop silently dropped by a failed write is a visible incident
-and not a session that seems to have finished. The restore may then fall back
-to the second channel.
+## Advisory working note
 
-## Two channels, neither sufficient alone
+A short note can carry the current hypothesis, the next useful check and rejected
+approaches. Treat it as potentially stale and verify factual assertions against
+the artifacts. It supplements the task record and summary; it is not mandatory
+when those already preserve enough working context. Never use a note to re-arm
+a cancelled mode or substitute for missing authoritative control.
 
-The **automatic checkpoint** above is written by the harness and carries what
-the harness knows. It cannot know what the model was in the middle of
-reasoning about: the hypothesis it was testing, the file it had decided to
-edit next, the reason it rejected the obvious approach. The **model-writable
-notepad** is the second channel: a small persistent note the model is
-instructed to update at meaningful moments — before a long tool call, at a
-decision — and which is re-injected after compaction alongside the
-checkpoint. It carries working intent that no harness field could name.
+## Checks and limits
 
-Neither channel suffices alone, and the two failures are symmetrical. A
-checkpoint without a notepad restores a loop that knows it is looping and has
-forgotten why the last three attempts failed. A notepad without a checkpoint
-restores a model that remembers its reasoning inside a harness that has
-forgotten to enforce anything. The notepad is advisory — the model may not
-have written it, and what it wrote may be stale — so the loop never depends
-on it; the checkpoint is authoritative and the loop depends on nothing else.
+Compact with active jobs and nonzero counters, cancel after snapshot creation,
+then restore. Also test missing/corrupt snapshots, duplicate restore, clear,
+explicit resume, wrong run and an unsupported schema. Assert that newer control
+wins and resource bounds do not reset.
 
-## Decision rules
-
-- Enumerate the control state that must survive compaction, closed and
-  short; write it from the harness's own state at the pre-compaction event.
-- Restore at the post-compaction start, keyed on the start reason; treat an
-  unrecognised reason as unhandled.
-- A missing checkpoint on a compaction start is a failed write, reported as
-  such — never read as "nothing was active".
-- Keep the harness checkpoint and the model notepad as separate channels; the
-  loop depends only on the first.
-- Never let the summariser carry anything the loop depends on.
-
-## When not to use this
-
-A harness that raises no compaction event on a given surface cannot
-checkpoint there, and the honest posture is to say so and keep sessions on
-that surface short enough that compaction does not occur mid-loop — the same
-bounded claim the neighbour makes about an uncovered reset surface.
+Without a pre-compaction event, persist at ordinary state transitions and reload
+through a supported boundary. If the host exposes no reliable control access,
+state the reduced guarantee and use bounded tasks; short sessions alone do not
+prove compaction cannot occur.

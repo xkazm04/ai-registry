@@ -98,7 +98,7 @@ false`, mode `none`, and — the load-bearing assertions at `:52-57` — must no
 extended `max_iterations` or written a linked `ultrawork` record. The second case
 (`:63-80`) drives the same expectation from a `cancel-signal-state.json` with a
 thirty-second `expires_at`: the tombstone ordered-teardown describes, with the expiry
-the technique's upward lesson names. Cancel wins the re-arm race on both channels.
+the technique's upward lesson names. These tests cover both cancellation channels; they do not by themselves prove both concurrent mutation orders.
 
 ## Deviations and notes
 
@@ -111,3 +111,19 @@ the technique's upward lesson names. Cancel wins the re-arm race on both channel
   vocabulary, and the gap document is the record of them drifting. That is the
   ordered-teardown failure, recorded here because the record was found while
   verifying this technique's citations.
+
+## Architecture source check - 2026-09-09
+
+Re-read the pinned persistent-mode staleness function and cancellation checks.
+The two-hour stale calculation is present; it is a source-specific lease choice.
+Its freshest-timestamp calculation accepts a future timestamp, so bounded age
+requires an additional skew/input policy. Cancellation checks include run/state
+identity validation beyond a generic short-lived signal.
+
+The previously cited tests of an already-present cancel prompt and signal do not
+by themselves establish both concurrent mutation orders or defeat a writer delayed
+past signal expiry. Explicit stop, required input and resource exhaustion should
+remain distinct from a rejection verdict. No live harness behavior or historical
+test suite was rerun; the original verification date is unchanged.
+
+Source: [pinned persistent-mode implementation](https://github.com/Yeachan-Heo/oh-my-claudecode/blob/e9e8fa3847ce0b3529b84d895e841988c7308f3d/src/hooks/persistent-mode/index.ts).

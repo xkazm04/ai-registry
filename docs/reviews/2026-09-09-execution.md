@@ -9,7 +9,7 @@ This log records execution and acceptance evidence without rewriting that baseli
 | 2. Format contracts | Complete | Commit `b2f223bf`; history check passed for all 136 recipes. Full recipe renderer and drift check; all 136 views migrated with patch versions; craft JSON unchanged; practice/memory checks; unfiltered CI runs the shared plan. Ten tests and all 17 local gates pass. |
 | 3. Installation and authority | Implemented; harness smoke pending | Commit `d1150345`; explicit modes and rollback tested in isolated Git fixtures; capability preflight, mode-aware reflection, and private fleet roots. Full chain: 18/18; 13 tests pass. History check passed for 31 changed skills. |
 | 4. Selection and context | Implemented; model comparison pending | Commit `1718d12d`; conditional branches extracted from research and architect with exact text reconstruction; Explorer quota/scope corrected; consult read-only logging corrected; 12 frozen routing cases. History check passed for four changed skills. |
-| 5. Agentic-development subjects | In progress | Agent-chaining, plan-review and durable-agent-operations: all 28 documents read, source misinterpretations and unconditional workflow claims repaired. Live coverage: 3 reviewed / 458 total; 455 pending. |
+| 5. Agentic-development subjects | In progress | Agent-chaining, plan-review, durable-agent-operations and session-continuation: all 40 documents read, source misinterpretations and unconditional workflow claims repaired. Live coverage: 4 reviewed / 458 total; 454 pending. |
 | 6. Remaining domains and recipes | Pending | Remaining subject/topic decisions and evaluation evidence. |
 | 7. Learning loop | Mechanism complete; unresolved identities queued | Commit `e76c81d7`; explicit alias contract, retained unknown counts, report dates/windows, conservative state aggregation and reproducible freshness report. Source identity decisions still require producer evidence. |
 
@@ -136,3 +136,21 @@ The historical private runtime and prior fleet applications were not rerun.
 An initial lane check rejected a stack name in generic prose; the source remains
 linked through a generic citation label. Regeneration and all six knowledge checks
 then passed, with three current complete decisions and no stale or invalid records.
+
+## Tranche 5: session continuation
+
+Baseline `8ea10877`. Read all twelve documents. Continuation now preserves accepted
+task scope, explicit required-input and resource-limit yields, generation-safe
+cancellation and idempotent compaction restore. Ordered composition is not claimed
+to guarantee termination or reconcile incompatible conditions. Stage provenance
+is separated from acceptance, atomic tracking from next-stage delivery, and
+descriptor integrity from authentication.
+
+Read the pinned source dispatcher and stage-profile ADR, plus the relevant
+persistent-mode timestamp and cancellation functions. The dispatcher times out
+its wait without stopping a losing handler; a same-thread timer cannot interrupt
+synchronous work. Its shadow mode remains distinct from active enforcement.
+The existing cancellation fixtures do not establish every concurrent mutation order.
+The three application records retain their historical dates and carry reverify
+dispositions for runtime evidence. All six knowledge checks pass with four current
+decisions, zero stale records and zero invalid records.

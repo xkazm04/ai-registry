@@ -27859,9 +27859,9 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/session-continuation/session-continuation.md",
-   "digest": "sha256:0a81b410c372e50e",
-   "revision": 3,
-   "changedAt": "2026-09-04",
+   "digest": "sha256:e1b17473dcda7343",
+   "revision": 4,
+   "changedAt": "2026-09-09",
    "techniques": [
     {
      "slug": "advisory-guard-fail-mode",
