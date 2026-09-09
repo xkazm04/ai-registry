@@ -6,8 +6,8 @@ This log records execution and acceptance evidence without rewriting that baseli
 | Tranche | State | Evidence / remaining work |
 | --- | --- | --- |
 | 1. Enforcement and navigation | Complete | Commit `435fafb3`; recipe work included through preceding commit `fe1f55cf`. |
-| 2. Format contracts | Implemented, validating commit | Full recipe renderer and drift check; all 136 views migrated with patch versions; craft JSON unchanged; practice/memory checks; unfiltered CI runs the shared plan. Ten tests and all 17 local gates pass. |
-| 3. Installation and authority | Next | Explicit development/release modes, Codex adapter, capability contract, reflection scope, and local fleet roots. |
+| 2. Format contracts | Complete | Commit `b2f223bf`; history check passed for all 136 recipes. Full recipe renderer and drift check; all 136 views migrated with patch versions; craft JSON unchanged; practice/memory checks; unfiltered CI runs the shared plan. Ten tests and all 17 local gates pass. |
+| 3. Installation and authority | Implemented; harness smoke pending | Explicit modes and rollback tested in isolated Git fixtures; capability preflight, mode-aware reflection, and private fleet roots. Full chain: 18/18; 13 tests pass. |
 | 4. Selection and context | Pending | Conditional references and behavioral routing checks. |
 | 5. Agentic-development subjects | Pending | Semantic review and source evidence per subject. |
 | 6. Remaining domains and recipes | Pending | Remaining subject/topic decisions and evaluation evidence. |

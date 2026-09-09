@@ -246,3 +246,7 @@ stops across five personas, walked from the public landing inward.
   against 12 inputs, all four route error paths exercised with the engine off. The report then
   stated plainly that a first real run is unproven and will need prompt tuning. That is the right
   trade for a walk and the right disclosure; a brief touching a paid seam should require both.
+
+## 1.2.0 - 2026-09-09 - ai-registry
+
+- Architecture review: the shared reflection clause assumed a writable registry link in every installation. Replaced that assumption with installation-aware scope and explicit adoption. This records an instruction audit, not a field effectiveness result.

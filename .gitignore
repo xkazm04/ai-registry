@@ -13,28 +13,8 @@
 
 node_modules/
 
-# Machine identity, and nothing else.
-#
-# The fleet bridge used to be `.projects.local.json`: slug -> ABSOLUTE path, hidden
-# wholesale because the paths were machine-specific. That hid the portable nine tenths
-# along with the machine-specific one tenth, and a second machine could not read any of
-# it. Redesigned 2026-08-28:
-#
-#   projects.json          COMMITTED. `machines`: every device and its ROOT (absolute,
-#                          per device - since 2026-09-02 the root lives here, so this
-#                          file alone resolves a full path on every machine). Per
-#                          project, a `checkouts` map: machine -> the path it sits at
-#                          on THAT machine, relative to that machine's root. Reviewed
-#                          like any other registry file.
-#   .machine.local.json    IGNORED, below: which machine this is (Fox, Wolf, ...), the
-#                          contributor id, an optional `overrides` map for a checkout
-#                          that lives off-root, and an optional `root` that overrides
-#                          the declared one.
-#
-# Every path the registry PUBLISHES about a project (the fleet map's context paths, an
-# application's seam) is relative to the project root, never to a device.
-#
-# Resolved through scripts/lib/projects.mjs; see librarian/projects.md.
+# Fleet identity and absolute roots stay local. projects.json carries only
+# relative checkout declarations. Resolve through scripts/lib/projects.mjs.
 **/.*.local.json
 
 # Fleet proposals: the intermediate file a bulk-model pass writes and a reviewer reads.

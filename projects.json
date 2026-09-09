@@ -1,13 +1,12 @@
 {
   "schema": 2,
-  "_note": "The fleet declaration. `machines` names every device and its ROOT - the absolute directory that project checkouts resolve against on that device. Each project maps MACHINE -> the path it sits at on that machine, RELATIVE to that machine's root. One project can be checked out on several machines at once with a different path on each - that is what `checkouts` is: the keys are the machines it exists on, and a machine absent from the map simply does not have it. Committed: this file alone resolves a full path per device, and the gitignored .machine.local.json only says WHICH machine this is (plus the contributor id and an optional `overrides` map for a checkout that cannot be expressed relative to the root - another drive, say; a `root` there overrides the one declared here). Every path the registry publishes about a project - the fleet map's context paths, an application's seam - is relative to the project root, so parallel development on several devices reads the same file. Domains are NOT here: every project declares its own in its .ai/manifest.yaml.",
+  "_note": "Portable fleet declaration. Absolute roots, contributor identity and checkout overrides belong in .machine.local.json. Resolve through scripts/lib/projects.mjs.",
   "machines": {
     "Fox": {
       "note": "secondary dev box - root not declared yet; its .machine.local.json still supplies one"
     },
     "Wolf": {
-      "note": "primary dev box",
-      "root": "C:/Users/kazda"
+      "note": "primary dev box"
     }
   },
   "projects": {

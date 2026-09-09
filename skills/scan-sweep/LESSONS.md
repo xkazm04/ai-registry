@@ -1322,3 +1322,7 @@ that check stays cheap.
 - **A single-lens `--lenses` round has no tier caps that fit it.** §4.3 caps the deep tier at 3 findings per lens; an operator who narrows the package to ONE lens on a 34-file context would get three findings from a full read. Treated the requested lens as the whole package and let the budget absorb it (12 findings, 8 built). §4.4 already says the budget must absorb the package; §4.3 should say the per-lens cap applies only when the package has more than one lens.
 - **A whole-tree gate served from a warm daemon is a moving target under a concurrent session.** Three census drifts in one round, all in a sibling's uncommitted files, each verified by a cold single-rule run and a listing check against my own dirty files. The §7.2 rule covers the exit code and the composite; it should add: when the gate is a delta engine, re-run the flagged rule cold and confirm your files are absent from its listing before treating it as foreign.
 - **§7.2's own defeat is still the easiest one to make.** Wanting to trim output, I wrote `npm run gate | tail -4 && commit` and committed over a red census. The rule was known and still lost to ergonomics; a recipe line (`cmd > log 2>&1; rc=$?; tail log; test $rc = 0 && commit`) would have held.
+
+## 3.0.1 - 2026-09-09 - ai-registry
+
+- Architecture review: the shared reflection clause assumed a writable registry link in every installation. Replaced that assumption with installation-aware scope and explicit adoption. This records an instruction audit, not a field effectiveness result.

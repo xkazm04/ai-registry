@@ -21,3 +21,7 @@
   is a declaration of interest, not a claim about where knowledge lives."* Not applied here
   because it is a step-semantics change (minor bump) and one observation is thin evidence for
   changing the resolution order every project runs.
+
+## 1.2.1 - 2026-09-09 - ai-registry
+
+- Architecture review: the shared reflection clause assumed a writable registry link in every installation. Replaced that assumption with installation-aware scope and explicit adoption. This records an instruction audit, not a field effectiveness result.

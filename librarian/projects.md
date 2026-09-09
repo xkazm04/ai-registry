@@ -58,13 +58,10 @@ once, **at a different path on each**. `projects.json` gives every project a
 
 The keys ARE the machines it exists on; a machine absent from the map does not have
 it, and resolving there yields nothing rather than an error. Adding a machine is
-adding one key. The machine's **root** — the absolute directory those relative paths
-resolve against — is declared in `projects.json` too, under `machines.<name>.root`
-(since 2026-09-02), so the committed file alone yields a full path per device.
-`.machine.local.json` then says only which machine this is and who the contributor is,
-plus — for a checkout that cannot be expressed relative to the root at all (another
-drive) — an optional `overrides` map, and an optional `root` that overrides the
-declared one.
+adding one key. The machine's **root** is declared only in the ignored
+`.machine.local.json`, alongside its machine name and contributor id. An optional
+`overrides` map supplies absolute locations for checkouts outside that root.
+Missing roots are reported; the resolver never guesses relative to its working directory.
 
 **Every path the registry publishes about a project is relative to the project root**,
 never to a device: the fleet map's context paths, an application's seam, a direction
@@ -73,8 +70,8 @@ resolves it against its own root.
 
 | Machine | Role | Root |
 | --- | --- | --- |
-| `Fox` | secondary dev box | not declared yet (its local file supplies one) |
-| `Wolf` | primary dev box | `C:/Users/kazda` |
+| `Fox` | secondary dev box | local configuration |
+| `Wolf` | primary dev box | local configuration |
 
 Domains are deliberately NOT in `projects.json`. Every project declares its own in its
 `.ai/manifest.yaml` (`knowledge.domains`), which is committed in that project and is the
@@ -87,6 +84,6 @@ wrote nothing, silently, for days.
 
 Edit both halves in the same change: this table, and `projects.json` at the registry
 root. Only a NEW machine needs a local file - write `.machine.local.json` with its
-name, its root and its contributor id, then add that name to the project's `machines`
-array in `projects.json`. A project in only the local half is invisible to
+name, its root and its contributor id, then add that name and relative path to the project's `checkouts`
+map in `projects.json`. A project in only the local half is invisible to
 review; a project in only this one cannot be reached by a run.

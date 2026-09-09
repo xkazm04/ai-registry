@@ -58,3 +58,6 @@
 - **Slow units have two causes with opposite remedies.** The existing rule (>3x per-unit time = contention) is only half. With no foreign job on the engine and the guard recycling between every single render, the bottleneck is host memory, and no amount of re-checking the owner helps — it re-bases the per-unit budget instead. The tell that it is not free RAM: failures arriving ~60s after a fresh recycle that had just freed 38-40 GB.
 - **Don't park a partial pre-registered roster.** Three of twelve duos completed, which is not zero — but what died was exactly the extremes the protocol's branches turn on, leaving only the easy half of the range. Count what the survivors can CONCLUDE, not how many there are; a partial answer entering the cross-machine ledger is worse than a `failed` row, because the next session reads the ledger as settled.
 
+## 1.3.0 - 2026-09-09 - ai-registry
+
+- Architecture review: the shared reflection clause assumed a writable registry link in every installation. Replaced that assumption with installation-aware scope and explicit adoption. This records an instruction audit, not a field effectiveness result.

@@ -49,6 +49,7 @@ const EXIT_CONTRACT = step('check-exit-contract.mjs');
 const WEIGHTS = step('librarian-scan.mjs', { check: ['--check-weights'], write: ['--stamp-weights'] });
 const TOOL_TESTS = step('run-tests.mjs');
 const SIMPLE_LANES = step('check-simple-lanes.mjs');
+const PROJECTS = step('check-projects.mjs');
 
 // The catalog job's path filter covers knowledge/, skills/, practices/, memory/ and
 // usage/ - build-catalog hashes those five lanes - so those five rows end with it.
@@ -69,7 +70,7 @@ const LANES = {
   practices: [SIMPLE_LANES, ...CATALOG_TAIL],
   memory: [SIMPLE_LANES, ...CATALOG_TAIL],
   // knowledge.yml `tooling` job: scripts/** and librarian/standard.md trigger it.
-  scripts: [EXIT_CONTRACT, WEIGHTS, TOOL_TESTS],
+  scripts: [PROJECTS, EXIT_CONTRACT, WEIGHTS, TOOL_TESTS],
   librarian: [WEIGHTS],
 };
 
@@ -81,7 +82,7 @@ const ALL = [
   CHECK_BUNDLES, INDEX, KNOWLEDGE_RULES,
   CHECK_RECIPES, RECIPE_VIEWS, RECIPES_INDEX, SIMPLE_LANES,
   CHECK_USAGE, CHECK_SIGNALS,
-  EXIT_CONTRACT, WEIGHTS, TOOL_TESTS,
+  PROJECTS, EXIT_CONTRACT, WEIGHTS, TOOL_TESTS,
   HASH_STABILITY, CATALOG,
 ];
 

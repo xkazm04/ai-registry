@@ -26,9 +26,8 @@ in [registry.yaml](registry.yaml).
   the version used; do not fabricate lessons, verification dates, or maturity evidence.
 - Edit source artifacts, then regenerate indexes, rules, catalog, and marketplace
   with their generators. Do not hand-edit generated content.
-- Keep private evidence, credentials, and machine-specific run output local. Existing
-  fleet configuration has a documented privacy inconsistency in the architecture review;
-  it is not a template for adding more machine paths to published content.
+- Keep private evidence, credentials, and machine-specific run output local. Absolute fleet roots belong only in `.machine.local.json`; published
+  `projects.json` checkout paths must remain relative.
 - Reuse dependency-free Node tooling for registry checks. Provider-backed tools and
   operator scripts have separate prerequisites and may affect connected projects.
 

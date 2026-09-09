@@ -34,3 +34,7 @@ Format: `## <version used> - <YYYY-MM-DD> - <project>` followed by `- ` bullets.
   branch: "no suite yet" -> pick the highest-traffic boundary, write the first three tests there,
   wire one command. Not applied in 2.1.0 - it needs its own shape and would double the length of
   the skill.
+
+## 2.2.1 - 2026-09-09 - ai-registry
+
+- Architecture review: the shared reflection clause assumed a writable registry link in every installation. Replaced that assumption with installation-aware scope and explicit adoption. This records an instruction audit, not a field effectiveness result.

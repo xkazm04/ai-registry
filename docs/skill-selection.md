@@ -51,8 +51,9 @@ Sources: [Codex skills](https://learn.chatgpt.com/docs/build-skills) and
 checked 2026-09-09.
 
 This repository now has a root `AGENTS.md` for navigation and validation guidance.
-The remaining integration work is an explicit adapter: discovery paths, overlay paths,
-tool capabilities, installation mode, and a smoke task. Do not copy the entire library
+The [explicit installer](installations.md) now supplies discovery paths, installation
+modes, local receipts and capability preflight. Harness smoke results are recorded in
+the [execution log](reviews/2026-09-09-execution.md). Do not copy the entire library
 into always-loaded instructions. Codex uses skill descriptions for selection and loads
 the selected skill body on demand; large bodies still cost context after selection.
 [Source](https://learn.chatgpt.com/docs/build-skills).

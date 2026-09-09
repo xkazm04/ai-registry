@@ -85,3 +85,7 @@ Append-only reflection lane. One entry per run that taught something. Format:
 
 ## v1.8.0 - 2026-08-31 - ascent (follow-up drain)
 - A recorded method lesson nobody APPLIES gets paid for again: RC-M2 (hardcoded driver shot names) was written into the pass-1 report, not applied to the drivers, and destroyed a second arm's captures in pass 2. A drain that records an overlay defect should fix the overlay in the same change, not re-describe it.
+
+## 1.8.1 - 2026-09-09 - ai-registry
+
+- Architecture review: the shared reflection clause assumed a writable registry link in every installation. Replaced that assumption with installation-aware scope and explicit adoption. This records an instruction audit, not a field effectiveness result.

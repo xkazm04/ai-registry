@@ -8,3 +8,7 @@
 - The value ledger is now overlay-driven: a repo declares its journeys in `.claude/ship-loop/config.md`; without a declaration the loop runs the 9-dimension scorecard alone with dimension 9 as the value case. Ascent's UC1-3 table, personas/kp/pof gate commands, the 300-LOC rule, and product-specific dimension names (Polar billing, Supabase wall, UE bridge, tiering & packaging) moved to per-repo overlays.
 - Gate-ordering incidents were kept as rules with their reasons, not as project facts: "sequential, never concurrent" (shared generated files; CPU contention blows e2e bridge windows), "typecheck AFTER a build that rewrites generated type files" (spurious route/type errors a clean rebuild-then-typecheck disproves). Long material (overlay template, lens catalogue + CP0 questions, state file formats) went to `references/`.
 - State location is `.claude/ship-loop/` at the repo root for every consumer; one copy kept it in a `state/` dir next to the skill — the body names that as a legacy location to migrate once, journaled. The `state/` dir itself was not brought into the lane (mutable run state is forbidden there).
+
+## 2.2.1 - 2026-09-09 - ai-registry
+
+- Architecture review: the shared reflection clause assumed a writable registry link in every installation. Replaced that assumption with installation-aware scope and explicit adoption. This records an instruction audit, not a field effectiveness result.

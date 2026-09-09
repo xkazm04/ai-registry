@@ -5,7 +5,7 @@ argument-hint: "[map|complete|next|screen <id>|status|replan] [--no-dispatch] [-
 category: workflow
 memory: vault
 contexts: tracked
-version: 1.2.0
+version: 1.3.0
 tags: cx, ux, journey, screens, review, dispatch, continuity, completion, obsidian
 ---
 # CX
@@ -432,19 +432,41 @@ user's turn is one prompt, and the run's opinion never outranks the user's expec
 
 ---
 
-<!-- clause: skill-reflection v3 - stamped by scripts/apply-skill-clauses.mjs from docs/skill-clauses/skill-reflection.md; edit the template, then re-stamp -->
+<!-- clause: skill-reflection v4 - stamped by scripts/apply-skill-clauses.mjs from docs/skill-clauses/skill-reflection.md; edit the template, then re-stamp -->
 ## Skill Reflection
 
-After the run's real work is done, reflect - autonomously, without asking the user. Be honest about volume: most runs produce NOTHING beyond lane 1. An empty reflection is a valid result; a forced lesson is pollution. Calibration: nothing (common) / one line (sometimes) / a lesson entry (occasionally) / a redesign proposal (rare).
+After the work, record only useful observations supported by this run. No lesson is
+a valid result. Reflection inherits the task's authorization; it grants no additional
+permission to edit another repository, send data, commit, or publish.
 
-**Lane 1 - PROJECT learnings** (what the next session in THIS repo needs). Repo-specific rules go to this skill's overlay in the consuming repo - a dated one-liner under `## Skill improvement log` in the overlay/vault location this skill's `## Project overlay` section names (create the heading on first use). If this skill carries no `## Project overlay` section, or its overlay section names no location, write that dated one-liner to `.claude/cx/config.md` in the consuming repo under `## Skill improvement log`, creating the file and the heading if they are absent - so the instruction is executable in every skill. When the repo carries a `.personas/` directory, also write via the MEMORY BLOCK contract if this prompt carries one, else append node lines to `.personas/memory-outbox.jsonl` per that contract. Never into this file: a project's bytes in a shared method are exactly what made the fleet's copies diverge.
+**Project learning.** Put a dated observation in the consuming project's configured
+overlay under `## Skill improvement log`, when local edits are within scope. Use the
+location in this skill's `## Project overlay` section. If none is configured, use
+`.agents/cx/config.md` for Codex or `.claude/cx/config.md` for Claude.
+If the harness is unknown, propose the note in the response instead of guessing a path.
+Use a supplied memory contract only when its destination and writes are authorized.
+Keep project details out of the shared method.
 
-**Lane 2 - METHOD learnings** (what would improve THIS SKILL for every project):
-1. If nothing generalizes beyond this repo, stop here.
-2. Append to `LESSONS.md` in this skill's directory: `## <version-used> - <YYYY-MM-DD> - <project-name>` followed by `- ` bullets (create the file with a `# Lessons - cx` heading if absent). Record the version the run USED, not a bump target. Wrap a bullet in a `### Redesign proposal` sub-block when it argues for a redesign you are NOT applying now. A lesson alone needs no version bump.
-3. Edit `SKILL.md` only together with a version bump, and bump only with an applied edit: patch for wording, minor for a step/prompt refinement, major for a methodic redesign. Update the `version:` frontmatter. Never edit inside a stamped `<!-- clause: ... -->` block: that text is shared by every skill in the lane and is changed in the registry's `docs/skill-clauses/` and re-stamped with `node <registry>/scripts/apply-skill-clauses.mjs`.
-4. Where the edit lands: THE SKILL DIRECTORY IS A LINK INTO THE REGISTRY. `.claude/skills/cx` in a consuming repo is a symlink to `<registry>/skills/cx` (registry root = `registry.local` in `.ai/manifest.yaml`, default `../ai-registry`; `$AI_REGISTRY_DIR` wins). Editing it edits the one file every project runs, so there is nothing to propagate. Commit it IN THE REGISTRY checkout as a standalone commit containing only this skill's files: run `node <registry>/scripts/check-skills.mjs --since HEAD` first (shape + version discipline must pass), then `git -C <registry> add skills/cx` and `git -C <registry> commit -m "skill(cx): v<new> - <one-line reason>"`. Never stage the link from the project side.
-5. NEVER copy this skill to `~/.claude/skills/cx/` or into another repo, and never "propagate" by copying. A copy in the personal tier shadows the lane for every project on the machine and freezes the method at that day's bytes with no version to compare (measured 2026-08-29: 11 such copies, all unversioned, all stale). If `.claude/skills/cx` is a real directory instead of a link, the fix is `node <registry>/scripts/link-registry.mjs`, not a copy in either direction.
+**Method learning.** Identify the installation before editing anything. A local
+`.ai/registry-installation.local.json` receipt can identify development versus release,
+the registry revision, and selected skill versions. Verify any link's actual target;
+do not assume a skill directory is a writable registry link.
 
-**Lane 3 - DOMAIN knowledge** is a different artifact from a lesson: a lesson improves this METHOD, a lead proposes knowledge for a bundle. Skills that carry a `## Knowledge sync` section file leads there; a skill without one files none.
+- For a pinned release, marketplace cache, ordinary copy, or unknown installation,
+  keep a proposal in the project overlay or response. Do not edit the installed method
+  or silently relink it. Adoption and rollback are explicit installation operations.
+- For a development link, edit the registry only when that checkout is already within
+  the accepted task scope. Otherwise report a proposal. Authorized changes belong in
+  the source checkout, followed by its gates; commit only when the task authorizes it.
+- Record an actual lesson in `LESSONS.md` against the version **used**:
+  `## <version-used> - <YYYY-MM-DD> - <project-name>` and concise bullets. A proposal
+  must be labeled as such; structural checks are not evidence of field effectiveness.
+- Applied skill changes require a version bump: patch for wording, minor for a step
+  refinement, major for method redesign. A lesson alone needs no bump. Shared stamped
+  clauses are edited in the registry's `docs/skill-clauses/` and regenerated with
+  `scripts/apply-skill-clauses.mjs`, never patched in individual installed skills.
+
+**Domain learning.** Follow `## Knowledge sync` when present, within the same scope
+and privacy boundaries. A method lesson and a domain knowledge lead are different
+artifacts; do not fabricate either to fill a reflection quota.
 <!-- /clause: skill-reflection -->

@@ -11,3 +11,7 @@ Format: `## <version used> - <YYYY-MM-DD> - <project>` followed by `- ` bullets.
 - The value frame became overlay-driven: the app declares its jobs / use cases and the judges bound to each in `tiger/README.md` at `init`; without a declaration every finding carries `use_case: cross` and the roster is `uat/characters/*`. Every project name, use-case text, judge name and repo path left the body; ascent's table, roster binding and expected kills moved to a per-repo overlay that complements its existing `tiger/` vault.
 - One lesson lifted from ascent's vault backlog (P1-5, 2026-06-20) into the trust rules: an L1 "X is missing" claim about a durable artifact must be code-verified (`grep` / `git log -L`) before it is actioned - the export column the walker reported missing had existed for weeks.
 - Long material moved out of the body to keep it under the lane's 500-line cap: the dial-by-dial checklists to `references/lenses.md` (also the default content for `tiger/lenses/*.md`), the note templates incl. the README overlay shape to `references/vault-notes.md`. The lane is ASCII-only and its gate enforces it, so the body and this file were written ASCII (the ascent entry above keeps its wording; its arrows and dashes are transliterated).
+
+## 2.2.1 - 2026-09-09 - ai-registry
+
+- Architecture review: the shared reflection clause assumed a writable registry link in every installation. Replaced that assumption with installation-aware scope and explicit adoption. This records an instruction audit, not a field effectiveness result.

@@ -94,3 +94,7 @@ Append-only reflection lane. One entry per run that taught something. Format:
   routes all data through a server-only client. Every one of those refusals was correct
   and the tidier answer would have been wrong. State the hypothesis, ask for it to be
   falsified, and say plainly that splitting it is a first-class result.
+
+## 1.4.2 - 2026-09-09 - ai-registry
+
+- Architecture review: the shared reflection clause assumed a writable registry link in every installation. Replaced that assumption with installation-aware scope and explicit adoption. This records an instruction audit, not a field effectiveness result.

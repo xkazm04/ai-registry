@@ -485,3 +485,6 @@ rule that only this loop's participants currently follow.
   saying in step 6: when a builder reports untestable wiring, ask whether a live run can observe it
   before filing it as a permanent risk.
 
+## 2.5.2 - 2026-09-09 - ai-registry
+
+- Architecture review: the shared reflection clause assumed a writable registry link in every installation. Replaced that assumption with installation-aware scope and explicit adoption. This records an instruction audit, not a field effectiveness result.
