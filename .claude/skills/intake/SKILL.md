@@ -3,7 +3,7 @@ name: intake
 description: "Mine an external source - a YouTube video, a news roundup, an article, pasted notes, a repository - for what it should change in THIS registry, and in the connected projects that consume it. Ingests the source, reads its design decisions as well as its claims, maps both against existing bundles for prior art, triages with the operator, and lands what survives corroboration - amendments for boundary cases, techniques and subjects for mechanisms, forge handoffs for systems whose architecture the corpus lacks. News sources mostly yield currency signals and leads; that is a successful run. Use when someone shares a link and asks what it means for us."
 category: ai-native
 memory: project
-version: 2.8.0
+version: 2.8.1
 tags: research, sources, memory-lane, admission-gate, triage, currency, cross-repo, leads, apply, ab-test, parallel, reference-index, design-read, forge-handoff, directions, fleet-map, peer-study, opus-workers, decision-gate
 ---
 
@@ -1182,6 +1182,14 @@ the `file:line` where that decision is currently made - or made by default becau
 code owns it. Record it in the project's `.ai/applied.jsonl`, never in `librarian/`.
 A technique with no seam in any managed project is not wrong, but it is **unapplied**,
 and the row says so with the return condition "when a project grows the seam".
+
+**The seam hunt is a second source (v2.8.1).** When Phase 7.5 opens a tree the corpus
+already cites, diff the citations against the tree before choosing the seam, and read
+the tree for where it disagrees with itself. Three consecutive runs (2026-09-08 twice,
+2026-09-09) took their strongest landing from this step and not from the source: a
+removed route three applications still cited, a currency row, and two keyword adapters
+that defaulted the same absence to two different values. A source originates; the fleet
+originates too, whenever the seam hunt opens it.
 
 **Where two seams are available, choose the one that could FALSIFY the finding
 (v2.7).** The instinct is to pick the seam that shows the technique working, and that

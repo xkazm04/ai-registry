@@ -10609,3 +10609,44 @@ observation, and the batch lane already carries half of this idea for a differen
   actual question ("is this file in the commit") and cannot be fooled by either. A
   false MISSING is cheap here, but the same grep would return a false PRESENT for a
   partially-written file.
+
+## 2.8.0 - 2026-09-09 - seo-agent (founding the marketing bundle)
+
+- **A throttled ingest on a build-walkthrough is not a blocked run.** The caption
+  endpoint returned 429 twice and the browser extension was not connected, so the video
+  never arrived. The class rule already said the tree is the source and the README is
+  the ad; the companion repository (found by one web search on the title) carried
+  76,744 words of reference specs against a 363-word landing page. Phase 2 should say:
+  when a video's ingest fails, search the title for a companion repository before
+  retrying the transcript - for a build-walkthrough the transcript is the lower-yield
+  half anyway.
+- **The forge brief's `verified_against` example must be gate-shaped.** The dispatch
+  said `prompt-pipeline@2026-09-06`; the gate regex allows only dotted numeric versions,
+  and seven applications failed on it before the first worker reported. Every worker
+  self-corrected to `2026.09.06`, which cost a re-run each. A date pinned as a version
+  is `YYYY.MM.DD` in this registry; the brief carries it now, and
+  `docs/forge-brief.md` should carry the regex, not just the example.
+- **Law-link depth is the second thing a new bundle's first wave gets wrong.** One
+  worker wrote four `../` from `techniques/`; the gate caught it as "does not exist",
+  which reads as a missing anchor rather than a wrong depth. The brief now states the
+  depth per layer. A one-line "from techniques/ the laws file is ../../../_laws.md"
+  in the dispatch prevents it at zero cost.
+- **Scout line numbers go stale within the same day on an active tree.** Three
+  workers found the scouts' anchors off by a few lines (files shorter now) and
+  re-anchored. The scouts read at `2893314`; the workers reconciled at the same pin,
+  so the drift was the scouts' summarisation, not the tree - a reminder that anchors
+  in a scout report are neighbourhoods and the worker must open the file, which the
+  forge brief already says.
+- **A sibling's committed gate-red file blocks every later commit.** A media-generation
+  application landed at HEAD with an undeclared stack and a malformed
+  `verified_against`; the sibling had released. The intake method says "unlock and
+  report" for a red gate on somebody else's file, which is right while they are live;
+  once they have released, the two-line repair is cheaper than a red gate for the
+  fleet. Rule to carry: if the owning run is no longer on the board, repair and record.
+- **The seam hunt as a second source, confirmed a third time.** The one code apply
+  came from the consumer disagreeing with itself (two keyword adapters, one absence,
+  two defaults), a finding neither the video nor the repository had. Three runs
+  running; this is now the rule the SKILL.md carries at Phase 7.5, not a lesson.
+  **Version bumped 2.8.0 -> 2.8.1** (one paragraph added at Phase 7.5, nothing removed).
+  A run mid-flight on 2.8.0 finishes on 2.8.0; the paragraph only names what those runs
+  were already doing.
