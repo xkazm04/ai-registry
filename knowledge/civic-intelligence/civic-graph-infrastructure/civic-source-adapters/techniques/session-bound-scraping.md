@@ -34,11 +34,11 @@ established by experiment:
   cookie." "Signal in the first request versus in the second." "Parameter A versus
   parameter B for a case where the correct answer is known." Each probe should be
   decisive — designed so the two candidate hypotheses predict different outputs.
-- **Probe the negative claims too.** "There is no structured export" is a claim;
-  verify it (do the export-parameter variants actually return the same markup?)
-  before building the scraper, and record that it was verified, so nobody
-  re-litigates it — or worse, assumes an API exists and claims the scrape was a
-  choice.
+- **Scope negative claims to the search performed.** A few export-parameter
+  variants returning markup establish only that those variants did not yield
+  an export. Check publisher documentation and open-data catalogs for separate
+  bulk channels. Record where and when you looked and any remaining coverage
+  gap; do not convert failed parameter guesses into "no structured export exists".
 - **Pin down parameter semantics with a known-answer test.** Search parameters
   that look symmetric often are not — "party" versus "publisher" fields can each
   match only one side of a two-sided record. Find a record where the sides differ
@@ -50,30 +50,35 @@ established by experiment:
 
 The probe results are hard-won facts about an undocumented system. They live as a
 dated verification note at the top of the client — what was tested, what the
-decisive probe was, what conclusion follows, and "do not re-derive". Per
+decisive probe was, what conclusion follows, and when to recheck it. Per
 [incident-anchored doctrine](../../../_laws.md#incident-anchored-doctrine), a protocol
 note with its experiment attached resists both erosion and re-litigation; a bare
 implementation invites a future cleanup that re-breaks it. When a later probe
-falsifies an earlier claim, correct the note explicitly and say the old claim was
-untested — the correction is itself doctrine.
+falsifies an earlier claim, preserve whether it was actually tested at the
+earlier date, state the changed observation and supersede its conclusion.
+Later drift does not mean the earlier experiment never happened.
 
 ## Budget like a guest, disclose like an auditor
 
-- **Size the sweep before starting it.** Entities × periods × endpoints = requests.
+- **Size the sweep before starting it.** Include entities, periods, endpoints,
+  pages, session setup and a bounded retry allowance in the request budget.
   A number in the tens of thousands is a standing batch job with its own schedule,
   not an in-session fetch; know which one you are writing before the loop exists.
 - **Identify yourself.** A user agent naming the project and a contact URL. Backoff
   with jitter on failure; never hammer a portal whose continued openness you
   depend on.
-- **Cache immutable fetches to disk** keyed by their request identity, so re-runs
-  and debugging never re-download what cannot have changed.
+- **Cache under the source's freshness contract.** Historical exports can be
+  corrected or withdrawn. Record fetch time, source version or content digest
+  and revalidation policy; a request address alone does not prove immutability.
 - **Bound every batch explicitly and disclose the bound.** A partial sweep (the
   132 largest of 6,254 entities, one year of five) is fine — *if* the surface that
   consumes it states the coverage. Per
   [every cap ships its population](../../../_laws.md#every-cap-ships-its-population),
   a bounded batch presented as complete converts a budget decision into a false
   claim.
-- **Session hygiene**: one session per logical search; do not reuse a paginator
+- **Session hygiene**: isolate logical searches and serialize state-changing
+  pagination within a session. Detect expiry, repeated pages and missing windows;
+  HTTP success alone is not evidence of progress. Do not reuse a paginator
   session across different queries, because its server-side state (page size,
   offset) silently applies to the new query.
 
@@ -81,8 +86,9 @@ untested — the correction is itself doctrine.
 
 Scraped HTML is a positional format with extra steps, and everything from
 [fail-loud-schema-drift](./fail-loud-schema-drift.md) applies with more force: assert
-the header shape every fetch, reject rows of the wrong width, treat "no results
-table" as a valid empty answer distinct from drift. Parse with the narrowest
+the header shape every fetch, reject rows of the wrong width, and require a
+documented empty-result marker rather than treating every missing table as empty.
+Parse with the narrowest
 extraction that works and keep publisher sentinels ("not stated" value cells) as
 explicit nulls, never zeros.
 

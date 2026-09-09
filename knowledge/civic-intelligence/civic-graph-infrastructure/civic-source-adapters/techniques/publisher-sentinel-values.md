@@ -88,7 +88,10 @@ becomes invisible.
 Do not invent sentinels the publisher does not have — treating every extreme or
 repeated value as a suspected sentinel is repair in the other direction, discarding
 real data on a hunch. A value is a sentinel when the publisher documents it, or
-when its impossibility is provable (a birth date before human lifespan allows) —
-and in the provable-but-undocumented case, record the inference and its evidence
-where the constant is defined, because that judgment is part of the pipeline's
-method and must be auditable.
+supported by a verified source convention. An impossible date may be corruption,
+a field shift or a historical record, not a publisher-defined unknown value.
+Keep undocumented suspicious values in the rejected or unresolved class and
+record the hypothesis separately; do not label them "publisher says unknown"
+until the convention is established. Bind conventions to their field, source
+version and applicable period so a once-used marker does not erase valid data
+from a different context.

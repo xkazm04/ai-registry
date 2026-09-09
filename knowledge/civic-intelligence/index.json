@@ -354,9 +354,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/civic-intelligence/civic-graph-infrastructure/civic-source-adapters/civic-source-adapters.md",
-   "digest": "sha256:57d0e18f114ba56f",
-   "revision": 2,
-   "changedAt": "2026-08-30",
+   "digest": "sha256:c88c5159db6abacd",
+   "revision": 3,
+   "changedAt": "2026-09-09",
    "techniques": [
     {
      "slug": "entity-name-normalization",

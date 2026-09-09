@@ -31,7 +31,8 @@ their outcomes:
   a cookie-bearing second GET re-renders at size up to 500, with a further offset
   signal advancing windows (`smlouvy.ts:23-30`).
 - the negative claim is verified, not assumed: `&export=1|xml|csv` all return the
-  same HTML — "do NOT claim an API exists" (`smlouvy.ts:21-22`).
+  same HTML (`smlouvy.ts:21-22`). This tests only those search parameters;
+  it does not establish absence of a separate structured export.
 - parameter semantics pinned by a known-answer test (`smlouvy.ts:31-41`):
   `party_idnum` matches only the non-publishing party; the proof is one authority's
   identifier returning zero rows under `party_idnum` while `subject_idnum` returns
@@ -50,7 +51,7 @@ reality: the live table's seventh (action) column renders an empty `<th>`, so th
 labelled prefix is checked by label and the width by count; an earlier revision
 that expected a literal "Detail" label failed against the real site (batch 009 note
 at `smlouvy.ts:56-60`) and was corrected without weakening the guard. A missing
-header entirely is treated as "no results table", a valid empty answer, not drift
+  header entirely is treated as "no results table" by the implementation
 (`smlouvy.ts:187-191`); `parseDataRow` independently rejects rows whose cell count
 disagrees.
 
@@ -74,3 +75,27 @@ court-notice adapter (`lib/ingest/sources/kiosek.ts:23-29`) adds the
 non-append-only rule: postings vanish once their relevance window passes, so the
 poller dedups forward by the posting's URL — its stablest key, chosen after
 confirming the nominal `iri` field points at a dead host.
+
+## Source review - 2026-09-09
+
+The [registry's official open-data documentation](https://smlouvy.gov.cz/stranka/otevrena-data)
+provides monthly XML metadata exports, an index with generation metadata and
+hashes, and schema references. It says historical dumps can change after
+corrections or withdrawals. The broad "no structured export" claim is
+retracted; whether a targeted HTML query still serves a coverage or latency
+need requires an explicit comparison. No bulk export was downloaded here.
+
+Source inspection found `checkHeaderRow` accepts missing headers without
+proving an empty response, and `parsePage` has no positive empty-page check.
+A maintenance or challenge page can therefore resemble zero results.
+`parseCzechDate` checks shape without calendar ranges; `parseValueCell`
+removes commas and periods along with grouping whitespace, so decimal input
+would change magnitude rather than preserve fractional units. Empty,
+sentinel and malformed values also collapse into the same null pair.
+These are implementation limits to resolve against the publisher's actual
+value grammar, not evidence that such malformed inputs occur in live traffic.
+
+Pagination probes, live totals, user-agent/backoff behavior and the historical
+batch measurements were not rerun. Application witness dates remain unchanged.
+The acquisition policy must also cover corrected or withdrawn personal data
+in retained copies; the publisher explicitly describes those obligations.

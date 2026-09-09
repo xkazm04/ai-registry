@@ -19,23 +19,24 @@ genuinely distinct entities together. The technique has three commitments: one
 explicit folding scheme, applied once at ingest, feeding matches that are candidates
 rather than conclusions.
 
-## Build the fold table explicitly; do not trust decomposition
+## Separate normalization from transliteration
 
-The tempting shortcut for diacritic folding is Unicode normalization: decompose to
-NFD, strip combining marks. It is wrong for exactly the alphabets civic data in
-much of Europe is written in — several letters with carons, strokes, and slashes
-(the d-caron/t-caron/l-caron family, stroked d and l, slashed o) do **not**
-decompose into a base letter plus a combining mark, so they survive the strip
-untouched and those names silently fail to fold. Because the failures cluster on
-specific letters, they cluster on specific *names* — the same people mismatch
-forever, which is far worse than a uniform error rate.
+Canonical decomposition handles many accented letters: ď, ť and ľ decompose
+into their base letters plus combining carons. Letters such as ł, ø and đ do
+not become plain letters by stripping combining marks. Normalization preserves
+defined character equivalence; transliteration into a search alphabet is a
+separate, potentially lossy policy. Test the actual corpus languages instead
+of either rejecting decomposition wholesale or assuming it folds every name.
 
-So: an explicit character-to-ASCII fold table, covering the full alphabet of the
+Use a tested normalization pipeline plus explicit transliteration mappings for the
 languages that actually appear in the corpus (including neighboring languages'
 letters — naturalized citizens and historical records import them), plus the
 multi-character folds (ß→ss, æ→ae). Lowercase first, fold through the table,
 collapse and trim whitespace. Keep it deterministic and allocation-cheap; it runs
-once per ingested row.
+once per ingested row. Keep original spelling, test composed and decomposed
+inputs for equivalent search keys, and make unsupported characters visible to
+quality checks rather than silently deleting them. An explicit table alone
+can miss decomposed input just as a decomposition-only pipeline can miss strokes.
 
 Layer the rest of name canonicalization as separate, individually testable steps:
 strip academic titles and honorifics (a closed, per-country list — another thing to
@@ -45,7 +46,9 @@ ordering (display versus registry order) once.
 ## One scheme, applied at ingest, persisted and indexed
 
 - **Fold at ingest time, persist the folded form** in its own column, and index
-  that column. Folding at query time defeats the index and — worse — reintroduces
+  that column. Apply the same fold to the search input. Folding every stored
+  row during a query can defeat an ordinary index unless a matching expression
+  index is available, and may reintroduce
   the environment dependency you avoided: database-side unaccenting extensions
   differ from your application fold in edge cases, and embedded engines may not
   ship them at all.
@@ -88,5 +91,5 @@ Do not extend folding into phonetic or fuzzy matching by default: edit-distance
 and phonetic schemes trade precision for recall and belong in an explicitly
 labelled candidate-generation tier with its own thresholds, never silently inside
 the canonical fold. And where a source provides stable numeric identifiers, join
-on those and demote names to corroboration — normalization is the fallback for the
+on their scheme-qualified values and demote names to corroboration — normalization is the fallback for the
 joins identifiers cannot make.
