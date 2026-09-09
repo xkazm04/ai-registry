@@ -298,7 +298,7 @@ never current.
 ## Conventions
 
 - LF line endings, no trailing whitespace.
-- **ASCII where it bites.** `practices/` and `memory/` are ASCII-only: terse, templated files
+- **ASCII where it bites.** `practices/` and `memory/` frontmatter is ASCII; prose is UTF-8: terse, templated files
   that get pasted into terminals and `.claude/` directories. In `skills/`, frontmatter is ASCII
   and fenced code may carry no lookalike punctuation (a Unicode dash or quote that reads as
   ASCII and breaks a pasted command); prose is UTF-8. **`knowledge/` is UTF-8 prose**: OKF

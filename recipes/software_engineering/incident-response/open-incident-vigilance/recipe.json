@@ -2,7 +2,7 @@
   "id": "0c0e441a-fd86-5f63-86e5-cacd0f2c9a46",
   "slug": "open-incident-vigilance",
   "title": "Open incident vigilance and escalation",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "status": "seed",
   "path": "software_engineering/incident-response",
   "domain": "software_engineering",

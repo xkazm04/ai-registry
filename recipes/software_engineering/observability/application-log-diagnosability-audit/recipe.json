@@ -2,7 +2,7 @@
   "id": "3ecebd18-62e1-4fca-8cff-3eb5ef702cb6",
   "slug": "application-log-diagnosability-audit",
   "title": "Application log diagnosability audit",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "status": "seed",
   "path": "software_engineering/observability",
   "domain": "software_engineering",

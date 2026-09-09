@@ -2,7 +2,7 @@
   "id": "f6ee8fac-c783-5607-819e-e5722c54b89f",
   "slug": "codebase-improvement-backlog-scan",
   "title": "Codebase improvement backlog scan",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "status": "seed",
   "path": "software_engineering/codebase-health",
   "domain": "software_engineering",

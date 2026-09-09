@@ -2,7 +2,7 @@
   "id": "2e7c6b50-966c-49c4-906c-7cccd53435c5",
   "slug": "data-dictionary-stewardship",
   "title": "Data dictionary stewardship for shared fields and metrics",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "status": "seed",
   "path": "data_ai/data-quality",
   "domain": "data_ai",

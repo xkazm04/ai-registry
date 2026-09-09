@@ -49,7 +49,7 @@ The table below is the same thing spelled out - it is the explanation, and
 | `skills/` | `node scripts/check-skills.mjs && node scripts/apply-skill-clauses.mjs --check && node scripts/build-marketplace.mjs && node scripts/check-hash-stability.mjs && node scripts/build-catalog.mjs` |
 | `knowledge/` | `node scripts/check-bundles.mjs && node scripts/build-index.mjs && node scripts/build-knowledge-rules.mjs && node scripts/check-hash-stability.mjs && node scripts/build-catalog.mjs` |
 | `recipes/` | `node scripts/gate.mjs --lane recipes --write`, then `node scripts/gate.mjs --lane recipes` |
-| `practices/` or `memory/` | `node scripts/check-hash-stability.mjs && node scripts/build-catalog.mjs` |
+| `practices/` or `memory/` | `node scripts/check-simple-lanes.mjs && node scripts/check-hash-stability.mjs && node scripts/build-catalog.mjs` |
 | `usage/` | `node scripts/check-usage.mjs && node scripts/check-hash-stability.mjs && node scripts/build-catalog.mjs` |
 | `signals/` | `node scripts/check-signals.mjs` |
 | `scripts/` | `node scripts/gate.mjs --lane scripts`; also run affected lane gates, or `--all` for shared code |
@@ -95,7 +95,7 @@ files). The lane gates enforce this; do not route around them.
 ## Conventions
 
 - LF line endings, no trailing whitespace.
-- **ASCII where it bites.** `practices/` and `memory/` are ASCII-only. In `skills/`,
+- **ASCII where it bites.** `practices/` and `memory/` frontmatter is ASCII; prose is UTF-8. In `skills/`,
   frontmatter is ASCII and fenced code may carry no lookalike punctuation (a Unicode
   dash or quote that reads as ASCII and breaks a pasted command); prose is UTF-8.
   `knowledge/` is UTF-8 prose. The lanes differ because their readers do.

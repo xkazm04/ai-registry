@@ -2,7 +2,7 @@
   "id": "eff0d838-88c1-5121-8377-48e59da49b5a",
   "slug": "inbound-message-triage-across-channels",
   "title": "Inbound message triage across channels",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "status": "seed",
   "path": "general_professional/correspondence",
   "domain": "general_professional",

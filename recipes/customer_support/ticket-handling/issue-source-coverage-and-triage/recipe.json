@@ -2,7 +2,7 @@
   "id": "0c01547d-42e9-580f-9fd9-ed78c53ebce2",
   "slug": "issue-source-coverage-and-triage",
   "title": "Issue source coverage and triage",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "status": "seed",
   "path": "customer_support/ticket-handling",
   "domain": "customer_support",

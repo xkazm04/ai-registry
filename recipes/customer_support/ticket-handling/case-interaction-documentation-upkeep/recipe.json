@@ -2,7 +2,7 @@
   "id": "f514a257-4163-44a4-a7d4-d920b7147f90",
   "slug": "case-interaction-documentation-upkeep",
   "title": "Case interaction record upkeep",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "status": "seed",
   "path": "customer_support/ticket-handling",
   "domain": "customer_support",

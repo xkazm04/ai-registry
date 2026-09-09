@@ -2,7 +2,7 @@
   "id": "623ffe1a-04f4-404a-98ce-aa4f863494c3",
   "slug": "inventory-count-and-on-hand-reconciliation",
   "title": "Inventory count and on-hand reconciliation",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "status": "seed",
   "path": "operations_logistics/inventory",
   "domain": "operations_logistics",

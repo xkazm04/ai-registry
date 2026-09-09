@@ -2,7 +2,7 @@
   "id": "307c70a4-22b3-4f32-9a73-9eb3fc0990cc",
   "slug": "paid-call-spend-bounding",
   "title": "Paid call spend bounding",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "status": "seed",
   "path": "software_engineering/cost-safety",
   "domain": "software_engineering",

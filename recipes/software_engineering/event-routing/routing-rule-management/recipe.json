@@ -2,7 +2,7 @@
   "id": "ff49a6f2-9b68-56ed-aac1-26f009e4052d",
   "slug": "routing-rule-management",
   "title": "Event routing rule management",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "status": "seed",
   "path": "software_engineering/event-routing",
   "domain": "software_engineering",

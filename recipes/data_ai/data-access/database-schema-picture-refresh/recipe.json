@@ -2,7 +2,7 @@
   "id": "d227eebc-94f4-5dfd-8c07-8cad40de7b75",
   "slug": "database-schema-picture-refresh",
   "title": "Database schema picture refresh",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "status": "seed",
   "path": "data_ai/data-access",
   "domain": "data_ai",

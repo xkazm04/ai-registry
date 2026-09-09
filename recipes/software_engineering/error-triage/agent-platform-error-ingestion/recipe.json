@@ -2,7 +2,7 @@
   "id": "228c0d05-6844-58e7-b815-97564ab21f53",
   "slug": "agent-platform-error-ingestion",
   "title": "Agent platform error ingestion",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "status": "seed",
   "path": "software_engineering/error-triage",
   "domain": "software_engineering",

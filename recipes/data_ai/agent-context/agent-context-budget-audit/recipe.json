@@ -2,7 +2,7 @@
   "id": "5bf4b502-c294-43d8-b660-5dbd1e0ba2e2",
   "slug": "agent-context-budget-audit",
   "title": "Agent context budget audit",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "status": "seed",
   "path": "data_ai/agent-context",
   "domain": "data_ai",

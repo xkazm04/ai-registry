@@ -2,7 +2,7 @@
   "id": "590a0c44-7538-5080-9a35-870ed40d31e5",
   "slug": "deploy-regression-correlation",
   "title": "Deploy regression correlation",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "status": "seed",
   "path": "software_engineering/observability",
   "domain": "software_engineering",

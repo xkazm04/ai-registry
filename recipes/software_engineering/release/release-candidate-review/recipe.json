@@ -2,7 +2,7 @@
   "id": "95f66218-cd55-503c-8a7d-0c544e54378a",
   "slug": "release-candidate-review",
   "title": "Release candidate review and approval",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "status": "seed",
   "path": "software_engineering/release",
   "domain": "software_engineering",

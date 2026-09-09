@@ -2,7 +2,7 @@
   "id": "1d8a40ad-9bed-4604-9f46-1eee9459db8d",
   "slug": "general-ledger-close-and-reconciliation",
   "title": "General ledger close and account reconciliation",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "status": "seed",
   "path": "finance_accounting/spend-and-budget",
   "domain": "finance_accounting",

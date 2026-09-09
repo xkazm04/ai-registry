@@ -2,7 +2,7 @@
   "id": "555079dd-836b-532f-a6ad-802a6c1cfdd7",
   "slug": "survey-response-theme-and-sentiment-analysis",
   "title": "Survey response theme and sentiment analysis",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "status": "seed",
   "path": "product_project/customer-feedback",
   "domain": "product_project",

@@ -2,7 +2,7 @@
   "id": "40c34e72-2b3c-514e-896e-fb48ee29c572",
   "slug": "database-anomaly-incident-diagnosis",
   "title": "Database anomaly incident diagnosis",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "status": "seed",
   "path": "software_engineering/incident-response",
   "domain": "software_engineering",

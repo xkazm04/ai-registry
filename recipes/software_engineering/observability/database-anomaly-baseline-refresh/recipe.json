@@ -2,7 +2,7 @@
   "id": "a0f09053-db9a-5080-9796-b5ea0b2e72af",
   "slug": "database-anomaly-baseline-refresh",
   "title": "Database anomaly baseline refresh",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "status": "seed",
   "path": "software_engineering/observability",
   "domain": "software_engineering",

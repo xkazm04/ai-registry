@@ -2,28 +2,53 @@
   "id": "e707b796-23db-471d-bc36-5ad33d784366",
   "slug": "outside-system-capability-reading",
   "title": "Outside system capability reading",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "status": "seed",
   "path": "software_engineering/engineering-records",
   "domain": "software_engineering",
-
   "description": {
     "need": "Every way of choosing between outside systems starts from a characterization of what each one is, and nobody produces that characterization under any discipline, so the choosing is done well over a reading that was done badly. Three things go wrong in it and none of them is visible afterwards: a capability gets counted at the level it is announced at rather than the level anything has been seen working at, a published interface gets read as proof of the data, model, index or control plane behind it, and two things that merely answer the same question get placed in adjacent columns of a table that has therefore already decided.",
     "input": "The candidates a direction question has put in play, the current system as the baseline, whatever access path exists to primary material about each one such as source, tests, releases and deployment material, and whatever has already been concluded about any of them.",
     "core_action": "Establish what each candidate actually owns rather than what its surface suggests, raise every decision relevant claim to the highest evidence level it can support and no higher, and be willing to return that a candidate is not comparable at all.",
     "output": "A reading of each candidate: the boundary it owns, every decision relevant capability at the maturity its evidence reaches, each claim marked verified, inferred or unknown against the revision or date it was read at, the contradictions left standing, and the assumption the whole reading rests on. It says what is there and leaves whether to whoever is choosing."
   },
-
   "activities": [
-    { "id": "bound", "label": "Take the candidates in play with whatever access path exists to primary material on each", "kind": "observe" },
-    { "id": "classify", "label": "Separate the candidates that own the capability in question from the ones that only share its surface", "kind": "decide" },
-    { "id": "recover", "label": "Re-open what has already been concluded about the survivors, as leads rather than as findings", "kind": "observe" },
-    { "id": "trace", "label": "Read primary material for the boundary each one actually owns beneath the interface it presents", "kind": "observe" },
-    { "id": "level", "label": "Set each decision relevant capability at the highest maturity its evidence supports and no higher", "kind": "decide" },
-    { "id": "mark", "label": "Mark every claim verified, inferred or unknown against the revision or date it was read at", "kind": "act" },
-    { "id": "hand-on", "label": "Hand the reading on with its contradictions standing and the assumption it rests on named", "kind": "deliver" }
+    {
+      "id": "bound",
+      "label": "Take the candidates in play with whatever access path exists to primary material on each",
+      "kind": "observe"
+    },
+    {
+      "id": "classify",
+      "label": "Separate the candidates that own the capability in question from the ones that only share its surface",
+      "kind": "decide"
+    },
+    {
+      "id": "recover",
+      "label": "Re-open what has already been concluded about the survivors, as leads rather than as findings",
+      "kind": "observe"
+    },
+    {
+      "id": "trace",
+      "label": "Read primary material for the boundary each one actually owns beneath the interface it presents",
+      "kind": "observe"
+    },
+    {
+      "id": "level",
+      "label": "Set each decision relevant capability at the highest maturity its evidence supports and no higher",
+      "kind": "decide"
+    },
+    {
+      "id": "mark",
+      "label": "Mark every claim verified, inferred or unknown against the revision or date it was read at",
+      "kind": "act"
+    },
+    {
+      "id": "hand-on",
+      "label": "Hand the reading on with its contradictions standing and the assumption it rests on named",
+      "kind": "deliver"
+    }
   ],
-
   "outcomes": [
     {
       "id": "a-capability-is-counted-where-the-evidence-reaches",
@@ -57,9 +82,7 @@
       ]
     }
   ],
-
   "guidance": "An interface proves an interface. It says nothing about the data, model, index or control plane behind it, and running something on your own hardware is not the same as owning what it depends on. So read what each owns before putting any two side by side, and count a capability at the level its evidence reaches rather than the level it is announced at. A conclusion somebody already reached is a lead until its evidence is re-opened. Where the evidence stops, say what would resolve it.",
-
   "use_cases": [
     "A team about to lay out four candidates in one comparison, two of which turn out to answer the same question while owning none of the same machinery, so the layout decides the argument before anybody reads a row.",
     "A direction question raised because something published an interface, where the whole case rests on an untested assumption that what sits behind it is available on the same terms.",
@@ -68,14 +91,14 @@
     "A decision being revisited, where the earlier reading is being reused whole and nobody can say which of its claims were checked at the time and which were carried across from somewhere else.",
     "A closed product being weighed against something whose source can be read, where the honest reading of one is far thinner than the other and the comparison keeps quietly filling the difference."
   ],
-
-  "connector_types": ["source_control", "research"],
-
+  "connector_types": [
+    "source_control",
+    "research"
+  ],
   "recommended_trigger": {
     "kind": "event",
     "rationale": "A direction question is a real event: somebody proposes replacing something, a dependency stops being maintained, or a candidate appears that would change what gets built. The reading is worth taking only while a decision is waiting on it, and one taken on a schedule against candidates nobody is choosing between produces a document that goes stale before anybody opens it. Since a reading is true only as of the material it came from, the event recurs whenever the decision it fed is reopened, rather than being answered once."
   },
-
   "personalization_needs": [
     "Which capabilities the decision in hand actually turns on, because a candidate has dozens and reading all of them at every level costs more than the decision is worth.",
     "What access exists to primary material here, since a reading built from source, tests and releases and one built from published documents alone stop at different levels and must never be handed on as the same kind of claim.",
@@ -83,9 +106,7 @@
     "Where the reading is written and whether the assumption it rests on can be found from there afterwards, since the work that watches a decision for rot needs that assumption readable rather than implied.",
     "How thin a reading this operation is willing to act on, because the level at which the evidence runs out is a property of the candidate and what to do about it is a property of the adopter."
   ],
-
   "dependencies": [],
-
   "input_schema": [
     {
       "name": "capability_scope",
@@ -95,16 +116,16 @@
     {
       "name": "surface_only_candidates",
       "type": "enum",
-      "options": ["name_and_stop", "read_the_shared_surface_anyway"],
+      "options": [
+        "name_and_stop",
+        "read_the_shared_surface_anyway"
+      ],
       "default": "name_and_stop",
       "description": "What happens to a candidate classified as owning a different capability. Stopping costs the chance that the shared surface is itself the reusable unit; reading on costs attention and produces a row somebody will later put in a table it does not belong in. Neither is right for every decision and an unstated default settles it by whoever is reading."
     }
   ],
-
   "examples": [],
-
   "lessons": [],
-
   "provenance": {
     "from_recipes": [],
     "from_templates": [],

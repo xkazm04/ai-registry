@@ -2,7 +2,7 @@
   "id": "07aa68be-cc59-4861-9d50-be9ef2b37c0a",
   "slug": "claims-intake-triage-and-prioritization",
   "title": "Claims correspondence intake and deadline triage",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "status": "seed",
   "path": "customer_support/ticket-handling",
   "domain": "customer_support",

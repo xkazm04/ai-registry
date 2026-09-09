@@ -2,7 +2,7 @@
   "id": "c0a5e300-4b1d-4c0a-9e30-73a5c0a5e300",
   "slug": "pull-request-test-verdict",
   "title": "Pull request test verdict",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "status": "seed",
   "path": "software_engineering/code-review",
   "domain": "software_engineering",

@@ -2,7 +2,7 @@
   "id": "3b7f1c2e-9a4d-4e51-8c06-2f5d9b1a7e34",
   "slug": "dependency-compromise-exposure-assessment",
   "title": "Dependency compromise exposure assessment",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "status": "seed",
   "path": "software_engineering/incident-response",
   "domain": "software_engineering",

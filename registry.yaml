@@ -134,8 +134,10 @@ lanes:
     gate: scripts/check-recipes.mjs
     # NESTED, and for the reason nested is safe: consumers select a recipe out of a
     # GENERATED index rather than by walking the tree, so folder depth is ours to
-    # choose. The lane caps every level at ten folders, exactly as knowledge/ does.
+    # choose through a coordinated format change. Current readers require exactly
+    # domain/topic/slug; subdividing introduces an unsupported fourth level.
     depth: nested
+    levels: 3
     max_child_dirs: 10
     index:
       path: recipes/index.json
@@ -169,10 +171,14 @@ lanes:
       not here.
   practices:
     path: practices/
+    spec: docs/simple-lanes.md
+    gate: scripts/check-simple-lanes.mjs
     holds: Practices — the shape of a repo-level habit plus the starter artifacts it drops.
     depth: fixed   # practices/<slug>/PRACTICE.md — 3 segments, matched exactly
   memory:
     path: memory/
+    spec: docs/simple-lanes.md
+    gate: scripts/check-simple-lanes.mjs
     holds: Organizational memory notes, one fact per file, kind-partitioned.
     depth: fixed   # memory/<kind>/<slug>.md — 3 segments, matched exactly
   usage:

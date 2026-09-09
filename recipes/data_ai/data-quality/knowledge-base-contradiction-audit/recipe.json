@@ -2,7 +2,7 @@
   "id": "b80fc21f-1b22-5355-879e-2fed6c38173d",
   "slug": "knowledge-base-contradiction-audit",
   "title": "Knowledge base contradiction audit",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "status": "seed",
   "path": "data_ai/data-quality",
   "domain": "data_ai",

@@ -2,7 +2,7 @@
   "id": "feab4cf2-fec3-5fcc-a57a-4d4b01b4b744",
   "slug": "source-grounded-error-root-cause-analysis",
   "title": "Source-grounded error root cause analysis",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "status": "seed",
   "path": "software_engineering/error-triage",
   "domain": "software_engineering",

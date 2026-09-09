@@ -2,7 +2,7 @@
   "id": "70e00cca-ff11-55b0-bb95-b86ab0e8dd4d",
   "slug": "support-escalation-pattern-review",
   "title": "Support escalation pattern review",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "status": "seed",
   "path": "customer_support/service-health",
   "domain": "customer_support",

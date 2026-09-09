@@ -2,7 +2,7 @@
   "id": "6da5cc6d-838b-5344-9455-8305e6ca0e85",
   "slug": "agent-reliability-reporting",
   "title": "Agent reliability reporting",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "status": "seed",
   "path": "software_engineering/error-triage",
   "domain": "software_engineering",

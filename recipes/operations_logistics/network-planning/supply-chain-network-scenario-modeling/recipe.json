@@ -2,7 +2,7 @@
   "id": "b1a1879e-ac74-4ac7-81ce-8fc7850cdfa2",
   "slug": "supply-chain-network-scenario-modeling",
   "title": "Supply chain network scenario modeling",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "status": "seed",
   "path": "operations_logistics/network-planning",
   "domain": "operations_logistics",

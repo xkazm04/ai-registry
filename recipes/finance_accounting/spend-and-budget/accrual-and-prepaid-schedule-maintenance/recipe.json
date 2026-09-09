@@ -2,7 +2,7 @@
   "id": "501e1f50-e97e-4b10-b17c-7e96f6f2080d",
   "slug": "accrual-and-prepaid-schedule-maintenance",
   "title": "Accrual, prepaid and commission schedule maintenance",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "status": "seed",
   "path": "finance_accounting/spend-and-budget",
   "domain": "finance_accounting",

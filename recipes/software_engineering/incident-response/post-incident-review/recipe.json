@@ -2,7 +2,7 @@
   "id": "6a86eaad-5306-5e13-81a1-930cf03972e6",
   "slug": "post-incident-review",
   "title": "Post-incident review and prevention proposals",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "status": "seed",
   "path": "software_engineering/incident-response",
   "domain": "software_engineering",

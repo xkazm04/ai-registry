@@ -2,7 +2,7 @@
   "id": "0fa60b78-dd0d-4898-8faf-f11d0fdf2f50",
   "slug": "candidate-to-requisition-match-assessment",
   "title": "Candidate to requisition match assessment",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "status": "seed",
   "path": "general_professional/decisions",
   "domain": "general_professional",

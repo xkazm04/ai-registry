@@ -2,7 +2,7 @@
   "id": "906e8b82-4e28-5960-ac6c-ad7613f00d53",
   "slug": "database-row-change-watch",
   "title": "Database row change watch",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "status": "seed",
   "path": "software_engineering/observability",
   "domain": "software_engineering",

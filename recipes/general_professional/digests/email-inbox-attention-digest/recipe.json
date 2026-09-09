@@ -2,7 +2,7 @@
   "id": "6cde4c09-5287-53aa-8f38-dfa12d817e88",
   "slug": "email-inbox-attention-digest",
   "title": "Email inbox attention digest",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "status": "seed",
   "path": "general_professional/digests",
   "domain": "general_professional",

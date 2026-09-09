@@ -63,12 +63,12 @@ both would have reported green over an empty tree for however long the approval 
 
 ## Adding a recipe
 
-1. Pick the `<domain>/<topic>` it belongs under. Neither level may hold more than ten
-   child directories - subdivide above ten, collapse back only at six or below.
+1. Pick an existing `<domain>/<topic>` or a free peer slot. Each of the three fixed
+   grouping levels has a ten-child limit; deeper subdivision requires a format migration.
 2. Write `recipe.json` against the field list in
    [`docs/recipes-lane.md`](../docs/recipes-lane.md).
-3. Render `RECIPE.md` from it. The five frontmatter keys must equal their JSON twins;
-   the gate compares them.
+3. Run `node scripts/render-recipes.mjs` to generate `RECIPE.md`; the gate compares
+   the full view, including metadata, prose, adoption details, and extension values.
 4. Seed `LESSONS.md` with the format and no entries.
 5. Add `examples/<connector>.md` for each concrete connector the recipe has real
    knowledge about.

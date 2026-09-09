@@ -2,7 +2,7 @@
   "id": "06f8a9ba-e1a3-5bff-a8fb-d0f707d842a6",
   "slug": "revenue-movement-report-and-prediction-calibration",
   "title": "Revenue movement report and prediction calibration",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "status": "seed",
   "path": "finance_accounting/revenue",
   "domain": "finance_accounting",

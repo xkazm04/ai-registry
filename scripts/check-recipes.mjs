@@ -50,6 +50,8 @@ import { fileURLToPath } from 'node:url';
 import { parseFrontmatter, parseSemver, cmpSemver, LESSON_HEAD_RE } from './lib/skills-lane.mjs';
 import { EXIT } from './lib/exit-codes.mjs';
 import { classifyCheckResult } from './lib/check-result.mjs';
+import { renderRecipe } from './lib/recipe-render.mjs';
+import { sameIgnoringNewlines } from './lib/bundle-hash.mjs';
 
 const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 const LANE = path.join(ROOT, 'recipes');
@@ -476,10 +478,15 @@ for (const r of walked.recipes) {
 
   // --- the rendered view
   const mdPath = path.join(r.dir, RECIPE_MD);
-  if (!fs.existsSync(mdPath)) {
+  if (process.argv.includes('--shape-only')) {
+    // Source validation precedes generation; the view may be absent or stale here.
+  } else if (!fs.existsSync(mdPath)) {
     fail(`${r.rel}: no ${RECIPE_MD} - the JSON is a payload; a person browsing this lane reads the rendered view`);
   } else {
     const mdRaw = fs.readFileSync(mdPath, 'utf8');
+    try {
+      if (!sameIgnoringNewlines(mdRaw, renderRecipe(obj))) fail(`${r.rel}/${RECIPE_MD}: rendered body is stale - run node scripts/render-recipes.mjs`);
+    } catch (e) { fail(`${r.rel}/${RECIPE_JSON}: cannot render (${e.message})`); }
     const doc = parseFrontmatter(mdRaw);
     if (!doc) fail(`${r.rel}/${RECIPE_MD}: no YAML frontmatter block - the file opens with something other than \`---\``);
     else {

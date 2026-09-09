@@ -2,7 +2,7 @@
   "id": "34e0d640-bd1e-51a6-9f30-9b4de55db0fe",
   "slug": "live-database-question-answering",
   "title": "Live database question answering",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "status": "seed",
   "path": "data_ai/data-access",
   "domain": "data_ai",

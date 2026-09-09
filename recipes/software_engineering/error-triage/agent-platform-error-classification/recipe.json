@@ -2,7 +2,7 @@
   "id": "b2e9f57f-8c68-5d35-8be9-12045d6cc51b",
   "slug": "agent-platform-error-classification",
   "title": "Agent platform error classification",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "status": "seed",
   "path": "software_engineering/error-triage",
   "domain": "software_engineering",

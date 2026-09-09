@@ -2,7 +2,7 @@
   "id": "8b2b3e0b-14f0-5af3-9be9-be916e7b2bdf",
   "slug": "cloud-spend-threshold-watch",
   "title": "Cloud spend threshold watch",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "status": "seed",
   "path": "finance_accounting/spend-and-budget",
   "domain": "finance_accounting",

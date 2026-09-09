@@ -2,7 +2,7 @@
   "id": "0b13d1e5-9682-59b9-9e05-a76fbcb4bd18",
   "slug": "support-issue-disposition-account",
   "title": "Support issue disposition account",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "status": "seed",
   "path": "customer_support/service-health",
   "domain": "customer_support",
