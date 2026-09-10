@@ -123,7 +123,7 @@ now land inside a subject that did not exist when they were written.
 ### 1. `test-input-generation` — a new SUBJECT (XL, specced and forged in-session)
 
 Six techniques, in `engineering-process/build-and-release`, beside
-`test-harness`. Spec: [`docs/subject-proposal-test-input-generation.md`](../../docs/subject-proposal-test-input-generation.md),
+`test-harness`. Spec: [`test-input-generation`](../../knowledge/software-engineering/engineering-process/build-and-release/test-input-generation/test-input-generation.md),
 marked EXECUTED.
 
 Four posts by three authors (rows 1, 7, 13, 15) converge on test-input

@@ -6,9 +6,8 @@ code.
 
 Start with the [workflow selection guide](docs/skill-selection.md) to use the library,
 [CONTRIBUTING.md](CONTRIBUTING.md) to change it, or the
-[architecture review and upgrade plan](docs/reviews/2026-09-09-architecture.md) for the
-folder-by-folder assessment and development tranches. [AGENTS.md](AGENTS.md) gives
-agents a concise entry point. Use the [installation guide](docs/installations.md)
+[RKB profile](docs/rkb-profile.md) for the format every knowledge bundle is gated
+against. [AGENTS.md](AGENTS.md) gives agents a concise entry point. Use the [installation guide](docs/installations.md)
 to select a harness and a live development or pinned release installation.
 
 The repository carries eight lanes, declared in [`registry.yaml`](registry.yaml):

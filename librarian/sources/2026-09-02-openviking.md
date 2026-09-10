@@ -28,7 +28,7 @@ rescan_when: "the changelog's Unreleased section ships as a release carrying the
 **First fresh run under intake 2.0.0**, and the first repository run to reach a subject:
 the design read produced twelve entries, five with `corpus: NONE`, and three of those
 five shared one home. That is the mechanical XL trigger, and it fired: the spec
-[`docs/subject-proposal-context-hierarchy.md`](../../docs/subject-proposal-context-hierarchy.md)
+[`context-hierarchy`](../../knowledge/software-engineering/llm-agent/prompt-and-context/context-hierarchy/context-hierarchy.md)
 was written, one forge worker dispatched, and `context-hierarchy` (four techniques, one
 application) landed in `llm-agent/prompt-and-context` beside `agent-memory` and
 `retrieval` - marked EXECUTED with three overrides recorded. The other two NONE entries

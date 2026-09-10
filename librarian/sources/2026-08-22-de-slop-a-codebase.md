@@ -28,7 +28,7 @@ The run produced one finding, and it is the largest one the method has surfaced.
 
 ## Proposed and dispatched
 
-### A1 - A subject for module design -> [`docs/subject-proposal-module-design.md`](../../docs/subject-proposal-module-design.md)
+### A1 - A subject for module design -> [`module-design`](../../knowledge/software-engineering/engineering-process/codebase-stewardship/module-design/module-design.md)
 
 **A 124-subject software-engineering bundle owns nothing about module boundaries.**
 Verified two ways before the proposal was written: every subject slug matched against

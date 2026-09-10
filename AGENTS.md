@@ -44,5 +44,6 @@ cross-lane changes. PR version checks additionally compare skills and recipes ag
 the PR base. A blocked subprocess or missing evidence is an incomplete check, not a
 content verdict. Report what ran, what failed, and what was not evaluated.
 
-The [architecture review and tranche plan](docs/reviews/2026-09-09-architecture.md)
-records the baseline, confirmed findings, first repairs, and remaining work.
+Subject-level review decisions live in `librarian/subjects/<bundle>/<subject>.md` and
+are validated by `node scripts/review-coverage.mjs`; see
+[docs/semantic-review.md](docs/semantic-review.md).

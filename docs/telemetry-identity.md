@@ -41,6 +41,5 @@ Impact records belong with their review or harvest run. Record the task, artifac
 identity and version/digest, baseline revision, frozen fixture, required outcome,
 observed result, limitations, and follow-up on negative or unavailable checks. Full
 transcripts and consumer-specific evidence stay local. See the
-[architecture execution evidence](reviews/2026-09-09-execution.md) and
 [workflow evaluation protocol](evals/README.md). An unavailable comparison remains
 review work; it is never converted into an impact-positive result.

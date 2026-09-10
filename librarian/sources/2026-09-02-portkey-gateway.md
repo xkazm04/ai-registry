@@ -85,7 +85,7 @@ scoped to the subject; D1, A2/A3, B3, D2 landed as ordinary technique-grain work
   `adapter-direction-asymmetry` (renamed - the transplantable claim is that an adapter's two
   directions deserve different expression media), `policy-verdict-in-the-status-space`;
   application `node--strategy-tree-with-inherited-policy`. Spec
-  [`docs/subject-proposal-multi-provider-gateway-plane.md`](../../docs/subject-proposal-multi-provider-gateway-plane.md)
+  [`multi-provider-gateway-plane`](../../knowledge/software-engineering/backend-platform/resilience/multi-provider-gateway-plane/multi-provider-gateway-plane.md)
   (EXECUTED). The normalization-for-accounting subject in the other bundle is a boundary
   stated in prose, no link.
 - **Technique** `allowlisted-operator-stream` in browser-credential-boundary; application

@@ -50,7 +50,7 @@ summary produced by the gated party" - then stops. For a *plan*, the real thing 
 mostly what was not written down. Nothing in the corpus owns what a human is shown at
 the plan gate, in what order, and which questions are answered by a reader that is
 not the author. That is a stage, not an opinion, and it is `XL`:
-[`docs/subject-proposal-plan-review.md`](../../docs/subject-proposal-plan-review.md)
+[`plan-review`](../../knowledge/software-engineering/llm-agent/orchestration/plan-review/plan-review.md)
 folds the four fragments in as proposed techniques with the routing rule, the lens
 priority, the inadmissibility rule and the escalation ladder each carrying its
 decision rule, placement verified against `taxonomy.json` (orchestration holds 6 of

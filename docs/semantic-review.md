@@ -36,5 +36,5 @@ disposition completes the assessment while explicitly leaving its evidence unres
 
 Recipe review uses the same questions at the recipe/topic grain, followed by version
 discipline and the existing assay/harvest evaluation where useful. A seed remains a
-seed until actual use supports maturity changes. The architecture inventory is a
-dated baseline; this live coverage report and the subject notes track execution.
+seed until actual use supports maturity changes. The live coverage report and the
+subject notes are the record; dated review ledgers are not retained.

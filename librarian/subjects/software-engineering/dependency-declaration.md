@@ -9,7 +9,7 @@ dry_streak: 0
 
 Born 2026-08-31 from `/intake` run `verou-xl`, executing the `XL` row that the
 same source's first run had banked. Spec:
-[`docs/plans/dependency-declaration-spec-2026-08-31.md`](../../../docs/plans/dependency-declaration-spec-2026-08-31.md).
+[`dependency-declaration`](../../../knowledge/software-engineering/engineering-process/codebase-stewardship/dependency-declaration/dependency-declaration.md).
 
 ## Why it exists
 
