@@ -5,7 +5,7 @@
   "source": "knowledge/recruiting/ (frontmatter only)",
   "subjects": 64,
   "techniques": 384,
-  "applications": 194,
+  "applications": 197,
   "laws": 11,
   "categories": [
    "role-definition",
@@ -3471,9 +3471,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/measurement/honest-measurement-presentation/honest-measurement-presentation.md",
-   "digest": "sha256:42d833177a53dc8d",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256:3a1aaaf44c6a7043",
+   "revision": 2,
+   "changedAt": "2026-09-10",
    "techniques": [
     {
      "slug": "a-capped-table-says-what-it-dropped",
@@ -3572,6 +3572,13 @@
      "technique": "absent-delta-when-there-is-no-comparison",
      "file": "knowledge/recruiting/measurement/honest-measurement-presentation/applications/node--absent-delta-when-there-is-no-comparison.md",
      "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "node",
+     "technique": "headline-may-not-outrun-its-qualifier",
+     "file": "knowledge/recruiting/measurement/honest-measurement-presentation/applications/node--headline-may-not-outrun-its-qualifier.md",
+     "verified_on": "2026-09-10",
+     "verified_against": "node@18"
     },
     {
      "stack": "react",
@@ -5712,9 +5719,9 @@
    "subcategory": "scoring-and-decision",
    "status": "forged",
    "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/recruiter-anchored-model-evaluation/recruiter-anchored-model-evaluation.md",
-   "digest": "sha256:4b8645ba773aac23",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256:db54d4363e8e9321",
+   "revision": 2,
+   "changedAt": "2026-09-10",
    "techniques": [
     {
      "slug": "decision-anchored-score-bands",
@@ -5805,6 +5812,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "evidence-grounded-correctness",
+     "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/recruiter-anchored-model-evaluation/applications/node--evidence-grounded-correctness.md",
+     "verified_on": "2026-09-10",
+     "verified_against": "node@18"
+    },
     {
      "stack": "process",
      "technique": "decision-anchored-score-bands",
@@ -5950,9 +5964,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/measurement/recruiting-funnel-metrics/recruiting-funnel-metrics.md",
-   "digest": "sha256:e992dfb5731087da",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256:8963b255345ce37b",
+   "revision": 2,
+   "changedAt": "2026-09-10",
    "techniques": [
     {
      "slug": "creation-cohort-versus-terminal-transition-basis",
@@ -6059,6 +6073,13 @@
      "technique": "offer-acceptance-rate-denominator",
      "file": "knowledge/recruiting/measurement/recruiting-funnel-metrics/applications/node--offer-acceptance-rate-denominator.md",
      "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "node",
+     "technique": "stage-pass-through-and-dwell-time",
+     "file": "knowledge/recruiting/measurement/recruiting-funnel-metrics/applications/node--stage-pass-through-and-dwell-time.md",
+     "verified_on": "2026-09-10",
+     "verified_against": "node@18"
     }
    ]
   },
