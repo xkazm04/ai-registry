@@ -3,7 +3,7 @@ name: harvest
 description: "Drain the graded source queue in librarian/harvest/ through the /intake method, in parallel and in bulk: admit only sources that map to a measured live gap, mine a batch with scoped subagent miners, land what survives the intake discipline, then prove or refute the landing's impact with an A/B evaluation on a connected project. The loop that turns 100+ queued URLs into corpus mastery without turning the corpus into a feed. Use when the queue has rows and nobody is hand-feeding /intake links."
 category: ai-native
 memory: project
-version: 0.2.0
+version: 0.3.0
 tags: research, queue, batch, orchestration, evaluation, ab-test, cross-repo
 ---
 
@@ -200,6 +200,13 @@ and stack the expensive half, corroborated and speced, for a human hour.
 - two consecutive passes land nothing but leads and catches in a domain -> the
   queue's remaining rows for that domain are ahead of the corpus's ability to absorb
   them; move domains or stop, and say so in the report; or
+- the same failure signature survives three consecutive passes - the same admission
+  refusal, the same gate red, the same miner error class - regardless of how many
+  passes remain. Attempt count is not the signal; failure identity is. Halt with a
+  root-cause hypothesis in the report rather than spending the cap on one broken
+  approach. Keep this counter separate from the two-pass stagnation rule above: a
+  pass that landed nothing is stagnation, a pass that failed the same way is a
+  stuck loop, and one counter for both masks whichever fired first; or
 - the budget guard trips: the session has spent its fetch or token budget, or an
   evaluation debt of 3+ content landings is outstanding. **Evaluation debt stops the
   loop before volume does.** Mining faster than you can measure impact is how the
