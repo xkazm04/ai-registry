@@ -3896,3 +3896,12 @@ other ways** - `previsualization` returned zero across 458 subjects over a conce
 corpus holds in three of them. (3) **Take the marketing apply backlog** - it was owed by
 round 45's focus, this round routed to `media-generation` and could not, and the bundle
 still has one applied row against 181 techniques.
+
+
+## 2026-09-10 - career-ops recruiting intake
+
+| Version | Date | Source | Research | Extract | Test | Landed | Apply | Ship | Zero reason / focus moved? | Depth |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2.8.1 | 2026-09-10 | career-ops @ 6ddfca5a | 1 source cloned; focused tree sweep; 0 external corroboration fetches | 7 | 3 applications code-reviewed; 88 fact checks and 10-case replay passed; funnel test blocked by missing js-yaml | 3 source-tree applications, 2 catches, 2 leads | 0c/0e/0s/0t; 0 owed | 0 | Existing standards covered the admitted mechanisms; no upper-layer changes or managed-project seam requiring a change. Neighbor reads distinguished grounding from authenticity. Marketing backlog outside requested scope. auto=0/0/0 for upper-layer admissions; 3 applications admitted by opened-tree rule; fp=0 | 0/0/0/3/0; unhomed max=1; shared-new-home max=1; handoff=no; directions=0/0, different systems |
+
+The preceding ten-row review still identifies research as the recurrent weak stage; this run adds executable source checks while retaining the missing-dependency limitation. Depth matches a repository whose selected mechanisms already have homes: three applications, no forced amendments. Next run focus: preserve each evaluation pass predicate and distinguish source replay from managed-project improvement; resolve dependency prerequisites before claiming a source test ran.
