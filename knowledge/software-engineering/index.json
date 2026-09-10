@@ -11203,9 +11203,9 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/durable-agent-operations/durable-agent-operations.md",
-   "digest": "sha256:4c4c110e98eea53d",
-   "revision": 2,
-   "changedAt": "2026-09-09",
+   "digest": "sha256:357ba2c2d1e3b8ab",
+   "revision": 3,
+   "changedAt": "2026-09-10",
    "techniques": [
     {
      "slug": "close-is-a-controlled-crash",
@@ -13864,8 +13864,8 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/fleet-orchestration/fleet-orchestration.md",
-   "digest": "sha256:3385725341c62bac",
-   "revision": 18,
+   "digest": "sha256:9e0b34e536850a03",
+   "revision": 19,
    "changedAt": "2026-09-10",
    "techniques": [
     {
@@ -22915,9 +22915,9 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/proactive-nudges/proactive-nudges.md",
-   "digest": "sha256:5b5728b74346f548",
-   "revision": 4,
-   "changedAt": "2026-09-09",
+   "digest": "sha256:d248dd97b6a5c69f",
+   "revision": 5,
+   "changedAt": "2026-09-10",
    "techniques": [
     {
      "slug": "attention-budgets",
@@ -27859,9 +27859,9 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/session-continuation/session-continuation.md",
-   "digest": "sha256:e1b17473dcda7343",
-   "revision": 4,
-   "changedAt": "2026-09-09",
+   "digest": "sha256:42f40efa551a7f06",
+   "revision": 5,
+   "changedAt": "2026-09-10",
    "techniques": [
     {
      "slug": "advisory-guard-fail-mode",
@@ -30778,9 +30778,9 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/tenant-scoped-agent-runtime/tenant-scoped-agent-runtime.md",
-   "digest": "sha256:5379db022c5af337",
-   "revision": 3,
-   "changedAt": "2026-09-09",
+   "digest": "sha256:a1bebad141749513",
+   "revision": 4,
+   "changedAt": "2026-09-10",
    "techniques": [
     {
      "slug": "fail-direction-follows-deployment-mode",

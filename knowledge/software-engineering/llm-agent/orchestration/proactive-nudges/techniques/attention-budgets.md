@@ -13,50 +13,100 @@ use_when: [setting a daily cap on machine-initiated contact, one chatty kind eat
 
 # Attention budgets
 
-Declare the maximum contact allowed for each recipient, channel scope and period.
-For multiple kinds, a global cap plus per-kind caps prevents one kind consuming
-everything. A single-kind product may need only one counter. Choose limits from
-the product's contact promise and evidence, rather than a universal daily number.
+The hard ceiling on machine-initiated contact: how much the system may
+say per day, in total and per kind of thing it says. The budget is the
+policy layer's contract with the user — "no matter how much I notice, I
+will not exceed this" — and a contract enforced by a leaky mechanism is
+marketing.
 
-## Atomic reservations
+## Structure: global cap over per-kind caps
 
-Claim all applicable counters together with a unique notice-attempt reservation.
-Competing workers must not reserve the same delivery twice. A failed partial claim
-rolls back every counter it changed. Claim before dispatch, then record confirmed
-delivery, confirmed non-delivery or an unknown outcome.
+Two layers, both required:
 
-Release capacity only when non-delivery is established. A network timeout may
-follow successful receipt; retain an unknown reservation until reconciliation or
-the declared conservative accounting rule resolves it. Destination idempotency
-and retry retention determine whether another attempt is safe.
+- **Global daily cap** — the total number of machine-initiated deliveries
+  per day, across all kinds. This is the number the user would recognize
+  as "how chatty is this thing"; it is small (single digits is the right
+  starting instinct), and it is the outer wall.
+- **Per-kind daily caps** — each nudge kind gets its own smaller
+  allowance. Without this layer, one prolific kind (the cheap, frequent,
+  low-value one — there is always one) spends the whole global budget and
+  starves the rare, high-value kinds. Per-kind caps are the diversity
+  mechanism: the day's contact is a portfolio, not a first-come queue.
 
-Ordinary deferred notices need not reserve interruption capacity. Explicit scheduled
-promises may need capacity allocated at admission. Collection and evaluation still
-need their own resource limits even when they spend no attention allowance.
+A delivery must clear **both** — its kind's remaining allowance and the
+global remainder. The two checks are one claim (below), not two reads.
 
-## Periods and reconstruction
+## Claim semantics: check-and-decrement is one act
 
-Use a declared local-day, UTC-day or rolling window. A user-facing local-day promise
-requires its named timezone and a policy for travel and timezone changes. Prevent
-changing zones or restarting workers from minting additional allowance. Avoid
-rollover bursts; if carryover exists, bound the burst separately.
+The budget's enforcement point is a **claim**: an atomic
+check-and-decrement that either reserves a delivery slot or refuses. The
+alternative — read the count, decide, then increment — is a race with a
+built-in overdraft: concurrent triggers each observe the last free slot
+and each take it. The rules:
 
-If counters derive from a ledger, document the recomputation predicate, including
-pending and unknown reservations. Rebuild against a consistent boundary so live
-claims cannot disappear during repair. Count with its predicate: for example,
-three confirmed and one pending out of five recipient deliveries this period.
+- The claim covers global and per-kind counters **together**, in one
+  atomic step; claiming the kind slot and then losing the race for the
+  global slot must roll back, not strand a phantom spend.
+- The claim happens at **delivery time**, not notice time. A notice
+  sitting in the deferral queue holds no slot; slots are spent on actual
+  interruptions. (Claiming at notice time silently converts the budget
+  into a cap on *noticing*, which was supposed to be free.)
+- A claim that is granted but whose delivery then fails is **released**
+  with a trace. Failed deliveries that eat budget teach the system to be
+  silent in proportion to its bugs.
 
-## Fairness and separate promises
+## The day boundary
 
-A per-kind refusal skips that candidate, allowing other eligible kinds to proceed.
-A global refusal ends this scope's pass. Fair ordering and pacing remain necessary
-when a quiet window opens; a daily cap alone permits an immediate burst.
+- Budgets reset on a **declared boundary** in the user's local time —
+  typically local midnight — with the same timezone honesty quiet windows
+  demand. A budget keyed to server-time midnight resets mid-afternoon for
+  someone, and their day gets double allowance while their evening gets
+  none.
+- Unspent budget **does not roll over**. Attention is not bankable; five
+  quiet days do not entitle the machine to a Saturday barrage. Rollover
+  budgets recreate the burst the cap existed to prevent.
+- The spent-count is a stored derivation of the delivery ledger and says
+  so ([derivation-names-recomputation](../../../../_laws.md#derivation-names-recomputation)):
+  when the counter and the ledger disagree, the ledger wins and the
+  counter is recomputed from it — the arbiter is named in advance.
 
-User-requested reminders, responses and operational alerts may use distinct accounts.
-Publish what the total covers. Exempting reminders from their kind cap while sharing
-an exhausted global cap cannot guarantee their timing. Reserve capacity, prioritize
-the promised lane or expose a missed deadline according to the accepted contract.
-Permission to bypass quiet time does not imply permission to bypass a budget.
+## Visibility
 
-Expose refusals, pending reservations and effective caps. Adaptation may redistribute
-capacity within the user's ceiling; it does not authorize raising that ceiling.
+The budget is operator-visible or it is indistinguishable from caprice:
+
+- Current state reads as a count with its predicate
+  ([count-carries-predicate](../../../../_laws.md#count-carries-predicate)):
+  "3 of 5 global today; incident-kind 1 of 2; 2 candidates deferred by
+  budget" — never a bare "3".
+- Refusals are recorded per kind per day. The deferral queue's depth
+  against each cap is the single best early signal that a cap is
+  mis-sized or a kind has become noisy.
+- The caps themselves are data, not constants — per-kind numbers the
+  efficacy layer may lower and the user may edit, with the closed set of
+  kinds enumerable in one place.
+
+## Decision rules
+
+- When in doubt, cap lower. An under-budgeted system loses a marginal
+  nudge; an over-budgeted one loses the channel.
+- **A refused per-kind claim skips that candidate, never halts the
+  pass.** The drain loop over pending deliveries stops only at the
+  global ceiling; a per-kind refusal moves on to the next candidate.
+  The subtle alternative bug — abort the whole pass on any refusal —
+  lets one capped kind early in evaluation order starve every kind
+  behind it, and it looks correct in any test that exercises kinds one
+  at a time.
+- **Consented contact gets its own lane.** A check-in the user
+  explicitly asked for ("remind me tomorrow") is not a speculative
+  nudge; throttling it under its kind's cap breaks a promise the user
+  made to themselves. Exempt the consented lane from its per-kind cap —
+  but never from the global ceiling, which is the outer wall for
+  everything machine-initiated.
+- The budget governs machine-*initiated* contact only. Responses to the
+  user, and alerts owned by threshold rules, spend from different
+  accounts — folding them in either starves nudges or inflates the cap
+  until it gates nothing.
+- Never bypass the claim "just this once" in code. The only legitimate
+  bypass is a priority class declared in the quiet/bypass policy, and
+  even that class is counted — an uncounted bypass is an unbudgeted
+  channel growing inside the budgeted one.

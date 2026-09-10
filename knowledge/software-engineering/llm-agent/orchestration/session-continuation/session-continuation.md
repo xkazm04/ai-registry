@@ -17,107 +17,233 @@ techniques:
 
 # Session continuation
 
-For an authorized task that requires several turns, a harness can keep working
-after an intermediate result instead of requiring repeated requests to continue.
-The continuation policy must also return control when work is complete, cancelled,
-blocked on required input, out of budget or unable to proceed reliably. Persistence
-is useful only while there is authorized, feasible work left to do.
+A coding-agent session ends its turn when the model decides it is done. That
+is the correct default for a question and the wrong default for a task: for
+anything longer than one turn the decision to stop arrives on the model's
+schedule, not the work's. The model summarises after a reviewer says the plan
+is fine, stops after the first of four files, declares victory on a test run
+it did not read, or loses the plan entirely when the harness compresses its
+context. Every one of those is a stop that nobody asked for, and the operator's
+only recourse is to type "continue" — which makes the human the loop, sitting
+in a chat window doing the one job a harness exists to do.
 
-This subject owns the loop inside one session. Fleet orchestration owns dispatch
-across sessions; subprocess lifecycle owns process handles; instruction files
-deliver project rules; durable agent operations owns recovery of interrupted
-effects. A continuation hook does not grant tools, approve execution, or guarantee
-that the model makes progress. Verify that the target harness exposes a suitable
-boundary; a host can terminate independently of a plugin's stop decision.
+This subject owns the layer **inside one session** that keeps it working
+until a stated condition holds and lets it be stopped cleanly. The load-bearing
+idea is that continuation is a **harness property enforced at the turn
+boundary**, not a persuasion problem solved in the prompt. The model may be
+told to keep going, and it will, until it does not; the harness has an event
+at the exact moment the model tries to yield, and a decision made there is a
+decision the model cannot skip. Everything else in the subject follows from
+taking that boundary seriously: the fact that says "keep going" has to be
+somewhere the harness can read it; something has to own the fact so two
+things cannot disagree about it; the interceptors that live at the boundary
+have to fail in a direction that does not trap the operator; cancellation has
+to clear every one of them; the fact has to survive the harness rewriting the
+model's memory; a run made of several stages has to advance on evidence
+rather than optimism; and a loop that keeps going must still notice when it
+is going nowhere.
 
-## Keep authoritative control outside a lossy summary
+## Where this sits among its neighbours
 
-Store the accepted task, completion predicate, owner/run identity, control revision,
-cancellation state and resource bounds where the harness can re-read them. Prompt
-text can explain the task, but is not the sole control record. Isolate records by
-session and run so an unrelated conversation cannot inherit a mode from a shared
-directory. Use a lease or explicit lifecycle policy appropriate to the work.
-[Continuation as state](./techniques/continuation-as-state.md) defines renewal,
-yield reasons and delegated-mode boundaries.
+The neighbours are close and the seams are exact. fleet-orchestration owns
+the layer *above* one session — the registry of sessions, dispatch, harvest,
+and completion-claim-verification, which is the evidence that a delegate's
+"done" is true. This subject owns who may say *this session's* loop is over
+and what happens at the turn boundary when the model tries to end it; when a
+verdict here needs evidence, that evidence is the neighbour's receipts and
+decidable leaves, and this subject does not restate them. Below, the sibling
+subject subprocess-lifecycle owns the process itself: spawn, signal, reap. A
+session in this subject is a conversation with a control loop, not a process
+handle. agent-instruction-files owns the advisory floor — the rules a project
+hands its agent — and its context-reset-redelivery technique owns re-reading
+that floor after a compaction. The compaction technique here ferries a
+different cargo, the control loop's own state (which modes are armed, where
+the plan anchor is, which background handles exist), and says so explicitly:
+the neighbour restores what the agent should believe, this subject restores
+what the harness was doing. hitl-approval owns the human gate and its
+fixed-policy-amendable-plan owns the executor's terms; this subject does not
+decide what is approved, only that a positive verdict is not a place to stop.
+plan-review owns the reviewer's payload. background-jobs' loop-supervision
+owns server-side timers and singleton loops, and the discriminator is where
+enforcement lives: a session loop is enforced at a turn boundary the model
+cannot skip, a supervised loop is enforced by a scheduler. An unattended
+build loop in a different domain drains a spend budget between iterations;
+this loop gates a turn, and a budget is one of the conditions it may read,
+not the mechanism. retry-backoff and circuit-breakers own the detection of a
+dependency being down; stuck-loop-detection here is about an agent repeating
+its *own* failure.
 
-Approval of an intermediate plan is not completion of an implementation task.
-Conversely, a review-only task can end with its review verdict. A gate passing
-authorizes only what its policy and the user's accepted scope actually authorize.
-Do not create an implementation task from a positive review alone.
+## The continuation fact is state, and the boundary reads it
 
-## One arbiter owns the decision
+The naive implementation writes "do not stop until the task is complete" into
+the system prompt and adds emphasis when it fails. It fails because instruction
+text is advice, and advice competes with every other pressure on the model's
+next token; the more the context fills, the weaker any one sentence gets. The
+standard moves the fact out of the context entirely: a **persisted record**
+that says a continuation mode is active, what it is waiting for, and when it
+was last confirmed, which a hook at the turn boundary re-reads and enforces by
+refusing the stop and returning the model to work. The test that separates the
+two designs is destructive and simple. Delete every reinforcing sentence from
+the prompt and leave the record: continuation must still happen. Then age the
+record past its lease and leave the sentences: the session must stop. A
+design that fails either half has put the fact in the wrong place.
 
-Multiple behaviors may request continuation, but one authority resolves them.
-For independent claimants, explicitly refuse, adopt or keep the second advisory.
-For nested behaviors, an ordered arbiter can compose requests. Neither approach
-allows a child to override cancellation, a protective refusal or the overall
-budget. See [single-loop-authority](./techniques/single-loop-authority.md) and
-[ordered-yield-composition](./techniques/ordered-yield-composition.md).
+The record carries a **lease** — hours, not days — because two things must
+both be true: a crashed run must expire on its own rather than arming every
+future session opened in that directory, and a long task must not be cut off
+by a clock tuned for a short one. A stale record is treated as inactive, not
+as an error, and the boundary says which it saw. The states in which the
+harness may yield control to the human are **enumerated**: a clean terminal
+exit on the stated condition, and an explicit rejection. A positive review
+verdict is not in the set, and that omission is the single most valuable line
+in the subject, because "the plan is approved" is the moment a model most
+reliably summarises and stops. continuation-as-state holds this, including
+the rule that the channel which arms a mode is suppressed inside spawned
+workers, so the harness cannot arm itself recursively through its own
+delegates.
 
-An evaluator's completion claim remains distinct from verified acceptance.
-Inspect the actual artifact or authoritative result where the task allows it;
-record unavailable checks as unavailable. Transcript evidence can contain real
-tool results, but a narrative assertion that tests passed is not such a result.
+## One authority decides that the loop is over
 
-## Separate permission to act from permission to yield
+A session running two continuation loops does not get twice the persistence;
+it gets a race about who is right. The second loop arrives innocently — the
+host harness grows its own goal evaluator, a nested mode is armed inside an
+already-armed one, an operator's alias re-enters the mode the session is in —
+and the naive treatment warns and continues, which is a decision to have no
+policy. The standard makes the continuation authority **single-valued**, with
+conflict resolved from an enumerated set: refuse the second loop, adopt the
+existing one, or run in an artifact-only posture that produces state without
+enforcing it. An unknown policy fails with a diagnostic. The same technique
+draws the line the host's judge cannot cross: an evaluator that reads only the
+conversation can say the transcript looks finished, and that is a distinct
+status from complete, with the harness's own verification of the tree between
+the two. single-loop-authority owns both rules.
 
-An advisory check that cannot run must not trap the operator in a loop. Report
-its failure and release that advisory block. A protective check may instead
-refuse the protected action. Refusing a destructive command is different from
-refusing an explicit request to stop the agent. Declare class, event, failure
-direction and timeout behavior in the installed hook registration.
-[Advisory guard fail mode](./techniques/advisory-guard-fail-mode.md) explains why
-unknown hooks cannot silently default to a harmless class, and why ending a wait
-does not necessarily terminate a handler.
+## Guards at the boundary fail open, unless their risk class says otherwise
 
-## Cancellation wins over re-arming
+Once a harness has one hook at the turn boundary it soon has twenty:
+interceptors that check whether the model drifted from its plan, whether a
+write is stale, whether a tool call is allowed. Each one can block, each one
+can throw, and each one can hang. The naive reading imports the security
+posture — everything fails closed — and produces an operator who cannot end
+their session because a plan-drift checker cannot parse a message. The
+distinction is the cost of the wrong interval. A decision path whose fail-open
+interval is a disclosure fails closed, always, and security's failure-direction
+technique owns that rule. An advisory guard's fail-closed interval is a stuck
+operator, and it fails **open with a structured diagnostic**. The discriminating
+question is what the wrong direction costs and whether it can be undone. So
+every interceptor carries a declared risk class, its fail mode is derived from
+the class, and the fail-closed set is enumerable from the registry of hooks
+rather than discovered by reading each one. Anything that blocks at the
+boundary is a total function of the current message with an enumerated accept
+grammar: unlisted syntax passes, malformed input passes, an uncertain boundary
+passes, and every handler is bounded by a timeout whose timer cannot hold the
+process open. advisory-guard-fail-mode is the full statement.
 
-Use one cancellation coordinator that knows all continuation guards. Persist
-cancellation or invalidate the control generation before dependent cleanup;
-renewals must compare against that generation atomically. Stop local admission
-immediately even if persistence fails, report the incomplete durable cancel and
-keep retryable cleanup state. A mode handoff deactivates only the predecessor;
-it does not cancel the successor. See
-[ordered-teardown](./techniques/ordered-teardown.md).
+## Cancellation is an ordered teardown that knows every guard
 
-## Restore current state across compaction
+The mirror image of a loop that refuses to stop is a loop that cannot be
+stopped. A harness accretes stop-blocking guards — the continuation record,
+the mode flag, the pending-work marker, the plan-anchor lock — and a cancel
+command that clears the three it knows about leaves the fourth to block the
+next stop for as long as its lease runs. Operators pay for this in the worst
+currency there is: a session that ignores "stop" for a quarter of an hour.
+The standard is one teardown path that clears **every** guard the harness can
+set, in dependency order — the primary record first, then the dependents, and
+if the primary write fails, abort and leave the group resumable rather than
+half-erased. Teardown also distinguishes the narrow write that deactivates one
+mode from the global cancel signal, because a global signal emitted during a
+handoff between modes disarms the successor for its window; and it must win
+the race against the loop re-arming itself on the same turn. ordered-teardown
+holds the order and the race.
 
-Persist control at meaningful transitions, not solely at a pre-compaction hook.
-Restore by run identity, generation and the actual start reason. A stale snapshot
-must not resurrect a cancelled run or reset budget and failure counters. A
-model-writable note can preserve working hypotheses, but cannot re-arm authority.
-[Compaction checkpoint](./techniques/compaction-checkpoint.md) covers the two
-channels and the case where the host exposes no compaction event.
+## Compaction is a boundary, and the loop's state is ferried across it
 
-## Advance stages using provenance and acceptance
+Context compression is the harness rewriting the model's memory, usually
+without the operator watching. The summariser is asked to keep what matters,
+and what it keeps is what reads as important prose; a mode flag, a job
+handle, a count of iterations and a plan anchor are none of those, and they
+are exactly what the loop depends on. The standard treats compaction as an
+explicit control boundary: enumerate the state that must survive, write it at
+the pre-compaction event, restore it at the post-compaction session start keyed
+on the reason the session started, and never let the summariser carry anything
+the loop needs. Two channels exist on purpose — an automatic checkpoint the
+harness writes and a model-writable notepad — and neither is sufficient alone:
+the checkpoint cannot know what the model was reasoning about, and the notepad
+cannot be trusted to exist. compaction-checkpoint owns the enumeration and the
+restore.
 
-Pin the selected stage definition and declared inputs in a run descriptor.
-Closed profiles are a useful scope limit, not the only safe workflow design.
-Validate stage evidence against the current run and activation token, then check
-the stage's actual acceptance predicate. A phrase in a correctly sourced assistant
-record identifies a claim, not proof of its truth. Atomically update the expected
-tracking revision, record acceptance and schedule the next stage through a
-recoverable delivery mechanism. See
-[sealed-stage-advance](./techniques/sealed-stage-advance.md).
+## A staged run advances once, on evidence
 
-## Detect stagnation without removing hard limits
+Some sessions are not one loop but a sequence of stages, each a different
+posture — plan, build, verify, repair — where the output of one is the input
+of the next. The naive design is a small workflow engine: arbitrary stages,
+branches, loops, callbacks, the current stage held in a configuration file
+that later edits can change under a resume. That is a different safety model
+and it is rejected here. A staged run admits only sequences from a closed set
+whose stage inputs are self-produced; at selection its shape is **sealed** by
+a content hash into an immutable descriptor, so a resume executes what was
+chosen and not what the configuration says today; and a stage advances
+**exactly once**, on the current stage's exact completion signal found in an
+authenticated record, under compare-before-write, with a concurrent loser
+re-reading once and reporting the current status. The neighbour pipeline-dag
+pins an authored graph at run start and computes readiness from persisted
+node status; the difference here is that the advance is driven by model
+output, which is why it needs provenance. sealed-stage-advance is the
+technique.
 
-Use failure signatures, measured progress and restart counts to identify work
-that needs a changed approach or outside input. Different errors do not by
-themselves prove progress; repeated errors do not prove every hypothesis is
-exhausted. Keep absolute time, attempt and spend bounds independently of those
-signals. [Stuck-loop detection](./techniques/stuck-loop-detection.md) covers
-counter resets, evidence handoff and crash-resume limits.
+## A loop that never stops must still notice it is stuck
 
-## Acceptance
+The whole subject argues for not stopping, so it must say precisely when to
+stop anyway. Attempt counts are the wrong instrument: ten attempts that each
+fail differently are progress, and three attempts that fail identically are a
+wall. The standard keys the stop on **failure identity** — the same failure
+signature surviving a small number of repair attempts halts that lane with a
+root-cause hypothesis handed upward, and this stop outranks any batching or
+deferral policy. Two counters run independently, stagnation (wins too small to
+matter) and failure (no win at all), with asymmetric resets, because a single
+counter conflates a loop that is slowly improving with one that is thrashing.
+A candidate is accepted only after the merged state is re-measured, and the
+same approach family may not win too many rounds in succession without a
+challenger. stuck-loop-detection holds the counters and the rules.
 
-- An intermediate verdict continues only the remaining accepted task.
-- Required input, explicit stop and exhausted budgets have honest yield states.
-- Unrelated sessions and delegated workers cannot accidentally inherit authority.
-- Cancellation defeats stale renewal and checkpoint replay.
-- Hook failures preserve the declared action/yield distinction and remain visible.
-- Stage claims cannot skip acceptance or advance more than one expected revision.
-- Resume preserves limits and does not repeat external effects without a recovery contract.
+## Invariants
 
-Test these against the actual harness boundary. A prompt-only simulation or a
-design document is not evidence that a shipped stop hook enforces them.
+- **The continuation fact lives in state the harness re-reads at the turn
+  boundary.** Prompt text may restate it; prompt text never carries it.
+- **Every continuation record has a lease, and a stale record is inactive.**
+- **Exactly one loop authority per session, single-valued, with an enumerated
+  conflict policy and no warn-and-continue branch.**
+- **A positive verdict is not a yield state.** Yield states are enumerated.
+- **Every boundary interceptor declares its risk class, derives its fail mode
+  from it, and is bounded by a timeout that cannot hold the process open.**
+- **Cancel clears every stop-blocking guard from one path, in order, and wins
+  the race against re-arming.**
+- **Nothing the loop depends on crosses compaction inside the summary.**
+- **A staged run is sealed at selection and advances exactly once per stage,
+  on authenticated evidence.**
+- **A stop on repeated identical failure outranks every policy that would
+  defer it.**
+
+## The techniques
+
+- [continuation-as-state](./techniques/continuation-as-state.md) — the
+  persisted record, its lease, the enumerated yield states, and the
+  suppression of the arming channel inside workers.
+- [single-loop-authority](./techniques/single-loop-authority.md) — one
+  continuation authority, the enumerated conflict policies, and why the host
+  judge's pass is not complete.
+- [advisory-guard-fail-mode](./techniques/advisory-guard-fail-mode.md) — risk
+  class per interceptor, fail-open with a diagnostic, total accept grammars,
+  bounded handlers, and the discriminator against fail-closed authorization.
+- [ordered-teardown](./techniques/ordered-teardown.md) — one cancel path that
+  clears every guard in dependency order, deactivate versus global cancel,
+  and the re-arm race.
+- [compaction-checkpoint](./techniques/compaction-checkpoint.md) — what
+  control state survives compression, when it is written and restored, and
+  the two channels that together suffice.
+- [sealed-stage-advance](./techniques/sealed-stage-advance.md) — the closed
+  set of stage sequences, the content-hash seal, the exactly-once advance on
+  an authenticated completion signal, and the rejected workflow engine.
+- [stuck-loop-detection](./techniques/stuck-loop-detection.md) — failure
+  identity over attempt count, the two counters with asymmetric resets, and
+  the priority of the stop.

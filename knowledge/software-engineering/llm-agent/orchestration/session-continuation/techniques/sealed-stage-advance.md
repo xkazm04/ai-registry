@@ -11,65 +11,96 @@ use_when: [a multi-stage autonomous run must resume after an interruption, a sta
 
 # Sealed stage advance
 
-Pin a staged run's selected definition, bind evidence to its current activation,
-and publish each accepted transition atomically. Closed named profiles can keep
-a small harness understandable. General workflow engines can enforce the same
-provenance and acceptance rules; rejecting them is a scope choice, not a proof
-that arbitrary graphs cannot be safe.
+An autonomous run is often not one loop but a sequence of postures — plan,
+implement, verify, repair, report — where each stage's output is the next
+stage's input and the run is done when the last stage says so. The state that
+matters is "which stage is current", and the naive implementation stores it in
+the same configuration that defines the stages, advances it when the model
+prints a completion phrase, and reads it fresh on every resume. Each of those
+three choices is a way for the run to execute something nobody chose. This
+technique fixes all three: a **closed set** of shapes, a **seal** at
+selection, and an advance that happens **exactly once, on evidence**.
 
-## Inputs and descriptor
+## Only sequences from a closed set, with self-produced inputs
 
-Validate prerequisites before creating a run. Each input comes from a declared
-run input or a prior stage's output, with identity/version recorded where needed.
-The first stage necessarily has an external task input. Explicitly admitted
-external artifacts are valid; silently reading whatever is on disk is not.
+The run admits only stage sequences from an enumerated set of named profiles,
+and every stage in a profile consumes only what an earlier stage in the same
+profile produced. A stage that needs an input nothing before it emits is a
+stage that will be fed by whatever happens to be on disk — a stale artifact
+from a previous run, a file the operator edited by hand — and the run's
+correctness then depends on the state of the directory rather than on the
+run. Closing the set is what lets the set be reviewed: each profile is a
+known shape whose failure modes have been looked at, and a new shape is a
+change to the set, not a runtime composition.
 
-Persist the selected stages, adapter/schema versions, acceptance predicates and
-declared input references in an immutable descriptor. Canonical hashing detects
-accidental changes to those fields, but is not authentication if a writer can
-replace both the descriptor and its hash. Protect the record according to the
-actual threat model. Keep mutable stage tracking separately versioned.
+**The rejected alternative is a general workflow engine** — arbitrary stages,
+branches, loops, callbacks. It is rejected on purpose and the reason is
+stated: it is a different safety model. A general engine's run is an authored
+graph whose readiness is a pure function of pinned topology and persisted
+status; the neighbour pipeline-dag owns that model, and it is the right one
+when a person drew the graph. Here the advance is driven by *model output* —
+the thing a stage produces is a claim — and a claim needs provenance before it
+may move a run forward. Bolting provenance onto a general engine produces an
+engine nobody can reason about; keeping the shapes closed keeps the provenance
+question small enough to answer.
 
-Resume validates the stored descriptor and compatible adapters. It need not
-match today's profile definition if the pinned definition remains supported.
-An incompatible definition is an explicit migration or blocked run, not a silent
-substitution. Stable identity follows
-[identity-survives-reuse](../../../../_laws.md#identity-survives-reuse).
+## Sealed at selection
 
-## Provenance is necessary but not acceptance
+When a profile is selected, its shape — the ordered stages, each stage's
+adapter and its exact completion signal — is hashed and the hash is written
+into an **immutable run descriptor** together with the run's identity. The
+descriptor is what a resume reads. A later edit to the profile definition
+produces a different hash and therefore a different run; it cannot alter a
+run in flight, because the run no longer reads the definition. The run's
+identity is the descriptor, minted once
+([identity-survives-reuse](../../../../_laws.md#identity-survives-reuse)), and
+a resume that finds a descriptor whose hash no longer matches any known
+profile does not guess the nearest one — it reports the mismatch and stops,
+because the safe interpretation of "the shape this run was sealed with no
+longer exists" is not "use today's".
 
-Bind a completion claim to run, owner session, stage, activation token and exact
-record identity. Validate the actual record and its protected provenance rather
-than the model's summary: [gate-sees-target](../../../../_laws.md#gate-sees-target).
-For file evidence, handle-based no-follow traversal and bounded reads can protect
-the selected file; a basename and timestamp alone do not authenticate its writer.
+## Exactly once, on an authenticated completion signal
 
-Then evaluate the stage's acceptance predicate against current outputs. An exact
-phrase in a legitimate assistant record can still be a false completion claim.
-Record what passed, failed or could not be checked before authorizing advance.
+A stage advances when the current stage's adapter has produced its **exact
+completion signal**, and that signal is found in an **authenticated record**:
+a file or row the harness owns, at a path the harness resolves without
+following a symlink, bounded in size so a read cannot be made to hang, and
+written after a **recorded activation boundary** — the moment this stage
+started — so that a completion signal left by a previous run of the same
+stage, or by the same stage in a different run, does not count. The signal is
+the current adapter's, not any adapter's: a run in the verify stage does not
+advance on the implement stage's completion phrase appearing again. The gate
+reads the record, never the model's summary of it
+([gate-sees-target](../../../../_laws.md#gate-sees-target)).
 
-## Atomic transition and recoverable dispatch
+The advance is written under **compare-before-write**: the writer reads the
+descriptor's current stage, computes the next, and writes only if the stage
+is still the one it read. Two writers — a stop hook and a session-start hook
+both observing completion, or two harness processes on the same run — will
+race here, and the discipline is that **the loser re-reads once and reports
+the current status**. It does not retry the advance, because the winner has
+already advanced and a second advance skips a stage; it does not fail,
+because nothing went wrong. It reads, sees the run is now one stage further,
+and says so.
 
-Compare run identity, active stage, cancellation state and expected tracking
-revision in the same transaction or lock-protected operation that publishes the
-next revision. A read-check-write sequence without atomic exclusion has a race.
-Record the accepted evidence and next-stage activation together.
+## Decision rules
 
-A duplicate or concurrent loser re-reads and reports current state without
-applying its stale candidate to a later stage. Unexpected corruption or a
-different run is an error, not a successful concurrent advance.
+- Admit only stage sequences from a closed set of profiles; every stage's
+  inputs are produced by an earlier stage of the same profile.
+- Seal the selected profile by content hash into an immutable descriptor at
+  selection; a resume reads the descriptor and never the definition.
+- Advance exactly once per stage, on the current adapter's exact completion
+  signal, found in an authenticated record — no symlink, bounded, written
+  after the recorded activation boundary.
+- Write the advance under compare-before-write; a concurrent loser re-reads
+  once and reports the current status.
+- Reject the general workflow engine explicitly, and name pipeline-dag as
+  where an authored graph belongs.
 
-Advancing the record once does not deliver the next prompt exactly once. A crash
-can fall between the state write and dispatch. Persist a dispatch intent/outbox
-or use an idempotent activation mechanism so recovery can deliver it safely.
-External effects inside a stage still require their own recovery policy.
+## When not to use this
 
-## Checks and boundaries
-
-Test wrong-session/stage evidence, pre-activation claims, an authenticated but
-incorrect completion phrase, descriptor tampering, two competing writers,
-cancellation during advance and a crash before next-stage delivery. Verify that
-later configuration changes do not silently replace the pinned run.
-
-One-stage work may need only a loop. Branching work may justify a workflow engine;
-the same identity, acceptance and atomicity obligations still apply.
+A run with one stage is a loop, and continuation-as-state is the whole of its
+control state. A run whose stages are drawn by a person, with branches and
+gates, is a pipeline and belongs next door. This technique is for the narrow
+middle: a fixed handful of shapes, driven by model output, that has to resume
+correctly after being interrupted.
