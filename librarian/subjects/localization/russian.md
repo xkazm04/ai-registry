@@ -223,3 +223,131 @@ and maturity are unchanged.
   }
 }
 ```
+## 2026-09-10 — architecture re-review after the compression revert
+
+Read all eleven documents at their reverted bytes: the golden path, six techniques,
+two process applications and two spec applications. The 2026-09-10 record above was
+written against documents that no longer exist, and it graded ten of eleven `reverify`
+on the strength of hedges it could not resolve. I retract that blanket grading. Most
+of what it listed as unresolved is either grammar that no conformance artifact can
+settle — which the documents themselves already say — or was resolvable, and I
+resolved it today.
+
+What I checked against the primary source rather than against intuition. I fetched
+`common/supplemental/plurals.xml` and `pluralRanges.xml` from `unicode-org/cldr`
+(release-48-2, the tag the spec applications pin, plus `main` as a currency probe) and
+read the `ru` blocks. The published `ru` cardinal rules are exactly the four the
+technique states, each non-`other` rule guarded by `v = 0`, and `other` carries
+`@decimal` samples and no `@integer` samples — so RU-FRACTION's "`v` counts *visible*
+fraction digits, and «2,0» selects `other`" is the mechanism, confirmed. The range
+table is 16 rows over `be lt ru uk` and every row's result equals its `end`, including
+`many × one → one`, so RU-PLURAL-RANGE's «5–21 файл» is a published fact and not an
+inference. I read the data; I did not run ICU or any reference implementation, and the
+spec applications' own harnesses were not re-executed.
+
+Two findings, both editorial rather than substantive. First, in
+`techniques/plural-and-count-agreement.md` the `other | fractions | genitive singular
+| 1,5 файла` row sits *below* the "read the exclusions as last two digits" paragraph
+instead of inside the table it belongs to. In Markdown that is a stray one-row table,
+not a fourth row, so the rule that most needs to be read as part of the four-category
+set is the one that falls out of it — and it lands after an "Exception: none. The
+rules are total over the integers" sentence that is about the other three. The
+content is right; the placement defeats it. Second, `russian.md` opens by calling
+Cyrillic "caseless in the typographic sense that matters". Cyrillic is bicameral, and
+"caseless" is Unicode's term for genuinely uncased scripts; the parenthetical rescues
+the sentence, but the same subject later builds two rules (RU-CASING's sentence-case
+mandate and its all-caps ban) that only exist because Cyrillic has case.
+
+I carry forward one narrowing from the reverted record because I believe it, while
+noting I did not re-fetch its source this run: `russian.md` and RU-VYCAP both scope
+the politeness capital «Вы» to "personal correspondence addressed to one identified
+individual", and the Russian orthographic authorities also admit it in questionnaires
+and official forms addressed to a single respondent who is never named. The UI ruling
+(lowercase throughout software text) is unaffected; the stated scope is narrower than
+its authority.
+
+What I could not resolve. `applications/spec--gender-and-aspect.md` reports two
+upstream CLDR data defects — nominative forms at 20 and 30 inside
+`%spellout-cardinal-masculine-prepositional`, and a Latin `e` homoglyph in two
+digits-ordinal rulesets — as current and unfiled. I did not re-read `common/rbnf/ru.xml`
+or re-run its 1380-row harness, so whether they are still current at 48.2 and on `main`
+is open. That is the one document I grade `reverify`, and it is the evidence that is
+unresolved, not the reasoning.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "localization/russian",
+  "date": "2026-09-10",
+  "baseline": "44c8996585f2e5e3f36e0cb0bd1983c607cadfd7",
+  "digest": "sha256:9ec11ad6bb8dd8cb",
+  "disposition": "keep",
+  "coverage": "All 11 owned documents read in full at reverted bytes. CLDR release-48-2 and main plurals.xml and pluralRanges.xml read for the ru blocks (read, not executed). Not evaluated: the RBNF spell-out rulesets and the two upstream defects the gender application reports; the Personas tree the two process applications cite; any runtime or consumer witness; maturity or verified_on refresh.",
+  "counterexamples": [
+    "RU-FROZEN's rephrasing idioms do not cover a string whose count and noun are both interpolated («{count} {unit}») - no rewrite can make an unknown noun agree, and the technique routes that only to the defect register.",
+    "RU-CASEGOV's head-noun insulation assumes a natural generic noun exists; for a value that is itself a category name («Udalit' razdel «Nastroyki»?») the head noun and the value collide semantically.",
+    "The subject is silent on Russian's instrumental government after «s» («s pyat'yu faylami»), where the count governs neither genitive singular nor genitive plural - the four-category table says nothing about oblique count phrases."
+  ],
+  "sources": [
+    {
+      "url": "https://raw.githubusercontent.com/unicode-org/cldr/release-48-2/common/supplemental/pluralRanges.xml",
+      "result": "Established that the ru group (be lt ru uk) publishes 16 rows and that every row's result equals its end value, including many+one -> one. This confirms RU-PLURAL-RANGE's «5-21 fayl» and its 'verified default, not an override set' reading. It did not establish the grammatical claims the rule hangs on the categories (nominative singular after a range ending in one)."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/unicode-org/cldr/main/common/supplemental/plurals.xml",
+      "result": "Established that the ru cardinal rules are unchanged on the CLDR 49 development branch: one/few/many each guarded by v = 0, other carrying @decimal samples only. Confirms RU-PLURAL's table and RU-FRACTION's visible-fraction-digit mechanism, and confirms no pending currency change for ru. It did not establish anything about the RBNF spell-out data, which lives in a different file."
+    },
+    {
+      "url": "https://api.github.com/repos/unicode-org/cldr/releases",
+      "result": "Established that CLDR 49 is still prerelease (release-49-alpha2, 2026-09-03), so release-48-2 remains the newest citable edition and the spec applications' pins are current. It did not establish a date for CLDR 49's release."
+    }
+  ],
+  "documents": {
+    "russian.md": {
+      "disposition": "clarify",
+      "reason": "Calls Cyrillic 'caseless in the typographic sense that matters'; Cyrillic is bicameral and 'caseless' is Unicode's term for uncased scripts, and the subject's own RU-CASING rules depend on case existing. Separately, the politeness-capital scope ('only in personal correspondence addressed to one identified person') is narrower than the orthographic authority, which also admits capitalized Vy in questionnaires addressed to an unnamed single respondent. Both are wording, not doctrine: the UI rulings are unaffected."
+    },
+    "techniques/de-anglicization-constructions.md": {
+      "disposition": "keep",
+      "reason": "RU-CASEGOV, RU-PREP, RU-POSS and RU-NOUNCHAIN each name a construction, a detection cue and a replacement, and each carries a real exception that bounds it. The conditional-on-the-value framing of the interpolation failure is the load-bearing insight and is correct. No claim here is conformance-testable and none is overstated."
+    },
+    "techniques/gender-and-aspect.md": {
+      "disposition": "keep",
+      "reason": "RU-ASPECT, RU-GENDER, RU-PARTICIPLE and RU-NUMERAL-GENDER are internally consistent and each is bounded by an exception the sibling application supports. RU-NUMERAL-GENDER's 'two positions only, teens excluded' and 'agreement is with the immediately governed noun' are the parts a formatter gets wrong, and they are stated correctly."
+    },
+    "techniques/plural-and-count-agreement.md": {
+      "disposition": "clarify",
+      "reason": "The `other | fractions` row is orphaned below the last-two-digits paragraph, outside the four-category table, so it renders as a separate stray table and falls after an 'Exception: none, the rules are total over the integers' sentence that governs only the other three. Content re-verified correct against CLDR release-48-2 today; the defect is placement."
+    },
+    "techniques/register-and-address.md": {
+      "disposition": "clarify",
+      "reason": "RU-VYCAP scopes the politeness capital to 'personal correspondence addressed to one identified individual'. The orthographic authorities also admit it in questionnaires and official forms addressed to a single unnamed respondent. The rule's verdict for UI (lowercase, no exception) stands; its statement of the authority does not. Everything else in RU-VY and RU-VERBFORM holds."
+    },
+    "techniques/terminology-and-loanwords.md": {
+      "disposition": "keep",
+      "reason": "The three-bucket policy, the corpus test that separates buckets 1 and 2, RU-LATIN's do-not-translate class and RU-COMPOUND's hyphen pattern are all stated as per-term recorded rulings rather than as policy slogans, which is the correct shape for a moving frontier. The error-asymmetry note (over-native reads stiff, over-slang reads unprofessional) is the useful default."
+    },
+    "techniques/typography-and-spacing.md": {
+      "disposition": "keep",
+      "reason": "RU-QUOTES (guillemets, nested lowered quotes), RU-DASH (spaced em dash, hyphen in-word, en dash effectively unused, ranges on the em dash without spaces), RU-ELLIPSIS, RU-YO's disambiguation clause and RU-NBSP's scoped application all match Russian editorial standard as I know it, and each is hedged where the standard genuinely underdetermines. The RU-NBSP note that this is weaker than the French rule is the right calibration."
+    },
+    "applications/process--plural-and-count-agreement.md": {
+      "disposition": "keep",
+      "reason": "A dated field record of a two-slot runtime verified from call sites rather than key suffixes, with the escalate-don't-patch ruling. Its transferable lesson (trust call sites over key shape) is the part that generalizes and it is stated as such. Not re-verified against the Personas tree; the verified_on date stands unchanged."
+    },
+    "applications/process--terminology-and-loanwords.md": {
+      "disposition": "keep",
+      "reason": "Two collapse incidents and a termbase-overrules-shipped-text case, each with the reasoning recorded beside the ruling. The persona-is-a-naturalized-loanword boundary case is the honest application of the corpus test against etymology. Not recounted against the tree; the verified_on date stands unchanged."
+    },
+    "applications/spec--gender-and-aspect.md": {
+      "disposition": "reverify",
+      "reason": "The two upstream CLDR defects it reports as current and unfiled - nominative forms at 20 and 30 in %spellout-cardinal-masculine-prepositional, and a U+0065 homoglyph in two digits-ordinal rulesets - were not re-read at 48.2 or on main this run, and the document's own class note says everything marked executed is a reimplementation with no publisher fixture. The reasoning (same guard, opposite verdict; gender is a units-digit phenomenon) is sound and I am not disputing it; the evidence is unresolved."
+    },
+    "applications/spec--plural-and-count-agreement.md": {
+      "disposition": "keep",
+      "reason": "Re-verified today against the pinned source: the four ru rules and their v = 0 guards, other's decimal-only sample set, and the 16-row identity-on-end range table all read back exactly as published. The three transferable lessons - probe other with a decimal, fixed-decimal formatting collapses the category system, read the end value for ranges - are each supported by the data I read."
+    }
+  }
+}
+```
+

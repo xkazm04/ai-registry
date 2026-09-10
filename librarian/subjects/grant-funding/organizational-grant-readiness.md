@@ -83,3 +83,119 @@ and maturity are unchanged.
   }
 }
 ```
+
+### 2026-09-10 — architecture re-review after the compression revert
+
+Read all nine documents at their restored bytes: the golden path, six techniques
+and the two Node applications. The record above was written against the reverted
+2026-09-09 rewrite. **Retraction:** its `reverify` on six of nine documents does
+not survive re-reading. Its security objections in particular are answered in the
+current text — `applicant-evidence-corpus` already rejects the client-declared
+media type in favour of an extension allowlist, already caps decompression per
+entry, already re-validates every redirect hop against the private-address guard;
+`multi-org-workspace-scoping` already specifies that an out-of-allowlist selection
+is ignored rather than errored, in one resolution function every read and write
+flows through. Those are the documents' own rules, not gaps in them.
+
+One finding is real and it appears twice. The golden path's first fact cluster and
+`techniques/funder-fact-taxonomy.md`'s first class both assert that for registry
+facts "exactly one authoritative source exists per jurisdiction". That is false in
+both markets this subject's own application works in. In the United States, a
+nonprofit's registered legal name and legal form come from a state incorporation
+registry while its exempt status and identifier come from the federal tax authority
+— and the application itself records the verification as passing against *two*
+distinct federal files, then a third registry for a different market. In the United
+Kingdom, charity registration is split across three national regulators, with
+company registration separate again. The consequence in the text is not cosmetic:
+"exactly one authoritative source" is what licenses the taxonomy's prescription of
+a single lookup and a single verification per jurisdiction, and it is what makes
+the attestation's `verificationSource` field look like an implementation detail
+rather than the necessary shape. The honest claim is that each registry *fact* has
+one authoritative source, which may be a different registry from the one that owns
+the neighbouring fact.
+
+Everything else I kept, and two of them deserve the note that they are the
+strongest documents in the group. `disambiguation-over-confident-guess` states its
+founding observation as an experiment (drilling a live pipeline with deliberately
+ambiguous names) and derives the cost asymmetry from it rather than asserting it;
+its unattended-pipeline degradation rule — "unresolved, parked for review", not
+"best candidate" — is exactly the boundary a weaker document would have left open.
+`attestation-invalidation` closes the two failure paths that matter (write-path
+reset rather than a sweep; reset to null rather than a stale flag) and then adds
+the freshness horizon for the mutations you cannot observe, which is the rule most
+verification designs omit.
+
+Boundaries I noticed and am recording as counterexamples rather than defects: the
+migration-free identity trick keys a solo organization by the owner's user id,
+which is elegant while the two coincide and awkward the first time an organization
+must outlive or be transferred away from that person; and `registry-grounded-autofill`
+treats a non-empty sources array as the working proxy for grounding, which the same
+instrument that fabricates can also produce — the document labels it a proxy, which
+is why I did not escalate it.
+
+What I could not verify: the `grant-writing-nonprofits` repository is not in this
+checkout, so both applications' file paths, line numbers and quoted comments were
+read as dated records rather than re-executed, and no upload, lookup or tenancy
+path was exercised. Their verified_on dates are unchanged.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "grant-funding/organizational-grant-readiness",
+  "date": "2026-09-10",
+  "baseline": "44c8996585f2e5e3f36e0cb0bd1983c607cadfd7",
+  "digest": "sha256:439bd1d2d1fcfd2e",
+  "disposition": "clarify",
+  "coverage": "All 9 documents read in full at restored bytes. The single-authoritative-registry claim was checked against the registry structure of the two markets the subject's own application serves. Not evaluated: the grant-writing-nonprofits repository, so both applications' references were read as dated records; no upload path, registry lookup, authorization check or tenancy resolution was executed; no maturity or verified_on change.",
+  "counterexamples": [
+    "A US nonprofit's registered legal name and legal form come from a state incorporation registry while its exempt status and identifier come from the federal tax authority: two authoritative sources in one jurisdiction, for adjacent fields in the same identity cluster.",
+    "A UK charity may be registered with one of three national charity regulators and separately at the company register: 'exactly one authoritative source per jurisdiction' has no referent there.",
+    "A fiscally sponsored program whose identity fields belong to the sponsor: the readiness model must represent identity that is legitimately another entity's, which the golden path names but the four-class taxonomy does not accommodate.",
+    "A solo organization keyed by its owner's user id that must later be transferred to a new owner or outlive the account: the migration-free trick has no story for separating the two identities it deliberately fused."
+  ],
+  "sources": [
+    {
+      "url": "https://webgate.ec.europa.eu/funding-tenders-opportunities/spaces/OM/pages/1867804/Registration+and+validation+of+your+organisation",
+      "result": "Read as a worked example of a registry regime where identity validation and special-status validation are separate determinations by one service; supports the general point that registry facts and status facts need not share a source, but establishes nothing about the US or UK regimes the finding rests on."
+    }
+  ],
+  "documents": {
+    "organizational-grant-readiness.md": {
+      "disposition": "clarify",
+      "reason": "Asserts that identity fields have 'exactly one authoritative source per jurisdiction'. False in both markets the subject's own application serves: US legal identity and exempt status sit with different authorities, and UK charity registration is split across three regulators plus the company register. Restate as one authoritative source per fact, not per jurisdiction."
+    },
+    "techniques/applicant-evidence-corpus.md": {
+      "disposition": "keep",
+      "reason": "Text-not-bytes is argued from the liabilities it removes, every bound is placed at the boundary before storage, the fetch path is treated as a server-side request-forgery surface with per-hop revalidation, and the prompt block is framed as untrusted data with no authority over the pipeline reading it."
+    },
+    "techniques/attestation-invalidation.md": {
+      "disposition": "keep",
+      "reason": "Bound inputs, write-path reset rather than a sweep, reset-to-null rather than a stale flag, and a freshness horizon for externally mutable subjects together close both the observable and unobservable invalidation paths. The dependency-set discipline is stated as data next to the artifact, not as tribal memory."
+    },
+    "techniques/disambiguation-over-confident-guess.md": {
+      "disposition": "keep",
+      "reason": "The founding observation is an experiment rather than an assertion, the cost asymmetry is derived, and the unattended-pipeline rule degrades to parked-for-review rather than best-candidate. Cross-field consistency as the cheap check against a namesake match is a concrete, testable rule."
+    },
+    "techniques/funder-fact-taxonomy.md": {
+      "disposition": "clarify",
+      "reason": "Registry facts are defined by the property 'exactly one authoritative source per jurisdiction', which is the same false premise as the golden path and is what licenses a single lookup and single verification per market. The four classes remain useful; the property needs restating per fact."
+    },
+    "techniques/multi-org-workspace-scoping.md": {
+      "disposition": "keep",
+      "reason": "Server-side allowlist, client selection treated as a hint and ignored rather than errored when invalid, one resolution function on every read and write path, and per-request resolution caching are each tied to the specific hole they close. The speculative-machinery warning correctly separates day-one keying from the switcher UI."
+    },
+    "techniques/registry-grounded-autofill.md": {
+      "disposition": "keep",
+      "reason": "Sourced proposals rather than facts, low-confidence treated as missing, jurisdiction knowledge composed as data, and confidence tied to source class are all stated as hard contract rules. The sources array is explicitly labelled a working proxy for grounding rather than proof of retrieval, which is the honest framing of a weak signal."
+    },
+    "applications/node--attestation-invalidation.md": {
+      "disposition": "keep",
+      "reason": "A dated record of the attestation triple, the write-path invalidation and the matching user-facing copy, and it names its own deviation from the standard (binding is implicit rather than stored inside the attestation) rather than claiming full conformance."
+    },
+    "applications/node--registry-grounded-autofill.md": {
+      "disposition": "keep",
+      "reason": "Reports the per-field provenance type, the mechanically computed needs-input list, the checksum-based client classifier and the declared fast mode accurately, including the hand-kept where-to-look map as an acknowledged exception to data-driven market extension."
+    }
+  }
+}
+```

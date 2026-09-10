@@ -152,3 +152,131 @@ and maturity are unchanged.
   }
 }
 ```
+
+## 2026-09-10 — re-review after the compression revert
+
+Read all ten owned documents at their restored bytes. Primary sources fetched and read
+this session: CLDR `release-48-2` `common/supplemental/plurals.xml` and
+`ordinals.xml`, and W3C *Requirements for Chinese Text Layout* (clreq) §2.1.3.
+Nothing was executed — the `EastAsianWidth` classification harness recorded in the
+spec application was not re-run.
+
+**Retraction of the 2026-09-10 external-reconcile record below.** It describes the
+compressed documents, which were reverted; its digest no longer matches. Its
+per-document `reverify` verdicts are withdrawn. Its objection that *wide corner
+brackets do not make an entire Hant catalog width-determinate* is fair as a matter of
+wording, but the technique's claim is scoped to the glyphs this technique prescribes,
+and it says so; it is not the overreach the entry implies.
+
+**Finding 1 — one bundle carries two unsourced and mutually inconsistent glyph-width
+ratios.** `chinese.md` and ZH-LENGTH both say a Han glyph renders at *roughly
+1.5–1.75× the width of a Latin letter*. The Japanese sibling's JA-WIDTH-BUDGET says a
+full-width CJK glyph is *roughly twice the width of an average Latin letter*. These
+measure the same thing, neither cites anything, and a layout engineer reading both
+subjects — which is the normal case in a fleet shipping ja and zh together — gets two
+budgets. The honest fix is one sourced statement, or one statement that says the ratio
+is font-dependent and gives the range with that caveat, in both places.
+
+**Finding 2 — the golden path keeps the vocabulary the technique's own opening
+retracts.** `chinese.md` says *Each Han character is a full-width glyph*. The
+technique now opens with the correction: fullwidth and halfwidth are **relational**
+properties of a compatibility pair, and 。、 are Wide, not Fullwidth. Minor, but it is
+the sentence a reader meets first.
+
+**Finding 3 — ZH-CLASSIFIER prescribes a space whose own justification does not
+always hold.** The rule gives `{count} 个连接器` and explains the space as *before the
+classifier because the placeholder resolves to a numeral*. Under ZH-PANGU the space
+exists to mark a Han/Latin boundary. A `{count}` that resolves to a spelled Chinese
+numeral, or to a Chinese-digit-formatted value, has no such boundary and the space is
+then wrong by ZH-PANGU's own sub-rules. The rule bakes a Latin-digit assumption into a
+space it presents as unconditional.
+
+**Verified and left alone.** `zh` has exactly one cardinal category and one ordinal
+category — `plurals.xml` puts it in the 34-locale `other`-only block, `ordinals.xml`
+in the 68-locale one — so ZH-PLURAL-OTHER's source line is exact in both halves.
+clreq §2.1.3 reads *Use a spacing of no more than one-quarter of the width of a Han
+character between Han characters and Western letters or European numerals*, so
+ZH-PANGU's *up to a quarter em* is an accurate paraphrase (a Han character is one em).
+ZH-WIDTH-UNDECIDED, the relational-vocabulary caution and the `·` gap note are all
+present as the reconcile wave left them.
+
+**Not resolved.** GB/T 15834 is cited by three rules (ZH-FULLWIDTH, ZH-QUOTES,
+ZH-ELLIPSIS) and was not retrieved; the Simplified curly-quote and six-dot-ellipsis
+prescriptions rest on it. clreq's 避头尾 section was reachable only by heading in the
+fetch, so the specific prohibited-character lists in ZH-LINEBREAK were not confirmed
+against it. The Hans/Hant vocabulary table is uncontroversial but was not checked
+against either Microsoft variant guide.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "localization/chinese",
+  "date": "2026-09-10",
+  "baseline": "44c8996585f2e5e3f36e0cb0bd1983c607cadfd7",
+  "digest": "sha256:0c68d2977bb25063",
+  "disposition": "clarify",
+  "coverage": "All 10 owned documents read in full at restored bytes, and the two width claims cross-read against the Japanese sibling subject. CLDR release-48-2 plurals.xml and ordinals.xml and W3C clreq section 2.1.3 fetched and read this session. No software executed: the EastAsianWidth parser, its 48 rule-character classifications, the nine-string sample and the eight-string spacing probe were not re-run, and no CJK renderer or font was driven. The two process applications are 2026-08-24 field records of one repo and were assessed as records. GB/T 15834, the clreq prohibition-rule lists and both Microsoft variant style guides were not retrieved.",
+  "counterexamples": [
+    "ZH-CLASSIFIER's prescribed space before the classifier is justified by a Han/Latin boundary that does not exist when the count renders as a spelled or Chinese-digit numeral, so the rule and ZH-PANGU's sub-rules disagree on that string.",
+    "ZH-LENGTH's heuristic - suspect a Chinese string longer than half the English character count - fires on every string dominated by a do-not-translate Latin token, which ZH-CODE-SWITCH explicitly licenses.",
+    "ZH-VARIANT and ZH-REGION-REGISTER between them cover mainland, Taiwan and Hong Kong; Singapore is Simplified with its own lexical divergences and is named nowhere, so a zh-SG surface falls through both rules.",
+    "A fleet shipping ja and zh reads two unsourced and different ratios for the same glyph-versus-Latin width measurement, one in each subject, with no way to tell which budget to size a shared component against."
+  ],
+  "sources": [
+    {
+      "url": "https://raw.githubusercontent.com/unicode-org/cldr/release-48-2/common/supplemental/plurals.xml",
+      "result": "Established that zh sits in the block whose only rule is count=other with an empty condition, so Chinese cardinals have exactly one category. It establishes nothing about measure words, which are grammar the file does not model."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/unicode-org/cldr/release-48-2/common/supplemental/ordinals.xml",
+      "result": "Established that zh is in the 68-locale other-only ordinal block, confirming the second half of ZH-PLURAL-OTHER's source line."
+    },
+    {
+      "url": "https://www.w3.org/TR/clreq/",
+      "result": "Established section 2.1.3's wording - no more than one-quarter of the width of a Han character between Han characters and Western letters or European numerals - confirming ZH-PANGU's quarter-em paraphrase. It did not establish the prohibition-character lists in ZH-LINEBREAK: section 6.1.1 was reachable only by heading in this fetch, so those lists remain unverified."
+    }
+  ],
+  "documents": {
+    "chinese.md": {
+      "disposition": "clarify",
+      "reason": "Keeps the per-character full-width framing the technique's own opening caution retracts as relational, and states an unsourced 1.5 to 1.75 times glyph ratio that contradicts the Japanese sibling's unsourced roughly twice for the same measurement. Its plural, casing, register and Hans/Hant framing are correct and were re-verified where a source exists."
+    },
+    "techniques/character-width-and-typography.md": {
+      "disposition": "keep",
+      "reason": "Carries the landed corrections in full - the relational-vocabulary caution, ZH-WIDTH-UNDECIDED with its variant asymmetry and its consequence for a width-derived spacing linter, and the uncovered separator note. ZH-PANGU's quarter-em citation re-verified against clreq this session. GB/T 15834 remains unread, which is the one open citation."
+    },
+    "techniques/measure-words-and-quantity.md": {
+      "disposition": "clarify",
+      "reason": "Both CLDR claims re-verified verbatim this session. The classifier inventory, the recorded-per-noun discipline and the literal-digit exception are sound. The prescribed space before the classifier is justified by a Han/Latin boundary that a Chinese-numeral count does not create, so the rule contradicts ZH-PANGU's sub-rules on that case."
+    },
+    "techniques/de-anglicization-constructions.md": {
+      "disposition": "keep",
+      "reason": "Each rule states its trigger narrowly and carries the reversion boundary that over-application found - the adjectival versus relational de distinction, the adversative test for bei, the legitimate Latin islands. The closing ban on scripted rewriting is the right guard for a rule set this greppable."
+    },
+    "techniques/register-and-address.md": {
+      "disposition": "keep",
+      "reason": "Register located precisely in three places, the recorded-ruling framing for a split the authorities genuinely disagree on, and the marketing-surface exception stated as a boundary that must itself be recorded. The 428-to-81 count is what makes the audit citable."
+    },
+    "techniques/terminology-and-variants.md": {
+      "disposition": "keep",
+      "reason": "The Hans/Hant split correctly framed as terminology wearing script's clothes, with the budget rule that follows from it; the collision classes and the part-of-speech split sub-rule are the transplantable content. The vocabulary table was not checked against a primary variant guide, but nothing in the rules turns on any single row."
+    },
+    "techniques/ui-conventions-and-length.md": {
+      "disposition": "clarify",
+      "reason": "The two failure directions, the compression order and the no-manual-breaks rule are sound and well bounded. ZH-LENGTH's 1.5 to 1.75 times ratio is unsourced and inconsistent with the Japanese sibling subject's figure for the same measurement; the slot budgets it derives are correctly labelled defaults."
+    },
+    "applications/process--de-anglicization-constructions.md": {
+      "disposition": "keep",
+      "reason": "Dated 2026-08-24 record keyed to real catalog pitfalls, whose most useful content is the two-tier severity that lets a bulk audit fix the render-breaking placeholder defect before any style finding. Not re-verified against the repo."
+    },
+    "applications/process--terminology-and-variants.md": {
+      "disposition": "keep",
+      "reason": "The four-rendering drift of a central product noun, with counts, is the evidence that makes ZH-TERM-COLLISION's settle-before-translating rule a measured claim rather than advice. Historical, not re-run."
+    },
+    "applications/spec--character-width-and-typography.md": {
+      "disposition": "keep",
+      "reason": "Pins the annex and the data file, states its harness and its n, finds the exposure entirely on the prescribed side rather than the rejected one, and closes with an explicit warning against reading width class as a column count. It is the record that produced ZH-WIDTH-UNDECIDED. Not re-executed."
+    }
+  }
+}
+```

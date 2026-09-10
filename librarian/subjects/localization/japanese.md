@@ -159,3 +159,128 @@ and maturity are unchanged.
   }
 }
 ```
+
+## 2026-09-10 — re-review after the compression revert
+
+Read all ten owned documents at their restored bytes. Primary sources fetched and read
+this session: CLDR `release-48-2` `common/supplemental/plurals.xml` and
+`ordinals.xml`. Nothing was executed — the 19,338-case UAX #14 conformance harness
+recorded in the spec application was not re-run, and no renderer was driven.
+
+**Retraction of the 2026-09-10 external-reconcile record below.** It describes the
+compressed documents, which were reverted; its digest no longer matches. Its
+per-document `reverify` verdicts are withdrawn. Its one substantive line — that a
+forbidden break *before* the wave dash does not prevent a break *after* it — is
+already what the technique says (U+301C is non-starting; U+FF5E permits breaks on both
+sides), so it is not a finding against the restored text.
+
+**Finding 1 — the golden path states the width premise the technique's own opening
+caution retracts.** `japanese.md` says the width of every character matters *once as
+an encoding question (full-width vs half-width code points are different characters)*.
+The technique now opens by saying the opposite: in the Unicode width property
+fullwidth and halfwidth are **relational** — properties of a compatibility pair — so
+。、「」 are Wide, not Fullwidth, and their genuine halfwidth partners are ｡､｢｣, not
+ASCII. The rules survive as identity checks either way, which is why this is a
+clarify and not a defect; but the golden path is the entry point and it teaches the
+retracted framing.
+
+**Finding 2 — half-width katakana is named nowhere, and the spec application says so.**
+`spec--character-width-and-typography` closes with it: *half-width katakana (`ea=H`;
+ｧ..ｰ are also CJ) is named nowhere in the technique; both annexes give it first-class
+treatment*. That observation was recorded and never landed. It is a live class in real
+Japanese catalogs — legacy POS and telecom data, and user input — and it is exactly
+the kind of identity check JA-HALFWIDTH-LATIN's neighbours are built for. The gap is
+in the technique, not in the application.
+
+**Finding 3 — two instructions collide on ordinal-suffix placeholders and neither
+yields.** `counting-and-quantity` says an ordinal-suffix placeholder `{n}{suffix}`
+*should be flagged as a source defect: the suffix slot is meaningless in Japanese and
+the string cannot be translated cleanly around it*. The skeleton law it carries says
+every placeholder in the source appears in the target, exactly once. A translator
+holding a live `{suffix}` today is told both that the string cannot be translated
+cleanly and that the placeholder must be preserved, with no stated precedence and no
+interim rendering. (CLDR confirms the premise: `ja` has one ordinal category,
+`other`.)
+
+**Verified and left alone.** `ja` is a single `other` category for cardinals and one
+for ordinals — `plurals.xml` puts it in the 34-locale `other`-only block,
+`ordinals.xml` in the 68-locale one. JA-PLURAL-OTHER's source line is exact. The
+kinsoku, CJ-tailoring and URL-breaking corrections from the reconcile wave are all
+present in the technique, including the `：` addition and the disclosure-not-obedience
+framing of UAX14-C1.
+
+**Not resolved.** JIS Z 8301's notation annex is cited by JA-CHOONPU as one of the two
+disagreeing authorities and is a paid standard I could not read; the same rule's *one
+announced the switch in 2008* is an unnamed vendor and was not checked. The JTF style
+guide's punctuation and spacing tables, cited by three rules, were likewise not
+retrieved. None of these is doubtful, but none was verified this session.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "localization/japanese",
+  "date": "2026-09-10",
+  "baseline": "44c8996585f2e5e3f36e0cb0bd1983c607cadfd7",
+  "digest": "sha256:25fed1d7e31269bf",
+  "disposition": "clarify",
+  "coverage": "All 10 owned documents read in full at restored bytes. CLDR release-48-2 plurals.xml and ordinals.xml fetched and read this session. No software executed: the UAX 14 line-break implementation and its 19338-case conformance run, the CJ tailoring fixtures and the URL break probe were not re-run, and no Japanese renderer or font stack was driven. The two process applications are 2026-08-24 field records of one repo and were assessed as records. JIS Z 8301, the JTF style guide and the vendor style guides were not retrieved.",
+  "counterexamples": [
+    "A source string carrying an ordinal-suffix placeholder puts the counting technique's flag-it-as-a-source-defect instruction against the skeleton law's keep-every-placeholder rule, and the subject states no precedence and no interim rendering.",
+    "A catalog inheriting half-width katakana from legacy data or user input hits a class no rule in the width technique names, even though its own spec application flags the omission.",
+    "JA-COUNTER's per-concept counter ruling has no answer for a placeholder whose value class the runtime chooses - a count that may arrive as a range or as a word rather than a bare number, which the same technique elsewhere calls a source defect without saying what to ship meanwhile.",
+    "JA-LABEL-LENGTH's 2-5 character norm and JA-NO-ABBREV together have no resolution for a concept whose only correct rendering is six or more characters in a fixed-width slot: the technique escalates upstream, which is not available to a translator finishing a batch."
+  ],
+  "sources": [
+    {
+      "url": "https://raw.githubusercontent.com/unicode-org/cldr/release-48-2/common/supplemental/plurals.xml",
+      "result": "Established that ja sits in the block whose only rule is count=other with an empty condition, so Japanese cardinals have exactly one category. It establishes nothing about counter words - the classifier system is grammar the file does not model."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/unicode-org/cldr/release-48-2/common/supplemental/ordinals.xml",
+      "result": "Established that ja is in the 68-locale other-only ordinal block, confirming the technique's cardinal-and-ordinal source line. It does not establish that an ordinal-suffix placeholder may be dropped."
+    }
+  ],
+  "documents": {
+    "japanese.md": {
+      "disposition": "clarify",
+      "reason": "Teaches the per-character full-width versus half-width framing that the technique's own opening caution now retracts as relational, and that the spec application classifies as a conformance error in vocabulary. The plural and kinsoku statements are correct; the width premise is the entry point a reader carries into the technique."
+    },
+    "techniques/character-width-and-typography.md": {
+      "disposition": "clarify",
+      "reason": "Carries every landed correction - the relational-vocabulary caution, the Ambiguous-width caveat, the CJ tailoring as a recorded choice, the colon added to kinsoku, and the URL-breaks-where-identifiers-do-not reversal. The one recorded finding that never landed is half-width katakana, which no rule here names."
+    },
+    "techniques/counting-and-quantity.md": {
+      "disposition": "clarify",
+      "reason": "The single-category source line re-verified against CLDR, and the two opposite failure modes are well drawn. The ordinal-suffix instruction collides with the skeleton law the same document carries, with no precedence stated - a translator holding such a string is given two incompatible orders."
+    },
+    "techniques/de-anglicization-constructions.md": {
+      "disposition": "keep",
+      "reason": "Each rule is trigger-first with a legitimate-use exception and an explicit ban on bulk pattern-match rewriting. JA-PARTICLE-PLACEHOLDER's three failure modes and the apposition escape are the strongest content in the subject."
+    },
+    "techniques/register-and-politeness.md": {
+      "disposition": "keep",
+      "reason": "Register decided per text category rather than per string, with the label-versus-sentence test stated as a predicate test rather than a screen-position one. The temperature axis and the keigo ceiling are bounded. Vendor-guide citations not retrieved."
+    },
+    "techniques/terminology-and-katakana-loanwords.md": {
+      "disposition": "reverify",
+      "reason": "Substance is sound - the thing-versus-process heuristic is labelled a heuristic, the false-friend list is checkable, and the choonpu rule correctly ends in pick-one-and-record. But its two named authorities are unresolved: JIS Z 8301's notation annex is a paid standard I could not read, and the 2008 vendor switch names no vendor. Confirm both or restate the rule without the specific citations."
+    },
+    "techniques/ui-conventions-and-length.md": {
+      "disposition": "clarify",
+      "reason": "The wrapping, abbreviation and convention sections are sound. JA-WIDTH-BUDGET's roughly twice the width of an average Latin letter is unsourced and disagrees with the Chinese sibling's roughly 1.5 to 1.75 times for the same class of glyph; one bundle should not carry two unsourced ratios for the same measurement."
+    },
+    "applications/process--counting-and-quantity.md": {
+      "disposition": "keep",
+      "reason": "Dated 2026-08-24 record keyed to real catalog keys, carrying the two-severity split on one suffix and the counter-in-the-termbase-row process shape. Not re-verified against the repo."
+    },
+    "applications/process--register-and-politeness.md": {
+      "disposition": "keep",
+      "reason": "Its value is the count-before-ruling discipline - zero casual endings across roughly 14,500 lines, about 40 clean labels - which is what makes the register rule citable rather than asserted. Historical, not re-run."
+    },
+    "applications/spec--character-width-and-typography.md": {
+      "disposition": "keep",
+      "reason": "The strongest document in the subject: a full UAX 14 implementation with its conformance run declared, three sharpenings, one clean refutation, and an honest statement that the width half is not conformance-testable. It is also the record that makes the half-width katakana omission and the golden path's width premise findings rather than opinions."
+    }
+  }
+}
+```

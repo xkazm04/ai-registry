@@ -183,3 +183,128 @@ and maturity are unchanged.
   }
 }
 ```
+## 2026-09-10 — architecture re-review after the compression revert
+
+Read all ten documents at reverted bytes: the golden path, six techniques, two process
+applications and the CLDR spec application. The 2026-09-10 record above graded the
+subject against documents the revert removed, and I retract that grading. This subject
+produced the two sharpest findings of my group, and neither was visible from the text —
+both required going to the data.
+
+**A dated provenance claim that is wrong.** `spanish.md` says "Since CLDR 42 Spanish
+also has a `many` category", and the spec application labels its C1 control "the
+pre-CLDR-42 pipeline". I read `common/supplemental/plurals.xml` at `release-41` and at
+`release-40`: the `es` block already carries `one`/`many`/`other`, with the `many` rule
+byte-for-byte the one the documents quote, at both tags. So the category predates
+CLDR 42 by at least two releases. I could not cleanly read the `es` block at
+`release-38` — two extraction attempts returned a neighbouring block — so I cannot name
+the introducing release; what I can say is that 42 is not it. The rule itself is
+unaffected; the version stamp is the sort of thing a reader cites onward, so it should
+be corrected or dropped rather than left specific-and-wrong.
+
+**An inference with a dated expiry.** ES-ORDINAL states that "Spanish ordinals have a
+single CLDR category" and draws a conclusion from it: "Because ordinals have one
+category, none of this is selectable by a plural block. Gender and apocopation are
+decided by the referent, which the format system cannot see." At the pinned release
+that is exactly right — I re-read `ordinals.xml` at `release-48-2` and `es` sits in the
+sixty-eight-locale `other`-only group. On `main`, it does not. `es` now has a block of
+its own: `one` at `n % 10 = 1,3 and n % 100 != 11`, plus `other`. I checked that twice,
+once by asking for the `es` block and once by asking which block carries that rule
+text, and it is `es` alone. That `one` set is precisely the apocopated series the rule
+itself already documents from the spell-out rulesets — *1.er*, *3.er*, *21.er*, with 11
+excluded — so when CLDR 49 ships, the apocopated masculine becomes exactly what an
+ordinal selector selects, and the rule's inference inverts. CLDR 49 is still
+prerelease (`release-49-alpha2`, 2026-09-03; the newest non-prerelease tag remains
+48.2), so nothing in the corpus is wrong today. This is a re-verify trigger with a
+name attached, not a correction.
+
+Everything else I could check held, including the subject's most counter-intuitive
+claim. `pluralRanges.xml` gives `ca es` three rows — `one+other → other`,
+`other+one → other`, `other+other → other` — and the middle one is a genuine override
+of the spec's end-value default, so ES-PLURAL-RANGE's "a range ending at exactly 1 is
+plural, *0–1 archivos*" is a published fact and not a guess. The cardinal rule is
+`one: n = 1` (value, not integer part, so trailing zeros cannot move a count out of
+`one` and every non-integral count is `other`), with `many` and `other`. I read data
+files; I did not execute anything, and the application's harness was not re-run.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "localization/spanish",
+  "date": "2026-09-10",
+  "baseline": "44c8996585f2e5e3f36e0cb0bd1983c607cadfd7",
+  "digest": "sha256:bdddc1bff1c2f77e",
+  "disposition": "clarify",
+  "coverage": "All 10 owned documents read in full at reverted bytes. CLDR plurals.xml read for the es block at release-40, release-41 and main; ordinals.xml at release-48-2 and main; pluralRanges.xml at release-48-2; the GitHub release list for CLDR 49's status - all read, not executed. Not evaluated: rbnf/es.xml, which carries the gendered-abbreviation and paired-cardinal-ruleset claims; grammaticalFeatures.xml; RAE orthography and the Fundeu guidance the typography and gender rules cite; the Personas tree the two process applications cite; maturity or verified_on refresh.",
+  "counterexamples": [
+    "ES-GENDER-PLACEHOLDER's ladder assumes a fixed head noun can absorb the gender, but a string whose placeholder IS the head ('{item} no disponible' as a bare status pill, no room for 'Elemento') has only rung 4, and the rule presents rung 1 as resolving most cases.",
+    "ES-PLURAL-RANGE's override is stated for the end value, but the es table has no (one, one) row at all - so a 1-1 range falls back to the default rather than to a published result, and the rule's 'read the rows' advice does not say what to do when the row a UI actually renders is absent.",
+    "ES-REGIONAL's neutral tactics work noun by noun and are silent on the verb-morphology cell that is not neutralizable: a one-Spanish catalog with an imperative addressed to a plural audience must choose ustedes forms, which ES-USTEDES covers, but nothing covers a voseo-market build's interaction with the recorded singular register."
+  ],
+  "sources": [
+    {
+      "url": "https://raw.githubusercontent.com/unicode-org/cldr/release-41/common/supplemental/plurals.xml",
+      "result": "Established that the es block already carries one/many/other at CLDR 41, with the many rule identical to the one the documents quote; the same block appears at release-40. This refutes the 'Since CLDR 42' provenance in spanish.md and the 'pre-CLDR-42 pipeline' label on the spec application's C1 control. It did not establish which release introduced many for es - an attempt to read release-38 returned a neighbouring block twice and was abandoned."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/unicode-org/cldr/main/common/supplemental/ordinals.xml",
+      "result": "Established that on the CLDR 49 development branch es has left the other-only group and carries its own block: one at 'n % 10 = 1,3 and n % 100 != 11' plus other - confirmed twice, once by locale and once by rule text, which returned es as the only block with that rule. That category set is the apocopated 1.er/3.er series, so ES-ORDINAL's inference that apocopation is unselectable inverts at CLDR 49. It did not establish a release date for 49."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/unicode-org/cldr/release-48-2/common/supplemental/ordinals.xml",
+      "result": "Established that at the pinned release es sits in the sixty-eight-locale single-other ordinal group, so ES-ORDINAL and the spec application are correct as of their pin and the finding above is a currency trigger rather than an error. It did not establish anything about the gendered abbreviations, which live in rbnf/es.xml."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/unicode-org/cldr/release-48-2/common/supplemental/pluralRanges.xml",
+      "result": "Established that the ca es group publishes three rows - one+other -> other, other+one -> other, other+other -> other - and that the middle row genuinely overrides the spec's end-value default. Confirms ES-PLURAL-RANGE's '0-1 archivos' claim from the data. It also shows the table has no (one, one) row, which neither the rule nor the application mentions."
+    },
+    {
+      "url": "https://api.github.com/repos/unicode-org/cldr/releases",
+      "result": "Established that the newest CLDR tags are release-49-alpha2 (2026-09-03) and alpha1/alpha0, all prerelease, so release-48-2 remains the newest citable edition and the subject's pins are current. It did not establish when 49 will ship, which is what would date the ES-ORDINAL re-verify."
+    }
+  ],
+  "documents": {
+    "spanish.md": {
+      "disposition": "clarify",
+      "reason": "Two dated claims. 'Since CLDR 42 Spanish also has a many category' is wrong - the es block carries many at release-41 and release-40, verified today. And 'Ordinals have a single category' is true at the pinned 48.2 but already false on CLDR main, where es carries one at n % 10 = 1,3 excluding 11. Everything else - the which-Spanish decision, the neutral-by-construction lexicon, the pro-drop and register-neutral-infinitive facts, the zero-takes-other rule, the inverted-punctuation and no-space-before-punctuation contrast with French - is accurate."
+    },
+    "techniques/de-anglicization-constructions.md": {
+      "disposition": "keep",
+      "reason": "The false-friend table is correct pair by pair, including the two asymmetries it flags explicitly (aplicar is fine for settings and wrong for jobs; soportar has crept into jargon and is still ruled a calque). ES-GERUND's decision rule - names a thing, use a noun; reports a process running now, keep the gerund - is the whole rule in one line, and ES-SE-PASSIVE's note that se drags number agreement onto the patient is the detail the English source never shows."
+    },
+    "techniques/plural-and-gender-agreement.md": {
+      "disposition": "reverify",
+      "reason": "ES-ORDINAL's premise - a single CLDR ordinal category - and the inference it draws from it (apocopation and gender are not selectable by a plural block) hold at the pinned release-48-2 but are already superseded on CLDR main, where es carries one at n % 10 = 1,3 excluding 11: exactly the apocopated 1.er/3.er set the rule describes from the spell-out data. Re-verify when CLDR 49 leaves prerelease. Everything else was re-verified correct today: ES-PLURAL-CLDR's n = 1 and zero-is-plural, ES-PLURAL-MANY's rendering-not-magnitude sharpening, and ES-PLURAL-RANGE's genuine (other, one) override."
+    },
+    "techniques/register-and-address.md": {
+      "disposition": "keep",
+      "reason": "ES-REGISTER, ES-VOS, ES-USTEDES, ES-PRODROP and ES-REGISTER-MIX form a complete cover of the second-person system, and ES-USTEDES correctly identifies the one cell where neutrality has a single right answer rather than a choice. The audit corollary - detect register from verb endings, possessives and object pronouns, not from searching for the pronouns a correct catalog barely contains - is the operationally useful half."
+    },
+    "techniques/terminology-and-loanwords.md": {
+      "disposition": "keep",
+      "reason": "ES-LOAN's ordered questions, the never-mint-an-unrecorded-loanword clause, and ES-REGIONAL's table with its hypernym tactic and its one hard ban are all sound. ES-TERM-ONE's forgotten half - a rendering, once assigned, is reserved against reuse for a neighbouring concept - is the part that actually prevents collapse, and ES-FALSE-EQUIV's negative space stops each new translator re-deriving the same rejected neighbour."
+    },
+    "techniques/typography-and-punctuation.md": {
+      "disposition": "keep",
+      "reason": "ES-INVERT's craft half - the mark opens the question, not the sentence, so it goes mid-sentence with lowercase continuing - is the part English authors have no instinct for and it is stated first. ES-NUMBERS is right that four-digit integers group nothing and that grouping starts at five digits, and right to make the regional separator split the argument for never hardcoding a formatted number. ES-QUOTES separates serialization from typography cleanly."
+    },
+    "techniques/ui-conventions-and-length.md": {
+      "disposition": "keep",
+      "reason": "ES-CASE's subtle half - a capitalized common noun after a quantifier claims to be a brand, so casing is meaning - turns a style rule into a typed error. ES-INFINITIVE's three-way split with its named fourth wrong option, ES-LENGTH's ordered tactics beginning with the free win from de-anglicization, and ES-A11Y-EXPANSION as the compensating half of every shortening are all correct and correctly sequenced."
+    },
+    "applications/process--register-and-address.md": {
+      "disposition": "keep",
+      "reason": "A recorded usted ruling with the three parts the technique asks for - the choice, the audience reasoning, the provenance - plus the conversion table that turns it into a lookup. The upward lesson is the specific one: without the 'new keys never match drifted neighbours' clause, a register migration never converges because drifted sections recruit faster than touch-fixes retire. Not re-verified against the tree."
+    },
+    "applications/process--typography-and-punctuation.md": {
+      "disposition": "keep",
+      "reason": "Every anchor documented against a live shipped violation, which is what makes the rules credible rather than obvious. The hardcoded Peninsular thousands separator in a LatAm-leaning catalog is the sharpest instance - hardcoding picked a region and picked the wrong one - and the recorded negative space (no space before inverted marks, contrasted with French) stops a reviewer importing another locale's rules. Not re-verified against the tree."
+    },
+    "applications/spec--plural-and-gender-agreement.md": {
+      "disposition": "reverify",
+      "reason": "Two dated items. Its C1 control is labelled 'the pre-CLDR-42 pipeline', but es carries many at release-41 and release-40 - verified today - so the version stamp is wrong. And its ES-ORDINAL section confirms the single-category finding against release-48-2, which is correct at that pin and already superseded on CLDR main. Its other findings read back correctly from the data: the n = 1 equality and its every-non-integral-count-is-other consequence, the many rule's two disjuncts and the same-quantity-different-category demonstration, and the (other, one) range override. The harness was not re-executed."
+    }
+  }
+}
+```
+

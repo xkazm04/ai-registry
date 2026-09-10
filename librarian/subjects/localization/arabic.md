@@ -204,3 +204,136 @@ and maturity are unchanged.
   }
 }
 ```
+
+## 2026-09-10 — re-review after the compression revert
+
+Read all eleven owned documents at their restored bytes. Two primary artifacts were
+fetched and read this session: CLDR `release-48-2`
+`common/supplemental/plurals.xml` and `common/supplemental/pluralRanges.xml`, the same
+tag the subject's two spec applications pin. Nothing was executed — the 112-sample
+harness, the 29-file resolver and the rendering probe recorded in those applications
+were not re-run.
+
+**Retraction of the 2026-09-10 external-reconcile record below.** It describes
+documents the compression pass rewrote and the 2026-09-10 revert removed; its digest
+no longer matches the tree. Its per-document `reverify` verdicts are withdrawn. One of
+its lines is also wrong on the merits and worth naming: it says the `ar` XML
+*contradicts saying CLDR has no default*. The technique does not say CLDR has no
+default — it says CLDR expresses no per-locale *default numbering system* as a value
+for `ar`, which carries the inheritance marker `↑↑↑` and resolves through root to
+`latn`. That is the finding the spec application established, and it stands.
+
+**Finding 1 — the golden path still carries the sentence its own spec application
+refuted.** `arabic.md` reads: *CLDR defaults most `ar` locales to Arabic-Indic digits
+with the Maghreb on Western*. `spec--script-and-typography` opens by declaring
+**AR-NUMERALS refuted as written** and gives the counted resolution: 21 of 29 files
+declare `arab`, zero declare `latn`, seven carry the marker, and base `ar` is one of
+the seven — so the tag products actually ship resolves to Western digits from the
+standard. The named regional shorthand fails in both directions (`ar_AE` resolves
+`latn`; `ar_MR` declares `arab`). The technique was rewritten to say all of this; the
+golden path was not, so the two halves of the subject now give a product opposite
+instructions on the one genuinely per-market decision the subject names.
+
+**Finding 2 — the plural claims re-verify exactly, including the counterintuitive
+one.** `plurals.xml` gives `locales="ar ars"` six rules with the conditions
+AR-PLURAL-SIX prints. `pluralRanges.xml` gives `locales="ar"` twenty-three rows, and
+exactly five of them differ from their end category: `zero+one → zero`,
+`zero+two → zero`, `one+two → other`, `other+one → other`, `other+two → other`. The
+technique's headline row is right, and — worth stating because it is the kind of
+thing a re-reader gets wrong — `many + few → few` is *not* one of the five: its result
+equals its end. The spec application describes it correctly as the modulus reappearing
+rather than as an override, and the technique's *five of them override* count is
+exact. The claim I could **not** confirm is *the largest published (23 rows)*; that is
+a comparison across the whole file and I did not count the other groups.
+
+**Finding 3 — a small gap the technique itself names and does not close.** The spec
+application records that `ars` shares `ar`'s cardinal block but has no `pluralRanges`
+row, so range selection for Najdi falls back to the spec default rather than to the
+verified table. AR-PLURAL-RANGE presents the table as *Arabic's*, without that
+boundary.
+
+**Verified and left alone.** AR-NO-KASHIDA now states the tatweel rule by function
+with the era-abbreviation and definite-article-before-placeholder exceptions, which is
+the correct shape. AR-PUNCT's quotation paragraph correctly refuses to cite the
+standard for guillemets. The bidi technique makes no claim a data file could settle;
+its content is the isolate/mark decision rule and the rendered-pass checklist, both of
+which are craft stated as craft.
+
+**Not resolved.** UAX #9 was not fetched, so the isolate-versus-mark behaviour claims
+rest on the technique's own reading. Neither Microsoft's nor Mozilla's Arabic style
+guide was retrieved; AR-MSA and AR-IMPER cite them jointly, and the claim that both
+open with the MSA rule is unchecked this session.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "localization/arabic",
+  "date": "2026-09-10",
+  "baseline": "44c8996585f2e5e3f36e0cb0bd1983c607cadfd7",
+  "digest": "sha256:0e23cd9477709d99",
+  "disposition": "clarify",
+  "coverage": "All 11 owned documents read in full at restored bytes. Two primary CLDR files fetched and read this session at the tag the subject pins. No software executed: the plural harness, the 29-file numbering-system resolver, the cldr-json oracle cross-check and the unit-pattern rendering probe recorded in the spec applications were not re-run, and no Arabic renderer was driven. The two process applications are 2026-08-24 field records of one repo and were assessed as records. UAX #9 and the vendor style guides were not retrieved.",
+  "counterexamples": [
+    "A product shipping the plain ar tag and following the golden path pins Arabic-Indic digits, while the same subject's technique and spec application show CLDR resolving that exact tag to Western digits - the subject contradicts itself on its own headline per-market decision.",
+    "AR-PLURAL-RANGE's verified table is keyed to ar; ars shares the cardinal rules and has no range row at all, so a Najdi surface gets the spec default and the rule never says so.",
+    "The plural-range domain presumes start strictly less than end and no negatives; a UI rendering a countdown span or a negative delta is outside every rule the subject states.",
+    "AR-BIDI-ISOLATE decides by whether a value can carry internal mixed direction, which the catalog author cannot know for a placeholder fed by a third-party API - the decision rule has no answer for an unknown-provenance value that is usually a single token."
+  ],
+  "sources": [
+    {
+      "url": "https://raw.githubusercontent.com/unicode-org/cldr/release-48-2/common/supplemental/plurals.xml",
+      "result": "Established the ar block verbatim - six rules, conditions n = 0, n = 1, n = 2, n % 100 = 3..10, n % 100 = 11..99, and the empty fallback - matching AR-PLURAL-SIX condition for condition. It establishes nothing about Arabic morphology: that two is the dual and that few takes the plural noun while many takes the singular are grammar claims the file cannot carry, as the spec application already says."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/unicode-org/cldr/release-48-2/common/supplemental/pluralRanges.xml",
+      "result": "Established the ar table at 23 rows and confirmed that exactly five differ from the end-value default, including one + two resolving to other. It also establishes that many + few equals its end and is therefore not an override. It did not establish that this is the largest published table - that comparison was not made."
+    }
+  ],
+  "documents": {
+    "arabic.md": {
+      "disposition": "clarify",
+      "reason": "Retains the numeral sentence the subject's own spec application declares refuted - CLDR defaults most ar locales to Arabic-Indic with the Maghreb on Western - after the technique was rewritten to the counted declare-versus-inherit finding. A reader who starts at the golden path, as intended, gets the disproved answer."
+    },
+    "techniques/plural-and-count-agreement.md": {
+      "disposition": "keep",
+      "reason": "Six categories and the five range overrides re-verified verbatim against the pinned CLDR files. The integer-only sharpening, the freeze escalation with ranked mitigations, and the reverse-polarity note are correct and bounded. Only the largest published aside is unverified, and nothing rests on it."
+    },
+    "techniques/script-and-typography.md": {
+      "disposition": "keep",
+      "reason": "Carries the corrected AR-NUMERALS with the declare-versus-inherit mechanism and the cite-the-locale-not-the-region rule, the refusal to cite the standard for guillemets, and the tatweel rule restated by function with its enumerated exceptions. This is the document the reconcile wave fixed and it holds."
+    },
+    "techniques/bidirectional-text-and-interpolation.md": {
+      "disposition": "keep",
+      "reason": "The isolate-versus-mark decision rule, the never-pre-mirror rule, the concatenation escalation and the rendered-pass checklist are craft stated as craft, each with the over-application it was calibrated against. UAX 9 was not re-read, but no claim here turns on a clause the annex would settle differently."
+    },
+    "techniques/register-and-address.md": {
+      "disposition": "keep",
+      "reason": "Diglossia, the masdar-on-controls corollary with the definite-article signal, the impersonal status frames, and three ranked gender-neutrality postures with the paired form ruled out for UI. The vendor-guide citation behind AR-MSA was not retrieved this session."
+    },
+    "techniques/de-anglicization-constructions.md": {
+      "disposition": "keep",
+      "reason": "VSO stated with its own anti-rule - the technique is never keep English order out of caution, not always verb-first - plus the idafa constraints and three ranked agentless devices with the over-extension of tam named. Nothing asserted here is source-testable and nothing is overstated."
+    },
+    "techniques/terminology-and-loanwords.md": {
+      "disposition": "keep",
+      "reason": "Three paths decided per term, the never-mint-a-transliteration sub-rule, frozen-identifier behaviour, and the compound split with its two failure modes. The Arabized bucket is correctly gated on settled usage rather than on purism."
+    },
+    "applications/process--bidirectional-text-and-interpolation.md": {
+      "disposition": "keep",
+      "reason": "Dated 2026-08-24 field record of one 14-locale catalog; the mirror incident, the restraint around the mark, and the placeholder-rename skeleton break are the transplantable content. Not re-verified against the repo."
+    },
+    "applications/process--register-and-address.md": {
+      "disposition": "keep",
+      "reason": "Records that the register and masdar rules were read out of a counted corpus rather than imposed, and the persona-versus-agent one-concept drift. Historical, dated, not re-run."
+    },
+    "applications/spec--plural-and-count-agreement.md": {
+      "disposition": "keep",
+      "reason": "Its category conditions and its five-override range table re-check exactly against the pinned files fetched this session. Its census numbers, the 112-sample conformance run and the ordinal dead-branch count are declared executed evidence with the harness named; none was re-executed and the standing claims do not depend on that."
+    },
+    "applications/spec--script-and-typography.md": {
+      "disposition": "keep",
+      "reason": "The document that refuted AR-NUMERALS as written and supplied the corrected mechanism, with its resolver, oracle cross-check and degenerate control declared. It is also the record that makes the golden path's surviving sentence a finding rather than a matter of taste. Not re-executed."
+    }
+  }
+}
+```

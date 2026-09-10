@@ -141,3 +141,82 @@ and maturity are unchanged.
   }
 }
 ```
+
+## Architecture re-review after the compression revert - 2026-09-10
+
+Read the golden path, all six techniques and all three applications at their reverted bytes.
+Checked the two `process` applications' pinned external evidence: they cite a public
+browser-game repository at commit `286bd2a`, which is not in the local fleet (I enumerated
+`C:/Users/kazda/kiro`) and which I did not fetch. The `node` application's own A/B
+experiment I could not re-run because the connected project's specification library is not
+identified by path in the document.
+
+This is the strongest subject in my group. The dual-anchor conjunction argument, the answer
+it gives to the one-authority-per-quantity objection, the registration cost argument, the
+adversarial statistic choices and the waiver-reach derivation are each specific, falsifiable
+and internally consistent. The blindness register is the rarest thing here: an instrument
+that enumerates what it structurally cannot see and assigns each class a different witness.
+The `node--dual-anchor-scoring` application carries an honest negative result
+(`ab_verdict: not-better`) whose whole value is that the cheap second anchor produced two
+false positives and zero real catches, and it amends the technique rather than being quietly
+dropped.
+
+One finding I can defend, in `findings-carry-the-correction`. The document claims that once
+findings are work orders the loop "terminates, and it needs no iteration cap", and that an
+uncapped loop is safe "because every iteration consumes a specific, located instruction and
+the score cannot improve except by satisfying one". The second clause does not imply the
+first. Convergence needs the fixes to be independent, or at least monotone in the aggregate,
+and this subject supplies its own counterexample: `no-average-hides-a-failure` records a
+normalisation correction that collapsed one-sided coverage from 5.29 to 1.12 while the
+headline did not move, which is exactly a case where satisfying one term moved others. Where
+rows are coupled - a candidate widened to satisfy a cross-section row now failing the
+silhouette coverage term - a producer can oscillate indefinitely while every iteration
+consumes a real located instruction. The termination claim needs its condition stated:
+uncapped is safe where the findings are separable, and a non-converging loop with an
+informative payload is a coupling finding rather than a reason to add a cap.
+
+Two things I deliberately did not carry forward as findings. That a p95 can be gamed by a
+defect narrower than the tail is true and the document already says so, routing it to the
+payload as a locator finding rather than re-weighting the score. And the trimmed-mean
+exception on cross-section rows is labelled with the defect class it admits, which is the
+rule the section states.
+
+The gap I could not close: both `process` applications rest on a pinned external commit. The
+design claims they report are internally coherent and quoted at length, and the strongest
+evidence in the subject - twelve vehicles all within about 4% of published dimensions and
+all twelve failing perceptual review - is a number I have no way to check. That is exactly
+the shape of evidence this corpus should not silently refresh, so those two documents are
+`reverify` on their evidence rather than on their reasoning.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "game-production/reference-parity-gating",
+  "date": "2026-09-10",
+  "baseline": "44c8996585f2e5e3f36e0cb0bd1983c607cadfd7",
+  "digest": "sha256:4155fac43bb39973",
+  "disposition": "clarify",
+  "coverage": "Golden path, six techniques and three applications read in full at reverted bytes. Explicitly not evaluated: the external repository pinned at commit 286bd2a that both process applications quote (not in the local fleet, not fetched); the 0/12 perceptual-review figure; the node application's A/B experiment, which names no repository path and was not re-run; any measurement rig executed.",
+  "counterexamples": [
+    "An uncapped iteration loop does not terminate merely because its findings are located. Where score terms are coupled - the subject's own record of a normalisation fix moving one-sided coverage while the headline stayed floored is such a case - a producer can satisfy one located instruction per round forever and oscillate between rows.",
+    "The waiver machinery assumes a reference defect whose reach can be computed from the registration. It is silent on a defect in the published specification itself, where the rule that the specification anchor is never waivable leaves no legal move at all.",
+    "The blindness register's guidance to assign each class a different witness has no answer for a class whose only honest witness is unavailable - the node application's own case, where the genuine behavioural anchor exists but costs too much, and the conclusion is that a cheap substitute is worse than nothing."
+  ],
+  "sources": [
+    {"path": "knowledge/game-production/content-pipeline/reference-parity-gating/techniques/no-average-hides-a-failure.md", "result": "Supplies the coupled-terms case that refutes the unconditional termination claim in findings-carry-the-correction. Establishes the internal contradiction; does not establish how often coupled rows actually stall a real loop."},
+    {"path": "C:/Users/kazda/kiro (fleet enumeration)", "result": "Establishes that the external browser-game repository pinned at commit 286bd2a has no local checkout in the eleven-tree fleet, so its rows could not be re-read this run. Establishes nothing about whether those rows are still accurate."}
+  ],
+  "documents": {
+    "reference-parity-gating.md": {"disposition": "keep", "reason": "The accept-versus-reject asymmetry that opens it, the two-anchor conjunction, register-once, the adversarial statistics and the waiver-reach rule are consistent with every technique below and with each other. The one-authority-per-quantity objection is raised and answered rather than ignored."},
+    "techniques/defect-cap-bounded-to-its-reach.md": {"disposition": "keep", "reason": "The reach bound is derived from the registration rather than negotiated, which is what makes it enforceable, and the repair-retires-verdicts rule is carried with the incident that produced it. The coupled-landing rule for a candidate that faithfully reproduced a reference defect is a real and non-obvious consequence."},
+    "techniques/dual-anchor-scoring.md": {"disposition": "keep", "reason": "The independence test - could one anchor be satisfied and the other violated for a reason about the artifact - is stated as a usable question, and the amendment that two anchors over one representation are one anchor with two thresholds is earned by a recorded negative experiment rather than asserted."},
+    "techniques/findings-carry-the-correction.md": {"disposition": "clarify", "reason": "The claim that an informative payload makes the loop terminate and a cap unnecessary is unconditional and unsupported. Located instructions guarantee each iteration does something, not that the sequence converges; coupled score terms permit indefinite oscillation. State the separability condition, and route non-convergence to a coupling finding rather than to a cap."},
+    "techniques/instrument-blindness-register.md": {"disposition": "keep", "reason": "Each of the five classes names the property of the rig that makes it structural and a witness that does not share it, and the rule that a witness's known limit is recorded with the witness is the step most instruments skip. The register-as-argument use against retiring a human pass is the correct consequence of the enumeration."},
+    "techniques/no-average-hides-a-failure.md": {"disposition": "keep", "reason": "Min for aggregation, p95 in the score with the maximum as locator, and symmetric coverage each name the specific gaming they prevent, and the floored-score section is a genuine, costly failure most gate designs never state. The trimmed-mean exception is labelled with the defect class it admits, which is the rule the section demands."},
+    "techniques/register-once-from-the-invariant.md": {"disposition": "keep", "reason": "That anything the registration compensates for is an error class the gate agreed not to find is the load-bearing sentence and it is correct. The invariant-region choice, the sampling-derivation rule and the frame-moved-retires-conclusions rule follow from it without gaps."},
+    "applications/node--dual-anchor-scoring.md": {"disposition": "keep", "reason": "A negative result reported as one, with its scope stated honestly - four specifications is an existence proof of the correlated-anchor failure, not a false-positive rate - and a named return condition. Its finding is the amendment the technique now carries."},
+    "applications/process--dual-anchor-scoring.md": {"disposition": "reverify", "reason": "Every claim rests on an external repository pinned at commit 286bd2a which is not in the local fleet and which I did not fetch. The reasoning quoted is coherent and the corroboration it reports on the grace band and the 0/12 perceptual-review result would be the strongest evidence in the subject, which is exactly why it must not be re-dated without being re-read."},
+    "applications/process--instrument-blindness-register.md": {"disposition": "reverify", "reason": "Same unresolved evidence: the five register entries, the 54.2-to-76.1 cross-section recovery and the curve-scores-never-certify rule are all quoted from the same unfetched external commit. Its own stated gaps - the register is prose across three documents and is never re-derived when the rig changes - would survive re-reading, but the underlying rows are unconfirmed this run."}
+  }
+}
+```

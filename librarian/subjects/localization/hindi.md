@@ -166,3 +166,115 @@ and maturity are unchanged.
   }
 }
 ```
+## 2026-09-10 — architecture re-review after the compression revert
+
+Read all ten documents at reverted bytes: the golden path, six techniques, two process
+applications and the CLDR spec application. The 2026-09-10 record above graded the
+subject `reverify` against documents the revert removed, and I retract that grading.
+This is the cleanest of my six subjects: I found nothing I would change.
+
+Checked against the primary source rather than against intuition, because this subject
+makes three CLDR claims that a reviewer would otherwise take on faith. All three held.
+The `hi` cardinal rule in `common/supplemental/plurals.xml` is `i = 0 or n = 1` with
+`@integer 0, 1` and `@decimal 0.0~1.0, 0.00~0.04` — so HI-PLURAL's "0 and 1 both take
+the one form" is right, *and* its sharpening is right for the reason it gives: the
+first disjunct tests the integer part, so 0.5 and 0.04 select `one` while 1.5 does not.
+The published decimal samples say exactly that. The `hi` ordinal block (`gu hi`) really
+does carry five categories — `one` at n = 1, `two` at n = 2,3, `few` at n = 4, `many`
+at n = 6, `other` for the rest — identical at `release-48-2` and on `main`, so the
+subject's most surprising claim is the best-supported one, and its explanation (the set
+is a suffix inventory, which is why 6 earns a category and 5 does not) predicts the
+data correctly. The `hi` range table is three rows in a ten-locale group, matching the
+application. I read the data; I did not execute anything.
+
+What I did not resolve, and am recording rather than grading. The spec application's
+gender half rests on two files I did not open: `grammaticalFeatures.xml` (for the
+nominative/oblique case axis and the two genders declared for `hi pa`) and
+`common/main/hi.xml` (for the 321 `case="oblique"` unit patterns, the caseMinimalPairs
+and genderMinimalPairs, and the `few` ordinal minimal pair that ships with no suffix at
+all). Those are the claims that carry HI-OBLIQUE's sharpening — that the -ों oblique
+plural is *not* unnamed, because CLDR names it on a second orthogonal axis — and its
+"4था is the one ordinal form a product cannot lift from the standard" finding. I have
+no reason to doubt either; I simply did not check them, and I would rather say so than
+let two verified halves launder a third. Both remain `keep`, because a disposition is a
+judgement about the document and an unopened file is a note about my coverage.
+
+The one thing I would flag if it were worth a change, and it is not: the technique
+writes 5वाँ with chandrabindu where CLDR writes वां with anusvara. The spec application
+already records that as orthographic divergence rather than defect, and HI-NASALMARK
+already owns the class ("pick one mark per word, catalog-wide"). The corpus is internally
+consistent about a variance the language itself permits, which is the correct outcome.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "localization/hindi",
+  "date": "2026-09-10",
+  "baseline": "44c8996585f2e5e3f36e0cb0bd1983c607cadfd7",
+  "digest": "sha256:918aa4a77fa87e5b",
+  "disposition": "keep",
+  "coverage": "All 10 owned documents read in full at reverted bytes. CLDR plurals.xml, ordinals.xml and pluralRanges.xml read for the hi blocks at release-48-2 and main - read, not executed. Not evaluated: grammaticalFeatures.xml and common/main/hi.xml, which carry the spec application's gender, case-axis and minimal-pair claims; the OS-vendor and browser-vendor Hindi style guides the register and script rules cite; the Personas tree the two process applications cite; any runtime or rendering witness; maturity or verified_on refresh.",
+  "counterexamples": [
+    "HI-OBLIQUE says proper names are safe because Hindi proper nouns do not visibly decline, but a placeholder holding a Hindi common-noun-derived organisation name ('{name} ko bhejein' where name is a declinable native noun) is exactly the unsafe case, and the rule's own quoting frame is offered only for the {item} placeholder class, not for {name}.",
+    "HI-PLURAL's zero rule and HI-LENGTH's trim ladder collide on an empty state: the one branch must read correctly at 0, at 1 and at 0.5, and rule 1 of the trim ladder (cut qualifiers first) is what strips the wording that makes it hold at 0.5.",
+    "The five ordinal categories have no counterpart in the golden path's plural paragraph beyond a pointer, so a product wiring ordinals from the golden path alone gets the cardinal rule and a reference, not the suffix inventory."
+  ],
+  "sources": [
+    {
+      "url": "https://raw.githubusercontent.com/unicode-org/cldr/main/common/supplemental/plurals.xml",
+      "result": "Established that hi's cardinal one rule is 'i = 0 or n = 1' with @integer 0, 1 and @decimal 0.0~1.0, 0.00~0.04. Confirms both HI-PLURAL's zero rule and its sharpening that every count whose integer part is zero selects one, from CLDR's own published samples. It did not establish anything about noun morphology, which the technique correctly says is a separate question."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/unicode-org/cldr/release-48-2/common/supplemental/ordinals.xml",
+      "result": "Established that the gu hi block carries five ordinal categories - one at n = 1, two at n = 2,3, few at n = 4, many at n = 6, other for the rest - and that the same block is present on main. Confirms the technique's five-way split, its exemplar mapping, and its explanation that the set is a suffix inventory closed at chhathaa. It did not establish the missing-suffix defect in hi.xml's few minimal pair, which lives in a file I did not open."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/unicode-org/cldr/release-48-2/common/supplemental/pluralRanges.xml",
+      "result": "Established that hi sits in a ten-locale group publishing three rows (one+one -> one, one+other -> other, other+other -> other), matching the spec application exactly. It did not establish the application's claim that the table is complete rather than truncated, which rests on its own reachability sweep."
+    }
+  ],
+  "documents": {
+    "hindi.md": {
+      "disposition": "keep",
+      "reason": "Correctly identifies that the register question is settled and the vocabulary question is the whole craft, then holds that framing through every section. The Hinglish-dial term classes, the SOV and postposition calque list, the zero-is-singular rule with its sub-1 sharpening, the five ordinal categories, and the complex-script engineering facts are each accurate and each pointed at the technique that owns them."
+    },
+    "techniques/de-anglicization-constructions.md": {
+      "disposition": "keep",
+      "reason": "HI-SOV, HI-POSTPOS, HI-LIGHTVERB and HI-CALQUE cover the four places Hindi and English disagree structurally, and the light-verb rule's three sub-points (karnaa versus honaa is voice; English passives do not pass through jaanaa by default; vector verbs carry aspect) are the details that separate idiom from calque. The closing clean-strings clause is placed exactly where a de-anglicization pass does its damage."
+    },
+    "techniques/devanagari-and-numerals.md": {
+      "disposition": "keep",
+      "reason": "HI-DANDA, HI-NUKTA, HI-CONJUNCT, HI-DIGITS and HI-NASALMARK are each mechanically checkable and each hedged where the standard permits both answers. The nukta rule's insistence on byte-level normalization consistency (precomposed versus base plus U+093C) is the half that actually breaks termbase lookup, and it is stated. HI-DIGITS's exception cuts in both directions, which is the right shape for a settled-by-usage convention."
+    },
+    "techniques/gender-and-agreement.md": {
+      "disposition": "keep",
+      "reason": "Re-verified today: the cardinal rule, its integer-part sharpening and the five ordinal categories all read back exactly as published at release-48-2 and on main. HI-LOANGENDER's ordered heuristics, HI-AGREE's ergative note, HI-OBLIQUE's proper-noun-versus-common-noun split and the closed suffix-inventory explanation of the ordinal set are all sound. The oblique-case-axis claim rests on grammaticalFeatures.xml, which I did not open."
+    },
+    "techniques/register-and-address.md": {
+      "disposition": "keep",
+      "reason": "HI-AAP, HI-TUM-TU, HI-HONPLUR and HI-IMPER are all morphological and therefore all greppable, which is exactly the argument the technique opens with. The hybrid form (aap with a tum-form verb) named as an MT artefact and typed as equally wrong is the finding a human reviewer would miss."
+    },
+    "techniques/terminology-and-loanwords.md": {
+      "disposition": "keep",
+      "reason": "The four term classes are the right cut, and HI-XLIT's default-to-transliterate-because-it-is-reversible reasoning is better than a taste rule. HI-TERMSPLIT's per-part-of-speech reading of one-concept-one-rendering (borrowed noun beside native verb is not an inconsistency) is a genuine refinement of the law it cites, and HI-GENPLURAL scopes the -s question to uncounted generics where the plural rule does not reach."
+    },
+    "techniques/ui-conventions-and-length.md": {
+      "disposition": "keep",
+      "reason": "The asymmetric length profile (sentences longer, transliterated single words at parity) is stated as a distribution rather than an average, and the trim ladder ends with an explicit never-trim list - the honorific ending, the nukta, conjunct integrity. HI-LABEL's observation that Devanagari has no case so a source guide's Title Case instruction has no application, and that sentence-ness is carried by the danda instead, is the correct substitution."
+    },
+    "applications/process--devanagari-and-numerals.md": {
+      "disposition": "keep",
+      "reason": "The value is the contrast between the settled rules (danda at 1,585 uses, 1,218 Latin digits against zero Devanagari) and the drifting one (485 literal three-dot ellipses against 210 glyphs in a reviewed catalog), which is the evidence for the claim that an accreted catalog is inconsistent on exactly the rules no reviewer feels. The cooked-ICU-syntax incident is the right justification for checking the skeleton before the script. Not re-verified against the tree."
+    },
+    "applications/process--terminology-and-loanwords.md": {
+      "disposition": "keep",
+      "reason": "The four term classes instantiated with occurrence counts, including the ruling-within-the-native-class case and the brand-versus-common-noun trap. The method note - write the style authority after counting the reviewed corpus, scope it against the unreviewed remainder, put the numbers in the rulings - is the transferable half and it is stated as such. Not re-verified against the tree."
+    },
+    "applications/spec--gender-and-agreement.md": {
+      "disposition": "keep",
+      "reason": "Its two central data claims were re-verified today against release-48-2 and main: the cardinal rule with its integer-part disjunct and published decimal samples, and the five-category ordinal block for gu hi. Its zero-rule sharpening and its suffix-inventory explanation both follow from what I read. The gender half - the declared case and gender inventory, the 321 oblique unit patterns, the minimal pairs and the suffix-less few pair - rests on grammaticalFeatures.xml and common/main/hi.xml, which I did not open; I am not disputing them, and I am not claiming to have checked them."
+    }
+  }
+}
+```
+

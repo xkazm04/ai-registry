@@ -134,3 +134,125 @@ and maturity are unchanged.
   }
 }
 ```
+
+## 2026-09-10 — architecture re-review after the compression revert
+
+Second review on this date, against the reverted bytes (HEAD `44c8996`). All 13
+owned documents read in full: the golden path, six techniques, six applications.
+Three primary sources were resolved this run, and two cited seams were opened in
+the local tracklight tree.
+
+**Retraction.** The earlier 2026-09-10 record's repairs were part of the pass
+reverted the same day; its dispositions are retracted as an outstanding work
+list and retained above as history. The reverted text answers most of what that
+record asked for in its own words — `nullable-cost-never-zero` already carries
+the three-grade provenance argument and the explicit "a zero cost is storable"
+carve-out; `token-usage-quadruple` already states the defaulted-zero weakness of
+the mandatory pair and names the fix (a status flag, not nullable counters).
+
+**Sources checked (read, not executed).** The Anthropic prompt-caching
+documentation confirms, field by field, what `process--token-usage-quadruple`
+attributes to it: `input_tokens` excludes cache traffic (it is the tokens after
+the last cache breakpoint, with `total = cache_read + cache_creation + input`),
+cache reads bill at 0.1×, 5-minute writes at 1.25× and 1-hour writes at 2.0×,
+and the response carries a `cache_creation` breakdown per TTL
+(`ephemeral_5m_input_tokens` / `ephemeral_1h_input_tokens`). One currency drift
+found, inside the application's `refresh_by: 2026-11-20` window: cache reads now
+bill at 0.025× on two newer model lines, so "~0.1× the input rate" is no longer
+uniform.
+
+The OpenTelemetry GenAI semantic conventions have moved to their own repository
+since the survey was written; resolved there, the attribute registry confirms
+the claim verbatim — `gen_ai.usage.input_tokens` "SHOULD include all types of
+input tokens, including cached tokens", with `gen_ai.usage.cache_read.input_tokens`
+beside it. Two facts the survey predates and which strengthen rather than
+contradict it: `gen_ai.usage.cache_write.input_tokens` now exists as a registry
+attribute — the fifth counter `token-usage-quadruple` says "a schema drawn today
+should reserve", now reserved by the normalization target itself — and the
+registry has gone per-modality on the cache side
+(`gen_ai.usage.text/image/audio.cache_read.input_tokens`). The technique's
+counter bar ("the day one of *your* providers prices it distinctly, not the day
+it appears in someone's API reference") is unchanged by that, and correctly so;
+but its "resist per-modality expansion" rule is now arguing against a shape the
+standard has adopted, which the reader deserves to know.
+
+**Tree checks.** `crates/core/src/event.rs` carries `received_at` as
+`#[serde(skip_deserializing, default = "Utc::now")]` with the doctrine in its
+doc-comment and the outside-in test
+`received_at_is_server_owned_and_ignores_the_client`; `crates/api/src/events.rs`
+has `prepare_event` calling `normalize_ids`, `stamp_api_key` and
+`mark_cost_source` in the order the technique prescribes. Cited line numbers have
+drifted (the event type has grown by ~70 lines since 2026-08-20) but every
+property held.
+
+**No finding rises to a required content change.** The nearest thing is a naming
+tension the subject already discloses: the technique is called
+`token-usage-quadruple` and its own body argues the class list has moved past
+four, with the golden path agreeing that "the durable invariant is not the count
+four but the rule behind it". A reader who takes the name as the specification
+ships four counters and folds cache writes; a reader who reads the body does
+not. That is a hazard of the name, not a wrong claim, and renaming a technique
+is a heavier act than this review should recommend on its own.
+
+**Not evaluated.** No ingest run, no serialization round-trip executed, no
+provider API called. The `node--metadata-attribution-keys` and
+`node--token-usage-quadruple` trees (`grant`, and the agent harness at commit
+`7801005`) were not opened; the second's central claim — that the TypeScript
+emitter drops the cache-creation field and that no TypeScript test asserts the
+persisted cost — rests on a search this review did not repeat. The
+`python--server-owned-fields` tree (deer-flow at `08b27aef`) was not opened.
+
+**Frontmatter note, not a content finding.**
+`applications/python--server-owned-fields.md` carries no `status:` key, and
+`applications/node--token-usage-quadruple.md` carries `proof: structural-only`
+without the `applied:` / `ab_verdict:` pair that convention puts beside it.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "llm-observability/llm-call-telemetry-model",
+  "date": "2026-09-10",
+  "baseline": "44c8996585f2e5e3f36e0cb0bd1983c607cadfd7",
+  "digest": "sha256:691abe9c064cf12e",
+  "disposition": "keep",
+  "coverage": "All 13 owned documents read in full against the reverted bytes. Three primary sources resolved by reading (Anthropic prompt-caching docs; OpenTelemetry GenAI attribute registry, at its new repository; the moved OTel metrics page). Two cited seams opened in the local tracklight tree. Not evaluated: any ingest run, serialization round-trip or provider call; the grant, agent-harness and deer-flow trees the node and python applications cite.",
+  "counterexamples": [
+    "A provider that reports a cache-write counter the schema does not model leaves the technique's own advice ambiguous under its title: the name says four counters, the body says reserve a fifth.",
+    "An emitter that sends no client timestamp at all (the grant application's own case) collapses the dual clock to receipt time for that producer, so the debugging-reads guarantee the technique promises does not hold fleet-wide — the golden path states the split as if both clocks always arrive.",
+    "A call whose usage block never arrives (an aborted stream) is stored with mandatory counters defaulted to 0, indistinguishable from a measured zero — named as a known weakness, but it means the model's own absent-vs-zero doctrine has a sanctioned exception on its two most load-bearing fields."
+  ],
+  "sources": [
+    {
+      "url": "https://platform.claude.com/docs/en/docs/build-with-claude/prompt-caching",
+      "result": "Read (not executed). Confirms input_tokens excludes cache traffic, total = cache_read + cache_creation + input, 0.1x reads, 1.25x 5-minute writes, 2.0x 1-hour writes, and a per-TTL cache_creation breakdown. Establishes one drift: read pricing is 0.025x on two newer model lines, so the survey's uniform '~0.1x' has an exception."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/open-telemetry/semantic-conventions-genai/main/docs/registry/attributes/gen-ai.md",
+      "result": "Read (not executed). Confirms gen_ai.usage.input_tokens 'SHOULD include all types of input tokens, including cached tokens' and gen_ai.usage.cache_read.input_tokens. Establishes two facts the survey predates: gen_ai.usage.cache_write.input_tokens now exists, and per-modality cache_read counters (text/image/audio) have been added. Does not establish anything about how any particular platform stores these."
+    },
+    {
+      "url": "https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-metrics/",
+      "result": "Read (not executed). Establishes only that the GenAI conventions have moved to a separate repository; the metrics document itself defines gen_ai.client.token.usage with an input/output token-type attribute and carries no cache guidance. The survey's claim had to be resolved in the attribute registry instead — a citation the application should point at directly."
+    },
+    {
+      "path": "C:/Users/kazda/kiro/tracklight",
+      "result": "Read at d398835. Confirms received_at as skip_deserializing with a default, the named outside-in test, and prepare_event's normalize_ids / stamp_api_key / mark_cost_source ordering. Cited line numbers have drifted since 2026-08-20. Nothing was built or executed."
+    }
+  ],
+  "documents": {
+    "llm-call-telemetry-model.md": {"disposition": "keep", "reason": "The five field families, the constitution property (one function, before storage) and the absence-is-disclosed posture hold, and the token-family paragraph already states the durable invariant as the rule rather than the count four. The dual-clock section assumes both clocks arrive; one of the subject's own applications documents an emitter that sends no client timestamp."},
+    "techniques/dual-clock-event-time.md": {"disposition": "keep", "reason": "Two owners, two jobs, the decision rule for an ambiguous read, enforcement at the deserialization boundary and the documented backfill sentinel are each stated with the failure they prevent. The refusal to add a third clock is the right boundary and is argued, not asserted."},
+    "techniques/ingest-skew-rejection.md": {"disposition": "keep", "reason": "The asymmetric bounds are justified by the honest population each direction admits, and the tuning rule ('which honest emitter would this reject?') is operational. Reject-not-clamp, per-item batch rejection, codes-are-contract and count-what-you-refuse are all consistent with the golden path's one-door rule."},
+    "techniques/metadata-attribution-keys.md": {"disposition": "keep", "reason": "The map-not-columns trade is stated with the cost accepted (un-indexed residual predicates) and a promotion rule on evidence. The three discipline rules and the four production edge rules — including non-object metadata being left alone and the served-tier witness overriding a requested lane — are concrete and internally consistent."},
+    "techniques/nullable-cost-never-zero.md": {"disposition": "keep", "reason": "The null-vs-zero argument, the aggregates-disclose-their-unpriced-count corollary, the three provenance grades and the price-at-ingest-once rule are coherent, and the zero-as-fact carve-out prevents the doctrine from over-reaching. The scope limit at the end (do not extend nullability to fields where substitution cannot corrupt an accounting outcome) is what keeps it usable."},
+    "techniques/server-owned-fields.md": {"disposition": "keep", "reason": "The canonical set, the membership rule, and the stamp-and-strip mechanism (including the unauthenticated bypass lane, which is the half most implementations miss) are realized in the tree as written. The closing 'when not to server-own' draws the line correctly: stamping what you cannot verify destroys data and signs your name to it."},
+    "techniques/token-usage-quadruple.md": {"disposition": "keep", "reason": "Every provider-facing claim was corroborated against the Anthropic docs and the OTel registry this run, including the cache-write premium tiered by TTL and the inclusive-totals-with-sub-counts normalization target. Two currency notes for the next pass: cache_write is now a registry attribute, and the registry has gone per-modality on cache reads, which the technique's 'resist per-modality expansion' rule now argues against rather than merely predating."},
+    "applications/node--metadata-attribution-keys.md": {"disposition": "keep", "reason": "Reads the technique from the producer's seat and adds a genuine discipline (ambient attribution via async context, with its cost stated: a missing parameter becomes a missing key). Its own deviation is named — nothing on the emitting side measures the untagged bucket. The grant tree was not opened this run."},
+    "applications/node--token-usage-quadruple.md": {"disposition": "keep", "reason": "The finding — one userspace counts cache writes, the other discards them at the boundary, and the parity the design document claims is tested on one side only — is exactly the shape the technique predicts, and the document is careful that the field is dropped at ingest and therefore unrecoverable. Not re-searched this run; carries proof without the applied/ab_verdict pair."},
+    "applications/process--dual-clock-event-time.md": {"disposition": "keep", "reason": "Records the contract-travels-with-the-schema realization: each timestamp row names its owner and enumerates its readers, with the skew bound inline and the backfill sentinel stated. Consistent with what the tree still shows, at drifted line numbers."},
+    "applications/process--token-usage-quadruple.md": {"disposition": "keep", "reason": "Its two most checkable claims were re-resolved this run and held: the Anthropic per-call fields and multipliers, and the OTel inclusive-totals convention. Two updates owed at its refresh date rather than now — the 0.025x cache-read tier, and the registry's new cache_write and per-modality attributes. Its OTel citation should point at the attribute registry in the new repository, where the sentence actually lives."},
+    "applications/python--server-owned-fields.md": {"disposition": "keep", "reason": "Transplants the stamp-and-strip door to a run request rather than a telemetry event and adds the unconditional-stamping rule ('a fact whose presence depends on whether an observer is installed is not a fact'), with an honest ceiling: the server-owned set is a list, and a forgetful middleware yields no provenance rather than wrong provenance. Tree not opened; carries no status frontmatter key."},
+    "applications/rust--server-owned-fields.md": {"disposition": "keep", "reason": "The two seams cited were opened this run and match: skip_deserializing with a default plus the outside-in test, and one preparation function stamping project, receipt time, ids, credential and cost provenance in order. The four-arm stamp_api_key including the strip-on-no-credential branch is the load-bearing half and is present."}
+  }
+}
+```

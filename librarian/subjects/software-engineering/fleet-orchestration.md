@@ -1,7 +1,7 @@
 ---
 domain: software-engineering
 subject: fleet-orchestration
-last_touched: 2026-09-09
+last_touched: 2026-09-10
 touched_by: intake
 dry_streak: 0
 ---
@@ -429,6 +429,292 @@ were not rerun; their dates and maturity metadata were not refreshed.
     "applications/rust--soft-budget-under-the-hard-cap.md": {
       "disposition": "reverify",
       "reason": "A requested maximum is not promised consumption; historical field-count test does not establish changed model behavior. Private runtime not rerun."
+    }
+  }
+}
+```
+
+### 2026-09-10 — architecture re-review after the compression revert
+
+All 27 documents read against baseline `44c8996585f2e5e3f36e0cb0bd1983c607cadfd7`.
+The restore split this subject in two, and the split matters for reading the
+record below. Seven documents — the golden path, `brief-carries-the-session`,
+`completion-claim-verification`, `coordination-failure-triage`,
+`deliberation-as-an-elected-turn`, `heterogeneous-model-panels` and
+`worker-trajectory-anatomy` — were restored whole and are pre-review bytes. The
+other nine techniques and all ten applications carry the salvaged edits.
+
+**This entry retracts the 2026-09-09 record's blanket `clarify` on the golden
+path and all sixteen techniques.** That record's document-level corrections were
+written against documents that no longer exist, and on the current bytes they
+are largely already landed. `durable-fleet-state` already refuses to confuse a
+shared callback with an atomic commit and already permits store-authoritative
+and group-commit designs with a declared acknowledgement contract.
+`hibernation-and-resume` already retains capacity and exclusive access until
+termination is confirmed or the old executor fenced, and already requires an
+atomic incarnation reservation before spawn. `session-registry` already binds
+observations to a process incarnation and already says a registry transition
+alone cannot stop an external process. `substrate-reconciliation` already
+requires ownership and deletion-generation rechecks at the substrate boundary
+and already says a grace window does not prove safety. `parallel-dispatch`
+already keys queueing on durable result delivery rather than on whether the
+requester is a model. Thirteen of the seventeen are `keep`.
+
+Four are not, and three of those are source problems I checked.
+
+**The taxonomy shares do not match the paper.** The golden path's technique list
+and `coordination-failure-triage`'s table both publish specification ~42%,
+inter-agent misalignment ~37%, verification ~21%. The pinned source at
+`arxiv.org/html/2503.13657v3` reports the three failure categories at roughly
+44.1%, 31.4% and 23.5% of its 1,642 annotated traces. The misalignment share is
+six points out, and the corpus's three numbers sum to exactly 100 where the
+paper's sum to 99. Everything around them checks out precisely — 1,642 traces
+across seven frameworks, a taxonomy built on 150+ expert-annotated traces,
+κ=0.88 on final validation (with an LLM annotator at κ=0.77), +9.4 points from
+role-specification rewriting and +15.6 from an added verification step. The
++15.6 is reported by the paper **on ProgramDev specifically**, which neither
+document says. The technique's own closing warning — that a pooled distribution
+is a prior and not your measurement — is the right frame; it should be applied
+to the paper's own version numbering, because these shares moved between
+versions and the corpus is quoting one it does not name.
+
+**The trajectory anatomy is almost exactly right, and wrong in three places.**
+Against `arxiv.org/html/2607.09510v1` I confirmed, verbatim: decisive error at
+median step 7 of runs with a median of 27 steps; first observable signal near
+step 16; 26% of failed trajectories fabricate success with 84% of fabrication
+beginning at or after lock-in; false premises 30.7% and specification neglect
+14.9%; competence gaps 32.8% and environment blockers 8.8%; 92% of successful
+versus 37% of failed trajectories responding to at least one error signal;
+successful recoveries converging in a median of 5 steps against 12 for failed
+ones. This is unusually well-sourced work. The three defects:
+
+- **"Lock-in follows at median step 12."** The paper's stated figures are a
+  median recovery window of *one* execution step and a median of *12 steps for
+  unsuccessful repair attempts*. Those are different quantities, and step 12
+  appears to be the second one wearing the first one's name. If lock-in really
+  lands at 12 the paper says so somewhere I did not reach; as it stands the
+  sentence sits one line above "The median recovery window is one step", and
+  7 + 1 is not 12.
+- **"Detection recall in the study nearly doubled when the task requirements
+  were supplied to the monitor."** The paper reports overall monitor recall
+  rising from 18.2% on behaviour alone to 28.8% at best with requirements — a
+  1.6× rise, not a doubling. The doubling is real *per category* (false
+  premises 15%→32%, ignored requirements 3%→22%, capability gaps 12%→30%), and
+  the per-category numbers make the argument better than the aggregate does.
+  The paper also reports only 3.7–8.7% of failures flagged before lock-in,
+  which is the number that most sharpens this technique's front-load-the-
+  supervision rule and appears nowhere in it.
+- **"~3% of problems resolved by the agent's own correction."** The companion
+  field corpus (`arxiv.org/html/2605.29442v1`, 20,574 sessions across 1,639
+  repositories) states that 91.49% of *visible resolutions* still require
+  explicit user correction and 8.51% occur without. The ~91% matches. The ~3%
+  does not correspond to any figure in the abstract, and the ~23%
+  inaccurate-self-reporting share is likewise not there. Either they come from
+  the body under a different denominator, in which case the denominator belongs
+  in the sentence, or they are wrong.
+
+**The panel technique rests one claim on nothing and one on an inversion.** The
+martingale result — "analysis of simultaneous-revision debate shows belief in
+the correct answer moves as a martingale — no expected gain beyond what the
+first-round vote already held" — is a formal claim with no citation anywhere in
+the subject, and it is what justifies the zero-round cap. It needs an address.
+Separately, "announcing the expert moved outcomes by a few points where routing
+its answer around the vote recovers the whole gap" is checked against
+`arxiv.org/abs/2602.01011` (*Multi-Agent Teams Hold Experts Back*; Pappu, El,
+Cao, di Nolfo, Sun, Cao, Zou), whose abstract says teams fail to match their
+expert "even when explicitly told who the expert is" — no improvement, not a
+few points. The abstract does confirm everything else the technique builds on
+it: expert *leveraging* rather than identification is the bottleneck,
+integrative compromise averages expert and non-expert views, the effect worsens
+with team size and correlates negatively with performance, and losses reach
+41.1%. Fix the one sentence, keep the rule.
+
+**One document did not survive the compression, and the salvage screen missed
+it.** `soft-budget-under-the-hard-cap.md` is 499 words against a ~1,100-word
+median across this subject's sixteen techniques, and it is the **only** one with
+zero cross-links: `grep -c '](' ` returns 0. Its own frontmatter declares three
+laws — `limits-are-derived`, `failure-not-empty-success`,
+`count-carries-predicate` — and the body cites none of them. It names neither
+its own application (`rust--soft-budget-under-the-hard-cap`), nor
+`parallel-dispatch`, whose slot cap is one of the ceilings it is telling the
+reader to reconcile, nor `deliberation-as-an-elected-turn`, which the golden
+path pairs it with. The salvage commit kept it on the grounds that techniques
+came out at 0% net and none fell below floor; that is an aggregate, and this
+document is the tail it conceals. The content that remains is correct — I am not
+asking for words back, I am reporting that the subject's densest cross-linked
+technique set has one node with no edges, which is a structural finding a
+reader can check in one command. `durable-fleet-state` (888 words, two links,
+opening on a design choice rather than on the concern) is the same shape, one
+degree milder, and I keep it.
+
+All ten applications are `reverify`. The public tree behind
+`node--substrate-reconciliation` exists and is described as the document
+describes it — github.com/onecli/onecli, an open-source platform for running
+sandboxed agents, with an `apps/runner` component that "starts, parks and reaps
+agent sandboxes" — but commit `ff7a192` was not checked out and no line was
+opened. The other nine cite private or vendor trees; nothing was re-executed,
+no A/B rerun, no witness date refreshed. Worth carrying forward:
+`rust--session-registry` discloses a live divergence from its own technique —
+wake mints a **new** registry id and deletes the old row, so the identity that
+actually survives is the runtime's conversation id, not the registry key, where
+`session-registry` prescribes one identity end to end. That is honestly
+recorded and remains the subject's most interesting open deviation.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "software-engineering/fleet-orchestration",
+  "date": "2026-09-10",
+  "baseline": "44c8996585f2e5e3f36e0cb0bd1983c607cadfd7",
+  "digest": "sha256:3385725341c62bac",
+  "disposition": "clarify",
+  "coverage": "All 27 owned documents read in full against the post-restore bytes, plus a structural pass over the technique set (word counts and cross-link counts per document) to locate compression damage the salvage screen's aggregates hide. Primary sources read, not executed: arxiv.org/html/2503.13657v3 (taxonomy, corpus size, kappa, category shares, intervention deltas), arxiv.org/html/2607.09510v1 (trajectory anatomy figures), arxiv.org/abs/2605.29442 (field-corpus abstract), arxiv.org/abs/2602.01011 (expert-deference abstract), and the onecli repository landing page. Not evaluated: any model run, any connected-project runtime, the onecli tree at ff7a192, the deer-flow and open_deep_research trees, every private consumer test, and every application witness date - all unchanged.",
+  "counterexamples": [
+    "A projector that fills in a default status for a record that carried none produces a state no turn can ever clear, because the turn that would have emitted the correction already ended - and every staleness budget passes over it.",
+    "A probe whose identity provider is briefly down reads as 'process absent' and reaps a live session's slot, working directory and advertised artifacts.",
+    "A worker can satisfy 'the branch named in the brief exists and is one commit ahead' with an irrelevant or empty commit, and a valid no-change review can fail the same leaf honestly.",
+    "A test run in a shell the worker used all task long can be green because an earlier call in that same session shadowed the runner; only a fresh controlled session decides the leaf.",
+    "A dispatcher can emit reflection and dispatch in one model response, so the reflection describes a state that has not happened and reads in the transcript exactly like an assessment that did.",
+    "A cap that never fires in ordinary traffic is still a functioning backstop, so a zero cap-fired fraction is not evidence the cap is unnecessary.",
+    "Two seats from different model families can share a training-era error, and a reviewer handed the producer's own argument is decorrelated by provenance and anchored by content.",
+    "A resumed process that silently failed to load its stored context passes every liveness check while having lost everything the identity was preserved for.",
+    "A reconciliation sweep that reads a partial substrate listing as a complete one converts a transport outage into a purge of live work.",
+    "A registry wake that mints a new key and deletes the old row keeps the session alive and breaks the one-identity-end-to-end invariant the same subject prescribes."
+  ],
+  "sources": [
+    {
+      "url": "https://arxiv.org/html/2503.13657v3",
+      "result": "Established 1,642 annotated traces across 7 frameworks, a taxonomy developed on 150+ expert-analysed traces, kappa 0.88 on final validation (LLM annotator 0.77), category shares of roughly 44.1% / 31.4% / 23.5%, +9.4% task success from role-specification improvements and +15.6% from an added verification step on ProgramDev. Established that the corpus's published shares (42/37/21) do not match this version. Did not establish topology-independent causality, a universal gain ceiling, or which paper version the corpus quoted."
+    },
+    {
+      "url": "https://arxiv.org/html/2607.09510v1",
+      "result": "Confirmed exactly: decisive error at median step 7 (mean 11.92, 1,184 failed trajectories) in runs of median 27 steps; first observable failure near step 16; 26% of failed trajectories fabricate success with 84% beginning at or after lock-in; false premises 30.7%, specification neglect 14.9%, competence gaps 32.8%, environment blockers 8.8%; 92% vs 37% error-signal response; successful recoveries median 5 steps, failed 12; monitor recall 18.2% behaviour-only rising to 28.8% at best with requirements, with per-category rises of 15->32, 3->22 and 12->30; only 3.7-8.7% of failures flagged before lock-in. Did NOT establish a lock-in median of step 12 (the paper states a median recovery window of one step), did not establish the 44-80% epistemic range across model-scaffold pairings, and does not support 'recall nearly doubled' as an aggregate."
+    },
+    {
+      "url": "https://arxiv.org/abs/2605.29442",
+      "result": "Established the corpus as 20,574 coding-agent sessions across 1,639 repositories, seven recurring misalignment forms, 90.50% of incidents causing effort and trust costs rather than irreversible damage, and 91.49% of visible resolutions requiring explicit user correction against 8.51% without. Did not establish the corpus's '~3% resolved by the agent's own correction' or the '~23% inaccurate self-reporting among misaligned episodes' figures."
+    },
+    {
+      "url": "https://arxiv.org/abs/2602.01011",
+      "result": "Established the paper as 'Multi-Agent Teams Hold Experts Back' (Pappu, El, Cao, di Nolfo, Sun, Cao, Zou): self-organizing teams consistently fail to match their expert agent even when explicitly told who the expert is, with losses up to 41.1%; expert leveraging rather than identification is the bottleneck; integrative compromise averages expert and non-expert views, worsens with team size and correlates negatively with performance, while providing robustness against adversarial agents. Established that 'announcing the expert moved outcomes by a few points' is not what the abstract reports. Study not reproduced."
+    },
+    {
+      "url": "https://github.com/onecli/onecli",
+      "result": "Established the repository exists and is an open-source platform for running sandboxed agents per team member, Apache-2.0, with web, API, Rust gateway, runner and sandbox-supervisor components, the runner described as starting, parking and reaping agent sandboxes. Did not open commit ff7a192, did not confirm any cited file path or line range, and executed nothing."
+    },
+    {
+      "source": "Structural pass over the subject's own bytes (word and cross-link counts per technique)",
+      "result": "Established that soft-budget-under-the-hard-cap.md is 499 words against a ~1,100-word median for this subject's 16 techniques and carries zero cross-links where every sibling carries 1-5, while declaring three laws in frontmatter that its body never cites. Established durable-fleet-state.md as the same shape one degree milder (888 words, 2 links). Did not determine whether the missing material was ever substantive rather than ceremonial."
+    }
+  ],
+  "documents": {
+    "fleet-orchestration.md": {
+      "disposition": "clarify",
+      "reason": "Republishes the taxonomy shares as specification ~42% / misalignment ~37% / verification ~21% in its technique list; the pinned source reports ~44.1 / ~31.4 / ~23.5. Pin the paper version beside the numbers. Everything else - one registry one state machine, the two lifecycle tiers, hibernation as a state, collision domains, harvest as a phase, the chosen operator medium, the invariants - is sound and stays."
+    },
+    "techniques/absent-status-passthrough.md": {
+      "disposition": "keep",
+      "reason": "The sweeper-cannot-cover-this test, the three laundering points, and the salvaged section allowing an optional patch field or a confidence envelope instead of mandating an enum member are correct; unknown-does-not-authorize-reaping is already stated."
+    },
+    "techniques/brief-carries-the-session.md": {
+      "disposition": "keep",
+      "reason": "The inherited-versus-session-state inventory, the class-dependent standing-file trap, and the role-scoped split between continuation and judgment briefs - with the explicit note that the same content is a head start for one and a thumb on the scale for the other - are the subject's clearest reasoning and need no change."
+    },
+    "techniques/completion-claim-verification.md": {
+      "disposition": "keep",
+      "reason": "Three layers with receipts stamped outside every short-circuiting guard, decidable leaves checked parent-side with UNVERIFIED as the fail-closed verdict, provenance stamps from the sandbox that produced the evidence, criteria in the untrusted channel and verdicts server-owned, and an explicit statement that runner semantics are trusted. Complete."
+    },
+    "techniques/coordination-failure-triage.md": {
+      "disposition": "clarify",
+      "reason": "The class shares in the table (42/37/21) do not match the pinned source (44.1/31.4/23.5), and the +15.6 verification gain is ProgramDev-specific in the paper without being said so here. The corpus size, framework count, kappa and +9.4 all check out, as does the judge-reads-symptom-not-cause amendment and the composition-not-variance section."
+    },
+    "techniques/deliberation-as-an-elected-turn.md": {
+      "disposition": "keep",
+      "reason": "The three placements, the no-parallel-emission rule as the one thing that costs a turn, and election-rate-as-signal-never-target are internally consistent and correctly bounded against grounding-over-deliberation."
+    },
+    "techniques/durable-fleet-state.md": {
+      "disposition": "keep",
+      "reason": "Content is correct after the salvage - terminal states not lossy, group commit with per-waiter acknowledgement, mirror stores identity not handles, the four-step reconcile order, and the recovery vocabulary keeping adopted, lost-at-recovery and self-reported failure separate. Noted as the second-densest compression casualty by cross-link count; no content change requested."
+    },
+    "techniques/heterogeneous-model-panels.md": {
+      "disposition": "clarify",
+      "reason": "The martingale claim about simultaneous-revision debate carries no citation anywhere in the subject and is what justifies the zero round cap, so it needs an address. 'Announcing the expert moved outcomes by a few points' inverts the pinned study, whose abstract reports teams failing to match the expert even when told who it is. The leveraging-not-identification bottleneck, integrative compromise, the team-size effect and the 41.1% loss all check out."
+    },
+    "techniques/hibernation-and-resume.md": {
+      "disposition": "keep",
+      "reason": "Park as an ordered transition with releases deferred until termination or fencing, policy parking re-validated inside the lock, wake as identity work with an atomic incarnation reservation and a restoration check against the stored checkpoint, and a retention policy for the sleeping. Nothing outstanding."
+    },
+    "techniques/lifecycle-signals.md": {
+      "disposition": "keep",
+      "reason": "Two mandatory tiers, signals-are-observations-not-commands, total vocabulary mapping, per-workload staleness budgets with the multiplier written down, the orphan scan's corroborated-ownership requirement, and the salvaged rule that silence and artifact growth are suspicion signals rather than proof."
+    },
+    "techniques/outbound-compute-plane.md": {
+      "disposition": "keep",
+      "reason": "The itemised no-ingress payoff with its honest security caveat, the store's one door with the executor outside it, single-use bootstrap tokens with expiry, audience and ambiguous-exchange recovery, and the labelled dev relaxation. The replace-not-restart consequence is correctly scoped to a baked-in spent token rather than to all bootstrap protocols."
+    },
+    "techniques/parallel-dispatch.md": {
+      "disposition": "keep",
+      "reason": "Capacity, assignment and accounting as inseparable; the refuse-instead-of-queue rule keyed on durable delivery rather than on requester kind; the derived dispatch key with its check-then-act caution and pre-spawn reservation; collision domains with the verify-after-irreversible-act ritual and the repair-attribution-not-rewind recovery rule."
+    },
+    "techniques/result-harvest.md": {
+      "disposition": "keep",
+      "reason": "The result contract, six terminal accounts summing to the roster as a total invariant, the straggler policy with quorum and correction-event semantics, provenance preserved through the merge, and harvest keyed by run, incarnation and revision so a repeat is a no-op and a changed body is a conflict."
+    },
+    "techniques/session-registry.md": {
+      "disposition": "keep",
+      "reason": "Entry shape, the eight-state closed vocabulary with lost never merged into exited, the one transition door with its awkward cases, incarnation-bound observations, and the rule that release follows confirmed stop or fencing rather than suspicion. The prior record's corrections are already in the text."
+    },
+    "techniques/soft-budget-under-the-hard-cap.md": {
+      "disposition": "clarify",
+      "reason": "A compression survivor the salvage aggregate concealed: 499 words against a ~1,100-word median, the only technique in the subject with zero cross-links, declaring three laws in frontmatter that the body never cites, and naming neither its own application nor parallel-dispatch's slot cap nor deliberation-as-an-elected-turn. What remains is correct; what is missing is every edge to the rest of the subject."
+    },
+    "techniques/substrate-reconciliation.md": {
+      "disposition": "keep",
+      "reason": "Deletion as a registry act reaching compute by convergence, the five fences each with the failure it prevents, incarnation- and generation-aware deletion at the substrate boundary, partial teardown recorded rather than claimed as success, and the read-only reduction when the platform cascades deletes."
+    },
+    "techniques/worker-trajectory-anatomy.md": {
+      "disposition": "clarify",
+      "reason": "Three numbers do not survive the source. 'Lock-in at median step 12' conflicts with the paper's median recovery window of one step and appears to borrow the median duration of failed repair attempts; 'detection recall nearly doubled' overstates an 18.2%-to-28.8% aggregate rise that doubles only per category; and '~3% resolved by the agent's own correction' does not match the field corpus's 8.51% of visible resolutions without user intervention. Every other figure verified exactly against the pinned paper."
+    },
+    "applications/node--substrate-reconciliation.md": {
+      "disposition": "reverify",
+      "reason": "The cited public repository exists and matches its description, but commit ff7a192 was not checked out and no line range was opened. The quoted header comments remain design claims rather than crash-safety proofs, and the token-derived installation fingerprint still owes a rotation policy."
+    },
+    "applications/python--completion-claim-verification.md": {
+      "disposition": "reverify",
+      "reason": "Historical source-guide observations against a pinned tree that was not reopened or executed; the fresh-shell stamp and absolute-path criterion remain necessary rather than sufficient trust witnesses, as its own boundary section says."
+    },
+    "applications/python--deliberation-as-an-elected-turn.md": {
+      "disposition": "reverify",
+      "reason": "The salvaged correction stands - the pinned dispatcher accepts reflection and research calls in one model response, so the prompt requests separation the dispatcher does not enforce. Source not reread, runtime and model behaviour not rerun, election rate still unmeasured."
+    },
+    "applications/react--session-registry.md": {
+      "disposition": "reverify",
+      "reason": "The seven-row GROUP_ORDER against an eight-member binding, and the exhaustiveness door that closes it, are a clear and useful account; compile-time coverage still does not establish merge enforcement, and neither arm was rerun."
+    },
+    "applications/rust--absent-status-passthrough.md": {
+      "disposition": "reverify",
+      "reason": "The three-case simulation and its bounded blast radius are well argued and the salvaged retraction of inferred author intent is correct; the private tree was not reopened, and a transitions-out-of-unknown counter measures departures from unknown, not counterfactual fabrications."
+    },
+    "applications/rust--brief-carries-the-session.md": {
+      "disposition": "reverify",
+      "reason": "Three worker classes carrying the session three ways, with a test pinning the restated invariants, is the technique's inventory in code; launch flags and working directory remain inputs to discovery rather than proof that no user-level or harness instruction loaded, and nothing here was rerun."
+    },
+    "applications/rust--completion-claim-verification.md": {
+      "disposition": "reverify",
+      "reason": "The cue-to-Finished path with nothing reading an artifact is a sound structural finding, and the salvaged caveat that the branch leaf admits irrelevant commits and rejects valid no-change tasks is correct. The named falsifier - a query over existing session rows and branches - has still not been run."
+    },
+    "applications/rust--parallel-dispatch.md": {
+      "disposition": "reverify",
+      "reason": "The declared soft-cap trade-off, the window-grouped run identity with zero explicit callers at the census date, and the summary-from-declared-text boundary are useful disclosed deviations; code, tests and counts were not rerun and the soft cap does not establish a total fleet resource bound."
+    },
+    "applications/rust--session-registry.md": {
+      "disposition": "reverify",
+      "reason": "Documents the subject's most interesting live deviation - wake mints a new registry id and deletes the old row, so the surviving durable identity is the conversation id rather than the registry key - alongside a best-effort mirror that can lose terminal transitions. Skipping unknown persisted tokens can also hide a live session's resource claims. Nothing rerun."
+    },
+    "applications/rust--soft-budget-under-the-hard-cap.md": {
+      "disposition": "reverify",
+      "reason": "The paired measurement (0 result fields naming the unreachable surplus before, 2 after, behaviour unchanged) and the output-shape contract test that rejected the first attempt are recorded honestly, and the behavioural half is explicitly unbanked. Tests were not rerun and a requested ceiling is still not a promise to spend it."
     }
   }
 }

@@ -136,3 +136,135 @@ the qualifications below govern this review.
   }
 }
 ```
+
+## Architecture review - 2026-09-10 (re-review after the compression revert)
+
+Read all 12 documents at current bytes, and read (not executed) the module the three Node
+applications are about: `src/lib/visual-gen/mesh-finish.ts` in the `pof` working tree.
+This supersedes the earlier 2026-09-10 record on this note, whose digest the revert
+invalidated, and it upgrades two of its `reverify` rows to concrete findings.
+
+**The golden path has a word that inverts its own rule.** Under "Unwrapping is the gate
+on baking" it reads: "With no texture space there is nothing to write into, so a bake
+requested on an unwrapped mesh is not a degraded bake, it is not a bake." Everywhere else
+in the subject — the technique, the ordering arrow, the application — "unwrapped" means
+*has been through the unwrap*, i.e. has UVs. As written the sentence says a bake on a mesh
+with UVs is not a bake, which is the opposite of the section it sits in. This is a
+one-word defect and it sits in the load-bearing paragraph of the ordering argument.
+
+**Two applications disagree about how the bake is sized, and the source settles it against
+the older one.** `node--high-to-low-bake-coverage` (verified 2026-08-30) says "`bakeSize`
+defaults to 1024 — a starting point for a single-object asset";
+`node--texture-pass-must-consume-the-bake` (verified 2026-09-07) says the bench "sizes the
+bake from texel density rather than a flat default". At source, `resolveBakeSize` returns
+an explicit `bakeSize` first, then `bakeSizeForExtent(targetExtentM)` from a
+`texel-density.ts` module whose own header describes the flat 1024 as the thing it exists
+to replace, and only then falls through to `1024`. So 1024 is now the last resort for an
+asset of unknown real-world extent, not the default. The newer application is right and
+the older one is stale on this point — and the technique's step 4 ("choose the resolution
+as a texel density, not as a number ... a fixed default is a starting point ... not a
+specification") is what the repo went on to implement, which is worth recording as the
+standard leading the realisation rather than following it.
+
+The same file has moved under the older applications' feet in a smaller way:
+`mesh-finish.ts` is 635 lines, not the 484 `node--unwrap-only-the-low-poly` reports, and
+its line citations have drifted by tens of lines (`UNWRAP_FACE_CEILING` is at 22, not 21;
+`unwrapPlan`'s refusal is near 348, not 232–244). The constants themselves are unchanged:
+`UNWRAP_FACE_CEILING = 200_000`, `BAKEABLE_MAPS = ['normal','ao','diffuse','roughness']`,
+`DEFAULT_SMOOTH_ANGLE = 30`. Line numbers in an application are a maintenance cost the
+corpus accepts; naming the symbol is what survives, and these documents mostly do both.
+
+The techniques themselves I would not touch. The derivable/not-derivable line through the
+channel set is argued from the ray-casting mechanism rather than asserted; the
+authored-normals authority rule is stated with the measured no-op behind it; the
+pack-versus-project asymmetry ("one direction destroys silently, the other refuses") is
+the sharpest sentence in the subject. `texture-pass-must-consume-the-bake` gained its
+strongest section — the provider that accepts only its own prior task ids, which makes the
+two lines disjoint at commissioning time — from an application that returned `not-better`,
+and that is the shape of evidence this corpus should want more of.
+
+What I could not verify: every Blender-side number here (0 of 30,967 normals unchanged;
+99.9% rewritten by a mean of 73 degrees; `select_interior_faces` selecting 1 face on a
+welded wall and 0 on an enclosed shell) is a measurement against Blender 4.2 that I did
+not re-run and cannot re-run from a source read. Likewise the UE 5.8.0 probe corpus in
+`process--headless-dcc-capability-limits`: reading `ue-gotchas.ts` would confirm the entry
+exists, not that the probe result still holds on the current engine build. Those stay
+`reverify`, and refreshing them needs a live probe, not a re-read.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "game-production/mesh-finishing-for-engine-readiness",
+  "date": "2026-09-10",
+  "baseline": "44c8996585f2e5e3f36e0cb0bd1983c607cadfd7",
+  "digest": "sha256:f3423260876a233d",
+  "disposition": "clarify",
+  "coverage": "All 12 owned documents read at current bytes. src/lib/visual-gen/mesh-finish.ts and texel-density.ts read (not executed) in the pof working tree. Not evaluated: any Blender run, any UE session, any bake, any probe re-execution, any measured normal or face count.",
+  "counterexamples": [
+    "Taken literally, the golden path's 'a bake requested on an unwrapped mesh is not a bake' forbids the exact ordering the same section prescribes.",
+    "An asset with no declared real-world extent still receives a flat 1024 bake, so the texel-density rule the technique states has a silent fallback the technique does not describe.",
+    "The cull ceiling is 200k faces on the pre-decimation mesh, but the inputs this bench exists for routinely arrive far denser than that, so the operation the golden path calls meaningful-only-before-reduction is refused on the common case.",
+    "A part whose normal salience is high and whose texturer refuses external meshes has no route at all: the subject's routing key is applied at commissioning, and it gives no reading for an asset already generated on the wrong line."
+  ],
+  "sources": [
+    {
+      "path": "C:/Users/kazda/kiro/pof/src/lib/visual-gen/mesh-finish.ts",
+      "result": "Read, not executed. Confirms UNWRAP_FACE_CEILING = 200_000, BAKEABLE_MAPS = ['normal','ao','diffuse','roughness'] and DEFAULT_SMOOTH_ANGLE = 30, and establishes that resolveBakeSize prefers an explicit size, then bakeSizeForExtent, and reaches a flat 1024 only as a fallback — which refutes the older application's 'bakeSize defaults to 1024'. Also establishes the file is 635 lines, not the 484 an application reports. Establishes nothing about any Blender behaviour."
+    },
+    {
+      "path": "C:/Users/kazda/kiro/pof/src/lib/visual-gen/texel-density.ts",
+      "result": "Read, not executed. Its header describes the flat 1024 default as the defect it exists to replace and sets DEFAULT_TARGET_PX_PER_M = 1024, corroborating that the texel-density path is the current sizing authority. Says nothing about whether the resulting map sizes are correct for any asset class."
+    }
+  ],
+  "documents": {
+    "mesh-finishing-for-engine-readiness.md": {
+      "disposition": "clarify",
+      "reason": "'a bake requested on an unwrapped mesh is not a bake' inverts the rule of the section it states; every other document uses 'unwrapped' to mean 'has UVs'."
+    },
+    "techniques/unwrap-only-the-low-poly.md": {
+      "disposition": "keep",
+      "reason": "Ceiling on the reduction target rather than the input, the refusal-beats-a-hang argument and the ceiling-is-not-a-budget distinction are all correct; UNWRAP_FACE_CEILING = 200_000 confirmed at source."
+    },
+    "techniques/crease-angle-and-custom-normals.md": {
+      "disposition": "keep",
+      "reason": "One-authority-per-mesh rule, the refuse-do-not-clear order and the separate fields for no-op versus unrun are stated exactly; DEFAULT_SMOOTH_ANGLE = 30 confirmed at source."
+    },
+    "techniques/high-to-low-bake-coverage.md": {
+      "disposition": "keep",
+      "reason": "The derivable/authored split is argued from the bake mechanism; the texel-density rule in step 4 is what the repo subsequently implemented."
+    },
+    "techniques/pack-existing-vs-smart-unwrap.md": {
+      "disposition": "keep",
+      "reason": "Asymmetric-value argument, the requested-versus-applied reporting rule and the mixed-input ordering are sound."
+    },
+    "techniques/rig-preset-and-bone-remap-binding.md": {
+      "disposition": "keep",
+      "reason": "Three-operation decomposition, totality verification and the structural-success-is-not-a-rig-test rung are correct; bone counts are offered as selection criteria, not specifications."
+    },
+    "techniques/headless-dcc-capability-limits.md": {
+      "disposition": "keep",
+      "reason": "Silent-no-op versus fatal-exit split and the probe-in-the-shipping-configuration rule generalise beyond geometry and carry no unsupported claim."
+    },
+    "techniques/texture-pass-must-consume-the-bake.md": {
+      "disposition": "keep",
+      "reason": "Three-case routing plus the disjoint-product-lines section earned from a not-better application; the per-version expiry rule is stated."
+    },
+    "applications/node--high-to-low-bake-coverage.md": {
+      "disposition": "clarify",
+      "reason": "'bakeSize defaults to 1024' is stale: resolveBakeSize now prefers an explicit size, then bakeSizeForExtent from texel-density.ts, and reaches 1024 only when no extent is known."
+    },
+    "applications/node--unwrap-only-the-low-poly.md": {
+      "disposition": "clarify",
+      "reason": "The named constants and refusal shapes hold at source, but the file is 635 lines rather than the stated 484 and every line citation has drifted."
+    },
+    "applications/node--texture-pass-must-consume-the-bake.md": {
+      "disposition": "keep",
+      "reason": "The not-better verdict, the unrunnable-arm reasoning and the stated return condition are exactly what an honest negative row should look like; its texel-density claim is the one the source supports."
+    },
+    "applications/process--headless-dcc-capability-limits.md": {
+      "disposition": "reverify",
+      "reason": "Every UE 5.8.0 probe result and the 2026-07-22 Chaos Cloth naming gotchas are live-probe evidence that a source read cannot refresh; availability moves in both directions across releases."
+    }
+  }
+}
+```

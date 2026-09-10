@@ -206,3 +206,165 @@ and maturity are unchanged.
   }
 }
 ```
+
+## 2026-09-10 — architecture re-review after the compression revert
+
+The 2026-09-10 record above was written against documents that no longer exist: the
+compression pass it dispositioned was reverted, and the bytes are back to their
+pre-pass state. **I retract that entry's `documents` map wholesale for this subject.**
+Its per-document reasons say things like "Repaired short-hash collision" and
+"Repaired unknown cost becoming zero"; nothing was repaired, because the repairs were
+reverted. Its overall `reverify` verdict also rested on a house style — "X is useful
+but does not guarantee Y" — that is a restatement of every technique's own "when not
+to use it" section rather than a finding. Read as a lead it was useful; read as a
+decision it was wrong about the bytes.
+
+I read all seventeen documents in full. This subject is in good shape and the
+dominant disposition is `keep`. The two guarantees it holds apart — privacy from an
+honest contribution, capture from a dishonest one — are carried consistently through
+every technique, and the three mechanics techniques added in the 2026-09-03 intake
+sit cleanly beside the original six rather than duplicating them. The
+`strict-ingestion-lenient-consumption` dissent from the subject's own symmetry is
+argued, not asserted, and its "who pays for a refusal" framing is the sharpest
+sentence in the bundle.
+
+Four documents carry claims I could not let stand as written.
+
+**`bounded-contributor-influence` states an arithmetic fact without its
+precondition.** "Only the largest element can breach the ceiling (two sources cannot
+each hold more than half-plus), so clamping the maximum is sufficient and exact."
+That holds for a share ceiling `s >= 0.5`. Below it — and the technique's own text
+invites a reader to consider tighter caps before arguing against them — two or more
+sources can each exceed `s`, and clamping only the maximum leaves the ceiling
+breached. The rule needs its domain attached.
+
+**`hub-ingest-plausibility-gates` applies its own laundering argument to counts and
+not to scores.** It rejects an implausible count because "clamping a fabricated
+number launders it into a credible one", then clamps a quality of 1.4 on a `[0,1]`
+scale as "a rounding or serialization artifact". A value 40% outside the scale is not
+float dust; the likeliest cause is a producer reporting a 0-10 rubric into a 0-1
+field, and clamping it to 1.0 launders a scale error into a maximum score — the same
+move the same document refuses one paragraph earlier. Float dust is `1.0000000000002`,
+and the two cases deserve different handling.
+
+**Percentile pooling is asserted and never specified.** The golden path lists
+"latency percentiles pooled across runs" among the digest's aggregate measures and
+`aggregate-only-digests` repeats it. Percentiles do not merge by averaging, and
+nothing in the subject says what a hub does with several contributors' p95s. Every
+other merged measure has a stated combination rule; this one does not.
+
+**`cost-bucketing-side-channels` covers non-finite and non-positive costs and not
+absent ones.** It maps degenerate inputs to zero "at this boundary" and explains why
+that is safe, explicitly contrasting the internal null-never-zero rule. What it does
+not say is what a contributor publishes for a bucket whose cost could not be computed
+at all — the unpriced case that the sibling `llm-observability` subjects treat as the
+central hazard. Silence there is the one place a reader could reasonably infer zero.
+
+Sources: I read the W3C and NIST-adjacent material only where it bore on other
+subjects in this group. For this one I resolved nothing external. The k-anonymity
+technique's cell-size range ("published health-statistics practice puts minimum cell
+sizes anywhere from 3 to 30") is a citation to a body of practice I did not open, so
+it becomes `reverify` work rather than a confirmed claim; every other document's
+external dependency is a pinned commit in a third-party tree that I did not clone and
+did not rerun. The `python--fixed-task-vocabulary` executed evidence (the MLPerf
+`TypeError` walk) and the `rust--k-anonymity-cases-and-sources` paired proof are
+retained as historical records at their stated pins, unrerun and undated-forward.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "llm-observability/federated-benchmark-sharing",
+  "date": "2026-09-10",
+  "baseline": "44c8996585f2e5e3f36e0cb0bd1983c607cadfd7",
+  "digest": "sha256:65e3f15c43a7b217",
+  "disposition": "clarify",
+  "coverage": "All 17 owned documents read in full at current bytes. Retracts the earlier 2026-09-10 record, whose document map described reverted content. Not evaluated: any third-party tree (mlcommons/inference @ b66003e, AlexsJones/llmfit @ 1e7bdb3) was neither cloned nor executed; the statistical-disclosure literature behind the case-floor range was not opened; no maturity or verified_on field was refreshed.",
+  "counterexamples": [
+    "A share ceiling of 0.3 lets three sources each hold 0.33; clamping only the largest leaves two contributors above the ceiling, so 'clamping the maximum is sufficient and exact' fails outside s >= 0.5.",
+    "A producer reports a 0-10 rubric into the [0,1] quality field. The gate clamps 8.5 to 1.0 and admits the entry at maximum score - a scale error laundered into a credible measurement by the rule written for float dust.",
+    "Three contributors submit p95 latencies of 400ms, 500ms and 5000ms. The subject requires the merged row to carry pooled latency percentiles and never says how; averaging them yields a number that is nobody's p95.",
+    "A bucket's cost could not be computed because no model in it was priced. The technique says what to publish for a NaN and for a negative number, and nothing for an absent one.",
+    "Two contributors independently measure the same public model on the same public benchmark and obtain byte-identical digests. Content addressing reads that as one contribution; it is two, and the source floor should have counted two."
+  ],
+  "sources": [
+    {
+      "url": "https://www.w3.org/TR/trace-context/",
+      "result": "Read while checking a sibling subject; establishes nothing for this one. Recorded so the coverage claim is not read as broader than it is."
+    },
+    {
+      "path": "knowledge/llm-observability/federation-and-surfaces/federated-benchmark-sharing",
+      "result": "Every owned document read at current bytes; internal consistency between golden path, techniques and applications checked directly. Establishes what the documents say, not whether the third-party observations they cite still hold."
+    }
+  ],
+  "documents": {
+    "federated-benchmark-sharing.md": {
+      "disposition": "clarify",
+      "reason": "Lists 'latency percentiles pooled across runs' as a digest measure without a combination rule, while every other merged measure (case-weighted means, variance-backed intervals, between-source spread) has one stated. The rest of the golden path is sound and the privacy/capture split is the right organizing idea."
+    },
+    "techniques/aggregate-only-digests.md": {
+      "disposition": "clarify",
+      "reason": "Repeats the percentile-pooling claim from the golden path with no merge rule. Its own strongest rule - ship absence rather than a fabricated zero variance - is stated precisely, which makes the percentile silence stand out as an omission rather than a style."
+    },
+    "techniques/bounded-contributor-influence.md": {
+      "disposition": "clarify",
+      "reason": "'Only the largest element can breach the ceiling ... so clamping the maximum is sufficient and exact' is true only for a share ceiling of at least 0.5. The technique discusses tighter caps in the next paragraph without noting that the clamp's sufficiency argument does not survive them."
+    },
+    "techniques/capture-locally-publish-separately.md": {
+      "disposition": "keep",
+      "reason": "The timing rule, its three consequences and the ordering rule that keeps treatments on the way out are each argued from a concrete failure. The obligations it owes the contributor (backlog count, published record, prunable store) are the right three."
+    },
+    "techniques/content-addressed-contribution.md": {
+      "disposition": "clarify",
+      "reason": "Demands 'a duplicate that is detectable as a duplicate, not merely improbable' while specifying only 'a hash of the payload' with no digest-width floor - and its own application ships an 8-hex (32-bit) name. Detectability and improbability are the distinction the document itself draws; the width is what decides which one you get."
+    },
+    "techniques/cost-bucketing-side-channels.md": {
+      "disposition": "clarify",
+      "reason": "Handles non-finite and non-positive costs at the wire boundary and explains why zero is safe there, but says nothing about a bucket whose cost is absent. That is the one gap where a reader could infer the zero the sibling subjects spend three techniques forbidding."
+    },
+    "techniques/fixed-task-vocabulary.md": {
+      "disposition": "keep",
+      "reason": "The total-function contract, most-specific-first ordering, hint-is-still-classified rule and the catch-all-as-signal reading are all sound. The 'when not to use it' correctly identifies attributed consortia as the regime where the fingerprint argument evaporates."
+    },
+    "techniques/hub-ingest-plausibility-gates.md": {
+      "disposition": "clarify",
+      "reason": "Clamps a [0,1] overshoot of 1.4 as a rounding artifact while rejecting counts on the grounds that clamping launders a lie. A 40% overshoot is a scale error, not float dust, and clamping it admits a maximum score. Separate the dust band from the scale-error band. Everything else - the two refusals, the receipt stamp, the generator-history floor - holds."
+    },
+    "techniques/k-anonymity-cases-and-sources.md": {
+      "disposition": "reverify",
+      "reason": "The design content (two floors, two parties, the merge-floor-filter-count ordering against the isolation attack, suppression floors drop while display floors flag) is sound and I would keep it unchanged. The cell-size range attributed to published health-statistics practice was not checked against any primary source in this run; that citation is the unresolved evidence."
+    },
+    "techniques/strict-ingestion-lenient-consumption.md": {
+      "disposition": "keep",
+      "reason": "The 'who pays for a refusal' reframing earns the dissent from the subject's own both-ends symmetry, and the whole-store-not-the-change rule ships with its return condition. The gate-defect reading of a consumption-stage skip is the part most designs miss."
+    },
+    "applications/python--fixed-task-vocabulary.md": {
+      "disposition": "keep",
+      "reason": "A pinned, self-limiting record of an inverted trust model that runs the closure anyway, with the identity-fallthrough crash traced to a line. Retained as history at mlcommons/inference @ b66003e; not recloned, not rerun, and its findings are scoped to that round."
+    },
+    "applications/rust--bounded-contributor-influence.md": {
+      "disposition": "keep",
+      "reason": "Documents the 0.8 ceiling with its rationale quoted verbatim and both goal and non-goal tests named. It inherits the technique's missing precondition rather than introducing an error - at 0.8 the clamp-the-maximum argument is sound. Not rerun."
+    },
+    "applications/rust--capture-locally-publish-separately.md": {
+      "disposition": "keep",
+      "reason": "Unusually honest about being a partial realization: it states that the treatment rule has no occasion to be exercised in a named federation, so the ordering claim is untested there, and names the tree that would test it. Not rerun."
+    },
+    "applications/rust--content-addressed-contribution.md": {
+      "disposition": "keep",
+      "reason": "The 53-file single-proposal observation is the informative half and is reported as observed rather than quoted. Its negative section already bounds the technique's claim to retry safety rather than weight integrity. Not recloned; the 8-hex width is a finding against the technique, not against this record."
+    },
+    "applications/rust--hub-ingest-plausibility-gates.md": {
+      "disposition": "keep",
+      "reason": "One-function trust policy with each constant's justification quoted; the clamp-versus-reject line is stated where it executes. It reproduces the technique's score-clamping posture, which is where the finding belongs. Not rerun."
+    },
+    "applications/rust--k-anonymity-cases-and-sources.md": {
+      "disposition": "keep",
+      "reason": "A paired proof whose arms differ in exactly the claimed way, plus a load-bearing decision about what the count is not part of (the contribution hash) with a test pinning it. The closing lesson - an enforcement clause has a natural test and a disclosure clause does not - is the most transferable sentence in the subject. Not rerun; the 253-test count is retained as reported."
+    },
+    "applications/rust--strict-ingestion-lenient-consumption.md": {
+      "disposition": "keep",
+      "reason": "Two files with opposite failure policies over the same data, with the reason in the second one's comment, and the return condition for whole-store validation recorded where a slow CI job would be noticed. The missing skip counter is named as the gap. Not rerun."
+    }
+  }
+}
+```

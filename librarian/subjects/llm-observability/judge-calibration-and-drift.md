@@ -1,6 +1,7 @@
 ---
 domain: llm-observability
 subject: judge-calibration-and-drift
+last_touched: 2026-09-10
 ---
 
 # judge-calibration-and-drift
@@ -126,6 +127,113 @@ and maturity are unchanged.
       "disposition": "reverify",
       "reason": "Historical Rust code retained, not rerun. Negative kappa is clamped, so does not flow unchanged. Window four with recent floor three cannot satisfy baseline three; min_samples above cap never warms. NaN/zero maxima and drop validation are unshown. In-memory state, concurrency and unbounded spawned delivery limit operational guarantees; absolute bar can evaluate the first cycle."
     }
+  }
+}
+```
+
+## 2026-09-10 — architecture re-review after the compression revert
+
+Second review on this date, against the reverted bytes (HEAD `44c8996`). All 12
+owned documents read in full: the golden path, seven techniques, four
+applications. Two of the subject's load-bearing citations were resolved to their
+primary sources this run.
+
+**Retraction.** The earlier 2026-09-10 record on this note assigned `reverify`
+across the subject and described repairs to the trust-bar and repeatability
+documents. Those repairs were part of the compression pass reverted the same
+day, and its central objection — that repeatability is presented as "a hard
+minimum detectable effect" without acknowledging sampling variation — is
+answered in the reverted text it was measuring: `repeatability-floor` states the
+floor as the threshold beneath which "a per-cycle drop is not an early warning,
+it is a draw", and the golden path frames a calibration cycle as reporting "one
+sample of kappa", not kappa. Its objection to the human-agreement ceiling is
+sharper and survives in narrowed form (see the counterexamples below), but the
+blanket `reverify` is retracted.
+
+**Sources checked (read, not executed).** arXiv:2404.18796 is "Replacing Judges
+with Juries: Evaluating LLM Generations with a Panel of Diverse Models", and its
+abstract carries every element `judge-selection-by-spread` and the process
+application attribute to it: a panel of smaller models outperforming a single
+large judge, less intra-model bias from disjoint model families, "over seven
+times less expensive". arXiv:2403.17710 is "Optimization-based Prompt Injection
+Attack to LLM-as-a-Judge" (JudgeDeceiver), CCS 2024, matching the
+`trust-bar-verdict` and process-application framing of in-band attack that
+fencing does not close. Neither citation is misattributed.
+
+**The finding that would justify a content change: unreachable evidence.** The
+subject's most consequential quantitative claims — the 23% verdict-flip rate,
+the 21% median divergence, and the 32%/5%/3% per-dimension decomposition — appear
+in the golden path and in `repeatability-floor` attributed only to "a public
+grading pipeline that scores code changes against a rubric". No source is named
+in either document. The provenance does exist, in this note's 2026-08-31 entry
+and at `librarian/sources/2026-08-31-danluu-2026.md`, but a reader of the
+technique cannot reach it, and the 32%/5%/3% split is load-bearing enough that
+the technique states a doctrine on top of it ("a composite's repeatability is
+dominated by its least repeatable dimension"). Every other externally-sourced
+claim in this subject names its paper. These should too. This is the subject's
+one genuine `clarify`, and it is about citation, not about the claim: nothing
+found this run contradicts the numbers.
+
+**Second, smaller finding.** `golden-set-agreement-measurement`'s metric table
+gives kappa the blind spot "depends on the chosen threshold; degenerate under
+extreme class imbalance", and the paragraph beneath it explains "degenerate" as
+the divide-by-zero case where both raters put every item in one class. The
+subject's own process application landed a different imbalance failure — the
+kappa paradox (Feinstein & Cicchetti 1990), where kappa reads *low* despite high
+genuine agreement — and concluded "the bar stays; the reading gains a caveat".
+That caveat is in the application and not in the technique, so the only document
+a reader consults when interpreting a low kappa does not carry it. The two
+directions of imbalance failure should be distinguishable in the technique.
+
+**Not evaluated.** No calibration run, no golden set, no judge invocation; the
+`node--repeatability-floor` simulation's structural count (0 overlapping pairs of
+142) was not recomputed and the corpus it counted was not opened. The
+`process--judge-selection-by-spread` bake-off table (four judges, n=12) rests on
+a document inside a tree this review did not read. `process--golden-set-agreement-measurement`
+carries `refresh_by: 2026-11-20` and its adversarial half was not re-surveyed.
+
+**Frontmatter note, not a content finding.** `applications/node--repeatability-floor.md`
+carries no `status:` key where every other application in this subject does; it
+is one of four such applications in the bundle. Whether that is a schema
+requirement is the gate's question, not this review's.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "llm-observability/judge-calibration-and-drift",
+  "date": "2026-09-10",
+  "baseline": "44c8996585f2e5e3f36e0cb0bd1983c607cadfd7",
+  "digest": "sha256:f5c7c90dc5531e2d",
+  "disposition": "keep",
+  "coverage": "All 12 owned documents read in full against the reverted bytes. Two arXiv citations resolved to their abstracts by reading. Not evaluated: any calibration run, judge invocation, golden set, or recomputation of the node application's structural count; the LightTrack bake-off document and CALIBRATION.md the process and rust applications cite; and the adversarial literature the process application dates to 2026-08-20.",
+  "counterexamples": [
+    "Where a golden set's human labels are adjudicated to a single reference rather than left as independent annotations, inter-annotator kappa is not a strict ceiling on the judge's kappa — the golden path states the ceiling unconditionally.",
+    "A judge whose repeatability floor is measured at 3% on a near-mechanical dimension and 32% on the subjective one still yields a composite the subject forbids computing; the technique says measure per dimension but gives no rule for a rubric whose gate is a single weighted score.",
+    "A subject with a rubric under active iteration has no windowed detector (correctly muted) and a per-cycle detector whose every drop is a method change; both drift horizons are blind at once, and neither document says what covers that window."
+  ],
+  "sources": [
+    {
+      "url": "https://arxiv.org/abs/2404.18796",
+      "result": "Read (not executed). Confirms the PoLL attribution exactly: a panel of smaller models from disjoint families outperforming a single large judge, with less intra-model bias, 'over seven times less expensive'. Does not establish the panel's own kappa, which is the gap the process application itself names."
+    },
+    {
+      "url": "https://arxiv.org/abs/2403.17710",
+      "result": "Read (not executed). Confirms JudgeDeceiver as an optimization-based prompt-injection attack on LLM-as-a-judge, CCS 2024, with perplexity-style defenses found insufficient. Does not establish the committee-defense success rates the process application attributes to arXiv:2504.18333, which was not resolved this run."
+    }
+  ],
+  "documents": {
+    "judge-calibration-and-drift.md": {"disposition": "clarify", "reason": "Sound throughout — the three movements, the trust firewall, the two drift horizons and the floor-bounds-everything consequence all hold. One repair: the repeatability figures ('flipped the published verdict 23% of the time') are stated with no citation a reader can follow, unlike every other external claim in the subject. Separately, 'the human inter-annotator kappa on the same set as the ceiling no judge can be expected to beat' is unconditional where adjudicated references are a real exception."},
+    "techniques/golden-set-agreement-measurement.md": {"disposition": "clarify", "reason": "The metric family, the frozen-set rules, the hostile stratum and the power-honesty rules are all sound. The kappa blind-spot cell says 'degenerate under extreme class imbalance' and the text beneath explains only the both-raters-one-class divide-by-zero case; the kappa paradox the subject's own process application landed (low kappa despite high genuine agreement) is not distinguishable here, so the document a reader consults when interpreting a low kappa lacks the caveat its sibling application concluded was owed."},
+    "techniques/judge-selection-by-spread.md": {"disposition": "keep", "reason": "Spread-as-disqualifier, the rotten-middle rule, price-as-tiebreaker, the panel-as-one-instrument discipline and reasoning effort as part of judge identity are internally consistent, and the PoLL claim was verified against the paper this run. The method-change re-verification rule is stated with the right consequence (never compare batched against unbatched)."},
+    "techniques/repeatability-floor.md": {"disposition": "clarify", "reason": "The measurement, the three-quantity table, the per-dimension rule and the threshold-multiplies-the-floor consequence are the subject's strongest material and the floor is already stated as a draw-vs-signal boundary rather than a hard bound. Same repair as the golden path: the magnitudes it rests on name no source, and the doctrine built on the 32%/5%/3% decomposition is load-bearing enough to need one."},
+    "techniques/reserved-rubric-persistence.md": {"disposition": "keep", "reason": "The record shape, the three load-bearing decisions and the four things riding the existing store buys are concrete and internally consistent; the leakage boundary ('fix the surface before adopting') is stated as a precondition rather than a caveat. Nothing here depends on an external claim."},
+    "techniques/scheduled-recalibration.md": {"disposition": "keep", "reason": "The four-step cycle, the two per-cycle trigger levels, the exit contract distinguishing untrusted from crashed, and the cadence rules hold. The closing rule against widening the delta mid-slide is the right form of the anti-gaming warning."},
+    "techniques/trust-bar-verdict.md": {"disposition": "keep", "reason": "The three-state verdict, the capability table, the non-transfer scope rules and the committee-as-one-instrument discipline are coherent, and the attack framing rests on a citation verified this run. The 0.6/0.8 bar is presented as field-common convention, not as derived truth, which is the correct posture."},
+    "techniques/windowed-score-drop-alerting.md": {"disposition": "keep", "reason": "The detector, its refusals (below min-samples, degenerate baseline), the warm-up blindness and its pairing with the memoryless check are stated with the failure each design choice prevents. The closing rule — an alerting heuristic is not a release gate — draws the boundary the subject needs."},
+    "applications/node--repeatability-floor.md": {"disposition": "keep", "reason": "The structural fact (0 of 142 pairs judged twice) is the finding, and the document is explicit that the floor for this pipeline is still unmeasured and that the three cases predict rather than demonstrate. Its own ceiling is stated. Not recomputed this run; carries no status frontmatter key, unlike its siblings."},
+    "applications/process--golden-set-agreement-measurement.md": {"disposition": "keep", "reason": "The dated survey's two verifiable citations were resolved to their abstracts this run and matched. Its kappa-paradox conclusion is the caveat the technique still lacks — which makes this document the evidence for that finding rather than a defect in it. refresh_by 2026-11-20 governs the adversarial half, which was not re-surveyed."},
+    "applications/process--judge-selection-by-spread.md": {"disposition": "keep", "reason": "The bake-off table reads as a faithful instance of the technique's decision rules, including the two failure shapes (narrow spread disqualifying; wide spread with a rotten middle) on named numbers, and the limits travel with the decision as the technique requires. The cited BENCHMARK_FRAMEWORK.md was not opened this run."},
+    "applications/rust--windowed-score-drop-alerting.md": {"disposition": "keep", "reason": "Realizes the detector including the .max(4) parse-time floors, the no-verdict-is-not-no-regression return, the evidence-carrying alert and the per-key cooldown, and names the runner-side half that covers the warm-up. The cited seams were not opened this run."}
   }
 }
 ```
