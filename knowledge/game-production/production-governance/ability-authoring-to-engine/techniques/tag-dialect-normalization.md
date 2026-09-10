@@ -39,13 +39,15 @@ does the most comparing — usually the data side, since that is where matching,
 reporting live. Write the choice down where people will meet it. An undocumented canonical
 form is rediscovered wrongly by the next person.
 
-**2. Write exactly one mapper module, in both directions.** One function to canonical, one
-back to the foreign form for code that must emit a real symbol. Both pure, both with no
+**2. Centralize mapping with explicit direction and failure states.** A reverse
+map exists only when unique or governed by a declared alias policy. A separator
+substitution that collapses two identifiers cannot safely invent the inverse. Keep supported mappings pure, with no
 dependency on the rest of the system so they run on either side of the seam and are
 trivially testable. The moment a second conversion appears inline somewhere, the two
 conventions begin to diverge and the divergence is untraceable.
 
-**3. Make the normaliser idempotent and tolerant of mixed input.** Running it on
+**3. Make normalization idempotent for valid, unambiguous inputs.** Preserve raw
+spelling and source dialect when ambiguous inputs need resolution. Running it on
 already-canonical input must return it unchanged. This is what lets you apply it
 defensively at every boundary without knowing which side an identifier arrived from — and
 in a real system, a list will contain both spellings, because part of it came from a parser
@@ -60,8 +62,8 @@ comparison site means every future comparison site is a new chance to forget.
 **5. Prefer a declared pair over a convention when one exists.** The convention (swap one
 separator for the other) is an inference. Where the system *declares* both spellings
 together — a source declaration that names the symbol and the string in one place, parsed
-into a table — that table is the authority and the convention is the fallback for when no
-table is at hand. Conventions have exceptions; abbreviations, legacy names and renames are
+into a table — that table is the authority. A convention fallback is acceptable only when
+its domain and collision-free mapping are established; otherwise return unresolved. Conventions have exceptions; abbreviations, legacy names and renames are
 exactly where the mapping is not mechanical, and exactly where the bug will be.
 
 **6. Convert at the generation seam specifically.** When a generator emits identifiers in
@@ -73,18 +75,18 @@ match nothing, indistinguishable from a real hygiene failure, and usually diagno
 
 - **When two identifiers arrive from different sides, both pass through the normaliser
   before comparison — no exceptions for the one you are sure about.**
-- **When a parsed declaration table is available, it outranks the convention.** Fall back to
-  the convention only where no declaration was parsed, and say in the output which path was
-  used.
+- **When a parsed declaration table is available, it outranks the convention.** Do not let a failed
+  extraction silently trigger heuristic mapping. Distinguish unavailable authority
+  from an explicitly supported convention and report the chosen path.
 - **When the mapping is not a pure function of the string, stop.** If canonicalising needs
   context — a namespace, a version, a lookup — it is a resolution step, not a normalisation,
   and it belongs in a resolver with a failure mode, not in a string helper that cannot fail.
 - **When a foreign-dialect value must be stored, store the canonical form and derive the
-  other on the way out.** Storing both is two authorities for one quantity; they will
-  disagree after the first rename.
+  other on the way out.** Keep any original spelling as provenance, not as a second writable authority.
+  Apply renames through explicit versioned mappings.
 - **When a comparison across this seam returns zero matches, suspect the dialect before the
-  data.** Empty is the signature symptom, and it is far more often a normalisation bug than
-  a real absence.
+  data.** Empty is the signature symptom, and it can reflect a mapping error, failed extraction or real absence; diagnose
+  from extraction status and known fixtures rather than assuming one cause.
 
 ## When not to use it
 

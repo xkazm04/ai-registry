@@ -42,7 +42,8 @@ forces the caller to handle a missing answer, and every gate that reads
 honest reading: **this tree has the technique's discipline exactly where
 Rust's type system imposed it, and nowhere it would have had to be chosen.**
 
-Nobody designed that boundary, which is what makes it evidence.
+The signatures do not establish the authors' intent; this review retracts
+the claim that nobody designed the boundary.
 
 ## The A/B, as a simulation over three real cases
 
@@ -97,12 +98,13 @@ Nothing in this tree can measure the defect. A state that was never reported
 is unrepresentable, so no gate, test, or assertion can distinguish "the
 producer said `Stale`" from "something wrote `Stale` because it needed a
 value" — the two are the same byte. That is why the mode here is simulation
-rather than experiment, and it is not a shortcoming of the run: **the missing
-vocabulary member is simultaneously the defect and the reason the defect is
-invisible.**
+rather than experiment, and it is not a shortcoming of the run: **the missing observation provenance is the assessment gap.**
+An optional state, separate confidence envelope or explicit enum member can
+represent it. Transition provenance and tests can expose invented defaults
+without requiring one particular enum design.
 
 The instrument that would make it measurable is the same change the technique
 prescribes: once `Unknown` exists, a counter on transitions *out of* it
-measures how often a layer was about to invent a value, and that number is
+measures departures from unknown, not counterfactual inventions of a value, and that number is
 readable before any gate is changed. Adding the member is therefore both the
 fix and the meter, which is the cheapest form this kind of adoption can take.

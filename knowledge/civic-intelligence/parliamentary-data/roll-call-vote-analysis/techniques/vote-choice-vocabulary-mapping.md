@@ -32,7 +32,8 @@ consumer rather than restated anywhere.
    oath. Which of these count toward which denominator is a separate decision
    (positional-vs-participation-bases); baking it in here couples every metric
    to one reading.
-3. **Reserve an explicit `unknown`.** An unrecognized code maps to unknown —
+3. **Reserve an explicit `unknown`.** Preserve the raw code and source revision
+   so a later mapping correction is traceable. An unrecognized code maps to unknown —
    never to a default bucket, never dropped silently. Unknown is countable and
    surfaceable; a silent default is a wrong number waiting for a schema
    change.
@@ -62,8 +63,10 @@ disclose-never-repair law applied to ontology rather than to a broken row:
 the source's category system keeps the blame, and the reader is told what
 cannot be known.
 
-The corollary for comparisons: a metric computed on the pre-merge vocabulary
-and the same metric on the post-merge vocabulary are *different metrics*.
+The corollary for comparisons applies only to metrics that depend on the
+changed distinction. If yes/no meanings and eligibility remain unchanged, a
+yes/no-only metric can remain comparable across an abstention-category merge.
+A metric requiring the lost split is no longer the same instrument.
 Charting them as one series across the boundary is a silent redefinition;
 either compute both eras on the coarser common vocabulary, or break the
 series and label the break.

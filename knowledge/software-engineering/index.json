@@ -13864,9 +13864,9 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/fleet-orchestration/fleet-orchestration.md",
-   "digest": "sha256:c5b0fa0306b09648",
-   "revision": 17,
-   "changedAt": "2026-09-04",
+   "digest": "sha256:3385725341c62bac",
+   "revision": 18,
+   "changedAt": "2026-09-10",
    "techniques": [
     {
      "slug": "absent-status-passthrough",

@@ -34,8 +34,8 @@ damage is quiet and compounding:
 Projecting the stale verdict as ungauged, rather than deleting it, is the survivable
 outcome. The verdict is still evidence about the past and should be readable as such.
 What it must never be is readable as a current pass. An unjudged artifact and a
-judged-and-passed artifact are different epistemic states; a rubric edit converts the
-second into the first, and the display must follow.
+judged-and-passed artifact are different epistemic states; a rubric edit can remove current standing without erasing the historical
+judgment. Display stale-under-current-policy separately from never judged.
 
 ## What counts as a version bump
 
@@ -46,8 +46,10 @@ a unit, or the measurement basis behind one; changing a level anchor; adding or
 removing a disqualifier; changing a ceiling or its classification; changing which
 deliverable classes route to this lens.
 
-**Do not bump for** — typographical fixes, reordering entries without changing them,
-clarifying prose that leaves every bar identical. The test is mechanical: *could this
+**Separate editorial revisions from semantic policy versions.** Retain an exact
+content digest for every executed instrument. Reordering or clarifying prompts
+can change model judgments even if the intended bars are unchanged; validate
+compatibility before treating such edits as non-invalidating. The test is mechanical: *could this
 edit change the grade of any artifact that has already been scored?* If yes, bump. If
 you are unsure, bump; a spurious ungauged is cheap and a stale pass is not.
 
@@ -96,8 +98,9 @@ neither substitutes for the other.
 - **When an edit is urgent and small, it is still a bump.** Urgency is the condition
   under which unversioned edits happen, and it is the condition under which they do the
   most damage.
-- **When a lens is edited during an active scoring run, the run's version is the one it
-  started with.** A half-migrated batch is worse than a wholly stale one, because
+- **When a lens is edited during an active scoring run, pin the complete instrument and its referenced policy at run start, and
+  record that exact snapshot. A starting version label over live mutable text
+  does not prevent a mixed run.** A half-migrated batch is worse than a wholly stale one, because
   nothing in the data distinguishes the halves.
 - **Never reuse a version identifier.** A version whose contents changed is a version
   that means two things.
@@ -110,5 +113,5 @@ neither substitutes for the other.
 - **During the pilot of a new lens.** While the document is being calibrated against
   known-good and known-bad artifacts it will change daily, and every verdict from that
   period is a calibration observation rather than a production grade. Mark the whole
-  pilot as pre-release and start versioning at the point the lens begins gating real
-  work.
+  pilot as pre-release, but bind each calibration observation to a distinct
+  revision or digest so pilot comparisons remain interpretable.

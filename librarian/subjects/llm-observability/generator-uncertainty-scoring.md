@@ -1,7 +1,7 @@
 ---
 subject: generator-uncertainty-scoring
 domain: llm-observability
-last_touched: 2026-09-03
+last_touched: 2026-09-10
 touched_by: intake
 dry_streak: 0
 ---
@@ -54,3 +54,59 @@ that the paper does not measure. A proposed law recurred three times and was
 deliberately not minted — *a configuration fitted against labels is valid only over the
 generator-and-task pair it was fitted on, and carrying it across either is an untested
 extrapolation that fails silently*. Return if a second bundle sights it.
+
+## Architecture review - 2026-09-10
+
+Review completed for every owned document. Reverify identifies remaining work, not a
+clean content verdict. Earlier notes remain historical evidence; application dates
+and maturity are unchanged.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "llm-observability/generator-uncertainty-scoring",
+  "date": "2026-09-10",
+  "baseline": "78850ba51a9aa016dcfc62817d59581453c3d90d",
+  "digest": "sha256:437fdfa98eeb2048",
+  "disposition": "reverify",
+  "coverage": "All 6 owned documents read and assessed in table order. 3 document(s) repaired. Residual source, semantic and historical application checks are recorded per document; no consumer/runtime/field witness or maturity refresh.",
+  "counterexamples": [
+    "Many different correct paraphrases can have high textual disagreement.",
+    "Squaring scores preserves order but changes mean absolute error and generally Pearson correlation.",
+    "A classifier cutoff tuned on held-out outcomes can be useful without interpreting its score as a correctness probability.",
+    "Parallel samples can multiply token spend without multiplying wall time by N."
+  ],
+  "sources": [
+    {
+      "path": "knowledge/llm-observability/quality-scoring/generator-uncertainty-scoring",
+      "scope": "Every owned document read in full; embedded code assessed as displayed. Historical application implementations and observations were not independently rerun."
+    }
+  ],
+  "documents": {
+    "generator-uncertainty-scoring.md": {
+      "disposition": "reverify",
+      "reason": "Token likelihood and sample consistency are different proxies, not correctness or guaranteed useful rankings. Mechanical checks need correct references and nonzero resources. No-extra-call is not zero latency; asynchronous judging is an architecture policy, not a necessity. Thresholds can be empirically validated without probability calibration; percentiles do not certify safety. The precise 24-scenario and ECE claims lack an identifiable primary citation in the owned documents and remain unverified."
+    },
+    "techniques/generator-vs-itself.md": {
+      "disposition": "clarify",
+      "reason": "Repaired disagreement as proof of ignorance, gate variance as necessarily nuisance, sampling control versus identical repeated seeds and mechanical checks as free truth. Multiple valid answers and target variability can be meaningful outcomes."
+    },
+    "techniques/probability-calibration-is-not-agreement.md": {
+      "disposition": "clarify",
+      "reason": "Repaired MAE and all concordance statistics as rank-invariant, ECE as per-item error, threshold as necessarily probability claim and worst bin as necessarily at the threshold. Raw rankings also require evidence of useful discrimination."
+    },
+    "techniques/score-source-ensembling.md": {
+      "disposition": "reverify",
+      "reason": "Different error families do not guarantee averaging improves performance. Equal or policy-selected weights need not be fitted from labels; learned weights require separated training/selection/test data and uncertainty. A fitted classification cutoff need not claim probability calibration. Model-generated labels have varying provenance and bias rather than universally no measurement value. Precise scenario counts and transfer findings lack an identifiable source here."
+    },
+    "techniques/score-source-kinds.md": {
+      "disposition": "reverify",
+      "reason": "A deterministic function of recorded probabilities can be reproducible; mechanical checks can use stochastic or expensive components and are not universally exact truth. Semantic consistency can employ an entailment model and prompt, so no-instruction-channel is not universal. Answerability/hedging are not directly measured by peaked likelihood. Normalizing a score to zero-to-one does not establish calibration or aggregation validity."
+    },
+    "techniques/scorer-cost-class.md": {
+      "disposition": "clarify",
+      "reason": "Repaired zero marginal latency, N-fold wall time, automatic paid fallback, self-hosting guarantees and cost-class-only serving prohibition. Quality and safety requirements constrain affordability; random sampling can estimate traffic quality with uncertainty."
+    }
+  }
+}
+```

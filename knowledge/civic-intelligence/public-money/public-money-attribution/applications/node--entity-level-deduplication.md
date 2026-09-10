@@ -87,3 +87,13 @@ one MP and merging a public body's own contracting into the same figure as a
 firm an MP owns." The claim-minting layer (`features/money/moneyClaims.ts`,
 rule 1 of its header) then mints citations from `tieReach` / `bucketReachCzk`
 only — no fifth sum.
+
+## Review boundary - 2026-09-09
+
+The dated source paths, amounts and incidents above were not rechecked or replayed
+on 2026-09-09. The recorded fallback to tie class when ownership is unknown is a
+gap against this subject's unknown-blocks-attribution contract, not proof of
+compliance. Reverify person-specific bucketing before population aggregation,
+conflicting amount snapshots, award/payment deduplication and temporal joins.
+contractCzk plus subsidiesCzk requires a declared compatible amount basis and
+overlap check; neither sum establishes personal income or an automatic floor.

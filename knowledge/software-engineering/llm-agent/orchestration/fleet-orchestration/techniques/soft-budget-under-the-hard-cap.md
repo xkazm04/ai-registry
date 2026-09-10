@@ -11,93 +11,55 @@ use_when: [a dispatcher loop needs a stopping rule, raising an iteration cap cha
 
 # Soft budget under the hard cap
 
-Every loop a model drives needs a number that ends it. The reflex is to write
-one: a maximum iteration count, enforced by the machinery, checked each pass.
-That loop then has exactly one exit, and it is the bad one.
+A planning allowance below an enforced resource limit can leave room to collect
+results and report a controlled stop. Use it when a model-driven loop otherwise
+begins work it cannot finish within the allowed budget. The hard limit bounds
+resource use even if the model ignores the brief.
 
-> **A cap that fires is a failure, not a stop.** The loop is cut mid-plan.
-> Work in flight is discarded or half-harvested, the artifact is whatever
-> happened to exist at the instant of the cut, and nothing about that instant
-> was chosen. A dispatcher that ends its own loop ends it at a boundary it
-> picked — after a harvest, before a new fan-out, with the returns in hand.
+## Define what each limit counts
 
-So the loop carries **two** numbers with two different owners:
+Name the units and scope: model turns, worker starts, concurrent slots, elapsed time,
+tokens or spend. A concurrent-slot cap does not limit repeated sequential dispatches.
+Retries, record-only calls and child work must be included in the appropriate total.
+Reserve capacity before dispatch and reconcile actual usage and uncertain outcomes.
 
-- The **hard cap**, in the machinery. Counted by the orchestrator, enforced
-  regardless of what the dispatcher says, and its job is to bound cost when
-  everything else has failed. It is a backstop.
-- The **soft budget**, in the brief. A smaller number the dispatcher is told
-  to observe, so that it elects to stop before the backstop is reached. Its
-  job is to make the cap never fire.
+Derive the effective planning allowance from the available limits and a declared
+cleanup reserve. Independently configured ceilings can be valid when they constrain
+different resources; validate their relationship instead of forcing all numbers to
+share a ratio. A caller's requested maximum is a ceiling, not a promise to spend it.
 
-Setting them equal is the failure this technique exists to prevent, and it is
-invisible because the system works: the run ends, the number is respected, an
-artifact is produced. What has happened is that the exit path the cap exists
-to *bound* has become the ordinary exit path, and every run's output is a
-truncation ([failure-not-empty-success](../../../../_laws.md#failure-not-empty-success)
-— "the loop ended" must be distinguishable from "the loop finished").
+For very small caps, explicit zero-work or immediate-finalization paths may be needed.
+Reject invalid configurations rather than rounding a planning allowance above its
+hard limit. Expose the effective allowance and remaining budget in the brief where
+the model is expected to use them.
 
-## The soft budget is a count and a set of conditions, never one alone
+## Plan for every stop path
 
-A count alone gives the dispatcher permission to stop and no reason to stop
-early; it will spend the budget because the budget was there. Conditions alone
-— *stop when you can answer, stop when the last two returns were similar,
-stop when you have enough independent sources* — give it a reason and no
-floor, and a dispatcher that never reaches a condition never stops at all.
+State early-stop conditions alongside the planning allowance: acceptance satisfied,
+required input unavailable, or no justified next action within remaining scope.
+The model can ignore a soft allowance, so enforce the hard ceiling independently.
 
-State both. The conditions are what make the elected stop happen early on the
-easy work; the count is what makes it happen at all on the hard work.
+A hard-cap stop is a resource outcome, not proof of content failure. It may leave a
+complete accepted artifact, a useful partial, or no usable result. Report stop reason
+and artifact acceptance separately. At a cap, prevent new admissions, cancel or
+reconcile in-flight work under its policy, and preserve available results. A loop
+counter alone cannot interrupt an unbounded tool call.
 
-## The two numbers must be derived from one source
+## Interpret the instrument
 
-This is where the technique is actually lost, and the loss is silent.
+Report cap stops, elected stops, accepted outcomes, cost and incomplete cleanup by
+workload and denominator. Frequent cap stops may indicate difficult tasks, excessive
+fan-out, slow dependencies, weak stopping instructions or an undersized allowance.
+Investigate before raising limits.
 
-When the soft budget is a **literal in the brief's text** and the hard cap is
-a **configuration field**, they drift the first time anyone tunes the cap.
-Raising the configuration moves the backstop and leaves the operating limit
-exactly where it was: the fleet is granted more capacity, does not use it, and
-nothing reports the discrepancy. Reading the configuration afterwards shows
-the new number; the runs still stop at the old one; and the two facts are in
-different files.
+A cap that never fires in ordinary runs can be a functioning backstop. Exercise it
+with a deliberately non-terminating fixture to verify enforcement; do not increase
+spend merely to make the cap bind. A simple deterministic loop may need only its
+enforced limit, without adding a second model-facing allowance.
 
-Observed shape, and it is a common one — a tree carrying two sibling loops,
-one whose brief interpolates its soft budget from the same field the machinery
-enforces, and one whose brief carries a hardcoded number against a
-configurable cap twice its size. Same release, same author, two conventions,
-and only the first is tunable. The rule is
-[limits-are-derived](../../../../_laws.md#limits-are-derived) applied to a
-number that lives in prose: **the brief's budget is interpolated from the
-cap, or computed from it, and the derivation is written beside it.** A soft
-budget typed by hand next to an enforced cap is a formula in a comment that no
-longer tracks its input.
+## Acceptance
 
-## The ratio is the instrument
-
-The one number worth reporting about a bounded loop is not how many
-iterations it ran. It is **what fraction of runs ended at the cap rather than
-by election**, over the population of runs that entered the loop
-([count-carries-predicate](../../../../_laws.md#count-carries-predicate)).
-
-- **Rising cap-fired stops** mean the soft budget is too close to the cap, or
-  the brief is not being read. Both are cheap to test, and neither is visible
-  in any output-quality metric until much later.
-- **Zero cap-fired stops, ever** means the cap is not binding, and the cost
-  ceiling it represents is imaginary — the run is bounded by the brief alone,
-  which is a bound a model may ignore.
-- **Cap-fired stops concentrated in one class of brief** is a briefing
-  problem, not a budget problem. Widening the cap for everyone buys the
-  wrong thing.
-
-## Decision rules
-
-- Give every model-driven loop two limits: an enforced cap and a smaller
-  budget stated in the brief. Never one.
-- Derive the brief's budget from the cap and write the derivation next to it.
-  A literal in prose beside a configurable cap is a drift waiting for the
-  first tuning pass.
-- State the budget as a count *and* the conditions under which stopping early
-  is correct.
-- Report the cap-fired fraction over runs that entered the loop, and read it
-  before any output-quality metric moves.
-- Treat a cap-fired run's artifact as truncated wherever it is consumed. It
-  was not finished; it was interrupted.
+Use finite scripted workers to exercise early success, exhausted allowance, ignored
+soft limits, slow child calls and cancellation races. Confirm no admission exceeds
+the counted resource bound and that every stop reports acceptance honestly. Model
+behavioral improvements require a separate comparison on representative tasks.

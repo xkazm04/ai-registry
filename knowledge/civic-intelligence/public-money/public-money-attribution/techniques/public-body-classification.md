@@ -13,8 +13,9 @@ use_when:
 
 # Public-body classification
 
-Whether an entity's spending is its own public activity or money that could
-reach a politician is an *ownership* fact, and it must be established as one.
+Public ownership, public control and a legal public-body category are distinct
+claims requiring dated evidence. None alone determines whether a particular
+payment reached an official.
 The two tempting shortcuts both fail in the expensive direction:
 
 - **Name-keyed tests** ("contains 'ministry'", "contains 'city'") catch every
@@ -40,12 +41,12 @@ The two tempting shortcuts both fail in the expensive direction:
    **public-body** outright — regardless of who nominally owns it.
 2. **Then walk current ownership.** If the entity's own form is an ordinary
    business form, examine its shareholders/members from the primary register.
-   If any *current* holder is itself a public-form entity, the verdict is
-   **publicly-owned**: public money flowing through it is the public owner's
-   activity, however private the entity's own form looks. Historical holders
-   (recorded as removed) never decide the verdict.
+   If a holder at the relevant date is a public-form entity, record public
+   shareholding and its fraction. Any stake is not necessarily public control;
+   apply the declared control policy. Historical holders matter for historical
+   payments, while removed holders do not establish current ownership.
 3. **Only with positive evidence, private.** The verdict is **private** only
-   when the own form is a verified business form *and* the ownership record
+   when the own form is a verified business form *and* a complete, nonempty ownership record
    was actually retrieved *and* every current holder resolves to a
    non-public form. A one-hop walk cannot honestly deliver this verdict on
    its own terms: a current holder wearing a business form may itself be
@@ -103,3 +104,17 @@ register record are already correctly matched. And do not deploy it where no
 authoritative legal-form and ownership register exists — without a primary
 source to verify allowlist entries against, the tables degrade into the
 name-keyed guesswork the technique exists to replace.
+
+## Unresolved ownership and bounded traversal
+
+An empty holder list can mean ownership is not published, not that no public
+owner exists. A partially disclosed list cannot support a complete negative
+conclusion. Natural-person entries remain relevant to completeness and possible
+nominee/control questions even when public legal-person classification is the
+immediate task. Preserve their existence without treating them as public bodies.
+
+Walk with stable identity keys, cycle detection, depth limits and dated source
+provenance. An unclosed cycle, unavailable intermediary or exhausted limit yields
+unknown. A 1% public stake and 99% private stake is a counterexample to treating
+any public shareholder as sole public ownership or control. State the classifier's
+scope; do not reuse it as a procurement-law classification without separate review.

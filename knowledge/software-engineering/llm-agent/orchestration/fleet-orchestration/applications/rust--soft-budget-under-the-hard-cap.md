@@ -88,3 +88,10 @@ remaining budget in the prompt moves the cap-fired fraction cannot be settled
 by this tree's gate — it needs metered runs over a real topic set — so it is
 banked as a scoped work item with its measurable and its falsifier named,
 rather than shipped on an argument.
+
+## Review boundary - 2026-09-09
+
+Historical code and test outcomes above were not rerun. A requested ceiling does
+not promise that the run will consume it. Report effective limits and stop reason
+separately from accepted outcomes. Source-level counts and soft-cap behavior do
+not establish enforcement of a total fleet resource budget.

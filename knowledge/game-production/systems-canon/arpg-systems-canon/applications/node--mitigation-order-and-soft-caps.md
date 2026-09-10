@@ -11,7 +11,7 @@ verified_against: node@24
 
 # One typed kernel, and the two-simulators incident that produced it
 
-The PoF repository (`C:\Users\kazda\kiro\pof`) realizes the mitigation pipeline as a single
+The PoF repository (`pof`) realizes the mitigation pipeline as a single
 pure module, `src/lib/combat/canon-kernel.ts`, whose header states its own authority in the
 first line: *"the ONE typed authority for combat math."* Everything else in the repo adapts
 into it.
@@ -78,3 +78,17 @@ The shape, not the numbers: a pure module owning the ordered pipeline; canon con
 named exports; soft-capped functions that *demand* a reference hit in their signature; a
 lazily-drawn RNG so existing seeded runs survive the migration; and a loudly-labelled
 retired formula that is allowed to exist but not to answer.
+
+## Review boundary - 2026-09-10
+
+The consumer code and historical migration were not re-opened or executed in this
+review. The described disjoint Physical/RESIST_TYPES handling contradicts the earlier
+general claim that swapping those reductions necessarily changes a mixed hit. A
+required hit argument improves API clarity but callers can still pass the wrong basis.
+Lazy RNG draws alone cannot prove identical seeded results after formula changes.
+
+Verify finite/nonnegative inputs, zero-hit armour behavior, cap bounds, typed damage
+conservation and unknown-type handling. Falling back an unknown spelling to Physical
+can conceal a schema error; distinguish a declared legacy default from invalid data.
+Check legacy-function callers and actual runtime parity before claiming exclusivity.
+No witness metadata was refreshed.

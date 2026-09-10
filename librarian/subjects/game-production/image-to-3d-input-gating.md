@@ -1,7 +1,8 @@
 ---
 subject: image-to-3d-input-gating
 domain: game-production
-last_touched: 2026-09-07
+last_touched: 2026-09-10
+touched_by: architecture-review
 dry_streak: 0
 ---
 
@@ -113,3 +114,91 @@ Still open here, banked with anchors in the source note rather than landed: whet
 semantic layer added to an asset (physics, articulation) narrows its interchange set to the
 one container whose schema can carry it — real, and its only clean home is outside
 `game-production`.
+
+## Architecture review - 2026-09-10
+
+Read and assessed all 14 owned documents. **Reverify** records completed review
+coverage, not a clean content verdict. Document decisions identify the repairs and
+remaining work. Earlier observations are preserved as historical evidence; they are
+not refreshed runtime witnesses and do not override the qualifications below.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "game-production/image-to-3d-input-gating",
+  "date": "2026-09-10",
+  "baseline": "78850ba51a9aa016dcfc62817d59581453c3d90d",
+  "digest": "sha256:157fba5a031e5fb0",
+  "disposition": "reverify",
+  "coverage": "All 14 owned documents read and assessed. Eight techniques across this tranche were repaired. Other semantic findings, golden-path reconciliation and all historical application witnesses remain reverify work. No consumer checkout execution, engine run, provider benchmark, player study or maturity refresh. External source scope and access limitations are recorded below.",
+  "counterexamples": [
+    "Pose tolerance is model-, rig- and task-specific. A requested back view should not fail a front-view criterion; reposing can create a usable reference when inferred content is declared and checked.",
+    "A four-image ceiling and last-image behavior need a bound provider contract. Multi-view consistency can depend on calibrated views rather than identical framing; losing required coverage is not automatically repaired by falling back to one image.",
+    "Rigid parts can share one weighted mesh, and seams can sometimes be planned across deformation regions. Evaluate downstream costs and multiplicity instead of treating late cuts as universally impossible."
+  ],
+  "sources": [
+    {
+      "path": "knowledge/game-production/asset-production/sourcing-economics/image-to-3d-input-gating/image-to-3d-input-gating.md",
+      "scope": "Owned golden path, every technique and every application read as primary local review evidence. Document decisions identify internal contradictions and explicit counterexamples. Historical external implementation and mutable provider claims remain unverified; no new witness is asserted."
+    }
+  ],
+  "documents": {
+    "image-to-3d-input-gating.md": {
+      "disposition": "reverify",
+      "reason": "Reverify universal model behavior, frontal-pose rules, reference ordering and the conflation of judge absence with spend permission. The score protocol is repaired; historical fail-open implementations remain explicit reverify work."
+    },
+    "techniques/canonical-pose-rule.md": {
+      "disposition": "reverify",
+      "reason": "Pose tolerance is model-, rig- and task-specific. A requested back view should not fail a front-view criterion; reposing can create a usable reference when inferred content is declared and checked."
+    },
+    "techniques/multi-view-master-reference.md": {
+      "disposition": "reverify",
+      "reason": "A four-image ceiling and last-image behavior need a bound provider contract. Multi-view consistency can depend on calibrated views rather than identical framing; losing required coverage is not automatically repaired by falling back to one image."
+    },
+    "techniques/part-cut-planning.md": {
+      "disposition": "reverify",
+      "reason": "Rigid parts can share one weighted mesh, and seams can sometimes be planned across deformation regions. Evaluate downstream costs and multiplicity instead of treating late cuts as universally impossible."
+    },
+    "techniques/reference-role-tagging.md": {
+      "disposition": "reverify",
+      "reason": "Role labels do not guarantee a model follows them. Compile roles into a supported API contract and check ordering, cardinality and conflicts; one image may legitimately inform several attributes."
+    },
+    "techniques/scene-partition-is-the-gated-unit.md": {
+      "disposition": "reverify",
+      "reason": "Overlapping or disconnected masks and occluded objects need more than a simple pixel partition. Missing required geometry cannot silently become backdrop; a zero-output attempt ran and failed, rather than proving no work occurred."
+    },
+    "techniques/score-defect-verdict-protocol.md": {
+      "disposition": "clarify",
+      "reason": "Repaired full response validation, identity binding and independent operational/content/spend states. A mandatory unavailable gate remains an unmet prerequisite unless an applicable authorized exception permits proceeding."
+    },
+    "techniques/single-subject-plain-background.md": {
+      "disposition": "reverify",
+      "reason": "Segmentation failure can be repaired by an independently checked matte; edge contact is not always clipping. Verify alpha support and distinguish generation risk from certain failure."
+    },
+    "techniques/text-is-never-geometry.md": {
+      "disposition": "reverify",
+      "reason": "Never across all models and future versions is unsupported. Explicit generated lettering can be tested against task requirements; overlays and decals have their own readability limits and reference-text roles."
+    },
+    "applications/node--part-cut-planning.md": {
+      "disposition": "reverify",
+      "reason": "The historical part-plan comparison was structural and its economic benefit remains a prediction. A @types/node version is not a runtime Node version witness; do not upgrade it to executed generation evidence. Preserve existing verification dates; no new consumer witness."
+    },
+    "applications/node--reference-role-tagging.md": {
+      "disposition": "reverify",
+      "reason": "The historical role-ordering implementation was not rerun. A video-reference example does not establish 3D-provider behavior, and published machine-specific roots should be removed. Preserve existing verification dates; no new consumer witness."
+    },
+    "applications/node--scene-partition-is-the-gated-unit.md": {
+      "disposition": "reverify",
+      "reason": "The historical packaging residue test was not rerun. Extension heuristics observe only their declared formats and can misclassify files; green enumerated tests do not prove complete scene coverage. Preserve existing verification dates; no new consumer witness."
+    },
+    "applications/node--single-subject-plain-background.md": {
+      "disposition": "reverify",
+      "reason": "The historical fail-open inputGateRefusal behavior violates a mandatory-gate spend prerequisite. Reinspect the consumer before claiming the repaired protocol is implemented; machine-specific roots also need removal. Preserve existing verification dates; no new consumer witness."
+    },
+    "applications/process--score-defect-verdict-protocol.md": {
+      "disposition": "reverify",
+      "reason": "The historical judge protocol was not rerun. A free-form verdict sentence and regex/clamped score do not establish complete schema validity; bind image versus clip evaluation and remove machine-specific roots. Preserve existing verification dates; no new consumer witness."
+    }
+  }
+}
+```

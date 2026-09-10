@@ -33,8 +33,8 @@ model exactly what each record asserts — no more.
 A registry record asserts, at most: these parties entered an agreement; one of them
 published it; the stated value, if any, is what the publisher chose to disclose, on
 the basis the publisher chose; and this row is one version in the publication history
-of one underlying contract. Everything else — who paid whom, how much money actually
-moved, whether the contract was performed at all — is not in the record. Five
+of one underlying contract. A contract-only disclosure does not establish payment or performance; sources
+that also publish implementation transactions can support those distinct claims. Five
 load-bearing distinctions fall out of this, and each is a technique in this subject:
 
 1. **The record is not the contract** (contract-registry-record-model). Contract
@@ -52,14 +52,14 @@ load-bearing distinctions fall out of this, and each is a technique in this subj
    currency, framework ceilings versus call-off values, estimated versus final —
    these are different value bases. A total that mixes bases is an invented number,
    and converting between bases with an assumed rate is a second invented number.
-4. **Versions supersede** (contract-version-supersession). Registries keep the whole
-   publication history — amendments, corrections, re-publications. Counting every
+4. **Versions can supersede** (contract-version-supersession). Distinguish
+   disclosure corrections from legal amendments and preserve available history. Counting every
    row over-counts; counting only the latest row erases the amendment story that is
    often the finding itself.
-5. **The registry covers what the law forces into it** (registry-coverage-blind-spots).
-   Below-threshold contracts, exempt sectors, classified deals, and self-published
-   records missed by a one-sided sweep are all invisible. Every figure derived from
-   a registry is a floor over a stated coverage, never a total.
+5. **Coverage follows publication and retrieval policies**
+   (registry-coverage-blind-spots). Below-threshold or exempt records may be absent;
+   voluntary publication and query-role semantics also affect visibility. Each figure needs a coverage statement. A subset becomes a lower bound only
+   under explicit identity, validity, additivity and nonnegative-amount conditions.
 
 The sixth technique inverts the frame: once the record model is honest, the registry
 becomes a detector. **Threshold-proximity-signals** reads clusters of contracts
@@ -75,7 +75,8 @@ includes rows where the firm was the payer, counts amendments as separate contra
 and was drawn from a capped or one-sided sweep. Four independent inflations and
 deflations, all silent. The defense is structural, not editorial: every total ships
 its composition (which bases, which directions, which version policy, what coverage),
-and any total whose composition is mixed says so in the rendered copy. A reader who
+and incompatible amounts remain separate subtotals; disclosure does not validate
+a mixed sum. A reader who
 cannot see the composition cannot trust the number — and in accountability work an
 untrustable number about a named firm is a liability, not a product.
 
@@ -86,10 +87,9 @@ record. Direction-of-payment is the single field that separates "supplier to the
 state" from "customer of the state," and where the registry leaves it blank the copy
 must say "direction not stated," which is a different sentence from either.
 
-**The version double-count.** A contract amended twice is three records. Summing
-records inflates the corpus by whatever the amendment rate is — in measured national
-corpora on the order of several percent, concentrated exactly in the large, long,
-politically interesting contracts that get amended most. The mirror error, keeping
+**The version double-count.** Repeated publications can represent one agreement. Summing
+records inflates the corpus by the repeated publications included. Publication corrections and separately
+registered legal amendments must be distinguished before measuring this effect. The mirror error, keeping
 only the latest version, destroys the amendment trail — and a contract awarded just
 under a threshold and then grown by amendments past it is a classic red flag that
 only the version history can show.

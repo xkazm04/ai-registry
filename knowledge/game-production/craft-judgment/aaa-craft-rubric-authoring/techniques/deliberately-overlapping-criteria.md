@@ -26,8 +26,8 @@ both touch the same focal weakness, and an artifact routinely satisfies one with
 satisfying the other — not because the author cheated, but because the two questions make
 different things salient to whoever answers them. Comparative studies of expert review
 find the same thing whenever two different principle sets are turned on one artifact: the
-defect sets overlap substantially but nowhere near completely, and the shared portion is a
-minority of the union. Every finding outside the shared portion is a defect one framing
+defect sets overlap substantially but nowhere near completely, and the shared portion depends on the study and task. No quantitative effect
+is established for this corpus without a cited comparison. Every finding outside the shared portion is a defect one framing
 saw and the other did not. A partition keeps one framing per region of the craft and
 discards the rest of the union by construction.
 
@@ -56,15 +56,15 @@ least visible in the numbers. Do not take that trade.
 **Overlap in the interrogation, deduplicate in the arithmetic.** The criteria stay
 redundant and all of them are asked. What composes into a grade is not the criteria but
 the *findings*, and a finding names the defect and its location in the artifact, never the
-criterion that surfaced it. The procedure has three steps and no discretion in any of
-them.
+criterion that surfaced it. The procedure requires an explicit finding-identity and severity policy.
 
 1. **Ask every criterion independently**, each recording its findings as a defect plus the
    place in the artifact where it sits. A criterion that returns "nothing found" records
    that too.
 2. **Merge findings by identity before scoring.** Two findings are one when they name the
    same defect at the same location, whatever the two criteria called it. The merged
-   finding takes the severity of its worst framing and keeps the list of criteria that saw
+   finding uses an adjudicated severity under one policy; taking the maximum
+   without review can amplify a false-positive framing. Keep the list of criteria that saw
    it as provenance.
 3. **Compose the grade over merged findings.** Each defect counts once. Provenance is for
    auditing which framings are earning their place; it is never a multiplier.
@@ -77,10 +77,11 @@ composite that is quietly counting one defect three times.
 
 Before building any of that, look at the shape of the composition, because much of the cost
 this technique warns about is not a property of overlap at all — it is a property of the
-weighted mean. Under a weakest-dominates rule, where the lowest few criteria set the grade
-and one broken criterion caps the artifact, a defect seen by three framings moves the total
-exactly as far as a defect seen by one. Overlap becomes arithmetically free, and the
-deduplication that remains is a reporting concern rather than a scoring one. A team that chose
+weighted mean. Under an exact minimum, repeating the identical score cannot change the minimum.
+That does not hold for an average of the lowest few scores: [1,4,4] has a lowest-two
+mean of 2.5, while [1,1,4,4] has 1. A holistic prompt saying "weakest-few dominate"
+has no mathematical duplication guarantee. Deduplicate or validate the actual
+aggregation rule before claiming overlap is free. A team that chose
 a mean by default and then found it could not tolerate redundancy has diagnosed the wrong half
 of the problem.
 
@@ -122,10 +123,9 @@ are the intended pattern**, and the divergences are the reason the pair exists.
   piece is not additionally deducted for the reason it was capped; that is double counting
   across mechanisms, and it makes the cap look like a heavy weight, which is the confusion
   the cap exists to avoid.
-- **Never overlap a measured quantity.** Two criteria computing the same figure by two
-  methods is not a second framing, it is two authorities for one number, and the day they
-  disagree nobody can say which is real. Measurements have exactly one owner; only
-  judgments overlap.
+- **Independent measurements can cross-check one quantity.** Keep one declared
+  reporting authority and a disagreement policy; do not double-weight repeated
+  observations or discard useful cross-checks merely because they overlap.
 - **Findings carry locations or the merge is guesswork.** If the instrument cannot record
   where in the artifact a defect sits, deduplication degenerates into matching the wording
   of two descriptions, which merges distinct defects and splits identical ones.

@@ -271,6 +271,20 @@
       "usageContributors": []
     },
     {
+      "name": "maintain",
+      "version": "1.0.0",
+      "category": "workflow",
+      "path": "skills/maintain/SKILL.md",
+      "contentHash": "sha256-n1:c7d43b51d120cb08",
+      "adopters": [],
+      "invokes30d": 0,
+      "reportedInvokes": 0,
+      "lessons": 1,
+      "lessonsPath": "skills/maintain/LESSONS.md",
+      "lessonsHash": "sha256-n1:95f58bd4deec8862",
+      "usageContributors": []
+    },
+    {
       "name": "motionize",
       "version": "1.3.0",
       "category": "other",
@@ -468,9 +482,9 @@
       ],
       "invokes30d": 6,
       "reportedInvokes": 6,
-      "lessons": 18,
+      "lessons": 20,
       "lessonsPath": "skills/spark/LESSONS.md",
-      "lessonsHash": "sha256-n1:73fe7cf6169ef564",
+      "lessonsHash": "sha256-n1:b93625968b08c33e",
       "usageContributors": [
         "kazda-dev-box"
       ]
@@ -699,10 +713,10 @@
     }
   ],
   "counts": {
-    "skills": 31,
+    "skills": 32,
     "practices": 8,
     "memory": 6,
-    "lessons": 211
+    "lessons": 214
   },
   "bundles": [
     {
@@ -716,7 +730,7 @@
       "techniques": 92,
       "applications": 35,
       "files": 147,
-      "contentHash": "sha256:92bd323dd6e239d6"
+      "contentHash": "sha256:f06c08ebbdf6cb74"
     },
     {
       "name": "game-production",
@@ -729,7 +743,7 @@
       "techniques": 328,
       "applications": 139,
       "files": 523,
-      "contentHash": "sha256:37fd434415413e18"
+      "contentHash": "sha256:69cb9bbd094bcf4c"
     },
     {
       "name": "grant-funding",
@@ -742,7 +756,7 @@
       "techniques": 105,
       "applications": 38,
       "files": 165,
-      "contentHash": "sha256:3ded70d12925e858"
+      "contentHash": "sha256:bb1ec251fe7f8c41"
     },
     {
       "name": "llm-observability",
@@ -820,7 +834,7 @@
       "techniques": 1688,
       "applications": 1014,
       "files": 2935,
-      "contentHash": "sha256:caeb1a315e00b8d2"
+      "contentHash": "sha256:4a1672eab3b725ee"
     }
   ],
   "usageEvidence": {

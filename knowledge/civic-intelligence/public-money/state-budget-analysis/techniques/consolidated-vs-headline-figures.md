@@ -15,12 +15,12 @@ use_when:
 
 Official fiscal sources publish several numbers that all answer to the name
 "total expenditure", and they are not approximations of each other — they
-differ by integer factors. The gross (unconsolidated) figure counts every flow
+can differ substantially. The gross (unconsolidated) figure counts every flow
 every fund records, including the body's transfers to its own funds and its own
 subordinate organizations; money that moves from the town's left pocket to its
-right pocket is counted in both pockets. The consolidated figure eliminates
-those internal flows and is the town's actual budget size — what it raises from
-and spends on the world outside itself. The gap is not academic: in one
+right pocket is counted in both pockets. The consolidated figure eliminates reciprocal flows and positions within a
+declared perimeter. That perimeter may exclude municipal companies or include
+several institutional units; neither variant is universally the actual budget. The gap is not academic: in one
 measured case, a single town's single year, the gross expenditure read 2.3× the
 consolidated one. A comparison surface that picks variants inconsistently is
 not noisy; it is comparing different quantities under one label
@@ -36,14 +36,15 @@ consolidation variant is its answer for the single-body case.
 ## The procedure
 
 1. **Inventory the variants before ingesting anything.** For each indicator the
-   source offers, note whether a consolidated variant exists. Typically the
-   flow figures (expenditures, revenues, balance) come in both forms, while
-   stock and structural figures (debt, population) have no consolidation
-   variant — there is no internal-transfer double-count in a debt stock. Do
-   not "consolidate" what the source does not; inventing an adjustment is
-   repair, and analysts do not repair.
-2. **Choose once, globally, in writing.** The consolidated variant is the
-   default for every flow figure, for every body, for every year. The decision
+   source offers, note whether a consolidated variant exists. Both flows and debt stocks can require consolidation: a liability held by
+   another unit inside the perimeter is an internal debtor-creditor position.
+   Population is a different kind of measure. Use documented source variants
+   or a traceable consolidation method; do not invent missing counterparties.
+2. **Choose consistently per metric and question.** Record institutional
+   perimeter, consolidation, cash/accrual basis, period, currency and price
+   basis, and approved/revised/executed stage. Use a consolidated variant when
+   the question concerns that combined perimeter; retain gross flows for
+   transfer questions. The decision
    lives where the source adapter lives, with the measured gap that justifies
    it, and every downstream metric inherits it by import — a per-surface choice
    *will* drift, and the drifted surface will publish the 2.3× figure as the
@@ -67,9 +68,9 @@ consolidation variant is its answer for the single-body case.
   ratios.
 - When the source revises its consolidation methodology between periods, treat
   the boundary as a series break and disclose it; do not splice.
-- When a reader-facing surface has room for one number, it shows the
-  consolidated one; the gross figure is available behind provenance, labeled
-  as containing internal transfers, never as an alternative "total".
+- When a surface has room for one number, label the metric and perimeter
+  explicitly. Choose the relevant variant for the question; do not let layout
+  choose between approved appropriations and executed expenditure.
 - When aggregating *across* bodies, consolidation within each body is not
   enough — inter-body transfers need their own elimination, and if the source
   does not support it, publish the sum as "contains inter-body transfers"

@@ -1,7 +1,7 @@
 ---
 subject: korean
 domain: localization
-last_touched: 2026-08-29
+last_touched: 2026-09-10
 touched_by: external-reconcile
 dry_streak: 0
 ---
@@ -124,3 +124,82 @@ anchored rule **KO-ATTRIBUTIVE**, which the subject needed anyway - the pre-coun
 series is the hard part of Korean counting and previously appeared only implicitly
 inside examples, with the 21-of-99 divergence stated so nobody builds the flat table.
 The base-10 spacing lead stays banked.
+
+## Architecture review - 2026-09-10
+
+Review completed for every owned document. Reverify identifies remaining work, not a
+clean content verdict. Earlier notes remain historical evidence; application dates
+and maturity are unchanged.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "localization/korean",
+  "date": "2026-09-10",
+  "baseline": "78850ba51a9aa016dcfc62817d59581453c3d90d",
+  "digest": "sha256:025e5e8c7a94486f",
+  "disposition": "reverify",
+  "coverage": "All 11 owned documents read and assessed in table order. 4 document(s) repaired. Residual source, semantic and historical application checks are recorded per document; no consumer/runtime/field witness or maturity refresh.",
+  "counterexamples": [
+    "Quotation marks around a value do not determine whether its spoken ending takes wa or gwa.",
+    "Unit nouns may remain spaced after digits; attachment is permitted, not compulsory under orthography.",
+    "A rendered name replaces {name}; a break after the literal closing brace does not prove the production name-particle pair breaks."
+  ],
+  "sources": [
+    {
+      "path": "knowledge/localization/east-asian/korean",
+      "scope": "Every owned document read in full; embedded code assessed as displayed. Historical application implementations and observations were not independently rerun."
+    },
+    {
+      "url": "https://www.korean.go.kr/front/mcfaq/mcfaqView.do?mcfaq_seq=5851",
+      "scope": "Primary National Institute FAQ confirms numeric unit spacing and permitted attachment."
+    }
+  ],
+  "documents": {
+    "korean.md": {
+      "disposition": "reverify",
+      "reason": "Golden path treats one product register mix and counter conventions as universal, other-only category as format defect, LTR as no bidi and digit display as removing pronunciation concerns. Latin and numerical values still need spoken-form-aware particles."
+    },
+    "techniques/counting-and-quantity.md": {
+      "disposition": "clarify",
+      "reason": "Repaired exact-other syntax assumes format generation, deul not plural suffix, counters always necessary, closed spacing mandatory and digits eliminate reading concerns. Preserve ordinal distinctions and actual number representation."
+    },
+    "techniques/de-anglicization-constructions.md": {
+      "disposition": "reverify",
+      "reason": "Clause fusion and nominalization counts are editorial candidates, not grammar tests. Deletion of ownership or agent can alter meaning, and 에 의해 is not inherently defective. Quotation and voice exceptions defeat no-false-positive please grep. Anchor absence is not proof a string is clean."
+    },
+    "techniques/particles-and-interpolation.md": {
+      "disposition": "clarify",
+      "reason": "Repaired quote avoids particle alternation, half-of-values failure claim, always dual form and algorithm cannot handle digits/Latin. Typed values, pronunciation metadata and normalization can support deterministic selection."
+    },
+    "techniques/register-and-honorifics.md": {
+      "disposition": "clarify",
+      "reason": "Repaired exactly two permitted registers, formal command always dated, every button noun and second-person ban. Honorific subject and humble benefactive are distinct."
+    },
+    "techniques/spacing-and-typography.md": {
+      "disposition": "clarify",
+      "reason": "Repaired English-identical spacing after all punctuation, compulsory closed units, fixed width ratio and space-only wrap required for correct UI. Use actual rendered substitutions rather than literal placeholder syntax."
+    },
+    "techniques/terminology-and-loanwords.md": {
+      "disposition": "reverify",
+      "reason": "Things/actions binary overstates domain usage; native terms can correctly denote objects and loans can form actions. Standard spellings and product names need contextual exceptions. Developer audience does not always choose international loans, and privacy is not always equivalent to personal information."
+    },
+    "applications/process--particles-and-interpolation.md": {
+      "disposition": "reverify",
+      "reason": "Historical Personas cases retained, not rerun. The quoted query followed by wa still needs alternation; quotation is not avoidance. Slack example proves one counterexample but no half-time frequency estimate. Known value constraints can justify a single particle; absolute fleet root remains cleanup work."
+    },
+    "applications/process--register-and-honorifics.md": {
+      "disposition": "reverify",
+      "reason": "Historical counts retained, not recounted. These establish a product policy rather than a universal two-register rule or formal-command prohibition. Published absolute checkout path remains cleanup work."
+    },
+    "applications/spec--counting-and-quantity.md": {
+      "disposition": "reverify",
+      "reason": "Historical CLDR/ICU spellout harness retained, not rerun. Runtime agreement is not proof all lexical forms are normative. Claimed wrong classifiers both match and score below 43/43 is internally contradictory. Spaced numeral-unit forms remain permitted despite data examples. Mixed ordinal series needs construction-specific review."
+    },
+    "applications/spec--spacing-and-typography.md": {
+      "disposition": "reverify",
+      "reason": "Historical line-break harness retained, not rerun. Correct UI does not require only space breaks, and permitting syllable breaks does not ignore spaces. Literal brace-host fixture is not ordinary formatted output: interpolation removes braces. Real substituted values and renderer need evidence before declaring orphaned-particle defects."
+    }
+  }
+}
+```

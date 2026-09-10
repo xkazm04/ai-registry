@@ -1,7 +1,7 @@
 ---
 subject: french
 domain: localization
-last_touched: 2026-08-29
+last_touched: 2026-09-10
 touched_by: external-reconcile
 dry_streak: 0
 ---
@@ -90,3 +90,78 @@ jars. Two independent computations agree; the manifest rows are wrong, not the d
 FR-AGREE and FR-PLURAL (acronym plurals, the *(s)* form, unknown-gender policy) are
 morphology and untested by this counterpart. Whether French usage prefers the singular at
 1,5 was not adjudicated — the standard assigns the category, the technique owns the grammar.
+
+## Architecture review - 2026-09-10
+
+Review completed for every owned document. Reverify identifies remaining work, not a
+clean content verdict. Earlier notes remain historical evidence; application dates
+and maturity are unchanged.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "localization/french",
+  "date": "2026-09-10",
+  "baseline": "78850ba51a9aa016dcfc62817d59581453c3d90d",
+  "digest": "sha256:d4510d277dc8c4db",
+  "disposition": "reverify",
+  "coverage": "All 10 owned documents read and assessed in table order. 3 document(s) repaired. Residual source, semantic and historical application checks are recorded per document; no consumer/runtime/field witness or maturity refresh.",
+  "counterexamples": [
+    "1 000 000 messages is grammatical without de even though the plain cardinal selector can return many.",
+    "A policy using narrow space before ? and word space before : is deliberate French typography, not inconsistent mixing.",
+    "Les Français uses a capital nationality noun, unlike the adjective français."
+  ],
+  "sources": [
+    {
+      "path": "knowledge/localization/european/french",
+      "scope": "Every owned document read in full; embedded code assessed as displayed. Historical application implementations and observations were not independently rerun."
+    },
+    {
+      "url": "https://vitrinelinguistique.oqlf.gouv.qc.ca/fiche-gdt/fiche/8392388/tiret-cadratin",
+      "scope": "Primary OQLF entry identifies em dash as French punctuation; does not establish every France product convention."
+    }
+  ],
+  "documents": {
+    "french.md": {
+      "disposition": "reverify",
+      "reason": "Typography does not universally outrank mistranslation. Vous, dash avoidance, script/region assumptions and expansion ratios are product defaults, not language-wide requirements. many does not mean a plain digit count automatically needs de. Latin text can embed RTL, and market distinctions extend beyond France/Canada."
+    },
+    "techniques/de-anglicization-constructions.md": {
+      "disposition": "reverify",
+      "reason": "Nominal headings are a valid preference, not the only grammatical form. Selon can report a source without alternatives; noun appositions such as fichier exemple can be legitimate. Fronted adverbials and adjective placement are contextual. Dangling participle and placeholder preposition checks are useful, but rewriting must preserve referent and meaning."
+    },
+    "techniques/plural-and-agreement.md": {
+      "disposition": "clarify",
+      "reason": "Repaired many as automatic de before a digit count, blanket participle agreement, ordinal gender limitation of whole message system and neutral recasts changing the event. Exact-number branches can coexist with category branches."
+    },
+    "techniques/register-and-address.md": {
+      "disposition": "reverify",
+      "reason": "Vous is a useful default but tu is not inherently invalid in professional or security copy. On, il faut, c est and impossible de are normal French constructions; replacing them with nous can invent agency. Requerir/demander and necessiter/devoir are not interchangeable syntactic substitutions. Button imperative statement conflicts with ordinary infinitive labels."
+    },
+    "techniques/terminology-and-loanwords.md": {
+      "disposition": "reverify",
+      "reason": "Cognates correctly need not be untranslated, but they can have synonyms and belong in a termbase. English did not borrow every shared word directly from French. Borrowing and gender require usage/sense evidence; identifiant may not cover every credential. Closed never-translate list must permit approved localized brand/plan names. Legal terminology not refreshed."
+    },
+    "techniques/typography-and-spacing.md": {
+      "disposition": "clarify",
+      "reason": "Repaired em dash as non-French, different space widths as inconsistent and meaning-free sweep claim. Scope by market and message syntax; preserve valid quotation and technical exceptions."
+    },
+    "techniques/ui-conventions-and-length.md": {
+      "disposition": "clarify",
+      "reason": "Repaired nationality nouns always lowercase, wrapped button automatically text bug, immutable exact-label grammar and hardcoded examples always defect. Meaning, layout and accessible action labels determine severity."
+    },
+    "applications/process--terminology-and-loanwords.md": {
+      "disposition": "reverify",
+      "reason": "Historical Personas/kp term decisions retained, not reread externally. Product choices do not prove universal gender or naming rules. Open decisions can be resolved with authorized evidence; historical half-sweep refusals are not current permission requirements. Published absolute checkout path remains cleanup work."
+    },
+    "applications/process--typography-and-spacing.md": {
+      "disposition": "reverify",
+      "reason": "Historical typography counts retained, not recounted. Equal source dash counts do not prove copied language; narrow and word spaces may be deliberately assigned to different punctuation. Documented scope controls migration, but incremental correctness is not inherently worse than consistent error. Absolute fleet roots remain cleanup work."
+    },
+    "applications/spec--plural-and-agreement.md": {
+      "disposition": "reverify",
+      "reason": "Historical CLDR harness retained, not rerun. Category evidence does not certify morphology; plain 1000000 messages does not require de. Plural selector alone lacks gender, but nested select/message arguments can supply it. Default range data is a specified result rather than merely coincidence; release latestness/hash discrepancy claims remain historical."
+    }
+  }
+}
+```

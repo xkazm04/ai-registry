@@ -25,9 +25,9 @@ For a capital city it is rounding error; for a village of three hundred it is a
 generation of debt. The subject of budget analysis is not arithmetic on the
 figures — the treasury already did that — it is the manufacture of *legibility*:
 turning an absolute figure into a claim a reader can judge, without the analyst's
-judgment leaking into the number. The entire discipline reduces to one move
-performed carefully: **compare, never assert**. A town's debt is meaningful only
-against the debt of towns like it; the craft is in what "like it", "debt", and
+judgment leaking into the number. This subject focuses on **municipal fiscal comparison**, one part of budget
+analysis. Execution against an approved plan, cash availability and debt-service
+capacity are also meaningful questions without a peer ranking. For comparisons, the craft is in what "like it", "debt", and
 "against" each mean, because every one of those words hides a decision that can
 silently editorialize.
 
@@ -40,8 +40,7 @@ its own technique. First the *population*: a peer group of structurally similar
 municipalities, derived from a published, deterministic rule rather than picked
 by hand — hand-picked peers are how a consultant makes any town look
 thrifty or profligate on demand ([peer-group-construction](./techniques/peer-group-construction.md)).
-Second the *unit*: figures normalized per resident, because per-capita is the
-only unit in which a small town and a large one occupy the same axis
+Second the *unit*: figures normalized per resident, where resident population is an appropriate exposure unit
 ([per-capita-normalisation](./techniques/per-capita-normalisation.md)). Third the
 *statistic*: the peer group's median, not its mean, because municipal finance
 distributions carry extreme outliers — one town with a stadium loan drags a
@@ -80,14 +79,13 @@ tests: a town may be a peer for debt and absent for capital spending, and each
 median reports the sample it was actually computed from.
 
 **The wrong figure gets compared.** Public accounting publishes several numbers
-that all answer to the name "the budget", and they differ by integer factors,
-not percent. Gross figures double-count internal transfers between a body's own
-funds and organizations; consolidated figures eliminate them. In one measured
+that all answer to the name "the budget", with potentially large differences. Consolidation eliminates reciprocal flows or positions within a declared
+institutional perimeter; a label alone does not establish which bodies it covers. In one measured
 case the headline expenditure figure was 2.3× the consolidated one — for the
 same town, same year, same official source. Comparing one town's gross figure
 to another's consolidated figure is not an approximation, it is a fabrication,
-and the choice of which variant is "the" figure must be made once, globally,
-and documented ([consolidated-vs-headline-figures](./techniques/consolidated-vs-headline-figures.md)).
+and each metric must consistently declare its perimeter, accounting basis,
+period, budget stage and consolidation variant ([consolidated-vs-headline-figures](./techniques/consolidated-vs-headline-figures.md)).
 
 ## From "how much" to "to whom"
 
@@ -110,28 +108,28 @@ Where the trail further touches *people* — a firm in the town's record that
 also has recorded ties to a politician — the frozen aggregates and the live
 human-review state must not be conflated. Contract sums can be a generated
 batch; the verdict "this tie is verified / pending / rejected" changes with
-every review decision and must be read live, so a rejected tie disappears with
+every review decision and must be checked live or through a reliably invalidated review snapshot, so a rejected tie disappears with
 the next render, not the next re-ingest. And when the live layer is
 unreachable, the surface says "ties cannot be verified right now" — it never
 renders the indistinguishable and false "no ties".
 
 ## What a principal practitioner holds true
 
-- An absolute budget figure is not information; a figure against a published
-  peer benchmark is. The benchmark's recipe — grouping rule, unit, statistic,
+- An absolute budget figure needs a defined scope. A peer benchmark can add
+  context but does not establish affordability, efficiency or fiscal health. The benchmark's recipe — grouping rule, unit, statistic,
   minimum sample, widening rule — is published on the surface, verbatim from
   the one definition the code runs.
 - Peer similarity is structural: size class and comparable mandate first,
   geography second. Geography alone manufactures flattering comparisons.
-- Per-capita is the comparison unit; the population divisor comes from the same
-  reporting period as the numerator, from the same source, and a missing
+- Where population is the relevant exposure, per-capita is a comparison unit; the population divisor comes from a compatible
+  reference period and population definition, and a missing
   divisor makes the metric missing, not zero.
-- The peer statistic is the median; an empty sample yields null; every median
+- For a typical-municipality comparison the peer statistic is the median; an empty sample yields null; every median
   ships its sample size; a peer without a value for a metric is absent from
   that metric's median.
-- Consolidated figures are the town's real budget. The choice of variant is a
-  single global decision, and mixing variants across towns or years is a
-  fabrication, not an error bar.
+- Consolidated figures answer questions about a declared combined perimeter.
+  Approved, revised and executed budgets, cash and accrual figures, and debt
+  stocks are different quantities; align them before comparing.
 - Money-trail claims attribute to the exact registered identifier, assert
   direction only when the record proves it, label amounts as contract values,
   and disclose the record's coverage and retrieval date.
@@ -139,10 +137,9 @@ renders the indistinguishable and false "no ties".
   and disclosed, never repaired and never allowed to take down the surface;
   structural corruption of the analyst's own artifacts, by contrast, fails
   loudly, because a generated file is either exactly right or broken.
-- Review state is live; aggregates may be frozen. An unreachable review store
+- Review state must support prompt revocation; aggregates may be frozen. An unreachable review store
   reads as "cannot verify", never as "nothing found".
 
-Each rule exists because its violation was measured somewhere: a benchmark
-deflated by zero-filled absentees, a headline figure 2.3× the real one, a
-contract history extending seventeen years into the future. The rules are the
-incidents, generalized.
+Historical applications motivate several rules: a benchmark
+deflated by zero-filled absentees, a headline figure reported as 2.3× its consolidated counterpart, a
+contract history extending seventeen years into the future. Those historical observations are not fresh verification or universal effect sizes.

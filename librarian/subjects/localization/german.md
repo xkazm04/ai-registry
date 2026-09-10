@@ -1,7 +1,7 @@
 ---
 subject: german
 domain: localization
-last_touched: 2026-08-29
+last_touched: 2026-09-10
 touched_by: external-reconcile
 dry_streak: 0
 ---
@@ -93,3 +93,82 @@ fact outside the Unicode pin, not asserted in the application. Whether CLDR ship
 case tailoring mapping ß→ẞ: the core spec names CLDR as the preferred mechanism for such
 tailorings but does not assert one exists. **That is the obvious next fetch** and would
 close the loop.
+
+## Architecture review - 2026-09-10
+
+Review completed for every owned document. Reverify identifies remaining work, not a
+clean content verdict. Earlier notes remain historical evidence; application dates
+and maturity are unchanged.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "localization/german",
+  "date": "2026-09-10",
+  "baseline": "78850ba51a9aa016dcfc62817d59581453c3d90d",
+  "digest": "sha256:4064dd5efac82fec",
+  "disposition": "reverify",
+  "coverage": "All 10 owned documents read and assessed in table order. 5 document(s) repaired. Residual source, semantic and historical application checks are recorded per document; no consumer/runtime/field witness or maturity refresh.",
+  "counterexamples": [
+    "Speichern is a register-neutral infinitive label; Stelle beschreiben is infinitive but Stelle alone can also be a noun, while Speichere is an imperative.",
+    "STRASSE remains permitted; preserving Straße in storage makes a lossy display projection manageable.",
+    "Die API and die APIs show that an abbreviation can participate in German noun grammar."
+  ],
+  "sources": [
+    {
+      "path": "knowledge/localization/european/german",
+      "scope": "Every owned document read in full; embedded code assessed as displayed. Historical application implementations and observations were not independently rerun."
+    },
+    {
+      "url": "https://www.rechtschreibrat.com/DOX/RfdR_Amtliches-Regelwerk_2024.pdf",
+      "scope": "Official 2024 rule search excerpt confirms SS remains allowed alongside capital sharp s."
+    },
+    {
+      "url": "https://www.duden.de/sprachwissen/rechtschreibregeln/Gro%C3%9F-%20und%20Kleinschreibung",
+      "scope": "Primary Duden rule example uses inward guillemets in German."
+    }
+  ],
+  "documents": {
+    "german.md": {
+      "disposition": "reverify",
+      "reason": "Golden path overstates obligatory Sie, identical English/German plural behavior including visible 1.0, no ordinal branching, unbreakable compounds and no bidi/shaping. Wrong prepositions can change meaning, and an anchor does not prove a defect. Regional vocabulary and formatting need a market contract."
+    },
+    "techniques/capitalization-and-compounds.md": {
+      "disposition": "clarify",
+      "reason": "Repaired mandatory ban on default uppercase despite permitted SS, folding distinctions treated as unique, colon phrase lowercasing and hyphen-count diagnosis. Preserve original text and select comparison semantics explicitly."
+    },
+    "techniques/de-anglicization-constructions.md": {
+      "disposition": "reverify",
+      "reason": "Nominal style and repeated stems are candidates, not proof of error; Wir can invent agency and Belegbare Nachweise is not necessarily tautological. Collocation recasts must preserve technical confidence-interval meaning. House anchor IDs do not establish universal grammar."
+    },
+    "techniques/length-and-compression.md": {
+      "disposition": "clarify",
+      "reason": "Repaired universal expansion budget, no compound wrapping, automatic hyphenator ban and required compression of every sibling. Measure real layout and preserve meaning."
+    },
+    "techniques/register-and-address.md": {
+      "disposition": "clarify",
+      "reason": "Repaired B2B mandates Sie, infinitive example actually imperative, universal drift distribution and missing gender policy forbids any correction. Scope address and voice decisions to actual audiences/surfaces."
+    },
+    "techniques/terminology-and-loanwords.md": {
+      "disposition": "clarify",
+      "reason": "Repaired acronyms cannot take articles/plurals, all loan gender uniquely fixed, English -ies never accepted and frequency overrides approved terminology. Distinguish lexical loans from literal identifiers."
+    },
+    "techniques/typography-and-spacing.md": {
+      "disposition": "clarify",
+      "reason": "Repaired guillemets excluded outside Switzerland, automatic punctuation sweeps, precomposed-only umlauts and no mixed-direction/font concerns. Keep regional/house conventions explicit."
+    },
+    "applications/process--de-anglicization-constructions.md": {
+      "disposition": "reverify",
+      "reason": "Historical kp counts and cited rule IDs are retained, not independently rerun. More hyphens than English or similar dash counts do not prove a calque. Partial correction is not inherently worse than error; published absolute checkout paths remain cleanup work."
+    },
+    "applications/process--register-and-address.md": {
+      "disposition": "reverify",
+      "reason": "Historical Personas/kp register policies retained, not reread in consumers. These examples support recorded policy, not all professional products choosing Sie. Missing gender ruling need not block unrelated grammar fixes. Absolute fleet roots remain cleanup work."
+    },
+    "applications/spec--capitalization-and-compounds.md": {
+      "disposition": "reverify",
+      "reason": "Historical Unicode harness not rerun. The shown mappings support default SS and loss of distinction, but SS is permitted orthography and display transformation can preserve original storage. Simple/full mapping mismatch is defined behavior, not a contradiction. Case-fold choice can legitimately be shared across surfaces."
+    }
+  }
+}
+```

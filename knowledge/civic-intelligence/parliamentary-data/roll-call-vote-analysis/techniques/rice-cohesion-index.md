@@ -11,9 +11,8 @@ use_when: [measuring party discipline over time, comparing unity across parties,
 
 # Rice cohesion index
 
-The Rice index is the field's oldest unity measure (1925) and still its
-lingua franca: for one group on one division, **|yes − no| / (yes + no)** over
-the group's positional ballots. 1.0 is a perfectly whipped vote; 0.0 is a
+For one group on one division, the binary Rice cohesion index is
+**|yes − no| / (yes + no)** over the group's positional ballots. 1.0 means unanimity among the included yes/no ballots; 0.0 is a
 group split down the middle. A group's cohesion over a period is the mean of
 its per-vote indices across qualifying votes. Its virtues are real — it is
 transparent, recomputable by a reader with a calculator, and comparable
@@ -28,9 +27,9 @@ and the technique is mostly about gating them.
   that quotes Rice's name without his comparability.
 - **Exclude voided divisions**, as with every discipline metric.
 - **Per-vote qualification floor.** A vote counts toward a group's cohesion
-  only when at least a minimum number of its members took a position (five
-  is a workable floor). Below the floor, |yes−no|/(yes+no) is a coin-flip
-  statistic: two members voting yes score a perfect 1.0. The floor is a
+  only when a declared minimum number of its members took a position (five
+  is an example publication convention, not a validated reliability floor). With little support the score
+  is sensitive to individual ballots: two yes votes yield 1.0. The floor is a
   named constant, defined once, imported by every consumer, disclosed in
   copy.
 - **No qualifying votes → not measured.** A group (or a day, or a chamber)
@@ -43,15 +42,16 @@ and the technique is mostly about gating them.
 
 Per-vote indices roll up two ways, and the choice is part of the definition:
 
-- **A group over time:** unweighted mean over its qualifying votes is the
-  literature's convention; keep it, and ship the qualifying-vote count with
+- **A group over time:** an unweighted mean over qualifying votes gives each division equal
+  influence. If this is the intended estimand, use it and ship the qualifying-vote count with
   the mean.
-- **A chamber (all groups) per vote or per day:** weight each group's index
+- **Average within-group cohesion for a chamber:** weight each group's index
   by its positional-ballot count. An unweighted mean lets a four-member
   group's noisy index move the chamber figure as much as the largest party's,
   and the resulting series jumps on exactly the votes where small groups
-  behaved oddly. Whichever weighting you choose, publish it as a formula the
-  reader can check.
+  behaved oddly. Whichever weighting you choose, publish the formula and aggregation order.
+  This is not pooled chamber cohesion: two internally unanimous opposing groups
+  have within-group cohesion 1 while their pooled yes/no tally can have Rice 0.
 
 ## The known blind spots — disclose, don't patch
 
@@ -82,7 +82,7 @@ Per-vote indices roll up two ways, and the choice is part of the definition:
 
 max(yes, no)/(yes + no) — the majority share — carries the same information
 on a [0.5, 1] scale and is sometimes friendlier for display ("94% voted the
-line"). It is a presentation of the same fraction, not a second metric; if
+line"). It is a deterministic transform, majority share = (Rice + 1) / 2; if
 both render, they derive from one tally in one function, or they will one day
 disagree in public.
 

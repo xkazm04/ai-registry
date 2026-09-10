@@ -37,7 +37,9 @@ behind the one transition door
    durably against the session's identity: the conversational/task context
    or a pointer to where the session's own runtime persists it, the working
    directory, the task binding, and the declared write scope as it stood.
-3. **Release what does not survive.** The concurrency slot, always. The
+3. **Prepare release of what does not survive.** Record intended releases, but
+   retain live capacity and exclusive access until step 4 confirms termination
+   or fences the old executor. The
    terminal or stream attachment, always. The write-scope claim — a policy
    decision with two legitimate answers: *keep* it reserved (the parked
    session will continue that work; nobody else may enter) or *release* it
@@ -48,26 +50,20 @@ behind the one transition door
    reaper](../../../../_laws.md#creation-names-reaper) — a claim held by no live
    process must name what releases it, and "the resume, someday" is rarely
    an acceptable reaper).
-4. **End the process.** Only after the contract is captured. The ordering is
-   the whole point: kill-then-capture is a crash with paperwork.
+4. **End the process and confirm or fence it.** Only after the contract is
+   durable. Complete the prepared releases after confirmation; if termination
+   is uncertain, quarantine the remaining claims and expose incomplete parking.
 
 What survives a park is exactly the resume contract; everything else is
-declared dead at step 3. The discipline of enumerating the two sets — kept
+released after termination or fencing at step 4. The discipline of enumerating the two sets — kept
 versus released — per session type is what makes hibernation a state instead
 of a euphemism for "killed, hopefully recoverable."
 
-**Two park depths earn their keep.** Deep park is the explicit hibernated
-state above. The lighter variant — call it dozing — frees the process but
-deliberately *preserves the displayed state* the session was parked in: the
-entry still reads as what it was doing, carries a small sleep marker, and
-wakes in place when selected. Doze is the right shape for policy-driven
-parking (idle eviction, slot pressure), where the operator never asked for
-anything and should not see their fleet visibly rearranged; explicit
-hibernation is the right shape for a deliberate operator act. The bonus of
-having doze in the vocabulary: **restart recovery gets a state for free** — a
-session restored from the durable mirror with no live process *is* a dozing
-entry, and reusing the doze-wake path for recovery means no new state, no
-new UI concept, and no second wake mechanism to keep correct.
+**A lighter park may retain the task display, not a false liveness claim.** A
+separate process-presence field can distinguish sleeping from active while keeping
+the last task state visible. Restore as resumable only when a durable checkpoint
+and task binding actually exist. A crashed session with no checkpoint is not
+automatically a dozing session, and stale context may need reconstruction.
 
 **Policy parking must re-validate inside the transition.** An eviction pass
 picks its victims from a snapshot — least-recently-active, resting states
@@ -83,10 +79,9 @@ a check against a world that may have moved.
 
 Resume's obligations, in order:
 
-1. **Check the edge.** Only a hibernated entry may be woken; the door rejects
-   wake on any other state. This single check structurally prevents the
-   duplicate — a second process can never be minted under an identity that
-   already has one.
+1. **Check the edge.** Only an eligible parked entry may be woken. Atomically
+   reserve a new incarnation and its resources before spawn; a state check
+   without reservation lets concurrent wakes both start. Fence older incarnations.
 2. **Reclaim resources under current rules.** A slot must be available (a
    wake is a dispatch, and it queues like one when the fleet is at cap); the
    write scope must be re-acquired — and re-*validated*, because the world
@@ -97,7 +92,9 @@ Resume's obligations, in order:
    process is started with the stored context. The critical test: the
    resumed session must demonstrably *be a continuation* — it holds the
    prior context, knows its task position, and its first output should be
-   checkable against the contract (it references the task it was parked on).
+   checkable against the contract (it references the task it was parked on). Self-report alone is insufficient:
+   bind the runtime restore acknowledgement to the stored checkpoint identity
+   and schema, then reconcile task position and external effects.
    A runtime that silently fails to load the context and starts fresh under
    the old identity is the changeling: it passes every liveness check while
    having lost everything that made the identity worth preserving
@@ -122,11 +119,12 @@ should be explicit fleet policy rather than operator heroics:
   policy over sessions.
 - **End-of-run parking.** A fleet run that completes its harvest can park
   its sessions rather than kill them when the same roster is likely to be
-  redispatched; warm context is the asset being conserved.
-- **Never park the waiting.** A session awaiting human input is a promise to
+  redispatched; context can be reused if still relevant, authorized and within retention limits.
+- **Preserve pending input across a park.** A session awaiting human input is a promise to
   a person; parking it silently converts "the fleet is waiting for you"
-  into "your answer will go nowhere." Either surface the pending question
-  through the harvest/notification path first, or leave it running.
+  into "your answer will go nowhere." Parking is valid when the question and reply correlation are durable,
+  the reply can wake the correct incarnation, and the interface reflects the
+  sleep state. Otherwise leave it running or explicitly report interruption.
 
 The counterweight: a hibernated session is not free. Its resume contract is
 storage, its reserved scope (if reserved) is contention, and a graveyard of

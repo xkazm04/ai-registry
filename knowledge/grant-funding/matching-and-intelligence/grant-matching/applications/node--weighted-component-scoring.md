@@ -10,7 +10,7 @@ verified_on: 2026-08-19
 
 # Node — weighted component scoring in a nonprofit grant matcher
 
-How the grant-writing-nonprofits repo (`C:\Users\mkdol\xprice\grant-writing-nonprofits`)
+How the grant-writing-nonprofits repo
 realizes weighted component scoring as pure TypeScript functions, deliberately
 shipped *before* any model lane — the file header at
 `src/features/grant-ingest/scoring.ts:12-16` records the decision: "Gemini-scored

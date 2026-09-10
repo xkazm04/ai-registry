@@ -1,7 +1,7 @@
 ---
 subject: czech
 domain: localization
-last_touched: 2026-08-29
+last_touched: 2026-09-10
 touched_by: external-reconcile
 dry_streak: 0
 ---
@@ -75,3 +75,82 @@ spec-backed. The apparent tension between §Operands (compact `1.2c6` has `v=0` 
 c-shift) and §Compact Number Formats (pattern `count` chosen from N′) is described as two
 different selections, which is what the reference implementation does; no spec sentence
 reconciling them was found, and no spec defect is claimed.
+
+## Architecture review - 2026-09-10
+
+Review completed for every owned document. Reverify identifies remaining work, not a
+clean content verdict. Earlier notes remain historical evidence; application dates
+and maturity are unchanged.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "localization/czech",
+  "date": "2026-09-10",
+  "baseline": "78850ba51a9aa016dcfc62817d59581453c3d90d",
+  "digest": "sha256:dece50b935d6004f",
+  "disposition": "reverify",
+  "coverage": "All 11 owned documents read and assessed in table order. 4 document(s) repaired. Residual source, semantic and historical application checks are recorded per document; no consumer/runtime/field witness or maturity refresh.",
+  "counterexamples": [
+    "je nastaven and nastaví se do not describe the same tense or event.",
+    "ve městě {city} with city=Praha does not automatically supply standard locative Praze.",
+    "2 nových zpráv remains wrong just because the message system offers only one/other."
+  ],
+  "sources": [
+    {
+      "path": "knowledge/localization/european/czech",
+      "scope": "Every owned document read in full; embedded code assessed as displayed. Historical application implementations and observations were not independently rerun."
+    },
+    {
+      "url": "https://prirucka.ujc.cas.cz/?id=165",
+      "scope": "Primary Czech Language Institute guidance explicitly recognizes both short and long dashes."
+    }
+  ],
+  "documents": {
+    "czech.md": {
+      "disposition": "reverify",
+      "reason": "Czech inflection matters but rendering, embedded RTL and font coverage still need QA. Register, anti-bookish and no-em-dash claims overgeneralize a product guide. many depends on visible fractional representation, not noninteger value. Gender-neutral strategies and noun-case agreement need context; fixed expansion and no-abbreviation claims are unsupported universals."
+    },
+    "techniques/de-anglicization-constructions.md": {
+      "disposition": "clarify",
+      "reason": "Repaired categorical passive/genitive limits and rewrites changing tense, agency, causation or source meaning. Short passive is standard Czech; grammatical style candidates are not automatically major defects."
+    },
+    "techniques/gender-neutral-forms.md": {
+      "disposition": "clarify",
+      "reason": "Repaired head noun as automatic case fix, tense-changing neutralization and binary slash as universal neutral standard. Grammatical gender is not identical to personal identity; preserve aspect/time and support an appropriate unknown path."
+    },
+    "techniques/plural-and-count-agreement.md": {
+      "disposition": "clarify",
+      "reason": "Repaired knowingly wrong two-slot fallback, neuter prefix assumed universally invariant and categories substituted for case grammar. Precision options and full phrase scope determine agreement."
+    },
+    "techniques/register-and-address.md": {
+      "disposition": "reverify",
+      "reason": "Formal address can be appropriate without being universal; tykani and first-person assistant voice can be deliberate. Explicit pronouns and vase with subject ownership can be contrastive. Regex ti can match demonstrative plural, and greeting comma/nominative name policy needs actual syntactic context. Bookish substitution table cannot be globally mechanical."
+    },
+    "techniques/terminology-and-loanwords.md": {
+      "disposition": "reverify",
+      "reason": "Borrowing and per-sense decisions are useful; raw-spelling loans can decline. Pipeline majority/gender needs evidence. Diacritic-folded stems can merge distinct words and should only nominate candidates. Same Czech word can serve disambiguated senses; frequency and reviewer count do not override meaning. Agreement mismatch does not audit clean under grammar."
+    },
+    "techniques/typography-and-spacing.md": {
+      "disposition": "clarify",
+      "reason": "Repaired em dash impossibility, comma rules as regex certainty and universal quote deletion. Preserve syntax/literals and distinguish house style from Czech orthographic possibility."
+    },
+    "techniques/ui-conventions-and-length.md": {
+      "disposition": "reverify",
+      "reason": "Infinitive controls are a common convention, not every button/tab. Imperfective actions can intentionally set recurring behavior. First-person voice and Probiha are product choices; neuter status does not automatically solve agreement when attached to a noun. Wrapping, abbreviations and expansion budgets need product/render evidence."
+    },
+    "applications/process--de-anglicization-constructions.md": {
+      "disposition": "reverify",
+      "reason": "Historical kp audit retained, not rerun. Rule IDs aid traceability but do not validate rewrites or justify default major severity. Funnel can be established domain metaphor and noun replacement may change meaning. Counts show frequency, not a language-wide dash ban. Published absolute fleet paths remain cleanup items."
+    },
+    "applications/process--plural-and-count-agreement.md": {
+      "disposition": "reverify",
+      "reason": "Historical two-catalog findings retained, not rerun. Passing formatted strings to numeric selector is a concrete contract defect. Two-slot genitive fallback remains wrong at 2-4; neutral label framing is available. Snapshot minimum count is not a durable runtime guarantee. Absolute evidence paths remain cleanup items."
+    },
+    "applications/spec--plural-and-count-agreement.md": {
+      "disposition": "reverify",
+      "reason": "Historical CLDR/ICU probes retained, not rerun. Visible fraction rules are useful but require same selector precision as displayed formatting. Finite grid does not prove all category pairs unattainable; source text still quotes prior technique wording. Compact unit noun category and outer counted noun need not agree because they describe different quantities. CLDR categories do not certify Czech morphology."
+    }
+  }
+}
+```

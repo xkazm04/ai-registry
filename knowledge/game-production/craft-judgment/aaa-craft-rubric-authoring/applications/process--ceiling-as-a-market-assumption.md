@@ -73,3 +73,12 @@ state, always.
 - **No dates on the arguable entries.** The `2d-art` reason says "revisit as image models
   move" without recording when the assumption was made, so nothing can flag it as expired.
   The standard in the technique keeps the date requirement.
+
+## Review boundary - 2026-09-09
+
+The quoted permanent limits on generated meshes and animation are historical
+product assumptions, not demonstrated intrinsic limits. Reclassify or substantiate
+them with dated policy review. The written A2 badge/A3 spoken label is internally
+inconsistent and needs a consumer fixture check. Verify ceiling version binding,
+duplicate authorities and raw-versus-effective grade rendering. No current model
+capability benchmark or consumer code was evaluated.

@@ -61,3 +61,18 @@ The module is pure (no store, no server-only import) and fixture-tested in
 `reconcile.test.ts`, following the same DB-free convention as the rest of
 the derivation stack — the reconciliation rules themselves are unit-testable
 without a database.
+
+## Review boundary - 2026-09-09
+
+The implementation and incident descriptions above are historical witnesses.
+No consumer code, fixtures or live corpus were executed in this pass; the
+application witness date is unchanged.
+
+Verify same-snapshot joins, unknown totals, duplicate ballots and affected-output
+gates. Matching aggregate counts cannot detect identity swaps; test person/division
+resolution separately. Investigate and fix confirmed ingest defects traceably.
+
+The [publisher voting schema](https://www.psp.cz/sqw/hp.sqw?k=1302)
+confirms the merged category and code definitions, manual/technical data limits,
+and delayed excusal updates. A challenged vote is not automatically annulled;
+resolve the source's challenge and repeat relationships before exclusion.

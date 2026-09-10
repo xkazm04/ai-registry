@@ -1,7 +1,7 @@
 ---
 subject: russian
 domain: localization
-last_touched: 2026-08-29
+last_touched: 2026-09-10
 touched_by: external-reconcile
 dry_streak: 0
 ---
@@ -144,3 +144,82 @@ so ~82% of integers spell identically in all four genders; agreement is with the
 governed noun, not the subject; and the accusative forms are the inanimate paradigm
 and cannot count people. Landed as one half of a two-sighting family with [[spanish]].
 The two upstream defects stay recorded and unfiled.
+
+## Architecture review - 2026-09-10
+
+Review completed for every owned document. Reverify identifies remaining work, not a
+clean content verdict. Earlier notes remain historical evidence; application dates
+and maturity are unchanged.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "localization/russian",
+  "date": "2026-09-10",
+  "baseline": "78850ba51a9aa016dcfc62817d59581453c3d90d",
+  "digest": "sha256:cd0fe0e674fea36a",
+  "disposition": "reverify",
+  "coverage": "All 11 owned documents read and assessed in table order. 4 document(s) repaired. Residual source, semantic and historical application checks are recorded per document; no consumer/runtime/field witness or maturity refresh.",
+  "counterexamples": [
+    "С пятью файлами uses instrumental agreement, not the genitive plural dictated by the old category table.",
+    "A questionnaire can use Вы without naming its respondent.",
+    "A label such as Файлы: {count} avoids noun government; merely replacing the noun by a verb does not guarantee agreement."
+  ],
+  "sources": [
+    {
+      "path": "knowledge/localization/european/russian",
+      "scope": "Every owned document read in full; embedded code assessed as displayed. Historical application implementations and observations were not independently rerun."
+    },
+    {
+      "url": "https://gramota.ru/biblioteka/spravochniki/pismovnik/kak-pisat-vy-i-vash-s-propisnoy-ili-so-strochnoy-bukvy",
+      "scope": "Primary editorial guidance includes capitalized Vy in questionnaires, beyond correspondence to a named person."
+    }
+  ],
+  "documents": {
+    "russian.md": {
+      "disposition": "reverify",
+      "reason": "Cyrillic is not caseless, LTR does not remove bidi/font concerns and expansion ratios are not universal. Not every verb has an aspect pair; category-to-case mapping depends on syntax. Formal address and lexical slang policies are product choices, and uppercase Vy also occurs in questionnaires."
+    },
+    "techniques/de-anglicization-constructions.md": {
+      "disposition": "reverify",
+      "reason": "Head-noun quotation can protect entity titles but not arbitrary noun phrases, personal names or geographic names universally. Colon form can change a question into a label. Dropping for/possessive can change beneficiary or ownership; vashi after imperative is not universally a calque. Genitive-count thresholds are editorial candidates."
+    },
+    "techniques/gender-and-aspect.md": {
+      "disposition": "clarify",
+      "reason": "Repaired every verb has paired aspects, ty has no neutral escape, masculine head noun always controls named-person predicate and blanket numeral gender positions across cases. Preserve semantic event and unknown referents."
+    },
+    "techniques/plural-and-count-agreement.md": {
+      "disposition": "clarify",
+      "reason": "Repaired arithmetic fully determines noun form, frozen verb removes all agreement, missing v guard in table and compact/range examples universally determine prose. Selector and formatter must share representation."
+    },
+    "techniques/register-and-address.md": {
+      "disposition": "clarify",
+      "reason": "Repaired explicit Vy imperative broken, uppercase only named correspondence and informal register confined to youth. Scope controls and audience policy."
+    },
+    "techniques/terminology-and-loanwords.md": {
+      "disposition": "reverify",
+      "reason": "Formal pronouns do not dictate a slang ban; current domain usage needs fresh evidence per disputed term. Native word can also be wrong sense. Latin brands can have authorized Cyrillic forms and quotes serve grammatical purposes. One English word can have senses and Russian term variants without destroying recognition."
+    },
+    "techniques/typography-and-spacing.md": {
+      "disposition": "clarify",
+      "reason": "Repaired all quotes guillemets despite nested exception, en dash unused, all-caps foreign and mechanical punctuation sweeps. Distinguish syntax and typographic convention."
+    },
+    "applications/process--plural-and-count-agreement.md": {
+      "disposition": "reverify",
+      "reason": "Historical Personas two-slot call-site observations retained, not rerun. Genitive plural is not correct at all 5+ values, e.g. 21, and verb-next-to-count still requires context and agreement. Runtime gap can be repaired in authorized shared work; old refusal is not current permission requirement. Absolute fleet root remains cleanup work."
+    },
+    "applications/process--terminology-and-loanwords.md": {
+      "disposition": "reverify",
+      "reason": "Historical termbase incidents retained, not recounted. Term choice depends on concept, not source token alone when legacy names differ. Counted house voice does not prove all professional usage, and fix-on-touch versus coordinated bulk is scope-dependent. Absolute fleet root remains cleanup work."
+    },
+    "applications/spec--gender-and-aspect.md": {
+      "disposition": "reverify",
+      "reason": "Historical custom RBNF harness retained, not rerun. Differential comparison does not guarantee engine bugs cancel; row counts do not validate all output. Nominative gender pattern does not generalize to oblique forms. No animacy field does not establish all people-counting impossible, and ordinal plural is not a fourth grammatical gender."
+    },
+    "applications/spec--plural-and-count-agreement.md": {
+      "disposition": "reverify",
+      "reason": "Historical CLDR harness retained, not rerun. Display digits affect category only through actual selector operands; separate formatter/selector can diverge. Range categories do not certify any complete Russian case frame. Other-only ordinal selection does not mean no lexical ordinal machinery or no other select branches."
+    }
+  }
+}
+```

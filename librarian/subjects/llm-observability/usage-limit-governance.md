@@ -1,7 +1,7 @@
 ---
 subject: usage-limit-governance
 domain: llm-observability
-last_touched: 2026-09-05
+last_touched: 2026-09-10
 touched_by: deepen
 dry_streak: 0
 ---
@@ -69,3 +69,90 @@ SDK stack, not a re-refutation.
 
 tracklight 3 and personas 4 pairs, all `unknown`; no judged verdict, nothing stale.
 First `/conform` on tracklight would be the demand read this subject lacks.
+
+## Architecture review - 2026-09-10
+
+Review completed for every owned document. Reverify identifies remaining work, not a
+clean content verdict. Earlier notes remain historical evidence; application dates
+and maturity are unchanged.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "llm-observability/usage-limit-governance",
+  "date": "2026-09-10",
+  "baseline": "78850ba51a9aa016dcfc62817d59581453c3d90d",
+  "digest": "sha256:046f41303bf251c9",
+  "disposition": "reverify",
+  "coverage": "All 13 owned documents read and assessed in table order. 4 document(s) repaired. Residual source, semantic and historical application checks are recorded per document; no consumer/runtime/field witness or maturity refresh.",
+  "counterexamples": [
+    "Sequence ID 12 commits before ID 11; advancing a cache cursor to 12 can permanently miss the later commit of 11.",
+    "Minting new IDs until a deterministic shed admits defeats stable retry identity.",
+    "Ten concurrent calls admitted before any usage response can overshoot by ten calls, not one."
+  ],
+  "sources": [
+    {
+      "path": "knowledge/llm-observability/economics-and-governance/usage-limit-governance",
+      "scope": "Every owned document read in full; embedded code assessed as displayed. Historical application implementations and observations were not independently rerun."
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/azure/api-management/llm-token-limit-policy",
+      "scope": "Primary policy confirms response-based accounting, streaming estimates, concurrent overshoot and independent gateway counters; wider provider survey not refreshed."
+    }
+  ],
+  "documents": {
+    "usage-limit-governance.md": {
+      "disposition": "reverify",
+      "reason": "Record-side rejection cannot prevent paid spend and can suppress its evidence; retain observed-spend accounting separately from recording admission. Calls and tokens also have evidence gaps. Serializable/atomic alternatives can be valid. Missing dimensions need an explicit edge policy, and quality apparatus needs its own bounded budget. Client freshness and hashed shedding do not establish hard caps."
+    },
+    "techniques/concurrent-admission-integrity.md": {
+      "disposition": "reverify",
+      "reason": "Atomic prospective accounting is sound. Serializable designs are not universally wrong and bounded lock queues can also overload. Advisory locks require all writers and suitable post-lock snapshots; hash collisions can couple tenants. Commit failure can be ambiguous, requiring idempotency/reconciliation rather than asserting nothing stored. Atomic scripts can enforce multiple counters with defined coherence."
+    },
+    "techniques/cost-evidence-and-imputation.md": {
+      "disposition": "clarify",
+      "reason": "Repaired window mean as uniquely correct/self-correcting evidence, client cost trust, token certainty and rejection of retrospective evidence. Distinguish advisory estimates from hard reservation bounds."
+    },
+    "techniques/dimension-scoped-caps.md": {
+      "disposition": "reverify",
+      "reason": "Named scope and authenticated attribution are useful. Missing tags can bypass scoped caps unless the edge requires them or applies a separate unknown policy. Two simple caps do not implement a model AND customer intersection. Opaque IDs avoid secret correlation, but random high-entropy token hashes are not generally dictionary reversible. Include rule identity/version when otherwise-identical policies need separate ledgers."
+    },
+    "techniques/enforcement-placement-and-reconciliation.md": {
+      "disposition": "clarify",
+      "reason": "Repaired one-call overshoot under concurrency, universal stream usage absence, fail-open/refusal TTL bounds and record-side loss. Reserve and reconcile with explicit uncertainty and in-flight exposure."
+    },
+    "techniques/graduated-throttle-with-deterministic-shed.md": {
+      "disposition": "clarify",
+      "reason": "Repaired fresh IDs on retries, public hash gaming and conditional rather than universal monotonicity. Distinguish admission lottery from idempotency and select retry timing from actual capacity policy."
+    },
+    "techniques/incremental-window-accounting.md": {
+      "disposition": "clarify",
+      "reason": "Repaired insertion sequence mistaken for commit order, mutation blindness, durable recovery ban and average approximation error sold as worst-case overshoot. Clock and cache coherence are explicit contracts."
+    },
+    "techniques/metric-window-threshold-action-model.md": {
+      "disposition": "reverify",
+      "reason": "Policy tuple is useful but calendars and short windows are legitimate. Zero can intentionally mean deny-all with defined semantics; NaN does not simply breach. Call/token measurement can be unknown. Warning and throttle thresholds may differ by design. Separate rejection evidence from admitted totals rather than forbidding all event storage, and bound quality spend under its own policy."
+    },
+    "applications/node--enforcement-placement-and-reconciliation.md": {
+      "disposition": "reverify",
+      "reason": "Historical three-SDK probes retained, not rerun. Finite fixtures do not prove full parity. One next response is not a numerical overshoot bound without traffic, delay and delivery guarantees; active advertised wait is checked before TTL, so TTL does not bound every refusal. Zero-usage blocked markers must not count as provider calls."
+    },
+    "applications/process--enforcement-placement-and-reconciliation.md": {
+      "disposition": "reverify",
+      "reason": "Dated provider/gateway survey retained. Primary APIM page confirms concurrency, per-gateway accounting, estimates and quota/rate distinction, not a one-call bound. Other rollout dates, provider ceilings, absent-feature survey and gateway imputation claims remain unrefreshed. Locking record admission does not solve unknown future provider usage."
+    },
+    "applications/rust--concurrent-admission-integrity.md": {
+      "disposition": "reverify",
+      "reason": "Historical Rust store implementation retained, not rerun. All writers must honor advisory locks, hash collisions can serialize projects, lock waits need bounds and commit outcomes can be ambiguous. SQLite process restriction is material; rowid loading and wall-clock monotonicity need validation. Discarded paid-event evidence cannot be reconciled from accepted totals alone."
+    },
+    "applications/rust--enforcement-placement-and-reconciliation.md": {
+      "disposition": "reverify",
+      "reason": "Historical Rust SDK retained, not rerun. Scope-specific view replacing project-wide view can miss a simultaneously binding project cap. Retry wait before TTL contradicts universal refusal TTL bound; delayed/out-of-order responses and one binding rule can miss constraints. Record-side rejection does not charge rejected paid calls to accepted totals."
+    },
+    "applications/rust--graduated-throttle-with-deterministic-shed.md": {
+      "disposition": "reverify",
+      "reason": "Historical Rust throttle retained, not rerun. Separator is ambiguous if IDs can contain it; public FNV permits ticket search. Fixed-ID monotone tests do not prove rolling-pressure nonflapping or adversarial fairness. Fixed window hints are advisory, not actual next-capacity calculations; single reported rule may hide other constraints."
+    }
+  }
+}
+```

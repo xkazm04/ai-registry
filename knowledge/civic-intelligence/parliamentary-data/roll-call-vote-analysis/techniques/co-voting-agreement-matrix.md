@@ -33,14 +33,15 @@ downstream story is built from these cells.
 - **Resolve ballots to persons before pairing.** Sources key ballots by seat
   or mandate; a member with two mandates in the window becomes two
   half-persons with a spurious mutual agreement unless resolution happens
-  first.
+  first. Enforce one resolved ballot per person and division; conflicting duplicate
+  ballots require resolution or exclusion, not another pair contribution.
 
 ## Minimum shared support
 
 An agreement rate over a handful of shared votes is noise: two members who
-overlapped for one afternoon can score 100%. A pair's rate is signal only
-above a minimum shared-vote floor (fifty is a defensible floor for a
-multi-year corpus) — below it, the pair has no published rate. The floor is
+overlapped for one afternoon can score 100%. A published rate can be gated
+by a declared shared-vote floor (fifty is an example policy for a
+multi-year corpus, not a guarantee of independent observations or reliability) — below it, the pair has no published rate. The floor is
 a named, imported constant.
 
 Where to apply the floor is a design decision with a right answer: **compute
@@ -67,10 +68,9 @@ the discount.
 This is where the technique most needs its discipline. The rate is a fact
 about ballot coincidence. It is **not**:
 
-- **an alliance.** Two members of opposing parties at 85% agreement mostly
-  reflects the consensual share of the agenda — most business passes
-  lopsidedly, so baseline pairwise agreement is high across the whole
-  chamber. "High" is only meaningful against that baseline, and "allied" is
+- **an alliance.** Two members of opposing parties at 85% agreement may simply share a
+  consensual agenda. Measure that baseline for this corpus rather than
+  assuming it. Different pairs can overlap on different divisions. "High" is only meaningful against that baseline, and "allied" is
   a human conclusion, not a matrix cell.
 - **ideological proximity.** Spatial proximity claims belong to ideal-point
   models, which come with assumptions and uncertainty estimates; an
@@ -91,8 +91,9 @@ for that layer, never a published finding on its own.
   their row exists but publishes nothing, and the surface says *not
   measured* rather than omitting them silently.
 - Not across terms or chambers in one matrix — membership churn makes
-  "shared votes" incomparable across the boundary; compute per term and
-  compare rates, not raw cells.
+  "shared votes" incomparable across the boundary; compute per term, disclose overlap and agenda composition, and establish
+  comparability before comparing rates. Dividing by counts alone does not
+  equalize different agendas.
 - Not as a similarity metric that includes abstention "agreement" (both
   abstained ≠ agreed). If joint non-participation is interesting, it is a
   separate matrix with its own name.

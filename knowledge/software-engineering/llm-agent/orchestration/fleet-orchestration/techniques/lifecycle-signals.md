@@ -14,11 +14,9 @@ use_when: [deciding whether a silent session is dead or idle, a hung process kee
 A fleet registry is only as truthful as the mechanism that moves its entries
 between states. This technique is that mechanism: a **primary channel** of
 signals the sessions emit themselves, backed by a **staleness sweeper** that
-assumes the primary channel drops things — because it does. Neither tier is
-optional. Signals without a sweeper accumulate ghosts; a sweeper without
-signals reduces the fleet's state model to "process exists or not," throwing
-away everything interesting (waiting on input, idle with context, finished
-with results).
+assumes the primary channel drops things — because it does. Use both when the runtime supplies signals; when it does not,
+report the limits of inference and use supported polling or durable-state
+observations. Polling can expose richer state than process existence.
 
 ## Tier one: sessions report themselves
 
@@ -38,19 +36,16 @@ transition, carrying intent:
   should advance on every one of them.
 
 **Keep activity signals separate by provenance, because they mean different
-things.** A mature fleet tracks at least three independent recency facts per
-session, and collapses them into one "last activity" timestamp only for
-display: *when a control-channel signal last arrived* (a hook, a lifecycle
-event), *when raw output last flowed* (bytes on the stream or terminal), and
-*when the session's durable work product last actually grew* (its transcript,
-its artifact, its log). They rank differently as evidence. Artifact growth is
-the strongest "actually working" signal — it cannot be faked by a repaint.
-Raw output is the weakest: interactive runtimes redraw their status displays
-continuously, so a hung process can animate forever; conversely, *total*
-output silence from a runtime known to repaint is a fast, confident
-frozen-process verdict long before the general staleness budget expires. A
-sweeper that sees only one merged timestamp can express none of these
-distinctions, and every one of them changes the verdict.
+things.** Keep control events, raw output and durable artifact changes separately
+timestamped, with their session incarnation and source. None alone proves useful
+progress. A log can grow with repeated failures, a terminal may stop repainting
+while a healthy tool runs, and buffered output can arrive after process death.
+Record observation time separately from source time and buffering delay.
+
+Use silence or artifact growth as workload-calibrated suspicion signals, then
+corroborate before a destructive action. A source outage is unknown, not absent.
+These observations can improve detection without proving a bound on detection
+latency during scheduler stalls or transport failures.
 
 Two disciplines keep tier one honest:
 
@@ -105,9 +100,10 @@ registry and checks each live-claiming entry against reality:
 - **Orphan scan.** The inverse direction, run at least at startup and
   ideally periodically: processes that look like fleet sessions but have no
   registry entry. Orphans arise when the orchestrator dies between spawning
-  and recording, or when the durable mirror lost a beat. An orphan is
-  adopted (matched to a mirror record and re-entered) or terminated —
-  deliberately, with a record — never left running unaccounted.
+  and recording, or when the durable mirror lost a beat. A candidate orphan is
+  adopted only with corroborated ownership and incarnation. Otherwise quarantine
+  it for the declared policy; superficial process similarity does not authorize
+  termination of another operator's process.
 
 The sweeper writes its findings through the same transition door as the
 signals, with its own honest vocabulary: what it declares is **lost**, never
@@ -120,8 +116,9 @@ The two tiers watch the same sessions through different instruments, so they
 will occasionally disagree — the design question is where the disagreement is
 resolved. Standard answers:
 
-- **The door arbitrates, with defined precedence.** A self-reported terminal
-  state beats a sweeper inference (the session knew; the sweeper guessed).
+- **The door arbitrates, with defined precedence.** A corroborated terminal
+  observation for the current incarnation may correct a sweeper inference. A
+  self-report is not automatically trustworthy or evidence of task acceptance.
   A sweeper's "process is gone" beats any *non-terminal* self-report,
   however recent — claims of working do not survive the absence of a
   worker.
@@ -134,16 +131,8 @@ resolved. Standard answers:
   declares lost inside the window where a signal could still plausibly be in
   flight; several missed expected-heartbeats, not one, is the threshold —
   a single delayed write must not trigger a false death.
-- **Evidence can overturn a standing signal — in both directions.** Some
-  runtimes emit their "waiting for input" signal spuriously, during long
-  tool waits or latency gaps, so a session can be marked waiting while it is
-  demonstrably still producing. The sweep resolves this with evidence: on
-  first seeing a session in the waiting state it snapshots the size of the
-  session's work product, and if a later pass finds growth *past that
-  baseline*, the wait was spurious and the session is revived to working.
-  The baseline-at-first-sweep timing matters — snapshotting at the signal
-  instead would race the output flush that legitimately accompanies a real
-  question, and revive genuinely waiting sessions. The general form: a
-  state is a claim; the sweeper holds claims up against physical evidence
-  and lets the evidence win, through the same arbitrating door as
-  everything else.
+- **Evidence can challenge a standing signal.** Artifact growth after a waiting
+  event can trigger a recheck, but delayed flushes and background writers can grow
+  the artifact during a genuine wait. A baseline taken at the first sweep only
+  reduces one race; it does not eliminate it. Prefer an ordered runtime event or
+  a current-state probe to revive the session, and record uncertainty otherwise.

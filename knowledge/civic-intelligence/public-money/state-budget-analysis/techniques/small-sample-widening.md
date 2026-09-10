@@ -25,21 +25,22 @@ small, widen along one declared axis, and tell the reader which rung applied.
 
 ## The procedure
 
-1. **Fix a minimum group size, in the open.** Five is a defensible floor: below
-   it a median is decided by at most two towns' values. Whatever the number,
+1. **Fix a minimum group size, in the open.** Five is an example publication convention, not a statistical guarantee.
+   An ordinary sample median uses one or two central order statistics at any
+   sample size; that fact does not justify a five-peer threshold. Whatever the number,
    it is a named constant in the same module as the grouping rule, printed in
    the published rule text — not a magic literal three call sites deep.
 2. **Widen along the axis that preserves comparability.** Of the two grouping
    attributes — size class and geography — geography is the one to sacrifice:
-   towns of the same size class nationwide are more comparable than towns of
-   assorted sizes nearby, because the size class drives the cost structure the
-   comparison is about. So the ladder is: same band + same region → same band,
+   widen nationally within the size class only when responsibilities and
+   reporting definitions remain comparable. Geography can encode material
+   funding and cost differences that make this fallback invalid. So the ladder is: same band + same region → same band,
    national. Never the reverse; never both loosened at once.
 3. **Record which rung applied.** The group carries its scope as data — "regional"
    or "widened to national" — and the surface renders it. A reader comparing
    their town against a national cohort should not believe it is a regional one.
-4. **Accept that the ladder can end short.** The top size class of any country
-   holds a handful of cities — in one national registry, exactly four — and no
+4. **Accept that the ladder can end short.** Some top size classes
+   hold few cities; historical cohort counts are not current census evidence. No
    widening rule can conjure more. The response is disclosure, not invention:
    the peer count renders *always*, on every comparison, not only when it is
    embarrassing ([every-cap-ships-its-population](../../../_laws.md#every-cap-ships-its-population)).
@@ -57,11 +58,11 @@ lives, so the next maintainer inherits the incident and not just the number
 
 - When the regional group has exactly the minimum, use it — the floor is
   inclusive; re-litigating boundary cases per town reintroduces curation.
-- When even the national group is below the floor, still show the comparison
-  *with its count prominent* rather than suppress it: for the largest cities
-  the four-town cohort is genuinely the entire population of comparable
-  bodies, and a census of four is honest where a sample of four is not. Label
-  it as what it is.
+- When the permitted wider group remains below the floor, suppress rankings
+  and normative benchmark language. A descriptive median may be shown only
+  for a verified complete small population, with roster/count and narrow scope;
+  otherwise show insufficient coverage. A national query does not prove a
+  census: check the reporting peers against the eligible population per metric.
 - When widening changes the group between periods (a region gains a town of
   the right size), let it — the rule is the invariant, not the roster.
 - When a consumer needs a *sub*-comparison over the same peers (a specific

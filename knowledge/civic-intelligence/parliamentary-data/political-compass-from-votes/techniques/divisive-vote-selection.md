@@ -38,18 +38,19 @@ published rule**, because each gate's rejection count is only meaningful if
 earlier gates already had their turn — otherwise the counts describe overlap,
 not loss. A workable sequence, each with its rationale:
 
-1. **Validity.** Voided and re-run roll calls never enter. Best supplied
+1. **Validity.** Voided or superseded roll calls never enter; a valid replacement may enter. Best supplied
    structurally: draw candidates from an upstream index that contains only
    valid votes *by construction*, so this gate cannot be forgotten — with the
    stated consequence that anyone bypassing the index must re-apply it.
 2. **Procedural exclusion.** Motions about the sitting itself — adjournments,
-   agenda changes, points of order — make meaningless positions. Exclude them
+   agenda changes, points of order — may fall outside the chosen policy construct.
+   They can still have substantive consequences. Exclude them
    by their topic class, and count the exclusions.
 3. **Participation floor.** A vote where most of the chamber was absent is a
    poor position for *everyone* downstream: it inflates the non-comparable
    buckets of every scored representative. Require a minimum count of
    positional ballots (yes + no) — set it high enough to mean "the chamber
-   showed up", on the order of a supermajority of seats. Distinguish two
+   showed up", relative to the eligible chamber size with a published rationale. Distinguish two
    rejection states: *no ballot data held at all* (participation could not be
    measured — the floor never judged it) and *below the floor* (measured and
    failed). Conflating them blames the vote for a gap in your own ingestion.
@@ -58,15 +59,15 @@ not loss. A workable sequence, each with its rationale:
    refuse tags below a published confidence threshold — a misfiled vote can
    silently change which handful of votes represents the whole term, and that
    handful is the compass's entire input. But a tag whose confidence is
-   *absent* asserts nothing about certainty; dropping it reads a missing value
-   as zero. Keep it, and count it separately, so the reader sees on how many
-   candidates the floor decided nothing. Run this gate last on purpose: its
+   *absent* asserts nothing about certainty. Keep, quarantine or exclude unknown
+   confidence under a separate published rule, never by pretending it is zero.
+   Count it separately so the reader sees where the numeric floor did not decide. Run this gate last on purpose: its
    rejection count should mean "taken by the confidence rule", not a mixture
    with votes that would have failed participation anyway.
 
 ## Every gate ships its count
 
-The selection surface's promise is "no editorial hand touched this set". That
+The selection surface's promise is "this set follows a disclosed rule". That
 promise is checkable only if the rule's live parameters *and* each gate's
 rejection tally render beside the result: excluded-by-topic N, without-ballots
 N, below-participation N, below-confidence N, confidence-unknown N, candidates
@@ -96,3 +97,12 @@ significance.
   "the most important votes".
 - **Alone.** Pure divisiveness ranking collapses onto the term's loudest
   conflict; it needs the theme-balanced draw on top.
+
+## Numeric and coverage boundaries
+
+Require positive positional totals and compare exact margins (or cross-products
+within safe numeric bounds) before rounding for display. Rounded margins can
+create artificial ties. Pin the source snapshot, taxonomy, classifier and rule
+versions. Self-reported classifier confidence is not calibrated accuracy; assess
+tag errors separately. Untagged coverage plus the ordered, mutually exclusive
+gate losses and retained candidates should reconcile to the declared input pool.

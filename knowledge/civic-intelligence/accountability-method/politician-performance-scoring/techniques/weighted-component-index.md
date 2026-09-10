@@ -11,11 +11,11 @@ use_when: [designing a composite effort score from registry activity data, choos
 
 # Weighted component index
 
-A composite score over elected officials is a weighted sum of independent
+A composite score over elected officials is a weighted sum of defined
 activity components, each normalized before weighting so the number means the
 same thing for every person in the population. The technique is less about the
 arithmetic — which is deliberately trivial — than about the discipline that keeps
-a trivial formula defensible: independent dimensions, honest denominators, round
+a trivial formula defensible: distinct dimensions, checked dependence, honest denominators, round
 published weights, and full decomposition on every surface.
 
 ## Choosing components
@@ -86,3 +86,19 @@ composite across chambers or terms with different rules (see the subject's
 fairness technique). And do not add a component you cannot explain in one
 sentence with its denominator; every component is one more surface the method
 must defend.
+
+## Dependence, missingness and interpretation
+
+Distinct labels do not make components statistically independent: attendance,
+voting and floor activity can reward overlapping behavior. Check correlations
+and sensitivity to components, weights and caps against the declared construct.
+The [OECD/JRC composite-indicator handbook](https://www.oecd.org/en/publications/handbook-on-constructing-composite-indicators-methodology-and-user-guide_9789264043466-en.html)
+provides the general methodology; it does not validate this activity index.
+
+Require finite nonnegative weights with a positive total. Missing components
+must not become zero or silently disappear with person-specific renormalization:
+that produces different instruments for different people. Publish a common
+coverage rule and withhold the composite when it fails. A zero opportunity
+denominator is not zero participation. Explain tenure and role comparability
+for capped counts too, not only rates. A 0–100 index is points under a model,
+not a percentage of effectiveness, effort or public value.

@@ -43,14 +43,14 @@ is about — and each axis carries criteria the other has no category for at all
 
 ## Where the double counting would have happened, and what stops it
 
-Two things stop it, and only the second is a guarantee.
+Two mechanisms aim to limit it; each has a narrower scope than a general proof.
 
 **The R-axis composition is weakest-dominates, not a weighted sum.** `rubrics.ts:97–98`
 instructs: "The overall score is your holistic judgment (roughly the weakest-few dimensions
-dominate — a single broken dimension caps the asset)." Under a minimum-like composition, a
-defect seen by two dimensions moves the total exactly as far as a defect seen by one, so
-intra-axis overlap costs nothing arithmetically. This is worth stealing: much of the cost the
-technique warns about is an artifact of choosing a weighted mean.
+dominate — a single broken dimension caps the asset)." An exact minimum is invariant to repeating an identical score; a holistic
+weakest-few instruction is not. This prompt does not establish that intra-axis
+overlap has no arithmetic cost. Evaluate the actual aggregation rule before
+relying on duplicate invariance.
 
 **The A-axis cannot reach the grade at all.** `src/lib/craft/craftCell.ts` states it in its
 header (lines 5–7: "display-only, post-hoc: nothing here touches grading") and again at lines
@@ -59,12 +59,13 @@ file, so it provably cannot move an R-grade." That is the corpus rule in its str
 available form: overlap in the interrogation, and deduplicate in the arithmetic by giving one
 framing no arithmetic to be in.
 
-The proof is a source scan, not a convention. `src/__tests__/lib/craft/craftDisplayOnly.test.ts`
+The reported guard is a source scan over selected paths and import spellings. `src/__tests__/lib/craft/craftDisplayOnly.test.ts`
 walks `src/lib/catalog/acceptance`, `src/lib/status/statusModel.ts` and
 `src/lib/status/readiness.ts` and fails if any file matches
 `/@\/lib\/craft\/|@\/lib\/status\/craft|craft-verdicts-db/` (lines 15–47). A second case at
-lines 50–55 asserts those three paths exist, so the guard cannot pass by scanning nothing —
-the vacuity check that makes a structural test worth having. Two sibling suites hold the same
+lines 50–55 asserts those three paths exist, which checks path existence but does not by itself prove nonempty traversal or
+coverage of indirect imports, aliases and other data-flow paths.
+Two sibling suites hold the same
 line for the metering and history surfaces (`craftSpendMeter.test.ts:227`,
 `craftVerdictHistory.test.ts:342`).
 
@@ -91,3 +92,12 @@ deliverable class to exactly one lens, complete by test, and restricts catalog o
 - **No pilot-based merge test.** Nothing compares the two framings' findings across a fixture
   set to distinguish designed overlap from duplication, so the four overlapping pairs are
   asserted by authoring rather than measured.
+
+## Review boundary - 2026-09-09
+
+Historical code and tests at the cited revision were not re-executed. Verify
+indirect imports, aliases, empty traversal and runtime data flow before asserting
+display-only isolation. Pilot overlap against located findings rather than assuming
+the authored mapping proves coverage. The [W3C non-text contrast guidance](https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html)
+scopes 3:1 to required UI/graphical information with exceptions; it is not a
+universal art-quality or icon-legibility certification.

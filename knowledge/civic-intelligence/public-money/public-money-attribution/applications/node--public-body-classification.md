@@ -44,7 +44,7 @@ record.
 **Since first documented (2026-08-19):** both tables grew and were corrected
 under money batches 016/019 — several codes were reclassified (`301`, `771`,
 `941` moved from private to public; `112`/`113`/etc. labels fixed) and the
-steward-class sweep added six private-law codes (`117`, `118`, `141`, `145`,
+steward-class sweep added seven private-law codes (`117`, `118`, `141`, `145`,
 `161`, `722`, `733`) that had been falling through to `unknown` by omission.
 `PRIVATE_LEGAL_FORMS`'s header now also names three codes **deliberately
 left out of both tables** (`741` professional chamber, `745` other chamber,
@@ -114,3 +114,14 @@ batch-012 re-ingest steward money is ~91% of the raw total, an
 undifferentiated figure is "false at ten times the volume"). The tie-class
 precedence that keeps a human's ruling above the substring heuristic is
 `resolveTieClass()` in `features/money/reviewTypes.ts:250-256`.
+
+## Review boundary - 2026-09-09
+
+The recorded implementation explicitly permits attributable: true for unknown
+holder codes and ownership-not-published. That fails the technique's conservative
+publication contract unless a downstream verified-evidence gate blocks it; no
+such runtime gate was checked here. A one-hop current-owner rule also cannot
+establish ultimate private control or historical status. Reverify recursive
+closure, empty/partial owner lists, public minority stakes and all caller inputs.
+The historical legal-form classifications, named entities, amounts, incident
+counts and line numbers are unrefreshed leads, not current registry findings.

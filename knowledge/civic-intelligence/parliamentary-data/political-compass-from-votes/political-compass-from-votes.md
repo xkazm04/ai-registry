@@ -20,20 +20,15 @@ team writes thirty policy statements, parties or candidates place themselves on
 each (or experts place them), a citizen answers the same statements, and a
 distance metric produces a ranked match. The subject here is the inversion of
 that design: **the questions are real roll calls the chamber actually took, and
-every representative's "answer" is the ballot they actually cast.** Nobody
-self-places, nobody is coded by an expert, and no editorial hand writes a
-statement. The citizen answers a drawn set of real votes; alignment is computed
-against the record.
+every representative's "answer" is the ballot they actually cast.** The recorded ballot replaces candidate self-placement or expert position coding.
+Editors still choose titles, summaries, polarity, taxonomy and selection rules.
+The citizen answers a drawn set of real votes; alignment is computed against
+the record.
 
-The inversion buys two things the questionnaire cannot. First, it measures
-**behavior, not promises** — the questionnaire literature itself concedes that
-stated future positions routinely diverge from voting practice, and that the
-divergence is worst exactly where accountability matters most. Second, it
-removes the two most attackable editorial surfaces: statement wording (a framing
-choice per question) and position coding (a judgment call per cell of the
-matrix). What remains attackable is precisely what this subject disciplines:
-which votes are drawn, how non-answers are treated, who may be ranked, and what
-formula turns matches into an ordering.
+The design measures recorded legislative behavior on a selected agenda. It does
+not establish personal beliefs, future promises or the meaning of a bill without
+context. Source-linked summaries and polarity checks remain necessary: removing
+candidate position coding does not remove editorial framing.
 
 ## The honest trade: what the record cannot do
 
@@ -57,9 +52,9 @@ oversells its coding.
 Stating these limits is not humility theater. The published-methodology
 literature's sharpest finding is that **the match a citizen receives depends
 strongly on the designer's model choices** — in controlled comparisons, a
-majority of users get different advice under a different scoring model. That
-finding does not go away because the positions are real ballots. It transfers
-whole: selection, non-answer handling, and the scoring formula are still
+majority of the studied StemWijzer users would receive different advice under
+another spatial model. That result is specific to that study, not an estimate
+for every compass. The design concern remains: selection, non-answer handling, and the scoring formula are still
 designer choices, and the only honest response is to make each one
 deterministic, disclosed, and checkable.
 
@@ -72,9 +67,9 @@ non-negotiable invariant:
    never by hand. Divisiveness is the core signal (a near-unanimous vote
    separates nobody), guarded by floors: procedural motions out, minimum
    participation, and — where an automated classifier supplies topic tags — a
-   confidence floor that never reads a *missing* confidence as a low one.
+   confidence floor with a separate, disclosed policy for unknown confidence.
    Every exclusion is counted and shown; a silent filter on this surface
-   breaks the entire promise that the rule replaced the editor.
+   prevents readers from auditing the editor's published rule.
    ([divisive-vote-selection](./techniques/divisive-vote-selection.md))
 2. **Balance the draw across themes** — a set drawn purely by divisiveness
    collapses onto whatever topic dominated the term. A round-robin draw across
@@ -89,16 +84,16 @@ non-negotiable invariant:
 4. **Rank only where comparison is fair.** A representative who cast
    positional ballots on two of the citizen's twenty questions can show a
    100% rate on a sample that means nothing. Ranking eligibility requires
-   positional overlap on at least half the answered questions; below the
-   floor the entity is shown, with its computable rate, in an explicitly
-   unranked tail.
+   a published overlap policy combining an absolute minimum with a relative
+   floor and topic-coverage checks. Half the answered questions is only a
+   heuristic; below the floor show the computable rate in an unranked tail.
    ([comparability-floor-for-ranking](./techniques/comparability-floor-for-ranking.md))
 5. **Choose the matching model deliberately.** The agreement rate is one
    member of a studied family — distance metrics, answer scales, salience
-   weights, spatial projections — and the family's measured property is that
-   reasonable members hand a majority of users different top matches. Binary
-   ballots close exactly one axis of that sensitivity (the metric); every
-   other axis remains a design choice and is treated as one.
+   weights, spatial projections. Binary agreement, city-block distance and
+   Euclidean distance give equivalent ordering only with the same comparable
+   dimensions, encoding and weights. Different missingness breaks the simple
+   equivalence; selection and presentation remain design choices.
    ([matching-model-choice](./techniques/matching-model-choice.md))
 6. **Publish the formula next to the result.** The scoring rule — including
    its tie-breaks, and an admission of which tie-breaks are meaningless — is
@@ -106,23 +101,20 @@ non-negotiable invariant:
    function that both the page and the stated rule import from.
    ([disclosed-scoring-rule](./techniques/disclosed-scoring-rule.md))
 
-Determinism is the through-line: the same ledger must always yield the same
-questions and the same ranking. The moment a human can nudge the set or the
-order, the tool stops being an instrument and becomes an editorial with a
-progress bar — and in this domain an editorial that ranks named people by
-"agreement with you" is a defamation surface.
+Determinism makes the published choices reproducible: the same source snapshot,
+methodology, question set and citizen answers must yield the same result.
+Human corrections require an attributed, versioned change and a visible redraw.
+Reproducibility does not establish neutrality or justify a ranking on its own.
 
-## Groups score against their line, not their average
+## Groups score against an inferred voting line
 
-Citizens ask two questions: "which representative matches me" and "which party
-matches me". The second is not the average of the first. A party's position on
-a vote is its **line** — the strict majority direction of its members'
-positional ballots on that vote. A party whose positional ballots split evenly
-has *no line* on that vote, and the vote is simply not comparable for it — not
-a half-match, not a coin flip. Scoring a group against a synthetic centroid
-manufactures a position the group never took; scoring against the line scores
-the group as the collective actor it claims to be, and lets internal division
-show up honestly as reduced comparability.
+A strict majority of a group's positional ballots supplies an inferred voting
+line, not an official party policy or whip instruction. Derive membership at
+the time of the vote, disclose positional participation, and require a published
+group quorum: two yes ballots and eighteen absences must not silently speak for
+twenty members. A positional tie or unmet quorum yields no comparable line.
+The resulting match measures this defined aggregate, not the average member's
+agreement or the party's future commitments.
 
 ## The reader's lens never touches the authoritative number
 
@@ -149,9 +141,9 @@ never chose.
   every published match into "the tool that quietly picks its questions".
 - **Divisiveness monoculture** — the most divided votes of a term cluster on
   one conflict; the compass silently becomes a referendum on that conflict.
-- **The editorial relapse** — "just this once" swapping a drawn question for a
-  more interesting one. The whole value of the inversion is that this move is
-  impossible; one exception retires the claim permanently.
+- **Undisclosed intervention** — swapping a drawn question without a versioned
+  correction, reason and redraw. A disclosed editorial policy remains a
+  policy choice; a deterministic implementation does not make it neutral.
 - **Method-blind confidence** — publishing matches without publishing the
   rule, as if real ballots made the scoring model neutral. The model
   sensitivity finding applies to this design too; disclosure is the response.

@@ -811,9 +811,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/grant-funding/matching-and-intelligence/grant-matching/grant-matching.md",
-   "digest": "sha256:3d74979be3805542",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256:e52c421c0cab9483",
+   "revision": 2,
+   "changedAt": "2026-09-10",
    "techniques": [
     {
      "slug": "diminishing-returns-keyword-overlap",

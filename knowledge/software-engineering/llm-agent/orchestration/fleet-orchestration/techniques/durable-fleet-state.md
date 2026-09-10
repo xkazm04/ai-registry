@@ -11,37 +11,28 @@ use_when: [attaching durability to existing event chokepoints, a restart forgot 
 
 # Durable fleet state
 
-The registry's working truth lives in memory, because lifecycle decisions are
-made at memory speed and the state machine needs atomic read-modify-write
-over an entry. But an orchestrator restarts — crashes, upgrades, is closed at
-the end of the day — and its sessions frequently *outlive* it: they are
-independent processes, and some were hibernated with the explicit promise of
-coming back. A fleet whose knowledge lives only in the orchestrator's memory
-breaks that promise on every restart. The durable mirror is the fix: a
-persistent copy of the registry, maintained continuously, read exactly once
-per orchestrator lifetime — at startup, for reconciliation.
+An in-memory registry with a durable mirror is one design for a single controller.
+A transactional store or replicated log may instead own the authoritative state;
+choose based on the required recovery and concurrency guarantees. These designs
+need different read and acknowledgement contracts.
 
-## Write by piggybacking, not by fresh plumbing
+## Couple durable state to accepted transitions
 
-The mirror's write path should be **attached to the emit points that already
-exist**, not built as a parallel persistence layer with its own call sites.
-Every fleet event worth mirroring is already flowing through one or two
-chokepoints: the registry's transition door (every state change passes it)
-and the event fan-out that notifies views. Hook the mirror there and it is
-structurally impossible for a state change to be visible to consumers but
-missing from the mirror — the two share a source. Build the mirror as a
-separate layer that each writer is supposed to also call, and the mirror's
-completeness becomes a discipline, which means it decays; the divergence
-surfaces only at the worst moment, the restart that needed the mirror to be
-right ([the gate must see its target](../../../../_laws.md#gate-sees-target) — a
-recovery that reads a mirror maintained on a parallel path is recovering a
-proxy, and the restart is exactly when proxy and truth part ways).
+Attach persistence to the transition authority so writers cannot forget it, but
+do not confuse a shared callback with an atomic commit. A crash can occur after
+memory changes or a view is notified and before a queued persistence write lands.
+If an acknowledgement promises durability, commit the transition and required
+reservation before acknowledging it or permitting the external action. Publish
+notifications from committed state with replay or an outbox, and make repeated
+delivery idempotent. Best-effort mirrors must expose their possible loss window.
+Completed durable writes and delayed change notifications are distinct contracts.
 
 Mirror-write rules of thumb:
 
 - **Terminal states must not be lossy.** Transitions into exited, failed, or
   lost — and into and out of hibernated — are the mirror's reason to exist;
-  they are flushed durably at transition time, not batched on a timer. A
+  a durability promise requires acknowledgement after commit. Group commit
+  is compatible when each waiter is acknowledged only after its group is durable. A
   batched mirror that loses the last thirty seconds turns every crash into a
   small amnesia about precisely the sessions that were changing.
 - **High-frequency fields may be lazy.** Last-heard-from advances on every
@@ -106,25 +97,17 @@ inference distinct from report
   or missing mirror as "fresh start, zero sessions" silently discards the
   fleet. Assert the instrument, then report the result.
 
-## What the mirror is not
+## Reads follow the chosen consistency contract
 
-The mirror is a **crash-recovery artifact, not a query surface**. Dashboards,
-dispatchers, and sweepers read the in-memory registry; the moment consumers
-read the mirror directly, its write cadence becomes a user-facing freshness
-contract and the lazy-write latitude above disappears. One reader, one
-moment: the next startup.
+For the in-memory-plus-mirror design, live admission reads the authoritative
+registry, and recovery and historical accounting may read its durable mirror.
+Queries over lazy fields must name their freshness limits. In a store-authoritative
+design, live reads from the store are valid when their isolation meets the admission
+contract; they are not forbidden second readers. Retain terminal records for the
+declared accounting window and preserve run and incarnation identity.
 
-## The one sanctioned second reader
-
-Post-hoc run accounting is the exception, and it is narrow enough to state.
-A harvest that must close a run the orchestrator did not survive cannot ask
-the in-memory registry: memory was rebuilt at startup and never knew the
-sessions that ended in the gap. Only the mirror holds them. So accounting
-over *settled* history is a second reader, and it is admitted on one
-condition — **it reads terminal entries only**. Terminal transitions are the
-mirror's durably-flushed class already, so a reader confined to them imposes
-no freshness contract on the lazy fields and the write latitude above
-survives intact. What stays forbidden is unchanged: no dispatcher, sweeper,
-or dashboard reads a non-terminal entry from the mirror, because the moment
-live state is served from it, its write cadence becomes a promise the mirror
-was built not to make.
+An ambiguous survivor keeps its claims quarantined until stopped or fenced. A
+single controller lock does not prevent a previous controller or remote worker
+from continuing after a partition. Recovery must establish current authority before
+opening affected resources for dispatch; independent reconciled partitions may
+resume earlier if their isolation is established.

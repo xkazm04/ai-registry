@@ -72,7 +72,8 @@ Under B it passes, and `tsc --noEmit` is clean across the project. Deleting the
 `finished` row again under B does not restore the silence: the typecheck stops
 at `error TS2322: Type 'true' is not assignable to type 'never'` on the
 assertion line. The failure mode has been converted from an empty group nobody
-sees into a build error nobody can merge past.
+sees into a build error when that check runs; merge enforcement depends on the
+repository's actual required-check policy.
 
 ## The structural fact
 

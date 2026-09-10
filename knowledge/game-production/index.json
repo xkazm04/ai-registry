@@ -26,9 +26,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/craft-judgment/aaa-craft-rubric-authoring/aaa-craft-rubric-authoring.md",
-   "digest": "sha256:0908de004e8247c3",
-   "revision": 2,
-   "changedAt": "2026-09-02",
+   "digest": "sha256:112b068540a8ca2e",
+   "revision": 3,
+   "changedAt": "2026-09-10",
    "techniques": [
     {
      "slug": "capped-disqualifiers",
@@ -195,9 +195,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/production-governance/ability-authoring-to-engine/ability-authoring-to-engine.md",
-   "digest": "sha256:480d7a388660fd86",
-   "revision": 3,
-   "changedAt": "2026-09-02",
+   "digest": "sha256:adc9d789d856c1af",
+   "revision": 4,
+   "changedAt": "2026-09-10",
    "techniques": [
     {
      "slug": "declared-vs-referenced-tag-audit",
@@ -311,9 +311,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/content-pipeline/acceptance-verdict-spine/acceptance-verdict-spine.md",
-   "digest": "sha256:2c396d7090f2bb11",
-   "revision": 2,
-   "changedAt": "2026-08-30",
+   "digest": "sha256:a723d28e976b771c",
+   "revision": 3,
+   "changedAt": "2026-09-10",
    "techniques": [
     {
      "slug": "explain-why-this-verdict",
@@ -431,9 +431,9 @@
    "subcategory": "motion-and-audio",
    "status": "forged",
    "file": "knowledge/game-production/asset-production/motion-and-audio/adaptive-music-authoring/adaptive-music-authoring.md",
-   "digest": "sha256:b6ee87680b6dad44",
-   "revision": 1,
-   "changedAt": "2026-09-02",
+   "digest": "sha256:f5e49d8d949b70ce",
+   "revision": 2,
+   "changedAt": "2026-09-10",
    "techniques": [
     {
      "slug": "intensity-mapping-from-declared-game-state",
@@ -544,9 +544,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/systems-canon/agent-behaviour-authoring/agent-behaviour-authoring.md",
-   "digest": "sha256:8c0f9f7d1b52fbae",
-   "revision": 1,
-   "changedAt": "2026-09-02",
+   "digest": "sha256:d9dc69cfd79f8615",
+   "revision": 2,
+   "changedAt": "2026-09-10",
    "techniques": [
     {
      "slug": "behaviour-model-selection",
@@ -659,9 +659,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/systems-canon/arpg-systems-canon/arpg-systems-canon.md",
-   "digest": "sha256:b12ac8bf1bcf16f8",
-   "revision": 2,
-   "changedAt": "2026-08-30",
+   "digest": "sha256:9a0893f9b812d20f",
+   "revision": 3,
+   "changedAt": "2026-09-10",
    "techniques": [
     {
      "slug": "added-increased-more-stacking",
@@ -770,9 +770,9 @@
    "subcategory": "geometry",
    "status": "forged",
    "file": "knowledge/game-production/asset-production/geometry/asset-class-poly-budgeting/asset-class-poly-budgeting.md",
-   "digest": "sha256:ad3f9ae671cfd7c6",
-   "revision": 1,
-   "changedAt": "2026-09-02",
+   "digest": "sha256:edd3d67956a8cda2",
+   "revision": 2,
+   "changedAt": "2026-09-10",
    "techniques": [
     {
      "slug": "budget-shapes-output-not-just-caps",
@@ -882,9 +882,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/content-pipeline/branching-narrative-graph-validation/branching-narrative-graph-validation.md",
-   "digest": "sha256:eda41d48194249c4",
-   "revision": 1,
-   "changedAt": "2026-09-02",
+   "digest": "sha256:03bf7bbf234eb858",
+   "revision": 2,
+   "changedAt": "2026-09-10",
    "techniques": [
     {
      "slug": "dead-end-versus-authored-ending",
@@ -1319,9 +1319,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/content-pipeline/content-drift-and-revision/content-drift-and-revision.md",
-   "digest": "sha256:b24b30438b115292",
-   "revision": 3,
-   "changedAt": "2026-08-30",
+   "digest": "sha256:53f7dd8bc1b57ea2",
+   "revision": 4,
+   "changedAt": "2026-09-10",
    "techniques": [
     {
      "slug": "add-only-hydration",
@@ -1567,9 +1567,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/systems-canon/design-canon-as-executable-law/design-canon-as-executable-law.md",
-   "digest": "sha256:5294fd12c418816a",
-   "revision": 3,
-   "changedAt": "2026-08-30",
+   "digest": "sha256:d4713e4d73565742",
+   "revision": 4,
+   "changedAt": "2026-09-10",
    "techniques": [
     {
      "slug": "archetype-aware-envelopes",
@@ -2015,9 +2015,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/engine-integration/engine-integration-safety/engine-integration-safety.md",
-   "digest": "sha256:5d59d38675011278",
-   "revision": 2,
-   "changedAt": "2026-08-30",
+   "digest": "sha256:91e7e767f4e397d2",
+   "revision": 3,
+   "changedAt": "2026-09-10",
    "techniques": [
     {
      "slug": "editor-thread-timeout-budgeting",

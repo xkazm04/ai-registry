@@ -59,8 +59,9 @@ The tree also holds the cheapest decidable leaf the technique names, and
 never asks it: the brief *requires* a branch with the work on it. "The
 branch named in the brief exists and has at least one commit ahead of its
 base" is a parent-side, code-checkable, artifact-grounded leaf — one
-version-control call, no model turn — and it is precisely the leaf a
-worker that flailed and then typed `FLEET:DONE` cannot satisfy.
+version-control call, no model turn — but a worker can satisfy it with an irrelevant or empty commit. A valid
+no-change review can also finish without a new commit. Use the leaf only when
+the accepted task requires one, and do not promote it to behavioral acceptance.
 
 ## The A/B, as a simulation over three cases from the tree's history
 
@@ -88,7 +89,8 @@ worker that flailed and then typed `FLEET:DONE` cannot satisfy.
 
 **What would falsify the prediction:** a run history in which every
 `Task complete:` session's branch carries commits ahead of its base. Then
-the leaf never fires and B is one cheap call of pure cost. The tree's
+the leaf has no observed rejection benefit on that population; this does not
+prove it has no preventive or future value. The tree's
 durable `fleet_sessions` rows plus the branches the workers were given are
 enough to measure this after the fact, which is the return condition.
 

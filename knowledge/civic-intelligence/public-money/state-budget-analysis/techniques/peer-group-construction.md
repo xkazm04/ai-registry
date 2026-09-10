@@ -26,10 +26,11 @@ covers the whole population or it is an editorial act
 A peer group is derived from a municipality's structural attributes, in a fixed
 order of precedence:
 
-1. **Size class first.** Bucket the full national registry into population
-   bands. Do not invent the bands: use the size categories the country's
-   statistical or finance authority already publishes, so the grouping is an
-   external standard the analyst merely adopted, not a knob the analyst tuned.
+1. **Comparable mandate, reporting perimeter and period first; size next.** Bucket the full national registry into population
+   bands. Consider the country's published statistical or fiscal size categories and
+   cite the selected version. Official categories still need a suitability
+   check for this metric; alternative prespecified bands require a rationale
+   and sensitivity analysis, not outcome-driven tuning.
    Band boundaries are half-open (lower bound inclusive, upper exclusive) and
    the top band is unbounded — off-by-one at a boundary silently moves a town
    between benchmarks.
@@ -69,17 +70,18 @@ region" is a claim a reader can audit; "compared against similar towns" is not.
 
 ## Decision rules
 
-- When an official size-classification exists, adopt it verbatim; when several
-  exist, pick the one used by the fiscal reporting authority and cite it.
+- When an official size-classification fits the question, preserve its actual
+  boundaries and cite it. Do not claim externally standardized bands without
+  locating the authority's definition.
 - When a town sits exactly on a band boundary, the half-open convention
   decides; never special-case individual towns.
 - When coverage is partial (a bounded ingest batch), the covered-set shrinks
   the peer group — say so on the surface rather than treating the batch as the
   country.
 - When the group's structural attributes change (a town's population crosses a
-  band boundary between periods), the group changes with it; do not pin peer
-  groups across periods for continuity's sake, but do recompute them from the
-  period's own population figures.
+  band boundary between periods), the group changes with it; a dynamic cohort uses each period's attributes and discloses roster changes.
+  A fixed-cohort trend is also valid when explicitly labeled; neither policy
+  makes changing coverage disappear.
 
 ## When not to use it
 

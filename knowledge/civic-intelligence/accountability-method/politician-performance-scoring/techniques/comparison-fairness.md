@@ -38,8 +38,8 @@ rounded ones — producing cells where both sides show the same number and one i
 painted as ahead. Audited across a full pairing space this is not an edge case;
 it is hundreds of visibly self-contradicting cells. The rule: **the comparison
 operates on the values the reader can see**, at published precision. A gap that
-rounds to zero is a tie the data cannot break; a distinction the printed number
-does not carry is a distinction the surface must not assert.
+is computed by subtracting the individually rounded displayed values; compare
+those values for equality. Rounding the raw difference is not equivalent.
 
 ## Missing loses nothing
 
@@ -83,3 +83,17 @@ a reader-driven lens from ranking under custom weights; they apply inside it
 identically (a lens tie is still a tie). The only genuinely wrong move is
 selective application: fairness rules that engage only when a favored party
 would otherwise lose are an editorial thumb, and auditable as one.
+
+## Comparison counterexample and cohort
+
+At one decimal, 1.24 and 1.26 display as 1.2 and 1.3, while their raw gap 0.02
+rounds to 0.0. A gap-rounding rule can therefore call visibly different values
+tied. Use one rounding function for display, ranking and pairwise comparison;
+this is a presentation policy, not evidence of statistical significance.
+
+Use a common period, formula, source-coverage rule and eligible cohort. Measured-
+only medians describe that measured subset, not necessarily the whole chamber;
+show its size and exclusions. Excluding a missing component from a displayed
+comparison does not authorize silently recomputing a person's composite with
+different weights. Apply evidence criteria uniformly; uniform rules need not
+mean suppressing all verified evidence because another person's record is absent.

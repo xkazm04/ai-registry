@@ -24,12 +24,12 @@ companion's chat turns with `--system-prompt-file` (fully replacing the
 harness identity prompt) and `--exclude-dynamic-system-prompt-sections`,
 with the working directory defaulting to the user's home "so a normal
 Athena turn doesn't auto-pick up the Personas project's CLAUDE.md"
-(`:41-45`). The companion chose to receive *no* standing instruction file
-and to own its entire prompt through its assembler
+(`:41-45`). The cited launch configuration aims to avoid project-level instructions
+from that checkout and to supply its prompt through its assembler
 ([layered-composition](../../../prompt-and-context/prompt-assembly/techniques/layered-composition.md)).
 That is the technique's "choose the worker class by what it loads"
-applied to the dispatcher itself: it knows exactly what it loads because
-it loads nothing it did not write.
+applied to the dispatcher itself: the cited flags and working directory are inputs to discovery; user-level
+instructions, harness defaults and runtime behavior still need inspection.
 
 ## Three worker classes, three ways of carrying the session
 

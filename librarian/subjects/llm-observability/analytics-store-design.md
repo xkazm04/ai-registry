@@ -1,7 +1,8 @@
 ---
 subject: analytics-store-design
 domain: llm-observability
-last_touched: 2026-08-27
+last_touched: 2026-09-10
+touched_by: architecture-review
 dry_streak: 0
 ---
 
@@ -63,3 +64,91 @@ holds the same fork from the other end: it decides which reads leave a serving s
 this subject shapes the copy they land in. Same fork, opposite ends. The discriminator is
 stated in prose on each side and neither absorbs the other — cross-bundle links are
 forbidden, and a later run should recognise the shape rather than re-litigate it.
+
+## Architecture review - 2026-09-10
+
+Review completed for every owned document. Reverify identifies remaining work, not a
+clean content verdict. Earlier notes remain historical evidence; application dates
+and maturity are unchanged.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "llm-observability/analytics-store-design",
+  "date": "2026-09-10",
+  "baseline": "78850ba51a9aa016dcfc62817d59581453c3d90d",
+  "digest": "sha256:85d13aa9b47efb29",
+  "disposition": "reverify",
+  "coverage": "All 11 owned documents read and assessed in table order. 3 document(s) repaired. Residual source, semantic and historical application checks are recorded per document; no consumer/runtime/field witness or maturity refresh.",
+  "counterexamples": [
+    "A JSON field with a supported expression index need not be promoted merely to become indexed.",
+    "Strings under different collations or signed extended-year formats need not sort chronologically.",
+    "An ingestion-date partition still returns late data correctly when event-time filtering scans all necessary arrival partitions.",
+    "An event without reported usage is not evidence of zero tokens."
+  ],
+  "sources": [
+    {
+      "path": "knowledge/llm-observability/telemetry-and-data/analytics-store-design",
+      "scope": "Every owned document read in full; embedded code assessed as displayed. Historical application implementations and observations were not independently rerun."
+    },
+    {
+      "url": "https://firebase.google.com/docs/firestore/query-data/aggregation-queries",
+      "scope": "Official count/sum/average support narrows the no-aggregation claim."
+    },
+    {
+      "url": "https://www.postgresql.org/docs/16/datatype-json.html",
+      "scope": "Official JSON index support contradicts indexes-only-columns doctrine."
+    },
+    {
+      "url": "https://langfuse.com/resources/engineering/clickhouse-at-agent-scale",
+      "scope": "Primary architecture description checked: workload-specific migration, monthly partitions, derived materialized table and payload indexes. Other survey claims not exhaustively refreshed."
+    }
+  ],
+  "documents": {
+    "analytics-store-design.md": {
+      "disposition": "reverify",
+      "reason": "Wide events are a useful design, not the universal end state. Index seeks are not the right plan for every aggregate; document stores can aggregate and warehouses can serve point reads. Native timestamps can preserve portable semantics. Accounting requires atomic reservations/transactions, not a clock column alone; traces must be tenant scoped. Hardware/workload evidence cannot establish a universal ingest ceiling."
+    },
+    "techniques/analytical-copy-partitioning.md": {
+      "disposition": "clarify",
+      "reason": "Repaired universal scale/economics claims, partition correctness, replay/correction/deletion semantics, freshness and embedded-engine overhead. Analytical routing follows measured workload and consistency requirements."
+    },
+    "techniques/backend-parity-as-contract.md": {
+      "disposition": "reverify",
+      "reason": "Reference behavior needs an independently stated contract and can encode a bug. Unsupported analytics must be absent with explicit coverage, not numeric zero plus a caveat. Partial listings can be valid with pagination or declared coverage; resource limits and performance guarantees can be part of a contract. Tests cover specified cases, not all semantics."
+    },
+    "techniques/capability-flags-and-refusal.md": {
+      "disposition": "reverify",
+      "reason": "Unsupported is scoped to implementation/version/query, not permanent physics. Retry only retriable failures; an outage is not the only failure. Protocol code depends on the API contract and flags must express predicate combinations sufficiently. Refusal tests do not make a backend immune to every regression."
+    },
+    "techniques/dashboard-driven-composite-indexes.md": {
+      "disposition": "reverify",
+      "reason": "Equality-first is a common B-tree strategy, not iff; include unique cursor tie-breaker and verify plans. Grouping indexes still scan matching rows; residual filtering is not free. JSON/expression indexes can be valid, partial indexes retain structure, and backend/statistics/write costs govern useful composites."
+    },
+    "techniques/fixed-width-timestamp-encoding.md": {
+      "disposition": "clarify",
+      "reason": "Repaired collation, supported year/precision range, parsing versus canonical storage and cursor tie ordering. Source grep is a guard, not proof that all external writers or encoders conform."
+    },
+    "techniques/flat-events-plus-json-linkage.md": {
+      "disposition": "clarify",
+      "reason": "Repaired zero-default token assumptions, JSON index/constraint impossibility, flat-only doctrine and migration/materialization boundaries. Preserve tenant scope, idempotency, source authority and dual-write consistency."
+    },
+    "applications/process--analytical-copy-partitioning.md": {
+      "disposition": "reverify",
+      "reason": "Dated survey retained. Primary Langfuse page supports its own migration and throughput story but also explicitly uses a materialized derived table and payload text indexes, contradicting blanket doctrine. Monthly partition count depends on time span, not row count alone. Other platform volumes, storage prices, sampling rates and survey-wide convergence remain unverified; no benchmark rerun."
+    },
+    "applications/rust--backend-parity-as-contract.md": {
+      "disposition": "reverify",
+      "reason": "Historical code/version/date retained, not rerun. Required check names do not prove branch protection, and assertions can miss uncovered semantics. Test isolation also needs cleanup and resource policy on shared stores; fresh project ids do not make all effects safe. Existing note already identifies partial matrix and skip risks."
+    },
+    "applications/rust--capability-flags-and-refusal.md": {
+      "disposition": "reverify",
+      "reason": "Historical implementation/date retained. Firestore supports count/sum/average aggregation; inability to serve this GROUP BY/HAVING contract is narrower than no aggregation. Bounded O(matched-docs) needs an enforced bound. Empty cost defaults remain unknown costs, not zero, even with external documentation."
+    },
+    "applications/sql--dashboard-driven-composite-indexes.md": {
+      "disposition": "reverify",
+      "reason": "Historical schema/version/date retained, not rerun. Query plans and latency were not measured. Need stable tie ids for keyset, tenant isolation for trace fetch, and honest legacy receipt-time fallback. Expression/index benefits and warehouse pruning depend on actual predicates and distribution."
+    }
+  }
+}
+```

@@ -10,7 +10,7 @@ verified_on: 2026-08-20
 
 # Process: a per-class budget corpus that states its own basis
 
-PoF (`C:\Users\kazda\kiro\pof`) keeps its per-asset-class geometry budgets as a data
+PoF (`pof`) keeps its per-asset-class geometry budgets as a data
 corpus in `src/lib/visual-gen/polycount-presets.ts`, with the rationale for each number
 stored in the same record as the number. Two consumers read it: generation (hand the
 budget to a budget-aware provider so the mesh is generated inside its class budget
@@ -89,3 +89,22 @@ nobody claimed was finished.
   pipeline stage) in the same record.
 - Both failure-to-grade cases — no class, no request — produce a stated sentence, never
   a silent default.
+
+## Review boundary - 2026-09-10
+
+Treat the table and reported results above as historical project choices.
+The environment example exceeds the character count, so the character is not
+the numerically highest class. Duplicate character specifications require a
+parity check or derivation from one authority. A parts<1 check alone does not
+reject fractions, infinity or NaN. Class-blind grading cannot certify a class
+ceiling, and warning bands must not silently relax a hard limit.
+
+[Epic's current Nanite content documentation](https://dev.epicgames.com/documentation/unreal-engine/working-with-naniteenabled-content)
+includes skeletal mesh support. Blanket exclusion of skinned content is therefore
+not a portable eligibility rule; pin the engine/platform and required features.
+This does not establish eligibility or performance in the historical project.
+
+The budget/quality examples need model settings, repeated artifacts and measured
+output before supporting causal conclusions. Geometry can legitimately represent
+lettering or other raised detail. No consumer code, engine scene, provider request
+or measurement replay was run during this review.

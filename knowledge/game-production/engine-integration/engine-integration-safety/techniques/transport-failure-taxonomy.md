@@ -11,96 +11,66 @@ use_when: [designing the error type of a client that drives another process, a f
 
 # Transport failure taxonomy
 
-The concern: the space between "I sent an instruction" and "the instruction ran and
-raised" is not empty. It contains several distinct outcomes, each with a different correct
-response, and collapsing them into one error type makes every failure undiagnosable and
-every retry policy wrong.
+Classify the observed communication failure separately from what is known about remote
+execution. A missing response does not prove that an instruction never ran. The same
+timeout can occur before transmission, during execution, or after successful execution
+while the response is lost.
 
-The cost is concrete and it is paid by a human. A client that reports *unreachable* when
-the callee answered with a broken body sends an engineer to restart an application that is
-already running, while the actual defect — a bug on the callee's side — stays hidden behind
-a message that describes a different world.
+## Two independent axes
 
-## The kinds
+Use an explicit failure kind: connection failure, deadline, caller cancellation,
+malformed response, protocol rejection, execution error or unknown. Also carry execution
+certainty: known not started, started with outcome unknown, completed with an observed
+outcome, or unknown. Evidence for one axis must not invent evidence for the other.
 
-Classify along two axes: **was the callee reached**, and **where does the fault live**.
-That yields the taxonomy below. The names matter less than that the set is closed and each
-member is distinguishable in code.
-
-- **Unreachable.** No response at all — connection refused, name resolution failure, socket
-  error. The callee is not running or not listening. *Response:* start it. Safe to retry
-  once it exists; the instruction provably never ran.
-- **Timed out.** The connection was accepted, the instruction was taken, and nothing came
-  back inside the bound. *Response:* look at what the callee is doing. **Not** safe to
-  retry a non-idempotent instruction — this is the one case where you genuinely do not know
-  whether the work ran.
-- **Aborted.** Your own side cancelled — the caller's signal, a shutdown, a user
-  navigating away. *Response:* none; this is not a failure of anything. Same
-  did-it-run ambiguity as a timeout, and it must never be reported as the callee's fault.
-- **Malformed body.** The callee answered, with a status, and the body was not the agreed
-  envelope. *Response:* fix the callee. Never retry — it will answer identically. Echo a
-  bounded snippet of what actually arrived; that snippet is usually the whole diagnosis.
-- **Protocol rejection.** The callee answered with an explicit refusal at the envelope
-  level: a bad request, a rejected authentication, an unknown operation. *Response:* fix
-  the caller. Never retry unchanged.
-- **Executed and raised.** The instruction ran on the callee and threw. This one is *not a
-  transport failure at all* and its absence of a transport kind is the signal. *Response:*
-  fix the instruction or the code it called. The callee is healthy.
+- **Connection failure:** resolution or connection refusal before any transmission can
+  establish that this attempt did not start. A socket failure after transmission cannot.
+- **Deadline:** the caller stopped waiting. This alone proves neither acceptance nor
+  cancellation of work on the other side.
+- **Caller cancellation:** record who cancelled and when. Cancellation of the wait does
+  not establish rollback or remote termination.
+- **Malformed response:** some responding component returned an invalid envelope.
+  It may be an intermediary; neither remote health nor execution outcome follows from
+  that fact. Preserve a bounded, audience-appropriate, redacted diagnostic.
+- **Protocol rejection:** record the actual status and declared semantics. Invalid
+  credentials or an unsupported operation usually require correction. Temporary
+  rejection can justify a later attempt only under the execution and retry contract.
+- **Execution error:** a trusted execution envelope reports failure. Side effects may
+  have occurred before the error, and the report does not prove general application
+  health. Use an explicit execution discriminator, not an unexplained missing kind.
+- **Unknown:** retain the gap when the available observations cannot distinguish cases.
 
 ## Procedure
 
-**1. Make the kind a field on the failure, not a substring of a message.** A discriminated
-result — success, or failure with an optional kind — lets callers pattern-match without
-parsing prose. Reserve *no kind* for the last case: an error with no transport kind came
-from the callee's own execution, and that absence is the load-bearing distinction between
-"fix your script" and "start the application".
+1. Classify at the boundary while transmission, response and cancellation details are
+   available. Preserve operation and attempt identities through every intermediary.
+2. Separate sending, reading and envelope validation so one catch-all does not turn
+   every response error into an unreachable application.
+3. Record whether the caller's signal or the local deadline fired first, and preserve
+   uncertainty when their ordering is unavailable.
+4. Derive execution certainty only from observed protocol guarantees. If a consumer
+   needs a reached field, give it an unknown state and define whether it means a proxy,
+   the target transport endpoint or the instruction executor.
+5. Include the elapsed bound, response status and actionable context in diagnostics.
+   Truncation limits size; redaction separately limits sensitive disclosure.
+6. Select retry behavior from failure kind, execution certainty and operation semantics.
 
-**2. Keep the reads outside the send's error handler.** Read the body and parse it in a
-separate step from the call itself. When both live inside one catch block, "the callee is
-not running", "it never answered", and "it answered with garbage" collapse into one
-indistinguishable throw — which is exactly how the taxonomy gets lost in practice, one
-convenient try block at a time.
+## Retry rules
 
-**3. Distinguish your own deadline from the caller's cancel before classifying.** Both
-surface as the same abort at the transport layer. Track which fired: a flag set by your
-timer, checked before you inspect the caller's signal. Get this wrong and every user
-navigation is logged as a callee timeout.
+An operation known not to have started can be retried after its precondition is repaired.
+For an uncertain outcome, use an idempotent operation or a durable deduplication contract
+that covers the original attempt and its side effects. Merely generating a fresh request
+identifier does not provide that contract. Otherwise inspect or reconcile the outcome
+before another attempt.
 
-**4. Carry a second, orthogonal bit: was the callee reached at all.** Some consumers only
-need "should I go look at the application" and that is exactly the *reached* axis —
-unreachable and timed out mean go look; malformed and rejected mean the application
-answered and the fault is inside it. Deriving that bit once beats every consumer
-re-deriving it from the kind.
+Apply bounded backoff only where the failure is plausibly transient. Do not retry a
+user-cancelled operation automatically. A malformed body is not guaranteed to recur
+identically, and an execution error is not guaranteed safe to replay. Both require the
+same side-effect analysis as a timeout.
 
-**5. Put the identifying detail in the message.** Which operation, which bound was
-exceeded, which status arrived, a truncated echo of the body. Bound the echo — a couple of
-hundred characters — so a failure cannot flood a log with the callee's output.
+## When not to use the full taxonomy
 
-**6. Write the retry policy as a function of the kind.** Not a wrapper that retries
-everything. Unreachable: retry with backoff. Timed out: retry only if idempotent. Aborted:
-never. Malformed or rejected: never. Executed-and-raised: never automatically.
-
-## Decision rules
-
-- If you cannot tell two kinds apart at the point of failure, you cannot report them apart
-  later. Classify at the boundary, where the information still exists.
-- If a kind would be *unknown*, say unknown. Guessing at a classification is worse than an
-  honest gap, because it will be believed.
-- If the instruction is not idempotent, a timeout must not be auto-retried; surface it and
-  let a human or an idempotency key decide.
-- If a message names a cause, that cause must be one you actually observed. The failure
-  report is a verdict about a specific call and is bound to what that call returned.
-- If the callee is driven through a proxy or several layers, each layer preserves the kind
-  rather than flattening it to its own generic error. A taxonomy destroyed at any hop is
-  destroyed for everyone above it.
-
-## When not to use this
-
-**Fire-and-forget notifications** where nothing downstream depends on the outcome do not
-need six kinds; one "did not send" is enough. The taxonomy earns its cost when a human
-will read the failure or a policy will branch on it.
-
-**Callees that already return a structured status** for their own execution errors do not
-need a transport kind for those — the point of the taxonomy is precisely to keep the
-callee's own error channel unpolluted by transport noise, so that an error arriving through
-it means what it says.
+A notification may need fewer categories when no downstream policy uses the distinction.
+It must still avoid claiming known non-delivery when delivery is uncertain. A structured
+remote error channel complements transport classification; it does not remove failures
+while sending or decoding that channel.

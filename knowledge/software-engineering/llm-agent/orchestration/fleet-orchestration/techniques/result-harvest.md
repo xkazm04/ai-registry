@@ -40,10 +40,11 @@ contract set at dispatch, not a scavenger hunt run afterwards:
 - **Failure is a result.** The contract gives sessions a way to report "I
   could not do this, and here is why" as first-class output. A session that
   can only succeed or vanish forces the harvest to infer every failure,
-  and inference is strictly worse evidence than a report.
-- **Report only what was declared — never a paraphrase.** A session's
+  and a report and an independently corroborated observation carry different
+  provenance; neither is automatically more accurate.
+- **Keep declared reports separate from synthesis.** A session's
   summary in the aggregate is the completion it actually declared through
-  the contract, or nothing. Synthesizing a summary from the session's last
+  the contract, or a clearly attributed summary of it. Synthesizing a summary from the session's last
   observed state ("it went quiet after editing three files, so: done?")
   launders inference into the place reserved for reports, and the aggregate
   loses the one distinction the whole accounting exists to preserve.
@@ -53,8 +54,9 @@ contract set at dispatch, not a scavenger hunt run afterwards:
 The dispatch roster (see [parallel-dispatch](./parallel-dispatch.md)) is the
 harvest's checklist. For each member, exactly one terminal account:
 
-- **succeeded, result ingested** — the good path, with its result validated.
-- **succeeded, result missing** — the session says it finished, but the
+- **completion claimed, result ingested** — the report passed shape validation;
+  acceptance is a separate held/failed/unverified verdict against the artifact.
+- **completion claimed, result missing** — the session says it finished, but the
   drop point is empty or unreadable. A distinct class, because it indicts
   the contract or the session's compliance, not the work.
 - **failed, reported** — the session's own account of why.
@@ -65,7 +67,7 @@ harvest's checklist. For each member, exactly one terminal account:
 - **never started** — queued but not admitted before the run closed.
 
 The run summary is these counts *with their predicates*: "run R dispatched
-11; 7 succeeded-with-results, 1 succeeded-without, 2 failed (named), 1 timed
+11; 7 claimed-with-results, 1 claimed-without, 2 failed (named), 1 timed
 out at the straggler deadline" is an accounting; "mostly done" is not
 ([count-carries-predicate](../../../../_laws.md#count-carries-predicate)). The
 arithmetic invariant is total: accounts sum to the roster, always — a member
@@ -119,8 +121,10 @@ the whole. Principles:
 ## Harvest is idempotent and resumable
 
 The orchestrator can crash mid-harvest like it can crash anywhere else.
-Ingestion is keyed by session identity and run identity, so re-reading a
-drop point is a no-op, not a duplicate; the run's accounting state persists
+Ingestion is keyed by run, session incarnation and result revision. A repeated
+key with identical content is a no-op; changed content under the same key is a
+conflict, not a silently discarded correction. Late revisions follow the declared
+amendment policy; the run's accounting state persists
 with the fleet's durable state (see
 [durable-fleet-state](./durable-fleet-state.md)); and a restarted orchestrator
 finishes the harvest from the roster rather than re-deriving it from whatever

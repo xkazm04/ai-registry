@@ -1,7 +1,8 @@
 ---
 subject: imported-material-conformance
 domain: game-production
-last_touched: 2026-09-07
+last_touched: 2026-09-10
+touched_by: architecture-review
 dry_streak: 0
 ---
 
@@ -112,3 +113,67 @@ reads what a format already packed when receiving.* If a later run touches
   LOD grouping and collision intent, and that generality is what makes it a wider
   content-pipeline observation rather than a seventh technique here. It sits as a lead in
   the source note, at law altitude, awaiting a second independent sighting.
+
+## Architecture review - 2026-09-10
+
+Read and assessed all 7 owned documents. **Reverify** records completed review
+coverage, not a clean content verdict. Document decisions identify the repairs and
+remaining work. Earlier observations are preserved as historical evidence; they are
+not refreshed runtime witnesses and do not override the qualifications below.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "game-production/imported-material-conformance",
+  "date": "2026-09-10",
+  "baseline": "78850ba51a9aa016dcfc62817d59581453c3d90d",
+  "digest": "sha256:a7d00f7b026f6ea9",
+  "disposition": "reverify",
+  "coverage": "All 7 owned documents read and assessed. Eight techniques across this tranche were repaired. Other semantic findings, golden-path reconciliation and all historical application witnesses remain reverify work. No consumer checkout execution, engine run, provider benchmark, player study or maturity refresh. External source scope and access limitations are recorded below.",
+  "counterexamples": [
+    "A post-import processor can be deterministic, tested and compulsory. Uniform symptoms do not uniquely identify a boundary defect, and idempotent correction need not double-convert. Migrate by actual pipeline ownership and covered behavior.",
+    "Defaults are format-specific semantics, not necessarily missing evidence or exporter innocence. An exporter can omit an authored nondefault incorrectly; explicit and omitted default-equivalent values can intentionally mean the same thing.",
+    "Use one-minus-value only when the source and destination parameterizations are complementary. Arithmetic negation is not inversion about 0.5, roughness one is not fully diffuse, and (1-map)*(1-factor) is not generally the original product. Midpoint symptoms are not a unique diagnosis."
+  ],
+  "sources": [
+    {
+      "url": "https://github.com/KhronosGroup/glTF/blob/main/specification/2.0/Specification.adoc",
+      "scope": "Official specification search evidence identifies sRGB base-color RGB. Published specification direct open timed out; no renderer conformance execution or verification of universal format defaults."
+    },
+    {
+      "url": "https://github.com/KhronosGroup/glTF/blob/main/extensions/2.0/Khronos/KHR_materials_specular/README.md",
+      "scope": "Official extension search evidence specifies linear specular strength in alpha and sRGB specular color in RGB. Supports checking per-channel contracts rather than assuming all image channels share an interpretation."
+    }
+  ],
+  "documents": {
+    "imported-material-conformance.md": {
+      "disposition": "reverify",
+      "reason": "Reverify format-specific defaults stated as universal, mixed-channel denial, default omission as exporter innocence, obligatory material extraction and swatch passes as proof of an entirely correct edge. The encoding and swatch techniques are repaired; this golden path and prior librarian claims need reconciliation."
+    },
+    "techniques/a-fixer-script-is-the-edge-in-the-wrong-place.md": {
+      "disposition": "reverify",
+      "reason": "A post-import processor can be deterministic, tested and compulsory. Uniform symptoms do not uniquely identify a boundary defect, and idempotent correction need not double-convert. Migrate by actual pipeline ownership and covered behavior."
+    },
+    "techniques/colour-space-is-per-texture-role.md": {
+      "disposition": "clarify",
+      "reason": "Repaired per-role/per-channel encoding, linear alpha alongside encoded RGB, unsupported mappings and bounded diagnosis. A texture-wide color switch does not imply identical treatment of all channels."
+    },
+    "techniques/format-defaults-are-not-asset-properties.md": {
+      "disposition": "reverify",
+      "reason": "Defaults are format-specific semantics, not necessarily missing evidence or exporter innocence. An exporter can omit an authored nondefault incorrectly; explicit and omitted default-equivalent values can intentionally mean the same thing."
+    },
+    "techniques/gloss-axis-inversion-and-the-midpoint.md": {
+      "disposition": "reverify",
+      "reason": "Use one-minus-value only when the source and destination parameterizations are complementary. Arithmetic negation is not inversion about 0.5, roughness one is not fully diffuse, and (1-map)*(1-factor) is not generally the original product. Midpoint symptoms are not a unique diagnosis."
+    },
+    "techniques/materialise-on-import.md": {
+      "disposition": "reverify",
+      "reason": "Materials may already be addressable through subassets or import overrides. Names can be absent, duplicated or unstable; use a durable mapping and explicit reconciliation. Lost overrides have more than two possible causes."
+    },
+    "techniques/surface-conformance-swatch.md": {
+      "disposition": "clarify",
+      "reason": "Repaired calibration scope, independently derived expectations, channel/factor/default cases and complementary rendering checks. Passing fixtures no longer absolve untested importer branches or assign every later failure upstream."
+    }
+  }
+}
+```

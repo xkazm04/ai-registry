@@ -10,7 +10,7 @@ verified_on: 2026-08-19
 
 # Process — the injection-safe fit prompt of a nonprofit grant matcher
 
-How the grant-writing-nonprofits repo (`C:\Users\mkdol\xprice\grant-writing-nonprofits`)
+How the grant-writing-nonprofits repo
 realizes injection-safe RFP analysis as a prompt pipeline: one prompt builder,
 two trust classes of delimited data, and a deterministic assembly path that
 keeps the model non-authoritative.

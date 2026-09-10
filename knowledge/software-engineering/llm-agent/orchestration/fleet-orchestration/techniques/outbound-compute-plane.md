@@ -14,8 +14,8 @@ use_when: [deciding whether the executor plane needs ingress, running executors 
 A fleet's registry lives on the control plane; its sessions execute somewhere
 else — a server, a homelab, a laptop lid away from sleep. The topology
 question is who dials whom, and the answer with the fewest consequences is:
-**the compute plane dials out, always, and holds no listening surface the
-outside world can reach.** Work arrives because the executor long-polls for
+**prefer an outbound-only control channel when it meets the placement and
+trust requirements.** Work arrives because the executor long-polls for
 it; results and lifecycle events leave on the same outbound channel. The
 control plane never needs a route to the executor at all.
 
@@ -28,18 +28,19 @@ design honest when one of them tempts a shortcut:
   laptop on hotel wifi — all are equally valid executor hosts, because none
   needs an inbound route, a tunnel, or a TLS termination story. The fleet
   grows by running a process, not by provisioning ingress.
-- **No executor attack surface.** A plane that listens must authenticate,
+- **Reduced inbound exposure.** A plane that listens must authenticate,
   patch, and rate-limit what connects; a plane that only dials has nothing to
-  connect *to*. The security review shrinks to the outbound channel's
-  credentials.
+  connect *to*. The security review still covers malicious jobs and responses,
+  dependencies, credential custody, sandbox escape, egress and local services.
 - **The poll is the clock.** With no way to push, the control plane cannot
   grow a scheduler that reaches into executors; work dispatch stays a queue
   the executor drains at its own pace, which is also the natural backpressure
   boundary — an overloaded executor simply polls less.
 
-Long-polling is the honest transport for this: the poll asks the server to
-hold for tens of seconds, so dispatch latency stays near zero without a push
-channel, and a control plane that is briefly unreachable costs a bounded
+Long-polling is one transport for this; an authenticated persistent outbound
+connection is another. With long-polling, the poll asks the server to
+hold for tens of seconds, so work can arrive promptly while a poll is held, subject to network and
+scheduler latency, and a control plane that is briefly unreachable costs a bounded
 retry with backoff, not a broken route.
 
 ## The store has one door, and the executor is not behind it
@@ -57,13 +58,17 @@ was traded away silently. The rule survives inconvenience: an executor that
 
 The executor spawns sandboxes, and each sandbox must dial back a control
 channel. Its first credential is a **bootstrap token minted per spawn,
-single-use, bound to that sandbox's identity, and consumed on connect**. The
+single-use, bound to that sandbox's identity, and consumed atomically on a
+successful authenticated exchange**. Set a short expiry and intended audience;
+validate the server before sending it and define recovery after an ambiguous
+exchange so a lost response neither reuses a spent token nor strands the session. The
 consequences cut deeper than the minting:
 
 - A token baked into a spawned environment is spent the moment the sandbox
-  connects. Restarting that sandbox cannot re-authenticate it — so **every
-  start is a replacement**, not a resume of the old container: recreate with
-  a fresh token, keep the durable home volume. Restarting in place produces
+  connects. Restarting that sandbox cannot re-authenticate it — so **a new start needs valid credentials**. If the only bootstrap token is
+  immutably baked into the instance and no renewal path exists, recreate with
+  a fresh token while preserving authorized durable storage. A secure credential
+  rotation or renewal protocol can instead support restarting the instance. Restarting in place produces
   the worst failure shape available: a sandbox that runs but can never
   report, redispatched forever.
 - The token authenticates a *machine's first call*, which is a narrower job

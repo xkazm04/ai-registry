@@ -1,7 +1,7 @@
 ---
 subject: arabic
 domain: localization
-last_touched: 2026-08-29
+last_touched: 2026-09-10
 touched_by: external-reconcile
 dry_streak: 0
 ---
@@ -121,3 +121,86 @@ directions. AR-PUNCT's guillemet line demoted to a recorded house choice with th
 standard's actual delimiters named. AR-NO-KASHIDA's audit note rewritten by function
 rather than by code point, with the observation that the old rule fires on this
 technique's own prose. The extended-digit scoping note landed with it.
+
+## Architecture review - 2026-09-10
+
+Review completed for every owned document. Reverify identifies remaining work, not a
+clean content verdict. Earlier notes remain historical evidence; application dates
+and maturity are unchanged.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "localization/arabic",
+  "date": "2026-09-10",
+  "baseline": "78850ba51a9aa016dcfc62817d59581453c3d90d",
+  "digest": "sha256:58528af0594c0b5e",
+  "disposition": "reverify",
+  "coverage": "All 11 owned documents read and assessed in table order. 4 document(s) repaired. Residual source, semantic and historical application checks are recorded per document; no consumer/runtime/field witness or maturity refresh.",
+  "counterexamples": [
+    "العناصر: {count} remains a grammatical neutral count frame without six agreeing noun forms.",
+    "A short Latin label followed by a number can require isolation despite its length.",
+    "An inherited defaultNumberingSystem is still a default, not evidence that CLDR has no default."
+  ],
+  "sources": [
+    {
+      "path": "knowledge/localization/right-to-left/arabic",
+      "scope": "Every owned document read in full; embedded code assessed as displayed. Historical application implementations and observations were not independently rerun."
+    },
+    {
+      "url": "https://www.w3.org/International/articles/inline-bidi-markup/",
+      "scope": "Primary inline direction/isolation guidance including short phrases and unknown runtime direction."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/unicode-org/cldr/release-48-2/common/main/ar.xml",
+      "scope": "Pinned numbering-system and percent-symbol fields inspected; no full locale census rerun."
+    }
+  ],
+  "documents": {
+    "arabic.md": {
+      "disposition": "reverify",
+      "reason": "MSA is a useful broad-market default, not the only legitimate Arabic product register. RTL rendering is not the only locale needing visual QA. Six categories concern cardinals, not ordinals, and neutral count frames can be grammatical without six strings. Length estimates, universal article/button rules and numeral regional shorthand require product evidence."
+    },
+    "techniques/bidirectional-text-and-interpolation.md": {
+      "disposition": "clarify",
+      "reason": "Repaired isolation based on string length, punctuation always on the left and categorical absence of concatenation remedies. Preserve logical text and placeholder syntax, use structural direction and inspect controls; short values can still need isolation."
+    },
+    "techniques/de-anglicization-constructions.md": {
+      "disposition": "reverify",
+      "reason": "SVO and VSO are both legitimate Arabic and information structure matters. Recasting the warning adds a leaving condition absent from the source. Idafa definiteness can come from proper nouns or pronominal suffixes, not only final article. Removing can from an ability statement may change meaning; prescribed passive and politeness choices need product context."
+    },
+    "techniques/plural-and-count-agreement.md": {
+      "disposition": "clarify",
+      "reason": "Repaired one/other intrinsically ungrammatical, least-wrong singular recommendation and cardinal categories treated as complete morphology. Neutral frames are legitimate; decimal, ordinal and range selection follow the actual formatter."
+    },
+    "techniques/register-and-address.md": {
+      "disposition": "clarify",
+      "reason": "Repaired MSA and masculine address as universal mandates and UI article rule as mechanically decisive. Define audience and product register, allow deliberate localized address strategies and distinguish style drift from context-sensitive grammar."
+    },
+    "techniques/script-and-typography.md": {
+      "disposition": "clarify",
+      "reason": "Repaired default-denial terminology, blanket control removal and digit-only percent rules. Pinned CLDR defaultNumberingSystem exists explicitly; inheritance is how a default resolves. Runtime version, region and options matter, and exemplar inventory is not a prose whitelist."
+    },
+    "techniques/terminology-and-loanwords.md": {
+      "disposition": "reverify",
+      "reason": "Native terminology preference can be sensible but transliteration is not proof of MT. Approved brands may have Arabic forms and correct English plurals in quoted identifiers are not fake Arabic morphology. Termbase senses and inflection matter; catalog frequency is evidence of convention, not proof of correctness."
+    },
+    "applications/process--bidirectional-text-and-interpolation.md": {
+      "disposition": "reverify",
+      "reason": "Historical Personas bidi guide retained, not rerun or rendered. Published machine-specific checkout path violates repository guidance and needs source-context migration without inventing a location. Placeholder mismatch is concrete; ASCII-only matching is not a universal engine requirement. No-ZWNJ and short-placeholder assumptions are overbroad."
+    },
+    "applications/process--register-and-address.md": {
+      "disposition": "reverify",
+      "reason": "Historical Personas register counts retained, not recounted. Product choice does not prove universal software convention; one-word/length targets need rendering. Persona and agent distinction follows this termbase and context. Published absolute checkout root remains a migration item."
+    },
+    "applications/spec--plural-and-count-agreement.md": {
+      "disposition": "reverify",
+      "reason": "Pinned CLDR harness retained, not rerun. Category selection does not prove morphology or that singular is least harmful over real traffic; uniform 0..10000 is not a usage distribution. Cardinal/ordinal/range separation is useful; kok_Latn is script-qualified, not region-qualified. Release latestness, archive mismatch and full sublocale census remain historical."
+    },
+    "applications/spec--script-and-typography.md": {
+      "disposition": "reverify",
+      "reason": "Pinned CLDR findings retained, no harness rerun. Primary ar XML confirms inherited default and native arab plus directional marks in percent symbols. This contradicts saying CLDR has no default. Inventories do not forbid every unlisted character; mixed numeral contexts can be intentional and ZWNJ must not be removed solely by locale. Full 29-file census, hashes and runtime rendering not refreshed."
+    }
+  }
+}
+```

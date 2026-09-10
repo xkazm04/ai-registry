@@ -20,15 +20,16 @@ totals. Reconciliation is the systematic comparison of the two. On a surface
 whose brand is "every number can be checked", the recount is the one layer
 nobody else can check unless you check it yourself, in public.
 
-What reconciliation catches is precisely the failure class that unit tests
-cannot: not bugs in the formulas but defects in the *corpus* — an ingest that
+Live-corpus reconciliation can catch failures absent from unit-test fixtures: not bugs in the formulas but defects in the *corpus* — an ingest that
 silently dropped a member's ballots for a year, a mandate resolution that
 lost a seat, a vocabulary mapping that misfiled a code. Each of these leaves
 every formula correct and every published rate wrong.
 
 ## The procedure
 
-1. **Compare one-to-one, never approximately.** Map each derived bucket to
+1. **Compare one-to-one, never approximately.** Align division identity and
+   snapshot time first. Reject conflicting duplicate ballots and verify unknown
+   source totals remain unknown, never zero. Map each derived bucket to
    the source's published column exactly: derived yes ↔ published yes,
    derived no ↔ published no. Where the source's columns are finer than your
    vocabulary (it publishes abstain and not-voting separately while the
@@ -57,13 +58,15 @@ every formula correct and every published rate wrong.
 ## A difference is a finding, never a repair
 
 The central rule, and the one under most pressure when a discrepancy
-appears: **nothing is corrected.** A delta means either your ingest is wrong
+appears: **nothing is silently forced to match.** A delta means either your ingest is wrong
 or the source's published totals are — and until a human investigates, you
 do not know which. Patching the derived numbers toward the published totals
 destroys the evidence and asserts, without investigation, that the source's
 aggregates outrank the source's own ballots. Publishing the delta —
 count, affected divisions, worst example — keeps both accounts intact and
-puts the blame where it can be examined. The same posture applies in
+preserves the discrepancy for investigation. A confirmed ingest defect should
+be corrected with provenance and a rerun; do not preserve known bad derivations
+in the name of leaving source records untouched. The same posture applies in
 reverse: do not "correct" the source's totals to match your recount in any
 rendered surface.
 
@@ -82,10 +85,11 @@ every count, so a reader can re-run the check.
   is complete (a division missing from your corpus entirely is invisible to
   a per-division comparison; completeness is a separate count against the
   source's division index).
-- **Discrepancy handling is triage, not automation.** A nonzero delta gates
-  publication of *confidence language* ("verified against the chamber's own
-  totals"), not publication of the data itself — the numbers ship with the
-  disclosed discrepancy while investigation proceeds.
+- **Gate claims affected by discrepancies.** Raw source records and a scoped
+  discrepancy report may remain available, but withhold derived rankings or
+  person-level claims when unresolved missing or misassigned ballots can change
+  them. Disclosure alone does not establish their reliability. A matched tally
+  also cannot detect swapping two members' opposite ballots; validate identity.
 
 ## When not to use it
 

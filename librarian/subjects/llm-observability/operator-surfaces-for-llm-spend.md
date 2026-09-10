@@ -1,7 +1,7 @@
 ---
 subject: operator-surfaces-for-llm-spend
 domain: llm-observability
-last_touched: 2026-08-30
+last_touched: 2026-09-10
 touched_by: deepen
 dry_streak: 0
 ---
@@ -88,3 +88,82 @@ skill's bar is 3+ cross-domain before a class rule graduates.
   facts (protocol statelessness, interactive views promoted into the spec,
   FOCUS 1.3/1.4). The web lane won all three. That divergence is *why* the
   strongest candidate did not clear convergence — one lane never reached it.
+
+## Architecture review - 2026-09-10
+
+Review completed for every owned document. Reverify identifies remaining work, not a
+clean content verdict. Earlier notes remain historical evidence; application dates
+and maturity are unchanged.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "llm-observability/operator-surfaces-for-llm-spend",
+  "date": "2026-09-10",
+  "baseline": "78850ba51a9aa016dcfc62817d59581453c3d90d",
+  "digest": "sha256:ac9e925ffcbb55b5",
+  "disposition": "reverify",
+  "coverage": "All 10 owned documents read and assessed in table order. 2 document(s) repaired. Residual source, semantic and historical application checks are recorded per document; no consumer/runtime/field witness or maturity refresh.",
+  "counterexamples": [
+    "glyph(1.0, None) returns healthy even when the ratio needed for classification is unavailable.",
+    "A read-only SQL credential with unrestricted tenant access can leak another tenant without writing anything.",
+    "A rotation tool can place new material in a vault and return an operation ID without revealing the secret to a model."
+  ],
+  "sources": [
+    {
+      "path": "knowledge/llm-observability/federation-and-surfaces/operator-surfaces-for-llm-spend",
+      "scope": "Every owned document read in full; embedded code assessed as displayed. Historical application implementations and observations were not independently rerun."
+    },
+    {
+      "url": "https://modelcontextprotocol.io/specification/2026-07-28/changelog",
+      "scope": "Primary changelog confirms stateless requests, removed session mechanism, cache result fields and deprecated features; deprecation leaves features functional during transition."
+    },
+    {
+      "url": "https://modelcontextprotocol.io/docs/2025-11-25/tutorials/security/security_best_practices",
+      "scope": "Official security guidance consulted; no complete ecosystem survey refresh."
+    }
+  ],
+  "documents": {
+    "operator-surfaces-for-llm-spend.md": {
+      "disposition": "reverify",
+      "reason": "Shared semantic reporting and audience scope are useful; a renderer is not authorization and builder ownership does not authorize exposing all data. Tool prompts cannot guarantee deterministic execution or verbatim output. Read-only queries can disclose secrets and consume resources; blanket key-operation absence is one design choice, not a universal requirement for opaque secret-manager workflows."
+    },
+    "techniques/agent-prompts-as-dashboards.md": {
+      "disposition": "reverify",
+      "reason": "Named prompts guide but do not enforce execution, scope or exact rendering. Missing project should not silently expand to all projects; list authorized choices or use a disclosed authorized default. Largest cost driver does not alone establish a safe cheaper alternative. Tool results and user labels are untrusted text; host delivery and truncation need verification."
+    },
+    "techniques/glyph-encoded-business-thresholds.md": {
+      "disposition": "clarify",
+      "reason": "Repaired unknown as healthy, zero/negative-denominator handling and glyph-only semantics. Classification must include evidence state and task-specific policy; three states are not universally sufficient."
+    },
+    "techniques/read-tools-default-writes-gated.md": {
+      "disposition": "clarify",
+      "reason": "Repaired coarse global switch as sole least-privilege model, UI location as determinant of trusted approval and incidental cache/log writes as business mutation. Enforce scopes server-side and distinguish deployment enablement from action authorization."
+    },
+    "techniques/secret-surfaces-never-exposed-to-agents.md": {
+      "disposition": "reverify",
+      "reason": "Keeping secret bytes out of model context is sound; credential rotation or minting can safely write directly to a secret manager and return only an opaque handle. Removing one registered tool does not prove general tools cannot reach secrets. Terminal consoles can also log, and rotation is an authorized incident action with continuity requirements. Nonsecret key metadata still needs access control."
+    },
+    "techniques/single-render-layer-many-consumers.md": {
+      "disposition": "reverify",
+      "reason": "Centralize semantics but allow transport-specific renderers for accessibility, locale and format. Escape Markdown/HTML/terminal control sequences and treat labels as data. Shared code does not guarantee every consumer displays caveats, and compact structured payload may still enter model context. Empty results require distinguishing filters, missing data and access limits."
+    },
+    "techniques/sql-panel-sets-over-the-relational-store.md": {
+      "disposition": "reverify",
+      "reason": "SQL panels need database-enforced row/column scope; omitted panels do not restrict an editor with broad datasource credentials. Aggregates can be sensitive too. Null-aware sums still omit unpriced rows without coverage disclosure. Replicas can lag and contend; source errors should render as errors, not blank panels. Public preaggregates can also disclose if incorrectly scoped."
+    },
+    "applications/process--agent-prompts-as-dashboards.md": {
+      "disposition": "reverify",
+      "reason": "Historical seven-prompt catalog retained, not rerun. A substring assertion for list_projects proves prompt text, not runtime fallback or authorization. Prompt-only read instructions are not structural enforcement. Shared code and comments do not prove countermeasures execute, and a dominant model is not by itself evidence for a safe replacement."
+    },
+    "applications/process--read-tools-default-writes-gated.md": {
+      "disposition": "reverify",
+      "reason": "Dated survey retained without maturity refresh. Primary changelog confirms stateless/session/cache changes and deprecation, but roots were not an enforcement sandbox and deprecation is not immediate removal. Handles may be authenticated identifiers rather than bearer secrets. Trusted host approval in a chat UI is not equivalent to attacker-written conversation text. FinOps/FOCUS figures, poisoning prevalence and host counts not refreshed."
+    },
+    "applications/rust--glyph-encoded-business-thresholds.md": {
+      "disposition": "reverify",
+      "reason": "Historical Rust glyph code retained, not rerun. Nonnegative margin with None percentage becomes green, and trend passes None by design, so thinness is not carried across all surfaces. NaN likewise reaches healthy. Panel omission does not establish datasource authorization; unsigned positive numbers and signed deltas need labeled semantics, not claims of different numeric values."
+    }
+  }
+}
+```

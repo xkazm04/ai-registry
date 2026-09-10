@@ -1,7 +1,7 @@
 ---
 domain: software-engineering
 subject: fleet-orchestration
-last_touched: 2026-09-04
+last_touched: 2026-09-09
 touched_by: intake
 dry_streak: 0
 ---
@@ -251,3 +251,185 @@ the same boundary; the amendment landed this run is the first one found.
 Two applications: `rust--soft-budget-under-the-hard-cap` (a paired A/B on a
 managed scraping service, shipped) and
 `python--deliberation-as-an-elected-turn` against the source tree.
+
+## Architecture review - 2026-09-09
+
+All 27 documents were read against baseline `8c670a65`. Retain the subject and
+its sixteen techniques. Correct authority, fencing, persistence and evidence
+boundaries and narrow empirical claims to their actual study populations.
+
+This decision retracts earlier inferences that model-family routing closes shared
+blind spots, that a no-op tool cannot fail, that a prompt prohibition establishes
+a serialization point, and that retrospective non-recovery proves impossibility.
+Earlier touch logs remain historical. Application tests and model comparisons
+were not rerun; their dates and maturity metadata were not refreshed.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "software-engineering/fleet-orchestration",
+  "date": "2026-09-09",
+  "baseline": "8c670a65",
+  "digest": "sha256:0e311578c25093ba",
+  "disposition": "clarify",
+  "coverage": "All 27 owned documents read. Pinned research dispatcher, prompt and utility paths inspected, along with primary study methods/results and store/lease contracts. No model run, connected-project operation, private runtime test or substrate deletion executed. Application witness dates and prior experiment metadata are historical and unchanged.",
+  "counterexamples": [
+    "A partitioned executor can continue writing after its lease or heartbeat expires.",
+    "A callback can notify a view before its queued persistence write becomes durable.",
+    "Two concurrent wake requests can both pass a non-atomic state check.",
+    "A fresh shell can execute a worker-edited fake test runner.",
+    "A mixed reflection/dispatch batch can assess earlier results without a new model turn.",
+    "A cap can protect a run without firing in ordinary traffic.",
+    "Different model families can share an error, and the best model per question may be known only after grading.",
+    "A long recovery can succeed despite exceeding the median of earlier runs."
+  ],
+  "sources": [
+    {
+      "url": "https://etcd.io/docs/v3.6/learning/api_guarantees/",
+      "result": "Completed durable operations and asynchronous watches have distinct guarantees; read as a contract, not a runtime test."
+    },
+    {
+      "url": "https://kubernetes.io/docs/concepts/architecture/leases/",
+      "result": "Lease and heartbeat context consulted; this review did not test remote-worker fencing."
+    },
+    {
+      "url": "https://arxiv.org/html/2503.13657v3",
+      "result": "Taxonomy, dataset composition and intervention passages checked; examples do not prove topology-independent causality or universal gain ceilings."
+    },
+    {
+      "url": "https://arxiv.org/html/2607.09510v1",
+      "result": "Methods explicitly define unrecoverability empirically rather than as impossibility; results do not establish a live cutoff oracle."
+    },
+    {
+      "url": "https://arxiv.org/html/2605.29442v1",
+      "result": "Observed sessions and visible-pushback selection constrain inference; study not reproduced."
+    },
+    {
+      "url": "https://arxiv.org/html/2602.01011v1",
+      "result": "Benchmark expertise is defined per item; an expert comparison is not a deployed routing oracle. Study not reproduced."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/langchain-ai/open_deep_research/1b7d2e80db9faa586165c60e09096dbbfd483a64/src/open_deep_research/deep_researcher.py",
+      "result": "Dispatcher processes reflection and research from one response; no separation rejection in the inspected path."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/langchain-ai/open_deep_research/1b7d2e80db9faa586165c60e09096dbbfd483a64/src/open_deep_research/prompts.py",
+      "result": "Prompt requests reflection around research and forbids parallel tool use; that request is not enforced by the inspected dispatcher."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/langchain-ai/open_deep_research/1b7d2e80db9faa586165c60e09096dbbfd483a64/src/open_deep_research/utils.py",
+      "result": "Reflection tool returns an acknowledgement; framework costs and failures are outside the trivial function body."
+    }
+  ],
+  "documents": {
+    "fleet-orchestration.md": {
+      "disposition": "clarify",
+      "reason": "Replace universal architecture and workflow claims with explicit authority, consistency, resource and acceptance contracts; retain all technique identities."
+    },
+    "techniques/absent-status-passthrough.md": {
+      "disposition": "clarify",
+      "reason": "Permit optional patches or confidence envelopes instead of requiring an unknown lifecycle member; current-state probes can detect fabricated projections."
+    },
+    "techniques/brief-carries-the-session.md": {
+      "disposition": "clarify",
+      "reason": "Replace universal inheritance and cache-cost claims with inspection of actual capabilities; preserve material constraints in independent review."
+    },
+    "techniques/completion-claim-verification.md": {
+      "disposition": "clarify",
+      "reason": "Fresh shells and absolute executable paths do not establish trusted validation; separate invocation, execution and artifact evidence, and unavailable from fabricated receipts."
+    },
+    "techniques/coordination-failure-triage.md": {
+      "disposition": "clarify",
+      "reason": "Published taxonomy classes are not causal ownership; retain uncertainty, calibrated annotation and targeted comparative interventions without universal gain ceilings."
+    },
+    "techniques/deliberation-as-an-elected-turn.md": {
+      "disposition": "clarify",
+      "reason": "Record concise decisions rather than claim hidden reasoning; a prompt is not enforced serialization and no-op tools still have costs and failure modes."
+    },
+    "techniques/durable-fleet-state.md": {
+      "disposition": "clarify",
+      "reason": "Shared callbacks do not make persistence atomic; allow store authority and group commit with a declared acknowledgement contract."
+    },
+    "techniques/heterogeneous-model-panels.md": {
+      "disposition": "clarify",
+      "reason": "Family diversity does not guarantee independent errors; remove universal zero-round and mandatory cross-family review claims; distinguish per-item oracle from deployable routing."
+    },
+    "techniques/hibernation-and-resume.md": {
+      "disposition": "clarify",
+      "reason": "Do not release exclusive resources before stopping or fencing; require durable checkpoints and atomic wake reservations; allow durable pending input."
+    },
+    "techniques/lifecycle-signals.md": {
+      "disposition": "clarify",
+      "reason": "Distinguish silence and artifact growth from proven liveness or progress; scope signal precedence and orphan actions to corroborated ownership."
+    },
+    "techniques/outbound-compute-plane.md": {
+      "disposition": "clarify",
+      "reason": "Outbound-only reduces inbound exposure but not all attack surfaces; token renewal can avoid replacement and bootstrap needs atomic exchange and expiry."
+    },
+    "techniques/parallel-dispatch.md": {
+      "disposition": "clarify",
+      "reason": "Queue by durable result delivery capability, admit partial batches only when independent, reserve identity before spawn, and preserve distinct operation occurrences."
+    },
+    "techniques/result-harvest.md": {
+      "disposition": "clarify",
+      "reason": "Separate claimed completion, schema validation and acceptance; distinguish synthesis; detect same-key result conflicts."
+    },
+    "techniques/session-registry.md": {
+      "disposition": "clarify",
+      "reason": "Require incarnation-aware observations, atomic reservations and actual termination or resource fencing before release."
+    },
+    "techniques/soft-budget-under-the-hard-cap.md": {
+      "disposition": "clarify",
+      "reason": "Unused caps remain valid backstops; separate resource stop from acceptance, counted units and cleanup reserve."
+    },
+    "techniques/substrate-reconciliation.md": {
+      "disposition": "clarify",
+      "reason": "Require confirmed deletion authority, resource incarnation and epoch awareness; grace windows and repeated sweeps alone do not prove safe convergence."
+    },
+    "techniques/worker-trajectory-anatomy.md": {
+      "disposition": "clarify",
+      "reason": "Retrospective non-recovery is not impossibility or a live kill oracle; bound recovery by task policy and measure false interruptions."
+    },
+    "applications/node--substrate-reconciliation.md": {
+      "disposition": "reverify",
+      "reason": "Historical comments do not prove crash safety; rotation, stale inventories and reused resource identities need runtime fixtures. Source implementation not reread or executed."
+    },
+    "applications/python--completion-claim-verification.md": {
+      "disposition": "reverify",
+      "reason": "Historical source-guide claims need implementation and adversarial verification; fresh shell and absolute path are insufficient trust witnesses. Source implementation not rerun."
+    },
+    "applications/python--deliberation-as-an-elected-turn.md": {
+      "disposition": "reverify",
+      "reason": "Pinned dispatcher accepts mixed reflection/research batches despite prompt prohibition; source inspected, runtime and model behavior not rerun."
+    },
+    "applications/react--session-registry.md": {
+      "disposition": "reverify",
+      "reason": "Compile-time group coverage does not establish merge enforcement; historical consumer tests not rerun."
+    },
+    "applications/rust--absent-status-passthrough.md": {
+      "disposition": "reverify",
+      "reason": "Retract inferred author intent and the claim an enum member is the only instrument; unknown-transition counts do not measure counterfactual fabrication. Private runtime not rerun."
+    },
+    "applications/rust--brief-carries-the-session.md": {
+      "disposition": "reverify",
+      "reason": "Working directory and launch flags do not establish absence of user-level/harness instructions; private discovery and worker outcomes not rerun."
+    },
+    "applications/rust--completion-claim-verification.md": {
+      "disposition": "reverify",
+      "reason": "Irrelevant commits can satisfy the proposed branch leaf and valid no-change tasks may not; simulation is not measured effectiveness. Private runtime not rerun."
+    },
+    "applications/rust--parallel-dispatch.md": {
+      "disposition": "reverify",
+      "reason": "Historical soft admission cap and practice observations do not prove total resource enforcement; tests not rerun."
+    },
+    "applications/rust--session-registry.md": {
+      "disposition": "reverify",
+      "reason": "Skipped unknown states can hide live claims; silence is heuristic and best-effort persistence retains its loss window. Private runtime not rerun."
+    },
+    "applications/rust--soft-budget-under-the-hard-cap.md": {
+      "disposition": "reverify",
+      "reason": "A requested maximum is not promised consumption; historical field-count test does not establish changed model behavior. Private runtime not rerun."
+    }
+  }
+}
+```

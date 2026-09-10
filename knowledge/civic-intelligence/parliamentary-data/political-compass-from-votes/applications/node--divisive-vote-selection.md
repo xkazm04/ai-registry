@@ -62,3 +62,13 @@ fixture suite (`select.test.ts`) pins the entire draw. Every constant the UI
 prints (`QUESTIONS_CAP`, `PER_THEME_CAP`, `MIN_POSITIONAL`,
 `MIN_TAG_CONFIDENCE`) is exported from this module — the rendered rule
 interpolates live values rather than restating them.
+
+## Review boundary - 2026-09-09
+
+The dated source and incident account above was not replayed or refreshed on
+2026-09-09. Keeping unknown confidence is this implementation's policy, not a
+consequence of missing-is-not-zero. A threshold of 0.7 over self-reported values
+does not imply 70% accuracy. The recorded 120-ballot floor is 60% of a 200-seat
+chamber, not a general supermajority rule. Reverify raw-margin ordering (the
+recorded three-decimal computation can change ties), final replacement validity,
+partial-round theme preference and reconciliation of all coverage counters.

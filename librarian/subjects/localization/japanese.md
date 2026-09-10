@@ -1,7 +1,7 @@
 ---
 subject: japanese
 domain: localization
-last_touched: 2026-08-29
+last_touched: 2026-09-10
 touched_by: external-reconcile
 dry_streak: 0
 ---
@@ -88,3 +88,74 @@ UAX #11 ships no conformance artifact, so every width statement is a property-fi
 classification, not an executed test. No rendering engine was measured — only the
 standard's default algorithm and its one named tailoring. JTF and JLReq, which the
 technique cites as sources, were out of scope.
+
+## Architecture review - 2026-09-10
+
+Review completed for every owned document. Reverify identifies remaining work, not a
+clean content verdict. Earlier notes remain historical evidence; application dates
+and maturity are unchanged.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "localization/japanese",
+  "date": "2026-09-10",
+  "baseline": "78850ba51a9aa016dcfc62817d59581453c3d90d",
+  "digest": "sha256:d915e20f5270b78b",
+  "disposition": "reverify",
+  "coverage": "All 10 owned documents read and assessed in table order. 5 document(s) repaired. Residual source, semantic and historical application checks are recorded per document; no consumer/runtime/field witness or maturity refresh.",
+  "counterexamples": [
+    "A valid ICU plural message still parses for ja and can select other; exact =0 wording remains useful.",
+    "At least one is an input constraint, not removable politeness.",
+    "A no-break-before rule alone cannot guarantee an entire numeric range stays on one line."
+  ],
+  "sources": [
+    {
+      "path": "knowledge/localization/east-asian/japanese",
+      "scope": "Every owned document read in full; embedded code assessed as displayed. Historical application implementations and observations were not independently rerun."
+    }
+  ],
+  "documents": {
+    "japanese.md": {
+      "disposition": "reverify",
+      "reason": "Golden path confuses runtime format support with Japanese plural categories; valid ICU does not become raw braces because locale is other-only. Counter, pronoun, register and width judgments are contextual, and grammar defects are not mostly identity checks."
+    },
+    "techniques/character-width-and-typography.md": {
+      "disposition": "clarify",
+      "reason": "Repaired universal punctuation/Latin width rules, ambiguous property dictates glyph width, wave dash keeps entire range together and manual breaks always wrong. Pin renderer and tailored line-break policy."
+    },
+    "techniques/counting-and-quantity.md": {
+      "disposition": "clarify",
+      "reason": "Repaired plural syntax defect on sight, exactly-once placeholder rule, no count-specific messages and dropping at-least-one semantics. Counters are construction-dependent."
+    },
+    "techniques/de-anglicization-constructions.md": {
+      "disposition": "clarify",
+      "reason": "Repaired passive implies adversity, pronoun context always recoverable, quotes neutralize arbitrary phrase grammar and non-past state automatically completed-action error. Preserve modality and actor."
+    },
+    "techniques/register-and-politeness.md": {
+      "disposition": "clarify",
+      "reason": "Repaired all full UI sentences require one register, professional uncertainty hedges forbidden and labels cannot be polite. Missing certainty must not become false certainty."
+    },
+    "techniques/terminology-and-katakana-loanwords.md": {
+      "disposition": "reverify",
+      "reason": "Things-versus-processes is explicitly heuristic, but catalog frequency does not guarantee correctness. Katakana senses vary by domain, brands can have localized forms and acronym spacing is not universal. JIS historical chōonpu provenance and current edition applicability remain source verification work."
+    },
+    "techniques/ui-conventions-and-length.md": {
+      "disposition": "clarify",
+      "reason": "Repaired universal glyph ratio/minimum font/label budget, no Japanese abbreviations, URLs always unbreakable and manual line breaks always invalid. Scope actual rendered fit."
+    },
+    "applications/process--counting-and-quantity.md": {
+      "disposition": "reverify",
+      "reason": "Historical Personas incidents retained, not rerun. Unsupported ICU is the concrete runtime issue, not the Japanese locale. Counterless model repair conflicts with absolute counter rule; source placeholder occurs twice so exactly-once rule also conflicts. Absolute checkout paths remain cleanup work."
+    },
+    "applications/process--register-and-politeness.md": {
+      "disposition": "reverify",
+      "reason": "Historical register counts retained, not recounted. Zero da-period cannot prove absence of all plain-style endings or establish language-wide policy. Forty label examples support a house pattern rather than universal grammar; absolute fleet root remains cleanup work."
+    },
+    "applications/spec--character-width-and-typography.md": {
+      "disposition": "reverify",
+      "reason": "Historical 19338-case line-break harness retained, not rerun. UAX property and default/tailoring classifications are distinct from actual renderer behavior or Japanese editorial quality. A forbidden break before wave dash does not prevent a break after it; one URL fixture does not cover all URLs."
+    }
+  }
+}
+```

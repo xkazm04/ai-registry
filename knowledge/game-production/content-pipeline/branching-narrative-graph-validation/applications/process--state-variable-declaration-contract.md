@@ -96,3 +96,23 @@ different rung of evidence entirely.
 The loop's honest claim is narrower and worth stating plainly: it moves undeclared,
 out-of-domain and undefined-read defects from playtest to generation minute, and it does it
 by telling the generator the contract rather than by filtering for it afterwards.
+
+## Review boundary - 2026-09-10
+
+Pin an approved variable contract and the exact graph candidate independently
+of generation. A co-generated table can silently broaden its rules to make its
+own output pass. Validate definite assignment across all feasible incoming paths,
+including supplied external state. Singleton usage is a review lead, not an
+automatic failure, and unsupported expressions need an incomplete-check status.
+
+The every-option-must-write rule is too restrictive. [Inkle's writing guide](https://github.com/inkle/ink/blob/master/Documentation/WritingWithInk.md)
+demonstrates choices with distinct dialogue that gather back into shared flow.
+That primary example supports expressive convergence, not verification of this
+consumer's schema or checker. Classify intended consequences before judging them.
+
+A minimal repair needs access to the pinned candidate or an exact patch target;
+withholding all previous prose cannot by itself guarantee preservation. Repeated
+failures do not prove the table is wrong: generation, parsing and validation can
+also fail. A trusted checker can run within the same process, but the generator's
+self-certification is insufficient. No historical pipeline replay or new runtime
+witness was produced in this review.

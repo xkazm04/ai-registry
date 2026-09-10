@@ -92,3 +92,20 @@ deliberately behaviour-tree-free controller for the vertical slice. Generalized,
 sixth model-selection criterion the technique's sibling now carries: **what the production line
 can emit is part of the model choice**, and a knowledge model that only one half of an agent
 can act on is a knowledge model with a wiring risk.
+
+## Review boundary - 2026-09-10
+
+This review read the application text, not the cited consumer checkout. The five-second
+clear is a timeout policy, not evidence of continuous confidence decay. Distinct sight
+radii do not certify lighting awareness, fair reaction delay or correct forget behavior.
+Declare actual units and engine sense semantics; do not require a reference condition
+the chosen sensor does not model. A missing reaction-delay field does not prove the
+whole system has no responsiveness controls.
+
+Dependency order is one enforcement option; a shared information contract plus integration
+checks can permit parallel authoring. The quoted inability to generate binary tree
+graphs is a historical pipeline limitation, not a universal engine restriction.
+[Epic's behavior-tree overview](https://dev.epicgames.com/documentation/en-us/unreal-engine/behavior-tree-in-unreal-engine---overview)
+describes event-driven evaluation and blackboard observation. That scopes the claim
+that trees must repeatedly scan or always pay frame-by-frame arbitration costs; it
+does not verify this consumer's generation or perception wiring.

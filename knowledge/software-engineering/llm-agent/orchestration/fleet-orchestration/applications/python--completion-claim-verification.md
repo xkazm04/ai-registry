@@ -66,6 +66,15 @@ filesystem spelling; runner semantics are trusted; evidence is bounded and
 truncation degrades rather than proves. The technique's closing section is
 these three, stated for any runtime.
 
+## Review boundary - 2026-09-09
+
+These are historical source-guide observations, not a rerun of the verifier. A
+fresh-shell stamp does not establish trusted executable bytes, environment or tests;
+an absolute executable path does not repair a worker-writable runner. Retained
+receipt identifiers must remain stable even when messages are renumbered. Inspect
+the implementation and adversarial fixtures before claiming these checks prove
+execution or content acceptance under a broader threat model.
+
 ## What this realization cannot do
 
 It verifies execution, not correctness - the guide defers claim correctness

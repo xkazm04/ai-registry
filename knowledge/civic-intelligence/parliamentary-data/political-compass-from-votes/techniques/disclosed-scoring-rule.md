@@ -13,8 +13,8 @@ use_when: [publishing a match formula alongside its results, wiring scoring copy
 
 The scoring rule is where the designer's judgment concentrates after every
 other surface has been mechanized. The methodology literature's central result
-makes it non-optional to disclose: with identical inputs, different reasonable
-scoring models hand a majority of users *different* top matches. Real recorded
+supports disclosure: a checked study found different advice for a majority of
+its users under another spatial model, without establishing a universal rate. Real recorded
 ballots do not neutralize this — they only relocate it. So the rule is treated
 as part of the published output: **the formula, its floors, its tie-breaks,
 and its live parameter values render verbatim on the result surface**, so a
@@ -66,7 +66,7 @@ the reader's lens is a *recomputation* under the reader's stated parameters.
 The two never mix:
 
 - At published defaults, the lens does not run — the surface shows the
-  official numbers, byte-identical to every other reader's.
+  default result for the same answers, question set, data and methodology.
 - The moment any parameter differs, **everything** on the surface — scores,
   ranks, summaries, distributions — comes from the recomputation and is
   labeled as the reader's own. A page showing official ranks beside
@@ -90,3 +90,15 @@ exists, not a literature review. And do not let disclosure substitute for
 restraint — a dubious scoring choice does not become sound by being printed;
 it becomes checkable, which is the point, and checkable includes *found
 wanting*.
+
+## Reproducibility and privacy checks
+
+Shared constants reduce drift but do not prove prose matches control flow. Test
+null denominators, zero answers, unknown question IDs, rounded ties, duplicate
+names and group quorums against the rendered explanation. Version question sets,
+source snapshots and lens grammar; distinguish unsupported versions from malformed
+values. Nonnegative weights with zero comparable total must yield null.
+
+Local scoring permits answers to stay on-device; it does not guarantee privacy.
+Check actual requests, telemetry, URLs and storage before promising that. Avoid
+putting political answers into share URLs or logs merely because scoring is pure.

@@ -184,6 +184,20 @@
       "category": "other"
     },
     {
+      "name": "maintain",
+      "source": "./skills/maintain",
+      "description": "Run resumable maintenance after rapid development: reduce demonstrated code debt through small verified refactors, defect repairs, tests, dependency upkeep, and documentation corrections. Use for sustained codebase maintenance; product ideation and redesign belong to other workflows.",
+      "version": "1.0.0",
+      "category": "workflow",
+      "tags": [
+        "maintenance",
+        "refactoring",
+        "quality",
+        "regression",
+        "context-coverage"
+      ]
+    },
+    {
       "name": "motionize",
       "source": "./skills/motionize",
       "description": "Upgrade a generic UI icon or loading/empty state into a traced, motion-animated SVG. Generates flat trace-friendly art (via /leonardo tools), validates with Qwen vision, vectorizes to a clean multi-path SVG, and emits a motion reveal component driven by the shared motion-preset library (draw, staggered-draw, fade-pop, float, pulse, hover-response, success-settle). For icon + loading-state visual u",

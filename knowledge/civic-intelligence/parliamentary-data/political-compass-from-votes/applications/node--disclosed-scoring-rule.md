@@ -39,7 +39,7 @@ verbatim in the UI via `copy.ts` `scoringRule`.
 - **Floors as exported constants**: `MIN_ANSWERS = 3` (line 31) — below it no
   result renders at all. Constants and semantics are pinned by fixtures in
   `score.test.ts`; the rendered rule imports from the same module, so the
-  stated and computed rule cannot drift.
+  shared values reduce drift; semantic consistency still needs verification.
 
 ## The lens boundary, enforced in a sibling feature
 
@@ -65,3 +65,13 @@ contribution index) in `features/civicscore/lens.ts`:
 Together the two modules show the technique's full shape: one pure definition,
 imported by computation and copy alike, with the reader's method firewalled
 from the published one.
+
+## Review boundary - 2026-09-09
+
+The dated source account above is retained; source line numbers, fixtures and
+rendered behavior were not rechecked in a consumer checkout on 2026-09-09.
+The sibling contribution-index lens does not prove that the compass implements
+reader reweighting. Reverify half-overlap and three-answer limits, zero-input
+guards, unknown states, raw-versus-rounded ordering, duplicate-name ties and
+group quorum/membership handling. Shared imports reduce drift but cannot prove
+semantic agreement between prose and computation.

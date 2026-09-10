@@ -104,3 +104,22 @@ perhaps fifteen lines added to a thirty-line file; the undeclared-terminal set d
 three. What is not cheap is guard evaluation, because it requires the condition to stop
 being a label — and that is a change to the produced payload's schema across three
 pipelines, not a change to the checker.
+
+## Review boundary - 2026-09-10
+
+The historical checker above is a structural subset, not a state-aware proof
+of playability. Using nodes[0] as entry is valid only if ordering is the schema's
+entry contract. Validate duplicate IDs, missing references and unsupported guards
+before interpreting a traversal result. A null Leave target can be legitimate
+only under an explicit exit convention.
+
+Forward traversal already shows whether each ending is structurally reachable;
+absence of a backward pass does not erase that information. The missing reverse
+check concerns whether other reachable nodes can reach an ending. State guards
+and effects require additional semantics, and a shared behavior-state graph may
+legitimately run continuously instead of ending. Closed self-loops also need
+coverage. Implementation effort includes contract decisions and fixtures, not
+only the reported size of a traversal function.
+
+No consumer checkout, validator execution or runtime traversal was performed.
+The original claims and suggested repairs remain reverify work.

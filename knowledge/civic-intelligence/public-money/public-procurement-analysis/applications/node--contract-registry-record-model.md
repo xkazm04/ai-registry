@@ -51,11 +51,10 @@ never a guess.
 ## Compliance by construction
 
 The dump's license makes the harvester a personal-data controller with deletion
-obligations, so smlouvy-dump.ts:39-46 enforces GDPR structurally: only records
+obligations, so smlouvy-dump.ts:39-46 implements a data-minimization measure: only records
 matching an explicit IČO allowlist are retained, and the natural-person fields
-(`schvalil`, `datovaSchranka`, `adresa`) are dropped at parse time. Re-harvesting
-from current dumps is how upstream deletions propagate — compliance is a parser
-property, not a cleanup job.
+(`schvalil`, `datovaSchranka`, `adresa`) are dropped at parse time. Re-harvesting needs explicit removal reconciliation across historical partitions
+and derived stores; fetching alone does not delete old rows or establish compliance.
 
 ## Upward lessons this repo taught the standard
 
@@ -65,3 +64,11 @@ stateless*; page-size signals mutate session state and return zero rows without 
 first request's cookie, so retrieval conditions must be modeled even for "public"
 endpoints), and the value of writing the decisive test into the header next to the
 claim it retired, so the wrong folk belief cannot regrow.
+
+## Source and execution boundary - 2026-09-09
+
+The [registry open-data contract](https://smlouvy.gov.cz/stranka/otevrena-data)
+confirms mutable historical dumps, removal of all versions on withdrawal and
+personal-data reuse obligations. It does not verify the cited consumer parser,
+search roles or incident measurements. Those remain reverify work; the historical
+application witness date is unchanged.

@@ -1,7 +1,7 @@
 ---
 subject: trace-rollup-and-attribution
 domain: llm-observability
-last_touched: 2026-09-01
+last_touched: 2026-09-10
 touched_by: librarian-inbox-writer
 dry_streak: 0
 ---
@@ -58,3 +58,86 @@ tradition (drilling across requires conformed row headers) and the reporting pra
 at personas `b6dcf28aa` (span count handed down beside error count; asymmetric regression).
 Proposals: measurement-honesty `co-published-numbers-must-reconcile` lacks a collection
 constraint; `span-cap-truncation-signal` interacts with a pinned collection.
+
+## Architecture review - 2026-09-10
+
+Review completed for every owned document. Reverify identifies remaining work, not a
+clean content verdict. Earlier notes remain historical evidence; application dates
+and maturity are unchanged.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "llm-observability/trace-rollup-and-attribution",
+  "date": "2026-09-10",
+  "baseline": "78850ba51a9aa016dcfc62817d59581453c3d90d",
+  "digest": "sha256:cef53dcf01b3905b",
+  "disposition": "reverify",
+  "coverage": "All 13 owned documents read and assessed in table order. 4 document(s) repaired. Residual source, semantic and historical application checks are recorded per document; no consumer/runtime/field witness or maturity refresh.",
+  "counterexamples": [
+    "Fetching 5001 rows proves more than 5000 exist, not whether total is 5001 or 100000.",
+    "Two deliveries of one span ID need not be two paid calls.",
+    "A trace moves across a cost filter while paging on an immutable ID; keyset alone cannot freeze membership."
+  ],
+  "sources": [
+    {
+      "path": "knowledge/llm-observability/telemetry-and-data/trace-rollup-and-attribution",
+      "scope": "Every owned document read in full; embedded code assessed as displayed. Historical application implementations and observations were not independently rerun."
+    }
+  ],
+  "documents": {
+    "trace-rollup-and-attribution.md": {
+      "disposition": "reverify",
+      "reason": "Materialized projections can be maintained correctly and explicit completion markers can exist. Observed spans are not necessarily all events. Summed elapsed span time is not CPU compute and min/max clocks do not establish user wait. Mutable activity keys do not guarantee exact pagination. W3C wire grammar and opaque native identity need separate contracts."
+    },
+    "techniques/derived-trace-rollup.md": {
+      "disposition": "clarify",
+      "reason": "Repaired categorical ban on maintained projections, retries treated as distinct calls, first-arrival nondeterminism and malformed events assumed harmless to totals. Version the fold and validate scope before aggregating."
+    },
+    "techniques/keyset-trace-pagination.md": {
+      "disposition": "clarify",
+      "reason": "Repaired exactness under concurrent mutation, contradictory latest-activity cursor wording and count freshness. Snapshot and filter membership matter beyond a stable cursor; scalar unique cursors are valid."
+    },
+    "techniques/single-shape-rule.md": {
+      "disposition": "reverify",
+      "reason": "Shared definitions and collection scope are useful but code reuse alone does not guarantee agreement. Any failed child is a policy choice, not necessarily failed request after recovery. Sums have units, null, dedup and rounding choices too. Use maximum finish, not finish of last-starting span; sum of elapsed spans is not compute time."
+    },
+    "techniques/span-cap-truncation-signal.md": {
+      "disposition": "clarify",
+      "reason": "Repaired limit-plus-one as exact total, oldest span assumed root, truncation assumed pathology and universal retained-only totals. Scope each aggregate and its snapshot explicitly."
+    },
+    "techniques/tenant-scoped-trace-ids.md": {
+      "disposition": "reverify",
+      "reason": "Tenant query scope and server-owned billing attribution are sound. Scope cache, scores, exports and write identities as well. A native opaque ID can be case-sensitive even if hex-shaped; shape alone does not prove protocol semantics. W3C wire traceparent requires lowercase hex rather than arbitrary case-insensitive acceptance. Opaque credential IDs are prudent; a cryptographic token hash is not automatically reversible."
+    },
+    "techniques/unpriced-span-accounting.md": {
+      "disposition": "clarify",
+      "reason": "Repaired missing latency as safe zero, missing cost as no cost, unconditional lower-bound claim and price book as only cause. Preserve measurement status and reason across aggregates."
+    },
+    "applications/python--keyset-trace-pagination.md": {
+      "disposition": "reverify",
+      "reason": "Historical Phoenix harness retained, not rerun. Mutable-start direction improves this finite fixture but cannot guarantee a live snapshot under changing filters or insertions. One-hour cached count and omitted trace predicate do not match current list population. Null ordering, malformed cursor handling and stripped assert remain concrete residuals."
+    },
+    "applications/react--derived-trace-rollup.md": {
+      "disposition": "reverify",
+      "reason": "Historical React first-wins change retained, not rerun. Test explicitly changes owner with input order, contradicting order-independent determinism. Duplicate IDs can be retries or updates, not proven distinct calls. First-wins without canonical ordering and conflict policy cannot establish correct linkage or accounting."
+    },
+    "applications/react--single-shape-rule.md": {
+      "disposition": "reverify",
+      "reason": "Historical React collection fix retained, not rerun. Null unifiedTrace becomes zero and may mean loading or unavailable. Root cost lookup still selects a population and can mislead beside merged rows. Shared counts do not establish full cost, duration or capped coverage."
+    },
+    "applications/react--unpriced-span-accounting.md": {
+      "disposition": "reverify",
+      "reason": "Historical formatter tests retained, not rerun. Null-to-dash preserves missingness at this seam, but Rust mapper already coerces other costs to zero. Type annotations are not runtime validation; a dash needs an accessible meaning and aggregate completeness is still absent."
+    },
+    "applications/rust--derived-trace-rollup.md": {
+      "disposition": "reverify",
+      "reason": "Historical Rust fold retained, not rerun. Timestamp-only ties preserve arbitrary incoming order; duplicate span IDs need delivery classification. Limit-plus-one cannot establish total above cap, shared shape does not fix snapshot/population mismatch, and ended cursor can skip moving traces."
+    },
+    "applications/rust--unpriced-span-accounting.md": {
+      "disposition": "reverify",
+      "reason": "Historical Rust accounting retained, not rerun. Known-component sum with missing count is useful but not always a lower bound on actual invoice. Latency zero without missingness hides unavailable timing; serde missing count default zero makes legacy completeness unknown."
+    }
+  }
+}
+```

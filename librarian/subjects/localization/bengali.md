@@ -1,7 +1,7 @@
 ---
 subject: bengali
 domain: localization
-last_touched: 2026-08-29
+last_touched: 2026-09-10
 touched_by: external-reconcile
 dry_streak: 0
 ---
@@ -98,3 +98,78 @@ No shaping engine was run, so no rendering claim (repha vs ya-phalaa visual outp
 executed — a HarfBuzz check would be class-A evidence about HarfBuzz, not class-B about
 the standard. BN-DARI's "over a thousand daṛi uses" and BN-ELLIPSIS's 2:1 ratio are
 catalog counts from the forged consumer and are not conformance-testable here.
+
+## Architecture review - 2026-09-10
+
+Review completed for every owned document. Reverify identifies remaining work, not a
+clean content verdict. Earlier notes remain historical evidence; application dates
+and maturity are unchanged.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "localization/bengali",
+  "date": "2026-09-10",
+  "baseline": "78850ba51a9aa016dcfc62817d59581453c3d90d",
+  "digest": "sha256:eea7485b45c51471",
+  "disposition": "reverify",
+  "coverage": "All 10 owned documents read and assessed in table order. 3 document(s) repaired. Residual source, semantic and historical application checks are recorded per document; no consumer/runtime/field witness or maturity refresh.",
+  "counterexamples": [
+    "The Unicode Bangla section explicitly uses ZWNJ to block a ligature or expose hasant.",
+    "{count}টি is prescribed in the classifier chapter and falsely caught by the other chapter's closing-brace suffix trigger.",
+    "A port formatted with Latin digits can still acquire grouping and stop being the original identifier."
+  ],
+  "sources": [
+    {
+      "path": "knowledge/localization/south-and-southeast-asian/bengali",
+      "scope": "Every owned document read in full; embedded code assessed as displayed. Historical application implementations and observations were not independently rerun."
+    },
+    {
+      "url": "https://www.unicode.org/versions/Unicode17.0.0/core-spec/chapter-12/",
+      "scope": "Primary Bangla shaping, ZWNJ and khanda-ta sections inspected; historical conformance harness not rerun."
+    }
+  ],
+  "documents": {
+    "bengali.md": {
+      "disposition": "reverify",
+      "reason": "Useful register, classifier and script concerns are overstated as mechanically decidable universals. Measures already refute bare number never adjacent to noun. Hindi does not require gender in every verb. Bengali one is a selector category, not proof of grammatical singular; rendering and region-specific terminology need evidence."
+    },
+    "techniques/bengali-script-and-numerals.md": {
+      "disposition": "clarify",
+      "reason": "Repaired blanket ZWNJ/bidi removal, placeholder-as-Latin assumption, mixed digits as intrinsic grammar error and quotation uniformity. Preserve documented shaping, distinguish literal identity from numeric quantity and scope normalization."
+    },
+    "techniques/classifiers-and-quantity.md": {
+      "disposition": "clarify",
+      "reason": "Repaired universal classifier mandate and one-category morphology claim; align suffix handling with the runtime value rather than a closing brace. Units, neutral labels and definite constructions need contextual review."
+    },
+    "techniques/de-anglicization-constructions.md": {
+      "disposition": "reverify",
+      "reason": "SOV and zero copula are useful defaults but not permutation rules. A confirmation recast must preserve question versus command and permission versus ability. No results found need not mean no results exist. Missing termbase row does not prove a Latin token untranslated; grammatical review is not reduced to a regex anchor."
+    },
+    "techniques/register-and-address.md": {
+      "disposition": "reverify",
+      "reason": "Formal apni is a defensible product default, not every software audience. Honorific morphology cannot be reliably recognized by an un/ুন suffix alone, as যান already shows. Neutral action nouns can avoid direct register. Lexical gender can be meaningful; do not erase it categorically. Please and quoted speaker shifts need context."
+    },
+    "techniques/terminology-and-loanwords.md": {
+      "disposition": "reverify",
+      "reason": "Product loanword policy is useful but generic technical nouns need not always transliterate. Sense overlap is not universally forbidden, similar words are not automatically confusing, and frequency does not prove a false friend. Regional audiences and orthographic variants need language review rather than majority vote alone."
+    },
+    "techniques/ui-conventions-and-length.md": {
+      "disposition": "clarify",
+      "reason": "Repaired character ratio as width floor, always wider/taller, wrap automatically bug and shortest label losing accessible context. Preserve meaningful labels, grapheme shaping and actual responsive measurements."
+    },
+    "applications/process--classifiers-and-quantity.md": {
+      "disposition": "reverify",
+      "reason": "Historical Personas guide retained, not recounted. Published machine-specific root is a cleanup item. Hardcoded ১ loses count argument and is wrong for zero/fractional one selection unless a proven contract prevents those inputs. Latin-digit classifier is a house-policy mismatch, not inherently broken Bengali."
+    },
+    "applications/process--terminology-and-loanwords.md": {
+      "disposition": "reverify",
+      "reason": "Historical Personas frequencies retained, not recounted. Corpus majority records convention, not native acceptability or region-neutrality. Similar execution/edit spellings need contextual usability evidence. Machine-specific absolute evidence path remains unsuitable for published content."
+    },
+    "applications/spec--bengali-script-and-numerals.md": {
+      "disposition": "reverify",
+      "reason": "Historical CLDR/UCD harness retained, not rerun. Primary Unicode chapter explicitly permits ZWNJ for glyph selection and visible hasant, stronger than exemplar inventory alone. Pinning Latin numbering does not make number formatting safe for ports or versions because grouping/precision still apply. Percent pattern difference is an upstream candidate, not established universal error; normalization does not validate spelling."
+    }
+  }
+}
+```

@@ -10,7 +10,7 @@ verified_on: 2026-08-20
 
 # The canon as authored doctrine: long form, short form, and the prompt that reads it
 
-PoF (`C:\Users\kazda\kiro\pof`) generates game content through an LLM catalog pipeline, and
+PoF (`pof`) generates game content through an LLM catalog pipeline, and
 its answer to "how do thousands of generated items stay mutually consistent" is a
 **two-representation canon**: a long-form doctrine document a human reads, and a short-form
 rule set injected into every generation prompt.
@@ -91,3 +91,21 @@ continuous item-level multiplier and no tier gates, a level-1 source and a level
 sample the same affix rows and differ only by a 3.5x scalar, so the progression is a smooth
 ramp with no unlock moments and no guarantee that an early drop cannot roll a late-game
 value. That is the loot curve the tier ladder exists to prevent.
+
+## Review boundary - 2026-09-10
+
+The two canon representations and economy simulator remain historical evidence leads,
+not a current consumer audit. Equal total item power across rarities does not follow
+from more affixes with unchanged tier ranges; verify the missing normalization or
+allocation rule and the actual power metric. A reference link and an instruction to
+stay synchronized are not executable parity checks.
+
+The displayed base×(1+0.1×itemLevel) formula gives 1.1×base at level 1 and 3.5×base
+at level 25, a ratio of 3.5/1.1 ≈ 3.182, not 3.5 between those levels. A smooth
+curve can still bound early values; absence of tier unlocks alone does not prove
+late-game values can roll early. Scope economy conclusions to its modeled distribution.
+
+[Official Path of Exile 3.0 patch notes](https://www.pathofexile.com/forum/view-thread/1930316)
+describe separate ailment and hit scaling, a historical counterexample to treating
+hit-derived ailments as genre law. This source does not validate the local canon's
+coefficients or current game rules. No consumer simulation or gameplay was run.

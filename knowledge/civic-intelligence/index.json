@@ -1058,9 +1058,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/civic-intelligence/parliamentary-data/political-compass-from-votes/political-compass-from-votes.md",
-   "digest": "sha256:63194337cd00ced7",
-   "revision": 2,
-   "changedAt": "2026-08-30",
+   "digest": "sha256:eb9c22947fdcb514",
+   "revision": 3,
+   "changedAt": "2026-09-10",
    "techniques": [
     {
      "slug": "comparability-floor-for-ranking",
@@ -1176,9 +1176,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/civic-intelligence/accountability-method/politician-performance-scoring/politician-performance-scoring.md",
-   "digest": "sha256:ba3f45433a473ea2",
-   "revision": 2,
-   "changedAt": "2026-08-30",
+   "digest": "sha256:a868c74cdc34651c",
+   "revision": 3,
+   "changedAt": "2026-09-10",
    "techniques": [
     {
      "slug": "comparison-fairness",
@@ -1293,9 +1293,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/civic-intelligence/public-money/public-money-attribution/public-money-attribution.md",
-   "digest": "sha256:aecff40f50f17ab2",
-   "revision": 2,
-   "changedAt": "2026-08-30",
+   "digest": "sha256:ea774ea87ee08bbf",
+   "revision": 3,
+   "changedAt": "2026-09-10",
    "techniques": [
     {
      "slug": "attribution-perimeter",
@@ -1406,9 +1406,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/civic-intelligence/public-money/public-procurement-analysis/public-procurement-analysis.md",
-   "digest": "sha256:269141ed3a81ae62",
-   "revision": 2,
-   "changedAt": "2026-08-30",
+   "digest": "sha256:5775aeb0c3d92ff8",
+   "revision": 3,
+   "changedAt": "2026-09-10",
    "techniques": [
     {
      "slug": "contract-registry-record-model",
@@ -1525,9 +1525,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/civic-intelligence/parliamentary-data/roll-call-vote-analysis/roll-call-vote-analysis.md",
-   "digest": "sha256:03dabf5c4212a95a",
-   "revision": 2,
-   "changedAt": "2026-08-30",
+   "digest": "sha256:a43921646b1b581e",
+   "revision": 3,
+   "changedAt": "2026-09-10",
    "techniques": [
     {
      "slug": "club-line-and-rebellion",
@@ -1638,9 +1638,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/civic-intelligence/public-money/state-budget-analysis/state-budget-analysis.md",
-   "digest": "sha256:a60bb31bf23ee0c9",
-   "revision": 2,
-   "changedAt": "2026-08-30",
+   "digest": "sha256:5e14df01c1948e67",
+   "revision": 3,
+   "changedAt": "2026-09-10",
    "techniques": [
     {
      "slug": "consolidated-vs-headline-figures",

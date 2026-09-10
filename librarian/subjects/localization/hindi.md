@@ -1,7 +1,7 @@
 ---
 subject: hindi
 domain: localization
-last_touched: 2026-08-29
+last_touched: 2026-09-10
 touched_by: external-reconcile
 dry_streak: 0
 ---
@@ -91,3 +91,78 @@ suffix is a class-A question, out of scope for this pin. The remainder of HI-AGR
 HI-LOANGENDER — ergative ने agreement, loanword gender assignment, participle concord —
 is **not conformance-testable**: CLDR declares those features only for its own unit-name
 inventory and ships no Hindi lexicon gender, validator or procedure.
+
+## Architecture review - 2026-09-10
+
+Review completed for every owned document. Reverify identifies remaining work, not a
+clean content verdict. Earlier notes remain historical evidence; application dates
+and maturity are unchanged.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "localization/hindi",
+  "date": "2026-09-10",
+  "baseline": "78850ba51a9aa016dcfc62817d59581453c3d90d",
+  "digest": "sha256:3a646e0b67821d11",
+  "disposition": "reverify",
+  "coverage": "All 10 owned documents read and assessed in table order. 3 document(s) repaired. Residual source, semantic and historical application checks are recorded per document; no consumer/runtime/field witness or maturity refresh.",
+  "counterexamples": [
+    "U+0958 normalizes to U+0915 U+093C under NFC, contrary to the original normalization statement.",
+    "A completed action in an ergative construction need not agree with the honorific subject.",
+    "A one category can cover zero and fractional counts without proving every noun uses the same morphological singular form."
+  ],
+  "sources": [
+    {
+      "path": "knowledge/localization/south-and-southeast-asian/hindi",
+      "scope": "Every owned document read in full; embedded code assessed as displayed. Historical application implementations and observations were not independently rerun."
+    },
+    {
+      "url": "https://www.unicode.org/charts/nameslist/n_0900.html",
+      "scope": "Primary Unicode names list identifies the eight nukta consonants as composition exclusions with decomposed NFC."
+    }
+  ],
+  "documents": {
+    "hindi.md": {
+      "disposition": "reverify",
+      "reason": "Universal honorific/Hinglish/digit rules overgeneralize product conventions. CLDR categories do not mandate a noun form, all names are not case-invariant, and an ordinal inventory can change. No bidi is false for embedded RTL; the cited u mark is not in template. Grammar judgments are not mechanical anchor matching."
+    },
+    "techniques/de-anglicization-constructions.md": {
+      "disposition": "reverify",
+      "reason": "SOV and postposition checks are useful candidates, not near-certain regex verdicts. Right dislocation is acknowledged but focus constructions also need context. Passive versus intransitive can change agency and event meaning; vectors are not mandatory in every completed confirmation, nor courtesy restricted to impositions."
+    },
+    "techniques/devanagari-and-numerals.md": {
+      "disposition": "clarify",
+      "reason": "Repaired NFC preserves precomposed nukta, no modern software supports native digits, dotted circle always a bug and mandatory punctuation/invisible-character sweeps. Use normalization and rendering contracts."
+    },
+    "techniques/gender-and-agreement.md": {
+      "disposition": "clarify",
+      "reason": "Repaired all proper names safe, all ergative verbs agree with object, one category equals singular morphology, closed ordinal inventory and CLDR unit case data generalizes to arbitrary nouns. Preserve unknown referents."
+    },
+    "techniques/register-and-address.md": {
+      "disposition": "clarify",
+      "reason": "Repaired universal single software register and all participles agree with aap, severity independent of context and forbidden-command interchangeable with failed-action wording."
+    },
+    "techniques/terminology-and-loanwords.md": {
+      "disposition": "reverify",
+      "reason": "The term-class framework is a house heuristic, not all Hindi audience usage. Sanskritic terminology is not inherently foreign; acronym transliteration can aid recognition. Frequency and shortness do not establish correctness, mixed Latin does not inherently break shaping and termbase choices can legitimately be revised."
+    },
+    "techniques/ui-conventions-and-length.md": {
+      "disposition": "reverify",
+      "reason": "Expansion ratios and borrowed-word shorter claims require actual rendering; Devanagari abbreviations are not impossible. ASCII quotes are a policy rather than the only native option, quotation does not universally suspend grammar and multiple nesting marks can be coherent. Keep severity and labels tied to user impact."
+    },
+    "applications/process--devanagari-and-numerals.md": {
+      "disposition": "reverify",
+      "reason": "Historical Personas counts and malformed ICU example retained, not rerun in consumer. One catalog does not prove universal digit/danda policies, and a broken syntax example can be visible to readers too. Absolute machine checkout paths remain cleanup work."
+    },
+    "applications/process--terminology-and-loanwords.md": {
+      "disposition": "reverify",
+      "reason": "Historical termbase counts and translation-wave account retained, not current product verification or execution authorization. Frequency does not validate meaning or mandatory Hinglish for all audiences. Published absolute checkout paths remain cleanup work."
+    },
+    "applications/spec--gender-and-agreement.md": {
+      "disposition": "reverify",
+      "reason": "Historical CLDR harness retained, not rerun. Unit case inventory is not a complete grammar, minimal pairs are not a suffix dictionary and a finite nonnegative grid does not prove universal range reachability. The golden path now mentions ordinals, so silence finding is historical. One category is not a prescription for every noun."
+    }
+  }
+}
+```

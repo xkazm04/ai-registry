@@ -15,9 +15,9 @@ techniques:
 
 # Roll-call vote analysis
 
-A roll-call record is the rare civic dataset where the primary source is nearly
-complete: for every recorded division, every legislator's individual choice is
-published. That completeness is a trap. Because the raw material is so good,
+A roll-call source can publish individual choices for many divisions while
+omitting manual, non-public or technically incomplete votes. Measure that coverage
+before treating recorded ballots as a census. Apparent completeness is a trap. Because the raw material is so good,
 every derived number — a rebellion rate, a cohesion index, an agreement score —
 *looks* as authoritative as the ballots underneath it, when in fact each one
 embeds a stack of definitional choices: what counts as a vote, what counts as a
@@ -61,11 +61,10 @@ the reader of the final number can find it.
 
 ## Non-participation is not a position
 
-The single most consequential distinction in the subject: **absence, excusal,
-abstention, and not-pressing are forms of non-participation, and
-non-participation is never agreement and never rebellion.** A legislator who
-was not in the room did not defy their party. A legislator who abstained did
-not vote with the opposition. Metrics that fold non-participation into a
+The single most consequential distinction in the subject: **this subject's binary metrics count only yes/no choices. Absence, excusal,
+abstention and not-pressing are excluded from that positional base.** A legislator who
+was not in the room did not defy their party. An abstention can be deliberate political behavior, but this binary metric
+cannot classify its intent or agreement with another group. Metrics that fold non-participation into a
 positional bucket manufacture discipline findings out of attendance patterns —
 and attendance has its own legitimate metric, computed on its own base.
 
@@ -119,7 +118,8 @@ score needs a floor of shared positional votes, a rebellion rate needs a floor
 of eligible votes, a party's per-vote cohesion needs a floor of participating
 members. Below the floor the honest value is *not measured* — a first-class
 state, rendered differently from zero and from perfection — because a 100%
-rate over three ballots is noise wearing a percentage sign. The thresholds
+rate over three ballots describes only those observations and supports little
+generalization. A support floor is a publication convention, not proof of reliability. The thresholds
 themselves are named constants, defined once, imported by every consumer, and
 disclosed in the copy next to the numbers they gate. A threshold restated as a
 literal in a second place is a future drift, and in this domain every drift

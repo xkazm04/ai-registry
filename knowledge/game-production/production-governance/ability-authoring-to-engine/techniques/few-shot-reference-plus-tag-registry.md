@@ -43,16 +43,17 @@ knowledge is expensive to write as rules and free to demonstrate. Pick exemplars
 
 **3. Include the corpus statistics the author must fit into.** Where prior artifacts have
 comparable numbers — timings, costs, a normalised profile across a few axes — hand over
-the existing spread. An author that can see the range produces a value inside it; one that
-cannot produces a number from its own priors, and the corpus slowly acquires outliers
+the existing spread. The range provides context, not enforcement; validate any required bounds.
+An author who sees it can still produce an outlier, while one that cannot see it relies more heavily on its priors, and the corpus slowly acquires outliers
 nobody chose.
 
 **4. Choose a delivery mode per author capability.**
 - The author cannot read the system: **embed** the registry and exemplars in the prompt.
 - The author can read the system (an agent with file access): **point** at named exemplars
   and require reading them before writing, with an explicit instruction not to invent a new
-  pattern. Pointing costs a few lines instead of a few thousand tokens and can never go
-  stale, but it only works when reading is actually enforceable.
+  pattern. Pointing reduces prompt duplication, but paths can move and files can change.
+  Pin the revision or content digest, record what was read, and revalidate
+  references against the target registry before adoption.
 
 **5. State the fallback for a genuinely new name.** Sometimes the artifact needs a name the
 namespace does not have. The rule is: follow the existing convention exactly, and declare
@@ -68,15 +69,15 @@ door.
 - **When the registry exceeds the sensible budget, filter by relevance, never truncate.**
   A truncated list reads as complete and teaches the author that the missing entries do not
   exist. Select the groups the artifact type can reference and say what was omitted.
-- **When you show more than three exemplars, stop.** Beyond three, added examples buy
-  little and start to narrow the output toward the last example seen. Spend the budget on
-  registry coverage instead.
+- **Choose exemplar count using task coverage and evaluation.** Two or three is
+  a starting budget, not a universal optimum. Include boundary cases where
+  needed and check copying, ordering effects and held-out validity.
 - **When an exemplar is not something you would accept today, cut it.** Exemplars are
   normative whether or not you meant them to be.
-- **When the same registry is checked downstream, both sides read one source.** The
+- **When the same registry is checked downstream, both sides read one authority at a recorded revision.** The
   vocabulary handed to the author and the vocabulary the audit compares against must come
-  from the same extraction. Briefing from one copy and grading against another produces
-  failures that are real in the report and imaginary in the system.
+  from the same extraction. If the target registry changes after briefing, revalidate and report that change
+rather than adopting against stale vocabulary.
 
 ## When not to use it
 
@@ -92,8 +93,6 @@ door.
 
 ## What it is not
 
-Not a substitute for validation. A briefing changes the probability of an invented name
-from high to low; it does not make it zero, and the audit that catches the residue is a
-separate step with a separate authority. A generator that has been shown the registry and
-still invents is producing a *rarer* bug, which is a harder bug — one that survives the
-review the frequent version trained everyone to do.
+Not a substitute for validation. A briefing aims to reduce invented names; measure that effect for the task,
+and do not assume a fixed improvement. Validate references independently; plausible
+invented names can still survive human review after a registry briefing.

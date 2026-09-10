@@ -14,7 +14,8 @@ use_when: [designing the return shape for a generated artifact, deciding which f
 ## The concern
 
 Two decisions hide inside "define the output schema". The first is obvious and easy:
-constrain the output to an exact shape so parsing is total and failures are loud. The
+constrain accepted output to a declared shape and report parsing or validation
+failures explicitly. Schema instructions alone do not enforce the shape. The
 second is neither, and it is where the damage lives: **which fields the schema should
 contain at all**.
 
@@ -23,8 +24,7 @@ answers.* Every such field is a free opportunity for an internal contradiction, 
 contradiction will be silent — both values are individually plausible, both are inside
 their ranges, and nothing in the system knows which one is the authority. A profile score
 that disagrees with the numbers it profiles. A summary that disagrees with its own parts. A
-total that is not the sum. These do not fail validation; they fail belief, six weeks later,
-when someone sorts by the wrong one.
+total that is not the sum. Type-only validation misses these contradictions; cross-field checks can reject them. Without those checks, consumers can sort by mutually inconsistent quantities.
 
 ## The procedure
 
@@ -40,7 +40,8 @@ whole corpus instead of re-imagined per generation.
 
 **3. When a derived field must stay in the schema, make it advisory and check it.** There
 are real reasons to keep one — the author's own summary can be a useful signal of intent,
-or the derivation is a matter of taste you want a human eye on. Then keep it, label it as
+or a human interpretation is useful. A judgment-based summary is an estimate,
+not a deterministically derived fact. Then keep it, label it as
 the author's claim rather than as the value, compute the real one alongside, and treat a
 divergence beyond a stated tolerance as a finding. What you may never do is keep it,
 compute nothing, and let downstream consumers pick whichever they read first.
@@ -51,7 +52,9 @@ milliseconds. A cost that does not say which resource will be filled from whiche
 the author was thinking about. A normalised axis that does not state its range and its
 reference point is an opinion with a number attached.
 
-**5. Constrain relationships, not only types.** A shape validator that types each field
+**5. Constrain relationships, not only types.** Validate finite numbers, bounds,
+unknown states, identifier resolution and each allowed cross-field relationship.
+Pin the schema and derivation versions with the accepted result. A shape validator that types each field
 independently accepts artifacts that are internally impossible: an active window that ends
 after the animation it lives inside, a recovery longer than the whole action, a
 sub-interval outside its parent. Write those as explicit cross-field checks at acceptance

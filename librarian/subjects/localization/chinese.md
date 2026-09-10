@@ -1,7 +1,7 @@
 ---
 subject: chinese
 domain: localization
-last_touched: 2026-08-29
+last_touched: 2026-09-10
 touched_by: external-reconcile
 dry_streak: 0
 ---
@@ -77,3 +77,78 @@ recommendation: **not conformance-testable** against this standard — §2 says 
 does not provide rules for font design or line layout. They need the layout-requirements
 document as a separate counterpart. GB/T 15834 is paywalled and was not fetched, so the
 technique's citation of it stays unreviewed.
+
+## Architecture review - 2026-09-10
+
+Review completed for every owned document. Reverify identifies remaining work, not a
+clean content verdict. Earlier notes remain historical evidence; application dates
+and maturity are unchanged.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "localization/chinese",
+  "date": "2026-09-10",
+  "baseline": "78850ba51a9aa016dcfc62817d59581453c3d90d",
+  "digest": "sha256:9df55d4ea15867e7",
+  "disposition": "reverify",
+  "coverage": "All 10 owned documents read and assessed in table order. 3 document(s) repaired. Residual source, semantic and historical application checks are recorded per document; no consumer/runtime/field witness or maturity refresh.",
+  "counterexamples": [
+    "A Chinese exact-zero message can say 暂无消息 while positive counts use {count} 条消息 despite CLDR having only other.",
+    "A Wide punctuation property does not fix its pixel advance across fonts and layout.",
+    "Removing 随时 from the pronoun-heavy example drops the source's anytime meaning."
+  ],
+  "sources": [
+    {
+      "path": "knowledge/localization/east-asian/chinese",
+      "scope": "Every owned document read in full; embedded code assessed as displayed. Historical application implementations and observations were not independently rerun."
+    },
+    {
+      "url": "https://www.unicode.org/reports/tr11/",
+      "scope": "Primary scope and definitions distinguish inherent width class from font/layout advance and terminal tailoring."
+    }
+  ],
+  "documents": {
+    "chinese.md": {
+      "disposition": "reverify",
+      "reason": "Chinese grammar is not absent and MT is not nearly guaranteed grammatical. Men plural marking exists in restricted constructions; CLDR other does not prove no number distinctions. Register is broader than pronouns, RTL embeddings can occur, and Hans/Hant are scripts rather than uniquely specified markets. 软件/軟體 is a lexical difference, not just glyph conversion."
+    },
+    "techniques/character-width-and-typography.md": {
+      "disposition": "clarify",
+      "reason": "Repaired EAW as pixel determinism, Hant as wholly determinate, ASCII-only currency and spaces as only way to achieve visual spacing. Scope punctuation and quote policy by market and preserve literals."
+    },
+    "techniques/de-anglicization-constructions.md": {
+      "disposition": "reverify",
+      "reason": "Relational 的 may change referent; 触发器的条件 need not mean generic trigger condition. Modern 被 is not restricted to unfortunate events. 如果…的话 and repeated pronouns can be idiomatic and meaningful; the sample removes anytime. Half translation may be a defect but no comparative UX measurement supports worse than full fallback."
+    },
+    "techniques/measure-words-and-quantity.md": {
+      "disposition": "clarify",
+      "reason": "Repaired no plural morphology and identical variant mandate. CLDR other is selector behavior, while exact-number branches and lexical count phrasing can differ. Classifiers depend on construction and referent."
+    },
+    "techniques/register-and-address.md": {
+      "disposition": "reverify",
+      "reason": "Record address policy, but register also includes vocabulary, phrasing and context. B2B does not mandate nin; a pronoun census does not justify replacing quotations or machine-addressed text. Please on controls and pronoun repetition are contextual style findings, not universal grammar errors."
+    },
+    "techniques/terminology-and-variants.md": {
+      "disposition": "reverify",
+      "reason": "Regional terminology needs separate review but script tags alone do not encode mainland/Taiwan/Hong Kong markets. Conversion tools can include phrase dictionaries, although they do not replace review. Product names can have approved Chinese forms; native translation and borrowing depend on audience, and distinct senses can share a word when context disambiguates."
+    },
+    "techniques/ui-conventions-and-length.md": {
+      "disposition": "clarify",
+      "reason": "Repaired fixed width ratios and character ceilings as language facts, deleting particles before checking meaning and banning emphasis because Han is caseless. Measure fit and preserve action clarity."
+    },
+    "applications/process--de-anglicization-constructions.md": {
+      "disposition": "reverify",
+      "reason": "Historical Personas incidents retained, not rerun. Placeholder renaming is concrete, but pronoun compression removes anytime and trigger noun recast may change reference. Double ellipsis is standard in some Chinese prose, not automatically residue. Absolute machine-specific path remains a publication cleanup item."
+    },
+    "applications/process--terminology-and-variants.md": {
+      "disposition": "reverify",
+      "reason": "Historical product counts retained, not recounted. Majority agent rendering is explicitly wrong by the guide, showing frequency alone cannot establish correctness. Token is used for two senses, contradicting universal one-word-per-concept inverse. Product persona terminology is a house choice; absolute path remains a cleanup item."
+    },
+    "applications/spec--character-width-and-typography.md": {
+      "disposition": "reverify",
+      "reason": "Historical UAX harness retained, not rerun. Primary annex confirms font/layout determines actual advance width and EAW needs tailoring. Wide corner brackets do not make an entire Hant catalog width-determinate, and property-based spacing detection ignores script/phrase context. File latest alias, hashes and full classification census not refreshed."
+    }
+  }
+}
+```

@@ -11,16 +11,15 @@ use_when: [choosing a denominator for any vote metric, an attendance and a disci
 
 # Positional vs participation bases
 
-Every roll-call metric is a fraction, and the craft is in the denominator.
+For roll-call rates, the denominator defines the claim.
 The choice vocabulary yields two canonical bases, and every metric in the
 pipeline names which one it stands on:
 
-- **The participation base (present):** choices that mean the legislator was
-  at the desk and logged in — yes, no, abstain, not-voting, and any
-  source-merged abstain/not-voting category. This is the base for attendance,
-  turnout, and "how often does this member show up".
-- **The positional base:** the choices that express a side — **yes and no,
-  nothing else**. This is the base for every discipline metric: party lines,
+- **The participation base (present):** choices that the source defines as registered or participating — yes, no, abstain, not-voting, and any
+  source-merged abstain/not-voting category. This supports recorded voting participation; it need not measure physical
+  presence or all parliamentary work.
+- **The positional base:** the choices retained by this subject's binary definition — **yes and no**.
+  This is the base for the binary metrics described here: party lines,
   rebellion, cohesion, pairwise agreement. Abstention, not-pressing, the
   merged bucket, excusal and absence are all *non-participation* with respect
   to position, and they never count as agreement or as rebellion.
@@ -29,16 +28,16 @@ The two bases are exported constants defined once beside the choice
 vocabulary. A metric that lists its qualifying choices inline has forked the
 definition, and the fork will drift.
 
-## Why abstention is not a position
+## Why this binary measure excludes abstention
 
 The temptation is to read abstention as "half a no" or "soft defiance", and
 some chambers' voting arithmetic encourages it (where passage requires a
 majority of those *present*, an abstention has the mechanical effect of a no).
 Resist encoding that into the base. The mechanical effect on the outcome is a
 fact about the *threshold rule* of that vote and belongs in the outcome
-layer; the legislator's *choice* was to decline a side, and a discipline
-metric that counts declined sides as opposition manufactures rebels out of
-hesitators. Where the effect matters — a member whose abstentions repeatedly
+layer; the binary metric excludes abstention; it does not establish hesitation or
+absence of political intent. Other declared metrics can analyze abstention
+separately without presenting them as the same yes/no measure. Where the effect matters — a member whose abstentions repeatedly
 sank their own party's motions — it is a story for the interpretive layer,
 argued from the outcome arithmetic, not a silent redefinition of the base.
 
@@ -60,12 +59,13 @@ argued from the outcome arithmetic, not a silent redefinition of the base.
   votes to avoid defecting on the record, and no denominator trick fixes that
   without breaking the metric's meaning. The participation number beside it
   is the disclosure.
-- **Never mix bases inside one fraction.** A numerator counted on positional
-  choices over a denominator of present members is a category error that
-  reads as a valid percentage. Every published rate should be able to answer
-  "positional over positional" or "present over eligible" in one phrase.
+- **Name numerator and denominator separately.** Positional votes divided by
+  registered participants validly measures the share taking a yes/no position;
+  it is not a rebellion rate. Validate the subset relation and handle a zero
+  denominator. Participation eligibility must respect mandate dates, oath or
+  voting rights and documented missing divisions, rather than all term votes.
 
-## Eligibility is a third, narrower filter
+## Eligibility is an additional filter
 
 Some metrics need more than a base — they need per-observation eligibility.
 A rebellion rate only counts votes where the member was positional *and*
@@ -77,10 +77,7 @@ will misread every rate.
 
 ## When not to use it
 
-- Do not apply positional discipline metrics to members without a resolved
-  party affiliation — they render in tallies but are never scored against a
-  line they do not have.
-- Do not invent intermediate bases per feature ("positional plus abstain,
-  just for this chart"). Two bases have survived because each answers a real
-  question; a third base answers a rhetorical one, and every new base
-  multiplies the ways two surfaces can disagree about the same person.
+- A member without a resolved group has no group-line rebellion rate, but can
+  still have pairwise agreement or participation metrics on supported ballots.
+- Additional bases require a separate named question and method. Do not silently
+  change the qualifying choices of an existing metric per surface.

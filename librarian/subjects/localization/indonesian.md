@@ -1,7 +1,7 @@
 ---
 subject: indonesian
 domain: localization
-last_touched: 2026-08-29
+last_touched: 2026-09-10
 touched_by: external-reconcile
 dry_streak: 0
 ---
@@ -67,3 +67,78 @@ Original record below stands.
 
 Whether any shipping i18n runtime *lints* an unreachable variant key. ICU does not, and
 a third-party linter is class-A evidence about that linter, not class-B about the standard.
+
+## Architecture review - 2026-09-10
+
+Review completed for every owned document. Reverify identifies remaining work, not a
+clean content verdict. Earlier notes remain historical evidence; application dates
+and maturity are unchanged.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "localization/indonesian",
+  "date": "2026-09-10",
+  "baseline": "78850ba51a9aa016dcfc62817d59581453c3d90d",
+  "digest": "sha256:61dd8525de73a4d4",
+  "disposition": "reverify",
+  "coverage": "All 9 owned documents read and assessed in table order. 4 document(s) repaired. Residual source, semantic and historical application checks are recorded per document; no consumer/runtime/field witness or maturity refresh.",
+  "counterexamples": [
+    "EYD explicitly capitalizes words in book and article titles, with function-word exceptions.",
+    "Dua kupu-kupu counts a lexical reduplicated noun; a blanket quantity-plus-repetition grep misfires.",
+    "Di- marks voice, not completion; a passive can describe an ongoing action."
+  ],
+  "sources": [
+    {
+      "path": "knowledge/localization/south-and-southeast-asian/indonesian",
+      "scope": "Every owned document read in full; embedded code assessed as displayed. Historical application implementations and observations were not independently rerun."
+    },
+    {
+      "url": "https://ejaan.kemendikdasmen.go.id/eyd/penggunaan-huruf/huruf-kapital/",
+      "scope": "Primary EYD title-capitalization rule."
+    },
+    {
+      "url": "https://ejaan.kemendikdasmen.go.id/eyd/penggunaan-huruf/huruf-vokal/",
+      "scope": "Primary EYD allows optional e-pepet diacritic."
+    }
+  ],
+  "documents": {
+    "indonesian.md": {
+      "disposition": "reverify",
+      "reason": "Indonesian can be ungrammatical and register extends beyond one pronoun. Title capitalization and optional diacritics exist in EYD. Borrowed verbs are not limited to klik, reduplication is not always plural and LTR can embed RTL. Message format generation must be pinned rather than called current universally."
+    },
+    "techniques/de-anglicization-constructions.md": {
+      "disposition": "clarify",
+      "reason": "Repaired passive/active semantic changes, all oleh Anda invalid, three yang automatically defective and embedded location question requires berada. Anchor matches remain candidates."
+    },
+    "techniques/quantity-and-plurality.md": {
+      "disposition": "clarify",
+      "reason": "Repaired exactly one branch despite exact selectors, no-false-positive reduplication grep and classifier forbidden in count messages. Separate lexical repetition from redundant plural marking."
+    },
+    "techniques/register-and-address.md": {
+      "disposition": "reverify",
+      "reason": "Anda capitalization useful, but register also depends on vocabulary, titles and politeness. Regional pronouns can be written intentionally; kamu possessives need not always cliticize. Kami/kita refers to actual participants, not professional versus consumer audience. Imperative and severity prescriptions require surface context."
+    },
+    "techniques/terminology-and-loanwords.md": {
+      "disposition": "clarify",
+      "reason": "Repaired klik sole borrowed verb, dictionary forms never used elsewhere and all raw English is laziness. Keep unit/brand localization exceptions and audience evidence."
+    },
+    "techniques/ui-conventions-and-length.md": {
+      "disposition": "clarify",
+      "reason": "Repaired title case does not exist, me-/di- encode progress/completion, no diacritics and bidi, and no-two-verb rule contradicted by its example. Measure actual layout."
+    },
+    "applications/process--terminology-and-loanwords.md": {
+      "disposition": "reverify",
+      "reason": "Historical Personas term counts retained, not recounted. Zero borrowed verbs contradicts absorbed ekspor/impor usage; a recorded product choice does not establish all market usage. Distinct senses and approved variants justify different labels."
+    },
+    "applications/process--ui-conventions-and-length.md": {
+      "disposition": "reverify",
+      "reason": "Historical character ratio and glyph counts retained, not runtime fit or current catalog verification. Simpan and pindah are two verbs despite the no-two-verbs label. Frequency cannot settle grammar; documented corrective minority example shows why."
+    },
+    "applications/spec--quantity-and-plurality.md": {
+      "disposition": "reverify",
+      "reason": "Historical CLDR/ICU harness retained, not rerun. MF1 and MF2 coexist, so current versus older is not a migration mandate. The displayed MF2 number-selector unreachable branch result is scoped to that selector and locale; custom selectors and lint policy can differ. Exact-value examples correctly refute exactly one wording."
+    }
+  }
+}
+```
