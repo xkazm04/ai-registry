@@ -1,7 +1,7 @@
 ---
 domain: llm-observability
 subject: billing-revenue-normalization
-last_touched: 2026-09-10
+last_touched: 2026-09-11
 touched_by: architecture-review
 dry_streak: 0
 ---
@@ -199,3 +199,32 @@ itself instructs a reader to do.
   }
 }
 ```
+
+## Intake - 2026-09-11 - polar-api-versioning
+
+New technique `contract-version-is-provenance`, plus three applications
+(`node--`, `rust--`). The subject was thorough from stage two of its own stated
+pipeline onward - authenticate, identify, normalize, persist - and never asked
+under which **contract version** a payload was serialized. Its closing auditor
+enumeration is the tell: "answered entirely from the records themselves", listing
+provider, business object, currency, magnitude, kind, and the rate-book version -
+a completeness claim that omits the one version the operator does not control.
+The golden path was extended additively rather than rewritten; the existing
+clauses stay true.
+
+The finding was promoted by a tree, not by the source. A fleet consumer's revenue
+row carries `fx_book_version` and no contract-version field - provenance
+discipline applied thoroughly and stopping exactly at the authorship boundary.
+That is the subject's own asymmetry standing in code.
+
+## Open leads
+
+- The rust application's verdict is `unmeasurable`, not for lack of a change but
+  for lack of an instrument: the crate's normalization tests assert against
+  fixtures with no version in them. Return condition: a provider rotation
+  produces a second-contract delivery anywhere in the fleet, giving the fixture
+  pair the arm needs.
+- Nothing in the corpus yet models *asserting* a received contract version
+  against the configured one. The failure action is a real policy fork - warn, or
+  refuse to process money - and the two have very different blast radii. Worth a
+  technique once a second source or a second tree has an opinion.

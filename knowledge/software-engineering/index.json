@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 228,
   "techniques": 1688,
-  "applications": 1014,
+  "applications": 1015,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -9624,9 +9624,9 @@
    "subcategory": "codebase-stewardship",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/dependency-declaration/dependency-declaration.md",
-   "digest": "sha256:ba955c99f0f2d90a",
-   "revision": 5,
-   "changedAt": "2026-09-03",
+   "digest": "sha256:726d0c480e0b3943",
+   "revision": 6,
+   "changedAt": "2026-09-11",
    "techniques": [
     {
      "slug": "attachment-coherence",
@@ -9749,6 +9749,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "logical-name-or-address",
+     "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/dependency-declaration/applications/node--logical-name-or-address.md",
+     "verified_on": "2026-09-11",
+     "verified_against": "node@24"
+    },
     {
      "stack": "react",
      "technique": "declaration-invariants",

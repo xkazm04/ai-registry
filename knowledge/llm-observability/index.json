@@ -4,8 +4,8 @@
   "bundle": "llm-observability",
   "source": "knowledge/llm-observability/ (frontmatter only)",
   "subjects": 17,
-  "techniques": 115,
-  "applications": 63,
+  "techniques": 116,
+  "applications": 65,
   "laws": 9,
   "categories": [
    "telemetry-and-data",
@@ -14,7 +14,7 @@
    "federation-and-surfaces"
   ],
   "layout": "nested",
-  "use_when_coverage": "115/115",
+  "use_when_coverage": "116/116",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -142,10 +142,25 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/llm-observability/economics-and-governance/billing-revenue-normalization/billing-revenue-normalization.md",
-   "digest": "sha256:ded209380899dd06",
-   "revision": 2,
-   "changedAt": "2026-08-30",
+   "digest": "sha256:e805d360d9c98db9",
+   "revision": 3,
+   "changedAt": "2026-09-11",
    "techniques": [
+    {
+     "slug": "contract-version-is-provenance",
+     "status": "forged",
+     "laws": [
+      "no-retroactive-restatement",
+      "never-present-absence-as-an-answer"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a billing provider offers dated or numbered API contract versions",
+      "deciding what a revenue record must carry besides amounts and identifiers",
+      "a provider rotates its default contract on a release cadence",
+      "the code that registers a webhook endpoint lives in a different repository from the code that parses its deliveries"
+     ]
+    },
     {
      "slug": "deterministic-external-ids",
      "status": "forged",
@@ -223,11 +238,25 @@
    ],
    "applications": [
     {
+     "stack": "node",
+     "technique": "contract-version-is-provenance",
+     "file": "knowledge/llm-observability/economics-and-governance/billing-revenue-normalization/applications/node--contract-version-is-provenance.md",
+     "verified_on": "2026-09-11",
+     "verified_against": "node@24"
+    },
+    {
      "stack": "process",
      "technique": "signature-is-the-auth",
      "file": "knowledge/llm-observability/economics-and-governance/billing-revenue-normalization/applications/process--signature-is-the-auth.md",
      "verified_on": "2026-08-20",
      "refresh_by": "2026-11-20"
+    },
+    {
+     "stack": "rust",
+     "technique": "contract-version-is-provenance",
+     "file": "knowledge/llm-observability/economics-and-governance/billing-revenue-normalization/applications/rust--contract-version-is-provenance.md",
+     "verified_on": "2026-09-11",
+     "verified_against": "rust@1.96.1"
     },
     {
      "stack": "rust",
@@ -2265,6 +2294,7 @@
    "techniques": [
     "analytics-store-design/backend-parity-as-contract",
     "analytics-store-design/capability-flags-and-refusal",
+    "billing-revenue-normalization/contract-version-is-provenance",
     "billing-revenue-normalization/static-auditable-fx-book",
     "breach-alerting-and-attribution/identity-scope-attribution-refusal",
     "breach-alerting-and-attribution/scope-inverted-attribution",
@@ -2384,6 +2414,7 @@
   "no-retroactive-restatement": {
    "statement": "Cost is stamped once at ingest; correcting a wrong price does not restate spend already inside a window, and the caveat says so. Exchange rates come from a static, auditable snapshot — deterministic and versioned — never a live feed that silently re-prices history between two reports. Accounting that can change after the fact is not accounting.",
    "techniques": [
+    "billing-revenue-normalization/contract-version-is-provenance",
     "billing-revenue-normalization/deterministic-external-ids",
     "billing-revenue-normalization/static-auditable-fx-book",
     "cross-provider-benchmark-operations/dataset-sampling-anonymize-freeze",

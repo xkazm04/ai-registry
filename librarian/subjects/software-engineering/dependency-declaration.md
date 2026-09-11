@@ -1,7 +1,7 @@
 ---
 subject: dependency-declaration
 domain: software-engineering
-last_touched: 2026-09-03
+last_touched: 2026-09-11
 dry_streak: 0
 ---
 
@@ -97,3 +97,34 @@ blanket attachment cannot later be narrowed.
 
 Inverts in a closed system with a single assembler — no third party, no possible
 conflict, and the mandatory wrapper is ceremony.
+
+## Intake - 2026-09-11 - polar-api-versioning
+
+Amendment to `logical-name-or-address`: "When the address encodes a version, the
+constraint lands on strangers", plus a `node--logical-name-or-address`
+application.
+
+The technique's discriminator is purview and it already models divergent
+bindings and addresses into other people's internals. The gap was in one
+sentence - "an address here is a constraint being expressed: this reference is
+not yours to rebind" - which assumes the constrained party is the one who wrote
+the reference. A publisher that encodes a **contract version** in the address
+propagates that constraint to every transitive consumer, who cannot satisfy it:
+pinning your own reference leaves a wrapper's reference on whatever the wrapper
+chose. Authority over the binding concentrated in the publisher; authority over
+which address gets written stayed distributed. Those are not the same thing.
+
+Proof came from a tree: a fleet project declares one revision of a
+contract-bearing client and resolves two across three copies, the extra ones
+reached through a framework adapter's own specifier.
+
+## Open leads
+
+- The amendment obliges a publisher to expose a second, non-address way to name
+  the contract for callers who cannot write the reference. Whether that
+  generalizes into its own technique - a *selector of last resort* for
+  address-versioned contracts - wants a second sighting.
+- Related and untriaged from the same run: `semver-additive-evolution` treats a
+  new optional field as additive on a must-ignore precondition that a generated
+  typed client does not satisfy. Contested home between that technique and
+  `must-ignore-unknown`; banked in the source note with anchors.
