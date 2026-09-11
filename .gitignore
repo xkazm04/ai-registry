@@ -48,3 +48,7 @@ fleet-*.proposals.json
 # /perfect loop state: an Obsidian-openable vault, regenerable working memory of a
 # skill that runs on this repo. Not content; and the checkout hosts concurrent sessions.
 .perfect/
+
+# Personas handoff state. `.personas/registry.yaml` is the committed declaration; the outbox
+# is a queue the app DELETES on ingest, so a committed copy is a replay of work already taken.
+.personas/memory-outbox.jsonl
