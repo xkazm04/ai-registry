@@ -87,7 +87,8 @@
         "realtime-events",
         "hash-pinned-translation-pipeline",
         "demo-data-plane",
-        "native-shell-integration"
+        "native-shell-integration",
+        "render-mount-pipeline"
       ]
     },
     {

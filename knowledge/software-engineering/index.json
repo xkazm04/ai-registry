@@ -3,9 +3,9 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
-  "subjects": 228,
-  "techniques": 1688,
-  "applications": 1015,
+  "subjects": 229,
+  "techniques": 1694,
+  "applications": 1022,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1688/1688",
+  "use_when_coverage": "1694/1694",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -25669,6 +25669,164 @@
     }
    ]
   },
+  "render-mount-pipeline": {
+   "category": "client-architecture",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/software-engineering/client-architecture/render-mount-pipeline/render-mount-pipeline.md",
+   "digest": "sha256:021fe86f5ecfb2aa",
+   "revision": 1,
+   "changedAt": "2026-09-14",
+   "techniques": [
+    {
+     "slug": "blueprint-then-mount",
+     "status": "forged",
+     "laws": [
+      "derivation-names-recomputation",
+      "one-authority-per-vocabulary",
+      "identity-survives-reuse"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing what a layout pass hands to the mount pass",
+      "deciding which nodes get a host object of their own",
+      "a flattened tree lost a click target or an accessibility node",
+      "layout cannot leave the frame thread because it touches host objects"
+     ]
+    },
+    {
+     "slug": "edge-sorted-incremental-mount",
+     "status": "forged",
+     "laws": [
+      "derivation-names-recomputation",
+      "limits-are-derived"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "scroll cost grows with the size of the mounted tree instead of the size of the change",
+      "deciding whether windowing stops at the row or goes down to the leaf",
+      "a nested scroller inside a mounted item does not update while the outer surface scrolls",
+      "choosing whether to premount in idle time and what that costs in memory"
+     ]
+    },
+    {
+     "slug": "mount-binders-versus-attach-binders",
+     "status": "forged",
+     "laws": [
+      "derivation-names-recomputation",
+      "limits-are-derived",
+      "creation-names-reaper"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a new blueprint rebinds content whose inputs did not change",
+      "listeners stay installed on hosts detached from the window",
+      "attaching a host re-pays expensive content binding",
+      "deciding what runs when a mounted unit is updated rather than replaced"
+     ]
+    },
+    {
+     "slug": "mount-references-across-features",
+     "status": "forged",
+     "laws": [
+      "one-validation-door",
+      "creation-names-reaper",
+      "absent-guard-is-loud"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a transition",
+      "focus retention or a gesture needs an element the visibility window wants unmounted",
+      "a single mounted flag keeps being overridden by whichever feature wrote last",
+      "a leaving animation pops because its element was recycled mid-flight",
+      "deciding how a virtualizer keeps a pinned header or the focused row rendered"
+     ]
+    },
+    {
+     "slug": "preempt-and-continue-shared-computation",
+     "status": "forged",
+     "laws": [
+      "verdict-survives-boundary",
+      "failure-not-empty-success",
+      "creation-names-reaper"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "the frame thread needs a layout that a background thread already started",
+      "deduplicating equivalent layout requests from callers with different deadlines",
+      "a background waiter hangs on a computation that was interrupted",
+      "a shared computation returns null and nobody can say why"
+     ]
+    },
+    {
+     "slug": "recycle-by-content-type",
+     "status": "forged",
+     "laws": [
+      "creation-names-reaper",
+      "limits-are-derived",
+      "absent-guard-is-loud"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a surface with many item kinds allocates host objects on first appearance of each kind",
+      "deciding what a recycling pool is keyed by",
+      "recycled content arrives carrying a previous item's listeners",
+      "a pool outlives the screen that created it"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "java",
+     "technique": "edge-sorted-incremental-mount",
+     "file": "knowledge/software-engineering/client-architecture/render-mount-pipeline/applications/java--edge-sorted-incremental-mount.md",
+     "verified_on": "2026-09-14",
+     "verified_against": "java@17"
+    },
+    {
+     "stack": "kotlin",
+     "technique": "blueprint-then-mount",
+     "file": "knowledge/software-engineering/client-architecture/render-mount-pipeline/applications/kotlin--blueprint-then-mount.md",
+     "verified_on": "2026-09-14",
+     "verified_against": "kotlin@1.9.22"
+    },
+    {
+     "stack": "kotlin",
+     "technique": "mount-binders-versus-attach-binders",
+     "file": "knowledge/software-engineering/client-architecture/render-mount-pipeline/applications/kotlin--mount-binders-versus-attach-binders.md",
+     "verified_on": "2026-09-14",
+     "verified_against": "kotlin@1.9.22"
+    },
+    {
+     "stack": "kotlin",
+     "technique": "mount-references-across-features",
+     "file": "knowledge/software-engineering/client-architecture/render-mount-pipeline/applications/kotlin--mount-references-across-features.md",
+     "verified_on": "2026-09-14",
+     "verified_against": "kotlin@1.9.22"
+    },
+    {
+     "stack": "kotlin",
+     "technique": "preempt-and-continue-shared-computation",
+     "file": "knowledge/software-engineering/client-architecture/render-mount-pipeline/applications/kotlin--preempt-and-continue-shared-computation.md",
+     "verified_on": "2026-09-14",
+     "verified_against": "kotlin@1.9.22"
+    },
+    {
+     "stack": "kotlin",
+     "technique": "recycle-by-content-type",
+     "file": "knowledge/software-engineering/client-architecture/render-mount-pipeline/applications/kotlin--recycle-by-content-type.md",
+     "verified_on": "2026-09-14",
+     "verified_against": "kotlin@1.9.22"
+    },
+    {
+     "stack": "react",
+     "technique": "mount-references-across-features",
+     "file": "knowledge/software-engineering/client-architecture/render-mount-pipeline/applications/react--mount-references-across-features.md",
+     "verified_on": "2026-09-14",
+     "verified_against": "react@19"
+    }
+   ]
+  },
   "repo-manifest-standard": {
    "category": "engineering-process",
    "subcategory": "standards-and-gates",
@@ -35381,6 +35539,7 @@
     "remediation-handoff/resolution-trailers",
     "remediation-roadmaps/coverage-guarantee",
     "remote-capability-probing/assertion-permission-and-bypass-are-three-switches",
+    "render-mount-pipeline/preempt-and-continue-shared-computation",
     "repo-manifest-standard/must-ignore-unknown",
     "repo-manifest-standard/pointers-not-embeds",
     "repo-manifest-standard/version-gate-precedes-schema-gate",
@@ -36468,6 +36627,7 @@
     "realtime-events/change-data-capture",
     "remediation-handoff/handoff-tenancy-and-idempotence",
     "remediation-roadmaps/sandbox-to-tracker-commit",
+    "render-mount-pipeline/mount-references-across-features",
     "repo-manifest-standard/must-ignore-unknown",
     "repo-manifest-standard/version-gate-precedes-schema-gate",
     "runner-fleet/fleet-isolation-boundaries",
@@ -36735,6 +36895,7 @@
     "remediation-handoff/resolution-trailers",
     "remediation-roadmaps/sandbox-to-tracker-commit",
     "remediation-roadmaps/weighted-upside-ranking",
+    "render-mount-pipeline/blueprint-then-mount",
     "repo-manifest-standard/semver-additive-evolution",
     "retrieval/chunking-and-indexing",
     "retrieval/hybrid-lane-fusion",
@@ -37017,6 +37178,10 @@
     "register-bytecode-execution/frame-as-two-pointers-into-one-stack",
     "register-bytecode-execution/handler-ranges-with-environment-depth",
     "register-bytecode-execution/leak-checked-register-allocation",
+    "render-mount-pipeline/mount-binders-versus-attach-binders",
+    "render-mount-pipeline/mount-references-across-features",
+    "render-mount-pipeline/preempt-and-continue-shared-computation",
+    "render-mount-pipeline/recycle-by-content-type",
     "retrieval/chunking-and-indexing",
     "retry-backoff/durable-retries",
     "retry-backoff/storm-control",
@@ -37399,6 +37564,7 @@
     "remediation-handoff/single-artifact-prompt-construction",
     "remediation-roadmaps/weighted-upside-ranking",
     "remote-capability-probing/buffer-by-access-latency-class",
+    "render-mount-pipeline/blueprint-then-mount",
     "repo-manifest-standard/capability-not-tool-vocabulary",
     "repo-manifest-standard/pointers-not-embeds",
     "repo-manifest-standard/semver-additive-evolution",
@@ -37685,6 +37851,9 @@
     "remediation-roadmaps/cheapest-path-projection",
     "remediation-roadmaps/projected-gain-modelling",
     "remote-capability-probing/advertised-support-is-not-evidence",
+    "render-mount-pipeline/blueprint-then-mount",
+    "render-mount-pipeline/edge-sorted-incremental-mount",
+    "render-mount-pipeline/mount-binders-versus-attach-binders",
     "repo-manifest-standard/generated-from-provenance",
     "retrieval/chunking-and-indexing",
     "retrieval/embedding-lifecycle",
@@ -37828,6 +37997,7 @@
     "read-serving-replicas/client-carried-index",
     "read-serving-replicas/forward-on-storage-error",
     "remote-capability-probing/degraded-rung-refusal-ceiling",
+    "render-mount-pipeline/preempt-and-continue-shared-computation",
     "repository-landing-document/input-channel-distinction",
     "repository-landing-document/multi-surface-degradation",
     "retry-backoff/client-retry-and-redirect-conventions",
@@ -37896,6 +38066,9 @@
     "remote-capability-probing/buffer-by-access-latency-class",
     "remote-capability-probing/degraded-rung-refusal-ceiling",
     "remote-capability-probing/instrument-by-cause-not-by-hit-rate",
+    "render-mount-pipeline/edge-sorted-incremental-mount",
+    "render-mount-pipeline/mount-binders-versus-attach-binders",
+    "render-mount-pipeline/recycle-by-content-type",
     "scale-investment-timing/execution-model-concurrency-threshold",
     "self-healing/consume-once-mode-handoff",
     "serving-process-topology/cache-residency-sets-the-balancing-unit",
@@ -38047,6 +38220,8 @@
     "register-bytecode-execution/leak-checked-register-allocation",
     "release-pipeline/deprecation-by-version-arithmetic",
     "remote-capability-probing/assertion-permission-and-bypass-are-three-switches",
+    "render-mount-pipeline/mount-references-across-features",
+    "render-mount-pipeline/recycle-by-content-type",
     "repository-landing-document/style-rule-ships-its-detector",
     "reversible-transform-pipelines/identity-check-with-graceful-fallback",
     "scale-investment-timing/ceiling-as-deadline-not-trigger",
