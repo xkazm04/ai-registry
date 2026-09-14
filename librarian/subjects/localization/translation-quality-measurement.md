@@ -108,3 +108,27 @@ measurement replaces them when one exists. Nothing in this pass was verified
 against a primary document by its worker (the session's search budget was spent);
 the Director re-checked 13.47, 47.48, 18.24/10.55 and the sentinel pair against
 the campaign's extracted tables, and those four hold.
+
+### 2026-09-14 — wave 2: four techniques, and a wave-1 number that was wrong
+
+Landed in `900dad91`. `cost-and-licence-of-measurement` is split out of
+`reference-free-quality-estimation` (203 → 148 lines), and three are new:
+`language-scoped-check-exemptions`, `engine-quality-from-reviewer-corrections`,
+`context-sufficiency-signals`.
+
+**The split caught an error wave 1 had published:** the distilled estimator was
+called "two orders of magnitude" faster than its teacher; 146 against 8–10
+segments per second is about fifteen times. Corrected at the move. The worker also
+refused two brief items rather than guessing: "Arabic must not be checked for
+kashida" reads, in the source, as an Arabic-only check (the opposite of an
+exemption), so it was left out; and Basque *may* open with an inverted mark rather
+than *must*. Every figure in `engine-quality-from-reviewer-corrections` is marked
+vendor-stated from one system with a tuned per-locale engine, and the
+disagreement signal is marked a triage signal with no published precision.
+
+**Owed:** the golden path is now 294 lines against a 120–220 guideline — a trim is
+the next pass on this subject; the per-language exemption blocks belong in the
+language subjects, including a settled answer on kashida; a worked break-even for a
+local estimator against a hosted judge; and still no application layer — personas-web
+has no reviewer-correction loop and no quality estimation, so this subject is the one
+the grounding tree could not reach.

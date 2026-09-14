@@ -80,3 +80,32 @@ of scope for now; goat's tagline is `Greatest of All Time` (chosen by the Direct
 delegation: title style lowercases a short preposition in a spelled-out acronym). The
 koruna ruling matches EN-CURRENCY and is the first fleet-wide instance of a per-language
 currency form - a candidate example for that rule's next deepen pass.
+
+## 2026-09-14 — wave 2 rules, and their first contact with real trees
+
+Landed in `900dad91`: EN-REDUNDANCY, EN-EXPLETIVE-OPEN, EN-CLICHE, EN-REDUNDANT-ACRONYM,
+EN-UNCOMPARABLE, EN-DIALECT-LEXIS, EN-GENERIC-PRONOUN (an ordered ladder, singular *they*
+last because every rung above removes the pronoun instead of replacing it), EN-INCLUSIVE (a
+termbase ruling, not tone), and EN-FALSE-FRIEND re-keyed by the author's first language with
+the *bilion/Billion* and *miliarda/Milliarde* rows.
+
+**Worker corrections accepted:** EN-DIALECT-LEXIS moved to `variant-and-locale-conventions`
+(the golden path gives vocabulary to the variant technique, not typography); EN-ACTIVE's
+trigger narrowed so a *There is* opener raises one finding, not two; the *Billion* pair is
+corroborated only as a *family* by other first languages' corpora, and would be wrong for
+Russian, whose cognate is 10⁹; "you can" before an imperative is a finding only for a
+required step, never for an optional capability (EN-YOU recommends it there).
+
+**The checker implementation (`ba65ad99`, native-copy 1.2.0) is the first measurement.**
+Across eight fleet trees the new rules raised 152 warnings on the first run. 148 were "CV"
+on one catalog — true by the rule, but one house-term decision, so the rule now reports one
+finding per form per file; one ("advance warning", personas-web) was a real false positive,
+now a recorded guard; three were true positives (a *There is … that* opener, "FAQ questions",
+"moving the needle"). **EN-UNCOMPARABLE, EN-INCLUSIVE and EN-GENERIC-PRONOUN had zero hits
+anywhere** — their precision is unknown, not good. EN-EXPLETIVE-OPEN is mechanised only for
+*There is/are … that/who/which*; "You can" stays a review finding because a regex cannot tell
+a step from a feature.
+
+**Owed:** measured precision for every new rule from owners' verdicts rather than the
+builder's judgement on one-hit samples; review-checklist questions for the eight new rules;
+the per-language exemption blocks for this subject's typography rules.

@@ -295,3 +295,40 @@ pre-prompt classifier for non-translatable values, the four exclusion classes
 (never-translate / drop / human-owned / allowlist), pseudo-localization, and
 fuzzy-reuse thresholds — the golden path's boundary paragraph now names the first
 three as deliberate absences so a reader knows they are owed, not missed.
+
+## 2026-09-14 — waves 2 and 3: four techniques, a real tree, and our own example refuted
+
+**Wave 2 (`900dad91`)**, 8 → 12 techniques: `non-translatable-value-classification`
+(a whole-value classifier plus four exclusion classes, marked single-source),
+`pseudo-localization-readiness` (length banded by source length; exempt from every check;
+never offered in the switcher), `fuzzy-reuse-under-a-threshold` (a threshold never moves
+between memories; a changed term ruling marks entries for review, never purges),
+`prompt-context-contract`. The golden path's "owed to a later pass" sentence is rewritten
+because these close it.
+
+**Wave 3 grounded it in personas-web** (applications `c83a09ea`, tree applies `b3fe23f` and
+`7c05f33`), and the tree pushed back on three techniques (`ffa7d8ff`, `c83a09ea`):
+- **`source-identical-value-audit`'s own worked example was wrong**, and it was measured on
+  this very tree in August. The walk skipped arrays: 27–29 identical values for non-Latin
+  locales and a 25-key "all legitimate" intersection became **101–107 and a 95-key
+  intersection, 66 of them untranslated** list-shaped FAQ and use-case copy, once every
+  container was walked. The technique now says so and adds the precondition — group the
+  intersection by section, because a section never dispatched lands there looking like brand
+  names. **Third sighting of the array blind spot** (kp's gate, our own checker's extractor,
+  and now the audit that taught the rule).
+- `non-translatable-value-classification`: "excluded values stay identical, no false
+  positives" holds only for the pipeline's own exclusion set (a copy gate's accepted-terms
+  list fired 7–135 times on correct transliterations, and one hit exposed a split-sentence
+  fragment); and the identifier rule was too loose — hyphens and trailing ellipses matched ten
+  of ten ordinary words.
+- `prompt-context-contract` assumed one request per unit; a file-batched prompt cannot attach
+  per-unit occurring terms, so it records whether it attaches file-scope terms or splits.
+
+**Measured on the tree:** the guide translation prompt carried 2 of the contract's 10 fields
+(5 after the fix); 871 stale or missing guide pins, exit 0, kept out of CI; identical-to-English
+87–93 (non-Latin) and 107–179 (Latin) after exclusion, 1,475 total.
+
+**Owed:** the subject now carries five applications against the forge brief's 1–3 guideline —
+applications grow by use, so the guideline is read as a forging budget, not a ceiling, and the
+decision is recorded here rather than silently exceeded; `serialization-transport-safety` still
+has no application; the ratchet on identical values waits for the owner.
