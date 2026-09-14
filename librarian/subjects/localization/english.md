@@ -62,3 +62,17 @@ a rule's wording.
 Vocabulary-shaped rules (EN-PUFFERY, EN-OPENER, EN-SIGNIFICANCE word lists) decay with model
 generations — re-check against the excess-vocabulary literature by **2027-03-14**. Style
 authorities move slowly; the authorities table by **2027-09-14**.
+
+## Impact (2026-09-14 map regeneration)
+
+Joined to contexts in 8 projects - kp 4, politicas 2, personas-web 2, systedo-case 2, goat 1,
+personas 1, ascent 1, gravitone 1 (gravitone-gcloud 0). All pairs `unknown`: the first
+`/conform` pass per project is the queue. Every one of those projects also runs the
+`native-copy` gate, whose findings cite this subject's IDs; baselined debt at adoption:
+politicas 865, personas-web 276, systedo-case 100, kp 78, gravitone 40, ascent 29,
+gravitone-gcloud 9, goat 0.
+
+**Operator decisions open from adoption:** CZK rendering in English copy (`Kč` vs `CZK`,
+kp and systedo-case); whether a `Name — Brand` tab-title separator is product copy
+(gravitone-gcloud); straight vs curly apostrophes in kp (651 vs 102, undeclared); Title Case
+"document names" in politicas; goat's two spellings of its own tagline.

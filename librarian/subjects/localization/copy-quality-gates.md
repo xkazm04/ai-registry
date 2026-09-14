@@ -42,4 +42,25 @@ unverified. The subject is better for each.
    projects). Return: next edit to `link-registry.mjs`.
 4. systedo-case's i18n gate tracks em dashes in the Czech column only — the English half of
    its "identical" dash rule is unenforced (second instance of "a gate checks less than it
-   claims"). Return: its `native-copy` adoption closes it.
+   claims"). **Closed 2026-09-14** by its `native-copy` adoption (English half now gated).
+
+## Impact (2026-09-14 map regeneration)
+
+Joined to contexts in 5 projects - gravitone 2, politicas 1, personas 1, personas-web 1,
+systedo-case 1 - all `unknown`. **Routing gap:** kp, the tree that supplied this subject's
+own array incident, joins 0: its i18n gate context shares no vocabulary with the subject's
+`use_when`. Return: the next deepen or librarian pass on this subject - widen `use_when`
+toward catalog-gate wording and re-check the join, rather than hand-editing a map.
+
+## Adoption findings that become conditions (from 8 trees)
+
+- A new hook system beside an existing hook installer silently disables the installer's
+  checks (personas-web) - extend what exists.
+- Inline shell in a lefthook job fails on Windows; call a script.
+- A fingerprint over a whole long-form string means editing one word re-opens every
+  baselined finding in it (personas-web guide sections, blog posts) - candidate: span-level
+  fingerprints for body-class units.
+- A checker crash must not share the findings exit code (fixed: exit 2).
+- Coverage reads "green" while a whole string class is unseen (dash-joined titles skipped as
+  non-prose, 7 banned dashes in three trees) - the second sighting of this subject's own
+  rendered-string-extraction lesson, in its own instrument, the same day.
