@@ -396,7 +396,7 @@ function lexCode(src, file, jsxEnabled) {
       if (!an) throw new JsxAbort(`bad attribute char ${src[i]}`);
       const name = an[0]; i += name.length;
       while (/\s/.test(src[i] || '')) i++;
-      if (src[i] !== '=') continue;
+      if (src[i] !== '=') { if (name === 'aria-hidden') hidden = true; continue; } // bare boolean attribute = true
       i++;
       while (/\s/.test(src[i] || '')) i++;
       const prose = PROSE_ATTRS.has(name) || PROSE_ATTRS.has(name.toLowerCase());

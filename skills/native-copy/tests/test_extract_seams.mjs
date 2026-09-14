@@ -39,6 +39,14 @@ export function Cell() {
 export function Icon() {
   return <p><span aria-hidden={true}>★</span> Rated by teams who ship weekly</p>;
 }
+export function Bare() {
+  return (
+    <span className="text-slate-700">
+      <span aria-hidden>${EM}</span>
+      <span className="sr-only">Not offered on this plan</span>
+    </span>
+  );
+}
 export function Visible() {
   return <p aria-hidden="false">Shown and read aloud to everyone</p>;
 }
@@ -46,6 +54,7 @@ export function Visible() {
   const texts = extractCode(src, 'src/components/pricing/Cell.tsx').map((r) => r.text);
   assert.ok(!texts.some((t) => t.includes(EM)), `hidden glyph leaked into copy: ${JSON.stringify(texts)}`);
   assert.ok(texts.includes('Not included'), `sr-only label lost: ${JSON.stringify(texts)}`);
+  assert.ok(texts.includes('Not offered on this plan'), `bare aria-hidden attribute leaked its glyph or lost the label: ${JSON.stringify(texts)}`);
   assert.ok(texts.some((t) => t.includes('Rated by teams who ship weekly') && !t.includes('★')), `inline hidden icon handling: ${JSON.stringify(texts)}`);
   assert.ok(texts.includes('Shown and read aloud to everyone'), 'aria-hidden="false" must not hide copy');
 });
