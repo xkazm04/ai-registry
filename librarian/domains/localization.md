@@ -317,3 +317,84 @@ bundle's whole attention score is 2 points. The second-tree debt is retired. Wha
 still owed here is the maturity flip (the reconcile lane's definition of `reconciled` may
 be met by the spec-bound applications; the mechanical pass verifies each subject against
 the definition before flipping anything) and the unwitnessed demand. Run: [[2026-09-01-1]].
+
+## 2026-09-14 — `/deepen` on operator demand: English as a target, and the fleet gate
+
+The operator asked for this bundle to become "a professional service for creating high
+quality english native texts to web", and for every project in the fleet to follow the
+rules when landing and marketing pages are built. **The scan found a coverage hole, not an
+undercooked subject**: all fifteen subjects treated English as the source and taught what
+the *other* language demands; nothing held English as the language a product ships in. By
+the skill's own rule the hole was forged, not deepened around.
+
+**Landed** (registry `main`): [[english]] (european; 8 techniques, 88 `EN-*` anchors, 3
+applications) and [[copy-quality-gates]] (craft; 6 techniques, 2 applications) in
+`e86f41e8`; the shared skill `native-copy` (contract, zero-dependency checker whose findings
+cite `EN-*` IDs, baseline ratchet, anchored review, brief-first writing, pre-push wiring) in
+`148fdbe6`; generated views `a1f164e2`, `8f559610` (gate 19/19). Shape: **17 subjects, 105
+techniques, 50 applications**.
+
+**Demand is no longer unknown.** It was stated by the operator and by the fleet survey: 8 of
+13 projects ship public English web copy (kp, systedo-case, personas-web, ascent, gravitone,
+politicas, goat, gravitone-gcloud), no prose linter existed anywhere, only systedo-case had
+English style documents, and the four projects that had an em-dash policy disagreed with each
+other. Operator decisions recorded 2026-09-14: gate blocks **new** errors only (baseline),
+**all 8** projects, **US English fleet-wide**, **em dash banned fleet-wide** in product copy.
+
+### The run's largest finding was not about English
+
+The research lane on cross-repo enforcement read the harness documentation and flagged that
+out-of-project symlinked rule files may not load. Probed the same hour with a load-telemetry
+hook: **they do not** (2.1.270; a hard link or copy does; skill-directory links do). kp loaded
+0 of its 4 registry rules; every project's external-include approval flag was false. **The
+always-on knowledge rules — this registry's "present, not fetched" design — had been reaching
+no session**, while `link-registry --check` reported them healthy. Fixed in `84f4b6aa` (copies +
+drift check); kp re-probe 4 of 4. This affects every bundle, not only this one, and it means
+the pre-2026-09-14 "no reporting installation" demand signal for every domain was partly an
+artifact: agents never saw the cards. Memory: `symlinked-rules-do-not-load`.
+
+### Applied in the same run
+
+- kp `8450dbb1` — the i18n gate walked arrays as opaque leaves; after the fix it read 8,553
+  strings per locale (34,212 counted equal) and found **4** banned dashes where it had
+  reported 0. Row in `applied.md`.
+- Registry `84f4b6aa` — the rule delivery above, `code` / `better`. Row in `applied.md`.
+
+### Research shape and source classes (tallied against accepted vs declined findings)
+
+Seven lanes + a fleet survey; a Director dossier fixed slugs and IDs with convergence marks.
+
+| source class | fate this run |
+| --- | --- |
+| primary style-guide pages, read directly | accepted; **several canonical URLs have moved** (GOV.UK guidance host, Shopify content docs, plainlanguage.gov PDFs) — cite the current host |
+| peer-reviewed studies | accepted; carried the refutations (readability, native review, detectors, plain-language credibility) |
+| preprints | accepted only hedged, with n stated (em-dash baseline on 8 human essays) |
+| vendor survey statistics | declined as cited (a stated-preference localization survey answers a different question) |
+| secondary summaries of papers | accepted only as "indicative" (translationese polish-pass effect size) |
+| practitioner lint packs and field guides | rule ideas and exception wording only; their single-lane rules are written hedged |
+
+The counter-evidence lane was again the highest-yield per token, and the blind training-data
+lane converged with the web lanes on every rule that reached the golden paths.
+
+### Director's error rate, again recorded deliberately
+
+Workers caught **six** dossier errors, each improving the result: a "validated rule with six
+pairs" that shows five (two of them article fixes); a "puffery stack" mostly made of
+checkable facts; a Title Case finding that was consistent, not mixed; two word-list hits clean
+under their own exceptions; a ~2,000-pattern ban ceiling that was decoding-time, not prompt;
+a 23.5x style figure that compared few-shot with zero-shot. The Director's own pre-fix kp
+measurement looked for one character and found 1; the gate running every rule found 4.
+
+### Saturation ledger
+
+| subject | rung | last-pass yield | dry streak | clock |
+| --- | --- | --- | --- | --- |
+| english | L2 (+ fleet samples) | forge | 0 | vocabulary rules re-checked by 2027-03-14; authorities table by 2027-09-14 |
+| copy-quality-gates | L2 + two L3 field incidents | forge | 0 | re-probe rule delivery after every harness upgrade |
+
+### Banked (return conditions in the subject notes)
+
+Heading-restating subheading rule (second sighting), elided head noun rule (second sighting),
+`specimen` lexicon row, precision count of the mechanical EN rules on real catalogs once
+several trees have run the checker, `link-registry --check` at a seam, a scripted delivery
+probe, the linker's CRLF `.gitignore` rewrite.
