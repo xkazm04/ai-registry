@@ -10754,3 +10754,45 @@ observation, and the batch lane already carries half of this idea for a differen
 - **The 7.7 gate showed built work as decidable, for the second time** (round 7, 2026-09-03, filed the same thing). A proposal's `status:` is written once and never moved by the work that executes it, so the fleet map, the gate and the proposal all agree on a state the tree contradicts. The check is one grep before the screen, not after acceptance: read the proposal's own progress section against the tree and diff it. This has now cost two runs an acceptance that meant something different from what the operator was shown — a third sighting makes it a rule for this file, and the cheap fix is a gate step, not a habit.
 - **Accepting a direction is not the same as executing all of it, and the split has to be stated before the worker is dispatched.** Of this proposal's five steps, step 1 was already merged, steps 2-4 needed a local vision model the machine does not have, and only the load-bearing deviation was executable. A worker dispatched at the whole proposal would have produced a fabricated arena, because the instruction to "execute the accepted proposal" reads as permission to produce its artifacts. Scope the dispatch to what the machine can honestly prove, and put the refused part in the ledger with its return condition.
 - **In a linked worktree `.git` is a FILE, so the shared-checkout commit recipe dies silently.** `cp .git/index "$IDX"` fails with "Not a directory" and the `&&`-chained commit never runs, in the middle of other output that looks fine. A worktree's index is private and has no sibling writers, which is the whole reason the isolated-index dance exists — so stage normally there, and verify every chained commit with `git log --oneline -1` rather than by the absence of an error.
+
+## 2.9.0 - 2026-09-14 - agent-blender-ue5-render-proof (`youtube:3yXYIXczKXI`)
+
+- **The 3D path of Phase 6b was exercised for the first time and did not reach a perceptual
+  verdict - and the method needs to say why before the next 3D run pays for it again.** Four
+  presentations, one outcome: an isolated turntable was refused by the discrimination gate twice
+  (whole-frame, then foreground-masked with the rule fixed in writing before it ran), a claim render
+  passed the gate and was rejected by the operator ("does not remind even closely realistic hold of
+  the hammer"), and an engine pass with a rigged mannequin never produced a complete capture set.
+  **A game asset's perceptual question lives in its usage context, not in the asset.** A turntable
+  cannot ask it and a proxy figure cannot either; a capsule with a cube for a hand is a scale
+  reference, and using it as a hold reference was the director's error, not the arms'.
+  ### Redesign proposal
+  For render-bound rows in `game-production/asset-production`, Phase 6b should (a) accept the
+  structural card as the verdict for STRUCTURAL claims - commissioned size, assembly, density,
+  replicate agreement - since it is deterministic, replicated and needs no judge; (b) require a
+  usage-context render (a real rig, a real grid, a real level) before any PERCEPTUAL pair is shown,
+  and treat "no usage context on this machine" exactly like "no local renderer": a lead naming the
+  instrument; (c) prefix every 3D output with the run id - this run did not, so `render-triage
+  clean` could not scope them and cleanup went by directory name. Not applied now: one run, and the
+  engine capture path is still unsolved.
+- **Agent-authored arms are a different noise model from seeds.** Two independent agents on the
+  source method differed from each other about as much as either differed from the contract arm,
+  in pixels; in structure they were indistinguishable from each other and absolutely separated from
+  the contract. For agent-authored arms the floor is the replicate agent, not a second seed, and a
+  visual pair can be refused while the structural effect is total.
+- **A crash in a multi-step probe is evidence about the sequence, never about its last step.** Two
+  headless probes crashed at an actor spawn and the draft recorded "headless spawn is fatal",
+  contradicting a correct corpus application. Obtaining the subsystem correctly still crashed; a
+  probe with no preceding import sequence spawned fine. Caught only because the neighbouring
+  application was read before writing. `assertion-inherits-its-own-bias`, in its most expensive
+  near-miss so far.
+- **Read the fleet's knowledge corpus during the seam hunt, not after drafting.** The run's lead had
+  a second independent source already sitting in pof (a construct-vs-generate rule mined from a
+  different creator on 2026-09-07), found only when reading pof's test file to add an unrelated
+  entry. It turned a single-source lead into cross-run convergence, and the structural cards
+  qualified that rule - construction alone interpenetrates; construction under the contract does
+  not - which is what shipped.
+- **Nine engine iterations were too many before stopping.** Each attempt found a real capability
+  fact (async capture, re-entrant tick, exiting launch mode, two signatures), but the stopping rule
+  was stated only before the last attempt. State it before the first: a budget in attempts or
+  minutes for any instrument the run has not driven before.
