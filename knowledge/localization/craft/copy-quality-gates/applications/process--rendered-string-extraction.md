@@ -116,19 +116,34 @@ descends into each item. It checks shape and emptiness, not typography, and its
 report is `` `${locale}: 100%` `` (`:121`) with no count of what was compared. It
 is the counter-example for recursion only, not for counted coverage.
 
-## Standing deviation, and what the tree owes
+## The repair, applied the same day (`kp` `8450dbb1`)
 
-The standard stays; `kp` falls short of it. Until the walker changes, §5's
-sentence "fails on any em dash in any catalog" is false for 62 strings in each
-locale, and `en.json:838` ships the banned mark. The repair the technique implies,
-not applied here:
+The deviation was closed on 2026-09-14 by an apply pass, as a paired run:
 
-1. `flatten()` recurses into arrays with indexed addresses
-   (`landing.voice.transcript[0]`), so every existing check reaches array strings
-   without changing a check.
-2. The success line reports string units checked, beside an independent string
-   count, and fails when they differ.
-3. A fixture with an em dash inside an array, inside an object inside an array,
-   must fail the gate.
-4. Once the gate sees the transcript string, the §5 recast of `en.json:838` is a
-   source-locale fix, and it lands before the three target locales' next pass.
+| | before | after the walker change, before recast | final |
+|---|---|---|---|
+| units the gate reads per locale | 8,505 "keys" (arrays as one key) | 8,553 strings, 62 inside 14 arrays | same |
+| independent string count, 4 locales | not reported | 34,212, equal | 34,212, equal |
+| house dash findings | 0 | **4** | 0 |
+| new syntax, placeholder or list-length findings in array strings | — | 0 | 0 |
+
+(The catalogs had grown from 8,491 to 8,553 string leaves between the first
+measurement and the fix; the 14 arrays and 62 array strings were unchanged.)
+
+What changed: the array-aware walk moved into `scripts/i18n/catalog-check.mjs`,
+addressing array strings as `landing.voice.transcript[0]` and adding a
+cross-locale list-length check; the gate fails on zero strings, on any non-string
+leaf, and when the walker's count differs from an independent recursion; the
+coverage line prints on failure as well as success; fixtures in
+`i18n/catalog-check.test.ts` (9 of 9) prove a banned dash inside an array and
+inside an object inside an array, a placeholder mismatch in a list, a list-length
+mismatch and a count mismatch all fail. The key list feeding key parity and two
+plain-path lookups was left on container keys, so array addresses created no
+false missing-key findings.
+
+**The measurement undercounted, which is the technique's point made twice.** The
+first walk looked for the em dash only. Once the gate itself saw the arrays it
+reported four findings at `landing.voice.transcript[0]`: the English em dash, and a
+prose en dash — also banned by §5 — in each of `cs`, `de` and `fr`. A one-off count
+written for one character found one; the rule set run over every unit found the
+rest. All four were recast with a full stop.
