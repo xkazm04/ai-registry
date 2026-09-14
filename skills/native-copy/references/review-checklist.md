@@ -92,6 +92,21 @@ Drop, without discussion, any finding that:
 
 A minimal fix changes the span and nothing around it. A clean string gets no record.
 
+### Truth is not a language finding
+
+The review measures one thing: how far the English is from what a native writer would put on
+the page. A rule judges how a claim is **worded** - EN-VAGUE-ATTRIBUTION flags "experts agree",
+a vocabulary rule flags an empty "seamless". Whether the claim is **true** is a different
+question no EN-* rule can decide: two pages naming different plans, a privacy promise the
+product may not keep, an unsourced test percentage, a renamed product.
+
+A reviewer who notices one records it outside the finding list, as one line in a
+**fact-check notice** (`key · "span" · what contradicts it or what source is missing`), and
+does not repair it. The notice is not vetoed, not sampled 2-of-3, and not counted in
+`given`, `kept`, repairs, escalations or any agreement figure: mixed in, it inflates every
+number with items only the product owner can settle. It goes to the owner after the language
+report.
+
 ### The veto runs these drops, not a reader
 
 Save the reviewer's findings as JSON - an array of
@@ -134,7 +149,10 @@ guard - that is how the layer grows (copy-quality-gates/anchored-model-review).
    (typography, casing) too; leave judgment minors noted.
 2. Touch nothing else. Clean strings stay untouched; drive-by rephrasing is regression.
 3. Re-run `copy-check` on the changed strings - a repair must not introduce a mechanical error.
-4. Re-run the review on the repaired strings ONCE. It must find nothing new (idempotence).
+4. Re-run the review on the repaired strings ONCE, with a fresh reviewer, and split what it
+   raises. **Repair stability** - findings on text the repair wrote, or proposing to revert
+   it - must be zero. **Panel recall** - new findings on text the repair did not touch - is
+   expected above zero and is not a failed repair.
    A string that flips A to B to A is frozen at its current value and escalated to a human;
    a second self-refinement round without new anchors degrades output.
 

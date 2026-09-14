@@ -3,7 +3,7 @@ name: native-copy
 description: "Write, check and review native-quality ENGLISH web copy where it lives: i18n JSON catalogs, TS dictionary modules, hardcoded JSX text, MDX. Records the product's declared English (US/UK spelling, dash system, quotes, case per element) in a copy contract counted against the real strings, gates changed copy with a zero-dependency checker whose every finding cites a registry EN-* rule ID (baseline ratchet, coverage printed), runs an anchored checklist review for judgment rules, and drafts page copy from a brief and fact sheet. Use when English UI or landing copy is written, reviewed, wired into pre-push, or reads non-native, translated or generated. Boundary: i18n-translate turns the source catalog into OTHER locales and treats it as truth; native-copy owns the English source copy itself. Invoke /native-copy <init|check|review|write|wire> [scope]."
 category: workflow
 memory: project
-version: 1.2.1
+version: 1.3.0
 tags: english, copy, microcopy, lint, gate, review
 argument-hint: "<init|check|review|write|wire> [--changed | scope | page]"
 ---
@@ -134,10 +134,15 @@ changes.
    recorded guard of the cited rule already covers - and counts what it dropped and why. Work
    only from its `kept` list; report `given`, `kept` and `counts`. Bulk sweeps keep findings
    reported by 2 of 3 independent samples.
-5. Repair once, on flagged spans only; re-run `check`; re-review the repaired strings once
-   and expect nothing new. A string that flips back freezes and goes to a human.
+5. Repair once, on flagged spans only; re-run `check`; re-review the repaired strings once.
+   Repair stability (findings on repaired text, flip-backs) must be zero; new findings on
+   untouched text are panel recall, not a failed repair. A string that flips back freezes and
+   goes to a human.
 6. Report strings given, strings judged, findings by severity, fixes applied, and what is
-   queued for a human (money pages always are).
+   queued for a human (money pages always are). **Language only.** Whether a claim is true
+   (a feature, a price or plan, a privacy promise, a test result, a product name the product
+   no longer uses) is not a language finding: list it after the report as a short
+   **fact-check notice**, counted in no finding, agreement, repair or escalation total.
 
 ### `write <page|section>` - brief first, English first
 
