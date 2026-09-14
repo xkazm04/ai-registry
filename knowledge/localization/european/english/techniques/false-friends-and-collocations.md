@@ -21,9 +21,10 @@ intended, these rules flag for review and never auto-fix.
 ## EN-FALSE-FRIEND · Check cognates against the lexicon; flag, never auto-fix
 
 > **Trigger** — an English word that resembles a word in the source language.
-> **Rule** — check the lexicon row; propose the usual rendering; a reviewer confirms the sense.
-> **Source** — Swan & Smith 2001; bilingual dictionaries; recurring findings in reviews of
-> Czech- and German-derived English.
+> **Rule** — check the lexicon for the author's first language; propose the usual rendering; a
+> reviewer confirms the sense.
+> **Source** — Swan & Smith 2001; bilingual dictionaries; the short and long numeric scales;
+> recurring findings in reviews of Czech- and German-derived English.
 > **Exceptions** — the English sense is meant (*actual results versus forecast*).
 
 | Source word | Tempting English | Usually means |
@@ -50,9 +51,26 @@ intended, these rules flag for review and never auto-fix.
 | geniální (cs) | genial | brilliant |
 | patetický (cs) | pathetic | grandiloquent, overblown |
 | reference (cs, site section) | references | customers, case studies |
+| bilion (cs), Billion (de) | billion | trillion (10¹²) |
+| miliarda (cs), Milliarde (de) | milliard | billion (10⁹) |
 
 ✗ *Eventually, we will contact you with an actual offer.* → ✓ *If needed, we'll contact you with
 a current offer.*
+✗ *Turnover of CZK 1.2 billion* (source *obrat 1,2 bilionu Kč*) → ✓ *Turnover of CZK 1.2
+trillion*, checked against the fact sheet. English counts on the short scale, Czech and German
+on the long one, so an untouched *bilion* on a pricing or metrics page is a thousand-fold error
+that reads fluently.
+
+The lexicon has three design properties, taken as mechanics only from the largest open
+false-friend corpus (surveyed 2026-09). It is **keyed by the author's first language**, not by
+English: one English word is a trap for an author whose language has the cognate and harmless
+for everyone else, so a list keyed by the target flags the wrong writers. A row earns an
+automatic flag only with a **measured precision** (hits a reviewer confirmed over hits raised,
+on our own reviews); no row above has one yet, so every row is a review prompt. And each row
+carries a **gloss under about 40 characters**, the last column, so the author judges the sense
+instead of accepting a swap. That corpus holds 152 rules for Polish authors, 89 for German and
+49 for Russian, and **none for Czech**. Its data is copyleft: rows here are re-derived from
+bilingual dictionaries and review findings, and its lists serve only as a cross-check.
 
 ## EN-SECTION-NAMES · Name site sections as English-language sites do
 
@@ -103,6 +121,33 @@ your request.*
 ✗ *According to us, in the case that you need more seats, the Pro plan is better.* → ✓ *If you
 need more seats, we recommend Pro.*
 
+## EN-REDUNDANT-ACRONYM · Don't repeat the word the acronym already ends on
+
+> **Trigger** — an all-capitals acronym followed by the word its last letter stands for: *PIN
+> number*, *ATM machine*, *UI interface*, *LLM model*, *ISBN number*.
+> **Rule** — drop the repeated word, or expand the acronym once and use it bare afterwards.
+> **Source** — open prose checkers ship the pattern (surveyed 2026-09), with a guard worth
+> keeping: match only the all-capitals form, because the lowercase word can be another sense
+> (*pin number* on a connector diagram).
+> **Exceptions** — a product name or termbase entry that carries the repetition.
+
+✗ *Enter your PIN number to unlock the UI interface.* → ✓ *Enter your PIN to unlock the app.*
+
+## EN-UNCOMPARABLE · Don't grade an absolute
+
+> **Trigger** — an intensifier or comparative on an ungradable adjective: *very unique*, *more
+> optimal*, *totally essential*, *most complete*.
+> **Rule** — drop the intensifier, or choose a gradable word that carries the degree
+> (*unusual*, *better*, *fuller*) and state the measure.
+> **Source** — open prose checkers ship the family (surveyed 2026-09); a warning a reader
+> confirms, not a blocking rule.
+> **Exceptions** — idiomatic intensification in a marketing voice the copy contract admits; a
+> real degree of approach to the absolute, stated (*a more complete export: it now includes
+> tags*).
+
+✗ *The most optimal, very unique way to sync calendars.* → ✓ *Syncs two calendars in under a
+second.*
+
 ## EN-ONE-TERM · One concept, one term
 
 > **Trigger** — two English words for one product concept across a catalog (*workspace* and
@@ -122,7 +167,8 @@ Run EN-FALSE-FRIEND and EN-SECTION-NAMES as a candidate search, not a rewrite: m
 lexicon, then read each hit in context, because the English sense is sometimes right and a
 scripted replacement destroys it. EN-COLLOCATION and EN-IDIOM-CALQUE need a reader; they are
 where a native reviewer earns their fee. EN-ONE-TERM runs mechanically against the termbase's
-forbidden variants. A lexicon miss that a reviewer catches is a new row in the table, cited by ID
+forbidden variants; EN-REDUNDANT-ACRONYM is a script pattern on the all-capitals form, and
+EN-UNCOMPARABLE a warning a reader confirms. A lexicon miss that a reviewer catches is a new row in the table, cited by ID
 from then on ([every finding cites an anchor](../../../_laws.md#every-finding-cites-an-anchor)).
 
 When NOT to apply: quoted source text and proper names that contain a cognate; a domain where the

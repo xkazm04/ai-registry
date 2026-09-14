@@ -18,6 +18,10 @@ techniques:
   - language-registry-single-source
   - hand-authored-exception-contract
   - source-identical-value-audit
+  - non-translatable-value-classification
+  - pseudo-localization-readiness
+  - fuzzy-reuse-under-a-threshold
+  - prompt-context-contract
 ---
 
 # Translation pipeline topology
@@ -122,6 +126,35 @@ placeholder by looking at it.
   the allowlist is enumerated and ruled against each language's termbase, never
   reduced to one percentage across locales.
 
+## What the engine is handed, and what it never is
+
+Both topologies share a seam the storage question does not settle: the request.
+What reaches an engine is a topology decision too, because every value sent is a
+value the pipeline will later present as translated.
+
+- **Not every value is language.** Numbers, switches, machine dates, identifiers
+  and addresses are classified out before a request is built, and what a human
+  decided about a key is recorded as one of four distinct exclusion classes —
+  locked, ignored, preserved, allowlisted — never as one flag that silently means
+  copy in one place, drop in another and defend in a third
+  ([non-translatable-value-classification](./techniques/non-translatable-value-classification.md)).
+- **A request is a declared contract, not a string.** The unit travels with its
+  key, context note, surface, neighbours, scored memory matches, the glossary
+  terms it contains, the target's plural rule and its placeholder map; whatever
+  the pipeline can derive it attaches itself, and every field that shapes output
+  belongs in the cache key
+  ([prompt-context-contract](./techniques/prompt-context-contract.md)).
+- **Reuse is gated by a dated threshold.** A fuzzy memory match is a suggestion,
+  an exact one is still checked against the surface it lands on, and because a
+  memory is a cache with no invalidation, a changed term ruling has to be carried
+  into it deliberately
+  ([fuzzy-reuse-under-a-threshold](./techniques/fuzzy-reuse-under-a-threshold.md)).
+- **Readiness is tested before the first real locale.** A pseudo-locale generated
+  with no engine exercises expansion, clipping, concatenation, font coverage and
+  hardcoded strings on every change — and is exempt from every quality check and
+  every coverage number, because it is not a translation
+  ([pseudo-localization-readiness](./techniques/pseudo-localization-readiness.md)).
+
 ## Failure modes this subject exists to prevent
 
 - **Trust-class laundering** — unreviewed machine output committed as if
@@ -150,7 +183,9 @@ review skills carry, and it applies inside the reviewed-and-committed
 topology. This subject owns the storage, movement and trust shape those
 activities happen in, and it is deliberately engine-agnostic: swap the MT
 model, the CI vendor or the host and every rule here survives, because
-none of them is named. Three neighbours are deliberately absent for now and
-owed to a later pass: the pre-prompt classification of non-translatable
-values, the four exclusion classes (never-translate, drop, human-owned,
-allowlist), and pseudo-localization.
+none of them is named. Its edge on the engine side is the request: what is
+classified out before it, what context and memory ride with it, and the
+engine-free pseudo-locale that tests a product's readiness for it all live
+here. How the engine's output is then scored belongs to the quality-measurement
+craft, and per-surface length and render budgets to the copy-quality-gates
+subject.

@@ -46,6 +46,12 @@ translated store rarely does.
   staccato runs. Every pattern here has legitimate uses; the finding asks a human
   to look, and the human's verdict is recorded.
 
+Beside the copy checks, a gate may assert **workflow state**, which is just as
+decidable: no unconfirmed segments, no unresolved reviewer comments, no newer
+version of the unit upstream than the one reviewed. Where each check's disposition
+lives, and how it is resolved per language and project, is
+[severity-as-declared-data](./severity-as-declared-data.md).
+
 Judgment (L4) and fidelity on translated strings (L5) are not mechanical and run
 after this stack, on its residue.
 
@@ -74,6 +80,11 @@ after this stack, on its residue.
 - **When a rule is lexical or pattern-based, block only once at least 95% of its
   findings on the real catalog were accepted**, because a gate that is wrong one
   time in ten is resolved by the first frustrated author suppressing the rule.
+- **When a check's verdict is statistical — a model's output, a score over a
+  threshold — it warns and never blocks, whatever its measured precision**, because
+  its false positives have no address a guard can fix, so a blocked author can only
+  suppress it. Rule-based spelling and grammar can still earn a block; implementations
+  in the market keep even those at warning.
 - **When a rule's acceptance falls under 50% across twenty findings, demote it to
   warning or rewrite its trigger**, because it is costing more attention than the
   defects it finds.

@@ -16,6 +16,10 @@ techniques:
   - per-pair-engine-selection
   - regression-detection-under-a-moving-engine
   - human-review-sampling-under-a-budget
+  - cost-and-licence-of-measurement
+  - language-scoped-check-exemptions
+  - engine-quality-from-reviewer-corrections
+  - context-sufficiency-signals
 ---
 
 # Translation quality measurement
@@ -92,6 +96,14 @@ degradation appears wherever an estimator is off its home ground — low-resourc
 pairs, text outside its training domain — and it is quiet there, because the
 scores stay in range and stop meaning anything.
 
+Two facts that are not about quality decide whether any of this is buildable:
+what each instrument costs per unit — a rule, a distilled estimator, a large
+one, a frontier judge, a human, each buying a different kind of answer — and
+whether the estimator's weights may run in a commercial product at all. The
+reference-free checkpoints a derived store needs are, in the most-used open
+family, the non-commercial ones
+([cost-and-licence-of-measurement](./techniques/cost-and-licence-of-measurement.md)).
+
 ## Decide what can be decided before estimating anything
 
 An estimator is the instrument of last resort, and reaching for it first is the
@@ -111,11 +123,22 @@ comparison
 These run over the whole store, cost nothing per unit, and return verdicts.
 The rule: **every defect class that a rule can decide is decided by the rule,
 and the estimator is pointed at the residue.**
+A rule is decidable only in the languages it holds for — a terminal-punctuation
+check demands an error in a language that does not end sentences with a full
+stop — so a check is skipped or given an equivalent **by language**, as data
+recorded where that language's rules live, never weakened for everyone
+([language-scoped-check-exemptions](./techniques/language-scoped-check-exemptions.md)).
 
 The deterministic layer here assumes translatedness and tests constraints on
 it. Whether a value was translated at all is a different and prior question,
 answered by the topology subject's identity audit — a store can be perfectly
 constraint-clean and entirely untranslated.
+
+Some of the residue is not a translation defect at all. Where two independent
+models translate the same unit differently, the input usually left a question
+open — a missing context note, a homograph, a fragment — and the finding belongs
+to the source owner, never to either rendering
+([context-sufficiency-signals](./techniques/context-sufficiency-signals.md)).
 
 ## One number cannot say what to do next
 
@@ -181,6 +204,13 @@ is
 violated at store scale, and it is worse than churn: it can silently revert a
 correction a review pass had already landed.
 
+Where reviewers already correct machine output, their corrections are the
+earliest regression signal the store gets: the per-locale daily rate of
+pretranslations approved unchanged, split by suggestion source and read beside
+review time and queue age, falls before any probe run does — and reports nothing
+at all for a locale nobody reviews
+([engine-quality-from-reviewer-corrections](./techniques/engine-quality-from-reviewer-corrections.md)).
+
 ## The budget is the premise, so the sample is the design
 
 Full human review of a derived store is not on offer — that is the premise of
@@ -222,6 +252,13 @@ the number reviewed goes in the summary beside the number assigned.
   changes in either direction, and the first report is a user's.
 - **The convenience sample.** A review budget spent on whatever was easy to
   open, its result reported as a corpus estimate.
+- **The licence found last.** A gate calibrated on an estimator whose weights
+  the product may not ship, rebuilt from the floor up when someone reads the
+  licence.
+- **The check that assumed a language.** A rule written for the languages its
+  author knew, firing on correct text elsewhere, then switched off for everyone.
+- **The unreviewed locale reading as steady.** An approval-rate dashboard
+  carrying a stale value forward for a locale whose review stopped.
 - **The measurement laundered into a claim.** A store described as "reviewed"
   because it was scored — the trust-class upgrade the neighbouring topology
   subject exists to prevent, arriving through the measurement door instead of

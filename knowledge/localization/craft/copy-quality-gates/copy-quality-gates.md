@@ -15,6 +15,11 @@ techniques:
   - anchored-model-review
   - reviewer-calibration-and-sampling
   - enforcement-at-the-write-seams
+  - format-aware-check-catalog
+  - deterministic-repair-classes
+  - length-and-render-budgets
+  - severity-as-declared-data
+  - source-defects-from-cross-language-agreement
 ---
 
 # Copy quality gates
@@ -33,7 +38,9 @@ The source gate is the highest-leverage gate a multi-locale product owns. Under
 a defect in the source caps every locale at once: a vague claim or a calqued
 preposition is translated faithfully into every shipped language, and each
 localizer who notices it can only work around it in one. A catalog gate that
-checks targets carefully and the source not at all sits downstream of the defect.
+checks targets carefully and the source not at all sits downstream of the defect —
+though its target findings, grouped by source unit, are the cheapest way to find one
+([source-defects-from-cross-language-agreement](./techniques/source-defects-from-cross-language-agreement.md)).
 The stance, in one sentence: **instructions advise; gates enforce.**
 
 ## Why the standard cannot live in the writer's prompt
@@ -114,7 +121,13 @@ applied to source copy, with the source-side classes a translated store rarely
 has: fragments concatenated in code, strings that never reached the catalog, and
 the variant and case rules a writer drifts from within a paragraph. L3 warns
 rather than blocks because every pattern in it has legitimate uses
-([layered-mechanical-gate](./techniques/layered-mechanical-gate.md)).
+([layered-mechanical-gate](./techniques/layered-mechanical-gate.md)). What L1
+actually contains, and the precondition graph that stops one defect being reported
+five times, is the [format-aware-check-catalog](./techniques/format-aware-check-catalog.md);
+the classes a script should fix rather than report are
+[deterministic-repair-classes](./techniques/deterministic-repair-classes.md); and
+"length budget" is three instruments, not one
+([length-and-render-budgets](./techniques/length-and-render-budgets.md)).
 
 A rule earns blocking. Structural rules block from the first day. Every other rule
 blocks only after at least 95% of its findings on the real catalog were accepted,
@@ -124,6 +137,9 @@ not emitted. Legacy occurrences are held by a ratchet on per-occurrence
 fingerprints — rule, address, text hash — never a bare count, which lets one fixed
 occurrence pay for one new one. The diff is gated on every change; the whole
 catalog is audited on a schedule and whenever the rule set or checker changes.
+Dispositions are data beside the rule identifier, and a check whose verdict is a
+model's or a score's warns and never blocks
+([severity-as-declared-data](./techniques/severity-as-declared-data.md)).
 Two instruments never gate: a readability formula is an alarm on body blocks of a
 hundred words or more (the English subject's EN-READABILITY), and a generated-text
 detector is not evidence at all (EN-DETECTOR) — a finding names a text property

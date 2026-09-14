@@ -115,6 +115,38 @@ data*.
 
 ✗ *Home | Brand — Welcome* → ✓ *Invoice software for agencies | Brand*.
 
+## EN-GENERIC-PRONOUN · Remove the generic "he" by walking the ladder in order
+
+> **Trigger** — *he*, *his*, *he/she*, *s/he* for a person whose gender is unknown or irrelevant
+> (*the user*, *each admin*).
+> **Rule** — take the first rung that fits: (1) address the reader as *you*; (2) make the noun
+> plural; (3) replace the pronoun with *the* or *a*; (4) name the role again; (5) use *person*;
+> (6) singular *they*. Never *he/she* or *s/he*. Singular *they* is correct English; it sits last
+> because every rung above it removes the pronoun instead of replacing it.
+> **Source** — one major technology style guide's bias-free communication chapter, which gives
+> the order; most guides give only the prohibition. The order is the finding.
+> **Exceptions** — a named person's own pronouns; quoted text; legal defined terms.
+
+✗ *Each admin sees his invoices once he/she signs in.* → ✓ (1) *You see your invoices once you
+sign in.* · (2) *Admins see their invoices once they sign in.*
+
+## EN-INCLUSIVE · Bias-coded technical terms are a termbase ruling, not a tone choice
+
+> **Trigger** — *master/slave* for replication or control, *whitelist/blacklist*, *hangs* for a
+> program that stops responding, *demilitarized zone* for a network segment, and terms of the
+> same class.
+> **Rule** — *primary/replica* (or the pair the domain uses), *allowlist/blocklist*, *stops
+> responding*, *perimeter network*. Record the replacement once with the old term as forbidden
+> and enforce it mechanically
+> ([one concept, one rendering](../../../_laws.md#one-concept-one-rendering)). The ruling is
+> variant-independent: US and UK catalogs hold the same one.
+> **Source** — four published terminology catalogs converge on the class (surveyed 2026-09).
+> **Exceptions** — an external identifier, command, API or configuration name we do not own,
+> quoted exactly; one mention of the old term so that searchers find the new one.
+
+✗ *Add the address to the whitelist. If the app hangs, restart the master node.* → ✓ *Add the
+address to the allowlist. If the app stops responding, restart the primary node.*
+
 ## EN-READABILITY · A readability score is an alarm, never a target
 
 > **Trigger** — a readability grade computed on UI copy or used as an acceptance threshold.
@@ -133,7 +165,8 @@ label; check the 300-word explainer beneath it.
 Review components by class, not by page: all buttons together, all errors together, so
 inconsistency is visible. EN-BUTTON, EN-LINK and EN-LABEL are checkable per component;
 EN-ERROR and EN-EMPTY-STATE need the context of what failed; EN-TAGLINE and EN-META-TITLE need
-competitors' lines beside them. Review on the rendered page, not a spreadsheet: *Order* and
+competitors' lines beside them. EN-INCLUSIVE runs mechanically from the termbase;
+EN-GENERIC-PRONOUN needs a writer to walk the ladder. Review on the rendered page, not a spreadsheet: *Order* and
 *Close* are nouns or verbs depending on where they sit.
 
 When NOT to apply: platform-owned strings the operating system supplies; legal notices; and

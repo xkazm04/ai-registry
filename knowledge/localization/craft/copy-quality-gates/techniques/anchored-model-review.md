@@ -43,7 +43,7 @@ does the most damage unobserved.
    the unit, whose replacement changes the message skeleton, or whose replacement
    swaps a flagged word for its synonym without removing the empty claim
    (EN-SYNONYM-SWAP). These are not edge cases; they are the common output of an
-   unconstrained reviewer.
+   unconstrained reviewer. Then run the deterministic veto layer below.
 5. **Isolate the reviewer from the writer.** A fresh context at minimum, a
    different model family where available. Self-preference grows with a model's
    ability to recognize its own output (Panickssery et al. 2024).
@@ -55,6 +55,25 @@ does the most damage unobserved.
    unit. It must find nothing new.
 8. **Log every finding with the human verdict** where one is given; that ledger
    calibrates the rule and the reviewer together.
+
+## The deterministic veto layer
+
+A model's false positives recur in recognizable shapes, and a recurring false
+positive is cheaper to veto by rule than to re-litigate per run. So a rule-based
+filter sits in front of the model's findings and suppresses the known ones: one open
+grammar checker ships 306 such filter rules against its own neural findings
+(counted in its shipping rule set, 2026-09), and its authoring instruction is that
+a filter's marker must cover **exactly** the span the model underlined — a veto
+wider than the finding silently swallows a true finding beside it. Each veto rule
+carries an identifier and is born from a recorded human rejection, so the ledger
+that calibrates the reviewer is also what grows the veto.
+
+"The span must occur verbatim" is only checkable when the span is unique. A quoted
+span that occurs twice in the unit does not say which occurrence is meant, and a
+replacement applied to the wrong one is a clean-string edit. So an ambiguous span is
+**expanded until it occurs exactly once** — word by word for alphabetic scripts,
+character by character for scripts written without word spacing — and a span that
+cannot be made unique inside the unit is dropped with the other unanchored findings.
 
 ## Measuring the reviewer
 

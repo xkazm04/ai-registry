@@ -60,6 +60,22 @@ measured the sample. Count per word family: one family can be a genuine house cl
 rest are coin flips, and the declaration then says which cluster wins
 ([coverage is counted, not claimed](../../../_laws.md#coverage-is-counted-not-claimed)).
 
+## EN-DIALECT-LEXIS · The declared variant governs vocabulary, not only spelling
+
+> **Trigger** — a word whose everyday form differs by variant: *postcode* / *ZIP code*, *mobile*
+> / *cell phone*, *CV* / *résumé*, *holiday* / *vacation*, *lorry* / *truck*; Indian-English
+> forms (*prepone*, *updation*, *lakh*) outside a declared Indian-English variant.
+> **Rule** — record vocabulary under EN-VARIANT as a third axis beside spelling and mechanics,
+> and hold it on every surface. A vocabulary mismatch is a stronger tell than a spelling one,
+> because a spellchecker set to either variant passes every word above.
+> **Source** — two open checkers ship dialect-aware vocabulary rules (surveyed 2026-09;
+> presence, not a measured effect).
+> **Exceptions** — a declared Indian-English variant, where *lakh* and *crore* are the reader's
+> own numbers; a field label that must match a national postal or legal form; quoted names.
+
+✗ *Upload your CV and enter your postcode* in a US catalog → ✓ *Upload your résumé and enter
+your ZIP code*.
+
 ## EN-DATE · Write dates nobody can misparse
 
 > **Trigger** — a hand-typed date, an all-numeric date in prose, an ordinal date.
@@ -144,7 +160,8 @@ with the comma.
 
 Start with EN-VARIANT, every time; a finding raised before the record exists is a vote for the
 reviewer's own house guide. Then sweep in order of mechanical certainty: formatter-rendered
-values (EN-DATE, EN-TIME, EN-NUMFMT, EN-CURRENCY), then spelling, then punctuation policy. For
+values (EN-DATE, EN-TIME, EN-NUMFMT, EN-CURRENCY), then spelling and vocabulary, then
+punctuation policy. For
 formats, the fix is structural. A hand-typed date corrected in English is still a hand-typed
 date in every locale translated from it, so replace the literal with a formatted value and
 report the source defect. State each sweep's coverage as values checked against values present.

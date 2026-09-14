@@ -178,7 +178,10 @@ Walk the triggers after drafting, in order of yield: EN-ARTICLE, EN-PREP, EN-PER
 EN-COMMA-THAT, EN-ORDER. Cite the ID with a minimal rewrite
 ([every finding cites an anchor](../../../_laws.md#every-finding-cites-an-anchor)); a native
 rejection no ID explains is a new rule, not a one-off fix. A defect filed under the nearest
-favourite rule hides its cause, so file each fix under the rule that names it. A sentence shape
+favourite rule hides its cause, so file each fix under the rule that names it. Do not script
+passive-voice detection as a pattern match: three independent implementations match predicate
+adjectives (*was tired*, *is excited*) as passive, and two of them documented the flaw
+themselves, so passive voice is a judgment-layer finding, never a mechanical one. A sentence shape
 recurring across many keys (event feeds, notification templates) is fixed as one coordinated
 rewrite, after checking how the code joins names and fragments into it.
 

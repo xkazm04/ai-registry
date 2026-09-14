@@ -55,7 +55,8 @@ that surface admits.
 
 ## EN-ACTIVE · Name the actor
 
-> **Trigger** — an agentless passive or a *there is/are* frame where the actor is known.
+> **Trigger** — an agentless passive where the actor is known. A sentence opening on *There
+> is/are* is EN-EXPLETIVE-OPEN, so one span raises one finding.
 > **Rule** — put the actor in the subject slot.
 > **Source** — Microsoft, Google, GOV.UK.
 > **Exceptions** — an unknown or irrelevant actor (*Your data is encrypted at rest*). Generated
@@ -64,6 +65,19 @@ that surface admits.
 
 ✗ *Your request has been received and will be processed.* → ✓ *We've received your request and
 will reply within two working days.*
+
+## EN-EXPLETIVE-OPEN · Open on the real verb, not on "There is" or "You can"
+
+> **Trigger** — a sentence opening on *There is/are/were* whose real verb waits in a later
+> clause; *You can* opening a step the reader has to take.
+> **Rule** — promote the buried verb to the main clause; write a required step as an imperative.
+> **Source** — three open prose linters ship the pattern (surveyed 2026-09; presence, not a
+> measured effect); one major technology style guide lists it among its top ten tips.
+> **Exceptions** — existence is the claim (*There's no fee for the first seat*, *There are no
+> results*); *you can* for an optional capability rather than a step (EN-YOU).
+
+✗ *There are three settings that control sync. You can open Settings to change them.* → ✓ *Three
+settings control sync. To change them, open Settings.*
 
 ## EN-CONTRACTION · Use natural contractions, and never mix forms on one surface
 
@@ -90,6 +104,21 @@ window.*
 
 ✗ *We would like to inform you that it is possible to change your plan. In case of any questions,
 do not hesitate to contact us.* → ✓ *You can change your plan at any time. Questions? Contact us.*
+
+## EN-REDUNDANCY · Say it once
+
+> **Trigger** — a modifier that repeats its head (*past history*, *free gift*, *end result*,
+> *advance planning*, *completely finished*); a multi-word frame standing in for one word
+> (*because of the fact that*, *in a timely manner*, *at this point in time*).
+> **Rule** — delete the repeated word; replace the frame with its word (*because*, *promptly*,
+> *now*), or with the fact it was hiding (*within a day*).
+> **Source** — four independent open prose checkers ship the family (surveyed 2026-09;
+> presence, not a measured effect). Letter formulas are EN-OFFICIALESE; this rule owns the rest.
+> **Exceptions** — legal doublets (*null and void*); fixed terms and product names; a repetition
+> a declared voice uses for emphasis.
+
+✗ *Because of the fact that the import is completely finished, the end result arrives in a
+timely manner.* → ✓ *The import is done, so the report arrives within a minute.*
 
 ## EN-PLEASE · Delete "please" unless the request is inconvenient or the product is at fault
 
@@ -126,6 +155,21 @@ Import.*
 ✗ *Leverage our platform to facilitate onboarding going forward.* → ✓ *Use it to onboard new
 hires.*
 
+## EN-CLICHE · Replace a worn English figure with the claim it stands for
+
+> **Trigger** — a stock figure native to English: *at the end of the day*, *think outside the
+> box*, *move the needle*, *low-hanging fruit*, *hit the ground running*, *the tip of the
+> iceberg*.
+> **Rule** — state what the figure means. In UI and errors, always; on marketing pages it is a
+> density rule: one figure is a choice, a paragraph of them is a finding.
+> **Source** — two open prose checkers ship lists of about 600 entries (surveyed 2026-09); the
+> lists are not reproduced here, and a hit is a candidate a reader confirms. Distinct from
+> EN-IDIOM-CALQUE (a source idiom rendered word for word) and EN-JARGON (buzzwords).
+> **Exceptions** — a figure used literally; quoted speech; a figure a declared voice adopts.
+
+✗ *At the end of the day, our alerts move the needle.* → ✓ *Our alerts flag a failed payment
+within five minutes.*
+
 ## EN-HEDGE · One qualifier per claim, where the uncertainty is
 
 > **Trigger** — stacked qualifiers (*could potentially*, *may possibly*) or performed caution
@@ -151,8 +195,9 @@ reports created before March.*
 ## Using the set
 
 Declare the surface, then walk the rules that surface admits. EN-OFFICIALESE and EN-YOU yield
-the most on translated copy; EN-MINIMIZER, EN-JARGON and EN-HEDGE on marketing drafts. Where a
-rule records a contradiction (EN-CONTRACTION, EN-WE), the declared house choice decides, and a
+the most on translated copy; EN-MINIMIZER, EN-JARGON, EN-HEDGE and EN-CLICHE on marketing
+drafts. EN-REDUNDANCY and EN-EXPLETIVE-OPEN are phrase patterns a script can surface for a
+reader to confirm. Where a rule records a contradiction (EN-CONTRACTION, EN-WE), the declared house choice decides, and a
 catalog already coherent on the other side wins over the authority until someone rules
 otherwise.
 

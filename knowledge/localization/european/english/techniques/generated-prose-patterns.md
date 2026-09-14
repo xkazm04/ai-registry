@@ -195,6 +195,13 @@ which lives with the translationese rules. Repair only flagged spans, once, and 
 against EN-SYNONYM-SWAP; a string that was clean stays as it was
 ([clean strings stay untouched](../../../_laws.md#clean-strings-stay-untouched)).
 
+One span raises one alert. A published style package for this defect class ships 136 rules,
+five to ten times this set's granularity (surveyed 2026-09), and its corpus invariant is the part
+worth adopting: when a phrase rule claims a word, that word is evicted from the single-word list,
+so a span never fires twice. This set follows the same de-duplication discipline, the mechanical
+form of the golden path's rule that the more specific trigger owns a span; enforcing it in a
+checker is owed to a later pass.
+
 When NOT to apply: quotes and testimonials; established slogans; long-form editorial prose, where
 connectors and varied rhythm are ordinary style; any word-list hit whose rule-level exception
 holds. Never report a pattern count as evidence of authorship.
