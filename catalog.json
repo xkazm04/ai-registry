@@ -321,16 +321,16 @@
     },
     {
       "name": "native-copy",
-      "version": "1.2.1",
+      "version": "1.3.0",
       "category": "workflow",
       "path": "skills/native-copy/SKILL.md",
-      "contentHash": "sha256-n1:6f804b9062efb8c1",
+      "contentHash": "sha256-n1:75bedc76cd412516",
       "adopters": [],
       "invokes30d": 0,
       "reportedInvokes": 0,
-      "lessons": 3,
+      "lessons": 4,
       "lessonsPath": "skills/native-copy/LESSONS.md",
-      "lessonsHash": "sha256-n1:007c69279e20c98f",
+      "lessonsHash": "sha256-n1:b31c7179b6de6e4a",
       "usageContributors": []
     },
     {
@@ -730,7 +730,7 @@
     "skills": 33,
     "practices": 8,
     "memory": 6,
-    "lessons": 218
+    "lessons": 219
   },
   "bundles": [
     {

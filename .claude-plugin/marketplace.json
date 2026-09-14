@@ -215,7 +215,7 @@
       "name": "native-copy",
       "source": "./skills/native-copy",
       "description": "Write, check and review native-quality ENGLISH web copy where it lives: i18n JSON catalogs, TS dictionary modules, hardcoded JSX text, MDX. Records the product's declared English (US/UK spelling, dash system, quotes, case per element) in a copy contract counted against the real strings, gates changed copy with a zero-dependency checker whose every finding cites a registry EN-* rule ID (baseline ra",
-      "version": "1.2.1",
+      "version": "1.3.0",
       "category": "workflow",
       "tags": [
         "english",
