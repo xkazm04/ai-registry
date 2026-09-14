@@ -499,3 +499,47 @@ the per-language exemption blocks (and a settled answer on Arabic kashida) belon
 language subjects; the context-disagreement signal has no measured precision; a break-even for a
 local estimator versus a hosted judge is unwritten; none of the thirteen new techniques has an
 application yet — phase C writes the first seven, grounded in personas-web.
+
+### Wave 3 closed — the instruments, the tree, and what the tree taught back
+
+**Phase B, the skills.** `i18n-translate` 1.5.0 (`d4a8543a`): the request contract, per-language
+instruction resolution, four key classes, identity tokens and per-item failure memory in the
+central writer, near-duplicate batching, a read-only `check` mode, mechanical source-defect
+detection. `native-copy` 1.2.0 (`ba65ad99`) and 1.2.1: rule metadata as data with a generated
+catalog, one span one finding, unique-span expansion, the deterministic veto layer as a CLI,
+eight new rules, and an enumerating test ratchet (63 → 89 tests). **Compatibility was proven the
+only way that works here — the old and new checker diffed finding by finding on all eight fleet
+trees**, after a rewrite that dropped invisible characters had sent kp from 73 to 529 errors with
+62 of 63 unit tests green (memory: `invisible-characters-survive-tests-not-rewrites`).
+
+**Phase C, personas-web.** Seven applications (`c83a09ea`), two pipeline applies (`b3fe23f` prompt,
+`7c05f33` counted identity), and the anchored review exercise (`4445215`, application
+`94b3404e`): 165 money-page units, three fresh reviewers, 28 findings agreed at 2-of-3, 11
+repaired, 17 escalated. Applied rows `ec78de82`.
+
+**What the tree taught back — the reason to have a real tree at all:**
+1. `source-identical-value-audit`'s own worked example had been measured on this tree with a walk
+   that skipped arrays; walked completely, 66 "legitimate" intersection keys were untranslated.
+   Third sighting of the array blind spot, and the first inside the technique that teaches it.
+2. The classifier's "no false positives" assertion holds only for the pipeline's own exclusion set;
+   its identifier rule matched ten of ten ordinary words until hyphens and ellipses were excluded.
+3. The context contract assumed one request per unit; file-batched prompts need a declared scope.
+4. **The veto layer's first real run suppressed four findings, all its own defects** — fixed in
+   1.2.1 with regression tests that fail on the old code.
+5. Idempotence was one number and had to become two (repair stability, panel recall).
+6. The survey that briefed the phase carried two wrong facts (an integration-count "conflict" that
+   was arithmetic, and a clamp count); both were caught by re-measurement before they were acted on.
+
+**Owner decisions queued from the review** (none may be settled by an agent; each is a fact or a
+term): the three tier-name sets; what "Go Cloud" does on a Coming Soon tier; "free forever / no
+tiers" beside paid tiers; "zero telemetry" beside a consent-gated analytics module and error
+reporting; "bank-grade" and "nothing is ever sent to the cloud" beside cloud execution; the
+unverified automatic model-switch guarantee; a "94% in our testing" figure with no named test; a
+hero line that fails the name-swap test; four fragment runs where the rule allows one; and a
+termbase for the product's own terms (Claude CLI vs Claude Code, orchestration, connectors).
+
+**Owed after wave 3:** a gold set for reviewers' false-positive rate (every review row is
+`unmeasurable` without it); the precondition graph and repair ledger in the checker; page-level
+density clustering; precision for the three rules that had zero hits on eight trees; the
+measurement golden path's trim (294 lines); `i18n-translate` at 534 lines needs reference material
+moved out; the per-language exemption blocks and the language spread, which remain ours to write.
