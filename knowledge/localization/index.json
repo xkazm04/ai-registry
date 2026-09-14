@@ -371,8 +371,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/localization/craft/copy-quality-gates/copy-quality-gates.md",
-   "digest": "sha256:90cdd94ac8c1468c",
-   "revision": 1,
+   "digest": "sha256:257948b445eab2be",
+   "revision": 2,
    "changedAt": "2026-09-14",
    "techniques": [
     {

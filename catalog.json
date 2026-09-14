@@ -320,6 +320,20 @@
       "usageContributors": []
     },
     {
+      "name": "native-copy",
+      "version": "1.0.0",
+      "category": "workflow",
+      "path": "skills/native-copy/SKILL.md",
+      "contentHash": "sha256-n1:fed5e7947e974d66",
+      "adopters": [],
+      "invokes30d": 0,
+      "reportedInvokes": 0,
+      "lessons": 1,
+      "lessonsPath": "skills/native-copy/LESSONS.md",
+      "lessonsHash": "sha256-n1:15e91eac6ce30cdb",
+      "usageContributors": []
+    },
+    {
       "name": "npm-updates",
       "version": "1.2.0",
       "category": "workflow",
@@ -713,10 +727,10 @@
     }
   ],
   "counts": {
-    "skills": 32,
+    "skills": 33,
     "practices": 8,
     "memory": 6,
-    "lessons": 214
+    "lessons": 215
   },
   "bundles": [
     {
@@ -778,11 +792,11 @@
       "okfVersion": "0.1",
       "profile": "rkb/0.1",
       "purity": "localization",
-      "subjects": 15,
-      "techniques": 91,
-      "applications": 45,
-      "files": 155,
-      "contentHash": "sha256:affe8c9feda10682"
+      "subjects": 17,
+      "techniques": 105,
+      "applications": 50,
+      "files": 176,
+      "contentHash": "sha256:70210ae093a63da0"
     },
     {
       "name": "marketing",
