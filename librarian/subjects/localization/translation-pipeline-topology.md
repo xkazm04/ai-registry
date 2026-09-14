@@ -1,8 +1,8 @@
 ---
 subject: translation-pipeline-topology
 domain: localization
-last_touched: 2026-08-29
-touched_by: external-reconcile
+last_touched: 2026-09-14
+touched_by: deepen (market harvest, wave 1)
 dry_streak: 0
 ---
 
@@ -257,3 +257,41 @@ The sparse-checkout pattern was mangled by the shell into
 `!C:/Program Files/Git/files` instead of `!/files`, so `files/` materialized fully.
 Harmless here - it made all 37,200 documents readable without lazy fetches - but a
 sparse pattern beginning with `/` is unsafe to pass through this platform's shell.
+
+## 2026-09-14 — market harvest, wave 1: a seam nobody owned, and two cache holes
+
+Source: [[2026-09-14-l10n-market-landscape]]. Landed in `423a40d7`; 7 techniques → 8.
+
+**New technique `serialization-transport-safety`.** A correct translation with
+correct target punctuation breaks the wire format: the low-high pair opens at a
+distinct glyph and closes at an ASCII straight quote, which terminates the
+transport's string and lands the placeholder brace where structure is expected.
+Code-verified in a production tool that repaired it repeatedly and then changed
+transport. This bundle *raises* the exposure — it mandates byte-identical
+skeletons and each target's own quote glyphs — and no role owned the seam: the
+native reviewer sees good German, the validator blames the model, the retry calls
+it flaky. Worker correction to the Director's brief, accepted: the opener does not
+terminate anything, so the mechanism is **asymmetric-pair degradation**, and
+escaping the opener buys nothing. Order of answers: transport choice, then
+per-item identity tokens, then a bounded idempotent repair declared as a
+heuristic; the gate re-asserts placeholder multiset, tag set, identity return and
+non-emptiness after transport. Hard boundary written into the file: this is never
+an argument for stripping native punctuation.
+
+**`source-hash-translation-cache` gained two amendments.** A rename presents as
+one key added and one removed; when the added key's source digest equals the
+removed key's *stored* digest, carry the translation **and its review state**,
+because re-translating pays twice and silently un-reviews text that never changed.
+And a key field added later must be **absence-compatible** — mixed in only when it
+has a non-default value — or the release that adds a review flag or a length
+budget invalidates every entry in every catalog, where "the first symptom is a
+bill, not an error". The key's composition also gained the unit's own instruction
+(context note and length budget) and the target's plural-form count.
+
+**Owed:** `serialization-transport-safety` has no application (`process--` slot
+open) and an empty `shared_with`, though the transport rule plausibly belongs to a
+checker subject too. Wave 2 leads banked for this subject specifically: the
+pre-prompt classifier for non-translatable values, the four exclusion classes
+(never-translate / drop / human-owned / allowlist), pseudo-localization, and
+fuzzy-reuse thresholds — the golden path's boundary paragraph now names the first
+three as deliberate absences so a reader knows they are owed, not missed.

@@ -398,3 +398,62 @@ Heading-restating subheading rule (second sighting), elided head noun rule (seco
 `specimen` lexicon row, precision count of the mechanical EN rules on real catalogs once
 several trees have run the checker, `link-registry --check` at a seam, a scripted delivery
 probe, the linker's CRLF `.gitignore` rewrite.
+
+## 2026-09-14 (same day, second pass) — the market harvest, wave 1 of three
+
+The operator asked whether this domain could become an AI agency; the answer given was
+"narrow productized service yes, broad agency no, prove uplift first", and the operator then
+redirected to the useful half: **mine the market for craft, buy nothing, report where the
+cheapest learning is.** Five lanes: open-source platform and linter code read at tip, vendor
+public docs, the field's campaign papers with their data. Source note:
+[[2026-09-14-l10n-market-landscape]].
+
+**The finding that matters most: we published two wrong claims**, and the market's own
+measurements are what exposed them. Span-level detection was quoted at "0.3–0.6 F1" (actual:
+13.47% best automatic against a 47.48% second-human ceiling; on English→Czech the three human
+columns read 14.40 / 24.86 / 18.24 against 10.55), and the severity weighting was quoted as
+"1, 5 and 25" (actual: major 5 / minor 1 / neutral 0, with non-translation 25 and minor
+punctuation-fluency 0.1 as *category* exceptions) — **in the golden path as well as the
+technique**, which is the recurring shape: a number corrected downstairs and left standing
+upstairs. Both fixed in `423a40d7`.
+
+**Landed (wave 1):** the two corrections plus the human-ceiling rule; segment-vs-system
+inversion; never-evaluate-with-the-metric-that-selected-it; per-pair catastrophic recall;
+blind-sentinel and corner-case rater controls; metric-delta significance floors (bootstrap
+floor ~4× smaller than the human-agreement cutoff); the category-free review protocol as a
+costed tier with its trade; the cost-and-weight-licence layer; a new technique
+`serialization-transport-safety`; rename-carrying cache deltas and absence-compatible key
+fields. Generated views rebuilt in `a43fd0b4`; localization now **17 subjects, 106 techniques**.
+
+**Cost answer, recorded so nobody re-asks:** zero. The richest sources are an open
+continuous-localization platform's code and an open grammar checker's rule architecture, then
+the 2025 campaign papers, then a desktop tool's QA reference. Paid tiers (€47–1,245/mo across
+five vendors) buy use or per-pair calibration on our own strings, never design. Two narrow
+exceptions: the formal typology standard's normative text, and commercial rights to the
+strongest open quality-estimation weights — the latter moot, since a permissive alternative
+ships code and weights.
+
+**Waves 2 and 3 are planned, not owed on a clock** (operator: "we will probably spread into
+wave 2,3 and language spread to our supported set"). Wave 2 is ~16 new techniques whose
+evidence is already in hand (per-language check exemptions, format-aware check catalog, the
+precondition graph, prefilter normalisation, auto-fix classes, the prompt context contract,
+rendered-size budgets, pseudo-localization, cross-language source-defect detection, fuzzy
+reuse thresholds, engine QE from reviewer corrections, register as a locale modifier, the
+key-class taxonomy, near-duplicate grouping, multi-model disagreement as a context signal,
+screenshot/co-occurrence context). Wave 3 is checker and skill work (rule metadata with
+measured precision per rule, a deterministic veto in front of model review, unique-span
+expansion, glossary spans as an FP mask, per-item failure memory, a read-only audit mode) plus
+eight new English rule families. **Return condition for both: the operator opens them, or a
+consumer deviation makes one of them urgent.**
+
+**The language spread is ours to write.** The largest open false-friend corpus carries 152
+Polish→English rules, 89 German, 49 Russian and **zero Czech**, and its first-language grammar
+files are near-empty. Our 16-anchor interference set has no counterpart there. The Polish and
+Russian sets are LGPL, so they are cross-checks and never sources; Czech data must be
+re-derived from academic lists.
+
+**Owed from this pass:** `reference-free-quality-estimation` is now 197 lines (profile
+guideline 60–150) because three findings landed in one file — the natural split is the
+cost-and-licence section into its own technique, in wave 2. `serialization-transport-safety`
+has no application yet (`process--` slot open), and its `shared_with` is empty although the
+transport rule plausibly belongs to a checker subject too.
