@@ -72,7 +72,11 @@ personas 1, ascent 1, gravitone 1 (gravitone-gcloud 0). All pairs `unknown`: the
 politicas 865, personas-web 276, systedo-case 100, kp 78, gravitone 40, ascent 29,
 gravitone-gcloud 9, goat 0.
 
-**Operator decisions open from adoption:** CZK rendering in English copy (`Kč` vs `CZK`,
-kp and systedo-case); whether a `Name — Brand` tab-title separator is product copy
-(gravitone-gcloud); straight vs curly apostrophes in kp (651 vs 102, undeclared); Title Case
-"document names" in politicas; goat's two spellings of its own tagline.
+**Operator decisions from adoption, ruled 2026-09-14:** the Czech koruna is `Kč` in Czech
+only and `CZK` in every other language (kp, systedo-case); "Gravitone" is the official product
+name and stays in titles, with a `|` separator instead of the banned dash (gravitone-gcloud);
+kp's apostrophes stay as they are (not a finding); politicas' Title Case document names are out
+of scope for now; goat's tagline is `Greatest of All Time` (chosen by the Director on
+delegation: title style lowercases a short preposition in a spelled-out acronym). The
+koruna ruling matches EN-CURRENCY and is the first fleet-wide instance of a per-language
+currency form - a candidate example for that rule's next deepen pass.
