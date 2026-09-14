@@ -3,9 +3,9 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "localization",
   "source": "knowledge/localization/ (frontmatter only)",
-  "subjects": 15,
-  "techniques": 91,
-  "applications": 45,
+  "subjects": 17,
+  "techniques": 105,
+  "applications": 50,
   "laws": 8,
   "categories": [
    "european",
@@ -15,7 +15,7 @@
    "craft"
   ],
   "layout": "nested",
-  "use_when_coverage": "91/91",
+  "use_when_coverage": "105/105",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -366,6 +366,121 @@
     }
    ]
   },
+  "copy-quality-gates": {
+   "category": "craft",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/localization/craft/copy-quality-gates/copy-quality-gates.md",
+   "digest": "sha256:90cdd94ac8c1468c",
+   "revision": 1,
+   "changedAt": "2026-09-14",
+   "techniques": [
+    {
+     "slug": "anchored-model-review",
+     "status": "forged",
+     "laws": [
+      "every-finding-cites-an-anchor",
+      "clean-strings-stay-untouched"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a model reviews or repairs copy that a mechanical gate has already passed",
+      "a review loop keeps rewriting strings that were fine",
+      "deciding how far a model reviewer's verdict may be trusted"
+     ],
+     "stage": "solo"
+    },
+    {
+     "slug": "copy-contract-before-drafting",
+     "status": "forged",
+     "laws": [
+      "the-authority-is-a-hypothesis",
+      "one-concept-one-rendering"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "before a coding agent or contractor drafts product or landing copy",
+      "a style standard exists only as a long document nobody can check against",
+      "deciding what goes into a writer's context and what stays in the checker"
+     ],
+     "stage": "solo"
+    },
+    {
+     "slug": "enforcement-at-the-write-seams",
+     "status": "forged",
+     "laws": [
+      "the-source-locale-is-the-source-of-truth",
+      "clean-strings-stay-untouched"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "wiring a copy gate into a repository where coding agents write catalog copy",
+      "copy that breaks a rule the agent was instructed about keeps landing",
+      "verifying that always-on instructions actually reach agent sessions"
+     ],
+     "stage": "solo"
+    },
+    {
+     "slug": "layered-mechanical-gate",
+     "status": "forged",
+     "laws": [
+      "every-finding-cites-an-anchor",
+      "coverage-is-counted-not-claimed"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing which copy checks block a change and which only warn",
+      "a pattern rule is about to be switched to error level",
+      "a copy gate has accumulated warnings nobody reads"
+     ],
+     "stage": "solo"
+    },
+    {
+     "slug": "rendered-string-extraction",
+     "status": "forged",
+     "laws": [
+      "coverage-is-counted-not-claimed",
+      "format-skeleton-is-inviolable"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "building the walker a catalog copy check runs over",
+      "a prose rule fires on placeholders or plural syntax",
+      "a copy gate reports success and nobody knows how many strings it read"
+     ],
+     "stage": "solo"
+    },
+    {
+     "slug": "reviewer-calibration-and-sampling",
+     "status": "forged",
+     "laws": [
+      "every-finding-cites-an-anchor",
+      "coverage-is-counted-not-claimed"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing who reviews source copy and in which role",
+      "deciding which pages get complete human review and which are sampled",
+      "a reviewer's corrections are being accepted without anyone knowing their error rate"
+     ],
+     "stage": "team"
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "enforcement-at-the-write-seams",
+     "file": "knowledge/localization/craft/copy-quality-gates/applications/process--enforcement-at-the-write-seams.md",
+     "verified_on": "2026-09-14"
+    },
+    {
+     "stack": "process",
+     "technique": "rendered-string-extraction",
+     "file": "knowledge/localization/craft/copy-quality-gates/applications/process--rendered-string-extraction.md",
+     "verified_on": "2026-09-14"
+    }
+   ]
+  },
   "czech": {
    "category": "european",
    "subcategory": null,
@@ -481,6 +596,155 @@
      "technique": "plural-and-count-agreement",
      "file": "knowledge/localization/european/czech/applications/spec--plural-and-count-agreement.md",
      "verified_on": "2026-08-29"
+    }
+   ]
+  },
+  "english": {
+   "category": "european",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/localization/european/english/english.md",
+   "digest": "sha256:baf8689697ae5dbc",
+   "revision": 1,
+   "changedAt": "2026-09-14",
+   "techniques": [
+    {
+     "slug": "de-translationese-constructions",
+     "status": "forged",
+     "laws": [
+      "the-source-locale-is-the-source-of-truth",
+      "every-finding-cites-an-anchor"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "reviewing English translated or machine-translated from another language",
+      "post-editing translated English for publication",
+      "deciding whether to translate or write English copy from a brief"
+     ]
+    },
+    {
+     "slug": "false-friends-and-collocations",
+     "status": "forged",
+     "laws": [
+      "one-concept-one-rendering",
+      "every-finding-cites-an-anchor"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "reviewing word choice in English derived from Czech",
+      "German or other Central European sources",
+      "naming site sections and navigation in English",
+      "checking verb-noun collocations"
+     ]
+    },
+    {
+     "slug": "generated-prose-patterns",
+     "status": "forged",
+     "laws": [
+      "every-finding-cites-an-anchor",
+      "clean-strings-stay-untouched"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "reviewing model-drafted English copy before it ships",
+      "writing review rules for generated marketing or UI text",
+      "deciding whether a flagged word is a real finding"
+     ]
+    },
+    {
+     "slug": "interference-constructions",
+     "status": "forged",
+     "laws": [
+      "every-finding-cites-an-anchor",
+      "the-source-locale-is-the-source-of-truth"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "reviewing English written or derived by speakers of Czech",
+      "other Slavic languages or German",
+      "drafting English from a source text in such a language",
+      "citing a grammar-interference defect in a typed finding"
+     ]
+    },
+    {
+     "slug": "register-and-voice",
+     "status": "forged",
+     "laws": [
+      "the-authority-is-a-hypothesis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "setting the register of English copy per surface",
+      "reviewing English that reads stiff",
+      "corporate or letter-like",
+      "writing error and status messages"
+     ]
+    },
+    {
+     "slug": "typography-and-capitalization",
+     "status": "forged",
+     "laws": [
+      "the-authority-is-a-hypothesis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "setting dash",
+      "quote and case policy for English copy",
+      "reviewing typography in an English catalog derived from another language",
+      "scripting mechanical typography checks"
+     ]
+    },
+    {
+     "slug": "ui-and-landing-microcopy",
+     "status": "forged",
+     "laws": [
+      "one-concept-one-rendering"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing or reviewing English buttons",
+      "errors",
+      "empty states",
+      "labels and links",
+      "reviewing a hero line or page title",
+      "rendering a source-language UI string as an English component"
+     ]
+    },
+    {
+     "slug": "variant-and-locale-conventions",
+     "status": "forged",
+     "laws": [
+      "the-authority-is-a-hypothesis",
+      "coverage-is-counted-not-claimed"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "starting any audit of an English catalog",
+      "fixing mixed US and UK spelling",
+      "writing dates",
+      "times",
+      "numbers or prices into English copy"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "generated-prose-patterns",
+     "file": "knowledge/localization/european/english/applications/process--generated-prose-patterns.md",
+     "verified_on": "2026-09-14"
+    },
+    {
+     "stack": "process",
+     "technique": "interference-constructions",
+     "file": "knowledge/localization/european/english/applications/process--interference-constructions.md",
+     "verified_on": "2026-09-14"
+    },
+    {
+     "stack": "spec",
+     "technique": "typography-and-capitalization",
+     "file": "knowledge/localization/european/english/applications/spec--typography-and-capitalization.md",
+     "verified_on": "2026-09-14"
     }
    ]
   },
@@ -1749,6 +2013,7 @@
     "bengali/bengali-script-and-numerals",
     "bengali/classifiers-and-quantity",
     "chinese/measure-words-and-quantity",
+    "copy-quality-gates/rendered-string-extraction",
     "czech/plural-and-count-agreement",
     "french/plural-and-agreement",
     "hindi/de-anglicization-constructions",
@@ -1771,6 +2036,9 @@
    "techniques": [
     "arabic/bidirectional-text-and-interpolation",
     "arabic/plural-and-count-agreement",
+    "copy-quality-gates/enforcement-at-the-write-seams",
+    "english/de-translationese-constructions",
+    "english/interference-constructions",
     "french/plural-and-agreement",
     "french/ui-conventions-and-length",
     "german/length-and-compression",
@@ -1803,7 +2071,14 @@
     "chinese/de-anglicization-constructions",
     "chinese/register-and-address",
     "chinese/ui-conventions-and-length",
+    "copy-quality-gates/anchored-model-review",
+    "copy-quality-gates/layered-mechanical-gate",
+    "copy-quality-gates/reviewer-calibration-and-sampling",
     "czech/de-anglicization-constructions",
+    "english/de-translationese-constructions",
+    "english/false-friends-and-collocations",
+    "english/generated-prose-patterns",
+    "english/interference-constructions",
     "french/de-anglicization-constructions",
     "french/typography-and-spacing",
     "german/de-anglicization-constructions",
@@ -1831,6 +2106,9 @@
     "arabic/de-anglicization-constructions",
     "bengali/de-anglicization-constructions",
     "chinese/de-anglicization-constructions",
+    "copy-quality-gates/anchored-model-review",
+    "copy-quality-gates/enforcement-at-the-write-seams",
+    "english/generated-prose-patterns",
     "french/typography-and-spacing",
     "german/de-anglicization-constructions",
     "hindi/de-anglicization-constructions",
@@ -1856,7 +2134,10 @@
     "bengali/terminology-and-loanwords",
     "chinese/measure-words-and-quantity",
     "chinese/terminology-and-variants",
+    "copy-quality-gates/copy-contract-before-drafting",
     "czech/terminology-and-loanwords",
+    "english/false-friends-and-collocations",
+    "english/ui-and-landing-microcopy",
     "french/terminology-and-loanwords",
     "german/terminology-and-loanwords",
     "hindi/gender-and-agreement",
@@ -1881,8 +2162,12 @@
     "chinese/character-width-and-typography",
     "chinese/register-and-address",
     "chinese/terminology-and-variants",
+    "copy-quality-gates/copy-contract-before-drafting",
     "czech/register-and-address",
     "czech/terminology-and-loanwords",
+    "english/register-and-voice",
+    "english/typography-and-capitalization",
+    "english/variant-and-locale-conventions",
     "french/register-and-address",
     "french/terminology-and-loanwords",
     "german/terminology-and-loanwords",
@@ -1906,6 +2191,10 @@
   "coverage-is-counted-not-claimed": {
    "statement": "Self-reported completeness runs short — a reviewer asked to audit two hundred strings audits a hundred and thirty and honestly reports success. Every sweep states the number actually reviewed against the number assigned, short batches are re-run against the **current** catalog (never the original snapshot, which reverts the first pass's fixes), and the honest percentage goes in the summary. A locale whose untranslated strings fall back silently to the source language extends this law downward: key parity proves nothing about translatedness, so coverage there means values checked, not keys present.",
    "techniques": [
+    "copy-quality-gates/layered-mechanical-gate",
+    "copy-quality-gates/rendered-string-extraction",
+    "copy-quality-gates/reviewer-calibration-and-sampling",
+    "english/variant-and-locale-conventions",
     "translation-pipeline-topology/canonical-and-derived-split",
     "translation-pipeline-topology/canonical-fallback-serving",
     "translation-pipeline-topology/language-registry-single-source",
