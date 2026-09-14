@@ -10796,3 +10796,36 @@ observation, and the batch lane already carries half of this idea for a differen
   fact (async capture, re-entrant tick, exiting launch mode, two signatures), but the stopping rule
   was stated only before the last attempt. State it before the first: a budget in attempts or
   minutes for any instrument the run has not driven before.
+
+## 2.9.0 - 2026-09-14 - agent-creature-animation-render-proof (`youtube:h_mR2BRibZ8`)
+
+- **The three focus items the previous 3D run wrote were all applied, and all three paid.** The
+  usage-context probe found no rigged asset before any pair was designed, so the run built one
+  instead of discovering it at triage. The attempt budget stopped the rig stage at three and put the
+  overrun in front of the operator as a choice. Reading pof's corpus first showed it had no
+  reference-video stage and no weight-solve precondition, which is exactly where the shipped entry
+  went. A focus written by one run and executed by the next is the loop working.
+- **Two render-bound rows, two gates refused, and the refusals were informative rather than empty.**
+  Row 1 turned a source trick into a measured negative on the local model (prose "half speed" did
+  not control speed across three seeds per brief). Row 2 showed a reference moving TIMING (shorter
+  actions) while the poses stayed within agent variance. A refused pair still carries its
+  structural description; record it, never grade it.
+  ### Redesign proposal
+  For render-bound MOTION rows, Phase 6b should put a clean-rig precondition ahead of the pair: a
+  rigged subject that passes a per-vertex rigidity check and a tear check at the action's extreme
+  pose. Two consecutive 3D runs lost their perceptual pair to the subject (a proxy hand; a fused
+  mesh) rather than to the approaches. Where the fleet has no such asset, the row is banked until
+  one exists, like any other missing instrument. Not applied now: two runs, and the precondition
+  itself needs one clean pass to calibrate.
+- **Self-verification is not verification, measured twice in one run.** A rig report called the
+  attempt-3 axe fully rigid; a per-vertex probe found 733 of 765 axe vertices below 95% hand weight.
+  An animation agent reported zero foot movement on its sampled key frames; the harness, reading
+  every frame, found 1.7 and 1.3 cm. The note carries the harness numbers and attributes the rest.
+  This is `no-gate-self-certifies` and the sampling technique's "the sampler decides what the reader
+  sees", arriving in an agent pipeline.
+- **One seed pair is not a floor.** An interim read of normal vs half-speed put the strike peak
+  "about one second later"; the pre-registered three-seed extension showed peaks at 29/44/35 vs
+  53/39/19. The extension was written down before it rendered, which is the only reason it counts.
+- **Pre-read the reference, and warn the consumer.** The generated reference hid the head behind the
+  shield at the top of the windup and showed a two-handed recovery the rig could not do. Both went
+  into the reference brief as known defects; the reference agents avoided both.
