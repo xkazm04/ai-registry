@@ -178,3 +178,82 @@ and where the fact can be recorded it is recorded instead.
   and never retired. It is worth recording that this document, not the catalog,
   was the misleading artifact — the doc asserted a coverage state the tree had
   already left behind, and only counting settled it.
+
+## Second reading, 2026-09-14: arrays included, and the floor moves
+
+Re-read at `35d557b` on `chore/remove-react-virtuoso` with a walk that descends
+arrays. The English catalog holds **1,663 strings under 44 sections, and 242 of them
+sit inside 43 arrays**.
+
+**The measurement above did not look inside arrays.** An objects-only walk over
+`e8324db` (2026-08-28) and over `35d557b` gives 1,421 English strings at both commits.
+It reproduces this document's non-Latin counts exactly (27 for `ar`, `bn`, `hi` and
+`ko`; 28 for `ru`; 29 for `ja` and `zh`) and its 25-key intersection. The Latin counts
+come back within 1–7 of the table. Neither walk sees any change in the catalogs between
+the two commits, so the difference is the instrument. It is the defect named in
+[rendered-string extraction](../../copy-quality-gates/techniques/rendered-string-extraction.md):
+a walker that treats an array as a leaf skips whatever is inside it.
+
+A full walk, counting values identical to `en`:
+
+| script | identical (of which inside arrays) |
+| --- | --- |
+| non-Latin | `ar` 102 (75) · `bn` 103 (76) · `hi` 103 (76) · `ja` 103 (74) · `ko` 101 (74) · `ru` 107 (79) · `zh` 103 (74) |
+| Latin | `vi` 122 (79) · `es` 140 (78) · `cs` 141 (81) · `id` 161 (84) · `de` 183 (85) · `fr` 194 (85) |
+
+The script boundary holds (107 < 122). The floor does not: it moved from 27–29 to
+101–107, and no difference in shared vocabulary moved it.
+
+**The intersection is 95, and 66 of those values are untranslated.** Identical in all
+thirteen locales:
+- **54 use-case card titles and descriptions**:
+  `useCasesSection.<connector>.cases[0..2].title` and `.desc` for nine connectors
+  (*Inbox triage*; *Auto-label, prioritize, and draft replies…*). They render in
+  `src/components/sections/use-cases/index.tsx`.
+- **12 FAQ questions and answers**: `faqSection.questions[0..5].q` and `.a`. They
+  render in `src/components/sections/FAQ.tsx` and `src/app/guide/page.tsx`, and are
+  emitted as structured data by `src/app/homeJsonLd.ts`.
+
+The remaining 29 are the legitimate classes listed above: names, platforms,
+initialisms and skeleton. Both untranslated blocks are arrays, which is why the first
+reading saw neither. "Every one was legitimate" was true of the part of the catalog it
+could see.
+
+**This is a finding against the technique, not the tree.** Step 2 says the
+intersection is classes 1–3 "almost by construction, because no single language pair's
+shared vocabulary or borrowing policy can put a key there". A block that was never
+translated into *any* locale puts itself there. The intersection is exactly where
+source copied into every catalog at once hides. The technique's own worked figures
+(27–29 of 1,506; 43–116; 25 keys, all legitimate) come from this array-blind reading.
+This section records the evidence for both corrections; the technique itself is not
+edited here.
+
+**The gate and the serving path, re-read.**
+- **The gate does not compare values.** `scripts/check-i18n-coverage.mjs` is unchanged
+  since `391b644` (2026-05-16). It descends arrays (`:67-80`) but never compares values,
+  and it prints `${locale}: 100%` (`:121`). `fr` passes with 194 identical values.
+- **Serving hides absence.** `deepMerge(en, translations)`
+  (`src/i18n/useTranslation.ts:29-48`) fills any absent key from English with no signal.
+- **A missing object is one issue.** On the working tree that day, a sibling session's
+  uncommitted `a11y` block (40 keys, in `en`, `de`, `es` and `fr` only) makes the gate
+  exit 1. It prints `xx.a11y: missing translation` once in each of ten locales, one
+  issue for 40 strings, because a missing object is reported at the object
+  (`:89-92`). The deep-merge would serve all 40 in English.
+
+**The tree already proposed the ratchet.**
+`docs/harness/ambiguity-ui-scan-2026-07-16/internationalization.md:4-12` (`f78d3fd`):
+- It headed the finding: "gate certifies locales that are 11–17% untranslated English".
+- It proposed "identical-to-English ratchet with an allowlist file for legitimately
+  identical strings".
+- It asked to "Rename the success message to what it measures".
+
+Its counts (163–254 per locale) predate the 2026-07-18 native-text pass (`3ca027b`)
+and were not reproduced. None of the proposal is implemented at `35d557b`.
+
+**Two corrections to the sections above.**
+- "Every locale is fully translated" and "the measurement above shows those surfaces
+  translated" were array-blind claims: 54 card strings and 12 FAQ entries are English
+  in every locale.
+- The guide drift detector's `--strict` is not a release gate. CI excludes the detector
+  permanently over line endings (`.github/workflows/ci.yml:58-74`), and a default run
+  exits 0 with 871 drift entries.

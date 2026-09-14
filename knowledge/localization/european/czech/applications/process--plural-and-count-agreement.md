@@ -63,6 +63,66 @@ plus the explicit ban on the nominative-plural-only `_other` ("agenti",
 agreement pitfall this technique shares a boundary with: a template like
 "{name} je nastaven" breaking when a feminine persona name fills the slot.
 
+## Second tree: personas-web — two slots picked by `n === 1`, and no recorded workaround
+
+`personas-web` on `chore/remove-react-virtuoso` at `35d557b` (2026-09-14) is a third
+shape: no plural primitive at all. Everything below was read from catalogs and call
+sites that day; nothing was rendered.
+
+**The mechanism.** English carries four `xOne`/`xOther` pairs:
+`roadmapSection.progress.toGoOne/Other`, `roadmapSection.detail.localeOne/Other`, and
+`featureVoting.summary.commentOne/Other` and `boostOne/Other`
+(`src/i18n/en.ts:2996-2997`, `:3033-3034`, `:3083-3086`). Each pair is chosen with
+`=== 1` and filled with `String.replace` (`RoadmapProgress.tsx:37`,
+`roadmap/areas.ts:109`, `FeatureVotingSummary.tsx:57` and `:61`). Seven more count
+sites pair singular and plural keys without that naming: `AgentDetail.tsx:146` and
+`:150`, `MemoryActionsPanel.tsx:102`, `EventsBulkRetryBar.tsx:28`,
+`EventsFiltersToolbar.tsx:76`, `SubscriptionCard.tsx:81` and
+`app/dashboard/agents/page.tsx:120`. One more site hardcodes English
+(`GeologicalLayer.tsx:61`, `"memory" : "memories"`). That makes eleven two-slot
+selectors in the catalog, and for Czech every one of them is a slot short.
+
+**The undecided state, on record.** `docs/translation-handoff.md:221-229` (`edc2804`,
+2026-04-19) names the problem: "Some languages need different forms for 1 vs 2-4 vs
+5+ (ru, cs)". It offers two options: accept "slight awkwardness", or add a helper whose
+keys become `{one: string; few: string; many: string}`. It records no choice, and five
+months later neither option exists. The proposed schema would have been wrong for
+Czech on arrival. It drops `other`, which covers 0 and every count from 5 up and is the
+most frequent branch. It adds `many`, which in Czech is selected only by a count
+rendered with a fraction digit.
+
+**What the Czech catalog did without a decision** (`src/i18n/cs.ts` at `35d557b`):
+
+| outcome | pairs | example |
+|---|---|---|
+| genitive-plural `other` (workaround 1) | 4: `toGo`, `locale`, `comment`, `boost` (`:1384-1385`, `:1436-1437`, `:1486-1489`) | *{n} jazyků*: acceptable at 5, wrong at 2–4 |
+| nominative-plural `other` (the banned move) | 4: `subscription(s)` *odběry*, `trigger(s)` *triggery*, `suggestion(s)` *návrhy*, `match(es)` *shody* | wrong at every count from 5 |
+| a form no count selects | 1: `agentsDeployed` *nasazeních agentů* | locative adjective beside a genitive-plural noun |
+| unreadable | 2: `result(s)` *v?sledek* / *v?sledk?* and `failedEvent(s)Selected` (`:1205-1206`, `:1214`) | diacritics replaced by a literal ASCII `?` (byte 0x3F) |
+| parenthetical shorthand (workaround 2) | 0 | — |
+
+The unreadable pair is not a plural defect, but it cannot be audited as one either,
+because the forms are gone from the file. 92 Czech values carry a `?` inside or at the
+end of a word where English has none. `toGoOther` also shows what workaround 1 gives
+up: *zbývá {count} fází* is right at 5 and wrong at 3 in both its verb and its noun
+(*zbývají 3 fáze*).
+
+Russian in the same tree shows the same split: *предложений* (genitive plural) beside
+*подписки* (nominative plural). It also makes the one move Czech did not. `toGoOther`
+is recast count-invariant as *Осталось этапов: {count}*, the escape hatch in its
+label-and-number form. The mix is therefore not one translator's habit. It is what a
+two-slot system produces when nobody writes down which workaround the catalog uses.
+
+**Not shipping, still owed.** Language switching is off unless
+`NEXT_PUBLIC_SHOW_LANGUAGE_SWITCHER=true` (`src/stores/i18nStore.ts:33-42`), so none
+of this renders to users today. The same-day guide template amendment (`b3fe23f`)
+states the `xOne`/`xOther` limitation, and declares it out of scope for guide prose.
+Before the switch flips, the catalog owes the one decision this technique asks for:
+- **Record a workaround per surface class**: genitive-plural `other` or the
+  parenthetical shorthand.
+- **Recast the four nominative-plural `other` values.**
+- **Re-translate the two lossy pairs.**
+
 ## What generalized upward
 
 The upward lessons this subject's technique absorbed from these two repos:

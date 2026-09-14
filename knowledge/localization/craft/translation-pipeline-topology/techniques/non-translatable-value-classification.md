@@ -41,9 +41,14 @@ Decidable, cheap, and each class removes a distinct corruption:
 - **A machine date** — a whole value in the ordering-stable international form.
   A display date is formatted from a value at runtime; a machine date in a
   catalog is a value that leaked, and translating it makes the leak permanent.
-- **A system identifier** — a long token with mixed case, digits or separators
-  and no spaces. This is the class that produces the worst outcome, because a
-  translated identifier still looks like an identifier.
+- **A system identifier** — a long token with no spaces whose composition no
+  word has: letters mixed with digits, an internal case change, or an internal
+  underscore, dot or colon. This is the class that produces the worst outcome,
+  because a translated identifier still looks like an identifier. **A hyphen and
+  a trailing ellipsis are not identifier separators**: a first cut that counted
+  "digits or separators" matched ten of ten ordinary English values in one real
+  catalog — hyphenated compounds such as *Self-hosted*, and progress labels that
+  end in three dots — which is the classifier shipping words untranslated.
 - **A URL** — a whole value that is an address.
 
 Three rules keep the classifier from becoming its own defect source:
