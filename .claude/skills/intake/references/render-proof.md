@@ -1,4 +1,4 @@
-# Render proof - generative-output bundles (v2.9.0)
+# Render proof - generative-output bundles (v2.10.0)
 
 Read this file at Phase 5 whenever a candidate's home is a bundle whose deliverable is a
 rendered artifact. SKILL.md carries the rule; this file carries the procedure.
@@ -48,7 +48,9 @@ also proves the generation instruments before Phase 5 scores anything:
 | --- | --- | --- |
 | Still image, sprite, texture, keyframe | ComfyUI + Flux 2 dev (multi-reference via chained `ReferenceLatent`) | `models/diffusion_models`, `GET :8188/object_info/ReferenceLatent` |
 | Video, first frame or first+last frame | ComfyUI + MiniMax H3 FL2VA (turbo LoRA), Wan 2.2 TI2V 5B | `comfy_extras/nodes_minimax_h3.py` inputs, model files present |
-| 3D mesh | Blender (headless `--background --python`) renders a fixed turntable: same camera orbit, same three-point light, same frame count for both arms | `blender --version` |
+| 3D mesh, rig, animation | Blender headless renders a **pose sheet** (`render-proof/pose_sheet.py`): key poses in columns, fixed orthographic cameras in rows, framing from the subject's rest bounds - one still per arm. Rigs first pass `render-proof/rig_check.py` | `blender --version`, then each instrument's `--selftest` |
+| Sheet discrimination | `render-proof/sheet_distance.py`: foreground-masked distance + silhouette distance, the numbers `render-triage.mjs sheet` gates on | its `--selftest` |
+| Real-time engine view (opt-in) | Editor screenshots of the asset in its usage context - only when the question cannot be asked without the engine (a material, lighting, a socket on a shipping skeleton) | see "Engine screenshots" below |
 | Sprite sheet / atlas | Flux 2 stills + a deterministic packer; triage the packed sheet, not the cells | - |
 
 The resource discipline is not optional and is already written down in a connected tree:
@@ -58,6 +60,87 @@ stage, never alternate engines per item; recycle ComfyUI before every clip; chec
 charge and disk, not free RAM; **never recycle while a foreign job runs**. Launch the render
 detached with its stdout/stderr in the run's scratch directory and a resumable checkpoint -
 every failure in this stack presents as silence.
+
+## 3D subjects: a clean rig first, stills not clips (v2.10.0)
+
+Two consecutive 3D render proofs (2026-09-14, `youtube:3yXYIXczKXI` and `youtube:h_mR2BRibZ8`)
+lost their perceptual pair to the **subject**, not to the approaches under test. The first used a
+capsule with a cube for a hand as a usage context and the operator rejected it: *"Result does not
+remind even closely realistic hold of the hammer"*. The second rigged a generated mesh whose fist
+was welded to its thigh - a torn sheet at the top of every chop - and whose axe ended up partly
+weighted to the leg; four animation arms inherited it, and the gate refused the pair. Both times the
+rig was reported fine by the pass that built it, and both times an independent instrument said
+otherwise. The operator's direction, the same day: comparisons must not depend on generating
+video - compare rendered models, in stills or in the engine, and store the blind winner as before.
+
+### The clean-rig precondition
+
+**No motion, rigging or posing pair is designed until the subject passes `rig_check.py`** against
+the poses the action will reach:
+
+```sh
+blender --background --factory-startup --python-exit-code 2 \
+  --python .claude/skills/intake/references/render-proof/rig_check.py -- <rig.blend> <spec.json> <out.json>
+# exit 0 clean, 1 findings, 2 could not run
+```
+
+- **Declare the extreme poses first.** A rig is clean *for an action*: the top of the windup, the
+  bottom of the strike, the widest stance. Write them into the spec before any arm is keyed.
+- **Mark rigid parts with a non-deform vertex group** (`rigid_axe` on the hand bone) - never an
+  index list: a topology split renumbered the vertices and a stored list silently pointed at
+  different ones.
+- **The four findings and what each blocks:** `UNWEIGHTED` (the weight solve failed or skipped
+  vertices), `RIGID_SHARE` (a weapon partly bound to another bone), `RIGID_DRIFT` (a rigid part
+  leaves its bone's transform at a pose), `TEAR` (edges stretched past 2x - parts fused across
+  bones). Defaults: 95% share, 1 cm drift, 2x stretch, at most 0.1% of edges.
+- **A failing subject is repaired or banked, never animated for triage.** Repair attempts count
+  against the stage budget stated before the stage began; an overrun is the operator's call. When
+  the fleet has no clean rigged asset for the action, the row is a **lead whose return condition
+  names that asset** - exactly like a missing renderer.
+- **Never accept a rig's rigidity from the pass that built it.** The report, the rigger's own
+  verification stills and an agent's "sampled frames" all certified defects that `rig_check` and a
+  per-frame harness later measured.
+- **Calibration limit, stated with it:** the self-test fixtures are authored by the same hand as the
+  checks, so they prove the checks catch the defects that were planted, not every defect a real
+  asset has. The first real rig through the check calibrates its tolerances; record the numbers.
+
+### The pose sheet is the 3D presentation
+
+A 3D arm is shown to the operator as **one still image**: its key poses in columns, fixed cameras in
+rows, rendered by `pose_sheet.py` from the arm's own scene.
+
+```sh
+blender --background --factory-startup --python-exit-code 2 \
+  --python .claude/skills/intake/references/render-proof/pose_sheet.py -- <scene.blend> <spec.json> <run-id>_<arm>.png [<arm_script.py>]
+blender --background --factory-startup --python-exit-code 2 \
+  --python .claude/skills/intake/references/render-proof/sheet_distance.py -- <sheet_A.png> <sheet_B.png>
+```
+
+- **Identical framing for every arm on one subject**: orthographic cameras centred and scaled from
+  the REST bounds (or a `frame` in the spec), never from the arm's own posed bounds - a wider swing
+  must not shrink its own character.
+- **Poses or frames are declared.** Static poses come from the spec; an animated arm is sampled at
+  listed frames or at an even stride where one exists, and the card beside the sheet records
+  kept-of-available and the actual frames.
+- **No text on the sheet**; the card JSON carries the arm and frames and is never shown before the
+  reveal. The sheet goes into the manifest as the arm's file; `render-triage.mjs` already serves
+  images.
+- **Discrimination for agent-authored arms** uses a replicate agent per approach as the floor (two
+  agents on one approach), because authoring variance, not seed variance, is the noise; the same 1.5x
+  rule applies to `sheet_distance.py`'s `masked_mean_abs`.
+- **Why stills and not clips:** across both runs Blender rendered every still requested, a local
+  video model ignored a speed instruction across three seeds, and an unattended engine capture pass
+  returned 7 of 16 screenshots. A still is also what a person compares side by side without
+  scrubbing two timelines in sync.
+
+### Engine screenshots (opt-in)
+
+Use the engine only when the question needs it - a shipping skeleton's socket, a material, engine
+lighting - and read the fleet's engine pitfall corpus first: captures are asynchronous, a per-frame
+callback is re-entered by imports, the run-a-script launch flag exits when the script returns, and an
+unattended session still dropped 7 of 16 captures. **Every requested capture is verified on disk
+before the sheet is built; a pair with a missing capture is not shown.** The screenshot then goes
+through the same sheet, distance and blind triage as a Blender still.
 
 ## The arms
 

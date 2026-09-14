@@ -3,7 +3,7 @@ name: intake
 description: "Mine an external source - a YouTube video, a news roundup, an article, pasted notes, a repository - for what it should change in THIS registry, and in the connected projects that consume it. Ingests the source, reads its design decisions as well as its claims, maps both against existing bundles for prior art, triages with the operator, and lands what survives corroboration - amendments for boundary cases, techniques and subjects for mechanisms, forge handoffs for systems whose architecture the corpus lacks. News sources mostly yield currency signals and leads; that is a successful run. Use when someone shares a link and asks what it means for us."
 category: ai-native
 memory: project
-version: 2.9.0
+version: 2.10.0
 tags: research, sources, memory-lane, admission-gate, render-proof, triage, currency, cross-repo, leads, apply, ab-test, parallel, reference-index, design-read, forge-handoff, directions, fleet-map, peer-study, opus-workers, decision-gate
 ---
 
@@ -1073,8 +1073,19 @@ is landing blind. The first run under this phase found two corpus files contradi
 each other at the still-to-motion hop, with a source siding with one of them, and no
 amount of reading could settle it; rendering both arms could.
 
-Four rules hold without exception:
+Five rules hold without exception:
 
+- **A 3D subject is clean before it is compared, and it is compared in stills (v2.10).** No
+  motion, rigging or posing pair is designed until the rigged subject passes
+  `references/render-proof/rig_check.py` at the poses the action will reach - no unweighted
+  vertices, rigid parts rigid per vertex, no torn edges. A subject that fails is repaired within
+  the stage's stated budget or banked as a lead naming the clean asset it needs; it is never
+  animated for triage. Each 3D arm is then shown as one pose sheet
+  (`references/render-proof/pose_sheet.py`) with identical framing across arms, gated by
+  `sheet_distance.py` and triaged blind like any other image, with the winner stored in
+  `verdict.json`. Generated video is not a presentation; engine screenshots are opt-in. Two 3D
+  runs in a row lost their pair to the subject - a proxy hand, then a fused mesh - after the
+  pass that built the rig had reported it fine.
 - **Arms are approaches, and they are discriminable before the operator looks.** Render the
   same approach at a second seed; the arms must differ from each other by at least 1.5x
   that seed noise, recorded as the pair's `discrimination`, or `render-triage.mjs sheet`
@@ -1740,6 +1751,9 @@ corroboration behind it.
   output is the only instrument. A technique that changes what a generator is told, and
   was never rendered through both arms and triaged by the operator, is a guess with a
   citation. Render, triage blind, record the verdict, then delete the renders.
+- **Animating a subject nobody checked.** A torn or half-weighted rig is inherited by every
+  arm; the pair then tests the rig. Run `rig_check.py` at the action's extreme poses first, and
+  never take a rig's rigidity from the report of the pass that built it.
 - **Grading your own render proof, or deleting renders before the verdict.** The first
   launders the director's preference into the corpus; the second throws away the only
   thing the render was for.

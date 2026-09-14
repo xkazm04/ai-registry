@@ -10829,3 +10829,30 @@ observation, and the batch lane already carries half of this idea for a differen
 - **Pre-read the reference, and warn the consumer.** The generated reference hid the head behind the
   shield at the top of the windup and showed a two-handed recovery the rig could not do. Both went
   into the reference brief as known defects; the reference agents avoided both.
+
+## 2.10.0 - 2026-09-14 - operator: execute the clean-rig redesign (no source)
+
+- **The redesign proposal from `agent-creature-animation-render-proof` was applied the same day, on
+  operator instruction: intake 2.9.0 -> 2.10.0.** Phase 6b gains a fifth rule and
+  `references/render-proof.md` a section: a 3D subject passes `render-proof/rig_check.py` at the
+  action's extreme poses before any motion, rigging or posing pair is designed, and each 3D arm is
+  presented as one pose sheet (`pose_sheet.py`) gated by `sheet_distance.py`, triaged blind, winner
+  stored in `verdict.json`. The operator's direction that shaped the second half: comparisons must
+  not depend on generating video - compare rendered models, in stills or inside the engine.
+- **The instruments ship with planted controls, and a Node test runs them.** `rig_check.py`'s
+  self-test builds a clean two-bone fixture (must pass) and a dirty one - a weapon welded to a thigh
+  block, weapon vertices 60% on the wrong bone, one unweighted vertex - that must report
+  UNWEIGHTED, RIGID_SHARE, RIGID_DRIFT and TEAR; all four fired on the first run. `sheet_distance.py`
+  measures identical images at 0.0 and a shifted subject at 130.0 / 1.0; `pose_sheet.py` renders a
+  240x240, non-blank, pose-distinct sheet. `scripts/tests/render-proof-blender.test.mjs` runs all
+  three when Blender exists and SKIPS when it does not, so CI reports the gap rather than certifying
+  instruments it never ran.
+- **Calibration limit, recorded rather than hidden:** the fixtures were authored by the hand that
+  wrote the checks, so they prove the checks catch the planted defects - `assertion-inherits-its-own-bias`
+  applies. The first real rig through `rig_check` is the calibration; its numbers belong in that
+  run's note.
+- **Why an instrument and not a paragraph:** both 3D runs had the rule available as prose ("pre-read
+  every upstream still") and both lost the pair anyway, because the rig was certified by the pass that
+  built it. A check that exits 1 on a torn rig is harder to talk past than a sentence.
+- **A mid-flight run on 2.9.0 should finish on the version it loaded.** The new rule fires only for
+  3D motion, rigging or posing pairs; no run was live on the board when this landed.
