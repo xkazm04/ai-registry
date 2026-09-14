@@ -360,7 +360,9 @@ function lexCode(src, file, jsxEnabled) {
         if (f.type === '{') f.pendingKey = null;
       }
       prev = p;
-      identChain = [];
+      // a member access keeps the chain: `console.warn(` must reach the callee check as
+      // console.warn, not as a bare `warn` whose root was reset at the dot
+      if (p !== '.' && p !== '?.') identChain = [];
     }
     if (close) throw new JsxAbort('eof in expression');
   }
@@ -375,6 +377,7 @@ function lexCode(src, file, jsxEnabled) {
     const m = /^[A-Za-z][\w.:-]*/.exec(src.slice(i, i + 128));
     if (!m) throw new JsxAbort('no tag');
     tag = m[0]; i += tag.length;
+    let hidden = false; // aria-hidden="true" / {true}: decoration, not copy
     // generic / comparison guard
     let j = i; while (/\s/.test(src[j] || '')) j++;
     if (src[j] === ',' || src.startsWith('extends', j)) throw new JsxAbort('generic');
@@ -402,10 +405,12 @@ function lexCode(src, file, jsxEnabled) {
         if (end === -1) throw new JsxAbort('unterminated attr');
         const value = decodeEntities(src.slice(i + 1, end));
         i = end + 1;
+        if (name === 'aria-hidden' && value.trim() !== 'false') hidden = true;
         if (prose && /\p{L}/u.test(value) && !inherited().skip && !inherited().nonEn) out.push(makeRecord(file, lineAt(start), `<${tag} ${name}>`, value, { tag: `${tag}[${name}]` }));
         continue;
       }
       if (src[i] === '{') {
+        if (name === 'aria-hidden' && /^\{\s*true\s*\}/.test(src.slice(i, i + 16))) hidden = true;
         i++;
         const exprStart = i;
         openFrame('{', { skip: !prose, jsxTag: `${tag}[${name}]`, dict: prose, attr: name });
@@ -424,6 +429,14 @@ function lexCode(src, file, jsxEnabled) {
       const close = src.indexOf(`</${tag}`, i);
       if (close === -1) throw new JsxAbort('unclosed raw tag');
       i = src.indexOf('>', close) + 1;
+      return;
+    }
+    if (hidden) {
+      // aria-hidden content is decoration (a no-data glyph beside its sr-only label, an icon
+      // character): parse it to stay in sync, into a sink that never reaches the rules
+      openFrame('jsx', { skip: true, jsxTag: tag });
+      parseJsxChildren(tag, newAcc(tag));
+      stack.pop();
       return;
     }
     const inline = INLINE_TAGS.has(tag);
