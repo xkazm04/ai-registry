@@ -4,7 +4,7 @@
   "bundle": "localization",
   "source": "knowledge/localization/ (frontmatter only)",
   "subjects": 17,
-  "techniques": 105,
+  "techniques": 106,
   "applications": 50,
   "laws": 8,
   "categories": [
@@ -15,7 +15,7 @@
    "craft"
   ],
   "layout": "nested",
-  "use_when_coverage": "105/105",
+  "use_when_coverage": "106/106",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -1641,9 +1641,9 @@
    "subcategory": null,
    "status": "reconciled",
    "file": "knowledge/localization/craft/translation-pipeline-topology/translation-pipeline-topology.md",
-   "digest": "sha256:c81d3f4df17e0824",
-   "revision": 7,
-   "changedAt": "2026-09-01",
+   "digest": "sha256:65a309c74d9d6984",
+   "revision": 8,
+   "changedAt": "2026-09-14",
    "techniques": [
     {
      "slug": "canonical-and-derived-split",
@@ -1707,6 +1707,19 @@
       "adding a new target language to a translation pipeline",
       "translation matrix and export matrix disagree about language sets",
       "a pipeline half-runs for a partially configured language"
+     ]
+    },
+    {
+     "slug": "serialization-transport-safety",
+     "status": "forged",
+     "laws": [
+      "format-skeleton-is-inviolable"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing the wire format for a batch machine-translation request",
+      "a batch response fails to parse or returns truncated values",
+      "the target language's mandated quotation marks share a code point with the transport's delimiter"
      ]
     },
     {
@@ -1786,9 +1799,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/localization/craft/translation-quality-measurement/translation-quality-measurement.md",
-   "digest": "sha256:574907b9185733aa",
-   "revision": 1,
-   "changedAt": "2026-09-04",
+   "digest": "sha256:e804ae85b44b79eb",
+   "revision": 2,
+   "changedAt": "2026-09-14",
    "techniques": [
     {
      "slug": "deterministic-checks-before-estimates",
@@ -2025,6 +2038,7 @@
     "russian/de-anglicization-constructions",
     "russian/plural-and-count-agreement",
     "spanish/plural-and-gender-agreement",
+    "translation-pipeline-topology/serialization-transport-safety",
     "translation-quality-measurement/deterministic-checks-before-estimates",
     "translation-quality-measurement/error-typology-over-a-single-score",
     "vietnamese/classifiers-and-quantity",

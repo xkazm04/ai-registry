@@ -382,9 +382,9 @@
       ],
       "invokes30d": 46,
       "reportedInvokes": 46,
-      "lessons": 25,
+      "lessons": 24,
       "lessonsPath": "skills/perfect/LESSONS.md",
-      "lessonsHash": "sha256-n1:638200b927a07ac4",
+      "lessonsHash": "sha256-n1:49c506eacaad4c84",
       "usageContributors": [
         "kazda-dev-box"
       ]
@@ -730,7 +730,7 @@
     "skills": 33,
     "practices": 8,
     "memory": 6,
-    "lessons": 216
+    "lessons": 215
   },
   "bundles": [
     {
@@ -793,10 +793,10 @@
       "profile": "rkb/0.1",
       "purity": "localization",
       "subjects": 17,
-      "techniques": 105,
+      "techniques": 106,
       "applications": 50,
-      "files": 176,
-      "contentHash": "sha256:70210ae093a63da0"
+      "files": 177,
+      "contentHash": "sha256:b5f42ede0fee75f7"
     },
     {
       "name": "marketing",
