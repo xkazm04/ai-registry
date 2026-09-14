@@ -277,4 +277,12 @@ function main() {
   process.exit(failing && args.baseline !== 'write' ? 1 : 0);
 }
 
-main();
+// A crash is not a finding: exit 2 (the checker failed) so a hook or an agent never reads a
+// broken instrument as "new errors in the copy" (2026-09-14: a half-applied edit threw inside a
+// rule and a fleet pre-push reported exit 1 as if the copy were at fault).
+try {
+  main();
+} catch (e) {
+  console.error(`copy-check: internal failure (the checker, not the copy): ${e && e.stack ? e.stack.split('\n').slice(0, 3).join(' | ') : e}`);
+  process.exit(2);
+}
