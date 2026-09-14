@@ -81,15 +81,15 @@ scripts/build-index.mjs   # regenerates knowledge/<domain>/index.json (--check i
 scripts/build-catalog.mjs # regenerates catalog.json from every lane (--check in CI)
 scripts/build-marketplace.mjs # regenerates .claude-plugin/marketplace.json from the skills lane (--check in CI)
 scripts/check-hash-stability.mjs # asserts the bundle digest is the same from a CRLF and an LF checkout
-scripts/link-registry.mjs # OPERATOR-SIDE: links each project's .claude/skills + .claude/rules at this registry
-scripts/build-knowledge-rules.mjs # regenerates rules/ - the always-on knowledge context projects link (--check in CI)
+scripts/link-registry.mjs # OPERATOR-SIDE: links each project's .claude/skills here; installs .claude/rules as copies
+scripts/build-knowledge-rules.mjs # regenerates rules/ - the always-on knowledge context projects install (--check in CI)
 scripts/fleet-audit.mjs   # OPERATOR-SIDE: which installation runs which copy of which skill; writes adopters
 scripts/signals-collect.mjs   # OPERATOR-SIDE: folds connected projects' consult logs + stacks into signals/
 scripts/usage-from-personas.mjs # OPERATOR-SIDE: bootstraps usage/ from a Personas installation's own counts
 knowledge/<domain>/       # a Reference Knowledge Bundle - see knowledge/README.md
 knowledge/<domain>/taxonomy.json  # the authority on where every subject lives; max 10 folders/level
 knowledge/<domain>/index.json  # GENERATED: every subject, technique, law and application
-rules/ai-registry-*.md    # GENERATED: the always-on knowledge context, linked into each project's .claude/rules/
+rules/ai-registry-*.md    # GENERATED: the always-on knowledge context, copied into each project's .claude/rules/
 skills/<name>/SKILL.md    # frontmatter: name, description, category, memory, version (+ harness keys)
 skills/<name>/LESSONS.md  # append-only reflection lane, beside the skill it is about
 skills/<name>/references/ # material the method loads on demand; scripts/, tools/, assets/ likewise
@@ -140,10 +140,13 @@ the reason above, and says so in its own `meta.excludes`. Regenerate with
 `node scripts/build-index.mjs` **before** `build-catalog.mjs`, whose hash covers it.
 
 **The corpus is present, not fetched.** `rules/ai-registry-*.md` are generated from the
-bundle indexes and **linked into each project's `.claude/rules/`**, where a rule with no
+bundle indexes and **copied into each project's `.claude/rules/`**, where a rule with no
 `paths:` frontmatter loads in *every* session at `.claude/CLAUDE.md` priority. So an agent
 opens a session already holding the access contract and the subject map for the domains its
-project declares — no invocation, no copy, ~2k tokens. That closes the failure a
+project declares — no invocation, ~2k tokens. (Copies, not links: on 2026-09-14 a
+load-telemetry probe showed the harness never loads a rule symlinked from outside the
+project, so for months the links had reached no session. `link-registry.mjs --check` reports
+a symlink or a drifted copy; re-run the linker after regenerating rules.) That closes the failure a
 consult-only design has: recall. A standard nobody remembers to look up is a standard that
 is not there at the moment the decision is made.
 
@@ -217,7 +220,7 @@ git clone https://github.com/xkazm04/ai-registry.git
 
 # skills, door 1 - LINK (the default when one owner holds the registry and the consumers)
 node ai-registry/scripts/link-registry.mjs          # match every project to its manifest
-node ai-registry/scripts/link-registry.mjs --check  # verify; nothing to sync, so nothing drifts
+node ai-registry/scripts/link-registry.mjs --check  # verify skill links and rule copies (re-run the linker after rules change)
 
 # skills, door 2 - the plugin marketplace (a second machine, a second person, or CI)
 claude plugin marketplace add xkazm04/ai-registry               # once per machine
@@ -238,7 +241,7 @@ registry:
   remote: github:xkazm04/ai-registry
   local: ../ai-registry             # the checkout this project links against
 knowledge:
-  domains: [software-engineering]   # which bundles it consumes -> which rules get linked
+  domains: [software-engineering]   # which bundles it consumes -> which rules get installed
 skills:                             # which shared skills it uses -> what link-registry links
   - perfect
   - uat

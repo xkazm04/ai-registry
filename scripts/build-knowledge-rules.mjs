@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * build-knowledge-rules — generate the always-on knowledge context that projects LINK.
+ * build-knowledge-rules — generate the always-on knowledge context that projects install.
  *
  * ## The gap this closes
  *
@@ -12,11 +12,12 @@
  * remembering it exists".
  *
  * The harness has a mechanism built for this: `.claude/rules/`. A rule with no `paths:`
- * frontmatter is loaded into EVERY session at the same priority as `.claude/CLAUDE.md`,
- * and the rules directory supports symlinks so one file can serve every project. So the
- * registry generates the rules, each project links the ones its manifest declares, and the
- * corpus becomes present rather than fetchable - with no skill invocation, no hook, and no
- * copy to sync.
+ * frontmatter is loaded into EVERY session at the same priority as `.claude/CLAUDE.md`. So
+ * the registry generates the rules, `link-registry.mjs` installs the ones each project's
+ * manifest declares, and the corpus becomes present rather than fetchable - with no skill
+ * invocation and no hook. Installed as COPIES: a rule symlinked from outside the project is
+ * treated as an external import and never loads (witnessed 2026-09-14, harness 2.1.270, with
+ * a load-telemetry hook), so after regenerating here, re-run the linker.
  *
  * ## What is generated
  *
