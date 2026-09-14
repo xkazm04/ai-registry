@@ -100,6 +100,21 @@ The two lists should be derived from one declaration. Maintained separately, the
 drift, and the first symptom is a context improvement that never produces a single
 changed translation.
 
+## When the request is a file, not a unit
+
+The field list assumes one request per unit. Pipelines that translate a whole
+file or document per call — common for long-form content, where splitting would
+cut paragraphs from their neighbours — cannot attach the per-unit fields as
+written: "the glossary terms that occur in this unit" becomes either the whole
+glossary (the failure mode below) or nothing. Two honest adaptations: attach the
+terms occurring **anywhere in the file**, which bounds the list by the document
+rather than the termbase; or split the request at section boundaries the format
+already has, so each call is a unit again. Record which one the pipeline chose,
+because a context contract that is silently partial reads as complete to anyone
+comparing two runs. In one real guide pipeline translating a category file per
+call, the contract's per-unit terms field stayed partial for exactly this reason
+even after every other gap was closed.
+
 ## When not to use it
 
 - **Interactive single-string help** where a person is reading the output with

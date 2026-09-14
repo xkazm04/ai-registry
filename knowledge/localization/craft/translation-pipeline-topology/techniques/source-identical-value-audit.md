@@ -160,6 +160,20 @@ against that catalog before it is enforced against it.
    was legitimate**: product and platform names, integration names, initialisms,
    and pure-skeleton values. Seed the allowlist from it and review it once,
    cheaply.
+
+   **The construction has one precondition: every locale was actually sent the
+   keys.** A whole section that was added to the source and never dispatched to
+   any locale is identical in every locale for the dullest possible reason, and
+   it lands in the intersection looking exactly like brand names. In a second
+   thirteen-locale catalog the intersection was **81 keys, and 66 of them were
+   untranslated copy** — every question and answer of a FAQ section and two
+   fields of every entry in a use-case list — beside 15 legitimate ones
+   (operating-system names, units, percentile labels, a time-zone string). Seeding
+   the allowlist from that intersection would have blessed 66 untranslated strings
+   in every locale at once. So before seeding, **group the intersection by
+   section**: a section whose keys are *all* in the intersection is a dispatch
+   gap until proven otherwise, and only what survives that grouping is a
+   candidate for the allowlist.
 3. **Sort the per-locale residue before ruling any of it.** What sits above the
    intersection for a given locale is classes 4 and 5 plus real untranslated
    values. Separate cognate from borrowing *first* — a native speaker does this

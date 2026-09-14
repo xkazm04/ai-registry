@@ -111,8 +111,19 @@ stating as the reason the vocabulary has four words:
   ones, which were opted back *in* — across locales; a difference means
   something translated them anyway: a pipeline that ignored the class, a bulk
   edit, a reviewer being helpful. This is the cheapest signal in the topology,
-  and it has no false positives, because identity is exactly what the pipeline
-  itself wrote there.
+  and it has no false positives — **but only when the exclusion set is the
+  pipeline's own**: the locked keys and the classifier's whole-value classes,
+  where identity is exactly what the pipeline itself wrote. Borrow the set from
+  anywhere else and the guarantee is gone. A copy gate's list of accepted brand
+  and product terms is not a locked set: it says the English may contain the
+  word, not that every target must. Run against such a list, the assertion fires
+  on correct work — a brand name transliterated into a non-Latin script — and it
+  once fired seven times on a single name in one tree, every hit a legitimate
+  transliteration. The same run found something real underneath one of them: a
+  headline split into fragments, where the target language attached a
+  postposition to the fragment holding the name. A sentence cut around a term
+  is a source defect, and a transliterated term inside a fragment is often the
+  first place it shows.
 - **An ignored key must be absent, not empty.** An empty string in the target is
   a third state nobody declared, and it renders as nothing rather than falling
   back. Assert absence, so *ignored* and *locked* cannot quietly converge.
