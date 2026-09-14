@@ -496,7 +496,8 @@ export function lintRecords(records, contract) {
       }
     }
   }
-  // EN-EXCLAIM: at most one per surface (a catalog namespace or a file); none in error-class strings.
+  // EN-EXCLAIM: none in error-class strings; at most one per message in a catalog; at most one
+  // per surface in a component or content file.
   const exclaim = active.find((r) => r.id === 'EN-EXCLAIM');
   if (exclaim) {
     const units = new Map();
@@ -506,11 +507,14 @@ export function lintRecords(records, contract) {
       const role = roleOf(rec, contract);
       const emit = (message) => findings.push({ rule: exclaim.id, severity: severityFor(exclaim, {}, contract), file: rec.file, line: rec.line, key: rec.key, raw: rec.raw, text: rec.text, span: rec.text.slice(m[0].index, m[0].index + m[0][0].length), index: m[0].index, message, record: rec });
       if (role.error) { emit('exclamation mark in an error-class string'); continue; }
-      const ns = /^[\w-]+(?=[.[])/.exec(rec.key || '');
-      const unit = `${rec.file}::${ns && !String(rec.key).startsWith('<') ? ns[0] : ''}`;
+      // A catalog cannot say which messages render on one page (kp's accepted/declined/already
+      // outcomes are siblings that never co-render), so catalogs get the per-message check only;
+      // the per-surface count applies to component and content files, where a file is a surface.
+      if (/\.json$/i.test(rec.file)) { if (m.length > 1) emit('more than one exclamation mark in one message'); continue; }
+      const unit = `${rec.file}::`;
       const n = (units.get(unit) || 0) + 1;
       units.set(unit, n);
-      if (n > 1) emit(`exclamation mark #${n} on one surface (${ns ? `namespace "${ns[0]}"` : 'this file'}); at most one per page`);
+      if (n > 1) emit(`exclamation mark #${n} in this file; at most one per page`);
     }
   }
   return findings;

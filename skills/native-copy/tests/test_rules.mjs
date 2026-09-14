@@ -217,12 +217,15 @@ test('EN-ONE-TERM: termbase forbidden variants', () => {
   no('EN-ONE-TERM', 'Sign in to continue with a design online', { contract });
 });
 
-test('EN-EXCLAIM: one per surface; none in error-class strings', () => {
+test('EN-EXCLAIM: one per component surface, one per catalog message; none in error-class strings', () => {
   const c = contractFor();
-  const two = lintRecords([makeRecord('en.json', 1, 'landing.a', 'Welcome aboard!'), makeRecord('en.json', 2, 'landing.b', 'You did it!')], c).filter((f) => f.rule === 'EN-EXCLAIM');
-  assert.deepEqual(two.map((f) => f.key), ['landing.b']);
-  const apart = lintRecords([makeRecord('en.json', 1, 'landing.a', 'Welcome aboard!'), makeRecord('en.json', 2, 'pricing.b', 'You did it!')], c).filter((f) => f.rule === 'EN-EXCLAIM');
-  assert.equal(apart.length, 0);
+  // catalog siblings may never co-render (fleet false positive, 2026-09-14): only a message with two marks is flagged
+  const siblings = lintRecords([makeRecord('en.json', 1, 'landing.a', 'Welcome aboard!'), makeRecord('en.json', 2, 'landing.b', 'You did it!')], c).filter((f) => f.rule === 'EN-EXCLAIM');
+  assert.equal(siblings.length, 0);
+  const doubled = lintRecords([makeRecord('en.json', 1, 'landing.a', 'Welcome! You did it!')], c).filter((f) => f.rule === 'EN-EXCLAIM');
+  assert.deepEqual(doubled.map((f) => f.key), ['landing.a']);
+  const page = lintRecords([makeRecord('Hero.tsx', 1, '<h1>', 'Welcome aboard!'), makeRecord('Hero.tsx', 2, '<p>', 'You did it!')], c).filter((f) => f.rule === 'EN-EXCLAIM');
+  assert.equal(page.length, 1);
   const err = lintRecords([makeRecord('en.json', 1, 'errors.network', 'Something failed!')], c).filter((f) => f.rule === 'EN-EXCLAIM');
   assert.equal(err.length, 1);
   no('EN-EXCLAIM', 'Use !important sparingly and a != b');

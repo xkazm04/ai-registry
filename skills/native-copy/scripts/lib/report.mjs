@@ -17,9 +17,19 @@ export function summaryLine(s) {
   return `checked ${s.strings} strings (${s.fragments} fragments) in ${s.files} files from ${s.sources} sources; ${s.unreadable} unreadable; errors ${s.errors} (new ${s.newErrors}), warnings ${s.warnings}`;
 }
 
-export function formatHuman(findings, summary, { errorsOnly = false, limit = 0 } = {}) {
+export function formatHuman(findings, summary, { errorsOnly = false, limit = 0, allFindings = false } = {}) {
   const lines = [];
-  const shown = findings.filter((f) => !errorsOnly || f.severity === 'error');
+  // Default: print what can block (new errors) and what is new to the reader (warnings are
+  // counted, not listed). A pre-push run on a catalog with 865 baselined errors must show the
+  // one new error, not bury it; --all-findings prints everything for triage.
+  const shown = findings.filter((f) => {
+    if (errorsOnly && f.severity !== 'error') return false;
+    if (allFindings) return true;
+    return f.severity === 'error' && !f.baselined;
+  });
+  const hiddenBaselined = allFindings ? 0 : findings.filter((f) => f.severity === 'error' && f.baselined).length;
+  const hiddenWarnings = allFindings || errorsOnly ? 0 : findings.filter((f) => f.severity !== 'error').length;
+  if (hiddenBaselined || hiddenWarnings) lines.push(`not listed: ${hiddenBaselined} baselined error(s), ${hiddenWarnings} warning(s) - add --all-findings to print them`);
   const byFile = new Map();
   for (const f of shown) { if (!byFile.has(f.file)) byFile.set(f.file, []); byFile.get(f.file).push(f); }
   let printed = 0;

@@ -24,12 +24,12 @@ import { applyBaseline, buildBaseline, changedRecords, parseBaseline } from './l
 import { countConventions, proposeContract } from './lib/init.mjs';
 import { formatHuman, formatJson, summaryLine } from './lib/report.mjs';
 
-const VERSION = 'native-copy/copy-check 1.0.0';
+const VERSION = 'native-copy/copy-check 1.1.0';
 const DEFAULT_CONTRACT = 'docs/i18n/copy-contract.json';
 
 function usage(msg) {
   if (msg) console.error(`copy-check: usage error: ${msg}`);
-  console.error('usage: copy-check [--all|--changed [--base <ref>]] [--contract <path>] [--root <dir>] [--json] [--errors-only] [--limit <n>] [--baseline write|ignore] | --init [--write] [--source <glob>=<kind>] | --list-rules [--registry <dir>]');
+  console.error('usage: copy-check [--all|--changed [--base <ref>]] [--contract <path>] [--root <dir>] [--json] [--errors-only] [--all-findings] [--limit <n>] [--baseline write|ignore] | --init [--write] [--source <glob>=<kind>] | --list-rules [--registry <dir>]');
   process.exit(msg ? 2 : 0);
 }
 const fail2 = (msg) => { console.error(`copy-check: config failure: ${msg}`); process.exit(2); };
@@ -47,6 +47,7 @@ function parseArgs(argv) {
       case '--root': a.root = needs(i, f); i++; break;
       case '--json': a.json = true; break;
       case '--errors-only': a.errorsOnly = true; break;
+      case '--all-findings': a.allFindings = true; break;
       case '--limit': a.limit = Number(needs(i, f)); i++; if (!Number.isInteger(a.limit) || a.limit < 0) usage('--limit takes a non-negative integer'); break;
       case '--baseline': a.baseline = needs(i, f); i++; if (!['write', 'ignore'].includes(a.baseline)) usage('--baseline takes write|ignore'); break;
       case '--init': a.init = true; break;
@@ -268,7 +269,7 @@ function main() {
   };
 
   if (args.json) console.log(formatJson(findings, summary));
-  else console.log(formatHuman(findings, summary, { errorsOnly: args.errorsOnly, limit: args.limit }));
+  else console.log(formatHuman(findings, summary, { errorsOnly: args.errorsOnly, limit: args.limit, allFindings: args.allFindings }));
 
   const failing = newErrors > 0 || unreadable.length > 0;
   if (!args.json) console.log(failing ? `copy-check: FAIL - ${newErrors} new error(s)${unreadable.length ? `, ${unreadable.length} unreadable file(s)` : ''}` : 'copy-check: OK');

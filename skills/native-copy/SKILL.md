@@ -3,7 +3,7 @@ name: native-copy
 description: "Write, check and review native-quality ENGLISH web copy where it lives: i18n JSON catalogs, TS dictionary modules, hardcoded JSX text, MDX. Records the product's declared English (US/UK spelling, dash system, quotes, case per element) in a copy contract counted against the real strings, gates changed copy with a zero-dependency checker whose every finding cites a registry EN-* rule ID (baseline ratchet, coverage printed), runs an anchored checklist review for judgment rules, and drafts page copy from a brief and fact sheet. Use when English UI or landing copy is written, reviewed, wired into pre-push, or reads non-native, translated or generated. Boundary: i18n-translate turns the source catalog into OTHER locales and treats it as truth; native-copy owns the English source copy itself. Invoke /native-copy <init|check|review|write|wire> [scope]."
 category: workflow
 memory: project
-version: 1.0.0
+version: 1.1.0
 tags: english, copy, microcopy, lint, gate, review
 argument-hint: "<init|check|review|write|wire> [--changed | scope | page]"
 ---
@@ -66,6 +66,7 @@ Node builtins only; run from the project root.
 | `copy-check.mjs --baseline write` | record current findings as fingerprints (the ratchet) |
 | `copy-check.mjs --init [--write] [--source <glob>=<kind>]` | count conventions, print a proposed contract; writes only with `--write`, never over an existing one |
 | `copy-check.mjs --strings` | print exactly the strings the rules would see (coverage audit) |
+| `--all-findings` | also list baselined errors and warnings; by default a run lists only NEW errors and counts the rest, so a push on a catalog with hundreds of baselined findings shows the one that blocks |
 | `--json`, `--errors-only`, `--limit <n>`, `--contract <path>`, `--root <dir>` | output and location |
 
 Exit `0` ok; `1` new error-severity findings not in the baseline, or an unreadable source

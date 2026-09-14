@@ -54,6 +54,12 @@ import { loadBridge } from './lib/projects.mjs';
 const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 const LANE = path.join(ROOT, 'skills');
 const RULES = path.join(ROOT, 'rules');
+if (process.argv.includes('--help') || process.argv.includes('-h')) {
+  // Without this guard an unknown flag fell through to a fleet-wide write run (2026-09-14:
+  // `--help` relinked every project and rewrote a rules copy and a .gitignore it was not asked to).
+  console.log('usage: node scripts/link-registry.mjs [--check] [--project <slug>]');
+  process.exit(0);
+}
 const checkOnly = process.argv.includes('--check');
 const projIdx = process.argv.indexOf('--project');
 const onlyProject = projIdx === -1 ? null : process.argv[projIdx + 1];
