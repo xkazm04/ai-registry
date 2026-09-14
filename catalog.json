@@ -321,16 +321,16 @@
     },
     {
       "name": "native-copy",
-      "version": "1.2.0",
+      "version": "1.2.1",
       "category": "workflow",
       "path": "skills/native-copy/SKILL.md",
-      "contentHash": "sha256-n1:64ba59aec64b953a",
+      "contentHash": "sha256-n1:6f804b9062efb8c1",
       "adopters": [],
       "invokes30d": 0,
       "reportedInvokes": 0,
-      "lessons": 2,
+      "lessons": 3,
       "lessonsPath": "skills/native-copy/LESSONS.md",
-      "lessonsHash": "sha256-n1:a67b8bd86bcf549a",
+      "lessonsHash": "sha256-n1:007c69279e20c98f",
       "usageContributors": []
     },
     {
@@ -730,7 +730,7 @@
     "skills": 33,
     "practices": 8,
     "memory": 6,
-    "lessons": 217
+    "lessons": 218
   },
   "bundles": [
     {
@@ -794,9 +794,9 @@
       "purity": "localization",
       "subjects": 17,
       "techniques": 119,
-      "applications": 54,
-      "files": 194,
-      "contentHash": "sha256:8a2ad42f2e11086d"
+      "applications": 55,
+      "files": 195,
+      "contentHash": "sha256:a34ed3fdd5b86aec"
     },
     {
       "name": "marketing",
