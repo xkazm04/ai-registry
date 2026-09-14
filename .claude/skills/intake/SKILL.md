@@ -3,8 +3,8 @@ name: intake
 description: "Mine an external source - a YouTube video, a news roundup, an article, pasted notes, a repository - for what it should change in THIS registry, and in the connected projects that consume it. Ingests the source, reads its design decisions as well as its claims, maps both against existing bundles for prior art, triages with the operator, and lands what survives corroboration - amendments for boundary cases, techniques and subjects for mechanisms, forge handoffs for systems whose architecture the corpus lacks. News sources mostly yield currency signals and leads; that is a successful run. Use when someone shares a link and asks what it means for us."
 category: ai-native
 memory: project
-version: 2.8.1
-tags: research, sources, memory-lane, admission-gate, triage, currency, cross-repo, leads, apply, ab-test, parallel, reference-index, design-read, forge-handoff, directions, fleet-map, peer-study, opus-workers, decision-gate
+version: 2.9.0
+tags: research, sources, memory-lane, admission-gate, render-proof, triage, currency, cross-repo, leads, apply, ab-test, parallel, reference-index, design-read, forge-handoff, directions, fleet-map, peer-study, opus-workers, decision-gate
 ---
 
 # Intake
@@ -1037,6 +1037,62 @@ different blockers, and a row may take both (operator rule, 2026-08-28; amended
 8. **Drop honestly.** A picked candidate that resolves to already-covered is a catch,
    not a failure, and it goes in the note so nobody proposes it again.
 
+### Phase 6b - Render proof (v2.9: generative-output bundles; the operator triages)
+
+A candidate is **render-bound** when its home produces pictures -
+`media-generation/visual-generation`, `production-ops/video-assembly`,
+`game-production/asset-production`, or any subject whose `use_when` generates, renders or
+accepts an image, clip, sprite, texture, mesh or animation - and its shape changes what a
+generator is told or how its output is prepared or accepted. **A render-bound candidate
+does not land on corroboration.** Before Phase 7 writes it, render one brief through two
+arms on the local pipeline: arm A compiled from the corpus as it stands at `HEAD`, arm B
+compiled as the landing would leave it (or as the source instructs). One variable; same
+seed, anchors, model and length; original characters and places. The operator triages a
+blind sheet, the picks are revealed onto the arms, and the verdict decides what lands
+and in what shape. Then every rendered artifact is deleted by run id and only the
+verdict is kept.
+
+```sh
+node scripts/render-triage.mjs sheet  <run-dir>                    # blind page + sealed key
+node scripts/render-triage.mjs reveal <run-dir> shot1=Y shot2=tie  # verdict.json
+node scripts/render-triage.mjs clean  <run-dir> --also <ComfyUI>/output/<run-id> --also <ComfyUI>/input
+```
+
+The procedure - scope, instrument probes, arm construction, the triage questions, the
+verdict-to-shape mapping, resource discipline, cleanup and the record - is
+[`references/render-proof.md`](references/render-proof.md). Read it before Phase 5
+scores a render-bound row, because the instruments are probed before the score, not
+after the landing.
+
+Why this is a phase and not a Phase 7.5 mode alone: until 2.9.0 these bundles changed
+the instructions every consumer compiles into a generation call - restate the style,
+admit the reference late, cut both anchors from one cloth - on corroboration and a
+`simulation` row, **without anyone having looked at one output made under the old
+instruction and the new one**. For a finding whose only observable is the output, that
+is landing blind. The first run under this phase found two corpus files contradicting
+each other at the still-to-motion hop, with a source siding with one of them, and no
+amount of reading could settle it; rendering both arms could.
+
+Four rules hold without exception:
+
+- **Arms are approaches, and they are discriminable before the operator looks.** Render the
+  same approach at a second seed; the arms must differ from each other by at least 1.5x
+  that seed noise, recorded as the pair's `discrimination`, or `render-triage.mjs sheet`
+  refuses the pair. A knob the rest of the pipeline drowns out yields two runs of one
+  process, a wasted look, and a tie that reads like evidence. The first run under this
+  phase made that mistake twice before the operator named it.
+- **No local instrument, no landing.** If no renderer on this machine can produce the
+  output, the candidate lands as a lead whose return condition names the instrument
+  (the model, the node, the GPU budget). It never becomes a technique carried by a
+  `simulation` row.
+- **The run does not grade its own render proof.** The director pre-reads frames to catch
+  a crash, a black clip or a wrong anchor, and labels that read as opinion in the note.
+  The operator's pick is the verdict: the question is whether the output is *better*, and
+  every automated instrument these bundles hold is calibrated for *consistent*.
+- **Clean after the verdict, never before, never by sweep.** Every output the run submits
+  carries the run id as its `filename_prefix`, every staged input starts with it, and
+  `clean` refuses without `verdict.json`. The byte count goes in the source note.
+
 ### Phase 7 - Land what survived
 
 Route by shape. Every content change is gate-clean before it is committed.
@@ -1219,6 +1275,7 @@ within one hour; the pre-check is the sibling's half.)
 | `experiment` | the same inputs run twice through a harness that does not change product code - a script, an eval slice, a replayed session, a dry-run of the hook against recorded actions | the harness's output, counted with its predicate | the technique's effect is observable without shipping it: hooks, gates, prompts, thresholds, routing rules |
 | `simulation` | three concrete cases pulled from the tree or its history - a real incident, a real PR, a real failing run - walked under policy A and policy B, one paragraph each, with the predicted outcome and **what would falsify the prediction** | your own reasoning, labelled as such | nothing above is reachable in this run: no gate can see the effect, the seam is in a tree you may not edit, or the cost of the experiment exceeds the run |
 | `task` **(v2)** | the seam as it is (A) vs a **scoped work item** the project would execute to adopt the mechanism (B): a plan in the project's own `.ai/` with the files it touches, the size in files and lines, the measurable it moves, the gate that will see it, and the first step already taken on a branch | the plan's measurable, read from the project's gate once the branch runs; until then the size estimate and the first step's own result | the finding is a design decision or a subject-level mechanism whose adoption is larger than a few readable lines - the case the three modes above cannot express, and the case every design candidate produces |
+| `render` **(v2.9)** | one brief rendered through the corpus-before instruction (A) and the corpus-after instruction (B): one variable, same seed, anchors, model and length | the operator's blind pick from `render-triage.mjs sheet`, revealed onto the arms; the director's frame pre-read is recorded as opinion, never as the verdict | the finding is render-bound (Phase 6b). **Mandatory there, and it outranks every other mode** - a render-bound finding may not substitute `simulation`, and it runs before Phase 7 lands, not after |
 
 A simulation with three cases from a real tree beats a code A/B against a toy. A
 simulation with invented cases is an opinion and does not count as applied.
@@ -1240,7 +1297,8 @@ measured Before/After rule: `better` / `not-better` / `unmeasurable`.
 
 **4. Write the application document** the way Phase 8 already requires - you opened
 a tree, so `verified_on` and `verified_against` are facts - and add two frontmatter
-lines: `applied: code|experiment|simulation` and `ab_verdict: better|not-better|unmeasurable`.
+lines: `applied: code|experiment|simulation|task|render` and `ab_verdict: better|not-better|unmeasurable`
+(a `render` row adds `grader: operator`).
 The body carries what A and B were and what was read; the seam's `file:line` only if
 the project has made that code public, per Phase 8 step 7.
 
@@ -1606,7 +1664,7 @@ row is worse than no row - it makes the weakest-stage reading wrong rather than 
 **Lane 0 - the scorecard, every run, no exceptions.** Append one row to
 `SCORECARD.md`: version used, date, source slug, and the five stage counts -
 `research` (sources ingested), `extract` (candidates), `test` (picks verified),
-`apply` (rows by mode, e.g. `1c/0e/2s/1t`), `ship` (project commits), and `depth`
+`apply` (rows by mode, e.g. `1c/0e/2s/1t/0r`), `ship` (project commits), and `depth`
 (v2: `S/T/A/Asrc/task-lines` with the Phase 2d routing count and the handoff
 decision; v2.1 adds `directions=<proposed>/<not-proposed>` or `n/a`). A zero in `apply` or `ship` carries its reason in the row. Then read the
 last ten rows and name, in one line under the table, **the stage the funnel is losing
@@ -1678,6 +1736,13 @@ corroboration behind it.
   The scorecard row makes this visible; do not make it normal.
 - **Simulating with invented cases.** Three cases from a real tree or its history, or
   it is an opinion with a table around it.
+- **Landing a generation instruction nobody rendered.** In a render-bound bundle the
+  output is the only instrument. A technique that changes what a generator is told, and
+  was never rendered through both arms and triaged by the operator, is a guess with a
+  citation. Render, triage blind, record the verdict, then delete the renders.
+- **Grading your own render proof, or deleting renders before the verdict.** The first
+  launders the director's preference into the corpus; the second throws away the only
+  thing the render was for.
 - **Choosing the seam that flatters the finding.** Where two seams exist, the one that
   could falsify it is the one that returns something the landing did not already say.
 - **Reporting `unmeasurable` without naming the instrument** that would have measured

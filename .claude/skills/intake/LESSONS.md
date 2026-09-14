@@ -10692,3 +10692,54 @@ observation, and the batch lane already carries half of this idea for a differen
 - **A fail-closed contract turns a guessed constant into an outage, which changes what "apply" means.** The run could not establish the provider's live version table (two fetches, both returning nothing usable, and the vendor's own pages disagreeing across examples). Pinning on the lifecycle arithmetic would have been a plausible guess, and an unknown version is a 404 on every billing call rather than a degradation. The move that generalizes: **when the change needs a datum only production holds, ship the observation that produces it and record the pin as owed.** The applied row then carries a real verdict rather than a deferred one, and the return condition is a log line the run itself caused to exist.
 - **Typecheck caught a defect the project's own unit runner structurally cannot.** kp runs unit tests under Node's strip-only TypeScript mode, which discards types rather than checking them, so an existing test's config literal missing a newly-required field passed 67/67 and failed `tsc --noEmit`. A gate that executes is not a gate that type-checks; for a change that widens a shared type, both are needed and only one of them is in the fast loop.
 - **The admission gate's threshold is earning its asymmetry.** Row 3 was a genuine inversion of a corpus rule with a real discriminator, and it did not clear +2 because its home was contested between two techniques in one subject. Banking it with two file-line anchors and a return condition cost a paragraph; landing it in the wrong file would have cost a reader who looks in the right one. No method change - recording that the threshold produced a defensible reject rather than a rubber stamp, which is the measurement the v2.5 redesign asked for.
+
+## 2.9.0 - 2026-09-14 - ai-anime-start-to-finish (`youtube:q_5QS7AlNgA`)
+
+- **Operator redesign, applied in the same run that first used it: intake 2.8.1 -> 2.9.0.**
+  The operator's critique: in `media-generation` and `game-production` the method "updates
+  artifacts blindly without actually trying to generate outputs". The scorecard agrees - the
+  2026-09-10 Blender run rendered only as a separate operator request, recorded outside the
+  apply funnel, and render-bound landings in these bundles otherwise carried a `simulation` row
+  or none. New Phase 6b (render proof) + `references/render-proof.md` + `scripts/render-triage.mjs`
+  (blind sheet, sealed key, discrimination gate, verdict-gated cleanup by run id; 5 tests) +
+  apply mode `render`. Rules: arms are approaches and are discriminable before the operator
+  looks; no local instrument means lead, never technique; the operator's blind pick is the
+  verdict and the director's frame pre-read is opinion; renders are deleted by run id only after
+  `verdict.json` exists.
+- **A mid-flight run on 2.8.1 should finish on the version it loaded.** Phase 6b fires only for
+  render-bound rows; a 2.8.1 run in another domain is unaffected.
+- **The first two render pairs were two runs of the same process, and the operator had to say
+  so.** Pair 1 toggled the style block in the motion prompt beside an anchor frame that already
+  owned the look; pair 2 held a 5.8 s reel on twos at a motion amplitude where holding is
+  invisible. Both tied. **I read the first tie as a refutation of `style-block-restated-every-call`
+  step 3 and wrote a boundary section into the technique** - the operator's "basically identical
+  ... we run two times the same process" showed the arms were never discriminable, and the edit
+  was reverted with `git restore` within the hour, never committed. The seed control run
+  afterwards turned the sentence into a number: round 1's arms differed by 4.36 and 5.76 against
+  a same-approach seed floor of 9.30. Two method changes, both in 2.9.0 before commit: the
+  discrimination gate (1.5x the seed floor, enforced by `sheet`), and a verdict table in which
+  one tie never amends a technique. This is `paired-ab-tie-means-nothing-ran` arriving through a
+  different door: the operation ran, the variable had no leverage.
+- **Design pairs at the approach level, and the verdicts become worth having.** Round 2: the
+  whole reference pipeline beat a text-only clip of the same brief (68.98, 7.4x - the operator's
+  proof that the craft was understood, not just described), and head-only beat an authored tail
+  key that broke the one-cloth rule (26.54, 2.85x). Neither lands in the upper layers - both
+  corroborate rules the corpus already holds - and saying so is the result.
+- **The director's pre-read paid four times before any clip spent a minute.** A role-labelled
+  whole-scene style anchor at late 0.2 replaced a setting plate's composition (its peak, its two
+  gulls in place, its ship); at 0.6 the copy was gone but a sea band still replaced the floor. A
+  follow-through tail key derived from the head came back as the head twice - as a full-strength
+  edit and composed with the head at 0.3 - on this generator a reference that SHOWS a pose owns
+  the pose. Rebuilt from the head's recipe instead. Each was stopped, fixed and relaunched; a
+  harness that renders stage by stage with checkpoints makes that cheap.
+- **Reuse the fleet's generation ops.** gravity's generation-ops guard (imported read-only)
+  already encodes this machine's failure modes: host RAM, commit charge, VRAM held after a clip,
+  foreign-job-safe recycling. Every Flux 2 still needed a RAM recycle and still took 75-180 s;
+  every 3-second image-to-video clip took 55-60 s on the turbo LoRA - not the 15-27 min the
+  earlier spike measured. A full render proof here is tens of minutes, which removes the budget
+  argument against it.
+- **The run's four leads share one shape** (anchors own the camera; the tail frame owns the
+  action; a pose-bearing reference owns the pose; a whole-scene style anchor owns layout): a
+  typed input silently winning a channel the prose believes it controls. That is
+  `typed-input-owns-its-channel` witnessed three ways on one generator - corroboration of a law
+  already written, not a new one. Return: a second generator.
