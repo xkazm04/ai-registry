@@ -108,3 +108,9 @@ golden path, one pointer paragraph), so V5 did not fire; their tree state was
 checked first and both spine edits took the `content` lock. `research-map`
 refused to run over a third sibling's half-built bundle, so the map ran from a
 detached worktree of `HEAD`.
+
+## 2026-09-14 - intake-4D8Zr (youtube:-4D8ZrryVTA)
+
+- Amended `motion-sampled-under-a-frame-budget` with "When the extractor can run instruments, the budget binds only the naming": route timing and palette to instruments, measurement settles values not categories, declare which values were measured. Evidence: planted-truth clip, tool-using extractors across three engines 5/5 cuts in 4 of 5 runs and 11/11 colours in all 5; vision-only arms 1/5 cuts and 0/2 holds.
+- New application `python--motion-sampled-under-a-frame-budget` (code, better, ab-paired): two style readers disagreed on the palette category for 6/6 sources; a measurement over the same frames settled 4. Bundle `stacks:` gained `python`.
+- Owed: a render pair of a recipe written from the measured palette against the readback (lead in the source note).

@@ -10856,3 +10856,11 @@ observation, and the batch lane already carries half of this idea for a differen
   built it. A check that exits 1 on a torn rig is harder to talk past than a sentence.
 - **A mid-flight run on 2.9.0 should finish on the version it loaded.** The new rule fires only for
   3D motion, rigging or posing pairs; no run was live on the board when this landed.
+
+## 2.10.0 - 2026-09-14 - agent-motion-graphics-reference-teardown
+
+- A source that claims a model extracts values from media can be verified without trusting any reader: generate an original reference from known values, assert the encode by reading pixels back, and score every arm mechanically. The truth files live outside every arm's working folder, and isolation is checked in the transcripts afterwards.
+- An engine comparison needs an access contrast, or it measures nothing the corpus can use. Five tool-using runs across three engines scored alike. The vision-only twin of two of those engines is what located the effect in access rather than in the model.
+- The scorer is an instrument too. Its camera rule failed a correct label twice ("pan right, content slides left"), and a truth file that lists both a cut and a continuing move plants an ambiguity the scorer will count as an error. Read the labels before trusting a miss.
+- For a non-render claim homed in a render-bound bundle, state the Phase 6b judgment in the note so the operator can overrule it: here the observable was extraction accuracy against planted truth, and the render question was filed as a lead naming its instrument.
+- Detached CLI arms launched via PowerShell `*>` mangle non-ASCII output into control bytes. Claude Code transcripts under the projects folder and Codex rollouts under its sessions folder are clean fallbacks.

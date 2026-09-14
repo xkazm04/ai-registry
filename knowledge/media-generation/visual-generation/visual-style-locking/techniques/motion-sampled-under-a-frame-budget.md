@@ -6,7 +6,7 @@ technique: motion-sampled-under-a-frame-budget
 status: forged
 laws: [style-is-restated-not-remembered, unmeasured-is-not-pass, output-never-outruns-evidence]
 shared_with: []
-use_when: [capturing a motion signature from reference footage rather than hand-authoring it, deciding how much of a reference to hand an extractor in one pass, a style readback describes the reference fluently and the recreation does not move like it, choosing the span of a clip to analyse, a practitioner reports that short excerpts replicate well and long ones drift]
+use_when: [capturing a motion signature from reference footage rather than hand-authoring it, deciding how much of a reference to hand an extractor in one pass, a style readback describes the reference fluently and the recreation does not move like it, choosing the span of a clip to analyse, a practitioner reports that short excerpts replicate well and long ones drift, the extractor is an agent that can decode the reference and run code over it, two readers disagree about a palette or a cut the pixels could settle]
 ---
 
 # Motion sampled under a frame budget
@@ -177,8 +177,75 @@ sampling is not written down cannot be re-derived, and its fidelity cannot be
 argued about later
 ([output-never-outruns-evidence](../../../_laws.md#output-never-outruns-evidence)).
 
+## When the extractor can run instruments, the budget binds only the naming
+
+Everything above prices a request in which the model's only access to the
+reference is the images the caller hands it. That premise is exact for a vision
+request and false for a second kind of extractor that is now ordinary: an agent
+that can decode the file and run code over it. Such an extractor is not handed a
+sample. It decodes every frame, and the quantities this technique says the
+sample decides - where the cuts fall, how long a beat holds, which colours are
+in the piece - stop being properties of a sampling choice and become
+measurements over the whole clip.
+
+Measured on a planted-truth reference: 12 s at 24 fps, five cuts including a
+four-frame insert, eleven flat colours, a lateral move, a push-in and two holds,
+every value known exactly because the clip was generated from them. One prompt
+named the output and not the method; the second arm received twelve stills at
+one per second, which is this technique's own case.
+
+| Extractor | Access | Cuts, of 5 | Four-frame insert | Colours, of 11 | Camera moves, of 4 | Holds, of 2 |
+| --- | --- | --- | --- | --- | --- | --- |
+| three tool-using agents from two providers, five runs | the file and a shell | 5, 5, 5, 5, 3 | measured in all five | 11 in all five, none spurious | 4 in all five | 2 in all five |
+| two vision requests, two providers | 12 stills, 1 per second | 1, 1 | missed by both | 10 in both | 4 in both | 0 in both |
+
+Nobody told the tool-using extractors to measure. All five chose to: differences
+between adjacent frames over every frame for cuts and holds, modal pixel values
+in flat interiors for the palette, per-frame shape bounds for the camera. The
+silent failure described above did not occur, because there were no samples.
+The vision requests failed exactly where this technique says they will - both
+put the cuts at the midpoints of one-second gaps, and both said so - and the
+colour they missed was the insert's, present in no still. **They named every
+camera move correctly.** The engine made no measurable difference in either
+arm; the access made all of it.
+
+The one tool run scored 3 measured the insert to the frame and its colour
+exactly, and then declared it an overlay rather than a cut, because the push-in
+beneath it continued across the gap at its projected rate. That is the only
+disagreement between the five runs, and it is not an error of measurement.
+
+Three rules follow, and none repeals the ones above:
+
+- **Route each quantity to the cheapest instrument that can measure it.** Cut
+  and hold timing and palette values are measurable over every frame by code; a
+  frame budget spent on them buys estimates of numbers that are sitting in the
+  file. The budget is for what only a perceiver supplies - the name of the
+  move, the register of the motion, why a beat holds - and on that half the
+  sampled request was as good as the instrumented one.
+- **Measurement settles values, not categories.** The runs agreed on every
+  number and disagreed once, on whether a full-frame insert over a continuing
+  move is a cut. The same boundary appears when perceivers disagree about a
+  palette category: over one fixed set of eight frames where two readers gave
+  different categories for six sources of six, a measurement over those frames
+  settled four and left two to the category's own definition, because the
+  categories overlap. A brief derived from measurements states its definitions
+  - what counts as a cut, a hold, a design colour rather than an edge shade -
+  or two correct extractions produce two incompatible shot lists.
+- **A measured value still declares where it came from.** The disclosure rule
+  above holds with a different content: an instrumented readback states which
+  quantities were measured over all frames and which were read from images, and
+  a reader treats the second kind exactly as this technique treats any sample.
+
+This section does not reach footage the extractor cannot decode (a stream it may
+only view, a surface that hands over stills), and it says nothing about whether
+a brief built from measured values renders a better recreation than one built
+from a readback - that is a render question with its own proof.
+
 ## Decision rules
 
+- Where the extractor can decode the reference, measure timing and palette over
+  every frame and spend the image budget only on what needs a perceiver; record
+  which values were measured and which were read.
 - Never hand an extractor a reference longer than the budget can sample; cut it
   into spans first, and derive the cut from the fastest event you need.
 - Treat any whole-reference motion readback as unsampled until its span and

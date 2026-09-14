@@ -5,7 +5,7 @@
   "source": "knowledge/media-generation/ (frontmatter only)",
   "subjects": 20,
   "techniques": 136,
-  "applications": 66,
+  "applications": 67,
   "laws": 9,
   "categories": [
    "narrative-craft",
@@ -2485,9 +2485,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/visual-generation/visual-style-locking/visual-style-locking.md",
-   "digest": "sha256:6ae563d17a96cda0",
-   "revision": 7,
-   "changedAt": "2026-09-09",
+   "digest": "sha256:4de2deb6a1af4e57",
+   "revision": 8,
+   "changedAt": "2026-09-14",
    "techniques": [
     {
      "slug": "approved-reference-sheet",
@@ -2545,7 +2545,9 @@
       "deciding how much of a reference to hand an extractor in one pass",
       "a style readback describes the reference fluently and the recreation does not move like it",
       "choosing the span of a clip to analyse",
-      "a practitioner reports that short excerpts replicate well and long ones drift"
+      "a practitioner reports that short excerpts replicate well and long ones drift",
+      "the extractor is an agent that can decode the reference and run code over it",
+      "two readers disagree about a palette or a cut the pixels could settle"
      ]
     },
     {
@@ -2599,6 +2601,13 @@
      "file": "knowledge/media-generation/visual-generation/visual-style-locking/applications/next--motion-sampled-under-a-frame-budget.md",
      "verified_on": "2026-09-09",
      "verified_against": "next@16.3.3"
+    },
+    {
+     "stack": "python",
+     "technique": "motion-sampled-under-a-frame-budget",
+     "file": "knowledge/media-generation/visual-generation/visual-style-locking/applications/python--motion-sampled-under-a-frame-budget.md",
+     "verified_on": "2026-09-14",
+     "verified_against": "python@3.14"
     },
     {
      "stack": "react",
