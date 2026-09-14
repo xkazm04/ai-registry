@@ -219,10 +219,10 @@
     },
     {
       "name": "i18n-translate",
-      "version": "1.4.0",
+      "version": "1.5.0",
       "category": "workflow",
       "path": "skills/i18n-translate/SKILL.md",
-      "contentHash": "sha256-n1:a55794cd99df242e",
+      "contentHash": "sha256-n1:07d607119a65ce15",
       "adopters": [
         "kp@plugin:1.1.0",
         "personas@plugin:1.1.0",
@@ -230,9 +230,9 @@
       ],
       "invokes30d": 2,
       "reportedInvokes": 2,
-      "lessons": 3,
+      "lessons": 4,
       "lessonsPath": "skills/i18n-translate/LESSONS.md",
-      "lessonsHash": "sha256-n1:85fd86502f09a9a2",
+      "lessonsHash": "sha256-n1:490a72e16667384a",
       "usageContributors": [
         "kazda-dev-box"
       ]
@@ -321,16 +321,16 @@
     },
     {
       "name": "native-copy",
-      "version": "1.1.0",
+      "version": "1.2.0",
       "category": "workflow",
       "path": "skills/native-copy/SKILL.md",
-      "contentHash": "sha256-n1:70b8162e72df2bbe",
+      "contentHash": "sha256-n1:64ba59aec64b953a",
       "adopters": [],
       "invokes30d": 0,
       "reportedInvokes": 0,
-      "lessons": 1,
+      "lessons": 2,
       "lessonsPath": "skills/native-copy/LESSONS.md",
-      "lessonsHash": "sha256-n1:15e91eac6ce30cdb",
+      "lessonsHash": "sha256-n1:a67b8bd86bcf549a",
       "usageContributors": []
     },
     {
@@ -730,7 +730,7 @@
     "skills": 33,
     "practices": 8,
     "memory": 6,
-    "lessons": 215
+    "lessons": 217
   },
   "bundles": [
     {
@@ -794,9 +794,9 @@
       "purity": "localization",
       "subjects": 17,
       "techniques": 119,
-      "applications": 50,
-      "files": 190,
-      "contentHash": "sha256:7d4c4441cc113cbb"
+      "applications": 54,
+      "files": 194,
+      "contentHash": "sha256:8a2ad42f2e11086d"
     },
     {
       "name": "marketing",

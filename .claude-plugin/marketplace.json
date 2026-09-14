@@ -166,7 +166,7 @@
       "name": "i18n-translate",
       "source": "./skills/i18n-translate",
       "description": "Copywriting-grade, context-aware localization for any managed app - a transcreation loop (draft -> typed MQM estimate -> gated refine) with an engineering guardrail. Portable across i18n stacks via a per-repo contract artifact; keeps a glossary, per-locale style guides, and gold exemplar pairs in the target repo so run N+1 stays consistent with run N. Invoke with /i18n-translate <mode> [locale] [s",
-      "version": "1.4.0",
+      "version": "1.5.0",
       "category": "workflow"
     },
     {
@@ -215,7 +215,7 @@
       "name": "native-copy",
       "source": "./skills/native-copy",
       "description": "Write, check and review native-quality ENGLISH web copy where it lives: i18n JSON catalogs, TS dictionary modules, hardcoded JSX text, MDX. Records the product's declared English (US/UK spelling, dash system, quotes, case per element) in a copy contract counted against the real strings, gates changed copy with a zero-dependency checker whose every finding cites a registry EN-* rule ID (baseline ra",
-      "version": "1.1.0",
+      "version": "1.2.0",
       "category": "workflow",
       "tags": [
         "english",
