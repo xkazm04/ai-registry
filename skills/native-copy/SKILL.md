@@ -3,7 +3,7 @@ name: native-copy
 description: "Write, check and review native-quality ENGLISH web copy where it lives: i18n JSON catalogs, TS dictionary modules, hardcoded JSX text, MDX. Records the product's declared English (US/UK spelling, dash system, quotes, case per element) in a copy contract counted against the real strings, gates changed copy with a zero-dependency checker whose every finding cites a registry EN-* rule ID (baseline ratchet, coverage printed), runs an anchored checklist review for judgment rules, and drafts page copy from a brief and fact sheet. Use when English UI or landing copy is written, reviewed, wired into pre-push, or reads non-native, translated or generated. Boundary: i18n-translate turns the source catalog into OTHER locales and treats it as truth; native-copy owns the English source copy itself. Invoke /native-copy <init|check|review|write|wire> [scope]."
 category: workflow
 memory: project
-version: 1.1.0
+version: 1.2.0
 tags: english, copy, microcopy, lint, gate, review
 argument-hint: "<init|check|review|write|wire> [--changed | scope | page]"
 ---
@@ -53,7 +53,8 @@ missing, say so in the run header (`registry: english subject unavailable`) and 
 mechanical checker, whose rules are built in. Never invent rule text.
 
 `node ${CLAUDE_SKILL_DIR}/scripts/copy-check.mjs --list-rules --registry <registry>` prints
-the checker's rules and exits 1 if one is missing from the `english` subject (drift).
+the checker's rules - status, kind, scope, and the counted precision with its date - and exits 1
+if one is missing from the `english` subject (drift).
 
 ## The instrument: `scripts/copy-check.mjs`
 
@@ -66,12 +67,15 @@ Node builtins only; run from the project root.
 | `copy-check.mjs --baseline write` | record current findings as fingerprints (the ratchet) |
 | `copy-check.mjs --init [--write] [--source <glob>=<kind>]` | count conventions, print a proposed contract; writes only with `--write`, never over an existing one |
 | `copy-check.mjs --strings` | print exactly the strings the rules would see (coverage audit) |
+| `copy-check.mjs --veto <findings.json> [--registry <dir>]` | run a model review's findings through the deterministic veto layer; prints kept and suppressed findings as JSON, writes nothing |
+| `copy-check.mjs --rules-md` | print the rule catalog that [references/rules.md](references/rules.md) holds |
 | `--all-findings` | also list baselined errors and warnings; by default a run lists only NEW errors and counts the rest, so a push on a catalog with hundreds of baselined findings shows the one that blocks |
 | `--json`, `--errors-only`, `--limit <n>`, `--contract <path>`, `--root <dir>` | output and location |
 
 Exit `0` ok; `1` new error-severity findings not in the baseline, or an unreadable source
 file; `2` config or usage failure, naming which. Every finding prints as
-`file:line key — EN-ID message — "span"`, and the last line states coverage:
+`file:line key — EN-ID (kind) message — "span"` (JSON adds `kind` and `anchor`, the span
+widened until it occurs once in the string), and the last line states coverage:
 `checked N strings (F fragments) in M files from S sources; X unreadable; errors E (new E2), warnings W`.
 
 A green result with a coverage line that does not match the catalog is not green. The
@@ -123,8 +127,12 @@ changes.
 3. Review in a **fresh context** - a subagent that did not write the copy, a different model
    family when one is available - given only the strings with keys and call-site role, the
    contract, the termbase, the exemplars and the checklist.
-4. Keep only findings shaped `key · span · EN-ID · MQM path · severity · minimal fix`; drop
-   uncited ones, synonym swaps, and anything alleging authorship. Bulk sweeps keep findings
+4. Keep only findings shaped `key · span · EN-ID · MQM path · severity · minimal fix`. Save
+   them as JSON and run `copy-check.mjs --veto <file>`: the deterministic veto layer drops
+   uncited or unknown rule IDs, spans that are not verbatim or not unique, locked and preserved
+   keys, accepted names, skeleton-changing fixes, synonym swaps, authorship claims, and spans a
+   recorded guard of the cited rule already covers - and counts what it dropped and why. Work
+   only from its `kept` list; report `given`, `kept` and `counts`. Bulk sweeps keep findings
    reported by 2 of 3 independent samples.
 5. Repair once, on flagged spans only; re-run `check`; re-review the repaired strings once
    and expect nothing new. A string that flips back freezes and goes to a human.
@@ -210,6 +218,40 @@ Each default is a technique of the `copy-quality-gates` subject, read through th
 - `wire` targets the push hook and the aggregate verify task rather than path-scoped
   instructions - `enforcement-at-the-write-seams`: those are the seams every write path
   crosses.
+- A rule's disposition, precision and false positives are data beside its ID -
+  `severity-as-declared-data`; the catalog is enumerable and each check sees the text it is
+  about - `format-aware-check-catalog`.
+- Findings carry an offset, a suggestion and a unique anchor, so a mechanical class can be
+  repaired and recorded rather than re-reported - `deterministic-repair-classes`.
+- Model findings pass a rule-based veto before anyone reads them, and spans are made unique
+  before they are matched - `anchored-model-review` (the deterministic veto layer).
+
+## The rule catalog is data
+
+Every rule in `scripts/lib/rules.mjs` is a record, and
+[references/rules.md](references/rules.md) is generated from it (`--rules-md`; a test fails
+when it is stale). Read it before promoting a warning or turning a rule off.
+
+- **`kind`** - the issue type (terminology, mistranslation, grammar, style, register,
+  locale-convention, typography, markup, whitespace, redundancy, regionalism,
+  inclusive-language, usage), printed on every finding.
+- **`precision`** - `{ value, sample, date, note }`: the accepted share the last time someone
+  counted. `null` means nobody has; a null is honest, an invented number is not.
+- **`guards`** - the known false positives as `{ pattern, reason, seen, example }`. An
+  executable pattern suppresses matches in the checker and vetoes model findings citing the
+  same rule; every guard's example is a negative control the tests run.
+- **`status`** - `on` or `temp_off`. `temp_off` retires a noisy rule without deleting it: it
+  keeps its guards, examples and tests and never fires, whatever the contract says. Deleting a
+  rule loses the false positives it was taught.
+- **`priority`** - resolves overlaps: **one span, one finding**. When a phrase rule claims a
+  span, a lower-ranked word-level warning on the same span is dropped (rank is severity, then
+  priority, then length), so a puffery word inside a cliche or a hedge inside a participle tail
+  raises one alert. An error is never dropped, and typography never competes with wording.
+- **`examples`** - a positive fixture and a negative control per rule, run for every rule by
+  enumeration: a rule cannot ship untested.
+
+New rules enter as `warn` with at least one guard. The fingerprint (`rule|file|key|sha1(text)`)
+ignores message, kind and anchor, so metadata changes never invalidate a project's baseline.
 
 ## Project overlay
 

@@ -36,7 +36,10 @@ in `_notes`). Any other unknown key is a config failure (exit 2), so a typo such
 | `case.errorKeys` | regex source | see below | Tested against the WHOLE key; error-class strings may carry no `!` (EN-EXCLAIM). |
 | `terms.accept` | array of strings | `[]` | Product and third-party names, matched as whole words. Masked before spelling, false-friend and case rules run, so `Colour Labs` or `Google Ads` never flag. |
 | `terms.reject` | array of `{ term, use }` | `[]` | Forbidden variants: each occurrence is an EN-ONE-TERM error suggesting `use`. |
-| `rules` | object `{ "EN-XXX": "error" or "warn" or "off" }` | `{}` | Per-rule severity override. Unknown IDs are a config failure; `--list-rules` prints the implemented set. |
+| `terms.inclusive` | array of `{ term, use }` | the seed list in [rules.md](rules.md) | Bias-coded terms and their replacements (EN-INCLUSIVE, a warning). Absent: the checker's seed applies. Present: exactly this list applies - copy the seed, then add or remove entries; `[]` turns the rule's lexicon off. |
+| `keys.locked` | array of key patterns | `[]` | Keys whose text is the record (legal clauses, quoted names). The review veto drops any model finding on them. Dot globs: `*` one key segment, `**` any depth (`legal.**`). |
+| `keys.preserved` | array of key patterns | `[]` | Human-owned keys a reviewer must not rewrite (testimonials, signed quotes). Treated like `locked` by the veto. |
+| `rules` | object `{ "EN-XXX": "error" or "warn" or "off" }` | `{}` | Per-rule severity override. Unknown IDs are a config failure; `--list-rules` prints the implemented set. A rule the checker ships as `temp_off` stays silent whatever this says. Read [rules.md](rules.md) (kind, precision, guards) before promoting a warning. |
 | `baseline` | path | `.ai/copy-baseline.json` | Fingerprint file for the ratchet (below). |
 
 Default key patterns (case-sensitive, so camelCase boundaries count):
@@ -79,6 +82,11 @@ Fingerprints, not counts: fixing one defect while adding another in the same fil
 
 `--baseline write` requires a full scan (never `--changed`). `--baseline ignore` checks as if
 no baseline existed.
+
+The fingerprint is deliberately blind to the finding's message, span, `kind` and `anchor`, so a
+checker release that rewords a message or adds metadata leaves every baseline valid. One span,
+one finding (see [rules.md](rules.md)) drops only warnings, never an error, so it cannot orphan
+a baselined error either.
 
 ## Exit codes
 

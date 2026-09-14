@@ -81,11 +81,35 @@ Drop, without discussion, any finding that:
 
 - cites no rule ID, or an ID that is not in the `english` subject;
 - quotes no span, or a span that is not in the string verbatim;
+- quotes a span that occurs more than once in the string - the reviewer must widen it until it
+  occurs once (word by word; character by character in scripts written without spaces);
 - proposes a fix that is a synonym of the flagged word (EN-SYNONYM-SWAP);
+- proposes a fix that adds, drops or renames a placeholder or tag;
 - alleges authorship ("sounds AI-written") - a finding names a text property, never a writer;
-- rests on a detector score or a model's "sounds generated" verdict (EN-DETECTOR).
+- rests on a detector score or a model's "sounds generated" verdict (EN-DETECTOR);
+- sits on a key the contract marks `keys.locked` or `keys.preserved`.
 
 A minimal fix changes the span and nothing around it. A clean string gets no record.
+
+### The veto runs these drops, not a reader
+
+Save the reviewer's findings as JSON - an array of
+`{ key, span, rule, mqm, severity, fix, reason, file?, line? }` - and run:
+
+```
+node ${CLAUDE_SKILL_DIR}/scripts/copy-check.mjs --veto review.json [--registry <registry>]
+```
+
+It resolves each key against the strings the contract's sources hold, applies the veto rules
+of `scripts/lib/veto.mjs` in order (V-SHAPE, V-UNKNOWN-RULE, V-AUTHORSHIP, V-UNKNOWN-UNIT,
+V-UNIT-AMBIGUOUS, V-LOCKED-UNIT, V-SPAN-NOT-VERBATIM, V-SPAN-AMBIGUOUS, V-ACCEPTED-TERM,
+V-SKELETON, V-NOOP-FIX, V-SYNONYM-SWAP, V-RULE-GUARD), and prints the kept findings, each with
+its unique `anchor`, plus every suppressed one with its veto id and reason. It writes nothing.
+V-RULE-GUARD replays the checker's executable guards (see [rules.md](rules.md)) against model
+findings that cite the same rule: a false positive recorded once is vetoed on every later run.
+Report `given`, `kept` and `counts` beside the review's coverage line. When a human rejects a
+finding the veto kept, and the rejection has a recognizable shape, the shape is a new veto or
+guard - that is how the layer grows (copy-quality-gates/anchored-model-review).
 
 ## 3. Who reviews
 

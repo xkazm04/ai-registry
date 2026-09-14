@@ -19,7 +19,7 @@ const yes = (rule, text, opts) => assert.ok(hits(rule, text, opts).length > 0, `
 const no = (rule, text, opts) => assert.equal(hits(rule, text, opts).length, 0, `${rule} should NOT flag: ${text} -> ${JSON.stringify(hits(rule, text, opts).map((f) => f.span))}`);
 
 test('the rule set is the dossier set, each with a severity and fragment flag', () => {
-  assert.equal(RULES.length, 26);
+  assert.equal(RULES.length, 34);
   for (const r of RULES) {
     assert.match(r.id, /^EN-[A-Z]+(-[A-Z]+)*$/);
     assert.ok(['error', 'warn'].includes(r.defaultSeverity));

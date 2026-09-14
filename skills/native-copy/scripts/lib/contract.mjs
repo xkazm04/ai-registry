@@ -10,7 +10,20 @@ export const DEFAULT_BUTTON_KEYS = '^(cta|button|btn|submit)\\d*$|[a-z0-9](Cta|C
 export const DEFAULT_ERROR_KEYS = '(^|\\.)(errors?)(\\.|$)|(^|\\.)error[A-Z]\\w*$|[a-z](Error|Failed|Failure)\\w*$';
 
 const KINDS = ['json-catalog', 'ts-module', 'jsx', 'mdx', 'markdown'];
-const TOP_KEYS = new Set(['$schema', 'variant', 'spelling', 'sources', 'exclude', 'dash', 'quotes', 'ellipsis', 'case', 'terms', 'rules', 'baseline']);
+const TOP_KEYS = new Set(['$schema', 'variant', 'spelling', 'sources', 'exclude', 'dash', 'quotes', 'ellipsis', 'case', 'terms', 'keys', 'rules', 'baseline']);
+
+/** A dot-glob key pattern as a RegExp: `*` one key segment, `**` any depth. */
+export function keyPattern(glob) {
+  const src = String(glob).split(/(\*\*|\*)/).map((part) => (part === '**' ? '.*' : part === '*' ? '[^.]*' : part.replace(/[.+?^${}()|[\]\\]/g, '\\$&'))).join('');
+  return new RegExp(`^${src}$`);
+}
+
+/** 'locked' | 'preserved' | null for a key under a normalized contract. */
+export function keyClassOf(key, contract) {
+  const k = String(key ?? '');
+  for (const cls of ['locked', 'preserved']) if ((contract?.keys?.[cls] || []).some((p) => keyPattern(p).test(k))) return cls;
+  return null;
+}
 
 const oneOf = (errors, where, value, allowed, dflt) => {
   if (value === undefined) return dflt;
@@ -68,6 +81,20 @@ export function normalizeContract(raw, { knownRules = null } = {}) {
   const reject = termsRaw.reject ?? [];
   if (!Array.isArray(accept) || accept.some((t) => typeof t !== 'string' || !t.trim())) errors.push('terms.accept must be an array of non-empty strings');
   if (!Array.isArray(reject) || reject.some((r) => !r || typeof r.term !== 'string' || !r.term.trim() || typeof r.use !== 'string')) errors.push('terms.reject must be an array of { term, use }');
+  // EN-INCLUSIVE's termbase: absent = the checker's seed (rules.mjs INCLUSIVE_SEED); present = exactly this list
+  const inclusive = termsRaw.inclusive === undefined ? null : termsRaw.inclusive;
+  if (inclusive !== null && (!Array.isArray(inclusive) || inclusive.some((r) => !r || typeof r.term !== 'string' || !r.term.trim() || typeof r.use !== 'string'))) errors.push('terms.inclusive must be an array of { term, use } (omit it to use the seed list)');
+
+  // Key classes the review veto respects (anchored-model-review): a finding on a locked or
+  // preserved key is dropped. Patterns are dot globs: `*` one segment, `**` any depth.
+  const keysRaw = raw.keys ?? {};
+  const keyLists = {};
+  if (typeof keysRaw !== 'object' || Array.isArray(keysRaw)) errors.push('keys must be an object { locked, preserved }');
+  for (const cls of ['locked', 'preserved']) {
+    const v = keysRaw[cls] ?? [];
+    if (!Array.isArray(v) || v.some((p) => typeof p !== 'string' || !p.trim())) { errors.push(`keys.${cls} must be an array of key patterns`); keyLists[cls] = []; } else keyLists[cls] = v;
+  }
+  for (const k of Object.keys(keysRaw)) if (!['locked', 'preserved'].includes(k) && !k.startsWith('_')) errors.push(`keys.${k}: unknown key class (locked, preserved)`);
 
   const rules = {};
   const rulesRaw = raw.rules ?? {};
@@ -84,7 +111,8 @@ export function normalizeContract(raw, { knownRules = null } = {}) {
   return {
     contract: {
       variant, spelling, sources, exclude: Array.isArray(exclude) ? exclude : [], dash, quotes, ellipsis, case: kase,
-      terms: { accept: Array.isArray(accept) ? accept : [], reject: Array.isArray(reject) ? reject : [] },
+      terms: { accept: Array.isArray(accept) ? accept : [], reject: Array.isArray(reject) ? reject : [], inclusive: Array.isArray(inclusive) ? inclusive : null },
+      keys: keyLists,
       rules, baseline: typeof baseline === 'string' ? baseline : '.ai/copy-baseline.json',
     },
     errors,

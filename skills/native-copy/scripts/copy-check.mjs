@@ -18,18 +18,21 @@ import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { expandSources, toPosix } from './lib/glob.mjs';
 import { extractFile, KINDS } from './lib/extract.mjs';
-import { RULES, RULE_IDS, lintRecords } from './lib/rules.mjs';
+import { fileURLToPath } from 'node:url';
+import { RULES, RULE_IDS, INCLUSIVE_SEED, lintRecords } from './lib/rules.mjs';
 import { normalizeContract, contractFor } from './lib/contract.mjs';
 import { applyBaseline, buildBaseline, changedRecords, parseBaseline } from './lib/baseline.mjs';
 import { countConventions, proposeContract } from './lib/init.mjs';
-import { formatHuman, formatJson, summaryLine } from './lib/report.mjs';
+import { formatHuman, formatJson, summaryLine, precisionLabel, rulesMarkdown } from './lib/report.mjs';
+import { applyVeto, unitResolver } from './lib/veto.mjs';
 
-const VERSION = 'native-copy/copy-check 1.1.0';
+const VERSION = 'native-copy/copy-check 1.2.0';
+const SKILL_DIR = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 const DEFAULT_CONTRACT = 'docs/i18n/copy-contract.json';
 
 function usage(msg) {
   if (msg) console.error(`copy-check: usage error: ${msg}`);
-  console.error('usage: copy-check [--all|--changed [--base <ref>]] [--contract <path>] [--root <dir>] [--json] [--errors-only] [--all-findings] [--limit <n>] [--baseline write|ignore] | --init [--write] [--source <glob>=<kind>] | --list-rules [--registry <dir>]');
+  console.error('usage: copy-check [--all|--changed [--base <ref>]] [--contract <path>] [--root <dir>] [--json] [--errors-only] [--all-findings] [--limit <n>] [--baseline write|ignore] | --init [--write] [--source <glob>=<kind>] | --list-rules [--registry <dir>] | --rules-md | --veto <findings.json> [--registry <dir>]');
   process.exit(msg ? 2 : 0);
 }
 const fail2 = (msg) => { console.error(`copy-check: config failure: ${msg}`); process.exit(2); };
@@ -56,6 +59,8 @@ function parseArgs(argv) {
       case '--list-rules': a.listRules = true; break;
       case '--strings': a.strings = true; break;
       case '--registry': a.registry = needs(i, f); i++; break;
+      case '--veto': a.veto = needs(i, f); i++; break;
+      case '--rules-md': a.rulesMd = true; break;
       case '--help': case '-h': usage(); break;
       default: usage(`unknown argument ${f}`);
     }
@@ -102,27 +107,32 @@ function changedFiles(root, baseArg) {
 
 // ------------------------------------------------------------------ commands
 
+const EN_ID = /\bEN-[A-Z0-9]+(?:-[A-Z0-9]+)*\b/g;
+
+/** Rule IDs of the registry's english subject: { ids: Set|null, note }. */
+function subjectIds(registry) {
+  const indexPath = path.join(registry, 'knowledge', 'localization', 'index.json');
+  try {
+    const index = JSON.parse(fs.readFileSync(indexPath, 'utf8'));
+    const subj = index.subjects?.english;
+    if (!subj?.file) return { ids: null, note: 'the english subject is not in the localization index yet; no drift check' };
+    const dir = path.join(registry, path.dirname(subj.file));
+    const ids = new Set();
+    const walk = (d) => { for (const e of fs.readdirSync(d, { withFileTypes: true })) { const p = path.join(d, e.name); if (e.isDirectory()) walk(p); else if (e.name.endsWith('.md')) for (const m of fs.readFileSync(p, 'utf8').matchAll(EN_ID)) ids.add(m[0]); } };
+    walk(dir);
+    return { ids, note: null };
+  } catch (e) { return { ids: null, note: `cannot read ${indexPath}: ${e.message}` }; }
+}
+
 function listRules(args) {
   let registryIds = null; let note = null;
-  if (args.registry) {
-    const indexPath = path.join(args.registry, 'knowledge', 'localization', 'index.json');
-    try {
-      const index = JSON.parse(fs.readFileSync(indexPath, 'utf8'));
-      const subj = index.subjects?.english;
-      if (!subj?.file) note = 'the english subject is not in the localization index yet; no drift check';
-      else {
-        const dir = path.join(args.registry, path.dirname(subj.file));
-        registryIds = new Set();
-        const walk = (d) => { for (const e of fs.readdirSync(d, { withFileTypes: true })) { const p = path.join(d, e.name); if (e.isDirectory()) walk(p); else if (e.name.endsWith('.md')) for (const m of fs.readFileSync(p, 'utf8').matchAll(/\bEN-[A-Z0-9]+(?:-[A-Z0-9]+)*\b/g)) registryIds.add(m[0]); } };
-        walk(dir);
-      }
-    } catch (e) { note = `cannot read ${indexPath}: ${e.message}`; }
-  }
+  if (args.registry) ({ ids: registryIds, note } = subjectIds(args.registry));
   let drift = 0;
+  console.log(`${'rule'.padEnd(21)}${'severity'.padEnd(9)}${'status'.padEnd(9)}${'kind'.padEnd(19)}${'scope'.padEnd(20)}precision`);
   for (const r of RULES) {
-    const inSubject = registryIds ? (registryIds.has(r.id) ? 'in subject' : 'MISSING from subject') : '';
+    const inSubject = registryIds ? (registryIds.has(r.id) ? '  in subject' : '  MISSING from subject') : '';
     if (registryIds && !registryIds.has(r.id)) drift += 1;
-    console.log(`${r.id.padEnd(20)} ${r.defaultSeverity.padEnd(6)} ${r.fragmentSafe ? 'fragments+sentences' : 'sentences only     '} ${inSubject}`);
+    console.log(`${r.id.padEnd(21)}${r.defaultSeverity.padEnd(9)}${r.status.padEnd(9)}${r.kind.padEnd(19)}${(r.fragmentSafe ? 'fragments+sentences' : 'sentences only').padEnd(20)}${precisionLabel(r.precision)}${inSubject}`);
   }
   if (note) console.log(`note: ${note}`);
   console.log(`${RULES.length} rules${registryIds ? `; ${drift} missing from the english subject` : ''}`);
@@ -191,9 +201,30 @@ function init(root, contractPath, args) {
   process.exit(0);
 }
 
+/**
+ * --veto <findings.json>: run model review findings through the deterministic veto layer
+ * (lib/veto.mjs) against the strings the contract's sources hold. Prints JSON; writes nothing.
+ * The catalog of valid IDs is the checker's rules plus the review checklist's IDs, plus the
+ * english subject's IDs when --registry is given.
+ */
+function veto(args, records, contract) {
+  let input;
+  try { input = JSON.parse(fs.readFileSync(path.resolve(process.cwd(), args.veto), 'utf8')); } catch (e) { fail2(`--veto ${args.veto}: ${e.message}`); }
+  const findings = Array.isArray(input) ? input : input && Array.isArray(input.findings) ? input.findings : null;
+  if (!findings) fail2('--veto takes a JSON array of findings, or an object with a "findings" array');
+  const ids = new Set(RULE_IDS);
+  try { for (const m of fs.readFileSync(path.join(SKILL_DIR, 'references', 'review-checklist.md'), 'utf8').matchAll(EN_ID)) ids.add(m[0]); } catch { /* the checker's own ids still apply */ }
+  let note = null;
+  if (args.registry) { const s = subjectIds(args.registry); if (s.ids) for (const id of s.ids) ids.add(id); note = s.note; }
+  const result = applyVeto(findings, { resolveUnit: unitResolver(records), ruleIds: ids, contract });
+  console.log(JSON.stringify({ checker: VERSION, catalogIds: ids.size, note, ...result }, null, 2));
+  process.exit(0);
+}
+
 function main() {
   const args = parseArgs(process.argv.slice(2));
   if (args.listRules) listRules(args);
+  if (args.rulesMd) { process.stdout.write(rulesMarkdown(RULES, { inclusiveSeed: INCLUSIVE_SEED })); process.exit(0); }
   const root = path.resolve(args.root || process.cwd());
   const contractPath = args.contract ? path.resolve(process.cwd(), args.contract) : path.join(root, DEFAULT_CONTRACT);
   if (args.init) init(root, contractPath, args);
@@ -218,6 +249,7 @@ function main() {
   }
 
   const { records, unreadable } = extractAll(root, files);
+  if (args.veto) veto(args, records, contract);
   let inScope = records;
   if (changed) {
     inScope = [];
