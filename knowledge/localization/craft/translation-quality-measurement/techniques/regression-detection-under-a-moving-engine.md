@@ -73,11 +73,47 @@ published. What is compared, in order:
    not from the whole probe set. The question a human answers is narrow and
    cheap: of the units that changed, did more get better than got worse?
 
+## How big a difference has to be before it means anything
+
+Step 2 compares distributions, and the obvious question is how far apart they
+have to be. There are two answers, they differ by about a factor of four, and
+that gap is where false alarms come from.
+
+A metric's own bootstrap significance test answers a narrow question — is this
+difference larger than sampling noise in this test set — and its floor is small:
+for a surface overlap metric, around **0.66 chrF points**. Whether *humans would
+agree the difference is real* is a harder question with much higher cutoffs. The
+2025 pooled analysis (14 language pairs; 10-fold cross-validated precision
+84–97%) put them, for roughly 80% confidence that human annotators would agree a
+difference exists, at a delta exceeding about **2.8 chrF, 3.0 BLEU, 0.017 for a
+learned reference-based metric on its 0–1 scale, 0.048 for a reference-free one,
+or 12.0 points for a frontier-model judge on its own 0–100 scale.** The
+reference-free instrument needs the largest relative gap, which is this subject's
+standing warning about it arriving in the form of a threshold.
+
+Two rules follow, and the second is expensive to learn late:
+
+- **"My metric says this is significant" and "a human panel would have agreed"
+  are different claims, and only the second justifies the word regression.**
+  Below the human-agreement cutoff a delta is a reason to look at the churn, not
+  a reason to block a publication; a probe-set movement of that size is the
+  normal breathing of an engine rather than an event.
+- **A dashboard wired to the bootstrap floor will alarm roughly four times as
+  often as the humans would have.** That is not a conservative setting, it is a
+  broken one: within two cycles the team learns the alarm means nothing and
+  stops reading it, and the real regression then passes unread too. If a gate
+  must fire on the small delta, it files a look-at-this, never a block.
+
+The cutoffs are pooled across pairs, so treat them as a borrowed default. Where
+a pair has its own human-agreement measurement that one wins, and where it does
+not, the record says the cutoff was borrowed — the same discipline the probe-set
+result gets.
+
 ## Publish a regeneration as an event, not a background job
 
 A configuration change is a decision with consequences that outlive it, so it
-carries a record: what changed, the probe-set result, the churn rate, the human
-sample's verdict, and the date. Without that record the next person to see the
+carries a record: what changed, the probe-set result, the cutoff that result was
+judged against, the churn rate, the human sample's verdict, and the date. Without that record the next person to see the
 store degrade has no way to bisect, because the only history a regenerable
 store keeps is its current contents.
 

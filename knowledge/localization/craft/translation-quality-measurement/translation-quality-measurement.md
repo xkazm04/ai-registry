@@ -51,17 +51,46 @@ instrument that runs is the reference-free kind: an estimator that reads source
 and output together and predicts how a human annotator would have scored them
 ([reference-free-quality-estimation](./techniques/reference-free-quality-estimation.md)).
 
-That instrument is real and it is weak, and both halves matter. In the field's
-annual evaluation campaigns the leading reference-free estimators reach
-sentence-level correlations with human judgment in the neighbourhood of 0.4–0.5
-on well-resourced pairs, word- and span-level error detection lands between
-0.3 and 0.6 F1, and both degrade sharply on low-resource pairs and out of the
-domain the estimator was trained on. Even the best reference-*based* metrics
-recover under sixty percent of pairwise human preferences at segment level.
-Read that as the design constraint it is: an estimator is a usable ranking
-signal over thousands of segments and an unreliable verdict on any one of them.
-The correct output of an estimator is therefore a **queue**, not a grade — the
-segments a human should look at first, ordered.
+That instrument is real and it is weak, and both halves matter. The field's
+2025 annual evaluation campaign measured it independently across 16 language
+pairs, roughly twenty systems per pair, Czech in three directions. The best
+automatic error-span annotator averaged **13.47% micro-F1** at locating the
+errors a human had marked; the strongest span-level metric managed 12.61%. Read
+alone those look like failure, and they are not readable alone — which is the
+rule this subject enforces: **a span-detection score means nothing without the
+human-versus-human number beside it, measured on the same data.** A second
+human annotator on that task reached **47.48%**, so against that ceiling the
+machine recovers about a quarter of what a person does. But the ceiling is
+per-pair. On English→Czech it is **18.24%** and the strong metric scored 10.55%:
+there the machine is close to the humans, and the humans are not close to each
+other. The same 13% is a damning result on one pair and near parity on the next,
+and only the ceiling says which.
+
+Two further properties fix what may be said with the instrument. Its
+system-level and segment-level skill come apart: in that campaign a
+frontier-model judge scored 0.850 correlation ranking systems against 0.350
+scoring segments, another 0.870 against 0.514 — while cheap surface metrics beat
+the learned reference-free ones segment by segment (chrF 0.588 and an
+embedding-overlap metric 0.593, against 0.565 and 0.505). A metric that ranks
+engines well is not therefore a metric that can read a sentence. And the
+campaign's own caution is a rule, not advice: **never evaluate a system with a
+metric that played any part in selecting, tuning or training it** — it will
+report back the improvement it was used to buy. Read all of this as the design
+constraint it is: an estimator is a usable ranking signal over thousands of
+segments and an unreliable verdict on any one of them. The correct output is
+therefore a **queue**, not a grade — the segments a human should look at first,
+ordered.
+
+The last comfort to give up is the one that sounds safest: *at least it catches
+the disasters.* At each metric's best possible threshold, chosen with hindsight
+on the test data, recall of catastrophic segments in the 2025 campaign ranged
+from **84% on English→Arabic down to 12–21% on English→Russian for the same
+metric.** A disaster detector whose recall varies fivefold across pairs is a
+per-pair instrument, and on a pair where nobody has measured it, "the estimator
+catches the disasters" is not a weak claim but an unmade one. The same
+degradation appears wherever an estimator is off its home ground — low-resource
+pairs, text outside its training domain — and it is quiet there, because the
+scores stay in range and stop meaning anything.
 
 ## Decide what can be decided before estimating anything
 
@@ -104,9 +133,11 @@ defects are more numerous.
 So the finding is typed: a category from a published multidimensional error
 typology — accuracy, fluency, terminology, style, locale convention, and the
 non-translation class — crossed with a severity, weighted so that the classes
-separate rather than blend (the widely used analytic model weights minor,
-major and critical errors 1, 5 and 25, and the point of a spread that steep is
-that no volume of minor defects can outvote one critical one)
+separate rather than blend (the weighting the field's campaigns actually operate
+is major 5, minor 1, neutral 0, with two exceptions that are *categories* and
+not severity tiers — non-translation 25 and minor punctuation-fluency 0.1 — and
+the point of a spread that steep is that no volume of minor defects can outvote
+one non-translation)
 ([error-typology-over-a-single-score](./techniques/error-typology-over-a-single-score.md)).
 The categories are *slots*; what fills them is per-language. What counts as a
 register defect in one language is a decision that language's subject records,
@@ -171,8 +202,13 @@ the number reviewed goes in the summary beside the number assigned.
 ## Failure modes this subject exists to prevent
 
 - **The score as a verdict.** A threshold cleared and a locale declared
-  shippable, on an instrument that recovers well under two-thirds of human
-  preferences per segment. A score routes attention; it does not clear text.
+  shippable, on an instrument whose segment-level agreement with humans sat
+  between 0.35 and 0.57 across the 2025 campaign's metrics. A score routes
+  attention; it does not clear text.
+- **The metric quoted without its ceiling.** A span-detection or agreement
+  figure reported as good or bad with no human-versus-human number from the same
+  data beside it — the one comparison that makes it a fact rather than an
+  impression.
 - **The estimator on a decidable defect.** A model consulted about a
   placeholder rename, a broken plural branch, or a termbase miss, all of which
   a rule answers exactly — measurement budget spent producing a probability

@@ -43,11 +43,21 @@ comparability across locales, waves and reviewers, and a per-project category
 set forfeits it on day one.
 
 Severity is impact on the reader, not size of the edit: **minor** distracts,
-**major** misleads or blocks, **critical** breaks the product or carries legal
-or safety consequence. The widely used analytic model weights the three at 1,
-5 and 25 when a total is needed, and the steepness is the point — no volume of
-minor defects can outvote one critical defect. A gentler weighting reintroduces
-the averaging the typology exists to prevent.
+**major** misleads or blocks, and a **neutral** mark records an observation that
+costs nothing. The weighting the field's campaigns actually operate is **major 5,
+minor 1, neutral 0**, with two exceptions that are *categories* rather than
+severity tiers: **non-translation 25** and **minor punctuation-fluency 0.1**.
+That structure is worth getting right, because the common misreading — that 25 is
+a third severity tier called critical — hands the steepest weight in the scheme
+to every reviewer's judgment instead of attaching it to one named, checkable
+category. The steepness is still the point: no volume of minor defects can
+outvote one non-translation, and the 0.1 exception exists because punctuation
+nits are numerous, individually real, and must not be able to sum into a verdict.
+
+"Critical" remains a useful local ruling — a defect that breaks the product or
+carries legal or safety consequence — but carry it as a **release rule**, not as
+a weight. A 25-point weight any reviewer may apply to any category is the
+averaging this technique exists to prevent, wearing the typology's clothes.
 
 Two severity rulings are made in advance rather than per finding. A skeleton
 break is **critical unconditionally**, because
@@ -79,9 +89,9 @@ because the category tells you which artifact should have held the rule.
 - **Routing.** Accuracy findings go to translation; terminology findings go to
   the termbase owner; locale-convention findings usually go to the source or
   the formatting layer, not to a translator at all.
-- **A release rule that is not a threshold.** Ship on *zero critical, no major
-  on a consequential surface, minor within budget* rather than on a composite
-  crossing a line. A composite lets a hundred minors mask the one critical; a
+- **A release rule that is not a threshold.** Ship on *zero non-translation, no
+  critical ruling standing, no major on a consequential surface, minor within
+  budget* rather than on a composite crossing a line. A composite lets a hundred minors mask the one critical; a
   categorical rule cannot.
 - **Engine comparison that survives a tie.** Two engines with the same overall
   score are routinely not equivalent: one distributes its defects across
@@ -101,6 +111,15 @@ because the category tells you which artifact should have held the rule.
 - **For the routing decision itself.** Which segments a reviewer opens is the
   estimator's and the deterministic layer's job; the typology begins once the
   segment is open.
+- **When the question is only ranking or gating.** A measured cheaper protocol
+  drops the category and keeps the marked span, a minor/major severity and a
+  whole-segment score, reaching 94.9% agreement with the full typology on system
+  ranking at about two-thirds of the per-segment time and with higher
+  inter-annotator reliability. If all anyone needs is "is this build worse than
+  the last one" or "which segments need a human", the category is the field being
+  paid for and not used
+  ([human-review-sampling-under-a-budget](./human-review-sampling-under-a-budget.md)).
+  The typology earns its cost the moment a finding has to reach an owner.
 - **As arithmetic.** How weighted sub-scores combine into a single reportable
   figure is a scoring-rubric concern and is not settled here. The typology's
   claim is that the categories must survive into the decision; how a composite

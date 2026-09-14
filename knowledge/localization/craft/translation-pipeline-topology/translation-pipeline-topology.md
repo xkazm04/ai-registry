@@ -13,6 +13,7 @@ techniques:
   - canonical-and-derived-split
   - source-hash-translation-cache
   - sharded-translation-ci
+  - serialization-transport-safety
   - canonical-fallback-serving
   - language-registry-single-source
   - hand-authored-exception-contract
@@ -94,7 +95,11 @@ three obligations hold:
   runner's hard limits, with disjoint write slices
   ([sharded-translation-ci](./techniques/sharded-translation-ci.md)). The
   unit of progress is the published shard — an attempted run that could
-  not publish is compute spent on nothing, forever.
+  not publish is compute spent on nothing, forever. And a unit only counts
+  as translated if it survived the wire: a transport whose delimiters the
+  target language's own punctuation can imitate loses or silently truncates
+  correct translations at batch scale
+  ([serialization-transport-safety](./techniques/serialization-transport-safety.md)).
 
 ## What the reviewed topology owes its consumers
 
@@ -145,4 +150,7 @@ review skills carry, and it applies inside the reviewed-and-committed
 topology. This subject owns the storage, movement and trust shape those
 activities happen in, and it is deliberately engine-agnostic: swap the MT
 model, the CI vendor or the host and every rule here survives, because
-none of them is named.
+none of them is named. Three neighbours are deliberately absent for now and
+owed to a later pass: the pre-prompt classification of non-translatable
+values, the four exclusion classes (never-translate, drop, human-owned,
+allowlist), and pseudo-localization.
