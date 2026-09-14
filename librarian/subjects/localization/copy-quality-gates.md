@@ -44,6 +44,47 @@ unverified. The subject is better for each.
    its "identical" dash rule is unenforced (second instance of "a gate checks less than it
    claims"). **Closed 2026-09-14** by its `native-copy` adoption (English half now gated).
 
+## 2026-09-14 — waves 2 and 3: five techniques, and the review method run on a real tree
+
+**Wave 2 (`900dad91`)**, 6 → 11 techniques: `format-aware-check-catalog` (with the
+precondition graph — a failing check silently disables its dependents, the single largest
+false-positive reducer the market has), `deterministic-repair-classes`,
+`length-and-render-budgets`, `severity-as-declared-data`,
+`source-defects-from-cross-language-agreement`; amendments to `layered-mechanical-gate`
+(statistical verdicts never block; workflow-state checks) and `anchored-model-review` (the
+deterministic veto layer; unique-span expansion). **A deliberate divergence from the market is
+recorded in both files:** vendors keep even rule-based spelling and grammar checks at warning;
+this subject lets such a rule block once its precision is counted at 95% on the catalog,
+because a counted precision is the evidence the blanket rule lacks.
+
+**Wave 3 built the instruments** (`ba65ad99`, native-copy 1.2.0: rule metadata as data, one
+span one finding, the veto CLI, eight new rules; compatibility proven by diffing every finding
+on all eight fleet trees) **and ran the method** on personas-web's money pages (`4445215`,
+application `process--anchored-model-review`):
+
+- 165 units, 1,784 words; a 72-question checklist over 65 rule IDs; three fresh reviewers raised
+  35 / 28 / 31; 28 findings agreed at 2-of-3, 75% of them by all three; 11 language defects
+  repaired, 17 escalated as claims or term decisions (10 need a fact the tree does not state);
+  checker 276 → 270 errors with 0 new; baseline 601 → 596.
+- **The veto layer's first real run suppressed four findings, and all four were the veto's
+  own defects** hiding two findings the panel agreed on: a fix that kept one flagged word while
+  deleting the empty claim was read as a synonym swap, and a keyless unit (a module-constant
+  meta description) could never pass. Both sent to a fix pass the same session. The instrument
+  meant to stop bad model findings needed its own calibration run — which is this subject's
+  whole argument, turned on itself.
+- **Idempotence failed its target for the wrong reason:** eight re-review findings, none on
+  repaired text, no flip-backs, four new on untouched wording. The technique now splits the
+  check into repair stability (target zero) and panel recall (expected above zero).
+- **A brief overrode the skill:** the Director asked for every agreed language defect to be
+  repaired; the skill's checklist leaves judgment-level minors unrepaired. The skill's rule is
+  the one [clean strings stay untouched](../../../knowledge/localization/_laws.md) implies, and
+  the exercise records the override as the Director's error, not the method's.
+
+**Owed:** a gold set to measure reviewers' false-positive rate (none exists, so the review row
+is `unmeasurable`); the precondition graph and repair ledger are described but not implemented
+in the checker; page-level density rules cluster per unit instead of per page; the five
+application count against the forge brief's 1–3 is read as a forging budget, not a ceiling.
+
 ## Impact (2026-09-14 map regeneration)
 
 Joined to contexts in 5 projects - gravitone 2, politicas 1, personas 1, personas-web 1,

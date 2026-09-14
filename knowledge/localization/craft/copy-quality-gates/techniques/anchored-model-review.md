@@ -80,8 +80,17 @@ cannot be made unique inside the unit is dropped with the other unanchored findi
 - **Edit rate on a known-clean gold set.** A set of reviewed, approved strings
   per surface. The reviewer's target is near-zero findings on it; every finding
   there is a false positive with a price.
-- **Idempotence.** Re-running on its own repaired output finds nothing. A reviewer
-  that always finds something is measuring its instructions, not the copy.
+- **Idempotence, as two numbers, never one.** Re-review the repaired units with a
+  fresh reviewer and split what it raises. **Repair stability** is the findings on
+  text the repair wrote plus any finding that proposes reverting a repair; its target
+  is zero, and a flip-back freezes the string. **Panel recall** is the new findings on
+  text the repair did not touch; it is expected to be above zero, because a fresh
+  reader finds what the first panel missed. Merged into one "nothing new" target the
+  check fails for the wrong reason: in one real review a re-reviewer raised eight
+  findings on ten repaired units, none on repaired text and no flip-backs, but four on
+  untouched wording — a stable repair and an incomplete first panel, which one number
+  would have read as a failed repair. A reviewer that always finds something *on its
+  own repairs* is measuring its instructions, not the copy.
 - **Recall on seeded defects**, per rule, so a rule the reviewer never fires on
   is known to be unguarded rather than assumed clean.
 
