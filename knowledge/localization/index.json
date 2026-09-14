@@ -4,7 +4,7 @@
   "bundle": "localization",
   "source": "knowledge/localization/ (frontmatter only)",
   "subjects": 17,
-  "techniques": 106,
+  "techniques": 119,
   "applications": 50,
   "laws": 8,
   "categories": [
@@ -15,7 +15,7 @@
    "craft"
   ],
   "layout": "nested",
-  "use_when_coverage": "106/106",
+  "use_when_coverage": "119/119",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -371,8 +371,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/localization/craft/copy-quality-gates/copy-quality-gates.md",
-   "digest": "sha256:257948b445eab2be",
-   "revision": 2,
+   "digest": "sha256:768588f58672150a",
+   "revision": 3,
    "changedAt": "2026-09-14",
    "techniques": [
     {
@@ -406,6 +406,21 @@
      "stage": "solo"
     },
     {
+     "slug": "deterministic-repair-classes",
+     "status": "forged",
+     "laws": [
+      "format-skeleton-is-inviolable",
+      "clean-strings-stay-untouched"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a gate report is dominated by findings a script could have fixed",
+      "deciding whether a class of finding may be auto-corrected",
+      "an autocorrect step exists and nobody knows what it changed"
+     ],
+     "stage": "solo"
+    },
+    {
      "slug": "enforcement-at-the-write-seams",
      "status": "forged",
      "laws": [
@@ -421,6 +436,21 @@
      "stage": "solo"
     },
     {
+     "slug": "format-aware-check-catalog",
+     "status": "forged",
+     "laws": [
+      "format-skeleton-is-inviolable",
+      "every-finding-cites-an-anchor"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "building or auditing the deterministic layer of a copy gate",
+      "a gate reports the same defect five times on one string",
+      "a new serialization format enters the pipeline"
+     ],
+     "stage": "solo"
+    },
+    {
      "slug": "layered-mechanical-gate",
      "status": "forged",
      "laws": [
@@ -432,6 +462,21 @@
       "choosing which copy checks block a change and which only warn",
       "a pattern rule is about to be switched to error level",
       "a copy gate has accumulated warnings nobody reads"
+     ],
+     "stage": "solo"
+    },
+    {
+     "slug": "length-and-render-budgets",
+     "status": "forged",
+     "laws": [
+      "the-source-locale-is-the-source-of-truth",
+      "every-finding-cites-an-anchor"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a string passes its length check and still overflows on screen",
+      "deciding which kind of length budget a surface needs",
+      "source copy is written for a surface that every locale will have to fit"
      ],
      "stage": "solo"
     },
@@ -462,6 +507,37 @@
       "choosing who reviews source copy and in which role",
       "deciding which pages get complete human review and which are sampled",
       "a reviewer's corrections are being accepted without anyone knowing their error rate"
+     ],
+     "stage": "team"
+    },
+    {
+     "slug": "severity-as-declared-data",
+     "status": "forged",
+     "laws": [
+      "every-finding-cites-an-anchor",
+      "the-authority-is-a-hypothesis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding where a check's off",
+      "warning or error setting lives",
+      "a model-based check is about to be allowed to block a merge",
+      "quality scores from two dates are being compared"
+     ],
+     "stage": "team"
+    },
+    {
+     "slug": "source-defects-from-cross-language-agreement",
+     "status": "forged",
+     "laws": [
+      "the-source-locale-is-the-source-of-truth",
+      "every-finding-cites-an-anchor"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a multi-locale catalog has target findings and no view of what caused them",
+      "deciding what goes into the source owner's defect register",
+      "choosing which untranslated strings deserve attention first"
      ],
      "stage": "team"
     }
@@ -604,8 +680,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/localization/european/english/english.md",
-   "digest": "sha256:baf8689697ae5dbc",
-   "revision": 1,
+   "digest": "sha256:af6d31bae4d6e1e8",
+   "revision": 2,
    "changedAt": "2026-09-14",
    "techniques": [
     {
@@ -1641,8 +1717,8 @@
    "subcategory": null,
    "status": "reconciled",
    "file": "knowledge/localization/craft/translation-pipeline-topology/translation-pipeline-topology.md",
-   "digest": "sha256:65a309c74d9d6984",
-   "revision": 8,
+   "digest": "sha256:91cebbc6fb9268a2",
+   "revision": 9,
    "changedAt": "2026-09-14",
    "techniques": [
     {
@@ -1678,6 +1754,21 @@
      ]
     },
     {
+     "slug": "fuzzy-reuse-under-a-threshold",
+     "status": "forged",
+     "laws": [
+      "identical-source-identical-target",
+      "clean-strings-stay-untouched"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether a translation-memory match may be written without review",
+      "choosing or revisiting a fuzzy-match threshold",
+      "a term ruling changed and old translations keep coming back",
+      "an exact memory match produced the wrong translation on a new surface"
+     ]
+    },
+    {
      "slug": "hand-authored-exception-contract",
      "status": "forged",
      "laws": [
@@ -1707,6 +1798,52 @@
       "adding a new target language to a translation pipeline",
       "translation matrix and export matrix disagree about language sets",
       "a pipeline half-runs for a partially configured language"
+     ]
+    },
+    {
+     "slug": "non-translatable-value-classification",
+     "status": "forged",
+     "laws": [
+      "coverage-is-counted-not-claimed",
+      "clean-strings-stay-untouched"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding which catalog values are sent to a translation engine at all",
+      "a machine translated an identifier or a URL",
+      "designing what do-not-translate means in a pipeline",
+      "an untranslated-value audit fires on keys nobody ever intended to translate",
+      "a human-owned translation was overwritten by a pipeline run"
+     ]
+    },
+    {
+     "slug": "prompt-context-contract",
+     "status": "forged",
+     "laws": [
+      "format-skeleton-is-inviolable",
+      "one-concept-one-rendering"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing what a machine-translation request carries beyond the string",
+      "a translation prompt has grown into unreviewable prose",
+      "deciding how few-shot examples and per-language rules reach an engine",
+      "context changes are not invalidating cached translations"
+     ]
+    },
+    {
+     "slug": "pseudo-localization-readiness",
+     "status": "forged",
+     "laws": [
+      "format-skeleton-is-inviolable",
+      "coverage-is-counted-not-claimed"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "testing whether a product is ready to be translated before paying for the first real locale",
+      "a translated build shows truncation clipping or strings still in the source language",
+      "deciding how much expansion a layout must absorb",
+      "a generated test locale floods the quality gate with findings"
      ]
     },
     {
@@ -1799,10 +1936,37 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/localization/craft/translation-quality-measurement/translation-quality-measurement.md",
-   "digest": "sha256:e804ae85b44b79eb",
-   "revision": 2,
+   "digest": "sha256:655a52f1a9d9783b",
+   "revision": 3,
    "changedAt": "2026-09-14",
    "techniques": [
+    {
+     "slug": "context-sufficiency-signals",
+     "status": "forged",
+     "laws": [
+      "the-source-locale-is-the-source-of-truth",
+      "every-finding-cites-an-anchor"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "translated units keep failing review and the source text may be the cause",
+      "deciding which source strings need a context note before translation",
+      "two models produce different translations of the same unit",
+      "building a review pass that can report defects in the source"
+     ]
+    },
+    {
+     "slug": "cost-and-licence-of-measurement",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "choosing which model a quality gate will be built around",
+      "deciding whether to run an estimator locally or pay a hosted judge per call",
+      "a budget argument is being made against scoring the whole store",
+      "scoping a one-off quality audit against a standing pipeline gate"
+     ]
+    },
     {
      "slug": "deterministic-checks-before-estimates",
      "status": "forged",
@@ -1818,6 +1982,20 @@
       "a termbase exists and nothing verifies the store honours it",
       "a reviewer's time is being spent on defects a script could have found",
       "choosing what blocks a regeneration from publishing"
+     ]
+    },
+    {
+     "slug": "engine-quality-from-reviewer-corrections",
+     "status": "forged",
+     "laws": [
+      "coverage-is-counted-not-claimed"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "reviewers already approve or correct machine pretranslations and nothing records what they changed",
+      "wanting a per-locale engine quality signal without buying an estimator",
+      "deciding which locale's engine costs reviewers the most work",
+      "an approval rate is about to be quoted as quality"
      ]
     },
     {
@@ -1850,6 +2028,21 @@
       "a reviewer was told to check some strings and reported a percentage",
       "deciding how much of a native speaker's time a new language gets",
       "measuring how much correction machine output actually needed"
+     ]
+    },
+    {
+     "slug": "language-scoped-check-exemptions",
+     "status": "forged",
+     "laws": [
+      "every-finding-cites-an-anchor",
+      "the-authority-is-a-hypothesis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a deterministic check fires on correct text in one language",
+      "adding a target language to an existing check suite",
+      "a check is about to be disabled for a whole project because one language fails it",
+      "deciding where a check suite's per-language behaviour is recorded"
      ]
     },
     {
@@ -2026,6 +2219,8 @@
     "bengali/bengali-script-and-numerals",
     "bengali/classifiers-and-quantity",
     "chinese/measure-words-and-quantity",
+    "copy-quality-gates/deterministic-repair-classes",
+    "copy-quality-gates/format-aware-check-catalog",
     "copy-quality-gates/rendered-string-extraction",
     "czech/plural-and-count-agreement",
     "french/plural-and-agreement",
@@ -2038,6 +2233,8 @@
     "russian/de-anglicization-constructions",
     "russian/plural-and-count-agreement",
     "spanish/plural-and-gender-agreement",
+    "translation-pipeline-topology/prompt-context-contract",
+    "translation-pipeline-topology/pseudo-localization-readiness",
     "translation-pipeline-topology/serialization-transport-safety",
     "translation-quality-measurement/deterministic-checks-before-estimates",
     "translation-quality-measurement/error-typology-over-a-single-score",
@@ -2051,6 +2248,8 @@
     "arabic/bidirectional-text-and-interpolation",
     "arabic/plural-and-count-agreement",
     "copy-quality-gates/enforcement-at-the-write-seams",
+    "copy-quality-gates/length-and-render-budgets",
+    "copy-quality-gates/source-defects-from-cross-language-agreement",
     "english/de-translationese-constructions",
     "english/interference-constructions",
     "french/plural-and-agreement",
@@ -2069,6 +2268,7 @@
     "translation-pipeline-topology/language-registry-single-source",
     "translation-pipeline-topology/sharded-translation-ci",
     "translation-pipeline-topology/source-hash-translation-cache",
+    "translation-quality-measurement/context-sufficiency-signals",
     "translation-quality-measurement/regression-detection-under-a-moving-engine",
     "vietnamese/classifiers-and-quantity"
    ]
@@ -2086,8 +2286,12 @@
     "chinese/register-and-address",
     "chinese/ui-conventions-and-length",
     "copy-quality-gates/anchored-model-review",
+    "copy-quality-gates/format-aware-check-catalog",
     "copy-quality-gates/layered-mechanical-gate",
+    "copy-quality-gates/length-and-render-budgets",
     "copy-quality-gates/reviewer-calibration-and-sampling",
+    "copy-quality-gates/severity-as-declared-data",
+    "copy-quality-gates/source-defects-from-cross-language-agreement",
     "czech/de-anglicization-constructions",
     "english/de-translationese-constructions",
     "english/false-friends-and-collocations",
@@ -2106,8 +2310,10 @@
     "russian/register-and-address",
     "spanish/de-anglicization-constructions",
     "spanish/register-and-address",
+    "translation-quality-measurement/context-sufficiency-signals",
     "translation-quality-measurement/error-typology-over-a-single-score",
     "translation-quality-measurement/human-review-sampling-under-a-budget",
+    "translation-quality-measurement/language-scoped-check-exemptions",
     "translation-quality-measurement/reference-free-quality-estimation",
     "vietnamese/de-anglicization-constructions",
     "vietnamese/register-and-address",
@@ -2121,6 +2327,7 @@
     "bengali/de-anglicization-constructions",
     "chinese/de-anglicization-constructions",
     "copy-quality-gates/anchored-model-review",
+    "copy-quality-gates/deterministic-repair-classes",
     "copy-quality-gates/enforcement-at-the-write-seams",
     "english/generated-prose-patterns",
     "french/typography-and-spacing",
@@ -2131,7 +2338,9 @@
     "japanese/de-anglicization-constructions",
     "korean/de-anglicization-constructions",
     "spanish/ui-conventions-and-length",
+    "translation-pipeline-topology/fuzzy-reuse-under-a-threshold",
     "translation-pipeline-topology/hand-authored-exception-contract",
+    "translation-pipeline-topology/non-translatable-value-classification",
     "translation-pipeline-topology/sharded-translation-ci",
     "translation-pipeline-topology/source-hash-translation-cache",
     "translation-quality-measurement/regression-detection-under-a-moving-engine",
@@ -2162,6 +2371,7 @@
     "korean/terminology-and-loanwords",
     "russian/terminology-and-loanwords",
     "spanish/terminology-and-loanwords",
+    "translation-pipeline-topology/prompt-context-contract",
     "translation-quality-measurement/deterministic-checks-before-estimates",
     "vietnamese/terminology-and-loanwords"
    ]
@@ -2177,6 +2387,7 @@
     "chinese/register-and-address",
     "chinese/terminology-and-variants",
     "copy-quality-gates/copy-contract-before-drafting",
+    "copy-quality-gates/severity-as-declared-data",
     "czech/register-and-address",
     "czech/terminology-and-loanwords",
     "english/register-and-voice",
@@ -2198,6 +2409,7 @@
     "spanish/register-and-address",
     "spanish/terminology-and-loanwords",
     "translation-pipeline-topology/source-identical-value-audit",
+    "translation-quality-measurement/language-scoped-check-exemptions",
     "translation-quality-measurement/per-pair-engine-selection",
     "vietnamese/terminology-and-loanwords"
    ]
@@ -2212,8 +2424,11 @@
     "translation-pipeline-topology/canonical-and-derived-split",
     "translation-pipeline-topology/canonical-fallback-serving",
     "translation-pipeline-topology/language-registry-single-source",
+    "translation-pipeline-topology/non-translatable-value-classification",
+    "translation-pipeline-topology/pseudo-localization-readiness",
     "translation-pipeline-topology/sharded-translation-ci",
     "translation-pipeline-topology/source-identical-value-audit",
+    "translation-quality-measurement/engine-quality-from-reviewer-corrections",
     "translation-quality-measurement/human-review-sampling-under-a-budget",
     "translation-quality-measurement/per-pair-engine-selection",
     "translation-quality-measurement/reference-free-quality-estimation"
@@ -2222,6 +2437,7 @@
   "identical-source-identical-target": {
    "statement": "When the same source-language value appears verbatim under two or more keys — a mirror pair across sections, near-duplicate feature keys — the target value must be identical across all occurrences. This is the sentence-level extension of one-concept-one-rendering: that law governs a recurring term across different sentences; this one governs a duplicated sentence across keys, where the observed drift is worse — one copy correctly translated, its twin left in the source language or reworded to say something else entirely. The check is mechanical (group keys by source value, compare targets) and the fix usually is too: copy the reviewed rendering to the twin. Five languages surfaced this independently in one review wave; it is a property of how catalogs grow, not of any language.",
    "techniques": [
+    "translation-pipeline-topology/fuzzy-reuse-under-a-threshold",
     "translation-quality-measurement/deterministic-checks-before-estimates"
    ]
   }

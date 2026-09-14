@@ -793,10 +793,10 @@
       "profile": "rkb/0.1",
       "purity": "localization",
       "subjects": 17,
-      "techniques": 106,
+      "techniques": 119,
       "applications": 50,
-      "files": 177,
-      "contentHash": "sha256:b5f42ede0fee75f7"
+      "files": 190,
+      "contentHash": "sha256:7d4c4441cc113cbb"
     },
     {
       "name": "marketing",
