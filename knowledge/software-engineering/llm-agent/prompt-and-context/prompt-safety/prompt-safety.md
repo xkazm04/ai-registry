@@ -11,6 +11,7 @@ techniques:
   - model-output-as-untrusted
   - cross-language-rule-parity
   - payoff-removal
+  - session-capability-conjunction
 ---
 
 # Input sanitization & prompt safety
@@ -248,6 +249,17 @@ probabilistic in exactly the way this section warns about. The discriminating
 question at design time: **is the deliverable itself the payload?** If yes, spend
 the budget on retrieval scope and context minimization, not on the acting door.
 
+**Both halves are judged one action at a time, and the exfiltration path is not an
+action.** Reading a stranger's text, reaching a credential and sending data out are
+each an allowed call. Only together, in one context, do they become a leak, and a
+per-call check is never shown the combination. The capability fence therefore has a
+session-scoped form: no context holds all three, legs stay lit for the life of the
+context (a forked transcript inherits them), the cheapest cut is a roster that never
+grants one, and a context that must hold all three does not take the outbound step
+autonomously. That is the
+[session-capability-conjunction](./techniques/session-capability-conjunction.md)
+technique.
+
 That is also why the subject is **defense in depth by necessity, not by
 slogan**. No single fence survives contact: fences get forged, caps get limbo'd
 under, canaries get quoted innocently, sanitizers meet an encoding they did not
@@ -306,3 +318,7 @@ technique.
   by what emitting them wins, naming the self-elevating ones, routing found
   instructions to a channel with no consequence, and bounding the amplifier
   with a disclosed all-or-nothing budget.
+- [session-capability-conjunction](./techniques/session-capability-conjunction.md) —
+  the combination no per-call check sees: third-party text, private material and an
+  outbound channel in one context; legs sticky per context, cut at the roster first,
+  and a session-aware gate on the outbound step where all three must coexist.

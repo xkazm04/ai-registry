@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 229,
-  "techniques": 1694,
-  "applications": 1022,
+  "techniques": 1695,
+  "applications": 1023,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1694/1694",
+  "use_when_coverage": "1695/1695",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -23431,9 +23431,9 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-safety/prompt-safety.md",
-   "digest": "sha256:1349a818a43a5194",
-   "revision": 5,
-   "changedAt": "2026-09-04",
+   "digest": "sha256:a49770f6a1b881d0",
+   "revision": 6,
+   "changedAt": "2026-09-14",
    "techniques": [
     {
      "slug": "canary-tripwires",
@@ -23521,6 +23521,22 @@
      ]
     },
     {
+     "slug": "session-capability-conjunction",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "every permission check passes and the run still leaked",
+      "an agent session can read third-party text and hold credentials and send data out",
+      "deciding which capability a session should never be given",
+      "forking or handing a transcript to another agent or seat",
+      "a gate judges one outbound request with no idea what the session already read"
+     ]
+    },
+    {
      "slug": "untrusted-span-fencing",
      "status": "forged",
      "laws": [
@@ -23558,6 +23574,12 @@
      "technique": "payoff-removal",
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-safety/applications/react--payoff-removal.md",
      "verified_on": "2026-08-31"
+    },
+    {
+     "stack": "rust",
+     "technique": "session-capability-conjunction",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-safety/applications/rust--session-capability-conjunction.md",
+     "verified_on": "2026-09-14"
     },
     {
      "stack": "rust",
@@ -34965,6 +34987,7 @@
     "prompt-safety/canary-tripwires",
     "prompt-safety/cross-language-rule-parity",
     "prompt-safety/model-output-as-untrusted",
+    "prompt-safety/session-capability-conjunction",
     "public-claim-provenance/build-time-derivation-off-the-client-bundle",
     "public-claim-provenance/provenance-as-a-build-gate",
     "quality-gates/blocking-by-input-determinism",
@@ -35509,6 +35532,7 @@
     "prompt-safety/canary-tripwires",
     "prompt-safety/model-output-as-untrusted",
     "prompt-safety/output-sanitization",
+    "prompt-safety/session-capability-conjunction",
     "public-claim-provenance/degraded-never-claims-live",
     "public-claim-provenance/presentation-invariants-on-derived-values",
     "public-verdict-badge/neutral-state-vocabulary",

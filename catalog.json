@@ -382,9 +382,9 @@
       ],
       "invokes30d": 46,
       "reportedInvokes": 46,
-      "lessons": 24,
+      "lessons": 25,
       "lessonsPath": "skills/perfect/LESSONS.md",
-      "lessonsHash": "sha256-n1:49c506eacaad4c84",
+      "lessonsHash": "sha256-n1:638200b927a07ac4",
       "usageContributors": [
         "kazda-dev-box"
       ]
@@ -730,7 +730,7 @@
     "skills": 33,
     "practices": 8,
     "memory": 6,
-    "lessons": 219
+    "lessons": 220
   },
   "bundles": [
     {
@@ -845,10 +845,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 229,
-      "techniques": 1694,
-      "applications": 1022,
-      "files": 2950,
-      "contentHash": "sha256:5aed110bfc6b508e"
+      "techniques": 1695,
+      "applications": 1023,
+      "files": 2952,
+      "contentHash": "sha256:df3d1f11befc8962"
     }
   ],
   "usageEvidence": {
