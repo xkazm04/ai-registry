@@ -457,3 +457,45 @@ guideline 60–150) because three findings landed in one file — the natural sp
 cost-and-licence section into its own technique, in wave 2. `serialization-transport-safety`
 has no application yet (`process--` slot open), and its `shared_with` is empty although the
 transport rule plausibly belongs to a checker subject too.
+
+## 2026-09-14 (third pass) — wave 2 landed; wave 3 in flight with personas-web as the tree
+
+Operator: *"lets continue with wave 2 and 3. We will use 'personas-web' as real tree to exercise
+the review in last wave."* Run as three phases: A = the knowledge (four workers, one subject
+each), B = the two skills, C = personas-web (applications, pipeline applies, and the anchored
+review exercise).
+
+**Phase A landed** in `900dad91` (generated `0899f327`, gate 19/19): **localization is now 17
+subjects, 119 techniques.** Thirteen techniques — measurement +4 (the cost/licence split,
+per-language check exemptions, engine quality from reviewer corrections, context-sufficiency
+signals), topology +4 (non-translatable value classification with four exclusion classes,
+pseudo-localization readiness, fuzzy reuse under a threshold, the prompt-context contract),
+copy-quality-gates +5 (format-aware check catalog with the precondition graph, deterministic
+repair classes, length and render budgets, severity as declared data, source defects from
+cross-language agreement) — and eight English rule families plus a first-language-keyed
+false-friend lexicon.
+
+**Workers corrected the Director five times this pass, all accepted:**
+1. Wave 1's "two orders of magnitude" throughput claim for a distilled estimator was arithmetic
+   wrong (146 vs 8–10 segments/s is ~15×); fixed in the split.
+2. "Arabic must not be checked for kashida between letters" misread the source, which describes
+   an Arabic-*only* check, the opposite of an exemption — left out rather than guessed.
+3. The `Billion` false-friend pair is corroborated as a *family* by other first languages'
+   corpora, not as the pair itself — and it would be wrong for Russian, where the cognate is 10⁹.
+4. The market keeps even rule-based spelling and grammar checks at warning; this bundle lets a
+   rule block after its precision is counted at 95%. The worker narrowed "never blocks" to
+   statistical verdicts and recorded the divergence in both files; the Director kept the
+   stricter-but-earned rule, because a counted precision is evidence the blanket rule lacks.
+5. "Allowlisted" values in the exclusion vocabulary *are* translated, so they cannot sit in the
+   "excluded values stay identical" assertion — caught while writing.
+
+**Instrument note, worth keeping:** a purity scan whose glob matched no files reported clean
+(caught by the worker), and the Director's own positive control failed silently because the
+known phrase wraps across a line. The scan was re-run against an application file that must
+match (11 hits) before its empty result over 25 upper-layer files was trusted.
+
+**Owed from phase A:** the measurement golden path is 294 lines against a 120–220 guideline;
+the per-language exemption blocks (and a settled answer on Arabic kashida) belong in the
+language subjects; the context-disagreement signal has no measured precision; a break-even for a
+local estimator versus a hosted judge is unwritten; none of the thirteen new techniques has an
+application yet — phase C writes the first seven, grounded in personas-web.
