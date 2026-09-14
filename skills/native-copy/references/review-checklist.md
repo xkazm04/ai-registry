@@ -83,7 +83,8 @@ Drop, without discussion, any finding that:
 - quotes no span, or a span that is not in the string verbatim;
 - quotes a span that occurs more than once in the string - the reviewer must widen it until it
   occurs once (word by word; character by character in scripts written without spaces);
-- proposes a fix that is a synonym of the flagged word (EN-SYNONYM-SWAP);
+- proposes a fix that replaces the flagged word with a synonym (EN-SYNONYM-SWAP) - a claim word
+  the fix keeps while it removes another is retained, not swapped;
 - proposes a fix that adds, drops or renames a placeholder or tag;
 - alleges authorship ("sounds AI-written") - a finding names a text property, never a writer;
 - rests on a detector score or a model's "sounds generated" verdict (EN-DETECTOR);
@@ -94,7 +95,9 @@ A minimal fix changes the span and nothing around it. A clean string gets no rec
 ### The veto runs these drops, not a reader
 
 Save the reviewer's findings as JSON - an array of
-`{ key, span, rule, mqm, severity, fix, reason, file?, line? }` - and run:
+`{ key, span, rule, mqm, severity, fix, reason, file?, line? }` - and run (a string extracted
+without a key, such as a module-constant meta description, is named by `file` and `line` with
+an empty `key`):
 
 ```
 node ${CLAUDE_SKILL_DIR}/scripts/copy-check.mjs --veto review.json [--registry <registry>]

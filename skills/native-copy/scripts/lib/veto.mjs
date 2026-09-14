@@ -9,6 +9,7 @@
 //
 // Input: findings shaped as references/review-checklist.md specifies -
 //   { key, span, rule (or id), mqm?, severity?, fix?, reason?, file?, line?, index? }
+//   (a string extracted without a key is named by file and line instead: { key: '', file, line, ... })
 // Output: { given, kept: [finding + { anchor, unitText }], suppressed: [{ veto, reason, finding }], counts }
 
 import { RULES, guardFor, ruleById } from './rules.mjs';
@@ -42,16 +43,25 @@ const skeletonOf = (s) => (String(s).match(SKELETON) || []).sort().join('\u0000'
 
 const textOf = (f) => [f.reason, f.note, f.message, f.fix, f.mqm, f.why].filter((x) => typeof x === 'string').join(' \u0001 ');
 
+// A finding names its unit by key, or - for a string that has no key (a module constant such as a
+// meta description) - by file and line. A finding that names neither identifies no unit.
+const hasPosition = (f) => Boolean(f.file) && f.line != null && f.line !== '';
+const namesUnit = (f) => Boolean(f.key) || hasPosition(f);
+const unitName = (f) => (f.key ? `key ${f.key}` : `${f.file}:${f.line} (no key)`);
+
 /**
  * The veto rules, applied in order; the first that matches suppresses the finding.
  * test(f, env) returns a reason string (suppress) or a falsy value (pass).
  */
 export const VETOES = [
-  { id: 'V-SHAPE', why: 'a finding without key, span and rule id is not a finding', test: (f) => (!f.key || !f.span || !f.rule) && `missing ${['key', 'span', 'rule'].filter((k) => !f[k]).join(', ')}` },
+  {
+    id: 'V-SHAPE', why: 'a finding without a unit (key, or file and line for a key-less string), span and rule id is not a finding',
+    test: (f) => (!namesUnit(f) || !f.span || !f.rule) && `missing ${[!namesUnit(f) && 'key (or file and line)', !f.span && 'span', !f.rule && 'rule'].filter(Boolean).join(', ')}`,
+  },
   { id: 'V-UNKNOWN-RULE', why: 'the cited rule id is not in the catalog', test: (f, env) => !env.ruleIds.has(f.rule) && `${f.rule} is not a rule of the checker or the english subject` },
   { id: 'V-AUTHORSHIP', why: 'a finding names a text property, never a writer or a detector score', test: (f) => { const m = AUTHORSHIP.exec(textOf(f)); return m && `alleges authorship or cites a detector ("${m[0]}")`; } },
-  { id: 'V-UNKNOWN-UNIT', why: 'the key does not name a string in scope', test: (f, env) => env.unit.error === 'unknown' && `no string with key ${f.key}${f.file ? ` in ${f.file}` : ''}` },
-  { id: 'V-UNIT-AMBIGUOUS', why: 'the key names several strings holding this span; give file and line', test: (f, env) => env.unit.error === 'ambiguous' && `key ${f.key} names ${env.unit.count} strings containing the span` },
+  { id: 'V-UNKNOWN-UNIT', why: 'the key (or file and line) does not name a string in scope', test: (f, env) => env.unit.error === 'unknown' && (f.key ? `no string with key ${f.key}${f.file ? ` in ${f.file}` : ''}` : `no key-less string at ${f.file}:${f.line}`) },
+  { id: 'V-UNIT-AMBIGUOUS', why: 'the key names several strings holding this span; give file and line', test: (f, env) => env.unit.error === 'ambiguous' && `${unitName(f)} names ${env.unit.count} strings containing the span` },
   { id: 'V-LOCKED-UNIT', why: 'the contract marks this key locked or preserved', test: (f, env) => { const c = keyClassOf(f.key, env.contract); return c && `key is ${c} (contract keys.${c})`; } },
   { id: 'V-SPAN-NOT-VERBATIM', why: 'the quoted span does not occur in the string', test: (f, env) => env.where.error === 'absent' && 'span does not occur verbatim in the string' },
   { id: 'V-SPAN-AMBIGUOUS', why: 'the span occurs more than once and no offset says which', test: (f, env) => env.where.error === 'ambiguous' && `span occurs ${env.where.count} times; quote a span that occurs once` },
@@ -67,13 +77,17 @@ export const VETOES = [
   { id: 'V-NOOP-FIX', why: 'the fix equals the span', test: (f) => typeof f.fix === 'string' && f.fix.trim() === f.span.trim() && 'fix is identical to the span' },
   {
     id: 'V-SYNONYM-SWAP', why: 'the fix renames the flagged claim instead of removing it (EN-SYNONYM-SWAP)',
+    // A swap REPLACES a flagged word: the word is gone from the fix and a synonym the span did not
+    // hold arrived in its place. A claim word present in both span and fix is retained, not swapped -
+    // "just a complete agent platform" -> "just an agent platform" removes "complete" and keeps "just".
     test: (f) => {
       if (typeof f.fix !== 'string') return false;
       for (const group of SYNONYM_GROUPS) {
-        const flagged = group.find((w) => hasWord(f.span, w));
-        if (!flagged) continue;
-        const swapped = group.find((w) => hasWord(f.fix, w));
-        if (swapped) return `"${flagged}" replaced by "${swapped}" from the same claim group`;
+        const inSpan = group.filter((w) => hasWord(f.span, w));
+        const removed = inSpan.find((w) => !hasWord(f.fix, w));
+        if (!removed) continue;
+        const swapped = group.find((w) => !inSpan.includes(w) && hasWord(f.fix, w));
+        if (swapped) return `"${removed}" replaced by "${swapped}" from the same claim group`;
       }
       return false;
     },
@@ -91,13 +105,16 @@ export const VETOES = [
 
 /**
  * A unit resolver over extracted records: finds the one string a finding's key (plus optional
- * file and line) names, preferring the one that holds the span.
+ * file and line) names, preferring the one that holds the span. A finding with no key names a
+ * key-less string (a module constant) by file and line, both required; it never reaches a keyed
+ * string, so a key-less finding cannot step around a locked or preserved key.
  */
 export function unitResolver(records) {
   const byKey = new Map();
-  for (const r of records) { if (!byKey.has(r.key)) byKey.set(r.key, []); byKey.get(r.key).push(r); }
+  for (const r of records) { const k = r.key || ''; if (!byKey.has(k)) byKey.set(k, []); byKey.get(k).push(r); }
   return (f) => {
-    const cands = (byKey.get(f.key) || []).filter((r) => (!f.file || r.file === f.file) && (f.line == null || r.line === Number(f.line)));
+    if (!f.key && !hasPosition(f)) return { error: 'unknown' };
+    const cands = (byKey.get(f.key || '') || []).filter((r) => (!f.file || r.file === f.file) && (f.line == null || f.line === '' || r.line === Number(f.line)));
     if (!cands.length) return { error: 'unknown' };
     if (cands.length === 1) return { record: cands[0] };
     const holding = cands.filter((r) => f.span && (r.text.includes(f.span) || r.raw.includes(f.span)));
@@ -116,7 +133,7 @@ export function applyVeto(findings, { resolveUnit, ruleIds, contract = null } = 
   const kept = []; const suppressed = []; const counts = {};
   for (const input of findings) {
     const f = { ...input, rule: input.rule ?? input.id };
-    const unit = f.key && resolveUnit ? resolveUnit(f) : { error: 'unknown' };
+    const unit = namesUnit(f) && resolveUnit ? resolveUnit(f) : { error: 'unknown' };
     const rec = unit.record;
     // the rendered text is what the reviewer was shown; a span quoted from the raw message is accepted too
     let unitText = rec ? rec.text : '';
