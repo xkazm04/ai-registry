@@ -1,7 +1,7 @@
 ---
 domain: llm-observability
 subject: judge-calibration-and-drift
-last_touched: 2026-09-10
+last_touched: 2026-09-15
 ---
 
 # judge-calibration-and-drift
@@ -237,3 +237,32 @@ requirement is the gate's question, not this review's.
   }
 }
 ```
+
+## 2026-09-15 - `/intake`, from the ragas repository
+
+Two landings from [[2026-09-15-ragas]].
+
+**`fit-and-report-on-disjoint-labels` (new technique).** The subject measures agreement carefully and
+never said what happens once the labels are used to *change* the judge. The source ships two alignment
+paths that disagree on every rule:
+- **Instruction search:** no split, and an argmax over a loss family that includes squared error, so it
+  keeps the worst candidate on continuous judges.
+- **Retrieved examples:** an 80/20 split and kappa, but gold and predicted lists are filtered separately
+  and then zipped.
+
+The selection half extends `judge-selection-by-spread`, which never asked for the winner to be
+re-measured on unseen items. Applied to tracklight as a simulation (unmeasurable). One golden set per
+rubric does three jobs there (default-judge bake-off, trust record, batch comparison), and nothing
+expresses a fit/report split.
+
+**`golden-set-agreement-measurement` amendment: self-consistency is a spread only where the draws can
+differ.** It came from the seam hunt, not the source. The source showed a majority vote that never
+receives more than one response. Tracklight showed judge samples pinned to temperature 0 and one seed,
+while its own benchmark doc already unpinned generation self-consistency for this exact reason.
+- **Paired live** (4 ambiguous cases x 5 samples x 3 runs, local seeded model): pinned split 3/12, all
+  one case, reproducibly, under an `exact` stamp; unpinned split 7/12 across 3 cases, stamped `sampled`.
+- **Shipped** as `d6c0324`.
+
+Arm A's reproducible split under `exact` is banked untriaged against
+`cross-provider-benchmark-operations/determinism-stamping`: an exact stamp records the request, not a
+replay. It would rewrite that technique's definition, so it did not clear the gate.
