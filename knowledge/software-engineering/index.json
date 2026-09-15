@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 229,
-  "techniques": 1695,
-  "applications": 1023,
+  "techniques": 1696,
+  "applications": 1024,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1695/1695",
+  "use_when_coverage": "1696/1696",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -18242,9 +18242,9 @@
    "subcategory": "shell-and-navigation",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/media-playback/media-playback.md",
-   "digest": "sha256:7093df6e3e229b3e",
-   "revision": 4,
-   "changedAt": "2026-09-04",
+   "digest": "sha256:eb721ed85a1084b6",
+   "revision": 5,
+   "changedAt": "2026-09-15",
    "techniques": [
     {
      "slug": "committed-buffer-steering",
@@ -18320,6 +18320,22 @@
      ]
     },
     {
+     "slug": "self-conditioned-supply",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "limits-are-derived"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "each unit a producer makes is conditioned on the tail of its own already-committed output",
+      "a late result is being discarded and re-requested and the stream still runs dry",
+      "a producer keeps generating while nothing is being asked of it",
+      "deciding whether a playback clock may wait for a producer",
+      "a spliced seam between separately produced units needs patching"
+     ]
+    },
+    {
      "slug": "source-resilience",
      "status": "forged",
      "laws": [
@@ -18363,6 +18379,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "go",
+     "technique": "self-conditioned-supply",
+     "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/media-playback/applications/go--self-conditioned-supply.md",
+     "verified_on": "2026-09-15",
+     "verified_against": "go@1.26"
+    },
     {
      "stack": "python",
      "technique": "committed-buffer-steering",
@@ -35446,6 +35469,7 @@
     "measurement-honesty/unmeasurable-vs-zero",
     "media-playback/committed-buffer-steering",
     "media-playback/engine-adapters",
+    "media-playback/self-conditioned-supply",
     "media-playback/source-resilience",
     "media-playback/transport-contract",
     "metric-forecasting/fit-confidence-honesty",
@@ -38076,6 +38100,7 @@
     "mcp-tools/catalog-projection-modes",
     "media-playback/committed-buffer-steering",
     "media-playback/generated-supply-margin",
+    "media-playback/self-conditioned-supply",
     "metric-gates/deterministic-proxy-gate",
     "modelled-performance-estimates/one-ratio-then-a-capability-cap",
     "narrative-scroll-surface/scroll-bound-progression",
