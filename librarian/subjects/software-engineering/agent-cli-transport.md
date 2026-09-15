@@ -1,7 +1,7 @@
 ---
 domain: software-engineering
 subject: agent-cli-transport
-last_touched: 2026-09-01
+last_touched: 2026-09-15
 touched_by: intake
 dry_streak: 0
 ---
@@ -157,3 +157,7 @@ binary's own schema after the vendor's documentation proved wrong about its own
 product (five hook types published, six shipped). That is this technique's own
 verification ladder - live artifact over vendor prose - applied to the research
 method rather than to the adapter.
+
+## 2026-09-15 - `/intake` awesome-llm-apps re-run (run `intake-awesome-llm-apps-0915`, intake 2.10.0)
+
+Amendment to `subscription-auth-selection`: **when the child reads untrusted content, the strip inverts into an allowlist.** The named billing strip stays right for billing; for confidentiality a denylist fails by construction, so the environment is built (baseline, the child's own credentials by name, request variables), pinned by a real spawn that cannot see a planted secret. Occasion: tutorial tool-server launches that spread the host environment over a client whose default is a safe list. Independent corroboration from the fleet: pumper's engines already build child environments this way. Application `python--subscription-auth-selection` (code, better): a private agent runtime's CLI child went from 86 variables and 2 of 2 planted secrets to 22 and 0, gate green. Its local command sandbox still inherits and is owed.

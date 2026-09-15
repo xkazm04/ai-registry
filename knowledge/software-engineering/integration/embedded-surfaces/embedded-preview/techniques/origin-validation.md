@@ -6,7 +6,7 @@ technique: origin-validation
 status: forged
 laws: [gate-sees-target, one-validation-door]
 shared_with: []
-use_when: [deciding whether a known shape proves a message is ours, weighing a wildcard target for outbound sends, preview loads but the bridge stays dead]
+use_when: [deciding whether a known shape proves a message is ours, weighing a wildcard target for outbound sends, preview loads but the bridge stays dead, generated markup is rendered in an inline or sandboxed frame with no origin of its own]
 ---
 
 # Origin validation
@@ -77,6 +77,51 @@ addresses its reports to that origin. The agent's copy of the expected
 origin is injected as build-time or boot-time configuration — the guest cannot
 be allowed to *ask* the host who the host is over the same channel it is
 trying to authenticate; that is a bootstrap circle with a hole in it.
+
+## When the guest has no origin
+
+Everything above assumes the guest is served from somewhere — a dev server
+with a scheme, a host and a port — so there is an origin to compare and to
+address. A second family of embedded surfaces has none. The host receives the
+guest as a *string* of markup, often model-generated, and renders it through
+an inline document or a sandboxed frame without the same-origin permission.
+Such a document has an **opaque origin**: it serializes as `null`, equality
+against it proves nothing, and the platform offers no way to address an
+outbound message to it except the wildcard. The absolute rule above cannot be
+followed here, and the surface is not thereby exempt from the discipline — the
+controls move:
+
+- **Authenticate inbound by identity, not by origin.** The one fact that still
+  distinguishes the guest is the window object: accept a message only when its
+  source is the frame's own content window, checked at the single dispatch door
+  before parsing. Every document in the frame tree that is not that window is
+  still rejected.
+- **Never grant the same-origin permission to markup the host did not author.**
+  An inline document with scripts *and* the same-origin permission runs with
+  the host's origin, can reach the host's storage, and can remove its own
+  sandbox; the frame is decoration. The discriminator is authorship, not the
+  mechanism: a host that renders its own template, with every interpolated
+  value escaped and no script, may keep same-origin access it needs (to drive
+  the frame's print dialog, say), because nothing in that document is the
+  guest's code.
+- **Put the relay on a different origin from the host, and let the host alone
+  choose the frame's permissions.** The common architecture renders the guest
+  inside a proxy document that forwards messages both ways. Served from the
+  host's own origin, the proxy is the host; and a proxy that applies whatever
+  sandbox flags arrive in a message lets any document able to post to it widen
+  the guest's permissions. The published extension for tool-linked interface
+  resources states the first half as a requirement — the host and the sandbox
+  must have different origins.
+- **Send the wildcard only what an arbitrary document may read.** With no
+  target origin, delivery cannot be refused if the frame navigates away, so
+  outbound messages carry what the guest's own tool call already exposed and
+  nothing of the host's — no file paths, no selected content from elsewhere,
+  no credentials.
+- **Gate the verbs, not the envelope.** Identity proves the message came from
+  the guest; it does not make the guest trusted. The methods a guest may invoke
+  are an allowlist enforced by the host, and a guest-initiated action is
+  restricted to operations declared callable from the interface — never every
+  operation the model itself may call.
 
 ## The rebind moment
 
