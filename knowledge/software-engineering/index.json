@@ -19757,9 +19757,9 @@
    "subcategory": "feedback-and-style",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/motion/motion.md",
-   "digest": "sha256:89022fde06571042",
-   "revision": 7,
-   "changedAt": "2026-08-29",
+   "digest": "sha256:6e7e36e844ef0ad8",
+   "revision": 8,
+   "changedAt": "2026-09-15",
    "techniques": [
     {
      "slug": "content-bearing-degradation",
@@ -19859,7 +19859,9 @@
      "use_when": [
       "designing the reduced fallback for a motion preset",
       "placeholders flash after reduced motion is enabled",
-      "an exit animation never unmounts"
+      "an exit animation never unmounts",
+      "page transitions still animate under a universal reduced-motion reset",
+      "a framework takes over starting document transitions"
      ]
     },
     {

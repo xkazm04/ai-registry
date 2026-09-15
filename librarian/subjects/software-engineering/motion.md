@@ -1,7 +1,7 @@
 ---
 subject: motion
 domain: software-engineering
-last_touched: 2026-08-27
+last_touched: 2026-09-15
 dry_streak: 0
 ---
 
@@ -10,6 +10,8 @@ dry_streak: 0
 First touch: [[2026-08-22-4]] — the 2026-08-22 harvest wave. Class: EXTENDS.
 
 ## State
+
+10 techniques, 4 applications on disk (no new file this run). Touched 2026-09-15 by [[2026-09-15-react-19-3]] (intake, vendor release announcement): one amendment to `reduced-motion-mechanics` (a universal reduced-motion reset does not match the generated nodes a document snapshot transition animates on, and a framework that owns the transition removes the call-site gate), one golden-path bullet, and a dated section in the React application carrying the paired experiment (applied: experiment, better; personas-web seam, not shipped because the tree has no transitions yet). The global-kill section now states that the kill fails in both directions: it over-reaches timing windows and under-reaches the transition tree.
 
 9 -> 10 techniques, 3 applications. Touched 2026-08-27 by [[2026-08-27-kciter-animation-design]] (intake): one new technique and three amendments, landed under a new golden-path boundary section rather than separately.
 
@@ -31,6 +33,9 @@ The preset contract was forged for **one curve, started by something, running to
 - The lint rule is registered at warning severity and the pipeline runs with no maximum-warnings flag, so the contract cannot fail a build; and the rule is structurally blind to the very rule that motivated it (all three named past failures would pass it clean). Both recorded as deviations. Worth re-checking whether the consuming repo closes either.
 - **Randomness is bounded, never pure** (2026-08-27, untriaged — offered at triage, not picked). Controlled ranges over pure random, with the designer explicitly deciding the boundary between what is controlled and what is delegated to variance. Verified genuinely absent from both `motion` and `design-tokens`. A two-paragraph amendment to `taste-budgets`; the cheapest unclaimed item in this subject. Return condition: any run touching `taste-budgets`.
 - **Displayed value chases true value** (2026-08-27, untriaged). Exponential approach applied to a jittery real signal so a stuttering data source renders as smooth progress. Home genuinely contested between this subject and `async-ui-states`, and it carries an honesty tension adjacent to `content-bearing-degradation` — the reader is shown a number that is not the current one. Return condition: a run that opens `async-ui-states` and can settle the boundary from both sides.
+
+- **Queue-and-collapse interruption** (2026-09-15, untriaged). A framework-scheduled snapshot transition neither snaps nor retargets: a running transition finishes, updates arriving meanwhile are batched, and the next one animates from its end state (intermediate states never animate). A synchronous flush skips the transition entirely (measured). Home: `engine-selection` § "The interruption story", as a boundary inside declarative keyframes. Return condition: any run touching `engine-selection`.
+- **Direction comes from the cause, not a state diff** (2026-09-15, untriaged). The same resulting state reached forward and backward needs opposite travel, and a wrap-around defeats any direction inferred from before/after values. Tag the update with its cause where it is scheduled. Return condition: a fleet carousel, pager or stepper that infers direction from an index diff.
 
 ## Declines
 
