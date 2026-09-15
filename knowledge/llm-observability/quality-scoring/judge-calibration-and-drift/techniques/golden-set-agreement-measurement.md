@@ -6,7 +6,7 @@ technique: golden-set-agreement-measurement
 status: forged
 laws: [the-judge-is-both-untrusted-and-under-test, statistical-verdicts-or-no-verdict]
 shared_with: []
-use_when: [establishing whether a judge agrees with humans, building or refreshing a human-labeled calibration set, interpreting kappa vs correlation vs bias]
+use_when: [establishing whether a judge agrees with humans, building or refreshing a human-labeled calibration set, interpreting kappa vs correlation vs bias, a judge draws several samples per item and reports agreement across them]
 ---
 
 # Golden-set agreement measurement
@@ -106,6 +106,50 @@ samples are underpowered by construction. The decision rules:
   item several times and averaging tightens the judge's own noise floor
   before it reaches the agreement math; use it when single-judgment
   variance is visibly wide.
+
+## Self-consistency is a spread only where the draws can differ
+
+The bullet above holds on one condition it does not state: the samples
+have to be able to disagree. Two ways of losing that condition have been
+found in working judges, and in both the scoring code was correct and the
+number was empty.
+
+- **The request pins the draw.** A judge that asks for deterministic
+  sampling on every call - temperature zero, one fixed seed - and then
+  draws N samples of one prompt has drawn one sample N times. Its agreement
+  across samples reads perfect however ambiguous the item is, and the spend
+  is N times a single verdict. Reproducibility and self-consistency pull
+  opposite ways on the same knob, and a judge cannot have both from one
+  request. Pin a single verdict, and draw several samples unpinned and
+  stamp them as sampled. A pinned multi-sample run is a single verdict
+  with an invoice.
+- **The machinery never receives more than one draw.** An ensemble step
+  that takes a majority vote over N responses is inert when the caller
+  hands it one response, or when the client beneath it returns one
+  generation whatever N asked for. The vote returns its only input, the
+  configuration still says N, and the documentation still says the knob
+  maintains consistency. Nothing fails; the knob simply does nothing.
+
+Both are invisible to the aggregation tests, because a canned-reply fixture
+disagrees with itself because the fixture says so. The check is on the
+**draws**: record how many samples were requested, how many distinct
+responses came back, and under which sampling request, and report the
+effective count beside the agreement figure
+([statistical-verdicts-or-no-verdict](../../../_laws.md#statistical-verdicts-or-no-verdict)).
+An agreement read over one effective draw is not a measurement of the
+judge's stability. It is the absence of one, printed as its best case.
+
+Measured on a small local seeded model scoring four deliberately ambiguous
+grounding items at five samples each, three runs per arm: pinned samples
+disagreed on 3 of 12 item-runs, and all three were the same item at the
+same values, reproducibly, stamped as exactly reproducible. That is a
+provider artifact, not the item's ambiguity, and it is the second finding:
+**a reproducibility stamp derived from what the request asked for
+overstates what the provider delivered.** The same item's score also moved
+between a cold run and a warm one under that stamp. Unpinned samples
+disagreed on 7 of 12 item-runs across three items. The price is visible
+and belongs in the output: an unpinned multi-sample score moves between
+runs, so it is stamped as sampled rather than as reproducible.
 
 ## When not to use this
 

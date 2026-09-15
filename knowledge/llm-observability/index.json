@@ -3,9 +3,9 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "llm-observability",
   "source": "knowledge/llm-observability/ (frontmatter only)",
-  "subjects": 17,
-  "techniques": 116,
-  "applications": 65,
+  "subjects": 18,
+  "techniques": 122,
+  "applications": 74,
   "laws": 9,
   "categories": [
    "telemetry-and-data",
@@ -14,7 +14,7 @@
    "federation-and-surfaces"
   ],
   "layout": "nested",
-  "use_when_coverage": "116/116",
+  "use_when_coverage": "122/122",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -885,15 +885,145 @@
    ],
    "applications": []
   },
+  "grounded-answer-scoring": {
+   "category": "quality-scoring",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/llm-observability/quality-scoring/grounded-answer-scoring/grounded-answer-scoring.md",
+   "digest": "sha256:9abed0e152b5afa0",
+   "revision": 1,
+   "changedAt": "2026-09-15",
+   "techniques": [
+    {
+     "slug": "bidirectional-claim-matching",
+     "status": "forged",
+     "laws": [
+      "estimation-announces-itself",
+      "nullable-never-zero"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a written reference answer exists for the case",
+      "a score must penalize both invented and missing content",
+      "a short safe answer is outscoring a complete one"
+     ]
+    },
+    {
+     "slug": "decompose-then-verify",
+     "status": "forged",
+     "laws": [
+      "nullable-never-zero",
+      "the-judge-is-both-untrusted-and-under-test"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "scoring whether an answer is supported by the passages it was given",
+      "a grounding verdict must say which sentence failed",
+      "an answer quotes its sources verbatim"
+     ]
+    },
+    {
+     "slug": "per-source-attribution",
+     "status": "forged",
+     "laws": [
+      "estimation-announces-itself"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether a wrong answer is a retrieval fault or a reading fault",
+      "a correctness score dropped and nobody can say which stage caused it",
+      "choosing what to fix after a grounded-answer regression"
+     ]
+    },
+    {
+     "slug": "question-blind-relevance",
+     "status": "forged",
+     "laws": [
+      "the-judge-is-both-untrusted-and-under-test",
+      "nullable-never-zero"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "scoring whether an answer addresses the question it was asked",
+      "a relevance judge rates answers on topic because they echo the question",
+      "prioritizing off-topic or evasive answers for review"
+     ]
+    },
+    {
+     "slug": "the-decomposer-is-inside-the-instrument",
+     "status": "forged",
+     "laws": [
+      "the-judge-is-both-untrusted-and-under-test",
+      "estimation-announces-itself"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a claim-level score moved and the answers did not",
+      "choosing coverage or granularity settings for a claim decomposer",
+      "calibrating a pipeline that has a decomposer as well as a verifier"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "python",
+     "technique": "bidirectional-claim-matching",
+     "file": "knowledge/llm-observability/quality-scoring/grounded-answer-scoring/applications/python--bidirectional-claim-matching.md",
+     "verified_on": "2026-09-15",
+     "verified_against": "python@3.12"
+    },
+    {
+     "stack": "python",
+     "technique": "decompose-then-verify",
+     "file": "knowledge/llm-observability/quality-scoring/grounded-answer-scoring/applications/python--decompose-then-verify.md",
+     "verified_on": "2026-09-15",
+     "verified_against": "python@3.12"
+    },
+    {
+     "stack": "python",
+     "technique": "per-source-attribution",
+     "file": "knowledge/llm-observability/quality-scoring/grounded-answer-scoring/applications/python--per-source-attribution.md",
+     "verified_on": "2026-09-15",
+     "verified_against": "python@3.12"
+    },
+    {
+     "stack": "python",
+     "technique": "question-blind-relevance",
+     "file": "knowledge/llm-observability/quality-scoring/grounded-answer-scoring/applications/python--question-blind-relevance.md",
+     "verified_on": "2026-09-15"
+    },
+    {
+     "stack": "python",
+     "technique": "the-decomposer-is-inside-the-instrument",
+     "file": "knowledge/llm-observability/quality-scoring/grounded-answer-scoring/applications/python--the-decomposer-is-inside-the-instrument.md",
+     "verified_on": "2026-09-15"
+    }
+   ]
+  },
   "judge-calibration-and-drift": {
    "category": "quality-scoring",
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/llm-observability/quality-scoring/judge-calibration-and-drift/judge-calibration-and-drift.md",
-   "digest": "sha256:f5c7c90dc5531e2d",
-   "revision": 3,
-   "changedAt": "2026-08-31",
+   "digest": "sha256:078c4b9734536c40",
+   "revision": 4,
+   "changedAt": "2026-09-15",
    "techniques": [
+    {
+     "slug": "fit-and-report-on-disjoint-labels",
+     "status": "forged",
+     "laws": [
+      "the-judge-is-both-untrusted-and-under-test",
+      "statistical-verdicts-or-no-verdict"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "tuning a judge's instruction or examples against human labels",
+      "choosing a judge model or judging method on a golden set and then quoting its agreement",
+      "retrieving few-shot examples for a judge from labeled items",
+      "an alignment number rose after iterating on the same labels it is measured on"
+     ]
+    },
     {
      "slug": "golden-set-agreement-measurement",
      "status": "forged",
@@ -905,7 +1035,8 @@
      "use_when": [
       "establishing whether a judge agrees with humans",
       "building or refreshing a human-labeled calibration set",
-      "interpreting kappa vs correlation vs bias"
+      "interpreting kappa vs correlation vs bias",
+      "a judge draws several samples per item and reports agreement across them"
      ]
     },
     {
@@ -1014,6 +1145,32 @@
      "technique": "judge-selection-by-spread",
      "file": "knowledge/llm-observability/quality-scoring/judge-calibration-and-drift/applications/process--judge-selection-by-spread.md",
      "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "python",
+     "technique": "fit-and-report-on-disjoint-labels",
+     "file": "knowledge/llm-observability/quality-scoring/judge-calibration-and-drift/applications/python--fit-and-report-on-disjoint-labels.md",
+     "verified_on": "2026-09-15"
+    },
+    {
+     "stack": "python",
+     "technique": "golden-set-agreement-measurement",
+     "file": "knowledge/llm-observability/quality-scoring/judge-calibration-and-drift/applications/python--golden-set-agreement-measurement.md",
+     "verified_on": "2026-09-15"
+    },
+    {
+     "stack": "rust",
+     "technique": "fit-and-report-on-disjoint-labels",
+     "file": "knowledge/llm-observability/quality-scoring/judge-calibration-and-drift/applications/rust--fit-and-report-on-disjoint-labels.md",
+     "verified_on": "2026-09-15",
+     "verified_against": "rust@1.96.1"
+    },
+    {
+     "stack": "rust",
+     "technique": "golden-set-agreement-measurement",
+     "file": "knowledge/llm-observability/quality-scoring/judge-calibration-and-drift/applications/rust--golden-set-agreement-measurement.md",
+     "verified_on": "2026-09-15",
+     "verified_against": "rust@1.96.1"
     },
     {
      "stack": "rust",
@@ -2361,6 +2518,9 @@
     "generator-uncertainty-scoring/probability-calibration-is-not-agreement",
     "generator-uncertainty-scoring/score-source-ensembling",
     "generator-uncertainty-scoring/score-source-kinds",
+    "grounded-answer-scoring/bidirectional-claim-matching",
+    "grounded-answer-scoring/per-source-attribution",
+    "grounded-answer-scoring/the-decomposer-is-inside-the-instrument",
     "judge-calibration-and-drift/reserved-rubric-persistence",
     "judge-contract-design/mixed-rubric-honesty",
     "judge-contract-design/nonce-fenced-candidate-isolation",
@@ -2392,6 +2552,9 @@
     "cross-provider-benchmark-operations/cheapest-sufficient-configuration",
     "federated-benchmark-sharing/strict-ingestion-lenient-consumption",
     "generator-uncertainty-scoring/scorer-cost-class",
+    "grounded-answer-scoring/bidirectional-claim-matching",
+    "grounded-answer-scoring/decompose-then-verify",
+    "grounded-answer-scoring/question-blind-relevance",
     "judge-contract-design/deterministic-dimension-kinds",
     "llm-call-telemetry-model/nullable-cost-never-zero",
     "llm-call-telemetry-model/token-usage-quadruple",
@@ -2454,6 +2617,7 @@
     "generator-uncertainty-scoring/generator-vs-itself",
     "generator-uncertainty-scoring/probability-calibration-is-not-agreement",
     "generator-uncertainty-scoring/score-source-ensembling",
+    "judge-calibration-and-drift/fit-and-report-on-disjoint-labels",
     "judge-calibration-and-drift/golden-set-agreement-measurement",
     "judge-calibration-and-drift/repeatability-floor",
     "judge-calibration-and-drift/windowed-score-drop-alerting",
@@ -2486,6 +2650,10 @@
    "statement": "The judge's input is attacker-influenced by construction — candidate text is fenced, boundary imitations are neutralized and flagged, and known biases (position, verbosity, self-preference) are counterbalanced in the prompt contract. And the judge itself is a measuring instrument that drifts: it is calibrated against human agreement on a schedule, its verdicts carry provenance, and an uncalibrated judge's scores are leads, not measurements.",
    "techniques": [
     "cross-provider-benchmark-operations/target-matrix-runs",
+    "grounded-answer-scoring/decompose-then-verify",
+    "grounded-answer-scoring/question-blind-relevance",
+    "grounded-answer-scoring/the-decomposer-is-inside-the-instrument",
+    "judge-calibration-and-drift/fit-and-report-on-disjoint-labels",
     "judge-calibration-and-drift/golden-set-agreement-measurement",
     "judge-calibration-and-drift/judge-selection-by-spread",
     "judge-calibration-and-drift/repeatability-floor",
