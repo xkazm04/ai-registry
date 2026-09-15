@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 229,
-  "techniques": 1696,
-  "applications": 1024,
+  "techniques": 1697,
+  "applications": 1026,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1696/1696",
+  "use_when_coverage": "1697/1697",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -33278,9 +33278,9 @@
    "subcategory": "metered-billing",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/metered-billing/usage-event-ingestion/usage-event-ingestion.md",
-   "digest": "sha256:646deb18f5f6aa86",
-   "revision": 1,
-   "changedAt": "2026-09-07",
+   "digest": "sha256:83d9ef98a0ecadb5",
+   "revision": 2,
+   "changedAt": "2026-09-15",
    "techniques": [
     {
      "slug": "dedupe-key-survives-soft-delete",
@@ -33331,6 +33331,22 @@
      ]
     },
     {
+     "slug": "running-total-or-increment",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "unknown-is-not-a-value",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "admitting counter values that an emitter reports on an interval rather than one event per occurrence",
+      "two consumers of one usage stream store it with different update rules",
+      "a stored per-session or per-day total is suspiciously close to one reporting interval's worth",
+      "an emitter's reporting mode is a setting its operator can change"
+     ]
+    },
+    {
      "slug": "thin-ingest-deferred-validation",
      "status": "forged",
      "laws": [
@@ -33348,6 +33364,20 @@
     }
    ],
    "applications": [
+    {
+     "stack": "next",
+     "technique": "running-total-or-increment",
+     "file": "knowledge/software-engineering/operations/metered-billing/usage-event-ingestion/applications/next--running-total-or-increment.md",
+     "verified_on": "2026-09-15",
+     "verified_against": "next@16.3"
+    },
+    {
+     "stack": "node",
+     "technique": "running-total-or-increment",
+     "file": "knowledge/software-engineering/operations/metered-billing/usage-event-ingestion/applications/node--running-total-or-increment.md",
+     "verified_on": "2026-09-15",
+     "verified_against": "node@22"
+    },
     {
      "stack": "process",
      "technique": "ingestion-contract-parity",
@@ -35725,6 +35755,7 @@
     "usage-analytics/coverage-from-registries",
     "usage-analytics/sink-abstraction",
     "usage-event-ingestion/ingestion-contract-parity",
+    "usage-event-ingestion/running-total-or-increment",
     "usage-event-ingestion/thin-ingest-deferred-validation",
     "usage-pricing-models/advance-billing-refuses-retroactive-models",
     "versioning-snapshots/restore-semantics",
@@ -36494,6 +36525,7 @@
     "untrusted-extension-host/pluggable-isolation-runner",
     "usage-aggregation-semantics/seeded-recurring-aggregate",
     "usage-event-ingestion/late-event-subscription-resolution",
+    "usage-event-ingestion/running-total-or-increment",
     "usage-pricing-models/grouping-key-reruns-the-ladder",
     "usage-pricing-models/inferred-tier-boundary-convention",
     "voice-io/caller-scoped-voice-binding",
@@ -37701,6 +37733,7 @@
     "usage-analytics/coverage-from-registries",
     "usage-analytics/event-taxonomy",
     "usage-event-ingestion/ingestion-contract-parity",
+    "usage-event-ingestion/running-total-or-increment",
     "usage-pricing-models/grouping-key-reruns-the-ladder",
     "usage-pricing-models/inferred-tier-boundary-convention",
     "versioning-snapshots/promotion-lifecycle",
