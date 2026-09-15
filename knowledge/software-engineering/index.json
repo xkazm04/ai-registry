@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 229,
-  "techniques": 1697,
-  "applications": 1026,
+  "techniques": 1698,
+  "applications": 1032,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1697/1697",
+  "use_when_coverage": "1698/1698",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -1186,9 +1186,9 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-cli-transport/agent-cli-transport.md",
-   "digest": "sha256:cb112b55c7287e15",
-   "revision": 4,
-   "changedAt": "2026-09-04",
+   "digest": "sha256:a70d039d3e735b8c",
+   "revision": 5,
+   "changedAt": "2026-09-15",
    "techniques": [
     {
      "slug": "availability-probe",
@@ -1292,7 +1292,8 @@
      "use_when": [
       "choosing whose bill a spawned agent run lands on",
       "an API key in the host environment could silently switch billing",
-      "a batch workload must run on the operator's flat-rate seat"
+      "a batch workload must run on the operator's flat-rate seat",
+      "a spawned child reads untrusted content and inherits the host environment"
      ]
     }
    ],
@@ -1344,6 +1345,13 @@
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-cli-transport/applications/gemini-cli--permission-stance-enforcement.md",
      "verified_on": "2026-08-30",
      "verified_against": "gemini-cli@0.42.0"
+    },
+    {
+     "stack": "python",
+     "technique": "subscription-auth-selection",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-cli-transport/applications/python--subscription-auth-selection.md",
+     "verified_on": "2026-09-15",
+     "verified_against": "python@3.11"
     }
    ]
   },
@@ -11762,9 +11770,9 @@
    "subcategory": "embedded-surfaces",
    "status": "forged",
    "file": "knowledge/software-engineering/integration/embedded-surfaces/embedded-preview/embedded-preview.md",
-   "digest": "sha256:d4939a2c97876bc4",
-   "revision": 1,
-   "changedAt": "2026-09-05",
+   "digest": "sha256:f635c58da94eabba",
+   "revision": 2,
+   "changedAt": "2026-09-15",
    "techniques": [
     {
      "slug": "convention-discovery",
@@ -11835,7 +11843,8 @@
      "use_when": [
       "deciding whether a known shape proves a message is ours",
       "weighing a wildcard target for outbound sends",
-      "preview loads but the bridge stays dead"
+      "preview loads but the bridge stays dead",
+      "generated markup is rendered in an inline or sandboxed frame with no origin of its own"
      ]
     },
     {
@@ -11854,6 +11863,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "next",
+     "technique": "origin-validation",
+     "file": "knowledge/software-engineering/integration/embedded-surfaces/embedded-preview/applications/next--origin-validation.md",
+     "verified_on": "2026-09-15",
+     "verified_against": "next@16.1"
+    },
     {
      "stack": "react",
      "technique": "cross-frame-protocol",
@@ -23053,9 +23069,9 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/prompt-assembly.md",
-   "digest": "sha256:d9575f3ba7fb665b",
-   "revision": 29,
-   "changedAt": "2026-09-08",
+   "digest": "sha256:3b0b67aa7466ad39",
+   "revision": 30,
+   "changedAt": "2026-09-15",
    "techniques": [
     {
      "slug": "amortized-compaction-cadence",
@@ -23254,6 +23270,23 @@
      ]
     },
     {
+     "slug": "foreign-harness-history-folding",
+     "status": "forged",
+     "laws": [
+      "unknown-is-not-a-value",
+      "failure-not-empty-success",
+      "identity-survives-reuse"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "continuing a session that a different agent harness recorded",
+      "importing another tool's conversation history so a cheaper model can finish the task",
+      "a resumed agent calls tools that do not exist in its own roster",
+      "deciding whether a borrowed transcript is replayed as turns or rendered as context",
+      "a subscription quota ran out mid-task and the work must move to another agent"
+     ]
+    },
+    {
      "slug": "history-compaction",
      "status": "forged",
      "laws": [
@@ -23390,6 +23423,13 @@
     },
     {
      "stack": "node",
+     "technique": "foreign-harness-history-folding",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/applications/node--foreign-harness-history-folding.md",
+     "verified_on": "2026-09-15",
+     "verified_against": "node@22"
+    },
+    {
+     "stack": "node",
      "technique": "tiered-history-projection",
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/applications/node--tiered-history-projection.md",
      "verified_on": "2026-08-30",
@@ -23428,6 +23468,13 @@
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/applications/rust--elision-to-a-refetch-pointer.md",
      "verified_on": "2026-09-04",
      "verified_against": "rust@1.96.1"
+    },
+    {
+     "stack": "rust",
+     "technique": "foreign-harness-history-folding",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/applications/rust--foreign-harness-history-folding.md",
+     "verified_on": "2026-09-15",
+     "verified_against": "rust@1.80.0"
     },
     {
      "stack": "rust",
@@ -26151,9 +26198,9 @@
    "subcategory": "prompt-and-context",
    "status": "reconciled",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/retrieval/retrieval.md",
-   "digest": "sha256:76abe909242cfe47",
-   "revision": 14,
-   "changedAt": "2026-09-07",
+   "digest": "sha256:131210cdd2e2b5aa",
+   "revision": 15,
+   "changedAt": "2026-09-15",
    "techniques": [
     {
      "slug": "chunking-and-indexing",
@@ -26182,7 +26229,8 @@
      "use_when": [
       "queries still answer normally after an embedder swap",
       "choosing between backfill and lazy migration",
-      "deciding what ingest does when the embedder is missing"
+      "deciding what ingest does when the embedder is missing",
+      "one embedding helper serves both queries and documents for a model trained with separate roles"
      ]
     },
     {
@@ -26259,7 +26307,8 @@
      "use_when": [
       "deciding whether to return nothing over weak hits",
       "recalibrating floors after an embedder swap",
-      "telling honest empty apart from engine failure"
+      "telling honest empty apart from engine failure",
+      "a floor is stated as a similarity percentage converted from an index distance"
      ]
     },
     {
@@ -26345,6 +26394,13 @@
      "verified_on": "2026-08-22"
     },
     {
+     "stack": "next",
+     "technique": "embedding-lifecycle",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/retrieval/applications/next--embedding-lifecycle.md",
+     "verified_on": "2026-09-15",
+     "verified_against": "next@16.3"
+    },
+    {
      "stack": "node",
      "technique": "relevance-floors",
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/retrieval/applications/node--relevance-floors.md",
@@ -26383,6 +26439,13 @@
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/retrieval/applications/rust--relationship-proximity-lane.md",
      "verified_on": "2026-08-27",
      "verified_against": "rust@1.80.0"
+    },
+    {
+     "stack": "rust",
+     "technique": "relevance-floors",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/retrieval/applications/rust--relevance-floors.md",
+     "verified_on": "2026-09-15",
+     "verified_against": "rust@1.80"
     },
     {
      "stack": "rust",
@@ -33278,8 +33341,8 @@
    "subcategory": "metered-billing",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/metered-billing/usage-event-ingestion/usage-event-ingestion.md",
-   "digest": "sha256:83d9ef98a0ecadb5",
-   "revision": 2,
+   "digest": "sha256:ef58d3e75e6b1860",
+   "revision": 3,
    "changedAt": "2026-09-15",
    "techniques": [
     {
@@ -35582,6 +35645,7 @@
     "prompt-assembly/context-reachability",
     "prompt-assembly/contributed-document-admission",
     "prompt-assembly/endpoint-sealed-continuation-metadata",
+    "prompt-assembly/foreign-harness-history-folding",
     "prompt-assembly/history-compaction",
     "prompt-assembly/tiered-history-projection",
     "prompt-assembly/variable-interpolation",
@@ -36470,6 +36534,7 @@
     "priced-authority/write-ahead-revocation-marker",
     "prompt-assembly/elision-to-a-refetch-pointer",
     "prompt-assembly/endpoint-sealed-continuation-metadata",
+    "prompt-assembly/foreign-harness-history-folding",
     "prompt-assembly/recovery-path-as-loss-signal",
     "quality-gates/advancement-evidence-fields",
     "quality-gates/enforcement-binding",
@@ -36959,6 +37024,7 @@
     "proactive-nudges/nudge-identity-dedup",
     "prompt-assembly/continuation-prompts",
     "prompt-assembly/endpoint-sealed-continuation-metadata",
+    "prompt-assembly/foreign-harness-history-folding",
     "prompt-assembly/history-compaction",
     "prompt-assembly/house-vocabulary-layer",
     "prompt-assembly/tiered-history-projection",

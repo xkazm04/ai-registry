@@ -779,11 +779,11 @@
       "okfVersion": "0.1",
       "profile": "rkb/0.1",
       "purity": "software",
-      "subjects": 17,
-      "techniques": 116,
-      "applications": 65,
-      "files": 203,
-      "contentHash": "sha256:3c15dd4f2392b210"
+      "subjects": 18,
+      "techniques": 122,
+      "applications": 74,
+      "files": 219,
+      "contentHash": "sha256:258938298bd80a87"
     },
     {
       "name": "localization",
@@ -845,10 +845,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 229,
-      "techniques": 1697,
-      "applications": 1026,
-      "files": 2957,
-      "contentHash": "sha256:91df14301ffdf817"
+      "techniques": 1698,
+      "applications": 1032,
+      "files": 2964,
+      "contentHash": "sha256:d1dfb0ddd78a9c7e"
     }
   ],
   "usageEvidence": {

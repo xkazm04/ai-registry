@@ -1,6 +1,6 @@
 # LLM observability - the subjects this registry carries
 
-`llm-observability` - 17 subjects, 116 techniques, 65 applications.
+`llm-observability` - 18 subjects, 122 techniques, 74 applications.
 Slugs only; resolve one through `index.json` as the access rule beside this file describes.
 
 ### telemetry-and-data
@@ -10,7 +10,7 @@ Slugs only; resolve one through `index.json` as the access rule beside this file
 - billing-revenue-normalization, breach-alerting-and-attribution, llm-price-book-operations, margin-and-unit-economics, usage-limit-governance
 
 ### quality-scoring
-- cross-provider-benchmark-operations, generator-uncertainty-scoring, judge-calibration-and-drift, judge-contract-design, production-trace-scoring, quality-regression-gating
+- cross-provider-benchmark-operations, generator-uncertainty-scoring, grounded-answer-scoring, judge-calibration-and-drift, judge-contract-design, production-trace-scoring, quality-regression-gating
 
 ### federation-and-surfaces
 - federated-benchmark-sharing, operator-surfaces-for-llm-spend
