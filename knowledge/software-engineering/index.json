@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 229,
-  "techniques": 1698,
-  "applications": 1032,
+  "techniques": 1703,
+  "applications": 1037,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1698/1698",
+  "use_when_coverage": "1703/1703",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -1186,8 +1186,8 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-cli-transport/agent-cli-transport.md",
-   "digest": "sha256:a70d039d3e735b8c",
-   "revision": 5,
+   "digest": "sha256:fd190f2ed79b142e",
+   "revision": 6,
    "changedAt": "2026-09-15",
    "techniques": [
     {
@@ -1250,6 +1250,23 @@
       "the agent binary is missing on a deployment",
       "designing keyless or offline product behavior",
       "a managed platform cannot spawn local binaries"
+     ]
+    },
+    {
+     "slug": "host-routed-approval-round-trip",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "identity-survives-reuse",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a wrapped coding agent runs behind an attended chat surface",
+      "choosing between a pre-set stance and full access for an interactive session",
+      "the child emits approval requests mid-turn and nobody answers them",
+      "a host already owns a review queue and passes the skip-all-permissions flag",
+      "mapping one permission selector onto several tools' native vocabularies"
      ]
     },
     {
@@ -1345,6 +1362,13 @@
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-cli-transport/applications/gemini-cli--permission-stance-enforcement.md",
      "verified_on": "2026-08-30",
      "verified_against": "gemini-cli@0.42.0"
+    },
+    {
+     "stack": "python",
+     "technique": "host-routed-approval-round-trip",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-cli-transport/applications/python--host-routed-approval-round-trip.md",
+     "verified_on": "2026-09-15",
+     "verified_against": "python@3.11"
     },
     {
      "stack": "python",
@@ -23069,8 +23093,8 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/prompt-assembly.md",
-   "digest": "sha256:3b0b67aa7466ad39",
-   "revision": 30,
+   "digest": "sha256:6fbb381bf5023ddc",
+   "revision": 31,
    "changedAt": "2026-09-15",
    "techniques": [
     {
@@ -23270,6 +23294,23 @@
      ]
     },
     {
+     "slug": "fold-only-acknowledged-evidence",
+     "status": "forged",
+     "laws": [
+      "unknown-is-not-a-value",
+      "record-precedes-effect",
+      "verdict-survives-boundary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "one long tool-running turn outgrows the window after every older turn is already gone",
+      "deciding whether a result in the current turn may be replaced by a pointer",
+      "a request failed or was interrupted and the next compaction wants to shorten what it carried",
+      "choosing what happens when nothing safe is left to remove",
+      "a provider refusal arrives after a stream has already emitted output"
+     ]
+    },
+    {
      "slug": "foreign-harness-history-folding",
      "status": "forged",
      "laws": [
@@ -23361,6 +23402,23 @@
      ]
     },
     {
+     "slug": "summary-evidence-gate",
+     "status": "forged",
+     "laws": [
+      "derivation-names-recomputation",
+      "one-validation-door",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a model-written summary is about to replace history in every later prompt",
+      "updating a running summary from the previous summary",
+      "a summary names a value or identifier nobody can find in the source",
+      "the summarization call timed out or failed mid-compaction",
+      "restoring a session whose summary cites history that retention has since purged"
+     ]
+    },
+    {
      "slug": "task-envelope",
      "status": "forged",
      "laws": [
@@ -23441,6 +23499,20 @@
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/applications/python--amortized-compaction-cadence.md",
      "verified_on": "2026-09-02",
      "verified_against": "python@3.12"
+    },
+    {
+     "stack": "python",
+     "technique": "fold-only-acknowledged-evidence",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/applications/python--fold-only-acknowledged-evidence.md",
+     "verified_on": "2026-09-15",
+     "verified_against": "python@3.11"
+    },
+    {
+     "stack": "python",
+     "technique": "summary-evidence-gate",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/applications/python--summary-evidence-gate.md",
+     "verified_on": "2026-09-15",
+     "verified_against": "python@3.11"
     },
     {
      "stack": "rust",
@@ -28134,9 +28206,9 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/session-continuation/session-continuation.md",
-   "digest": "sha256:42f40efa551a7f06",
-   "revision": 5,
-   "changedAt": "2026-09-10",
+   "digest": "sha256:afcbb04332237df6",
+   "revision": 6,
+   "changedAt": "2026-09-15",
    "techniques": [
     {
      "slug": "advisory-guard-fail-mode",
@@ -28150,6 +28222,22 @@
       "choosing whether a new interceptor fails open or closed",
       "a checker that throws is silently letting everything through",
       "a hook handler holds the session open past its timeout"
+     ]
+    },
+    {
+     "slug": "boundary-applied-stop",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "verdict-survives-boundary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a time or budget limit is crossed while the model keeps emitting tool calls",
+      "deciding whether a stop may interrupt a running tool batch",
+      "the last permitted round of a fixed budget dispatches tools nobody will read",
+      "a continuation prompt is injected between tool calls and their results",
+      "a deferred stop fires at the start of the next turn"
      ]
     },
     {
@@ -28180,6 +28268,23 @@
       "designing a keep-working mode for a harness",
       "a session opened in a directory inherits a stale continuation from a crashed run",
       "deciding which states may hand control back to the operator"
+     ]
+    },
+    {
+     "slug": "gate-state-lifetimes",
+     "status": "forged",
+     "laws": [
+      "creation-names-reaper",
+      "count-carries-predicate",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "one stop-gate instance serves many concurrent sessions",
+      "a verification pass is killed by an iteration limit the work phase already spent",
+      "deciding which gate counters reset when a gate starts a sub-turn",
+      "a budget meter reads zero for the turns that ran away",
+      "a reset in one conversation clears another conversation's counters"
      ]
     },
     {
@@ -28276,6 +28381,20 @@
      "technique": "sealed-stage-advance",
      "file": "knowledge/software-engineering/llm-agent/orchestration/session-continuation/applications/process--sealed-stage-advance.md",
      "verified_on": "2026-09-02"
+    },
+    {
+     "stack": "python",
+     "technique": "boundary-applied-stop",
+     "file": "knowledge/software-engineering/llm-agent/orchestration/session-continuation/applications/python--boundary-applied-stop.md",
+     "verified_on": "2026-09-15",
+     "verified_against": "python@3.11"
+    },
+    {
+     "stack": "python",
+     "technique": "gate-state-lifetimes",
+     "file": "knowledge/software-engineering/llm-agent/orchestration/session-continuation/applications/python--gate-state-lifetimes.md",
+     "verified_on": "2026-09-15",
+     "verified_against": "python@3.11"
     }
    ]
   },
@@ -34777,6 +34896,7 @@
     "agent-chaining/graph-to-wiring-translation",
     "agent-chaining/grounding-over-deliberation",
     "agent-cli-transport/child-observed-posture",
+    "agent-cli-transport/host-routed-approval-round-trip",
     "agent-cli-transport/permission-stance-enforcement",
     "agent-instruction-files/capability-before-steering",
     "agent-instruction-files/capability-coverage-contract",
@@ -35647,6 +35767,7 @@
     "prompt-assembly/endpoint-sealed-continuation-metadata",
     "prompt-assembly/foreign-harness-history-folding",
     "prompt-assembly/history-compaction",
+    "prompt-assembly/summary-evidence-gate",
     "prompt-assembly/tiered-history-projection",
     "prompt-assembly/variable-interpolation",
     "prompt-safety/canary-tripwires",
@@ -35722,6 +35843,8 @@
     "serving-process-topology/cache-residency-sets-the-balancing-unit",
     "serving-process-topology/probe-the-runtime-not-the-config",
     "session-continuation/advisory-guard-fail-mode",
+    "session-continuation/boundary-applied-stop",
+    "session-continuation/gate-state-lifetimes",
     "session-resume/content-freshness-states",
     "session-resume/delta-briefings",
     "session-resume/first-run-and-quiet-silence",
@@ -36321,6 +36444,7 @@
     "search/ranking-and-excerpts",
     "self-healing/effectiveness-accounting",
     "serving-process-topology/process-count-as-a-formula",
+    "session-continuation/gate-state-lifetimes",
     "session-continuation/stuck-loop-detection",
     "session-resume/delta-briefings",
     "settings/settings-audit-and-history",
@@ -36403,6 +36527,7 @@
     "agent-cli-transport/availability-probe",
     "agent-cli-transport/child-observed-posture",
     "agent-cli-transport/dated-capability-matrix",
+    "agent-cli-transport/host-routed-approval-round-trip",
     "agent-instruction-files/context-reset-redelivery",
     "agent-instruction-files/instruction-freshness",
     "agent-instruction-files/substrate-coupled-expiry",
@@ -36534,6 +36659,7 @@
     "priced-authority/write-ahead-revocation-marker",
     "prompt-assembly/elision-to-a-refetch-pointer",
     "prompt-assembly/endpoint-sealed-continuation-metadata",
+    "prompt-assembly/fold-only-acknowledged-evidence",
     "prompt-assembly/foreign-harness-history-folding",
     "prompt-assembly/recovery-path-as-loss-signal",
     "quality-gates/advancement-evidence-fields",
@@ -36762,6 +36888,7 @@
     "plan-entitlements/deployment-mode-short-circuit",
     "priced-authority/approver-not-requester",
     "prompt-assembly/layered-composition",
+    "prompt-assembly/summary-evidence-gate",
     "prompt-safety/input-caps-and-clamps",
     "prompt-safety/model-output-as-untrusted",
     "prompt-safety/output-sanitization",
@@ -36841,6 +36968,7 @@
     "agent-browser-control/persistent-browser-daemon",
     "agent-browser-control/references-over-selectors",
     "agent-chaining/chain-identity-and-rollup",
+    "agent-cli-transport/host-routed-approval-round-trip",
     "agent-instruction-files/host-contract-compilation",
     "agent-instruction-files/single-source-topology",
     "agent-memory/episodic-capture",
@@ -37344,6 +37472,7 @@
     "self-healing/consume-once-mode-handoff",
     "serving-process-topology/hot-loop-isolation",
     "session-continuation/continuation-as-state",
+    "session-continuation/gate-state-lifetimes",
     "session-continuation/ordered-teardown",
     "session-resume/layered-place-restoration",
     "settings/config-backup-and-restore",
@@ -37983,6 +38112,7 @@
     "prompt-assembly/elision-to-a-refetch-pointer",
     "prompt-assembly/fingerprinting-and-cache-keys",
     "prompt-assembly/speculative-compaction-splice",
+    "prompt-assembly/summary-evidence-gate",
     "prompt-assembly/tiered-history-projection",
     "public-claim-provenance/build-time-derivation-off-the-client-bundle",
     "public-claim-provenance/derived-numerator-authored-denominator",
@@ -38143,6 +38273,7 @@
     "plan-entitlements/subtractive-entitlement",
     "priced-authority/approver-not-requester",
     "prompt-assembly/deferred-interface-invalidation",
+    "prompt-assembly/fold-only-acknowledged-evidence",
     "read-serving-replicas/client-carried-index",
     "read-serving-replicas/forward-on-storage-error",
     "remote-capability-probing/degraded-rung-refusal-ceiling",
@@ -38157,6 +38288,7 @@
     "self-healing/fork-to-outlive-the-healed",
     "self-healing/healer-death-as-promotion",
     "serving-process-topology/hot-loop-isolation",
+    "session-continuation/boundary-applied-stop",
     "sidecar-provisioning/split-trust-by-registration-path",
     "standards-layered-runtime/backend-parameterised-web-api",
     "structured-output/schema-validation-and-repair",
@@ -38470,6 +38602,7 @@
     "job-coordination/in-flight-is-a-position",
     "job-coordination/no-unrestorable-state-at-a-suspension-point",
     "mcp-tools/sealed-continuation-state",
+    "prompt-assembly/fold-only-acknowledged-evidence",
     "prompt-assembly/speculative-compaction-splice",
     "self-healing/consume-once-mode-handoff",
     "self-healing/fork-to-outlive-the-healed",

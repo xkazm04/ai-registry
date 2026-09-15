@@ -440,3 +440,13 @@ resume, with a silent fallback to raw replay) and `rust--` (Personas' text-only
 awareness block, `experiment`/`better`, no code change). Boundary stated in the
 technique: fold for continuation, project to text for awareness. Return
 condition: summary-content quality is unmeasured in both trees and in this corpus.
+
+## 2026-09-15 - /intake QwenPaw (run `qwenpaw-0915`, intake 2.10.0)
+
+Source [[../../sources/2026-09-15-qwenpaw]]: a durable-log context manager with a graduated pressure pipeline. Two techniques landed, taking the subject to 24.
+
+- **fold-only-acknowledged-evidence.** The stage the corpus lacked is *when* a fold may run: only on blocks that a completed model call carried. Capture and acknowledgement are separate calls, and a typed refusal replaces cutting unread evidence. This is distinct from elision-to-a-refetch-pointer, which owns *what* may become a pointer.
+- **summary-evidence-gate.** A third discipline beside history-compaction's two: a local, model-free admission gate. Every pointer must resolve, no identifier may be absent from the evidence, and the last valid summary is kept on failure.
+- **Both are unapplied.** No fleet project folds history under pressure or admits a model-written history summary into a standing layer. ascent's serializer cap (`grounding.ts:190`) is a producer cap, which is the fold technique's stated "when not".
+- **Untriaged:** compressing a copy of the outgoing request, with a plain-path fallback (an elision-to-a-refetch-pointer amendment).
+- **Leads:** the visual compression numbers and the durable-log memory scores. Neither ships its scripts.

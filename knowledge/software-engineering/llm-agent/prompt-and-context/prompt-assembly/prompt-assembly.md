@@ -26,6 +26,8 @@ techniques:
   - recovery-path-as-loss-signal
   - consumer-coupled-decoration
   - foreign-harness-history-folding
+  - fold-only-acknowledged-evidence
+  - summary-evidence-gate
 ---
 
 # Prompt assembly & context budgeting
@@ -256,6 +258,18 @@ owns the instrument: the family of behaviours that count as recovery (most of
 which do not look like recovery), where the measurement boundary has to be
 drawn, and what a zero reading does and does not license.
 
+Two preconditions govern when a lossy transform may run at all, as distinct
+from what it may take. A result the model has not yet read is not history,
+however much pressure the window is under: it may be folded to a pointer only
+after a model call that carried it completed successfully, and when nothing
+acknowledged is left to fold the honest outcome is a typed refusal rather than
+a cut into unread evidence
+([fold-only-acknowledged-evidence](./techniques/fold-only-acknowledged-evidence.md)).
+And a model-written summary is not admitted into the standing prefix on the
+summarizer's word: it is parsed locally, every item must point at evidence
+that still exists, and it may name no identifier its evidence does not contain
+([summary-evidence-gate](./techniques/summary-evidence-gate.md)).
+
 ## Some of the payload is markup nobody reads
 
 Every transform above removes material somebody needed *some* of, which is why
@@ -407,6 +421,15 @@ disappearing.
   geometrically coarsening summary tiers that reach back to the start,
   identifiers as the drill-down index, sealed provenance-stamped blocks,
   and degradation that never drops coverage silently.
+- [fold-only-acknowledged-evidence](./techniques/fold-only-acknowledged-evidence.md)
+  — the read-acknowledgement precondition on any fold: capture and
+  acknowledgement as separate calls, a failed or interrupted request that
+  consumed nothing, the untouchable newest tail, and a typed refusal when only
+  unread evidence is left.
+- [summary-evidence-gate](./techniques/summary-evidence-gate.md) — a
+  model-written summary admitted only through a local gate: parse, source
+  pointers that resolve, no identifier absent from the evidence, one repair,
+  and the last valid summary kept when the summarizer fails.
 - [capability-documentation](./techniques/capability-documentation.md) — the
   ability layer derived from the live registry, doctrine↔registry sync,
   and conditional rendering of what is actually active.

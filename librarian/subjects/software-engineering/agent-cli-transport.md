@@ -161,3 +161,13 @@ method rather than to the adapter.
 ## 2026-09-15 - `/intake` awesome-llm-apps re-run (run `intake-awesome-llm-apps-0915`, intake 2.10.0)
 
 Amendment to `subscription-auth-selection`: **when the child reads untrusted content, the strip inverts into an allowlist.** The named billing strip stays right for billing; for confidentiality a denylist fails by construction, so the environment is built (baseline, the child's own credentials by name, request variables), pinned by a real spawn that cannot see a planted secret. Occasion: tutorial tool-server launches that spread the host environment over a client whose default is a safe list. Independent corroboration from the fleet: pumper's engines already build child environments this way. Application `python--subscription-auth-selection` (code, better): a private agent runtime's CLI child went from 86 variables and 2 of 2 planted secrets to 22 and 0, gate green. Its local command sandbox still inherits and is owed.
+
+## 2026-09-15 - /intake QwenPaw (run `qwenpaw-0915`, intake 2.10.0)
+
+Source [[../../sources/2026-09-15-qwenpaw]]: a runtime that wraps coding agents in their long-lived server modes. One technique landed, taking the subject to 8.
+
+- **host-routed-approval-round-trip.** The attended inversion of permission-stance-enforcement. The host's approval service answers the child's mid-turn approval requests, and anything unknown resolves to decline. The discriminator is whether a human is reachable inside the child's request timeout.
+  - The drafter found the source *records* the session binding but does not *enforce* it (a chat command approves across sessions), so the technique requires enforcement.
+- **Golden path.** A paragraph closing the transport contract now names the premise as a variable.
+- **Unapplied.** athena's CLI harness removes the child's native tools (`--restricted`, `dontAsk`), so there is nothing to route, which confirms the discriminator. personas keeps native tools under skip-permissions, so a change there is a direction and goes through the peer study.
+- **Named deviation:** the source's capability catalog is an undated constant, which dated-capability-matrix rejects.

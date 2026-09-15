@@ -185,3 +185,16 @@ refreshing their verification dates or claiming live harness evidence.
   }
 }
 ```
+
+## 2026-09-15 - /intake QwenPaw (run `qwenpaw-0915`, intake 2.10.0)
+
+Source [[../../sources/2026-09-15-qwenpaw]]: an agent runtime whose loop evaluates composable stop gates on every iteration. Two techniques landed, taking the subject to 10.
+
+- **boundary-applied-stop.** A stop decided on a tool-call iteration waits until the results are in. The drafter's override sharpened the discriminator: it is whether any reasoning call will read the batch, not when the stop was decided. A batch nobody will read is refused with not-executed results.
+- **gate-state-lifetimes.** Gate state is keyed by session and has three lifetimes. The un-spend test defines a meter. No phase reset or resume touches a meter, and every terminal path charges it.
+- **Applied in athena-everywhere.** Both rows are code mode, better, and shipped. `e106230`: a parked job resumed with its whole budget and spent 12 of 10. `60108d0`: the last round ran a tool nobody read, 8 executions against 7.
+- **Untriaged here:**
+  - a closed gate catalog (home contested with quality-gates)
+  - unscoped handlers running beside an active mode (a single-loop-authority boundary, GAIN 1)
+  - a mirrored transcript that silently re-threads on a failed resume (home contested with fleet-orchestration)
+- **The source contradicts its own docs.** The docs say the first definitive gate wins; the code lets a later TERMINATE win.
