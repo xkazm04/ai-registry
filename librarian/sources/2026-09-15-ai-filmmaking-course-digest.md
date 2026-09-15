@@ -82,7 +82,7 @@ table. `G/R/C` = gain / risk / cost.
 | 8 | A style prefix glued onto every prompt, 00:05:33 | technique | `style-block-restated-every-call` | likely catch | - | **Already covered** |
 | 9 | Shot IDs (1A, 1B) so an edit touches one block, 00:06:23 | technique | `edit-plan-over-regeneration` (operation-shaped deliverable) | likely catch | - | **Already covered** |
 | 10 | Draw the layout on the near-miss frame and send it back, 00:06:49 | technique | `scene-grammar-progression` "annotate the image instead of describing it"; `partial-regeneration-seams` | partial | 1/2/2 | **Already covered** for the rule; the boundary (drawn marks leaking into the output) **untriaged**, no evidence either way in the source |
-| 11 | Negative phrasing confuses the model; write positive direction notes, 00:07:41 | amendment | `performance-direction` rule 5 "State what the performer does *not* do"; `negative-prompting` (absent-channel class) | partial | 2/2/2 pre-render | **Render-bound -> Phase 6b; gate refused both pairs -> Lead 2.** No landing |
+| 11 | Negative phrasing confuses the model; write positive direction notes, 00:07:41 | amendment | `performance-direction` rule 5 "State what the performer does *not* do"; `negative-prompting` (absent-channel class) | partial | 2/2/2 pre-render | **Render-bound -> Phase 6b; pair refused; 12-seed follow-up: operator tie on both shots.** No landing; `performance-direction` stands |
 | 12 | Choreography as ordered beats, not "he celebrates", 00:08:31 | technique | `performance-direction` (enumerated observable beats) | likely catch | - | **Already covered** |
 | 13 | Dutch angle about 20 degrees plus the subject shoved to the frame edge flips stable to tense, 00:08:56 | technique | `camera-position-semantics` #2 decisive cant, #3 crowded edge = entrapment | likely catch | - | **Already covered**; the demo is the corpus rule demonstrated |
 | 14 | The vendor ships a 2.0 motion model inside its studio product with an academy around it, 00:00:00 | currency | `process--generated-shot-sourcing` already records 2.5 superseding 2.0 (2026-09) | - | table | **Already covered**; the source is behind the corpus, no clock reset |
@@ -163,6 +163,69 @@ outputs, selected by run id. The server was stopped (this run started it; the qu
 empty and no foreign job was running). Kept in this note: prompts, discrimination
 scores, the luma read.
 
+## Follow-up - lead 2 at 12 seeds per arm (operator request, same day)
+
+Run id `intake-IgCe-seeds`. The operator asked for the multi-seed test the refused pair
+had banked.
+
+**Design.** Same two keyframes (same prompts, same seed; they regenerated identically),
+same arms, same negative, same model settings. Seeds 20260915-20260926, 12 per arm
+per shot: 48 clips, 40-56 s each on the one card. Each arm was shown as one 12-clip
+grid video (416x240 cells, seed positions matched across arms), blind, through
+`render-triage.mjs sheet`.
+
+**Instrument** (content-blind, the director's): per-clip figure motion. Each frame is
+standardised per channel so a global exposure pulse cancels. The score is the
+95th-percentile absolute deviation from frame 0 inside a figure box read off the
+keyframe (lamp excluded in shot1), maximised over frames. Exposure pulse was read
+separately as the luma range.
+
+**Calibration, and where it failed.** The positive control reproduced: arm A at seed
+20260916 raises a hand to the chest, as in the refused pair. The negative control did
+not hold up. Arm B at the same seed, labelled clean by eye this morning, turns the
+head away from the door by the last frame. The two scored 1.75 and 1.63, so the
+instrument measures figure motion of any kind, not specifically what a negation
+invites.
+
+| Shot | Figure motion A / B (mean of 12) | Split-half noise | Ratio | Pulses over 25 A / B | Seed-matched A > B |
+| --- | --- | --- | --- | --- | --- |
+| shot1 | 1.232 / 0.898 | 0.111 | 3.01 | 2 / 1 | 12 of 12 |
+| shot2 | 1.255 / 0.926 | 0.041 | 8.02 | 2 / 0 | 12 of 12 |
+
+**The gate passed on this metric, not on pixels.** This morning's pixel-distance gate
+refused the pair. This run substituted the instrument's split-half discrimination,
+which a rate question seemed to need. The sheet shipped on that substitution.
+
+**Director pre-read (opinion).** No clip was broken. Under arm A: the hand to the
+chest (seed 2), a hand to the head (seed 11), and several camera reframings on the pier
+despite "the camera does not shake, pan or zoom". Arm B's framing looked near-identical
+across seeds.
+
+**Operator, blind (X was arm A in both shots):**
+- shot1: *"both are identical"*
+- shot2: *"both are identical, we need to have two variations instead of duplicating
+  the process to have something to compare"*
+
+**Verdict.** Tie on both pairs, recorded in `verdict.json`. By the render-proof table
+this is `unmeasurable` for quality: no upper-layer change, and one tie never amends a
+technique. **What this settles:** negated against positive phrasing of the same
+constraints is a wording knob on this generator. It moves a motion statistic in a
+consistent direction (24 of 24 seed-matched pairs) by an amount a person watching the
+output does not see. The source's "negative language confuses the model" is
+therefore **not a finding that changes a brief anyone would judge by eye**, and
+`performance-direction` rule 5 stands.
+
+**What the run got wrong.** The discrimination gate exists so the operator never looks
+at two runs of one process. Swapping pixel distance for a motion statistic let through
+exactly the pair the gate was built to stop: a difference an instrument can count and
+a person cannot see. That is the operator's second "basically identical" on a
+wording-level pair in two days. Lesson filed.
+
+**Cleanup:** `render-triage.mjs clean` after `verdict.json` removed 120 paths,
+**72.2 MB**: keyframes, 48 clips, 4 grids, blind links, and this run's server outputs
+and staged inputs, selected by run id. The server was stopped (this run started it;
+the queue was empty, no foreign job).
+
 ## Leads
 
 1. **Location plates for a camera move: depth along the move axis, not "avoid
@@ -176,18 +239,11 @@ scores, the luma read.
    and a three-quarter plate, gated on sheet discrimination. Home if it lands:
    `production-ops/video-assembly/generated-shot-sourcing` (plate authoring before
    rung 3), not `cinematic-language`, whose depth staging is narrative framing.
-2. **Negated state phrasing in a motion brief, as a rate rather than a pair.** The
-   effect, if real, is not visible in one render. It shows up as how often an unasked
-   event happens across seeds, so a two-clip pair cannot carry it. Return condition:
-   at least 6 seeds per arm on the two shots above, an instrument that sees small
-   gestures and not only global exposure (per-region optical-flow energy with the
-   figure masked in, or a calibrated vision grader asked "did anything happen that
-   the brief did not ask for"), and the operator shown a per-arm contact sheet of all
-   seeds, gated on the sheet distance. If B wins, the amendment is one sentence in
-   `performance-direction` rule 5: write the bound as the held state, not the negated
-   one, because the negated noun is an invitation (the image-side rule
-   `negative-prompting` already states). If A holds, the source's claim is a catch
-   against the corpus as it stands.
+2. **Negated state phrasing in a motion brief, as a rate rather than a pair.**
+   **CLOSED 2026-09-15 by the multi-seed follow-up below: operator tie on both shots.**
+   A person cannot see the difference, and `performance-direction` stays as it is. The
+   instrument's consistent but invisible difference is recorded there. Do not re-open
+   this with more seeds of the same wording pair; the operator's reason rules that out.
 
 ## Untriaged (nobody verified these)
 
