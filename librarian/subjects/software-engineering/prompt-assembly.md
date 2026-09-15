@@ -425,3 +425,18 @@ the large-read tokens in the highest-rate project with zero working-set blocks.
 Shipped in personas (`code`/`better`); the size-only shape is `not-better` on
 every project measured. Instrument banked at `scripts/measure-large-reads.mjs`.
 Return condition: what the agent does after a block is unmeasured.
+
+## 2026-09-15 - intake, cline-desktop (run `intake-cline-desktop`)
+
+New technique `foreign-harness-history-folding`, the transcript's second seal
+beside `endpoint-sealed-continuation-metadata`. A history recorded by a different
+agent harness is written in that harness's tool vocabulary, which no provider
+rejects and which some models imitate. Paired local experiment: raw replay made a
+27B model call a tool absent from its roster on 10/10 continuations, and the
+roster-name control and the folded summary on 0/10. A 12B model scored 0/10 in
+every arm, so the risk belongs to the model, not the harness. Two applications:
+`node--` (an open agent SDK that imports three foreign session stores and folds on
+resume, with a silent fallback to raw replay) and `rust--` (Personas' text-only
+awareness block, `experiment`/`better`, no code change). Boundary stated in the
+technique: fold for continuation, project to text for awareness. Return
+condition: summary-content quality is unmeasured in both trees and in this corpus.

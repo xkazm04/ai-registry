@@ -25,6 +25,7 @@ techniques:
   - compression-hardens-deferred-decisions
   - recovery-path-as-loss-signal
   - consumer-coupled-decoration
+  - foreign-harness-history-folding
 ---
 
 # Prompt assembly & context budgeting
@@ -211,6 +212,12 @@ transcript, and the walk that decides per segment whether to replay verbatim
 or strip is
 [endpoint-sealed-continuation-metadata](./techniques/endpoint-sealed-continuation-metadata.md).
 It is the reason composition needs to know the model it is composing *for*.
+Where it happened also includes the harness. A history recorded by a
+different agent harness is written in that harness's tool vocabulary, which no
+provider rejects and which some models imitate on every continuation. That
+span is folded into a summary for continuation, or projected to text for
+awareness, and is never replayed as tool turns; see
+[foreign-harness-history-folding](./techniques/foreign-harness-history-folding.md).
 
 The second is that a large share of a transcript's bulk is still addressable
 at its source. A tool result can be fetched again by calling the tool; an
@@ -418,6 +425,11 @@ disappearing.
   target endpoint, strict provider-instance plus model-id equality, demotion
   rather than deletion of reasoning parts, unrecorded provenance on the strip
   side, and the in-flight loop exempt by construction.
+- [foreign-harness-history-folding](./techniques/foreign-harness-history-folding.md)
+  — the transcript's other seal, the harness's tool vocabulary, which no
+  provider rejects and some models imitate on every call: fold for
+  continuation, project to text for awareness, never translate, record
+  producer provenance on forks, and never fall back to raw replay silently.
 - [elision-to-a-refetch-pointer](./techniques/elision-to-a-refetch-pointer.md)
   — eliding recoverable material to a pointer instead of a summary: the three
   material classes, counts by kind for dropped binary parts, the decorator

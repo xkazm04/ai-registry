@@ -4025,3 +4025,16 @@ The preceding ten-row review still identifies research as the recurrent weak sta
 3. **Split an aggregator across readers by directory, and keep the director on the part the last run adopted.** The periphery the 08-25 run mined produced only leads this time; the three worker clusters produced every landing.
 
 **Weakest stage across the last ten rows: ship.** Ten rows record ship counts, but only two carry product code (gravity `1f80ac6`, this run's `1bf65ad`); the rest are applied-row commits or zero. Extraction is no longer the bottleneck: code-mode applies are, and they come from seams where a gate can see the change.
+
+## 2026-09-15 - Cline Desktop announcement (the demoed feature's code)
+
+| Version | Date | Source | Research | Extract | Test | Landed | Apply | Ship | Zero reason / focus moved? | Depth |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2.10.0 | 2026-09-15 | `web:cline.ghost.io` cline-desktop | 1 post, 1,170 words; 0 of 3 fetches; the open-source repo sparse-cloned at `6e8bea1c` (session-import service, sanitizer, import-history compaction policy, runtime wiring, desktop notice, 2 test files); 5 corpus techniques/applications opened; Personas' awareness module, failover and quota path read | 14 | row 1 verified in two trees plus a 4-arm paired local experiment (2 models, 10 seeds); 3 catches by opening their owners | 1 technique + 1 golden-path paragraph + 2 applications (1 source-tree, 1 fleet); 3 leads, 3 catches, 7 untriaged | 0c/1e/0s/0t/0r | 0 | Ship 0: Personas already sits on the winning arm (text-only projection), so there is nothing to change and no measurable a commit could move; the applied row was committed as a record. auto=1/10/0, fp=0. **Focus moved:** the previous focus said to clone what implements a release, and the whole landing came from the clone | 0/1/0/1src+1fleet/0; routing NONE=1 (stay); directions=0/1 |
+
+**Next run focus (cline-desktop).**
+1. **Run the experiment before writing the technique when the force is a model behaviour.** The implementation stated its force in a docstring. The measurement split it by model (27B imitated 10/10, 12B 0/10), which turned "may try to call" into a rule about unknown models that neither tree could have supplied.
+2. **Put a control arm that changes only the suspected variable beside every fix arm.** Arm C (same structure, roster names) is what separated vocabulary from structure. Without it, A vs B would only have shown that summaries differ from turns.
+3. **When a peer tree already sits on the winning arm, the apply row is still owed, and ship stays 0 honestly.** Record the measured reason in the project's ledger rather than inventing a comment commit with no measurable.
+
+**Weakest stage across the last ten rows: ship**, unchanged. This row adds one more honest zero: the peer tree already conformed, so there was nothing to ship.
