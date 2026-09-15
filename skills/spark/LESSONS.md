@@ -119,3 +119,9 @@ Phase 4's `### Work packages` schema should carry a doc-ownership field alongsid
   checkouts were on foreign branches with dirty trees; the fix that worked was `git checkout
   <base> && git merge --ff-only` inside the spark worktree (a branch can be checked out in only one
   worktree, and the base was free), after rebasing the spark branch onto it there.
+
+## 1.3.2 - 2026-09-15 - personas
+
+- **A status vocabulary the design maps onto needs its WRITER named by the scout, not just its tokens.** The scout listed `dev_milestones.status ∈ planned|active|shipped` and the design mapped `scoped → cut → shipped` onto it; the brief then said "promote as `active`", and only the builder discovered that an `active` birth stamps `cut_at` — `active` MEANS cut. Add to the Phase-2 liveness rule set: for every enum/status column a design maps onto, the scout states which door sets each token and what it stamps. Same family as rule 4 (a timestamp only means what its name says once its writer is known).
+- **A count-probed "backfill" migration is a standing boot rule.** Probing "any row still unadopted?" re-fires forever for rows created later; when the operator chose a ONE-TIME adoption at a retirement, the brief must prescribe a marker-row probe. The builder caught it; the Phase-4 brief should ask "is this step one-shot or standing?" for every data migration it specifies.
+- **Builders under-report gate reds they cannot see.** Three parallel gates (the repo's census, its doc-citation corpus check, and rustfmt on staged files) each failed on the Director's first full run despite every builder reporting green: the census's own listing is capped, doc citations of MOVED files live outside any builder's file scope, and `cargo fmt` is not what the pre-commit hook runs. The Director's reconcile pass after a fan-out should be budgeted as a work package of its own, not a formality.
