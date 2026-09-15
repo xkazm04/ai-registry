@@ -10871,6 +10871,10 @@ observation, and the batch lane already carries half of this idea for a differen
 - **For a review of a released system, the fetched primary can be a tree, and its test file is the densest page.** The demo showed a character moving. The port's streaming-server test named three failure modes in its assertion strings ("late planner crossed its reserved seam", "settled idle replanned without input"), and each became a rule. The class rule "the fetch is the extraction" is under-read when the fetch stops at a README or a doc page. Cloning cost no fetch budget.
 - **Ask what the producer reads.** Two media-playback techniques modelled a producer as instruction -> unit, and both carried flat sentences ("cannot be asked to wait", "no idle state") that fail once the unit is conditioned on committed output. A candidate that maps to a subject "about the same thing" should be checked against the inputs its mechanism consumes, not only the outputs it emits. That is where a regime boundary hides in a mature subject.
 
+## 2.10.0 - 2026-09-15 - ai-news-world-scared
+
+- **A currency check cannot advance freshness at a finer granularity than the metadata supports.** If an application's `verified_on` represents every citation in a multi-vendor document, rechecking one vendor permits a scoped dispatch, not a new global date. Either resolve the whole citation set or split the document into independently dated records.
+
 ## 2.10.0 - 2026-09-15 - ai-filmmaking-course-digest
 
 - A prompt-wording variable is a knob, not an approach, on a small local motion model. Negated and positive phrasings of the same four constraints differed by 15 and 39 against seed floors of 47 and 45. Before rendering a phrasing pair, ask whether the claimed effect is per-take (visible in one clip) or a rate (how often an unasked event happens across seeds). A rate needs 6+ seeds per arm and a contact sheet, never a single pair.

@@ -3980,6 +3980,17 @@ The preceding ten-row review still identifies research as the recurrent weak sta
 2. **Ask what a producer READS, not only what it writes.** The corpus modelled the producer as instruction -> unit. One line in the controller ("the previous four actual frames") inverted two flat rules and folded three candidates into one mechanism.
 3. **Run the fleet's own research ledgers in the seam hunt before scoring currency.** pof had mined this exact video the day before. Reading its commit first would have saved a triage row, and a same-day duplicate mine across two skills is invisible to the run board.
 
+## 2026-09-15 - AI weekly survey (product currency)
+
+| Version | Date | Source | Research | Extract | Test | Landed | Apply | Ship | Zero reason / focus moved? | Depth |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2.10.0 | 2026-09-15 | `youtube:JwTCjarfJYw` ai-news-world-scared | 1 transcript, 7,129 words; 3 of 3 fetches (OpenAI, Meta, DeepSeek first-party release pages); 6 owning corpus techniques/golden paths and 1 application opened after two mapping passes | 15 | 3 release rows primary-checked; 4 catches verified by opening their owners; no upper-layer survivor to experiment on | 1 currency dispatch, 9 leads, 4 catches, 1 untriaged; 0 upper-layer | 0c/0e/0s/0t/0r; 0 owed (nothing upper-layer landed) | 0 | Apply and ship are zero because the source class and evidence gates admitted no upper-layer row. The prior extraction-experiment focus did not apply; its older rule, "a catch is a file you opened", held for every catch. The currency row was not partially applied because one rechecked citation cannot truthfully move a document-wide freshness date. auto=0/0/0; fp=0 | S0/T0/A0/Asrc0/task-lines0; video; directions=n/a; one deepen dispatch |
+
+**Next run focus (ai-news-world-scared).**
+1. **Bind a survey's currency row to a concrete application before spending a fetch.** A product announcement without an owned clock or routing seam remains a lead even when the launch is real.
+2. **Do not mint a composite technique from a product control plane.** VM persistence, credential custody, approval, audit, payment, and memory are separate mechanisms with separate owners; the branded bundle is a catch when those owners are already open.
+3. **Treat freshness metadata at its declared granularity.** If `verified_on` covers a whole multi-source document, one rechecked row cannot advance it; dispatch a full refresh or split the record into independently dated units.
+
 ## 2026-09-15 - AI filmmaking course digest (render proof refused by the gate)
 
 | Version | Date | Source | Research | Extract | Test | Landed | Apply | Ship | Zero reason / focus moved? | Depth |
