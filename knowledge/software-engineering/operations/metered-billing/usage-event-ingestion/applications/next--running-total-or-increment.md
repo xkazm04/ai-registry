@@ -15,8 +15,10 @@ proof: ab-paired
 # Two stores, one metrics report, opposite encodings
 
 The stack version is witnessed by the tree's own manifest (`"next": "^16.3.3"`)
-and its CI pin (`node-version: "24"`). The tree is a private engineering-analytics
-codebase and is cited here for structure only; its paths stay in its own ledger.
+and its CI pin (`node-version: "24"`). The tree is a public engineering-analytics
+codebase (an open-source maturity index for AI-native teams); it is cited here by
+structure, and the file-level seam and both arms' fixture live in its own applied ledger
+beside the commit.
 
 ## The seam
 
