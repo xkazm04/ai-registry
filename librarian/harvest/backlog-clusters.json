@@ -1,0 +1,479 @@
+{
+ "convergences": [
+  {
+   "cluster": "c01",
+   "rule": "Freeze the configuration and routing decisions a unit of work runs under at the moment it is submitted, and carry them with the work, so no unit executes under two configurations or is re-classified by its consumer.",
+   "ids": [
+    "4-045",
+    "4-114",
+    "9-056"
+   ],
+   "independent_sources": 3,
+   "confidence": "high",
+   "best_single_item": "4-045"
+  },
+  {
+   "cluster": "c02",
+   "rule": "Key control flow on a stable machine identifier, never on human-readable text (display labels, error prose, rendered messages), because text changes for reasons unrelated to the decision it is steering.",
+   "ids": [
+    "2-005",
+    "7-020",
+    "1-050",
+    "1-024",
+    "9-003",
+    "1-002"
+   ],
+   "independent_sources": 6,
+   "confidence": "high",
+   "best_single_item": "2-005"
+  },
+  {
+   "cluster": "c03",
+   "rule": "A cache, index or reuse key must cover every input that changes the result as actually executed (transformed body, serving endpoint, forwarded parameters, schema version, resolved inputs), or a stale or foreign result passes the key check.",
+   "ids": [
+    "3-033",
+    "8-020",
+    "7-008",
+    "1-064",
+    "9-104",
+    "3-002"
+   ],
+   "independent_sources": 6,
+   "confidence": "high",
+   "best_single_item": "8-020"
+  },
+  {
+   "cluster": "c04",
+   "rule": "Write the completion or claim marker only after the work it certifies exists, and re-verify it against the artifact before letting it skip work.",
+   "ids": [
+    "1-070",
+    "8-005",
+    "6-038",
+    "7-014"
+   ],
+   "independent_sources": 4,
+   "confidence": "high",
+   "best_single_item": "8-005"
+  },
+  {
+   "cluster": "c05",
+   "rule": "An expected result that never arrived (unreported shard, abandoned scan, all-failed fan-out, undeterminable probe) is its own failure state and must not collapse into success or a benign skip.",
+   "ids": [
+    "7-022",
+    "6-021",
+    "4-103",
+    "7-004"
+   ],
+   "independent_sources": 4,
+   "confidence": "high",
+   "best_single_item": "7-022"
+  },
+  {
+   "cluster": "c06",
+   "rule": "A degradation (truncation, fallback, failed compaction, failed render) must leave an in-band marker naming what degraded and why; unmarked degradation is silent data loss.",
+   "ids": [
+    "4-144",
+    "8-050",
+    "5-006",
+    "5-012",
+    "3-025"
+   ],
+   "independent_sources": 4,
+   "confidence": "high",
+   "best_single_item": "5-012"
+  },
+  {
+   "cluster": "c07",
+   "rule": "A misconfiguration must fail loud at the point it is detectable rather than fall into a plausible working mode (in-memory store, extractive fallback, dropped roster arm, stub default) that masks it indefinitely.",
+   "ids": [
+    "6-005",
+    "3-021",
+    "2-016",
+    "1-003"
+   ],
+   "independent_sources": 4,
+   "confidence": "high",
+   "best_single_item": "6-005"
+  },
+  {
+   "cluster": "c08",
+   "rule": "When a security enforcer cannot evaluate a request (payload over the inspected prefix, sandbox unavailable), its default must not be allow.",
+   "ids": [
+    "4-038",
+    "5-002"
+   ],
+   "independent_sources": 2,
+   "confidence": "high",
+   "best_single_item": "5-002"
+  },
+  {
+   "cluster": "c09",
+   "rule": "An observe-only check that throws is recorded and skipped, and blocking happens only by an explicit verdict, never by accident of an exception.",
+   "ids": [
+    "9-074",
+    "6-033"
+   ],
+   "independent_sources": 2,
+   "confidence": "medium",
+   "best_single_item": "9-074"
+  },
+  {
+   "cluster": "c10",
+   "rule": "The scope that constrains a caller must be assembled by the server and never taken from, or merged with, what the constrained caller supplies.",
+   "ids": [
+    "4-040",
+    "8-006"
+   ],
+   "independent_sources": 2,
+   "confidence": "high",
+   "best_single_item": "4-040"
+  },
+  {
+   "cluster": "c11",
+   "rule": "A nested run inherits its parent's ambient identity (environment identifiers, context-variable callbacks, thread id) and silently acts as the parent unless that inheritance is explicitly scrubbed.",
+   "ids": [
+    "3-008",
+    "8-028",
+    "1-062"
+   ],
+   "independent_sources": 3,
+   "confidence": "high",
+   "best_single_item": "8-028"
+  },
+  {
+   "cluster": "c12",
+   "rule": "Review depth or finding severity is a function of where the change lives and runs (path globs, security paths, hot loops, blast radius), not of its size.",
+   "ids": [
+    "2-032",
+    "9-002",
+    "8-049",
+    "1-104"
+   ],
+   "independent_sources": 4,
+   "confidence": "high",
+   "best_single_item": "2-032"
+  },
+  {
+   "cluster": "c13",
+   "rule": "A gate waiver must have one strict, structured form (consumer, rationale, issue) that fails closed when malformed, or waivers cannot be counted or audited.",
+   "ids": [
+    "9-075",
+    "3-041"
+   ],
+   "independent_sources": 2,
+   "confidence": "high",
+   "best_single_item": "9-075"
+  },
+  {
+   "cluster": "c14",
+   "rule": "A rule or decision carries the re-measurable observation that would refute or retire it.",
+   "ids": [
+    "8-021",
+    "7-003"
+   ],
+   "independent_sources": 2,
+   "confidence": "high",
+   "best_single_item": "8-021"
+  },
+  {
+   "cluster": "c15",
+   "rule": "A refusal, ban or warning names the concrete remedy, and that remedy must exist in this installation.",
+   "ids": [
+    "8-044",
+    "1-082",
+    "1-001"
+   ],
+   "independent_sources": 3,
+   "confidence": "high",
+   "best_single_item": "8-044"
+  },
+  {
+   "cluster": "c16",
+   "rule": "A test whose input never reaches the code under test (fallback catches the fixture, container gate rejects the fuzz payload, binding test loads another artifact, corpus cannot express the signal) measures something else and passes.",
+   "ids": [
+    "2-036",
+    "5-030",
+    "5-014",
+    "6-015"
+   ],
+   "independent_sources": 3,
+   "confidence": "high",
+   "best_single_item": "2-036"
+  },
+  {
+   "cluster": "c17",
+   "rule": "A speed or latency figure must state what it actually measures (first forwarded chunk, system throughput) rather than let its name imply token-level latency.",
+   "ids": [
+    "9-083",
+    "7-027"
+   ],
+   "independent_sources": 2,
+   "confidence": "high",
+   "best_single_item": "9-083"
+  },
+  {
+   "cluster": "c18",
+   "rule": "Keep each claim labelled with the strength of the evidence behind it; never pool weaker evidence into a stronger status or a single number, and never silently upgrade it.",
+   "ids": [
+    "8-041",
+    "4-122",
+    "9-063",
+    "5-013"
+   ],
+   "independent_sources": 4,
+   "confidence": "high",
+   "best_single_item": "8-041"
+  },
+  {
+   "cluster": "c19",
+   "rule": "A derived artifact (summary, generated wiki page) is never primary evidence; a citation that resolves to one verifies nothing.",
+   "ids": [
+    "1-128",
+    "1-074"
+   ],
+   "independent_sources": 2,
+   "confidence": "high",
+   "best_single_item": "1-128"
+  },
+  {
+   "cluster": "c20",
+   "rule": "A read over a sample or a proxy (prefix, sampled surfaces, transcript for video) must publish its coverage so downstream claims do not speak for the whole.",
+   "ids": [
+    "1-097",
+    "1-069",
+    "5-018"
+   ],
+   "independent_sources": 3,
+   "confidence": "medium",
+   "best_single_item": "1-097"
+  },
+  {
+   "cluster": "c21",
+   "rule": "Admission limits must be on the cost-driving dimension (decoded pixels, JSON structure), not on raw request bytes.",
+   "ids": [
+    "8-013",
+    "1-056"
+   ],
+   "independent_sources": 2,
+   "confidence": "high",
+   "best_single_item": "8-013"
+  },
+  {
+   "cluster": "c22",
+   "rule": "A consolidation or distillation step must stay inside one ownership scope at write time; similarity is not permission to merge across scopes.",
+   "ids": [
+    "2-004",
+    "9-118"
+   ],
+   "independent_sources": 2,
+   "confidence": "high",
+   "best_single_item": "2-004"
+  },
+  {
+   "cluster": "c23",
+   "rule": "Order writes across two stores that share no transaction so every observable intermediate state is safe: referent before reference, authority last.",
+   "ids": [
+    "9-065",
+    "6-034"
+   ],
+   "independent_sources": 2,
+   "confidence": "high",
+   "best_single_item": "9-065"
+  },
+  {
+   "cluster": "c24",
+   "rule": "Two paths that compute the same derived value must share one computation, because the bug is their divergence rather than either path.",
+   "ids": [
+    "7-024",
+    "4-049"
+   ],
+   "independent_sources": 2,
+   "confidence": "medium",
+   "best_single_item": "7-024"
+  },
+  {
+   "cluster": "c25",
+   "rule": "Re-read the authoritative state immediately before the irreversible step, because the preparation itself is the staleness window.",
+   "ids": [
+    "4-029",
+    "9-051",
+    "6-020"
+   ],
+   "independent_sources": 3,
+   "confidence": "medium",
+   "best_single_item": "4-029"
+  },
+  {
+   "cluster": "c26",
+   "rule": "A pipeline must exclude its own output from its own input, or it compounds on itself.",
+   "ids": [
+    "6-028",
+    "3-031"
+   ],
+   "independent_sources": 2,
+   "confidence": "medium",
+   "best_single_item": "3-031"
+  },
+  {
+   "cluster": "c27",
+   "rule": "Bound delegation by total count and depth, not only by concurrency.",
+   "ids": [
+    "1-058",
+    "5-025"
+   ],
+   "independent_sources": 2,
+   "confidence": "medium",
+   "best_single_item": "1-058"
+  },
+  {
+   "cluster": "c28",
+   "rule": "Cap an automated repair or review loop at a stated small count and escalate visibly on exhaustion.",
+   "ids": [
+    "6-043",
+    "1-105"
+   ],
+   "independent_sources": 2,
+   "confidence": "medium",
+   "best_single_item": "6-043"
+  },
+  {
+   "cluster": "c29",
+   "rule": "Count distinct causes or methods, not instances; a raw count of findings or proposals overstates the independent things it contains.",
+   "ids": [
+    "2-124",
+    "4-076"
+   ],
+   "independent_sources": 2,
+   "confidence": "medium",
+   "best_single_item": "2-124"
+  },
+  {
+   "cluster": "c30",
+   "rule": "Opening, reading or importing third-party content must not silently execute code shipped inside it.",
+   "ids": [
+    "2-003",
+    "9-020",
+    "2-009"
+   ],
+   "independent_sources": 3,
+   "confidence": "medium",
+   "best_single_item": "2-003"
+  },
+  {
+   "cluster": "c31",
+   "rule": "Reserve future extension space now by making the unmarked or not-yet-used form host-owned or invalid, so later growth cannot collide with deployed content.",
+   "ids": [
+    "1-001",
+    "3-006"
+   ],
+   "independent_sources": 2,
+   "confidence": "medium",
+   "best_single_item": "3-006"
+  },
+  {
+   "cluster": "c32",
+   "rule": "A guard's presence is not its liveness: prove it fires (a canary it must catch) rather than trust that it is registered.",
+   "ids": [
+    "4-069",
+    "1-075"
+   ],
+   "independent_sources": 2,
+   "confidence": "medium",
+   "best_single_item": "4-069"
+  },
+  {
+   "cluster": "c33",
+   "rule": "Instead of raising a probabilistic stage's accuracy, place a cheap deterministic correction or check downstream of it.",
+   "ids": [
+    "2-010",
+    "4-096",
+    "6-007"
+   ],
+   "independent_sources": 3,
+   "confidence": "medium",
+   "best_single_item": "2-010"
+  },
+  {
+   "cluster": "c34",
+   "rule": "Environment and feature combination are orthogonal axes of a test result; the result unit must be keyed on them, not folded into one pass per file or rung.",
+   "ids": [
+    "6-039",
+    "3-026",
+    "7-025"
+   ],
+   "independent_sources": 3,
+   "confidence": "medium",
+   "best_single_item": "3-026"
+  },
+  {
+   "cluster": "c35",
+   "rule": "Load only the tool set a workload needs, because every loaded tool costs wall clock (boot and generation), not just tokens.",
+   "ids": [
+    "6-006",
+    "8-001"
+   ],
+   "independent_sources": 2,
+   "confidence": "medium",
+   "best_single_item": "6-006"
+  },
+  {
+   "cluster": "c36",
+   "rule": "Agent traces and prompt-bearing logs are sensitive content and go to sinks tiered by sensitivity with their own retention and access.",
+   "ids": [
+    "9-102",
+    "4-042"
+   ],
+   "independent_sources": 2,
+   "confidence": "medium",
+   "best_single_item": "4-042"
+  },
+  {
+   "cluster": "c37",
+   "rule": "Do not mint an artifact whose embedded timestamp can be false; gate issuance on trusted time or expire the pre-minted item.",
+   "ids": [
+    "5-020",
+    "8-015"
+   ],
+   "independent_sources": 2,
+   "confidence": "medium",
+   "best_single_item": "5-020"
+  },
+  {
+   "cluster": "c38",
+   "rule": "Delegation obliges passing context beyond the brief: the child needs persisted context or the parent's trajectory.",
+   "ids": [
+    "1-095",
+    "5-031"
+   ],
+   "independent_sources": 2,
+   "confidence": "medium",
+   "best_single_item": "5-031"
+  }
+ ],
+ "tensions": [
+  {
+   "tension": "t01",
+   "ids": [
+    "9-074",
+    "6-033",
+    "4-038",
+    "5-002"
+   ]
+  },
+  {
+   "tension": "t02",
+   "ids": [
+    "1-001",
+    "3-006",
+    "4-100"
+   ]
+  },
+  {
+   "tension": "t03",
+   "ids": [
+    "5-009",
+    "1-012"
+   ]
+  }
+ ]
+}

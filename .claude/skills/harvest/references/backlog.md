@@ -1,0 +1,135 @@
+# Backlog mode - land untriaged candidates on a measured verdict
+
+The protocol behind `/harvest backlog`. The input is not the URL queue. It is the
+untriaged tail every `/intake` run leaves behind: candidates that reached a triage
+table, carried anchors, and were never verified. On 2026-09-16 that tail was 1,765
+declared items; after excluding three bibliography notes (603 unread references, a
+different lane) and splitting prose into items, it was **1,100 rows** in
+[`librarian/harvest/backlog.jsonl`](../../../../librarian/harvest/backlog.jsonl), of
+which 93 were already covered and closed on seeding.
+
+## Why this mode lands without a human, when harvest's auto mode will not
+
+Harvest's auto column is timid because a queue is *volume*, and volume launders
+authority: 177 URLs are not 177 pending merges. That law still holds here. What
+changes is who authorizes. **In backlog mode the source originates the candidate and
+the measurement authorizes the landing.** No row lands because a past run liked it, a
+ranker scored it, or a cluster found three sources for it. It lands because a verdict
+came back `better`.
+
+The operator set the bar on 2026-09-16: *"try to measure on test or simulation
+benefit of each item. If positive then accepting into the main."* A simulation
+verdict counts. It is recorded as `applied: simulation` on every landing, so a
+simulation-landed technique that later goes wrong can be found, with every one of its
+siblings, by one query of the frontmatter. That field is the price of the lower bar,
+and it is not optional.
+
+The operator's reasoning, so a later session does not "fix" this back to timid: the
+backlog is too large and too technical for per-item human judgment, and a human gate
+over it ratifies the ranker. That is the same finding intake v2.5 measured (134 of
+149 source notes read `declined: 0`).
+
+## The ledger and the picker
+
+```sh
+node scripts/backlog-wave.mjs status                       # counts by status, mode, verdict
+node scripts/backlog-wave.mjs next --size 8                # the next wave, as JSON units
+node scripts/backlog-wave.mjs mark <id,...> <status> --mode <m> --verdict <v> --commit <sha>
+```
+
+A **unit** is what one worker measures:
+
+| unit | built from | why it travels whole |
+| --- | --- | --- |
+| convergence | rows sharing a cluster in `backlog-clusters.json` | two sources that reached one rule are ONE landing; two workers would draft duplicates. +2 priority when the members come from 2+ notes |
+| tension | rows the clustering pass found contradicting each other | the loop must never land both sides of a disagreement; the sides are measured head-to-head and only the winner drafts |
+| item | everything else | - |
+
+**At most one unit per home subject per wave.** Workers do not write, so they cannot
+collide on files; but parallel proposals against one golden path return overlapping
+drafts, and a director merging them lands contradictions. The picker enforces this;
+do not hand-assemble a wave around it.
+
+Closed sets: status `queued measuring landed not-better unmeasurable covered held`,
+mode `code experiment blind-ab simulation`, verdict `better not-better unmeasurable`.
+
+## One pass
+
+1. **Claim and pick.** `run-board claim --skill harvest --source "backlog wave <n>"`,
+   then `backlog-wave.mjs next`. Mark every picked id `measuring`. Beat the board with
+   each unit's home.
+2. **Dispatch one Opus worker per unit** (brief below). Cap 8 concurrent. Arms run as
+   `claude -p` CLI sessions, never as nested subagents: nested agents count against
+   the session's concurrency cap of 20, and a wave of eight workers each spawning three
+   would exhaust it.
+3. **Land serially, per returned verdict.** The director writes every registry file.
+   - `better` (any mode) -> land the worker's draft per intake Phase 7 (technique,
+     amendment, correction, application), with `applied:` and `ab_verdict:` in the
+     frontmatter, a `librarian/applied.md` row, and a subject note line. Mark `landed`.
+   - `better` in `code` mode -> also ship the fleet change: take the worker's
+     worktree branch onto the project's **active branch** by path checkout and a
+     pathspec commit (a merge refuses a sibling-staged index), in the project's own
+     commit convention, never bypassing a hook, never pushing. Uncapped, per the
+     operator's 2026-09-16 rule; a *direction* still waits for its owner's ledger row.
+   - `not-better` -> mark `not-better` with the seam class in the verdict line. Nothing
+     lands: the candidate was never in the corpus, so there is no technique to amend.
+     The row is the permanent record that it was tested and lost.
+   - `unmeasurable` -> mark `unmeasurable` only with the instrument that would measure
+     it named in the worker's return. Without that name the verdict is refused and the
+     row goes back to `queued`.
+   - covered on re-verification -> mark `covered`.
+4. **Gate and commit** under the `index` and `commit` locks, from a **worktree of
+   main** (`git worktree add C:/t/main-land main`). Never switch the shared
+   checkout's branch to reach main. Regenerate index, catalog and
+   `build-knowledge-rules.mjs` there: it holds no sibling WIP, so generated artifacts
+   describe only committed content. Commit the ledger with the landings.
+5. **Report**: counts by verdict and mode, landings with their `applied:` mode, fleet
+   commits, and the next wave's priority band.
+
+## The worker brief
+
+```
+You are measuring ONE backlog unit for /harvest backlog. Registry: <main worktree>.
+UNIT: <JSON from backlog-wave.mjs next, verbatim>
+Read first: .claude/skills/intake/SKILL.md Phase 6, 7 and 7.5, and
+.claude/skills/harvest/references/evaluation.md.
+
+1. RE-VERIFY. Open each item's source note (librarian/sources/<note>.md) for its
+   anchors, and open the home subject's golden path and its nearest techniques. If
+   the corpus already states the rule, return verdict COVERED with the file and line
+   and stop. For a TENSION unit, state the discriminator between the sides first.
+
+2. DRAFT the landing as text: shape (technique | amendment | golden-path correction |
+   application), the full file content, the golden-path techniques: line, use_when,
+   laws that already have anchors. Strip test: no product, company or tool name in an
+   upper-layer file. A convergence unit is ONE draft citing every source.
+
+3. MEASURE at the highest reachable mode, and say why not the one above it:
+   - code: a fleet project whose domains include the bundle has a real seam. Work in
+     your OWN worktree (git worktree add C:/t/bw-<unit> -b backlog/<unit>, junction
+     node_modules if tests need it, rmdir the junction before deleting). Prefer the
+     seam that could FALSIFY the rule. Declare TARGET and FLOOR before running. Arm A
+     = seam as-is, arm B = rule applied. Commit B on your branch; never on the active
+     branch, never push.
+   - experiment: same inputs replayed through a harness that changes no product code.
+   - blind-ab: the evaluation.md protocol, with the DRAFT as the knowledge under test.
+     Probe from the draft's use_when at a real site. Arm A gets the draft in context,
+     arm B does not; both via `claude -p --model claude-opus-5 --output-format json`
+     in separate folders, writing answers to files. A third `claude -p` judges blind
+     against a rubric written before the arms ran.
+   - simulation: THREE cases pulled from a real tree or its history, each walked
+     under the rule and without it, each with what would falsify the prediction.
+     Invented cases are an opinion and do not count.
+
+4. RETURN, and write nothing to the registry:
+   verdict (better | not-better | unmeasurable | COVERED), mode, target and floor with
+   numbers, arms summary, the draft files in full, the fleet branch + commit if code,
+   the instrument that would measure it if unmeasurable, and anything you refuted.
+```
+
+## Stop rule
+
+Harvest's loop rule applies, with one addition. **A wave whose verdicts are all
+`covered` or `not-better` in one home subject retires that subject from the next three
+waves** - the backlog there is behind the corpus, and spending on it measures the
+ranker's optimism, not the corpus.
