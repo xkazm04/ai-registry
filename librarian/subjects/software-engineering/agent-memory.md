@@ -784,3 +784,7 @@ moved: personas (2), ascent (2). The personas count the scan reports as "14 devi
 is the map's *unknown* count for this subject on that project (14 unknown + 2
 deviations, both UI groups with no seam text) - a demand number to read as unjudged,
 not as fourteen shortfalls.
+
+### 2026-09-16 - `/harvest backlog` wave 1, one technique
+
+`loss-site-inventory`, from four source notes that banked the same shape untriaged. The subject already required a notice at every *designed* cut (recall reports its three numbers; the ladder's bottom rung is a notice). It had nothing for the sites nobody designed as cuts: a second read path with its own number, the seam between a window and a rollup, a cap on the assembled block, the fallback behind the fallback, a skipped read. Measured in code on personas' reviewer memory: a window of 3 beside a digest past 12 hid notes 4-12 from the agent in 204 of 240 swept states with no cap firing, and 0 of 2,059 losses were named before the change against 2,064 of 2,064 after. The placement rule (a notice follows what it qualifies) came from an arm that broke its own floor. Fleet ship pending: personas' crate tests could not launch and its master has foreign staged work in a touched file.

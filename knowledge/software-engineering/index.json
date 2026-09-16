@@ -4,7 +4,7 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 229,
-  "techniques": 1708,
+  "techniques": 1709,
   "applications": 1045,
   "laws": 15,
   "categories": [
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1708/1708",
+  "use_when_coverage": "1709/1709",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -1739,9 +1739,9 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/agent-memory.md",
-   "digest": "sha256:fa76a3f4605c12da",
-   "revision": 32,
-   "changedAt": "2026-09-07",
+   "digest": "sha256:385ad0f656223084",
+   "revision": 33,
+   "changedAt": "2026-09-16",
    "techniques": [
     {
      "slug": "baseline-ladder",
@@ -1882,6 +1882,23 @@
       "a stored memory is never returned by recall",
       "memory lives in a record plus one or more search indexes",
       "deciding whether a store's indexes still agree with its record"
+     ]
+    },
+    {
+     "slug": "loss-site-inventory",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "count-carries-predicate",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a store is read by more than one path and each path takes its own number",
+      "a window of the newest items and a rollup of the oldest are both shown to the agent",
+      "a careful degradation step has a cruder fallback behind it",
+      "deciding where an omission notice is owed",
+      "the agent repeats advice or re-asks something that is stored but was not shown to it"
      ]
     },
     {
@@ -35579,6 +35596,7 @@
     "agent-memory/coverage-instrumentation",
     "agent-memory/durable-store-failure-posture",
     "agent-memory/gap-directed-elicitation",
+    "agent-memory/loss-site-inventory",
     "agent-memory/recall-injection",
     "agent-memory/rollup-compaction",
     "agent-memory/self-trained-capture-filter",
@@ -36267,6 +36285,7 @@
     "agent-memory/coverage-instrumentation",
     "agent-memory/diagnosis-withheld-from-the-executor",
     "agent-memory/lane-reconciliation",
+    "agent-memory/loss-site-inventory",
     "agent-memory/probe-without-write-back",
     "agent-memory/procedure-promotion",
     "agent-memory/recall-injection",
@@ -36693,6 +36712,7 @@
     "agent-memory/durable-store-failure-posture",
     "agent-memory/gap-directed-elicitation",
     "agent-memory/lane-reconciliation",
+    "agent-memory/loss-site-inventory",
     "agent-memory/probe-without-write-back",
     "agent-memory/self-trained-capture-filter",
     "agent-runtime-assembly/additive-input-at-the-call-boundary",

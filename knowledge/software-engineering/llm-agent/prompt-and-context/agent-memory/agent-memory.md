@@ -24,6 +24,7 @@ techniques:
   - durable-store-failure-posture
   - self-trained-capture-filter
   - gap-directed-elicitation
+  - loss-site-inventory
 ---
 
 # Agent memory
@@ -522,3 +523,7 @@ comparison a stated result instead of an unexamined premise.
   the cheap screen that learns from the distiller's silence: type the null
   before training on it, and give the loop an exit, because the screen runs
   upstream of the only oracle that could correct it.
+- [loss-site-inventory](./techniques/loss-site-inventory.md) — where stored
+  content fails to reach the reader without a notice: second doors, the
+  window-to-rollup seam, the cap on the assembled block, the fallback behind the
+  fallback; notices that name kind, count and cause and survive the next cut.
