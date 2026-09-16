@@ -10983,3 +10983,32 @@ observation, and the batch lane already carries half of this idea for a differen
 ### Redesign proposal (not applied)
 
 Phase 5's GAIN table has no row for "corroborated by a fleet tree that independently implemented the corpus's rule", so this run recorded it under the generic convergence `+1`. That undersells it against the other `+1` (two sources reaching the same rule), because a tree cannot be persuaded and did not read the corpus - it is closer to a natural experiment than to a second opinion. If a third run reaches its threshold this way, the table should say so explicitly and the scorecard should carry the count, so the difference between "two people said it" and "a system did it and broke" stops being invisible.
+
+## 2.11.0 - 2026-09-16 - executor
+
+- **The seam hunt does not only originate findings; it refutes the run's own.** v2.8.1
+  says the fleet is a second source. This run's seam hunt did something stronger and
+  worth naming separately: it killed the fleet instance the director had already
+  written down, and the replacement was better. The claimed instance rested on an
+  absence read off a truncated listing; opening the tree showed the lane alive, and the
+  real defect turned out to be a *classification* split across nine projects with two
+  contradictory documented reasons behind it. A seam hunt aimed at confirming a finding
+  will confirm it. Aim it at the finding's weakest factual claim — usually an absence —
+  and it either dies cheaply or comes back load-bearing.
+- **Read a sample of what a script matched before its number enters the note.** The
+  sink scanner's fleet count was inflated by an order of magnitude on one project whose
+  agent configuration includes a long historical run journal: prose *about* a past write
+  is line-for-line indistinguishable from an instruction *to* write. No assertion catches
+  this, because the instrument was working exactly as written. The rule that does catch
+  it is to read rows, and it has now paid three times (`a-count-conceals-what-it-counted`,
+  `grep -L`, this). Consider promoting it into the method at the next bump if a fourth
+  run pays it.
+- **A pathspec commit discards a staged index-only deletion, silently, in both
+  directions.** `git commit -m ... -- <paths>` committed the `.gitignore` half of a
+  two-part change and dropped the `git rm --cached`, *and* reset the index entry, so the
+  follow-up `git status` showed a clean tree over an unfixed repository. The existing
+  guidance covers per-hunk staging of a shared file; the index-only case is the same bug
+  with no visible residue. Recovery: re-stage and commit with **no pathspec**, after
+  checking `git diff --cached --name-status` holds only your change — a bare commit takes
+  the index, not the working tree, so sibling unstaged WIP is safe.
+- Mid-flight runs on 2.11.0: nothing to do, no method file changed this run.
