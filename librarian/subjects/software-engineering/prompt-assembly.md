@@ -450,3 +450,12 @@ Source [[../../sources/2026-09-15-qwenpaw]]: a durable-log context manager with 
 - **Both are unapplied.** No fleet project folds history under pressure or admits a model-written history summary into a standing layer. ascent's serializer cap (`grounding.ts:190`) is a producer cap, which is the fold technique's stated "when not".
 - **Untriaged:** compressing a copy of the outgoing request, with a plain-path fallback (an elision-to-a-refetch-pointer amendment).
 - **Leads:** the visual compression numbers and the durable-log memory scores. Neither ships its scripts.
+
+## 2026-09-16 - /intake SoL-Pi (run `intake-solpi`, intake 2.10.0)
+
+Source [[../../sources/2026-09-16-sol-pi]]: four efficiency mechanisms over a coding-agent harness, read from the clone. One technique, one amendment and three source-tree applications landed; the subject is at 25 techniques.
+
+- **compaction-horizon-breakeven.** The runtime form of the cache trade context-budgeting and amortized-compaction-cadence leave offline: `write × (ratio − 1) / (archive − memo)` against a horizon estimated from the run's own completed boundaries and capped by the window, with a wider first horizon, margin and carried debt afterwards, and the wall overriding. Its boundary came from the apply step: replayed over 166 real sessions, every threshold compaction repaid within two requests, so the test governs early, boundary-triggered compaction only.
+- **summary-evidence-gate** gained its quote-only form: kinds and byte-exact quotes bound to the archived source by hash, which removes the "misattribution to a real range" the gate names as its price, plus the failure-evidence and not-smaller checks. The registry's own instrument for it is `scripts/check-anchors.mjs`.
+- **Applications:** the compaction economics (`node--compaction-horizon-breakeven`, applied experiment, not-better at the wall), the reducer (`node--summary-evidence-gate`), and the observation archive with two full sends and paged recall (`node--elision-to-a-refetch-pointer`, carrying the measured two-sends choice and the archive-at-capture boundary).
+- **Untriaged:** a post-write hash guard as the mirror of mcp-tools/write-freshness-gate (anchors in the source note).

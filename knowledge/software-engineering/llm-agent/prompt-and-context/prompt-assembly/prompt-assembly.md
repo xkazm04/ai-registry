@@ -18,6 +18,7 @@ techniques:
   - continuation-prompts
   - task-envelope
   - amortized-compaction-cadence
+  - compaction-horizon-breakeven
   - speculative-compaction-splice
   - deferred-interface-invalidation
   - endpoint-sealed-continuation-metadata
@@ -488,6 +489,13 @@ disappearing.
   folding one unit of history per turn to hold occupancy flat, the cached
   prefix that pays for it, the two dials only one of which is usually shipped,
   and the cursor rule that never absorbs what the operator wrote.
+- [compaction-horizon-breakeven](./techniques/compaction-horizon-breakeven.md)
+  — the runtime form of the cache trade the cadence leaves to the deployment:
+  a compaction is authorized when its rewrite premium repays before the run's
+  remaining requests, with the horizon estimated from the run's own completed
+  boundaries and capped by the window; why the first compaction gets a wider
+  horizon and every later one carries debt; and the replay showing the test is
+  vacuous at the wall and only governs early, boundary-triggered compaction.
 - [speculative-compaction-splice](./techniques/speculative-compaction-splice.md)
   — the third schedule, which takes the work off the turn's critical path
   entirely: fork at a derived margin below the threshold, summarize beside the

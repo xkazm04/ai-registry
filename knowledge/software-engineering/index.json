@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 229,
-  "techniques": 1703,
-  "applications": 1037,
+  "techniques": 1704,
+  "applications": 1040,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1703/1703",
+  "use_when_coverage": "1704/1704",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -23093,9 +23093,9 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/prompt-assembly.md",
-   "digest": "sha256:6fbb381bf5023ddc",
-   "revision": 31,
-   "changedAt": "2026-09-15",
+   "digest": "sha256:cc07d72bfc81d255",
+   "revision": 32,
+   "changedAt": "2026-09-16",
    "techniques": [
     {
      "slug": "amortized-compaction-cadence",
@@ -23138,6 +23138,23 @@
       "dispatcher rejects a call the prompt explicitly taught",
       "deciding how much detail each operation entry earns",
       "hiding a registered operation to discourage its use"
+     ]
+    },
+    {
+     "slug": "compaction-horizon-breakeven",
+     "status": "forged",
+     "laws": [
+      "limits-are-derived",
+      "count-carries-predicate",
+      "derivation-names-recomputation"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding at runtime whether a completed step is worth compacting away now",
+      "a compaction fires at the window threshold and nowhere else",
+      "choosing the denominator for a compaction's break-even",
+      "a second compaction is proposed before the first one has repaid its rewrite",
+      "a compaction policy needs a cache write/read ratio it cannot look up"
      ]
     },
     {
@@ -23415,7 +23432,9 @@
       "updating a running summary from the previous summary",
       "a summary names a value or identifier nobody can find in the source",
       "the summarization call timed out or failed mid-compaction",
-      "restoring a session whose summary cites history that retention has since purged"
+      "restoring a session whose summary cites history that retention has since purged",
+      "a cheaper model reads a long log before the main model sees it",
+      "deciding whether a delegated reader may paraphrase or must quote"
      ]
     },
     {
@@ -23474,6 +23493,20 @@
     },
     {
      "stack": "node",
+     "technique": "compaction-horizon-breakeven",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/applications/node--compaction-horizon-breakeven.md",
+     "verified_on": "2026-09-16",
+     "verified_against": "node@22"
+    },
+    {
+     "stack": "node",
+     "technique": "elision-to-a-refetch-pointer",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/applications/node--elision-to-a-refetch-pointer.md",
+     "verified_on": "2026-09-16",
+     "verified_against": "node@22"
+    },
+    {
+     "stack": "node",
      "technique": "endpoint-sealed-continuation-metadata",
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/applications/node--endpoint-sealed-continuation-metadata.md",
      "verified_on": "2026-09-03",
@@ -23484,6 +23517,13 @@
      "technique": "foreign-harness-history-folding",
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/applications/node--foreign-harness-history-folding.md",
      "verified_on": "2026-09-15",
+     "verified_against": "node@22"
+    },
+    {
+     "stack": "node",
+     "technique": "summary-evidence-gate",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/applications/node--summary-evidence-gate.md",
+     "verified_on": "2026-09-16",
      "verified_against": "node@22"
     },
     {
@@ -36373,6 +36413,7 @@
     "proactive-nudges/efficacy-feedback",
     "prompt-assembly/amortized-compaction-cadence",
     "prompt-assembly/cache-breakpoint-allocation",
+    "prompt-assembly/compaction-horizon-breakeven",
     "prompt-assembly/consumer-coupled-decoration",
     "prompt-assembly/context-budgeting",
     "prompt-assembly/context-reachability",
@@ -38109,6 +38150,7 @@
     "proactive-nudges/attention-budgets",
     "prompt-assembly/amortized-compaction-cadence",
     "prompt-assembly/cache-breakpoint-allocation",
+    "prompt-assembly/compaction-horizon-breakeven",
     "prompt-assembly/elision-to-a-refetch-pointer",
     "prompt-assembly/fingerprinting-and-cache-keys",
     "prompt-assembly/speculative-compaction-splice",
@@ -38343,6 +38385,7 @@
     "object-shape-representation/weak-forward-transitions-with-counted-prune",
     "paged-block-cache/one-page-size-bought-with-padding",
     "paged-block-cache/release-order-is-the-eviction-policy",
+    "prompt-assembly/compaction-horizon-breakeven",
     "prompt-assembly/elision-to-a-refetch-pointer",
     "register-bytecode-execution/instruction-format-follows-program-lifetime",
     "remote-capability-probing/buffer-by-access-latency-class",

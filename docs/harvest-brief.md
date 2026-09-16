@@ -114,7 +114,10 @@ the line number all belong. Use them freely there — and nowhere else.
 - the **boundary** you drew, in one sentence, against each named neighbour;
 - every **upward lesson** the repo taught your draft;
 - every **deviation** you recorded (the repo falling short of your standard);
-- any **anchor that did not hold** when you re-opened it;
+- any **anchor that did not hold** when you re-opened it - and write every anchor you
+  cite as a root-relative `path:line "short quote"`, because the director runs
+  `node scripts/check-anchors.mjs <report> --root <tree>` over the report and a line
+  number without a quote verifies existence, not the claim;
 - any **proposed law** or cross-subject finding, as a proposal — never as an edit;
 - your `node scripts/check-bundles.mjs` status for YOUR subject only. Mid-wave the gate is
   noisy by design: `taxonomy.json assigns X, no folder` is another worker's pending work.

@@ -6,7 +6,7 @@ technique: summary-evidence-gate
 status: forged
 laws: [derivation-names-recomputation, one-validation-door, failure-not-empty-success]
 shared_with: []
-use_when: [a model-written summary is about to replace history in every later prompt, updating a running summary from the previous summary, a summary names a value or identifier nobody can find in the source, the summarization call timed out or failed mid-compaction, restoring a session whose summary cites history that retention has since purged]
+use_when: [a model-written summary is about to replace history in every later prompt, updating a running summary from the previous summary, a summary names a value or identifier nobody can find in the source, the summarization call timed out or failed mid-compaction, restoring a session whose summary cites history that retention has since purged, a cheaper model reads a long log before the main model sees it, deciding whether a delegated reader may paraphrase or must quote]
 ---
 
 # Summary evidence gate
@@ -139,6 +139,41 @@ it sits the exact sequence range it covers, as the way back to the rows.
   provider error.
 - On failure, keep the last valid summary and render it as stale.
 - Route every write, including restore, through the same validator.
+
+## The quote-only form closes the gap the gate names as its price
+
+The gate above admits **paraphrase with a pointer**, and says what that costs: it
+catches invention and dangling provenance, not misattribution to a real range. There
+is a stricter form for the case where the summary's job is to *select* rather than to
+*restate* — a long build or test log, a diagnostic dump, any source where the few
+lines that change the next decision are already written and only need finding. Ask
+the reducer for **kinds and quotes, no prose**: each item is one label from a closed
+set (fatal, failure, warning, target, summary) and one contiguous quotation, and the
+validator admits the item only when the quotation is a byte-exact substring of the
+archived source, bound to that source by its hash. Misattribution becomes impossible
+by construction, because there is nothing in the item but the source's own bytes and
+a label; the line number is derived by the validator, never reported by the model.
+
+Three checks come with the form and are not available to the paraphrase gate:
+
+- **Status is the runtime's, not the reducer's.** The item set must agree with the
+  outcome the runtime already knows — a failed command may not produce a receipt
+  without at least one fatal or failure quotation when the source carries a failure
+  signal. A summary that reads clean over a red log is the failure this form exists
+  to refuse.
+- **A receipt not smaller than its source is rejected.** The point of the reduction
+  is the tokens it removes from every later prompt; a receipt that removes none is a
+  rewrite for nothing, and the original is cheaper.
+- **Every rejection falls back to the original, with its reason journaled from a
+  closed set** — over-size, likely secret, model timeout, schema, unverifiable quote,
+  missing failure evidence, not smaller. The fallback is free precisely because
+  nothing was summarized in place: the source is still there.
+
+The form trades coverage for certainty. It cannot express "the tests passed except
+for the three below" as a sentence; it can only quote the three. Where the reader
+needs the sentence — a running summary of decisions and constraints across turns —
+the paraphrase gate above is the right one. Where the reader needs the lines, quote
+them, and let the reader keep diagnosis, repair and pass/fail authority for itself.
 
 ## When not to use this
 

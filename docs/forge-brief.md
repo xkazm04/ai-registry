@@ -149,4 +149,7 @@ ignore `taxonomy.json assigns ... which has no folder` failures for subjects tha
 are not yours).
 
 Your final report: 5-10 lines — files written, techniques count, applications count,
-which claims were upward lessons from the repo, and your gate status.
+which claims were upward lessons from the repo, and your gate status. Every anchor in
+your applications is a root-relative `path:line "short quote"`; the director verifies
+them with `node scripts/check-anchors.mjs <document> --root <tree>`, and a line number
+without a quote proves the file exists, not what you said it says.
