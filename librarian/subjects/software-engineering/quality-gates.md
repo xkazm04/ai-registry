@@ -1049,3 +1049,7 @@ in a throwaway repo (no deny: `--no-verify` ran; deny: refused twice under
 bypass mode) and an in-tree dry-run probe against kp's own settings. A dated
 fact the vendor's reference does not state: deny rules are honoured under bypass
 mode at 2.1.263.
+
+### 2026-09-17 - `/harvest backlog` wave 2, one technique from a split verdict
+
+`waiver-names-its-finding`, from [[2026-08-31-omniroute]] and [[2026-08-31-awesome-agentic-patterns]]. The subject owned the escape hatch's economics and suppression-hygiene owned a standing entry's lifecycle; nothing owned the waiver's grammar and reach. Measured by replaying kp's recorded pushes: a presence-check waiver downgraded 7 findings nobody named, a named grammar 0. The unit's second half - never let a waiver cover removed coverage - was refuted in code (8 of 8 legitimate waivers blocked, 5 gate tests broken) and survives only as a scope rule: coverage removal is waivable by exact file name, never by a blanket. The synonym member was already owned by `declared-deviation-register` and `one-authority-per-vocabulary`.

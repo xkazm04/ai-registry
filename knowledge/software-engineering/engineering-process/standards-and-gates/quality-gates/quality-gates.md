@@ -20,6 +20,7 @@ techniques:
   - fabrication-economics
   - advancement-evidence-fields
   - item-liveness
+  - waiver-names-its-finding
   - excess-indicts-the-instrument
   - self-reported-gate-inputs
   - renameable-detector-keys
@@ -602,3 +603,7 @@ is asked to refuse something.
   entrance criterion that decays, deriving last-touched from the trail
   already kept, the liveness predicate a published active count carries,
   and a scheduled reaper that records a rationale and a successor.
+- [waiver-names-its-finding](./techniques/waiver-names-its-finding.md) — the
+  blanket reach of an unnamed waiver, one waiver per finding by identity,
+  malformed waivers ineffective and reported, replaying history when the grammar
+  tightens, and which classes no waiver or no blanket may reach.

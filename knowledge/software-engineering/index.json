@@ -4,7 +4,7 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 229,
-  "techniques": 1710,
+  "techniques": 1711,
   "applications": 1045,
   "laws": 15,
   "categories": [
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1710/1710",
+  "use_when_coverage": "1711/1711",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -24114,9 +24114,9 @@
    "subcategory": "standards-and-gates",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/quality-gates.md",
-   "digest": "sha256:549ce400a7f835c4",
-   "revision": 40,
-   "changedAt": "2026-09-08",
+   "digest": "sha256:394ce29d904674d7",
+   "revision": 41,
+   "changedAt": "2026-09-16",
    "techniques": [
     {
      "slug": "advancement-evidence-fields",
@@ -24465,6 +24465,25 @@
       "deciding whether a green rule was satisfied or was unfalsifiable",
       "seeding a violation to prove a rule can fire",
       "a schema rule and its type declaration say the same thing"
+     ]
+    },
+    {
+     "slug": "waiver-names-its-finding",
+     "status": "forged",
+     "laws": [
+      "absent-guard-is-loud",
+      "count-carries-predicate",
+      "deletion-is-not-repair",
+      "creation-names-reaper"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing the escape hatch a blocking gate offers",
+      "a waiver is written as free prose in a commit message or change description",
+      "one waiver appears to have silenced findings it never mentioned",
+      "tightening the syntax of an existing waiver or allowlist",
+      "deciding which findings a waiver may never downgrade",
+      "deciding whether a waiver needs a linked issue or an expiry"
      ]
     }
    ],
@@ -36247,6 +36266,7 @@
     "quality-gates/fabrication-economics",
     "quality-gates/false-positive-economics",
     "quality-gates/renameable-detector-keys",
+    "quality-gates/waiver-names-its-finding",
     "release-pipeline/size-budgets",
     "repo-manifest-standard/spec-ships-with-artifact",
     "retry-backoff/jittered-revocation-with-irrevocable-terminal",
@@ -36589,6 +36609,7 @@
     "quality-gates/severity-by-construction",
     "quality-gates/shared-substrate-check-partition",
     "quality-gates/vacuous-by-evaluation",
+    "quality-gates/waiver-names-its-finding",
     "quorum-and-recovery-procedures/pick-highest-applied-index",
     "rate-limiting/limit-derivation",
     "rate-limiting/limit-observability",
@@ -37646,6 +37667,7 @@
     "proactive-nudges/notice-delivery-decoupling",
     "public-verdict-badge/outcome-branched-cache",
     "quality-gates/item-liveness",
+    "quality-gates/waiver-names-its-finding",
     "quorum-and-recovery-procedures/cancel-leaves-prior-state-valid",
     "quorum-and-recovery-procedures/single-node-recovery-resize",
     "rate-limiting/key-design",
@@ -38704,6 +38726,7 @@
     "quality-gates/prose-rule-drift",
     "quality-gates/self-reported-gate-inputs",
     "quality-gates/unmeasurable-criteria",
+    "quality-gates/waiver-names-its-finding",
     "quorum-and-recovery-procedures/migration-lock-in-source",
     "quorum-and-recovery-procedures/unauthenticated-ritual-is-a-vulnerability",
     "read-serving-replicas/committed-write-invalidation-hook",
