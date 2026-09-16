@@ -1,7 +1,7 @@
 ---
 subject: authorization
 domain: software-engineering
-last_touched: 2026-09-06
+last_touched: 2026-09-16
 dry_streak: 0
 ---
 
@@ -214,3 +214,45 @@ while the switch is off, silently, and it actuates. Shipped a build-time parity
 checker over the three registration sites: **0 of 4 drift directions detectable
 before, 4 of 4 after**, plus two cannot-check guards so a parser whose shapes
 have moved reports that instead of reporting clean.
+
+## 2026-09-16 — `/intake` over a 25-year-old caching proxy (intake-squid-0916)
+
+Landed `one-accessor-per-fold-direction`, the subject's 12th technique, plus
+two applications (`cpp` the source tree, `next` the fleet). The subject was not
+on the librarian worklist and was not contended; the source chose it.
+
+**What was missing was the consumer side of a rule the subject already owned
+twice.** `read-write-predicate-symmetry` forbids folding owner/shared/unknown
+into a default *before* the check, and `failure-direction` prescribes which way
+every degraded state resolves. Neither addresses what happens when a verdict
+that legitimately kept its uncertainty arrives at a call site with two branches
+— the fold has to happen there, and the API decides whether anyone notices
+making it. The mechanism: one named accessor per fold direction, no boolean
+conversion, and no accessor defined as the negation of another, because in a
+verdict with more than two values `!allowed()` and `denied()` are different
+functions and a two-valued habit reads them as one.
+
+**The boundary this opened in the golden path** is worth flagging for a later
+sweep: the subject asserts fail-closed's asymmetry as unconditional, and that
+is right for the predicates it governs but relies on an unstated precondition —
+the two outcomes are ordered by risk. A mature system evaluates predicates that
+are not (route via this path or that, store this result or not), and they share
+a verdict type with the authority-bearing ones. The scope paragraph now says so
+beside `failure-direction` rather than leaving it implicit.
+
+**The fleet seam was chosen to falsify and half of it did.** An entitlement
+gate computing permission as `charge !== "denied"` over a four-valued type is
+the warned-against shape and is nonetheless correct, because the enum is closed
+and its non-denied members are homogeneous — recorded in the `next`
+application as a refutation of the stronger reading. The live defect was in the
+lane-aware generalization beside it, where two documented-as-different empties
+answered one value and the test asserted the distinction in a comment above an
+assertion that could not observe it.
+
+Untriaged with anchors, for whoever sweeps this subject next: a namespace
+claimed by *shape* rather than by owner name (the host reserves every unmarked
+key including ones it has not invented, which is what makes the check one
+comparison) scored 2/1/2 and fell below threshold only on a contested home —
+it spans `repo-manifest-standard` and `extension-trust-boundary` and belongs to
+neither, being a subprocess protocol.
+
