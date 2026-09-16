@@ -806,10 +806,10 @@
       "profile": "rkb/0.1",
       "purity": "marketing",
       "subjects": 30,
-      "techniques": 181,
-      "applications": 81,
-      "files": 296,
-      "contentHash": "sha256:04b91bfcd702b7a0"
+      "techniques": 182,
+      "applications": 82,
+      "files": 298,
+      "contentHash": "sha256:ff7937fc888189f3"
     },
     {
       "name": "media-generation",
@@ -820,9 +820,9 @@
       "purity": "media",
       "subjects": 20,
       "techniques": 136,
-      "applications": 67,
-      "files": 228,
-      "contentHash": "sha256:8b9c722ca774325d"
+      "applications": 68,
+      "files": 229,
+      "contentHash": "sha256:daa4df0f9b9af3c9"
     },
     {
       "name": "recruiting",
@@ -845,10 +845,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 229,
-      "techniques": 1705,
-      "applications": 1043,
-      "files": 2982,
-      "contentHash": "sha256:a3205502ab0b8b08"
+      "techniques": 1706,
+      "applications": 1045,
+      "files": 2985,
+      "contentHash": "sha256:30d9a038cb717354"
     }
   ],
   "usageEvidence": {

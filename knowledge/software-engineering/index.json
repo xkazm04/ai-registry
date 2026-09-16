@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 229,
-  "techniques": 1705,
-  "applications": 1043,
+  "techniques": 1706,
+  "applications": 1045,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1705/1705",
+  "use_when_coverage": "1706/1706",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -834,7 +834,7 @@
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-addressable-ui/agent-addressable-ui.md",
    "digest": "sha256:26420ee868fae085",
    "revision": 2,
-  "use_when_coverage": "1708/1708",
+   "changedAt": "2026-09-05",
    "techniques": [
     {
      "slug": "agent-pasteable-reference-format",
@@ -2812,7 +2812,7 @@
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/app-shell/app-shell.md",
    "digest": "sha256:ae100598f7bfe8ef",
-  "applications": 1049,
+   "revision": 4,
    "changedAt": "2026-08-30",
    "techniques": [
     {
@@ -15742,9 +15742,9 @@
    "subcategory": "standards-and-gates",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/invariant-placement/invariant-placement.md",
-  "techniques": 1708,
-   "revision": 4,
-   "changedAt": "2026-09-05",
+   "digest": "sha256:6dce2dcd4049292a",
+   "revision": 5,
+   "changedAt": "2026-09-16",
    "techniques": [
     {
      "slug": "build-time-evaluation-of-cross-value-invariants",
@@ -15823,6 +15823,23 @@
      ]
     },
     {
+     "slug": "indistinguishable-members-do-not-rise",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "failure-not-empty-success",
+      "absent-guard-is-loud"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "two parameters of one signature carry the same type",
+      "an encoding is asserted to make a state unrepresentable",
+      "a pair is distinguished only by the order it is written in",
+      "a checker cannot be made to refuse the known-bad construction",
+      "a defect survives because a second defect downstream undoes it"
+     ]
+    },
+    {
      "slug": "initialization-proof-tokens",
      "status": "forged",
      "laws": [
@@ -15870,6 +15887,20 @@
     }
    ],
    "applications": [
+    {
+     "stack": "next",
+     "technique": "indistinguishable-members-do-not-rise",
+     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/invariant-placement/applications/next--indistinguishable-members-do-not-rise.md",
+     "verified_on": "2026-09-16",
+     "verified_against": "next@16.3.3"
+    },
+    {
+     "stack": "node",
+     "technique": "indistinguishable-members-do-not-rise",
+     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/invariant-placement/applications/node--indistinguishable-members-do-not-rise.md",
+     "verified_on": "2026-09-16",
+     "verified_against": "node@22"
+    },
     {
      "stack": "rust",
      "technique": "shape-with-a-not-applicable-member",
@@ -35185,6 +35216,7 @@
     "import-normalization/overlay-merge-absence-semantics",
     "invariant-placement/build-time-evaluation-of-cross-value-invariants",
     "invariant-placement/constraint-deletion-is-silent",
+    "invariant-placement/indistinguishable-members-do-not-rise",
     "ipc-contract/casing-and-naming",
     "ipc-contract/command-registration",
     "ipc-contract/drift-gates",
@@ -35724,6 +35756,7 @@
     "import-normalization/import-validation",
     "import-normalization/lossy-conversion-disclosure",
     "invariant-placement/constraint-deletion-is-silent",
+    "invariant-placement/indistinguishable-members-do-not-rise",
     "invariant-placement/shape-with-a-not-applicable-member",
     "ipc-contract/call-wrapping",
     "ipc-contract/command-registration",
@@ -38536,6 +38569,7 @@
     "import-normalization/durable-intermediate-representation",
     "invariant-placement/consumption-bounds-at-most-once",
     "invariant-placement/derived-properties-cannot-be-forged",
+    "invariant-placement/indistinguishable-members-do-not-rise",
     "invariant-placement/initialization-proof-tokens",
     "invariant-placement/placement-precedes-gate",
     "issuance-policy-ladder/require-one-constraint",
@@ -38705,40 +38739,3 @@
   }
  }
 }
-   "digest": "sha256:6dce2dcd4049292a",
-   "revision": 5,
-   "changedAt": "2026-09-16",
-    {
-     "slug": "indistinguishable-members-do-not-rise",
-     "status": "forged",
-     "laws": [
-      "gate-sees-target",
-      "failure-not-empty-success",
-      "absent-guard-is-loud"
-     ],
-     "shared_with": [],
-     "use_when": [
-      "two parameters of one signature carry the same type",
-      "an encoding is asserted to make a state unrepresentable",
-      "a pair is distinguished only by the order it is written in",
-      "a checker cannot be made to refuse the known-bad construction",
-      "a defect survives because a second defect downstream undoes it"
-     ]
-    },
-    {
-     "stack": "next",
-     "technique": "indistinguishable-members-do-not-rise",
-     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/invariant-placement/applications/next--indistinguishable-members-do-not-rise.md",
-     "verified_on": "2026-09-16",
-     "verified_against": "next@16.3.3"
-    },
-    {
-     "stack": "node",
-     "technique": "indistinguishable-members-do-not-rise",
-     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/invariant-placement/applications/node--indistinguishable-members-do-not-rise.md",
-     "verified_on": "2026-09-16",
-     "verified_against": "node@22"
-    },
-    "invariant-placement/indistinguishable-members-do-not-rise",
-    "invariant-placement/indistinguishable-members-do-not-rise",
-    "invariant-placement/indistinguishable-members-do-not-rise",
