@@ -395,6 +395,34 @@ The `1.0.0` line dropped Node 18 and 20 and compiles to ES2024; `engines.node` i
 application cites this project, so there is no `verified_on` to move — recorded
 here as the witness the two applications' `verified_against` rests on.
 
+## Direction pass (Phase 7.6)
+
+Run against the instrument rather than asserted: `build-fleet-map.mjs --check`
+was **stale**, so the map was regenerated and read.
+`software-engineering/invariant-placement` is present in 3 projects (1 context
+each, all state `unknown`) and classified a **candidate** absence in 10:
+gravity, goat, tracklight, politicas, personas, pof, personas-web,
+systedo-case, gravitone, athena-everywhere.
+
+**Zero proposals written, and the reason is the lane rather than the forces.** A
+direction is a new context or a capability a project's `scope.does` does not
+name. This technique governs a decision made *inside* contexts these projects
+already have - any contract carrying a pair of same-typed values - so raising
+the altitude there is **coverage**, which ships on the recommendation, not a
+direction, which waits for an owner's ledger row. Ten candidate absences is
+therefore not ten directions owed; it is the map correctly reporting that the
+subject governs ground most of the fleet stands on.
+
+*Directions not proposed*: all ten, for the reason above. The one to revisit is
+`personas-web`, where a public boundary consumed by code the authors do not
+control is the closest match to D2's actual forces; that is a coverage question
+for whoever opens its contracts next, and it is recorded here rather than as a
+proposal.
+
+`librarian/fleet-map.json` was regenerated and is **left uncommitted** for the
+same reason as `catalog.json`: it references the sibling's untracked
+`agent-operations` bundle 17 times.
+
 ## Housekeeping
 
 `catalog.json` was regenerated under the `index` lock and is **deliberately left
