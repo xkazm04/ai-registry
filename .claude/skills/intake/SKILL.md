@@ -3,7 +3,7 @@ name: intake
 description: "Mine an external source - a YouTube video, a news roundup, an article, pasted notes, a repository - for what it should change in THIS registry, and in the connected projects that consume it. Ingests the source, reads its design decisions as well as its claims, maps both against existing bundles for prior art, triages with the operator, and lands what survives corroboration - amendments for boundary cases, techniques and subjects for mechanisms, forge handoffs for systems whose architecture the corpus lacks. News sources mostly yield currency signals and leads; that is a successful run. Use when someone shares a link and asks what it means for us."
 category: ai-native
 memory: project
-version: 2.10.0
+version: 2.11.0
 tags: research, sources, memory-lane, admission-gate, render-proof, triage, currency, cross-repo, leads, apply, ab-test, parallel, reference-index, design-read, forge-handoff, directions, fleet-map, peer-study, opus-workers, decision-gate
 ---
 
@@ -664,7 +664,10 @@ forces:     what made the obvious alternative wrong - scale, trust boundary, lat
             a platform limit, an operator constraint
 buys:       the property the decision secures, stated so a team elsewhere could test for it
 rejects:    the alternative the tree did not take, and where it says so
-where:      file:line anchors - the ADR, the module guide, the type that encodes it
+where:      root-relative path:line "quote" anchors - the ADR, the module guide, the
+            type that encodes it. The quote is what makes the anchor checkable:
+            `node scripts/check-anchors.mjs <note> --root <clone>` verifies every
+            one, and a line number without a quote is existence, not evidence (v2.11)
 stage:      the point in the system's own pipeline where the decision is made
 corpus:     the subject whose golden path models this decision's forces - or NONE, with
             the nearest neighbour named and why it does not model them
@@ -1161,7 +1164,9 @@ worker on it before Phase 9**, and stay in the director's chair:
   the spec's listed primaries as its web budget; reconciles read-only against any
   connected tree the bridge names; runs the gate on its own subject; runs no git.
 - The intake session reviews the diff, never the report: gate, purity grep against the
-  source's own vocabulary, one cited line opened, `use_when` on every technique, the
+  source's own vocabulary, every anchor run through `scripts/check-anchors.mjs` against
+  the tree it cites (one cited line opened by hand only where a report carries no
+  quotes), `use_when` on every technique, the
   taxonomy entry appended not reordered. Then regenerate index and catalog, update the
   bundle tables, mark the spec `EXECUTED` with the overrides recorded, write the subject
   note, and commit with a pathspec - the forge's own Phase 4, run by this skill.
@@ -1191,8 +1196,11 @@ non-negotiable buys compliance with a mistake. Ask for the override and the argu
 **Review the diff, never the report.** Run the gate yourself, grep the upper layers for
 purity against the source's own vocabulary (a game-design source is made of game titles;
 a vendor talk is made of product names), confirm `use_when` on every new technique, and
-open one cited line to see that it says what the citation claims. The check is the point,
-not the result.
+run `node scripts/check-anchors.mjs <document> --root <clone>` over every anchor the
+draft cites - open one cited line by hand only where the draft carries no quotes. The
+check is the point, not the result. **"One cited line opened" was a sample, and the
+first run of the instrument over the director's own applications found 39 of 39
+anchors unresolvable as written (v2.11).**
 
 **Check the board immediately before the first write, not at Phase 4.** Minutes have
 passed and siblings have moved:
@@ -1293,6 +1301,18 @@ simulation with invented cases is an opinion and does not count as applied.
 
 **3. Record the verdict in a closed vocabulary**, inherited from the sweep lane's
 measured Before/After rule: `better` / `not-better` / `unmeasurable`.
+
+**A verdict is read against two declared numbers, not one (v2.11).** Name the
+**target** - the number the technique says will move - and the **floor** - the
+number that must not move by more than a stated tolerance, usually the outcome the
+project exists to produce: tasks solved, tests green, verdicts unchanged. `better`
+means the target moved *and* the floor held; a target that moved while the floor
+fell is `not-better`, whatever the target says. The rule comes from a harness
+optimization loop that accepted a mechanism only when every capability metric
+stayed inside its predeclared tolerance and at least one efficiency metric improved,
+and whose own release table shows why the floor has to be declared beforehand: one
+configuration cut cost by a quarter and solved three fewer of sixty-three tasks. A
+row with no floor declared says so in its return condition.
 
 - `better` -> Phase 8 ships it (code) or files it as the project's next change
   (experiment, simulation), and the application document carries `applied: <mode>`
@@ -1489,9 +1509,12 @@ assumed. Phase 7.5 decides *whether* a project change is warranted; this phase g
    that the technique *improves that project*, and the second claim is not evidence
    for itself. Before any cross-repo commit, run a **paired comparison** on the tree
    and record it in the application document under a `proof:` field.
-   - **Name the measurable first** - the number the technique says will move: a
-     split, a rate, a latency, a count of violations, a token cost. No measurable, no
-     commit; a change whose effect cannot be named is a lead, not a landing.
+   - **Name the measurable first, and the floor beside it** - the number the
+     technique says will move: a split, a rate, a latency, a count of violations, a
+     token cost; and the number that must hold within a stated tolerance while it
+     moves (Phase 7.5 step 3, v2.11). No measurable, no commit; a change whose effect
+     cannot be named is a lead, not a landing. A target that moved over a floor that
+     fell is `not-better`.
    - **Prefer A/B: the same input through both arms**, with and without the change,
      on the same instrument. Any scale is admissible - one prompt, one fixture, one
      session - as long as both arms exist and the arm count travels with the number
