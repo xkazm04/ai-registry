@@ -11052,3 +11052,34 @@ Phase 5's GAIN table has no row for "corroborated by a fleet tree that independe
   skip it and dispatch a forge wave is strongest.
 - Mid-flight runs on 2.11.0: nothing to do, no method file changed this run.
 
+
+## 2.11.0 - 2026-09-16 - hyperframes
+
+- **The arm that does not fire is often the one that earns the rule its shape.** The
+  source claims relative animation values are a seek-order hazard; measuring only the
+  hazard would have justified the loose form ("avoid relative values"), which costs
+  expressiveness and buys nothing. A third arm carrying a relative value with *no*
+  second writer came back identical across both entry paths, and that negative is what
+  licensed the narrow claim the technique actually makes. When a source states a hazard
+  with an exemption, test the exemption too - it is the half that becomes a decision rule.
+- **`paired-ab-tie-means-nothing-ran` has a harder variant: a tie where most arms are
+  SUPPOSED to agree.** The first harness returned identical values on all three arms. Two
+  of the three were expected to match, so the sheet read as a partial confirmation rather
+  than as a broken instrument; only arm A also failing to move gave it away. The cause was
+  ESM import hoisting above the environment shims the library needed, so the engine never
+  started. Where a design has more agreeing arms than disagreeing ones, assert that the
+  *control itself changed* between its start and end state, not merely that arms differ.
+- **Anchor grammar is broken by ordinary prose formatting, and it fails to `unquoted`
+  rather than to an error.** All 8 anchors in a draft application parsed as existence-only
+  because markdown line-wrapping had separated each quote from its `path:line`; the
+  checker's grammar excludes newlines. The sheet reads as a clean run with a caveat, not
+  as a failure. Second distinct failure class this instrument has caught in three runs
+  (fabrication, then shorthand syntax, now line-wrapping) - it is worth running even when
+  the citations were copied rather than recalled.
+- **An editor writing CRLF into an LF tree produces a whole-file rewrite that every gate
+  passes.** A 15-line change committed as 383 insertions / 371 deletions; typecheck, lint
+  and the project's hooks were all green, because line endings are not a defect. Caught
+  from the diffstat alone. On any cross-repo commit, read the insertion count against the
+  size of the change before trusting it - a pathspec commit protects you from a sibling's
+  files, not from your own editor.
+- Mid-flight runs on 2.11.0: nothing to do, no method file changed this run.
