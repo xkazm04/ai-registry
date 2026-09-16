@@ -27,3 +27,5 @@ project builds a surface-form graph, so the apply step is a source-tree task. De
 for the backlog: the case contract is a prompt request not code; recall passes run once
 whatever the knob says; longest description wins instead of accumulating; identity
 collisions and extraction recall are unmeasured.
+
+[[2026-09-16-langextract]] (intake) amended `recall-passes-with-a-declared-cap` with blind passes and positional merges. A blind pass repeats the prompt and recovers only through sampling variance. A first-pass-wins span merge drops nested entities of another type and re-appends unlocated items on every pass. The first repair, type-and-span keying, kept a relabel on the source library's own test fixture, so the landed rule is declared nesting plus recorded conflicts (wrong outcomes 2/4, 1/4, 0/4 across the three merges). Application against the source tree; no fleet project runs multi-pass extraction.

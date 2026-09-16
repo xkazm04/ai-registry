@@ -15,6 +15,7 @@ techniques:
   - display-vs-machine-channels
   - extraction-observability
   - enumerable-domain-decoding
+  - graded-span-grounding
 ---
 
 # Structured model output & artifact extraction
@@ -332,3 +333,7 @@ by [extraction-observability](./techniques/extraction-observability.md).
   ban on cross-channel parsing.
 - [extraction-observability](./techniques/extraction-observability.md) — the
   numbers that reveal prompt and schema drift before users do.
+- [graded-span-grounding](./techniques/graded-span-grounding.md) — the model
+  returns text and the system computes where it is: aligning against the view
+  the model was shown, graded matches where only exact admits, record
+  boundaries, repeated mentions, and examples checked by the same aligner.

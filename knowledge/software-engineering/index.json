@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 229,
-  "techniques": 1704,
-  "applications": 1040,
+  "techniques": 1705,
+  "applications": 1043,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1704/1704",
+  "use_when_coverage": "1705/1705",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -16840,9 +16840,9 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/llm-extracted-entity-graph/llm-extracted-entity-graph.md",
-   "digest": "sha256:f0fba0e9fe834732",
-   "revision": 1,
-   "changedAt": "2026-09-03",
+   "digest": "sha256:bbc027c9e0c6b9fd",
+   "revision": 2,
+   "changedAt": "2026-09-16",
    "techniques": [
     {
      "slug": "accumulate-then-threshold-merge",
@@ -16870,6 +16870,7 @@
      "shared_with": [],
      "use_when": [
       "a single extraction pass returns a plausible handful",
+      "merging blind re-sample passes by span overlap",
       "deciding how many further passes a passage gets",
       "a re-prompt loop that started inventing entities",
       "extraction that was skipped for budget and reported as complete"
@@ -16909,6 +16910,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "python",
+     "technique": "recall-passes-with-a-declared-cap",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/llm-extracted-entity-graph/applications/python--recall-passes-with-a-declared-cap.md",
+     "verified_on": "2026-09-16",
+     "verified_against": "python@3.10"
+    },
     {
      "stack": "python",
      "technique": "surface-form-identity-and-its-risk",
@@ -29889,9 +29897,9 @@
    "subcategory": "prompt-and-context",
    "status": "reconciled",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/structured-output/structured-output.md",
-   "digest": "sha256:89a19f1e918f1d65",
-   "revision": 11,
-   "changedAt": "2026-09-06",
+   "digest": "sha256:272b0e1ee3ec1592",
+   "revision": 12,
+   "changedAt": "2026-09-16",
    "techniques": [
     {
      "slug": "answer-coverage-gating",
@@ -30010,6 +30018,26 @@
      ]
     },
     {
+     "slug": "graded-span-grounding",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "one-authority-per-vocabulary",
+      "unknown-is-not-a-value",
+      "one-validation-door"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a model returns quotes or extracted spans that are supposed to come from a source",
+      "verifying a citation before it awards points or enters a standing record",
+      "highlighting where in a document an extraction came from",
+      "a verbatim-quote check rejects quotes that look faithful",
+      "choosing between exact and fuzzy matching for model-cited text",
+      "the same phrase occurs several times in the source",
+      "few-shot examples show extractions the validator would reject"
+     ]
+    },
+    {
      "slug": "op-grammar-allowlisting",
      "status": "forged",
      "laws": [
@@ -30059,6 +30087,13 @@
    "applications": [
     {
      "stack": "node",
+     "technique": "graded-span-grounding",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/structured-output/applications/node--graded-span-grounding.md",
+     "verified_on": "2026-09-16",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
      "technique": "schema-validation-and-repair",
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/structured-output/applications/node--schema-validation-and-repair.md",
      "verified_on": "2026-08-22"
@@ -30076,6 +30111,13 @@
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/structured-output/applications/python--enumerable-domain-decoding.md",
      "verified_on": "2026-09-06",
      "verified_against": "python@3.12"
+    },
+    {
+     "stack": "python",
+     "technique": "graded-span-grounding",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/structured-output/applications/python--graded-span-grounding.md",
+     "verified_on": "2026-09-16",
+     "verified_against": "python@3.10"
     },
     {
      "stack": "rust",
@@ -35350,6 +35392,7 @@
     "status-vocabulary/timestamp-display",
     "status-vocabulary/vocabulary-chain-integrity",
     "structured-output/answer-coverage-gating",
+    "structured-output/graded-span-grounding",
     "subprocess-lifecycle/concurrency-and-slots",
     "subprocess-lifecycle/host-resource-protection",
     "subprocess-lifecycle/liveness-and-heartbeats",
@@ -36740,6 +36783,7 @@
     "structured-output/constrained-decoding-is-a-shared-budget",
     "structured-output/constraint-and-tool-channel-exclusion",
     "structured-output/enumerable-domain-decoding",
+    "structured-output/graded-span-grounding",
     "structured-output/schema-validation-and-repair",
     "subscription-billing-periods/boundary-stitch-on-timezone-change",
     "subscription-billing-periods/timezone-anchored-period-dates",
@@ -36965,6 +37009,7 @@
     "stream-proxy-hop/credential-attachment-at-the-hop",
     "stream-proxy-hop/origin-non-disclosure",
     "structured-output/enumerable-domain-decoding",
+    "structured-output/graded-span-grounding",
     "structured-output/op-grammar-allowlisting",
     "structured-output/schema-validation-and-repair",
     "subprocess-lifecycle/spawn-contract",
@@ -37936,6 +37981,7 @@
     "stream-proxy-hop/upstream-status-normalization",
     "streaming-output/phase-derivation",
     "streaming-output/stream-parsing",
+    "structured-output/graded-span-grounding",
     "structured-output/op-grammar-allowlisting",
     "structured-output/schema-validation-and-repair",
     "subscription-billing-periods/timezone-anchored-period-dates",
