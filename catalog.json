@@ -755,9 +755,9 @@
       "purity": "game",
       "subjects": 52,
       "techniques": 328,
-      "applications": 139,
-      "files": 523,
-      "contentHash": "sha256:9445456e22e47086"
+      "applications": 140,
+      "files": 524,
+      "contentHash": "sha256:e04e37b9f6987dc1"
     },
     {
       "name": "grant-funding",
@@ -845,10 +845,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 229,
-      "techniques": 1703,
-      "applications": 1037,
-      "files": 2974,
-      "contentHash": "sha256:a0d91f6a8a3207ba"
+      "techniques": 1704,
+      "applications": 1040,
+      "files": 2978,
+      "contentHash": "sha256:34a040727c3c188b"
     }
   ],
   "usageEvidence": {
