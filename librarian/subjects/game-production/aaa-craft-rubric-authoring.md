@@ -263,3 +263,10 @@ except where quoted above.
   }
 }
 ```
+
+## Intake - 2026-09-16 (find-me-a-freaking-job)
+
+- `lens-versioning-as-invalidation` gained the section "Injected context: evidence or steering". A repository source deliberately kept reviewer rejections out of its verdict validity key, which inverts the file's "if it could change a grade, bump" for inputs meant to act forward-only. The discriminator is whether a finding can rest on the input.
+- Applied to pof as an experiment, verdict better. Of 143 bound panel verdicts with siblings, 131 had a sibling updated since judgment: full binding stales 131, per-dimension (coherence weakest) 13, as built 0. The application is `applications/node--lens-versioning-as-invalidation.md`.
+- Independent convergence: the same source shows stale scores faded rather than blanked, which matches "display stale-under-current-policy separately from never judged".
+- Owed in pof: a digest of the sibling projection on each verdict. Until then drift is measured from modification times, which overstates it.

@@ -6,7 +6,7 @@ technique: lens-versioning-as-invalidation
 status: forged
 laws: [a-verdict-is-bound-to-its-content, unmeasured-is-not-a-pass, law-and-check-share-one-source]
 shared_with: []
-use_when: [changing a criterion threshold or a level anchor, comparing grades across time, a rubric edit is about to re-mean historical verdicts]
+use_when: [changing a criterion threshold or a level anchor, comparing grades across time, a rubric edit is about to re-mean historical verdicts, a judge prompt injects neighbouring artifacts or reviewer feedback and the verdict records neither]
 ---
 
 # The lens version is the invalidation switch
@@ -89,6 +89,57 @@ verdict also dies when the **lens** changes, which is this technique. Implementi
 one leaves a whole class of stale passes standing: fingerprint-only misses every rubric
 edit, version-only misses every artifact edit. They are cheap to run together and
 neither substitutes for the other.
+
+## Injected context: evidence or steering
+
+A judge prompt usually carries a third kind of input besides the lens and the artifact:
+material the scoring path injects around them. That might be the neighbouring artifacts
+the judge must stay consistent with, the reasons a reviewer gave for rejecting earlier
+items, or a list of recent decisions. Each can move a grade, so the mechanical test above
+says bump. Read literally, that turns every neighbour edit and every reviewer decision
+into a version change, and it produces the invalidation storm this file warns against.
+Leaving the input out altogether is not safe either. The question that separates the two
+cases is: **could a finding rest on this input as a fact about the artifact?**
+
+- **Steering** shapes how the judge weighs things, but no finding can cite it. Reviewer
+  taste is the typical case: "earlier items like this were turned down for being
+  consultancy work" should lower the next similar item's score. It says nothing true or
+  false about the item already scored. Keep steering out of the invalidation key, because
+  its effect is meant to be forward-only. Still store a digest of the steering snapshot
+  on every verdict, and label any ranking that spans snapshots as mixed. A verdict that
+  cannot say which steering it was scored under turns every later comparison into
+  guesswork.
+- **Evidence** is material the judge is told to check the artifact against, so a finding
+  can rest on it: "contradicts the value in the neighbouring step." When the evidence
+  changes, the finding may no longer be true, and the verdict is stale in exactly the way
+  an artifact edit makes it stale. The binding is **per dimension**, though, not per
+  verdict. Store a digest of the context the judge read. When that digest moves,
+  invalidate only the verdicts whose failing dimension is the one that reads that
+  context. Every other verdict treats the change as steering.
+
+Treating injected context as all evidence, or as all steering, fails both ways, and the
+failure is large enough to measure. One store held 143 bound verdicts, each scored with a
+projection of its neighbouring artifacts in the prompt. For 131 of them, a neighbour had
+been modified since the judgment:
+
+- **Full binding** would have cleared all 131, silencing 92% of the standing
+  condemnations.
+- **No binding**, the design as found, kept all 131 standing.
+- **Per-dimension binding** marked 13. In those, the consistency dimension was the
+  weakest score, and one of them condemned an off-by-one computed from a neighbour's
+  value.
+
+The count is an upper bound on drift. The store recorded no digest of the projection it
+scored against, so drift could only be measured from modification times, and a
+neighbour edit need not have changed the projection. That missing record is the rule
+behind the numbers: **capture the context digest at judgment time, because nothing
+reconstructs it afterwards.**
+
+Keeping steering out of the key does not remove the lens axis. A system that
+deliberately kept reviewer feedback out of its validity key had also left out the model
+identity and the judge's scoring scale. Changing either one silently re-meant every score,
+which is the ordinary stale-lens failure, not a steering case. Check each excluded input
+against the steering test on its own.
 
 ## Decision rules
 

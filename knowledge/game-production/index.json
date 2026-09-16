@@ -5,7 +5,7 @@
   "source": "knowledge/game-production/ (frontmatter only)",
   "subjects": 52,
   "techniques": 328,
-  "applications": 139,
+  "applications": 140,
   "laws": 13,
   "categories": [
    "systems-canon",
@@ -26,9 +26,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/craft-judgment/aaa-craft-rubric-authoring/aaa-craft-rubric-authoring.md",
-   "digest": "sha256:112b068540a8ca2e",
-   "revision": 3,
-   "changedAt": "2026-09-10",
+   "digest": "sha256:2854a19d5ecc3b5a",
+   "revision": 4,
+   "changedAt": "2026-09-16",
    "techniques": [
     {
      "slug": "capped-disqualifiers",
@@ -130,7 +130,8 @@
      "use_when": [
       "changing a criterion threshold or a level anchor",
       "comparing grades across time",
-      "a rubric edit is about to re-mean historical verdicts"
+      "a rubric edit is about to re-mean historical verdicts",
+      "a judge prompt injects neighbouring artifacts or reviewer feedback and the verdict records neither"
      ]
     },
     {
@@ -169,6 +170,13 @@
      "technique": "deliberately-overlapping-criteria",
      "file": "knowledge/game-production/craft-judgment/aaa-craft-rubric-authoring/applications/node--deliberately-overlapping-criteria.md",
      "verified_on": "2026-09-02"
+    },
+    {
+     "stack": "node",
+     "technique": "lens-versioning-as-invalidation",
+     "file": "knowledge/game-production/craft-judgment/aaa-craft-rubric-authoring/applications/node--lens-versioning-as-invalidation.md",
+     "verified_on": "2026-09-16",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
