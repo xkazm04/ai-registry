@@ -13,6 +13,7 @@ techniques:
   - build-time-evaluation-of-cross-value-invariants
   - derived-properties-cannot-be-forged
   - shape-with-a-not-applicable-member
+  - indistinguishable-members-do-not-rise
 ---
 
 # Invariant placement
@@ -48,6 +49,11 @@ and its lesson generalises: a set of independent flags obliges every write site
 to prevent every illegal combination, and write sites multiply. Nothing is
 checked at this altitude because there is nothing to check. That is the whole
 appeal, and it is also why the altitude has no observable liveness — see below.
+The appeal is conditional too, on a precondition the literature leaves out: the
+checker refuses only the distinctions it can *see*, so a rule separating two
+members of the same type is not enforced at this altitude at all, however
+structural the encoding looks
+([indistinguishable members](./techniques/indistinguishable-members-do-not-rise.md)).
 
 **Door.** The value's kind says it was validated, and the only way to obtain
 one is through the constructor that validated it. Downstream signatures then

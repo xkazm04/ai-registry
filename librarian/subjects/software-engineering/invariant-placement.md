@@ -1,7 +1,7 @@
 ---
 subject: invariant-placement
 domain: software-engineering
-last_touched: 2026-09-04
+last_touched: 2026-09-16
 dry_streak: 0
 ---
 
@@ -109,3 +109,62 @@ for lifetime diagnostics, so the tree sits in the technique's own third fallback
 branch, small fixture count and all. The corpus priced the tree's choice before
 the tree was read.
 
+### 2026-09-16 - `/intake`, one technique + a golden-path clause
+
+`indistinguishable-members-do-not-rise`, from [[2026-09-16-modernweb-web]]
+(a dev server and test runner monorepo). Routing count was 2, so no handoff.
+
+**What it adds, and why it is a technique rather than an amendment.** The
+subject's Shape altitude promises that the illegal combination has no
+expression, so nothing is checked because there is nothing to check. That
+promise has an unstated precondition: **a structural checker refuses only the
+distinctions it can see.** Where a rule separates two members of the *same
+type* - a start and an end, a line and a column, a handle and a row key - the
+encoding reads as a shape and enforces nothing but the order the members are
+written in, which is a call-site convention. The invariant never rose.
+
+That is a mechanism the subject lacked rather than a boundary on one it owned,
+which is why it is a technique: it carries a diagnostic (write the known-bad
+construction and try to make the checker reject it - if the violation compiles,
+the altitude was never reached), two failure shapes, the compensating-pair rule,
+and a repair whose one-directional assignability makes it incrementally
+adoptable. The golden path's Shape paragraph gained one clause naming the
+precondition and pointing here. It **refutes a standing sentence**, which is the
+first time this subject has been contradicted rather than extended.
+
+Two failure shapes, both witnessed in one tree: a positional contract whose
+third and fourth parameters are transposed against its own declared type (names
+are not part of structural compatibility), and a value table cast into a union
+member by member, which inverts so that the comparison against the value the
+table really produces is refused and the one nothing produces is accepted.
+
+**The compensating pair is the part worth remembering.** The source's
+transposition is invisible because its one consumer swaps the pair back at the
+throw site, against a constructor whose own order is the opposite. The rendered
+output has always been correct, no test can fail, and the two defects are now
+load-bearing - repairing either end alone starts reporting positions off by a
+line. Both halves of the corpus rule came from the wrong implementation.
+
+**Overlap to know about, so a future run does not re-derive it.** The technique's
+*when not to use it* section names an instrument hazard - a type-level negative
+artifact excluded from the very check that would run it - which is the same
+principle as the 2026-09-05 amendment to `constraint-deletion-is-silent` above,
+reached by a different mechanism. That amendment covers version and platform
+*guards* on the artifact; this covers a **file-glob exclusion in the checker's
+own configuration**, which is not conditional and not written near the artifact.
+Witnessed live: the fleet artifact was first written as a test file and stayed
+green with the constraint deleted, because that project's typecheck excludes
+every test file. If a third mechanism turns up, the three should probably collapse
+into one technique about artifact reachability rather than three notes.
+
+Applications: 1 -> 3. `node--` (the source tree, anchors=18 held=18) and
+`next--` (the fleet seam, anchors=11 held=11, `applied: code`,
+`ab_verdict: better`, `proof: ab-paired`). The fleet arm is the subject's first
+`code`-mode landing: a tenant boundary that lived in a comment over two plain
+strings, where an injected slug-for-id confusion gave 0 typecheck errors and
+70/70 green tests before the brands and TS2345 after. The affordability number is
+the one to quote next time the subject's price #5 (a wrong encoding is a one-way
+door) comes up: branding the producing door plus 13 consumer parameters cost 4
+typecheck errors and 2 one-line edits across 221 surfaces, because a branded
+primitive is assignable *to* the primitive and not from it, so the altitude rises
+one consumer at a time.
