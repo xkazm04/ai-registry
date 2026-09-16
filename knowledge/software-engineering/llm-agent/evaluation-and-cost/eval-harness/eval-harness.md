@@ -25,6 +25,7 @@ techniques:
   - outcome-conditioned-cost
   - probe-the-decision-not-the-artifact
   - pairing-schedule
+  - uncontrolled-games-beside-the-win-rate
 ---
 
 # Evaluation & benchmarking
@@ -413,6 +414,10 @@ are a design input, not an afterthought: [eval-economics](./techniques/eval-econ
   arena actually ran: why a bracket finds a winner but cannot rank a field,
   balancing exposure across sessions, and the connectivity check before a
   total order.
+- [uncontrolled-games-beside-the-win-rate](./techniques/uncontrolled-games-beside-the-win-rate.md) —
+  the game whose swap never completed: why neither face value nor a silent drop
+  is honest, exclusions charged per candidate against the schedule, and forced
+  ties counted apart from agreed ones.
 - [eval-economics](./techniques/eval-economics.md) — mock modes, cache
   lifetimes, fan-out caps, tiered cadence, the budget as a design input.
 - [discriminating-task-selection](./techniques/discriminating-task-selection.md) —

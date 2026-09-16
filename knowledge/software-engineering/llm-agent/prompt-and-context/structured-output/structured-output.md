@@ -336,4 +336,5 @@ by [extraction-observability](./techniques/extraction-observability.md).
 - [graded-span-grounding](./techniques/graded-span-grounding.md) — the model
   returns text and the system computes where it is: aligning against the view
   the model was shown, graded matches where only exact admits, record
-  boundaries, repeated mentions, and examples checked by the same aligner.
+  boundaries, repeated mentions, examples checked by the same aligner, and the
+  tier of the location a resolved citation lands on.

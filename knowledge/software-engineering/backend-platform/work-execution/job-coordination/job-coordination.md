@@ -14,6 +14,7 @@ techniques:
   - terminal-state-recovery
   - job-observability
   - atomic-claiming@delivery-guarantees
+  - marker-certifies-what-was-done@delivery-guarantees
   - job-progress-and-cancellation@background-jobs
 ---
 

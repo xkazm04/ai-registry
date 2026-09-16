@@ -190,6 +190,10 @@ line destroys the reinforcement signal the
 [memory-value-model](./memory-value-model.md) and supersedence arbitration both
 read. Do not compact across trust grades — an operator-issued correction
 folded into a rollup of inferences loses the grade that made it authoritative.
+Do not compact across ownership scopes either - namespace, visibility, the
+author of a private item: similarity says two items say the same thing, never
+that they belong to the same owner, and the family must be partitioned by scope
+before it is clustered ([scope-before-similarity](./scope-before-similarity.md)).
 And do not run compaction on a store whose duplicates are a *capture* defect:
 if one event is minting six near-identical items, the repair is upstream at
 the write path, not a pass that tidies the output forever.

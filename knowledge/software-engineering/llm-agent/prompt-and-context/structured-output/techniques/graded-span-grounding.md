@@ -4,9 +4,11 @@ type: technique
 subject: structured-output
 technique: graded-span-grounding
 status: forged
-laws: [gate-sees-target, one-authority-per-vocabulary, unknown-is-not-a-value, one-validation-door]
+laws: [gate-sees-target, one-authority-per-vocabulary, unknown-is-not-a-value, one-validation-door, derivation-names-recomputation]
 shared_with: []
-use_when: [a model returns quotes or extracted spans that are supposed to come from a source, verifying a citation before it awards points or enters a standing record, highlighting where in a document an extraction came from, a verbatim-quote check rejects quotes that look faithful, choosing between exact and fuzzy matching for model-cited text, the same phrase occurs several times in the source, few-shot examples show extractions the validator would reject]
+applied: code
+ab_verdict: better
+use_when: [a model returns quotes or extracted spans that are supposed to come from a source, verifying a citation before it awards points or enters a standing record, highlighting where in a document an extraction came from, a verbatim-quote check rejects quotes that look faithful, choosing between exact and fuzzy matching for model-cited text, the same phrase occurs several times in the source, few-shot examples show extractions the validator would reject, a claim cites two documents as agreeing and one may be generated from the other, a citation audit passes and nobody asked what the cited file was derived from]
 ---
 
 # Graded span grounding
@@ -176,6 +178,9 @@ validator.
 - Assign repeated phrases by order-preserving, non-overlapping assignment when output
   order is reading order; otherwise record first-occurrence binding as the fallback.
 - Validate few-shot examples through the same aligner and policy before the first call.
+- Classify every cited location as primary or derived before it awards anything. A
+  derived location may locate a claim but never corroborate one, and a claim that two
+  documents agree is rejected when one is derived from the other.
 
 ## What grounding does not prove
 
@@ -184,6 +189,55 @@ read it correctly. A real line can still be misread, a drug can be real and attr
 the wrong patient, a command can be quoted from a file that deprecates it. Grounding
 narrows fabrication to misinterpretation, and misinterpretation is auditable only because
 the span can now be shown next to the claim. Show it.
+
+## A resolved citation is only as primary as the file it lands on
+
+Grounding answers *is this text where the item says*. It is silent on a second question
+that decides whether the answer means anything: **is the place it points at a source, or
+something derived from one?** A generated summary, a projected copy of another document, an
+index page rendered from a digest of a truncated read - every one of these is text the
+system holds, every quote from it aligns exactly, and a citation audit over them passes
+completely while the chain of evidence behind it is empty. Each derivation layer is also a
+loss: a summary of a prefix of a flattened copy has already discarded what the audit would
+need, and nothing in the resolved pointer says so.
+
+The failure has a sharp form wherever a claim is *relational*. A claim that two documents
+agree needs two citations, and a verifier that checks each one independently will accept
+a document and its own generated projection: both quotes resolve, both are verbatim, and
+the pair proves only that the copy step ran once. The agreement is a property of the
+generator, not evidence about the thing being judged. A projection that has since drifted
+elsewhere still carries every line it inherited, so "only byte-identical copies are
+excluded" is not enough.
+
+The rule for the verifier:
+
+- **Classify the cited location by tier before it may award anything.** Primary means
+  authored where it stands; derived means produced from another location (it names its
+  source in a header, it is byte-identical to another file's body, it lives in a
+  directory the system itself generates). Derivation that names its origin
+  ([derivation-names-recomputation](../../../../_laws.md#derivation-names-recomputation)) is exactly
+  what makes the tier checkable.
+- **A derived location may locate; it may not corroborate.** It can be shown to a reader
+  as where the claim was found. It cannot satisfy an evidence requirement, and it can
+  never be the second witness to its own source.
+- **Reject a relational claim whose citations share an origin**, with its own closed
+  reason (a derived-citation rejection, distinct from quote-not-found), so the rejection
+  rate is readable rather than folded into fabrication.
+- **Keep the exclusion to agreement.** A disagreement between a source and its own
+  projection is real evidence - the copy drifted - and is still admitted.
+- **Keep the deterministic path and the model path on one rule.** A detector that already
+  refuses to count a copy as a second author, beside a claim verifier that does not, pays
+  the model for exactly the evidence the detector declined
+  ([gate-sees-target](../../../../_laws.md#gate-sees-target)).
+
+Measured on a scoring engine that awards points for model claims verified by verbatim
+quote: before the rule, a claim citing a guidance document and its generated projection
+as two files that agree verified and awarded the facet's full points on an in-sync
+projection and on a drifted one, and the deterministic detector counted the drifted
+projection as an independent agreeing document although its own comment called that
+agreement a tautology. After the rule, all three awarded nothing, two independently
+written documents that agree still awarded the full points, and the project's whole
+test suite and typecheck stayed green.
 
 ## When not to use this
 

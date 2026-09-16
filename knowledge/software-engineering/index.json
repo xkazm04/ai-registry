@@ -4,7 +4,7 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 229,
-  "techniques": 1711,
+  "techniques": 1714,
   "applications": 1045,
   "laws": 15,
   "categories": [
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1711/1711",
+  "use_when_coverage": "1714/1714",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -1739,8 +1739,8 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/agent-memory.md",
-   "digest": "sha256:385ad0f656223084",
-   "revision": 33,
+   "digest": "sha256:4a956cefb2da8051",
+   "revision": 34,
    "changedAt": "2026-09-16",
    "techniques": [
     {
@@ -2044,6 +2044,23 @@
       "the store grew by accretion",
       "many items say one thing",
       "compressing without deleting"
+     ]
+    },
+    {
+     "slug": "scope-before-similarity",
+     "status": "forged",
+     "laws": [
+      "one-validation-door",
+      "derivation-names-recomputation"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a compaction or reflection pass clusters memories by similarity",
+      "a distiller or consolidation pass chooses its input window",
+      "one store holds several projects or private scratch beside shared items",
+      "a rollup or merged item is written with a scope field",
+      "a merge or supersede accepts a member list from a caller",
+      "the test fixtures for a maintenance pass all share one scope"
      ]
     },
     {
@@ -9396,9 +9413,9 @@
    "subcategory": "work-execution",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/work-execution/delivery-guarantees/delivery-guarantees.md",
-   "digest": "sha256:aed68b8c6d6ae2a0",
-   "revision": 5,
-   "changedAt": "2026-09-04",
+   "digest": "sha256:068b277142d3efdc",
+   "revision": 6,
+   "changedAt": "2026-09-16",
    "techniques": [
     {
      "slug": "atomic-claiming",
@@ -9460,6 +9477,27 @@
       "choosing between risking duplicates and risking loss",
       "duplicates appear only after a restart",
       "auditing a claimed exactly-once guarantee"
+     ]
+    },
+    {
+     "slug": "marker-certifies-what-was-done",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "unknown-is-not-a-value",
+      "count-carries-predicate",
+      "record-precedes-effect"
+     ],
+     "shared_with": [
+      "job-coordination"
+     ],
+     "use_when": [
+      "a watermark or offset advances after a batch is sent",
+      "a seen or consumed marker is written at fetch time and a later stage is capped or can skip",
+      "a run that exited cleanly but changed nothing is recorded as done",
+      "an idempotency check skips work because a record with the right name already exists",
+      "a container is created before its contents and completed last",
+      "a producer may append to the input while the consumer is reading it"
      ]
     },
     {
@@ -12767,9 +12805,9 @@
    "subcategory": "evaluation-and-cost",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/eval-harness/eval-harness.md",
-   "digest": "sha256:dfa66dd9b9149cc8",
-   "revision": 30,
-   "changedAt": "2026-09-07",
+   "digest": "sha256:3ba6de69a4a6aa5d",
+   "revision": 31,
+   "changedAt": "2026-09-16",
    "techniques": [
     {
      "slug": "assertion-vs-judgment",
@@ -13100,6 +13138,22 @@
       "admitting a generated scenario into the suite",
       "scores barely moved when the material under test was removed",
       "a model upgrade landed and the suite quietly got easier"
+     ]
+    },
+    {
+     "slug": "uncontrolled-games-beside-the-win-rate",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a pairwise round-robin reports a win-rate ranking",
+      "one order of a swapped pair failed or never ran",
+      "a candidate failed to generate on some cases and its games were skipped",
+      "ties forced by an order flip are tallied with ties the judge agreed on",
+      "a ranking's leader played fewer games than the field"
      ]
     }
    ],
@@ -16215,9 +16269,9 @@
    "subcategory": "work-execution",
    "status": "reconciled",
    "file": "knowledge/software-engineering/backend-platform/work-execution/job-coordination/job-coordination.md",
-   "digest": "sha256:4bdf08d3be113f36",
-   "revision": 14,
-   "changedAt": "2026-09-04",
+   "digest": "sha256:1e6c05c01dddbbb8",
+   "revision": 15,
+   "changedAt": "2026-09-16",
    "techniques": [
     {
      "slug": "in-flight-is-a-position",
@@ -24116,7 +24170,7 @@
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/quality-gates.md",
    "digest": "sha256:394ce29d904674d7",
    "revision": 41,
-   "changedAt": "2026-09-16",
+   "changedAt": "2026-09-17",
    "techniques": [
     {
      "slug": "advancement-evidence-fields",
@@ -30000,8 +30054,8 @@
    "subcategory": "prompt-and-context",
    "status": "reconciled",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/structured-output/structured-output.md",
-   "digest": "sha256:272b0e1ee3ec1592",
-   "revision": 12,
+   "digest": "sha256:d2e444c639b21ac1",
+   "revision": 13,
    "changedAt": "2026-09-16",
    "techniques": [
     {
@@ -30127,7 +30181,8 @@
       "gate-sees-target",
       "one-authority-per-vocabulary",
       "unknown-is-not-a-value",
-      "one-validation-door"
+      "one-validation-door",
+      "derivation-names-recomputation"
      ],
      "shared_with": [],
      "use_when": [
@@ -30137,7 +30192,9 @@
       "a verbatim-quote check rejects quotes that look faithful",
       "choosing between exact and fuzzy matching for model-cited text",
       "the same phrase occurs several times in the source",
-      "few-shot examples show extractions the validator would reject"
+      "few-shot examples show extractions the validator would reject",
+      "a claim cites two documents as agreeing and one may be generated from the other",
+      "a citation audit passes and nobody asked what the cited file was derived from"
      ]
     },
     {
@@ -35748,6 +35805,7 @@
     "delivery-analytics/delivery-metric-denominators",
     "delivery-analytics/off-platform-signal-detection",
     "delivery-guarantees/dead-letter-design",
+    "delivery-guarantees/marker-certifies-what-was-done",
     "delivery-guarantees/non-delivery-ledgers",
     "delivery-guarantees/ordered-lane-blocking",
     "delivery-guarantees/stuck-reaping",
@@ -35810,6 +35868,7 @@
     "eval-harness/probe-the-decision-not-the-artifact",
     "eval-harness/resolution-precondition",
     "eval-harness/selection-over-noise",
+    "eval-harness/uncontrolled-games-beside-the-win-rate",
     "execution-state-checkpointing/restore-semantics-belong-to-the-format",
     "executive-reporting/grounded-narrative-generation",
     "executive-reporting/provenance-caveats",
@@ -36402,6 +36461,7 @@
     "delivery-analytics/post-landing-repair-density",
     "delivery-analytics/revert-linkage",
     "delivery-analytics/review-coverage-rate",
+    "delivery-guarantees/marker-certifies-what-was-done",
     "delivery-guarantees/retry-escalation",
     "demo-data-plane/fake-surface-honesty-contract",
     "dependency-declaration/declaration-cost-floor",
@@ -36451,6 +36511,7 @@
     "eval-harness/selection-over-noise",
     "eval-harness/treatment-election-rate",
     "eval-harness/unaided-baseline-screening",
+    "eval-harness/uncontrolled-games-beside-the-win-rate",
     "executive-reporting/denominator-naming",
     "executive-reporting/provenance-caveats",
     "federated-client-contracts/summary-only-egress",
@@ -36795,6 +36856,7 @@
     "declared-process-graph/panic-proof-numeric-fields",
     "declared-process-graph/typed-port-compatibility",
     "delivery-analytics/post-landing-repair-density",
+    "delivery-guarantees/marker-certifies-what-was-done",
     "dependency-declaration/logical-name-or-address",
     "dependency-declaration/progressive-resolution",
     "deterministic-prefix-caching/unknown-callable-is-nondeterministic",
@@ -36966,6 +37028,7 @@
     "agent-memory/procedure-promotion",
     "agent-memory/rejected-revision-leaves-its-evidence",
     "agent-memory/rollup-compaction",
+    "agent-memory/scope-before-similarity",
     "agent-runtime-assembly/checkpoint-mode-custody",
     "agent-runtime-assembly/guard-input-custody",
     "agent-runtime-assembly/nested-run-is-not-its-parent",
@@ -38189,6 +38252,7 @@
     "agent-memory/lane-reconciliation",
     "agent-memory/memory-value-model",
     "agent-memory/read-set-bounded-links",
+    "agent-memory/scope-before-similarity",
     "agent-runtime-assembly/assembly-identity",
     "app-shell/badge-and-attention",
     "audit-logging/tamper-evidence",
@@ -38387,6 +38451,7 @@
     "signed-artifacts/signature-lifecycle",
     "sql-console/introspection-architecture",
     "streaming-output/phase-derivation",
+    "structured-output/graded-span-grounding",
     "subprocess-lifecycle/session-reuse",
     "subscription-billing-periods/anchor-re-derived-not-chained",
     "subscription-proration/whole-period-denominator",
@@ -38826,6 +38891,7 @@
     "deferred-finalization/finalization-freezes-the-inputs",
     "deferred-finalization/void-then-regenerate",
     "delivery-guarantees/co-transactional-consume",
+    "delivery-guarantees/marker-certifies-what-was-done",
     "durable-agent-operations/intent-mints-the-identity",
     "durable-agent-operations/settlement-order-is-not-placement-order",
     "engine-binding-surface/capability-deferred-release",

@@ -25,6 +25,7 @@ techniques:
   - self-trained-capture-filter
   - gap-directed-elicitation
   - loss-site-inventory
+  - scope-before-similarity
 ---
 
 # Agent memory
@@ -527,3 +528,7 @@ comparison a stated result instead of an unexamined premise.
   content fails to reach the reader without a notice: second doors, the
   window-to-rollup seam, the cap on the assembled block, the fallback behind the
   fallback; notices that name kind, count and cause and survive the next cut.
+- [scope-before-similarity](./techniques/scope-before-similarity.md) — similarity is
+  not ownership: partition by namespace, visibility and private author before clustering
+  or choosing a distiller window; the merge door re-checks and the merged item inherits
+  scope.

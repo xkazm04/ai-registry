@@ -669,3 +669,7 @@ verdict and probed by nothing.
   terse-consumer judge marks a conversational, correctly dated reply as stale; a re-judge
   moved the cell by +37 points. One harness, one judge; recorded as a sighting, not a
   measurement. Return condition: the harness's year run, which will re-judge every cell.
+
+### 2026-09-17 - `/harvest backlog` wave 2, one technique
+
+`uncontrolled-games-beside-the-win-rate`, from [[2026-08-31-anydoc]]. `comparison-modes` scores every pair both ways and records a flip as a tie, which assumes both orders came back. The residual is the game whose swap never completed: admitted at face value it carries the bias the swap cancels; dropped silently it leaves a leader at 2-0 over 2 of its 8 scheduled games reading like 8-0. Three other members of the unit (operator-control-plane, dora, firstmate) were already owned across six files, and the unit's first half - never count a verdict from only one order - was already enforced by tracklight's judge, so the measurement went to the residual: 0 per-candidate disclosure fields before, excluded and forced-tie counts per candidate after, win rates and rank order unchanged at tolerance 0. The `deterministic-run-verification` home the ranker named exists only as a sibling's uncommitted agent-operations bundle.
