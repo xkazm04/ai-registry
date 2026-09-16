@@ -12,19 +12,37 @@ banked as a lead - it is never animated for the operator to judge.
 
 Checks, all measured on the evaluated mesh, never read off a report:
   UNWEIGHTED    a vertex with no deform-bone weight (the solve failed or skipped it)
+  WEIGHT_RANGE  a deform weight above 1 (a generated character's automatic weights put ~7.0 on
+                thigh vertices; the armature normalises at evaluation, so every pose looked right and
+                a later smoothing pass inherited the corrupt values). NOT covered by the self-test: every
+                Python write path (vertex_groups.add, the bmesh deform layer, element.weight) clamps to
+                1.0, probed 2026-09-14, so the defect cannot be planted from a script - only the native
+                weight solve writes it. Its evidence is that real rig: 104 vertices flagged before
+                smoothing, 1 after.
   RIGID_SHARE   a vertex of a declared rigid part with less than `rigid_share` of its weight on
                 the part's bone (a weapon partly bound to a leg)
   RIGID_DRIFT   at a declared extreme pose, a rigid-part vertex further than `rigid_dev_m` from
                 where the bone's rigid transform puts it (the part stretches or lags)
   TEAR          at a declared extreme pose, more than `max_stretched_edge_share` of all edges
-                longer than `stretch_ratio` times their rest length (parts fused across bones)
+                longer than `stretch_ratio` times their rest length (parts fused across bones),
+                OR any such edge that also grew by more than `tear_growth_frac` of the subject's
+                rest height - a share alone let a visible knee-to-hand spike through on a
+                130k-vertex mesh (68 torn edges, 0.05% of edges; calibration below)
+
+Calibration (2026-09-14, the same four world-space poses - arms overhead, chop top, chop bottom,
+deep lunge - on both rigs): a Mixamo Beta mesh (professionally weighted, 14,232 vertices) scored 0
+stretched edges at every pose and 0 vertices weighted to both an arm and a leg chain; a Tripo
+auto-rigged character (130,329 vertices) scored 5,387 / 4,561 / 1,666 / 203 stretched edges,
+max growth 0.89 m, and 10,433 vertices on both the right arm and the right leg chains (a braid
+and hand fused to the thigh, visible on its pose sheet). The lunge's 203 fell under the share
+tolerance while its sheet showed the spike, which is why the growth criterion exists.
 
 spec.json:
   {"armature": "<name, optional if one>", "mesh": "<name, optional if one>",
    "rigid": [{"name": "axe", "bone": "hand.R", "vertex_group": "rigid_axe"}],   # or "indices": [...]
    "poses": [{"name": "arm_overhead", "bones": {"upper_arm.R": [-150, 0, 0]}}], # local XYZ euler, degrees
    "tolerances": {"rigid_share": 0.95, "rigid_dev_m": 0.01, "stretch_ratio": 2.0,
-                  "max_stretched_edge_share": 0.001}}
+                  "max_stretched_edge_share": 0.001, "tear_growth_frac": 0.02}}
 Declare the poses the ACTION will reach (the top of a windup, the bottom of a strike) before any
 arm is keyed: a rig is clean for an action, not in general. Mark rigid parts with a NON-deform
 vertex group so the marker survives renumbering - index lists broke after a topology split.
@@ -42,7 +60,8 @@ import sys
 import bpy
 
 EXIT_PASS, EXIT_FAIL, EXIT_CANNOT = 0, 1, 2
-DEFAULT_TOL = {"rigid_share": 0.95, "rigid_dev_m": 0.01, "stretch_ratio": 2.0, "max_stretched_edge_share": 0.001}
+DEFAULT_TOL = {"rigid_share": 0.95, "rigid_dev_m": 0.01, "stretch_ratio": 2.0, "max_stretched_edge_share": 0.001,
+               "tear_growth_frac": 0.02}
 
 
 class CannotRun(Exception):
@@ -120,12 +139,16 @@ def check(spec):
 
     unweighted = [v.index for v in verts
                   if sum(e.weight for e in v.groups if gidx.get(e.group) in deform) <= 1e-6]
+    over_range = [v.index for v in verts
+                  if any(e.weight > 1.001 for e in v.groups if gidx.get(e.group) in deform)]
 
     reset_pose(arm)
     bpy.context.view_layer.update()
     rest = world_coords(mesh, n)
     edges = [(e.vertices[0], e.vertices[1]) for e in mesh.data.edges]
     rest_len = [(rest[a] - rest[b]).length for a, b in edges]
+    height = (max(c.z for c in rest) - min(c.z for c in rest)) if rest else 0.0
+    growth_m = tol["tear_growth_frac"] * height
 
     parts = []
     for part in spec.get("rigid", []):
@@ -146,8 +169,10 @@ def check(spec):
     for pose in spec.get("poses", []):
         apply_pose(arm, pose)
         posed = world_coords(mesh, n)
-        stretched = sum(1 for (a, b), r in zip(edges, rest_len)
-                        if r > 1e-6 and (posed[a] - posed[b]).length > tol["stretch_ratio"] * r)
+        grown = [(posed[a] - posed[b]).length - r for (a, b), r in zip(edges, rest_len)
+                 if r > 1e-6 and (posed[a] - posed[b]).length > tol["stretch_ratio"] * r]
+        stretched = len(grown)
+        torn = sum(1 for g in grown if g > growth_m)
         drift = []
         for p in parts:
             pb = arm.pose.bones[p["bone"]]
@@ -157,12 +182,15 @@ def check(spec):
             drift.append({"part": p["name"], "max_dev_m": round(max(devs), 4) if devs else None,
                           "over_tolerance": sum(1 for d in devs if d > tol["rigid_dev_m"])})
         poses_out.append({"pose": pose.get("name"), "stretched_edges": stretched,
-                          "stretched_share": round(stretched / max(len(edges), 1), 5), "rigid": drift})
+                          "stretched_share": round(stretched / max(len(edges), 1), 5),
+                          "torn_edges": torn, "max_growth_m": round(max(grown, default=0.0), 4), "rigid": drift})
     reset_pose(arm)
 
     findings = []
     if unweighted:
         findings.append({"code": "UNWEIGHTED", "count": len(unweighted), "sample": unweighted[:10]})
+    if over_range:
+        findings.append({"code": "WEIGHT_RANGE", "count": len(over_range), "sample": over_range[:10]})
     for p in parts:
         if p["below_share"]:
             findings.append({"code": "RIGID_SHARE", "part": p["name"], "bone": p["bone"],
@@ -172,9 +200,10 @@ def check(spec):
             if d["over_tolerance"]:
                 findings.append({"code": "RIGID_DRIFT", "pose": po["pose"], "part": d["part"],
                                  "count": d["over_tolerance"], "max_dev_m": d["max_dev_m"]})
-        if po["stretched_share"] > tol["max_stretched_edge_share"]:
+        if po["stretched_share"] > tol["max_stretched_edge_share"] or po["torn_edges"]:
             findings.append({"code": "TEAR", "pose": po["pose"], "stretched_edges": po["stretched_edges"],
-                             "share": po["stretched_share"]})
+                             "share": po["stretched_share"], "torn_edges": po["torn_edges"],
+                             "max_growth_m": po["max_growth_m"]})
     if not spec.get("poses"):
         findings.append({"code": "UNMEASURED_POSES", "note": "no extreme poses declared - tear and drift were not checked"})
     return {"verdict": "clean" if not findings else "findings", "armature": arm.name, "mesh": mesh.name,
@@ -243,14 +272,21 @@ def selftest():
     clean = check(build_fixture(dirty=False))
     dirty = check(build_fixture(dirty=True))
     codes = {f["code"] for f in dirty["findings"]}
-    expected = {"UNWEIGHTED", "RIGID_SHARE", "RIGID_DRIFT", "TEAR"}
+    expected = {"UNWEIGHTED", "RIGID_SHARE", "RIGID_DRIFT", "TEAR"}  # WEIGHT_RANGE cannot be planted - see its note
+    # the growth criterion alone: with the share tolerance switched off, the bridge must still tear
+    sparse_spec = build_fixture(dirty=True)
+    sparse_spec["tolerances"] = {"max_stretched_edge_share": 1.0}
+    sparse = check(sparse_spec)
     problems = []
     if clean["verdict"] != "clean":
         problems.append(f"clean fixture reported findings: {clean['findings']}")
     if not expected <= codes:
         problems.append(f"dirty fixture missed {sorted(expected - codes)}; got {sorted(codes)}")
+    if not any(f["code"] == "TEAR" for f in sparse["findings"]):
+        problems.append("with the share tolerance off, the growth criterion missed the planted bridge")
     result = {"selftest": "ok" if not problems else "failed", "problems": problems,
-              "clean_verdict": clean["verdict"], "dirty_codes": sorted(codes)}
+              "clean_verdict": clean["verdict"], "dirty_codes": sorted(codes),
+              "growth_only_tear": any(f["code"] == "TEAR" for f in sparse["findings"])}
     print("RIGCHECK_SELFTEST " + json.dumps(result))
     sys.exit(EXIT_PASS if not problems else EXIT_CANNOT)
 

@@ -100,9 +100,20 @@ blender --background --factory-startup --python-exit-code 2 \
 - **Never accept a rig's rigidity from the pass that built it.** The report, the rigger's own
   verification stills and an agent's "sampled frames" all certified defects that `rig_check` and a
   per-frame harness later measured.
-- **Calibration limit, stated with it:** the self-test fixtures are authored by the same hand as the
-  checks, so they prove the checks catch the defects that were planted, not every defect a real
-  asset has. The first real rig through the check calibrates its tolerances; record the numbers.
+- **Calibration, stated with it:** the self-test fixtures are authored by the same hand as the
+  checks, so they prove only that the checks catch the defects that were planted. Real rigs
+  calibrated it on 2026-09-14, all at the same four poses authored in world space (arms overhead,
+  chop top, chop bottom, deep lunge):
+  - A professionally weighted Mixamo mesh stretched **0** edges at every pose.
+  - A Tripo auto-rigged character stretched **5,387 / 4,561 / 1,666 / 203** edges, with a maximum
+    growth of 0.89 m. Its pose sheet shows a braid and hand fused to the thigh.
+  - The lunge's 203 edges fell *under* the share tolerance while its sheet showed a spike. That is
+    why TEAR also fires on any stretched edge that grows by more than 2% of the subject's height.
+
+  Author poses in a **character frame** (forward, left, up derived from the rig), never as raw
+  bone-local eulers. The same pose file then drives rigs with different facing, units and bone rolls.
+  A new class of rig, such as a quadruped or a cloth-heavy costume, recalibrates before its numbers
+  are trusted.
 
 ### The pose sheet is the 3D presentation
 
