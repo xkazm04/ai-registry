@@ -4,7 +4,7 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 229,
-  "techniques": 1709,
+  "techniques": 1710,
   "applications": 1045,
   "laws": 15,
   "categories": [
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1709/1709",
+  "use_when_coverage": "1710/1710",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -2244,9 +2244,9 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-runtime-assembly/agent-runtime-assembly.md",
-   "digest": "sha256:87ecffe5a332546f",
-   "revision": 16,
-   "changedAt": "2026-09-05",
+   "digest": "sha256:c91b6d800ee50b6c",
+   "revision": 17,
+   "changedAt": "2026-09-16",
    "techniques": [
     {
      "slug": "additive-input-at-the-call-boundary",
@@ -2377,6 +2377,24 @@
       "a downstream classifier recovers a cause by matching an error message",
       "recovery must produce a transcript a later reader can rely on",
       "a crashed streaming generation left a committed partial in the store"
+     ]
+    },
+    {
+     "slug": "nested-run-is-not-its-parent",
+     "status": "forged",
+     "laws": [
+      "identity-survives-reuse",
+      "one-validation-door",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an agent run launches another agent run",
+      "a subagent shares the parent's thread or conversation id",
+      "a callback or hook fires for a run nobody wired it to",
+      "a signal receiver resolves an unknown session by its working directory",
+      "a child session inherits the parent's session identifiers through the environment",
+      "a nested run's tool calls show up in the parent's memory or status"
      ]
     },
     {
@@ -36719,6 +36737,7 @@
     "agent-runtime-assembly/checkpoint-mode-custody",
     "agent-runtime-assembly/host-routes-win",
     "agent-runtime-assembly/indeterminate-closure-on-interruption",
+    "agent-runtime-assembly/nested-run-is-not-its-parent",
     "agent-runtime-assembly/session-scoped-capability",
     "agent-runtime-assembly/substituted-result-attribution",
     "audit-logging/two-clock-records",
@@ -36928,6 +36947,7 @@
     "agent-memory/rollup-compaction",
     "agent-runtime-assembly/checkpoint-mode-custody",
     "agent-runtime-assembly/guard-input-custody",
+    "agent-runtime-assembly/nested-run-is-not-its-parent",
     "agent-runtime-assembly/operator-tier-code-loading",
     "agent-runtime-assembly/semantic-hook-placement",
     "alerting/rule-authoring-validation",
@@ -37161,6 +37181,7 @@
     "agent-memory/working-memory",
     "agent-runtime-assembly/additive-input-at-the-call-boundary",
     "agent-runtime-assembly/bounded-projection-of-external-work",
+    "agent-runtime-assembly/nested-run-is-not-its-parent",
     "agent-runtime-assembly/semantic-hook-placement",
     "alerting/alert-lifecycle",
     "alerting/dedup-and-cooldown",
