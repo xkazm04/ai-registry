@@ -10942,3 +10942,34 @@ observation, and the batch lane already carries half of this idea for a differen
 
 - **The fleet grep is a Phase 6 corroboration instrument, not only a Phase 7.5 seam finder.** A same-channel anecdote (generated cars cannot open their doors) became convergence only because a connected project's own gotcha knowledge, written independently, stated the same trigger that the corpus's `part-cut-planning` excludes. v2.8.1 frames the seam hunt as a second source once something has landed. On a LOW-yield video with no landing, it was the only corroboration either real row had, and it cost two greps. Worth running for every `real gap` row before scoring, over the consumer's knowledge and gotcha files as well as its code.
 - **Probe render instruments before scoring a render-bound row.** Row 3 was scored and argued through the rewrite test before the image-to-3D probe showed that it could not land at all. Probing first costs the same and orders the work honestly.
+
+## 2.11.0 - 2026-09-16 - gpt6-astra-setup
+
+- **The fleet grep is a scoring input, not a post-landing step - second sighting.** The
+  one row that landed scored 2/2/2 on the source's prose, below the accept threshold and
+  headed for the untriaged table. The whole difference was RISK 2 -> 0 plus a convergence
+  point, both bought by opening one fleet tree at Phase 6. The 2026-09-16 `gpt6-two-game-builds`
+  row filed the same diagnosis from a different bundle. v2.8.1 currently frames the seam
+  hunt as a second source *once something has landed*; twice now it has been the thing that
+  decided whether anything landed at all. One more sighting and `SKILL.md` should say: when
+  a scored row is one blocker short, spend the grep before filing it untriaged.
+- **Anchor grammar degrades where a document refers back to a file it already named.**
+  `check-anchors --strict` failed 2 of 12 anchors in the director's own application, and
+  neither was a bad quote. One was `route.ts:217` - a natural shorthand after the full path
+  had been given earlier in the same paragraph, and a path that resolves to nothing. One had
+  the quote before the path rather than after. Both read fine to a human. Distinct from the
+  SoL-Pi run's 39/39, which were unresolvable *citations*; these were unresolvable
+  *references to citations*. Worth saying in the method that the verifier is run with
+  `--strict` on any document that cites one file more than once.
+- **Pre-costing the falsifying seam is what separates it from a confirmation.** Naming, in
+  advance, what a CAUGHT outcome would teach ("cut the third section, rescore to 2/0/2,
+  below threshold") meant the seam could end the landing. v2.7 already requires this; this
+  run is the first where the pre-check had a concrete, landing-killing answer, and the
+  resulting structural fact reads as corroboration instead of illustration. No method change
+  - the rule works, and it is worth one line saying it has now been exercised with teeth.
+- **A third source from one channel still needs the independence flag written down.** Two
+  of this run's rows (a generated quadruped rig, runtime articulation from a single image)
+  are the exact shape of a lead banked on 2026-09-16 from the same creator. The ledger's
+  prior note had already recorded that same-channel repetition is not convergence, and
+  reading it is what stopped this run from promoting a lead on a second sighting. This is
+  the untriaged/lead table paying for itself, which is the argument v1 made for keeping it.

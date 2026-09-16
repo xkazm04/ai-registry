@@ -1,7 +1,7 @@
 ---
 domain: media-generation
 subject: generative-provider-routing
-last_touched: 2026-09-07
+last_touched: 2026-09-16
 touched_by: intake
 dry_streak: 0
 ---
@@ -11,6 +11,51 @@ dry_streak: 0
 Subject note. Part of [[index]]; graded against [[standard]].
 
 ## Touch log
+
+### 2026-09-16 - `/intake` (`youtube:nHBNa2IKWvk`), one amendment, applied and shipped
+
+The 2026-09-07 entry below found this subject's spend controls to be
+one-directional and gave them `unspent-budget-is-a-defect`. This run found the
+technique itself to be one-directional in a narrower way: it was written for a
+producer that stays inside the generative pipeline and settles on a cheaper
+entry, and it cannot see a producer that **leaves** the pipeline - computing,
+constructing or reusing an asset instead of commissioning it. A path that makes
+no call books no spend, so plan-top reachability goes vacuous (it is scoped to
+capabilities the run *exercised*) and cost per usable output is not flattering
+but undefined. The floor report is the only instrument that survives, which
+promotes it from one of two checks to the load-bearing one.
+
+Two further corrections the source paid for, both in the amendment:
+
+- **The stated cause is one cause, not the cause.** The technique locates the
+  disposition in the framing - a ceiling is the only number stated, so
+  minimization reads as correct. A producer told its generation credit was
+  unbounded still substituted computed assets across a whole job and reported
+  none of it. Minimization survived the removal of the ceiling.
+- **Detection did not come from a report.** It came from the flatness of the
+  artifact while the run was still going, and the correction was an interjection
+  into the run. A floor report at the end would have been true and too late.
+
+The third section, *record the diversion, not the refusal*, came from the fleet
+rather than the source, and the seam was chosen because it could have killed the
+row. pof routes a request to a computed path when the subject's geometry is
+better computed than commissioned. Of its four observable routing outcomes, the
+three that end in a paid call each carry the decision as structured data on the
+response; the fourth - the only one that saves anything - carried it as prose in
+an error body, and the line's own green test suite had the asymmetry written
+into it. Had the tree recorded its diversions the claim would have died there.
+
+Shipped pof `8affd56b`, `ab-paired`/`better`, with a negative control: the new
+assertion fails against the route as it stood and passes after, the five standing
+tests unmoved, 1,693 green, typecheck clean. Application:
+`applications/next--unspent-budget-is-a-defect.md`, 11 of 11 anchors verified
+against the tree.
+
+**Still open here:** the diversion is now counted and still not priced. A
+diverted request produces no estimate of what it would have cost, and this
+subject has no consumption band for a computed capability at all - so the floor
+report, the one instrument the amendment says survives, has nothing to read in
+that tree.
 
 ### 2026-09-07 - `/intake` (`youtube:Vh8HxyTQ6EY`), one technique, applied and shipped
 

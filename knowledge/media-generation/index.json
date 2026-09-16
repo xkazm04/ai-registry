@@ -5,7 +5,7 @@
   "source": "knowledge/media-generation/ (frontmatter only)",
   "subjects": 20,
   "techniques": 136,
-  "applications": 67,
+  "applications": 68,
   "laws": 9,
   "categories": [
    "narrative-craft",
@@ -1041,9 +1041,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/visual-generation/generative-provider-routing/generative-provider-routing.md",
-   "digest": "sha256:e55f12fc2041ec86",
-   "revision": 9,
-   "changedAt": "2026-09-07",
+   "digest": "sha256:a3f1c1edcf0bb54f",
+   "revision": 10,
+   "changedAt": "2026-09-16",
    "techniques": [
     {
      "slug": "capability-to-vendor-plan",
@@ -1142,7 +1142,8 @@
       "a generation budget is raised to buy access to a higher-capability provider",
       "a pipeline runs unattended and decides for itself how much to spend",
       "a run finishes on time, under budget, with no refusals, and the output is flat",
-      "deciding what a spend control should report besides overspend"
+      "deciding what a spend control should report besides overspend",
+      "a producer substitutes a computed or reused asset for a commissioned one"
      ]
     },
     {
@@ -1161,6 +1162,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "next",
+     "technique": "unspent-budget-is-a-defect",
+     "file": "knowledge/media-generation/visual-generation/generative-provider-routing/applications/next--unspent-budget-is-a-defect.md",
+     "verified_on": "2026-09-16",
+     "verified_against": "next@16.3.3"
+    },
     {
      "stack": "node",
      "technique": "non-silent-elimination",
