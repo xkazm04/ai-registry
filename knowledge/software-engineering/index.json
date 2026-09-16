@@ -4,7 +4,7 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 229,
-  "techniques": 1706,
+  "techniques": 1708,
   "applications": 1045,
   "laws": 15,
   "categories": [
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1706/1706",
+  "use_when_coverage": "1708/1708",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -21188,9 +21188,9 @@
    "subcategory": "resilience",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/resilience/optional-dependency-degradation/optional-dependency-degradation.md",
-   "digest": "sha256:92bb278a0acf728c",
-   "revision": 15,
-   "changedAt": "2026-09-04",
+   "digest": "sha256:def07f6c5ed2c921",
+   "revision": 16,
+   "changedAt": "2026-09-16",
    "techniques": [
     {
      "slug": "absent-degrades-malformed-fails-fast",
@@ -21287,6 +21287,24 @@
       "a lazily-imported dependency was quietly promoted to a hard one",
       "deciding how a deferred import failure should be shaped",
       "a proxy for a missing symbol lives as long as the process"
+     ]
+    },
+    {
+     "slug": "misconfiguration-never-reaches-a-fallback",
+     "status": "forged",
+     "laws": [
+      "absent-guard-is-loud",
+      "unknown-is-not-a-value",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a configuration reader filters out values it does not recognise",
+      "a list of provider or arm identifiers is read from the environment or a roster file",
+      "a constructor accepts arbitrary keyword options",
+      "a degraded answer is good enough that nobody would notice it replaced the real one",
+      "writing a stand-in for a dependency a test build does not link",
+      "a typo in a setting changed which backend served and nothing logged it"
      ]
     },
     {
@@ -30520,9 +30538,9 @@
    "subcategory": "code-provenance",
    "status": "forged",
    "file": "knowledge/software-engineering/security/code-provenance/supply-chain/supply-chain.md",
-   "digest": "sha256:b1b326b5855d4ef1",
-   "revision": 3,
-   "changedAt": "2026-09-06",
+   "digest": "sha256:2afd7ef2f907e8b4",
+   "revision": 4,
+   "changedAt": "2026-09-16",
    "techniques": [
     {
      "slug": "archive-extraction-safety",
@@ -30612,6 +30630,26 @@
       "reviewing a diff that widens a privilege grant",
       "two copies of one allowlist keep drifting apart",
       "declared grants no feature actually exercises"
+     ]
+    },
+    {
+     "slug": "reading-is-not-running",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "absent-guard-is-loud",
+      "failure-not-empty-success",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a tool opens",
+      "scans",
+      "previews or analyses a tree it did not write",
+      "a reader learns what a configuration declares by evaluating it",
+      "rules or detectors are picked up from inside the tree being analysed",
+      "an import step runs a script shipped inside the content package",
+      "a surface described as read-only spawns a tool in someone else's checkout"
      ]
     },
     {
@@ -33913,9 +33951,9 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/voice-io/voice-io.md",
-   "digest": "sha256:11853abeab755689",
-   "revision": 17,
-   "changedAt": "2026-09-08",
+   "digest": "sha256:02053fb68baba5f7",
+   "revision": 18,
+   "changedAt": "2026-09-16",
    "techniques": [
     {
      "slug": "authored-voice-identity",
@@ -35436,6 +35474,7 @@
     "supply-chain/lockfile-freshness-oracle",
     "supply-chain/patching-mechanism-ladder",
     "supply-chain/permission-manifest-scoping",
+    "supply-chain/reading-is-not-running",
     "supply-chain/scheduled-deep-analysis",
     "supply-chain/secret-scanning-architecture",
     "supply-chain/signature-preserving-patching",
@@ -35840,6 +35879,7 @@
     "optional-dependency-degradation/capability-honest-refusal",
     "optional-dependency-degradation/degradation-coupled-to-hardening",
     "optional-dependency-degradation/guarded-singleton-accessor",
+    "optional-dependency-degradation/misconfiguration-never-reaches-a-fallback",
     "optional-dependency-degradation/refusal-is-not-failure",
     "outbound-notifications/channel-adapter-traits",
     "outbound-notifications/channel-health-tracking",
@@ -36005,6 +36045,7 @@
     "subprocess-lifecycle/termination-and-reaping",
     "supply-chain/archive-extraction-safety",
     "supply-chain/permission-manifest-scoping",
+    "supply-chain/reading-is-not-running",
     "supply-chain/scheduled-deep-analysis",
     "supply-chain/secret-scanning-architecture",
     "supply-chain/update-automation-review",
@@ -36768,6 +36809,7 @@
     "native-shell-integration/unexported-capability-ladder",
     "optional-dependency-degradation/capability-honest-refusal",
     "optional-dependency-degradation/fallback-retirement-condition",
+    "optional-dependency-degradation/misconfiguration-never-reaches-a-fallback",
     "p2p-networking/peer-state-honesty",
     "pipeline-dag/composite-condition-verdicts",
     "plan-entitlements/provider-publishes-state-not-decision",
@@ -36820,6 +36862,7 @@
     "structured-output/schema-validation-and-repair",
     "subscription-billing-periods/boundary-stitch-on-timezone-change",
     "subscription-billing-periods/timezone-anchored-period-dates",
+    "supply-chain/reading-is-not-running",
     "supply-chain/review-attestation-ledger",
     "telemetry-pii-redaction/exclusion-bounds-reads-not-output",
     "tenant-scoped-agent-runtime/fail-direction-follows-deployment-mode",
@@ -38605,6 +38648,7 @@
     "optional-dependency-degradation/absent-degrades-malformed-fails-fast",
     "optional-dependency-degradation/capability-honest-refusal",
     "optional-dependency-degradation/minimal-install-test-lane",
+    "optional-dependency-degradation/misconfiguration-never-reaches-a-fallback",
     "optional-dependency-degradation/refusal-is-not-failure",
     "paged-block-cache/salt-as-a-cache-partition",
     "pipeline-authoring/foreign-config-replay",
@@ -38638,6 +38682,7 @@
     "signed-artifacts/bypass-is-a-versioned-policy",
     "standards-layered-runtime/backend-parameterised-web-api",
     "structured-output/schema-validation-and-repair",
+    "supply-chain/reading-is-not-running",
     "supply-chain/unsafe-deserialization-off-by-default",
     "supply-chain/update-automation-review",
     "supply-chain/verification-scope",

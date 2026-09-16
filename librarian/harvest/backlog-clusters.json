@@ -474,6 +474,13 @@
     "5-009",
     "1-012"
    ]
+  },
+  {
+   "tension": "t04",
+   "ids": [
+    "7-004b"
+   ],
+   "note": "single-sided: measured against the standing three-state-outcomes rule, not against another row"
   }
  ]
 }

@@ -7,6 +7,7 @@ use_when: [starting a repository that must clone and run with no credentials, de
 techniques:
   - absent-degrades-malformed-fails-fast
   - refusal-is-not-failure
+  - misconfiguration-never-reaches-a-fallback
   - per-variable-blast-radius
   - guarded-singleton-accessor
   - probe-the-grant-not-the-config
@@ -392,6 +393,11 @@ pretends to be storage.
 
 ## The techniques
 
+- [misconfiguration-never-reaches-a-fallback](./techniques/misconfiguration-never-reaches-a-fallback.md)
+  — the blind spot before the presence branch: an unrecognised name dropped to
+  absent, a runtime fallback reachable from a configuration failure, a stand-in
+  that returns a default; where rejecting the unknown is wrong, and retiring an
+  identifier by name.
 - [absent-degrades-malformed-fails-fast](./techniques/absent-degrades-malformed-fails-fast.md)
   — the asymmetry as a procedure: branch on presence, validate shape at boot,
   reject placeholders, strict parsing for tunables with defaults, where the

@@ -845,10 +845,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 229,
-      "techniques": 1706,
+      "techniques": 1708,
       "applications": 1045,
-      "files": 2985,
-      "contentHash": "sha256:30d9a038cb717354"
+      "files": 2987,
+      "contentHash": "sha256:a1b6ae2536913810"
     }
   ],
   "usageEvidence": {

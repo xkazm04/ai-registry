@@ -168,3 +168,7 @@ item access and iteration too; hardware extras need an executing probe; a base-c
 role needs a stand-in class whose constructor raises. Deviation: the stale-entry check
 indexes a list before asserting, so a no-match entry raises unnamed. The reconciliation
 target `python--guarded-singleton-accessor` gained one count correction (189 entries).
+
+### 2026-09-16 - `/harvest backlog` wave 1, one technique
+
+`misconfiguration-never-reaches-a-fallback`, the first landing of backlog mode: four source notes ([[2026-09-07-gbrain]], [[2026-09-16-squid]], [[2026-09-04-weave-router]], [[2026-08-31-semantica]]) had banked the same rule untriaged, and none had measured it. The blind spot sits *before* this subject's presence branch: a value whose name is not recognised is dropped, reads as absent, and takes the fallback built for genuine absence. Measured in code on kp (14/14 misconfigurations unhandled -> 0/14, floor held) and shipped there. The gbrain note's claim that the finding inverts `absent-degrades-malformed-fails-fast` was wrong: the extractive fallback exists for failed calls, not for a dependency the deployment declared it lacks, and the technique draws that line.
