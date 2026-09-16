@@ -11012,3 +11012,43 @@ Phase 5's GAIN table has no row for "corroborated by a fleet tree that independe
   checking `git diff --cached --name-status` holds only your change — a bare commit takes
   the index, not the working tree, so sibling unstaged WIP is safe.
 - Mid-flight runs on 2.11.0: nothing to do, no method file changed this run.
+
+## 2.11.0 - 2026-09-16 - squid
+
+- **A corpus that owns the producer half of a rule reads as prior art for the whole
+  rule.** Three technique reads (`failure-direction`, `read-write-predicate-symmetry`,
+  `truncated-verdict-space`) all returned "the corpus knows about uncertain verdicts",
+  and all three were about *producing* or *narrowing* one. None addressed the call site,
+  where a verdict wider than its branch must finally be folded. The question that split
+  them was not "is this covered" but **"which side of the boundary does the covering
+  document stand on"** - produce, transport, narrow, or consume. Worth asking of any
+  candidate whose prior art looks convincing but sits in a different phase of the same
+  pipeline.
+- **Keep a refuting seam in the write-up.** The first fleet candidate was the exact shape
+  the technique warns about and was correct, because the enum it folds is closed and its
+  non-negated members are homogeneous. Reporting only the seam that confirmed would have
+  left the decision rule sounding absolute; reporting both turned it into a condition a
+  reader can test. Cost: one paragraph. Three consecutive runs have now chosen a
+  falsifying seam and all three returned something the landing did not already say - but
+  no scorecard cell records *what* was refuted, so the pattern is invisible without
+  reading the notes.
+
+  ### Redesign proposal (not applied this run)
+  Add `refuted=<one clause>` to the scorecard's Test cell, beside `anchors=N held=H`.
+  The falsifying-seam rule (v2.7) has been followed for three runs and is measured by
+  nobody. Not applied here because three siblings were live on 2.11.0 and a method edit
+  mid-afternoon is the one change a parallel fleet cannot absorb quietly.
+
+- **A comment that asserts a distinction, sitting directly above an assertion that cannot
+  observe it, is a greppable defect shape.** This run's shipped landing was found that
+  way: `// an explicit null is different from absent`, and then an assertion on the value
+  both inputs produce. It is `vacuous-by-evaluation` from the other side - a claim parked
+  in prose because the available predicate could not carry it. Cheap hunt, and it points
+  at the exact line where a design intent was lost rather than at a subsystem.
+- **Write the routing count even when you are sure it will not fire, because being sure
+  is the failure mode in both directions.** Six systems and a quarter-century of design
+  decisions produced a count of 2. The count is what distinguishes "the corpus is mature"
+  from "this run read the ad", and a design-deep tree is exactly where the temptation to
+  skip it and dispatch a forge wave is strongest.
+- Mid-flight runs on 2.11.0: nothing to do, no method file changed this run.
+
