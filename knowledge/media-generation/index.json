@@ -4,8 +4,8 @@
   "bundle": "media-generation",
   "source": "knowledge/media-generation/ (frontmatter only)",
   "subjects": 21,
-  "techniques": 143,
-  "applications": 70,
+  "techniques": 144,
+  "applications": 72,
   "laws": 9,
   "categories": [
    "narrative-craft",
@@ -15,7 +15,7 @@
    "production-ops"
   ],
   "layout": "nested",
-  "use_when_coverage": "143/143",
+  "use_when_coverage": "144/144",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -2445,9 +2445,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/production-ops/video-assembly/video-assembly.md",
-   "digest": "sha256:db230d778e13b541",
-   "revision": 14,
-   "changedAt": "2026-09-09",
+   "digest": "sha256:72dbf7047e97d78a",
+   "revision": 15,
+   "changedAt": "2026-09-16",
    "techniques": [
     {
      "slug": "cut-compiled-from-source",
@@ -2574,6 +2574,22 @@
      ]
     },
     {
+     "slug": "seek-stable-composition-authoring",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass",
+      "checkability-routes-the-pixel",
+      "edit-do-not-regenerate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a cut is compiled from a declarative source rather than exported from a playhead",
+      "a render is split across workers, resumed after a crash, or re-rendered in part",
+      "an animation is entered at an arbitrary position - a replay, a scrub, a deep link",
+      "a composition previews correctly and the finished render disagrees with it"
+     ]
+    },
+    {
      "slug": "storyboard-grid-conditioning",
      "status": "forged",
      "laws": [
@@ -2590,6 +2606,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "seek-stable-composition-authoring",
+     "file": "knowledge/media-generation/production-ops/video-assembly/applications/node--seek-stable-composition-authoring.md",
+     "verified_on": "2026-09-16",
+     "verified_against": "node@22"
+    },
     {
      "stack": "process",
      "technique": "generated-shot-sourcing",
@@ -2615,6 +2638,13 @@
      "file": "knowledge/media-generation/production-ops/video-assembly/applications/react--motion-plate-library.md",
      "verified_on": "2026-09-09",
      "verified_against": "react@19.2"
+    },
+    {
+     "stack": "react",
+     "technique": "seek-stable-composition-authoring",
+     "file": "knowledge/media-generation/production-ops/video-assembly/applications/react--seek-stable-composition-authoring.md",
+     "verified_on": "2026-09-16",
+     "verified_against": "react@19"
     }
    ]
   },
@@ -2824,6 +2854,7 @@
     "video-assembly/cut-compiled-from-source",
     "video-assembly/derived-turn-markers",
     "video-assembly/drift-correction",
+    "video-assembly/seek-stable-composition-authoring",
     "visual-style-locking/consistency-control-arm",
     "visual-style-locking/draft-proofing-locked-ratchet",
     "visual-style-locking/motion-sampled-under-a-frame-budget",
@@ -2983,6 +3014,7 @@
     "video-assembly/cut-compiled-from-source",
     "video-assembly/drift-correction",
     "video-assembly/motion-plate-library",
+    "video-assembly/seek-stable-composition-authoring",
     "visual-style-locking/draft-proofing-locked-ratchet"
    ]
   },
@@ -3003,6 +3035,7 @@
     "live-system-demo-film/summary-rendered-from-the-run",
     "platform-format-adaptation/sound-off-first-design",
     "video-assembly/cut-compiled-from-source",
+    "video-assembly/seek-stable-composition-authoring",
     "video-assembly/storyboard-grid-conditioning"
    ]
   },
