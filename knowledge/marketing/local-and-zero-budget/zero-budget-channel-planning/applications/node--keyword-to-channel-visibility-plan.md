@@ -5,7 +5,7 @@ subject: zero-budget-channel-planning
 technique: keyword-to-channel-visibility-plan
 stack: node
 status: forged
-verified_on: 2026-09-09
+verified_on: 2026-09-16
 verified_against: node@24
 ---
 
@@ -47,6 +47,20 @@ then opportunity, then volume, then a locale-aware name compare "so the deal is
 deterministic for a given input". A channel tracked as `done` is dealt nothing
 (`:243-246`): "the plan would be proposing work on something the tenant already
 closed".
+
+## The construction is only as good as the kind table (2026-09-16)
+
+Re-read a week later, the structural claim above is true and incomplete. `carriesContent`
+admits the `content` kind, and the seeded "E-mailový newsletter" channel carried
+`category: "content"` - so the deal handed it a target query in two of the five
+project-type packs, and in both cases it was the second query by opportunity. The
+construction does exactly what this application credits it with; it just cannot
+know that a newsletter is not findable from a results page. See
+`owned-push-as-its-own-kind` for the split and the paired measurement that closed
+it. What the tree teaches, and what is worth carrying into any copy of this design,
+is the shape of the exposure: a rule read off a taxonomy is exactly as correct as
+the taxonomy, and it fails silently rather than loudly, because the code has no
+independent opinion to disagree with.
 
 ## The one real join
 

@@ -11,6 +11,7 @@ techniques:
   - measured-clicks-beside-not-inside-fit
   - keyword-to-channel-visibility-plan
   - free-channels-lead-onboarding
+  - owned-push-as-its-own-kind
 ---
 
 # Zero-budget channel planning
@@ -50,12 +51,22 @@ column.
 **Channels come in families, and families have shapes.** Directories and
 marketplaces are *listings*: a bounded task with a completion state. Communities
 and organic social are *conversational*: an ongoing presence whose cost is
-attention and whose risk is being read as spam. Blog, newsletter and video are
-*content*: won by publishing something that targets a query. PR and partnerships
-are *outreach*: won by a pitch someone else accepts. Seven or so families fold
-into four kinds, and the kind decides the lifecycle - a listing can be marked done;
-a community never is; a content channel continues by producing the next piece. A
-plan that gives every channel the same checkbox is wrong about three of the four.
+attention and whose risk is being read as spam. Blog and video are *content*: won
+by publishing something that targets a query. A newsletter or a message list is
+*push*: also won by publishing, but nobody arrives from a results page - the
+business reaches into a space it was granted, and an intermediary meters the next
+send against how the last one was received. PR and partnerships are *outreach*:
+won by a pitch someone else accepts. Seven or so families fold into five kinds, and
+the kind decides the lifecycle - a listing can be marked done; a community never
+is; a content channel continues by producing the next piece. A plan that gives
+every channel the same checkbox is wrong about four of the five.
+
+The fifth kind is the one a plan gets wrong quietly, because it is the one that
+looks like a family rather than a kind. Folding the newsletter in with the blog
+reads as tidy and costs two rules: the newsletter is dealt a target query it can
+never rank for, and it is left without the ceiling that the one channel whose
+overuse degrades its own future delivery most needs. `owned-push-as-its-own-kind`
+is the split and both consequences.
 
 **The plan is grounded before it is generated.** The channel plan is the first
 surface a new business sees, often before it has typed anything but a URL. What
@@ -83,11 +94,12 @@ neither number could be trusted. Nothing measured is nothing shown -
 [not measured is not zero](../../_laws.md#not-measured-is-not-zero) - so a channel
 with a minted link and no clicks looks exactly as it did before the link existed.
 
-**A query can only be aimed at a channel that carries writing.** A directory
+**A query can only be aimed at a channel a stranger can arrive on.** A directory
 entry is not a piece of content; pairing a keyword with "register on the national
-directory" is advice the data does not support. Target queries are dealt onto
-communities, social and owned content only, and listings and outreach are worked
-by their first action. Where a brief already names the query it was written for,
+directory" is advice the data does not support. The subtler half is that carrying
+writing is not the same as being findable: target queries are dealt onto
+communities, social and ranking owned content only, while listings, outreach and
+push are worked by their first action. Where a brief already names the query it was written for,
 channel and content are joined by that fact rather than by guess.
 
 **The free plan comes first for businesses that cannot spend.** A pre-launch
@@ -181,6 +193,14 @@ rules", and the cadence cap is a ceiling set by the business, never a target.
   catalog sells, or that a placeholder row is a product.
 - **A keyword on a listing.** "Register on the directory, targeting 'plumber
   near me'" - a query dealt to a channel that cannot carry a page.
+- **A keyword on a send.** "Write a brief for 'plumber near me', for the
+  newsletter" - the same defect through the opposite door, and harder to see
+  because the channel genuinely publishes. Worse than a wasted row: the deal is
+  one ordered queue, so a push channel ranked highly on fit consumes the query a
+  rankable channel below it would have had.
+- **A cadence number nobody measured, on the one channel that meters itself.** A
+  seeded weekly cap on a list reads as a ceiling and is a guess; the real ceiling
+  is whatever the last sends' complaint rate says it is.
 - **The free plan last and optional.** The one thing a business with no budget can
   do on day one, hidden behind the one thing it cannot.
 - **The permanent redirect.** A short link that browsers cache after the first hop,

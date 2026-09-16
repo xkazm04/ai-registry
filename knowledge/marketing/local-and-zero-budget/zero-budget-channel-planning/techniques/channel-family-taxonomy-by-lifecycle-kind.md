@@ -16,7 +16,7 @@ content, organic social, PR, partnership - because that is how a marketer talks
 about them and how a generating model is asked to enumerate them. But the family
 is not what decides how a channel behaves once the business is on it. What decides
 that is the channel's *kind*: the broad shape of the interaction the business is
-entering. Seven families fold into four kinds, and the kind, not the family,
+entering. Seven families fold into five kinds, and the kind, not the family,
 drives the lifecycle, the derived next step, the suggested mode of operation and
 whether a target query can be aimed at the channel at all.
 
@@ -26,25 +26,30 @@ whether a target query can be aimed at the channel at all.
 |---|---|---|---|
 | directory, marketplace | listing | completing a registration | yes |
 | community, organic social | conversational | sustained presence | never |
-| owned content (blog, newsletter, video) | content | publishing the next piece | never |
+| owned content that ranks (blog, video) | content | publishing the next piece | never |
+| owned list (newsletter, message list) | push | spending a granted permission | never |
 | PR, partnership | outreach | a pitch someone accepts | per pitch |
 
 The table is the whole technique. A listing is a bounded task: verify, fill the
 fields, add photos, mark it done, revisit when something changes. A conversational
 channel is a standing commitment whose cost is attention and whose failure mode is
 being read as spam; it has no completion state, only live, paused or abandoned. A
-content channel continues by producing the next piece and is the only kind that
-can carry a target query. Outreach is a series of discrete pitches; a single
-placement can be closed, the channel cannot.
+content channel continues by producing the next piece and is the kind a target
+query can be aimed at. A push channel also continues by producing the next piece and
+is *not* - nobody arrives on it from a results page, and the business is spending a
+permission rather than earning an arrival; `owned-push-as-its-own-kind` holds that
+split and the second rule it changes. Outreach is a series of discrete pitches; a
+single placement can be closed, the channel cannot.
 
 Everything downstream keys off the kind. The default mode of operation is manual
 for a listing (one-shot work) and delegated for a conversational channel (where a
 trained assistant earns its keep answering reactions). The derived next step for a
 live listing is "mark done"; for a live conversational channel it is "check the
-inbox"; for a live content or outreach channel it is "create the next piece". A
-query is dealt only to kinds that carry content. Every one of those rules would be
+inbox"; for a live content, push or outreach channel it is "create the next piece". A
+query is dealt only to the content kind. Every one of those rules would be
 wrong if written against the family list, because two families in one kind share
-the rule and one family in two kinds would need it split.
+the rule and one family in two kinds would need it split - which is exactly what
+the owned-content family turned out to be.
 
 ## Lifecycle: stage stores intent, readiness is derived
 
@@ -72,15 +77,22 @@ Two rules follow:
 The absent track is the identified state and is never persisted, which keeps the
 stored blob to the channels the business has touched.
 
-## The anti-spam cap belongs to the conversational kind
+## The chosen cap belongs to the conversational kind
 
-Conversational channels get one extra field: a per-week cap on posts the business
+Conversational and push channels are the two kinds where using the channel can cost
+the channel, and they get one extra field for it: a per-week cap. Only the
+conversational cap is *chosen*, and the rest of this section is about that one; a
+push channel's ceiling is discovered from what its last sends produced, and
+`owned-push-as-its-own-kind` says why a number picked for it is a prediction wearing
+an observation's clothes.
+
+Conversational channels get a per-week cap on posts the business
 sets when it plans the channel. The range - one to fourteen a week - is a
 practitioner convention, not a platform rule, and the technique labels it as such.
 The cap is a ceiling the business chose for itself, recorded as intent and handed
 to whatever module enforces cadence across posting; it is never a target, and this
-plan never enforces it a second time. The reason a cap exists at all is that
-community norms are the one place where over-participation costs the channel:
+plan never enforces it a second time. The reason a cap exists on this kind is that
+community norms police over-participation directly:
 discussion forums commonly expect roughly nine contributions for every promotional
 mention (a widely repeated convention, formally retired as a platform rule and now
 enforced per community by moderators), and a 2026 check of forty-nine
@@ -106,5 +118,8 @@ Do not apply the kind taxonomy to paid channels; a paid campaign's lifecycle is
 governed by spend gates and pacing, not by a listing/conversation/content split. Do
 not use the fold to decide *within* a kind - which directory outranks which is a
 fit-and-effort question, not a kind question. And do not let the kind table grow a
-fifth row for a single odd channel; a channel that fits no kind is usually a
-family named too finely, and folds into one of the four on inspection.
+row for a single odd channel; a channel that fits no kind is usually a family named
+too finely, and folds into one of the five on inspection. The one split that earned
+its row did not arrive that way: push was not an odd channel looking for a home, it
+was two rules inside the content kind that were already false for one of its
+members.

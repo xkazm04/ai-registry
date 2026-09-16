@@ -4,8 +4,8 @@
   "bundle": "marketing",
   "source": "knowledge/marketing/ (frontmatter only)",
   "subjects": 30,
-  "techniques": 181,
-  "applications": 81,
+  "techniques": 182,
+  "applications": 82,
   "laws": 10,
   "categories": [
    "search-and-content",
@@ -17,7 +17,7 @@
    "positioning-and-proof"
   ],
   "layout": "nested",
-  "use_when_coverage": "181/181",
+  "use_when_coverage": "182/182",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -3446,9 +3446,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/marketing/local-and-zero-budget/zero-budget-channel-planning/zero-budget-channel-planning.md",
-   "digest": "sha256:2dd975d22b47ab3c",
-   "revision": 1,
-   "changedAt": "2026-09-09",
+   "digest": "sha256:d4f5ca6192675251",
+   "revision": 2,
+   "changedAt": "2026-09-16",
    "techniques": [
     {
      "slug": "channel-family-taxonomy-by-lifecycle-kind",
@@ -3535,6 +3535,21 @@
       "designing a short-link counter for free channels",
       "deciding what a click count may change in a ranking"
      ]
+    },
+    {
+     "slug": "owned-push-as-its-own-kind",
+     "status": "forged",
+     "laws": [
+      "label-convention-as-convention",
+      "not-measured-is-not-zero"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "folding a newsletter or a message list into a channel taxonomy",
+      "deciding whether a channel may be dealt a target query",
+      "setting a cadence cap on a channel the business sends into an inbox",
+      "reading why a channel that costs nothing to send is still spending something"
+     ]
     }
    ],
    "applications": [
@@ -3549,7 +3564,7 @@
      "stack": "node",
      "technique": "keyword-to-channel-visibility-plan",
      "file": "knowledge/marketing/local-and-zero-budget/zero-budget-channel-planning/applications/node--keyword-to-channel-visibility-plan.md",
-     "verified_on": "2026-09-09",
+     "verified_on": "2026-09-16",
      "verified_against": "node@24"
     },
     {
@@ -3557,6 +3572,13 @@
      "technique": "measured-clicks-beside-not-inside-fit",
      "file": "knowledge/marketing/local-and-zero-budget/zero-budget-channel-planning/applications/node--measured-clicks-beside-not-inside-fit.md",
      "verified_on": "2026-09-09",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "owned-push-as-its-own-kind",
+     "file": "knowledge/marketing/local-and-zero-budget/zero-budget-channel-planning/applications/node--owned-push-as-its-own-kind.md",
+     "verified_on": "2026-09-16",
      "verified_against": "node@24"
     }
    ]
@@ -3666,7 +3688,8 @@
     "speed-to-lead-and-assisted-reply/risks-gate-not-confidence",
     "zero-budget-channel-planning/channel-family-taxonomy-by-lifecycle-kind",
     "zero-budget-channel-planning/fit-effort-quick-win-rule",
-    "zero-budget-channel-planning/free-channels-lead-onboarding"
+    "zero-budget-channel-planning/free-channels-lead-onboarding",
+    "zero-budget-channel-planning/owned-push-as-its-own-kind"
    ]
   },
   "never-invent-proof": {
@@ -3799,7 +3822,8 @@
     "speed-to-lead-and-assisted-reply/delivery-fails-closed-cap-consent",
     "speed-to-lead-and-assisted-reply/five-minute-sla-settled-outcomes-only",
     "zero-budget-channel-planning/keyword-to-channel-visibility-plan",
-    "zero-budget-channel-planning/measured-clicks-beside-not-inside-fit"
+    "zero-budget-channel-planning/measured-clicks-beside-not-inside-fit",
+    "zero-budget-channel-planning/owned-push-as-its-own-kind"
    ]
   },
   "statistical-honesty-before-a-verdict": {

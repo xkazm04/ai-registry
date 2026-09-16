@@ -31,12 +31,18 @@ from nothing.
 
 There is no stored link between a query and a channel; the plan is *proposing*
 one. The proposal is a deterministic deal: target queries, in a fixed order, are
-handed one by one onto the channels that can carry content - communities, social
-and owned content - in fit order. **A listing gets no query, and neither does an
-outreach channel.** "Register on the national directory" is not a piece of
-writing; pairing it with a keyword would be advice the data does not support. This
-is by construction, not by instruction: the kind taxonomy decides which rows may
-receive a query, and a directory row's query is null before any dealing happens.
+handed one by one onto the channels a searcher can actually arrive on -
+communities, social and owned content that ranks - in fit order. **A listing gets
+no query, an outreach channel gets none, and neither does a push channel.**
+"Register on the national directory" is not a piece of writing; pairing it with a
+keyword would be advice the data does not support. A newsletter *is* a piece of
+writing and still gets none, because no results page leads to it - see
+`owned-push-as-its-own-kind`, and note that the test is a results page rather than
+an editorial calendar. This is by construction, not by instruction: the kind
+taxonomy decides which rows may receive a query, and a directory row's query is
+null before any dealing happens. That construction is also why a fold error in the
+taxonomy arrives here silently: the deal will faithfully hand a query to whatever
+the kind table calls content.
 
 The order of the queue is: queries that already have content written for them
 first (in-flight work), then by opportunity, then by measured volume, then by name
