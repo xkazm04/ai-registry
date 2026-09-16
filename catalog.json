@@ -384,7 +384,7 @@
       "reportedInvokes": 46,
       "lessons": 25,
       "lessonsPath": "skills/perfect/LESSONS.md",
-      "lessonsHash": "sha256-n1:638200b927a07ac4",
+      "lessonsHash": "sha256-n1:4f60ca4282215447",
       "usageContributors": [
         "kazda-dev-box"
       ]
@@ -807,9 +807,9 @@
       "purity": "marketing",
       "subjects": 30,
       "techniques": 181,
-      "applications": 80,
-      "files": 295,
-      "contentHash": "sha256:c7977387a908298d"
+      "applications": 81,
+      "files": 296,
+      "contentHash": "sha256:04b91bfcd702b7a0"
     },
     {
       "name": "media-generation",

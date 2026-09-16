@@ -5,7 +5,7 @@
   "source": "knowledge/marketing/ (frontmatter only)",
   "subjects": 30,
   "techniques": 181,
-  "applications": 80,
+  "applications": 81,
   "laws": 10,
   "categories": [
    "search-and-content",
@@ -3319,9 +3319,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/marketing/conversion-and-leads/speed-to-lead-and-assisted-reply/speed-to-lead-and-assisted-reply.md",
-   "digest": "sha256:9468b0693864c413",
-   "revision": 1,
-   "changedAt": "2026-09-09",
+   "digest": "sha256:f0f94d7d16ec3d00",
+   "revision": 2,
+   "changedAt": "2026-09-16",
    "techniques": [
     {
      "slug": "answer-in-first-sentence-never-promise",
@@ -3405,7 +3405,8 @@
      "use_when": [
       "deciding whether a model-drafted reply may skip a human",
       "setting an autonomy level per channel",
-      "choosing a model tier for a reply tool"
+      "choosing a model tier for a reply tool",
+      "a stranger's inbound message can reach the model that scores its own draft"
      ]
     }
    ],
@@ -3429,6 +3430,13 @@
      "technique": "five-minute-sla-settled-outcomes-only",
      "file": "knowledge/marketing/conversion-and-leads/speed-to-lead-and-assisted-reply/applications/node--five-minute-sla-settled-outcomes-only.md",
      "verified_on": "2026-09-09",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "risks-gate-not-confidence",
+     "file": "knowledge/marketing/conversion-and-leads/speed-to-lead-and-assisted-reply/applications/node--risks-gate-not-confidence.md",
+     "verified_on": "2026-09-16",
      "verified_against": "node@24"
     }
    ]

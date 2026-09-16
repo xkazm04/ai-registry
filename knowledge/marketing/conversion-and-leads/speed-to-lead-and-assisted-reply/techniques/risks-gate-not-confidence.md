@@ -6,7 +6,7 @@ technique: risks-gate-not-confidence
 status: forged
 laws: [a-gate-before-money-and-copy, label-convention-as-convention]
 shared_with: []
-use_when: [deciding whether a model-drafted reply may skip a human, setting an autonomy level per channel, choosing a model tier for a reply tool]
+use_when: [deciding whether a model-drafted reply may skip a human, setting an autonomy level per channel, choosing a model tier for a reply tool, a stranger's inbound message can reach the model that scores its own draft]
 ---
 
 # The risks list is the gate, not the confidence number
@@ -65,6 +65,8 @@ is a vendor convention, not a measurement.
 2. A canned or model-less fallback scores zero and lists itself as the risk.
 3. An inbound message awaiting an answer carries a placeholder risk so it can never be
    auto-approved before a draft exists; the model's list replaces it, never merges.
+   A risk the code detected in the inbound is not a placeholder: it merges ahead of the
+   model's list, and the model cannot clear it (see the next section).
 4. Apply the gate in exactly one function; the interactive path and the unattended
    path call the same one.
 5. Render the number against the channel's bar - clear, close, well short - with the
@@ -86,6 +88,37 @@ is a vendor convention, not a measurement.
   reason into the next prompt's avoid block, because the gate cannot learn but the
   prompt can.
 
+## When the inbound is written to move the list
+
+The argument above has a premise it does not state: the model's errors are honest. A
+weak model omits a concern by accident, so the list fails toward the human more often
+than toward the send. An inbound message is written by whoever is on the other end, and
+a hostile one does not need the model to misjudge anything. It asks the model to report
+a high number and an empty list, and a model that obeys produces exactly the two values
+the gate reads. Under that input the list fails toward the send, and it fails the same
+way on every tier, because following text is not a weakness a better tier removes.
+
+So the two scores stay the model's, and the gate gains a third input the model cannot
+write: the hostile shapes the code itself recognises in the inbound text - an override
+phrase, a forged role or template token, the gate's own field names with passing values,
+invisible characters. Each hit becomes a risk entry of its own kind, merged ahead of the
+model's list, stored with the draft so the reviewer sees why it is held, and evaluated
+inside the same one gate function so the interactive and unattended paths cannot
+disagree. The cost of a false hit is one human read on a message that would have been
+fine, which is the recoverable error; the cost of a miss without it is a reply sent under
+the operator's name on a stranger's instruction.
+
+Measured on a workspace that already quoted inbound text as data and already detected
+these patterns, but used the detection only to add a warning to the prompt: with the
+model assumed to obey, 12 of 12 adversarial payloads from its own test corpus were
+auto-approved by the old gate and 0 of 12 by the gate that reads the detection; its nine
+ordinary customer messages were auto-approved 9 of 9 under both, so the floor held at
+that sample size. Two limits travel with the rule. Detection is a pattern list, and an
+empty result means "nothing recognised", not "safe", so the structural quoting of the
+inbound stays mandatory. And a word that ordinary customers use for an ordinary reason,
+a forgotten password for instance, will hold some honest messages; measure the hold rate
+on the channel's own traffic before tightening the pattern list, not after.
+
 ## When not to use this
 
 Do not use the gate as the delivery decision. It judges text; whether the act of
@@ -95,4 +128,5 @@ auto to a channel with no real, configured connector: an auto channel behind a m
 connector is a setting with no wire, and an unattended run must skip it rather than
 approve into a void. Do not extend the risks-empty rule into a general trust in the
 model's self-assessment; the list is trusted because it fails toward the human, not
-because it is accurate.
+because it is accurate - and it only fails toward the human while nothing in the input
+was written to make it fail the other way.

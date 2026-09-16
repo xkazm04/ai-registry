@@ -27,6 +27,17 @@ consumer workspace at `2893314` and the SEO prompt pipeline at `a47c1ecd`.
   kept; the source note `librarian/sources/2026-09-09-seo-agent.md` carries the
   deviation backlog by area.
 
+## 2026-09-16 - intake-ff7om2
+
+- Amendment to `risks-gate-not-confidence`: the list fails toward the human only for
+  honest errors, and a payload written to empty it inverts that; code-detected inbound
+  signals are a gate input the model cannot clear. Source note
+  `librarian/sources/2026-09-16-agent-own-inbox.md`.
+- New application `node--risks-gate-not-confidence` (applied: code, better, ab-paired).
+  First `librarian/applied.md` row for this subject.
+- Boundary shared with software-engineering prompt-safety (`payoff-removal` names the
+  self-elevating channel); stated in prose on this side, no cross-bundle link.
+
 ## Owed
 
 - Single-stack debt: born with the stacks above; an external reconcile against a
