@@ -1041,9 +1041,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/visual-generation/generative-provider-routing/generative-provider-routing.md",
-   "digest": "sha256:a3f1c1edcf0bb54f",
-   "revision": 10,
-   "changedAt": "2026-09-16",
+   "digest": "sha256:75809ad774c29a60",
+   "revision": 11,
+   "changedAt": "2026-09-17",
    "techniques": [
     {
      "slug": "capability-to-vendor-plan",
