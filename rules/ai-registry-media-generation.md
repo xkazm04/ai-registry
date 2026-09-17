@@ -1,6 +1,6 @@
 # Media generation - the subjects this registry carries
 
-`media-generation` - 20 subjects, 136 techniques, 67 applications.
+`media-generation` - 21 subjects, 144 techniques, 72 applications.
 Slugs only; resolve one through `index.json` as the access rule beside this file describes.
 
 ### narrative-craft
@@ -16,4 +16,4 @@ Slugs only; resolve one through `index.json` as the access rule beside this file
 - generated-music-acceptance, music-prompt-composition, sound-effect-generation
 
 ### production-ops
-- platform-format-adaptation, production-pipeline-phasing, review-iteration-loops, video-assembly
+- live-system-demo-film, platform-format-adaptation, production-pipeline-phasing, review-iteration-loops, video-assembly

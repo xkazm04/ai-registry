@@ -1,0 +1,37 @@
+{
+  "$comment": "AUTHORITY on where every subject lives. The folder tree is DERIVED from this file; moves go through scripts/apply-taxonomy.mjs and nothing else.",
+  "schema": "rkb-taxonomy/1",
+  "bundle": "agent-operations",
+  "layout": "nested",
+  "categories": [
+    {
+      "id": "configuration-choice",
+      "title": "Configuration choice",
+      "order": 1,
+      "subjects": [
+        "model-and-effort-selection",
+        "engine-behaviour-profiles",
+        "agent-run-budgeting"
+      ]
+    },
+    {
+      "id": "measurement",
+      "title": "Measurement",
+      "order": 2,
+      "subjects": [
+        "agent-benchmark-design",
+        "deterministic-run-verification",
+        "blind-judging-of-agent-runs",
+        "harness-fault-attribution"
+      ]
+    },
+    {
+      "id": "run-safety",
+      "title": "Run safety",
+      "order": 3,
+      "subjects": [
+        "unattended-run-isolation"
+      ]
+    }
+  ]
+}
