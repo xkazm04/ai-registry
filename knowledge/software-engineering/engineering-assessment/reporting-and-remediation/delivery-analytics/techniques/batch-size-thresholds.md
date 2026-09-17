@@ -56,6 +56,15 @@ Three properties matter more than the specific boundaries:
   hunks give different distributions; a rename-heavy change is enormous by
   line count and trivial by intent. Pick one, name it in the metric's
   definition, and hold it stable across the series.
+  And a stated unit NAME is not a stated unit: "added lines" counted by a
+  writing tool about its own edits measures that tool's edit grammar, not the
+  work. Measured over 21,840 real mutating calls from one producer, two grammars
+  inflated the same net change by 6.89x and 1.19x - a 5.8x spread with the model,
+  the operator, the repositories and the period all held constant - and the
+  inflation rises with file size for one grammar and is flat for the other, so
+  there is no correction factor. A size series assembled from producer
+  self-reports is not a size series
+  ([line-volume-confounded-with-edit-grammar](./line-volume-confounded-with-edit-grammar.md)).
 - **Exclusions are stated and applied at collection.** Lockfiles, generated
   clients, vendored trees, snapshot fixtures, and bulk formatting passes are
   excluded from the size measure or they *are* the size measure. Applying the

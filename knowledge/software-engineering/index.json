@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 229,
-  "techniques": 1744,
-  "applications": 1064,
+  "techniques": 1747,
+  "applications": 1066,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1744/1744",
+  "use_when_coverage": "1747/1747",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -9536,8 +9536,8 @@
    "subcategory": "reporting-and-remediation",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-assessment/reporting-and-remediation/delivery-analytics/delivery-analytics.md",
-   "digest": "sha256:aaa8209cba966f76",
-   "revision": 4,
+   "digest": "sha256:2527c2b1c7b7b888",
+   "revision": 5,
    "changedAt": "2026-09-17",
    "techniques": [
     {
@@ -9582,6 +9582,22 @@
       "plotting a delivery trend",
       "deciding whether a rate has enough samples to publish",
       "reviewing a metric someone else defined"
+     ]
+    },
+    {
+     "slug": "line-volume-confounded-with-edit-grammar",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "comparing two code-writing tools or models by lines written",
+      "ingesting a volume figure a producer reported about its own output",
+      "summing a lines metric across more than one producer",
+      "defining the unit of a change-size metric whose source is an editing tool's own log rather than version-control history",
+      "deciding whether a producer-reported volume figure may be shown at all"
      ]
     },
     {
@@ -16174,8 +16190,8 @@
    "subcategory": "standards-and-gates",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/invariant-placement/invariant-placement.md",
-   "digest": "sha256:dad3ad84c7775080",
-   "revision": 6,
+   "digest": "sha256:993670bb930d5af9",
+   "revision": 7,
    "changedAt": "2026-09-17",
    "techniques": [
     {
@@ -16287,6 +16303,27 @@
      ]
     },
     {
+     "slug": "occurrence-is-not-a-type",
+     "status": "forged",
+     "laws": [
+      "absent-guard-is-loud",
+      "failure-not-empty-success",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a contract term is believed to be held by the type checker and has never been tested",
+      "deciding whether a convention needs a checker when the code already type-checks",
+      "a rule concerns when a value was read rather than what it is",
+      "a rule concerns whether a returned value was used or discarded",
+      "a rule concerns which parts of a value a consumer touched",
+      "a rule concerns whether two values are the same object rather than equal ones",
+      "an annotation is required to be tighter than the checker demands",
+      "a team has one checker rule per library idiom and no account of what they have in common",
+      "a compliance rate for a convention has never been measured because nothing reads it"
+     ]
+    },
+    {
      "slug": "paired-sites-localize-the-fault",
      "status": "forged",
      "laws": [
@@ -16344,6 +16381,13 @@
      "file": "knowledge/software-engineering/engineering-process/standards-and-gates/invariant-placement/applications/next--indistinguishable-members-do-not-rise.md",
      "verified_on": "2026-09-16",
      "verified_against": "next@16.3.3"
+    },
+    {
+     "stack": "next",
+     "technique": "occurrence-is-not-a-type",
+     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/invariant-placement/applications/next--occurrence-is-not-a-type.md",
+     "verified_on": "2026-09-17",
+     "verified_against": "next@16.1.3"
     },
     {
      "stack": "node",
@@ -32381,8 +32425,8 @@
    "subcategory": "build-and-release",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/build-and-release/test-harness/test-harness.md",
-   "digest": "sha256:4040c259edd53f1d",
-   "revision": 21,
+   "digest": "sha256:d4f324cd853a7f44",
+   "revision": 22,
    "changedAt": "2026-09-17",
    "techniques": [
     {
@@ -32399,6 +32443,25 @@
       "deciding how a snapshot suite may be re-baselined",
       "a pipeline run went green after a change that should have altered recorded output",
       "choosing between an environment flag and a source constant for record mode"
+     ]
+    },
+    {
+     "slug": "configuration-axes-cross-the-ladder",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "count-carries-predicate",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a suite runs under more than one build configuration or feature set",
+      "deciding whether an environment or capability option is a rung of the fidelity ladder or an axis across it",
+      "a result is reported per file or per platform while the run varied something else too",
+      "two separate jobs each vary one option and the pair is read as covering both",
+      "a conditional-compilation flag decides which tests exist",
+      "the same test passes under one configuration and fails under another",
+      "publishing a green verdict for a suite whose options multiply"
      ]
     },
     {
@@ -32764,6 +32827,13 @@
      "file": "knowledge/software-engineering/engineering-process/build-and-release/test-harness/applications/python--derived-selection-must-be-measured.md",
      "verified_on": "2026-09-06",
      "verified_against": "python@3.10"
+    },
+    {
+     "stack": "rust",
+     "technique": "configuration-axes-cross-the-ladder",
+     "file": "knowledge/software-engineering/engineering-process/build-and-release/test-harness/applications/rust--configuration-axes-cross-the-ladder.md",
+     "verified_on": "2026-09-17",
+     "verified_against": "rust@1.80"
     },
     {
      "stack": "rust",
@@ -36298,6 +36368,7 @@
     "terminal-multiplexing/occupant-state-detection",
     "terminal-multiplexing/readiness-edge-detection",
     "test-harness/approval-snapshots-with-guarded-update",
+    "test-harness/configuration-axes-cross-the-ladder",
     "test-harness/constraint-injection-for-unreachable-tiers",
     "test-harness/context-starved-executor",
     "test-harness/derived-selection-must-be-measured",
@@ -36607,6 +36678,7 @@
     "import-normalization/lossy-conversion-disclosure",
     "invariant-placement/constraint-deletion-is-silent",
     "invariant-placement/indistinguishable-members-do-not-rise",
+    "invariant-placement/occurrence-is-not-a-type",
     "invariant-placement/paired-sites-localize-the-fault",
     "invariant-placement/shape-with-a-not-applicable-member",
     "ipc-contract/call-wrapping",
@@ -37164,6 +37236,7 @@
     "delivery-analytics/attribution-channels",
     "delivery-analytics/batch-size-thresholds",
     "delivery-analytics/delivery-metric-denominators",
+    "delivery-analytics/line-volume-confounded-with-edit-grammar",
     "delivery-analytics/path-class-confounded-with-size",
     "delivery-analytics/post-landing-repair-density",
     "delivery-analytics/revert-linkage",
@@ -37255,6 +37328,7 @@
     "i18n/encoding-corruption-ratchet",
     "import-normalization/adapter-capability-tables",
     "import-normalization/lossy-conversion-disclosure",
+    "invariant-placement/occurrence-is-not-a-type",
     "ipc-contract/casing-and-naming",
     "job-coordination/job-observability",
     "job-coordination/no-wall-clock-in-the-advance-contract",
@@ -37461,6 +37535,7 @@
     "templates-scaffolding/catalog-curation",
     "templates-scaffolding/integrity-and-provenance",
     "terminal-multiplexing/bounded-replay-buffers",
+    "test-harness/configuration-axes-cross-the-ladder",
     "test-harness/constraint-injection-for-unreachable-tiers",
     "test-harness/derived-selection-must-be-measured",
     "test-harness/far-side-oracle",
@@ -37572,6 +37647,7 @@
     "declarative-object-graph-configs/reference-resolution-with-cycle-detection",
     "declared-process-graph/panic-proof-numeric-fields",
     "declared-process-graph/typed-port-compatibility",
+    "delivery-analytics/line-volume-confounded-with-edit-grammar",
     "delivery-analytics/path-class-confounded-with-size",
     "delivery-analytics/post-landing-repair-density",
     "delivery-guarantees/marker-certifies-what-was-done",
@@ -37718,6 +37794,7 @@
     "terminal-multiplexing/capability-revalidation",
     "terminal-multiplexing/completion-authority-arbitration",
     "terminal-multiplexing/occupant-state-detection",
+    "test-harness/configuration-axes-cross-the-ladder",
     "tracing/class-before-inspection",
     "transactions-over-a-replicated-log/capture-index-before-snapshot",
     "transactions-over-a-replicated-log/live-file-is-the-snapshot",
@@ -39496,6 +39573,7 @@
     "invariant-placement/derived-properties-cannot-be-forged",
     "invariant-placement/indistinguishable-members-do-not-rise",
     "invariant-placement/initialization-proof-tokens",
+    "invariant-placement/occurrence-is-not-a-type",
     "invariant-placement/paired-sites-localize-the-fault",
     "invariant-placement/placement-precedes-gate",
     "issuance-policy-ladder/require-one-constraint",
