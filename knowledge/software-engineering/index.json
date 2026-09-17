@@ -4,7 +4,7 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 229,
-  "techniques": 1714,
+  "techniques": 1715,
   "applications": 1045,
   "laws": 15,
   "categories": [
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1714/1714",
+  "use_when_coverage": "1715/1715",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -1739,9 +1739,9 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/agent-memory.md",
-   "digest": "sha256:4a956cefb2da8051",
-   "revision": 34,
-   "changedAt": "2026-09-16",
+   "digest": "sha256:720d7ba289c9ef30",
+   "revision": 35,
+   "changedAt": "2026-09-17",
    "techniques": [
     {
      "slug": "baseline-ladder",
@@ -7844,9 +7844,9 @@
    "subcategory": "data-layer",
    "status": "reconciled",
    "file": "knowledge/software-engineering/backend-platform/data-layer/data-access/data-access.md",
-   "digest": "sha256:de6ed0cda7413b0e",
-   "revision": 16,
-   "changedAt": "2026-09-07",
+   "digest": "sha256:adfb0314c7db7f52",
+   "revision": 17,
+   "changedAt": "2026-09-17",
    "techniques": [
     {
      "slug": "batching-and-n-plus-one",
@@ -7892,6 +7892,24 @@
       "putting a second storage backend behind one repository interface",
       "an invariant is declarative in one engine and a convention in the other",
       "deciding what a hand-written driver double must enforce"
+     ]
+    },
+    {
+     "slug": "existence-authority-written-last",
+     "status": "forged",
+     "laws": [
+      "record-precedes-effect",
+      "creation-names-reaper",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "one logical create or delete writes to two stores that share no transaction",
+      "a file or blob is written beside a database or registry row",
+      "deciding which of two writes goes first when a crash can land between them",
+      "a listing is built by enumerating one store and joining the other",
+      "a rollback ledger records only what reached the second store",
+      "a staged file and a row must both exist before a record is usable"
      ]
     },
     {
@@ -9415,7 +9433,7 @@
    "file": "knowledge/software-engineering/backend-platform/work-execution/delivery-guarantees/delivery-guarantees.md",
    "digest": "sha256:068b277142d3efdc",
    "revision": 6,
-   "changedAt": "2026-09-16",
+   "changedAt": "2026-09-17",
    "techniques": [
     {
      "slug": "atomic-claiming",
@@ -12807,7 +12825,7 @@
    "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/eval-harness/eval-harness.md",
    "digest": "sha256:3ba6de69a4a6aa5d",
    "revision": 31,
-   "changedAt": "2026-09-16",
+   "changedAt": "2026-09-17",
    "techniques": [
     {
      "slug": "assertion-vs-judgment",
@@ -16271,7 +16289,7 @@
    "file": "knowledge/software-engineering/backend-platform/work-execution/job-coordination/job-coordination.md",
    "digest": "sha256:1e6c05c01dddbbb8",
    "revision": 15,
-   "changedAt": "2026-09-16",
+   "changedAt": "2026-09-17",
    "techniques": [
     {
      "slug": "in-flight-is-a-position",
@@ -23001,9 +23019,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/secret-custody-and-issuance/priced-authority/priced-authority.md",
-   "digest": "sha256:fd61208503ceffae",
-   "revision": 2,
-   "changedAt": "2026-09-03",
+   "digest": "sha256:e0b5d136f412a0a2",
+   "revision": 3,
+   "changedAt": "2026-09-17",
    "techniques": [
     {
      "slug": "approver-not-requester",
@@ -30056,7 +30074,7 @@
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/structured-output/structured-output.md",
    "digest": "sha256:d2e444c639b21ac1",
    "revision": 13,
-   "changedAt": "2026-09-16",
+   "changedAt": "2026-09-17",
    "techniques": [
     {
      "slug": "answer-coverage-gating",
@@ -36848,6 +36866,7 @@
     "correlated-exchange-over-broadcast/terminal-status-set",
     "credential-vault/versioned-key-window",
     "cross-instance-cache-lease/a-deadline-is-not-portable-between-clocks",
+    "data-access/existence-authority-written-last",
     "data-access/sequence-token-write-ordering",
     "data-plane-transport-selection/route-probe-then-freeze",
     "decentralized-artifact-distribution/split-admit-state-and-redact-authority",
@@ -37606,6 +37625,7 @@
     "credential-vault/token-refresh-lifecycle",
     "cross-instance-cache-lease/renew-from-arrival-not-from-work",
     "cross-instance-cache-lease/renewal-beats-a-tuned-timeout",
+    "data-access/existence-authority-written-last",
     "data-plane-transport-selection/control-plane-off-the-data-path",
     "data-plane-transport-selection/moved-payload-has-no-fallback",
     "data-retention/per-tenant-retention-policy",
@@ -38886,6 +38906,7 @@
     "agent-runtime-assembly/additive-input-at-the-call-boundary",
     "agent-runtime-assembly/substituted-result-attribution",
     "cross-instance-cache-lease/renew-from-arrival-not-from-work",
+    "data-access/existence-authority-written-last",
     "decentralized-artifact-distribution/publisher-declared-verification-floor",
     "declarative-resource-lifecycle/deletion-blocked-until-dependents-confirm",
     "deferred-finalization/finalization-freezes-the-inputs",

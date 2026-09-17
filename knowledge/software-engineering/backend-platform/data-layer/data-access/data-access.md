@@ -14,6 +14,7 @@ techniques:
   - read-models-and-projections
   - capability-declared-in-the-type
   - sequence-token-write-ordering
+  - existence-authority-written-last
   - operator-defined-tables
   - localized-record-identity
 ---
@@ -353,6 +354,10 @@ in incident reports.
 - [sequence-token-write-ordering](./techniques/sequence-token-write-ordering.md)
   — order carried as data when no transaction spans the stores: allocation,
   the stamping door, ties as answers, and what the token does not buy.
+- [existence-authority-written-last](./techniques/existence-authority-written-last.md)
+  — two stores with no shared transaction: the store readers treat as proof of
+  existence is written last and removed first, payloads staged outside it, and
+  why "referent before reference" and "index before record" are one rule.
 - [operator-defined-tables](./techniques/operator-defined-tables.md) — the
   model as runtime data: definitions as rows and record types as real tables,
   the two-tier field rule that keeps the queryable set honest, identifier

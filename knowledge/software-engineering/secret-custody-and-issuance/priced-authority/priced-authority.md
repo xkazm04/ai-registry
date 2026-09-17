@@ -109,6 +109,11 @@ as a rule, the entry names its revoker before it exists
 ([creation-names-reaper](../../_laws.md#creation-names-reaper)). The
 technique is [secondary-index-before-primary](./techniques/secondary-index-before-primary.md).
 
+This looks like the opposite of "write the existence authority last" and is
+the same rule: here readers reach the record through the revocation chain,
+so the chain entry is the authority for whether a token may exist
+([existence-authority-written-last](../../backend-platform/data-layer/data-access/techniques/existence-authority-written-last.md)).
+
 Revocation has the mirror problem. Revoking a token means revoking its
 leases and its children, which is slow, deferred, and can fail halfway. If
 the record is deleted first, a half-finished revocation leaves orphaned
