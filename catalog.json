@@ -138,6 +138,20 @@
       "usageContributors": []
     },
     {
+      "name": "contest",
+      "version": "1.0.0",
+      "category": "workflow",
+      "path": "skills/contest/SKILL.md",
+      "contentHash": "sha256-n1:dbdff9164b51faa8",
+      "adopters": [],
+      "invokes30d": 0,
+      "reportedInvokes": 0,
+      "lessons": 1,
+      "lessonsPath": "skills/contest/LESSONS.md",
+      "lessonsHash": "sha256-n1:98a49baf939f513d",
+      "usageContributors": []
+    },
+    {
       "name": "cx",
       "version": "1.3.1",
       "category": "workflow",
@@ -727,10 +741,10 @@
     }
   ],
   "counts": {
-    "skills": 33,
+    "skills": 34,
     "practices": 8,
     "memory": 6,
-    "lessons": 228
+    "lessons": 229
   },
   "bundles": [
     {
@@ -859,9 +873,9 @@
       "purity": "software",
       "subjects": 229,
       "techniques": 1710,
-      "applications": 1052,
-      "files": 2996,
-      "contentHash": "sha256:0c827e96891170f5"
+      "applications": 1054,
+      "files": 2998,
+      "contentHash": "sha256:2f17f16b96faf2c8"
     }
   ],
   "usageEvidence": {
