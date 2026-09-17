@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 229,
-  "techniques": 1724,
-  "applications": 1050,
+  "techniques": 1725,
+  "applications": 1052,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1724/1724",
+  "use_when_coverage": "1725/1725",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -14068,8 +14068,8 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/fleet-orchestration/fleet-orchestration.md",
-   "digest": "sha256:10de11d5530c6742",
-   "revision": 20,
+   "digest": "sha256:046e777fce66fbdf",
+   "revision": 21,
    "changedAt": "2026-09-17",
    "techniques": [
     {
@@ -14256,13 +14256,16 @@
       "gate-sees-target",
       "one-validation-door",
       "creation-names-reaper",
-      "count-carries-predicate"
+      "count-carries-predicate",
+      "limits-are-derived",
+      "failure-not-empty-success"
      ],
      "shared_with": [],
      "use_when": [
       "deciding how many sessions may run at once",
       "two sessions wrote the same file at once",
-      "fanning one task across many targets"
+      "fanning one task across many targets",
+      "a run keeps issuing legal-sized batches and nothing bounds what it spends in total"
      ]
     },
     {
@@ -14347,6 +14350,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "parallel-dispatch",
+     "file": "knowledge/software-engineering/llm-agent/orchestration/fleet-orchestration/applications/node--parallel-dispatch.md",
+     "verified_on": "2026-09-17",
+     "verified_against": "node@24"
+    },
     {
      "stack": "node",
      "technique": "substrate-reconciliation",
@@ -16232,9 +16242,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/secret-custody-and-issuance/issuance-policy-ladder/issuance-policy-ladder.md",
-   "digest": "sha256:993cfc91b01f5ebf",
-   "revision": 2,
-   "changedAt": "2026-09-03",
+   "digest": "sha256:a515f3a0584374f3",
+   "revision": 3,
+   "changedAt": "2026-09-17",
    "techniques": [
     {
      "slug": "bounds-as-modes",
@@ -16313,6 +16323,23 @@
      ]
     },
     {
+     "slug": "stamped-instants-name-their-clock",
+     "status": "forged",
+     "laws": [
+      "unknown-is-not-a-value",
+      "creation-names-reaper",
+      "verdict-survives-boundary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a role pins a bound to an absolute timestamp",
+      "an issuer must mint before its time source is trustworthy",
+      "artifacts are minted ahead of demand and handed out later",
+      "deciding whether to end a credential with a deadline or with a revocation",
+      "a validity window is computed from the issuer's own clock"
+     ]
+    },
+    {
      "slug": "verbatim-is-a-separate-privilege",
      "status": "forged",
      "laws": [
@@ -16349,6 +16376,13 @@
      "file": "knowledge/software-engineering/secret-custody-and-issuance/issuance-policy-ladder/applications/go--require-one-constraint.md",
      "verified_on": "2026-09-02",
      "verified_against": "go@1.27"
+    },
+    {
+     "stack": "rust",
+     "technique": "stamped-instants-name-their-clock",
+     "file": "knowledge/software-engineering/secret-custody-and-issuance/issuance-policy-ladder/applications/rust--stamped-instants-name-their-clock.md",
+     "verified_on": "2026-09-17",
+     "verified_against": "rust@1.96.1"
     }
    ]
   },
@@ -36112,6 +36146,7 @@
     "fleet-orchestration/durable-fleet-state",
     "fleet-orchestration/heterogeneous-model-panels",
     "fleet-orchestration/lifecycle-signals",
+    "fleet-orchestration/parallel-dispatch",
     "fleet-orchestration/result-harvest",
     "fleet-orchestration/soft-budget-under-the-hard-cap",
     "fleet-orchestration/substrate-reconciliation",
@@ -37129,6 +37164,7 @@
     "invariant-placement/shape-with-a-not-applicable-member",
     "issuance-policy-ladder/float-references-resolve-at-use",
     "issuance-policy-ladder/require-one-constraint",
+    "issuance-policy-ladder/stamped-instants-name-their-clock",
     "job-coordination/in-flight-is-a-position",
     "job-coordination/liveness-proof-reclaim",
     "job-coordination/no-wall-clock-in-the-advance-contract",
@@ -37919,6 +37955,7 @@
     "import-normalization/review-before-commit",
     "invariant-placement/consumption-bounds-at-most-once",
     "ipc-contract/drift-gates",
+    "issuance-policy-ladder/stamped-instants-name-their-clock",
     "job-coordination/lease-renewal",
     "job-coordination/liveness-proof-reclaim",
     "lazy-section-addressability/scroll-to-hydrate-then-retry",
@@ -38789,6 +38826,7 @@
     "guest-execution-bounding/uncatchable-limit-errors",
     "issuance-policy-ladder/bounds-as-modes",
     "issuance-policy-ladder/program-role-returns-the-artifact",
+    "issuance-policy-ladder/stamped-instants-name-their-clock",
     "issuance-policy-ladder/verbatim-is-a-separate-privilege",
     "knowledge-registry/verification-is-contributed",
     "machine-authored-documentation/declared-truth-boundary",
@@ -38863,6 +38901,7 @@
     "deterministic-prefix-caching/running-window-replacement",
     "embedded-tracing-collector/allocation-threshold-growth-policy",
     "engine-string-representation/compile-time-static-string-table",
+    "fleet-orchestration/parallel-dispatch",
     "fleet-orchestration/soft-budget-under-the-hard-cap",
     "guest-execution-bounding/bounded-shadow-backtrace",
     "guest-execution-bounding/budget-tier-from-observed-output",

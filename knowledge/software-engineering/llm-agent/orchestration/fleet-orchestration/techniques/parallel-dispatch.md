@@ -4,9 +4,9 @@ type: technique
 subject: fleet-orchestration
 technique: parallel-dispatch
 status: forged
-laws: [gate-sees-target, one-validation-door, creation-names-reaper, count-carries-predicate]
+laws: [gate-sees-target, one-validation-door, creation-names-reaper, count-carries-predicate, limits-are-derived, failure-not-empty-success]
 shared_with: []
-use_when: [deciding how many sessions may run at once, two sessions wrote the same file at once, fanning one task across many targets]
+use_when: [deciding how many sessions may run at once, two sessions wrote the same file at once, fanning one task across many targets, a run keeps issuing legal-sized batches and nothing bounds what it spends in total]
 ---
 
 # Parallel dispatch
@@ -43,6 +43,85 @@ passes the same admission check.
 - **Promotion is dispatch.** When a slot frees, the queue head goes through
   full admission — including write-scope validation, because the world
   changed while it waited.
+
+## The cap counts a stock; the run needs a second number
+
+The slot cap above is a **stock** bound. It counts what is alive at this
+instant, and the state machine gives the slot back on every confirmed stop.
+That is exactly right for the thing it protects — the machine's simultaneous
+load — and it is why the cap cannot also be the run's budget. A run that
+reaches a planning checkpoint, issues a batch inside the cap, waits for it,
+plans again and issues another has spent an unbounded amount while breaching
+nothing. The degenerate case makes the gap obvious: a loop that dispatches
+**one** worker at a time, sequentially, can never reach a ceiling of any
+size, so no ceiling bounds it. "A broadcast of forty against a cap of eight
+is a rolling wave by construction" is the same sentence read from the other
+end — the rolling wave is admission the cap declines to count.
+
+So the door carries a second number, and the two are different kinds of
+thing:
+
+- **The slot cap is per instant and releases.** Its counter goes down when
+  work finishes.
+- **The run total is per run and does not.** Its ledger only ever rises
+  within one run identity — the identity the broadcast already mints — and it
+  is reserved **at admission**, not booked at completion. A total read from
+  settled work admits one cap's worth of extra sessions before the first one
+  returns to be counted, and the overshoot is invisible because every
+  individual admission was legal.
+
+**The failure is usually a mis-scoped limit, not an absent one.** A limit
+whose window is *smaller* than the run — one batch, one planning turn, one
+response — is reissued intact at the next checkpoint, so the run pays it
+once per checkpoint and never once per run. A limit whose window is *larger*
+— a rolling hour, a day — grants a long run one budget per window and a
+short run the same. Neither is wrong as a rate; neither is a total. The
+total's predicate is the run
+([a count carries its predicate](../../../../_laws.md#count-carries-predicate)),
+and the run is the only scope at which "did this piece of work cost what we
+agreed" has an answer.
+
+Pick the number by derivation, not by feel
+([limits-are-derived](../../../../_laws.md#limits-are-derived)): the slot cap
+times the rounds a run is allowed to spend, or the run's cost ceiling divided
+by a worker's expected cost, with the derivation written beside it. A total
+typed by hand next to a configurable slot cap stops tracking it at the first
+tuning pass, and the symptom is a fleet granted more capacity that does not
+use it.
+
+**The overflow rule inverts, and this is the part that surprises.** The slot
+cap queues what it refuses: the work is coming, just later, and the queue is
+ordered, visible and durable. A run total cannot queue its overflow — the
+queue would hold the run's own excess and the run would never end. Its
+overflow is **deferred to the next run** and recorded as a deferral, with the
+count, not dropped
+([failure-not-empty-success](../../../../_laws.md#failure-not-empty-success)):
+an operator reads that count to learn whether the budget binds on every run
+(raise it, or the work never finishes) or on none (it is not the constraint).
+
+Deferral buys that only under a condition the slot cap never needs, because
+the slot cap only ever delays: **the admitted work must leave the work list.**
+A run whose next list is re-derived from persisted progress starts where the
+last one stopped, and the tail advances. A run whose list is re-derived
+unchanged admits the same prefix forever and starves everything behind it,
+and the starvation is silent because every run reports a full, successful
+budget. Where progress is not persisted, the honest configuration is the
+ordered durable queue, not a deferral.
+
+**When the second number is not owed.** A door that serves *independent
+arrivals* — each one a whole piece of work, arriving from outside, with its
+own deadline — has no run to key a total on. Its accounting unit is the
+arrival; its correct second number is a rate or an admission refusal, and a
+run total there is ceremony that cannot fire. The discriminator is whether
+the door serves a caller that **authors its own next batch**. A dispatcher
+walking a list fixed before the run started is bounded by the list; a
+dispatcher whose next batch is chosen from what the last one returned is
+bounded by nothing it has written down.
+
+Depth — a worker that dispatches workers — is a third axis and not this
+subject's; a fleet bounds it by withholding the dispatch capability from the
+worker rather than by counting, and the counting form lives with the sibling
+subject that owns event-wired continuation.
 
 ## When the requester cannot survive the wait, refuse instead of queueing
 

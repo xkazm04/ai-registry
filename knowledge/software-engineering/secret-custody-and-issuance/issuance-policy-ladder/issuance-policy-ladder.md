@@ -11,6 +11,7 @@ techniques:
   - bounds-as-modes
   - verbatim-is-a-separate-privilege
   - program-role-returns-the-artifact
+  - stamped-instants-name-their-clock
 ---
 
 # Issuance policy ladder
@@ -89,6 +90,22 @@ of the rungs is written down once, in one place, with one answer to the
 question "what happens at the issuer's own limit": permit, truncate or
 error, chosen per issuer and declared. A ladder that lives in three handlers is three
 ladders ([bounds-as-modes](./techniques/bounds-as-modes.md)).
+
+## The rung the ladder does not have is the clock
+
+Every rung above is a difference from *now*, and the clock that produces *now* is
+the one input to the composition that nothing checks. An issuer that has just
+booted and not yet reached a time source, or one whose clock is about to be
+corrected out from under an artifact it already minted, composes the ladder
+perfectly and writes an instant that was never true. Signing does not help - a
+tamper-evident lie verifies. The remedy is chosen by whether the issuer can still
+reach the artifact after it leaves: a row it re-reads on every use needs a repair
+path, and an artifact carried to verifiers the issuer will never meet needs a
+minting path that can refuse. The sharpest case is the smallest one: when the
+intent is *this ends and does not resume*, a deadline stamped at the present is
+the one bound a backward clock step always undoes, so an irreversible intent is
+expressed as a state and not as an instant
+([stamped-instants-name-their-clock](./techniques/stamped-instants-name-their-clock.md)).
 
 ## Two doors, not one door with a flag
 
@@ -195,3 +212,8 @@ the key's; it does not rotate the key.
 - [program-role-returns-the-artifact](./techniques/program-role-returns-the-artifact.md)
   - a sandboxed program as a separate role type that returns the finished
   artifact or a refusal, with protocol checks outside it.
+- [stamped-instants-name-their-clock](./techniques/stamped-instants-name-their-clock.md)
+  - what an issuer owes before it writes an absolute instant into something that
+  is about to leave: warranting the clock, an age bound on pre-minted stock derived
+  from the tightest reader of the stamp, and an irreversible intent expressed as a
+  state rather than as a deadline a clock correction can reopen.

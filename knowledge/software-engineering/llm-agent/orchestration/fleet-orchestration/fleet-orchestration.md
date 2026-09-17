@@ -193,6 +193,11 @@ trusted to observe. Slot accounting is registry state like everything else:
 a session that hibernates releases its slot; a session the sweeper declares
 lost releases its slot *through the same transition machinery*, or the fleet
 slowly strangles itself on slots held by ghosts.
+That cap is a stock, released as sessions end, so it is not the run's
+budget: a run that issues legal-sized batches at each of its own checkpoints
+spends without limit while breaching nothing, and the total - reserved at
+admission, keyed on the run identity the broadcast already mints, deferred
+rather than queued when it is spent - is a second number at the same door.
 
 ## Harvest is a phase, not a hope
 
@@ -295,9 +300,9 @@ mode is absent.
 - [hibernation-and-resume](./techniques/hibernation-and-resume.md) — park and
   wake semantics: what survives hibernation, what is released, and how
   resume proves identity.
-- [parallel-dispatch](./techniques/parallel-dispatch.md) — spawn-many and
-  broadcast, the slot cap, disjoint write-set assignment, and collision
-  detection when disjointness fails.
+- [parallel-dispatch](./techniques/parallel-dispatch.md) - spawn-many and
+  broadcast, the slot cap and the run total beside it, disjoint write-set
+  assignment, and collision detection when disjointness fails.
 - [result-harvest](./techniques/result-harvest.md) — per-session results into
   a run-level aggregate, partial-failure accounting, and the straggler
   policy.
