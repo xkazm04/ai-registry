@@ -11158,3 +11158,23 @@ The cheap version is one grep at Phase 4, after the map names homes and before P
   normaliser line held literal 0x08 bytes where `\b` was meant, and the failed match was the
   first evidence. Splice such a file with binary I/O, assert the byte count after, and write
   the fixed escape as the two characters backslash-b with a comment saying why.
+
+## 2.11.0 - 2026-09-17 - refactoring-hermes-1393-agents
+
+- **A by-name grep across a wire boundary returns coincidences, and a coincidence reads as
+  a live caller.** The seam check grepped 218 export names as string literals in the other
+  language's tree and got one hit, which would have been filed as "the instrument called a
+  live export dead". The dispatcher on the far side resolves names against its own method
+  table, and that table installs its own implementation of the same name; the export was
+  a duplicate and the instrument was right. Join the dispatcher's table, never the string,
+  and treat a one-hit grep across a boundary as the case most likely to be a name collision.
+- **Test the mechanism you blame before you fix the config.** The hypothesis that an ignore
+  pattern hid the consumer was cheap to run as arm B (drop the pattern, re-run) and it was
+  wrong: files 317 -> 326, exports unchanged. Had the run edited the config on the
+  hypothesis, it would have shipped a no-op with a confident commit message.
+- **A vendor post about a tree this registry already mined is a currency source first.** Its
+  headline was economics; its one landing-shaped fact for us was that the mined tree no
+  longer has the shape our four source-tree applications describe. Check the source ledger
+  for the tree before triaging the post, and write the `refresh_by` row before the table.
+- **Bot wall on a static host: exit 2, browser route, one call.** The checkpoint cleared
+  on its own. Worth adding to the ingest's guidance rather than to the method.

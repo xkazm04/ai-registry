@@ -6,6 +6,7 @@ technique: amortized-compaction-cadence
 stack: python
 status: forged
 verified_on: 2026-09-02
+refresh_by: 2026-10-15
 verified_against: python@3.12
 ---
 
@@ -130,3 +131,15 @@ turn's critical path.
    operator to "measure your own sessions" — but nothing in the tooling reports
    cache-hit rate or uncached-input cost, so the cost half of the trade the
    feature exists to make is unmeasured by the report that exists to make it.
+
+## Currency - 2026-09-17
+
+The tree this application describes was refactored by 34.4% of its non-test
+source in a single agent-driven structural pass merged two days after this
+application was verified (the vendor's own account, read by intake on
+2026-09-17: files over 5,000 lines 37 -> 6, functions over 300 lines 192 -> 2, the
+largest module 34,847 -> 5,512 lines). Every anchor above is pinned to the
+pre-refactor commit and still resolves there; the shapes it names have been split
+across modules at HEAD and their paths have not been re-resolved. `refresh_by` is
+set accordingly and a `--delta` re-scan against the merged tree is owed before any
+anchor here is cited as current.

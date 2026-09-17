@@ -6,6 +6,7 @@ technique: task-local-tenant-scope
 stack: python
 status: forged
 verified_on: 2026-09-02
+refresh_by: 2026-10-15
 verified_against: python@3.12
 ---
 
@@ -167,3 +168,15 @@ Sources: [pinned daemon pool](https://github.com/NousResearch/hermes-agent/blob/
 [thread inheritance](https://docs.python.org/3.14/library/threading.html#threading.Thread),
 [to_thread](https://docs.python.org/3.14/library/asyncio-task.html#asyncio.to_thread),
 [module cache semantics](https://docs.python.org/3.14/reference/import.html#the-module-cache).
+
+## Currency - 2026-09-17
+
+The tree this application describes was refactored by 34.4% of its non-test
+source in a single agent-driven structural pass merged two days after this
+application was verified (the vendor's own account, read by intake on
+2026-09-17: files over 5,000 lines 37 -> 6, functions over 300 lines 192 -> 2, the
+largest module 34,847 -> 5,512 lines). Every anchor above is pinned to the
+pre-refactor commit and still resolves there; the shapes it names have been split
+across modules at HEAD and their paths have not been re-resolved. `refresh_by` is
+set accordingly and a `--delta` re-scan against the merged tree is owed before any
+anchor here is cited as current.

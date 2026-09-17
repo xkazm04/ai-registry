@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 229,
   "techniques": 1710,
-  "applications": 1052,
+  "applications": 1054,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -2287,9 +2287,9 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-runtime-assembly/agent-runtime-assembly.md",
-   "digest": "sha256:87ecffe5a332546f",
-   "revision": 16,
-   "changedAt": "2026-09-05",
+   "digest": "sha256:75e79ba8c8d39bd2",
+   "revision": 17,
+   "changedAt": "2026-09-17",
    "techniques": [
     {
      "slug": "additive-input-at-the-call-boundary",
@@ -2591,7 +2591,8 @@
      "technique": "rewrite-before-the-gate",
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-runtime-assembly/applications/python--rewrite-before-the-gate.md",
      "verified_on": "2026-09-02",
-     "verified_against": "python@3.12"
+     "verified_against": "python@3.12",
+     "refresh_by": "2026-10-15"
     },
     {
      "stack": "python",
@@ -6292,9 +6293,9 @@
    "subcategory": "codebase-stewardship",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/concurrent-vcs/concurrent-vcs.md",
-   "digest": "sha256:dd87672e5d143a41",
-   "revision": 3,
-   "changedAt": "2026-08-22",
+   "digest": "sha256:8b6ffdb068226877",
+   "revision": 4,
+   "changedAt": "2026-09-17",
    "techniques": [
     {
      "slug": "commit-verification",
@@ -6396,6 +6397,12 @@
      "technique": "isolated-index-commits",
      "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/concurrent-vcs/applications/process--isolated-index-commits.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "process",
+     "technique": "shared-resource-arbitration",
+     "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/concurrent-vcs/applications/process--shared-resource-arbitration.md",
+     "verified_on": "2026-09-17"
     }
    ]
   },
@@ -8505,9 +8512,9 @@
    "subcategory": "codebase-stewardship",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/dead-code/dead-code.md",
-   "digest": "sha256:ea3094b57b45db2e",
-   "revision": 10,
-   "changedAt": "2026-09-06",
+   "digest": "sha256:4b0d6f434c811201",
+   "revision": 11,
+   "changedAt": "2026-09-17",
    "techniques": [
     {
      "slug": "carrying-cost-economics",
@@ -8628,7 +8635,8 @@
      "stack": "node",
      "technique": "instrument-per-orphan-class",
      "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/dead-code/applications/node--instrument-per-orphan-class.md",
-     "verified_on": "2026-08-18"
+     "verified_on": "2026-09-17",
+     "verified_against": "node@22"
     },
     {
      "stack": "node",
@@ -11673,9 +11681,9 @@
    "subcategory": "data-layer",
    "status": "reconciled",
    "file": "knowledge/software-engineering/backend-platform/data-layer/embedded-db/embedded-db.md",
-   "digest": "sha256:dcb2cb9872a1661c",
-   "revision": 13,
-   "changedAt": "2026-09-03",
+   "digest": "sha256:81a015d32c782317",
+   "revision": 14,
+   "changedAt": "2026-09-17",
    "techniques": [
     {
      "slug": "analytical-reads-off-the-serving-store",
@@ -11857,7 +11865,8 @@
      "technique": "corruption-class-response",
      "file": "knowledge/software-engineering/backend-platform/data-layer/embedded-db/applications/python--corruption-class-response.md",
      "verified_on": "2026-09-02",
-     "verified_against": "python@3.12"
+     "verified_against": "python@3.12",
+     "refresh_by": "2026-10-15"
     },
     {
      "stack": "rust",
@@ -12823,8 +12832,8 @@
    "subcategory": "evaluation-and-cost",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/eval-harness/eval-harness.md",
-   "digest": "sha256:a0fa7137ed059a4e",
-   "revision": 31,
+   "digest": "sha256:611d85eea2fef5df",
+   "revision": 32,
    "changedAt": "2026-09-17",
    "techniques": [
     {
@@ -13016,7 +13025,9 @@
       "comparing tokens time or tool calls between arms that can fail",
       "an efficiency delta computed over trials that never reached an answer",
       "a cheaper arm turns out to have given up earlier",
-      "deciding which trials a resource comparison may include"
+      "deciding which trials a resource comparison may include",
+      "a benchmark excludes provider errors or timeouts from accuracy",
+      "deciding whether a failed trial is the harness's or the arm's"
      ]
     },
     {
@@ -13233,6 +13244,13 @@
      "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/eval-harness/applications/python--monitor-inside-the-loop.md",
      "verified_on": "2026-09-03",
      "verified_against": "python@3.12"
+    },
+    {
+     "stack": "python",
+     "technique": "outcome-conditioned-cost",
+     "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/eval-harness/applications/python--outcome-conditioned-cost.md",
+     "verified_on": "2026-09-17",
+     "verified_against": "python@3"
     },
     {
      "stack": "python",
@@ -23244,9 +23262,9 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/prompt-assembly.md",
-   "digest": "sha256:cc07d72bfc81d255",
-   "revision": 32,
-   "changedAt": "2026-09-16",
+   "digest": "sha256:c1af34417c9515db",
+   "revision": 33,
+   "changedAt": "2026-09-17",
    "techniques": [
     {
      "slug": "amortized-compaction-cadence",
@@ -23689,7 +23707,8 @@
      "technique": "amortized-compaction-cadence",
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/applications/python--amortized-compaction-cadence.md",
      "verified_on": "2026-09-02",
-     "verified_against": "python@3.12"
+     "verified_against": "python@3.12",
+     "refresh_by": "2026-10-15"
     },
     {
      "stack": "python",
@@ -31397,9 +31416,9 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/tenant-scoped-agent-runtime/tenant-scoped-agent-runtime.md",
-   "digest": "sha256:a1bebad141749513",
-   "revision": 4,
-   "changedAt": "2026-09-10",
+   "digest": "sha256:8c40dd590387bd63",
+   "revision": 5,
+   "changedAt": "2026-09-17",
    "techniques": [
     {
      "slug": "fail-direction-follows-deployment-mode",
@@ -31505,7 +31524,8 @@
      "technique": "task-local-tenant-scope",
      "file": "knowledge/software-engineering/llm-agent/orchestration/tenant-scoped-agent-runtime/applications/python--task-local-tenant-scope.md",
      "verified_on": "2026-09-02",
-     "verified_against": "python@3.12"
+     "verified_against": "python@3.12",
+     "refresh_by": "2026-10-15"
     }
    ]
   },
