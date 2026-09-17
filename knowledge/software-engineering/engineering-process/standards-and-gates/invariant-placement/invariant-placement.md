@@ -14,6 +14,7 @@ techniques:
   - derived-properties-cannot-be-forged
   - shape-with-a-not-applicable-member
   - indistinguishable-members-do-not-rise
+  - paired-sites-localize-the-fault
 ---
 
 # Invariant placement
@@ -259,3 +260,7 @@ whether an encoding survives its second year and its third maintainer.
   — a property computed from the parts versus one declared by the author, the
   two failure modes annotation cannot avoid, and the override as the place the
   guarantee is spent.
+- [paired-sites-localize-the-fault](./techniques/paired-sites-localize-the-fault.md)
+  - one invariant asserted where a value is written and again where it is read,
+  why only the read-side half is derived from the code, and the pre-operation
+  snapshot that the shipping profile alone refuses.

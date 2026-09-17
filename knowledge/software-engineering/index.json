@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 229,
-  "techniques": 1738,
-  "applications": 1061,
+  "techniques": 1740,
+  "applications": 1063,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1738/1738",
+  "use_when_coverage": "1740/1740",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -16107,9 +16107,9 @@
    "subcategory": "standards-and-gates",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/invariant-placement/invariant-placement.md",
-   "digest": "sha256:6dce2dcd4049292a",
-   "revision": 5,
-   "changedAt": "2026-09-16",
+   "digest": "sha256:dad3ad84c7775080",
+   "revision": 6,
+   "changedAt": "2026-09-17",
    "techniques": [
     {
      "slug": "build-time-evaluation-of-cross-value-invariants",
@@ -16220,6 +16220,25 @@
      ]
     },
     {
+     "slug": "paired-sites-localize-the-fault",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "failure-not-empty-success",
+      "absent-guard-is-loud",
+      "derivation-names-recomputation"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an invariant spans a write and a later read of the same value",
+      "a corruption is detected but nobody can say which side produced it",
+      "adopting an assertion-density standard",
+      "writing a precondition from a doc comment",
+      "a check that the shipping build profile removes",
+      "deciding what a compiled-out check still costs"
+     ]
+    },
+    {
      "slug": "placement-precedes-gate",
      "status": "forged",
      "laws": [
@@ -16265,6 +16284,13 @@
      "file": "knowledge/software-engineering/engineering-process/standards-and-gates/invariant-placement/applications/node--indistinguishable-members-do-not-rise.md",
      "verified_on": "2026-09-16",
      "verified_against": "node@22"
+    },
+    {
+     "stack": "rust",
+     "technique": "paired-sites-localize-the-fault",
+     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/invariant-placement/applications/rust--paired-sites-localize-the-fault.md",
+     "verified_on": "2026-09-17",
+     "verified_against": "rust@1.96.1"
     },
     {
      "stack": "rust",
@@ -30379,9 +30405,9 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/streaming-output/streaming-output.md",
-   "digest": "sha256:8b74d7773082a8bc",
-   "revision": 7,
-   "changedAt": "2026-09-04",
+   "digest": "sha256:d7f8b2571b44628e",
+   "revision": 8,
+   "changedAt": "2026-09-17",
    "techniques": [
     {
      "slug": "buffering-and-backpressure",
@@ -30481,6 +30507,23 @@
      ]
     },
     {
+     "slug": "sink-reversibility-decides-the-commit",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "record-precedes-effect"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether a partial row may be shown before it is complete",
+      "one producer writes to both a re-renderable view and an append-only record",
+      "a reader signals \"this is only a prefix\" by appending text to the prefix",
+      "a record the producer really emitted leaves no trace in any sink",
+      "deciding what to replay to a surface that survived the disconnect",
+      "a resize must re-wrap history the surface no longer owns"
+     ]
+    },
+    {
      "slug": "stream-parsing",
      "status": "forged",
      "laws": [
@@ -30515,6 +30558,13 @@
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/streaming-output/applications/rust--cancellation-and-finalization.md",
      "verified_on": "2026-09-02",
      "verified_against": "rust@1.95"
+    },
+    {
+     "stack": "rust",
+     "technique": "sink-reversibility-decides-the-commit",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/streaming-output/applications/rust--sink-reversibility-decides-the-commit.md",
+     "verified_on": "2026-09-17",
+     "verified_against": "rust@1.80"
     },
     {
      "stack": "rust",
@@ -35915,6 +35965,7 @@
     "invariant-placement/build-time-evaluation-of-cross-value-invariants",
     "invariant-placement/constraint-deletion-is-silent",
     "invariant-placement/indistinguishable-members-do-not-rise",
+    "invariant-placement/paired-sites-localize-the-fault",
     "ipc-contract/casing-and-naming",
     "ipc-contract/command-registration",
     "ipc-contract/drift-gates",
@@ -36467,6 +36518,7 @@
     "import-normalization/lossy-conversion-disclosure",
     "invariant-placement/constraint-deletion-is-silent",
     "invariant-placement/indistinguishable-members-do-not-rise",
+    "invariant-placement/paired-sites-localize-the-fault",
     "invariant-placement/shape-with-a-not-applicable-member",
     "ipc-contract/call-wrapping",
     "ipc-contract/command-registration",
@@ -36702,6 +36754,7 @@
     "stream-proxy-hop/upstream-status-normalization",
     "streaming-output/cancellation-and-finalization",
     "streaming-output/mid-turn-steering",
+    "streaming-output/sink-reversibility-decides-the-commit",
     "streaming-output/stream-parsing",
     "structured-output/answer-coverage-gating",
     "structured-output/artifact-lifecycle",
@@ -38937,6 +38990,7 @@
     "i18n/catalog-architecture",
     "import-normalization/durable-intermediate-representation",
     "invariant-placement/derived-properties-cannot-be-forged",
+    "invariant-placement/paired-sites-localize-the-fault",
     "ipc-contract/generated-type-contracts",
     "judgment-guardbands/confidence-weighted-blend",
     "judgment-guardbands/judgment-integrity-record",
@@ -39346,6 +39400,7 @@
     "invariant-placement/derived-properties-cannot-be-forged",
     "invariant-placement/indistinguishable-members-do-not-rise",
     "invariant-placement/initialization-proof-tokens",
+    "invariant-placement/paired-sites-localize-the-fault",
     "invariant-placement/placement-precedes-gate",
     "issuance-policy-ladder/require-one-constraint",
     "issuance-policy-ladder/verbatim-is-a-separate-privilege",
@@ -39519,6 +39574,7 @@
     "self-healing/fork-to-outlive-the-healed",
     "self-healing/healer-death-as-promotion",
     "streaming-output/emit-behind-the-revision-window",
+    "streaming-output/sink-reversibility-decides-the-commit",
     "subscription-proration/upgrade-immediate-downgrade-deferred",
     "usage-aggregation-semantics/high-water-mark-advance-billing",
     "usage-event-ingestion/thin-ingest-deferred-validation",
