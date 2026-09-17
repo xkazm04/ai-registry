@@ -11097,3 +11097,39 @@ Phase 5's GAIN table has no row for "corroborated by a fleet tree that independe
 Ten scorecard rows have banked roughly fifty untriaged candidates with anchors, and the stated reason for banking them is cross-run convergence: two independent sources reaching one rule, which the corroboration table calls the cheapest corroboration available and which costs no fetch. No phase reads them. This run banked an arbitration finding for exactly that reason and could not check whether a prior run had already seen it.
 
 The cheap version is one grep at Phase 4, after the map names homes and before Phase 5 scores anything: search the untriaged tables of `librarian/sources/*.md` for the candidate's terms, and treat a hit from a different source as the `+1` convergence the score already defines. That is a step, so it is a minor bump - not applied here, because the next run should first confirm from its own row that the backlog is really the weakest stage rather than a deliberate reject-bias working as designed.
+
+## 2.11.0 - 2026-09-17 - muse-character-sheet-local
+
+- **The within-arm seed control is a precondition, not a step in the middle, and running
+  it last cost this run its whole render budget.** The method's discrimination rule reads
+  as an arithmetic check applied to a finished pair, so the natural order is: render arm A,
+  render arm B, re-render both at a second seed, divide. This run did exactly that - 13
+  renders, about 40 minutes - and the refusal came from `within_A` (70.67) being *larger*
+  than `between` (63.46). The two renders that decided the outcome were arm A at its two
+  seeds; they cost four minutes and could have been the first two of the run. **Render one
+  approach at two seeds before rendering the other approach at all.** If an approach is
+  that unstable against itself, no pair built on it can clear the gate, and the finding is
+  already in hand without the second arm ever being queued.
+- **A gate refusal is not always "two runs of one process".** The refusals recorded so far
+  came from knob-level pairs where the arms really were the same thing; this one came from
+  the opposite direction - the arms were plainly different pipelines, and the *noise floor*
+  was enormous because a single generation call does not reproduce its own panel inventory
+  across seeds. The rule stands and the pair stays unshown, but the note should say which
+  of the two refusal shapes it hit, because they call for opposite redesigns: an
+  indiscriminable pair moves one level up the ladder, an unstable-arm pair holds the
+  confound fixed (here: give the one-call arm the layout template image the source itself
+  uses, so panel inventory stops being a second variable).
+- **The declared-focus backlog grep paid, and its payoff was a non-convergence.** Two
+  independent sources reached opposite practices on the same decision, and what made the
+  grep worth its cost was not agreement but the *discriminator* the disagreement exposed -
+  already stated in the corpus as a legibility ceiling. A focus that only counts
+  convergences will read this run as a miss; it was a hit, and the untriaged table now
+  carries the discriminator so a third reader does not re-derive it.
+- **Two dated facts, and the difference between them is worth keeping.** Both came from
+  the source's operating half. One was corroborated by a fetched primary (a license that
+  splits by model size, correcting a family-wide claim). The other was corroborated by
+  reading the engine's own source on this machine rather than by believing the creator's
+  account of it - the video's "40%" was right, and the code also gave the platform split,
+  the flag name and the absence of a cap flag, none of which the video knew. **When a
+  practitioner reports a number about a tool that is installed locally, read the tool, not
+  the report** - it costs one grep and returns more than it was asked for.

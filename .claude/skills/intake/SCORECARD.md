@@ -4158,6 +4158,7 @@ Stage the funnel is losing most at, last ten rows (counted from the Apply and Sh
 **Weakest stage across the last ten rows: `ship`, and the declared focus carried again.** The focus said to spend the fleet grep before filing a row rather than after a landing. Here the seam hunt did not rescue a borderline row - it changed what the technique says, which is a stronger result than the focus predicted. Depth matched the source: a design-deep repository with a routing count of 3 against one existing home yielded a technique cluster folded into one technique plus its two applications, not a subject and not a scatter of amendments. Next run's declared focus: **`extract`.** Fifteen candidates from a 203,000-word tree is thin, and four of them went untriaged; the sweep found the analyzer and stopped, when the tree also carries 203 release notes and a plans directory that were never opened. When a repository's in-tree word count is two orders of magnitude above its landing page, say before Phase 3 how many of its documents will actually be read.
 
 | 2.11.0 | 2026-09-16 | `github:modernweb-dev/web@f72d33e1` modernweb-web | 1 repo cloned (2,135 files, 38 packages) and swept in the method's order - architecture doc, hook arbitration loops, per-package CHANGELOGs, the config and status types, tests, README last; 609 landing words against 85,217 in-tree; 0 of 3 fetches | 13 (6 design + 7 claim) | 1 admitted (3/0/2, promotion read spent opening the golden path and its nearest technique in full); 1 promoting question executed on the only promotable `partial` row, answered negative with no clean home; 1 catch, 6 untriaged, 3 leads; **anchors=29 held=29** (first pass held=0: quotes sat above code fences, the grammar needs them on the anchor's own line) | 1 technique + 1 golden-path bounding clause + 2 applications (1 source-tree, 1 fleet) | 1c/1e/0s/0t/0r; both owed rows written | 1 - ascent `d37c8288` (tenant boundary raised from a comment to the checker; target 0 -> 1 refused, floor 970 files / 12,599 tests + clean typecheck, held), branch kept, not pushed | Focus `ship`: moved, with one fleet commit from a falsifying seam, and the Test cell carries its anchor count. Depth `0/1/1/2/134`; routing count 2 across two systems, no handoff; `directions=0/10` (ten candidate absences, none a direction - this is the coverage lane), `gate=skipped`; `auto=1/1/0`, `fp=0` |
+| 2.11.0 | 2026-09-17 | `youtube:2CQwma8ZKNQ` muse-character-sheet-local | 1 video (4,701 words), class read as a hybrid build-walkthrough and routed per half; 1 of 3 fetches (the license primary); the engine's own source read for the second dated fact | 14 | 0 scored rows admitted (`auto=0/0/0`, `fp=0`) - the only row that reached the threshold on GAIN was render-bound and its pair was refused; 2 rows admitted under the corroboration table as currency; 6 catches, 5 untriaged, 4 leads | 2 currency corrections, 0 upper-layer landings | 0c/0e/0s/0t/**0r** - the render ran and returned no verdict (gate refused, ratio 0.90 vs 1.5); no technique or amendment landed, so no apply row is owed | 0 - no fleet project has a local image-generation seam; the seam hunt over the one local-inference project (a TTS service) found nothing | Focus `extract` via the untriaged backlog: **executed, returned a non-convergence** with a named discriminator (panel count against panel size). Depth `0/0/0/0/0`; routing=n/a (not a repository); handoff=n/a; `directions=n/a`; `gate=n/a` (no proposals). Render proof: 13 renders, pair refused, 39.9 MB deleted by run id |
 
 ## 2026-09-16 - modernweb-web (the contract the checker could not see)
 
@@ -4171,3 +4172,38 @@ Stage the funnel is losing most at, last ten rows (counted from the Apply and Sh
 The stage now losing most is **extract**, and not for lack of candidates. Ten rows produced 12-18 candidates each and admitted one or two; the remainder is banked as untriaged with anchors, which is the correct call per row and has accumulated roughly **fifty** unverified candidates across the ten. The method banks them explicitly so that cross-run convergence - the cheapest corroboration available, costing no fetch - becomes possible, and then nothing reads them back. This run is an example: row 2's arbitration finding was banked precisely because a second independent source would promote it, and no step in the method looks for that second source.
 
 Next run's declared focus: **`extract`, via the untriaged backlog.** At Phase 4, after the map names homes, grep the untriaged tables of `librarian/sources/*.md` for this source's terms before scoring anything, and say in the scorecard row whether a prior run's banked candidate converged. A run that finds one has landed a technique for the price of a re-read; a run that finds none has spent one grep saying so.
+
+## 2026-09-17 - muse-character-sheet-local (the pair that refused itself)
+
+**Next run focus (muse-character-sheet-local).**
+1. **Render the within-arm seed control FIRST, before the second arm exists.** The gate
+   arithmetic is the last step, but its inputs are not equally expensive to obtain. This
+   run spent 13 renders and about 40 minutes to learn that arm A's distance from itself
+   (70.67) exceeded the distance between the arms (63.46) - and the two renders that
+   settled it were arm A at two seeds, four minutes, obtainable before arm B was queued.
+   An approach that cannot reproduce itself cannot carry a pair.
+2. **Say which refusal shape a refused pair hit.** An indiscriminable pair (the arms were
+   one process) is redesigned one level up the conditioning ladder. An unstable-arm pair
+   (the noise floor is enormous) is redesigned by holding the confound fixed instead.
+   Recording only "refused" loses the instruction for the next attempt.
+3. **When a source reports a number about a tool that is installed on this machine, read
+   the tool.** One grep confirmed the video's figure and returned the platform split, the
+   flag name and the absence of a cap flag on top of it.
+
+**Weakest stage across the last ten rows: `test`, and this row is the clearest instance.**
+Nine of the last ten rows carry a verified pick and a landing; this one carries a
+verification that ran to completion and returned nothing usable, because the instrument
+refused the comparison after the budget was spent. Counted across the render-bound runs
+specifically, **three of four render proofs have now ended without a verdict** - two ties
+on indiscriminable arms and one refusal on an unstable arm. That is not a failure of the
+gate, which is doing exactly what it was added to do; it is a statement about where these
+runs lose their work, and it is upstream of the gate, in how the pair is designed and in
+what order it is rendered.
+
+Next run's declared focus: **`test`, via the cheap half of the discrimination check.**
+For any render-bound row, render one approach at two seeds before rendering the other
+approach at all, write `within` into the note at that moment, and only then decide
+whether the pair is worth its remaining budget. A run that does this and proceeds has
+bought its pair for two renders; a run that does this and stops has saved ten and still
+has a finding about the approach's own stability. Either way the scorecard row says what
+`within` was before the second arm existed.
