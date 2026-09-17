@@ -3,7 +3,7 @@ name: intake
 description: "Mine an external source - a YouTube video, a news roundup, an article, pasted notes, a repository - for what it should change in THIS registry, and in the connected projects that consume it. Ingests the source, reads its design decisions as well as its claims, maps both against existing bundles for prior art, triages with the operator, and lands what survives corroboration - amendments for boundary cases, techniques and subjects for mechanisms, forge handoffs for systems whose architecture the corpus lacks. News sources mostly yield currency signals and leads; that is a successful run. Use when someone shares a link and asks what it means for us."
 category: ai-native
 memory: project
-version: 2.11.0
+version: 2.11.1
 tags: research, sources, memory-lane, admission-gate, render-proof, triage, currency, cross-repo, leads, apply, ab-test, parallel, reference-index, design-read, forge-handoff, directions, fleet-map, peer-study, opus-workers, decision-gate
 ---
 
@@ -1603,6 +1603,17 @@ directory **by its run id**, never by sweeping the scratch root.
   explains, six weeks later, why two notes from one afternoon disagree about what the
   corpus contained. A decline nobody wrote down gets re-proposed
   every run forever.
+
+  **A run that lands a candidate from an EARLIER note edits that note too**, in the
+  same commit: strike the row from its untriaged table and decrement its
+  `untriaged` counter. This is not bookkeeping. The harvest backlog is enumerated
+  from those tables, so a table left standing after its candidates were forged
+  turns landed claims into backlog rows, and a worker is spent re-deriving
+  something the corpus already says. Measured 2026-09-17: one note's twelve
+  candidates were forged in a single run, the note kept `untriaged: 12`, and all
+  twelve became backlog rows - `node scripts/backlog-phantom-screen.mjs` reports
+  the notes this has already happened to. A `--delta` re-scan of the same source
+  updates the original note rather than opening a second one.
 - **Source ledger** `librarian/sources/index.md`: one line per mined source. This is
   what makes "already mined" a one-second check next time. The source note's
   frontmatter also carries `applied: <n>` and `shipped: <n>` beside `accepted`.
