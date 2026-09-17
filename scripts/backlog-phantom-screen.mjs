@@ -14,17 +14,26 @@
 //   node scripts/backlog-phantom-screen.mjs --json     # machine-readable
 //
 // The screen is NOTE-LEVEL and deliberately over-flags, so it prints a triage
-// list and never a verdict. Two discriminators, in order:
+// list and never a verdict. Four discriminators, each one earned by a false
+// positive the one before it produced:
 //
 //   1. Did a commit that ADDED techniques name this note's source slug?
-//      Over-flags badly on its own: a note can have some candidates forged and
-//      others genuinely untriaged. Proved 2026-09-17 - one source had three
-//      techniques forged AND a real residual that landed the same day.
-//   2. Was the note itself touched at or after that forge commit? An intake
-//      run that forges a note's candidates and writes the note's counters in
-//      the same commit leaves no phantoms. One that forges and leaves the note
-//      alone leaves the untriaged table standing, and that table is what the
-//      enumeration reads.
+//      Nearly useless alone - it flagged 392 of 929 rows. A note can have some
+//      candidates forged and others genuinely untriaged: one source screened
+//      positive here AND carried a residual that landed the same day.
+//   2. Was the note itself touched at or after that forge commit? A run that
+//      forges a note's candidates and writes its counters in the same commit
+//      leaves no phantoms. 392 rows -> 48.
+//   3. Is the commit a LATER forge, rather than the note's own intake commit or
+//      a sibling's? A run is trivially 'after itself', so for a note whose only
+//      named commit is its own, the screen is vacuous. 48 rows -> 22, and the
+//      two notes it dropped held 1 phantom between 9 rows.
+//   4. Is the row's home inside a subject that forge actually created? A forge
+//      handoff lands the new subject cluster and leaves the note's cross-subject
+//      amendment rows standing - one forge added 30 techniques and covered none
+//      of its 4 rows, because all four aimed at other subjects. Reported as a
+//      per-row signal rather than a filter, because it is the difference between
+//      'read this first' and 'read this last', not between suspect and clean.
 //
 // Only rows failing BOTH are reported. Verify them by reading; this script
 // marks nothing.
@@ -77,6 +86,45 @@ const forgeCommitsFor = (adds, slug) => {
   const re = new RegExp(`[(\\s:]${esc}[)\\s:,]`, 'i');
   return adds.filter((a) => re.test(a.subject) || a.subject.toLowerCase().startsWith(`intake ${slug}`));
 };
+
+/** Third discriminator, and the one that halves the false positives. A commit that
+ *  names a slug is one of three things, and only the first is evidence:
+ *    (a) a LATER run that forged this note's standing candidates - the phantom maker;
+ *    (b) the note's OWN intake commit, which creates the note in the same commit as its
+ *        techniques. A run is trivially "after itself", so "the note was never touched
+ *        afterwards" says nothing, and the screen is vacuous for that note;
+ *    (c) a SIBLING run that mentions the same product and writes a different note.
+ *  Told apart by asking which source notes the commit created. Found 2026-09-17 by the
+ *  verification sweep: of eight notes screened stale, the four backed only by (b) or (c)
+ *  held 4 phantoms across 20 rows, while the four backed by (a) held 22 across 28. */
+function forgeKind(hash, note) {
+  const out = git('show', '--name-only', '--diff-filter=A', '--format=', hash);
+  const created = out.split(/\r?\n/).map((l) => l.trim()).filter((l) => l.startsWith('librarian/sources/'));
+  if (!created.length) return 'later-forge';
+  if (created.includes(`librarian/sources/${note}.md`)) return 'own-intake';
+  return 'sibling-note';
+}
+
+/** The subject directories a forge commit actually landed techniques in. A technique
+ *  lives at <subject-dir>/techniques/<slug>.md, so the subject dir is the prefix. */
+function subjectsTouched(hits) {
+  const out = new Set();
+  for (const h of hits) {
+    for (const f of h.paths) {
+      const cut = f.indexOf('/techniques/');
+      if (cut > 0) out.add(f.slice(0, cut));
+    }
+  }
+  return out;
+}
+
+/** Does this row's home sit inside one of them? The ledger's home field is a bundle
+ *  address like `software-engineering/a/b/subject`; the path is `knowledge/<that>`. */
+function homeInside(home, subjectDirs) {
+  if (!home) return false;
+  for (const d of subjectDirs) if (d === 'knowledge/' + home || d.endsWith('/' + home)) return true;
+  return false;
+}
 
 function noteLastTouched(note) {
   const p = `librarian/sources/${note}.md`;
@@ -138,19 +186,29 @@ function main() {
 
   const stale = [];
   for (const [note, rs] of byNote) {
-    const hits = forgeCommitsFor(adds, slugOf(note));
+    const named = forgeCommitsFor(adds, slugOf(note));
+    if (!named.length) continue;
+    // Keep only a LATER forge. The note's own intake commit, or a sibling run's, says
+    // nothing about whether this note's untriaged table went stale.
+    const kinds = new Map(named.map((h) => [h.h, forgeKind(h.h, note)]));
+    const hits = named.filter((h) => kinds.get(h.h) === 'later-forge');
     if (!hits.length) continue;
     const touched = noteLastTouched(note);
     if (!touched) continue;
     const lastForge = Math.max(...hits.map((h) => h.ts));
     if (touched.ts >= lastForge) continue; // the forge run updated the note: no phantom
+    const subjectDirs = subjectsTouched(hits);
+    const inForged = rs.filter((r) => homeInside(r.home, subjectDirs)).map((r) => r.id);
     stale.push({
       note,
       queued_rows: rs.length,
       ids: rs.map((r) => r.id),
+      ids_home_in_forged_subject: inForged,
       untriaged_frontmatter: untriagedCount(note),
       techniques_forged: hits.reduce((n, h) => n + h.paths.length, 0),
       forge_commits: hits.map((h) => h.h),
+      discarded_commits: named.filter((h) => kinds.get(h.h) !== 'later-forge')
+        .map((h) => `${h.h}:${kinds.get(h.h)}`),
       note_last_commit: `${touched.h} ${touched.subject}`,
     });
   }
@@ -172,6 +230,11 @@ function main() {
     console.log(`  ${String(s.queued_rows).padStart(3)} rows | untriaged:${String(s.untriaged_frontmatter ?? '?').padEnd(4)} | ${String(s.techniques_forged).padStart(3)} techniques forged | ${s.note}`);
     console.log(`      forge ${s.forge_commits.join(',')} | note last: ${s.note_last_commit.slice(0, 70)}`);
     console.log(`      ids: ${s.ids.join(',')}`);
+    if (s.ids_home_in_forged_subject.length) {
+      console.log(`      read first (home is inside a subject this forge created): ${s.ids_home_in_forged_subject.join(',')}`);
+    } else {
+      console.log('      read last: no row here has its home inside a subject this forge created');
+    }
   }
   console.log('\nThe fix is upstream, not here: an intake run that forges a note\'s candidates');
   console.log('updates that note\'s untriaged table in the same commit.');
