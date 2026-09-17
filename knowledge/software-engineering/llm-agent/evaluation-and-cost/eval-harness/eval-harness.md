@@ -25,6 +25,7 @@ techniques:
   - outcome-conditioned-cost
   - probe-the-decision-not-the-artifact
   - pairing-schedule
+  - rebase-the-varied-input
 ---
 
 # Evaluation & benchmarking
@@ -234,6 +235,20 @@ the failing attempt is the only coordinate the run produces
 compose in one order only: screen the suite, then push against it, because
 pushing against unscreened scenarios finds a boundary that is not there.
 
+A third failure lives in neither the scenario nor the incentive, and neither
+corrective above can see it. An **invariance check** replays one scenario with a
+single input moved (a base date, a seed, a root) and asserts the output did not
+change. A correct component prints the moved input back out, so the comparison
+has to tolerate that difference, and the reflex is to mask the field. Masking
+removes the field from the assertion, and the field it removes is where a
+component reading the forbidden source shows up. A memory harness's clock-purity
+check passed a backend that stamped the wall clock onto every recalled line, on
+46 of 46 probes. Normalise a varied quantity by the inverse of the variation
+instead: rebase each date onto its arm's base, and the same backend fails 46 of
+46 while the clean one stays green. The check had named that defect in its own
+docstring and never been seen red
+([rebase-the-varied-input](./techniques/rebase-the-varied-input.md)).
+
 ## The candidate can write to the instrument
 
 Everything above holds the instrument still. That presumes the candidate
@@ -396,6 +411,9 @@ are a design input, not an afterthought: [eval-economics](./techniques/eval-econ
 - [overshoot-and-restore](./techniques/overshoot-and-restore.md) — the
   asymmetric incentive in a reduction run, requiring a failure, minimal
   restoration, the phantom bound over an unscreened suite.
+- [rebase-the-varied-input](./techniques/rebase-the-varied-input.md) — the
+  invariance check whose normaliser erases the quantity it varied, rebase
+  versus erase, the contaminated arm as the check's own negative control.
 - [assertion-vs-judgment](./techniques/assertion-vs-judgment.md) — the
   deterministic band, when a judge is genuinely necessary, rubric-anchored
   judgment, the structured verdict channel.

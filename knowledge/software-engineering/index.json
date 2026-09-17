@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 229,
-  "techniques": 1708,
-  "applications": 1049,
+  "techniques": 1710,
+  "applications": 1052,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1708/1708",
+  "use_when_coverage": "1710/1710",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -1770,9 +1770,9 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/agent-memory.md",
-   "digest": "sha256:fa76a3f4605c12da",
-   "revision": 32,
-   "changedAt": "2026-09-07",
+   "digest": "sha256:2ffd1600761ae0be",
+   "revision": 33,
+   "changedAt": "2026-09-17",
    "techniques": [
     {
      "slug": "baseline-ladder",
@@ -1941,6 +1941,21 @@
       "ranking what to recall",
       "tuning how fast memory ages",
       "deciding what may be forgotten"
+     ]
+    },
+    {
+     "slug": "observation-clock",
+     "status": "forged",
+     "laws": [
+      "derivation-names-recomputation",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a distillation pass turns conversation into stored claims",
+      "memory is written asynchronously or backfilled from an import",
+      "a stored claim says \"next week\" or a date nobody can explain",
+      "choosing what date a memory prompt calls today"
      ]
     },
     {
@@ -2177,6 +2192,13 @@
     },
     {
      "stack": "python",
+     "technique": "observation-clock",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/python--observation-clock.md",
+     "verified_on": "2026-09-17",
+     "verified_against": "python@3.10"
+    },
+    {
+     "stack": "python",
      "technique": "owner-and-counterpart-scope",
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/python--owner-and-counterpart-scope.md",
      "verified_on": "2026-09-02",
@@ -2223,6 +2245,13 @@
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/rust--memory-value-model.md",
      "verified_on": "2026-09-04",
      "verified_against": "rust@1.97"
+    },
+    {
+     "stack": "rust",
+     "technique": "observation-clock",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/rust--observation-clock.md",
+     "verified_on": "2026-09-17",
+     "verified_against": "rust@1.80"
     },
     {
      "stack": "rust",
@@ -12794,9 +12823,9 @@
    "subcategory": "evaluation-and-cost",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/eval-harness/eval-harness.md",
-   "digest": "sha256:dfa66dd9b9149cc8",
-   "revision": 30,
-   "changedAt": "2026-09-07",
+   "digest": "sha256:a0fa7137ed059a4e",
+   "revision": 31,
+   "changedAt": "2026-09-17",
    "techniques": [
     {
      "slug": "assertion-vs-judgment",
@@ -13037,6 +13066,20 @@
      ]
     },
     {
+     "slug": "rebase-the-varied-input",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing an invariance check that replays one scenario with a single input shifted",
+      "a purity or determinism check has never failed since it was written",
+      "a comparison normalises timestamps ids or offsets before diffing"
+     ]
+    },
+    {
      "slug": "reliability-aggregation",
      "status": "forged",
      "laws": [
@@ -13197,6 +13240,13 @@
      "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/eval-harness/applications/python--probe-the-decision-not-the-artifact.md",
      "verified_on": "2026-09-04",
      "verified_against": "python@3.11"
+    },
+    {
+     "stack": "python",
+     "technique": "rebase-the-varied-input",
+     "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/eval-harness/applications/python--rebase-the-varied-input.md",
+     "verified_on": "2026-09-17",
+     "verified_against": "python@3.12"
     },
     {
      "stack": "python",
@@ -35081,6 +35131,7 @@
     "agent-instruction-files/substrate-coupled-expiry",
     "agent-instruction-files/workspace-ancestry-isolation",
     "agent-memory/diagnosis-withheld-from-the-executor",
+    "agent-memory/observation-clock",
     "agent-memory/probe-without-write-back",
     "agent-runtime-assembly/assembly-identity",
     "agent-runtime-assembly/checkpoint-mode-custody",
@@ -35235,6 +35286,7 @@
     "eval-harness/metric-role-contract",
     "eval-harness/monitor-inside-the-loop",
     "eval-harness/probe-the-decision-not-the-artifact",
+    "eval-harness/rebase-the-varied-input",
     "eval-harness/reliability-aggregation",
     "eval-harness/selection-over-noise",
     "eval-harness/treatment-election-rate",
@@ -36410,6 +36462,7 @@
     "eval-harness/overshoot-and-restore",
     "eval-harness/pairing-schedule",
     "eval-harness/probe-the-decision-not-the-artifact",
+    "eval-harness/rebase-the-varied-input",
     "eval-harness/reliability-aggregation",
     "eval-harness/resolution-precondition",
     "eval-harness/scenario-design",
@@ -38148,6 +38201,7 @@
     "agent-memory/consolidation",
     "agent-memory/lane-reconciliation",
     "agent-memory/memory-value-model",
+    "agent-memory/observation-clock",
     "agent-memory/read-set-bounded-links",
     "agent-runtime-assembly/assembly-identity",
     "app-shell/badge-and-attention",

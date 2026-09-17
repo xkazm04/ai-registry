@@ -784,3 +784,24 @@ moved: personas (2), ascent (2). The personas count the scan reports as "14 devi
 is the map's *unknown* count for this subject on that project (14 unknown + 2
 deviations, both UI groups with no seam text) - a demand number to read as unjudged,
 not as fourteen shortfalls.
+
+## 2026-09-17 - intake `mem0` ([[2026-09-17-mem0]])
+
+- **Landed `observation-clock`**, a technique at a stage the subject had not written: the
+  clock a distillation grounds relative time against. Provenance listed "when it was
+  distilled" (the writer's clock) and never the clock the words were observed at. One
+  paragraph appended to § Provenance. The source stated the rule three times in a live
+  prompt and made it unsatisfiable on every open call path (the observation date defaults
+  to now, and the public write call refuses the parameter). Applications: the source tree
+  (python) and the fleet's consolidation pass (rust), both `simulation` / `unmeasurable`.
+- **The fleet ladder cannot see this axis.** 12 of 3,571 replayed events carry a relative
+  reference, all "X is Y from today, not Z", consolidated the same simulated night. Every
+  arm ties on it by construction. Return condition: a scenario extension with dated
+  relative references, a date probe class, and a multi-day consolidation lag.
+- **Catches:** supersede-don't-replace (the source went further, to ADD-only, and published
+  contradiction resolution as its weakest category, 35.7/32.5); generous capture; store
+  topology (a vendor deleted ~4,000 lines of graph drivers from its open build, a third
+  sighting of the hedge).
+- **Untriaged:** a temporal boost that never filters may be unable to retire a contradicted
+  belief at read time. Promoting question for `recall-injection`: must read-time
+  adjudication be able to exclude a superseded belief, or only rank it?

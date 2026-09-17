@@ -669,3 +669,24 @@ verdict and probed by nothing.
   terse-consumer judge marks a conversational, correctly dated reply as stale; a re-judge
   moved the cell by +37 points. One harness, one judge; recorded as a sighting, not a
   measurement. Return condition: the harness's year run, which will re-judge every cell.
+
+## 2026-09-17 - intake `mem0` ([[2026-09-17-mem0]])
+
+- **Landed `rebase-the-varied-input`.** It came from the fleet seam hunt, not the source.
+  The golden path enumerated two ways a pass is vacuous (the scenario is answerable
+  without the material; the incentive rewards doing nothing). A third was measured. An
+  invariance check that masks the quantity it varied cannot see a violation rendered into
+  that quantity. A memory harness's clock-purity check passed a backend that stamped the
+  wall clock onto every recalled line, 46/46 probes. Rebasing dates onto each replay's base
+  caught it 46/46 with the clean backends' verdicts unchanged (4 of 4 offline arms held;
+  4 model-bound arms not re-checked). One paragraph appended to the section, closing the
+  enumeration.
+- **Second defect at the same seam:** the check's id pattern held four literal backspace
+  bytes where word boundaries were meant, so id erasure never matched anything. A
+  normaliser can fail in both directions in one line, erasing too much on dates and
+  nothing on ids.
+- Applied: personas, `code`, `better`, `ab-paired`. Shipped on branch
+  `intake/clock-purity-rebase`, because the shared checkout had another session's merge
+  open. Not merged, not pushed.
+- **The existing `judge-stability` sighting (2026-09-04)** still waits on the year run.
+  This run did not touch the judge.

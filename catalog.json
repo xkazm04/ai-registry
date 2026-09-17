@@ -858,10 +858,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 229,
-      "techniques": 1708,
-      "applications": 1049,
-      "files": 2991,
-      "contentHash": "sha256:8357f97169a7c121"
+      "techniques": 1710,
+      "applications": 1052,
+      "files": 2996,
+      "contentHash": "sha256:0c827e96891170f5"
     }
   ],
   "usageEvidence": {

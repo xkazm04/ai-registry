@@ -24,6 +24,7 @@ techniques:
   - durable-store-failure-posture
   - self-trained-capture-filter
   - gap-directed-elicitation
+  - observation-clock
 ---
 
 # Agent memory
@@ -211,6 +212,16 @@ Provenance is what makes every other operation safe:
 
 The rule is absolute at the consolidated layer: **a belief without provenance
 is not stored knowledge, it is a rumor with a database row.**
+
+"When it was distilled" is the writer's clock, and one input the distillation
+consumed is not on that list: the clock its episodes were *observed* at. A pass
+that turns "next Tuesday" into a date has performed an irreversible derivation,
+and the relative phrase is the input it discarded. Grounded against the
+writer's clock, the date is correct only while nothing is late, and consolidation
+is deferred by design. So every episode reaches the distiller carrying its own
+observation instant, the pass is told to ground against that and nothing else,
+and the anchor survives in provenance
+([observation-clock](./techniques/observation-clock.md)).
 
 ## Memory is a budgeted resource
 
@@ -474,6 +485,9 @@ comparison a stated result instead of an unexamined premise.
 - [episodic-capture](./techniques/episodic-capture.md) — what becomes a record:
   episode boundaries, distilled bodies with pointers to raw evidence,
   identity minted at creation.
+- [observation-clock](./techniques/observation-clock.md) — the clock a
+  distillation grounds relative time against: observation versus writer,
+  imports as replays, the rule a prompt states and a call path cannot satisfy.
 - [consolidation](./techniques/consolidation.md) — the distillation pass:
   batched judgment, fact/procedure outputs, supersedence and contradiction,
   provenance rows, the one validation door.
