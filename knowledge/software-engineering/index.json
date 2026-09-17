@@ -15481,9 +15481,9 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/hitl-approval/hitl-approval.md",
-   "digest": "sha256:b8bf4feb62dcd7f0",
-   "revision": 17,
-   "changedAt": "2026-09-03",
+   "digest": "sha256:7a6a16d6efaa416c",
+   "revision": 18,
+   "changedAt": "2026-09-17",
    "techniques": [
     {
      "slug": "consent-gates",
