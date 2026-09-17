@@ -211,14 +211,14 @@ here — a use-case scan is always a fresh proposal pass.
 `POST /dev-tools/scan-use-cases`, then poll
 `GET /dev-tools/use-case-scan-status/{scan_id}`.
 
-One failure is expected rather than exceptional — *"Scan the codebase into a
-context map first"* means Phase 1 skipped or failed; report it and move to
-Phase 3.
+Two failures are expected rather than exceptional, and both are informative
+rather than fatal — report them and move to Phase 3:
 
-Features land **active**: the app has no review queue for them, so there is
-nothing to triage and Phase 3's KPI scan sees them at once. Report the count
-and names; if the operator calls one wrong, archive it (see
-`references/bridge.md`) rather than leaving it in place.
+- *"Scan the codebase into a context map first"* — Phase 1 skipped or failed.
+- *"N proposals already await review"* — the operator has an unreviewed queue.
+  Point them at Projects → Factory → Overview and move on. Do not triage use
+  cases yourself; unlike KPIs, they have a review surface in the app and it is
+  the better place to do it.
 
 ## Phase 3 — KPIs, with the operator
 
