@@ -3,7 +3,7 @@ name: perfect
 description: "Session-after-session product perfection loop. The strongest available model at xhigh reasoning (currently Fable 5) directs - it walks the repo's context map context-by-context, proposes up to 5 challenged, high-value directions per context (features, design elevations, significant optimizations), gates them with the user until the pool is full, then orchestrates Opus-class builder subagents on ONE shared branch - grouped so their write sets cannot collide - while making every review/merge decision itself. All state lives in a linked Obsidian vault (or <repo>/.perfect/) so any future session resumes the loop exactly where the last one stopped; per-repo specifics (vault path, gates, Class B/C files, repo law, taste) come from .claude/perfect/config.md. Invoke with /perfect [init|propose|build|status|smoke|reflect] [context-name]."
 category: workflow
 memory: vault
-version: 2.6.0
+version: 2.6.1
 tags: loop, director, builders, shared-branch, vault, product-quality
 argument-hint: "[init|propose|build|status|smoke|reflect] [context]"
 contexts: tracked
@@ -304,11 +304,16 @@ After the work, record only useful observations supported by this run. No lesson
 a valid result. Reflection inherits the task's authorization; it grants no additional
 permission to edit another repository, send data, commit, or publish.
 
-**Project learning.** Put a dated observation in the consuming project's configured
-overlay under `## Skill improvement log`, when local edits are within scope. Use the
-location in this skill's `## Project overlay` section. If none is configured, use
-`.agents/perfect/config.md` for Codex or `.claude/perfect/config.md` for Claude.
-If the harness is unknown, propose the note in the response instead of guessing a path.
+**Project learning.** Only when this run produced an observation that would change how a
+future run behaves. A run that went as the method describes writes nothing: an entry that
+restates the procedure, records "no issues", or repeats the task is a defect, not a
+deliverable. When there is such an observation and local edits are within scope, put one
+dated line in the overlay this skill's `## Project overlay` section names, under
+`## Skill improvement log`. **Write only into an overlay that already exists.** If the
+project has none, put the observation in the response instead - creating a new tracked
+file for a reflection is scope the task did not ask for, and a reader who never asked for
+the skill has to review it. If the overlay is a structured config (YAML, TOML, JSON),
+record the note as comments so the file keeps parsing, or use the response.
 Use a supplied memory contract only when its destination and writes are authorized.
 Keep project details out of the shared method.
 

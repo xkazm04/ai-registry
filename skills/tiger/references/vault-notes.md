@@ -2,7 +2,19 @@
 
 Templates for every note `/tiger` writes into the consuming repo's `tiger/` vault. Keep the
 frontmatter keys stable across runs - they are what `scan`, `recall` and the continuity
-contract diff against. `[[wikilinks]]` everywhere so the vault navigates in Obsidian.
+contract diff against. `[[wikilinks]]` everywhere so the vault navigates in Obsidian, and
+every wikilink resolves to a note or an existing `uat/characters/*` file - a link with no
+target is a broken vault.
+
+**The frontmatter must parse.** YAML reads `: ` inside an unquoted scalar as a key/value
+split, so **every value containing `: ` is quoted** (`grounding:`, `fingerprint:`, anything
+with a time, a ratio or a prose colon). **Before the mode ends, parse the frontmatter of
+every note it wrote**; a broken block fails silently in Obsidian and takes the note out of
+the next run's diff.
+
+**Write shared machinery once.** The wrapper, the retry policy, the price basis, a rubric:
+one note, `[[linked]]` from the rest - never pasted into each. Two Character notes with the
+same criteria are one Character.
 
 Legacy 1.x vaults used `Tiger.md` (home), `config.md` (per-app config), `call-sites/<id>.md`
 and `models/<model>.md`. Read them as-is; write new notes in the shapes below. A 1.x
@@ -57,7 +69,9 @@ each run extends the last. Start at [[MOC]].
 - `/tiger run` L1 sweep (`--l2` adds live calls); `/tiger benchmark <site>` live Lens C
 - `/tiger recall` the trajectory; `/tiger backlog` re-emits the backlog
 
-Committed (it is the memory). Raw benchmark transcripts are gitignored; scored summaries kept.
+Tracking: committed (it is the memory) unless this repo's `.gitignore` excludes this path -
+then the vault is written here and left untracked, and never force-added. Raw benchmark
+transcripts are gitignored either way; scored summaries kept.
 ```
 
 ## `tiger/MOC.md` - Map of Content
@@ -93,15 +107,18 @@ call_site: <stable-slug>            # the id; never changes across runs
 task: <what the model is asked to do, one line>
 use_case: <UC id | cross>           # primary job this site serves
 modality: text | image | vision | embedding | audio
-entry: <file:line of the model call>
+entry: <path:line of the model call - path from the repo root, as `git ls-files` prints it>
 wrapper: <chokepoint fn> | direct
-prompt_builder: <file:line>
+prompt_builder: <path:line>
 output_contract: <schema file:line> -> <validator file:line> | none
 providers: [<provider (env)>, ...]
 model: <current default per env; the last benchmark decision + date>
-grounding: <N/M in-direction> ; out-direction <closed | open: what>
-dials: { wrapping: N/10, observability: N/10, caching: N/10 }
-fingerprint: <hash of prompt template + schema>   # scan diffs against this
+grounding: "<N/M in-direction> ; out-direction <closed | open - what>"   # quoted: contains ': '
+dials: { wrapping: "N/10", observability: "N/10", caching: "N/10" }
+# At `init` (no lens ran): "N/10 (est, static)" with an anchor per point deducted, or
+# "unscored". Never 0/10. A bare N/10 only after a `run` scored it.
+fingerprint: "sha256:<first 16 hex of SHA-256 over the prompt template text + the schema text>"
+# Computed with a tool. A descriptive string makes scan's drift diff blind forever.
 status: discovered | assessed | benchmarked | improved
 characters: ["[[char-a]]", "[[char-b]]"]
 last_reviewed: <YYYY-MM-DD> (session [[<session>]])
@@ -152,7 +169,9 @@ Must-pass Characters (the senior-quality floor for Lens C) in **bold**.
 | # | Character | uat file / note | AI-surface angle | Lenses | use_case |
 |---|---|---|---|---|---|
 | 1 | **<name - role>** | `uat/characters/<slug>.md` | <grounding / hallucination / trust / latency / cost / privacy / determinism> | A B C | UC1 |
-Coverage check: every lens >= 3 judges; every use case >= 2 judges; skeptics named.
+Coverage check: every lens >= 3 judges; every use case >= 2 judges; skeptics named; every row
+links a note that EXISTS (a `characters/<slug>.md` here, or the `uat/characters/*` file).
+Unattended and no roster to reuse: derive 5, never fewer than 2 bound per job.
 ```
 
 ## `tiger/characters/<slug>.md` - only for Characters NOT in `uat/characters/`

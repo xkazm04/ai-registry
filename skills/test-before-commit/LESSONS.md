@@ -38,3 +38,21 @@ Format: `## <version used> - <YYYY-MM-DD> - <project>` followed by `- ` bullets.
 ## 2.2.1 - 2026-09-09 - ai-registry
 
 - Architecture review: the shared reflection clause assumed a writable registry link in every installation. Replaced that assumption with installation-aware scope and explicit adoption. This records an instruction audit, not a field effectiveness result.
+
+## 2.3.0 - 2026-09-17 - skillbench
+
+- The four-yes checklist asked nothing about the repo's own gates. Measured: a run answered all
+  four yeses honestly - probe-confirmed red-then-green, one commit - and still committed a test
+  file `ruff format --check .` rejects; it had run the linter on its two files but not the
+  formatter. A sibling run on the same task passed. 2.4.0 adds line 5, the repo's format and lint
+  gates on the changed files.
+- Checklist item 3 ("the module's existing tests pass") is satisfiable by editing the tests. On one
+  Rust task, 29 of 38 judge verdicts named a behaviour change outside the reported bug, and 11
+  faulted a fixture edit that hid a tolerance regression while 7 blessed the same edit - the
+  disagreement is the missing rule. The Rules section said to *decide* whether new output is
+  correct, never to *disclose* it. 2.4.0 adds line 6: no existing test edited to stay green unless
+  the report and commit body name the behaviour change it accommodates and why it is correct.
+- ~14 verdicts faulted an unproven "pre-existing failure" claim ("rerunning alone does not
+  establish that failure as pre-existing"); the two runs that stashed and re-ran were praised for a
+  method the skill never named. 2.4.0 folds the proof into item 3 and states the method - stash or
+  scratch worktree, same command, both results quoted.

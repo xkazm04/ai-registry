@@ -3,7 +3,7 @@ name: ci-gate-check
 description: "Run the exact checks CI enforces before you push, so a red pipeline is never how you find out. Use before every push, before opening a PR, and after an agent finishes a batch of edits."
 category: ci-cd
 memory: project
-version: 1.5.0
+version: 1.6.0
 tags: pre-push, gate, lint, typecheck, tests
 argument-hint: "[--fix]"
 ---
@@ -21,14 +21,28 @@ checks locally, in the same order, and reports one verdict: **safe to push** or 
 
 ## The gate
 
-Read the repo's declared commands first. In order of preference:
+**The repo's own gate outranks the table below.** Read its declared commands first, in order of
+preference:
 
-1. `.ai/manifest.yaml` -> `capabilities` (`lint`, `typecheck`, `test`, `build`)
-2. `package.json` scripts, `Makefile` targets, `justfile` recipes, `pyproject.toml` tool config
-3. The CI workflow itself (`.github/workflows/*.yml`) - whatever it runs IS the gate
+1. The repository's own gate script (`scripts/gates.sh`, `make ci`, a `justfile` `ci` recipe).
+   If one exists, run **that** - it IS the list of checks, and every stage in it is a stage here.
+2. `.ai/manifest.yaml` -> `capabilities`. Every capability it declares is a stage, whatever its
+   name - secret scans, dependency and policy audits, conformance - not only the five below.
+3. `package.json` scripts, `Makefile` targets, `justfile` recipes, `pyproject.toml` tool config
+4. The CI workflow itself (`.github/workflows/*.yml`) - whatever it runs IS the gate, and any job
+   CI marks **required** is a stage even when no table row names it.
+
+The table below is the default ordering for a repo that declares nothing - not a ceiling. Five
+green stages while a required secret-scan or audit job is red is not a gate; it is a push into a
+red pipeline.
 
 Never invent a command. If a stage has no command in this repo, report it as **not configured**
 and move on; a fabricated command that "passes" is worse than a missing one.
+
+**Environment step first.** Where the repo declares a dependency/sync/install step, run it before
+the stages that need it - that is what CI does. `build` is an artifact stage only where its
+command produces artifacts: a manifest whose `build` is `uv sync --extra dev` or `npm ci` is the
+environment step, and running it last makes every other stage fail in a fresh checkout.
 
 Run the stages in this order and stop at the first hard failure:
 
@@ -44,6 +58,19 @@ The `build` stage matters more than it looks: a project can typecheck clean and 
 build (a server-only import pulled into a client module, a missing asset, a bad path alias).
 If the repo has a build command, it is part of the gate.
 
+## Three outcomes per stage, not two
+
+- **ok** - the check ran and passed.
+- **FAIL** - the check ran and the code did not pass.
+- **could not run** - the command exists but its toolchain does not: dependencies not installed,
+  the tool not on PATH, a checker resolved outside the repo's lockfile, a required environment
+  variable unset.
+
+Before calling anything FAIL, confirm the tool is the one CI installs. If a stage could not run,
+run the repo's setup/sync step and retry it once. A gate still carrying a "could not run" stage
+yields `not yet - <stage> unverified` - never "safe to push", and never "do not push" either:
+setup breakage is not code health, and reporting it as one is how a green pipeline gets blocked.
+
 ## Reporting
 
 Print one line per stage and one verdict. Do not paste whole logs.
@@ -52,11 +79,19 @@ Print one line per stage and one verdict. Do not paste whole logs.
 format     ok      0.8s
 lint       ok      4.1s
 typecheck  FAIL    9.2s   src/api/user.ts:41  Type 'string | null' is not assignable to 'string'
-test       -       skipped (earlier stage failed)
-build      -       skipped
+test       -       not run (earlier stage failed)
+build      -       not run
 
-VERDICT: do not push. 1 failing stage, first error above.
+VERDICT: do not push. 1 failing stage, first error above. Stages test, build were not run and are unverified.
 ```
+
+The last line is a **required literal**, not an example: `VERDICT: ` then one of `safe to push`,
+`not yet - <stage> unverified`, or `do not push`, then the reason. Unadorned plain text on its own
+line - no markdown emphasis, no bullet, no wrapping, no prose paraphrase.
+
+**A stopped gate is not a full gate.** Stopping at the first hard failure is the rule, so the
+verdict must name what is left unproven: "Stages X, Y were not run and are unverified". Only a run
+in which every stage reported `ok` may say `safe to push`.
 
 On failure: fix the first error, then re-run the gate from the top. Do not fix errors in bulk
 across stages - a lint fix routinely changes what the type checker sees.
@@ -67,6 +102,9 @@ across stages - a lint fix routinely changes what the type checker sees.
 - **Never** disable a check to make the gate green. If a rule is wrong, change the rule in its
   config file, in its own commit, with a reason.
 - A flaky test is a failing test until it is quarantined deliberately and tracked.
+- **A gate run is a read.** Record `git status` before the first stage and restore what the gates
+  wrote - regenerated files, line-ending churn, caches. If a stage cannot run without modifying
+  the tree, name the touched files in the verdict.
 - Timebox: if the full suite takes longer than a few minutes, run the affected subset locally
   and say so in the verdict (`test  ok (subset: src/api)`), so the reader knows what was proven.
 
@@ -84,11 +122,16 @@ After the work, record only useful observations supported by this run. No lesson
 a valid result. Reflection inherits the task's authorization; it grants no additional
 permission to edit another repository, send data, commit, or publish.
 
-**Project learning.** Put a dated observation in the consuming project's configured
-overlay under `## Skill improvement log`, when local edits are within scope. Use the
-location in this skill's `## Project overlay` section. If none is configured, use
-`.agents/ci-gate-check/config.md` for Codex or `.claude/ci-gate-check/config.md` for Claude.
-If the harness is unknown, propose the note in the response instead of guessing a path.
+**Project learning.** Only when this run produced an observation that would change how a
+future run behaves. A run that went as the method describes writes nothing: an entry that
+restates the procedure, records "no issues", or repeats the task is a defect, not a
+deliverable. When there is such an observation and local edits are within scope, put one
+dated line in the overlay this skill's `## Project overlay` section names, under
+`## Skill improvement log`. **Write only into an overlay that already exists.** If the
+project has none, put the observation in the response instead - creating a new tracked
+file for a reflection is scope the task did not ask for, and a reader who never asked for
+the skill has to review it. If the overlay is a structured config (YAML, TOML, JSON),
+record the note as comments so the file keeps parsing, or use the response.
 Use a supplied memory contract only when its destination and writes are authorized.
 Keep project details out of the shared method.
 
