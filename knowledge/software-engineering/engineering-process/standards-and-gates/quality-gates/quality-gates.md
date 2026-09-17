@@ -555,8 +555,9 @@ is asked to refuse something.
   debt-shaped vs input-shaped advisory, splitting a bundled invocation, and
   the written promotion trigger.
 - [gate-liveness](./techniques/gate-liveness.md) — instrument assertion,
-  portability, chain-abort ordering, and proving a gate red before
-  trusting it green.
+  portability, chain-abort ordering, proving a gate red before trusting it
+  green, and the canary enrolled in the judged population whose verdict,
+  loudness and retention all read inverted.
 - [excess-indicts-the-instrument](./techniques/excess-indicts-the-instrument.md)
   — implausible finding volume as a scope-declaration signal, the distribution
   discriminator, root-sensitive versus locally-derived findings, and printing

@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 229,
-  "techniques": 1715,
-  "applications": 1045,
+  "techniques": 1716,
+  "applications": 1046,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1715/1715",
+  "use_when_coverage": "1716/1716",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -5988,9 +5988,9 @@
    "subcategory": "work-execution",
    "status": "reconciled",
    "file": "knowledge/software-engineering/backend-platform/work-execution/concurrency-guards/concurrency-guards.md",
-   "digest": "sha256:8b527f5be877cd00",
-   "revision": 13,
-   "changedAt": "2026-09-04",
+   "digest": "sha256:0efe8017c915870d",
+   "revision": 14,
+   "changedAt": "2026-09-17",
    "techniques": [
     {
      "slug": "atomic-file-publish",
@@ -6129,6 +6129,25 @@
      "stage": "multi-service"
     },
     {
+     "slug": "preparation-is-the-staleness-window",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "record-precedes-effect",
+      "one-validation-door"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a guard's verdict is read at fetch time and used after several awaits",
+      "an irreversible external effect sits at the end of a prepared pipeline",
+      "deciding where a freshness check belongs",
+      "the set of locks to take is derived from an unlocked read",
+      "a cheap skip path decides it may do no work at all",
+      "a check passed and the effect fired on state that had already changed"
+     ],
+     "stage": "multi-service"
+    },
+    {
      "slug": "race-catalog-with-two-histories",
      "status": "forged",
      "laws": [
@@ -6218,6 +6237,13 @@
      "file": "knowledge/software-engineering/backend-platform/work-execution/concurrency-guards/applications/node--cache-value-not-handle.md",
      "verified_on": "2026-09-03",
      "verified_against": "node@20"
+    },
+    {
+     "stack": "node",
+     "technique": "preparation-is-the-staleness-window",
+     "file": "knowledge/software-engineering/backend-platform/work-execution/concurrency-guards/applications/node--preparation-is-the-staleness-window.md",
+     "verified_on": "2026-09-17",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
@@ -24186,8 +24212,8 @@
    "subcategory": "standards-and-gates",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/quality-gates.md",
-   "digest": "sha256:394ce29d904674d7",
-   "revision": 41,
+   "digest": "sha256:a005e9ca1301d7cb",
+   "revision": 42,
    "changedAt": "2026-09-17",
    "techniques": [
     {
@@ -24345,7 +24371,10 @@
       "a checker whose population is computed from a date ref or ordering rather than the whole tree",
       "retrofitting a rule onto an artifact that already violates it",
       "a check reports a plausible non-zero count and the rule still drifts",
-      "a gate whose scope is empty unless a flag is passed"
+      "a gate whose scope is empty unless a flag is passed",
+      "a probe scheduled beside the population it is supposed to certify",
+      "a permanently red check whose red nobody reads any more",
+      "deciding what a liveness probe's history should keep"
      ]
     },
     {
@@ -35246,6 +35275,7 @@
     "concurrency-guards/cross-process-exclusion",
     "concurrency-guards/fence-inside-write-transaction",
     "concurrency-guards/leadership-is-the-lock",
+    "concurrency-guards/preparation-is-the-staleness-window",
     "concurrency-guards/renewal-deadline-two-thirds-ttl",
     "concurrent-vcs/commit-verification",
     "concurrent-vcs/isolated-index-commits",
@@ -37088,6 +37118,7 @@
     "concurrency-guards/cross-process-exclusion",
     "concurrency-guards/fence-inside-write-transaction",
     "concurrency-guards/leadership-is-the-lock",
+    "concurrency-guards/preparation-is-the-staleness-window",
     "concurrency-guards/single-flight-primitives",
     "connector-catalog/shipped-vs-operator-ownership",
     "conversation-orchestration/model-proposed-quick-replies",
@@ -38905,6 +38936,7 @@
    "techniques": [
     "agent-runtime-assembly/additive-input-at-the-call-boundary",
     "agent-runtime-assembly/substituted-result-attribution",
+    "concurrency-guards/preparation-is-the-staleness-window",
     "cross-instance-cache-lease/renew-from-arrival-not-from-work",
     "data-access/existence-authority-written-last",
     "decentralized-artifact-distribution/publisher-declared-verification-floor",

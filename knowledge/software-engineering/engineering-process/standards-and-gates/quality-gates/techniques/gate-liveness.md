@@ -6,7 +6,7 @@ technique: gate-liveness
 status: forged
 laws: [failure-not-empty-success, gate-sees-target]
 shared_with: []
-use_when: [deciding whether a clean exit means anything was checked, seeding a known violation to watch a new gate go red, a gate that has been green for a year, a checker whose population is computed from a date ref or ordering rather than the whole tree, retrofitting a rule onto an artifact that already violates it, a check reports a plausible non-zero count and the rule still drifts, a gate whose scope is empty unless a flag is passed]
+use_when: [deciding whether a clean exit means anything was checked, seeding a known violation to watch a new gate go red, a gate that has been green for a year, a checker whose population is computed from a date ref or ordering rather than the whole tree, retrofitting a rule onto an artifact that already violates it, a check reports a plausible non-zero count and the rule still drifts, a gate whose scope is empty unless a flag is passed, a probe scheduled beside the population it is supposed to certify, a permanently red check whose red nobody reads any more, deciding what a liveness probe's history should keep]
 ---
 
 # Gate liveness
@@ -320,6 +320,94 @@ A useful standing metric: **time since last red**, per gate. A gate that
 has been green for a year is either guarding an extinct defect class
 (candidate for retirement), or dead (candidate for a seeded-failure probe).
 Green forever is not a trophy; it is a question.
+
+## A canary enrolled in the judged population
+
+The continuous form above - known-bad fixtures in the gate's own suite - proves
+the checker fires **when that suite runs, in that process, on that clock**. It
+says nothing about the arrangement the gate actually lives in: a scheduler that
+selects members, runs them, judges their artifacts, retains a bounded set of
+results and reports a verdict. Every part of that is a separate mechanism from
+the checker, and each can die while the suite stays green.
+
+The stronger instrument is a **canary member**: a job that fails by
+construction, scheduled by the same scheduler as the real members, judged by the
+same judge, retained by the same retention, reported in the same table. Its
+catch is a standing statement that the whole path was alive on this run, which
+is the one claim no fixture inside the checker can make. Two enrolment rules
+make it mean that:
+
+- **Asserted into every slice, never sampled into it.** Where members are chosen
+  by weight, a sample, or a label, the canary is a presence *assertion* on each
+  slice the population is judged in - each branch, each per-change job - because
+  a weighted draw that comes up zero is indistinguishable from a canary that
+  cannot run.
+- **Paired with at least one real member.** A slice carrying only the canary
+  certifies nothing: it proves that a population containing a job designed to
+  fail contains a job designed to fail. The canary's whole claim is about the
+  members beside it, so the judge refuses a canary-only slice the way it refuses
+  a walked population of zero.
+
+**Enrolment is the easy half.** Everything surrounding the population was written
+for members that are supposed to pass, and applied unchanged to a member that is
+supposed to fail, each piece inverts its own meaning. Three of them, and the
+second is the one that turns the probe into the defect it was installed to catch:
+
+- **The verdict.** A caught canary is a breached bound. Flowed into the
+  population's blocking verdict it makes the gate permanently red, and a red that
+  is always there is read by nobody
+  ([false-positive-economics](./false-positive-economics.md) applies to a gate's
+  own noise as much as to a rule's). The canary needs its own pair of outcomes -
+  *caught* and *not caught* - outside the pass/fail vocabulary of the members.
+- **Which outcome is loud.** *Not caught* is the finding, and it is a
+  could-not-run about the entire run rather than a failure of one member: if the
+  judge no longer catches a breach planted for it, every other green in that run
+  was produced by an unproven judge. Left in the ordinary vocabulary it reads as
+  a **pass** - so a canary added without this inversion does not merely fail to
+  help, it manufactures the exact false green the rest of this technique exists
+  to refuse, and adds a green row to the table to do it.
+- **What the history keeps.** Curation of a judged population preserves
+  *stability*: prefer the older record, prefer the first failing case, coarsely
+  minimise by preferring the shorter failure, fold a dropped passing record's
+  count into a survivor so the work total survives. All correct for a member
+  whose value is a reproducible case. For the canary the load-bearing fact is
+  **recency** - that it caught something *lately* - so its ordering is inverted
+  (prefer the newest record) and every tiebreaker that could outrank recency is
+  dropped from its ordering. A duration preference is the measured instance: for
+  real members it is a minimisation heuristic, for a canary it is noise that
+  obscures the start timestamp, which is the only field its row is for.
+
+The reporting layer inherits the same inversion, and it is where the failure is
+most embarrassing: a health report computed in the population's vocabulary will
+diagnose the canary as the pathology described above - a member at a hundred
+percent historical failure rate, "never green", an unbuilt job wearing a gate's
+clothes - when never-green *is* the canary's design. The canary's row is its own
+sentence, it prints the **age of its newest catch** with the predicate the count
+was taken over
+([count-carries-predicate](../../../../_laws.md#count-carries-predicate)), and it
+flags staleness when the newest recorded run is not the newest catch. Until that
+row exists, a canary that stopped running and a canary catching a breach every
+night render identically, which is the standing metric this technique
+recommends - time since last red - defeated by the retention rule of the
+population the probe was put into to protect it.
+
+A measured instance, on a nightly certification suite with four blocking
+verdicts and a bounded health ledger already designed around "earned green,
+planted red": with a canary enrolled and the surrounding machinery unchanged, the
+suite read **one of four** canary states correctly - it caught "the canary did
+not run at all", and it read a canary that had *stopped catching its own planted
+breach* as a pass, exit zero, with the whole run green. With the three
+inversions - own verdict pair, not-caught routed to could-not-run for the run,
+recency-keyed history - it read four of four, and every non-canary verdict in the
+population was byte-identical.
+
+What the canary still cannot see is worth stating, because its receipt is
+narrow: it proves **the path it travels**. A member scheduled through a different
+trigger, judged by a different rung, or reported on a different surface needs its
+own canary, and one canary's catch is evidence about its own path and nothing
+else ([gate-sees-target](../../../../_laws.md#gate-sees-target)).
+
+---
 
 ## Liveness of the trigger, not just the checker
 

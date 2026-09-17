@@ -17,6 +17,7 @@ techniques:
   - fence-inside-write-transaction
   - renewal-deadline-two-thirds-ttl
   - race-catalog-with-two-histories
+  - preparation-is-the-staleness-window
 ---
 
 # Idempotency & in-flight guards
@@ -130,6 +131,16 @@ From that stance, the spine of the subject:
    a torn read is converted into a failed write. That conversion is an
    improvement only if the writer treats the refusal as transient and retries
    under a bound (see atomic-file-publish).
+8. **A guard's verdict ages across the preparation that follows it.** The check
+   is written where the record is fetched; the irreversible step happens several
+   suspensions later, and the gap is the length of the preparation, not a
+   scheduling accident. Re-read the authoritative state as the last statement
+   before the effect — and let the step's nature pick the form: condition the
+   write where the store owns the state, re-read *and* dedup at the effect where
+   it leaves the system, snapshot before and after where a cheap write licenses
+   future skipping. The same discipline settles the case where what the stale
+   read derived is the *lock set* (see preparation-is-the-staleness-window).
+
 
 ## The cluster lock: where cross-process exclusion becomes high availability
 
@@ -189,4 +200,7 @@ the guard is an optimization rather than the only wall; and every file a second
 process reads is published by replacement through one door that flushes,
 classifies the substrate's transient refusals, retries them under a stated
 bound, and reports exhaustion as a failure rather than as a silent skipped
-write.
+write. Every irreversible step re-reads the state its preconditions were decided
+against as its last statement, with that verdict classified as settled or
+transient and never used to swap a payload an operation identity has already
+promised.
