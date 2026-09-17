@@ -3,13 +3,14 @@ layer: golden-path
 type: golden-path
 subject: convergence-loop-and-requeue
 status: forged
-use_when: [building a loop that drives observed reality toward a declared record, a trigger stream that loses events must still converge, bursts of triggers for one key are doing N times the work for one outcome, deciding what a failed convergence pass does next, shutting down a converger that holds no durable queue]
+use_when: [building a loop that drives observed reality toward a declared record, a trigger stream that loses events must still converge, bursts of triggers for one key are doing N times the work for one outcome, deciding what a failed convergence pass does next, shutting down a converger that holds no durable queue, a loop is woken by its own write]
 techniques:
   - told-that-not-why
   - keyed-queue-with-earliest-wins
   - per-key-exclusion-under-a-global-cap
   - error-policy-as-a-separate-function
   - drain-a-derived-queue
+  - own-writes-are-not-triggers
 ---
 
 # Convergence loops and requeue
@@ -140,6 +141,16 @@ because the information was never load-bearing —
 [told-that-not-why](./techniques/told-that-not-why.md) holds the construction
 that keeps it that way, including the one configuration that quietly repeals
 it.
+
+Idempotence as stated here is a property of the *world*: run the pass twice
+against an unchanged world and it converges once. That clause is satisfied by a
+pass that changed nothing outside and still stamped a last-observed field on the
+record it watches - and that stamp comes straight back as a trigger. Coalescing
+does not catch it either, because a self-trigger arrives after the pass
+completed and finds no twin to collapse into. The exclusion has to run at the
+boundary where the arrival is still an event, before it is reduced to a bare
+key, which means it runs at the same door the reason is erased at
+([own-writes-are-not-triggers](./techniques/own-writes-are-not-triggers.md)).
 
 ## Requeue is the loop's only clock
 
@@ -280,3 +291,7 @@ waiting, and can say which of the two happened to any given key.
 - [drain-a-derived-queue](./techniques/drain-a-derived-queue.md) — close the
   door, finish in flight, abandon the rest, and the derived-queue test that
   says whether abandoning is safe.
+- [own-writes-are-not-triggers](./techniques/own-writes-are-not-triggers.md) -
+  the loop's own write arriving as a trigger, why coalescing and convergent
+  idempotence both miss it, the origin filter and the write-door claim, and
+  the false count it produces downstream.

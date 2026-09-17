@@ -15,6 +15,7 @@ techniques:
   - verify-after-generate
   - precision-trades-have-a-direction
   - the-tree-is-not-the-population
+  - causes-beside-the-finding-count
 ---
 
 # Codebase scanning & triage
@@ -24,7 +25,8 @@ drift, error paths go silent, dead modules calcify, documentation describes a
 system that no longer exists — and none of it announces itself, because the
 build stays green and the tests stay passing. Scanning is the discipline of
 **going looking**: programmatic and model-assisted detection of what is wrong,
-turned into deduplicated, verified, prioritized work items a human can act on.
+turned into deduplicated, verified, prioritized findings a human can act on -
+findings, not work items, because the two are counted on different axes.
 It is the difference between a codebase whose health is *believed* and one
 whose health is *measured*.
 
@@ -287,6 +289,28 @@ truncation are the same economics applied to volume: fifty verified findings
 delivered as an undifferentiated wall are triaged worse than fifteen
 delivered ranked, with "thirty-five more withheld" printed underneath.
 
+## A finding count counts emissions
+
+The economics above price a finding against the operator's attention, and the
+price assumes each finding is a thing to decide. Deduplication guarantees less
+than that. Identity dedup asks *is this the same finding?* and is built so the
+answer is no whenever the rule, the site or the matched content differs - which
+is correct, and which leaves three correctly-emitted findings standing for one
+remediation whenever they derive from each other. A module nothing reaches, its
+exports unreferenced, and the dependencies only it imported are three rules,
+three sites and one deletion.
+
+So a population has two sizes, and the report owes both: how many findings it
+emitted, and how many independent causes those findings contain, under a stated
+relation that says what *would one action resolve both* means for this
+instrument. The relation is computed on every run rather than remembered, every
+finding stays in the artifact carrying its cause identifier rather than being
+removed, and the gap between the two numbers is read as a diagnosis rather than
+closed. Its direction is the reading: more findings than causes means instances
+are being counted as work, and more causes than the published number means a
+cause was discovered, used to suppress its own findings, and then counted
+nowhere ([causes-beside-the-finding-count](./techniques/causes-beside-the-finding-count.md)).
+
 ## What this subject deliberately excludes
 
 - **Enforcement.** Blocking a change at a boundary is quality-gates; this
@@ -331,6 +355,10 @@ delivered ranked, with "thirty-five more withheld" printed underneath.
   — the second coverage axis: enumerate before filtering, publish the excluded
   count per filter, never filter an explicitly named path, and ship one
   escalating control that peels the inherited layers in likelihood order.
+- [causes-beside-the-finding-count](./techniques/causes-beside-the-finding-count.md)
+  - the cause axis beside the identity axis: the stated relation that makes two
+  findings one remediation, attribution instead of deletion, the rows/causes pair
+  published in one record, and the direction of the gap read as the diagnosis.
 - [verify-after-generate](./techniques/verify-after-generate.md) — the
   consumer's audit of an artifact a model generator succeeded at writing:
   invariant checks bought by incidents, a repair protocol that names its

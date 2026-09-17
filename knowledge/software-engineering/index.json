@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 229,
-  "techniques": 1725,
-  "applications": 1052,
+  "techniques": 1729,
+  "applications": 1056,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1725/1725",
+  "use_when_coverage": "1729/1729",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -387,9 +387,9 @@
    "subcategory": "work-execution",
    "status": "reconciled",
    "file": "knowledge/software-engineering/backend-platform/work-execution/admission-queue/admission-queue.md",
-   "digest": "sha256:266922a3143bdd72",
-   "revision": 14,
-   "changedAt": "2026-09-06",
+   "digest": "sha256:dd5d5ee4527be1d5",
+   "revision": 15,
+   "changedAt": "2026-09-17",
    "techniques": [
     {
      "slug": "admission-vocabulary",
@@ -404,6 +404,24 @@
       "naming the verdicts a queue's gate may return",
       "deciding whether refusal throws or returns",
       "refusal reasons drifting into two spellings"
+     ]
+    },
+    {
+     "slug": "admit-on-the-expanded-cost",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "limits-are-derived",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a payload is compressed",
+      "encoded or nested and something downstream expands it",
+      "sizing a cap for a decoder or a parser rather than for a transfer",
+      "a byte ceiling is the only thing standing in front of an expensive load",
+      "the budget the work is judged against is measured after the work has been done",
+      "a request supplies the dimensions its own cost is computed from"
      ]
     },
     {
@@ -625,6 +643,13 @@
      "technique": "priority-and-fairness",
      "file": "knowledge/software-engineering/backend-platform/work-execution/admission-queue/applications/go--priority-and-fairness.md",
      "verified_on": "2026-08-22"
+    },
+    {
+     "stack": "next",
+     "technique": "admit-on-the-expanded-cost",
+     "file": "knowledge/software-engineering/backend-platform/work-execution/admission-queue/applications/next--admit-on-the-expanded-cost.md",
+     "verified_on": "2026-09-17",
+     "verified_against": "next@16"
     },
     {
      "stack": "next",
@@ -5358,10 +5383,27 @@
    "subcategory": "codebase-stewardship",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/codebase-scanning/codebase-scanning.md",
-   "digest": "sha256:6a3441fc0f5a84b2",
-   "revision": 8,
-   "changedAt": "2026-08-31",
+   "digest": "sha256:25cb33f4d7cf6a63",
+   "revision": 9,
+   "changedAt": "2026-09-17",
    "techniques": [
+    {
+     "slug": "causes-beside-the-finding-count",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "derivation-names-recomputation"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "publishing how many findings a scan produced",
+      "a backlog number is being read as a count of work",
+      "one fix would close several findings at different sites",
+      "a population of generated candidates is reported by its size",
+      "a discovered root cause is subtracted from a report by hand",
+      "deciding whether two findings are one remediation"
+     ]
+    },
     {
      "slug": "dead-code-detection",
      "status": "forged",
@@ -5530,6 +5572,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "causes-beside-the-finding-count",
+     "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/codebase-scanning/applications/node--causes-beside-the-finding-count.md",
+     "verified_on": "2026-09-17",
+     "verified_against": "node@24"
+    },
     {
      "stack": "node",
      "technique": "precision-trades-have-a-direction",
@@ -7022,9 +7071,9 @@
    "subcategory": "control-plane-operations",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/control-plane-operations/convergence-loop-and-requeue/convergence-loop-and-requeue.md",
-   "digest": "sha256:2a985712347bd10a",
-   "revision": 1,
-   "changedAt": "2026-09-03",
+   "digest": "sha256:8276705efd01d895",
+   "revision": 2,
+   "changedAt": "2026-09-17",
    "techniques": [
     {
      "slug": "drain-a-derived-queue",
@@ -7070,6 +7119,24 @@
      ]
     },
     {
+     "slug": "own-writes-are-not-triggers",
+     "status": "forged",
+     "laws": [
+      "record-precedes-effect",
+      "creation-names-reaper",
+      "absent-guard-is-loud"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a loop writes into the same space its trigger stream reads",
+      "a watcher fires on the file or record the pass just wrote",
+      "deciding whether a debounce is enough to stop a self-triggered pass",
+      "a downstream consumer counts change events as evidence that something outside changed",
+      "a transform is re-run on an artifact it produced",
+      "choosing between filtering by origin and claiming at the write door"
+     ]
+    },
+    {
      "slug": "per-key-exclusion-under-a-global-cap",
      "status": "forged",
      "laws": [
@@ -7098,6 +7165,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "own-writes-are-not-triggers",
+     "file": "knowledge/software-engineering/operations/control-plane-operations/convergence-loop-and-requeue/applications/node--own-writes-are-not-triggers.md",
+     "verified_on": "2026-09-17",
+     "verified_against": "node@24"
+    },
     {
      "stack": "rust",
      "technique": "keyed-queue-with-earliest-wins",
@@ -35054,9 +35128,9 @@
    "subcategory": "model-workflow-contracts",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/model-workflow-contracts/windowed-inference-over-oversized-inputs/windowed-inference-over-oversized-inputs.md",
-   "digest": "sha256:7735ad09a1b45f37",
-   "revision": 1,
-   "changedAt": "2026-09-03",
+   "digest": "sha256:4e1576552155a7a1",
+   "revision": 2,
+   "changedAt": "2026-09-17",
    "techniques": [
     {
      "slug": "axis-buffered-writeback",
@@ -35113,6 +35187,22 @@
      ]
     },
     {
+     "slug": "schedule-parity-by-realized-cut",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "derivation-names-recomputation"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "the window schedule is computed in one place for training or baking and in another for serving",
+      "a fixed-input-size model performs worse at the end of a sequence than in the middle",
+      "two paths hold the same window size and hop and still produce different cuts",
+      "naming or caching a windowed result so a later run can tell whether it is stale",
+      "writing the conformance test that proves two segmentation paths agree"
+     ]
+    },
+    {
      "slug": "split-device-inference-and-stitching",
      "status": "forged",
      "laws": [
@@ -35153,6 +35243,13 @@
      "file": "knowledge/software-engineering/backend-platform/model-workflow-contracts/windowed-inference-over-oversized-inputs/applications/python--overlap-weighted-stitching.md",
      "verified_on": "2026-09-03",
      "verified_against": "python@3.10"
+    },
+    {
+     "stack": "python",
+     "technique": "schedule-parity-by-realized-cut",
+     "file": "knowledge/software-engineering/backend-platform/model-workflow-contracts/windowed-inference-over-oversized-inputs/applications/python--schedule-parity-by-realized-cut.md",
+     "verified_on": "2026-09-17",
+     "verified_against": "python@3.12"
     }
    ]
   },
@@ -35401,6 +35498,7 @@
     "accessibility/a11y-verification",
     "accessibility/hidden-but-mounted-inertness",
     "adaptive-fidelity-tiers/measured-not-declared-capability",
+    "admission-queue/admit-on-the-expanded-cost",
     "admission-queue/budget-includes-the-callers-own-cache",
     "admission-queue/depth-bounds-and-shed",
     "admission-queue/load-aware-admission",
@@ -36675,6 +36773,7 @@
     "cicd-monitoring/deployment-history",
     "client-fetch-cache/admission-hypothesis",
     "client-fetch-cache/similarity-keyed-admission",
+    "codebase-scanning/causes-beside-the-finding-count",
     "codebase-scanning/dead-code-detection",
     "codebase-scanning/evidence-scoping",
     "codebase-scanning/ingestion-budget",
@@ -37069,6 +37168,7 @@
    "techniques": [
     "accessibility/assistive-tech-divergence",
     "accumulate-then-aggregate-metrics/nan-as-undefined-not-zero",
+    "admission-queue/admit-on-the-expanded-cost",
     "agent-cli-transport/availability-probe",
     "agent-cli-transport/child-observed-posture",
     "agent-cli-transport/dated-capability-matrix",
@@ -37872,6 +37972,7 @@
     "connector-catalog/catalog-lifecycle",
     "connector-catalog/schema-driven-forms",
     "convergence-loop-and-requeue/drain-a-derived-queue",
+    "convergence-loop-and-requeue/own-writes-are-not-triggers",
     "conversation-orchestration/layered-avatar-state-machine",
     "conversation-orchestration/narration-promote-on-finish",
     "conversation-orchestration/show-dont-tell-walkthrough",
@@ -38509,6 +38610,7 @@
     "voice-io/engine-abstraction",
     "voice-io/portable-provider-package",
     "web-scraping/extraction-rule-dsl",
+    "windowed-inference-over-oversized-inputs/schedule-parity-by-realized-cut",
     "wizard-flows/branching-and-skipping",
     "wizard-flows/step-state-model",
     "workflow-property-contracts/attribute-protocol-over-accessors",
@@ -38554,6 +38656,7 @@
     "client-fetch-cache/parse-and-derive-caches",
     "client-state/invalidation-strategy",
     "client-state/persistence-and-migration",
+    "codebase-scanning/causes-beside-the-finding-count",
     "codebase-scanning/incremental-scanning",
     "codebase-scanning/verify-after-generate",
     "codegen/commit-vs-derive-policy",
@@ -38773,6 +38876,7 @@
     "watch-cache-and-resync/desync-is-a-state",
     "web-scraping/negotiated-representation-probe",
     "windowed-inference-over-oversized-inputs/overlap-weighted-stitching",
+    "windowed-inference-over-oversized-inputs/schedule-parity-by-realized-cut",
     "wizard-flows/progress-communication"
    ]
   },
@@ -38890,6 +38994,7 @@
   "limits-are-derived": {
    "statement": "A capacity limit is derived from a measured property or from another limit, and the derivation is written beside the number — a maximum entry as a multiple of the transport chunk, a transaction cap as a multiple of the entry, a per-transaction cache as the shared cache over the parallelism permit, a default page as a memory budget over a worst-case key, a rotation ceiling as the cipher's bound minus a margin for counts lost in flight. A limit chosen by feel is raised by feel, and when it is raised its consequences are not: the structure that fit under the old limit outgrows the entry it was stored in, the migration meant to escape the limit is capped by the limit it escapes, and nobody can say which. The derivation must be *computed*, not merely written — a formula in a comment beside a constant that no longer tracks its input is the failure in its most convincing disguise. Cousin of count-carries-predicate: that law binds a number to what it counts; this one binds a bound to what it is derived from.",
    "techniques": [
+    "admission-queue/admit-on-the-expanded-cost",
     "admission-queue/remediation-derived-bounds",
     "admission-queue/zero-depth-admission",
     "concurrency-guards/cache-value-not-handle",
@@ -38974,6 +39079,7 @@
     "concurrency-guards/fence-inside-write-transaction",
     "conformance-checking/declared-deviation-register",
     "contested-acquisition/no-surface-no-rung",
+    "convergence-loop-and-requeue/own-writes-are-not-triggers",
     "convergence-loop-and-requeue/told-that-not-why",
     "correlated-exchange-over-broadcast/binding-parity-floor",
     "data-access/capability-declared-in-the-type",
@@ -39175,6 +39281,7 @@
     "agent-runtime-assembly/additive-input-at-the-call-boundary",
     "agent-runtime-assembly/substituted-result-attribution",
     "concurrency-guards/preparation-is-the-staleness-window",
+    "convergence-loop-and-requeue/own-writes-are-not-triggers",
     "cross-instance-cache-lease/renew-from-arrival-not-from-work",
     "data-access/existence-authority-written-last",
     "decentralized-artifact-distribution/publisher-declared-verification-floor",

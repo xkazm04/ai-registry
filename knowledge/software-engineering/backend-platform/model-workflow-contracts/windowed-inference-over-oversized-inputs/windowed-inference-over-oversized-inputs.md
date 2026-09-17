@@ -11,6 +11,7 @@ techniques:
   - split-device-inference-and-stitching
   - failure-driven-memory-degradation
   - axis-buffered-writeback
+  - schedule-parity-by-realized-cut
 ---
 
 # Windowed inference over oversized inputs
@@ -97,6 +98,34 @@ as a seam nobody can explain. Padding removal has the same two-system shape: the
 input was padded to reach the window size, and the crop that removes the padding
 is computed in output coordinates through the same scale. This is
 [resolution-decoupled-window-mapping](./techniques/resolution-decoupled-window-mapping.md).
+
+## The schedule has two authors
+
+Everything above computes the schedule at inference time, from the input and
+three parameters. Someone else already computed one. The run that trained the
+model cut its material into windows too, and the distribution the model learned
+is the distribution of *those* windows. The two computations share a window size
+and a hop and are otherwise unrelated pieces of code, frequently in different
+repositories and always in different lifetimes: one had finished before the
+other started.
+
+They agree everywhere except at the end. The training-time cut usually holds
+material that is already encoded and takes the windows that fit, dropping the
+ragged tail; the inference-time cut has to return something for the last piece
+and rounds the other way. Same parameters, one extra unit in the final window,
+and no context behind it - so the prediction is off-distribution exactly where
+the sequence ends, which is where the answer is read. Nothing raises, because
+there is one output at request time and no second one to set beside it.
+
+The rule is that the **realized cut**, not the policy that produced it, is the
+value the two paths share: the finished path records the boundaries it actually
+made - or, for a trained model, the tail disposition that decided every boundary
+it ever made - and the live path derives its tail from that record instead of
+restating it. A shared policy is both too coarse and too fine. Two
+configurations with identical policies cut a ragged input differently, and one
+policy change renames every result including the ones whose seams never moved.
+This is
+[schedule-parity-by-realized-cut](./techniques/schedule-parity-by-realized-cut.md).
 
 ## Memory has two places to live, and the result decides neither
 
@@ -224,3 +253,7 @@ machine observed the failure, and the machine remembers it.
   — the fixed ladder, bounded trials, one classification door, the logged ratchet.
 - [axis-buffered-writeback](./techniques/axis-buffered-writeback.md) — the band along
   the longest axis, and the non-overlap proof that licenses non-blocking and uninitialised.
+- [schedule-parity-by-realized-cut](./techniques/schedule-parity-by-realized-cut.md)
+  - the training-time cut and the serving-time cut, the tail they round in
+  opposite directions, and the realized boundaries as the identity a shared
+  policy string is both too coarse and too fine to be.
