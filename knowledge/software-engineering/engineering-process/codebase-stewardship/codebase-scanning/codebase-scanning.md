@@ -17,6 +17,7 @@ techniques:
   - the-tree-is-not-the-population
   - causes-beside-the-finding-count
   - the-narrowest-view-owns-the-number
+  - the-broad-root-is-the-unaudited-one
 ---
 
 # Codebase scanning & triage
@@ -365,6 +366,11 @@ nowhere ([causes-beside-the-finding-count](./techniques/causes-beside-the-findin
   that prices a judgment is computed at the view it was formed from, not at the
   fetch; the notice goes to the party that reasons, outside any fence that voids the
   material's authority; and a channel substitution gets a refusal class, never a ratio.
+- [the-broad-root-is-the-unaudited-one](./techniques/the-broad-root-is-the-unaudited-one.md)
+  - the inclusion side of coverage rot: the root set's three rot classes ordered
+  against their detectability, why a zero-match root is not the refusal a
+  zero-match rule is, the split-not-delete repair with a precision sample, and
+  the finding count published beside the size of the root set that produced it.
 - [verify-after-generate](./techniques/verify-after-generate.md) — the
   consumer's audit of an artifact a model generator succeeded at writing:
   invariant checks bought by incidents, a repair protocol that names its

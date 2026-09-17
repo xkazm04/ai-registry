@@ -28,6 +28,7 @@ techniques:
   - scope-before-similarity
   - cross-context-promotion
   - addresses-before-compression
+  - addresses-not-atoms
 ---
 
 # Agent memory
@@ -547,3 +548,7 @@ comparison a stated result instead of an unexamined premise.
   what a merging pass actually spends: a no-loss merge does not shrink the store,
   it retires addresses, and the sign of the whole trade flips on whether the
   surface the reader consults first survived the pass.
+- [addresses-not-atoms](./techniques/addresses-not-atoms.md) - how finely to cut
+  the store's items: at a read budget a finer cut buys reach across the items
+  that hold an answer, where the cut falls buys nothing measurable, and the reach
+  is paid for in abstention - above an always-loaded index none of it happens.

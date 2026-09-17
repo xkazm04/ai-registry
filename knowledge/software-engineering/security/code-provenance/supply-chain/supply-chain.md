@@ -20,6 +20,7 @@ techniques:
   - signature-preserving-patching
   - build-time-dependency-tier
   - review-attestation-ledger
+  - one-version-decays-to-a-floor
 ---
 
 # Supply-chain & secret hygiene
@@ -324,6 +325,10 @@ are [scheduled-deep-analysis](./techniques/scheduled-deep-analysis.md).
   committed per-version review records, delta certification, pooled
   imports under declared trust, and the unread import that renders as
   coverage.
+- [one-version-decays-to-a-floor](./techniques/one-version-decays-to-a-floor.md)
+  - a coordinated upgrade as an event rather than a state, why equality has no
+  owner and a floor does, the resolution record over the declaration, and the
+  cross-checkout floor query that outlives the sweep.
 - [scheduled-deep-analysis](./techniques/scheduled-deep-analysis.md) — what
   belongs on the scheduled rung, liveness of recurring jobs, and routing
   findings to an owner.

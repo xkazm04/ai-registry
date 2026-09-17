@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 229,
-  "techniques": 1740,
-  "applications": 1063,
+  "techniques": 1744,
+  "applications": 1064,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1740/1740",
+  "use_when_coverage": "1744/1744",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -1764,8 +1764,8 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/agent-memory.md",
-   "digest": "sha256:49d4e30d2be9d765",
-   "revision": 36,
+   "digest": "sha256:c75d47df62c6476f",
+   "revision": 37,
    "changedAt": "2026-09-17",
    "techniques": [
     {
@@ -1782,6 +1782,24 @@
       "pricing a compaction pass as a read-cost saving",
       "a distillation pass measured no accuracy gain and nobody can say why",
       "choosing between one merged item and the family it replaces"
+     ]
+    },
+    {
+     "slug": "addresses-not-atoms",
+     "status": "forged",
+     "laws": [
+      "unknown-is-not-a-value",
+      "gate-sees-target",
+      "limits-are-derived"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing how finely to cut a store's items",
+      "a proposal to hold one atomic fact per item",
+      "deciding between finer items and an always-loaded index",
+      "a granularity change raised a recall score and nobody checked what it cost",
+      "pricing a little retrieval noise as cheap because each item is small",
+      "a recall budget reaches only a handful of items"
      ]
     },
     {
@@ -2327,10 +2345,28 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-runtime-assembly/agent-runtime-assembly.md",
-   "digest": "sha256:c91b6d800ee50b6c",
-   "revision": 17,
-   "changedAt": "2026-09-16",
+   "digest": "sha256:9ea4fecfb6d686ea",
+   "revision": 18,
+   "changedAt": "2026-09-17",
    "techniques": [
+    {
+     "slug": "activation-is-a-separate-mutation",
+     "status": "forged",
+     "laws": [
+      "absent-guard-is-loud",
+      "silent-state-is-ungoverned",
+      "one-authority-per-vocabulary",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether an extension install needs the review a code change gets",
+      "an installed extension contributes a callback that runs on operations nobody in that session started",
+      "a committed gate is believed to be running and nothing has confirmed it",
+      "an install step is written so it cannot fail",
+      "classifying a configuration change by what it reaches rather than by what it declares"
+     ]
+    },
     {
      "slug": "additive-input-at-the-call-boundary",
      "status": "forged",
@@ -5424,8 +5460,8 @@
    "subcategory": "codebase-stewardship",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/codebase-scanning/codebase-scanning.md",
-   "digest": "sha256:55e6ffe5511ce873",
-   "revision": 10,
+   "digest": "sha256:0a379ecdc679e329",
+   "revision": 11,
    "changedAt": "2026-09-17",
    "techniques": [
     {
@@ -5579,6 +5615,26 @@
       "one broken sensor is crashing the whole sweep",
       "deciding whether a rule may read during emission",
       "cap survivors change from run to run"
+     ]
+    },
+    {
+     "slug": "the-broad-root-is-the-unaudited-one",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "gate-sees-target",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [
+      "dead-code"
+     ],
+     "use_when": [
+      "a scan's root set is declared by hand in a configuration file",
+      "an inclusion or entry pattern is being audited for rot",
+      "a finding count is published without the size of the root set that produced it",
+      "autodiscovery and a hand-written declaration both contribute roots",
+      "deciding whether to delete a suspicious inclusion pattern",
+      "a scanner's own configuration hints report a clean root set"
      ]
     },
     {
@@ -14223,8 +14279,8 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/fleet-orchestration/fleet-orchestration.md",
-   "digest": "sha256:eab388fba6857afe",
-   "revision": 22,
+   "digest": "sha256:b1c0a59256b48308",
+   "revision": 23,
    "changedAt": "2026-09-17",
    "techniques": [
     {
@@ -14429,14 +14485,19 @@
       "creation-names-reaper",
       "count-carries-predicate",
       "limits-are-derived",
-      "failure-not-empty-success"
+      "failure-not-empty-success",
+      "silent-state-is-ungoverned",
+      "absent-guard-is-loud"
      ],
      "shared_with": [],
      "use_when": [
       "deciding how many sessions may run at once",
       "two sessions wrote the same file at once",
       "fanning one task across many targets",
-      "a run keeps issuing legal-sized batches and nothing bounds what it spends in total"
+      "a run keeps issuing legal-sized batches and nothing bounds what it spends in total",
+      "results pile up faster than anyone decides on them",
+      "a wave's size was chosen from the runtime's own concurrency cap",
+      "one verdict is covering items that are not alike"
      ]
     },
     {
@@ -14540,6 +14601,12 @@
      "technique": "substrate-reconciliation",
      "file": "knowledge/software-engineering/llm-agent/orchestration/fleet-orchestration/applications/node--substrate-reconciliation.md",
      "verified_on": "2026-08-22"
+    },
+    {
+     "stack": "process",
+     "technique": "parallel-dispatch",
+     "file": "knowledge/software-engineering/llm-agent/orchestration/fleet-orchestration/applications/process--parallel-dispatch.md",
+     "verified_on": "2026-09-17"
     },
     {
      "stack": "python",
@@ -31174,9 +31241,9 @@
    "subcategory": "code-provenance",
    "status": "forged",
    "file": "knowledge/software-engineering/security/code-provenance/supply-chain/supply-chain.md",
-   "digest": "sha256:2afd7ef2f907e8b4",
-   "revision": 4,
-   "changedAt": "2026-09-16",
+   "digest": "sha256:9a6c4a13d7a638f6",
+   "revision": 5,
+   "changedAt": "2026-09-17",
    "techniques": [
     {
      "slug": "archive-extraction-safety",
@@ -31237,6 +31304,23 @@
       "one lockfile serves several runtime versions",
       "a regenerated lockfile diff is unreviewable",
       "a manifest edit shipped without its lockfile"
+     ]
+    },
+    {
+     "slug": "one-version-decays-to-a-floor",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "count-carries-predicate",
+      "absent-guard-is-loud"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "driving several checkouts onto one dependency version at once",
+      "claiming a set of repositories is on a given version",
+      "an advisory names a patched version and several codebases must clear it",
+      "deciding whether to require one version everywhere or a minimum everywhere",
+      "a coordinated upgrade that nobody has re-checked since the day it was done"
      ]
     },
     {
@@ -35762,6 +35846,7 @@
     "agent-instruction-files/substrate-coupled-expiry",
     "agent-instruction-files/workspace-ancestry-isolation",
     "agent-memory/addresses-before-compression",
+    "agent-memory/addresses-not-atoms",
     "agent-memory/cross-context-promotion",
     "agent-memory/diagnosis-withheld-from-the-executor",
     "agent-memory/probe-without-write-back",
@@ -35812,6 +35897,7 @@
     "codebase-scanning/ingestion-budget",
     "codebase-scanning/llm-assisted-scanning",
     "codebase-scanning/rule-precision-discipline",
+    "codebase-scanning/the-broad-root-is-the-unaudited-one",
     "codebase-scanning/the-narrowest-view-owns-the-number",
     "codebase-scanning/verify-after-generate",
     "codegen/drift-gating",
@@ -36187,6 +36273,7 @@
     "supply-chain/build-time-dependency-tier",
     "supply-chain/dependency-policy-gates",
     "supply-chain/lockfile-freshness-oracle",
+    "supply-chain/one-version-decays-to-a-floor",
     "supply-chain/patching-mechanism-ladder",
     "supply-chain/permission-manifest-scoping",
     "supply-chain/reading-is-not-running",
@@ -36300,6 +36387,7 @@
     "agent-memory/recall-injection",
     "agent-memory/rollup-compaction",
     "agent-memory/self-trained-capture-filter",
+    "agent-runtime-assembly/activation-is-a-separate-mutation",
     "agent-runtime-assembly/bounded-projection-of-external-work",
     "agent-runtime-assembly/honest-hook-registry",
     "agent-runtime-assembly/indeterminate-closure-on-interruption",
@@ -36349,6 +36437,7 @@
     "codebase-scanning/precision-trades-have-a-direction",
     "codebase-scanning/rule-precision-discipline",
     "codebase-scanning/sensor-pipeline",
+    "codebase-scanning/the-broad-root-is-the-unaudited-one",
     "codebase-scanning/the-tree-is-not-the-population",
     "codegen/drift-gating",
     "codegen/generator-failure-isolation",
@@ -37032,6 +37121,7 @@
     "codebase-scanning/precision-trades-have-a-direction",
     "codebase-scanning/rule-precision-discipline",
     "codebase-scanning/sensor-pipeline",
+    "codebase-scanning/the-broad-root-is-the-unaudited-one",
     "codebase-scanning/the-narrowest-view-owns-the-number",
     "codebase-scanning/the-tree-is-not-the-population",
     "codegen/generator-failure-isolation",
@@ -37362,6 +37452,7 @@
     "subscription-proration/whole-period-denominator",
     "supply-chain/build-time-dependency-tier",
     "supply-chain/lockfile-freshness-oracle",
+    "supply-chain/one-version-decays-to-a-floor",
     "supply-chain/review-attestation-ledger",
     "supply-chain/toolchain-floor-drift",
     "sync-replication/sync-observability",
@@ -37431,6 +37522,7 @@
     "agent-instruction-files/context-reset-redelivery",
     "agent-instruction-files/instruction-freshness",
     "agent-instruction-files/substrate-coupled-expiry",
+    "agent-memory/addresses-not-atoms",
     "agent-memory/decay-and-forgetting",
     "agent-memory/durable-store-failure-posture",
     "agent-memory/gap-directed-elicitation",
@@ -38488,6 +38580,7 @@
     "agent-instruction-files/single-source-topology",
     "agent-memory/memory-value-model",
     "agent-memory/owner-and-counterpart-scope",
+    "agent-runtime-assembly/activation-is-a-separate-mutation",
     "agent-runtime-assembly/honest-hook-registry",
     "agent-runtime-assembly/observer-and-mutator-surfaces",
     "agent-runtime-assembly/operator-tier-code-loading",
@@ -39262,6 +39355,7 @@
     "admission-queue/remediation-derived-bounds",
     "admission-queue/zero-depth-admission",
     "agent-memory/addresses-before-compression",
+    "agent-memory/addresses-not-atoms",
     "agent-memory/cross-context-promotion",
     "concurrency-guards/cache-value-not-handle",
     "convergence-loop-and-requeue/keyed-queue-with-earliest-wins",
@@ -39330,6 +39424,7 @@
     "agent-instruction-files/inherited-default-ownership",
     "agent-instruction-files/workspace-ancestry-isolation",
     "agent-memory/probe-without-write-back",
+    "agent-runtime-assembly/activation-is-a-separate-mutation",
     "agent-runtime-assembly/guard-input-custody",
     "agent-runtime-assembly/honest-hook-registry",
     "agent-runtime-assembly/observer-and-mutator-surfaces",
@@ -39390,6 +39485,7 @@
     "federated-client-contracts/graph-neutralization",
     "fleet-orchestration/brief-carries-the-session",
     "fleet-orchestration/deliberation-as-an-elected-turn",
+    "fleet-orchestration/parallel-dispatch",
     "guest-execution-bounding/nested-liveness-ceilings",
     "guest-execution-bounding/terminate-from-outside-when-you-cannot-count",
     "guest-execution-bounding/uncatchable-limit-errors",
@@ -39473,6 +39569,7 @@
     "signed-artifacts/bypass-is-a-versioned-policy",
     "standards-layered-runtime/backend-parameterised-web-api",
     "structured-output/schema-validation-and-repair",
+    "supply-chain/one-version-decays-to-a-floor",
     "supply-chain/reading-is-not-running",
     "supply-chain/unsafe-deserialization-off-by-default",
     "supply-chain/update-automation-review",
@@ -39507,6 +39604,7 @@
     "agent-instruction-files/rewrite-behavior-pinning",
     "agent-memory/diagnosis-withheld-from-the-executor",
     "agent-memory/owner-and-counterpart-scope",
+    "agent-runtime-assembly/activation-is-a-separate-mutation",
     "concurrency-guards/race-catalog-with-two-histories",
     "context-hierarchy/digest-gated-upward-refresh",
     "decentralized-artifact-distribution/signal-that-only-subtracts",
@@ -39520,6 +39618,7 @@
     "fleet-orchestration/completion-claim-verification",
     "fleet-orchestration/deliberation-as-an-elected-turn",
     "fleet-orchestration/inherited-state-provenance",
+    "fleet-orchestration/parallel-dispatch",
     "fleet-orchestration/worker-trajectory-anatomy",
     "hitl-approval/fixed-policy-amendable-plan",
     "job-coordination/in-flight-is-a-position",

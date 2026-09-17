@@ -20,6 +20,7 @@ techniques:
   - indeterminate-closure-on-interruption
   - substituted-result-attribution
   - nested-run-is-not-its-parent
+  - activation-is-a-separate-mutation
 ---
 
 # Agent runtime assembly
@@ -343,6 +344,12 @@ special-case it.
   code entry points only from startup configuration the service cannot
   write; fatal only when marked required; contributed hooks isolated,
   failing open by the origin of the failure, never its class.
+- [activation-is-a-separate-mutation](./techniques/activation-is-a-separate-mutation.md)
+  - an install is several writes, classified by reach rather than by what it
+  declares; the component a review can see is the pointer, not the one that
+  decides whether the code runs; an install step that swallows its own failure
+  is the thing it mitigates, one level up, and the mode with teeth reads the
+  activation rather than the body.
 - [host-routes-win](./techniques/host-routes-win.md) — contributed routes
   built early and mounted last; atomic rejection on a proven shadow; the
   unprovable allowed, not guessed; the predicate classifies the path the

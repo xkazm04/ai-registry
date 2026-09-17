@@ -4,9 +4,9 @@ type: technique
 subject: fleet-orchestration
 technique: parallel-dispatch
 status: forged
-laws: [gate-sees-target, one-validation-door, creation-names-reaper, count-carries-predicate, limits-are-derived, failure-not-empty-success]
+laws: [gate-sees-target, one-validation-door, creation-names-reaper, count-carries-predicate, limits-are-derived, failure-not-empty-success, silent-state-is-ungoverned, absent-guard-is-loud]
 shared_with: []
-use_when: [deciding how many sessions may run at once, two sessions wrote the same file at once, fanning one task across many targets, a run keeps issuing legal-sized batches and nothing bounds what it spends in total]
+use_when: [deciding how many sessions may run at once, two sessions wrote the same file at once, fanning one task across many targets, a run keeps issuing legal-sized batches and nothing bounds what it spends in total, results pile up faster than anyone decides on them, a wave's size was chosen from the runtime's own concurrency cap, one verdict is covering items that are not alike]
 ---
 
 # Parallel dispatch
@@ -122,6 +122,103 @@ Depth — a worker that dispatches workers — is a third axis and not this
 subject's; a fleet bounds it by withholding the dispatch capability from the
 worker rather than by counting, and the counting form lives with the sibling
 subject that owns event-wired continuation.
+
+## The third number is the supervisor's, and it is the one that does not release
+
+Both numbers above are the machine's. One counts what is alive at this instant and
+the state machine hands the slot back on a confirmed stop; the other counts what a
+run has admitted and resets when the run ends. Both are released by an event the
+system observes.
+
+A third bound sits at the same door and is keyed on neither the machine nor the run:
+**how many live units one supervisor is carrying.** It is a stock like the slot cap,
+and it is unlike the slot cap in the property that governs every decision about it —
+*it does not release when the work finishes.* The moment a worker exits, the machine
+gets its slot back and the supervisor acquires an item. The supervisor's count comes
+down when they decide a piece of work is *done with*, which is a judgment held
+privately and never reported ([silent state is
+ungoverned](../../../../_laws.md#silent-state-is-ungoverned)). So the door holds three
+numbers with three release events, and only two of the three are observable:
+
+| | unit | released by | observed |
+|---|---|---|---|
+| slot cap | per instant | a confirmed stop | yes |
+| run total | per run | the run ending | yes |
+| supervisory stock | per supervisor | a person deciding they are finished with it | **no** |
+
+**"Which ceiling binds first" is the wrong question, and the measurement is why.**
+On one single-operator fleet over three weeks the machine side engaged its configured
+concurrency ceiling — eleven simultaneous runs against a limit of ten — and peaked at
+fifteen live sessions on a door whose live-session ceiling had never been switched on
+at all. Over the same period the supervisory stock, items raised for a human verdict
+and still open, peaked at **thirty-four**, and stood at ten or more on eight of the
+ten active days; on five of those days the machine ceiling did not bind once. The
+machine ceiling bound first and bounded nothing downstream, because a cap on a stock
+that releases places no bound whatever on a stock that does not. Ten slots cycling
+all day deliver an unbounded pile to one person, which is the same arithmetic as the
+rolling wave the slot cap declines to count, one layer further on.
+
+The release asymmetry is the measurable part. Of the holds that closed, roughly half
+outlived the work by more than an hour and roughly one in twelve by more than a day; the
+longest sat for a week; and a tenth of the items raised never closed at all. One
+cluster closed at exactly one hundred and sixty-eight hours, which is a weekly sweep
+and not a verdict — where a system *does* observe this release it is usually an
+expiry, and an expiry is an outcome that must stay distinct from a decision
+([failure is not empty success](../../../../_laws.md#failure-not-empty-success)).
+
+**Do not derive this number from the machine's.** The observed failure is a dispatcher
+whose human-facing wave size was computed as the runtime's own concurrency cap divided
+by the fan-out each member would spawn: a limit on one person's attention derived
+entirely from a property of the process table. That satisfies
+[limits are derived](../../../../_laws.md#limits-are-derived) in form and violates it
+in substance, and the tell is that the number moves when the runtime is upgraded and
+does not move when the supervisor changes.
+
+Derive it from the discharge pattern instead, which the review ledger already records:
+**the stock level above which one verdict begins to cover items that are not alike is
+this supervisor's ceiling.** On the fleet measured, twenty-eight resolution acts
+covered more than one item; eighteen of those twenty-eight spanned more than one
+severity class, and the largest covered twenty-eight items across four severity
+classes and seven distinct work streams — eight minutes after the stock peaked at
+thirty-four. The number is per person and it is cheap to recompute, so recompute it
+rather than adopting anyone's figure; the psychological capacity constants that get
+quoted here measure retention of items in a recall task over seconds, and a
+multi-hour work stream held in a folder is not that construct.
+
+**Grouping is not the remedy for this ceiling; it is what the breach looks like.**
+Bucketing the pile did halve the number of distinct verdict acts on the fleet measured
+— ninety-seven acts over one hundred and ninety items — and two thirds of the
+multi-item groups were heterogeneous, which is the one batch a review surface must not
+offer. A homogeneous group of the same class and provenance is honestly one judgment;
+a group spanning classes has not reduced the supervisor's load, it has discarded the
+verdicts. So a bucket may absorb an overflow of this stock only under the same
+homogeneity predicate the review surface applies to a batch verdict, and that
+predicate belongs to the approval subject's queue technique, not here.
+
+**The overflow rule has a third form, and this one cannot dispose of its excess at
+all.** The slot cap queues what it refuses — the work is merely later. The run total
+defers its excess to the next run. The supervisory ceiling can do neither: the work is
+already finished and its result already exists, so there is nothing left to postpone.
+Its only honest response at the door is to **stop admitting new work while the
+supervisor's pile is over its measured level, and to say that is why** — a refusal
+carrying the current stock and the level it is over
+([a count carries its predicate](../../../../_laws.md#count-carries-predicate)).
+A door that admits past it has not gone faster; it has converted rendered verdicts
+into a sweep, and the conversion is invisible because every individual admission was
+legal.
+
+Nothing enforces this bound on any door yet observed, and a bound nothing enforces is
+absent ([absent guard is loud](../../../../_laws.md#absent-guard-is-loud)). Its
+absence is silent in *both* directions, which is what makes it expensive: the fleet
+reports full throughput, and the supervisor reports having approved everything.
+
+The neighbours, in both directions. The *rate* at which verdicts are demanded of a
+person, the overload signature that rate produces, and what may be recorded about the
+individual rendering them belong to the delivery subject's human-gate technique. The
+pending set's surface, the ordering, and the homogeneity predicate for a batch verdict
+belong to the approval subject's queue technique. What belongs at this door is the
+**stock** — how many live units one supervisor is carrying, that it does not come down
+when work finishes, and the refusal to admit past it.
 
 ## When the requester cannot survive the wait, refuse instead of queueing
 

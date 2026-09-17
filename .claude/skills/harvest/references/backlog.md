@@ -58,10 +58,28 @@ mode `code experiment blind-ab simulation`, verdict `better not-better unmeasura
 1. **Claim and pick.** `run-board claim --skill harvest --source "backlog wave <n>"`,
    then `backlog-wave.mjs next`. Mark every picked id `measuring`. Beat the board with
    each unit's home.
-2. **Dispatch one Opus worker per unit** (brief below). Cap 8 concurrent. Arms run as
-   `claude -p` CLI sessions, never as nested subagents: nested agents count against
-   the session's concurrency cap of 20, and a wave of eight workers each spawning three
-   would exhaust it.
+2. **Dispatch one Opus worker per unit** (brief below). Arms run as `claude -p` CLI
+   sessions, never as nested subagents: nested agents count against the session's
+   concurrency cap of 20, and a wave of eight workers each spawning three would
+   exhaust it.
+
+   **The wave size is a bound on the DIRECTOR's attention and must not be derived
+   from that machine number.** This file said "cap 8 concurrent" and justified it by
+   20 divided by a fan-out of 3, which is `limits-are-derived` satisfied in form and
+   violated in substance - the tell is that the figure moves when the runtime is
+   upgraded and does not move when the director changes. Wave 7's unit 1-106
+   measured the defect here: seven waves of eight ran, the machine cap never came
+   near binding, and one director read all 56 returns serially and rendered a
+   landing verdict on each.
+
+   Derive it from the discharge pattern instead, which `applied.md` already records:
+   **the wave size above which one landing decision starts covering units that are
+   not alike is this director's ceiling.** Recompute it rather than inheriting 8 -
+   the number is per person. Until it is recomputed, 8 stands as an observed working
+   figure and not as a derivation, and this paragraph says so rather than dressing it
+   up. The releasing/non-releasing distinction is
+   `fleet-orchestration/techniques/parallel-dispatch` > "The third number is the
+   supervisor's".
 3. **Land serially, per returned verdict.** The director writes every registry file.
    - `better` (any mode) -> land the worker's draft per intake Phase 7 (technique,
      amendment, correction, application), with `applied:` and `ab_verdict:` in the
