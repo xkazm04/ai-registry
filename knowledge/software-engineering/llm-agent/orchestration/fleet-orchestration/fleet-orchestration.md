@@ -14,6 +14,7 @@ techniques:
   - outbound-compute-plane
   - substrate-reconciliation
   - brief-carries-the-session
+  - inherited-state-provenance
   - coordination-failure-triage
   - worker-trajectory-anatomy
   - absent-status-passthrough
@@ -308,6 +309,12 @@ mode is absent.
   what a dispatched worker does not inherit from its dispatcher, and the
   brief sections that restate it: invariants, settled decisions, load-bearing
   files, and what the worker cannot see.
+- [inherited-state-provenance](./techniques/inherited-state-provenance.md) —
+  the state a worker gets without the brief: the previous attempt's branch and
+  files, a half-drained store, a predecessor's output. Provenance, a counted
+  state and a mandate (continue, read-only, replace) in the worker's own
+  channel, because a fact in the dispatcher's event log is not in the worker's
+  context.
 - [coordination-failure-triage](./techniques/coordination-failure-triage.md) —
   classify failed runs against the measured three-class taxonomy
   (specification ~42%, misalignment ~37%, verification ~21%) before

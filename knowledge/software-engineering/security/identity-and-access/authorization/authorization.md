@@ -7,6 +7,7 @@ techniques:
   - privilege-tiers
   - dispatch-chokepoint-gating
   - scope-design
+  - ceiling-before-consent
   - declarative-requirements
   - authorization-audit
   - failure-direction
@@ -390,6 +391,11 @@ side — storage, consumption, counting, renewal, refusal — is
 - [scope-design](./techniques/scope-design.md) — scope vocabulary as owned
   contract, intersection semantics, exact matching, and minimization at
   grant time.
+- [ceiling-before-consent](./techniques/ceiling-before-consent.md) — a request
+  that names its own scopes moulded to the issuance lane's declared ceiling
+  before an approval surface renders it and again at the mint, unrecognised
+  scopes dropped at issuance, the unattended path held to the same function, and
+  the narrowing case a caller-supplied set is still right for.
 - [declarative-requirements](./techniques/declarative-requirements.md) —
   binding requirements to operations as adjacent, mechanically extracted
   data so the gate cannot be forgotten.

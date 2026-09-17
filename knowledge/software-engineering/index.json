@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 229,
-  "techniques": 1720,
-  "applications": 1048,
+  "techniques": 1722,
+  "applications": 1049,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1720/1720",
+  "use_when_coverage": "1722/1722",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -3432,9 +3432,9 @@
    "subcategory": "identity-and-access",
    "status": "reconciled",
    "file": "knowledge/software-engineering/security/identity-and-access/authorization/authorization.md",
-   "digest": "sha256:0582b8ac15863bc8",
-   "revision": 3,
-   "changedAt": "2026-09-06",
+   "digest": "sha256:923896f3be779f94",
+   "revision": 4,
+   "changedAt": "2026-09-17",
    "techniques": [
     {
      "slug": "authorization-audit",
@@ -3448,6 +3448,23 @@
       "designing what each denial record carries",
       "deciding whether secrets enter the audit line",
       "an empty trail reads as zero denials"
+     ]
+    },
+    {
+     "slug": "ceiling-before-consent",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "gate-sees-target",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a client initiates pairing by naming the scopes it wants",
+      "an approval surface renders the requester's own list of capabilities",
+      "minting a grant from scope strings that arrived on a request",
+      "deciding what an unrecognised scope in a request means",
+      "an unattended path approves a grant nobody looked at"
      ]
     },
     {
@@ -3651,6 +3668,13 @@
      "file": "knowledge/software-engineering/security/identity-and-access/authorization/applications/python--unregistered-is-stronger-than-refused.md",
      "verified_on": "2026-09-06",
      "verified_against": "python@3.13"
+    },
+    {
+     "stack": "rust",
+     "technique": "ceiling-before-consent",
+     "file": "knowledge/software-engineering/security/identity-and-access/authorization/applications/rust--ceiling-before-consent.md",
+     "verified_on": "2026-09-17",
+     "verified_against": "rust@1.80.0"
     },
     {
      "stack": "rust",
@@ -14044,9 +14068,9 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/fleet-orchestration/fleet-orchestration.md",
-   "digest": "sha256:9e0b34e536850a03",
-   "revision": 19,
-   "changedAt": "2026-09-10",
+   "digest": "sha256:10de11d5530c6742",
+   "revision": 20,
+   "changedAt": "2026-09-17",
    "techniques": [
     {
      "slug": "absent-status-passthrough",
@@ -14174,6 +14198,26 @@
       "deciding what a parked session keeps and releases",
       "a resumed process is fresh but wears the old identity",
       "choosing when to park instead of kill"
+     ]
+    },
+    {
+     "slug": "inherited-state-provenance",
+     "status": "forged",
+     "laws": [
+      "silent-state-is-ungoverned",
+      "count-carries-predicate",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a retried or resumed worker is placed back into the artifacts its own previous attempt left",
+      "a dispatcher hands a worker a directory",
+      "branch or store it did not create",
+      "the orchestrator records a dispatch fact in its event log and nowhere the worker can read",
+      "a worker reset",
+      "reverted or redid work that had already been done for it",
+      "deciding what a brief owes about state the worker inherits structurally rather than in text",
+      "several workers in one wave append to the same accumulating artifact"
      ]
     },
     {
@@ -35311,6 +35355,7 @@
     "app-shell/entitlement-gating",
     "audit-logging/tamper-evidence",
     "authoring-block-vocabulary/vocabulary-as-translation-invariant",
+    "authorization/ceiling-before-consent",
     "authorization/declarative-requirements",
     "authorization/delegated-authority",
     "authorization/dispatch-chokepoint-gating",
@@ -36656,6 +36701,7 @@
     "fleet-orchestration/coordination-failure-triage",
     "fleet-orchestration/deliberation-as-an-elected-turn",
     "fleet-orchestration/heterogeneous-model-panels",
+    "fleet-orchestration/inherited-state-provenance",
     "fleet-orchestration/parallel-dispatch",
     "fleet-orchestration/result-harvest",
     "fleet-orchestration/soft-budget-under-the-hard-cap",
@@ -36959,6 +37005,7 @@
     "agent-runtime-assembly/session-scoped-capability",
     "agent-runtime-assembly/substituted-result-attribution",
     "audit-logging/two-clock-records",
+    "authorization/ceiling-before-consent",
     "authorization/delegated-authority",
     "authorization/read-write-predicate-symmetry",
     "bounded-enumeration/required-limit-breaks-unaware-clients",
@@ -37021,6 +37068,7 @@
     "federated-client-contracts/delta-or-absolute-exchange",
     "fleet-orchestration/absent-status-passthrough",
     "fleet-orchestration/completion-claim-verification",
+    "fleet-orchestration/inherited-state-provenance",
     "generated-workflow-candidates/score-keyed-candidate-selection",
     "generated-workflow-candidates/two-tier-data-statistics",
     "hitl-approval/oracle-before-gate",
@@ -38003,6 +38051,7 @@
     "authoring-block-vocabulary/closed-directive-set",
     "authoring-block-vocabulary/enum-guarded-block-payloads",
     "authoring-block-vocabulary/vocabulary-as-translation-invariant",
+    "authorization/ceiling-before-consent",
     "authorization/declarative-requirements",
     "authorization/delegated-authority",
     "authorization/failure-direction",
@@ -39002,6 +39051,7 @@
     "fault-signal-propagation/last-value-degradation",
     "fleet-orchestration/completion-claim-verification",
     "fleet-orchestration/deliberation-as-an-elected-turn",
+    "fleet-orchestration/inherited-state-provenance",
     "fleet-orchestration/worker-trajectory-anatomy",
     "hitl-approval/fixed-policy-amendable-plan",
     "job-coordination/in-flight-is-a-position",

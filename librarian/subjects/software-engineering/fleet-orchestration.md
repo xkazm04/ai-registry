@@ -719,3 +719,7 @@ recorded and remains the subject's most interesting open deviation.
   }
 }
 ```
+
+### 2026-09-17 - `/harvest backlog` wave 3, one technique
+
+`inherited-state-provenance`, from [[2026-08-30-headlong-agent-microharness]] (subagents see ancestors' trajectories) and [[2026-08-31-agent-harness-design-decisions]] (cited for its mechanism only - its persistence statistic does not reconcile with its own tables and is recorded as refuted). The subject's `brief-carries-the-session` closed with 'That is all', and this is the case that enumeration denied: state that reaches a worker structurally rather than in text, because the dispatch placed it inside a previous attempt's artifacts. Three facts repair it - provenance, a counted state with its predicate, and a mandate (continue, read-only, replace) - each preventing one of the three reasonable misreadings (stray, finished, foreign). The reusable diagnostic is the asymmetry tell: a dispatch path with this defect usually already carries ONE handover fact into the brief, for the case somebody was burned by, while a bigger one sits only in the event log. Where you find one, check its siblings. Measured on a retry path whose resumption flag was computed, logged, and never shown to the worker: 0 of 4 resume facts in the worker's channel, 4 of 4 after, first-attempt briefs byte-identical. The enumeration in `brief-carries-the-session` now carries a pointer here.
