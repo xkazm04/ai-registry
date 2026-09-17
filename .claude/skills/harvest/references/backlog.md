@@ -106,6 +106,12 @@ mode `code experiment blind-ab simulation`, verdict `better not-better unmeasura
 
 ## The worker brief
 
+The brief itself, with its binding lessons, is
+[`backlog-worker-brief.md`](./backlog-worker-brief.md). Point every worker at
+that file by path; it is what makes a fresh session's workers as careful as the
+last session's.
+
+
 ```
 You are measuring ONE backlog unit for /harvest backlog. Registry: <main worktree>.
 UNIT: <JSON from backlog-wave.mjs next, verbatim>
