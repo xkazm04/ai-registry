@@ -120,13 +120,47 @@ function loadRuns() {
     if (!rec || !rec.runId) continue;
     rec._file = path.join(RUNS, f);
     rec._staleMin = Math.round(ageMin(rec.heartbeatAt || rec.startedAt));
-    // A record is LIVE while its heartbeat is recent. A run that crashed leaves a stale
-    // record behind for up to STALE_MIN and is then reaped by `gc` - the cost of that
-    // window is one over-cautious sibling, which is the cheap direction to be wrong in.
-    rec._live = rec.status !== 'done' && rec._staleMin < STALE_MIN;
+    rec._lockAgeS = freshestLockAgeS(rec.runId);
+    const l = runLiveness({ status: rec.status, staleMin: rec._staleMin, lockAgeS: rec._lockAgeS });
+    rec._live = l.live;
+    rec._liveBy = l.by;
     out.push(rec);
   }
   return out.sort((a, b) => String(a.startedAt).localeCompare(String(b.startedAt)));
+}
+
+/** How long ago did this run take the most recent lock it still holds? A lock file is a
+ *  record the holder's own process wrote, so its age is a fact about execution - unlike
+ *  the heartbeat, which is the run's report about itself and goes stale while it works.
+ *  Returns Infinity when the run holds nothing. */
+function freshestLockAgeS(runId) {
+  if (!runId) return Infinity;
+  let best = Infinity;
+  try {
+    for (const f of fs.readdirSync(LOCKS)) {
+      if (!f.endsWith('.lock')) continue;
+      const held = readJSON(path.join(LOCKS, f));
+      if (!held || held.runId !== runId) continue;
+      const ageS = (Date.now() - Date.parse(held.acquiredAt || 0)) / 1000;
+      if (Number.isFinite(ageS) && ageS >= 0 && ageS < best) best = ageS;
+    }
+  } catch { /* no locks dir yet */ }
+  return best;
+}
+
+/** Liveness, as one pure function with THREE inputs and a reason. A run reports at
+ *  transitions and the long silences are the work, so the moment its report looks oldest
+ *  is the moment it is deepest in the work - which is when it takes a lock. Before
+ *  2026-09-17 this read the heartbeat alone, so `check` told a sibling that a quiet run's
+ *  paths were `clear` in the same second that run was holding the commit lock. */
+export function runLiveness({ status, staleMin, lockAgeS = Infinity }) {
+  if (status === 'done') return { live: false, by: 'done' };
+  if (staleMin < STALE_MIN) return { live: true, by: 'heartbeat' };
+  // The heartbeat is stale. A lock taken inside the window is evidence anyway.
+  if (Number.isFinite(lockAgeS) && lockAgeS >= 0 && lockAgeS < STALE_MIN * 60) {
+    return { live: true, by: 'lock' };
+  }
+  return { live: false, by: 'stale' };
 }
 
 /** Fold case, separators and trailing slashes. The raw token, nothing more. */
@@ -412,6 +446,22 @@ function holderRunLive(held) {
 /** Has the holder beaten at or since the moment it took this lock? A beat that predates
  *  the acquire proves the run was alive once, not that it is still moving inside the
  *  guarded section - which is what keeps a live-but-wedged holder from holding forever. */
+/** The lock file's own acquiredAt is EVIDENCE, not a claim: some process executed this
+ *  code path at that instant. A heartbeat is the holder's report about itself and goes
+ *  stale while it works, because a run reports at transitions and the long silences are
+ *  the work. So the moment a report looks oldest is the moment the holder is deepest in
+ *  the work - which is exactly when it takes the commit lock. A fresh acquire therefore
+ *  outranks a stale report, and reclaim still terminates through the ttl branch below. */
+/** The whole reclaim decision, as one pure function, so it can be tested without a
+ *  board on disk. `holderLive` is the holder's own report (a CLAIM). `ageS` and
+ *  `beatSinceAcquire` are read off the lock file the holder wrote (EVIDENCE). */
+export function lockBreakable({ ageS, holderLive, beatSinceAcquire, ttl = LOCK_TTL_S }) {
+  const acquireIsRecent = Number.isFinite(ageS) && ageS >= 0 && ageS < STALE_MIN * 60;
+  const ownerGone = !holderLive && !acquireIsRecent;
+  const pastTtlAndQuiet = ageS > (ttl || LOCK_TTL_S) && !beatSinceAcquire;
+  return { breakable: ownerGone || pastTtlAndQuiet, ownerGone, pastTtlAndQuiet };
+}
+
 function holderBeatSinceAcquire(held) {
   const rec = readJSON(runFile(held.runId || ''));
   if (!rec) return false;
@@ -476,7 +526,7 @@ function cmdCheck() {
   }
   if (!hits.length) { console.log('clear: no live sibling holds ' + targets.length + ' target(s).'); return 0; }
   console.error('CONTENDED - ' + hits.length + ' target(s) held by a live sibling:');
-  for (const h of hits) console.error('  ' + h.t + '\n    held as ' + h.held + ' by ' + h.s.runId + ' (' + h.s.skill + ', phase ' + h.s.phase + ', ' + h.s._staleMin + 'm since heartbeat)');
+  for (const h of hits) console.error('  ' + h.t + '\n    held as ' + h.held + ' by ' + h.s.runId + ' (' + h.s.skill + ', phase ' + h.s.phase + ', ' + h.s._staleMin + 'm since heartbeat' + (h.s._liveBy === 'lock' ? '; live because it holds a lock taken ' + Math.round(h.s._lockAgeS) + 's ago' : '') + ')');
   process.exit(3);
 }
 
@@ -504,10 +554,17 @@ function cmdLock() {
       const ageS = (Date.now() - Date.parse(held.acquiredAt || 0)) / 1000;
       // Two independent reasons to reclaim, and neither is "the clock ran out" alone:
       // the owner is gone, or the owner is past its ttl with no beat since it acquired.
-      // A demonstrably-working owner is never superseded on age.
-      const ownerGone = !holderRunLive(held);
-      const pastTtlAndQuiet = ageS > (held.ttl || LOCK_TTL_S) && !holderBeatSinceAcquire(held);
-      const breakable = ownerGone || pastTtlAndQuiet;
+      // A demonstrably-working owner is never superseded on age - and "demonstrably"
+      // includes the acquire itself. Before 2026-09-17 ownerGone read the heartbeat
+      // alone, so a live run that had been quiet past the staleness window lost a lock
+      // it had taken one second earlier, while check() told the same sibling its paths
+      // were clear. A stored liveness claim may not outrank a record the work wrote.
+      const { breakable, ownerGone } = lockBreakable({
+        ageS,
+        holderLive: holderRunLive(held),
+        beatSinceAcquire: holderBeatSinceAcquire(held),
+        ttl: held.ttl,
+      });
       if (breakable) {
         console.error("warn: breaking lock '" + name + "' held by " + held.runId + ' (' + Math.round(ageS) + 's old; ' + (ownerGone ? 'holder has no recent heartbeat' : 'past ttl with no beat since it acquired') + ').');
         try { fs.unlinkSync(file); } catch { /* a racing breaker won; loop and retry */ }
@@ -573,10 +630,17 @@ const TABLE = {
   check: cmdCheck, lock: cmdLock, unlock: cmdUnlock, release: cmdRelease, gc: cmdGc,
 };
 
-if (!cmd || cmd === '--help' || cmd === '-h' || !TABLE[cmd]) {
-  const header = fs.readFileSync(fileURLToPath(import.meta.url), 'utf8').split('*/')[0].replace(/^#!.*\n/, '');
-  console.error(header);
-  process.exit(cmd && cmd !== '--help' && cmd !== '-h' ? 1 : 0);
+// Dispatch only when run as a command. Imported - by the test beside this file, or by
+// anything that wants `lockBreakable` - the module must define and return.
+const RUN_AS_CLI = process.argv[1]
+  && path.resolve(fileURLToPath(import.meta.url)) === path.resolve(process.argv[1]);
+
+if (RUN_AS_CLI) {
+  if (!cmd || cmd === '--help' || cmd === '-h' || !TABLE[cmd]) {
+    const header = fs.readFileSync(fileURLToPath(import.meta.url), 'utf8').split('*/')[0].replace(/^#!.*\n/, '');
+    console.error(header);
+    process.exit(cmd && cmd !== '--help' && cmd !== '-h' ? 1 : 0);
+  }
+  assertAddressFold();
+  process.exit(TABLE[cmd]() || 0);
 }
-assertAddressFold();
-process.exit(TABLE[cmd]() || 0);
