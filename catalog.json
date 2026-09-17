@@ -783,7 +783,7 @@
       "techniques": 122,
       "applications": 74,
       "files": 219,
-      "contentHash": "sha256:258938298bd80a87"
+      "contentHash": "sha256:aed49e5d066e246b"
     },
     {
       "name": "localization",
@@ -845,10 +845,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 229,
-      "techniques": 1737,
+      "techniques": 1738,
       "applications": 1061,
-      "files": 3032,
-      "contentHash": "sha256:74490e9c8c40e071"
+      "files": 3033,
+      "contentHash": "sha256:ffd3ac0c764114e9"
     }
   ],
   "usageEvidence": {

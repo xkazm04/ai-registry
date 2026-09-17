@@ -4,7 +4,7 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 229,
-  "techniques": 1737,
+  "techniques": 1738,
   "applications": 1061,
   "laws": 15,
   "categories": [
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1737/1737",
+  "use_when_coverage": "1738/1738",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -33170,10 +33170,30 @@
    "subcategory": "evaluation-and-cost",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/tracing/tracing.md",
-   "digest": "sha256:9f3060c36e4412bd",
-   "revision": 5,
-   "changedAt": "2026-09-03",
+   "digest": "sha256:16ced18f12da23d1",
+   "revision": 6,
+   "changedAt": "2026-09-17",
    "techniques": [
+    {
+     "slug": "class-before-inspection",
+     "status": "forged",
+     "laws": [
+      "one-validation-door",
+      "gate-sees-target",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether a captured run record may be exported",
+      "attached to a ticket",
+      "or kept in a shared location",
+      "a scan of stored payloads came back clean and is about to be read as a clearance",
+      "proposing to split one record store into tiers by content sensitivity",
+      "a digest tier was added to keep correlation without keeping content",
+      "a door builds its own record server-side and is exempt from the shared write path",
+      "an operator asks what the stored records actually contain"
+     ]
+    },
     {
      "slug": "cross-boundary-propagation",
      "status": "forged",
@@ -36162,6 +36182,7 @@
     "test-input-generation/swarm-feature-sampling",
     "tool-result-economy/compressibility-follows-the-producer",
     "tool-result-economy/end-to-end-unit-of-optimization",
+    "tracing/class-before-inspection",
     "tracing/cross-boundary-propagation",
     "transactions-over-a-replicated-log/compose-then-conform",
     "transactions-over-a-replicated-log/list-verification-by-present-keys",
@@ -37552,6 +37573,7 @@
     "terminal-multiplexing/capability-revalidation",
     "terminal-multiplexing/completion-authority-arbitration",
     "terminal-multiplexing/occupant-state-detection",
+    "tracing/class-before-inspection",
     "transactions-over-a-replicated-log/capture-index-before-snapshot",
     "transactions-over-a-replicated-log/live-file-is-the-snapshot",
     "untrusted-extension-host/canonicalizable-privilege-declaration",
@@ -37785,6 +37807,7 @@
     "tenant-scoped-agent-runtime/task-local-tenant-scope",
     "test-harness/fixture-economics",
     "test-harness/platform-quirk-absorption",
+    "tracing/class-before-inspection",
     "triage-queues/verdict-writeback",
     "undo-history/undo-scope",
     "untrusted-extension-host/declared-schema-extension-storage",

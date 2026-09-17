@@ -1309,9 +1309,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/llm-observability/telemetry-and-data/llm-call-telemetry-model/llm-call-telemetry-model.md",
-   "digest": "sha256:691abe9c064cf12e",
-   "revision": 4,
-   "changedAt": "2026-09-04",
+   "digest": "sha256:7f89a12a3ed71270",
+   "revision": 5,
+   "changedAt": "2026-09-17",
    "techniques": [
     {
      "slug": "dual-clock-event-time",
