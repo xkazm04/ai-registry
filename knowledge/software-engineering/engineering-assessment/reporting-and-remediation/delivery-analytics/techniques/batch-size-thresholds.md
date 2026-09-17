@@ -112,4 +112,8 @@ attribution weaknesses described elsewhere in this subject.
 Do not treat a small change as a safe change. A one-line change to an
 authorization predicate outranks a thousand-line change to test fixtures on
 every dimension that matters. Size bounds how much scrutiny a review can
-plausibly deliver; it does not bound how much scrutiny a change deserves.
+plausibly deliver; it does not bound how much scrutiny a change deserves. That claim is about
+*consequence*, and post-merge repair frequency is not one of the dimensions it
+holds on: measured with size held constant, changes touching authorization,
+credential and secret paths were not repaired more often than other code of the
+same size ([path-class-confounded-with-size](./path-class-confounded-with-size.md)).

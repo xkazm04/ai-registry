@@ -12,6 +12,7 @@ techniques:
   - batch-size-thresholds
   - off-platform-signal-detection
   - delivery-metric-denominators
+  - path-class-confounded-with-size
 ---
 
 # Delivery analytics
@@ -226,3 +227,8 @@ appears.
   every rate carries its population, its window, its exclusions and its sample
   size; minimum-sample floors; what a single point on a delivery trend is
   allowed to mean.
+- [path-class-confounded-with-size](./techniques/path-class-confounded-with-size.md)
+  - validating a risk taxonomy keyed on where code lives against the tree's own
+  repair history, comparing the top class with other code at the same change
+  size rather than with documentation, and planting the effect before reporting
+  a null.

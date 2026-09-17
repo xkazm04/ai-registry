@@ -26,6 +26,8 @@ techniques:
   - gap-directed-elicitation
   - loss-site-inventory
   - scope-before-similarity
+  - cross-context-promotion
+  - addresses-before-compression
 ---
 
 # Agent memory
@@ -467,6 +469,11 @@ comparison a stated result instead of an unexamined premise.
   subject is dropped before capture; and because it runs upstream of the judge,
   the evidence that would overturn it is what it prevents from being collected
   (self-trained-capture-filter).
+- **The store that multiplies instead of deepening** - one first-sight store
+  per context, each of them correct and cheap on its own, with no door between
+  them, so a lesson is paid for once per context and the fleet's own earlier
+  answer is unreachable from where the next incident happens
+  ([cross-context-promotion](./techniques/cross-context-promotion.md)).
 
 ## The techniques
 
@@ -532,3 +539,11 @@ comparison a stated result instead of an unexamined premise.
   not ownership: partition by namespace, visibility and private author before clustering
   or choosing a distiller window; the merge door re-checks and the merged item inherits
   scope.
+- [cross-context-promotion](./techniques/cross-context-promotion.md) - the second
+  sighting in a *different* context: the count that admits an item to a shared tier
+  beside the local one, coverage and locality scored on the same arm, and why the
+  bar admits without ever evicting.
+- [addresses-before-compression](./techniques/addresses-before-compression.md) -
+  what a merging pass actually spends: a no-loss merge does not shrink the store,
+  it retires addresses, and the sign of the whole trade flips on whether the
+  surface the reader consults first survived the pass.

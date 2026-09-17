@@ -50,7 +50,11 @@ A cluster of **two** is not a rollup case; it is a supersedence case. Two
 similar items are handled by [consolidation](./consolidation.md) — one replaces
 the other, and the survivor keeps every specific either had. A summary that
 replaces a pair almost always loses more nuance than the one recall seat it
-saves. Three is the smallest size where compression genuinely wins.
+saves. Three is the smallest size where compression genuinely wins. That is a rule about when
+a summary is worth *writing*, and it is not a claim about words: measured against
+no-fact-loss merges of real families, the families of three or more grew 4.1%
+between them. What a merge of this kind spends is addresses, not length
+([addresses-before-compression](./addresses-before-compression.md)).
 
 The join threshold has a knee that must be found empirically, not assumed: set
 it too low and unrelated items merge because they mention the same system;

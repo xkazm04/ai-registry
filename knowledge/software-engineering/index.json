@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 229,
-  "techniques": 1729,
-  "applications": 1056,
+  "techniques": 1736,
+  "applications": 1060,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1729/1729",
+  "use_when_coverage": "1736/1736",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -1764,10 +1764,26 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/agent-memory.md",
-   "digest": "sha256:720d7ba289c9ef30",
-   "revision": 35,
+   "digest": "sha256:49d4e30d2be9d765",
+   "revision": 36,
    "changedAt": "2026-09-17",
    "techniques": [
+    {
+     "slug": "addresses-before-compression",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "limits-are-derived"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether to run a pass that merges redundant items into one",
+      "a store has grown past the size somebody set as the compaction trigger",
+      "pricing a compaction pass as a read-cost saving",
+      "a distillation pass measured no accuracy gain and nobody can say why",
+      "choosing between one merged item and the family it replaces"
+     ]
+    },
     {
      "slug": "baseline-ladder",
      "status": "forged",
@@ -1810,6 +1826,24 @@
       "asking whether memory covers what it should",
       "a store that looks healthy",
       "reporting memory health"
+     ]
+    },
+    {
+     "slug": "cross-context-promotion",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "deletion-is-not-repair",
+      "limits-are-derived",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "one operator or team runs many per-context memory stores that never see each other",
+      "deciding whether a remembered item should be shared beyond the context that learned it",
+      "sizing a shared tier beside a local one",
+      "a first-sight store has grown past the point where its index is still cheap",
+      "auditing whether a personalized store is earning the context it costs"
      ]
     },
     {
@@ -2126,6 +2160,13 @@
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/bun--coverage-instrumentation.md",
      "verified_on": "2026-09-07",
      "verified_against": "bun@1.3.13"
+    },
+    {
+     "stack": "claude-code",
+     "technique": "cross-context-promotion",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/claude-code--cross-context-promotion.md",
+     "verified_on": "2026-09-17",
+     "verified_against": "claude-code@2.1"
     },
     {
      "stack": "claude-code",
@@ -9415,9 +9456,9 @@
    "subcategory": "reporting-and-remediation",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-assessment/reporting-and-remediation/delivery-analytics/delivery-analytics.md",
-   "digest": "sha256:c73267d7debfa753",
-   "revision": 3,
-   "changedAt": "2026-08-31",
+   "digest": "sha256:aaa8209cba966f76",
+   "revision": 4,
+   "changedAt": "2026-09-17",
    "techniques": [
     {
      "slug": "attribution-channels",
@@ -9475,6 +9516,22 @@
       "a delivery metric reads suspiciously low",
       "deciding whether an absent artifact means an absent practice",
       "choosing between suppressing a metric and crediting it"
+     ]
+    },
+    {
+     "slug": "path-class-confounded-with-size",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "proposing a risk taxonomy keyed on which paths a change touches",
+      "routing review depth or a review checklist by path glob",
+      "auto-approving a class of changes without a human",
+      "claiming one area of a repository is riskier than another",
+      "validating any change-derived predictor against post-merge repair"
      ]
     },
     {
@@ -14142,8 +14199,8 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/fleet-orchestration/fleet-orchestration.md",
-   "digest": "sha256:046e777fce66fbdf",
-   "revision": 21,
+   "digest": "sha256:eab388fba6857afe",
+   "revision": 22,
    "changedAt": "2026-09-17",
    "techniques": [
     {
@@ -14242,6 +14299,22 @@
       "attaching durability to existing event chokepoints",
       "a restart forgot sessions that were still running",
       "reconciling mirror claims before serving new work"
+     ]
+    },
+    {
+     "slug": "evidence-outranks-a-liveness-claim",
+     "status": "forged",
+     "laws": [
+      "unknown-is-not-a-value",
+      "record-precedes-effect",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a staleness budget expired and something is about to be declared dead",
+      "a reclaim decision disagrees with a record the work itself wrote",
+      "deciding whether liveness belongs in the entry or beside it",
+      "a quiet-but-working session had its guarded section taken away"
      ]
     },
     {
@@ -14424,6 +14497,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "evidence-outranks-a-liveness-claim",
+     "file": "knowledge/software-engineering/llm-agent/orchestration/fleet-orchestration/applications/node--evidence-outranks-a-liveness-claim.md",
+     "verified_on": "2026-09-17",
+     "verified_against": "node@24"
+    },
     {
      "stack": "node",
      "technique": "parallel-dispatch",
@@ -18011,9 +18091,9 @@
    "subcategory": "runtime-and-io",
    "status": "reconciled",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/mcp-tools.md",
-   "digest": "sha256:02bf76f6ed54fddc",
-   "revision": 24,
-   "changedAt": "2026-09-09",
+   "digest": "sha256:8729acb2bf7b8fb8",
+   "revision": 25,
+   "changedAt": "2026-09-17",
    "techniques": [
     {
      "slug": "ambient-selection-is-not-an-argument",
@@ -18095,6 +18175,22 @@
       "deciding which tool calls stop for a human",
       "two servers exporting the same tool name",
       "a server reading an elicitation response as approval"
+     ]
+    },
+    {
+     "slug": "command-audit-by-position",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "unknown-is-not-a-value",
+      "one-validation-door"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "auditing a command string the host itself will execute",
+      "an allow-list deciding whether a configured server process may be spawned",
+      "a character denylist standing in for a parse",
+      "deciding whether a URL in a command argument is code or data"
      ]
     },
     {
@@ -18386,6 +18482,13 @@
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/applications/rust--caller-differentiated-capability.md",
      "verified_on": "2026-09-04",
      "verified_against": "rust@1.96.1"
+    },
+    {
+     "stack": "rust",
+     "technique": "command-audit-by-position",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/applications/rust--command-audit-by-position.md",
+     "verified_on": "2026-09-17",
+     "verified_against": "rust@1.80"
     },
     {
      "stack": "rust",
@@ -24427,8 +24530,8 @@
    "subcategory": "standards-and-gates",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/quality-gates.md",
-   "digest": "sha256:41b6cf2a901ea67b",
-   "revision": 43,
+   "digest": "sha256:4c543810c6381f23",
+   "revision": 44,
    "changedAt": "2026-09-17",
    "techniques": [
     {
@@ -24491,6 +24594,26 @@
       "proving statically that no call escaped a declared wrapper",
       "a new capability shipped unassignable in a policy table",
       "a registry row whose call site was deleted"
+     ]
+    },
+    {
+     "slug": "decidable-in-a-window",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "count-carries-predicate",
+      "absent-guard-is-loud"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether a convention can have a checker at all",
+      "a rule everyone agrees on is about to get its first guard",
+      "estimating what a convention's guard will cost before writing it",
+      "a checker reports most of the tree as in scope",
+      "a guard for a whole-program property is being scoped to a named file or an allowlist",
+      "a standing document states a rule about a call site's surroundings",
+      "a rule forbids a call on some paths and not others",
+      "a convention about visibility or layering has never had a check written for it"
      ]
     },
     {
@@ -25837,9 +25960,9 @@
    "subcategory": "build-and-release",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/build-and-release/release-pipeline/release-pipeline.md",
-   "digest": "sha256:5cc06fef68470c44",
-   "revision": 9,
-   "changedAt": "2026-09-04",
+   "digest": "sha256:aa9d1d62c7d5f796",
+   "revision": 10,
+   "changedAt": "2026-09-17",
    "techniques": [
     {
      "slug": "changelog-generation",
@@ -25889,6 +26012,22 @@
       "deciding whether the tag precedes the build",
       "a run died between tagging and publishing",
       "green jobs but a platform artifact missing"
+     ]
+    },
+    {
+     "slug": "release-level-by-reader-reach",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether a change takes a patch a minor or a major",
+      "arguing that an additive change is risk-free",
+      "a consumer broke on a release that added only an optional field",
+      "choosing a release level for a contract whose readers are generated",
+      "a chain of member tests ends in a real behaviour rather than a named member"
      ]
     },
     {
@@ -25962,6 +26101,13 @@
      "technique": "deprecation-by-version-arithmetic",
      "file": "knowledge/software-engineering/engineering-process/build-and-release/release-pipeline/applications/node--deprecation-by-version-arithmetic.md",
      "verified_on": "2026-09-02"
+    },
+    {
+     "stack": "node",
+     "technique": "release-level-by-reader-reach",
+     "file": "knowledge/software-engineering/engineering-process/build-and-release/release-pipeline/applications/node--release-level-by-reader-reach.md",
+     "verified_on": "2026-09-17",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
@@ -26485,8 +26631,8 @@
    "subcategory": "standards-and-gates",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/repo-manifest-standard/repo-manifest-standard.md",
-   "digest": "sha256:1455673faa0b3089",
-   "revision": 9,
+   "digest": "sha256:f3be5416c1ea86f7",
+   "revision": 10,
    "changedAt": "2026-09-17",
    "techniques": [
     {
@@ -35521,6 +35667,8 @@
     "agent-instruction-files/rewrite-behavior-pinning",
     "agent-instruction-files/substrate-coupled-expiry",
     "agent-instruction-files/workspace-ancestry-isolation",
+    "agent-memory/addresses-before-compression",
+    "agent-memory/cross-context-promotion",
     "agent-memory/diagnosis-withheld-from-the-executor",
     "agent-memory/probe-without-write-back",
     "agent-runtime-assembly/assembly-identity",
@@ -35760,6 +35908,7 @@
     "mcp-tools/caller-differentiated-capability",
     "mcp-tools/catalog-projection-modes",
     "mcp-tools/client-integration",
+    "mcp-tools/command-audit-by-position",
     "mcp-tools/egress-argument-gating",
     "mcp-tools/enumeration-without-a-scope",
     "mcp-tools/orchestration-to-tool-migration",
@@ -35851,6 +36000,7 @@
     "quality-gates/blocking-by-input-determinism",
     "quality-gates/branch-provenance-gate",
     "quality-gates/chokepoint-tag-registry",
+    "quality-gates/decidable-in-a-window",
     "quality-gates/enforcement-binding",
     "quality-gates/excess-indicts-the-instrument",
     "quality-gates/fabrication-economics",
@@ -36242,6 +36392,7 @@
     "fleet-orchestration/absent-status-passthrough",
     "fleet-orchestration/completion-claim-verification",
     "fleet-orchestration/durable-fleet-state",
+    "fleet-orchestration/evidence-outranks-a-liveness-claim",
     "fleet-orchestration/heterogeneous-model-panels",
     "fleet-orchestration/lifecycle-signals",
     "fleet-orchestration/parallel-dispatch",
@@ -36619,6 +36770,7 @@
     "accessibility/assistive-tech-divergence",
     "accessibility/keyboard-navigation-models",
     "accessibility/primitive-level-a11y",
+    "agent-memory/cross-context-promotion",
     "agent-memory/decay-and-forgetting",
     "agent-memory/durable-store-failure-posture",
     "agent-memory/memory-governance",
@@ -36742,6 +36894,7 @@
     "agent-instruction-files/sibling-floor-ownership",
     "agent-memory/baseline-ladder",
     "agent-memory/coverage-instrumentation",
+    "agent-memory/cross-context-promotion",
     "agent-memory/diagnosis-withheld-from-the-executor",
     "agent-memory/lane-reconciliation",
     "agent-memory/loss-site-inventory",
@@ -36821,6 +36974,7 @@
     "delivery-analytics/attribution-channels",
     "delivery-analytics/batch-size-thresholds",
     "delivery-analytics/delivery-metric-denominators",
+    "delivery-analytics/path-class-confounded-with-size",
     "delivery-analytics/post-landing-repair-density",
     "delivery-analytics/revert-linkage",
     "delivery-analytics/review-coverage-rate",
@@ -37028,6 +37182,7 @@
     "public-verdict-badge/verdict-honesty-qualifiers",
     "quality-gates/advancement-evidence-fields",
     "quality-gates/branch-provenance-gate",
+    "quality-gates/decidable-in-a-window",
     "quality-gates/excess-indicts-the-instrument",
     "quality-gates/false-positive-economics",
     "quality-gates/instrument-answers-only-its-own-question",
@@ -37225,6 +37380,7 @@
     "declarative-object-graph-configs/reference-resolution-with-cycle-detection",
     "declared-process-graph/panic-proof-numeric-fields",
     "declared-process-graph/typed-port-compatibility",
+    "delivery-analytics/path-class-confounded-with-size",
     "delivery-analytics/post-landing-repair-density",
     "delivery-guarantees/marker-certifies-what-was-done",
     "dependency-declaration/logical-name-or-address",
@@ -37254,6 +37410,7 @@
     "federated-client-contracts/delta-or-absolute-exchange",
     "fleet-orchestration/absent-status-passthrough",
     "fleet-orchestration/completion-claim-verification",
+    "fleet-orchestration/evidence-outranks-a-liveness-claim",
     "fleet-orchestration/inherited-state-provenance",
     "generated-workflow-candidates/score-keyed-candidate-selection",
     "generated-workflow-candidates/two-tier-data-statistics",
@@ -37276,6 +37433,7 @@
     "machine-authored-documentation/three-gate-acceptance",
     "markdown-vault/replicated-substrate",
     "mcp-tools/ambient-selection-is-not-an-argument",
+    "mcp-tools/command-audit-by-position",
     "mcp-tools/egress-argument-gating",
     "mcp-tools/suspendable-request-classes",
     "measurement-honesty/instrument-exposure-control",
@@ -37324,6 +37482,7 @@
     "quorum-and-recovery-procedures/cancel-leaves-prior-state-valid",
     "read-serving-replicas/evict-not-update-on-commit",
     "register-bytecode-execution/placeholder-patch-jumps",
+    "release-pipeline/release-level-by-reader-reach",
     "remote-capability-probing/advertised-support-is-not-evidence",
     "repo-manifest-standard/version-gate-precedes-schema-gate",
     "retrieval/query-decomposition-before-the-lanes",
@@ -37513,6 +37672,7 @@
     "maturity-ladders/migrate-on-read",
     "mcp-tools/authentication-and-scoping",
     "mcp-tools/caller-differentiated-capability",
+    "mcp-tools/command-audit-by-position",
     "mcp-tools/egress-argument-gating",
     "mcp-tools/fluent-syntax-bounded-grammar",
     "mcp-tools/server-composition",
@@ -38507,6 +38667,7 @@
     "readiness-passports/named-vs-capability-metadata",
     "realtime-events/event-registry",
     "register-bytecode-execution/finally-jump-table-with-reserved-fallthrough",
+    "release-pipeline/release-level-by-reader-reach",
     "release-pipeline/version-single-truth",
     "remediation-handoff/resolution-trailers",
     "remediation-handoff/single-artifact-prompt-construction",
@@ -38997,6 +39158,8 @@
     "admission-queue/admit-on-the-expanded-cost",
     "admission-queue/remediation-derived-bounds",
     "admission-queue/zero-depth-admission",
+    "agent-memory/addresses-before-compression",
+    "agent-memory/cross-context-promotion",
     "concurrency-guards/cache-value-not-handle",
     "convergence-loop-and-requeue/keyed-queue-with-earliest-wins",
     "cross-instance-cache-lease/renewal-beats-a-tuned-timeout",
@@ -39178,6 +39341,7 @@
     "public-claim-provenance/provenance-as-a-build-gate",
     "quality-gates/blocking-by-input-determinism",
     "quality-gates/branch-provenance-gate",
+    "quality-gates/decidable-in-a-window",
     "quality-gates/enforcement-binding",
     "quality-gates/gate-laddering",
     "quality-gates/oracle-frozen-during-repair",
@@ -39294,6 +39458,7 @@
     "durable-agent-operations/settlement-order-is-not-placement-order",
     "engine-binding-surface/capability-deferred-release",
     "execution-state-checkpointing/the-record-outlives-the-rewind",
+    "fleet-orchestration/evidence-outranks-a-liveness-claim",
     "guest-execution-bounding/bounded-shadow-backtrace",
     "job-coordination/in-flight-is-a-position",
     "job-coordination/no-unrestorable-state-at-a-suspension-point",

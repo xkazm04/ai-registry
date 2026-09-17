@@ -11,6 +11,7 @@ techniques:
   - size-budgets
   - release-verification
   - deprecation-by-version-arithmetic
+  - release-level-by-reader-reach
 ---
 
 # Release pipeline
@@ -189,3 +190,7 @@ The checklist and its ordering are
 - [release-verification](./techniques/release-verification.md) — proving the
   assembled artifact before the one-way door, including the update-path
   rehearsal.
+- [release-level-by-reader-reach](./techniques/release-level-by-reader-reach.md)
+  - a new name versus a new member of an existing shape, the three things a
+  reader can do with a member it has never heard of, and why the reader whose
+  last branch acts is the one to hunt.

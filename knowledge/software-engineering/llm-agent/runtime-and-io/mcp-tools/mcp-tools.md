@@ -22,6 +22,7 @@ techniques:
   - sealed-continuation-state
   - enumeration-without-a-scope
   - ambient-selection-is-not-an-argument
+  - command-audit-by-position
 ---
 
 # Tool protocols (MCP)
@@ -343,6 +344,12 @@ same obligations as the wire itself:
   — a list operation whose scope nothing can define: recognising one handle
   needs no caller identity and correlating two does, so delete the operation
   rather than documenting the obligation.
+- [command-audit-by-position](./techniques/command-audit-by-position.md) -
+  the other half of the bounded-grammar case, when the host does *not* own the
+  command it must nonetheless run: classifying each token by where it sits
+  instead of by the characters it contains, per-program flag and verb tables,
+  two opposing assertions over a corpus of live commands, and the one clause
+  position cannot supply - a transport that re-parses.
 
 ## What a removed boundary was silently scoping
 

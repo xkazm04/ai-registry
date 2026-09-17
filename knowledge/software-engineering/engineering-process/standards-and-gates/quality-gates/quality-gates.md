@@ -28,6 +28,7 @@ techniques:
   - shared-substrate-check-partition
   - branch-provenance-gate
   - refusal-names-a-reachable-remedy
+  - decidable-in-a-window
 ---
 
 # Quality gates
@@ -634,3 +635,8 @@ is asked to refuse something.
   blanket reach of an unnamed waiver, one waiver per finding by identity,
   malformed waivers ineffective and reported, replaying history when the grammar
   tightens, and which classes no waiver or no blanket may reach.
+- [decidable-in-a-window](./techniques/decidable-in-a-window.md) - the
+  test that separates a rule a pattern can decide from one needing the
+  call graph, why a cheap guard for the second computes the name-sharing
+  closure instead, the three honest resolutions, and locality as a
+  necessary but insufficient condition.

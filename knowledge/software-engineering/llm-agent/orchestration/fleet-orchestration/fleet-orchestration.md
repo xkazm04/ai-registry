@@ -21,6 +21,7 @@ techniques:
   - completion-claim-verification
   - deliberation-as-an-elected-turn
   - soft-budget-under-the-hard-cap
+  - evidence-outranks-a-liveness-claim
 ---
 
 # Agent fleet orchestration
@@ -345,3 +346,8 @@ mode is absent.
   — two limits per model-driven loop: an enforced cap that must never fire and
   a smaller budget in the brief derived from it, with the cap-fired fraction
   as the instrument.
+- [evidence-outranks-a-liveness-claim](./techniques/evidence-outranks-a-liveness-claim.md)
+  - when the entry's own report, stale past its budget, disagrees with a record the
+  work stamped a second ago, the report loses: derived predicates answer whether a
+  session may be touched, liveness becomes a separate three-valued observation, and
+  an expired staleness budget lands on unknown rather than on death.
