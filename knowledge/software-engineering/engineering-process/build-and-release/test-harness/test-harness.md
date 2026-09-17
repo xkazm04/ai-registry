@@ -23,6 +23,7 @@ techniques:
   - approval-snapshots-with-guarded-update
   - far-side-oracle
   - constraint-injection-for-unreachable-tiers
+  - unreached-decisions-pin-nothing
 ---
 
 # Test harness architecture
@@ -338,3 +339,9 @@ a soak run misunderstands both; the design of these lanes is
   population is the declared build graph, not the repository: taking the ship
   inventory, gating a detached root, loading rather than compiling a plugin, and
   the boundary against partitioning and liveness.
+- [unreached-decisions-pin-nothing](./techniques/unreached-decisions-pin-nothing.md)
+  — a test that arranges its own unreachability (a poisoned dependency, a seeded
+  cache, an older copy on the search path, an outer check ahead of the mutated
+  input) asserts whatever else answered: the reach probe that mutates the decision
+  the file *claims* rather than the code it touches, lifting the decision into a
+  reachable unit, and making the answer name its producer.

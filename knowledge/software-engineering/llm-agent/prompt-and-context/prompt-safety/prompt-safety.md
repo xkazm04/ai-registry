@@ -12,6 +12,7 @@ techniques:
   - cross-language-rule-parity
   - payoff-removal
   - session-capability-conjunction
+  - inspection-coverage-is-a-verdict
 ---
 
 # Input sanitization & prompt safety
@@ -322,3 +323,8 @@ technique.
   the combination no per-call check sees: third-party text, private material and an
   outbound channel in one context; legs sticky per context, cut at the roster first,
   and a session-aware gate on the outbound step where all three must coexist.
+- [inspection-coverage-is-a-verdict](./techniques/inspection-coverage-is-a-verdict.md) — the
+  span the inspector never read: a bound on what is inspected is not a bound on what is
+  forwarded, the sender chooses how often the blind spot is hit, and the residue resolves by
+  class — refuse, confine or escalate where the verdict gates, recorded not-inspected where
+  it cannot.

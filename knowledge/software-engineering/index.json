@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 229,
-  "techniques": 1716,
-  "applications": 1046,
+  "techniques": 1720,
+  "applications": 1048,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1716/1716",
+  "use_when_coverage": "1720/1720",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -18238,9 +18238,9 @@
    "subcategory": "measurement-method",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-assessment/measurement-method/measurement-honesty/measurement-honesty.md",
-   "digest": "sha256:9666d6048175eadc",
-   "revision": 8,
-   "changedAt": "2026-09-06",
+   "digest": "sha256:78bf0a53f49a149e",
+   "revision": 9,
+   "changedAt": "2026-09-17",
    "techniques": [
     {
      "slug": "co-published-numbers-must-reconcile",
@@ -18353,6 +18353,22 @@
       "averaging values where some inputs are absent",
       "a detector was removed or went dark",
       "aggregating a nullable measure across many subjects"
+     ]
+    },
+    {
+     "slug": "speed-figure-names-its-endpoints",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "publishing a latency or speed figure a reader will act on",
+      "a metric is named for an event the instrument cannot observe",
+      "comparing a timing figure across configurations that do not stream the same way",
+      "a speed claim arrives footnoted to a different quantity than its headline",
+      "deciding whether a faster number means a faster wait"
      ]
     },
     {
@@ -23805,9 +23821,9 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-safety/prompt-safety.md",
-   "digest": "sha256:a49770f6a1b881d0",
-   "revision": 6,
-   "changedAt": "2026-09-14",
+   "digest": "sha256:21c20267ba0c2084",
+   "revision": 7,
+   "changedAt": "2026-09-17",
    "techniques": [
     {
      "slug": "canary-tripwires",
@@ -23849,6 +23865,24 @@
       "setting a ceiling for one slot class",
       "deciding whether truncation changes meaning",
       "clamps keep firing at one ceiling from one source"
+     ]
+    },
+    {
+     "slug": "inspection-coverage-is-a-verdict",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "unknown-is-not-a-value",
+      "count-carries-predicate",
+      "absent-guard-is-loud"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an inspector reads a bounded prefix of a payload that travels whole",
+      "deciding what an oversize or unparseable request does at the boundary",
+      "a detector's exception resolves to an empty finding list",
+      "a scan reports a gap it could not observe",
+      "choosing what happens to the part of the input a guard never read"
      ]
     },
     {
@@ -26250,9 +26284,9 @@
    "subcategory": "standards-and-gates",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/repo-manifest-standard/repo-manifest-standard.md",
-   "digest": "sha256:9115a34b9c902784",
-   "revision": 8,
-   "changedAt": "2026-09-05",
+   "digest": "sha256:1455673faa0b3089",
+   "revision": 9,
+   "changedAt": "2026-09-17",
    "techniques": [
     {
      "slug": "capability-not-tool-vocabulary",
@@ -26308,6 +26342,22 @@
       "deciding what belongs inside a manifest",
       "adding a field that duplicates existing material",
       "wiring a manifest to generated evidence"
+     ]
+    },
+    {
+     "slug": "reserved-space-must-be-unusable",
+     "status": "forged",
+     "laws": [
+      "identity-survives-reuse",
+      "one-validation-door",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "reserving room in a contract for a field you have not designed yet",
+      "labelling part of a format experimental or provisional",
+      "carving a key out of a space other writers already fill",
+      "deciding whether a syntax you refuse to emit should also be refused on the way in"
      ]
     },
     {
@@ -26396,6 +26446,13 @@
      "file": "knowledge/software-engineering/engineering-process/standards-and-gates/repo-manifest-standard/applications/python--spec-ships-with-artifact.md",
      "verified_on": "2026-09-02",
      "verified_against": "python@3.10"
+    },
+    {
+     "stack": "rust",
+     "technique": "reserved-space-must-be-unusable",
+     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/repo-manifest-standard/applications/rust--reserved-space-must-be-unusable.md",
+     "verified_on": "2026-09-17",
+     "verified_against": "rust@2021"
     }
    ]
   },
@@ -31819,9 +31876,9 @@
    "subcategory": "build-and-release",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/build-and-release/test-harness/test-harness.md",
-   "digest": "sha256:7cb7991a4e730b08",
-   "revision": 20,
-   "changedAt": "2026-09-06",
+   "digest": "sha256:4040c259edd53f1d",
+   "revision": 21,
+   "changedAt": "2026-09-17",
    "techniques": [
     {
      "slug": "approval-snapshots-with-guarded-update",
@@ -32100,6 +32157,24 @@
      ]
     },
     {
+     "slug": "unreached-decisions-pin-nothing",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "failure-not-empty-success",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a test forces a dependency to fail so the fallback answers",
+      "a suite asserts a value a cache or a default could also have produced",
+      "a test file claims to pin a decision the run never executes",
+      "deciding whether a green suite covers the argument that crosses a process boundary",
+      "a fixture is named the way the resolver's default would name it",
+      "a mutated payload is rejected by an outer check before it reaches the parser"
+     ]
+    },
+    {
      "slug": "verification-inherits-driver-reach",
      "status": "forged",
      "laws": [
@@ -32162,6 +32237,13 @@
      "technique": "suite-partitioning",
      "file": "knowledge/software-engineering/engineering-process/build-and-release/test-harness/applications/node--suite-partitioning.md",
      "verified_on": "2026-08-29",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "unreached-decisions-pin-nothing",
+     "file": "knowledge/software-engineering/engineering-process/build-and-release/test-harness/applications/node--unreached-decisions-pin-nothing.md",
+     "verified_on": "2026-09-17",
      "verified_against": "node@24"
     },
     {
@@ -35666,6 +35748,7 @@
     "test-harness/out-of-graph-artifacts",
     "test-harness/recorded-interaction-fixtures",
     "test-harness/suite-partitioning",
+    "test-harness/unreached-decisions-pin-nothing",
     "test-harness/verification-inherits-driver-reach",
     "test-input-generation/field-captured-operation-traces",
     "test-input-generation/generator-bounds-the-space",
@@ -36089,6 +36172,7 @@
     "prompt-assembly/tiered-history-projection",
     "prompt-assembly/variable-interpolation",
     "prompt-safety/canary-tripwires",
+    "prompt-safety/inspection-coverage-is-a-verdict",
     "prompt-safety/model-output-as-untrusted",
     "prompt-safety/output-sanitization",
     "prompt-safety/session-capability-conjunction",
@@ -36234,6 +36318,7 @@
     "test-harness/long-lane-certification",
     "test-harness/negative-control-tests",
     "test-harness/platform-quirk-absorption",
+    "test-harness/unreached-decisions-pin-nothing",
     "test-input-generation/exhaustive-when-bounded",
     "test-input-generation/field-captured-operation-traces",
     "test-input-generation/generator-bounds-the-space",
@@ -36626,6 +36711,7 @@
     "measurement-honesty/minimum-sample-floors",
     "measurement-honesty/noise-band-and-hysteresis",
     "measurement-honesty/renormalize-over-present",
+    "measurement-honesty/speed-figure-names-its-endpoints",
     "measurement-honesty/tuning-corpus-disjointness",
     "measurement-honesty/unmeasurable-vs-zero",
     "media-playback/generated-supply-margin",
@@ -36703,6 +36789,7 @@
     "prompt-assembly/history-compaction",
     "prompt-assembly/recovery-path-as-loss-signal",
     "prompt-safety/input-caps-and-clamps",
+    "prompt-safety/inspection-coverage-is-a-verdict",
     "public-claim-provenance/derived-numerator-authored-denominator",
     "public-claim-provenance/no-data-source-labelled-inline",
     "public-verdict-badge/embed-reach-attribution",
@@ -36807,6 +36894,7 @@
     "test-harness/out-of-graph-artifacts",
     "test-harness/recorded-interaction-fixtures",
     "test-harness/suite-partitioning",
+    "test-harness/unreached-decisions-pin-nothing",
     "test-harness/verification-inherits-driver-reach",
     "test-input-generation/exhaustive-when-bounded",
     "test-input-generation/negative-space-generation",
@@ -36955,6 +37043,7 @@
     "mcp-tools/egress-argument-gating",
     "mcp-tools/suspendable-request-classes",
     "measurement-honesty/instrument-exposure-control",
+    "measurement-honesty/speed-figure-names-its-endpoints",
     "metric-surface-contract/fault-localizing-metric-set",
     "metric-surface-contract/metric-removal-is-a-staged-pipeline",
     "metric-surface-contract/same-process-monotonic-intervals",
@@ -36992,6 +37081,7 @@
     "prompt-assembly/fold-only-acknowledged-evidence",
     "prompt-assembly/foreign-harness-history-folding",
     "prompt-assembly/recovery-path-as-loss-signal",
+    "prompt-safety/inspection-coverage-is-a-verdict",
     "quality-gates/advancement-evidence-fields",
     "quality-gates/enforcement-binding",
     "quality-gates/fabrication-economics",
@@ -37238,6 +37328,7 @@
     "remediation-roadmaps/sandbox-to-tracker-commit",
     "render-mount-pipeline/mount-references-across-features",
     "repo-manifest-standard/must-ignore-unknown",
+    "repo-manifest-standard/reserved-space-must-be-unusable",
     "repo-manifest-standard/version-gate-precedes-schema-gate",
     "runner-fleet/fleet-isolation-boundaries",
     "schema-driven-ui/spec-validation-and-repair",
@@ -37509,6 +37600,7 @@
     "remediation-roadmaps/sandbox-to-tracker-commit",
     "remediation-roadmaps/weighted-upside-ranking",
     "render-mount-pipeline/blueprint-then-mount",
+    "repo-manifest-standard/reserved-space-must-be-unusable",
     "repo-manifest-standard/semver-additive-evolution",
     "retrieval/chunking-and-indexing",
     "retrieval/hybrid-lane-fusion",
@@ -38183,6 +38275,7 @@
     "render-mount-pipeline/blueprint-then-mount",
     "repo-manifest-standard/capability-not-tool-vocabulary",
     "repo-manifest-standard/pointers-not-embeds",
+    "repo-manifest-standard/reserved-space-must-be-unusable",
     "repo-manifest-standard/semver-additive-evolution",
     "repo-manifest-standard/spec-ships-with-artifact",
     "retrieval/query-decomposition-before-the-lanes",
@@ -38833,6 +38926,7 @@
     "pipeline-authoring/foreign-config-replay",
     "plan-review/informational-fold-in",
     "priced-authority/approver-not-requester",
+    "prompt-safety/inspection-coverage-is-a-verdict",
     "public-claim-provenance/provenance-as-a-build-gate",
     "quality-gates/blocking-by-input-determinism",
     "quality-gates/branch-provenance-gate",
