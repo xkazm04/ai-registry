@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 229,
-  "techniques": 1736,
-  "applications": 1060,
+  "techniques": 1737,
+  "applications": 1061,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1736/1736",
+  "use_when_coverage": "1737/1737",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -5424,8 +5424,8 @@
    "subcategory": "codebase-stewardship",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/codebase-scanning/codebase-scanning.md",
-   "digest": "sha256:25cb33f4d7cf6a63",
-   "revision": 9,
+   "digest": "sha256:55e6ffe5511ce873",
+   "revision": 10,
    "changedAt": "2026-09-17",
    "techniques": [
     {
@@ -5582,6 +5582,23 @@
      ]
     },
     {
+     "slug": "the-narrowest-view-owns-the-number",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a coverage figure is computed at ingest and consumed by a judgment made later",
+      "the same evidence is restricted more than once before anything reasons over it",
+      "a confidence number weights how far a model may move a score",
+      "deciding whether a partial-read notice belongs in the prompt or in a log",
+      "a presentation window drops material the fetch succeeded at reading",
+      "a scope statement is being written about untrusted content"
+     ]
+    },
+    {
      "slug": "the-tree-is-not-the-population",
      "status": "forged",
      "laws": [
@@ -5632,6 +5649,13 @@
      "technique": "rule-precision-discipline",
      "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/codebase-scanning/applications/node--rule-precision-discipline.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "node",
+     "technique": "the-narrowest-view-owns-the-number",
+     "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/codebase-scanning/applications/node--the-narrowest-view-owns-the-number.md",
+     "verified_on": "2026-09-17",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
@@ -35718,6 +35742,7 @@
     "codebase-scanning/ingestion-budget",
     "codebase-scanning/llm-assisted-scanning",
     "codebase-scanning/rule-precision-discipline",
+    "codebase-scanning/the-narrowest-view-owns-the-number",
     "codebase-scanning/verify-after-generate",
     "codegen/drift-gating",
     "codegen/trigger-wiring",
@@ -36933,6 +36958,7 @@
     "codebase-scanning/precision-trades-have-a-direction",
     "codebase-scanning/rule-precision-discipline",
     "codebase-scanning/sensor-pipeline",
+    "codebase-scanning/the-narrowest-view-owns-the-number",
     "codebase-scanning/the-tree-is-not-the-population",
     "codegen/generator-failure-isolation",
     "companion-identity/operator-profile-synthesis",

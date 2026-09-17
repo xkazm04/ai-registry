@@ -16,6 +16,7 @@ techniques:
   - precision-trades-have-a-direction
   - the-tree-is-not-the-population
   - causes-beside-the-finding-count
+  - the-narrowest-view-owns-the-number
 ---
 
 # Codebase scanning & triage
@@ -359,6 +360,11 @@ nowhere ([causes-beside-the-finding-count](./techniques/causes-beside-the-findin
   - the cause axis beside the identity axis: the stated relation that makes two
   findings one remediation, attribution instead of deletion, the rows/causes pair
   published in one record, and the direction of the gap read as the diagnosis.
+- [the-narrowest-view-owns-the-number](./techniques/the-narrowest-view-owns-the-number.md)
+  - the third coverage axis: where the same evidence is restricted twice, the figure
+  that prices a judgment is computed at the view it was formed from, not at the
+  fetch; the notice goes to the party that reasons, outside any fence that voids the
+  material's authority; and a channel substitution gets a refusal class, never a ratio.
 - [verify-after-generate](./techniques/verify-after-generate.md) — the
   consumer's audit of an artifact a model generator succeeded at writing:
   invariant checks bought by incidents, a repair protocol that names its
