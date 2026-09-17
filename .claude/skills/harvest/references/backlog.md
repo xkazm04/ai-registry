@@ -127,6 +127,41 @@ Read first: .claude/skills/intake/SKILL.md Phase 6, 7 and 7.5, and
    the instrument that would measure it if unmeasurable, and anything you refuted.
 ```
 
+## What `checked` means, and why a worker may not trust it
+
+Every row carries a `checked` field, set by hand when the row was enumerated and
+passed straight through by the picker. Nothing defined it until now, and five
+wave workers have each had to guess. The closed set:
+
+| value | means |
+| --- | --- |
+| `confirmed` | the enumerator read the source note and the claim is stated there as the row states it |
+| `refuted` | the claim contradicts its own source - usually a figure that does not reconcile with the source's own tables |
+| `unverifiable` | the enumerator could not reach what the claim rests on |
+
+**It is a property of the CLAIM, not of the anchor, and that is where it has been
+wrong most often.** A row whose repository clone is gone has an unreachable
+*anchor*; if its claim is a fact about fixed-width arithmetic, the claim is
+perfectly verifiable and was marked `unverifiable` anyway. Wave 4 found that
+exact case, and a second row marked `unverifiable` that was simply `covered`.
+Wave 5 found a `confirmed` row whose claim is a design choice the corpus already
+rejects by name - measuring it would have landed an error.
+
+So `checked` is a hint about what the enumerator saw, at the altitude of the
+source note. It is not a verdict, it does not survive Phase 1, and a worker
+**re-verifies it either way**:
+
+- `refuted` is not a reason to skip a unit. It can mean the source's figure is
+  wrong while its mechanism is sound (land the mechanism, quote no figure), or
+  that the row is a correction to the corpus - wave 5's sharpest landing came
+  from a row marked `refuted`, dispatched because it was.
+- `confirmed` is not permission. Check the claim against the source AND against
+  the corpus, because a confirmed claim can be a choice the corpus has already
+  measured and refused.
+
+When a worker finds the field wrong, it says so in the return and the director
+corrects the row - the status field is authoritative afterwards, not `checked`.
+
 ## The backlog can contain claims that already landed
 
 The enumeration reads each source note's untriaged table. A later intake run
