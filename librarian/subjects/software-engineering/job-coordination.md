@@ -286,3 +286,7 @@ mutation race enumerated with exactly two legal durable histories, tested in
 both orders against an instrumented commit decorator. Both are real absences,
 both single-sighted, both scored below the accept bar and banked so a second
 sighting promotes them on convergence at no fetch cost.
+
+### 2026-09-17 - `/harvest backlog` wave 4, one technique + one application
+
+`terms-travel-permission-does-not`. The subject already carried the record and the envelope; what it never separated is the two KINDS of thing a worker reads at execution time. A term the work will be judged by - threshold, class, route, parameters, the instrument and its version - belongs to the submission and must travel frozen. A term that can stop or narrow the work - a cancellation, a revoked permission, a lowered ceiling - must be read live, because a frozen permission is a permission that outlives its revocation. The discriminator the measurement forced, and the reusable one: **reading the current configuration to decide whether to run is correct; reading it to decide what a finished run meant is attribution of a result to conditions that never produced it.** A gate that does the second reports a verdict nobody can reproduce, and it reports it confidently. Measured on a benchmark gate that argued in its own prose for the live read and enumerated 'the one condition it can actually read off the run' - an enumeration that denied too much. 2 mis-attributed verdicts -> 0, eight existing cases unchanged. Spine item 7 states it; `delivery-guarantees` shares the technique.
