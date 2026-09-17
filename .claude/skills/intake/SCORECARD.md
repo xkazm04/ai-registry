@@ -4159,6 +4159,7 @@ Stage the funnel is losing most at, last ten rows (counted from the Apply and Sh
 
 | 2.11.0 | 2026-09-16 | `github:modernweb-dev/web@f72d33e1` modernweb-web | 1 repo cloned (2,135 files, 38 packages) and swept in the method's order - architecture doc, hook arbitration loops, per-package CHANGELOGs, the config and status types, tests, README last; 609 landing words against 85,217 in-tree; 0 of 3 fetches | 13 (6 design + 7 claim) | 1 admitted (3/0/2, promotion read spent opening the golden path and its nearest technique in full); 1 promoting question executed on the only promotable `partial` row, answered negative with no clean home; 1 catch, 6 untriaged, 3 leads; **anchors=29 held=29** (first pass held=0: quotes sat above code fences, the grammar needs them on the anchor's own line) | 1 technique + 1 golden-path bounding clause + 2 applications (1 source-tree, 1 fleet) | 1c/1e/0s/0t/0r; both owed rows written | 1 - ascent `d37c8288` (tenant boundary raised from a comment to the checker; target 0 -> 1 refused, floor 970 files / 12,599 tests + clean typecheck, held), branch kept, not pushed | Focus `ship`: moved, with one fleet commit from a falsifying seam, and the Test cell carries its anchor count. Depth `0/1/1/2/134`; routing count 2 across two systems, no handoff; `directions=0/10` (ten candidate absences, none a direction - this is the coverage lane), `gate=skipped`; `auto=1/1/0`, `fp=0` |
 | 2.11.0 | 2026-09-17 | `youtube:2CQwma8ZKNQ` muse-character-sheet-local | 1 video (4,701 words), class read as a hybrid build-walkthrough and routed per half; 1 of 3 fetches (the license primary); the engine's own source read for the second dated fact | 14 | 0 scored rows admitted (`auto=0/0/0`, `fp=0`) - the only row that reached the threshold on GAIN was render-bound and its pair was refused; 2 rows admitted under the corroboration table as currency; 6 catches, 5 untriaged, 4 leads | 2 currency corrections, 0 upper-layer landings | 0c/0e/0s/0t/**0r** - the render ran and returned no verdict (gate refused, ratio 0.90 vs 1.5); no technique or amendment landed, so no apply row is owed | 0 - no fleet project has a local image-generation seam; the seam hunt over the one local-inference project (a TTS service) found nothing | Focus `extract` via the untriaged backlog: **executed, returned a non-convergence** with a named discriminator (panel count against panel size). Depth `0/0/0/0/0`; routing=n/a (not a repository); handoff=n/a; `directions=n/a`; `gate=n/a` (no proposals). Render proof: 13 renders, pair refused, 39.9 MB deleted by run id |
+| 2.11.0 | 2026-09-17 | `github:mem0ai/mem0@0df3e4b8` mem0 | 1 repository cloned and swept (1,642 landing / 299,488 in-tree markdown / 31,778 library lines), memory lane read first; 0 of 3 fetches; 1 `git ls-remote` on the benchmark submodule | 14 (6 design + 8 claim) | 2 picks verified by opening files in both trees (`auto=2/0/0`, `fp=0`); row 2 promoted by one read of its cross-bundle neighbour; row 1 **originated at the Phase 7.5 seam**, not in the source | 2 techniques + 2 golden-path paragraphs + 3 applications (1 source tree, 2 fleet) | **1c**/0e/2s/0t/0r - the code row is `better` ab-paired (target 0 -> 46/46 caught, floor 4/4 offline arms held); both simulation rows are `unmeasurable` with the instrument named | 1 - personas `3c606cf51`, **on a branch**: the shared checkout had another session's merge open and a pathspec commit is refused mid-merge | Focus (render-bound `test`) did not apply, since nothing here renders. Its generalisable half, *see the instrument fail before reading its pass*, decided the run | S0/T2/A0/Asrc1/task-lines 0; routing count 1 NONE (2 at most across 4 systems), no handoff; directions=0/0, gate=empty; anchors=30 held=30 |
 
 ## 2026-09-16 - modernweb-web (the contract the checker could not see)
 
@@ -4207,3 +4208,31 @@ whether the pair is worth its remaining budget. A run that does this and proceed
 bought its pair for two renders; a run that does this and stops has saved ten and still
 has a finding about the approach's own stability. Either way the scorecard row says what
 `within` was before the second arm existed.
+
+## 2026-09-17 - mem0 (the rule the prompt states and the call path refuses)
+
+The source handed over a correct rule wired so it could never run. The fleet had an
+instrument aimed at the same defect that could never fail. Neither was visible by reading:
+the prompt reads as correct, and the check had been green on every backend it ever saw.
+Both came out only by driving an arm that *should* produce the failure: tracing the
+parameter from the public entry point to the prompt builder, and building a backend that
+stamps the wall clock.
+
+**Weakest stage across the last ten rows: still `test`, and this row names its common
+root.** Three of four render proofs ended without a verdict because the arms could not be
+told apart. This run's fleet row ended `unmeasurable` because the ladder's scenario holds 12
+relative references in 3,571 events, all one template, so every arm ties on the axis. And
+the purity check passed a fully contaminated backend because its normaliser erased the
+field the contamination lived in. These are three instruments in three lanes that could not
+return a difference where one existed. The eval-harness golden path already states the root
+("a pass is evidence only where a failure was reachable"), and this run extended its
+enumeration rather than minting a law. A law is a cross-run convergence and needs the
+operator (E3). It is recorded here as that convergence's third sighting.
+
+Next run's declared focus: **`test`, via the reach check before the read.** Before reading
+any pass, tie or `unmeasurable` from an instrument, spend one cell proving the instrument
+can return the other answer. For a render pair that is the within-arm seed control. For a
+purity or invariance check it is the contaminated arm. For a measured ladder it is a count
+of the scenario events that exercise the axis, with the matched rows read. A run that does
+this and gets a difference has bought its verdict. A run that does this and gets nothing
+has a finding about the instrument, which is what this row landed.

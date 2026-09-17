@@ -11133,3 +11133,28 @@ The cheap version is one grep at Phase 4, after the map names homes and before P
   the flag name and the absence of a cap flag, none of which the video knew. **When a
   practitioner reports a number about a tool that is installed locally, read the tool, not
   the report** - it costs one grep and returns more than it was asked for.
+
+## 2.11.0 - 2026-09-17 - mem0
+
+- **A falsifying seam that already has an instrument for the defect is the best seam
+  there is, and the first move is to attack the instrument, not the code.** The harness
+  injected a clock and shipped a purity check naming the exact failure, and a run that
+  trusted the green would have filed the technique as already practised. Building the
+  contaminated arm cost no model calls and one short script. It passed 46/46, and the
+  landing came from that result, not from the source.
+- **Count the fixture's reach before claiming a fleet cost.** A consolidation prompt with
+  no stated *now* looked like a live defect with a measurable price. A count of relative
+  references in the replayed year (12 of 3,571), with the rows read, showed all 12 were one
+  "from today" template consolidated the same night. The row that would have claimed a
+  cost became an honest `unmeasurable` with the missing scenario named, and that is also a
+  finding about the lane's own ladder.
+- **A shared checkout mid-merge refuses `git commit -- <paths>`.** Committing the index
+  instead would finish somebody else's merge with this run's change inside it. The recovery
+  that disturbs nothing: a worktree from the branch tip at a short path, commit there,
+  restore only this run's own files in the main checkout, keep the branch. The other merge
+  completed within a minute, so verify the merge commit is free of your change
+  (`git grep` on the branch tip) before reporting.
+- **An Edit that will not match a line you can see is a signal, not a nuisance.** The
+  normaliser line held literal 0x08 bytes where `\b` was meant, and the failed match was the
+  first evidence. Splice such a file with binary I/O, assert the byte count after, and write
+  the fixed escape as the two characters backslash-b with a comment saying why.
