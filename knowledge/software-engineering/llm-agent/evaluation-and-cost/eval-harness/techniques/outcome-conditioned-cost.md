@@ -6,7 +6,7 @@ technique: outcome-conditioned-cost
 status: forged
 laws: [count-carries-predicate, failure-not-empty-success]
 shared_with: []
-use_when: [comparing tokens time or tool calls between arms that can fail, an efficiency delta computed over trials that never reached an answer, a cheaper arm turns out to have given up earlier, deciding which trials a resource comparison may include]
+use_when: [comparing tokens time or tool calls between arms that can fail, an efficiency delta computed over trials that never reached an answer, a cheaper arm turns out to have given up earlier, deciding which trials a resource comparison may include, a benchmark excludes provider errors or timeouts from accuracy, deciding whether a failed trial is the harness's or the arm's]
 ---
 
 # Outcome-conditioned cost
@@ -83,6 +83,46 @@ that errored, timed out at the harness level, or was cut by a budget before
 producing an answer is neither a success nor an informative failure; it is
 **incomplete**, and it belongs in neither view. Report its count separately
 or the primary silently absorbs infrastructure noise as candidate behaviour.
+
+## Incomplete is decided by whose failure it was
+
+The rule above excludes an errored or timed-out trial from both views, and it
+inverts the moment the failing component is **part of the arm**. When the
+system under test is a service — a memory provider, a retrieval backend, a
+hosted model — its own error and its own timeout are not noise around the
+measurement. They are the measurement: the provider did not answer, and a
+provider that fails on the hard questions and is excused from them scores
+higher for failing. A comparison that drops those trials from the accuracy
+denominator has not repaired its population; it has let every arm choose its
+own.
+
+So the incomplete state is assigned by **ownership, not by symptom**. The same
+timeout is incomplete when the harness's own model budget cut the trial and a
+failed trial when the arm's service cut it. Three rules make the split
+checkable rather than argued:
+
+- **Name the boundary before the run.** List which processes belong to the arm
+  and which to the harness — the consumer, the judge, the budget, the transport
+  are the harness's; the store, its writer, its search are the arm's. A failure
+  outside the list is incomplete; inside it, it is a failed trial and is scored.
+- **Re-run the incomplete ones.** A harness-owned failure goes away when the
+  harness is healthy, so an incomplete trial is resumed, not dropped. A failure
+  that reproduces on the re-run with the infrastructure healthy was never the
+  harness's; reclassify it. What stays excluded after the re-run is the
+  incomplete count, reported per arm.
+- **A judge failure is the harness's, and it is the easiest one to charge to
+  the arm.** A grader that silently falls back to a cruder reading when its own
+  call fails does not produce an incomplete trial; it produces a *different
+  verdict* with no mark on it. In one harness's judge, a reply that stated the
+  current value and narrated the old one scored correct under a working
+  extraction and stale when the extracting call failed. Marked and counted over
+  thirteen published arms, the count was zero - which is a result only because
+  the mark was shown to fire first. Mark the degraded verdict and count it
+  beside the headline, or the arm pays for the grader's outage.
+
+The tell that the rule has been applied backwards is **asymmetric exclusion**:
+if one arm's excluded count is much larger than another's under the same
+harness, the exclusions are measuring the arms, and they belong in the score.
 
 ## What this cannot do
 
