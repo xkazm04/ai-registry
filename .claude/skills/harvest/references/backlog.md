@@ -127,6 +127,33 @@ Read first: .claude/skills/intake/SKILL.md Phase 6, 7 and 7.5, and
    the instrument that would measure it if unmeasurable, and anything you refuted.
 ```
 
+## The backlog can contain claims that already landed
+
+The enumeration reads each source note's untriaged table. A later intake run
+can forge those same candidates into techniques, and if it does not also update
+the note, the table stays standing - so the next enumeration turns already-landed
+claims into backlog rows. Those rows are **phantoms**: real claims, already in
+the corpus, waiting to be measured a second time. One of them reached a worker
+on 2026-09-17 and came back COVERED against a technique forged by the very
+intake run that had read its own source note.
+
+`node scripts/backlog-phantom-screen.mjs` reports the suspects. It is note-level
+and over-flags on purpose, because a note can have some candidates forged and
+others genuinely untriaged - the same day the pattern was found, one source had
+three techniques forged *and* a real residual that landed. So it applies a second
+discriminator: whether the note itself was touched at or after the forge commit.
+A run that forges a note's candidates and writes the note's counters in the same
+commit leaves no phantoms.
+
+The screen marks nothing. Verify a suspect by reading the forge commit and the
+corpus, and mark `covered` only for the whole row - a row whose claim is mostly
+stated with a residual surviving stays `queued`, and the residual is queued as
+its own row.
+
+**The real fix is upstream**: an intake run that forges a note's candidates
+updates that note's untriaged table in the same commit. Until it does, run the
+screen after every reseed and before dispatching a wave.
+
 ## Stop rule
 
 Harvest's loop rule applies, with one addition. **A wave whose verdicts are all
