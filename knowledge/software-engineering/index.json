@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 229,
-  "techniques": 1722,
-  "applications": 1049,
+  "techniques": 1724,
+  "applications": 1050,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1722/1722",
+  "use_when_coverage": "1724/1724",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -9481,8 +9481,8 @@
    "subcategory": "work-execution",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/work-execution/delivery-guarantees/delivery-guarantees.md",
-   "digest": "sha256:068b277142d3efdc",
-   "revision": 6,
+   "digest": "sha256:8b78b1578f4d8deb",
+   "revision": 7,
    "changedAt": "2026-09-17",
    "techniques": [
     {
@@ -16357,8 +16357,8 @@
    "subcategory": "work-execution",
    "status": "reconciled",
    "file": "knowledge/software-engineering/backend-platform/work-execution/job-coordination/job-coordination.md",
-   "digest": "sha256:1e6c05c01dddbbb8",
-   "revision": 15,
+   "digest": "sha256:1090a84300016a2d",
+   "revision": 16,
    "changedAt": "2026-09-17",
    "techniques": [
     {
@@ -16498,6 +16498,28 @@
       "choosing per-job verdicts for a boot recovery sweep",
       "a second executor double-fires work the claim already protects"
      ]
+    },
+    {
+     "slug": "terms-travel-permission-does-not",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "gate-sees-target",
+      "unknown-is-not-a-value",
+      "record-precedes-effect"
+     ],
+     "shared_with": [
+      "delivery-guarantees"
+     ],
+     "use_when": [
+      "a deferred pass judges its input against a threshold an operator can edit while the queue drains",
+      "deciding whether a stop switch or a quota should be frozen into the work or read live at execution",
+      "a consumer re-derives the class or route the producer already decided",
+      "a verdict about finished work is computed from the current row instead of from what the run recorded",
+      "a flag changed during a long turn and the output was assembled from two configurations",
+      "a configuration change had to wait for the queue to empty before anyone trusted the results",
+      "deciding what a queued record must carry beside its payload"
+     ]
     }
    ],
    "applications": [
@@ -16561,6 +16583,13 @@
      "file": "knowledge/software-engineering/backend-platform/work-execution/job-coordination/applications/rust--terminal-state-recovery.md",
      "verified_on": "2026-08-28",
      "verified_against": "rust@1.96"
+    },
+    {
+     "stack": "rust",
+     "technique": "terms-travel-permission-does-not",
+     "file": "knowledge/software-engineering/backend-platform/work-execution/job-coordination/applications/rust--terms-travel-permission-does-not.md",
+     "verified_on": "2026-09-17",
+     "verified_against": "rust@1.96.1"
     },
     {
      "stack": "sql",
@@ -24290,8 +24319,8 @@
    "subcategory": "standards-and-gates",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/quality-gates.md",
-   "digest": "sha256:a005e9ca1301d7cb",
-   "revision": 42,
+   "digest": "sha256:41b6cf2a901ea67b",
+   "revision": 43,
    "changedAt": "2026-09-17",
    "techniques": [
     {
@@ -24547,6 +24576,26 @@
       "a file or page has a stated size cap and every edit to it obeys a per-edit cap",
       "an accreting artifact is over its bound and no commit broke a rule",
       "a rule is about intent and no parser can express it"
+     ]
+    },
+    {
+     "slug": "refusal-names-a-reachable-remedy",
+     "status": "forged",
+     "laws": [
+      "absent-guard-is-loud",
+      "derivation-names-recomputation",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing the message a blocking check prints when it refuses",
+      "a gate announces a skip and tells the reader how to restore it",
+      "a refusal names a command",
+      "script or tool the reader is expected to run",
+      "the remedy for a finding lives outside the repository the gate ships with",
+      "a contributor says they bypassed a gate because they could not act on it",
+      "auditing why a gate's bypass rate is high while its precision is good",
+      "deciding what a refusal should say when its preferred remedy is unavailable"
      ]
     },
     {
@@ -35549,6 +35598,7 @@
     "issuance-policy-ladder/program-role-returns-the-artifact",
     "job-coordination/lease-renewal",
     "job-coordination/no-wall-clock-in-the-advance-contract",
+    "job-coordination/terms-travel-permission-does-not",
     "judgment-guardbands/deterministic-backbone",
     "judgment-guardbands/narrate-dont-rescore",
     "judgment-guardbands/self-audit-budget",
@@ -35679,6 +35729,7 @@
     "quality-gates/oracle-frozen-during-repair",
     "quality-gates/policy-projection",
     "quality-gates/prose-rule-drift",
+    "quality-gates/refusal-names-a-reachable-remedy",
     "quality-gates/renameable-detector-keys",
     "quality-gates/self-reported-gate-inputs",
     "quality-gates/severity-by-construction",
@@ -37081,6 +37132,7 @@
     "job-coordination/in-flight-is-a-position",
     "job-coordination/liveness-proof-reclaim",
     "job-coordination/no-wall-clock-in-the-advance-contract",
+    "job-coordination/terms-travel-permission-does-not",
     "knowledge-registry/verification-is-contributed",
     "llm-extracted-entity-graph/surface-form-identity-and-its-risk",
     "machine-authored-documentation/declared-truth-boundary",
@@ -38220,6 +38272,7 @@
     "issuance-policy-ladder/bounds-as-modes",
     "issuance-policy-ladder/explicit-forbid-beats-allow-any",
     "job-coordination/job-state-machines",
+    "job-coordination/terms-travel-permission-does-not",
     "judgment-guardbands/narrate-dont-rescore",
     "judgment-guardbands/score-guardband",
     "keyed-sample-transforms/array-and-keyed-dual-forms",
@@ -38600,6 +38653,7 @@
     "prompt-assembly/tiered-history-projection",
     "public-claim-provenance/build-time-derivation-off-the-client-bundle",
     "public-claim-provenance/derived-numerator-authored-denominator",
+    "quality-gates/refusal-names-a-reachable-remedy",
     "rate-limiting/limit-derivation",
     "rate-limiting/limit-observability",
     "read-serving-replicas/committed-write-invalidation-hook",
@@ -38983,6 +39037,7 @@
     "quality-gates/gate-laddering",
     "quality-gates/oracle-frozen-during-repair",
     "quality-gates/prose-rule-drift",
+    "quality-gates/refusal-names-a-reachable-remedy",
     "quality-gates/self-reported-gate-inputs",
     "quality-gates/unmeasurable-criteria",
     "quality-gates/waiver-names-its-finding",
@@ -39096,6 +39151,7 @@
     "guest-execution-bounding/bounded-shadow-backtrace",
     "job-coordination/in-flight-is-a-position",
     "job-coordination/no-unrestorable-state-at-a-suspension-point",
+    "job-coordination/terms-travel-permission-does-not",
     "mcp-tools/sealed-continuation-state",
     "prompt-assembly/fold-only-acknowledged-evidence",
     "prompt-assembly/speculative-compaction-splice",

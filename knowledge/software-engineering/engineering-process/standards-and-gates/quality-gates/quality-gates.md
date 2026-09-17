@@ -27,6 +27,7 @@ techniques:
   - instrument-answers-only-its-own-question
   - shared-substrate-check-partition
   - branch-provenance-gate
+  - refusal-names-a-reachable-remedy
 ---
 
 # Quality gates
@@ -410,6 +411,26 @@ the harm. The economics, the measurement method, and the quarantine
 protocol for flaky checks are
 [false-positive-economics](./techniques/false-positive-economics.md).
 
+
+## A refusal the reader cannot act on spends the same trust
+
+Precision decides whether a finding is true. A separate property decides whether
+the author can do anything about it: the message's third part, after what is
+wrong and where — the remedy. It is the only part a reader executes, the only
+part written by hand, and the only claim a gate makes that nothing ever
+verifies, because the author's own installation is the one where it works. A
+contributor facing a correct refusal whose repair instruction does not resolve
+has the same two options as one facing a false positive, and takes the same one.
+Measured across twelve repositories sharing one toolchain: of sixty-eight
+runnable remedies named in gate output, every one pointing inside the shipped
+tree resolved and every one pointing outside it did not — a literal path to
+something the artifact does not ship is a derivation frozen as a string, and six
+of the seven failures were one sentence copied into six repositories while each
+of them declared the true location in its own manifest. Resolving the remedy
+where the message is built, degrading to what is missing rather than to silence,
+and checking the messages as well as the documents are
+[refusal-names-a-reachable-remedy](./techniques/refusal-names-a-reachable-remedy.md).
+
 ## False compliance is how rules die
 
 The mirror failure kills the *rule* while leaving the gate healthy, so nothing
@@ -572,6 +593,11 @@ is asked to refuse something.
 - [false-positive-economics](./techniques/false-positive-economics.md) —
   precision as survival, measuring before enforcing, the trust budget, and
   quarantining flaky checks.
+- [refusal-names-a-reachable-remedy](./techniques/refusal-names-a-reachable-remedy.md)
+  — the remedy a refusal names as a claim about the reader's environment that
+  nothing checks, resolving an out-of-tree remedy where the message is built,
+  degrading to what is missing and where it was looked for, and the two
+  exclusions that keep the check from firing on its own fix.
 - [fabrication-economics](./techniques/fabrication-economics.md) — the
   requirement a machine cannot verify and an author cannot satisfy, the
   declared-inability token and why the gate must go silent on it, and naming

@@ -13,6 +13,7 @@ techniques:
   - non-delivery-ledgers
   - ordered-lane-blocking
   - marker-certifies-what-was-done
+  - terms-travel-permission-does-not@job-coordination
 ---
 
 # Delivery guarantees & dead-letter
