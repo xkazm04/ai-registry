@@ -5,7 +5,7 @@ argument-hint: "[--stabilize|--develop|--optimize] [--one <context>] [--depth N]
 category: workflow
 contexts: tracked
 memory: project
-version: 3.3.0
+version: 3.3.1
 tags: sweep, quality, stabilization, backlog, coverage, registry, atomic-commits
 ---
 # Context Sweep
@@ -873,7 +873,6 @@ consuming repo. The skill runs on the defaults without it.
 | `gates` | from `.claude/conventions.json` / manifest capabilities | Verification commands per surface. |
 | `depth` | 5 (loop), 10 (`--one`) | Findings per context per round. |
 | `neverSweep` | none | Contexts the loop skips (generated, vendored). |
-| `leftoverDeck` | none | Jsonl of prior-wave findings the outbox could not hold. When set, §0 reads it. |
 
 ## Coverage table
 

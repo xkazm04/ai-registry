@@ -1336,6 +1336,10 @@ that check stays cheap.
 - **"each grounded in `file:line`" never said from where** - 22 of the corpus's ~116 unresolved-anchor complaints were scan-sweep's, clustered in multi-package repos where `limiter.ts:41` is ambiguous. §4.3 now defines the anchor as a path relative to the repository root exactly as `git ls-files` prints it, binding findings, evidence, commit bodies and report alike.
 - **Caches were left inside the swept tree.** ~10 verdicts found 12k-file build/test/package caches (`CARGO_HOME`, `UV_CACHE_DIR`, pytest temp roots) written under the repository, after which `git status` cannot tell work from litter. New §7.7: caches go to the OS temp dir, and `git status --porcelain` is checked clean of them before the round's last commit.
 
+## 3.3.0 - 2026-09-18 - kp (CandiDate)
+
+- **Same class as the personas 3.3.0 lesson, on this checkout.** A `--develop` coordinator wave produced 955 findings; 30 fit the outbox; waves 4–6 built the lowest-risk autos; ~710 remain. They lived in a Grok session `all-findings.jsonl` that the next `/scan-sweep` would never see. Wrote `.claude/scan-history/open-backlogs.jsonl` plus `leftover-develop-2026-09-17.jsonl` and pointed the overlay at them so §0 has a file to read.
+
 ## 3.3.0 - 2026-09-18 - personas
 
 - **An unworked backlog was invisible to the next sweep.** One `--develop --ideas-only` wave produced 1,040 findings; the outbox cap admitted 30 and the other 1,010 lived only in a scratch directory, named once in a report. Nothing in the skill looked for them on the next invocation, and sweeps on this repo run weeks apart. New §0: before scoping, read the open-backlog register, the undrained outbox, the digest's pending count, ideas-mode history rows and stray `scan-sweep-*/all-findings.jsonl` files, and print an `OPEN BACKLOG` notice first - ask when attended, repeat it per round when not. §9 now writes a register row whenever findings do not reach the outbox; new overlay key `openBacklogs`; new `--backlogs` invocation. Instruction change from one operator request and one measured run, not a field effectiveness result.
