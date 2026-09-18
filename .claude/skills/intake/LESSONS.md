@@ -11178,3 +11178,44 @@ The cheap version is one grep at Phase 4, after the map names homes and before P
   for the tree before triaging the post, and write the `refresh_by` row before the table.
 - **Bot wall on a static host: exit 2, browser route, one call.** The checkpoint cleared
   on its own. Worth adding to the ingest's guidance rather than to the method.
+
+## 2.11.0 - 2026-09-18 - supermemory (memory lane, re-mine)
+
+- **Check whether the engine is downloadable before concluding it is hosted.** The prior run
+  of this source characterised a whole source class from a premise that a Releases page
+  refutes in one look: the "closed engine" had shipped a self-hosted binary ten weeks
+  earlier. The class reading it produced (a closed engine leaks its ontology through its
+  open client's types) is still good; it was applied to a source that did not need it. Add
+  the Releases page and any `self-hosting/` directory to the Phase 2b sweep, before the
+  concept docs.
+- **A source mined before a lane existed is worth re-mining, and the ledger cannot tell you
+  that.** "Already mined" was true and the run was still worth its cost, because the
+  question changed: not "what do the docs claim" but "which arm is this". A re-mine gate
+  that only checks the ledger will decline exactly the runs where the method has improved
+  since. The operator's `memory` argument was the signal here; the method should be able to
+  produce it itself - a mined source whose note predates a lane the source falls into is a
+  re-mine candidate.
+- **A long arm needs its resumability designed before its first run, not after.** Three
+  facts made the difference and none is specific to this engine: the harness scores probes
+  after the replay (so a killed run salvages nothing), the store keeps growing (so a naive
+  resume answers early probes against a late store), and the model budget is a window (so
+  the run *will* be killed). Recording each probe's context at its own instant solves all
+  three at once and makes the re-run free, because identical prompts hit the model cache.
+- **A counter that resets per process reports the last window, not the run.** The final
+  window ingested nothing and the report said the arm cost zero model calls to build. Any
+  cost column fed by a per-window instrument needs an accumulate-on-start check before a row
+  is quoted; the reconstruction from the call cache was possible only because the cache is
+  content-addressed and shared.
+- **When a paired result sits inside grader noise, find the rate with no model in it.** Five
+  flipped probes of 194, three of them strictness. The landing rests instead on a count taken
+  off the assembled context - 92 of 92 - which needed no consumer and no judge, and which is
+  the half of the finding a reader can check without re-running anything.
+
+### Redesign proposal - the sibling lane at Phase 4
+
+The declared focus (grep prior untriaged tables for this source's terms) executed and
+returned nothing, while the run's sharpest corroboration came from a sibling note written
+the same morning in the same domain: its banked question was what this run's paired read
+answered. Phase 4 should read *recent sibling notes' leads and untriaged rows by domain*,
+not only by term match. Not applied here beyond the declared focus for the next run, because
+one sighting is not a rule.

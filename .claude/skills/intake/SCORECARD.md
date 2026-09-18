@@ -4162,6 +4162,8 @@ Stage the funnel is losing most at, last ten rows (counted from the Apply and Sh
 | 2.11.0 | 2026-09-17 | `github:mem0ai/mem0@0df3e4b8` mem0 | 1 repository cloned and swept (1,642 landing / 299,488 in-tree markdown / 31,778 library lines), memory lane read first; 0 of 3 fetches; 1 `git ls-remote` on the benchmark submodule | 14 (6 design + 8 claim) | 2 picks verified by opening files in both trees (`auto=2/0/0`, `fp=0`); row 2 promoted by one read of its cross-bundle neighbour; row 1 **originated at the Phase 7.5 seam**, not in the source | 2 techniques + 2 golden-path paragraphs + 3 applications (1 source tree, 2 fleet) | **1c**/0e/2s/0t/0r - the code row is `better` ab-paired (target 0 -> 46/46 caught, floor 4/4 offline arms held); both simulation rows are `unmeasurable` with the instrument named | 1 - personas `3c606cf51`, **on a branch**: the shared checkout had another session's merge open and a pathspec commit is refused mid-merge | Focus (render-bound `test`) did not apply, since nothing here renders. Its generalisable half, *see the instrument fail before reading its pass*, decided the run | S0/T2/A0/Asrc1/task-lines 0; routing count 1 NONE (2 at most across 4 systems), no handoff; directions=0/0, gate=empty; anchors=30 held=30 |
 | 2.11.0 | 2026-09-17 | `nousresearch.com/refactoring-hermes-with-1393-agents` refactoring-hermes-1393-agents | 1 post (1,250 words), first-party vendor account of one structural pass; ingest exit 2 on a bot wall, fetched through the browser; 0 of 3 fetches | 14 | 2 scored rows admitted, both verified by opening the technique files and a fleet tree (`auto=2/2/0`, `fp=0`); 8 catches, 2 untriaged, 1 lead; 1 currency row under the table | 2 amendments + 1 new application + 1 application re-verified; 4 applications given `refresh_by` | 0c/**2e**/0s/0t/0r - row 1 `not-better` ab-paired at a falsifying seam (0/218 target, floor held); row 2 `unmeasurable` with the instrument named | 1 - personas `2ad1cedc8` on its default branch: a Rust -> JS bridge join instrument with `--self-test`, an npm script and a pre-push job; pathspec, sibling WIP untouched, not pushed | Focus `test` via the reach check before the read: **executed** - the shipped instrument's self-test injects the miss it exists to find and the experiment's green was read only after the instrument had returned the other answer; the run's own by-name check was caught by the same discipline (arm B refuted arm A). Depth: S0/T0/A2/Asrc0/task-lines 0; routing n/a (no tree); handoff none; directions n/a |
 
+| 2.11.0 | 2026-09-18 | `github:supermemoryai/supermemory@a92c21b2` (memory lane, re-mine of 2026-08-26) | 1 repository cloned and swept (2,057 landing / ~119,700 in-tree; concepts, recall, ingestion, self-hosting and benchmark docs) **plus its released server binary run as a service**; 0 of 3 fetches; 1 fleet tree read | 13 (6 design + 7 claim) | 2 admitted (amendment 2/0/1; technique 3/0/2), 5 untriaged, 4 catches, 4 leads; **declared focus `extract` executed**: no convergence from any prior run's untriaged rows, and the convergence that mattered came from a *sibling note* written the same day | 1 amendment + 1 technique + 2 applications (both fleet) | 1e/2c/0s/0t/0r; 3 rows, all owed rows written | 4 - personas `bee29e016`, `c67a86bec`, `2172cbc6b`, `2186f009b` (none pushed) | Depth `0/1/1/0/0`; routing count 0 NONE / 3 partial, one subject, no handoff; `directions=n/a`, gate empty; `auto=2/5/0`, `fp=0`; anchors 27 of 27 held across three documents |
+
 ## 2026-09-16 - modernweb-web (the contract the checker could not see)
 
 **Next run focus (modernweb-web).**
@@ -4237,3 +4239,47 @@ purity or invariance check it is the contaminated arm. For a measured ladder it 
 of the scenario events that exercise the axis, with the matched rows read. A run that does
 this and gets a difference has bought its verdict. A run that does this and gets nothing
 has a finding about the instrument, which is what this row landed.
+
+## 2026-09-18 - supermemory in the memory lane (an engine run, not read)
+
+**Next run focus (supermemory).**
+1. **A vendor repository's Releases page is part of the tree.** This source was mined on
+   2026-08-26 as "a hosted engine whose product is not in the repo", and a self-hosted
+   server binary had already shipped ten weeks earlier, documented in a `self-hosting/`
+   directory the sweep never opened. The whole difference between that run and this one -
+   a schema priced from its types, versus a measured ladder row - is one directory and one
+   Releases page. Sweep order gets a new first question for a vendor repository: **is the
+   engine downloadable?**
+2. **A published number is re-run, and re-running it needs the run to survive a budget
+   window.** A year of write-time extraction is more model calls than one subscription
+   window holds. The first attempt was discarded at day 174 because the harness answers
+   probes only after the replay, so a resume would have answered day-20 probes against a
+   day-174 store. What made the second attempt work is worth carrying to any long arm:
+   checkpoint the unit *before* its processing wait, delete and re-send what failed, stop
+   on three consecutive failures (that is the budget, not the design), and **record each
+   probe's context at its own instant and replay it** - which also made the final re-run
+   cost zero model calls.
+3. **Counters that do not survive a resume report the arm as free.** The completing window
+   ingested nothing, so the run header said 0 write calls for an arm that cost ~1,000. The
+   number was reconstructed from the writer cache and footnoted; the shim now accumulates.
+   Any per-window instrument feeding a cost column needs this check before the row is
+   quoted.
+4. **The measurement that survived was the one with no model in it.** The two read modes
+   differed on 5 of 194 probes, and three of the five were the grader's strictness rather
+   than the design. The structural count - a superseded value in 92 of 92 contexts - needed
+   no consumer and no judge, and it is what the landing rests on. When a pair is within
+   grader noise, look for the rate that can be counted off the context itself.
+
+**Weakest stage across the last ten rows: `extract` still, and this run says why the fix is
+not more candidates.** The declared focus was executed exactly as written - grep every prior
+run's untriaged table before scoring - and it returned nothing, while the convergence that
+actually paid was in a *sibling source note written the same morning*, whose untriaged row
+("a temporal boost that never filters cannot adjudicate a contradiction") is the question
+this run's paired read answered with a number. The backlog the focus points at is the right
+idea aimed one file too narrowly.
+
+Next run's declared focus: **`extract`, widened to the sibling lane.** At Phase 4, after the
+map names homes, read the *leads and untriaged rows of source notes from the last seven days*
+in the same domain, not only the matching terms - a sibling's banked question is the cheapest
+corroboration this method has, and it is one grep of `librarian/sources/2026-09-*.md`. Say in
+the row whether a sibling's row was answered, and by what measurement.

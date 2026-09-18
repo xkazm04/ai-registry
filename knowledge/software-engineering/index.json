@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 229,
-  "techniques": 1710,
-  "applications": 1054,
+  "techniques": 1711,
+  "applications": 1055,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1710/1710",
+  "use_when_coverage": "1711/1711",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -1770,9 +1770,9 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/agent-memory.md",
-   "digest": "sha256:2ffd1600761ae0be",
-   "revision": 33,
-   "changedAt": "2026-09-17",
+   "digest": "sha256:45afb2329d35c469",
+   "revision": 34,
+   "changedAt": "2026-09-18",
    "techniques": [
     {
      "slug": "baseline-ladder",
@@ -2092,6 +2092,21 @@
      ]
     },
     {
+     "slug": "stale-served-versus-stale-answered",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a store supersedes by linking versions rather than by removing them",
+      "deciding whether a stale answer is a retrieval defect or a reading defect",
+      "a memory system reports only wrong-answer rates",
+      "choosing between filtering a superseded belief and labelling it",
+      "measuring whether recall serves the successor"
+     ]
+    },
+    {
      "slug": "working-memory",
      "status": "forged",
      "laws": [
@@ -2217,6 +2232,13 @@
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/python--read-set-bounded-links.md",
      "verified_on": "2026-09-02",
      "verified_against": "python@3.10"
+    },
+    {
+     "stack": "python",
+     "technique": "stale-served-versus-stale-answered",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/python--stale-served-versus-stale-answered.md",
+     "verified_on": "2026-09-18",
+     "verified_against": "python@3"
     },
     {
      "stack": "rust",
@@ -36365,6 +36387,7 @@
     "agent-memory/procedure-promotion",
     "agent-memory/recall-injection",
     "agent-memory/rejected-revision-leaves-its-evidence",
+    "agent-memory/stale-served-versus-stale-answered",
     "alerting/dedup-and-cooldown",
     "analytics-time-windows/baseline-as-window-start",
     "analytics-time-windows/cohort-matched-comparison",

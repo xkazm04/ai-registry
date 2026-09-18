@@ -25,6 +25,7 @@ techniques:
   - self-trained-capture-filter
   - gap-directed-elicitation
   - observation-clock
+  - stale-served-versus-stale-answered
 ---
 
 # Agent memory
