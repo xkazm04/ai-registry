@@ -461,10 +461,10 @@
     },
     {
       "name": "scan-sweep",
-      "version": "3.2.0",
+      "version": "3.3.0",
       "category": "workflow",
       "path": "skills/scan-sweep/SKILL.md",
-      "contentHash": "sha256-n1:75ed8023f03441e5",
+      "contentHash": "sha256-n1:58c966eec706a7e9",
       "adopters": [
         "ascent@plugin:1.0.0",
         "kp@plugin:1.0.0",
@@ -473,9 +473,9 @@
       ],
       "invokes30d": 15,
       "reportedInvokes": 15,
-      "lessons": 43,
+      "lessons": 44,
       "lessonsPath": "skills/scan-sweep/LESSONS.md",
-      "lessonsHash": "sha256-n1:2b2af52de5adf349",
+      "lessonsHash": "sha256-n1:4b80b0befb2dd550",
       "usageContributors": [
         "kazda-dev-box"
       ]
@@ -744,7 +744,7 @@
     "skills": 34,
     "practices": 8,
     "memory": 6,
-    "lessons": 229
+    "lessons": 230
   },
   "bundles": [
     {
@@ -872,10 +872,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 229,
-      "techniques": 1710,
-      "applications": 1054,
-      "files": 2998,
-      "contentHash": "sha256:2f17f16b96faf2c8"
+      "techniques": 1713,
+      "applications": 1056,
+      "files": 3003,
+      "contentHash": "sha256:4536f3ca8289cb96"
     }
   ],
   "usageEvidence": {
