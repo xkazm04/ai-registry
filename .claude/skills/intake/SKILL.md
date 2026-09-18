@@ -3,7 +3,7 @@ name: intake
 description: "Mine an external source - a YouTube video, a news roundup, an article, pasted notes, a repository - for what it should change in THIS registry, and in the connected projects that consume it. Ingests the source, reads its design decisions as well as its claims, maps both against existing bundles for prior art, triages with the operator, and lands what survives corroboration - amendments for boundary cases, techniques and subjects for mechanisms, forge handoffs for systems whose architecture the corpus lacks. News sources mostly yield currency signals and leads; that is a successful run. Use when someone shares a link and asks what it means for us."
 category: ai-native
 memory: project
-version: 2.11.0
+version: 2.11.1
 tags: research, sources, memory-lane, admission-gate, render-proof, triage, currency, cross-repo, leads, apply, ab-test, parallel, reference-index, design-read, forge-handoff, directions, fleet-map, peer-study, opus-workers, decision-gate
 ---
 
@@ -1622,9 +1622,10 @@ directory **by its run id**, never by sweeping the scratch root.
 - **Leads** carry a return condition. "When the model is actually released", "when a
   connected project adopts it", "when a second independent source says it".
 - **`rescan_when:` is MANDATORY on a repository-class source note**, and it is the fuel
-  of the upstream lane rather than a note to yourself. `/librarian` now reads these on a
-  clock (`scripts/upstream-check.mjs`), so a repository mined without one can only ever
-  come back on its tier's floor. Name an upstream event where you can - a PR landing, a
+  of the upstream lane rather than a note to yourself. `/librarian` reads these on every
+  sweep (`scripts/upstream-check.mjs`); nothing runs that check on a clock yet - the weekly
+  CI cron does not call it - so a condition fires only when someone runs a sweep. A
+  repository mined without one can only ever come back on its tier's floor. Name an upstream event where you can - a PR landing, a
   flag leaving a debug gate, a changelog section appearing - and add a date fallback in
   the readable form `; or 8 weeks elapse (YYYY-MM-DD)`. The instrument decides exactly
   two clauses mechanically, a release landing after the mine and a deadline date passing;

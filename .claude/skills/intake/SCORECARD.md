@@ -4164,6 +4164,7 @@ Stage the funnel is losing most at, last ten rows (counted from the Apply and Sh
 
 | 2.11.0 | 2026-09-18 | `github:supermemoryai/supermemory@a92c21b2` (memory lane, re-mine of 2026-08-26) | 1 repository cloned and swept (2,057 landing / ~119,700 in-tree; concepts, recall, ingestion, self-hosting and benchmark docs) **plus its released server binary run as a service**; 0 of 3 fetches; 1 fleet tree read | 13 (6 design + 7 claim) | 2 admitted (amendment 2/0/1; technique 3/0/2), 5 untriaged, 4 catches, 4 leads; **declared focus `extract` executed**: no convergence from any prior run's untriaged rows, and the convergence that mattered came from a *sibling note* written the same day | 1 amendment + 1 technique + 2 applications (both fleet) | 1e/2c/0s/0t/0r; 3 rows, all owed rows written | 4 - personas `bee29e016`, `c67a86bec`, `2172cbc6b`, `2186f009b` (none pushed) | Depth `0/1/1/0/0`; routing count 0 NONE / 3 partial, one subject, no handoff; `directions=n/a`, gate empty; `auto=2/5/0`, `fp=0`; anchors 27 of 27 held across three documents |
 | 2.11.0 | 2026-09-18 | `youtube:0GO3-JzQjzg` ai-video-four-stage-walkthrough | 1 video (2,472 words), sponsored second-hand practitioner review of one hosted video platform; 0 of 3 fetches | 12 | 0 admitted; `auto=0/2/0`, `fp=0`; 10 catches (every row mapped to a technique paragraph that already states it, several verbatim), 2 leads, 0 untriaged; promoting question run on both `partial` rows, neither promoted; **declared focus executed**: four sibling notes from the last seven days read, three of their banked rows touched by this source, **none answered**, because a single-arm demo cannot close a question that needs a pair | 0 (currency 0 too: the corpus already records the model version the video calls upcoming) | 0c/0e/0s/0t/0r - nothing landed, so nothing is owed | 0 - no landing, and the fleet has no local video-generation seam | Zero is the class's calibrated yield, not a miss: a sponsored review over a bundle whose `storyboard-grid-conditioning` and `generated-shot-sourcing` already hold every stage it demos | Depth `0/0/0/0/0`; no design record (video); `directions=n/a` |
+| 2.11.0 | 2026-09-18 | `github:anthropics/knowledge-work-plugins@ebd7990` small-business | 1 repository cloned and swept (701 landing / 214,635 in-tree: all 15 `shared/` contracts, every gotchas file, the router); 0 of 3 fetches; 2 fleet trees read (personas, ai-registry) plus the harness binary as a primary | 20 (7 design + 13 claim) | 3 admitted (technique 3/0/2, technique 2/0/2, amendment 2/0/1), 3 untriaged, 11 catches, 3 leads; `auto=3/3/0`, `fp=0`; one promoting read (tenant scope, resolved to a catch); **declared focus executed**: 34 sibling notes from 2026-09-11..18 read, 0 banked rows answered | 2 techniques + 1 amendment + 1 application (fleet) + intake 2.11.1 | 2c/1e/0s/0t/0r; 3 rows, all owed rows written | 2 - personas `1ce23dde3` (the fix), `45af0e18a` (row only); none pushed | Depth `0/2/1/0/0`; routing count 1 NONE / 2 missing-stage, one system, no handoff, no XL; `directions=n/a`, gate skipped (unattended) | the plugin's headline rules were all caught; the yield was in the joins between skills, and the fleet seam hunt turned one of them into a shipped fix |
 
 ## 2026-09-16 - modernweb-web (the contract the checker could not see)
 
@@ -4305,3 +4306,21 @@ the row whether a sibling's row was answered, and by what measurement.
 **Weakest stage across the last ten rows: unchanged.** This row is a calibrated zero and
 does not move the reading. The declared focus stands as written: `extract`, widened to the
 sibling lane, now with rule 1's filter.
+
+## 2026-09-18 - kwp-small-business (the joins, not the skills)
+
+**Next run focus (kwp-small-business).**
+1. **In a skills library, read the shared contracts and the seam files before any
+   skill.** Forty-four skills of domain advice produced eleven catches. The three
+   landings all came from `shared/`, where the authors wrote down what broke
+   *between* skills: a total crossing a seam, one tool under two names, a promise
+   the runtime cannot keep. A plugin's joins are its design record.
+2. **When the seam hunt finds two guards side by side, compare what each one
+   sums.** personas already had the tree-wide membership query and used it for
+   breadth only. The cost guard beside it read a path-carried figure. The
+   fingerprint of a population mismatch is a sibling guard that already counts the
+   right population.
+
+**Weakest stage across the last ten rows:** `extract`, widened to the sibling lane,
+stands. It was executed and answered nothing this run: 34 notes read, 0 banked rows
+closed. This source's yield came from the fleet seam hunt, not from sibling notes.

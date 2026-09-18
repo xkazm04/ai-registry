@@ -11219,3 +11219,9 @@ the same morning in the same domain: its banked question was what this run's pai
 answered. Phase 4 should read *recent sibling notes' leads and untriaged rows by domain*,
 not only by term match. Not applied here beyond the declared focus for the next run, because
 one sighting is not a rule.
+
+## 2.11.0 - 2026-09-18 - kwp-small-business
+
+- A skills library carries its design record in its shared contracts, not in its skills. Here, 44 skills of domain advice gave 11 catches, and all three landings came from the files the authors wrote about what broke *between* skills. Read `shared/` (or the equivalent cross-cutting folder) as the Phase 2b operating documents, and read the per-skill folders last.
+- The fleet seam hunt found the strongest landing again. The source stated the rule generically (a total crossing a seam must not become a denominator); personas held a live instance (a cost ceiling reading a path total while the guard beside it counted the whole trace). When two guards sit side by side, ask what population each one sums. A repository that already has the right query for one axis is the fingerprint.
+- 2.11.1 is a patch: one sentence in Phase 9 no longer claims /librarian reads rescan_when on a clock. A mid-flight run on 2.11.0 needs to do nothing.
