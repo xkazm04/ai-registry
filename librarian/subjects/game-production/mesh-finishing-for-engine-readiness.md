@@ -268,3 +268,18 @@ exists, not that the probe result still holds on the current engine build. Those
   }
 }
 ```
+
+## Intake 2026-09-18 - a generator's atlas is not an authored layout (lead, render tie)
+
+Source: [[2026-09-18-smart-uv-unwrap-review]]. `pack-existing-vs-smart-unwrap` weighs one
+axis, seam visibility. Measured over 7 generated meshes in pof, the provider's own layout
+starts less even than a fresh projection (p95 1.42-1.58 vs 1.12-1.17). Reduction then
+multiplies its badly-stretched share 4-10x, and island-scale averaging does not recover it.
+The amendment scored 3/0/2. A blind operator pair at a 1024 bake tied, so nothing landed.
+**Owed:** a render pair that could separate the arms (a 2048+ bake with texel-scale
+close-ups, or an in-engine hero view). If one does, the technique gains a boundary for
+generator-emitted coordinates. **Also owed:** the golden path's opening ("unwrapped lump")
+is dated. All 7 provider meshes arrived with a UV layer, and hosted learned unwraps now
+ship. That is a scoped `/deepen` dispatch, not an intake edit. The
+`node--unwrap-only-the-low-poly` line citations remain drifted (the ceiling is now at
+`mesh-finish.ts:22`), as the 2026-09-10 review already recorded.

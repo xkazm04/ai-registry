@@ -11225,3 +11225,23 @@ one sighting is not a rule.
 - A skills library carries its design record in its shared contracts, not in its skills. Here, 44 skills of domain advice gave 11 catches, and all three landings came from the files the authors wrote about what broke *between* skills. Read `shared/` (or the equivalent cross-cutting folder) as the Phase 2b operating documents, and read the per-skill folders last.
 - The fleet seam hunt found the strongest landing again. The source stated the rule generically (a total crossing a seam must not become a denominator); personas held a live instance (a cost ceiling reading a path total while the guard beside it counted the whole trace). When two guards sit side by side, ask what population each one sums. A repository that already has the right query for one axis is the fingerprint.
 - 2.11.1 is a patch: one sentence in Phase 9 no longer claims /librarian reads rescan_when on a clock. A mid-flight run on 2.11.0 needs to do nothing.
+
+## 2.11.1 - 2026-09-18 - smart-uv-unwrap-review
+
+- **The discrimination precheck is a ratio, and a deterministic pipeline makes it vacuous.**
+  `render-triage.mjs sheet` requires `between >= 1.5 x within`. A bake-and-render pipeline
+  with no sampling noise measures `within` = 0.0, so any non-zero `between` passes. Here
+  7.9 levels of foreground-masked difference passed, and the operator called both pairs
+  "identical". The tie was still informative, because the metric gap is invisible at that
+  bake size. But the gate's job is to predict whether a person can see two things, and at
+  `within = 0` it predicts nothing. One sighting, so this is a lesson, not a rule.
+  ### Redesign proposal
+  Give `indistinct()` an absolute perceptual floor beside the ratio, used when `within` is
+  below it (a masked mean abs of about 10-15 levels, to be calibrated from the next two
+  deterministic pairs and their operator reads). Or require the director to state the
+  visible difference in one sentence before the sheet is built.
+- **A metric proxy for a visual property needs its visibility threshold before it
+  justifies a landing.** Texel-evenness p95 separated the arms cleanly on every one of 7
+  meshes, and a person could not see the separation at the consumer's bake size. For a
+  render-bound row whose evidence is a proxy, ask at Phase 5 at what output resolution the
+  proxy becomes visible, and render there.
