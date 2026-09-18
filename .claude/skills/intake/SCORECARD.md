@@ -4163,6 +4163,7 @@ Stage the funnel is losing most at, last ten rows (counted from the Apply and Sh
 | 2.11.0 | 2026-09-17 | `nousresearch.com/refactoring-hermes-with-1393-agents` refactoring-hermes-1393-agents | 1 post (1,250 words), first-party vendor account of one structural pass; ingest exit 2 on a bot wall, fetched through the browser; 0 of 3 fetches | 14 | 2 scored rows admitted, both verified by opening the technique files and a fleet tree (`auto=2/2/0`, `fp=0`); 8 catches, 2 untriaged, 1 lead; 1 currency row under the table | 2 amendments + 1 new application + 1 application re-verified; 4 applications given `refresh_by` | 0c/**2e**/0s/0t/0r - row 1 `not-better` ab-paired at a falsifying seam (0/218 target, floor held); row 2 `unmeasurable` with the instrument named | 1 - personas `2ad1cedc8` on its default branch: a Rust -> JS bridge join instrument with `--self-test`, an npm script and a pre-push job; pathspec, sibling WIP untouched, not pushed | Focus `test` via the reach check before the read: **executed** - the shipped instrument's self-test injects the miss it exists to find and the experiment's green was read only after the instrument had returned the other answer; the run's own by-name check was caught by the same discipline (arm B refuted arm A). Depth: S0/T0/A2/Asrc0/task-lines 0; routing n/a (no tree); handoff none; directions n/a |
 
 | 2.11.0 | 2026-09-18 | `github:supermemoryai/supermemory@a92c21b2` (memory lane, re-mine of 2026-08-26) | 1 repository cloned and swept (2,057 landing / ~119,700 in-tree; concepts, recall, ingestion, self-hosting and benchmark docs) **plus its released server binary run as a service**; 0 of 3 fetches; 1 fleet tree read | 13 (6 design + 7 claim) | 2 admitted (amendment 2/0/1; technique 3/0/2), 5 untriaged, 4 catches, 4 leads; **declared focus `extract` executed**: no convergence from any prior run's untriaged rows, and the convergence that mattered came from a *sibling note* written the same day | 1 amendment + 1 technique + 2 applications (both fleet) | 1e/2c/0s/0t/0r; 3 rows, all owed rows written | 4 - personas `bee29e016`, `c67a86bec`, `2172cbc6b`, `2186f009b` (none pushed) | Depth `0/1/1/0/0`; routing count 0 NONE / 3 partial, one subject, no handoff; `directions=n/a`, gate empty; `auto=2/5/0`, `fp=0`; anchors 27 of 27 held across three documents |
+| 2.11.0 | 2026-09-18 | `youtube:0GO3-JzQjzg` ai-video-four-stage-walkthrough | 1 video (2,472 words), sponsored second-hand practitioner review of one hosted video platform; 0 of 3 fetches | 12 | 0 admitted; `auto=0/2/0`, `fp=0`; 10 catches (every row mapped to a technique paragraph that already states it, several verbatim), 2 leads, 0 untriaged; promoting question run on both `partial` rows, neither promoted; **declared focus executed**: four sibling notes from the last seven days read, three of their banked rows touched by this source, **none answered**, because a single-arm demo cannot close a question that needs a pair | 0 (currency 0 too: the corpus already records the model version the video calls upcoming) | 0c/0e/0s/0t/0r - nothing landed, so nothing is owed | 0 - no landing, and the fleet has no local video-generation seam | Zero is the class's calibrated yield, not a miss: a sponsored review over a bundle whose `storyboard-grid-conditioning` and `generated-shot-sourcing` already hold every stage it demos | Depth `0/0/0/0/0`; no design record (video); `directions=n/a` |
 
 ## 2026-09-16 - modernweb-web (the contract the checker could not see)
 
@@ -4283,3 +4284,24 @@ map names homes, read the *leads and untriaged rows of source notes from the las
 in the same domain, not only the matching terms - a sibling's banked question is the cheapest
 corroboration this method has, and it is one grep of `librarian/sources/2026-09-*.md`. Say in
 the row whether a sibling's row was answered, and by what measurement.
+
+## 2026-09-18 - ai-video-four-stage-walkthrough (a demo cannot answer a pair)
+
+**Next run focus (ai-video-four-stage-walkthrough).**
+1. **Before spending the sibling-lane read, ask whether the source has two arms.** Three
+   banked sibling rows were touched here: per-view versus one-call sheet minting, layout
+   weighted below identity, and marks versus instructions for a panel repair. The source
+   showed each approach working once. A banked question that needs a pair can only be
+   answered by a source that ran both sides. A demo can raise one of those questions but
+   cannot close it, so for a demo-class source the lane is one grep for *new* sibling
+   questions, not a hunt for answers.
+2. **In a mature bundle, a review's yield is its proudest segment and nothing else.** Ten
+   of twelve rows mapped to paragraphs that already state them. Both leads came from the
+   stage the creator was proudest of (two clips from one board, cut together, with no
+   chaining) and from the one failure they admitted in passing (a dialogue line that
+   never rendered). Read those two places first, and price the rest of the source as
+   catches.
+
+**Weakest stage across the last ten rows: unchanged.** This row is a calibrated zero and
+does not move the reading. The declared focus stands as written: `extract`, widened to the
+sibling lane, now with rule 1's filter.
