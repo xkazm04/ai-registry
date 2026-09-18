@@ -1,12 +1,19 @@
 ---
 subject: federated-benchmark-sharing
 domain: llm-observability
-last_touched: 2026-09-10
-touched_by: external-reconcile
+last_touched: 2026-09-17
+touched_by: harvest-obs-0917
 dry_streak: 0
 ---
 
 # federated-benchmark-sharing
+
+## 2026-09-17 - /harvest batch 2 ([[2026-09-17-llm-obs-harvest-batch-2]])
+
+OBS-013 (HELM) did not close the coverage-gap. HELM is a lab-run format
+other orgs can re-execute, not a hub they can submit results into;
+maintenance mode 2026-06-01 freezes the stand-in. No technique change.
+The gap line stays.
 
 First touch: [[2026-08-23-6]], external reconcile against
 `mlcommons/inference` @ `b66003e` (MLPerf Inference round v6.1). Gained

@@ -1,12 +1,18 @@
 ---
 subject: llm-call-telemetry-model
 domain: llm-observability
-last_touched: 2026-09-10
-touched_by: architecture-review
+last_touched: 2026-09-17
+touched_by: harvest-obs-0917
 dry_streak: 0
 ---
 
 # llm-call-telemetry-model
+
+## 2026-09-17 - /harvest batch 2 ([[2026-09-17-llm-obs-harvest-batch-2]])
+
+`token-usage-quadruple` amended: ingest of senders that already normalized
+(defaulted optional zeros are not misses; the inclusive fold happens at most
+once). Evaluation pending on personas.
 
 ## 2026-09-02 - intake `deer-flow` v2 back half ([[2026-09-02-deer-flow-v2]], run intake-deer-flow-0902-v2)
 

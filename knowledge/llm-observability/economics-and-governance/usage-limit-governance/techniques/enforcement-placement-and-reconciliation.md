@@ -97,6 +97,13 @@ admission assumed — and note that an inline seat may not get to see it:
 a gateway that counts from the response's usage block has no usage block
 on a stream, so the field's gateways estimate *both* sides of a streamed
 call, which makes the reconcile step the only place the truth ever lands.
+That estimate is the fallback when a terminal usage frame cannot be forced
+or observed. When the protocol lets the seat request a usage frame on the
+stream, force it, and charge last-observed actuals as soon as a chunk
+carries usage — including when the stream never ends. Debit, not cut, at
+the cap itself remains the ordinary posture. The admission *check* adds
+zero of the usage meter; a leftover unit increment writes admits and
+refusals into the token ledger and corrupts the total the cap evaluates.
 
 ## Caps in different seats will disagree
 

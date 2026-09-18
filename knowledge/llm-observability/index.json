@@ -1335,9 +1335,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/llm-observability/telemetry-and-data/llm-call-telemetry-model/llm-call-telemetry-model.md",
-   "digest": "sha256:7f89a12a3ed71270",
-   "revision": 5,
-   "changedAt": "2026-09-17",
+   "digest": "sha256:8f6e59ac5de71d9b",
+   "revision": 6,
+   "changedAt": "2026-09-18",
    "techniques": [
     {
      "slug": "dual-clock-event-time",
@@ -2176,9 +2176,9 @@
    "subcategory": null,
    "status": "reconciled",
    "file": "knowledge/llm-observability/telemetry-and-data/trace-rollup-and-attribution/trace-rollup-and-attribution.md",
-   "digest": "sha256:fa3bcbaca1840db4",
-   "revision": 6,
-   "changedAt": "2026-09-01",
+   "digest": "sha256:0e4dc9d7f880388d",
+   "revision": 7,
+   "changedAt": "2026-09-18",
    "techniques": [
     {
      "slug": "derived-trace-rollup",
@@ -2310,9 +2310,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/llm-observability/economics-and-governance/usage-limit-governance/usage-limit-governance.md",
-   "digest": "sha256:eeec489bd0977863",
-   "revision": 3,
-   "changedAt": "2026-09-05",
+   "digest": "sha256:f7da8fcc8585b66f",
+   "revision": 4,
+   "changedAt": "2026-09-18",
    "techniques": [
     {
      "slug": "concurrent-admission-integrity",

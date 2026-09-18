@@ -1,12 +1,19 @@
 ---
 subject: trace-rollup-and-attribution
 domain: llm-observability
-last_touched: 2026-09-10
-touched_by: librarian-inbox-writer
+last_touched: 2026-09-17
+touched_by: harvest-obs-0917
 dry_streak: 0
 ---
 
 # trace-rollup-and-attribution
+
+## 2026-09-17 - /harvest batch 2 ([[2026-09-17-llm-obs-harvest-batch-2]])
+
+`span-cap-truncation-signal` amended: a list over a sampled or federated
+backend still needs a sample signal (true/retained/truncated, or
+freshness: sampled against live). The "list needs no cap-and-signal"
+sentence was too large. Evaluation pending on personas.
 
 First touch: [[2026-08-23-6]], external reconcile against `Arize-ai/phoenix`
 @ `9478f95` (arize-phoenix 20.3.0). Gained `python--keyset-trace-pagination`

@@ -461,10 +461,10 @@
     },
     {
       "name": "scan-sweep",
-      "version": "3.3.0",
+      "version": "3.3.1",
       "category": "workflow",
       "path": "skills/scan-sweep/SKILL.md",
-      "contentHash": "sha256-n1:58c966eec706a7e9",
+      "contentHash": "sha256-n1:b792ff3353e840a9",
       "adopters": [
         "ascent@plugin:1.0.0",
         "kp@plugin:1.0.0",
@@ -473,9 +473,9 @@
       ],
       "invokes30d": 15,
       "reportedInvokes": 15,
-      "lessons": 44,
+      "lessons": 45,
       "lessonsPath": "skills/scan-sweep/LESSONS.md",
-      "lessonsHash": "sha256-n1:4b80b0befb2dd550",
+      "lessonsHash": "sha256-n1:5ab6ffd173fedb4d",
       "usageContributors": [
         "kazda-dev-box"
       ]
@@ -744,7 +744,7 @@
     "skills": 34,
     "practices": 8,
     "memory": 6,
-    "lessons": 231
+    "lessons": 232
   },
   "bundles": [
     {
@@ -810,7 +810,7 @@
       "techniques": 123,
       "applications": 75,
       "files": 221,
-      "contentHash": "sha256:8a51ec03d8fa285a"
+      "contentHash": "sha256:4382b3913de69d81"
     },
     {
       "name": "localization",

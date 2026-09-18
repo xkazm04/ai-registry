@@ -1,7 +1,7 @@
 ---
 kind: harvest-coverage-gaps
 created: 2026-08-28
-updated: 2026-08-28
+updated: 2026-09-17
 ---
 
 # Coverage gaps - where no elite source was found
@@ -15,13 +15,13 @@ delete.
 | domain | missing | nearest stand-in | note |
 | --- | --- | --- | --- |
 | software-engineering/llm-agent | agent UX / human-in-loop as a single reference | AG-UI protocol; 12-factor-agents factor 7 | dedicated agent-UX pattern sources were low-substance blogs |
-| software-engineering/llm-agent | agent cost CONTROL (budgeting/metering), beyond observability | HAL cost-aware evals; Langfuse | |
+| software-engineering/llm-agent | agent cost CONTROL (budgeting/metering), beyond observability | HAL cost-aware evals; Langfuse; GitHub Agentic Workflows (`gh-aw`) operating doc on `max-ai-credits` / `max-daily-ai-credits` (named OBS-014, not mined as a row) | do not strike; OBS-014 named it as a queue candidate |
 | software-engineering/llm-agent | sandbox-escape research distinct from prompt injection | dloss/awesome-agent-sandboxes (mine as lead) | |
 | software-engineering/operations | governance/records, audit-trail practice as open source | GitLab handbook (low density for agents) | |
 | software-engineering/integration | third-party dependency DEGRADATION playbook as one source | AWS Builders' Library + Azure patterns fragments | |
 | software-engineering/ui-surfaces | published/marketing surfaces (web perf, SEO-grade publishing) at staff level | - | targeted follow-up pass warranted |
 | software-engineering/data-layer | schema-migration practice canon | - | |
-| llm-observability/federation | an open spec for SHARING benchmark results across orgs | HELM reproducible-run format | dashboard practice lives inside vendor tools |
+| llm-observability/federation | an open spec for SHARING benchmark results across orgs | HELM reproducible-run format (re-execute, not submit; stand-in frozen in maintenance 2026-06-01 — OBS-013) | KEEP: other orgs cannot submit results into it; official sharing is the lab's own object-store dump |
 | recruiting | sourcing + candidate-experience neutral sources | GitLab hiring handbook; O*NET | space dominated by vendor marketing |
 | recruiting | hiring-native open work-sample platform | Judge0 (elite but not hiring-native) | |
 | recruiting | consent/governance beyond GDPR Art. 22 commentary | - | |

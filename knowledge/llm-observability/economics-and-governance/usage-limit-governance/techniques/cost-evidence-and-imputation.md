@@ -99,9 +99,16 @@ covers the traffic, then arm them.
 
 ## When not to impute
 
-Calls and token caps need none of this — a call is a call, a token count
-is exact, and attaching an evidence structure to them adds a field that is
-always empty. Impute only where measurement itself is uncertain, and keep
-the evidence structure absent (not zeroed) everywhere else, so its
-presence is itself information: a status carrying evidence is a cost cap,
-and a status carrying none has nothing to qualify.
+Calls need none of this — a call is a call, and attaching an evidence
+structure to a call cap adds a field that is always empty. Token caps do
+not get the same exemption: a token count is exact *once captured*.
+Missing usage on an enforcing token cap is the same unmeasurable state as
+an unpriced cost — it must not read as headroom. Force the usage channel
+where the protocol allows; if usage is still absent, an enforcing token
+cap refuses (or records unmeasurable), it does not admit for free.
+Presence and zero are different statements; discarding a presence flag at
+evaluation is how a token cap becomes unlimited for that call. Impute
+only where measurement itself is uncertain, and keep the evidence
+structure absent (not zeroed) on call caps, so its presence is itself
+information: a status carrying evidence is a cost or token cap whose
+meter can go missing, and a status carrying none has nothing to qualify.

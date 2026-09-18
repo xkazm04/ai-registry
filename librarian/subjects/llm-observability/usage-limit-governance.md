@@ -1,12 +1,20 @@
 ---
 subject: usage-limit-governance
 domain: llm-observability
-last_touched: 2026-09-10
-touched_by: deepen
+last_touched: 2026-09-17
+touched_by: harvest-obs-0917
 dry_streak: 0
 ---
 
 # usage-limit-governance
+
+## 2026-09-17 - /harvest batch 2 ([[2026-09-17-llm-obs-harvest-batch-2]])
+
+Two amendments from the same vendor-gateway source: `cost-evidence-and-imputation`
+inverts "token caps need none of this — a token count is exact" (missing
+usage is unmeasurable, not headroom); `enforcement-placement-and-reconciliation`
+adds force-and-observe of a stream usage frame and "the admission check
+adds zero of the usage meter". Evaluations pending on personas.
 
 First note. Forged from one observability tree; never swept before this pass.
 

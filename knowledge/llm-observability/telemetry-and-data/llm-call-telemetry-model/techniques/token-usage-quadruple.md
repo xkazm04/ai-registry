@@ -63,6 +63,15 @@ measurement, an absence is an admission. Serialize accordingly — omit the
 field when absent rather than emitting 0, and keep the distinction in the
 store.
 
+Ingest has to survive senders that have already lost the distinction. A
+sender that defaults unreported optional classes to 0 makes every 0
+unreadable as a miss — cache-hit-rate for that sender is then structurally
+0%. Treat those zeros as absent unless the sender omits the field on
+traffic that has no such class. The discriminator is the sender's own
+behaviour across instrumented paths, not a flag: if one path omits the
+field and another writes 0 for the same class on the same provider, only
+the omitted path is honest, and the defaulting path's 0s are defaults.
+
 ## Totals are derived, never stored
 
 Expose a `total()` as a computed convenience (conventionally input + output;
@@ -75,11 +84,17 @@ it beside output. The prevailing cross-vendor telemetry convention has
 settled on **inclusive totals with sub-counts** — the mandatory counters
 carry every token of their direction, the optional classes are breakdowns —
 which means a normalizer targeting it must *add* the counters of providers
-whose input figure excludes cache traffic. Whichever convention the schema
-picks, it is picked once, at ingest, for every provider. Never persist the total as
-its own column: a stored total is a derived value that desynchronizes from
-its parts on the first correction, and it invites downstream code to price
-against it, which is exactly the collapse the quadruple exists to prevent.
+whose input figure excludes cache traffic. The fold happens at most once.
+Some senders have already added exclusive cache classes into the input
+figure they emit; adding again at ingest double-counts reuse traffic. Know
+whether *this sender* folded, and either add or copy, never both. The
+provider-native usage block and the instrumentation span are not the same
+document — the convention is resolved against the document on the wire.
+Whichever convention the schema picks, it is picked once, at ingest, for
+every provider. Never persist the total as its own column: a stored total
+is a derived value that desynchronizes from its parts on the first
+correction, and it invites downstream code to price against it, which is
+exactly the collapse the quadruple exists to prevent.
 
 ## Decision rules
 

@@ -1,7 +1,7 @@
 ---
 kind: harvest-evaluations
 created: 2026-08-28
-updated: 2026-08-28 (5 settled; 6 pending from pass 2)
+updated: 2026-09-17 (5 settled; 6 pending from pass 2; 4 pending from llm-obs batch 2)
 ---
 
 # A/B impact evaluations
@@ -24,3 +24,7 @@ gitignored scratch.
 | 2026-08-28 | procedural-level-planning + generative-artifact-gating + design-canon (constraint-generator fixes) | [[2026-08-28-game-production-harvest-batch-1]] | pof | - | pending | one probe on a generation-gate design site |
 | 2026-08-28 | trailer-structure (concealment-and-its-tells + amendments) | [[2026-08-28-media-generation-harvest-batch-1]] | systedo-case | - | pending | gravitone is the alternate route |
 | 2026-08-28 | sound-effect-generation/picture-as-timing-brief (+ defect entries) | [[2026-08-28-media-generation-harvest-batch-1]] | systedo-case | - | pending | |
+| 2026-09-17 | llm-call-telemetry-model/token-usage-quadruple (sender-defaulted 0; fold at most once) | [[2026-09-17-llm-obs-harvest-batch-2]] | personas | ingest of already-normalized sender usage (optional class 0 vs miss; inclusive fold already applied) | pending | not run in-pass; 6 older content evals still outstanding |
+| 2026-09-17 | trace-rollup-and-attribution/span-cap-truncation-signal (sampled-list signal) | [[2026-09-17-llm-obs-harvest-batch-2]] | personas | list view over a sampled/federated backend — does the payload disclose sample vs census | pending | |
+| 2026-09-17 | usage-limit-governance/cost-evidence-and-imputation (missing token usage) | [[2026-09-17-llm-obs-harvest-batch-2]] | personas | enforcing token cap when the usage block is absent | pending | |
+| 2026-09-17 | usage-limit-governance/enforcement-placement-and-reconciliation (stream usage frame; check-path zero) | [[2026-09-17-llm-obs-harvest-batch-2]] | personas | streaming token cap: last-observed usage vs estimate; admission check must not increment the usage meter | pending | |
