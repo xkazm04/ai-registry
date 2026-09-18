@@ -1,0 +1,614 @@
+{
+ "meta": {
+  "generated_by": "scripts/build-index.mjs",
+  "bundle": "agent-operations",
+  "source": "knowledge/agent-operations/ (frontmatter only)",
+  "subjects": 8,
+  "techniques": 25,
+  "applications": 12,
+  "laws": 6,
+  "categories": [
+   "configuration-choice",
+   "measurement",
+   "run-safety"
+  ],
+  "layout": "nested",
+  "use_when_coverage": "25/25",
+  "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
+ },
+ "subjects": {
+  "agent-benchmark-design": {
+   "category": "measurement",
+   "subcategory": null,
+   "status": "draft",
+   "file": "knowledge/agent-operations/measurement/agent-benchmark-design/agent-benchmark-design.md",
+   "digest": "sha256:2d930799536612b6",
+   "revision": 1,
+   "changedAt": "2026-09-18",
+   "techniques": [
+    {
+     "slug": "comparable-cell-construction",
+     "status": "draft",
+     "laws": [
+      "measure-the-tree-not-the-summary",
+      "the-harness-is-a-suspect-in-every-red"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "setting up a configuration comparison",
+      "deciding what to pin before a benchmark runs",
+      "judging whether two results may be compared at all"
+     ]
+    },
+    {
+     "slug": "coverage-and-provisional-labelling",
+     "status": "draft",
+     "laws": [
+      "a-refusal-is-not-a-result",
+      "a-ceiling-is-a-measurement-boundary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "reporting from a grid that is not finished",
+      "deciding whether a recommendation may be published",
+      "describing what a benchmark does not cover"
+     ]
+    },
+    {
+     "slug": "eligibility-before-ranking",
+     "status": "draft",
+     "laws": [
+      "measure-the-tree-not-the-summary",
+      "the-repository-outranks-the-instruction"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding which runs may compete for a recommendation",
+      "defining what done means for a task shape",
+      "stopping a well-written failure from winning"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "coverage-and-provisional-labelling",
+     "file": "knowledge/agent-operations/measurement/agent-benchmark-design/applications/process--coverage-and-provisional-labelling.md",
+     "verified_on": "2026-09-16"
+    }
+   ]
+  },
+  "agent-run-budgeting": {
+   "category": "configuration-choice",
+   "subcategory": null,
+   "status": "draft",
+   "file": "knowledge/agent-operations/configuration-choice/agent-run-budgeting/agent-run-budgeting.md",
+   "digest": "sha256:86f73d55547bc8b8",
+   "revision": 1,
+   "changedAt": "2026-09-18",
+   "techniques": [
+    {
+     "slug": "allowance-budgeting-across-workloads",
+     "status": "draft",
+     "laws": [
+      "a-refusal-is-not-a-result",
+      "the-judge-never-grades-its-own-family"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "one seat serves agents and judging",
+      "planning a long queue against a windowed limit",
+      "deciding whether to judge inline or in a deferred batch"
+     ]
+    },
+    {
+     "slug": "ceiling-as-measurement-boundary",
+     "status": "draft",
+     "laws": [
+      "a-ceiling-is-a-measurement-boundary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing a wall-clock ceiling for a task shape",
+      "reporting a run that hit its ceiling",
+      "interpreting durations from hosts that sleep or throttle"
+     ]
+    },
+    {
+     "slug": "refusal-detection-and-requeue",
+     "status": "draft",
+     "laws": [
+      "a-refusal-is-not-a-result",
+      "measure-the-tree-not-the-summary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a provider returns a limit or capacity message mid-queue",
+      "writing the runner that records agent runs",
+      "auditing stored results for runs that never happened"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "ceiling-as-measurement-boundary",
+     "file": "knowledge/agent-operations/configuration-choice/agent-run-budgeting/applications/process--ceiling-as-measurement-boundary.md",
+     "verified_on": "2026-09-16"
+    },
+    {
+     "stack": "process",
+     "technique": "refusal-detection-and-requeue",
+     "file": "knowledge/agent-operations/configuration-choice/agent-run-budgeting/applications/process--refusal-detection-and-requeue.md",
+     "verified_on": "2026-09-16"
+    }
+   ]
+  },
+  "blind-judging-of-agent-runs": {
+   "category": "measurement",
+   "subcategory": null,
+   "status": "draft",
+   "file": "knowledge/agent-operations/measurement/blind-judging-of-agent-runs/blind-judging-of-agent-runs.md",
+   "digest": "sha256:0243709cbd476824",
+   "revision": 1,
+   "changedAt": "2026-09-18",
+   "techniques": [
+    {
+     "slug": "facts-beside-the-work",
+     "status": "draft",
+     "laws": [
+      "measure-the-tree-not-the-summary",
+      "the-repository-outranks-the-instruction"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "assembling a judging packet",
+      "deciding which measured facts a reviewer sees",
+      "explaining why two reviewers rated the same run differently"
+     ]
+    },
+    {
+     "slug": "provenance-scrubbing",
+     "status": "draft",
+     "laws": [
+      "the-judge-never-grades-its-own-family"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "building the material a model judge reads",
+      "checking that a judging packet leaks no producer identity",
+      "judging work whose subject matter is agent tooling"
+     ]
+    },
+    {
+     "slug": "withhold-rather-than-half-judge",
+     "status": "draft",
+     "laws": [
+      "the-judge-never-grades-its-own-family",
+      "a-refusal-is-not-a-result"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a judge seat refuses mid-panel",
+      "planning judging against rate limits",
+      "deciding whether to publish verdicts produced by a reduced panel"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "facts-beside-the-work",
+     "file": "knowledge/agent-operations/measurement/blind-judging-of-agent-runs/applications/process--facts-beside-the-work.md",
+     "verified_on": "2026-09-16"
+    }
+   ]
+  },
+  "deterministic-run-verification": {
+   "category": "measurement",
+   "subcategory": null,
+   "status": "draft",
+   "file": "knowledge/agent-operations/measurement/deterministic-run-verification/deterministic-run-verification.md",
+   "digest": "sha256:a0cef7907383682e",
+   "revision": 1,
+   "changedAt": "2026-09-18",
+   "techniques": [
+    {
+     "slug": "baseline-relative-gate-evaluation",
+     "status": "draft",
+     "laws": [
+      "measure-the-tree-not-the-summary",
+      "the-harness-is-a-suspect-in-every-red"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "running a repository's own checks over an agent run",
+      "verifying against a repository that is not green at the starting revision",
+      "deciding whether a red check is the run's fault"
+     ]
+    },
+    {
+     "slug": "declared-rule-verification",
+     "status": "draft",
+     "laws": [
+      "the-repository-outranks-the-instruction",
+      "measure-the-tree-not-the-summary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "checking whether a run respected a repository's own rules",
+      "detecting evasions like disabled checks",
+      "deciding what counts as leftover work"
+     ]
+    },
+    {
+     "slug": "recompute-facts-at-report-time",
+     "status": "draft",
+     "laws": [
+      "measure-the-tree-not-the-summary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "fixing a harness definition while a benchmark is running",
+      "deciding whether stored results survive a measurement change",
+      "designing what a run record must keep"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "baseline-relative-gate-evaluation",
+     "file": "knowledge/agent-operations/measurement/deterministic-run-verification/applications/process--baseline-relative-gate-evaluation.md",
+     "verified_on": "2026-09-16"
+    }
+   ]
+  },
+  "engine-behaviour-profiles": {
+   "category": "configuration-choice",
+   "subcategory": null,
+   "status": "draft",
+   "file": "knowledge/agent-operations/configuration-choice/engine-behaviour-profiles/engine-behaviour-profiles.md",
+   "digest": "sha256:09d8c183d2741a6c",
+   "revision": 1,
+   "changedAt": "2026-09-18",
+   "techniques": [
+    {
+     "slug": "authority-conflict-disposition",
+     "status": "draft",
+     "laws": [
+      "the-repository-outranks-the-instruction",
+      "measure-the-tree-not-the-summary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "routing a task that writes material a repository may treat as private",
+      "profiling how a family resolves conflicting sources",
+      "deciding whether a fleet needs a mechanical stop rather than a better model"
+     ]
+    },
+    {
+     "slug": "capability-claims-expire",
+     "status": "draft",
+     "laws": [
+      "measure-the-tree-not-the-summary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing down a finding about a model family",
+      "reviewing an inherited configuration default",
+      "deciding how long a benchmark result may be quoted"
+     ]
+    },
+    {
+     "slug": "family-diversity-as-a-control",
+     "status": "draft",
+     "laws": [
+      "the-judge-never-grades-its-own-family",
+      "measure-the-tree-not-the-summary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether to run a second vendor family at all",
+      "choosing a fallback family",
+      "separating an instruction defect from a capability gap",
+      "planning a fleet's engine mix"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "authority-conflict-disposition",
+     "file": "knowledge/agent-operations/configuration-choice/engine-behaviour-profiles/applications/process--authority-conflict-disposition.md",
+     "verified_on": "2026-09-16"
+    },
+    {
+     "stack": "process",
+     "technique": "family-diversity-as-a-control",
+     "file": "knowledge/agent-operations/configuration-choice/engine-behaviour-profiles/applications/process--family-diversity-as-a-control.md",
+     "verified_on": "2026-09-16"
+    }
+   ]
+  },
+  "harness-fault-attribution": {
+   "category": "measurement",
+   "subcategory": null,
+   "status": "draft",
+   "file": "knowledge/agent-operations/measurement/harness-fault-attribution/harness-fault-attribution.md",
+   "digest": "sha256:42b9ec8faa705146",
+   "revision": 1,
+   "changedAt": "2026-09-18",
+   "techniques": [
+    {
+     "slug": "clear-the-environment-first",
+     "status": "draft",
+     "laws": [
+      "the-harness-is-a-suspect-in-every-red",
+      "measure-the-tree-not-the-summary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "triaging a failed or red run",
+      "before writing down a finding about a model",
+      "investigating a cluster of failures across configurations"
+     ]
+    },
+    {
+     "slug": "fault-signature-catalogue",
+     "status": "draft",
+     "laws": [
+      "the-harness-is-a-suspect-in-every-red",
+      "a-ceiling-is-a-measurement-boundary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "recognising a known environment fault quickly",
+      "building a triage aid for a fleet",
+      "deciding whether a failure shape has been seen before"
+     ]
+    },
+    {
+     "slug": "retract-and-record",
+     "status": "draft",
+     "laws": [
+      "the-harness-is-a-suspect-in-every-red",
+      "measure-the-tree-not-the-summary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a published finding about a model turns out to be an environment fault",
+      "correcting a score that moved after a harness fix",
+      "deciding what a benchmark owes its readers about its own defects"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "clear-the-environment-first",
+     "file": "knowledge/agent-operations/measurement/harness-fault-attribution/applications/process--clear-the-environment-first.md",
+     "verified_on": "2026-09-16"
+    }
+   ]
+  },
+  "model-and-effort-selection": {
+   "category": "configuration-choice",
+   "subcategory": null,
+   "status": "draft",
+   "file": "knowledge/agent-operations/configuration-choice/model-and-effort-selection/model-and-effort-selection.md",
+   "digest": "sha256:e5f0179466c8db89",
+   "revision": 1,
+   "changedAt": "2026-09-18",
+   "techniques": [
+    {
+     "slug": "cheapest-sufficient-tier",
+     "status": "draft",
+     "laws": [
+      "measure-the-tree-not-the-summary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "picking the default configuration for a recurring unattended task",
+      "deciding whether a higher tier earns its wall-clock",
+      "publishing a configuration recommendation"
+     ]
+    },
+    {
+     "slug": "instruction-defect-before-tier-escalation",
+     "status": "draft",
+     "laws": [
+      "measure-the-tree-not-the-summary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a task fails and the instinct is to rerun it with more reasoning",
+      "triaging repeated failures of one task across a fleet",
+      "deciding whether to fix a task's wording or its configuration"
+     ]
+    },
+    {
+     "slug": "task-shape-tier-policy",
+     "status": "draft",
+     "laws": [
+      "a-ceiling-is-a-measurement-boundary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing a fleet-wide policy for which tasks get which tier",
+      "setting ceilings per task kind",
+      "explaining a configuration choice to someone who wants the strongest model everywhere"
+     ]
+    },
+    {
+     "slug": "tier-risk-inversion",
+     "status": "draft",
+     "laws": [
+      "the-repository-outranks-the-instruction",
+      "measure-the-tree-not-the-summary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing a tier for a task that commits or deletes",
+      "assessing blast radius before raising reasoning",
+      "deciding the default tier for tasks that write to a repository"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "cheapest-sufficient-tier",
+     "file": "knowledge/agent-operations/configuration-choice/model-and-effort-selection/applications/process--cheapest-sufficient-tier.md",
+     "verified_on": "2026-09-16"
+    },
+    {
+     "stack": "process",
+     "technique": "tier-risk-inversion",
+     "file": "knowledge/agent-operations/configuration-choice/model-and-effort-selection/applications/process--tier-risk-inversion.md",
+     "verified_on": "2026-09-16"
+    }
+   ]
+  },
+  "unattended-run-isolation": {
+   "category": "run-safety",
+   "subcategory": null,
+   "status": "draft",
+   "file": "knowledge/agent-operations/run-safety/unattended-run-isolation/unattended-run-isolation.md",
+   "digest": "sha256:2fef9a8edb8ad35c",
+   "revision": 1,
+   "changedAt": "2026-09-18",
+   "techniques": [
+    {
+     "slug": "confine-configured-output-paths",
+     "status": "draft",
+     "laws": [
+      "the-harness-is-a-suspect-in-every-red",
+      "the-repository-outranks-the-instruction"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a task or overlay names where its output goes",
+      "installing task configuration into a run environment",
+      "auditing writes outside a run's directory"
+     ]
+    },
+    {
+     "slug": "disposable-run-environments",
+     "status": "draft",
+     "laws": [
+      "the-harness-is-a-suspect-in-every-red"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "setting up where an unattended agent run executes",
+      "deciding what to keep after a run finishes",
+      "making a clean re-run cheap"
+     ]
+    },
+    {
+     "slug": "no-links-into-live-trees",
+     "status": "draft",
+     "laws": [
+      "the-harness-is-a-suspect-in-every-red",
+      "measure-the-tree-not-the-summary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "tempted to share dependencies or build output with a real project",
+      "auditing what a run environment points at",
+      "investigating results that depend on what a human did outside the bench"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "confine-configured-output-paths",
+     "file": "knowledge/agent-operations/run-safety/unattended-run-isolation/applications/process--confine-configured-output-paths.md",
+     "verified_on": "2026-09-16"
+    },
+    {
+     "stack": "process",
+     "technique": "no-links-into-live-trees",
+     "file": "knowledge/agent-operations/run-safety/unattended-run-isolation/applications/process--no-links-into-live-trees.md",
+     "verified_on": "2026-09-16"
+    }
+   ]
+  }
+ },
+ "laws": {
+  "measure-the-tree-not-the-summary": {
+   "statement": "What a run claims in its final message is evidence about the run's honesty, never evidence about the repository. Every fact a verdict rests on is recomputed from the tree itself — the commits, the gates, the files left behind, the rules the repository declares. A harness that reads the summary is grading prose.",
+   "techniques": [
+    "agent-benchmark-design/comparable-cell-construction",
+    "agent-benchmark-design/eligibility-before-ranking",
+    "agent-run-budgeting/refusal-detection-and-requeue",
+    "blind-judging-of-agent-runs/facts-beside-the-work",
+    "deterministic-run-verification/baseline-relative-gate-evaluation",
+    "deterministic-run-verification/declared-rule-verification",
+    "deterministic-run-verification/recompute-facts-at-report-time",
+    "engine-behaviour-profiles/authority-conflict-disposition",
+    "engine-behaviour-profiles/capability-claims-expire",
+    "engine-behaviour-profiles/family-diversity-as-a-control",
+    "harness-fault-attribution/clear-the-environment-first",
+    "harness-fault-attribution/retract-and-record",
+    "model-and-effort-selection/cheapest-sufficient-tier",
+    "model-and-effort-selection/instruction-defect-before-tier-escalation",
+    "model-and-effort-selection/tier-risk-inversion",
+    "unattended-run-isolation/no-links-into-live-trees"
+   ]
+  },
+  "the-harness-is-a-suspect-in-every-red": {
+   "statement": "Before a failure is attributed to a model, the environment it ran in is cleared: shared build caches, links into real trees, a suspended host clock, a stale artifact from a sibling run. Attribution without that step produces confident findings about models that are actually findings about the bench, and they are the hardest kind to retract because they look like data.",
+   "techniques": [
+    "agent-benchmark-design/comparable-cell-construction",
+    "deterministic-run-verification/baseline-relative-gate-evaluation",
+    "harness-fault-attribution/clear-the-environment-first",
+    "harness-fault-attribution/fault-signature-catalogue",
+    "harness-fault-attribution/retract-and-record",
+    "unattended-run-isolation/confine-configured-output-paths",
+    "unattended-run-isolation/disposable-run-environments",
+    "unattended-run-isolation/no-links-into-live-trees"
+   ]
+  },
+  "a-refusal-is-not-a-result": {
+   "statement": "A run that never happened — a seat that refused it, a provider at capacity, a host that suspended it until its own ceiling killed it — is requeued, never scored. The moment such an outcome is allowed into the results it becomes a measurement of the vendor's queue wearing a model's name, and every aggregate over it is wrong in the direction nobody checks. Detection must read whatever the runner actually returns: the refusal may arrive labelled as a success, with the reason only in the text.",
+   "techniques": [
+    "agent-benchmark-design/coverage-and-provisional-labelling",
+    "agent-run-budgeting/allowance-budgeting-across-workloads",
+    "agent-run-budgeting/refusal-detection-and-requeue",
+    "blind-judging-of-agent-runs/withhold-rather-than-half-judge"
+   ]
+  },
+  "a-ceiling-is-a-measurement-boundary": {
+   "statement": "Every ceiling a fleet enforces — wall-clock, tokens, attempts — is part of the measurement, not an operational detail. A run that hit one is reported as having hit it, never as a finished run that scored badly, and a clock that kept counting while the host slept measures nothing at all.",
+   "techniques": [
+    "agent-benchmark-design/coverage-and-provisional-labelling",
+    "agent-run-budgeting/ceiling-as-measurement-boundary",
+    "harness-fault-attribution/fault-signature-catalogue",
+    "model-and-effort-selection/task-shape-tier-policy"
+   ]
+  },
+  "the-repository-outranks-the-instruction": {
+   "statement": "Where a task's instruction and the repository's own declared rules disagree, the repository wins and the run says so. A repository that excludes a path from version control has decided that path is private; an instruction to commit that kind of artifact does not overturn the decision, and a run that forces it commits someone's private material into a published tree.",
+   "techniques": [
+    "agent-benchmark-design/eligibility-before-ranking",
+    "blind-judging-of-agent-runs/facts-beside-the-work",
+    "deterministic-run-verification/declared-rule-verification",
+    "engine-behaviour-profiles/authority-conflict-disposition",
+    "model-and-effort-selection/tier-risk-inversion",
+    "unattended-run-isolation/confine-configured-output-paths"
+   ]
+  },
+  "the-judge-never-grades-its-own-family": {
+   "statement": "A verdict on a run is produced by at least one judge from a different vendor family than the agent, because self-preference is a constant, not noise, and a constant survives averaging. When only one family is available the verdicts are still worth having and are labelled single-family and provisional, never quietly merged with cross-family ones.",
+   "techniques": [
+    "agent-run-budgeting/allowance-budgeting-across-workloads",
+    "blind-judging-of-agent-runs/provenance-scrubbing",
+    "blind-judging-of-agent-runs/withhold-rather-than-half-judge",
+    "engine-behaviour-profiles/family-diversity-as-a-control"
+   ]
+  }
+ }
+}

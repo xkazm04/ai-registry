@@ -5,7 +5,7 @@ category: other
 description: Upgrade a generic UI icon or loading/empty state into a traced, motion-animated SVG. Generates flat trace-friendly art (via /leonardo tools), validates with Qwen vision, vectorizes to a clean multi-path SVG, and emits a motion reveal component driven by the shared motion-preset library (draw, staggered-draw, fade-pop, float, pulse, hover-response, success-settle). For icon + loading-state visual upgrades - NOT raw image generation (use /leonardo for that).
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash(node *), Bash(npx *), Bash(cd *)
 argument-hint: <UI surface to upgrade, e.g. "teams empty state icon">
-version: 1.3.0
+version: 1.3.1
 ---
 
 # Motionize — traced, animated SVG upgrades for icons & loading states
@@ -239,11 +239,16 @@ After the work, record only useful observations supported by this run. No lesson
 a valid result. Reflection inherits the task's authorization; it grants no additional
 permission to edit another repository, send data, commit, or publish.
 
-**Project learning.** Put a dated observation in the consuming project's configured
-overlay under `## Skill improvement log`, when local edits are within scope. Use the
-location in this skill's `## Project overlay` section. If none is configured, use
-`.agents/motionize/config.md` for Codex or `.claude/motionize/config.md` for Claude.
-If the harness is unknown, propose the note in the response instead of guessing a path.
+**Project learning.** Only when this run produced an observation that would change how a
+future run behaves. A run that went as the method describes writes nothing: an entry that
+restates the procedure, records "no issues", or repeats the task is a defect, not a
+deliverable. When there is such an observation and local edits are within scope, put one
+dated line in the overlay this skill's `## Project overlay` section names, under
+`## Skill improvement log`. **Write only into an overlay that already exists.** If the
+project has none, put the observation in the response instead - creating a new tracked
+file for a reflection is scope the task did not ask for, and a reader who never asked for
+the skill has to review it. If the overlay is a structured config (YAML, TOML, JSON),
+record the note as comments so the file keeps parsing, or use the response.
 Use a supplied memory contract only when its destination and writes are authorized.
 Keep project details out of the shared method.
 

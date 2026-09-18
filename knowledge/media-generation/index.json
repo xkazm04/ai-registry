@@ -3,9 +3,9 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "media-generation",
   "source": "knowledge/media-generation/ (frontmatter only)",
-  "subjects": 20,
-  "techniques": 136,
-  "applications": 68,
+  "subjects": 21,
+  "techniques": 144,
+  "applications": 72,
   "laws": 9,
   "categories": [
    "narrative-craft",
@@ -15,7 +15,7 @@
    "production-ops"
   ],
   "layout": "nested",
-  "use_when_coverage": "136/136",
+  "use_when_coverage": "144/144",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -1041,9 +1041,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/visual-generation/generative-provider-routing/generative-provider-routing.md",
-   "digest": "sha256:a3f1c1edcf0bb54f",
-   "revision": 10,
-   "changedAt": "2026-09-16",
+   "digest": "sha256:75809ad774c29a60",
+   "revision": 11,
+   "changedAt": "2026-09-18",
    "techniques": [
     {
      "slug": "capability-to-vendor-plan",
@@ -1403,6 +1403,136 @@
      "technique": "two-block-style-and-action",
      "file": "knowledge/media-generation/visual-generation/image-prompt-composition/applications/react--two-block-style-and-action.md",
      "verified_on": "2026-08-19"
+    }
+   ]
+  },
+  "live-system-demo-film": {
+   "category": "production-ops",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/media-generation/production-ops/live-system-demo-film/live-system-demo-film.md",
+   "digest": "sha256:c0141940b28d7de1",
+   "revision": 1,
+   "changedAt": "2026-09-18",
+   "techniques": [
+    {
+     "slug": "audio-first-beat-pacing",
+     "status": "forged",
+     "laws": [
+      "typed-input-owns-its-channel",
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "pacing a captured demo against synthesised narration",
+      "deciding how long a beat's picture should hold",
+      "a demo film runs longer or shorter than its voice track",
+      "choosing between an estimated and a measured clip length"
+     ]
+    },
+    {
+     "slug": "recorder-owned-overlay",
+     "status": "forged",
+     "laws": [
+      "output-never-outruns-evidence"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a demo needs explanatory chrome the product does not have",
+      "deciding where demo-only UI should live",
+      "chrome disappears partway through a captured take",
+      "judging how much motion a demo's overlay may have"
+     ]
+    },
+    {
+     "slug": "recording-that-asserts-its-claims",
+     "status": "forged",
+     "laws": [
+      "checkability-routes-the-pixel",
+      "output-never-outruns-evidence",
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "capturing a demo by driving a real system",
+      "deciding what a demo recorder should verify",
+      "a demo film shows behaviour the system no longer has",
+      "choosing a failure policy for a long capture run"
+     ]
+    },
+    {
+     "slug": "retake-without-an-edit-session",
+     "status": "forged",
+     "laws": [
+      "cost-per-usable-output",
+      "edit-do-not-regenerate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a demo film's script changed and the film must be re-made",
+      "controlling spend on repeated narration synthesis",
+      "deciding how a captured take is assembled into a cut",
+      "pricing a film before running it"
+     ]
+    },
+    {
+     "slug": "script-as-single-source",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass",
+      "output-never-outruns-evidence"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "structuring the script for a driven demo film",
+      "a caption disagrees with the narration",
+      "a rewritten line has to invalidate its generated audio",
+      "deciding what belongs in a demo script and what does not"
+     ]
+    },
+    {
+     "slug": "seeded-stage-with-a-declared-boundary",
+     "status": "forged",
+     "laws": [
+      "output-never-outruns-evidence"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing what a demo film runs against",
+      "a demo depends on state a live environment cannot guarantee",
+      "disclosing which parts of a demo are staged",
+      "planting a defect a story needs"
+     ]
+    },
+    {
+     "slug": "summary-rendered-from-the-run",
+     "status": "forged",
+     "laws": [
+      "output-never-outruns-evidence",
+      "checkability-routes-the-pixel"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "building a recap screen or end plate for a demo film",
+      "a figure on screen disagrees with what the demo did",
+      "deciding what a demo's closing frame may claim"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "audio-first-beat-pacing",
+     "file": "knowledge/media-generation/production-ops/live-system-demo-film/applications/node--audio-first-beat-pacing.md",
+     "verified_on": "2026-09-16",
+     "verified_against": "node@22"
+    },
+    {
+     "stack": "node",
+     "technique": "recording-that-asserts-its-claims",
+     "file": "knowledge/media-generation/production-ops/live-system-demo-film/applications/node--recording-that-asserts-its-claims.md",
+     "verified_on": "2026-09-16",
+     "verified_against": "node@22"
     }
    ]
   },
@@ -2315,9 +2445,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/production-ops/video-assembly/video-assembly.md",
-   "digest": "sha256:db230d778e13b541",
-   "revision": 14,
-   "changedAt": "2026-09-09",
+   "digest": "sha256:72dbf7047e97d78a",
+   "revision": 15,
+   "changedAt": "2026-09-18",
    "techniques": [
     {
      "slug": "cut-compiled-from-source",
@@ -2444,6 +2574,22 @@
      ]
     },
     {
+     "slug": "seek-stable-composition-authoring",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass",
+      "checkability-routes-the-pixel",
+      "edit-do-not-regenerate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a cut is compiled from a declarative source rather than exported from a playhead",
+      "a render is split across workers, resumed after a crash, or re-rendered in part",
+      "an animation is entered at an arbitrary position - a replay, a scrub, a deep link",
+      "a composition previews correctly and the finished render disagrees with it"
+     ]
+    },
+    {
      "slug": "storyboard-grid-conditioning",
      "status": "forged",
      "laws": [
@@ -2460,6 +2606,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "seek-stable-composition-authoring",
+     "file": "knowledge/media-generation/production-ops/video-assembly/applications/node--seek-stable-composition-authoring.md",
+     "verified_on": "2026-09-16",
+     "verified_against": "node@22"
+    },
     {
      "stack": "process",
      "technique": "generated-shot-sourcing",
@@ -2485,6 +2638,13 @@
      "file": "knowledge/media-generation/production-ops/video-assembly/applications/react--motion-plate-library.md",
      "verified_on": "2026-09-09",
      "verified_against": "react@19.2"
+    },
+    {
+     "stack": "react",
+     "technique": "seek-stable-composition-authoring",
+     "file": "knowledge/media-generation/production-ops/video-assembly/applications/react--seek-stable-composition-authoring.md",
+     "verified_on": "2026-09-16",
+     "verified_against": "react@19"
     }
    ]
   },
@@ -2671,6 +2831,9 @@
     "image-prompt-composition/medium-vocabulary-locking",
     "image-prompt-composition/prompt-budget-limits",
     "image-prompt-composition/verbatim-text-locking",
+    "live-system-demo-film/audio-first-beat-pacing",
+    "live-system-demo-film/recording-that-asserts-its-claims",
+    "live-system-demo-film/script-as-single-source",
     "music-prompt-composition/duration-and-tempo-locking",
     "narrative-engine-selection/adjudication-honesty-tells",
     "narrative-engine-selection/no-engine-means-no-video",
@@ -2691,6 +2854,7 @@
     "video-assembly/cut-compiled-from-source",
     "video-assembly/derived-turn-markers",
     "video-assembly/drift-correction",
+    "video-assembly/seek-stable-composition-authoring",
     "visual-style-locking/consistency-control-arm",
     "visual-style-locking/draft-proofing-locked-ratchet",
     "visual-style-locking/motion-sampled-under-a-frame-budget",
@@ -2755,6 +2919,7 @@
     "cinematic-language/movement-motivation",
     "cinematic-language/performance-direction",
     "generated-output-grading/input-channel-parity",
+    "live-system-demo-film/audio-first-beat-pacing",
     "sound-effect-generation/picture-as-timing-brief"
    ]
   },
@@ -2812,6 +2977,11 @@
     "generated-music-acceptance/rights-and-provenance-record",
     "generated-output-grading/replication-as-comprehension-test",
     "generative-provider-routing/extraction-model-bake-off",
+    "live-system-demo-film/recorder-owned-overlay",
+    "live-system-demo-film/recording-that-asserts-its-claims",
+    "live-system-demo-film/script-as-single-source",
+    "live-system-demo-film/seeded-stage-with-a-declared-boundary",
+    "live-system-demo-film/summary-rendered-from-the-run",
     "music-prompt-composition/reference-track-anchoring",
     "narrative-engine-selection/adjudication-honesty-tells",
     "narrative-engine-selection/engine-arbitration-order",
@@ -2834,6 +3004,7 @@
     "generated-music-acceptance/generated-audio-defect-taxonomy",
     "generated-output-grading/regrade-without-regenerate",
     "generative-provider-routing/resolution-as-stage-property",
+    "live-system-demo-film/retake-without-an-edit-session",
     "music-prompt-composition/section-plan-as-the-brief",
     "production-pipeline-phasing/asset-vs-disposable-render",
     "review-iteration-loops/anchored-variation-slate",
@@ -2843,6 +3014,7 @@
     "video-assembly/cut-compiled-from-source",
     "video-assembly/drift-correction",
     "video-assembly/motion-plate-library",
+    "video-assembly/seek-stable-composition-authoring",
     "visual-style-locking/draft-proofing-locked-ratchet"
    ]
   },
@@ -2859,8 +3031,11 @@
     "image-prompt-composition/negative-prompting",
     "image-prompt-composition/shape-language-over-nouns",
     "image-prompt-composition/verbatim-text-locking",
+    "live-system-demo-film/recording-that-asserts-its-claims",
+    "live-system-demo-film/summary-rendered-from-the-run",
     "platform-format-adaptation/sound-off-first-design",
     "video-assembly/cut-compiled-from-source",
+    "video-assembly/seek-stable-composition-authoring",
     "video-assembly/storyboard-grid-conditioning"
    ]
   },
@@ -2880,6 +3055,7 @@
     "image-prompt-composition/identity-split-from-state",
     "image-prompt-composition/prompt-budget-limits",
     "image-prompt-composition/prompt-dialect-matching",
+    "live-system-demo-film/retake-without-an-edit-session",
     "narrative-engine-selection/fit-vs-hazard-axes",
     "production-pipeline-phasing/asset-vs-disposable-render",
     "production-pipeline-phasing/delivery-promise-lock",

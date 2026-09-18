@@ -557,3 +557,18 @@ two golden-path edits.
 ### 2026-09-17 - `/harvest backlog` wave 5, one technique + one application
 
 `command-audit-by-position`. `fluent-syntax-bounded-grammar` handles the case where the host owns the notation and can admit a closed fragment. This is the inverse and the one that actually guards a process boundary: **a person configured a real command naming a real program, and the host must run it**, so no closed grammar exists. What goes in its place is almost always a character denylist, and it is a proxy for a parse. Five positions decide what a token means - command, code-string, code-source, value, data - and the two a denylist cannot tell apart are the ones that matter: **the same remote reference is configuration in value position and remote code execution in code-source position.** The gate measured here had it exactly backwards, because its prefix scan looked for the reference at the start of a token while the flag name comes first. Two findings worth carrying anywhere this shape appears. **A flag is not a flag**: the same two characters are a code string on one interpreter and a syntax check on another, so the sets are per program or the gate either misses executions or refuses ordinary validation commands - and a team that hits the second turns the gate off. And **the verb table is part of the model**: leave a runner's subcommand out and the audit shifts one position left, reading the real entry point as a server argument, which is a data position where remote references are deliberately allowed. That is how the positional gate failed on its own first run. The residual the measurement forced, and the reason the rule's literal form is wrong: **position is a property of a parse, and a transport that re-parses does not inherit it.** Deleting the character set re-opened every transport-created hole. So it is demoted to a fact about the executor and kept for those transports. The audit bounds how a command executes, never what the executing program then does.
+## 2026-09-18 - intake, small-business plugin ([[2026-09-18-kwp-small-business]])
+
+New technique `one-server-many-registrations`: one server reachable under two
+names at once, because the host registered it again under an extension's scope.
+It is the third case beside rename over time (tool-identity-vs-tool-name) and two
+servers with one name (client-integration). Primary: the harness binary (2.1.276)
+refuses a mock directory named for a plugin-scoped server it cannot enumerate,
+because the tool names "would be granted against the real thing".
+
+Applied to personas as an experiment: the reflect parser keys tools on the
+registration segment and splits one product into two keys. It is latent on this
+machine (0 plugin-scoped calls in 10,294). No fix was shipped, because the plugin
+segment cannot be parsed reliably. That is the technique's first rule.
+
+Board: 0 siblings live; `check` clear before the write.

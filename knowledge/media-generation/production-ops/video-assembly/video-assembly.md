@@ -14,6 +14,7 @@ techniques:
   - motion-plate-library
   - storyboard-grid-conditioning
   - cut-compiled-from-source
+  - seek-stable-composition-authoring
 ---
 
 # Video assembly
@@ -176,3 +177,8 @@ waiting.
   drawn states. A cut that only shows what worked is a pitch deck.
 - One clock. Every lane, every marker, every coverage number computes from
   the same time authority; the first retyped duration is the first lie.
+- A cut compiled from source is reproducible only while every frame is
+  computable from its own index. The moment the renderer is allowed to enter
+  out of order — a worker, a resume, a scrub — any value captured when an
+  animation started becomes a second input, and a sequential preview is the
+  one path on which that can never show.

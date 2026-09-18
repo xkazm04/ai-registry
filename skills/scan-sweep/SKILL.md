@@ -1,11 +1,11 @@
 ---
 name: scan-sweep
 description: "Long-running quality sweep that walks a repository context by context, reads each area's code once, judges it through every scan lens, and lands what it can PROVE itself with atomic commits. With no arguments it runs the STABILIZE loop - bug hunting, UI perfection, performance - picking the least-covered context each round and keeping a per-context lens-coverage ledger so a codebase gets swept evenly instead of repeatedly in the same corner. Every finding climbs an evidence ladder (gate > probe > experiment > simulation) before it is routed: a measured `better` with no escalation builds in-session, S or M, under any strategy; `not-better` is rejected with its figures; only architecture (L), a direction outside the context's declared scope, an irreversible change, or a loosened policy still waits for a human. Use for a standing quality loop, before a hardening milestone, or to work down a backlog. Pass --develop for new capability, --optimize for deep hardening, --ideas-only to change no code, --coverage for the pick list."
-argument-hint: "[--stabilize|--develop|--optimize] [--one <context>] [--depth N] [--ideas-only] [--lenses k1,k2] [--coverage]"
+argument-hint: "[--stabilize|--develop|--optimize] [--one <context>] [--depth N] [--ideas-only] [--lenses k1,k2] [--coverage] [--backlogs]"
 category: workflow
 contexts: tracked
 memory: project
-version: 3.1.0
+version: 3.3.0
 tags: sweep, quality, stabilization, backlog, coverage, registry, atomic-commits
 ---
 # Context Sweep
@@ -25,6 +25,7 @@ returning to the next-least-covered area, not from skimming.
 /scan-sweep --one <context>     # exactly one context, then stop
 /scan-sweep --coverage          # the pick list; scan nothing
 /scan-sweep --ideas-only        # scan and propose; change no code
+/scan-sweep --backlogs          # list the open backlogs earlier passes left behind; scan nothing
 ```
 
 **Default = the stabilize loop.** No arguments means: pick the least lens-covered
@@ -37,6 +38,10 @@ loses nothing but the round in flight.
 **Announce each round's boundary out loud**: `── Round <n>: <context> (lens
 coverage <a>/<total>, last swept <age>) ──`. A loop whose rounds are not visible
 reads as one runaway session.
+
+**Existing backlog is spoken first (§0), including `--coverage`.** A run that
+starts a new scan while a previous wave still has unbuilt auto items has
+forgotten its own queue.
 
 ## Strategies - pick at most one
 
@@ -87,6 +92,63 @@ reads as one runaway session.
 Name the strategy in the report header and record it in the snapshot's `strategy`
 field.
 
+## 0. Open backlogs - tell the operator FIRST
+
+**Before the round header, before scoping, before any code is read: say what
+earlier passes left unworked.** A sweep is run weeks apart. An ideas-only wave, a
+`--develop` pass, or a round that hit the outbox cap leaves findings that exist
+nowhere but a file, and the operator who starts the next sweep has forgotten
+them. Scanning for MORE findings on top of an unworked backlog is the most
+expensive way to be reminded of it. (Measured 2026-09-17: one ideas-only wave
+produced 1,040 findings, 30 reached the outbox, 1,010 were "held" in a scratch
+directory, and the only record that they existed was a line in a report.)
+
+Look in every one of these, and report what each holds - `none` is an answer:
+
+1. **The open-backlog register** (overlay key `openBacklogs`, default
+   `.claude/scan-history/open-backlogs.jsonl`) - every row whose `status` is
+   `open`. This is the durable pointer; §9 says when a pass must write it.
+2. **The outbox** (overlay key `memoryOutbox`) - if the file exists and still
+   carries `"type":"finding"` lines, the last pass was never ingested. Count them.
+3. **The backlog digest** (overlay key `backlogDigest`) - the `pending` count:
+   findings a consumer ingested and nobody has decided.
+4. **Sweep history** - rows with `mode: "ideas"` or a `note` naming held or
+   unrecorded findings, newer than the last `mode: "resolve"` row for the same
+   scope.
+5. **Stray findings files** - `**/scan-sweep-*/all-findings.jsonl` and
+   `**/scan-sweep-*/findings/*.jsonl` under the repo's scratch locations
+   (`scratchpad/`, `.claude/scan-sweep/`, the overlay's own paths). A file found
+   here with no register row gets one written now, `status: open`.
+
+Then print the notice as the FIRST thing the operator reads, one line per backlog:
+
+```
+OPEN BACKLOG  <strategy> wave of <date> (<age>) - <open> of <total> findings unworked
+              <path> - <built> built, <declined> declined, <descoped> descoped
+              tiers: <undisputed n> ready to build, <n> need a contract/policy review, <n> need a direction call
+```
+
+and say what can be done with it: **work it down** (triage by `gate`, build the
+`gate: none` S/M items in waves, leave `direction` / `architecture` /
+`irreversible` / `policy-loosen` for the operator), **keep sweeping anyway**, or
+**close it** (the operator says the rest is not wanted; set the row `closed` with
+the reason). When the operator is present, ask which. When the run is
+unattended, do not block: repeat the notice at the top of every round report
+and carry on with the loop.
+
+Rules that keep the notice honest:
+
+- **Count from the file, not from the row.** Re-read the findings file and the
+  result files beside it; a register row is a pointer, and its numbers go stale
+  the moment anyone builds from the backlog.
+- **A missing path is reported, not skipped.** `OPEN BACKLOG ... file is gone`
+  tells the operator the findings were lost; silently dropping the row tells
+  them nothing was ever owed.
+- **Never re-propose what an open backlog already holds.** Its titles join §2's
+  never-re-propose lists for this run, exactly like the digest's.
+- `--backlogs` prints this notice and stops. `--coverage` prints it above the
+  table.
+
 ## 1. Scope the round
 
 - `--one <context>` names the context. Otherwise **pick it**: read the context map
@@ -96,6 +158,13 @@ field.
   --next` computes exactly this and is the cheapest way to ask.
 - State the choice and why in the round header ("never swept" / "lens coverage
   4/22, oldest 2026-08-11"). Coverage rotation must be auditable.
+- **Size the context before you size the package.** Count its files and lines
+  first. Under roughly **10 files or 200 LOC**, a full package is recording, not
+  scanning: either **sweep it together with its siblings** in the same group as
+  one round (preferred - it gives the lenses a real surface), or run the
+  **matched tier only** and say so in the header. §4.8's yield floor assumes ten
+  files or more, and §1's picker used to have no matching rule. Measured: 28
+  lenses walked over a 38-line route shell.
 - Stay inside the context's declared file paths for the whole round.
 
 ## 2. Load shared awareness - BEFORE reading code
@@ -121,8 +190,10 @@ field.
 - Otherwise the package is **ALL lenses in `references/lenses.md`**, ordered:
   the active strategy's deep tier first, then lenses whose `Match` regex hits the
   context's name, description, keywords, stack or paths, then the rest as a
-  lighter pass. Most of the tail will honestly report "nothing real", and that
-  clean verdict IS coverage worth recording.
+  lighter pass. Most of the tail will honestly report "nothing real" - but a
+  clean verdict earns coverage only when the lens was **pointed at something**
+  (§4.9); a lens with no surface in this context is recorded as having none, and
+  counts for nothing.
 - Within each tier, never-applied lenses (absent from prior `lens_keys`) go
   first. The package's job is to close lens coverage, not re-walk it.
 - List the deep / matched / remaining keys in the round header.
@@ -149,6 +220,12 @@ field.
    grounded in `file:line`. Zero from one lens is a valid result - say "nothing
    real" and move on. Zero from a whole TIER is a claim about the codebase, and
    §4.9 is where you test it.
+
+   **`file:line` means `<path>:<line>`, the path relative to the REPOSITORY
+   root, exactly as `git ls-files` prints it.** A basename is not an anchor and
+   an anchor that does not resolve is not evidence - in a multi-package tree
+   `limiter.ts:41` is ambiguous where `src/api/limiter.ts:41` is not. This binds
+   every anchor in the round: findings, evidence blocks, commit bodies, report.
 
 4. **FIND GENEROUSLY, BUILD CONSERVATIVELY. These are different budgets and
    confusing them is the failure this clause exists to prevent.**
@@ -227,6 +304,16 @@ field.
    entire tier reports nothing, name the three things in it you actually
    checked. The tail's job is coverage AND a lighter hunt - it is not a list of
    keys to write into the ledger.
+
+   **So the coverage ledger records only lenses that were POINTED AT A NAMED
+   ARTEFACT** - a file read, a grep run, a hypothesis traced. Each recorded lens
+   says *what it checked*: `error-handler - the 3 await sites in queue.ts, all
+   guarded`. A bare "clean" is not a record. A lens with no surface in this
+   context (`mobile-specialist` on a CLI crate) goes to `lens_no_surface[]`
+   with its one-line reason and **earns no coverage credit** - it is not a pass,
+   it is an absence. Measured 2026-09-16: ~31 judge verdicts read a 28-lens
+   "all clean" list as rubber-stamped, which is the padding §4.9 already
+   forbids in prose and the ledger was still accepting as a key.
 
 10. **EVERY finding is written in the standard form - no exceptions, no prose
     dumps.** The operator decides from the deck at a glance and a cheaper model
@@ -420,6 +507,14 @@ needs to see "correct, safe, and blocked by A1", not a silent absence. Measured
 2026-08-29: in one context, six findings were `better` with no hard gate and only
 three had a file with headroom.
 
+**A ratchet blocks the change that would BREACH it, and nothing else.** Measure
+the headroom before deferring: if the fix fits under the ceiling, **build it**
+and put the measured headroom in the commit body ("file at 284/300 after"). Only
+a candidate whose own implementation site is at the line is backlogged, and the
+card says which gate and by how much it overshoots. Deferring on the mere
+existence of a ratchet is how a proven fix goes unbuilt - ~16 judge verdicts
+split on exactly this, in both directions.
+
 **Pure churn measures the same on both sides** and is therefore `not-better`
 - rejected, with the identical figures as the reason. That is the intent.
 
@@ -446,7 +541,12 @@ round had budget for.
 An item is backlogged regardless of size or result when it:
 
 1. **touches a file outside this context's declared paths** (see the parallel
-   rules in §7) - not yours to change this round;
+   rules in §7) - not yours to change this round. **But a coupled doc, test,
+   locale entry or generated artefact the fix REQUIRES is part of the fix**, not
+   a second change and not an escalation: build it, stage it with the rest, and
+   name the extra path and why it was coupled in the commit body. Veto 1 is for
+   a change that wanders into another area, not for the file the change cannot
+   land without;
 2. **changes a contract whose consumers you cannot enumerate by instrument**
    - another repository's, a public SDK's, a wire format with readers outside
    this tree. An in-tree contract with its verifier green is not vetoed; see
@@ -617,7 +717,16 @@ first, then this round's, highest-reward first - one finding at a time:
    thing it looks for and watch it go red. A gate that cannot match reports a
    clean codebase in a voice indistinguishable from success.
 
-7. **A source-scanning gate must strip comments before it matches.** The files a
+7. **Never point a build, test or package cache inside the repository.**
+   `CARGO_HOME`, `UV_CACHE_DIR`, `npm_config_cache`, `PYTEST_DEBUG_TEMPROOT`, a
+   scratch worktree, a downloaded toolchain: all of them go to the OS temp dir,
+   never under the tree you are sweeping and never under a vault or overlay
+   directory. Measured 2026-09-16: ~10 judge verdicts found 12k-file caches left
+   behind, after which `git status` can no longer tell work from litter. Before
+   the round's last commit, confirm `git status --porcelain` shows only files
+   you meant to touch.
+
+8. **A source-scanning gate must strip comments before it matches.** The files a
    sweep writes explain the rule in prose, directly above the code that
    implements it — so a matcher run over raw text is satisfied by a file that
    TALKS about the rule and does not follow it. Measured twice in one session: a
@@ -657,7 +766,8 @@ separate), plus **Scores** (size + effort / impact / risk) and, for every
 backlogged card, **the escalation or the failed rung** that put it there.
 
 Close each round with: X built (of which carries), Y rejected, Z backlogged
-(escalated / unmeasurable / vetoed / carry), lenses evaluated, `auto=` and
+(escalated / unmeasurable / vetoed / carry), lenses evaluated **and how many had
+no surface** (§4.9 - the two numbers are reported separately), `auto=` and
 `fp=`, leads filed, the trend for this context (`12 -> 7 -> 5 findings`), and
 **the next context the loop will take**.
 
@@ -695,11 +805,12 @@ finding (impact >= 8) or 3 real findings in this context:
 {"type":"escalation","skill":"scan-sweep","lens":"<lens-key>","context":"<context>","reason":"<<=120 chars: what a deep pass should chase>"}
 ```
 
-Coverage — one node per lens actually evaluated (clean lenses included: that IS
-the coverage record), plus one for the round:
+Coverage — one node per lens **actually pointed at a named artefact** (§4.9); a
+clean lens counts only when its `body` says what it checked. Lenses with no
+surface are not emitted as coverage. Plus one for the round:
 
 ```json
-{"type":"node","kind":"progress","skill":"scan-<lens-key>","context":"<context>","title":"Sweep pass: <lens-key> over <context>","body":"<n> findings; <gist or 'clean'>"}
+{"type":"node","kind":"progress","skill":"scan-<lens-key>","context":"<context>","title":"Sweep pass: <lens-key> over <context>","body":"<n> findings; <what was checked - the files, the grep, the hypothesis>"}
 {"type":"node","kind":"progress","skill":"scan-sweep","context":"<context>","title":"Sweep of <context>","body":"<n> lenses; <built> built, <open> backlogged, <e> escalations, <l> leads"}
 ```
 
@@ -712,19 +823,41 @@ which findings did not fit and that they are unrecorded. A finding silently
 dropped for want of a line is worse than one never found, because the ledger
 will claim the context was swept.
 
+**Findings that do not reach the outbox get a register row.** Whenever a pass
+leaves findings anywhere but the outbox - the cap above, an `--ideas-only` or
+mass wave that wrote a findings file, a build wave that stopped early - append
+or update one line in the open-backlog register (overlay key `openBacklogs`):
+
+```json
+{"id":"<strategy>-<date>","at":"<ISO-8601>","strategy":"stabilize|develop|optimize","path":"<repo-relative path to the findings file>","total":<n>,"emitted":<n>,"built":<n>,"declined":<n>,"descoped":<n>,"open":<n>,"status":"open|closed","note":"<<=160 chars: what is left and who it waits on>"}
+```
+
+`open` reaching zero, or the operator declining the rest, sets `status:
+"closed"` with the reason in `note`; rows are never deleted. §0 reads this file
+first on every invocation - it is how a backlog survives the weeks between
+sweeps.
+
 ## 10. Persist a snapshot
 
 Append one line per round to `.claude/scan-history/scan-sweep.jsonl` (create the
-directory if needed). `lens_keys` = every lens actually evaluated — this is the
-per-context coverage ledger the picker and the lens ordering both read.
+directory if needed). `lens_keys` = every lens that was **pointed at a named
+artefact** (§4.9) — this is the per-context coverage ledger the picker and the
+lens ordering both read, so a key written for a lens that looked at nothing
+inflates it permanently. `lens_no_surface` holds the rest and earns no credit.
 `findings` counts built, rejected, carried and backlogged. `auto` is the
 routing tally (`accepted/rejected/escalated`), `fp` the auto-accepted items
 demoted at build, `carried` the approved items left for the next round - the
 three numbers §5's self-correction reads.
 
 ```json
-{"at":"<ISO-8601>","scope":"<context>","mode":"resolve|ideas","strategy":"stabilize|develop|optimize","lens_keys":["<key>"],"lenses":<n>,"findings":<n>,"fixed":<n>,"auto":"<a>/<r>/<e>","fp":<n>,"carried":<n>,"escalations":<n>,"leads":<n>,"degraded":<bool>,"note":"<<=80 chars>"}
+{"at":"<ISO-8601>","scope":"<context>","mode":"resolve|ideas","strategy":"stabilize|develop|optimize","lens_keys":["<key>"],"lens_no_surface":["<key>"],"lenses":<n>,"findings":<n>,"fixed":<n>,"auto":"<a>/<r>/<e>","fp":<n>,"carried":<n>,"escalations":<n>,"leads":<n>,"degraded":<bool>,"note":"<<=80 chars>"}
 ```
+
+**The row is committed, not left dirty.** Where `.claude/scan-history/` is
+tracked, the snapshot rides in the round's **last fix commit**; if the round
+built nothing, it goes in a closing `chore(<context>): scan-sweep round <n>
+ledger` commit of its own. A round that ends with an uncommitted ledger row has
+not recorded its coverage - the next picker reads the file from HEAD.
 
 ## Project overlay
 
@@ -736,9 +869,11 @@ consuming repo. The skill runs on the defaults without it.
 | `contextMap` | `context-map.json` | The context inventory the loop walks. |
 | `memoryOutbox` | `.personas/memory-outbox.jsonl` | Where findings are emitted. |
 | `backlogDigest` | `.personas/backlog-digest.json` | Titles never to re-propose. |
+| `openBacklogs` | `.claude/scan-history/open-backlogs.jsonl` | Register of findings files earlier passes left unworked; read first (§0), written by §9. |
 | `gates` | from `.claude/conventions.json` / manifest capabilities | Verification commands per surface. |
 | `depth` | 5 (loop), 10 (`--one`) | Findings per context per round. |
 | `neverSweep` | none | Contexts the loop skips (generated, vendored). |
+| `leftoverDeck` | none | Jsonl of prior-wave findings the outbox could not hold. When set, §0 reads it. |
 
 ## Coverage table
 
@@ -756,11 +891,16 @@ After the work, record only useful observations supported by this run. No lesson
 a valid result. Reflection inherits the task's authorization; it grants no additional
 permission to edit another repository, send data, commit, or publish.
 
-**Project learning.** Put a dated observation in the consuming project's configured
-overlay under `## Skill improvement log`, when local edits are within scope. Use the
-location in this skill's `## Project overlay` section. If none is configured, use
-`.agents/scan-sweep/config.md` for Codex or `.claude/scan-sweep/config.md` for Claude.
-If the harness is unknown, propose the note in the response instead of guessing a path.
+**Project learning.** Only when this run produced an observation that would change how a
+future run behaves. A run that went as the method describes writes nothing: an entry that
+restates the procedure, records "no issues", or repeats the task is a defect, not a
+deliverable. When there is such an observation and local edits are within scope, put one
+dated line in the overlay this skill's `## Project overlay` section names, under
+`## Skill improvement log`. **Write only into an overlay that already exists.** If the
+project has none, put the observation in the response instead - creating a new tracked
+file for a reflection is scope the task did not ask for, and a reader who never asked for
+the skill has to review it. If the overlay is a structured config (YAML, TOML, JSON),
+record the note as comments so the file keeps parsing, or use the response.
 Use a supplied memory contract only when its destination and writes are authorized.
 Keep project details out of the shared method.
 

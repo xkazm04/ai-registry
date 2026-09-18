@@ -1,7 +1,7 @@
 ---
 subject: video-assembly
 domain: media-generation
-last_touched: 2026-09-09
+last_touched: 2026-09-16
 dry_streak: 0
 ---
 
@@ -209,3 +209,40 @@ Boundary: the lead about a 3D authoring tool hosting the assistant connector, wi
 selection exposed at the point of authoring, belongs to `generative-provider-routing` and
 its caller-names-capabilities rule - not here. Banked with its return condition in the
 source note.
+
+## 2026-09-16 - /intake hyperframes ([[2026-09-16-hyperframes]])
+
+- New technique `seek-stable-composition-authoring`. `cut-compiled-from-source` argued
+  *why* to compile the cut from a declarative document and then treated the compile as a
+  black box - "the seams are the renderer's problem". That is true of edit seams and false
+  of **chunk** seams: the compile is reproducible only while every frame is computable from
+  its own index, and the moment the renderer enters out of order (a worker, a resume, a
+  scrub) any value captured when an animation *started* becomes a second input. A missing
+  stage at the point the subject's own doctrine hands off, found by walking the pipeline
+  rather than by slug overlap.
+- **The discriminator is the second writer, not the relative value**, and that is measured
+  rather than quoted. Paired arms at the timeline layer: a relative value with a second
+  concurrent writer diverged on 45 of 90 frames between a sequential walk and two workers
+  splitting at the midpoint (seam step 26.67 against a normal 1.67); explicit endpoints gave
+  0 of 90; and the **control** - a single-writer relative value - also gave 0 of 90. The
+  control holding is what earns the rule its narrow form; a looser "avoid relative values"
+  would have cost expressiveness and bought nothing.
+- The safe-looking path is the one that hides it: preview, a single-process render and a
+  test that plays from zero all travel the one route on which the defect cannot appear.
+  That is `unmeasured-is-not-pass` aimed at the author's own eyes, and it is why the
+  composition half is worth gating statically instead of watching the output for snaps.
+- **The fleet seam widened the source's rule.** The source's analyzer flags a relative
+  operator (`+=`) with a second writer. systedo-case's rank-climb demo has a second writer
+  and no relative operator at all - it animates to an absolute target from wherever the
+  value currently sits, which is implicit in exactly the same way, and a checker written to
+  the source's rule would pass it. Replay travelled 33% of the rank climb and 40% of the
+  visibility climb a first run travelled; shipped `b95a43a4`, floor declared first and held.
+- Structural fact nobody designed: the source enforces one invariant at **three** altitudes -
+  composition analyzer, runtime drawing backend, encoder frame placement - and each refusal
+  is written up locally in its own platform's deployment guide, never as a doctrine. It is
+  only visible from outside, and it is the evidence for the technique's last decision rule.
+- Boundary recorded, not landed: the same root rule sits in game-production's
+  `per-cell-seed-derivation-for-order-independence`, whose "when not to use it" excludes
+  deterministic evaluation - which this run's measurement refutes, since there is no
+  randomness anywhere in it. Out of the run's declared domain; banked as a lead with its
+  return condition in the source note.

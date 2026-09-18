@@ -98,3 +98,34 @@ Append-only reflection lane. One entry per run that taught something. Format:
 ## 1.4.2 - 2026-09-09 - ai-registry
 
 - Architecture review: the shared reflection clause assumed a writable registry link in every installation. Replaced that assumption with installation-aware scope and explicit adoption. This records an instruction audit, not a field effectiveness result.
+
+## 1.5.0 - 2026-09-17 - skillbench
+
+Benchmark of 414 judged runs; ~25 verdicts faulted anchors and ~16 faulted `not-applicable`
+evidence the skill did not ask for. Applied in 1.6.0.
+
+- **Ambiguity about committing cost runs their keep vote.** 26 verdicts complained the map was
+  left uncommitted and **13 keep=False verdicts named "no commits to merge" as the only
+  blocker**, while other judges wrote that the skill does not require a commit - the two
+  readings together are the defect. The map edit is the deliverable, so the skill now names the
+  default: one path-scoped `conform: <n> verdicts on <context>` commit, your paths only when
+  another session's work is in the tree.
+- **The date cutoff invited the rebuild it was meant to prevent.** The rule allowed rebuilding a
+  missing map or one predating 2026-09-02. Six rebuilds happened across three effort levels: on
+  tracklight (a map by an older builder, `contextKey: null`) *and* on kp, whose map was dated
+  2026-09-14, after the cutoff - that one "added 628 pairs and turned every verdict into an
+  orphan". A rule stated as a date gets read as permission. Restated positively: a run never
+  regenerates an existing map; when the builder or the bundle digests lag, judge the pairs that
+  are there and report the lag with the command that fixes it.
+- **"At least the load-bearing ones" is not a floor.** ~8 verdicts faulted thin `conformant`
+  evidence and one faulted the opposite (reading all 70 techniques), which is what an
+  uncountable bar produces. Now: list the techniques judged, anchor every one claimed realized,
+  and a verdict citing fewer than half its techniques is `unknown`.
+- **A rubric/skill mismatch, not a run defect.** ~16 verdicts faulted `not-applicable` for
+  missing `file:line` - which the skill explicitly did not require. Judges are right: an
+  unanchored precondition cannot be falsified. `not-applicable` now names the precondition AND
+  anchors the absence.
+- **`file:line` was demanded without saying from where.** ~116 verdicts across the corpus fault
+  an anchor that did not resolve, clustering in multi-crate repos where `compare.rs:270` is
+  ambiguous. Spelled out: repo-root-relative as `git ls-files` prints it; a basename is not an
+  anchor.

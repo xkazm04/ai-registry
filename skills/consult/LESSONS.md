@@ -29,3 +29,27 @@
 ## 1.3.0 - 2026-09-09 - ai-registry
 
 - Routing audit found a stale seven-bundle fallback and an unconditional logging write. Resolve the current catalog and honor read-only tasks when recording consults. This is a scope correction, not a measured improvement in retrieval quality.
+
+## 1.4.0 - 2026-09-17 - skillbench
+
+Benchmark of 414 judged runs; 14 verdicts on this skill mention the overlay artifact and ~22
+fault unanchored claims about the repository. Applied in 1.5.0.
+
+- **The runs that cited the code scored highest, and the skill never asked them to.** ~22
+  verdicts fault claims about the repository asserted from the task description rather than from
+  a file. Added the bar: every claim about this repo carries `<path>:<line>`, repo-root-relative,
+  for a file opened in this run; an unanchored deviation is a hypothesis and must be labeled or
+  dropped.
+- **"The repo's own gap register (whatever it uses)" produced six destinations in six runs**, and
+  judges read the invented ones as scope creep - correctly, since the skill authorized the
+  invention. `## Project overlay` now names the register in a fixed order (registry map ->
+  declared defect file -> none), says a repo with none gets the deviation in the response and the
+  log, and forbids renumbering or restructuring a human-maintained document to make room.
+- **A conditional log is a log that does not happen.** `.ai/consults.jsonl` is gitignored
+  telemetry, not a repo edit, yet the write was gated on "local writes are within scope" - so
+  runs skipped it and the signals lane lost the demand it exists to count. Made unconditional,
+  with the membership rule stated: one row per bundle, `subjects` listing every golden path
+  opened *including rejected ones*, because a rejected read is exactly the routing signal.
+- **`deviations: <n>` was a number with nothing behind it.** A count with no prose is the one
+  signal the registry cannot verify. The response must now list each deviation as "standard says
+  X; this repo does Y at `path:line`".

@@ -212,6 +212,17 @@ const PURITY_PROFILES = {
     [/\.(?:tsx?|mjs|cjs|jsx|py|sql)\b/, 'source-file extension'],
     [/\b(?:Adamant|Systedo|Mionelo|Next\.js|React|TypeScript|Firestore|Firebase|SQLite|Vercel|WordPress|Novamira|Semrush|Ahrefs|SEMrush|Moz|HubSpot|Mailchimp|Optmyzr|Opteo|Adalysis|Dotidot|Mergado|GoHighLevel|Zapier|n8n|Sklik|Seznam|Google (?:Ads|Analytics|Business Profile|Search Console|Tag Manager|Merchant Center|Trends|Keyword Planner)|Microsoft Advertising|Bing Ads|Meta Ads|Facebook|Instagram|TikTok|LinkedIn|Pinterest|YouTube|Pexels|Unsplash|Claude|Anthropic|OpenAI|GPT-[0-9]|Gemini|Perplexity)\b/, 'platform/vendor/product identifier'],
   ],
+  // Agent-operations domains: the analogue of a repo path is a harness module; the analogue
+  // of a framework name is a model, a vendor or an agent-runner product. This domain is ABOUT
+  // choosing between models, which is exactly why the upper layers may not name one: a standard
+  // that says which model to pick expires with the model and reads as an endorsement. Say "the
+  // cheaper family at its lower reasoning tier", "a judge from another vendor family". Measured
+  // model names, efforts and prices belong in applications, with their n and their date.
+  'agent-ops': [
+    [/\b(?:src|scripts|crates|app|lib)\//, 'repo path'],
+    [/\.(?:tsx?|rs|mjs|cjs|jsx|py)\b/, 'source-file extension'],
+    [/\b(?:Claude|Anthropic|OpenAI|Codex|GPT-[0-9][\w.-]*|Gemini|Mistral|Llama|Qwen|DeepSeek|Grok|Copilot|Cursor|Windsurf|Devin|Aider|Opus|Sonnet|Haiku|Fable|Astra|Luna|Terra|Sol)\b/, 'vendor/model/agent-product identifier'],
+  ],
   // Applied when a bundle declares no profile: the domain-independent core only.
   generic: [
     [/\b(?:src|src-tauri|scripts)\//, 'repo path'],
@@ -227,6 +238,7 @@ const PURITY_PROFILES = {
 // guard's inputs belongs outside the reach of what the guard governs; the index's own
 // `purity:` key is still read and must agree with this table.
 const REQUIRED_PURITY = {
+  'agent-operations': 'agent-ops',
   'civic-intelligence': 'civic',
   'game-production': 'game',
   'grant-funding': 'funding',

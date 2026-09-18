@@ -3,7 +3,7 @@ name: agent-guidance-bootstrap
 description: "Create or refresh a repo's AGENTS.md so an agent joining the codebase gets commands, architecture and constraints without guessing. Use on a repo with no agent guidance, or when the existing file has gone stale."
 category: ai-native
 memory: project
-version: 0.6.0
+version: 0.7.0
 tags: agents-md, onboarding, context, conventions
 argument-hint: "[project-root]"
 ---
@@ -19,6 +19,10 @@ with.
 
 Never write guidance from assumption. Collect, in this order:
 
+0. **The guidance that is already here.** `AGENTS.md`, `CLAUDE.md`, `.claude/CLAUDE.md`,
+   `.cursorrules`, `CONTRIBUTING.md` — read each in full before writing a line. Whichever
+   already carries real content is the canonical file (see the content rules); this run either
+   refreshes it or points at it.
 1. **Commands that actually exist.** `package.json` scripts, `Makefile` targets, `justfile`,
    `pyproject.toml`, `Cargo.toml`, the CI workflow. If CI runs it, it is real.
 2. **The shape of the tree.** Top-level directories and what each owns. Two levels deep is
@@ -83,15 +87,55 @@ Do not report a change as done before these pass.
   file, it does not belong.
 - **Rules with reasons.** "Do not edit `src/generated/`, it is rewritten by the codegen step" is
   followed; "follow best practices" is not.
-- **One file, one root.** If the repo already carries a second guidance file, do not fork the
-  content - keep one canonical file and make the other a one-line pointer to it.
+- **One file, one root — and the incumbent keeps the crown.** If the repo already carries a
+  guidance file with real content, **that file stays canonical** and the file you are adding
+  becomes the one-line pointer to it. Never demote a populated `CLAUDE.md` to a pointer in
+  order to promote a fresh `AGENTS.md`; the new file is the one with nothing to lose. Measured:
+  five of five runs on a repo with a 77-line canonical `CLAUDE.md` chose the lossy direction,
+  and each dropped rules nobody noticed were gone. Only when both files carry content does
+  merging arise, and then the older, more-referenced one is canonical.
+- **Demotion is no-loss.** Before a file becomes a pointer, every rule in it appears in the
+  canonical file — same meaning, same specificity. A rule you deliberately leave out is named
+  in the report as dropped, with the reason. Check by listing the demoted file's rules and
+  ticking each one off against the canonical file; "the content was similar" is not the check.
+- **Generated blocks are neither edited nor deleted.** A block between stamped markers
+  (`<!-- personas:context-map:start -->` … `:end`, or any tool's equivalent) belongs to the
+  command that writes it. Leave it byte-for-byte, and carry it with its file. If its content is
+  stale, say so **outside** the block — one line above or below it — and name the command that
+  regenerates it. Both failures are measured: runs that deleted such a block, and runs that
+  "fixed" a genuinely stale one in place. Neither is yours to do.
 
-## Keeping it true
+## Landing it
+
+The guidance file is the deliverable, and an uncommitted deliverable is a draft. Commit it as
+one `docs(agents): <file> for <repo>` commit, staging the guidance files by explicit path, when
+the tree is otherwise clean. If other work is uncommitted, stage only your paths and say so.
+Commit on the current branch; do not push. If the task forbids committing, say plainly that the
+file is written but uncommitted.
+
+## Refresh mode
 
 Stale guidance is worse than none, because it is trusted. Re-run this skill when the build
 commands change, when a top-level directory is added or removed, and when a constraint is added.
-A quick audit: run every command in the Commands section. Any that fails takes the whole file's
-credibility with it.
+A refresh is not "read the file and improve it" — it is a diff against re-derived evidence:
+
+1. **Re-derive the evidence** exactly as above (commands, tree shape, entry points, conventions,
+   expensive-to-get-wrong). Do this before re-reading the file, or the file will tell you what
+   to look for.
+2. **Diff line by line.** Walk the existing file one line at a time and mark each:
+   **confirmed** (the evidence says the same thing), **stale** (the evidence contradicts it), or
+   **unverifiable** (nothing in the repo can settle it).
+3. **Run every command** in the Commands section. One that fails is stale, not an aside; any
+   failure takes the whole file's credibility with it.
+4. **Fix the stale lines in place** and leave everything else alone — a refresh is not a rewrite,
+   and reformatting a file to look like the template is churn. Generated blocks are exempt from
+   every step (see the content rules above).
+5. **Report the counts**: N confirmed, N fixed, N unverifiable (each named).
+
+Two results are valid and neither is a proposal: **no drift** — nothing changed, nothing
+committed, and the report says what was checked — or **drift found and fixed**, committed.
+Drift found and only *proposed* is a failed refresh: you did the expensive part and stopped
+before the cheap one.
 
 ## Related
 
@@ -107,11 +151,16 @@ After the work, record only useful observations supported by this run. No lesson
 a valid result. Reflection inherits the task's authorization; it grants no additional
 permission to edit another repository, send data, commit, or publish.
 
-**Project learning.** Put a dated observation in the consuming project's configured
-overlay under `## Skill improvement log`, when local edits are within scope. Use the
-location in this skill's `## Project overlay` section. If none is configured, use
-`.agents/agent-guidance-bootstrap/config.md` for Codex or `.claude/agent-guidance-bootstrap/config.md` for Claude.
-If the harness is unknown, propose the note in the response instead of guessing a path.
+**Project learning.** Only when this run produced an observation that would change how a
+future run behaves. A run that went as the method describes writes nothing: an entry that
+restates the procedure, records "no issues", or repeats the task is a defect, not a
+deliverable. When there is such an observation and local edits are within scope, put one
+dated line in the overlay this skill's `## Project overlay` section names, under
+`## Skill improvement log`. **Write only into an overlay that already exists.** If the
+project has none, put the observation in the response instead - creating a new tracked
+file for a reflection is scope the task did not ask for, and a reader who never asked for
+the skill has to review it. If the overlay is a structured config (YAML, TOML, JSON),
+record the note as comments so the file keeps parsing, or use the response.
 Use a supplied memory contract only when its destination and writes are authorized.
 Keep project details out of the shared method.
 

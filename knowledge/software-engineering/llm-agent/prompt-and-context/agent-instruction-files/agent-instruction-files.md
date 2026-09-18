@@ -19,6 +19,7 @@ techniques:
   - host-contract-compilation
   - rewrite-behavior-pinning
   - inherited-default-ownership
+  - write-back-sink-class
 ---
 
 # Agent instruction files
@@ -236,6 +237,31 @@ one — and the admission that they are a filter rather than a gate, because
 the behaviours nobody remembers are in the file are exactly the set a
 rewrite deletes.
 
+## The file also writes, and that half is unaudited
+
+Everything above treats the file as inbound: lines delivered to the agent,
+audited by an owner reading a diff. Instruction files also routinely carry
+an **outbound** half — "record mistakes in one file, missing capabilities
+in a second", "log consults here, leads there" — naming destinations the
+agent appends to during a run. That half is where the next session's
+candidate lines are supposed to come from, and no instrument in this
+subject looks at it.
+
+It fails in a way the inbound half cannot, because the instruction can be
+followed perfectly and still deliver nothing: the destination may not
+exist, or may sit outside the shared artifact so every checkout starts
+empty. And the correction is not "share them all" — a sink's class is set
+by how its collector aggregates it. One that sums rows into counts must
+stay local, because a row surviving into a second checkout is counted
+there as a second observation; one that dedupes on a minted key may
+travel, and an undrained row that exists on one machine only is work
+nothing else can see. Sinks are introduced in pairs in a single clause and
+then inherit a single sharing decision, which is how one fleet ended up
+split on both halves of one contract line, each project having written down
+a reason that was correct about exactly one of the two files.
+[write-back-sink-class](./techniques/write-back-sink-class.md) owns the
+three states, the collector question that sets the class, and the audit.
+
 ## Failure modes this standard exists to prevent
 
 - **The generated overview** — a machine-written tour of what the tree
@@ -253,6 +279,8 @@ rewrite deletes.
   eyes, describing a repo that no longer exists.
 - **The phantom gate** — "enforced by X" where X has never fired; worse
   than no claim, because it retires the agent's own caution.
+- **The write-only sink** — an outbound lane the file names and nothing
+  drains, or drains into a count another installation then re-reports.
 - **The two-audience document** — onboarding narrative for humans merged
   with agent instructions, bloating both and serving neither.
 - **The cage without its animal** — a restraint minted against a failure

@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 229,
-  "techniques": 1747,
-  "applications": 1066,
+  "techniques": 1754,
+  "applications": 1077,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1747/1747",
+  "use_when_coverage": "1754/1754",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -1063,9 +1063,9 @@
    "subcategory": "orchestration",
    "status": "reconciled",
    "file": "knowledge/software-engineering/llm-agent/orchestration/agent-chaining/agent-chaining.md",
-   "digest": "sha256:32359a36eb321c82",
-   "revision": 11,
-   "changedAt": "2026-09-09",
+   "digest": "sha256:edd49b1ead1efac5",
+   "revision": 12,
+   "changedAt": "2026-09-18",
    "techniques": [
     {
      "slug": "chain-identity-and-rollup",
@@ -1123,6 +1123,23 @@
       "choosing between another reviewer and an execution step",
       "an agent's causal explanation is about to be acted on",
       "a chain step produces a reproduction artifact"
+     ]
+    },
+    {
+     "slug": "handoff-figures-carry-their-population",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a number produced by one link is read by the next as an input to arithmetic",
+      "a downstream link computes a ratio or return figure over a total handed to it",
+      "a running total rides the handoff payload and a guard compares it against a limit",
+      "a chain fans out and a figure accumulated along one path is described as the chain's",
+      "two surfaces show the same named figure and disagree",
+      "a composite workflow passes a headline number into a narrower specialist step"
      ]
     },
     {
@@ -1197,6 +1214,13 @@
      "technique": "graph-to-wiring-translation",
      "file": "knowledge/software-engineering/llm-agent/orchestration/agent-chaining/applications/rust--graph-to-wiring-translation.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "rust",
+     "technique": "handoff-figures-carry-their-population",
+     "file": "knowledge/software-engineering/llm-agent/orchestration/agent-chaining/applications/rust--handoff-figures-carry-their-population.md",
+     "verified_on": "2026-09-18",
+     "verified_against": "rust@1.80"
     },
     {
      "stack": "rust",
@@ -1409,9 +1433,9 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-instruction-files/agent-instruction-files.md",
-   "digest": "sha256:09673918092f1784",
-   "revision": 24,
-   "changedAt": "2026-09-08",
+   "digest": "sha256:6b31e7ab0d2fa5ec",
+   "revision": 25,
+   "changedAt": "2026-09-18",
    "techniques": [
     {
      "slug": "capability-before-steering",
@@ -1442,7 +1466,8 @@
       "a new tool or script landed and no instruction file mentions it",
       "deciding what a test over prose should assert",
       "an instruction file points at documents that may not exist",
-      "an agent's output is plausible but consistently uses the poorer of two available means"
+      "an agent's output is plausible but consistently uses the poorer of two available means",
+      "an instruction tells the agent to confirm a recurring or future effect to a person"
      ]
     },
     {
@@ -1651,9 +1676,33 @@
       "a cloned third-party tree is about to be read by an agent",
       "a session picks up instructions nobody on the team wrote"
      ]
+    },
+    {
+     "slug": "write-back-sink-class",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "identity-survives-reuse"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an instruction file tells the agent to record something in a named file",
+      "deciding whether an agent-written log belongs in the shared artifact or stays per-checkout",
+      "two projects made opposite sharing decisions about the same agent log",
+      "a fleet metric computed from agent logs disagrees between installations",
+      "an instruction names several write destinations in one clause",
+      "a learning lane has run for months and nothing downstream changed"
+     ]
     }
    ],
    "applications": [
+    {
+     "stack": "bun",
+     "technique": "write-back-sink-class",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-instruction-files/applications/bun--write-back-sink-class.md",
+     "verified_on": "2026-09-16",
+     "verified_against": "bun@1.3.11"
+    },
     {
      "stack": "claude-code",
      "technique": "context-reset-redelivery",
@@ -1745,6 +1794,13 @@
      "verified_against": "node@24.14"
     },
     {
+     "stack": "node",
+     "technique": "write-back-sink-class",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-instruction-files/applications/node--write-back-sink-class.md",
+     "verified_on": "2026-09-16",
+     "verified_against": "node@24"
+    },
+    {
      "stack": "process",
      "technique": "instruction-freshness",
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-instruction-files/applications/process--instruction-freshness.md",
@@ -1764,9 +1820,9 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/agent-memory.md",
-   "digest": "sha256:c75d47df62c6476f",
-   "revision": 37,
-   "changedAt": "2026-09-17",
+   "digest": "sha256:9e67ed589b1ef6a3",
+   "revision": 38,
+   "changedAt": "2026-09-18",
    "techniques": [
     {
      "slug": "addresses-before-compression",
@@ -2007,6 +2063,21 @@
      ]
     },
     {
+     "slug": "observation-clock",
+     "status": "forged",
+     "laws": [
+      "derivation-names-recomputation",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a distillation pass turns conversation into stored claims",
+      "memory is written asynchronously or backfilled from an import",
+      "a stored claim says \"next week\" or a date nobody can explain",
+      "choosing what date a memory prompt calls today"
+     ]
+    },
+    {
      "slug": "owner-and-counterpart-scope",
      "status": "forged",
      "laws": [
@@ -2157,6 +2228,21 @@
      ]
     },
     {
+     "slug": "stale-served-versus-stale-answered",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a store supersedes by linking versions rather than by removing them",
+      "deciding whether a stale answer is a retrieval defect or a reading defect",
+      "a memory system reports only wrong-answer rates",
+      "choosing between filtering a superseded belief and labelling it",
+      "measuring whether recall serves the successor"
+     ]
+    },
+    {
      "slug": "working-memory",
      "status": "forged",
      "laws": [
@@ -2264,6 +2350,13 @@
     },
     {
      "stack": "python",
+     "technique": "observation-clock",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/python--observation-clock.md",
+     "verified_on": "2026-09-17",
+     "verified_against": "python@3.10"
+    },
+    {
+     "stack": "python",
      "technique": "owner-and-counterpart-scope",
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/python--owner-and-counterpart-scope.md",
      "verified_on": "2026-09-02",
@@ -2282,6 +2375,13 @@
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/python--read-set-bounded-links.md",
      "verified_on": "2026-09-02",
      "verified_against": "python@3.10"
+    },
+    {
+     "stack": "python",
+     "technique": "stale-served-versus-stale-answered",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/python--stale-served-versus-stale-answered.md",
+     "verified_on": "2026-09-18",
+     "verified_against": "python@3"
     },
     {
      "stack": "rust",
@@ -2310,6 +2410,13 @@
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/rust--memory-value-model.md",
      "verified_on": "2026-09-04",
      "verified_against": "rust@1.97"
+    },
+    {
+     "stack": "rust",
+     "technique": "observation-clock",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/rust--observation-clock.md",
+     "verified_on": "2026-09-17",
+     "verified_against": "rust@1.80"
     },
     {
      "stack": "rust",
@@ -2345,9 +2452,9 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-runtime-assembly/agent-runtime-assembly.md",
-   "digest": "sha256:9ea4fecfb6d686ea",
-   "revision": 18,
-   "changedAt": "2026-09-17",
+   "digest": "sha256:aed5b5a233987c50",
+   "revision": 19,
+   "changedAt": "2026-09-18",
    "techniques": [
     {
      "slug": "activation-is-a-separate-mutation",
@@ -2685,7 +2792,8 @@
      "technique": "rewrite-before-the-gate",
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-runtime-assembly/applications/python--rewrite-before-the-gate.md",
      "verified_on": "2026-09-02",
-     "verified_against": "python@3.12"
+     "verified_against": "python@3.12",
+     "refresh_by": "2026-10-15"
     },
     {
      "stack": "python",
@@ -3534,9 +3642,9 @@
    "subcategory": "identity-and-access",
    "status": "reconciled",
    "file": "knowledge/software-engineering/security/identity-and-access/authorization/authorization.md",
-   "digest": "sha256:923896f3be779f94",
-   "revision": 4,
-   "changedAt": "2026-09-17",
+   "digest": "sha256:5f64bbab156656d1",
+   "revision": 5,
+   "changedAt": "2026-09-18",
    "techniques": [
     {
      "slug": "authorization-audit",
@@ -3662,6 +3770,23 @@
      ]
     },
     {
+     "slug": "one-accessor-per-fold-direction",
+     "status": "forged",
+     "laws": [
+      "unknown-is-not-a-value",
+      "one-authority-per-vocabulary",
+      "absent-guard-is-loud"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a decision function returns more outcomes than the branch consuming it",
+      "a caller writes \"if not allowed\" against a verdict that has an uncertain value",
+      "deciding whether a policy result may convert to a boolean",
+      "the same verdict is consumed by call sites with opposite safe directions",
+      "a check returns no-opinion and every consumer treats it differently"
+     ]
+    },
+    {
      "slug": "privilege-tiers",
      "status": "forged",
      "laws": [
@@ -3724,6 +3849,13 @@
    ],
    "applications": [
     {
+     "stack": "cpp",
+     "technique": "one-accessor-per-fold-direction",
+     "file": "knowledge/software-engineering/security/identity-and-access/authorization/applications/cpp--one-accessor-per-fold-direction.md",
+     "verified_on": "2026-09-16",
+     "verified_against": "cpp@17"
+    },
+    {
      "stack": "go",
      "technique": "failure-direction",
      "file": "knowledge/software-engineering/security/identity-and-access/authorization/applications/go--failure-direction.md",
@@ -3735,6 +3867,13 @@
      "file": "knowledge/software-engineering/security/identity-and-access/authorization/applications/go--machine-credential-consumption.md",
      "verified_on": "2026-09-02",
      "verified_against": "go@1.27"
+    },
+    {
+     "stack": "next",
+     "technique": "one-accessor-per-fold-direction",
+     "file": "knowledge/software-engineering/security/identity-and-access/authorization/applications/next--one-accessor-per-fold-direction.md",
+     "verified_on": "2026-09-16",
+     "verified_against": "next@16"
     },
     {
      "stack": "node",
@@ -6473,9 +6612,9 @@
    "subcategory": "codebase-stewardship",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/concurrent-vcs/concurrent-vcs.md",
-   "digest": "sha256:dd87672e5d143a41",
-   "revision": 3,
-   "changedAt": "2026-08-22",
+   "digest": "sha256:8b6ffdb068226877",
+   "revision": 4,
+   "changedAt": "2026-09-18",
    "techniques": [
     {
      "slug": "commit-verification",
@@ -6577,6 +6716,12 @@
      "technique": "isolated-index-commits",
      "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/concurrent-vcs/applications/process--isolated-index-commits.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "process",
+     "technique": "shared-resource-arbitration",
+     "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/concurrent-vcs/applications/process--shared-resource-arbitration.md",
+     "verified_on": "2026-09-17"
     }
    ]
   },
@@ -8729,9 +8874,9 @@
    "subcategory": "codebase-stewardship",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/dead-code/dead-code.md",
-   "digest": "sha256:ea3094b57b45db2e",
-   "revision": 10,
-   "changedAt": "2026-09-06",
+   "digest": "sha256:4b0d6f434c811201",
+   "revision": 11,
+   "changedAt": "2026-09-18",
    "techniques": [
     {
      "slug": "carrying-cost-economics",
@@ -8852,7 +8997,8 @@
      "stack": "node",
      "technique": "instrument-per-orphan-class",
      "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/dead-code/applications/node--instrument-per-orphan-class.md",
-     "verified_on": "2026-08-18"
+     "verified_on": "2026-09-17",
+     "verified_against": "node@22"
     },
     {
      "stack": "node",
@@ -11950,9 +12096,9 @@
    "subcategory": "data-layer",
    "status": "reconciled",
    "file": "knowledge/software-engineering/backend-platform/data-layer/embedded-db/embedded-db.md",
-   "digest": "sha256:dcb2cb9872a1661c",
-   "revision": 13,
-   "changedAt": "2026-09-03",
+   "digest": "sha256:81a015d32c782317",
+   "revision": 14,
+   "changedAt": "2026-09-18",
    "techniques": [
     {
      "slug": "analytical-reads-off-the-serving-store",
@@ -12134,7 +12280,8 @@
      "technique": "corruption-class-response",
      "file": "knowledge/software-engineering/backend-platform/data-layer/embedded-db/applications/python--corruption-class-response.md",
      "verified_on": "2026-09-02",
-     "verified_against": "python@3.12"
+     "verified_against": "python@3.12",
+     "refresh_by": "2026-10-15"
     },
     {
      "stack": "rust",
@@ -13100,9 +13247,9 @@
    "subcategory": "evaluation-and-cost",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/eval-harness/eval-harness.md",
-   "digest": "sha256:3ba6de69a4a6aa5d",
-   "revision": 31,
-   "changedAt": "2026-09-17",
+   "digest": "sha256:204df3c0fb25a19c",
+   "revision": 32,
+   "changedAt": "2026-09-18",
    "techniques": [
     {
      "slug": "assertion-vs-judgment",
@@ -13293,7 +13440,9 @@
       "comparing tokens time or tool calls between arms that can fail",
       "an efficiency delta computed over trials that never reached an answer",
       "a cheaper arm turns out to have given up earlier",
-      "deciding which trials a resource comparison may include"
+      "deciding which trials a resource comparison may include",
+      "a benchmark excludes provider errors or timeouts from accuracy",
+      "deciding whether a failed trial is the harness's or the arm's"
      ]
     },
     {
@@ -13340,6 +13489,20 @@
       "a suite is too expensive to run per change",
       "a pipeline decision is suspected and only the final artifact is measured",
       "deciding what to label when the output has no right answer"
+     ]
+    },
+    {
+     "slug": "rebase-the-varied-input",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing an invariance check that replays one scenario with a single input shifted",
+      "a purity or determinism check has never failed since it was written",
+      "a comparison normalises timestamps ids or offsets before diffing"
      ]
     },
     {
@@ -13515,10 +13678,24 @@
     },
     {
      "stack": "python",
+     "technique": "outcome-conditioned-cost",
+     "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/eval-harness/applications/python--outcome-conditioned-cost.md",
+     "verified_on": "2026-09-17",
+     "verified_against": "python@3"
+    },
+    {
+     "stack": "python",
      "technique": "probe-the-decision-not-the-artifact",
      "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/eval-harness/applications/python--probe-the-decision-not-the-artifact.md",
      "verified_on": "2026-09-04",
      "verified_against": "python@3.11"
+    },
+    {
+     "stack": "python",
+     "technique": "rebase-the-varied-input",
+     "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/eval-harness/applications/python--rebase-the-varied-input.md",
+     "verified_on": "2026-09-17",
+     "verified_against": "python@3.12"
     },
     {
      "stack": "python",
@@ -16191,8 +16368,8 @@
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/invariant-placement/invariant-placement.md",
    "digest": "sha256:993670bb930d5af9",
-   "revision": 7,
-   "changedAt": "2026-09-17",
+   "revision": 8,
+   "changedAt": "2026-09-18",
    "techniques": [
     {
      "slug": "build-time-evaluation-of-cross-value-invariants",
@@ -18252,9 +18429,9 @@
    "subcategory": "runtime-and-io",
    "status": "reconciled",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/mcp-tools.md",
-   "digest": "sha256:8729acb2bf7b8fb8",
-   "revision": 25,
-   "changedAt": "2026-09-17",
+   "digest": "sha256:f6cbf8911ab79416",
+   "revision": 26,
+   "changedAt": "2026-09-18",
    "techniques": [
     {
      "slug": "ambient-selection-is-not-an-argument",
@@ -18399,6 +18576,24 @@
       "choosing between a structured schema and a familiar command string",
       "a passthrough surface must not inherit the wrapped thing's authority",
       "an argument string is about to be handed to a shell"
+     ]
+    },
+    {
+     "slug": "one-server-many-registrations",
+     "status": "forged",
+     "laws": [
+      "identity-survives-reuse",
+      "gate-sees-target",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "the same tool server can be connected by the user and also declared by an installed extension or plugin",
+      "a host derives tool names from where a server was registered",
+      "a permission rule or hook matches tools by a name pattern",
+      "usage or cost accounting keys tools by the server segment of their name",
+      "a connection shows as missing while the same product is connected under another entry",
+      "deciding whether two connected entries are two data sources"
      ]
     },
     {
@@ -23744,9 +23939,9 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/prompt-assembly.md",
-   "digest": "sha256:cc07d72bfc81d255",
-   "revision": 32,
-   "changedAt": "2026-09-16",
+   "digest": "sha256:c1af34417c9515db",
+   "revision": 33,
+   "changedAt": "2026-09-18",
    "techniques": [
     {
      "slug": "amortized-compaction-cadence",
@@ -24189,7 +24384,8 @@
      "technique": "amortized-compaction-cadence",
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/applications/python--amortized-compaction-cadence.md",
      "verified_on": "2026-09-02",
-     "verified_against": "python@3.12"
+     "verified_against": "python@3.12",
+     "refresh_by": "2026-10-15"
     },
     {
      "stack": "python",
@@ -32087,9 +32283,9 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/tenant-scoped-agent-runtime/tenant-scoped-agent-runtime.md",
-   "digest": "sha256:a1bebad141749513",
-   "revision": 4,
-   "changedAt": "2026-09-10",
+   "digest": "sha256:8c40dd590387bd63",
+   "revision": 5,
+   "changedAt": "2026-09-18",
    "techniques": [
     {
      "slug": "fail-direction-follows-deployment-mode",
@@ -32195,7 +32391,8 @@
      "technique": "task-local-tenant-scope",
      "file": "knowledge/software-engineering/llm-agent/orchestration/tenant-scoped-agent-runtime/applications/python--task-local-tenant-scope.md",
      "verified_on": "2026-09-02",
-     "verified_against": "python@3.12"
+     "verified_against": "python@3.12",
+     "refresh_by": "2026-10-15"
     }
    ]
   },
@@ -35905,6 +36102,7 @@
     "agent-chaining/cycle-and-depth-guards",
     "agent-chaining/graph-to-wiring-translation",
     "agent-chaining/grounding-over-deliberation",
+    "agent-chaining/handoff-figures-carry-their-population",
     "agent-cli-transport/child-observed-posture",
     "agent-cli-transport/host-routed-approval-round-trip",
     "agent-cli-transport/permission-stance-enforcement",
@@ -35919,6 +36117,7 @@
     "agent-memory/addresses-not-atoms",
     "agent-memory/cross-context-promotion",
     "agent-memory/diagnosis-withheld-from-the-executor",
+    "agent-memory/observation-clock",
     "agent-memory/probe-without-write-back",
     "agent-runtime-assembly/assembly-identity",
     "agent-runtime-assembly/checkpoint-mode-custody",
@@ -36077,6 +36276,7 @@
     "eval-harness/metric-role-contract",
     "eval-harness/monitor-inside-the-loop",
     "eval-harness/probe-the-decision-not-the-artifact",
+    "eval-harness/rebase-the-varied-input",
     "eval-harness/reliability-aggregation",
     "eval-harness/selection-over-noise",
     "eval-harness/treatment-election-rate",
@@ -36163,6 +36363,7 @@
     "mcp-tools/command-audit-by-position",
     "mcp-tools/egress-argument-gating",
     "mcp-tools/enumeration-without-a-scope",
+    "mcp-tools/one-server-many-registrations",
     "mcp-tools/orchestration-to-tool-migration",
     "mcp-tools/sanctioned-session-state",
     "mcp-tools/sealed-continuation-state",
@@ -37147,11 +37348,13 @@
     "adoption-measurement/before-after-outcome-pairing",
     "adoption-measurement/dormancy-verdicts",
     "adoption-measurement/mentor-learner-pairing",
+    "agent-chaining/handoff-figures-carry-their-population",
     "agent-chaining/handoff-payload-contracts",
     "agent-chaining/stop-reason-ledgers",
     "agent-instruction-files/instruction-freshness",
     "agent-instruction-files/line-earning",
     "agent-instruction-files/sibling-floor-ownership",
+    "agent-instruction-files/write-back-sink-class",
     "agent-memory/baseline-ladder",
     "agent-memory/coverage-instrumentation",
     "agent-memory/cross-context-promotion",
@@ -37162,6 +37365,7 @@
     "agent-memory/procedure-promotion",
     "agent-memory/recall-injection",
     "agent-memory/rejected-revision-leaves-its-evidence",
+    "agent-memory/stale-served-versus-stale-answered",
     "alerting/dedup-and-cooldown",
     "analytics-time-windows/baseline-as-window-start",
     "analytics-time-windows/cohort-matched-comparison",
@@ -37285,6 +37489,7 @@
     "eval-harness/overshoot-and-restore",
     "eval-harness/pairing-schedule",
     "eval-harness/probe-the-decision-not-the-artifact",
+    "eval-harness/rebase-the-varied-input",
     "eval-harness/reliability-aggregation",
     "eval-harness/resolution-precondition",
     "eval-harness/scenario-design",
@@ -37615,6 +37820,7 @@
     "audit-logging/two-clock-records",
     "authorization/ceiling-before-consent",
     "authorization/delegated-authority",
+    "authorization/one-accessor-per-fold-direction",
     "authorization/read-write-predicate-symmetry",
     "bounded-enumeration/required-limit-breaks-unaware-clients",
     "client-state/observed-read-subscription",
@@ -37703,6 +37909,7 @@
     "mcp-tools/ambient-selection-is-not-an-argument",
     "mcp-tools/command-audit-by-position",
     "mcp-tools/egress-argument-gating",
+    "mcp-tools/one-server-many-registrations",
     "mcp-tools/suspendable-request-classes",
     "measurement-honesty/instrument-exposure-control",
     "measurement-honesty/speed-figure-names-its-endpoints",
@@ -38065,6 +38272,7 @@
     "agent-cli-transport/host-routed-approval-round-trip",
     "agent-instruction-files/host-contract-compilation",
     "agent-instruction-files/single-source-topology",
+    "agent-instruction-files/write-back-sink-class",
     "agent-memory/episodic-capture",
     "agent-memory/owner-and-counterpart-scope",
     "agent-memory/procedure-promotion",
@@ -38206,6 +38414,7 @@
     "long-form-reading-surface/focus-transfer-on-in-place-navigation",
     "markdown-vault/vault-as-database",
     "mcp-tools/ambient-selection-is-not-an-argument",
+    "mcp-tools/one-server-many-registrations",
     "mcp-tools/sanctioned-session-state",
     "mcp-tools/sealed-continuation-state",
     "mcp-tools/tool-identity-vs-tool-name",
@@ -38678,6 +38887,7 @@
     "authorization/delegated-authority",
     "authorization/failure-direction",
     "authorization/identity-bearing-keys",
+    "authorization/one-accessor-per-fold-direction",
     "authorization/privilege-tiers",
     "authorization/read-write-predicate-symmetry",
     "authorization/scope-design",
@@ -39069,6 +39279,7 @@
     "agent-memory/consolidation",
     "agent-memory/lane-reconciliation",
     "agent-memory/memory-value-model",
+    "agent-memory/observation-clock",
     "agent-memory/read-set-bounded-links",
     "agent-memory/scope-before-similarity",
     "agent-runtime-assembly/assembly-identity",
@@ -39506,6 +39717,7 @@
     "agent-runtime-assembly/honest-hook-registry",
     "agent-runtime-assembly/observer-and-mutator-surfaces",
     "audit-logging/best-effort-with-accounting",
+    "authorization/one-accessor-per-fold-direction",
     "authorization/unregistered-is-stronger-than-refused",
     "bounded-enumeration/required-limit-breaks-unaware-clients",
     "browser-credential-boundary/allowlisted-operator-stream",

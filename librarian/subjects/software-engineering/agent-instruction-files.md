@@ -599,3 +599,52 @@ gained "the model behind the agent changed and no file did". Applied as a
 three-case simulation on recorded events in this registry's skills lane
 (`process--instruction-freshness`, better as a prediction; the
 instrument named is a per-skill gate outcome recorded with the model that ran it).
+
+## 2026-09-16 — `/intake` executor (`github:UsefulSoftwareCo/executor@9c424444`)
+
+Sixteenth technique, and the first that reads the file **outbound**. Every prior
+instrument here — admission, freshness, expiry, rewrite pinning, the sibling floor —
+runs on lines delivered *to* the agent. Instruction files also routinely name
+destinations the agent appends to during a run ("record mistakes in one file, missing
+capabilities in a second"; "log consults here, leads there"), and that half had no
+instrument at all, so a lane could be named in every session's context for months and
+deliver nothing without a single gate going red.
+
+`write-back-sink-class`. Three states — absent, present-but-unshared, shared — and only
+the third is a lane. The rule that carries it is arithmetic rather than taste: **ask how
+the sink's collector aggregates it.** Summed into counts with no key on a row means it
+must stay installation-local, because a row surviving into a second checkout is counted
+there as a second observation of one event; deduped on a minted key means it may travel,
+and an undrained row on one machine is work nothing else can see. Sinks are introduced
+in pairs in one clause, inherit one sharing decision, and that is where the fleet split.
+
+Origination and corroboration came from different places, which is why one repository
+was enough. The source holds the shape twice independently (three ignored policy-file
+sinks; a security runbook whose machine-readable scan outputs are discarded while a
+hand-written prose summary dated months earlier survives — because something read the
+prose). The corroboration is the fleet: nine projects carrying two logs named in one
+contract clause, split 2/7 the wrong way on the count-aggregated one and 6/1 the wrong
+way on the other, with **both misclassifying projects having documented a reason, each
+reason correct about one of the two files and false about the other**. That pair is the
+technique's central claim stated by people who did not have it.
+
+Applied twice: a source-tree application (`bun--`, `experiment`/`unmeasurable`, the
+instrument named as a second installation) and a fleet one (`node--`, `code`/`better`,
+`ab-paired` — 83 inherited rows to 0, floor of 281 consults over 7 bundles byte-identical
+because the collector reads the working tree).
+
+Banked, not landed, with anchors in the source note: a vendored skill body pinned by
+content hash, which is `sibling-floor-ownership`'s third decision (install / retain /
+*what the retained body now says*).
+
+## 2026-09-18 - intake, small-business plugin ([[2026-09-18-kwp-small-business]])
+
+Amended `capability-coverage-contract` with "When soundness fails silently too".
+The technique said soundness fails "loudly-ish". A forward promise to a person
+("saved, this runs every Monday" with no scheduler behind it) fails silently, with
+a fuse of weeks. The fix: the confirmation names the mechanism that will fire, or
+it offers the honest substitute.
+
+Applied to this registry's own intake skill (2.11.1): it claimed /librarian reads
+rescan_when "on a clock", but the weekly CI cron does not run upstream-check.mjs.
+One false forward claim before, 0 after. A grep of 7 fleet trees found no other.

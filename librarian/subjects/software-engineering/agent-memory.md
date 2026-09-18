@@ -796,3 +796,23 @@ not as fourteen shortfalls.
 ### 2026-09-17 - `/harvest backlog` wave 5, two techniques + one application + three amendments
 
 Two landings that turn out to be about the same thing from opposite ends, and both refuted the claim they came from. `cross-context-promotion`. `procedure-promotion` counts sightings INSIDE one store. The moment there is one store per context, the second sighting usually happens somewhere else, and **a second sighting in a different context is a different fact from a second sighting in the same one**: the first says the item is not about its context, the second says the local store missed its own item. Only one of them earns a shared tier. A system of per-context stores scales by multiplying rather than deepening, so it has no door through which one context can learn from another, and a lesson is paid for once per context. Two results worth carrying. **A personalized store's value is not coverage** - it answered 1 of its own 12 first encounters, because a store of singletons cannot by construction answer a first occurrence; what it buys is locality, and 85% of its items exist nowhere else. And **what looks like a provenance effect is usually a size effect**: hold item count fixed and a personal store and a borrowed one are indistinguishable. Recurrence, not pool size, is the win - 15% of the pool, gated on cross-context recurrence, beat the whole pool. The rule applied literally is catastrophic: the gated tier retained none of the singletons. So **recurrence is an admission bar for the shared tier and never a retention bar for the local one**, and the shared tier's size is derived rather than chosen - a shared tier stuck near zero is the detector failing, not the contexts being unalike. `addresses-before-compression`. A measured null whose stated cause is refuted: consolidation did not start paying as the reader's budget closed, it lost ground. And **a no-fact-loss merge does not compress** - items fell 64% and words rose 7%, which bounds `rollup-compaction`'s 'three is the smallest size where compression genuinely wins' to a claim about when a summary is worth writing. The whole trade's sign flips on one variable: withhold the always-loaded index and the same merge goes from a 2-point loss to a 3.6-point gain. What a merging pass spends is **addresses**. Both landings close a return condition this subject wrote for itself on 2026-09-02 and nothing was watching; it fired sixteen times over. Return conditions in application files have no scheduled reader, and that is its own gap.
+## 2026-09-17 - intake `mem0` ([[2026-09-17-mem0]])
+
+- **Landed `observation-clock`**, a technique at a stage the subject had not written: the
+  clock a distillation grounds relative time against. Provenance listed "when it was
+  distilled" (the writer's clock) and never the clock the words were observed at. One
+  paragraph appended to § Provenance. The source stated the rule three times in a live
+  prompt and made it unsatisfiable on every open call path (the observation date defaults
+  to now, and the public write call refuses the parameter). Applications: the source tree
+  (python) and the fleet's consolidation pass (rust), both `simulation` / `unmeasurable`.
+- **The fleet ladder cannot see this axis.** 12 of 3,571 replayed events carry a relative
+  reference, all "X is Y from today, not Z", consolidated the same simulated night. Every
+  arm ties on it by construction. Return condition: a scenario extension with dated
+  relative references, a date probe class, and a multi-day consolidation lag.
+- **Catches:** supersede-don't-replace (the source went further, to ADD-only, and published
+  contradiction resolution as its weakest category, 35.7/32.5); generous capture; store
+  topology (a vendor deleted ~4,000 lines of graph drivers from its open build, a third
+  sighting of the hedge).
+- **Untriaged:** a temporal boost that never filters may be unable to retire a contradicted
+  belief at read time. Promoting question for `recall-injection`: must read-time
+  adjudication be able to exclude a superseded belief, or only rank it?

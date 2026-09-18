@@ -15,6 +15,7 @@ techniques:
   - write-freshness-gate
   - catalog-projection-modes
   - tool-identity-vs-tool-name
+  - one-server-many-registrations
   - sanctioned-session-state
   - caller-differentiated-capability
   - fluent-syntax-bounded-grammar
@@ -310,6 +311,11 @@ same obligations as the wire itself:
   the address a model calls is not the identity an operator correlates: a
   rename-stable identifier on the wire, what may change it, and why possession
   of one authorizes nothing.
+- [one-server-many-registrations](./techniques/one-server-many-registrations.md)
+  — one server reachable under two names at once because the host registered
+  it twice: canonicalize from the registration record, write name-pattern
+  policy for every form, and treat an unauthorized duplicate as neither absence
+  nor a second source.
 - [sanctioned-session-state](./techniques/sanctioned-session-state.md) — when
   affinity is genuinely required: opt-in twice, degrade to nothing at one
   replica, and an owner identity regenerated per process so a restart is

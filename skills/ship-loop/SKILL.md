@@ -3,7 +3,7 @@ name: ship-loop
 description: "Milestone-driven ship-readiness loop for any app repo, resumable across sessions. Boots by profiling the stack, running the verification gate once, and fanning out read-only audit lenses into a 9-dimension scorecard plus an append-only numbered backlog; when the repo's overlay declares value journeys, a value ledger (one readiness light per journey) sits above the scorecard, every item carries a journey tag, and milestones are picked as the next slice of one journey. Work runs in user-gated milestones (CP checkpoints, single-keystroke questions, an AFK protocol with provisional re-askable picks); one backlog item = one atomic pathspec-scoped commit, premise-checked against current code first; each milestone is certified by the repo's ordered gate (typecheck/lint/tests/build sequentially, slow e2e last, typecheck after any build that rewrites generated types). State lives in .claude/ship-loop/ of the consuming repo; project specifics come from .claude/ship-loop/config.md and the loop runs on generic defaults without it. Invoke with /ship-loop (resume), /ship-loop boot (fresh loop, prior state archived), /ship-loop gate | audit | recall."
 category: workflow
 memory: project
-version: 2.3.0
+version: 2.3.1
 tags: loop, ship-readiness, scorecard, backlog, milestones, gate, checkpoints, value-ledger
 argument-hint: "[boot|gate|audit|recall]"
 ---
@@ -133,11 +133,16 @@ After the work, record only useful observations supported by this run. No lesson
 a valid result. Reflection inherits the task's authorization; it grants no additional
 permission to edit another repository, send data, commit, or publish.
 
-**Project learning.** Put a dated observation in the consuming project's configured
-overlay under `## Skill improvement log`, when local edits are within scope. Use the
-location in this skill's `## Project overlay` section. If none is configured, use
-`.agents/ship-loop/config.md` for Codex or `.claude/ship-loop/config.md` for Claude.
-If the harness is unknown, propose the note in the response instead of guessing a path.
+**Project learning.** Only when this run produced an observation that would change how a
+future run behaves. A run that went as the method describes writes nothing: an entry that
+restates the procedure, records "no issues", or repeats the task is a defect, not a
+deliverable. When there is such an observation and local edits are within scope, put one
+dated line in the overlay this skill's `## Project overlay` section names, under
+`## Skill improvement log`. **Write only into an overlay that already exists.** If the
+project has none, put the observation in the response instead - creating a new tracked
+file for a reflection is scope the task did not ask for, and a reader who never asked for
+the skill has to review it. If the overlay is a structured config (YAML, TOML, JSON),
+record the note as comments so the file keeps parsing, or use the response.
 Use a supplied memory contract only when its destination and writes are authorized.
 Keep project details out of the shared method.
 

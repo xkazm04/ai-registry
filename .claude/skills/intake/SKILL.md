@@ -1633,9 +1633,10 @@ directory **by its run id**, never by sweeping the scratch root.
 - **Leads** carry a return condition. "When the model is actually released", "when a
   connected project adopts it", "when a second independent source says it".
 - **`rescan_when:` is MANDATORY on a repository-class source note**, and it is the fuel
-  of the upstream lane rather than a note to yourself. `/librarian` now reads these on a
-  clock (`scripts/upstream-check.mjs`), so a repository mined without one can only ever
-  come back on its tier's floor. Name an upstream event where you can - a PR landing, a
+  of the upstream lane rather than a note to yourself. `/librarian` reads these on every
+  sweep (`scripts/upstream-check.mjs`); nothing runs that check on a clock yet - the weekly
+  CI cron does not call it - so a condition fires only when someone runs a sweep. A
+  repository mined without one can only ever come back on its tier's floor. Name an upstream event where you can - a PR landing, a
   flag leaving a debug gate, a changelog section appearing - and add a date fallback in
   the readable form `; or 8 weeks elapse (YYYY-MM-DD)`. The instrument decides exactly
   two clauses mechanically, a release landing after the mine and a deadline date passing;

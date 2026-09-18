@@ -5,7 +5,7 @@ argument-hint: "[area] [--triage-all]"
 category: workflow
 memory: vault
 contexts: tracked
-version: 2.3.0
+version: 2.4.0
 ---
 # Explorer
 
@@ -105,7 +105,7 @@ If the user replies just "go" or "wander" or types `/explorer` with no arguments
   - `Explorer/sweeps/` — one note per run, the canonical artifact
   - `Explorer/state.md` — informational claim board (which areas are being explored *right now*)
   - `Explorer/coverage.md` — heatmap of last visit per area + yield density
-  - `Explorer/passes.md` — per-area "already considered and rejected" memory; future passes skip these
+  - `Explorer/passes.md` — per-area "a human looked at this and said no" memory; future passes skip these
   - `Patterns/explorer-preferences.md` — distilled rules across runs (promoted from Lessons)
   - `Lessons/{date}-explorer.md` — append-only self-reflection
 - **Categories** — `quality | dx | ui | perf | bug | i18n | a11y | sec`
@@ -157,9 +157,10 @@ If any of these are missing, create them:
   ```markdown
   # Explorer Passes
 
-  Per-area record of items that were surfaced and **rejected** in past runs.
+  Per-area record of items a **human was asked about and declined** in past runs.
   Future passes over the same area skip these. Accepted items don't appear here
-  (their fix is in the codebase). Items that were not surfaced are also absent.
+  (their fix is in the codebase). Items that were not surfaced are also absent,
+  and so is anything nobody answered - an unanswered item is not a rejection.
 
   ## Areas
   ```
@@ -487,7 +488,11 @@ Two properties make the auto band safe, and both are load-bearing — do not wea
 ### The two bands
 
 1. **Auto band (`xs`, `s`)** — build them. Print the plan first (Option B step 1) so the user
-   can interrupt, then execute in risk-ascending order.
+   can interrupt, then execute in risk-ascending order. **Built and committed, never parked**:
+   a `.patch`/`.diff` file under the vault or the repo is not a landed item, it is an unbuilt
+   one wearing a deliverable's clothes. If a small item genuinely cannot be built (the repo
+   law blocks it, the gate cannot settle it), it is deferred or re-sized to `m` and said so —
+   not written out as a patch.
 2. **Triage band (`m`, `l`)** — ask, and ask ONLY about these:
 
 ```
@@ -505,6 +510,13 @@ Reply with numbers to action, or:
 ```
 
 With no `m`/`l` item, **ask nothing**: say what you are building, and build it.
+
+**Nobody answered is not "none".** When the run is unattended — no operator, or the question
+went out and no reply came — the triage band's outcome is `decided: unasked`, never
+`declined`. Write those items to the sweep note in full and leave `passes.md` untouched
+(§ Phase 9d), so the next pass over the area surfaces them again with a human present.
+Treating silence as rejection permanently retires findings nobody ever read; measured once
+on a `critical` security item. Say in the summary how many items went unasked and why.
 
 `/explorer <area> --triage-all` restores the pre-v2 behaviour and asks about every item. Offer
 it in the `Next?` block when a run's auto band turned out larger or riskier than the user
@@ -528,6 +540,21 @@ For each accepted item, execute it **in this same session**. Same default as `/r
 
 ### Execution rules
 
+#### Gate baseline — run it once, before the first edit
+
+Run the repo's **full** gate (the overlay's `## Gates`, or the repo's own gate script when it
+declares one) before touching a file, and record the result verbatim: the command, the pass/fail
+per stage, and the counts it printed. That line is the baseline for the whole run.
+
+- **"Pre-existing" is a claim that must quote the baseline.** A failure or warning disowned as
+  pre-existing cites the baseline line that shows it; without one it is this run's problem.
+- **Reported figures are the full gate's figures.** A scoped run (one crate, one package, the
+  touched files) is fine for the edit loop and must be *named* as scoped wherever its numbers
+  appear. Measured: summaries claiming a 55-warning lint baseline where the full gate reported
+  147 — a scoped number reported as the repo's.
+- If the full gate cannot run here, say so once, name the stage, and treat every later gate
+  claim as scoped.
+
 **Single accepted item with a clear anchor (Option A):**
 1. Apply the edit at `anchor`.
 2. Run validation:
@@ -546,6 +573,13 @@ For each accepted item, execute it **in this same session**. Same default as `/r
 3. Atomic commit per item, validation per commit, same one-invocation stage-verify-commit discipline as Option A.
 4. If validation fails → fix inline, do NOT stack failing commits. No `--no-verify`, no `--amend`.
 5. If a downstream item turns out to be redundant after an upstream commit, drop it and note the drop in the run record.
+
+**Tracked ledger lines ride with the work.** The registry-lead line (§ Knowledge sync) lands in
+a *tracked* file, so it is committed — in the commit of the fix that earned it, or in one closing
+`explorer: ledger` commit when it is written after the last fix. Leaving it as an uncommitted
+tracked change is the run's own dirt in someone else's tree. `.ai/consults.jsonl` and the vault
+are gitignored: never stage them. End the run with nothing the run itself authored left dirty,
+and say in the summary which commit carries the lead (or that none was filed).
 
 **Item that needs more thought (Option D — escape hatch):**
 Record it in the run record as `decided: deferred` with the reason. Do NOT write a handoff file. The run record is the future search target. Use sparingly — prefer A or B.
@@ -590,7 +624,8 @@ total_items: <actual count, 0-10>
 auto_accepted: [1, 4, 5]      # the xs/s band - built without asking
 triaged: [2, 3]               # the m/l band - put to the user
 accepted: [1, 3, 4, 5]        # everything actually built (auto + triaged-in)
-declined: [2]                 # only ever from the triage band
+declined: [2]                 # only ever a human's explicit "no"
+unasked: []                   # triage-band items nobody answered - resurface next run
 deferred: []
 commits: [<sha1>, <sha2>]
 widened: false
@@ -612,6 +647,12 @@ widened: false
 **Evidence:** ...
 **Decline reason:** _filled in Phase 9_
 
+### [4] {title}  ◻ unasked (unattended run - not declined)
+**Category / Severity / Effort:** ...
+**Anchor:** ...
+**Evidence:** ...
+**Status:** `decided: unasked` - put to no one; NOT fingerprinted in passes.md.
+
 ### [3] {title}  ⏸ deferred
 **Category / Severity / Effort:** ...
 **Reason:** {why deferred - concrete blocker, not vague "later"}
@@ -631,7 +672,8 @@ widened: false
 
 Only a TRIAGE-band item can be declined, so this question is about `m`/`l` items and nothing
 else. **Skip it entirely when nothing was declined** — which, after v2, is most runs. Do not
-ask it about the auto band: those were not offered, so there is no reason to collect.
+ask it about the auto band: those were not offered, so there is no reason to collect. An
+unattended run declines nothing, so it skips this step too.
 
 Single batched question:
 ```
@@ -673,6 +715,11 @@ Deferred: [list] (with blockers)
 Add the decline reasons to the Phase 8 sweep note's `[N] declined` blocks.
 
 ### 9d. Update passes.md
+
+**`passes.md` records only what a human actually declined.** A fingerprint here suppresses
+the item in every future pass, so the only thing that earns one is an explicit "no" from a
+person. Items marked `decided: unasked` (§ Phase 7), deferred items, and everything from the
+auto band are never fingerprinted — an unattended run typically writes nothing to this file.
 
 For each declined item, append a fingerprint to `$VAULT/Explorer/passes.md` under the area's section (create section if missing):
 
@@ -737,6 +784,7 @@ Explorer run complete.
   Items surfaced: {M} (ceiling 10)
   Auto-accepted:  {A} (xs/s, built without asking) -> {commit shas}
   Triaged:        {T} put to you -> {K} actioned, {L} declined
+  Unasked:        {U} (unattended - resurface next run, not recorded as declines)
   Deferred:       {D}
 
   Coverage update: last visit {date} -> {today}, yield density {X}/{Y}
@@ -826,11 +874,16 @@ After the work, record only useful observations supported by this run. No lesson
 a valid result. Reflection inherits the task's authorization; it grants no additional
 permission to edit another repository, send data, commit, or publish.
 
-**Project learning.** Put a dated observation in the consuming project's configured
-overlay under `## Skill improvement log`, when local edits are within scope. Use the
-location in this skill's `## Project overlay` section. If none is configured, use
-`.agents/explorer/config.md` for Codex or `.claude/explorer/config.md` for Claude.
-If the harness is unknown, propose the note in the response instead of guessing a path.
+**Project learning.** Only when this run produced an observation that would change how a
+future run behaves. A run that went as the method describes writes nothing: an entry that
+restates the procedure, records "no issues", or repeats the task is a defect, not a
+deliverable. When there is such an observation and local edits are within scope, put one
+dated line in the overlay this skill's `## Project overlay` section names, under
+`## Skill improvement log`. **Write only into an overlay that already exists.** If the
+project has none, put the observation in the response instead - creating a new tracked
+file for a reflection is scope the task did not ask for, and a reader who never asked for
+the skill has to review it. If the overlay is a structured config (YAML, TOML, JSON),
+record the note as comments so the file keeps parsing, or use the response.
 Use a supplied memory contract only when its destination and writes are authorized.
 Keep project details out of the shared method.
 

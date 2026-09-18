@@ -10984,6 +10984,106 @@ observation, and the batch lane already carries half of this idea for a differen
 
 Phase 5's GAIN table has no row for "corroborated by a fleet tree that independently implemented the corpus's rule", so this run recorded it under the generic convergence `+1`. That undersells it against the other `+1` (two sources reaching the same rule), because a tree cannot be persuaded and did not read the corpus - it is closer to a natural experiment than to a second opinion. If a third run reaches its threshold this way, the table should say so explicitly and the scorecard should carry the count, so the difference between "two people said it" and "a system did it and broke" stops being invisible.
 
+## 2.11.0 - 2026-09-16 - executor
+
+- **The seam hunt does not only originate findings; it refutes the run's own.** v2.8.1
+  says the fleet is a second source. This run's seam hunt did something stronger and
+  worth naming separately: it killed the fleet instance the director had already
+  written down, and the replacement was better. The claimed instance rested on an
+  absence read off a truncated listing; opening the tree showed the lane alive, and the
+  real defect turned out to be a *classification* split across nine projects with two
+  contradictory documented reasons behind it. A seam hunt aimed at confirming a finding
+  will confirm it. Aim it at the finding's weakest factual claim — usually an absence —
+  and it either dies cheaply or comes back load-bearing.
+- **Read a sample of what a script matched before its number enters the note.** The
+  sink scanner's fleet count was inflated by an order of magnitude on one project whose
+  agent configuration includes a long historical run journal: prose *about* a past write
+  is line-for-line indistinguishable from an instruction *to* write. No assertion catches
+  this, because the instrument was working exactly as written. The rule that does catch
+  it is to read rows, and it has now paid three times (`a-count-conceals-what-it-counted`,
+  `grep -L`, this). Consider promoting it into the method at the next bump if a fourth
+  run pays it.
+- **A pathspec commit discards a staged index-only deletion, silently, in both
+  directions.** `git commit -m ... -- <paths>` committed the `.gitignore` half of a
+  two-part change and dropped the `git rm --cached`, *and* reset the index entry, so the
+  follow-up `git status` showed a clean tree over an unfixed repository. The existing
+  guidance covers per-hunk staging of a shared file; the index-only case is the same bug
+  with no visible residue. Recovery: re-stage and commit with **no pathspec**, after
+  checking `git diff --cached --name-status` holds only your change — a bare commit takes
+  the index, not the working tree, so sibling unstaged WIP is safe.
+- Mid-flight runs on 2.11.0: nothing to do, no method file changed this run.
+
+## 2.11.0 - 2026-09-16 - squid
+
+- **A corpus that owns the producer half of a rule reads as prior art for the whole
+  rule.** Three technique reads (`failure-direction`, `read-write-predicate-symmetry`,
+  `truncated-verdict-space`) all returned "the corpus knows about uncertain verdicts",
+  and all three were about *producing* or *narrowing* one. None addressed the call site,
+  where a verdict wider than its branch must finally be folded. The question that split
+  them was not "is this covered" but **"which side of the boundary does the covering
+  document stand on"** - produce, transport, narrow, or consume. Worth asking of any
+  candidate whose prior art looks convincing but sits in a different phase of the same
+  pipeline.
+- **Keep a refuting seam in the write-up.** The first fleet candidate was the exact shape
+  the technique warns about and was correct, because the enum it folds is closed and its
+  non-negated members are homogeneous. Reporting only the seam that confirmed would have
+  left the decision rule sounding absolute; reporting both turned it into a condition a
+  reader can test. Cost: one paragraph. Three consecutive runs have now chosen a
+  falsifying seam and all three returned something the landing did not already say - but
+  no scorecard cell records *what* was refuted, so the pattern is invisible without
+  reading the notes.
+
+  ### Redesign proposal (not applied this run)
+  Add `refuted=<one clause>` to the scorecard's Test cell, beside `anchors=N held=H`.
+  The falsifying-seam rule (v2.7) has been followed for three runs and is measured by
+  nobody. Not applied here because three siblings were live on 2.11.0 and a method edit
+  mid-afternoon is the one change a parallel fleet cannot absorb quietly.
+
+- **A comment that asserts a distinction, sitting directly above an assertion that cannot
+  observe it, is a greppable defect shape.** This run's shipped landing was found that
+  way: `// an explicit null is different from absent`, and then an assertion on the value
+  both inputs produce. It is `vacuous-by-evaluation` from the other side - a claim parked
+  in prose because the available predicate could not carry it. Cheap hunt, and it points
+  at the exact line where a design intent was lost rather than at a subsystem.
+- **Write the routing count even when you are sure it will not fire, because being sure
+  is the failure mode in both directions.** Six systems and a quarter-century of design
+  decisions produced a count of 2. The count is what distinguishes "the corpus is mature"
+  from "this run read the ad", and a design-deep tree is exactly where the temptation to
+  skip it and dispatch a forge wave is strongest.
+- Mid-flight runs on 2.11.0: nothing to do, no method file changed this run.
+
+
+## 2.11.0 - 2026-09-16 - hyperframes
+
+- **The arm that does not fire is often the one that earns the rule its shape.** The
+  source claims relative animation values are a seek-order hazard; measuring only the
+  hazard would have justified the loose form ("avoid relative values"), which costs
+  expressiveness and buys nothing. A third arm carrying a relative value with *no*
+  second writer came back identical across both entry paths, and that negative is what
+  licensed the narrow claim the technique actually makes. When a source states a hazard
+  with an exemption, test the exemption too - it is the half that becomes a decision rule.
+- **`paired-ab-tie-means-nothing-ran` has a harder variant: a tie where most arms are
+  SUPPOSED to agree.** The first harness returned identical values on all three arms. Two
+  of the three were expected to match, so the sheet read as a partial confirmation rather
+  than as a broken instrument; only arm A also failing to move gave it away. The cause was
+  ESM import hoisting above the environment shims the library needed, so the engine never
+  started. Where a design has more agreeing arms than disagreeing ones, assert that the
+  *control itself changed* between its start and end state, not merely that arms differ.
+- **Anchor grammar is broken by ordinary prose formatting, and it fails to `unquoted`
+  rather than to an error.** All 8 anchors in a draft application parsed as existence-only
+  because markdown line-wrapping had separated each quote from its `path:line`; the
+  checker's grammar excludes newlines. The sheet reads as a clean run with a caveat, not
+  as a failure. Second distinct failure class this instrument has caught in three runs
+  (fabrication, then shorthand syntax, now line-wrapping) - it is worth running even when
+  the citations were copied rather than recalled.
+- **An editor writing CRLF into an LF tree produces a whole-file rewrite that every gate
+  passes.** A 15-line change committed as 383 insertions / 371 deletions; typecheck, lint
+  and the project's hooks were all green, because line endings are not a defect. Caught
+  from the diffstat alone. On any cross-repo commit, read the insertion count against the
+  size of the change before trusting it - a pathspec commit protects you from a sibling's
+  files, not from your own editor.
+- Mid-flight runs on 2.11.0: nothing to do, no method file changed this run.
+
 ## 2.11.0 - 2026-09-16 - modernweb-web
 
 - **An assertion that launders a value, and a positional pair that shares a type, are the same failure and the corpus had neither.** Both are encodings that read as structural and enforce nothing, and both are diagnosed the same way: try to write the construction the checker should refuse. If the violation compiles, the invariant was never at that altitude. This landed as a technique rather than an amendment because the diagnostic and the repair are a mechanism, and because it refutes a standing sentence in the golden path ("nothing is checked at this altitude because there is nothing to check") rather than bounding a technique's rule.
@@ -10997,3 +11097,131 @@ Phase 5's GAIN table has no row for "corroborated by a fleet tree that independe
 Ten scorecard rows have banked roughly fifty untriaged candidates with anchors, and the stated reason for banking them is cross-run convergence: two independent sources reaching one rule, which the corroboration table calls the cheapest corroboration available and which costs no fetch. No phase reads them. This run banked an arbitration finding for exactly that reason and could not check whether a prior run had already seen it.
 
 The cheap version is one grep at Phase 4, after the map names homes and before Phase 5 scores anything: search the untriaged tables of `librarian/sources/*.md` for the candidate's terms, and treat a hit from a different source as the `+1` convergence the score already defines. That is a step, so it is a minor bump - not applied here, because the next run should first confirm from its own row that the backlog is really the weakest stage rather than a deliberate reject-bias working as designed.
+
+## 2.11.0 - 2026-09-17 - muse-character-sheet-local
+
+- **The within-arm seed control is a precondition, not a step in the middle, and running
+  it last cost this run its whole render budget.** The method's discrimination rule reads
+  as an arithmetic check applied to a finished pair, so the natural order is: render arm A,
+  render arm B, re-render both at a second seed, divide. This run did exactly that - 13
+  renders, about 40 minutes - and the refusal came from `within_A` (70.67) being *larger*
+  than `between` (63.46). The two renders that decided the outcome were arm A at its two
+  seeds; they cost four minutes and could have been the first two of the run. **Render one
+  approach at two seeds before rendering the other approach at all.** If an approach is
+  that unstable against itself, no pair built on it can clear the gate, and the finding is
+  already in hand without the second arm ever being queued.
+- **A gate refusal is not always "two runs of one process".** The refusals recorded so far
+  came from knob-level pairs where the arms really were the same thing; this one came from
+  the opposite direction - the arms were plainly different pipelines, and the *noise floor*
+  was enormous because a single generation call does not reproduce its own panel inventory
+  across seeds. The rule stands and the pair stays unshown, but the note should say which
+  of the two refusal shapes it hit, because they call for opposite redesigns: an
+  indiscriminable pair moves one level up the ladder, an unstable-arm pair holds the
+  confound fixed (here: give the one-call arm the layout template image the source itself
+  uses, so panel inventory stops being a second variable).
+- **The declared-focus backlog grep paid, and its payoff was a non-convergence.** Two
+  independent sources reached opposite practices on the same decision, and what made the
+  grep worth its cost was not agreement but the *discriminator* the disagreement exposed -
+  already stated in the corpus as a legibility ceiling. A focus that only counts
+  convergences will read this run as a miss; it was a hit, and the untriaged table now
+  carries the discriminator so a third reader does not re-derive it.
+- **Two dated facts, and the difference between them is worth keeping.** Both came from
+  the source's operating half. One was corroborated by a fetched primary (a license that
+  splits by model size, correcting a family-wide claim). The other was corroborated by
+  reading the engine's own source on this machine rather than by believing the creator's
+  account of it - the video's "40%" was right, and the code also gave the platform split,
+  the flag name and the absence of a cap flag, none of which the video knew. **When a
+  practitioner reports a number about a tool that is installed locally, read the tool, not
+  the report** - it costs one grep and returns more than it was asked for.
+
+## 2.11.0 - 2026-09-17 - mem0
+
+- **A falsifying seam that already has an instrument for the defect is the best seam
+  there is, and the first move is to attack the instrument, not the code.** The harness
+  injected a clock and shipped a purity check naming the exact failure, and a run that
+  trusted the green would have filed the technique as already practised. Building the
+  contaminated arm cost no model calls and one short script. It passed 46/46, and the
+  landing came from that result, not from the source.
+- **Count the fixture's reach before claiming a fleet cost.** A consolidation prompt with
+  no stated *now* looked like a live defect with a measurable price. A count of relative
+  references in the replayed year (12 of 3,571), with the rows read, showed all 12 were one
+  "from today" template consolidated the same night. The row that would have claimed a
+  cost became an honest `unmeasurable` with the missing scenario named, and that is also a
+  finding about the lane's own ladder.
+- **A shared checkout mid-merge refuses `git commit -- <paths>`.** Committing the index
+  instead would finish somebody else's merge with this run's change inside it. The recovery
+  that disturbs nothing: a worktree from the branch tip at a short path, commit there,
+  restore only this run's own files in the main checkout, keep the branch. The other merge
+  completed within a minute, so verify the merge commit is free of your change
+  (`git grep` on the branch tip) before reporting.
+- **An Edit that will not match a line you can see is a signal, not a nuisance.** The
+  normaliser line held literal 0x08 bytes where `\b` was meant, and the failed match was the
+  first evidence. Splice such a file with binary I/O, assert the byte count after, and write
+  the fixed escape as the two characters backslash-b with a comment saying why.
+
+## 2.11.0 - 2026-09-17 - refactoring-hermes-1393-agents
+
+- **A by-name grep across a wire boundary returns coincidences, and a coincidence reads as
+  a live caller.** The seam check grepped 218 export names as string literals in the other
+  language's tree and got one hit, which would have been filed as "the instrument called a
+  live export dead". The dispatcher on the far side resolves names against its own method
+  table, and that table installs its own implementation of the same name; the export was
+  a duplicate and the instrument was right. Join the dispatcher's table, never the string,
+  and treat a one-hit grep across a boundary as the case most likely to be a name collision.
+- **Test the mechanism you blame before you fix the config.** The hypothesis that an ignore
+  pattern hid the consumer was cheap to run as arm B (drop the pattern, re-run) and it was
+  wrong: files 317 -> 326, exports unchanged. Had the run edited the config on the
+  hypothesis, it would have shipped a no-op with a confident commit message.
+- **A vendor post about a tree this registry already mined is a currency source first.** Its
+  headline was economics; its one landing-shaped fact for us was that the mined tree no
+  longer has the shape our four source-tree applications describe. Check the source ledger
+  for the tree before triaging the post, and write the `refresh_by` row before the table.
+- **Bot wall on a static host: exit 2, browser route, one call.** The checkpoint cleared
+  on its own. Worth adding to the ingest's guidance rather than to the method.
+
+## 2.11.0 - 2026-09-18 - supermemory (memory lane, re-mine)
+
+- **Check whether the engine is downloadable before concluding it is hosted.** The prior run
+  of this source characterised a whole source class from a premise that a Releases page
+  refutes in one look: the "closed engine" had shipped a self-hosted binary ten weeks
+  earlier. The class reading it produced (a closed engine leaks its ontology through its
+  open client's types) is still good; it was applied to a source that did not need it. Add
+  the Releases page and any `self-hosting/` directory to the Phase 2b sweep, before the
+  concept docs.
+- **A source mined before a lane existed is worth re-mining, and the ledger cannot tell you
+  that.** "Already mined" was true and the run was still worth its cost, because the
+  question changed: not "what do the docs claim" but "which arm is this". A re-mine gate
+  that only checks the ledger will decline exactly the runs where the method has improved
+  since. The operator's `memory` argument was the signal here; the method should be able to
+  produce it itself - a mined source whose note predates a lane the source falls into is a
+  re-mine candidate.
+- **A long arm needs its resumability designed before its first run, not after.** Three
+  facts made the difference and none is specific to this engine: the harness scores probes
+  after the replay (so a killed run salvages nothing), the store keeps growing (so a naive
+  resume answers early probes against a late store), and the model budget is a window (so
+  the run *will* be killed). Recording each probe's context at its own instant solves all
+  three at once and makes the re-run free, because identical prompts hit the model cache.
+- **A counter that resets per process reports the last window, not the run.** The final
+  window ingested nothing and the report said the arm cost zero model calls to build. Any
+  cost column fed by a per-window instrument needs an accumulate-on-start check before a row
+  is quoted; the reconstruction from the call cache was possible only because the cache is
+  content-addressed and shared.
+- **When a paired result sits inside grader noise, find the rate with no model in it.** Five
+  flipped probes of 194, three of them strictness. The landing rests instead on a count taken
+  off the assembled context - 92 of 92 - which needed no consumer and no judge, and which is
+  the half of the finding a reader can check without re-running anything.
+
+### Redesign proposal - the sibling lane at Phase 4
+
+The declared focus (grep prior untriaged tables for this source's terms) executed and
+returned nothing, while the run's sharpest corroboration came from a sibling note written
+the same morning in the same domain: its banked question was what this run's paired read
+answered. Phase 4 should read *recent sibling notes' leads and untriaged rows by domain*,
+not only by term match. Not applied here beyond the declared focus for the next run, because
+one sighting is not a rule.
+
+## 2.11.0 - 2026-09-18 - kwp-small-business
+
+- A skills library carries its design record in its shared contracts, not in its skills. Here, 44 skills of domain advice gave 11 catches, and all three landings came from the files the authors wrote about what broke *between* skills. Read `shared/` (or the equivalent cross-cutting folder) as the Phase 2b operating documents, and read the per-skill folders last.
+- The fleet seam hunt found the strongest landing again. The source stated the rule generically (a total crossing a seam must not become a denominator); personas held a live instance (a cost ceiling reading a path total while the guard beside it counted the whole trace). When two guards sit side by side, ask what population each one sums. A repository that already has the right query for one axis is the fingerprint.
+- 2.11.1 is a patch: one sentence in Phase 9 no longer claims /librarian reads rescan_when on a clock. A mid-flight run on 2.11.0 needs to do nothing.

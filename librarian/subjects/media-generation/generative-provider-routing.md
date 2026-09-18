@@ -203,3 +203,25 @@ measured dev order until its own next bullet resolves it; left alone.
   are invisible to drift detection; `recruiting`, `civic-intelligence` and
   `grant-funding` are at 100%. Systematic pass, not per-subject dispatches -
   see [[standard]].
+
+## 2026-09-17 - two dated facts, from `youtube:2CQwma8ZKNQ`
+
+Touched by [[2026-09-17-muse-character-sheet-local]], a first-party build-walkthrough
+about rendering character sheets locally. Both changes are in applications; no technique
+or golden path moved.
+
+- **`vendor-fact-ledger`: the open-weights license splits by model size.** The ledger
+  carried one license for a whole consumer-GPU family. The primary says the 4B variant is
+  Apache-2.0 and the 9B is non-commercial, so a routing plan reading the old line would
+  send commercial work to the larger local model. Corrected inline and dated;
+  `verified_on` deliberately not moved, because only this entry was re-resolved.
+- **`capability-to-vendor-plan`: the local tier has a host-RAM ceiling.** The proof sized
+  the local row on VRAM. The engine's own source (read on this machine, not taken from the
+  video) caps pinned host memory at 40% of system RAM on Windows, higher on Linux, with
+  only an all-or-nothing switch to disable it - about 26 GB on a 64 GB host and 13 GB on a
+  32 GB one, before offloaded weights need their own RAM.
+
+**Open here:** whether a layout reference and an identity reference imply *unequal*
+authority, not merely distinct roles. `reference-role-map` declares roles; nothing found
+states the weighting. Banked untriaged with its anchor rather than landed, because the
+source's own evidence for it comes from the route it calls the less reliable of the two.

@@ -137,3 +137,20 @@ two-channel model for **flags**; neither subject owned an entry's firing volume.
   right for public surface and wrong for intra-module helpers. Uncorrected it would
   have reported a 21% dead surface on a healthy abstraction, in a row whose finding
   would have been interesting enough not to question.
+
+## 2026-09-17 - intake `refactoring-hermes-1393-agents` (run intake-hermes-1393)
+
+- `instrument-per-orphan-class` gains the **published names** class - the one whose
+  error runs toward dead: a reference scan over a tree whose exports have callers
+  outside it reports the cleanest-looking dead export on the list, and its deletion
+  breaks trees no suite runs. Instrument: a declared surface and a removal gate that
+  flags, never deletes. Plus a roster column: the universe each instrument counts in,
+  with the ignore list read as a removal of consumers from the census.
+- Application `node--instrument-per-orphan-class` (personas) re-verified 2026-09-17:
+  `applied: experiment`, `ab_verdict: not-better` at a seam chosen to falsify (a
+  private app has no members of the class, and had none: 0 of 218). The seam returned
+  a structural fact instead - the Rust -> JS bridge direction had no join instrument -
+  and one shipped (`2ad1cedc8` in the project). Currency: the unused-export
+  instrument there is wired nowhere since 2026-08-30 and red at HEAD (317 files).
+- Lesson carried out of the seam: a by-name grep across a wire boundary returns
+  coincidences; join the dispatcher's method table, not the string.

@@ -321,3 +321,29 @@ confirms it, it belongs in Phase 4 as a named probe rather than as a lesson.
 ## 2.2.0 - 2026-09-09 - ai-registry
 
 - Routing review found a contradiction: an exact ten-item opening and automatic adjacent-area expansion opposed the later no-padding rule. Made ten a ceiling, accepted zero findings, and tied expansion to accepted scope. Behavioral evaluation remains separate from this instruction audit.
+
+## 2.3.0 - 2026-09-17 - skillbench
+
+Benchmark of 414 judged runs across 8 skills and 3 repositories; ~18 verdicts and four
+recorded findings landed on this skill. Applied in 2.4.0.
+
+- **An unattended non-answer was being recorded as a user rejection.** Phase 7's unattended
+  default was "none - skip", and Phase 9d fingerprinted declined items into `passes.md`, whose
+  whole purpose is that future passes skip them. One run permanently suppressed a `critical`
+  security finding nobody had ever read. Judges called it a contract flaw rather than a run
+  defect, which is the signature of a wording bug. Fixed by splitting silence from rejection:
+  unanswered triage items are `decided: unasked`, written to the sweep note and the summary,
+  never fingerprinted.
+- **A tracked ledger line nobody committed.** Two of three runs on athena left the
+  `.ai/registry-leads.jsonl` append as an uncommitted tracked change; the harness treats a pure
+  append as non-blocking, so nothing caught it. The skill now says where that line rides -
+  the fix's commit, or a closing `explorer: ledger` commit - and that the gitignored files are
+  never staged.
+- **One run wrote a `.patch` file under the vault instead of building an `s` item.** The auto
+  band's whole premise is that the item lands; a parked patch is an unbuilt item that reads as
+  a deliverable. Stated plainly in the band description.
+- **Gate figures were reported from scoped runs as if they were the repo's.** Summaries claimed
+  a 55-warning lint baseline where the full gate reported 147, and "pre-existing" was asserted
+  with nothing to compare against. Added a gate-baseline step before the first edit: the full
+  gate once, recorded verbatim, quoted by any "pre-existing" claim, with scoped numbers named
+  as scoped.
