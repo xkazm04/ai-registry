@@ -1,11 +1,11 @@
 ---
 name: scan-sweep
 description: "Long-running quality sweep that walks a repository context by context, reads each area's code once, judges it through every scan lens, and lands what it can PROVE itself with atomic commits. With no arguments it runs the STABILIZE loop - bug hunting, UI perfection, performance - picking the least-covered context each round and keeping a per-context lens-coverage ledger so a codebase gets swept evenly instead of repeatedly in the same corner. Every finding climbs an evidence ladder (gate > probe > experiment > simulation) before it is routed: a measured `better` with no escalation builds in-session, S or M, under any strategy; `not-better` is rejected with its figures; only architecture (L), a direction outside the context's declared scope, an irreversible change, or a loosened policy still waits for a human. Use for a standing quality loop, before a hardening milestone, or to work down a backlog. Pass --develop for new capability, --optimize for deep hardening, --ideas-only to change no code, --coverage for the pick list."
-argument-hint: "[--stabilize|--develop|--optimize] [--one <context>] [--depth N] [--ideas-only] [--lenses k1,k2] [--coverage]"
+argument-hint: "[--stabilize|--develop|--optimize] [--one <context>] [--depth N] [--ideas-only] [--lenses k1,k2] [--coverage] [--backlogs]"
 category: workflow
 contexts: tracked
 memory: project
-version: 3.2.0
+version: 3.3.0
 tags: sweep, quality, stabilization, backlog, coverage, registry, atomic-commits
 ---
 # Context Sweep
@@ -25,6 +25,7 @@ returning to the next-least-covered area, not from skimming.
 /scan-sweep --one <context>     # exactly one context, then stop
 /scan-sweep --coverage          # the pick list; scan nothing
 /scan-sweep --ideas-only        # scan and propose; change no code
+/scan-sweep --backlogs          # list the open backlogs earlier passes left behind; scan nothing
 ```
 
 **Default = the stabilize loop.** No arguments means: pick the least lens-covered
@@ -37,6 +38,10 @@ loses nothing but the round in flight.
 **Announce each round's boundary out loud**: `── Round <n>: <context> (lens
 coverage <a>/<total>, last swept <age>) ──`. A loop whose rounds are not visible
 reads as one runaway session.
+
+**Existing backlog is spoken first (§0), including `--coverage`.** A run that
+starts a new scan while a previous wave still has unbuilt auto items has
+forgotten its own queue.
 
 ## Strategies - pick at most one
 
@@ -86,6 +91,63 @@ reads as one runaway session.
 
 Name the strategy in the report header and record it in the snapshot's `strategy`
 field.
+
+## 0. Open backlogs - tell the operator FIRST
+
+**Before the round header, before scoping, before any code is read: say what
+earlier passes left unworked.** A sweep is run weeks apart. An ideas-only wave, a
+`--develop` pass, or a round that hit the outbox cap leaves findings that exist
+nowhere but a file, and the operator who starts the next sweep has forgotten
+them. Scanning for MORE findings on top of an unworked backlog is the most
+expensive way to be reminded of it. (Measured 2026-09-17: one ideas-only wave
+produced 1,040 findings, 30 reached the outbox, 1,010 were "held" in a scratch
+directory, and the only record that they existed was a line in a report.)
+
+Look in every one of these, and report what each holds - `none` is an answer:
+
+1. **The open-backlog register** (overlay key `openBacklogs`, default
+   `.claude/scan-history/open-backlogs.jsonl`) - every row whose `status` is
+   `open`. This is the durable pointer; §9 says when a pass must write it.
+2. **The outbox** (overlay key `memoryOutbox`) - if the file exists and still
+   carries `"type":"finding"` lines, the last pass was never ingested. Count them.
+3. **The backlog digest** (overlay key `backlogDigest`) - the `pending` count:
+   findings a consumer ingested and nobody has decided.
+4. **Sweep history** - rows with `mode: "ideas"` or a `note` naming held or
+   unrecorded findings, newer than the last `mode: "resolve"` row for the same
+   scope.
+5. **Stray findings files** - `**/scan-sweep-*/all-findings.jsonl` and
+   `**/scan-sweep-*/findings/*.jsonl` under the repo's scratch locations
+   (`scratchpad/`, `.claude/scan-sweep/`, the overlay's own paths). A file found
+   here with no register row gets one written now, `status: open`.
+
+Then print the notice as the FIRST thing the operator reads, one line per backlog:
+
+```
+OPEN BACKLOG  <strategy> wave of <date> (<age>) - <open> of <total> findings unworked
+              <path> - <built> built, <declined> declined, <descoped> descoped
+              tiers: <undisputed n> ready to build, <n> need a contract/policy review, <n> need a direction call
+```
+
+and say what can be done with it: **work it down** (triage by `gate`, build the
+`gate: none` S/M items in waves, leave `direction` / `architecture` /
+`irreversible` / `policy-loosen` for the operator), **keep sweeping anyway**, or
+**close it** (the operator says the rest is not wanted; set the row `closed` with
+the reason). When the operator is present, ask which. When the run is
+unattended, do not block: repeat the notice at the top of every round report
+and carry on with the loop.
+
+Rules that keep the notice honest:
+
+- **Count from the file, not from the row.** Re-read the findings file and the
+  result files beside it; a register row is a pointer, and its numbers go stale
+  the moment anyone builds from the backlog.
+- **A missing path is reported, not skipped.** `OPEN BACKLOG ... file is gone`
+  tells the operator the findings were lost; silently dropping the row tells
+  them nothing was ever owed.
+- **Never re-propose what an open backlog already holds.** Its titles join §2's
+  never-re-propose lists for this run, exactly like the digest's.
+- `--backlogs` prints this notice and stops. `--coverage` prints it above the
+  table.
 
 ## 1. Scope the round
 
@@ -761,6 +823,20 @@ which findings did not fit and that they are unrecorded. A finding silently
 dropped for want of a line is worse than one never found, because the ledger
 will claim the context was swept.
 
+**Findings that do not reach the outbox get a register row.** Whenever a pass
+leaves findings anywhere but the outbox - the cap above, an `--ideas-only` or
+mass wave that wrote a findings file, a build wave that stopped early - append
+or update one line in the open-backlog register (overlay key `openBacklogs`):
+
+```json
+{"id":"<strategy>-<date>","at":"<ISO-8601>","strategy":"stabilize|develop|optimize","path":"<repo-relative path to the findings file>","total":<n>,"emitted":<n>,"built":<n>,"declined":<n>,"descoped":<n>,"open":<n>,"status":"open|closed","note":"<<=160 chars: what is left and who it waits on>"}
+```
+
+`open` reaching zero, or the operator declining the rest, sets `status:
+"closed"` with the reason in `note`; rows are never deleted. §0 reads this file
+first on every invocation - it is how a backlog survives the weeks between
+sweeps.
+
 ## 10. Persist a snapshot
 
 Append one line per round to `.claude/scan-history/scan-sweep.jsonl` (create the
@@ -793,9 +869,11 @@ consuming repo. The skill runs on the defaults without it.
 | `contextMap` | `context-map.json` | The context inventory the loop walks. |
 | `memoryOutbox` | `.personas/memory-outbox.jsonl` | Where findings are emitted. |
 | `backlogDigest` | `.personas/backlog-digest.json` | Titles never to re-propose. |
+| `openBacklogs` | `.claude/scan-history/open-backlogs.jsonl` | Register of findings files earlier passes left unworked; read first (§0), written by §9. |
 | `gates` | from `.claude/conventions.json` / manifest capabilities | Verification commands per surface. |
 | `depth` | 5 (loop), 10 (`--one`) | Findings per context per round. |
 | `neverSweep` | none | Contexts the loop skips (generated, vendored). |
+| `leftoverDeck` | none | Jsonl of prior-wave findings the outbox could not hold. When set, §0 reads it. |
 
 ## Coverage table
 
