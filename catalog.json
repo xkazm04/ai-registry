@@ -758,7 +758,7 @@
       "techniques": 25,
       "applications": 12,
       "files": 49,
-      "contentHash": "sha256:593072377c9aca1f"
+      "contentHash": "sha256:4d8c27fb2c9bb1b3"
     },
     {
       "name": "civic-intelligence",
@@ -849,7 +849,7 @@
       "techniques": 144,
       "applications": 72,
       "files": 242,
-      "contentHash": "sha256:8b5d75718236a1b3"
+      "contentHash": "sha256:9e189bc2352e4825"
     },
     {
       "name": "recruiting",
@@ -872,10 +872,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 229,
-      "techniques": 1754,
-      "applications": 1077,
-      "files": 3065,
-      "contentHash": "sha256:4d08d26615f39673"
+      "techniques": 1755,
+      "applications": 1078,
+      "files": 3067,
+      "contentHash": "sha256:bb0023b1290ee2e4"
     }
   ],
   "usageEvidence": {

@@ -14,6 +14,7 @@ techniques:
   - provider-publishes-state-not-decision
   - inherited-tier-not-cloned-tier
   - subtractive-entitlement
+  - live-catalog-edit-is-a-lifecycle-event
 ---
 
 # Plan entitlements
@@ -94,6 +95,14 @@ genuinely need bespoke copy, the model is not single-sourced. The mechanics —
 what belongs in the model, what must stay out, how limits are expressed so
 gates can compare them — are the
 [tier-model-single-source](./techniques/tier-model-single-source.md) technique.
+
+Single-sourcing says nothing about *where* the model lives, and that choice
+is not neutral. In code, every change passes review, the build and the
+deploy. In a table an operator edits, none of those three runs. An edit that
+narrows a tier with subscribers is then a bulk downgrade that never touches
+the lifecycle handler. Rebuilding those gates is the
+[live-catalog-edit-is-a-lifecycle-event](./techniques/live-catalog-edit-is-a-lifecycle-event.md)
+technique.
 
 ## The stored word and the shown word are different words
 
@@ -292,3 +301,7 @@ gets tuned by whoever is least informed.
 - [subtractive-entitlement](./techniques/subtractive-entitlement.md)
   — inherited, overridden and removed are three states; an override equal to
   the inherited value is a coincidence, not a decision.
+- [live-catalog-edit-is-a-lifecycle-event](./techniques/live-catalog-edit-is-a-lifecycle-event.md)
+  — a tier model moved into an editable store loses review, compiler and
+  deploy; narrowing a subscribed tier is a bulk downgrade through the
+  lifecycle path, and an offer nobody should inherit is a new tier.

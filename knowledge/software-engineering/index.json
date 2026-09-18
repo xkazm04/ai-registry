@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 229,
-  "techniques": 1754,
-  "applications": 1077,
+  "techniques": 1755,
+  "applications": 1078,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1754/1754",
+  "use_when_coverage": "1755/1755",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -1434,7 +1434,7 @@
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-instruction-files/agent-instruction-files.md",
    "digest": "sha256:6b31e7ab0d2fa5ec",
-   "revision": 25,
+   "revision": 27,
    "changedAt": "2026-09-18",
    "techniques": [
     {
@@ -1821,7 +1821,7 @@
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/agent-memory.md",
    "digest": "sha256:9e67ed589b1ef6a3",
-   "revision": 38,
+   "revision": 40,
    "changedAt": "2026-09-18",
    "techniques": [
     {
@@ -2453,7 +2453,7 @@
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-runtime-assembly/agent-runtime-assembly.md",
    "digest": "sha256:aed5b5a233987c50",
-   "revision": 19,
+   "revision": 20,
    "changedAt": "2026-09-18",
    "techniques": [
     {
@@ -3643,7 +3643,7 @@
    "status": "reconciled",
    "file": "knowledge/software-engineering/security/identity-and-access/authorization/authorization.md",
    "digest": "sha256:5f64bbab156656d1",
-   "revision": 5,
+   "revision": 6,
    "changedAt": "2026-09-18",
    "techniques": [
     {
@@ -6614,7 +6614,7 @@
    "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/concurrent-vcs/concurrent-vcs.md",
    "digest": "sha256:8b6ffdb068226877",
    "revision": 4,
-   "changedAt": "2026-09-18",
+   "changedAt": "2026-09-17",
    "techniques": [
     {
      "slug": "commit-verification",
@@ -8876,7 +8876,7 @@
    "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/dead-code/dead-code.md",
    "digest": "sha256:4b0d6f434c811201",
    "revision": 11,
-   "changedAt": "2026-09-18",
+   "changedAt": "2026-09-17",
    "techniques": [
     {
      "slug": "carrying-cost-economics",
@@ -12098,7 +12098,7 @@
    "file": "knowledge/software-engineering/backend-platform/data-layer/embedded-db/embedded-db.md",
    "digest": "sha256:81a015d32c782317",
    "revision": 14,
-   "changedAt": "2026-09-18",
+   "changedAt": "2026-09-17",
    "techniques": [
     {
      "slug": "analytical-reads-off-the-serving-store",
@@ -13248,7 +13248,7 @@
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/eval-harness/eval-harness.md",
    "digest": "sha256:204df3c0fb25a19c",
-   "revision": 32,
+   "revision": 34,
    "changedAt": "2026-09-18",
    "techniques": [
     {
@@ -16368,8 +16368,8 @@
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/invariant-placement/invariant-placement.md",
    "digest": "sha256:993670bb930d5af9",
-   "revision": 8,
-   "changedAt": "2026-09-18",
+   "revision": 7,
+   "changedAt": "2026-09-17",
    "techniques": [
     {
      "slug": "build-time-evaluation-of-cross-value-invariants",
@@ -18430,7 +18430,7 @@
    "status": "reconciled",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/mcp-tools.md",
    "digest": "sha256:f6cbf8911ab79416",
-   "revision": 26,
+   "revision": 27,
    "changedAt": "2026-09-18",
    "techniques": [
     {
@@ -23412,9 +23412,9 @@
    "subcategory": "service-operations",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/service-operations/plan-entitlements/plan-entitlements.md",
-   "digest": "sha256:1684b2a439c233fc",
-   "revision": 6,
-   "changedAt": "2026-09-07",
+   "digest": "sha256:638c778475311ce1",
+   "revision": 7,
+   "changedAt": "2026-09-18",
    "techniques": [
     {
      "slug": "capability-gate-predicates",
@@ -23488,6 +23488,23 @@
       "giving one customer a bespoke price",
       "adding per-customer commercial terms",
       "a customer who stopped receiving new features"
+     ]
+    },
+    {
+     "slug": "live-catalog-edit-is-a-lifecycle-event",
+     "status": "forged",
+     "laws": [
+      "one-validation-door",
+      "one-authority-per-vocabulary",
+      "creation-names-reaper"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "moving the tier model out of code into a table an operator can edit",
+      "editing the limits or capabilities of a tier that already has subscribers",
+      "deciding whether a plan change needs a deploy",
+      "a pricing redesign that adds a capped meter to existing tiers",
+      "a customer lost a feature nobody revoked"
      ]
     },
     {
@@ -23575,6 +23592,13 @@
      "technique": "entitlement-lifecycle-revocation",
      "file": "knowledge/software-engineering/operations/service-operations/plan-entitlements/applications/node--entitlement-lifecycle-revocation.md",
      "verified_on": "2026-09-02",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "live-catalog-edit-is-a-lifecycle-event",
+     "file": "knowledge/software-engineering/operations/service-operations/plan-entitlements/applications/node--live-catalog-edit-is-a-lifecycle-event.md",
+     "verified_on": "2026-09-18",
      "verified_against": "node@24"
     },
     {
@@ -23941,7 +23965,7 @@
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/prompt-assembly.md",
    "digest": "sha256:c1af34417c9515db",
    "revision": 33,
-   "changedAt": "2026-09-18",
+   "changedAt": "2026-09-17",
    "techniques": [
     {
      "slug": "amortized-compaction-cadence",
@@ -32285,7 +32309,7 @@
    "file": "knowledge/software-engineering/llm-agent/orchestration/tenant-scoped-agent-runtime/tenant-scoped-agent-runtime.md",
    "digest": "sha256:8c40dd590387bd63",
    "revision": 5,
-   "changedAt": "2026-09-18",
+   "changedAt": "2026-09-17",
    "techniques": [
     {
      "slug": "fail-direction-follows-deployment-mode",
@@ -38184,6 +38208,7 @@
     "pipeline-dag/graph-validation",
     "plan-entitlements/capability-gate-predicates",
     "plan-entitlements/deployment-mode-short-circuit",
+    "plan-entitlements/live-catalog-edit-is-a-lifecycle-event",
     "priced-authority/approver-not-requester",
     "prompt-assembly/layered-composition",
     "prompt-assembly/summary-evidence-gate",
@@ -38745,6 +38770,7 @@
     "pipeline-dag/node-execution-model",
     "pipeline-dag/pause-and-gate-nodes",
     "plan-entitlements/entitlement-lifecycle-revocation",
+    "plan-entitlements/live-catalog-edit-is-a-lifecycle-event",
     "priced-authority/never-persisted-token-class",
     "priced-authority/secondary-index-before-primary",
     "priced-authority/single-use-cubbyhole-wrap",
@@ -39126,6 +39152,7 @@
     "plan-entitlements/deployment-mode-short-circuit",
     "plan-entitlements/id-vs-label-split",
     "plan-entitlements/inherited-tier-not-cloned-tier",
+    "plan-entitlements/live-catalog-edit-is-a-lifecycle-event",
     "plan-entitlements/price-book-authority",
     "plan-entitlements/provider-publishes-state-not-decision",
     "plan-entitlements/subtractive-entitlement",

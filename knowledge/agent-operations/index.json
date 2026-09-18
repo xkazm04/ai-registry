@@ -24,7 +24,7 @@
    "file": "knowledge/agent-operations/measurement/agent-benchmark-design/agent-benchmark-design.md",
    "digest": "sha256:2d930799536612b6",
    "revision": 1,
-   "changedAt": "2026-09-18",
+   "changedAt": "2026-09-17",
    "techniques": [
     {
      "slug": "comparable-cell-construction",
@@ -85,7 +85,7 @@
    "file": "knowledge/agent-operations/configuration-choice/agent-run-budgeting/agent-run-budgeting.md",
    "digest": "sha256:86f73d55547bc8b8",
    "revision": 1,
-   "changedAt": "2026-09-18",
+   "changedAt": "2026-09-17",
    "techniques": [
     {
      "slug": "allowance-budgeting-across-workloads",
@@ -151,7 +151,7 @@
    "file": "knowledge/agent-operations/measurement/blind-judging-of-agent-runs/blind-judging-of-agent-runs.md",
    "digest": "sha256:0243709cbd476824",
    "revision": 1,
-   "changedAt": "2026-09-18",
+   "changedAt": "2026-09-17",
    "techniques": [
     {
      "slug": "facts-beside-the-work",
@@ -211,7 +211,7 @@
    "file": "knowledge/agent-operations/measurement/deterministic-run-verification/deterministic-run-verification.md",
    "digest": "sha256:a0cef7907383682e",
    "revision": 1,
-   "changedAt": "2026-09-18",
+   "changedAt": "2026-09-17",
    "techniques": [
     {
      "slug": "baseline-relative-gate-evaluation",
@@ -271,7 +271,7 @@
    "file": "knowledge/agent-operations/configuration-choice/engine-behaviour-profiles/engine-behaviour-profiles.md",
    "digest": "sha256:09d8c183d2741a6c",
    "revision": 1,
-   "changedAt": "2026-09-18",
+   "changedAt": "2026-09-17",
    "techniques": [
     {
      "slug": "authority-conflict-disposition",
@@ -338,7 +338,7 @@
    "file": "knowledge/agent-operations/measurement/harness-fault-attribution/harness-fault-attribution.md",
    "digest": "sha256:42b9ec8faa705146",
    "revision": 1,
-   "changedAt": "2026-09-18",
+   "changedAt": "2026-09-17",
    "techniques": [
     {
      "slug": "clear-the-environment-first",
@@ -399,7 +399,7 @@
    "file": "knowledge/agent-operations/configuration-choice/model-and-effort-selection/model-and-effort-selection.md",
    "digest": "sha256:e5f0179466c8db89",
    "revision": 1,
-   "changedAt": "2026-09-18",
+   "changedAt": "2026-09-17",
    "techniques": [
     {
      "slug": "cheapest-sufficient-tier",
@@ -477,7 +477,7 @@
    "file": "knowledge/agent-operations/run-safety/unattended-run-isolation/unattended-run-isolation.md",
    "digest": "sha256:2fef9a8edb8ad35c",
    "revision": 1,
-   "changedAt": "2026-09-18",
+   "changedAt": "2026-09-17",
    "techniques": [
     {
      "slug": "confine-configured-output-paths",

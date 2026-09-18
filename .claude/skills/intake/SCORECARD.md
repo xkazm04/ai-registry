@@ -4165,6 +4165,7 @@ Stage the funnel is losing most at, last ten rows (counted from the Apply and Sh
 | 2.11.0 | 2026-09-18 | `github:supermemoryai/supermemory@a92c21b2` (memory lane, re-mine of 2026-08-26) | 1 repository cloned and swept (2,057 landing / ~119,700 in-tree; concepts, recall, ingestion, self-hosting and benchmark docs) **plus its released server binary run as a service**; 0 of 3 fetches; 1 fleet tree read | 13 (6 design + 7 claim) | 2 admitted (amendment 2/0/1; technique 3/0/2), 5 untriaged, 4 catches, 4 leads; **declared focus `extract` executed**: no convergence from any prior run's untriaged rows, and the convergence that mattered came from a *sibling note* written the same day | 1 amendment + 1 technique + 2 applications (both fleet) | 1e/2c/0s/0t/0r; 3 rows, all owed rows written | 4 - personas `bee29e016`, `c67a86bec`, `2172cbc6b`, `2186f009b` (none pushed) | Depth `0/1/1/0/0`; routing count 0 NONE / 3 partial, one subject, no handoff; `directions=n/a`, gate empty; `auto=2/5/0`, `fp=0`; anchors 27 of 27 held across three documents |
 | 2.11.0 | 2026-09-18 | `youtube:0GO3-JzQjzg` ai-video-four-stage-walkthrough | 1 video (2,472 words), sponsored second-hand practitioner review of one hosted video platform; 0 of 3 fetches | 12 | 0 admitted; `auto=0/2/0`, `fp=0`; 10 catches (every row mapped to a technique paragraph that already states it, several verbatim), 2 leads, 0 untriaged; promoting question run on both `partial` rows, neither promoted; **declared focus executed**: four sibling notes from the last seven days read, three of their banked rows touched by this source, **none answered**, because a single-arm demo cannot close a question that needs a pair | 0 (currency 0 too: the corpus already records the model version the video calls upcoming) | 0c/0e/0s/0t/0r - nothing landed, so nothing is owed | 0 - no landing, and the fleet has no local video-generation seam | Zero is the class's calibrated yield, not a miss: a sponsored review over a bundle whose `storyboard-grid-conditioning` and `generated-shot-sourcing` already hold every stage it demos | Depth `0/0/0/0/0`; no design record (video); `directions=n/a` |
 | 2.11.0 | 2026-09-18 | `github:anthropics/knowledge-work-plugins@ebd7990` small-business | 1 repository cloned and swept (701 landing / 214,635 in-tree: all 15 `shared/` contracts, every gotchas file, the router); 0 of 3 fetches; 2 fleet trees read (personas, ai-registry) plus the harness binary as a primary | 20 (7 design + 13 claim) | 3 admitted (technique 3/0/2, technique 2/0/2, amendment 2/0/1), 3 untriaged, 11 catches, 3 leads; `auto=3/3/0`, `fp=0`; one promoting read (tenant scope, resolved to a catch); **declared focus executed**: 34 sibling notes from 2026-09-11..18 read, 0 banked rows answered | 2 techniques + 1 amendment + 1 application (fleet) + intake 2.11.1 | 2c/1e/0s/0t/0r; 3 rows, all owed rows written | 2 - personas `1ce23dde3` (the fix), `45af0e18a` (row only); none pushed | Depth `0/2/1/0/0`; routing count 1 NONE / 2 missing-stage, one system, no handoff, no XL; `directions=n/a`, gate skipped (unattended) | the plugin's headline rules were all caught; the yield was in the joins between skills, and the fleet seam hunt turned one of them into a shipped fix |
+| 2.11.1 | 2026-09-18 | `youtube:IdwdqdywNOM` type-object-subscription-plans | 1 video (2,642 words), second-hand practitioner explainer of a published pattern; 1 of 3 fetches (the provider's entitlements doc, spent on the one row it could promote); 1 fleet tree read (kp, catalog history) | 9 | 1 admitted (technique 3/0/2), 1 untriaged (2/1/2, contested home), 7 catches, 1 lead; `auto=1/1/0`, `fp=0`; promoting question run on both `partial` rows, one promoted by the fetch | 1 technique + 1 application (fleet) | 1c/0e/0s/0t/0r; 1 row, all owed rows written | 2 - kp `83085b027` (the guard), `4774f4531` (row only); none pushed | none; declared focus (`extract`, joins first) did not apply to a single-topic explainer with no joins, and the yield came from the fleet seam hunt for the third run running | Depth `0/1/0/0/0`; no design record (video), `directions=n/a`, gate skipped (unattended); the seam chosen to falsify refuted the draft's store-only claim and the technique was corrected before landing |
 
 ## 2026-09-16 - modernweb-web (the contract the checker could not see)
 
@@ -4324,3 +4325,22 @@ sibling lane, now with rule 1's filter.
 **Weakest stage across the last ten rows:** `extract`, widened to the sibling lane,
 stands. It was executed and answered nothing this run: 34 notes read, 0 banked rows
 closed. This source's yield came from the fleet seam hunt, not from sibling notes.
+
+## 2026-09-18 - type-object-subscription-plans (the aside, not the pattern)
+
+**Next run focus (type-object-subscription-plans).**
+1. **In a pattern explainer, the yield is in the aside the pattern assumes
+   away.** Thirteen minutes taught a pattern the corpus owns twice. One minute
+   asked where the plan objects come from (a source file or a database), and
+   that was the only stage nothing in the corpus owned. Read an explainer for
+   the question it answers in passing, not the one it is titled after.
+2. **Run the falsifying seam before the landing is final, not after.** The kp
+   history refuted this run's own draft ("a code catalog escapes the bulk
+   downgrade") while the technique was still in the working tree, and the
+   correction cost one paragraph. After a commit it would have cost an
+   amendment against the run's own technique.
+
+**Weakest stage across the last ten rows: unchanged, `extract` (widened to the
+sibling lane).** This row is small and calibrated. Its landing came from the
+seam hunt, the third consecutive run where the fleet out-originated the
+source.
