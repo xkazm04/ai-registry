@@ -337,7 +337,7 @@
       "name": "spark",
       "source": "./skills/spark",
       "description": "Turn a vague product idea (a \"sparkle\") into a complete, grounded design through waves of select/multi-select questions - then orchestrate the build. Targets exactly which contexts/files the idea touches, scouts them before asking anything, converges the design across four perspectives (functional, UX, UI, performance/architecture), and executes via builder subagents in a worktree under Director r",
-      "version": "1.4.1",
+      "version": "1.5.0",
       "category": "workflow"
     },
     {

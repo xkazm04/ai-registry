@@ -501,18 +501,18 @@
     },
     {
       "name": "spark",
-      "version": "1.4.1",
+      "version": "1.5.0",
       "category": "workflow",
       "path": "skills/spark/SKILL.md",
-      "contentHash": "sha256-n1:ed7dba96b83c7db2",
+      "contentHash": "sha256-n1:e08260f543f2c85b",
       "adopters": [
         "personas@plugin:1.0.0"
       ],
       "invokes30d": 6,
       "reportedInvokes": 6,
-      "lessons": 20,
+      "lessons": 21,
       "lessonsPath": "skills/spark/LESSONS.md",
-      "lessonsHash": "sha256-n1:b93625968b08c33e",
+      "lessonsHash": "sha256-n1:ff3955f2d5e26ec7",
       "usageContributors": [
         "kazda-dev-box"
       ]
@@ -744,7 +744,7 @@
     "skills": 34,
     "practices": 8,
     "memory": 6,
-    "lessons": 233
+    "lessons": 234
   },
   "bundles": [
     {
