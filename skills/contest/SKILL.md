@@ -1,11 +1,11 @@
 ---
 name: contest
-description: "Blind design contest between CLI agent seats (Claude Code, Codex CLI, Grok CLI). Each participant you name - engine:model@effort - builds three genuinely different prototype variants of one idea in its own workspace; a cross-family panel scores every variant blind on six dimensions (wow, clarity at scale, wayfinding, interaction, craft, concept); the host adds a visual pass in a browser; the owner declares the winner; the winner and the design philosophies behind it land in an Obsidian vault whose pattern ledger becomes the bar in the next brief. Built for UI prototypes with a wow factor, usable for any solution design. Invoke with /contest \"<idea>\" --participants <specs> for a full round, or /contest init|run|collect|judge|verdict|status <id> to drive one step."
+description: "Blind design contest between CLI agent seats (Claude Code, Codex CLI, Grok CLI). Each participant you name - engine:model@effort - builds three genuinely different prototype variants of one idea in its own workspace; a cross-family panel scores every variant blind on seven dimensions (wow, clarity at scale, wayfinding, interaction, craft, concept, utility); the host adds a visual pass in a browser; the owner declares the winner or sends a shortlist into a refinement round with their review; the winner and the design philosophies behind it land in an Obsidian vault whose pattern ledger becomes the bar in the next brief. Built for UI prototypes with a wow factor, usable for any solution design. Invoke with /contest \"<idea>\" --participants <specs> for a full round, or /contest init|run|collect|judge|verdict|refine|status <id> to drive one step."
 category: workflow
 memory: vault
-version: 1.0.0
+version: 1.1.0
 tags: contest, prototyping, ui, multi-model, blind-judging, vault
-argument-hint: "\"<idea>\" --participants engine:model@effort,... | init|run|collect|judge|verdict|status <id>"
+argument-hint: "\"<idea>\" --participants engine:model@effort,... | init|run|collect|judge|verdict|refine|status <id>"
 ---
 
 # Contest - three seats, three ideas each, one blind panel
@@ -33,13 +33,15 @@ resumes by re-running the same command.
 - **Judges** - CLI seats reading the blinded copies with the rubric in
   `references/judge-brief.md`. They see code and notes, not pixels; the visual pass is the
   host's.
-- **Owner** - the person. The scoreboard is evidence; the winner is their call.
+- **Owner** - the person. The scoreboard is evidence; the winner is their call, and their review
+  outranks the panel. On the first contest the owner filed the panel's unanimous first place under
+  "not practical" and shortlisted three variants the panel had ranked fourth to sixth.
 
 ## Invocation
 
 ```
 /contest "<idea>" --participants claude:opus@xhigh,grok:grok-4.6@high,codex:gpt-5.6-sol@high
-/contest init|run|collect|judge|aggregate|verdict|status <id>
+/contest init|run|collect|judge|aggregate|verdict|refine|status <id>
 ```
 
 The full form runs steps 1 to 8 below with a pause before the verdict. The step form drives one
@@ -178,6 +180,46 @@ node <skill>/scripts/contest.mjs verdict --id <slug> --winner B/2 [--runner-up A
 **sighting**. Curate with `--pattern` - the panel's tally is evidence, the host's statement of
 *why the winner won, phrased so it transfers to a different dataset* is the ledger's value. Three
 strong patterns beat ten restatements of the rubric.
+
+## 7b. Another round - when the owner shortlists instead of choosing
+
+The owner opens the variants themselves and may answer with a sorting rather than a winner:
+failures, readable-but-impractical, and a shortlist with a sentence or two on each. That answer is
+worth more than the scoreboard; act on it in this order.
+
+1. **Delete what the owner called a failure**, after listing it, and re-run `collect` so the
+   manifest and gallery match the disk. Keep the run records; they are the cost history.
+2. **Write the owner's review to a file**: `## All` for what they said about the field, then one
+   `## <letter>/<n>` section per shortlisted variant. Quote the owner verbatim first; add your
+   reading of what the words ask for beneath, marked as yours. A participant must be able to tell
+   the owner's sentence from the host's interpretation.
+3. **Record the shortlist** - the ledger gains sightings, no wins, and the note says a round is pending:
+
+```
+node <skill>/scripts/contest.mjs verdict --id <slug> --shortlist A/2,C/1 --note <review-file> \
+  [--pattern "slug|statement|evidence"]... [--force]
+```
+
+   Curate the patterns from the owner's words, not the panel's: what they praised and what they
+   rejected is the taste the next brief must quote.
+
+4. **Create the round**:
+
+```
+node <skill>/scripts/contest.mjs refine --id <slug> --shortlist A/2,C/1 --feedback <review-file> [--round 2]
+```
+
+   `refine` makes a child contest `<slug>-r<round>` with **one seat per shortlisted variant** - the
+   same engine, model and effort that built it, labelled `#v<n>` - so two variants by one seat each
+   get a full time budget. Each workspace holds the variant as the owner saw it (also kept under
+   `seed/` for a before/after), the owner's section of the review, the panel's weaknesses for that
+   variant as a defect list, and redacted copies of the other shortlisted variants under
+   `reference/` so a seat can borrow what the owner praised elsewhere. The brief
+   (`references/refine-brief.md`) says the owner outranks the panel and sets the practical bar:
+   type-size floors, levels instead of one layer, heavy content on its own surface.
+5. `run`, `collect`, the visual pass and `verdict` work on the child id unchanged. Judge the
+   round with the panel only if the owner wants a second opinion; a refinement round is decided
+   by the person who wrote the review.
 
 ## 8. Report
 

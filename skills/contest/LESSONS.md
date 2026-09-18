@@ -35,3 +35,31 @@ blind plus the host's headless visual pass. Nine of nine variants delivered; no 
 - **The Chrome extension was not connected, and that was fine.** A headless Playwright pass
   gave load, probe, search and descent frames for all nine variants in four minutes and became
   the documented fallback. A browser tool is a convenience, not a dependency.
+
+## 1.0.0 - 2026-09-18 - tracklight (knowledge-skill-tree, the owner's review)
+
+The owner opened all nine variants and overruled the panel. This is the lesson that matters most
+from the first contest, so it is recorded apart from the mechanics above.
+
+- **Three judges agreed and were all wrong about what the owner wanted.** The unanimous first
+  place (a star map, mean 8.17) was filed by the owner under "readable but with not practical
+  UX". The owner's shortlist was the panel's 4th, 5th and 6th. Every variant of one seat was
+  deleted as unreadable although the panel had one of them tied for second. The rubric asked
+  about wow, clarity, wayfinding, interaction, craft and concept, and nothing asked "would the
+  owner open this tomorrow to do the real task". `utility` is the seventh dimension from 1.1.0.
+- **The host's visual pass shared the panel's bias.** Screenshots at load and after one probe
+  reward a striking first frame. They do not show that 11 px labels are tiring after a minute or
+  that a detail sidebar is too narrow for a rule with five triggers and three laws. The host
+  should read body text sizes out of the page (`getComputedStyle`) and report the smallest font a
+  user must read, not only look at the frame.
+- **The owner's review is the best brief of the whole contest.** Three sentences per variant
+  named the exact defects (one layer, small type, sidebar for heavy content) and the exact
+  cross-pollination (one variant's theming on another's canvas). 1.1.0 adds `verdict --shortlist`
+  and `refine` so that review becomes a round instead of a footnote.
+- **One seat per shortlisted variant.** Two of the three shortlisted variants came from one seat;
+  refining both in one session would have halved the budget of each. `refine` labels the seat
+  `#v<n>` and gives each variant its own workspace and clock.
+- **The ledger must not credit wins the owner did not award.** The first verdict wrote five
+  patterns as wins for a variant the owner then rejected. A shortlist verdict records sightings
+  only, and the curated patterns now come from the owner's words: practical before spectacular,
+  levels not one layer, heavy content gets its own surface.

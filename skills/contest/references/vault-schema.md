@@ -14,8 +14,8 @@ then use `<root>/<vault_subdir>/` (default `Contest`).
 ## contests/<id>.md
 
 Frontmatter (`contest`, `title`, `date`, `project`, `participants`, `judges`, `winner`,
-`winner_seat`, `runner_up`, `patterns`, `tags: [contest]`) so Dataview can table contests by
-seat or pattern. Body: the idea, the scoreboard (mean, spread, six dimensions, per-judge totals,
+`winner_seat`, `runner_up`, `shortlist`, `patterns`, `tags: [contest]`) so Dataview can table contests by
+seat or pattern. Body: the idea, the scoreboard (mean, spread, the rubric dimensions, per-judge totals,
 seats unblinded), the seats' reported cost and wall time, the host's decision note, the patterns
 and anti-patterns the panel named, each pattern linked to its ledger section.
 
@@ -38,6 +38,10 @@ where any judge named it. `contest.mjs init` reads this ledger and quotes the to
 every participant's brief under "What has won before" - as the bar to surpass, with an explicit
 instruction not to copy. That loop is the point of the vault: each contest's winners raise the
 floor of the next.
+
+A shortlist verdict (`verdict --shortlist`) writes the same note with no winner, the owner's review
+in place of the decision, and sightings only in the ledger. The refinement round is a contest of
+its own (`<id>-r<round>`) and gets its own note when it is decided; link the two by hand.
 
 ## Hygiene
 

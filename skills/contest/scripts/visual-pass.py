@@ -75,6 +75,28 @@ def main():
                         inputs: document.querySelectorAll('input[type=text],input[type=search],input:not([type])').length,
                         buttons: document.querySelectorAll('button,[role=button]').length,
                         title: document.title })""")
+                    # A frame looks fine at 11 px; reading it for a minute does not. Measure the type the
+                    # user must read: smallest rendered size, and the share of visible characters under
+                    # 12 px. DOM and SVG text only - text painted on a canvas cannot be measured here.
+                    counts["type"] = page.evaluate("""() => {
+                        let min = null, small = 0, total = 0; const sizes = {};
+                        const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+                        for (let n = walker.nextNode(); n; n = walker.nextNode()) {
+                            const t = n.textContent.trim(); const el = n.parentElement;
+                            if (!t || !el || ['SCRIPT', 'STYLE', 'NOSCRIPT'].includes(el.tagName)) continue;
+                            const r = el.getBoundingClientRect(); const cs = getComputedStyle(el);
+                            if (!r.width || !r.height || cs.visibility === 'hidden' || cs.display === 'none' || +cs.opacity === 0) continue;
+                            if (r.bottom < 0 || r.top > innerHeight || r.right < 0 || r.left > innerWidth) continue;
+                            let px = parseFloat(cs.fontSize);
+                            const m = el.getScreenCTM ? el.getScreenCTM() : null;   // SVG text scales with the viewBox
+                            if (m && el.namespaceURI === 'http://www.w3.org/2000/svg') px *= Math.hypot(m.a, m.b);
+                            px = Math.round(px * 10) / 10;
+                            total += t.length; if (px < 12) small += t.length;
+                            min = min === null ? px : Math.min(min, px);
+                            const k = String(Math.round(px)); sizes[k] = (sizes[k] || 0) + t.length;
+                        }
+                        return { min_px: min, chars: total, share_under_12px: total ? Math.round(small / total * 100) / 100 : 0, by_px: sizes };
+                    }""")
                     # The same neutral probe for everyone, so what it reveals is comparable.
                     page.mouse.move(w / 2, h / 2)
                     page.wait_for_timeout(400)
@@ -107,7 +129,11 @@ def main():
                     report[key][f"{w}x{h}"] = {"broken": str(e)[:300], "errors": errors, "console_errors": console[:10]}
                 finally:
                     page.close()
-            status = "; ".join(f"{s}: {'BROKEN ' + v['broken'] if 'broken' in v else (str(len(v['errors'])) + ' err, ' + str(v['counts']['text']) + ' chars')}" for s, v in report[key].items())
+            status = "; ".join(
+                f"{s}: BROKEN {v['broken']}" if "broken" in v else
+                f"{s}: {len(v['errors'])} err, min type {v['counts']['type']['min_px']} px, "
+                f"{int(v['counts']['type']['share_under_12px'] * 100)}% of visible text under 12 px"
+                for s, v in report[key].items())
             print(f"{key}: {status}")
         browser.close()
     (out / "report.json").write_text(json.dumps(report, indent=2), encoding="utf-8")

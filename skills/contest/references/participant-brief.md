@@ -35,7 +35,7 @@ variant-3/index.html     variant-3/NOTES.md
 
 ## The bar
 
-The panel scores each variant 1 to 10 on six dimensions, equally weighted:
+The panel scores each variant 1 to 10 on seven dimensions, equally weighted:
 
 | Dimension | What a 10 looks like |
 |---|---|
@@ -45,6 +45,7 @@ The panel scores each variant 1 to 10 on six dimensions, equally weighted:
 | interaction | motion and feedback carry meaning; hover, focus, select, expand, zoom all answer the user |
 | craft | it works on first load, at any window size, with no broken state; performance is felt, not promised |
 | concept | the metaphor fits the material and would not be the obvious first idea |
+| utility | the owner would open this tomorrow to do the real task: body text is comfortable to read, heavy content has room, the practical path is the short one |
 
 A variant that does not load scores nothing. Half of the ambition delivered beats all of it
 promised in a comment.

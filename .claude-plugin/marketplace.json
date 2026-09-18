@@ -103,8 +103,8 @@
     {
       "name": "contest",
       "source": "./skills/contest",
-      "description": "Blind design contest between CLI agent seats (Claude Code, Codex CLI, Grok CLI). Each participant you name - engine:model@effort - builds three genuinely different prototype variants of one idea in its own workspace; a cross-family panel scores every variant blind on six dimensions (wow, clarity at scale, wayfinding, interaction, craft, concept); the host adds a visual pass in a browser; the owner",
-      "version": "1.0.0",
+      "description": "Blind design contest between CLI agent seats (Claude Code, Codex CLI, Grok CLI). Each participant you name - engine:model@effort - builds three genuinely different prototype variants of one idea in its own workspace; a cross-family panel scores every variant blind on seven dimensions (wow, clarity at scale, wayfinding, interaction, craft, concept, utility); the host adds a visual pass in a browser",
+      "version": "1.1.0",
       "category": "workflow",
       "tags": [
         "contest",
@@ -304,7 +304,7 @@
       "name": "scan-sweep",
       "source": "./skills/scan-sweep",
       "description": "Long-running quality sweep that walks a repository context by context, reads each area's code once, judges it through every scan lens, and lands what it can PROVE itself with atomic commits. With no arguments it runs the STABILIZE loop - bug hunting, UI perfection, performance - picking the least-covered context each round and keeping a per-context lens-coverage ledger so a codebase gets swept eve",
-      "version": "3.2.0",
+      "version": "3.3.0",
       "category": "workflow",
       "tags": [
         "sweep",

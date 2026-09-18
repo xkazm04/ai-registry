@@ -34,6 +34,7 @@ something you would show a client, 10 is the best you have seen for this problem
 | interaction | motion and feedback carry meaning; hover, focus, select, expand, zoom all answer the user |
 | craft | it works on first load, at any window size, with no broken state; performance is felt, not promised |
 | concept | the metaphor fits the material and would not be the obvious first idea |
+| utility | the owner would open this tomorrow to do the real task: body text is comfortable to read, heavy content has room, the practical path is the short one |
 
 Judge against the brief, not against your own taste for a different product. A variant that
 solves the stated problem plainly beats one that dazzles at a problem nobody set.
@@ -51,7 +52,7 @@ Write `{{verdict_file}}` in this directory - valid JSON, nothing else in the fil
         {
           "n": 1,
           "concept": "<its concept name from NOTES.md>",
-          "scores": { "wow": 7, "clarity": 8, "wayfinding": 6, "interaction": 7, "craft": 8, "concept": 7 },
+          "scores": { "wow": 7, "clarity": 8, "wayfinding": 6, "interaction": 7, "craft": 8, "concept": 7, "utility": 7 },
           "strengths": "<two or three sentences naming what is specifically good, citing the file and element>",
           "weaknesses": "<two or three sentences naming what specifically fails, citing the file and element>",
           "broken": false

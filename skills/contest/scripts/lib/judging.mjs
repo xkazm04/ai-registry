@@ -5,7 +5,9 @@
 // verdict already written), and every model or vendor name a participant let slip into
 // its files is redacted in the blinded copy and reported as a leak.
 
-export const DIMENSIONS = ['wow', 'clarity', 'wayfinding', 'interaction', 'craft', 'concept'];
+// `utility` joined after the first contest: the panel and the host both ranked first a variant the
+// owner called impractical, because nothing in the rubric asked whether anyone would use it daily.
+export const DIMENSIONS = ['wow', 'clarity', 'wayfinding', 'interaction', 'craft', 'concept', 'utility'];
 
 // FNV-1a: small, deterministic, dependency-free. Not a security primitive.
 const hash32 = (s) => {
@@ -59,10 +61,13 @@ export function validateVerdict(v, expected) {
   const problems = [];
   if (!v || typeof v !== 'object') return ['verdict is not an object'];
   if (!v.entries || typeof v.entries !== 'object') return ['verdict has no entries'];
-  for (const [letter, n] of Object.entries(expected)) {
+  for (const [letter, want] of Object.entries(expected)) {
+    // `want` is a count (variants 1..n) or the explicit variant numbers a refinement round expects.
+    const numbers = Array.isArray(want) ? want : Array.from({ length: want }, (_, k) => k + 1);
+    if (!numbers.length) continue;
     const e = v.entries[letter];
     if (!e || !Array.isArray(e.variants)) { problems.push(`entry ${letter}: missing`); continue; }
-    for (let i = 1; i <= n; i += 1) {
+    for (const i of numbers) {
       const var_ = e.variants.find((x) => Number(x.n) === i);
       if (!var_) { problems.push(`entry ${letter}/${i}: not scored`); continue; }
       if (var_.broken) continue;
@@ -146,4 +151,14 @@ export function scoreboardMarkdown(rows, blind, participants = {}) {
     return `| ${i + 1} | ${r.key} | ${who} | ${r.mean ?? '-'} | ${r.spread} | ${dims} | ${judges} |`;
   });
   return [head, ...lines].join('\n');
+}
+
+/** The body of a `## <name>` section of the owner's feedback file ("## A/2", "## All"); '' when absent. */
+export function feedbackSection(text, name) {
+  const lines = String(text).replace(/\r\n/g, '\n').split('\n');
+  const start = lines.findIndex((l) => l.startsWith('## ') && l.slice(3).trim().split(/\s+/)[0] === name);
+  if (start === -1) return '';
+  const rest = lines.slice(start + 1);
+  const end = rest.findIndex((l) => l.startsWith('## '));
+  return (end === -1 ? rest : rest.slice(0, end)).join('\n').trim();
 }

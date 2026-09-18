@@ -6,6 +6,7 @@ const yamlList = (xs) => (xs.length ? `[${xs.map((x) => JSON.stringify(String(x)
 /** contests/<id>.md */
 export function renderContestNote(c) {
   const { id, title, date, project, brief, participants, scoreboard, winner, runnerUp, judges, patterns, antiPatterns, decision, costs } = c;
+  const shortlist = c.shortlist ?? [];
   const fm = [
     '---',
     `contest: ${JSON.stringify(id)}`,
@@ -17,6 +18,7 @@ export function renderContestNote(c) {
     `winner: ${JSON.stringify(winner?.label ?? '')}`,
     `winner_seat: ${JSON.stringify(winner?.spec ?? '')}`,
     `runner_up: ${JSON.stringify(runnerUp?.label ?? '')}`,
+    `shortlist: ${yamlList(shortlist.map((x) => x.label))}`,
     `patterns: ${yamlList(patterns.map((p) => p.slug))}`,
     'tags: [contest]',
     '---',
@@ -24,7 +26,8 @@ export function renderContestNote(c) {
   const body = [
     `# ${title}`,
     '',
-    `**Winner:** ${winner ? `${winner.label} - ${winner.spec} - "${winner.concept}"` : 'not declared'}`,
+    `**Winner:** ${winner ? `${winner.label} - ${winner.spec} - "${winner.concept}"` : (shortlist.length ? 'not declared - the owner sent a shortlist into another round' : 'not declared')}`,
+    ...shortlist.map((x) => `**Shortlisted:** ${x.label} - ${x.spec} - "${x.concept}"`),
     runnerUp ? `**Runner-up:** ${runnerUp.label} - ${runnerUp.spec} - "${runnerUp.concept}"` : '',
     '',
     '## The idea',
@@ -36,7 +39,7 @@ export function renderContestNote(c) {
     scoreboard,
     '',
     costs ? `## Seats\n\n${costs}\n` : '',
-    '## Why the winner won',
+    winner ? '## Why the winner won' : '## The owner\'s review',
     '',
     decision.trim() || '_(no decision note)_',
     '',
