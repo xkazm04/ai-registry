@@ -807,10 +807,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 18,
-      "techniques": 122,
-      "applications": 74,
-      "files": 219,
-      "contentHash": "sha256:aed49e5d066e246b"
+      "techniques": 123,
+      "applications": 75,
+      "files": 221,
+      "contentHash": "sha256:8a51ec03d8fa285a"
     },
     {
       "name": "localization",

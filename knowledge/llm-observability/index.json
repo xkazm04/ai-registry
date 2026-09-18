@@ -4,8 +4,8 @@
   "bundle": "llm-observability",
   "source": "knowledge/llm-observability/ (frontmatter only)",
   "subjects": 18,
-  "techniques": 122,
-  "applications": 74,
+  "techniques": 123,
+  "applications": 75,
   "laws": 9,
   "categories": [
    "telemetry-and-data",
@@ -14,7 +14,7 @@
    "federation-and-surfaces"
   ],
   "layout": "nested",
-  "use_when_coverage": "122/122",
+  "use_when_coverage": "123/123",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -799,9 +799,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/llm-observability/quality-scoring/generator-uncertainty-scoring/generator-uncertainty-scoring.md",
-   "digest": "sha256:07c79704a464fa5d",
-   "revision": 1,
-   "changedAt": "2026-09-03",
+   "digest": "sha256:934b3640f494090b",
+   "revision": 2,
+   "changedAt": "2026-09-18",
    "techniques": [
     {
      "slug": "generator-vs-itself",
@@ -881,9 +881,35 @@
       "judge spend is growing faster than traffic"
      ],
      "stage": "team"
+    },
+    {
+     "slug": "stated-distribution-over-closed-labels",
+     "status": "forged",
+     "laws": [
+      "estimation-announces-itself",
+      "statistical-verdicts-or-no-verdict",
+      "never-present-absence-as-an-answer"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a model makes a closed-set decision and code acts on it without a confidence",
+      "a serving API exposes no token probabilities but a confidence is still wanted",
+      "deciding whether to replace a discrete verdict with a probability per label",
+      "a yes-or-no grader has borderline cases nobody can see",
+      "choosing a threshold below which a destructive verdict is downgraded"
+     ],
+     "stage": "team"
     }
    ],
-   "applications": []
+   "applications": [
+    {
+     "stack": "python",
+     "technique": "stated-distribution-over-closed-labels",
+     "file": "knowledge/llm-observability/quality-scoring/generator-uncertainty-scoring/applications/python--stated-distribution-over-closed-labels.md",
+     "verified_on": "2026-09-18",
+     "verified_against": "python@3.14"
+    }
+   ]
   },
   "grounded-answer-scoring": {
    "category": "quality-scoring",
@@ -2473,6 +2499,7 @@
     "generator-uncertainty-scoring/score-source-ensembling",
     "generator-uncertainty-scoring/score-source-kinds",
     "generator-uncertainty-scoring/scorer-cost-class",
+    "generator-uncertainty-scoring/stated-distribution-over-closed-labels",
     "judge-calibration-and-drift/trust-bar-verdict",
     "judge-calibration-and-drift/windowed-score-drop-alerting",
     "judge-contract-design/deterministic-dimension-kinds",
@@ -2518,6 +2545,7 @@
     "generator-uncertainty-scoring/probability-calibration-is-not-agreement",
     "generator-uncertainty-scoring/score-source-ensembling",
     "generator-uncertainty-scoring/score-source-kinds",
+    "generator-uncertainty-scoring/stated-distribution-over-closed-labels",
     "grounded-answer-scoring/bidirectional-claim-matching",
     "grounded-answer-scoring/per-source-attribution",
     "grounded-answer-scoring/the-decomposer-is-inside-the-instrument",
@@ -2617,6 +2645,7 @@
     "generator-uncertainty-scoring/generator-vs-itself",
     "generator-uncertainty-scoring/probability-calibration-is-not-agreement",
     "generator-uncertainty-scoring/score-source-ensembling",
+    "generator-uncertainty-scoring/stated-distribution-over-closed-labels",
     "judge-calibration-and-drift/fit-and-report-on-disjoint-labels",
     "judge-calibration-and-drift/golden-set-agreement-measurement",
     "judge-calibration-and-drift/repeatability-floor",

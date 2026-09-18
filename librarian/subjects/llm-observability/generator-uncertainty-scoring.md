@@ -1,7 +1,7 @@
 ---
 subject: generator-uncertainty-scoring
 domain: llm-observability
-last_touched: 2026-09-10
+last_touched: 2026-09-18
 touched_by: intake
 dry_streak: 0
 ---
@@ -242,3 +242,9 @@ claim in the subject and the least supported.
   }
 }
 ```
+
+## 2026-09-18 - a sixth technique, from [[2026-09-18-jevai-system-one]]
+
+`stated-distribution-over-closed-labels`: a probability per label of a caller-declared set, a shape statistic per answer shape (nominal, ordinal, none for binary), the sum error kept as a validity signal, destructive labels gated in code. Found by the enumeration hunt on `score-source-kinds`: the kinds table says this kind has no prompt and no instruction channel, and a stated distribution has both. The table's sentences stay true of the two sources they describe; the technique states the exception rather than rewriting the table.
+
+Applied twice in one project, the first seam chosen to falsify: `not-better` at a ceiling seam (80/80 both arms, 2.35x output), `better` at a noisy binary grader (AUROC 0.82, floor 97.5%). The subject's first application document. Open: the hosted decision model this design came from has not been measured on any case of ours - no key - and its published calibration is referenced to other models' probabilities.
