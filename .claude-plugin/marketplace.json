@@ -304,7 +304,7 @@
       "name": "scan-sweep",
       "source": "./skills/scan-sweep",
       "description": "Long-running quality sweep that walks a repository context by context, reads each area's code once, judges it through every scan lens, and lands what it can PROVE itself with atomic commits. With no arguments it runs the STABILIZE loop - bug hunting, UI perfection, performance - picking the least-covered context each round and keeping a per-context lens-coverage ledger so a codebase gets swept eve",
-      "version": "3.3.0",
+      "version": "3.3.1",
       "category": "workflow",
       "tags": [
         "sweep",
@@ -387,8 +387,8 @@
     {
       "name": "uat",
       "source": "./skills/uat",
-      "description": "Simulated User Acceptance Testing driven by Characters (representative users with jobs-to-be-done), not feature/code coverage. A capable LLM verifies each user journey in two chronological certification levels - L1 theoretical (over a code-derived surface model, cheap + mass-parallel) then L2 empirical (real browser against the live app, serial) - judging through each Character's own consistent le",
-      "version": "1.9.1",
+      "description": "Simulated User Acceptance Testing driven by Characters (representative users with jobs-to-be-done), not feature/code coverage. A capable LLM verifies each user journey in two chronological certification levels - L1 theoretical (over a code-derived surface model, cheap + mass-parallel) then L2 empirical (real browser against the live app, serial) - plus, for a journey whose core is a conversation a",
+      "version": "1.10.0",
       "category": "testing"
     },
     {

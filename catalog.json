@@ -572,10 +572,10 @@
     },
     {
       "name": "uat",
-      "version": "1.9.1",
+      "version": "1.10.0",
       "category": "testing",
       "path": "skills/uat/SKILL.md",
-      "contentHash": "sha256-n1:197336d698001da1",
+      "contentHash": "sha256-n1:e9eb77d7d36a942b",
       "adopters": [
         "ascent@plugin:1.7.0",
         "kp@plugin:1.7.0",
@@ -584,9 +584,9 @@
       ],
       "invokes30d": 2,
       "reportedInvokes": 2,
-      "lessons": 13,
+      "lessons": 14,
       "lessonsPath": "skills/uat/LESSONS.md",
-      "lessonsHash": "sha256-n1:4c34ea405a8bf6bb",
+      "lessonsHash": "sha256-n1:e886ee4ecd7a553d",
       "usageContributors": [
         "kazda-dev-box"
       ]
@@ -744,7 +744,7 @@
     "skills": 34,
     "practices": 8,
     "memory": 6,
-    "lessons": 232
+    "lessons": 233
   },
   "bundles": [
     {
