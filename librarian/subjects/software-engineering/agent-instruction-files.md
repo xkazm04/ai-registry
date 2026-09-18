@@ -636,3 +636,15 @@ because the collector reads the working tree).
 Banked, not landed, with anchors in the source note: a vendored skill body pinned by
 content hash, which is `sibling-floor-ownership`'s third decision (install / retain /
 *what the retained body now says*).
+
+## 2026-09-18 - intake, small-business plugin ([[2026-09-18-kwp-small-business]])
+
+Amended `capability-coverage-contract` with "When soundness fails silently too".
+The technique said soundness fails "loudly-ish". A forward promise to a person
+("saved, this runs every Monday" with no scheduler behind it) fails silently, with
+a fuse of weeks. The fix: the confirmation names the mechanism that will fire, or
+it offers the honest substitute.
+
+Applied to this registry's own intake skill (2.11.1): it claimed /librarian reads
+rescan_when "on a clock", but the weekly CI cron does not run upstream-check.mjs.
+One false forward claim before, 0 after. A grep of 7 fleet trees found no other.

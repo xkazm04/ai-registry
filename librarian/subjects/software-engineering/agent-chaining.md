@@ -175,3 +175,19 @@ was promoted.
   }
 }
 ```
+
+## 2026-09-18 - intake, small-business plugin ([[2026-09-18-kwp-small-business]])
+
+New technique `handoff-figures-carry-their-population`: a figure in the handoff
+envelope was measured over some population, and a receiver may divide by it or
+compare it against a limit only when that population is its own. It is the
+missing stage behind handoff-payload-contracts, which governs shape, size and
+origin but not what a number measured. One sentence was added to
+chain-identity-and-rollup: its alternative (increment at each handoff) was listed
+as failing only on a crash, but under fan-out it is wrong without one.
+
+Applied to personas, shipped `1ce23dde3`: the cost ceiling read a path-carried
+total while the breadth guard beside it counted the whole trace. The paired test
+fired at 1.20 spent against a 1.00 ceiling on HEAD and halts after the fix. A third
+reading in the same tree (the live summary shows the max over paths as the
+chain's spend) was left as found.

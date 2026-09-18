@@ -72,7 +72,11 @@ keep the rollups honest:
   If a chain-level summary row exists for query speed, the query that
   rebuilds it from link records exists beside it, and a discrepancy has an
   arbiter. The alternative — incrementing chain totals at each handoff —
-  drifts on every crash between the link write and the increment.
+  drifts on every crash between the link write and the increment. Under
+  fan-out it is wrong without any crash: a total carried hop to hop is the
+  spend of one path, because sibling branches never see each other's
+  increments
+  ([handoff-figures-carry-their-population](./handoff-figures-carry-their-population.md)).
 - **A rollup over a live chain says it is partial.** Chains have no
   orchestrator, so "is it finished?" is itself derived — from leaf stop
   records plus closed membership and no pending deliveries or in-flight successors

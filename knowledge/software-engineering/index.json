@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 229,
-  "techniques": 1711,
-  "applications": 1055,
+  "techniques": 1713,
+  "applications": 1056,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1711/1711",
+  "use_when_coverage": "1713/1713",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -1038,9 +1038,9 @@
    "subcategory": "orchestration",
    "status": "reconciled",
    "file": "knowledge/software-engineering/llm-agent/orchestration/agent-chaining/agent-chaining.md",
-   "digest": "sha256:32359a36eb321c82",
-   "revision": 11,
-   "changedAt": "2026-09-09",
+   "digest": "sha256:edd49b1ead1efac5",
+   "revision": 12,
+   "changedAt": "2026-09-18",
    "techniques": [
     {
      "slug": "chain-identity-and-rollup",
@@ -1098,6 +1098,23 @@
       "choosing between another reviewer and an execution step",
       "an agent's causal explanation is about to be acted on",
       "a chain step produces a reproduction artifact"
+     ]
+    },
+    {
+     "slug": "handoff-figures-carry-their-population",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a number produced by one link is read by the next as an input to arithmetic",
+      "a downstream link computes a ratio or return figure over a total handed to it",
+      "a running total rides the handoff payload and a guard compares it against a limit",
+      "a chain fans out and a figure accumulated along one path is described as the chain's",
+      "two surfaces show the same named figure and disagree",
+      "a composite workflow passes a headline number into a narrower specialist step"
      ]
     },
     {
@@ -1172,6 +1189,13 @@
      "technique": "graph-to-wiring-translation",
      "file": "knowledge/software-engineering/llm-agent/orchestration/agent-chaining/applications/rust--graph-to-wiring-translation.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "rust",
+     "technique": "handoff-figures-carry-their-population",
+     "file": "knowledge/software-engineering/llm-agent/orchestration/agent-chaining/applications/rust--handoff-figures-carry-their-population.md",
+     "verified_on": "2026-09-18",
+     "verified_against": "rust@1.80"
     },
     {
      "stack": "rust",
@@ -1384,9 +1408,9 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-instruction-files/agent-instruction-files.md",
-   "digest": "sha256:1925bbd9effc4993",
-   "revision": 26,
-   "changedAt": "2026-09-16",
+   "digest": "sha256:6b31e7ab0d2fa5ec",
+   "revision": 27,
+   "changedAt": "2026-09-18",
    "techniques": [
     {
      "slug": "capability-before-steering",
@@ -1417,7 +1441,8 @@
       "a new tool or script landed and no instruction file mentions it",
       "deciding what a test over prose should assert",
       "an instruction file points at documents that may not exist",
-      "an agent's output is plausible but consistently uses the poorer of two available means"
+      "an agent's output is plausible but consistently uses the poorer of two available means",
+      "an instruction tells the agent to confirm a recurring or future effect to a person"
      ]
     },
     {
@@ -17849,9 +17874,9 @@
    "subcategory": "runtime-and-io",
    "status": "reconciled",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/mcp-tools.md",
-   "digest": "sha256:02bf76f6ed54fddc",
-   "revision": 24,
-   "changedAt": "2026-09-09",
+   "digest": "sha256:a9888d0eb8ae8258",
+   "revision": 25,
+   "changedAt": "2026-09-18",
    "techniques": [
     {
      "slug": "ambient-selection-is-not-an-argument",
@@ -17980,6 +18005,24 @@
       "choosing between a structured schema and a familiar command string",
       "a passthrough surface must not inherit the wrapped thing's authority",
       "an argument string is about to be handed to a shell"
+     ]
+    },
+    {
+     "slug": "one-server-many-registrations",
+     "status": "forged",
+     "laws": [
+      "identity-survives-reuse",
+      "gate-sees-target",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "the same tool server can be connected by the user and also declared by an installed extension or plugin",
+      "a host derives tool names from where a server was registered",
+      "a permission rule or hook matches tools by a name pattern",
+      "usage or cost accounting keys tools by the server segment of their name",
+      "a connection shows as missing while the same product is connected under another entry",
+      "deciding whether two connected entries are two data sources"
      ]
     },
     {
@@ -35162,6 +35205,7 @@
     "agent-chaining/cycle-and-depth-guards",
     "agent-chaining/graph-to-wiring-translation",
     "agent-chaining/grounding-over-deliberation",
+    "agent-chaining/handoff-figures-carry-their-population",
     "agent-cli-transport/child-observed-posture",
     "agent-cli-transport/host-routed-approval-round-trip",
     "agent-cli-transport/permission-stance-enforcement",
@@ -35412,6 +35456,7 @@
     "mcp-tools/client-integration",
     "mcp-tools/egress-argument-gating",
     "mcp-tools/enumeration-without-a-scope",
+    "mcp-tools/one-server-many-registrations",
     "mcp-tools/orchestration-to-tool-migration",
     "mcp-tools/sanctioned-session-state",
     "mcp-tools/sealed-continuation-state",
@@ -36373,6 +36418,7 @@
     "adoption-measurement/before-after-outcome-pairing",
     "adoption-measurement/dormancy-verdicts",
     "adoption-measurement/mentor-learner-pairing",
+    "agent-chaining/handoff-figures-carry-their-population",
     "agent-chaining/handoff-payload-contracts",
     "agent-chaining/stop-reason-ledgers",
     "agent-instruction-files/instruction-freshness",
@@ -36901,6 +36947,7 @@
     "markdown-vault/replicated-substrate",
     "mcp-tools/ambient-selection-is-not-an-argument",
     "mcp-tools/egress-argument-gating",
+    "mcp-tools/one-server-many-registrations",
     "mcp-tools/suspendable-request-classes",
     "measurement-honesty/instrument-exposure-control",
     "metric-surface-contract/fault-localizing-metric-set",
@@ -37391,6 +37438,7 @@
     "long-form-reading-surface/focus-transfer-on-in-place-navigation",
     "markdown-vault/vault-as-database",
     "mcp-tools/ambient-selection-is-not-an-argument",
+    "mcp-tools/one-server-many-registrations",
     "mcp-tools/sanctioned-session-state",
     "mcp-tools/sealed-continuation-state",
     "mcp-tools/tool-identity-vs-tool-name",

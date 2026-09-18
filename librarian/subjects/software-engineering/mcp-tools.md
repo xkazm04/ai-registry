@@ -553,3 +553,19 @@ the corpus was wrong; the technique now carries the sharper rule. Recorded as
 Board: 4 siblings live by Phase 7, none holding this subject; `check` clear
 immediately before the first write, and the `content` lock taken twice for the
 two golden-path edits.
+
+## 2026-09-18 - intake, small-business plugin ([[2026-09-18-kwp-small-business]])
+
+New technique `one-server-many-registrations`: one server reachable under two
+names at once, because the host registered it again under an extension's scope.
+It is the third case beside rename over time (tool-identity-vs-tool-name) and two
+servers with one name (client-integration). Primary: the harness binary (2.1.276)
+refuses a mock directory named for a plugin-scoped server it cannot enumerate,
+because the tool names "would be granted against the real thing".
+
+Applied to personas as an experiment: the reflect parser keys tools on the
+registration segment and splits one product into two keys. It is latent on this
+machine (0 plugin-scoped calls in 10,294). No fix was shipped, because the plugin
+segment cannot be parsed reliably. That is the technique's first rule.
+
+Board: 0 siblings live; `check` clear before the write.

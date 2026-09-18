@@ -6,6 +6,7 @@ status: reconciled
 techniques:
   - graph-to-wiring-translation
   - handoff-payload-contracts
+  - handoff-figures-carry-their-population
   - cycle-and-depth-guards
   - run-conditions
   - chain-identity-and-rollup
@@ -170,6 +171,16 @@ drops the one field the downstream agent needed. Bounding forces the
 truncation decision to be made *explicitly and recorded*, instead of
 happening wherever the transport happens to choke. The contract lives in
 [handoff-payload-contracts](./techniques/handoff-payload-contracts.md).
+
+The contract governs shape, size and origin, and a well-formed envelope still
+carries a wrong number as easily as a right one. Every figure in it was
+measured over some population, and a receiver that divides by it or compares
+it against a limit is claiming that population is its own. A company-wide
+total handed to a link that can only reach one channel becomes a return
+figure forty times too good. A running cost carried hop to hop becomes a
+cascade ceiling that sees one branch of a fan-out. Neither breaks a type
+check. The rule that figures cross with their population named is
+[handoff-figures-carry-their-population](./techniques/handoff-figures-carry-their-population.md).
 
 ## Continuation is conditional, and the conditions are evaluated honestly
 
