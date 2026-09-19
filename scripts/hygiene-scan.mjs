@@ -357,9 +357,17 @@ async function scanProject(slug, proj) {
       else if (!b.remote && !b.upstream) cls = 'unpushed';
       else cls = 'no-pr';
     }
+    // A branch cut from a primary whose default branch is ahead of origin carries the
+    // primary's unpushed commits too: 2026-09-19 pof `backlog/c26` read "82 not on master"
+    // with only 2 of its own. Shipping it would push commits the owner has not read.
+    let ridesUnpushed = 0;
+    if (ahead > 0 && cls !== 'on-local-default' && P.primary.onDefault && P.primary.ahead > 0) {
+      const own = Number(await gitOut(proj.path, ['rev-list', '--count', `refs/heads/${P.defaultBranch}..${b.sha}`]) ?? ahead);
+      ridesUnpushed = Math.max(0, ahead - own);
+    }
     const wt = b.remote ? null : checkedOut.get(b.name) ?? null;
     return {
-      ...b, ahead, cls,
+      ...b, ahead, cls, ridesUnpushed,
       pr: (open ?? merged ?? closed)?.number ?? null,
       worktree: wt ? { path: wt.path, owner: wt.owner, dirty: wt.dirty, live: wt.live } : null,
       baseOfOpenPr: openBases.has(b.name),
@@ -439,6 +447,9 @@ async function scanProject(slug, proj) {
 
 // ---------------------------------------------------------------------------- plan
 
+const ridesText = (b) => (b?.ridesUnpushed > 0
+  ? ` (${b.ridesUnpushed} of them are the primary's unpushed commits: never push this branch - delete if superseded, else leave)`
+  : '');
 const CONTENT_ON_DEFAULT = new Set(['merged', 'squash-merged', 'patch-on-default', 'on-local-default']);
 const RED_CONCLUSIONS = new Set(['failure', 'timed_out', 'startup_failure']);
 
@@ -481,7 +492,7 @@ function planActions(P) {
     } else if (branch?.cls === 'open-pr') {
       // The PR action ships it; its worktree goes on a later morning once merged.
     } else if (!contentHome && idle && (wt.owner === 'claude-code' || wt.owner === 'temp' || wt.owner === 'other')) {
-      add('worker', 'triage-worktree-branch', wt.path, `clean, idle, branch ${branch?.cls ?? 'unknown'} carries ${branch?.ahead ?? '?'} commit(s) not on ${P.defaultBranch}`, { owner: wt.owner, branch: wt.branch ?? null });
+      add('worker', 'triage-worktree-branch', wt.path, `clean, idle, branch ${branch?.cls ?? 'unknown'} carries ${branch?.ahead ?? '?'} commit(s) not on ${P.defaultBranch}${ridesText(branch)}`, { owner: wt.owner, branch: wt.branch ?? null, ridesUnpushed: branch?.ridesUnpushed ?? 0 });
     }
   }
   const app = P.worktrees.filter((w) => w.owner === 'personas-app');
@@ -497,7 +508,7 @@ function planActions(P) {
     if (b.live) { add('hands-off', 'live-branch', b.name, `last commit ${b.commitMin} min ago`); continue; }
     if (CONTENT_ON_DEFAULT.has(b.cls)) add('mechanical', 'delete-local-branch', b.name, `${b.cls}${b.pr ? ` (#${b.pr})` : ''}`, { sha: b.sha });
     else if (b.cls !== 'open-pr' && !P.remoteBranches.some((r) => r.name === b.name)) {
-      add('worker', 'triage-branch', b.name, `local-only, ${b.cls}, ${b.ahead} commit(s) not on ${P.defaultBranch}`, { sha: b.sha, scope: 'local' });
+      add('worker', 'triage-branch', b.name, `local-only, ${b.cls}, ${b.ahead} commit(s) not on ${P.defaultBranch}${ridesText(b)}`, { sha: b.sha, scope: 'local', ridesUnpushed: b.ridesUnpushed ?? 0 });
     }
   }
   for (const b of P.remoteBranches) {
@@ -510,7 +521,7 @@ function planActions(P) {
     if (checkedOut.has(b.name)) continue;
     if (b.live) { add('hands-off', 'live-branch', `origin/${b.name}`, `last commit ${b.commitMin} min ago`); continue; }
     if (CONTENT_ON_DEFAULT.has(b.cls)) add('mechanical', 'delete-remote-branch', b.name, `${b.cls}${b.pr ? ` (#${b.pr})` : ''}`, { sha: b.sha });
-    else add('worker', 'triage-branch', `origin/${b.name}`, `${b.cls}${b.pr ? ` (#${b.pr})` : ''}, ${b.ahead} commit(s) not on ${P.defaultBranch}`, { sha: b.sha, scope: 'remote' });
+    else add('worker', 'triage-branch', `origin/${b.name}`, `${b.cls}${b.pr ? ` (#${b.pr})` : ''}, ${b.ahead} commit(s) not on ${P.defaultBranch}${ridesText(b)}`, { sha: b.sha, scope: 'remote', ridesUnpushed: b.ridesUnpushed ?? 0 });
   }
 
   for (const pr of P.openPrs) {

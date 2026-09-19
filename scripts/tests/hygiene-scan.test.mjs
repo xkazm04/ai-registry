@@ -123,6 +123,15 @@ test('a branch contained in the unpushed local default branch is a mechanical de
   assert.equal(A.filter((a) => a.class === 'worker').length, 0);
 });
 
+test('a branch riding on the unpushed local default commits says so and carries the count', () => {
+  // 2026-09-19, pof: backlog/c26 read "82 not on master" with only 2 of its own.
+  const A = planActions(project({ localBranches: [branch('backlog/c26', { cls: 'unpushed', ahead: 82, ridesUnpushed: 80 })] }));
+  const row = A.find((a) => a.kind === 'triage-branch');
+  assert.equal(row.class, 'worker');
+  assert.equal(row.ridesUnpushed, 80);
+  assert.match(row.reason, /80 of them are the primary's unpushed commits: never push/);
+});
+
 test('only a push-triggered red run is a worker repair; scheduled or dispatched red is an operator signal', () => {
   const run = (workflow, event) => ({ workflow, event, status: 'completed', conclusion: 'failure', id: 1, onTip: true });
   const A = planActions(project({ defaultCi: [run('sentinel', 'workflow_dispatch'), run('flake watch', 'schedule')] }));

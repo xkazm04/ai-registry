@@ -221,6 +221,13 @@ The branch carries commits that are not on the default branch and no open PR.
    Also compare against the primary's local default branch
    (`git merge-base --is-ancestor <sha> refs/heads/<default>`) - unpushed local commits
    can already contain the branch.
+5. **A row with `ridesUnpushed > 0` is never pushed or PR'd.** The branch was cut from the
+   primary's local default branch while it was ahead of origin, so pushing it ships that
+   many commits the owner has not read (pof `backlog/c26` 2026-09-19: 82 "not on master",
+   2 its own). Judge only its own commits (`git log refs/heads/<default>..<sha>`): if they
+   are superseded, delete (archive ref first); otherwise leave it and report the own-commit
+   summary as an `operator` item. Never cherry-pick its own commits onto origin either:
+   they were written against code origin does not have yet.
 
 ## Report
 
