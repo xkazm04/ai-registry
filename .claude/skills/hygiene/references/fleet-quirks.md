@@ -22,6 +22,16 @@ when a run proves it stale. Slugs match `projects.json`.
   finalized its run and left the branch behind on purpose (`LeaveAsBranch`), so it is
   triaged like any other branch. (The first version of this line said all autopilot
   local branches were untouchable; kp's worker had to reinterpret it on 2026-09-15.)
+- **A pre-push hook exports `GIT_DIR`, and `git -C <dir>` does not override it.** A test
+  suite that spawns git on a scratch repo, run by the hook from a worktree, acts on the
+  REAL repository: tracklight 2026-09-19 got `core.bare = true` on the primary, a foreign
+  empty "base" commit on origin/main, and a checked-out `lt-fix/test`, all from its own
+  test. If a checkout suddenly reads as bare, or a commit you did not make appears on the
+  branch you are pushing, suspect this first; the fix is scrubbing `GIT_DIR`,
+  `GIT_WORK_TREE`, `GIT_INDEX_FILE` and friends from the spawned command. A test that
+  "fails under the hook, passes by hand" is the same bug until proven otherwise.
+- Every SHA in the report is copied from git output, never typed: kp 2026-09-19 reported a
+  PR head whose second half was invented.
 
 ## kp
 
@@ -45,12 +55,20 @@ when a run proves it stale. Slugs match `projects.json`.
 
 - The primary checkout is shared by many live sessions; its commits use an
   isolated-index ritual. Workers never commit there anyway (worktree only).
+- A fresh worktree has no `node_modules` and lefthook's pre-push typecheck needs it:
+  junction it from the primary, and `rmdir` the junction before removing the worktree.
+- CodeQL runs on pull_request and a Monday cron only: an alert fixed mid-week stays open
+  until the next scheduled scan. `git log -S` the flagged pattern before "fixing" it.
 
 ## tracklight
 
 - Remote repo is `xkazm04/lighttrack`. Crates are named `lighttrack-*`, not `tracklight-*`.
 - `guidance_guard` fails at HEAD for reasons unrelated to most changes - verify on a
   clean `origin/main` worktree before attributing it.
+- `cargo deny (advisories)` is a permanent, documented non-blocking red (h2 RUSTSEC).
+- The responder git-env bug above was fixed on main in `8324768` (2026-09-19); if
+  `a_failed_commit_reports_false_and_leaves_the_tree_dirty` fails under the hook again,
+  check for a new unscrubbed git spawn before calling it a flake.
 
 ## systedo-case
 
@@ -58,6 +76,9 @@ when a run proves it stale. Slugs match `projects.json`.
 - The checkout's settings deny `git push*` on purpose. Ship only through
   `gh pr merge` (server-side). Unpushed local commits go to the operator.
 - Production env holds only `GEMINI_API_KEY`; e2e needs env that CI may lack.
+- `E2E smoke` only runs when `Typecheck, lint & build` passes, so a red typecheck hides
+  any e2e regression behind it (2026-09-19: three `/kampane` Playwright failures surfaced
+  only on draft PR #49, the one PR with a green typecheck).
 
 ## ascent
 

@@ -182,3 +182,33 @@ with the lesson here saying why.
   and after each worker report (`node scripts/run-board.mjs beat --run <id> --phase <p>`).
 - **An error string is not a posture.** "Code scanning is not enabled" fell through to
   `error` because the matcher only knew "disabled"; read the message before mapping it.
+
+## 1.0.1 - 2026-09-19 - second live run (13 projects, 90 mechanical, 11 workers)
+
+- **A triage count against origin hides the owner's unread commits.** pof `backlog/c26`
+  read "82 not on master" with 2 of its own; the other 80 were the primary's unpushed
+  commits, and the brief's revive path would have pushed them. Twelve rows carried this.
+  The scan now records `ridesUnpushed` and says so in the row; the brief forbids pushing
+  or PR'ing such a branch. Every worker that met one honoured it.
+- **The worst damage of the run came from the fleet's own tests, through the gate.** A
+  pre-push hook exports `GIT_DIR`; `git -C <scratch>` does not override it. Pushed from a
+  worktree (absolute `GIT_DIR`), a test fixture's scratch-repo git acted on the REAL
+  repository. tracklight: `core.bare = true` on the primary, an empty "base" commit
+  (author `t <t@t>`) pushed to origin/main as 08c177d, a stray `lt-fix/test` checkout.
+  ascent: `core.worktree` set to a deleted path, `.git/info/exclude` overwritten with
+  fixture rules, and - since 2026-09-03, long before this run - the fixture identity in
+  `.git/config`, so 471 master commits are authored "Ascent Loop" (more as "Deps Test",
+  "Land Test", "Worktree Test"). Both workers reported it as a mystery or a flake. Fixed at
+  the root: tracklight 8324768 (scrub in the git helper), ascent PR #22 (scrub in
+  vitest.config.js), each with a decoy-`GIT_DIR` negative control that reproduced the
+  pollution. A first grep found fixture-git test files in nine more repos; unexamined.
+- **Primary verification must read config, not just branch and dirty set.** Phase 4 step 3
+  compared branch and dirty paths; ascent's dirty set then differed only because the
+  worker's repair unset the polluted excludes file. `git config --local --list` against the
+  scan-time snapshot would have caught identity, bare, worktree and excludesFile drift -
+  the scan should record it.
+- **Workers still invent SHA tails.** kp reported PR #67's head as `69646d8b1c8c1e9e8a7a...`
+  (real: `69646d8b1e84...`). Verify reads every SHA back from git; the quirks file now says
+  so.
+- **Six at a time held.** No secondary rate limit and no session-limit deaths; the long
+  poles were kp (68 min) and ascent (3 h, six sequential master landings each waiting on CI).

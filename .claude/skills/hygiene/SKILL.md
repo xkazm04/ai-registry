@@ -3,7 +3,7 @@ name: hygiene
 description: "Start-of-day fleet sweep before any development: scan every project registered on this machine for open pull requests, merged or abandoned branches and worktrees, a red default branch, and open GitHub security alerts (code scanning, secret scanning, Dependabot). Cleans up what is mechanical itself, then dispatches one Sonnet worker per project to ship, repair, merge, delete or fix the rest onto main/master, and hands back only what needs a human. Use at the start of a day, or when branches, PRs and alerts have piled up across the fleet."
 category: ai-native
 memory: project
-version: 1.0.1
+version: 1.0.2
 tags: fleet, hygiene, pull-requests, branches, worktrees, security-alerts, ship, dispatch, sonnet-workers, start-of-day
 ---
 
@@ -192,7 +192,10 @@ A worker's report is a claim. For each project:
    `primary.dirtyPaths` (except an `ff-primary` DONE row, or a live primary whose own
    session moved on - then name the differing paths and judge whether a worker could have
    written them). A count is not enough: a worker that edits the wrong tree and reverts a
-   different file leaves the count intact.
+   different file leaves the count intact. Also read `git -C <path> config --local --list`
+   and `.git/info/exclude`: a test fixture run by a pre-push hook from a worktree writes
+   into the real repository's config (2026-09-19: `core.bare`, `core.worktree`, a fixture
+   `user.name`, a replaced exclude file), and none of that shows in branch or dirty paths.
 4. The worker left no worktrees or helper branches behind:
    `git -C <path> worktree list | grep hyg` and `git -C <path> branch --list 'hyg*'` are
    empty (except the head branch of a PR the report lists as left open). Attribute any
