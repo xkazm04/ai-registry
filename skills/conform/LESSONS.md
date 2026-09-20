@@ -247,3 +247,25 @@ per-project entries above stand; this is what only shows up across them.
   run caught them only by printing each anchor back with `sed -n`. §3 now says to do that,
   and states the real test: not that the line exists, but that it says what the evidence
   claims.
+
+## 1.7.2 - 2026-09-20 - gravity (a merge promotes the flattering verdict)
+
+- **Two contexts that merge bring both their verdicts, and one wins silently.** A
+  `conformant` and a contradicting `deviation` on the same subject collided when
+  `production-phases` merged into `frames-score-cut`; the `conformant` was carried onto the
+  merged context and the `deviation` was orphaned. Neither `staleVerdicts` nor
+  `orphanedVerdicts` can flag this, because each row is individually ordinary. The orphaned
+  verdict was the true one and the defect was still live four weeks later — two time
+  authorities on one timeline. §1 now says to check `orphans[]` for the same subject when a
+  context's paths have grown.
+- **The twelve-path sample is not merely misleading, it changes verdicts.** In one repo the
+  only anchor for a surviving deviation was outside the sample in three separate contexts.
+  A judge reading the map's `paths` alone returns `conformant` on all three. §2 now sends
+  the reader to the project's own `context-map.json`.
+- **A verdict that names a BUNDLE digest cannot say what it read.** Five of six stale
+  verdicts in this repo recorded the same `evaluatedAgainst` for five different subjects —
+  the media-generation bundle digest as of the day they were written. That is why the
+  project looked maximally stale; the verdicts were not wrong, they were unattributable.
+- **The loop closed, visibly.** Three August deviations were repaired before this re-judge,
+  and one repair's commit trailer cites the conformance lens by name — the verdict caused
+  the fix. Re-judging stale pairs is not bookkeeping.

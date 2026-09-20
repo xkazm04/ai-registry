@@ -3,7 +3,7 @@ name: conform
 description: "Evaluate this repository against the registry standards that govern it, one context at a time, and keep the verdicts. Reads .ai/registry-map.json (the generated join between this repo's contexts and the registry's subjects), picks the highest-value unevaluated or stale pairs, reads the governing golden path and techniques against the context's real code, and writes back conformant / deviation / not-applicable with file:line evidence - so the map becomes a standing, incrementally-completed deviation backlog instead of a one-off audit. Use to answer 'where does this repo fall short of the standard', before a hardening pass, after a bundle changes, or when a context is about to be rewritten. Invoke with /conform [context-or-path] [--subject <slug>] [--stale] [--budget <n>]."
 category: ai-native
 memory: project
-version: 1.7.1
+version: 1.7.2
 tags: conformance, deviations, registry, audit, backlog
 argument-hint: "[context-or-path] [--subject <slug>] [--stale] [--budget <n>]"
 ---
@@ -59,6 +59,15 @@ Choose the pairs to evaluate, in this order:
    unjudged code in the repo and the map's `stats.arrivedContexts` says how many there are.
    A context marked `source: "renamed"` is NOT an arrival: its verdicts were carried over
    from `renamedFrom`, and they are judged by the `--stale` rule like any other.
+
+   **When a context's `paths` have grown since its verdict, check `orphans[]` for a verdict
+   on the same subject before trusting the carried one.** Two contexts that merge bring both
+   their verdicts, one wins silently, and nothing flags the contradiction — neither
+   `staleVerdicts` nor `orphanedVerdicts` can see it, because each row is individually
+   ordinary. Measured: a `conformant` and a `deviation` on one subject collided at a merge,
+   the `conformant` survived onto the merged context and the deviation was orphaned out of
+   sight. It was the true one, and it was still live four weeks later. A merge can promote
+   the more flattering of two verdicts, so the carried verdict is the one to distrust.
 4. **Otherwise**: `state: "unknown"` pairs with `confidence: "strong"`, preferring contexts
    with many governing subjects (a dense context pays back the read) and contexts whose
    paths were touched recently in git.
@@ -109,7 +118,12 @@ For each chosen pair:
 3. Check for an application on this repo's stack (`applications/<stack>--<technique>.md`).
    It is teaching material with real citations, not a mandate, and it usually shows the
    shape a conformant realization takes.
-4. **Only now** open the context's code, from the map row's `paths`.
+4. **Only now** open the context's code — and not only from the map row's `paths`, which is
+   a TWELVE-PATH SAMPLE (`build-registry-map.mjs` publishes `c.paths.slice(0, 12)` while
+   matching against up to sixty). Read the project's own `context-map.json` for the real
+   list. Measured in one repo on one run: the sole anchor for a surviving deviation was
+   absent from the sample in three separate contexts, and a judge working from the sample
+   alone returns `conformant` on all three.
 
 Reading the code first is how an audit turns into a description of what the code already
 does. The standard has to be in your head before the code is, or you will grade the repo
