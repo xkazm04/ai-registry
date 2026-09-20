@@ -3,8 +3,9 @@ layer: golden-path
 type: golden-path
 subject: zero-budget-channel-planning
 status: forged
-use_when: [ranking the free places a business with a website can be found, generating or reviewing a channel plan for a business with no ad account, deciding whether a measured click may change a channel's rank, designing an onboarding path for a business type that cannot spend]
+use_when: [ranking the free places a business with a website can be found, generating or reviewing a channel plan for a business with no ad account, deciding whether a channel belongs on the plan at all, deciding whether a measured click may change a channel's rank, designing an onboarding path for a business type that cannot spend]
 techniques:
+  - admissibility-before-fit-and-effort
   - channel-family-taxonomy-by-lifecycle-kind
   - fit-effort-quick-win-rule
   - grounding-precedence-catalog-over-scan
@@ -33,11 +34,24 @@ the business-profile listing and the citation layer in depth; `local-visibility-
 and-reputation` owns map-pack ranking and reviews; `search-intent-classification`
 owns what a query means. When this plan says "claim the profile" or "aim this
 query at the blog", the how of the profile and the reading of the query live in
-those subjects. What lives here is the ordering, the grounding that feeds it, the
-join between queries and the channels that can carry them, and the discipline
-that keeps a measured click from quietly rewriting a strategic score.
+those subjects. What lives here is the gate that decides what enters the ordering,
+the ordering itself, the grounding that feeds it, the join between queries and the
+channels that can carry them, and the discipline that keeps a measured click from
+quietly rewriting a strategic score.
 
 ## What a principal practitioner holds true
+
+**A plan admits before it ranks.** The two numbers a channel carries are a
+prediction about audience match and a statement about labour, and neither of them
+can refuse a channel. That matters because the offers a plan should not carry
+score well on both: a supply that arrives by enrolling costs no labour and is
+matched by industry, so the quick-win rule selects it first and calls it the place
+to start. The gate is therefore a stage of its own, upstream of the scoring, and
+it asks two questions the columns cannot - whether the party whose page carries a
+link chose it and was free to qualify it, and what the channel spends that is not
+hours. A refused channel leaves the plan with its reason attached; it is never
+scored zero, because a fit is a prediction and a refusal is not a weak one.
+`admissibility-before-fit-and-effort` holds the test and the policy it sits on.
 
 **A free channel is free to enter, not free to run.** Registration on a directory
 is an afternoon; a community is a standing commitment that never closes; owned
@@ -180,6 +194,10 @@ rules", and the cadence cap is a ceiling set by the business, never a target.
 
 ## Failure modes of the naive reading
 
+- **The ungated quick win.** A channel that pays in inbound links for no work,
+  ranked rather than gated, and surfaced as "start here" by the one rule that
+  reads effort - the plan's most confident output arrived at by the least
+  argument.
 - **Fit-only ranking.** Owned content sits at the top on fit and is the most
   expensive channel on the list; the quick win was three rows down.
 - **One checkbox for every channel.** A community marked "done"; a directory
