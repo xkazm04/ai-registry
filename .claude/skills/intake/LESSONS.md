@@ -11245,3 +11245,35 @@ one sighting is not a rule.
   meshes, and a person could not see the separation at the consumer's bake size. For a
   render-bound row whose evidence is a proxy, ask at Phase 5 at what output resolution the
   proxy becomes visible, and render there.
+
+## 2.11.1 - 2026-09-20 - jev-system-1-agentic-loop
+
+- **A token count quoted as a saving is a claim about a price, and the price
+  depends on where the block sits.** The source's headline proposal was
+  arithmetically inverted while its token count was exactly right (10,001
+  measured against "about 10,000" claimed), because a block in a cached prefix
+  is charged at the read multiplier and a removal therefore saves a fraction of
+  face value, while making that block per-request charges the write premium on
+  everything downstream, every turn, with no horizon over which it repays. The
+  corpus held both halves of the arithmetic in two subjects and neither had been
+  pointed at a capability catalog. Generalisation for the method: **when a source
+  quantifies a saving, ask at extraction time what price the thing being removed
+  was already being sold at.** A face-value count over an already-discounted
+  block is the most common way a real number supports an inverted conclusion.
+- **On a review or a listicle, the source's reasoning errors are candidates, not
+  noise.** This is the fifth consecutive run whose yield came from somewhere
+  other than the source's assertions, and the third distinct route - the fleet
+  seam hunt twice, a repository's types once, and now the source's own mistake.
+  The claims of a second-hand review are nearly always caught by the corpus; what
+  is *not* caught is the place where the creator reasoned from a number to a
+  conclusion the number does not support. Extract those as first-class rows with
+  the same anchors as a claim row. A correct review hands over a catch; a wrong
+  one hands over the boundary, and the method already says so for contradicted
+  picks without saying it for contradicted *reasoning*.
+- **A falsifying seam can refuse the refutation.** The sweep was built to show
+  that a per-request selector never pays and instead returned a discriminator:
+  it never pays where a prefix cache exists, and it pays exactly where none does
+  (`r = 1`). The degenerate corner was the portable half, and a sweep across the
+  parameter space found it where a single point estimate at realistic values
+  would not have. When an arm is cheap and parametric, sweep it rather than
+  evaluating it once - the boundary is in the corner, not at the centre.
