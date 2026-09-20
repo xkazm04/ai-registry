@@ -16,7 +16,7 @@ applied: 2
 shipped: 1
 run_id: intake-jevai-0918
 siblings: 1
-rescan_when: the vendor publishes a calibration measurement against human or ground-truth labels, or a model card or paper; or an API key is available to this fleet; or 8 weeks elapse (2026-11-13)
+rescan_when: the vendor publishes a calibration measurement against human or ground-truth labels, or a model card or paper; or an API key is available to this fleet (PARTIALLY FIRED 2026-09-20: reachable via two third-party gateways, no longer waitlist-only - see [[2026-09-20-jev-batch-practitioner]]); or 8 weeks elapse (2026-11-13)
 ---
 
 # A model that answers only in types, read from three tiers

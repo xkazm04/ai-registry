@@ -6,7 +6,7 @@ technique: vision-model-grading-schema
 status: forged
 laws: [unmeasured-is-not-pass, checkability-routes-the-pixel]
 shared_with: []
-use_when: [automating judgement of generated images, designing the fields a vision grader must fill, deciding what a machine grader can and cannot be trusted with, a failure everyone can see never shows up in the grades]
+use_when: [automating judgement of generated images, a sharp field keeps producing arguable answers because the cases are borderline, deciding whether a grader may return a distribution instead of a label, a second grader is proposed for a whole batch, designing the fields a vision grader must fill, deciding what a machine grader can and cannot be trusted with, a failure everyone can see never shows up in the grades]
 ---
 
 # Vision-model grading schema
@@ -121,8 +121,9 @@ image is a re-measurement, not a re-roll.
   finding no per-output gate can raise.
 - When a schema field keeps producing arguable answers across graders, it is
   mis-typed: either sharpen it into a count, split it into two booleans, or
-  demote it to human judgement. Do not leave a known-unreliable field
-  aggregating into verdicts.
+  demote it to human judgement — or, where the field is sharp and the *cases*
+  are what is borderline, keep it and read its distribution instead of its
+  label. Do not leave a known-unreliable field aggregating into verdicts.
 - When the judge's boolean disagrees with your eyes on spot-check, distrust
   the *field definition* before the judge — vague field descriptions are the
   most common cause. The second suspect is image scale: a grader fed a
@@ -130,6 +131,75 @@ image is a re-measurement, not a re-roll.
 - When stakes rise (a model verdict, a style standardization), do not raise
   the schema's resolution — add a second grader and a human tie-break
   instead. Reliability comes from agreement, not from finer scales.
+
+## The fourth remedy for an arguable field
+
+The mis-typing rule above offers three remedies — sharpen, split, demote — and
+all three change the *field*. A fourth changes the **answer shape** instead, and
+it is the only one that keeps a genuinely borderline judgement rather than
+legislating it away: ask the grader for a probability across the field's closed
+answer set, take the argmax as the grade, and read how borderline the cell was
+from the shape of what came back.
+
+The distinction matters because the three remedies assume the arguable field is
+badly designed. Sometimes it is. But a field can be sharp, well-anchored and
+still arguable, because **the image is genuinely near the boundary** — and
+sharpening a definition against an ambiguous picture moves the disagreement, it
+does not remove it. A field that disagrees because the case is hard needs a
+number saying so, not a finer definition.
+
+What the shape buys is a **routing signal that the grade itself cannot carry**.
+A discrete grade says pass; it does not say *barely*. Where the answers are a
+distribution, the cells that sat near the boundary are identifiable before
+anyone looks at them, and the schema's own escalation rule becomes affordable:
+
+> **Do not add a second grader to every cell. Add it to the borderline ones.**
+
+This is the standing rule about rising stakes — reliability comes from
+agreement, not from finer scales — bought at a fraction of its stated price. A
+second grader over a whole batch doubles the grading bill; a second grader over
+the band that actually contains the disagreements is a rounding error, and the
+cells outside the band were ones the two graders were going to agree on anyway.
+
+Two constraints govern it, and both are borrowed knowingly from the judging
+discipline rather than invented here:
+
+- **The band is fitted on one set of cells and applied to another.** A
+  borderline band is a claim about levels, and a level read off an unfitted
+  distribution is fiction. Fit it on a batch whose grades a human has checked,
+  then apply it forward. A vendor's published calibration is not a substitute:
+  calibration is a property of a distribution over a task, not a property of a
+  model, so a grader trained to be calibrated still owes the fit on **these**
+  images. Where no fitted band exists, the honest form is a percentile against
+  the current batch.
+- **Count the saturated answers.** A grader that returns near-certainty on most
+  cells has no resolution where the band would sit, and its confidence is a
+  two-valued flag that should be described as one. Report the saturated share
+  beside any band, and when it is the majority, drop the band and keep the
+  discrete grade.
+
+## The cost class decides whether this is free or a second bill
+
+Whether the shape costs anything is not a property of the technique. It is a
+property of **where the grader runs**, and the two cases are far apart:
+
+- a grader **you host yourself** already computes the probabilities it is
+  sampling from, so reading them adds no call, no token and no latency. The
+  shape is free, and on a local grader there is no reason not to record it;
+- a grader behind **someone else's endpoint** usually will not return them, and
+  asking the model to *state* a distribution in its answer instead is a second
+  act of generation — more output tokens per cell, scaling with the number of
+  answer options rather than with the difficulty of the image.
+
+So the rule inverts on deployment. Self-hosted: record the distribution on every
+field, always, because it is already paid for. Hosted: record it only on the
+fields that have earned it, which are the known-arguable ones this section began
+with, and measure the added cost before turning it on across a schema.
+
+One consequence worth planning for: a batch graded locally can be **re-banded
+without re-grading**, because the distributions were stored. That is the
+regrade-without-regenerate move applied one layer up, and it is the reason to
+store the full distribution rather than the grade the band produced.
 
 ## When not to use it
 

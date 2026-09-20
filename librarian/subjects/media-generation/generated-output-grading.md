@@ -161,3 +161,51 @@ claim and not a wrong one.
   driven a typed-input arm through prose on the same briefs to size its interface
   advantage. The consumer named above has the trial set and the grid already built, so
   it is the cheapest place to run it.
+
+## 2026-09-20 - intake, a typed-decision model batch ([[2026-09-20-jev-batch-practitioner]])
+
+Amendment to `vision-model-grading-schema`: **the fourth remedy for an arguable
+field.** The decision rules offered three ways to handle a field that keeps
+producing arguable answers — sharpen it into a count, split it into two
+booleans, demote it to human judgement — and all three change the field. The gap
+the enumeration invited: a field can be sharp, well-anchored and still arguable
+because the *case* is borderline, and sharpening a definition against an
+ambiguous picture moves the disagreement rather than removing it.
+
+The fourth remedy changes the answer shape instead: ask for a probability across
+the field's closed answer set, take the argmax as the grade, read borderline-ness
+from the shape. What it buys is a routing signal the discrete grade cannot
+carry — the schema already says that when stakes rise you add a second grader
+rather than a finer scale, and the band makes that affordable by pointing it at
+the cells that actually contain the disagreements instead of at the whole batch.
+
+Two constraints travel with it: the band is fitted on one set of cells and
+applied to another (a vendor's published calibration is not a substitute —
+calibration is a property of a distribution over a task, not of a model), and
+the saturated share is reported beside any band, because a grader at
+near-certainty on most cells has no resolution where the band would sit.
+
+**The cost class decides whether it is free**, and this is the half that made
+the amendment worth writing: a grader you host yourself already computes the
+probabilities it samples from, so recording them adds no call, token or latency;
+a hosted endpoint usually will not return them, and asking the model to *state* a
+distribution is a second act of generation scaling with the option count. The
+rule therefore inverts on deployment. A batch graded locally can also be
+re-banded without re-grading, which is regrade-without-regenerate one layer up.
+
+**Boundary with another bundle, stated not linked.** The measured evidence that
+this pays at a noisy grader (AUROC 0.82 on borderline-ness; a 0.2–0.8 band
+holding 4 of 7 disagreements; and the opposite verdict at a ceiling seam) lives
+in llm-observability's generator-uncertainty-scoring. Cross-bundle links are
+forbidden, so the mechanism is restated in media prose and recorded here so a
+later run recognises the shape instead of re-deriving it. Before this run the
+media bundle carried **zero** references to token probabilities of any kind.
+
+Applied to pof as an experiment and recorded `not-better`: the tree has no
+logprobs and no self-hosted grader, so the free branch is unreachable, and its
+own measured benchmark records every error as a saturated false PASS at 10/10
+against a `passAt: 7` gate — which no borderline band can rank. The amendment
+carries the saturation rule because of that seam, not in spite of it.
+
+Board: 2 siblings live, one holding four media-generation subjects but not this
+one; `check` clear immediately before the write.

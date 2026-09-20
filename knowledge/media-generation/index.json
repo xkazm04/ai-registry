@@ -874,9 +874,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/visual-generation/generated-output-grading/generated-output-grading.md",
-   "digest": "sha256:a19617f45fd37ef6",
-   "revision": 8,
-   "changedAt": "2026-09-04",
+   "digest": "sha256:6ff5db0ea440f4ac",
+   "revision": 9,
+   "changedAt": "2026-09-20",
    "techniques": [
     {
      "slug": "cross-provider-flip-analysis",
@@ -988,6 +988,9 @@
      "shared_with": [],
      "use_when": [
       "automating judgement of generated images",
+      "a sharp field keeps producing arguable answers because the cases are borderline",
+      "deciding whether a grader may return a distribution instead of a label",
+      "a second grader is proposed for a whole batch",
       "designing the fields a vision grader must fill",
       "deciding what a machine grader can and cannot be trusted with",
       "a failure everyone can see never shows up in the grades"

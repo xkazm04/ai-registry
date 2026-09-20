@@ -833,10 +833,10 @@
       "profile": "rkb/0.1",
       "purity": "marketing",
       "subjects": 30,
-      "techniques": 182,
-      "applications": 82,
-      "files": 298,
-      "contentHash": "sha256:ff7937fc888189f3"
+      "techniques": 183,
+      "applications": 83,
+      "files": 300,
+      "contentHash": "sha256:6ac97b38183a1bfe"
     },
     {
       "name": "media-generation",
@@ -872,10 +872,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 229,
-      "techniques": 1755,
-      "applications": 1078,
-      "files": 3067,
-      "contentHash": "sha256:bb0023b1290ee2e4"
+      "techniques": 1756,
+      "applications": 1080,
+      "files": 3070,
+      "contentHash": "sha256:d77e43363d4a2423"
     }
   ],
   "usageEvidence": {

@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 229,
-  "techniques": 1755,
-  "applications": 1078,
+  "techniques": 1756,
+  "applications": 1080,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1755/1755",
+  "use_when_coverage": "1756/1756",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -18429,9 +18429,9 @@
    "subcategory": "runtime-and-io",
    "status": "reconciled",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/mcp-tools.md",
-   "digest": "sha256:f6cbf8911ab79416",
-   "revision": 27,
-   "changedAt": "2026-09-18",
+   "digest": "sha256:9fb673a2a2cbe4da",
+   "revision": 28,
+   "changedAt": "2026-09-20",
    "techniques": [
     {
      "slug": "ambient-selection-is-not-an-argument",
@@ -18496,7 +18496,9 @@
       "a host refuses the request because too many tools are listed",
       "one server's catalog crowds out every other installed server",
       "deciding whether to fold operations behind a routing tool",
-      "a model knows a compressed operation name but not its arguments"
+      "a model knows a compressed operation name but not its arguments",
+      "deciding whether a description-only catalog may be selected per request",
+      "a per-request selector is proposed to reclaim standing prompt tokens"
      ]
     },
     {
@@ -18764,6 +18766,13 @@
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/applications/axum--tool-schema-design.md",
      "verified_on": "2026-09-04",
      "verified_against": "axum@0.8"
+    },
+    {
+     "stack": "claude-code",
+     "technique": "catalog-projection-modes",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/applications/claude-code--catalog-projection-modes.md",
+     "verified_on": "2026-09-20",
+     "verified_against": "claude-code@2.1.263"
     },
     {
      "stack": "dotnet",
@@ -26341,10 +26350,28 @@
    "subcategory": "build-and-release",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/build-and-release/release-pipeline/release-pipeline.md",
-   "digest": "sha256:aa9d1d62c7d5f796",
-   "revision": 10,
-   "changedAt": "2026-09-17",
+   "digest": "sha256:2cfcf9c12c9413e2",
+   "revision": 11,
+   "changedAt": "2026-09-20",
    "techniques": [
+    {
+     "slug": "announcing-versus-silent-breakage",
+     "status": "forged",
+     "laws": [
+      "absent-guard-is-loud",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "planning the migration aids for a breaking release",
+      "a major version that removes nothing but changes a default",
+      "deciding what a breaking-change entry in the changelog is sufficient for",
+      "an upgrade whose own guide admits it may change results silently",
+      "a consumer upgraded cleanly and started producing different numbers",
+      "auditing which dependencies a project depends on beyond their written contract",
+      "choosing what to pin before taking a major version"
+     ]
+    },
     {
      "slug": "changelog-generation",
      "status": "forged",
@@ -26501,6 +26528,13 @@
      "technique": "version-single-truth",
      "file": "knowledge/software-engineering/engineering-process/build-and-release/release-pipeline/applications/node--version-single-truth.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "rust",
+     "technique": "announcing-versus-silent-breakage",
+     "file": "knowledge/software-engineering/engineering-process/build-and-release/release-pipeline/applications/rust--announcing-versus-silent-breakage.md",
+     "verified_on": "2026-09-20",
+     "verified_against": "rust@2021"
     }
    ]
   },
@@ -28315,9 +28349,9 @@
    "subcategory": "service-operations",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/service-operations/scoring-rubrics/scoring-rubrics.md",
-   "digest": "sha256:15b8f40faf70bbf9",
-   "revision": 2,
-   "changedAt": "2026-08-21",
+   "digest": "sha256:1d2228b7cf8cb6bb",
+   "revision": 3,
+   "changedAt": "2026-09-20",
    "techniques": [
     {
      "slug": "gap-ranking",
@@ -37981,6 +38015,7 @@
     "quorum-and-recovery-procedures/cancel-leaves-prior-state-valid",
     "read-serving-replicas/evict-not-update-on-commit",
     "register-bytecode-execution/placeholder-patch-jumps",
+    "release-pipeline/announcing-versus-silent-breakage",
     "release-pipeline/release-level-by-reader-reach",
     "remote-capability-probing/advertised-support-is-not-evidence",
     "repo-manifest-standard/version-gate-precedes-schema-gate",
@@ -39871,6 +39906,7 @@
     "quorum-and-recovery-procedures/unauthenticated-ritual-is-a-vulnerability",
     "read-serving-replicas/committed-write-invalidation-hook",
     "register-bytecode-execution/leak-checked-register-allocation",
+    "release-pipeline/announcing-versus-silent-breakage",
     "release-pipeline/deprecation-by-version-arithmetic",
     "remote-capability-probing/assertion-permission-and-bypass-are-three-switches",
     "render-mount-pipeline/mount-references-across-features",
