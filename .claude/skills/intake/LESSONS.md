@@ -11513,3 +11513,57 @@ re-asking it.
 
 Version 2.12.0 -> 2.13.0 (Phase 6b gains a sixth rule; Phase 7.5 gains the
 experiment-ledger read).
+
+## 2.13.0 - 2026-09-20 - ai-3d-character-in-a-day
+
+- **Grep the corpus for concepts that appear ONLY inside a `when not to use`
+  block.** Those sections are written to *close* a technique, so they enumerate
+  paths the author knew were real and deliberately declined to cover - which
+  makes them a list of concepts the corpus has already validated and may have
+  housed nowhere at all. This run's entire landing came from one such sentence:
+  a whole alternative pipeline, named once across 3,259 techniques, in an
+  exclusion, with no subject catching it and no entry in the golden path's own
+  handoff list. It is a mechanical one-grep version of the enumeration hunt and
+  it is cheaper than the enumeration hunt, because the candidate concepts are
+  already written down. Run it at Phase 4, before scoring.
+
+- **"Aim the hunt" is not the whole rule - sometimes the source and the tree are
+  one finding seen from two sides.** Five prior runs concluded the fleet seam
+  hunt out-originates the source. This one qualifies that: the corpus's
+  exclusion line is a curiosity until you find a project that walked into it,
+  and the project's ten unmapped bones are a bug report until you know the
+  corpus deliberately declined to house the path. Critically, **a run that had
+  only opened the tree would have shipped the wrong fix** - authored a mapping
+  table for a source skeleton that does not exist, which is exactly what the
+  number was arguing for and exactly what the landed technique exists to
+  prevent. The tree tells you which corpus sentence was load-bearing; the corpus
+  tells you which tree number is a measurement and which is an artifact.
+
+- **A count can conceal its own QUESTION, not just its rows.** The corpus
+  already warns that a plausible non-zero is not an assertion. This run adds the
+  sharper case: "10 of 10 required bones unmapped" was arithmetically correct,
+  reproducible, and meaningless, because the row it was computed over does not
+  have a mapping step. Before acting on a number a tree hands you, say which
+  question it answers and check that the row is eligible to be asked it.
+
+- **Carry a known positive into the run's own BOOKKEEPING instruments, not only
+  into prior-art absences.** The method demands a known positive when
+  establishing an absence, and this run did that properly. It nearly skipped it
+  where it mattered just as much: the index-vs-`HEAD` digest diff reported a
+  confident "0 subjects differing" from a walker that had guessed the index
+  shape and indexed zero subjects. Only running it against a bundle known to
+  have changed exposed it - and the corrected instrument then surfaced a
+  *modified existing document* in another bundle, which is precisely the case
+  the previous scorecard said a slug grep cannot see. Verification steps feel
+  like bookkeeping and are evidence.
+
+- **`cat > <note>` truncates a subject note that already exists.** This run
+  destroyed 278 lines of a subject note - two architecture reviews and a prior
+  intake record - and caught it only because `git status` showed ` M` where a
+  new file was expected. Phase 9 says subject notes are "yours alone", which
+  reads as "safe to write" and is not: they are shared across skills and across
+  months. Append with `>>`, and read the ` M`-vs-`??` marker in `git status`
+  as the check that you did.
+
+Version 2.13.0 -> 2.13.0 (no bump; four lessons, none yet confirmed three runs
+running. A mid-flight run should finish on the version it loaded.)
