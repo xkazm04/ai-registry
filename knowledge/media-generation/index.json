@@ -4,8 +4,8 @@
   "bundle": "media-generation",
   "source": "knowledge/media-generation/ (frontmatter only)",
   "subjects": 21,
-  "techniques": 144,
-  "applications": 72,
+  "techniques": 145,
+  "applications": 73,
   "laws": 9,
   "categories": [
    "narrative-craft",
@@ -15,7 +15,7 @@
    "production-ops"
   ],
   "layout": "nested",
-  "use_when_coverage": "144/144",
+  "use_when_coverage": "145/145",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -874,8 +874,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/visual-generation/generated-output-grading/generated-output-grading.md",
-   "digest": "sha256:aa2f8021887e4d77",
-   "revision": 10,
+   "digest": "sha256:d2f9f05b1fbab438",
+   "revision": 11,
    "changedAt": "2026-09-20",
    "techniques": [
     {
@@ -993,7 +993,9 @@
       "a second grader is proposed for a whole batch",
       "designing the fields a vision grader must fill",
       "deciding what a machine grader can and cannot be trusted with",
-      "a failure everyone can see never shows up in the grades"
+      "a failure everyone can see never shows up in the grades",
+      "comparing two models as graders and one looks out of its depth",
+      "a readback has to capture a style rather than score it"
      ]
     }
    ],
@@ -1226,9 +1228,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/visual-generation/image-prompt-composition/image-prompt-composition.md",
-   "digest": "sha256:9d562569e82b0a6d",
-   "revision": 10,
-   "changedAt": "2026-08-31",
+   "digest": "sha256:e8b3359abdfdb3ce",
+   "revision": 11,
+   "changedAt": "2026-09-20",
    "techniques": [
     {
      "slug": "assigned-colour-roles",
@@ -1318,14 +1320,16 @@
      "status": "forged",
      "laws": [
       "style-is-restated-not-remembered",
-      "refusal-is-a-state"
+      "refusal-is-a-state",
+      "typed-input-owns-its-channel"
      ],
      "shared_with": [],
      "use_when": [
       "a generation call carries more than two or three reference attachments",
       "identities blend, styles bleed, or dialogue lands on the wrong character in a multi-reference call",
       "scaling a shot from one conditioned subject to a cast, props, and a location",
-      "a crowd or group must render from a single reference"
+      "a crowd or group must render from a single reference",
+      "a reference-governance rule returns nothing on one runner and you must decide whether that is evidence"
      ]
     },
     {
@@ -1972,9 +1976,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/production-ops/review-iteration-loops/review-iteration-loops.md",
-   "digest": "sha256:08779736175407b3",
-   "revision": 9,
-   "changedAt": "2026-08-31",
+   "digest": "sha256:4e86071bf5a17b46",
+   "revision": 10,
+   "changedAt": "2026-09-20",
    "techniques": [
     {
      "slug": "anchored-variation-slate",
@@ -2049,6 +2053,23 @@
      ]
     },
     {
+     "slug": "gate-record-outlives-the-media",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass",
+      "output-never-outruns-evidence"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a human review gate runs somewhere other than where the work was generated",
+      "deciding what a review loop keeps after a decision and what it destroys",
+      "approvals have accumulated and nobody can say which were acted on",
+      "a verdict record and the artifacts it judged have drifted apart",
+      "designing the commit step of a review gate"
+     ],
+     "stage": "team"
+    },
+    {
      "slug": "note-taxonomy-focus-scope-order",
      "status": "forged",
      "laws": [
@@ -2115,6 +2136,13 @@
      "technique": "critique-carries-its-fix",
      "file": "knowledge/media-generation/production-ops/review-iteration-loops/applications/node--critique-carries-its-fix.md",
      "verified_on": "2026-08-31",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "gate-record-outlives-the-media",
+     "file": "knowledge/media-generation/production-ops/review-iteration-loops/applications/node--gate-record-outlives-the-media.md",
+     "verified_on": "2026-09-20",
      "verified_against": "node@24"
     },
     {
@@ -2851,6 +2879,7 @@
     "review-iteration-loops/anchored-variation-slate",
     "review-iteration-loops/critique-carries-its-fix",
     "review-iteration-loops/edit-plan-over-regeneration",
+    "review-iteration-loops/gate-record-outlives-the-media",
     "review-iteration-loops/partial-regeneration-seams",
     "review-iteration-loops/refusal-as-valid-outcome",
     "sound-effect-generation/loop-seam-acceptance",
@@ -2922,6 +2951,7 @@
     "cinematic-language/movement-motivation",
     "cinematic-language/performance-direction",
     "generated-output-grading/input-channel-parity",
+    "image-prompt-composition/reference-role-map",
     "live-system-demo-film/audio-first-beat-pacing",
     "sound-effect-generation/picture-as-timing-brief"
    ]
@@ -2992,6 +3022,7 @@
     "review-iteration-loops/attribution-share-accounting",
     "review-iteration-loops/critique-carries-its-fix",
     "review-iteration-loops/follow-up-that-can-kill-a-fact",
+    "review-iteration-loops/gate-record-outlives-the-media",
     "trailer-structure/concealment-and-its-tells",
     "trailer-structure/promise-ledger",
     "video-assembly/gap-and-refusal-honesty",

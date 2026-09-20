@@ -4,8 +4,8 @@
   "bundle": "game-production",
   "source": "knowledge/game-production/ (frontmatter only)",
   "subjects": 52,
-  "techniques": 329,
-  "applications": 141,
+  "techniques": 331,
+  "applications": 142,
   "laws": 13,
   "categories": [
    "systems-canon",
@@ -17,7 +17,7 @@
    "production-governance"
   ],
   "layout": "nested",
-  "use_when_coverage": "329/329",
+  "use_when_coverage": "331/331",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -1002,9 +1002,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/content-pipeline/catalog-pipeline-authoring/catalog-pipeline-authoring.md",
-   "digest": "sha256:0f122090d1189776",
-   "revision": 2,
-   "changedAt": "2026-08-30",
+   "digest": "sha256:b3fc5effc0b03488",
+   "revision": 3,
+   "changedAt": "2026-09-20",
    "techniques": [
     {
      "slug": "archetype-view-coherence-ratchet",
@@ -1049,6 +1049,22 @@
       "a convention that most members follow and a few legitimately do not",
       "an exemption that reads as silence",
       "deciding whether a production line needs a terminal shipping step"
+     ]
+    },
+    {
+     "slug": "producer-facts-are-observed-not-declared",
+     "status": "forged",
+     "laws": [
+      "declaring-an-input-is-not-consuming-it",
+      "no-gate-self-certifies",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a field on a step declares what its own producer's code does",
+      "accepting a provenance stamp from a caller you do not control",
+      "planning a labelling campaign across hundreds of steps",
+      "offering an action whose effect depends on a producer body"
      ]
     },
     {
@@ -1097,6 +1113,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "producer-facts-are-observed-not-declared",
+     "file": "knowledge/game-production/content-pipeline/catalog-pipeline-authoring/applications/node--producer-facts-are-observed-not-declared.md",
+     "verified_on": "2026-09-20",
+     "verified_against": "node@24"
+    },
     {
      "stack": "node",
      "technique": "seed-entities-and-walker-coverage",
@@ -3913,9 +3936,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/balance-validation/procedural-level-planning/procedural-level-planning.md",
-   "digest": "sha256:f519280ac89d6719",
-   "revision": 5,
-   "changedAt": "2026-09-02",
+   "digest": "sha256:bc7a026c0a74a2ee",
+   "revision": 6,
+   "changedAt": "2026-09-20",
    "techniques": [
     {
      "slug": "algorithm-parameter-support-matrix",
@@ -3958,7 +3981,8 @@
      "use_when": [
       "several generators accept the same request type",
       "a designer cannot tell which inputs mattered",
-      "comparing two backends on one brief"
+      "comparing two backends on one brief",
+      "making two engines agree on one generated layout"
      ]
     },
     {
@@ -6020,9 +6044,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/craft-judgment/unattended-build-loop/unattended-build-loop.md",
-   "digest": "sha256:56104d94acef6086",
-   "revision": 3,
-   "changedAt": "2026-08-30",
+   "digest": "sha256:1c57d21a411efee4",
+   "revision": 4,
+   "changedAt": "2026-09-20",
    "techniques": [
     {
      "slug": "budget-reservation-and-drain-not-kill",
@@ -6051,6 +6075,21 @@
       "an automated item is promoted despite failing checks",
       "reporting a success rate that has a third outcome",
       "letting downstream work proceed on partially verified input"
+     ]
+    },
+    {
+     "slug": "confirmation-inherits-the-gates-limits",
+     "status": "forged",
+     "laws": [
+      "no-gate-self-certifies",
+      "an-instrument-proves-it-had-input",
+      "one-authority-per-quantity"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a loop re-runs a failed check to confirm a repair",
+      "a repair path spawns its own command runner",
+      "a retry is spent on a check that reported a failure it never observed"
      ]
     },
     {
@@ -6434,6 +6473,7 @@
     "catalog-pipeline-authoring/archetype-view-coherence-ratchet",
     "catalog-pipeline-authoring/direction-as-first-class-produce-input",
     "catalog-pipeline-authoring/packaging-exempt-two-state-rule",
+    "catalog-pipeline-authoring/producer-facts-are-observed-not-declared",
     "catalog-pipeline-authoring/seed-entities-and-walker-coverage",
     "catalog-pipeline-authoring/step-archetype-taxonomy",
     "catalog-pipeline-authoring/view-produce-accept-triad",
@@ -6693,6 +6733,7 @@
     "terrain-synthesis-acceptance/terrain-to-room-graph-handoff",
     "tiling-texture-acceptance/biome-themed-tile-prompting",
     "tiling-texture-acceptance/texel-density-and-uv-tiling",
+    "unattended-build-loop/confirmation-inherits-the-gates-limits",
     "unattended-build-loop/rollback-to-last-green",
     "visual-script-to-code-transpilation/structural-round-trip-diff",
     "wiring-contract-doctrine/cross-catalog-link-resolution"
@@ -6850,6 +6891,7 @@
     "adaptive-music-authoring/music-acceptance-beyond-decode-checks",
     "agent-behaviour-authoring/decision-trace-as-evidence",
     "catalog-pipeline-authoring/direction-as-first-class-produce-input",
+    "catalog-pipeline-authoring/producer-facts-are-observed-not-declared",
     "catalog-pipeline-authoring/seed-entities-and-walker-coverage",
     "content-acceptance-tiering/derived-vs-toggled-acceptance",
     "crash-forensics-attribution/root-cause-to-fix-prompt",
@@ -6886,6 +6928,7 @@
     "subsystem-review-doctrine/four-pass-ordering",
     "subsystem-review-doctrine/ground-truth-pass-before-proposals",
     "tiling-texture-acceptance/derive-only-what-the-source-encodes",
+    "unattended-build-loop/confirmation-inherits-the-gates-limits",
     "unattended-build-loop/no-gate-self-certifies",
     "unattended-build-loop/verified-vs-self-reported-pass-rate",
     "unattended-build-loop/verifier-coverage-review-agenda",
@@ -7024,7 +7067,8 @@
     "playtest-signal-to-defect/session-instrumentation-contract",
     "playtest-signal-to-defect/unreproducible-is-a-state-not-a-dismissal",
     "sprite-and-atlas-production/autotile-rule-set-completeness",
-    "terrain-synthesis-acceptance/biome-mask-cross-consistency"
+    "terrain-synthesis-acceptance/biome-mask-cross-consistency",
+    "unattended-build-loop/confirmation-inherits-the-gates-limits"
    ]
   },
   "a-verdict-is-bound-to-its-content": {
@@ -7105,6 +7149,7 @@
    "statement": "A field a producer fills and no consumer ever reads is, from the producing side, indistinguishable from one that governs everything downstream: it validates, it round-trips, it appears in the schema, and the artifact carrying it looks configured. From the consuming side it does not exist. So the question a pipeline must be able to answer about every declared input is not whether something wrote it but whether something *reads* it — a census of readers, never of writers — and an input with no reader is reported as ignored at the moment it is declared, not discovered later by whoever trusted it. A generator states which of its declared parameters the selected algorithm actually consumes; an authored vocabulary is audited in both directions, for names referenced but never declared and for names declared but never referenced; and a constraint stored as prose in a field no checker parses is worse than an absent one, because absence is visible and prose reads as authored. This is the mirror of the rule that compiling is not wiring: that one governs a produced artifact nothing can reach, this one governs a declared input nothing consults, and they are the same disease at opposite ends of the pipe.",
    "techniques": [
     "ability-authoring-to-engine/declared-vs-referenced-tag-audit",
+    "catalog-pipeline-authoring/producer-facts-are-observed-not-declared",
     "mesh-finishing-for-engine-readiness/conform-target-is-not-a-remap-row",
     "mesh-finishing-for-engine-readiness/texture-pass-must-consume-the-bake",
     "procedural-level-planning/declare-what-each-engine-ignores"

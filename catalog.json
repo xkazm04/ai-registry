@@ -104,16 +104,16 @@
     },
     {
       "name": "conform",
-      "version": "1.7.0",
+      "version": "1.7.3",
       "category": "ai-native",
       "path": "skills/conform/SKILL.md",
-      "contentHash": "sha256-n1:95d505cafe430bfc",
+      "contentHash": "sha256-n1:626acad507276724",
       "adopters": [],
       "invokes30d": 0,
       "reportedInvokes": 0,
-      "lessons": 5,
+      "lessons": 10,
       "lessonsPath": "skills/conform/LESSONS.md",
-      "lessonsHash": "sha256-n1:7298eebaaa8ee8c5",
+      "lessonsHash": "sha256-n1:177f5c4dc083dbbf",
       "usageContributors": []
     },
     {
@@ -758,7 +758,7 @@
     "skills": 35,
     "practices": 8,
     "memory": 6,
-    "lessons": 237
+    "lessons": 242
   },
   "bundles": [
     {
@@ -795,10 +795,10 @@
       "profile": "rkb/0.1",
       "purity": "game",
       "subjects": 52,
-      "techniques": 329,
-      "applications": 141,
-      "files": 526,
-      "contentHash": "sha256:efe9d599800ab90e"
+      "techniques": 331,
+      "applications": 142,
+      "files": 529,
+      "contentHash": "sha256:77a2cec63d513623"
     },
     {
       "name": "grant-funding",
@@ -822,9 +822,9 @@
       "purity": "software",
       "subjects": 18,
       "techniques": 124,
-      "applications": 76,
-      "files": 223,
-      "contentHash": "sha256:e45c4c62b7b58ca1"
+      "applications": 77,
+      "files": 224,
+      "contentHash": "sha256:2f75ad925fc62544"
     },
     {
       "name": "localization",
@@ -860,10 +860,10 @@
       "profile": "rkb/0.1",
       "purity": "media",
       "subjects": 21,
-      "techniques": 144,
-      "applications": 72,
-      "files": 242,
-      "contentHash": "sha256:5e3845be2f8eafa2"
+      "techniques": 145,
+      "applications": 73,
+      "files": 244,
+      "contentHash": "sha256:b13b1d810561c7a3"
     },
     {
       "name": "recruiting",
@@ -876,7 +876,7 @@
       "techniques": 384,
       "applications": 197,
       "files": 649,
-      "contentHash": "sha256:a0a8e582e122788f"
+      "contentHash": "sha256:f36c7679cd61fd22"
     },
     {
       "name": "software-engineering",
