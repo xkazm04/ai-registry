@@ -27341,9 +27341,9 @@
    "subcategory": "prompt-and-context",
    "status": "reconciled",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/retrieval/retrieval.md",
-   "digest": "sha256:131210cdd2e2b5aa",
-   "revision": 15,
-   "changedAt": "2026-09-15",
+   "digest": "sha256:1280e85fd10ab66e",
+   "revision": 16,
+   "changedAt": "2026-09-20",
    "techniques": [
     {
      "slug": "chunking-and-indexing",
@@ -27388,7 +27388,9 @@
       "merging candidate lists from several matchers",
       "adding raw scores from incomparable scales",
       "nearest-neighbor hits leaking across scopes",
-      "fusing a lane whose input is another lane's output"
+      "fusing a lane whose input is another lane's output",
+      "a retired or superseded item still reaches the slice",
+      "another subsystem claims its column already gates retrieval"
      ]
     },
     {
@@ -27567,7 +27569,8 @@
      "stack": "rust",
      "technique": "hybrid-lane-fusion",
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/retrieval/applications/rust--hybrid-lane-fusion.md",
-     "verified_on": "2026-08-18"
+     "verified_on": "2026-09-20",
+     "verified_against": "rust@1.80.0"
     },
     {
      "stack": "rust",

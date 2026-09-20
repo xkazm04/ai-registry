@@ -218,3 +218,47 @@ Two amendments, both boundaries the subject had drawn one case too narrowly.
 - **embedding-lifecycle: the role is a fifth input the stamp cannot see.** Asymmetric models embed queries and documents under different roles; the query vector is never stored, so a query embedded as a document passes every stamp check. Discriminator: whether the two sides of the distance play different parts (retrieval) or the same (symmetric comparison). Application `next--embedding-lifecycle` (simulation, unmeasurable, instrument named).
 
 Leads touching this subject: a measured RAG failure taxonomy (08-25) is reinforced, since 0 of 24 tutorial RAG apps evaluate retrieval.
+
+## 2026-09-20 - `/intake` jev-rag-reranking (run `intake-UhGH8cNG0qs`, intake 2.13.0)
+
+One amendment, from the seam hunt rather than from the source. A reranking demo
+aimed the hunt at a fleet project's retrieval path; the defect it found is about
+filtering, not ranking, and the source could not have described it.
+
+- **hybrid-lane-fusion: the blind-predicate enumeration finds the caller's
+  predicates and misses the item's.** The technique already says to enumerate,
+  per lane, the predicates a lane silently does not apply. Its examples are all
+  request-scoped isolation predicates - session, tenant, user - which arrive as
+  arguments, so their absence is visible at the call site. An item-scoped
+  **retirement** predicate (superseded, expired, demoted, tombstoned) is a
+  column another subsystem sets on another clock, so nothing in the retrieval
+  call mentions it, and that subsystem has meanwhile written down that the
+  guarantee is already enforced. Two consequences: the predicate belongs at the
+  re-imposition point rather than in each lane's query, because unioning is
+  monotone in recall and every lane added is another chance to re-admit what the
+  store retired; and the owning subsystem's claim is about code it does not own,
+  so it is tested from the read side. Failure signature is the reason it
+  survives review - an isolation leak announces itself, a retraction leak
+  returns the right principal's own material, on topic and merely no longer
+  true.
+- Application `rust--hybrid-lane-fusion` extended (code, **better**, ab-paired),
+  `verified_on` moved to 2026-09-20. Retired rows admitted to the vector lanes
+  2 to 0, live rows 4 and 4 unchanged, keyword-lane control 0 retired / 2 live
+  in both arms. Shipped to the project, not pushed.
+- **A pre-existing anchor in that application had drifted** and was corrected in
+  the same change (`retrieval.rs:212-216` to `360-364`, the "strict superset"
+  sentence); the other eight new anchors were verified line by line.
+
+**Boundary recorded, not linked.** `agent-memory/decay-and-forgetting` holds the
+same boundary from the other side: it enumerates the **write** doors ("every
+path that retires, deletes, supersedes or caps is a door") and is complete as
+written. The read-side half is this subject's, and the promoting question that
+established the split is in the source note. A later run meeting this shape
+should recognise it rather than re-litigate the home.
+
+Untriaged rows touching this subject, banked with anchors: a reranker steered by
+a criterion the query does not carry (`second-pass-rescoring`); a relevance
+judgment being conditioned on a ranking policy and not only on a corpus
+snapshot, which `retrieval-evaluation` versions and the other it does not
+(`retrieval-evaluation`); and rerank cost scaling with candidate length rather
+than candidate count.

@@ -6,7 +6,7 @@ technique: hybrid-lane-fusion
 status: forged
 laws: [identity-survives-reuse, count-carries-predicate]
 shared_with: []
-use_when: [merging candidate lists from several matchers, adding raw scores from incomparable scales, nearest-neighbor hits leaking across scopes, fusing a lane whose input is another lane's output]
+use_when: [merging candidate lists from several matchers, adding raw scores from incomparable scales, nearest-neighbor hits leaking across scopes, fusing a lane whose input is another lane's output, a retired or superseded item still reaches the slice, another subsystem claims its column already gates retrieval]
 ---
 
 # Hybrid lane fusion
@@ -137,6 +137,53 @@ isolation boundary the rest of the system enforces: a semantically similar
 item from someone else's scope rides a nearest-neighbor hit straight into the
 consumer's context. Enumerate, for each lane, the predicates it silently does
 not apply; each one needs a named re-imposition point.
+
+### The enumeration finds the caller's predicates and misses the item's
+
+That enumeration is reliably run against the predicates the *request* carries
+— this session, this tenant, this user — and reliably not run against the
+predicates the *item* carries. The asymmetry is not carelessness, and knowing
+why it happens is what makes the second class findable:
+
+- A request-scoped predicate arrives **as an argument**. The lane signature
+  either takes it or visibly does not, so the gap is in front of whoever
+  writes the call.
+- An item-scoped predicate — retired, superseded, expired, demoted below a
+  floor, tombstoned — is **a column on the row**, set by a different
+  subsystem on a different clock. Nothing in the retrieval call mentions it,
+  so nothing prompts the question.
+
+The second class is the dangerous one, because the subsystem that owns it
+states the guarantee in its own vocabulary and states it as already settled:
+*retirement is a demotion, and a demoted item is ineligible for recall.* That
+sentence is true of every read path that consults the column and false of
+every read path that does not — and the owning subsystem has no way to tell
+which is which, because the read paths are not its code. A union of lanes then
+makes the position strictly worse over time: unioning is monotone in recall,
+so **each lane added is another chance to re-admit what the store retired**,
+and a filter spelled per lane is defeated by the next lane rather than by any
+edit to itself.
+
+Two consequences follow, and the second is the one that gets skipped:
+
+1. **A retirement predicate belongs at the re-imposition point, not in each
+   lane's query.** Spelling it into every lane is correct today and wrong at
+   the next roster change; the whole reason this section exists is that the
+   union is the thing that has to enforce it.
+2. **The owning subsystem's claim is a claim about code it does not own, so
+   it is tested from the read side.** Its own door tests prove the demotion
+   ran, which is a different proposition — a demotion nothing consults passes
+   every write-side test there is. The assertion that earns the sentence is:
+   retire an item, then query through **each** lane and the fused path, and
+   assert it is absent from all of them.
+
+The failure signature is why this survives review. An isolation leak is
+self-announcing — the wrong principal's material is in the slice, and one
+glance identifies it. A retraction leak returns the right principal's own
+material, on topic, well-ranked, and merely **no longer true**; it is
+indistinguishable from a correct answer without the item's history, so it
+passes eyeball QA, passes the isolation test suite, and shows up as a quality
+complaint about the generator months later.
 
 ## Fusion is where degradation concentrates
 
