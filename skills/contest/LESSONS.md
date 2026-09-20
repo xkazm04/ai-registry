@@ -63,3 +63,13 @@ from the first contest, so it is recorded apart from the mechanics above.
   patterns as wins for a variant the owner then rejected. A shortlist verdict records sightings
   only, and the curated patterns now come from the owner's words: practical before spectacular,
   levels not one layer, heavy content gets its own surface.
+
+## 1.1.0 - 2026-09-20 - personas (council-galaxy-descent)
+
+- **A seat's argv is a contract with a CLI that moves.** codex-cli 0.154 removed `--full-auto`; the
+  codex judge errored in 0.12 s with `unexpected argument`, and the panel silently shrank to one
+  family. The runner now passes `--sandbox workspace-write`. Read `runs/<id>/stderr.log` for any
+  seat that finishes in under a second before reading the scoreboard: an `errored` judge leaves a
+  scoreboard that looks complete.
+- **A seat-limit on the only second family leaves a one-judge panel.** Say so in the report and
+  let the owner decide; do not substitute a same-family judge to fill the chair.
