@@ -4169,6 +4169,7 @@ Stage the funnel is losing most at, last ten rows (counted from the Apply and Sh
 | 2.11.1 | 2026-09-18 | `youtube:1vw39QCcQjg` smart-uv-unwrap-review | 1 video (2,592 words), second-hand practitioner review (sponsored); 0 of 3 fetches; 1 fleet tree read and run (pof, the finishing runner in headless Blender) | 12 | 1 admitted (amendment 3/0/2), 1 untriaged, 6 catches, 4 leads (1 currency); `auto=1/1/0`, `fp=0` (the admitted row survived Phase 6 and was stopped by Phase 6b, not refuted); declared focus executed: sibling grep, 0 banked rows | 0 upper-layer (a render tie blocks the amendment) | 0c/0e/0s/0t/1r; 1 row, the only owed row written | 1 - pof `ca5eaf23` (calibration record plus row); not pushed | Depth `0/0/0/0/0`; no design record (video), `directions=n/a`, gate n/a; render gate ran with an operator verdict: tie on a passed precheck, so `unmeasurable` |
 | 2.11.1 | 2026-09-18 | `web:jevai.org/docs` jevai-system-one | 3 hub pages (1,359 words), 3 of 3 fetches on the vendor, 2 clones (adapter 7,529 words in tree; community list 10,016); class: relay -> vendor announcement -> vendor repository; 1 fleet tree read and run (personas memory evaluation) | 11 | 1 admitted (technique 2/0/2), 2 untriaged, 4 catches, 4 leads; `auto=1/2/0`, `fp=0`; declared focus (extract): the landing came from the adapter's types and the enumeration hunt, not from either prose tier | 1 technique, 1 source-tree application (4/4 anchors held) | 0c/2e/0s/0t/0r; 1 not-better (falsifying seam, ceiling), 1 better | 1 - personas `6246ec6aa` (experiment record, scripts, two rows); no product code, not pushed | Depth `0/1/0/1/0`; routing count M 1 / A 2, three sharing one existing home = one technique, no handoff; `directions=0/0`, gate n/a |
 | 2.11.1 | 2026-09-20 | `youtube:ScvXFi4MUSc` jev-system-1-agentic-loop | 1 video (6,358 words), second-hand practitioner review with a large speculative half; 0 of 3 fetches; 1 tree read and measured (this registry's own capability catalog, 70 packages) | 13 | 1 admitted (amendment 2/0/2 after a promoting read), 2 untriaged, 5 catches, 4 leads, 1 currency; `auto=1/1/0`, `fp=0`; the promoting read resolved a contested home (`catalog-projection-modes` vs `line-earning`) with two file reads and dropped RISK to 0 | 1 amendment + 1 application (fleet) | 0c/1e/0s/0t/0r; 1 row, the only owed row written | 0 - no project change warranted; the experiment's verdict was that the proposed change should NOT be made, which is the row's content | Depth `0/0/1/0/0`; no design record (video), `directions=n/a`, gate skipped (unattended); **the source was mined two days after the same model was mined from the vendor's own docs** ([[2026-09-18-jevai-system-one]]), and the corpus that run built is what caught rows 3-6 | the landing came from the source being WRONG: it counts standing-prefix tokens at face value, and the falsifying sweep returned a placement discriminator plus the degenerate `r = 1` corner rather than the flat refutation the run expected |
+| 2.11.1 | 2026-09-20 | `youtube:lTcwNdoTdUk` claude-backlinks-free | 1 video (2,232 words), second-hand practitioner review (sponsored vendor demo); the build-walkthrough half has no operating half, so it was priced as a review; 1 of 3 fetches | 12 | 9 (1 accepted verified in full, 8 catches confirmed against the files rather than summaries) | 0c/1e/0s/0t/0r; 1 row, the only owed row written - `better`, target 1 of 1, floor 0 of 23 refused | 0 - the gate's output is a question and the tree has no advisory field; rendering one creates a capability the scope does not name, which is a direction and not coverage, so it waits for the owner. The project ledger row shipped (systedo-case `551255a4`, hooks green, not pushed) | **0S/1T/0A/0Asrc/0task**; routing count n/a and handoff n/a (not a repository, no design record); `directions=n/a`; `auto=1/0/0 fp=0`; anchors=7 held=7 unquoted=0 absent=0; 3 siblings live at claim, no contention | The corpus has no link-acquisition subject and a sponsored demo cannot found one; the landing was a missing stage one subject over. `zero-budget-channel-planning` ranks on a prediction about audience match and a statement about labour and **neither column can refuse a channel**, while its kind table declares itself "the whole technique" and folds seven families into five kinds each won by doing work. A supply won by *enrolling* is in none of them, and the quick-win rule promotes exactly that shape by construction. **The fetched primary inverted the source's framing and the obvious rule**: the discriminator is not reciprocity - the golden path already names the arrangement next door as legitimate - but the policy's third clause, whether the party whose page carries the link chose it and was free to qualify it. The seam was chosen to falsify with the pre-check written first, and the tree answered structurally: three of four descriptive fields coerced to a domain, the field naming the channel bounded only in length. The floor was genuinely at risk (three boundary-adjacent curated channels, including the golden path's own named legitimate case) and held at 0 of 23; the discrimination is the low-effort conjunct, not the keyword. The convergence point with a 4-day-old sibling was available and deliberately **not** claimed - shared diagnosis, different rule - and the row clears at exactly +2 without it |
 
 ## 2026-09-16 - modernweb-web (the contract the checker could not see)
 
@@ -4373,3 +4374,38 @@ the result.
 3. **A falsifying seam can refuse the refutation too.** The sweep was run expecting to show that a per-request selector never pays. It showed something better and unhunted: it never pays *where a prefix cache exists*, and it pays exactly at `r = 1`, where none does. The degenerate corner is what turned a flat "no" into a discriminator, and the discriminator is the part that is portable.
 
 **Weakest stage across the last ten rows: `extract`, for the fifth run running.** This row's single landing came from the source's error rather than from its content, and from a measurement taken on the local machine rather than from the video - the fifth consecutive run where the yield came from somewhere other than the source's claims. The pattern is now stable enough to name as a property of the lane rather than as a miss: a second-hand review's claims are almost always caught, and its *mistakes* are where the extractable material is. Next run's declared focus stays `extract`, sharpened: **on a review or a listicle, extract the source's reasoning errors as first-class candidates, not just its assertions.**
+
+## 2026-09-20 - claude-backlinks-free (the primary, not the source, carried it)
+
+**Next run focus (claude-backlinks-free).**
+1. **For a relay-class source, budget the fetch at triage as the extraction, not
+   as corroboration.** The method's class table already says this for reviews,
+   listicles and papers; this run is the clean instance. The video contributed a
+   *location* - a link pool nobody in the corpus had priced - and zero rules. One
+   fetch produced the whole technique, including inverting the framing the source
+   and the obvious reading both had: not reciprocity, but whether the party whose
+   page carries the link chose it and could qualify it. Four of the previous five
+   runs credited the fleet seam hunt for out-originating the source; this one
+   credits the primary, which is a different diagnosis and a cheaper one.
+2. **When two runs touch one subject within two weeks, check whether their
+   findings share a root before claiming convergence - and say so when they do
+   not.** The 2026-09-16 sibling landed a technique in this same subject whose
+   `use_when` ends "a channel that costs nothing to send is still spending
+   something"; this run landed a gate for a channel whose cost is its own outbound
+   links. Same diagnosis, different rules. Claiming the +1 would have inflated a
+   row that clears at exactly +2 on its own, and the subject note records the pair
+   as two instances of one root, with a third being what would justify stating it
+   at golden-path level.
+
+**Weakest stage across the last ten rows: `extract`, for the sixth run running -
+but the reading changes.** The previous five rows diagnosed it as "the fleet
+out-originates the source" and aimed the focus at the sibling lane. The sibling
+lane was executed here under the 2026-09-18 two-arms filter and returned its first
+result in five runs (the unclaimed convergence above), so the lane is not dead.
+What this row adds is that for a *relay*-class source the loss is upstream of both:
+the source is a pointer by construction, and the run's yield is decided by whether
+the fetch is spent at triage on the one claim that needs a primary. Next run's
+declared focus: `extract`, narrowed - **at Phase 5, for any relay-class source,
+name which single row the fetch will be spent on before scoring, and say in the
+row what the primary changed about the source's framing.** A fetch that only
+confirmed the source is a fetch that was not needed.

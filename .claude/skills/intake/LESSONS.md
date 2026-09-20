@@ -11277,3 +11277,36 @@ one sighting is not a rule.
   parameter space found it where a single point estimate at realistic values
   would not have. When an arm is cheap and parametric, sweep it rather than
   evaluating it once - the boundary is in the corner, not at the centre.
+
+## 2.11.1 - 2026-09-20 - claude-backlinks-free
+
+- **For a relay-class source the fetch is not corroboration, it is the extraction -
+  and the sign that it was spent well is that it changed the source's framing.** The
+  method's class table already says the first half. This run is the instance that
+  makes the second half checkable. The video contributed a location (an automated
+  link pool) and no rules; one fetch on the engine's spam policy produced the whole
+  technique *and* inverted the obvious reading of it. The tempting rule was "a
+  reciprocal link supply is a scheme", which would have contradicted the bundle's own
+  golden path, where a reciprocal arrangement with the business next door is a
+  legitimate channel. The policy's actual discriminator is a third clause nobody
+  quotes - whether the party whose page carries the link chose it and was free to
+  qualify it - which is about what a member *gives up*, not what they receive. A
+  fetch that only confirmed what the source said would have been a fetch that was
+  not needed.
+- **Two runs in one subject within two weeks is a root worth naming and a
+  convergence point worth refusing.** A sibling four days earlier landed a technique
+  here whose `use_when` ends "a channel that costs nothing to send is still spending
+  something"; this run landed a gate for a channel whose cost is its own outbound
+  links. Those are two instances of one root - a channel whose price is a spent asset
+  rather than labour - and they are *not* the same rule, so the `+1` for convergence
+  was not taken and the row cleared at exactly `+2` on its own. Record the pair in
+  the subject note instead: a third instance is what would justify stating the root
+  at golden-path level, and the note is where a later run will find the count.
+- **A quote written from memory minutes after reading the file is still a
+  paraphrase.** `check-anchors` returned `absent` on two of seven quotes in the
+  application - a clamp expression I compressed and an accented word I typed without
+  its accent - in a session that had printed both lines on screen. Neither was a
+  fabrication and both would have read as evidence to any human reviewer. Copy quote
+  text out of the file's own output rather than retyping it, and run the instrument
+  before the commit rather than as a final check: it is the cheapest of the review
+  steps and it is the only one that catches this class.
