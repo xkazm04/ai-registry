@@ -52,3 +52,8 @@ fleet-*.proposals.json
 # Personas handoff state. `.personas/registry.yaml` is the committed declaration; the outbox
 # is a queue the app DELETES on ingest, so a committed copy is a replay of work already taken.
 .personas/memory-outbox.jsonl
+
+# /spark run memory: an Obsidian-openable vault of idea notes and session records for a
+# skill that runs on this repo. Regenerable working memory, not registry content - the
+# same rule as .explorer/ and .perfect/, and the checkout hosts concurrent sessions.
+.spark/
