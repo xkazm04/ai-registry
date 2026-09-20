@@ -17,37 +17,46 @@ second half ran anyway, within the reach that exists today.
 
 | | |
 | --- | ---: |
-| source files across 13 checkouts | 25,891 |
-| files inside some context | 15,222 (59%) |
-| **files in no context at all** | **10,669 (41%)** |
+| non-test source files across 13 checkouts | 19,157 |
+| files inside some context | 11,951 (62%) |
+| **files in no context at all** | **7,206 (38%)** |
+| test files, excluded from the denominator | 6,734 |
 | dead context paths (pointing at deleted files) | 528 |
 | context↔subject pairs | 4,720 |
 | pairs judged | 281 (6.0%) |
 
+> **Corrected 2026-09-20, after the first cut of this document.** The instrument originally
+> counted test files in the denominator and reported 41% unreachable. A `/conform` worker in
+> pumper re-measured its own repo and found 89% of non-test source declared against the 43%
+> this table claimed, which was right: no generator in this fleet places test files in a
+> context, so counting them manufactures a gap no context map should ever close. Tests are
+> 47% of pumper's matched files and 38% of kp's, so the error was not a rounding one.
+> `check-context-coverage.mjs` now excludes and reports them separately.
+
 A file in no context can never be judged, however good the corpus is and however diligent
-the session — a pair hangs off a context. So the 6% judged figure is bounded by a 59%
-ceiling it has never been measured against. Worst first:
+the session — a pair hangs off a context. So the 6% judged figure is bounded by a 62%
+ceiling it had never been measured against. Worst first:
 
-| project | coverage | uncovered | dead paths | map age | context key |
-| --- | ---: | ---: | ---: | ---: | --- |
-| pof | **9%** | 3,919 | 3 | 33d | id |
-| tracklight | 33% | 439 | 6 | 47d | id |
-| pumper | 43% | 155 | 0 | 47d | id |
-| goat | 47% | 539 | 3 | 96d | **group/name** |
-| personas | 58% | 2,708 | **430** | 44d | id |
-| systedo-case | 60% | 750 | 0 | 52d | id |
-| athena-everywhere | 67% | 258 | 17 | 9d | id |
-| politicas | 77% | 242 | 0 | 46d | id |
-| kp | 79% | 830 | 27 | 5d | id |
-| gravity | 80% | 94 | 0 | 11d | id |
-| personas-web | 83% | 217 | 39 | 98d | **group/name** |
-| ascent | 85% | 464 | 3 | 22d | **group/name** |
-| gravitone | 93% | 54 | 0 | 42d | **group/name** |
+| project | coverage | uncovered | dead paths | tests | map age | context key |
+| --- | ---: | ---: | ---: | ---: | ---: | --- |
+| pof | **12%** | 2,683 | 3 | 1,241 | 33d | id |
+| tracklight | 35% | 403 | 6 | 43 | 47d | id |
+| goat | 47% | 530 | 3 | 9 | 96d | **group/name** |
+| athena-everywhere | 56% | 112 | 17 | 533 | 9d | id |
+| personas | 64% | 1,948 | **430** | 1,020 | 44d | id |
+| gravity | 77% | 94 | 0 | 77 | 11d | id |
+| kp | 79% | 519 | 27 | 1,460 | 5d | id |
+| systedo-case | 79% | 280 | 0 | 520 | 52d | id |
+| pumper | 80% | 28 | 0 | 127 | 47d | id |
+| politicas | 82% | 148 | 0 | 256 | 46d | id |
+| personas-web | 84% | 192 | 39 | 34 | 98d | **group/name** |
+| ascent | 88% | 246 | 3 | 1,167 | 22d | **group/name** |
+| gravitone | 95% | 23 | 0 | 247 | 42d | **group/name** |
 
-**pof is not stale, it is sampled.** Its context map declares 441 file paths for 4,289
-source files, and its own `stats.files` block says 441 — 38 contexts for a repo kp partitions
+**pof is not stale, it is sampled.** Its context map declares 441 file paths for 3,048
+non-test source files, and its own `stats.files` block says 441 — 38 contexts for a repo kp partitions
 into 191. Same generator, five times the granularity. So "backfill" means different work in
-different projects: a re-scan at finer granularity in pof, tracklight and pumper; a refresh
+different projects: a re-scan at finer granularity in pof, tracklight and goat; a refresh
 in the 90-day-old maps; a dead-path sweep in personas.
 
 ---

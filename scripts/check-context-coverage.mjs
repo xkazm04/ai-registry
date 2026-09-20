@@ -74,6 +74,19 @@ const NOT_SOURCE = new RegExp(
 );
 /** Generated or machine-authored files a human never places in a context. */
 const GENERATED = /(\.generated\.|\.gen\.|\.d\.ts$|bindings?\/|locales?\/[a-z-]{2,5}\.json$)/;
+/**
+ * Tests, and why they are counted apart rather than counted in.
+ *
+ * A context map declares the product code a developer reasons about; across this fleet no
+ * generator places test files in a context. Counting them in the denominator therefore
+ * manufactures a gap that no context map should ever close — and it is not a rounding
+ * error: tests are 47% of one repo's matched files, 38% of another's. The first cut of
+ * this script reported a project at 43% coverage when 89% of its non-test source was in
+ * fact declared, and a worker running /conform there re-measured and corrected it. Both
+ * numbers are reported below; `pct` is over non-test source, which is the one that means
+ * "can this code be judged".
+ */
+const TEST = /(^|\/)(tests?|e2e|__tests__|spec|specs|benches|examples|fixtures)(\/|$)|\.(test|spec)\.[a-z]+$|_test\.[a-z]+$/;
 
 const readJson = (p) => { try { return JSON.parse(fs.readFileSync(p, 'utf8')); } catch { return null; } };
 
@@ -99,7 +112,9 @@ function measure(repo) {
 
   const tracked = r.stdout.split('\n').map((s) => s.trim()).filter(Boolean);
   const trackedSet = new Set(tracked);
-  const source = tracked.filter((f) => SOURCE_EXT.test(f) && !NOT_SOURCE.test(f) && !GENERATED.test(f));
+  const matched = tracked.filter((f) => SOURCE_EXT.test(f) && !NOT_SOURCE.test(f) && !GENERATED.test(f));
+  const source = matched.filter((f) => !TEST.test(f));
+  const tests = matched.length - source.length;
 
   const claimed = new Set();
   const ctxs = contextsOf(cm);
@@ -128,6 +143,7 @@ function measure(repo) {
     // and one that discards the expensive half of every /conform run.
     keyedById: ctxs.length > 0 && withId === ctxs.length,
     source: source.length,
+    tests,
     covered: source.length - uncovered.length,
     uncovered: uncovered.length,
     pct: source.length ? Math.round((100 * (source.length - uncovered.length)) / source.length) : null,
@@ -169,19 +185,20 @@ if (has('--json')) {
 }
 
 console.log(`check-context-coverage — machine ${fleet.machine}, ${rows.length} project(s)\n`);
-console.log('  project            ctx   source  covered    %   uncovered  dead  map age  key');
-let tS = 0, tC = 0, tU = 0, tD = 0;
+console.log('  project            ctx   source  covered    %   uncovered  dead  tests  map age  key');
+let tS = 0, tC = 0, tU = 0, tD = 0, tT = 0;
 for (const r of rows.sort((a, b) => (a.pct ?? 101) - (b.pct ?? 101))) {
   if (r.error) { console.log(`  ${r.slug.padEnd(18)} ${r.error}`); continue; }
-  tS += r.source; tC += r.covered; tU += r.uncovered; tD += r.dead;
+  tS += r.source; tC += r.covered; tU += r.uncovered; tD += r.dead; tT += r.tests;
   console.log(
     `  ${r.slug.padEnd(18)} ${String(r.contexts).padStart(3)}  ${String(r.source).padStart(6)}  ` +
     `${String(r.covered).padStart(7)}  ${String(r.pct ?? '-').padStart(3)}%  ${String(r.uncovered).padStart(9)}  ` +
-    `${String(r.dead).padStart(4)}  ${String(r.age ?? '?').padStart(5)}d  ${r.keyedById ? 'id' : 'group/name'}`
+    `${String(r.dead).padStart(4)}  ${String(r.tests).padStart(5)}  ${String(r.age ?? '?').padStart(5)}d  ${r.keyedById ? 'id' : 'group/name'}`
   );
 }
 console.log('');
-console.log(`  TOTAL ${tC} of ${tS} source file(s) reachable (${tS ? Math.round((100 * tC) / tS) : 0}%), ${tU} unreachable, ${tD} dead context path(s).`);
+console.log(`  TOTAL ${tC} of ${tS} non-test source file(s) reachable (${tS ? Math.round((100 * tC) / tS) : 0}%), ${tU} unreachable, ${tD} dead context path(s).`);
+console.log(`  ${tT} test file(s) excluded from the denominator - no generator in this fleet places them in a context.`);
 console.log('');
 console.log('  A file in no context can never be judged, however good the corpus is. Coverage is a');
 console.log('  property of the project\'s own context-map.json, which this registry cannot regenerate;');
