@@ -63,7 +63,7 @@ const CLAUSES = [
   { id: 'skill-reflection', version: 4, all: true },
   {
     id: 'knowledge-sync', version: 1,
-    skills: ['architect', 'explorer', 'friend', 'perfect', 'ship-loop', 'spark', 'tiger', 'uat', 'mvp',
+    skills: ['architect', 'council', 'explorer', 'friend', 'perfect', 'ship-loop', 'spark', 'tiger', 'uat', 'mvp',
       'research', 'project-populate', 'i18n-translate', 'kpi-sim', 'ci-triage', 'promote', 'straighten', 'maintain'],
   },
 ];

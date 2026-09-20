@@ -1,0 +1,98 @@
+{
+  "version": "feature-v1",
+  "kind": "use_case",
+  "title": "Council rubric for one already-built feature",
+  "threshold": 0.7,
+  "coverage_floor": 0.6,
+  "scale": "Real 0..1. Anchored at three points only; a member interpolates between them and says so in its confidence, it does not invent a fourth anchor.",
+  "totals": {
+    "weights_sum": 1.0,
+    "dimension_count": 5,
+    "mechanical_weight": 0.25,
+    "judged_weight": 0.5,
+    "mixed_weight": 0.25
+  },
+  "notes": [
+    "A versioned artifact. A changed scoring definition is a NEW file with a new version; verdicts keep pointing at the version that scored them, so a rescore is always visible as a version change rather than as a number that moved on its own.",
+    "An unmeasured dimension is null with a reason, never 0, and lowers coverage instead of the mean.",
+    "While trust_state is not 'trusted', a JUDGED floor is recorded advisory and does not fail the run; a MECHANICAL floor always binds."
+  ],
+  "dimensions": [
+    {
+      "dimension": "value",
+      "kind": "judged",
+      "weight": 0.3,
+      "weight_rationale": "The largest share, because a feature that works perfectly and saves nobody anything is the most expensive thing an autonomous builder can ship.",
+      "floor": 0.4,
+      "floor_rationale": "Below this the feature is not worth a person's attention at all, whatever the craft score says.",
+      "question": "For the characters this product declares, how much real work does this feature remove compared with doing the job without it?",
+      "levels": {
+        "1.0": "A character's whole job is done here, faster and at senior quality, and the time saved is measured with a named comparison.",
+        "0.5": "It removes part of the job for a real character; the rest still happens elsewhere, and the saving is estimated rather than measured.",
+        "0": "No character reaches it, or reaching it costs more than the manual route it replaces."
+      },
+      "not_applicable_when": null,
+      "escalate_to_live_when": "the repo declares a live application the member can drive; otherwise the member reports L1 only and says so"
+    },
+    {
+      "dimension": "craft",
+      "kind": "mixed",
+      "weight": 0.25,
+      "weight_rationale": "Half the weight of value because craft is what makes the value survive the second month, and the pair states from a conformance pass make part of it cheap to measure.",
+      "floor": null,
+      "floor_rationale": "No floor: a weak craft score on a valuable feature is a backlog item, not a refusal.",
+      "question": "Does the implementation meet current best practice for what it is, inside and outside the standards this repo subscribes to?",
+      "levels": {
+        "1.0": "Every governing pair is conformant or a recorded, justified deviation, and the outside-practice read finds nothing newer worth adopting.",
+        "0.5": "Governing pairs are mostly conformant with at least one unrecorded gap, or current practice has moved and the code has not.",
+        "0": "The feature contradicts the standard that governs it with no recorded reason, or rests on a pattern the field has abandoned."
+      },
+      "not_applicable_when": null
+    },
+    {
+      "dimension": "rivalry",
+      "kind": "judged",
+      "weight": 0.2,
+      "weight_rationale": "Enough to change an outcome, not enough to let a competitor's roadmap set this product's. It answers 'is this table stakes or a reason to switch'.",
+      "floor": null,
+      "floor_rationale": "No floor: being behind a rival is a strategy question for the person at the gate, never an automatic refusal.",
+      "question": "Against the named prior art, is this ahead, at parity, or behind - and on which specific capability?",
+      "levels": {
+        "1.0": "Ahead on a capability a named rival does not have, with the rival's pinned version and the specific gap stated.",
+        "0.5": "Parity: the rivals do this too, roughly this well, and nothing here is a reason to choose or leave.",
+        "0": "Behind a named rival on the capability this feature exists for, with the gap described."
+      },
+      "not_applicable_when": "no comparable prior art exists for this capability and the member can say why - recorded as not_applicable with the search it ran, never as a zero"
+    },
+    {
+      "dimension": "robustness",
+      "kind": "mechanical",
+      "weight": 0.15,
+      "weight_rationale": "Mechanical and cheap, so it is weighted for its floor rather than its spread: it is here to stop a broken thing reaching a person, not to rank two working ones.",
+      "floor": 0.5,
+      "floor_rationale": "A mechanical floor and a binding one. Below it the evidence pack itself showed the feature failing, and no judged opinion outranks that.",
+      "question": "Does the repo's own verification pass over this span, and does the feature handle its declared failure modes?",
+      "levels": {
+        "1.0": "Every declared gate passes over the span, tests cover the failure paths, and errors reach a real error door.",
+        "0.5": "The gates pass but the failure paths are untested, or a gate was skipped and the skip is recorded.",
+        "0": "A declared gate fails over this span, or an error path swallows its error."
+      },
+      "not_applicable_when": null
+    },
+    {
+      "dimension": "economics",
+      "kind": "mechanical",
+      "weight": 0.1,
+      "weight_rationale": "The smallest share: it decides nothing on its own, and most features have no per-use cost at all, which is why not_applicable is expected here rather than exceptional.",
+      "floor": null,
+      "floor_rationale": "No floor: a costly feature can still be the right one, and the person at the gate is the one who trades cost against value.",
+      "question": "What does one use of this feature cost to run, and is that cost bounded?",
+      "levels": {
+        "1.0": "The per-use cost is measured from real telemetry and is bounded by something in the code.",
+        "0.5": "The cost is estimated from a named price book rather than measured, and the estimate is labelled as one.",
+        "0": "An unbounded per-use cost: a loop, a retry or a fan-out with no ceiling."
+      },
+      "not_applicable_when": "the feature makes no metered call and consumes no measurable resource beyond the local process"
+    }
+  ]
+}
