@@ -3,7 +3,7 @@ name: conform
 description: "Evaluate this repository against the registry standards that govern it, one context at a time, and keep the verdicts. Reads .ai/registry-map.json (the generated join between this repo's contexts and the registry's subjects), picks the highest-value unevaluated or stale pairs, reads the governing golden path and techniques against the context's real code, and writes back conformant / deviation / not-applicable with file:line evidence - so the map becomes a standing, incrementally-completed deviation backlog instead of a one-off audit. Use to answer 'where does this repo fall short of the standard', before a hardening pass, after a bundle changes, or when a context is about to be rewritten. Invoke with /conform [context-or-path] [--subject <slug>] [--stale] [--budget <n>]."
 category: ai-native
 memory: project
-version: 1.7.2
+version: 1.7.3
 tags: conformance, deviations, registry, audit, backlog
 argument-hint: "[context-or-path] [--subject <slug>] [--stale] [--budget <n>]"
 ---
@@ -257,6 +257,13 @@ When a context leaves the context map, the generator does not discard its verdic
 are retained under the map's top-level `orphans[]` as
 `{ context, name, group, paths, subjects: [<pairs>] }`, and `stats.orphanedVerdicts` counts
 them. Each is a decision waiting for a reader, and this skill is the reader:
+
+**Route an orphan by the files its own `evidence` anchors, not by its bulk path list** — the
+list in the map is a twelve-path sample and it disagreed with the anchors twice in one run.
+And **never copy an orphan's `digest`**: it is metadata from the build that orphaned it, so
+copying it stamps a verdict against a version of the subject that no longer exists. Measured:
+three orphans in one repo carried digests the index had moved past. Take the current one, or
+leave the pair unjudged.
 
 - **Adopt** - when the code the verdicts were about now lives under another context (a
   split, a move the renamer did not catch), move the pair under that context's

@@ -269,3 +269,26 @@ per-project entries above stand; this is what only shows up across them.
 - **The loop closed, visibly.** Three August deviations were repaired before this re-judge,
   and one repair's commit trailer cites the conformance lens by name — the verdict caused
   the fix. Re-judging stale pairs is not bookkeeping.
+
+## 1.7.3 - 2026-09-20 - kp (twelve orphans, and what an orphan's digest means)
+
+- **Never copy an orphan's `digest`.** It is metadata from the build that orphaned the pair,
+  and three orphans in one repo carried digests the index had already moved past — copying
+  them would have stamped three verdicts against documents that do not exist.
+- **Route an orphan by the files its own `evidence` anchors**, not by the bulk path tally.
+  The tally is the twelve-path sample and it disagreed with the anchors twice in twelve
+  adoptions.
+- **Adopt-without-re-judging is not adoption.** Two clean moves were left undone because
+  their verdicts were `conformant` against a subject that had since moved, and re-judging a
+  `conformant` needs half the techniques re-anchored. Naming the target for the next run is
+  cheaper and honest; carrying the verdict would have stamped a claim about a document
+  nobody read.
+- **A re-judge is where the corpus's own movement arrives.** One `conformant` became a
+  `deviation` because the standard changed under it: the technique now says read the VCS
+  record rather than a transcript, the repo had built exactly that, and the verdict still
+  flipped because satisfaction is by directory prefix — the shape the technique measures as
+  the wrong document 54.3% of the time.
+- **Two instrument saves, both from a known-positive control.** A per-context grep dropped
+  its pattern through an argv bug and returned "(no match)" for all six contexts — a clean,
+  confident, wrong negative. And a first read of one file alone would have produced a false
+  deviation; the append-only trail it wanted was in a neighbour.
