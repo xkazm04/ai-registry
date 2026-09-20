@@ -11567,3 +11567,60 @@ experiment-ledger read).
 
 Version 2.13.0 -> 2.13.0 (no bump; four lessons, none yet confirmed three runs
 running. A mid-flight run should finish on the version it loaded.)
+
+## 2.13.0 - 2026-09-20 - jev-rag-reranking
+
+- **A gate's FEATURE SET is part of its predicate, and a green run over code
+  that was never compiled is the quietest vacuous instrument yet.** The change
+  this run shipped sits behind `#[cfg(feature = "ml")]`. The first compile check
+  ran with the feature set the project's own ledger had used for two prior
+  rows - and that set does not include `ml`, so the check was green over a file
+  whose changed function it had not seen. Nothing in the output said so: no
+  warning, no skip notice, exit 0, four minutes of honest-looking work. The tell
+  was not in the result at all, it was in the source: the function carried a
+  `cfg` attribute nine lines above the edit. **Before reading a gate green on a
+  change, name the flag, feature or target the changed code sits behind and show
+  that the invocation includes it** - and prefer inheriting a feature set from a
+  ledger row only when the two changes touch the same `cfg`. This is the
+  `gate-sees-target` law arriving as a fact about the run's own tooling rather
+  than about the corpus, which is the second time in two runs.
+- **The run's own bookkeeping instrument was blind again, in exactly the shape
+  the last scorecard named - second sighting.** An index-vs-HEAD digest diff
+  written to confirm no sibling content had been baked into the regenerated
+  artifact reported `subjects indexed HEAD/now: 0 0` and empty changed/added/
+  removed lists. Its walker keyed on a node shape the index does not use, so it
+  compared nothing and said so in the reassuring direction. The previous run
+  recorded the identical failure from a different walker. Two sightings; a third
+  makes it a rule this file carries. The working corrective is cheap and was
+  what actually settled the question here: when the artifact's diff is small,
+  **read the diff instead of writing an instrument to summarize it** - eight
+  lines answered in one look what the walker got wrong in twenty.
+- **The 2.13 rule (read the project's own experiment ledger before designing the
+  arm) paid on its first run, and not by stopping the arm.** The project's
+  ledger carried a 2026-09-06 row that had fixed this exact neighbourhood on the
+  WRITE side and had even *witnessed* the symptom - a superseded rule being the
+  one answered from - while diagnosing it as a write-side gap. Under the old
+  method that row would have read as "already done here" and the seam would have
+  been abandoned. What it actually supplied was the **stated difference** the
+  reopening rests on: the write side is now correct, so the live question is
+  whether the read side binds. Worth generalising: a ledger row in your
+  neighbourhood is most useful when it tells you which half of the question was
+  answered, and a `better` row can license a reopening as readily as a
+  `not-better` one can close it.
+- **The promoting question is doing the work the score cannot, and it moved a
+  row that would otherwise have been banked.** The landing row first scored
+  2/1/2 - blocked at exactly +1 - with the `+1` coming from a contested home
+  between two subjects. One file read answered *does the other subject already
+  place this obligation on the read path?*, and the answer (it enumerates
+  **write** doors, and the project satisfies that rule completely) both removed
+  the `+1` and told the run where the technique belongs. Note the shape: the
+  promoting read did not add evidence for the claim, it **resolved a structural
+  ambiguity about where the claim lives**, which is a use the method describes
+  for `partial` rows and does not yet name for the contested-home `+1`. A
+  contested home is nearly always cheap to resolve, because the two candidate
+  subjects state their own boundaries.
+
+Version 2.13.0 -> 2.13.0 (no bump; four lessons. The vacuous-gate lesson and the
+blind-bookkeeping lesson are each at their first and second sighting
+respectively - neither is yet a rule this file carries. A mid-flight run should
+finish on the version it loaded.)
