@@ -453,9 +453,20 @@ for (const [slug, p] of Object.entries(bridge.projects ?? {})) {
     // subject, so any absolute floor either keeps everything (it did: 3,070 pairs, nothing
     // unmatched) or silently drops small contexts entirely. What generalizes is the shape
     // of the ranking: the subjects that come close to the leader, and the tail that does not.
+    // ...but the bar may not RIDE on that leader, because the contexts are partitions of
+    // one project and admission is decided across all of them. A context whose leader is
+    // an outlier inherits a punishing bar its neighbours were never held to, and the
+    // result is an inversion rather than a compressed scale: measured on one project,
+    // 25 of 26 contexts admitted a pair WEAKER than the one the strongest-governed
+    // context rejected (its own #2, use_when-grounded, 2.46x the weakest pair admitted
+    // anywhere). So the leader may LOWER the bar and never raise it - `min` against the
+    // project's own median top score, the same statistic the weak-governance pass below
+    // already computes for the same comparability reason. Fleet-wide that recovers 479
+    // pairs (+11.4%), 459 of them use_when-grounded, and loses none.
     const best = scored.length ? scored[0].score : 0;
-    const top = scored.filter((s) => s.score >= best * RELATIVE_FLOOR).slice(0, TOP)
+    const admit = (bar) => scored.filter((s) => s.score >= bar).slice(0, TOP)
       .map((s) => ({ ...s, confidence: s.score >= best * STRONG && s.grounding === 'use_when' ? 'strong' : 'probable' }));
+    const top = admit(best * RELATIVE_FLOOR);
     if (!top.length && !c.dead) unmatched += 1;
     mapped.push({
       context: c.id,
@@ -467,6 +478,9 @@ for (const [slug, p] of Object.entries(bridge.projects ?? {})) {
       // Verdict fields are written only once a verdict exists. Emitting `evidence: null`
       // on every unjudged pair cost ~40% of the file for no information at all.
       subjects: top.map((t) => ({ ...t, state: 'unknown' })),
+      // Kept for the population-anchored re-admission below, then deleted.
+      _scored: scored,
+      _admit: admit,
     });
   }
 
@@ -478,6 +492,16 @@ for (const [slug, p] of Object.entries(bridge.projects ?? {})) {
   // infrastructure or a COVERAGE HOLE, and the aggregate of them is a forge lead.
   const tops = mapped.map((r) => r.subjects[0]?.score ?? 0).sort((a, b) => a - b);
   const medianTop = tops.length ? tops[Math.floor(tops.length / 2)] : 0;
+  // Re-admit against the population, now that it has a centre. `tops` is built from each
+  // context's BEST pair, which no admission bar can remove, so the median is identical
+  // either way and this pass cannot feed back into itself. A context at or below the
+  // median is unaffected; only one with a dominant leader loses its inflated bar.
+  for (const r of mapped) {
+    if (r._scored.length) r.subjects = r._admit(Math.min(r._scored[0].score, medianTop) * RELATIVE_FLOOR)
+      .map((t) => ({ ...t, state: 'unknown' }));
+    delete r._scored;
+    delete r._admit;
+  }
   let weak = 0;
   for (const r of mapped) {
     const best = r.subjects[0]?.score ?? 0;
