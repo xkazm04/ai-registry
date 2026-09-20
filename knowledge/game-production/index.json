@@ -4,8 +4,8 @@
   "bundle": "game-production",
   "source": "knowledge/game-production/ (frontmatter only)",
   "subjects": 52,
-  "techniques": 328,
-  "applications": 140,
+  "techniques": 329,
+  "applications": 141,
   "laws": 13,
   "categories": [
    "systems-canon",
@@ -17,7 +17,7 @@
    "production-governance"
   ],
   "layout": "nested",
-  "use_when_coverage": "328/328",
+  "use_when_coverage": "329/329",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -3513,10 +3513,26 @@
    "subcategory": "geometry",
    "status": "forged",
    "file": "knowledge/game-production/asset-production/geometry/mesh-finishing-for-engine-readiness/mesh-finishing-for-engine-readiness.md",
-   "digest": "sha256:f3423260876a233d",
-   "revision": 2,
-   "changedAt": "2026-09-07",
+   "digest": "sha256:deb5005c6058851c",
+   "revision": 3,
+   "changedAt": "2026-09-20",
    "techniques": [
+    {
+     "slug": "conform-target-is-not-a-remap-row",
+     "status": "forged",
+     "laws": [
+      "declaring-an-input-is-not-consuming-it",
+      "compiling-is-not-wiring",
+      "structural-proof-is-never-sufficient"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing a target skeleton for a generated character",
+      "a preset list mixes auto-rigged and template-conformed targets",
+      "a target skeleton's bone mapping table is empty",
+      "deciding whether a generated mesh is the shipped topology or a shape reference"
+     ]
+    },
     {
      "slug": "crease-angle-and-custom-normals",
      "status": "forged",
@@ -3621,6 +3637,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "conform-target-is-not-a-remap-row",
+     "file": "knowledge/game-production/asset-production/geometry/mesh-finishing-for-engine-readiness/applications/node--conform-target-is-not-a-remap-row.md",
+     "verified_on": "2026-09-20",
+     "verified_against": "node@24.14.0"
+    },
     {
      "stack": "node",
      "technique": "high-to-low-bake-coverage",
@@ -6908,6 +6931,7 @@
     "judgeable-spec-authoring/execute-the-rules-against-the-worked-example",
     "judgeable-spec-authoring/simulate-the-mechanism-not-the-constant",
     "learning-curve-and-teaching-design/introduce-practise-test-spacing",
+    "mesh-finishing-for-engine-readiness/conform-target-is-not-a-remap-row",
     "mesh-finishing-for-engine-readiness/headless-dcc-capability-limits",
     "mesh-finishing-for-engine-readiness/rig-preset-and-bone-remap-binding",
     "motion-quality-gating/asset-reality-ledger",
@@ -7060,6 +7084,7 @@
     "image-to-3d-input-gating/score-defect-verdict-protocol",
     "imported-material-conformance/materialise-on-import",
     "learning-curve-and-teaching-design/unused-mechanic-detection",
+    "mesh-finishing-for-engine-readiness/conform-target-is-not-a-remap-row",
     "mesh-finishing-for-engine-readiness/rig-preset-and-bone-remap-binding",
     "motion-quality-gating/asset-reality-ledger",
     "production-coverage-measurement/headless-operability-gate",
@@ -7080,6 +7105,7 @@
    "statement": "A field a producer fills and no consumer ever reads is, from the producing side, indistinguishable from one that governs everything downstream: it validates, it round-trips, it appears in the schema, and the artifact carrying it looks configured. From the consuming side it does not exist. So the question a pipeline must be able to answer about every declared input is not whether something wrote it but whether something *reads* it — a census of readers, never of writers — and an input with no reader is reported as ignored at the moment it is declared, not discovered later by whoever trusted it. A generator states which of its declared parameters the selected algorithm actually consumes; an authored vocabulary is audited in both directions, for names referenced but never declared and for names declared but never referenced; and a constraint stored as prose in a field no checker parses is worse than an absent one, because absence is visible and prose reads as authored. This is the mirror of the rule that compiling is not wiring: that one governs a produced artifact nothing can reach, this one governs a declared input nothing consults, and they are the same disease at opposite ends of the pipe.",
    "techniques": [
     "ability-authoring-to-engine/declared-vs-referenced-tag-audit",
+    "mesh-finishing-for-engine-readiness/conform-target-is-not-a-remap-row",
     "mesh-finishing-for-engine-readiness/texture-pass-must-consume-the-bake",
     "procedural-level-planning/declare-what-each-engine-ignores"
    ]

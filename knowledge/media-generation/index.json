@@ -874,8 +874,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/visual-generation/generated-output-grading/generated-output-grading.md",
-   "digest": "sha256:6ff5db0ea440f4ac",
-   "revision": 9,
+   "digest": "sha256:aa2f8021887e4d77",
+   "revision": 10,
    "changedAt": "2026-09-20",
    "techniques": [
     {

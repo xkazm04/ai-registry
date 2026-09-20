@@ -10,6 +10,7 @@ techniques:
   - high-to-low-bake-coverage
   - pack-existing-vs-smart-unwrap
   - rig-preset-and-bone-remap-binding
+  - conform-target-is-not-a-remap-row
   - headless-dcc-capability-limits
   - texture-pass-must-consume-the-bake
 ---
@@ -51,6 +52,16 @@ detailed source into a plain low-poly and calls the result finished.
 
 **Binding is last because it is the only step that cares about deformation.** A skeleton
 bound before reduction is bound to vertices that are about to be deleted.
+
+Every one of those arrows rests on a premise worth saying out loud, because it is the
+premise a whole second pipeline drops: **the shipped mesh is derived from the generated
+one.** Where an already-rigged template exists for the asset class, it need not be. The
+template can be deformed to the generated mesh's proportions and shipped instead, with the
+generated mesh demoted to a shape reference whose detail arrives as a bake — and then
+nothing is reduced, the coordinates were authored long before the run, and the binding
+comes first because it came with the template. That path is not a violation of the order;
+it is a different bench, and choosing between them is
+[conform-target-is-not-a-remap-row](./techniques/conform-target-is-not-a-remap-row.md).
 
 The corollary that catches teams: direct low-poly generation, where the generator is asked
 for the cheap mesh straight away, is a different product from a finished asset. It is
@@ -147,6 +158,13 @@ State the target by name and version alongside the asset. Two humanoid skeletons
 same joint topology and different naming conventions are not interchangeable, and a
 mapping table authored against one is not evidence of anything about the other. See
 [rig-preset-and-bone-remap-binding](./techniques/rig-preset-and-bone-remap-binding.md).
+
+All three of those operations assume a target reached by *mapping onto it*. A target
+reached by conforming a rigged template has no mapping table at all, because there is no
+source skeleton to map from — and it still owes a verification, of the inheritance that
+made it compatible rather than of a totality it never had. Hold both kinds in one preset
+list with one mapping field and the empty table means "not authored yet" on one row and
+"not applicable" on the next, which no check can distinguish.
 
 Structural success is not the end of the ladder here. A rig that imports, resolves and
 binds can still deform incorrectly, and only played animation shows it — a rig test is not

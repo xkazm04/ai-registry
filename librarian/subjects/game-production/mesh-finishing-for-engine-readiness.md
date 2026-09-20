@@ -283,3 +283,50 @@ is dated. All 7 provider meshes arrived with a UV layer, and hosted learned unwr
 ship. That is a scoped `/deepen` dispatch, not an intake edit. The
 `node--unwrap-only-the-low-poly` line citations remain drifted (the ceiling is now at
 `mesh-finish.ts:22`), as the 2026-09-10 review already recorded.
+
+## Intake 2026-09-20 - the path named only in a "when not to use"
+
+Source: [[2026-09-20-ai-3d-character-in-a-day]]. 7 -> 8 techniques, 4 -> 5 applications.
+
+Landed `techniques/conform-target-is-not-a-remap-row.md` plus two golden-path clauses.
+
+**The subject named this pipeline exactly once, to route away from it.**
+`rig-preset-and-bone-remap-binding`'s "when not to use" closes with "when the character
+will be rebuilt by a parametric conform ... that path produces its own skeleton and its
+own weights". That is the only occurrence of the concept across all 3,259 techniques in
+the corpus (uncapped grep, with the exclusion line itself as the known positive, after a
+`--prose` map at `--top 40` returned no asset-production subject). The golden path's "what
+finishing does not decide" hands off five concerns and this is not among them, so the path
+was excluded at technique level and caught by nothing.
+
+**The one-directional order rests on an unstated premise**, now stated: *the shipped mesh
+is derived from the generated one.* Where a rigged template exists it need not be - the
+template is deformed to the generated mesh's proportions and ships, nothing is reduced,
+the coordinates were authored before the run, and binding comes first because it arrived
+with the template. That is not a violation of the order; it is a different bench.
+
+**The fetched primary inverted the easy version.** The vendor confirms joints and skin
+weights are generated automatically (hence no mapping table by construction) and then
+names the boundary: an "estimate joints from mesh" setting preserves the hierarchy while
+producing non-standard joint *orientations*, which is what a retarget reads. So a conform
+target owes a different verification, not none - and "conform targets need no check" would
+have been wrong in the expensive direction.
+
+**Apply, `code`, `better`, shipped.** The seam (pof `rig-presets.ts`) was chosen to
+falsify: if the preset table already separated the two kinds, the technique is a catch.
+It held a conform target in the remap table - 584 declared bones, 0 mapping rows, 10 of 10
+required chain endpoints unmapped, which by this subject's own rule is five limbs that
+will not animate and is in fact an artifact of asking a remap question. Three readers of
+the field, each blind differently, including a UI guarded on `length > 0` so the one
+preset with no mapping displayed no mapping problem. pof `a0878ba1`, not pushed.
+
+**Owed:** the conform row's real obligation - joints inherited rather than estimated - is
+prose with no instrument behind it. Return when a fleet tree can read an exported rig's
+joint orientations. **Not re-landed deliberately:** the quality claim (a conformed template
+deforms better than a generic auto-rig) is already in this subject's decision rules, is
+render-bound, and no local instrument on this machine can arm it.
+
+**Unrelated to this run, noticed while reading:** the 2026-09-10 review's one-word defect
+in the golden path ("a bake requested on an unwrapped mesh is not a bake") is still
+present at current bytes. This run did not touch it - it is a `clarify` row already
+recorded, not an intake finding.
