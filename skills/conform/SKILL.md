@@ -3,7 +3,7 @@ name: conform
 description: "Evaluate this repository against the registry standards that govern it, one context at a time, and keep the verdicts. Reads .ai/registry-map.json (the generated join between this repo's contexts and the registry's subjects), picks the highest-value unevaluated or stale pairs, reads the governing golden path and techniques against the context's real code, and writes back conformant / deviation / not-applicable with file:line evidence - so the map becomes a standing, incrementally-completed deviation backlog instead of a one-off audit. Use to answer 'where does this repo fall short of the standard', before a hardening pass, after a bundle changes, or when a context is about to be rewritten. Invoke with /conform [context-or-path] [--subject <slug>] [--stale] [--budget <n>]."
 category: ai-native
 memory: project
-version: 1.7.0
+version: 1.7.1
 tags: conformance, deviations, registry, audit, backlog
 argument-hint: "[context-or-path] [--subject <slug>] [--stale] [--budget <n>]"
 ---
@@ -136,6 +136,12 @@ subject of four techniques needs two anchors, not four paragraphs about a techni
 packages, and an anchor that does not resolve is not evidence. This applies to all three
 verdicts, `not-applicable` included: "the repo has no worker tier" is a sentence;
 "`Cargo.toml:1` declares four crates, none a worker" is an anchor.
+
+**"It resolves" is the wrong check — a blank line resolves.** Print every anchor's line back
+(`sed -n "<n>p" <path>`) and read it before writing the verdict; the test is whether that line
+SAYS what the evidence claims. Measured on one run: four of twenty-three anchors first landed
+on a blank line, a `*/`, or the line above the construct, because the author recorded the line
+they had scrolled to rather than the line the construct sits on. All four resolved.
 
 Three rules that keep verdicts honest:
 

@@ -237,3 +237,13 @@ per-project entries above stand; this is what only shows up across them.
   overwriting a script at the same generic filename mid-run. Nothing was lost because each
   had already executed, but a worker that writes a file and reads it back in a later call
   will read another project's data. Name per-project scratch files.
+
+## 1.7.1 - 2026-09-20 - goat (the anchor check)
+
+- **"An anchor that does not resolve is not evidence" is the wrong test, because a blank
+  line resolves.** Four of twenty-three anchors in one run first landed on a blank line, a
+  `*/`, or the line above the construct — recorded as the line the author had scrolled to
+  rather than the line the construct is on. Every one of them passed a resolve check. The
+  run caught them only by printing each anchor back with `sed -n`. §3 now says to do that,
+  and states the real test: not that the line exists, but that it says what the evidence
+  claims.
