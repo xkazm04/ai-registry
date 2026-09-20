@@ -11366,3 +11366,54 @@ No version bump. Nothing in `SKILL.md` changed, and a run that loaded 2.11.1
 should finish on it. The index-digest check above is the one lesson worth
 adopting mid-run if you are about to commit a regenerated index beside a live
 sibling.
+
+## 2.11.1 - 2026-09-20 - cinematic-ai-video-three-techniques
+
+- **A two-pass paired measurement in a shared checkout measures the
+  neighbours.** The fleet-wide A/B ran arm A for all 13 projects, then arm B for
+  all 13 — about twenty minutes apart. It reported 11 pairs lost, then 17 on a
+  re-run. Both were impossible: the change under test can only ever *lower* an
+  admission bar, so arm B is a superset of arm A by construction. The cause was
+  two sibling intake runs committing to the corpus at 11:56, between the passes;
+  the "lost" pairs were subjects whose `use_when` had changed under both arms.
+  Interleaving — A then B per project, seconds apart — returned 0 lost and the
+  same +481. **An impossible result is a gift**: it was only noticeable because
+  the direction of the change was known a priori. A measurement whose sign is
+  not constrained would have absorbed the same skew silently and shipped it as
+  a finding. With a dozen terminals live, interleave, and prefer a measurable
+  whose direction you can predict.
+- **The render gate exists to catch the director, and it did.** By the time the
+  pair finished I had a clean story from seed 7 — the shot-property arm opened
+  tight on the move's destination and ended wide, so it had run the move
+  backwards. The gate refused at 0.51x: within-arm noise 23.21, between-arm
+  11.76, and at seed 8 the two arms were **2.89** apart, i.e. indistinguishable.
+  The entire effect was one seed. This is the second refusal in four runs and
+  both times the director had already believed the arm. The rule that saved it
+  is cheap and worth restating: **two seeds is the minimum to have a within-arm
+  number at all**, and a pair whose effect lives at one of two seeds is n=1
+  wearing n=2.
+- **What the refused pair did establish was about the premise, not the
+  treatment.** The luminance arc is seed-robust where the move is not: at seed 8
+  *both* arms play "the lamp flares on" in reverse. So a 5-second multi-beat
+  shot is not a reliable ordering unit on this stack at all — which means the
+  onset question the run set out to answer was not yet well-posed. When a pair
+  is refused, look for what both arms did the same way; that is usually a fact
+  about the setup that outranks the comparison.
+- **For a saturated bundle, the source's job is to aim the hunt.** This source
+  landed nothing — all three craft claims owned, two as laws — and the run still
+  produced a measured amendment and a shipped fix, because its subject named the
+  fleet context worth opening. Five runs running the seam hunt has out-originated
+  the source. That is not a front-of-funnel failure to fix; it is what a mature
+  bundle looks like from outside, and the scorecard should read a calibrated
+  zero from the source as a *successful* review run rather than a weak one.
+- **The richest context can be the worst-mapped one, and the shape is general.**
+  The defect found here was an admission bar set at a fraction of each group's
+  own best match. Every instrument that ranks per group and then decides across
+  groups has this exposure, and the diagnosis is one query: for each group, the
+  weakest candidate it admitted; then ask whether any group rejected a stronger
+  one. Worth running on `librarian-scan`'s weighting and on any future
+  per-context or per-bundle cutoff.
+
+No version bump. Nothing in `SKILL.md` changed and a run that loaded 2.11.1
+should finish on it. The interleaving lesson is the one worth adopting mid-run,
+by any sibling about to report a fleet-wide paired number.
