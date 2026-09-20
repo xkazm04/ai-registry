@@ -11456,3 +11456,60 @@ Version bumped 2.11.1 -> 2.12.0 (Phase 6b's contract changed). A mid-flight run
 on 2.11.1 should finish on it, but if it is holding rendered frames and a
 refused ratio, **do not delete them** - that one line is worth adopting
 immediately.
+
+## 2.13.0 - 2026-09-20 - the render proof that measured a broken pipeline
+
+**Operator, after reading the refused pair**: *"All videos do not make any sense,
+measuring consistency on videos being bullshit making hard to decide whether our
+tested technique is invalid or we have deeper misunderstanding how to handle
+media generation pipeline."*
+
+Correct on every count, and the diagnosis is worse than the complaint. The four
+clips were not legible scenes, so the discrimination ratio compared **noise
+against noise** and could not separate an invalid technique from a pipeline that
+never rendered the brief. Four distinct errors, each of which the consuming
+project had already written down:
+
+1. **No positive control.** The 3D lane has had this rule since v2.10 - a rig
+   passes `rig_check.py` before anything is animated, because two consecutive 3D
+   pairs lost to the *subject* rather than to the approaches. The still and video
+   lanes had no equivalent, and this run reproduced the identical failure in
+   them. A scenario is proven legible before a pair is designed over it.
+2. **The wrong route.** The proof ran bare text-to-video with no start image. The
+   consuming project's own render plan says the route is **ref-conditioned and
+   frame-chained** - its shot composer emits a *first frame* and describes motion
+   for a later step. Its measured winner is *reference conditioning admitted late
+   in the denoise*, at identity distance 0.371 against a real-film floor of 0.364.
+   The still stack renders these scenarios beautifully; the bare-t2v lane does
+   not. **A render proof runs on the route the product actually uses**, or it
+   measures a lane nobody ships.
+3. **The wrong scenario.** An invented night/near-black/small-object/multi-beat
+   brief, instead of the project's nine controlled role x size recipes - which are
+   real use cases, IP-neutral, and already the thing it renders.
+4. **A hand-rolled ruler, where a calibrated one existed.** The run invented a
+   grayscale triptych distance. The project ships a calibrated identity ruler
+   (face and person embeddings, calibrated against real film with known answers)
+   and its findings doc says, in as many words: *"The ruler had to be built first,
+   and it nearly lied... the failure was silent."* Inventing a proxy beside a
+   calibrated instrument is [[assertion-inherits-its-own-bias]] with extra steps.
+
+And the question was already closed. The project's dojo ledger carries
+`2026-09-02-serial-3seeds: not-better`, and a runner's own docstring states the
+2026-09-02 replication *"closed text-phrasing as a lever for serial continuity;
+the declared successor is reference conditioning"*. The run spent four renders
+re-asking it.
+
+- **Phase 4 maps claims for prior art; nothing mapped the EXPERIMENT.** New rule
+  in Phase 7.5: read the consuming project's own experiment ledger before
+  designing an arm. That ledger is 12 `not-better` out of 17 rows - a base rate a
+  candidate from an unmeasured source should inherit, not escape.
+- **Composition and time are separate questions.** *Can the stack compose this
+  scene?* is a still control. *Can it hold it over time and execute a commanded
+  change?* is a motion pair over scenarios that passed the still. Conflating them
+  produces a number that cannot say which half failed.
+- **A countable expectation beats an aesthetic one.** Each scenario declares
+  *exactly one face, three figures abreast, one lit window, upper third empty* -
+  gradeable the same way twice. "Reads cinematically" is not.
+
+Version 2.12.0 -> 2.13.0 (Phase 6b gains a sixth rule; Phase 7.5 gains the
+experiment-ledger read).

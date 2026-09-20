@@ -3,7 +3,7 @@ name: intake
 description: "Mine an external source - a YouTube video, a news roundup, an article, pasted notes, a repository - for what it should change in THIS registry, and in the connected projects that consume it. Ingests the source, reads its design decisions as well as its claims, maps both against existing bundles for prior art, triages with the operator, and lands what survives corroboration - amendments for boundary cases, techniques and subjects for mechanisms, forge handoffs for systems whose architecture the corpus lacks. News sources mostly yield currency signals and leads; that is a successful run. Use when someone shares a link and asks what it means for us."
 category: ai-native
 memory: project
-version: 2.12.0
+version: 2.13.0
 tags: research, sources, memory-lane, admission-gate, render-proof, triage, currency, cross-repo, leads, apply, ab-test, parallel, reference-index, design-read, forge-handoff, directions, fleet-map, peer-study, opus-workers, decision-gate
 ---
 
@@ -1076,8 +1076,33 @@ is landing blind. The first run under this phase found two corpus files contradi
 each other at the still-to-motion hop, with a source siding with one of them, and no
 amount of reading could settle it; rendering both arms could.
 
-Five rules hold without exception:
+Six rules hold without exception:
 
+- **The scenario is controlled, and it is proven legible BEFORE any pair is designed
+  (v2.13; operator rule, 2026-09-20).** This is the 3D lane's clean-rig precondition,
+  which the still and video lanes went without for four versions and paid for. A pair
+  rendered over a brief the stack cannot compose is noise against noise: a tie, a refusal
+  and a win are then indistinguishable from each other, and — the expensive part — from
+  *the technique being wrong*. Two consequences:
+  - **Design the proof against a scenario from the consuming project's own shot
+    taxonomy**, not an invented brief. Those are the real use cases, they are already
+    IP-neutral, and an envelope measured on them is the envelope that matters. Each
+    scenario carries a **countable** expectation — *exactly one face, three figures
+    abreast, one lit window, the upper third empty* — because a legibility bar phrased as
+    "reads cinematically" is graded differently twice by the same reader.
+  - **Run the scenario with NO treatment first, as a positive control**, and record which
+    scenarios this stack renders legibly at which settings. That envelope is reusable, it
+    makes the next render proof cheap, and it is the only thing that lets a later failure
+    be attributed to the technique. A scenario that fails its own expectation is not a
+    substrate for a comparison — fix it, drop it, or bank the finding as a lead about the
+    pipeline rather than about the candidate.
+  - **Composition and time are separate questions, measured separately.** *Can the stack
+    compose this scene?* is a still control. *Can it hold the scene over time and execute
+    a commanded change?* is a motion pair, run only over scenarios that passed the still.
+    A run that conflates them cannot say which half failed, and the 2026-09-20 move-onset
+    pair is the worked example: four incoherent clips, a discrimination ratio computed
+    over them, and a number that could not distinguish an invalid technique from a
+    pipeline that never rendered the brief at all.
 - **A 3D subject is clean before it is compared, and it is compared in stills (v2.10).** No
   motion, rigging or posing pair is designed until the rigged subject passes
   `references/render-proof/rig_check.py` at the poses the action will reach - no unweighted
@@ -1280,6 +1305,26 @@ the tree for where it disagrees with itself. Three consecutive runs (2026-09-08 
 removed route three applications still cited, a currency row, and two keyword adapters
 that defaulted the same absence to two different values. A source originates; the fleet
 originates too, whenever the seam hunt opens it.
+
+**Read the project's own EXPERIMENT ledger before designing the arm (v2.13).** Phase 4
+maps a claim against the corpus for prior art and nothing, until now, mapped a proposed
+*experiment* against the fleet's own measured results. Several projects keep one - a
+human-gated ledger of A/B cycles with a verdict per row, a decisions log, an `.ai/`
+applied ledger - and it answers a question the corpus cannot: **has this project already
+tested this, and what happened?** On 2026-09-20 a run designed a render pair around the
+position of a camera clause in a prompt; the consuming project's dojo ledger carried
+`2026-09-02-serial-3seeds: not-better` and a runner whose own docstring said the
+2026-09-02 replication *"closed text-phrasing as a lever ... the declared successor is
+reference conditioning"*. The question had been asked, answered twice, and moved on
+from. Find that ledger, read the rows near your question, and say in the applied row
+what it said. Two specifics that make it pay:
+- **A ledger dense in `not-better` is a prior, not a mood.** That one is 12 of 17. A
+  candidate arriving from a source with no measurement behind it should inherit that
+  base rate and be scored against it, rather than being tested as though the project had
+  never looked.
+- **A closed question can still be reopened - but only on a stated difference.** Name
+  what is different about your arm (a different route, a different scale, a since-changed
+  model), or you are paying to re-derive a `not-better` somebody already has.
 
 **Where two seams are available, choose the one that could FALSIFY the finding
 (v2.7).** The instinct is to pick the seam that shows the technique working, and that
