@@ -11310,3 +11310,59 @@ one sighting is not a rule.
   text out of the file's own output rather than retyping it, and run the instrument
   before the commit rather than as a final check: it is the cheapest of the review
   steps and it is the only one that catches this class.
+
+## 2.11.1 - 2026-09-20 - polars-2-row-order
+
+- **A review's two segments can be the two halves of one finding.** The class
+  entry says the segment a demo is proudest of is where its boundary is
+  missing, and that held - but the boundary was not absent from the source,
+  it was four minutes away in another segment. The video praises error-driven
+  migration ("run the code, break something, fix exactly that break") and
+  later reports the top complaint as the change where "nothing crashes". A
+  roundup is ten unrelated items in a trench coat, so Phase 3 splits on
+  segment boundaries and treats each as its own candidate - which is right for
+  routing and wrong for this. Worth a Phase 3 pass that asks, once, whether any
+  two candidates contradict each other; that pair is a likelier finding than
+  either row.
+
+- **Grepping a regenerated index for unfamiliar slugs does not prove it is
+  clean.** This run did exactly that, got zero hits, and was about to commit an
+  index that encoded a concurrent session's uncommitted edit. A sibling's NEW
+  subject adds a name the grep can catch; a sibling's EDIT to an existing
+  document moves that subject's digest and adds nothing. The check that works
+  is a digest diff against `HEAD`, subject by subject. Three digests had moved
+  here: one mine, one a subject already in `HEAD` whose own run had left the
+  index stale for this same rule, and one a sibling's uncommitted work - and
+  only the third mattered, which is why a bare count of changed digests is not
+  the answer either.
+
+- **A falsifying seam that refutes the HUNT is not a failed seam.** The search
+  was for a project depending on an order nothing promised; the first candidate
+  turned out to be correct code, with a total comparator and a comment
+  explaining itself. The instinct is to move on and find a worse file. Staying
+  produced the stronger arm, because the question became counterfactual - *if
+  this were weakened, would anything notice?* - and that question is answerable
+  by measurement where "is there a bug here" was already answered "no". Correct
+  code is a better site for this than sloppy code: it shows the exposure
+  survives care, which is the claim worth making.
+
+- **Keyed-lookup assertions are correct practice and are the reason a suite
+  cannot see this class.** Five of six tests used `.iter().find(...)`, which is
+  the right way to write them - robust against irrelevant reordering. Robustness
+  against reordering and blindness to reordering are the same property, so the
+  count of assertions is no evidence at all. The reusable form landed in the
+  technique: **count the assertions that would still pass; if the answer is
+  "all of them", the property is not tested, it is merely true.**
+
+- **A pre-existing red gate is reportable, not upgradable.** The target crate's
+  build script fails at `HEAD` for an unrelated reason, so the shipped test has
+  never run in its own tree. The application and the applied row both say
+  `ab-paired` on a standalone copy and name the reason, rather than claiming a
+  green suite or downgrading the whole arm to `unmeasurable`. The measurement
+  was real; only its venue was substituted, and that is what the row records.
+
+### Note for a mid-flight run
+No version bump. Nothing in `SKILL.md` changed, and a run that loaded 2.11.1
+should finish on it. The index-digest check above is the one lesson worth
+adopting mid-run if you are about to commit a regenerated index beside a live
+sibling.
