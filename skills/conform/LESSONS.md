@@ -170,6 +170,17 @@ live sibling sessions. Three corrections landed in the skill; the rest is what t
   table" turned out to be four card grids plus a list, around a shared component that never had
   the axes to bypass; two "near-duplicate table modules" were per-record edit forms. Both added
   no pairing and said why. A conform run that cannot contradict its brief is not judging.
+- **`git grep '<table'` is not how you find tables.** The golden path explicitly sanctions a
+  CSS grid carrying `role="table"/"row"/"columnheader"/"cell"`, and in one repo the LARGEST
+  table in the tree was exactly that - the element grep returned 13 files and silently
+  excluded it, so the brief's first-named candidate would have come back "no table surface
+  here". Every `<table>` count this wave produced is therefore a lower bound. Grep the ARIA
+  roles as well as the element.
+- **A repo may already hold a conformance record that your verdicts contradict.** One project
+  carries a 416-line `.ai/registry-conformance.md` from an earlier audit tallying
+  `table: deviations=0`; this run found four. The run correctly did not edit it - it belongs
+  to a different process - but a verdict that silently disagrees with a committed record is a
+  second source of truth. Say so in the report when you find one.
 - **Hand-edited derived fields.** One run incremented `stats.pairs` and extended
   `subjectIndex` so the header would not contradict the body, and flagged it. The generator
   owns both and recomputes them; leaving them stale for one build is cheaper than a silent
