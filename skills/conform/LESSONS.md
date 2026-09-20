@@ -129,3 +129,48 @@ evidence the skill did not ask for. Applied in 1.6.0.
   an anchor that did not resolve, clustering in multi-crate repos where `compare.rs:270` is
   ambiguous. Spelled out: repo-root-relative as `git ls-files` prints it; a basename is not an
   anchor.
+
+## 1.7.0 - 2026-09-20 - nine repos, one subject (the table wave)
+
+Nine `/conform` runs on one subject across the fleet, in parallel, on a shared machine with
+live sibling sessions. Three corrections landed in the skill; the rest is what the wave saw.
+
+- **A pathspec on `git add` does not scope a commit.** The skill said to stage the map by
+  explicit path, "never `-A`". One run did exactly that, then ran `git commit -F msg` with no
+  pathspec — which commits the whole INDEX — and swept a sibling's pre-staged file. It caught
+  the sweep in the commit output and recovered with `git reset --soft HEAD~1` plus a pathspec
+  commit. In the same wave a second repository was holding **sixty-five** staged files from
+  another session's live feature branch, so the blast radius was already there. Now stated on
+  the commit, with the recovery.
+- **"Copy the pair's `digest` verbatim" can stamp a verdict against a document nobody read.**
+  Five maps were rebuilt at 14:35 and a technique landed in the subject the same afternoon, so
+  every pair read revision 4 while every reader read revision 5. Four runs independently took
+  the digest from the registry index instead and said so. Now the stated rule, with the pair's
+  copy as the fallback.
+- **A subject that scored zero and a surface that should not carry it are indistinguishable
+  from the map.** The correction for the first is the mistake for the second. Reading the
+  golden path's "when NOT to use this" section before adding a zero-scored pair stopped four
+  unearned pairings on card grids and a log feed in one repo, a four-card deck in another, and
+  a whole repository in a third — where the honest output was *no pairing at all*, because the
+  grid's cells across a row are different records, which is the inverse of a column model.
+- **The scorer, not the diction.** `table` scored zero on a context named
+  `display-table-primitives` whose paths are `UnifiedTable.tsx`/`SortableHeader.tsx`/
+  `DataGrid.tsx`, and zero on a context whose own tracked catalog says the word eleven times.
+  In the first, "table" appeared in the *`why` list of the top-scoring pair* — a different
+  subject matched partly on the word, while the subject named `table` scored nothing. Two
+  repos, same zero, opposite vocabularies.
+- **Context-map gaps sit upstream of matcher gaps and are invisible in the map's stats.**
+  Three repos had table-bearing files in **no context's `paths` at all** (33 `<table>` files
+  with one paired context; 31 files with several directories uncontexted; an entire
+  `views/modules/**` tree absent). `stats.contextsWithMissingPaths` measures the other
+  direction, so nothing in the map reports it. A `/conform` run can only judge what the
+  context map reaches.
+- **A brief's premise is a hypothesis.** Two runs were handed starting points drawn from an
+  earlier sweep and refuted them from the code: five "bespoke paginations re-deriving a shared
+  table" turned out to be four card grids plus a list, around a shared component that never had
+  the axes to bypass; two "near-duplicate table modules" were per-record edit forms. Both added
+  no pairing and said why. A conform run that cannot contradict its brief is not judging.
+- **Hand-edited derived fields.** One run incremented `stats.pairs` and extended
+  `subjectIndex` so the header would not contradict the body, and flagged it. The generator
+  owns both and recomputes them; leaving them stale for one build is cheaper than a silent
+  hand-maintained derived value. Left as-is, recorded here.

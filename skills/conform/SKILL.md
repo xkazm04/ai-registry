@@ -3,7 +3,7 @@ name: conform
 description: "Evaluate this repository against the registry standards that govern it, one context at a time, and keep the verdicts. Reads .ai/registry-map.json (the generated join between this repo's contexts and the registry's subjects), picks the highest-value unevaluated or stale pairs, reads the governing golden path and techniques against the context's real code, and writes back conformant / deviation / not-applicable with file:line evidence - so the map becomes a standing, incrementally-completed deviation backlog instead of a one-off audit. Use to answer 'where does this repo fall short of the standard', before a hardening pass, after a bundle changes, or when a context is about to be rewritten. Invoke with /conform [context-or-path] [--subject <slug>] [--stale] [--budget <n>]."
 category: ai-native
 memory: project
-version: 1.6.0
+version: 1.7.0
 tags: conformance, deviations, registry, audit, backlog
 argument-hint: "[context-or-path] [--subject <slug>] [--stale] [--budget <n>]"
 ---
@@ -159,9 +159,17 @@ Update each evaluated pair in `.ai/registry-map.json`, in place, changing nothin
   "evaluatedRevision": 4 }
 ```
 
-- `evaluatedAgainst` is the pair's `digest` at the time you judged - the subject's own
-  content digest, not the bundle's. Copy it verbatim; it is what makes `--stale` work later,
-  and it goes stale only when THAT subject changes. Remove a `stale: true` you have re-judged.
+- `evaluatedAgainst` is the digest of the subject **as you actually read it** - the subject's
+  own content digest, not the bundle's. It is what makes `--stale` work later, and it goes
+  stale only when THAT subject changes. Remove a `stale: true` you have re-judged.
+  **Take it from the registry's `index.json` when the registry is reachable, and fall back
+  to the pair's copy only when it is not.** The pair's copy is the digest the map was BUILT
+  with, and a map can lag the corpus by hours: measured on 2026-09-20, five projects' maps
+  were rebuilt at 14:35 and a technique landed in `table` the same afternoon, so every pair
+  still read revision 4 while every reader was reading revision 5. Copying the pair's digest
+  verbatim would have stamped those verdicts as current against a version of the subject
+  nobody read - the one error this field exists to make impossible. Say in the report when
+  the two disagreed and which you wrote.
 - `evaluatedRevision` is the pair's `revision` at the time you judged - the subject's
   revision counter, mirrored from the bundle index beside `changedAt`. Copy it verbatim
   beside `evaluatedAgainst`; it is what makes `revisionsBehind` (`revision -
@@ -192,11 +200,30 @@ forward exactly like verdicts, because a pairing somebody established by reading
 worth more than one a token overlap produced. Add the pair, then judge it like any other
 (usually in the next run; establishing the pairing is enough for this one).
 
+**Before adding a pair the matcher scored at zero, read the golden path's "when NOT to use
+this" section.** A subject that scored zero and a surface that should not carry that subject
+are indistinguishable from the map, and the correction for the first is the mistake for the
+second. The test is cheap and it fires often: in one wave it stopped four unearned pairings
+on card grids and a log feed in one repository, and a deck of four cards and a virtualized
+collection grid in two others - every one of them a surface the governing subject's own
+opening section tells you not to build that way. An unearned pairing is worse than none,
+because the next run inherits it as established.
+
 **Commit the map edit — it is the deliverable.** The verdicts are the expensive part of the
 run, and an uncommitted `.ai/registry-map.json` is a run that produced nothing durable. Default:
-one path-scoped commit, `conform: <n> verdicts on <context>`, staging `.ai/registry-map.json`
-(and the gap-register file if this repo keeps one) by explicit path — never `-A`. Commit on the
-current branch; do not push. If the tree is dirty with another session's work, commit *your*
+one path-scoped commit, `conform: <n> verdicts on <context>`, naming `.ai/registry-map.json`
+(and the gap-register file if this repo keeps one) by explicit path — never `-A`.
+
+**Put the pathspec on the COMMIT, not only on the `git add`.** Staging by explicit path is not
+enough: `git commit -F <msg>` with no pathspec commits the whole INDEX, including anything a
+sibling session staged before you arrived. Measured on 2026-09-20, that swept another session's
+pre-staged file into a conform commit, and in the same wave a second repository was holding
+sixty-five staged files from a live feature branch. Write it `git commit -F <msg> --
+.ai/registry-map.json`, and read `git diff --cached --name-only` first so you know what you are
+standing next to. If it has already happened, `git reset --soft HEAD~1` restores the index
+intact; recover, then re-commit with the `--` form.
+
+Commit on the current branch; do not push. If the tree is dirty with another session's work, commit *your*
 paths only and say so in the report. If the task forbids committing, say plainly that the map
 edit is uncommitted and name the file.
 
