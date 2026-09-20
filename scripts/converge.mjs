@@ -458,6 +458,21 @@ for (const r of rows.sort((a, b) => a.slug.localeCompare(b.slug))) {
   );
 }
 lines.push('');
+lines.push('## Reach — what the registry can even see');
+lines.push('');
+lines.push('Everything above is bounded by this. A pair hangs off a context, and a source file in no');
+lines.push('context can never be judged however good the corpus is. Run');
+lines.push('`node scripts/check-context-coverage.mjs` for the per-project table; the headline is that');
+lines.push('coverage is a property of each project\'s own `context-map.json`, which this registry cannot');
+lines.push('regenerate — the fix is `/project-populate` over there.');
+lines.push('');
+lines.push('Two failure directions, and only one of them has ever been reported: the map counts');
+lines.push('`contextsWithMissingPaths` (contexts pointing at files that are gone) and has no field at');
+lines.push('all for files that no context points at, which is the larger number in every project');
+lines.push('measured. Note also that a published map carries a **twelve-path sample** per context');
+lines.push('(`build-registry-map.mjs` slices to 12 while matching against up to 60), so "this file is');
+lines.push('in no context" read off the map alone is not a safe conclusion — read `context-map.json`.');
+lines.push('');
 lines.push('**judged %** is the share of pairs any pass has actually read the code for. `unknown` is not');
 lines.push('conformance; it is the absence of a verdict. **misses** are commits whose governing subject was');
 lines.push('not read, recorded by `consult-check`; a project with 0 consults AND 0 misses is not compliant,');
