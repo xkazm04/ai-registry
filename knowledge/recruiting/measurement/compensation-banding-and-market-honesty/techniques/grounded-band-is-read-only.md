@@ -41,6 +41,52 @@ stating, because this compromise will be proposed in every review:
   it teaches nobody. Refused, it becomes a request to fix the benchmark, which
   is the correction that actually compounds.
 
+## The invariant lives on the writers, not on the field
+
+"No manual override" is almost always implemented as an interface fact: the
+field renders read-only, the form will not submit it, the surface explains why.
+That closes the door a person walks through and leaves open the one the *system*
+walks through — and the second door is wider, because it is opened by routine
+maintenance rather than by intent.
+
+The leak has a recognisable shape: a **re-derivation**. The record was produced
+once by the documented procedure and its band was pinned. Later, something
+re-runs an earlier stage of the pipeline over an *edited* input — the prose was
+corrected, the advertisement rewritten, the description re-imported — and the
+re-derived record is written back over the pinned one. The human's number was
+refused at the field and arrives anyway, laundered through a parser: they typed
+a figure into the text, and the re-parse read it as data. Every guarantee the
+label makes is now false for exactly the rows somebody cared enough to edit.
+
+The sibling case is worse, because nobody typed anything at all. Where the
+re-derivation includes a normaliser that supplies a value for a missing field,
+the second pass replaces a sourced band with a placeholder the source never
+asserted — and the field still carries the grounded label, now attached to an
+anchor rather than to research.
+
+So state the invariant on the writers rather than on the field:
+
+> **Every path that writes the field pins it from the same provenance-fixed
+> source, through exactly one shared helper.** A writer that does not call the
+> helper is the defect, whether or not it currently produces a wrong value.
+
+Three consequences that are not obvious until the second ingest exists:
+
+- **A re-sync is not a fresh ingest.** The first pass establishes provenance;
+  every later pass inherits it and may recompute only what provenance does not
+  govern. Treating the two as one code path is a natural mistake, because they
+  share nearly all of their work and differ only in which fields are already
+  spoken for.
+- **One helper, every call site, pinned by a test that names them.** The test
+  worth writing is not "the helper is correct" but "every writer uses the
+  helper" — two writers implementing the same rule independently is the same
+  defect one release later.
+- **Where nothing is grounded, the derivation stands.** A record with no usable
+  sourced value has nothing to protect, and pinning an absent band over a parsed
+  one would delete the only figure there is. The pin applies where provenance
+  exists and nowhere else, which is also what stops the rule from freezing
+  records it was never meant to govern.
+
 ## What to do with the human's number instead
 
 The human is usually right and must not be blocked from acting. They are simply
@@ -87,6 +133,10 @@ figure they are prepared to defend.
 - When someone asks for an override on a grounded field, ask **which of the
   three homes** their number belongs in. There is always one; there is never a
   fourth.
+- Before shipping any path that regenerates a derived record from edited
+  source, **enumerate the fields whose provenance is fixed**. The fields you
+  refused an override on at the surface are precisely the fields the re-parse
+  will overwrite, and the refusal is what guarantees nobody is watching them.
 - When a derived value and a human value must coexist, they are **two fields,
   two labels, two owners** — never one field with a mode.
 - When the derivation is wrong often enough that overrides are being demanded

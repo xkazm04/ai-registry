@@ -6,7 +6,7 @@ technique: per-provider-usage-extractors
 status: forged
 laws: [nullable-never-zero]
 shared_with: []
-use_when: [writing a client wrapper that records usage from provider responses, reconciling divergent SDK response shapes, reviewing a generic usage parser for silent misses]
+use_when: [writing a client wrapper that records usage from provider responses, reconciling divergent SDK response shapes, reviewing a generic usage parser for silent misses, checking whether a normalized usage record honors the inclusive convention]
 ---
 
 # Per-provider usage extractors
@@ -81,6 +81,44 @@ survives every downstream aggregate unchallenged.
   is one shared helper; only the *name lists and structure* are
   per-provider. This keeps extractors short without re-centralizing the
   guessing.
+
+## The convention is checkable — so check it
+
+A wrong-direction extractor is the failure this technique warns about in its
+purest form: it produces a plausible number, and a plausible wrong number
+survives every downstream aggregate unchallenged. Nothing about the record
+looks broken. But the convention is not merely a naming agreement — it is an
+**arithmetic invariant**, and an invariant can be asserted at the boundary
+where the record is accepted:
+
+> a sub-count never exceeds the total it is a sub-count of.
+
+Under the inclusive convention that state is impossible; observing it is
+proof that some extractor copied an exclusive figure into an inclusive slot.
+It costs one comparison, it needs no knowledge of which provider produced the
+record, and it is the only cheap detector of a convention violation there is.
+Cache-heavy traffic makes it fire readily, because a warm prompt cache is
+exactly where the cached figure overtakes the residual uncached one. Treat a
+violation as a rejected or flagged record, not as something to repair: which
+of the two counts is wrong is not knowable from the record.
+
+Design the check knowing it is one-sided. A violation proves a broken
+extractor; conformance proves nothing, because a merely *understated* total
+stays inside the invariant. The assertion is a smoke alarm, not a ledger.
+
+**Where the convention is violated, a subtracting pricer compounds it.**
+Pricing consumes the sub-count by subtraction, so an exclusive figure landing
+in the inclusive slot is not just missing its cache traffic: the subtraction
+then removes the cached amount from a total that never contained it, and
+bills the genuinely uncached portion as if it too had been cached. With a
+saturating subtraction the residual reaches zero and the *entire* prompt
+prices at the cached rate — the deepest possible under-bill, on the
+workloads with the highest cache ratios, which are the ones most worth
+billing correctly. The same understated total silently selects the wrong
+row from any prompt-length price tier, in the same direction. This is the
+mirror of the double-pricing hazard, and it is the quieter one: double
+pricing produces an invoice somebody disputes, while this produces revenue
+nobody misses.
 
 ## Selection and evolution
 

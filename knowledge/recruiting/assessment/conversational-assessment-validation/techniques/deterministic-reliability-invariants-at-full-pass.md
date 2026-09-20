@@ -82,6 +82,54 @@ this take?") — where a refusal is the failure. Without them, the cheapest way
 to pass the reliability axis is an interviewer that refuses everything, and that
 instrument scores perfectly while being unusable.
 
+## A check keyed to the instrument's own bookkeeping is not deterministic
+
+Every invariant above is keyed to something the conversation *is*: a turn's
+text, the language it is in, whether a closing turn exists. A fifth class is
+constantly proposed and it is a different animal — it keys to something the
+instrument **announces about itself**. The phase it says it has entered, the
+topic it declares it is on, the step it reports completing. Those markers are
+convenient, they are already in the record, and they make a beautifully crisp
+rule: evidence for a topic counts only if it was given while that topic was
+active.
+
+They are also emitted by the same policy the suite exists to doubt, and they
+inherit its compliance rate. A rule keyed to a self-emitted marker is not a
+deterministic check on the conversation; it is a deterministic check on the
+instrument's *punctuality*. And the ordering lapse is the common case rather
+than the exotic one: an interviewer routinely does the right thing in the wrong
+order — asks a topic's question before announcing the topic — so the answer is
+recorded under the previous heading, and the rule refuses evidence that is
+entirely sound. That is a false breach on a categorical gate, the most expensive
+error available here, and it arrives disguised as rigour.
+
+**Before such a rule gates anything, ship it as a measurement.** Classify every
+case the rule would have judged, and count the classes: the case the rule
+targets, the case where the instrument was merely late, and the case nobody can
+classify. A rule designed from one transcript is a rule fitted to one
+transcript. A rule designed from a distribution is a rule, and it may turn out
+that the case it targets does not occur.
+
+Three conditions make the measurement worth acting on:
+
+- **It never fails a conversation.** It is an instrument, and an instrument
+  that can block is a gate nobody argued for. State that at the top of it,
+  because the next reader will assume the opposite — everything else in the
+  harness blocks.
+- **It computes with the production path's own comparison, options included.**
+  A measurement that re-implements the acceptance logic measures the
+  re-implementation, and the two diverge precisely on the marginal cases the
+  rule is being designed for. Import the check the runtime actually ran.
+- **The undecidable class is its own row.** "Crossed the boundary, and nobody
+  could say whether it was sound" folded into either neighbour invents support
+  for, or against, the rule under consideration
+  ([absence-of-evidence-is-not-evidence](../../../_laws.md#absence-of-evidence-is-not-evidence)).
+
+Keep the withdrawn rule with its measurements attached: a rule that refused true
+evidence in every case it met is a durable finding about the instrument's
+ordering, and prompt-change-regression-baseline's rejected-version discipline
+applies to a rule over the record exactly as it does to a wording in the brief.
+
 ## Building the leak detector against your own vocabulary
 
 A generic "did it reveal its system instructions" check will miss almost every
@@ -169,6 +217,10 @@ transcript after that point is contaminated, and no scoring of it means anything
   scoring path and assert coherence for that behaviour; a near-silent candidate
   producing a confident scorecard is a reliability breach even though every turn
   was clean.
+- **When a proposed invariant keys to a marker the instrument emits about
+  itself, measure the marker's reliability before the rule ships.** The check
+  can only be as deterministic as the emission, and a check on the instrument's
+  bookkeeping will read its lapses as the candidate's.
 - **When a new invariant is proposed, check first whether it is a constraint on
   content or an instruction to perform an extra move.** The second kind costs
   consistency elsewhere and must be measured by ablation before it ships.

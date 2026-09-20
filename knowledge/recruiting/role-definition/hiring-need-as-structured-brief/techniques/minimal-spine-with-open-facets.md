@@ -93,6 +93,52 @@ The rule is mechanical on purpose. Any version of it that asks "is this
 important enough to be a row?" reintroduces the judgement call the failure
 exploits, and prose wins that call every time.
 
+## The same symptom has a second cause
+
+The empty requirements list is a **symptom**, and the routing rule explains only
+one of the two things that produce it. The other is indistinguishable from the
+first on every surface a person normally checks, and the routing fix does
+nothing for it — so a team that knows only the routing rule will rewrite its
+prompt, re-run the session, and get the same empty list with a better
+explanation of why it should not be happening.
+
+The second cause lives at the boundary where the extractor's output becomes the
+record: the rows *were* produced, correctly graded, and the **reader dropped
+them**. A row is discarded whole for one unrecognised key. An entry that arrived
+as an annotated object — the condition plus its provenance and its source turn —
+is read as empty where a bare line was expected, so demanding provenance in the
+contract is what destroys the content. A per-field provenance map is filtered on
+one spelling of a key the contract publishes in another, leaving a correctly
+classified value indistinguishable from the schema's resting default. Each is a
+silent, total loss of content that existed, and the session's own read-back will
+recite the conditions that did not survive.
+
+Telling the two apart is quick once you know to: **look at what the extractor
+emitted, not at what the record holds.** If the rows are in the raw output, the
+routing rule is being followed and the loss is downstream of it.
+
+Three rules keep that boundary honest.
+
+- **The instrument can only use the vocabulary it was shown.** Anything
+  re-emitting a brief reaches for the words in front of it: the field names the
+  extraction contract names, the keys the neighbouring rows carry. It does not
+  know the record's private spelling and has no way to discover it. So either
+  the contract names the schema's own word, or the reader accepts the obvious
+  synonyms. Doing both is cheap; doing neither produces a defect invisible in
+  review, because each half is individually reasonable and nobody reads them
+  together.
+- **Be strict about meaning and generous about naming.** Accepting a row whose
+  name field arrived under a different key invents nothing — the row, its
+  grading and its provenance are the extractor's. Supplying a *value* the
+  extractor did not send is a different act and stays forbidden. The tolerance
+  belongs on the key and never on the content, and the line between them is
+  exactly the line between reading and guessing.
+- **A dropped row is an event, not a silence.** A reader that discards input
+  must say so — a count, a log line, a validation finding. Where every drop is
+  silent, the only remaining detector is a human noticing that an articulate
+  session produced a thin record, which is the detection method that has already
+  failed by the time anyone looks.
+
 ## Decision rules
 
 - **When a condition and its rationale arrive in one sentence, split them.**
@@ -110,6 +156,10 @@ exploits, and prose wins that call every time.
   [absence of evidence is not evidence](../../../_laws.md#absence-of-evidence-is-not-evidence)
   cuts against filling it to look thorough as much as against inventing
   scalars.
+- **When a rich session produces an empty requirements list, read the
+  extractor's raw output before touching the prompt.** The routing rule and the
+  coercion boundary produce the identical symptom, and the fix for one is inert
+  against the other.
 - **When the same key recurs with different content across turns**, keep both
   entries rather than overwriting — the requestor elaborating is not the
   requestor correcting, and the merge technique decides which is which.

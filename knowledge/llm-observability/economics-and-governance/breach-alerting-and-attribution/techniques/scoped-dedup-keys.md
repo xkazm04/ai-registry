@@ -6,7 +6,7 @@ technique: scoped-dedup-keys
 status: forged
 laws: [server-owns-the-accounting-clock]
 shared_with: []
-use_when: [a sustained breach re-fires on every admission, scoped and global caps suppress each other's alerts, designing an alert cooldown]
+use_when: [a sustained breach re-fires on every admission, scoped and global caps suppress each other's alerts, designing an alert cooldown, an alert carries a periodically flushed counter delta]
 ---
 
 # Scoped dedup keys
@@ -47,6 +47,53 @@ matches (the value moves every admission); a key that includes the detection
 path (scheduled sweep vs on-request check) lets the same breach alert once per
 mechanism, so enabling automation multiplies volume. The key names the
 *condition*, never the *observation of the condition*.
+
+## The exception: a payload the sender cannot re-derive
+
+"The key names the condition, never the observation" holds because a level
+survives its own suppression. Drop a breach notification and the breach is
+still there, still re-detectable on the next admission, still readable from
+the store — the only loss is timeliness. That property is doing more work in
+the rule than it looks, and it fails for one class of payload.
+
+Some alerts carry a **delta** rather than a level: a periodic flush of a
+counter that is reset by the act of reading it. The count of ingest attempts
+a cap turned away is the canonical case — a rejected call is deliberately
+never stored as an event, because storing it would corrupt the very usage
+totals the cap is evaluated against, so the only ledger is an in-process
+counter and the flush is a destructive read. Suppress that notification and
+the number is gone: there is no store to re-read, no next admission that
+re-derives it, nothing to be late about. A dedup key that names only the
+condition makes consecutive flushes collide, and the cooldown silently
+deletes real accounting.
+
+The arithmetic is unforgiving and easy to check: with a flush cadence that
+divides the cooldown N times, N−1 of every N flushes are destroyed. A
+quarter-hour cadence under an hour-long cooldown loses three flushes in
+four — not degraded, not delayed, **gone**, and gone in exactly the
+situation the deltas describe, because a sustained rejection storm is
+precisely when every flush is non-empty.
+
+So the discriminator is not "condition versus observation" but **whether the
+payload is re-derivable from durable state**:
+
+- **A level** — usage against a threshold, a ratio, a forecast — is
+  re-derivable. Key it on the condition, and let the cooldown do its job.
+- **A destructively-read delta** is not. Every occurrence is a distinct
+  fact, so the key carries the occurrence instant and every flush is its own
+  row. That is not smuggling the detection path into the key: the flush
+  instant is not *how* the condition was noticed, it is *which* delta this
+  is. Two flushes are two different facts that happen to describe the same
+  condition.
+
+This is the same boundary the closing section draws around genuine edges,
+reached from the payload's side. The test to apply before designing a key:
+*if this notification is dropped, can the number in it be recovered from
+anywhere else?* A no makes the alert an edge, whatever the condition behind
+it looks like. Where an edge's key must therefore carry an instant, the
+burst protection it loses has to be bought back elsewhere — a flush cadence
+chosen as the real rate limit, an empty-delta flush that emits nothing —
+rather than by the cooldown, which can only buy it with data.
 
 ## Cooldown semantics
 
@@ -109,6 +156,8 @@ to silence.
 Do not dedup across projects to "summarize" a platform-wide event — each tenant
 breach has a distinct owner and a distinct remediation, and a rollup belongs in
 a digest, not in the incident path. And do not apply cooldown-style dedup to
-alerts that are already edges (a task dead-lettering, a one-shot failure):
-deduping a genuine edge event risks eating a second, distinct failure that
-happens to share a key within the cooldown.
+alerts that are already edges (a task dead-lettering, a one-shot failure, a
+flushed counter delta): deduping a genuine edge event risks eating a second,
+distinct failure that happens to share a key within the cooldown — and where
+the edge's payload is not re-derivable, "risks eating" is "destroys". Such a
+key carries the occurrence instant, per *The exception* above.

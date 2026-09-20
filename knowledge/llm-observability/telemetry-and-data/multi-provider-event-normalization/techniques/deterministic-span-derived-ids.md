@@ -4,9 +4,9 @@ type: technique
 subject: multi-provider-event-normalization
 technique: deterministic-span-derived-ids
 status: forged
-laws: [no-retroactive-restatement, server-owns-the-accounting-clock]
+laws: [no-retroactive-restatement, server-owns-the-accounting-clock, never-present-absence-as-an-answer]
 shared_with: []
-use_when: [making ingestion idempotent against sender retries, choosing event identity for mapped telemetry spans, debugging double-counted spend]
+use_when: [making ingestion idempotent against sender retries, choosing event identity for mapped telemetry spans, debugging double-counted spend, resolving a duplicate-id collision by reading the stored row back]
 ---
 
 # Deterministic span-derived ids
@@ -59,6 +59,52 @@ are the only thing the sender *asserts* is identity; use them as such.
 4. **Let the duplicate path acknowledge, not error.** A replayed id must
    read as success to the sender — the goal is convergence, and an error
    response to a retry provokes another retry.
+
+## The collision read-back has three answers, not two
+
+Deterministic ids turn a duplicate-key collision into a question rather than
+a failure: *is this the same event arriving twice, or a different event
+wearing the same id?* The only way to answer it is to read the stored row
+back and compare. That read is itself a store operation, and it can fail —
+which makes the outcome three-valued, not two:
+
+- **Same payload** → acknowledge as a duplicate. Nothing was double-counted.
+- **Different payload** → a genuine conflict. The sender has an identity bug
+  and must hear so.
+- **The read failed** → *we do not know*, and that must be what the sender is
+  told: a retryable internal error, logged, with the raw store detail kept
+  off the wire.
+
+Collapsing the third case into the second is the defect, and it is
+attractive because the code is shorter: discard the read's error, treat an
+absent row as "not the same", fall into the conflict arm. The result is a
+verdict about a row nobody looked at. A conflict verdict is an instruction —
+it tells a well-behaved client that this id is spoken for and a *new* one is
+needed for its event. So a transient store failure, on the path whose entire
+purpose is making retries safe, becomes the trigger for minting a second id
+for an event that is already recorded: the exact double-count deterministic
+identity exists to prevent, produced by the mechanism that prevents it. The
+asymmetry is decisive — an unnecessary retry costs one request, and a
+wrongly-issued conflict costs a permanent duplicate row and the spend
+attached to it. Where the answer is unknown, the retryable error is the only
+honest reply.
+
+Two follow-ons worth designing for:
+
+- **The replay decision is pipeline logic, not per-endpoint logic.** It gets
+  re-implemented wherever a second ingest shape appears — a batch variant
+  beside a single-event one is enough — and the two copies drift on exactly
+  this branch, because the error is invisible until a store is unhealthy.
+  One handler propagating the read failure while its sibling reports a
+  conflict is a difference in *retry semantics*, which is the one property
+  the idempotency contract is made of. Share the function; see
+  [two-doors-one-pipeline](./two-doors-one-pipeline.md).
+- **Absent is not the same as different.** If the uniqueness constraint is
+  broader than the read's visibility scope — a globally unique id read back
+  under one tenant's scope, say — a collision with another tenant's row
+  returns *no row* rather than a differing one. Decide that case
+  deliberately and state it, rather than letting it fall through whatever
+  arm catches everything else.
 
 ## The accounting consequence
 

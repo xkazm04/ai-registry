@@ -4,13 +4,14 @@ type: technique
 subject: image-prompt-composition
 technique: reference-role-map
 status: forged
-laws: [style-is-restated-not-remembered, refusal-is-a-state]
+laws: [style-is-restated-not-remembered, refusal-is-a-state, typed-input-owns-its-channel]
 shared_with: []
 use_when:
   - a generation call carries more than two or three reference attachments
   - identities blend, styles bleed, or dialogue lands on the wrong character in a multi-reference call
   - scaling a shot from one conditioned subject to a cast, props, and a location
   - a crowd or group must render from a single reference
+  - a reference-governance rule returns nothing on one runner and you must decide whether that is evidence
 ---
 
 # Reference role map
@@ -131,6 +132,63 @@ Two constraints keep this from reopening the door step 3 closed:
 
 A frame with no subject needs none of this: an empty plate passes through as
 itself, and there is no seam to author.
+
+## What the map must lead, and what has to exist for it to lead anything
+
+Step 2 says the map leads the prompt, and gives its reason: the half that
+resolves ambiguity has to arrive before the ambiguous material does. The rule
+and its reason can come apart, in two directions, and both are worth naming
+because implementations keep rediscovering them.
+
+**The ordering runs against the ambiguous material, not against the prose.**
+What has to precede the attachments is the declaration; what has to precede a
+beat is only the label that beat uses. So a call whose prompt *is* the subject
+description, carrying a single reference class, satisfies the rule with a
+one-line role note appended to that description — nothing in the prose has
+named a mapped asset, and the note still arrives ahead of the attachments. A
+call whose prompt is an *operation* on assets does not: "change this, using
+those" names material the model has not been introduced to, so the map is
+prepended or the ambiguity is loose before the map speaks. The discriminating
+question is never where the note sits in the string. It is whether anything
+ambiguous has already been said by the time the note arrives — which is why
+the same pipeline can correctly append on its generate path and correctly
+prepend on its edit path, and why reading step 2 as a rule about string
+position turns a well-formed call into a false deviation.
+
+**A map needs a channel that carries labels.** The whole technique presumes a
+runtime that admits references as discrete, ordered parts beside the prose;
+that is what makes a role assignable to attachment three. Not every runner
+works that way. Some admit a reference by folding it into the generation's
+starting state, governed by a strength or a window dial, with no part boundary
+and nowhere a label could attach. There the map has nothing to address, and the
+correct reading is that the technique is **inapplicable, not violated** — the
+absence of a role declaration on such a runner is not a deviation, and a fix
+filed against it has nothing to change.
+
+The consequence is a measurement rule, and it is the one most often got wrong:
+
+> **A claim about reference governance can only be tested where the runtime has
+> a reference channel to govern. Ask what the runtime does with the reference,
+> not what the prompt says about it.**
+
+A runner that never orders anything cannot refute an ordering rule, and a null
+result from one is a fact about the instrument rather than about the rule. The
+trap is that such a lane looks like a cheap place to test — it renders, it
+takes a prompt, it accepts a reference — so a rule written for labelled
+attachments gets run there, comes back flat, and the flatness is read as a
+disproof. Route the claim to a stack whose calls carry labelled attachments,
+and record the other lane as unable to hold the question.
+
+The same boundary has a live failure attached to it, which is the reason not to
+treat these runners as merely silent on the matter. Where the reference enters
+as part of the starting state, the dial that admits it also decides what it
+*is*: admitted early enough, it governs content rather than look, and the
+generated frame comes back reproducing the reference's subject — precisely the
+failure the map exists to prevent, arriving through a channel no map can reach.
+The governance did not become unnecessary. It moved out of the prompt and into
+a setting, where it belongs to whoever authors the run
+([typed-input-owns-its-channel](../../../_laws.md#typed-input-owns-its-channel)),
+and asking the prompt to fix it is asking the wrong authority.
 
 ## When not to use it
 

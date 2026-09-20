@@ -50,6 +50,19 @@ renewal prompt needs to fire, and an operator needs to see which records are
 about to lapse. Thirty days is a workable default; the requirement is that the
 person has real time to act, not that the number is thirty.
 
+One case deserves naming separately, because the predicate above quietly assumes
+a timestamp exists: a retention promise whose clock **hangs off an event that
+may never happen**. "Thirty days after the decision" is the ordinary shape of a
+promise about an interview artifact, and the entry that is neither rejected nor
+hired never supplies the event — so the record has no expiry to read, the
+predicate has nothing to compare, and the artifact is held forever by omission
+rather than by policy. The answer is a second clock: an **absolute backstop
+measured from the artifact's own creation**, with the due date taken as the
+earlier of the two. The event clock keeps the promise for the ordinary case; the
+backstop bounds the case nobody closed. And a record whose dates cannot be read
+at all is due *now* — the same unreadable-state reasoning as above, applied to a
+clock rather than to a status.
+
 It also returns false for a record that **never had a consent flow because it
 is held on a different basis** — a recruiter-sourced profile, for instance.
 That is not the same as a missing state, and collapsing the two is a real bug
