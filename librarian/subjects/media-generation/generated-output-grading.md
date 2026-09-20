@@ -209,3 +209,11 @@ carries the saturation rule because of that seam, not in spite of it.
 
 Board: 2 siblings live, one holding four media-generation subjects but not this
 one; `check` clear immediately before the write.
+
+**Measured the same day.** The amendment was tested against pof with a local
+grader, 18 labelled images, both arms from one response. The floor held 18/18,
+the saturation falsifier did NOT fire (median pMax 0.705), and the hypothesis
+failed anyway: borderline-ness ranked the gate errors at AUROC 0.542 and the
+weighted mean slightly reduced separation (0.675 vs 0.700). Spread is not
+information. The technique now carries a correlation admission test, plus the
+two-token score trap and the grader-swap threshold trap. Recorded `not-better`.

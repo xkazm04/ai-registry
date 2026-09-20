@@ -16,7 +16,7 @@ already_covered: 6
 untriaged: 2
 currency: 4
 dispatched: 0
-applied: 1
+applied: 2
 shipped: 0
 run_id: intake-jevbatch-0920
 siblings: 2
@@ -106,10 +106,17 @@ against a flash model's perfect 40/40. The gate thresholds a 0–100 parse at
 
 Two findings, both negative, both useful:
 
-- **No logprobs and no self-hosted serving exist anywhere in the tree.** Every
-  grader is a hosted endpoint, so the amendment's free branch is currently
-  unreachable in this fleet. The 27B model the question was about is reached
-  over a hosted gateway, not run locally.
+- **CORRECTED 2026-09-20.** This note first said no self-hosted serving exists
+  in the tree. That was wrong, and it was an instrument failure rather than a
+  reading error: `git grep -l` combined with `-n` silently collapses the result
+  set (1 hit against 10 for the same query). pof carries a local eye at
+  `src/lib/vision/providers/ollama.ts` with `OLLAMA_HOST` and
+  `OLLAMA_VISION_MODEL` set, defaulting to the 27B model the question was
+  about, resident on this machine. The free branch IS reachable, and a measured
+  A/B over it is recorded in `librarian/applied.md` the same day. What survives
+  of the original claim is narrower and still true: **no logprob is read
+  anywhere in the tree** (0 occurrences, re-checked with a corrected
+  instrument).
 - **The band would have nothing to rank.** pof's own benchmark records that
   *every* error across every model in both blocks was a false PASS, scoring a
   confident 10/10 on concepts whose arms are buried in drapery or hair. A
@@ -165,3 +172,56 @@ exactly in code, do that"; and the none-of-the-above exit.
 | --- | --- | --- |
 | Analysis is recovered from a battery of closed questions rather than requested: "Jev on its own doesn't analyse things for you, but if you're strategic with the way you set up the questions, you can get analysis from it" | v1 `[00:11:24]` | Reads `partial` against `vision-model-grading-schema`'s field-census rule, which is the same move for grading. Needs one read to decide whether the general form (decompose an open analytic question into a fixed battery, read the story off the aggregate distribution) is owned anywhere outside grading |
 | Twelve use cases were twelve instances of one use case, and the practitioner says so | v1 `[00:15:41]` | A possible boundary on breadth claims for this model class; no corpus home obvious, and one author's aside is thin ground for one |
+
+## Addendum, same day: the A/B was designed and run, and it refuted the hypothesis
+
+The operator asked whether the gap could be validated rather than argued. It
+could, and the answer is **no at this seam** — measured, not inferred.
+
+**Instrument probe before the result.** The local daemon returns per-token
+`logprobs` with `top_logprobs`, so the free branch is real. But not on the
+configured model: `qwen3.8:27b` returns exactly **one** logprob token for a
+33-token answer — text-only and with an image alike — while `gemma4:12b`
+returns the full sequence. *Local* does not imply *instrumented*; the resident
+model decides, and that is a precondition to check at configuration time rather
+than a property of self-hosting.
+
+**Design.** 18 labelled concept images from pof's own `generated/icons/` (10
+single-subject creature concepts, 8 maps, wireframes and sheets — labelled by
+construction, not by eye), pof's `buildInputGatePrompt` verbatim, one call per
+image, both arms read from the **same response**. Arm A is pof's parse of
+`SCORE=<int>`; arm B is the distribution over the score token. Zero added calls,
+~4s per image.
+
+**Results.**
+
+| Measure | Arm A (stated) | Arm B (distribution) |
+| --- | --- | --- |
+| argmax agreement (floor) | — | **18/18** |
+| good-vs-bad separation (AUROC) | **0.700** | 0.675 |
+| borderline-ness ranks A's errors | — | **0.542** |
+| saturated cells (pMax ≥ 0.99) | — | 1 of 18 (median 0.705) |
+
+**The pre-declared falsifier did not fire, and the hypothesis failed anyway.**
+The prediction was that the distribution would be saturated and have no
+resolution. It was not saturated. It simply pointed in an uninformative
+direction: borderline-ness ranked the gate's own errors at a coin flip, and the
+probability-weighted mean slightly *reduced* separation. Both false passes were
+held confidently — a user-interface wireframe, which cannot become a mesh at
+all, scored 9 with two thirds of the mass on 9.
+
+That is the characteristic failure the uncertainty subject already names —
+confidently wrong scores high — arriving in the vision lane as a measurement.
+**Spread is not information**, and the amendment now carries a correlation
+admission test instead of a spread test: show that borderline-ness ranks *this*
+grader's errors above chance on labelled cells, or the distribution is a
+diagnostic to log and not a router.
+
+**Two traps the run paid for.** A 0–10 scale makes the top answer two tokens, so
+a distribution read at the score position scores `10` as a `1`; it produced an
+apparent eight-point correction that was pure artifact and was caught only by
+re-running on a single-token 0–9 scale. And swapping the resident grader failed
+**all ten** correct inputs at the unchanged `passAt: 7` — a threshold is fitted
+to a grader, and a local substitution is a grader change.
+
+Nothing was shipped to pof; the experiment is read-only against its tree.

@@ -178,6 +178,50 @@ discipline rather than invented here:
   beside any band, and when it is the majority, drop the band and keep the
   discrete grade.
 
+### Spread is not information, and the check for that is a different check
+
+The saturation rule above asks whether the distribution has any resolution. It
+is necessary and it is **not sufficient**, and the gap between the two is where
+a measured attempt at this failed.
+
+Eighteen labelled concept images through a locally served grader, one call each,
+the distribution read from the same response: the answers were **not** saturated
+— a median peak probability of 0.71, one cell of eighteen above 0.99 — so the
+band had plenty of room to sit. It still bought nothing. Borderline-ness ranked
+the gate's own errors at an **AUROC of 0.54**, which is a coin flip, and the
+probability-weighted mean *reduced* the separation between good and bad inputs
+against the stated integer (0.68 against 0.70). Both of the gate's false passes
+were held confidently: a user-interface wireframe, which cannot be turned into a
+mesh at all, scored 9 with two thirds of the mass on 9.
+
+The reading is the subject's characteristic failure arriving in the grading lane
+rather than a new one. A distribution reports how firmly the model committed. It
+has no channel to the image, so a grader that is confidently wrong about a
+wireframe produces a confident distribution about a wireframe. Spread and
+correctness are different quantities, and one does not stand in for the other
+merely because it is cheap.
+
+So the admission test is a **correlation, measured on labelled cells**, not a
+spread:
+
+> **Before a band routes anything, show that borderline-ness ranks this
+> grader's errors on this field above chance.** Report the AUROC beside the
+> band. Where it sits at chance, the distribution is a diagnostic to log and not
+> a router, and the second grader goes back on every cell.
+
+Two practical traps the same measurement surfaced, both cheap to avoid:
+
+- **A two-token score silently reads as its first digit.** On a 0–10 scale the
+  top answer is two tokens, so a distribution read at the score position scores
+  `10` as a `1` — which does not error, does not look wrong, and in the run that
+  found it produced an apparent eight-point correction that was pure artifact.
+  Keep the scale single-token (0–9), or reassemble the number before reading any
+  mass over it.
+- **A grader swap re-opens the threshold.** The same prompt and the same
+  `passAt` line, served by a different resident model, failed **every** correct
+  input in the set. A threshold is fitted to a grader, and a local substitution
+  is a grader change, not a deployment detail.
+
 ## The cost class decides whether this is free or a second bill
 
 Whether the shape costs anything is not a property of the technique. It is a
