@@ -104,16 +104,16 @@
     },
     {
       "name": "conform",
-      "version": "1.6.0",
+      "version": "1.7.0",
       "category": "ai-native",
       "path": "skills/conform/SKILL.md",
-      "contentHash": "sha256-n1:3ee2d918d69543bb",
+      "contentHash": "sha256-n1:95d505cafe430bfc",
       "adopters": [],
       "invokes30d": 0,
       "reportedInvokes": 0,
-      "lessons": 4,
+      "lessons": 5,
       "lessonsPath": "skills/conform/LESSONS.md",
-      "lessonsHash": "sha256-n1:b6d52765bd51078f",
+      "lessonsHash": "sha256-n1:7298eebaaa8ee8c5",
       "usageContributors": []
     },
     {
@@ -758,7 +758,7 @@
     "skills": 35,
     "practices": 8,
     "memory": 6,
-    "lessons": 236
+    "lessons": 237
   },
   "bundles": [
     {
