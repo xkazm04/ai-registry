@@ -185,3 +185,55 @@ live sibling sessions. Three corrections landed in the skill; the rest is what t
   `subjectIndex` so the header would not contradict the body, and flagged it. The generator
   owns both and recomputes them; leaving them stale for one build is cheaper than a silent
   hand-maintained derived value. Left as-is, recorded here.
+
+## 1.7.0 - 2026-09-20 - gravitone (unscoped run, first verdicts in the repo)
+
+- **A proxy layer draws the subject its upstream owns, and the correction has two halves.**
+  `job-coordination` matched the BFF route folder at 545 because the paths say job/route/probe;
+  every file there forwards to the service and owns no record, so the pair is `not-applicable`.
+  The same subject scored *nothing* on the context that holds `JOBS`, the persisted state
+  mirror, the claim and the owner heartbeat - that context's vocabulary is scan/stem/speaker.
+  Writing only the not-applicable would have left the subject unpaired in the repo that
+  realizes it best. Do both in one move: refuse the resonant pair, and add the pair on the
+  context whose precondition actually holds.
+- **Where the enforcement lives decides the evidence floor.** Three of this run's pairs govern
+  a client or a proxy while the subject's techniques are mostly server-side; the honest
+  outcomes are a `deviation` on the technique that does land there or an argued
+  `not-applicable`, never a `conformant` assembled from the half the context can reach.
+- **Five pairs, five digests, zero disagreement.** The map was rebuilt at 14:35 and § 4's
+  fallback never fired - every pair digest equalled the registry index's. Worth reporting
+  either way, because "they agreed" is the evidence that the check ran.
+
+## 1.7.0 - 2026-09-20 - the unscoped wave (four never-judged repos)
+
+Consolidated by the director from six runs on projects with no prior verdicts. The
+per-project entries above stand; this is what only shows up across them.
+
+- **The matcher pairs a subject to the layer that TALKS ABOUT the thing, not the layer that
+  IS it.** Three independent sightings in one afternoon. `job-coordination` scored 545 on a
+  BFF route folder that forwards every call upstream and **zero** on the context holding the
+  job table, the claim and the owner heartbeat. `mcp-tools` was matched to seventeen of one
+  repo's forty-six contexts and to **none** of the code under `crates/server/src/mcp/`,
+  which is in no context at all. In a third repo the same subject was the densest unjudged
+  strong pair in the map. The mechanism is that a proxy's vocabulary is the domain's
+  vocabulary — route, job, probe, request — while an implementation's vocabulary is its
+  own nouns. So the correction has two halves and doing one is worse than doing neither:
+  refuse the resonant pair with an argued `not-applicable`, **and** add the pair on the
+  context whose precondition actually holds.
+- **A repo's consult ledger is not a proxy for its map's `state`.** One project's
+  `.ai/consults.jsonl` held 2026-09-07 reads of two subjects the map reported as never
+  tested. A run that skips a pair because the ledger shows a consult skips exactly the pairs
+  worth reading: a consult is a read, a state is a verdict, and nothing joins them.
+- **Re-measure a number the brief hands you.** A coordinator's fleet summary told one worker
+  its repo was at 43% context coverage; it measured 89% of non-test source declared and said
+  so, and the coordinator's instrument was wrong — it had counted test files in a denominator
+  no context map ever fills. A per-project worker is the only reader positioned to catch a
+  fleet-level statistic that is wrong about one project.
+- **`not-applicable` is the honest verdict far more often than the wave expected**, and its
+  quality depends entirely on naming the precondition rather than the absence. "This context
+  is a proxy and the subject begins at a durable record" is a verdict; "no job code here" is
+  a shrug.
+- **Nine parallel workers share one scratchpad directory.** Four of them reported a sibling
+  overwriting a script at the same generic filename mid-run. Nothing was lost because each
+  had already executed, but a worker that writes a file and reads it back in a later call
+  will read another project's data. Name per-project scratch files.

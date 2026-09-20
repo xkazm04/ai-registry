@@ -42,6 +42,29 @@ The same shape appears with the opposite diction: on another repo the word "tabl
 eleven times in the context's own tracked catalogue, and the subject still does not
 publish. Two repos, opposite vocabularies, same outcome — the scorer, not the projects.
 
+## A second failure mode, found three times in one afternoon
+
+Size is not the only bias. The matcher also pairs a subject to **the layer that talks about
+the thing rather than the layer that is it**, and the two mistakes compound.
+
+- `job-coordination` scored **545** on a BFF route folder whose twenty files forward every
+  call upstream and hold no record, no claim and no lease — and **zero** on the context
+  holding the job table, the persisted state mirror, the claim and the owner heartbeat.
+- `mcp-tools` was matched to **seventeen of one repo's forty-six contexts** and to none of
+  the code under `crates/server/src/mcp/`, which is in no context at all. In a third repo
+  the same subject is the densest unjudged strong pair in the map.
+
+The mechanism is vocabulary, and it is structural rather than accidental: a proxy's words
+*are* the domain's words — route, job, request, probe — while an implementation's words are
+its own nouns — scan, stem, speaker, claim, heartbeat. A lexical join therefore scores the
+proxy high and the implementation at nothing, and the map then reads as covered.
+
+This one is worse than the size bias because it is invisible to every count. The subject is
+present, the pair is `strong`, and a reader checking "is this subject paired anywhere in
+this repo?" gets yes. The correction has two halves and doing only one is worse than doing
+neither: refuse the resonant pair with an argued `not-applicable`, **and** add the pair on
+the context whose precondition actually holds.
+
 ## The curve
 
 Recall of the 53 clean positives, and false positives over the 60 labelled negatives, as a
