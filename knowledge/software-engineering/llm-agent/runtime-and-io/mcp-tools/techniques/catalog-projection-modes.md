@@ -6,7 +6,7 @@ technique: catalog-projection-modes
 status: forged
 laws: [limits-are-derived, gate-sees-target, one-authority-per-vocabulary]
 shared_with: []
-use_when: [a host refuses the request because too many tools are listed, one server's catalog crowds out every other installed server, deciding whether to fold operations behind a routing tool, a model knows a compressed operation name but not its arguments]
+use_when: [a host refuses the request because too many tools are listed, one server's catalog crowds out every other installed server, deciding whether to fold operations behind a routing tool, a model knows a compressed operation name but not its arguments, deciding whether a description-only catalog may be selected per request, a per-request selector is proposed to reclaim standing prompt tokens]
 ---
 
 # Catalog projection modes
@@ -220,6 +220,70 @@ capability that simply is not there, which reads to the user as the model
 being unable to do something it could do last week. If the assertions do not
 run in the artifact users install, the second authority is unpaid for and
 will rot.
+
+## The second budget: a catalog in a cached prefix
+
+Everything above prices a catalog against a ceiling somebody else imposes — a
+host that refuses the request past N tool definitions. A description-only
+catalog published into a model's standing prompt has no such ceiling, and the
+absence invites the obvious move: if the listing is merely expensive rather than
+fatal, select it **per request** and publish only what this turn needs. The
+arithmetic that makes that look attractive counts the listing's tokens at face
+value, and face value is the wrong price.
+
+A standing catalog sits in the stable prefix, so a prefix cache serves it at the
+cache's **read** multiplier on every turn after the first. Removing it therefore
+saves `r × listing`, not `listing` — at a read multiplier around a tenth, a
+tenth of the number the face-value argument quotes. The same cache prices the
+alternative: a listing that varies per request is volatile at its own offset, so
+everything downstream of it is rewritten at the **write** multiplier every turn,
+costing `(w − r) × downstream`. Both terms are per-request, so there is no
+horizon over which the rewrite repays. This is not a break-even; it is a
+standing per-turn loss.
+
+Three placements, scanned over a measured 10,001-token listing of seventy
+capabilities:
+
+| Placement | Per-turn cost | Verdict |
+| --- | --- | --- |
+| listing stays in the prefix | `prompt × r` | the baseline |
+| per-request listing rewritten **in place** | `(prompt − listing) × w + sel × w` | loses at every prompt size and every ratio where a cache exists |
+| listing **deleted**, selection injected **last** | `(prompt − listing) × r + sel × w` | saves `r × listing − sel × w`, flat in session length |
+
+Only the third saves anything, and what it saves is small and does not grow: a
+fixed block removed from a prefix yields a fixed discount, whatever the
+conversation goes on to cost. The scan that produces the table also produces the
+discriminator — the in-place placement wins **only at `r = 1`**, which is to say
+only where no prefix cache exists at all. Where the prefix is cached the naive
+arithmetic is inverted; where it is not, the naive arithmetic is simply correct
+and this section is moot. Say which regime the deployment is in before quoting a
+saving, because the ceiling is derived from the ratio and not from the token
+count ([limits-are-derived](../../../../_laws.md#limits-are-derived)).
+
+## The prize is capped and the floor is not
+
+The saving has a ceiling. The thing traded for it does not.
+
+A selector that publishes one capability per turn replaces a listing whose
+recall is exact — every capability is named, so the model's reach *is* the
+catalog — with a classifier whose reach is whatever it measures. Set that beside
+the ceiling: the prefix saving is a tenth of a listing that is itself a small
+fraction of a working prompt, while a miss lands on capability reach, which is
+the outcome the catalog exists to produce. A selector has to be very nearly
+perfect to be worth a tenth of a small block, and no published selector at this
+scale is.
+
+So the trade is declared in both currencies or it is not a trade:
+
+> **A per-request projection of a description-only catalog moves a prefix-cost
+> target and moves a capability-reach floor, and the floor is the one the
+> catalog was for.** Quote both, or the saving is an unpriced regression
+> ([count-carries-predicate](../../../../_laws.md#count-carries-predicate)).
+
+Where the catalog fits, the tokens it occupies are the cheapest in the prompt:
+already discounted, already stable, already paid for once. Compress a catalog
+because a ceiling outside your control forbids it — never because its face value
+looks large.
 
 ## When not to do any of this
 

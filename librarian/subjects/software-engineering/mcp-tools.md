@@ -572,3 +572,48 @@ machine (0 plugin-scoped calls in 10,294). No fix was shipped, because the plugi
 segment cannot be parsed reliably. That is the technique's first rule.
 
 Board: 0 siblings live; `check` clear before the write.
+
+## 2026-09-20 - intake, a typed-decision model review ([[2026-09-20-jev-system-1-agentic-loop]])
+
+Amendment to `catalog-projection-modes`: **the second budget.** Everything the
+technique had was written against a ceiling somebody else imposes - a host that
+refuses the request past N tool definitions. A description-only catalog published
+into a model's standing prompt has no such ceiling, which is what invites the
+per-request selector the file forbids, and the file's two reasons for forbidding
+it (incident reproducibility, and a per-principal listing cache) do not reach the
+argument that actually decides it.
+
+The deciding argument is a different cache. A standing catalog sits in the stable
+prefix and is served at the cache's **read** multiplier every turn after the
+first, so removing it saves `r x listing` and not `listing`. A listing that varies
+per request is volatile at its own offset, so everything downstream is rewritten
+at the **write** multiplier every turn, costing `(w - r) x downstream`. Both terms
+are per-request: there is no horizon over which it repays, which makes it a
+standing per-turn loss rather than a break-even. The file's rule survives in its
+own lane and inverts in the new one, under one placement condition - deletion from
+the prefix plus injection last is the only placement that saves anything, and what
+it saves is flat in session length.
+
+The discriminator came out of the sweep rather than out of the source: the
+in-place placement wins at `r = 1` and nowhere else, i.e. only where no prefix
+cache exists. Where the prefix is cached the naive arithmetic is inverted; where
+it is not, it is simply correct.
+
+Second section, `the prize is capped and the floor is not`: a listing's recall is
+exact because every capability is named, and a selector's is whatever it measures,
+so a per-request projection trades capability reach for prefix cost. Measured on
+this registry's own catalog - 70 packages, 40,003 characters, ~10,001 tokens - the
+prize is 813 base-units per turn against a floor that gives up the selector's miss
+rate. Recorded `not-better` in the applied ledger, which is what that verdict is
+for. Application `claude-code--catalog-projection-modes`.
+
+Boundary stated from one side only, by the rule for contested homes:
+`prompt-assembly/cache-breakpoint-allocation` owns the volatility-admission
+mechanism this reasons with, and `agent-instruction-files/line-earning` owns the
+face-value price model this corrects ("the line's price is its tokens times every
+future session" - true, and a tenth of that once the prefix is cached). Neither
+was edited; a later run reading either should recognise the shape rather than
+re-litigate it.
+
+Board: 3 siblings live at Phase 1, none holding this subject; `check` clear
+immediately before the write. 0 of 3 fetches.
