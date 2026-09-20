@@ -821,10 +821,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 18,
-      "techniques": 123,
-      "applications": 75,
-      "files": 221,
-      "contentHash": "sha256:4382b3913de69d81"
+      "techniques": 124,
+      "applications": 76,
+      "files": 223,
+      "contentHash": "sha256:e45c4c62b7b58ca1"
     },
     {
       "name": "localization",
@@ -886,10 +886,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 229,
-      "techniques": 1760,
-      "applications": 1093,
-      "files": 3087,
-      "contentHash": "sha256:3a23ae6683feed9c"
+      "techniques": 1762,
+      "applications": 1109,
+      "files": 3105,
+      "contentHash": "sha256:2b45df4c7b0c9a77"
     }
   ],
   "usageEvidence": {

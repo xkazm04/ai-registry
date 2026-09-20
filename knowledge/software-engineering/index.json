@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 229,
-  "techniques": 1760,
-  "applications": 1093,
+  "techniques": 1762,
+  "applications": 1109,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1760/1760",
+  "use_when_coverage": "1762/1762",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -4615,9 +4615,9 @@
    "subcategory": "data-display",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/data-display/canvas-graph/canvas-graph.md",
-   "digest": "sha256:9eedbc25626767bc",
-   "revision": 3,
-   "changedAt": "2026-08-29",
+   "digest": "sha256:858b583483e24ef1",
+   "revision": 4,
+   "changedAt": "2026-09-20",
    "techniques": [
     {
      "slug": "canvas-accessibility",
@@ -4627,7 +4627,9 @@
      "use_when": [
       "making an infinite canvas usable without a pointer",
       "tab order fills with one stop per node",
-      "choosing spatial versus topological navigation"
+      "choosing spatial versus topological navigation",
+      "the drawn set is smaller than the real one",
+      "deciding what role the surface itself announces"
      ]
     },
     {
@@ -4667,7 +4669,9 @@
      "use_when": [
       "deciding whether auto-layout may move a node",
       "user-placed nodes shift after a reload",
-      "choosing between layered and force-directed"
+      "choosing between layered and force-directed",
+      "one arrival re-seats the whole picture",
+      "a generated layout renders differently on the server and the client"
      ]
     },
     {
@@ -4681,7 +4685,8 @@
      "use_when": [
       "a canvas stutters on every pan gesture",
       "deciding whether nodes may see the transform",
-      "labels pop in and out while zooming"
+      "labels pop in and out while zooming",
+      "an idle canvas keeps the machine warm"
      ]
     },
     {
@@ -4695,11 +4700,26 @@
      "use_when": [
       "deciding where screen-world conversion lives",
       "content rockets toward a corner on every zoom",
-      "scrolling an overlay zooms the canvas behind it"
+      "scrolling an overlay zooms the canvas behind it",
+      "a surface with no pan or zoom still has to read a pointer"
      ]
     }
    ],
    "applications": [
+    {
+     "stack": "react",
+     "technique": "canvas-accessibility",
+     "file": "knowledge/software-engineering/ui-surfaces/data-display/canvas-graph/applications/react--canvas-accessibility.md",
+     "verified_on": "2026-09-20",
+     "verified_against": "react@19.2"
+    },
+    {
+     "stack": "react",
+     "technique": "graph-layout",
+     "file": "knowledge/software-engineering/ui-surfaces/data-display/canvas-graph/applications/react--graph-layout.md",
+     "verified_on": "2026-09-20",
+     "verified_against": "react@19.2"
+    },
     {
      "stack": "react",
      "technique": "render-budget",
@@ -8778,9 +8798,9 @@
    "subcategory": "data-display",
    "status": "reconciled",
    "file": "knowledge/software-engineering/ui-surfaces/data-display/data-viz/data-viz.md",
-   "digest": "sha256:b6657691892c6b9b",
-   "revision": 5,
-   "changedAt": "2026-09-01",
+   "digest": "sha256:658aefc7371b7fdb",
+   "revision": 6,
+   "changedAt": "2026-09-20",
    "techniques": [
     {
      "slug": "chart-loading-economics",
@@ -8894,6 +8914,13 @@
      "technique": "metric-identity",
      "file": "knowledge/software-engineering/ui-surfaces/data-display/data-viz/applications/react--metric-identity.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "react",
+     "technique": "scale-and-axis-design",
+     "file": "knowledge/software-engineering/ui-surfaces/data-display/data-viz/applications/react--scale-and-axis-design.md",
+     "verified_on": "2026-09-20",
+     "verified_against": "react@19"
     }
    ]
   },
@@ -10864,9 +10891,9 @@
    "subcategory": "data-display",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/data-display/diff-comparison/diff-comparison.md",
-   "digest": "sha256:a2109f78c6591155",
-   "revision": 5,
-   "changedAt": "2026-09-06",
+   "digest": "sha256:cd39f98cfe768f03",
+   "revision": 6,
+   "changedAt": "2026-09-20",
    "techniques": [
     {
      "slug": "baseline-species-degradation",
@@ -10983,6 +11010,20 @@
     }
    ],
    "applications": [
+    {
+     "stack": "next",
+     "technique": "diff-honesty",
+     "file": "knowledge/software-engineering/ui-surfaces/data-display/diff-comparison/applications/next--diff-honesty.md",
+     "verified_on": "2026-09-20",
+     "verified_against": "next@16"
+    },
+    {
+     "stack": "next",
+     "technique": "pair-and-baseline-selection",
+     "file": "knowledge/software-engineering/ui-surfaces/data-display/diff-comparison/applications/next--pair-and-baseline-selection.md",
+     "verified_on": "2026-09-20",
+     "verified_against": "next@16"
+    },
     {
      "stack": "react",
      "technique": "computation-offload",
@@ -14303,9 +14344,9 @@
    "subcategory": "data-display",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/data-display/feed/feed.md",
-   "digest": "sha256:23236fee1ffbf827",
-   "revision": 3,
-   "changedAt": "2026-09-03",
+   "digest": "sha256:9484e5434f2c7a32",
+   "revision": 4,
+   "changedAt": "2026-09-20",
    "techniques": [
     {
      "slug": "event-clustering",
@@ -14319,7 +14360,8 @@
      "use_when": [
       "one busy producer drowns the whole feed",
       "deciding whether clusters may be stored or only derived",
-      "expanded clusters reset as new members arrive"
+      "expanded clusters reset as new members arrive",
+      "a push channel is throttled while the feed must stay complete"
      ]
     },
     {
@@ -14334,7 +14376,9 @@
      "use_when": [
       "declaring retention when a feed is created",
       "reaper stopped running after a refactor",
-      "cursor past the horizon renders as no more history"
+      "cursor past the horizon renders as no more history",
+      "a retention window is operator-configurable",
+      "a purge runs under a platform execution deadline"
      ]
     },
     {
@@ -14348,7 +14392,8 @@
      "use_when": [
       "keeping the viewport still while rows prepend above",
       "entrance animations replay on every refresh",
-      "resuming a live feed after a dropped connection"
+      "resuming a live feed after a dropped connection",
+      "a live list capped by length with no history behind it"
      ]
     },
     {
@@ -14363,7 +14408,8 @@
      "use_when": [
       "deciding whether seen means opened or scrolled past",
       "unread badge flashes then zeroes on open",
-      "an unread counter keeps drifting wrong"
+      "an unread counter keeps drifting wrong",
+      "seeding the anchor for a reader who has never opened the feed"
      ]
     },
     {
@@ -14384,6 +14430,13 @@
    ],
    "applications": [
     {
+     "stack": "next",
+     "technique": "feed-retention",
+     "file": "knowledge/software-engineering/ui-surfaces/data-display/feed/applications/next--feed-retention.md",
+     "verified_on": "2026-09-20",
+     "verified_against": "next@16"
+    },
+    {
      "stack": "react",
      "technique": "read-position-and-unseen",
      "file": "knowledge/software-engineering/ui-surfaces/data-display/feed/applications/react--read-position-and-unseen.md",
@@ -14402,9 +14455,9 @@
    "subcategory": "data-display",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/data-display/file-browsing/file-browsing.md",
-   "digest": "sha256:ae56dce70c40004c",
-   "revision": 2,
-   "changedAt": "2026-08-21",
+   "digest": "sha256:db6a6903ad69c236",
+   "revision": 3,
+   "changedAt": "2026-09-20",
    "techniques": [
     {
      "slug": "file-mutations",
@@ -14492,6 +14545,13 @@
    ],
    "applications": [
     {
+     "stack": "node",
+     "technique": "listing-and-refresh",
+     "file": "knowledge/software-engineering/ui-surfaces/data-display/file-browsing/applications/node--listing-and-refresh.md",
+     "verified_on": "2026-09-20",
+     "verified_against": "node@24"
+    },
+    {
      "stack": "react",
      "technique": "navigation-state",
      "file": "knowledge/software-engineering/ui-surfaces/data-display/file-browsing/applications/react--navigation-state.md",
@@ -14499,9 +14559,23 @@
     },
     {
      "stack": "react",
+     "technique": "selection-model",
+     "file": "knowledge/software-engineering/ui-surfaces/data-display/file-browsing/applications/react--selection-model.md",
+     "verified_on": "2026-09-20",
+     "verified_against": "react@19"
+    },
+    {
+     "stack": "react",
      "technique": "thumbnails-and-previews",
      "file": "knowledge/software-engineering/ui-surfaces/data-display/file-browsing/applications/react--thumbnails-and-previews.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "rust",
+     "technique": "thumbnails-and-previews",
+     "file": "knowledge/software-engineering/ui-surfaces/data-display/file-browsing/applications/rust--thumbnails-and-previews.md",
+     "verified_on": "2026-09-20",
+     "verified_against": "rust@1.80"
     }
    ]
   },
@@ -28736,9 +28810,9 @@
    "subcategory": "data-display",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/data-display/search/search.md",
-   "digest": "sha256:54682051824eb2b3",
-   "revision": 3,
-   "changedAt": "2026-09-03",
+   "digest": "sha256:b02a2eca8c0c6377",
+   "revision": 4,
+   "changedAt": "2026-09-20",
    "techniques": [
     {
      "slug": "command-surface",
@@ -28850,6 +28924,13 @@
      "file": "knowledge/software-engineering/ui-surfaces/data-display/search/applications/cpp--typed-filter-language.md",
      "verified_on": "2026-09-03",
      "verified_against": "cpp@23"
+    },
+    {
+     "stack": "next",
+     "technique": "query-parsing",
+     "file": "knowledge/software-engineering/ui-surfaces/data-display/search/applications/next--query-parsing.md",
+     "verified_on": "2026-09-20",
+     "verified_against": "next@16"
     },
     {
      "stack": "react",
@@ -30605,9 +30686,9 @@
    "subcategory": "feedback-and-style",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/status-vocabulary/status-vocabulary.md",
-   "digest": "sha256:1074e673f8325f01",
-   "revision": 4,
-   "changedAt": "2026-09-09",
+   "digest": "sha256:569058d5320dbed2",
+   "revision": 5,
+   "changedAt": "2026-09-20",
    "techniques": [
     {
      "slug": "number-formatting",
@@ -30636,7 +30717,9 @@
      "use_when": [
       "mapping status members to themed color roles",
       "a new status renders as a colorless pill",
-      "choosing what unknown severities fall back to"
+      "choosing what unknown severities fall back to",
+      "splitting one vocabulary's presentation across several tables",
+      "two surfaces render the same member in different shades"
      ]
     },
     {
@@ -30650,7 +30733,9 @@
      "use_when": [
       "deciding whether a moment shows as elapsed or exact",
       "per-row timers multiplying in a long list",
-      "future timestamps rendering as just now"
+      "future timestamps rendering as just now",
+      "an elapsed label on a surface rendered once ahead of delivery and again in the browser",
+      "a hydration mismatch naming a component that shows an age"
      ]
     },
     {
@@ -30663,7 +30748,10 @@
      "use_when": [
       "deciding whether a rendered string is repo-authored",
       "a pill hue keyed on a user-typed name",
-      "a crafted name breaks the layout"
+      "a crafted name breaks the layout",
+      "choosing a markdown renderer for text a model wrote",
+      "untrusted prose flows into a channel carrying the product's own marker",
+      "bounding the length of a model-supplied field"
      ]
     },
     {
@@ -30700,9 +30788,30 @@
    "applications": [
     {
      "stack": "next",
+     "technique": "status-color-mapping",
+     "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/status-vocabulary/applications/next--status-color-mapping.md",
+     "verified_on": "2026-09-20",
+     "verified_against": "next@16"
+    },
+    {
+     "stack": "next",
+     "technique": "timestamp-display",
+     "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/status-vocabulary/applications/next--timestamp-display.md",
+     "verified_on": "2026-09-20",
+     "verified_against": "next@16"
+    },
+    {
+     "stack": "next",
+     "technique": "untrusted-label-rendering",
+     "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/status-vocabulary/applications/next--untrusted-label-rendering.md",
+     "verified_on": "2026-09-20",
+     "verified_against": "next@16"
+    },
+    {
+     "stack": "next",
      "technique": "vocabulary-chain-integrity",
      "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/status-vocabulary/applications/next--vocabulary-chain-integrity.md",
-     "verified_on": "2026-09-01",
+     "verified_on": "2026-09-20",
      "verified_against": "next@16"
     },
     {
@@ -32845,9 +32954,9 @@
    "subcategory": "build-and-release",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/build-and-release/test-harness/test-harness.md",
-   "digest": "sha256:d4f324cd853a7f44",
-   "revision": 22,
-   "changedAt": "2026-09-17",
+   "digest": "sha256:c449405aa9d2e869",
+   "revision": 23,
+   "changedAt": "2026-09-20",
    "techniques": [
     {
      "slug": "approval-snapshots-with-guarded-update",
@@ -32863,6 +32972,23 @@
       "deciding how a snapshot suite may be re-baselined",
       "a pipeline run went green after a change that should have altered recorded output",
       "choosing between an environment flag and a source constant for record mode"
+     ]
+    },
+    {
+     "slug": "assert-through-the-reader",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "the product emits text another program will interpret",
+      "a setup snippet is offered for a user to paste into a shell",
+      "a rule is appended to a configuration file some other tool owns",
+      "a write succeeded and the effect never appeared",
+      "deciding whether a rendering or clipboard assertion covers a generated command",
+      "a product reconstructs a tool's file layout instead of asking it"
      ]
     },
     {
@@ -33009,7 +33135,9 @@
       "a coverage gate is green over a scoped include set",
       "deciding which files a quality report is defined over",
       "an untested directory has never appeared in any report",
-      "a coverage floor is met by tests that take no decision the code offers"
+      "a coverage floor is met by tests that take no decision the code offers",
+      "a test claims a rule holds uniformly across a closed set of kinds",
+      "a parameterised test runs over a hand-written list of members"
      ]
     },
     {
@@ -33082,7 +33210,10 @@
      "use_when": [
       "adding tests that license a refactor",
       "covering a recovery or crash path the normal suite never executes",
-      "a suite has been green since it was written"
+      "a suite has been green since it was written",
+      "a test stayed green under a deliberate break",
+      "writing the regression test for a defect that has just been fixed",
+      "a defect's trigger is a plan or an ordering the platform chooses"
      ]
     },
     {
@@ -33097,6 +33228,24 @@
       "a shipped artifact builds outside every gated build graph",
       "a whole-project build flag read as covering the repository",
       "a path dependency broke a project nothing compiles"
+     ]
+    },
+    {
+     "slug": "pin-the-call-not-the-name",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "failure-not-empty-success",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a test asserts that one call appears before another in a file's source",
+      "a conformance check walks the suite's own files and reads them as text",
+      "a structural assertion went red after an edit that changed only a comment",
+      "a check accepts a cleanup or restore hook by its presence",
+      "deciding which marker a source-text assertion should search for",
+      "a source-text assertion disagrees between two checkouts of the same commit"
      ]
     },
     {
@@ -33159,7 +33308,9 @@
       "a test file claims to pin a decision the run never executes",
       "deciding whether a green suite covers the argument that crosses a process boundary",
       "a fixture is named the way the resolver's default would name it",
-      "a mutated payload is rejected by an outer check before it reaches the parser"
+      "a mutated payload is rejected by an outer check before it reaches the parser",
+      "a duplicated condition was extracted into a shared predicate and covered by driving the predicate",
+      "a test's name claims a stronger guard than its assertions make"
      ]
     },
     {
@@ -33198,6 +33349,13 @@
      "technique": "approval-snapshots-with-guarded-update",
      "file": "knowledge/software-engineering/engineering-process/build-and-release/test-harness/applications/node--approval-snapshots-with-guarded-update.md",
      "verified_on": "2026-09-03",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "assert-through-the-reader",
+     "file": "knowledge/software-engineering/engineering-process/build-and-release/test-harness/applications/node--assert-through-the-reader.md",
+     "verified_on": "2026-09-20",
      "verified_against": "node@24"
     },
     {
@@ -33608,9 +33766,9 @@
    "subcategory": "feedback-and-style",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/toasts-notifications/toasts-notifications.md",
-   "digest": "sha256:4c6dc8858a53f603",
-   "revision": 2,
-   "changedAt": "2026-08-21",
+   "digest": "sha256:5f10d994e5c16ef6",
+   "revision": 3,
+   "changedAt": "2026-09-20",
    "techniques": [
     {
      "slug": "actionable-toasts",
@@ -33695,6 +33853,20 @@
     }
    ],
    "applications": [
+    {
+     "stack": "next",
+     "technique": "durable-notification-ledger",
+     "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/toasts-notifications/applications/next--durable-notification-ledger.md",
+     "verified_on": "2026-09-20",
+     "verified_against": "next@16"
+    },
+    {
+     "stack": "next",
+     "technique": "os-escalation",
+     "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/toasts-notifications/applications/next--os-escalation.md",
+     "verified_on": "2026-09-20",
+     "verified_against": "next@16"
+    },
     {
      "stack": "react",
      "technique": "durable-notification-ledger",
@@ -36794,6 +36966,7 @@
     "terminal-multiplexing/occupant-state-detection",
     "terminal-multiplexing/readiness-edge-detection",
     "test-harness/approval-snapshots-with-guarded-update",
+    "test-harness/assert-through-the-reader",
     "test-harness/configuration-axes-cross-the-ladder",
     "test-harness/constraint-injection-for-unreachable-tiers",
     "test-harness/context-starved-executor",
@@ -36804,6 +36977,7 @@
     "test-harness/live-app-harness",
     "test-harness/negative-control-tests",
     "test-harness/out-of-graph-artifacts",
+    "test-harness/pin-the-call-not-the-name",
     "test-harness/recorded-interaction-fixtures",
     "test-harness/suite-partitioning",
     "test-harness/unreached-decisions-pin-nothing",
@@ -37377,6 +37551,7 @@
     "terminal-multiplexing/multi-client-fan-out",
     "terminal-multiplexing/pty-management",
     "test-harness/approval-snapshots-with-guarded-update",
+    "test-harness/assert-through-the-reader",
     "test-harness/constraint-injection-for-unreachable-tiers",
     "test-harness/context-starved-executor",
     "test-harness/derived-selection-must-be-measured",
@@ -37385,6 +37560,7 @@
     "test-harness/live-app-harness",
     "test-harness/long-lane-certification",
     "test-harness/negative-control-tests",
+    "test-harness/pin-the-call-not-the-name",
     "test-harness/platform-quirk-absorption",
     "test-harness/unreached-decisions-pin-nothing",
     "test-input-generation/exhaustive-when-bounded",
@@ -37979,6 +38155,7 @@
     "test-harness/history-driven-partitioning",
     "test-harness/long-lane-certification",
     "test-harness/out-of-graph-artifacts",
+    "test-harness/pin-the-call-not-the-name",
     "test-harness/recorded-interaction-fixtures",
     "test-harness/suite-partitioning",
     "test-harness/unreached-decisions-pin-nothing",

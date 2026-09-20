@@ -4,8 +4,8 @@
   "bundle": "llm-observability",
   "source": "knowledge/llm-observability/ (frontmatter only)",
   "subjects": 18,
-  "techniques": 123,
-  "applications": 75,
+  "techniques": 124,
+  "applications": 76,
   "laws": 9,
   "categories": [
    "telemetry-and-data",
@@ -14,7 +14,7 @@
    "federation-and-surfaces"
   ],
   "layout": "nested",
-  "use_when_coverage": "123/123",
+  "use_when_coverage": "124/124",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -404,9 +404,9 @@
    "subcategory": null,
    "status": "reconciled",
    "file": "knowledge/llm-observability/quality-scoring/cross-provider-benchmark-operations/cross-provider-benchmark-operations.md",
-   "digest": "sha256:e8e4c6459e230953",
-   "revision": 9,
-   "changedAt": "2026-09-07",
+   "digest": "sha256:c676b38cbfcb70b5",
+   "revision": 10,
+   "changedAt": "2026-09-20",
    "techniques": [
     {
      "slug": "async-run-queue-with-cancel",
@@ -420,6 +420,22 @@
       "benchmark runs must not block ingestion",
       "a paid long-running run needs a stop button",
       "distinguishing a crashed worker from a failed run"
+     ]
+    },
+    {
+     "slug": "axes-and-caveats-live-at-the-surface",
+     "status": "forged",
+     "laws": [
+      "never-present-absence-as-an-answer",
+      "estimation-announces-itself"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a benchmark gains a new target axis or a graded field",
+      "a machine-readable contract describes a benchmark's declaration",
+      "a verdict line branches on whether the claim is significant",
+      "one render layer serves a runner and a console and an agent",
+      "deciding where a caveat has to be printed"
      ]
     },
     {
@@ -553,7 +569,8 @@
       "comparing reasoning-effort or thinking-budget settings of one model",
       "designing a benchmark's target declaration",
       "a model spec carries a suffix like model@effort",
-      "deciding where a per-call generation knob belongs"
+      "deciding where a per-call generation knob belongs",
+      "a high-effort column times out where the default-effort one did not"
      ]
     },
     {
@@ -599,6 +616,13 @@
      "technique": "entitlement-exhaustion-is-not-ill-health",
      "file": "knowledge/llm-observability/quality-scoring/cross-provider-benchmark-operations/applications/rust--entitlement-exhaustion-is-not-ill-health.md",
      "verified_on": "2026-09-07",
+     "verified_against": "rust@2021"
+    },
+    {
+     "stack": "rust",
+     "technique": "graded-case-difficulty",
+     "file": "knowledge/llm-observability/quality-scoring/cross-provider-benchmark-operations/applications/rust--graded-case-difficulty.md",
+     "verified_on": "2026-09-20",
      "verified_against": "rust@2021"
     }
    ]
@@ -2483,6 +2507,7 @@
     "breach-alerting-and-attribution/scope-inverted-attribution",
     "breach-alerting-and-attribution/top-contributor-attribution",
     "cross-provider-benchmark-operations/async-run-queue-with-cancel",
+    "cross-provider-benchmark-operations/axes-and-caveats-live-at-the-surface",
     "cross-provider-benchmark-operations/determinism-stamping",
     "cross-provider-benchmark-operations/entitlement-exhaustion-is-not-ill-health",
     "cross-provider-benchmark-operations/failure-clustering-recommendations",
@@ -2531,6 +2556,7 @@
    "techniques": [
     "analytics-store-design/backend-parity-as-contract",
     "breach-alerting-and-attribution/pre-breach-forecasting",
+    "cross-provider-benchmark-operations/axes-and-caveats-live-at-the-surface",
     "cross-provider-benchmark-operations/budget-preflight-and-ceiling",
     "cross-provider-benchmark-operations/cheapest-sufficient-configuration",
     "cross-provider-benchmark-operations/dataset-sampling-anonymize-freeze",
