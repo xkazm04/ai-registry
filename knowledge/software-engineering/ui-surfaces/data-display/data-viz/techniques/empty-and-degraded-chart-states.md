@@ -100,6 +100,52 @@ honestly support the chart's claim:
 - **Partial coverage** — a series that starts mid-window renders from its
   start, with the uncovered region left visibly empty, not zero-filled and
   not stretched to fit.
+- **Below the form's own structural minimum, the form draws nothing.** Some
+  chart forms need a minimum number of members before their geometry exists
+  at all: an enclosed-area form needs three axes, a slope needs two points, a
+  distribution needs enough members to have a shape. Below that minimum the
+  arithmetic stays perfectly valid and returns well-formed coordinates that
+  happen to describe a degenerate figure — one vertex, a zero-area outline —
+  so nothing throws, nothing is missing, and the surface renders an invisible
+  mark over data that plainly exists. It is the worst pairing available: the
+  chart looks broken *and* the numbers are unreadable, and falling through to
+  the empty state would be worse still, because it asserts an absence that is
+  false. The honest move is to **degrade to a form whose structural minimum is
+  lower** — the same values as labelled magnitudes — carrying the same
+  accessible contract and the same interactions, and to say in words why the
+  form changed. A form's minimum is a property of the form, not of the data,
+  so it is known before any data arrives and belongs in the component that
+  owns the form rather than in each caller.
+
+## A length encoding cannot draw its own zero
+
+"Measured, zero — plot the zero" is a rule a line can keep and a length
+cannot. A bar, a ring, an arc or a fill encodes value as extent, so a value of
+zero is no extent: nothing rendered, in the same place where an unmeasured
+value renders nothing and a failed render renders nothing. Three of the four
+facts above collapse into one picture, and the collapse is uniquely hard to
+notice because nothing is *missing* from the screen — there was never anything
+there to miss. A line chart at least gives the reader a flat run on the floor
+to look at; a magnitude glyph gives them clean empty space and no reason to
+ask a question.
+
+What draws the zero is the **track**: the unfilled channel, ring, or slot the
+mark would have occupied, rendered whenever the mark is not. The track is what
+turns "measured, and it is at the floor" from an absence into a visible
+statement, and it is the reason bounded encodings should never be drawn as a
+lone mark on bare background. A hairline of fill standing in for zero is not a
+substitute — it is a small non-zero value, which is a different claim, and at
+glyph size it is indistinguishable from a real one.
+
+But the track alone does not finish the job, because an unmeasured value draws
+exactly the same empty track. Geometry can carry magnitude and cannot carry
+which of the four facts produced it, so the distinguishing mark sits beside
+the geometry, not inside it: an explicit zero where the value is zero, a
+neutral absence mark where there is no value, a failure statement where the
+system could not look. A product that renders the empty track for both facts
+and lets the reader infer the difference from context has made the same choice
+as the surface that renders an axis around nothing — it just made it in a
+smaller box.
 
 The through-line of every rule here: a chart is trusted as measurement, so
 the states around and inside it must be exactly as honest as the plotted

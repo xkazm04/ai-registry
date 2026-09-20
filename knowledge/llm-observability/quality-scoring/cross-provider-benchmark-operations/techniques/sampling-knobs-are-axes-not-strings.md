@@ -6,7 +6,7 @@ technique: sampling-knobs-are-axes-not-strings
 status: forged
 laws: [never-present-absence-as-an-answer, estimation-announces-itself]
 shared_with: []
-use_when: [comparing reasoning-effort or thinking-budget settings of one model, designing a benchmark's target declaration, a model spec carries a suffix like model@effort, deciding where a per-call generation knob belongs]
+use_when: [comparing reasoning-effort or thinking-budget settings of one model, designing a benchmark's target declaration, a model spec carries a suffix like model@effort, deciding where a per-call generation knob belongs, a high-effort column times out where the default-effort one did not]
 ---
 
 # Sampling knobs are axes, not strings
@@ -72,6 +72,17 @@ that uses an API key — which is every deployment but theirs.
    temperature once thinking is on. The stamp must degrade accordingly. A run
    that gained an axis and quietly kept its old determinism claim is asserting
    a reproducibility it no longer has.
+8. **Scale the call's deadline with the level, per request.** Raising a token
+   ceiling so a model may reason further is a wall-clock decision as much as a
+   token one: the deliberation the knob buys is spent in time. A harness whose
+   request timeout was measured against default-effort calls will abort the
+   high-effort column it exists to measure — "think harder" becomes "time out
+   harder" — and the aborted cells enter the scorecard as provider errors rather
+   than as an instrument too impatient to see its own axis. Derive the deadline
+   from the level on each request; do not widen it on the shared client. A
+   process-wide widening hands the same generous budget to every other call,
+   including the one to a black-holed endpoint that a short timeout is the only
+   thing protecting the run from.
 
 ## Decision rules
 

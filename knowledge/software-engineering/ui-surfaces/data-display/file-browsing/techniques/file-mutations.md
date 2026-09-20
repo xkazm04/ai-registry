@@ -92,6 +92,23 @@ will lose. The contract:
 - **Progress with cancellation for long runs.** Cancel means "stop starting
   new items", with the boundary reported — what completed stays completed,
   and the report says exactly which.
+- **Deduplicate the target list before capping it.** Selection hands over a
+  set, but the bulk entry point is reachable by other callers — a scripted
+  invocation, a retry that re-submits, a second surface — and a repeated
+  identity is two workers racing on one target: one wins and the other
+  collects a baffling already-exists failure that looks like a conflict with
+  a stranger. Where the batch also carries a size cap, the duplicate has
+  additionally consumed a slot a real target needed. Dedupe first, cap
+  second, and report the two subtractions separately: what was asked for,
+  what is being attempted, what was left out and why.
+- **Partial failure is not operation failure.** Where the bulk operation
+  crosses a transport that carries its own success or failure signal, the
+  aggregate reports success whenever the fan-out actually ran, whatever the
+  per-item mix; the outcomes live in the payload. Folding "some items
+  failed" into a failed operation discards the per-item report on the way
+  out and leaves the caller nothing to enumerate — and it makes an honest
+  partial result indistinguishable from the gate that refused the whole
+  batch before a single item was attempted.
 
 ## Trash versus delete
 

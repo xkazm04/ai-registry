@@ -197,7 +197,10 @@ so it carries its own rules:
 - **Focus-awareness is mandatory.** Never OS-notify about something the
   user is currently looking at — if the app is foregrounded and the
   relevant surface visible, the in-app tier suffices. The OS tier exists
-  precisely for absent attention.
+  precisely for absent attention. Where this tier is composed outside the
+  client — a message pushed from a server to an address an operator
+  nominated — no focus signal exists at all, and a news gate that keeps
+  an uneventful period silent stands in for it.
 - **Consent is explicit and granular.** OS notification permission is a
   grant the user extends, per event type where the domain has more than
   one notifying event — a per-event matrix of *in-app / OS / neither*,

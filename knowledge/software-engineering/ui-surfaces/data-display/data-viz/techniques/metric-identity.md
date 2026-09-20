@@ -46,6 +46,14 @@ Each named metric carries, in one authoritative definition:
   (cost, latency, errors) must carry that fact in its definition, because
   every consumer that colors a delta or points an arrow needs it; polarity
   decided per call site is polarity wrong somewhere.
+- **Resolution** — the smallest difference the metric can distinguish from
+  re-measuring an unchanged subject. Any metric whose pipeline contains a
+  draw — a sample, an estimate, a model's judgement, anything blended from
+  one — returns a slightly different number for a subject that did not move,
+  and every surface rendering a *delta* of it is claiming the difference is a
+  move. Polarity decides how a real move is colored; resolution decides
+  whether there is a move to color. Both are needed at the same instant, at
+  the same call sites, so they belong in the same record.
 
 This is [one authority per
 vocabulary](../../../../_laws.md#one-authority-per-vocabulary) applied to numbers:
@@ -82,6 +90,57 @@ format the surfaces consume. The observed failure shape is a merge function
 that computes exactly which source won per point, then discards the answer
 because the transport type has no field for it, leaving every downstream
 pixel structurally unable to disclose what it is showing.
+
+## Resolution: the delta a surface is allowed to call a move
+
+Resolution is **measured, not asserted**. Re-derive the metric over a subject
+that did not change — same input, same parameters, same day — and record how
+far the answers spread. That spread is the band. A band declared without that
+observation is a preference about what counts as interesting, which is a
+legitimate thing to have and a different thing to call: one says the
+instrument cannot see the difference, the other says the reader should not
+care about it, and they belong under different names because they move for
+different reasons.
+
+The number lives with the derivation, not with the formatter, because
+everything that reacts to a delta has to sit outside the same band: the
+colored arrow on the tile, the alert threshold, the sentence in the digest,
+the trend classification behind a badge. A product whose tile says "holding"
+while its alert fires on the same delta has forked the metric along the one
+dimension the contract declined to hold — and the two surfaces are not even
+wrong in a way anyone can adjudicate, because neither states the band it used.
+
+Two display consequences follow, and both are places a surface manufactures
+confidence out of arithmetic that is technically correct:
+
+- **A sub-resolution delta is rendered in the vocabulary of stillness**, not
+  in a quieter shade of the vocabulary of movement. A muted arrow is still an
+  arrow: the reader decodes direction pre-attentively and the muting arrives
+  later, if at all. Withhold the direction encoding entirely — the neutral
+  tone, the flat glyph, the word for holding — so that wearing the rising or
+  falling vocabulary always means a move the instrument can actually see.
+- **A non-finite delta is not a direction.** A missing baseline, an empty
+  denominator, a first observation with nothing to subtract from: each
+  produces a value that fails every ordering comparison *silently*. It is not
+  greater than zero, so a bare sign test files it as a decline and the surface
+  prints a confident downward arrow for a comparison that never happened. The
+  guard belongs inside the classifier, with the band, where one implementation
+  covers every consumer; spread across call sites it is one forgotten branch
+  away from the same fabricated arrow. Absence is spelled as absence — a dash,
+  a neutral mark — per the absent-value contract in
+  [empty-and-degraded-chart-states](./empty-and-degraded-chart-states.md).
+
+**A label cut from a threshold inherits the metric's resolution and amplifies
+it.** Projecting a continuous metric onto a named state — a tier, a posture, a
+health word — puts a cliff at the cut, and a subject sitting beside that cliff
+changes its *name* on a re-measurement that changed nothing. That is a larger
+claim than the numeric wobble underneath it: a number moving by one point is
+noise a reader can discount, while a renamed state rewrites headlines, fires
+alerts, and reads to anyone downstream as a real change of kind. So the cut
+carries a band of its own: a transition requires clearing the threshold by
+more than the resolution, or holding past it for more than one observation.
+Declaring resolution on the metric and then reading the raw value at the cut
+leaves the loudest consumer outside the contract.
 
 ## One derivation, many surfaces
 

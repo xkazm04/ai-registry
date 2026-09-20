@@ -33,6 +33,29 @@ one kind enumeration, and every consumer — icons, chips, dispatch, sort,
 grouping, per-kind counts — derives from it. Adding a kind is then one
 edit that every surface inherits.
 
+Two failure modes hide inside "one authority", and neither is visible from
+reading the definition:
+
+- **A definition nobody derives from is not an authority.** A vocabulary can
+  be declared once, correctly, in the file that announces itself as the
+  source — while every surface still carries its own copy, because the
+  declared one was never wired up. The declaration then drifts from the
+  copies unnoticed, and it drifts *first*, since the copies are the ones
+  under maintenance. The check is not "is there a single definition?" but
+  "how many consumers reach it?", and that is answered by looking for the
+  declaration's references, never at the declaration. A named vocabulary
+  with no readers is a comment.
+- **A copy across a boundary the authority cannot cross is legitimate only
+  when something compares the two.** Sometimes the vocabulary genuinely must
+  be restated — on the far side of a build step, a process boundary, a wire
+  format the authority is not shipped over. That copy is a mirror, and a
+  mirror's obligation is a check that fails when it drifts, comparing the
+  copy *against its source*. A check that asserts the copy's own shape — the
+  right number of entries, no duplicates — is a tripwire for additions and
+  nothing else: a renamed token, a reordered vocabulary or a retitled bucket
+  passes it untouched, and those are exactly the drifts that orphan stored
+  filter state.
+
 ## Classification honesty
 
 - **Classify by the cheapest reliable signal, and say which.** The name's

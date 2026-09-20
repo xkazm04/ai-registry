@@ -6,7 +6,7 @@ technique: timestamp-display
 status: forged
 laws: [gate-sees-target, failure-not-empty-success]
 shared_with: []
-use_when: [deciding whether a moment shows as elapsed or exact, per-row timers multiplying in a long list, future timestamps rendering as just now]
+use_when: [deciding whether a moment shows as elapsed or exact, per-row timers multiplying in a long list, future timestamps rendering as just now, an elapsed label on a surface rendered once ahead of delivery and again in the browser, a hydration mismatch naming a component that shows an age]
 ---
 
 # Timestamp display
@@ -84,6 +84,59 @@ age, and multiply: the measured decay is a dozen independent one-second
 timers plus a *second* shared ticker built from scratch, its comment
 restating the rationale of the one that already existed. The ticker is
 infrastructure; make it discoverable or it will be reinvented.
+
+## Across a render seam, the present is an input
+
+Freeze-versus-churn assumes one renderer holding one clock. A surface
+rendered once ahead of delivery and rendered again in the browser to
+attach behaviour has **two**, and an elapsed label that reads the ambient
+clock in both passes has read two different instants. They agree almost
+always; they disagree exactly when the pair straddles a rung boundary, so
+the defect is rare, deterministic in the small, and arrives disguised as
+a framework complaint rather than as a wrong label: the two passes
+produce different text, reconciliation reports a mismatch naming the
+component, and it repeats on every render of that surface until someone
+reads the console. Measured instance: a row eighteen and a half days old,
+rounded up by the first pass and down by the second.
+
+The cure is not to freeze the label — that is the defect above — but to
+stop treating the present as ambient. **The instant is an input, owned by
+the render that begins the pass and threaded to every elapsed label
+inside it**; the shared ticker takes ownership back once the surface is
+live in front of a person. Pinning the present for one pass and
+refreshing it on a ticker are the same policy at two scales, not
+opposites — the rule is that exactly one thing decides what *now* is, and
+for the length of a render pass that thing is the pass.
+
+This is the same trap as the host-machine default above, not a second
+one: an *ambient* input, read twice, by two hosts that do not agree. The
+clock is the version that hides, because the two reads differ only at a
+rung boundary. The **locale** version of it fires every time — the pass
+that runs before delivery resolves an unspecified locale from whatever
+machine performed it, the browser resolves it from the viewer, and a
+label that reads one way in the delivered markup reads another way a
+frame later. A product that answers this by pinning one fixed locale for
+such labels has not skipped the technique; it has used the fixed-locale
+override deliberately, and it owes the pin a comment saying so, because
+the next reader will see an ambient default's opposite and assume
+carelessness.
+
+A note on how the input is introduced, earned by a consumer that argued
+back. The [number-formatting](./number-formatting.md) rule — an optional
+parameter whose default is the bug is a forgettable argument — does not
+transfer to the present instant unchanged, and the objection is fair: a
+defaulted clock is often just *the primitive owning now*, which is what
+this technique asks for everywhere else, and some render models forbid
+reading the clock in a component body at all, pushing the read inward. So
+the sharper statement: a defaulted present-instant is correct where the
+surface renders once, and is the forgettable-argument shape exactly where
+it renders twice — and **nothing at the call site distinguishes the two**,
+because whether a surface is delivered pre-rendered is a property of the
+route it hangs under, not of the component. Make the parameter required
+on the primitives that feed two-pass surfaces, or supply the instant from
+a render-scoped context the primitive reads itself; keep the defaulted
+form only where the module's own doc names the single-pass assumption it
+is relying on.
 
 ## The elapsed vocabulary comes from the platform
 

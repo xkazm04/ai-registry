@@ -8,7 +8,7 @@ laws:
   - identity-survives-reuse
   - failure-not-empty-success
 shared_with: []
-use_when: [keeping the viewport still while rows prepend above, entrance animations replay on every refresh, resuming a live feed after a dropped connection]
+use_when: [keeping the viewport still while rows prepend above, entrance animations replay on every refresh, resuming a live feed after a dropped connection, a live list capped by length with no history behind it]
 ---
 
 # Live prepend
@@ -120,6 +120,50 @@ when the buffer flushes, the feed reads as chronology, not as network
 weather. (Late arrivals that belong far below the head are the
 [reverse-chronology-semantics](./reverse-chronology-semantics.md) late-arrival
 case, not a prepend case.)
+
+## The session-scoped wall
+
+Two rules above assume a feed that will be *resumed*: arrivals merge at their
+tuple-correct positions, and the ordering key is minted by the authority rather
+than by the renderer. Both are consequences of resumption, not axioms — they
+exist so that a cursor, a reconnect, a second device or a second reader can
+agree with this render about what came first. A live surface with none of those
+is a different object: one connection, one producer, one session, and rows that
+are never read again once they leave the list. A run's progress wall is the
+common shape.
+
+There the **renderer is the authority** — for the only ordering the surface
+claims, which is the order this session learned things in. A monotonic ordinal
+minted per arrival is the correct identity for that: unique by construction,
+stable across re-renders, and immune to the collisions a clock invites at burst
+rate. Delivery order is likewise the honest order, because the surface asserts
+"what this run has finished, newest first" rather than "what happened, in the
+order it happened".
+
+The exemption is narrow and it is a *conjunction*. It holds only while every
+one of these is true, and restoring any one of them is what breaks it:
+
+- nothing resumes the stream — no cursor, no catch-up query, no reconnect that
+  must deduplicate against what is already rendered;
+- no read position is persisted against these rows;
+- no second observer's sequence has to agree with this one;
+- no row here is ever merged with rows from another source.
+
+Write that condition down beside the counter. A renderer-minted key that
+outlives its exemption is the hardest defect in this subject to see: everything
+still renders, and only the second observer disagrees.
+
+**A length cap is a horizon.** A wall of this shape bounds its list by count
+and lets the oldest rows fall off with nothing behind them — no page, no
+archive, no cursor to walk back through. That is retention implemented in a
+render buffer, and it owes what every horizon owes
+([feed-retention](./feed-retention.md)): the reader must not read the end of a
+capped list as the beginning of the run. The cheapest honest form here is not a
+message but an **uncapped aggregate beside the capped stream** — a total, a
+completed count, a skipped count, each computed over every arrival rather than
+over the surviving rows. The stream then answers "what just happened" and the
+aggregate answers "how much has happened", and the cap can no longer make a
+long run look short.
 
 ## When the transport carries no cursor
 

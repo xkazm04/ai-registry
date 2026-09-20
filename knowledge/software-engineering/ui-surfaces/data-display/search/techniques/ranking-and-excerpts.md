@@ -54,6 +54,20 @@ identity-survives-reuse law). Score descending, then recency descending, then
 identifier: a total order with no ambiguity left for the storage layer to
 resolve differently on the next call.
 
+The characteristic near-miss is a final key that *looks* like identity and is
+not. A title, a name, a label — human-readable, usually distinct, compared
+with a locale-aware string comparison — reads in review as the tiebreak that
+closes the order, and it closes nothing. Two records can carry the same label
+(the same finding raised against two subjects, the same recommendation in two
+places), and a comparison that reports them equal hands the last word back to
+whatever order the rows arrived in — the upstream grouping, a map iteration, a
+query plan — none of which this sort decided or can defend. Locale-aware
+comparison adds a second flaw: its result depends on the host's collation, so
+the order is reproducible *on one machine* rather than reproducible. The test
+for a final key is not "are these values usually different", it is "is this
+value the record's identity". If it is not, append the one that is; the cost
+is one more comparison and the payoff is that the question stops being asked.
+
 Nondeterminism here is not cosmetic. As-you-type search re-executes on every
 keystroke; if equal-scored results swap positions between executions, the
 list shimmers under the user's eyes and click targets move as they reach for

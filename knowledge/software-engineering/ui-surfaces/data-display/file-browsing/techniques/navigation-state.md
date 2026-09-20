@@ -58,6 +58,27 @@ The reconcile step means restore is a *merge with reality*, never a blind
 replay. Blind replay is how a browser ends up rendering folders that no
 longer exist.
 
+Restore has a timing constraint as well as an identity one. Where the
+surface's first paint is produced somewhere the persisted store cannot be
+reached — rendered ahead of time on a server, painted from a shell before
+the store is open, restored from a snapshot — reading the state during that
+first render makes the two paints disagree, and the surface either flickers
+through the default layout or is torn down and rebuilt. Restore after the
+surface is live instead, accepting one deliberate second render as the price.
+Where the first paint and the store are in the same place, reading during
+initialization is the cheaper door and one render is enough. The rule is not
+"always early" or "always late": it is that the restore point is derived from
+where the first paint comes from, and said out loud — the two choices look
+identical in review and differ only under conditions nobody reproduces
+locally.
+
+Tolerance is numeric as well as structural. A value read back is validated
+against the constraints it was written under, not merely parsed: a width, a
+depth, a zoom level that is out of range today because an older version
+allowed it gets clamped on the way in. An unknown field is discarded, a
+missing one defaults, an out-of-range one is corrected — three faces of one
+obligation, and only the first is usually remembered.
+
 ## Breadcrumbs and the tree-list duality
 
 Most browsers show location twice: a tree (the map) and a path trail (the

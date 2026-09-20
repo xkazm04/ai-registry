@@ -59,6 +59,19 @@ a small difference between two noisy means.
 
 ## Decision rules
 
+- **Cost order is measured, never inferred from the tier.** A cheaper model is
+  not a cheaper call. A small model at a low reasoning setting can spend an
+  order of magnitude more hidden deliberation on a hard case than a large model
+  at a high one, and take an order of magnitude longer doing it — so the
+  configuration everyone assumed was the budget option loses on price *and* on
+  latency, on exactly the cases that decide the run. The failure is not in the
+  arithmetic; it is upstream, in any pruning, ordering or shortlist built from
+  an assumed ranking of tiers rather than from this run's per-case cost and
+  latency. A frontier ordered by assumption gets these rows backwards while
+  looking identical to one that was measured. The corollary is an obligation on
+  the instrument: a matrix that never records per-call reasoning spend can
+  observe the inversion but cannot explain it, and the explanation is what tells
+  an operator whether to drop the row or raise its budget.
 - **When the frontier has one point, say so rather than recommending it.** A
   single non-dominated target means the matrix had no trade-off to find; that is
   a finding about the matrix (usually: the candidates were not comparable enough

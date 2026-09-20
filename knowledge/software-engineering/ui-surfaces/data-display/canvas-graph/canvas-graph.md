@@ -54,9 +54,9 @@ below has to be re-derived at each renderer-shaped surface, and the ones that
 still bind are the ones quietly dropped.
 
 **Retired:** placement provenance and the user-authored/generated
-distinction, layout persistence and its migrations, the placement policy for
-new nodes, every direct-manipulation mechanic, and — where the diagram is fit
-to its container rather than explored — the transform authority itself.
+distinction, layout persistence and its migrations, and every mechanic that
+*changes structure* — dragging a node to a new position, drawing an edge,
+snapping, and the undo transaction each of those produces.
 
 **Kept, in full:** layout determinism including tie-breaking, because a
 diagram that redraws differently from identical input has lost the one thing
@@ -65,6 +65,27 @@ the shared node/edge anchor geometry, since edges float off their nodes for
 the same reason whether or not anyone can drag them; focus-context economy at
 the edge level; and the entire accessibility model, which a generated diagram
 inherits unchanged and unearned.
+
+Three more read as retired and are not, and each is a trap precisely because
+the renderer looks too simple to owe them:
+
+- **The coordinate authority is retired as a *camera*, never as a
+  *mapping*.** A field fit to its container still converts between the space
+  the data lives in and the space the pointer arrives in: margins, an
+  inverted vertical axis, a container whose size layout decides. What
+  vanished is the pan and the zoom; the conversion did not, and the half
+  that gets quietly re-derived somewhere else is the inverse one.
+- **The arrival question survives wherever the drawn set changes at
+  runtime.** A renderer over a live collection has no user placement to
+  protect and still must answer where a newcomer goes — in the sharper form
+  the renderer creates for itself, because a generated layout usually reads
+  the collection's *size*, and then an arrival re-places everything unless
+  the policy was built not to.
+- **Selection is not structure.** A surface nobody can rewire is still one
+  people point at: a marquee drag, a click that must not become a
+  one-pixel drag, a pointer capture owed a release on every exit path.
+  Retiring direct manipulation wholesale retires those too, and they are
+  exactly the mechanics a read-only field gets wrong.
 
 ## The world transform is the one coordinate authority
 
@@ -129,6 +150,10 @@ The budget rules, in order of leverage:
 4. **Detail is a function of zoom.** Labels, ports, badges, and shadows
    disappear below the scale where they are legible; far-out views draw
    simplified geometry.
+5. **Nothing animates per node at rest.** Ambient decoration is a repaint
+   multiplied by node count and paid forever, on a surface people leave
+   open; past a population threshold it goes static. This is the one cost
+   that a profiler driven by interactions never shows.
 
 The full ladder, and the measurements that decide how far to climb it, are in
 [render-budget](./techniques/render-budget.md).

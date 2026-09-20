@@ -34,7 +34,8 @@ diverges when duplicated.
 
 The door owns more than escaping: it owns the **matching policy** — case
 folding, diacritic folding, whitespace handling, whether multiple words must
-all match. Measured across independent codebases, this policy is the single
+all match, and how a match spanning several fields is composed. Measured
+across independent codebases, this policy is the single
 most re-derived decision in the subject: dozens of call sites each lowercase
 and substring-match inline, none of them folds diacritics, and in a
 multi-locale product every one silently fails on accented input — while the
@@ -43,6 +44,30 @@ ordering has one named function and matching has none. Give matching the
 same treatment: one named matcher with correct-by-default normalization, and
 route every surface through it, because a policy set once per call site can
 never be corrected centrally.
+
+**The door is usually built for the injection reason, so a stack that removes
+the injection reason never builds it.** A query API where a match is a *value*
+bound into a field predicate — a builder, a parameterized statement, a
+collection scan — closes the first failure class structurally, everywhere, for
+free. That is a real safety property and it should be taken. What it does not
+close is the second: with nothing forcing translation into one place, each
+surface writes its own two-line predicate, and the matching policy is
+re-decided every time, silently and differently. The injection reason files
+bugs; the policy reason files none, so a codebase can reach a dozen matchers —
+all safe, no two alike — without a single review remarking on it. The
+measurement that finds this is not *where is user text escaped* but **where is
+user text compared to stored text**, and the only correct answer to that count
+is one.
+
+The composition across fields is part of the policy and has two shapes that
+are not equivalent. Matching each field separately and OR-ing the results
+means a hit lies inside some field. Concatenating the fields into one string
+and searching that means a hit may lie *across a join* — a query whose first
+word ends one field and whose second begins the next matches a record in which
+no field contains it, and the excerpt stage then has nothing to point at. The
+concatenated form is cheaper to write and is the one that appears when nobody
+decided; if it is chosen, it is chosen knowing that the surface can no longer
+say which field matched.
 
 The door's core move is **tokenize, then quote**: split the user's text into
 words on whitespace and punctuation the engine treats as structure, wrap each
@@ -120,6 +145,16 @@ differently from a legitimate zero (the failure-not-empty-success law):
 - **An engine error is an error state**, with a retry path — never rendered
   as "no results". Zero-because-nothing-matches invites the user to broaden
   the query; zero-because-the-engine-died invites them to broaden it forever.
+- **And a failure is not the previous results either.** The rule that a
+  surface must not blank its rows while the next answer is in flight is about
+  the in-flight moment, and it ends when the request settles. Keeping the last
+  successful list on screen after a failed one — the natural reading of "keep
+  the current list on error" — spells an outage as an answer, under controls
+  that describe a different question. It is the worse of the two silent
+  failures: a zero at least invites suspicion, and a plausible list of rows
+  does not. A read that returns nothing usable raises the error state; rows
+  retained beside it are labeled as the previous query's, not the current
+  one's.
 
 ## What the parsed query owes downstream
 

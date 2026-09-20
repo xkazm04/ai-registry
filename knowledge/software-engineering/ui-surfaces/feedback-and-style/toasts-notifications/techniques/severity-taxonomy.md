@@ -43,6 +43,68 @@ message with no consequence and no confirmation value usually should not
 interrupt at all. Derive the set from the consequence table; delete levels
 the table cannot distinguish.
 
+## The non-alarm band is a level, not a second axis
+
+Most level sets are a monotone alarm ladder, and a product that also
+announces *good* news — a threshold crossed upward, a degraded subsystem
+recovered, a milestone reached — has a real design choice to make: add a
+band to the ladder, or add a parallel "tone" axis beside it.
+
+Add the band. A parallel axis forces **every** renderer to switch twice —
+once on severity for dwell, placement and politeness, once on tone for
+glyph and color — and the second switch is the one that gets forgotten, so
+good news arrives wearing the alarm's chrome. As a level, the good-news
+band inherits the whole mapping row for free, and the honest consequence
+question still answers for it: *what if the user never sees this?* — they
+miss news they would have liked, which is a real but low-consequence miss,
+so it maps to a short dwell, no escalation and polite announcement.
+
+The band is not *success*. Success is confirmation of the user's own
+action, arriving because they acted; the non-alarm band is news about the
+system's own movement, arriving because the world changed. A set that
+collapses them loses the ability to say "this happened while you were
+away, and it is good" — which is exactly the message a durable ledger
+exists to hold.
+
+## The widest declaration is the real authority
+
+A closed vocabulary is usually enforced by a **total mapping** — one
+structure with a cell for every level, which fails to compile when a level
+is added and a cell is not. That check is weaker than it looks, and the
+gap is where forked vocabularies actually enter:
+
+> **A total mapping only guards levels that carry the vocabulary's type.**
+
+The level set gets re-declared downstream — most often at a persistence or
+transport boundary, where a row or payload shape is written as its own
+inline set of literals rather than as the vocabulary's type. That
+re-declaration is where a new level enters first, because it is written by
+whoever needed the new level and nobody else's file has to change. The
+total mappings upstream keep compiling, because the new value never had
+the vocabulary's type; the level is simply absent from them, and a call
+site papers over the hole with a literal where the mapping would have
+supplied a cell. The result is a vocabulary that is closed in the type
+system and open in production — the one failure mode the closure was
+supposed to prevent.
+
+Two rules follow, and they are cheap:
+
+- **Every re-declaration derives.** A storage shape, a wire contract, a
+  helper's return type — each names the vocabulary's type or is generated
+  from it. An inline set of literals that happens to match today is a fork
+  that has not diverged yet.
+- **Widest wins, and it is reconciled upward.** When one declaration
+  admits a level the authority does not, the authority is wrong until
+  proven otherwise: either the level is real and belongs in the one
+  definition with a row in the mapping table, or it is not and the
+  downstream declaration narrows. Leaving them unequal is choosing which
+  renderer breaks.
+
+The same test finds the fork from the other end: for each total mapping
+over the vocabulary, count its cells against the set of values actually
+persisted. A level that reaches storage and has no cell anywhere upstream
+is a fork already in production.
+
 ## Assignment by consequence, not vibe
 
 The failure mode of every severity system is inflation: authors reach for

@@ -84,6 +84,20 @@ cross-entity, because "changed" language presumes continuity that is not
 there; the honest vocabulary for a cross-entity pair is "differs", not
 "changed".
 
+"Differs" is the floor, and on a cross-entity pair it is usually not enough.
+The moment the two sides are different entities, any *one-directional*
+rendering — what the other side has that this one lacks — reads as a ranking
+whether or not one is intended, because a list of things you are missing is a
+scorecard in every reader's hands and in the hands of everyone they show it to.
+A property one entity needs and the other does not is a difference, not a
+deficiency. So the cross-entity pair is rendered in **both** directions by
+construction, in symmetric vocabulary chosen to carry no valence — *has* and
+*lacks* rather than *ahead* and *behind* — and the surface says so in its own
+words before the first row. This is a design obligation, not a wording
+preference: a one-directional cross-entity diff has quietly become the judged
+comparison that belongs to another subject, and has inherited that subject's
+burdens without any of its discipline.
+
 ## A baseline is chosen by the question, never by the data
 
 The subtlest failure in this technique is a baseline picked by a property
@@ -115,6 +129,26 @@ rule: a remembered baseline that no longer exists (pruned, retired) falls
 back to the default *loudly*, because silently substituting a different
 baseline is the swap-the-question failure again, this time performed by
 the memory feature.
+
+The decay rule is usually written against *existence*, and that is too narrow
+by one case, which is also the common one. A requested baseline can be perfectly
+alive and still not be the one served: the request names it, and the resolution
+happens inside a bound the requester never saw — a window of the most recent N,
+a scope the reader is no longer inside, a shape the request was mistyped into.
+The pair comes back resolved, the surface renders it, and nothing distinguishes
+it from the pair that was asked for. So the obligation attaches to the request
+rather than to the baseline's existence: **compare what was asked for against
+what was resolved, and say so whenever they differ**, in the same breath naming
+what was shown instead and how to get back. It costs one comparison of two
+identifiers.
+
+This matters most where the baseline choice is *held by the reader* — a saved
+link, a bookmark, a reference pasted into a conversation. Such a reference is a
+persisted baseline choice living outside the product, which gives it a decay the
+product cannot see and a promise it implicitly made: that opening it again shows
+the same comparison. When the resolution bound quietly re-answers it, the same
+link shows different numbers on different days, and the reader who saved it is
+the last person able to detect that.
 
 ## Aggregates inherit the pair
 

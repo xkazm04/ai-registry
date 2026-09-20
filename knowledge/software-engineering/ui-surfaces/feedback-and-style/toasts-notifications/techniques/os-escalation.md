@@ -57,6 +57,20 @@ backgrounded, minimized, or the user is elsewhere in it, escalate.
 - The border cases err toward the in-app tier plus the ledger: a
   wrongly-suppressed OS banner still lands in the center with its unread
   badge; a wrongly-sent one spends trust with no refund.
+- **Gate the send, not the detector.** The rule constrains one decision —
+  whether *this* message escalates — and constrains nothing upstream of
+  it. A client-side notifier that suspends its polling, its subscription
+  or its watcher while the window is hidden has gated the wrong thing: it
+  stops noticing precisely in the state this tier exists to serve, and
+  the news arrives whenever the user next looks, which is when they no
+  longer needed telling. Detection runs regardless of visibility;
+  visibility is consulted once, at the moment of escalation. The two are
+  easy to conflate because one sentence ("don't do work in a hidden
+  tab") covers both, and for this tier that sentence is exactly backwards.
+
+Focus-awareness is mandatory **wherever the signal exists**. One shape of
+this tier cannot observe it at all — see *the out-of-app tier is not
+always the operating system*, below, for what stands in its place.
 
 ## Consent: explicit, granular, and honestly reported
 
@@ -125,6 +139,56 @@ any later correction. Two disciplines follow:
   permission, focus-awareness, the ledger write, and failure reporting;
   when an event is visible to both a backend and a frontend layer, one of
   them is named the notifying authority and the other explicitly declines.
+
+## The out-of-app tier is not always the operating system
+
+This tier is defined by *leaving the application*, not by which surface
+renders it. The other common shape is a message composed on the server and
+pushed to an address the operator nominated — a team channel's inbound
+hook, a mailbox, a pager. It is the same tier and inherits most of this
+technique unchanged: escalation rather than mirroring, sent-means-
+immutable, compose where the language lives, one delivery door, coalescing
+that extends outward, click-through that carries full addressing.
+
+Three of the rules above, though, have **no referent** on a
+server-composed channel, and treating their absence as neglect produces
+the wrong fix. Each needs a stated substitute:
+
+- **There is no focus signal at all.** The composer runs where nobody is
+  looking; it cannot know whether the recipient is in the application, and
+  no amount of discipline will give it the answer. The substitute is
+  admission economics without an attention signal: a **news gate** that
+  keeps an uneventful period silent (a periodic push that says "nothing
+  changed" is filtered out by exactly the reader it was written for), plus
+  a per-subject cooldown so a flapping condition cannot reprice the
+  channel. Where the substitute is absent, the tier degrades to the
+  mirroring this technique forbids — silently, because nothing errors.
+- **Consent is delegated, so revocation must travel with the message.**
+  There is no per-user platform grant to request in context; an
+  administrator configures one address and thereby subscribes everyone
+  behind it, including people who never saw a prompt. That makes the
+  recipient's only honest control an unsubscribe carried *in the message
+  itself*, whose effect is to clear the configured address — not a
+  settings page they may have no access to. Consent that one person can
+  grant on another's behalf is not consent unless the other can end it
+  where they receive it.
+- **The platform becomes a user-supplied destination.** An operator-
+  configured address is an outbound request to a target the product does
+  not control, which is a new obligation the OS tier never had: validate
+  the transport, reject embedded credentials, and refuse hosts that are
+  not publicly routable — otherwise the notification channel is a request
+  forger with a friendly name. Validate at configuration time *and* keep
+  the send path defensive, since the stored value outlives the form that
+  accepted it.
+
+Two more properties follow from composing on the server rather than the
+client. The address is a **tenancy boundary** — routing per recipient
+group is what keeps one group's news out of another's channel, and a
+single global fallback address is a leak waiting for its second tenant.
+And every send needs a **deadline**: a fan-out across many addresses in
+one run lets a single unresponsive destination starve every destination
+behind it until the socket dies on its own schedule, which is measured in
+minutes and belongs to nobody.
 
 ## The platform is a dependency, not a given
 

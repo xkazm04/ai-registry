@@ -49,6 +49,29 @@ Items excluded by an active filter are not selected by select-all — invisible
 selection is the trapdoor variant of the aiming bug: the user deletes what
 they can see plus something they cannot.
 
+## Eligibility is one predicate, not two
+
+Not every visible item is a legal target. Some are already settled, some are
+read-only, some are of a kind the pending action cannot touch. Whatever the
+rule is, it is **one predicate applied by both the per-item control and
+select-all**. Written twice it will be written differently, and the
+divergence always takes the same shape: the per-item control refuses what
+select-all happily adds, so the bulk bar fills with items the user cannot
+then remove one by one — each individual toggle is disabled, and the only
+escape is to clear the whole set and start over. The disabled state of an
+item's control and the membership of the select-all set are two renderings of
+one rule, exactly as the tree and the location trail are two renderings of
+one location.
+
+The mirror hazard is filtering *after* selecting. An item selected while
+visible and then hidden by a filter change is still in the set and will still
+receive the action — and that is the right behaviour, because silently
+dropping selections when a chip toggles discards intent the user actually
+expressed. What is not right is leaving it undisclosed. The count then says
+both numbers: "14 selected — 3 hidden by the current filter". Otherwise the
+blast radius the user can see is smaller than the one they are about to
+fire, which is the aiming bug arriving by the other door.
+
 ## Surviving refresh
 
 The store changes under a live selection constantly — the browser's own
