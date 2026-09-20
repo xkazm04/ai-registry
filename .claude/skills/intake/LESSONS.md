@@ -11624,3 +11624,44 @@ Version 2.13.0 -> 2.13.0 (no bump; four lessons. The vacuous-gate lesson and the
 blind-bookkeeping lesson are each at their first and second sighting
 respectively - neither is yet a rule this file carries. A mid-flight run should
 finish on the version it loaded.)
+
+## 2.13.0 - 2026-09-20 - kaggle-tunnel-free-gpu
+
+- **When the dispatch is "can we adopt X", the primary to fetch is what X must
+  plug INTO, never X.** This run arrived as a source plus an operator question,
+  and the whole landing came from two fetches of the *consumer's* published
+  contract - a document the source never cites and whose existence it does not
+  acknowledge. The source is a procedure for standing something up; whether that
+  something is reachable is a fact about the caller, and the caller publishes it.
+  Spending the budget on the source's own domain (the GPU host's terms, the
+  runtime's model list) would have produced a well-corroborated answer to a
+  question nobody asked. The general form: an adoption question has two parties,
+  the source is only one of them, and the corroboration budget belongs to
+  whichever party the source is silent about. Worth watching for three runs
+  before it becomes a rule in the method - it plausibly generalizes to every
+  `--ask`-shaped dispatch over a tool, a library or a service.
+- **Cloning a one-file repository is still the right move, and its negative
+  result is the finding.** Phase 2b's "always clone, no exceptions" felt
+  wasteful against a README-only repo and was not: the ingest reported 1,450
+  words and the tree held 1,248, and only the clone could establish that the
+  landing page *is* the repository rather than its advertisement. That is a
+  materially different class from "a repo whose README I read", and it changes
+  the expected yield. The sweep cost seconds. Keep the rule absolute.
+- **A measured pass at the wrong altitude is the most convincing way to get a
+  fallback question wrong.** Three models scoring 3/3 on single-shot tool calling
+  is a real number that answers "can it emit a tool call" and reads as "it can be
+  an agent". The loop test - selection under a crowded tool set, consuming a
+  result, and *terminating* - is a different claim and had to be built
+  separately. Both passed here, so the correction cost nothing this time; the
+  failure mode is the run where only the first is measured and the landing
+  inherits its altitude. The declared focus ("ask which question a number
+  answers") caught it, and then caught the mirror case in the fleet tree, where
+  a 2s-vs-120s asymmetry looked like a defect and measured as a well-chosen bound.
+- **The enumeration hunt paid again, and the enumeration was in a "what this
+  technique does not own" section.** `failover-path-liveness` closes by handing
+  three questions to three named neighbours, and a closing hand-off list is an
+  enumeration exactly like a "when not to use" block: it states what the author
+  believed the complete set of adjacent concerns was. The missing member was the
+  whole landing. Add hand-off sections to the list of places the hunt reads;
+  they are denser than "when not to use" blocks because they are written to be
+  exhaustive about the *neighbourhood* rather than about one technique's limits.
