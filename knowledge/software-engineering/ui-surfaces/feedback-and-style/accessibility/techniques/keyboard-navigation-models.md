@@ -58,6 +58,47 @@ Two disciplines keep roving focus correct:
   where wrap-around, Home/End, and orientation handling silently
   diverge.
 
+### A composite that only exists while it is open does not rove
+
+The roving designation answers one question — which member does Tab
+land on — and a popup summoned from a trigger is never entered by Tab,
+so the question is moot and three of the rules above invert:
+
+- **No member holds the reachable designation.** Every one of them is
+  programmatically focusable only, and the single stop outside the
+  composite is the *trigger*, not a member of the popup.
+- **Entry is explicit.** Opening moves focus into the popup, because a
+  widget that appears and leaves focus behind has told a non-visual
+  user nothing and moved nobody.
+- **The exit dismisses rather than advances.** Tab does not step to the
+  next member or the next widget; it closes the composite — which means
+  the surface is about to destroy the element that currently holds
+  focus, and it owes the handoff *before* the destruction, back to the
+  trigger the user arrived from. A popup that unmounts on Tab while one
+  of its own rows still has focus drops the user at the top of the
+  document, and the symptom — "focus sometimes disappears when I tab" —
+  reads as a browser quirk for months.
+
+Remembered position inverts too: a transient composite opens at its
+first member every time, because "where the user left it" describes a
+different opening of a different instance.
+
+One invariant survives both variants: **every focusable descendant of a
+composite is a member the composite's declared role actually owns.**
+The keyboard model and the accessibility tree are two descriptions of
+one widget, written in different places — the key handler enumerates
+what can take focus, the roles declare what the widget contains — and a
+container that accepts arbitrary caller-supplied content beside its
+declared members is where the two part. The injected control takes a
+turn in the arrow order while sitting outside the widget's item list,
+so the position and count a reader states describe something other than
+what the user is moving through; what happens past that point is a
+property of the pairing rather than of the markup
+([assistive-tech-divergence](./assistive-tech-divergence.md)), which is
+the argument for not being in this position. Either the slot yields
+real members, or the container is not that kind of widget and should
+not claim to be.
+
 The alternative pattern — a container that keeps focus and points at a
 virtual active descendant — trades focus movement for attribute updates;
 it suits widgets whose members are virtualized or too numerous to focus.

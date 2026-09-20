@@ -6,7 +6,7 @@ technique: token-taxonomy
 status: forged
 laws:
   - one-authority-per-vocabulary
-use_when: [deciding whether a candidate token earns its name, semantic names still carry colors or numbers, components reaching past roles for raw values]
+use_when: [deciding whether a candidate token earns its name, semantic names still carry colors or numbers, components reaching past roles for raw values, a local override of a recipe or a primitive is being ignored]
 ---
 
 # Token taxonomy
@@ -102,6 +102,42 @@ recipe (dropping its weight, loosening its tracking) alters every consumer,
 including consumers whose local overrides the old recipe was masking — see the
 golden path's migration section. Recipes concentrate power; treat their edits
 as migrations.
+
+## Precedence belongs to the delivery format, not to the author
+
+A role or a recipe delivered as a **named class composed into one attribute**
+carries a property the vocabulary designer does not get to choose. Two class
+names that set the same property do not resolve in the order the author wrote
+them into the attribute; they resolve in the order the compiled stylesheet
+declares them, which the delivery layer fixes globally. Whichever of the two
+the layer emits later wins — at every call site, for every author, forever.
+Composition order is a sequence of names, not a precedence.
+
+Three consequences, each of them a design rule for the token and not a
+warning for the consumer:
+
+- **A recipe either owns a property or declines it, and says which.** Owning
+  means the loose alternative beside it is banned and gated
+  ([token-enforcement](./token-enforcement.md)); declining means the
+  definition states the property it deliberately leaves to the call site, so
+  the omission reads as a decision rather than an oversight. The failure in
+  between is a recipe that sets a property call sites also set and *loses*:
+  consumers write the override, watch it do nothing, and escalate to a
+  heavier hammer — an inline value, a more specific selector, a fork — which
+  is exactly the raw-value dialect the vocabulary exists to prevent, arrived
+  at by obedient people.
+- **A shared primitive never hard-codes a property its caller may pass.** A
+  primitive that accepts styling from its caller and also declares a value
+  for the same property has two answers of equal standing and no way to
+  prefer the caller's. The default belongs *in the parameter* — the value
+  the primitive falls back to when the caller supplies nothing — never in
+  its body, where it competes.
+- **A test over the composed names cannot see either failure.** Both names
+  are present in the attribute, so any assertion about what was composed
+  passes; the losing declaration is only discoverable where the cascade is
+  actually computed. For this class of defect a rendered surface is the
+  instrument and a green unit test is not evidence — one of the few places
+  in this subject where that is true.
 
 ## Each axis is one closed vocabulary
 

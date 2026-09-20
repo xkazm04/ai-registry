@@ -34,6 +34,49 @@ not have. Failure has its own state and its own design —
 [failure-states](./failure-states.md) — and no shared rendering with empty,
 however visually tempting the reuse.
 
+### Entitlement without a request
+
+The rule is about *knowledge*, not about traffic. A completed response is the
+usual way a region earns the right to say "nothing here", and it is not the
+only one. When emptiness is decided by a **chain of prerequisites the system
+already holds** — an identity exists, a source is connected, a run has
+happened — the region is entitled to its empty state before any content
+request exists, and the honest move is then not to issue the request at all.
+
+Skipping it buys two things, and the second is the one that is easy to miss:
+
+- **The empty state stays entitled in the world where the request would have
+  failed.** A broken prerequisite is a fact the surface holds, not an
+  inference from a zero-length response, so nothing a transport fault does
+  can contradict it.
+- **Failure stays scoped to the request that actually ran.** A region that
+  asks anyway has two roads to the same blank space — the empty answer and
+  the failed answer — and the branch ordering that keeps them apart is
+  precisely the thing that rots under maintenance. Not asking deletes the
+  ambiguity instead of guarding against it. It also removes the reverse
+  error, where a region with a broken chain renders a retry affordance for a
+  failure that never happened and that retrying cannot fix.
+
+Three constraints make this a discipline rather than a licence:
+
+- **The chain is ordered, and the state is the first missing link.** Each
+  link has a different next action, and naming a later one sends the user to
+  a step they cannot yet take. "Connect a source" is wrong when no identity
+  exists yet.
+- **The chain is resolved where the facts already are** — the side that holds
+  them, delivered with the surface. Re-deriving it client-side from an extra
+  request is a request made to decide whether to make a request: it spends
+  what the skip was meant to save and reintroduces the failure mode the skip
+  removed.
+- **Entitlement comes from a known fact, never from an assumption.** A region
+  that infers a broken chain from the absence of cached data, or from a
+  default value it has not confirmed, is asserting empty before settling
+  again — with the guard now hidden one layer further away.
+
+The decision to ask is therefore part of the empty-state design, not a
+performance optimization that happens to live upstream of it; the state model
+carries the same boundary on its own side.
+
 ## Every empty names its cause
 
 "No items" is true in several different worlds, and the user's next action
@@ -107,6 +150,18 @@ not-real mark and stay out of every total computed over the region.
   dozens of times a day by power users — brevity wins; an elaborate
   illustration replaying on every over-narrow filter reads as the product
   celebrating the user's dead end.
+- **One primitive, many claims.** Routing every empty and notice rendering
+  through a single component — typically with a page scale and a section
+  scale — is what keeps the proportionality rule below from being re-decided
+  per region, and it is worth doing. But note what that primitive is typed
+  by: **scale**, which is a layout decision, while the taxonomy above is
+  typed by **cause**, which is a truth decision. The two axes are
+  independent, and a product that has only the first ships empty states that
+  all look deliberate and all make the same claim. Consistent rendering is
+  where a missing cause axis is hardest to see, because nothing looks
+  unfinished. The fix is to make the shared primitive take the cause as a
+  required input rather than leaving it to whatever sentence each call site
+  passes.
 - **Empty in composition.** When one region of a page is empty while
   siblings hold data, the empty rendering stays proportionate — a quiet line
   in the region, not a hero illustration competing with real content. The

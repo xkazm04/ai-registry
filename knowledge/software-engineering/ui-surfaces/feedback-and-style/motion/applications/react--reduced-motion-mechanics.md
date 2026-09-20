@@ -226,3 +226,70 @@ like the synthetic one.
   scatters the reduction across every `<ViewTransition>` a contributor adds.
 - It proves the gap on the release the tree will adopt. It cannot move a number
   in the tree today, which is why no product change shipped (see the applied row).
+
+## The reduce switch that only reduces some properties
+
+*Section added 2026-09-20; its citations were resolved that day. The sections
+above were not re-checked, so this document's `verified_on` stays at their date.*
+
+The technique's engine-scope section now says a library's reduce switch is scoped
+a second time, to the properties that library counts as motion. framer-motion is
+where that was read, and it is one expression in the installed package. In
+`motion-dom`'s `animation/interfaces/visual-element-target.mjs`, each animated
+value starts with
+
+```js
+shouldReduceMotion && positionalKeys.has(key) ? { type: false } : valueTransition
+```
+
+and `render/utils/keys-position.mjs` defines `positionalKeys` as `width`,
+`height`, `top`, `left`, `right`, `bottom` plus every transform prop. So the
+switch substitutes an instant transition for position-class values and leaves
+everything else at its authored duration: opacity, colour and fill, a traced
+path's length, a circle's centre or radius, a flex weight. `render/VisualElement.mjs`
+(the `reducedMotionConfig` branch) shows that `"always"` and `"user"` differ only
+in how `shouldReduceMotion` is *computed* — never in what reduction does. Read in
+two fleet installs on 2026-09-20: `framer-motion@12.40.0` in `ascent` and
+`framer-motion@12.38.0` in `personas`, identical in both.
+
+This is the coverage gap that is hardest to see, because the switch is present
+and honored. A vocabulary built only from transform and opacity is almost
+entirely covered by it — and "almost" is the whole problem, since the uncovered
+half is opacity, which for a one-shot gesture is the fallback anyway and for an
+infinite loop is a flashing element the preference exists to suppress.
+
+`ascent` maintains a wrapper for exactly this reason:
+`src/components/about/motionReveal.ts` single-sources the four-prop ternary that
+makes each element animating a non-positional value jump to its final state under
+the preference, "where one missed branch silently animates for reduced-motion
+users." Its header states the boundary and misstates two of its members — it
+lists `left` and `width` among the props the switch does not degrade, and both
+are in `positionalKeys`. The props it is right about are `pathLength`, `cx`/`cy`
+and `flexGrow`. The wrapper is therefore correct and slightly over-broad, which
+is the safe direction to be wrong in; the comment is the artifact to fix.
+
+## A second spelling of the SSR-safe reader, and a second reason for it
+
+`ascent`'s `src/components/ui/useReducedMotion.ts` reaches this document's two
+properties without `useSyncExternalStore`: it seeds state `false` "so the server
+render and the first client render agree (no hydration mismatch)", then corrects
+it in an effect and subscribes to the media query for later changes. Same two
+guarantees, and the same deliberate asymmetry in the initial guess.
+
+Its header adds a third reason to refuse the library's own hook, and it is not an
+accessibility reason at all:
+
+> Deliberately NOT framer-motion's hook of the same name: `<Defer>` is imported
+> by ordinary panels, and pulling framer into their chunk to read one media query
+> would undo the payload win deferring is there to buy.
+
+That is the technique's "the resolver belongs to no engine", discovered from the
+delivery-cost side. The preference is consumed by every panel that merely decides
+whether to defer something, and a reader shipped by the animation library makes
+each of those a consumer of the animation runtime.
+
+The same tree still calls `matchMedia` raw, per invocation, in
+`src/components/about-org/aboutOrgLoopMotion.ts:23-25`. Building the wrapper is
+the hard part and it is done; forbidding the raw reader is the part still owed —
+the same standing gap this document's enforcement section describes from the lint
+side.

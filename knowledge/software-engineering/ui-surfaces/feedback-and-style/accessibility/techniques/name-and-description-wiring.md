@@ -45,6 +45,35 @@ tooltip text) as fallbacks of last resort. Three practical consequences:
   owned by [field-composition](../../../input-and-editing/form/techniques/field-composition.md);
   this technique states the contract it implements.
 
+### The plumbing-free association buys one thing and spends another
+
+Most platforms offer a second way to associate a label with its
+control: let the labeling element *contain* the control, so the
+relationship is structural and needs no identifiers at all. It is a
+real improvement on hand-threaded references — nothing to generate,
+nothing to collide, and no way to leave a reference pointing at a label
+that was renamed or deleted — and for the **name** it is worth
+preferring.
+
+What it cannot do is *distinguish*. The name is computed from
+everything the labeling element contains, so a hint, an optional
+marker, a character budget or an error message placed inside it does
+not become a description; it becomes more name. The control that was
+"Company" becomes "Company Optional", and the moment validation fails,
+"Company Optional Required" — a name that rewrites itself under a user
+mid-task, and a voice-control target that no longer matches anything
+the interface displays. The label still reads correctly in every review,
+which is why this survives one.
+
+So the structural association carries the label and **only** the label.
+Everything the user is meant to hear after the name — hint, error,
+format rule — sits outside that element and is attached through the
+description chain, which means the primitive needs identifier plumbing
+for exactly those parts anyway. A field primitive that claims to have
+removed identifiers entirely has not simplified the contract; it has
+dropped the half that carries the *reason*, and the drop is invisible
+from the outside because the visible layout is unchanged.
+
 ## Every control has a name — the icon-button rule
 
 The largest single population of nameless controls in any product is
@@ -121,6 +150,33 @@ them is a recurring defect:
   actions being named with their row ("Delete, entry 14") is identity
   disambiguation, and essential the moment more than one "Delete"
   exists on screen.
+
+There is a third thing products render into a control's label slot, and
+it belongs to neither channel: a **transient outcome**. "Copied."
+"Saved." "Sent." — the result of the last activation, shown where the
+name normally lives, for a second or two. It is not state, because it
+describes something that already finished rather than a condition the
+control is in; and it is not identity, because the control still does
+the same thing it did before. Letting it compute the name forces a
+choice between two defects: a name that churns, so the control vanishes
+and a differently named one takes its place twice per use — or, if the
+name is pinned against the swap, a name that no longer matches the
+visible string, which is the divergence the label rule above exists to
+prevent.
+
+The exit is to stop treating the outcome as naming at all: **the name
+stays fixed and the outcome goes to the announcement channel**
+([live-region-architecture](./live-region-architecture.md)), where it is
+heard once, by everyone, without disturbing what the control is called.
+Pinning the name is then a deliberate act with a cost to accept — for
+the seconds the visible string reads "Copied", the spoken target is
+still the idle label — and it is the cheaper of the two, because the
+voice-control target stays stable and the outcome reaches the non-visual
+user at all. What is not acceptable is the half-move: pinning the name
+and *not* announcing. That makes the swap invisible to precisely the
+population it was feedback for, and it is the likelier outcome, because
+pinning the name is the step that shows up in a code review and
+announcing is the step that does not.
 
 The test that catches most wiring defects in one pass: walk the product
 with the tree inspector open and read *only* the computed names and

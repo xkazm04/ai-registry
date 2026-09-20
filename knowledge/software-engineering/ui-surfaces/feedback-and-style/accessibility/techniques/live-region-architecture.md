@@ -98,6 +98,52 @@ Queue policy:
   by it: cleared on teardown in tests, never orphaned to fire into a
   disposed environment.
 
+## Not everything that changes is news
+
+The shedding policy answers what to do with a backlog. It does not
+answer the prior question, and the prior question is the one that saves
+the channel: **should this stream be admitted at all?**
+
+A polite backlog is not discarded on the user's behalf. The grade means
+"wait your turn", and the implementations that matter honor it
+literally — they read what is queued, in order, however long that takes
+and however stale it has become by the time it is spoken. So a surface
+that emits one message per arriving item, over a run of unknown length,
+does not produce a busy channel. It produces a channel the user cannot
+use for anything else until the transcript finishes, which can be
+minutes after the work ended, while every other thing the product needs
+to say queues behind it. Shedding inside the provider bounds that
+damage; it does not make the stream worth hearing, and every message
+shed was generated for nothing.
+
+The admission test asks for the *user's* unit of news, not the
+product's unit of change:
+
+- **A continuously-updating ambient display is not an announcement.** A
+  running tally, a ticker of arrivals, a readout that moves every few
+  hundred milliseconds — these are things a user *consults*, not things
+  they are told. They are served by being findable and readable on
+  demand: a real accessible name on the container, with the current
+  count inside that name, so element navigation reaches it and says how
+  much is there before the user commits to reading it. Nothing is lost
+  in the trade, because nothing was usefully reaching the user anyway.
+- **The transition is the news; the increment is not.** The run
+  started, the run finished, the run finished with three failures. One
+  settled summary at the boundary says what the whole stream was
+  reaching for, and says it with the context that no single row had.
+- **Throttling is the wrong repair.** Rate-limiting a stream that
+  should not be announced keeps the same content, delivers an arbitrary
+  sample of it, and leaves the user holding a partial transcript they
+  cannot tell is partial.
+
+The consequence for how this work is reviewed: **removing a live region
+is a legitimate accessibility fix**, and it is the one fix in this area
+whose diff looks exactly like a regression. It is recorded as a decision
+— what the stream was, what a reader does with a backlog of it, and
+where the news went instead — or the next sweep for surfaces that do not
+announce puts it back
+([assistive-tech-divergence](./assistive-tech-divergence.md)).
+
 ## Deliberate re-announcement: the keyed remount
 
 Semantics #3 — an unchanged string is not a mutation — collides with a
@@ -111,6 +157,36 @@ across separate frames. The mechanism matters less than its location:
 call sites say "announce" and the provider guarantees "will be voiced",
 including for repeats. A call site that must know about remount tricks
 to be heard is an architecture leak.
+
+The two mechanisms are not equals, and the difference is the most
+expensive thing here to learn twice. A keyed remount is **one** write:
+the region's content node is replaced, the platform sees a structural
+change, and there is no intermediate state for anything to lose.
+Clear-then-set is **two**, and it works only if the empty state actually
+reaches the document between them. Every declarative rendering layer
+worth using coalesces the writes issued inside one task into a single
+commit — that is its performance contract, not a defect — so an
+announcer that clears and writes in one breath produces exactly one
+mutation, straight from the old text to the new. When the two texts
+differ that still voices, and the flaw hides. When they are equal — the
+repeat the mechanism exists to defeat — the region never changed and
+the utterance is lost, so **the failure appears only in the case the
+feature was built for**, which is why it survives review and its own
+test suite.
+
+The rule for the clear-then-set variant is therefore stronger than
+"clear first": the clear must *land* before the write is issued, across
+a scheduling boundary the rendering layer cannot collapse, not merely
+two statements in order. Deferring inside the same task is not enough.
+The interval only has to outlast one commit, and it is charged to the
+clear rather than to the serial gap between utterances, so the cadence a
+listener hears does not change. Where that boundary is awkward to
+guarantee, prefer the remount — a single write has nothing to coalesce.
+
+The probe that distinguishes them is one line longer than the one most
+suites have: announce the *same text twice in a row* and assert two
+utterances. A burst of distinct messages passes on both implementations
+and on the broken one.
 
 The mirror-image discipline: **announce transitions, not renders.** The
 provider is written into on *events* (something happened), never from

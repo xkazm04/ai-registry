@@ -6,7 +6,7 @@ technique: unmeasurable-criteria
 status: forged
 laws: [gate-sees-target, failure-not-empty-success, absent-guard-is-loud]
 shared_with: []
-use_when: [a policy condition has no data to evaluate, deciding whether missing evidence blocks or skips, a gate reports a verdict over a partly failed assessment, a guard sits in the path of the work rather than beside it, deciding what a check does when its own runtime is missing]
+use_when: [a policy condition has no data to evaluate, deciding whether missing evidence blocks or skips, a gate reports a verdict over a partly failed assessment, a guard sits in the path of the work rather than beside it, deciding what a check does when its own runtime is missing, a surface advertises a bar whose input it can never read, a condition skipped on every run a surface has ever served]
 ---
 
 # Unmeasurable criteria
@@ -95,6 +95,52 @@ it. Three rules keep it honest:
   skip decision belongs to the shared evaluator; a second evaluator that
   omits an input silently converts that condition into a skip for
   everything it judges.
+
+### When the skip belongs to the surface, not to the run
+
+All three rules above assume the skip is a property of *this run*: this time
+the value was missing. There is a second shape, and the diagnosis rule
+mis-handles it. Some conditions are unevaluable on a given surface **by
+construction** — the entry point carries no credential, on purpose, because
+it is reachable by anyone, and the condition's input can only be read with
+one. The skip rate for that condition on that surface is not high; it is
+total, it was total on the first call, and it will stay total. "Fix the
+instrument or the access" is the wrong remedy, because the missing access is
+the surface's whole design.
+
+Three obligations replace it.
+
+- **The surface declares the condition unevaluable here, per condition, in
+  the same vocabulary as a run-time skip.** A verdict that echoes the active
+  policy — the bar, its threshold, its flag set true — beside a pass that
+  never read the input is asserting a bar the verdict never tested, and a
+  reader is entitled to believe it. Either the echo carries the skip, or the
+  condition does not appear in the echo at all.
+- **Whether it is a skip or a refusal depends on who asked for it.** A
+  condition that is in the policy but that this caller did not request, on a
+  surface that is not the enforcing one, is an announced skip and the verdict
+  stands. A condition the **caller explicitly asked for**, on a surface that
+  can never evaluate it, is a request this entry point cannot answer: return a
+  non-success outcome, because a caller who asked for the bar and received a
+  success-shaped answer has been told the bar held
+  ([unknown-is-not-a-value](../../../../_laws.md#unknown-is-not-a-value)).
+  Automated consumers make this sharp — a client that treats any success as a
+  pass will proceed on exactly the bar it named.
+- **The skip names the surface that does enforce it.** "Not measurable here"
+  alone invites the reading that nothing enforces it anywhere; naming the
+  authenticated check that does turns a hole into a routing instruction
+  ([refusal-names-a-reachable-remedy](./refusal-names-a-reachable-remedy.md)).
+
+Measured, in one governance service: a public verdict endpoint scanned
+without credentials by construction, so three of its advertised bars —
+branch protection, a minimum governed-change rate, and authorship — were
+unconditionally skipped on every call it had ever served, while the body
+answered pass with the branch-protection flag echoed as set. A typed skip
+list rendered on all five surfaces, plus a structural test keyed on the skip
+vocabulary, closed it; as of 2026-09-20 an explicitly requested unmeasurable
+bar returns a non-success status so a fail-fast client cannot merge on it,
+while policy-only skips stay a success carrying the skip list and naming the
+authenticated check as the enforcing surface.
 
 ## Where the gate stands changes the direction
 

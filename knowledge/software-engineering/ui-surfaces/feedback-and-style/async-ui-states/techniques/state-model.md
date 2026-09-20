@@ -52,6 +52,38 @@ The ordering *is* the content of the model:
   distinction in instrumentation if the difference matters operationally, but
   never in the rendering.
 
+## The region that never asks
+
+That last rule has a boundary, and it is not cosmetic. A region can be
+unstarted for two different reasons: the request has not gone out *yet*, or
+the request is **not going out at all**, because the surface already holds
+facts that decide the answer — a prerequisite is unmet, so the region cannot
+produce content and the surface knows it before asking. The first is loading.
+The second is settled: settled by a fact rather than by a response. Rendering
+it as loading puts a placeholder over a question that has already been
+answered, and nothing ever resolves it.
+
+The model absorbs this with one input upstream of the other four:
+
+```
+shouldAsk = f(prerequisite facts the surface already holds)
+```
+
+evaluated before the request machinery is engaged. When it is false the
+region goes straight to its settled rendering — the cause-typed empty state
+that names the unmet link — and `inFlight`, `error` and the sticky bit stay
+untouched for as long as the chain stays broken. The consequence is worth
+stating as a property rather than as a convenience: **`error` can then only
+describe a request that actually ran**, so the `FAILED -> SETTLED-EMPTY`
+confusion below is not guarded against — it is unreachable, because the two
+states no longer share a way of arising.
+
+The prerequisite facts must be genuinely held, not guessed. A `shouldAsk`
+computed from an assumption — nothing cached, therefore presumably nothing
+exists — is the empty flash again with the guard moved somewhere harder to
+find. The design-side rules for what such a state says are
+[empty-state-design](./empty-state-design.md).
+
 ## The sticky settled bit
 
 `settled` is the guard that makes the empty-flash structurally impossible
@@ -110,6 +142,7 @@ ship by accident, and each is a named defect:
 | anything `-> SETTLED-EMPTY` while unsettled | the empty flash — a false "nothing here" for one round-trip |
 | `FAILED -> SETTLED-EMPTY` | failure dressed as empty success — the surface lies about what it knows |
 | `SETTLED-DATA -> FAILED` on refresh failure | held data discarded because an update failed |
+| `LOADING` for a region whose request will never be issued | an eternal placeholder over a question the surface has already answered |
 | chrome unmounting on any edge | the surface forgetting what it is |
 | keeping rendered content across an *identifying* key change | one subject's data answering another subject's question |
 

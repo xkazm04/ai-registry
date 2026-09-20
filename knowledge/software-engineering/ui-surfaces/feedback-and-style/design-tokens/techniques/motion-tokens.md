@@ -6,7 +6,7 @@ technique: motion-tokens
 status: forged
 laws:
   - one-authority-per-vocabulary
-use_when: [picking which duration step a change belongs to, naming easings by role instead of curve shape, reduced-motion honoring keeps getting missed]
+use_when: [picking which duration step a change belongs to, naming easings by role instead of curve shape, reduced-motion honoring keeps getting missed, reduced-motion is honored by a hand-maintained list of animations]
 ---
 
 # Motion tokens
@@ -74,6 +74,23 @@ honoring strategy determines the cost:
   itself: travel-heavy durations collapse to near-zero, expressive easings
   flatten, and every consumer of the vocabulary complies without knowing it.
   One door, all writers through it.
+
+"One door" is necessary and not sufficient: the door has a polarity, and only
+one of the two is closed. An honoring block that **enumerates the animations
+to switch off** is a deny-list of remembered motion — correct on the day it is
+written, silently short by one member the next time anyone adds an animation,
+and short in favour of playing it. The omission is invisible: the new motion
+looks right to its author, who is not the user the block exists for, and no
+run fails. The other polarity is a membership property of the vocabulary
+itself — motion is declared *through* the ladder and the preference rebinds
+the ladder, so a new animation inherits compliance without its author
+knowing the preference exists. Same deny-list-versus-allow-list distinction
+the enforcement technique draws for raw values
+([token-enforcement](./token-enforcement.md)), on the motion axis. Where a
+platform admits only the enumerated form, the enumeration is generated from
+the vocabulary or gated against it, and what is hand-maintained is the list of
+*exceptions* — the motion deliberately kept, each with its reason beside it —
+never the list of members.
 
 The near-zero matters: collapsing durations to *exactly* zero breaks
 consumers that await a transition's completion event (it may never fire when

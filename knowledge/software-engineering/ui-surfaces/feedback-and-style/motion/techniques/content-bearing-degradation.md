@@ -85,6 +85,59 @@ of motion is being made to wait for content that is already computed. The
 resolved render collapses the stagger to zero and paints the whole set on
 the first frame.
 
+## The start state is a fourth failure shape
+
+The three shapes above are gestures whose *frames* carried the payload. There is
+a fourth, and it does not fail the litmus so much as walk around it: a gesture
+the litmus correctly calls **decorative** can still leave a surface blank,
+because what strands the reader is not a frame of the gesture but the state the
+gesture was going to start *from*.
+
+A reveal that fades content up from nothing has two halves, and they usually
+live in different places. Something hides the content — a starting opacity, an
+initial transform, a pre-entrance class — and something else lifts it: a
+viewport observer, a mount-time effect, a timer. Both halves normally run, so
+the pair is invisible and nobody asks what happens when only the first one does.
+For a surface assembled before its behaviour arrives, the answer is: the hidden
+state, permanently, with nothing left anywhere in the document that could clear
+it. Every path where the lifting half is absent — scripting off or blocked, an
+indexer that does not execute it, behaviour that failed to attach, a capability
+the surface assumed it had — renders content-shaped emptiness. The gesture was
+decoration. Its start state was a deletion, and it deleted everything the
+gesture wrapped rather than anything the gesture was showing.
+
+The rule is a placement rule, and it costs nothing:
+
+- **The pre-play state is installed by the thing that can clear it, and not
+  before.** Whatever hides the content is put in place by the same layer that
+  owns the mechanism to reveal it, at the moment that mechanism demonstrably
+  exists — never baked into what is served, and never written by a renderer that
+  runs in environments the revealer does not reach. The corollary is that an
+  engine is chosen partly on what it *emits while doing nothing*: an engine that
+  serializes a gesture's opening values into the delivered document has put the
+  deletion where no later code can find it, and one that carries the start state
+  in a class added after arming has not (the ownership frame is
+  [engine-selection](./engine-selection.md)).
+- **What is served is the settled state.** The document a reader receives before
+  any gesture can run shows the gesture's end: the content visible, the figure at
+  its real value, the build-up assembled. That is the same answer this technique
+  gives everywhere else, arrived at from the other side — and it means a
+  progress-driven surface serves its run as *finished*, not as frame zero waiting
+  for a playhead that may never start.
+- **A missing mechanism degrades to revealed, never to armed.** Where the
+  revealing mechanism is optional — an observer the environment may not provide,
+  a capability that may be refused — the branch that notices renders the content
+  revealed. Arming a start state and then discovering there is nothing to
+  disarm it is the one outcome with no reader.
+
+This is also one of the very few motion contracts an automated suite can
+genuinely hold, because the assertion is about delivered markup rather than
+about animation. Render the surface the way it is served, then assert that the
+content is present and that no hidden start state — no opening opacity, no
+pre-entrance class — appears in the output. A suite cannot easily prove a
+gesture played; it can trivially prove that what ships to a reader who never
+sees it play still says something.
+
 ## Freeze on the most explanatory frame
 
 Some content-bearing gestures have no end state, because they cycle. A

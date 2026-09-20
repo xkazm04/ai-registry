@@ -86,6 +86,47 @@ independent answers are exactly the defects that read as sloppiness: scroll
 jumping to the top when the user only turned a page, a page number surviving a
 new search, stale results sitting under a fresh query.
 
+## The keys that outrank the surface
+
+The classification above assumes every component of the key belongs to the
+surface. Under a shell — several surfaces sharing one navigation and one
+query string or stored context — some of them do not. A selected time period,
+a tenant or fleet scope, an audience segment: these are **session-scoped**.
+The user chose them once, deliberately, expecting to carry them from surface
+to surface, and they sit in the same compound key as the surface's own
+selection and paging.
+
+For those components the reset rule inverts. Moving to a different surface is
+an identifying change, and it resets the surface's own selection and its
+windowing coordinates — and must leave the session-scoped ones exactly where
+they were. Clearing them is not a conservative default. It destroys a choice
+the user made and did not re-make, and the loss is invisible at the moment it
+happens — the new surface simply shows a different period — so it is
+diagnosed as the product being forgetful rather than as a reset someone
+wrote.
+
+The discriminator has the same shape as the one above, asked about ownership
+rather than truth:
+
+> After this change, is this coordinate still **the user's answer to a
+> question the new surface also asks**?
+
+A period and a scope filter are; a row selection, a search term, a drill-in
+id and a cursor are not. Note that this is a third question, not a third
+value of the first one: a date range that defines the dataset is
+*identifying* for a given surface and may still be *session-scoped* across
+surfaces, and both facts are true at once.
+
+The practical consequence is about how the declaration is written. **A reset
+list is a statement in both directions, so name the survivors beside the
+reset keys with the reason each one survives.** A coordinate omitted from the
+list is indistinguishable from a coordinate nobody thought about, while a
+coordinate wrongly added to it silently resets session state on every
+navigation — an asymmetry that makes the omission the cheaper failure and the
+addition the expensive one. The list is the single canonical site, and it
+earns a test that pins the exact set, so that adding a coordinate later is a
+reviewed decision rather than a silent inheritance by the next surface.
+
 ## Where to declare it: the input, not the payload
 
 There are two places the classification can live, and they are not equivalent.
@@ -180,6 +221,10 @@ reaching for.
 - Reset the sticky `settled` bit, scroll position, the choreography seen-set
   and the windowing coordinates on identifying changes only, and never reset
   identifying coordinates from a windowing change.
+- Ask separately which coordinates belong to the surface and which to the
+  session; an identifying change resets only the first. Declare the
+  survivors, with their reasons, beside the keys the change clears, and pin
+  the set.
 - Declare the axis on the input by deferring the windowing coordinates, not on
   the payload by a predicate over the previous response; defer primitives, and
   never the whole key object.

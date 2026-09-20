@@ -51,6 +51,23 @@ settling.
   inside the delay and the user never sees a placeholder — the fastest
   loading state is the one that never renders. Without the delay, every warm
   path flashes.
+
+  **The delay survives reduced motion; the fade does not.** It is tempting to
+  collapse the whole entrance under the motion preference, and that is the
+  wrong cut: the fade is decoration and goes, but the delay is *anti-flash* —
+  it exists so a warm load paints no placeholder at all, and removing it hands
+  the reduced-motion user the flicker everyone else was spared. State the two
+  halves separately, so the preference can take one without the other.
+
+  The cheapest correct spelling is also the most robust: express the delay as a
+  deferred entrance with backwards fill rather than as a timer that gates
+  rendering. The placeholder is in the tree from the start and simply invisible
+  for the window, which costs no timer, no scheduling state and no teardown
+  path, and under the motion preference only the visible half of the animation
+  is swapped out while the delay stays where it is. Whichever spelling is used,
+  the delay is a single named constant: the same number spelled once in
+  behaviour and once in presentation is a pair that drifts, and a test pinning
+  only the copy it can reach certifies the half that was already correct.
 - **A spinner is not a table loading state.** A centered spinner carries no
   shape information, recenters the layout twice (appearing and vanishing),
   and reads as the *surface* being absent rather than the *data* being in
@@ -132,5 +149,6 @@ craft instead of noise:
 2. A placeholder never covers rendered rows.
 3. Empty is never asserted before the first settle.
 4. Error never wears the empty state's clothes.
-5. A placeholder never appears on a warm load (delay it).
+5. A placeholder never appears on a warm load (delay it) — and the motion
+   preference removes the fade, never the delay.
 6. Entrance animation never replays for a row that merely moved.
