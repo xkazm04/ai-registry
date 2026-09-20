@@ -11417,3 +11417,42 @@ sibling.
 No version bump. Nothing in `SKILL.md` changed and a run that loaded 2.11.1
 should finish on it. The interleaving lesson is the one worth adopting mid-run,
 by any sibling about to report a fleet-wide paired number.
+
+## 2.12.0 - 2026-09-20 - cinematic-ai-video (operator rule: the gate withholds the landing, not the look)
+
+**Operator rule, given after the run shipped**: *every media-generation intake
+ends in a comparison the operator can evaluate* - before/after when the corpus
+already says something, two variants of the path when the finding is new - and
+a number is not a substitute for the artifact.
+
+What earned it: the run rendered four clips, scored the pair at 0.51x against a
+1.5 floor, recorded the refusal, **deleted the renders, and reported a
+statistic**. Every individual step was what 2.11.1 prescribed, and the result
+was that the one judgement this phase explicitly reserves for the operator was
+made by a ratio, and the evidence for it was destroyed. The operator's summary
+of the defect is the rule: *we have data saying the improvement - can we also
+have a real example to evaluate?*
+
+- **The gate decides the LANDING, never the look.** A refused ratio is a reason
+  to withhold the technique, not the frames. `render-triage.mjs` already carried
+  `--allow-indistinct`; the method forbade what the instrument supported, which
+  is the cheapest kind of defect to have missed and the easiest to repeat.
+- **Show the ratio beside the pair rather than instead of it.** `sheet` now
+  prints `discrimination Nx (between, within; floor)` on every pair and labels a
+  refused one *"below the floor: this pair may not author a landing. Shown so you
+  can disagree with the measurement, not so it can be cited."* The operator is
+  the only instrument that can overrule the ratio and they cannot overrule a
+  number nobody showed them.
+- **When two seeds disagree, show both seeds - the disagreement IS the finding.**
+  This pair scored 0.89x at one seed and 0.12x at the other. Presenting only the
+  aggregate hides the single most informative fact about it.
+- **Clean after the OPERATOR's verdict, not the gate's.** A refused ratio no
+  longer authorizes a delete. Deleting closed the only appeal, and the re-render
+  cost six minutes that should never have been spent - which is also the
+  consolation: the stack is deterministic, and the re-render reproduced 20.62 /
+  2.89 / 23.21 exactly, so nothing was lost but time.
+
+Version bumped 2.11.1 -> 2.12.0 (Phase 6b's contract changed). A mid-flight run
+on 2.11.1 should finish on it, but if it is holding rendered frames and a
+refused ratio, **do not delete them** - that one line is worth adopting
+immediately.

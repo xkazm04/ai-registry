@@ -3,7 +3,7 @@ name: intake
 description: "Mine an external source - a YouTube video, a news roundup, an article, pasted notes, a repository - for what it should change in THIS registry, and in the connected projects that consume it. Ingests the source, reads its design decisions as well as its claims, maps both against existing bundles for prior art, triages with the operator, and lands what survives corroboration - amendments for boundary cases, techniques and subjects for mechanisms, forge handoffs for systems whose architecture the corpus lacks. News sources mostly yield currency signals and leads; that is a successful run. Use when someone shares a link and asks what it means for us."
 category: ai-native
 memory: project
-version: 2.11.1
+version: 2.12.0
 tags: research, sources, memory-lane, admission-gate, render-proof, triage, currency, cross-repo, leads, apply, ab-test, parallel, reference-index, design-read, forge-handoff, directions, fleet-map, peer-study, opus-workers, decision-gate
 ---
 
@@ -1089,12 +1089,23 @@ Five rules hold without exception:
   `verdict.json`. Generated video is not a presentation; engine screenshots are opt-in. Two 3D
   runs in a row lost their pair to the subject - a proxy hand, then a fused mesh - after the
   pass that built the rig had reported it fine.
-- **Arms are approaches, and they are discriminable before the operator looks.** Render the
-  same approach at a second seed; the arms must differ from each other by at least 1.5x
-  that seed noise, recorded as the pair's `discrimination`, or `render-triage.mjs sheet`
-  refuses the pair. A knob the rest of the pipeline drowns out yields two runs of one
-  process, a wasted look, and a tie that reads like evidence. The first run under this
-  phase made that mistake twice before the operator named it.
+- **Arms are approaches, and their discrimination is measured before the operator looks.**
+  Render the same approach at a second seed; the arms must differ from each other by at
+  least 1.5x that seed noise, recorded as the pair's `discrimination`. Below that ratio the
+  pair **may not author a landing** - a knob the rest of the pipeline drowns out yields two
+  runs of one process and a tie that reads like evidence. The first run under this phase
+  made that mistake twice before the operator named it.
+- **But the gate decides the LANDING, never the look (v2.12; operator rule, 2026-09-20).**
+  A refused ratio is a reason to withhold the technique, not to withhold the artifact. Every
+  media-generation intake **ends in a comparison the operator can open** - before/after when
+  the corpus already says something, or two variants of the path when the finding is new -
+  and it is presented with its `discrimination` printed beside it rather than suppressed by
+  it. The operator is the one instrument that can overrule the ratio, and they cannot
+  overrule what they were never shown. A run that reports a number and deletes the frames
+  has asked the operator to take its word, which is the one thing this phase exists to
+  prevent. Where the gate refused, say so on the sheet and show it anyway; where the two
+  seeds disagree with each other, show **both** seeds, because that disagreement is the
+  finding.
 - **No local instrument, no landing.** If no renderer on this machine can produce the
   output, the candidate lands as a lead whose return condition names the instrument
   (the model, the node, the GPU budget). It never becomes a technique carried by a
@@ -1103,9 +1114,13 @@ Five rules hold without exception:
   a crash, a black clip or a wrong anchor, and labels that read as opinion in the note.
   The operator's pick is the verdict: the question is whether the output is *better*, and
   every automated instrument these bundles hold is calibrated for *consistent*.
-- **Clean after the verdict, never before, never by sweep.** Every output the run submits
-  carries the run id as its `filename_prefix`, every staged input starts with it, and
-  `clean` refuses without `verdict.json`. The byte count goes in the source note.
+- **Clean after the OPERATOR's verdict, never after the gate's (v2.12).** Every output the
+  run submits carries the run id as its `filename_prefix`, every staged input starts with
+  it, and `clean` refuses without `verdict.json`. A refused discrimination ratio does not
+  authorize a delete: the frames are what the operator would need in order to disagree with
+  the ratio, and a run that deletes them has closed the only appeal. Keep the sheet and the
+  clips until the operator has looked or has said not to; then clean by run id, and put the
+  byte count in the source note.
 
 ### Phase 7 - Land what survived
 
@@ -1792,6 +1807,11 @@ corroboration behind it.
 - **Grading your own render proof, or deleting renders before the verdict.** The first
   launders the director's preference into the corpus; the second throws away the only
   thing the render was for.
+- **Letting the discrimination gate end the run (v2.12).** A refused ratio withholds the
+  landing, not the artifact. A media-generation intake that reports a number and shows the
+  operator nothing has asked them to take its word for the one judgment the method reserves
+  for them - and where the ratio was refused *because* the seeds disagree, that
+  disagreement is exactly what they should be looking at.
 - **Choosing the seam that flatters the finding.** Where two seams exist, the one that
   could falsify it is the one that returns something the landing did not already say.
 - **Reporting `unmeasurable` without naming the instrument** that would have measured

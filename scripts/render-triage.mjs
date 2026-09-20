@@ -142,7 +142,19 @@ export function sheet(dir, { allowIndistinct = false } = {}) {
       key.pairs[pair.id][label] = arm;
       return `<figure><figcaption>${label}</figcaption>${mediaTag(neutral)}</figure>`;
     });
-    sections.push(`<section><h2>${esc(pair.id)}</h2><p class="brief">${esc(pair.brief || '')}</p><div class="row">${cells.join('')}</div></section>`);
+    // The ratio travels WITH the pair, and a refused one is labelled rather than hidden.
+    // The gate decides whether a pair may author a landing; it does not decide whether the
+    // operator may look, and they cannot overrule a number they were never shown.
+    const why = indistinct(pair);
+    const d = pair.discrimination;
+    const ratio = d && d.within ? (d.between / d.within) : null;
+    const band = ratio === null ? ''
+      : `<p class="disc${why ? ' refused' : ''}">discrimination ${ratio.toFixed(2)}x `
+        + `(between ${d.between}, within ${d.within}; floor ${DISCRIMINATION_RATIO}x)`
+        + (why ? ' &mdash; <b>below the floor: this pair may not author a landing.</b> '
+              + 'Shown so you can disagree with the measurement, not so it can be cited.' : '')
+        + '</p>';
+    sections.push(`<section><h2>${esc(pair.id)}</h2><p class="brief">${esc(pair.brief || '')}</p>${band}<div class="row">${cells.join('')}</div></section>`);
   }
   const showcase = (manifest.showcase || []).map((s) => {
     const src = path.join(dir, s.file);
@@ -154,7 +166,8 @@ export function sheet(dir, { allowIndistinct = false } = {}) {
   const html = `<!doctype html><meta charset="utf-8"><title>Render triage - ${esc(manifest.run)}</title>
 <style>body{font:15px system-ui;margin:0;padding:16px;background:#111;color:#eee}h1{font-size:20px}section{margin:24px 0}
 .row{display:flex;gap:12px;flex-wrap:wrap}figure{margin:0;flex:1 1 420px}figcaption{font-weight:700;font-size:22px;margin:4px 0}
-video,img{width:100%;border-radius:6px;background:#000}.brief,.q{color:#bbb;max-width:70ch}</style>
+video,img{width:100%;border-radius:6px;background:#000}.brief,.q{color:#bbb;max-width:70ch}
+.disc{color:#8a8;font-size:13px;max-width:70ch}.disc.refused{color:#d99}</style>
 <h1>Render triage: ${esc(manifest.run)}</h1><p class="q">${esc(manifest.question || 'Which output is better?')}</p>
 <p class="q">Arms are shuffled per pair. Answer with the letter, "tie", or "neither".</p>
 ${sections.join('\n')}
