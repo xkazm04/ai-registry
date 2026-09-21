@@ -545,17 +545,19 @@
         "personas@plugin:1.0.0"
       ],
       "invokes30d": 6,
-      "lessons": 21,
+      "lessons": 22,
       "lessonsPath": "skills/spark/LESSONS.md",
-      "lessonsHash": "sha256-n1:1d1bfd21d66a1456",
+      "lessonsHash": "sha256-n1:d1fb12fdb4ebf243",
       "usageContributors": [
         "kazda-dev-box"
       ],
-      "runs30d": 0,
-      "outcomes30d": {},
-      "difficulty30d": null,
-      "tokensMedian30d": null,
-      "tokensBasis30d": null
+      "runs30d": 1,
+      "outcomes30d": {
+        "partial": 1
+      },
+      "difficulty30d": 3,
+      "tokensMedian30d": 125000,
+      "tokensBasis30d": "estimate"
     },
     {
       "name": "straighten",
@@ -802,7 +804,7 @@
     "skills": 31,
     "practices": 8,
     "memory": 6,
-    "lessons": 184
+    "lessons": 185
   },
   "bundles": [
     {
