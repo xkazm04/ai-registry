@@ -3,6 +3,35 @@
 Append-only, newest first. One block per run, headed with the version the run **used** -
 not the bump it argues for - then the date and the project, then concise bullets.
 
+## 0.1.0 - 2026-09-21 - ai-registry
+
+**Authoring run again** - the scenario/envelope change (0.2.0) was built and gated, never
+driven against a real subject. These are observations from building it.
+
+- **An "optional, additive" field is a claim until a golden fixture pins the other case.**
+  `buildResult` composing `scenarios: []` and an empty `envelope` unconditionally would
+  have changed every result document the contract has ever produced, while every existing
+  test still passed - they all assert about keys they name, and none of them asserts about
+  keys they do not. The fixture `tests/fixtures/result-no-scenarios.json` is the cheap
+  thing that makes "additive" testable: absent, not empty, because an empty envelope is a
+  claim that the branches were considered.
+- **The judge may not own the scope.** The scenario scopes are read from the product's
+  exported `state.json` and a member's self-written `scope` is ignored, because a judge
+  that can also decide which branches count can always pass by narrowing the question. The
+  member keeps the one power it needs - proposing a branch it discovered - and that lands
+  as `proposed`, which moves nothing.
+- **The proof ladder is recorded and not gated, deliberately.** Refusing to bucket a
+  `simulated` must-hold branch as `holds` was tempting and would have made the instrument
+  decide what counts as evidence. It says so in the member's summary instead. This is the
+  first rule in the method a second implementation could plausibly "improve" into a gate,
+  so the rule order in `references/result-schema.md` states it as a rule rather than an
+  omission.
+- **A brief that says "at or above floor, or for tracked >= 0.5" is two rules.** A
+  `tracked` branch carrying an explicit floor is the ambiguous case; it buckets at a flat
+  0.5 here, and that is written down rather than inferred, because a port reading the same
+  sentence would otherwise pick the other reading and disagree only on the rows nobody
+  tests.
+
 ## 0.1.0 - 2026-09-20 - ai-registry
 
 **Authoring run, not a field run.** The method has not yet been driven against a real

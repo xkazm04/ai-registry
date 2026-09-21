@@ -62,6 +62,29 @@ measure", and those lead to opposite actions.
     }
   ],
 
+  // OPTIONAL, and optional TOGETHER with "envelope". Only a use_case subject may carry
+  // them. Absent = no scenarios were measured; an EMPTY envelope would be a claim.
+  "scenarios": [
+    {
+      "slug": "marketing-candidate",
+      "title": "Marketing candidates",
+      "axes": { "domain": "marketing" },        // flat object, string -> string
+      "state": "measured" | "unmeasured",
+      "score": 0.0 | null,                      // null unless measured - never 0
+      "confidence": "low" | "med" | "high",
+      "n": 4 | null,                            // runs or turns the score rests on
+      "proof": "observed" | "replayed" | "simulated" | "claimed",
+      "summary": "<one sentence>"
+    }
+  ],
+  "envelope": {
+    "holds":        ["<slug>"],   // measured in scope, at or above the bucket floor
+    "weak":         ["<slug>"],   // measured in scope, below it
+    "unmeasured":   ["<slug>"],   // in scope, nobody looked
+    "out_of_scope": ["<slug>"],
+    "proposed":     ["<slug>"]    // declared proposed, or discovered by the value member
+  },
+
   "overall": 0.0 | null,                // null when nothing was measured
   "coverage": 0.0,
   "outcome": "ready" | "fail" | "incomplete" | "stalled",
@@ -83,15 +106,64 @@ coverage = sum(weight)          over measured or carried
 second, which is exactly how "we could not tell" lowers confidence in the result instead
 of lowering the result.
 
+## Scenarios - the envelope, and the rule order a port must mirror
+
+An approval that says nothing about branches is a stamp. With scenarios it is an envelope:
+*holds for IT and engineering, weak for marketing, never measured for HR.*
+
+The DECLARED scenarios come from the product, at `<repo>/.personas/council/state.json`:
+
+```jsonc
+{ "scenarios": [ { "subject_slug": "<slug>", "slug": "<slug>", "title": "<human title>",
+                   "axes": { "<axis>": "<value>" },
+                   "scope": "proposed" | "must_hold" | "tracked" | "out_of_scope",
+                   "floor": 0.6 | null } ] }
+```
+
+Its absence is tolerated at every level. The value member REPORTS scenarios; the product
+DECLARES their scope. `scripts/lib/aggregate.mjs` `aggregateScenarios()` folds the two, and
+its rule order is the contract - a consumer in another language mirrors it literally:
+
+1. Index declared and reported rows by `slug`; a duplicate is a problem, not an overwrite.
+2. The set is every declared slug in declared order, then every reported slug that was not
+   declared, in reported order. An undeclared report is **discovered** and reads as
+   `proposed`.
+3. `scope` comes from the declaration only; unknown or missing reads as `proposed`. **A
+   member may propose a branch and may never promote one.**
+4. `state` is `measured` only with a numeric score; otherwise `unmeasured` and `score` is
+   `null`. Never `0` - the same absent-value rule dimensions have.
+5. `floor` = the declared floor when numeric, else **0.5**.
+6. `floor_hit` = scope `must_hold` AND `measured` AND `score < floor`. `tracked` never hits
+   a floor; `proposed` and `out_of_scope` never compute one.
+7. `advisory` = `floor_hit` AND `trust_state != "trusted"` - a scenario score is a judged
+   opinion, so it inherits the judged asymmetry.
+8. Envelope buckets, one scenario in exactly one: `proposed` scope -> `proposed`;
+   `out_of_scope` scope -> `out_of_scope`; in scope and unmeasured -> `unmeasured`;
+   in scope and measured -> `holds` when `score >= bucket floor`, else `weak`. The bucket
+   floor is the scenario's floor for `must_hold` and a flat 0.5 for `tracked`.
+9. Every `floor_hit`, advisory or binding, adds one `must_address` line:
+   `Scenario <title> is below its floor (<score> < <floor>)`.
+10. The proof ladder is **recorded and not enforced**. "This branch is only simulated"
+    belongs in the scenario's `summary`, where a person reads it; making it a gate would be
+    the instrument deciding what counts as evidence.
+
 ## The outcome, in order
 
 1. `round_no > 3` -> **`stalled`**. The round cap is a refusal to run, read before anything
    the round produced.
 2. any `hard_failures` -> **`fail`**.
-3. any floor hit with `advisory: false` -> **`fail`**.
-4. `coverage < 0.60` -> **`incomplete`**.
-5. `trust_state == "trusted"` and (`overall` is null or `< 0.70`) -> **`fail`**.
-6. otherwise -> **`ready`**.
+3. any dimension floor hit with `advisory: false` -> **`fail`**.
+4. any **scenario** floor hit with `advisory: false` -> **`fail`**. A perfect mean over a
+   must-hold branch on the floor is the failure the per-scenario view exists to stop.
+5. `coverage < 0.60` -> **`incomplete`**.
+6. `trust_state == "trusted"` and (`overall` is null or `< 0.70`) -> **`fail`**.
+7. otherwise -> **`ready`**.
+
+Steps 3 and 4 both produce `fail`, so their relative order cannot change an outcome; it is
+fixed anyway so two implementations report the same reason for the same document. A
+scenario floor hit never touches `overall` or `coverage`: it is a branch of the value
+dimension, not a dimension of its own, and counting it twice would be the defect the
+bounded-member rule exists to prevent.
 
 `advisory` is `true` exactly when a dimension whose rubric `kind` is not `mechanical` hits
 its floor while `trust_state != "trusted"`. Mechanical floors are measurements and bind at

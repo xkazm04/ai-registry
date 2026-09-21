@@ -153,16 +153,16 @@
     },
     {
       "name": "council",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "category": "workflow",
       "path": "skills/council/SKILL.md",
-      "contentHash": "sha256-n1:f12ce7dcac795075",
+      "contentHash": "sha256-n1:7c059a31a0b06017",
       "adopters": [],
       "invokes30d": 0,
       "reportedInvokes": 0,
-      "lessons": 1,
+      "lessons": 2,
       "lessonsPath": "skills/council/LESSONS.md",
-      "lessonsHash": "sha256-n1:ededac75bd22bfc4",
+      "lessonsHash": "sha256-n1:27a5fd8b43c69bcc",
       "usageContributors": []
     },
     {
@@ -758,7 +758,7 @@
     "skills": 35,
     "practices": 8,
     "memory": 6,
-    "lessons": 242
+    "lessons": 243
   },
   "bundles": [
     {

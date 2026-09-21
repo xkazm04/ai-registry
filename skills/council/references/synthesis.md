@@ -23,13 +23,26 @@ Editing a score after seeing the total is how a gate becomes a formality.
 
 ## `report.md`, in this order
 
+0. **The envelope, in one sentence, before anything else.** When the result carries
+   `scenarios`, the first line of the report states where the verdict holds and where it
+   does not - *"Holds for IT and engineering candidates, weak for marketing (0.30, floor
+   0.50), never measured for HR."* Name the weak branches and the unmeasured ones
+   explicitly; "holds broadly" is not an envelope. Where a must-hold branch rests only on
+   `simulated` proof, say that in the same breath: a model playing that user is not that
+   user, and a reader who learns it two pages later has already formed the verdict. When
+   the result carries no `scenarios`, say that instead, in one line: this subject declared
+   no branches, so the verdict is about the feature as a whole and says nothing about how
+   it behaves branch by branch. The round table a person sees prints this line above the
+   gate, so it is the one sentence that must survive being read alone.
 1. **Outcome, in one line.** `ready` / `fail` / `incomplete` / `stalled`, the round number,
    and what happens next. For `ready`, next is "a person decides" - say that plainly and
    do not phrase it as a recommendation to approve.
 2. **What was judged.** The receipt: head sha, the spanned paths, the span digest, and the
    drift verdict against the previous round with what carried forward. A reader must be
    able to tell what this verdict is about without opening the code.
-3. **The dimension table.** One row per dimension: score or `unmeasured`, confidence,
+3. **The scenario table**, when there is one: slug, score or `unmeasured`, `n`, the proof
+   rung, whether it is in scope, and whether it is below its floor - advisory marked as
+   such in words. Then the **dimension table.** One row per dimension: score or `unmeasured`, confidence,
    floor and whether it was hit, `advisory` marked as such in words rather than a symbol,
    and the delta against the previous round. `overall` and `coverage` beneath it, with
    coverage read aloud: "this number rests on 70% of the rubric".
@@ -55,7 +68,11 @@ Editing a score after seeing the total is how a gate becomes a formality.
 - **Never quote the implementer.** Not in the report, not as mitigation, not as context.
   If the implementer's account contains something the council needed, the evidence pack
   was built wrong and the fix belongs in phase 2, next round.
-- **Never present an estimate as a measurement.** Carry the member's label through.
+- **Never present an estimate as a measurement.** Carry the member's label through - and
+  carry the scenario's `proof` rung through with it. A `simulated` branch reported without
+  that word becomes an `observed` one in the reader's memory.
+- **Never state an envelope wider than the scenarios support.** A branch nobody measured is
+  `unmeasured` in the sentence, never folded into "holds".
 - **Never rewrite a prior run.** A new round writes a NEW run directory with
   `supersedes_run_id` pointing at the old one. The superseded run stays on disk exactly as
   it was, including the parts that turned out to be wrong.

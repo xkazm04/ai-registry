@@ -119,7 +119,7 @@
       "name": "council",
       "source": "./skills/council",
       "description": "Strict, evidence-first triage of ONE already-built feature or ONE architecture redesign, ending at a human gate the method itself may never pass. Bounded members each answer a single question - worth to the user, workmanship, prior art, resilience, running cost, undo cost - reading only an evidence pack built from the tree, never the implementer's own account and never another member's answer. Mec",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "category": "workflow",
       "tags": [
         "triage",

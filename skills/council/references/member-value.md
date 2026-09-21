@@ -69,6 +69,73 @@ severity finding, not a discount on the estimate.
 - Do NOT mark `not_applicable`. There is no feature for which value does not apply; that
   is what makes it the heaviest dimension.
 
+## Scenarios - judge the branches, not just the average
+
+**A feature can be excellent as a whole and useless for half the people who meet it.** An
+AI job interviewer that is strong with engineering candidates and poor with marketing or
+HR candidates scores well on a mean and is broken for the branch nobody looked at. So your
+verdict reports value **per scenario**, and the approval it feeds becomes an ENVELOPE -
+where it holds, where it is weak, where nobody looked - rather than a stamp.
+
+**Read the declared scenarios from `<repo>/.personas/council/state.json`** (the overlay's
+`state_file`), key `scenarios`, rows whose `subject_slug` is this subject:
+
+```jsonc
+{ "subject_slug": "<slug>", "slug": "marketing-candidate", "title": "Marketing candidates",
+  "axes": { "domain": "marketing", "seniority": "mid" },     // flat, string -> string
+  "scope": "proposed" | "must_hold" | "tracked" | "out_of_scope",
+  "floor": 0.6 | null }                                      // null means the default 0.5
+```
+
+**Tolerate its absence.** No file, no `scenarios` key, or no row for this subject means
+this subject declares no branches: report as you always have and say so. You never invent
+a scope - the product declares which branches must hold, and a judge that could also
+decide which branches count can always pass by narrowing the question.
+
+Evaluate **each in-scope scenario separately** (`must_hold` and `tracked`; `proposed` and
+`out_of_scope` are not yours to score): one Character per scenario, the fixture input that
+scenario names, the senior-quality bar, `minutes_without` and `minutes_with`. One line per
+scenario in the `value-time-saved` table, so the arithmetic is visible per branch.
+
+You MAY **propose up to 5 new scenarios** you discover in the code and the assets - "the
+question bank is 80% engineering", "every fixture résumé is a developer's". Report them
+with the branch's slug and what you found; they are recorded as `proposed` and change
+nothing until the product adopts them. Proposing is your job; promoting is not.
+
+Report, in your verdict's `scenarios` array, per scenario:
+
+```jsonc
+{ "slug": "marketing-candidate", "title": "Marketing candidates",
+  "axes": { "domain": "marketing" },
+  "state": "measured" | "unmeasured",
+  "score": 0.0 | null,              // null unless measured - never 0 for "we could not tell"
+  "confidence": "low" | "med" | "high",
+  "n": 4 | null,                    // how many runs or turns the score rests on
+  "proof": "observed" | "replayed" | "simulated" | "claimed",
+  "summary": "<one sentence>" }
+```
+
+**The proof ladder, strongest first**, and the honesty rule that goes with it:
+
+| `proof` | What it means |
+| --- | --- |
+| `observed` | production data from real users on this branch |
+| `replayed` | real recorded inputs (real résumés, real transcripts) driven through the feature |
+| `simulated` | a model played the user |
+| `claimed` | nobody ran anything; the code says it handles this branch |
+
+> **A model playing a marketing candidate is not a marketing candidate.** `simulated`
+> evidence can FLAG a weakness - a branch that fails under simulation is failing - and it
+> can never, alone, certify a `must_hold` scenario as holding. When simulation is all you
+> have on a must-hold branch, **say that in the scenario's `summary`**, in those terms, so
+> the person at the gate reads the limit beside the number rather than after it.
+
+Your own dimension score stays what it is today - the scenario-weighted view of the whole
+feature - and it must additionally **name the worst in-scope scenario** in your findings.
+A mean that hides a failing must-hold branch is the exact failure this section exists to
+stop; if your overall score is high and one branch is on the floor, the sentence a reader
+needs is the branch, not the mean.
+
 ## Floor
 
 Your rubric row carries a floor of 0.40. While the judges are uncalibrated, a hit is

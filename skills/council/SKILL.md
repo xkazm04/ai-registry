@@ -3,7 +3,7 @@ name: council
 description: "Strict, evidence-first triage of ONE already-built feature or ONE architecture redesign, ending at a human gate the method itself may never pass. Bounded members each answer a single question - worth to the user, workmanship, prior art, resilience, running cost, undo cost - reading only an evidence pack built from the tree, never the implementer's own account and never another member's answer. Mechanical members go first and an early exit stops the round on a security hard-fail or a measured floor; the judged ones then run in parallel. The arithmetic renormalises over what was actually measured, so a gap lowers coverage instead of becoming a fake zero. Outcomes are ready, fail, incomplete or stalled, and not one of them admits anything. Rounds are capped at three, a content receipt decides what must be re-examined, and a superseded verdict is kept rather than rewritten. Reach for this when an autonomous builder reports that a major piece of work is finished and a person is about to be asked to accept it. Invoke with /council <feature-slug|adr-slug> [--kind use_case|architecture] [--round] [--members a,b]."
 category: workflow
 memory: vault
-version: 0.1.0
+version: 0.2.0
 tags: triage, evidence-pack, human-gate, floors, rounds, receipt, supersede
 argument-hint: "<feature-slug | adr-slug> [--kind use_case|architecture] [--round] [--members a,b]"
 ---
@@ -74,7 +74,12 @@ force and what was detected.
    `state_file`). It carries what a person decided last time. **A human rejection's reason
    goes straight into this round's `must_address`**, verbatim, before any member runs. It
    is the highest-value signal the method ever receives, and a round that does not open
-   with it will re-earn the same rejection.
+   with it will re-earn the same rejection. The same file carries the subject's **declared
+   scenarios** (`scenarios: [{subject_slug, slug, title, axes, scope, floor}]`) - the
+   branches the product says must hold, is watching, or has ruled out. Copy the rows for
+   this subject into `started.json` and hand them to the value member. **Tolerate their
+   absence**: a subject that declares no branches is judged exactly as it was before
+   scenarios existed, and the report says so in a line rather than implying breadth.
 6. **Round** - count the existing run directories for this subject. **Round 4 is refused**:
    write a result with `outcome: "stalled"` and stop. Three rounds that did not converge is
    an honest end and a reason for a person to look, not a reason to try again.
@@ -171,7 +176,7 @@ reason; it is never re-run to get a better draw.
 ## 5. Aggregate and synthesise
 
 ```
-node <skill>/scripts/council.mjs aggregate --run-dir <run>
+node <skill>/scripts/council.mjs aggregate --run-dir <run> [--state <repo>/.personas/council/state.json]
 ```
 
 The pass rule lives in `scripts/lib/aggregate.mjs` and is stated in
@@ -185,6 +190,18 @@ gets it wrong:
    subject, not missing evidence.
 4. **The outcome set is closed and holds nothing that admits**: `ready`, `fail`,
    `incomplete`, `stalled`.
+
+**The approval is an envelope, not a stamp.** When the subject declares scenarios, the
+value member scores each in-scope branch separately and the instrument folds them into
+`scenarios` plus `envelope: {holds, weak, unmeasured, out_of_scope, proposed}`. A
+`must_hold` branch below its floor (declared, else 0.50) is **advisory while the judges are
+not trusted** - named in `must_address`, inert in the gate - and **fails the run once
+trusted**, whatever the mean says. `proposed` and `out_of_scope` branches never move a
+number, a member may propose a branch and never promote one, and the proof ladder
+(`observed > replayed > simulated > claimed`) is recorded rather than gated: a model
+playing a marketing candidate is not a marketing candidate, and that limit belongs in the
+sentence a person reads. The full rule order is in `references/result-schema.md`, written
+so a consuming door in another language mirrors it literally.
 
 Floors bind asymmetrically while `trust_state != "trusted"`: a **mechanical** floor fails
 the run, a **judged** floor is recorded `advisory: true` and does not. An advisory floor is
@@ -223,7 +240,10 @@ Only when the invocation dispatched `council x implementation`:
 
 ## Report (what the session says at the end)
 
-In this order: the outcome and the round; what was judged (head sha, span, digest, drift);
+In this order: **the envelope in one sentence** - where the verdict holds, where it is
+weak, where nobody looked, and where a must-hold branch rests only on simulation (or, with
+no declared scenarios, that the verdict is about the feature as a whole and says nothing
+branch by branch); then the outcome and the round; what was judged (head sha, span, digest, drift);
 the dimension table with coverage read aloud; the trust banner while the judges are not
 calibrated; `must_address`; where members disagreed; and for `ready`, the oracle - the
 thing this is better or worse THAN, which is what a person needs in order to decide.
@@ -267,6 +287,9 @@ market_brief_days: 30                 # cache life of a prior-art read  [30]
   has counted a defect twice.
 - Unmeasured is never zero; `not_applicable` is never a substitute for it.
 - Mechanical floors bind always; judged floors bind only once calibration says they may.
+- **An approval is an envelope.** A mean that hides a failing must-hold branch is not a
+  verdict, the product declares which branches must hold, and a member may propose a branch
+  but never promote one.
 - Three rounds. Then `stalled`, and a person looks.
 - Supersede, never rewrite.
 - **The skill never admits.** There is no code path, no flag and no prose that makes it.
