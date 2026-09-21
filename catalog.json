@@ -51,7 +51,7 @@
       "lessonsPath": "skills/architect/LESSONS.md",
       "lessonsHash": "sha256-n1:8e6fd704adaea725",
       "usageContributors": [
-        "kazda-dev-box"
+        "wolf"
       ]
     },
     {
@@ -209,7 +209,7 @@
       "lessonsPath": "skills/explorer/LESSONS.md",
       "lessonsHash": "sha256-n1:16a257efed04959c",
       "usageContributors": [
-        "kazda-dev-box"
+        "wolf"
       ]
     },
     {
@@ -242,7 +242,7 @@
       "lessonsPath": "skills/friend/LESSONS.md",
       "lessonsHash": "sha256-n1:e1aa5db379c0a0aa",
       "usageContributors": [
-        "kazda-dev-box"
+        "wolf"
       ]
     },
     {
@@ -262,7 +262,7 @@
       "lessonsPath": "skills/i18n-translate/LESSONS.md",
       "lessonsHash": "sha256-n1:490a72e16667384a",
       "usageContributors": [
-        "kazda-dev-box"
+        "wolf"
       ]
     },
     {
@@ -328,7 +328,7 @@
       "lessonsPath": "skills/motionize/LESSONS.md",
       "lessonsHash": "sha256-n1:fd3f5ac51b7289e4",
       "usageContributors": [
-        "kazda-dev-box"
+        "wolf"
       ]
     },
     {
@@ -377,7 +377,7 @@
       "lessonsPath": "skills/npm-updates/LESSONS.md",
       "lessonsHash": "sha256-n1:e459c2ad1e0bd9be",
       "usageContributors": [
-        "kazda-dev-box"
+        "wolf"
       ]
     },
     {
@@ -414,7 +414,7 @@
       "lessonsPath": "skills/perfect/LESSONS.md",
       "lessonsHash": "sha256-n1:4f60ca4282215447",
       "usageContributors": [
-        "kazda-dev-box"
+        "wolf"
       ]
     },
     {
@@ -435,7 +435,7 @@
       "lessonsPath": "skills/project-populate/LESSONS.md",
       "lessonsHash": "sha256-n1:163ba9ce0d337cdb",
       "usageContributors": [
-        "kazda-dev-box"
+        "wolf"
       ]
     },
     {
@@ -470,7 +470,7 @@
       "lessonsPath": "skills/research/LESSONS.md",
       "lessonsHash": "sha256-n1:eaba0dbcdfcba9e4",
       "usageContributors": [
-        "kazda-dev-box"
+        "wolf"
       ]
     },
     {
@@ -491,7 +491,7 @@
       "lessonsPath": "skills/scan-sweep/LESSONS.md",
       "lessonsHash": "sha256-n1:5ab6ffd173fedb4d",
       "usageContributors": [
-        "kazda-dev-box"
+        "wolf"
       ]
     },
     {
@@ -528,7 +528,7 @@
       "lessonsPath": "skills/spark/LESSONS.md",
       "lessonsHash": "sha256-n1:ff3955f2d5e26ec7",
       "usageContributors": [
-        "kazda-dev-box"
+        "wolf"
       ]
     },
     {
@@ -602,7 +602,7 @@
       "lessonsPath": "skills/uat/LESSONS.md",
       "lessonsHash": "sha256-n1:e886ee4ecd7a553d",
       "usageContributors": [
-        "kazda-dev-box"
+        "wolf"
       ]
     },
     {
@@ -863,7 +863,7 @@
       "techniques": 145,
       "applications": 73,
       "files": 244,
-      "contentHash": "sha256:b13b1d810561c7a3"
+      "contentHash": "sha256:4557288ef8217f09"
     },
     {
       "name": "recruiting",
@@ -889,56 +889,56 @@
       "techniques": 1762,
       "applications": 1109,
       "files": 3105,
-      "contentHash": "sha256:2b45df4c7b0c9a77"
+      "contentHash": "sha256:65b4dc5f53f344ae"
     }
   ],
   "usageEvidence": {
     "reports": [
       {
-        "contributor": "kazda-dev-box",
+        "contributor": "wolf",
         "generatedAt": "2026-08-22T17:24:57Z",
         "windowDays": 30
       }
     ],
     "unresolved": [
       {
-        "contributor": "kazda-dev-box",
+        "contributor": "wolf",
         "name": "craft-loop",
         "invokes": 2,
         "lastUsed": "2026-08-04T12:26:28Z"
       },
       {
-        "contributor": "kazda-dev-box",
+        "contributor": "wolf",
         "name": "gap-loop",
         "invokes": 4,
         "lastUsed": "2026-08-04T12:54:17Z"
       },
       {
-        "contributor": "kazda-dev-box",
+        "contributor": "wolf",
         "name": "green-loop",
         "invokes": 1,
         "lastUsed": "2026-08-03T19:23:10Z"
       },
       {
-        "contributor": "kazda-dev-box",
+        "contributor": "wolf",
         "name": "passport-onboard",
         "invokes": 1,
         "lastUsed": "2026-07-26T10:25:09Z"
       },
       {
-        "contributor": "kazda-dev-box",
+        "contributor": "wolf",
         "name": "prototype",
         "invokes": 5,
         "lastUsed": "2026-08-09T13:11:29Z"
       },
       {
-        "contributor": "kazda-dev-box",
+        "contributor": "wolf",
         "name": "readiness-loop",
         "invokes": 1,
         "lastUsed": "2026-08-07T16:21:01Z"
       },
       {
-        "contributor": "kazda-dev-box",
+        "contributor": "wolf",
         "name": "reflect-me",
         "invokes": 1,
         "lastUsed": "2026-08-06T07:08:55Z"
