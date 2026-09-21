@@ -212,3 +212,48 @@ with the lesson here saying why.
   so.
 - **Six at a time held.** No secondary rate limit and no session-limit deaths; the long
   poles were kp (68 min) and ascent (3 h, six sequential master landings each waiting on CI).
+
+## 1.0.2 - 2026-09-21 - third live run (13 projects, 0 mechanical, 9 workers)
+
+- **`gh run list --branch <default>` serves a stale page, intermittently, and it reads as a
+  clean verdict.** Three times in one run, across two repos, the listing came back without
+  any of the tip's runs on it: ascent's newest `CI` run came back as one from three weeks
+  earlier, then on a re-scan as a *different* three-week-old run, while master had been red
+  on its tip since 2026-09-19; personas later drew one from two weeks earlier. The same
+  query with a different `--limit` disagreed with itself minute to minute, so this is not a
+  paging bug to sort around. Both of the day's scans therefore reported ascent's CI health
+  off a months-old run, and the before/after table showed ascent "turning RED" during a run
+  that never touched it. Fixed in the scan: query `gh run list --commit <defaultSha>` too -
+  that one is deterministic, so it doubles as the freshness check. A branch page carrying
+  none of the tip's runs is stale: retry once, then record a `problems` row instead of
+  quietly reporting old history as the branch's health.
+- **Only a run that reached a verdict is a verdict, and "completed" is not that test.**
+  Tightening the above twice went wrong in the same shape. Preferring the tip's run let an
+  *in-flight* run erase personas' known red the moment hygiene pushed to it. Preferring the
+  newest *completed* run then let a **cancelled** run do the same: personas' second push
+  cancelled the run before it, and that cancellation - completed, not in `RED_CONCLUSIONS` -
+  read a branch failing since the previous day as green. The selector now takes the newest
+  run whose conclusion is `success` or red; in flight, `cancelled` and `skipped` all mean
+  "no answer yet" and fall through to history.
+- **Both regressions were caught only because the control set included a known RED.** Each
+  wrong version looked *better* than the truth - fewer red rows, a calmer table. A control
+  set of green projects would have passed all three times. Re-verify an instrument change
+  against a project you already know is red and one you know is green, every time.
+- **A no-op mechanical phase is a real answer.** Zero mechanical actions fleet-wide, the
+  first time; the two prior runs' 96 and 90 rows had already cleared that surface. Spot-check
+  something else when there is no mechanical row to spot-check.
+- **Most `triage-branch` rows this run were not debris but deliberate.** Workers left almost
+  all of them: skillbench/conform model-comparison arms (athena, kp, tracklight), a pof
+  experiment arm whose own commit message says "never for the active branch as-is", a
+  personas branch self-described "Preserved here unreviewed". The class is a decision queue
+  for the operator far more than a work queue for a worker. tracklight showed the exception
+  worth keeping it for: per-commit `git cherry` found 7 of 9 commits already on main and two
+  genuinely live bug fixes stranded, which it cherry-picked and shipped as PR #31.
+- **A shared red base makes a whole project's PR queue unworkable, and the worker should say
+  so once.** kp's main fails two required checks; all 29 open PRs fail identically. The
+  worker diagnosed the shared cause, refused to "fix" it by raising the perf ceilings, and
+  reported once instead of writing 29 near-identical skip rows. Same shape on personas.
+- **The registry gate can be red from a sibling session's work.** `gate.mjs --all` failed on
+  stale knowledge indexes in bundles this run never touched, while another session had
+  `check-bundles.mjs` and `build-registry-map.mjs` open. Regenerating them would have swept
+  their work into the run's commit. Report the failure, commit only your own paths.
