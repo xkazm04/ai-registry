@@ -2,7 +2,7 @@
   "id": "95cfab27-c6a7-5aa1-9da4-546992542379",
   "slug": "webhook-classification-and-routing",
   "title": "Webhook classification and routing",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "status": "seed",
   "path": "software_engineering/event-routing",
   "domain": "software_engineering",

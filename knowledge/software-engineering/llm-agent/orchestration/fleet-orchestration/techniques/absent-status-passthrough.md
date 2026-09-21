@@ -40,8 +40,8 @@ relay between it and the registry invented a value the session never sent.
 Every staleness budget passes. Every process check passes. The entry is
 fresh, and it is wrong.
 
-So the sweeper is structurally blind here, and a fleet that has both tiers
-working correctly can still deadlock. That is the test for whether a state
+So a sweeper limited to liveness is blind here; a current-state probe may detect it. A fleet with both tiers
+working correctly can still retain a false projected state. That is the test for whether a state
 belongs to this technique: **would the sweeper's evidence look healthy while
 the state is wrong?** If yes, no amount of tier-two hardening reaches it.
 
@@ -105,27 +105,21 @@ reports is always a transition it never made.
 
 Where the initial state genuinely is not known — a session adopted from a
 previous process life, a record restored from a durable mirror — the honest
-seed is the persisted state, and where there is none, the unknown state the
+seed is the persisted state labeled as historical, and where there is none, the unknown state the
 vocabulary already owes itself. Which raises the requirement the whole
 technique depends on.
 
 ## The vocabulary must be able to say "not stated"
 
-None of the above is expressible in a status vocabulary of definite states
-only. If the enumeration is starting / working / awaiting-input / idle /
-hibernated / exited / failed / lost, then every one of those is a claim, and
-a projector holding a record with no status has nothing legal to write. It
-will write the closest definite value, and the choice will be made by whoever
-typed the default — usually the first state in the enumeration, which is
-rarely the safe one.
+Absence must be representable at each boundary, but it need not be a lifecycle
+enum member. An optional patch field can mean no update; a separate observation
+envelope can carry unknown plus last-known state and age. An explicit unknown
+state is another valid design. Distinguish no update, explicit clearing, unknown
+observation and a genuinely missing row in the schema.
 
-So the closed vocabulary
-([one authority](../../../../_laws.md#one-authority-per-vocabulary)) needs a
-member that asserts nothing: a state meaning *no producer has told us, and we
-are not guessing*. It is not a synonym for lost. Lost is the sweeper's
-inference from evidence — we looked, and it is not there. This one is the
-absence of any observation at all, and the two lead to different actions:
-lost releases resources, unknown holds them and asks again.
+Unknown does not authorize reaping. Escalate persistent uncertainty under a bounded
+operational policy, retaining claims until confirmation or effective fencing. Even
+a lost label does not by itself establish that a remote worker cannot still write.
 
 Then the transition door
 ([one validation door](../../../../_laws.md#one-validation-door)) enforces

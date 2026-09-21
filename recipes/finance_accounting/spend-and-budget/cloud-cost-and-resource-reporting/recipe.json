@@ -2,7 +2,7 @@
   "id": "8da6a5c2-b3d4-564b-bce3-13d6fe886089",
   "slug": "cloud-cost-and-resource-reporting",
   "title": "Cloud cost and resource reporting",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "status": "seed",
   "path": "finance_accounting/spend-and-budget",
   "domain": "finance_accounting",

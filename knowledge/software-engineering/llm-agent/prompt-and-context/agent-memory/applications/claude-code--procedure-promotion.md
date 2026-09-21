@@ -96,3 +96,8 @@ loaded whole into every session (24 lines), so the selection failure the
 technique measures on 5-to-100-item skill pools does not yet apply; the return
 condition is the index passing roughly fifty entries, when the store would
 need the scoping rule as well as the door.
+
+**Returned 2026-09-17** at 830 items across 32 such directories: first-sight
+promotion does cost selection, and the scoping rule it needed turned out to be
+recurrence across contexts rather than domain -
+[claude-code--cross-context-promotion](./claude-code--cross-context-promotion.md).

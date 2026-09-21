@@ -78,3 +78,13 @@ their whole career, and a body from a past term is still a live join target
 identity. The companion technique
 [cross-term-registry-loading](./cross-term-registry-loading.md) covers the
 loading consequences.
+
+## Continuing institutions and uncertain scope
+
+Chambers with staggered renewals may have continuing organizational identity;
+model their electoral cycles separately when needed. Term-as-organization is
+one representation, not a claim that each election creates a new legal body.
+Namespace source IDs by publisher and chamber, preserve raw IDs and validate
+parent relationships. If neither a term key nor an authoritative mandate join
+resolves, retain unknown scope and exclude only scope-dependent results. A
+synthetic display token must never become evidence of a real term.

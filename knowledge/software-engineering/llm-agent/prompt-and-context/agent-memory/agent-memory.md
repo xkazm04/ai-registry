@@ -25,6 +25,13 @@ techniques:
   - pending-beliefs-live-apart
   - self-trained-capture-filter
   - gap-directed-elicitation
+  - loss-site-inventory
+  - scope-before-similarity
+  - cross-context-promotion
+  - addresses-before-compression
+  - addresses-not-atoms
+  - observation-clock
+  - stale-served-versus-stale-answered
 ---
 
 # Agent memory
@@ -212,6 +219,16 @@ Provenance is what makes every other operation safe:
 
 The rule is absolute at the consolidated layer: **a belief without provenance
 is not stored knowledge, it is a rumor with a database row.**
+
+"When it was distilled" is the writer's clock, and one input the distillation
+consumed is not on that list: the clock its episodes were *observed* at. A pass
+that turns "next Tuesday" into a date has performed an irreversible derivation,
+and the relative phrase is the input it discarded. Grounded against the
+writer's clock, the date is correct only while nothing is late, and consolidation
+is deferred by design. So every episode reaches the distiller carrying its own
+observation instant, the pass is told to ground against that and nothing else,
+and the anchor survives in provenance
+([observation-clock](./techniques/observation-clock.md)).
 
 ## Memory is a budgeted resource
 
@@ -466,6 +483,11 @@ comparison a stated result instead of an unexamined premise.
   subject is dropped before capture; and because it runs upstream of the judge,
   the evidence that would overturn it is what it prevents from being collected
   (self-trained-capture-filter).
+- **The store that multiplies instead of deepening** - one first-sight store
+  per context, each of them correct and cheap on its own, with no door between
+  them, so a lesson is paid for once per context and the fleet's own earlier
+  answer is unreachable from where the next incident happens
+  ([cross-context-promotion](./techniques/cross-context-promotion.md)).
 
 ## The techniques
 
@@ -475,6 +497,9 @@ comparison a stated result instead of an unexamined premise.
 - [episodic-capture](./techniques/episodic-capture.md) — what becomes a record:
   episode boundaries, distilled bodies with pointers to raw evidence,
   identity minted at creation.
+- [observation-clock](./techniques/observation-clock.md) — the clock a
+  distillation grounds relative time against: observation versus writer,
+  imports as replays, the rule a prompt states and a call path cannot satisfy.
 - [consolidation](./techniques/consolidation.md) — the distillation pass:
   batched judgment, fact/procedure outputs, supersedence and contradiction,
   provenance rows, the one validation door.
@@ -529,3 +554,23 @@ comparison a stated result instead of an unexamined premise.
   the cheap screen that learns from the distiller's silence: type the null
   before training on it, and give the loop an exit, because the screen runs
   upstream of the only oracle that could correct it.
+- [loss-site-inventory](./techniques/loss-site-inventory.md) — where stored
+  content fails to reach the reader without a notice: second doors, the
+  window-to-rollup seam, the cap on the assembled block, the fallback behind the
+  fallback; notices that name kind, count and cause and survive the next cut.
+- [scope-before-similarity](./techniques/scope-before-similarity.md) — similarity is
+  not ownership: partition by namespace, visibility and private author before clustering
+  or choosing a distiller window; the merge door re-checks and the merged item inherits
+  scope.
+- [cross-context-promotion](./techniques/cross-context-promotion.md) - the second
+  sighting in a *different* context: the count that admits an item to a shared tier
+  beside the local one, coverage and locality scored on the same arm, and why the
+  bar admits without ever evicting.
+- [addresses-before-compression](./techniques/addresses-before-compression.md) -
+  what a merging pass actually spends: a no-loss merge does not shrink the store,
+  it retires addresses, and the sign of the whole trade flips on whether the
+  surface the reader consults first survived the pass.
+- [addresses-not-atoms](./techniques/addresses-not-atoms.md) - how finely to cut
+  the store's items: at a read budget a finer cut buys reach across the items
+  that hold an answer, where the cut falls buys nothing measurable, and the reach
+  is paid for in abstention - above an always-loaded index none of it happens.

@@ -83,6 +83,41 @@ a price is not a price without the cache state it assumes).
   tokens on the small tier — not the small tier reading the whole
   history. The saving is in what is *sent*, not in who reads it.
 
+## Where the provider keys the effort decides what the flip costs
+
+The rules above treat effort as one more component of the cache key, and
+the arithmetic holds exactly where that is true — but *where* a provider
+encodes the setting is a provider fact, not a property of effort, and it
+has been observed in three shapes:
+
+- **In the prefix.** The effort setting is rendered into the system layer,
+  so a flip invalidates from that layer down and leaves everything above
+  it — the tool roster, the earlier layers — cached. Measured on one hosted
+  agent harness (2026-09-08, paired, one session per arm): a two-turn
+  session resumed at the *same* effort re-read 33,353 tokens and wrote 59;
+  the same session resumed with the effort raised one step re-read 23,997
+  and wrote 9,415 — the system-layer segment, to within the noise of the
+  first turn's own write — and the turn cost 6.1× as much. "Price the
+  toggle" applies in full.
+- **In the request, below the prefix.** Some providers carry effort as a
+  per-request parameter that keys only the message segment; the tool and
+  system layers stay warm. Smaller than the first shape, never free.
+- **As an in-band item appended to the conversation.** One provider's
+  2026-09 API exposes effort as a configuration item placed *after* the
+  cached prefix, so a flip preserves the prefix by design and costs nothing
+  at the cache. It is paid for elsewhere: the same API rejects two adjacent
+  configuration items and refuses to compact a history that contains one,
+  so the conversation that flips effort freely is the conversation that
+  must compact by hand, and re-declare its effort after every compaction.
+
+The routing decision therefore carries one more fact per provider: which
+shape effort takes. A router that prices every flip as a full-prefix
+rewrite is right for the first shape and overcharges the third; one that
+treats effort as free because a vendor document said "preserves the cache"
+has imported the third shape's rule into a provider that runs the first.
+Record the shape beside the price ratios, and re-measure it when the
+provider's API changes — for one provider it moved inside a single release.
+
 ## What this does not say
 
 Nothing here argues against routing by class — that stance stands. It

@@ -13,12 +13,11 @@ use_when:
 
 # Per-capita normalisation
 
-Absolute budget figures order municipalities by size, and only by size: rank
-raw spending and you have re-derived the population table with extra steps. Per
+Absolute budget figures reflect population, responsibilities and other cost
+drivers; raw spending alone does not isolate efficiency. Per
 capita — the figure divided by resident count — is the unit in which a village
-and a city occupy the same axis, and it is the only unit in which "high" and
-"low" mean anything to a reader who lives in one of them: debt per resident is
-a number a person can hold against their own household.
+and a city occupy the same axis, where resident exposure is relevant. Municipal debt per resident is not a
+household liability or, by itself, a solvency measure.
 
 ## The divisor is a sourced figure, not a constant
 
@@ -27,14 +26,18 @@ The entire technique lives or dies on the denominator's provenance:
 - **Same period as the numerator.** Populations move; a division of this year's
   debt by a census figure from five years ago manufactures trend where none
   exists. Fiscal reporting systems typically publish a population indicator
-  *per reporting period* alongside the financial indicators — use that one, so
-  numerator and denominator share a source and a date
+  *per reporting period* alongside the financial indicators — use a compatible, documented reference period and population definition.
+  A fiscal source may rely on a separate statistical authority; source equality
+  alone does not establish alignment. Stock dates and annual-flow denominators
+  can require different population conventions
   ([deterministic-code-owns-numbers](../../../_laws.md#deterministic-code-owns-numbers):
   the division is reviewable only if both operands are cited).
 - **Same source as the peer group's divisors.** Mixing a statistical-office
   population for one town with a fiscal-registry population for another injects
   the two sources' methodological gap straight into the comparison.
-- **A missing divisor makes the metric missing.** No reported population for
+- **A missing or invalid divisor makes the metric unavailable.** Require a
+  finite positive population; zero, negative or nonnumeric divisors cannot
+  produce a valid per-capita value. Distinguish invalid from unreported inputs. No reported population for
   the period means no per-capita figure — null, rendered as "not reported",
   never as zero and never bridged from an adjacent period
   ([missing-is-not-zero](../../../_laws.md#missing-is-not-zero)). A silently
@@ -54,9 +57,9 @@ Per capita is the default, not the universal. Two other shapes recur:
   values, and make the sign convention explicit on the surface.
 
 Choose the small set of headline metrics deliberately — a debt stock per
-resident, a balance flow per resident, an investment-share ratio cover the
-solvency / sustainability / composition triad that fiscal-condition practice
-converges on — and compute each one in exactly one shared routine that every
+resident, a balance flow per resident, an investment-share ratio provide descriptive views of
+debt, balance and composition; solvency and sustainability also require revenue
+capacity, obligations, liquidity and time-horizon analysis — and compute each one in exactly one shared routine that every
 surface imports. Two independently coded divisions will eventually disagree on
 rounding, period choice, or null handling, and the surfaces will then publish
 two different numbers under one name.

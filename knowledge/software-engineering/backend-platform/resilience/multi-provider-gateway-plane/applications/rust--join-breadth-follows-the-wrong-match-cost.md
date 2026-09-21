@@ -5,13 +5,13 @@ subject: multi-provider-gateway-plane
 technique: join-breadth-follows-the-wrong-match-cost
 stack: rust
 status: forged
-verified_on: 2026-09-03
+verified_on: 2026-09-09
 verified_against: rust@1.85
 ---
 
 # Two `continue`s that encode the whole breadth rule
 
-`AlexsJones/llmfit` at `d19380bac5d82c5cd3080ff1afef6d1dc20615bf` joins a catalog
+`AlexsJones/llmfit` at `1e7bdb3ecf43071597ffd2eb2305dfac35e22a40` joins a catalog
 of ~9,250 models keyed by publisher path against each runtime's own naming
 scheme. The presence-side rule the standard states is implemented in twelve lines
 (`llmfit-core/src/providers.rs:336-358`), and its two `continue` statements are

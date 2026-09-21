@@ -97,3 +97,12 @@ without painterly rendering, which the generic `2d-art` bar wrongly penalized". 
 list has now split three times under incident pressure. The standard in the technique is
 to derive sub-classes from the craft at authoring time, during the pilot, rather than to
 discover them from confident wrong verdicts in production.
+
+## Review boundary - 2026-09-09
+
+The stated text-only override policy conflicts with the earlier claim that
+cutscene audio is redirected to voiceover; verify the actual routing table before
+retaining both as implementation facts. A filmstrip supports sampled pose claims,
+not complete temporal behavior or curve existence. Source content or sufficient
+playback evidence must back those checks. The historical routing incidents and
+code references were not replayed; no witness date was refreshed.

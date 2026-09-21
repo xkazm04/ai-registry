@@ -51,6 +51,17 @@ stronger items over more, weaker ones**: past a modest count, each addition
 degrades attention on all the others, so marginal recall is negative well
 before the budget is technically full.
 
+Read that as a rule about **additions**, because "more items" runs two variables
+together and only one of them spends the budget. A count that rises because
+another item was admitted costs every other item attention. A count that rises
+because the same words were cut into more pieces adds nothing to the slice and
+buys reach: measured at one fixed word budget on one store, cutting its items
+finer moved accuracy from 14.0 to 16.7 of 22 with no words added and no facts
+changed, and it did so by letting the budget touch eighteen of the twenty items
+that held an answer instead of six
+([addresses-not-atoms](./addresses-not-atoms.md), where the cost of that trade is
+also priced).
+
 ### Where a scoped call still ships an unscoped tier
 
 The three tiers above assume each one's selection logic was *chosen*. The

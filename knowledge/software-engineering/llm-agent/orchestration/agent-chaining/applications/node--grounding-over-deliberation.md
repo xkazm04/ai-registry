@@ -74,19 +74,12 @@ which is whether that memory has anything to do with the insight. The
 assertions are about the shape of the citation, and a fabricated citation
 has a perfectly good shape.
 
-And the deliberating step inherits the same blindness, which is the part
-worth carrying away. `review.md` renders the insight beside *the sources the
-proposal named*. A reviewer reading it is checking the internal coherence of
-the candidate's own story — and a fabricated citation's story is coherent by
-construction, because the insight was written first and the sources
-attached after. The reviewer is looking at the artifact the producing step
-chose, which under this technique is not an independent step however
-carefully it is read.
-
-That is the same failure as a convincing recorded reproduction produced
-inside an environment built to yield it: the apparatus is where the
-fabrication moves to, and reviewing the apparatus's own output cannot find
-it.
+The rendered review can reveal unsupported citations: the described Rust insight
+and oat-milk sources are visibly unrelated. The paired fixture did not measure a
+reviewer's ability to notice that mismatch, so it does not establish that review
+inherits the deterministic gate's blindness. Independently retrieved sources can
+add a useful comparison, but the lexical check is neither a semantic oracle nor a
+replacement for examining whether the cited sources support the claim.
 
 The confirming half is that the project already understood the principle in
 the neighbouring surface. `no-live-mutation` grounds a claim the candidate

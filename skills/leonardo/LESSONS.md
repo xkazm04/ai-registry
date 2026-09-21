@@ -16,3 +16,7 @@ Append-only reflection lane. One entry per run that taught something. Format:
 - **The fix is a split, not a mock.** `wrapText` and `svgEscape` moved out of `og-image.mjs` into `tools/og-text.mjs`: no imports at all, no side effects, loadable with nothing installed. `og-image.mjs` imports them back, so there is still one definition. A test tier that needs `npm install` to run is a test tier nobody runs, and mocking `sharp` to reach a string function would have been the more expensive way to test less.
 - **The first run found a real defect.** `" a b ".split(/\s+/)` opens and closes with `""`, and the trailing empty word appended a space to the LAST wrapped line - a line one character over its own budget, rendering with a hanging space. A title pasted from anywhere carries that whitespace. `.filter(Boolean)` on the split; the assertion stayed as written.
 - **What is worth pinning here is what renders wrong rather than what throws.** Neither function can fail loudly: a wrap that emits an empty first line pushes the whole title block down a full leading, and an escape applied in the wrong order prints `&amp;lt;` on the card. Both look like a design problem to whoever sees them next.
+
+## 1.3.1 - 2026-09-09 - ai-registry
+
+- Architecture review: the shared reflection clause assumed a writable registry link in every installation. Replaced that assumption with installation-aware scope and explicit adoption. This records an instruction audit, not a field effectiveness result.

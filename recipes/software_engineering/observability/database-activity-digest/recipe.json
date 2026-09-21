@@ -2,7 +2,7 @@
   "id": "a7b101bb-c357-5fc5-a2ee-47fde7939daa",
   "slug": "database-activity-digest",
   "title": "Database activity digest",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "status": "seed",
   "path": "software_engineering/observability",
   "domain": "software_engineering",

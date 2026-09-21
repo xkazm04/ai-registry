@@ -12,6 +12,7 @@ techniques:
   - cancellation-and-finalization
   - mid-turn-steering
   - emit-behind-the-revision-window
+  - sink-reversibility-decides-the-commit
 ---
 
 # Streaming model output
@@ -207,3 +208,7 @@ technology handles worst if left undeclared.
 - [emit-behind-the-revision-window](./techniques/emit-behind-the-revision-window.md)
   — streaming a producer that revises itself, by deriving the display lag from
   the corrector's reach and treating what was emitted as binding on the retry.
+- [sink-reversibility-decides-the-commit](./techniques/sink-reversibility-decides-the-commit.md)
+  - whether a partial may be shown is decided by the sink, not the producer:
+  reversibility named per sink, the clip reported beside the bytes rather than
+  inside them, and why a surviving append-only surface is its own history.

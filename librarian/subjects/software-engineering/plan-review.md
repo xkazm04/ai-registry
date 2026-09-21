@@ -1,7 +1,7 @@
 ---
 domain: software-engineering
 subject: plan-review
-last_touched: 2026-08-28
+last_touched: 2026-09-09
 touched_by: intake
 dry_streak: 0
 ---
@@ -77,3 +77,81 @@ gap, not a discipline gap.
 "A reader that pads to a count masks its own signal" now appears in three subjects
 (`silent-decision-surfacing`, `objection-before-artifacts`, `review-queues`). Not a
 law yet; a fourth sighting is the return condition.
+
+## Architecture review - 2026-09-09
+
+Earlier entries are historical. This pass corrects the claimed authority properties
+of workers/directors, the queue-versus-execute interpretation, and unconditional
+review-mode superiority. It preserves useful review artifacts while making adopted
+policy, empirical scope and unverified runtime effects explicit.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "software-engineering/plan-review",
+  "date": "2026-09-09",
+  "baseline": "bc1bd8aa",
+  "digest": "sha256:bd0c53f634a72ef4",
+  "disposition": "clarify",
+  "coverage": "All eight owned documents read in full; process claims checked against current local methods. Research checks establish scope, not reproduced performance.",
+  "counterexamples": [
+    "An authorization requirement can be omitted from a plan, so a literal quote from that plan is not the only admissible evidence.",
+    "A worker can edit every owned file while being forbidden to commit.",
+    "Queuing a finding for later is not authorization to execute it now.",
+    "A labeled estimate can be persisted for forecast calibration without blocking the workflow.",
+    "A role-change heading in the same context cannot remove earlier context."
+  ],
+  "sources": [
+    {
+      "url": "https://aclanthology.org/2024.findings-acl.826/",
+      "result": "Primary abstract supports a distinction between locating and correcting errors on its studied reasoning tasks."
+    },
+    {
+      "url": "https://aclanthology.org/2024.emnlp-main.714/",
+      "result": "Primary abstract reports gains from a particular intrinsic verification procedure; counterexample to a universal no-benefit claim."
+    },
+    {
+      "url": "https://arxiv.org/html/2601.04790v1",
+      "result": "Read study setup and controlled-role discussion; preference judgments do not establish plan-review accuracy."
+    },
+    {
+      "source": "skills/architect/SKILL.md at 1.8.0; .claude/skills/forge/SKILL.md; .claude/skills/deepen/SKILL.md",
+      "result": "Read relevant implementation instructions; queue/execute and write/commit distinctions directly observable."
+    }
+  ],
+  "documents": {
+    "plan-review.md": {
+      "disposition": "clarify",
+      "reason": "Scope the adopted human gate; remove universal separation and concordance claims; distinguish classification policy from deterministic classification."
+    },
+    "techniques/decision-sized-slicing.md": {
+      "disposition": "clarify",
+      "reason": "Small specified work can skip extra slicing; an internal change can have observable acceptance; single and multiple slices both need proportional rationale."
+    },
+    "techniques/fresh-posture-self-challenge.md": {
+      "disposition": "clarify",
+      "reason": "Same-context headings do not erase reasoning. Primary studies differ by task and method; fresh-context superiority and role-label accuracy are not universal."
+    },
+    "techniques/informational-fold-in.md": {
+      "disposition": "clarify",
+      "reason": "Typed estimate retention permits calibration and audit without a new approval gate. Colocation, navigation and fixed field counts are not authority boundaries."
+    },
+    "techniques/objection-before-artifacts.md": {
+      "disposition": "clarify",
+      "reason": "Ground omissions in requirements; retain newly discovered premise objections; gates require adopted policy and advisory review is not inherently worthless."
+    },
+    "techniques/silent-decision-surfacing.md": {
+      "disposition": "clarify",
+      "reason": "Replace an apparent five-story floor with a configured ceiling and materiality requirement; retain distinct decision and risk records."
+    },
+    "applications/process--decision-sized-slicing.md": {
+      "disposition": "clarify",
+      "reason": "Current Architect queue is backlog deferral, distinct from execute-now; corrected the interpretation without refreshing historical deployment evidence."
+    },
+    "applications/process--objection-before-artifacts.md": {
+      "disposition": "clarify",
+      "reason": "Source methods allow worker writes and director review; cannot-commit does not establish read-only or human adjudication."
+    }
+  }
+}
+```

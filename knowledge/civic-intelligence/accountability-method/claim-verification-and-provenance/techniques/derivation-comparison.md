@@ -107,3 +107,13 @@ Skip derivation stamps for values that are literal transcriptions of a source
 source reference itself, and a formula ref on a copy operation is noise that
 dilutes the stamps that matter. The technique is for *derived* figures, where
 an author exists to name.
+
+## Partial and empty populations
+
+Uniform requires every row in the declared population to be stamped. A mix of
+stamped and unstamped rows is incomplete provenance, even when all known stamps
+agree; zero rows is an empty population, not a successful uniformity check.
+Carry missing counts and per-component provenance for composite claims. Include
+input snapshot, parameters and relevant dependency versions when they can affect
+the result. A missing stamp leaves the basis unassessed, not verified. Literal
+transcriptions still need the source version and extraction provenance.

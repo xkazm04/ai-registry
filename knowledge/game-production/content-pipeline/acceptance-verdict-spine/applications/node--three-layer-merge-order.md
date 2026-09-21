@@ -11,7 +11,7 @@ verified_against: node@24
 
 # Node realization — the one acceptance truth for a step
 
-A content-pipeline app (`C:\Users\kazda\kiro\pof`, a Next.js/TypeScript lab over an
+A content-pipeline app (`pof`, a Next.js/TypeScript lab over an
 Unreal item/monster/ability catalog) implements the merge as a single pure function.
 
 ## The spine
@@ -79,3 +79,15 @@ it, so the server-importable path shares the guard.
 - **Upward lesson.** Making the judge class *audited* (`getStepFact(catalogId, step)
   ?.judge`) rather than passed in ad hoc means a verdict from the wrong class of judge
   cannot be applied at all.
+
+## Review boundary - 2026-09-09
+
+The consumer code and historical incident were not replayed. The shown overlay
+guard checks local deferred and a concrete stored status, but does not itself prove
+artifact/check/run binding or receipt trust. A stale runner pass must not discharge
+a new artifact's requirement. Expose conflicting observations rather than silently
+hiding credible failures. A missing required craft judgment remains unmeasured.
+
+The four-line shared spine is a useful call path, not proof that every consumer
+supplies identical snapshots or uses the same policy revision. Historical "confirmed"
+claims and line references require consumer revalidation; no witness date was refreshed.

@@ -14,8 +14,7 @@ use_when: [building an ingest for a contract registry, choosing the corpus key, 
 The concern: decide, before the first row is stored, what a registry record *is* —
 which of its identifiers is the durable key, which fields are assertions and which
 are publication metadata, and what the parser does when the source violates its own
-shape. Every downstream error in procurement analysis traces back to a record model
-chosen implicitly.
+shape. An implicit record model can corrupt every downstream aggregate.
 
 ## The four identities
 
@@ -23,7 +22,7 @@ A single row in a contract registry participates in four identity spaces. Confla
 any two corrupts the corpus:
 
 - **Contract identity** — the underlying agreement, stable across amendments and
-  corrections. This is the corpus key: nodes, joins and counts hang off it.
+  corrections. Use a source-namespaced key for this agreement; a contracting process may contain several agreements.
 - **Version identity** — one publication event in that contract's history. Registries
   typically expose a second id sequence for versions, and the web URL of a record is
   usually the *version* id, not the contract id. The two sequences often overlap
@@ -49,9 +48,9 @@ signatory names, addresses). The third class matters legally: bulk registry expo
 routinely contain personal data, and re-use terms can make the harvester a data
 controller with deletion obligations. The robust posture is allowlist-by-construction
 — retain only records matching an explicit entity allowlist and drop personal-data
-fields at parse time, so compliance is a property of the parser rather than a
-cleanup job. Re-harvesting from current exports is then how upstream deletions
-propagate.
+fields at parse time, as data minimization, not a compliance guarantee. Lawful reuse, retention and
+removal handling need their own assessment. Re-harvesting propagates deletions
+only when complete snapshots are reconciled with stored and derived copies.
 
 ## Parsing rules
 

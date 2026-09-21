@@ -14,6 +14,9 @@ techniques:
   - derived-properties-cannot-be-forged
   - shape-with-a-not-applicable-member
   - repairing-check-erases-its-evidence
+  - indistinguishable-members-do-not-rise
+  - occurrence-is-not-a-type
+  - paired-sites-localize-the-fault
 ---
 
 # Invariant placement
@@ -49,6 +52,11 @@ and its lesson generalises: a set of independent flags obliges every write site
 to prevent every illegal combination, and write sites multiply. Nothing is
 checked at this altitude because there is nothing to check. That is the whole
 appeal, and it is also why the altitude has no observable liveness — see below.
+The appeal is conditional too, on a precondition the literature leaves out: the
+checker refuses only the distinctions it can *see*, so a rule separating two
+members of the same type is not enforced at this altitude at all, however
+structural the encoding looks
+([indistinguishable members](./techniques/indistinguishable-members-do-not-rise.md)).
 
 **Door.** The value's kind says it was validated, and the only way to obtain
 one is through the constructor that validated it. Downstream signatures then
@@ -147,7 +155,7 @@ the whole guarantee is eventually spent.
 
 ## What cannot rise
 
-Two classes are permanently barred from the top two altitudes, and knowing them
+Three classes are permanently barred from the top two altitudes, and knowing them
 prevents most of the wasted effort in this area.
 
 **Facts that expire.** The shape and door altitudes carry facts that are true
@@ -167,6 +175,18 @@ incapable of *at least once*. It can make a second use impossible; it cannot
 make a first use happen, because discarding a value is always legal. Every
 "must happen" requirement keeps a runtime check; only the "must not happen
 twice" half rises.
+
+**Terms that belong to an occurrence rather than to a type.** The two classes
+above are both about the *fact* a value carries. This third is about the value's
+occurrence - which object this is, when it was read, whether anybody used it,
+which of its parts were touched - and it is larger than both, because it is the
+one an author never checks for: the program compiles, so the altitude looks
+collected. A checker holds a term only when the term is a property of some type,
+so the violating program and the compliant one have identical types and the
+checker's output is byte-identical on both. The test, the second question that
+decides whether a gate can hold what the shape cannot, and the measured finding
+that such a term's compliance *rate* is the thing that goes unobservable are
+[occurrence-is-not-a-type](./techniques/occurrence-is-not-a-type.md).
 
 ## Where placement stops
 
@@ -261,3 +281,14 @@ whether an encoding survives its second year and its third maintainer.
   — a property computed from the parts versus one declared by the author, the
   two failure modes annotation cannot avoid, and the override as the place the
   guarantee is spent.
+- [paired-sites-localize-the-fault](./techniques/paired-sites-localize-the-fault.md)
+  - one invariant asserted where a value is written and again where it is read,
+  why only the read-side half is derived from the code, and the pre-operation
+  snapshot that the shipping profile alone refuses.
+- [occurrence-is-not-a-type](./techniques/occurrence-is-not-a-type.md) - the
+  third denial, and the largest: a term about a value's identity, capture time,
+  use, read set or lifetime is a property of no type, so the compliant and the
+  violating program type-check identically. The one-sentence test that admits
+  those terms and refuses the ones a checker already holds, why it is a filter
+  and not a label, and the measured reason such a rule's first delivery is the
+  compliance rate rather than the enforcement.

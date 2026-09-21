@@ -6,7 +6,7 @@ technique: capability-coverage-contract
 status: forged
 laws: [absent-guard-is-loud, gate-sees-target]
 shared_with: []
-use_when: [a capability exists in the runtime and no agent has ever reached for it, a new tool or script landed and no instruction file mentions it, deciding what a test over prose should assert, an instruction file points at documents that may not exist, an agent's output is plausible but consistently uses the poorer of two available means]
+use_when: [a capability exists in the runtime and no agent has ever reached for it, a new tool or script landed and no instruction file mentions it, deciding what a test over prose should assert, an instruction file points at documents that may not exist, an agent's output is plausible but consistently uses the poorer of two available means, an instruction tells the agent to confirm a recurring or future effect to a person]
 ---
 
 # Capability coverage contract
@@ -42,6 +42,29 @@ planning instructions name* are the same set.
 Completeness is the one that needs a gate rather than a sweep, precisely
 because a periodic reading cannot notice an absence. Nobody re-reads a
 planning document and thinks *this does not mention the fourth thing*.
+
+### When soundness fails silently too
+
+Soundness fails loudly only when the agent reaches for the missing capability
+in the same run and the call errors. It fails silently when the instruction
+tells the agent to **promise a person an effect later**. "Offer to make this
+recurring, and confirm when it is saved" in a runtime with no scheduler
+produces a confident *"Saved. This runs the first Monday of each month."*
+What was saved is a string. Nothing wakes up on Monday. The person stops doing
+the work by hand because it is handled now, and the failure surfaces weeks
+later as an absence that nobody connects to the confirmation. The same shape
+covers "I'll flag it before the token expires", "I'll watch this and tell you",
+and "this now runs on a clock": each names a future trigger, and each is sound
+only if something in the runtime will actually fire it.
+
+So a forward promise is audited like any other named capability, with one
+extra obligation: **the confirmation names the mechanism that will fire.** For
+example: *"Set: a scheduled task, Monday 07:00, results in this thread."* Where
+no mechanism exists, the instruction says so and offers the honest substitute,
+such as a recurring calendar reminder the person triggers, which takes one
+line and does fire. Saving the definition still works and is still worth
+doing, because it makes the rerun cheap. What an instruction may never do is
+let a stored definition be described as a schedule.
 
 ## Enumerate from the runtime, never from a list
 

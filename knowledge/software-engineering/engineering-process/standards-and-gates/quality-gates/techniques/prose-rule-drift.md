@@ -224,12 +224,19 @@ This is a real enforcement tier and it deserves its own row, because
 grading it as unbacked understates it and grading it as backed overstates
 it by more.
 
-### The discriminator is artifact versus intent
+### The discriminator on this side is intent, not artifact shape
 
 The tier is legitimate for exactly one population and is an excuse
 everywhere else, and the line is sharp:
 
-- **Rules about artifacts a parser can see** are mechanised, full stop.
+- **Rules a parser can decide from a bounded region of one file** are
+  mechanised. The operative clause below is *written as a pattern over the
+  tree*, and it is narrower than "about an artifact": a rule can be entirely
+  about syntax and still need the call graph, the type of a receiver, or which
+  paths an input travels - "this call is forbidden on any path a request can
+  reach" is artifact-shaped and is not a pattern. That population, and what a
+  cheap guard for it silently computes instead, is
+  [decidable-in-a-window](./decidable-in-a-window.md).
   Import forms, file placement, a required field in a manifest, a forbidden
   call, a naming shape. If a rule can be written as a pattern over the
   tree, routing it to a reviewer instead is a choice to have an unmeasured

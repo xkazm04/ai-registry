@@ -6,6 +6,7 @@ technique: corruption-class-response
 stack: python
 status: forged
 verified_on: 2026-09-02
+refresh_by: 2026-10-15
 verified_against: python@3.12
 ---
 
@@ -113,3 +114,15 @@ derived-index error disappear" as operator prose in a runbook. It is a rule
 about what a human may do during repair, and nothing in the code enforces it —
 `hermes sessions repair` takes a backup by default, which is mitigation rather
 than prevention. The technique keeps the rule at standard strength.
+
+## Currency - 2026-09-17
+
+The tree this application describes was refactored by 34.4% of its non-test
+source in a single agent-driven structural pass merged two days after this
+application was verified (the vendor's own account, read by intake on
+2026-09-17: files over 5,000 lines 37 -> 6, functions over 300 lines 192 -> 2, the
+largest module 34,847 -> 5,512 lines). Every anchor above is pinned to the
+pre-refactor commit and still resolves there; the shapes it names have been split
+across modules at HEAD and their paths have not been re-resolved. `refresh_by` is
+set accordingly and a `--delta` re-scan against the merged tree is owed before any
+anchor here is cited as current.

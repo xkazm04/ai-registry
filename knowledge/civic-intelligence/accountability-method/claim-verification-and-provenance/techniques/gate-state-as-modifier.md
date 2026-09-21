@@ -89,7 +89,7 @@ per [disclose-never-repair](../../../_laws.md#disclose-never-repair):
 Missing standing is meaningful only relative to the family's gating — which
 is [missing-is-not-zero](../../../_laws.md#missing-is-not-zero) applied to
 review: an absent state is not "no review happened and none applies"; it is
-either "queued" or "not applicable", and the family must say which.
+unreviewed, actually queued, or not applicable, and the family must say which.
 
 ## When not to use it
 
@@ -99,3 +99,12 @@ cannot yet disagree. Split them the day either a second family or a
 deterministic derivation arrives; retrofitting orthogonality after copy,
 colors, and crawlers have consumed the merged scale is far costlier than
 starting with the modifier.
+
+## Safe defaults do not establish workflow facts
+
+Missing or unknown state blocks approved presentation but does not establish
+that anyone is assigned to review. Preserve the raw token and flag invalid
+state for repair. Deterministic claims may have a human gate, and approval can
+expire after changed evidence or method; bind the decision to the reviewed
+version. Retention of rejected records follows the applicable access and
+retention policy rather than an unconditional public permanence requirement.

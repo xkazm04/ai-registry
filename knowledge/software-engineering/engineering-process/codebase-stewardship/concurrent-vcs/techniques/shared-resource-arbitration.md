@@ -40,6 +40,34 @@ construction.
   duplication is strictly better than any locking protocol, because there
   is nothing to leak, stale, or deadlock.
 
+### When duplication stops being cheap
+
+"Cheaply" is a function of the session count, and the resource class that
+inverts the rule is the **per-checkout daemon**: a language server, a type
+checker in watch mode, a file watcher, a test runner's persistent worker —
+anything a tool spawns once per working copy and keeps resident. Its cost is
+not the spawn; it is resident memory multiplied by every live worktree, and
+at fleet scale that product is the machine. The measured instance: a
+structural pass that ran a few hundred agent workers in separate worktrees
+found roughly thirty copies of one language server resident at once, holding
+about nine gigabytes between them, each re-indexing the same source with a
+different working-copy prefix. The repair was neither a lock nor a
+namespace: **one shared server across the worktrees, plus a live check that
+each worktree still receives its own diagnostics.** The check is the half a
+sharing move usually forgets. A daemon shared across tenants is a daemon
+that can silently serve one of them — stale results for a worktree it never
+re-indexed spell exactly like fresh results ([failure ≠ empty
+success](../../../../_laws.md#failure-not-empty-success)) — so the sharing
+change ships with a per-tenant liveness probe, or it has traded a visible
+memory cost for an invisible correctness one.
+
+The same shape appears in a dependency-install directory shared into
+worker worktrees by a link instead of duplicated per copy; the liveness
+probe there is that the worker's own test runner resolves and runs. The
+decision rule, then: namespace what is cheap to copy at your *actual* worker
+count, and for a resource whose cost is resident-per-copy, share it and
+verify delivery per copy.
+
 ## Arbitrate what cannot be duplicated
 
 Some resources are genuinely singular: a port number, a build cache whose

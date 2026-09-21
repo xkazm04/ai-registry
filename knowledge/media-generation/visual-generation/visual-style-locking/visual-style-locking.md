@@ -11,6 +11,7 @@ techniques:
   - draft-proofing-locked-ratchet
   - rejections-as-negative-evidence
   - consistency-control-arm
+  - motion-sampled-under-a-frame-budget
 ---
 
 # Visual style locking

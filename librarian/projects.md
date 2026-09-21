@@ -21,10 +21,11 @@ contributor id. See [`.claude/skills/intake/SKILL.md`](../.claude/skills/intake/
 | `personas` | `software-engineering`, `llm-observability` | A local-first desktop app for building and monitoring AI agent personas. The `software-engineering` bundle was forged from it, and it is the first installation wired to this registry: it pairs the clone, shares and adopts skills through the `skills/` lane, writes the `usage/` lane, and consults bundle indexes at persona runtime. |
 | `personas-web` | `software-engineering`, `localization` | The public web companion to `personas`: a multi-locale marketing site, a product guide, a public roadmap, and a mock-driven demo of the agent-operations dashboard. Not forged from; it carries a thirteen-locale catalog matching the `localization` bundle's thirteen language subjects, and is the tree `source-identical-value-audit` was measured against (2026-08-28). |
 | `pof` | `game-production`, `software-engineering` | An AI companion for building UE5 C++ games. The `game-production` bundle was forged from it (merged 2026-08-22). Runs its own research lineage. |
-| `systedo-case` | `media-generation`, `software-engineering` | An AI workspace for advertising: measures account performance and generates the content that follows from it. A `software-engineering` technique wave forged from it sits on `forge/adamant-2026-08`, unmerged. |
+| `systedo-case` | `marketing`, `media-generation`, `software-engineering` | An AI workspace for advertising: measures account performance and generates the content that follows from it. The founding consumer of the `marketing` bundle (forged 2026-09-09 from five scouts over its 117 contexts plus an open SEO prompt pipeline); its paid-search triage, profit economics, lead diagnosis and organic-channel planner are the bundle's reconciliation targets. A `software-engineering` technique wave forged from it sits on `forge/adamant-2026-08`, unmerged. |
 | `gravity` | `media-generation`, `software-engineering` | A content-creation studio for trailer-shaped pieces: research, script, frames, score, cut over a captioned asset library. The first consumer of the `audio-generation` category — its Score phase renders spotting cues through a server-side music seam (2026-08-26), and the fixture cut already spoke the spotting doctrine before the engine existed. |
 | `gravitone` | `software-engineering` | A CPU-only, Arm-native text-to-speech and speech-to-text service with voice cloning, shaped like a hosted TTS API: a bounded pool of model instances behind an admission queue with 429 backpressure, a sealed air-gapped appliance image, and a Helm chart whose autoscaling reads queue depth through an external scaler. The fleet's most advanced cluster surface; onboarded 2026-09-03 after the kube-rs round found it missing (the `gravity` row above is the content studio at `gravitone-gcloud`, which this slug was previously confused with). |
 | `athena-everywhere` | `software-engineering`, `llm-observability` | A standalone, Python, cloud-capable variant of the Personas companion: one brain (markdown truth + SQLite index, provenance, gate, ledger) on two harnesses (Claude Code CLI, Strands), realtime and async lanes, every surface a channel adapter (AG-UI/CopilotKit, WebMCP, voice, MCP), self-onboarding into a host app. MIT, built for open contribution. Registered 2026-09-06 at scaffold time; it consumes the registry now and is expected to contribute usage and signals once hardened. |
+| `athena-everywhere` | `software-engineering`, `llm-observability` | A standalone, cloud-capable Athena: one agent brain (markdown episodes as truth, SQLite as a rebuildable index) behind two harnesses and a set of channel adapters, which self-onboards into a host repository behind a decision card. The runtime half of the companion that `personas` ships as a desktop app, extracted from it and ported to Python; it registers back into that app as a project and carries four demo host applications plus a Tauri desktop shell for exercising the onboarding seam. Onboarded 2026-09-11. |
 
 ## What this map is for, and what it is not
 
@@ -59,13 +60,10 @@ once, **at a different path on each**. `projects.json` gives every project a
 
 The keys ARE the machines it exists on; a machine absent from the map does not have
 it, and resolving there yields nothing rather than an error. Adding a machine is
-adding one key. The machine's **root** — the absolute directory those relative paths
-resolve against — is declared in `projects.json` too, under `machines.<name>.root`
-(since 2026-09-02), so the committed file alone yields a full path per device.
-`.machine.local.json` then says only which machine this is and who the contributor is,
-plus — for a checkout that cannot be expressed relative to the root at all (another
-drive) — an optional `overrides` map, and an optional `root` that overrides the
-declared one.
+adding one key. The machine's **root** is declared only in the ignored
+`.machine.local.json`, alongside its machine name and contributor id. An optional
+`overrides` map supplies absolute locations for checkouts outside that root.
+Missing roots are reported; the resolver never guesses relative to its working directory.
 
 **Every path the registry publishes about a project is relative to the project root**,
 never to a device: the fleet map's context paths, an application's seam, a direction
@@ -74,8 +72,8 @@ resolves it against its own root.
 
 | Machine | Role | Root |
 | --- | --- | --- |
-| `Fox` | secondary dev box | not declared yet (its local file supplies one) |
-| `Wolf` | primary dev box | `C:/Users/kazda` |
+| `Fox` | secondary dev box | local configuration |
+| `Wolf` | primary dev box | local configuration |
 
 Domains are deliberately NOT in `projects.json`. Every project declares its own in its
 `.ai/manifest.yaml` (`knowledge.domains`), which is committed in that project and is the
@@ -88,6 +86,6 @@ wrote nothing, silently, for days.
 
 Edit both halves in the same change: this table, and `projects.json` at the registry
 root. Only a NEW machine needs a local file - write `.machine.local.json` with its
-name, its root and its contributor id, then add that name to the project's `machines`
-array in `projects.json`. A project in only the local half is invisible to
+name, its root and its contributor id, then add that name and relative path to the project's `checkouts`
+map in `projects.json`. A project in only the local half is invisible to
 review; a project in only this one cannot be reached by a run.

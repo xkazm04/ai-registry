@@ -5,13 +5,13 @@ subject: federated-benchmark-sharing
 technique: capture-locally-publish-separately
 stack: rust
 status: forged
-verified_on: 2026-09-03
+verified_on: 2026-09-09
 verified_against: rust@1.85
 ---
 
 # Declining to share is a no-op on the local store
 
-`AlexsJones/llmfit` at `d19380bac5d82c5cd3080ff1afef6d1dc20615bf` runs
+`AlexsJones/llmfit` at `1e7bdb3ecf43071597ffd2eb2305dfac35e22a40` runs
 throughput benchmarks locally and offers to contribute the results upstream. The
 split the technique requires is stated as a property in
 `llmfit-core/data/community/README.md`:

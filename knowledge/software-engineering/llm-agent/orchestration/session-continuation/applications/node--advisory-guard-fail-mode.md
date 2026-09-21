@@ -16,7 +16,7 @@ oh-my-claudecode (commit `e9e8fa3847ce0b3529b84d895e841988c7308f3d`, `package.js
 engines `node: "20.x || 22.x || ..."`), shipped under issue #3707 and documented in
 `docs/design/ISSUE-3707-HOOK-REGISTRY-SHADOW.md`. It is the technique's registry: one
 entry per installed hook with `event`, `order`, `timeoutMs`, `riskClass`, `failMode`
-(`:12`), a fail mode derived from the class, and a dispatcher that enforces the timeout
+(`:12`), a fail mode derived from the class, and a dispatcher that times out its wait
 and applies the fail mode with a structured record.
 
 ## Risk class by convention, derived from the installed registration
@@ -114,3 +114,16 @@ overblocking valid work."
 - The `timeout` field is declared per hook in `hooks/hooks.json` in seconds and
   converted at `registry.ts:89`; a hook with no timeout derives `0`, which the drift
   guard reports rather than defaulting silently.
+
+## Architecture source check - 2026-09-09
+
+Re-read the pinned dispatcher source: its Promise.race bounds waiting for an
+asynchronous handler, not handler execution. It does not abort the losing handler,
+and synchronous handler work runs before the timeout promise is created. A late
+handler can keep resources alive or mutate state unless another boundary prevents
+it. The dryRun declaration and shadow result are not a sandbox or evidence of
+active enforcement. Node's timer contract also allows exit before an unreferenced
+timer fires. No full plugin or Node 20 runtime test was run in this review.
+
+Sources: [pinned dispatcher](https://github.com/Yeachan-Heo/oh-my-claudecode/blob/e9e8fa3847ce0b3529b84d895e841988c7308f3d/src/hooks/registry/dispatcher.ts),
+[Node 20 timer contract](https://nodejs.org/download/release/v20.20.0/docs/api/timers.html#timeoutunref).

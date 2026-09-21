@@ -252,3 +252,7 @@ wholesale; this subject holds the case where injecting a false declaration is th
 instrument. Contention note: `praisonai` (run 2026-09-06) landed
 `derived-selection-must-be-measured` in this golden path in the same hour; both
 hunks coexist and were staged separately.
+
+### 2026-09-17 - `/harvest backlog` wave 3, one technique + one application
+
+`unreached-decisions-pin-nothing`, from [[2026-08-31-anydoc]], [[2026-09-07-gbrain]] and [[2026-08-31-knip]]. The subject owned the population question (`out-of-graph-artifacts`) and the reach of an observing instrument (`verification-inherits-driver-reach`); what was missing is the single named decision that never ran because the test arranged its own unreachability - a poisoned dependency, a seeded cache, an older copy on the search path, an outer check ahead of the mutated input. The probe is the contribution: mutate the code the file *claims* to pin rather than the code it reaches, because a negative control chosen from the reachable side certifies the producer that answered. Measured on a real locale crossing (1 of 4 mutations caught, then 4 of 4) and shipped. **Correction to a member's claim:** the anydoc note says four instances each have a binding test passing against the wrong artifact; re-verified at its pinned commit, all four are the repository's own defences (a root-only test invocation with a comment on why, an offline install plus a cwd-shadowing warning, five agreed declaration sites, a generated version guard). The corroboration value stands; the direction does not.

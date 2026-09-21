@@ -10,7 +10,7 @@ verified_on: 2026-08-20
 
 # Process realization — acceptance integrity as a reviewed dimension
 
-Same repo (`C:\Users\kazda\kiro\pof`). The countermeasure is a blocking human/agent
+Same repo (`pof`). The countermeasure is a blocking human/agent
 review with acceptance honesty as a first-class rubric dimension, plus the incident
 that proved it necessary.
 
@@ -83,3 +83,15 @@ the row on a REVISE."
   the four-state doctrine says should be explicitly reasoned. The standard stays: an
   `unknown` is a finding, not a resting place — the repo agrees in its own comment
   ("This is not an accepted state: it is a FINDING").
+
+## Review boundary - 2026-09-09
+
+This historical repair was assessed as documentation, not replayed in the consumer.
+A never-failed gate is a lead rather than proof of an unconditional pass. Test invalid
+inputs and unavailable required evidence. Falling back to a raw checker when the
+resolved context is missing cannot certify the complete terminal requirement.
+
+Passing named upstream authoring rows does not prove that an integrated "equip and
+use" runtime check ran. Bind the dependency map to actual required observations,
+handle missing/cyclic dependencies, and retain both known failures and unknowns.
+The incident supports a possible failure mechanism, not its prevalence elsewhere.

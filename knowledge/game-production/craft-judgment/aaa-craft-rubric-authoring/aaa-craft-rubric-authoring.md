@@ -19,8 +19,9 @@ techniques:
 # Authoring a craft rubric that grades against what ships
 
 A craft rubric — a *lens* — is the written instrument that turns one stored artifact
-into an absolute grade against the standard of work that actually shipped in its
-medium. It is not a scoring prompt, and the distinction matters more than any other
+into a criterion-referenced grade against a declared standard for its medium.
+That standard remains an authored, calibrated instrument, not an objective market
+measurement merely because it names shipped products. It is not a scoring prompt, and the distinction matters more than any other
 decision in this subject. A scoring prompt asks an examiner for an opinion and gets
 back the examiner's taste, smoothed toward the middle. A lens hands the examiner a
 fixed set of checkable bars, a named reference standard at each quality level, a list
@@ -48,7 +49,8 @@ Three grading stances feel natural and each destroys the instrument.
 **The curve.** Scoring an artifact relative to the batch it arrived in. The batch is a
 property of the generator, the week, and the prompt that produced it; grading against
 it means the score drifts every time the generator changes, and a mediocre batch mints
-a top grade. A rubric that ranks is not a rubric — it is a sort key wearing one. The
+a top grade. A relative ranking answers a different question and must not be presented as
+a fixed release-readiness grade. The
 grade must be answerable for a single artifact with no siblings present.
 
 **The ambition scale.** Scoring an artifact relative to what it was trying to be. This
@@ -71,13 +73,14 @@ predictable pathology.
 
 **Level anchors.** Each quality level names a concrete, current, publicly available
 reference product that two reviewers would picture the same way — not an adjective.
-"Excellent" is a word each examiner fills with their own history; "at the standard of
-the current top-tier commercial product in this genre" is a fixed point. Without
+"Excellent" is a word each examiner fills with their own history; a pinned reference asset with a named attribute is more reproducible.
+"Current top-tier product" alone is still a moving, ambiguous reference. Without
 anchors, examiners regress to the middle of whatever scale you gave them; the wider
 the scale, the harder they regress. See
 [named-benchmark-anchors-per-level](./techniques/named-benchmark-anchors-per-level.md).
 
-**Criteria, each a bar with a source.** Seven to twelve of them, each stated
+**Criteria, each a bar with a source.** Seven to twelve is a starting convention,
+not a validated range for every medium. Each is stated
 positively as the thing that must be true, each carrying the named published talk,
 textbook, standard or specification that establishes why it is the bar. The source is
 not a citation ritual — it is what makes the criterion arguable by a practitioner
@@ -103,8 +106,8 @@ declared specification, never against a live play session" is a sentence worth w
 at the top of every lens, because it settles in advance the argument an examiner would
 otherwise resolve by imagining.
 
-Two further disciplines wrap the four blocks. Every criterion must be answerable from
-the stored artifact alone, by an examiner with no access to the process that made it
+Two further disciplines wrap the four blocks. Every criterion must name a sufficient,
+persisted evidence package that an examiner can assess without reconstructing the process
 ([checkable-against-the-stored-artifact](./techniques/checkable-against-the-stored-artifact.md)).
 And the whole document carries a version that acts as an invalidation switch, so a
 verdict scored under an older lens reads as ungauged rather than being silently
@@ -154,9 +157,9 @@ So the routing is part of the instrument. Each deliverable class maps to exactly
 lens, and the map is data, not a judgment the examiner makes at scoring time. Two
 rules keep the map honest:
 
-- **A class may only be redirected to a lens that judges the same kind of thing.** In
-  practice this means overrides are permitted only among text-shaped classes, where
-  the artifact really is prose and the question is which prose standard applies. A
+- **A class may only be redirected to a lens that judges the same kind of thing.** A
+  text-only override allowlist is one implementation policy, not the general rule;
+  authorized media sub-class routing can also be appropriate. A
   visual class may not be redirected to a text lens, because that is not a routing
   decision, it is an escape.
 - **Re-labelling must not dodge a lens.** If a producer can rename a deliverable class
@@ -191,7 +194,9 @@ whose failures are indistinguishable from craft failures.
 
 ## Scale design: narrow, ordinal, anchored
 
-Use three to five ordered levels, not a continuous hundred-point range. Wide scales
+Three to five ordered levels is a useful starting design, not a universal limit.
+Validate the resolution raters can reliably distinguish; do not treat numeric
+encodings of ordinal levels as equal-interval measurements without justification. Wide scales
 invite two failures at once: examiners cluster toward the centre, and the extra
 resolution is fictitious — nobody can defend the difference between 71 and 74. Where a
 downstream consumer needs a number, derive it from the level; do not ask for it. If a
@@ -225,9 +230,9 @@ where they are absorbed, because the rubric is the part you can version.
   exist. A capped defect cannot be out-argued by fluency.
 - **Order and neighbour effects.** Anything that lets one artifact's grade depend on
   another's is a curve in disguise. Score singly.
-- **Self-preference.** An examiner from the same model family as the generator grades
-  its relatives generously. The mitigation is operational — different families for
-  generation and judgment — but the rubric contributes by keeping every criterion
+- **Self-preference.** Some evaluated judges have shown self-preference; its presence and size
+  depend on the judge, task and protocol. The mitigation is operational — evaluate different families for
+  generation and judgment without assuming independence or eliminating bias — but the rubric contributes by keeping every criterion
   answerable from evidence rather than from impression.
 
 Calibrating a lens against human labels, binding a verdict to a content fingerprint,
@@ -243,12 +248,12 @@ traffic and is not duplicated here.
 2. **Collect incidents, not opinions.** Gather concrete accepted and rejected examples
    in this class from the people who lead the work — the specific behaviours that made
    each acceptable or not. "Responds with a clear silhouette at thumbnail size" is an
-   incident; "looks professional" is not. Ten to twenty per criterion dimension is the
-   working number.
+   incident; "looks professional" is not. Ten to twenty per dimension is an illustrative collection budget; adequacy
+   depends on coverage of boundary cases and observed disagreement.
 3. **Sort and retranslate.** Have a second group place each incident under the
    criterion it belongs to. Incidents that land inconsistently are ambiguous and get
-   rewritten or dropped; this step is what stops two criteria from measuring the same
-   thing under different names.
+   rewritten or dropped; this step distinguishes intentional alternative framings from accidental
+   duplication; useful overlap need not be eliminated.
 4. **Write the bars, attach the sources.** Each surviving dimension becomes one
    positively-stated criterion with its citation.
 5. **Name the level anchors.** One concrete reference product per level, chosen for
@@ -257,10 +262,9 @@ traffic and is not duplicated here.
    become the capped list — typically three to six, never twenty.
 7. **Set the ceiling and classify it.** Permanent, arguable, or uncapped, with the
    reason written down and dated.
-8. **Version it, then pilot it.** Score a known-good and a known-bad artifact. If the
-   known-bad passes, the disqualifier list is short; if the known-good fails, a
-   criterion is measuring the wrong thing. Expect four to eight weeks of this per
-   class, and expect the pilot to change the document.
+8. **Version it, then pilot it.** Score a known-good and a known-bad artifact. A false pass or false rejection can arise from labels, evidence, routing,
+   criteria, aggregation or examiner error. Investigate before changing the bar.
+   A known-good/bad pair is a smoke check; use a broader held-out set for calibration.
 9. **Audit what the set does not ask.** Enumerate the class's dimensions from the
    incidents alone, without the rubric in front of you, map the criteria onto them, and
    publish the dimensions nothing covers as unmeasured. Re-run this whenever a defect
@@ -268,11 +272,10 @@ traffic and is not duplicated here.
 
 ## The rubric is also an instrument you read
 
-An artifact meeting every criterion at the highest level its class permits is a
-success, and the rubric must read as saying so; render "at the ceiling" with the same
-warning treatment as "below the bar" and everyone learns to ignore both. The
-distribution says something too: a class where nothing reaches its ceiling has a
-process gap, a class where everything does has a ceiling set too low, and a grade
-distribution frozen for two quarters usually means the anchors have aged out rather
-than that the work has plateaued. All three are readings of the document, not of the
-content, and all three are how it tells you it needs a new version.
+An artifact meeting every criterion at its policy ceiling has reached that ceiling;
+release readiness still depends on the required quality threshold and other gates.
+Display the ceiling and the release requirement separately. The
+distribution says something too: unreached, saturated or stable grades are investigation signals. They can reflect
+production, selection, rubric changes, ceiling policy or examiner drift; the
+distribution alone does not identify the cause. Investigate before deciding whether
+the work, evidence, examiner or rubric needs to change.

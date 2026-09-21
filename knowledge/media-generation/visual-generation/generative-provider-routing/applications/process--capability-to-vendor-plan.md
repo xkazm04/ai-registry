@@ -63,6 +63,20 @@ text encoder 6.4 GB + DiT 9.5 GB loaded fully, no offload; ~10 GB GPU
 memory resident after the run). n=1 — a smoke proof that the local row
 exists on this hardware class, not a throughput benchmark.
 
+**Host memory is part of the local row's hardware class, not only VRAM**
+(read from the ComfyUI 0.33.0 source on 2026-09-17). On NVIDIA or AMD under
+Windows the engine caps pinned host memory at **40% of system RAM**
+(`comfy/model_management.py`, `MAX_PINNED_MEMORY = ram * 0.40`), and on
+Linux it goes higher: at least 40%, up to 90% of RAM less 4 GB, bounded by
+RAM plus swap less 16 GB. The only stock switch is
+`--disable-pinned-memory`, which turns pinning off entirely. On this 64 GB
+machine that is about 26 GB kept for faster model transfers. On a 32 GB host
+it is about 13 GB, before the offloaded weights of a large video model need
+their own RAM. A practitioner on 32 GB reported that capping pinning at 10 GB
+with a custom loader node let them run the large video model comfortably
+(n=1, not measured here). So a local-row plan sized from VRAM alone can
+exhaust system RAM on the smaller host class.
+
 ## Sources (accessed 2026-08-24)
 
 - https://www.minimax.io/blog/minimax-h3 (2026-07-31)

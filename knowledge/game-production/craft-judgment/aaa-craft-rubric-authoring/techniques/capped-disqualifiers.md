@@ -32,9 +32,10 @@ A defect belongs on the capped list when all three hold:
    genuinely tradeable against exceptional work, and those belong in the weighted
    criteria where the trade can happen.
 
-Three to six per lens. A long disqualifier list is a symptom, not thoroughness: it
-means criteria that should be graded are being gated, and the instrument has lost its
-ability to distinguish good from adequate because nearly everything hard-fails.
+Three to six is an example authoring budget, not a limit on real requirements.
+A long list merits a scope review; length alone does not show that graded criteria
+have become inappropriate gates. Examine applicability and observed failures before
+concluding that the instrument has lost its ability to distinguish quality levels.
 
 ## What they actually look like
 
@@ -45,7 +46,8 @@ those are the ones two examiners always agree on:
   specification's ceiling, a primitive count above the class budget, a texture
   resolution above the platform's sampler allowance.
 - **A required measurement absent entirely.** If the class's standard demands a
-  measured figure and the artifact carries none, that is a hard fail, not a deduction.
+  measured figure and the artifact carries none, acceptance is blocked as unmeasured; it is not evidence that the value
+  exceeded its limit. Keep that state distinct from a detected defect.
   An unmeasured artifact is not a passing artifact; treating a missing number as
   neutral is how a class of content ships unverified.
 - **A structural break that no viewing angle forgives** — a motion missing its ground
@@ -88,15 +90,14 @@ back into arithmetic.
 
 ## Decision rules
 
-- **When a defect is arguable, it is a criterion.** Push anything requiring
-  interpretation into the weighted set. The cap's authority comes from being
-  uncontestable; one contested cap costs the whole mechanism its standing.
-- **When the same disqualifier fires on most artifacts of a class, it is a pipeline
-  bug, not a quality bar.** Fix the producer. A cap that fires constantly stops being
-  read.
-- **A disqualifier never has an exception clause.** The moment a lens says "unless",
-  producers optimise for the unless. If a case genuinely needs different treatment, it
-  is a different deliverable class with its own lens.
+- **Validate the detection and applicability of each cap.** Measurement and
+  perception can both be uncertain. Contested fatal defects need adjudication
+  or an unmeasured state, not automatic compensation through other strengths.
+- **When a cap fires frequently, inspect the evidence, detector, class routing
+  and producer.** Frequency alone cannot identify which is wrong.
+- **Define applicability before scoring.** Legitimate exceptions, such as
+  intentionally abstract lettering or airborne motion, must be explicit and
+  versioned. Do not negotiate silent per-artifact waivers.
 - **Report the cap as a distinct outcome, not as a low score.** "Failed on a
   disqualifier" and "scored poorly across criteria" call for completely different
   fixes; a system that renders both as the same low number destroys that information.

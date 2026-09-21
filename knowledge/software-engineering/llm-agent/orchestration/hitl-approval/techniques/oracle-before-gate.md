@@ -6,6 +6,8 @@ technique: oracle-before-gate
 status: forged
 laws: [gate-sees-target, unknown-is-not-a-value, count-carries-predicate]
 shared_with: []
+applied: experiment
+ab_verdict: not-better
 use_when: [choosing which machine output a human should review, a reviewer approves everything and cannot say what they checked it against, deciding whether a reversible-but-opaque change needs a gate, a review queue is ordered by impact and effort alone, an approval rate sits near 100% and the items are not obviously safe, an unverifiable item was split into smaller items that are each still unverifiable, deciding at which artifact altitude a reviewer should be shown the work]
 ---
 
@@ -156,6 +158,33 @@ Two consequences for the surface:
   be approved without being decided
   ([count-carries-predicate](../../../../_laws.md#count-carries-predicate)).
 
+## The remainder is not, by itself, the risky part
+
+Reporting the no-oracle count carries an implication the count does not support:
+that those items are where the defects are. They are where the *verdict* is
+missing, which is a different claim, and the two come apart. Measured over two
+mainline application histories - every change in a window, one observation per
+changed source file, matched on the change's size and on the file's own churn -
+the slice no test reached was repaired within a fortnight at 0.84 and 0.49 times
+the rate of the slice a test did reach. The raw gap was wider on both trees and
+about half of it was churn: a file with tests is usually a file under active
+work, and a file under active work has more chances at a fix.
+
+So the priority order does not follow from the count. What follows is narrower
+and still decisive: **the slice with an oracle is not the safe slice either.**
+Those changes were green when they merged and were repaired anyway - a quarter
+and an eighth of the file-changes in the two trees. A green row is evidence that
+one question was asked and answered, not that the change was right; and where the
+lower artifact is a standing pass list rather than a check that moved with the
+change, it is not evidence the change was examined at all.
+
+Two things this does not say. It does not say unverifiable work is safe: repair
+history sees only harm somebody found, and the drift this technique warns about
+in reversible-but-opaque work is by construction the harm nobody found, which no
+repair count can reach. And it does not license dropping the remainder from the
+record - the reason to publish it is that a verdict must state its own scope, not
+that the remainder is where the risk hides.
+
 ## Reading the approval rate correctly
 
 This subject already notes that a gate approving near 100% for months is
@@ -184,3 +213,6 @@ record that the work happened at all.
   rendering.
 - Split every approval-rate reading by oracle presence before drawing a
   conclusion from it.
+- Publish the remainder because a verdict must name its own scope, not because
+  the remainder is the risky slice. Matched on size and churn it is not where
+  found repair concentrates, and the oracle-covered slice is not repair-free.

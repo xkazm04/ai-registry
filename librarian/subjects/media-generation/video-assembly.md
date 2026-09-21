@@ -1,7 +1,7 @@
 ---
 subject: video-assembly
 domain: media-generation
-last_touched: 2026-09-04
+last_touched: 2026-09-16
 dry_streak: 0
 ---
 
@@ -125,3 +125,124 @@ Neighbour note: `character-identity-continuity` explicitly "stops at the cut and
 hands over" to this subject for sequence-scale drift, and this amendment lands on the
 handover itself — the topology governs how the *anchors* are minted, which is shot
 sourcing, not conditioning-within-a-generation. No edit was made there.
+
+## 2026-09-07 - rung zero on the conditioning ladder ([[2026-09-07-grimstone-opening-cinematic]])
+
+`generated-shot-sourcing` gains "Rung zero: the still that is moved, not generated" under
+the ladder. Every rung shared a premise the ladder never stated - a generation is made -
+and the rung below text-only is the accepted still under an editor move: the most
+controlled rung, not the least, because nothing in it is sampled; what it cannot give
+(parallax, atmosphere, life in the figures) is the only reason to climb, and leaving it
+opens the performer channel. Source: a practitioner's storybook opening that left rung zero
+because the zoom "felt static" and paid at rung two in figure-stillness re-rolls. Applied to
+gravity as a simulation over three real cases; the tree is rung zero by construction and
+says so (`frames.ts:88-90`), and the structural fact is that the decision to generate at
+all is made there by the absence of a renderer - a missing field, named in the extended
+`react--generated-shot-sourcing` application. Boundary: the figure-stillness half lives in
+`cinematic-language/performance-direction` (same run), not here.
+
+## 2026-09-08 - the cap moved, so the binding constraint moved ([[2026-09-08-seedance-prompt-showcase]])
+
+`generated-shot-sourcing` gains "When the cap stops binding, the beat floor starts" under
+the clip-caps section, and `process--generated-shot-sourcing` moves to `verified_on:
+2026-09-08`. A frontier model now renders 30 s in one pass with no stitch, which retires
+the ledger's ~10 s / 15 s / six-stitched-shot reading but **not** the technique's rule -
+that rule was written cap-agnostic and survives the number changing, which is worth
+recording as evidence the forge got it right. What the cap moving does change is which
+constraint a brief collides with first. Under a short cap the arithmetic was
+self-policing: a ten-beat brief was visibly too big and failed before any spend. At 30 s
+the request accepts it, divides, and the division is invisible until the render returns -
+so the floor replaces the cap, and the amendment adds where the floor may come from (the
+content's own duration claim, never a pace band measured on longer cuts) and the rule that
+a pipeline resolving the collision must say which side gave.
+
+Converges inside the bundle with `creator-voice-and-tone/delivery-rate-budgeting`, which
+reaches the same floor-not-ceiling structure for a narrator's words and already states the
+matching rule ("must never shorten the chain - and the tool should say which of the two it
+is doing"). Two subjects, different material, one rule; that convergence is the row's
+corroboration and it cost no fetch.
+
+Applied to gravity at a seam **chosen to falsify** - the shot decomposition, where
+`shots.ts:529` computes `holdS = beatS / n` - and the falsifier caught it twice: the tree
+declares a measured `FLOOR_S` and caps the count by it before dividing (clamp reachable in
+1 of 400 probed pairs, known-positive asserted), and it derives beat counts from a script
+clock rather than letting an author enumerate them, prompting one shot per request. Verdict
+`unmeasurable`; the corrective is what that tree already is, arrived at independently. The
+refutation was the useful part: it relocated the exposure from long durations to **the
+enumerating surface**, and the return condition was rewritten as a shape rather than a
+number. Recorded in the extended `react--generated-shot-sourcing` application.
+
+Boundary: the untriaged row about a delivery surface setting the top resolution rung
+belongs to `generative-provider-routing/resolution-as-stage-property`, not here, and was
+not landed - it is banked with its anchor in the source note.
+
+## 2026-09-09 - [[2026-09-09-blender-previs-to-video-reference]] - /intake round 46
+
+A thin second-hand video review (879 words) that authorized nothing and located a real
+split anyway. Its premise - block the shot in 3D, feed the grey-box render to a video
+model as a motion reference - is covered clause by clause in `motion-plate-library`, which
+already names a built previz as a plate source. Four of nine rows were catches.
+
+The finding is the subject disagreeing with itself. `motion-plate-library` says **the plate
+is the asset and the bound render is the disposable**, and lists a built blockout among its
+four sources; `cut-compiled-from-source`, one file over, runs the opposite inversion for the
+assembly layer - compile from a composition, the render is disposable by construction. The
+doctrine was already in the subject and had never reached one stage upstream, because the
+library discipline was written for **sampled** plates, where no upstream representation
+exists. Landed as an amendment (`## When the plate was built, the scene is the asset`) and
+one new decision rule; written as an append, so every prior sentence stays true.
+
+Applied to gravity at a seam **chosen to falsify**, and the falsifier fired usefully: the
+studio's six preset plates pin a seed, a size, a frame rate and an engine, so they *are*
+reproducible and the claim as first drafted was wrong. The corrected claim is the one the
+amendment carries - a sampled plate is reproducible, never **editable**, so "the same move a
+third slower" is a fresh roll rather than a change. Paired arm over the same six plates,
+instrument asserted first: the tree's own authored-clip predicate passes 6/6, the
+technique's magnitude demand 0/6. Structural fact nobody designed: composition is typed to
+four numbers per element and motion sits beside it as free text, and motion is also the only
+dimension with no renderer.
+
+Second independent reading of the same file the 2026-09-07 run reached from
+`generated-shot-sourcing`; two sources, one seam, different findings.
+
+Boundary: the lead about a 3D authoring tool hosting the assistant connector, with vendor
+selection exposed at the point of authoring, belongs to `generative-provider-routing` and
+its caller-names-capabilities rule - not here. Banked with its return condition in the
+source note.
+
+## 2026-09-16 - /intake hyperframes ([[2026-09-16-hyperframes]])
+
+- New technique `seek-stable-composition-authoring`. `cut-compiled-from-source` argued
+  *why* to compile the cut from a declarative document and then treated the compile as a
+  black box - "the seams are the renderer's problem". That is true of edit seams and false
+  of **chunk** seams: the compile is reproducible only while every frame is computable from
+  its own index, and the moment the renderer enters out of order (a worker, a resume, a
+  scrub) any value captured when an animation *started* becomes a second input. A missing
+  stage at the point the subject's own doctrine hands off, found by walking the pipeline
+  rather than by slug overlap.
+- **The discriminator is the second writer, not the relative value**, and that is measured
+  rather than quoted. Paired arms at the timeline layer: a relative value with a second
+  concurrent writer diverged on 45 of 90 frames between a sequential walk and two workers
+  splitting at the midpoint (seam step 26.67 against a normal 1.67); explicit endpoints gave
+  0 of 90; and the **control** - a single-writer relative value - also gave 0 of 90. The
+  control holding is what earns the rule its narrow form; a looser "avoid relative values"
+  would have cost expressiveness and bought nothing.
+- The safe-looking path is the one that hides it: preview, a single-process render and a
+  test that plays from zero all travel the one route on which the defect cannot appear.
+  That is `unmeasured-is-not-pass` aimed at the author's own eyes, and it is why the
+  composition half is worth gating statically instead of watching the output for snaps.
+- **The fleet seam widened the source's rule.** The source's analyzer flags a relative
+  operator (`+=`) with a second writer. systedo-case's rank-climb demo has a second writer
+  and no relative operator at all - it animates to an absolute target from wherever the
+  value currently sits, which is implicit in exactly the same way, and a checker written to
+  the source's rule would pass it. Replay travelled 33% of the rank climb and 40% of the
+  visibility climb a first run travelled; shipped `b95a43a4`, floor declared first and held.
+- Structural fact nobody designed: the source enforces one invariant at **three** altitudes -
+  composition analyzer, runtime drawing backend, encoder frame placement - and each refusal
+  is written up locally in its own platform's deployment guide, never as a doctrine. It is
+  only visible from outside, and it is the evidence for the technique's last decision rule.
+- Boundary recorded, not landed: the same root rule sits in game-production's
+  `per-cell-seed-derivation-for-order-independence`, whose "when not to use it" excludes
+  deterministic evaluation - which this run's measurement refutes, since there is no
+  randomness anywhere in it. Out of the run's declared domain; banked as a lead with its
+  return condition in the source note.

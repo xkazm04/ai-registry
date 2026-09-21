@@ -47,3 +47,4 @@ runs 14 → 57 merges). **Banked** in
 because the run's operator focus excluded this system; the count says a scoped
 `/deepen` or `/reconcile` inside this subject, not a forge. This is the subject's
 reconcile debt, and the counterpart is now named with its commit.
+[[2026-09-16-langextract]] (intake) amended `recall-passes-with-a-declared-cap` with blind passes and positional merges. A blind pass repeats the prompt and recovers only through sampling variance. A first-pass-wins span merge drops nested entities of another type and re-appends unlocated items on every pass. The first repair, type-and-span keying, kept a relabel on the source library's own test fixture, so the landed rule is declared nesting plus recorded conflicts (wrong outcomes 2/4, 1/4, 0/4 across the three merges). Application against the source tree; no fleet project runs multi-pass extraction.

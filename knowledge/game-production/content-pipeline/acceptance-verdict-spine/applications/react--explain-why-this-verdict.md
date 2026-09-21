@@ -11,7 +11,7 @@ verified_against: react@19
 
 # React realization — the "Why this grade?" disclosure
 
-Same repo (`C:\Users\kazda\kiro\pof`). The explanation is a pure module plus a
+Same repo (`pof`). The explanation is a pure module plus a
 lazily-invoked thunk plus one disclosure component.
 
 ## The reconstructor
@@ -77,3 +77,20 @@ render `warn`. The unapplied judge verdict is displayed *because* it was not app
 - **Upward lesson.** Recording composition members as a non-enumerable symbol property
   at build time is what makes member naming free at grade time; the expert draft had
   the requirement but not this mechanism.
+
+## Review boundary - 2026-09-09
+
+The four historical equality cases were not rerun and do not establish all-input
+parity. Shared functions need the same immutable snapshot, policy and supplied time;
+compare full records, not only status and tier. Separate a layer applying from the
+final deciding rule, and distinguish newly evaluated members from original not-run ones.
+
+The shown openWhy conditional evaluates on every render while open. It avoids work
+while closed, but is not a once-per-open guarantee. Retain the original trace or cache
+by the complete snapshot where cost warrants it. Deferred-before-fail compositions
+need an aggregate failure even if the initial diagnostic names the deferred member.
+
+[WCAG use of color](https://www.w3.org/WAI/WCAG22/Understanding/use-of-color.html)
+supports using an additional non-color cue. Glyph plus text alone does not establish
+full accessibility, keyboard operation or adequate contrast. Consumer code, UI behavior
+and accessibility were not evaluated; historical witness metadata remains unchanged.

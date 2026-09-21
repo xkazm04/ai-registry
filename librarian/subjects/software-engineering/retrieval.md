@@ -1,8 +1,8 @@
 ---
 domain: software-engineering
 subject: retrieval
-last_touched: 2026-09-07
-touched_by: research, external-reconcile, intake
+last_touched: 2026-09-15
+touched_by: intake
 dry_streak: 0
 ---
 
@@ -209,3 +209,12 @@ None.
 ## 2026-09-03 - `/intake` lightrag (run `intake-lightrag-0902`, intake 2.2.0, Opus workers)
 
 New technique `query-decomposition-before-the-lanes` - a MISSING STAGE in a mature subject: the golden path ran query → per-lane execution with nothing between; the source decomposes the query into abstraction tiers (specifics to the entity index, themes to the relation and summary index) so lane choice is a property of the decomposed query rather than of a caller mode flag. The pipeline sentence gained one arrow and one sentence. Source-tree application. Deviations: the caller flag still outranks the decomposition at each tier; the keyword cache hashes the mode the prompt never sees; an all-empty fallback refuses queries over fifty characters and labels it only in a log. Boundary in prose to the sibling subject forged the same run that writes the graph the lanes read.
+
+## 2026-09-15 - `/intake` awesome-llm-apps re-run (run `intake-awesome-llm-apps-0915`, intake 2.10.0)
+
+Two amendments, both boundaries the subject had drawn one case too narrowly.
+
+- **relevance-floors: a floor stated in converted units inherits the conversion.** A tutorial's fix converts an index distance to a similarity with the Euclidean formula while its indexes return the square; the 0.85 floor admits cos 0.726. The amendment names both preconditions (squared or root, unit length) and why tests miss it: identical, cos-0.5 and orthogonal pairs agree under both formulas. Application `rust--relevance-floors` (experiment, better): personas' 1.30 floor is right because the bundled library returns the root despite a function named `sqr`, and its test would not notice if that changed.
+- **embedding-lifecycle: the role is a fifth input the stamp cannot see.** Asymmetric models embed queries and documents under different roles; the query vector is never stored, so a query embedded as a document passes every stamp check. Discriminator: whether the two sides of the distance play different parts (retrieval) or the same (symmetric comparison). Application `next--embedding-lifecycle` (simulation, unmeasurable, instrument named).
+
+Leads touching this subject: a measured RAG failure taxonomy (08-25) is reinforced, since 0 of 24 tutorial RAG apps evaluate retrieval.

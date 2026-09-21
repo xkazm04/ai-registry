@@ -95,6 +95,57 @@ the party who broke it. Where a unit exposes named entry points, referring past
 them to a path inside is the mechanism's most common misuse and the cheapest to
 detect: the reference contains internal structure the publisher never published.
 
+## When the address encodes a version, the constraint lands on strangers
+
+The choice above is written from the referrer's chair: *I* write an address, so
+*I* accept that this reference is not mine to rebind. There is a case where a
+publisher makes that choice on everyone else's behalf, and the technique's
+reasoning has to be followed one step further to see it.
+
+A publisher can encode a **contract version in the address itself** — a
+versioned entry point, a dated submodule path, a reference whose spelling names
+which revision of the interface the caller is asking for. The motive is sound
+and is exactly the one above: the binding should not be redirectable, because a
+silent substitution would change a contract the caller believes is fixed. Making
+it an address expresses that constraint in the strongest available form.
+
+The step that is easy to miss: **an address is written at every call site, and
+not all of those call sites are yours.** A consumer that reaches the publisher
+through a wrapper — an adapter, a framework integration, a convenience package —
+does not write the inner reference. The wrapper does. So the constraint the
+publisher intended for its direct callers propagates to a transitive consumer
+who cannot satisfy it: pinning its own direct reference leaves the wrapper's
+reference on whatever the wrapper chose, and the two resolve to different
+revisions of the same interface inside one process. The symptom is not an error.
+It is a program holding two bindings of one contract, each internally consistent,
+reached by two paths through the dependency graph.
+
+Note what has happened to purview. An address was chosen to concentrate
+authority over the binding in the publisher, and it did — but authority over
+*which address gets written* stayed distributed across every intermediary, and
+those two are not the same thing. Encoding a version in the address transfers
+the binding decision to whoever writes the reference, which for a transitive
+consumer is a third party.
+
+- **Publishing a versioned address obliges you to publish a second way to say
+  it** — a runtime parameter, a header, a configuration value carrying the same
+  selector — for callers who cannot write the reference. Without one, the only
+  consumers who can pin are your direct ones.
+- **Wrapping a publisher who versions by address makes you responsible for
+  exposing that selector**, because you have just taken the decision away from
+  your own consumers by standing between them and it.
+- **Depending on such a publisher through a wrapper, audit the resolved graph
+  rather than your own declaration.** Your manifest states what you asked for;
+  only the resolved tree states how many revisions of that contract are actually
+  present, and duplicates here are a contract split rather than a disk-space
+  problem.
+
+The general form is worth keeping separate from the versioning case that
+exposes it: a constraint expressed by notation binds whoever writes the
+notation. Where the writer and the party the constraint is meant to protect are
+different, the notation is not carrying the constraint — it is only relocating
+it.
+
 ## The hybrid: a name as a kind of address
 
 The two forms are usually built as separate primitives with separate machinery,

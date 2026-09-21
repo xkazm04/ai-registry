@@ -25,7 +25,7 @@ test").
 | Midnight wrap | contract point 3: `from > to` means `[from, 24:00) ∪ [00:00, to)`; `wrap_inverts_membership_on_interior_points` proves the wrapped form is the exact complement of the same-day form on interior minutes — the property-style oracle the technique asks for |
 | Degenerate window pinned | contract point 2: `from == to` is **zero-length, never quiet** — with the rationale recorded: equal endpoints most often mean a half-edited config, and silently converting that into 24-hour silence is worse than a no-op. `from_eq_to_is_never_quiet` holds for every (window, now, weekday) triple |
 | Malformed-config posture | empty `days` array never matches (same don't-silently-widen logic); unparseable schedules are skipped, not guessed at (`quiet.rs:70-73`) |
-| Timezone honesty | evaluated against the user's current local clock at each check (`Local::now()`), never a stored offset; contract point 5 pins DST as wall-clock-only, including the fall-back day's doubled 01:30 being quiet twice |
+| Timezone honesty | evaluated against the host local clock at each check (`Local::now()`), which matches the user only when configured accordingly; contract point 5 pins DST as wall-clock-only, including the fall-back day's doubled 01:30 being quiet twice |
 | Gate sees the target | the check runs at **delivery**: `release_pending` holds all queued rows while quiet (`mod.rs:388-392`) and they release once the window closes — deferral crossing a window edge is re-checked at the moment that matters |
 
 ## Judgment calls worth copying
@@ -37,29 +37,26 @@ test").
   what "pinned by tests" means as a practice, not a slogan.
 - **Complement-property over example points.** Instead of enumerating
   wrap cases, one property asserts same-day and wrapped membership are
-  mutual complements on interior minutes — the class of off-by-one wrap
-  bugs cannot survive it.
+  mutual complements on interior minutes — useful interior coverage, without proving every edge or weekday rule.
 - **Quiet suppresses delivery, not noticing.** Evaluation during quiet
   hours is also skipped as an economy (`evaluate_with_extra_candidates`,
-  `mod.rs:128-131`), but queued rows waiting out a window release well
-  inside their expiry — the decoupling keeps the 02:00 signal for 07:01.
+  `mod.rs:128-131`), so only already queued or otherwise retained signals can survive that interval.
+  A transient 02:00 signal is not preserved merely by having a queue.
 
-## Gaps against the technique (reported, not fixed)
 
-- **No priority bypass class exists — and its absence is unmanaged in
-  both directions.** Nothing crosses a quiet window via a declared
-  class; instead, direct-delivery callers (`deliver_now` at
-  `mod.rs:546-560`) decide individually whether to re-check quiet:
-  message triage and execution review do check inline
-  (`message_triage.rs:457`, `execution_review.rs:853`), the night-shift
-  wake report path does not, and no crossing is counted or labeled. The
-  technique requires a closed, enumerated, counted class — per-call-site
-  judgment is exactly the bypass-creep shape it forbids.
-- **No shipped default night window.** Quiet exists only if the user
-  creates a ritual; the out-of-the-box configuration can nudge at 03:00.
-  The technique ships a sane default because the users most harmed never
-  open settings.
-- **The budget's day boundary does not share the quiet layer's timezone
-  honesty** — quiet is local wall-clock, the budget day is UTC
-  (`budget.rs:234`), so the two policy clocks disagree by the user's
-  offset. One subject, one clock discipline.
+## Architecture source check - 2026-09-09
+
+The historical private call sites and tests above were not rerun. The library
+contract establishes that Local::now uses local time for its execution environment;
+it does not resolve a remote recipient's timezone. A recipient-zone setting is
+needed when those differ. Converting local wakeup times can also produce ambiguous
+or nonexistent results; membership and wakeup scheduling are distinct operations.
+
+No bypass class is a valid policy. The reported concern is inconsistent direct
+callers if they fall under the same quiet promise. A shipped night default is a
+product choice, and a UTC budget period can coexist with local quiet windows when
+both are declared. Neither difference alone proves a defect.
+
+Sources: [local clock contract](https://docs.rs/chrono/0.4.45/chrono/offset/struct.Local.html),
+[local-time mapping outcomes](https://docs.rs/chrono/0.4.45/chrono/offset/enum.LocalResult.html).
+The historical verified_on remains unchanged; full runtime evidence needs rechecking.

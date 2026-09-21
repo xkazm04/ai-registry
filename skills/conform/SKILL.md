@@ -3,7 +3,7 @@ name: conform
 description: "Evaluate this repository against the registry standards that govern it, one context at a time, and keep the verdicts. Reads .ai/registry-map.json (the generated join between this repo's contexts and the registry's subjects), picks the highest-value unevaluated or stale pairs, reads the governing golden path and techniques against the context's real code, and writes back conformant / deviation / not-applicable with file:line evidence - so the map becomes a standing, incrementally-completed deviation backlog instead of a one-off audit. Use to answer 'where does this repo fall short of the standard', before a hardening pass, after a bundle changes, or when a context is about to be rewritten. Invoke with /conform [context-or-path] [--subject <slug>] [--stale] [--budget <n>]."
 category: ai-native
 memory: project
-version: 1.5.0
+version: 1.6.0
 tags: conformance, deviations, registry, audit, backlog
 argument-hint: "[context-or-path] [--subject <slug>] [--stale] [--budget <n>]"
 ---
@@ -30,7 +30,7 @@ Everything project-specific is already on disk; this skill declares no config of
 
 | Input | Where | If missing |
 | --- | --- | --- |
-| the join map | `.ai/registry-map.json` | run `node <registry>/scripts/build-registry-map.mjs` first; without it there is nothing to judge |
+| the join map | `.ai/registry-map.json` | **only when the file does not exist**: run `node <registry>/scripts/build-registry-map.mjs --project <slug>` once, then judge. A map that exists is never rebuilt inside a run |
 | the registry root | `.ai/manifest.yaml` -> `registry.local` (default `../ai-registry`) | stop and say so - a verdict against a corpus you could not read is worthless |
 | the gap register | wherever this repo already tracks defects (its backlog, findings doc, or issue tracker) | report in-session only, and say that nothing was persisted outside the map |
 
@@ -50,9 +50,9 @@ Choose the pairs to evaluate, in this order:
    longer exists in that form. The header's `stats.staleVerdicts` and `staleSubjects` say
    how many and which - read them first, because they are the registry's landings arriving
    in this repo, and a stale `deviation` may already be fixed by the corrected standard or
-   a stale `conformant` may now be a deviation. (Before 2026-09-02 staleness was the whole
-   bundle's digest, so every verdict read stale after any landing anywhere; if the map
-   predates that, regenerate it - legacy verdicts are re-dated from git, not discarded.)
+   a stale `conformant` may now be a deviation. A map built before 2026-09-02 computed
+   staleness from the whole bundle's digest, so it may mark every verdict stale or none:
+   judge the pairs anyway and report the map's age (§ the map is never regenerated here).
 3. **Arrived** - pairs on a context marked `arrived: true`: the context entered the
    context map since the last build (a `/project-populate` sweep, a new module) and has
    never been judged. It is not stale - there was never a verdict - but it is the freshest
@@ -77,6 +77,20 @@ poisons the same tally the next run will trust.
 
 **Budget: 3-6 pairs per run unless `--budget` says otherwise.** This skill is worth more
 run ten times than run once; a pass that skims forty pairs produces forty guesses.
+
+**A `/conform` run never regenerates the map.** The only exception is a map that does not exist
+at all. Judging is the job; rebuilding is a separate, deliberate operation, and a rebuild inside
+a run re-matches every context at once — measured: one added 628 pairs and turned every existing
+verdict into an orphan. This holds however old the map looks, whichever builder wrote it, and
+whatever its `bundleDigests` say.
+
+When the map lags the registry — an older builder (`contextKey: null`, `staleVerdicts: 0` because
+that builder never computed them), bundle digests behind the pinned corpus, subjects the index
+has that the map does not — **judge the pairs that are there and report the lag**, naming the
+command the operator can run afterwards: `node <registry>/scripts/build-registry-map.mjs
+--project <slug>`. A verdict written against the pair's own `digest` stays valid across that
+rebuild; the builder carries verdicts forward. Say in the report which of your verdicts were
+made against a lagging map.
 
 Never evaluate a `weak` context's pairs by default. A weak row means the declared domains
 barely cover that context - the match itself is the doubtful part, and judging code against
@@ -108,14 +122,26 @@ verdict per **pair**, derived from the techniques:
 
 | Verdict | Means | Requires |
 | --- | --- | --- |
-| `conformant` | every technique that applies here is realized | a `file:line` for the realization of at least the load-bearing ones |
+| `conformant` | every technique that applies here is realized | the techniques you judged, listed by slug, with a `file:line` for **every one you call realized** |
 | `deviation` | at least one applicable technique is not realized, or is realized in a way the technique names as a failure | `file:line` for where it should be, and one sentence on the consequence |
-| `not-applicable` | the technique's precondition does not hold here (a `stage:` above this repo's rung, a capability it does not have) | one sentence naming the precondition that fails |
+| `not-applicable` | the technique's precondition does not hold here (a `stage:` above this repo's rung, a capability it does not have) | one sentence naming the precondition, **plus a `file:line` anchoring the absence** - the manifest, config or module that shows the precondition unmet |
+
+**The evidence floor.** Count the subject's techniques and count the ones you cited. A
+`conformant` verdict that names fewer than **half** of them is not conformant, it is `unknown`:
+you looked at part of the subject and the rest is unread. This is a floor, not a target - a
+subject of four techniques needs two anchors, not four paragraphs about a technique you skimmed.
+
+**Anchors have a shape.** `<path>:<line>`, the path relative to the repository root exactly as
+`git ls-files` prints it. A basename (`limiter.ts:41`) is ambiguous the moment the repo has two
+packages, and an anchor that does not resolve is not evidence. This applies to all three
+verdicts, `not-applicable` included: "the repo has no worker tier" is a sentence;
+"`Cargo.toml:1` declares four crates, none a worker" is an anchor.
 
 Three rules that keep verdicts honest:
 
-- **`not-applicable` is a real verdict and must be argued.** It is the honest answer for a
-  `stage: fleet` technique in a solo repo. It is not a place to put "we disagree".
+- **`not-applicable` is a real verdict and must be argued and anchored.** It is the honest
+  answer for a `stage: fleet` technique in a solo repo — and it still shows the reader where
+  the missing precondition is visible. It is not a place to put "we disagree".
 - **A deviation is a finding about the code, never about the standard.** If the technique
   genuinely seems wrong here, that is a *registry* finding: record it as a proposal
   (below), and still mark the deviation.
@@ -165,6 +191,14 @@ So a corrected pairing is a first-class output, written into the row as a new en
 forward exactly like verdicts, because a pairing somebody established by reading code is
 worth more than one a token overlap produced. Add the pair, then judge it like any other
 (usually in the next run; establishing the pairing is enough for this one).
+
+**Commit the map edit — it is the deliverable.** The verdicts are the expensive part of the
+run, and an uncommitted `.ai/registry-map.json` is a run that produced nothing durable. Default:
+one path-scoped commit, `conform: <n> verdicts on <context>`, staging `.ai/registry-map.json`
+(and the gap-register file if this repo keeps one) by explicit path — never `-A`. Commit on the
+current branch; do not push. If the tree is dirty with another session's work, commit *your*
+paths only and say so in the report. If the task forbids committing, say plainly that the map
+edit is uncommitted and name the file.
 
 Then land the findings where this repo already tracks work: deviations become backlog items
 with their subject slug and anchor. A deviation that lives only in a JSON file is a
@@ -229,38 +263,53 @@ done more good than one that only fixed code:
   fixed, or falsified, and it will be re-found forever.
 - **Evaluating weak pairs to raise the count.** The number of judged pairs is not the goal;
   a small honest map beats a large speculative one.
-- **Regenerating the map to "fix" a verdict you disagree with.** The generator carries
-  verdicts forward on purpose; overwrite them deliberately or not at all.
+- **Regenerating the map, for any reason, inside a run.** Not to "fix" a verdict, not to
+  refresh a stale digest, not because the builder looks old. Judge, report the lag, leave the
+  rebuild to a deliberate operation outside this skill.
+- **A bare-slug or basename anchor.** Repo-root-relative or it is not evidence.
 
 ---
 
 <!-- clause: skill-reflection v4 - stamped by scripts/apply-skill-clauses.mjs from docs/skill-clauses/skill-reflection.md; edit the template, then re-stamp -->
 ## Skill Reflection
 
-After the run's real work is done, reflect - autonomously, without asking the user. Lane 0 is written on EVERY run; lanes 1-3 are not. Be honest about volume: most runs produce nothing in lanes 1-3. An empty reflection is a valid result; a forced lesson is pollution. Calibration: nothing (common) / one line (sometimes) / a lesson entry (occasionally) / a redesign proposal (rare).
+After the work, record only useful observations supported by this run. No lesson is
+a valid result. Reflection inherits the task's authorization; it grants no additional
+permission to edit another repository, send data, commit, or publish.
 
-**Lane 0 - RUN LOG** (every run that started work, including failed and aborted ones; skip read-only info modes such as a status peek, and runs cancelled before any work). Append one row to the registry's run log with one command - identity (project, device) and the skill's version are resolved by the script, never typed (`<registry>` resolves as in lane 2 step 4):
+**Project learning.** Only when this run produced an observation that would change how a
+future run behaves. A run that went as the method describes writes nothing: an entry that
+restates the procedure, records "no issues", or repeats the task is a defect, not a
+deliverable. When there is such an observation and local edits are within scope, put one
+dated line in the overlay this skill's `## Project overlay` section names, under
+`## Skill improvement log`. **Write only into an overlay that already exists.** If the
+project has none, put the observation in the response instead - creating a new tracked
+file for a reflection is scope the task did not ask for, and a reader who never asked for
+the skill has to review it. If the overlay is a structured config (YAML, TOML, JSON),
+record the note as comments so the file keeps parsing, or use the response.
+Use a supplied memory contract only when its destination and writes are authorized.
+Keep project details out of the shared method.
 
-```sh
-node <registry>/scripts/log-run.mjs --skill conform --outcome <o> --difficulty <1-5> \
-  --provider <claude|openai|xai|qwen|google|other> --model <your model id> [--effort <level>] \
-  [--tokens-est <n>] --result "<one sentence: what this run produced>" --comment "<free text>"
-```
+**Method learning.** Identify the installation before editing anything. A local
+`.ai/registry-installation.local.json` receipt can identify development versus release,
+the registry revision, and selected skill versions. Verify any link's actual target;
+do not assume a skill directory is a writable registry link.
 
-- `--outcome`: `shipped` (the goal landed) / `partial` / `no-op` (ran correctly, nothing to do) / `parked` (designed or staged, deliberately not landed) / `failed` / `aborted` (stopped by the operator or the harness).
-- `--difficulty`: 1 trivial - mechanical, no judgment needed; 2 routine - the method applied as written; 3 demanding - real judgment calls, or one detour; 4 hard - several dead ends, rework, or an operator course-correction; 5 at the edge - partial or failed on the merits, not on tooling. Rate the TASK as this run met it, not the effort you spent.
-- `--model` / `--effort`: what you are running as, as your harness states it; omit `--effort` when you cannot see it. `--tokens-est`: the drop in the harness's remaining-token counter from just before this skill was invoked to now; omit it when your harness shows no counter. Exact figures are measured later from the transcript and stored apart - never guess one.
-- `--comment` is the self-reflection a reviewer will read: what went well, what the method made harder, where the skill's instructions were wrong, missing or ignored. Specific over polite; no filesystem paths or email addresses (the writer rejects them).
-- If the command fails on validation, fix the named field and rerun. If the registry is unreachable, add `--pending` (the row waits in the project's `.ai/`). Never read the run log during a run: it is evidence ABOUT this skill for `/librarian skills`, and an executor that reads its own diagnosis contaminates the next measurement.
+- For a pinned release, marketplace cache, ordinary copy, or unknown installation,
+  keep a proposal in the project overlay or response. Do not edit the installed method
+  or silently relink it. Adoption and rollback are explicit installation operations.
+- For a development link, edit the registry only when that checkout is already within
+  the accepted task scope. Otherwise report a proposal. Authorized changes belong in
+  the source checkout, followed by its gates; commit only when the task authorizes it.
+- Record an actual lesson in `LESSONS.md` against the version **used**:
+  `## <version-used> - <YYYY-MM-DD> - <project-name>` and concise bullets. A proposal
+  must be labeled as such; structural checks are not evidence of field effectiveness.
+- Applied skill changes require a version bump: patch for wording, minor for a step
+  refinement, major for method redesign. A lesson alone needs no bump. Shared stamped
+  clauses are edited in the registry's `docs/skill-clauses/` and regenerated with
+  `scripts/apply-skill-clauses.mjs`, never patched in individual installed skills.
 
-**Lane 1 - PROJECT learnings** (what the next session in THIS repo needs). Repo-specific rules go to this skill's overlay in the consuming repo - a dated one-liner under `## Skill improvement log` in the overlay/vault location this skill's `## Project overlay` section names (create the heading on first use). If this skill carries no `## Project overlay` section, or its overlay section names no location, write that dated one-liner to `.claude/conform/config.md` in the consuming repo under `## Skill improvement log`, creating the file and the heading if they are absent - so the instruction is executable in every skill. When the repo carries a `.personas/` directory, also write via the MEMORY BLOCK contract if this prompt carries one, else append node lines to `.personas/memory-outbox.jsonl` per that contract. Never into this file: a project's bytes in a shared method are exactly what made the fleet's copies diverge.
-
-**Lane 2 - METHOD learnings** (what would improve THIS SKILL for every project):
-1. If nothing generalizes beyond this repo, stop here.
-2. Append to `LESSONS.md` in this skill's directory: `## <version-used> - <YYYY-MM-DD> - <project-name>` followed by `- ` bullets (create the file with a `# Lessons - conform` heading if absent). Record the version the run USED, not a bump target. Wrap a bullet in a `### Redesign proposal` sub-block when it argues for a redesign you are NOT applying now. A lesson alone needs no version bump.
-3. Edit `SKILL.md` only together with a version bump, and bump only with an applied edit: patch for wording, minor for a step/prompt refinement, major for a methodic redesign. Update the `version:` frontmatter. Never edit inside a stamped `<!-- clause: ... -->` block: that text is shared by every skill in the lane and is changed in the registry's `docs/skill-clauses/` and re-stamped with `node <registry>/scripts/apply-skill-clauses.mjs`.
-4. Where the edit lands: THE SKILL DIRECTORY IS A LINK INTO THE REGISTRY. `.claude/skills/conform` in a consuming repo is a symlink to `<registry>/skills/conform` (registry root = `registry.local` in `.ai/manifest.yaml`, default `../ai-registry`; `$AI_REGISTRY_DIR` wins). Editing it edits the one file every project runs, so there is nothing to propagate. Commit it IN THE REGISTRY checkout as a standalone commit containing only this skill's files: run `node <registry>/scripts/check-skills.mjs --since HEAD` first (shape + version discipline must pass), then `git -C <registry> add skills/conform` and `git -C <registry> commit -m "skill(conform): v<new> - <one-line reason>"`. Never stage the link from the project side.
-5. NEVER copy this skill to `~/.claude/skills/conform/` or into another repo, and never "propagate" by copying. A copy in the personal tier shadows the lane for every project on the machine and freezes the method at that day's bytes with no version to compare (measured 2026-08-29: 11 such copies, all unversioned, all stale). If `.claude/skills/conform` is a real directory instead of a link, the fix is `node <registry>/scripts/link-registry.mjs`, not a copy in either direction.
-
-**Lane 3 - DOMAIN knowledge** is a different artifact from a lesson: a lesson improves this METHOD, a lead proposes knowledge for a bundle. Skills that carry a `## Knowledge sync` section file leads there; a skill without one files none.
+**Domain learning.** Follow `## Knowledge sync` when present, within the same scope
+and privacy boundaries. A method lesson and a domain knowledge lead are different
+artifacts; do not fabricate either to fill a reflection quota.
 <!-- /clause: skill-reflection -->

@@ -14,6 +14,11 @@ techniques:
 
 # Plan review
 
+Apply this subject when a workflow has deliberately adopted a human plan gate.
+It does not create a new approval requirement, revoke accepted task scope, or
+require a second agent for every change. Scale the review to the decision and
+use the review mode and authority already agreed for the task.
+
 A plan an agent produced arrives whole. It is coherent, internally consistent,
 correctly formatted, and it was written faster than the reader can construct an
 alternative to it. Acceptance is therefore the cheapest available action, and it
@@ -91,18 +96,15 @@ the pipeline is the whole of its argument — slicing after a plan is written me
 unwinding a framing already committed to, against pushback that arrives on behalf of
 finished work.
 
-## A single reader reviewing its own plan is refining it
+## Choose a review mode by its observed results
 
-An agent asked to critique the plan it just wrote anchors on that plan. The measured
-picture is consistent and unflattering: models repair an error reliably once its
-location is supplied and find that location unreliably in their own output; asked to
-reconsider, they revise toward whatever the challenge implies rather than toward the
-evidence; and a review run in a genuinely separate context outperforms the same model
-told mid-session to switch roles. The finding that matters for design is the last one,
-because it prices the cheap option honestly rather than removing it: the in-context
-posture switch is a *degraded* instrument, not an equivalent one, and a design that
-uses it should know which rung of the ladder it is standing on
-([fresh-posture-self-challenge](./techniques/fresh-posture-self-challenge.md)).
+Self-review can share the assumptions that produced the draft. Separate context
+can reduce exposure to the author's justification, but neither separation nor a
+role label guarantees better review. Findings on mistake localization and intrinsic
+self-correction vary with the task and procedure; the
+[self-challenge technique](./techniques/fresh-posture-self-challenge.md) cites both
+supporting and contrary results. Select review modes using observed detection of
+material errors, not a universal cost-ordered ladder.
 
 Separation alone is not enough either, because a separate reader with no charter
 produces a general critique, and a general critique is a list the reviewer dismisses
@@ -113,30 +115,14 @@ available*. A reader asked to do all three does the first thing it finds and sto
 
 ## Two readers are less independent than the ladder implies
 
-The escalation above is built on separation buying independence, and it does —
-but the ladder never states what two *separated* readers agree at before anything
-is done to them, and the answer is high. Two identically-configured readers,
-given the same material and no reason to converge, have been measured agreeing on
-better than nine judgments in ten on a question with no correct answer. That is
-the floor a second reader starts from, not the independence a second reader adds.
+Separated readers can still share priors, evidence and blind spots. Agreement
+does not establish correctness, and disagreement does not establish that one
+reader found an error. Preserve the differing claims and resolve them against
+evidence. Different models or evidence packets are options to evaluate, not proof
+of independence. The role-label study cited in the self-challenge technique
+concerns preference judgments, not a general accuracy baseline for plan reviews.
 
-Two things follow, and neither is a reason to abandon separation.
-
-- **A second reader agreeing is weak evidence, and the ladder should not read it
-  as confirmation.** Concordance between two seats of the same family says how
-  similar they are. The rungs that buy something are the ones that change what
-  the reader *is* — a different family, a different evidence packet — not the
-  ones that merely run the same reader twice.
-- **Divergence is the informative outcome**, and it is rarer than intuition
-  suggests. Where two readers split, the split has located something; where they
-  agree, the agreement is mostly the baseline. Design the record so a split is
-  legible rather than averaged away.
-
-The honest summary is that separation is necessary and insufficient: it removes
-the anchoring a single reader has on its own plan, which is what this subject
-opened by naming, and it does not manufacture an independent opinion.
-
-## Two record classes, and a routing rule that is not a judgment call
+## Two record classes and a shared classification policy
 
 Two of the readers emit records, and the difference between them is not severity — it
 is what is lost if the finding is dropped:
@@ -151,7 +137,7 @@ is what is lost if the finding is dropped:
   reader underperforming.
 
 Both readers apply the same rule before emitting, which is what keeps the two records
-from becoming one record with two headings. The rule is deterministic on purpose:
+from becoming one record with two headings. The classification policy is consistent, but applying it requires judgment:
 routing decided per finding by whichever reader saw it first produces a corpus whose
 two halves cannot be read separately, and reading each half's disposition distribution
 is where most of the value of keeping records at all turns up.
@@ -162,7 +148,8 @@ The placement rule follows from the routing rule, and it is stated here rather t
 a trigger predicate next door, because it keys on the class of the record rather than
 on the consequence of the action — and the record classes are this subject's.
 
-**An untriaged risk blocks the plan. A captured decision blocks the merge.** An
+**In a workflow that adopted these gates, unresolved risks block plan approval
+and unacknowledged material decisions block merge.** An
 objection whose disposition is still `pending` means nobody has decided whether a named
 class of failure is acceptable, and advancing past it converts a question into a
 default answer. A surfaced decision whose disposition is still `pending` means the plan
@@ -221,9 +208,9 @@ Three specific prohibitions follow, and each is a real temptation:
   to the capacity measure next door, which already carries the rule that at the
   one-person floor they are counted and never scored. Nothing here persists an
   assessment of the reviewer.
-- **No advisory number becomes a gate by accretion.** A derived figure may fold into an
-  existing gate as an informational field, and the moment it acquires a verdict or a
-  keypress it has become a gate nobody designed
+- **No advisory number becomes a gate without a policy decision.** A derived figure may fold into an
+  existing gate as an informational field. Requiring a verdict or blocking progress
+  changes its authority and needs an explicit policy decision
   ([informational-fold-in](./techniques/informational-fold-in.md)).
 
 ## Failure modes of the naive reading

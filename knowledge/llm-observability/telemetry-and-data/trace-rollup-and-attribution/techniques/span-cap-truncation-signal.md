@@ -74,8 +74,13 @@ prominently converts the cap from a defensive limit into a detector.
 
 ## When not to use it
 
-The *list* view needs no cap-and-signal — it aggregates in the store and
-never materializes spans, so there is nothing to clip; imposing the detail
-cap there would make the list's totals wrong for large traces with no
-compensating benefit. The signal belongs exactly where a bounded set of rows
-is folded into numbers that claim to describe the whole.
+The *list* view needs no span-cap — it must not materialize spans, and
+imposing the detail cap there would make the list's totals wrong for large
+traces with no compensating benefit. It still needs a *sample* signal when
+the store itself is a sample: a federated or rate-limited backend that
+returns a scan ceiling, not a census. A sampled list total presented as
+the window's count is the same lie the detail cap exists to prevent. Carry
+true/retained/truncated (or an equivalent freshness: sampled against live)
+on that list too. The signal belongs exactly where a bounded set of rows
+is folded into numbers that claim to describe the whole — and a sampled
+aggregate is such a fold, even when no span was fetched.

@@ -442,3 +442,50 @@ context management, the turn pipeline and attachments (source note
 - Untriaged, with anchors in the source note: the second summary is a summary of a
   summary (a possible amendment saying how many turns and prior summaries a
   summary stands for).
+
+## 2026-09-08 - intake, portal-ai-plugins (run `intake-portal-ai-plugins`)
+
+New application `claude-code--elision-to-a-refetch-pointer`: the technique's
+"class by producer, size only inside a class" rule tested one boundary earlier,
+at the Read tool call, over 30 days of one machine's transcripts (5,957
+sessions, 208 whole reads of text files over 350 lines). A size-only block -
+the shape a vendor plugin ships - lands 84% of its blocks on source; a
+class-based guard (harness overflow files, generated artifacts) recovers 73% of
+the large-read tokens in the highest-rate project with zero working-set blocks.
+Shipped in personas (`code`/`better`); the size-only shape is `not-better` on
+every project measured. Instrument banked at `scripts/measure-large-reads.mjs`.
+Return condition: what the agent does after a block is unmeasured.
+
+## 2026-09-15 - intake, cline-desktop (run `intake-cline-desktop`)
+
+New technique `foreign-harness-history-folding`, the transcript's second seal
+beside `endpoint-sealed-continuation-metadata`. A history recorded by a different
+agent harness is written in that harness's tool vocabulary, which no provider
+rejects and which some models imitate. Paired local experiment: raw replay made a
+27B model call a tool absent from its roster on 10/10 continuations, and the
+roster-name control and the folded summary on 0/10. A 12B model scored 0/10 in
+every arm, so the risk belongs to the model, not the harness. Two applications:
+`node--` (an open agent SDK that imports three foreign session stores and folds on
+resume, with a silent fallback to raw replay) and `rust--` (Personas' text-only
+awareness block, `experiment`/`better`, no code change). Boundary stated in the
+technique: fold for continuation, project to text for awareness. Return
+condition: summary-content quality is unmeasured in both trees and in this corpus.
+
+## 2026-09-15 - /intake QwenPaw (run `qwenpaw-0915`, intake 2.10.0)
+
+Source [[../../sources/2026-09-15-qwenpaw]]: a durable-log context manager with a graduated pressure pipeline. Two techniques landed, taking the subject to 24.
+
+- **fold-only-acknowledged-evidence.** The stage the corpus lacked is *when* a fold may run: only on blocks that a completed model call carried. Capture and acknowledgement are separate calls, and a typed refusal replaces cutting unread evidence. This is distinct from elision-to-a-refetch-pointer, which owns *what* may become a pointer.
+- **summary-evidence-gate.** A third discipline beside history-compaction's two: a local, model-free admission gate. Every pointer must resolve, no identifier may be absent from the evidence, and the last valid summary is kept on failure.
+- **Both are unapplied.** No fleet project folds history under pressure or admits a model-written history summary into a standing layer. ascent's serializer cap (`grounding.ts:190`) is a producer cap, which is the fold technique's stated "when not".
+- **Untriaged:** compressing a copy of the outgoing request, with a plain-path fallback (an elision-to-a-refetch-pointer amendment).
+- **Leads:** the visual compression numbers and the durable-log memory scores. Neither ships its scripts.
+
+## 2026-09-16 - /intake SoL-Pi (run `intake-solpi`, intake 2.10.0)
+
+Source [[../../sources/2026-09-16-sol-pi]]: four efficiency mechanisms over a coding-agent harness, read from the clone. One technique, one amendment and three source-tree applications landed; the subject is at 25 techniques.
+
+- **compaction-horizon-breakeven.** The runtime form of the cache trade context-budgeting and amortized-compaction-cadence leave offline: `write × (ratio − 1) / (archive − memo)` against a horizon estimated from the run's own completed boundaries and capped by the window, with a wider first horizon, margin and carried debt afterwards, and the wall overriding. Its boundary came from the apply step: replayed over 166 real sessions, every threshold compaction repaid within two requests, so the test governs early, boundary-triggered compaction only.
+- **summary-evidence-gate** gained its quote-only form: kinds and byte-exact quotes bound to the archived source by hash, which removes the "misattribution to a real range" the gate names as its price, plus the failure-evidence and not-smaller checks. The registry's own instrument for it is `scripts/check-anchors.mjs`.
+- **Applications:** the compaction economics (`node--compaction-horizon-breakeven`, applied experiment, not-better at the wall), the reducer (`node--summary-evidence-gate`), and the observation archive with two full sends and paged recall (`node--elision-to-a-refetch-pointer`, carrying the measured two-sends choice and the archive-at-capture boundary).
+- **Untriaged:** a post-write hash guard as the mirror of mcp-tools/write-freshness-gate (anchors in the source note).

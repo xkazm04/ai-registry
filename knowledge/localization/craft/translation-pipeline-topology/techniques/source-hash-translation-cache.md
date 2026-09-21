@@ -33,12 +33,39 @@ be in the key, because a cache hit is a claim of equivalence. Include:
   different engines, and a version bump is a new engine
 - any prompt, glossary, or configuration that shapes the output — a changed
   system prompt or termbase produces different translations from identical
-  source, and a key that omits it serves stale output forever
+  source, and a key that omits it serves stale output forever. Mix in a
+  *digest* of the termbase rather than the termbase itself; the digest changes
+  when the rulings change, which is the only property the key needs
+- the unit's own **instruction**: the per-string context note or description a
+  translator is shown, and the length budget the value must fit. Both change
+  what a correct translation is, so a changed context note or a tightened
+  character budget genuinely is a different string to translate — and a cache
+  that ignores them serves output produced under instructions nobody holds
+  anymore
+- the target locale's **plural-form count**, wherever the unit carries a plural
+  message. The same source unit needs a different number of categories per
+  locale, so the count is part of what is being asked for, not part of the
+  engine
 
 Exclude anything that does not change the output: runner identity, run
 timestamp, job number, queue position, retry count. When such values leak into
 the key, every run misses the whole cache and the pipeline degenerates to
 full re-translation with extra bookkeeping.
+
+## A field added to the key later must be absence-compatible
+
+The key grows over a pipeline's life — a length budget, a review-required flag,
+a per-string context note each arrive in some release after the first. Mix a new
+field in **only when it has a non-default value**, so an entry that does not use
+the feature hashes to exactly what it hashed before the feature existed.
+
+Do this because the alternative is a whole-corpus invalidation triggered by a
+release that changed nothing about any string: every entry in every catalog
+misses at once, the next run re-translates the corpus, and the first symptom is
+a bill rather than an error — no check fires, because full re-translation is a
+thing the pipeline is designed to be able to do. Absence-compatibility makes the
+blast radius of the new field exactly the set of units that actually use it,
+which is also the only set whose translations could have been different.
 
 ## Invalidation is exact, not wholesale
 
@@ -59,6 +86,38 @@ prompt — the wholesale miss that follows is correct and should be budgeted as
 a full re-run, not "fixed" by pinning old keys. The one wrong move is editing
 cache entries by hand to avoid the cost; a cache that lies about equivalence
 is worse than no cache.
+
+## The delta has four classes, not three
+
+Comparing a run's source against the published cache produces **added**,
+**removed**, **updated** — and **renamed**, which is the class most pipelines
+never name and therefore pay for twice.
+
+A key rename presents as one key added and one key removed. When the added key's
+source digest equals the removed key's **stored** digest, that is what it is:
+the same text, under a new name. Carry the existing translation and its review
+state across to the new key instead of re-translating. Re-translating pays for
+work already done, and — the expensive half — discards a human verdict about
+text that did not change, so a key-naming refactor silently un-reviews every
+string it touches.
+
+The caveat is in the word *stored*. The removed key's source is gone by
+definition; the only digest available for it is the one the cache recorded as
+the identity of the work it did. So rename detection is a property of what the
+cache keeps: a store that holds only key-to-translation cannot see the fourth
+class at all, and this is the argument for keeping the digest beside the value
+rather than treating it as a transient lookup input.
+
+Two rules keep the carry honest:
+
+- **A rename whose text also changed is not a rename.** If the added key's
+  digest differs from every stored digest, it is an add and a remove, and it is
+  translated. There is no partial carry.
+- **When several removed keys share the digest, carry the weakest review state,
+  not the strongest.** The translation is identical by construction — same
+  source, same configuration — so carrying it is safe. The review state is not:
+  it is a claim someone made about a string in a place, and which place is now
+  ambiguous ([the authority is a hypothesis until counted](../../../_laws.md#the-authority-is-a-hypothesis)).
 
 ## Publish the cache with the derived store
 
@@ -83,6 +142,15 @@ next run and overwritten with churn.
 
 ## Failure modes
 
+- A rename read as an add plus a remove: the pipeline pays for the same
+  translation twice and drops the review state on text that never changed. A
+  key-naming refactor then arrives as a re-translated, un-reviewed catalog.
+- A store that keeps no digest beside the value: the rename class is
+  undetectable, and every refactor costs a full re-translation of what it
+  touched.
+- A new key field mixed in unconditionally: the release that adds "review
+  required" or a length budget to the key invalidates every entry in every
+  catalog, and nothing alarms, because full re-translation is a supported state.
 - Keying by path or mtime: renames re-translate everything; touched-but-
   unchanged files re-translate; genuinely changed content served stale when a
   tool rewrites files preserving timestamps. Digest the bytes.

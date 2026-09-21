@@ -154,9 +154,9 @@ for (const file of files) {
     }
     // A count for a skill this registry does not publish is not fatal — the skill
     // may have been renamed or removed while an installation still reports it —
-    // but it must be visible, because it is silently dropped from the aggregate.
+    // but it must be visible, because it is silently retained in telemetry-report.mjs for identity review.
     if (knownSkills.size > 0 && !knownSkills.has(name)) {
-      console.warn(`  note: ${rel} reports "${name}", which this registry does not publish — dropped from the aggregate.`);
+      console.warn(`  note: ${rel} reports "${name}", which this registry does not publish — retained in telemetry-report.mjs for identity review.`);
     }
   }
 }

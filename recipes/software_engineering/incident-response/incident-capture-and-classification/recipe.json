@@ -2,7 +2,7 @@
   "id": "ec061c32-9fef-5a33-ad80-c94df9eef861",
   "slug": "incident-capture-and-classification",
   "title": "Incident capture and classification",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "status": "seed",
   "path": "software_engineering/incident-response",
   "domain": "software_engineering",

@@ -1,9 +1,9 @@
 ---
 kind: harvest-queue
 created: 2026-08-28
-updated: 2026-08-28
+updated: 2026-09-17
 entries: 177
-statuses: queued
+statuses: mixed
 ---
 
 # The harvest queue
@@ -98,18 +98,18 @@ existing claims), `lead` (watch, return later).
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | OBS-001 | 1 | https://github.com/open-telemetry/semantic-conventions-genai | spec | vendor repository | telemetry-and-data (gen_ai semconv) | official OTel GenAI semantic conventions; the interop standard every tracer converges on | content | mined: 0c/1cur/2L/2cat |
 | OBS-002 | 1 | https://github.com/Arize-ai/openinference | spec | vendor repository | telemetry-and-data (trace conventions) | the other de-facto trace spec (Phoenix-compatible); defines span kinds for LLM/agent calls | content | mined: 3c/0cur/1L/2cat |
-| OBS-003 | 1 | https://github.com/traceloop/openllmetry | code-repo | vendor repository | telemetry-and-data (auto-instrumentation) | reference OTel instrumentation for dozens of providers; issues track semconv migration in real time | content | queued |
-| OBS-004 | 2 | https://github.com/openlit/openlit | code-repo | vendor repository | telemetry-and-data + federation-and-surfaces | OTel-native full platform (traces, GPU, guardrails, dashboards); production-grade docs | content | queued |
+| OBS-003 | 1 | https://github.com/traceloop/openllmetry | code-repo | vendor repository | telemetry-and-data (auto-instrumentation) | reference OTel instrumentation for dozens of providers; issues track semconv migration in real time | content | mined: 2c/1cur/4L/7cat |
+| OBS-004 | 2 | https://github.com/openlit/openlit | code-repo | vendor repository | telemetry-and-data + federation-and-surfaces | OTel-native full platform (traces, GPU, guardrails, dashboards); production-grade docs | content | mined: 1c/0cur/3L/12cat |
 | OBS-005 | 1 | https://github.com/pydantic/genai-prices | reference-repo | vendor repository | economics-and-governance (price book) | Pydantic-maintained price DB, 35+ providers, historic + tiered pricing, schema'd JSON | currency | mined: 0c/0cur/1L/5cat |
-| OBS-006 | 2 | https://github.com/Helicone/helicone | code-repo | vendor repository | economics-and-governance (cost attribution) | open-source gateway/observability with mature per-request cost tracking cookbook | content | queued |
-| OBS-007 | 2 | https://github.com/envoyproxy/ai-gateway | code-repo | vendor repository | economics-and-governance (token rate limiting) | CNCF Envoy project; shipped token_ratelimit - canonical infra answer to usage governance | content | queued |
+| OBS-006 | 2 | https://github.com/Helicone/helicone | code-repo | vendor repository | economics-and-governance (cost attribution) | open-source gateway/observability with mature per-request cost tracking cookbook | content | mined: 0c/1cur/2L/10cat |
+| OBS-007 | 2 | https://github.com/envoyproxy/ai-gateway | code-repo | vendor repository | economics-and-governance (token rate limiting) | CNCF Envoy project; shipped token_ratelimit - canonical infra answer to usage governance | content | mined: 2c/0cur/2L/8cat |
 | OBS-008 | 1 | https://arxiv.org/abs/2306.05685 | paper | research-model release | quality-scoring (LLM-as-judge foundations) | the founding LLM-as-judge paper (Zheng et al., NeurIPS); MT-Bench, agreement, biases | content | mined: 2c/0cur/0L/3cat |
-| OBS-009 | 1 | https://arxiv.org/abs/2404.12272 | paper | research-model release | quality-scoring (judge-human alignment) | "Who Validates the Validators?" (EvalGen, UIST); names criteria drift - core to judging live traces | content | queued |
+| OBS-009 | 1 | https://arxiv.org/abs/2404.12272 | paper | research-model release | quality-scoring (judge-human alignment) | "Who Validates the Validators?" (EvalGen, UIST); names criteria drift - core to judging live traces | content | parked: quality-scoring subjects at 0 pts after batch 1; paper already used as ragas corroboration; map hits eval-harness held by a sibling |
 | OBS-010 | 1 | https://eugeneyan.com/writing/llm-evaluators/ | article | first-party practitioner account | quality-scoring (evaluating the evaluators) | Eugene Yan's exhaustive, citation-dense synthesis of judge reliability tactics | content | mined: 1c/0cur/2L/5cat |
 | OBS-011 | 1 | https://hamel.dev/notes/llm/evals/ | article | first-party practitioner account | quality-scoring (trace-driven eval loops) | Hamel Husain's evals notes; the most-cited practitioner playbook for trace-driven evals | content | mined: 1c/0cur/1L/2cat |
-| OBS-012 | 2 | https://github.com/evidentlyai/evidently | code-repo | vendor repository | quality-scoring (drift detection) | canonical open-source drift/monitoring framework extended to LLMs | content | queued |
-| OBS-013 | 2 | https://github.com/stanford-crfm/helm | code-repo | research-model release | federation-and-surfaces (benchmark publishing) | Stanford CRFM's transparent, reproducible benchmark framework; the model for sharing eval results | content | queued |
-| OBS-014 | 3 | https://github.com/QuesmaOrg/awesome-ai-tokenomics | awesome-list | app/tutorial aggregator | economics-and-governance | curated map of the tokenomics niche (costs, waste, bill-cutting); dense lead generator | lead | queued |
+| OBS-012 | 2 | https://github.com/evidentlyai/evidently | code-repo | vendor repository | quality-scoring (drift detection) | canonical open-source drift/monitoring framework extended to LLMs | content | parked: quality-scoring drift subjects at 0 pts; generator-uncertainty-scoring's no-app needle is a different subject |
+| OBS-013 | 2 | https://github.com/stanford-crfm/helm | code-repo | research-model release | federation-and-surfaces (benchmark publishing) | Stanford CRFM's transparent, reproducible benchmark framework; the model for sharing eval results | content | mined: 0c/1cur/1L/10cat |
+| OBS-014 | 3 | https://github.com/QuesmaOrg/awesome-ai-tokenomics | awesome-list | app/tutorial aggregator | economics-and-governance | curated map of the tokenomics niche (costs, waste, bill-cutting); dense lead generator | lead | mined: 0c/0cur/5L/4cat |
 
 ## recruiting (14)
 

@@ -82,3 +82,7 @@ read, and it turns every skill run into a git write.
 
 Stale is fine: `generatedAt` says how stale, and the aggregate is a signal, not an
 accounting ledger.
+
+The [identity and freshness contract](telemetry-identity.md) defines explicit aliases,
+retained unresolved counts, source-window metadata and the distinction between
+`reportedInvokes` and the compatibility field `invokes30d`.

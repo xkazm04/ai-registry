@@ -110,3 +110,7 @@ boundary directed instead was the owed third assertion: `missing_capability`
 existed once in source and in no test, against five other subtypes that are
 asserted. Two tests now derive both directions from the matrix with a floor on
 the join; negative control fires and names the defect (kp `3f253853`).
+
+### 2026-09-17 - `/harvest backlog` wave 2, one technique
+
+`existence-authority-written-last`, from [[2026-08-31-tigerbeetle-blog]] and [[2026-09-03-rowboat]]. Two stores with no shared transaction: the store readers treat as proof that a thing exists is written last and removed first, and a payload is staged outside it. The rule reconciles two orders the corpus already held from opposite sides - agent-memory's `lane-reconciliation` (name the survivable half-state and make it the only reachable one) and priced-authority's `secondary-index-before-primary` (index before record) - by asking which store the readers treat as the authority; both now point here. The source slogan 'referent before reference' was refuted as a general rule by the very seam that confirmed authority-last: gravitone's ingest wrote the file a row points at first, and leaked 4 phantom voices, because readers find voices by listing files. Also owned here, beside `record-precedes-effect`: a rollback ledger only sees half-states it was told about.

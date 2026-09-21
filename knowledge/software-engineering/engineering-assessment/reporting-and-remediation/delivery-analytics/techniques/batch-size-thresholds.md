@@ -56,6 +56,15 @@ Three properties matter more than the specific boundaries:
   hunks give different distributions; a rename-heavy change is enormous by
   line count and trivial by intent. Pick one, name it in the metric's
   definition, and hold it stable across the series.
+  And a stated unit NAME is not a stated unit: "added lines" counted by a
+  writing tool about its own edits measures that tool's edit grammar, not the
+  work. Measured over 21,840 real mutating calls from one producer, two grammars
+  inflated the same net change by 6.89x and 1.19x - a 5.8x spread with the model,
+  the operator, the repositories and the period all held constant - and the
+  inflation rises with file size for one grammar and is flat for the other, so
+  there is no correction factor. A size series assembled from producer
+  self-reports is not a size series
+  ([line-volume-confounded-with-edit-grammar](./line-volume-confounded-with-edit-grammar.md)).
 - **Exclusions are stated and applied at collection.** Lockfiles, generated
   clients, vendored trees, snapshot fixtures, and bulk formatting passes are
   excluded from the size measure or they *are* the size measure. Applying the
@@ -112,4 +121,8 @@ attribution weaknesses described elsewhere in this subject.
 Do not treat a small change as a safe change. A one-line change to an
 authorization predicate outranks a thousand-line change to test fixtures on
 every dimension that matters. Size bounds how much scrutiny a review can
-plausibly deliver; it does not bound how much scrutiny a change deserves.
+plausibly deliver; it does not bound how much scrutiny a change deserves. That claim is about
+*consequence*, and post-merge repair frequency is not one of the dimensions it
+holds on: measured with size held constant, changes touching authorization,
+credential and secret paths were not repaired more often than other code of the
+same size ([path-class-confounded-with-size](./path-class-confounded-with-size.md)).

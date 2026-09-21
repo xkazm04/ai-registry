@@ -26,8 +26,8 @@ kept consistent with the store — and will not be. A stored receipt keeps
 vouching after the underlying edge is rejected by a reviewer, after a
 recompute changes the weight, after the entity's registry identifier is
 corrected. Recomputing on request means the receipt can only ever say what
-the store says *now* — which is the only statement a provenance surface is
-entitled to make. If today's answer differs from what the citer saw, that is
+the store says *now* — which is the statement a live receipt makes. A dated historical receipt
+may instead attest an immutable snapshot, including its input and code versions. If today's answer differs from what the citer saw, that is
 the verification gate's job to surface as *moved*; the receipt's job is to be
 the honest current side of that comparison.
 
@@ -67,7 +67,7 @@ defaults are asymmetric on purpose:
 
 - A relation that passes through a human gate but has **no recorded decision**
   reads *awaiting review*. Anything other than the literal terminal states
-  (approved, rejected) collapses to the pending reading — a gated claim never
+  (approved, rejected) blocks approval — a gated claim never
   becomes "verified" by silence or by a typo in the state field.
 - A **deterministically derived** relation has no review queue, and the
   receipt says so explicitly ("no human review applies — deterministic
@@ -100,7 +100,18 @@ identifiers, never from guessed ones.
 ## When not to use it
 
 Do not build receipt pages for figures you are unwilling to recompute on
-demand — a receipt backed by a nightly cache is a stored document with extra
-steps, and its tense is a lie. Either make the derivation cheap enough to run
+demand — a receipt backed by a nightly cache must disclose the snapshot time and
+freshness policy. Either make the derivation cheap enough to run
 per request, or date the receipt loudly ("as recomputed on D") so the reader
 knows which present it speaks from.
+
+## Reproducibility and review limits
+
+Read related inputs from a consistent snapshot and disclose data time separately
+from request time. A cache keyed by input and derivation versions can preserve
+that contract; recomputing from today's mutable store cannot reproduce yesterday
+without retained evidence. Label rounded display values and expose the exact
+stored representation with units; stringifying a number cannot recover precision
+already lost during ingestion. A missing gate decision means unreviewed; say
+awaiting review only when a queue exists. Human review can apply to deterministic
+claims too: review policy is independent of computational determinism.

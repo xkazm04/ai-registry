@@ -1,10 +1,10 @@
 # Localization - the subjects this registry carries
 
-`localization` - 15 subjects, 91 techniques, 45 applications.
+`localization` - 17 subjects, 119 techniques, 55 applications.
 Slugs only; resolve one through `index.json` as the access rule beside this file describes.
 
 ### european
-- czech, french, german, russian, spanish
+- czech, english, french, german, russian, spanish
 
 ### east-asian
 - chinese, japanese, korean
@@ -16,4 +16,4 @@ Slugs only; resolve one through `index.json` as the access rule beside this file
 - arabic
 
 ### craft
-- translation-pipeline-topology, translation-quality-measurement
+- copy-quality-gates, translation-pipeline-topology, translation-quality-measurement

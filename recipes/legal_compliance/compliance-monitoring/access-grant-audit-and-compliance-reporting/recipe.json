@@ -2,7 +2,7 @@
   "id": "09e94e4a-ba35-54cd-8a61-59983b21e463",
   "slug": "access-grant-audit-and-compliance-reporting",
   "title": "Access grant audit and compliance reporting",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "status": "seed",
   "path": "legal_compliance/compliance-monitoring",
   "domain": "legal_compliance",

@@ -47,10 +47,9 @@ Apply the lenses in order. The first that yields boundaries wins; the rest modif
    decision content — a defined behaviour to implement, a specified format to emit —
    one slice per criterion. Reaching for this lens first is the common error; it
    produces neat units that all sit inside a single unexamined decision.
-3. **End-to-end completeness (filter, not a source).** Drop any candidate boundary that
-   produces an internal-only milestone. A slice that cannot be observed from outside the
-   work is a task-list item, and a reviewer disposing it is disposing something they
-   cannot evaluate.
+3. **End-to-end completeness (filter, not a source).** Prefer a boundary with independently observable acceptance. An internal
+   migration or compatibility seam can qualify when its invariant, tests and rollback
+   are reviewable; it need not expose a new end-user feature.
 4. **Independence (modifier).** Where slices constrain each other, record the ordering
    rather than merging them. Merging to avoid stating a dependency hides the dependency
    in the plan, where nothing reads it.
@@ -59,8 +58,8 @@ Apply the lenses in order. The first that yields boundaries wins; the rest modif
 ## Inseparability must argue, not assert
 
 The terminal case is real and it is also the escape hatch every slicer reaches for when
-slicing is hard. So the rule is asymmetric: a multi-slice output needs no defence, and
-a single-slice output must carry a rationale naming which lens failed and why. Genuine
+slicing is hard. Every boundary needs a proportional rationale. A single small, well-defined
+change need not invent alternatives or a page of justification. Genuine
 cases exist and share a shape — an atomic schema migration, a credential rotation, a
 security patch whose partial application is worse than none. What they have in common is
 that a partially applied version is not a smaller version of the change but a *different
@@ -119,7 +118,7 @@ disposes them all as `accepted` because none is objectionable on its own.
   budget the objection record needs.
 - **The unit of work is already below the counterfactual threshold.** If the whole task
   is a size the reviewer can hold an alternative against, slicing produces one slice
-  and a page of rationale for it. Run the reader; expect the terminal case; do not
+  and a page of rationale for it. Skip a separate slicing pass when it would add no material decision; do not
   manufacture boundaries to justify having asked.
 - **The pipeline has no plan gate.** Slices with nowhere to be dispositioned are a
   document. The technique's whole output is an input to a human decision, and without

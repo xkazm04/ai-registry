@@ -21,7 +21,8 @@ yes or no — may move a score, in either direction.**
 
 ## The bucket model
 
-Partition every ballot state the chamber can produce into three buckets:
+Partition observed ballot states into these buckets; keep missing or unmapped
+source states separately as unknown:
 
 - **Positional** — yes / no. The only bucket that scores. A positional ballot
   on an answered question increments the denominator; it increments the
@@ -29,7 +30,8 @@ Partition every ballot state the chamber can produce into three buckets:
 - **Non-positional presence** — abstained, present-not-voting. The
   representative was there and declined to take a side. Never in the
   numerator, never in the denominator.
-- **Absence** — not signed in, excused. No information at all.
+- **Absence** — a confirmed source state such as not signed in or excused.
+  Participation evidence, but no positional answer.
 
 The partition is per-chamber and must follow the chamber's *own procedure*,
 not the designer's intuition. Some chambers' rules make abstaining and
@@ -89,5 +91,14 @@ through the aggregate door after the individual door was locked.
   discipline *should* measure non-positional behavior — as its own metric
   with its own denominator, never folded into an agreement rate.
 - **When the source cannot distinguish states.** If ingestion collapses
-  everything to "voted / didn't", say so and model the second as absence;
+  everything to "voted / didn't", say so and model the second as unknown
+  non-positional state, not confirmed absence;
   do not reconstruct abstentions the data does not hold.
+
+## Coverage and group inference
+
+Show unknown source-state counts separately; a missing ballot row does not prove
+absence. Removing non-positional answers changes the effective sample and can
+leave issue-dependent selection bias. A group line is an inferred positional
+majority, not official policy. Use membership at the vote date and a published
+participation quorum before allowing a small subset to stand for the group.

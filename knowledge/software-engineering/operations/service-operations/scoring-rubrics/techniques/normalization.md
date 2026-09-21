@@ -125,3 +125,43 @@ signals, the sub-combination happens first, in raw space where the units
 still mean something, and the dimension normalizes once. Normalizing early
 and averaging normalized values through multiple layers compounds frame
 choices until nobody can state what the final number is relative to.
+
+## Many cohorts, one decision: anchor the cutoff on the population
+
+Cohort-relative framing has a second cost that does not appear while there is
+one cohort, and it arrives the moment the same rule is applied **per group**
+and the result feeds a decision made **across groups**. Each group's frame is
+set by its own leader, so the admission bar rides on how dominant that leader
+happens to be — and two candidates of identical quality are then judged
+against different bars. The failure is not a compressed scale, it is an
+**inversion**: the strongest group rejects a candidate that a weaker group
+would have admitted comfortably.
+
+The shape is easy to miss because the cutoff looks principled. "Keep what
+scores within half of this group's best" is scale-free, survives groups of
+different sizes, and needs no tuning — and it silently encodes the claim that
+a group's second-best matters only in proportion to its best. That claim is
+false whenever the groups are merely partitions of one population. A group
+whose leader is an outlier gets a punishing bar; a group nothing matches well
+gets a generous one, and fills its slots with noise.
+
+The diagnosis is one query, and it is worth running on any per-group cutoff
+before defending it: **for each group, the weakest candidate it admitted; then
+ask whether any group rejected a stronger one.** If the answer is yes, the
+cutoff is ranking against a local maximum and calling it a standard.
+
+The fix is not a percentile anchor. Percentiles are still *within* the group,
+and the incomparability here is *between* frames — the same reason the section
+above insists a normalized value travels with its frame. Anchor the bar on a
+statistic of the population instead, and let the group's own leader lower it
+but never raise it:
+
+> bar = min(group best, population centre) x the kept fraction
+
+The group's leader still sets the bar wherever the group is unremarkable,
+which preserves what cohort-relative framing was for; a group with a dominant
+leader stops inheriting a bar its neighbours were never held to. Where the
+instrument already computes a population statistic for some other purpose —
+flagging weak groups, qualifying confidence — that statistic is the one to
+reach for, and finding it sitting unused twenty lines from the cutoff is the
+common case rather than the lucky one.

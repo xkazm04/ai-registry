@@ -19,9 +19,10 @@ techniques:
 
 # Conflict-of-interest detection
 
-A conflict of interest exists where a public official's private economic
-interest meets their public power: they hold a stake in something their
-decisions can enrich. Detection is the discipline of finding those meeting
+This subject screens one conflict-of-interest pattern: a public official's
+registered economic ties intersecting with public decisions. The broader
+concept also includes non-financial interests and potential or apparent
+conflicts; an actual improper decision need not already have occurred. Detection is the discipline of finding those meeting
 points at population scale — across every official, every registered role,
 every flow of public money — and ranking what surfaces so that finite human
 attention lands on the leads most worth verifying. It is emphatically *not*
@@ -46,20 +47,21 @@ role at this firm while this firm received this money, and voted on a rule
 governing that money's channel, on a day inside the role's registered
 period. Every clause of that sentence is a checkable fact, and deterministic
 code can and must establish all of them. What no join can establish is the
-*substantive* connection — that the interest moved the decision, or even
-that the official knew the interest was in play. That final step is a human
-judgment, made lead by lead, and until it is made the system's output is a
+*substantive* connection — whether the circumstances meet the applicable conflict rules. Proof that
+an interest actually moved a decision is a separate causal claim, not a
+universal prerequisite for a conflict. That assessment requires evidence
+and human judgment, made lead by lead, and until it is made the system's output is a
 **candidate**, rendered only on review surfaces, framed as requiring
 verification, never asserted in public-facing copy. This is the
 [lead-not-finding](../../_laws.md#lead-not-finding) law doing its heaviest
 lifting anywhere in the domain: the whole pipeline is an engine for
 producing well-evidenced questions, not answers.
 
-The corollary cuts the other way too: because the machine's facts *are*
-facts, they are computed by declared, versioned, reviewable rules — never by
+The corollary cuts the other way too: because the machine's source observations must be
+checkable, they are processed by declared, versioned, reviewable rules — never by
 a model's judgment call. A candidate exists because a deterministic join
 derived it, or it does not exist. Anything softer contaminates the one thing
-the pipeline can honestly claim: that its coincidences are real.
+the pipeline can honestly claim: that its outputs follow the stated rules over the cited inputs.
 
 ## Not every tie is the same conflict
 
@@ -139,8 +141,8 @@ orderings is a common and costly design error
 
 ## Whole population or nothing
 
-Detection covers every official under the method's jurisdiction or it is
-not detection — it is targeting. A screen run only against the officials
+A population-wide screen covers every official in its declared jurisdiction.
+A sampled or targeted investigation must instead disclose that selection. A screen run only against the officials
 someone already suspects converts the pipeline into a laundering device for
 prior animus, per [non-partisan-symmetry](../../_laws.md#non-partisan-symmetry).
 Symmetry also governs the nulls: an official with zero candidates is a
@@ -190,3 +192,13 @@ the data.
 - [triage-signal-scoring](./techniques/triage-signal-scoring.md) — the three
   orderings (significance, review order, evidence completeness) and the
   deterministic formulas behind them.
+
+## Scope and source limits
+
+[OECD guidance](https://legalinstruments.oecd.org/public/doc/130/body-text.en.html)
+distinguishes conflict situations from realized misconduct and includes
+non-financial interests. This screen is narrower and is not a legal test.
+Deterministic joins can reproduce incorrect source identities and dates;
+register confirmation remains a sourced observation, not infallible truth.
+Disclosed pilot or sampled screens are useful, provided their selection and
+coverage are explicit and they do not imply whole-population clearance.

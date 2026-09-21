@@ -93,3 +93,16 @@ The header closes with: *"This module is pure — no I/O, no React — so it is 
 and can run on either side of the UE5 source-parse seam."* The sets are order-independent
 and duplicates collapse, so the same number comes out in a test, in the editor panel, and
 in a pipeline check. An audit whose value depends on where it ran is not an audit.
+
+## Review boundary - 2026-09-09
+
+The historical helper and UI guard were not executed. Its union-zero branch
+returns 100, but empty results require extraction status to distinguish no data
+from a valid empty scope. A successful one-sided empty set has overlap zero.
+An empty appReferenced list likewise does not prove that app extraction was skipped.
+
+The [Epic tag documentation](https://dev.epicgames.com/documentation/en-us/unreal-engine/using-gameplay-tags-in-unreal-engine)
+lists configuration, Data Tables and native code as declaration sources. A
+code-only audit cannot establish that an app tag is undeclared in the effective
+runtime registry. Also test parent queries, reserved tags and separator collisions
+before treating unreferenced names as dead.

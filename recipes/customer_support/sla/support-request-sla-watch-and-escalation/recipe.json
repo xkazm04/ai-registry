@@ -2,7 +2,7 @@
   "id": "410bed86-bf86-5ef8-8c98-23ff437f33d2",
   "slug": "support-request-sla-watch-and-escalation",
   "title": "Support request SLA watch and escalation",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "status": "seed",
   "path": "customer_support/sla",
   "domain": "customer_support",

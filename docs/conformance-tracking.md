@@ -56,5 +56,4 @@ answerable only from that project's conformance file, by design.
    standard may be unclear) or for the next quality wave (the standard is
    clear and unmet).
 
-First run: 2026-08-24, six projects from the `mkdol-dev-box` installation, see
-`docs/plans/secondary-machine-onboarding-2026-08-24.md`.
+First run: 2026-08-24, six projects from the `mkdol-dev-box` installation.

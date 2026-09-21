@@ -494,3 +494,33 @@ rule that only this loop's participants currently follow.
   saying in step 6: when a builder reports untestable wiring, ask whether a live run can observe it
   before filing it as a permanent risk.
 
+## 2.5.2 - 2026-09-09 - ai-registry
+
+- Architecture review: the shared reflection clause assumed a writable registry link in every installation. Replaced that assumption with installation-aware scope and explicit adoption. This records an instruction audit, not a field effectiveness result.
+
+## 2.6.0 - 2026-09-11 - a private fleet repo
+
+- **`git commit --only <paths>` is not isolation against a sibling's UNSTAGED edits.** The method
+  presents `--only` as what "makes this safe by construction" in a shared tree. That is true for the
+  index and false for the working tree: `--only` takes whole files, so a third session's in-flight
+  edit inside a file in your builder's write set is committed under your builder's name. Here it
+  carried 16 lines of another session's new voice CLI out of the repo's CLI module, and because that
+  code imported modules the other session had not yet `git add`ed, `HEAD` could no longer build its
+  own argument parser. All 630 tests still passed. Suggested method change: say plainly that write-set
+  disjointness only binds agents the Director can ENUMERATE, and require a `git status` re-read
+  immediately before dispatch, not only at Phase 0 — the third session here appeared between the two.
+- **A green suite is not evidence the committed tree is coherent.** Nothing in this repo's 630 tests
+  builds the CLI parser, so the break above was invisible to every gate the method runs. For any repo
+  with an entry point, a one-line import smoke check belongs in the integration gate.
+- **Phase 0 should diff the overlay against reality, not just read it.** This repo's overlay described
+  a sub-study that had finished the day before and credited a context-map generator that had been
+  replaced hours earlier. Both were load-bearing: the stale wall would have aimed the whole round at
+  parked work. Surfacing the conflict to the user cost one question and redirected the session.
+- **"State a predicted effect as a hypothesis to measure" earns its place in every brief.** Both
+  builders returned numbers that made their own work look less impressive without being asked — one
+  reported that its lane choice pins the top 8 facts against decay, the other reported a write-set
+  collision it could have stayed quiet about. The instruction is two sentences and it is what made
+  both reports trustworthy enough to accept without re-running their work.
+- Confirmed working: grouping two overlapping directions into ONE sequential lot rather than
+  isolating them. The two /perfect builders never collided. Every problem in this round came from
+  outside the wave.

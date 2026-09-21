@@ -3,7 +3,7 @@ name: ci-gate-check
 description: "Run the exact checks CI enforces before you push, so a red pipeline is never how you find out. Use before every push, before opening a PR, and after an agent finishes a batch of edits."
 category: ci-cd
 memory: project
-version: 1.5.0
+version: 1.6.0
 tags: pre-push, gate, lint, typecheck, tests
 argument-hint: "[--fix]"
 ---
@@ -21,14 +21,28 @@ checks locally, in the same order, and reports one verdict: **safe to push** or 
 
 ## The gate
 
-Read the repo's declared commands first. In order of preference:
+**The repo's own gate outranks the table below.** Read its declared commands first, in order of
+preference:
 
-1. `.ai/manifest.yaml` -> `capabilities` (`lint`, `typecheck`, `test`, `build`)
-2. `package.json` scripts, `Makefile` targets, `justfile` recipes, `pyproject.toml` tool config
-3. The CI workflow itself (`.github/workflows/*.yml`) - whatever it runs IS the gate
+1. The repository's own gate script (`scripts/gates.sh`, `make ci`, a `justfile` `ci` recipe).
+   If one exists, run **that** - it IS the list of checks, and every stage in it is a stage here.
+2. `.ai/manifest.yaml` -> `capabilities`. Every capability it declares is a stage, whatever its
+   name - secret scans, dependency and policy audits, conformance - not only the five below.
+3. `package.json` scripts, `Makefile` targets, `justfile` recipes, `pyproject.toml` tool config
+4. The CI workflow itself (`.github/workflows/*.yml`) - whatever it runs IS the gate, and any job
+   CI marks **required** is a stage even when no table row names it.
+
+The table below is the default ordering for a repo that declares nothing - not a ceiling. Five
+green stages while a required secret-scan or audit job is red is not a gate; it is a push into a
+red pipeline.
 
 Never invent a command. If a stage has no command in this repo, report it as **not configured**
 and move on; a fabricated command that "passes" is worse than a missing one.
+
+**Environment step first.** Where the repo declares a dependency/sync/install step, run it before
+the stages that need it - that is what CI does. `build` is an artifact stage only where its
+command produces artifacts: a manifest whose `build` is `uv sync --extra dev` or `npm ci` is the
+environment step, and running it last makes every other stage fail in a fresh checkout.
 
 Run the stages in this order and stop at the first hard failure:
 
@@ -44,6 +58,19 @@ The `build` stage matters more than it looks: a project can typecheck clean and 
 build (a server-only import pulled into a client module, a missing asset, a bad path alias).
 If the repo has a build command, it is part of the gate.
 
+## Three outcomes per stage, not two
+
+- **ok** - the check ran and passed.
+- **FAIL** - the check ran and the code did not pass.
+- **could not run** - the command exists but its toolchain does not: dependencies not installed,
+  the tool not on PATH, a checker resolved outside the repo's lockfile, a required environment
+  variable unset.
+
+Before calling anything FAIL, confirm the tool is the one CI installs. If a stage could not run,
+run the repo's setup/sync step and retry it once. A gate still carrying a "could not run" stage
+yields `not yet - <stage> unverified` - never "safe to push", and never "do not push" either:
+setup breakage is not code health, and reporting it as one is how a green pipeline gets blocked.
+
 ## Reporting
 
 Print one line per stage and one verdict. Do not paste whole logs.
@@ -52,11 +79,19 @@ Print one line per stage and one verdict. Do not paste whole logs.
 format     ok      0.8s
 lint       ok      4.1s
 typecheck  FAIL    9.2s   src/api/user.ts:41  Type 'string | null' is not assignable to 'string'
-test       -       skipped (earlier stage failed)
-build      -       skipped
+test       -       not run (earlier stage failed)
+build      -       not run
 
-VERDICT: do not push. 1 failing stage, first error above.
+VERDICT: do not push. 1 failing stage, first error above. Stages test, build were not run and are unverified.
 ```
+
+The last line is a **required literal**, not an example: `VERDICT: ` then one of `safe to push`,
+`not yet - <stage> unverified`, or `do not push`, then the reason. Unadorned plain text on its own
+line - no markdown emphasis, no bullet, no wrapping, no prose paraphrase.
+
+**A stopped gate is not a full gate.** Stopping at the first hard failure is the rule, so the
+verdict must name what is left unproven: "Stages X, Y were not run and are unverified". Only a run
+in which every stage reported `ok` may say `safe to push`.
 
 On failure: fix the first error, then re-run the gate from the top. Do not fix errors in bulk
 across stages - a lint fix routinely changes what the type checker sees.
@@ -67,6 +102,9 @@ across stages - a lint fix routinely changes what the type checker sees.
 - **Never** disable a check to make the gate green. If a rule is wrong, change the rule in its
   config file, in its own commit, with a reason.
 - A flaky test is a failing test until it is quarantined deliberately and tracked.
+- **A gate run is a read.** Record `git status` before the first stage and restore what the gates
+  wrote - regenerated files, line-ending churn, caches. If a stage cannot run without modifying
+  the tree, name the touched files in the verdict.
 - Timebox: if the full suite takes longer than a few minutes, run the affected subset locally
   and say so in the verdict (`test  ok (subset: src/api)`), so the reader knows what was proven.
 
@@ -80,30 +118,43 @@ across stages - a lint fix routinely changes what the type checker sees.
 <!-- clause: skill-reflection v4 - stamped by scripts/apply-skill-clauses.mjs from docs/skill-clauses/skill-reflection.md; edit the template, then re-stamp -->
 ## Skill Reflection
 
-After the run's real work is done, reflect - autonomously, without asking the user. Lane 0 is written on EVERY run; lanes 1-3 are not. Be honest about volume: most runs produce nothing in lanes 1-3. An empty reflection is a valid result; a forced lesson is pollution. Calibration: nothing (common) / one line (sometimes) / a lesson entry (occasionally) / a redesign proposal (rare).
+After the work, record only useful observations supported by this run. No lesson is
+a valid result. Reflection inherits the task's authorization; it grants no additional
+permission to edit another repository, send data, commit, or publish.
 
-**Lane 0 - RUN LOG** (every run that started work, including failed and aborted ones; skip read-only info modes such as a status peek, and runs cancelled before any work). Append one row to the registry's run log with one command - identity (project, device) and the skill's version are resolved by the script, never typed (`<registry>` resolves as in lane 2 step 4):
+**Project learning.** Only when this run produced an observation that would change how a
+future run behaves. A run that went as the method describes writes nothing: an entry that
+restates the procedure, records "no issues", or repeats the task is a defect, not a
+deliverable. When there is such an observation and local edits are within scope, put one
+dated line in the overlay this skill's `## Project overlay` section names, under
+`## Skill improvement log`. **Write only into an overlay that already exists.** If the
+project has none, put the observation in the response instead - creating a new tracked
+file for a reflection is scope the task did not ask for, and a reader who never asked for
+the skill has to review it. If the overlay is a structured config (YAML, TOML, JSON),
+record the note as comments so the file keeps parsing, or use the response.
+Use a supplied memory contract only when its destination and writes are authorized.
+Keep project details out of the shared method.
 
-```sh
-node <registry>/scripts/log-run.mjs --skill ci-gate-check --outcome <o> --difficulty <1-5> \
-  --provider <claude|openai|xai|qwen|google|other> --model <your model id> [--effort <level>] \
-  [--tokens-est <n>] --result "<one sentence: what this run produced>" --comment "<free text>"
-```
+**Method learning.** Identify the installation before editing anything. A local
+`.ai/registry-installation.local.json` receipt can identify development versus release,
+the registry revision, and selected skill versions. Verify any link's actual target;
+do not assume a skill directory is a writable registry link.
 
-- `--outcome`: `shipped` (the goal landed) / `partial` / `no-op` (ran correctly, nothing to do) / `parked` (designed or staged, deliberately not landed) / `failed` / `aborted` (stopped by the operator or the harness).
-- `--difficulty`: 1 trivial - mechanical, no judgment needed; 2 routine - the method applied as written; 3 demanding - real judgment calls, or one detour; 4 hard - several dead ends, rework, or an operator course-correction; 5 at the edge - partial or failed on the merits, not on tooling. Rate the TASK as this run met it, not the effort you spent.
-- `--model` / `--effort`: what you are running as, as your harness states it; omit `--effort` when you cannot see it. `--tokens-est`: the drop in the harness's remaining-token counter from just before this skill was invoked to now; omit it when your harness shows no counter. Exact figures are measured later from the transcript and stored apart - never guess one.
-- `--comment` is the self-reflection a reviewer will read: what went well, what the method made harder, where the skill's instructions were wrong, missing or ignored. Specific over polite; no filesystem paths or email addresses (the writer rejects them).
-- If the command fails on validation, fix the named field and rerun. If the registry is unreachable, add `--pending` (the row waits in the project's `.ai/`). Never read the run log during a run: it is evidence ABOUT this skill for `/librarian skills`, and an executor that reads its own diagnosis contaminates the next measurement.
+- For a pinned release, marketplace cache, ordinary copy, or unknown installation,
+  keep a proposal in the project overlay or response. Do not edit the installed method
+  or silently relink it. Adoption and rollback are explicit installation operations.
+- For a development link, edit the registry only when that checkout is already within
+  the accepted task scope. Otherwise report a proposal. Authorized changes belong in
+  the source checkout, followed by its gates; commit only when the task authorizes it.
+- Record an actual lesson in `LESSONS.md` against the version **used**:
+  `## <version-used> - <YYYY-MM-DD> - <project-name>` and concise bullets. A proposal
+  must be labeled as such; structural checks are not evidence of field effectiveness.
+- Applied skill changes require a version bump: patch for wording, minor for a step
+  refinement, major for method redesign. A lesson alone needs no bump. Shared stamped
+  clauses are edited in the registry's `docs/skill-clauses/` and regenerated with
+  `scripts/apply-skill-clauses.mjs`, never patched in individual installed skills.
 
-**Lane 1 - PROJECT learnings** (what the next session in THIS repo needs). Repo-specific rules go to this skill's overlay in the consuming repo - a dated one-liner under `## Skill improvement log` in the overlay/vault location this skill's `## Project overlay` section names (create the heading on first use). If this skill carries no `## Project overlay` section, or its overlay section names no location, write that dated one-liner to `.claude/ci-gate-check/config.md` in the consuming repo under `## Skill improvement log`, creating the file and the heading if they are absent - so the instruction is executable in every skill. When the repo carries a `.personas/` directory, also write via the MEMORY BLOCK contract if this prompt carries one, else append node lines to `.personas/memory-outbox.jsonl` per that contract. Never into this file: a project's bytes in a shared method are exactly what made the fleet's copies diverge.
-
-**Lane 2 - METHOD learnings** (what would improve THIS SKILL for every project):
-1. If nothing generalizes beyond this repo, stop here.
-2. Append to `LESSONS.md` in this skill's directory: `## <version-used> - <YYYY-MM-DD> - <project-name>` followed by `- ` bullets (create the file with a `# Lessons - ci-gate-check` heading if absent). Record the version the run USED, not a bump target. Wrap a bullet in a `### Redesign proposal` sub-block when it argues for a redesign you are NOT applying now. A lesson alone needs no version bump.
-3. Edit `SKILL.md` only together with a version bump, and bump only with an applied edit: patch for wording, minor for a step/prompt refinement, major for a methodic redesign. Update the `version:` frontmatter. Never edit inside a stamped `<!-- clause: ... -->` block: that text is shared by every skill in the lane and is changed in the registry's `docs/skill-clauses/` and re-stamped with `node <registry>/scripts/apply-skill-clauses.mjs`.
-4. Where the edit lands: THE SKILL DIRECTORY IS A LINK INTO THE REGISTRY. `.claude/skills/ci-gate-check` in a consuming repo is a symlink to `<registry>/skills/ci-gate-check` (registry root = `registry.local` in `.ai/manifest.yaml`, default `../ai-registry`; `$AI_REGISTRY_DIR` wins). Editing it edits the one file every project runs, so there is nothing to propagate. Commit it IN THE REGISTRY checkout as a standalone commit containing only this skill's files: run `node <registry>/scripts/check-skills.mjs --since HEAD` first (shape + version discipline must pass), then `git -C <registry> add skills/ci-gate-check` and `git -C <registry> commit -m "skill(ci-gate-check): v<new> - <one-line reason>"`. Never stage the link from the project side.
-5. NEVER copy this skill to `~/.claude/skills/ci-gate-check/` or into another repo, and never "propagate" by copying. A copy in the personal tier shadows the lane for every project on the machine and freezes the method at that day's bytes with no version to compare (measured 2026-08-29: 11 such copies, all unversioned, all stale). If `.claude/skills/ci-gate-check` is a real directory instead of a link, the fix is `node <registry>/scripts/link-registry.mjs`, not a copy in either direction.
-
-**Lane 3 - DOMAIN knowledge** is a different artifact from a lesson: a lesson improves this METHOD, a lead proposes knowledge for a bundle. Skills that carry a `## Knowledge sync` section file leads there; a skill without one files none.
+**Domain learning.** Follow `## Knowledge sync` when present, within the same scope
+and privacy boundaries. A method lesson and a domain knowledge lead are different
+artifacts; do not fabricate either to fill a reflection quota.
 <!-- /clause: skill-reflection -->

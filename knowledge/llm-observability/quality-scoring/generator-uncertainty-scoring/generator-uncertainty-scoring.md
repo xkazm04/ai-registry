@@ -10,6 +10,7 @@ techniques:
   - probability-calibration-is-not-agreement
   - generator-vs-itself
   - score-source-ensembling
+  - stated-distribution-over-closed-labels
 ---
 
 # Generator uncertainty scoring
@@ -249,3 +250,8 @@ question available is how surely the model said it.
 - [score-source-ensembling](./techniques/score-source-ensembling.md) —
   combining sources that fail differently, the label dependency the fit
   introduces, and the scope the fitted weights are valid over.
+- [stated-distribution-over-closed-labels](./techniques/stated-distribution-over-closed-labels.md)
+  — the source that needs neither token probabilities nor extra samples: a
+  probability per label of a closed set, a confidence from the distribution's
+  shape, the one kind here that has a prompt, and the measured seam where it
+  is pure cost beside the one where it pays.

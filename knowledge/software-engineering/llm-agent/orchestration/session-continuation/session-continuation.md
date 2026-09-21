@@ -13,6 +13,8 @@ techniques:
   - compaction-checkpoint
   - sealed-stage-advance
   - stuck-loop-detection
+  - boundary-applied-stop
+  - gate-state-lifetimes
 ---
 
 # Session continuation
@@ -191,6 +193,23 @@ node status; the difference here is that the advance is driven by model
 output, which is why it needs provenance. sealed-stage-advance is the
 technique.
 
+## A stop lands on a boundary, and gate state has an owner
+
+A stop gate consulted only when the model tries to yield never sees a limit
+crossed during a long tool-calling streak, so the gates are evaluated on every
+iteration and the stop is applied at a boundary: every call's result is in the
+record and no reasoning call has started. A stop decided while a batch is in
+flight travels as a pending value and lands at that boundary; a stop whose
+batch no reasoning call will ever read refuses the batch instead, answering
+each call as not executed rather than spending side effects nobody will look
+at. boundary-applied-stop holds both rules and the question that separates
+them. The gates doing this are shared across every session a process serves,
+so gate-state-lifetimes keys their state by session and gives each field a
+declared lifetime — per turn, per session, or a verification phase that resets
+its peers — while consumption meters stay out of every phase reset, outlive a
+suspended and resumed invocation, and are charged on failure and cancellation
+as well as on success.
+
 ## A loop that never stops must still notice it is stuck
 
 The whole subject argues for not stopping, so it must say precisely when to
@@ -223,6 +242,11 @@ challenger. stuck-loop-detection holds the counters and the rules.
   on authenticated evidence.**
 - **A stop on repeated identical failure outranks every policy that would
   defer it.**
+- **A stop is applied at a boundary, and a batch no reasoning call will read
+  is refused, not run.**
+- **Gate state is keyed by session with a declared lifetime; consumption
+  meters never reset on a phase or a resume, and are charged on every
+  terminal path.**
 
 ## The techniques
 
@@ -247,3 +271,10 @@ challenger. stuck-loop-detection holds the counters and the rules.
 - [stuck-loop-detection](./techniques/stuck-loop-detection.md) — failure
   identity over attempt count, the two counters with asymmetric resets, and
   the priority of the stop.
+- [boundary-applied-stop](./techniques/boundary-applied-stop.md) — gates
+  evaluated on every iteration, the pending stop applied at the next boundary,
+  the batch nobody will read refused with not-executed results, and the
+  protective stop that interrupts instead.
+- [gate-state-lifetimes](./techniques/gate-state-lifetimes.md) —
+  session-keyed gate state, the three declared lifetimes, the peer reset a
+  verification phase performs, and the meters no reset or resume may touch.

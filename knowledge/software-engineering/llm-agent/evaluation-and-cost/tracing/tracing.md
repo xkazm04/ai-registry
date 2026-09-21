@@ -7,6 +7,7 @@ techniques:
   - span-model
   - vocabulary-source-selection
   - trace-capture
+  - class-before-inspection
   - cross-boundary-propagation
   - waterfall-rendering
   - synthetic-and-estimated-traces
@@ -210,6 +211,14 @@ trace table is the storage incident scheduled at integration time
 - [trace-capture](./techniques/trace-capture.md) — what opens a span, capture
   cost, buffering and flush, span ceilings, sampling honesty, orphan closure,
   retention.
+- [vocabulary-source-selection](./techniques/vocabulary-source-selection.md) -
+  which names a span's fields may take and where that list comes from, including
+  the value-catching pass and the direction it must err in. Declared in this
+  subject's frontmatter since it was forged and described here for the first time.
+- [class-before-inspection](./techniques/class-before-inspection.md) - a run
+  record's sensitivity is decided by what its surfaces may carry, not by a scan
+  of one instance; one door applies the owner's class and writes its own
+  receipt; when a tier split earns its cost, and what a digest tier must deny.
 - [cross-boundary-propagation](./techniques/cross-boundary-propagation.md) —
   trace and parent identities across process, language, and chained-run
   boundaries; continuation versus new-trace-with-link; clock skew.

@@ -18,11 +18,12 @@ danger: **a blind spot in a rubric renders as silence, and silence reads as a pa
 audit is the procedure that finds those spots before a downstream consumer does, and the
 rendering rule is what makes surviving one bearable.
 
-The failure is measurable and it is large. Where a production grading setup has been
+The failure can be measured against independently confirmed defects. Where a production grading setup has been
 compared against defects confirmed by other means, the pattern that recurs is a criterion
 set exposing a handful of coarse dimensions with no category at all for the behavioural
-ones — recovery, state, guardrails — and roughly half of the confirmed defect patterns
-living in the dimensions the instrument could not express. The gate's apparent defect rate
+ones — recovery, state, guardrails — and confirmed defect patterns
+living in dimensions the instrument could not express. Any effect size needs its
+dated corpus, denominator and verification record. The gate's apparent defect rate
 approached zero. Nothing in the instrument was wrong; every criterion it held it applied
 correctly. It simply held a proper subset of the craft and reported the subset as the
 whole. The assessment literature has a name for this and treats it as a validity failure
@@ -68,7 +69,7 @@ is not information, and "which dimensions this looked at" is that basis exactly.
 temptation to omit it is strong precisely because the omission makes the instrument look
 complete, which is the state it is being audited for not being.
 
-This is also what makes publishing an incomplete rubric acceptable. A rubric with three
+This can make an incomplete rubric useful for a scoped, non-gating review. A rubric with three
 named unmeasured dimensions and honest rendering is a usable instrument that tells its
 reader where it is blind. A rubric that covers everything on paper because nobody enumerated
 independently is the same instrument without the label.
@@ -87,7 +88,9 @@ input from production and depends entirely on escapes reported by consumers, whi
 late and incompletely. And if the channel's output is allowed to move the score, an
 ungoverned free-text penalty has re-entered the instrument, which is unsourced taste with a
 new route in — the exact thing the criteria exist to keep out. The channel is a proposal for
-the next version. It is not a criterion until somebody writes it as one.
+the next version. It is not a criterion until somebody writes it as one. A credible fatal defect
+can still trigger a separate adjudicated release hold; a display-only coverage
+channel must not force a known unsafe or unusable artifact to ship.
 
 Check where an existing channel points before building a new one. Mature automated graders
 usually already ask the examiner for a directive that would raise the score, and route it into
@@ -116,7 +119,9 @@ on the dimensions it happens to hold.
   criterion covering it is not discriminating.** That is a criterion defect, not a coverage
   defect, and rewriting the criterion is the fix; adding a second one over the same
   dimension without diagnosing the first just doubles the silence.
-- **Coverage is a list, never a percentage.** A figure like "eighty-three per cent covered"
+- **Coverage names the dimensions.** A supplementary ratio is permissible only
+  with a fixed enumeration, denominator and uncovered list; it is not a quality
+  or validity score. A figure like "eighty-three per cent covered"
   reads as a quality score, gets tracked as one, and hides which seventeen per cent is
   missing. Count and name, or do not publish it.
 - **Structural dimensions are the ones a criterion set covers by default; behavioural and
@@ -127,10 +132,11 @@ on the dimensions it happens to hold.
 
 ## When not to use it
 
-- **On a single-purpose conformance check.** One dimension by construction; the audit has
-  nothing to find and its ceremony makes the check look more thorough than it is.
-- **As a gate on publishing a lens.** A delayed instrument measures nothing at all. Publish
-  with the unmeasured dimensions named, and let the audit run against the version.
+- **On a narrowly scoped check, keep the audit proportionate.** Even one stated
+  purpose can have omitted inputs, boundary cases or operating conditions.
+- **Separate publishing a draft from authorizing release decisions.** A draft
+  may name unmeasured dimensions; a release gate must block when required
+  dimensions remain unmeasured, or delegate them to another named instrument.
 - **When the class is mis-scoped.** A dimension enumeration that will not fit one instrument
   because half of it applies to one kind of artifact and half to another is telling you the
   deliverable class holds two crafts. Split the class rather than extending the criterion

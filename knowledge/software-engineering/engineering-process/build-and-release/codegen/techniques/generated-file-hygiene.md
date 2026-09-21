@@ -6,7 +6,7 @@ technique: generated-file-hygiene
 status: forged
 laws: [derivation-names-recomputation, one-authority-per-vocabulary]
 shared_with: []
-use_when: [deciding what a generated file's header must say, formatter keeps reflowing regenerated output, regenerated output differs between runs]
+use_when: [deciding what a generated file's header must say, formatter keeps reflowing regenerated output, regenerated output differs between runs, a few generated artifacts need hand-written prose the generator keeps overwriting, maintaining a list of files the generator must skip]
 ---
 
 # Generated-file hygiene
@@ -97,3 +97,89 @@ that shows exactly the edit; and for gate-less convenience-tier artifacts
 ambient regeneration silently reverts the edit — which is precisely why the
 header must be blunt about erasure: for those files, the warning is the
 only protection the editor's work gets.
+
+## The seeded file: when erasure is conditional
+
+Everything above governs an artifact that stays generated for life. There is
+a second lifecycle it does not cover, and treating it as the first one is
+what produces the exclusion list nobody maintains.
+
+Some generators emit a **seed** rather than an authority: a starting point
+that is correct for most outputs and wrong for a few, where the few need
+hand-written prose no generator can produce. A reference page per command
+in a large tool is the recurring instance — most pages want to be the
+tool's own emitted help text, and a handful need an explanation, an example
+sequence, a warning. The naive fix is a skip-list in the generator naming
+the exceptions. That list is a second authority over the same question,
+kept in a different file from the artifacts it describes, and it drifts the
+moment an artifact is renamed or a hand-written page is added by someone
+who does not know the list exists.
+
+That drift is not inevitable, and saying so is the difference between this
+rule and a preference. **A two-sided exception list does not drift**: one
+that fails both when an unlisted artifact needs excluding *and* when a
+listed one stops needing it cannot accumulate stale entries, because
+clearing an exception costs a deleted line and leaving it costs a red gate.
+An exception list built that way is a legitimate mechanism, and the
+argument below is not against it.
+
+The correction is to move the ownership bit **into the artifact**: the
+generator writes a marker, and on every subsequent run it rewrites a file
+only if the file is absent or still carries that marker. Deleting the
+marker is how a human adopts the file, and the adoption is permanent
+without anyone editing the generator. One line of prose in the artifact
+replaces a registry of exceptions, and it cannot disagree with the artifact
+because it is inside it.
+
+The one-writer rule survives this intact, and stating why is the point:
+while the marker is present the generator is the only writer, and once it
+is gone the generator has *permanently ceded* the file — at no moment do
+two authorities claim it. What changes is only that the transfer is
+possible and is recorded where the next reader is standing.
+
+Three constraints keep a seeded file from becoming an unmanaged one:
+
+- **The marker is the header, not a second mechanism.** The four
+  declarations above still apply while the file is generated, and the
+  erasure line is phrased as the condition it actually is — this file is
+  rewritten while this marker is present — rather than as an unconditional
+  threat the tooling does not honour.
+- **Adoption is a reviewable event.** Removing the marker changes who
+  maintains the file forever, so it belongs in a diff a person reads, not
+  in a bulk edit. A drift gate cannot help here: an adopted file is
+  *supposed* to diverge from what the generator would emit, so it leaves
+  the gate's jurisdiction on the same commit. Adopting a file that should
+  have stayed generated is the failure this cheapness buys, and the only
+  thing that catches it is review.
+- **Seeding is not for contract artifacts.** A generated type, a schema, a
+  client — anything whose correctness is defined by agreement with an
+  upstream source — must never be adoptable, because adoption converts a
+  derived guarantee into a hand-maintained claim that will silently stop
+  matching. Seeding is for artifacts whose audience is human and whose
+  authority is editorial.
+
+## Which mechanism, and the case that decides it
+
+The in-artifact marker and the two-sided exception list are both correct,
+and they are not interchangeable. Two questions separate them, and both are
+about the artifact rather than about taste:
+
+**Does the artifact exist?** An ownership bit can only live in a file, so
+the marker cannot express an exception about an artifact that was never
+written. A generator whose interesting exceptions are *absences* — a type
+whose emission is expected and does not happen, a page that should exist
+and does not — has nowhere to put a marker, and its exceptions must live
+in a list. This is the case the marker cannot reach at all, and a codebase
+usually has both kinds at once.
+
+**Is the artifact's authority editorial or derived?** Editorial artifacts
+are adoptable and the marker is the cheaper mechanism, because the decision
+and the prose it governs sit in one place and cannot disagree. Derived
+artifacts are never adoptable, so their exceptions are always about
+generation *failing* or *lagging* rather than about ownership — which is
+list territory by the previous test as often as not.
+
+The failure worth naming is using one mechanism for both: a project that
+puts adoption markers in its derived artifacts has legalized silent
+contract drift, and a project that keeps an editorial exception list has
+taken on maintenance it could have deleted.

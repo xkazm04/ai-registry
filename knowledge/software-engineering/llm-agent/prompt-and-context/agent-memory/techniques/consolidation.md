@@ -39,7 +39,9 @@ is not a throughput optimization; it is what makes the judgment good:
   cooling-off period built into the architecture.
 
 The trigger is **accumulated input, not the clock**. What a pass costs — and
-what makes it worth running — is the volume of unconsolidated material, so
+what makes it worth running — is the volume of unconsolidated material - which is a trigger for how much work is
+available, never for whether it pays; the threshold property is measured in
+[addresses-before-compression](./addresses-before-compression.md), so
 the honest trigger is pressure: enough new episodes since the last completed
 pass. The clock survives only as a floor (a burst must not cycle twice in an
 hour) and as a staleness release (a quiet week still gets compressed

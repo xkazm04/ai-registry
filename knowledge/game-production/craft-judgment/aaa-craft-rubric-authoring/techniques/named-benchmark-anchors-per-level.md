@@ -37,8 +37,8 @@ For each level of the scale, from top to bottom:
 4. **Anchor the bottom too.** The failing level needs a reference as much as the top
    one does, and it is the harder one to write, because nobody wants to name a piece
    of shipped work as the floor. The workable form is a class of output rather than a
-   product: "what a generative pass produces before any human pass" is a floor an
-   examiner can recognise and does not libel anyone.
+   product: a pinned rejected fixture with a named defect is reproducible. "Before any
+   human pass" is a process label, not a stable quality level.
 5. **Keep the ladder monotone in one craft dimension.** Levels must differ by amount
    of the same thing. If level 3 is anchored on technical cleanliness and level 4 on
    artistic ambition, examiners cannot order them, and artifacts strong on one and
@@ -62,7 +62,7 @@ are one level.
 
 ## Decision rules
 
-- **Three to five levels, never more.** Anchoring is expensive and the anchors have to
+- **Start with three to five levels and calibrate.** Anchoring is expensive and the anchors have to
   be genuinely distinguishable. If you cannot write four anchors that a practitioner
   would place in that order without being told, you have a three-level scale.
 - **When the medium has sub-crafts, anchor per sub-craft.** A schematic, an icon set
@@ -72,8 +72,8 @@ are one level.
   inventing one.** An empty level is a known gap; a vague anchor is a silent one, and
   examiners will fill it with the middle of the scale.
 - **Re-anchor on a schedule, not on complaint.** The market standard moves. Review
-  anchors when a class's grades stop moving — a distribution frozen for two quarters
-  usually means the anchors have aged out, not that the work has plateaued.
+  anchors when a class's grades stop moving — a stable distribution can reflect unchanged work, sampling, saturation or
+  examiner behavior; it does not establish that anchors have aged out.
 - **The anchor names a standard, never a target to imitate.** Grading a piece on how
   much it resembles the reference produces derivative work that scores well. The
   anchor fixes the *level*; the criteria fix what is being levelled.
@@ -90,8 +90,9 @@ that the artifact in front of them is not it.
 
 The second failure of adjectives is drift without a diff. Two examiners, or one
 examiner across two months, reinterpret "good" freely, and nothing in the record shows
-that the standard moved. An anchored level changes only when someone edits the anchor,
-which is a visible, reviewable, versionable act.
+that the standard moved. Pin the referenced release, specimen and relevant presentation conditions;
+otherwise even a named product can change without a rubric edit. Explicit changes
+to that pinned reference are visible, reviewable and versionable.
 
 ## When not to use it
 

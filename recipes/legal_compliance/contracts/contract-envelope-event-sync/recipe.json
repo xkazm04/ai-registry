@@ -2,7 +2,7 @@
   "id": "4d115a03-9ba9-556b-88fa-abe921f7f3e1",
   "slug": "contract-envelope-event-sync",
   "title": "Contract envelope event sync",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "status": "seed",
   "path": "legal_compliance/contracts",
   "domain": "legal_compliance",

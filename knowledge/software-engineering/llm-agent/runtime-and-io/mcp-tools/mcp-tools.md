@@ -15,12 +15,15 @@ techniques:
   - write-freshness-gate
   - catalog-projection-modes
   - tool-identity-vs-tool-name
+  - one-server-many-registrations
   - sanctioned-session-state
   - caller-differentiated-capability
   - fluent-syntax-bounded-grammar
   - suspendable-request-classes
   - sealed-continuation-state
   - enumeration-without-a-scope
+  - ambient-selection-is-not-an-argument
+  - command-audit-by-position
 ---
 
 # Tool protocols (MCP)
@@ -106,6 +109,17 @@ dead weight. The load-bearing facts:
   tasks extension lets a server return a pollable handle for an operation that
   outlives any reasonable request timeout — the request/response shape stays
   clean and reconnects stop being failures.
+
+All of that presumes a server in front of a *service*. A server in front of a
+**single-seat interactive application** — a program built for one person at a
+keyboard, given a tool surface over the scripting interface it already had —
+breaks the first bullet rather than the last: its most natural arguments name
+the open document and the current selection, which is cross-call state the
+server did not mint and cannot, so the request stops being self-describing
+while still looking like it is.
+[ambient-selection-is-not-an-argument](./techniques/ambient-selection-is-not-an-argument.md)
+owns that case, and the undeclared mutual exclusion these designs are currently
+resting on.
 
 ## Who controls what
 
@@ -297,6 +311,11 @@ same obligations as the wire itself:
   the address a model calls is not the identity an operator correlates: a
   rename-stable identifier on the wire, what may change it, and why possession
   of one authorizes nothing.
+- [one-server-many-registrations](./techniques/one-server-many-registrations.md)
+  — one server reachable under two names at once because the host registered
+  it twice: canonicalize from the registration record, write name-pattern
+  policy for every form, and treat an unauthorized duplicate as neither absence
+  nor a second source.
 - [sanctioned-session-state](./techniques/sanctioned-session-state.md) — when
   affinity is genuinely required: opt-in twice, degrade to nothing at one
   replica, and an owner identity regenerated per process so a restart is
@@ -331,6 +350,12 @@ same obligations as the wire itself:
   — a list operation whose scope nothing can define: recognising one handle
   needs no caller identity and correlating two does, so delete the operation
   rather than documenting the obligation.
+- [command-audit-by-position](./techniques/command-audit-by-position.md) -
+  the other half of the bounded-grammar case, when the host does *not* own the
+  command it must nonetheless run: classifying each token by where it sits
+  instead of by the characters it contains, per-program flag and verb tables,
+  two opposing assertions over a corpus of live commands, and the one clause
+  position cannot supply - a transport that re-parses.
 
 ## What a removed boundary was silently scoping
 

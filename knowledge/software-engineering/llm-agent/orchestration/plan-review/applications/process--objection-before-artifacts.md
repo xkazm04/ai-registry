@@ -45,15 +45,14 @@ absent, and each absence is visible in the template rather than inferred:
   single verdict is the triage letter. Nothing in the pipeline is `pending` on them, so
   advancing past an unaddressed risk is not a bypass — it is the only available path.
 
-The structural fact underneath all five: this pipeline's risk channel is **decorative by
-construction**, not by neglect. It carries no state, so nothing can block on it, so
-nothing reads it twice.
+The risk channel is advisory rather than separately blocking. That limits what
+the workflow can enforce, but does not prove the risks are ignored or useless.
 
 The timing, at least, is right and worth crediting. The risks appear at plan time, before
 any artifact exists, at exactly the point the technique argues for. What the realization
-shows is that timing alone buys nothing: a premise-level objection raised while it is
+shows is that timing alone does not establish an enforced review: a premise-level objection raised while it is
 still cheap, by the party whose premise it is, with no way to be dispositioned, is
-indistinguishable in effect from no objection.
+not evidence of an independently adjudicated objection.
 
 ## The positive half: worker briefs told to override, and a director who reads the diff
 
@@ -74,10 +73,12 @@ technique, corrections checked against the file's prior voice"*
 rule at `.claude/skills/forge/SKILL.md:101`: *"Never trust the forgers' green reports
 alone."* That sentence is the gate reading its target rather than a claim about the
 target, which is the property the technique's hard gate depends on. Read against the
-technique, three of its properties hold and one is conspicuously partial:
+technique, some properties are present and others are not established:
 
-- **Read-only reader, human writes the verdict** — holds. The worker cannot commit; the
-  director does.
+- **Read-only reader, human writes the verdict** — not established. The workers
+  write their owned subject files; a prohibition on commits does not make them
+  read-only. The director role is a review authority, not evidence that a human
+  personally rendered every verdict.
 - **Objection raised before artifacts** — holds for the spec, which is challenged before
   the subject is written.
 - **Rationale mandatory** — holds. "Say so in the report" is the rule, and the report is
@@ -86,8 +87,8 @@ technique, three of its properties hold and one is conspicuously partial:
   director notices it by reading a report. An override that the worker declines to
   mention is invisible, and the only instrument against that is the diff review.
 
-The last point is the honest one. This is a review that works because one person reads
-every diff, which is the same property that makes it unmeasurable and unscalable — and
+The last point is the honest one. This is a procedure that requires a director to read
+every diff; its effectiveness and capacity are not established by the instruction alone — and
 the registry's own capacity technique already says what that costs at the one-person
 floor.
 
@@ -104,3 +105,9 @@ here, and no amount of care in either pipeline changes that. It is a storage gap
 discipline gap, and the smallest thing that would close it is the one thing neither
 pipeline has: an objection with an identity that survives from the plan stage to the
 change stage.
+
+## Architecture source check - 2026-09-09
+
+Re-read the current Architect triage and the forge/deepen worker instructions.
+Workers own write sets; directors review diffs. Corrected the claim that inability
+to commit proves read-only execution or human approval. No live run was performed.

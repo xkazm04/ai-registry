@@ -2,7 +2,7 @@
   "id": "5dc1a004-a5c0-4a04-9e04-5dc1a0040004",
   "slug": "release-record-and-version-bump",
   "title": "Release record and version bump",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "status": "seed",
   "path": "software_engineering/release",
   "domain": "software_engineering",

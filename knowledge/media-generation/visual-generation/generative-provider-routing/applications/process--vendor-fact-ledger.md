@@ -55,8 +55,10 @@ facts, cost class, and craft quirks, each attributable to a source.
 ## Cost classes and routing consequences
 
 Single families now span self-host-free to premium API: FLUX.2 Pro (API) /
-Flex / Dev (open weights) / Klein (Apache-2.0, consumer GPU); Qwen-Image
-runs locally; SDXL derivatives are free local compute; GPT Image 2 and Nano
+Flex / Dev (open weights) / Klein (consumer GPU; the license splits by size -
+4B is Apache-2.0, 9B is the FLUX Non-Commercial License, re-checked
+2026-09-17, so a commercial route may take only the smaller Klein);
+Qwen-Image runs locally; SDXL derivatives are free local compute; GPT Image 2 and Nano
 Banana Pro are premium per-image APIs. Routing consequence: prototype on
 the free tier of a family, finish on its API tier with the same prompt
 dialect — the cross-family port (prose↔tags) is the expensive hop, not the
@@ -83,3 +85,7 @@ cost-tier hop inside a family.
 - https://fal.ai/ideogram-4
 - https://huggingface.co/black-forest-labs/FLUX.1-dev/discussions/43
 - https://civitai.com/articles/10087/ (CFG on distilled models)
+- https://huggingface.co/black-forest-labs/FLUX.2-klein-9B (accessed 2026-09-17) - "the
+  FLUX.2 [klein] 4B models under an Apache 2.0 license and ... the 9B models under a
+  non-commercial license"; only this entry was re-checked, so `verified_on` stays at the
+  date the rest of the ledger was resolved

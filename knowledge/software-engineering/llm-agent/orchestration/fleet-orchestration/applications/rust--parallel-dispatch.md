@@ -97,3 +97,10 @@ primitives"): disjoint write sets per concurrent session on one checkout,
 standing rule that after every commit the session verifies `git log -1` is its
 own message — with the measured incidents (swept stashes, no-oped commits,
 mis-attributed pathspec commits) that earned each rule.
+
+## Review boundary - 2026-09-09
+
+Historical code and test outcomes above were not rerun. A requested ceiling does
+not promise that the run will consume it. Report effective limits and stop reason
+separately from accepted outcomes. Source-level counts and soft-cap behavior do
+not establish enforcement of a total fleet resource budget.

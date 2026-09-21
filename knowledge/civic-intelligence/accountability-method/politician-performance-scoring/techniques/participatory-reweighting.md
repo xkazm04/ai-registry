@@ -58,11 +58,13 @@ Collecting submitted lenses ("how would readers weigh it?") is a legitimate
 second product with three hard rules:
 
 - **Normalize before aggregating.** Aggregate over effective weights, so scale
-  duplicates collapse to one vote; a vector with zero total carries no lens and
+  vectors have the same weighting. This does not deduplicate people or submissions;
+  any one-person-one-submission policy needs separate enforcement. A zero-total vector
   is excluded from the count.
-- **K-anonymity floor.** Publish a per-component median only at or above a named
-  minimum of valid submissions; below it, show only the count. A "median of
-  three" effectively publishes individual ballots. And publish honestly what the
+- **Minimum-release count.** Publish a per-component median only at or above a
+  named threshold of valid submissions. This alone is not k-anonymity or a
+  privacy guarantee; even counts can disclose participation. Assess repeated
+  releases, auxiliary information and group filters. Publish honestly what the
   aggregate is: per-component medians generally do not sum to the total — say
   so rather than renormalizing the result into a lens nobody submitted.
 - **Disclose self-selection.** The aggregate describes the product's readers,
@@ -80,3 +82,19 @@ weigh it" fabricates an authority's position; presets are labeled editorial
 examples. And never feed aggregated reader preferences back into the official
 weights automatically: the official formula changes only through the published
 correction-and-recompute path, with a human deciding.
+
+## Numeric and disclosure boundaries
+
+Require finite nonnegative weights and positive total, and specify precision and
+any residual allocation: independently rounding normalized components need not
+sum to exactly 100. Preserve missing fulfillment. A component with published
+weight zero cannot be recovered by points / weight; publish its normalized
+fulfillment independently or disable that lens dimension. Do not reweight stale
+or incomplete components as though they were current complete measurements.
+
+Canonical vectors identify equivalent lenses, not unique voters; identical
+preferences can belong to different people. A componentwise median is a summary,
+not necessarily any submitted vector. Follow a release-specific privacy review;
+[NIST SP 800-188](https://www.nist.gov/publications/de-identifying-government-datasets-techniques-and-governance)
+provides de-identification governance guidance, not a certification for this
+threshold. Keep the aggregate explicitly limited to submitted preferences.

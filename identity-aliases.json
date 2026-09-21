@@ -1,0 +1,7 @@
+{
+ "schema": 1,
+ "_note": "Only confirmed identity migrations belong here: old identity -> {to, reason}. Slugs alone are not evidence of equivalence. Unknown reports remain visible until reviewed; no aliases have yet been established.",
+ "skills": {},
+ "subjects": {},
+ "applications": {}
+}

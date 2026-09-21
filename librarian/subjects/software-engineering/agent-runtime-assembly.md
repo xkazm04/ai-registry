@@ -466,3 +466,7 @@ context manager may run (a catch for the technique's closure half), and carries 
 technique's named hazard latently — the synthesized result's verdict lives only in
 its reason prose, with no status in a closed vocabulary and, so far, no classifier
 matching it. Recorded as the negative structural fact.
+
+### 2026-09-16 - `/harvest backlog` wave 1, one technique
+
+`nested-run-is-not-its-parent`, from three source notes ([[2026-08-27-herdr]] environment identifiers unset per command, [[2026-09-02-deer-flow]] a subagent on the parent's thread skips the memory flush, [[2026-09-15-awesome-llm-apps]] nested runs inherit callbacks through context variables). Homed here rather than the unit's terminal-multiplexing, whose opening hands spawn and environment to subprocess-lifecycle while two of the three carriers are in-process. The measurement narrowed the rule honestly: environment scrubbing measured 0 vs 0 on this machine's runtime, so the technique says to measure before scrubbing on a runtime you do not own; the receiver half measured 5/5 -> 0/5 and shipped to personas. It is the reverse of tracing's cross-boundary-propagation, and the discriminator is stated in the body: is the new unit part of this run, or a run of its own.

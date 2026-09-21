@@ -48,9 +48,7 @@ Three things are handed over as reference, all in `buildDomainContext`:
   include order, the constructor shape, and the comment density — the tacit standard that
   is expensive to write as rules.
 - `formatComboAbilities(input.comboAbilities)` — the existing abilities, explicitly labelled
-  *"for reference on timing, damage, and costs"*. This is the corpus spread, so a new
-  ability's numbers land inside the distribution the game already has rather than inside the
-  model's priors.
+  *"for reference on timing, damage, and costs"*. This is the corpus spread, to inform the requested ranges; this does not enforce bounds or prove balance.
 - `formatRadarData(input.radarData)` — the live per-ability profiles, normalised 0–1.
 
 Note the second delivery mode elsewhere in the same project: the codegen contract in
@@ -58,8 +56,8 @@ Note the second delivery mode elsewhere in the same project: the codegen contrac
 idiom — do NOT invent a new system"* and then names three real exemplar files
 (`GE_Heal.cpp` for instant additive, `GE_Regen_Health.cpp` for periodic duration,
 `GE_Stun.cpp` for granted tags) plus `ARPGAttributeSet.h` for the real attributes. That
-author is an agent with file access, so pointing beats embedding: it cannot go stale, and
-it costs three lines instead of two thousand tokens.
+author is an agent with file access, so pointing can reduce duplication, but paths and their contents can still
+change. Record what was read and validate against the target revision.
 
 ## The ten house rules
 
@@ -99,3 +97,17 @@ rule)`. It costs a parenthesis; it prevents a bug that produces a working, plaus
 wrong ability. That is the test a rule has to pass to earn a place in a prompt: it names a
 mistake a competent author makes anyway, and the mistake would have been silent. Rules that
 merely restate the schema fail it, and get skimmed.
+
+## Review boundary - 2026-09-09
+
+The historical prompt and code references were inspected as documentation only.
+No UE constructor API compatibility, activation/cancellation semantics, generated
+code compilation or runtime grant was evaluated. House timing bands and universal
+dead/stunned activation blocks are project policy, not engine-wide requirements.
+Verify new-tag declaration workflow and the hand-maintained registry against all
+configured runtime sources before adoption. The witness date remains unchanged.
+
+[RFC 6902](https://www.rfc-editor.org/rfc/rfc6902) defines constrained patch operations
+including test and failure handling; it supports a patch transport option followed
+by full candidate validation. It does not supply application authorization, schema
+validation or atomic persistence by itself.

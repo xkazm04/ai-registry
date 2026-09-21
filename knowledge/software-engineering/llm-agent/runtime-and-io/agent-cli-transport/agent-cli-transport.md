@@ -11,6 +11,7 @@ techniques:
   - dated-capability-matrix
   - fallback-ladder
   - child-observed-posture
+  - host-routed-approval-round-trip
   - spawn-contract@subprocess-lifecycle
   - termination-and-reaping@subprocess-lifecycle
 ---
@@ -122,6 +123,19 @@ ceiling, and what is its default?" is therefore a
 where a tool has one the adapter sets it explicitly to a value it chose,
 rather than inheriting a default it never saw.
 
+**The stance is fixed before the run because nobody is there to answer — and
+that premise is a variable.** When the host puts a person within reach of the
+child's turn, through a chat surface or a console, a pre-set stance forces a
+choice between too narrow to finish and full access. The host then keeps the
+child's own permission engine and becomes its answer channel instead: each
+mid-turn request becomes a pending approval bound to the conversation that
+asked, and anything unanswered, unknown or failed resolves to decline. The
+discriminator is whether the host can reach a human inside the child's request
+timeout; a host that removed the child's native tools and exposes only its own
+gated ones has nothing to route.
+[host-routed-approval-round-trip](./techniques/host-routed-approval-round-trip.md)
+owns the case where it can.
+
 ## Auth is the economics, and it is ambient
 
 The child inherits an environment in which a metered API key may be sitting,
@@ -179,6 +193,11 @@ honesty.
   rather than from the host's intent, at the seams that lose them silently —
   including the one only the model can testify to, where injected context
   never arrives and the producer still exits clean.
+- [host-routed-approval-round-trip](./techniques/host-routed-approval-round-trip.md)
+  — the attended inversion of a pre-set stance: the child's mid-turn approval
+  requests answered through the host's own approval service, bound to and
+  enforced against the conversation that asked, with anything unknown,
+  unanswered or failed resolved to decline.
 - Borrowed:
   [spawn-contract](../subprocess-lifecycle/techniques/spawn-contract.md) and
   [termination-and-reaping](../subprocess-lifecycle/techniques/termination-and-reaping.md)

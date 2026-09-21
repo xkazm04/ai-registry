@@ -60,14 +60,15 @@ it would leave failures undetected. Both readers apply the same rule before emit
 
 ## Selectivity is leverage, not severity
 
-The reader emits five to eight stories against a hard cap, ranked by **what would
+The reader emits only material stories, up to a configured cap (for example eight),
+ordered by **what would
 compound if it were recorded** — not by how serious the consequence is. A large
 consequence everyone can already see is a poor story; a small default that will be
 copied into the next forty decisions is an excellent one. Ranking by severity produces
 a list that duplicates the objection record, which is the failure mode that makes teams
 delete one of the two readers.
 
-The cap is hard and the floor is soft. A reader that pads to a count produces noise that
+The cap is hard and there is no required minimum. A reader that pads to a count produces noise that
 masks its own signal, and the padding is undetectable downstream because a weak story is
 still a true story. So: fewer is allowed, more is not, and the case where the reader ran
 and found nothing material gets a reserved way to say so rather than an empty list, since

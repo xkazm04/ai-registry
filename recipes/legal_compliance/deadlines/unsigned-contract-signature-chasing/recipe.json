@@ -2,7 +2,7 @@
   "id": "2d6945b7-5cca-5f28-b91c-26b03249ea70",
   "slug": "unsigned-contract-signature-chasing",
   "title": "Unsigned contract signature chasing",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "status": "seed",
   "path": "legal_compliance/deadlines",
   "domain": "legal_compliance",

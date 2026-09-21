@@ -2,7 +2,7 @@
   "id": "fcff41fe-7d00-5ecf-a303-97dee11d5274",
   "slug": "database-health-check",
   "title": "Database health check",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "status": "seed",
   "path": "software_engineering/observability",
   "domain": "software_engineering",

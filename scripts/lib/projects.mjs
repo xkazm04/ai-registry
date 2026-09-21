@@ -118,12 +118,10 @@ export function loadFleet(root = process.cwd()) {
   }
 
   const machine = machineCfg.machine ?? null;
-  // The root lives in the COMMITTED file, per machine, so projects.json alone resolves
-  // a full path on every device (2026-09-02). The local file may still override it -
-  // that is the escape hatch for a box whose root differs from the declared one.
-  const base = machineCfg.root ?? fleetCfg.machines?.[machine]?.root ?? null;
+  // Absolute roots are local. Never guess a checkout relative to the caller's cwd.
+  const base = machineCfg.root ?? null;
   if (!machine) problems.push(`${MACHINE_FILE} declares no "machine" name`);
-  if (!base) problems.push(`no root for machine "${machine}": declare machines.${machine}.root in ${FLEET_FILE} (or "root" in ${MACHINE_FILE})`);
+  if (!base) problems.push(`no root for machine "${machine}": declare "root" in ${MACHINE_FILE}`);
 
   const overrides = machineCfg.overrides ?? {};
   const projects = {};
@@ -136,9 +134,14 @@ export function loadFleet(root = process.cwd()) {
     // Absent from `checkouts` means "not on this machine". That is a normal
     // state, not a problem: the fleet is bigger than any one box.
     if (!rel) continue;
+    if (!override && !base) continue;
+    if (!override && !portableCheckout(rel)) {
+      problems.push(`${slug}: checkout must be a relative path within the machine root`);
+      continue;
+    }
     const abs = override
       ? path.resolve(override)
-      : base ? path.resolve(base, rel) : path.resolve(rel);
+      : path.resolve(base, rel);
     const exists = fs.existsSync(abs);
     if (!exists) problems.push(`${slug}: checkout not found at ${rel}`);
     projects[slug] = {
@@ -169,4 +172,21 @@ export function loadFleet(root = process.cwd()) {
 export function loadBridge(root = process.cwd()) {
   const fleet = loadFleet(root);
   return { projects: fleet.projects, contributor: fleet.contributor, machine: fleet.machine, _fleet: fleet };
+}
+
+export function portableCheckout(value) {
+  return typeof value === 'string' && value.length > 0 &&
+    !path.win32.isAbsolute(value) && !path.posix.isAbsolute(value) &&
+    !/^[a-z]:/i.test(value) && !value.split(/[\\/]/).includes('..');
+}
+
+export function validatePublicFleet(fleet) {
+  const problems=[];
+  if(fleet.schema!==2 || !fleet.projects || !fleet.machines)problems.push('expected schema 2, machines and projects');
+  for(const [name,machine] of Object.entries(fleet.machines??{}))
+    if(Object.hasOwn(machine,'root'))problems.push(`machine ${name}: root belongs in .machine.local.json`);
+  for(const [slug,project] of Object.entries(fleet.projects??{}))
+    for(const [machine,checkout] of Object.entries(project.checkouts??{}))
+      if(!portableCheckout(checkout))problems.push(`${slug}/${machine}: checkout must be portable and remain within its root`);
+  return problems;
 }

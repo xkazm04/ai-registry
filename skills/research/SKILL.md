@@ -1,6 +1,6 @@
 ---
 name: research
-version: 1.10.0
+version: 1.11.1
 description: Extract actionable improvements for a project from external sources (video, blog, article, raw text). Scores ideas against the codebase, buckets into Code / Template / Credential, and persists findings to an Obsidian memory vault.
 argument-hint: "[source or question]"
 category: ai-native
@@ -982,189 +982,7 @@ Research run complete.
 
 ## Phase 12: Release Log Update ("What's New") — optional
 
-**Skip this phase entirely unless the overlay declares a `## Release log`** — say
-"no release log configured, skipping Phase 12" once and move on. The section names
-the surface: a structural config file, a content directory, the locale set, and the
-key shape items live under. Also skip if zero findings were accepted in Phase 8 —
-there is nothing to log.
-
-Where a repo has one, this is what makes the work visible to future-you, to other
-contributors opening the app, and — most importantly — to **the actual users**, who
-read these strings as news, not engineering logs.
-
-**Critical rule before you start writing anything:** the release log is
-**user-facing news**, NOT an internal changelog. The repo law's voice rules for
-user-facing copy apply to every word you write here. If you find yourself typing a
-file path, a struct name, an env var, or a planning-doc reference, you have already
-failed — go back and rewrite as impact + benefit.
-
-### 12a. Read the release config
-
-Read the structural config file the overlay names. Identify:
-- `config.active` — the version that the in-app view opens by default
-- the matching release object inside `config.releases`
-- how many items it already contains
-- the highest existing item id in that release (for ID generation)
-
-If the file is missing or unparseable, warn (`release log not found, skipping
-Phase 12`) and stop. Do **not** create the file from scratch — its existence
-is a project-level decision, not the skill's call.
-
-### 12b. Locate the content folder
-
-Read the directory listing of the content directory the overlay names. It should
-hold one file per locale the overlay lists, plus whatever accessor the surface
-uses. Read the English file to learn the namespace shape — the overlay's key
-shape says where items live and which keys each carries (typically `title` and
-`description`).
-
-If any declared locale file is missing, warn loudly:
-```
-Locale file for {lang} is missing - refusing to write a partial set.
-A view that loads copy by direct property access crashes on a missing key.
-Restore the file or skip Phase 12.
-```
-
-### 12c. Ask the user
-
-Print:
-```
-Add accepted findings to the release log?
-Active release: {version} - currently {N} item(s).
-
-Reply with numbers from the accepted list (e.g., "1, 3"), "all", or "none".
-```
-
-Use the **same numbering** as the Phase 7 summary table so the user does not
-have to re-translate. Only accepted findings are eligible — declined ones are
-implicitly excluded.
-
-If the user replies `none` (or empty), skip to Phase 12g (still confirm
-"unchanged" in the summary).
-
-### 12d. Build structural items for the config file
-
-For each chosen finding, build the structural metadata only:
-
-```json
-{
-  "id": "{next-numeric-id}",
-  "type": "{inferred type}",
-  "status": "completed",
-  "added_at": "{today YYYY-MM-DD}"
-}
-```
-
-**No `title`, `description`, `summary`, `label`, or `source` fields.** Those
-are user-facing strings that live in the locale files, not in the config. The
-config is structural metadata only — versions, types, statuses, dates, ids.
-
-**Type inference rules** (in order — first match wins):
-1. Finding was escalated to severity `CRITICAL` by the Phase 6 security
-   escalation rule → `"security"`
-2. Finding's bucket is `code` AND title/summary clearly describes a bug fix
-   (keywords: "fix", "bug", "regression", "incorrect", "leak") → `"fix"`
-3. Finding introduces a backwards-incompatible change (keywords: "breaking",
-   "remove", "rename", "drop column") → `"breaking"`
-4. Finding adds documentation only → `"docs"`
-5. Otherwise → `"feature"`
-
-**Item ID convention**: simple incrementing strings — find the highest
-existing numeric id in `release.items` (`"1", "2", "3", ...`) and increment.
-If no items exist yet, start at `"1"`. The id is what links the JSON
-structural entry to its i18n content.
-
-Append the new items to the **end** of `release.items` so they appear last
-within their type group in the UI (the changelog view groups by type but
-keeps within-type ordering stable).
-
-### 12e. Build user-facing content for the i18n files
-
-For each chosen finding, draft a `{ title, description }` pair in **English**
-following the user-facing-news voice:
-
-- **Title (≤ 8 words):** lead with the user benefit. Imperative or noun
-  phrase, NOT a technical summary. Examples:
-  - ❌ "Add Bearer token middleware to /api routes"
-  - ✅ "Safer access for the desktop app"
-  - ❌ "Implement A2A JSON-RPC handler"
-  - ✅ "Open your agents to other AI tools"
-- **Description (1-3 short sentences):** explain what the user can now do
-  and why they would care. NO file paths, NO module names, NO version-bump
-  details, NO planning-doc references, NO implementation jargon. Examples:
-  - ❌ "Adds external_api_keys table, Bearer token middleware on the
-       management HTTP API, gateway_exposure column on the agent table..."
-  - ✅ "Your agents can now talk to other AI tools through a shared protocol.
-       Pick exactly which agents you want to share, and protect them with
-       access keys you control — your private agents stay private by
-       default."
-
-**The translation test:** read your draft and ask "would a non-developer
-who has never seen the codebase understand this and care about it?". If the
-answer is no, rewrite.
-
-### 12f. Write content to EVERY declared locale file
-
-This is the repo law's i18n contract: every key in the English file must exist
-in every other locale file. Skipping any file breaks the UI for that language
-at runtime.
-
-For each new item, for each declared locale file:
-
-1. Read the file.
-2. Locate the items object for the active version, at the key shape the overlay
-   gives. (If the release itself is new, you also need to add its entry with a
-   `label`, a `summary`, and an empty items object. Use the version string as the
-   default label, and a one-line summary.)
-3. Append the new item id with the English `title` + `description` pair you
-   drafted in 12e.
-4. For non-English locale files, ALSO ensure the file has a top-of-file
-   `TODO(i18n-{lang}): translate from English placeholders` marker in that
-   file's own comment syntax. If the marker is already there, leave it. If it's
-   missing, add it.
-5. Write the file back, preserving the file's existing indentation and field
-   ordering.
-
-**Do not attempt to translate the strings yourself.** Write English
-everywhere. The TODO marker is the signal that human translation is pending.
-
-**Validate before writing:** after building the new content for every locale
-file in memory, double-check that:
-- Every file gets the same set of new keys
-- The id exists in the config AND in every locale file's items map
-- No locale file has been skipped
-
-### 12g. Write the config back
-
-Write the updated config with:
-- The file's existing indentation
-- Trailing newline
-- Field ordering inside each item (`id, type, status, priority, sort_order,
-  added_at`) for diff-friendliness
-
-### 12h. Confirm
-
-Confirm with a one-line print:
-```
-Release log updated: {N} item(s) added to {version}.
-  - {config file} (structural)
-  - {L} locale files (English content + TODO markers preserved)
-```
-
-If the user replied `none`, print:
-```
-Release log unchanged.
-```
-
-### 12i. Add to the Phase 11 summary footer
-
-Append a `Release log:` line to the existing Phase 11 printout (re-print
-the summary so it stays canonical):
-
-```
-  Release log: {N} item(s) added to {version} (en + {L-1} locale placeholders)
-                | unchanged
-```
+Load [the release-log procedure](references/release-log.md) only when the project overlay declares a release log and at least one finding was accepted. Read the complete reference before that phase. Otherwise record the skipped phase and continue to Phase 13.
 
 ---
 
@@ -1389,30 +1207,43 @@ This skill proposes and executes backlog items. Every item it proposes is judged
 <!-- clause: skill-reflection v4 - stamped by scripts/apply-skill-clauses.mjs from docs/skill-clauses/skill-reflection.md; edit the template, then re-stamp -->
 ## Skill Reflection
 
-After the run's real work is done, reflect - autonomously, without asking the user. Lane 0 is written on EVERY run; lanes 1-3 are not. Be honest about volume: most runs produce nothing in lanes 1-3. An empty reflection is a valid result; a forced lesson is pollution. Calibration: nothing (common) / one line (sometimes) / a lesson entry (occasionally) / a redesign proposal (rare).
+After the work, record only useful observations supported by this run. No lesson is
+a valid result. Reflection inherits the task's authorization; it grants no additional
+permission to edit another repository, send data, commit, or publish.
 
-**Lane 0 - RUN LOG** (every run that started work, including failed and aborted ones; skip read-only info modes such as a status peek, and runs cancelled before any work). Append one row to the registry's run log with one command - identity (project, device) and the skill's version are resolved by the script, never typed (`<registry>` resolves as in lane 2 step 4):
+**Project learning.** Only when this run produced an observation that would change how a
+future run behaves. A run that went as the method describes writes nothing: an entry that
+restates the procedure, records "no issues", or repeats the task is a defect, not a
+deliverable. When there is such an observation and local edits are within scope, put one
+dated line in the overlay this skill's `## Project overlay` section names, under
+`## Skill improvement log`. **Write only into an overlay that already exists.** If the
+project has none, put the observation in the response instead - creating a new tracked
+file for a reflection is scope the task did not ask for, and a reader who never asked for
+the skill has to review it. If the overlay is a structured config (YAML, TOML, JSON),
+record the note as comments so the file keeps parsing, or use the response.
+Use a supplied memory contract only when its destination and writes are authorized.
+Keep project details out of the shared method.
 
-```sh
-node <registry>/scripts/log-run.mjs --skill research --outcome <o> --difficulty <1-5> \
-  --provider <claude|openai|xai|qwen|google|other> --model <your model id> [--effort <level>] \
-  [--tokens-est <n>] --result "<one sentence: what this run produced>" --comment "<free text>"
-```
+**Method learning.** Identify the installation before editing anything. A local
+`.ai/registry-installation.local.json` receipt can identify development versus release,
+the registry revision, and selected skill versions. Verify any link's actual target;
+do not assume a skill directory is a writable registry link.
 
-- `--outcome`: `shipped` (the goal landed) / `partial` / `no-op` (ran correctly, nothing to do) / `parked` (designed or staged, deliberately not landed) / `failed` / `aborted` (stopped by the operator or the harness).
-- `--difficulty`: 1 trivial - mechanical, no judgment needed; 2 routine - the method applied as written; 3 demanding - real judgment calls, or one detour; 4 hard - several dead ends, rework, or an operator course-correction; 5 at the edge - partial or failed on the merits, not on tooling. Rate the TASK as this run met it, not the effort you spent.
-- `--model` / `--effort`: what you are running as, as your harness states it; omit `--effort` when you cannot see it. `--tokens-est`: the drop in the harness's remaining-token counter from just before this skill was invoked to now; omit it when your harness shows no counter. Exact figures are measured later from the transcript and stored apart - never guess one.
-- `--comment` is the self-reflection a reviewer will read: what went well, what the method made harder, where the skill's instructions were wrong, missing or ignored. Specific over polite; no filesystem paths or email addresses (the writer rejects them).
-- If the command fails on validation, fix the named field and rerun. If the registry is unreachable, add `--pending` (the row waits in the project's `.ai/`). Never read the run log during a run: it is evidence ABOUT this skill for `/librarian skills`, and an executor that reads its own diagnosis contaminates the next measurement.
+- For a pinned release, marketplace cache, ordinary copy, or unknown installation,
+  keep a proposal in the project overlay or response. Do not edit the installed method
+  or silently relink it. Adoption and rollback are explicit installation operations.
+- For a development link, edit the registry only when that checkout is already within
+  the accepted task scope. Otherwise report a proposal. Authorized changes belong in
+  the source checkout, followed by its gates; commit only when the task authorizes it.
+- Record an actual lesson in `LESSONS.md` against the version **used**:
+  `## <version-used> - <YYYY-MM-DD> - <project-name>` and concise bullets. A proposal
+  must be labeled as such; structural checks are not evidence of field effectiveness.
+- Applied skill changes require a version bump: patch for wording, minor for a step
+  refinement, major for method redesign. A lesson alone needs no bump. Shared stamped
+  clauses are edited in the registry's `docs/skill-clauses/` and regenerated with
+  `scripts/apply-skill-clauses.mjs`, never patched in individual installed skills.
 
-**Lane 1 - PROJECT learnings** (what the next session in THIS repo needs). Repo-specific rules go to this skill's overlay in the consuming repo - a dated one-liner under `## Skill improvement log` in the overlay/vault location this skill's `## Project overlay` section names (create the heading on first use). If this skill carries no `## Project overlay` section, or its overlay section names no location, write that dated one-liner to `.claude/research/config.md` in the consuming repo under `## Skill improvement log`, creating the file and the heading if they are absent - so the instruction is executable in every skill. When the repo carries a `.personas/` directory, also write via the MEMORY BLOCK contract if this prompt carries one, else append node lines to `.personas/memory-outbox.jsonl` per that contract. Never into this file: a project's bytes in a shared method are exactly what made the fleet's copies diverge.
-
-**Lane 2 - METHOD learnings** (what would improve THIS SKILL for every project):
-1. If nothing generalizes beyond this repo, stop here.
-2. Append to `LESSONS.md` in this skill's directory: `## <version-used> - <YYYY-MM-DD> - <project-name>` followed by `- ` bullets (create the file with a `# Lessons - research` heading if absent). Record the version the run USED, not a bump target. Wrap a bullet in a `### Redesign proposal` sub-block when it argues for a redesign you are NOT applying now. A lesson alone needs no version bump.
-3. Edit `SKILL.md` only together with a version bump, and bump only with an applied edit: patch for wording, minor for a step/prompt refinement, major for a methodic redesign. Update the `version:` frontmatter. Never edit inside a stamped `<!-- clause: ... -->` block: that text is shared by every skill in the lane and is changed in the registry's `docs/skill-clauses/` and re-stamped with `node <registry>/scripts/apply-skill-clauses.mjs`.
-4. Where the edit lands: THE SKILL DIRECTORY IS A LINK INTO THE REGISTRY. `.claude/skills/research` in a consuming repo is a symlink to `<registry>/skills/research` (registry root = `registry.local` in `.ai/manifest.yaml`, default `../ai-registry`; `$AI_REGISTRY_DIR` wins). Editing it edits the one file every project runs, so there is nothing to propagate. Commit it IN THE REGISTRY checkout as a standalone commit containing only this skill's files: run `node <registry>/scripts/check-skills.mjs --since HEAD` first (shape + version discipline must pass), then `git -C <registry> add skills/research` and `git -C <registry> commit -m "skill(research): v<new> - <one-line reason>"`. Never stage the link from the project side.
-5. NEVER copy this skill to `~/.claude/skills/research/` or into another repo, and never "propagate" by copying. A copy in the personal tier shadows the lane for every project on the machine and freezes the method at that day's bytes with no version to compare (measured 2026-08-29: 11 such copies, all unversioned, all stale). If `.claude/skills/research` is a real directory instead of a link, the fix is `node <registry>/scripts/link-registry.mjs`, not a copy in either direction.
-
-**Lane 3 - DOMAIN knowledge** is a different artifact from a lesson: a lesson improves this METHOD, a lead proposes knowledge for a bundle. Skills that carry a `## Knowledge sync` section file leads there; a skill without one files none.
+**Domain learning.** Follow `## Knowledge sync` when present, within the same scope
+and privacy boundaries. A method lesson and a domain knowledge lead are different
+artifacts; do not fabricate either to fill a reflection quota.
 <!-- /clause: skill-reflection -->

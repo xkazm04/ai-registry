@@ -10,6 +10,7 @@
       "order": 1,
       "subjects": [
         "czech",
+        "english",
         "french",
         "german",
         "russian",
@@ -50,6 +51,7 @@
       "title": "Localization craft",
       "order": 5,
       "subjects": [
+        "copy-quality-gates",
         "translation-pipeline-topology",
         "translation-quality-measurement"
       ]

@@ -14,7 +14,7 @@ use_when: [before mirroring a bulk registry export, ingesting records that name 
 Open government data is open with strings attached, and the strings attach at
 *acquisition*, not at publication. A bulk registry export may be free for
 non-commercial reuse only; officer records may carry birth dates and home addresses
-whose mirroring makes the recipient a data controller under privacy law; a
+whose processing can create privacy obligations depending on purpose and role; a
 court-notice feed may name private individuals who are parties, not public figures.
 The technique is to resolve these obligations **before the first byte is mirrored**
 and then compile them into the adapter's structure — what the code *can* extract —
@@ -29,9 +29,10 @@ For every new source, before any bulk fetch:
    anyway.
 2. **Log the terms at the adapter boundary**: the licence name and document, the
    date read, the conditions that bind (non-commercial only, attribution wording,
-   share-alike, no-redistribution of raw dumps), and the consequences accepted
-   (e.g. "mirroring this file makes us a controller of the personal data inside
-   it"). This note is the acquisition half of
+   share-alike, no-redistribution of raw dumps), and the assessed processing
+   role, purpose, lawful basis, retention and responsible owner. A publisher's
+   reuse terms and personal-data obligations are separate questions; neither
+   a licence nor an adapter comment establishes legal compliance. This note is the acquisition half of
    [provenance-or-nothing](../../../_laws.md#provenance-or-nothing): a published
    claim must cite its source, and the citation is only honest if the source was
    lawfully held and its conditions are on record.
@@ -41,7 +42,9 @@ For every new source, before any bulk fetch:
 
 A licence conflict discovered after a mirror exists is an incident; discovered
 before, it is a design input — maybe the answer is targeted single-record fetches
-instead of a bulk mirror, or the modern API instead of the archive.
+instead of a bulk mirror, or the modern API instead of the archive, but only
+if the chosen channel actually permits the intended use. Smaller requests do
+not bypass a restriction that also applies to them.
 
 ## Privacy is enforced by what the adapter refuses to extract
 
@@ -51,7 +54,9 @@ The load-bearing move: encode privacy doctrine in the extraction code itself.
   identity-matching key — to confirm that the registry's officer and your roster's
   person are the same human — then the adapter extracts it *into the comparison*
   and never into a stored narrative field. The function signature makes the
-  narrative use impossible, which is stronger than any code-review rule.
+  narrative use harder to introduce. Runtime validation and inspection of logs,
+  temporary files, caches and exports are still needed; a function signature
+  cannot prevent every copy made before extraction.
 - **Distinguish public-role facts from private-life facts.** A person's seat,
   directorship, declared conflict, or public contract is the subject matter; their
   home address, family, or health never is — even when the source publishes it.
@@ -68,9 +73,14 @@ The load-bearing move: encode privacy doctrine in the extraction code itself.
   [a machine result is a lead, never a finding](../../../_laws.md#lead-not-finding) —
   and mis-attaching a registry record to the wrong same-named person is a privacy
   harm *and* a defamation risk in one move.
-- **Retention follows purpose.** Data held only for matching can be dropped or
-  hashed once the match is adjudicated; a mirror kept "in case" is a liability
-  with no owner.
+- **Retention follows purpose.** Delete matching-only data when its justified
+  retention ends. Hashing is not deletion or automatic anonymization; a birth
+  date has a small guessable value space and a retained hash can remain linkable.
+  Any necessary pseudonymized retention has its own access and expiry controls.
+- **Propagate corrections and removals.** Track upstream withdrawal or corrected
+  personal data through stored rows, caches, derived outputs and allowed retained
+  copies under the applicable obligations. A historical snapshot is not
+  automatically immutable or exempt from those requirements.
 
 ## Decision rules
 

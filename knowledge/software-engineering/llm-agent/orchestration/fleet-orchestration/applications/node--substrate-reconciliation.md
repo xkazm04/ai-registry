@@ -72,6 +72,14 @@ Two adjacent decisions confirm the surrounding claims:
   migrations, the api every read"* — the one-door rule holding at the plane
   boundary, not just the module boundary.
 
+## Review boundary - 2026-09-09
+
+The source comments below are historical design claims, not crash-safety proofs.
+No substrate or teardown test was rerun. The token-derived installation fingerprint
+needs an explicit credential-rotation policy; complete inventory and a grace window
+alone do not exclude stale-list or resource-reuse races. Replacement is necessary
+for the described baked-in spent token, not for every possible bootstrap protocol.
+
 ## What this realization cannot show
 
 The sweep converges containers and volumes under one substrate backend

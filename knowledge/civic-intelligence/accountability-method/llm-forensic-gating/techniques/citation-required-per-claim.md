@@ -91,3 +91,14 @@ gate actually protects. And do not treat a fully cited verdict as publishable:
 citation verification proves each claim points at something real and
 consultable, not that the claim is true or fair. The cited verdict is a
 well-evidenced lead; the human review door decides what it becomes.
+
+## Resolution is more than a URL
+
+An https prefix does not prove a document was fetched. Record retrieval result,
+snapshot digest, title and a supporting span or structured field. Fetchers must
+validate destinations and redirects, restrict private-network access, and bound
+size/time; model-supplied addresses are untrusted. Treat fetched instructions as
+data. Exact names or digits occurring in a source do not prove the relationship,
+unit, period or polarity asserted. Negative findings require declared search
+coverage, not just an empty result. Faithful-summary fields still need a bound
+source/version and support review even if citations are implicit.

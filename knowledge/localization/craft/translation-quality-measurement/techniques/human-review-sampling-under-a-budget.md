@@ -74,6 +74,47 @@ store selected for low post-edit distance is a store optimized for output that
 is cheap to leave alone. Where the two disagree, the typed findings decide and
 the distance is context.
 
+## The protocol is a budget lever, and it has two tiers
+
+Sample size is the obvious dial and it is not the only one. What the reviewer is
+asked to *record* costs measurable time per segment, and dropping one field of
+the record buys more segments than any argument about hours will.
+
+The cheap tier is measured, not improvised (2024 study; 28 annotators, 207
+segments per system, 2,027 overlapping annotations; adopted by the field's 2025
+evaluation campaign for 14 of its 16 language pairs, including every Czech
+direction). Keep the marked span, keep a minor/major severity, add a 0–100
+whole-segment slider, and **drop the error category**. Review then runs at **34
+seconds per segment against 49 seconds** for the full typology, with
+**non-expert bilingual raters** in place of double-rated experts, **94.9%
+agreement with the full protocol on system ranking**, and *higher*
+inter-annotator reliability (**τc 0.254 against 0.116**). The cheap protocol is
+not merely faster; it is more consistent, because the category decision was
+where raters disagreed with each other most.
+
+What it gives up is exactly one thing, and it is not a small thing: **routing by
+category.** Nobody can then say "terminology is our weak class", no finding can
+be sent to the owner who is able to fix it, and per-category coverage numbers do
+not exist. So the tiers have different jobs:
+
+- **The cheap tier is for ranking and gating.** Is this build worse than the last
+  one; which segments need a human; may this store be served at all. It fits the
+  random sample, whose deliverable is an estimate rather than a work queue, and
+  it fits a regeneration comparison, where the question is directional.
+- **The full typology is for diagnosis and ownership**
+  ([error-typology-over-a-single-score](./error-typology-over-a-single-score.md)).
+  It belongs on the targeted sample, whose findings are work that has to reach
+  somebody.
+
+Two constraints hold across both. The anchor requirement survives the tier — an
+anchor is a rule identifier and the category is only the shelf it sits on, so a
+cheap-tier finding still cites what it breaks, and one that can name no rule is
+a taste report to be filed as an estimate and not as a finding. And never
+compare a defect rate measured under one protocol with a rate measured under the
+other: record which protocol produced a number next to the number, because a
+defect rate without its protocol is as unfalsifiable as a coverage claim without
+its denominator.
+
 ## Draw the sample where the store is, not where it is easy
 
 Three mechanical rules do most of the work:

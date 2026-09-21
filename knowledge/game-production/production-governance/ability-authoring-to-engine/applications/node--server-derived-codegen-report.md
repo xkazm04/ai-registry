@@ -96,3 +96,18 @@ careful about it — `magnitude` is `-damage` only `if (ability.damage)`, otherw
 contract: an unknown attribute becomes a `// TODO: unknown attribute` comment, and a
 missing mana cost becomes `// TODO: mana cost`, never a plausible number that a later
 reader would mistake for a designer's decision.
+
+## Review boundary - 2026-09-09
+
+The callback parser is not independent build observation. Its shown confirmation
+predicate also omits missingTags and cannot prove that a positive table count
+contains this run's expected ability. Test forged/replayed callbacks, negative or
+noninteger counts, missing references, wrong destination and pre-existing rows.
+No consumer code or engine run was performed here.
+
+The starter's fallback magnitude 0 does not distinguish unknown damage from an
+authored zero; an explicit unknown/scaffold marker is needed before adoption.
+The documented natural-language prompt field alone does not establish retention
+of the full resolved prompt plus context. Verify that boundary and private storage.
+[SLSA provenance](https://slsa.dev/spec/v1.1/provenance) provides an input/output and
+builder identity model; it does not certify this callback or make it replayable.

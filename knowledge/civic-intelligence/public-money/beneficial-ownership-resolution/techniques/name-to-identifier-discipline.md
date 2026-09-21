@@ -31,7 +31,9 @@ returns, drop the link rather than invent one.**
 2. **Search the register; demand corroboration on the hit.** A single result
    whose registered name matches the source name after normalization is a
    candidate. Strengthen it with any second attribute the source carries —
-   locality, legal form, sector — before accepting.
+   locality, legal form, sector — before accepting under a documented match
+   rule. Common attributes do not establish uniqueness by themselves; preserve
+   ambiguity when several entities remain plausible.
 3. **Route resolution through an injected resolver, not inline lookups.**
    Keep the resolution step a pluggable dependency of the link-building
    logic so the logic itself stays pure and fixture-testable, and so the
@@ -60,9 +62,10 @@ never "everything pointing at that entity".
 
 Decision rules:
 
-- **When a resolved name is shorter than a real company name plausibly is,
-  or matches a known category vocabulary, refuse resolution** regardless of
-  how exact the match is.
+- **Use short or generic names as review triggers, not proof of invalidity.**
+  A legitimate entity can have a short name. Refuse a name-only join from a
+  field known to hold occupation labels or placeholders, while allowing an
+  independently verified identifier to establish the entity.
 - **When one register entity accumulates links from many unrelated persons
   through the same source field, treat the entity as a junk-name attractor**
   and quarantine the whole cluster for review.

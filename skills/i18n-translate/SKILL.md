@@ -5,7 +5,7 @@ description: Copywriting-grade, context-aware localization for any managed app -
 argument-hint: <mode> [locale] [scope]
 memory: project
 contexts: tracked
-version: 1.4.0
+version: 1.5.1
 ---
 
 # i18n-translate — copywriting-grade, context-aware localization
@@ -69,9 +69,18 @@ hardcoded in a vendored copy. It must answer, with verified paths and commands:
    checks, typecheck, untranslated-value scan), plus any **post-edit build
    step** without which the edit is a silent no-op (e.g. a chunk-splitting or
    codegen script the runtime actually loads from).
-6. **Do-not-translate seeds** — brand names, product proper nouns, technical
-   identifiers; note any product-name-vs-common-noun traps ("Personas" the app
-   vs "personas" the plural noun — judge by call site, not spelling).
+6. **Key classes** (`translation-pipeline-topology/non-translatable-value-classification`)
+   — four, never one "do-not-translate" flag: **locked** (target carries the
+   source verbatim: brands, product nouns, protocol keywords), **ignored** (no
+   target entry at all — absent, not empty), **preserved** (human-owned: keep
+   what is there, else source; no machine pass writes it), **allowlisted**
+   (explicit opt-in that beats the classifier). Plus the **pre-prompt
+   classifier**: a whole value that is empty, numeric, boolean, an ISO date, a
+   system identifier or a URL is not sent to the engine — its target entry is
+   written as the source verbatim. Whole values only, never substrings; short
+   all-caps tokens (*OK*, *NEW*) are words. Name the CI assertion that every
+   excluded value is identical between source and target. Note product-name vs
+   common-noun traps ("Personas" the app vs the plural noun — judge by call site).
 7. **Call-site lookup** — how to find where a key renders (the `t()` idiom to
    grep for).
 8. **Operational notes** — worktree/parallel-safety rules, dead-key detection,
@@ -112,8 +121,15 @@ repo under `docs/i18n/` — they are project truth, not skill-internal state:
    ambiguous copy that forced three locales to guess three different ways. These
    cap quality for every locale and are the user's to fix, so they need a durable
    home rather than a line in a chat message that scrolls away. Append per run,
-   grouped by defect class, each row naming the key and the problem. A run that
-   reports zero source defects over thousands of keys did not look.
+   grouped by defect class, each row naming the key and the problem. **Find
+   them mechanically too** (`copy-quality-gates/source-defects-from-cross-language-agreement`):
+   group the deterministic-check failures by source key; a key failing in **two
+   or more locales** (counting only locales where the check applies, never a
+   pseudo-locale) is a source row listing the failing check per locale — file it
+   before fixing any target. A two-model divergence
+   (`translation-quality-measurement/context-sufficiency-signals`) is the
+   model-based cousin, pointed at what that leaves. A run that reports zero
+   source defects over thousands of keys did not look.
 5. **`exemplars-<locale>.md`** — the gold pairs. *Register by demonstration.*
    ~8 source→locale pairs harvested from the locale's best already-reviewed
    strings, one per string class: button/CTA, heading, tooltip, error/status,
@@ -124,7 +140,7 @@ repo under `docs/i18n/` — they are project truth, not skill-internal state:
    a style guide *describes* the voice, exemplars *demonstrate* it. Keep the
    file at ~8; replace a pair only when a better one ships.
 
-Before translating anything, **read all four**. Bootstrap any that are missing
+Before translating anything, **read them all**. Bootstrap any that are missing
 (for exemplars on a brand-new locale: translate the 8 class-examples first,
 polish them hard, seed the file from those).
 
@@ -151,6 +167,15 @@ it is genuinely house-specific. In a fan-out, feed each worker its locale's
 technique files — that is what lets a smaller model review at expert quality: the
 expertise is in the bundle; the worker recognizes and cites.
 
+**How the rules reach an engine** (`translation-pipeline-topology/prompt-context-contract`):
+as a per-language instruction map keyed by locale, resolved **exact → regional
+fallback → base language** (`pt-BR`, else another `pt-*`, else `pt`) — without
+the order, a regional variant silently gets no rules. The text is the subject's
+anchors plus the house deltas, compressed to the engine's instruction budget
+(one vendor caps it at ten instructions of 300 characters): quality judgment
+travels here, never as request fields. Register can also ride as a synthetic
+locale modifier (a formal/informal variant) where the engine supports one.
+
 ---
 
 ## Modes (dispatch on the argument)
@@ -158,6 +183,11 @@ expertise is in the bundle; the worker recognizes and cites.
 - **`review <locale> [scope]`** — audit EXISTING translations and fix them.
   The default when a locale already exists. `review` = Pass B + Pass C only.
   Optional key-prefix scope (e.g. `pipeline.controlCenter`).
+- **`check [locale|all] [scope]`** — read-only: the contract's gates, the
+  deterministic checks, the cross-locale source-defect finder and Pass B, then
+  a report. **Writes nothing** — no catalog, no `review-`/`source-defects`
+  file; proposed rows go in the report. The mode CI runs, and the one to run
+  before deciding a refine pass is worth spending. `review` is the mode that writes.
 - **`gaps [locale|all]`** — translate values that are still verbatim source
   language. Only meaningful when the contract says fallback is silent — there,
   **run `gaps` before `review`**: a polished 76% under a raw-English 24% is the
@@ -170,10 +200,15 @@ expertise is in the bundle; the worker recognizes and cites.
   namespace the changed key sits in — siblings move together).
 - **`new <locale>`** — adopt a language: bootstrap `style-<locale>.md` + the
   glossary column + exemplars, register the locale wherever the contract says
-  locales are declared, then translate every key.
+  locales are declared, then translate every key. Before the first real locale,
+  a pseudo-locale is the cheapest readiness test — no engine, no key
+  (`translation-pipeline-topology/pseudo-localization-readiness`).
 
 If no locale is given, operate on every non-source locale. **Log what you
-skip** — a capped run that doesn't say so reads as "fully synced".
+skip** — a capped run that doesn't say so reads as "fully synced". Order a
+`gaps`/`sync` queue by **relative staleness**: a key untranslated far longer
+than its namespace's own rate goes first, and to the source-defect register if
+translators keep skipping it.
 
 ---
 
@@ -191,35 +226,44 @@ Machine translation fails because it translates the *string*; you translate the
 string **in its place in the product**. Batch by namespace/section so a whole
 surface stays coherent. For each key:
 
-1. **Locate the use.** Grep the call site (the contract says how). Read enough
-   of the component to answer:
-   - **Element type** → register + length. A button wants a short imperative; a
-     heading a noun phrase; a tooltip a fuller hint; an `aria-label` a
-     descriptive sentence; an error calm and actionable; a placeholder an
-     example, not a command.
-   - **Audience** → operator vs end-user/public pages (often different warmth).
-   - **Siblings** → keys in the same object form one UI cluster; translate them
-     as a set so terms and grammar agree.
-   - **Length budget** → chip/pill/narrow column? Prefer the shorter idiomatic
-     form; don't let a button wrap. German and French run 20–35% longer than
-     English; plan for it.
-2. **Classify → strategy.** *UI chrome*: concise, conventional, match the
-   target OS/app idiom. *Body/marketing/empty-state*: **transcreate** — carry
-   the feeling and rhythm, not the words; this is where literal dies.
-   *Legal/consent*: precise, sober, preserve legally-loaded meaning.
-   *Status/errors*: plain, non-alarming, actionable.
+1. **Locate the use.** Grep the call site (the contract says how) and read
+   enough of the component to answer: **element type** → register + length (a
+   button a short imperative, a heading a noun phrase, an `aria-label` a
+   descriptive sentence, an error calm and actionable, a placeholder an
+   example); **audience** → operator vs end-user pages (different warmth);
+   **siblings** → keys in one object are one UI cluster, translated as a set;
+   **length budget** → in a chip or narrow column prefer the shorter idiom
+   (German and French run 20–35% longer than English).
+2. **Classify → strategy.** *UI chrome*: concise, the target OS/app idiom.
+   *Body/marketing/empty-state*: **transcreate** — carry feeling and rhythm, not
+   words. *Legal/consent*: precise, sober. *Status/errors*: plain, actionable.
 3. **Apply glossary + style guide + exemplars.** Canonical term for every
    domain word; the locale's register, casing, punctuation, plural rules; write
-   *toward* the gold pairs' voice. Keep the translating frame terse — a
-   one-line persona ("bilingual product copywriter for a <locale> B2B SaaS")
-   beats a long translation brief, and chain-of-thought does not help the
-   translate step.
+   *toward* the gold pairs' voice. Keep the frame terse — a one-line persona
+   ("bilingual product copywriter for a <locale> B2B SaaS") beats a long brief,
+   and chain-of-thought does not help the translate step.
 4. **Preserve the format skeleton** exactly as the contract defines it: every
    placeholder byte-identical, plural branches expanded or frozen per the
    contract, tags/HTML/emoji kept. Move placeholders to where the target
    grammar wants them — that is usually a different position than English.
 5. **Sanity-read as a native.** Would a native speaker write this on a real
    product, or does it smell of source-language word order? If unsure, mark it.
+
+**The request contract.** When Pass A is delegated — to an engine or a worker
+agent — each unit travels with a declared field set, not ad-hoc prose
+(`translation-pipeline-topology/prompt-context-contract`): the unit text; its
+key; the human-written context note; the surface; sibling units; memory
+matches **with their scores** (a match without a score reads as "copy this";
+a fuzzy match is a suggestion, never a write, and short strings reuse only at
+near-identity — `translation-pipeline-topology/fuzzy-reuse-under-a-threshold`);
+the glossary terms **occurring in this unit**, not the glossary; the target's
+plural categories and selection rule; deterministic check findings already on
+the unit; the placeholder map (name, type, example); and the action — fill,
+review or align. Two rules: whatever is mechanically derivable (plural rule,
+placeholder map, findings, occurring terms) is **attached by the pipeline,
+never asked of the writer**; and exemplars ride as **prior turns**, not system
+prose — reject any example whose placeholder multiset does not survive the
+round trip, or it teaches the engine to break the skeleton.
 
 ### Pass B — Estimate (typed MQM audit)
 
@@ -279,6 +323,9 @@ wording on this control?* — a style finding if the answer is no.
   values + call sites, run the three passes on the whole cluster, write, move
   on. Keeps sibling grammar consistent and dodges the "lost in the middle"
   failure of one giant prompt. ~60–90 keys per batch is a good ceiling.
+- **Group near-identical sources before assigning batches** — edit distance
+  under ~30% of the longer string — so related strings share one context
+  window instead of diverging in two and waiting for the consolidation pass.
 - Keep key order identical to the source catalog for reviewable diffs; edit
   namespace-block by namespace-block.
 - **Skip dead keys** if the contract provides a dead-key check — never spend a
@@ -300,60 +347,54 @@ merge stays reviewable.
 That merge script is a **gate, not a pipe.** It refuses to write unless, for
 every proposed value: the key exists in the source catalog; every locale is
 present and a string; the value compiles under the project's real ICU parser;
-its placeholder and rich-tag set is byte-identical to the SOURCE value's; and
-any house typography rule holds. Run it dry first, read the problem list, and
-only then write. Nothing else in this method catches a renamed placeholder
-before it ships.
+its placeholder and rich-tag set is byte-identical to the SOURCE value's; every
+requested item came back non-empty; and any house typography rule holds. Run it
+dry first, read the problem list, and only then write. Nothing else in this
+method catches a renamed placeholder before it ships.
 
-Before scripting any bulk edit, check that the catalog **round-trips
+- **Identity tokens, not positions.** Every item carries its id in request and
+  response; never re-associate by array order — one damaged item re-keys every
+  later value, each plausible on its own. Prefer a transport the target's
+  quotation marks cannot terminate (`translation-pipeline-topology/serialization-transport-safety`).
+- **Per-item failure memory.** When the gate rejects an item, re-request only
+  that item with a targeted instruction naming what was wrong ("placeholder
+  `{count}` missing"); without it the same error is made over and over again.
+
+Before scripting a bulk edit, check that the catalog **round-trips
 byte-exactly** through your writer (for JSON: `JSON.stringify(obj, null, 2)`
-plus the file's trailing newline). If it does not, edit surgically instead. A
-reformatted catalog buries the real change in thousands of noise lines, and some
-sibling files (a scoring source shared with another language) must not be
-reformatted at all.
+plus the trailing newline); if not, edit surgically. A reformatted catalog
+buries the real change in noise, and some sibling files must not be reformatted.
 
 ### Finish a fan-out with a terminology consolidation pass
 
 Agents on disjoint namespace batches cannot see each other, so **the same concept
-reliably picks up two words in two namespaces**, and individual batches quietly
-diverge from the glossary. This is not a risk to watch for; it is what happens.
-Budget the pass.
+reliably picks up two words in two namespaces**. This is not a risk; it is what
+happens. Budget the pass, find the drift mechanically, let judgment rule on it:
 
-Find the drift mechanically, then let judgment rule on it:
-
-1. For each glossary row, find keys whose SOURCE value uses the term, and check
-   whether the locale value contains the canonical rendering. Match on a
-   **diacritics-folded stem**, not the whole word, or inflection (Czech cases,
-   German compounds) will drown you in false hits.
+1. For each glossary row, find keys whose SOURCE value uses the term and check
+   the locale value for the canonical rendering, matched on a
+   **diacritics-folded stem** (inflection and compounds drown whole-word matches).
 2. Hand the misses to one agent per locale as **candidates, not violations**,
-   and say so in the prompt. Most will be legitimate: a different sense of the
-   same source word, a sanctioned verb/noun split, an implied subject, a
-   restructured sentence. In the run that produced this section, ~1,400
-   candidates yielded ~75 real fixes, and the agents' most valuable output was
-   the reasoned "no sweep" on term after term.
-3. Never let the script rewrite from this signal. A wrong sweep destroys a
+   and say so. Most are legitimate: another sense, a sanctioned verb/noun split,
+   a restructured sentence. ~1,400 candidates once yielded ~75 real fixes; the
+   most valuable output was the reasoned "no sweep" on term after term.
+3. Never let a script rewrite from this signal — a wrong sweep destroys a
    correct distinction, and a half-sweep is worse than the split it replaces.
 
 ### Coverage is self-reported, so verify it
 
 An agent asked to audit 190 keys may audit 130 and report honestly that it did.
-Ask each batch to return the number it actually reviewed, compare against the
-batch size, and **re-run the short batches** with inputs regenerated from the
-CURRENT catalog (never the original snapshot, or the second pass will revert the
-first pass's fixes). Tell the second pass plainly that its job is completeness,
-that the values it sees are already fixed, and that finding little is a success.
-Report the honest coverage number; a sweep that quietly covered 85% while
-sounding complete is the failure this paragraph exists to prevent.
+Ask each batch for the number it actually reviewed, compare with the batch size,
+and **re-run the short batches** with inputs regenerated from the CURRENT catalog
+(an original snapshot reverts the first pass's fixes), telling the re-run its job
+is completeness and finding little is a success. Report the honest coverage number.
 
 ---
 
 ## Guardrails (learned the hard way)
 
 - **The source locale is the source of truth.** Don't edit source values to
-  make a translation easier. Keep a running **source-defect list** instead and
-  report it: hardcoded currency in translatable strings, sentences assembled by
-  concatenation, flat strings that need plurals, duplicated catalogs — these
-  cap quality for *every* locale and are the user's to fix.
+  make a translation easier; file them in `source-defects.md` (artifact 4).
 - **Don't clobber good human translations.** In `review`/`sync`/`gaps`, change
   only what is wrong or missing; a wholesale overwrite of a reviewed catalog
   needs the user's OK first.
@@ -362,22 +403,16 @@ sounding complete is the failure this paragraph exists to prevent.
 - **Emoji/symbols** in a value are content — keep them.
 - **Numbers/dates/currency** are formatted at runtime — never hardcode a
   localized number; keep the placeholder and let the formatter do it.
-- **Verify, don't assume.** A catalog that "looks translated" can still fail a
-  gate on one plural — or silently render 24% source-language. Run every gate
-  the contract lists, including post-edit build steps.
-- **Read the gate's exit code, not its tail.** `npm test | tail -5` reports the
-  exit status of `tail`, which is always 0. Redirect to a file and check `$?`,
-  or you will report a green suite that is failing. This has burned a run.
-- **The glossary can be the thing that is wrong.** A row can name a word that
-  appears NOWHERE in the catalog while the catalog is coherent and correct
-  (an aspirational entry someone wrote and never applied). Before sweeping a
-  catalog to match a row, count the row's actual occurrences. If the catalog
-  wins, fix the glossary and say so in the row.
-- **Look for a catalog duplicated outside the catalog.** Some projects copy
-  source-language strings into a second file (a scoring rubric, a schema, a
-  config shared with another language) and pin the two byte-identical with a
-  test. Grep a distinctive phrase before you change source copy; the contract
-  should name any such file.
+- **Verify, don't assume.** A catalog that "looks translated" can fail a gate on
+  one plural or render 24% source-language. Run every gate the contract lists.
+- **Read the gate's exit code, not its tail.** `npm test | tail -5` reports
+  `tail`'s status, always 0. Redirect to a file and check `$?`.
+- **The glossary can be the thing that is wrong.** A row can name a word found
+  NOWHERE in a coherent catalog. Count a row's occurrences before sweeping to
+  match it; if the catalog wins, fix the glossary and say so in the row.
+- **Look for a catalog duplicated outside the catalog** (a scoring rubric or
+  schema pinned byte-identical by a test). Grep a distinctive phrase before
+  changing source copy; the contract should name any such file.
 - **Some findings are the source's bug, not the translation's.** When a locale
   looks wrong, check the call site before rewriting: a value concatenated as
   `{name} {predicate}` will read as gibberish in any language whose translation
@@ -391,6 +426,8 @@ sounding complete is the failure this paragraph exists to prevent.
 ---
 
 ## Exit checklist
+
+In `check` mode only the gates, the report and the summary apply — nothing written.
 
 - [ ] Every gate in `docs/i18n/contract.md` passes, including post-edit build
       steps (a missed chunk-split/codegen ships a no-op).
@@ -418,15 +455,23 @@ person who uses the product every day — and the build stays green.
 ## Periodic operation
 
 `sync` (plus `gaps`, where fallback is silent) is the heartbeat:
-- **On change**: wire the contract's parity + untranslated checks into
-  pre-commit/CI; any finding is the cue to run `/i18n-translate sync`.
+- **On change**: wire the contract's parity + untranslated checks — or
+  `/i18n-translate check all` — into pre-commit/CI; any finding is the cue to
+  run `/i18n-translate sync`.
+- **Engine quality from corrections you already make**
+  (`translation-quality-measurement/engine-quality-from-reviewer-corrections`):
+  keep each machine suggestion beside the reviewer's final text; approved
+  unchanged is the ceiling, a rejected one scores its overlap with the final.
+  Track the approved-unchanged rate per locale over time, split by suggestion
+  source (memory vs engine), beside the count reviewed — a sustained drop is the
+  earliest regression signal. A locale nobody reviews reports nothing, not "steady".
 - **On a schedule** (weekly / before a release): `/loop` or `/schedule` around
   `/i18n-translate sync all`.
 - **New market**: `/i18n-translate new <locale>` once; it then joins the
   rotation automatically.
 
 ARGUMENTS: `<mode> [locale] [scope]` — e.g. `review cs pipeline.controlCenter`,
-`gaps all`, `full de`, `sync all`, `new pl`. Default with no mode: `review`
+`check all`, `gaps all`, `full de`, `sync all`, `new pl`. Default with no mode: `review`
 every non-source locale (after `gaps`, where the contract makes it relevant).
 
 ---
@@ -451,30 +496,43 @@ This skill proposes and executes backlog items. Every item it proposes is judged
 <!-- clause: skill-reflection v4 - stamped by scripts/apply-skill-clauses.mjs from docs/skill-clauses/skill-reflection.md; edit the template, then re-stamp -->
 ## Skill Reflection
 
-After the run's real work is done, reflect - autonomously, without asking the user. Lane 0 is written on EVERY run; lanes 1-3 are not. Be honest about volume: most runs produce nothing in lanes 1-3. An empty reflection is a valid result; a forced lesson is pollution. Calibration: nothing (common) / one line (sometimes) / a lesson entry (occasionally) / a redesign proposal (rare).
+After the work, record only useful observations supported by this run. No lesson is
+a valid result. Reflection inherits the task's authorization; it grants no additional
+permission to edit another repository, send data, commit, or publish.
 
-**Lane 0 - RUN LOG** (every run that started work, including failed and aborted ones; skip read-only info modes such as a status peek, and runs cancelled before any work). Append one row to the registry's run log with one command - identity (project, device) and the skill's version are resolved by the script, never typed (`<registry>` resolves as in lane 2 step 4):
+**Project learning.** Only when this run produced an observation that would change how a
+future run behaves. A run that went as the method describes writes nothing: an entry that
+restates the procedure, records "no issues", or repeats the task is a defect, not a
+deliverable. When there is such an observation and local edits are within scope, put one
+dated line in the overlay this skill's `## Project overlay` section names, under
+`## Skill improvement log`. **Write only into an overlay that already exists.** If the
+project has none, put the observation in the response instead - creating a new tracked
+file for a reflection is scope the task did not ask for, and a reader who never asked for
+the skill has to review it. If the overlay is a structured config (YAML, TOML, JSON),
+record the note as comments so the file keeps parsing, or use the response.
+Use a supplied memory contract only when its destination and writes are authorized.
+Keep project details out of the shared method.
 
-```sh
-node <registry>/scripts/log-run.mjs --skill i18n-translate --outcome <o> --difficulty <1-5> \
-  --provider <claude|openai|xai|qwen|google|other> --model <your model id> [--effort <level>] \
-  [--tokens-est <n>] --result "<one sentence: what this run produced>" --comment "<free text>"
-```
+**Method learning.** Identify the installation before editing anything. A local
+`.ai/registry-installation.local.json` receipt can identify development versus release,
+the registry revision, and selected skill versions. Verify any link's actual target;
+do not assume a skill directory is a writable registry link.
 
-- `--outcome`: `shipped` (the goal landed) / `partial` / `no-op` (ran correctly, nothing to do) / `parked` (designed or staged, deliberately not landed) / `failed` / `aborted` (stopped by the operator or the harness).
-- `--difficulty`: 1 trivial - mechanical, no judgment needed; 2 routine - the method applied as written; 3 demanding - real judgment calls, or one detour; 4 hard - several dead ends, rework, or an operator course-correction; 5 at the edge - partial or failed on the merits, not on tooling. Rate the TASK as this run met it, not the effort you spent.
-- `--model` / `--effort`: what you are running as, as your harness states it; omit `--effort` when you cannot see it. `--tokens-est`: the drop in the harness's remaining-token counter from just before this skill was invoked to now; omit it when your harness shows no counter. Exact figures are measured later from the transcript and stored apart - never guess one.
-- `--comment` is the self-reflection a reviewer will read: what went well, what the method made harder, where the skill's instructions were wrong, missing or ignored. Specific over polite; no filesystem paths or email addresses (the writer rejects them).
-- If the command fails on validation, fix the named field and rerun. If the registry is unreachable, add `--pending` (the row waits in the project's `.ai/`). Never read the run log during a run: it is evidence ABOUT this skill for `/librarian skills`, and an executor that reads its own diagnosis contaminates the next measurement.
+- For a pinned release, marketplace cache, ordinary copy, or unknown installation,
+  keep a proposal in the project overlay or response. Do not edit the installed method
+  or silently relink it. Adoption and rollback are explicit installation operations.
+- For a development link, edit the registry only when that checkout is already within
+  the accepted task scope. Otherwise report a proposal. Authorized changes belong in
+  the source checkout, followed by its gates; commit only when the task authorizes it.
+- Record an actual lesson in `LESSONS.md` against the version **used**:
+  `## <version-used> - <YYYY-MM-DD> - <project-name>` and concise bullets. A proposal
+  must be labeled as such; structural checks are not evidence of field effectiveness.
+- Applied skill changes require a version bump: patch for wording, minor for a step
+  refinement, major for method redesign. A lesson alone needs no bump. Shared stamped
+  clauses are edited in the registry's `docs/skill-clauses/` and regenerated with
+  `scripts/apply-skill-clauses.mjs`, never patched in individual installed skills.
 
-**Lane 1 - PROJECT learnings** (what the next session in THIS repo needs). Repo-specific rules go to this skill's overlay in the consuming repo - a dated one-liner under `## Skill improvement log` in the overlay/vault location this skill's `## Project overlay` section names (create the heading on first use). If this skill carries no `## Project overlay` section, or its overlay section names no location, write that dated one-liner to `.claude/i18n-translate/config.md` in the consuming repo under `## Skill improvement log`, creating the file and the heading if they are absent - so the instruction is executable in every skill. When the repo carries a `.personas/` directory, also write via the MEMORY BLOCK contract if this prompt carries one, else append node lines to `.personas/memory-outbox.jsonl` per that contract. Never into this file: a project's bytes in a shared method are exactly what made the fleet's copies diverge.
-
-**Lane 2 - METHOD learnings** (what would improve THIS SKILL for every project):
-1. If nothing generalizes beyond this repo, stop here.
-2. Append to `LESSONS.md` in this skill's directory: `## <version-used> - <YYYY-MM-DD> - <project-name>` followed by `- ` bullets (create the file with a `# Lessons - i18n-translate` heading if absent). Record the version the run USED, not a bump target. Wrap a bullet in a `### Redesign proposal` sub-block when it argues for a redesign you are NOT applying now. A lesson alone needs no version bump.
-3. Edit `SKILL.md` only together with a version bump, and bump only with an applied edit: patch for wording, minor for a step/prompt refinement, major for a methodic redesign. Update the `version:` frontmatter. Never edit inside a stamped `<!-- clause: ... -->` block: that text is shared by every skill in the lane and is changed in the registry's `docs/skill-clauses/` and re-stamped with `node <registry>/scripts/apply-skill-clauses.mjs`.
-4. Where the edit lands: THE SKILL DIRECTORY IS A LINK INTO THE REGISTRY. `.claude/skills/i18n-translate` in a consuming repo is a symlink to `<registry>/skills/i18n-translate` (registry root = `registry.local` in `.ai/manifest.yaml`, default `../ai-registry`; `$AI_REGISTRY_DIR` wins). Editing it edits the one file every project runs, so there is nothing to propagate. Commit it IN THE REGISTRY checkout as a standalone commit containing only this skill's files: run `node <registry>/scripts/check-skills.mjs --since HEAD` first (shape + version discipline must pass), then `git -C <registry> add skills/i18n-translate` and `git -C <registry> commit -m "skill(i18n-translate): v<new> - <one-line reason>"`. Never stage the link from the project side.
-5. NEVER copy this skill to `~/.claude/skills/i18n-translate/` or into another repo, and never "propagate" by copying. A copy in the personal tier shadows the lane for every project on the machine and freezes the method at that day's bytes with no version to compare (measured 2026-08-29: 11 such copies, all unversioned, all stale). If `.claude/skills/i18n-translate` is a real directory instead of a link, the fix is `node <registry>/scripts/link-registry.mjs`, not a copy in either direction.
-
-**Lane 3 - DOMAIN knowledge** is a different artifact from a lesson: a lesson improves this METHOD, a lead proposes knowledge for a bundle. Skills that carry a `## Knowledge sync` section file leads there; a skill without one files none.
+**Domain learning.** Follow `## Knowledge sync` when present, within the same scope
+and privacy boundaries. A method lesson and a domain knowledge lead are different
+artifacts; do not fabricate either to fill a reflection quota.
 <!-- /clause: skill-reflection -->

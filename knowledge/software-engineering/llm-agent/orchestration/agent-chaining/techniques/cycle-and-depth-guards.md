@@ -17,8 +17,8 @@ Event-wired chaining is a self-replicating primitive handed to end users
 through a drawing surface. Two arrows — A to B, B to A — drawn to mean
 "these two collaborate" are, unguarded, an infinite loop where every
 iteration is a paid model execution. The technique is a defense in two
-layers, static and dynamic, each required because each covers the other's
-blind spot.
+layers: static checks where a complete graph exists, and runtime bounds
+that cover dynamic continuation.
 
 ## Layer one: feedback edges are found at wiring time
 
@@ -77,9 +77,9 @@ The depth bound is a product constant with a rationale, not a magic number:
 it should comfortably exceed the longest chain a user legitimately draws
 (look at the deepest drawn path the authoring surface permits, add
 headroom) and sit far below the depth at which a runaway loop does real
-financial damage. Single digits to low tens is the honest range for
-model-backed links; anything higher means the bound is protecting the stack,
-not the wallet.
+financial damage. Choose it from the task and cost model; a numerical range without those
+inputs is not a defensible spending limit. Independently cap total admitted work
+or reserved spend, including concurrent work not yet reflected in completed costs.
 
 Depth is the guard of last resort; richer loop-breakers can fire earlier
 and are worth having once loops are legitimate:
@@ -161,10 +161,12 @@ formed by the thing being stopped is not a guard; it is a preference. So:
 - Guard trips are typed stops with the tripped bound named — visible in the
   chain's record and in the authoring surface, because the person who drew
   the loop is the person who can fix it.
-- Bounds are configurable but never absent; "unlimited" is not a valid
-  configuration value for a primitive that spends money per iteration.
+- The complete run must have an enforced resource ceiling. An individual depth,
+  breadth, or spend guard may be disabled only when another enforced limit bounds
+  that exposure; disabling all guards is not an acceptable paid-run configuration.
 - A configurable bound distinguishes *unset* from *corrupt*. Unset may
-  legitimately mean "this guard is off" — a legible operator choice. A
+  legitimately mean "this particular guard is off" when the required overall
+  ceiling remains enforced — a legible operator choice. A
   stored value that fails to parse means the operator *tried* to set a
   brake; resolving it to "off" silently drops the only brake at the moment
   someone reached for it. Corrupt guard configuration fails restrictive —

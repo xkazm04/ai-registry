@@ -1,7 +1,7 @@
 ---
 subject: model-routing
 domain: software-engineering
-last_touched: 2026-09-06
+last_touched: 2026-09-08
 touched_by: intake
 dry_streak: 0
 ---
@@ -286,3 +286,14 @@ short stream rendered as "running" forever behind a 200. Arm A reached the
 completion handler 0 times, arm B once with a failure; a control case carrying
 the terminal event returned success in both arms, which is what isolates the
 defect from the harness.
+
+Touched by [[2026-09-08-awesome-gpt-6-astra]] (2026-09-08). `cache-continuity`
+gained a section: where the provider keys the effort decides what a flip costs -
+three observed shapes (in the prefix, below it, as an in-band item that trades
+cache continuity for compaction). Measured on the fleet's own harness in a paired
+headless run: held effort read 33,353 / wrote 59; flipped read 23,997 / wrote
+9,415, 6.1x the cost - the first shape, to the token. New application
+`claude-code--cache-continuity` (experiment, better, ab-paired). It also corrects
+the standing `rust--cache-continuity` application by enumeration: the companion
+has two resume doors and only one is pinned; the fleet wake door is filed as a
+task in the project.

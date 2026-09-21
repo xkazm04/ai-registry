@@ -6,7 +6,7 @@ technique: caller-differentiated-capability
 status: forged
 laws: [absent-guard-is-loud, gate-sees-target, one-validation-door]
 shared_with: []
-use_when: [one engine serves both a human command line and an agent tool, deciding which options an agent surface may not have, an invariant held by review rather than by construction, a passthrough tool inherits every flag of the thing it wraps]
+use_when: [one engine serves both a human command line and an agent tool, deciding which options an agent surface may not have, an invariant held by review rather than by construction, a passthrough tool inherits every flag of the thing it wraps, claiming an operation is out of reach because it is absent from the tool catalog, the same caller also holds a screen-control surface onto the machine the server runs on]
 ---
 
 # Caller-differentiated capability
@@ -127,3 +127,57 @@ problem. Nor does a smaller option set reduce the surface's blast radius on
 the write side — this technique is about containment of reads and of the
 result contract; destructive operations belong off the agent catalog
 entirely rather than in a narrowed form of themselves.
+
+## Subtraction holds within a surface, not within a host
+
+Everything above assumes the narrowed tool is the caller's only path to the
+operation. The subtraction is enforced by the schema — the narrowest door is the
+one that admits nothing to validate — and that argument is sound exactly as far
+as the door is the only entrance.
+
+It stops being the only entrance whenever the same caller also holds a
+**coordinate-level control surface onto the same machine**: a toolset whose
+members move a pointer, press keys, and read the screen. Surfaces like this are
+declared in the same tool set as purpose-built tools, in the same request, and
+are told apart from them only by name. What such a surface reaches is not the
+wrapped engine's option set. It is whatever a person sitting at that machine
+could reach — including every operation the narrowed schema was written to
+refuse, performed through the application's own interface, where no schema is
+consulted at all.
+
+Two properties make this worse than an ordinary second path, and both are
+structural rather than a matter of configuration:
+
+- **It cannot be given a dispatch door.** A control surface of this kind is
+  schema-less by construction: its members' inputs are fixed in the model rather
+  than declared by the publisher, so there is no argument schema to subtract from
+  and nowhere to hang the validation the golden path puts at the server's
+  dispatch. The discipline above has nothing to attach to
+  ([one-validation-door](../../../../_laws.md#one-validation-door), read here as:
+  a surface with no door cannot be narrowed, only removed).
+- **The refusal channel is silent on this path.** The rule above requires that a
+  subtracted option be refused *by name*, naming the surface, so that neither the
+  model nor its operator mistakes the narrowing for a bug. A caller that reaches
+  the operation by pointing at it never asks, so nothing refuses — and the
+  asymmetry the documentation published is then true of one surface and false of
+  the session.
+
+The correction is not to abandon subtraction, which remains the right shape for
+the surface it governs. It is to stop reading catalog absence as containment, and
+to say which of the two claims is actually being made:
+
+> **Enumerate every surface the caller holds onto the host before claiming an
+> operation is out of reach.** Absence from the tool catalog bounds what the model
+> can *request*. Only absence from the host bounds what it can *cause*.
+
+The check is cheap, and it is a property of the deployment rather than of the
+tool: list the toolsets the caller is configured with and ask of each whether it
+terminates at a schema. Where one does not, the invariant this technique protects
+is held by the environment the caller runs in — a machine without the application
+installed, an account without the permission, a display the caller cannot see —
+and the tool's own narrowing is defence in depth rather than the defence. Say so
+where the asymmetry is published, because an operator reading "the agent surface
+cannot do this" will otherwise read it as a statement about the session.
+
+This is the same reasoning that puts destructive operations off the agent catalog
+entirely: correct, and complete only where off-catalog also means off-host.

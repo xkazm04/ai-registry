@@ -120,18 +120,92 @@ function loadRuns() {
     if (!rec || !rec.runId) continue;
     rec._file = path.join(RUNS, f);
     rec._staleMin = Math.round(ageMin(rec.heartbeatAt || rec.startedAt));
-    // A record is LIVE while its heartbeat is recent. A run that crashed leaves a stale
-    // record behind for up to STALE_MIN and is then reaped by `gc` - the cost of that
-    // window is one over-cautious sibling, which is the cheap direction to be wrong in.
-    rec._live = rec.status !== 'done' && rec._staleMin < STALE_MIN;
+    rec._lockAgeS = freshestLockAgeS(rec.runId);
+    const l = runLiveness({ status: rec.status, staleMin: rec._staleMin, lockAgeS: rec._lockAgeS });
+    rec._live = l.live;
+    rec._liveBy = l.by;
     out.push(rec);
   }
   return out.sort((a, b) => String(a.startedAt).localeCompare(String(b.startedAt)));
 }
 
-/** Normalise a claim token so `knowledge/x/y/z.md` and `x/y/z` compare equal. */
+/** How long ago did this run take the most recent lock it still holds? A lock file is a
+ *  record the holder's own process wrote, so its age is a fact about execution - unlike
+ *  the heartbeat, which is the run's report about itself and goes stale while it works.
+ *  Returns Infinity when the run holds nothing. */
+function freshestLockAgeS(runId) {
+  if (!runId) return Infinity;
+  let best = Infinity;
+  try {
+    for (const f of fs.readdirSync(LOCKS)) {
+      if (!f.endsWith('.lock')) continue;
+      const held = readJSON(path.join(LOCKS, f));
+      if (!held || held.runId !== runId) continue;
+      const ageS = (Date.now() - Date.parse(held.acquiredAt || 0)) / 1000;
+      if (Number.isFinite(ageS) && ageS >= 0 && ageS < best) best = ageS;
+    }
+  } catch { /* no locks dir yet */ }
+  return best;
+}
+
+/** Liveness, as one pure function with THREE inputs and a reason. A run reports at
+ *  transitions and the long silences are the work, so the moment its report looks oldest
+ *  is the moment it is deepest in the work - which is when it takes a lock. Before
+ *  2026-09-17 this read the heartbeat alone, so `check` told a sibling that a quiet run's
+ *  paths were `clear` in the same second that run was holding the commit lock. */
+export function runLiveness({ status, staleMin, lockAgeS = Infinity }) {
+  if (status === 'done') return { live: false, by: 'done' };
+  if (staleMin < STALE_MIN) return { live: true, by: 'heartbeat' };
+  // The heartbeat is stale. A lock taken inside the window is evidence anyway.
+  if (Number.isFinite(lockAgeS) && lockAgeS >= 0 && lockAgeS < STALE_MIN * 60) {
+    return { live: true, by: 'lock' };
+  }
+  return { live: false, by: 'stale' };
+}
+
+/** Fold case, separators and trailing slashes. The raw token, nothing more. */
 function norm(s) {
   return String(s).trim().replace(/\\/g, '/').replace(/^\.\//, '').replace(/\/+$/, '').toLowerCase();
+}
+
+/**
+ * One identity for one ADDRESS, however it was spelled — the claim side and the
+ * check side of this board speak two different dialects by design, and until
+ * 2026-09-07 they never met.
+ *
+ * `norm`'s docstring claimed this fold ("so `knowledge/x/y/z.md` and `x/y/z`
+ * compare equal") and `norm` never implemented it; `touches` compared the raw
+ * tokens. The method's own phases guarantee the mismatch: Phase 4 claims a
+ * SUBJECT SLUG (`beat --subject <domain/category/subject>`) and Phase 7 checks
+ * the INDEX FILE ADDRESS (`check <every file you are about to touch>`), which
+ * is what `research-map` returns. Measured 2026-09-07 against a live sibling
+ * holding `.../quality-gates`, three of the four realistic pairs reported
+ * `clear`:
+ *
+ *   slug claim      vs file check           -> MISS (the documented workflow)
+ *   path claim      vs slug check           -> MISS
+ *   subject-doc claim vs technique under it -> MISS (the doubled leaf breaks
+ *                                              the prefix relation)
+ *   identical spelling                      -> hit (the pair nobody produces)
+ *
+ * So every `check` a run made against a subject a sibling held returned a
+ * false all-clear, silently, for the whole life of the board — the exact
+ * collision it exists to prevent. A subject address folds to its slug: drop a
+ * leading `knowledge/`, drop a trailing `.md`, then collapse the doubled leaf
+ * a subject document carries (`.../quality-gates/quality-gates`), which is
+ * what restores the prefix relation to everything nested under it.
+ *
+ * The fold deliberately over-matches rather than under-matches. A false
+ * CONTENDED costs one wait and is visible; a false clear costs a lost write
+ * and announces nothing, which is the failure this whole board is for.
+ */
+function normAddress(s) {
+  let t = norm(s);
+  if (!t) return t;
+  t = t.replace(/^knowledge\//, '').replace(/\.md$/, '');
+  const seg = t.split('/');
+  if (seg.length > 1 && seg[seg.length - 1] === seg[seg.length - 2]) seg.pop();
+  return seg.join('/');
 }
 
 /**
@@ -185,12 +259,51 @@ function normSource(s) {
   }
 }
 
-/** Do two claim tokens touch? Prefix containment in either direction counts. */
+/**
+ * Do two claim tokens touch? Prefix containment in either direction counts,
+ * over the folded ADDRESS (`normAddress`) rather than the raw token — see the
+ * measurement recorded there for why comparing raw tokens made this function
+ * answer `false` for every cross-dialect pair the method actually produces.
+ */
 function touches(a, b) {
-  const x = norm(a);
-  const y = norm(b);
+  const x = normAddress(a);
+  const y = normAddress(b);
   if (!x || !y) return false;
   return x === y || x.startsWith(y + '/') || y.startsWith(x + '/');
+}
+
+/**
+ * Assert the fold before anything trusts it. `normSource` was fixed twice
+ * (2026-09-02, 2026-09-04) because it was tested against real spellings;
+ * `norm`'s address claim was never tested at all and was false from the first
+ * commit. A board whose collision check silently answers `clear` is worse than
+ * no board, so the cases that were measured broken are pinned here and run on
+ * every invocation — the cost is microseconds and the failure it catches is
+ * invisible by construction.
+ */
+function assertAddressFold() {
+  const SUBJ = 'software-engineering/engineering-process/standards-and-gates/quality-gates';
+  const DOC = 'knowledge/' + SUBJ + '/quality-gates.md';
+  const TECH = 'knowledge/' + SUBJ + '/techniques/prose-rule-drift.md';
+  const cases = [
+    [SUBJ, DOC, true, 'subject slug (Phase 4 claim) vs index file address (Phase 7 check)'],
+    [DOC, SUBJ, true, 'path claim vs slug check'],
+    [SUBJ, TECH, true, 'subject claim vs a technique nested under it'],
+    [DOC, TECH, true, 'subject document vs a technique beside it'],
+    [SUBJ, SUBJ, true, 'identical slugs'],
+    [SUBJ, 'software-engineering/engineering-process/standards-and-gates/metric-gates', false,
+      'two sibling subjects in one category must NOT touch'],
+    ['librarian/sources', 'scripts/run-board.mjs', false, 'unrelated paths must NOT touch'],
+  ];
+  const bad = [];
+  for (const [a, b, want, why] of cases) {
+    if (touches(a, b) !== want) bad.push('  expected ' + (want ? 'CONTENDED' : 'clear') + ': ' + why);
+  }
+  if (bad.length) {
+    console.error('run-board: address fold is broken — the collision check cannot be trusted.');
+    for (const b of bad) console.error(b);
+    process.exit(2);
+  }
 }
 
 /* ---------------------------------------------------------------- args */
@@ -333,6 +446,22 @@ function holderRunLive(held) {
 /** Has the holder beaten at or since the moment it took this lock? A beat that predates
  *  the acquire proves the run was alive once, not that it is still moving inside the
  *  guarded section - which is what keeps a live-but-wedged holder from holding forever. */
+/** The lock file's own acquiredAt is EVIDENCE, not a claim: some process executed this
+ *  code path at that instant. A heartbeat is the holder's report about itself and goes
+ *  stale while it works, because a run reports at transitions and the long silences are
+ *  the work. So the moment a report looks oldest is the moment the holder is deepest in
+ *  the work - which is exactly when it takes the commit lock. A fresh acquire therefore
+ *  outranks a stale report, and reclaim still terminates through the ttl branch below. */
+/** The whole reclaim decision, as one pure function, so it can be tested without a
+ *  board on disk. `holderLive` is the holder's own report (a CLAIM). `ageS` and
+ *  `beatSinceAcquire` are read off the lock file the holder wrote (EVIDENCE). */
+export function lockBreakable({ ageS, holderLive, beatSinceAcquire, ttl = LOCK_TTL_S }) {
+  const acquireIsRecent = Number.isFinite(ageS) && ageS >= 0 && ageS < STALE_MIN * 60;
+  const ownerGone = !holderLive && !acquireIsRecent;
+  const pastTtlAndQuiet = ageS > (ttl || LOCK_TTL_S) && !beatSinceAcquire;
+  return { breakable: ownerGone || pastTtlAndQuiet, ownerGone, pastTtlAndQuiet };
+}
+
 function holderBeatSinceAcquire(held) {
   const rec = readJSON(runFile(held.runId || ''));
   if (!rec) return false;
@@ -397,7 +526,7 @@ function cmdCheck() {
   }
   if (!hits.length) { console.log('clear: no live sibling holds ' + targets.length + ' target(s).'); return 0; }
   console.error('CONTENDED - ' + hits.length + ' target(s) held by a live sibling:');
-  for (const h of hits) console.error('  ' + h.t + '\n    held as ' + h.held + ' by ' + h.s.runId + ' (' + h.s.skill + ', phase ' + h.s.phase + ', ' + h.s._staleMin + 'm since heartbeat)');
+  for (const h of hits) console.error('  ' + h.t + '\n    held as ' + h.held + ' by ' + h.s.runId + ' (' + h.s.skill + ', phase ' + h.s.phase + ', ' + h.s._staleMin + 'm since heartbeat' + (h.s._liveBy === 'lock' ? '; live because it holds a lock taken ' + Math.round(h.s._lockAgeS) + 's ago' : '') + ')');
   process.exit(3);
 }
 
@@ -425,10 +554,17 @@ function cmdLock() {
       const ageS = (Date.now() - Date.parse(held.acquiredAt || 0)) / 1000;
       // Two independent reasons to reclaim, and neither is "the clock ran out" alone:
       // the owner is gone, or the owner is past its ttl with no beat since it acquired.
-      // A demonstrably-working owner is never superseded on age.
-      const ownerGone = !holderRunLive(held);
-      const pastTtlAndQuiet = ageS > (held.ttl || LOCK_TTL_S) && !holderBeatSinceAcquire(held);
-      const breakable = ownerGone || pastTtlAndQuiet;
+      // A demonstrably-working owner is never superseded on age - and "demonstrably"
+      // includes the acquire itself. Before 2026-09-17 ownerGone read the heartbeat
+      // alone, so a live run that had been quiet past the staleness window lost a lock
+      // it had taken one second earlier, while check() told the same sibling its paths
+      // were clear. A stored liveness claim may not outrank a record the work wrote.
+      const { breakable, ownerGone } = lockBreakable({
+        ageS,
+        holderLive: holderRunLive(held),
+        beatSinceAcquire: holderBeatSinceAcquire(held),
+        ttl: held.ttl,
+      });
       if (breakable) {
         console.error("warn: breaking lock '" + name + "' held by " + held.runId + ' (' + Math.round(ageS) + 's old; ' + (ownerGone ? 'holder has no recent heartbeat' : 'past ttl with no beat since it acquired') + ').');
         try { fs.unlinkSync(file); } catch { /* a racing breaker won; loop and retry */ }
@@ -494,9 +630,17 @@ const TABLE = {
   check: cmdCheck, lock: cmdLock, unlock: cmdUnlock, release: cmdRelease, gc: cmdGc,
 };
 
-if (!cmd || cmd === '--help' || cmd === '-h' || !TABLE[cmd]) {
-  const header = fs.readFileSync(fileURLToPath(import.meta.url), 'utf8').split('*/')[0].replace(/^#!.*\n/, '');
-  console.error(header);
-  process.exit(cmd && cmd !== '--help' && cmd !== '-h' ? 1 : 0);
+// Dispatch only when run as a command. Imported - by the test beside this file, or by
+// anything that wants `lockBreakable` - the module must define and return.
+const RUN_AS_CLI = process.argv[1]
+  && path.resolve(fileURLToPath(import.meta.url)) === path.resolve(process.argv[1]);
+
+if (RUN_AS_CLI) {
+  if (!cmd || cmd === '--help' || cmd === '-h' || !TABLE[cmd]) {
+    const header = fs.readFileSync(fileURLToPath(import.meta.url), 'utf8').split('*/')[0].replace(/^#!.*\n/, '');
+    console.error(header);
+    process.exit(cmd && cmd !== '--help' && cmd !== '-h' ? 1 : 0);
+  }
+  assertAddressFold();
+  process.exit(TABLE[cmd]() || 0);
 }
-process.exit(TABLE[cmd]() || 0);

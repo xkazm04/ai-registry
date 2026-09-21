@@ -2,7 +2,7 @@
   "id": "b0a5e200-4b1d-4b09-9e20-72a5b0a5e200",
   "slug": "codebase-latent-defect-hunt",
   "title": "Codebase latent defect hunt",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "status": "seed",
   "path": "software_engineering/codebase-health",
   "domain": "software_engineering",

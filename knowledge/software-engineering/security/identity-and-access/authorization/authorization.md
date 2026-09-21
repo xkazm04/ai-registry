@@ -7,9 +7,11 @@ techniques:
   - privilege-tiers
   - dispatch-chokepoint-gating
   - scope-design
+  - ceiling-before-consent
   - declarative-requirements
   - authorization-audit
   - failure-direction
+  - one-accessor-per-fold-direction
   - identity-bearing-keys
   - delegated-authority
   - read-write-predicate-symmetry
@@ -60,6 +62,16 @@ unlisted case, the unparseable rule, the errored lookup, and the
 crashed-mid-decision gate all resolve the same direction:
 **when in doubt, refuse** — the full treatment is the
 [failure-direction](./techniques/failure-direction.md) technique.
+
+That rule is unconditional for the predicates this subject exists to govern,
+because a wrong permit there creates standing. It relies on a precondition
+worth stating once: the two outcomes are ordered by risk. A mature system
+evaluates predicates that are not — route through this path or that one,
+store this result or do not — and they frequently share a verdict type with
+the authority-bearing ones. Where they do, the collapse from a verdict that
+can be unresolved to a branch that cannot is made per call site, and
+[one-accessor-per-fold-direction](./techniques/one-accessor-per-fold-direction.md)
+is the API shape that keeps it from defaulting silently.
 
 ## The gate stands at the dispatch chokepoint
 
@@ -390,6 +402,11 @@ side — storage, consumption, counting, renewal, refusal — is
 - [scope-design](./techniques/scope-design.md) — scope vocabulary as owned
   contract, intersection semantics, exact matching, and minimization at
   grant time.
+- [ceiling-before-consent](./techniques/ceiling-before-consent.md) — a request
+  that names its own scopes moulded to the issuance lane's declared ceiling
+  before an approval surface renders it and again at the mint, unrecognised
+  scopes dropped at issuance, the unattended path held to the same function, and
+  the narrowing case a caller-supplied set is still right for.
 - [declarative-requirements](./techniques/declarative-requirements.md) —
   binding requirements to operations as adjacent, mechanically extracted
   data so the gate cannot be forgotten.
@@ -398,6 +415,11 @@ side — storage, consumption, counting, renewal, refusal — is
   free of secrets.
 - [failure-direction](./techniques/failure-direction.md) — fail-closed rules
   for every degraded state the authorization subsystem itself can enter.
+- [one-accessor-per-fold-direction](./techniques/one-accessor-per-fold-direction.md)
+  — a verdict wider than the branch consuming it exposes one named accessor
+  per fold direction and no boolean, so that `!allowed()` and `denied()`
+  cannot be mistaken for one test; which predicates have a closed direction to
+  fail toward and which do not; and the two empties that are two facts.
 - [delegated-authority](./techniques/delegated-authority.md) — ambient
   authority as the default bug, carrying the originating authority as a
   value, per-hop narrowing on both axes, the two-subject audit line, and

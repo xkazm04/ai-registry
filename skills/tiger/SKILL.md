@@ -3,7 +3,7 @@ name: tiger
 description: "Hunts the highest-value surface of an LLM-powered app - its LLM call sites, the highest-value / highest-cost / highest-variance part a normal test suite is blind to - and certifies each across three lenses, judged against the jobs (use cases) the app declares. (A) Engine quality of the integration code: wrapping/chokepoint, retry/timeout/abort, schema + validation + self-repair, logging/telemetry, caching/dedupe, degrade-path disclosure. (B) Business value via the UAT Character method (representative users, jobs-to-be-done, a senior-quality bar, time-saved) but TESTING ONLY THE LLM PIECES - does each prompt's grounding and output clear the bar. (C) Model optimization as an alternative scenario - benchmark the same Character inputs across models x thinking levels: the cheapest config that still clears every bar, and whether a premium config buys value. L1 static + mass-parallel, L2 live + serial. Everything is memorized in a linked Obsidian vault at `tiger/` (one note per call site / character / model / session) so each run builds on the last. Stack-agnostic engine; per-app specifics live in the vault. Invoke with `/tiger init|scan|run|benchmark|recall|backlog [args]`."
 category: testing
 memory: vault
-version: 2.3.0
+version: 2.4.0
 tags: llm, call-sites, grounding, model-benchmark, characters, obsidian-vault, cost
 argument-hint: "[init|scan|run|benchmark|recall|backlog] [args]"
 ---
@@ -26,7 +26,7 @@ Everything app-specific lives in the consuming repo at **`tiger/`** - an Obsidia
 |---|---|---|
 | `tiger/README.md` | the home note and THE per-app config: the **jobs / use cases** table (`use_case` id; the job + its loop; the grounding questions Lens B asks for it; >=2 bound judges), per-job **hard checks** (e.g. a privacy rule Lens A must enforce), the **expected kills** list, call-site **discovery** (globs, provider patterns, what counts as a call site, exclusions), the **model-invocation recipe** for Lens C (how to run a site live per model x thinking; what cannot vary in this env), **fixtures** (fixed Character inputs per call site), the **price-basis** pointer, backlog / drain homes | no jobs declared -> one `cross` frame; discovery = the generic grep list under `init`; recipe = one Agent-tool subagent per matrix cell; fixtures derived from the Character files at `run` |
 | `tiger/models.md` | the model x thinking benchmark matrix + a **dated price snapshot** from the app's own cost config + per-cell benchmark rollups | built at `init` from the code's price table; none in code -> a dated public list-price snapshot labelled *estimate* |
-| `tiger/characters/_roster.md` | which Characters judge, each one's **AI-surface angle** and **use_case binding**; must-pass judges in bold | reuse `uat/characters/*` (all if <=10, else a lens-spanning subset); none -> derive as `/uat init` does and ask 1 / 5 / 10 |
+| `tiger/characters/_roster.md` | which Characters judge, each one's **AI-surface angle** and **use_case binding**; must-pass judges in bold | reuse `uat/characters/*` (all if <=10, else a lens-spanning subset); none -> derive as `/uat init` does, asking 1 / 5 / 10 (unattended: 5) |
 | `tiger/lenses/*.md` | the three rubrics, annotated with the app's own levers | `${CLAUDE_SKILL_DIR}/references/lenses.md` as-is |
 | `tiger/engine/_expected/*.md` | call sites the jobs imply but the code lacks yet | none |
 | `tiger/.gitignore` | raw transcript dirs | `sessions/*/raw/`, `sessions/**/raw/`, `*.raw.jsonl` |
@@ -87,7 +87,7 @@ Rules that pilots and live benchmarks proved (measured 2026-06 and 2026-07):
 
 ## The Obsidian vault - `tiger/` (this IS the memory)
 
-A real vault (YAML frontmatter + `[[wikilinks]]` + a Map-of-Content home note) committed in the repo, so a human can open it in Obsidian and *navigate the engine's history*, and so each run **follows and extends the last** instead of starting cold. Append-and-update: engine notes are long-lived (dials, grounding, model decision evolve); session notes are immutable run records; the MOC always reflects current truth.
+A real vault (YAML frontmatter + `[[wikilinks]]` + a Map-of-Content home note) that lives in the repo - committed **unless the repository says otherwise**, see the privacy rule below - so a human can open it in Obsidian and *navigate the engine's history*, and so each run **follows and extends the last** instead of starting cold. Append-and-update: engine notes are long-lived (dials, grounding, model decision evolve); session notes are immutable run records; the MOC always reflects current truth.
 
 ```
 tiger/                         # open THIS folder as an Obsidian vault
@@ -111,6 +111,10 @@ tiger/                         # open THIS folder as an Obsidian vault
   findings/                    # optional atomic note per significant finding, linked from backlog + engine + session
   .gitignore                   # raw benchmark transcripts out; scored summaries in
 ```
+
+**Vault privacy - the repository's own rule outranks this skill's (measured 2026-09-16).** Before the first write, run `git check-ignore -v tiger/` (and whatever path the overlay names). **If the path is ignored, that is the repository's decision** - typically a tree that went public and keeps its working material off it. Then: write the vault there, leave it **UNCOMMITTED**, never `git add -f`, never edit or route around the ignore rule, and say in the report that the vault is untracked *by the repository's decision*. Where the repository's rules and this skill's commit instruction disagree, **the repository wins and the run says so**. Measured: on one public repo whose `.gitignore` lists `/tiger/`, 15 of 15 runs force-added 13-63 files of the maintainer's private material into the published tree.
+
+**Volume - map the engine, do not transcribe it.** Shared machinery (the wrapper, the retry policy, the price basis, a rubric) is described in **one** note and `[[linked]]` from the others - never copied into each. A Character note that repeats another's criteria verbatim is one Character, not two: merge them. An `init` vault past ~100 KB is a signal you transcribed the code instead of mapping it; cut it before writing.
 
 **Continuity contract (every `run`):** (1) read the latest `sessions/*.md` + `backlog.md` + `engine/*.md`; (2) re-discover the LLM call sites and **diff** against `engine/*` (new / changed / removed - prompt or schema drift vs the recorded **fingerprint**); (3) run the lenses; (4) write a new `sessions/<date>.md` with the **delta** (which dials moved, which findings closed / opened, which model-fit decisions changed), update the affected `engine/*` notes, roll `backlog.md` forward. A dial that moved run-over-run is the headline; a finding that reappears after being marked closed is a **regression**. Call-site ids are stable across runs - never duplicate a note, update it.
 
@@ -145,9 +149,11 @@ Extends the UAT finding with `lens`, `use_case`, `call_site` and the Lens-C mode
 Goal: scaffold the `tiger/` vault grounded in the codebase's **actual LLM surface**. **Step 0:** `ls tiger/` - if a vault already exists this is a `scan`, not an `init`: never write a second parallel vault or roster; extend the one that exists.
 
 1. **Discover the LLM call sites (stack-agnostic).** Use the overlay's `discovery` section if present, else grep for provider SDKs and call shapes: `openai`, `anthropic` / `@anthropic-ai`, `@google/genai` / `generativelanguage`, `@aws-sdk/client-bedrock`, `langchain`, the Vercel `ai` package (`generateText` / `generateObject`), `ollama`, `mistral`, image / vision / embedding providers, plus a local provider abstraction (`assess(`, `complete(`, `chat(`, `generateStructured(`). **Follow the import chain** from each call to the code that builds its prompt and decodes its response - do not guess the file. Each distinct touchpoint -> one `engine/<call-site>.md`, `modality` set (text / image / vision / embedding / audio).
-2. **For each call site, capture (in its note):** the *task*, the *prompt construction* + what **grounding** reaches it (`grounding N/M` with the canonical source list), the *structured-output* contract (schema? validator? repair?), the *provider / model* + how it is selected, the **wrapping / observability / caching** machinery -> the Lens-A dials, and a **fingerprint** of prompt + schema for drift. Cite `file:line` for everything.
+2. **For each call site, capture (in its note):** the *task*, the *prompt construction* + what **grounding** reaches it (`grounding N/M` with the canonical source list), the *structured-output* contract (schema? validator? repair?), the *provider / model* + how it is selected, the **wrapping / observability / caching** machinery -> the Lens-A dials, and a **fingerprint** of prompt + schema for drift. Cite `file:line` for everything (the anchor rule is in Trust rules).
+   - **`init` runs no lens, so it may not emit a scored dial.** Write each dial as `N/10 (est, static)` with an **anchor per point deducted**, or `unscored` when you did not look. Never `0/10` - that reads as a measured zero. A plain `N/10` appears only after a `run` has scored it.
+   - **The fingerprint is a real hash, computed with a tool**: `sha256:<first 16 hex of the SHA-256 of the prompt template text + the schema text>`. A descriptive string (`sha256:companion-cli-init`) makes `scan`'s drift diff report "no drift" forever.
 3. **Declare the jobs.** Write the jobs / use cases table into `README.md` from the product's own positioning (docs, onboarding, pricing, "for <audience>" copy) - or take it from the operator. No declarable jobs -> say so; everything is `cross`. Write `engine/_expected/*` for the call sites the jobs imply but the code lacks.
-4. **Bind Characters.** Reuse `uat/characters/*` if a UAT overlay exists (it usually does - `/tiger` and `/uat` are siblings); offer to adapt them. In `characters/_roster.md` give each an **AI-surface angle** - the dimension of the *model output* they judge hardest (grounding, hallucination, trust / defensibility, latency, **cost**, **model privacy / on-prem**, **determinism**) - **and a `use_case` binding** (>=2 judges per job). Span all three lenses (cost- and model-savvy Characters for Lens C, a security Character for Lens A, skeptics for Lens B); mark the must-pass panel. No UAT roster -> derive Characters from the app's real target group exactly as `/uat init` does (never a generic roster) and **ask how many (1 / 5 / 10)**.
+4. **Bind Characters.** Reuse `uat/characters/*` if a UAT overlay exists (it usually does - `/tiger` and `/uat` are siblings); offer to adapt them. In `characters/_roster.md` give each an **AI-surface angle** - the dimension of the *model output* they judge hardest (grounding, hallucination, trust / defensibility, latency, **cost**, **model privacy / on-prem**, **determinism**) - **and a `use_case` binding** (>=2 judges per job). Span all three lenses (cost- and model-savvy Characters for Lens C, a security Character for Lens A, skeptics for Lens B); mark the must-pass panel. No UAT roster -> derive Characters from the app's real target group exactly as `/uat init` does (never a generic roster) and ask how many (1 / 5 / 10); **unattended, derive 5** - and never fewer than **2 bound judges per job**, whatever the count. **Every Character the roster links must have a target**: a `characters/<slug>.md` note written in this run, or a `[[link]]` to the existing `uat/characters/*` file. A `[[wikilink]]` with no target is a broken vault, not a roster.
 5. **Write the lenses + the model matrix.** `lenses/*.md` from `${CLAUDE_SKILL_DIR}/references/lenses.md`, annotated with the app's own levers. `models.md`: the candidate models x thinking levels with a **dated snapshot of the app's own price basis** (find the price table / cost config in code) so the frontier is grounded in real rates. Record the **model-invocation recipe** and fixtures in `README.md`.
 6. **Write `MOC.md` + `README.md`** so the vault is navigable from one home note.
 
@@ -155,7 +161,9 @@ Output: a short summary of the LLM surface found + the Lens-A dials' starting va
 
 ## Mode: `scan`
 
-Re-inventory and **diff against the vault**: new / removed / changed call sites (prompt or schema drift vs the recorded fingerprint), update notes, graduate `_expected` sites that now exist, flag regressions. No lens runs. Cheap - run often; `run` performs it implicitly.
+**Step 0:** `ls tiger/` - the mirror of `init`'s. **No vault means there is nothing to diff: stop and say `/tiger init` is needed**, with the call sites you happened to see as the report. Never scaffold a vault under `scan` - an unrequested `init` is a different, much larger job than the one that was asked for.
+
+With a vault: re-inventory and **diff against it** - new / removed / changed call sites (prompt or schema drift vs the recorded fingerprint), update notes, graduate `_expected` sites that now exist, flag regressions. No lens runs. Cheap - run often; `run` performs it implicitly.
 
 ## Mode: `run`  (default L1; `--l2` - alias `--live` - adds the live pass)
 
@@ -191,17 +199,20 @@ Read `sessions/*` + `backlog.md` + `engine/*` and report the **trajectory**: how
 ## Concurrency model
 - **L1 is mass-parallel** - one subagent per Character (Lens B) at once; Lens A is a small static pass. A 10-Character L1 sweep finishes in ~one agent's wall-clock.
 - **L2 / `benchmark` is serial with long runs** - real model calls take 30-130 s each and the matrix multiplies them; queue them, **budget for latency**, sample call sites, and cache every result.
-- **Artifact hygiene:** gitignore raw transcripts (`tiger/sessions/*/raw/`); commit the scored summaries + the vault notes. If another agent commits in the same tree, commit vault artifacts path-scoped in a quiet window.
+- **Artifact hygiene:** gitignore raw transcripts (`tiger/sessions/*/raw/`); commit the scored summaries + the vault notes **unless the vault path is itself ignored** - then nothing is committed and nothing is force-added. If another agent commits in the same tree, commit vault artifacts path-scoped in a quiet window.
 
 ## Trust rules
 - **Grounding:** no finding without evidence (L1 -> `file:line` + the quoted prompt text; L2 -> transcript / score). Never fabricate a benchmark number - env-blocked -> predicted frontier, labelled.
+- **Anchors:** `<path>:<line>`, the path **relative to the repository root, exactly as `git ls-files` prints it**. A basename is not an anchor, and an anchor that does not resolve is not evidence. In a multi-crate / multi-package tree `compare.rs:270` is ambiguous and `crates/engine/src/compare.rs:270` is not.
 - **Code-verify every "X is missing" claim about a durable artifact before acting on it** - a pilot's L1 agent reported a signed export had no engine column; one `grep` / `git log -L` showed it had been there for weeks. The adversarial pass exists for this.
 - **Per-character consistency:** judge against each Character's *scored criteria*, identically each run; multi-sample Lens-C judging across 2-3 samples and take the majority; default to "not better" unless the output earns it.
 - **Impact over label:** rank the backlog by `impact` (frequency x reachability x trust-erosion / cost), not the raw severity word - a per-call token waste or an every-scan ungrounded field outranks a rare edge case.
 - **Honest ceilings:** every `resolved-verified` / `by-design` finding names the limit that remains ("the cheaper model holds for the generic path; the grounded path still needs the mid tier").
 - **Lens separation:** never let a gorgeous Lens-A wrapper excuse a Lens-B grounding gap, or a great Lens-B output hide that it runs on a 3x-too-expensive model. The three verdicts are independent.
 - **Use-case separation:** see the value frame - a job's hard check (privacy etc.) is enforced under Lens A and never waived by a good output.
-- **Vault hygiene:** stable ids, update never duplicate, fingerprints recorded, vault-write verification after every parallel scan.
+- **Vault hygiene:** stable ids, update never duplicate, fingerprints computed (not described), vault-write verification after every parallel scan, shared machinery described once and linked, no dangling `[[wikilink]]`.
+- **The notes must parse.** Every frontmatter value containing `: ` is quoted. **Before a mode ends, parse the frontmatter of every note it wrote** - a broken note is a note the next run cannot diff, and it fails silently in Obsidian.
+- **The repository's rules outrank this skill's**: an ignored vault path is written and not committed (see Vault privacy); never `git add -f`.
 
 ## Using this on a new app
 1. Install `/tiger` (this directory, or a copy under `.claude/skills/tiger/`). 2. `/tiger init` -> discovers the call sites, declares the jobs, scaffolds `tiger/`, reuses the UAT roster (or derives one). 3. Resolve the README's open questions (esp. the model-invocation recipe for Lens C). 4. `/tiger run` -> cheap L1 sweep across all three lenses -> a session note + a use-case-grouped backlog + a predicted frontier; `/tiger run --l2` for live Lens B. 5. Fix the Lens-A / B items; **`/tiger benchmark`** when you want the real cost frontier. 6. `/tiger scan` after changes, `/tiger recall` any time. The vault carries the memory forward - run it on a cadence and the dials become a story.
@@ -228,30 +239,43 @@ This skill proposes and executes backlog items. Every item it proposes is judged
 <!-- clause: skill-reflection v4 - stamped by scripts/apply-skill-clauses.mjs from docs/skill-clauses/skill-reflection.md; edit the template, then re-stamp -->
 ## Skill Reflection
 
-After the run's real work is done, reflect - autonomously, without asking the user. Lane 0 is written on EVERY run; lanes 1-3 are not. Be honest about volume: most runs produce nothing in lanes 1-3. An empty reflection is a valid result; a forced lesson is pollution. Calibration: nothing (common) / one line (sometimes) / a lesson entry (occasionally) / a redesign proposal (rare).
+After the work, record only useful observations supported by this run. No lesson is
+a valid result. Reflection inherits the task's authorization; it grants no additional
+permission to edit another repository, send data, commit, or publish.
 
-**Lane 0 - RUN LOG** (every run that started work, including failed and aborted ones; skip read-only info modes such as a status peek, and runs cancelled before any work). Append one row to the registry's run log with one command - identity (project, device) and the skill's version are resolved by the script, never typed (`<registry>` resolves as in lane 2 step 4):
+**Project learning.** Only when this run produced an observation that would change how a
+future run behaves. A run that went as the method describes writes nothing: an entry that
+restates the procedure, records "no issues", or repeats the task is a defect, not a
+deliverable. When there is such an observation and local edits are within scope, put one
+dated line in the overlay this skill's `## Project overlay` section names, under
+`## Skill improvement log`. **Write only into an overlay that already exists.** If the
+project has none, put the observation in the response instead - creating a new tracked
+file for a reflection is scope the task did not ask for, and a reader who never asked for
+the skill has to review it. If the overlay is a structured config (YAML, TOML, JSON),
+record the note as comments so the file keeps parsing, or use the response.
+Use a supplied memory contract only when its destination and writes are authorized.
+Keep project details out of the shared method.
 
-```sh
-node <registry>/scripts/log-run.mjs --skill tiger --outcome <o> --difficulty <1-5> \
-  --provider <claude|openai|xai|qwen|google|other> --model <your model id> [--effort <level>] \
-  [--tokens-est <n>] --result "<one sentence: what this run produced>" --comment "<free text>"
-```
+**Method learning.** Identify the installation before editing anything. A local
+`.ai/registry-installation.local.json` receipt can identify development versus release,
+the registry revision, and selected skill versions. Verify any link's actual target;
+do not assume a skill directory is a writable registry link.
 
-- `--outcome`: `shipped` (the goal landed) / `partial` / `no-op` (ran correctly, nothing to do) / `parked` (designed or staged, deliberately not landed) / `failed` / `aborted` (stopped by the operator or the harness).
-- `--difficulty`: 1 trivial - mechanical, no judgment needed; 2 routine - the method applied as written; 3 demanding - real judgment calls, or one detour; 4 hard - several dead ends, rework, or an operator course-correction; 5 at the edge - partial or failed on the merits, not on tooling. Rate the TASK as this run met it, not the effort you spent.
-- `--model` / `--effort`: what you are running as, as your harness states it; omit `--effort` when you cannot see it. `--tokens-est`: the drop in the harness's remaining-token counter from just before this skill was invoked to now; omit it when your harness shows no counter. Exact figures are measured later from the transcript and stored apart - never guess one.
-- `--comment` is the self-reflection a reviewer will read: what went well, what the method made harder, where the skill's instructions were wrong, missing or ignored. Specific over polite; no filesystem paths or email addresses (the writer rejects them).
-- If the command fails on validation, fix the named field and rerun. If the registry is unreachable, add `--pending` (the row waits in the project's `.ai/`). Never read the run log during a run: it is evidence ABOUT this skill for `/librarian skills`, and an executor that reads its own diagnosis contaminates the next measurement.
+- For a pinned release, marketplace cache, ordinary copy, or unknown installation,
+  keep a proposal in the project overlay or response. Do not edit the installed method
+  or silently relink it. Adoption and rollback are explicit installation operations.
+- For a development link, edit the registry only when that checkout is already within
+  the accepted task scope. Otherwise report a proposal. Authorized changes belong in
+  the source checkout, followed by its gates; commit only when the task authorizes it.
+- Record an actual lesson in `LESSONS.md` against the version **used**:
+  `## <version-used> - <YYYY-MM-DD> - <project-name>` and concise bullets. A proposal
+  must be labeled as such; structural checks are not evidence of field effectiveness.
+- Applied skill changes require a version bump: patch for wording, minor for a step
+  refinement, major for method redesign. A lesson alone needs no bump. Shared stamped
+  clauses are edited in the registry's `docs/skill-clauses/` and regenerated with
+  `scripts/apply-skill-clauses.mjs`, never patched in individual installed skills.
 
-**Lane 1 - PROJECT learnings** (what the next session in THIS repo needs). Repo-specific rules go to this skill's overlay in the consuming repo - a dated one-liner under `## Skill improvement log` in the overlay/vault location this skill's `## Project overlay` section names (create the heading on first use). If this skill carries no `## Project overlay` section, or its overlay section names no location, write that dated one-liner to `.claude/tiger/config.md` in the consuming repo under `## Skill improvement log`, creating the file and the heading if they are absent - so the instruction is executable in every skill. When the repo carries a `.personas/` directory, also write via the MEMORY BLOCK contract if this prompt carries one, else append node lines to `.personas/memory-outbox.jsonl` per that contract. Never into this file: a project's bytes in a shared method are exactly what made the fleet's copies diverge.
-
-**Lane 2 - METHOD learnings** (what would improve THIS SKILL for every project):
-1. If nothing generalizes beyond this repo, stop here.
-2. Append to `LESSONS.md` in this skill's directory: `## <version-used> - <YYYY-MM-DD> - <project-name>` followed by `- ` bullets (create the file with a `# Lessons - tiger` heading if absent). Record the version the run USED, not a bump target. Wrap a bullet in a `### Redesign proposal` sub-block when it argues for a redesign you are NOT applying now. A lesson alone needs no version bump.
-3. Edit `SKILL.md` only together with a version bump, and bump only with an applied edit: patch for wording, minor for a step/prompt refinement, major for a methodic redesign. Update the `version:` frontmatter. Never edit inside a stamped `<!-- clause: ... -->` block: that text is shared by every skill in the lane and is changed in the registry's `docs/skill-clauses/` and re-stamped with `node <registry>/scripts/apply-skill-clauses.mjs`.
-4. Where the edit lands: THE SKILL DIRECTORY IS A LINK INTO THE REGISTRY. `.claude/skills/tiger` in a consuming repo is a symlink to `<registry>/skills/tiger` (registry root = `registry.local` in `.ai/manifest.yaml`, default `../ai-registry`; `$AI_REGISTRY_DIR` wins). Editing it edits the one file every project runs, so there is nothing to propagate. Commit it IN THE REGISTRY checkout as a standalone commit containing only this skill's files: run `node <registry>/scripts/check-skills.mjs --since HEAD` first (shape + version discipline must pass), then `git -C <registry> add skills/tiger` and `git -C <registry> commit -m "skill(tiger): v<new> - <one-line reason>"`. Never stage the link from the project side.
-5. NEVER copy this skill to `~/.claude/skills/tiger/` or into another repo, and never "propagate" by copying. A copy in the personal tier shadows the lane for every project on the machine and freezes the method at that day's bytes with no version to compare (measured 2026-08-29: 11 such copies, all unversioned, all stale). If `.claude/skills/tiger` is a real directory instead of a link, the fix is `node <registry>/scripts/link-registry.mjs`, not a copy in either direction.
-
-**Lane 3 - DOMAIN knowledge** is a different artifact from a lesson: a lesson improves this METHOD, a lead proposes knowledge for a bundle. Skills that carry a `## Knowledge sync` section file leads there; a skill without one files none.
+**Domain learning.** Follow `## Knowledge sync` when present, within the same scope
+and privacy boundaries. A method lesson and a domain knowledge lead are different
+artifacts; do not fabricate either to fill a reflection quota.
 <!-- /clause: skill-reflection -->

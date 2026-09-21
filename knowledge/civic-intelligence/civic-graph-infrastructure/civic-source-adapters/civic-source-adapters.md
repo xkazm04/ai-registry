@@ -21,8 +21,8 @@ the whole subject. Public-sector sources are authoritative in content and hostil
 delivery: bulk dumps in formats frozen when the underlying database was procured
 decades ago, single-byte legacy codepages, magic sentinel dates standing in for
 "unknown", search pages whose only export is server-rendered markup, schemas that
-drift without an announcement, and licence terms that quietly make you a data
-controller the moment you mirror a file. None of this is negligence to be worked
+drift without an announcement, and personal-data obligations that require a
+separate assessment from the dataset's licence. None of this is a reason to work
 around casually — it is the terrain, and the adapter is the one layer whose job is to
 survive it without lying.
 
@@ -47,16 +47,19 @@ assumption is only affordable if the adapter refuses to guess on the way in:
   (there almost always is one, however buried) and implement its escape rules,
   its null convention, its row terminator, exactly.
 - **Decode fatally.** Legacy-codepage payloads are decoded with an unmappable byte
-  treated as an error, never substituted with a replacement character. A silently
+  treated as an error, never substituted with a replacement character. Also
+  verify encoding and payload integrity: a wrong codepage can decode without
+  errors. A silently
   mangled person name is precisely the wrong-beats-missing case: it will fail entity
   matching later, quietly, for one person, forever.
 - **Coerce whole values, never prefixes.** Standard-library integer parsing that
   accepts `"123abc"` as 123 converts a mis-parsed field into a plausible-looking
   wrong identifier. Numeric coercion requires the entire trimmed value to match;
-  anything else is null.
+  anything else is null with a rejection reason. Check exact representability
+  and field range; keep identifiers as strings when numeric conversion loses information.
 - **Validate semantics behind syntax.** A regex-shaped date with month 13 must not
   be emitted as a syntactically valid but meaningless value. Range checks follow
-  every pattern match.
+  every whole-token pattern match, including month length and leap years.
 
 The same strictness governs the other face: what the adapter emits is typed,
 carries its source identity, and distinguishes null-because-absent from
@@ -85,12 +88,15 @@ Public-sector sources change shape without versioning or notice. An adapter that
 tolerates shape change tolerates mis-parsing: a column inserted into a scraped table
 shifts every value one cell left, and the shifted values are still numbers and dates —
 they will flow all the way to a published page. The rule: **assert the expected shape
-on every fetch and refuse to parse on mismatch.** A crashed ingest run costs an hour;
+on every fetch and refuse incompatible changes.** Documented trailing extensions
+can be compatible; missing required columns and unexpected page types are not.
+A failed ingest is visible;
 a silent mis-parse costs published wrong numbers and the credibility they were
 resting on. The same logic covers full-snapshot sources with no diff feed: an
 adapter run replaces rows in place, so "what changed" must be reconstructed by
-explicit snapshot diffing over natural keys — and the first backfill of history
-shares one recording instant, which must be treated as an epoch so it does not flood
+explicit snapshot diffing over natural keys, after acquisition completeness is
+established. A truncated fetch cannot authorize removals. The first backfill of history
+is marked as a baseline import so it does not flood
 the change stream with thousands of fake "new" events. Record time (when we saw it)
 and world time (when it was true) are different columns and never conflated.
 
@@ -112,9 +118,10 @@ Licence and privacy obligations enter with the bytes, not at publish time. The
 adapter's header is where the licence is logged, where non-commercial or attribution
 conditions are recorded, and where GDPR consequences are turned into structure: if
 mirroring officer records makes you a controller of birth dates and home addresses,
-the adapter extracts those fields as matching keys only and never lets them into
-narrative output. A constraint enforced by code cannot be forgotten by a future
-caller; a constraint noted in a wiki will be.
+the adapter restricts those fields to the justified matching purpose. Audit
+temporary storage, logs, caches, exports and upstream corrections as well as
+narrative output. Typed interfaces support that boundary but do not establish
+all downstream behavior, lawful processing or effective deletion.
 
 ## Normalize once, at ingest, with one scheme
 
@@ -125,8 +132,9 @@ column, and make every consumer import the *same* folding function — two foldi
 schemes that agree on 99% of inputs will disagree on exactly the names that matter,
 per [one definition, imported everywhere](../../_laws.md#one-definition-one-import).
 Unicode-decomposition shortcuts are checked against the actual alphabet: several
-letters common in central-European names do not decompose, so a fold table is built
-explicitly rather than trusted to a normalization form. And a name match is never
+letters such as stroked or slashed letters need explicit transliteration, while
+many accented letters decompose normally. Test composed and decomposed forms
+through one versioned pipeline. A name match is never
 an identity claim by itself — the adapter emits candidates; identity is adjudicated
 downstream with more evidence, because
 [a machine result is a lead, never a finding](../../_laws.md#lead-not-finding).

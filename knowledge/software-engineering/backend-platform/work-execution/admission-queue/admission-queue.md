@@ -12,6 +12,7 @@ techniques:
   - refusal-without-release
   - priority-and-fairness
   - resource-denominated-bounds
+  - admit-on-the-expanded-cost
   - remediation-derived-bounds
   - speculative-work-admission
   - load-aware-admission
@@ -278,6 +279,18 @@ remediation threshold rather than configuring it alongside, in code rather than
 in a comment, and testing that the two cannot disagree from either side, is
 [remediation-derived-bounds](./techniques/remediation-derived-bounds.md).
 
+The unit choice has a second half the derivation above cannot reach. A bound is
+spelled in the unit the door can see, and where an arrival is delivered in one
+representation and consumed in another those are different units, related by a
+ratio the sender may choose. The multiplier that folds expansion into the budget
+holds only while that ratio is a property of the system; when the arrival
+supplies the dimensions its own cost is computed from, no fraction of the budget
+is small enough. What the door can read instead is the arrival's own declaration
+of its expanded size - a claim rather than a measurement, so it is bounded at the
+door, carried forward, and re-checked at every step that changes the cost, in
+arithmetic that cannot wrap into permission
+([admit-on-the-expanded-cost](./techniques/admit-on-the-expanded-cost.md)).
+
 ## Not every arrival wants to wait
 
 The three-verdict contract assumes a caller who benefits from *queued* —
@@ -401,6 +414,10 @@ Two rules fall out of the table:
 - [resource-denominated-bounds](./techniques/resource-denominated-bounds.md) —
   the unit a bound is spelled in, host-derived ceilings, the unsatisfiable
   arrival, and where a count is still right.
+- [admit-on-the-expanded-cost](./techniques/admit-on-the-expanded-cost.md) - the
+  transfer unit against the cost unit, the declaration an arrival makes about its
+  own expansion, the re-check at every step that changes the charge, and the
+  comparison that must not overflow into permission.
 - [remediation-derived-bounds](./techniques/remediation-derived-bounds.md) —
   the bound derived from the threshold that punishes exceeding it, computed
   rather than commented, and the inversion reachable from either knob.

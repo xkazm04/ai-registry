@@ -806,3 +806,35 @@ has no rejection path at all, which is a sighting of the absence.
 **Boundary drawn:** the technique assumes `memory-governance` has already classed the
 write as proposal-reviewed; it decides the lane's shape, not its membership. Bulk ingest
 stays optimistic.
+
+### 2026-09-16 - `/harvest backlog` wave 1, one technique
+
+`loss-site-inventory`, from four source notes that banked the same shape untriaged. The subject already required a notice at every *designed* cut (recall reports its three numbers; the ladder's bottom rung is a notice). It had nothing for the sites nobody designed as cuts: a second read path with its own number, the seam between a window and a rollup, a cap on the assembled block, the fallback behind the fallback, a skipped read. Measured in code on personas' reviewer memory: a window of 3 beside a digest past 12 hid notes 4-12 from the agent in 204 of 240 swept states with no cap firing, and 0 of 2,059 losses were named before the change against 2,064 of 2,064 after. The placement rule (a notice follows what it qualifies) came from an arm that broke its own floor. Fleet ship pending: personas' crate tests could not launch and its master has foreign staged work in a touched file.
+
+### 2026-09-17 - `/harvest backlog` wave 2, one technique
+
+`scope-before-similarity`, from [[2026-09-07-memory-lancedb-pro]] and [[2026-08-26-supermemory]]. Similarity says two items say the same thing, never that they share an owner; a maintenance pass that clusters before it partitions by namespace, visibility and private author merges across scopes, and the merged item's owner is a guess. Measured on ascent's reflection pass: 6 of 6 scope crossings before, 0 of 6 after, shipped. `rollup-compaction` looks forged from the same file and carried the same blind spot; its exclusions now point here. Every test fixture in both the source and ascent used a single scope, which is why neither suite could see it.
+
+### 2026-09-17 - `/harvest backlog` wave 5, two techniques + one application + three amendments
+
+Two landings that turn out to be about the same thing from opposite ends, and both refuted the claim they came from. `cross-context-promotion`. `procedure-promotion` counts sightings INSIDE one store. The moment there is one store per context, the second sighting usually happens somewhere else, and **a second sighting in a different context is a different fact from a second sighting in the same one**: the first says the item is not about its context, the second says the local store missed its own item. Only one of them earns a shared tier. A system of per-context stores scales by multiplying rather than deepening, so it has no door through which one context can learn from another, and a lesson is paid for once per context. Two results worth carrying. **A personalized store's value is not coverage** - it answered 1 of its own 12 first encounters, because a store of singletons cannot by construction answer a first occurrence; what it buys is locality, and 85% of its items exist nowhere else. And **what looks like a provenance effect is usually a size effect**: hold item count fixed and a personal store and a borrowed one are indistinguishable. Recurrence, not pool size, is the win - 15% of the pool, gated on cross-context recurrence, beat the whole pool. The rule applied literally is catastrophic: the gated tier retained none of the singletons. So **recurrence is an admission bar for the shared tier and never a retention bar for the local one**, and the shared tier's size is derived rather than chosen - a shared tier stuck near zero is the detector failing, not the contexts being unalike. `addresses-before-compression`. A measured null whose stated cause is refuted: consolidation did not start paying as the reader's budget closed, it lost ground. And **a no-fact-loss merge does not compress** - items fell 64% and words rose 7%, which bounds `rollup-compaction`'s 'three is the smallest size where compression genuinely wins' to a claim about when a summary is worth writing. The whole trade's sign flips on one variable: withhold the always-loaded index and the same merge goes from a 2-point loss to a 3.6-point gain. What a merging pass spends is **addresses**. Both landings close a return condition this subject wrote for itself on 2026-09-02 and nothing was watching; it fired sixteen times over. Return conditions in application files have no scheduled reader, and that is its own gap.
+## 2026-09-17 - intake `mem0` ([[2026-09-17-mem0]])
+
+- **Landed `observation-clock`**, a technique at a stage the subject had not written: the
+  clock a distillation grounds relative time against. Provenance listed "when it was
+  distilled" (the writer's clock) and never the clock the words were observed at. One
+  paragraph appended to § Provenance. The source stated the rule three times in a live
+  prompt and made it unsatisfiable on every open call path (the observation date defaults
+  to now, and the public write call refuses the parameter). Applications: the source tree
+  (python) and the fleet's consolidation pass (rust), both `simulation` / `unmeasurable`.
+- **The fleet ladder cannot see this axis.** 12 of 3,571 replayed events carry a relative
+  reference, all "X is Y from today, not Z", consolidated the same simulated night. Every
+  arm ties on it by construction. Return condition: a scenario extension with dated
+  relative references, a date probe class, and a multi-day consolidation lag.
+- **Catches:** supersede-don't-replace (the source went further, to ADD-only, and published
+  contradiction resolution as its weakest category, 35.7/32.5); generous capture; store
+  topology (a vendor deleted ~4,000 lines of graph drivers from its open build, a third
+  sighting of the hedge).
+- **Untriaged:** a temporal boost that never filters may be unable to retire a contradicted
+  belief at read time. Promoting question for `recall-injection`: must read-time
+  adjudication be able to exclude a superseded belief, or only rank it?

@@ -6,7 +6,7 @@ technique: recall-passes-with-a-declared-cap
 status: forged
 laws: [failure-not-empty-success, absent-guard-is-loud, silent-state-is-ungoverned]
 shared_with: []
-use_when: [a single extraction pass returns a plausible handful, deciding how many further passes a passage gets, a re-prompt loop that started inventing entities, extraction that was skipped for budget and reported as complete]
+use_when: [a single extraction pass returns a plausible handful, merging blind re-sample passes by span overlap, deciding how many further passes a passage gets, a re-prompt loop that started inventing entities, extraction that was skipped for budget and reported as complete]
 ---
 
 # Recall passes, with a declared cap
@@ -53,6 +53,52 @@ existed to find.
 passage's density, and a further pass over an already-thorough passage costs a call and
 returns nothing. Where the budget is tight, spend passes on the passages that produced the
 most in pass one — density predicts shortfall better than any other cheap signal.
+
+## When the passes cannot see each other
+
+A cheaper design runs the further pass **blind**. It sends the same prompt again with no
+prior answer in view, and merges the results afterwards by where each item sits in the
+source, since every item has been aligned to a span. Both halves of that design change the
+rules above. The accumulate rule still holds, but only if the merge is built to keep it.
+
+**A blind pass recovers entities only through sampling variance.** It repeats the first
+question word for word. Under deterministic decoding, which extraction pipelines often
+recommend for reproducibility, the repeat returns the first answer, and the pass costs a
+full call for nothing. Price a blind pass as a re-sample, state the decoding setting it
+depends on, and measure it against the labelled sample with that setting. A cap of three
+blind passes at zero temperature is close to a cap of one, and only the sample can say how
+close.
+
+**A merge keyed on span overlap alone adjudicates, and it adjudicates in two wrong
+directions.** "Keep the earlier pass's item wherever a later item overlaps it" reads like
+deduplication. It is actually a replace rule:
+
+- It **drops nested entities of a different type.** A later pass that finds a person inside
+  the span of an earlier pass's title-plus-name, or a dose inside a medication phrase,
+  loses its item to the overlap. The first pass would have kept both, because nothing
+  deduplicates within one pass. So whether the nested entity survives depends on which
+  pass found it.
+- It **never deduplicates items that could not be located.** An item with no span overlaps
+  nothing, so each blind pass appends its unlocated items again. The grounded output is
+  deduplicated, while the ungrounded output, the part least likely to be in the passage,
+  grows with the pass count.
+
+The obvious repair, keying on type and span, is half right. The same type on an
+overlapping span is one item arriving twice, and deduplicating it is correct. A different
+type on an overlapping span, though, is one of two things that spans cannot tell apart. It
+may be a **nested entity** (a dose inside a medication phrase), which should be kept. Or it
+may be a **relabel**: the later pass calls the same mention something else, such as a person
+inside a title-plus-name tagged as a different role. That is a disagreement, and keeping
+both writes a contradiction into the graph. Run on the positional merge's own test case,
+type-and-span keying kept exactly that relabel.
+
+So the discriminator is declared, not inferred. The extraction schema states which types
+may nest inside which. A later item of a different type that overlaps an earlier one is
+kept when the pair is declared nestable. Otherwise it is held out and recorded as a
+**conflict** with both labels, so an evaluator or reviewer decides, not the pass order.
+Merge unlocated items on type and normalized surface form. Count unlocated additions and
+conflicts per pass. A pass whose additions are mostly unlocated, or mostly conflicts, is
+where invention outpaces recovery, and those counts show it without a labelled sample.
 
 ## The cap is a knob, and the knob is priced
 

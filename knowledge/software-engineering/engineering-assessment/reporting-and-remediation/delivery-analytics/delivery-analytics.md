@@ -12,6 +12,8 @@ techniques:
   - batch-size-thresholds
   - off-platform-signal-detection
   - delivery-metric-denominators
+  - path-class-confounded-with-size
+  - line-volume-confounded-with-edit-grammar
 ---
 
 # Delivery analytics
@@ -226,3 +228,18 @@ appears.
   every rate carries its population, its window, its exclusions and its sample
   size; minimum-sample floors; what a single point on a delivery trend is
   allowed to mean.
+- [path-class-confounded-with-size](./techniques/path-class-confounded-with-size.md)
+  - validating a risk taxonomy keyed on where code lives against the tree's own
+  repair history, comparing the top class with other code at the same change
+  size rather than with documentation, and planting the effect before reporting
+  a null.
+- [line-volume-confounded-with-edit-grammar](./techniques/line-volume-confounded-with-edit-grammar.md)
+  - a volume figure a writing tool reports about itself measures its edit
+  grammar, so it is keyed by producer and never summed across them; when the
+  comparison is needed it is recomputed from the baseline, and where the
+  baseline is unrecoverable it is not published at all.
+- [post-landing-repair-density](./techniques/post-landing-repair-density.md)
+  - the repair stream as an outcome label, why a keyword classifier over commit
+  subjects cannot tell a repair from a hardening, and the window the density is
+  counted over. Declared in this subject's frontmatter and described in its prose
+  since it was forged; listed here for the first time.

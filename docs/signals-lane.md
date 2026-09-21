@@ -115,6 +115,10 @@ Stale is fine — `generatedAt` says how stale. This is a signal, not an account
 
 ## What this lane cannot do
 
+The [identity and freshness contract](telemetry-identity.md) defines migration aliases,
+retained unresolved observations and conservative state aggregation. The report is
+repeatable with an explicit `--as-of` date; source timestamps are never refreshed by it.
+
 **It is not enforceable from here.** The registry cannot verify that an installation
 reports, or that it reports honestly — the same limit that makes the skills-lane
 resolution rule a declared contract rather than a gate. So the design does not try to

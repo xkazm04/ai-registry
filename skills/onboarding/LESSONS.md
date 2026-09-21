@@ -6,3 +6,7 @@
 - The three-state honesty vocabulary was made explicit in the contract: each group's `without` field must declare exactly one of `fallback:` (degraded, still runs), `hidden:` (removes itself by design), or `hard-required:` (fails loudly naming the variable). In kp v0.2.0 this was implicit per group (comms degraded, voice hid, CV analysis hard-failed) and easy to get wrong when adapting.
 - kp's own "Portability note" had proposed a JSON manifest (`onboarding.capabilities.json`); the lane's existing overlay convention (markdown `config.md` with YAML scalars + `##` sections, as `perfect` and `ship-loop` use) won instead, so overlay authors write one format across skills.
 - Added a rule kp never needed but the lane demands: no machine-absolute paths in anything the skill writes; overlay-declared absolute-path variables are derived from the repo's location at run time, with the reason stated.
+
+## 0.4.1 - 2026-09-09 - ai-registry
+
+- Architecture review: the shared reflection clause assumed a writable registry link in every installation. Replaced that assumption with installation-aware scope and explicit adoption. This records an instruction audit, not a field effectiveness result.

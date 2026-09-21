@@ -2,7 +2,7 @@
   "id": "d872e8c7-ca52-517a-99aa-08ff353d7b0a",
   "slug": "content-metrics-anomaly-check",
   "title": "Content metrics anomaly check",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "status": "seed",
   "path": "sales_marketing/web-analytics",
   "domain": "sales_marketing",

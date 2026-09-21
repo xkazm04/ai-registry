@@ -1024,3 +1024,55 @@ Its value scales with independent contributors and collapses to zero on a
 single-owner repository, which is why the fleet carries no applied row for it.
 Also holds this run's one lead: a committed capacity table naming a calibration
 script that nothing runs, with no calibration date and no measured-on hardware.
+
+[[2026-09-07-voicestudio]] (intake, repository) amended `gate-liveness` with *a scoped
+population passes the floor test and checks almost nothing*. The technique's instrument
+assertion catches a walked population of zero; `ratchet-design` next door catches the
+enumerated allowlist. Neither reaches the middle: a population **derived** from a
+predicate - files changed since a ref, sections dated after a rule's adoption, records
+newer than a migration - returns a plausible non-zero count every run, so the floor is
+honestly satisfied while everything the predicate excluded sits exempt in a way nobody
+reads as an exemption. The distinguishing obligation is that a derived scope must
+**assert its premise, not its count**: the exemption's safety is always the claim that
+new content cannot land in the excluded region, that claim is an invariant of the
+artifact's structure, and it lives in a comment while the derivation lives in code.
+
+The finding came from a source's changelog linter and was proven against our own tree,
+which is the part worth remembering: `scripts/check-skills.mjs` scoped version discipline
+to `--since <ref>` and, with the flag absent, printed a correct and distinguishable
+`NOT run` before exiting zero - while this registry's own intake method tells every run
+to invoke it exactly that way before committing a skill change. `gate-liveness` already
+held the sentence that convicts it (a could-not-run routed to pass is wrong where the
+green authorizes shipping), so the corpus caught the corpus's own tooling. Fixed and
+paired: a seeded unbumped `SKILL.md` went from `skills lane OK` to red, with the clean
+tree still green and the CI path unchanged.
+
+## 2026-09-08 - intake (claude-code release log 2.1.198..2.1.263)
+
+`hook-hygiene` amendment "When the author is an agent, the bypass is not the
+author's to take": the section "Bypass is a feature" assumed the entity taking
+the bypass is the entity accountable for it. At machine-paced authorship the
+skip flag is the cheapest route to green, so the rule inverts on *who* - the hook
+stays bypassable for the person and the flag is denied to the agent at the
+harness's permission layer, verified by attempting it. The repository's own
+skip variable is the same shape. Applied `code`/`better` in kp with a paired arm
+in a throwaway repo (no deny: `--no-verify` ran; deny: refused twice under
+bypass mode) and an in-tree dry-run probe against kp's own settings. A dated
+fact the vendor's reference does not state: deny rules are honoured under bypass
+mode at 2.1.263.
+
+### 2026-09-17 - `/harvest backlog` wave 2, one technique from a split verdict
+
+`waiver-names-its-finding`, from [[2026-08-31-omniroute]] and [[2026-08-31-awesome-agentic-patterns]]. The subject owned the escape hatch's economics and suppression-hygiene owned a standing entry's lifecycle; nothing owned the waiver's grammar and reach. Measured by replaying kp's recorded pushes: a presence-check waiver downgraded 7 findings nobody named, a named grammar 0. The unit's second half - never let a waiver cover removed coverage - was refuted in code (8 of 8 legitimate waivers blocked, 5 gate tests broken) and survives only as a scope rule: coverage removal is waivable by exact file name, never by a blanket. The synonym member was already owned by `declared-deviation-register` and `one-authority-per-vocabulary`.
+
+### 2026-09-17 - `/harvest backlog` wave 3, amendment to gate-liveness
+
+New section: a canary enrolled in the judged population. From [[2026-08-31-tigerbeetle]] (re-verified against its pinned commit) and [[2026-09-03-voicebox]], whose lead claiming the corpus has no home for a registered-but-inert instrument is now closed - four homes exist. The residual is narrower and sharper than the unit's rule: a prover scheduled inside the population it certifies must have its verdict, its loudness and its retention all inverted, because read as an ordinary member it reports PASS when it stops catching, which manufactures exactly the false green this technique exists to refuse. Measured on a lane certifier (1 of 4 canary states read correctly, then 4 of 4) with the non-canary output byte-identical.
+
+### 2026-09-17 - `/harvest backlog` wave 4, one technique
+
+`refusal-names-a-reachable-remedy`. The subject owned false-positive economics - whether a finding is TRUE - and never asked whether the reader can act on a true one. A remedy is the only part of a gate message a reader executes, the only part written by hand, and the only claim the gate makes that nothing verifies; the author's installation is the one where it works. A contributor facing a correct refusal whose repair instruction does not resolve has the same two options as one facing a false positive, and takes the same one. Census over twelve repositories on one toolchain: 68 runnable remedies, every in-tree one resolved, every out-of-tree one did not - and **six of the seven failures were one sentence copied into six repositories, each of which declared the true location in its own manifest**. That is the shape worth carrying: a dead remedy is usually not a typo, it is a derivation frozen as a string and then duplicated, and the fix is to resolve it where the message is built. The landing also states the degradation rule (name what is missing and where it was looked for, never fall silent) and the two exclusions that keep the check off its own fix - both derived from an instrument that produced 72 noise rows before being narrowed to printed output. Shipped to kp as an extension of a gate it already ran.
+
+### 2026-09-17 - `/harvest backlog` wave 5, one technique + two amendments
+
+`decidable-in-a-window`, landed from a backlog row marked **refuted** - the row was a correction to this subject, and it was right. `prose-rule-drift` stated that rules about artifacts a parser can see are mechanised *full stop*, and the file's own text already knew why that is wrong: it says elsewhere that most gates read the tree and that is what makes them **cheap**. Cost was the real axis and artifact shape was standing in for it. The test that replaces it: **can a pattern decide this from a bounded region of one file?** A rule can be entirely about syntax and still need the call graph, the type of a receiver, or which paths an input travels. 'This call is forbidden on any path a request can reach' is artifact-shaped and is not a pattern. The measured half is the part worth keeping. A cheap guard for a non-local rule does not answer a weaker version of the question - **it answers a different question and reports it in the same vocabulary.** Keying on bare names, the reachability guard resolved every name to every definition and marked 82.7% of functions reachable from a request handler; 1 of 10 on precision against the window scan's 6 of 6. And the negative control found that deleting its traversal removed the analysis without removing the noise: 12 of 21 survivors were the same false positives. The case that looked like a refutation confirmed it: a guard for a genuine whole-program dataflow property does not compute it - it narrows to a two-file allowlist and greps one literal, and its author knew, because the test asserts the allowlisted files still exist, since 'a guard that passes because its subject moved away is worse than no guard'. **Locality is necessary and not sufficient**, and the honest resolutions are to narrow the rule, to pin the scope and assert the pin, or to leave it to review and say so.

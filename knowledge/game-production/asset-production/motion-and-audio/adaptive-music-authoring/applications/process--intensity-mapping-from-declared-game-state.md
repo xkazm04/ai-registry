@@ -76,7 +76,8 @@ The mapping is accepted against recorded state traces, before a note is written.
    tiers has said nothing about the other two, and it returns exactly the same clean result
    as a trace that exercised everything. A tier no trace reached is *not measured* — it is
    listed as such, and it is a work item, not a pass.
-5. **Iterate on thresholds only.** If the plot is wrong, the fix is a number in section 3.
+5. **Diagnose before changing thresholds.** A wrong plot can come from inputs,
+initial state, timers, precedence or implementation as well as tuning.
    If the fix requires a new signal, section 1 changes and every trace is re-captured,
    because a trace that predates a signal cannot exercise it.
 
@@ -84,9 +85,8 @@ The mapping is accepted against recorded state traces, before a note is written.
 
 The composer reviews sections 2 and 4 — the tiers' editorial intent and the deliberate
 divergences. The designer reviews sections 1 and 3 — whether the signals mean what the
-mapping thinks and whether the thresholds match how encounters are actually built. Nobody
-reviews the implementation, because the implementation is a pure function of the document
-and is generated from it or trivially checked against it.
+mapping thinks and whether the thresholds match how encounters are actually built. Reviewers must also check implementation and runtime parity: generation and pure
+functions do not prove that timers, precedence or runtime inputs match the document.
 
 The rule that makes this hold: **the thresholds live in one place and the runtime reads
 them from there.** A mapping document that is transcribed into gameplay code by hand has
@@ -101,3 +101,26 @@ response is defensible: that the score does not thrash, does not fatigue, does n
 tier no encounter reaches, and does not lurch when a fight refuses to end. Every one of those
 is a defect a listener will attribute to the composition and none of them is fixable by
 composing.
+
+## Review boundary - 2026-09-09
+
+This is a proposed method, not a recorded trace-test result. No replay or listener
+assessment was performed. Three-to-five tiers, 15% hysteresis, phrase-length dwell,
+one-change-per-eight-bars and a climax ceiling are example tuning choices rather
+than universal acceptance limits. Test the intended response and signal noise.
+
+The peaceful traversal trace is expected to remain in one tier; passing that scoped
+assertion must not be rejected just because combat tiers were unvisited. Report
+coverage across the whole scenario plan. Persist prior state, clock and input
+timestamps to replay a mapping with hysteresis and dwell deterministically.
+
+Specify priority among death, scripted overrides, encounter holds and climax timeout,
+and separate desired tier from the scheduler's actual transition. An actor-local
+signal can be instrumented and recorded; location alone does not make replay impossible.
+New signals may be derived from sufficient retained data with disclosed provenance;
+otherwise recapture. Trace behavior cannot certify lack of fatigue or audible lurches.
+
+[Wwise virtual-voice guidance](https://www.audiokinetic.com/en/library/edge/?id=concept_virtualvoices.html&source=SDK)
+describes elapsed-time return and reactivation costs. This review could access its
+search excerpt only (direct retrieval returned 403); it is a lead for scoped runtime
+verification, not a claim that this engine can restore every stem in phase.

@@ -25,3 +25,7 @@ they send a reader to opposite next actions.
 Attention: this subject has ten techniques and is not in `librarian-scan`'s
 top 15 — the landing was scored GAIN 3 on the refutation of a stated
 enumeration, not on the subject's attention points.
+
+### 2026-09-17 - `/harvest backlog` wave 3, one technique
+
+`speed-figure-names-its-endpoints`, from [[2026-08-31-omniroute]] and [[2026-08-28-gemini-omni-1-1-flash]]. The subject owned the confound as a *state* (the environment moved across arms, so publish the axis and withhold the contrast); this is a different cause with a different repair - the figure's definition was underspecified, so each arm resolved the end event differently, and the repair is upstream in the definition. `metric-surface-contract` binds the start anchor and the units in the name; the end event's identity, and the case where it varies per arm, were unowned. Measured on a bench whose first-token column stamped an empty envelope on exactly the two highest-effort cells. The throughput-versus-latency half is carried as a reader-side rule with its instrument named: no fleet site publishes both quantities from one change. Also recorded: the worker's own pre-declared noise band was the wrong one (an absolute arrival spread for a paired within-stream difference) and says so in its row.

@@ -35,8 +35,9 @@ is a summary someone will want to compute later, and they can only compute it if
 were stored.
 
 **2. Derive each field from observation, on the receiving side.** File list from the file
-system or the diff, not from the narration. Build status from the build's own exit. The
-registration count from the destination record. Where the generator's own claim is
+system or the diff, not from the narration. Build status from an authenticated runner receipt bound to this input revision,
+build target and run. Registration from expected artifact identities in the
+destination, not merely a positive total that could count pre-existing rows. Where the generator's own claim is
 recorded at all, store it as a separate, labelled, self-reported field beside the observed
 one — the two disagreeing is a finding, and often the most useful signal the pipeline
 produces.
@@ -55,13 +56,16 @@ referenced and could not resolve. That list is the cheapest possible early warni
 the vocabulary, and it belongs in the record of the run that produced it rather than being
 rediscovered by a later audit.
 
-**6. Store provenance next to the output: the resolved prompt, in full.** Not a template
-name, not a version. Two reasons, and the second is load-bearing. Without the exact prompt
+**6. Bind provenance to the exact resolved input package.** Include template
+revision, retrieved context, model/tool configuration and source/output digests.
+Use controlled storage for sensitive inputs or immutable references with verified
+retrieval; a bare mutable template name is insufficient. Two reasons, and the second is load-bearing. Without the exact prompt
 a later reviewer cannot separate a model failure from a briefing failure, and those have
-opposite fixes. And prompts drift continuously while artifacts persist, so a version
-identifier resolves to a document that no longer exists — provenance that points at a
-mutable thing is not provenance. Store the generated source alongside it too, even if that
-source is not what ships, so the record is a complete account of the run.
+opposite fixes. And prompts drift continuously while artifacts persist, so an unpinned version
+label can resolve to content different from what actually ran — provenance that points at a
+mutable thing is not provenance. Retain the generated-source identity and permitted source content, including
+what differed from the adopted result. Do not export credentials or private
+prompt material into published artifacts in the name of completeness.
 
 **7. Bind the report to what it judged, and timestamp it.** The report speaks for the
 artifact as it was at that moment. When the artifact changes, the report becomes evidence
@@ -86,15 +90,17 @@ authored value gets shipped as one, and no report can tell the difference afterw
 - **When the report is used to drive a dashboard, gate on the observed fields only.** A
   panel that mixes self-reported and verified numbers into one figure is a panel that lies
   in exactly the situation it exists for.
-- **When the prompt cannot be stored, do not claim provenance.** Record the run as
-  unprovenanced; an unverifiable pass must not elevate anything.
+- **When exact inputs cannot be retained, name the provenance limitation.**
+  A digest without retrievable content establishes identity, not replayability.
+  Independently observed build facts can still be reported with their narrow scope.
 
 ## When not to use it
 
 - **When nothing external changed.** For a pure transformation with no side effects,
   validating the output *is* the observation and a separate report is bookkeeping.
-- **When the observer is the producer.** If the only thing that could report on the build is
-  the process that ran it, you do not have an independent authority — you have a nicer
-  format for a self-claim. Say so in the record rather than styling it as verified.
+- **When receipts are forgeable by the generated artifact, do not trust them.**
+  A trusted supervisor may both launch a build and capture its actual result.
+  Independence is the evidence/control boundary, not necessarily a separate
+  process or person. Validate sender, run identity and binding before promotion.
 - **When the ladder is a single rung.** Where writing the file is genuinely the whole job, a
   multi-field report invents distinctions and trains people to skim reports.

@@ -38,8 +38,9 @@ The rules of the window are declared once and tested at their edges:
   published method, and cover both boundary days with tests, because
   off-by-one at a boundary is exactly the kind of error that surfaces in a
   dispute with a named person on the other side.
-- **An open end is open, not infinite history.** A role with no end date
-  extends to the present; it says nothing about the past before its start.
+- **An open end needs source semantics.** Distinguish a known ongoing role
+  from an unknown end date. Bound an ongoing observation by its snapshot date;
+  missing data does not establish indefinite continuation.
 - **Compare at day precision, uniformly.** Timestamps from decision records
   and date-only values from registers must be truncated to a common
   precision before comparison, in one shared helper — two call sites
@@ -80,7 +81,9 @@ significance score, and they do different work:
 
 Undated payments join the missing-data ledger: they contribute to the raw
 total, never to the aligned amount, and their count is disclosed so the
-aligned fraction is read as a floor.
+aligned fraction can be read as a lower bound only for complete, deduplicated,
+nonnegative amounts with a positive denominator. Refunds, mixed currencies or
+incomplete totals invalidate that interpretation.
 
 ## Decision rules
 
@@ -100,8 +103,19 @@ aligned fraction is read as a floor.
 ## When not to use it
 
 Alignment gates conflict *candidates*; it does not gate the underlying
-money attribution. An official's total reachable money is a fact about
-their ties regardless of vote timing, and reporting it does not require
+money attribution. An entity's recorded money total is a source-scoped figure; attributing it
+as an official's reachable money requires separately justified tie semantics, and reporting it does not require
 window overlap — collapsing the two lets "the money predates the mandate"
 argue away a figure that never claimed simultaneity. Keep the aligned and
 raw figures side by side, each labeled with what it claims.
+
+## Date semantics before overlap
+
+Registration or filing day may differ from the role's effective start or end.
+Use the field's documented meaning and preserve uncertain boundary cases.
+Normalize timestamps in the source's civil timezone before extracting a day;
+day-level overlap does not prove ordering within that day. Contract signing,
+award, payment and publication are different events: name the one being joined.
+Validate real dates, start <= end, gaps and duplicate role/payment attribution.
+No recorded temporal overlap excludes only this screen, not every conflict
+hypothesis or post-employment obligation.

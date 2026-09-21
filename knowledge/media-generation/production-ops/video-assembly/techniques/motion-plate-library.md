@@ -79,11 +79,60 @@ what makes the library general rather than a collection of templates.
   lineage) and the binding call's references and prompt are both part of
   any accepted output's record, exactly as for any sourced shot.
 
+## When the plate was built, the scene is the asset
+
+The library discipline above was written for plates that arrive *sampled* — a
+clip briefed from scratch, a styled roll normalized down, converted footage.
+For those the render genuinely is the asset, because nothing upstream of it
+exists to keep: the brief and the seed reproduce the sample, and there is no
+representation of the move to hold on to. A built blockout is the one source
+where that stops being true, and banking it the same way silently demotes it
+to the class it was built to escape.
+
+The distinction is not reproducibility. A sampled plate with its brief, its
+seed and its engine recorded *is* reproducible — re-running the record returns
+the same frames. What a sampled plate can never be is **editable**: "the same
+move, a third slower" and "the same move, from the other side" are not
+available as changes, only as fresh rolls, and a fresh roll re-samples
+everything the brief did not pin. A built plate's scene holds the move as
+numbers a person can change, and changing one of them leaves the rest provably
+untouched — the same inversion the assembly layer already runs on when it
+compiles the cut from a composition instead of banking the render.
+
+So a built plate has two artifacts and they are not interchangeable:
+
+- **The scene is the asset.** It is what is versioned, what an edit names, and
+  what the next style pass re-renders from. A library holding only the viewport
+  render of a built blockout has kept the output and thrown away the only copy
+  of the specification.
+- **The render is a derivation, and still worth keeping** — it is what the
+  binding pass consumes and what a search of the library actually looks at.
+  Keep it beside the scene as a build product, dated to the scene revision it
+  came from, never as the thing of record.
+
+The failure is quiet, and it is a library-time failure rather than an
+authoring-time one: the blockout is built exactly, the render is filed by
+motion class, everyone is satisfied, and the first request months later to
+adjust the move finds only frames. The plate is then re-authored from scratch,
+at the cost the library existed to amortize.
+
+Two consequences follow. A built plate's **prose is not its specification** —
+where a sampled plate's brief is the closest thing to a source it has, a built
+plate's prose is a summary of a scene that already states the numbers, and
+filing the prose as the record reproduces the sampled case with extra steps.
+And a plate whose motion channel is prose in a system that types every
+dimension beside it is a built plate in name only: the dimension nobody typed
+is the dimension nobody can re-render.
+
 ## Decision rules
 
 - When a shot's motion is right and its look is wrong, restyle the clip
   rather than re-roll it — a fresh roll re-samples the half that was
   already accepted.
+- When the move is known before it is seen — a specified camera, an approved
+  path, a beat that must match a number — build the blockout rather than
+  briefing or sourcing one, and bank its scene. Building is the only source
+  that admits a later edit; the other three admit only another roll.
 - When a motion class recurs across projects, spend one authoring pass on a
   plate instead of paying full-appearance generation per project — the
   plate amortizes; styled rolls do not.

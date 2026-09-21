@@ -16,6 +16,7 @@ techniques:
   - tuning-corpus-disjointness
   - unelidable-measurement
   - control-failure-is-not-a-datum-state
+  - speed-figure-names-its-endpoints
 ---
 
 # Measurement honesty
@@ -373,3 +374,7 @@ that they do. Two rules follow:
   therefore prove absent: the canonical-form check over the workload an artifact
   was fitted on, and the shape-class residual that must be disclosed because it
   cannot be enforced.
+- [speed-figure-names-its-endpoints](./techniques/speed-figure-names-its-endpoints.md) —
+  the two events a duration is measured between and the two kinds a speed claim
+  can be, why an observer's first observable event is not the one its name
+  implies, and the comparison that breaks when the end event differs per arm.

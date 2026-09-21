@@ -68,8 +68,9 @@ are the same failure at two grains.
   interpretive layer.
 - **The adjective test.** Draft the sentence, then delete every adjective and
   adverb. If the sentence's meaning survives, ship the deleted version. If
-  meaning was lost, the lost meaning was a judgment the evidence does not
-  carry.
+  meaning was lost, inspect it: words such as "alleged", "former" or
+  "estimated" may carry essential scope or uncertainty. Remove unsupported
+  judgments, never qualifications that keep a factual claim accurate.
 - **A degenerate value reads as missing, never as a number.** A broken stored
   amount rendered as a garbage figure in a public feed is a factual-framing
   failure too: the sentence around a figure asserts the figure is real. The

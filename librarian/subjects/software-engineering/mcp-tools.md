@@ -509,3 +509,111 @@ Board: 2 siblings live by Phase 7, neither holding these two technique files;
   result read as *expired unread*) landed in agent-runtime-assembly/
   bounded-projection-of-external-work today. Return condition: an intake of the
   extension's specification text, or a fleet server that advertises taskSupport.
+
+
+## 2026-09-09 - the tool surface is not the session ([[2026-09-09-resolve-native-mcp]])
+
+A vendor moved a formerly third-party tool server into a **single-seat editing
+application** and a practitioner ran it against real long-form projects. Two
+landings, both saying the same thing from opposite sides.
+
+- **Amendment to `caller-differentiated-capability`** - subtraction holds within a
+  surface, not within a host. The technique holds its invariant by subtraction
+  ("a capability the schema does not accept cannot be smuggled through a check
+  somebody forgets to run") and closes by putting destructive operations off the
+  agent catalog entirely. The source routes around an absent API function by
+  **driving the screen**, and around an earlier one by composing an external
+  binary with the single exposed call. The fetch (1 of 3, the only one spent)
+  established the part that made it a landing: such a control surface is
+  **schema-less by construction**, declarable in the same tool set as
+  purpose-built tools, with application-level mitigations rather than schema
+  validation - so it cannot be given a dispatch door, and subtraction has nothing
+  to attach to. Absence from the catalog bounds what the model can *request*;
+  only absence from the host bounds what it can *cause*.
+
+- **New technique `ambient-selection-is-not-an-argument`** - the subject presumes
+  a server in front of a *service*. In front of a single-seat application the
+  natural argument is "the currently selected timeline": cross-call state the
+  server cannot mint because it does not own it. The golden path's "a cart, a
+  workflow, a cursor" means a pagination cursor; this one is the human's. The
+  load-bearing half is what holds the invariant today - the application is
+  single-threaded against its automation surface, so the operator is locked out
+  for the duration, and that undeclared mutual exclusion is the only reason the
+  selection cannot move mid-run. `write-freshness-gate` cannot reach it: its
+  proof is a hash of content the model read, and here nothing was read.
+
+**Obligation 3 of the new technique was corrected the same day by the apply step.**
+The politicas `live-wrap.mjs` tool already resolves an ambient page reference
+explicitly and refuses *conditionally* - only where the absence could change this
+answer, computed as a predicate over the target the caller did name - against the
+technique's original demand for an unconditional refusal. The tree was right and
+the corpus was wrong; the technique now carries the sharper rule. Recorded as
+`not-better` in the applied ledger, which is what that verdict is for.
+
+Board: 4 siblings live by Phase 7, none holding this subject; `check` clear
+immediately before the first write, and the `content` lock taken twice for the
+two golden-path edits.
+
+### 2026-09-17 - `/harvest backlog` wave 5, one technique + one application
+
+`command-audit-by-position`. `fluent-syntax-bounded-grammar` handles the case where the host owns the notation and can admit a closed fragment. This is the inverse and the one that actually guards a process boundary: **a person configured a real command naming a real program, and the host must run it**, so no closed grammar exists. What goes in its place is almost always a character denylist, and it is a proxy for a parse. Five positions decide what a token means - command, code-string, code-source, value, data - and the two a denylist cannot tell apart are the ones that matter: **the same remote reference is configuration in value position and remote code execution in code-source position.** The gate measured here had it exactly backwards, because its prefix scan looked for the reference at the start of a token while the flag name comes first. Two findings worth carrying anywhere this shape appears. **A flag is not a flag**: the same two characters are a code string on one interpreter and a syntax check on another, so the sets are per program or the gate either misses executions or refuses ordinary validation commands - and a team that hits the second turns the gate off. And **the verb table is part of the model**: leave a runner's subcommand out and the audit shifts one position left, reading the real entry point as a server argument, which is a data position where remote references are deliberately allowed. That is how the positional gate failed on its own first run. The residual the measurement forced, and the reason the rule's literal form is wrong: **position is a property of a parse, and a transport that re-parses does not inherit it.** Deleting the character set re-opened every transport-created hole. So it is demoted to a fact about the executor and kept for those transports. The audit bounds how a command executes, never what the executing program then does.
+## 2026-09-18 - intake, small-business plugin ([[2026-09-18-kwp-small-business]])
+
+New technique `one-server-many-registrations`: one server reachable under two
+names at once, because the host registered it again under an extension's scope.
+It is the third case beside rename over time (tool-identity-vs-tool-name) and two
+servers with one name (client-integration). Primary: the harness binary (2.1.276)
+refuses a mock directory named for a plugin-scoped server it cannot enumerate,
+because the tool names "would be granted against the real thing".
+
+Applied to personas as an experiment: the reflect parser keys tools on the
+registration segment and splits one product into two keys. It is latent on this
+machine (0 plugin-scoped calls in 10,294). No fix was shipped, because the plugin
+segment cannot be parsed reliably. That is the technique's first rule.
+
+Board: 0 siblings live; `check` clear before the write.
+
+## 2026-09-20 - intake, a typed-decision model review ([[2026-09-20-jev-system-1-agentic-loop]])
+
+Amendment to `catalog-projection-modes`: **the second budget.** Everything the
+technique had was written against a ceiling somebody else imposes - a host that
+refuses the request past N tool definitions. A description-only catalog published
+into a model's standing prompt has no such ceiling, which is what invites the
+per-request selector the file forbids, and the file's two reasons for forbidding
+it (incident reproducibility, and a per-principal listing cache) do not reach the
+argument that actually decides it.
+
+The deciding argument is a different cache. A standing catalog sits in the stable
+prefix and is served at the cache's **read** multiplier every turn after the
+first, so removing it saves `r x listing` and not `listing`. A listing that varies
+per request is volatile at its own offset, so everything downstream is rewritten
+at the **write** multiplier every turn, costing `(w - r) x downstream`. Both terms
+are per-request: there is no horizon over which it repays, which makes it a
+standing per-turn loss rather than a break-even. The file's rule survives in its
+own lane and inverts in the new one, under one placement condition - deletion from
+the prefix plus injection last is the only placement that saves anything, and what
+it saves is flat in session length.
+
+The discriminator came out of the sweep rather than out of the source: the
+in-place placement wins at `r = 1` and nowhere else, i.e. only where no prefix
+cache exists. Where the prefix is cached the naive arithmetic is inverted; where
+it is not, it is simply correct.
+
+Second section, `the prize is capped and the floor is not`: a listing's recall is
+exact because every capability is named, and a selector's is whatever it measures,
+so a per-request projection trades capability reach for prefix cost. Measured on
+this registry's own catalog - 70 packages, 40,003 characters, ~10,001 tokens - the
+prize is 813 base-units per turn against a floor that gives up the selector's miss
+rate. Recorded `not-better` in the applied ledger, which is what that verdict is
+for. Application `claude-code--catalog-projection-modes`.
+
+Boundary stated from one side only, by the rule for contested homes:
+`prompt-assembly/cache-breakpoint-allocation` owns the volatility-admission
+mechanism this reasons with, and `agent-instruction-files/line-earning` owns the
+face-value price model this corrects ("the line's price is its tokens times every
+future session" - true, and a tenth of that once the prefix is cached). Neither
+was edited; a later run reading either should recognise the shape rather than
+re-litigate it.
+
+Board: 3 siblings live at Phase 1, none holding this subject; `check` clear
+immediately before the write. 0 of 3 fetches.

@@ -37,7 +37,8 @@
         "judge-contract-design",
         "production-trace-scoring",
         "quality-regression-gating",
-        "generator-uncertainty-scoring"
+        "generator-uncertainty-scoring",
+        "grounded-answer-scoring"
       ]
     },
     {

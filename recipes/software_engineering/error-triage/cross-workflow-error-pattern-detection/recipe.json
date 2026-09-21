@@ -2,7 +2,7 @@
   "id": "e9f4f48e-ec0c-52d3-8a0b-918530f2c0b6",
   "slug": "cross-workflow-error-pattern-detection",
   "title": "Cross-workflow error pattern detection",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "status": "seed",
   "path": "software_engineering/error-triage",
   "domain": "software_engineering",

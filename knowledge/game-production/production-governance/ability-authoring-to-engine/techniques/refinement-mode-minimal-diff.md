@@ -40,18 +40,19 @@ elliptical by nature ("make it hit harder"); it is interpretable only against th
 that produced the thing. Without the original brief the author re-infers an intent from the
 artifact's surface, and re-inferred intent is where scope creep enters.
 
-**3. Return the complete artifact, not a patch.** The temptation is to ask for a diff and
-apply it. Resist it: fragments cannot be schema-validated, cannot be checked for
-cross-field coherence, and put a merge algorithm — the least reliable component available
-— on the critical path. Whole-artifact return keeps refinement on exactly the same
-validation path as first generation. The minimal-diff constraint lives in the *instruction*
-and is enforced by *comparison afterwards*, not by the transport.
+**3. Validate the complete resulting artifact.** A full-object response is one
+transport. A constrained patch applied to the pinned prior revision is another:
+validate permitted operations, apply atomically to a candidate copy, then run the
+full schema and coherence checks. Neither transport enforces scope by itself.
+Reject a stale base rather than overwriting a concurrent edit.
 
 **4. Define minimality as the implicated closure, not as one field.** This is the part
 teams get backwards. "Change only the field named" is wrong — a change often implies
 others, and leaving those stale produces an internally contradictory artifact, which is the
 worse failure. State it as: change what the instruction asks for, re-derive everything that
-change implies, and leave everything else byte-identical. Then name the implications
+change implies, and leave unrelated authored values unchanged. Define comparison rules for
+ordering, missing versus null, and exact string preservation; object serialization
+need not be byte-identical to preserve values. Then name the implications
 explicitly in the rules, because the author cannot guess your dependency graph: if the cost
 falls, the cost field and the cost as it appears in the generated code both fall; if the
 shape becomes an area effect, the area axis of the profile rises and the code grows the
@@ -62,14 +63,15 @@ a refinement unless the instruction changes what the thing fundamentally is. An 
 that drifts breaks every reference to the artifact and defeats the audit trail the mode
 exists to preserve.
 
-**6. Regenerate derived code artifacts wholesale, inside the same call.** Where the
-artifact carries generated source, the source is re-emitted in full so it stays compilable
-and reflects the change. Minimal diff is a rule about the *authored* fields; a partially
-patched source file is a different and worse problem than a re-emitted one.
+**6. Update derived code from the revised primaries.** Prefer deterministic
+generation where available. Either a full regeneration or a bounded code patch
+needs diff review and compilation; neither is automatically compilable or safe.
+Do not overwrite manually authored sections as an incidental derived change.
 
 **7. Verify the minimality you asked for.** Compare returned to prior field by field and
-present the change set. Fields outside the implicated closure that moved anyway are a
-finding: show them, and let a human accept or reject them individually. The instruction is
+present the change set. Determine the allowed change closure before applying the result. Reject or
+hold changes outside it; a model cannot authorize its own scope expansion.
+Atomically persist only if the base revision still matches. The instruction is
 a request; the comparison is the enforcement, and a rule that is asked for but never
 measured is a wish.
 

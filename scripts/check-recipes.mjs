@@ -39,6 +39,7 @@
  *
  * Usage:
  *   node scripts/check-recipes.mjs
+ *   node scripts/check-recipes.mjs --shape-only   # before regenerating the index
  *   node scripts/check-recipes.mjs --since origin/main
  */
 
@@ -48,6 +49,9 @@ import { execFileSync, spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { parseFrontmatter, parseSemver, cmpSemver, LESSON_HEAD_RE } from './lib/skills-lane.mjs';
 import { EXIT } from './lib/exit-codes.mjs';
+import { classifyCheckResult } from './lib/check-result.mjs';
+import { renderRecipe } from './lib/recipe-render.mjs';
+import { sameIgnoringNewlines } from './lib/bundle-hash.mjs';
 
 const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 const LANE = path.join(ROOT, 'recipes');
@@ -474,10 +478,15 @@ for (const r of walked.recipes) {
 
   // --- the rendered view
   const mdPath = path.join(r.dir, RECIPE_MD);
-  if (!fs.existsSync(mdPath)) {
+  if (process.argv.includes('--shape-only')) {
+    // Source validation precedes generation; the view may be absent or stale here.
+  } else if (!fs.existsSync(mdPath)) {
     fail(`${r.rel}: no ${RECIPE_MD} - the JSON is a payload; a person browsing this lane reads the rendered view`);
   } else {
     const mdRaw = fs.readFileSync(mdPath, 'utf8');
+    try {
+      if (!sameIgnoringNewlines(mdRaw, renderRecipe(obj))) fail(`${r.rel}/${RECIPE_MD}: rendered body is stale - run node scripts/render-recipes.mjs`);
+    } catch (e) { fail(`${r.rel}/${RECIPE_JSON}: cannot render (${e.message})`); }
     const doc = parseFrontmatter(mdRaw);
     if (!doc) fail(`${r.rel}/${RECIPE_MD}: no YAML frontmatter block - the file opens with something other than \`---\``);
     else {
@@ -593,12 +602,19 @@ if (sinceIdx !== -1) {
 // is exactly such a consumer. This gate walked all 109 and passed green while
 // the index held 106, so the lane was correct and the instrument reading it was
 // blind, which is the failure this repository calls a gate that checks nothing.
-// The builder has had a --check mode the whole time and nothing ever ran it.
-{
+// --shape-only is the pre-generation check used by gate --write. The normal
+// check remains responsible for freshness after generation.
+if (!process.argv.includes('--shape-only')) {
   const r = spawnSync(process.execPath, ['scripts/build-recipes-index.mjs', '--check'], {
     cwd: ROOT, encoding: 'utf8',
   });
-  if (r.status !== 0) {
+  const result = classifyCheckResult(r);
+  if (result.code === EXIT.FATAL) {
+    console.error(`FATAL: recipe index check could not run: ${result.reason}`);
+    if (r.stderr) console.error(r.stderr.trim());
+    process.exit(EXIT.FATAL);
+  }
+  if (result.code === EXIT.VIOLATIONS) {
     fail(
       'recipes/index.json does not match the lane. Every consumer that reads the '
       + 'index rather than walking the lane is blind to the difference, and this gate '
@@ -621,6 +637,7 @@ console.log(`recipes lane: ${walked.recipes.length} recipe(s) - ${fmt(byStatus)}
 console.log(`domains: ${fmt(byDomain)} - ${lessonEntries} LESSONS entr(ies)`);
 if (sinceIdx !== -1) console.log(`version discipline: ${bumpChecked} changed recipe(s) compared against ${process.argv[sinceIdx + 1]}`);
 else console.log('version discipline: NOT run (pass --since <ref>; CI runs it on every pull request)');
+if (process.argv.includes('--shape-only')) console.log('index freshness: NOT run (--shape-only; regenerate and check the index next)');
 console.log('NOT checked here: whether the craft is any good; whether a lesson was appended;');
 console.log('  whether a connector_type exists in the consuming catalog (this registry cannot see it)');
 for (const n of notes) console.log(`  note: ${n}`);

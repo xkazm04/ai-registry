@@ -14,7 +14,7 @@ A game-production web application (Next.js + better-sqlite3, driving an Unreal E
 project) carries a ten-step music pipeline in `src/lib/catalog/pipelines/music.ts`,
 registered at line 32 as `catalogId: 'music'`. Citations are resolved against commit
 `9aa31407`; `package.json` declares no `engines` field, so no runtime version is claimed
-here. The pipeline is the most complete instance of the ladder in the tree, and it is
+here. The historical document describes an instance of the ladder; its consumer code was not revisited in this review. It is
 useful precisely because it is honest about the rungs it does not have.
 
 ## What the pipeline declares
@@ -59,8 +59,8 @@ the rule.
 The Test Gate's acceptance is `entityRuntimeDeferred('VSMusicTransitionTest', 'Combat
 transition crossfades on cue in PIE')`. In `src/lib/catalog/acceptance/deferred.ts:7-9`
 that resolves to `{ tier: 'L3', status: 'deferred', detail: 'runtime pending' }` with a
-machine-parseable reason naming the functional test that would settle it. Nothing above
-rung 1 has run.
+machine-parseable reason naming the functional test that would settle it. That declaration alone establishes no runtime execution. The excerpt does not
+prove that every other check was or was not run.
 
 This is the right failure. The line reports *deferred with a stated reason*, not passed —
 the pipeline does not manufacture green out of an absent runtime. The per-entity form of
@@ -84,15 +84,15 @@ whole upper ladder rests on a producer's own claim.
 **Loop boundaries are declared in milliseconds.** `loopStartMs`, `loopEndMs`,
 `barDurationMs`, `stemLoopMs` — the sample domain appears only once, in an authoring note
 (*"960 samples of silence padding at 48 kHz if needed"*). At 48 kHz and 20 000 ms the
-conversion is exact, so the pipeline gets away with it; a tempo or a rate that did not
-divide evenly would round, and the rounding is the click. The standard stays: samples, at
+conversion is exact, so the pipeline gets away with it; other conversions need an explicit rounding policy. Rounding alone does not
+establish an audible click. The standard stays: samples, at
 the file's own rate, alongside that rate.
 
 **Long crossfades stand in for tail folding.** The per-stem `loopCrossfadeMs` scales with
 the length of each stem's tail — 10 ms for brass stabs, 30 ms for percussion, 80 ms for the
 high-string cluster, 200 ms for the slow pad, annotated *"needs a generous crossfade to
-maintain harmonic continuity at the loop point."* That is the concealment fix, and it dips
-level at the seam once per cycle. Nothing in the pipeline renders past the loop end and
+maintain harmonic continuity at the loop point."* Fade duration alone does not establish concealment or a level dip; the curve,
+correlation, overlap material and actual playback determine the result. Nothing in the pipeline renders past the loop end and
 folds the decay back over the head, and nothing declares a pre-roll region. The standard
 stays.
 
@@ -121,3 +121,28 @@ marked loopable by a request flag rather than by anything measured at its bounda
 otherwise 0"* — a duration asserted from the request rather than read from the returned
 bytes. Both are rung-0 facts wearing rung-1 clothes, and both are exactly what rung 2
 exists to catch.
+
+## Review boundary - 2026-09-09
+
+All code paths, line references and incident claims remain historical evidence
+leads; no consumer checkout, rendered stems or engine run was evaluated. Populated
+20-second declarations do not verify exported frame counts or alignment. Checking
+both chart and graded values against a band does not prove equality: -14 and -18
+both fit [-18,-14] but differ by 4 LU. Require the intended derivation invariant.
+
+The quoted 192 kbps gives 24,000 payload bytes/s and 480,000 bytes over 20 seconds,
+excluding overhead. Four such streams average 768 kbps; this is not a measured peak,
+decoded-memory estimate, or allowance for all silent stems and transition overlap.
+A quality setting is not a fixed bitrate contract. Check actual packaged assets.
+
+The [Vorbis specification](https://www.xiph.org/vorbis/doc/Vorbis_I_spec.html)
+describes variable bitrate and sample-position handling, including end trimming;
+block coding does not itself prove exposed padding. Re-test target decoding and
+loop seeking. The [Quartz overview](https://dev.epicgames.com/documentation/en-us/unreal-engine/overview-of-quartz-in-unreal-engine)
+documents sample-accurate scheduling, not this pipeline's test execution or loudness
+meter capability. Verify the actual profiler/meter and its measurement contract.
+The 100-cycle checklist remains a plan until content-bound observations exist.
+
+Provider capability filtering is a useful scoped pattern, but the cited integration
+and current provider offerings were not checked. Request flags and requested duration
+are intent, not measured loopability or decoded duration. Witness metadata is unchanged.

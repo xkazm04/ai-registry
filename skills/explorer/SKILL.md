@@ -1,15 +1,15 @@
 ---
 name: explorer
-description: Wander one logical area of a codebase, surface 10 items worth fixing, build the small ones (xs/s) without asking, and triage only the larger ones with the user. Every item is premise-verified, gated and committed atomically. Daily low-friction quality sweeps with per-context coverage memory.
+description: Wander one logical area of a codebase, surface up to 10 evidence-backed items worth fixing, build the small ones (xs/s) without asking, and triage only the larger ones with the user. Every item is premise-verified, gated and committed atomically. Daily low-friction quality sweeps with per-context coverage memory.
 argument-hint: "[area] [--triage-all]"
 category: workflow
 memory: vault
 contexts: tracked
-version: 2.2.0
+version: 2.4.0
 ---
 # Explorer
 
-Wander a logical section of a codebase, surface exactly **10 items** worth fixing, **build the small ones without asking** and put only the larger ones to the user, then execute in-session. Designed for frequent / low-friction use — daily wandering — and pairs with `/research` (external sources) and `/architect` (heavy structural change).
+Wander a logical section of a codebase, surface **up to 10 evidence-backed items** worth fixing, **build the small ones without asking** and put only the larger ones to the user, then execute in-session. Designed for frequent / low-friction use — daily wandering — and pairs with `/research` (external sources) and `/architect` (heavy structural change).
 
 The method is **repo-agnostic**: it takes its area taxonomy from whatever context source the repo has, and keeps a vault for run records, coverage tracking, and cross-run learning. Everything one repository is lives in the overlay below, each key with a default, so a repo that carries no overlay still gets a full sweep.
 
@@ -54,7 +54,10 @@ Built for parallel CLI control — every user prompt is single-keystroke answera
 
 ## Input
 
-Ask **two** numbered-menu questions, in this order. Numeric input picks the option; **Enter** picks the default; option `1. other → …` is the deviation lane and accepts free text.
+Use the area and category already supplied by the user. Ask only for missing inputs
+that materially affect scope; explicit instructions override default interaction menus.
+
+When inputs are missing, ask **two** numbered-menu questions, in this order. Numeric input picks the option; **Enter** picks the default; option `1. other → …` is the deviation lane and accepts free text.
 
 ### Q1 — Area
 
@@ -102,7 +105,7 @@ If the user replies just "go" or "wander" or types `/explorer` with no arguments
   - `Explorer/sweeps/` — one note per run, the canonical artifact
   - `Explorer/state.md` — informational claim board (which areas are being explored *right now*)
   - `Explorer/coverage.md` — heatmap of last visit per area + yield density
-  - `Explorer/passes.md` — per-area "already considered and rejected" memory; future passes skip these
+  - `Explorer/passes.md` — per-area "a human looked at this and said no" memory; future passes skip these
   - `Patterns/explorer-preferences.md` — distilled rules across runs (promoted from Lessons)
   - `Lessons/{date}-explorer.md` — append-only self-reflection
 - **Categories** — `quality | dx | ui | perf | bug | i18n | a11y | sec`
@@ -154,9 +157,10 @@ If any of these are missing, create them:
   ```markdown
   # Explorer Passes
 
-  Per-area record of items that were surfaced and **rejected** in past runs.
+  Per-area record of items a **human was asked about and declined** in past runs.
   Future passes over the same area skip these. Accepted items don't appear here
-  (their fix is in the codebase). Items that were not surfaced are also absent.
+  (their fix is in the codebase). Items that were not surfaced are also absent,
+  and so is anything nobody answered - an unanswered item is not a rejection.
 
   ## Areas
   ```
@@ -259,7 +263,7 @@ Print the claim line to the user so they know what's recorded.
 
 ## Phase 4: Wander the code
 
-Read enough of the area to identify 10 items. Budget your tool calls — don't read every file in a 100-file area. Sample strategically.
+Read enough of the agreed area to identify useful items, up to a ceiling of 10. Zero findings is a valid result. Budget your tool calls — don't read every file in a 100-file area. Sample strategically.
 
 ### 4a. Sampling strategy
 
@@ -368,7 +372,7 @@ Drop any candidate whose anchor was plausibly fixed or reworked by a recent comm
 ### 4e. Stop conditions
 
 - 10 items found → stop scanning, move to Phase 5.
-- Exhausted the area without 10 items → widen scope by pulling in the *adjacent* context from the same group in the area taxonomy. Note the widening in the run record. If still <10 after widening twice, stop with what you have and explain the shortfall.
+- Exhausted the agreed area before 10 items → stop with the supported findings, including zero. Report what was reviewed and what remains uncertain. Widen into an adjacent context only when it is already within the user's accepted scope; a quota never authorizes expansion.
 - Tool budget exceeded (>40 file reads) → stop with what you have.
 
 **Do not pad the list** with low-value items just to hit 10. Quality over quota. If you stop short, the run record explains why.
@@ -484,7 +488,11 @@ Two properties make the auto band safe, and both are load-bearing — do not wea
 ### The two bands
 
 1. **Auto band (`xs`, `s`)** — build them. Print the plan first (Option B step 1) so the user
-   can interrupt, then execute in risk-ascending order.
+   can interrupt, then execute in risk-ascending order. **Built and committed, never parked**:
+   a `.patch`/`.diff` file under the vault or the repo is not a landed item, it is an unbuilt
+   one wearing a deliverable's clothes. If a small item genuinely cannot be built (the repo
+   law blocks it, the gate cannot settle it), it is deferred or re-sized to `m` and said so —
+   not written out as a patch.
 2. **Triage band (`m`, `l`)** — ask, and ask ONLY about these:
 
 ```
@@ -502,6 +510,13 @@ Reply with numbers to action, or:
 ```
 
 With no `m`/`l` item, **ask nothing**: say what you are building, and build it.
+
+**Nobody answered is not "none".** When the run is unattended — no operator, or the question
+went out and no reply came — the triage band's outcome is `decided: unasked`, never
+`declined`. Write those items to the sweep note in full and leave `passes.md` untouched
+(§ Phase 9d), so the next pass over the area surfaces them again with a human present.
+Treating silence as rejection permanently retires findings nobody ever read; measured once
+on a `critical` security item. Say in the summary how many items went unasked and why.
 
 `/explorer <area> --triage-all` restores the pre-v2 behaviour and asks about every item. Offer
 it in the `Next?` block when a run's auto band turned out larger or riskier than the user
@@ -525,6 +540,21 @@ For each accepted item, execute it **in this same session**. Same default as `/r
 
 ### Execution rules
 
+#### Gate baseline — run it once, before the first edit
+
+Run the repo's **full** gate (the overlay's `## Gates`, or the repo's own gate script when it
+declares one) before touching a file, and record the result verbatim: the command, the pass/fail
+per stage, and the counts it printed. That line is the baseline for the whole run.
+
+- **"Pre-existing" is a claim that must quote the baseline.** A failure or warning disowned as
+  pre-existing cites the baseline line that shows it; without one it is this run's problem.
+- **Reported figures are the full gate's figures.** A scoped run (one crate, one package, the
+  touched files) is fine for the edit loop and must be *named* as scoped wherever its numbers
+  appear. Measured: summaries claiming a 55-warning lint baseline where the full gate reported
+  147 — a scoped number reported as the repo's.
+- If the full gate cannot run here, say so once, name the stage, and treat every later gate
+  claim as scoped.
+
 **Single accepted item with a clear anchor (Option A):**
 1. Apply the edit at `anchor`.
 2. Run validation:
@@ -543,6 +573,13 @@ For each accepted item, execute it **in this same session**. Same default as `/r
 3. Atomic commit per item, validation per commit, same one-invocation stage-verify-commit discipline as Option A.
 4. If validation fails → fix inline, do NOT stack failing commits. No `--no-verify`, no `--amend`.
 5. If a downstream item turns out to be redundant after an upstream commit, drop it and note the drop in the run record.
+
+**Tracked ledger lines ride with the work.** The registry-lead line (§ Knowledge sync) lands in
+a *tracked* file, so it is committed — in the commit of the fix that earned it, or in one closing
+`explorer: ledger` commit when it is written after the last fix. Leaving it as an uncommitted
+tracked change is the run's own dirt in someone else's tree. `.ai/consults.jsonl` and the vault
+are gitignored: never stage them. End the run with nothing the run itself authored left dirty,
+and say in the summary which commit carries the lead (or that none was filed).
 
 **Item that needs more thought (Option D — escape hatch):**
 Record it in the run record as `decided: deferred` with the reason. Do NOT write a handoff file. The run record is the future search target. Use sparingly — prefer A or B.
@@ -583,11 +620,12 @@ run_id: {short id}
 area: {context-id or group}
 files_sampled: {N}
 category_filter: any | quality | ...
-total_items: 10
+total_items: <actual count, 0-10>
 auto_accepted: [1, 4, 5]      # the xs/s band - built without asking
 triaged: [2, 3]               # the m/l band - put to the user
 accepted: [1, 3, 4, 5]        # everything actually built (auto + triaged-in)
-declined: [2]                 # only ever from the triage band
+declined: [2]                 # only ever a human's explicit "no"
+unasked: []                   # triage-band items nobody answered - resurface next run
 deferred: []
 commits: [<sha1>, <sha2>]
 widened: false
@@ -609,6 +647,12 @@ widened: false
 **Evidence:** ...
 **Decline reason:** _filled in Phase 9_
 
+### [4] {title}  ◻ unasked (unattended run - not declined)
+**Category / Severity / Effort:** ...
+**Anchor:** ...
+**Evidence:** ...
+**Status:** `decided: unasked` - put to no one; NOT fingerprinted in passes.md.
+
 ### [3] {title}  ⏸ deferred
 **Category / Severity / Effort:** ...
 **Reason:** {why deferred - concrete blocker, not vague "later"}
@@ -628,7 +672,8 @@ widened: false
 
 Only a TRIAGE-band item can be declined, so this question is about `m`/`l` items and nothing
 else. **Skip it entirely when nothing was declined** — which, after v2, is most runs. Do not
-ask it about the auto band: those were not offered, so there is no reason to collect.
+ask it about the auto band: those were not offered, so there is no reason to collect. An
+unattended run declines nothing, so it skips this step too.
 
 Single batched question:
 ```
@@ -670,6 +715,11 @@ Deferred: [list] (with blockers)
 Add the decline reasons to the Phase 8 sweep note's `[N] declined` blocks.
 
 ### 9d. Update passes.md
+
+**`passes.md` records only what a human actually declined.** A fingerprint here suppresses
+the item in every future pass, so the only thing that earns one is an explicit "no" from a
+person. Items marked `decided: unasked` (§ Phase 7), deferred items, and everything from the
+auto band are never fingerprinted — an unattended run typically writes nothing to this file.
 
 For each declined item, append a fingerprint to `$VAULT/Explorer/passes.md` under the area's section (create section if missing):
 
@@ -731,9 +781,10 @@ Explorer run complete.
   Area:           {name} (group: {group})
   Category:       {filter}
   Files sampled:  {N}
-  Items surfaced: {M} / 10
+  Items surfaced: {M} (ceiling 10)
   Auto-accepted:  {A} (xs/s, built without asking) -> {commit shas}
   Triaged:        {T} put to you -> {K} actioned, {L} declined
+  Unasked:        {U} (unattended - resurface next run, not recorded as declines)
   Deferred:       {D}
 
   Coverage update: last visit {date} -> {today}, yield density {X}/{Y}
@@ -819,30 +870,43 @@ This skill proposes and executes backlog items. Every item it proposes is judged
 <!-- clause: skill-reflection v4 - stamped by scripts/apply-skill-clauses.mjs from docs/skill-clauses/skill-reflection.md; edit the template, then re-stamp -->
 ## Skill Reflection
 
-After the run's real work is done, reflect - autonomously, without asking the user. Lane 0 is written on EVERY run; lanes 1-3 are not. Be honest about volume: most runs produce nothing in lanes 1-3. An empty reflection is a valid result; a forced lesson is pollution. Calibration: nothing (common) / one line (sometimes) / a lesson entry (occasionally) / a redesign proposal (rare).
+After the work, record only useful observations supported by this run. No lesson is
+a valid result. Reflection inherits the task's authorization; it grants no additional
+permission to edit another repository, send data, commit, or publish.
 
-**Lane 0 - RUN LOG** (every run that started work, including failed and aborted ones; skip read-only info modes such as a status peek, and runs cancelled before any work). Append one row to the registry's run log with one command - identity (project, device) and the skill's version are resolved by the script, never typed (`<registry>` resolves as in lane 2 step 4):
+**Project learning.** Only when this run produced an observation that would change how a
+future run behaves. A run that went as the method describes writes nothing: an entry that
+restates the procedure, records "no issues", or repeats the task is a defect, not a
+deliverable. When there is such an observation and local edits are within scope, put one
+dated line in the overlay this skill's `## Project overlay` section names, under
+`## Skill improvement log`. **Write only into an overlay that already exists.** If the
+project has none, put the observation in the response instead - creating a new tracked
+file for a reflection is scope the task did not ask for, and a reader who never asked for
+the skill has to review it. If the overlay is a structured config (YAML, TOML, JSON),
+record the note as comments so the file keeps parsing, or use the response.
+Use a supplied memory contract only when its destination and writes are authorized.
+Keep project details out of the shared method.
 
-```sh
-node <registry>/scripts/log-run.mjs --skill explorer --outcome <o> --difficulty <1-5> \
-  --provider <claude|openai|xai|qwen|google|other> --model <your model id> [--effort <level>] \
-  [--tokens-est <n>] --result "<one sentence: what this run produced>" --comment "<free text>"
-```
+**Method learning.** Identify the installation before editing anything. A local
+`.ai/registry-installation.local.json` receipt can identify development versus release,
+the registry revision, and selected skill versions. Verify any link's actual target;
+do not assume a skill directory is a writable registry link.
 
-- `--outcome`: `shipped` (the goal landed) / `partial` / `no-op` (ran correctly, nothing to do) / `parked` (designed or staged, deliberately not landed) / `failed` / `aborted` (stopped by the operator or the harness).
-- `--difficulty`: 1 trivial - mechanical, no judgment needed; 2 routine - the method applied as written; 3 demanding - real judgment calls, or one detour; 4 hard - several dead ends, rework, or an operator course-correction; 5 at the edge - partial or failed on the merits, not on tooling. Rate the TASK as this run met it, not the effort you spent.
-- `--model` / `--effort`: what you are running as, as your harness states it; omit `--effort` when you cannot see it. `--tokens-est`: the drop in the harness's remaining-token counter from just before this skill was invoked to now; omit it when your harness shows no counter. Exact figures are measured later from the transcript and stored apart - never guess one.
-- `--comment` is the self-reflection a reviewer will read: what went well, what the method made harder, where the skill's instructions were wrong, missing or ignored. Specific over polite; no filesystem paths or email addresses (the writer rejects them).
-- If the command fails on validation, fix the named field and rerun. If the registry is unreachable, add `--pending` (the row waits in the project's `.ai/`). Never read the run log during a run: it is evidence ABOUT this skill for `/librarian skills`, and an executor that reads its own diagnosis contaminates the next measurement.
+- For a pinned release, marketplace cache, ordinary copy, or unknown installation,
+  keep a proposal in the project overlay or response. Do not edit the installed method
+  or silently relink it. Adoption and rollback are explicit installation operations.
+- For a development link, edit the registry only when that checkout is already within
+  the accepted task scope. Otherwise report a proposal. Authorized changes belong in
+  the source checkout, followed by its gates; commit only when the task authorizes it.
+- Record an actual lesson in `LESSONS.md` against the version **used**:
+  `## <version-used> - <YYYY-MM-DD> - <project-name>` and concise bullets. A proposal
+  must be labeled as such; structural checks are not evidence of field effectiveness.
+- Applied skill changes require a version bump: patch for wording, minor for a step
+  refinement, major for method redesign. A lesson alone needs no bump. Shared stamped
+  clauses are edited in the registry's `docs/skill-clauses/` and regenerated with
+  `scripts/apply-skill-clauses.mjs`, never patched in individual installed skills.
 
-**Lane 1 - PROJECT learnings** (what the next session in THIS repo needs). Repo-specific rules go to this skill's overlay in the consuming repo - a dated one-liner under `## Skill improvement log` in the overlay/vault location this skill's `## Project overlay` section names (create the heading on first use). If this skill carries no `## Project overlay` section, or its overlay section names no location, write that dated one-liner to `.claude/explorer/config.md` in the consuming repo under `## Skill improvement log`, creating the file and the heading if they are absent - so the instruction is executable in every skill. When the repo carries a `.personas/` directory, also write via the MEMORY BLOCK contract if this prompt carries one, else append node lines to `.personas/memory-outbox.jsonl` per that contract. Never into this file: a project's bytes in a shared method are exactly what made the fleet's copies diverge.
-
-**Lane 2 - METHOD learnings** (what would improve THIS SKILL for every project):
-1. If nothing generalizes beyond this repo, stop here.
-2. Append to `LESSONS.md` in this skill's directory: `## <version-used> - <YYYY-MM-DD> - <project-name>` followed by `- ` bullets (create the file with a `# Lessons - explorer` heading if absent). Record the version the run USED, not a bump target. Wrap a bullet in a `### Redesign proposal` sub-block when it argues for a redesign you are NOT applying now. A lesson alone needs no version bump.
-3. Edit `SKILL.md` only together with a version bump, and bump only with an applied edit: patch for wording, minor for a step/prompt refinement, major for a methodic redesign. Update the `version:` frontmatter. Never edit inside a stamped `<!-- clause: ... -->` block: that text is shared by every skill in the lane and is changed in the registry's `docs/skill-clauses/` and re-stamped with `node <registry>/scripts/apply-skill-clauses.mjs`.
-4. Where the edit lands: THE SKILL DIRECTORY IS A LINK INTO THE REGISTRY. `.claude/skills/explorer` in a consuming repo is a symlink to `<registry>/skills/explorer` (registry root = `registry.local` in `.ai/manifest.yaml`, default `../ai-registry`; `$AI_REGISTRY_DIR` wins). Editing it edits the one file every project runs, so there is nothing to propagate. Commit it IN THE REGISTRY checkout as a standalone commit containing only this skill's files: run `node <registry>/scripts/check-skills.mjs --since HEAD` first (shape + version discipline must pass), then `git -C <registry> add skills/explorer` and `git -C <registry> commit -m "skill(explorer): v<new> - <one-line reason>"`. Never stage the link from the project side.
-5. NEVER copy this skill to `~/.claude/skills/explorer/` or into another repo, and never "propagate" by copying. A copy in the personal tier shadows the lane for every project on the machine and freezes the method at that day's bytes with no version to compare (measured 2026-08-29: 11 such copies, all unversioned, all stale). If `.claude/skills/explorer` is a real directory instead of a link, the fix is `node <registry>/scripts/link-registry.mjs`, not a copy in either direction.
-
-**Lane 3 - DOMAIN knowledge** is a different artifact from a lesson: a lesson improves this METHOD, a lead proposes knowledge for a bundle. Skills that carry a `## Knowledge sync` section file leads there; a skill without one files none.
+**Domain learning.** Follow `## Knowledge sync` when present, within the same scope
+and privacy boundaries. A method lesson and a domain knowledge lead are different
+artifacts; do not fabricate either to fill a reflection quota.
 <!-- /clause: skill-reflection -->

@@ -3,7 +3,7 @@
 **Path:** `knowledge/software-engineering/llm-agent/prompt-and-context/context-hierarchy/`
 **Created:** 2026-09-02 by `/intake` run `intake-openviking-0902` under the 2.0.0
 mechanical XL trigger (three `design` candidates with one home), forged in-session by one
-worker from [`docs/subject-proposal-context-hierarchy.md`](../../../docs/subject-proposal-context-hierarchy.md).
+worker from [`context-hierarchy`](../../../knowledge/software-engineering/llm-agent/prompt-and-context/context-hierarchy/context-hierarchy.md).
 
 ## Shape at creation
 

@@ -1,7 +1,7 @@
 ---
 name: uat
-description: Simulated User Acceptance Testing driven by Characters (representative users with jobs-to-be-done), not feature/code coverage. A capable LLM verifies each user journey in two chronological certification levels - L1 theoretical (over a code-derived surface model, cheap + mass-parallel) then L2 empirical (real browser against the live app, serial) - judging through each Character's own consistent lens (time saved vs the LLM-less way, and senior-in-role quality), with quantified, impact-scored verdicts (estimated time saved + how often x how reachable x how much trust each gap costs). Runs are then DRAINED: a systematic pass turns reports into a triaged design backlog (build / concept / decline-with-reason) so the expensive run pays twice. Stack-agnostic; per-app specifics live in the repo's uat/ overlay. Invoke with `/uat init|update|run|recertify|drain|promote [args]`.
-version: 1.9.0
+description: Simulated User Acceptance Testing driven by Characters (representative users with jobs-to-be-done), not feature/code coverage. A capable LLM verifies each user journey in two chronological certification levels - L1 theoretical (over a code-derived surface model, cheap + mass-parallel) then L2 empirical (real browser against the live app, serial) - plus, for a journey whose core is a conversation an AI agent holds with the user, an LC conversation level between them (the real agent instrument driven in text against model-played users, verdicts on a rule-checked reliability axis and a separately judged quality axis) - judging through each Character's own consistent lens (time saved vs the LLM-less way, and senior-in-role quality), with quantified, impact-scored verdicts (estimated time saved + how often x how reachable x how much trust each gap costs). Runs are then DRAINED: a systematic pass turns reports into a triaged design backlog (build / concept / decline-with-reason) so the expensive run pays twice. Stack-agnostic; per-app specifics live in the repo's uat/ overlay. Invoke with `/uat init|update|run|recertify|drain|promote [args]`.
+version: 1.10.0
 category: testing
 memory: project
 argument-hint: "init|update|run|recertify|drain|promote [args]"
@@ -17,13 +17,15 @@ Method backbone (established inspection methods, automated by an LLM): **Nielsen
 
 > Real model/browser calls are the point — that's what makes this catch what assertions can't. So this is a **deliberate periodic pass, never a per-commit CI gate.** The two-level design below is how we keep it affordable and scalable anyway.
 
-## Two-level certification (chronological)
+## Certification levels (chronological)
 
-Each journey is verified in two chronological passes; passing each grants a certification level. Cheap-and-broad first, expensive-and-deep second.
+Each journey is verified in two chronological passes; passing each grants a certification level. Cheap-and-broad first, expensive-and-deep second. A journey whose core is a **conversation** gets a third level between them (LC, below).
 
 **Level 1 — Theoretical (static, code-grounded).** Build a *surface model* from the code: routes, features, the affordances a user sees (buttons / inputs / controls / links — their "positions"), the inputs each accepts, the state/data it reads, and the navigation between surfaces. The Character then walks the journey *theoretically* over this model — a thought experiment: "given exactly these affordances and this flow, can I finish my job, and would it meet my bar?" **No browser.** Catches structural failure — missing features, dead-ends, affordance/flow gaps — and applies the Character's judgement to the *designed* experience. **Pass → Certification L1 ("structurally sound").** Cheap and **mass-parallelizable** (no browser to serialize) — run it across many Characters at once.
 
 **Level 2 — Empirical (live browser).** Only for journeys that earned L1. Drive the *real* app against the live environment and run the same walkthrough, now (a) confirming the theoretical path actually holds and (b) catching what the code model can't: real rendering, actual latency/timeouts, real-data quirks, visual/UX feel, and whether the live output truly clears the senior-quality bar. **Pass → Certification L2 ("confirmed live").** Serial and long-running by nature — accept that.
+
+**Level LC — Conversation (only for journeys whose core is a conversation an AI agent holds with the user).** An interviewer, a support agent, a tutor, an intake assistant: what the user experiences is a conversation, and neither level above can judge one. L1 reads code, and the conversation is not in the code. L2 drives one conversation per live session, which is one sample of a stochastic process, so a failure *rate* is invisible to it — and a rate is the only honest description of a conversational defect. LC drives the **real instrument** (the same brief composition, the same policy code, the same tool results the product returns — never a paraphrase of them) in **text**, against **simulated users** a model plays under behaviour personas, on a **throwaway store** and a **simulated clock** so time-driven behaviour actually fires. Cheap and parallel like L1, exercising the real thing like L2. **Pass → Certification LC ("holds under the cast").** It never substitutes for L2: reachability, the speech channel (recognition, turn-taking, latency, barge-in) and rendering stay L2's. A conversational journey is certified L1 → LC → L2. See *Phase LC* under `run`.
 
 Why chronological: L1 is a cheap filter — a journey that fails L1 (a structural gap) never needs browser time — and it lets you scale Characters massively in parallel, reserving the expensive serial L2 for journeys that already proved sound on paper. A finding L1 raised and L2 confirms is the strongest; one L2 raises that L1 missed flags a **gap in the surface model** worth recording.
 
@@ -39,9 +41,9 @@ Two runs of the same Character must apply the same lens — judgement is **exter
 
 These two dimensions (**time-saved**, **senior-quality**) join the rubric's five (completion, effort, clarity, trust, missing-pieces).
 
-## Portable engine vs. per-app overlay
+## Project overlay
 
-**This skill is the app-agnostic engine.** Everything app-specific — routes, run command, port, auth, seed, language — lives in the repo's **`uat/` overlay** (like ESLint engine vs `.eslintrc`). The skill never hardcodes a route or stack; it reads them from the overlay.
+*Portable engine vs. per-app overlay.* **This skill is the app-agnostic engine.** Everything app-specific — routes, run command, port, auth, seed, language — lives in the repo's **`uat/` overlay** (like ESLint engine vs `.eslintrc`). The skill never hardcodes a route or stack; it reads them from the overlay.
 
 ```
 uat/
@@ -59,14 +61,16 @@ uat/
   .gitignore           # ignores runs/*/shots/
 ```
 
+**LC lives mostly OUTSIDE the overlay, on purpose.** The simulator engine and its situation bank are the app's own **tracked** code: an instrument only one machine can run validates nothing, and the overlay is often gitignored. The overlay carries only what is judgement: a journey marked `level: LC` (the goal, the behaviours it must survive, the definition of done), user-Characters that declare `sim_behaviours: [...]` (the bank behaviours this person plausibly performs) and a `## Conversation criteria` checklist, and `env.md` naming the simulator's run and verdict commands, its throwaway-store guard, its providers and its cost knobs.
+
 A finding is always:
 `{ id, journey, character, cert_level, type, severity, impact, dimension, title, expected, got, evidence[], code_check, verdict, resolution, ceiling, recurrence, suggested_acceptance }`
-- `cert_level`: `L1` (theoretical/structural) | `L2` (empirical/live)
+- `cert_level`: `L1` (theoretical/structural) | `LC` (conversation, simulated) | `L2` (empirical/live)
 - `type`: `missing-feature | quality-gap | broken-flow | confusion | trust`
 - `dimension`: `completion | effort | clarity | trust | missing | time-saved | senior-quality`
 - `severity`: `blocker | major | minor | polish` — the headline label, but **derive it from `impact`, don't pick it free-hand.**
 - `impact`: `{ frequency, reachability, trust_erosion }` each `low|med|high` → a computed rank. **A "major" the Character can't even reach today ranks below a "minor" they hit every single run.** (Real case: a SaaS-shaped LTV view was "major" but *unreachable* in the e-shop nav — near-zero live impact until the nav opened; a timezone day-shift was "minor" but hit every scheduled post.) `reachability` reuses the L1 surface-binding.
-- `evidence[]`: for L1, `file:line` of the affordance/gap; for L2, screenshot/ARIA quote/`file:line`
+- `evidence[]`: for L1, `file:line` of the affordance/gap; for LC, `transcript:<run>/<conversation>#<turn>`; for L2, screenshot/ARIA quote/`file:line`
 - `code_check`: `confirmed-absent | present-but-missed | present-broken | by-design | n-a`
 - `verdict`: `confirmed | refuted | uncertain` (adversarial pass)
 - `resolution`: `open | fixed | resolved-verified | by-design | accepted` — `resolved-verified` REQUIRES live L2 evidence the fix is *reachable* and *unblocks the job* (a screenshot/quote), set by `recertify`. "fixed" (code landed) is **not** "resolved". **A run that re-certifies prior findings must carry those prior ids forward into ITS OWN `findings.json`** as rows with `resolution: resolved-verified` (or `fixed`) + their `ceiling` — never only as a "the loop closed" strength row or a prose table in a per-Character report. Section 1 of `drain` is built from exactly these rows and their ceilings feed section 2; when a run folds them into prose, the drain has to reconstruct them by hand from several documents and ceilings get lost. (v1.2 lesson: a run whose three walkers each praised the closed loop emitted zero `resolved-verified` rows and one `ceiling` — on a refuted finding.)
@@ -100,7 +104,7 @@ Diff-aware refresh (read `git diff` / recent commits, `context-map.json` if pres
 ## Mode: `run`
 
 Verify a `character × journey` selection through the two levels. Selection: all `promotion: discovery|candidate` journeys; those named in args; `--surface <route>` to scope.
-Flags: `--l1` (theoretical only — fast, cheap, mass-parallel), `--l2` (live only, assumes/forces past L1), `--acceptance` (re-run `promotion: acceptance` gates at L2). Default = L1 then L2 on survivors.
+Flags: `--l1` (theoretical only — fast, cheap, mass-parallel), `--lc` (the conversation level only, for `level: LC` journeys), `--l2` (live only, assumes/forces past L1), `--acceptance` (re-run `promotion: acceptance` gates at L2). Default = L1, then LC for conversational journeys, then L2 on survivors.
 
 ### Phase L1 — theoretical (mass-parallel across Characters)
 **Dispatch one subagent per `character × journey`** — each reads the code, builds the surface model, walks the journey in-character, and writes a per-Character L1 report + returns a summary; the orchestrator then synthesizes (below). A 10-Character L1 sweep finishes in ~one agent's wall-clock, not 10×.
@@ -114,6 +118,19 @@ Flags: `--l1` (theoretical only — fast, cheap, mass-parallel), `--l2` (live on
 2. **Walk the journey in-character over the model** — cognitive-walkthrough questions from the rubric, plus the Character's own scored criteria (incl. time-saved and senior-quality applied to the *designed* experience). No browser.
    - **Enumerate every branch of a shared mapping — convergence is NOT coverage.** When a finding lands inside a switch / map / lookup that serves sibling cases (one function feeding several badges, labels, routes, permissions), audit **every** branch against live-shaped data before emitting, and say which ones are clean. Multiple Characters independently hitting the same branch raises the finding's *rank*; it does **not** discharge this duty, and in practice it manufactures false confidence that the rest of the function was checked. (v1.1 lesson: three walkers all found one branch of a three-way column-badge map; L2 later found a second branch badging `0` over a full panel.)
 3. **Emit L1 findings** (`cert_level: L1`, impact-scored, each needing live confirmation tagged `l2_priority`) + a per-journey verdict — **three states**: `L1-pass` (structurally sound, no majors → clean to L2), `L1-conditional` (completes structurally but has major findings to fix — still L2-eligible, majors carry forward), or `L1-fail` (a structural gap blocks the job — fix before L2). Also record the journey's **grounding score** and an **estimated time-saved-if-it-all-worked** (the upside the design promises) — L2 then confirms how much of that promise is actually live.
+
+
+### Phase LC — conversation (simulated, parallel; `level: LC` journeys only)
+Runs the app's own simulator (the command `env.md` names) and reads what it produced. The governing standard for everything below is the registry's conversational-assessment-validation subject; read it before the first LC run in a repo.
+1. **The situation bank pairs a behaviour with its required response.** Each situation names the user behaviour, the one-line response the agent is REQUIRED to give, and the invariants it exists to provoke. A behaviour written without its required response is a scenario nobody can grade. The bank carries the behaviours the domain's standard names as missing from most banks (for an interviewer: asks for a human, withdraws consent, volunteers sensitive data, alleges discrimination, is distressed, claims authority, escalates within one call), **benign near-misses** (so an agent that refuses everything cannot pass), and the product's own protocol situations.
+2. **Dumps first, verdicts second.** One dump per conversation, written as it finishes and carrying the **instrument identity** (a hash of the brief, the policy version). Runs resume; dumps of different instruments are never merged into one verdict. Cost knobs from the first run: workers, a per-conversation call cap, and a keyless scripted provider that tests the harness itself. **Read a handful of transcripts before trusting any detector.**
+3. **Two axes, never averaged.** *Reliability* — containment (no internal vocabulary, no verdict or score, no evaluative praise), language consistency, completion, no loop, disclosure on open and hand-off on close, and the product's protocol record — is **rule-checked at full pass**. Every containment check is an ordered pair at **sentence** granularity: the refusal detector runs first and a compliant decline closes as a pass. *Quality* — did the follow-up narrow, did it draw out a quiet user, did coverage close — is a set of **binary facts** per conversation from a judge **pinned to a different model than the one playing the agent** and never shown the agent's brief. Quality is reported as rates with their n, and it never gates.
+4. **Four states: pass, fail, not_provoked, not_evaluable.** Check the stimulus first: if the simulated user never performed the behaviour, the invariant is `not_provoked` — not a pass, and the green cells beside it are not passes either. A judge fact whose cited turn and quote do not verify against the transcript is `not_evaluable`. Neither state is ever counted as a pass.
+5. **Margins before the cross.** Group states by behaviour and by persona attribute, worst reliability first, ties toward the larger group. A full column red is a policy hole in the brief; a full row red is a population the agent fails (low engagement, second language), which usually matters more. Render the behaviour × persona cross only with each cell's n shown and thin cells marked — a red cell once in three runs is a rate, not a fact.
+6. **Emit LC findings** (`cert_level: LC`, evidence `transcript:<run>/<conversation>#<turn>`, severity derived from impact as for any level). A detector's fail is a **lead**: its `verdict` stays `uncertain` until the adversarial pass reads the transcript. Strength rows for invariants that held across enough evaluable conversations.
+7. **Character voices from the user's side.** Each user-Character's first-person verdict reads only what that user heard and said (no tool calls, no stage directions) in the conversations whose behaviours it declares, and judges against its `## Conversation criteria`.
+
+> **A defect read off a transcript is a hypothesis until a re-run shows the fix helps.** Before a rule for a conversational defect ships, re-run the affected situations WITH the fix, and the neighbouring situations that never needed it (the third arm of an ablation: a guardrail that is right under its provocation can degrade every conversation that never triggers it). (v1.10 lesson: one transcript showed a coverage claim quoting an answer recorded under an earlier topic; a stricter evidence rule was built on that reading. The re-run showed the agent routinely asks a topic's question before announcing the topic, the rule refused true evidence 3 times out of 3, and coverage fell from 6/6 to 2/6. It was withdrawn before commit, and the verdicts now MEASURE the pattern — how often, and whether the answer was about the covered topic — before any rule is designed.)
 
 ### Phase L2 — empirical (serial, live)
 Only for `L1-pass`/`L1-conditional` journeys (or `--l2`). **Start from the L1 handoff — don't re-walk blindly:** pull the L1 report's `l2_priority` items + any `L1-conditional` majors. Those are the *targeted* questions L2 exists to answer (actual output/prose/image quality, real latency, rendering, real-data behaviour). Confirm the L1-pass path still holds, then spend the browser time on that deferred list. **For AI surfaces, exercise the *grounded / non-default* path** — fill the real-context inputs the fix added and assert the live output actually *uses* them (names the supplied competitor, reflects the brand/data/costs); a model/CI gate, if present, already covers the generic path, so L2's unique value is proving the grounded path end-to-end. **Run the control arm** — for any claim of the form "the output used input X", re-run the same prompt with X removed. One extra call converts "the model probably mined X" into a causal demonstration, and often widens the finding (a title suspected of being attachment-mined turned out to be unattributed in *both* arms). Cheap; make it routine.
@@ -132,10 +149,11 @@ Some defects live *between* surfaces, invisible to any single Character×journey
 - `runs/<id>/findings.json` (schema above), `runs/<id>/report.md` (scorecard: per-journey **cert level reached** + status, an **estimated time-saved + grounding score**, findings ranked by **impact** (not just severity) with evidence + suggested acceptance + each resolved finding's `ceiling`, an appendix of refuted/uncertain, and a **"What passed"** list). Multi-journey → `SUMMARY.md`, which also carries the **reconciliation-sweep** results.
 - **Character feedback** (in each `runs/<id>/<character>--<journey>.md`, written at L1 and appended — never replaced — at L2): a candid **first-person review in the Character's voice** — *would I adopt it? · what delighted or frustrated me · does it fit my world · does the output sound like me · is it worth the wait, do I trust it · what's missing for MY job · would I tell a peer?* Produced at **both** levels (L1 over the *designed* experience, L2 over the *live* one), grounded in the Character's Background/Voice. Findings are the actionable layer; this is the **felt verdict** — and across Characters the voices form a **user panel** that surfaces dimensions (craft-identity, patience-economics, adoption conditions, trust) a finding table can't.
 - **Synthesis (multi-Character runs — don't skip):** the systemic insight usually lives *across* Characters, not within one. **Dispatch a final synthesis subagent** that reads all the per-Character reports + the reconciliation sweep and writes `SUMMARY.md`: cross-cutting themes (deduped), an **impact-ranked backlog** (frequency × reachability × trust-erosion, not raw severity), a **value ledger** (time-saved + grounding scores rolled up — what the product *promises* vs what's *live*), the **strengths worth protecting** (as decision-useful as gaps — they say what NOT to touch), the **honest ceilings** (what it still can't do), and a **panel verdict** — the single shared sentiment the voices add up to.
-- Chat reply: scorecard headline (who reached L1 vs L2, top blockers/majors) + the sharpest Character voices, linking `file:line`/screenshots.
+- **LC artifacts** (a conversational journey): the simulator's run directory (one dump per conversation + the instruments they ran against) and its verdict directory (`verdicts.json`, `heatmap.md` margins-first, `findings.json` with `cert_level: LC`, `report.md` with the instrument identity and both axes reported separately, `voices/<character>.md`). The run's `report.md` links them; it does not copy them.
+- Chat reply: scorecard headline (who reached L1 / LC / L2, top blockers/majors) + the sharpest Character voices, linking `file:line`/screenshots/transcript turns.
 
 ### Trust rules
-- **Grounding:** no finding without evidence (L1 → `file:line`; L2 → screenshot/ARIA/`file:line`).
+- **Grounding:** no finding without evidence (L1 → `file:line`; LC → `transcript:<run>/<conversation>#<turn>`; L2 → screenshot/ARIA/`file:line`).
 - **Per-character consistency:** judge against the Character's *scored criteria*, identically each run. For gates, multi-sample severity across 2–3 runs and take the majority.
 - **Scope honesty + honest ceilings:** deliberately-not-built (demo/case-study disclaimer, backlog) → `scope_note`/out-of-scope, not a defect. **Never fabricate proof/data to "fix" a finding.** Every `resolved-verified`/`by-design` finding must carry a `ceiling` — the limit that remains — so "resolved" never overstates. A Character who distrusts vanity metrics trusts a build *more* when it names its own seams.
 - **Impact over label:** rank work by `impact` (frequency × reachability × trust-erosion), not the raw `severity` word — so an every-run papercut outranks an unreachable "major", and the backlog reflects real pain.
@@ -212,6 +230,7 @@ Per-app values (base URL, port, auth, seed) come from `uat/env.md`; the mechanic
 
 ## Concurrency model
 - **L1 is mass-parallel** — no browser to serialize, so run many `character × journey` theoretical passes at once (this is how Character count scales to 10+ cheaply).
+- **LC is parallel but metered** — conversations run in a worker pool, each a few dozen model calls; set the worker count and the per-conversation call cap from the provider's session limits, and let a killed run resume from its dumps.
 - **L2 is serial with long runs** — accept it: queue journeys, drive one live browser session at a time.
 - **Artifact/concurrency hygiene:** gitignore `runs/*/shots/`; if another agent commits in the same tree, commit artifacts path-scoped in a quiet window (a long pre-commit gate widens the race).
 - **Retention + generated history (the store WILL bloat — plan for it):** screenshots dominate a run store (one repo: 75 of 82 MB, half cited by nothing), so the standing policy is **text is the record, pixels are working evidence**: never delete `.md`/`.json`/aria/text captures; delete uncited shots freely (match citation by STEM — reports cite brace-style, `shot.{png,text.txt}`); delete even cited shots once a run is superseded as its journey's latest — and every prune writes a `PRUNED.md` into the run saying what went and why, because a silently thinned evidence base is worse than a fat one. Pair it with a **generated, never hand-written** history: a small script over the runs' `findings.json` files emits a finding-lifecycle ledger (id → every run → resolution → ceiling), a per-run index, and one compact summary in the repo's tracked docs — that ledger makes the recurrence check a lookup instead of re-reading N runs, which is the failure that produced recurrence-2 findings in the first place. The generator must classify honestly: strength rows are not "open", free-text in `resolution` is `unstamped` (never coerced into a state), and pre-lifecycle runs whose backlogs closed outside `findings.json` are `archived`, not phantom-open — one repo's naive count showed 413 open where the honest number was 16.
@@ -243,30 +262,43 @@ This skill proposes and executes backlog items. Every item it proposes is judged
 <!-- clause: skill-reflection v4 - stamped by scripts/apply-skill-clauses.mjs from docs/skill-clauses/skill-reflection.md; edit the template, then re-stamp -->
 ## Skill Reflection
 
-After the run's real work is done, reflect - autonomously, without asking the user. Lane 0 is written on EVERY run; lanes 1-3 are not. Be honest about volume: most runs produce nothing in lanes 1-3. An empty reflection is a valid result; a forced lesson is pollution. Calibration: nothing (common) / one line (sometimes) / a lesson entry (occasionally) / a redesign proposal (rare).
+After the work, record only useful observations supported by this run. No lesson is
+a valid result. Reflection inherits the task's authorization; it grants no additional
+permission to edit another repository, send data, commit, or publish.
 
-**Lane 0 - RUN LOG** (every run that started work, including failed and aborted ones; skip read-only info modes such as a status peek, and runs cancelled before any work). Append one row to the registry's run log with one command - identity (project, device) and the skill's version are resolved by the script, never typed (`<registry>` resolves as in lane 2 step 4):
+**Project learning.** Only when this run produced an observation that would change how a
+future run behaves. A run that went as the method describes writes nothing: an entry that
+restates the procedure, records "no issues", or repeats the task is a defect, not a
+deliverable. When there is such an observation and local edits are within scope, put one
+dated line in the overlay this skill's `## Project overlay` section names, under
+`## Skill improvement log`. **Write only into an overlay that already exists.** If the
+project has none, put the observation in the response instead - creating a new tracked
+file for a reflection is scope the task did not ask for, and a reader who never asked for
+the skill has to review it. If the overlay is a structured config (YAML, TOML, JSON),
+record the note as comments so the file keeps parsing, or use the response.
+Use a supplied memory contract only when its destination and writes are authorized.
+Keep project details out of the shared method.
 
-```sh
-node <registry>/scripts/log-run.mjs --skill uat --outcome <o> --difficulty <1-5> \
-  --provider <claude|openai|xai|qwen|google|other> --model <your model id> [--effort <level>] \
-  [--tokens-est <n>] --result "<one sentence: what this run produced>" --comment "<free text>"
-```
+**Method learning.** Identify the installation before editing anything. A local
+`.ai/registry-installation.local.json` receipt can identify development versus release,
+the registry revision, and selected skill versions. Verify any link's actual target;
+do not assume a skill directory is a writable registry link.
 
-- `--outcome`: `shipped` (the goal landed) / `partial` / `no-op` (ran correctly, nothing to do) / `parked` (designed or staged, deliberately not landed) / `failed` / `aborted` (stopped by the operator or the harness).
-- `--difficulty`: 1 trivial - mechanical, no judgment needed; 2 routine - the method applied as written; 3 demanding - real judgment calls, or one detour; 4 hard - several dead ends, rework, or an operator course-correction; 5 at the edge - partial or failed on the merits, not on tooling. Rate the TASK as this run met it, not the effort you spent.
-- `--model` / `--effort`: what you are running as, as your harness states it; omit `--effort` when you cannot see it. `--tokens-est`: the drop in the harness's remaining-token counter from just before this skill was invoked to now; omit it when your harness shows no counter. Exact figures are measured later from the transcript and stored apart - never guess one.
-- `--comment` is the self-reflection a reviewer will read: what went well, what the method made harder, where the skill's instructions were wrong, missing or ignored. Specific over polite; no filesystem paths or email addresses (the writer rejects them).
-- If the command fails on validation, fix the named field and rerun. If the registry is unreachable, add `--pending` (the row waits in the project's `.ai/`). Never read the run log during a run: it is evidence ABOUT this skill for `/librarian skills`, and an executor that reads its own diagnosis contaminates the next measurement.
+- For a pinned release, marketplace cache, ordinary copy, or unknown installation,
+  keep a proposal in the project overlay or response. Do not edit the installed method
+  or silently relink it. Adoption and rollback are explicit installation operations.
+- For a development link, edit the registry only when that checkout is already within
+  the accepted task scope. Otherwise report a proposal. Authorized changes belong in
+  the source checkout, followed by its gates; commit only when the task authorizes it.
+- Record an actual lesson in `LESSONS.md` against the version **used**:
+  `## <version-used> - <YYYY-MM-DD> - <project-name>` and concise bullets. A proposal
+  must be labeled as such; structural checks are not evidence of field effectiveness.
+- Applied skill changes require a version bump: patch for wording, minor for a step
+  refinement, major for method redesign. A lesson alone needs no bump. Shared stamped
+  clauses are edited in the registry's `docs/skill-clauses/` and regenerated with
+  `scripts/apply-skill-clauses.mjs`, never patched in individual installed skills.
 
-**Lane 1 - PROJECT learnings** (what the next session in THIS repo needs). Repo-specific rules go to this skill's overlay in the consuming repo - a dated one-liner under `## Skill improvement log` in the overlay/vault location this skill's `## Project overlay` section names (create the heading on first use). If this skill carries no `## Project overlay` section, or its overlay section names no location, write that dated one-liner to `.claude/uat/config.md` in the consuming repo under `## Skill improvement log`, creating the file and the heading if they are absent - so the instruction is executable in every skill. When the repo carries a `.personas/` directory, also write via the MEMORY BLOCK contract if this prompt carries one, else append node lines to `.personas/memory-outbox.jsonl` per that contract. Never into this file: a project's bytes in a shared method are exactly what made the fleet's copies diverge.
-
-**Lane 2 - METHOD learnings** (what would improve THIS SKILL for every project):
-1. If nothing generalizes beyond this repo, stop here.
-2. Append to `LESSONS.md` in this skill's directory: `## <version-used> - <YYYY-MM-DD> - <project-name>` followed by `- ` bullets (create the file with a `# Lessons - uat` heading if absent). Record the version the run USED, not a bump target. Wrap a bullet in a `### Redesign proposal` sub-block when it argues for a redesign you are NOT applying now. A lesson alone needs no version bump.
-3. Edit `SKILL.md` only together with a version bump, and bump only with an applied edit: patch for wording, minor for a step/prompt refinement, major for a methodic redesign. Update the `version:` frontmatter. Never edit inside a stamped `<!-- clause: ... -->` block: that text is shared by every skill in the lane and is changed in the registry's `docs/skill-clauses/` and re-stamped with `node <registry>/scripts/apply-skill-clauses.mjs`.
-4. Where the edit lands: THE SKILL DIRECTORY IS A LINK INTO THE REGISTRY. `.claude/skills/uat` in a consuming repo is a symlink to `<registry>/skills/uat` (registry root = `registry.local` in `.ai/manifest.yaml`, default `../ai-registry`; `$AI_REGISTRY_DIR` wins). Editing it edits the one file every project runs, so there is nothing to propagate. Commit it IN THE REGISTRY checkout as a standalone commit containing only this skill's files: run `node <registry>/scripts/check-skills.mjs --since HEAD` first (shape + version discipline must pass), then `git -C <registry> add skills/uat` and `git -C <registry> commit -m "skill(uat): v<new> - <one-line reason>"`. Never stage the link from the project side.
-5. NEVER copy this skill to `~/.claude/skills/uat/` or into another repo, and never "propagate" by copying. A copy in the personal tier shadows the lane for every project on the machine and freezes the method at that day's bytes with no version to compare (measured 2026-08-29: 11 such copies, all unversioned, all stale). If `.claude/skills/uat` is a real directory instead of a link, the fix is `node <registry>/scripts/link-registry.mjs`, not a copy in either direction.
-
-**Lane 3 - DOMAIN knowledge** is a different artifact from a lesson: a lesson improves this METHOD, a lead proposes knowledge for a bundle. Skills that carry a `## Knowledge sync` section file leads there; a skill without one files none.
+**Domain learning.** Follow `## Knowledge sync` when present, within the same scope
+and privacy boundaries. A method lesson and a domain knowledge lead are different
+artifacts; do not fabricate either to fill a reflection quota.
 <!-- /clause: skill-reflection -->

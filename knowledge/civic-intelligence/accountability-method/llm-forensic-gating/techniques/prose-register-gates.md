@@ -29,8 +29,8 @@ deterministically.
 ## Procedure
 
 1. **Enumerate the jargon classes structurally, not as a token blacklist
-   alone.** Internal identifiers have decidable shapes the reader's language
-   does not produce: camel-case and snake-case tokens, property-value
+   alone.** Internal identifiers often have recognizable shapes that can also appear
+   legitimately in reader-facing prose: camel-case and snake-case tokens, property-value
    fragments ("flagged: false"), store addresses and cache paths, batch and
    pass references. Shape rules catch the class; named-token rules catch the
    residuals shapes cannot. Three batches of token-by-token whack-a-mole
@@ -94,3 +94,14 @@ honest; silent translation is repair, and repaired prose is prose nobody
 wrote. And accept the gate's stated limit: it bounds register, not truth — a
 polished, reader-language, jargon-free fabrication sails through, which is
 exactly why the reference sweep and citation gates run beside it.
+
+## Heuristics and public context
+
+Shape rules and stopword classifiers are deterministic heuristics, not complete
+language or privacy checks. Names, quoted sources, short text and mixed-language
+passages need an unknown/manual path and measured false-positive coverage.
+Legitimate brand names can contain camelCase. A retained original is evidence
+of what was produced, not ground truth. Keep public population and sampling
+limitations visible even when replacing internal batch jargon. A rewrite or
+translation is an attributed new version that must be revalidated, not an
+automatic repair hidden behind the gate.

@@ -12,6 +12,7 @@ techniques:
   - permission-manifest-scoping
   - archive-extraction-safety
   - unsafe-deserialization-off-by-default
+  - reading-is-not-running
   - update-automation-review
   - toolchain-floor-drift
   - vendored-fork-ledger
@@ -19,6 +20,7 @@ techniques:
   - signature-preserving-patching
   - build-time-dependency-tier
   - review-attestation-ledger
+  - one-version-decays-to-a-floor
 ---
 
 # Supply-chain & secret hygiene
@@ -323,6 +325,10 @@ are [scheduled-deep-analysis](./techniques/scheduled-deep-analysis.md).
   committed per-version review records, delta certification, pooled
   imports under declared trust, and the unread import that renders as
   coverage.
+- [one-version-decays-to-a-floor](./techniques/one-version-decays-to-a-floor.md)
+  - a coordinated upgrade as an event rather than a state, why equality has no
+  owner and a floor does, the resolution record over the declaration, and the
+  cross-checkout floor query that outlives the sweep.
 - [scheduled-deep-analysis](./techniques/scheduled-deep-analysis.md) — what
   belongs on the scheduled rung, liveness of recurring jobs, and routing
   findings to an owner.
@@ -332,6 +338,9 @@ are [scheduled-deep-analysis](./techniques/scheduled-deep-analysis.md).
 - [archive-extraction-safety](./techniques/archive-extraction-safety.md) —
   traversal containment, decompression budgets, quarantine-then-promote,
   and the inventory of extraction sites.
+- [reading-is-not-running](./techniques/reading-is-not-running.md) — a read
+  verb stays a read: parse before evaluating, execute only an approved digest
+  over the local import closure, refuse loudly on change.
 - [update-automation-review](./techniques/update-automation-review.md) —
   reading the changelog before the merge button, risk tiers, lockfile-diff
   review, and measuring the exposure window.
