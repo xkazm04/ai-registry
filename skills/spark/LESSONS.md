@@ -136,3 +136,8 @@ Phase 4's `### Work packages` schema should carry a doc-ownership field alongsid
 - Phase 2 scout rule to add: for a "route everything through one door" design, the door inventory must name the SPAWN PRIMITIVE each door calls, not just the command — one door (the Dev runner) spawned the process directly and was not a registry session at all; it surfaced only while writing the adoption brief, after the go-gate.
 - Builders on a multi-hour run die at the session usage limit at a predictable point (their last gate); three of five did here, and every one resumed cleanly from its transcript because the handoff-first rule held. Worth stating in Phase 5 as expected, not exceptional.
 - A ratchet gate's bulk re-baseline (`--update`) can absorb a rise among many drops; the Director's review of the reconcile diff must be BY RULE, comparing each baseline against the base commit, before the commit that carries it.
+
+## 1.3.2 - 2026-09-21 - personas
+- Phase 2 scouts for a design with a loop (reject/retry/resume) must trace re-entry: idempotency markers left by the first pass and preconditions on the re-dispatch door. Both were missed here and caught only by builders.
+- When the design needs a notification or pop-up surface, the scout inventories the app's existing global surfaces of that kind, so "reuse X" can be offered as an option instead of arriving as an operator override.
+- A contest variant of the loop (N competitors, one of them an external CLI) worked with no dedicated skill: one worktree per competitor, one brief with the path substituted, each variant held to the host's exact props, then an in-memory switcher. Worth codifying as a /contest skill if a third run repeats it.
