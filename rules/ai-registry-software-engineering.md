@@ -1,6 +1,6 @@
 # Software engineering - the subjects this registry carries
 
-`software-engineering` - 228 subjects, 1692 techniques, 1018 applications.
+`software-engineering` - 230 subjects, 1704 techniques, 1023 applications.
 Slugs only; resolve one through `index.json` as the access rule beside this file describes.
 
 ### ui-surfaces
@@ -22,7 +22,7 @@ Slugs only; resolve one through `index.json` as the access rule beside this file
 
 ### backend-platform
 - **data-layer** - bounded-enumeration, data-access, embedded-db, migrations, read-serving-replicas, sync-replication, transactions-over-a-replicated-log
-- **data-pipeline-semantics** - deferred-operation-fusion, deterministic-prefix-caching, keyed-sample-transforms, reversible-transform-pipelines, self-describing-data-envelopes
+- **data-pipeline-semantics** - deferred-operation-fusion, deterministic-prefix-caching, index-free-random-access, keyed-sample-transforms, reversible-transform-pipelines, self-describing-data-envelopes
 - **inference-serving** - cross-instance-cache-lease, paged-block-cache, persistent-batch-mutation, serving-process-topology
 - **language-runtime** - embedded-tracing-collector, engine-binding-surface, engine-host-contract, engine-string-representation, guest-execution-bounding, guest-language-introspection, native-guest-interop, object-shape-representation, register-bytecode-execution, standards-layered-runtime
 - **model-workflow-contracts** - accumulate-then-aggregate-metrics, declarative-object-graph-configs, federated-client-contracts, generated-workflow-candidates, self-describing-model-packages, windowed-inference-over-oversized-inputs, workflow-property-contracts
@@ -49,7 +49,7 @@ Slugs only; resolve one through `index.json` as the access rule beside this file
 - **external-systems** - cicd-monitoring, connector-catalog, templates-scaffolding
 
 ### engineering-process
-- **build-and-release** - build-economics, codegen, packaging, release-pipeline, test-harness, test-input-generation
+- **build-and-release** - build-economics, codegen, packaging, release-pipeline, test-harness, test-input-generation, vendored-patch-stack
 - **codebase-stewardship** - codebase-scanning, concurrent-vcs, dead-code, dependency-declaration, docs-sync, machine-authored-documentation, module-design, repository-landing-document
 - **continuous-integration** - ci-execution-trust, deployment-contract, machine-paced-delivery, pipeline-authoring, runner-fleet
 - **standards-and-gates** - invariant-placement, knowledge-registry, metric-gates, multi-project, quality-gates, repo-manifest-standard

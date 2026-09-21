@@ -5490,7 +5490,7 @@
    "file": "knowledge/software-engineering/engineering-process/build-and-release/codegen/codegen.md",
    "digest": "sha256:e69d756a575b31ce",
    "revision": 6,
-   "changedAt": "2026-09-09",
+   "changedAt": "2026-09-21",
    "techniques": [
     {
      "slug": "commit-vs-derive-policy",
@@ -15740,7 +15740,7 @@
    "file": "knowledge/software-engineering/backend-platform/data-pipeline-semantics/index-free-random-access/index-free-random-access.md",
    "digest": "sha256:89644138393711ee",
    "revision": 1,
-   "changedAt": "2026-09-09",
+   "changedAt": "2026-09-21",
    "techniques": [
     {
      "slug": "conservation-sweep-over-a-partition-parameter",

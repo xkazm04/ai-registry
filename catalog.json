@@ -323,10 +323,10 @@
     },
     {
       "name": "project-populate",
-      "version": "1.2.2",
+      "version": "1.2.3",
       "category": "workflow",
       "path": "skills/project-populate/SKILL.md",
-      "contentHash": "sha256-n1:97ef82607bbc3dd1",
+      "contentHash": "sha256-n1:aabef7ee95b1f788",
       "adopters": [
         "ascent@plugin:1.0.0",
         "kp@plugin:1.0.0",
@@ -420,9 +420,9 @@
         "personas@plugin:1.0.0"
       ],
       "invokes30d": 6,
-      "lessons": 18,
+      "lessons": 21,
       "lessonsPath": "skills/spark/LESSONS.md",
-      "lessonsHash": "sha256-n1:a9a898626fd39255",
+      "lessonsHash": "sha256-n1:1d1bfd21d66a1456",
       "usageContributors": [
         "kazda-dev-box"
       ]
@@ -647,7 +647,7 @@
     "skills": 31,
     "practices": 8,
     "memory": 6,
-    "lessons": 181
+    "lessons": 184
   },
   "bundles": [
     {
@@ -748,11 +748,11 @@
       "okfVersion": "0.1",
       "profile": "rkb/0.1",
       "purity": "software",
-      "subjects": 228,
-      "techniques": 1692,
-      "applications": 1018,
-      "files": 2943,
-      "contentHash": "sha256:7368b77fcb4e5756"
+      "subjects": 230,
+      "techniques": 1704,
+      "applications": 1023,
+      "files": 2962,
+      "contentHash": "sha256:0acec40f32141290"
     }
   ]
 }
