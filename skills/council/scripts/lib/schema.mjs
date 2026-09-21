@@ -13,6 +13,7 @@
 import {
   OUTCOMES, DIMENSION_STATES, DIMENSION_KINDS, TRUST_STATES, CONFIDENCES, SEVERITIES,
   HARD_FAILURE_CODES, PROOFS, SUBJECT_KINDS, SCORING_STATES,
+  SCENARIO_STATES, SCENARIO_PROOFS,
 } from './aggregate.mjs';
 
 export const SCHEMA_VERSION = 1;
@@ -91,6 +92,49 @@ export function validateResult(doc) {
         if (!PROOFS.includes(t?.proof)) fail(`${name}: technique ${t?.technique}: proof must be one of ${PROOFS.join(', ')}`);
       }
       if (d?.delta !== null && typeof d?.delta !== 'number') fail(`${name}: delta must be a number or null`);
+    }
+  }
+
+  // scenarios + envelope - optional, and optional TOGETHER. `schema_version` stays 1: an
+  // absent array means no scenarios were measured, which a consumer of the old contract
+  // reads correctly by ignoring a key it does not know.
+  if (doc.scenarios !== undefined) {
+    if (doc.subject?.kind !== 'use_case') fail('scenarios: only a use_case subject may carry scenarios - a redesign has no user branches of its own');
+    if (!Array.isArray(doc.scenarios)) fail('scenarios must be an array when present');
+    else {
+      const seen = new Set();
+      for (const s of doc.scenarios) {
+        const slug = isStr(s?.slug) ? s.slug : '<unnamed>';
+        if (!isStr(s?.slug)) fail('scenarios: an entry has no slug');
+        else if (seen.has(slug)) fail(`scenarios: ${slug} appears twice`);
+        seen.add(slug);
+        if (!isStr(s?.title)) fail(`scenarios: ${slug}: title is required`);
+        if (!s?.axes || typeof s.axes !== 'object' || Array.isArray(s.axes)) fail(`scenarios: ${slug}: axes must be a flat object`);
+        else for (const [k, v] of Object.entries(s.axes)) if (typeof v !== 'string') fail(`scenarios: ${slug}: axis ${k} must be a string`);
+        if (!SCENARIO_STATES.includes(s?.state)) fail(`scenarios: ${slug}: state must be one of ${SCENARIO_STATES.join(', ')}`);
+        if (s?.state === 'measured') {
+          if (!isNum01(s.score)) fail(`scenarios: ${slug}: a measured scenario needs a score in 0..1`);
+        } else if (s?.score !== null) {
+          fail(`scenarios: ${slug}: an unmeasured scenario must carry score null - never a zero`);
+        }
+        if (!CONFIDENCES.includes(s?.confidence)) fail(`scenarios: ${slug}: confidence must be one of ${CONFIDENCES.join(', ')}`);
+        if (s?.n !== null && !(Number.isInteger(s?.n) && s.n >= 1)) fail(`scenarios: ${slug}: n must be an integer >= 1 or null`);
+        if (!SCENARIO_PROOFS.includes(s?.proof)) fail(`scenarios: ${slug}: proof must be one of ${SCENARIO_PROOFS.join(', ')}`);
+        if (typeof s?.summary !== 'string') fail(`scenarios: ${slug}: summary must be a string`);
+      }
+    }
+    if (doc.envelope === undefined) fail('scenarios without an envelope: the per-scenario view and the envelope are written together');
+  } else if (doc.envelope !== undefined) {
+    fail('envelope without scenarios: an envelope with nothing behind it is a claim about branches nobody listed');
+  }
+  if (doc.envelope !== undefined) {
+    const keys = ['holds', 'weak', 'unmeasured', 'out_of_scope', 'proposed'];
+    if (!doc.envelope || typeof doc.envelope !== 'object' || Array.isArray(doc.envelope)) fail('envelope must be an object');
+    else {
+      for (const k of keys) {
+        if (!Array.isArray(doc.envelope[k]) || doc.envelope[k].some((x) => !isStr(x))) fail(`envelope.${k} must be an array of slugs`);
+      }
+      for (const k of Object.keys(doc.envelope)) if (!keys.includes(k)) fail(`envelope: unknown bucket ${k}`);
     }
   }
 

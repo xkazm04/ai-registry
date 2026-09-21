@@ -28,7 +28,7 @@
  * Usage:
  *   node council.mjs receipt   --root <dir> --paths <a,b,...> [--head <sha>] [--out <file>]
  *   node council.mjs drift     --prior <receipt.json> --current <receipt.json>
- *   node council.mjs aggregate --run-dir <dir> [--rubric <file>] [--trust-state <s>] [--round <n>]
+ *   node council.mjs aggregate --run-dir <dir> [--rubric <file>] [--trust-state <s>] [--round <n>] [--state <state.json>]
  *   node council.mjs validate  --result <result.json>
  *
  * Every subcommand prints JSON on stdout and human notes on stderr, so it composes.
@@ -124,7 +124,26 @@ if (cmd === 'aggregate') {
   const trustState = flag('trust-state') ?? started.trust_state ?? 'uncalibrated';
   const roundNo = Number(flag('round') ?? started.round_no ?? 1);
 
-  const agg = aggregate(rubric, verdicts, { trustState, roundNo, hardFailures, mustAddress: carriedMustAddress });
+  // The DECLARED scenarios come from the product's exported state, never from a member:
+  // --state <state.json> (rows filtered to this subject), else whatever phase 1 copied
+  // into started.json, else none. Absence is tolerated everywhere - a subject that
+  // declares no branches aggregates exactly as it did before scenarios existed.
+  const stateFile = flag('state');
+  let declaredScenarios = Array.isArray(started.scenarios) ? started.scenarios : [];
+  if (stateFile) {
+    if (!fs.existsSync(stateFile)) console.error(`  note: no state file at ${stateFile} - no declared scenarios`);
+    else {
+      const rows = readJson(stateFile)?.scenarios;
+      declaredScenarios = Array.isArray(rows)
+        ? rows.filter((r) => !r?.subject_slug || r.subject_slug === started.subject?.slug)
+        : [];
+      if (!Array.isArray(rows)) console.error('  note: the state file declares no scenarios key - none read');
+    }
+  }
+
+  const agg = aggregate(rubric, verdicts, {
+    trustState, roundNo, hardFailures, mustAddress: carriedMustAddress, scenarios: declaredScenarios,
+  });
   for (const p of agg.problems) console.error(`  problem: ${p}`);
 
   const result = buildResult({
@@ -145,7 +164,11 @@ if (cmd === 'aggregate') {
   const outFile = path.join(dir, 'result.json');
   fs.writeFileSync(outFile, `${JSON.stringify(result, null, 2)}\n`);
   console.error(`  written ${outFile}`);
-  emit({ outcome: result.outcome, overall: result.overall, coverage: result.coverage, must_address: result.must_address, problems });
+  emit({
+    outcome: result.outcome, overall: result.overall, coverage: result.coverage,
+    ...(result.envelope ? { envelope: result.envelope } : {}),
+    must_address: result.must_address, problems,
+  });
   if (problems.length) { console.error(`\nthe result does not validate:\n  - ${problems.join('\n  - ')}`); process.exit(1); }
   process.exit(0);
 }
@@ -163,7 +186,7 @@ console.error(`council: unknown subcommand ${JSON.stringify(cmd ?? '')}
 
   receipt   --root <dir> --paths <a,b,...> [--head <sha>] [--out <file>]
   drift     --prior <receipt.json> --current <receipt.json>
-  aggregate --run-dir <dir> [--rubric <file>] [--trust-state <s>] [--round <n>]
+  aggregate --run-dir <dir> [--rubric <file>] [--trust-state <s>] [--round <n>] [--state <state.json>]
   validate  --result <result.json>
 `);
 process.exit(2);
