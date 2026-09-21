@@ -3,9 +3,9 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
-  "subjects": 228,
-  "techniques": 1692,
-  "applications": 1018,
+  "subjects": 229,
+  "techniques": 1698,
+  "applications": 1019,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1692/1692",
+  "use_when_coverage": "1698/1698",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -15729,9 +15729,9 @@
    "subcategory": "standards-and-gates",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/invariant-placement/invariant-placement.md",
-   "digest": "sha256:79063c2976d10b8c",
-   "revision": 4,
-   "changedAt": "2026-09-05",
+   "digest": "sha256:7d3b130f66d4c45f",
+   "revision": 5,
+   "changedAt": "2026-09-09",
    "techniques": [
     {
      "slug": "build-time-evaluation-of-cross-value-invariants",
@@ -15840,6 +15840,23 @@
      ]
     },
     {
+     "slug": "repairing-check-erases-its-evidence",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "count-carries-predicate",
+      "absent-guard-is-loud"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a guard repairs a value instead of refusing it",
+      "deciding what a test may assert about a clamped or saturating output",
+      "a defensive clamp has never fired and nobody can prove it",
+      "an assertion is written over the range a value is coerced into",
+      "choosing between refusing and coercing at the call-site altitude"
+     ]
+    },
+    {
      "slug": "shape-with-a-not-applicable-member",
      "status": "forged",
      "laws": [
@@ -15857,6 +15874,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "rust",
+     "technique": "repairing-check-erases-its-evidence",
+     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/invariant-placement/applications/rust--repairing-check-erases-its-evidence.md",
+     "verified_on": "2026-09-07",
+     "verified_against": "rust@1.96.1"
+    },
     {
      "stack": "rust",
      "technique": "shape-with-a-not-applicable-member",
@@ -33355,6 +33379,94 @@
     }
    ]
   },
+  "vendored-patch-stack": {
+   "category": "engineering-process",
+   "subcategory": "build-and-release",
+   "status": "forged",
+   "file": "knowledge/software-engineering/engineering-process/build-and-release/vendored-patch-stack/vendored-patch-stack.md",
+   "digest": "sha256:9103690a148b10ab",
+   "revision": 1,
+   "changedAt": "2026-09-09",
+   "techniques": [
+    {
+     "slug": "collapse-patch-axes-that-share-hunks",
+     "status": "forged",
+     "laws": [
+      "identity-survives-reuse",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing how to split a patch set into files",
+      "a rejected hunk cannot be attributed to one local change",
+      "patches in the set conflict with each other and not only with upstream",
+      "a patch set has grouped changes by feature and bumps keep getting worse"
+     ]
+    },
+    {
+     "slug": "least-invasive-carrier",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "absent-guard-is-loud"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding how a local change should be carried against a third-party tree",
+      "an upstream bump is producing more conflicts every release",
+      "someone proposes replacing an upstream source file with a modified copy",
+      "a local override stopped taking effect and nothing reported it"
+     ]
+    },
+    {
+     "slug": "one-reset-authority",
+     "status": "forged",
+     "laws": [
+      "creation-names-reaper",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a vendored upstream tree is also a version-control checkout",
+      "deciding what a clean build of a patched third-party tree means",
+      "a build failed in a way that only re-extracting the upstream tree fixed",
+      "a maintainer wiped a vendored tree and lost work or an expensive download"
+     ]
+    },
+    {
+     "slug": "patch-set-authority",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "derivation-names-recomputation",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether the patched tree or the patch files are the source of truth",
+      "a regenerated patch turned out to be missing part of the change",
+      "someone hand-edited a diff to make it apply",
+      "an upstream bump found the tree and the patch set describing different divergence"
+     ]
+    },
+    {
+     "slug": "reject-triage-is-a-port-not-a-merge",
+     "status": "forged",
+     "laws": [
+      "verdict-survives-boundary",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an upstream bump left hunks that no longer apply",
+      "deciding what to do with a rejected patch fragment",
+      "a patch reported as applied landed somewhere unintended",
+      "triaging an upstream bump where the code a patch targeted has been refactored away"
+     ]
+    }
+   ],
+   "applications": []
+  },
   "versioning-snapshots": {
    "category": "operations",
    "subcategory": "governance-and-records",
@@ -35030,6 +35142,9 @@
     "usage-analytics/activation-and-funnel-honesty",
     "usage-analytics/coverage-from-registries",
     "usage-event-ingestion/ingestion-contract-parity",
+    "vendored-patch-stack/least-invasive-carrier",
+    "vendored-patch-stack/patch-set-authority",
+    "vendored-patch-stack/reject-triage-is-a-port-not-a-merge",
     "versioning-snapshots/promotion-lifecycle",
     "versioning-snapshots/snapshot-scope",
     "voice-io/duplex-agent-sessions",
@@ -35296,6 +35411,7 @@
     "import-normalization/import-validation",
     "import-normalization/lossy-conversion-disclosure",
     "invariant-placement/constraint-deletion-is-silent",
+    "invariant-placement/repairing-check-erases-its-evidence",
     "invariant-placement/shape-with-a-not-applicable-member",
     "ipc-contract/call-wrapping",
     "ipc-contract/command-registration",
@@ -35920,6 +36036,7 @@
     "i18n/encoding-corruption-ratchet",
     "import-normalization/adapter-capability-tables",
     "import-normalization/lossy-conversion-disclosure",
+    "invariant-placement/repairing-check-erases-its-evidence",
     "ipc-contract/casing-and-naming",
     "job-coordination/job-observability",
     "job-coordination/no-wall-clock-in-the-advance-contract",
@@ -36879,6 +36996,7 @@
     "usage-aggregation-semantics/replayed-state-machine-count",
     "usage-analytics/event-taxonomy",
     "usage-event-ingestion/dedupe-key-survives-soft-delete",
+    "vendored-patch-stack/collapse-patch-axes-that-share-hunks",
     "versioning-snapshots/lineage-and-variants",
     "versioning-snapshots/version-identity",
     "voice-io/authored-voice-identity",
@@ -37158,6 +37276,7 @@
     "untrusted-extension-host/declared-schema-extension-storage",
     "untrusted-extension-host/per-callback-failure-policy",
     "usage-analytics/batching-and-quota",
+    "vendored-patch-stack/one-reset-authority",
     "versioning-snapshots/retention-and-pruning",
     "voice-io/stt-pipeline",
     "voice-io/transcript-handoff-receipts",
@@ -37566,6 +37685,9 @@
     "usage-event-ingestion/ingestion-contract-parity",
     "usage-pricing-models/grouping-key-reruns-the-ladder",
     "usage-pricing-models/inferred-tier-boundary-convention",
+    "vendored-patch-stack/collapse-patch-axes-that-share-hunks",
+    "vendored-patch-stack/one-reset-authority",
+    "vendored-patch-stack/patch-set-authority",
     "versioning-snapshots/promotion-lifecycle",
     "versioning-snapshots/version-identity",
     "voice-io/duplex-agent-sessions",
@@ -37822,6 +37944,7 @@
     "usage-event-ingestion/late-event-subscription-resolution",
     "usage-pricing-models/exact-money-with-one-rounding-boundary",
     "usage-pricing-models/inferred-tier-boundary-convention",
+    "vendored-patch-stack/patch-set-authority",
     "voice-io/authored-voice-identity",
     "voice-io/render-acceptance",
     "voice-io/tts-pipeline",
@@ -37929,6 +38052,7 @@
     "untrusted-extension-host/per-callback-failure-policy",
     "usage-event-ingestion/late-event-subscription-resolution",
     "usage-pricing-models/advance-billing-refuses-retroactive-models",
+    "vendored-patch-stack/reject-triage-is-a-port-not-a-merge",
     "voice-io/decode-time-vocabulary-biasing",
     "voice-io/portable-provider-package",
     "voice-io/speech-ready-text",
@@ -38074,6 +38198,7 @@
     "invariant-placement/derived-properties-cannot-be-forged",
     "invariant-placement/initialization-proof-tokens",
     "invariant-placement/placement-precedes-gate",
+    "invariant-placement/repairing-check-erases-its-evidence",
     "issuance-policy-ladder/require-one-constraint",
     "issuance-policy-ladder/verbatim-is-a-separate-privilege",
     "keyed-sample-transforms/missing-key-policy",
@@ -38156,6 +38281,7 @@
     "untrusted-extension-host/safe-mode-registration",
     "untrusted-extension-host/two-tier-extension-format",
     "usage-pricing-models/advance-billing-refuses-retroactive-models",
+    "vendored-patch-stack/least-invasive-carrier",
     "voice-io/render-acceptance",
     "voice-io/unattended-caller-attribution",
     "watch-cache-and-resync/completeness-barrier-with-a-warm-queue",
