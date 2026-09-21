@@ -132,8 +132,13 @@ comparison probably uses `git ls-files`, so untracked-but-real files land in the
 numerator.
 
 **Which files a context may own.** The ingest filter accepts hand-written CODE:
-`ts tsx js jsx mjs cjs py go java kt swift c cpp cc h hpp cs rb php scala lua ex
-exs vue svelte sql css scss` (case-insensitive). It rejects generated/vendored
+`rs ts tsx js jsx mjs cjs py go java kt swift c cpp cc h hpp cs rb php scala lua ex
+exs vue svelte sql css scss` (case-insensitive) - the list is `SOURCE_EXTS` in
+`src-tauri/src/commands/infrastructure/context_generation.rs`, and `rs` is the first
+entry in it. This note omitted `rs` until 2026-09-21, which reads as "Rust repositories
+cannot be mapped" - wrong, and expensively so: tracklight and pumper are Rust, their
+maps already own 220 and 114 `.rs` paths, and an operator trusting this list would have
+diagnosed tracklight's 35% coverage as a filter rejection rather than an unfinished sweep. It rejects generated/vendored
 trees (`node_modules`, `target`, `dist`, `build`, `bindings`, `locales`,
 `section-locales`, `coverage`, `__pycache__`, `.venv`, `venv`, `.tox`,
 `site-packages`, any dot-directory) and data/doc formats (`json`, `md`, `toml`,
