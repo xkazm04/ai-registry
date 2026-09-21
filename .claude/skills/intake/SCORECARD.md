@@ -3726,3 +3726,926 @@ said nobody held that ground.
 3. **Extend the never-write-whole rule beyond ledgers.** The method protects shared appends
    with a lock and a re-read, and subject notes need no lock — which is exactly why one was
    overwritten this round. One sentence in Phase 9.
+| 2.7.0 | 2026-09-07 | `youtube:EdCUpP4_8y4` "I Built an Opening Cinematic for My Game Using AI (Full Process)", Building Aeon (**first-party practitioner account in build-walkthrough form**; operator brief `domain media-generation`; 1,080 words, real subtitle track, container checked) | 1 source, read whole; class and expected yield (LOW) said before the table. **0 of 3 fetches - sixteenth consecutive corpus-internal run**; corroboration was code read in a connected tree plus training-data convergence | 12 | 4 scored (2 accepted, 1 lead, 1 promoting read that did not promote), **0 declined**, 7 already covered | **2 amendments + 1 new application + 1 extended application**, in two subjects of one bundle | **2 rows of 2 owed: 0c/1e/1s/0t** | **1** (gravity `577524b`, ledger `5a8550e`) | **Focus (round 36) on all three points.** (1) Subjects claimed by the address `research-map` printed and the pre-write check compared the same strings - clear, but 0 siblings were live for the whole run, so the item passed trivially and still has not been *tested*; it needs a run with live siblings. (2) **The caught-arm pre-check was written before arm one and it is why the confirmation counts**: had the near-still clip measured at the frozen floor, the finding would have inverted into a boundary on the directive rather than on the judge. It measured 0.210 against 0.000, the judge had called it "frozen", and the instrument's blindness became the landing's second half. Fifth consecutive round of seam-to-falsify; v2.7 already carries it as a step. (3) No fetch needed, so the young-release rule did not apply - stated rather than skipped. Round 35's premise hunt fired again: the larger landing is an enumeration whose members all silently share a premise (every rung makes a generation). **Both landings are amendments and that is the right shape for this source**: a mechanism boundary (rung zero) and a channel boundary (the zero-beat performer), each appended with every standing sentence true; a video is not a system and no subject was implied. **The strongest fact came from the connected tree's own recorded cycles, not from the source** - the harness that tests the corpus's motion rules had penalised a clip that quoted one of them, and the recorded webm files were a paired experiment already run, waiting for a ruler. Ship 1 of 2 with the reason for the zero stated: the rung-zero field cannot be added before the renderer that would read it | `subjects=0 / techniques=0 / amendments=2 / apps-vs-source=0 (2 fleet apps: 1 new, 1 extended) / task-lines=0`; routing count n/a (video); no handoff; `auto=2/1/0` `fp=0`; `directions=n/a` |
+| 2.7.0 | 2026-09-07 | `github:debpalash/VoiceStudio` @`9790d289` - a fully-local voice studio over ~15 swappable TTS/ASR engines (**repository**, single-owner, vendor/first-party boundary) | 1 source, cloned and swept in yield order (admission contract, standing rules, 405 test files, ADRs, longform specs); README read last. **The ratio is the class finding: 3,383 words on the landing page against 341,468 in-tree** - a hundred to one, the largest single spec five times the whole README. **0 of 3 fetches - seventeenth consecutive corpus-internal run**; corroboration was code read in the source tree and in ours | 12 | 1 scored and accepted, **0 declined**, 4 already covered, 6 untriaged with anchors, 1 lead | **1 amendment**, to `quality-gates/gate-liveness` | **1 of 1 owed: 1c/0e/0s/0t** | **2**, both into this registry's own tooling (`run-board.mjs`, `check-skills.mjs`) | **Focus (round 37) on both points.** (1) Read the connected tree's recorded state before the source - applied in the form the domain allowed: this is not media-generation and has no cycle archive, so the analogue was aiming the falsifying seam at *our own checkers* rather than at the source's, and that is what produced the apply row. (2) **The board-address item, open two rounds for want of a live sibling, finally executed - and it failed.** `run-board`'s `touches` compared raw tokens while `norm`'s docstring claimed a fold it never implemented, so Phase 4's slug claims and Phase 7's path checks have never met: three of four realistic pairs reported `clear`, including the documented workflow. Every collision check against a held subject has been a false all-clear for the life of the board. Fixed, paired 1/4 -> 4/4, self-asserting on every invocation. **The item is now closed, and it closed red** | `subjects=0 / techniques=0 / amendments=1 / apps-vs-source=0 / task-lines=0`; **routing count 1-2 (per system), no handoff** - the mechanical XL trigger would have fired on three clauses of one admission bar and been wrong; `auto=1/0/0` `fp=0`; `directions=n/a` |
+
+| 2.7.0 | 2026-09-07 | `youtube:oBCAYESUmZ8` "Can Claude Fable Build a Medieval House Interior?", Building Aeon (**first-party practitioner account in build-walkthrough form**; 2,666 words, real subtitle track, container checked) | 1 source, read whole; class and expected yield (**LOW**) said before the table | 12 | 4 scored (1 escalated `E4` and forged, 3 catches), **0 declined**, 7 untriaged with anchors | **1 new SUBJECT + 6 techniques** (`imported-material-conformance`), forged in session by one worker | **1 row of 1 owed: 0c/0e/0s/0t - `unapplied`, measured not assumed** | **0** | **The calibration miss is the finding about the run.** Expected yield was LOW and the source WAS low: the video did not carry a subject, **the corpus's own boundary statements did**, and the video was only what made anyone read them. A modest technique candidate was drafted into two homes and disqualified by both in their own closing sentences, leaving four neighbours and no owner. The **enumeration hunt** supplied the argument: `unit-convention-at-the-engine-edge` asserts the edge disagrees about *"two things at once"*, both errors **round** - and the third disagreement is **not round**, which is precisely why it survives, because that technique's own diagnostic is blind to it. Extending it would have falsified a standing sentence: **the v2.5 rewrite test did the routing**, telling the run the finding was too big to be a paragraph before any human did. **1 of 3 fetches** (first non-zero in seventeen runs) turned recollection into normative fact and **explained the source better than the source did** - "washed out" and "shiny" are two different convention failures, and the creator's fixer script is the conversion edge written after the import instead of inside it. Ship 0 with the reason stated: no fleet project has an asset import edge, and that absence was measured with an instrument asserted against a known positive, whose single hit turned out to be an *audio* prompt containing "metallic" | `subjects=1 / techniques=6 / amendments=0 / apps-vs-source=0 / task-lines=0`; routing count n/a (video, no design record); no handoff (forged in session); `auto=0/0/1` `fp=0`; `directions=n/a` |
+| 2.7.0 | 2026-09-08 | `youtube:StX3eflYq_o` "10+ Seedance 2.5 Prompts You Need To Try", Dan Kieft (**second-hand practitioner review** — a sponsored demo of another vendor's release; 4,203 words, real caption track, container checked) | 1 source, read whole; class and expected yield (**LOW**) said before the table | 14 | 2 accepted, **0 declined**, 7 catches, 4 untriaged with anchors, 1 lead | **1 currency reset + 1 amendment** (`video-assembly/generated-shot-sourcing`) | **1 row of 1 owed: 0c/0e/0s/0t — `unmeasurable`, instrument named** | **0** | **The class predicted the run and the run came in on it.** A sponsored demo states no operating constraints, and the six-sentence operating half carried every candidate worth having; the segment the demo was proudest of — "first try, almost perfectly" — is immediately followed by four prop-continuity defects the creator enumerates himself, which is the class's second rule firing on schedule. **The run's method finding is that the admission score cannot express a currency row**: a clock reset caps at GAIN 1, so even with a primary fetched in-run it scores +1 against a +2 threshold and is auto-rejected *by construction*, while the corroboration table says in plain words that a source may authorize a currency signal alone. The table governs; the score is for rows targeting the upper layers. That settles the debt the last scorecard named, and it was found by executing the row rather than by reading the method. **The declared focus's rewrite test did real work, in the negative direction this time**: the finding does NOT falsify a standing sentence, because the technique's rule was written cap-agnostic and survives the cap moving — only the *number* went stale, and the number lives in the dated application. So an append, not a subject, said deliberately. **2 of 3 fetches**, and both returned relays that contradict each other on resolution and reference count; recorded as a conflict rather than resolved by majority, because relays are downstream of one announcement and their agreement is not corroboration. **The apply row is the best part and it is a refutation.** The seam was chosen to falsify — the consuming tree's shot decomposition literally computes `holdS = beatS / n` — with a caught outcome defined in advance, and it was caught twice: a measured `FLOOR_S` already caps the count before dividing (clamp reachable in **1 of 400** probed pairs, known-positive asserted), and the tree derives beat counts from a script clock rather than letting an author enumerate them. The corrective is what that tree already is, reached independently. The refutation was worth more than a pass: **it relocated the exposure from long durations to the enumerating surface**, and the return condition became a shape instead of a number. Ship 0 for the third row running, stated in **source-selection** per the declared focus: no managed project has a generative video path, and that zero cannot be fixed by trying harder | `subjects=0 / techniques=0 / amendments=1 / apps-vs-source=0 / task-lines=0`; routing count n/a (video, no design record); no handoff; `auto=2/4/0` `fp=0`; `directions=n/a` |
+| 2.7.0 | 2026-09-08 | `github:spotify/portal-ai-plugins` @`3c24ca30` - Spotify Portal AI Plugins (**vendor repository**, small: six CLI-wrapping skills, three host manifests, one real mechanism `shunt`; operator brief "is this worth adopting across the fleet at skill or CLAUDE.md level") | 1 source, cloned and swept in yield order (hooks and transport library first, evals, manifests, READMEs last); 485 landing words against 3,753 in-tree markdown plus ~600 lines of hook/eval code. Class and expected yield (LOW on claims, ONE mechanism) said before the table. **1 of 3 fetches** - the harness memory doc, spent to settle a negative fact about the source's own bridge; corroboration otherwise corpus-internal plus code read in the clone and in a connected tree. **Design record written, two systems, routing count 0/0, no handoff** | 9 | 3 scored and accepted, **0 declined**, 4 already covered, 1 lead, 1 untriaged (the source's own number, corrected in the note) | **1 amendment** (`enforcement-demotion` → procedures), **1 application appended + `verified_on` moved** (`claude-code--single-source-topology`, negative), **1 new application** (`claude-code--elision-to-a-refetch-pointer`, paired proof), **1 instrument** (`scripts/measure-large-reads.mjs`) | **2 of 2 owed: 2c/0e/0s/0t**, both `better`; the source's own shape measured `not-better` on every project | **1** (personas ca95c49e3: `guard-whole-read.mjs` + 15-case table + committed hook wiring) | **Focus (round 37) applied, and it decided the run**: the connected tree's recorded state - 30 days of session transcripts - was read before the source's claim was believed, and it inverted the source's axis (size → class). The operator's question was answered by measurement: adopt the topology (already have it, done better), reject the size hook, ship the class guard per project. `auto=3/0/0 fp=0`. `directions=0/0` - the source's forces are in no project's scope | `subjects=0 / techniques=0 / amendments=1 / apps-vs-source=1 (negative, appended) / task-lines=0`; routing count 0 per system, no handoff - correct for a small vendor repo whose one mechanism the corpus already contradicted |
+| 2.7.0 | 2026-09-08 | operator dispatch: `anthropics/claude-code` CHANGELOG 2.1.198..2.1.263 (**vendor release log**, 66 versions, 2026-07-01..09-06; no dates in the log - bounded via the package registry's publish times) | 1 source, 34,743 words in the window, three reader workers one slice each (60 rows), two fetches (the log via curl, the permissions reference) | 16 (consolidated from 60) | 3 scored and accepted, **0 declined**, 7 already covered, 2 leads, 4 untriaged (two rejected by score alone, both promoting questions executed) | **1 technique** (`agent-instruction-files/inherited-default-ownership`), **1 amendment** (`hook-hygiene`: the agent may not take the bypass), **1 application** (`claude-code--sibling-floor-ownership`, a fleet replay), **1 currency move** (`context-reset-redelivery` app 2.1.252 -> 2.1.263) | **3 of 3 owed: 2c/1e/0s/0t**; two `better` on paired arms (n=1 each, both chosen to falsify, both decisive), one `unmeasurable` with the instrument named | **1** (kp 8fa6a693: four deny rules + hook path + one policy line, in-tree probe refused) | **Focus applied and it produced the run's largest measurement**: the replay over 1,792 fleet transcripts (193 skills loaded, 28 invoked) - after its first instrument returned a confident zero from a key mismatch, caught by listing the directory from a different layer. Auto=3/2/0, fp=0 | `subjects=0 / techniques=1 / amendments=1 / apps-vs-source=1 (fleet, unmeasurable) / task-lines=0`; routing count n/a (not a repository); `directions=0/2` (CI-as-delivery-only and user-scope deny rules recorded, not proposed); `gate=n/a` |
+| 2.7.0 | 2026-09-08 | `web:microsoft.ai/news/mai-transcribe-2` — a vendor's own release post for a hosted speech-recognition model (**vendor release announcement**) | 1 source, ~600 words of prose behind a **331 KB container** the ingest reported as `words: 999` — site chrome plus a base64 data-URI iframe of the language table; the confidently-large container failure, caught at Phase 2 and routed around. **0 of 3 fetches** — the source *was* the vendor surface, so round 40's focus item (3) was satisfied by construction | 10 | 1 scored and accepted (`auto=1/0/0`, `fp=0`), 2 admitted under the corroboration table without scoring (currency), **0 declined**, 2 already covered, 3 leads, 4 untriaged | **1 technique** — `voice-io/engine-choice-on-decisive-terms`, closing a missing **stage zero**: `on-device-vs-cloud` carries a quality-ceiling axis with *no measurement* and a re-evaluation trigger ("a better small model ships") that cannot fire without one, while 16 techniques covered everything downstream of *having* an engine and nothing owned choosing one | 1 (`experiment`, `ab-paired`, **better**) | 0 | **Ship 0 with a reason that is a routing fact, not effort**: the only change identified is an engine-adapter seam in kp's harness, which is a **direction** (it creates a capability the harness's scope does not name) and is precisely the decision the operator asked to be *advised* on. No design record exists, so the formal direction pass is `n/a` and the recommendation was delivered in the response. **Focus moved on all three items**: (3) met by construction; (2) the caught outcome was defined before the arm ran and the seam *was* partly caught — kp already implements the metric, three weeks early — with the finding surviving in altered form; (1) **the currency-row method debt is settled** — the corroboration table governs a clock reset, not Phase 5's score, which rejects every one by construction (GAIN 1 vs a +2 threshold) | 0S/1T/0A/0Asrc/0task-lines · routing count `n/a` (not a repository) · handoff none · `directions=n/a` |
+| 2.8.0 | 2026-09-08 | `github:Anil-matcha/awesome-gpt-6-astra` — a curated use-case list for one vendor's successor model (**second-hand practitioner listicle relaying vendor docs**, community-relay tail) | 1 source; 3,921 landing / 4,969 in-tree, five files, the README is the tree. Not a reference index (42 links over ~5,000 words, 33 to ten vendor pages). **3 of 3 fetches, all on the vendor's own surface** — round 40's item (3), applied by choice this time rather than by construction | 13 | 2 scored and accepted (`auto=2/0/0`, `fp=0`), 1 currency fact admitted under the table with **no clock to reset** (no application names this vendor's current models; no fleet project calls it), **0 declined**, 6 already covered, 3 leads, 3 untriaged | **2 amendments**, both boundaries where a vendor sentence contradicted a technique's premise and both written from the primary: `cache-continuity` gains *where the provider keys the effort* (three shapes; the vendor's in-band item is paid for in compaction), `instruction-freshness` gains *the reader can change while the file does not* (model successor as a coupling trigger, converged across two vendors). 2 applications (`claude-code--cache-continuity` ab-paired; `process--instruction-freshness` simulation on recorded events) | **2 of 2** — `1e/0c/1s/1t` (the experiment and the task are one finding; the simulation is the other) | **0 — seam exists, owner's next step**: personas fleet wake drops `--model`/`--effort`; sized task committed in the project (f27ea0764), first step owed to `/intake apply` | Ship zero is the *second* kind (seam exists, sized, not built) — tagged as such per round 41's item (2). Focus item (1), **target density**, was applied before ingest: five landing subjects at 11-17 techniques each, and two of thirteen rows landed where thin ground would have produced catches. The falsifying seam ran and **measured the other shape**: a $0.10 paired headless run showed the fleet's harness keys effort in the system layer (9,415 rewritten on a flip, 6.1x), so the vendor's "preserves the cache" is a property of its API and not of effort — the technique's rule survives with a per-provider clause | S0/T0/A2/Asrc0/task-lines 0 (plan only); routing count 0 (a document); handoff n/a; `directions=n/a` |
+| 2.8.0 | 2026-09-08 | `github:MartinDelophy/awesome-gpt-6-astra` - sixteen browser games built with one model and the site that renders them (**reference index whose references are games**; the yield was the site, a small first-party system) | 1 source; 2,301 landing / 4,364 in-tree of substance, clone swept, 27 tests read as the failure taxonomy. Wave lane correctly NOT run: a reference here is a demo URL, not a document. **1 of 3 fetches** (RFC 9111, the primary behind row 1); the rest corroborated corpus-internally and in a connected tree | 12 | 2 scored and accepted (`auto=2/0/0`, `fp=0`), 1 currency row and 1 source-tree application admitted under the table, **0 declined**, 5 already covered, 3 untriaged (one under V5 - a live sibling held the home), 2 leads | **2 boundary amendments, both converged rather than authored**: `outcome-branched-cache` gains *a served-from-cache response advises with its remaining lifetime* (RFC 9111 `Age` arithmetic; bounded at content-addressed entries), `swr-design` gains *what counts as a failed revalidation* (unrecognisable body = failure, explicit empty writes through, cold-start snapshot keeps its own stamp under `fallback`). 1 source-tree application (`node--swr-design`, ab-paired in the source's own harness). **1 currency row found by the seam search, not the source**: ascent removed its badge feature 2026-08-29 and three applications cited it as live - all three dated with the historical commit | **2 of 2** - `1c/0e/1s/0t`. The simulation is structural and `unmeasurable` with the instrument named (no fleet route memoizes a lifetime-bearing value behind `s-maxage`) | **1** - tracklight `4199407`, code, ab-paired, 43/43; the seam documented the opposite choice as deliberate and the boundary that survived (ENOENT) is the amendment's own sentence | Ship-zero on the second row is of the **first kind** (no seam in the fleet). Focus: loaded round 41 (density) - both landings sat in a 10- and a 7-technique subject; round 42 landed mid-run from the sibling and item (1) did not apply (no relay contradicted a technique; both landings were boundaries the primaries agreed with) | S/T/A/Asrc/task = 0/0/2/1/0; routing count 0 (one system, two partials, four catches); no handoff; `directions=0/0`; `gate=skipped` |
+| 2.8.0 | 2026-09-09 | `github:AlexsJones/llmfit` @ `1e7bdb3e` — a **commit delta** over a tree mined six days earlier (**repository re-scan**, `docs/upstream-brief.md` lane) | 1 source; 2 commits, 54 files, +1790/−10, of which **51 changed lines of Rust** are the entire non-data delta. Ran only on the operator's hand-over: the lane had it as `moved` / condition **`none`**, because the first scan banked no `rescan_when:`. Swept in reversal order; no operating document changed, no CHANGELOG, README not read. **0 of 3 fetches** (15th consecutive) | 6 | 4 verified (2 scored upper-layer rows, 2 currency rows admitted under the corroboration table) | 1 technique section + 1 technique section & count correction + 1 new source-tree application + 7 citations re-pinned + 1 subject note corrected | **1 code / better / ab-paired** | **2** (tracklight `4e4cad6`; project lead `d398835`) | Focus applied. Expected yield said out loud before the table (**one landing at most plus citation repair**) and the delta matched it — but the prediction was **wrong about the run**: the largest finding came from rule 3, the mandatory citation re-opening, which caught a false count in *our own* first scan (7 impls, not 8). The brief frames rule 3 as "the tree moved under us"; its actual yield here was "we were wrong and the re-read caught it". `auto=2/0/0`, `fp=0` | S0/T0(+2 sections)/A0/Asrc1/task-lines 0 — routing count **0** (a 51-line delta carries no design record), no handoff, `directions=n/a`. Depth note: a delta's shape is not a first scan's, and the honest depth cell for this lane is **citations repaired (7) + corrections landed (1)**, which the current column cannot express |
+| 2.8.0 | 2026-09-09 | `youtube:yRxmdTUh7GU` — a vendor's native tool server over a **single-seat editing application**, run against real long-form projects (**hybrid: second-hand practitioner review + first-party practitioner account**, routed per half) | 1 source; 3,057 words, real subtitle track, container checked. Class split sorted all fifteen rows: **every landing from the operating half, every catch from the demo half**. Expected yield said out loud as LOW-MODERATE before the table and landed there. **1 of 3 fetches**, ending fifteen consecutive corpus-internal runs — spent on the primary for the control surface, exactly what the review class prescribes, and it was the only thing standing between row 1 and rejection | 15 | 2 verified | **1 amendment + 1 technique** (0 declined, 5 already-covered, 5 untriaged, 3 leads, 1 currency fact with no clock) | **2/2 owed** — `1c/0e/1s/0t` | **1** (pumper `531ee02`) | focus item (1) met — filename checked, no collision; item (2) **paid**: the seam hunt refuted a clause of a technique landed forty minutes earlier; item (3) n/a, not a repository | `S0/T1/A1/Asrc0/task0`, routing count **n/a** (a video carries no design record), no handoff, `directions=n/a`, `auto=2/0/0` `fp=0` |
+| 2.8.0 | 2026-09-09 | `youtube:0-kbZa8Dagg` — "a Vox-style explainer with one prompt", Claude Opus 5 + Claude Code + Higgsfield MCP (**practitioner build-walkthrough whose promotional half dominates**: affiliate link to the vendor demonstrated, two community upsells, a prompt pack the video exists to distribute) | 1 source; 4,285 words, ASR `en-orig` track. **The ingest exited 2 and stayed there** — six backoff attempts over ~19 min plus four hand variants all returned 429, because the script's "retry" ran the same command twice. **0 of 3 fetches** (16th consecutive corpus-internal run): every row was decided against the corpus's own text or a connected tree | 8 | 1 verified (the currency row, admitted under the corroboration table); 1 upper-layer row scored and **held by a veto** — `auto=0/0/0`, `fp=0` | **0 landings in the knowledge layer** — 4 already-covered, 1 untriaged, 2 leads, 1 currency, 0 declined. One `scripts/` landing (judgment lane): `research-ingest.mjs` caption retry became a **ladder** of three (format, track, transport) rungs + a `cleanJson3` reader with rolling-ASR dedupe | **0 owed** — Phase 7.5 owes one row per landed technique, correction or amendment, and none landed. Stated rather than skipped | **0 — a third kind**: the seam is real, verified, and inside a boundary this method may not cross (`context-map.json` is on gravity's manifest `neverTouch`; it is generated by the Personas app and a hand edit "is erased by the next scan and, until then, is read as truth by /perfect, /explorer and /uat") | Focus item (1) met — filename checked before writing, no collision. Item (2), **the seam hunt as a second source, produced the run's only verified finding**, and it was about the project rather than the video: `visual-style-locking` joins **no** gravity context while 14 of 20 media-generation subjects do, because of 208 mapped paths `lib/stylePrompt.ts` ("the one compiler"), `lib/themes.ts`, `shotPrompt.ts` and `styles.json` are in **none** — the same hole that produced the recorded `image-prompt-composition` deviation a worker diagnosed 2026-08-29 and nobody acted on. Item (3) n/a (not a repository). The title's "one prompt" was **not** a challenge to the two-block law: the two blocks still exist, the agent authors them | `S0/T0/A0/Asrc0/task0`; routing count **n/a** (a video carries no design record); no handoff; `directions=0/1` (the one candidate is upstream of this repo, not in a fleet tree); `gate=skipped` (no proposals written). Depth note: **the honest depth of this run is an instrument repair**, which the column cannot express — the fix unblocks every future YouTube run in the fleet, and the current cells would score it identically to a run that landed nothing at all |
+| 2.8.0 | 2026-09-09 | `youtube:rjLuHtvrmMo` + `youtube:QzvMFvKdvc4` - two videos on agent-driven video editing from ONE creator (**channel corpus**, the batch sub-class) | 2 sources, 3,140 words, both containers checked. Class read at the ingest's **author field before anything was read**: one voice voids within-batch convergence entirely, so the `src` column carries no corroboration and triage ran on corpus-vs-source novelty. Reference's profile (*amendments and corroborations, never new subjects*) said out loud as LOW - and that is what came in | 11 | 1 verified | **1 technique** (0 declined, 5 already-covered, 3 untriaged, 2 leads) | **1/1 owed** - `0c/1e/0s/0t` | **0** - the tree was already right; ship-0 of the "tree is ahead" kind, not the "no seam" kind | focus (1) **fired for the second consecutive round** - the apply step refuted the landing and the landing was corrected in-run; focus (2) **paid**: the budget was checked at Phase 5 and the one fetch is the only reason the row cleared threshold; focus (3) **produced the landing** - it came from an enumeration in the corpus, not from either video | `S0/T1/A0/Asrc1/task0`, routing count **n/a** (videos carry no design record), no handoff, `directions=n/a`, `auto=1/0/0` `fp=0` |
+| 2.8.0 | 2026-09-09 | `youtube:_0wKlt1vHLY` + `github:youtube-jono/seo-agent` @ `a47c1ecd` - a seven-command SEO agent with 76k words of reference specs (**practitioner build-walkthrough, repository form**; transcript unfetchable, the clone was the source) - plus the operator's ask to found a `marketing` domain with systedo-case as consumer | 1 source + 1 consumer tree; 6 read-only scouts (5 over the consumer's 117 contexts, 1 over the clone); 4 director web searches + 2-4 per worker on 22 of 30 subjects - the wave lane, not the run-wide 3 | 10 design decisions (corpus home: none) + 8 source candidates + ~200 fleet anchors | 30 subjects gate-verified by the director (extended purity sweep asserted against 631 known positives in applications; use_when 181/181) | 30 subjects / 181 techniques / 80 applications / 10 laws | 1c (better, ab-paired) + 80 source-tree applications; `auto=0/0/1` (E4 resolved by the operator's invocation), `fp=0` | 1 (systedo-case `cfeec5bc`: manifest declares the domain, keyword-planner default, test, applied row); rule linked | Focus 43 applied: filename checked before the Write; the seam hunt originated the one code apply (a finding neither source had); ranked the tree - the yield was `references/`, which the landing page lists only as a file map. Directions `n/a` (founding consumer: every fleet-map absence is by construction); `gate=skipped` | **S30 / T181 / A0 / Asrc80 / task-lines 0**; routing count 10, corpus 0, **handed off and executed in-session** (forge, cap 10, 3 waves). Depth matched the source: a system-shaped source yielded subjects, not amendments |
+| 2.8.1 | 2026-09-09 | `youtube:ROfZYfCsOYI` - a channel demo of a 3D-plugin release feeding a frontier video model (**second-hand practitioner review**, 879 words) | 1 source, **0 of 3 fetches** - the class predicts corpus-internal corroboration for a source whose every claim already has a home, and it held | 8 candidates (expected yield declared before the table: 1-3 rows, weighted to currency and leads, zero techniques from the prose) | 1 verified; 4 catches, 3 untriaged, 1 lead | **1 amendment** (`video-assembly/motion-plate-library` — when the plate was BUILT, the scene is the asset) **+ 1 application** | **1 of 1** — `0c/1e/0s/0t` | **0 — blocked, not absent**: the code change (a typed move schema plus a renderer) is a **direction**, not coverage, so it waits for its ledger row; the project-side applied row shipped (`851abc8`, not pushed) | **Focus item 1 n/a** (the ingest succeeded; no companion repository to search for). **Item 3 n/a** — this source routes to `media-generation`, not `marketing`; the marketing apply backlog is untouched and still owed. The run's own result: **the seam hunt was the source for the third round running, and this time it refuted the landing's first draft rather than supplementing it.** Going in, the claim was "a prose plate cannot reproduce its render"; the falsifying seam showed the six preset plates pin seed, size, frame rate and engine and therefore *are* reproducible. The corrected claim — reproducible, never **editable** — is what landed, and it is stronger than the one it replaced. `auto=1/0/0`, `fp=0`. | S0/T0/**A1**/Asrc0/task0; routing count n/a (video, not a repository), no handoff; `directions=n/a`; paired arm 6/6 vs 0/6 on n=6 with the instrument asserted against a known positive and a known negative first |
+
+**Funnel read over the last ten rows.** Extract holds at 10-12 candidates per source and
+test at 1-9 scored; landed is 1-2 per run; apply is consistently `N of N owed`; ship is 1
+in nine of ten rows. **Research is still the stage losing most, and this round says
+something sharper about why than "the videos are thin".** The one repository in the last
+ten rows carried 341,468 words of operating documents against a 3,383-word landing page -
+a hundred to one - and produced the round's only two ships. The queue's problem is not
+that sources are short; it is that a 1,000-word video and a 340,000-word tree arrive
+through the same door and are priced the same at Phase 1. The depth column matches each
+source's shape in every row; no routing miss.
+
+**Next run's declared focus (round 38).** (1) **An instrument's docstring is not the
+instrument, and the ones nobody has ever seen fail are the ones to test.** `run-board`'s
+address fold was asserted in a comment, contradicted by the code beneath it, and wrong
+for the entire life of the board - while `normSource` twelve lines above it was correct,
+because it had been fixed twice against real spellings. The discriminator is not code
+quality: it is whether anything ever *observed* the instrument answering. The next run
+that relies on a check whose green it has never watched go red owes one seeded violation
+before trusting it, and the scorecard row says which check. (2) **Aim the falsifying seam
+at our own tooling when the finding is about tooling.** This round's apply row exists
+because the question "does the registry itself have this shape?" was asked instead of
+"does the source's own instance confirm it?" - the first can return a refutation, the
+second can only restate the landing. Round 37's focus said read the connected tree first;
+this is the same rule where the connected tree is the registry. (3) **A mechanical
+trigger counts what it can see, and clauses are not decisions.** The XL trigger would
+have fired on three clauses of one admission bar. It did not, because Phase 2d's
+load-bearing test was applied by hand. If a second run has to make that catch manually,
+the counting rule in Phase 4 needs the word *decision* defined where the trigger is
+stated, not three sections earlier.
+
+---
+
+## Round 38 (this run) - the funnel read, and what the next run owes
+
+**Funnel read.** Extract holds at 12; test at 4 scored. Landed is 1 subject + 6 techniques,
+the first non-amendment landing in four rows and the first subject from a *video* in the
+ledger's history. Apply is 1 of 1 owed but the mode is `unapplied`, and ship is 0 - both
+with stated reasons. The stage the funnel is losing most is still **apply/ship**, and for
+the first time the cause is not a missing arm but a **missing seam class**: the corpus now
+covers a craft the managed fleet does not practise. That is a real result and it should not
+be papered over with a simulation - but it is also the strongest argument yet that the
+source queue and the fleet's own domains have drifted apart. The depth column matches the
+source's shape only if you accept the run's own account of why (a video producing a subject
+is a routing miss on its face; here the subject came from the corpus's boundaries, and the
+row says so).
+
+**Round 38's focus, executed.** (1) *An instrument's green you have never watched go red.*
+Applied twice, and it paid twice: the purity grep over the new subject was asserted against
+a known positive before its zero was trusted, and the fleet seam search was asserted against
+a 71-file control before its single hit was believed - that hit was an audio prompt using
+the word "metallic", so the assertion is the only reason the run did not report a false
+seam. (2) *Aim the falsifying seam at our own tooling.* Not reachable this round: the
+finding is about a 3D import edge and the registry has no such edge; asked and answered
+honestly rather than forced. (3) *A mechanical trigger counts decisions, not clauses.* The
+XL trigger is a repository instrument and this was a video, so it never ran - but the
+substitute that fired is worth naming: **the rewrite test in the admission gate did the
+subject-routing that Phase 2d's count does for repositories.** That is a second, independent
+path to the same escalation, and nobody wrote it down as one.
+
+**Next run's declared focus (round 39).** (1) **When a candidate is disqualified by a
+target's own closing boundary sentence, read the OTHER neighbours' closing sentences before
+concluding anything.** This run found its subject only because the second disqualification
+prompted a third and fourth read; one disqualification looks like a bad guess at a home, two
+looks like a hole, and the difference is three minutes. The next run that gets a placement
+rejected owes the neighbour sweep, and its row says how many closing sentences it read. (2)
+**The rewrite test is a subject detector, not only a gate.** A finding that would falsify a
+standing sentence in its best-fit home is telling you it is a layer; that reading should be
+made deliberately rather than noticed, and the next run that hits `+2 RISK for a rewrite`
+owes one sentence on whether the row is really an XL. (3) **A run whose landing has no seam
+anywhere in the fleet should say so in the SOURCE-SELECTION column, not only in apply.**
+Three consecutive rows now carry stated zeros; this one carries a zero that no future run
+can fix by trying harder, because the fleet does not do this work. That is a queue signal,
+and it belongs where the queue is chosen.
+
+
+**After 2026-09-08 (portal-ai-plugins):** the ten-row read is unchanged - research is still the stage the funnel loses most at, and this row is the second consecutive one where the operator supplied the source. The next run's declared focus stays round 37's item (1), now with a sharper form: **when the source's mechanism is a decision over tool calls, replay it over the recorded transcripts before scoring it** - the replay is cheaper than the triage and it can invert the source's axis.
+
+**After 2026-09-08 (claude-code release log):** the ten-row read moves for the first time in four rows - **research is still the weakest stage, but this row shows the shape that fixes it**: a primary the operator chose, read for defaults rather than features, with the fleet's own transcripts as the corroboration. Apply and ship are `3 of 3` and `1`. The next run's declared focus is unchanged in substance and sharper in form: **when a source is about the harness the fleet runs on, the falsifying seam is a throwaway repository with a local bare remote** - four headless arms cost about a dollar and returned two facts a simulation could not (the -p lane carries the push default; deny is honoured under bypass). And one method debt to settle before the next run: **say which rule governs a currency row** - the score rejects every clock reset by construction while the outcome table lands it on its own.
+
+**After 2026-09-08 (seedance prompt showcase):** the ten-row read is unchanged in name and
+sharper in cause — **research is still the weakest stage**, and this row isolates why in a
+way the previous three could not. Apply is 1 of 1 owed and ship is 0, both with reasons,
+and the ship zero is now three rows old and **not fixable by effort**: the fleet has no
+generative video path, so a media-generation landing has nowhere to ship by construction.
+That is a *queue* fact, and it is recorded in source-selection rather than buried in apply,
+per round 39's item (3). The depth column matches the source's shape exactly — a demo
+yielded a clock reset and one boundary case, which is what the class is reliable for — so
+there is no routing miss to name this time.
+
+**Round 39's focus, executed.** (1) *Read the other neighbours' closing sentences when one
+disqualifies a candidate.* Not reached in that form: no candidate was disqualified by a
+closing sentence this run. The related move that did fire was reading four candidate homes'
+**opening** boundary statements in one pass, which is where this corpus states scope, and
+it settled the run's biggest question — whether anything owns the single-call multi-shot
+clip — in one read instead of four. Worth folding into the focus's wording. (2) *The
+rewrite test is a subject detector.* Executed, and it returned **no**, which is the harder
+and more useful direction: the technique's rule survives the cap moving because it was
+written cap-agnostic, so the row is an append and not a layer. A detector that only ever
+says "yes" is not a detector; this is the first row that records it saying no on purpose.
+(3) *Say a fleet-wide absence in source-selection.* Done, and it is now a standing
+condition rather than a per-run miss.
+
+**Next run's declared focus (round 40).** (1) **Settle currency rows in the method, not
+per run.** The score rejects every clock reset by construction and the corroboration table
+lands it; this run diagnosed that and wrote it down, but `SKILL.md` still reads as though
+Phase 5 governs every row. The next method edit should say which rule governs which shape,
+and until it does, every currency row owes the sentence this one wrote. (2) **Define the
+caught outcome before the falsifying seam runs, and keep the refutation when it fires.**
+The v2.7 pre-check ("if a caught outcome teaches nothing, the arm is theatre") paid here
+for the first time in the *negative*: the arm was caught, the finding survived in altered
+form, and the refutation relocated the exposure — which is a better result than the
+confirmation would have been. Two runs have now converged on the pre-check; a third makes
+it a rule this file carries rather than a lesson. (3) **When a source's whole class is
+"reliable only for that the world moved", spend the fetch on the vendor's own surface
+before the relays.** Two fetches bought two relay tiers and one unresolvable conflict; a
+platform API doc would have bought the numbers outright, and the run knew the class before
+it spent.
+
+**After 2026-09-08 (MAI-Transcribe-2 release post):** the ten-row read is **unchanged in
+name and, for the first time in five rows, not unchanged in cause**. Research is still the
+weakest stage, but this row is the counter-example that sharpens what "weak" means: a
+~600-word vendor announcement — near the bottom of the queue by every length heuristic the
+last four rows used — produced a technique that closed a *stage-zero* hole in a 16-technique
+subject. It did so because the source's yield was never its prose. It was its **feature
+list read as a checklist**, and the checklist's value was entirely a function of what the
+corpus and one connected tree already held. **A thin source aimed at a mature subject can
+outproduce a thick one aimed at nothing**, which means the queue's ranking problem is not
+length and is not class — it is whether the source lands somewhere the corpus is already
+dense enough to have a *shape* the source can be held against.
+
+Two other things this row records. **Ship is 0 for the fourth row running and it is again
+not an effort fact** — but it is a *different* not-effort fact from the last three. Rows 37-39
+had nowhere to ship (no fleet path for the domain); this one has a seam, in a tree the run
+opened and measured, and declines to ship it because the change is a **direction** rather
+than coverage and the operator had explicitly asked to be advised rather than handed it.
+That distinction is worth keeping separate in the ledger: "no seam exists" and "a seam
+exists and the owner decides" are the same zero and opposite situations.
+
+And **the run corrected itself twice, both times against findings that flattered it**, which
+is the pattern the last several rows keep producing and which is now worth naming as a
+standing expectation rather than a per-run surprise: a fleet-wide grep whose flags were
+silently mis-parsed returned five empties that read as a dramatic absence, and a second grep
+concluded a project's degradation probes were built-but-unwired when they are fully wired.
+The first was caught by asserting against a known positive; the second by reading the import
+line instead of trusting the pattern. **The second correction deleted a finding and left the
+fleet ahead of the corpus** — recorded as an already-covered row rather than dropped.
+
+**Next run's declared focus (round 41).** (1) **Rank the queue by target density, not by
+source length or class.** This row is the evidence: the shortest source in ten rows landed
+in the densest subject and produced the round's only technique, while thick sources aimed at
+thin ground produced catches. Before ingesting, ask which subject the source would land in
+and how many techniques it already has; a source pointed at a 16-technique subject is worth
+more than a longer one pointed at a 3-technique one, because only the dense subject has a
+shape to find a hole in. (2) **Separate the two ship-zeros in the row itself.** "No seam
+exists in the fleet" and "a seam exists and shipping it is the owner's call" are both `ship
+0` and should never again read the same in the ledger; this row writes them apart by hand,
+and the scorecard's Ship column should carry the distinction as a tag. (3) **When a vendor
+source's real payload is a capability list, score the list against the fleet's own
+measurement set and publish the unscoreable rows.** That table was this run's most reusable
+artifact and it took minutes: six axes, one scoreable, one partial, four structurally
+unscoreable — and the most valuable row was the axis the product had *already been broken by
+once* and is least able to generate more cases of.
+
+**After 2026-09-08 (awesome-gpt-6-astra):** the ten-row read is unchanged in name —
+research is still the weakest stage, and this is the third consecutive row where the operator
+supplied the source. What this row adds is a shape for the *listicle* class, which the last
+ten rows had treated as the poorest ground: **a vendor sentence relayed by a listicle is
+worth exactly one thing, and it is not the sentence — it is the technique premise the
+sentence contradicts.** Both landings here came from a relay saying something a technique
+denied ("preserves the prompt prefix"; "audit your instruction files at the switch"), the
+primary confirming the vendor's wording, and a paired test on a *different* provider's
+harness showing the wording was a property of one API rather than of the concept. That last
+step is what separated a boundary clause from a false inversion, and it cost ten cents.
+Apply is `2 of 2` and ship is `0` of the second kind — the seam is a schema change in a tree
+with foreign WIP, sized and committed as a task rather than half-built.
+
+**Next run's declared focus (round 42).** (1) **When a relay contradicts a technique,
+test the contradiction on a second provider before writing it in.** Two rows now (this one
+and MAI-Transcribe-2's capability table) got their landing from where the source was *wrong
+for us*, and the cheap paired headless run is the instrument that tells a vendor-specific
+fact from a concept-level one. (2) **A task row owes its first step or its reason, in the
+row.** This run wrote the reason; the next `/intake apply` against personas should take the
+step, and the row should say whether the ~9.4K rewrite went to ~0. (3) **Keep ranking by
+target density** — it held for the second row running: the two landings sat in 12- and
+15-technique subjects, and every catch sat in a subject that already had the sentence.
+
+**After 2026-09-08 (awesome-gpt-6-astra-games):** the ten-row read is unchanged - **research is
+still the weakest stage** - but this row adds a shape to the round-41 density rule that the
+rule did not state: **the densest target may not be where the source points.** The source
+pointed at a game bundle and a curation policy; both were catches. The landings came from a
+900-line website nobody would have queued this repository for, and the row's most reusable
+artifact came from the *apply* step rather than the source at all - a seam search that found
+the corpus's own exemplar removed from its project eleven days earlier, with three
+applications still calling it live. **A currency row can originate at Phase 7.5.** The method
+says a source originates a finding; it should also say the fleet does, whenever the seam hunt
+opens a tree the corpus cites. Apply is `2 of 2`, ship is `1`, and the ship-zero is of the
+first kind (no seam) and says so in the row.
+
+**Two self-corrections, both cheap, both worth naming.** (1) A same-titled repository under a
+different owner passed the ledger's URL check correctly and then **collided on the note
+filename**, overwriting a sibling's committed note for two minutes; restored from HEAD, renamed
+with a discriminating suffix. The slug is derived from the repository name and the collision is
+invisible to every check the method runs - see LESSONS for the proposed rule. (2) A fleet-wide
+`rg` returned twelve empties for the seam search; asserted against a known positive before
+believing it, and the positive failed too - the pattern flag had been consumed as a config
+error. Re-ran with the flag fixed and found the seams.
+
+**Next run's declared focus (round 43).** (1) **Before writing a source note, check the
+filename, not only the URL** - `ls librarian/sources/<date>-<slug>*` costs nothing and the
+collision costs a sibling's commit. (2) **Treat the seam hunt as a second source.** When
+Phase 7.5 opens a tree that the corpus already cites, diff the citations against the tree
+before choosing the seam; a removed feature is a currency row and the run is already
+standing in it. (3) **Keep ranking by target density, but rank the tree, not the title** -
+this row's density was in a subdirectory the landing page never mentions.
+
+
+**After 2026-09-09 (resolve-native-mcp):** the ten-row read is unchanged — **research is
+still the weakest stage**, one source per run against an apply column that is now at or
+near `n/n` in eight of the last ten rows. But this row says something the last three
+closing paragraphs were circling, and it is worth stating as a rule rather than as an
+observation: **the apply step is not downstream of the landing, it is a second reviewer of
+it.** Round 42 found a currency row at Phase 7.5. This run went further — the falsifying
+seam **refuted a clause of a technique that had landed forty minutes earlier**, and the
+corpus was corrected rather than the tree changed.
+
+That is the whole argument for choosing the seam that can falsify, and it now has its
+sharpest instance. `live-wrap.mjs` already held the rule the technique proposed, and held
+it *better*: the technique demanded an unconditional typed refusal on an absent ambient
+reference; the tree refuses only where the absence could change **this** answer, computed
+as a predicate over the target the caller did name. An unconditional refusal would have
+broken the majority of calls. Obligation 3 now carries the sharper form. **`not-better` was
+the most valuable row of the two**, and it produced no commit in the project at all — which
+is exactly what the method says that verdict is for, and the first time this scorecard can
+point at a row where it visibly worked.
+
+One calibration note on the fetch. Fifteen consecutive runs had spent zero fetches, and the
+habit was starting to read as a virtue. It is not: this run's amendment scored **+1, below
+threshold**, blocked on nothing but an unverified account, and one fetch on the primary
+took it to +2 *and* returned the fact that carried the landing (the control surface is
+schema-less **by construction** and cannot be given a dispatch door — stronger than
+anything the video said). The class rule was right and the corpus-internal streak was
+costing rows. Spend the fetch where the class says the fetch is the extraction.
+
+**Next run's declared focus (round 44).** (1) **When the apply step contradicts the landing,
+correct the landing in the same run** — do not bank an amendment against a technique whose
+ink is wet; the run that has both halves loaded is the only cheap place to reconcile them.
+(2) **Check the fetch budget against the source class at Phase 5, not at Phase 9** — a
+review or a listicle that reaches the triage table with 0 of 3 spent should have to justify
+it in the row, because a below-threshold upper-layer row is usually one primary away from
+clearing. (3) **Keep hunting the enumeration, and hunt it in the file you just wrote too** —
+both landings this round came from an enumeration's unstated premise, and so did the
+refutation of one of them.
+
+**After 2026-09-09 (ai-video-editing-channel):** research remains the stage the funnel loses
+most at, but two rows in a row have now moved something the last ten could not, and it is the
+same thing both times: **the apply step is a second reviewer of the landing, and it keeps
+winning.** Round 43's seam refuted a clause of a technique forty minutes old. This round's
+seam refuted the *central arithmetic* of a technique twenty minutes old, and supplied the
+replacement. Both were corrected in-run rather than amended later. That is no longer a
+one-off worth noting - it is two of two, and the third instance should promote it from a
+focus item to a rule in `SKILL.md`.
+
+**The counting note that matters more than the count.** This row's `apply` is `0c/1e/0s/0t`
+and its `ship` is **0**, and read naively that is a weak row. It is not. The seam was the
+only frame-sampling code in the fleet, it was chosen because it could falsify, and it did -
+so shipping into it would have made the tree *worse*. **A ship-0 caused by the tree already
+being right is a different outcome from a ship-0 caused by no seam existing**, and the
+scorecard currently spells them the same way. Both of the last two rounds' most valuable
+results were `not-better`, and neither is legible in the `ship` column.
+
+**A calibration that held.** The channel-corpus sub-class was recognised at the ingest's
+author field, before a word of transcript was read, and its stated yield profile - amendments
+and corroborations, never new subjects - predicted the run exactly: five catches against a
+subject materially ahead of the source, and one landing that came from the corpus's own
+enumeration rather than from either video. Reading the class first is cheap and it was right
+again.
+
+**Next run's declared focus (round 45).** (1) **Split the ship-zero.** Say which of the three
+kinds a zero is - no seam, tree already right, or blocked - in the row itself; a `not-better`
+against a falsifying seam is a result, and the column should stop reading it as a miss.
+(2) **When the corpus asserts a dated capability, that assertion is the thing to fetch
+against** - this round's landing exists because the blocked row's blocker was a sentence *we*
+wrote, not one the source did, and one primary settled it. (3) **Promote the in-run
+correction rule if it fires a third time**: edit the text if it landed this run, amend it if
+it landed in an earlier one.
+
+**After 2026-09-09 (seo-agent, founding the marketing bundle):** the ten-row read is unchanged
+in direction - **research is still the weakest stage** - but this row is the first in the
+series where the source was too *large* rather than too thin: a 76k-word tree the ingest would
+have returned as a 363-word ad, mined by six scouts and thirty workers into a bundle. The
+depth column reads S30/T181 against a routing count of 10 with corpus 0, which is the shape
+the v2 routing section was written to produce and had not produced before. Two mechanical
+corrections in the first wave (a version-string regex, a link depth) cost seven worker
+re-runs; both are now in the wave brief. The one code apply came from the seam hunt, not the
+source, for the third run running.
+
+**Next run's declared focus (round 44).** (1) **When a video's ingest fails, search its title
+for a companion repository before retrying** - for a build-walkthrough the tree is the
+higher-yield half. (2) **Carry the gate's regexes into the wave brief, not only examples** -
+a brief that shows a shape the gate rejects costs one re-run per worker. (3) **Take the first
+`/intake apply` against the marketing bundle from the deviation backlog the source note
+names** (the two-network conversion-value blend first) - a bundle with one applied row is a
+wiki with a good excuse.
+
+**After 2026-09-09 (blender-previs-to-video-reference, round 46):** the ten-row read is
+unchanged - **research is still the weakest stage** - and this row is the clearest case
+yet of why that reading needs a second column. The source was thin, second-hand and
+authorized nothing; on research alone the run is a 1. It still landed, because the
+*seam* was rich: the corpus disagreed with itself in the file the catches all pointed
+at, and the fleet tree disagreed with itself in the same place. Four consecutive rounds
+have now taken their strongest material from the seam hunt rather than the source, which
+starts to look less like a run-level accident and more like a statement about where this
+registry's remaining yield actually lives. **A corpus of 5,251 documents contradicts
+itself more often than an 879-word video says anything new**, and the front of the funnel
+may be weak partly because we keep measuring it against sources rather than against the
+shelf. The depth cell reads S0/T0/A1 with `directions=n/a`, which is the honest shape for
+a video: one amendment, one application, no subject, no handoff. Ship 0 is a *blocked*
+zero and says so - typing a move channel is a direction, and directions wait for a
+ledger row.
+
+**Next run's declared focus (round 46).** (1) **When three or more catches land on one
+document, stop and read that document against its siblings** - this round's only landing
+came from doing it, and a catch cluster is the one signal `research-map` structurally
+cannot produce, because it scores two conflicting files identically. (2) **Before
+believing a total empty from the map on an ordinary domain term, spell the concept two
+other ways** - `previsualization` returned zero across 458 subjects over a concept the
+corpus holds in three of them. (3) **Take the marketing apply backlog** - it was owed by
+round 45's focus, this round routed to `media-generation` and could not, and the bundle
+still has one applied row against 181 techniques.
+
+
+## 2026-09-10 - career-ops recruiting intake
+
+| Version | Date | Source | Research | Extract | Test | Landed | Apply | Ship | Zero reason / focus moved? | Depth |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2.8.1 | 2026-09-10 | career-ops @ 6ddfca5a | 1 source cloned; focused tree sweep; 0 external corroboration fetches | 7 | 3 applications code-reviewed; 88 fact checks and 10-case replay passed; funnel test blocked by missing js-yaml | 3 source-tree applications, 2 catches, 2 leads | 0c/0e/0s/0t; 0 owed | 0 | Existing standards covered the admitted mechanisms; no upper-layer changes or managed-project seam requiring a change. Neighbor reads distinguished grounding from authenticity. Marketing backlog outside requested scope. auto=0/0/0 for upper-layer admissions; 3 applications admitted by opened-tree rule; fp=0 | 0/0/0/3/0; unhomed max=1; shared-new-home max=1; handoff=no; directions=0/0, different systems |
+
+The preceding ten-row review still identifies research as the recurrent weak stage; this run adds executable source checks while retaining the missing-dependency limitation. Depth matches a repository whose selected mechanisms already have homes: three applications, no forced amendments. Next run focus: preserve each evaluation pass predicate and distinguish source replay from managed-project improvement; resolve dependency prerequisites before claiming a source test ran.
+
+| 2.8.1 | 2026-09-10 | `youtube:O4GRhozIuH0` product-ad-blender-replication | 1 transcript, 1,840 words; 1 primary retrieved, 1 primary fetch failed | 8 | 5 catches checked; local Blender scene/render/reopen and 288-frame decode passed | 0 content; 2 leads, 1 untriaged | 0c/0e/0s/0t; 0 owed; separate operator-requested generic Blender capability test passed | 0 | Catch-cluster sibling read confirmed yesterday's boundary already covers this source. No new finding required a project seam. Exact bridge/cloud replication blocked by version and authentication prerequisites; proxy is not product-fidelity evidence. | S0/T0/A0/Asrc0/task-lines0; no repository design routing; directions=n/a; auto=0/6/0; fp=0 |
+
+**Next run focus (product-ad-blender-replication).** The recent window still loses conversion at managed-project apply/ship; this source's zero is warranted by existing coverage. Verify runtime and authentication prerequisites early, and report local editable-scene success separately from cloud fidelity.
+
+## 2026-09-11 - Polar API versioning
+
+| Version | Date | Source | Research | Extract | Test | Landed | Apply | Ship | Zero reason / focus moved? | Depth |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2.8.1 | 2026-09-11 | `web:polar.sh/docs/api-reference/versioning` | 1 vendor primary, 711 words; 3 fleet trees opened and read; 2 of 3 fetches spent and wasted on the live version table | 7 | 2 upper-layer rows verified against the full home files; 2 promoting questions executed, 1 promoted; 2 concept spellings returned zero across 458 subjects | 1 technique, 1 amendment, 3 applications, 1 currency | 1c/1e/1s/0t; 3 owed, 3 written | 2 (kp `4d373026`+`d17c1c73`, ascent `05e98064`+`f0faaa4b`; neither pushed) | No zero in apply or ship. The declared focus carried from the last run - verify prerequisites early, separate source replay from managed-project improvement - governed the whole run: the fleet hunt ran before any landing was drafted, and the pin was refused for want of a verified prerequisite. auto=2/1/0; fp=0 | S0/T1/A1/Asrc0/task-lines0; no repository design routing (a reference page, not a tree); directions=n/a; gate=n/a |
+
+**Next run focus (polar-api-versioning).** Two things this run says about the funnel. **(1) The seam hunt has now been the strongest source in four consecutive runs** (2026-09-08 x2, 09-09, 09-11), and it is no longer a tiebreaker - on this run the document supplied a mechanism the field has had for a decade and the *trees* supplied both landings: tracklight's `fx_book_version`-without-a-contract-version promoted the technique, ascent's resolved-graph split promoted the amendment. Research remains the named weak stage, but the cheapest fix is no longer better sources; it is **opening a consuming tree before drafting any row**, which costs one grep sweep and has outproduced the source four times running. Make that the order, not an option. **(2) A verified prerequisite is worth more than a shipped pin.** The run's most defensible decision was declining to pin a value it could not observe, and shipping the instrument that produces the value instead. The generalization: when a change needs a datum only production holds, ship the observation first and record the pin as owed - a guessed constant in a fail-closed contract is an outage, not a drift. **(3) Owed:** the marketing apply backlog, still one applied row against 181 techniques, owed since round 45 and untouched for a third consecutive round.
+
+## 2026-09-14 - AI anime start to finish (first render proof)
+
+| Version | Date | Source | Research | Extract | Test | Landed | Apply | Ship | Zero reason / focus moved? | Depth |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2.8.1 -> 2.9.0 | 2026-09-14 | `youtube:q_5QS7AlNgA` ai-anime-start-to-finish | 1 transcript, 2,261 words; 0 fetches; 3 generation trees read for reuse (gravity's generation ops, a multi-reference graph in a local tool, the local image/video install) | 10 | 4 render pairs, 2 discriminable; 7 stills + 8 clips rendered; 4 upstream stills rejected at the director pre-read | 0 upper-layer (1 amendment drafted from an undiscriminating tie and reverted), 4 leads, 6 catches, 2 untriaged | 0c/0e/0s/0t/2r; 2 owed, 2 written (1 better, 1 unmeasurable) | 0 project commits (a render proof changes no tree); registry: skill 2.9.0 + render-triage script and test | Upper-layer zero is the result, not a miss: both discriminable pairs corroborated rules the corpus already holds. Round-46 focus applied and moved: the catch cluster produced the only render-bound row, and the second spelling ("location plate") found prior art the first ("setting consistency") read as software settings. auto=n/a (render-bound row went to Phase 6b); fp=1 - the director's own first-tie amendment | S0/T0/A0/Asrc0/task-lines0; video, no routing; directions=n/a |
+
+**Next run focus (ai-anime-start-to-finish).** (1) **In a render-bound bundle, price the seed floor before designing arms.** One seed-control clip costs a minute and tells you how large an effect must be to be visible; round 1 spent two operator looks discovering it. (2) **A tie is the result most likely to be misread as evidence** - read `references/render-proof.md` § triage before writing anything from one. (3) The four leads here are all one shape - a typed input (anchor frame, pose-bearing reference, whole-scene style anchor) silently owning a channel the prose believes it controls; watch for a second independent sighting before treating it as more than `typed-input-owns-its-channel` witnessed three ways.
+
+## 2026-09-14 - Litho (a declarative UI runtime)
+
+| Version | Date | Source | Research | Extract | Test | Landed | Apply | Ship | Zero reason / focus moved? | Depth |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2.9.0 | 2026-09-14 | `github:facebook/litho` @ `55e28e58` (**first-party system repository, design-deep**; 801 landing / 84,590 in-tree md+mdx; code read as the operating documents where the public docs lag it) | 1 source cloned and swept in the Phase 2b order; 3 of 3 web fetches spent by the forge worker (1 returned 404, not re-spent); 13 fleet trees grepped per project against a per-project positive | 14 (10 design + 4 claim) | 6 admitted rows verified against their home files; 1 promoting question executed and promoted; 4 corpus absences re-checked by concept after a slug map came back noisy; 2 worker anchors re-opened by the director and confirmed | **1 subject** `render-mount-pipeline` (6 techniques, 6 source applications) + **1 fleet application** + 1 lead + 3 catches + 5 untriaged | **2 rows: 1c/0e/0s/1t/0r** - 1 of 1 owed by the landing (code, `better`, ab-paired) + 1 from the accepted direction (task, `better`, gate-read) | **6** (personas `d0709a8f2` fix+test+changelog, `a96e814dc` ledger; pof `e4ea8062` decision, `e92dbfe2` worker, `579b4f2d` ledger fix, merge `0c941c02` --no-ff after the director re-ran the gate; none pushed) | No zero in apply or ship. **The declared focus bound and paid:** the fleet grep ran before any row was drafted, and it decided the apply mode - it found the seam in three trees, and choosing the falsifiable one of the two candidates is what made the row worth having. auto=6/0/1 (the XL row escalated E4 and was forged in session per the standing rule); fp=0 | S1/T6/A0/Asrc6/task-lines 0; routing=per-system NONE 4 **and** HOME-IF-NEW 7, both on one cluster; handoff=yes (1, scoped, executed in session); directions=0/3 (no fleet project lacks the capability in a way the forces admit; the three that own a mount layer are coverage, not direction); gate=run: 1 shown, 1 accepted, executed and merged in session (and it was BUILT WORK shown as decidable, the second recorded time) |
+
+**Next run focus (litho).** (1) **A noisy slug map is not an absence, and this run nearly took one.** `research-map` over multi-word engine terms returned neighbours sharing one word ("view", "list", "layout") and would have read as prior art for four decisions; the absences only became real after concept greps with the cap removed and a positive control. Where a source's vocabulary is generic, map on the *mechanism's* words and verify every NONE a second way before a routing count rests on it. (2) **The seam hunt chose the apply mode, not just the seam.** Two candidate lists in one product: one where focus is the reading position, one where a global keydown listener makes focus loss free. Naming what a CAUGHT outcome would teach took one read of each and turned an arm that could only confirm into one that could refute. (3) **Owed:** the sixth second-caller policy as an amendment to `single-flight-primitives` (needs a second, non-rendering sighting), and five techniques with no fleet row until a project grows a renderer of its own.
+
+## 2026-09-14 - Agent-driven Blender and engine (first 3D render proof)
+
+| Version | Date | Source | Research | Extract | Test | Landed | Apply | Ship | Zero reason / focus moved? | Depth |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2.9.0 | 2026-09-14 | `youtube:3yXYIXczKXI` agent-blender-ue5-render-proof | 1 transcript, 1,271 words; 0 fetches; 4 geometry golden paths + 1 technique + 1 application read; pof's pitfall corpus read during the seam hunt | 10 | 8 agent-authored arms (2 per approach per asset), harness asserted on a planted control and corrected twice before any pair; 4 presentations: turntable x2 refused, claim render 1 of 2 passed and operator-rejected, engine pass incomplete (7/16); 3 engine probes | 0 upper-layer (render-bound row has no perceptual verdict), 4 leads, 2 catches, 4 untriaged; 1 draft claim withdrawn before landing | 0c/2e/0s/0t/0r; 0 owed (nothing landed), 2 written against pof | 1 (pof `3f1a67c3`, not pushed) | Upper-layer zero is the Phase 6b rule working, not a miss. Focus moved: the replicate floor was priced before any pair (and exposed agent-authored arms as a different noise model from seeds); the tie warning did not arise - no tie was reached. auto=0/9/1; fp=0 | S0/T0/A0/Asrc0/task-lines0; video; directions=n/a |
+
+**Next run focus (agent-blender-ue5-render-proof).** (1) **For a render-bound game asset, secure a usage context before designing the perceptual pair** - a rig with hands, a real grid, a level - and if the machine cannot provide one, the row is a lead naming that instrument; turntables and proxies refused or failed four times here. (2) **State an attempt budget before driving an instrument for the first time** - the engine took nine attempts and the stopping rule was stated only before the last. (3) **Read the managed project's own knowledge corpus during the seam hunt** - the lead's second source was already in pof and was found by accident.
+
+## 2026-09-14 - Agent creature animation (second 3D render proof)
+
+| Version | Date | Source | Research | Extract | Test | Landed | Apply | Ship | Zero reason / focus moved? | Depth |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2.9.0 | 2026-09-14 | `youtube:h_mR2BRibZ8` agent-creature-animation-render-proof | 1 transcript, 2,886 words; 0 fetches; 3 golden paths + 2 techniques + prior same-channel note read; pof's corpus and rigging/motion specs read before extraction | 14 | 6 reference clips (3 seeds per brief), 1 rig in 4 attempts, 4 agent-authored animation arms, 3 harnesses asserted (2 on planted controls), 2 per-vertex/per-frame probes; 2 gates refused | 0 upper-layer (both render-bound rows without a perceptual verdict), 3 leads, 5 catches, 6 untriaged | 0c/1e/0s/0t/0r; 0 owed (nothing landed), 1 written against pof | 1 (pof `aff0e23d`, not pushed) | Upper-layer zero is Phase 6b holding. Focus moved on all three items: usage context probed before design, attempt budgets fixed before the first render and one overrun escalated to the operator rather than taken, pof's corpus read first (it held no reference-video stage and no weight-solve precondition). auto=0/9/2; fp=0 | S0/T0/A0/Asrc0/task-lines0; video; directions=n/a |
+
+**Next run focus (agent-creature-animation-render-proof).** (1) **A render proof for motion needs a clean rig before it needs a question** - two runs in a row lost their perceptual pair to the subject, not the approaches; when the fleet has no clean rigged asset, build or source that FIRST and bank the row until it exists. (2) **Never quote an agent's self-verification as a measurement** - a rigidity claim and a zero-foot-slide claim both failed independent instruments this run; the harness card is the number the note carries. (3) **Price seed noise with three seeds, not one** - a single seed pair produced a confident "one second later" that three seeds erased.
+
+## 2026-09-14 - Multi-harness agents that debate (session capability conjunction)
+
+| Version | Date | Source | Research | Extract | Test | Landed | Apply | Ship | Zero reason / focus moved? | Depth |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2.10.0 | 2026-09-14 | `youtube:gYtQ1LKSgXY` agents-debate-multi-harness | 1 transcript, 2,578 words; 1 of 3 fetches (vendor primary); 4 corpus files opened + 1 tree (personas: proxy hook, credential injection, roster resolution) | 9 | 1 row verified by opening its owners (debate row closed as a catch on the owning technique); 2 rows moved from catch to untriaged when the director noticed they were map-only | 1 technique + 1 golden-path paragraph + 1 application | 0c/0e/1s/0t/0r | 1 (personas `cccd993f1`, applied row only, not pushed) | Apply is a simulation because the seam cannot express the rule: the request record has no session id, so a code arm is a task, not a few lines. Focus (rig/seeds/self-verification) does not apply to a non-render source; its general half, never trust the pass that built the claim, caught two map-only catches before the ledger. auto=1/2/0; fp=0 | S0/T1/A0/Asrc0/task-lines0; video; directions=n/a |
+
+**Next run focus (agents-debate-multi-harness).** (1) **A catch is a file you opened** - two rows were written as catches from the map's top hit and had to be demoted to untriaged; mark map-only rows untriaged at the table, not at review. (2) **In a mixed demo, read the aside** - the headline feature (cross-provider debate) was a catch, and the thirty-second security digression carried the only landing. (3) **Connect the source's segments to each other** - the finding's best line (a fork inherits every leg) came from joining two segments the source kept apart.
+
+## 2026-09-14 - Agent motion-graphics reference teardown (engine comparison)
+
+| Version | Date | Source | Research | Extract | Test | Landed | Apply | Ship | Zero reason / focus moved? | Depth |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2.10.0 | 2026-09-14 | `youtube:-4D8ZrryVTA` agent-motion-graphics-reference-teardown | 1 transcript, 2,034 words; 0 fetches; 1 planted-truth clip generated and asserted by pixel read-back; 7 extractor arms across codex-cli (GPT-6 Astra x2, GPT-5.6-Sol) and claude-cli (Opus 5 x2, the fleet's standard engine) plus 2 vision-only arms, scored mechanically; gravity's style rows read and re-measured | 11 | 1 row verified by experiment; 6 catches confirmed by opening their homes; truth-file isolation checked in all 7 transcripts or logs | 1 amendment (3 rules), 1 fleet application, 4 leads, 5 catches, 2 untriaged | 1c/0e/0s/0t/0r; 1 owed, 1 written (better, ab-paired) | 1 (gravity `1f80ac6`, not pushed) | No zero in apply or ship. The declared focus (3D rig and seed noise) did not apply to a 2D extraction claim; its underlying rule did - "never quote an agent's self-verification" became a planted truth that scored every agent. auto=1/9/0; fp=0 | S0/T0/A1/Asrc0/task-lines0; video, no routing; directions=n/a |
+
+**Next run focus (agent-motion-graphics-reference-teardown).**
+1. **When a source claims a model can extract something, plant the truth before asking.** A generated reference with known values turned a vendor demo into a scored comparison of three engines in under an hour, and caught two defects in the instrument itself before either reached a verdict.
+2. **Give every extraction arm a no-tools twin.** Without the vision-only arm the result would have read "all engines are good"; with it, it read "access decides, engine does not", which is the sentence that amended the corpus.
+3. **Detached arms launched through a PowerShell redirect lose their non-ASCII output.** Recover answers from the CLI's own session records, or have the agent write its answer to a file.
+
+## 2026-09-15 - MotionBricks.cpp real-time animation (self-conditioned producer)
+
+| Version | Date | Source | Research | Extract | Test | Landed | Apply | Ship | Zero reason / focus moved? | Depth |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2.10.0 | 2026-09-15 | `youtube:lj-xPo7ueGA` motionbricks-cpp-realtime-animation | 1 transcript, 1,343 words; 2 of 3 fetches (project page, port implementation doc) + 2 searches; port cloned at `2727a456` and swept (docs, parity gate, streaming server, tests); 2 techniques read in full + 3 technique sections opened; pof's research commit and ARDY spec read in the seam hunt | 14 | row 1 promoted by one full read of both media-playback techniques; 4 catches each against an opened section; 3 design decisions confirmed in code and tests | 1 technique + 1 golden-path paragraph + 1 source-tree application; 2 leads, 4 catches, 4 untriaged | 0c/0e/1s/0t/0r; 1 owed, 1 written (unmeasurable, instrument named) | 1 (pof `3a6f6d92`, applied row only, not pushed) | Apply is a simulation because no managed project runs a live self-conditioned producer and ARDY is not installed. Budget stated before probing: one search for combo npz clips, which found none. Declared focus (planted truth, no-tools twins, session-record recovery) does not apply: this source makes no claim that a model extracts something. The focus before it ("a catch is a file you opened") held for all 4 catches. auto=1/4/0; fp=0 | S0/T1/A0/Asrc1/task-lines0; video + fetched port tree; routing count 3 NONE in one small system under one home, so a technique triple folded into one technique, no handoff; directions=skipped (owed) |
+
+**Next run focus (motionbricks-cpp-realtime-animation).**
+1. **For a review of a release, clone whatever implements it and read the part the demo cut away.** The video showed a character moving. The landing came from the port's streaming server and its test file, which the video never opened, and the class rule "the fetch is the extraction" is stronger when the fetched thing is code.
+2. **Ask what a producer READS, not only what it writes.** The corpus modelled the producer as instruction -> unit. One line in the controller ("the previous four actual frames") inverted two flat rules and folded three candidates into one mechanism.
+3. **Run the fleet's own research ledgers in the seam hunt before scoring currency.** pof had mined this exact video the day before. Reading its commit first would have saved a triage row, and a same-day duplicate mine across two skills is invisible to the run board.
+
+## 2026-09-15 - AI weekly survey (product currency)
+
+| Version | Date | Source | Research | Extract | Test | Landed | Apply | Ship | Zero reason / focus moved? | Depth |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2.10.0 | 2026-09-15 | `youtube:JwTCjarfJYw` ai-news-world-scared | 1 transcript, 7,129 words; 3 of 3 fetches (OpenAI, Meta, DeepSeek first-party release pages); 6 owning corpus techniques/golden paths and 1 application opened after two mapping passes | 15 | 3 release rows primary-checked; 4 catches verified by opening their owners; no upper-layer survivor to experiment on | 1 currency dispatch, 9 leads, 4 catches, 1 untriaged; 0 upper-layer | 0c/0e/0s/0t/0r; 0 owed (nothing upper-layer landed) | 0 | Apply and ship are zero because the source class and evidence gates admitted no upper-layer row. The prior extraction-experiment focus did not apply; its older rule, "a catch is a file you opened", held for every catch. The currency row was not partially applied because one rechecked citation cannot truthfully move a document-wide freshness date. auto=0/0/0; fp=0 | S0/T0/A0/Asrc0/task-lines0; video; directions=n/a; one deepen dispatch |
+
+**Next run focus (ai-news-world-scared).**
+1. **Bind a survey's currency row to a concrete application before spending a fetch.** A product announcement without an owned clock or routing seam remains a lead even when the launch is real.
+2. **Do not mint a composite technique from a product control plane.** VM persistence, credential custody, approval, audit, payment, and memory are separate mechanisms with separate owners; the branded bundle is a catch when those owners are already open.
+3. **Treat freshness metadata at its declared granularity.** If `verified_on` covers a whole multi-source document, one rechecked row cannot advance it; dispatch a full refresh or split the record into independently dated units.
+
+## 2026-09-15 - AI filmmaking course digest (render proof refused by the gate)
+
+| Version | Date | Source | Research | Extract | Test | Landed | Apply | Ship | Zero reason / focus moved? | Depth |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2.10.0 | 2026-09-15 | `youtube:IgCe91UxwcA` ai-filmmaking-course-digest | 1 transcript, 2,097 words; 0 fetches; 14 prior-art homes opened across cinematic-language, visual-style-locking, character-identity-continuity, image-prompt-composition, review-iteration-loops, video-assembly; 2 keyframes + 8 clips rendered locally | 14 | 1 row taken to render proof (gate refused both pairs, no verdict); 11 catches confirmed by opening their homes | 0 landings; 2 leads, 11 catches, 1 untriaged | 0c/0e/0s/0t/0r; 0 owed (nothing landed) | 0 | Zero apply/ship: nothing landed, because the corpus already held 11 of 14 claims and the only open row was not discriminable at n=2 per arm. A wording-level variable on a 5B motion model is a knob the seed drowns out; the seed floor was a global exposure pulse in 3 of 8 clips. The declared focus (plant the truth, no-tools twin) targets extraction arms and did not apply; its spirit did: the pair was built around a named state that should not appear. auto=0/2/0; fp=0 | S0/T0/A0/Asrc0/task-lines0; video, no routing; directions=n/a |
+
+**Next run focus (ai-filmmaking-course-digest).**
+1. **Decide per-take or rate before designing a render pair.** A claim about wording (negation, emphasis, adverbs) usually changes how often something happens, not what one take looks like. Render 6+ seeds per arm as a contact sheet, or bank the row; a single pair will be refused.
+2. **Read what the seed floor is made of.** On the local image-to-video model the floor was an exposure pulse. Print a luma range per clip before trusting any pixel distance, and bring a gesture-sensitive instrument to a performance question.
+3. **Run the map before extracting from a digest of a vendor school.** The corpus already held 11 of 14 segments from earlier tutorials of the same school, which changes the expected yield.
+
+## 2026-09-15 - React 19.3 (vendor release announcement, measured reduced-motion gap)
+
+| Version | Date | Source | Research | Extract | Test | Landed | Apply | Ship | Zero reason / focus moved? | Depth |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2.10.0 | 2026-09-15 | `web:react.dev/blog/2026/09/09/react-19-3` react-19-3 | 1 web ingest, 4,367 words; 1 of 3 fetches (ViewTransition reference); npm registry and 11 fleet package.json files for currency; 7 corpus files opened (placeholder-design, arrival-choreography, ssr-gating-decision-tree, motion golden path, engine-selection, reduced-motion-mechanics, React application); 2 fleet trees read at the seam | 14 | row 1 verified by three paired browser experiments (bare platform, react@19.3.0 synthetic reset, personas-web verbatim block; positive control in each) plus pixel read at a frozen frame; 3 catches against opened files; row 4's promoting question answered by one read | 1 amendment + 1 golden-path bullet + 1 dated application section; 5 leads, 3 catches, 4 untriaged | 0c/1e/0s/0t/0r; 1 owed, 1 written (better) | 0 (personas-web `cd5f97d` is an applied row only, not pushed) | Ship is zero because the seam project has no view transitions and pins react 19.2.x; the rule is filed as its adoption change with a return condition. Declared focus held: no fetch spent on currency (npm plus fleet trees answered it), no composite technique from the product surface, and freshness granularity decided the landing (a new application file was refused by the gate, and the appended section is dated inline without moving the document's `verified_on`). auto=1/4/0; fp=0 | S0/T0/A1/Asrc0/task-lines0; web post, no design record, no routing; directions=n/a |
+
+**Next run focus (react-19-3).**
+1. **In a vendor announcement, audit the samples for the constraint none of them handles.** Six sandboxes animated, none respected reduced motion, and the vendor's own reference doc said the framework will not do it. The gap was an absence across every sample, not a claim in the prose.
+2. **Turn "I believe the selector does not match" into a browser experiment before scoring.** A 30-line harness with a positive control and a frozen-frame pixel read moved RISK from 1 to 0 in minutes. Re-running it on a fleet tree's verbatim block turned the same harness into the Phase 7.5 apply row.
+3. **Check the application filename rule before writing a second application for one technique.** `<stack>--<technique>.md` is unique per stack, so a new finding on an existing stack is a dated section, and the gate refuses a new file.
+
+## 2026-09-15 - awesome-llm-apps full re-run (the fixes are the source)
+
+| Version | Date | Source | Research | Extract | Test | Landed | Apply | Ship | Zero reason / focus moved? | Depth |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2.10.0 | 2026-09-15 | `repo:Shubhamsaboo/awesome-llm-apps` @ 4593569 (re-mine of 08-25) | 1 clone, 2,525 landing / 175,630 in-tree md words; director read agent_skills in full where new; 4 read-only cluster workers over 541+603+303+331 files; 1 of 3 fetches (MCP Apps spec); seam hunt across 13 fleet trees with a positive control | 44 | 4 picks verified on the owning file (1 promotion read, 1 fetch); 8 catches each against an opened owner | 4 amendments + 4 applications; 10 leads, 8 catches, 22 untriaged | 1c/1e/2s/0t/0r; 4 owed, 4 written | 1 (private runtime `1bf65ad`; plus 2 applied-row commits in personas and systedo-case, not pushed) | Focus 1 (clone what implements) applied by construction; focus 3 (read fleet ledgers in the seam hunt) moved the seam choice: all four seams came from the fleet hunt, and the strongest landing's corroboration (pumper's env allowlist) came from the fleet, not the source. No currency row, so its literal half did not apply. auto=4/9/0; fp=0 | S0/T0/A4/Asrc0 (apps cite the source tree in two) /task-lines0; aggregator, routing count 0, no handoff; directions=n/a |
+
+**Next run focus (awesome-llm-apps re-run).**
+1. **In an aggregator, read the fix commits, not the apps.** All four landings sat at a line where an author was visibly trying to do the right thing and got the boundary wrong. The upstream compare list is the cheapest map of those lines, and a re-mine should start there.
+2. **Count the fleet as a source during the seam hunt, including the half that already did it right.** pumper's allowlist was the independent corroboration that made the env row accept; athena's inherited environment was the seam. A tree that already implements the rule is evidence, not just a non-seam.
+3. **Split an aggregator across readers by directory, and keep the director on the part the last run adopted.** The periphery the 08-25 run mined produced only leads this time; the three worker clusters produced every landing.
+
+**Weakest stage across the last ten rows: ship.** Ten rows record ship counts, but only two carry product code (gravity `1f80ac6`, this run's `1bf65ad`); the rest are applied-row commits or zero. Extraction is no longer the bottleneck: code-mode applies are, and they come from seams where a gate can see the change.
+
+## 2026-09-15 - Cline Desktop announcement (the demoed feature's code)
+
+| Version | Date | Source | Research | Extract | Test | Landed | Apply | Ship | Zero reason / focus moved? | Depth |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2.10.0 | 2026-09-15 | `web:cline.ghost.io` cline-desktop | 1 post, 1,170 words; 0 of 3 fetches; the open-source repo sparse-cloned at `6e8bea1c` (session-import service, sanitizer, import-history compaction policy, runtime wiring, desktop notice, 2 test files); 5 corpus techniques/applications opened; Personas' awareness module, failover and quota path read | 14 | row 1 verified in two trees plus a 4-arm paired local experiment (2 models, 10 seeds); 3 catches by opening their owners | 1 technique + 1 golden-path paragraph + 2 applications (1 source-tree, 1 fleet); 3 leads, 3 catches, 7 untriaged | 0c/1e/0s/0t/0r | 0 | Ship 0: Personas already sits on the winning arm (text-only projection), so there is nothing to change and no measurable a commit could move; the applied row was committed as a record. auto=1/10/0, fp=0. **Focus moved:** the previous focus said to clone what implements a release, and the whole landing came from the clone | 0/1/0/1src+1fleet/0; routing NONE=1 (stay); directions=0/1 |
+
+**Next run focus (cline-desktop).**
+1. **Run the experiment before writing the technique when the force is a model behaviour.** The implementation stated its force in a docstring. The measurement split it by model (27B imitated 10/10, 12B 0/10), which turned "may try to call" into a rule about unknown models that neither tree could have supplied.
+2. **Put a control arm that changes only the suspected variable beside every fix arm.** Arm C (same structure, roster names) is what separated vocabulary from structure. Without it, A vs B would only have shown that summaries differ from turns.
+3. **When a peer tree already sits on the winning arm, the apply row is still owed, and ship stays 0 honestly.** Record the measured reason in the project's ledger rather than inventing a comment commit with no measurable.
+
+**Weakest stage across the last ten rows: ship**, unchanged. This row adds one more honest zero: the peer tree already conformed, so there was nothing to ship.
+
+## 2026-09-15 - AI Engineer Coach (peer repository, operator-scoped to ascent)
+
+| Version | Date | Source | Research | Extract | Test | Landed | Apply | Ship | Zero reason / focus moved? | Depth |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2.10.0 | 2026-09-15 | `github:microsoft/ai-engineering-coach@18b1a3d` ai-engineering-coach | 1 repo cloned and swept (docs, trust gate, DSL, 8 rules, credit model, LOC diff, session types); 1 of 3 fetches (vendor monitoring doc: exporter temporality default); 5 engineering-assessment and 3 metered-billing golden paths opened; ascent seam hunt (ingest, sessions, rollup, care, context health) | 15 | 1 row verified to the tree + primary + arm A before drafting; 3 catches against opened golden paths; 1 cited line re-opened after drafting and corrected; peer study falsified 2 of this run's own design-record entries | 1 technique + 1 golden-path section + 2 applications (1 fleet, 1 source-tree); 1 lead, 3 catches, 9 untriaged | 1c/0e/0s/8t/0r | 10 in ascent (`7dc3a545`, study `ef6ddce8`, ledger `c4238053`, 5 `--no-ff` merges carrying 8 features), none pushed | Focus from the filmmaking digest (render pairs, seed floor) does not apply to a repository; its "map before extracting" held and re-homed the run twice. The motionbricks item "run the fleet's own trees in the seam hunt" produced the only landing. auto=1/2/1; fp=0 | S0/T1/A1/Asrc1/task-lines ~1,700 across 8 features; repository; routing count 3 NONE in one system with 3 different homes, no XL clause, forge handoff declined (single mechanisms in existing territories); directions=8/0 via peer study, gate: 8 accepted 0 declined, executed in-session |
+| 2.10.0 | 2026-09-15 | `repo:vibrantlabsai/ragas@298b682` ragas | 1 repo cloned and swept by 3 system readers (metrics, test generation, runtime/alignment); 2 of 3 fetches (claim decomposition 2403.11903, evaluator alignment 2404.12272); director opened every line a landing rests on | 17 | 3 rows admitted; T3's recall defect found by the forge worker and verified by the director; 1 promotion read (linked-context generation) cleared the report point but not the contested home | 1 subject (5 techniques) + 1 technique + 1 amendment; 1 lead, 8 catches, 5 untriaged | 1c/1e/1s/1t/0r; 7 owed, 7 written (4 unapplied with return conditions) | 2 (tracklight `d6c0324` pinned samples, `8d1bfa5` merged grounding kind; plus athena `9a97a3a` row only; not pushed) | Previous focus (cline-desktop) moved: the experiment ran before the amendment was written, and its control was the tree's own pinned arm. Arm A refuted the falsifying prediction and returned the stamp finding. Size crept on the direction (+1032 vs ~350). auto=2/5/1 (the XL escalation executed under the 2026-09-02 in-session rule, not asked separately); fp=0 | S1/T6/A1/Asrc7 (5 forged + 2 director) /task-lines1032; routing NONE metrics=4, testgen=2, runtime=1 (existing home); HOME IF NEW shared by 3 -> XL, forged in session; directions=1/3 (accepted, merged) |
+| 2.10.0 | 2026-09-15 | `github:agentscope-ai/QwenPaw@cbf1a403` qwenpaw | 1 repo cloned (978 py files, 165,548 English doc words) and swept by 4 system readers (loop, context, trust boundary, surfaces); 0 of 3 fetches; the director re-opened every anchor a landing rests on | 28 (22 design + 6 claim) | 5 rows admitted; 3 promotion reads (the summary gate was promoted, restore quiesce and specificity-vs-forbid stayed amendment-grade); 3 drafter overrides kept | 5 techniques + 5 source-tree applications; 3 leads, 8 catches, 10 untriaged | 3c/1e/0s/2t/0r; 5 owed, 9 written (3 unapplied with return conditions, 2 falsified directions, 1 spike, 1 coverage fix) | 3 product (athena `e106230` carries the budget across a park, `60108d0` refuses a last-round batch nobody reads; personas trigger_id on event-bus runs, paired (0,0) -> (1,3)); plus study, gate, spike and record commits; not pushed | Declared focus ship **moved**: two paired product commits, both from seams chosen to falsify. One falsified its briefed half and returned a lifetime defect; the other refined deferral into refusal. auto=5/10/0 fp=0 | S0/T5/A0/Asrc5/task-lines0 (product diff 125 lines incl. tests); routing NONE loop=3, context=2, trust=1, surfaces=2; the shared home-if-new cluster is an existing subject; every proposed new slug sits in a full category (orchestration 10/10, runtime-and-io 10/10), so no handoff; directions=3/4 (3 accepted at the gate: 2 falsified and recorded, 1 spike better; plus 1 coverage fix found by a falsifier query). Every proposed new slug sits in full categories orchestration 10/10 and runtime-and-io 10/10 (E2 would unblock a subject) |
+| 2.10.0 | 2026-09-16 | `github:kineticsystem/find-me-a-freaking-job@974e201` find-me-a-freaking-job | 1 repo cloned and swept (architecture doc, model wrapper, criteria hash, triage/extract/profile stages, prompts, prefilter, db, source adapters); 0 of 3 fetches; 3 corpus files opened for homes (delivery-guarantees, fingerprinting-and-cache-keys, lens-versioning-as-invalidation) | 16 (7 design + 9 claim) | 1 row admitted after its home was opened; 7 catches against opened files; the tree-vs-itself watermark defect scored 1/0/1 and banked; one keyword instrument discarded after reading its 93 matched rows | 1 amendment (inverting) + 1 fleet application; 3 leads, 7 catches, 5 untriaged | 0c/1e/0s/0t/0r | 0 product (pof ledger row `bba723dc`, not pushed): adoption adds a provenance state across acceptance, chips and the judge runner, more than one readable diff | Declared focus 1 **moved**: the experiment's workaround (updated_at standing in for an unrecorded projection digest) became the amendment's closing rule and pof's filed next change. Focus 2 n/a (no dispatch); 3 n/a (no new slug). auto=1/5/0 fp=0 | S0/T0/A1/Asrc0/task-lines0; repository; routing count 2 NONE in one system, no shared home-if-new, no handoff; directions=0/0 (the landed subject has no candidate absences) |
+
+**Next run focus (ai-engineering-coach).**
+1. **Write a design-record `where:` from the instrument, never from a doc page.** Two of nine entries were lifted from documentation (inline rule tests "run by the suite", readiness "from sessions") and the peer study refuted both against code. A decision the docs describe and the code does not practise is a claim, and it belongs in the claim lane.
+2. **When a fleet tree reads one stream in two places, feed one fixture through both before reading either's tests.** Each reader's suite encoded its own belief; only the cross-reader fixture could fail. Ask this of any ingest seam the hunt opens.
+3. **Check a fleet repo's visibility before the first sentence of its application, not after.** This run wrote "private" about a public tree and caught it only at persistence.
+
+Stage the funnel is losing most at, last ten rows (counted from the Apply and Ship cells, not recalled): **ship in code mode.** Only 2 of the ten applied in `code` mode (motion-graphics, awesome-llm-apps); 2 carry an all-zero apply; 4 shipped nothing or only an applied-ledger row. Experiments and simulations are being filed where a tree change was reachable. This run's code row came from the seam hunt, not from the source's claims, so the next run should say before its triage table which fleet tree its likeliest home can be opened in, and aim the apply at a code arm there first.
+
+## 2026-09-15 - ragas (the routing count fired, and the fleet supplied the other half)
+
+**Next run focus (ragas).**
+1. **When a fleet tree already applies a rule to one half of a pipeline, grep the other half for the same force.** tracklight unpinned generation self-consistency and pinned judge self-consistency. That asymmetry was the seam, and it shipped the run's strongest landing. The source only showed the inert-vote half.
+2. **Let the routing count decide, and put one reader on each system.** Three readers, split by system, gave per-system NONE counts. The shared home-if-new count fired the XL trigger without anybody having to notice fragments. The director still opens every line a landing rests on before scoring RISK 0.
+3. **State in a direction proposal whether its size counts tests, and give the worker a ceiling that stops it.** The grounding kind came back at +1032 lines against ~350: two times over on product code alone, green, and merged. That creep should have been a split decision, not a report line.
+
+**Weakest stage across the last ten rows: ship**, improving. This row carries two product-code commits (one paired and shipped, one direction merged). It is the third row in ten with product code. Depth matched the source: a system with four unmodelled decisions yielded a subject, a technique and an amendment, not paragraphs.
+
+## 2026-09-15 - qwenpaw (the source stopped one case short, and so did the fleet)
+
+**Next run focus (qwenpaw).**
+1. **When a falsifier fires, read what its query had to work around before recording the stop.** Both accepted personas directions died to their own falsifiers. One query could only answer by joining on the input payload, because `trigger_id` was empty on every run, and that workaround was a bigger defect than the direction: the monitor it meant to extend had never counted an outcome. It shipped as a paired coverage fix, (0,0) before and (1,3) after. A falsifier's workaround is a seam.
+2. **In a shared checkout, plan the landing before dispatching direction workers.** `git merge` aborts while a sibling's work is staged in the index. All four branches here landed as squashes by path: `git checkout <branch> -- <paths>`, a union append of `.ai/applied.jsonl` rows, and a pathspec commit naming the branch commit. Check `git diff --cached` in the target checkout at dispatch time, not at merge time.
+3. **Name the full category when it absorbs the routing count.** All 8 NONE entries and every proposed new slug fell in categories at 10/10, so the run landed techniques. If the next repository run over agent runtimes hits the same wall, propose the E2 split instead of absorbing it a second time.
+
+**Weakest stage across the last ten rows (counted from the Apply and Ship cells): ship**, improving and concentrated. Product code landed in 5 of the 10 rows. The three repository runs (awesome-llm-apps, ai-engineering-coach, ragas) plus this one account for 16 of the 17 product commits. The two video digests owed nothing, and two single-source runs shipped an applied row only. This row carries three paired product commits: two in athena from the source's own boundary cases, one in personas from a falsifier's workaround. Depth matched the source: a system with 8 unmodelled decisions yielded 5 techniques, not paragraphs. A subject was blocked by placement, not by routing.
+
+## 2026-09-16 - find-me-a-freaking-job (the input that must not invalidate)
+
+**Next run focus (find-me-a-freaking-job).**
+1. **When a source deliberately leaves an input out of a key, test the exclusion at a fleet seam where the same kind of input can be cited.** The source's exclusion was right for taste and wrong for evidence. Only a seam holding both kinds (pof's sibling projection) could say where the line falls.
+2. **Attribute findings by the instrument's own dimensions, never by keywords in the prose.** The keyword pass marked 93 rows, and most of them praised the property they matched. The rubric's weakest dimension marked 13.
+3. **Ship stayed at 0 for a size reason, not an evidence reason.** When an experiment row is `better` and the adoption is a new state across several files, dispatch it as a scoped worker on a branch in the same session, rather than filing it as the next change.
+
+**Weakest stage across the last ten rows: ship.** This row adds an experiment with no product commit. Depth matched the source: a personal tool whose architecture mostly converges with the corpus yielded catches, one inverting amendment and no subject.
+
+| 2.10.0 | 2026-09-16 | `github:NVlabs/SoL-Pi@2b791687` sol-pi | 1 repo cloned (65 files: 4 mechanisms, 19 test files) and swept in full; 1 of 3 fetches (the blog, for the measurements and the fifteen principles); every anchor a landing rests on machine-verified against the clone by the instrument this run built | 15 (7 design + 8 claim) | 4 admitted (2 scored 2/0/2, 2 in the judgment lane); 1 promotion read (D3 promoted by opening cadence and budgeting); 6 catches, 4 untriaged, 3 leads; anchors=80 held=80 after two instrument passes (first pass: 39/39 and 4/17 failed) | 1 technique + 1 amendment (inverting the target's stated limit) + 3 source-tree applications + `scripts/check-anchors.mjs` with tests + 2 brief edits + method 2.11.0 (floor beside the target; anchors verified, not sampled) | 0c/2e/1s/0t/0r; 2 owed, 2 written, plus a method simulation over 3 real applied rows | 0 - both seams were in the registry itself and ship in this commit; no fleet project compacts at plan boundaries or admits a delegated receipt (the 2026-09-15 rows already said so) | Focus `ship`: not moved in the fleet, moved in the registry - the operator's framing aimed the run at the registry's own mechanisms, and both landed with a paired proof. Depth `0/1/1/3/0`; routing count 1, no handoff; `directions=0/1`, `gate=skipped`; `auto=2/1/0`, `fp=0` |
+
+**Weakest stage across the last ten rows (counted from the Apply and Ship cells): still `ship`,** and this row is a zero of a new kind. Product code landed in 5 of the 10 rows; the three repository runs over systems (qwenpaw, ragas, awesome-llm-apps) still account for nearly every product commit. This run's two seams were in the registry itself - the review contract and the apply verdict - because the operator asked for that, and both shipped with a paired proof; but the scorecard counts fleet commits, and it should keep doing so, or a run could satisfy `ship` by editing its own method. Depth matched the source: a small extension layer over a mature subject yielded one technique, one inverting amendment and three applications, not a subject and not a paragraph.
+
+**One number the Test cell has never carried is now cheap: anchors verified.** Every previous row's "the director re-opened every anchor" was a sample the row could not size. `scripts/check-anchors.mjs` made it a count, and on its first two passes it failed 43 of 97 of the director's own anchors before any shipped. Next run's declared focus: **`ship` stays the focus, and the Test cell records `anchors=N held=H` for every landing that cites a tree** - a run that cannot show that line has not verified its picks, whatever its prose says.
+| 2.11.0 | 2026-09-16 | `github:google/langextract@70cfb988` langextract | 1 repo cloned and swept (resolver, annotation, prompt validation, benchmarks, 2 test files); 0 of 3 fetches | 13 (7 design + 6 claim) | 2 admitted (3/0/2 and 2/0/1); 1 promoting question executed (D5); 3 catches, 5 untriaged, 3 leads; anchors=65 held=65 (first pass 28: 17 held, 11 failed on escaped quotes and two drifted lines) | 1 technique + 1 amendment (rewritten by its own experiment) + 2 source-tree applications + 1 fleet application | 0c/2e/0s/0t/0r; both owed rows written | 1 - ascent `84226a65` (claim verifier checks the rendered view; paired battery 0/147 -> 147/147, floor 0/267 held) | Focus `ship`: moved, with one fleet commit from a falsifying seam, and the Test cell carries its anchor count. Depth `0/1/1/3/40` (task-lines = the ascent diff); routing count 4 NONE in one existing home, no handoff, one technique not a triple; `directions=0/1`, `gate=skipped`; `auto=2/4/0`, `fp=0` |
+
+## 2026-09-16 - langextract (the quote the verifier never saw)
+
+**Next run focus (langextract).**
+1. **When a gate compares model output with a source, diff what the gate reads against what the prompt showed before choosing arms.** The ascent seam was not in the verifier or the renderer. It was the gap between them, and no test on either side could see it. A battery built from the rendered prompt found it in one pass.
+2. **Run the source's own mechanism as the alternative arm, and let it fail on the seam.** The fuzzy aligner located the right span on raw text and a wrong one on the rendered text. That failure wrote the technique's central rule, grades locate and only exact admits, better than the source's documentation could.
+3. **Put the first repair through the source's own fixture before landing it.** The amendment's first draft would have kept a relabel the library's test exists to drop. Four pass sets with one real fixture were enough to catch it.
+
+**Weakest stage across the last ten rows: `ship`, moving.** This row adds one fleet commit with a paired battery. The model-producer arm was small (13 claims), and it is labelled as prevalence evidence, not as the measure. Depth matched the source: a one-pipeline library with a four-entry design record yielded one technique, one boundary amendment and three applications, not a subject.
+
+| 2.11.0 | 2026-09-16 | `youtube:9lFE4T7iZKM` gpt6-two-game-builds | 1 video (2,964 words, VTT); 0 of 3 fetches | 12 | 2 scored (3/2/2 and 2/1/2, both +1, below threshold); 4 catches, 5 untriaged, 3 leads; corpus anchors re-read by hand for rows 2-3; fleet read-only greps in pof | 0 landings | 0c/0e/0s/0t/0r: no landing, so no row owed | 0 - nothing cleared the gate. The pof coverage seam (animation-asset entry has no licence field) had no nameable measurable beyond the field's existence, so it would have been `structural-only` and could not commit | 0/0/0/0/0 · routing=n/a (video) · handoff=no · directions=n/a |
+
+1. **Run the fleet seam grep at Phase 6 for an unlanded row, not only at Phase 7.5 after a landing.** pof's own gotcha knowledge stated the articulation trigger the corpus contradicts. That independent statement is what turned a same-channel anecdote into convergence, and it cost two greps. The v2.8.1 rule treats the seam hunt as a second source only once something has landed. Here it was the only corroboration either real row had.
+2. **An inversion that is also render-bound has two blockers; name both.** The score alone would have invited re-shaping the row until it cleared. The missing instrument makes the return condition concrete (a probed image-to-3D route, or a credit-spend arm), so a later run knows what to bring, not just what to argue.
+
+**Weakest stage across the last ten rows: `ship`, not moved by this row.** A LOW-yield source with zero landings owes no apply row, and the one fleet seam it found had no measurable. That is a lead, not a commit. Next run's declared focus: **`ship` stays the focus.** For a render-bound bundle, probe the local instruments at Phase 1, before triage, so a render-bound row is scored knowing whether it can land at all.
+
+| 2.11.0 | 2026-09-16 | `youtube:ff7om2bBLKM` agent-own-inbox | 1 video (3,777 words, VTT); 0 of 3 fetches; 2 fleet trees read (2 readers, both key seams re-read by hand) | 11 | 1 scored and admitted (3/0/2), 1 promoting question executed against both trees; 4 catches, 3 untriaged, 3 leads; anchors=9 held=9 | 1 amendment + 1 fleet application | 1c/0e/0s/1t/0r; both owed rows written | 1 - systedo-case `42c1f54f` (paired, floor declared) + a personas plan commit `96eb7acef` that is not a ship | 0/0/1/1/~90 planned · routing=n/a (video) · handoff=no · directions=n/a |
+
+1. **When a source's segment it is proudest of has no boundary, take that missing boundary to the fleet trees before the corpus.** The video protected the webhook key and never noticed a public address makes the message author a stranger. The corpus already knew that in general. What it did not know was that a gate forged from a real tree still trusted the model to defend itself. Only the tree could show it: a detector already recognised the attack and its only consumer was a prompt warning. `research-map` ranks by vocabulary and cannot surface the question "what reads this signal". A consumer grep can.
+2. **Declare the floor by probing phrasings you wrote, and label them as written.** The nine in-tree benign messages all cleared, which read like a clean floor. Three phrasings written in two minutes all held. They cannot count as evidence of traffic, but they turned "floor held" into a stated cost with a return condition, which is the honest version of the same number.
+
+**Weakest stage across the last ten rows: `ship`, moved by one.** This row adds a paired, floor-declared fleet commit that came out of the operator's framing ("impact on Twin modules"). The second project's seam went to a task because a live sibling build held the toolchain. That blocker is environmental, not methodological, and it is recorded so `/intake apply` can take step 1. Depth matched the source: a video yields a boundary amendment and its application, not a technique. Next run's declared focus: **`ship` stays the focus.** When a fleet seam is blocked by a sibling's build, check whether the change can be proven in a worktree with its own target directory before banking it as a task.
+
+| 2.11.0 | 2026-09-16 | `youtube:nHBNa2IKWvk` gpt6-astra-setup | 1 video (3,563 words, VTT); 0 of 3 fetches; 1 fleet tree read (router, call site, tests, job store, all by hand) | 15 | 1 scored and admitted (3/0/2), 2 scored and rejected; 1 promoting question executed against pof and it is what moved the accepted row; 5 catches, 3 untriaged, 4 leads, 2 currency; anchors=11 held=11 | 1 amendment (3 sections, 2 decision rules, 1 use_when) + 1 fleet application | 1c/0e/0s/0t/0r; the one owed row written | 1 - pof `8affd56b` (ab-paired, floor declared first, negative control ran) | 0/0/1/0/1 app-vs-fleet · routing=n/a (video) · handoff=no · directions=n/a |
+
+1. **The falsifying seam earned its name by being pre-costed, and the pre-check is what made it a test.** v2.7 says to say what a CAUGHT outcome would teach before committing to the seam. Here the answer was concrete - cut the amendment's third section and rescore the row to 2/0/2, below threshold - so the seam could genuinely have ended the landing. It did not, and *that* is why the structural fact (three spending outcomes recorded, the one saving outcome not) is corroboration rather than illustration. A seam whose caught-outcome answer is "nothing" would have produced the same prose with none of the weight.
+2. **`check-anchors` on a second run caught a different failure class than on its first: syntax, not fabrication.** The SoL-Pi run found 39 of 39 anchors unresolvable as written. Here 2 of 12 failed, and neither was a wrong quote - one was a bare `route.ts:217` shorthand written in prose after a full path had established the file (it resolves to nothing), and one had the quote placed before its path instead of after. Both read correctly to a human and both would have shipped an uncheckable citation. The instrument's value is not only catching invented evidence; it is that anchor *grammar* silently degrades whenever a document refers back to a file it has already named.
+3. **Second sighting: the fleet grep moved a row the corpus alone would have rejected.** The accepted row scored 2/2/2 on the source's prose - below threshold and headed for the untriaged table. Opening pof dropped RISK to 0 and supplied the convergence point, taking it to 3/0/2. The 2026-09-16 lesson said to run the fleet seam grep at Phase 6 for an *unlanded* row rather than only at Phase 7.5 after a landing; this is that lesson confirmed a second time, on a different bundle. One more sighting and it belongs in `SKILL.md` as a rule rather than a lesson.
+
+**Weakest stage across the last ten rows: `ship`, moved by one.** This row adds a paired fleet commit with its floor declared before the change and a negative control on the new assertion. The declared focus carried: the landing exists *because* the ship step ran early, at Phase 6, rather than as a consequence of a landing already decided. Depth matched the source - a video with no design record yields a boundary amendment and its application, not a technique or a subject, and the two rows the channel is proudest of were correctly flagged as a non-independent second sighting rather than as convergence. Next run's declared focus: **`ship` stays the focus**, with the specific move now named - when a scored row sits one blocker short of the threshold, spend the fleet grep *before* filing it untriaged, because that is the read that has twice turned a rejected row into a shipped one.
+
+| 2.11.0 | 2026-09-16 | `youtube:JEnO3a87RwQ` digital-marketing-misunderstood | 1 video (8,562 words, VTT); 1 of 3 fetches; 1 fleet tree opened (systedo-case, the only project declaring marketing) | 14 | 1 scored and admitted (4/2/2), 2 promoting questions executed and neither promoted; 6 catches, 4 untriaged, 3 leads; anchors=7 held=5 unquoted=2 absent=0 | 1 technique + 3 corrections + 2 applications | 1c/0e/0s/0t/0r; the one owed row written | 1 - systedo-case `e18be2c6` (ab-paired, floor declared before the arms) + `a297ac6e` | 0/1/3/0/0 · routing=n/a (video) · handoff=no · directions=n/a |
+
+1. **The declared focus paid, and it paid as corroboration rather than as a commit.** The previous row's lesson was to run the fleet seam grep at Phase 6 for an *unlanded* row. This row's only landing scored 3/2/2 (+1) on the source and would have been banked untriaged; the fleet tree turned it into 4/2/2 (+2). The convergence was not "a project could use this" - it was an independent implementation of the same taxonomy exhibiting the same defect, which is evidence a second video could not have supplied at any length. When a row's blocker is the rewrite penalty rather than verification, the fleet is the cheapest place to look for the second sighting.
+2. **A source's strongest segment is a pointer at the corpus, not a claim to land.** Every one of the eight segments was a catch or a bank. What the source did was tell the run *where to read*: it treats owned channels as the highest-return thing a business has, and the corpus's channel taxonomy - written a week earlier and never re-read against a push channel - had closed with a denial. The denial was the finding. A run that had triaged this source only on what its sentences assert would have reported eight catches and stopped.
+3. **State what a CAUGHT outcome would teach before choosing the falsifying seam, and the seam stays honest under a good result.** The newsletter's reachability in the query queue was genuinely uncertain (low fit in three of five packs), so the pre-check was real work rather than ceremony: an unreachable defect would have made the whole finding a lead about taxonomies in general. It was reachable and it took the second-best query, which is a stronger result than the run went looking for.
+
+**Weakest stage across the last ten rows: `ship`, moved by one.** This row adds a paired, floor-declared fleet commit whose target and floor were both named before either arm ran, and whose seam was picked to be able to kill the finding. Depth matched the source: a first-party video over a young bundle yields one mechanism and three corrections, not a subject - and the mechanism only landed because a tree agreed with it. Next run's declared focus: **`ship` stays the focus.** Add one step to it: when the fleet seam grep is what corroborates a row, check whether the *same* fold or rule appears in a second project before writing the technique - one tree is convergence, two would have been a law candidate, and this run never looked.
+
+| 2.11.0 | 2026-09-16 | `github:modernweb-dev/web@f72d33e1` modernweb-web | 1 repo cloned (2,135 files, 38 packages) and swept in the method's order - architecture doc, hook arbitration loops, per-package CHANGELOGs, the config and status types, tests, README last; 609 landing words against 85,217 in-tree; 0 of 3 fetches | 13 (6 design + 7 claim) | 1 admitted (3/0/2, promotion read spent opening the golden path and its nearest technique in full); 1 promoting question executed on the only promotable `partial` row, answered negative with no clean home; 1 catch, 6 untriaged, 3 leads; **anchors=29 held=29** (first pass held=0: quotes sat above code fences, the grammar needs them on the anchor's own line) | 1 technique + 1 golden-path bounding clause + 2 applications (1 source-tree, 1 fleet) | 1c/1e/0s/0t/0r; both owed rows written | 1 - ascent `d37c8288` (tenant boundary raised from a comment to the checker; target 0 -> 1 refused, floor 970 files / 12,599 tests + clean typecheck, held), branch kept, not pushed | Focus `ship`: moved, with one fleet commit from a falsifying seam, and the Test cell carries its anchor count. Depth `0/1/1/2/134`; routing count 2 across two systems, no handoff; `directions=0/10` (ten candidate absences, none a direction - this is the coverage lane), `gate=skipped`; `auto=1/1/0`, `fp=0` |
+| 2.11.0 | 2026-09-16 | `github:UsefulSoftwareCo/executor@9c424444` executor | 1 repository (1,664 landing / ~95,300 in-tree markdown, cloned and swept in Phase 2b order); 0 of 3 fetches; 9 fleet trees read, 2 key seams re-read by hand | 18 | 1 scored and admitted (3/0/2); 1 promoting question executed against `derived-selection-must-be-measured` (stayed partial); 5 catches, 9 untriaged, 3 leads; 8 note anchors, load-bearing ones hand-verified against the clone | 1 technique + 1 golden-path section + 1 failure mode + 1 source-tree application + 1 fleet application | 1c/1e/0s/0t/0r; both owed rows written | 1 - gravity `e7b47e0`+`6b0dc23` (consult log untracked; target 83 -> 0 inherited rows, floor 281 consults / 7 bundles byte-identical) | 0/1/0/1/1 · routing=3/2/2/3 NONE over 4 systems · handoff=no · directions=0/2 · gate=nothing to show |
+
+1. **A count over a config corpus cannot tell an instruction from a journal.** The sink scanner returned 152 "dead" destinations in one project and nearly all of them were a historical run log describing writes that had already happened. Prose *about* a write is line-for-line indistinguishable from an instruction *to* write, and the only thing that separated them was reading the rows. The fleet split that survived was confirmed by hand, per repository, and the script's number is deliberately absent from the note.
+2. **The rule that made this landable from one source is the one that is arithmetic.** Two sinks in one clause, and the question "which should be shared" is taste until you ask it of the *collector* instead: `+= 1` or `has this row already`. Everything downstream — which project is wrong, which fix to ship, why two documented and contradictory reasons are both half-right — follows from that one question, and it is visible in a file anybody can open. A design candidate whose discriminator is a fact about a script beats one whose discriminator is a judgment about intent.
+3. **`git commit -- <paths>` discarded a staged untracking and reported success.** The `.gitignore` half landed, the `git rm --cached` did not, and the tracked file kept overriding the new ignore rule — the working-tree commit also *reset* the index entry, so `git status` showed nothing wrong afterwards. The memory rule ("a pathspec commit ignores the index") is about staging hunks; it applies to index-only deletions too, and there the failure is silent in both directions. The recovery is a bare `git commit` with an index holding only your change.
+
+**Weakest stage across the last ten rows: `ship`, moved by one.** This row adds a paired fleet commit whose *floor* is the interesting half — the fix costs the owning installation literally nothing (byte-identical output), because everything it cost was being paid by a checkout that does not exist yet. That is why no project could see it and why two of them argued themselves into the opposite rule. Depth matched the source: a four-system design-deep monorepo with ten NONE entries yielded one technique and two applications rather than a subject, because no system's entries shared a home-if-new — the count fired per system and the clause did not. Next run's declared focus: **`ship` stays the focus**, with one addition — when a fleet measurement comes from a script, read a sample of the rows it matched *before* the number enters the note; two of this run's three corrections came from rows, and none from the count.
+
+| 2.11.0 | 2026-09-16 | `github:squid-cache/squid@e68d7413` squid | 1 repo cloned and swept (config reference, 5 design docs, async docs, the ACL policy engine, the helper protocol, the stub macros, build layers, release notes; README last); 0 of 3 fetches | 14 (11 design + 3 claim) | 1 admitted (2/0/2); 3 promoting questions executed (rows 2, 3, 4 - one promoted then fell to a contested home); 4 catches, 6 untriaged, 3 leads; anchors=35 held=33, 2 unquoted and both are `rescan_when` pointers | 1 technique + 1 golden-path scope paragraph + 2 applications (1 source-tree, 1 fleet) | 1c/0e/0s/0t/0r + 1 source-tree code row; both owed rows written | 1 - ascent `21b2bebe` (two documented-as-different empties in a metering decision resolved to one value; 1 -> 2 distinguishable outcomes, floor 12,597 tests / tsc clean / scan lane byte-identical) | Focus `ship`: moved, one fleet commit from a falsifying seam, and the Test cell carries its anchor count. Depth `0/1/0/1/59`; routing count **2 NONE across six systems (1/1/0/0/0/0)**, no shared home-if-new, **no handoff over a genuinely design-deep system**; `directions=0/2`, `gate=skipped`; `auto=1/5/0`, `fp=0` |
+
+## 2026-09-16 - squid (the policy answer that refuses to fold itself)
+
+1. **When the corpus owns the producer half of a rule, look for the consumer half before calling it a catch.** `read-write-predicate-symmetry` forbids folding unknown into a default before a check, and `failure-direction` prescribes which way degraded states resolve. Both read as prior art for "a four-valued policy answer". Neither addresses the call site, where the fold must finally happen and where the API decides whether anyone notices. Three technique reads looked like three catches until the question changed from *does the corpus know about uncertain verdicts* to *does the corpus say who folds them and how*.
+2. **A refuting seam is worth writing up even when a second seam confirms.** The first candidate - permission computed as `charge !== "denied"` over four values - is the exact warned-against shape and is correct, because the enum is closed and its non-denied members are homogeneous. Dropping it would have left the technique's decision rule sounding absolute; keeping it turned the rule into a testable condition (does the enum grow, are its members homogeneous) and cost one paragraph.
+3. **A comment asserting a distinction, directly above an assertion that cannot observe it, is a findable defect shape.** The test said *an explicit null is different from absent* and then asserted the value both produce. This is `vacuous-by-evaluation` reached from the other side - not a rule its evaluator satisfies, but a claim parked in prose because the available predicate could not carry it. Grepping for a comment's claim against its neighbouring assertion is cheap and this run found the landing that way.
+4. **A design-deep system is not automatically a forge job, and the count is what says so.** Six systems, a quarter-century of design decisions, and the routing count came to 2. At 471 subjects the corpus already models most of what a mature proxy decided; the yield was one precise mechanism, not a bundle. Writing the count before deciding is what kept this from becoming either a wrongly-declined handoff or a wrongly-dispatched forge wave.
+5. **The gate corrected a version the draft had from memory.** `verified_against` was drafted as Next 15; the lockfile witnesses 16, and `check-bundles` caught the format before the value. The witness rule (name the version the tree witnesses, never the one a draft guessed) paid twice in one run, once for the source tree's C++ standard and once for the fleet's framework.
+
+**Weakest stage across the last ten rows: `ship`, moved by one.** This row adds a paired, floor-declared fleet commit whose seam was chosen to falsify and which returned a refutation alongside its defect. Depth matched the source in shape but not in size: a six-system tree yielded one technique because the corpus is mature, and the depth cell says `0/1/0/1/59` rather than pretending otherwise. Next run's declared focus: **`ship` stays the focus, and add one line to the Test cell - `refuted=<what the falsifying seam killed>`.** Three consecutive runs have now chosen a falsifying seam and all three returned something the landing did not already say; none of the three scorecards can show *what* was refuted without reading the note.
+
+| 2.11.0 | 2026-09-16 | `github:heygen-com/hyperframes@3704863d` | 1 repository (2,520 landing / ~203,320 in-tree; clone swept: concepts, deploy guides, an 18.7k-line analyzer, types, tests); 0 of 3 fetches; 2 fleet trees read | 15 | 1 scored and admitted (3/0/2), 0 rejected, 0 escalated; 5 catches, 4 untriaged, 3 leads; anchors=8 held=8 | 1 technique + 2 applications + 1 golden-path bullet | 1c/1e/0s/0t/0r; both owed rows written | 1 - systedo-case `b95a43a4` (ab-paired, floor declared first, control arm held) | 0/1/0/1/0 app-vs-fleet · routing=3 NONE one system, one existing home · handoff=no · directions=n/a |
+
+1. **A control arm that does not fire is the thing that narrows a rule.** The source claims relative animation values are a seek-order hazard. Measuring only the hazard would have justified "avoid relative values", which is the loose form and costs expressiveness for nothing. The third arm - a relative value with no second writer - came back identical across both entry paths, and *that* is what licensed the technique's narrow claim that the hazard is the second writer. The run was hunting a positive and the negative was worth more.
+2. **`paired-ab-tie-means-nothing-ran` fired for real, and the tie looked plausible.** The first harness returned identical values on all three arms. Two of those three *should* have been identical, so the sheet read as a clean partial confirmation rather than as an error; only the fact that arm A also failed to move exposed that the ESM import had hoisted above the DOM shims and the animation engine had never started. A tie whose arms are supposed to disagree is detectable; a tie where most arms are supposed to agree is not. Print the mid-state.
+3. **The seam widened the rule rather than confirming it, which is the second consecutive round where the falsifying seam paid in an unexpected direction.** The pre-check (v2.7) asked what a CAUGHT outcome would teach: cut the technique back to the source's syntactic form. It was not caught - but the seam had a second writer and *no relative operator*, so it demonstrated a case the source's own analyzer cannot see. The seam did not merely fail to falsify; it produced the generalization. Two runs running now (2026-09-16 astra, this one).
+4. **Two silent-rewrite instruments, same shape, opposite layers.** `check-anchors` reported 8 of 8 anchors as `unquoted` because markdown line-wrapping split every quote from its path - a clean "existence only" sheet, not an error. The editor wrote a fleet file CRLF into an LF tree, committing a 15-line change as 383/371 with every gate green. Neither announces itself; both are caught only by reading the count rather than the verdict.
+
+**Weakest stage across the last ten rows: `ship`, and the declared focus carried again.** The focus said to spend the fleet grep before filing a row rather than after a landing. Here the seam hunt did not rescue a borderline row - it changed what the technique says, which is a stronger result than the focus predicted. Depth matched the source: a design-deep repository with a routing count of 3 against one existing home yielded a technique cluster folded into one technique plus its two applications, not a subject and not a scatter of amendments. Next run's declared focus: **`extract`.** Fifteen candidates from a 203,000-word tree is thin, and four of them went untriaged; the sweep found the analyzer and stopped, when the tree also carries 203 release notes and a plans directory that were never opened. When a repository's in-tree word count is two orders of magnitude above its landing page, say before Phase 3 how many of its documents will actually be read.
+
+| 2.11.0 | 2026-09-17 | `youtube:2CQwma8ZKNQ` muse-character-sheet-local | 1 video (4,701 words), class read as a hybrid build-walkthrough and routed per half; 1 of 3 fetches (the license primary); the engine's own source read for the second dated fact | 14 | 0 scored rows admitted (`auto=0/0/0`, `fp=0`) - the only row that reached the threshold on GAIN was render-bound and its pair was refused; 2 rows admitted under the corroboration table as currency; 6 catches, 5 untriaged, 4 leads | 2 currency corrections, 0 upper-layer landings | 0c/0e/0s/0t/**0r** - the render ran and returned no verdict (gate refused, ratio 0.90 vs 1.5); no technique or amendment landed, so no apply row is owed | 0 - no fleet project has a local image-generation seam; the seam hunt over the one local-inference project (a TTS service) found nothing | Focus `extract` via the untriaged backlog: **executed, returned a non-convergence** with a named discriminator (panel count against panel size). Depth `0/0/0/0/0`; routing=n/a (not a repository); handoff=n/a; `directions=n/a`; `gate=n/a` (no proposals). Render proof: 13 renders, pair refused, 39.9 MB deleted by run id |
+| 2.11.0 | 2026-09-17 | `github:mem0ai/mem0@0df3e4b8` mem0 | 1 repository cloned and swept (1,642 landing / 299,488 in-tree markdown / 31,778 library lines), memory lane read first; 0 of 3 fetches; 1 `git ls-remote` on the benchmark submodule | 14 (6 design + 8 claim) | 2 picks verified by opening files in both trees (`auto=2/0/0`, `fp=0`); row 2 promoted by one read of its cross-bundle neighbour; row 1 **originated at the Phase 7.5 seam**, not in the source | 2 techniques + 2 golden-path paragraphs + 3 applications (1 source tree, 2 fleet) | **1c**/0e/2s/0t/0r - the code row is `better` ab-paired (target 0 -> 46/46 caught, floor 4/4 offline arms held); both simulation rows are `unmeasurable` with the instrument named | 1 - personas `3c606cf51`, **on a branch**: the shared checkout had another session's merge open and a pathspec commit is refused mid-merge | Focus (render-bound `test`) did not apply, since nothing here renders. Its generalisable half, *see the instrument fail before reading its pass*, decided the run | S0/T2/A0/Asrc1/task-lines 0; routing count 1 NONE (2 at most across 4 systems), no handoff; directions=0/0, gate=empty; anchors=30 held=30 |
+| 2.11.0 | 2026-09-17 | `nousresearch.com/refactoring-hermes-with-1393-agents` refactoring-hermes-1393-agents | 1 post (1,250 words), first-party vendor account of one structural pass; ingest exit 2 on a bot wall, fetched through the browser; 0 of 3 fetches | 14 | 2 scored rows admitted, both verified by opening the technique files and a fleet tree (`auto=2/2/0`, `fp=0`); 8 catches, 2 untriaged, 1 lead; 1 currency row under the table | 2 amendments + 1 new application + 1 application re-verified; 4 applications given `refresh_by` | 0c/**2e**/0s/0t/0r - row 1 `not-better` ab-paired at a falsifying seam (0/218 target, floor held); row 2 `unmeasurable` with the instrument named | 1 - personas `2ad1cedc8` on its default branch: a Rust -> JS bridge join instrument with `--self-test`, an npm script and a pre-push job; pathspec, sibling WIP untouched, not pushed | Focus `test` via the reach check before the read: **executed** - the shipped instrument's self-test injects the miss it exists to find and the experiment's green was read only after the instrument had returned the other answer; the run's own by-name check was caught by the same discipline (arm B refuted arm A). Depth: S0/T0/A2/Asrc0/task-lines 0; routing n/a (no tree); handoff none; directions n/a |
+
+| 2.11.0 | 2026-09-18 | `github:supermemoryai/supermemory@a92c21b2` (memory lane, re-mine of 2026-08-26) | 1 repository cloned and swept (2,057 landing / ~119,700 in-tree; concepts, recall, ingestion, self-hosting and benchmark docs) **plus its released server binary run as a service**; 0 of 3 fetches; 1 fleet tree read | 13 (6 design + 7 claim) | 2 admitted (amendment 2/0/1; technique 3/0/2), 5 untriaged, 4 catches, 4 leads; **declared focus `extract` executed**: no convergence from any prior run's untriaged rows, and the convergence that mattered came from a *sibling note* written the same day | 1 amendment + 1 technique + 2 applications (both fleet) | 1e/2c/0s/0t/0r; 3 rows, all owed rows written | 4 - personas `bee29e016`, `c67a86bec`, `2172cbc6b`, `2186f009b` (none pushed) | Depth `0/1/1/0/0`; routing count 0 NONE / 3 partial, one subject, no handoff; `directions=n/a`, gate empty; `auto=2/5/0`, `fp=0`; anchors 27 of 27 held across three documents |
+| 2.11.0 | 2026-09-18 | `youtube:0GO3-JzQjzg` ai-video-four-stage-walkthrough | 1 video (2,472 words), sponsored second-hand practitioner review of one hosted video platform; 0 of 3 fetches | 12 | 0 admitted; `auto=0/2/0`, `fp=0`; 10 catches (every row mapped to a technique paragraph that already states it, several verbatim), 2 leads, 0 untriaged; promoting question run on both `partial` rows, neither promoted; **declared focus executed**: four sibling notes from the last seven days read, three of their banked rows touched by this source, **none answered**, because a single-arm demo cannot close a question that needs a pair | 0 (currency 0 too: the corpus already records the model version the video calls upcoming) | 0c/0e/0s/0t/0r - nothing landed, so nothing is owed | 0 - no landing, and the fleet has no local video-generation seam | Zero is the class's calibrated yield, not a miss: a sponsored review over a bundle whose `storyboard-grid-conditioning` and `generated-shot-sourcing` already hold every stage it demos | Depth `0/0/0/0/0`; no design record (video); `directions=n/a` |
+| 2.11.0 | 2026-09-18 | `github:anthropics/knowledge-work-plugins@ebd7990` small-business | 1 repository cloned and swept (701 landing / 214,635 in-tree: all 15 `shared/` contracts, every gotchas file, the router); 0 of 3 fetches; 2 fleet trees read (personas, ai-registry) plus the harness binary as a primary | 20 (7 design + 13 claim) | 3 admitted (technique 3/0/2, technique 2/0/2, amendment 2/0/1), 3 untriaged, 11 catches, 3 leads; `auto=3/3/0`, `fp=0`; one promoting read (tenant scope, resolved to a catch); **declared focus executed**: 34 sibling notes from 2026-09-11..18 read, 0 banked rows answered | 2 techniques + 1 amendment + 1 application (fleet) + intake 2.11.1 | 2c/1e/0s/0t/0r; 3 rows, all owed rows written | 2 - personas `1ce23dde3` (the fix), `45af0e18a` (row only); none pushed | Depth `0/2/1/0/0`; routing count 1 NONE / 2 missing-stage, one system, no handoff, no XL; `directions=n/a`, gate skipped (unattended) | the plugin's headline rules were all caught; the yield was in the joins between skills, and the fleet seam hunt turned one of them into a shipped fix |
+| 2.11.1 | 2026-09-18 | `youtube:IdwdqdywNOM` type-object-subscription-plans | 1 video (2,642 words), second-hand practitioner explainer of a published pattern; 1 of 3 fetches (the provider's entitlements doc, spent on the one row it could promote); 1 fleet tree read (kp, catalog history) | 9 | 1 admitted (technique 3/0/2), 1 untriaged (2/1/2, contested home), 7 catches, 1 lead; `auto=1/1/0`, `fp=0`; promoting question run on both `partial` rows, one promoted by the fetch | 1 technique + 1 application (fleet) | 1c/0e/0s/0t/0r; 1 row, all owed rows written | 2 - kp `83085b027` (the guard), `4774f4531` (row only); none pushed | none; declared focus (`extract`, joins first) did not apply to a single-topic explainer with no joins, and the yield came from the fleet seam hunt for the third run running | Depth `0/1/0/0/0`; no design record (video), `directions=n/a`, gate skipped (unattended); the seam chosen to falsify refuted the draft's store-only claim and the technique was corrected before landing |
+| 2.11.1 | 2026-09-18 | `youtube:1vw39QCcQjg` smart-uv-unwrap-review | 1 video (2,592 words), second-hand practitioner review (sponsored); 0 of 3 fetches; 1 fleet tree read and run (pof, the finishing runner in headless Blender) | 12 | 1 admitted (amendment 3/0/2), 1 untriaged, 6 catches, 4 leads (1 currency); `auto=1/1/0`, `fp=0` (the admitted row survived Phase 6 and was stopped by Phase 6b, not refuted); declared focus executed: sibling grep, 0 banked rows | 0 upper-layer (a render tie blocks the amendment) | 0c/0e/0s/0t/1r; 1 row, the only owed row written | 1 - pof `ca5eaf23` (calibration record plus row); not pushed | Depth `0/0/0/0/0`; no design record (video), `directions=n/a`, gate n/a; render gate ran with an operator verdict: tie on a passed precheck, so `unmeasurable` |
+| 2.11.1 | 2026-09-18 | `web:jevai.org/docs` jevai-system-one | 3 hub pages (1,359 words), 3 of 3 fetches on the vendor, 2 clones (adapter 7,529 words in tree; community list 10,016); class: relay -> vendor announcement -> vendor repository; 1 fleet tree read and run (personas memory evaluation) | 11 | 1 admitted (technique 2/0/2), 2 untriaged, 4 catches, 4 leads; `auto=1/2/0`, `fp=0`; declared focus (extract): the landing came from the adapter's types and the enumeration hunt, not from either prose tier | 1 technique, 1 source-tree application (4/4 anchors held) | 0c/2e/0s/0t/0r; 1 not-better (falsifying seam, ceiling), 1 better | 1 - personas `6246ec6aa` (experiment record, scripts, two rows); no product code, not pushed | Depth `0/1/0/1/0`; routing count M 1 / A 2, three sharing one existing home = one technique, no handoff; `directions=0/0`, gate n/a |
+| 2.11.1 | 2026-09-20 | `youtube:ScvXFi4MUSc` jev-system-1-agentic-loop | 1 video (6,358 words), second-hand practitioner review with a large speculative half; 0 of 3 fetches; 1 tree read and measured (this registry's own capability catalog, 70 packages) | 13 | 1 admitted (amendment 2/0/2 after a promoting read), 2 untriaged, 5 catches, 4 leads, 1 currency; `auto=1/1/0`, `fp=0`; the promoting read resolved a contested home (`catalog-projection-modes` vs `line-earning`) with two file reads and dropped RISK to 0 | 1 amendment + 1 application (fleet) | 0c/1e/0s/0t/0r; 1 row, the only owed row written | 0 - no project change warranted; the experiment's verdict was that the proposed change should NOT be made, which is the row's content | Depth `0/0/1/0/0`; no design record (video), `directions=n/a`, gate skipped (unattended); **the source was mined two days after the same model was mined from the vendor's own docs** ([[2026-09-18-jevai-system-one]]), and the corpus that run built is what caught rows 3-6 | the landing came from the source being WRONG: it counts standing-prefix tokens at face value, and the falsifying sweep returned a placement discriminator plus the degenerate `r = 1` corner rather than the flat refutation the run expected |
+| 2.11.1 | 2026-09-20 | `youtube:lTcwNdoTdUk` claude-backlinks-free | 1 video (2,232 words), second-hand practitioner review (sponsored vendor demo); the build-walkthrough half has no operating half, so it was priced as a review; 1 of 3 fetches | 12 | 9 (1 accepted verified in full, 8 catches confirmed against the files rather than summaries) | 0c/1e/0s/0t/0r; 1 row, the only owed row written - `better`, target 1 of 1, floor 0 of 23 refused | 0 - the gate's output is a question and the tree has no advisory field; rendering one creates a capability the scope does not name, which is a direction and not coverage, so it waits for the owner. The project ledger row shipped (systedo-case `551255a4`, hooks green, not pushed) | **0S/1T/0A/0Asrc/0task**; routing count n/a and handoff n/a (not a repository, no design record); `directions=n/a`; `auto=1/0/0 fp=0`; anchors=7 held=7 unquoted=0 absent=0; 3 siblings live at claim, no contention | The corpus has no link-acquisition subject and a sponsored demo cannot found one; the landing was a missing stage one subject over. `zero-budget-channel-planning` ranks on a prediction about audience match and a statement about labour and **neither column can refuse a channel**, while its kind table declares itself "the whole technique" and folds seven families into five kinds each won by doing work. A supply won by *enrolling* is in none of them, and the quick-win rule promotes exactly that shape by construction. **The fetched primary inverted the source's framing and the obvious rule**: the discriminator is not reciprocity - the golden path already names the arrangement next door as legitimate - but the policy's third clause, whether the party whose page carries the link chose it and was free to qualify it. The seam was chosen to falsify with the pre-check written first, and the tree answered structurally: three of four descriptive fields coerced to a domain, the field naming the channel bounded only in length. The floor was genuinely at risk (three boundary-adjacent curated channels, including the golden path's own named legitimate case) and held at 0 of 23; the discrimination is the low-effort conjunct, not the keyword. The convergence point with a 4-day-old sibling was available and deliberately **not** claimed - shared diagnosis, different rule - and the row clears at exactly +2 without it |
+| 2.11.1 | 2026-09-20 | `youtube:uHELj20WrOc` polars-2-row-order | 1 video (1,561 words), second-hand practitioner review of someone else's release candidate, thin first-party layer (installed it, ran a join, "faster but not five times"); **1 of 3 fetches, and the fetch was the landing** | 12 | 5 (1 accepted verified against the golden path and three neighbouring techniques; 4 catches confirmed against the files) | 1 technique + 1 golden-path clause + 1 application | 1c/0e/0s/0t/0r; 1 row, `better`, target 0 of 6 predicted and 0 of 6 measured on two independent weakenings, floor held, control fired 1 | 1 - personas `3dd60c22d`, comparator named with its totality contract plus one perturbation test; hooks green (rustfmt, gitleaks), not pushed; proof recorded as `ab-paired` on a standalone copy and NOT as a green suite, because that crate is red at HEAD for an unrelated pre-existing build-script reason | **0S/1T/0A/0Asrc/0task**; routing count n/a and handoff n/a (not a repository, no design record); `directions=n/a`; `auto=1/0/0 fp=0`; anchors n/a (no source tree); 0 siblings on the board but **1 unclaimed sibling live in the checkout**, which committed mid-run | The class rule paid exactly as written - a demo states no operating constraints, so the video could not have authored this and the vendor's own upgrade guide could. The video holds **both halves of the finding and never joins them**: delighted that every removal raises an error naming its replacement ("run the code, break something, fix exactly that break, keep going"), and four minutes later reporting the top complaint as row order, where "nothing crashes". The join is the landing: a breaking release splits by what the CALLER'S PROCESS does, aids get built for the enumerable half, and the silent half is a withdrawn *emergent guarantee* no symbol ever carried - so it cannot be enumerated from the diff and a major version does not help. Both neighbours key on symbol identity and structurally cannot express it. **The enumeration hunt fired on the golden path** (four failure modes, all metadata and delivery; the missing case is all four holding while the caller's code computes something different). **The falsifying seam half-refuted the hunt** - the first candidate was correct code, a total comparator with a comment explaining itself, so the arm became "if this went non-total, would anything notice?" and the answer was nothing, twice. Five of six tests assert by keyed lookup, which is *correct* practice and precisely why they are blind. **A process lesson with teeth**: the regenerated index was cleared by grepping its diff for foreign slugs, which returned nothing - and it was still describing a sibling's uncommitted work, because a *modified* document moves a subject digest and adds no name. Diff digests against HEAD, not slugs |
+| 2.11.1 | 2026-09-20 | `youtube:QW2nS4DO-s8` cinematic-ai-video-three-techniques | 1 video (1,589 words), second-hand practitioner review (sponsored demo); **0 of 3 fetches**; 2 fleet trees read, 1 run (gravity's context map and its paired video A/B harness) | 11 | 2 admitted (1 amendment 3/1/2, 1 project fix), 2 untriaged, 6 catches, 1 lead; `auto=1/0/0`, `fp=0`; row 2 is a lead and not a decline because Phase 6b refused its pair, which is an absent verdict rather than a negative one | 1 amendment (`scoring-rubrics/normalization`) | 2c/0e/0s/0t/1r; 2 rows, both owed rows written, both `better`; the render row produced no verdict and is counted as run-and-refused | 1 - gravity `24a3c78` (a failed readback is no longer cached as complete); not pushed. The registry's own join instrument was also changed, which is registry content rather than a project commit | **0S/0T/1A/0Asrc/0task**; routing count n/a and handoff n/a (not a repository, no design record); `directions=n/a`, gate skipped (unattended); render proof RUN and **refused at 0.51x** against a required 1.5; renders deleted by run id, 3.6 MB; 2 siblings at claim, 3 by Phase 7 | **The source landed nothing and was still worth mining, because it aimed the seam hunt.** All three craft claims are owned, two as laws. The fifth consecutive run where the fleet out-originates the source. The finding is an *asymmetry inside one function*: a context-map join sets its admission bar at 55% of each context's own best match, so the bar rides on the leader - and **25 of 26 sibling contexts admit a pair weaker than the one the strongest-governed context rejects** (its own #2, `use_when`-grounded, 732.3 against a bar of 921.5, down to 298.1 elsewhere: 2.46x). The instrument computes the population median twenty lines later, for the same comparability reason, and never reaches for it at admission. Fleet-wide the fix recovers **+481 pairs (+11.4%)**, 461 `use_when`-grounded, **0 lost**, lexical share improved. **Two process lessons, both paid for.** (1) The paired measurement *refuted itself*: it first reported 11 then 17 pairs LOST, impossible for a bar that only lowers - two sibling runs committed between the arm-A and arm-B builds. Interleaving the arms per project returned 0. In a shared checkout a paired measurement must interleave its arms or it measures the neighbours. (2) The render gate caught the director mid-story: the pre-read was that the shot-property arm ran the move backwards, and the whole effect lived at one seed (between 2.89 at the other, within 23.21). Second run in four saved by that gate. Seed-robust instead: at seed 8 **both** arms play "the lamp flares on" in reverse, so a 5s multi-beat shot is not a reliable ordering unit at all - which is the thing to measure before the onset question is even well-posed |
+| 2.11.1 | 2026-09-20 | `youtube:ymgH8jS6Wb8` + `youtube:ZgXej_9isxY` jev-batch-practitioner | batch of 2 (4,179 + 3,477 words): a first-party account running 12 cases, plus an explainer carrying the API shape; 4 web searches (no in-run page fetch needed); 1 fleet tree read (pof anim-critique chain) | 14 | 1 admitted (amendment 2/0/2), 2 untriaged, 6 catches, 3 leads, 4 currency; `auto=1/1/0`, `fp=0`; **declared focus executed** - the landing came from an enumeration gap plus a bundle-wide census, not from either source's claims | 1 amendment (media lane) | 0c/1e/0s/0t/0r; 1 row, the only owed row written | 0 - the experiment refuted the change at the fleet's own seam, so no project change was warranted | Depth `0/0/1/0/0`; no design record (videos), `directions=n/a`, gate skipped (unattended); third and fourth pass over one model in three days, and the prior passes are what produced 6 of the catches | the operator asked an architecture question and the honest answer was that no architecture is published to miss; the value came from turning the question on the corpus instead, where a census found media-generation carries zero knowledge of probability-shaped answers |
+
+## 2026-09-16 - modernweb-web (the contract the checker could not see)
+
+**Next run focus (modernweb-web).**
+1. **When a source and a fleet tree both state an invariant in a comment, the comment is the finding.** The mined repository documented a plugin hook's `line`/`column` by name and delivered them transposed; the fleet seam stated its tenant boundary in prose one line above handing out two interchangeable strings. Neither is a bug report, and both are the same defect: a rule held at the call site while reading as structural. Grep for the sentence that asserts an invariant, then check whether anything but prose enforces it.
+2. **Prove the negative artifact is on a rung before trusting it, by deleting the constraint.** The artifact was written as a test file, and it stayed green with both brands removed - that tsconfig excludes every test file from the typecheck, so it was measuring its own exclusion. Identical results on both arms is the tell the corpus already names for a paired tie, and it applies to an artifact as much as to an experiment.
+3. **Anchors need the quote on the anchor's own line.** The first pass of a source-tree application scored `held=0 unquoted=6 missing-file=4` with every citation correct, because the quotes sat inside fenced code blocks below their anchors and the paths were bare filenames. Generate the anchor lines from the tree with a script rather than writing them by hand, and check before the prose is finished rather than after.
+
+**Weakest stage across the last ten rows: no longer `ship`.** Counted from the Ship cells, **8 of 10** rows now carry a fleet commit, and the two zeros are honest ones - a run whose seams were both inside the registry, and a run with no landing at all. The focus that stood for weeks has moved.
+
+The stage now losing most is **extract**, and not for lack of candidates. Ten rows produced 12-18 candidates each and admitted one or two; the remainder is banked as untriaged with anchors, which is the correct call per row and has accumulated roughly **fifty** unverified candidates across the ten. The method banks them explicitly so that cross-run convergence - the cheapest corroboration available, costing no fetch - becomes possible, and then nothing reads them back. This run is an example: row 2's arbitration finding was banked precisely because a second independent source would promote it, and no step in the method looks for that second source.
+
+Next run's declared focus: **`extract`, via the untriaged backlog.** At Phase 4, after the map names homes, grep the untriaged tables of `librarian/sources/*.md` for this source's terms before scoring anything, and say in the scorecard row whether a prior run's banked candidate converged. A run that finds one has landed a technique for the price of a re-read; a run that finds none has spent one grep saying so.
+
+## 2026-09-17 - muse-character-sheet-local (the pair that refused itself)
+
+**Next run focus (muse-character-sheet-local).**
+1. **Render the within-arm seed control FIRST, before the second arm exists.** The gate
+   arithmetic is the last step, but its inputs are not equally expensive to obtain. This
+   run spent 13 renders and about 40 minutes to learn that arm A's distance from itself
+   (70.67) exceeded the distance between the arms (63.46) - and the two renders that
+   settled it were arm A at two seeds, four minutes, obtainable before arm B was queued.
+   An approach that cannot reproduce itself cannot carry a pair.
+2. **Say which refusal shape a refused pair hit.** An indiscriminable pair (the arms were
+   one process) is redesigned one level up the conditioning ladder. An unstable-arm pair
+   (the noise floor is enormous) is redesigned by holding the confound fixed instead.
+   Recording only "refused" loses the instruction for the next attempt.
+3. **When a source reports a number about a tool that is installed on this machine, read
+   the tool.** One grep confirmed the video's figure and returned the platform split, the
+   flag name and the absence of a cap flag on top of it.
+
+**Weakest stage across the last ten rows: `test`, and this row is the clearest instance.**
+Nine of the last ten rows carry a verified pick and a landing; this one carries a
+verification that ran to completion and returned nothing usable, because the instrument
+refused the comparison after the budget was spent. Counted across the render-bound runs
+specifically, **three of four render proofs have now ended without a verdict** - two ties
+on indiscriminable arms and one refusal on an unstable arm. That is not a failure of the
+gate, which is doing exactly what it was added to do; it is a statement about where these
+runs lose their work, and it is upstream of the gate, in how the pair is designed and in
+what order it is rendered.
+
+Next run's declared focus: **`test`, via the cheap half of the discrimination check.**
+For any render-bound row, render one approach at two seeds before rendering the other
+approach at all, write `within` into the note at that moment, and only then decide
+whether the pair is worth its remaining budget. A run that does this and proceeds has
+bought its pair for two renders; a run that does this and stops has saved ten and still
+has a finding about the approach's own stability. Either way the scorecard row says what
+`within` was before the second arm existed.
+
+## 2026-09-17 - mem0 (the rule the prompt states and the call path refuses)
+
+The source handed over a correct rule wired so it could never run. The fleet had an
+instrument aimed at the same defect that could never fail. Neither was visible by reading:
+the prompt reads as correct, and the check had been green on every backend it ever saw.
+Both came out only by driving an arm that *should* produce the failure: tracing the
+parameter from the public entry point to the prompt builder, and building a backend that
+stamps the wall clock.
+
+**Weakest stage across the last ten rows: still `test`, and this row names its common
+root.** Three of four render proofs ended without a verdict because the arms could not be
+told apart. This run's fleet row ended `unmeasurable` because the ladder's scenario holds 12
+relative references in 3,571 events, all one template, so every arm ties on the axis. And
+the purity check passed a fully contaminated backend because its normaliser erased the
+field the contamination lived in. These are three instruments in three lanes that could not
+return a difference where one existed. The eval-harness golden path already states the root
+("a pass is evidence only where a failure was reachable"), and this run extended its
+enumeration rather than minting a law. A law is a cross-run convergence and needs the
+operator (E3). It is recorded here as that convergence's third sighting.
+
+Next run's declared focus: **`test`, via the reach check before the read.** Before reading
+any pass, tie or `unmeasurable` from an instrument, spend one cell proving the instrument
+can return the other answer. For a render pair that is the within-arm seed control. For a
+purity or invariance check it is the contaminated arm. For a measured ladder it is a count
+of the scenario events that exercise the axis, with the matched rows read. A run that does
+this and gets a difference has bought its verdict. A run that does this and gets nothing
+has a finding about the instrument, which is what this row landed.
+
+## 2026-09-18 - supermemory in the memory lane (an engine run, not read)
+
+**Next run focus (supermemory).**
+1. **A vendor repository's Releases page is part of the tree.** This source was mined on
+   2026-08-26 as "a hosted engine whose product is not in the repo", and a self-hosted
+   server binary had already shipped ten weeks earlier, documented in a `self-hosting/`
+   directory the sweep never opened. The whole difference between that run and this one -
+   a schema priced from its types, versus a measured ladder row - is one directory and one
+   Releases page. Sweep order gets a new first question for a vendor repository: **is the
+   engine downloadable?**
+2. **A published number is re-run, and re-running it needs the run to survive a budget
+   window.** A year of write-time extraction is more model calls than one subscription
+   window holds. The first attempt was discarded at day 174 because the harness answers
+   probes only after the replay, so a resume would have answered day-20 probes against a
+   day-174 store. What made the second attempt work is worth carrying to any long arm:
+   checkpoint the unit *before* its processing wait, delete and re-send what failed, stop
+   on three consecutive failures (that is the budget, not the design), and **record each
+   probe's context at its own instant and replay it** - which also made the final re-run
+   cost zero model calls.
+3. **Counters that do not survive a resume report the arm as free.** The completing window
+   ingested nothing, so the run header said 0 write calls for an arm that cost ~1,000. The
+   number was reconstructed from the writer cache and footnoted; the shim now accumulates.
+   Any per-window instrument feeding a cost column needs this check before the row is
+   quoted.
+4. **The measurement that survived was the one with no model in it.** The two read modes
+   differed on 5 of 194 probes, and three of the five were the grader's strictness rather
+   than the design. The structural count - a superseded value in 92 of 92 contexts - needed
+   no consumer and no judge, and it is what the landing rests on. When a pair is within
+   grader noise, look for the rate that can be counted off the context itself.
+
+**Weakest stage across the last ten rows: `extract` still, and this run says why the fix is
+not more candidates.** The declared focus was executed exactly as written - grep every prior
+run's untriaged table before scoring - and it returned nothing, while the convergence that
+actually paid was in a *sibling source note written the same morning*, whose untriaged row
+("a temporal boost that never filters cannot adjudicate a contradiction") is the question
+this run's paired read answered with a number. The backlog the focus points at is the right
+idea aimed one file too narrowly.
+
+Next run's declared focus: **`extract`, widened to the sibling lane.** At Phase 4, after the
+map names homes, read the *leads and untriaged rows of source notes from the last seven days*
+in the same domain, not only the matching terms - a sibling's banked question is the cheapest
+corroboration this method has, and it is one grep of `librarian/sources/2026-09-*.md`. Say in
+the row whether a sibling's row was answered, and by what measurement.
+
+## 2026-09-18 - ai-video-four-stage-walkthrough (a demo cannot answer a pair)
+
+**Next run focus (ai-video-four-stage-walkthrough).**
+1. **Before spending the sibling-lane read, ask whether the source has two arms.** Three
+   banked sibling rows were touched here: per-view versus one-call sheet minting, layout
+   weighted below identity, and marks versus instructions for a panel repair. The source
+   showed each approach working once. A banked question that needs a pair can only be
+   answered by a source that ran both sides. A demo can raise one of those questions but
+   cannot close it, so for a demo-class source the lane is one grep for *new* sibling
+   questions, not a hunt for answers.
+2. **In a mature bundle, a review's yield is its proudest segment and nothing else.** Ten
+   of twelve rows mapped to paragraphs that already state them. Both leads came from the
+   stage the creator was proudest of (two clips from one board, cut together, with no
+   chaining) and from the one failure they admitted in passing (a dialogue line that
+   never rendered). Read those two places first, and price the rest of the source as
+   catches.
+
+**Weakest stage across the last ten rows: unchanged.** This row is a calibrated zero and
+does not move the reading. The declared focus stands as written: `extract`, widened to the
+sibling lane, now with rule 1's filter.
+
+## 2026-09-18 - kwp-small-business (the joins, not the skills)
+
+**Next run focus (kwp-small-business).**
+1. **In a skills library, read the shared contracts and the seam files before any
+   skill.** Forty-four skills of domain advice produced eleven catches. The three
+   landings all came from `shared/`, where the authors wrote down what broke
+   *between* skills: a total crossing a seam, one tool under two names, a promise
+   the runtime cannot keep. A plugin's joins are its design record.
+2. **When the seam hunt finds two guards side by side, compare what each one
+   sums.** personas already had the tree-wide membership query and used it for
+   breadth only. The cost guard beside it read a path-carried figure. The
+   fingerprint of a population mismatch is a sibling guard that already counts the
+   right population.
+
+**Weakest stage across the last ten rows:** `extract`, widened to the sibling lane,
+stands. It was executed and answered nothing this run: 34 notes read, 0 banked rows
+closed. This source's yield came from the fleet seam hunt, not from sibling notes.
+
+## 2026-09-18 - type-object-subscription-plans (the aside, not the pattern)
+
+**Next run focus (type-object-subscription-plans).**
+1. **In a pattern explainer, the yield is in the aside the pattern assumes
+   away.** Thirteen minutes taught a pattern the corpus owns twice. One minute
+   asked where the plan objects come from (a source file or a database), and
+   that was the only stage nothing in the corpus owned. Read an explainer for
+   the question it answers in passing, not the one it is titled after.
+2. **Run the falsifying seam before the landing is final, not after.** The kp
+   history refuted this run's own draft ("a code catalog escapes the bulk
+   downgrade") while the technique was still in the working tree, and the
+   correction cost one paragraph. After a commit it would have cost an
+   amendment against the run's own technique.
+
+**Weakest stage across the last ten rows: unchanged, `extract` (widened to the
+sibling lane).** This row is small and calibrated. Its landing came from the
+seam hunt, the third consecutive run where the fleet out-originated the
+source.
+
+## 2026-09-18 - smart-uv-unwrap-review (the gate that passed a tie)
+
+**Next run focus (smart-uv-unwrap-review).**
+1. **In a render-bound bundle, price the render proof before scoring.** Row 1 cleared the
+   score at 3/0/2 on a clean 7-mesh experiment, then tied at the operator's look. Scoring
+   first cost nothing here, but a row whose only observable is a metric proxy (texel
+   evenness) should ask at triage whether that proxy is visible at the consumer's bake size.
+2. **For a deterministic pipeline, the discrimination ratio is not a gate.** `within` was
+   0.0, so 7.9 levels of masked difference passed, and the operator saw identical images.
+   See LESSONS.
+
+**Weakest stage across the last ten rows: unchanged, `extract` (widened to the sibling
+lane).** This is the fourth run in a row where the fleet seam hunt, not the source, carried
+the result.
+
+**Weakest stage across the last ten rows: unchanged, `extract`.** This row's single landing came from a vendor's open adapter - the types, not either prose tier - and from the enumeration hunt on the home subject. The apply stage returned one `not-better` from a seam chosen to falsify (a ceiling, 80/80 in both arms), which is written into the technique as its boundary, and the seam hunt originated a finding for the fourth run running (a model grader reproducing 100 of 120 of its own recorded verdicts). Next run's declared focus stays `extract`: read a repository's types before its prose when the prose tiers disagree with each other.
+
+## 2026-09-20 - jev-system-1-agentic-loop (the source was the counter-example)
+
+**Next run focus (jev-system-1-agentic-loop).**
+1. **When a source quotes a token count as a saving, ask what price those tokens are sold at.** The video's headline proposal was arithmetically inverted and the token count was exactly right - 10,001 measured against "about 10,000" claimed. Everything hinged on where the block sits: a standing prefix is charged at the cache's read multiplier, so a removal saves a tenth of face value, and a per-request rewrite charges the write premium on everything downstream, per request, forever. Face value is the wrong price for any block that is already cached, and the corpus had both halves of the arithmetic in two different subjects.
+2. **A second source on a subject a recent run already mined is worth running, and its value is the catch rate.** This model was mined from the vendor's own docs two days earlier. That run's landing is what caught four of this run's thirteen candidates outright, including the source's central operating rule. A high catch rate against a fresh subject is the corpus working, and the run should be reported as small rather than padded - but the *reason* it was small belongs in the note, because it is evidence the earlier landing was correctly scoped.
+3. **A falsifying seam can refuse the refutation too.** The sweep was run expecting to show that a per-request selector never pays. It showed something better and unhunted: it never pays *where a prefix cache exists*, and it pays exactly at `r = 1`, where none does. The degenerate corner is what turned a flat "no" into a discriminator, and the discriminator is the part that is portable.
+
+**Weakest stage across the last ten rows: `extract`, for the fifth run running.** This row's single landing came from the source's error rather than from its content, and from a measurement taken on the local machine rather than from the video - the fifth consecutive run where the yield came from somewhere other than the source's claims. The pattern is now stable enough to name as a property of the lane rather than as a miss: a second-hand review's claims are almost always caught, and its *mistakes* are where the extractable material is. Next run's declared focus stays `extract`, sharpened: **on a review or a listicle, extract the source's reasoning errors as first-class candidates, not just its assertions.**
+
+## 2026-09-20 - claude-backlinks-free (the primary, not the source, carried it)
+
+**Next run focus (claude-backlinks-free).**
+1. **For a relay-class source, budget the fetch at triage as the extraction, not
+   as corroboration.** The method's class table already says this for reviews,
+   listicles and papers; this run is the clean instance. The video contributed a
+   *location* - a link pool nobody in the corpus had priced - and zero rules. One
+   fetch produced the whole technique, including inverting the framing the source
+   and the obvious reading both had: not reciprocity, but whether the party whose
+   page carries the link chose it and could qualify it. Four of the previous five
+   runs credited the fleet seam hunt for out-originating the source; this one
+   credits the primary, which is a different diagnosis and a cheaper one.
+2. **When two runs touch one subject within two weeks, check whether their
+   findings share a root before claiming convergence - and say so when they do
+   not.** The 2026-09-16 sibling landed a technique in this same subject whose
+   `use_when` ends "a channel that costs nothing to send is still spending
+   something"; this run landed a gate for a channel whose cost is its own outbound
+   links. Same diagnosis, different rules. Claiming the +1 would have inflated a
+   row that clears at exactly +2 on its own, and the subject note records the pair
+   as two instances of one root, with a third being what would justify stating it
+   at golden-path level.
+
+**Weakest stage across the last ten rows: `extract`, for the sixth run running -
+but the reading changes.** The previous five rows diagnosed it as "the fleet
+out-originates the source" and aimed the focus at the sibling lane. The sibling
+lane was executed here under the 2026-09-18 two-arms filter and returned its first
+result in five runs (the unclaimed convergence above), so the lane is not dead.
+What this row adds is that for a *relay*-class source the loss is upstream of both:
+the source is a pointer by construction, and the run's yield is decided by whether
+the fetch is spent at triage on the one claim that needs a primary. Next run's
+declared focus: `extract`, narrowed - **at Phase 5, for any relay-class source,
+name which single row the fetch will be spent on before scoring, and say in the
+row what the primary changed about the source's framing.** A fetch that only
+confirmed the source is a fetch that was not needed.
+
+## 2026-09-20 - polars-2-row-order (the half that raises nothing)
+
+**Next run focus (polars-2-row-order).**
+1. **When a source praises a mechanism and complains about a symptom, check
+   whether the mechanism covers the symptom.** This video does both, four
+   minutes apart, and never joins them: it calls error-driven migration a
+   smart choice, then reports the top community complaint as the one change
+   that raises no error. Neither half is a finding; the join is. A review is
+   organised as a list of segments, so the two halves of one finding routinely
+   sit in different segments and neither is wrong on its own.
+2. **Verify a regenerated index by diffing SUBJECT DIGESTS against `HEAD`, not
+   by grepping the diff for slugs.** This run cleared
+   `knowledge/software-engineering/index.json` by searching its diff for
+   technique names it did not recognise and finding none - and the file was
+   still describing a concurrent session's uncommitted edit, because a
+   *modified* existing document moves a digest and introduces no new name. The
+   slug grep is sound for a sibling's NEW subject and blind to their edit of an
+   old one, which is the more common case.
+
+**Weakest stage across the last ten rows: unchanged, `extract`.** But this row
+does not fit the four-run pattern it follows. The last four said the fleet seam
+hunt out-originated the source; here the seam hunt *refuted* itself - the first
+candidate was correct code - and the landing came from the source after all,
+via the one fetch the class prescribes. That is the review class behaving
+exactly as documented rather than an exception to it, and it is worth saying
+plainly: **the fetch is the extraction is not a caveat about weak sources, it is
+where the yield of this class actually lives.** Next run's declared focus stays
+`extract`, narrowed: on a review, spend the fetch before scoring the table, and
+read the source for two segments that contradict each other rather than for one
+segment that is right.
+
+## 2026-09-20 - cinematic-ai-video-three-techniques (the bar that rides on its own leader)
+
+**Weakest stage across the last ten rows: still `extract`, and the reading has
+sharpened.** Five runs running, the fleet seam hunt — not the source — carried
+the result, and this row is the cleanest case yet: the source landed *nothing*,
+all three of its craft claims being owned (two of them as laws), and the run
+still produced a measured amendment and a shipped project fix. That is not a
+failure of the front of the funnel; it is what a well-covered bundle looks like
+from the outside. The honest restatement is that for a saturated bundle **a
+source's job is to aim the seam hunt, not to supply the finding** — this one
+named `cinematic-language`, which is the only reason anyone opened the context
+where the defect lived.
+
+**Next run's declared focus.**
+1. **Interleave the arms of any paired measurement in the shared checkout.**
+   This run's first pass reported 11 and then 17 pairs lost by a change that can
+   only ever *lower* a bar — structurally impossible, and caused by two sibling
+   runs committing between the arm-A and arm-B builds. Running A for all N
+   projects and then B for all N is a two-pass design that measures the
+   neighbours. A-then-B per unit, seconds apart, returned 0. With a dozen
+   terminals live this is now the default hazard of every fleet-wide number.
+2. **Carry the `extract` focus forward as "aim the hunt".** On a source whose
+   subject the corpus already saturates, do not score the table looking for what
+   is new in the source; use its subject to pick which fleet context to open,
+   and read that tree for where it disagrees with itself. Three of the last five
+   landings came from a tree contradicting its own generated metadata.
+3. **Price a render pair's seed noise before believing either arm.** The gate
+   refused at 0.51x *after* the director had already built a story from seed 7.
+   Two seeds is the minimum to have a within-arm number at all, and a pair whose
+   effect lives at one of two seeds is n=1 wearing n=2.

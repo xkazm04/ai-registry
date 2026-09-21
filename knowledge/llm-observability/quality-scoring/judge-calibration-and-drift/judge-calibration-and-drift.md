@@ -12,6 +12,7 @@ techniques:
   - windowed-score-drop-alerting
   - judge-selection-by-spread
   - repeatability-floor
+  - fit-and-report-on-disjoint-labels
 ---
 
 # Judge calibration and drift
@@ -182,6 +183,13 @@ verdicts moved; comparing a run under the new method against a baseline
 recorded under the old one tells you nothing but the method delta wearing a
 quality costume.
 
+The paired comparison stays clean only while it is a measurement. Once its
+winner is adopted, or a search over wordings and examples consults the labels
+to decide what the judge becomes, the set has been used to fit the judge, and
+its agreement on that set is a training score. The trust record then comes from
+labels no fitting step read
+([fit-and-report-on-disjoint-labels](./techniques/fit-and-report-on-disjoint-labels.md)).
+
 ## Failure modes of the naive reading
 
 - **Calibrate once, trust forever.** The instrument under the trust verdict
@@ -222,3 +230,7 @@ quality costume.
 - [judge-selection-by-spread](./techniques/judge-selection-by-spread.md) —
   choosing the judge by discrimination between known-good and known-bad,
   and re-verifying after any method change.
+- [fit-and-report-on-disjoint-labels](./techniques/fit-and-report-on-disjoint-labels.md) —
+  the moment labels are used to change or choose the judge they stop
+  certifying it: split before fitting, re-measure the winner, bind the
+  search to the loss direction.

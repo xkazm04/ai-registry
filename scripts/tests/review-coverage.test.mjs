@@ -1,0 +1,31 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
+import {fileURLToPath} from 'node:url';
+import {spawnSync} from 'node:child_process';
+import {hashBundle} from '../lib/bundle-hash.mjs';
+test('review completion requires every document and becomes stale when content changes',t=>{
+ const root=fileURLToPath(new URL('../../',import.meta.url)),temp=fs.realpathSync(os.tmpdir());
+ const fixture=fs.mkdtempSync(path.join(temp,'registry-review-test-'));
+ t.after(()=>{
+  const resolved=fs.realpathSync(fixture),rel=path.relative(temp,resolved);
+  if(!rel.startsWith('registry-review-test-')||rel.includes(path.sep)||path.isAbsolute(rel))throw new Error('unsafe cleanup');
+  fs.rmSync(resolved,{recursive:true,force:true});
+ });
+ fs.mkdirSync(path.join(fixture,'scripts/lib'),{recursive:true});
+ for(const p of ['review-coverage.mjs','lib/bundle-hash.mjs','lib/exit-codes.mjs'])fs.copyFileSync(path.join(root,'scripts',p),path.join(fixture,'scripts',p));
+ const dir=path.join(fixture,'knowledge/domain/topic');fs.mkdirSync(path.join(dir,'techniques'),{recursive:true});
+ fs.writeFileSync(path.join(dir,'topic.md'),'A scoped rule.\n');
+ fs.writeFileSync(path.join(dir,'techniques/check.md'),'Check the rule.\n');
+ fs.writeFileSync(path.join(fixture,'knowledge/domain/index.json'),JSON.stringify({subjects:{topic:{file:'knowledge/domain/topic/topic.md',category:'test'}}}));
+ const note=path.join(fixture,'librarian/subjects/domain/topic.md');fs.mkdirSync(path.dirname(note),{recursive:true});
+ const run=()=>spawnSync(process.execPath,['scripts/review-coverage.mjs','--require-complete'],{cwd:fixture,encoding:'utf8'});
+ assert.equal(run().status,1,'absence cannot become completion');
+ const record={subject:'domain/topic',date:'2026-09-09',baseline:'1234567',digest:hashBundle(dir).hash,disposition:'keep',counterexamples:['Counterexample considered'],sources:['Fixture source'],documents:{'topic.md':{disposition:'keep',reason:'Fixture reason'}}};
+ const save=()=>fs.writeFileSync(note,'<!-- architecture-review:v1 -->\n```json\n'+JSON.stringify(record)+'\n```\n');
+ save();assert.equal(run().status,1,'a missing technique decision blocks completion');
+ record.documents['techniques/check.md']={disposition:'keep',reason:'Fixture reason'};save();assert.equal(run().status,0);
+ fs.appendFileSync(path.join(dir,'topic.md'),'Changed rule.\n');assert.equal(run().status,1,'old decision cannot cover changed bytes');
+});

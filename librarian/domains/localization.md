@@ -317,3 +317,229 @@ bundle's whole attention score is 2 points. The second-tree debt is retired. Wha
 still owed here is the maturity flip (the reconcile lane's definition of `reconciled` may
 be met by the spec-bound applications; the mechanical pass verifies each subject against
 the definition before flipping anything) and the unwitnessed demand. Run: [[2026-09-01-1]].
+
+## 2026-09-14 — `/deepen` on operator demand: English as a target, and the fleet gate
+
+The operator asked for this bundle to become "a professional service for creating high
+quality english native texts to web", and for every project in the fleet to follow the
+rules when landing and marketing pages are built. **The scan found a coverage hole, not an
+undercooked subject**: all fifteen subjects treated English as the source and taught what
+the *other* language demands; nothing held English as the language a product ships in. By
+the skill's own rule the hole was forged, not deepened around.
+
+**Landed** (registry `main`): [[english]] (european; 8 techniques, 88 `EN-*` anchors, 3
+applications) and [[copy-quality-gates]] (craft; 6 techniques, 2 applications) in
+`e86f41e8`; the shared skill `native-copy` (contract, zero-dependency checker whose findings
+cite `EN-*` IDs, baseline ratchet, anchored review, brief-first writing, pre-push wiring) in
+`148fdbe6`; generated views `a1f164e2`, `8f559610` (gate 19/19). Shape: **17 subjects, 105
+techniques, 50 applications**.
+
+**Demand is no longer unknown.** It was stated by the operator and by the fleet survey: 8 of
+13 projects ship public English web copy (kp, systedo-case, personas-web, ascent, gravitone,
+politicas, goat, gravitone-gcloud), no prose linter existed anywhere, only systedo-case had
+English style documents, and the four projects that had an em-dash policy disagreed with each
+other. Operator decisions recorded 2026-09-14: gate blocks **new** errors only (baseline),
+**all 8** projects, **US English fleet-wide**, **em dash banned fleet-wide** in product copy.
+
+### The run's largest finding was not about English
+
+The research lane on cross-repo enforcement read the harness documentation and flagged that
+out-of-project symlinked rule files may not load. Probed the same hour with a load-telemetry
+hook: **they do not** (2.1.270; a hard link or copy does; skill-directory links do). kp loaded
+0 of its 4 registry rules; every project's external-include approval flag was false. **The
+always-on knowledge rules — this registry's "present, not fetched" design — had been reaching
+no session**, while `link-registry --check` reported them healthy. Fixed in `84f4b6aa` (copies +
+drift check); kp re-probe 4 of 4. This affects every bundle, not only this one, and it means
+the pre-2026-09-14 "no reporting installation" demand signal for every domain was partly an
+artifact: agents never saw the cards. Memory: `symlinked-rules-do-not-load`.
+
+### Applied in the same run
+
+- kp `8450dbb1` — the i18n gate walked arrays as opaque leaves; after the fix it read 8,553
+  strings per locale (34,212 counted equal) and found **4** banned dashes where it had
+  reported 0. Row in `applied.md`.
+- Registry `84f4b6aa` — the rule delivery above, `code` / `better`. Row in `applied.md`.
+
+### Research shape and source classes (tallied against accepted vs declined findings)
+
+Seven lanes + a fleet survey; a Director dossier fixed slugs and IDs with convergence marks.
+
+| source class | fate this run |
+| --- | --- |
+| primary style-guide pages, read directly | accepted; **several canonical URLs have moved** (GOV.UK guidance host, Shopify content docs, plainlanguage.gov PDFs) — cite the current host |
+| peer-reviewed studies | accepted; carried the refutations (readability, native review, detectors, plain-language credibility) |
+| preprints | accepted only hedged, with n stated (em-dash baseline on 8 human essays) |
+| vendor survey statistics | declined as cited (a stated-preference localization survey answers a different question) |
+| secondary summaries of papers | accepted only as "indicative" (translationese polish-pass effect size) |
+| practitioner lint packs and field guides | rule ideas and exception wording only; their single-lane rules are written hedged |
+
+The counter-evidence lane was again the highest-yield per token, and the blind training-data
+lane converged with the web lanes on every rule that reached the golden paths.
+
+### Director's error rate, again recorded deliberately
+
+Workers caught **six** dossier errors, each improving the result: a "validated rule with six
+pairs" that shows five (two of them article fixes); a "puffery stack" mostly made of
+checkable facts; a Title Case finding that was consistent, not mixed; two word-list hits clean
+under their own exceptions; a ~2,000-pattern ban ceiling that was decoding-time, not prompt;
+a 23.5x style figure that compared few-shot with zero-shot. The Director's own pre-fix kp
+measurement looked for one character and found 1; the gate running every rule found 4.
+
+### Saturation ledger
+
+| subject | rung | last-pass yield | dry streak | clock |
+| --- | --- | --- | --- | --- |
+| english | L2 (+ fleet samples) | forge | 0 | vocabulary rules re-checked by 2027-03-14; authorities table by 2027-09-14 |
+| copy-quality-gates | L2 + two L3 field incidents | forge | 0 | re-probe rule delivery after every harness upgrade |
+
+### Banked (return conditions in the subject notes)
+
+Heading-restating subheading rule (second sighting), elided head noun rule (second sighting),
+`specimen` lexicon row, precision count of the mechanical EN rules on real catalogs once
+several trees have run the checker, `link-registry --check` at a seam, a scripted delivery
+probe, the linker's CRLF `.gitignore` rewrite.
+
+## 2026-09-14 (same day, second pass) — the market harvest, wave 1 of three
+
+The operator asked whether this domain could become an AI agency; the answer given was
+"narrow productized service yes, broad agency no, prove uplift first", and the operator then
+redirected to the useful half: **mine the market for craft, buy nothing, report where the
+cheapest learning is.** Five lanes: open-source platform and linter code read at tip, vendor
+public docs, the field's campaign papers with their data. Source note:
+[[2026-09-14-l10n-market-landscape]].
+
+**The finding that matters most: we published two wrong claims**, and the market's own
+measurements are what exposed them. Span-level detection was quoted at "0.3–0.6 F1" (actual:
+13.47% best automatic against a 47.48% second-human ceiling; on English→Czech the three human
+columns read 14.40 / 24.86 / 18.24 against 10.55), and the severity weighting was quoted as
+"1, 5 and 25" (actual: major 5 / minor 1 / neutral 0, with non-translation 25 and minor
+punctuation-fluency 0.1 as *category* exceptions) — **in the golden path as well as the
+technique**, which is the recurring shape: a number corrected downstairs and left standing
+upstairs. Both fixed in `423a40d7`.
+
+**Landed (wave 1):** the two corrections plus the human-ceiling rule; segment-vs-system
+inversion; never-evaluate-with-the-metric-that-selected-it; per-pair catastrophic recall;
+blind-sentinel and corner-case rater controls; metric-delta significance floors (bootstrap
+floor ~4× smaller than the human-agreement cutoff); the category-free review protocol as a
+costed tier with its trade; the cost-and-weight-licence layer; a new technique
+`serialization-transport-safety`; rename-carrying cache deltas and absence-compatible key
+fields. Generated views rebuilt in `a43fd0b4`; localization now **17 subjects, 106 techniques**.
+
+**Cost answer, recorded so nobody re-asks:** zero. The richest sources are an open
+continuous-localization platform's code and an open grammar checker's rule architecture, then
+the 2025 campaign papers, then a desktop tool's QA reference. Paid tiers (€47–1,245/mo across
+five vendors) buy use or per-pair calibration on our own strings, never design. Two narrow
+exceptions: the formal typology standard's normative text, and commercial rights to the
+strongest open quality-estimation weights — the latter moot, since a permissive alternative
+ships code and weights.
+
+**Waves 2 and 3 are planned, not owed on a clock** (operator: "we will probably spread into
+wave 2,3 and language spread to our supported set"). Wave 2 is ~16 new techniques whose
+evidence is already in hand (per-language check exemptions, format-aware check catalog, the
+precondition graph, prefilter normalisation, auto-fix classes, the prompt context contract,
+rendered-size budgets, pseudo-localization, cross-language source-defect detection, fuzzy
+reuse thresholds, engine QE from reviewer corrections, register as a locale modifier, the
+key-class taxonomy, near-duplicate grouping, multi-model disagreement as a context signal,
+screenshot/co-occurrence context). Wave 3 is checker and skill work (rule metadata with
+measured precision per rule, a deterministic veto in front of model review, unique-span
+expansion, glossary spans as an FP mask, per-item failure memory, a read-only audit mode) plus
+eight new English rule families. **Return condition for both: the operator opens them, or a
+consumer deviation makes one of them urgent.**
+
+**The language spread is ours to write.** The largest open false-friend corpus carries 152
+Polish→English rules, 89 German, 49 Russian and **zero Czech**, and its first-language grammar
+files are near-empty. Our 16-anchor interference set has no counterpart there. The Polish and
+Russian sets are LGPL, so they are cross-checks and never sources; Czech data must be
+re-derived from academic lists.
+
+**Owed from this pass:** `reference-free-quality-estimation` is now 197 lines (profile
+guideline 60–150) because three findings landed in one file — the natural split is the
+cost-and-licence section into its own technique, in wave 2. `serialization-transport-safety`
+has no application yet (`process--` slot open), and its `shared_with` is empty although the
+transport rule plausibly belongs to a checker subject too.
+
+## 2026-09-14 (third pass) — wave 2 landed; wave 3 in flight with personas-web as the tree
+
+Operator: *"lets continue with wave 2 and 3. We will use 'personas-web' as real tree to exercise
+the review in last wave."* Run as three phases: A = the knowledge (four workers, one subject
+each), B = the two skills, C = personas-web (applications, pipeline applies, and the anchored
+review exercise).
+
+**Phase A landed** in `900dad91` (generated `0899f327`, gate 19/19): **localization is now 17
+subjects, 119 techniques.** Thirteen techniques — measurement +4 (the cost/licence split,
+per-language check exemptions, engine quality from reviewer corrections, context-sufficiency
+signals), topology +4 (non-translatable value classification with four exclusion classes,
+pseudo-localization readiness, fuzzy reuse under a threshold, the prompt-context contract),
+copy-quality-gates +5 (format-aware check catalog with the precondition graph, deterministic
+repair classes, length and render budgets, severity as declared data, source defects from
+cross-language agreement) — and eight English rule families plus a first-language-keyed
+false-friend lexicon.
+
+**Workers corrected the Director five times this pass, all accepted:**
+1. Wave 1's "two orders of magnitude" throughput claim for a distilled estimator was arithmetic
+   wrong (146 vs 8–10 segments/s is ~15×); fixed in the split.
+2. "Arabic must not be checked for kashida between letters" misread the source, which describes
+   an Arabic-*only* check, the opposite of an exemption — left out rather than guessed.
+3. The `Billion` false-friend pair is corroborated as a *family* by other first languages'
+   corpora, not as the pair itself — and it would be wrong for Russian, where the cognate is 10⁹.
+4. The market keeps even rule-based spelling and grammar checks at warning; this bundle lets a
+   rule block after its precision is counted at 95%. The worker narrowed "never blocks" to
+   statistical verdicts and recorded the divergence in both files; the Director kept the
+   stricter-but-earned rule, because a counted precision is evidence the blanket rule lacks.
+5. "Allowlisted" values in the exclusion vocabulary *are* translated, so they cannot sit in the
+   "excluded values stay identical" assertion — caught while writing.
+
+**Instrument note, worth keeping:** a purity scan whose glob matched no files reported clean
+(caught by the worker), and the Director's own positive control failed silently because the
+known phrase wraps across a line. The scan was re-run against an application file that must
+match (11 hits) before its empty result over 25 upper-layer files was trusted.
+
+**Owed from phase A:** the measurement golden path is 294 lines against a 120–220 guideline;
+the per-language exemption blocks (and a settled answer on Arabic kashida) belong in the
+language subjects; the context-disagreement signal has no measured precision; a break-even for a
+local estimator versus a hosted judge is unwritten; none of the thirteen new techniques has an
+application yet — phase C writes the first seven, grounded in personas-web.
+
+### Wave 3 closed — the instruments, the tree, and what the tree taught back
+
+**Phase B, the skills.** `i18n-translate` 1.5.0 (`d4a8543a`): the request contract, per-language
+instruction resolution, four key classes, identity tokens and per-item failure memory in the
+central writer, near-duplicate batching, a read-only `check` mode, mechanical source-defect
+detection. `native-copy` 1.2.0 (`ba65ad99`) and 1.2.1: rule metadata as data with a generated
+catalog, one span one finding, unique-span expansion, the deterministic veto layer as a CLI,
+eight new rules, and an enumerating test ratchet (63 → 89 tests). **Compatibility was proven the
+only way that works here — the old and new checker diffed finding by finding on all eight fleet
+trees**, after a rewrite that dropped invisible characters had sent kp from 73 to 529 errors with
+62 of 63 unit tests green (memory: `invisible-characters-survive-tests-not-rewrites`).
+
+**Phase C, personas-web.** Seven applications (`c83a09ea`), two pipeline applies (`b3fe23f` prompt,
+`7c05f33` counted identity), and the anchored review exercise (`4445215`, application
+`94b3404e`): 165 money-page units, three fresh reviewers, 28 findings agreed at 2-of-3, 11
+repaired, 17 escalated. Applied rows `ec78de82`.
+
+**What the tree taught back — the reason to have a real tree at all:**
+1. `source-identical-value-audit`'s own worked example had been measured on this tree with a walk
+   that skipped arrays; walked completely, 66 "legitimate" intersection keys were untranslated.
+   Third sighting of the array blind spot, and the first inside the technique that teaches it.
+2. The classifier's "no false positives" assertion holds only for the pipeline's own exclusion set;
+   its identifier rule matched ten of ten ordinary words until hyphens and ellipses were excluded.
+3. The context contract assumed one request per unit; file-batched prompts need a declared scope.
+4. **The veto layer's first real run suppressed four findings, all its own defects** — fixed in
+   1.2.1 with regression tests that fail on the old code.
+5. Idempotence was one number and had to become two (repair stability, panel recall).
+6. The survey that briefed the phase carried two wrong facts (an integration-count "conflict" that
+   was arithmetic, and a clamp count); both were caught by re-measurement before they were acted on.
+
+**Owner decisions queued from the review** (none may be settled by an agent; each is a fact or a
+term): the three tier-name sets; what "Go Cloud" does on a Coming Soon tier; "free forever / no
+tiers" beside paid tiers; "zero telemetry" beside a consent-gated analytics module and error
+reporting; "bank-grade" and "nothing is ever sent to the cloud" beside cloud execution; the
+unverified automatic model-switch guarantee; a "94% in our testing" figure with no named test; a
+hero line that fails the name-swap test; four fragment runs where the rule allows one; and a
+termbase for the product's own terms (Claude CLI vs Claude Code, orchestration, connectors).
+
+**Owed after wave 3:** a gold set for reviewers' false-positive rate (every review row is
+`unmeasurable` without it); the precondition graph and repair ledger in the checker; page-level
+density clustering; precision for the three rules that had zero hits on eight trees; the
+measurement golden path's trim (294 lines); `i18n-translate` at 534 lines needs reference material
+moved out; the per-language exemption blocks and the language spread, which remain ours to write.

@@ -13,8 +13,8 @@ use_when:
 
 # Committee routing reconstruction
 
-Where a bill sits — which committees it was referred to, which of them is the
-lead (responsible) committee, and with what formal status — is the procedural
+Historical routing — which committees a bill was referred to, which of them was the
+lead (responsible) committee, and with what formal status — is part of the procedural
 heart of tracking, and the register records it as an *event log*, not a state:
 many rows per (bill, committee) pair, each carrying a status code, a role
 flag, and a pointer to a dated history step. The technique is the collapse of
@@ -82,3 +82,13 @@ into "this committee owns this policy area" launders case decisions into a
 structural claim. And do not reconstruct routing from press releases or
 order-paper prose when the structured event log exists; free text is the
 fallback for legislatures that publish nothing better, not a peer source.
+
+## Historical summary versus current assignment
+
+Strongest-ever status and any-ever lead flag answer historical questions. They
+do not establish who currently holds a bill after reassignment or revocation.
+Keep the event trail and derive current assignment from documented transitions.
+An unknown later code must remain visible even if an earlier row is understood.
+When a strongest-status event lacks a date, the earliest known date is only the
+earliest dated witness, not proof of the first occurrence. Scope keys by bill,
+chamber and term before collapsing; a shared helper must not merge reused IDs.

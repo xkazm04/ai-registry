@@ -32,8 +32,8 @@ someone else, against a live recomputation
    holding several ([one-definition-one-import](../../../_laws.md#one-definition-one-import)).
    Both sides of the verification equation — the surface that publishes the
    figure and the gate that re-derives it — import the same pure module, so a
-   verification failure means the world changed, never that two hand-rolled
-   reference formats disagreed.
+   shared definitions reduce format drift. Failures can still reflect a code
+   defect, changed inputs or an incompatible methodology version.
 2. **Mint what is rendered.** The claim's metric names precisely the quantity
    the reader has in front of them — one tie's reach, the attributable-bucket
    contract sum, an entity's headline reach. A citation must never be about a
@@ -41,7 +41,7 @@ someone else, against a live recomputation
    shows the merged one is a verified irrelevance.
 3. **The gate state is part of the assertion.** Every tie carries its
    human-review state — verified, pending, or rejected — and the claim carries
-   it *literally*, not flattened to a boolean. Rejected is a terminal state
+   it *literally*, not flattened to a boolean. Rejected is a recorded decision state
    distinct from unreviewed, and a rejected tie stays in the graph with its
    history; a claim minted over it says so.
 4. **An aggregate is verified only if all its parts are.** A sum over one
@@ -85,3 +85,19 @@ bloats the verification surface. Nor is a claim a substitute for the review
 gate: minting a pending claim does not make the figure publishable as a
 finding; it makes the figure's *unfinished state* citable, which is exactly
 what a careful outlet needs in order not to run it yet.
+
+## Verification scope and durable evidence
+
+Review relationship identity, dates, entity class, amount basis, direction,
+currency, revisions, deduplication and coverage separately. Verified ties cannot
+promote unverified amounts to a verified aggregate. Aggregate evidence follows
+only the constituents actually used; a separate pending duplicate relationship
+need not invalidate an independently verified path. Never sum rejected evidence
+into a public verified claim. Preserve rejection history if new evidence reopens it.
+
+Keep immutable claim versions with source snapshot and methodology identities.
+A live mismatch does not by itself invalidate an earlier quotation. A canonical
+content hash detects changed bytes under its stated serialization; it is not
+authentication or proof that the claim is true. Include amount basis, review
+decisions and substantive dates in the hashed content even if the incidental
+download/assembly time is omitted.

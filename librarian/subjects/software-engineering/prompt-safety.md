@@ -1,7 +1,7 @@
 ---
 domain: software-engineering
 subject: prompt-safety
-last_touched: 2026-08-31
+last_touched: 2026-09-14
 touched_by: intake
 dry_streak: 0
 ---
@@ -41,3 +41,25 @@ request). Its home is `agent-memory`, which a sibling session held for the whole
   write door - the receiving end of this subject's rule. The measured poisoning
   channels (compaction, trace-to-procedure; weak-signal facts evading every input
   detector by >40 points) live there, not here.
+
+## 2026-09-14 - technique from [[2026-09-14-agents-debate-multi-harness]]
+
+- Landed: `session-capability-conjunction` (technique + one golden-path paragraph under
+  "The last fence is capability" + a rust application, simulation / unmeasurable).
+  Third-party text, private material and an outbound channel in one context; legs sticky
+  per context; a forked transcript inherits them; cut at the roster first.
+- Boundary with `mcp-tools/untrusted-result-handling`: that technique owns the two-leg
+  read -> act consent gate and argument provenance, which are this technique's approval
+  screen. This subject owns the three-leg, session-scoped predicate. Neither file was
+  restructured.
+- **Convergence lead, not a law.** This is the second finding in this subject with one
+  root: *a check that judges one item cannot see a harm that only exists in a combination*.
+  2026-08-31 found it for a pair of spans. Today it is a set of capabilities over a
+  session. Both came from different sources, and both were confirmed by a zero-hit grep
+  for combination vocabulary. Return condition: a third sighting outside this subject
+  (e.g. an authorization or audit subject whose per-event rule misses an aggregate), then
+  propose at law level.
+
+### 2026-09-17 - `/harvest backlog` wave 3, one technique from a tension unit
+
+`inspection-coverage-is-a-verdict`, from [[2026-09-06-aws-agent-exposure]] (the originating claim), [[2026-09-15-qwenpaw]] (whose own lead asked for exactly this second sighting, now met), and two members covered elsewhere ([[2026-08-31-omniroute]], [[2026-09-07-gbrain]]). The tension resolved into one rule with two cases: what the guard's class decides is what happens to the residue, never whether the residue is counted. The half the corpus lacked is the ingress mirror of the redaction lane's drop-and-mark, and the sharp part is that a coverage bound is not a suffered failure - the sender can reach the blind spot on demand, which voids the cost argument that says an advisory guard should pass. Two follow-ups a later run should take: `advisory-guard-fail-mode` has one over-broad sentence (for any blocking guard, ambiguity is a pass) that this landing bounds by citation rather than editing, and `failure-direction`'s enumeration of degraded states is missing a row - the part of the input the gate never read.

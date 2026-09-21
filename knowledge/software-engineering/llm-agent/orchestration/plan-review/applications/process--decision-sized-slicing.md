@@ -89,16 +89,15 @@ The triage prompt's default (SKILL.md:456-458) is:
   Enter               ->  same as "all=2"   <- default
 ```
 
-One keypress dispositions every finding in the run. This is the coherence trap in its
-purest observable form: the findings arrive whole, internally consistent and already
+One keypress dispositions every finding in the run. This can make bulk backlog acceptance easy: the findings arrive whole, internally consistent and already
 ranked by a summary table, and the cheapest action accepts all of them at once. Nothing
 about the outcome is distinguishable afterwards from a run where each finding was
 weighed — the backlog reads the same, the artifact contract is satisfied, and the
 deliverable rule at SKILL.md:18 is met in full.
 
-The skill is not wrong to have a default; a gate with no default at machine pace stalls.
-It is that the default is *approve everything*, at a grain the reviewer never chose, on
-units nobody sliced for the purpose of being disposed.
+The default queues findings; it does not authorize their implementation. The
+review concern is bulk backlog acceptance at a coarse grain. Treating it as
+approval to execute would conflate two dispositions the skill explicitly separates.
 
 ## What this realization cannot do
 
@@ -118,3 +117,9 @@ was never built that way: the scan, the proposal and the slicing are cheap when 
 share a context, and the cost of separating them is a second pass over material the
 first pass already holds. That is a real trade, and it is the trade this application
 exists to make visible rather than to pretend away.
+
+## Architecture source check - 2026-09-09
+
+Re-read Architect 1.8.0, Phase 6: `queue` defers work and `execute now` starts
+implementation. Corrected the approval interpretation. Historical line numbers
+and connected-installation counts above are not a new runtime verification.

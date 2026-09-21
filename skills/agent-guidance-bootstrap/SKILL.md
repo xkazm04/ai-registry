@@ -3,7 +3,7 @@ name: agent-guidance-bootstrap
 description: "Create or refresh a repo's AGENTS.md so an agent joining the codebase gets commands, architecture and constraints without guessing. Use on a repo with no agent guidance, or when the existing file has gone stale."
 category: ai-native
 memory: project
-version: 0.5.1
+version: 0.7.0
 tags: agents-md, onboarding, context, conventions
 argument-hint: "[project-root]"
 ---
@@ -19,6 +19,10 @@ with.
 
 Never write guidance from assumption. Collect, in this order:
 
+0. **The guidance that is already here.** `AGENTS.md`, `CLAUDE.md`, `.claude/CLAUDE.md`,
+   `.cursorrules`, `CONTRIBUTING.md` — read each in full before writing a line. Whichever
+   already carries real content is the canonical file (see the content rules); this run either
+   refreshes it or points at it.
 1. **Commands that actually exist.** `package.json` scripts, `Makefile` targets, `justfile`,
    `pyproject.toml`, `Cargo.toml`, the CI workflow. If CI runs it, it is real.
 2. **The shape of the tree.** Top-level directories and what each owns. Two levels deep is
@@ -83,15 +87,55 @@ Do not report a change as done before these pass.
   file, it does not belong.
 - **Rules with reasons.** "Do not edit `src/generated/`, it is rewritten by the codegen step" is
   followed; "follow best practices" is not.
-- **One file, one root.** If the repo already carries a second guidance file, do not fork the
-  content - keep one canonical file and make the other a one-line pointer to it.
+- **One file, one root — and the incumbent keeps the crown.** If the repo already carries a
+  guidance file with real content, **that file stays canonical** and the file you are adding
+  becomes the one-line pointer to it. Never demote a populated `CLAUDE.md` to a pointer in
+  order to promote a fresh `AGENTS.md`; the new file is the one with nothing to lose. Measured:
+  five of five runs on a repo with a 77-line canonical `CLAUDE.md` chose the lossy direction,
+  and each dropped rules nobody noticed were gone. Only when both files carry content does
+  merging arise, and then the older, more-referenced one is canonical.
+- **Demotion is no-loss.** Before a file becomes a pointer, every rule in it appears in the
+  canonical file — same meaning, same specificity. A rule you deliberately leave out is named
+  in the report as dropped, with the reason. Check by listing the demoted file's rules and
+  ticking each one off against the canonical file; "the content was similar" is not the check.
+- **Generated blocks are neither edited nor deleted.** A block between stamped markers
+  (`<!-- personas:context-map:start -->` … `:end`, or any tool's equivalent) belongs to the
+  command that writes it. Leave it byte-for-byte, and carry it with its file. If its content is
+  stale, say so **outside** the block — one line above or below it — and name the command that
+  regenerates it. Both failures are measured: runs that deleted such a block, and runs that
+  "fixed" a genuinely stale one in place. Neither is yours to do.
 
-## Keeping it true
+## Landing it
+
+The guidance file is the deliverable, and an uncommitted deliverable is a draft. Commit it as
+one `docs(agents): <file> for <repo>` commit, staging the guidance files by explicit path, when
+the tree is otherwise clean. If other work is uncommitted, stage only your paths and say so.
+Commit on the current branch; do not push. If the task forbids committing, say plainly that the
+file is written but uncommitted.
+
+## Refresh mode
 
 Stale guidance is worse than none, because it is trusted. Re-run this skill when the build
 commands change, when a top-level directory is added or removed, and when a constraint is added.
-A quick audit: run every command in the Commands section. Any that fails takes the whole file's
-credibility with it.
+A refresh is not "read the file and improve it" — it is a diff against re-derived evidence:
+
+1. **Re-derive the evidence** exactly as above (commands, tree shape, entry points, conventions,
+   expensive-to-get-wrong). Do this before re-reading the file, or the file will tell you what
+   to look for.
+2. **Diff line by line.** Walk the existing file one line at a time and mark each:
+   **confirmed** (the evidence says the same thing), **stale** (the evidence contradicts it), or
+   **unverifiable** (nothing in the repo can settle it).
+3. **Run every command** in the Commands section. One that fails is stale, not an aside; any
+   failure takes the whole file's credibility with it.
+4. **Fix the stale lines in place** and leave everything else alone — a refresh is not a rewrite,
+   and reformatting a file to look like the template is churn. Generated blocks are exempt from
+   every step (see the content rules above).
+5. **Report the counts**: N confirmed, N fixed, N unverifiable (each named).
+
+Two results are valid and neither is a proposal: **no drift** — nothing changed, nothing
+committed, and the report says what was checked — or **drift found and fixed**, committed.
+Drift found and only *proposed* is a failed refresh: you did the expensive part and stopped
+before the cheap one.
 
 ## Related
 
@@ -100,19 +144,46 @@ credibility with it.
 
 ---
 
-<!-- clause: skill-reflection v3 - stamped by scripts/apply-skill-clauses.mjs from docs/skill-clauses/skill-reflection.md; edit the template, then re-stamp -->
+<!-- clause: skill-reflection v4 - stamped by scripts/apply-skill-clauses.mjs from docs/skill-clauses/skill-reflection.md; edit the template, then re-stamp -->
 ## Skill Reflection
 
-After the run's real work is done, reflect - autonomously, without asking the user. Be honest about volume: most runs produce NOTHING beyond lane 1. An empty reflection is a valid result; a forced lesson is pollution. Calibration: nothing (common) / one line (sometimes) / a lesson entry (occasionally) / a redesign proposal (rare).
+After the work, record only useful observations supported by this run. No lesson is
+a valid result. Reflection inherits the task's authorization; it grants no additional
+permission to edit another repository, send data, commit, or publish.
 
-**Lane 1 - PROJECT learnings** (what the next session in THIS repo needs). Repo-specific rules go to this skill's overlay in the consuming repo - a dated one-liner under `## Skill improvement log` in the overlay/vault location this skill's `## Project overlay` section names (create the heading on first use). If this skill carries no `## Project overlay` section, or its overlay section names no location, write that dated one-liner to `.claude/agent-guidance-bootstrap/config.md` in the consuming repo under `## Skill improvement log`, creating the file and the heading if they are absent - so the instruction is executable in every skill. When the repo carries a `.personas/` directory, also write via the MEMORY BLOCK contract if this prompt carries one, else append node lines to `.personas/memory-outbox.jsonl` per that contract. Never into this file: a project's bytes in a shared method are exactly what made the fleet's copies diverge.
+**Project learning.** Only when this run produced an observation that would change how a
+future run behaves. A run that went as the method describes writes nothing: an entry that
+restates the procedure, records "no issues", or repeats the task is a defect, not a
+deliverable. When there is such an observation and local edits are within scope, put one
+dated line in the overlay this skill's `## Project overlay` section names, under
+`## Skill improvement log`. **Write only into an overlay that already exists.** If the
+project has none, put the observation in the response instead - creating a new tracked
+file for a reflection is scope the task did not ask for, and a reader who never asked for
+the skill has to review it. If the overlay is a structured config (YAML, TOML, JSON),
+record the note as comments so the file keeps parsing, or use the response.
+Use a supplied memory contract only when its destination and writes are authorized.
+Keep project details out of the shared method.
 
-**Lane 2 - METHOD learnings** (what would improve THIS SKILL for every project):
-1. If nothing generalizes beyond this repo, stop here.
-2. Append to `LESSONS.md` in this skill's directory: `## <version-used> - <YYYY-MM-DD> - <project-name>` followed by `- ` bullets (create the file with a `# Lessons - agent-guidance-bootstrap` heading if absent). Record the version the run USED, not a bump target. Wrap a bullet in a `### Redesign proposal` sub-block when it argues for a redesign you are NOT applying now. A lesson alone needs no version bump.
-3. Edit `SKILL.md` only together with a version bump, and bump only with an applied edit: patch for wording, minor for a step/prompt refinement, major for a methodic redesign. Update the `version:` frontmatter. Never edit inside a stamped `<!-- clause: ... -->` block: that text is shared by every skill in the lane and is changed in the registry's `docs/skill-clauses/` and re-stamped with `node <registry>/scripts/apply-skill-clauses.mjs`.
-4. Where the edit lands: THE SKILL DIRECTORY IS A LINK INTO THE REGISTRY. `.claude/skills/agent-guidance-bootstrap` in a consuming repo is a symlink to `<registry>/skills/agent-guidance-bootstrap` (registry root = `registry.local` in `.ai/manifest.yaml`, default `../ai-registry`; `$AI_REGISTRY_DIR` wins). Editing it edits the one file every project runs, so there is nothing to propagate. Commit it IN THE REGISTRY checkout as a standalone commit containing only this skill's files: run `node <registry>/scripts/check-skills.mjs --since HEAD` first (shape + version discipline must pass), then `git -C <registry> add skills/agent-guidance-bootstrap` and `git -C <registry> commit -m "skill(agent-guidance-bootstrap): v<new> - <one-line reason>"`. Never stage the link from the project side.
-5. NEVER copy this skill to `~/.claude/skills/agent-guidance-bootstrap/` or into another repo, and never "propagate" by copying. A copy in the personal tier shadows the lane for every project on the machine and freezes the method at that day's bytes with no version to compare (measured 2026-08-29: 11 such copies, all unversioned, all stale). If `.claude/skills/agent-guidance-bootstrap` is a real directory instead of a link, the fix is `node <registry>/scripts/link-registry.mjs`, not a copy in either direction.
+**Method learning.** Identify the installation before editing anything. A local
+`.ai/registry-installation.local.json` receipt can identify development versus release,
+the registry revision, and selected skill versions. Verify any link's actual target;
+do not assume a skill directory is a writable registry link.
 
-**Lane 3 - DOMAIN knowledge** is a different artifact from a lesson: a lesson improves this METHOD, a lead proposes knowledge for a bundle. Skills that carry a `## Knowledge sync` section file leads there; a skill without one files none.
+- For a pinned release, marketplace cache, ordinary copy, or unknown installation,
+  keep a proposal in the project overlay or response. Do not edit the installed method
+  or silently relink it. Adoption and rollback are explicit installation operations.
+- For a development link, edit the registry only when that checkout is already within
+  the accepted task scope. Otherwise report a proposal. Authorized changes belong in
+  the source checkout, followed by its gates; commit only when the task authorizes it.
+- Record an actual lesson in `LESSONS.md` against the version **used**:
+  `## <version-used> - <YYYY-MM-DD> - <project-name>` and concise bullets. A proposal
+  must be labeled as such; structural checks are not evidence of field effectiveness.
+- Applied skill changes require a version bump: patch for wording, minor for a step
+  refinement, major for method redesign. A lesson alone needs no bump. Shared stamped
+  clauses are edited in the registry's `docs/skill-clauses/` and regenerated with
+  `scripts/apply-skill-clauses.mjs`, never patched in individual installed skills.
+
+**Domain learning.** Follow `## Knowledge sync` when present, within the same scope
+and privacy boundaries. A method lesson and a domain knowledge lead are different
+artifacts; do not fabricate either to fill a reflection quota.
 <!-- /clause: skill-reflection -->

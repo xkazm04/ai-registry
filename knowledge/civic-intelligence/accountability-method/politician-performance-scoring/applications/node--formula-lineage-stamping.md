@@ -12,7 +12,7 @@ verified_against: node@24
 # Node — formula lineage stamping in a graph-backed contribution index
 
 A civic accountability product computes a 0–100 contribution index for all 207
-members of a national lower chamber and materializes the scores onto person
+person records in a national lower-chamber dataset and materializes the scores onto person
 nodes in a knowledge graph. The formula and its lineage machinery live in one
 pure module, `lib/analysis/contribution.ts`.
 
@@ -81,3 +81,14 @@ with an explicit named override at the write end, and a match check on every
 read surface. Nothing depends on the graph store — any database where scores
 are materialized apart from the code that computes them has the same two-arm
 divergence and accepts the same edge.
+
+## Review boundary - 2026-09-09
+
+The 207-record count is a historical dataset population, not evidence of 207
+simultaneous seats. No consumer checkout, recompute or historical incident replay
+was evaluated here; retain the original verified_on date. Reverify all writers,
+atomic check-and-write behavior, unknown/malformed provenance migration, batch
+completion and source-snapshot lineage. Equality of formula references does not
+establish data freshness, and the recorded permissive unstamped policy needs its
+own initialization safeguards. The command above is historical evidence, not an
+instruction to mutate a connected graph during this registry review.

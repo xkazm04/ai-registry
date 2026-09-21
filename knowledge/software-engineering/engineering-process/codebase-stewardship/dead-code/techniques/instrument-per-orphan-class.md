@@ -56,6 +56,29 @@ reference-shaped check while being fully dead:
   keeping. That is the repair rule: a verifier is either wired into a lane
   something actually runs, or it is deleted; a check that runs on memory and
   goodwill is already dead, just not yet wrong.
+- **Published names** — the one class where the instrument's error runs the
+  other way. Every instrument above is blind toward *alive*: it certifies a
+  corpse as living. A reference scan over a repository whose exports have
+  consumers outside it is blind toward *dead*: the universe it counts
+  references in is the tree, and the name's audience is not. An exported
+  symbol with zero in-tree callers and an unknown number of out-of-tree ones
+  reads as the cleanest dead export on the list, and its deletion is a
+  breaking change nobody's test can see, because the callers that break are in
+  trees the suite never runs. The measured instance is a large agent-driven
+  structural pass over an open-source agent runtime: workers removed public
+  names that had no callers inside the repository, external plugins imported
+  them, and the removals survived the full test suite to be caught only in
+  human review. The class has no census — the consumer inventory does not
+  exist — so its instrument is a **declared surface** (an export manifest, a
+  documented plugin interface, a versioned public module list) and a removal
+  gate that *flags* a name leaving that surface for review, never deletes it.
+  Where a consumer is in a tree you hold — a second language on the far side
+  of a wire, a test driver that invokes by name — it is the cross-boundary
+  registration class instead, and the joining instrument applies; the
+  published-names class is exactly the remainder, the callers no join can
+  reach. Note the precondition: a private application with no published
+  surface has no members of this class, and treating every export as
+  published there would grant the false-alive classes above a new alibi.
 
 ## The blindness matrix
 
@@ -104,6 +127,19 @@ is watching the artifact side. The roster is a maintained document, not a vibe:
 class → instrument → cadence → where its findings land. Unassigned classes are
 listed as unassigned — an honest gap outperforms an assumed coverage
 ([failure-not-empty-success](../../../../_laws.md#failure-not-empty-success)).
+
+The roster carries one more column than class → instrument: **the universe each
+instrument counts in.** An instrument's universe is a declaration — the entry
+list, the project glob, the ignore patterns, the set of trees it opens — and a
+consumer outside the declaration is invisible to it whether that consumer is
+another repository, another language in the same tree, or a file the
+configuration excluded. Two consequences. A name reported unused is unused
+*within the declared universe*, and the roster says what that universe is so a
+reader can ask whether the audience fits inside it. And an exclusion added to
+quiet a noisy directory is a removal of consumers from the census, which
+converts every export those files used into a candidate corpse: read the ignore
+list as part of the instrument, and pair it with the join that reaches what it
+dropped.
 
 Two corollaries. First, instruments cross-check each other where classes overlap:
 when the refcount guard and the reconciliation inventory disagree about a generated

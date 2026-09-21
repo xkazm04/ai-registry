@@ -249,6 +249,12 @@ owns; the motion system owns making it *honorable*. Two mechanics matter:
   zero too — ghosts flash on every warm load, delayed reveals fire instantly
   — and the product is *worse* for reduced-motion users, who were promised
   calm and given flicker.
+- **The global kill also misses things.** A universal selector does not
+  match the generated nodes a document-level snapshot transition animates
+  on, so those transitions play at full duration under the reset. When a
+  framework owns the transition, the application's own call-site guard is
+  gone too. The same over-reaching rule is under-reaching, and the only
+  place left to reduce it is a rule that names that tree.
 
 The fallback design rules, and the taxonomy of what breaks under a global
 reset, are [reduced-motion-mechanics](./techniques/reduced-motion-mechanics.md).

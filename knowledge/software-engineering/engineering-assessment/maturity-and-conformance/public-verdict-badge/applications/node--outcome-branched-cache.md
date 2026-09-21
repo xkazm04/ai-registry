@@ -5,12 +5,20 @@ subject: public-verdict-badge
 technique: outcome-branched-cache
 stack: node
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-09-08
 ---
 
 # Outcome-branched cache in a badge route
 
-Ascent serves two public badge endpoints — `src/app/api/badge/[owner]/[repo]/route.ts`
+**Currency (2026-09-08).** The realization below no longer exists on the
+project's default branch: the public badge feature was removed on
+2026-08-29 (commit `773c9aa0`, "remove the public README badge feature"),
+and every path and line cited here resolves only in history at `da162859`.
+The document is kept as a historical realization because the code was a
+faithful one and its shape still teaches; read the citations as
+`git show da162859:<path>`, not as the working tree.
+
+Ascent served two public badge endpoints — `src/app/api/badge/[owner]/[repo]/route.ts`
 (per-repo maturity) and `src/app/api/scorecard/[owner]/badge/route.ts`
 (org-level) — from one renderer, `src/lib/badge-svg.ts`. The cache vocabulary
 lives with the renderer rather than with either route, which is what keeps the
@@ -94,6 +102,25 @@ Two guards run before any cache decision, and both shorten the expensive path:
 - **Per-IP rate limiting gating the expensive scan** (`:196`), returning a
   cheap static badge with `CACHE_TRANSIENT` rather than a bare 429, so an
   embedded image never renders broken.
+
+## The layered lifetime the constants did not account for
+
+Read against the technique's
+[served-from-cache boundary](../techniques/outcome-branched-cache.md#a-served-from-cache-response-advises-with-what-it-has-left-not-with-a-fresh-interval),
+the historical route carries the structural fact that boundary predicts.
+`route.ts:217` served the resolved branch from a report cache
+(`cacheGet(llmKey) ?? cacheGet(mockKey)`) whose store, `src/lib/cache.ts:62`,
+was a `TtlLruCache` with `TTL_MS = 15 * 60 * 1000`. `CACHE_RESOLVED` was the
+constant string `public, max-age=600, s-maxage=600`, emitted on every hit
+regardless of the report's age, and no `Age` header was generated. So a
+report fourteen minutes old at the origin left for a fresh ten-minute CDN
+window, and the public artifact's worst-case staleness was twenty-five
+minutes while every constant in the renderer read ten. Nobody designed that;
+it falls out of a fixed directive over a lifetime-bearing cache, and it is the
+reason the boundary is worth a section. The fix the boundary names is two
+lines (`s-maxage` from the entry's remaining budget, `no-store` when the
+report is a stale fallback), and it was never needed here only because the
+feature was removed first.
 
 ## Deviation worth noting
 

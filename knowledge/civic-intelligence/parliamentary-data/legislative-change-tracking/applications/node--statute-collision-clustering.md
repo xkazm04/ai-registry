@@ -67,3 +67,12 @@ with readable text — and the ingest side's title-only extraction admits an
 omnibus undercount in the law-amends analysis docs, with the e-Sbírka
 structured amendment graph (SPARQL, dataset 007) named as the reconciliation
 source rather than a replacement.
+
+## Review limits - 2026-09-09
+
+The documented first-citation/top-800-character rule and concatenation of cached
+texts are heuristics. Reverify mixed document versions, multiple header citations,
+quoted operative language and unreadable text. A cached-corpus count is not a
+lower bound on real conflicts unless false positives are excluded. The historical
+batch sample, SPARQL reconciliation endpoint and consumer runtime were not rerun;
+their prior witness dates do not change.

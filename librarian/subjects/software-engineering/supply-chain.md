@@ -271,3 +271,7 @@ only; if a second source raises it, check whether it wants to be a law.
 
 Unapplied: no authorized fleet project patches a dependency by either
 mechanism. Return condition in `applied.md`.
+
+### 2026-09-16 - `/harvest backlog` wave 1, one technique
+
+`reading-is-not-running`: three source notes ([[2026-09-15-ai-engineering-coach]], [[2026-08-31-knip]], [[2026-09-07-rodin-worldgen]]) banked the same shape untriaged - a read verb that silently executes content somebody else authored. Homed here rather than in sidecar-provisioning, beside `unsafe-deserialization-off-by-default`, because the discriminator is who authored the executing bytes: that technique owns formats encoding object construction, where a restricted loader exists; this owns content that *is* a program, where it does not. game-production's engine-integration-safety holds the opposite side (our automation as guest). Measured by replay on personas' read-only scan lane (2/3 planted markers fired -> 0/3 with a digest over the local import closure). The falsifying arm is the reusable part: hashing only the named config file still let an imported module run.

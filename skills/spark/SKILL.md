@@ -5,7 +5,7 @@ memory: vault
 category: workflow
 description: Turn a vague product idea (a "sparkle") into a complete, grounded design through waves of select/multi-select questions - then orchestrate the build. Targets exactly which contexts/files the idea touches, scouts them before asking anything, converges the design across four perspectives (functional, UX, UI, performance/architecture), and executes via builder subagents in a worktree under Director review. Runs live in a memory vault (a linked Obsidian folder, or <repo>/.spark/ with the same schema); every run ends with a self-improvement retro that sharpens the skill itself. Per-repo specifics - vault path, gates, context map, host rituals, repo law - come from the overlay at .claude/spark/config.md, and the loop runs on defaults without it. Invoke with `/spark <idea...>` or `/spark resume <slug> | status | reflect`.
 argument-hint: "<idea...> | resume <slug> | status | reflect"
-version: 1.3.2
+version: 1.5.0
 model: fable
 ---
 
@@ -92,6 +92,7 @@ waves_used: <n>   questions_asked: <n>
 
 ### Phase 0 — Recall & register
 1. Read the overlay (§ Project overlay), resolve `VAULT`, read `Spark.md` (missing → scaffold the vault tree, and scaffold `.claude/spark/config.md` from what you **detected in THIS repo** — gates from its manifest/scripts, context map, ledger — never from another project's set).
+   **Promote recurring lessons before anything else.** Read the overlay's `## Skill improvement log`. A lesson that appears in two entries, or whose trap this repo has hit again, moves now into `## Gates` (a check to run, and when) or `## Repo law` (a constraint to obey). Those are the only overlay sections a builder brief carries: a lesson that lives only in the log never reaches the builder who repeats it.
 2. Parse invocation: new idea text → new slug; `resume <slug>` → jump to the phase its `status` names; `status` → render the ledger table and stop; `reflect` → Phase 6 only.
 3. Host rituals: run the overlay's Phase-0 `## Rituals` entries (typically a live-sessions ledger check + register — one bash invocation, since such a ledger is unsafe to edit-then-commit across concurrent sessions). Always run `git status` regardless: repos host parallel sessions, and foreign WIP is never swept into your commits. Scan the harness's auto-memory for veto signals.
 4. Record the spark verbatim in `ideas/<slug>.md` (`status: sparked`).
@@ -103,17 +104,19 @@ waves_used: <n>   questions_asked: <n>
 3. If targeting is genuinely ambiguous (two plausible homes with different architectures), that is **wave-1 question #1** — never guess silently, never ask more than one targeting question.
 
 ### Phase 2 — Scout before asking
-Launch one Explore scout per primary context (parallel, "very thorough"): what exists, what the idea overlaps/duplicates, reusable primitives (check the repo's shared-component catalog when the overlay's `## Repo law` names one), data model touchpoints, perf-relevant volumes, `file:line` evidence. Digest into `## Scout digest` (`status: scouted`). **If scouts cannot be launched** (pool exhausted, tool unavailable), the Director scouts directly under the same evidence rules and says so in `## Scout digest` — never skip scouting, never retry a refused launch.
+Launch one Explore scout per primary context (parallel, "very thorough"): what exists, what the idea overlaps/duplicates, reusable primitives (check the repo's shared-component catalog when the overlay's `## Repo law` names one), data model touchpoints, perf-relevant volumes, `file:line` evidence. Digest into `## Scout digest` (`status: scouted`). **When the target is a new or empty repo** (an extraction, a greenfield package), scout the repos the idea is extracted from or must integrate with, under the same evidence rules, and say so in `## Targeting`. **If scouts cannot be launched** (pool exhausted, tool unavailable), the Director scouts directly under the same evidence rules and says so in `## Scout digest` — never skip scouting, never retry a refused launch.
 
 **Read the governing registry subject BEFORE the waves, not after.** Resolve the target contexts' subjects through `.ai/registry-map.json` and read the golden path plus the techniques whose `use_when` matches the idea. A standard read here becomes a wave-1 constraint or a named deviation; read afterwards it is only a review comment. (The weekly-digest spark found that a documented whole-fleet period delta inverts at a 7-day window only because the time-windows subject was open before Q1.)
 
 **Grounding rule: no question reaches the operator that the code could have answered.** "Should this be a new tab or extend X?" is only a valid question if the scout confirmed X exists, renders, and could host it.
 
-**Liveness rule (all three halves are required):**
+**Liveness rule (every half is required):**
 1. A surface only "exists" if it RENDERS — trace every surface to an actual mount point.
 2. A FIELD only "exists" if some query the consumer actually calls POPULATES it. For every field the design depends on, the scout names the query that fills it and confirms the consumer calls that query, not a leaner projection of it.
 3. For any DERIVED store the design moves or rebuilds, name the function that regenerates it — or state that none exists.
 4. A TIMESTAMP only means what its name says if the row it sits on is APPENDED, not REWRITTEN. For any field the design reads as an event time, the scout states whether the table is append-only or re-created per snapshot, and names the writer. A `createdAt` on a snapshot-rewritten table answers "when did we last look", never "when did this start".
+5. A MODULE only exists for a surface if that surface's RUNTIME can import it. For anything a screen might consume, the scout states the client/server boundary: a filesystem- or database-backed module is not available to a client component, however close it sits in the tree.
+6. A POLICY only exists if something COMPUTES it. For every rule a doc or the brief declares (a privacy projection, a retention date, an eligibility condition), name the column, field or function that carries it. A policy with nowhere to live cannot fail a test, because it cannot exist.
 
 Also required of every scout that maps shared render helpers or models: enumerate OTHER CONSUMERS of them, and **show the grep or command that produced the list** rather than asserting it — extension-site checklists are otherwise silently incomplete.
 
@@ -132,7 +135,9 @@ Converge the design through **waves of AskUserQuestion** (each call = up to 4 qu
 2. **Decide, don't ask, when convention already answers:** the repo's own conventions (strings, tokens, shared components, error handling, loading UX — the overlay's `## Repo law`) are never questions. Consult `## Question taste` — it accumulates what this operator wants asked vs. decided for them. Operator "Other" answers and corrections are the strongest taste signal; when the overlay declares a Phase-3 correction-capture ritual, run it in the same turn as the correction.
 3. **An answer may be a DOCTRINE rather than an option pick.** When the reply reframes the question, treat it as a course correction: re-scope, and re-scout if it created a new code question.
 4. After each wave, write `## Design decisions` immediately (chosen AND rejected options) — a killed session must lose nothing.
-5. **Completeness gate before leaving Phase 3** — the perspective checklist, answered either by operator choice, convention, or explicit Director decision (marked as such): functional scope, data model and persistence, command/API surface, UX flow plus all async/empty/error states, UI surfaces and shared-component reuse, strings/i18n plan, performance posture, failure modes, doc surfaces affected, out-of-scope list.
+5. **A mid-wave stop means the options were too narrow, not that the question was wrong.** When the operator interrupts a wave to clarify, widen the option set with what the interruption revealed before re-asking; the reframed answer is usually the best one the dialog produces.
+6. **Two answers that contradict each other get a synthesis, not a re-ask.** When picks from different questions cannot both hold, propose the design that keeps both intents as one option and ask once.
+7. **Completeness gate before leaving Phase 3** — the perspective checklist, answered either by operator choice, convention, or explicit Director decision (marked as such): functional scope, data model and persistence, command/API surface, UX flow plus all async/empty/error states, UI surfaces and shared-component reuse, strings/i18n plan, performance posture, failure modes, doc surfaces affected, out-of-scope list.
 
 ### Phase 4 — The brief & the go-gate
 Write `## Design brief` in the idea note:
@@ -150,16 +155,24 @@ Write `## Design brief` in the idea note:
 ### Risks
 ```
 
-**Contract completeness:** when packages build in parallel against this brief, it must name every **wire-level identifier** — type names, field names, command/parameter names, enum string values, key formats — not just types and shapes. A renamed argument that the contract did not carry is the defect this rule exists for.
+**Contract completeness:** when packages build in parallel against this brief, it must name every **wire-level identifier** — type names, field names, command/parameter names, enum string values, key formats — not just types and shapes. A renamed argument that the contract did not carry is the defect this rule exists for. Three more gaps recur between parallel packages, so the contract closes each explicitly:
+- **Every new field or input names its producer AND its first consumer**, and that consumer sits inside some package's file scope. An input with a producer and no owned call site ships dead.
+- **The absent-value convention is stated once** in `### Data & API` (omit the key, `null`, or `0`, and why), so two packages coding the same missing value do not drift.
+- **A number a sibling package computes is derived from the contract or labelled "illustrative, not arithmetic".** A fixture figure that contradicts the formula is resolved three different ways by three builders.
 
 Gate with one AskUserQuestion: **Build now / Adjust (say what) / Park it** (`status: designed`). "Adjust" loops one targeted wave, not a restart. "Park" is a first-class success — a designed-but-parked idea is a shippable asset in the vault.
 
 ### Phase 5 — Fire (execution)
-1. `git worktree add .claude/worktrees/spark-<slug> -b worktree-spark-<slug>` from `base_branch` — all multi-file work isolates. The repo's own parallel-safety law (overlay `## Repo law`) applies in full: stage per file, verify the staged set against your intent before every commit, never stash, never `git add -A`.
-2. One builder per work package, sequential when packages share files, else parallel. **When a consumer package depends on a producer package's exports, the Director commits the wire types AND compilable stubs with the final signatures before the fan-out**, so the packages share no file and both typecheck alone (turned sequential into parallel on gravitone-gcloud 2026-08-30 and on both ascent 2026-09-01 runs). Brief = the work package + the overlay's `## Repo law` digest + the `## Gates > builder` commands + "state the constraint and the evidence, and counter-propose rather than guess". **Assign a cross-cutting property (encryption, auth, audit) to the FIRST package that creates data subject to it**, never to a later one — otherwise the branch has a real intermediate state that violates it.
-3. Director reviews every diff against acceptance criteria (not vibes), runs the overlay's `## Gates`, fixes-or-bounces, commits atomically per package. Builder refusals backed by evidence are signal, not disobedience. Any Phase-5 ritual the overlay declares (a translation pipeline, a codegen regen) runs before the commit it belongs to, not at the end.
+1. `git worktree add .claude/worktrees/spark-<slug> -b worktree-spark-<slug>` from `base_branch` — all multi-file work isolates. **Unless the overlay's `## Repo law` says the repo's gates cannot run in a worktree** (a dev-server lock, native dependencies, generated types bound to the main checkout): then build in the main checkout on `base_branch`, with builders on disjoint file scopes. Either way the repo's own parallel-safety law applies in full: stage per file, verify the staged set against your intent before every commit, never stash, never `git add -A`.
+2. One builder per work package, sequential when packages share files, else parallel. **When a consumer package depends on a producer package's exports, the Director commits the wire types AND compilable stubs with the final signatures before the fan-out**, so the packages share no file and both typecheck alone (it has turned sequential packages into parallel ones in three projects; the runs are in `LESSONS.md`). Brief = the work package + the overlay's `## Repo law` digest + the `## Gates > builder` commands + "state the constraint and the evidence, and counter-propose rather than guess". **Assign a cross-cutting property (encryption, auth, audit) to the FIRST package that creates data subject to it**, never to a later one — otherwise the branch has a real intermediate state that violates it.
+   - **Write each brief to a scratch file and hand the builder its path.** A file can be amended after the Director reads more code, lets parallel builders be briefed in one turn, and survives a rate limit that kills a builder mid-flight: the resumed builder re-reads its own brief and files and loses nothing.
+   - **Never dispatch a package whose design depends on a question still open,** even when the package looks independent. Order the wave before the work it determines.
+   - **Parallel builders share nothing live.** Each UI builder gets its own port and kills it on exit, or verifies headless; a builder that writes app data uses a throwaway store or a scratch identity and reports what it wrote. Two builders on one browser or one dev server cross-contaminate, and one builder's fabricated test data is read into the next run.
+3. Director reviews every diff against acceptance criteria (not vibes), runs the overlay's `## Gates`, fixes-or-bounces, commits atomically per package. **Run the repo-wide gates at the FIRST package commit, not at the end:** tree-wide ratchets and budgets (an import-graph budget, a literal-count ratchet, a route registry) bind every new module, and they are often red on arrival, so compare each against the spark's base commit rather than against zero. Found at the end, one spark's growth is indistinguishable from the tree's.
+   **A fix the Director orders from its own diagnosis carries its own falsification.** When the defect was read off an artifact (a transcript, a log, a screenshot), the brief names the case that provoked it and one neighbour that never triggered it; the builder measures both before and after; a fix that worsens the measured outcome is withdrawn and documented, not tuned. A diagnosis read off one artifact is a hypothesis, and the builder's measurement outranks it. Builder refusals backed by evidence are signal, not disobedience. Any Phase-5 ritual the overlay declares (a translation pipeline, a codegen regen) runs before the commit it belongs to, not at the end.
 4. Doc-sync: update the doc surfaces the overlay maps for the touched areas, in the same session. If the repo has an automated doc-sync check, ask the scout in Phase 2 whether the target paths are covered by it at all — a check that never fires reads exactly like a check with nothing to say.
-5. Merge to `base_branch` only when all gates are green; then remove the worktree + branch. `status: shipped`, record SHA. **Live verification is an optional follow-up note, never a blocking phase** — record the surface and the selectors to drive in the idea note and in `Spark.md`, and ship.
+5. Merge to `base_branch` only when all gates are green; then remove the worktree + branch. Do not assume the main checkout is on `base_branch` or clean: rebase the spark branch onto the base inside the spark worktree, then `git checkout <base> && git merge --ff-only` there if the base is free. `status: shipped`, record SHA.
+   **An integration seam is smoke-tested on the built artifact before ship** (a client calling its server, a process calling a process): packages green in isolation, with fixtures on both sides, never cross the seam, so only the real build shows a missing CORS layer or a hardcoded port. **Visual and browser verification of UI polish stays an optional follow-up note, never a blocking phase** — record the surface and the selectors to drive in the idea note and in `Spark.md`, and ship.
 
 ### Phase 6 — Retro (the self-improving mechanism)
 Before running the overlay's Phase-6 rituals, the Director audits **the process, not the product**, and writes `## Retro` + appends dated one-liners to the overlay's `## Skill improvement log`:
@@ -167,7 +180,7 @@ Before running the overlay's Phase-6 rituals, the Director audits **the process,
 - **Question efficiency:** which questions changed nothing downstream (should have been convention)? What did the operator answer via "Other" that the options should have contained? Mirror any correction's lesson into `## Question taste`.
 - **Scout misses:** anything the builders discovered that the scout should have surfaced?
 - **Execution friction:** gate failures, builder bounces, rework — and the upstream design decision that would have prevented each.
-- **Skill edits:** if >=2 sessions' logs point at the same flaw, propose a concrete edit to THIS file — gated with the operator, never silent. A repo-specific lesson goes to the overlay, never to this file.
+- **Skill edits:** if >=2 sessions' logs point at the same flaw, propose a concrete edit to THIS file — gated with the operator, never silent. A repo-specific lesson goes to the overlay, never to this file. **A repo-specific lesson seen for the second time is promoted in this retro** into `## Gates` or `## Repo law` (see Phase 0), not appended to the log a second time.
 
 Wrap: session note with `next:` pointer, update `Spark.md` ledger, run the overlay's Phase-6 rituals (typically deregistering from the live-sessions ledger with the SHA).
 
@@ -175,7 +188,7 @@ Wrap: session note with `next:` pointer, update `Spark.md` ledger, run the overl
 - One spark per session by default; the vault + worktrees + whatever ledger the overlay names are what make many parallel sparks safe.
 - The operator's verbatim spark text is sacred — design converges *toward* it; scope creep beyond it needs an explicit question.
 - Waves are uncapped; clarity is the terminator. Each question must earn its place; the checklist decides when the dialog is done. Two consecutive waves that open more than they close → propose splitting the spark.
-- Never mark shipped on a typecheck alone — the overlay's gates run, and UI work gets observed, not assumed.
+- Never mark shipped on a typecheck alone — the overlay's gates run, integration seams are smoke-tested on the built artifact, and UI work gets observed, not assumed.
 - **Never paste one repo's overlay into this file.** A project copy that did so shadowed the shared copy unnoticed.
 
 ---
@@ -197,19 +210,46 @@ This skill proposes and executes backlog items. Every item it proposes is judged
 **Send back what a LANDED fix taught.** When a change you made and verified generalizes past this repo - a rule that would transplant to an unrelated team, a case where a technique's rule broke against real code, or a place this repo does it BETTER than the golden path - append one line to `.ai/registry-leads.jsonl`: `{"ts":"<ISO>","bundle":"<domain>","nearest":"<subject-slug or null>","kind":"technique|application|subject","claim":"<when X, do Y, because Z - one sentence>","because":"<what this run measured or broke and fixed>","confidence":"low|medium|high","from":"spark@<version>"}`. Earned only: it came from code you changed, not from a fix you proposed. A lead ORIGINATES a finding and never authorizes one - nothing here edits a bundle; the registry's `leads-collect.mjs` -> `librarian/inbox.md` -> `/intake` decides what survives. Say in the report that you filed one, and say plainly when you filed none. Verdicts on a pair's state belong to `/conform`: close by naming the contexts you touched so it can re-judge them.
 <!-- /clause: knowledge-sync -->
 
-<!-- clause: skill-reflection v3 - stamped by scripts/apply-skill-clauses.mjs from docs/skill-clauses/skill-reflection.md; edit the template, then re-stamp -->
+<!-- clause: skill-reflection v4 - stamped by scripts/apply-skill-clauses.mjs from docs/skill-clauses/skill-reflection.md; edit the template, then re-stamp -->
 ## Skill Reflection
 
-After the run's real work is done, reflect - autonomously, without asking the user. Be honest about volume: most runs produce NOTHING beyond lane 1. An empty reflection is a valid result; a forced lesson is pollution. Calibration: nothing (common) / one line (sometimes) / a lesson entry (occasionally) / a redesign proposal (rare).
+After the work, record only useful observations supported by this run. No lesson is
+a valid result. Reflection inherits the task's authorization; it grants no additional
+permission to edit another repository, send data, commit, or publish.
 
-**Lane 1 - PROJECT learnings** (what the next session in THIS repo needs). Repo-specific rules go to this skill's overlay in the consuming repo - a dated one-liner under `## Skill improvement log` in the overlay/vault location this skill's `## Project overlay` section names (create the heading on first use). If this skill carries no `## Project overlay` section, or its overlay section names no location, write that dated one-liner to `.claude/spark/config.md` in the consuming repo under `## Skill improvement log`, creating the file and the heading if they are absent - so the instruction is executable in every skill. When the repo carries a `.personas/` directory, also write via the MEMORY BLOCK contract if this prompt carries one, else append node lines to `.personas/memory-outbox.jsonl` per that contract. Never into this file: a project's bytes in a shared method are exactly what made the fleet's copies diverge.
+**Project learning.** Only when this run produced an observation that would change how a
+future run behaves. A run that went as the method describes writes nothing: an entry that
+restates the procedure, records "no issues", or repeats the task is a defect, not a
+deliverable. When there is such an observation and local edits are within scope, put one
+dated line in the overlay this skill's `## Project overlay` section names, under
+`## Skill improvement log`. **Write only into an overlay that already exists.** If the
+project has none, put the observation in the response instead - creating a new tracked
+file for a reflection is scope the task did not ask for, and a reader who never asked for
+the skill has to review it. If the overlay is a structured config (YAML, TOML, JSON),
+record the note as comments so the file keeps parsing, or use the response.
+Use a supplied memory contract only when its destination and writes are authorized.
+Keep project details out of the shared method.
 
-**Lane 2 - METHOD learnings** (what would improve THIS SKILL for every project):
-1. If nothing generalizes beyond this repo, stop here.
-2. Append to `LESSONS.md` in this skill's directory: `## <version-used> - <YYYY-MM-DD> - <project-name>` followed by `- ` bullets (create the file with a `# Lessons - spark` heading if absent). Record the version the run USED, not a bump target. Wrap a bullet in a `### Redesign proposal` sub-block when it argues for a redesign you are NOT applying now. A lesson alone needs no version bump.
-3. Edit `SKILL.md` only together with a version bump, and bump only with an applied edit: patch for wording, minor for a step/prompt refinement, major for a methodic redesign. Update the `version:` frontmatter. Never edit inside a stamped `<!-- clause: ... -->` block: that text is shared by every skill in the lane and is changed in the registry's `docs/skill-clauses/` and re-stamped with `node <registry>/scripts/apply-skill-clauses.mjs`.
-4. Where the edit lands: THE SKILL DIRECTORY IS A LINK INTO THE REGISTRY. `.claude/skills/spark` in a consuming repo is a symlink to `<registry>/skills/spark` (registry root = `registry.local` in `.ai/manifest.yaml`, default `../ai-registry`; `$AI_REGISTRY_DIR` wins). Editing it edits the one file every project runs, so there is nothing to propagate. Commit it IN THE REGISTRY checkout as a standalone commit containing only this skill's files: run `node <registry>/scripts/check-skills.mjs --since HEAD` first (shape + version discipline must pass), then `git -C <registry> add skills/spark` and `git -C <registry> commit -m "skill(spark): v<new> - <one-line reason>"`. Never stage the link from the project side.
-5. NEVER copy this skill to `~/.claude/skills/spark/` or into another repo, and never "propagate" by copying. A copy in the personal tier shadows the lane for every project on the machine and freezes the method at that day's bytes with no version to compare (measured 2026-08-29: 11 such copies, all unversioned, all stale). If `.claude/skills/spark` is a real directory instead of a link, the fix is `node <registry>/scripts/link-registry.mjs`, not a copy in either direction.
+**Method learning.** Identify the installation before editing anything. A local
+`.ai/registry-installation.local.json` receipt can identify development versus release,
+the registry revision, and selected skill versions. Verify any link's actual target;
+do not assume a skill directory is a writable registry link.
 
-**Lane 3 - DOMAIN knowledge** is a different artifact from a lesson: a lesson improves this METHOD, a lead proposes knowledge for a bundle. Skills that carry a `## Knowledge sync` section file leads there; a skill without one files none.
+- For a pinned release, marketplace cache, ordinary copy, or unknown installation,
+  keep a proposal in the project overlay or response. Do not edit the installed method
+  or silently relink it. Adoption and rollback are explicit installation operations.
+- For a development link, edit the registry only when that checkout is already within
+  the accepted task scope. Otherwise report a proposal. Authorized changes belong in
+  the source checkout, followed by its gates; commit only when the task authorizes it.
+- Record an actual lesson in `LESSONS.md` against the version **used**:
+  `## <version-used> - <YYYY-MM-DD> - <project-name>` and concise bullets. A proposal
+  must be labeled as such; structural checks are not evidence of field effectiveness.
+- Applied skill changes require a version bump: patch for wording, minor for a step
+  refinement, major for method redesign. A lesson alone needs no bump. Shared stamped
+  clauses are edited in the registry's `docs/skill-clauses/` and regenerated with
+  `scripts/apply-skill-clauses.mjs`, never patched in individual installed skills.
+
+**Domain learning.** Follow `## Knowledge sync` when present, within the same scope
+and privacy boundaries. A method lesson and a domain knowledge lead are different
+artifacts; do not fabricate either to fill a reflection quota.
 <!-- /clause: skill-reflection -->

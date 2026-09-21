@@ -11,6 +11,8 @@ techniques:
   - size-budgets
   - release-verification
   - deprecation-by-version-arithmetic
+  - release-level-by-reader-reach
+  - announcing-versus-silent-breakage
 ---
 
 # Release pipeline
@@ -22,6 +24,15 @@ distributable artifact set and places it where installed copies can find it.
 The subject exists because every part of that sentence fails independently:
 the version can lie, the description can be noise, the artifacts can disagree
 with each other, and the distribution channel can silently deliver nothing.
+
+There is a fifth failure the other four cannot see, because it needs none of
+them to go wrong. The version can be honest, the description complete, the
+artifacts consistent and the channel sound, and the release can still change
+what the caller's *existing, unedited* code computes — not by removing anything
+they call, but by withdrawing a regularity they had observed and relied on and
+that the contract never promised. That one lands in the consumer's process with
+nothing red, and no version number reaches it
+([announcing-versus-silent-breakage](./techniques/announcing-versus-silent-breakage.md)).
 
 Two properties separate releasing from every other pipeline in a project:
 
@@ -189,3 +200,11 @@ The checklist and its ordering are
 - [release-verification](./techniques/release-verification.md) — proving the
   assembled artifact before the one-way door, including the update-path
   rehearsal.
+- [release-level-by-reader-reach](./techniques/release-level-by-reader-reach.md)
+  - a new name versus a new member of an existing shape, the three things a
+  reader can do with a member it has never heard of, and why the reader whose
+  last branch acts is the one to hunt.
+- [announcing-versus-silent-breakage](./techniques/announcing-versus-silent-breakage.md)
+  — the two classes a breaking release splits into, why the migration aids all
+  get built for the class that would have been found anyway, and what an aid
+  for the other class looks like on each side of the contract.

@@ -70,3 +70,16 @@ sample only; `capexRatio` and `saldoPerCapita` medians may draw from different
 effective samples that are not separately reported. The technique's rule —
 every median ships its own sample — is the standard; the repo ships the
 headline metric's.
+
+## Review boundary - 2026-09-09
+
+The code, line references, incident dates and source-classification claims above
+are retained as historical witnesses. No consumer code or fixtures were executed;
+the application witness date is unchanged.
+
+Locate the claimed official population-band definition; this review did not
+verify it. Reject invalid populations instead of routing them into the smallest
+band. Verify that latest values belong to the same period and definition, that
+every metric reports its own valid sample count, and that any widened comparison
+preserves mandate and reporting perimeter. A shared debt sample count cannot
+stand in for capex or balance coverage.

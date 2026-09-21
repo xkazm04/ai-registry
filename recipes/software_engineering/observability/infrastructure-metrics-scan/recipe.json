@@ -2,7 +2,7 @@
   "id": "7458572a-4829-55a0-830b-336f16147659",
   "slug": "infrastructure-metrics-scan",
   "title": "Infrastructure metrics scan",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "status": "seed",
   "path": "software_engineering/observability",
   "domain": "software_engineering",

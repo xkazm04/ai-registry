@@ -14,7 +14,7 @@ verified_against: node@24
 The politicas repo ingests the Czech Chamber of Deputies' bulk exports — Informix
 "UNLOAD" dumps published at psp.cz — through
 `packages/czech-civic-data/src/unl.ts`, a ~150-line module that is the reference
-realization of this technique.
+historical implementation of this technique, with the limitations below.
 
 ## The publisher's grammar, implemented verbatim
 
@@ -27,7 +27,7 @@ vote titles like `"Zákon o ... § 12 | 2. čtení"` contain literal pipes, so
 `parseUnlLine` (`unl.ts:28-53`) walks the line character by character: `\|` is a
 literal pipe, `\\` a backslash, `\n`/`\r`/`\t` control characters, and any other
 escaped character passes through verbatim because the publisher documents no closed
-set — permissive but lossless. Empty columns push `null`, not `""` (the SQL NULL
+set. This drops the backslash for unknown escapes and is not lossless. Empty columns push `null`, not `""` (the SQL NULL
 convention preserved at line 43). The trailing terminator column is dropped, but a
 non-empty remainder is kept in case a producer ever omits the terminator.
 
@@ -75,3 +75,27 @@ CSV where `""` escapes a quote, a different grammar. The header records the live
 verification that a naive `split(";")` breaks there too: one MP's own free-text
 occupation field contains a literal semicolon. Two legacy formats, two small exact
 parsers — not one "flexible" one.
+
+## Source review and executable counterexamples - 2026-09-09
+
+The [publisher's format description](https://www.psp.cz/sqw/hp.sqw?k=1300)
+confirms UNL rows, pipe delimiters, empty-column nulls, backslash escapes and
+windows-1250. It also permits new columns at the end. It does not supply a
+complete escape mapping or timezone rule in that description; those parts
+of the implementation need further source evidence.
+
+Pure exports from the inspected parser were executed under Node 24.14.0:
+
+- `parseUnlLine` turns the field `a\q` into `aq`, losing the unknown escape marker.
+- `colInt` converts `9007199254740993` to `9007199254740992`; a finite result is
+  not necessarily an exactly represented integer.
+- `czDateToIso('31.02.2026')` returns `2026-02-31`; the day check ignores month length.
+- `czDateHourToIso('2026-01-01 12garbage')` accepts the prefix and emits a UTC instant.
+- UTF-8 bytes for `á` decode as `Ăˇ` through `decodeUnl` without throwing.
+
+The [Encoding Standard](https://encoding.spec.whatwg.org/#interface-textdecoder)
+defines fatal handling for decoder errors; it is not encoding detection.
+The UTC assignment is an implementation assumption, not a publisher-proven
+instant. A tolerant column accessor also cannot establish required row width.
+These probes reproduce limitations; they do not repair the consumer, replay
+the full ingest, or refresh this application's historical verification date.

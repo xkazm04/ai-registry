@@ -6,7 +6,7 @@ technique: relevance-floors
 status: forged
 laws: [failure-not-empty-success, gate-sees-target]
 shared_with: []
-use_when: [deciding whether to return nothing over weak hits, recalibrating floors after an embedder swap, telling honest empty apart from engine failure]
+use_when: [deciding whether to return nothing over weak hits, recalibrating floors after an embedder swap, telling honest empty apart from engine failure, a floor is stated as a similarity percentage converted from an index distance]
 ---
 
 # Relevance floors
@@ -61,6 +61,48 @@ above the confident floor pass; results in the band pass only with degraded
 standing ("weak match" — provenance the consumer can discount); results below
 fail. This keeps the honesty of the floor without the brittleness of a
 single cliff.
+
+## A floor stated in converted units inherits the conversion
+
+Floors are often not written in the index's own units. A distance is
+awkward to read — unbounded, smaller-is-better — so a team converts it into
+a similarity and states the floor as a percentage a person can reason
+about: "keep matches above 85%". The floor has now moved into a second
+score space, and it is exactly as correct as the formula that got it there.
+That formula rests on two facts about the lane which the conversion does not
+check and nothing downstream can see:
+
+- **What the index actually returns.** Libraries in this class disagree on
+  whether a Euclidean lane reports the distance or its square — the square is
+  cheaper and preserves order, so an exact or graph index commonly returns it,
+  while a database vector function may take the root. The identity for
+  unit-length vectors is `‖a − b‖² = 2 − 2·cos`, so the similarity is
+  `1 − d²/2` from a distance and `1 − D/2` from a squared one. Apply the first
+  formula to a squared value and every score is inflated: a floor stated as
+  0.85 then admits true similarities down to about 0.73, and the percentage
+  shown beside each hit overstates its closeness to the reader or the model
+  that consumes it.
+- **Whether the vectors are unit length.** The identity holds only on the
+  sphere. If nothing in the write path normalizes — the lane trusts the
+  embedder to return length-one vectors — the conversion is a claim about a
+  vendor's current output, not about the store.
+
+What makes this failure durable is where it hides from the tests a careful
+author writes. **The two formulas agree at the obvious test points**: identical
+vectors score 1.0 under both, a similarity of 0.5 lands on the same value, and
+orthogonal or opposite vectors come out at zero under both once the result is
+clamped. A suite built from
+identical, sixty-degree and orthogonal pairs passes against the wrong
+conversion. Only a pair in between — two unit vectors with a similarity near
+the floor itself — separates them. Pin the conversion with that pair, run
+through the real index rather than a hand-computed distance, and assert the
+floor's value in the index's units beside it.
+
+The cheaper answer is usually not to convert at all: calibrate the floor in
+the index's native space, as above, and rescale only for display, where a
+wrong mapping mislabels a bar and cannot change what is admitted. Where the
+index can compute inner product over normalized vectors, the returned score
+already *is* the similarity, and there is no conversion left to get wrong.
 
 ## A substitute path is a different score space than the lane it stands in for
 

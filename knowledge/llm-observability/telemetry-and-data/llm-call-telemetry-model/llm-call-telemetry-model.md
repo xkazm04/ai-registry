@@ -117,6 +117,34 @@ corrected after rows exist creates two populations, and every historical
 population needs an explicit story (a backfill sentinel, an "unattributed"
 bucket) rather than a silent NULL that later reads as data.
 
+The enumeration is where this goes wrong, and it goes wrong in a direction the
+section's own framing hides. "Both front doors" counts the surfaces a *caller*
+can reach. A mature ingest has more writers than that, and the extra ones are
+records the **server builds itself** - a settled unit of dispatched work, a
+reconciliation row, a synthesized event for something that happened out of
+band. Such a writer is exempted from the shared step deliberately and with a
+good argument: its event needs no validation, because the server assembled it;
+no costing, because it prices from its own report; no admission, because the
+work already ran and refusing to record spend does not un-spend it. Every
+clause of that argument is true, and none of it covers the payload class. So
+the door reaches storage with a literal in place of the owner's policy, and the
+content it carries is the *most* likely to be sensitive, because a
+server-built record of a failure quotes the input that failed.
+
+Two consequences for the constitution. The enumeration of writers is a
+maintained list, not an adjective - "the front doors" silently stops being all
+of them the first time a server-built path is added. And the class must be
+applied through the one function even by a writer that legitimately skips
+everything else in the step, because the receipt is written from the same
+value the enforcement used: a door that chose the class also names it in the
+stamp, and the posture report that exists to say what the store *actually*
+holds then reads that door's choice as the owner's policy - a stamp that is
+present, well-formed and wrong, which is the one shape this bundle's posture
+on absence does not catch
+([never-present-absence-as-an-answer](../../_laws.md#never-present-absence-as-an-answer)
+forbids a missing value dressed as an answer; here the value is not missing,
+it is the wrong authority's).
+
 ## Absence is disclosed, never substituted
 
 The record model and its query surface share one posture: when the system
@@ -145,6 +173,11 @@ value in the row either is a measurement or announces that it is not.
   operation appearing as two because two emitters normalized differently.
 - **Drifting front doors** — single and batch ingest validating with
   separate code, accepting different populations under one schema.
+- **The exempt writer** - a server-built record skipping the shared step on
+  grounds that cover validation, costing and admission but not the payload
+  class, and stamping the class it chose rather than the one the owner set.
+  Not found by the suite: the shared step's tests are green, and they cannot
+  see this door.
 - **The helpful unfiltered page** — a backend answering a predicate it does
   not implement with unfiltered data instead of a refusal.
 

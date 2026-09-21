@@ -12,6 +12,8 @@ techniques:
   - dead-letter-design
   - non-delivery-ledgers
   - ordered-lane-blocking
+  - marker-certifies-what-was-done
+  - terms-travel-permission-does-not@job-coordination
 ---
 
 # Delivery guarantees & dead-letter
@@ -88,6 +90,12 @@ The consequences of that stance form the spine of this subject:
    a typed reason token written where an operator can query it, never a silent
    drop and never a bare null. Silence and skip must be spelled differently
    (see non-delivery-ledgers).
+7. **A marker certifies what was acknowledged, not what was read.** The
+   watermark advances to the last item the far side confirmed. A capped batch,
+   an input still being appended, or a torn last record is never marked done by
+   a run that succeeded, and a skip reads the artifact's completion value, never
+   just that a record with the right name exists (see
+   marker-certifies-what-was-done).
 
 ## The event lifecycle — one state machine, no informal states
 

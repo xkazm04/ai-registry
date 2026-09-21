@@ -121,6 +121,50 @@ the rendered bytes lets a proxy revalidate cheaply and lets you shorten
 lifetimes without paying full render cost per fetch. Vary correctly on any
 dimension that changes the bytes.
 
+### A served-from-cache response advises with what it has left, not with a fresh interval
+
+The four lifetimes above are written as if every response were rendered at
+the moment it is sent. Most are not: the resolved branch is usually served
+from a cache the origin *owns* — a report memoized for fifteen minutes, a
+verdict held in a shared store — and the directive is emitted at send time.
+Emitting the full lifetime on a hit hands the downstream tier a promise the
+origin has already partly spent. The two windows then compound: a report
+that is fourteen minutes old at the origin leaves for a ten-minute CDN
+lifetime, and the public artifact may say something twenty-four minutes
+stale while every constant in the file says ten. The staleness bound a reader
+computes from the constants is wrong by up to the origin cache's whole
+lifetime, and nothing in the code contradicts them.
+
+The HTTP caching standard already carries the correction: a cache that
+serves a stored response must send its current age (RFC 9111 §4, `Age`),
+and downstream freshness is the lifetime **minus** that age (§4.2). When the
+tier in front honours `Age`, emit it. When it does not — edge caches driven
+by a vendor-specific directive commonly ignore it — derive the directive
+itself from the entry's remaining budget: the shared lifetime is *lifetime
+minus the entry's age*, clamped at zero, so both tiers expire together and
+one origin refresh starts exactly one downstream interval.
+
+Two consequences follow, and the second is the one that gets missed:
+
+- **A degraded answer advises no storage.** When the origin is itself serving
+  its last good value because a refresh failed, the response is already the
+  stale branch; a downstream lifetime on it would let the outer tier keep
+  re-serving a value the origin is actively trying to replace. Emit `no-store`
+  (or `private, max-age=0`) on any response whose status is stale or fallback,
+  whatever the resolved branch's lifetime is.
+- **The freshness stamp in the body is the origin's, not the request's.** A
+  body that reports "checked at" must carry the time of the last *successful*
+  origin refresh, unchanged across every hit served from that entry; stamping
+  the request time on a cached read forges freshness the same way a failure
+  that stamps it does.
+
+The boundary: none of this applies when the entry is immutable and
+content-addressed — a digest-keyed asset has no age worth subtracting, and
+a year-long immutable lifetime is correct at any hit. It applies exactly when
+the origin's cache has a *lifetime*, because a lifetime is a claim about
+truth decaying, and the decay started when the entry was stored, not when it
+was sent.
+
 ## Procedure
 
 1. **Type the lookup outcome** as a discriminated union before touching cache

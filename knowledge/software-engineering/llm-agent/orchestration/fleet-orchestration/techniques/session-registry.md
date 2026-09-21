@@ -26,7 +26,7 @@ the beginning of the end
 A registry entry carries, at minimum:
 
 - **Identity** — minted at creation, opaque, never reused, never derived from
-  anything that can recur (not a process id, not a timestamp, not a name).
+  anything that can recur (not a process id or a bare timestamp or reusable name).
   Everything downstream keys on it: the durable mirror, log attribution,
   result harvest, viewer attachment
   ([identity-survives-reuse](../../../../_laws.md#identity-survives-reuse)). The
@@ -100,18 +100,24 @@ fleet scale:
   adopted back if it turns out to be alive; the edge exists and is named,
   rather than happening by accident).
 
-Because the door sees every transition, it is also the natural place to
-enforce resource bookkeeping — a transition into hibernated or any terminal
-state releases the concurrency slot and the write-scope claim as part of the
-same atomic step. Split those responsibilities and the fleet leaks slots
-exactly as often as any writer forgets the second half.
+The transition door also updates resource bookkeeping atomically with each
+accepted observation. Bind observations to a process incarnation and an ordered
+event identity; a late finish from an earlier incarnation cannot finish a resumed
+one. Serialize concurrent admission and wake requests with durable reservations.
+
+Release a live slot or exclusive write claim only after the old executor is
+confirmed stopped or fenced from further use of that resource. A timeout can
+justify suspicion without proving termination, particularly across a partition.
+Keep uncertain ownership quarantined; a hibernated session may retain its explicitly
+reserved write claim under the park policy. A registry transition alone cannot
+stop an external process or revoke a capability it still holds.
 
 ## Ownership rules
 
 The registry answers resource questions with rules, not conventions:
 
-- **One live process per identity.** The door enforces it structurally, as
-  above.
+- **One live process per identity.** Enforce one admitted incarnation with a generation token, and fence
+  previous incarnations at the resources they access.
 - **One writer per write scope.** Two live sessions with overlapping declared
   write scopes is a dispatch error, caught at admission (see
   [parallel-dispatch](./parallel-dispatch.md)); the registry is the index that

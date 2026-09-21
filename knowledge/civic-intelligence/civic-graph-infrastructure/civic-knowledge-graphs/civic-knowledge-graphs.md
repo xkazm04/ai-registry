@@ -21,7 +21,8 @@ that connect them as typed edges, so that the question "how is A connected to B"
 can be answered *checkably*: with a path whose every hop names its source, its
 derivation, and its review status. The word doing the work is **checkably**. Any
 graph library can return a path; only a graph whose every claim carries its own
-provenance can return a path a reader is entitled to repeat in public.
+provenance can return a path a reader can inspect. Public repetition also
+depends on verification, scope and publication authority.
 
 That last clause is what separates this subject from generic graph engineering.
 The nodes are real people and real firms; an edge is an allegation the moment it
@@ -61,15 +62,17 @@ Every claim in the graph is produced by one of two methods, and the method is
 part of the claim:
 
 - **Deterministic** — computed by reviewable code from raw registry rows: a
-  co-membership, an agreement rate, a sponsorship. Recomputable, exact, and the
+  co-membership, an agreement rate, a sponsorship. Repeatable at pinned inputs,
+  but still subject to source and derivation errors, and the
   only method allowed to author a number.
 - **Proposed** — suggested by an automated analyst (typically a language model
   reading the deterministic layer), admitted only through a validation gate
   that checks the proposal's shape *and its references*: every endpoint it
   names must be an entity that exists, every identifier it cites in prose must
   resolve. A proposal that mentions a person who is not in the store is not a
-  creative insight; it is a fabricated politician, and the gate exists to make
-  that physically unstorable.
+  verified entity in this dataset. Reject or quarantine the unresolved
+  proposal; absence from the store does not establish that the person is
+  fabricated or cannot legitimately be added from a new source.
 
 Even a gated proposal is still a machine result — a lead. The graph therefore
 carries a third axis on its most sensitive edges: **review state**. An
@@ -100,8 +103,9 @@ because many independent writers now share one store, the most dangerous
 operation in the system is the innocent-looking rebuild: a writer that owns
 three edge relations and wipes the whole store destroys every other pass's work
 and cannot restore it. Rebuilds are therefore guarded by comparing what the
-store *holds* against what the run *emits* — computed, not hardcoded, so a kind
-added next month is protected the day it lands.
+store *holds* against what the run *emits*, including enriched fields and
+human decisions. Bind the check to the write so concurrent changes cannot
+invalidate its accounting; matching kind names alone does not prove preservation.
 
 ## Answering "how is A connected to B"
 
@@ -129,17 +133,16 @@ discipline: each hop shows its relation, its review state, and its source; the
 enumeration states whether it was capped; and "no path within the limit" is an
 honest answer, distinct from "no path".
 
-## Show less by default, never less than asked
+## Show complete answers within publication and access limits
 
 The reading surface defaults to the human-verified layer: unverified machine
 matches are hidden from the ambient landscape, and the display *says how many
-it hid* — a suppressed count is disclosure; a silent one is deception. But the
-filter has a hard exception: when the reader explicitly requests a derived
-answer — a computed path, a curated trail — every hop of that answer renders,
-pending ones visibly marked, because a requested answer with omitted steps is a
-lie. And any count describing an entity's record is computed from the
-unfiltered store: the tooltip tells the truth about the record, not about the
-current view.
+it hid* where that count may itself be disclosed. An explicit request for a
+path never bypasses authorization or publication review. Compute on the
+permitted dataset and show every hop of a permitted answer, or disclose that
+no complete answer is available within that scope; never silently remove an
+intermediate hop. Counts are computed before optional display filtering but
+after access and publication filtering, with loaded-subset limits disclosed.
 
 ## Failure modes this standard exists to prevent
 
@@ -156,7 +159,8 @@ current view.
   accreted majority of the graph it cannot regenerate.
 - **The unaccountable verdict** — review decisions overwriting each other with
   no audit trail, or a rejected match re-surfacing forever because rejection
-  was not a terminal state.
+  was not closed for that claim revision. New evidence reopens it only through
+  an explicit audited transition.
 
 ## The techniques
 
@@ -175,5 +179,5 @@ current view.
   documented connection under excluded relations, hub pricing, and a printed
   tie-break rule.
 - [forensic-view-filtering](./techniques/forensic-view-filtering.md) —
-  verified-by-default display, counted suppression, and the requested-answer
-  exception.
+  verified-by-default display, permitted suppression counts, and complete
+  requested answers within publication and access limits.

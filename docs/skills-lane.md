@@ -190,8 +190,7 @@ the marketplace** (below): a consumer receives a new copy exactly when the versi
 
 Two sections of every `SKILL.md` are not about that skill: `## Skill Reflection` (how a run
 improves the skill - project lane to the overlay, method lane to `LESSONS.md` plus a bump,
-committed in the registry because the directory is a link, never copied to the personal
-tier) and, in the skills that propose and execute backlog items, `## Knowledge sync` (read
+applied to the source only when the installation and task authorize it) and, in the skills that propose and execute backlog items, `## Knowledge sync` (read
 the governing golden paths through `.ai/registry-map.json` before proposing, tag every item
 with the technique it serves, log the consult, file a lead when a landed fix taught
 something). Hand-copied, they drifted into four variants, one of which still instructed
@@ -219,50 +218,22 @@ The separator may be `-` or an em dash — lessons arrive from installations tha
 either. The gate checks the heading shape; append-only is a property of history, not of
 a file, so it is enforced by review.
 
-## Distribution, part 1: within one owner's machine, a skill is LINKED
+## Distribution, part 1: explicit development and release installations
 
-**The default here is a link, not a copy.** Every consuming project's
-`.claude/skills/<name>` is a symlink into this lane, so there is exactly one file on the
-machine:
+Use the [installation contract](installations.md) to choose a project, harness and
+mode. Development links follow working-tree edits immediately. Releases link to a
+project-local snapshot of a named commit and change only through an explicit update.
+The choice depends on the required stability, even when one person owns both trees.
+Codex discovery uses `.agents/skills`; Claude uses `.claude/skills`.
 
-```sh
-node scripts/link-registry.mjs           # make the machine match every project's manifest
-node scripts/link-registry.mjs --check   # verify; the form for a pre-commit hook
-```
-
-The harness supports this directly: *"A `<skill-name>` entry in the enterprise, personal,
-or project locations can be a symlink to a directory elsewhere on disk. Claude Code follows
-the symlink and reads `SKILL.md` from the target directory, and if the same target is
-reachable from more than one location, Claude Code loads the skill once."*
-
-What that buys, and why it is the default:
-
-- **Editing a shared skill from a project session edits the lane's file.** There is no
-  copy to sync, so the failure this registry measured across the fleet — 44 copies, 0 in
-  sync — cannot recur. The skill is live in every project immediately; the harness watches
-  skill directories and reloads within the session.
-- **The shadowing class of bug is gone by construction.** One target reachable from several
-  locations loads once, so "personal overrides project" has nothing to override.
-- **The declaration stays reviewable.** The LINK is machine state and is gitignored (a link
-  committed into a repo is a dangling path on the next machine). WHICH skills a project uses
-  is committed, in that project's `.ai/manifest.yaml` under `skills:` — the same reviewable
-  record the plugin `enabledPlugins` list used to be.
-- **A real directory under `.claude/skills/` is a project-owned skill** and is never
-  touched. Refusing to convert one is the point: a project skill that shadows a lane name is
-  a finding for `scripts/fleet-audit.mjs`, not something to silently delete.
-
-This is the right default **because one person owns the registry and every consumer**. The
-ceremony below exists to stop one party's merge from changing another party's agent. With
-one party, that protection is a tax: it charges a round trip (edit → bump → regenerate →
-commit → push → update in six repos) and protects nobody.
+The legacy `scripts/link-registry.mjs` remains a fleet operator tool for Claude
+development links. Real project-owned directories are preserved. Reading a linked
+skill does not authorize editing its source, committing it, or changing other projects.
 
 ## Distribution, part 2: for a second machine or a second person, a plugin marketplace
 
-The moment the registry and a consumer are owned by **different people** — a second
-developer, a second machine, CI — the link stops being appropriate: an edit here would
-change what someone else's agent does, with no review and nobody present. Then the answer
-is the marketplace, which is version-pinned, per-project and updated by an explicit human
-act. It is generated and gated continuously so it is ready the day it is needed, and every
+The marketplace is another distribution option for Claude consumers that need a
+versioned cache and explicit adoption. It is generated and gated continuously; every
 skill in this lane is one single-skill plugin:
 
 ```

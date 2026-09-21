@@ -20,7 +20,8 @@ rendered so that every total is a claim some composition of records actually mak
 
 ## The bases
 
-A national registry commonly exposes value in **mutually exclusive shapes**:
+Preserve the value dimensions the source actually defines; these are not
+universally mutually exclusive shapes:
 
 - **tax-exclusive** amount (net of value-added tax),
 - **tax-inclusive** amount (gross),
@@ -28,8 +29,8 @@ A national registry commonly exposes value in **mutually exclusive shapes**:
 
 plus the not-stated sentinel. Beyond the schema's own shapes, procurement adds
 semantic bases: a framework agreement's ceiling versus its call-offs' actual values,
-estimated versus final award value, a unit price versus a total. Two figures are
-summable only when they share *all* of these dimensions.
+estimated versus final award value, a unit price versus a total. Matching these dimensions is necessary but insufficient: the amounts must also
+cover distinct, non-overlapping obligations within the same period and perimeter.
 
 ## Decision rules
 
@@ -39,7 +40,7 @@ summable only when they share *all* of these dimensions.
    as a first-class attribute on the row and on every derived edge. A corpus that
    collapsed bases without recording them cannot be repaired later; one that
    recorded them can at least confess.
-2. **Never convert.** The tax rate applicable to a given contract is not in the
+2. **Never silently convert source amounts.** The tax rate applicable to a given contract is not in the
    record (jurisdictions run multiple rates and exemptions), and a historical
    exchange rate applied to a foreign-currency ceiling is a modeling choice, not a
    fact. When tempted to convert, do Y: keep the bases separate and disclose, because
@@ -54,10 +55,10 @@ summable only when they share *all* of these dimensions.
    **mixes** the two tax bases, and how many rows stand outside the tax split
    entirely (foreign currency, no value, basis unrecorded). Derive these in one pure
    function used by every surface — a restated composition rule will drift.
-5. **Mixed totals confess in the copy.** If a total mixes bases, the rendered
-   sentence says so with the counts ("N records net of tax, M gross — these figures
-   are not directly comparable"). If a sole basis holds, say which. Zero rows
-   outside the split is reported as a property, not assumed as the default.
+5. **Do not publish a mixed sum as a meaningful monetary total.** Show separate
+   subtotals by compatible basis, with counts and exclusions. A warning beside a
+   mixed sum does not make it summable. If a normalized estimate is required,
+   retain source amounts and publish the conversion inputs and assumptions.
 
 ## Why the naive reading survives so long
 
@@ -65,9 +66,9 @@ A mixed-basis total is *plausible* — it is within a tax-rate factor of a true
 number, so no smoke test catches it, and every row individually parsed correctly.
 The defect is relational, existing only between rows, which is why it must be
 guarded structurally (composition computed and rendered) rather than by review.
-In one measured corpus the split was roughly two-thirds tax-exclusive to one-third
-tax-inclusive: large enough that every per-firm total silently mixed, small enough
-that none looked wrong.
+A corpus-wide mix does not prove that every individual firm mixes bases; compute
+composition for each aggregate. Historical corpus counts belong to their dated
+application witness, not to a universal distribution assumption.
 
 ## When not to use
 

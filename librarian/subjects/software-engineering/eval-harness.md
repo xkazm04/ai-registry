@@ -669,3 +669,27 @@ verdict and probed by nothing.
   terse-consumer judge marks a conversational, correctly dated reply as stale; a re-judge
   moved the cell by +37 points. One harness, one judge; recorded as a sighting, not a
   measurement. Return condition: the harness's year run, which will re-judge every cell.
+
+### 2026-09-17 - `/harvest backlog` wave 2, one technique
+
+`uncontrolled-games-beside-the-win-rate`, from [[2026-08-31-anydoc]]. `comparison-modes` scores every pair both ways and records a flip as a tie, which assumes both orders came back. The residual is the game whose swap never completed: admitted at face value it carries the bias the swap cancels; dropped silently it leaves a leader at 2-0 over 2 of its 8 scheduled games reading like 8-0. Three other members of the unit (operator-control-plane, dora, firstmate) were already owned across six files, and the unit's first half - never count a verdict from only one order - was already enforced by tracklight's judge, so the measurement went to the residual: 0 per-candidate disclosure fields before, excluded and forced-tie counts per candidate after, win rates and rank order unchanged at tolerance 0. The `deterministic-run-verification` home the ranker named exists only as a sibling's uncommitted agent-operations bundle.
+## 2026-09-17 - intake `mem0` ([[2026-09-17-mem0]])
+
+- **Landed `rebase-the-varied-input`.** It came from the fleet seam hunt, not the source.
+  The golden path enumerated two ways a pass is vacuous (the scenario is answerable
+  without the material; the incentive rewards doing nothing). A third was measured. An
+  invariance check that masks the quantity it varied cannot see a violation rendered into
+  that quantity. A memory harness's clock-purity check passed a backend that stamped the
+  wall clock onto every recalled line, 46/46 probes. Rebasing dates onto each replay's base
+  caught it 46/46 with the clean backends' verdicts unchanged (4 of 4 offline arms held;
+  4 model-bound arms not re-checked). One paragraph appended to the section, closing the
+  enumeration.
+- **Second defect at the same seam:** the check's id pattern held four literal backspace
+  bytes where word boundaries were meant, so id erasure never matched anything. A
+  normaliser can fail in both directions in one line, erasing too much on dates and
+  nothing on ids.
+- Applied: personas, `code`, `better`, `ab-paired`. Shipped on branch
+  `intake/clock-purity-rebase`, because the shared checkout had another session's merge
+  open. Not merged, not pushed.
+- **The existing `judge-stability` sighting (2026-09-04)** still waits on the year run.
+  This run did not touch the judge.

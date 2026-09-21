@@ -1,7 +1,8 @@
 ---
 subject: generative-provider-auditing
 domain: game-production
-last_touched: 2026-09-01
+last_touched: 2026-09-10
+touched_by: architecture-review
 dry_streak: 0
 ---
 
@@ -63,3 +64,79 @@ specifically because this one **agreed with the technique in three places and mi
 the fourth** — a second tree showing the same partial adoption would promote "teams model
 basis for numbers and not for identities" from an anecdote to a pattern worth stating in
 the golden path.
+
+## Architecture review - 2026-09-10
+
+Read and assessed all 11 owned documents. **Reverify** records completed review
+coverage, not a clean content verdict. Document decisions identify the repairs and
+remaining work. Earlier observations are preserved as historical evidence; they are
+not refreshed runtime witnesses and do not override the qualifications below.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "game-production/generative-provider-auditing",
+  "date": "2026-09-10",
+  "baseline": "78850ba51a9aa016dcfc62817d59581453c3d90d",
+  "digest": "sha256:d6c9753d58921e7a",
+  "disposition": "reverify",
+  "coverage": "All 11 owned documents read and assessed. Eight techniques across this tranche were repaired. Other semantic findings, golden-path reconciliation and all historical application witnesses remain reverify work. No consumer checkout execution, engine run, provider benchmark, player study or maturity refresh. External source scope and access limitations are recorded below.",
+  "counterexamples": [
+    "Single outputs per class cannot establish general quality rankings. Use representative tasks, repeated independent generations, blinded comparison and declared resource/finishing budgets; raw and end-to-end objectives may select different models.",
+    "Capability membership can equal registry membership. Attribution requirements do not imply noncommercial-only use: CC BY permits commercial use subject to conditions. Eligibility needs actual terms, plan, intended use and other rights, not a blanket boolean.",
+    "A provider echo is provider-reported identity, not independent proof of exact weights or immutable aliases. Explicit audited environment configuration can identify a model; undisclosed identity must remain distinguishable from inferred identity."
+  ],
+  "sources": [
+    {
+      "url": "https://creativecommons.org/licenses/by/4.0/",
+      "scope": "Official deed read: attribution conditions coexist with commercial-use permission; it also notes other rights may remain. This refutes attribution-equals-noncommercial, not any particular provider or asset eligibility."
+    }
+  ],
+  "documents": {
+    "generative-provider-auditing.md": {
+      "disposition": "reverify",
+      "reason": "Reverify requested versus reported identity, mutable model aliases, custody durability and blanket commercial eligibility. Benchmarks and license declarations are scoped evidence, not proof of every future output or use."
+    },
+    "techniques/arena-benchmark-protocol.md": {
+      "disposition": "reverify",
+      "reason": "Single outputs per class cannot establish general quality rankings. Use representative tasks, repeated independent generations, blinded comparison and declared resource/finishing budgets; raw and end-to-end objectives may select different models."
+    },
+    "techniques/capability-is-not-registry-membership.md": {
+      "disposition": "reverify",
+      "reason": "Capability membership can equal registry membership. Attribution requirements do not imply noncommercial-only use: CC BY permits commercial use subject to conditions. Eligibility needs actual terms, plan, intended use and other rights, not a blanket boolean."
+    },
+    "techniques/never-the-account-default.md": {
+      "disposition": "reverify",
+      "reason": "A provider echo is provider-reported identity, not independent proof of exact weights or immutable aliases. Explicit audited environment configuration can identify a model; undisclosed identity must remain distinguishable from inferred identity."
+    },
+    "techniques/pin-a-model-per-asset-class.md": {
+      "disposition": "reverify",
+      "reason": "Pin the full relevant configuration and evaluation objective, not just a name. A finishing-inclusive benchmark can legitimately prefer an output that exceeds a raw intermediate budget. Downloading into RAM does not establish durable local custody."
+    },
+    "techniques/record-negative-benchmarks-in-place.md": {
+      "disposition": "reverify",
+      "reason": "Keep negative results bound to versions, task, costs and evidence. Operational refusal and qualitative preference have different evidentiary requirements; new models do not erase old failures."
+    },
+    "techniques/refuse-with-reason-not-greyed-out.md": {
+      "disposition": "reverify",
+      "reason": "Structured error channels can carry nonretryable refusals without inevitable infinite retry. An authorized, declared fallback may be valid; repeated unsupported requests alone do not establish a benchmark result."
+    },
+    "applications/node--capability-is-not-registry-membership.md": {
+      "disposition": "reverify",
+      "reason": "The historical capability roster was not rechecked against current service plans. Commercial permission and attribution must be assessed from the applicable terms and use, not an unconditional provider flag. Preserve existing verification dates; no new consumer witness."
+    },
+    "applications/node--never-the-account-default.md": {
+      "disposition": "reverify",
+      "reason": "The historical five identity sites were not rerun. Type declarations alone do not establish adapter parsing, persistence or a shipping gate; preserve requested, vendor-reported and undisclosed states. Preserve existing verification dates; no new consumer witness."
+    },
+    "applications/node--pin-a-model-per-asset-class.md": {
+      "disposition": "reverify",
+      "reason": "The displayed download-then-delete sequence obtains an in-memory buffer before deleting the remote copy; that is not durable custody. Require verified durable storage and recovery before remote deletion. The historical consumer was not changed or rerun. Preserve existing verification dates; no new consumer witness."
+    },
+    "applications/process--arena-benchmark-protocol.md": {
+      "disposition": "reverify",
+      "reason": "The historical arena runs were not repeated. A small class sample and one chair comparison do not establish general model equivalence; weight-license claims do not settle all output rights. Preserve existing verification dates; no new consumer witness."
+    }
+  }
+}
+```

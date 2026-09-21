@@ -7,7 +7,7 @@ status: forged
 laws:
   - deletion-is-not-repair
 shared_with: []
-use_when: [designing the reduced fallback for a motion preset, placeholders flash after reduced motion is enabled, an exit animation never unmounts]
+use_when: [designing the reduced fallback for a motion preset, placeholders flash after reduced motion is enabled, an exit animation never unmounts, page transitions still animate under a universal reduced-motion reset, a framework takes over starting document transitions]
 ---
 
 # Reduced-motion mechanics
@@ -101,6 +101,61 @@ it is the objection: one read of the merged signal per frame, paid only while
 something is animating — and the engine is already awake then, which is the
 argument for putting the read in the loop rather than at every registration.
 
+## The transition layer a universal rule cannot name
+
+Engine scope has a second axis, and it bites inside the stylesheet's own
+engine: **a reduction rule reaches only the nodes its selector can match.**
+The standard universal reset — every element, plus its before- and
+after-generated content — reads as total. It is not total for a
+document-level snapshot transition, where the platform captures the old and
+new state as images and animates them on a separate tree of generated nodes
+layered above the page. Those nodes are neither elements nor before/after
+content, the universal selector does not match them, and the transition
+plays at full duration for exactly the user the reset was written for.
+
+This is measured, not argued. In a current browser engine with the
+preference emulated, a universal reset collapsed an ordinary infinite
+keyframe animation (the positive control) and left a transition's
+cross-fade running at its full default duration: frozen halfway through,
+the entering element sat at 80% opacity, pixel-identical to a page with no
+reduction rule at all. A rule naming the transition tree's generated nodes
+removed every animation longer than a millisecond, and the element painted
+settled. The result was the same when the reset was a shipping product's
+block copied verbatim.
+
+A rendering framework that adopts the transition as a component makes the
+gap worse, in two ways that compound:
+
+- **The call-site gate disappears.** A hand-rolled transition is started by
+  application code, and the natural guard sits there: skip the call when
+  the preference is set. Once the framework owns the transition, the
+  framework makes the call. The platform runs one transition at a time, so
+  application-initiated calls become forbidden, not merely redundant. The
+  one gate a product already had is removed by the migration, and nothing
+  announces it. The framework does not consult the preference on its own
+  behalf either; its documentation says so.
+- **Whether a gesture plays is decided by how the update was scheduled**,
+  not by the markup. A deferred update animates, an urgent one does not,
+  and a synchronous flush produces no transition at all. "Which of our
+  surfaces animate" is no longer answerable from the component tree. The
+  answer is spread across every call site that schedules an update.
+
+The fix follows from this technique's own rules rather than from anything
+new. Once the call is gone, two reduction paths remain: a per-boundary
+property that switches the transition off where it is declared, and one
+stylesheet rule naming the generated transition tree. Both removed the
+visible motion when measured. Only the second is honored in one place. The
+first is a parallel implementation at call sites, which drifts and is
+forgotten on the next boundary someone adds. So **the reduced-motion rule
+set names the transition tree explicitly, beside the universal reset**, and
+the engine inventory lists the snapshot transition as its own line even
+though it runs on keyframes, because the reset that governs keyframes
+cannot see it. The per-preset fallback logic still holds inside that rule.
+An enter or exit cross-fade is opacity-only and may survive as a brief
+fade, but a moved or resized element animates position and size on the
+tree's group nodes. That is travel, and travel is what the preference
+suppresses.
+
 ## The global-kill trap
 
 The tempting mechanism — one universal rule zeroing every animation and
@@ -146,7 +201,11 @@ not a faster one.
    — the exception path documented in the preset library applies here
    doubly: a bespoke gesture without a designed reduced form is not
    finished.
-6. **Test in the reduced mode, not just about it.** Run the product's
+6. **The reduction rule names every node tree that animates**, including
+   the generated snapshot-transition tree a universal selector does not
+   match; a framework-owned transition is reduced there, not at its call
+   sites.
+7. **Test in the reduced mode, not just about it.** Run the product's
    loading, entrance, and success flows with the preference on; the trap
    cases above (flashing ghosts, hung exits) are all visible in one manual
    pass and nearly invisible in code review.

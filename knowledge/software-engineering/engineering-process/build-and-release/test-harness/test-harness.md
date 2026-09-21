@@ -15,6 +15,7 @@ techniques:
   - long-lane-certification
   - negative-control-tests
   - out-of-graph-artifacts
+  - configuration-axes-cross-the-ladder
   - gate-scope-is-not-report-scope
   - dynamic-verifier-classes
   - verification-inherits-driver-reach
@@ -23,6 +24,7 @@ techniques:
   - approval-snapshots-with-guarded-update
   - far-side-oracle
   - constraint-injection-for-unreachable-tiers
+  - unreached-decisions-pin-nothing
 ---
 
 # Test harness architecture
@@ -126,7 +128,11 @@ live-app rather than a variant of it, and
 ## Reaching the code is not the same as watching it run
 
 The ladder above arranges suites by *fidelity of the thing under test*. A
-second, independent axis arranges them by *what observes the run*. A suite's
+second, independent axis arranges them by *what observes the run*. A **third** axis crosses
+both: every build-configuration option the suite can be compiled under, so the
+reported result is one cell of a product and no instrument defined inside a cell
+can see a missing one
+([configuration-axes-cross-the-ladder](./techniques/configuration-axes-cross-the-ladder.md)). A suite's
 own assertions check the facts somebody thought to state; a dynamic verifier
 attached to the same run checks a class of facts nobody states in a test at
 all — invalid memory access, unsynchronised concurrent access, values that are
@@ -338,3 +344,14 @@ a soak run misunderstands both; the design of these lanes is
   population is the declared build graph, not the repository: taking the ship
   inventory, gating a detached root, loading rather than compiling a plugin, and
   the boundary against partitioning and liveness.
+- [unreached-decisions-pin-nothing](./techniques/unreached-decisions-pin-nothing.md)
+  — a test that arranges its own unreachability (a poisoned dependency, a seeded
+  cache, an older copy on the search path, an outer check ahead of the mutated
+  input) asserts whatever else answered: the reach probe that mutates the decision
+  the file *claims* rather than the code it touches, lifting the decision into a
+  reachable unit, and making the answer name its producer.
+- [configuration-axes-cross-the-ladder](./techniques/configuration-axes-cross-the-ladder.md)
+  - the fidelity ladder is one axis and every build-configuration option is
+  another: the cell as the result unit, why two one-axis jobs are not a
+  two-axis matrix, the missing cell no in-cell instrument can see, and the
+  coherence rule that stops the product from becoming the cell set.

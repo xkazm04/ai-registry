@@ -12,6 +12,7 @@ techniques:
   - media-resource-lifecycle
   - generated-supply-margin
   - committed-buffer-steering
+  - self-conditioned-supply
 ---
 
 # Media playback
@@ -183,6 +184,18 @@ continuity are bought from the same budget and cannot both be maximized.
 the steerable frontier, the cost of discarding produced-but-unplayed content,
 and contention when many contributors steer one timeline.
 
+One more producer shape changes the rules again: a producer that **conditions each
+unit on the tail of its own committed output**, the way a motion planner reads the
+last frames it emitted before planning the next segment. Its continuation has to be
+planned from a snapshot at a reserved future boundary. Its late results split on
+whether the system owns the clock, because discard-and-retry against a cold producer
+is a livelock while an owned clock can simply wait at the boundary. And where its
+content can stand still, "no input" is a stationary command with a fixed point, so
+the producer holds instead of regenerating its own drift. The clock that cannot wait
+and the stream with no idle state stay true for independent units and for clocks
+the viewer owns. [self-conditioned-supply](./techniques/self-conditioned-supply.md)
+owns the reserved seam, the late-versus-stale split, and the settled hold.
+
 ## Every media resource names its reaper
 
 Playback is the most resource-intensive thing most products do: decoded
@@ -242,3 +255,7 @@ arming, and any engine whose load is asynchronous — which is all of them.
   instructions against produced-but-unplayed content: the steerable
   frontier, append against discard against a shallow acknowledgement lane,
   and contention when many contributors share one timeline.
+- [self-conditioned-supply](./techniques/self-conditioned-supply.md) — the
+  producer that continues its own output: plans from a reserved seam, late plans
+  waited for on an owned clock and discarded on a foreign one, stale plans always
+  discarded, and a settled stationary state held rather than regenerated.

@@ -2,7 +2,7 @@
   "id": "8751850c-6824-588f-ab7d-f2abe3c1b2eb",
   "slug": "work-candidate-triage-gate",
   "title": "Work candidate triage gate",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "status": "seed",
   "path": "software_engineering/work-intake",
   "domain": "software_engineering",

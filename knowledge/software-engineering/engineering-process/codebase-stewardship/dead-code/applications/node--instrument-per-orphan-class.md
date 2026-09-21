@@ -4,7 +4,11 @@ type: application
 subject: dead-code
 technique: instrument-per-orphan-class
 stack: node
-verified_on: 2026-08-18
+verified_on: 2026-09-17
+verified_against: node@22
+applied: experiment
+ab_verdict: not-better
+proof: ab-paired
 ---
 
 # The instrument roster — six orphan classes, five instruments, and the one that protects corpses
@@ -105,3 +109,60 @@ its own server. What the file does not yet do is *say so*: the entries carry no
 reason and no delegate, so the audit "which ignore delegates to an instrument that
 does not exist?" — the answer is `src/lib/bindings/**` — has to be reconstructed
 by hand each time.
+
+## 2026-09-17 — the class that runs the other way, tested against this tree
+
+Re-verified on 2026-09-17 against the tree at its default branch, with the
+unused-export instrument at the version the lockfile pins (knip 6.14.2) and the
+runtime the tree witnesses in `.nvmrc` (node 22). The technique gained a class whose error runs toward *dead* rather than alive:
+**published names**, exports whose callers live outside the instrument's declared
+universe. This tree was chosen as the seam because it could falsify the class
+rather than illustrate it — a private desktop application with no `exports` field
+and no plugin surface should have no members — and the paired check was: for every
+export the unused-export instrument reports under `src/api/**` (the wire-facing
+layer, 218 rows at HEAD), does any caller outside the TypeScript universe invoke it
+by name?
+
+**Arm A, the naive join**: grep each of the 218 names as a string literal across the
+Rust tree. One hit — `cliCaptureRun`, named at `src-tauri/src/test_automation.rs:962`
+`"cliCaptureRun",` as a bridge dispatch. Read as a verdict, that is a live export
+the instrument called dead. **Arm B, the real join**: the Rust side dispatches into
+`window.__TEST__.__exec__(id, method, params)` (`src-tauri/src/test_automation.rs:213`
+`let js = format!(r#"window.__TEST__.__exec__("{id}", "{method}", {params_json});"#,);`),
+and the method table lives in `src/test/automation/bridge.ts`, which installs its
+*own* method at `src/test/automation/bridge.ts:1691` `async cliCaptureRun(serviceType: string) {`
+that calls the Tauri command directly. The API export of the same name is a duplicate
+implementation with zero callers — the instrument was right, and the by-name grep
+was a coincidence of naming across the wire. Target: names the instrument wrongly
+called dead because their audience is outside the universe, **0 of 218**. Floor:
+the instrument's own report unchanged across the arms (317 files, 1,152 exports,
+662 types). Verdict `not-better`: the published-names class has no members here,
+exactly as its stated precondition predicts, and a reader who applied it to this
+tree would have handed the false-alive classes a new alibi. A negative at the seam
+that could have refuted the precondition is the corroboration this row carries.
+
+The join itself was the structural finding. `unused-commands.mjs` joins the
+TS → Rust direction (registered commands nobody invokes) and its header claims the
+test-automation bridge; the **Rust → JS direction** — 33 names the test server
+dispatches by string into a JS method table resolved by parameter-name reflection
+— had no instrument, and a renamed bridge method would fail at test time with no
+compile error on either side. It has one now: `scripts/build/bridge-methods-join.mjs`
+joins the dispatched set against the installed set (33 dispatched, 153 installed,
+0 unresolved at HEAD, including the three perf methods installed by late
+assignment in `perfInstrument.ts`), refuses to run green if a source file is
+missing, and carries `--self-test`, which injects one dispatch the JS side does not
+install and requires the instrument to report it and nothing else. The self-test
+is the reach check this registry's method now demands before any green is read:
+an instrument that has never returned the other answer certifies nothing.
+
+Two currency facts for the roster above. The unused-export instrument is no longer
+wired anywhere: it left CI on 2026-08-30 with the note that `continue-on-error`
+was the repo's own named disease, and stays a manual audit "until its findings are
+triaged enough to ratchet honestly" — at HEAD it reports 317 unused files and
+exits red, so it is a verifier in the technique's *unexercised* class until
+someone owns the ratchet. And the `src/lib/harness/**` ignore is not what keeps
+any API export alive: dropping it moves the file count from 317 to 326 and the
+export count not at all, because the harness files are themselves unreachable.
+One dead island confirmed by hand for the walker's benefit: `ChatThread.tsx` is
+imported by nothing and imports `ChatMessageContent.tsx`, which is imported by
+nothing else — the refcount-defeating shape, visible to the walker as one cluster.

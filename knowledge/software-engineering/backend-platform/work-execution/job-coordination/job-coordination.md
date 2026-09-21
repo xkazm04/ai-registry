@@ -13,7 +13,9 @@ techniques:
   - no-unrestorable-state-at-a-suspension-point
   - terminal-state-recovery
   - job-observability
+  - terms-travel-permission-does-not
   - atomic-claiming@delivery-guarantees
+  - marker-certifies-what-was-done@delivery-guarantees
   - job-progress-and-cancellation@background-jobs
 ---
 
@@ -108,6 +110,13 @@ The consequences of the stance form the spine:
    [job-progress-and-cancellation](../background-jobs/techniques/job-progress-and-cancellation.md);
    this path supplies the durable record that contract reads from and
    survives by.
+
+7. **The record says what the work was submitted under, not only what it is.**
+   The terms a unit will be judged by — its threshold, its class or route, its
+   parameters, the instrument that produces its result, and the version all of
+   them came from — are frozen at submission and travel in the record; only what
+   can stop or narrow the work is read live at execution (see
+   [terms-travel-permission-does-not](./techniques/terms-travel-permission-does-not.md)).
 
 ## The lifecycle spine
 

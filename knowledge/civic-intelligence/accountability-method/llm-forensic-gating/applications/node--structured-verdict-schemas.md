@@ -78,3 +78,7 @@ entityId slot.
   the handoff file and the run is unfinished unless the driver's last line is
   that path — "when a behavioural rule keeps being violated, stop restating
   it and give it an observable output."
+
+## Review limits - 2026-09-09
+
+An https prefix is syntax validation, not retrieval. A JSON.stringify sweep may hide literal whitespace behind escapes; validate decoded string traversal. Shared constants do not prove validator parity or benchmark comparability. Runtime completion/refusal paths and historical incidents were not rerun. Application witness dates remain historical.

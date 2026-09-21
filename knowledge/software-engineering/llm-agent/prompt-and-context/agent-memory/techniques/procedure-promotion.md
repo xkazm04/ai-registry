@@ -306,3 +306,11 @@ memory directory written first-sight by design, whose entries included two
 written six minutes apart by different sessions about the same failure,
 neither aware of the other, because nothing searched by trigger before
 writing.
+
+That last instance has a second half the count inside one store cannot see.
+Where a host writes **one such store per context** there is no door between
+them at all, so the second sighting usually happens somewhere else - and it is
+that sighting, not the one in the same store, that decides whether an item
+belongs to its context or to the fleet.
+[cross-context-promotion](./cross-context-promotion.md) owns that axis, the
+shared tier it admits to, and why the same bar must never be used to evict.

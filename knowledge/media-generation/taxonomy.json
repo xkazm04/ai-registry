@@ -53,6 +53,7 @@
       "title": "Production operations",
       "order": 5,
       "subjects": [
+        "live-system-demo-film",
         "platform-format-adaptation",
         "production-pipeline-phasing",
         "review-iteration-loops",

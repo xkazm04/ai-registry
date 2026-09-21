@@ -1,7 +1,7 @@
 ---
 subject: cross-provider-benchmark-operations
 domain: llm-observability
-last_touched: 2026-09-07
+last_touched: 2026-09-10
 touched_by: external-reconcile
 dry_streak: 0
 ---
@@ -118,3 +118,273 @@ tests the winner paired on the cases both completed. The coverage half of the te
 structurally: eleven typed error variants upstream - one of them the exact discriminator,
 with a doc comment insisting it be kept distinct - collapsed to a boolean one line before
 the breaker and the report. Ship 0: another session held uncommitted work in that file.
+## Architecture review - 2026-09-10
+
+Review completed for every owned document. Reverify identifies remaining work, not a
+clean content verdict. Earlier notes remain historical evidence; application dates
+and maturity are unchanged.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "llm-observability/cross-provider-benchmark-operations",
+  "date": "2026-09-10",
+  "baseline": "78850ba51a9aa016dcfc62817d59581453c3d90d",
+  "digest": "sha256:d7428af77cb01868",
+  "disposition": "reverify",
+  "coverage": "All 16 owned documents read and assessed in table order. 4 document(s) repaired. Residual source, semantic and historical application checks are recorded per document; no consumer/runtime/field witness or maturity refresh.",
+  "counterexamples": [
+    "A wide confidence interval spans zero and a materially harmful quality loss; a nonsignificant test cannot certify sufficiency.",
+    "Two workers each see spend below the ceiling and launch expensive calls; atomic additions afterward still overshoot.",
+    "Retry-After of sixty seconds exceeds a ten-second call budget but can be an ordinary rate limit.",
+    "Different fixed seeds per sample preserve multiple draws while making the sampling schedule replayable."
+  ],
+  "sources": [
+    {
+      "path": "knowledge/llm-observability/quality-scoring/cross-provider-benchmark-operations",
+      "scope": "Every owned document read in full; embedded code assessed as displayed. Historical application implementations and observations were not independently rerun."
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK98982/",
+      "scope": "Statistical guidance distinguishes noninferiority from lack of a significant difference; applied here to benchmark inference only."
+    },
+    {
+      "url": "https://docs.cloud.google.com/vertex-ai/generative-ai/docs/reference/rpc/google.cloud.aiplatform.v1",
+      "scope": "Primary API documentation describes seeded output as mostly deterministic, not an absolute guarantee. Other current provider controls and historical implementations not refreshed."
+    }
+  ],
+  "documents": {
+    "cross-provider-benchmark-operations.md": {
+      "disposition": "reverify",
+      "reason": "Frozen shared cases support pairing but do not establish all comparability or representativeness. Non-significance is not sufficiency, seeds are not exact replay guarantees, and case-boundary spend checks are not hard ceilings. Synthetic adversarial cases can complement traffic. Selection, provider variation, missingness and judge bias need explicit design rather than universal best/cheap heuristics."
+    },
+    "techniques/async-run-queue-with-cancel.md": {
+      "disposition": "reverify",
+      "reason": "Atomic claim alone does not fence a stale worker after reclaim; need leases/heartbeats and attempt tokens. Staleness is suspected loss, not proven death. Cancelling needs terminal recovery and provider-specific interruption economics. Due-check/enqueue must be atomic, global concurrency matters, and unlimited crash retries can repeat paid calls indefinitely."
+    },
+    "techniques/budget-preflight-and-ceiling.md": {
+      "disposition": "clarify",
+      "reason": "Repaired nominal lower-bound claim, unknown prices, in-flight reservations and soft-stop versus hard ceiling. An atomic total does not atomically reserve future spend."
+    },
+    "techniques/cheapest-sufficient-configuration.md": {
+      "disposition": "clarify",
+      "reason": "Repaired non-significance as sufficient, selected-best bias, uncertainty on frontier, absolute requirements and one-frontier-point contradiction. Recommendation requires affirmative noninferiority evidence against a prespecified acceptable loss."
+    },
+    "techniques/dataset-sampling-anonymize-freeze.md": {
+      "disposition": "reverify",
+      "reason": "Anonymization is not guaranteed by regex/model scrub; source ids permit linkage and model scrubbing itself discloses content to a provider. Preserve task validity and authorization. Dedup/stratification change traffic weights; sample provenance and cluster structure matter. Frozen content hashes need context and rubric, and privacy corrections may require removing old sensitive artifacts, not merely a new version."
+    },
+    "techniques/determinism-stamping.md": {
+      "disposition": "clarify",
+      "reason": "Repaired seed acceptance as exact reproduction, sampling intent versus reproducibility and fixed seed schedules for multiple draws. Pinning controls and measured repeatability are separate metadata."
+    },
+    "techniques/entitlement-exhaustion-is-not-ill-health.md": {
+      "disposition": "clarify",
+      "reason": "Repaired Retry-After beyond budget as a scheduling fact rather than proof of quota exhaustion. Metered accounts also have credit/quota limits; halt cause and cost comparability require explicit evidence."
+    },
+    "techniques/failure-clustering-recommendations.md": {
+      "disposition": "reverify",
+      "reason": "A failure cluster suggests a diagnosis, not proof of cause. Shared model failures may be real task weakness, not dataset defects; one severe reproducible case can justify repair. Cheaper within a few percent is exploratory until sufficiency is established. Preserve multiplicity, denominator and missing cases."
+    },
+    "techniques/graded-case-difficulty.md": {
+      "disposition": "reverify",
+      "reason": "Difficulty depends on task and target; harder-tier outperformance can be real specialization. Pass-all tiers still establish baseline coverage and fail-all tiers diagnose limits. Three grades are not a minimum, three cases need not force every test to refuse, and pilot-calibrated frozen difficulty is legitimate. Pruning by observed tiers changes evidence and needs validation."
+    },
+    "techniques/handicap-disclosure-in-the-result-row.md": {
+      "disposition": "reverify",
+      "reason": "Useful per-cell disclosure but a typed field does not force a renderer to show it. Different tasks remain noncomparable despite a caveat; incapability can count against a prespecified task-success endpoint while remaining absent from latency metrics. Corrections can be auditable annotations without rerunning unchanged measurements. No-handicap columns are not evidence of hidden concessions."
+    },
+    "techniques/sampling-knobs-are-axes-not-strings.md": {
+      "disposition": "reverify",
+      "reason": "Typed knobs and validated adapters are useful, but strings can represent axes after parsing. Temperature can change output length and cost; cost is not the only reason to record a knob. Explicit parameters outrank suffixes and supported combinations/version must be checked. Run versus target settings depends on experiment design."
+    },
+    "techniques/target-matrix-runs.md": {
+      "disposition": "reverify",
+      "reason": "A shared manifest can coordinate separate target processes. Matching cases and judge does not remove time/order/rate-limit effects; randomize or block execution. Mechanical scoring is legitimate and same-family bias is a risk, not inevitable. New targets need multiplicity treatment but need not invalidate all old pairwise evidence."
+    },
+    "applications/python--target-matrix-runs.md": {
+      "disposition": "reverify",
+      "reason": "Historical commit/probes retained, not rerun. Task hashes alone are not iff comparability, and joining telemetry from the same calls is valid. Reported counts and no-revision/no-cost code claims remain scoped to cited commit; missing dataset source versions and prompt/case hash conflation need separate resolution."
+    },
+    "applications/rust--budget-preflight-and-ceiling.md": {
+      "disposition": "reverify",
+      "reason": "Historical code/date retained, not rerun. Nominal priced subtotal is not a true lower bound; atomic accumulated micros cannot prevent multiple admitted calls exceeding the ceiling. Rounding small per-call costs can accumulate error. Partial status is necessary but total-cost reservation and retry accounting are unproven."
+    },
+    "applications/rust--determinism-stamping.md": {
+      "disposition": "reverify",
+      "reason": "Historical code/date retained, not rerun. Accepted seeds do not establish exact reproducibility; repeated samples can use a frozen seed sequence. Frozen integer version is not a content pin. Unknown and not-applicable states need distinct aggregation semantics."
+    },
+    "applications/rust--entitlement-exhaustion-is-not-ill-health.md": {
+      "disposition": "reverify",
+      "reason": "Structural-only experiment retained, no behavioral arm rerun or maturity change. Typed-error collapse is a valid gap, but long waits do not prove entitlement exhaustion and metered accounts can exhaust quotas. Paired completed cases do not eliminate selection bias from skipped hard cases; all-target breaker failure can be real shared outage."
+    }
+  }
+}
+```
+
+## 2026-09-10 — architecture re-review after the compression revert
+
+The 2026-09-10 record above was written against documents that no longer exist:
+the pass that produced it rewrote these files and the rewrite was reverted. This
+entry reviews the subject at its restored bytes. All sixteen documents were read
+in full — golden path, eleven techniques, four applications — and nothing under
+`knowledge/` was edited.
+
+The chain the golden path lays out (sample → declare the matrix → estimate spend
+→ queue → stamp → cluster) holds under reading, and the two techniques added
+latest — `handicap-disclosure-in-the-result-row` and
+`entitlement-exhaustion-is-not-ill-health` — are the strongest documents in the
+subject. The handicap technique's carriage rule (a typed field on the same row
+as the number, marker visible at rest, not a hover tooltip) and its
+publisher corollary are the sort of claim that survives adversarial reading, and
+its granularity rule ("clearing the concession where no concession was made is
+what keeps the marker meaningful") is a genuine second-order insight. The
+entitlement technique's structural precondition — carry the typed error to the
+component that classifies, because a boolean at a layer boundary makes the
+distinction *unrepresentable* rather than unimplemented — is confirmed by its own
+Rust application, which finds the collapse one line before the consumer that
+needed it.
+
+**One sourced contradiction.** `techniques/determinism-stamping.md` defines its
+top rung as "**exact** — temperature pinned *and* a seed accepted; a replay
+reproduces", and `applications/rust--determinism-stamping.md` operationalizes it
+as "`exact` requires every sampling control pinned *including a seed* (OpenAI,
+Gemini take one)". OpenAI's own API documentation states the opposite of the
+claim the rung makes: the system will make a *best effort* to sample
+deterministically, determinism is **not guaranteed**, and even with seed,
+parameters and `system_fingerprint` all matching, outputs are only "mostly"
+identical. So a seed-accepting provider does not license "a replay reproduces" —
+and the technique's reading rule ("an exact-stamped run whose replay differs is a
+*bug report* — on the stamping, the provider, or an unpinned input") mis-files a
+documented provider property as a defect, in the one direction that lets an
+operator over-trust the strongest stamp. The vocabulary is still the right shape;
+the top rung needs either a narrower definition (a provider that *guarantees*
+determinism) or a renaming that admits a seed narrows rather than eliminates
+draw variance. I read the provider documentation; I did not execute against the
+API.
+
+**One internal contradiction I could not resolve from this checkout.**
+`applications/rust--budget-preflight-and-ceiling.md` cites §5a "Spending is asked
+for, not discovered afterwards" at `docs/BENCHMARK_FRAMEWORK.md:427-445` (with
+:434-437, :438-439, :439-443 inside it). The sibling subject's
+`quality-regression-gating/applications/rust--partial-run-never-green.md` cites
+the identical section, in the same words, at `:462-480` (with :462-477,
+:479-480). Both carry `verified_on: 2026-08-30` against the same tree. At most
+one is right. Settling it needs the LightTrack checkout, which is not this repo.
+
+**One metadata defect.** `applications/rust--entitlement-exhaustion-is-not-ill-health.md`
+declares `verified_against: rust@2021`. 2021 is a Rust *edition*, not a toolchain
+version; every sibling Rust application in this bundle uses `rust@1.96` or
+`rust@1.97.1`. The field is unusable as written.
+
+**What I re-verified rather than carried forward.** The previous record put
+`applications/python--target-matrix-runs.md` on `reverify` partly on its file
+paths. I checked the upstream tree today: `lm_eval/_cli/run.py` and
+`lm_eval/result_schema.py` both exist on `main`; `--tasks` carries `nargs="+"`
+and `--model` is a bare `type=str` with no `nargs`, which is exactly the Rule-1
+inversion the application reports. The pinned version has advanced 0.4.13.dev0 →
+0.4.14.dev0, so the line anchors will drift, but the pinned commit keeps the
+claim checkable. I did not re-run the executed probes (task_hashes, the
+`--limit` prefix selection, the duplicate-task `ValueError`), so those stay
+`reverify` — the source was read, the software was not run.
+
+I retract the previous entry's blanket `reverify` on `techniques/target-matrix-runs.md`
+and `techniques/sampling-knobs-are-axes-not-strings.md`: re-read at current
+bytes, both state their conditions explicitly and neither makes a claim I can
+find unsupported. The earlier objections read as alternative designs rather than
+as defects in what is written.
+
+<!-- architecture-review:v1 -->
+```json
+{
+  "subject": "llm-observability/cross-provider-benchmark-operations",
+  "date": "2026-09-10",
+  "baseline": "44c8996585f2e5e3f36e0cb0bd1983c607cadfd7",
+  "digest": "sha256:e8e4c6459e230953",
+  "disposition": "clarify",
+  "coverage": "All 16 owned documents read in full at restored bytes: golden path, 11 techniques, 4 applications. Primary-source check performed on the determinism-stamping seed claim (OpenAI API docs read) and on the lm-evaluation-harness module layout and CLI argument shapes (upstream main read via the GitHub raw API). Not evaluated: any executed probe re-run, the LightTrack tree the four Rust/doc line anchors point at, provider capability matrices beyond the seed question, and application maturity or verified_on refresh. No knowledge/ file was edited.",
+  "counterexamples": [
+    "A provider that accepts a seed but documents determinism as best effort earns the exact stamp, and the technique's reading rule then files a documented provider property as a bug report.",
+    "A matrix mixing a plan-reached column with metered columns has no commensurable cost axis, yet cheapest-sufficient-configuration walks the frontier ordered by cost and the golden path's three-axis section carries no carve-out for it.",
+    "lm-evaluation-harness runs one target per invocation, so 'declare the matrix in the benchmark definition' has no implementation on the tree most model releases quote their numbers from; only the weaker rule survives.",
+    "A handicap disclosed per cell survives into one result set, but nothing states what a leaderboard does when it aggregates handicapped and unhandicapped runs of the same target across runs.",
+    "A benchmark whose every target is billed per call never fills the entitlement bin, so the third absence class is dead weight on exactly the deployments the technique's own 'when not to use it' names."
+  ],
+  "sources": [
+    {
+      "url": "https://developers.openai.com/api/docs/guides/advanced-usage",
+      "result": "Established that OpenAI documents the seed parameter as a best-effort determinism aid, explicitly not guaranteed, with system_fingerprint offered to track backend changes and outputs only 'mostly' identical when seed, parameters and fingerprint all match. This contradicts the determinism-stamping technique's definition of its 'exact' rung. It did not establish what other providers guarantee, nor whether any provider's seed is stronger than best-effort."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/EleutherAI/lm-evaluation-harness/main/lm_eval/_cli/run.py",
+      "result": "Confirmed on current main that --tasks takes nargs='+' while --model is a plain type=str with no nargs, corroborating the application's Rule-1 inversion finding, and that lm_eval/_cli/ and lm_eval/result_schema.py exist as cited. It did not re-execute any of the application's measured probes (task_hashes, --limit prefix selection, duplicate-task ValueError), and pyproject now reads 0.4.14.dev0 rather than the pinned 0.4.13.dev0, so the line anchors have drifted."
+    }
+  ],
+  "documents": {
+    "cross-provider-benchmark-operations.md": {
+      "disposition": "keep",
+      "reason": "The evidence chain, the three-axis reading and the comparability discipline hold at restored bytes and each numbered step maps to an owned technique. One gap worth noting rather than repairing: the three-axis section instructs the operator to read cost per target with no carve-out for the plan-reached column that entitlement-exhaustion declares incommensurable on cost. Not a wrong claim, an unstated interaction."
+    },
+    "techniques/determinism-stamping.md": {
+      "disposition": "clarify",
+      "reason": "The 'exact' rung is defined as 'temperature pinned and a seed accepted; a replay reproduces'. OpenAI documents its seed as best-effort with determinism explicitly not guaranteed even under matching system_fingerprint, so seed acceptance does not support the reproducibility the top rung asserts. The reading rule compounds it by treating a differing replay under an exact stamp as a bug report. Vocabulary and fold semantics are sound; the definition of the top rung is not."
+    },
+    "techniques/target-matrix-runs.md": {
+      "disposition": "keep",
+      "reason": "Re-read at restored bytes: the target definition, the generation/judging split, the per-cell storage requirement and the mechanical family-overlap check are each stated with their conditions, and the 'when not to use it' section correctly rules out single-target and heterogeneous-workload cases. Retracts the previous entry's reverify, whose objections proposed alternative designs rather than identifying an unsupported claim."
+    },
+    "techniques/sampling-knobs-are-axes-not-strings.md": {
+      "disposition": "keep",
+      "reason": "The failure mode is stated concretely (one adapter parses the suffix, later HTTP adapters do not; it hides in the default configuration and behind credential shape), and the discriminator for what belongs in the target is operational rather than definitional: does varying it alone move the scorecard's cost column. The refuse-rather-than-drop and never-guess-a-wire-format rules are the right shape. Retracts the previous entry's reverify."
+    },
+    "techniques/dataset-sampling-anonymize-freeze.md": {
+      "disposition": "keep",
+      "reason": "Fixed pipeline order with a stated corruption per skipped stage, typed placeholders rather than deletion so the case still reads as a task, per-item record of the anonymization method, and the pin-content-not-just-identity subtlety. The disclosure-not-refusal policy for unfrozen sets is consistent with the subject's stance everywhere else."
+    },
+    "techniques/graded-case-difficulty.md": {
+      "disposition": "keep",
+      "reason": "The ordered-versus-tagged argument is load-bearing and correctly identified as such, ungraded is kept distinct from the middle rung, and the who-assigns-the-grade section names the circularity of pass-rate-derived difficulty explicitly rather than leaving it implicit. The small-corpus and uniform-workload exclusions are honest."
+    },
+    "techniques/budget-preflight-and-ceiling.md": {
+      "disposition": "keep",
+      "reason": "Two-stage contract with the partial clause that keeps it honest, the unpriced-models-are-named lower-bound rule, the case-boundary (never mid-call) check, and the integer-micro atomic accumulator for concurrent cells. The separation from the product's usage-limit engine is stated as law rather than convention."
+    },
+    "techniques/async-run-queue-with-cancel.md": {
+      "disposition": "keep",
+      "reason": "The single-atomic-claim rule, the cancelling-is-outside-the-claimable-set detail (which is exactly where naive cancel designs fail), the three-counter failure accounting that stops infrastructure flakiness eating a benchmark's retries, and the idempotent due-check that makes an external cron a full substitute for a daemon."
+    },
+    "techniques/failure-clustering-recommendations.md": {
+      "disposition": "keep",
+      "reason": "Dimension-then-pattern clustering with an auditable trail back to member cases, the never-dress-a-recommendation-as-a-verdict guardrail that hands significance to the sibling subject, and the bounded-preview rule requiring total/logged/truncated counts beside every clipped list."
+    },
+    "techniques/handicap-disclosure-in-the-result-row.md": {
+      "disposition": "keep",
+      "reason": "The strongest document in the subject. The carriage rule is stated as an operational test (can any rendering path display this number without the concession in hand), each rejected alternative is rejected for a named mechanism, the granularity rule explains why over-application is the expensive half, and the not-expressible verdict is separated from both a low number and a missing cell. The publisher corollary inverts into a checkable reader's test."
+    },
+    "techniques/cheapest-sufficient-configuration.md": {
+      "disposition": "keep",
+      "reason": "Non-dominated set first, sufficiency tested with the same instrument run in the other direction rather than a softer statistic invented for the recommendation, the report-your-power clause that stops a small run recommending the cheapest row, and the null-not-zero exclusion for unpriced targets whose failure direction is precisely the winning one."
+    },
+    "techniques/entitlement-exhaustion-is-not-ill-health.md": {
+      "disposition": "keep",
+      "reason": "Three distinct reasons the case is not ill health, each tied to a decision it changes; the discriminator is the stated wait against the run's budget rather than the status code, with the no-stated-wait case recorded as ambiguous rather than sorted; and the structural precondition (carry the typed error, because a boolean makes the distinction unrepresentable) is the part a from-scratch design misses."
+    },
+    "applications/python--target-matrix-runs.md": {
+      "disposition": "reverify",
+      "reason": "Re-checked against upstream main today: the cited module paths exist and the --tasks/--model argument asymmetry that carries the Rule-1 finding is confirmed. The measured probes (task_hashes stability, the --limit prefix selection, the duplicate-task ValueError, the 14,562-name index, the grep-scoped cost/latency negatives) were not re-run and the pinned version has advanced to 0.4.14.dev0, so the line anchors are drifting. Source read, software not executed."
+    },
+    "applications/rust--budget-preflight-and-ceiling.md": {
+      "disposition": "reverify",
+      "reason": "Cites BENCHMARK_FRAMEWORK.md:427-445 for the section that the sibling subject's rust--partial-run-never-green.md cites at :462-480, both verified_on 2026-08-30 against the same tree. At most one anchor set is correct and this checkout cannot say which. The substantive claims (lower-bound disclosure, integer-micros accumulator, contagious partial) were not re-executed."
+    },
+    "applications/rust--determinism-stamping.md": {
+      "disposition": "clarify",
+      "reason": "Inherits the technique's defect and sharpens it: 'exact requires every sampling control pinned including a seed (OpenAI, Gemini take one)' asserts a reproducibility OpenAI's own documentation disclaims. The fold semantics it documents (weakest wins, None absorbs, unknown labels rank weakest, closed vocabulary clamped at every boundary) are sound and worth keeping; the provider capability claim under the top rung is not."
+    },
+    "applications/rust--entitlement-exhaustion-is-not-ill-health.md": {
+      "disposition": "reverify",
+      "reason": "The structural argument is coherent and self-bounding: the verdict is better on proof structural-only, no behavioural arm ran, nobody exhausted a real plan, and the document says which of those it cannot claim. Two open items: verified_against reads rust@2021, which is an edition rather than a toolchain version and is unusable as metadata; and the stated return condition (another session's uncommitted work landing in the file holding the collapse) has not been checked."
+    }
+  }
+}
+```

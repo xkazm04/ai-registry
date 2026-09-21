@@ -14,12 +14,14 @@ techniques:
   - outbound-compute-plane
   - substrate-reconciliation
   - brief-carries-the-session
+  - inherited-state-provenance
   - coordination-failure-triage
   - worker-trajectory-anatomy
   - absent-status-passthrough
   - completion-claim-verification
   - deliberation-as-an-elected-turn
   - soft-budget-under-the-hard-cap
+  - evidence-outranks-a-liveness-claim
 ---
 
 # Agent fleet orchestration
@@ -192,6 +194,21 @@ trusted to observe. Slot accounting is registry state like everything else:
 a session that hibernates releases its slot; a session the sweeper declares
 lost releases its slot *through the same transition machinery*, or the fleet
 slowly strangles itself on slots held by ghosts.
+That cap is a stock, released as sessions end, so it is not the run's
+budget: a run that issues legal-sized batches at each of its own checkpoints
+spends without limit while breaching nothing, and the total - reserved at
+admission, keyed on the run identity the broadcast already mints, deferred
+rather than queued when it is spent - is a second number at the same door.
+A third number sits beside them and is nobody's machine measurement: how many
+live units one supervisor is carrying. It is a stock that **does not release
+when work finishes** - the slot returns to the machine and the item moves onto a
+person - and it comes down only when that person decides they are finished with
+the work, which no system observes. Measured on a single-operator fleet, the
+machine ceiling engaged at ten simultaneous runs while the supervisory stock
+reached thirty-four, so the machine ceiling bound first and bounded nothing:
+a cap on a stock that releases places no bound on a stock that does not. Its
+overflow can be neither queued nor deferred, because the work is already done,
+so the only honest response is to stop admitting and say so.
 
 ## Harvest is a phase, not a hope
 
@@ -255,6 +272,15 @@ same asymmetry as the drive-medium rule above, seen from the human side:
 watching is a mode, and the fleet must run correctly for an operator whose
 mode is absent.
 
+The decision surface changes how the operator's load is *paid*; it does not bound
+how large that load may get. A digest visited deliberately still accumulates one
+item per finished worker, and grouping the items reduces the count of verdict acts
+only while each group is honestly one judgment. Where grouping outruns that - the
+measured signature is one verdict act covering items of several different classes -
+the surface has stopped converting load into judgment and started converting it
+into a sweep. The bound itself is a dispatch-door concern and lives with
+[parallel-dispatch](./techniques/parallel-dispatch.md) beside the other two numbers.
+
 ## Invariants
 
 - **The registry is the only truth, and it survives restart.** In-memory
@@ -294,9 +320,11 @@ mode is absent.
 - [hibernation-and-resume](./techniques/hibernation-and-resume.md) — park and
   wake semantics: what survives hibernation, what is released, and how
   resume proves identity.
-- [parallel-dispatch](./techniques/parallel-dispatch.md) — spawn-many and
-  broadcast, the slot cap, disjoint write-set assignment, and collision
-  detection when disjointness fails.
+- [parallel-dispatch](./techniques/parallel-dispatch.md) - spawn-many and
+  broadcast, the three numbers one door carries - a slot cap that releases, a run
+  total that does not reset until the run ends, and a supervisory stock that
+  releases on a judgment nothing observes - disjoint write-set assignment, and
+  collision detection when disjointness fails.
 - [result-harvest](./techniques/result-harvest.md) — per-session results into
   a run-level aggregate, partial-failure accounting, and the straggler
   policy.
@@ -308,6 +336,12 @@ mode is absent.
   what a dispatched worker does not inherit from its dispatcher, and the
   brief sections that restate it: invariants, settled decisions, load-bearing
   files, and what the worker cannot see.
+- [inherited-state-provenance](./techniques/inherited-state-provenance.md) —
+  the state a worker gets without the brief: the previous attempt's branch and
+  files, a half-drained store, a predecessor's output. Provenance, a counted
+  state and a mandate (continue, read-only, replace) in the worker's own
+  channel, because a fact in the dispatcher's event log is not in the worker's
+  context.
 - [coordination-failure-triage](./techniques/coordination-failure-triage.md) —
   classify failed runs against the measured three-class taxonomy
   (specification ~42%, misalignment ~37%, verification ~21%) before
@@ -333,3 +367,8 @@ mode is absent.
   — two limits per model-driven loop: an enforced cap that must never fire and
   a smaller budget in the brief derived from it, with the cap-fired fraction
   as the instrument.
+- [evidence-outranks-a-liveness-claim](./techniques/evidence-outranks-a-liveness-claim.md)
+  - when the entry's own report, stale past its budget, disagrees with a record the
+  work stamped a second ago, the report loses: derived predicates answer whether a
+  session may be touched, liveness becomes a separate three-valued observation, and
+  an expired staleness budget lands on unknown rather than on death.

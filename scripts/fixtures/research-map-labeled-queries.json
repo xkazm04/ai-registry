@@ -1,0 +1,23 @@
+{
+  "schema": 1,
+  "purpose": "Labeled query set for research-map.mjs. Each row is a concept query an intake run actually issued on 2026-09-02, the subject a reader with the corpus open says it should have surfaced, and where the flat slug map put that subject at the time (rank in --top 4, or 'miss'). The measurable for the context-hierarchy task is top-3 hit rate over this set, before and after a descent over per-node abstracts. Add rows from later runs; never edit a recorded baseline rank - append a new column with its date instead.",
+  "recorded": "2026-09-02",
+  "instrument": "node scripts/research-map.mjs \"<query>\" --top 4 --deep",
+  "rows": [
+    { "query": "agent memory", "expected": "software-engineering/llm-agent/prompt-and-context/agent-memory", "baseline_rank": 1 },
+    { "query": "retrieval budget", "expected": "software-engineering/llm-agent/prompt-and-context/retrieval", "baseline_rank": 2, "note": "rank 1 went to a game-production poly-budgeting subject on the word budget" },
+    { "query": "memory owner scope", "expected": "software-engineering/llm-agent/prompt-and-context/agent-memory", "baseline_rank": 1 },
+    { "query": "tenant identity", "expected": "software-engineering/security/authorization", "baseline_rank": "miss", "note": "top 3 were character-identity, companion-identity, blind-screening; the subject holding scope-design and identity-bearing-keys did not surface" },
+    { "query": "failover classification", "expected": "software-engineering/llm-agent/orchestration/model-routing", "baseline_rank": 2 },
+    { "query": "embedder fallback", "expected": "software-engineering/llm-agent/prompt-and-context/retrieval", "baseline_rank": "miss", "note": "embedding-lifecycle owns embedder swap and ingest-without-embedder; the map returned optional-dependency-degradation first" },
+    { "query": "forward-only restore", "expected": "software-engineering/operations/governance-and-records/versioning-snapshots", "baseline_rank": 2 },
+    { "query": "snapshot restore", "expected": "software-engineering/operations/governance-and-records/versioning-snapshots", "baseline_rank": 1 },
+    { "query": "llm judge leniency", "expected": "llm-observability/quality-scoring/judge-contract-design", "baseline_rank": 2 },
+    { "query": "link resolution", "expected": "software-engineering/integration/markdown-vault", "baseline_rank": 2 },
+    { "query": "derived artifact freshness", "expected": "software-engineering/llm-agent/prompt-and-context/agent-memory", "baseline_rank": "miss", "note": "lane-reconciliation holds the compiled-lane staleness doctrine; no slug carries the concept" },
+    { "query": "progressive disclosure", "expected": "software-engineering/llm-agent/prompt-and-context/context-hierarchy", "baseline_rank": "miss", "note": "subject did not exist at baseline; the three hits were disclosure-to-a-candidate subjects in another bundle. Expected to be answerable only through a node abstract, never a slug" },
+    { "query": "tree descent retrieval", "expected": "software-engineering/llm-agent/prompt-and-context/context-hierarchy", "baseline_rank": "miss", "note": "as above; retrieval matched on the slug word only" },
+    { "query": "hierarchical summary", "expected": "software-engineering/llm-agent/prompt-and-context/context-hierarchy", "baseline_rank": "miss", "note": "as above; executive-reporting matched on the word summary" }
+  ],
+  "baseline": { "rows": 14, "top3_hits": 8, "misses": 6, "predicate": "expected subject within --top 4 of the flat slug map, --deep on, main branch, 345 subjects" }
+}

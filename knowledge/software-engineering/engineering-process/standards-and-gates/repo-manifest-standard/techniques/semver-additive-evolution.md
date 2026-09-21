@@ -67,6 +67,17 @@ These are where the discipline is actually tested.
   exhaustively. Sets are open by declaration, not by hope — say which they are
   when you define them.
 
+
+- **A member added to a shape an existing reader already receives.** The four
+  cases above turn on what the *specification* declared. This one turns on how
+  the reader was *built*: a reader whose surface is derived from the whole
+  contract sees every addition at build time and fails closed, and a reader
+  whose member test ends in a real behaviour rather than a named member sees it
+  at run time and acts wrongly with no signal at all. "Additive" names both a
+  new name, which no existing consumer can reach, and a new member of an
+  existing shape, which every existing consumer already reads - opposite blast
+  radii under one word, which is why the argument about it never converges
+  ([release-level-by-reader-reach](../../../build-and-release/release-pipeline/techniques/release-level-by-reader-reach.md)).
 ## The identity field beside the version
 
 A version alone does not tell a reader *what* it is holding. Pair it with a

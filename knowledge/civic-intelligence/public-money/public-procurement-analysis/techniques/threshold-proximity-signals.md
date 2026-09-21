@@ -21,9 +21,13 @@ computable review signal. The whole craft is in keeping it a *signal*.
 
 ## The base signal
 
-For each contract amount `a` and each legal threshold `L` in the jurisdiction's
-regime, flag `a` as near-threshold when `0 < a ≤ L` and `a ≥ L × (1 − b)` for a
-declared band `b` (around 10% is a workable default). Then aggregate per entity:
+For an applicable threshold `L`, first resolve jurisdiction, date, procurement
+category, buyer class, currency, value basis and the legal comparison operator.
+For a regime applying at or above `L`, a below-threshold band is
+`0 < a < L` and `a >= L * (1 - b)`, with `0 < b < 1`. A 10% band is a
+triage convention, not a validated universal default. If the regime applies only
+above `L`, handle equality according to that rule. Do not test every amount
+against every threshold in a jurisdiction. Then aggregate per entity:
 the count of near-threshold awards for a firm or a buyer. Decision rules:
 
 - **Thresholds and the band are singular definitions.** Encode the jurisdiction's
@@ -42,11 +46,11 @@ the count of near-threshold awards for a firm or a buyer. Decision rules:
   mixed-basis corpora through the composition discipline first.
 - **Per-entity counts and population-level density tests are complements.** The
   field's statistical instrument is a manipulation (density-discontinuity) test
-  over the value histogram, which grades each buyer's *probability* of bunching;
-  the per-entity band count is the triage view of the same fact. Where both are
-  computable, run both — a buyer high on both is a stronger lead than either
-  alone, and the density test resists the round-number innocence that defeats a
-  single proximity flag.
+  over the value histogram. Its test statistic or p-value is not a posterior
+  probability of manipulation; the band count answers a different question. When both are
+  computable, assess their additional information rather than treating correlated
+  flags as independent corroboration. Density tests need support, bandwidth and discreteness checks;
+  round-number heaping and selective publication can invalidate interpretation.
 
 ## Corroborating signals
 
@@ -56,13 +60,13 @@ proximity rather than instead of it:
 - **Temporal clustering** — multiple related awards from one buyer within days of
   each other, each under the threshold, especially with similar subjects and
   durations. Same-day or same-week bunches of functionally related purchases are
-  the strongest splitting indicator.
+  review leads; their precision depends on the local corpus and procedure.
 - **Supplier concentration** — the split pieces repeatedly landing with the same
   supplier, where the combined value would have forced open competition.
 - **Growth by amendment** — an award just under a threshold whose amended value
   later exceeds it (this needs the version history; see
-  contract-version-supersession). The initial award dodged the regime the final
-  value would have triggered.
+  contract-version-supersession). This is a review lead; lawful amendments and unexpected scope changes can
+  cross a threshold without establishing deliberate avoidance.
 - **Sequential structuring** — a run of awards to one vendor each just under an
   internal approval or review limit, the small-purchase analogue of splitting.
 - **Procedure-type shift** — awards in the band disproportionately using

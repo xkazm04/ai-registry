@@ -5,10 +5,12 @@ subject: public-verdict-badge
 technique: embed-snippet-contract
 stack: react
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-09-08
 ---
 
 # A snippet generator that pins what it means
+
+**Currency (2026-09-08).** The public badge feature this document realizes was removed from the project's default branch on 2026-08-29 (commit `773c9aa0`); the paths and lines cited below resolve only in history at `da162859`. Kept as a historical realization.
 
 `src/components/badge/BadgeGenerator.tsx` is the client surface where a repo
 owner builds the code they will paste into a README. It is small, and almost

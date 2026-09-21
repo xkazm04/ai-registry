@@ -1,7 +1,7 @@
 ---
 subject: agent-instruction-files
 domain: software-engineering
-last_touched: 2026-09-05
+last_touched: 2026-09-08
 touched_by: deepen
 dry_streak: 0
 ---
@@ -550,3 +550,101 @@ No judged verdict exists for this subject anywhere in the fleet: personas 33, kp
 ascent 9, gravity 3, grant 3, politicas 3, pumper 2, tracklight 2, goat 1 pairs, all
 `unknown`. Nothing is stale because nothing was ever judged; the queue for this
 subject is a first `/conform`, not a `--stale` re-judge.
+
+## 2026-09-08 - intake, portal-ai-plugins (run `intake-portal-ai-plugins`)
+
+Amendment to `enforcement-demotion`: a new closing section, "The sort applies
+to procedures, not only rules" - a mechanical procedure written as prose in a
+skill demotes into a script with a named-argument interface, fixture-tested
+without the model; the skill keeps the trigger and the call. Prompted by a
+vendor plugin whose skills are one command line each and whose hooks and
+transport carry a 51-case decision table. Applied `code`/`better` in personas:
+a 30-line Read guard with a 15-case table where nothing had owned the decision.
+
+`claude-code--single-source-topology` application: `verified_on` moved to
+2026-09-08 (the harness memory doc re-fetched) and a negative section added -
+the same vendor's `CLAUDE.md` bridge is the bare text `AGENTS.md`, which the
+harness does not treat as an import, so the bridge resolves to nothing on the
+plugin's primary host. The fleet's bridges use `@AGENTS.md`; nothing to adopt.
+
+## 2026-09-08 - intake (claude-code release log 2.1.198..2.1.263)
+
+New technique `inherited-default-ownership`: the third blind spot of the per-line
+funnel, beside the absent diff (sibling-floor-ownership) and the total diff
+(rewrite-behavior-pinning) - the diff that happens in the harness's release log.
+Three defaults moved in sixty days with no repository change (push-on-finish for
+unattended sessions, the write tool's read-before-overwrite interlock relaxed per
+model, bundled review skills no longer self-triggering). Permissive defaults pin
+below the model (deny rule, blocking hook); restrictive ones pin by owning the
+step; the harness version is a third freshness coupling. Applied `code`/`better`
+in kp: without a policy line the headless agent pushed, with one it stopped at
+the commit (paired, n=1).
+
+New application `claude-code--sibling-floor-ownership`: a replay over 1,792
+transcripts across twelve fleet repositories - 193 skills loaded, 28 ever
+invoked. The fleet did what the technique's boundary says (skills in the tree,
+not per person) and inherited the floor's cost without the floor's audit.
+`unmeasurable` until the held-out trial; the instrument is named.
+
+`claude-code--context-reset-redelivery`: clock moved 2.1.252 -> 2.1.263; the
+reset-event enumeration gained a `fork` source, in-session scope re-resolution,
+a directory-added event and a staleness payload on resume.
+
+Touched by [[2026-09-08-awesome-gpt-6-astra]] (2026-09-08). `instruction-freshness`
+gained a paragraph in the coupling section: the reader can change while the file
+does not - a model successor is a coupling trigger, corroborated by a vendor's own
+migration guide (successor more sensitive to instruction files; audit them at the
+switch) and by convergence with a second vendor's earlier guidance. `use_when`
+gained "the model behind the agent changed and no file did". Applied as a
+three-case simulation on recorded events in this registry's skills lane
+(`process--instruction-freshness`, better as a prediction; the
+instrument named is a per-skill gate outcome recorded with the model that ran it).
+
+## 2026-09-16 — `/intake` executor (`github:UsefulSoftwareCo/executor@9c424444`)
+
+Sixteenth technique, and the first that reads the file **outbound**. Every prior
+instrument here — admission, freshness, expiry, rewrite pinning, the sibling floor —
+runs on lines delivered *to* the agent. Instruction files also routinely name
+destinations the agent appends to during a run ("record mistakes in one file, missing
+capabilities in a second"; "log consults here, leads there"), and that half had no
+instrument at all, so a lane could be named in every session's context for months and
+deliver nothing without a single gate going red.
+
+`write-back-sink-class`. Three states — absent, present-but-unshared, shared — and only
+the third is a lane. The rule that carries it is arithmetic rather than taste: **ask how
+the sink's collector aggregates it.** Summed into counts with no key on a row means it
+must stay installation-local, because a row surviving into a second checkout is counted
+there as a second observation of one event; deduped on a minted key means it may travel,
+and an undrained row on one machine is work nothing else can see. Sinks are introduced
+in pairs in one clause, inherit one sharing decision, and that is where the fleet split.
+
+Origination and corroboration came from different places, which is why one repository
+was enough. The source holds the shape twice independently (three ignored policy-file
+sinks; a security runbook whose machine-readable scan outputs are discarded while a
+hand-written prose summary dated months earlier survives — because something read the
+prose). The corroboration is the fleet: nine projects carrying two logs named in one
+contract clause, split 2/7 the wrong way on the count-aggregated one and 6/1 the wrong
+way on the other, with **both misclassifying projects having documented a reason, each
+reason correct about one of the two files and false about the other**. That pair is the
+technique's central claim stated by people who did not have it.
+
+Applied twice: a source-tree application (`bun--`, `experiment`/`unmeasurable`, the
+instrument named as a second installation) and a fleet one (`node--`, `code`/`better`,
+`ab-paired` — 83 inherited rows to 0, floor of 281 consults over 7 bundles byte-identical
+because the collector reads the working tree).
+
+Banked, not landed, with anchors in the source note: a vendored skill body pinned by
+content hash, which is `sibling-floor-ownership`'s third decision (install / retain /
+*what the retained body now says*).
+
+## 2026-09-18 - intake, small-business plugin ([[2026-09-18-kwp-small-business]])
+
+Amended `capability-coverage-contract` with "When soundness fails silently too".
+The technique said soundness fails "loudly-ish". A forward promise to a person
+("saved, this runs every Monday" with no scheduler behind it) fails silently, with
+a fuse of weeks. The fix: the confirmation names the mechanism that will fire, or
+it offers the honest substitute.
+
+Applied to this registry's own intake skill (2.11.1): it claimed /librarian reads
+rescan_when "on a clock", but the weekly CI cron does not run upstream-check.mjs.
+One false forward claim before, 0 after. A grep of 7 fleet trees found no other.

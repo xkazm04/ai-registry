@@ -31,6 +31,11 @@ dispatcher's conversation history, the files the dispatcher already read,
 the dispatcher's persistent memory, its output style, or the skills it had
 already loaded.
 
+That inventory is what a worker gets *in text*. State can also reach it
+structurally, when the dispatch places it inside a previous attempt's directory
+or a half-drained store: that arrives with no description at all, and is
+[inherited-state-provenance](./inherited-state-provenance.md)'s subject.
+
 Two consequences are the ones that bite:
 
 - **Everything learned in-session is gone unless the brief carries it.**

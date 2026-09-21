@@ -35,10 +35,9 @@ A well-formed criterion has four parts and no more:
 - **The failure form.** What the artifact looks like when the bar is not met, in one
   clause, so the examiner recognises it rather than reasoning toward it.
 
-Nine to twelve criteria is a working rubric for a medium. Below seven the instrument
-is too coarse to separate a competent piece from a strong one; above about fourteen
-examiners start averaging rather than answering, and the marginal criteria stop
-discriminating.
+Nine to twelve criteria is an authoring convention. Choose count and grouping
+through coverage and calibration; there is no universal seven-criterion minimum
+or fourteen-criterion failure boundary.
 
 ## Where the sources come from
 
@@ -64,8 +63,8 @@ is right. Both are better than unarguable.
 
 ## Decision rules
 
-- **One source per criterion.** Two sources means the criterion is really two, or that
-  it is being propped up. Split it or pick one.
+- **Name the governing source and supporting sources.** Several independent
+  sources can support one criterion; separate their roles and explain conflicts.
 - **The bar in the criterion and the bar in the source must be the same bar.** If the
   source says one thing and the criterion says a stricter thing, the criterion's real
   source is you; say that. A criterion that quietly tightens its source is how a rubric
@@ -81,9 +80,9 @@ is right. Both are better than unarguable.
   the bar an examiner scores and the bar a generator is asked to hit are maintained
   separately, they drift silently and every resulting grade misattributes a
   specification failure to craft. Author once, project into both surfaces.
-- **A criterion nobody has ever failed is not discriminating.** Review it: either the
-  bar is below the floor of anything you produce, in which case delete it, or it is a
-  disqualifier in the wrong list, in which case move it.
+- **A criterion with no observed failures merits a negative-case check.** It can
+  be a valid requirement consistently satisfied by this sample. Verify that a
+  violating artifact is detected before removing or reclassifying the criterion.
 
 ## When not to use it
 

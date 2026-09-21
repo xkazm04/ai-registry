@@ -82,3 +82,7 @@ denotes a statutory group of insured persons (verdict-257), and the
 „dávka <digit>" batch-id rule matches radiation doses and benefit amounts.
 Rule sets transplant between surfaces only with a per-rule audit against the
 destination corpus.
+
+## Review limits - 2026-09-09
+
+Reverify short, mixed-language and quoted text; regex coverage does not prove publishability. Preserve population caveats and report false positives. Historical leak counts and current consumer gates were not rerun. Application witness dates remain historical.

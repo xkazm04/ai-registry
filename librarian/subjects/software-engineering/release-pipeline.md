@@ -117,3 +117,80 @@ its own open questions, which is the strongest form the observation can take.
 Unapplied: no fleet project publishes a contract whose implementations it does not
 control, and none currently carries a deprecated public symbol with a named
 removal version. Both halves have return conditions in `librarian/applied.md`.
+
+### 2026-09-17 - `/harvest backlog` wave 5, one technique + one application + one amendment
+
+`release-level-by-reader-reach`, from a **tension**: two sources disagreeing about whether an additive change is safe. The landing is the discriminator, not a side, and both sources turn out half right. The reusable distinction is a vocabulary bug that keeps a common argument from ever converging: **'additive' names two changes with opposite blast radii.** A new NAME is reachable only by a consumer that writes it - radius zero. A new MEMBER of an existing shape arrives through a channel every existing consumer already reads - radius total. Then the second axis: what an existing reader does with a member it has never heard of. It cannot exist (a derived surface fails at build time), it falls into a branch that acts (run time, silently wrong, no gate), or it is ignored. The level is the level of the loudest reader class present. Worth carrying into any review of this argument: **the blast-radius premise is sound and it inverts its own conclusion.** A repair lands in a slot every consumer already handles - wrong value, right shape. An existing-shape addition lands in a slot some consumer has no behaviour for, and that consumer's guess is the failure. Measured, the repair produced a test failure and the addition produced a compile failure. The reader to hunt is the third one, because it is the only one with no signal at all: a chain of member tests whose last branch is a real behaviour rather than a named member. `semver-additive-evolution` gains this as a fifth case, and it is the first of its five that turns on how the reader was BUILT rather than on what the specification declared.
+
+## 2026-09-20 — `/intake` over a dataframe library's 2.0 release candidate (run `intake-uhelj-0920`)
+
+Source: [[2026-09-20-polars-2-row-order]], a review-class video, plus one fetch
+of the vendor's own upgrade guide — which is where the landing actually came
+from. Landed `announcing-versus-silent-breakage`, plus a fifth clause in the
+golden path's opening enumeration and a `rust` application carrying the
+measurement.
+
+**The gap the subject had.** Both neighbouring techniques key on **symbol
+identity** and neither can express a release that removes nothing.
+`deprecation-by-version-arithmetic` hangs `since`/`removed` on a symbol;
+`release-level-by-reader-reach` asks what a reader does with a member it has
+never heard of. Here nothing was removed and nothing was added: a swapped
+default execution engine withdrew the row-ordering of several operations, so
+the call resolves, the signature binds, the shape and types are unchanged, the
+values are individually correct, and only the result is different. The corpus
+had no mechanism for the entries in a release that no version number and no
+deprecation record can reach.
+
+**The rule.** Classify every entry in a breaking release by what the *caller's
+process* does when it meets it — raises, fails to build, or returns something
+different. Migration aids get built for the first two because removed symbols
+are **enumerable at the API surface** and each entry has somewhere to attach;
+the third class attaches to nothing, so it leaves the machinery and arrives as
+prose. Which inverts the investment: the engineering goes to the half the
+caller would have found anyway. The source is the clean instance — two new
+exception types so every removal raises a message naming its replacement, and
+for the one change its own guide calls out as one that "may silently impact the
+results of your pipelines", a paragraph.
+
+**Where the silent class comes from**, and why it cannot be enumerated from the
+diff: it is almost always a *withdrawn emergent guarantee*. Callers depend not
+on what the contract promised but on what they observed, and an implementation
+emits far more regularity than it commits to. Swapping the implementation
+withdraws it and changes no symbol, because no symbol carried it. The publisher
+cannot see the dependence (it lives in callers) and a major version does not
+help (it authorises the removal invisibly, under the same number).
+
+**The enumeration hunt fired on the golden path.** Its opening lists four ways a
+release's claim fails — the version lying, the description being noise, the
+artifacts disagreeing, the channel delivering nothing — all of them about
+metadata and delivery. The missing case is the one where all four hold and the
+caller's unedited code still computes something different. Now a fifth clause.
+
+**Applied, `code`/`better`, at a seam chosen to falsify — which half-refuted the
+hunt.** Looking for a project depending on an unpromised order, the first
+candidate turned out *correct*: a spend rollup over two unordered queries sorts
+explicitly afterwards on the full grouping key, a total comparator with a
+comment explaining itself. So the arm became the falsifiable one — if that went
+non-total, would anything notice? A CAUGHT outcome would have said a good suite
+is already the aid. **Measured 0 of 6 tests failing on two independent
+weakenings**, each with a provably different emitted sequence; floor held (the
+total comparator is byte-identical under a perturbed arrival order, the
+weakened one is not) and the known-positive control fired 1 failure, so the
+green cells are readable. Five of six tests assert by keyed lookup, which is
+*correct* practice and the reason they are blind: robustness against reordering
+and blindness to reordering are the same property. The general form, worth
+reusing: **count the assertions that would still pass. If the answer is "all of
+them", the property is not tested, it is merely true.**
+
+Shipped the technique's third aid consumer-side — the comparator named, its
+totality contract written down, and one perturbation test that passes on the
+shipped comparator and fails on all three weakenings. The in-tree gate could
+not run (that crate's build script is red at `HEAD` for an unrelated
+pre-existing reason), so the row is `ab-paired` on a standalone copy and says
+so rather than claiming a green suite.
+
+**Not built, and named as the gap:** the technique's *second* aid — a probe the
+publisher writes and the consumer runs over their own call sites, keyed on the
+consumption pattern rather than any symbol. The same audit found 41 unordered
+aggregations in that tree of which 13 reach a sequence; 12 were never examined,
+and a keyed-lookup suite is equally blind at any of them.

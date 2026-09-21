@@ -36,34 +36,32 @@ the release pass in `src-tauri/src/companion/proactive/mod.rs`.
   a real bug hunt ("concurrent passes can never burst past either cap").
 - **Conditional UPDATE as the claim primitive.** `UPDATE ... SET count =
   count + 1 WHERE count < cap` returning a row count *is* the atomic
-  check-and-decrement — no SELECT-then-decide window, and the same
+  check-and-increment — no SELECT-then-decide window, and the same
   pattern claims the `queued → delivered` transition (`claim_delivered`,
   `mod.rs:568-578`, `WHERE ... AND status = 'queued'`).
 - **Insert-or-ignore before the conditional update** ensures the counter
   row exists so "no row matched" unambiguously means "cap reached," never
   "first claim of the day."
 
-## Gaps against the technique (reported, not fixed)
 
-- **The day boundary is UTC, not the user's local midnight** (`budget.rs:1`,
-  `today()`): for this operator (UTC+2) the budget resets at 02:00 local,
-  giving late evenings and early mornings the same allowance day. The
-  technique requires the boundary in the user's local time with the same
-  timezone honesty quiet windows get.
-- **A granted claim is not released on delivery failure.** In
-  `release_pending`, `try_consume` succeeds and then a failed
-  `claim_delivered` leaves the row `queued` — retried next tick — but the
-  budget unit stays spent until the day rolls over (`mod.rs:451-464`
-  acknowledges this for the concurrent-delivery case).
-- **Modulation never reads the ignored outcome.** `engagement_30d`
-  (`budget.rs:81-92`) counts only `engaged` and `dismissed`; a card that
-  ages to `expired` (the ignore path, 7 days) contributes no signal, so a
-  kind that is purely ignored — the technique's strongest negative — is
-  never throttled.
-- **A budget side door exists.** `enqueue_external` + `deliver_now`
-  (`mod.rs:170-172`, `546-560`) deliver without any budget claim; callers
-  include the fleet reconciler, execution review, message triage, and the
-  night-shift wake report. Each has a stated rationale ("already won
-  triage", "user-requested completion"), but the bypasses are uncounted —
-  the technique's "an uncounted bypass is an unbudgeted channel growing
-  inside the budgeted one."
+## Architecture source check - 2026-09-09
+
+The historical private implementation and tests were not rerun. Conditional updates
+support an atomic claim only with the described transaction, row initialization and
+rollback behavior. A zero match means cap refusal under those invariants; it is not
+a general substitute for distinguishing missing rows or database errors.
+
+Claiming a queued row as delivered prevents competing local claimants but does not
+prove external delivery. Budget release is justified for a confirmed failed claim
+that cannot send, while a send timeout can leave delivery unknown and must not be
+blindly refunded. Recovery needs reservation identity and reconciliation.
+
+The UTC boundary is a defect only if the product promises local-day accounting.
+An exempt kind sharing the global cap can still miss a requested reminder. The
+reported absence of an ignored outcome limits evaluation, but an expired card is
+not evidence that a user saw and rejected it. Separate unobserved from dismissed.
+Evaluation consumes resources even when it spends no attention allowance.
+
+Uncounted direct callers need classification against the stated budget scope;
+explicitly separate response accounts are valid. Historical verified_on is retained,
+and the current runtime remains unverified in this review.

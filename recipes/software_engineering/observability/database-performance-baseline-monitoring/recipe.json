@@ -2,7 +2,7 @@
   "id": "5abd6abc-a2ce-5954-a2b3-25d4473d7868",
   "slug": "database-performance-baseline-monitoring",
   "title": "Database performance baseline monitoring",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "status": "seed",
   "path": "software_engineering/observability",
   "domain": "software_engineering",

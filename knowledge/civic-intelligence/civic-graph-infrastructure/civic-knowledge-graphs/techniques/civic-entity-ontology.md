@@ -54,10 +54,11 @@ namespace: `person:<roster-id>`, `company:<register-number>`,
   property — do not let two writers mint two nodes and hope a later pass merges
   them. Re-pointing edges after the fact is expensive and error-prone; it is a
   cleanup pass with its own audit trail, not a routine.
-- **An id that stops resolving is an annotation, not a deletion.** A firm
-  dissolved or merged out of the register keeps its node, gains an explicit
-  extinction annotation (what was checked, when, what it merged into), and is
-  barred from being presented as registry-verified. Its edges are history.
+- **A failed lookup is an observation, not proof of extinction.** Keep the
+  node and record which source check failed and when. Add dissolution or
+  merger only when authoritative historical data establishes it. Previously
+  verified historical edges remain historical facts within their original
+  evidence scope; a lookup outage does not revoke that history.
 
 ## One definition, imported everywhere
 
@@ -116,9 +117,9 @@ identity rule applied one level up: a source that offers no identifier produces
 a lead rather than a node, and a source that offers an unrecognised kind
 produces a lead rather than a silent drop. The rejection ledger is then the
 ritual's inbox. Amendment is proposed from it — a kind rejected across several
-passes and sources is a demand with evidence; a kind rejected once by one
-extractor is noise — and never from a writer's intuition that the vocabulary
-feels thin.
+passes and sources is a recurring lead; a single rejection may still expose
+a missing kind and needs triage. Frequency sets review priority, not truth.
+Independent source review can also reveal gaps the extractor never proposed.
 
 Two things the ledger must not become. It is not an "other" node type: an
 open bucket inside the enum is exactly the drift the closed set exists to

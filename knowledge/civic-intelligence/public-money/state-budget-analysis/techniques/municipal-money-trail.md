@@ -26,7 +26,9 @@ them; a money trail whose rules are implicit is an accusation generator.
 
 1. **The town must be a party under its own identifier.** A contract belongs to
    the municipality only when the municipality itself — its registered
-   identifier, exactly — appears as a contracting party or publishing body.
+   identifier, exactly — appears as a contracting party. Publication on another entity's behalf alone
+   is not party membership. A broader municipal-group perimeter requires an
+   explicit, separately labeled attribution method.
    Identifiers of the town's satellites (a school it founded, a technical
    services company it owns, a state body operating locally) are *never*
    resolved upward to the town. Drop, don't guess: the upward inference feels
@@ -46,19 +48,19 @@ them; a money trail whose rules are implicit is an accusation generator.
    "outside the record" state, never an empty chart implying zero contracting.
 3. **Payment direction is asserted only when the record proves it.** "The town
    has a contract with the firm" and "the town paid the firm" are different
-   claims. Assert the second only in the one shape where the record makes it
-   unambiguous: the record marks the firm as recipient *and* the contract has
-   exactly two parties, the town and the firm. Multi-party contracts, records
-   without direction flags — often half the register — stay in a third state:
-   "direction not stated by the record". Never inferred from role names, never
-   defaulted from "who usually pays".
+   claims. A receiver flag and two parties support, at most, intended contractual
+   direction. Actual payment needs matched transaction evidence. Preserve
+   reverse, unknown and conflicting directions separately; explicit
+   transaction endpoints can establish direction within a multi-party contract.
+   Do not infer direction from role names or default from "who usually pays".
 4. **The amount is the contract's registered value, and says so.** Register
    values are commitments, not disbursements; label the sum as contract value,
    never as "spent". Take the amount from the same edge of the same graph
    every other surface reads, so two pages cannot report different money for
-   one contract. A contract with several municipal parties counts in full for
-   each town's own view and is never summed across towns — per-town views are
-   honest; a cross-town total of them would double-count.
+   one contract. Show separate compatible subtotals by currency, tax basis and value semantics.
+   A multi-town contract may appear as full contract value involving each town,
+   but that is not each town's attributable share. Do not sum duplicated full
+   values within or across those views; allocate only with a supported split.
 
 ## Time and defect discipline
 
@@ -70,8 +72,10 @@ was read. An impossible year is a data defect, and the response is the
 domain's standard one — withhold and disclose, never repair and never punish
 the reader ([disclose-never-repair](../../../_laws.md#disclose-never-repair)).
 Withhold *both* bounds of that row's range (a range with one invented end is
-an estimate), keep the row and its money (the defective field is the date, not
-the contract), and count withheld rows on the surface so absence of a range is
+an estimate), keep the valid fields, but exclude the amount from period-specific sums when
+the damaged date determines membership in that period. Retaining it in a scoped
+undated bucket must not make it part of an annual total. Count withheld rows
+on the surface so absence of a range is
 distinguishable from "nothing checked". The plausibility bound is one shared
 definition — the day the register was read, carried with the batch — not a
 per-module guess; the incident that anchors this is a published contract
@@ -83,7 +87,8 @@ private "reasonable year" check.
 When the trail decorates a firm with its recorded ties to politicians, two
 data lifetimes meet. The contract aggregates may be a frozen generated batch —
 they change only on re-ingest. The human-review state of each tie changes with
-every review decision and must be read live: a tie rejected by a reviewer
+review decisions. Read it live or use a validated snapshot with reliable revocation
+and invalidation handling: a tie rejected by a reviewer
 disappears at the next render, not the next regeneration. Freezing review
 state into the batch means publishing overturned claims for weeks. The
 mapping is conservative: absence of a review state means pending, never

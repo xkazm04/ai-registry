@@ -2,7 +2,7 @@
   "id": "7e2b8d54-a141-5c16-8d76-b2a836a37fd5",
   "slug": "access-request-approval-chain",
   "title": "Access request approval chain",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "status": "seed",
   "path": "operations_logistics/approvals",
   "domain": "operations_logistics",

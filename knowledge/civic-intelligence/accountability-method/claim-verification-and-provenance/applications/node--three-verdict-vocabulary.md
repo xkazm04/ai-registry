@@ -79,3 +79,14 @@ orthogonal, translation-not-derivation over the same loaders the publishing
 surfaces use (`claimStatus` from `lib/claims/claim.ts`, `ProvenanceReceipt`
 from `features/shared/provenance/receipt.ts`), and copy externalized so the
 vocabulary can be verified complete.
+
+## Review limits - 2026-09-09
+
+The historical implementation account above has not been rerun in this review.
+The subject's corrected boundaries also apply here: a bare ref is a lookup,
+shared computation is not independent truth validation, and absent provenance
+is unassessed. An internal approved edge is not by itself an editorial fact-check.
+Schema.org accepts textual rating values; review publication, decision and
+computation dates must remain distinct. Reverify decoder canonicalization,
+snapshot consistency, review eligibility and emitter metadata against consumer
+fixtures before refreshing this application's witness.

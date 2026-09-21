@@ -172,6 +172,61 @@ const cleanVtt = (raw) => {
 };
 
 /**
+ * The json3 caption track, reduced to the same shape cleanVtt returns.
+ *
+ * json3 is YouTube's own timed-text JSON: `events[]`, each with `tStartMs` and a
+ * `segs[]` of `{utf8}` pieces. It is the fallback rung's format because the endpoint
+ * serves it when it refuses vtt. Auto-generated tracks roll the same words forward
+ * across consecutive events, so the dedupe here is not cosmetic - without it an ASR
+ * track inflates its own word count several-fold, and `--min-words` then reads a
+ * thin source as a thick one.
+ */
+const cleanJson3 = (raw) => {
+  let doc;
+  try {
+    doc = JSON.parse(raw);
+  } catch {
+    fatal('caption track is not valid json3', 'The fallback rung wrote a file this reader cannot parse.');
+  }
+  const out = [];
+  let last = null;
+  const seen = new Set();
+  for (const ev of doc.events ?? []) {
+    if (!ev.segs) continue;
+    const txt = decodeEntities(
+      ev.segs
+        .map((s) => s.utf8 ?? '')
+        .join('')
+        .replace(/\s+/g, ' '),
+    ).trim();
+    if (!txt || txt === last) continue;
+    last = txt;
+    const key = txt.toLowerCase();
+    if (seen.has(key)) continue;
+    seen.add(key);
+    const ms = ev.tStartMs ?? 0;
+    const pad = (n) => String(n).padStart(2, '0');
+    const ts = `${pad(Math.floor(ms / 3600000))}:${pad(Math.floor(ms / 60000) % 60)}:${pad(Math.floor(ms / 1000) % 60)}`;
+    out.push([ts, txt]);
+  }
+  const secs = (t) => {
+    const [h, m, s] = t.split(':').map(Number);
+    return h * 3600 + m * 60 + s;
+  };
+  const result = [];
+  let lastEmit = null;
+  for (const [ts, txt] of out) {
+    let prefix = '';
+    if (lastEmit === null || secs(ts) - secs(lastEmit) >= 25) {
+      prefix = `[${ts}] `;
+      lastEmit = ts;
+    }
+    result.push(prefix + txt);
+  }
+  return result.join('\n');
+};
+
+/**
  * Strip an HTML document to readable prose. Deliberately crude: the goal is text a
  * model can mine and a human can spot-check, not a faithful render. Drops the
  * containers that carry navigation, promotion and cookie theatre - a research run
@@ -241,11 +296,37 @@ if (src.kind === 'youtube') {
     meta.yt_dlp = (probe.stdout || '').trim();
 
     const stem = path.join(outDir, id);
-    // Two attempts: throttling on this endpoint is routinely transient, and one retry
-    // is the difference between a dead run and a slow one.
+    // A LADDER, not a repeat. The old form ran one identical command twice, so a
+    // shape-specific rejection failed twice and reported itself as "throttled".
+    // Measured 2026-09-09: six backoff attempts and four hand variants of rung 1 all
+    // returned HTTP 429 on the caption endpoint while rung 3 succeeded on its first
+    // try, in the same minute, from the same IP. So the retry has to VARY something.
+    //
+    //   1  vtt   / en.*     plain          - the cheap common case
+    //   2  vtt   / en.*     impersonated   - YouTube now gates timedtext on a browser
+    //                                        TLS fingerprint; needs curl_cffi present,
+    //                                        and is skipped silently when it is not
+    //   3  json3 / en-orig  impersonated   - the auto ASR track under its own name.
+    //                                        "en.*" does NOT glob to "en-orig", which
+    //                                        is why rung 1 can 429 on `en` while the
+    //                                        original-language track is served fine.
+    //
+    // Each rung is a different (format, track, transport) triple; a rung that fails
+    // for its own reason therefore tells the next one nothing, which is the point.
+    const rungs = [
+      { fmt: 'vtt', langs: 'en.*', imp: false },
+      { fmt: 'vtt', langs: 'en.*', imp: true },
+      { fmt: 'json3', langs: 'en-orig,en.*', imp: true },
+    ];
+    const grabbed = () =>
+      fs
+        .readdirSync(outDir)
+        .filter((f) => f.startsWith(`${id}.`) && (f.endsWith('.vtt') || f.endsWith('.json3')));
+
     let ok = false;
     let lastErr = '';
-    for (let attempt = 1; attempt <= 2 && !ok; attempt += 1) {
+    for (const rung of rungs) {
+      if (ok) break;
       const r = run(
         'yt-dlp',
         [
@@ -253,9 +334,10 @@ if (src.kind === 'youtube') {
           '--write-auto-subs',
           '--write-subs',
           '--sub-langs',
-          'en.*',
+          rung.langs,
           '--sub-format',
-          'vtt',
+          rung.fmt,
+          ...(rung.imp ? ['--impersonate', 'chrome'] : []),
           '--no-progress',
           '--output',
           `${stem}.%(ext)s`,
@@ -264,28 +346,36 @@ if (src.kind === 'youtube') {
         180000,
       );
       lastErr = `${r.stderr || ''}${r.error ? ` ${r.error.message}` : ''}`.trim();
-      ok = fs.readdirSync(outDir).some((f) => f.startsWith(`${id}.`) && f.endsWith('.vtt'));
+      ok = grabbed().length > 0;
+      meta.caption_rung = ok ? `${rung.fmt}/${rung.langs}${rung.imp ? '/impersonate' : ''}` : null;
     }
     if (!ok) {
+      const noImp = /impersonat\w*[^\n]*unavailable|no impersonate target/i.test(lastErr);
       fatal(
-        `yt-dlp wrote no .vtt for ${id}`,
-        `Captions may be disabled, or extraction is throttled. Last error: ${lastErr.split('\n').slice(-2).join(' ') || '(none)'}`,
+        `yt-dlp wrote no captions for ${id}`,
+        `Captions may be disabled, or extraction is throttled. ` +
+          (noImp
+            ? `Rungs 2-3 could not impersonate a browser - install curl_cffi (\`py -m pip install "curl_cffi>=0.11"\`) and re-run; YouTube gates the caption endpoint on a browser TLS fingerprint. `
+            : '') +
+          `Last error: ${lastErr.split('\n').slice(-2).join(' ') || '(none)'}`,
       );
     }
 
-    const vtts = fs
-      .readdirSync(outDir)
-      .filter((f) => f.startsWith(`${id}.`) && f.endsWith('.vtt'))
-      .sort();
-    meta.subtitle_files = vtts.length;
-    // Prefer a manually authored track over an auto one when both exist.
-    const preferred = vtts.find((f) => !/auto/i.test(f)) ?? vtts[0];
+    const subs = grabbed().sort();
+    meta.subtitle_files = subs.length;
+    // Prefer a manually authored track over an auto one, and .vtt over .json3 - the
+    // rungs are ordered by preference, so anything a later rung wrote is a fallback.
+    const preferred =
+      subs.find((f) => f.endsWith('.vtt') && !/auto/i.test(f)) ??
+      subs.find((f) => f.endsWith('.vtt')) ??
+      subs[0];
     meta.subtitle_track = preferred;
-    text = cleanVtt(fs.readFileSync(path.join(outDir, preferred), 'utf8'));
+    const rawSub = fs.readFileSync(path.join(outDir, preferred), 'utf8');
+    text = preferred.endsWith('.json3') ? cleanJson3(rawSub) : cleanVtt(rawSub);
 
     // Scoped cleanup, this run's id only. A blind sweep of the work directory races
     // any parallel run sharing it.
-    for (const f of vtts) fs.rmSync(path.join(outDir, f), { force: true });
+    for (const f of subs) fs.rmSync(path.join(outDir, f), { force: true });
   }
 } else if (src.kind === 'web') {
   meta.url = src.url;

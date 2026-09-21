@@ -67,6 +67,7 @@
           "subjects": [
             "lazy-section-addressability",
             "long-form-reading-surface",
+            "narrative-scroll-surface",
             "docs-content-model",
             "authoring-block-vocabulary",
             "public-claim-provenance"
@@ -86,7 +87,8 @@
         "realtime-events",
         "hash-pinned-translation-pipeline",
         "demo-data-plane",
-        "native-shell-integration"
+        "native-shell-integration",
+        "render-mount-pipeline"
       ]
     },
     {

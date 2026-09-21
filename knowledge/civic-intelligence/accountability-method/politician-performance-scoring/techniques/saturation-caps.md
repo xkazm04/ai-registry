@@ -21,22 +21,16 @@ the cap, more of the same activity buys nothing.
 
 ## What a cap claims, and what it does not
 
-A cap encodes an editorial judgment: *beyond this point, additional volume of
-this activity is no longer evidence of additional contribution.* That is a
-defensible claim — the difference between zero and three authored instruments is
-signal; the difference between forty and four hundred filed questions is filing
-behavior. But the cap deliberately does **not** claim that the fortieth speech
-was worthless, and the methodology text must say which claim is being made. A
-cap presented as a quality judgment invites a quality debate the index cannot
-win; a cap presented as an anti-gaming bound is self-evidently reasonable.
+A cap encodes an editorial judgment: *this index awards no additional points above the threshold.* The cap limits a component's influence. It does not establish that additional
+activity has no public value, or prevent gaming below the cap or across channels.
 
 ## Choosing the saturation point
 
-- **Set it from the population's distribution, not from intuition.** A cap below
-  the population median saturates half the chamber and the component stops
-  discriminating; a cap above the 95th percentile is decorative. Aim where the
-  distribution's informative range ends — typically between the median and the
-  upper decile — and record the distribution you set it against.
+- **Examine the population distribution and the intended construct.** Record
+  the cohort, period, coverage and saturated share. No percentile is universally
+  correct: a high cap may limit extreme outliers, while a low cap can encode a
+  threshold-attainment objective. Compare plausible caps before publication and
+  report how sensitive scores and ranks are to the choice.
 - **Different components saturate at wildly different scales.** Breadth of body
   membership saturates in single digits (a person can meaningfully serve on only
   so many); floor speaking turns saturate in the tens; do not force symmetry.
@@ -79,3 +73,12 @@ discriminate *above* the informative range, which for an effort screen it should
 not need to. And never tune a cap to move a specific person's rank; caps are
 population-level instruments, and the correction path for a wrong rank is a
 counting fix, not a threshold nudge.
+
+## Input boundaries
+
+Require a finite positive cap and finite nonnegative counts. Missing is not zero;
+negative or malformed source values are errors, not inputs to clamp into a valid
+score. A normalized rate is already bounded but a lower policy saturation point
+is possible if explicitly justified; the default advice against rate caps is
+not a mathematical prohibition. Compare like opportunity windows before reading
+the saturated share as a property of people's work.

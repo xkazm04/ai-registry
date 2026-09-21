@@ -1,8 +1,8 @@
 ---
 subject: translation-pipeline-topology
 domain: localization
-last_touched: 2026-08-29
-touched_by: external-reconcile
+last_touched: 2026-09-14
+touched_by: deepen (market harvest, wave 1)
 dry_streak: 0
 ---
 
@@ -257,3 +257,78 @@ The sparse-checkout pattern was mangled by the shell into
 `!C:/Program Files/Git/files` instead of `!/files`, so `files/` materialized fully.
 Harmless here - it made all 37,200 documents readable without lazy fetches - but a
 sparse pattern beginning with `/` is unsafe to pass through this platform's shell.
+
+## 2026-09-14 — market harvest, wave 1: a seam nobody owned, and two cache holes
+
+Source: [[2026-09-14-l10n-market-landscape]]. Landed in `423a40d7`; 7 techniques → 8.
+
+**New technique `serialization-transport-safety`.** A correct translation with
+correct target punctuation breaks the wire format: the low-high pair opens at a
+distinct glyph and closes at an ASCII straight quote, which terminates the
+transport's string and lands the placeholder brace where structure is expected.
+Code-verified in a production tool that repaired it repeatedly and then changed
+transport. This bundle *raises* the exposure — it mandates byte-identical
+skeletons and each target's own quote glyphs — and no role owned the seam: the
+native reviewer sees good German, the validator blames the model, the retry calls
+it flaky. Worker correction to the Director's brief, accepted: the opener does not
+terminate anything, so the mechanism is **asymmetric-pair degradation**, and
+escaping the opener buys nothing. Order of answers: transport choice, then
+per-item identity tokens, then a bounded idempotent repair declared as a
+heuristic; the gate re-asserts placeholder multiset, tag set, identity return and
+non-emptiness after transport. Hard boundary written into the file: this is never
+an argument for stripping native punctuation.
+
+**`source-hash-translation-cache` gained two amendments.** A rename presents as
+one key added and one removed; when the added key's source digest equals the
+removed key's *stored* digest, carry the translation **and its review state**,
+because re-translating pays twice and silently un-reviews text that never changed.
+And a key field added later must be **absence-compatible** — mixed in only when it
+has a non-default value — or the release that adds a review flag or a length
+budget invalidates every entry in every catalog, where "the first symptom is a
+bill, not an error". The key's composition also gained the unit's own instruction
+(context note and length budget) and the target's plural-form count.
+
+**Owed:** `serialization-transport-safety` has no application (`process--` slot
+open) and an empty `shared_with`, though the transport rule plausibly belongs to a
+checker subject too. Wave 2 leads banked for this subject specifically: the
+pre-prompt classifier for non-translatable values, the four exclusion classes
+(never-translate / drop / human-owned / allowlist), pseudo-localization, and
+fuzzy-reuse thresholds — the golden path's boundary paragraph now names the first
+three as deliberate absences so a reader knows they are owed, not missed.
+
+## 2026-09-14 — waves 2 and 3: four techniques, a real tree, and our own example refuted
+
+**Wave 2 (`900dad91`)**, 8 → 12 techniques: `non-translatable-value-classification`
+(a whole-value classifier plus four exclusion classes, marked single-source),
+`pseudo-localization-readiness` (length banded by source length; exempt from every check;
+never offered in the switcher), `fuzzy-reuse-under-a-threshold` (a threshold never moves
+between memories; a changed term ruling marks entries for review, never purges),
+`prompt-context-contract`. The golden path's "owed to a later pass" sentence is rewritten
+because these close it.
+
+**Wave 3 grounded it in personas-web** (applications `c83a09ea`, tree applies `b3fe23f` and
+`7c05f33`), and the tree pushed back on three techniques (`ffa7d8ff`, `c83a09ea`):
+- **`source-identical-value-audit`'s own worked example was wrong**, and it was measured on
+  this very tree in August. The walk skipped arrays: 27–29 identical values for non-Latin
+  locales and a 25-key "all legitimate" intersection became **101–107 and a 95-key
+  intersection, 66 of them untranslated** list-shaped FAQ and use-case copy, once every
+  container was walked. The technique now says so and adds the precondition — group the
+  intersection by section, because a section never dispatched lands there looking like brand
+  names. **Third sighting of the array blind spot** (kp's gate, our own checker's extractor,
+  and now the audit that taught the rule).
+- `non-translatable-value-classification`: "excluded values stay identical, no false
+  positives" holds only for the pipeline's own exclusion set (a copy gate's accepted-terms
+  list fired 7–135 times on correct transliterations, and one hit exposed a split-sentence
+  fragment); and the identifier rule was too loose — hyphens and trailing ellipses matched ten
+  of ten ordinary words.
+- `prompt-context-contract` assumed one request per unit; a file-batched prompt cannot attach
+  per-unit occurring terms, so it records whether it attaches file-scope terms or splits.
+
+**Measured on the tree:** the guide translation prompt carried 2 of the contract's 10 fields
+(5 after the fix); 871 stale or missing guide pins, exit 0, kept out of CI; identical-to-English
+87–93 (non-Latin) and 107–179 (Latin) after exclusion, 1,475 total.
+
+**Owed:** the subject now carries five applications against the forge brief's 1–3 guideline —
+applications grow by use, so the guideline is read as a forging budget, not a ceiling, and the
+decision is recorded here rather than silently exceeded; `serialization-transport-safety` still
+has no application; the ratchet on identical values waits for the owner.

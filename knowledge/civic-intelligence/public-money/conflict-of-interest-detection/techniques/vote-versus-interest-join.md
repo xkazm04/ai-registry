@@ -89,9 +89,9 @@ mis-drawn, and without per-clause counts the difference is invisible.
 
 The join runs over typed inputs with no model in the loop, no database
 access inside the logic (pure function over rows — which is what makes
-every clause unit-testable in isolation), a deterministic tiebreak for
-every data anomaly (duplicate bill numbers, duplicate ballots resolve by a
-declared stable rule, so a re-ingest cannot silently reorder results), and
+every clause unit-testable in isolation), a declared duplicate policy (collapse identical duplicates, but quarantine
+conflicting bill mappings or ballots rather than treating a stable arbitrary
+choice as evidence), and
 a total, stable output ordering with no unstable remainder. Derive-on-read
 is the preferred posture: candidates are recomputed from the ledger on
 every read rather than persisted, so there is no stored candidate table to
@@ -110,3 +110,13 @@ also the wrong shape where the decision and the interest meet directly
 over unverified ties "just to see" and let the output escape the internal
 surface: a candidate generated from a hypothesis is an insinuation with
 two unverified steps, which is two too many.
+
+## Candidate identity and action scope
+
+Include chamber and term in bill/vote keys wherever publisher identifiers are
+not global. Define whether one candidate represents a person-entity-vote or a
+specific role-vote; if roles aggregate, preserve all qualifying role evidence.
+Yes and no both establish a recorded position, not benefit to the tied entity.
+Recusal or abstention can be conflict management; excluded participation states
+are outside this rule, not evidence of no conflict. Cached candidate sets can
+be valid when input snapshots and rule versions are pinned and freshness shown.

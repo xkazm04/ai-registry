@@ -73,3 +73,19 @@ a comment noting it "used to vanish silently"), and unaffiliated seats. The
 seismogram itself renders a day where no club cleared `MIN_CLUB_POSITIONAL`
 as `meanCohesion: null` (`:393`) — not measured, drawn differently from a
 unified day, per the header's own doctrine.
+
+## Review boundary - 2026-09-09
+
+The implementation and incident descriptions above are historical witnesses.
+No consumer code, fixtures or live corpus were executed in this pass; the
+application witness date is unchanged.
+
+Verify event-time group membership, one ballot per person/division, a separate
+line-support policy, source validity semantics, and support sensitivity. Imported
+constants do not prove two independent algorithms agree; compare the two outputs
+on frozen fixtures, including ties, transfers, missing ballots and free votes.
+
+The [publisher voting schema](https://www.psp.cz/sqw/hp.sqw?k=1302)
+confirms the merged category and code definitions, manual/technical data limits,
+and delayed excusal updates. A challenged vote is not automatically annulled;
+resolve the source's challenge and repeat relationships before exclusion.

@@ -2,7 +2,7 @@
   "id": "295d0871-6f35-5c8c-b728-5e87c145c72f",
   "slug": "payment-event-scoring-for-churn-and-expansion",
   "title": "Payment event scoring for churn and expansion",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "status": "seed",
   "path": "finance_accounting/revenue",
   "domain": "finance_accounting",

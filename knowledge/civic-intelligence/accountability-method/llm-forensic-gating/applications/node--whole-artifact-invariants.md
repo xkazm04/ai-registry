@@ -112,3 +112,7 @@ a positional claim checked against the payload rather than against itself.
    invariants are the durable part, not the script's location" — closing the
    staleness this deviation flagged, though the reference script still lives
    under `archive/` rather than a canonical non-archived home.
+
+## Review limits - 2026-09-09
+
+Digit multisets miss reassigned amounts, sign changes and unit changes; located text can still be misattributed. The account already discloses absent automated arithmetic closure. Archived scripts, the cited repair commit and consumer runtime were not re-executed. Application witness dates remain historical.

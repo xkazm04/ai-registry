@@ -3,7 +3,7 @@ layer: golden-path
 type: golden-path
 subject: billing-revenue-normalization
 status: forged
-use_when: [ingesting a billing provider's webhooks into revenue records, building the revenue side of per-customer margin, handling multi-currency payments in an analytics store, deciding how refunds and redeliveries affect recognized revenue]
+use_when: [ingesting a billing provider's webhooks into revenue records, building the revenue side of per-customer margin, handling multi-currency payments in an analytics store, deciding how refunds and redeliveries affect recognized revenue, a provider versions its API and payload contracts on its own release cadence]
 techniques:
   - signature-is-the-auth
   - deterministic-external-ids
@@ -11,6 +11,7 @@ techniques:
   - minor-unit-currency-handling
   - static-auditable-fx-book
   - revenue-kind-taxonomy
+  - contract-version-is-provenance
 ---
 
 # Billing revenue normalization
@@ -139,6 +140,17 @@ say what it says?" — answered entirely from the records themselves: each row
 names its provider, its business object, its original currency and magnitude,
 its kind, and converts through a rate book you can check out at the version
 that priced it.
+
+One clause of that answer is routinely missing, and it is the half the operator
+does not control. The rate book is versioned because the operator maintains it;
+the **field semantics** are versioned by the provider, on the provider's release
+cadence, and a ledger that stamps the first and not the second can say which
+rate priced a row but not whether a field meant the same thing when it was
+written (contract-version-is-provenance). Where a provider publishes dated
+contracts, the version is chosen when an endpoint is registered rather than when
+a payload is parsed, an unnamed version silently inherits whatever the provider
+currently defaults to, and the record carries the declared version beside the
+rate book's.
 
 ## Where this subject stops
 

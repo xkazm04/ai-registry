@@ -65,3 +65,12 @@ through "would put phantom 126-year-old MPs in the corpus." Every row also
 carries `source` + `source_url` + `fetched_at`, which the adapter header
 (psp.ts:5-10) ties to the publisher's license condition, not just good
 manners.
+
+## Review limits - 2026-09-09
+
+The primary registry schema supports the birth sentinel and distinct electoral
+and club relationships. This review did not reload the dump or reproduce the
+1.05M-row and 71-collision observations. Reverify empty roll-call scope with
+valid excuses, corrected natural keys, deletion reconciliation and conflicting
+duplicates. Full upsert without removal handling cannot alone mirror a changing
+snapshot; application witness dates remain historical.

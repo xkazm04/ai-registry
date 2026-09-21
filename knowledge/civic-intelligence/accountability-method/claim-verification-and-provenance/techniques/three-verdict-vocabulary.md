@@ -30,7 +30,7 @@ enough to be quoted. The closed set is three verdicts:
 No fourth verdict. Every candidate fourth is one of the three wearing a
 modifier: "verified but under review" is *verified* plus gate standing;
 "same number, different formula" is *moved* (see derivation-comparison);
-"stale" is *moved* with dates; "our own app page, not a citation" is
+"stale" is freshness metadata, not proof the value moved; "our own app page, not a citation" is
 *unknown* with the reason "not a citation". A vocabulary that grows loses the
 property that funds it: a reader can hold three words and know exactly what
 each excludes. The moment "verified*" exists, plain "verified" is devalued.
@@ -98,3 +98,13 @@ graded rating and a human author, and belongs in structured-review-emission
 territory with a human gate in front. Do not stretch verified/moved/unknown
 to cover judgments; it is a vocabulary about *derivations*, and its authority
 comes from refusing to opine.
+
+## Comparison preconditions
+
+Keep this closed vocabulary only where it covers the product's contract.
+An unavailable loader or missing comparison basis yields unknown with an
+unevaluable reason, never a content verdict. Report which axes were compared:
+missing provenance is unassessed provenance even if the numeric value matches.
+Define canonical units, decimal representation and any published rounding rule
+before comparing; byte equality only applies to that representation. A bare ref
+is a lookup, and an existing mutable edge does not establish unchanged attributes.

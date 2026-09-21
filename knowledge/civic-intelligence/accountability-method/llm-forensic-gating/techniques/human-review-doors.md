@@ -39,11 +39,13 @@ that says which kind of review actually happened.
    state change is applied, and both happen atomically. Chain the audit rows
    (each carrying a hash over its content plus the previous row's hash) so
    the record is append-only in a verifiable way, not merely by convention:
-   the one public trust surface of a review system is the ability to prove
-   the decision history was not edited.
+   the one public trust surface of a review system is tamper evidence under a stated threat model. A writer able to rewrite the
+   entire chain can recompute it; use protected checkpoints or independent
+   retention if that threat is in scope.
 4. **Design the state machine around irreversibility asymmetries.** Confirm
-   moves a lead to verified; reject is terminal — a rejected claim must not
-   re-enter the pending queue forever, and must never flip to verified;
+   moves a lead to verified; reject is terminal for that reviewed version — it must not silently
+   re-enter the queue or flip to verified. An explicit appeal or materially new
+   evidence creates an audited superseding version;
    needs-more-evidence legitimately returns a decided claim to pending. The
    dangerous transitions are the ones toward publication; make those the
    narrowest.
@@ -84,3 +86,13 @@ irreplaceable, and a review queue full of trivia is how real accusations get
 skimmed. Conversely, never let the inverse creep in: if a surface renders a
 model's interpretation about a person to the public, it takes the door, no
 matter how well-gated the pipeline that produced it was.
+
+## Publication preconditions
+
+Authenticate the reviewer and authorize the transition at the server. Bind the
+decision to claim content, evidence and gate versions, with optimistic version
+checks or explicit locking to prevent lost updates; merely opening a transaction
+does not establish serialization. Publish exactly the reviewed artifact and
+invalidate its approval after substantive changes. Retention and access controls
+apply to audit records too. Limit intake or improve staffing and sampling when
+the queue grows; stricter automated rejection alone is not a quality guarantee.

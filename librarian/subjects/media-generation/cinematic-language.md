@@ -62,3 +62,19 @@ compression did not land from words on one model family). Application
 `process--camera-position-semantics` records seven runs from the tree's own dojo records at
 gravity `51c0eea` (recipes, judge reasons and structured readbacks survive; frames deleted).
 Both study rows are n=3 single-stack and the documents say so.
+
+## 2026-09-07 - the zero-beat performance ([[2026-09-07-grimstone-opening-cinematic]])
+
+`performance-direction` gains "The zero-beat performance": figures that are set dressing
+under a camera move are beat starvation at its limit - the prior animates any figure it
+recognises - so stillness is briefed like a performance and the take is picked by least
+figure motion. The harness half is the finding the source could not give: a global
+anti-freeze negative is written against a failure and cannot tell it from a direction, and
+a three-poster judge cannot see a directed near-still. Gravity's own first video cycle had
+briefed "almost still - the camera does not move" (motion-intent-authoring's phrasing) and
+its judge picked against it as "frozen"; a consecutive-frame luma-delta ruler put the clip
+at 0.210 against a 0.000 looped-still floor (the advancing clip: 8.547). Shipped as a third
+pre-filter in gravity's measurement lane (`577524b`), recorded in the new
+`process--performance-direction` application. Boundary: `movement-motivation` keeps camera
+stillness, `frame-direction/motion-intent-authoring` keeps near-stillness as authored
+intent; this amendment is the performer channel between them and names both in prose.

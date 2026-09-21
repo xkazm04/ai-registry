@@ -13,8 +13,8 @@ use_when:
 
 # Identifier checksum validation
 
-Most national company identifiers carry a check digit — typically a weighted
-modulo scheme over the leading digits — so a candidate identifier can be
+Some company identifier schemes carry a check digit, such as a weighted
+modulo scheme over the leading digits, so a candidate identifier can be
 structurally verified before it is ever used as a join key. The technique is
 simple to state and unusually easy to get subtly wrong: validate every
 identifier at the boundary where it enters the system, using one canonical
@@ -29,9 +29,10 @@ documents, scraped tables — where digit runs of the right length appear
 constantly and most of them are dates, file numbers, amounts, or case
 citations. Without a checksum gate, a regex over free text mints join keys
 from noise, and each fabricated key can pull an unrelated entity into a named
-person's dossier. The checksum rejects roughly ten elevenths of random digit
-strings of the right shape, which converts extraction from "regex plus hope"
-into a defensible filter. It does not prove the entity exists or that the
+person's dossier. For a scheme assigning exactly one decimal check digit to
+each allowed prefix, nine of the ten possible final digits fail. This is a
+combinatorial property, not a measured rejection rate for extracted text.
+It does not prove the entity exists or that the
 identifier belongs in this context — those are separate, register-backed
 checks — but it cheaply kills the largest class of garbage.
 
@@ -95,8 +96,8 @@ Do not use checksum validity as evidence of existence, liveness, or
 relevance — a valid identifier may denote a dissolved entity, a different
 register's namespace, or nothing at all. Do not apply it to identifier
 schemes that carry no check digit (some registers' schemes are plain
-sequences); for those, existence lookup against the register is the only
-structural gate, and the extraction threshold from free text must be
+sequences); for those, documented length, character and prefix checks still
+apply. Existence lookup is a separate gate, and the extraction threshold must be
 correspondingly stricter. And do not let a passing checksum shortcut the
 name-to-identifier discipline: a valid identifier attached to the wrong
 entity is the most convincing kind of wrong.

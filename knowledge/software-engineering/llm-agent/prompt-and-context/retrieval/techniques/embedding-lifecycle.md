@@ -6,7 +6,7 @@ technique: embedding-lifecycle
 status: forged
 laws: [derivation-names-recomputation, gate-sees-target, failure-not-empty-success]
 shared_with: []
-use_when: [queries still answer normally after an embedder swap, choosing between backfill and lazy migration, deciding what ingest does when the embedder is missing]
+use_when: [queries still answer normally after an embedder swap, choosing between backfill and lazy migration, deciding what ingest does when the embedder is missing, one embedding helper serves both queries and documents for a model trained with separate roles]
 ---
 
 # Embedding lifecycle
@@ -35,6 +35,40 @@ the model that produced it — name, version, and dimension — written at the
 single door all vector writes pass through. The stamp is not documentation;
 it is the load-bearing fact that makes every other guarantee in this
 technique checkable.
+
+## The role is a fifth input, and the stamp cannot see its query half
+
+The four inputs above are complete for a *symmetric* embedder, one that places
+a text at the same coordinates whatever it is used for. Many retrieval models
+are asymmetric: they are trained with a declared role — a query prefix and a
+document prefix, or a task type chosen per call — and place the same sentence
+differently depending on which side of a search it is on. For those models the
+role is part of the vector's derivation exactly as the model version is, and
+getting it wrong has this technique's signature: ordered results, no errors,
+and recall that is quietly worse than the model delivers.
+
+The stamp does not close this, for a structural reason. It is written on
+*stored* vectors, and the guard compares stored stamps with the active
+embedder. The query vector is never stored, so a query embedded with the
+document role — the common shape, where one wrapper function serves both sides
+and the retrieval path calls it for the query too — passes every stamp check
+on every row. The document side can be stamped with its role and should be;
+the query side is protected only by code that names its role at the call site.
+
+Three rules follow:
+
+- **Name the role at both call sites, never through a shared helper that
+  picks one.** An embedding interface for an asymmetric model exposes two
+  entry points, and the retrieval path is the only caller of the query one.
+- **Put the role in the stamp and in any content-keyed cache.** A vector cache
+  keyed on the text alone hands a document vector to a query that happens to
+  share its wording.
+- **Symmetric comparison is the other case, not an exception to the rule.** A
+  pipeline that compares two texts of the same kind — a profile against a
+  posting, a draft against a draft — wants the same role on both sides, and
+  for such a model usually the similarity role rather than either retrieval
+  role. The discriminator is whether the two sides of the distance play
+  different parts.
 
 ## Guard on read, not on hope
 

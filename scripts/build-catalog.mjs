@@ -24,6 +24,7 @@ import { fileURLToPath } from 'node:url';
 import { hashBundle, sameIgnoringNewlines } from './lib/bundle-hash.mjs';
 import { walkSubjects } from './lib/taxonomy.mjs';
 import { readLane, contentDigest } from './lib/skills-lane.mjs';
+import {loadIdentities,resolveIdentity} from './lib/telemetry.mjs';
 
 const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 const KNOWLEDGE = path.join(ROOT, 'knowledge');
@@ -143,6 +144,9 @@ if (mismatches.length) {
 // scripts/check-usage.mjs; this reads what that gate has already accepted and is
 // deliberately tolerant — a malformed file must not be able to erase every
 // count, so it is skipped and named rather than thrown on.
+const identities=loadIdentities(ROOT);
+const unresolvedUsage=[];
+const usageReports=[];
 const usage = new Map(); // skill -> { invokes, contributors:Set }
 let usageFiles = 0;
 // Skipping an unparseable contributor is correct here — this builder's green authorizes
@@ -162,10 +166,14 @@ if (fs.existsSync(USAGE)) {
       continue;
     }
     usageFiles += 1;
-    for (const [name, entry] of Object.entries(doc?.skills ?? {})) {
+    usageReports.push({contributor:doc.contributor,generatedAt:doc.generatedAt,windowDays:doc.windowDays});
+    for (const [reportedName, entry] of Object.entries(doc?.skills ?? {})) {
+      const name=resolveIdentity(identities,'skills',reportedName);
+      if(!name){unresolvedUsage.push({contributor:doc.contributor,name:reportedName,...entry});continue;}
       const n = Number.isInteger(entry?.invokes) && entry.invokes >= 0 ? entry.invokes : 0;
-      const row = usage.get(name) ?? { invokes: 0, contributors: new Set() };
+      const row = usage.get(name) ?? { invokes: 0, invokes30d: 0, contributors: new Set() };
       row.invokes += n;
+      if(doc.windowDays===30)row.invokes30d+=n;
       if (doc?.contributor) row.contributors.add(doc.contributor);
       usage.set(name, row);
     }
@@ -200,7 +208,8 @@ const skills = laneSkills.map((s) => {
   if (old.applicability) entry.applicability = old.applicability;
   if (old._drift) entry._drift = old._drift;
   entry.adopters = Array.isArray(old.adopters) ? old.adopters : [];
-  entry.invokes30d = row ? row.invokes : 0;
+  entry.invokes30d = row ? row.invokes30d : 0;
+  entry.reportedInvokes = row ? row.invokes : 0;
   entry.lessons = s.lessons;
   if (s.lessonsPath) { entry.lessonsPath = s.lessonsPath; entry.lessonsHash = s.lessonsHash; }
   // Named so a reader can tell "nobody uses this" from "nobody reports on this" —
@@ -255,6 +264,7 @@ const next = {
   generatedAt: catalog.generatedAt,
   generatedBy: 'scripts/build-catalog.mjs',
   skills, practices, memory, counts, bundles,
+  usageEvidence: {reports:usageReports,unresolved:unresolvedUsage,interpretation: 'invokes30d includes only reported 30-day windows ending at each report date; reportedInvokes includes all reported windows. Neither is a live rolling count. Unresolved names retain counts here.'},
 };
 const serialized = `${JSON.stringify(next, null, 2)}\n`;
 

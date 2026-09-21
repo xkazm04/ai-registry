@@ -90,3 +90,23 @@ Fleet impact: kp and ascent both collapse a negotiated per-customer contract to 
 single `unlimited` boolean and have no override layer at all (kp grep: zero hits).
 That absence is the negative evidence for the two techniques above.
 
+
+## 2026-09-18 - intake youtube:IdwdqdywNOM (Type Object over subscription plans)
+
+Landed `live-catalog-edit-is-a-lifecycle-event`, the stage nobody owned: where
+the tier model lives and who may change it. A store-resident model loses
+three gates. The compiler becomes a load-time schema. The deploy instant
+becomes a per-tenant lifecycle event at a period boundary for any narrowing of
+a subscribed tier. The review question "does this reach existing
+customers?" becomes the choice between editing a tier and minting a new one.
+Primary: the payment provider applies catalog feature changes to existing
+subscriptions at the next billing period, through the entitlement event.
+
+The kp apply step corrected the draft. Gate two is not a property of the
+store: a code-resident catalog narrowed every paid tier in one deploy
+(`275141050`), and the number-pinned tests were rewritten in the same change,
+so nothing could see it. kp now carries an acknowledged-baseline guard
+(`83085b027`).
+
+Fleet: ascent has an operator plan control beside a code catalog, unread.
+Banked as a lead in the source note.

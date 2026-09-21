@@ -3,11 +3,12 @@ layer: golden-path
 type: golden-path
 subject: repo-manifest-standard
 status: forged
-use_when: [authoring a contract a repository carries about itself, making automation portable across tools, versioning a machine-readable convention, deciding what a manifest may and may not claim]
+use_when: [authoring a contract a repository carries about itself, making automation portable across tools, versioning a machine-readable convention, deciding what a manifest may and may not claim, reserving room in a contract for a field nobody has designed yet]
 techniques:
   - capability-not-tool-vocabulary
   - pointers-not-embeds
   - must-ignore-unknown
+  - reserved-space-must-be-unusable
   - semver-additive-evolution
   - spec-ships-with-artifact
   - generated-from-provenance
@@ -131,6 +132,34 @@ opinion about — including the fields a second tool owned.
 [must-ignore-unknown](./techniques/must-ignore-unknown.md) covers both halves, and
 the narrow set of things a reader is allowed to be strict about.
 
+
+## The room you keep is the room nobody can use
+
+*Must ignore* buys the contract the right to grow. It says nothing about who
+owns the names it will grow into, and the answer is not obvious: the space is
+being filled by other writers from the first day, and a name the author has not
+thought of yet is a name somebody else may already be using.
+
+So the author reserves — and a reservation is worth exactly what a writer loses
+by using the reserved space today. Refused at the door, it is a reservation.
+Inert and non-conforming, it is a reservation, and the gap between what the
+specification refuses to emit and what readers must accept is the extension
+budget. Accepted, working, and merely labelled *experimental* or *provisional*,
+it is a release with a disclaimer: the space does what a writer needs now, so it
+is adopted in production, and what the author kept is the right to print a
+warning while maintaining both spellings forever.
+
+The second half is how much the reservation covers. A named list of owned keys
+protects only the names already invented, so every later addition to the list
+captures whatever writers kept under that name. Put the marker on the writer's
+side instead — one shape that says "mine" — and the unmarked remainder is the
+author's, including the names nobody has invented. Both halves are installed the
+day the space is defined; a space opened free-form and reserved key by key
+afterwards can only be repaired one migration at a time.
+[reserved-space-must-be-unusable](./techniques/reserved-space-must-be-unusable.md)
+carries the three rungs, the shape-versus-list decision, and what to do once the
+space is already released.
+
 ## Version the contract, not the repository
 
 The manifest carries a version, and that version describes **the contract**, not
@@ -252,3 +281,9 @@ score is the worst of both.
 - **A major version bumped for convenience.** Every major is a migration for
   every reader. If majors are cheap for the author, they are expensive for
   everyone else, and the convention loses the adopters who cannot move.
+- **The extension space was reserved by announcement.** A section labelled
+  provisional that works is adopted in production, and the author is left
+  maintaining both spellings while negotiating with documents already in the
+  field. Reserve by refusal or by invalidity, or admit the label is a convention
+  that prevents accidents and constrains nothing
+  ([identity-survives-reuse](../../../_laws.md#identity-survives-reuse)).

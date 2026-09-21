@@ -2,7 +2,7 @@
   "id": "f714c64f-0e3a-573e-8cbc-1241b34f9400",
   "slug": "contract-obligation-and-deadline-watch",
   "title": "Contract obligation and deadline watch",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "status": "seed",
   "path": "legal_compliance/deadlines",
   "domain": "legal_compliance",

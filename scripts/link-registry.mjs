@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 /**
- * link-registry — point every project at THIS registry by link: `.claude/skills/<name>` at the
- * skills lane, and `.claude/rules/ai-registry-*.md` at the generated knowledge rules, so there
- * is exactly one copy of each on the machine and the corpus is present in every session.
+ * link-registry — point every project at THIS registry: `.claude/skills/<name>` as a link to the
+ * skills lane, so there is exactly one copy of each skill on the machine, and
+ * `.claude/rules/ai-registry-*.md` as installed COPIES of the generated knowledge rules, so the
+ * corpus is present in every session (a symlinked rule never loads - see the rules block below).
  *
  * ## Why a link and not a copy, and not a plugin
  *
@@ -53,6 +54,12 @@ import { loadBridge } from './lib/projects.mjs';
 const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 const LANE = path.join(ROOT, 'skills');
 const RULES = path.join(ROOT, 'rules');
+if (process.argv.includes('--help') || process.argv.includes('-h')) {
+  // Without this guard an unknown flag fell through to a fleet-wide write run (2026-09-14:
+  // `--help` relinked every project and rewrote a rules copy and a .gitignore it was not asked to).
+  console.log('usage: node scripts/link-registry.mjs [--check] [--project <slug>]');
+  process.exit(0);
+}
 const checkOnly = process.argv.includes('--check');
 const projIdx = process.argv.indexOf('--project');
 const onlyProject = projIdx === -1 ? null : process.argv[projIdx + 1];
@@ -100,7 +107,7 @@ const declaredSkills = (manifestPath) => {
 };
 
 /** The manifest's `knowledge.domains: [a, b]` - which bundles this project consumes, and
- *  therefore which generated knowledge rules it links into `.claude/rules/`. */
+ *  therefore which generated knowledge rules it installs into `.claude/rules/`. */
 const declaredDomains = (manifestPath) => {
   if (!fs.existsSync(manifestPath)) return [];
   const m = fs.readFileSync(manifestPath, 'utf8').match(/^\s*domains:\s*\[([^\]]*)\]/m);
@@ -194,29 +201,37 @@ for (const [slug, p] of Object.entries(bridge.projects ?? {})) {
 
   // ---- knowledge rules -----------------------------------------------------
   // A rule with no `paths:` frontmatter loads into EVERY session at the same priority as
-  // .claude/CLAUDE.md, and the harness resolves symlinks in .claude/rules/. So the corpus
-  // reaches a session with no skill invoked and nothing copied: the access contract plus
-  // one card per declared domain, all pointing at the registry's generated files.
+  // .claude/CLAUDE.md - but only as a file INSIDE the project. Witnessed 2026-09-14 on harness
+  // 2.1.270 with a load-telemetry (InstructionsLoaded) hook: a symlink to a rule outside the
+  // project is treated as an external import and never loads, while a hard link or a copy of
+  // the same file does - and every fleet project had been carrying symlinks that reached no
+  // session. Skill directories behind a symlink DO load, so skills stay links. Rules are
+  // therefore installed as COPIES of the generated files. The `ai-registry-` prefix is the
+  // managed namespace: the registry owns and overwrites those files, and --check reports a
+  // symlink or a copy whose content drifted from the generated source (re-run this script
+  // after build-knowledge-rules.mjs).
   const domains = declaredDomains(manifest);
   const wantRules = ['ai-registry-access.md', ...domains.map((d) => `ai-registry-${d}.md`)];
   const rulesDir = path.join(p.path, '.claude', 'rules');
   if (!fs.existsSync(rulesDir) && !checkOnly) fs.mkdirSync(rulesDir, { recursive: true });
+  const sameText = (a, b) => a.replace(/\r\n/g, '\n') === b.replace(/\r\n/g, '\n');
   for (const rule of wantRules) {
     const src = path.join(RULES, rule);
     const entry = path.join(rulesDir, rule);
     if (!fs.existsSync(src)) { problems.push(`${slug}: declares a domain with no generated rule (${rule}) - run build-knowledge-rules.mjs`); acts.blocked += 1; continue; }
+    const want = fs.readFileSync(src, 'utf8');
     let cur = 'absent';
     try {
       const st = fs.lstatSync(entry);
-      const real = fs.realpathSync(entry);
-      cur = st.isSymbolicLink() || path.resolve(real) !== path.resolve(entry)
-        ? (path.resolve(real) === path.resolve(src) ? 'ok' : 'wrong-target') : 'file';
-    } catch { cur = fs.existsSync(entry) ? 'broken-link' : 'absent'; }
+      cur = st.isSymbolicLink() ? 'symlink' : (sameText(fs.readFileSync(entry, 'utf8'), want) ? 'ok' : 'stale');
+    } catch { cur = 'absent'; }
     if (cur === 'ok') { acts.rulesOk += 1; continue; }
-    if (cur === 'file') { problems.push(`${slug}: .claude/rules/${rule} is a real file, not a link - not overwriting`); acts.blocked += 1; continue; }
-    if (checkOnly) { problems.push(`${slug}: rule ${rule} is ${cur}, should be a link to the registry`); acts.blocked += 1; continue; }
+    if (checkOnly) {
+      const why = cur === 'symlink' ? 'a symlink, which the harness does not load - install a copy' : cur === 'stale' ? 'a copy that drifted from the generated rule' : 'absent';
+      problems.push(`${slug}: rule ${rule} is ${why}`); acts.blocked += 1; continue;
+    }
     if (cur !== 'absent') fs.rmSync(entry, { force: true });
-    try { fs.symlinkSync(src, entry, 'file'); } catch { fs.copyFileSync(src, entry); }
+    fs.writeFileSync(entry, want);
     acts.rulesLinked += 1; changed += 1;
   }
   for (const e of fs.existsSync(rulesDir) ? fs.readdirSync(rulesDir) : []) {

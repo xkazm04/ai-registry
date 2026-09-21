@@ -18,3 +18,7 @@ Append-only reflection lane. One entry per run that taught something. Format:
   where the defect was found leaves every other adopter running the pre-fix method with
   no signal that anything changed. Ported here with a minor bump so the version compare
   tells adopters to update.
+
+## 1.2.2 - 2026-09-09 - ai-registry
+
+- Architecture review: the shared reflection clause assumed a writable registry link in every installation. Replaced that assumption with installation-aware scope and explicit adoption. This records an instruction audit, not a field effectiveness result.

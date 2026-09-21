@@ -23,8 +23,8 @@ techniques:
 
 LLM forensic gating is the discipline of using a language model in an
 adversarial evidentiary domain — accountability journalism, legal-change
-forensics, conflict-of-interest analysis — while guaranteeing that the model
-never authors a fact. The model is hired for the two things deterministic code
+forensics, conflict-of-interest analysis — while preventing unreviewed model output from being promoted to established
+fact. Mechanical gates reduce specified errors; they do not guarantee truth. The model is hired for the two things deterministic code
 cannot do: it reads widely (registries, filings, explanatory memoranda, press)
 and it interprets — it hypothesizes unstated effects, contrasts a bill's stated
 reasoning with its researched consequences, connects a sponsor's money graph to
@@ -88,11 +88,13 @@ subject's techniques:
    runs through one audited write path a human drives. The model's output is a
    lead by construction, not by convention.
 
-A verdict that fails any gate is discarded and re-run — never patched, never
-persisted with a warning flag. Repair is authorship: the moment code "fixes" a
+A verdict that fails a gate is withheld from the publishable store. Preserve
+a restricted diagnostic artifact and gate reasons under the retention policy;
+retry only within a declared budget or route the failure to review. Repair is authorship: the moment code "fixes" a
 model's citation or trims its jargon, the pipeline has invented a claim no one
-made. Rejection is the only honest response to a gate failure, and re-running
-is cheap precisely because the contract is deterministic.
+made. Rejection is the only honest response to a gate failure, and a deterministic contract does not guarantee cheap or successful retries.
+An explicit, attributed revision is permitted if it becomes a new version and
+passes all applicable checks again; silent factual repair is the prohibited act.
 
 ## The load-bearing distinctions
 
@@ -127,8 +129,8 @@ write, independent of whoever produced it.
 **Human review is a door, not a rubber stamp.** The review surface has its own
 contract: one code path allowed to change review state, an append-only audit
 record written before the state change, decisions that can move a claim back
-to pending but never silently to published, and terminal rejections that stay
-terminal. Without that discipline, "a human reviewed it" is an unauditable
+to pending but never silently to published, and rejections that remain terminal for the reviewed version unless an
+audited appeal supersedes it. Without that discipline, "a human reviewed it" is an unauditable
 assertion — exactly the kind this domain exists to eliminate.
 
 ## Per-claim gates and whole-artifact invariants
@@ -212,3 +214,13 @@ run wherever a pass rewrites text that already exists, in the pass itself, and
 they are the only member of the stack whose subject is the artifact instead of
 a claim within it — which is why a board that is green on every other line can
 still be green over something false.
+
+## Trust and coverage boundaries
+
+Fetched documents and quoted source instructions are untrusted data, including
+for the verifier. Bind gate results and human decisions to the exact output,
+source snapshots and rule versions; invalidate approval after material edits.
+URL syntax, ID membership, lexical heuristics and digit preservation each test
+a narrower property than factual support. Unknown, failed and not-run checks
+must remain distinct. Authentication, authorization and concurrency control at
+the publishing boundary are necessary for a human-only transition.

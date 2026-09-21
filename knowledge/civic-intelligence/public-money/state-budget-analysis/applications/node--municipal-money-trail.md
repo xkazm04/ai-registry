@@ -71,3 +71,16 @@ result carries the graph pass for provenance (`:31-32`). Degradation is
 explicit: when the store is down the result is `{ available: false }` and the
 surface admits ties "cannot be verified now" instead of silently showing "no
 ties" (`:10-11,38`).
+
+## Review boundary - 2026-09-09
+
+The code, line references, incident dates and source-classification claims above
+are retained as historical witnesses. No consumer code or fixtures were executed;
+the application witness date is unchanged.
+
+The described publisher-or-party join can include a publisher acting for others.
+The historical paid predicate does not prove disbursement; its other bucket also
+needs to distinguish known reverse flows from unknown direction. Sharing an edge
+weight does not establish a compatible amount basis or municipal allocation.
+Check these cases, duplicate multi-town values, period sums with invalid dates,
+and revocation/cache behavior before treating the example as conformant.

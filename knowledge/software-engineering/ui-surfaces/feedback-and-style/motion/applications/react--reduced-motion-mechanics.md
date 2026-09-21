@@ -5,6 +5,9 @@ subject: motion
 technique: reduced-motion-mechanics
 stack: react
 verified_on: 2026-08-28
+applied: experiment
+ab_verdict: better
+proof: ab-paired
 ---
 
 # React application — reduced motion under server rendering
@@ -135,3 +138,91 @@ raw hook's identifier by name and began flagging files the moment they were
 migrated to the safer reader. Keep the accepted-gate list in one named set, and
 prefer the wrapper in the rule's message so the rule teaches the hierarchy
 rather than merely permitting it.
+
+## The snapshot-transition layer: `<ViewTransition>` under a universal reset
+
+*Section added 2026-09-15; its citations were resolved that day. The sections above were not re-checked, so this document's verified_on stays at their date.*
+
+*Witness for the version: `react@19.3.0` and `react-dom@19.3.0` as installed from
+npm on 2026-09-15 (`package.json` of the installed packages; `ViewTransition` is
+exported as a component symbol and `browser` from `react-dom` as a function). The
+consuming tree, `personas-web` at `4445215`, pins `react ^19.2.8`, so the
+experiment runs its CSS against the release the tree will upgrade to, not the one
+it ships today.*
+
+React 19.3 (announced 2026-09-09) promoted `<ViewTransition>` to stable. It wraps
+the browser View Transitions API. React calls `document.startViewTransition`
+itself, and its reference documentation says three things that matter to the
+technique's "every reduction mechanism is engine-scoped" section:
+
+- *"React doesn't automatically disable animations for this case"*, and it
+  recommends a `@media (prefers-reduced-motion)` query.
+- *"you should never"* call `startViewTransition` yourself, and *"if you have
+  something else on the page running a ViewTransition React will interrupt it."*
+- Only updates in a Transition, a `<Suspense>` reveal or `useDeferredValue`
+  activate it. A `flushSync` in the middle skips it.
+
+### The experiment
+
+A 30-line React 19.3 app, bundled with esbuild and driven by Playwright 1.62.1
+against Chromium 151.0.7922.34. One `<ViewTransition>` wraps a teal card whose
+mount is toggled in `startTransition`. The page also carries a positive control:
+an element with an infinite 2-second keyframe animation, which proves the reset
+applied at all. Every view-transition animation is paused at `currentTime = 125`
+(of the default 250 ms). The measurable is the composited pixel at the card's
+centre: solid teal `0,128,128` means no visible motion, and anything lighter
+means the card is still fading in.
+
+| Arm | Reduced-motion CSS | Preference | Element animations left | VT animations > 1 ms | Pixel at card |
+| --- | --- | --- | --- | --- | --- |
+| A0 | none | reduce | 1 | `old(root)`, `new(_t_0_)` | `51,153,153` |
+| A | universal `*, *::before, *::after` reset | reduce | 0 | `old(root)`, `new(_t_0_)` | `51,153,153` |
+| B | reset + `::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important }` | reduce | 0 | none | `0,128,128` |
+| C | reset + `<ViewTransition default="none">` when the query matches | reduce | 0 | `old(root)` only (under a `group(root)` held at opacity 0) | `0,128,128` |
+| A (seam) | **`personas-web` `src/app/globals.css` reduced-motion block, verbatim (31 lines)** | reduce | 0 | `old(root)`, `new(_t_0_)` | `51,153,153` |
+| B (seam) | the same block + the pseudo-element rule | reduce | 0 | none | `0,128,128` |
+
+With the preference off, every arm animated identically (`51,153,153`), so arm B
+costs nothing for users who did not ask for less motion. The same A/B on the bare
+platform (hand-rolled `document.startViewTransition`, no React) gave the same
+split: the universal reset left all three root animations at 250 ms, and the
+pseudo-element rule removed them. The universal selector's blindness is a
+platform fact, and React only inherits it.
+
+A `flushSync` toggle with no reduction rule produced zero view-transition
+animations. Whether the card animates is a property of how the update was
+scheduled.
+
+### What the tree says
+
+`personas-web` has no view transitions today. `git grep` for `ViewTransition`,
+`startViewTransition` and `view-transition` over `next.config.*` and `src` returns
+nothing. So the gap is latent and fires on adoption. The block the seam
+experiment copied is a textbook universal reset, and it is also what six other
+fleet trees carry in a stylesheet (`*, *::before, *::after` inside the media query). It passes every reading of
+"honours reduced motion". The experiment shows one class of animation it cannot
+reach, and the tree's own code gives no hint that the class exists.
+
+A second fleet tree already hand-rolls transitions (it calls `startViewTransition`
+behind a `matchMedia` check, inside `flushSync`) and independently wrote the arm B
+rule beside its scoped reset. That is convergence from code written without this
+technique. Its call-site gate is exactly what React 19.3 forbids on migration, and
+its stylesheet rule is exactly what survives it.
+
+The seam was chosen to falsify. A caught outcome would have meant something in a
+real product's verbatim block reached the pseudo-elements, such as an
+`html`-level rule or an inherited property. The amendment would then shrink to a
+note about hand-written resets. It did not: the verbatim block behaved exactly
+like the synthetic one.
+
+### What this realization cannot do
+
+- It measured enter only. `share` and `update` animate position and size on
+  `::view-transition-group`, which arm B also silences, but that was not
+  measured here.
+- One engine. The selector behaviour is specified, but the pixel was read in
+  Chromium alone.
+- Arm C works, but it is per boundary. The technique rejects it because it
+  scatters the reduction across every `<ViewTransition>` a contributor adds.
+- It proves the gap on the release the tree will adopt. It cannot move a number
+  in the tree today, which is why no product change shipped (see the applied row).

@@ -1,57 +1,12 @@
 #!/usr/bin/env node
 /**
- * gate - runs the gate chain this repository enforces, in the order CI runs it.
- *
- * THE WORKFLOWS ARE THE ENFORCEMENT; this is the local mirror. `.github/workflows/`
- * is what decides whether a change lands, and it is the only copy of the order that
- * can fail a pull request. This script exists because the order lived in three other
- * places at once - the CONTRIBUTING table, the two workflow files, and registry.yaml's
- * `gate:` keys - and only one of them was checked by anything. Three lists that drift
- * independently is one list nobody can trust; a contributor who ran the documented row
- * still found out from a red pipeline. So the order is encoded ONCE, here, and
- * CONTRIBUTING points at it.
- *
- * That makes this a MIRROR, with the failure mode a mirror has: when a workflow gains
- * a step and this file does not, this file is wrong and green. Nothing detects that
- * automatically today (a workflow parser would be the fix, and it is not worth a YAML
- * reader in a zero-dependency toolchain yet). The mitigation is that CI still fails -
- * the local pass was optimistic, never authoritative.
- *
- * Usage:
- *   node scripts/gate.mjs --all
- *   node scripts/gate.mjs --lane knowledge|skills|usage|signals|practices|memory
- *   node scripts/gate.mjs --lane knowledge --write
- *
- * `--all` runs every gate CI can fail on, in CI order, and stops at the FIRST red,
- * printing the script name and its exit code. Stopping is deliberate: the gates are
- * ordered by what they presuppose (an index must be current before the catalog that
- * hashes it means anything), so everything after the first failure is answering a
- * question about a tree that is already known to be inconsistent.
- *
- * `--write` swaps the generators from `--check` to write mode, preserving regeneration
- * order (build-index writes a file inside a bundle; build-catalog's hash covers it, so
- * the reverse order produces a catalog that is stale the moment it is written).
- *
- * Two deliberate omissions:
- *
- *  - The REPORT-ONLY jobs (`check-currency`, `librarian-scan`, `check-citations`) are
- *    not here. They never fail a build by design - a stale document must not block an
- *    unrelated pull request - so putting them in a chain that stops at the first red
- *    would give them a power CI deliberately withholds.
- *  - `check-skills.mjs --since <ref>` is not here either. It runs on PULL REQUESTS
- *    only, against the merge base, which a local checkout does not have a canonical
- *    value for. Run it by hand: `node scripts/check-skills.mjs --since origin/main`.
- *  - `apply-skill-clauses.mjs` stays at `--check` even under `--write`. Its write mode
- *    restamps the shared clauses into every SKILL.md body, which is a content change to
- *    the whole lane and needs the `--bump` decision that comes with it. A flag whose
- *    job is "regenerate the generated views" must not quietly rewrite 25 skills.
- *
- * Exit codes are scripts/lib/exit-codes.mjs: 0 clean, 1 a gate found what it looks
- * for, 2 this script could not run (unknown lane, missing gate script, unlaunchable
- * child). A child's own code is propagated when it is one the declaration names, so
- * "could not run" never arrives as "found violations".
- *
- * Zero dependencies, like every script here.
+ * Shared validation plan for local development and .github/workflows/registry.yml.
+ * --all runs the complete deterministic chain; --lane selects a declared subset.
+ * --write validates source before regenerating derived views. Shared skill clauses
+ * remain check-only because restamping needs an explicit version-bump decision.
+ * PR history checks run separately with the PR base; external currency/liveness
+ * reports remain advisory. Legacy workflows retain their existing status names.
+ * A child execution failure is distinct from a content violation.
  */
 
 import fs from 'node:fs';
@@ -72,7 +27,10 @@ const CHECK_SKILLS = step('check-skills.mjs');
 // Stamper, not a generator: --check here even under --write. See the header.
 const CLAUSES = step('apply-skill-clauses.mjs', { check: ['--check'] });
 const MARKETPLACE = step('build-marketplace.mjs', { check: ['--check'], write: [] });
-const CHECK_RECIPES = step('check-recipes.mjs');
+// Validate content before regenerating; the default checker also checks index
+// freshness, which would prevent --write from ever repairing a stale recipe index.
+const CHECK_RECIPES = step('check-recipes.mjs', { check: ['--shape-only'] });
+const RECIPE_VIEWS = step('render-recipes.mjs', { check: ['--check'], write: [] });
 const RECIPES_INDEX = step('build-recipes-index.mjs', { check: ['--check'], write: [] });
 const CHECK_BUNDLES = step('check-bundles.mjs');
 const INDEX = step('build-index.mjs', { check: ['--check'], write: [] });
@@ -89,6 +47,10 @@ const CATALOG = step('build-catalog.mjs', { check: ['--check'], write: [] });
 // script declares against, and the standard's weight table stamped from the scan.
 const EXIT_CONTRACT = step('check-exit-contract.mjs');
 const WEIGHTS = step('librarian-scan.mjs', { check: ['--check-weights'], write: ['--stamp-weights'] });
+const TOOL_TESTS = step('run-tests.mjs');
+const SIMPLE_LANES = step('check-simple-lanes.mjs');
+const PROJECTS = step('check-projects.mjs');
+const REVIEW_COVERAGE = step('review-coverage.mjs');
 
 // The catalog job's path filter covers knowledge/, skills/, practices/, memory/ and
 // usage/ - build-catalog hashes those five lanes - so those five rows end with it.
@@ -97,20 +59,20 @@ const CATALOG_TAIL = [HASH_STABILITY, CATALOG];
 
 const LANES = {
   // knowledge.yml: bundles -> index (+ the generated rules view) -> catalog.
-  knowledge: [CHECK_BUNDLES, INDEX, KNOWLEDGE_RULES, ...CATALOG_TAIL],
+  knowledge: [CHECK_BUNDLES, INDEX, KNOWLEDGE_RULES, REVIEW_COVERAGE, ...CATALOG_TAIL],
   // skills.yml `shape` job, then the catalog job skills/** also triggers.
   skills: [CHECK_SKILLS, CLAUSES, MARKETPLACE, ...CATALOG_TAIL],
   // The gate first, then the index it presupposes - an index built over a lane that
   // failed its shape check describes a tree nobody has. recipes/ is NOT one of
   // build-catalog's five hashed lanes, so this row correctly stops before the tail.
-  recipes: [CHECK_RECIPES, RECIPES_INDEX],
+  recipes: [CHECK_RECIPES, RECIPE_VIEWS, RECIPES_INDEX],
   usage: [CHECK_USAGE, ...CATALOG_TAIL],
   signals: [CHECK_SIGNALS],
-  practices: [...CATALOG_TAIL],
-  memory: [...CATALOG_TAIL],
+  practices: [SIMPLE_LANES, ...CATALOG_TAIL],
+  memory: [SIMPLE_LANES, ...CATALOG_TAIL],
   // knowledge.yml `tooling` job: scripts/** and librarian/standard.md trigger it.
-  scripts: [EXIT_CONTRACT, WEIGHTS],
-  librarian: [WEIGHTS],
+  scripts: [PROJECTS, EXIT_CONTRACT, WEIGHTS, TOOL_TESTS],
+  librarian: [WEIGHTS, REVIEW_COVERAGE],
 };
 
 // --all is not the concatenation of the lane rows: the shared tail would run five
@@ -118,10 +80,10 @@ const LANES = {
 // first, then knowledge.yml's bundles, index, usage, signals and catalog.
 const ALL = [
   CHECK_SKILLS, CLAUSES, MARKETPLACE,
-  CHECK_BUNDLES, INDEX, KNOWLEDGE_RULES,
-  CHECK_RECIPES, RECIPES_INDEX,
+  CHECK_BUNDLES, INDEX, KNOWLEDGE_RULES, REVIEW_COVERAGE,
+  CHECK_RECIPES, RECIPE_VIEWS, RECIPES_INDEX, SIMPLE_LANES,
   CHECK_USAGE, CHECK_SIGNALS,
-  EXIT_CONTRACT, WEIGHTS,
+  PROJECTS, EXIT_CONTRACT, WEIGHTS, TOOL_TESTS,
   HASH_STABILITY, CATALOG,
 ];
 
@@ -137,7 +99,7 @@ const usage = () => {
   console.error(`       node scripts/gate.mjs --lane <${Object.keys(LANES).join('|')}> [--write]`);
   console.error('');
   console.error('Runs the gate chain CI enforces, in CI order, stopping at the first red.');
-  console.error('The workflows in .github/workflows/ remain the enforcement; this mirrors them.');
+  console.error('registry.yml executes this same plan; PR version checks run separately.');
 };
 
 if (argv.includes('--help') || argv.includes('-h')) { usage(); process.exit(EXIT.OK); }
@@ -169,7 +131,7 @@ if (missing.length) {
 // ---------------------------------------------------------------- run
 const label = all ? 'all' : `lane ${lane}`;
 console.log(`gate: ${chain.length} step(s), ${label}, ${write ? 'WRITE' : 'check'} mode`);
-console.log('The workflows in .github/workflows/ are the enforcement; this is the local mirror.\n');
+console.log('registry.yml executes this same validation plan.\n');
 
 let ranClean = 0;
 for (const s of chain) {
@@ -190,10 +152,10 @@ for (const s of chain) {
   }
   if (r.status !== EXIT.OK) {
     // Propagate a declared code so "could not run" (2) never arrives as "found
-    // violations" (1); an undeclared code from a child collapses to VIOLATIONS,
-    // because this chain's own vocabulary is the one in exit-codes.mjs.
+    // violations" (1). An undeclared or missing exit status cannot establish
+    // a content verdict, so it is an incomplete check (FATAL).
     const named = nameOf(r.status);
-    const code = named ? r.status : EXIT.VIOLATIONS;
+    const code = named ? r.status : EXIT.FATAL;
     console.error(`\ngate FAILED at scripts/${s.script} - exit ${r.status}${named ? ` (${named})` : ' (undeclared code)'}`);
     console.error(`${ranClean} step(s) passed before it; ${chain.length - ranClean - 1} not run.`);
     console.error(`Re-run just this one: node scripts/${s.script}${args.length ? ` ${args.join(' ')}` : ''}`);
@@ -205,5 +167,5 @@ for (const s of chain) {
 
 console.log(`gate OK - ${ranClean}/${chain.length} step(s) green (${label}).`);
 if (!all) console.log('This is one lane\'s row. `--all` runs the whole chain CI enforces.');
-console.log('NOT run here: check-skills.mjs --since <base> (pull requests only), and the');
+console.log('NOT run here: check-skills.mjs / check-recipes.mjs --since <base> (pull requests only), and the');
 console.log('report-only jobs check-currency / librarian-scan / check-citations.');

@@ -44,8 +44,9 @@ the address encodes the claim itself, the server can re-derive the answer
 from nothing but the address and the current store: no lookup table that can
 drift, no id that a re-import renumbers, no "citation table" that becomes a
 second source of truth. A row id names *where a claim once sat*; a
-self-describing address names *what was claimed*, and only the second survives
-a rebuild of the store.
+self-describing address names *what was claimed*, and a self-describing address survives
+a rebuild without a mapping table. A durable opaque identifier can survive
+too when its mapping is part of the preserved data.
 
 Two consequences are non-negotiable. First, **an undecodable address is a
 refusal, not a repair**: a malformed reference returns "we do not know this
@@ -67,10 +68,12 @@ registries where the reader can check the underlying entities without
 trusting the platform at all. The receipt is **derived fresh on every
 request** from the same store and the same code paths that produced the
 published figure — it is an addressed computation, not a stored document.
-A cached receipt is a claim about the past wearing the tense of the present.
+A cached receipt must identify its source snapshot and freshness policy. A
+versioned historical receipt and a current recomputation answer different
+questions; retain both when the citation promises reproducibility.
 
 The receipt discloses; it never repairs. Weights render exactly as stored —
-rounding a documented value is falsifying a document. Missing fields say they
+label any display rounding and retain the exact stored representation. Missing fields say they
 are missing. An entity that has vanished from the store renders as its literal
 identifier, never a reconstructed name. And the receipt reports the state of
 human review truthfully: a relation that passes through a review gate but has
@@ -86,8 +89,7 @@ gate's vocabulary is deliberately closed at **three verdicts**: *verified*
 (today's re-derivation yields the same content), *moved* (the address is
 valid but the value or content has changed since citation — shown with both
 sides and both dates), and *unknown* (the reference cannot be decoded, was
-never issued, or the record is gone — each with its stated reason). No fourth
-verdict, ever. Every pressure to add one — "verified but stale", "probably
+never issued, or the record is gone — each with its stated reason). This product contract keeps three top-level verdicts. Every pressure to add one — "verified but stale", "probably
 fine", "verified with caveats" — is better expressed as a *modifier* on one
 of the three, because a vocabulary that grows loses the property that makes
 it citable: a reader can hold three words in mind and know exactly what each
@@ -108,8 +110,8 @@ to prevent.
 The gate also does not adjudicate by its own lights. It translates the
 answers of the same loaders and the same shared arithmetic that publish the
 figures — one definition, imported by both the publishing surface and the
-verifying surface, so that verification failure means the world changed, not
-that two implementations disagreed about encoding.
+verifying surface, so comparison does not drift through duplicate implementations. A failure
+can still come from unavailable data, input corruption or a shared code defect.
 
 ## Provenance is compared, not just displayed
 
@@ -134,9 +136,9 @@ do not read hedges: a rating slot filled with "awaiting human review" is
 consumed as a review. So emission is gated at the emitter, not at call
 sites: markup goes out **only** for claims that passed the human gate, with a
 numeric rating on a declared scale matching what the page visibly shows, and
-the permanent claim address as the reviewed item's identity. For everything
-else — pending, rejected, ungated — the only honest machine-readable
-statement is silence. This mirrors the published norms of the fact-checking
+the permanent claim address as the reviewed item's identity. For internal pending, rejected or ungated pipeline records, omit fact-check
+markup. A completed editorial review that finds a claim false can legitimately
+carry a negative rating; approval of the claim is not the emission criterion. This mirrors the published norms of the fact-checking
 field itself: the verdict shown to humans and the rating shown to machines
 must be the same statement, sources must be citable enough to replicate the
 check, and the methodology must be public so a reader can disagree with the
@@ -177,3 +179,17 @@ method rather than the data.
 - [structured-review-emission](./techniques/structured-review-emission.md) —
   emitting standard fact-check markup only past the human gate, enforced at
   the emitter.
+
+## Review boundaries
+
+These address and verdict choices are one product contract. A durable opaque
+identifier can survive rebuilding when its mapping is preserved. A live ref
+alone does not prove prior issuance, an earlier value or source correctness.
+Keep citation snapshots, units, population scope and derivation versions when
+those are part of the claim. Shared arithmetic establishes consistency; an
+independent source check is still needed to detect a shared error.
+
+Schema.org validity, editorial eligibility and a particular consumer's support
+are separate checks; see the corrected structured-review-emission technique.
+Missing or unrecognized review state blocks approval but does not prove that
+a review is actually queued.

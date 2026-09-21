@@ -45,7 +45,9 @@ assertion gets fields, and nothing else exists.
    and the model disagree about what is legal.
 4. **Enforce twice: at the tool layer and at the gate.** Where the model
    runtime supports structured output, pass the schema verbatim so the model
-   physically cannot return a drifted shape. Then run the deterministic
+   is constrained on supported schemas and successful complete responses.
+   Refusal, truncation, unsupported keywords and runtime errors remain separate
+   outcomes, not valid verdicts. Then run the deterministic
    validator anyway, on every returned object — the plain-agent path has no
    schema parameter, extraction from a fenced block can pick up garbage, and a
    validator you always run is a validator you can also re-run later over
@@ -84,3 +86,16 @@ passing verdict: shape is the first gate only. An object can be perfectly
 formed and still cite a fabricated reference, assert beyond its evidence, or
 carry unpublishable register — which is why the other gates in this subject
 run after this one, never instead of it.
+
+## Validator equivalence and missing evidence
+
+Pin the schema dialect and test the hand validator against the schema, including
+unknown nested keys, whitespace-only strings and resource limits. minLength: 1
+does not reject a space. Shared enums alone do not establish complete validator
+equivalence. Permit explicit no-finding and insufficient-evidence outcomes
+without forcing an accusation or invented citation. Archive validity under an
+old schema does not grant publication under current policy; record both checks.
+Identical criteria alone do not calibrate scores across models or corpora.
+[JSON Schema's object reference](https://json-schema.org/understanding-json-schema/reference/object)
+also distinguishes declared properties, required fields and additional-property
+rules; composition must be tested under the chosen dialect.

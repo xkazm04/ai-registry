@@ -119,3 +119,7 @@ account of itself.
   Return: a second independent source benchmarking a database-backed queue *with*
   connection accounting - then it is a technique in `admission-queue` about
   sizing a consumer pool against a shared store rather than against a broker.
+
+### 2026-09-17 - `/harvest backlog` wave 2, one technique + spine item 7
+
+`marker-certifies-what-was-done` (shared with job-coordination), from four source notes. The golden path's at-most-once list named only the crash; this is the success path - a capped batch, a producer still appending, a torn last record, a clean exit with no effect, and a skip that reads a record's name instead of its completion value. Measured and shipped in two projects: ascent's report drain lost 13 events across the three shapes (0 after); tracklight's schedule skipped a window whose dataset was never frozen (0 after). The technique's table resolves the apparent conflict with `record-precedes-effect`: intent is written before the effect, completion after it, and every defect here is one marker doing both jobs.

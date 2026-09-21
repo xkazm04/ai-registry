@@ -111,6 +111,40 @@ into a TTL-long outage for that key. Failure leaves the entry's age
 untouched (stale data stays served, stays stale) and leaves the way open
 for the next read to try again.
 
+### What counts as a failed revalidation
+
+The rules above name the failure as a transport failure, and the case that
+actually wipes screens is the other one: **the fetch succeeds and the body is
+not what the reader expected.** An upstream that reformats its document, a
+proxy that returns an HTML error page with status 200, a schema that gained a
+field the parser keys on — each yields a response that parses to *nothing*,
+and a revalidation that writes that nothing through has converted a format
+change into data loss with a green status code
+([failure-not-empty-success](../../../_laws.md#failure-not-empty-success)).
+
+Two outcomes have to be told apart at the parse step, before the cache is
+touched, and the parser is the only component that can tell them apart:
+
+- **Explicitly empty** — the document was recognised (its headings, its table,
+  its envelope are present) and it holds no entries. This is a successful
+  revalidation and it writes through; the surface is allowed to go empty
+  because the authority said empty. Refusing to write it through is the
+  opposite lie: a deleted entry lives forever in the cache.
+- **Unrecognisable** — nothing the reader keys on is present. This is a failed
+  revalidation and follows the failure path above exactly: the entry stays,
+  its age is untouched, the outcome is reported as a failure beside the stale
+  paint. The reader must return a discriminated result, or throw, for this
+  case; a reader that returns an empty collection for both makes the
+  distinction unimplementable one layer up.
+
+The same discipline decides **where the freshness stamp comes from on a cold
+start**. A process with no last good value that falls back to a shipped
+snapshot must carry the snapshot's *own* success time as its last-successful
+stamp, and report its status as `fallback`, distinct from `stale`: the reader
+of a fallback is looking at a value that was true at build time, not one that
+was true minutes ago, and the two deserve different words. Stamping boot time
+on a snapshot is the failure-stamps-freshness bug in another coat.
+
 ## Decision rules
 
 - Name both thresholds explicitly per cache: the fresh window and the stale
@@ -126,3 +160,8 @@ for the next read to try again.
   eviction.
 - Never evict on failed revalidation; report the failure beside the stale
   paint instead.
+- A recognised empty document writes through; an unrecognisable one is a
+  failed revalidation. The reader returns a discriminated outcome, never an
+  empty collection for both.
+- A cold-start snapshot keeps its own success stamp and reports `fallback`,
+  not `stale`.

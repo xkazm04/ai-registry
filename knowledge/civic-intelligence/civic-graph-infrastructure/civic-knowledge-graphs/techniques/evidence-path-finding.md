@@ -38,6 +38,12 @@ ontology-level decision, printed as a rule:
 
 ## Hubs are priced, endpoints are exempt
 
+Before ranking, apply authorization, publication and temporal scope. A public
+query cannot reveal an unreviewed allegation merely because it lies on a
+short path. Preserve relation direction in every returned hop; walking a
+connection in reverse does not reverse ownership or money flow. An as-of
+path requires overlapping edge validity at that time.
+
 Even over documentary relations, institutional hubs — parties, large chambers,
 ministries — connect nearly everyone. The correction is a degree-based step
 cost: entering a node whose evidential degree exceeds a threshold costs two
@@ -52,7 +58,8 @@ technique:
   a node's density in relations the path may not use is irrelevant.
 
 A bounded total cost doubles as the honest horizon: beyond it, report "no
-documented connection within N steps", which is a finding, and a different one
+documented connection within cost budget N", with the cost rule printed;
+weighted cost is not raw hop count. This is a different finding
 from "no connection".
 
 ## The ranking is part of the answer
@@ -73,8 +80,12 @@ act is an unaccountable one:
 
 Determinism is a property, not a promise: the same edge multiset in any input
 order must produce the identical result, which in practice means canonical
-adjacency ordering, commutative de-duplication of parallel edges (verified
-status wins, larger weight wins), and no iteration-order dependence anywhere.
+adjacency ordering and a canonical identity for each assertion and revision.
+Deduplicate only equivalent claims. Never combine verified status from one
+source with a larger unverified amount from another: that manufactures a
+verified value no source established. Preserve conflicting claims separately
+or select an intact claim under a published rule, including deterministic
+handling of missing and zero values.
 Per
 [deterministic-code-owns-numbers](../../../_laws.md#deterministic-code-owns-numbers),
 the path, its cost and its ranking are computed by reviewable code — a language
@@ -95,12 +106,19 @@ answers, never the whole neighborhood. Two disclosures per
   count found and whether the cap was hit — "3 of at least 64" and "3 of 3"
   are different answers.
 
+If enumeration stops before all optimal paths are considered, later ranking
+selects the best of the enumerated subset, not necessarily the best under
+the full tie-break rule. Disclose that limitation, or use a search that proves
+the requested ranked top set. A stable enumeration order makes the subset
+repeatable, not globally optimal.
+
 One accounting trap worth naming because it silently corrupts results: with a
-two-sided distance sweep under non-uniform node costs, the return-side
-distance to a node already includes that node's entry cost. An enumerator that
-adds the node's step cost again double-charges exactly the penalized hubs and
-wrongly excludes legitimate paths through them. Pin the arithmetic with a
-fixture test containing a hub on the true shortest path.
+two-sided distance sweep under non-uniform node costs, define precisely what
+each distance includes. A reverse walk using destination-entry costs is not
+automatically the forward remaining cost, especially for directed relations.
+Derive the correction from the actual cost model and pin it with a fixture
+containing a hub on the true shortest path; do not transplant an unexplained
+constant adjustment from another algorithm.
 
 ## When not to use it
 

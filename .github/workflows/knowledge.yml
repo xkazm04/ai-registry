@@ -35,9 +35,9 @@ name: knowledge
 on:
   push:
     branches: [main]
-    paths: ['knowledge/**', 'skills/**', 'practices/**', 'memory/**', 'usage/**', 'signals/**', 'scripts/**', 'librarian/standard.md', 'catalog.json', '.github/workflows/knowledge.yml']
+    paths: ['knowledge/**', 'rules/**', 'skills/**', 'practices/**', 'memory/**', 'usage/**', 'signals/**', 'scripts/**', 'docs/**', 'registry.yaml', '.ascent/**', 'librarian/standard.md', 'catalog.json', '.github/workflows/knowledge.yml']
   pull_request:
-    paths: ['knowledge/**', 'skills/**', 'practices/**', 'memory/**', 'usage/**', 'signals/**', 'scripts/**', 'librarian/standard.md', 'catalog.json', '.github/workflows/knowledge.yml']
+    paths: ['knowledge/**', 'rules/**', 'skills/**', 'practices/**', 'memory/**', 'usage/**', 'signals/**', 'scripts/**', 'docs/**', 'registry.yaml', '.ascent/**', 'librarian/standard.md', 'catalog.json', '.github/workflows/knowledge.yml']
   workflow_dispatch:
   # The citation sweep below is the only check here whose subject is OUTSIDE this
   # repository, so it is the only one whose result can change with no commit. A
@@ -182,6 +182,8 @@ jobs:
         run: node scripts/check-exit-contract.mjs
       - name: Check the standard's weight table still matches the scan
         run: node scripts/librarian-scan.mjs --check-weights
+      - name: Check validator failure semantics
+        run: node scripts/tests/check-result.test.mjs
 
   catalog:
     name: catalog freshness

@@ -5,13 +5,13 @@ subject: federated-benchmark-sharing
 technique: strict-ingestion-lenient-consumption
 stack: rust
 status: forged
-verified_on: 2026-09-03
+verified_on: 2026-09-09
 verified_against: rust@1.85
 ---
 
 # `exit 1` at the gate, `cargo:warning` at the build
 
-`AlexsJones/llmfit` at `d19380bac5d82c5cd3080ff1afef6d1dc20615bf` has the
+`AlexsJones/llmfit` at `1e7bdb3ecf43071597ffd2eb2305dfac35e22a40` has the
 asymmetry the technique describes as two files with opposite failure policies
 over the same data, and the comment in the second one names the reason.
 

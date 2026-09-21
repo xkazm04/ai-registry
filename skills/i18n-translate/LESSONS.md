@@ -78,3 +78,16 @@ agent owns every string that says "intake" everywhere — with namespace passes
 only for register and length. That would make the consolidation pass largely
 unnecessary instead of bolting it on. Not attempted here because it needs a
 concept index the artifacts do not yet carry.
+
+## 1.3.1 - 2026-09-09 - ai-registry
+
+- Architecture review: the shared reflection clause assumed a writable registry link in every installation. Replaced that assumption with installation-aware scope and explicit adoption. This records an instruction audit, not a field effectiveness result.
+
+## 1.4.0 - 2026-09-14 - ai-registry (wave 3 of the localization market harvest)
+
+- **Refinements inside the three-pass loop, driven by the wave-2 localization techniques; no field run behind them yet.** 1.5.0 is a proposal-grade method change: each item cites a forged technique, and none has been measured on a catalog under this skill.
+- **What changed and why.** Pass A gains a declared request contract (`prompt-context-contract`) because delegated translation was carrying ad-hoc prose, with derivable fields left to the writer and examples inlined as instructions. Per-language rules now reach an engine through a map resolved exact, then regional, then base; without that order a regional variant silently gets no rules. Contract §6 swaps the single "do-not-translate" flag for four key classes plus a pre-prompt classifier and an identity assertion (`non-translatable-value-classification`): one flag cannot say whether a key was meant to be copied, dropped or defended.
+- **The central writer** gains identity tokens and per-item failure memory (`serialization-transport-safety`), and batching groups near-identical sources first, so the divergence the consolidation pass cleaned up afterwards is prevented upstream.
+- **The source-defect register** now has a mechanical finder (failures in two or more locales route to the source) and a relative-staleness queue order (`source-defects-from-cross-language-agreement`). Before this it filled only when someone happened to notice.
+- **New read-only `check` mode**, added rather than renamed, because the skill is linked into live fleet sessions; `review` still means "audit and write". Engine quality from reviewer corrections, register as a locale modifier and pseudo-locale readiness each landed as a pointer, not a restatement.
+- Compressed the Pass A, consolidation, coverage and guardrail prose to hold the body near its line budget; no rule was removed.

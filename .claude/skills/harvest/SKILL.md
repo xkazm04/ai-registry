@@ -1,9 +1,9 @@
 ---
 name: harvest
-description: "Drain the graded source queue in librarian/harvest/ through the /intake method, in parallel and in bulk: admit only sources that map to a measured live gap, mine a batch with scoped subagent miners, land what survives the intake discipline, then prove or refute the landing's impact with an A/B evaluation on a connected project. The loop that turns 100+ queued URLs into corpus mastery without turning the corpus into a feed. Use when the queue has rows and nobody is hand-feeding /intake links."
+description: "Drain the graded source queue in librarian/harvest/ through the /intake method, in parallel and in bulk - or, in backlog mode, drain the untriaged tail of past intake runs by measuring each candidate and landing only what comes back better: admit only sources that map to a measured live gap, mine a batch with scoped subagent miners, land what survives the intake discipline, then prove or refute the landing's impact with an A/B evaluation on a connected project. The loop that turns 100+ queued URLs into corpus mastery without turning the corpus into a feed. Use when the queue has rows and nobody is hand-feeding /intake links."
 category: ai-native
 memory: project
-version: 0.2.0
+version: 0.4.0
 tags: research, queue, batch, orchestration, evaluation, ab-test, cross-repo
 ---
 
@@ -50,6 +50,9 @@ And one law that is this skill's own:
 /harvest research            # refill: attack coverage-gaps.md with research agents, append to queue
 /harvest status              # read queue + evaluations ledger, touch nothing
 /harvest reflect             # update LESSONS.md and this method from recent passes
+/harvest backlog [--size N]  # one wave over the untriaged backlog: measure each unit, land the better ones
+/harvest backlog loop <N>    # up to N backlog waves with the stop rule
+/harvest backlog status      # read the backlog ledger, touch nothing
 ```
 
 ## Instruments - never count, never construct, never fetch by hand
@@ -200,10 +203,34 @@ and stack the expensive half, corroborated and speced, for a human hour.
 - two consecutive passes land nothing but leads and catches in a domain -> the
   queue's remaining rows for that domain are ahead of the corpus's ability to absorb
   them; move domains or stop, and say so in the report; or
+- the same failure signature survives three consecutive passes - the same admission
+  refusal, the same gate red, the same miner error class - regardless of how many
+  passes remain. Attempt count is not the signal; failure identity is. Halt with a
+  root-cause hypothesis in the report rather than spending the cap on one broken
+  approach. Keep this counter separate from the two-pass stagnation rule above: a
+  pass that landed nothing is stagnation, a pass that failed the same way is a
+  stuck loop, and one counter for both masks whichever fired first; or
 - the budget guard trips: the session has spent its fetch or token budget, or an
   evaluation debt of 3+ content landings is outstanding. **Evaluation debt stops the
   loop before volume does.** Mining faster than you can measure impact is how the
   A/B lane silently becomes decoration.
+
+## Backlog mode - `/harvest backlog`
+
+Every `/intake` run leaves an untriaged tail: candidates with anchors that nobody
+verified. By 2026-09-16 it was 1,100 rows, and no phase ever read them back. Backlog
+mode drains that tail, and it is the one place this skill lands upper-layer content
+without an operator, **because the authorization comes from a measurement, not from
+the queue.** Each unit (a convergence cluster, a contradiction group, or one item) is
+re-verified, drafted, and measured at the highest reachable mode - `code`,
+`experiment`, `blind-ab`, `simulation` - and lands only on `better`. Simulation counts
+(operator rule, 2026-09-16), and every landing records its mode in `applied:` so the
+simulation-landed set stays queryable. Fleet ships from `code` verdicts go to the
+project's active branch, uncapped.
+
+The ledger, the wave picker and its rules, the worker brief and the landing table are
+[`references/backlog.md`](references/backlog.md). Read it before the first wave of a
+session.
 
 ## Refill - `/harvest research`
 
@@ -219,7 +246,9 @@ line's `nearest stand-in` instead - that is a finding, not a failure.
 
 - Never construct a subject path; `research-map` is the only resolver.
 - Never let a miner or research agent write to the tree; single writer, always.
-- Never auto-land upper-layer content, and never auto-decline anything.
+- Never auto-land upper-layer content outside backlog mode, and never auto-decline
+  anything. In backlog mode a landing needs a returned `better` verdict with its mode
+  recorded; a ranker score, a cluster size or a past run's annotation is never enough.
 - Never count a parked row as a decline, or an untriaged candidate as either.
 - Never carry a scan number, a queue count or an evaluation verdict from a previous
   pass by memory; recompute or reread.

@@ -100,3 +100,19 @@ after the fact. Applying the same instinct to the reservation system — a headl
 asserts at most two attackers swing at once and that every slot returns to the pool when the
 defender dies — is the shortest path from this spec's structural rungs to behavioural evidence,
 and nothing in the tree currently does it.
+
+## Review boundary - 2026-09-10
+
+The cited prompts and incident were not re-opened in the consumer or executed on
+2026-09-10. A spec can establish intended lifecycle, not atomic runtime grants.
+Verify offer and confirmed-lease expiry, stale confirmations after mass cancellation,
+multi-slot atomicity, fairness and caller enforcement of attack grants. The stated
+squad manager assigning coarse roles already shows that command and local reservation
+can coexist. Physical table placement does not make retargeting or destruction correct
+by construction. A timeout can reclaim an unreachable offer; arrival confirmation
+adds evidence of use, not a substitute for expiry.
+
+Health reduction alone cannot attribute damage to the tested agent. Use controlled
+stimuli and correlated action/damage records, including misses and immunity. Historical
+claims that no runtime checks exist require a current consumer search. Witness metadata
+is unchanged.

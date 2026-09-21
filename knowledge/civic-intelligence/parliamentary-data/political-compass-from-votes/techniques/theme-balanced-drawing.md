@@ -29,8 +29,8 @@ and its rank within that theme (by divisiveness, per the selection rule).
    bucket; within a bucket, candidates are already ordered most-divided-first.
 2. **Order the themes deterministically.** By candidate count descending —
    themes the chamber actually fought over get drawn first — with a fixed
-   collation of the theme name as the tie-break. Any deterministic order
-   works; what is forbidden is an editorial one.
+   collation of the theme name and a stable theme ID as tie-breaks. The order
+   is itself an editorial policy, even when implemented deterministically.
 3. **Draw round-robin.** Every theme's first pick, then every theme's second,
    and so on: up to a per-theme cap, until the total question cap fills. A
    theme that runs out of candidates simply yields its turn.
@@ -67,8 +67,8 @@ attached documents. Three consequences:
 The round-robin deliberately does *not* draw themes proportionally to their
 candidate counts. Proportional drawing reproduces the monoculture it exists to
 prevent — the dominant conflict earns the dominant share. Equal turns per
-theme is a symmetry claim: the compass gives every contested area of the
-term's agenda an equal chance to distinguish representatives. This is the same
+theme balances completed rounds. When the cap cuts a round short, earlier
+themes receive extra slots; candidate-count ordering then favors larger buckets. This is the same
 instinct as covering all parties identically: the tool does not amplify the
 loudest fight, in either direction. The honest cost, stated rather than
 hidden: a theme the chamber divided over forty times and a theme it divided
@@ -87,3 +87,13 @@ published choice; an unpublished proportional weighting is neither.
   citizen wanting environment to matter more belongs at the scoring lens, not
   here. Re-drawing per reader destroys comparability between readers'
   results and turns a published instrument into a per-session artifact.
+
+## What theme caps do not establish
+
+Publish how multi-topic and unclassifiable votes obtain one primary bucket;
+version corrections instead of silently moving candidates. Repeated divisions
+on one bill can span themes, so theme caps do not ensure independent evidence.
+If that matters, add a disclosed bill-family cap and report its losses. Equal
+theme turns do not represent public priorities or repair gaps in the agenda.
+Set the total question cap through usability evidence for this instrument;
+question counts in other tools do not establish a universal reading budget.

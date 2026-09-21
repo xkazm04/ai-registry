@@ -18,6 +18,7 @@ techniques:
   - continuation-prompts
   - task-envelope
   - amortized-compaction-cadence
+  - compaction-horizon-breakeven
   - speculative-compaction-splice
   - deferred-interface-invalidation
   - endpoint-sealed-continuation-metadata
@@ -27,6 +28,9 @@ techniques:
   - consumer-coupled-decoration
   - context-ownership-regimes
   - live-attachment-delta-resharing
+  - foreign-harness-history-folding
+  - fold-only-acknowledged-evidence
+  - summary-evidence-gate
 ---
 
 # Prompt assembly & context budgeting
@@ -213,6 +217,12 @@ transcript, and the walk that decides per segment whether to replay verbatim
 or strip is
 [endpoint-sealed-continuation-metadata](./techniques/endpoint-sealed-continuation-metadata.md).
 It is the reason composition needs to know the model it is composing *for*.
+Where it happened also includes the harness. A history recorded by a
+different agent harness is written in that harness's tool vocabulary, which no
+provider rejects and which some models imitate on every continuation. That
+span is folded into a summary for continuation, or projected to text for
+awareness, and is never replayed as tool turns; see
+[foreign-harness-history-folding](./techniques/foreign-harness-history-folding.md).
 
 The second is that a large share of a transcript's bulk is still addressable
 at its source. A tool result can be fetched again by calling the tool; an
@@ -250,6 +260,18 @@ separates.
 owns the instrument: the family of behaviours that count as recovery (most of
 which do not look like recovery), where the measurement boundary has to be
 drawn, and what a zero reading does and does not license.
+
+Two preconditions govern when a lossy transform may run at all, as distinct
+from what it may take. A result the model has not yet read is not history,
+however much pressure the window is under: it may be folded to a pointer only
+after a model call that carried it completed successfully, and when nothing
+acknowledged is left to fold the honest outcome is a typed refusal rather than
+a cut into unread evidence
+([fold-only-acknowledged-evidence](./techniques/fold-only-acknowledged-evidence.md)).
+And a model-written summary is not admitted into the standing prefix on the
+summarizer's word: it is parsed locally, every item must point at evidence
+that still exists, and it may name no identifier its evidence does not contain
+([summary-evidence-gate](./techniques/summary-evidence-gate.md)).
 
 ## Some of the payload is markup nobody reads
 
@@ -414,6 +436,15 @@ disappearing.
   geometrically coarsening summary tiers that reach back to the start,
   identifiers as the drill-down index, sealed provenance-stamped blocks,
   and degradation that never drops coverage silently.
+- [fold-only-acknowledged-evidence](./techniques/fold-only-acknowledged-evidence.md)
+  — the read-acknowledgement precondition on any fold: capture and
+  acknowledgement as separate calls, a failed or interrupted request that
+  consumed nothing, the untouchable newest tail, and a typed refusal when only
+  unread evidence is left.
+- [summary-evidence-gate](./techniques/summary-evidence-gate.md) — a
+  model-written summary admitted only through a local gate: parse, source
+  pointers that resolve, no identifier absent from the evidence, one repair,
+  and the last valid summary kept when the summarizer fails.
 - [capability-documentation](./techniques/capability-documentation.md) — the
   ability layer derived from the live registry, doctrine↔registry sync,
   and conditional rendering of what is actually active.
@@ -432,6 +463,11 @@ disappearing.
   target endpoint, strict provider-instance plus model-id equality, demotion
   rather than deletion of reasoning parts, unrecorded provenance on the strip
   side, and the in-flight loop exempt by construction.
+- [foreign-harness-history-folding](./techniques/foreign-harness-history-folding.md)
+  — the transcript's other seal, the harness's tool vocabulary, which no
+  provider rejects and some models imitate on every call: fold for
+  continuation, project to text for awareness, never translate, record
+  producer provenance on forks, and never fall back to raw replay silently.
 - [elision-to-a-refetch-pointer](./techniques/elision-to-a-refetch-pointer.md)
   — eliding recoverable material to a pointer instead of a summary: the three
   material classes, counts by kind for dropped binary parts, the decorator
@@ -467,6 +503,13 @@ disappearing.
   folding one unit of history per turn to hold occupancy flat, the cached
   prefix that pays for it, the two dials only one of which is usually shipped,
   and the cursor rule that never absorbs what the operator wrote.
+- [compaction-horizon-breakeven](./techniques/compaction-horizon-breakeven.md)
+  — the runtime form of the cache trade the cadence leaves to the deployment:
+  a compaction is authorized when its rewrite premium repays before the run's
+  remaining requests, with the horizon estimated from the run's own completed
+  boundaries and capped by the window; why the first compaction gets a wider
+  horizon and every later one carries debt; and the replay showing the test is
+  vacuous at the wall and only governs early, boundary-triggered compaction.
 - [speculative-compaction-splice](./techniques/speculative-compaction-splice.md)
   — the third schedule, which takes the work off the turn's critical path
   entirely: fork at a derived margin below the threshold, summarize beside the

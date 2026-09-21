@@ -82,3 +82,13 @@ id — leaving no unstable remainder. Candidates are derived on read, never
 persisted (the tripwires module, `lib/analysis/tripwires.ts:6-7`, cites
 this as "precedens 4C": no table, no state, re-derived every read), so a
 rule-version bump propagates everywhere at once.
+
+## Review limits - 2026-09-09
+
+The historical source and fixtures were not rerun. The described lowest-id or
+first-ballot choices are deterministic but cannot resolve contradictory evidence.
+Reverify ambiguous duplicates, term scoping, invalid dates and the candidate's
+unit: a hash of person/company/vote omits role identity, so multiple role ties
+require explicit aggregation or separate keys. Stored date strings must be
+valid canonical civil dates before lexical comparison. No live coverage counts
+or historical witness dates are refreshed by this review.

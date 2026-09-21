@@ -36,17 +36,18 @@ records, and encode the full list in the one shared reading routine.
 
 ## Close identity on a strong key; gate the fallback
 
-Names collide. The register usually records a strong disambiguator for each
-natural person — date of birth is the common one — and identity is closed on
-exact match of that key, in the spirit the beneficial-ownership data
-standards formalize: a person claim travels with the attributes that make it
-uniquely resolvable, not with a bare name. Three rules structure the match:
+Names and birth dates can both collide; dates may also be partial or wrong.
+Prefer an official person identifier with its scheme. Otherwise use a
+documented corroboration rule over available attributes and preserve their
+precision. A data format that supports these attributes does not guarantee
+unique identity. Three rules structure the match:
 
-- **Exactly one entry matching the strong key = identity confirmed.**
-- **Multiple distinct persons sharing the key = ambiguous**, which is a
-  conflict outcome, not a confirmation — pick-the-first is fabrication.
-- **Zero entries matching, but entries present = the register does not
-  confirm this person**, however well the names align.
+- **One entry matching a birth date is a candidate, not identity proof.**
+  Confirm only when the identifier or corroboration rule resolves the person.
+- **Multiple distinct persons sharing attributes = inconclusive.** Never
+  pick the first, and never merge different people into one role history.
+- **No matching entry establishes only a scoped negative.** Check coverage,
+  missing keys, historical roles and source lag before calling it a contradiction.
 
 Old records complicate this: entries predating the register's collection of
 the strong key carry none. A name-similarity fallback is legitimate there,
@@ -55,21 +56,22 @@ conclusions labeled as the weaker evidence class they are. Ungated, the
 fallback quietly converts the whole match back into the name-only join the
 strong key exists to prevent.
 
-## The three-state outcome vocabulary
+## The outcome vocabulary
 
-Every officer-record check ends in one of three states, and the states are
+Every officer-record check ends in one of four states, and the states are
 never collapsed:
 
 - **Registry-confirmed** — the person was positively identified among the
   record's roles or stakes.
-- **Conflicting** — the record exists and was read in full, but this person
-  could not be identified in it (or the match was ambiguous). This is
-  evidence *against* the asserted tie and is surfaced as such.
-- **Unconfirmed / could-not-attempt** — the check never happened: the entity
+- **Contradicted** — a sufficiently complete, authoritative record for the
+  relevant role and period contradicts the asserted tie. State that scope.
+- **Inconclusive** — the check ran, but ambiguous identity, missing attributes,
+  incomplete history or uncertain coverage prevents a conclusion.
+- **Not attempted / unavailable** — the check never completed: the entity
   has no record in this register, the person's strong key is missing from
   your own roster, the fetch failed. This is *no evidence either way*.
 
-The third state subdivides usefully, and the subdivisions are worth carrying
+The unresolved states subdivide usefully, and the subdivisions are worth carrying
 as distinct flags: "entity structurally outside this register" (bodies
 created by special statute that the commercial register never holds) is a
 permanent limit of the source; "strong key missing on our side" is a gap in

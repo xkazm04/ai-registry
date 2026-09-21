@@ -14,8 +14,7 @@ An AI-assisted ARPG production tool (`pof`) grades every generated deliverable t
 corpus of markdown craft lenses under `src/lib/craft/lenses/` — ten of them, one per
 craft: `game-systems-code`, `narrative`, `dialogue`, `voiceover`, `audio`, `vfx`,
 `2d-art`, `3d-art`, `animation`, `production-process`. Each is a plain markdown document
-with YAML frontmatter (`lensId`, `lensVersion`, `ceiling`, `appliesTo`) and a fixed four-
-block body: benchmark anchors, criteria, scoring guidance, disqualifiers, ceiling
+with YAML frontmatter (`lensId`, `lensVersion`, `ceiling`, `appliesTo`) and a fixed body covering benchmark anchors, criteria, scoring guidance, disqualifiers, ceiling
 statement. This is the technique's entry shape realized at scale.
 
 ## The entry shape
@@ -46,15 +45,15 @@ source, what in the stored artifact answers it, and the failure form ("a monolit
 
 ## Specifications beat talks, and the corpus shows why
 
-`src/lib/craft/lenses/audio.md:36` is the strongest entry in the corpus because its
-source is a published platform loudness specification rather than a talk: the criterion
+`src/lib/craft/lenses/audio.md:36` is an entry referring to a platform loudness specification that this document
+does not identify precisely: the criterion
 carries the target figure (−24 LKFS ±2 LU), the true-peak ceiling (−1 dBTP), and the
 requirement that the stored file's metadata carry a *measured* integrated loudness plus a
 *declared* target that match within tolerance — with any deviation from the platform norm
 justified in the spec rather than silent. The neighbouring criteria in the same file are
 sourced to named GDC talks on adaptive scoring and on mixing so gameplay is legible by
-ear alone; they are good criteria, but they are arguable in a way the loudness one is
-not.
+ear alone; their applicability also needs checking. A numerical threshold remains
+conditional on the delivery medium and measurement method.
 
 `src/lib/craft/lenses/production-process.md:1` shows the fourth source class — documented
 methodology. Its nine stage-gate criteria cite a named 2002 production method (twice:
@@ -93,3 +92,14 @@ Two deviations, neither of which lowers the bar in the golden path:
   visual lenses combined with their sub-rubrics push a single medium past a dozen bars
   spread across documents, which is where examiners start averaging rather than
   answering.
+
+## Review boundary - 2026-09-09
+
+The quoted -24 LKFS target cannot be treated as universal for stored game audio;
+the specific platform specification and delivery unit must be identified. The
+[EBU R128 publication](https://tech.ebu.ch/publications/r128) describes a different
+programme-loudness target (-23 LUFS), illustrating why source applicability matters.
+No consumer loudness measurement or named-talk verification was performed.
+[Zheng et al.](https://arxiv.org/abs/2306.05685) examine judge biases on conversational
+benchmarks; those results motivate local calibration but do not validate this
+game-art rubric, criterion-count thresholds or model-family independence.

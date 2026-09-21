@@ -27,7 +27,7 @@ by things that are *not* the statute collection.
    are typed by humans and reformatted by publishing systems. Normalize the
    captured number (strip leading zeros) so "007/1995" and "7/1995" are one
    statute, and dedupe per document: a bill that cites a statute five times
-   amends it once.
+   contributes one citation target, not an established amendment.
 2. **Enumerate the near-miss collections and exclude them structurally.**
    Every jurisdiction has sibling numbering series that share the citation
    shape — a treaty series, a regulatory or municipal gazette, an
@@ -60,7 +60,8 @@ by things that are *not* the statute collection.
 - **When extraction runs over titles only, say so at the published surface.**
   Title extraction undercounts omnibus bills by construction — a title
   summarizes, and long amendment lists get abbreviated to "and other related
-  statutes". The graph is a floor, not a census; present it as one.
+  statutes". The result is an incomplete extracted graph; it is a lower bound only
+  after false positives and duplicate identities have been excluded.
 - **When a structured amendment graph exists elsewhere** (a legal-information
   system, an official consolidation database with a query endpoint), treat it
   as a second, differently-biased source to reconcile against — not as a
@@ -79,3 +80,12 @@ grammar, and skipping that step converts every cross-reference in the corpus
 into a false amendment edge. Likewise, do not run the extractor over a bill's
 explanatory memo: memos discuss the whole legal landscape, and every statute
 they mention would enter the graph as if the bill touched it.
+
+## Identity and extraction coverage
+
+Include jurisdiction and collection in statute identity; validate that the cited
+instrument exists and has the expected type before using it as a legal target.
+Titles and numbered collections can contain instruments other than statutes.
+Treat title completeness and structured-data availability as source-specific
+questions. Retain evidence spans and document versions, including failed OCR or
+ambiguous suffixes, so a successful pattern match is not mistaken for validation.

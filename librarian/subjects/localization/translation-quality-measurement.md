@@ -1,8 +1,8 @@
 ---
 subject: translation-quality-measurement
 domain: localization
-last_touched: 2026-09-04
-touched_by: intake
+last_touched: 2026-09-14
+touched_by: deepen (market harvest, wave 1)
 dry_streak: 0
 ---
 
@@ -68,3 +68,67 @@ return condition is concrete — a later pass opens one and writes the missing
 layer. A `deepen` pass should also re-check that
 `deterministic-checks-before-estimates` has not converged with the neighbour's
 `source-identical-value-audit`; the seam is drawn explicitly in both files today.
+
+### 2026-09-14 — market harvest, wave 1: two published numbers retracted
+
+Source: [[2026-09-14-l10n-market-landscape]] (five-lane sweep of the market's code,
+docs and campaign papers). Landed in `423a40d7`.
+
+**The 2026-09-04 entry above names as this subject's "load-bearing number" a claim
+this pass removed.** "Even reference-based metrics recover under sixty percent of
+pairwise human preferences at segment level" was written from a shared-task
+reading and could not be re-sourced; the 2025 campaign reports segment-level
+agreement between 0.35 and 0.57 across its metrics, which supports the same stance
+without the unfound figure. The spine — *an estimator is a queue, not a grade* —
+survives on better evidence than it was built with, which is the useful outcome of
+being wrong.
+
+The larger correction is the span-detection figure (0.3–0.6 F1 → 13.47% best
+automatic against a 47.48% second-human ceiling; English→Czech human columns
+14.40 / 24.86 / 18.24 against 10.55), and its rule: **a span score cannot be read
+without the human-versus-human number from the same data, quoted as the range it
+is.** The severity weighting was also wrong here and in the golden path ("1, 5 and
+25" → major 5 / minor 1 / neutral 0, with non-translation 25 and minor
+punctuation-fluency 0.1 as *categories*).
+
+Added: segment-vs-system inversion; the no-metric-that-selected-it rule; per-pair
+catastrophic recall; the blind-sentinel and corner-case controls; metric-delta
+significance floors; the category-free review protocol as a costed tier (34s vs
+49s, non-experts, 94.9% ranking agreement, τc 0.254 vs 0.116) with the loss of
+category routing stated; and the cost-and-licence layer (3-bit quantization 22GB →
+8GB at no quality cost; the dominant open family's reference-free and span-level
+checkpoints are non-commercial).
+
+**Still owed, unchanged and now sharper:** no application layer. Every number in
+this subject is now literature, and the fleet has two projects that could ground
+it. **New owed:** `reference-free-quality-estimation` reached 197 lines against a
+60–150 guideline — split the cost-and-licence section into its own technique in
+wave 2. The M3 cutoffs are pooled across pairs and marked borrowed; a per-pair
+measurement replaces them when one exists. Nothing in this pass was verified
+against a primary document by its worker (the session's search budget was spent);
+the Director re-checked 13.47, 47.48, 18.24/10.55 and the sentinel pair against
+the campaign's extracted tables, and those four hold.
+
+### 2026-09-14 — wave 2: four techniques, and a wave-1 number that was wrong
+
+Landed in `900dad91`. `cost-and-licence-of-measurement` is split out of
+`reference-free-quality-estimation` (203 → 148 lines), and three are new:
+`language-scoped-check-exemptions`, `engine-quality-from-reviewer-corrections`,
+`context-sufficiency-signals`.
+
+**The split caught an error wave 1 had published:** the distilled estimator was
+called "two orders of magnitude" faster than its teacher; 146 against 8–10
+segments per second is about fifteen times. Corrected at the move. The worker also
+refused two brief items rather than guessing: "Arabic must not be checked for
+kashida" reads, in the source, as an Arabic-only check (the opposite of an
+exemption), so it was left out; and Basque *may* open with an inverted mark rather
+than *must*. Every figure in `engine-quality-from-reviewer-corrections` is marked
+vendor-stated from one system with a tuned per-locale engine, and the
+disagreement signal is marked a triage signal with no published precision.
+
+**Owed:** the golden path is now 294 lines against a 120–220 guideline — a trim is
+the next pass on this subject; the per-language exemption blocks belong in the
+language subjects, including a settled answer on kashida; a worked break-even for a
+local estimator against a hosted judge; and still no application layer — personas-web
+has no reviewer-correction loop and no quality estimation, so this subject is the one
+the grounding tree could not reach.

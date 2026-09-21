@@ -30,8 +30,8 @@ the row is.
    identity. All money figures (contract totals, subsidy totals, donation
    totals, contract counts) are per-entity facts and are taken once.
 2. **Decide the entity's class from ALL of its ties, by stated precedence.**
-   When ties disagree — one says steward, another says owner — the entity
-   counts as attributable if *any* tie is an ownership or management tie. The
+   Within the claim's person and time scope, only eligible verified ties may
+   establish ownership or management; unresolved conflicts go to review. The
    rationale: an official who both owns a stake and sits on the board is an
    owner; the supervisory seat does not launder the ownership. The
    anti-pattern this replaces is "whichever tie the scan returned first
@@ -76,3 +76,17 @@ ended a decade ago and a current one at the same entity are both "the same
 entity", but whether historical ties belong in the figure at all is a
 disclosure decision made upstream, not something the fold should silently
 decide by merging them.
+
+## Preconditions below the entity fold
+
+An entity key needs a registry namespace as well as the identifier. Resolve
+duplicate contracts, amended releases and payment records before computing its
+money facts. If repeated entity rows disagree on amount or coverage, reconcile
+their source snapshots or reject the aggregate; first-row-wins is not deduplication.
+
+An award naming several suppliers cannot be allocated in full to each and then
+summed as unique public spending. Keep award/payment identity and allocation
+evidence. Keep contract values, subsidy commitments, payments and donations in
+their own accounting categories; do not combine them without an explicit metric
+and overlap check. Global totals deduplicate entities/transactions, while each
+person's eligibility remains based on that person's own dated relationship.

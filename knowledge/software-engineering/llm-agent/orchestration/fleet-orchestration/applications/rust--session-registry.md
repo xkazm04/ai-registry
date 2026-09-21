@@ -27,8 +27,9 @@ spine) is the Fleet plugin's backend: `src-tauri/src/commands/fleet/`.
   via ts-rs so both sides derive from a single definition. `state_to_token` /
   `token_to_state` (`types.rs:65-97`) are the wire/persistence round-trip; an
   unknown persisted token yields `None` so a row written by a newer build is
-  *skipped rather than silently mislabelled* — the vocabulary law applied to
-  forward compatibility. The doc comment on `state_to_token` names the reason:
+  skipped rather than mislabelled. Skipping can still hide a live session and
+  its resource claims; recovery needs visible quarantine or an unsupported-row
+  record before it can safely admit overlapping work. The doc comment on `state_to_token` names the reason:
   four independent emitters (hooks, staleness ticker, transcript watcher,
   headless reader) all need the token, and a token that drifts between lanes
   "would silently split the frontend's state machine."
@@ -67,7 +68,7 @@ demands.
   growth by size polling, "not hook timing or mtime touches") — and derives
   different verdicts from each: flat-logs ⇒ `Stale` at 6 min; *total* PTY silence
   ⇒ frozen-process verdict at 2 min (claude redraws continuously, so silence is
-  conclusive); transcript growth past a baseline snapshotted on the first
+  treated as a heuristic, not proof of death); transcript growth past a baseline snapshotted on the first
   AwaitingInput tick ⇒ the await was spurious, revive to `Running`. Dev-runner
   sessions get an 8× stall multiplier (`DEV_SESSION_STALL_MULTIPLIER`) because
   their healthy state is a silent multi-minute compile — the workload-calibrated

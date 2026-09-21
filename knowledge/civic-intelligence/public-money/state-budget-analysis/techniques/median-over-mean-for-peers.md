@@ -20,9 +20,10 @@ financed a stadium, absorbed a flood, or sold a utility carries a per-capita
 figure an order of magnitude off its neighbors, and a mean hands that one town
 the whole benchmark. The median does not care how extreme the extremes are —
 only that they are few — which is exactly the robustness a benchmark needs when
-the peer group is a dozen towns, not a thousand. Use the median. Reserve the
-mean for the rare metric that is genuinely additive across the group (a group
-total divided among the group), and say so when you do.
+the peer group is a dozen towns, not a thousand. Use the median when the question is the typical reporting municipality. An
+unweighted mean answers average municipal value; a population-weighted rate
+answers a resident-weighted question. Choose the estimand explicitly; a mean
+is not invalid simply because observations are skewed.
 
 ## The three null rules
 
@@ -53,10 +54,11 @@ govern that:
 
 ## Decision rules
 
-- When the effective sample falls below the group-size minimum (see the
-  widening technique), the median still computes — but the surface must
-  demote it typographically and state the count, because a "median" of two is
-  a coin flip between two anecdotes.
+- Apply the published minimum to each metric's valid reporting peers after
+  permissible widening. Below it, suppress ranking and normative benchmark
+  language. A descriptive median may be shown for a verified complete small
+  population with its roster/count and narrow scope; otherwise show insufficient
+  coverage. This is the same policy as the widening technique.
 - When comparing a town against the median, never rank it *within* the peer
   list on the same surface without the same null discipline: a rank of "3rd of
   12" where 5 peers were silently dropped is "3rd of 7" wearing a bigger
@@ -73,9 +75,9 @@ govern that:
 The median answers "what is typical?"; it is the wrong tool for "what is the
 group's total?" (that is a sum over reporters, with the reporter count
 disclosed) and for "how spread out is the group?" (show the distribution, or
-quartiles — never a standard deviation over a dozen skewed values). Do not use
+quartiles, with any other dispersion measure justified and labeled). Do not use
 peer medians to detect anomalies automatically and publish the detections; a
 town far from its median is a lead for human examination, and the distance is
-a fact, but "anomalous" is a verdict. And when the peer group was constructed
-degenerately (sample of one or two even after widening), suppress the
-benchmark entirely rather than render a statistic that cannot bear the name.
+a fact, but "anomalous" is a verdict. A small sample can have an exact descriptive median without supporting a
+benchmark for a larger population. Do not confuse those claims; the complete
+small-population exception above does not establish representativeness.

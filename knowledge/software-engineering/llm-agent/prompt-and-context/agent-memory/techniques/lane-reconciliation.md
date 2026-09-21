@@ -206,7 +206,9 @@ The rule generalises: name the half-state each operation may leave behind,
 choose the order that makes the survivable one the only one reachable, and
 say so in the same place the invariant is written. A store whose write order
 is the same for every operation has not chosen an invariant; it has inherited
-whichever order the first writer typed.
+whichever order the first writer typed. The same rule stated for any two stores with no shared
+transaction, with the test for which one is the authority, lives in
+[existence-authority-written-last](../../../../backend-platform/data-layer/data-access/techniques/existence-authority-written-last.md).
 
 This has a scope condition, and it is the one that decides whether the rule
 costs anything. Where the consumer reaches the record *through* the lane and

@@ -1,7 +1,7 @@
 ---
 subject: client-fetch-cache
 domain: software-engineering
-last_touched: 2026-09-06
+last_touched: 2026-09-08
 touched_by: intake
 dry_streak: 0
 ---
@@ -94,3 +94,17 @@ still does the work, not a cache serving a stored answer in its place. No
 false-hit rate is being purchased there, so there is no residual to price.
 Return when a fleet project builds a cache that serves a stored answer on a
 resemblance match.
+
+Touched by [[2026-09-08-awesome-gpt-6-astra-games]], a repository run over a showcase site
+that serves a parsed upstream document with stale-while-revalidate on the server. `swr-design`
+gained a boundary subsection, **what counts as a failed revalidation**: a 200 whose body the
+reader cannot recognise is a failed refresh (entry stays, age untouched, failure reported),
+an explicitly empty recognised document is a success that writes through, and a cold-start
+snapshot keeps its own success stamp under a third status word, `fallback`. Convergence was
+corpus-internal (`public-verdict-badge/outcome-branched-cache` already types the
+`found/absent/error` outcome for its surface) plus a fleet project's lint rule against
+silent-null catches. New source-tree application `node--swr-design` with an `ab-paired` proof
+run in the source's own harness. **Applied in code and shipped**: tracklight's span-journal
+recovery returned an empty list for an unlistable directory, indistinguishable from a clean
+start; the seam was chosen because it documented that choice as deliberate, and the boundary
+that survived is ENOENT, which stays a genuine empty.

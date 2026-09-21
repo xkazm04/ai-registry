@@ -104,11 +104,23 @@ text at all.
   identical at those keys. How many depends on the language pair, not on the
   translator.
 
-Measured on one thirteen-locale catalog whose locales were all fully translated:
-identity ran **27–29 of 1,506 leaves for the seven non-Latin-script targets and
-43–116 for the six Latin-script ones**, the two groups separating perfectly. A
-single threshold applied to that catalog reports the spread backwards, ranking
-the best-covered locales as the worst.
+Measured on one thirteen-locale catalog believed fully translated: identity ran
+**27–29 of 1,506 leaves for the seven non-Latin-script targets and 43–116 for the
+six Latin-script ones**, the two groups separating perfectly. A single threshold
+applied to that catalog reports the spread backwards, ranking the best-covered
+locales as the worst.
+
+**That measurement did not look inside arrays, and the omission changed the
+answer.** Re-walked in full on 2026-09-14 — every string, including the
+string-valued items of lists — the same catalog's non-Latin identity is
+**101–107**, not 27–29, and the extra identity is almost entirely untranslated
+copy stored in arrays (list-shaped FAQ and use-case content), not class 1–3
+values. The separation between script groups survives; the claim that the locales
+were fully translated does not. An identity count is only as complete as the walk
+under it, which is
+[coverage is counted, not claimed](../../../_laws.md#coverage-is-counted-not-claimed)
+applied to this audit's own instrument: state the container shapes the walk
+entered, and treat a walk that skips arrays as a sample, not a census.
 
 The spread *within* Latin script is the more instructive half, because it is
 almost entirely class 4. The highest-scoring locale ran nearly three times the
@@ -160,6 +172,24 @@ against that catalog before it is enforced against it.
    was legitimate**: product and platform names, integration names, initialisms,
    and pure-skeleton values. Seed the allowlist from it and review it once,
    cheaply.
+
+   **The construction has one precondition: every locale was actually sent the
+   keys.** A whole section that was added to the source and never dispatched to
+   any locale is identical in every locale for the dullest possible reason, and
+   it lands in the intersection looking exactly like brand names. The
+   25-key intersection above is itself the example: it came from the walk that
+   skipped arrays. Re-walked in full, **the same catalog's intersection is 95 keys
+   (81 once accepted brand terms and numbers are set aside), and 66 of them are
+   untranslated copy** — every question and answer of a FAQ section and two fields
+   of every entry in a use-case list, all stored as arrays — beside 15 legitimate
+   ones (operating-system names, units, percentile labels, a time-zone string).
+   Seeding the allowlist from the full intersection would have blessed 66
+   untranslated strings in every locale at once; seeding it from the partial walk
+   hid them instead. Both failures come from one cause, an unstated container
+   walk. So before seeding, **group the intersection by
+   section**: a section whose keys are *all* in the intersection is a dispatch
+   gap until proven otherwise, and only what survives that grouping is a
+   candidate for the allowlist.
 3. **Sort the per-locale residue before ruling any of it.** What sits above the
    intersection for a given locale is classes 4 and 5 plus real untranslated
    values. Separate cognate from borrowing *first* — a native speaker does this

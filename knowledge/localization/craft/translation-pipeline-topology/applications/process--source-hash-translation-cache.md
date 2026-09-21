@@ -129,3 +129,81 @@ says nothing about the 15,849 that did not. Whether MDN would act on a staleness
 report is also unknown — the check is two API calls per document and nobody has
 built it, which is itself the finding: at this scale the missing piece is never
 the key, it is the one job that reads it.
+
+## Second tree: personas-web
+
+`personas-web` on `chore/remove-react-virtuoso` at `35d557b` (2026-09-14), read that
+day. Its model-translated user guide has 116 topics in 13 locales, and it pins each
+translation with this technique's key. It gets the scope right where MDN's key was
+coarse, and pays for the bytes instead.
+
+**The key.** `hashContent` is sha1 cut to 12 hex characters
+(`scripts/i18n/guide-source.mjs:67-70`). Its input is
+`JSON.stringify({ title, description, body })` (`:145-147`): exactly the translated
+unit, and nothing else in the file. Bodies are hashed as raw source text, with escapes
+still escaped and line endings as they are on disk (`:44-48`). The digest is stored
+beside each translation in `src/data/guide/locales/<lang>/_meta.json` as
+`topics.<id>.translatedFromHash`, next to `translatedAt`. The engine is recorded once
+per file as `translator`.
+
+**A shared extraction, learned the hard way.** The pin emitter and the drift detector
+each once held a hand-copied extractor. Their digests agreed while "a shared
+truncation bug silently shortened 11 of 116 bodies" (`:9-12`): a non-greedy regex
+stopped at the first escaped code span followed by a comma (`:28-38`). A key is only
+as exact as the extraction that feeds it. The fix is one module that both scripts
+import (`check-guide-translations.mjs:21-24`, `emit-source-hashes.mjs:8-13`).
+
+**Line endings are part of the identity, by decision.** There is no `.gitattributes`,
+so a Linux checkout hashes 98 of 116 topics differently. The 1,261 stored pins (97
+topics × 13 locales) were computed on Windows, so CRLF is declared canonical and "we
+are not normalising" (`guide-source.mjs:50-53`). The consequence is recorded where a
+gate would otherwise be:
+- `.github/workflows/ci.yml:58-74` keeps the detector out of CI "PERMANENTLY".
+- It rejects a Windows-only guard as "config that looks like a gate and is not".
+- It names the cheap route: force `eol=crlf`, because "normalising to LF instead
+  invalidates all 1,261 pins at once".
+
+**Measured on 2026-09-14** (Windows checkout, `core.autocrlf=true`):
+
+| | per locale | 13 locales |
+| --- | --- | --- |
+| missing | 19 | 247 |
+| stale | 48 | 624 |
+| drift total | 67 | **871** |
+| fresh | 49 | 637 |
+| orphaned | 0 | 0 |
+
+The split is identical in every locale: one bootstrap run (`cs/_meta.json`,
+2026-05-16), then a corpus that moved under all 13 at once. The command exits 0
+(`check-guide-translations.mjs:143-144`). `--strict` exists (`:13`), and nothing runs
+it.
+
+### What this technique's rules say about the tree
+
+- **Canonical form is a key field that arrived late.** Refusing to normalize is the
+  absence-compatibility rule applied without its name. A change to how bytes are read,
+  made after pins exist, is a whole-corpus miss that no string caused. Making every
+  checkout produce the bytes the pins already hold has a blast radius of zero. What
+  the rule adds is where that decision belongs: in the key function, not in two
+  comments. As written, the key means "this source as checked out on Windows", and a
+  wrong checkout shows up as nearly every topic reported stale, not as an error.
+- **The hash input is absence-compatible by accident.** `JSON.stringify` drops a
+  property whose value is `undefined`. Adding `context: note`, with `note` undefined
+  for most topics, would leave their digests unchanged. Adding the same field as `""`
+  or `null` would re-pin all 1,261 at once. The bill turns on a detail nobody wrote
+  down, so state it in the function.
+- **Configuration is outside the key.** The template, the glossary and the engine are
+  not hashed. The template was amended on 2026-09-14 (`b3fe23f`), and the detector
+  still reports 871. Every pin produced under the old template stays fresh
+  ([the context side of the same fact](./process--prompt-context-contract.md)).
+- **The fourth class is detectable and not detected.** The digest sits beside each
+  translation. A renamed topic id would therefore show up as one `missing` entry
+  (`:93-95`) and one `orphaned` entry (`:110-114`) whose stored hash equals the new
+  id's current hash. The detector lists both and never compares them. There are no
+  orphans today, so the class has cost nothing yet. The first slug refactor will
+  re-translate everything it touches.
+- **Publication is safe by order, not by atomicity.** The template writes the content
+  files first and `_meta.json` last (`translate-guide-subagent-prompt.md:188-193` at
+  `35d557b`). A crash between the two leaves translations without pins, which are
+  reported missing and translated again. It never leaves pins without translations,
+  the direction that would skip a unit forever.

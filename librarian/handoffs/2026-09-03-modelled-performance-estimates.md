@@ -1,7 +1,15 @@
+---
+handoff: 2026-09-03-modelled-performance-estimates
+source: github:AlexsJones/llmfit
+commit: d19380bac5d82c5cd3080ff1afef6d1dc20615bf
+from: intake 2.3, run llmfit-0903
+status: EXECUTED 2026-09-03 - forged in-session; subject landed with 4 techniques (provenance-travels-with-the-value, one-ratio-then-a-capability-cap, scoped-calibration-fallback, refuse-rather-than-emit-a-sentinel). Marked 2026-09-09 by the llmfit-0909 delta re-scan: the status was written as a "- **Status:**" bullet, which upstream-check.mjs (/^status:/im) cannot match, so this handoff was reported as owed work for six days.
+---
+
 # XL spec — `modelled-performance-estimates`
 
 - **Run:** `llmfit-0903` (`/intake` v2.3 over `github.com/AlexsJones/llmfit` @ `d19380ba`)
-- **Status:** DISPATCHED
+- **Status:** EXECUTED (forged in-session on 2026-09-03; subject landed with 4 techniques — `provenance-travels-with-the-value`, `one-ratio-then-a-capability-cap`, `scoped-calibration-fallback`, `refuse-rather-than-emit-a-sentinel`. Marked on 2026-09-09 by the `llmfit-0909` delta re-scan: `upstream-check.mjs` was reporting this handoff as owed work indefinitely because the line was never moved.)
 - **Bundle:** `software-engineering`
 - **Category:** `engineering-assessment/measurement-method` (flat subcategory holding
   subjects only — verified against `knowledge/software-engineering/taxonomy.json`,

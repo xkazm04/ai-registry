@@ -5,7 +5,7 @@ argument-hint: "[area]"
 category: workflow
 memory: vault
 contexts: tracked
-version: 1.6.2
+version: 1.8.1
 model: opus
 ---
 # Architect
@@ -674,126 +674,7 @@ For UI-affecting decisions: follow the overlay's `## Smoke` to run the app, exer
 
 ## Phase 7B: Codify strong patterns
 
-Triggered for every strong pattern (new or aging) marked `codify` in Phase 6. Multiple codifications can run in the same session — they're independent and lower-risk than a Phase 7 weak-pattern execution.
-
-### 7B.a. Pick the vehicle
-
-For each pattern marked `codify`, ask:
-
-```
-How should "{pattern title}" be codified? Pick one or more:
-
-  1. lint-rule    - write a custom lint rule that flags non-conforming code
-  2. docs-arch    - append a section to the architecture digest (loaded by all skills)
-  3. docs-rules   - append a convention to the repo's rules file (surfaces in every session)
-  4. test-guard   - add a structural test that asserts the pattern (fails if drift introduced)
-  5. registry     - contribute it UP to the knowledge registry, so every project inherits it
-  6. multiple     - pick a combination (e.g. "1+2" = lint rule + architecture docs)
-```
-
-Options 2 and 3 name the files the overlay's `## Docs vehicles` maps; with no overlay, 3 is the repo's rules file and 2 is offered only if a second architecture digest exists.
-
-**Rule of thumb for which vehicle fits:**
-- Pattern is a code shape (call site discipline, hook usage, type contract) → `lint-rule` is strongest. Falls back to `docs-arch` if the pattern is too contextual to lint mechanically.
-- Pattern is an architectural boundary (module vs plugin, IPC contract, where things live) → `docs-arch` so future skills load it.
-- Pattern is a project-wide convention humans need to know (i18n, design tokens, error handling) → `docs-rules` so it is loaded into every session.
-- Pattern can be detected by file scan but not in a single file's AST (cross-file invariant, count threshold) → `test-guard` (a vitest test that walks the tree).
-- Pattern is **true beyond this repo** — a property of the framework, the platform, or the shape of the problem rather than of this codebase → `registry`. Docs vehicles teach one repo; this one teaches all of them.
-
-If the user picks `multiple`, codify each vehicle in a separate atomic commit.
-
-### 7B.b. Lint rule vehicle
-
-1. Read the linter config and any existing custom-rule directory (the overlay's `## Lint vehicle` names both) to learn the project's custom-rule conventions — rule file shape, naming, registration. If the repo has no custom-rule mechanism at all, say so and fall back to a docs vehicle.
-2. Write the new rule where the existing ones live, following their shape — name format, severity, message, fix function if mechanically auto-fixable.
-3. Register it in the linter config. Default severity: `warn` (a new rule over existing code is a migration, not a wall). Only use `error` if the user explicitly says "ship blocker."
-4. Run the lint gate and capture the new warning count. Compare to baseline. If the new count is enormous (>500 warnings), warn the user — the rule is too noisy and either the pattern isn't actually as load-bearing as thought, or the rule needs scope narrowing. Pause for guidance.
-5. Commit: `architect: codify <pattern> as lint rule` — body explains the rule, threshold, and current warning count.
-
-### 7B.c. Docs vehicle (architecture digest or rules file)
-
-1. Read the target file the overlay's `## Docs vehicles` names.
-2. Find the right insertion point — for the digest: a "Strong patterns" section or the architecture section it relates to; for the rules file: under its conventions heading, with a subsection.
-3. Write the section: name, why it works (the "load-bearing" reasoning from the strong-pattern entry), canonical example with `file:line` reference, anti-shape to avoid, optional pointer to the lint rule if `multiple` was picked.
-4. Keep it concise — 10-25 lines. Long convention docs go unread.
-5. Commit: `architect: codify <pattern> in <file>` — body quotes the appended section.
-
-### 7B.d. Test guard vehicle
-
-1. Read existing structural tests if any (grep the test tree for `structural` / `invariant` describes).
-2. Write the test with the repo's own runner (the overlay's `## Test guard vehicle`, else the runner in `package.json` scripts or the toolchain default), in the location the repo already puts such tests.
-3. The test should walk the file tree, grep for the anti-shape, and assert zero violations. Provide a clear failure message that points the offender to the strong-patterns entry and the rule.
-4. Run the test gate and confirm the new test passes against current code.
-5. Commit: `architect: codify <pattern> as structural test guard`.
-
-### 7B.d2. Registry vehicle
-
-Use when the insight is a property of the framework, platform, or problem shape rather than of this codebase — the test is whether a sibling project on the same stack would hit it.
-
-1. **Find the home.** Resolve the governing subject (Phase 1b step 0). A finding almost always belongs to an existing subject: add a **technique** if it is a new mechanic the subject lacks, or an **application** (`applications/<stack>--<technique>.md`) if it is how one stack realizes an existing technique. Inventing a new subject is rare and needs the registry's own contribution rules — read `CONTRIBUTING.md` before doing it.
-2. **Match the shape of its neighbours** — read a sibling file in the same directory for frontmatter keys (`layer`, `type`, `subject`, `technique`, `stack`, `verified_on`), heading rhythm, and how evidence is cited.
-3. **Write from evidence, not from theory.** Quote the real source, name the version, and date the observation with `verified_on`. An application note whose claims cannot be traced to a file is worth less than no note.
-4. **Say what the standard did not.** State plainly which existing technique this extends and what it adds — that framing is what makes it reviewable rather than duplicative.
-5. **The registry is a different repository.** It may hold other people's uncommitted work: stage only your file, never `git add -A`, and commit there separately from the consuming repo's commits.
-
-Two things this vehicle changes about the run, both worth stating in the scan note:
-
-- A finding measured against a registry standard is a **deviation**, and deviations are cheaper to defend at triage than opinions.
-- If the registry contradicts a strong-pattern candidate, the registry wins by default and the candidate is dropped, not noted — codifying a documented anti-pattern is the most expensive possible outcome of a scan.
-
-### 7B.e. Update the strong-patterns entry
-
-In `$VAULT/Architect/strong-patterns.md`, update the entry:
-- `Codification status: lint-rule-added | docs-written | test-guard-added` (or combination — list all that were added)
-- Add `Codified: {date}` line.
-- Add `Codification ADR: [[Architect/decisions/{date}-codify-{slug}]]` (see 7B.f).
-- If a docs vehicle was used, link to the file: `Docs at: <file>#<anchor>`.
-- If a lint vehicle was used: `Lint rule: <rule file path>`.
-
-### 7B.f. Mini-ADR
-
-Codification is a real decision with rollback considerations. Write a small ADR at `$VAULT/Architect/decisions/{YYYY-MM-DD}-codify-{slug}.md`:
-
-```markdown
----
-date: 2026-05-01
-slug: codify-{slug}
-status: shipped
-type: codification
-vehicle: lint-rule | docs-stack | docs-claude | test-guard | combination
-parent_strong_pattern: [[Architect/strong-patterns#{title}]]
-related_scan: [[Architect/scans/{date}-{theme}]]
-commits: [<sha>]
----
-
-# Codify: {pattern title}
-
-## Why now
-{reason - typically "noted N days ago, surfaced as aging" or "identified this run, smell-strength enough to enforce"}
-
-## Vehicle and rationale
-{which vehicle picked, why this one fits}
-
-## Rollback
-{how to undo if the codification turns out wrong - e.g. "drop the lint rule, the underlying pattern remains noted in strong-patterns.md"}
-```
-
-### 7B.g. For aging patterns marked `snooze`
-
-No codification work — just update the entry in `strong-patterns.md`:
-- Add or update `Last reviewed: {today}`.
-- Bump the `Snoozed until: {today + 30 days}` field (create if missing).
-
-This commit is optional — if it's the only change of the run, commit `architect: snooze {pattern} for 30d`. Otherwise bundle into the run's regular activity.
-
-### 7B.h. For aging patterns marked `drop`
-
-Remove the entry from `strong-patterns.md` entirely. Add a one-line entry to `Lessons/{date}-architect.md`:
-```
-- Dropped strong pattern "{title}" - original date {date}, reason: {user reason}.
-```
-
-This is the cleanup path. Don't keep zombie entries.
+Load [the strong-pattern procedure](references/codify-patterns.md) when triage selected `codify`, `snooze`, or `drop` for a strong pattern. Read the complete reference before handling that branch. With no such decision, continue to Phase 8.
 
 ---
 
@@ -1131,19 +1012,46 @@ This skill proposes and executes backlog items. Every item it proposes is judged
 **Send back what a LANDED fix taught.** When a change you made and verified generalizes past this repo - a rule that would transplant to an unrelated team, a case where a technique's rule broke against real code, or a place this repo does it BETTER than the golden path - append one line to `.ai/registry-leads.jsonl`: `{"ts":"<ISO>","bundle":"<domain>","nearest":"<subject-slug or null>","kind":"technique|application|subject","claim":"<when X, do Y, because Z - one sentence>","because":"<what this run measured or broke and fixed>","confidence":"low|medium|high","from":"architect@<version>"}`. Earned only: it came from code you changed, not from a fix you proposed. A lead ORIGINATES a finding and never authorizes one - nothing here edits a bundle; the registry's `leads-collect.mjs` -> `librarian/inbox.md` -> `/intake` decides what survives. Say in the report that you filed one, and say plainly when you filed none. Verdicts on a pair's state belong to `/conform`: close by naming the contexts you touched so it can re-judge them.
 <!-- /clause: knowledge-sync -->
 
-<!-- clause: skill-reflection v3 - stamped by scripts/apply-skill-clauses.mjs from docs/skill-clauses/skill-reflection.md; edit the template, then re-stamp -->
+<!-- clause: skill-reflection v4 - stamped by scripts/apply-skill-clauses.mjs from docs/skill-clauses/skill-reflection.md; edit the template, then re-stamp -->
 ## Skill Reflection
 
-After the run's real work is done, reflect - autonomously, without asking the user. Be honest about volume: most runs produce NOTHING beyond lane 1. An empty reflection is a valid result; a forced lesson is pollution. Calibration: nothing (common) / one line (sometimes) / a lesson entry (occasionally) / a redesign proposal (rare).
+After the work, record only useful observations supported by this run. No lesson is
+a valid result. Reflection inherits the task's authorization; it grants no additional
+permission to edit another repository, send data, commit, or publish.
 
-**Lane 1 - PROJECT learnings** (what the next session in THIS repo needs). Repo-specific rules go to this skill's overlay in the consuming repo - a dated one-liner under `## Skill improvement log` in the overlay/vault location this skill's `## Project overlay` section names (create the heading on first use). If this skill carries no `## Project overlay` section, or its overlay section names no location, write that dated one-liner to `.claude/architect/config.md` in the consuming repo under `## Skill improvement log`, creating the file and the heading if they are absent - so the instruction is executable in every skill. When the repo carries a `.personas/` directory, also write via the MEMORY BLOCK contract if this prompt carries one, else append node lines to `.personas/memory-outbox.jsonl` per that contract. Never into this file: a project's bytes in a shared method are exactly what made the fleet's copies diverge.
+**Project learning.** Only when this run produced an observation that would change how a
+future run behaves. A run that went as the method describes writes nothing: an entry that
+restates the procedure, records "no issues", or repeats the task is a defect, not a
+deliverable. When there is such an observation and local edits are within scope, put one
+dated line in the overlay this skill's `## Project overlay` section names, under
+`## Skill improvement log`. **Write only into an overlay that already exists.** If the
+project has none, put the observation in the response instead - creating a new tracked
+file for a reflection is scope the task did not ask for, and a reader who never asked for
+the skill has to review it. If the overlay is a structured config (YAML, TOML, JSON),
+record the note as comments so the file keeps parsing, or use the response.
+Use a supplied memory contract only when its destination and writes are authorized.
+Keep project details out of the shared method.
 
-**Lane 2 - METHOD learnings** (what would improve THIS SKILL for every project):
-1. If nothing generalizes beyond this repo, stop here.
-2. Append to `LESSONS.md` in this skill's directory: `## <version-used> - <YYYY-MM-DD> - <project-name>` followed by `- ` bullets (create the file with a `# Lessons - architect` heading if absent). Record the version the run USED, not a bump target. Wrap a bullet in a `### Redesign proposal` sub-block when it argues for a redesign you are NOT applying now. A lesson alone needs no version bump.
-3. Edit `SKILL.md` only together with a version bump, and bump only with an applied edit: patch for wording, minor for a step/prompt refinement, major for a methodic redesign. Update the `version:` frontmatter. Never edit inside a stamped `<!-- clause: ... -->` block: that text is shared by every skill in the lane and is changed in the registry's `docs/skill-clauses/` and re-stamped with `node <registry>/scripts/apply-skill-clauses.mjs`.
-4. Where the edit lands: THE SKILL DIRECTORY IS A LINK INTO THE REGISTRY. `.claude/skills/architect` in a consuming repo is a symlink to `<registry>/skills/architect` (registry root = `registry.local` in `.ai/manifest.yaml`, default `../ai-registry`; `$AI_REGISTRY_DIR` wins). Editing it edits the one file every project runs, so there is nothing to propagate. Commit it IN THE REGISTRY checkout as a standalone commit containing only this skill's files: run `node <registry>/scripts/check-skills.mjs --since HEAD` first (shape + version discipline must pass), then `git -C <registry> add skills/architect` and `git -C <registry> commit -m "skill(architect): v<new> - <one-line reason>"`. Never stage the link from the project side.
-5. NEVER copy this skill to `~/.claude/skills/architect/` or into another repo, and never "propagate" by copying. A copy in the personal tier shadows the lane for every project on the machine and freezes the method at that day's bytes with no version to compare (measured 2026-08-29: 11 such copies, all unversioned, all stale). If `.claude/skills/architect` is a real directory instead of a link, the fix is `node <registry>/scripts/link-registry.mjs`, not a copy in either direction.
+**Method learning.** Identify the installation before editing anything. A local
+`.ai/registry-installation.local.json` receipt can identify development versus release,
+the registry revision, and selected skill versions. Verify any link's actual target;
+do not assume a skill directory is a writable registry link.
 
-**Lane 3 - DOMAIN knowledge** is a different artifact from a lesson: a lesson improves this METHOD, a lead proposes knowledge for a bundle. Skills that carry a `## Knowledge sync` section file leads there; a skill without one files none.
+- For a pinned release, marketplace cache, ordinary copy, or unknown installation,
+  keep a proposal in the project overlay or response. Do not edit the installed method
+  or silently relink it. Adoption and rollback are explicit installation operations.
+- For a development link, edit the registry only when that checkout is already within
+  the accepted task scope. Otherwise report a proposal. Authorized changes belong in
+  the source checkout, followed by its gates; commit only when the task authorizes it.
+- Record an actual lesson in `LESSONS.md` against the version **used**:
+  `## <version-used> - <YYYY-MM-DD> - <project-name>` and concise bullets. A proposal
+  must be labeled as such; structural checks are not evidence of field effectiveness.
+- Applied skill changes require a version bump: patch for wording, minor for a step
+  refinement, major for method redesign. A lesson alone needs no bump. Shared stamped
+  clauses are edited in the registry's `docs/skill-clauses/` and regenerated with
+  `scripts/apply-skill-clauses.mjs`, never patched in individual installed skills.
+
+**Domain learning.** Follow `## Knowledge sync` when present, within the same scope
+and privacy boundaries. A method lesson and a domain knowledge lead are different
+artifacts; do not fabricate either to fill a reflection quota.
 <!-- /clause: skill-reflection -->

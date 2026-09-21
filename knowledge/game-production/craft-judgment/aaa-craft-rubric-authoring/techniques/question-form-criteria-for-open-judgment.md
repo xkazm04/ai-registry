@@ -14,8 +14,9 @@ use_when: [a quality matters and no threshold captures it, a rubric keeps passin
 Some of the qualities that decide whether a piece of work reads were never going to
 become thresholds. Does this space tell the player where to go? Does this ability read
 differently from the three it sits beside? Does this motion have a moment the eye lands
-on? Each of those is answerable from the stored artifact, each separates shipped work
-from placeholder work, and none survives being rewritten as a number with a tolerance.
+on? Each needs a specified evidence package; predicting a first-time viewer's
+attention may require a viewer study rather than artifact inspection alone. A qualitative answer can be useful without claiming every quality is
+inherently unmeasurable.
 The instrument for them is an **interrogative criterion**: a question the examiner must
 answer with evidence located in the artifact, rather than a bar the artifact clears.
 
@@ -83,12 +84,13 @@ invisibly merged unless the instrument forces them apart. Three mechanisms force
 and all three are cheap.
 
 1. **Require the citation with the answer.** The answer names the region, the frame, the
-   sibling. An answer that cannot point has observed nothing and is recorded as not
+   sibling. An answer without a verifiable location has supplied no inspectable support and is recorded as not
    answerable — never as met.
 2. **Make the negative sayable.** Because the failing answer is written into the criterion,
    "not met" is a recognition rather than an accusation the examiner has to construct, and
    examiners return it far more readily.
-3. **Ask each question against the artifact alone, in its own turn.** A question answered in
+3. **Evaluate criterion isolation as a protocol choice.** Separate calls can
+   reduce context carry-over but cost more and do not establish independence. A question answered in
    the same breath as ten others inherits the momentum of the answers before it, and the set
    drifts toward uniform agreement.
 
@@ -101,10 +103,10 @@ examiner that saw the bar met are not the same result. Where a level has to be d
 derive it from the pattern of met and not-met answers with the unmeasured ones named beside
 it, so the grade states what it was computed over.
 
-Interrogative criteria also do not become disqualifiers. A cap's authority rests on being
-uncontestable, and an answer that required judgment is contestable by construction — the
-moment a capped rejection turns on a question, the cap mechanism starts being argued rather
-than obeyed.
+An uncertain answer must not silently become a hard rejection. Where a fatal
+perceptual defect matters, define evidence, confidence and adjudication before
+allowing it to block release. Question wording alone does not determine whether
+a requirement is compensable.
 
 ## Decision rules
 
@@ -114,9 +116,9 @@ than obeyed.
 - **When an examiner answers without pointing at anything, record not answerable.** A
   confident answer with no located evidence is an assertion, and an assertion is an input to
   a verdict, never the verdict.
-- **When two examiners answer the same question differently on the same artifact, the
-  question is under-specified, not the examiners.** Rewrite the evidence part first; it is
-  almost always the missing half.
+- **When examiners disagree, investigate both instrument and examiner.** Check
+  evidence access, ambiguous bars, expertise, stochastic variation and mistakes;
+  adjudicate against located evidence rather than assuming one cause.
 - **When a question could be answered from the brief rather than the artifact, it is the
   wrong question.** Rephrase it about what is visible in the stored thing, or move it to the
   instrument that legitimately reads intent.

@@ -9,6 +9,7 @@ techniques:
   - dedupe-key-survives-soft-delete
   - late-event-subscription-resolution
   - ingestion-contract-parity
+  - running-total-or-increment
 ---
 
 # Usage event ingestion
@@ -235,6 +236,33 @@ is a period boundary event or it is preceded by a differential run over that
 customer's actual configuration. Building and reading that harness is the
 [ingestion-contract-parity](./techniques/ingestion-contract-parity.md) technique.
 
+## An interval report is not an occurrence, and it says how to read it
+
+Everything above assumes an event describes one occurrence. An emitter that
+keeps counters in memory and reports them on an interval breaks that assumption
+in a way the payload does not advertise: each report carries, per counter
+series, either **the increment since the previous report** or **the running
+total since the series began**, and a field beside the datapoints says which.
+The two look identical one value at a time and need opposite storage rules —
+add the increments, keep the latest running total — so a door that picks a rule
+without reading the field is correct for one setting of an emitter it does not
+control and silently wrong for the other. Adding running totals multiplies a
+series by its report count; keeping the latest increment stores one interval of
+it.
+
+The failure is rarely one reader getting it wrong. It is **two readers of one
+report getting it wrong in opposite directions** — a per-period store that adds
+and a per-series store that replaces, each written from a different belief, each
+passing its own tests — which is the second-lane problem above reduced to a
+single field. The encoding is decoded once, at the door, per series; an absent
+declaration resolves to the emitter's documented default with the citation
+pinned beside the code, never to the convenient rule; and a store that cannot
+honour a running total without per-series state refuses it visibly and names the
+setting. That decode, the store rules, and the one fixture that must pass
+through every reader are the
+[running-total-or-increment](./techniques/running-total-or-increment.md)
+technique.
+
 ## What this subject refuses
 
 - **Arrival time used as occurrence time.** They are different facts and they
@@ -257,6 +285,9 @@ customer's actual configuration. Building and reading that harness is the
   fact.
 - **Anything at the door that calls another service.** Ingest availability must
   not be a function of anything but the door and its store.
+- **A counter report stored without reading its encoding.** An increment kept at
+  its latest value and a running total added to itself are both plausible
+  numbers, and neither raises an error.
 - **A second lane trusted because it passes its own tests.** Two implementations
   of one contract are equivalent when something has run both, or not at all.
 
@@ -275,3 +306,6 @@ customer's actual configuration. Building and reading that harness is the
 - [ingestion-contract-parity](./techniques/ingestion-contract-parity.md) — what a
   team owes when one admission contract has two implementations on two runtimes:
   a named authority, a fixture corpus, and a differential harness.
+- [running-total-or-increment](./techniques/running-total-or-increment.md) —
+  whether an interval report carries increments or running totals, decoded per
+  series at the door, and the store rules and refusal that follow.

@@ -16,7 +16,8 @@ human-verified edges beside machine matches still pending review — but a
 reading surface that renders them in the same ink launders the weakest claims
 with the credibility of the strongest. Forensic view filtering is the display
 discipline: default to the verified layer, count what you hide, and never
-subtract a step from an answer the reader explicitly asked for.
+silently subtract a step from an authorized answer. Publication and access
+checks happen before this display filter, including before data reaches a client.
 
 ## Default to what a human stands behind
 
@@ -30,7 +31,8 @@ state, and it must preserve input order — a filter that also reshuffles is two
 behaviors in one function, and the second one breaks visual stability and
 testability for free.
 
-Suppression must be **counted, not silent**. The surface states "N unverified
+Suppression within the authorized dataset is counted where disclosure is
+permitted. The surface may state "N unverified
 ties hidden" wherever the filter applied. Per
 [disclose-never-repair](../../../_laws.md#disclose-never-repair), hiding is a form
 of withholding, and withholding is honest only when disclosed: a reader told
@@ -38,15 +40,19 @@ that eleven machine matches exist but are unshown has been informed; a reader
 shown a clean graph has been told the record is clean, which is a different and
 false claim. The counted-suppression rule is also what keeps the filter
 non-partisan — the count is symmetric machinery that cannot be accused of
-curating who looks clean.
+curating who looks clean. Counts of restricted allegations can themselves
+disclose sensitive information; withhold them when the audience is not
+authorized and state the scope of the view without exposing those counts.
 
 ## The requested-answer exception
 
-The filter has one hard exception, and it is a rule, not a loophole: **edges
-explicitly requested by a lens are never filtered.** When the reader asked a
+Within the authorized dataset, a display lens may preserve requested edges.
+A lens request never overrides access control or the publication gate. When the reader asked a
 question whose answer is a specific edge set — a computed evidence path, a
 curated trail, an entity's full record — every hop renders even if pending,
-because *a requested answer with omitted steps is a lie*. A path finder that
+provided the audience may receive them. Otherwise recompute on permitted
+edges or report that no complete answer can be shown within the declared
+scope. A path finder that
 reports a four-hop connection while the view silently draws three hops has
 fabricated a shorter, cleaner-looking connection than the one that exists.
 
@@ -65,7 +71,9 @@ requested edges" into "sometimes filter them".
 ## Counts tell the truth about the record, not the view
 
 Any summary the surface offers about an entity — a hover card, a badge, a
-review-status breakdown — is computed from the **unfiltered** edge list. The
+review-status breakdown — is computed before optional display filtering but
+after authorization and publication filtering. Label whether it covers a
+loaded subset or the complete authorized record. The
 card answers "what does the record hold about this entity", and the answer
 does not change when the reader toggles a display mode. A card computed from
 visible edges reports "0 pending" for an entity with eleven hidden pending
@@ -80,11 +88,11 @@ many relations did not fit.
   decide its default-view fate explicitly and add it to the counted
   disclosure — an unclassified grade that falls through to "visible" has
   been silently verified by omission.
-- When a non-forensic casual mode exists alongside, the *data* is identical
+- When a non-forensic casual mode exists alongside for the same audience, the authorized *data* is identical
   and only defaults differ; the toggle is a view preference, never a second
   query path that could drift.
 - When a reader interacts with a hidden edge's endpoint (search, deep link),
-  resolve the target and surface its pending edges in requested-answer terms
+  resolve the target and surface only permitted pending edges in requested-answer terms
   rather than pretending the entity is isolated.
 
 ## When not to use it

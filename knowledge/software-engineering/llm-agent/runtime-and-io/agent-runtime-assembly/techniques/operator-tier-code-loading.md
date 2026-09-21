@@ -38,8 +38,14 @@ repositories. They are about **who can write the configuration**:
 | **service-writable, isolated** | any authenticated administrator, through the service's own interface | only when all four conditions below hold |
 
 The second tier exists in every runtime with a settings interface: an
-administrator enables a tool server, adjusts a threshold, installs a skill.
-Those are behaviour changes, and administrators may make them. But the moment
+administrator enables a tool server, adjusts a threshold, installs an extension.
+Those are behaviour changes, and administrators may make them. An install whose
+artifact is a document can still reach the persisting class through the document's
+own content - measured on one fleet, six repositories carry a push-stage gate
+executing code inside an installed extension tree, placed there by an extension
+whose own body instructs the install. Classify it by reach
+([activation-is-a-separate-mutation](./activation-is-a-separate-mutation.md)),
+not by the shape of the artifact. But the moment
 a service-writable file can name an entry point, an authenticated call is a
 code-execution path, and every credential the service holds is one
 misconfigured account away from a shell. The rule is absolute: **code entry

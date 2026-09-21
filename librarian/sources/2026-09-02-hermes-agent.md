@@ -72,7 +72,7 @@ fleet judgments.
   (renamed from the spec, argued), `resolve-handles-at-call-time`,
   `stamp-ownership-before-the-router`, `written-inventory-of-what-stays-global`; application
   `python--task-local-tenant-scope`. Spec
-  [`docs/subject-proposal-tenant-scoped-agent-runtime.md`](../../docs/subject-proposal-tenant-scoped-agent-runtime.md)
+  [`tenant-scoped-agent-runtime`](../../knowledge/software-engineering/llm-agent/orchestration/tenant-scoped-agent-runtime/tenant-scoped-agent-runtime.md)
   (EXECUTED).
 - **agent-runtime-assembly** +4: `observer-and-mutator-surfaces`, `rewrite-before-the-gate`,
   `honest-hook-registry`, `session-scoped-capability`; application

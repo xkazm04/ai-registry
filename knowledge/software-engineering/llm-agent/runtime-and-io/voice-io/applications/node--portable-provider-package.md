@@ -39,9 +39,15 @@ per-user home, so one model download serves both apps.
 - **Preference is the host's, resolution the package's.** kp writes
   `KP_TTS_PROVIDER` / `KP_TTS_PROVIDERS` from the onboarding skill
   (`.claude/skills/onboarding/SKILL.md`, group 3b) and hands them over via
-  `preferenceFromEnv` (`registry.ts:48-59`), which drops unknown ids instead of
-  throwing — the test "drops unknown ids and keeps preferred inside allowed"
-  feeds it `retired-engine` and gets a clean set back. `resolve()`
+  `preferenceFromEnv` (`registry.ts:67`). Until 2026-09-16 it dropped unknown
+  ids instead of throwing, so `KP_TTS_PROVIDER=kokor` silently served the first
+  allowed engine, a paid cloud one, with no fallback recorded. It now refuses a
+  present-but-unregistered id through `checkedIds` (`registry.ts:50`), naming the
+  variable, the token and the registered set; absent still takes the default.
+  The test is "preferenceFromEnv refuses unknown ids naming the variable, and
+  keeps preferred inside allowed". This bullet re-verified 2026-09-16 at kp
+  `8cf4b738`; see `misconfiguration-never-reaches-a-fallback` in
+  optional-dependency-degradation for the rule and the measurement. `resolve()`
   (`registry.ts:76-96`) walks requested → preferred → first allowed+ready, logs a
   `fallback` event and returns `fallbackFrom`; nothing ready throws
   `TtsError("unavailable", <last probe reason>)`.

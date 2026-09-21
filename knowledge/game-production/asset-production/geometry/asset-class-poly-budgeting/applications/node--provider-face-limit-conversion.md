@@ -11,7 +11,7 @@ verified_against: node@24
 
 # Node: a pure face-budget module with conversion and delivered-vs-requested grading
 
-PoF (`C:\Users\kazda\kiro\pof`) realizes the unit doctrine in one dependency-free
+PoF (`pof`) realizes the unit doctrine in one dependency-free
 module, `src/lib/visual-gen/face-budget.ts`. It is worth reading as a whole because its
 header comment (lines 1–26) is the argument, not documentation of the code: one number
 ("40k faces") was being carried across three layers that each meant something different
@@ -102,3 +102,19 @@ trusting the reader to remember.
 - The floor is a **decision with a written reason**, not a rounding accident.
 - Every unusable input produces **no number at all**, which propagates as `unmeasured`
   rather than as a false pass — the project's stated dominant honesty rule.
+
+## Review boundary - 2026-09-10
+
+The preceding implementation narrative is historical. Its halving helper is
+valid only for a verified pure-quad parameter. A finite positive numeric guard
+still admits fractional budgets and values whose halved result is zero. Validate
+safe integers, provider minima and active topology before calling it; an undefined
+result must not accidentally remove a required limit. A near-two ratio is a
+lead, not sufficient attribution to the provider.
+
+[Meshy's Text to 3D API](https://docs.meshy.ai/en/api/text-to-3d) currently describes
+quad-dominant output, model-dependent topology, and count settings that can be
+overridden or ignored. Quad-dominant does not establish an exact two-triangle
+conversion. Pin the selected model and configuration, preserve intended/sent/
+accepted values, and measure the delivered mesh. The source check does not verify
+the historical consumer helper, artifacts or a new provider run.

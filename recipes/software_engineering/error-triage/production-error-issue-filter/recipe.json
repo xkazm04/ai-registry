@@ -2,7 +2,7 @@
   "id": "7a90ad49-bf04-5235-9f46-9b42bc6ee230",
   "slug": "production-error-issue-filter",
   "title": "Production error issue filter",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "status": "seed",
   "path": "software_engineering/error-triage",
   "domain": "software_engineering",

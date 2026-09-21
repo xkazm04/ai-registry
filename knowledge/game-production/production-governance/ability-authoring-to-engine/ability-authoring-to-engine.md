@@ -114,9 +114,9 @@ their inputs. Declared vocabulary and referenced vocabulary line up in both dire
 and the second direction is the one teams skip. A reference to an undeclared tag breaks
 loudly and gets fixed. A declared tag nobody references breaks nothing, so it survives:
 the vocabulary accumulates dead entries, the next author reads them as real, and the
-registry stops being a description of the system. Treating those two defects as equally
-serious is a deliberate stance and the right one — the first costs a bug, the second costs
-the reliability of the reference material every future generation depends on.
+registry stops being a description of the system. An undeclared reference can block acceptance; an unused declaration is a review
+lead, since reserved, hierarchical or externally consumed tags can be legitimate.
+Equal set weighting is a reporting convention, not an equal-risk judgment.
 
 Coherence checking has one structural requirement people discover late: the audit must
 record *which authoring surface* each reference came from. Real systems have more than one
@@ -137,21 +137,23 @@ in practice they will not; they will read the changed field and approve the rest
 
 So the second call is a distinct mode with a distinct instruction: you are given the
 current artifact and a change request, you return the complete artifact, you re-derive
-whatever the change genuinely implies, and every field outside that implicated closure is
-byte-identical to what you were given. Returning the whole
-artifact rather than a patch keeps the schema and the validators on the same path as
-first-generation; the minimal-diff constraint lives in the instruction and, critically, is
+whatever the change genuinely implies, and every authored value outside that implicated closure is
+unchanged relative to the prior artifact under the declared comparison policy. Returning the whole
+artifact, or applying a constrained patch to a pinned base and validating the
+complete result, keeps the same acceptance checks as first-generation; the minimal-diff constraint lives in the instruction and, critically, is
 *verified* after the fact by comparing fields rather than trusted. The value of this mode
 is measured in review cost: a diff of two fields is read, a diff of thirty is skimmed.
 
 ## Provenance, and who gets to say it worked
 
-Generated source that enters a build must carry the exact prompt that produced it. Not a
-prompt name, not a version tag — the resolved text, stored alongside the output. Two
+Generated source needs provenance bound to the exact resolved inputs, including
+retrieved context and generator configuration. Store sensitive prompt content in
+controlled local storage or reference immutable artifacts by digest; do not
+publish private inputs merely to make provenance self-contained. Two
 reasons, and the second one is the load-bearing one. First, without it a later reviewer
 cannot distinguish a model failure from a briefing failure, and those have opposite fixes.
-Second, prompts drift continuously while artifacts persist, so a version identifier
-resolves to a document that no longer exists. Provenance that resolves to a mutable thing
+Second, a mutable template name alone does not resolve the executed inputs. A pinned
+immutable version or content digest with retrievable content can do so. Provenance that resolves to a mutable thing
 is not provenance.
 
 And the status of a generated artifact — compiled, registered, confirmed — is derived by
@@ -164,7 +166,8 @@ disagreeing is a finding in itself, and often the most useful one in the pipelin
 
 The report stores the rungs, not a summary of them: written, built, registered, present in
 the destination the runtime actually reads. And a count that was never returned is not
-zero — one is a missing measurement, the other a measured failure, they send an engineer to
+zero — one is a missing measurement, the other an observed count whose significance
+depends on the expected output. They can send an engineer to
 different places, and a schema that defaults the first into the second has destroyed the
 distinction before anyone can act on it.
 

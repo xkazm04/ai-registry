@@ -2,7 +2,7 @@
   "id": "ed6cfd3a-ecb2-5b72-bde3-28d49bcb9c3f",
   "slug": "cloud-billing-access-failure-alerting",
   "title": "Cloud billing access failure alerting",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "status": "seed",
   "path": "finance_accounting/spend-and-budget",
   "domain": "finance_accounting",

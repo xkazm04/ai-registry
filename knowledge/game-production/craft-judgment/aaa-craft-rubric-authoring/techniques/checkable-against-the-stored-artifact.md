@@ -9,13 +9,13 @@ shared_with: []
 use_when: [drafting or auditing rubric criteria, an examiner is answering from the brief rather than the artifact, deciding which lens a deliverable class routes to]
 ---
 
-# Every criterion answerable from the stored artifact alone
+# Every criterion answerable from persisted evidence
 
-A criterion earns its place only if an examiner holding nothing but the persisted
-artifact can answer it. Not the brief that requested it, not the prompt that produced
-it, not the generator's own report of how it went, not the conversation in which it
-was reviewed — the stored thing. This is the constraint that keeps a craft rubric a
-measurement of craft rather than a measurement of intentions.
+A criterion earns its place only if its declared, persisted evidence package
+is sufficient to answer it. The package may include the artifact, immutable
+specification, comparison assets and reproducible measurements. A brief can define
+the requirement; it cannot prove the result met it. Neither the generator's success
+claim nor a review conversation substitutes for evidence of the artifact's quality.
 
 ## Why the constraint is this severe
 
@@ -42,9 +42,10 @@ Take each criterion and ask, in order:
 1. **What exactly does the examiner look at?** Name the artifact, and the part of it.
    If the answer is a process step rather than a location in a stored thing, the
    criterion is out of scope for a craft lens.
-2. **Would two examiners with the same artifact and no other context reach the same
-   answer?** If not, either the bar is vague, or the criterion secretly needs the
-   brief.
+2. **Can qualified examiners locate the evidence and explain their answers?**
+   Disagreement can arise from ambiguous criteria, insufficient evidence, skill
+   differences or judgment variability. Pilot and adjudicate; agreement alone
+   does not establish validity.
 3. **Does the answer survive without the producer's narration?** Strike every phrase
    like "as intended", "appropriate for the requested style", "consistent with the
    plan" — these are all the brief in disguise.
@@ -62,16 +63,17 @@ Often the honest fix is not to weaken the criterion but to require the producer 
 persist what the criterion needs — a measured figure with its unit and measurement
 basis, a declared budget alongside the delivered count, a stated bound on a runtime
 cost. The rule that makes this work: the measurement must be stored *with* the
-artifact and travel with it, so the examiner reads one thing. Evidence held somewhere
-else is evidence that will be missing on the day it matters.
+artifact and travel with it, so the examiner reads one thing. An immutable, accessible reference bound by digest is also usable; verify
+retrieval rather than assuming physical colocation establishes availability.
 
 This also settles a recurring argument about perceptual criteria. A criterion about
 how something looks in motion is checkable if — and only if — the motion is captured
 and stored as part of the artifact: a strip of sampled frames at declared intervals,
 stored beside the clip, is what turns "reads in silhouette at the declared contact
 frame" from an aspiration into a check. Judging motion from a single still is not a
-stricter reading of the rule, it is a different and wrong criterion. Either capture the
-behaviour or drop the bar.
+stricter reading of the rule, it is a different and wrong criterion. Sampled frames support claims about the sampled poses, not every between-frame
+transition or runtime effect. Persist sufficient playback or runtime evidence
+where required; otherwise leave that dimension unmeasured or route it elsewhere.
 
 State the evidence base in the lens header, and state its complement. Every lens
 should open by naming what it reads — the stored artifact plus its declared
@@ -85,9 +87,9 @@ A criterion is only answerable if it is asked about the right kind of thing. Eac
 deliverable class routes to exactly one lens, and that map is data the system owns —
 not a judgment the examiner makes while scoring. Two rules protect it:
 
-- **Overrides may redirect only among classes of the same shape.** In practice this
-  means text-shaped classes may be re-pointed at a different text lens, because the
-  artifact really is prose and the only question is which prose standard applies.
+- **Overrides may redirect only among classes of the same shape.** A text-only
+  override list is a local policy; authorized media sub-class changes can also
+  be valid when the evidence and criteria match.
   A visual or behavioural class may not be redirected to a text lens.
 - **A lens must never be dodgeable by re-labelling.** If renaming a deliverable class
   moves its artifacts to a laxer rubric, there is no floor. Narrow the override
@@ -109,8 +111,8 @@ reviewed those. **And the new sub-rubric is not the lenient one.** A rubric spli
 after a mis-routing must keep every bar that still applies and be stricter where its
 own craft demands more. The sub-class that was wrongly penalised for carrying text now
 faces a text-quality bar the original rubric could not even express, because the
-original forbade text entirely. If the split reads as relief for the producer, it was
-a capitulation, not a correction.
+original forbade text entirely. A valid correction can remove an inapplicable penalty. Preserve applicable
+bars and validate the new routing on both accepted and rejected examples.
 
 ## Decision rules
 

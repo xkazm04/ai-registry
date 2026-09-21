@@ -53,6 +53,14 @@ no diff at write time, just a quieter graph. The contract:
 > survives.** Read the existing properties, spread the new ones over them,
 > write the merged object.
 
+This is a field-ownership rule, not a concurrency guarantee. Two writers can
+read the same old object and overwrite each other's unrelated updates despite
+both using the merge helper. Use atomic owned-field updates, a lock covering
+read and write, or a revision-checked write with bounded retry. A transaction
+is sufficient only when its isolation and conflict handling protect the whole
+operation. Allocate pass identities atomically within each track; computing
+the next number from a snapshot does not reserve it.
+
 Per [one-definition-one-import](../../../_laws.md#one-definition-one-import), this
 idiom must exist as *one named, unit-tested helper* that every writer imports —
 not as a convention each ingest re-spells inline. The measured history is
@@ -64,8 +72,8 @@ The merge has an **honest limit, disclosed rather than papered over**: a
 property a writer computes *conditionally* keeps its previous value when the
 condition lapses. If a recompute stops emitting a rate for a person who fell
 below the eligibility floor, the old rate survives under the old pass's
-provenance — a stale value, strictly less harmful than the erasure it
-replaces, but real. Per
+provenance — a stale value whose harm depends on the claim, not a universally
+safer outcome than deletion. Per
 [disclose-never-repair](../../../_laws.md#disclose-never-repair), the right
 response is to document the limit and track the fix (owned-key deletion lists,
 or recomputing the kind wholesale under a rebuild guard), not to pretend the
@@ -73,9 +81,9 @@ merge is lossless.
 
 ## Recompute in place, never wipe to refresh
 
-Deterministic layers are recomputable, and the upsert-with-merge makes
-recomputation safe: each claim is replaced in place, properties merge, other
-passes' work survives. This means **a recompute never needs a reset** — the
+Deterministic layers can be recomputed in place when owned fields, stale-key
+removal, concurrent updates and human decisions are protected. Other passes'
+work must survive. Prefer that scoped update to a global reset: the
 instinct to "start clean" before re-running a deterministic pass is precisely
 the instinct the destructive-rebuild-guard technique exists to intercept.
 Proposed layers recompute differently: a new gated proposal supersedes the old

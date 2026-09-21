@@ -45,8 +45,9 @@ What this buys, concretely:
 
 Keep the identity segments to durable vocabulary. The dataset name and metric
 slug are *part of the address* and therefore frozen; anything versioned — the
-formula, the pass number — travels in the claim's derivation field, never in
-the address, or every recompute would invalidate every citation ever issued.
+formula, the pass number — travels in the live claim's derivation field.
+A separate versioned address can retain a historical computation without
+invalidating the live family address.
 
 ## Refusal, never repair
 
@@ -91,4 +92,15 @@ view, a rendered document — where the identity is the *configuration* of the
 view. Those want a content-hash permalink (the fingerprint family: address =
 view config + hash of the rendered content), which trades re-derivability of
 meaning for exact change detection. The two schemes coexist behind one gate;
-the mistake is using row ids for either.
+a durable opaque identifier with a retained mapping is also valid. A mutable
+storage row number is unsuitable when rebuilds can reuse or renumber it.
+
+## Identity boundaries
+
+The scheme above is for a live claim family. Include period, jurisdiction,
+units and population wherever they distinguish claims; a separate immutable
+version reference can pin the original snapshot and formula. Reversible
+encoding does not authenticate issuance and does not hide personal data.
+Decoding failure means unsupported or malformed, not proven never issued.
+Check canonical encoding, decoded size and permitted identifier grammar;
+retain tombstones without republishing withdrawn sensitive content.

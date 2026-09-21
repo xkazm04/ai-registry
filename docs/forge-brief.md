@@ -121,7 +121,10 @@ status: forged
 - **`verified_against` names the document's own `stack`** (`<stack>@<version>`, e.g.
   `python@3.12`, `node@22`) — never a commit hash and never a runtime that is not the
   stack. The pinned commit goes in the application's first paragraph. (Learned 2026-09-02:
-  three applications failed the gate on `<product>@<sha>`.)
+  three applications failed the gate on `<product>@<sha>`.) The gate's regex is
+  `^[a-z0-9][a-z0-9-]*@\d+(?:\.\d+){0,2}$`: a version is one to three dotted numbers, so a
+  date pinned as a version is `2026.09.06`, never `2026-09-06`. (Learned 2026-09-09: seven
+  applications in one wave failed on the hyphenated form because the wave brief showed it.)
 - **The purity grep is a substring match.** A company or product name that is also a
   fragment of an ordinary word will match inside it ("asynchronous" contains one such
   name; so does "synchronous"). Reword the ordinary word rather than argue with the
@@ -146,4 +149,7 @@ ignore `taxonomy.json assigns ... which has no folder` failures for subjects tha
 are not yours).
 
 Your final report: 5-10 lines — files written, techniques count, applications count,
-which claims were upward lessons from the repo, and your gate status.
+which claims were upward lessons from the repo, and your gate status. Every anchor in
+your applications is a root-relative `path:line "short quote"`; the director verifies
+them with `node scripts/check-anchors.mjs <document> --root <tree>`, and a line number
+without a quote proves the file exists, not what you said it says.

@@ -23,6 +23,8 @@ Every row below shared one consumer, judge, budget and elaboration regime.
 
 | arm | acc | stale | ctx tokens | write tokens/event |
 | --- | --- | --- | --- | --- |
+| agentic extraction over a versioned store, curated read | 0.92 | 7 | 2,637 | ~21,300 ‡ |
+| the same store, mixed read (adds raw history) | 0.90 | 8 | 2,984 | ~21,300 ‡ |
 | retrieval over the raw record, 200 chunks | 0.89 | 16 | 3,253 | 0 |
 | verbatim + hybrid retrieval, no model at write | 0.87 | 5 | 1,912 | 0 |
 | the two-tier pipeline, both tiers governed | 0.86 | 9 | 1,592 | 1,371 |
@@ -31,6 +33,12 @@ Every row below shared one consumer, judge, budget and elaboration regime.
 | write-time verdict reconciliation | 0.78 | 4 | 918 | 7,341 |
 | whole history in context | 0.65 | 6 | 5,870 | 0 |
 | no memory | 0.08 | 0 | 0 | 0 |
+
+‡ A released self-hosted memory engine driven as a service (2026-09-18), its write-time
+extraction agent routed onto the same writer as every other model-bound arm. Write cost is
+reconstructed from the writer's call cache across both build attempts, so read it as an upper
+bound; a clean build is ~1,000-1,100 calls, about 4 per ingested day. It tops the ladder AND
+costs the most to write, which is the trade to argue rather than the ranking to quote.
 
 † Unresolved, not a regression: procedures went 0.60 → 1.00 and failure causes
 0.80 → 0.88, while the two points come out of a form-judged class that has scored 0.56,
@@ -54,6 +62,15 @@ answers them:
    benchmark scripts that did not exist, and the third's numbers were honest but
    self-against-self. **Treat a published memory number as a lead, never as evidence.**
    Re-running the claim as an arm here costs a few hours and settles it.
+3b. **"A version chain retires the old belief."** Measured: no. In the arm above a superseded
+   value reached the context in **92 of 92** reversal and expired probes, through a retrieved
+   memory, under both read modes - a non-latest version is neither deleted nor expired, and
+   only those two are filtered. The design still scored at the top, because every item carries
+   its date and version and the reader adjudicated all but 6. **Ask a supersedence claim which
+   of the two it is** - a read filter, or a label the reader is trusted to use - and measure
+   the served rate separately from the answered one (`agent-memory/stale-served-versus-stale-answered`).
+   A source that reports only a wrong-answer rate has not told you which layer its number is about.
+
 3. **"Graph / vector / hybrid is the win."** None of the three cohort systems had a
    supersedence mechanism that reliably handles "we moved from X to Y". Store *topology*
    was not what separated the arms; what separated them was whether anything retires a

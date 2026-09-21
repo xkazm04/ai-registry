@@ -54,6 +54,14 @@ server-rendered MP money section speak the identical confession from one
 implementation — a mixed total renders "N net / M gross" with both counts, a sole
 basis names itself, and foreign-currency and unstated rows get their own lines.
 
+## Review boundary - 2026-09-09
+
+This is a historical implementation witness, not a fresh runtime check. Counting
+bases while preserving a mixed sum exposes the defect but does not repair it.
+Consumer follow-up must verify separate compatible subtotals, currency, value
+semantics, overlapping obligations and per-aggregate exclusions. The cited counts,
+line references and regression claims have not been re-executed in this review.
+
 ## Upward lesson
 
 The repo's contribution to the standard is rule 1's parenthesis: when a single

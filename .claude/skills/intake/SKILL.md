@@ -3,8 +3,8 @@ name: intake
 description: "Mine an external source - a YouTube video, a news roundup, an article, pasted notes, a repository - for what it should change in THIS registry, and in the connected projects that consume it. Ingests the source, reads its design decisions as well as its claims, maps both against existing bundles for prior art, triages with the operator, and lands what survives corroboration - amendments for boundary cases, techniques and subjects for mechanisms, forge handoffs for systems whose architecture the corpus lacks. News sources mostly yield currency signals and leads; that is a successful run. Use when someone shares a link and asks what it means for us."
 category: ai-native
 memory: project
-version: 2.7.0
-tags: research, sources, memory-lane, admission-gate, triage, currency, cross-repo, leads, apply, ab-test, parallel, reference-index, design-read, forge-handoff, directions, fleet-map, peer-study, opus-workers, decision-gate
+version: 2.11.1
+tags: research, sources, memory-lane, admission-gate, render-proof, triage, currency, cross-repo, leads, apply, ab-test, parallel, reference-index, design-read, forge-handoff, directions, fleet-map, peer-study, opus-workers, decision-gate
 ---
 
 # Intake
@@ -664,7 +664,10 @@ forces:     what made the obvious alternative wrong - scale, trust boundary, lat
             a platform limit, an operator constraint
 buys:       the property the decision secures, stated so a team elsewhere could test for it
 rejects:    the alternative the tree did not take, and where it says so
-where:      file:line anchors - the ADR, the module guide, the type that encodes it
+where:      root-relative path:line "quote" anchors - the ADR, the module guide, the
+            type that encodes it. The quote is what makes the anchor checkable:
+            `node scripts/check-anchors.mjs <note> --root <clone>` verifies every
+            one, and a line number without a quote is existence, not evidence (v2.11)
 stage:      the point in the system's own pipeline where the decision is made
 corpus:     the subject whose golden path models this decision's forces - or NONE, with
             the nearest neighbour named and why it does not model them
@@ -844,6 +847,17 @@ justify itself. So the read becomes an explicit, veto-first, reject-biased score
 that is written into the source note and can be audited after the fact - and
 **stricter than the stamp it replaces**, because the stamp carried almost no
 information.
+
+**Which rule governs which shape (v2.8).** This gate does not govern every row,
+and three consecutive runs filed the same diagnosis before the method said so. The
+score is for rows targeting the **upper layers** - a technique, a golden-path
+correction, an amendment, a subject. **A currency row and a lead are governed by the
+corroboration table instead**, which says a source may authorize both alone, because
+"a vendor shipped X" is a statement about the world rather than about the standard.
+Run through Phase 5 they are rejected by construction: a clock reset caps at GAIN 1
+and can never clear a +2 threshold, however well corroborated. So route by shape
+first - score the upper-layer rows, admit currency and leads under the table - and say
+in the source note which rule each admitted row ran under.
 
 Run the three steps in order. **A score may never overturn a veto**; that ordering
 is what keeps this from being a rubber stamp with arithmetic on top.
@@ -1026,6 +1040,73 @@ different blockers, and a row may take both (operator rule, 2026-08-28; amended
 8. **Drop honestly.** A picked candidate that resolves to already-covered is a catch,
    not a failure, and it goes in the note so nobody proposes it again.
 
+### Phase 6b - Render proof (v2.9: generative-output bundles; the operator triages)
+
+A candidate is **render-bound** when its home produces pictures -
+`media-generation/visual-generation`, `production-ops/video-assembly`,
+`game-production/asset-production`, or any subject whose `use_when` generates, renders or
+accepts an image, clip, sprite, texture, mesh or animation - and its shape changes what a
+generator is told or how its output is prepared or accepted. **A render-bound candidate
+does not land on corroboration.** Before Phase 7 writes it, render one brief through two
+arms on the local pipeline: arm A compiled from the corpus as it stands at `HEAD`, arm B
+compiled as the landing would leave it (or as the source instructs). One variable; same
+seed, anchors, model and length; original characters and places. The operator triages a
+blind sheet, the picks are revealed onto the arms, and the verdict decides what lands
+and in what shape. Then every rendered artifact is deleted by run id and only the
+verdict is kept.
+
+```sh
+node scripts/render-triage.mjs sheet  <run-dir>                    # blind page + sealed key
+node scripts/render-triage.mjs reveal <run-dir> shot1=Y shot2=tie  # verdict.json
+node scripts/render-triage.mjs clean  <run-dir> --also <ComfyUI>/output/<run-id> --also <ComfyUI>/input
+```
+
+The procedure - scope, instrument probes, arm construction, the triage questions, the
+verdict-to-shape mapping, resource discipline, cleanup and the record - is
+[`references/render-proof.md`](references/render-proof.md). Read it before Phase 5
+scores a render-bound row, because the instruments are probed before the score, not
+after the landing.
+
+Why this is a phase and not a Phase 7.5 mode alone: until 2.9.0 these bundles changed
+the instructions every consumer compiles into a generation call - restate the style,
+admit the reference late, cut both anchors from one cloth - on corroboration and a
+`simulation` row, **without anyone having looked at one output made under the old
+instruction and the new one**. For a finding whose only observable is the output, that
+is landing blind. The first run under this phase found two corpus files contradicting
+each other at the still-to-motion hop, with a source siding with one of them, and no
+amount of reading could settle it; rendering both arms could.
+
+Five rules hold without exception:
+
+- **A 3D subject is clean before it is compared, and it is compared in stills (v2.10).** No
+  motion, rigging or posing pair is designed until the rigged subject passes
+  `references/render-proof/rig_check.py` at the poses the action will reach - no unweighted
+  vertices, rigid parts rigid per vertex, no torn edges. A subject that fails is repaired within
+  the stage's stated budget or banked as a lead naming the clean asset it needs; it is never
+  animated for triage. Each 3D arm is then shown as one pose sheet
+  (`references/render-proof/pose_sheet.py`) with identical framing across arms, gated by
+  `sheet_distance.py` and triaged blind like any other image, with the winner stored in
+  `verdict.json`. Generated video is not a presentation; engine screenshots are opt-in. Two 3D
+  runs in a row lost their pair to the subject - a proxy hand, then a fused mesh - after the
+  pass that built the rig had reported it fine.
+- **Arms are approaches, and they are discriminable before the operator looks.** Render the
+  same approach at a second seed; the arms must differ from each other by at least 1.5x
+  that seed noise, recorded as the pair's `discrimination`, or `render-triage.mjs sheet`
+  refuses the pair. A knob the rest of the pipeline drowns out yields two runs of one
+  process, a wasted look, and a tie that reads like evidence. The first run under this
+  phase made that mistake twice before the operator named it.
+- **No local instrument, no landing.** If no renderer on this machine can produce the
+  output, the candidate lands as a lead whose return condition names the instrument
+  (the model, the node, the GPU budget). It never becomes a technique carried by a
+  `simulation` row.
+- **The run does not grade its own render proof.** The director pre-reads frames to catch
+  a crash, a black clip or a wrong anchor, and labels that read as opinion in the note.
+  The operator's pick is the verdict: the question is whether the output is *better*, and
+  every automated instrument these bundles hold is calibrated for *consistent*.
+- **Clean after the verdict, never before, never by sweep.** Every output the run submits
+  carries the run id as its `filename_prefix`, every staged input starts with it, and
+  `clean` refuses without `verdict.json`. The byte count goes in the source note.
+
 ### Phase 7 - Land what survived
 
 Route by shape. Every content change is gate-clean before it is committed.
@@ -1083,7 +1164,9 @@ worker on it before Phase 9**, and stay in the director's chair:
   the spec's listed primaries as its web budget; reconciles read-only against any
   connected tree the bridge names; runs the gate on its own subject; runs no git.
 - The intake session reviews the diff, never the report: gate, purity grep against the
-  source's own vocabulary, one cited line opened, `use_when` on every technique, the
+  source's own vocabulary, every anchor run through `scripts/check-anchors.mjs` against
+  the tree it cites (one cited line opened by hand only where a report carries no
+  quotes), `use_when` on every technique, the
   taxonomy entry appended not reordered. Then regenerate index and catalog, update the
   bundle tables, mark the spec `EXECUTED` with the overrides recorded, write the subject
   note, and commit with a pathspec - the forge's own Phase 4, run by this skill.
@@ -1113,8 +1196,11 @@ non-negotiable buys compliance with a mistake. Ask for the override and the argu
 **Review the diff, never the report.** Run the gate yourself, grep the upper layers for
 purity against the source's own vocabulary (a game-design source is made of game titles;
 a vendor talk is made of product names), confirm `use_when` on every new technique, and
-open one cited line to see that it says what the citation claims. The check is the point,
-not the result.
+run `node scripts/check-anchors.mjs <document> --root <clone>` over every anchor the
+draft cites - open one cited line by hand only where the draft carries no quotes. The
+check is the point, not the result. **"One cited line opened" was a sample, and the
+first run of the instrument over the director's own applications found 39 of 39
+anchors unresolvable as written (v2.11).**
 
 **Check the board immediately before the first write, not at Phase 4.** Minutes have
 passed and siblings have moved:
@@ -1172,6 +1258,14 @@ code owns it. Record it in the project's `.ai/applied.jsonl`, never in `libraria
 A technique with no seam in any managed project is not wrong, but it is **unapplied**,
 and the row says so with the return condition "when a project grows the seam".
 
+**The seam hunt is a second source (v2.8.1).** When Phase 7.5 opens a tree the corpus
+already cites, diff the citations against the tree before choosing the seam, and read
+the tree for where it disagrees with itself. Three consecutive runs (2026-09-08 twice,
+2026-09-09) took their strongest landing from this step and not from the source: a
+removed route three applications still cited, a currency row, and two keyword adapters
+that defaulted the same absence to two different values. A source originates; the fleet
+originates too, whenever the seam hunt opens it.
+
 **Where two seams are available, choose the one that could FALSIFY the finding
 (v2.7).** The instinct is to pick the seam that shows the technique working, and that
 seam teaches nothing the landing did not already assert. Three consecutive rounds now
@@ -1200,12 +1294,25 @@ within one hour; the pre-check is the sibling's half.)
 | `experiment` | the same inputs run twice through a harness that does not change product code - a script, an eval slice, a replayed session, a dry-run of the hook against recorded actions | the harness's output, counted with its predicate | the technique's effect is observable without shipping it: hooks, gates, prompts, thresholds, routing rules |
 | `simulation` | three concrete cases pulled from the tree or its history - a real incident, a real PR, a real failing run - walked under policy A and policy B, one paragraph each, with the predicted outcome and **what would falsify the prediction** | your own reasoning, labelled as such | nothing above is reachable in this run: no gate can see the effect, the seam is in a tree you may not edit, or the cost of the experiment exceeds the run |
 | `task` **(v2)** | the seam as it is (A) vs a **scoped work item** the project would execute to adopt the mechanism (B): a plan in the project's own `.ai/` with the files it touches, the size in files and lines, the measurable it moves, the gate that will see it, and the first step already taken on a branch | the plan's measurable, read from the project's gate once the branch runs; until then the size estimate and the first step's own result | the finding is a design decision or a subject-level mechanism whose adoption is larger than a few readable lines - the case the three modes above cannot express, and the case every design candidate produces |
+| `render` **(v2.9)** | one brief rendered through the corpus-before instruction (A) and the corpus-after instruction (B): one variable, same seed, anchors, model and length | the operator's blind pick from `render-triage.mjs sheet`, revealed onto the arms; the director's frame pre-read is recorded as opinion, never as the verdict | the finding is render-bound (Phase 6b). **Mandatory there, and it outranks every other mode** - a render-bound finding may not substitute `simulation`, and it runs before Phase 7 lands, not after |
 
 A simulation with three cases from a real tree beats a code A/B against a toy. A
 simulation with invented cases is an opinion and does not count as applied.
 
 **3. Record the verdict in a closed vocabulary**, inherited from the sweep lane's
 measured Before/After rule: `better` / `not-better` / `unmeasurable`.
+
+**A verdict is read against two declared numbers, not one (v2.11).** Name the
+**target** - the number the technique says will move - and the **floor** - the
+number that must not move by more than a stated tolerance, usually the outcome the
+project exists to produce: tasks solved, tests green, verdicts unchanged. `better`
+means the target moved *and* the floor held; a target that moved while the floor
+fell is `not-better`, whatever the target says. The rule comes from a harness
+optimization loop that accepted a mechanism only when every capability metric
+stayed inside its predeclared tolerance and at least one efficiency metric improved,
+and whose own release table shows why the floor has to be declared beforehand: one
+configuration cut cost by a quarter and solved three fewer of sixty-three tasks. A
+row with no floor declared says so in its return condition.
 
 - `better` -> Phase 8 ships it (code) or files it as the project's next change
   (experiment, simulation), and the application document carries `applied: <mode>`
@@ -1221,7 +1328,8 @@ measured Before/After rule: `better` / `not-better` / `unmeasurable`.
 
 **4. Write the application document** the way Phase 8 already requires - you opened
 a tree, so `verified_on` and `verified_against` are facts - and add two frontmatter
-lines: `applied: code|experiment|simulation` and `ab_verdict: better|not-better|unmeasurable`.
+lines: `applied: code|experiment|simulation|task|render` and `ab_verdict: better|not-better|unmeasurable`
+(a `render` row adds `grader: operator`).
 The body carries what A and B were and what was read; the seam's `file:line` only if
 the project has made that code public, per Phase 8 step 7.
 
@@ -1401,9 +1509,12 @@ assumed. Phase 7.5 decides *whether* a project change is warranted; this phase g
    that the technique *improves that project*, and the second claim is not evidence
    for itself. Before any cross-repo commit, run a **paired comparison** on the tree
    and record it in the application document under a `proof:` field.
-   - **Name the measurable first** - the number the technique says will move: a
-     split, a rate, a latency, a count of violations, a token cost. No measurable, no
-     commit; a change whose effect cannot be named is a lead, not a landing.
+   - **Name the measurable first, and the floor beside it** - the number the
+     technique says will move: a split, a rate, a latency, a count of violations, a
+     token cost; and the number that must hold within a stated tolerance while it
+     moves (Phase 7.5 step 3, v2.11). No measurable, no commit; a change whose effect
+     cannot be named is a lead, not a landing. A target that moved over a floor that
+     fell is `not-better`.
    - **Prefer A/B: the same input through both arms**, with and without the change,
      on the same instrument. Any scale is admissible - one prompt, one fixture, one
      session - as long as both arms exist and the arm count travels with the number
@@ -1492,6 +1603,17 @@ directory **by its run id**, never by sweeping the scratch root.
   explains, six weeks later, why two notes from one afternoon disagree about what the
   corpus contained. A decline nobody wrote down gets re-proposed
   every run forever.
+
+  **A run that lands a candidate from an EARLIER note edits that note too**, in the
+  same commit: strike the row from its untriaged table and decrement its
+  `untriaged` counter. This is not bookkeeping. The harvest backlog is enumerated
+  from those tables, so a table left standing after its candidates were forged
+  turns landed claims into backlog rows, and a worker is spent re-deriving
+  something the corpus already says. Measured 2026-09-17: one note's twelve
+  candidates were forged in a single run, the note kept `untriaged: 12`, and all
+  twelve became backlog rows - `node scripts/backlog-phantom-screen.mjs` reports
+  the notes this has already happened to. A `--delta` re-scan of the same source
+  updates the original note rather than opening a second one.
 - **Source ledger** `librarian/sources/index.md`: one line per mined source. This is
   what makes "already mined" a one-second check next time. The source note's
   frontmatter also carries `applied: <n>` and `shipped: <n>` beside `accepted`.
@@ -1511,9 +1633,10 @@ directory **by its run id**, never by sweeping the scratch root.
 - **Leads** carry a return condition. "When the model is actually released", "when a
   connected project adopts it", "when a second independent source says it".
 - **`rescan_when:` is MANDATORY on a repository-class source note**, and it is the fuel
-  of the upstream lane rather than a note to yourself. `/librarian` now reads these on a
-  clock (`scripts/upstream-check.mjs`), so a repository mined without one can only ever
-  come back on its tier's floor. Name an upstream event where you can - a PR landing, a
+  of the upstream lane rather than a note to yourself. `/librarian` reads these on every
+  sweep (`scripts/upstream-check.mjs`); nothing runs that check on a clock yet - the weekly
+  CI cron does not call it - so a condition fires only when someone runs a sweep. A
+  repository mined without one can only ever come back on its tier's floor. Name an upstream event where you can - a PR landing, a
   flag leaving a debug gate, a changelog section appearing - and add a date fallback in
   the readable form `; or 8 weeks elapse (YYYY-MM-DD)`. The instrument decides exactly
   two clauses mechanically, a release landing after the mine and a deadline date passing;
@@ -1587,7 +1710,7 @@ row is worse than no row - it makes the weakest-stage reading wrong rather than 
 **Lane 0 - the scorecard, every run, no exceptions.** Append one row to
 `SCORECARD.md`: version used, date, source slug, and the five stage counts -
 `research` (sources ingested), `extract` (candidates), `test` (picks verified),
-`apply` (rows by mode, e.g. `1c/0e/2s/1t`), `ship` (project commits), and `depth`
+`apply` (rows by mode, e.g. `1c/0e/2s/1t/0r`), `ship` (project commits), and `depth`
 (v2: `S/T/A/Asrc/task-lines` with the Phase 2d routing count and the handoff
 decision; v2.1 adds `directions=<proposed>/<not-proposed>` or `n/a`). A zero in `apply` or `ship` carries its reason in the row. Then read the
 last ten rows and name, in one line under the table, **the stage the funnel is losing
@@ -1659,6 +1782,16 @@ corroboration behind it.
   The scorecard row makes this visible; do not make it normal.
 - **Simulating with invented cases.** Three cases from a real tree or its history, or
   it is an opinion with a table around it.
+- **Landing a generation instruction nobody rendered.** In a render-bound bundle the
+  output is the only instrument. A technique that changes what a generator is told, and
+  was never rendered through both arms and triaged by the operator, is a guess with a
+  citation. Render, triage blind, record the verdict, then delete the renders.
+- **Animating a subject nobody checked.** A torn or half-weighted rig is inherited by every
+  arm; the pair then tests the rig. Run `rig_check.py` at the action's extreme poses first, and
+  never take a rig's rigidity from the report of the pass that built it.
+- **Grading your own render proof, or deleting renders before the verdict.** The first
+  launders the director's preference into the corpus; the second throws away the only
+  thing the render was for.
 - **Choosing the seam that flatters the finding.** Where two seams exist, the one that
   could falsify it is the one that returns something the landing did not already say.
 - **Reporting `unmeasurable` without naming the instrument** that would have measured

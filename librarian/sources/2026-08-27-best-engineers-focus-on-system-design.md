@@ -106,7 +106,7 @@ was edited to point at the new technique, so the seam is closed from both sides.
 
 ## Proposed and dispatched
 
-### A2 — A subject for scale sizing → [`docs/subject-proposal-scale-investment-timing.md`](../../docs/subject-proposal-scale-investment-timing.md)
+### A2 — A subject for scale sizing → [`scale-investment-timing`](../../knowledge/software-engineering/backend-platform/resilience/scale-investment-timing/scale-investment-timing.md)
 
 `backend-platform/resilience/scale-investment-timing`, placement verified
 against `taxonomy.json` (nested category, so no flat add is legal; `resilience`
