@@ -419,10 +419,10 @@
     },
     {
       "name": "project-populate",
-      "version": "1.3.2",
+      "version": "1.3.3",
       "category": "workflow",
       "path": "skills/project-populate/SKILL.md",
-      "contentHash": "sha256-n1:513e9cf4d91de4fd",
+      "contentHash": "sha256-n1:68d3e568e1fcf719",
       "adopters": [
         "ascent@plugin:1.0.0",
         "kp@plugin:1.0.0",
