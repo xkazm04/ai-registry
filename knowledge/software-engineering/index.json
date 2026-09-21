@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 229,
-  "techniques": 1762,
-  "applications": 1109,
+  "techniques": 1763,
+  "applications": 1110,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1762/1762",
+  "use_when_coverage": "1763/1763",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -2459,9 +2459,9 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-runtime-assembly/agent-runtime-assembly.md",
-   "digest": "sha256:aed5b5a233987c50",
-   "revision": 20,
-   "changedAt": "2026-09-18",
+   "digest": "sha256:570653d59e0d247b",
+   "revision": 21,
+   "changedAt": "2026-09-21",
    "techniques": [
     {
      "slug": "activation-is-a-separate-mutation",
@@ -2661,7 +2661,9 @@
       "a broken extension takes the host down",
       "a contributed hook's timeout ends the run as cancelled",
       "choosing whether a load failure is fatal",
-      "deciding whether a sandbox lets administrators install code through the product"
+      "deciding whether a sandbox lets administrators install code through the product",
+      "a configuration key names a path that a standing permission carve-out then trusts",
+      "auditing which settings tier may set the scope of an approval exemption"
      ],
      "stage": "team"
     },
@@ -24134,9 +24136,9 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/prompt-assembly.md",
-   "digest": "sha256:c1af34417c9515db",
-   "revision": 33,
-   "changedAt": "2026-09-17",
+   "digest": "sha256:d09e57cdf6e2d34e",
+   "revision": 34,
+   "changedAt": "2026-09-21",
    "techniques": [
     {
      "slug": "amortized-compaction-cadence",
@@ -24445,6 +24447,22 @@
      ]
     },
     {
+     "slug": "response-reservation-sizing",
+     "status": "forged",
+     "laws": [
+      "limits-are-derived",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding how much of the window to reserve for the response",
+      "a platform default sets the output ceiling and nobody chose it",
+      "usable input context is short and the prompt is already trimmed",
+      "an output ceiling is raised for a capability and never lowered again",
+      "the observed output length is recorded but never feeds the ceiling"
+     ]
+    },
+    {
      "slug": "speculative-compaction-splice",
      "status": "forged",
      "laws": [
@@ -24641,6 +24659,13 @@
      "technique": "recovery-path-as-loss-signal",
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/applications/rust--recovery-path-as-loss-signal.md",
      "verified_on": "2026-09-04",
+     "verified_against": "rust@1.96.1"
+    },
+    {
+     "stack": "rust",
+     "technique": "response-reservation-sizing",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/applications/rust--response-reservation-sizing.md",
+     "verified_on": "2026-09-21",
      "verified_against": "rust@1.96.1"
     },
     {
@@ -38047,6 +38072,7 @@
     "prompt-assembly/context-reachability",
     "prompt-assembly/history-compaction",
     "prompt-assembly/recovery-path-as-loss-signal",
+    "prompt-assembly/response-reservation-sizing",
     "prompt-safety/input-caps-and-clamps",
     "prompt-safety/inspection-coverage-is-a-verdict",
     "public-claim-provenance/derived-numerator-authored-denominator",
@@ -40090,6 +40116,7 @@
     "paged-block-cache/release-order-is-the-eviction-policy",
     "prompt-assembly/compaction-horizon-breakeven",
     "prompt-assembly/elision-to-a-refetch-pointer",
+    "prompt-assembly/response-reservation-sizing",
     "register-bytecode-execution/instruction-format-follows-program-lifetime",
     "remote-capability-probing/buffer-by-access-latency-class",
     "remote-capability-probing/degraded-rung-refusal-ceiling",

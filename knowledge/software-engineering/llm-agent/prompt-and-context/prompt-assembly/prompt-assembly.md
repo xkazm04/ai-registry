@@ -9,6 +9,7 @@ techniques:
   - house-vocabulary-layer
   - variable-interpolation
   - context-budgeting
+  - response-reservation-sizing
   - history-compaction
   - tiered-history-projection
   - capability-documentation
@@ -413,6 +414,10 @@ disappearing.
 - [context-budgeting](./techniques/context-budgeting.md) — per-layer
   allocation, degradation ladders, summarization thresholds, truncation
   that names its drops, lazy expansion of heavy sections.
+- [response-reservation-sizing](./techniques/response-reservation-sizing.md) —
+  the other end of that subtraction: the room held back for the response is
+  charged on every call, so it is derived from the observed response-length
+  distribution and escalated on the cut, never left at a platform default.
 - [history-compaction](./techniques/history-compaction.md) — spending down
   the one layer nobody authored: the pairing invariant a cut must not break,
   repairing a record left malformed by an interrupted turn, and compacting
