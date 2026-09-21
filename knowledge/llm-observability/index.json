@@ -144,7 +144,7 @@
    "file": "knowledge/llm-observability/economics-and-governance/billing-revenue-normalization/billing-revenue-normalization.md",
    "digest": "sha256:e805d360d9c98db9",
    "revision": 3,
-   "changedAt": "2026-09-21",
+   "changedAt": "2026-09-11",
    "techniques": [
     {
      "slug": "contract-version-is-provenance",
@@ -610,7 +610,7 @@
    "file": "knowledge/llm-observability/federation-and-surfaces/federated-benchmark-sharing/federated-benchmark-sharing.md",
    "digest": "sha256:65e3f15c43a7b217",
    "revision": 10,
-   "changedAt": "2026-09-21",
+   "changedAt": "2026-09-09",
    "techniques": [
     {
      "slug": "aggregate-only-digests",
@@ -801,7 +801,7 @@
    "file": "knowledge/llm-observability/quality-scoring/generator-uncertainty-scoring/generator-uncertainty-scoring.md",
    "digest": "sha256:934b3640f494090b",
    "revision": 2,
-   "changedAt": "2026-09-21",
+   "changedAt": "2026-09-18",
    "techniques": [
     {
      "slug": "generator-vs-itself",
@@ -918,7 +918,7 @@
    "file": "knowledge/llm-observability/quality-scoring/grounded-answer-scoring/grounded-answer-scoring.md",
    "digest": "sha256:9abed0e152b5afa0",
    "revision": 1,
-   "changedAt": "2026-09-21",
+   "changedAt": "2026-09-15",
    "techniques": [
     {
      "slug": "bidirectional-claim-matching",
@@ -1033,7 +1033,7 @@
    "file": "knowledge/llm-observability/quality-scoring/judge-calibration-and-drift/judge-calibration-and-drift.md",
    "digest": "sha256:078c4b9734536c40",
    "revision": 4,
-   "changedAt": "2026-09-21",
+   "changedAt": "2026-09-15",
    "techniques": [
     {
      "slug": "fit-and-report-on-disjoint-labels",
@@ -1336,8 +1336,8 @@
    "status": "forged",
    "file": "knowledge/llm-observability/telemetry-and-data/llm-call-telemetry-model/llm-call-telemetry-model.md",
    "digest": "sha256:8f6e59ac5de71d9b",
-   "revision": 5,
-   "changedAt": "2026-09-21",
+   "revision": 6,
+   "changedAt": "2026-09-18",
    "techniques": [
     {
      "slug": "dual-clock-event-time",
@@ -2178,7 +2178,7 @@
    "file": "knowledge/llm-observability/telemetry-and-data/trace-rollup-and-attribution/trace-rollup-and-attribution.md",
    "digest": "sha256:0e4dc9d7f880388d",
    "revision": 7,
-   "changedAt": "2026-09-21",
+   "changedAt": "2026-09-18",
    "techniques": [
     {
      "slug": "derived-trace-rollup",
@@ -2312,7 +2312,7 @@
    "file": "knowledge/llm-observability/economics-and-governance/usage-limit-governance/usage-limit-governance.md",
    "digest": "sha256:f7da8fcc8585b66f",
    "revision": 4,
-   "changedAt": "2026-09-21",
+   "changedAt": "2026-09-18",
    "techniques": [
     {
      "slug": "concurrent-admission-integrity",

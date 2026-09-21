@@ -118,7 +118,7 @@
    "file": "knowledge/media-generation/visual-generation/cinematic-language/cinematic-language.md",
    "digest": "sha256:fb97957050b7a568",
    "revision": 8,
-   "changedAt": "2026-09-21",
+   "changedAt": "2026-09-07",
    "techniques": [
     {
      "slug": "camera-position-semantics",
@@ -876,7 +876,7 @@
    "file": "knowledge/media-generation/visual-generation/generated-output-grading/generated-output-grading.md",
    "digest": "sha256:6ff5db0ea440f4ac",
    "revision": 9,
-   "changedAt": "2026-09-21",
+   "changedAt": "2026-09-20",
    "techniques": [
     {
      "slug": "cross-provider-flip-analysis",
@@ -1045,8 +1045,8 @@
    "status": "forged",
    "file": "knowledge/media-generation/visual-generation/generative-provider-routing/generative-provider-routing.md",
    "digest": "sha256:75809ad774c29a60",
-   "revision": 10,
-   "changedAt": "2026-09-21",
+   "revision": 11,
+   "changedAt": "2026-09-17",
    "techniques": [
     {
      "slug": "capability-to-vendor-plan",
@@ -1416,7 +1416,7 @@
    "file": "knowledge/media-generation/production-ops/live-system-demo-film/live-system-demo-film.md",
    "digest": "sha256:c0141940b28d7de1",
    "revision": 1,
-   "changedAt": "2026-09-21",
+   "changedAt": "2026-09-16",
    "techniques": [
     {
      "slug": "audio-first-beat-pacing",
@@ -2449,8 +2449,8 @@
    "status": "forged",
    "file": "knowledge/media-generation/production-ops/video-assembly/video-assembly.md",
    "digest": "sha256:72dbf7047e97d78a",
-   "revision": 12,
-   "changedAt": "2026-09-21",
+   "revision": 15,
+   "changedAt": "2026-09-16",
    "techniques": [
     {
      "slug": "cut-compiled-from-source",
@@ -2657,8 +2657,8 @@
    "status": "forged",
    "file": "knowledge/media-generation/visual-generation/visual-style-locking/visual-style-locking.md",
    "digest": "sha256:4de2deb6a1af4e57",
-   "revision": 6,
-   "changedAt": "2026-09-21",
+   "revision": 8,
+   "changedAt": "2026-09-14",
    "techniques": [
     {
      "slug": "approved-reference-sheet",

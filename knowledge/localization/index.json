@@ -372,8 +372,8 @@
    "status": "forged",
    "file": "knowledge/localization/craft/copy-quality-gates/copy-quality-gates.md",
    "digest": "sha256:7b55aaf6d0f74e78",
-   "revision": 1,
-   "changedAt": "2026-09-21",
+   "revision": 5,
+   "changedAt": "2026-09-14",
    "techniques": [
     {
      "slug": "anchored-model-review",
@@ -582,7 +582,7 @@
    "file": "knowledge/localization/european/czech/czech.md",
    "digest": "sha256:fe247268541c1b65",
    "revision": 5,
-   "changedAt": "2026-09-21",
+   "changedAt": "2026-09-14",
    "techniques": [
     {
      "slug": "de-anglicization-constructions",
@@ -699,8 +699,8 @@
    "status": "forged",
    "file": "knowledge/localization/european/english/english.md",
    "digest": "sha256:af6d31bae4d6e1e8",
-   "revision": 1,
-   "changedAt": "2026-09-21",
+   "revision": 2,
+   "changedAt": "2026-09-14",
    "techniques": [
     {
      "slug": "de-translationese-constructions",
@@ -1736,8 +1736,8 @@
    "status": "reconciled",
    "file": "knowledge/localization/craft/translation-pipeline-topology/translation-pipeline-topology.md",
    "digest": "sha256:2121723b5db249ed",
-   "revision": 8,
-   "changedAt": "2026-09-21",
+   "revision": 11,
+   "changedAt": "2026-09-14",
    "techniques": [
     {
      "slug": "canonical-and-derived-split",
@@ -1967,8 +1967,8 @@
    "status": "forged",
    "file": "knowledge/localization/craft/translation-quality-measurement/translation-quality-measurement.md",
    "digest": "sha256:655a52f1a9d9783b",
-   "revision": 2,
-   "changedAt": "2026-09-21",
+   "revision": 3,
+   "changedAt": "2026-09-14",
    "techniques": [
     {
      "slug": "context-sufficiency-signals",

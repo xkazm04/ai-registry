@@ -813,7 +813,7 @@
    "file": "knowledge/grant-funding/matching-and-intelligence/grant-matching/grant-matching.md",
    "digest": "sha256:e52c421c0cab9483",
    "revision": 2,
-   "changedAt": "2026-09-21",
+   "changedAt": "2026-09-10",
    "techniques": [
     {
      "slug": "diminishing-returns-keyword-overlap",

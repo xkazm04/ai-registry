@@ -25,7 +25,7 @@
    "file": "knowledge/civic-intelligence/accountability-method/accountability-publishing-ethics/accountability-publishing-ethics.md",
    "digest": "sha256:9388e3ad0aa405ff",
    "revision": 3,
-   "changedAt": "2026-09-21",
+   "changedAt": "2026-09-09",
    "techniques": [
     {
      "slug": "accountless-notification-privacy",
@@ -138,7 +138,7 @@
    "file": "knowledge/civic-intelligence/public-money/beneficial-ownership-resolution/beneficial-ownership-resolution.md",
    "digest": "sha256:7be1b2d166c9ad7f",
    "revision": 3,
-   "changedAt": "2026-09-21",
+   "changedAt": "2026-09-09",
    "techniques": [
     {
      "slug": "identifier-checksum-validation",
@@ -243,7 +243,7 @@
    "file": "knowledge/civic-intelligence/civic-graph-infrastructure/civic-knowledge-graphs/civic-knowledge-graphs.md",
    "digest": "sha256:8a8dcf57ae13912a",
    "revision": 4,
-   "changedAt": "2026-09-21",
+   "changedAt": "2026-09-09",
    "techniques": [
     {
      "slug": "civic-entity-ontology",
@@ -356,7 +356,7 @@
    "file": "knowledge/civic-intelligence/civic-graph-infrastructure/civic-source-adapters/civic-source-adapters.md",
    "digest": "sha256:c88c5159db6abacd",
    "revision": 3,
-   "changedAt": "2026-09-21",
+   "changedAt": "2026-09-09",
    "techniques": [
     {
      "slug": "entity-name-normalization",
@@ -469,7 +469,7 @@
    "file": "knowledge/civic-intelligence/accountability-method/claim-verification-and-provenance/claim-verification-and-provenance.md",
    "digest": "sha256:3a6b28a10bf954c1",
    "revision": 3,
-   "changedAt": "2026-09-21",
+   "changedAt": "2026-09-09",
    "techniques": [
     {
      "slug": "claim-ref-addressing",
@@ -584,7 +584,7 @@
    "file": "knowledge/civic-intelligence/public-money/conflict-of-interest-detection/conflict-of-interest-detection.md",
    "digest": "sha256:d9d42fa383865920",
    "revision": 3,
-   "changedAt": "2026-09-21",
+   "changedAt": "2026-09-09",
    "techniques": [
     {
      "slug": "registry-corroboration-gating",
@@ -697,7 +697,7 @@
    "file": "knowledge/civic-intelligence/parliamentary-data/legislative-change-tracking/legislative-change-tracking.md",
    "digest": "sha256:98eb1bce56a2d31a",
    "revision": 3,
-   "changedAt": "2026-09-21",
+   "changedAt": "2026-09-09",
    "techniques": [
     {
      "slug": "amendment-instruction-grammar",
@@ -803,7 +803,7 @@
    "file": "knowledge/civic-intelligence/accountability-method/llm-forensic-gating/llm-forensic-gating.md",
    "digest": "sha256:31916ec0c4085bd0",
    "revision": 6,
-   "changedAt": "2026-09-21",
+   "changedAt": "2026-09-09",
    "techniques": [
     {
      "slug": "citation-required-per-claim",
@@ -950,7 +950,7 @@
    "file": "knowledge/civic-intelligence/parliamentary-data/parliamentary-data-modeling/parliamentary-data-modeling.md",
    "digest": "sha256:efbd6fc2f06f3cbf",
    "revision": 3,
-   "changedAt": "2026-09-21",
+   "changedAt": "2026-09-09",
    "techniques": [
     {
      "slug": "cross-term-registry-loading",
@@ -1060,7 +1060,7 @@
    "file": "knowledge/civic-intelligence/parliamentary-data/political-compass-from-votes/political-compass-from-votes.md",
    "digest": "sha256:eb9c22947fdcb514",
    "revision": 3,
-   "changedAt": "2026-09-21",
+   "changedAt": "2026-09-10",
    "techniques": [
     {
      "slug": "comparability-floor-for-ranking",
@@ -1178,7 +1178,7 @@
    "file": "knowledge/civic-intelligence/accountability-method/politician-performance-scoring/politician-performance-scoring.md",
    "digest": "sha256:a868c74cdc34651c",
    "revision": 3,
-   "changedAt": "2026-09-21",
+   "changedAt": "2026-09-10",
    "techniques": [
     {
      "slug": "comparison-fairness",
@@ -1295,7 +1295,7 @@
    "file": "knowledge/civic-intelligence/public-money/public-money-attribution/public-money-attribution.md",
    "digest": "sha256:ea774ea87ee08bbf",
    "revision": 3,
-   "changedAt": "2026-09-21",
+   "changedAt": "2026-09-10",
    "techniques": [
     {
      "slug": "attribution-perimeter",
@@ -1408,7 +1408,7 @@
    "file": "knowledge/civic-intelligence/public-money/public-procurement-analysis/public-procurement-analysis.md",
    "digest": "sha256:5775aeb0c3d92ff8",
    "revision": 3,
-   "changedAt": "2026-09-21",
+   "changedAt": "2026-09-10",
    "techniques": [
     {
      "slug": "contract-registry-record-model",
@@ -1527,7 +1527,7 @@
    "file": "knowledge/civic-intelligence/parliamentary-data/roll-call-vote-analysis/roll-call-vote-analysis.md",
    "digest": "sha256:a43921646b1b581e",
    "revision": 3,
-   "changedAt": "2026-09-21",
+   "changedAt": "2026-09-10",
    "techniques": [
     {
      "slug": "club-line-and-rebellion",
@@ -1640,7 +1640,7 @@
    "file": "knowledge/civic-intelligence/public-money/state-budget-analysis/state-budget-analysis.md",
    "digest": "sha256:5e14df01c1948e67",
    "revision": 3,
-   "changedAt": "2026-09-21",
+   "changedAt": "2026-09-10",
    "techniques": [
     {
      "slug": "consolidated-vs-headline-figures",

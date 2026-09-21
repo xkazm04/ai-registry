@@ -947,7 +947,7 @@
       "techniques": 25,
       "applications": 12,
       "files": 49,
-      "contentHash": "sha256:56ac632c32c8e0d0"
+      "contentHash": "sha256:4d8c27fb2c9bb1b3"
     },
     {
       "name": "civic-intelligence",
@@ -960,7 +960,7 @@
       "techniques": 92,
       "applications": 35,
       "files": 147,
-      "contentHash": "sha256:f17caf5617b15577"
+      "contentHash": "sha256:f06c08ebbdf6cb74"
     },
     {
       "name": "game-production",
@@ -973,7 +973,7 @@
       "techniques": 328,
       "applications": 140,
       "files": 524,
-      "contentHash": "sha256:34b1e0268ef3861b"
+      "contentHash": "sha256:8ac266d718a37676"
     },
     {
       "name": "grant-funding",
@@ -986,7 +986,7 @@
       "techniques": 105,
       "applications": 38,
       "files": 165,
-      "contentHash": "sha256:9371b4168b021b90"
+      "contentHash": "sha256:bb1ec251fe7f8c41"
     },
     {
       "name": "llm-observability",
@@ -999,7 +999,7 @@
       "techniques": 123,
       "applications": 75,
       "files": 221,
-      "contentHash": "sha256:ead78b3aad20d6f7"
+      "contentHash": "sha256:4382b3913de69d81"
     },
     {
       "name": "localization",
@@ -1012,7 +1012,7 @@
       "techniques": 119,
       "applications": 55,
       "files": 195,
-      "contentHash": "sha256:eb6f78d1e5c484af"
+      "contentHash": "sha256:a34ed3fdd5b86aec"
     },
     {
       "name": "marketing",
@@ -1025,7 +1025,7 @@
       "techniques": 183,
       "applications": 83,
       "files": 300,
-      "contentHash": "sha256:8eaa917de51f7a35"
+      "contentHash": "sha256:6ac97b38183a1bfe"
     },
     {
       "name": "media-generation",
@@ -1038,7 +1038,7 @@
       "techniques": 144,
       "applications": 72,
       "files": 242,
-      "contentHash": "sha256:4cd191e4f3615fe8"
+      "contentHash": "sha256:01ef7e37b8488be3"
     },
     {
       "name": "recruiting",
@@ -1051,7 +1051,7 @@
       "techniques": 384,
       "applications": 197,
       "files": 649,
-      "contentHash": "sha256:520d2265ddf56529"
+      "contentHash": "sha256:a0a8e582e122788f"
     },
     {
       "name": "software-engineering",
@@ -1064,7 +1064,7 @@
       "techniques": 1780,
       "applications": 1099,
       "files": 3116,
-      "contentHash": "sha256:a33b4bce961f7ef0"
+      "contentHash": "sha256:2be78ed6eab8883f"
     }
   ],
   "usageEvidence": {

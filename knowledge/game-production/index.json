@@ -27,8 +27,8 @@
    "status": "forged",
    "file": "knowledge/game-production/craft-judgment/aaa-craft-rubric-authoring/aaa-craft-rubric-authoring.md",
    "digest": "sha256:2854a19d5ecc3b5a",
-   "revision": 3,
-   "changedAt": "2026-09-21",
+   "revision": 4,
+   "changedAt": "2026-09-16",
    "techniques": [
     {
      "slug": "capped-disqualifiers",
@@ -205,7 +205,7 @@
    "file": "knowledge/game-production/production-governance/ability-authoring-to-engine/ability-authoring-to-engine.md",
    "digest": "sha256:adc9d789d856c1af",
    "revision": 4,
-   "changedAt": "2026-09-21",
+   "changedAt": "2026-09-10",
    "techniques": [
     {
      "slug": "declared-vs-referenced-tag-audit",
@@ -321,7 +321,7 @@
    "file": "knowledge/game-production/content-pipeline/acceptance-verdict-spine/acceptance-verdict-spine.md",
    "digest": "sha256:a723d28e976b771c",
    "revision": 3,
-   "changedAt": "2026-09-21",
+   "changedAt": "2026-09-10",
    "techniques": [
     {
      "slug": "explain-why-this-verdict",
@@ -441,7 +441,7 @@
    "file": "knowledge/game-production/asset-production/motion-and-audio/adaptive-music-authoring/adaptive-music-authoring.md",
    "digest": "sha256:f5e49d8d949b70ce",
    "revision": 2,
-   "changedAt": "2026-09-21",
+   "changedAt": "2026-09-10",
    "techniques": [
     {
      "slug": "intensity-mapping-from-declared-game-state",
@@ -554,7 +554,7 @@
    "file": "knowledge/game-production/systems-canon/agent-behaviour-authoring/agent-behaviour-authoring.md",
    "digest": "sha256:d9dc69cfd79f8615",
    "revision": 2,
-   "changedAt": "2026-09-21",
+   "changedAt": "2026-09-10",
    "techniques": [
     {
      "slug": "behaviour-model-selection",
@@ -669,7 +669,7 @@
    "file": "knowledge/game-production/systems-canon/arpg-systems-canon/arpg-systems-canon.md",
    "digest": "sha256:9a0893f9b812d20f",
    "revision": 3,
-   "changedAt": "2026-09-21",
+   "changedAt": "2026-09-10",
    "techniques": [
     {
      "slug": "added-increased-more-stacking",
@@ -780,7 +780,7 @@
    "file": "knowledge/game-production/asset-production/geometry/asset-class-poly-budgeting/asset-class-poly-budgeting.md",
    "digest": "sha256:edd3d67956a8cda2",
    "revision": 2,
-   "changedAt": "2026-09-21",
+   "changedAt": "2026-09-10",
    "techniques": [
     {
      "slug": "budget-shapes-output-not-just-caps",
@@ -892,7 +892,7 @@
    "file": "knowledge/game-production/content-pipeline/branching-narrative-graph-validation/branching-narrative-graph-validation.md",
    "digest": "sha256:03bf7bbf234eb858",
    "revision": 2,
-   "changedAt": "2026-09-21",
+   "changedAt": "2026-09-10",
    "techniques": [
     {
      "slug": "dead-end-versus-authored-ending",
@@ -3180,7 +3180,7 @@
    "file": "knowledge/game-production/asset-production/surface-and-imagery/imported-material-conformance/imported-material-conformance.md",
    "digest": "sha256:720549b5c431ae0d",
    "revision": 1,
-   "changedAt": "2026-09-21",
+   "changedAt": "2026-09-07",
    "techniques": [
     {
      "slug": "a-fixer-script-is-the-edge-in-the-wrong-place",

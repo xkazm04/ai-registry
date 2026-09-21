@@ -3473,7 +3473,7 @@
    "file": "knowledge/recruiting/measurement/honest-measurement-presentation/honest-measurement-presentation.md",
    "digest": "sha256:3a1aaaf44c6a7043",
    "revision": 2,
-   "changedAt": "2026-09-21",
+   "changedAt": "2026-09-10",
    "techniques": [
     {
      "slug": "a-capped-table-says-what-it-dropped",
@@ -5721,7 +5721,7 @@
    "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/recruiter-anchored-model-evaluation/recruiter-anchored-model-evaluation.md",
    "digest": "sha256:db54d4363e8e9321",
    "revision": 2,
-   "changedAt": "2026-09-21",
+   "changedAt": "2026-09-10",
    "techniques": [
     {
      "slug": "decision-anchored-score-bands",
@@ -5966,7 +5966,7 @@
    "file": "knowledge/recruiting/measurement/recruiting-funnel-metrics/recruiting-funnel-metrics.md",
    "digest": "sha256:8963b255345ce37b",
    "revision": 2,
-   "changedAt": "2026-09-21",
+   "changedAt": "2026-09-10",
    "techniques": [
     {
      "slug": "creation-cohort-versus-terminal-transition-basis",

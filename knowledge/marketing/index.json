@@ -28,7 +28,7 @@
    "file": "knowledge/marketing/search-and-content/answer-engine-visibility/answer-engine-visibility.md",
    "digest": "sha256:9e694ef0f5511833",
    "revision": 1,
-   "changedAt": "2026-09-21",
+   "changedAt": "2026-09-09",
    "techniques": [
     {
      "slug": "answer-block-under-question-heading",
@@ -145,7 +145,7 @@
    "file": "knowledge/marketing/measurement-and-economics/attribution-and-incrementality/attribution-and-incrementality.md",
    "digest": "sha256:921ded23dab7bee6",
    "revision": 1,
-   "changedAt": "2026-09-21",
+   "changedAt": "2026-09-09",
    "techniques": [
     {
      "slug": "before-after-is-not-an-experiment",
@@ -270,7 +270,7 @@
    "file": "knowledge/marketing/content-production/brand-voice-capture/brand-voice-capture.md",
    "digest": "sha256:af11cc20ef3f1fb2",
    "revision": 1,
-   "changedAt": "2026-09-21",
+   "changedAt": "2026-09-09",
    "techniques": [
     {
      "slug": "distil-only-what-samples-show-else-ask",
@@ -377,7 +377,7 @@
    "file": "knowledge/marketing/paid-advertising/budget-reallocation-prescription/budget-reallocation-prescription.md",
    "digest": "sha256:0093380477fe2afe",
    "revision": 1,
-   "changedAt": "2026-09-21",
+   "changedAt": "2026-09-09",
    "techniques": [
     {
      "slug": "donor-floor-and-movable-amount",
@@ -496,7 +496,7 @@
    "file": "knowledge/marketing/local-and-zero-budget/business-profile-and-citations/business-profile-and-citations.md",
    "digest": "sha256:1a329068de94c506",
    "revision": 1,
-   "changedAt": "2026-09-21",
+   "changedAt": "2026-09-09",
    "techniques": [
     {
      "slug": "city-in-query-never-in-name",
@@ -610,7 +610,7 @@
    "file": "knowledge/marketing/paid-advertising/campaign-anomaly-triage/campaign-anomaly-triage.md",
    "digest": "sha256:53df8d424528b83e",
    "revision": 1,
-   "changedAt": "2026-09-21",
+   "changedAt": "2026-09-09",
    "techniques": [
     {
      "slug": "crater-vs-slow-bleed",
@@ -746,7 +746,7 @@
    "file": "knowledge/marketing/content-production/channel-native-social-and-repurposing/channel-native-social-and-repurposing.md",
    "digest": "sha256:5a0ffc177fb88981",
    "revision": 1,
-   "changedAt": "2026-09-21",
+   "changedAt": "2026-09-09",
    "techniques": [
     {
      "slug": "cadence-caps-at-one-chokepoint",
@@ -865,7 +865,7 @@
    "file": "knowledge/marketing/measurement-and-economics/client-reporting-and-data-provenance/client-reporting-and-data-provenance.md",
    "digest": "sha256:1da8b89f47ec6267",
    "revision": 1,
-   "changedAt": "2026-09-21",
+   "changedAt": "2026-09-09",
    "techniques": [
     {
      "slug": "live-means-synced-rows",
@@ -982,7 +982,7 @@
    "file": "knowledge/marketing/content-production/content-brief-and-article-composition/content-brief-and-article-composition.md",
    "digest": "sha256:849284ffca11cc19",
    "revision": 1,
-   "changedAt": "2026-09-21",
+   "changedAt": "2026-09-09",
    "techniques": [
     {
      "slug": "article-block-budget-one-callout-one-cta",
@@ -1093,7 +1093,7 @@
    "file": "knowledge/marketing/measurement-and-economics/goal-pacing-and-forecast/goal-pacing-and-forecast.md",
    "digest": "sha256:227ca417960b3bbc",
    "revision": 1,
-   "changedAt": "2026-09-21",
+   "changedAt": "2026-09-09",
    "techniques": [
     {
      "slug": "band-and-suppressed-early-probability",
@@ -1192,7 +1192,7 @@
    "file": "knowledge/marketing/content-production/grounded-marketing-generation/grounded-marketing-generation.md",
    "digest": "sha256:de25821e85177ca0",
    "revision": 1,
-   "changedAt": "2026-09-21",
+   "changedAt": "2026-09-09",
    "techniques": [
     {
      "slug": "deterministic-clamp-vs-model-reprompt",
@@ -1312,7 +1312,7 @@
    "file": "knowledge/marketing/positioning-and-proof/honest-proof-and-illustrative-data/honest-proof-and-illustrative-data.md",
    "digest": "sha256:774a6c4760406e74",
    "revision": 1,
-   "changedAt": "2026-09-21",
+   "changedAt": "2026-09-09",
    "techniques": [
     {
      "slug": "absent-evidence-inventory",
@@ -1429,7 +1429,7 @@
    "file": "knowledge/marketing/search-and-content/keyword-metric-reliability/keyword-metric-reliability.md",
    "digest": "sha256:cfab65e0842d917d",
    "revision": 1,
-   "changedAt": "2026-09-21",
+   "changedAt": "2026-09-09",
    "techniques": [
     {
      "slug": "authority-ceiling-blogs-not-money-pages",
@@ -1541,7 +1541,7 @@
    "file": "knowledge/marketing/conversion-and-leads/landing-page-experiment-statistics/landing-page-experiment-statistics.md",
    "digest": "sha256:dcc619fa4bff470a",
    "revision": 1,
-   "changedAt": "2026-09-21",
+   "changedAt": "2026-09-09",
    "techniques": [
     {
      "slug": "distinct-hypothesis-per-arm",
@@ -1663,7 +1663,7 @@
    "file": "knowledge/marketing/conversion-and-leads/lead-quality-and-source-diagnosis/lead-quality-and-source-diagnosis.md",
    "digest": "sha256:7e2f3983c8703ebe",
    "revision": 1,
-   "changedAt": "2026-09-21",
+   "changedAt": "2026-09-09",
    "techniques": [
     {
      "slug": "cause-taxonomy-spam-mistargeting-pricing-volume",
@@ -1786,7 +1786,7 @@
    "file": "knowledge/marketing/search-and-content/local-page-doorway-prevention/local-page-doorway-prevention.md",
    "digest": "sha256:7e3371b222693b75",
    "revision": 1,
-   "changedAt": "2026-09-21",
+   "changedAt": "2026-09-09",
    "techniques": [
     {
      "slug": "boilerplate-strip-then-containment",
@@ -1899,7 +1899,7 @@
    "file": "knowledge/marketing/local-and-zero-budget/local-visibility-and-reputation/local-visibility-and-reputation.md",
    "digest": "sha256:c0bcfa7c997a5cdb",
    "revision": 1,
-   "changedAt": "2026-09-21",
+   "changedAt": "2026-09-09",
    "techniques": [
     {
      "slug": "attention-score-for-many-locations",
@@ -2022,7 +2022,7 @@
    "file": "knowledge/marketing/conversion-and-leads/money-page-conversion-craft/money-page-conversion-craft.md",
    "digest": "sha256:e89f6e67454d788b",
    "revision": 1,
-   "changedAt": "2026-09-21",
+   "changedAt": "2026-09-09",
    "techniques": [
     {
      "slug": "cro-leak-order",
@@ -2135,7 +2135,7 @@
    "file": "knowledge/marketing/search-and-content/on-page-and-metadata-craft/on-page-and-metadata-craft.md",
    "digest": "sha256:35ac9537e9fd006d",
    "revision": 1,
-   "changedAt": "2026-09-21",
+   "changedAt": "2026-09-09",
    "techniques": [
     {
      "slug": "ctr-lifts-as-tie-breakers-not-a-stack",
@@ -2255,7 +2255,7 @@
    "file": "knowledge/marketing/measurement-and-economics/performance-root-cause-diagnosis/performance-root-cause-diagnosis.md",
    "digest": "sha256:b1b39cf34f901ac8",
    "revision": 1,
-   "changedAt": "2026-09-21",
+   "changedAt": "2026-09-09",
    "techniques": [
     {
      "slug": "advice-ledger-scores-past-advice",
@@ -2375,7 +2375,7 @@
    "file": "knowledge/marketing/measurement-and-economics/period-comparison-significance/period-comparison-significance.md",
    "digest": "sha256:94e071e4fe942ac7",
    "revision": 1,
-   "changedAt": "2026-09-21",
+   "changedAt": "2026-09-09",
    "techniques": [
     {
      "slug": "equal-windows-and-truncated-flag",
@@ -2496,7 +2496,7 @@
    "file": "knowledge/marketing/positioning-and-proof/positioning-and-pricing-transparency/positioning-and-pricing-transparency.md",
    "digest": "sha256:7afc6d4266b83f70",
    "revision": 1,
-   "changedAt": "2026-09-21",
+   "changedAt": "2026-09-09",
    "techniques": [
     {
      "slug": "competitor-facts-sourced-and-dated",
@@ -2615,7 +2615,7 @@
    "file": "knowledge/marketing/paid-advertising/product-feed-and-catalog-spine/product-feed-and-catalog-spine.md",
    "digest": "sha256:9c6b95f50aa0b883",
    "revision": 1,
-   "changedAt": "2026-09-21",
+   "changedAt": "2026-09-09",
    "techniques": [
     {
      "slug": "custom-labels-as-bidding-buckets",
@@ -2733,7 +2733,7 @@
    "file": "knowledge/marketing/measurement-and-economics/profit-on-ad-spend-economics/profit-on-ad-spend-economics.md",
    "digest": "sha256:4d8b270bb1cf63ad",
    "revision": 1,
-   "changedAt": "2026-09-21",
+   "changedAt": "2026-09-09",
    "techniques": [
     {
      "slug": "break-even-roas-is-inverse-margin",
@@ -2856,7 +2856,7 @@
    "file": "knowledge/marketing/paid-advertising/responsive-search-ad-craft/responsive-search-ad-craft.md",
    "digest": "sha256:dc11e0cdf93496a8",
    "revision": 1,
-   "changedAt": "2026-09-21",
+   "changedAt": "2026-09-09",
    "techniques": [
     {
      "slug": "ad-strength-is-a-proxy-not-relevance",
@@ -2971,7 +2971,7 @@
    "file": "knowledge/marketing/search-and-content/search-intent-classification/search-intent-classification.md",
    "digest": "sha256:72a331b20fc78ac3",
    "revision": 1,
-   "changedAt": "2026-09-21",
+   "changedAt": "2026-09-09",
    "techniques": [
     {
      "slug": "buyer-diyer-peer-test",
@@ -3080,7 +3080,7 @@
    "file": "knowledge/marketing/paid-advertising/search-term-mining/search-term-mining.md",
    "digest": "sha256:654f5114c0714de9",
    "revision": 1,
-   "changedAt": "2026-09-21",
+   "changedAt": "2026-09-09",
    "techniques": [
     {
      "slug": "campaign-level-phrase-negative",
@@ -3190,7 +3190,7 @@
    "file": "knowledge/marketing/search-and-content/site-architecture-and-topic-clusters/site-architecture-and-topic-clusters.md",
    "digest": "sha256:3b2dabe474ee51ff",
    "revision": 1,
-   "changedAt": "2026-09-21",
+   "changedAt": "2026-09-09",
    "techniques": [
     {
      "slug": "hub-spoke-sibling-standalone-labels",
@@ -3320,8 +3320,8 @@
    "status": "forged",
    "file": "knowledge/marketing/conversion-and-leads/speed-to-lead-and-assisted-reply/speed-to-lead-and-assisted-reply.md",
    "digest": "sha256:f0f94d7d16ec3d00",
-   "revision": 1,
-   "changedAt": "2026-09-21",
+   "revision": 2,
+   "changedAt": "2026-09-16",
    "techniques": [
     {
      "slug": "answer-in-first-sentence-never-promise",
@@ -3447,8 +3447,8 @@
    "status": "forged",
    "file": "knowledge/marketing/local-and-zero-budget/zero-budget-channel-planning/zero-budget-channel-planning.md",
    "digest": "sha256:5cf07c38762e47ca",
-   "revision": 1,
-   "changedAt": "2026-09-21",
+   "revision": 3,
+   "changedAt": "2026-09-20",
    "techniques": [
     {
      "slug": "admissibility-before-fit-and-effort",
