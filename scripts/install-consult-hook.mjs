@@ -22,7 +22,9 @@
  *   <hooksPath>/    core.hooksPath points at a committed directory (.githooks). Installing
  *                   means a tracked file in that repo, which its owner must commit.
  *   husky           append to .husky/pre-commit, also tracked.
- *   lefthook        NOT automated. A lefthook.yml's job graph is the project's own
+ *   lefthook        NOT automated, and the printed snippet must carry its own `sh -c`:
+ *                   lefthook runs `run:` with no shell, so ${VAR:-default} and `|| true`
+ *                   are both inert there. A lefthook.yml's job graph is the project's own
  *                   structure and a script that rewrites YAML it did not design will
  *                   eventually mangle one. The snippet is printed instead.
  *   pre-commit      NOT automated, for the same reason: .pre-commit-config.yaml declares
@@ -218,7 +220,13 @@ const manual = rows.filter((r) => r.action === 'print snippet');
 if (manual.length) {
   console.log(`\n${manual.length} project(s) use a hook manager this script will not rewrite (${manual.map((m) => m.slug).join(', ')}).`);
   console.log('Add the equivalent of this to the project\'s own pre-commit job:\n');
-  console.log('  node "$AI_REGISTRY_DIR/scripts/consult-check.mjs" || true\n');
+  // WRAPPED IN `sh -c` ON PURPOSE. lefthook runs a job's `run:` directly, with no shell,
+  // so a bare `${VAR:-default}` is never expanded and a trailing `|| true` is never
+  // honoured. Pasted unwrapped into politicas, the default expanded to a literal `:-..`
+  // segment, node died on MODULE_NOT_FOUND, and lefthook read that as a failed job - so a
+  // hook whose whole contract is "this never blocks a commit" blocked every commit in that
+  // repository until someone read the stack trace. Measured 2026-09-21.
+  console.log(`  sh -c 'node "\${AI_REGISTRY_DIR:-../ai-registry}/scripts/consult-check.mjs" || true'\n`);
 }
 
 const trackedWrites = rows.filter((r) => r.state.includes('(tracked)') && r.action.startsWith('would'));
