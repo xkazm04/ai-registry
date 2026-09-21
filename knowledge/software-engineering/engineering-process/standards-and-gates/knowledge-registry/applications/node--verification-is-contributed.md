@@ -60,8 +60,8 @@ the lane's **only** writer — every contributor file is generated, and
 so what the collector cannot emit, the lane cannot contain, whatever the
 validator would accept. The validator's permissiveness is unobservable from
 outside. Measured: `citations` appears **0 times** across all three contributor
-files in the repository (`signals/kazda-dev-box.json`,
-`signals/mkdol-dev-box.json`, `usage/kazda-dev-box.json`).
+files in the repository (`signals/wolf.json`,
+`signals/mkdol-dev-box.json`, `usage/wolf.json`).
 
 ## Half-consumed, at the aggregating end
 

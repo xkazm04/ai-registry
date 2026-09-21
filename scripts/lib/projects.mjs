@@ -25,8 +25,10 @@
  *   absolute anything.
  * - `.machine.local.json` — GITIGNORED, and the only machine-specific file
  *   left: which machine this is (`Fox`, `Wolf`, …), the root the relative paths
- *   hang off, the contributor id, and an optional `overrides` map for a
- *   checkout that cannot be expressed relative to that root (another drive).
+ *   hang off, and an optional `overrides` map for a checkout that cannot be
+ *   expressed relative to that root (another drive). The contributor id is
+ *   DERIVED from the machine name unless the file overrides it — see
+ *   `contributorOf`.
  *
  * **One project, several machines, a DIFFERENT path on each.** That is the whole
  * point of `checkouts` being a map rather than one path plus exceptions: the
@@ -70,6 +72,32 @@ export function domainsOf(checkout) {
   const m = text.match(/^\s*domains:\s*\[([^\]]*)\]/m);
   if (!m) return [];
   return m[1].split(',').map((s) => s.trim()).filter(Boolean);
+}
+
+/**
+ * The contributor id for this machine.
+ *
+ * DERIVED from the machine name by default, because a box having two names is
+ * not a feature — it is the bug. `signals/<contributor>.json` is the file a
+ * machine accumulates its 30-day history in, and `check-signals` requires the
+ * filename stem to equal the `contributor` field inside. So the day the two
+ * configs disagreed, the next collect silently started a SECOND history file
+ * under the second name and left the first one to rot; that is exactly how a
+ * stray `signals/xkazm04.json` appeared beside a populated
+ * `signals/kazda-dev-box.json`.
+ *
+ * Lowercased because `CONTRIBUTOR_RE` is `/^[a-z0-9][a-z0-9-]*$/` — machine
+ * `Wolf` is a display name and would be REJECTED verbatim by the lane gate.
+ *
+ * An explicit `contributor` still wins: a machine that already has published
+ * history under another id keeps it by saying so, which is how the other box
+ * stays on `mkdol-dev-box` across this change.
+ */
+export function contributorOf(machineCfg) {
+  const explicit = machineCfg?.contributor;
+  if (typeof explicit === 'string' && explicit.trim()) return explicit.trim();
+  const machine = machineCfg?.machine;
+  return typeof machine === 'string' && machine.trim() ? machine.trim().toLowerCase() : null;
 }
 
 /**
@@ -157,7 +185,7 @@ export function loadFleet(root = process.cwd()) {
 
   return {
     machine,
-    contributor: machineCfg.contributor ?? null,
+    contributor: contributorOf(machineCfg),
     projects,
     source: FLEET_FILE,
     legacy: false,

@@ -17463,9 +17463,9 @@
    "subcategory": "standards-and-gates",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/knowledge-registry/knowledge-registry.md",
-   "digest": "sha256:9c9f691ae63896a8",
-   "revision": 6,
-   "changedAt": "2026-08-28",
+   "digest": "sha256:7e0fc4a7e1bf9a27",
+   "revision": 7,
+   "changedAt": "2026-09-21",
    "techniques": [
     {
      "slug": "catalog-as-sync-key",
@@ -32231,9 +32231,9 @@
    "subcategory": "data-display",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/data-display/table/table.md",
-   "digest": "sha256:9ac911984c10d3d5",
-   "revision": 5,
-   "changedAt": "2026-09-20",
+   "digest": "sha256:b220b0cfe6a4bcda",
+   "revision": 7,
+   "changedAt": "2026-09-21",
    "techniques": [
     {
      "slug": "client-server-split",
@@ -32348,13 +32348,14 @@
      "stack": "react",
      "technique": "client-server-split",
      "file": "knowledge/software-engineering/ui-surfaces/data-display/table/applications/react--client-server-split.md",
-     "verified_on": "2026-08-18"
+     "verified_on": "2026-09-21",
+     "verified_against": "react@19.2.6"
     },
     {
      "stack": "react",
      "technique": "performance",
      "file": "knowledge/software-engineering/ui-surfaces/data-display/table/applications/react--performance.md",
-     "verified_on": "2026-08-24",
+     "verified_on": "2026-09-21",
      "verified_against": "react@19"
     },
     {

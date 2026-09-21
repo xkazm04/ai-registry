@@ -86,8 +86,8 @@ example, not in a test fixture. A tracked credential is a hard failure and has t
 rotated, not deleted.
 
 Evidence stays local: the pointers proving a claim against a particular tree live in
-each consumer's gitignored `.evidence.local.md` overlay, machine checkout paths live in
-gitignored `.projects.local.json`, and consult logs live in each project's gitignored
+each consumer's gitignored `.evidence.local.md` overlay, the machine root that checkout
+paths hang off lives in gitignored `.machine.local.json`, and consult logs live in each project's gitignored
 `.ai/consults.jsonl`. What gets published is the aggregate: `usage/` carries counts
 only, `signals/` carries **verdicts, never pointers** (`{"gone": 2}`, not which two
 files). The lane gates enforce this; do not route around them.

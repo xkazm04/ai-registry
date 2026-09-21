@@ -1228,9 +1228,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/visual-generation/image-prompt-composition/image-prompt-composition.md",
-   "digest": "sha256:e8b3359abdfdb3ce",
-   "revision": 11,
-   "changedAt": "2026-09-20",
+   "digest": "sha256:bea76c7be2d43364",
+   "revision": 12,
+   "changedAt": "2026-09-21",
    "techniques": [
     {
      "slug": "assigned-colour-roles",
@@ -1402,7 +1402,7 @@
      "stack": "react",
      "technique": "reference-role-map",
      "file": "knowledge/media-generation/visual-generation/image-prompt-composition/applications/react--reference-role-map.md",
-     "verified_on": "2026-08-31",
+     "verified_on": "2026-09-21",
      "verified_against": "react@19"
     },
     {

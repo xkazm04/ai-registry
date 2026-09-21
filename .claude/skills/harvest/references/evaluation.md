@@ -10,8 +10,9 @@ the thing intake cannot see because it ends at the merge.
 
 ## Routing
 
-1. Read `.projects.local.json`. Candidate projects are those whose `domains` include
-   the landing's bundle. Prefer, in order: a project whose `signals/` contributor file
+1. Resolve the fleet with `loadFleet()` from `scripts/lib/projects.mjs` (`projects.json`
+   + `.machine.local.json`). Candidate projects are those present on THIS machine whose
+   `domains` - read from each project's own `.ai/manifest.yaml` - include the landing's bundle. Prefer, in order: a project whose `signals/` contributor file
    shows recent consults for the bundle (the knowledge is demonstrably in its loop);
    then the project with the most recent activity; then the repo overlay's pin
    (`.claude/harvest.local.md`), which overrides both when present.

@@ -1,6 +1,6 @@
 {
   "schema": 2,
-  "_note": "Portable fleet declaration. Absolute roots, contributor identity and checkout overrides belong in .machine.local.json. Resolve through scripts/lib/projects.mjs.",
+  "_note": "Portable fleet declaration, and the only committed half. Absolute roots and checkout overrides belong in the gitignored .machine.local.json; the contributor id is derived from its machine name. These two files are the whole config - resolve them through scripts/lib/projects.mjs, never by reading either one directly.",
   "machines": {
     "Fox": {
       "note": "secondary dev box - root not declared yet; its .machine.local.json still supplies one"
@@ -10,7 +10,7 @@
     }
   },
   "projects": {
-    "gravity": {
+    "gravitone": {
       "checkouts": {
         "Fox": "dolla/gravitone-gcloud",
         "Wolf": "kiro/gravitone-gcloud"
@@ -77,11 +77,6 @@
       "checkouts": {
         "Wolf": "kiro/ascent",
         "Fox": "dolla/ascent"
-      }
-    },
-    "gravitone": {
-      "checkouts": {
-        "Wolf": "kiro/gravitone"
       }
     },
     "athena-everywhere": {
