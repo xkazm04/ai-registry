@@ -658,10 +658,10 @@
     },
     {
       "name": "spark",
-      "version": "1.6.0",
+      "version": "1.7.0",
       "category": "workflow",
       "path": "skills/spark/SKILL.md",
-      "contentHash": "sha256-n1:c03b4d6c30ad64fb",
+      "contentHash": "sha256-n1:f9840adce27dcdcf",
       "adopters": [
         "personas@plugin:1.0.0"
       ],
@@ -669,7 +669,7 @@
       "reportedInvokes": 6,
       "lessons": 28,
       "lessonsPath": "skills/spark/LESSONS.md",
-      "lessonsHash": "sha256-n1:1d1f32bb15005ecb",
+      "lessonsHash": "sha256-n1:bfff5162877615a9",
       "usageContributors": [
         "kazda-dev-box"
       ],

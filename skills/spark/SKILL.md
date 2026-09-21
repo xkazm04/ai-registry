@@ -5,7 +5,7 @@ memory: vault
 category: workflow
 description: Turn a vague product idea (a "sparkle") into a complete, grounded design through waves of select/multi-select questions - then orchestrate the build. Targets exactly which contexts/files the idea touches, scouts them before asking anything, converges the design across four perspectives (functional, UX, UI, performance/architecture), and executes via builder subagents in a worktree under Director review. Runs live in a memory vault (a linked Obsidian folder, or <repo>/.spark/ with the same schema); every run ends with a self-improvement retro that sharpens the skill itself. Per-repo specifics - vault path, gates, context map, host rituals, repo law - come from the overlay at .claude/spark/config.md, and the loop runs on defaults without it. Invoke with `/spark <idea...>` or `/spark resume <slug> | status | reflect`.
 argument-hint: "<idea...> | resume <slug> | status | reflect"
-version: 1.6.0
+version: 1.7.0
 model: fable
 ---
 
@@ -95,7 +95,8 @@ waves_used: <n>   questions_asked: <n>
    **Promote recurring lessons before anything else.** Read the overlay's `## Skill improvement log`. A lesson that appears in two entries, or whose trap this repo has hit again, moves now into `## Gates` (a check to run, and when) or `## Repo law` (a constraint to obey). Those are the only overlay sections a builder brief carries: a lesson that lives only in the log never reaches the builder who repeats it.
 2. Parse invocation: new idea text → new slug; `resume <slug>` → jump to the phase its `status` names; `status` → render the ledger table and stop; `reflect` → Phase 6 only.
 3. Host rituals: run the overlay's Phase-0 `## Rituals` entries (typically a live-sessions ledger check + register — one bash invocation, since such a ledger is unsafe to edit-then-commit across concurrent sessions). Always run `git status` regardless: repos host parallel sessions, and foreign WIP is never swept into your commits. Scan the harness's auto-memory for veto signals.
-4. Record the spark verbatim in `ideas/<slug>.md` (`status: sparked`).
+4. **Fetch before you look at anything.** `git fetch` and report, in one line, how far the base is from its remote (`git rev-list --count <base>..origin/<base>`) and whether the checkout's gates are green *before* this spark touched them. Both are inherited state that will otherwise be discovered as your defect: a repo developed on two machines can be hundreds of commits behind, and a red gate on arrival is attributed to the builders who found it. If the base is behind, say which of the two you are designing against — the local base or the remote's — and prefer the remote's.
+5. Record the spark verbatim in `ideas/<slug>.md` (`status: sparked`).
 
 ### Phase 1 — Target (evidence, not vibes)
 1. Read the overlay's `context_map`. **If the repo has no context map**, target from the repo's **top-level source directories** plus the scout's own findings, and say plainly in `## Targeting` that the partition is provisional — a wrong target is then a scout finding, not a silent miss.
@@ -105,6 +106,8 @@ waves_used: <n>   questions_asked: <n>
 
 ### Phase 2 — Scout before asking
 Launch one Explore scout per primary context (parallel, "very thorough"): what exists, what the idea overlaps/duplicates, reusable primitives (check the repo's shared-component catalog when the overlay's `## Repo law` names one), data model touchpoints, perf-relevant volumes, `file:line` evidence. Digest into `## Scout digest` (`status: scouted`). **When the target is a new or empty repo** (an extraction, a greenfield package), scout the repos the idea is extracted from or must integrate with, under the same evidence rules, and say so in `## Targeting`. **If scouts cannot be launched** (pool exhausted, tool unavailable), the Director scouts directly under the same evidence rules and says so in `## Scout digest` — never skip scouting, never retry a refused launch.
+
+**Scout the remote's version of the target paths, not just the checkout's.** When Phase 0 found the base behind its remote, run `git log HEAD..origin/<base> -- <the target contexts' paths>` before the scouts report. A non-empty result means the thing you are about to design against has already been redesigned elsewhere: read those commits and treat what they changed as a wave-1 constraint. One command here replaces re-cutting a built, gate-green design after the sync.
 
 **Read the governing registry subject BEFORE the waves, not after.** Resolve the target contexts' subjects through `.ai/registry-map.json` and read the golden path plus the techniques whose `use_when` matches the idea. A standard read here becomes a wave-1 constraint or a named deviation; read afterwards it is only a review comment. (The weekly-digest spark found that a documented whole-fleet period delta inverts at a 7-day window only because the time-windows subject was open before Q1.)
 
@@ -159,6 +162,8 @@ Write `## Design brief` in the idea note:
 - **Every new field or input names its producer AND its first consumer**, and that consumer sits inside some package's file scope. An input with a producer and no owned call site ships dead.
 - **The absent-value convention is stated once** in `### Data & API` (omit the key, `null`, or `0`, and why), so two packages coding the same missing value do not drift.
 - **A number a sibling package computes is derived from the contract or labelled "illustrative, not arithmetic".** A fixture figure that contradicts the formula is resolved three different ways by three builders.
+
+**Compute the landing overlap before the gate, not at merge.** Intersect the brief's file list with the landing checkout's `git status --short` (and, for a fan-out that re-stamps or regenerates shared files, say so plainly: a clause re-stamp, a codegen pass and a regenerated index each touch files no work package names). A non-empty intersection means the merge is already blocked by someone else's uncommitted work, so the gate question names the landing path with the build — land later, open a PR, or have the operator commit first. "Build now" must not silently mean "build now, block at merge".
 
 Gate with one AskUserQuestion: **Build now / Adjust (say what) / Park it** (`status: designed`). "Adjust" loops one targeted wave, not a restart. "Park" is a first-class success — a designed-but-parked idea is a shippable asset in the vault.
 
