@@ -24,7 +24,7 @@
  * name after the last ':' is what is logged.
  *
  * PENDING MODE (--pending, or automatically when this machine has no identity, i.e. no
- * device): the row goes to <cwd>/.ai/skill-runs.pending.jsonl instead of the registry,
+ * device): the row goes to <checkout root>/.ai/skill-runs.pending.jsonl instead of the registry,
  * with `device: null` and `id: null` - runs-backfill.mjs stamps both when it drains the
  * file. The row is validated with a stand-in device ("pending") and its derived id, so
  * every OTHER field is held to the full contract; the stand-ins are then replaced by
@@ -75,7 +75,7 @@ project are resolved from the machine identity and the cwd (--project overrides)
 --version defaults to the skill's SKILL.md frontmatter. --json reads a JSON object with the
 same fields under their row key names (skill, version, outcome, difficulty, result, comment,
 provider, model, effort, started, tokensEst, project); flags override it.
---pending writes to <cwd>/${PENDING_REL.split(path.sep).join('/')} (device/id stamped later by runs-backfill).
+--pending writes to <checkout root>/${PENDING_REL.split(path.sep).join('/')} (device/id stamped later by runs-backfill).
 
 outcome:    ${OUTCOMES.join(' | ')}
 provider:   ${PROVIDERS.join(' | ')}
@@ -159,6 +159,16 @@ if (version === null && skill) {
 
 // ---------------------------------------------------------------- identity
 const pending = bools.has('--pending');
+// The pending file belongs at the checkout root, where runs-backfill looks for it: the
+// nearest ancestor holding .ai/manifest.yaml or .git (a worktree's .git is a file, which
+// counts), else cwd.
+function checkoutRoot(start) {
+  for (let dir = path.resolve(start); ; dir = path.dirname(dir)) {
+    if (fs.existsSync(path.join(dir, '.ai', 'manifest.yaml')) || fs.existsSync(path.join(dir, '.git'))) return dir;
+    if (path.dirname(dir) === dir) return path.resolve(start);
+  }
+}
+
 const id = resolveIdentity({ cwd: process.cwd(), registryRoot: ROOT });
 const toPending = pending || !id.device;
 
@@ -200,7 +210,7 @@ let shown;
 if (toPending) {
   row.device = null;
   row.id = null;
-  target = path.join(process.cwd(), PENDING_REL);
+  target = path.join(checkoutRoot(process.cwd()), PENDING_REL);
   shown = PENDING_REL.split(path.sep).join('/');
 } else {
   target = runsFile(DEST_ROOT, row.device);
@@ -209,7 +219,7 @@ if (toPending) {
 const line = JSON.stringify(row) + '\n';
 
 if (bools.has('--dry-run')) {
-  console.log(`dry run - would append to ${toPending ? `<cwd>/${shown}` : shown}:`);
+  console.log(`dry run - would append to ${toPending ? `<checkout root>/${shown}` : shown}:`);
   console.log(line.trimEnd());
   process.exit(EXIT.OK);
 }
@@ -218,7 +228,7 @@ fs.mkdirSync(toPending ? path.dirname(target) : runsDir(DEST_ROOT), { recursive:
 fs.appendFileSync(target, line);
 if (toPending) {
   const why = pending ? '--pending' : 'this machine has no identity (no .machine.local.json machine)';
-  console.log(`run pending: ${row.skill} -> <cwd>/${shown} (${why}); device and id will be stamped by runs-backfill`);
+  console.log(`run pending: ${row.skill} -> <checkout root>/${shown} (${why}); device and id will be stamped by runs-backfill`);
 } else {
   console.log(`run logged: ${row.id} -> ${shown}`);
 }
