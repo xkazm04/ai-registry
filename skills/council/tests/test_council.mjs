@@ -21,7 +21,10 @@ import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { aggregate, buildResult, validateRubric, OUTCOMES, ROUND_CAP } from '../scripts/lib/aggregate.mjs';
+import {
+  aggregate, buildResult, validateRubric, aggregateScenarios,
+  OUTCOMES, ROUND_CAP, DEFAULT_SCENARIO_FLOOR,
+} from '../scripts/lib/aggregate.mjs';
 import { validateResult } from '../scripts/lib/schema.mjs';
 import { buildReceipt, spanDigest, sha256Hex, normalizeSpanPath } from '../scripts/lib/receipt.mjs';
 import { drift, carryForward } from '../scripts/lib/drift.mjs';
@@ -261,6 +264,182 @@ test('the validator refuses an admitting outcome, a zero for an unmeasured dimen
 
   const unknownCode = validateResult({ ...base, hard_failures: [{ code: 'vibes', detail: 'd' }] });
   assert.ok(unknownCode.some((x) => /unknown code/.test(x)));
+});
+
+// ----------------------------------------------------------------- scenarios
+//
+// What is pinned here is the envelope: where an approval holds, where it is weak, and
+// where nobody looked. A mean that hides a failing must-hold branch is the defect this
+// exists to stop, so every test below is about a number NOT being allowed to hide one.
+
+const decl = (slug, over = {}) => ({ subject_slug: 'subject', slug, title: `${slug} branch`, axes: { domain: slug }, scope: 'must_hold', floor: null, ...over });
+const rep = (slug, over = {}) => ({ slug, state: 'measured', score: 0.9, confidence: 'med', n: 3, proof: 'simulated', summary: 'a sentence', ...over });
+
+test('the envelope puts every scenario in exactly one bucket', () => {
+  const a = aggregateScenarios(
+    [
+      decl('it', { floor: 0.6 }),
+      decl('marketing'),
+      decl('hr', { scope: 'tracked' }),
+      decl('legal', { scope: 'out_of_scope' }),
+      decl('night', { scope: 'proposed' }),
+    ],
+    [rep('it', { score: 0.85 }), rep('marketing', { score: 0.3 }), rep('legal', { score: 0 }), rep('night', { score: 0 }), rep('found', { state: 'unmeasured', score: null, summary: 'the question bank is 80% engineering' })],
+    { trustState: 'uncalibrated' },
+  );
+  assert.deepEqual(a.envelope, {
+    holds: ['it'], weak: ['marketing'], unmeasured: ['hr'], out_of_scope: ['legal'], proposed: ['night', 'found'],
+  });
+  assert.deepEqual(a.problems, []);
+  // Every scenario appears once, and in declared order with the discovered one last.
+  assert.deepEqual(a.scenarios.map((s) => s.slug), ['it', 'marketing', 'hr', 'legal', 'night', 'found']);
+  const buckets = Object.values(a.envelope).flat();
+  assert.equal(new Set(buckets).size, buckets.length, 'a scenario in two buckets is an envelope that says nothing');
+  // An unmeasured branch carries null, never a zero - the same rule a dimension has.
+  assert.equal(a.scenarios.find((s) => s.slug === 'hr').score, null);
+});
+
+test('a tracked branch is watched at a flat 0.5 and never hits a floor', () => {
+  const a = aggregateScenarios([decl('hr', { scope: 'tracked', floor: 0.9 })], [rep('hr', { score: 0.6 })], { trustState: 'trusted' });
+  assert.equal(DEFAULT_SCENARIO_FLOOR, 0.5);
+  assert.deepEqual(a.envelope.holds, ['hr'], 'tracked buckets at 0.5, whatever floor the declaration carries');
+  assert.deepEqual(a.binding_floor_hits, []);
+  assert.deepEqual(a.must_address, []);
+});
+
+test('a must-hold floor hit is advisory while uncalibrated: loud in the report, inert in the gate', () => {
+  const r = rubricOf('feature-v1');
+  const opts = {
+    scenarios: [decl('marketing')],
+    reportedScenarios: [rep('marketing', { score: 0.3 })],
+  };
+  const a = aggregate(r, { value: v(0.9), craft: v(0.9), rivalry: v(0.9), robustness: v(0.9), economics: v(0.9) }, { trustState: 'uncalibrated', ...opts });
+  assert.equal(a.outcome, 'ready', 'an uncalibrated scenario opinion does not move the outcome');
+  assert.equal(a.overall, 0.9, 'and it does not touch the mean either');
+  assert.ok(a.must_address.includes('Scenario marketing branch is below its floor (0.3 < 0.5)'),
+    'the failing branch is named in the work list even while it cannot fail the run');
+  assert.deepEqual(a.envelope.weak, ['marketing']);
+});
+
+test('once trusted, a must-hold branch below its floor fails the run however good the mean is', () => {
+  const r = rubricOf('feature-v1');
+  const perfect = { value: v(1), craft: v(1), rivalry: v(1), robustness: v(1), economics: v(1) };
+  const a = aggregate(r, perfect, {
+    trustState: 'trusted',
+    scenarios: [decl('it', { floor: 0.6 }), decl('marketing')],
+    reportedScenarios: [rep('it', { score: 1 }), rep('marketing', { score: 0.3 })],
+  });
+  assert.equal(a.overall, 1);
+  assert.equal(a.coverage, 1);
+  assert.equal(a.outcome, 'fail', 'a perfect mean over a failing must-hold branch is the exact failure this exists to stop');
+  assert.ok(a.must_address.includes('Scenario marketing branch is below its floor (0.3 < 0.5)'));
+});
+
+test('proposed and out_of_scope branches never move anything, at any score or trust state', () => {
+  const r = rubricOf('feature-v1');
+  const perfect = { value: v(1), craft: v(1), rivalry: v(1), robustness: v(1), economics: v(1) };
+  for (const scope of ['proposed', 'out_of_scope']) {
+    const a = aggregate(r, perfect, {
+      trustState: 'trusted',
+      scenarios: [decl('x', { scope })],
+      reportedScenarios: [rep('x', { score: 0 })],
+    });
+    assert.equal(a.outcome, 'ready', `a ${scope} branch at zero must not fail the run`);
+    assert.deepEqual(a.must_address, [], `a ${scope} branch must not add work`);
+    assert.deepEqual(a.envelope.weak, []);
+  }
+});
+
+test('a member may propose a branch but never promote one', () => {
+  // The report claims must_hold; the declaration is what decides, and there is none.
+  const a = aggregateScenarios([], [{ ...rep('discovered', { score: 0 }), scope: 'must_hold' }], { trustState: 'trusted' });
+  assert.deepEqual(a.envelope.proposed, ['discovered']);
+  assert.deepEqual(a.binding_floor_hits, [], 'a scope a member wrote for itself cannot fail a run');
+});
+
+test('a measured scenario with no score is read as unmeasured and says so, rather than scoring zero', () => {
+  const a = aggregateScenarios([decl('it')], [{ slug: 'it', state: 'measured', score: null, confidence: 'high', n: 2, proof: 'observed', summary: 's' }], {});
+  assert.equal(a.scenarios[0].state, 'unmeasured');
+  assert.equal(a.scenarios[0].score, null);
+  assert.match(a.problems.join(' '), /measured with no score/);
+  assert.deepEqual(a.envelope.unmeasured, ['it']);
+});
+
+// -------------------------------------------------- scenarios in the contract
+
+const scenarioBase = () => ({
+  schema_version: 1, run_id: 'r', subject: { kind: 'use_case', slug: 's', title: 't', summary: 'u' },
+  rubric_version: 'feature-v1', round_no: 1, supersedes_run_id: null, trust_state: 'uncalibrated',
+  receipt: { head_sha: null, spanned_paths: ['src/a.ts'], span_digest: '0'.repeat(64) },
+  hard_failures: [],
+  dimensions: [{ dimension: 'value', kind: 'judged', state: 'measured', score: 0.5, confidence: 'med', floor: 0.4, floor_hit: false, advisory: false, unmeasured_reason: null, findings: [], evidence: [], techniques: [], delta: null }],
+  scenarios: [
+    { slug: 'it', title: 'IT candidates', axes: { domain: 'it' }, state: 'measured', score: 0.85, confidence: 'high', n: 12, proof: 'replayed', summary: 'holds' },
+    { slug: 'hr', title: 'HR candidates', axes: {}, state: 'unmeasured', score: null, confidence: 'low', n: null, proof: 'claimed', summary: 'never measured' },
+  ],
+  envelope: { holds: ['it'], weak: [], unmeasured: ['hr'], out_of_scope: [], proposed: [] },
+  overall: 0.5, coverage: 1, outcome: 'ready', must_address: [], summary: '',
+});
+
+test('the contract accepts a scenario view and refuses the six ways it goes wrong', () => {
+  assert.deepEqual(validateResult(scenarioBase()), []);
+
+  const arch = validateResult({ ...scenarioBase(), subject: { kind: 'architecture', slug: 's', title: 't', summary: 'u' }, rubric_version: 'architecture-v1' });
+  assert.ok(arch.some((x) => /only a use_case subject may carry scenarios/.test(x)));
+
+  const zeroed = scenarioBase();
+  zeroed.scenarios[1] = { ...zeroed.scenarios[1], score: 0 };
+  assert.ok(validateResult(zeroed).some((x) => /never a zero/.test(x)));
+
+  const scoreless = scenarioBase();
+  scoreless.scenarios[0] = { ...scoreless.scenarios[0], score: null };
+  assert.ok(validateResult(scoreless).some((x) => /needs a score in 0\.\.1/.test(x)));
+
+  const badProof = scenarioBase();
+  badProof.scenarios[0] = { ...badProof.scenarios[0], proof: 'vibes' };
+  assert.ok(validateResult(badProof).some((x) => /proof must be one of observed, replayed, simulated, claimed/.test(x)));
+
+  const badAxis = scenarioBase();
+  badAxis.scenarios[0] = { ...badAxis.scenarios[0], axes: { domain: 3 } };
+  assert.ok(validateResult(badAxis).some((x) => /axis domain must be a string/.test(x)));
+
+  const { scenarios: _drop, ...noScenarios } = scenarioBase();
+  assert.ok(validateResult(noScenarios).some((x) => /envelope without scenarios/.test(x)));
+  const { envelope: _drop2, ...noEnvelope } = scenarioBase();
+  assert.ok(validateResult(noEnvelope).some((x) => /scenarios without an envelope/.test(x)));
+
+  const badBucket = scenarioBase();
+  badBucket.envelope = { ...badBucket.envelope, sideways: [] };
+  assert.ok(validateResult(badBucket).some((x) => /unknown bucket sideways/.test(x)));
+});
+
+test('a run that declares no scenarios produces the pre-scenario document, byte for byte', () => {
+  const r = rubricOf('feature-v1');
+  const agg = aggregate(r, {
+    value: v(0.8, {
+      findings: [{ id: 'v1', severity: 'med', title: 'the second character never reaches the entry point', detail: 'd', recurrence: 1 }],
+      evidence: [{ kind: 'file', ref: 'src/a.ts:12', caption: 'the entry point' }],
+      techniques: [{ subject: 'async-ui-states', technique: 'ghost-under-chrome', proof: 'inspection' }],
+    }),
+    craft: v(0.7), rivalry: v(0.6), robustness: v(0.9), economics: na(),
+  }, { trustState: 'uncalibrated', roundNo: 2 });
+
+  const result = buildResult({
+    run_id: '2026-09-20-council-example-r2',
+    subject: { kind: 'use_case', slug: 'example-feature', title: 'Example feature', summary: 'What it does.' },
+    rubric_version: 'feature-v1',
+    round_no: 2,
+    supersedes_run_id: '2026-09-20-council-example-r1',
+    trust_state: 'uncalibrated',
+    receipt: { head_sha: 'a'.repeat(40), spanned_paths: ['src/a.ts'], span_digest: '0'.repeat(64) },
+    hard_failures: [],
+    summary: 'Ready for a decision.',
+  }, agg);
+
+  const fixture = path.join(SKILL_DIR, 'tests', 'fixtures', 'result-no-scenarios.json');
+  assert.equal(`${JSON.stringify(result, null, 2)}\n`, fs.readFileSync(fixture, 'utf8'),
+    'an additive field that changes a document nobody asked to change is not additive');
+  assert.ok(!('scenarios' in result) && !('envelope' in result), 'absent, not empty: an empty envelope is a claim');
 });
 
 // ----------------------------------------------------------------- receipt
