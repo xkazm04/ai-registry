@@ -3,7 +3,7 @@ name: librarian
 description: "Maintain the registry as a whole: sweep every bundle for structural and quality decay, rank what needs work by measured attention points, and dispatch scoped /deepen or /forge workers at it. Also evaluates the lane skills from their per-run log (`/librarian skills`). Keeps coverage memory in an Obsidian vault under librarian/ so each run knows what the last one touched, what is saturated, and what is owed. Run manually; a scheduler is a later wrapper. Use when nobody has looked at the registry in a while."
 category: ai-native
 memory: project
-version: 1.5.0
+version: 1.6.0
 tags: registry, maintenance, coverage, dispatch, quality, upstream
 ---
 
@@ -168,16 +168,20 @@ generated files are rebuilt (`build-index`, `build-catalog`, `build-knowledge-ru
 ## The skills pass
 
 `/librarian skills [name]` evaluates the **skills**, not the bundles. Its evidence is the
-run log every lane skill appends at the end of every run (skill-reflection clause, lane 0):
-`usage/runs/<device>.jsonl`, one row per run, plus the measured sidecar
-`<device>.exact.jsonl` that `scripts/runs-backfill.mjs` writes from transcripts. The
-contract is `scripts/lib/runs.mjs`; the lane is described in `docs/runs-lane.md`.
+run log. Every lane skill appends one line per run to its own checkout's
+`.ai/skill-runs.local.jsonl` (skill-reflection clause, "Run log") - the project writes,
+the registry pulls, because a skill run may not write into another repository.
+`scripts/runs-backfill.mjs` pulls those lines into `usage/runs/<device>.jsonl` and writes
+the measured sidecar `<device>.exact.jsonl` from transcripts. The contract is
+`scripts/lib/runs.mjs`; the lane is described in `docs/runs-lane.md`.
 
 1. **Fill the measurement, then prove the instrument.** On this device,
-   `node scripts/runs-backfill.mjs` (drains fleet `.ai/skill-runs.pending.jsonl`, attaches
-   exact tokens/model/effort), then `node scripts/check-runs.mjs`. Red gate: stop. Spot-check
-   one exact token figure against its transcript. The other device's rows carry estimates
-   only until that device backfills - say so rather than treating them as measured.
+   `node scripts/runs-backfill.mjs` (drains every fleet checkout's `.ai/skill-runs.local.jsonl`
+   on this machine, stamps device/project/version, attaches exact tokens/model/effort), then
+   `node scripts/check-runs.mjs`. Red gate: stop. Rows it could not stamp stay in their local
+   file and are reported - name them. Spot-check one exact token figure against its
+   transcript. The other device's runs arrive only when a skills pass runs THERE - say which
+   devices this pass covers rather than treating the lane as complete.
 2. **Commit the logs** before reading them, as their own commit on the working branch:
    `git add usage/runs/` then `chore(runs): <device> - <n> rows since <last>`. A log that
    sits uncommitted is invisible to the other machine and one careless staging call from

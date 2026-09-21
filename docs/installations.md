@@ -29,8 +29,9 @@ or concurrent installer is outside that guarantee; do not run installers concurr
 
 The local `.ai/registry-installation.local.json` receipt records mode, source revision,
 skill versions, targets and declared capabilities. Keep this receipt and snapshots
-out of the consuming project's git history: ignore `.ai/registry-installation.local.json`
-and `.ai/registry-releases/`. Absolute targets are machine state. `--check` detects
+out of the consuming project's git history: ignore `.ai/registry-installation.local.json`,
+`.ai/registry-releases/` and `.ai/skill-runs.local.jsonl` (the local half of the skill run
+log - see [runs-lane.md](runs-lane.md); the registry pulls it, the project never commits it). Absolute targets are machine state. `--check` detects
 changed discovery targets and edited releases; development content is intentionally live.
 The development revision identifies the git base, not a digest of uncommitted work.
 

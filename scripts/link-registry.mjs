@@ -147,6 +147,9 @@ const writeGitignoreBlock = (repo, skillNames, ruleNames = []) => {
        '# Links are machine state; the declarations live in .ai/manifest.yaml (`skills:` and `knowledge.domains`).',
        ...skillNames.map((n) => `/.claude/skills/${n}`),
        ...ruleNames.map((n) => `/.claude/rules/${n}`),
+       // Every linked skill appends its run log here (skill-reflection clause, "Run log");
+       // /librarian skills drains it into the registry. Local run output, never committed.
+       ...(skillNames.length ? ['/.ai/skill-runs.local.jsonl'] : []),
        GITIGNORE_END].join('\n')
     : '';
   let cur = fs.existsSync(gi) ? fs.readFileSync(gi, 'utf8') : '';

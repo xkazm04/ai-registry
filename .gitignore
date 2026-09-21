@@ -61,3 +61,7 @@ fleet-*.proposals.json
 # Personas handoff state. `.personas/registry.yaml` is the committed declaration; the outbox
 # is a queue the app DELETES on ingest, so a committed copy is a replay of work already taken.
 .personas/memory-outbox.jsonl
+
+# The skill run log's local half (docs/runs-lane.md): skills append here, runs-backfill
+# drains it into usage/runs/<device>.jsonl. Local run output, never committed.
+/.ai/skill-runs.local.jsonl
