@@ -412,15 +412,21 @@ async function scanProject(slug, proj) {
   // whatever the branch page happened to return.
   const RUN_FIELDS = 'databaseId,conclusion,status,workflowName,headSha,createdAt,event';
   const listBranchRuns = () => ghJson(['run', 'list', '-R', P.repo, '--branch', P.defaultBranch, '--limit', '30', '--json', RUN_FIELDS]);
-  const tipRuns = P.defaultSha
-    ? await ghJson(['run', 'list', '-R', P.repo, '--commit', P.defaultSha, '--limit', '30', '--json', RUN_FIELDS])
-    : { data: [] };
-  // That listing is served stale often enough to matter: three times on 2026-09-21, across two
-  // repos, it came back without any of the tip's runs on it - once handing ascent a CI run from
-  // three weeks earlier and once handing personas one from two weeks earlier. The per-commit
-  // query above is deterministic, so it doubles as the freshness check: a branch page that has
-  // none of the tip's runs on it is stale. Retry once, then say so rather than quietly
-  // reporting a months-old run as the branch's health.
+  // The tip's runs come from an UNFILTERED listing matched on headSha here, not from
+  // `--limit 30 --commit <sha>`. Both server-side filters are served stale, in opposite
+  // directions: `--branch` manufactures a stale presence (see below) and `--commit`
+  // manufactures an absence - on 2026-09-21 `--commit befe6d59` returned zero rows for
+  // ai-registry twice, minutes apart, while an unfiltered listing showed four completed
+  // successful runs on that exact sha. An empty `--commit` is indistinguishable from "CI
+  // never ran", so it cannot be the freshness check. Filtering rows we were handed can
+  // only miss the tip when the window is too small, which is the safe direction.
+  const recent = await ghJson(['run', 'list', '-R', P.repo, '--limit', '60', '--json', RUN_FIELDS]);
+  const tipRuns = { data: (recent.data ?? []).filter((r) => P.defaultSha && r.headSha === P.defaultSha) };
+  // The branch listing is served stale often enough to matter: three times on 2026-09-21,
+  // across two repos, it came back without any of the tip's runs on it - once handing ascent a
+  // CI run from three weeks earlier and once handing personas one from two weeks earlier. The
+  // tip runs above double as the freshness check: a branch page that has none of them on it is
+  // stale. Retry once, then say so rather than quietly reporting months-old history as health.
   let runs = await listBranchRuns();
   const tipIds = new Set((tipRuns.data ?? []).map((r) => r.databaseId));
   const missesTip = () => tipIds.size > 0 && !(runs.data ?? []).some((r) => tipIds.has(r.databaseId));

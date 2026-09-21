@@ -213,7 +213,7 @@ with the lesson here saying why.
 - **Six at a time held.** No secondary rate limit and no session-limit deaths; the long
   poles were kp (68 min) and ascent (3 h, six sequential master landings each waiting on CI).
 
-## 1.0.2 - 2026-09-21 - third live run (13 projects, 0 mechanical, 9 workers)
+## 1.0.2-1.0.4 - 2026-09-21 - third live run (13 projects, 0 mechanical, 9 workers)
 
 - **`gh run list --branch <default>` serves a stale page, intermittently, and it reads as a
   clean verdict.** Three times in one run, across two repos, the listing came back without
@@ -223,10 +223,26 @@ with the lesson here saying why.
   query with a different `--limit` disagreed with itself minute to minute, so this is not a
   paging bug to sort around. Both of the day's scans therefore reported ascent's CI health
   off a months-old run, and the before/after table showed ascent "turning RED" during a run
-  that never touched it. Fixed in the scan: query `gh run list --commit <defaultSha>` too -
-  that one is deterministic, so it doubles as the freshness check. A branch page carrying
-  none of the tip's runs is stale: retry once, then record a `problems` row instead of
-  quietly reporting old history as the branch's health.
+  that never touched it.
+- **`--commit <sha>` is not the cross-check either - it lies in the opposite direction.** The
+  first fix used `gh run list --commit <defaultSha>` as a deterministic freshness probe and
+  said so in this file. It is not deterministic. Hours later the same day, `--commit befe6d59`
+  returned **zero rows** for ai-registry, twice, minutes apart, while an unfiltered
+  `gh run list` showed **four completed successful runs on that exact sha**. `--branch`
+  manufactures a stale presence; `--commit` manufactures an ABSENCE, and an empty result is
+  indistinguishable from "CI never ran". A cross-check drawn from the same server-side
+  filtering layer inherits that layer's bias - [[assertion-inherits-its-own-bias]] landing on
+  the fix written to honour it. **What works:** take an unfiltered `gh run list --limit N` and
+  match `headSha` yourself on the rows you were handed. Filtering rows already in hand can only
+  miss the tip when the window is too small, which is the safe direction. Those tip runs then
+  double as the branch page's freshness check: a page carrying none of them is stale, so retry
+  once and then record a `problems` row rather than passing old history off as health.
+- **The broken version failed safe, which is why a control run did not catch it.** With
+  `--commit` returning empty, `tipIds` was empty, so the staleness flag never fired and
+  selection quietly fell back to the sorted branch listing: no wrong answer, just the
+  protection absent exactly where it was needed. A fix that degrades to "no worse than before"
+  passes every control you own. Assert that the mechanism *fired*, not only that the output
+  looked right.
 - **Only a run that reached a verdict is a verdict, and "completed" is not that test.**
   Tightening the above twice went wrong in the same shape. Preferring the tip's run let an
   *in-flight* run erase personas' known red the moment hygiene pushed to it. Preferring the
