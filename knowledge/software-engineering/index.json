@@ -3,9 +3,9 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
-  "subjects": 228,
-  "techniques": 1692,
-  "applications": 1018,
+  "subjects": 230,
+  "techniques": 1704,
+  "applications": 1023,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1692/1692",
+  "use_when_coverage": "1704/1704",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -5488,9 +5488,9 @@
    "subcategory": "build-and-release",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/build-and-release/codegen/codegen.md",
-   "digest": "sha256:ff17f1aab6e10418",
-   "revision": 5,
-   "changedAt": "2026-09-03",
+   "digest": "sha256:e69d756a575b31ce",
+   "revision": 6,
+   "changedAt": "2026-09-09",
    "techniques": [
     {
      "slug": "commit-vs-derive-policy",
@@ -5532,7 +5532,9 @@
      "use_when": [
       "deciding what a generated file's header must say",
       "formatter keeps reflowing regenerated output",
-      "regenerated output differs between runs"
+      "regenerated output differs between runs",
+      "a few generated artifacts need hand-written prose the generator keeps overwriting",
+      "maintaining a list of files the generator must skip"
      ]
     },
     {
@@ -5608,6 +5610,13 @@
      "technique": "drift-gating",
      "file": "knowledge/software-engineering/engineering-process/build-and-release/codegen/applications/node--drift-gating.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "node",
+     "technique": "generated-file-hygiene",
+     "file": "knowledge/software-engineering/engineering-process/build-and-release/codegen/applications/node--generated-file-hygiene.md",
+     "verified_on": "2026-09-07",
+     "verified_against": "node@22"
     },
     {
      "stack": "node",
@@ -15724,14 +15733,136 @@
     }
    ]
   },
+  "index-free-random-access": {
+   "category": "backend-platform",
+   "subcategory": "data-pipeline-semantics",
+   "status": "forged",
+   "file": "knowledge/software-engineering/backend-platform/data-pipeline-semantics/index-free-random-access/index-free-random-access.md",
+   "digest": "sha256:89644138393711ee",
+   "revision": 1,
+   "changedAt": "2026-09-09",
+   "techniques": [
+    {
+     "slug": "conservation-sweep-over-a-partition-parameter",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "absent-guard-is-loud"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "testing a component whose correct output cannot be written down",
+      "verifying that a partitioner drops or duplicates nothing",
+      "a heuristic covered only by fixtures asserting whatever it produced once",
+      "choosing what to assert about an approximate algorithm"
+     ]
+    },
+    {
+     "slug": "framing-recovery-by-hypothesis-rejection",
+     "status": "forged",
+     "laws": [
+      "unknown-is-not-a-value",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "finding the next record boundary after an arbitrary byte offset",
+      "a format that escapes its own separators in band",
+      "deciding whether a jump landed inside a quoted field"
+     ]
+    },
+    {
+     "slug": "reversible-encoding-buys-tail-recovery",
+     "status": "forged",
+     "laws": [
+      "record-precedes-effect",
+      "limits-are-derived"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing an escape scheme for a record format",
+      "reading the last records of a large artifact without scanning it",
+      "resuming a long job that already wrote part of its output",
+      "deciding whether progress needs a checkpoint file of its own"
+     ]
+    },
+    {
+     "slug": "segment-then-parallelize",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "limits-are-derived"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "parallelising work over one large artifact rather than over many",
+      "a worker pool reading one file is no faster than one thread",
+      "choosing a thread count for record processing",
+      "output rows arrive in an order callers did not expect"
+     ]
+    },
+    {
+     "slug": "sorted-data-as-a-read-only-index",
+     "status": "forged",
+     "laws": [
+      "silent-state-is-ungoverned",
+      "limits-are-derived"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "looking up a record by a key the artifact is already ordered on",
+      "deciding whether a lookup justifies building an index",
+      "a search structure that must be rebuilt every time the data changes",
+      "bisecting a stream that can only be positioned approximately"
+     ]
+    },
+    {
+     "slug": "structure-derived-read-budget",
+     "status": "forged",
+     "laws": [
+      "limits-are-derived",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "bounding a speculative parse whose wrong branch has no natural end",
+      "choosing what a head sample must record",
+      "a lookahead constant written as a literal"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "rust",
+     "technique": "conservation-sweep-over-a-partition-parameter",
+     "file": "knowledge/software-engineering/backend-platform/data-pipeline-semantics/index-free-random-access/applications/rust--conservation-sweep-over-a-partition-parameter.md",
+     "verified_on": "2026-09-07",
+     "verified_against": "rust@1.85"
+    },
+    {
+     "stack": "rust",
+     "technique": "framing-recovery-by-hypothesis-rejection",
+     "file": "knowledge/software-engineering/backend-platform/data-pipeline-semantics/index-free-random-access/applications/rust--framing-recovery-by-hypothesis-rejection.md",
+     "verified_on": "2026-09-07",
+     "verified_against": "rust@1.85"
+    },
+    {
+     "stack": "rust",
+     "technique": "segment-then-parallelize",
+     "file": "knowledge/software-engineering/backend-platform/data-pipeline-semantics/index-free-random-access/applications/rust--segment-then-parallelize.md",
+     "verified_on": "2026-09-07",
+     "verified_against": "rust@1.85"
+    }
+   ]
+  },
   "invariant-placement": {
    "category": "engineering-process",
    "subcategory": "standards-and-gates",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/invariant-placement/invariant-placement.md",
-   "digest": "sha256:79063c2976d10b8c",
-   "revision": 4,
-   "changedAt": "2026-09-05",
+   "digest": "sha256:7d3b130f66d4c45f",
+   "revision": 5,
+   "changedAt": "2026-09-09",
    "techniques": [
     {
      "slug": "build-time-evaluation-of-cross-value-invariants",
@@ -15840,6 +15971,23 @@
      ]
     },
     {
+     "slug": "repairing-check-erases-its-evidence",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "count-carries-predicate",
+      "absent-guard-is-loud"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a guard repairs a value instead of refusing it",
+      "deciding what a test may assert about a clamped or saturating output",
+      "a defensive clamp has never fired and nobody can prove it",
+      "an assertion is written over the range a value is coerced into",
+      "choosing between refusing and coercing at the call-site altitude"
+     ]
+    },
+    {
      "slug": "shape-with-a-not-applicable-member",
      "status": "forged",
      "laws": [
@@ -15857,6 +16005,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "rust",
+     "technique": "repairing-check-erases-its-evidence",
+     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/invariant-placement/applications/rust--repairing-check-erases-its-evidence.md",
+     "verified_on": "2026-09-07",
+     "verified_against": "rust@1.96.1"
+    },
     {
      "stack": "rust",
      "technique": "shape-with-a-not-applicable-member",
@@ -33355,6 +33510,94 @@
     }
    ]
   },
+  "vendored-patch-stack": {
+   "category": "engineering-process",
+   "subcategory": "build-and-release",
+   "status": "forged",
+   "file": "knowledge/software-engineering/engineering-process/build-and-release/vendored-patch-stack/vendored-patch-stack.md",
+   "digest": "sha256:9103690a148b10ab",
+   "revision": 1,
+   "changedAt": "2026-09-09",
+   "techniques": [
+    {
+     "slug": "collapse-patch-axes-that-share-hunks",
+     "status": "forged",
+     "laws": [
+      "identity-survives-reuse",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing how to split a patch set into files",
+      "a rejected hunk cannot be attributed to one local change",
+      "patches in the set conflict with each other and not only with upstream",
+      "a patch set has grouped changes by feature and bumps keep getting worse"
+     ]
+    },
+    {
+     "slug": "least-invasive-carrier",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "absent-guard-is-loud"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding how a local change should be carried against a third-party tree",
+      "an upstream bump is producing more conflicts every release",
+      "someone proposes replacing an upstream source file with a modified copy",
+      "a local override stopped taking effect and nothing reported it"
+     ]
+    },
+    {
+     "slug": "one-reset-authority",
+     "status": "forged",
+     "laws": [
+      "creation-names-reaper",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a vendored upstream tree is also a version-control checkout",
+      "deciding what a clean build of a patched third-party tree means",
+      "a build failed in a way that only re-extracting the upstream tree fixed",
+      "a maintainer wiped a vendored tree and lost work or an expensive download"
+     ]
+    },
+    {
+     "slug": "patch-set-authority",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "derivation-names-recomputation",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether the patched tree or the patch files are the source of truth",
+      "a regenerated patch turned out to be missing part of the change",
+      "someone hand-edited a diff to make it apply",
+      "an upstream bump found the tree and the patch set describing different divergence"
+     ]
+    },
+    {
+     "slug": "reject-triage-is-a-port-not-a-merge",
+     "status": "forged",
+     "laws": [
+      "verdict-survives-boundary",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an upstream bump left hunks that no longer apply",
+      "deciding what to do with a rejected patch fragment",
+      "a patch reported as applied landed somewhere unintended",
+      "triaging an upstream bump where the code a patch targeted has been refactored away"
+     ]
+    }
+   ],
+   "applications": []
+  },
   "versioning-snapshots": {
    "category": "operations",
    "subcategory": "governance-and-records",
@@ -35030,6 +35273,9 @@
     "usage-analytics/activation-and-funnel-honesty",
     "usage-analytics/coverage-from-registries",
     "usage-event-ingestion/ingestion-contract-parity",
+    "vendored-patch-stack/least-invasive-carrier",
+    "vendored-patch-stack/patch-set-authority",
+    "vendored-patch-stack/reject-triage-is-a-port-not-a-merge",
     "versioning-snapshots/promotion-lifecycle",
     "versioning-snapshots/snapshot-scope",
     "voice-io/duplex-agent-sessions",
@@ -35295,7 +35541,9 @@
     "import-normalization/format-detection",
     "import-normalization/import-validation",
     "import-normalization/lossy-conversion-disclosure",
+    "index-free-random-access/framing-recovery-by-hypothesis-rejection",
     "invariant-placement/constraint-deletion-is-silent",
+    "invariant-placement/repairing-check-erases-its-evidence",
     "invariant-placement/shape-with-a-not-applicable-member",
     "ipc-contract/call-wrapping",
     "ipc-contract/command-registration",
@@ -35920,6 +36168,10 @@
     "i18n/encoding-corruption-ratchet",
     "import-normalization/adapter-capability-tables",
     "import-normalization/lossy-conversion-disclosure",
+    "index-free-random-access/conservation-sweep-over-a-partition-parameter",
+    "index-free-random-access/segment-then-parallelize",
+    "index-free-random-access/structure-derived-read-budget",
+    "invariant-placement/repairing-check-erases-its-evidence",
     "ipc-contract/casing-and-naming",
     "job-coordination/job-observability",
     "job-coordination/no-wall-clock-in-the-advance-contract",
@@ -36256,6 +36508,7 @@
     "generated-workflow-candidates/two-tier-data-statistics",
     "hitl-approval/oracle-before-gate",
     "import-normalization/overlay-merge-absence-semantics",
+    "index-free-random-access/framing-recovery-by-hypothesis-rejection",
     "invariant-placement/completeness-at-emission",
     "invariant-placement/initialization-proof-tokens",
     "invariant-placement/shape-with-a-not-applicable-member",
@@ -36879,6 +37132,7 @@
     "usage-aggregation-semantics/replayed-state-machine-count",
     "usage-analytics/event-taxonomy",
     "usage-event-ingestion/dedupe-key-survives-soft-delete",
+    "vendored-patch-stack/collapse-patch-axes-that-share-hunks",
     "versioning-snapshots/lineage-and-variants",
     "versioning-snapshots/version-identity",
     "voice-io/authored-voice-identity",
@@ -37158,6 +37412,7 @@
     "untrusted-extension-host/declared-schema-extension-storage",
     "untrusted-extension-host/per-callback-failure-policy",
     "usage-analytics/batching-and-quota",
+    "vendored-patch-stack/one-reset-authority",
     "versioning-snapshots/retention-and-pruning",
     "voice-io/stt-pipeline",
     "voice-io/transcript-handoff-receipts",
@@ -37566,6 +37821,9 @@
     "usage-event-ingestion/ingestion-contract-parity",
     "usage-pricing-models/grouping-key-reruns-the-ladder",
     "usage-pricing-models/inferred-tier-boundary-convention",
+    "vendored-patch-stack/collapse-patch-axes-that-share-hunks",
+    "vendored-patch-stack/one-reset-authority",
+    "vendored-patch-stack/patch-set-authority",
     "versioning-snapshots/promotion-lifecycle",
     "versioning-snapshots/version-identity",
     "voice-io/duplex-agent-sessions",
@@ -37822,6 +38080,7 @@
     "usage-event-ingestion/late-event-subscription-resolution",
     "usage-pricing-models/exact-money-with-one-rounding-boundary",
     "usage-pricing-models/inferred-tier-boundary-convention",
+    "vendored-patch-stack/patch-set-authority",
     "voice-io/authored-voice-identity",
     "voice-io/render-acceptance",
     "voice-io/tts-pipeline",
@@ -37929,6 +38188,7 @@
     "untrusted-extension-host/per-callback-failure-policy",
     "usage-event-ingestion/late-event-subscription-resolution",
     "usage-pricing-models/advance-billing-refuses-retroactive-models",
+    "vendored-patch-stack/reject-triage-is-a-port-not-a-merge",
     "voice-io/decode-time-vocabulary-biasing",
     "voice-io/portable-provider-package",
     "voice-io/speech-ready-text",
@@ -37958,6 +38218,10 @@
     "guest-execution-bounding/budget-tier-from-observed-output",
     "guest-execution-bounding/cost-budget-cooperative-yield",
     "guest-execution-bounding/nested-liveness-ceilings",
+    "index-free-random-access/reversible-encoding-buys-tail-recovery",
+    "index-free-random-access/segment-then-parallelize",
+    "index-free-random-access/sorted-data-as-a-read-only-index",
+    "index-free-random-access/structure-derived-read-budget",
     "invariant-placement/build-time-evaluation-of-cross-value-invariants",
     "mcp-tools/catalog-projection-modes",
     "media-playback/committed-buffer-steering",
@@ -38070,10 +38334,12 @@
     "guest-language-introspection/flag-gated-debug-global",
     "hitl-approval/truncated-verdict-space",
     "import-normalization/durable-intermediate-representation",
+    "index-free-random-access/conservation-sweep-over-a-partition-parameter",
     "invariant-placement/consumption-bounds-at-most-once",
     "invariant-placement/derived-properties-cannot-be-forged",
     "invariant-placement/initialization-proof-tokens",
     "invariant-placement/placement-precedes-gate",
+    "invariant-placement/repairing-check-erases-its-evidence",
     "issuance-policy-ladder/require-one-constraint",
     "issuance-policy-ladder/verbatim-is-a-separate-privilege",
     "keyed-sample-transforms/missing-key-policy",
@@ -38156,6 +38422,7 @@
     "untrusted-extension-host/safe-mode-registration",
     "untrusted-extension-host/two-tier-extension-format",
     "usage-pricing-models/advance-billing-refuses-retroactive-models",
+    "vendored-patch-stack/least-invasive-carrier",
     "voice-io/render-acceptance",
     "voice-io/unattended-caller-attribution",
     "watch-cache-and-resync/completeness-barrier-with-a-warm-queue",
@@ -38187,6 +38454,7 @@
     "fleet-orchestration/deliberation-as-an-elected-turn",
     "fleet-orchestration/worker-trajectory-anatomy",
     "hitl-approval/fixed-policy-amendable-plan",
+    "index-free-random-access/sorted-data-as-a-read-only-index",
     "job-coordination/in-flight-is-a-position",
     "llm-extracted-entity-graph/recall-passes-with-a-declared-cap",
     "machine-authored-documentation/preregistered-kill-criterion",
@@ -38226,6 +38494,7 @@
     "engine-binding-surface/capability-deferred-release",
     "execution-state-checkpointing/the-record-outlives-the-rewind",
     "guest-execution-bounding/bounded-shadow-backtrace",
+    "index-free-random-access/reversible-encoding-buys-tail-recovery",
     "job-coordination/in-flight-is-a-position",
     "job-coordination/no-unrestorable-state-at-a-suspension-point",
     "mcp-tools/sealed-continuation-state",

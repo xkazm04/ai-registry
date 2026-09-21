@@ -252,7 +252,8 @@
             "reversible-transform-pipelines",
             "deferred-operation-fusion",
             "keyed-sample-transforms",
-            "deterministic-prefix-caching"
+            "deterministic-prefix-caching",
+            "index-free-random-access"
           ]
         },
         {
