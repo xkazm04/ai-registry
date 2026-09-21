@@ -5,7 +5,7 @@ subject: image-prompt-composition
 technique: reference-role-map
 stack: react
 status: forged
-verified_on: 2026-08-31
+verified_on: 2026-09-21
 verified_against: react@19
 applied: simulation
 ab_verdict: unmeasurable
@@ -13,7 +13,7 @@ ab_verdict: unmeasurable
 
 # React: a reference is a bag of bytes, and the split is a binary
 
-*Verified against the consuming tree at commit `7637553`, 2026-08-31.*
+*Verified against the consuming tree at commit `773f4d8`, 2026-09-21.*
 
 The technique gained an amendment this run: where two references merge in one
 frame, the beats must author the **interaction** between them, because the
@@ -26,18 +26,32 @@ value is in what the absence is made of.
 ## The seam
 
 `lib/imaging/types.ts:83` is where a reference's role would be declared, and
-nothing declares one:
+nothing declares one — in the type:
 
 ```
 references?: ImageRef[];
 ```
 
-`ImageRef` (`:44`) is `{ base64, mime, width?, height? }` — bytes, a media
-type and two optional dimensions. There is no role field, so the map the
-technique asks for cannot be expressed in the type at all. The file header
-scopes the array by comment rather than by type: *"generate — a text prompt
-(+ approved style references) → plate images"*. One reference class, named in
-prose.
+`ImageRef` (`:44`) is still `{ base64, mime, width?, height? }` — bytes, a
+media type and two optional dimensions, unchanged since this file was first
+drafted. There is no role field, so the map the technique asks for cannot be
+expressed in the type at all. The `generate` array is scoped by comment
+rather than by type, in the file header: *"generate — a text prompt (+
+approved style references) → plate images"*. One reference class, named in
+prose — true of `generate`, and true of what this file first said about the
+whole tree, but no longer true of the tree as a whole.
+
+**The `edit` path now declares two roles — in the prompt, not the type.**
+`buildEditPrompt` (`lib/imaging/providers/google.ts:378-391`) prepends a
+labelled map ahead of the instruction: image 1 is the SUBJECT PLATE, the
+remaining N attached images are STYLE REFERENCES, and both carry negative
+scope — the plate must not lend its style, the references must not lend
+their content. `edit()` calls it at `google.ts:207`. The commit is
+`f8e7c93`, *"an edit's attachments say which is the plate and which is the
+look,"* dated 2026-08-29 — two days before this file's own first
+`verified_on` of 2026-08-31. The "nothing declares one" claim was already
+stale on the date it was first recorded: the type-level seam below is real
+and still current; the tree-level claim built on top of it was not.
 
 ## A and B, over three shipped cases
 
@@ -56,10 +70,28 @@ atmosphere.
 2. **The edit endpoint.** `app/api/imaging/edit/route.ts` over
    `EditRequest { image, instruction, references? }` is the one place in the
    tree with two image inputs, and it is where a subject-into-plate merge
-   would land if the studio grew one. Arm B adds the relation clause to
-   `instruction`. **This is the arm that was not run**: judging whether a
-   composite reads as integrated needs generation spend and a grader pass, and
-   the outcome is the technique's actual claim. Hence the verdict.
+   would land if the studio grew one. Since `f8e7c93` (2026-08-29) it also
+   carries the role map itself: `buildEditPrompt` labels image 1 the SUBJECT
+   PLATE and the rest STYLE REFERENCES, each with a negative scope. That
+   closes the base technique's seam here — a role IS declared now, just not
+   by the type. It does not close the amendment's: the map states what each
+   role must NOT contribute, not how the two should meet. Arm B still adds a
+   clause `instruction` does not carry today — the relation itself (how the
+   subject meets the plate's light, floor, scale and atmosphere). **This is
+   the arm that was not run**: judging whether a composite reads as
+   integrated needs generation spend and a grader pass, and the outcome is
+   the technique's actual claim. Hence the verdict.
+
+   One position note, so a future reader does not manufacture a deviation
+   that is not there: `buildEditPrompt` *prepends* its map; `buildPrompt`,
+   the `generate` path (`:393-403`), *appends* its single-role note. That
+   split is not an inconsistency — the code's own comment says why
+   (`google.ts:366-368`): on `generate` the prompt already IS the subject
+   description, so the reference note only qualifies it; on `edit` the
+   instruction is an operation on assets the model has not been introduced
+   to yet, so the roles have to arrive first. "The map leads" (the commit's
+   own phrase) is a claim about which job each call is doing, not a rule
+   about string position.
 3. **The readback vocabulary.** `lib/foundry/extract/types.ts:41-53` splits
    every observation into `look` — the rendering, with nothing about what is
    depicted — and `depiction` — the subject and its staging — over
@@ -105,7 +137,11 @@ is visible here precisely because everything around it is done well.
 ## What this realization cannot do
 
 It cannot judge composites, because it does not make any. The role convention
-is enforced by a comment rather than by the type, so a second reference class
-can enter the array without anything failing — which is the change that would
-move this row from `unmeasurable` to a real measurement, and the return
-condition it is filed under.
+is enforced by prose rather than by the type — a header comment on
+`generate`, a prepended instruction block on `edit` — so a second reference
+class can enter the `references` array without anything failing. That is
+still the change that would move this row from `unmeasurable` to a real
+measurement, and the return condition it is filed under; growing a two-role
+prompt on `edit` did not do it, because the array itself still holds one
+class (style references) beside the separate `image` field, not two classes
+inside it.
