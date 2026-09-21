@@ -139,7 +139,22 @@ const churnOnly = process.argv.includes('--churn');
 const onlyProject = argAfter('--project');
 const explicitPath = argAfter('--path');
 const outFile = argAfter('--out');
-const TOP = argAfter('--top') === null ? 5 : Math.max(1, Number(argAfter('--top')) || 5);
+// How many subjects a context PUBLISHES. Raised 5 -> 10 on 2026-09-21, measured.
+//
+// The cap, not the scorer, was hiding most of the misses. Against the 53 pairings readers
+// established by hand AFTER this matcher failed to produce them - the only uncontaminated
+// labels the fleet has - a cap of 5 published 6% of them and a cap of 10 publishes 19%.
+// The scorer had ranked nearly half of them somewhere: `table` sat at #8 with a
+// use_when-grounded 648 on a context whose files are UnifiedTable.tsx and DataGrid.tsx,
+// comfortably above the relative floor and cut by the cap alone.
+//
+// 10 rather than 12 or 15 because this raises candidates without touching any ranking:
+// every pair it adds was already scored and ordered, `/conform` judges 3-6 pairs a run and
+// ignores the rest, and the relative floor still governs admission. The scoring change that
+// would reach 32% at this cap (normalising by the subject's bag size, which removes the
+// reward for large subjects) is deliberately NOT taken here - it rewrites every score in
+// every map, and docs/matcher-reach.md carries the measurement for that decision.
+const TOP = argAfter('--top') === null ? 10 : Math.max(1, Number(argAfter('--top')) || 10);
 if (outFile && !onlyProject && !explicitPath) {
   console.error('FATAL: --out names ONE file, so it needs one project: pass --project <slug> or --path <dir>.');
   process.exit(2);
