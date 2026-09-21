@@ -4519,3 +4519,22 @@ measurement and which is an artifact of asking the wrong question.
    demands one there; the verification instrument nearly did not, because it
    felt like bookkeeping rather than evidence.
 | 2.13.0 | 2026-09-21 | `https://claude-code-from-source.com` + `github:alejandrobalderas/claude-code-from-source@a6d5e452` — an 18-chapter architecture book about an agent harness, written by an agent pipeline from shipped source maps | 1 repository. **Ingest returned 996 words; the tree holds 71,197** — a 71x ratio, and the landing page is the one surface written to be quoted. Swept operating docs and the pipeline prompt first, synthesis chapter next, README last. **0 of 3 fetches** | 16 | 10 verified in full (2 accepted + 8 catches, every one opened rather than inferred from the map) | **1 technique + 1 amendment + 1 application** | 2 rows (`0c/1e/0s/1t/0r`), both `not-better` | 1 (tracklight `13dffd6`, a task plan — no code) | **Expected yield said out loud first (low content / high catches) and it held: 8 of 16 are catches and the corpus is sharper than the source in most.** The two `not-better` verdicts are honest, not empty: row 1's precondition genuinely fails in the target tree and row 2's attack class is structurally absent from the fleet | S0/T1/A1/Asrc0/task~90L · routing count **1 NONE (System A), 0 (System B)** → stay in intake, **no forge handoff** · directions=not-run |
+
+**Next run's declared focus.**
+1. **Add the formula to the enumeration hunt.** When prior art appears only as
+   a term inside an equation — a subtrahend in a budget, a divisor in a rate, a
+   margin — the concept is present and unmodelled at the same time. Ask which
+   of that term's two failure directions the file names, and whether anything
+   owns the other. This run's only content landing was one direction of one
+   term, sitting in a parenthetical, in a file that obviously covered the
+   subject.
+2. **Say the expected routing count out loud after the design record and before
+   the routing decision.** v2's failure mode was under-routing; the one this
+   run met is the opposite — a mature bundle returns a low NONE count over rich
+   material, and a run that expected three will be tempted to promote a catch.
+   A count of 1 over a deepened bundle is a good result and should be written
+   as one before the decision, not defended after it.
+3. **Re-check a reference file's open questions before using them as triage
+   signal.** One of the memory lane's four open questions is already landed in
+   `recall-injection` with a measurement. Reference material ages like a
+   citation and carries no `verified_on`; the other three were not checked.

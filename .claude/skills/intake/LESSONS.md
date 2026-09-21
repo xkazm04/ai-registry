@@ -11665,3 +11665,58 @@ finish on the version it loaded.)
   whole landing. Add hand-off sections to the list of places the hunt reads;
   they are denser than "when not to use" blocks because they are written to be
   exhaustive about the *neighbourhood* rather than about one technique's limits.
+
+## 2.13.0 - 2026-09-21 - claude-code-from-source
+
+- **A formula is an enumeration, and each of its terms has two failure
+  directions.** The run's only content gap hid inside arithmetic that plainly
+  contained the concept: `context-budgeting` derives the budget as *window
+  minus response room minus margin*, so "the response reservation" is
+  unmistakably in the corpus and row 1 read as a catch on sight. What the file
+  actually models is one direction of one term — reserving too little, an
+  answer squeezed to nothing — stated in a parenthetical. The other direction
+  had no owner. The existing hunts do not reach this: the missing-stage hunt
+  looks for a pipeline point with no technique, and the enumeration hunt looks
+  for a prose list claiming completeness. **Add the formula to the enumeration
+  hunt.** When prior art appears only as a term in an equation or a
+  subtrahend in a budget, ask which of that term's two failure directions the
+  file names, and whether anything owns the other one. Cheap, mechanical, and
+  it was worth the whole run here.
+
+- **A low routing count over a rich source is a measurement of the corpus, not
+  a verdict on the source.** v2 exists because twelve runs mined design-deep
+  repositories with the news method and landed zero subjects. This run mined a
+  71,197-word architecture book about an agent harness — the densest design
+  material intake has seen — and the count came back **1 NONE across 14
+  decisions**. Nothing went wrong: `agent-memory`, `prompt-assembly`,
+  `agent-instruction-files`, `agent-runtime-assembly` and `quality-gates` were
+  forged and deepened from exactly this material, and in most catches the
+  corpus is sharper than the source. The risk this creates is the opposite of
+  v1's: a run that expects three and finds one is tempted to promote a catch to
+  make the handoff. **Say the expected count out loud after the design record
+  and before the routing decision, the way the class's expected yield is said
+  before the table** — a count of 1 over a mature bundle is a good result and
+  should read as one.
+
+- **The memory lane's open-questions list has gone stale, and nothing re-checks
+  it.** `references/memory-lane.md` names four open questions as the marks of a
+  genuinely new contribution. One of them — *nobody separates the subject of a
+  question from the shape of the answer it asks for* — is **landed**, in
+  `recall-injection` § "The query is not the question", with a measured example
+  (a rule about the wrong project taking the top slot on all ten procedure
+  probes) and two complementary repairs. A run that trusted the list would have
+  triaged a source's version of that idea as a new contribution instead of a
+  catch. Reference files age exactly like an application's citations and have
+  no `verified_on`. **Either date that list or make the lane's step 1 re-check
+  its open questions against the corpus before using them as a triage signal.**
+  The other three were not checked this run and may also have moved.
+
+- **Never chain an unlock behind a command that can fail.** The ledger append
+  ran as `lock && append && verify && unlock`, the verification used `rev`,
+  which does not exist in this shell, and the chain died at exit 127 with the
+  lock still held. The appends had already landed, so nothing was lost, but the
+  ledger stayed locked until the next command released it — and had the session
+  ended there, eleven siblings would have waited out the TTL. This is the same
+  shape the corpus files under a pipe masking an exit code. **Unlock in its own
+  call, always, and verify after.** The method's own examples show the unlock on
+  its own line; the temptation to chain comes from wanting one round trip.
