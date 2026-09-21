@@ -39,3 +39,4 @@ none.
 
 - 2026-09-21 skill-run-log: HEAD carried a stale knowledge index from an unrelated intake commit; gate --all was red before any change. Run the gate on a fresh worktree in Phase 0 so inherited red is known before builders report it.
 - 2026-09-21 skill-run-log: a clause re-stamp touches every skills/*/SKILL.md; the landing checkout held foreign WIP in one of them plus in catalog.json and the index - compute that overlap at the go-gate, not at merge.
+- 2026-09-21 skill-run-log: two machines (Fox, Wolf) develop the registry in parallel; origin/main was 267 commits ahead. Phase 0 must `git fetch` and diff the target paths against origin/main before scouting.
