@@ -3,7 +3,7 @@ name: onboarding
 description: "Take a fresh clone of an app repo to a running, honestly-labelled install in one conversation: probe runtime deps, ask which connector capabilities the operator wants, collect keys into .env.local without ever echoing a secret, verify by booting the app, and hand back a capability matrix with three honest states per group (works / degraded with a stated fallback / hidden). Runs on generic defaults with no configuration (probe node, git and the Claude CLI; read .env.example; boot the dev script) and reads project specifics from .claude/onboarding/config.md. Invoke with /onboarding (full run), /onboarding <group> (one capability group), or /onboarding check (doctor pass, no questions)."
 category: workflow
 memory: none
-version: 0.5.1
+version: 0.6.0
 tags: onboarding, setup, env, secrets, capability-matrix, doctor, fresh-clone
 argument-hint: "[<group>|check]"
 ---
@@ -210,12 +210,43 @@ review and commit; do not commit it yourself.
 
 ---
 
-<!-- clause: skill-reflection v4 - stamped by scripts/apply-skill-clauses.mjs from docs/skill-clauses/skill-reflection.md; edit the template, then re-stamp -->
+<!-- clause: skill-reflection v5 - stamped by scripts/apply-skill-clauses.mjs from docs/skill-clauses/skill-reflection.md; edit the template, then re-stamp -->
 ## Skill Reflection
 
 After the work, record only useful observations supported by this run. No lesson is
 a valid result. Reflection inherits the task's authorization; it grants no additional
 permission to edit another repository, send data, commit, or publish.
+
+**Run log.** Unlike a lesson, this is written on every run that started work - failed and
+aborted runs included; skip read-only info modes and runs cancelled before any work. Append
+ONE line to `.ai/skill-runs.local.jsonl` at the root of the checkout you worked in: local,
+gitignored run output inside the task's own repository, never a write into the registry.
+The registry pulls it later (`/librarian skills` on the same machine). When a registry
+checkout is reachable (`registry.local` in `.ai/manifest.yaml`), prefer its writer, which
+stamps project, device and version for you:
+
+```sh
+node <registry>/scripts/log-run.mjs --skill onboarding --outcome <o> --difficulty <1-5> \
+  --provider <claude|openai|xai|qwen|google|other> --model <your model id> [--effort <level>] \
+  [--tokens-est <n>] --result "<one sentence>" --comment "<self-reflection>"
+```
+
+Otherwise write the line yourself: `{"ts":"<ISO, UTC Z>","skill":"onboarding","outcome":…,
+"difficulty":…,"provider":…,"model":…,"effort":…|null,"tokensEst":…|null,"result":…,"comment":…}`.
+
+- `outcome`: `shipped` (the goal landed) / `partial` / `no-op` (ran correctly, nothing to
+  do) / `parked` (designed or staged, deliberately not landed) / `failed` / `aborted`.
+- `difficulty` rates the task as this run met it: 1 trivial - mechanical; 2 routine - the
+  method as written; 3 demanding - real judgment calls or one detour; 4 hard - dead ends,
+  rework or an operator course-correction; 5 at the edge - partial or failed on the merits.
+- `model`/`effort` as your harness states them (`null` effort when you cannot see it).
+  `tokensEst` is the drop in the harness's remaining-token counter since this skill was
+  invoked, or `null`; exact figures are measured later from transcripts - never guess one.
+- `result` is one line (max 240 chars). `comment` (max 2000) is the self-reflection a
+  reviewer reads: what worked, what the method made harder, where its instructions were
+  wrong, missing or ignored. No filesystem paths or email addresses.
+- Never read run logs during a run. They are evidence ABOUT this skill for its reviewer;
+  an executor that reads its own diagnosis contaminates the next measurement.
 
 **Project learning.** Only when this run produced an observation that would change how a
 future run behaves. A run that went as the method describes writes nothing: an entry that

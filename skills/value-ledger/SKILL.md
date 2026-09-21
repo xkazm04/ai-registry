@@ -1,7 +1,7 @@
 ---
 name: value-ledger
 description: Model a product's value per user journey from its UAT Characters - time and money saved against the LLM-less way, risk avoided (mis-hires, wrong decisions, compliance exposure), and segment gates - normalized to a reference journey so the output ranks work by user value instead of by what a code scan found. Sits UPSTREAM of code-derived KPIs - a KPI worth adopting is one derived from a journey's modeled value - and gives an owner (human or agent) a value ledger to move. Scores a backlog item or finding by which journey's reachability, with-app cost or risk it moves. Modeled figures promote to measured when a real tenant walks the journey. Invoke with /value-ledger [init|run|score|promote|status] [args].
-version: 0.2.1
+version: 0.3.0
 category: workflow
 memory: project
 argument-hint: "init|run|score|promote|status [args]"
@@ -188,12 +188,43 @@ default, because those numbers are the operator's claim, not the model's.
 
 ---
 
-<!-- clause: skill-reflection v4 - stamped by scripts/apply-skill-clauses.mjs from docs/skill-clauses/skill-reflection.md; edit the template, then re-stamp -->
+<!-- clause: skill-reflection v5 - stamped by scripts/apply-skill-clauses.mjs from docs/skill-clauses/skill-reflection.md; edit the template, then re-stamp -->
 ## Skill Reflection
 
 After the work, record only useful observations supported by this run. No lesson is
 a valid result. Reflection inherits the task's authorization; it grants no additional
 permission to edit another repository, send data, commit, or publish.
+
+**Run log.** Unlike a lesson, this is written on every run that started work - failed and
+aborted runs included; skip read-only info modes and runs cancelled before any work. Append
+ONE line to `.ai/skill-runs.local.jsonl` at the root of the checkout you worked in: local,
+gitignored run output inside the task's own repository, never a write into the registry.
+The registry pulls it later (`/librarian skills` on the same machine). When a registry
+checkout is reachable (`registry.local` in `.ai/manifest.yaml`), prefer its writer, which
+stamps project, device and version for you:
+
+```sh
+node <registry>/scripts/log-run.mjs --skill value-ledger --outcome <o> --difficulty <1-5> \
+  --provider <claude|openai|xai|qwen|google|other> --model <your model id> [--effort <level>] \
+  [--tokens-est <n>] --result "<one sentence>" --comment "<self-reflection>"
+```
+
+Otherwise write the line yourself: `{"ts":"<ISO, UTC Z>","skill":"value-ledger","outcome":…,
+"difficulty":…,"provider":…,"model":…,"effort":…|null,"tokensEst":…|null,"result":…,"comment":…}`.
+
+- `outcome`: `shipped` (the goal landed) / `partial` / `no-op` (ran correctly, nothing to
+  do) / `parked` (designed or staged, deliberately not landed) / `failed` / `aborted`.
+- `difficulty` rates the task as this run met it: 1 trivial - mechanical; 2 routine - the
+  method as written; 3 demanding - real judgment calls or one detour; 4 hard - dead ends,
+  rework or an operator course-correction; 5 at the edge - partial or failed on the merits.
+- `model`/`effort` as your harness states them (`null` effort when you cannot see it).
+  `tokensEst` is the drop in the harness's remaining-token counter since this skill was
+  invoked, or `null`; exact figures are measured later from transcripts - never guess one.
+- `result` is one line (max 240 chars). `comment` (max 2000) is the self-reflection a
+  reviewer reads: what worked, what the method made harder, where its instructions were
+  wrong, missing or ignored. No filesystem paths or email addresses.
+- Never read run logs during a run. They are evidence ABOUT this skill for its reviewer;
+  an executor that reads its own diagnosis contaminates the next measurement.
 
 **Project learning.** Only when this run produced an observation that would change how a
 future run behaves. A run that went as the method describes writes nothing: an entry that
