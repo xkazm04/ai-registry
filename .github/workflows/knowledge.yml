@@ -94,6 +94,10 @@ jobs:
       # file shows up there as a wrong number rather than as an error.
       - name: Check the usage lane
         run: node scripts/check-usage.mjs
+      # The skill run log (usage/runs/): device-named files, every row on the contract in
+      # scripts/lib/runs.mjs, no paths or emails in the free text. Empty lane passes.
+      - name: Check the skill run log
+        run: node scripts/check-runs.mjs
 
   signals:
     name: signals lane
