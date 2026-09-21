@@ -68,3 +68,12 @@ fleet-*.proposals.json
 # /perfect loop state: an Obsidian-openable vault, regenerable working memory of a
 # skill that runs on this repo. Not content; and the checkout hosts concurrent sessions.
 .perfect/
+
+# Lane skills the registry itself runs, LINKED into .claude/skills (never copied - see
+# docs/skills-lane.md "Distribution, part 1"). The link is machine state; recreate with
+# a symlink/junction from .claude/skills/<name> to skills/<name>.
+/.claude/skills/spark
+
+# /spark loop state: the default vault when no overlay names one. Same reasoning as
+# .perfect/ above - regenerable working memory, and the checkout hosts concurrent sessions.
+.spark/
