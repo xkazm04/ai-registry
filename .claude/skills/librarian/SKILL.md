@@ -1,9 +1,9 @@
 ---
 name: librarian
-description: "Maintain the registry as a whole: sweep every bundle for structural and quality decay, rank what needs work by measured attention points, and dispatch scoped /deepen or /forge workers at it. Keeps coverage memory in an Obsidian vault under librarian/ so each run knows what the last one touched, what is saturated, and what is owed. Run manually; a scheduler is a later wrapper. Use when nobody has looked at the registry in a while."
+description: "Maintain the registry as a whole: sweep every bundle for structural and quality decay, rank what needs work by measured attention points, and dispatch scoped /deepen or /forge workers at it. Also evaluates the lane skills from their per-run log (`/librarian skills`). Keeps coverage memory in an Obsidian vault under librarian/ so each run knows what the last one touched, what is saturated, and what is owed. Run manually; a scheduler is a later wrapper. Use when nobody has looked at the registry in a while."
 category: ai-native
 memory: project
-version: 1.4.0
+version: 1.5.0
 tags: registry, maintenance, coverage, dispatch, quality, upstream
 ---
 
@@ -33,6 +33,7 @@ re-implementing deepen's research lanes badly under a new name. **If the answer 
 /librarian status       # read the vault, touch nothing
 /librarian upstream     # the upstream lane alone: which mined trees have moved
 /librarian reflect      # update the standard + this skill from what the last runs taught
+/librarian skills [name] # evaluate the lane skills from their run log - see "The skills pass"
 ```
 
 ## Never count anything yourself
@@ -164,6 +165,47 @@ generated files are rebuilt (`build-index`, `build-catalog`, `build-knowledge-ru
   same as step 5, review their diffs the same as step 6. A run that lands six
   techniques and applies none has enriched a wiki.
 
+## The skills pass
+
+`/librarian skills [name]` evaluates the **skills**, not the bundles. Its evidence is the
+run log every lane skill appends at the end of every run (skill-reflection clause, lane 0):
+`usage/runs/<device>.jsonl`, one row per run, plus the measured sidecar
+`<device>.exact.jsonl` that `scripts/runs-backfill.mjs` writes from transcripts. The
+contract is `scripts/lib/runs.mjs`; the lane is described in `docs/runs-lane.md`.
+
+1. **Fill the measurement, then prove the instrument.** On this device,
+   `node scripts/runs-backfill.mjs` (drains fleet `.ai/skill-runs.pending.jsonl`, attaches
+   exact tokens/model/effort), then `node scripts/check-runs.mjs`. Red gate: stop. Spot-check
+   one exact token figure against its transcript. The other device's rows carry estimates
+   only until that device backfills - say so rather than treating them as measured.
+2. **Commit the logs** before reading them, as their own commit on the working branch:
+   `git add usage/runs/` then `chore(runs): <device> - <n> rows since <last>`. A log that
+   sits uncommitted is invisible to the other machine and one careless staging call from
+   riding in someone else's commit. Nothing else goes in that commit.
+3. **Aggregate with the instrument, never by hand.** `node scripts/runs-report.mjs --since 30d --json`
+   (or `--skill <name>`). Numbers come from the report; you read the comments.
+4. **Judge each skill that ran**, per version: outcome mix (failed + aborted share),
+   difficulty trend, token trend - always naming the basis (`exact` or `estimate`, never
+   blended) - and the recurring themes in `comment`. Self-rated fields are weak evidence:
+   a skill that rates itself 2 and fails is a finding; a smooth self-report beside a rising
+   failure share is not reassurance. Verdict per skill: `healthy` / `watch` / `needs redesign`,
+   each with the rows that justify it (run ids). Too few runs to judge is `unknown`, not healthy.
+5. **Write** `librarian/skills/<YYYY-MM-DD>[-n].md`: window, devices covered (and which had no
+   backfill), a table skill - version - runs - outcomes - difficulty - tokens (basis) - verdict,
+   then per-skill findings. Skill slugs, project slugs and run ids only - no paths.
+6. **Redesign proposals go to the skill's LESSONS.md**, never into its SKILL.md: when two or
+   more runs' comments (distinct runs, ideally distinct projects) point at the same flaw,
+   append `## <version-judged> - <YYYY-MM-DD> - librarian` with a `### Redesign proposal`
+   sub-block citing the run ids. One comment is an anecdote - it goes in the note, not in
+   LESSONS. Commit per skill as `skill(<name>): lessons from the run log`, run
+   `node scripts/check-skills.mjs --since HEAD` first.
+
+**The executing skill never reads this evidence.** Do not paste run-log findings into a
+skill's SKILL.md, a dispatch brief, or a project overlay: a trace produced while the
+executor could read its own diagnosis measures the diagnosis, not the skill
+(agent-memory / diagnosis-withheld-from-the-executor). The skill improves when a human
+accepts a proposal and a new version ships; the next runs then measure that version.
+
 ## The vault
 
 ```
@@ -176,6 +218,7 @@ librarian/runs/<YYYY-MM-DD>-<n>.md        what one run swept, dispatched, accept
 librarian/sources/index.md                the ledger of external sources /research mined
 librarian/sources/<YYYY-MM-DD>-<slug>.md  what one source yielded, and what it did not
 librarian/upstream.md                     every mined repository: when we last looked, what moved
+librarian/skills/<YYYY-MM-DD>[-n].md      one skills pass: per-skill verdicts from the run log
 ```
 
 Obsidian-navigable: wikilinks between notes, one fact per note. It lives in the
