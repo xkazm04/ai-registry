@@ -7,12 +7,19 @@ end of the run, so `/librarian skills` can judge a skill from its runs rather th
 anecdote.
 
 ```
-usage/runs/<device>.jsonl         APPEND-ONLY, one row per run (rkb-run/1)         - the agent writes
-usage/runs/<device>.exact.jsonl   SIDECAR keyed by run id (rkb-run-exact/1)          - runs-backfill writes
+<project>/.ai/skill-runs.local.jsonl  LOCAL, gitignored, one line per run         - the agent writes
+usage/runs/<device>.jsonl             APPEND-ONLY, committed (rkb-run/1)          - runs-backfill pulls into it
+usage/runs/<device>.exact.jsonl       SIDECAR keyed by run id (rkb-run-exact/1)   - runs-backfill measures into it
 ```
 
-- **Who writes:** every lane skill, through the stamped `skill-reflection` clause (v4,
-  lane 0), on every run that started work - failed and aborted runs included, read-only
+**The project writes, the registry pulls.** The shared reflection clause holds that a skill
+run grants no permission to edit another repository, and a release install (see
+[installations.md](installations.md)) has no registry checkout to write into at all. So a
+run only ever appends to its OWN checkout's local file; `runs-backfill.mjs`, run in the
+registry on the same machine (the first step of `/librarian skills`), stamps and pulls.
+
+- **Who writes:** every lane skill, through the stamped `skill-reflection` clause (v5,
+  "Run log"), on every run that started work - failed and aborted runs included, read-only
   info modes excluded. The registry's own hand-written skills (intake, assay, ...) do not
   log yet.
 - **Who reads:** `/librarian skills`, through `scripts/runs-report.mjs`, and
@@ -46,9 +53,10 @@ node <registry>/scripts/log-run.mjs --skill spark --outcome shipped --difficulty
   the cwd's `.ai/manifest.yaml` `repo.name`, else the directory name; `--project` overrides),
   and `id` = `<device>-<YYYYMMDDTHHMMSSZ>-<skill>`.
 - **`--version` is optional.** The harness strips frontmatter when it loads a skill, so the
-  agent often cannot see its own version; the writer reads `version:` from
-  `skills/<skill>/SKILL.md`, else `.claude/skills/<skill>/SKILL.md`, and exits 1 with
-  "pass --version" if neither has one. An explicit `--version` wins.
+  agent often cannot see its own version; the writer takes the checkout's
+  `.ai/registry-installation.local.json` version, else `skills/<skill>/SKILL.md`, else
+  `.claude/skills/<skill>/SKILL.md`, and exits 1 with "pass --version" if none has one. An
+  explicit `--version` wins.
 - **`--skill` accepts scoped names** (`ai-registry:spark`, `spark:spark`); the bare name after
   the last `:` is logged.
 - **`--json <file>`** supplies the same fields under their row key names (for long comments);
@@ -62,10 +70,12 @@ in `result`/`comment`) prints every problem by field name and exits 1 with nothi
 written; an append-only file cannot take a bad line back. Exit 2 means it could not run
 (unknown flag, unreadable `--json`).
 
-**Pending mode.** With `--pending`, or when the machine has no identity, the row goes to
-`<checkout root>/.ai/skill-runs.pending.jsonl` (the nearest ancestor holding `.ai/manifest.yaml` or `.git`) with `device: null` and `id: null`; `runs-backfill.mjs`
-stamps both when it drains the file. Every other field is validated in full (against a
-stand-in device) before the write.
+**Local file.** log-run always appends to `<checkout root>/.ai/skill-runs.local.jsonl`
+(the nearest ancestor holding `.ai/manifest.yaml` or `.git`) and never writes `usage/runs/`.
+`--pending` was removed (exit 2). An agent without the script writes one JSON line itself
+with at least `ts` (ISO, `Z`), `skill`, `outcome`, `difficulty`, `result`, `comment`,
+`provider`, `model` (`validateLocal`); unknown keys are refused. With no machine identity,
+log-run writes `device`, `contributor` and `id` as null and the drain stamps them.
 
 ## The row
 
@@ -89,8 +99,8 @@ Runs in `gate.mjs` (usage lane and `--all`, right after `check-usage`) and in th
 lines; no path or email anywhere in a raw line. Failures print as `file:line`. An absent or
 empty lane passes.
 
-`REGISTRY_RUNS_ROOT` (tests only) redirects both scripts' `usage/runs/` to a stand-in root,
-so `scripts/tests/test_runs.mjs` never writes into the real lane.
+`REGISTRY_RUNS_ROOT` (tests only) redirects check-runs' `usage/runs/`. log-run has no hook;
+`scripts/tests/runs.test.mjs` runs it with cwd in a temp checkout.
 
 ## Backfill, sidecar, report and catalog fields
 
@@ -99,14 +109,16 @@ so `scripts/tests/test_runs.mjs` never writes into the real lane.
 Run on the machine that produced the runs (`node scripts/runs-backfill.mjs [--dry-run]`).
 Device = `loadFleet(root).machine`; no identity is FATAL (exit 2). Two passes:
 
-1. **Drain.** Looks for `.ai/skill-runs.pending.jsonl` at the registry root, every fleet
-   checkout that exists here, and every `.claude/worktrees/*` under either. Each row is
-   stamped (device = this machine, contributor from the fleet unless the row has one,
-   `id = runId(row)`), validated, and appended to `usage/runs/<device>.jsonl`. Only after
-   the append succeeds is the pending file rewritten, keeping invalid and unparseable lines
-   (reported) plus anything appended while the drain ran. A row whose id is already in the
-   log is dropped, not appended twice. A row logged under a project other than the one whose
-   pending file held it is kept as logged and named.
+1. **Drain.** Looks for `.ai/skill-runs.local.jsonl` at the registry root, every fleet
+   checkout that exists here, and every `.claude/worktrees/*` under either. Each row passes
+   `validateLocal`, then is stamped (`stampRow`): device and contributor are always this
+   machine's; project = the row's, else the fleet slug of the checkout holding the file;
+   version = the row's, else the checkout's installation receipt, else the lane
+   frontmatter; `id = runId(row)`. It is then held to `validateRun` and appended to
+   `usage/runs/<device>.jsonl`. Only after the append succeeds is the local file rewritten,
+   keeping rows that failed (reported) plus anything appended while the drain ran. A row
+   whose id is already in the log is dropped, not appended twice. A row with no resolvable
+   version, or whose `device` names another machine, stays in place and is reported.
 2. **Measure.** For each `provider: "claude"` row whose id is not yet in
    `<device>.exact.jsonl`, find its Claude Code session and write ONE sidecar row.
    Transcripts live in `~/.claude/projects/<encoded>/`, where `<encoded>` is the checkout's
@@ -144,6 +156,9 @@ every device's log and sidecar. Per `skill@version`: runs, outcome counts, mean 
 first/last ts, and every run's `{ts, project, outcome, difficulty, result, comment}`.
 `--json` emits `{schema: 'rkb-runs-report/1', since, generatedAt, lane, skills}`. An
 empty lane prints that it is empty and exits 0.
+
+Skill names fold through `identity-aliases.json` (`skills`) in the report and the catalog,
+so a renamed skill keeps its history; an unknown name keeps its logged name.
 
 ### Token basis rules
 

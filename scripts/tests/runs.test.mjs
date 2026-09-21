@@ -3,11 +3,12 @@
 //
 // `node --test scripts/tests/` - builtins only, no network, no install.
 //
-// Nothing here writes into the real usage/runs/. The writer and the gate both honour
-// REGISTRY_RUNS_ROOT (a stand-in registry root for the runs lane only), so every append
-// and every planted row lands in a temp directory. Identity still resolves from this
-// checkout's machine file; tests that need a device skip when the checkout has none (a
-// CI runner has no .machine.local.json).
+// Nothing here writes into the real usage/runs/ or into a real project. The writer's
+// destination follows its cwd (<checkout root>/.ai/skill-runs.local.jsonl), so every
+// writer test runs it with cwd in a temp dir holding a .git dir; the gate honours
+// REGISTRY_RUNS_ROOT (a stand-in registry root for the lane). Identity still resolves from
+// this checkout's machine file; tests that need a device skip when the checkout has none
+// (a CI runner has no .machine.local.json).
 
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
@@ -17,7 +18,8 @@ import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import {
-  SCHEMA, RUN_KEYS, LIMITS, validateRun, runId, leaksIn, assertLeakScanner, resolveIdentity, PENDING_REL,
+  SCHEMA, RUN_KEYS, LIMITS, LOCAL_REQUIRED, LOCAL_REL, RECEIPT_REL,
+  validateRun, validateLocal, stampRow, runId, leaksIn, assertLeakScanner, resolveIdentity,
 } from '../lib/runs.mjs';
 
 const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..', '..');
@@ -103,26 +105,93 @@ test('runId is stable and drops sub-second precision', () => {
   assert.equal(runId(goodRow({ ts: '2026-09-21T12:11:12+02:00' })), runId(a));
 });
 
+// ------------------------------------------------------------------ the local row
+function agentRow(over = {}) {
+  // The minimum an agent without the script writes by hand (release install).
+  return {
+    ts: '2026-09-21T10:11:12Z', skill: 'spark', outcome: 'shipped', difficulty: 2,
+    result: 'did the thing', comment: 'wrote it myself', provider: 'claude', model: 'claude-opus-5', ...over,
+  };
+}
+
+test('validateLocal accepts an agent-written minimal row and a fully stamped one', () => {
+  assert.deepEqual(Object.keys(agentRow()).sort(), [...LOCAL_REQUIRED].sort());
+  assert.deepEqual(validateLocal(agentRow()), []);
+  assert.deepEqual(validateLocal(agentRow({ version: null, device: null, id: null, project: null, effort: null })), []);
+  assert.deepEqual(validateLocal(goodRow()), []);
+});
+
+test('validateLocal rejects unknown keys, bad enums, missing required keys and bad stamped values', () => {
+  assert.ok(validateLocal(agentRow({ note: 'x' })).includes('unknown key "note"'));
+  assert.ok(validateLocal(agentRow({ outcome: 'done' })).some((p) => /^outcome must be one of/.test(p)));
+  assert.ok(validateLocal(agentRow({ provider: 'anthropic' })).some((p) => /^provider must be one of/.test(p)));
+  assert.ok(validateLocal(agentRow({ difficulty: 9 })).some((p) => /^difficulty/.test(p)));
+  assert.ok(validateLocal(agentRow({ comment: 'see C:\\Users\\me' })).some((p) => /comment contains a Windows path/.test(p)));
+  const noModel = agentRow(); delete noModel.model;
+  assert.ok(validateLocal(noModel).includes('missing key "model"'));
+  assert.ok(validateLocal(agentRow({ version: 'v1' })).some((p) => /^version must be semver/.test(p)));
+  assert.ok(validateLocal(agentRow({ ts: '2026-09-21 10:00' })).some((p) => /^ts/.test(p)));
+  assert.ok(validateLocal(goodRow({ id: 'Fox-wrong' })).includes('id must equal runId(row)'));
+});
+
+test('stampRow builds a RUN_KEYS row: row fields win, device/contributor always from the stamp', () => {
+  const s = stampRow(agentRow({ device: 'Elsewhere', contributor: 'someone', version: '2.0.0' }), {
+    device: 'Fox', contributor: 'mkdol-dev-box', project: 'personas', version: '1.0.0',
+  });
+  assert.deepEqual(Object.keys(s), RUN_KEYS);
+  assert.equal(s.schema, SCHEMA);
+  assert.equal(s.device, 'Fox');
+  assert.equal(s.contributor, 'mkdol-dev-box');
+  assert.equal(s.version, '2.0.0', 'the row\'s own version wins');
+  assert.equal(s.project, 'personas', 'absent project comes from the stamp');
+  assert.equal(s.id, 'Fox-20260921T101112Z-spark');
+  assert.deepEqual(validateRun(s), []);
+  assert.equal(stampRow(agentRow({ project: 'demo' }), { device: 'Fox', project: 'personas', version: '1.0.0' }).project, 'demo');
+});
+
 // ------------------------------------------------------------------ the writer
-test('log-run appends exactly one valid line and prints its id', { skip: noDevice }, () => {
-  const dest = tmp('write');
-  const r = run(LOG_RUN, VALID_FLAGS, { env: { REGISTRY_RUNS_ROOT: dest } });
+/** A stand-in project checkout: a temp dir holding a .git dir, outside every fleet checkout. */
+function checkout(tag) {
+  const dir = tmp(tag);
+  fs.mkdirSync(path.join(dir, '.git'));
+  return dir;
+}
+const realLog = () => { try { return fs.readFileSync(path.join(ROOT, 'usage', 'runs', `${DEVICE}.jsonl`), 'utf8'); } catch { return null; } };
+
+test('log-run writes exactly one valid line to the checkout\'s local file and never the registry', { skip: noDevice }, () => {
+  const cwd = checkout('write');
+  const before = realLog();
+  const r = run(LOG_RUN, VALID_FLAGS, { cwd });
   assert.equal(r.status, 0, r.stderr);
-  const file = path.join(dest, 'usage', 'runs', `${DEVICE}.jsonl`);
+  const file = path.join(cwd, LOCAL_REL);
   const lines = fs.readFileSync(file, 'utf8').split('\n').filter(Boolean);
   assert.equal(lines.length, 1);
   const row = JSON.parse(lines[0]);
   assert.deepEqual(Object.keys(row), RUN_KEYS);
-  assert.deepEqual(validateRun(row), []);
-  assert.equal(row.project, 'ai-registry');
-  assert.match(r.stdout, new RegExp(`^run logged: ${row.id} -> usage/runs/${DEVICE}\\.jsonl`, 'm'));
-  // The gate accepts what the writer wrote.
-  const g = run(CHECK_RUNS, [], { env: { REGISTRY_RUNS_ROOT: dest } });
+  assert.deepEqual(validateRun(row), [], 'a registry-reachable run is fully stamped');
+  assert.equal(row.device, DEVICE);
+  assert.equal(row.project, path.basename(cwd).toLowerCase());
+  assert.equal(r.stdout.split('\n')[0], `run logged: ${row.id} -> ${file}`);
+  assert.equal(fs.existsSync(path.join(cwd, 'usage')), false, 'no usage/runs in the project');
+  assert.equal(realLog(), before, 'the registry log is untouched');
+  // The gate accepts the row once the registry has pulled it.
+  const lane = tmp('gate-accepts');
+  fs.mkdirSync(path.join(lane, 'usage', 'runs'), { recursive: true });
+  fs.writeFileSync(path.join(lane, 'usage', 'runs', `${DEVICE}.jsonl`), lines[0] + '\n');
+  const g = run(CHECK_RUNS, [], { env: { REGISTRY_RUNS_ROOT: lane } });
   assert.equal(g.status, 0, g.stdout + g.stderr);
 });
 
-test('log-run rejects bad input with exit 1, names the field, writes nothing', { skip: noDevice }, () => {
-  const dest = tmp('reject');
+test('log-run --pending is gone: exit 2, nothing written', () => {
+  const cwd = checkout('pending');
+  const r = run(LOG_RUN, [...VALID_FLAGS, '--pending'], { cwd });
+  assert.equal(r.status, 2);
+  assert.match(r.stderr, /--pending is gone - every row is now local/);
+  assert.equal(fs.existsSync(path.join(cwd, '.ai')), false);
+});
+
+test('log-run rejects bad input with exit 1, names the field, writes nothing', () => {
+  const cwd = checkout('reject');
   const bad = [
     [['--outcome', 'done'], /outcome must be one of/],
     [['--difficulty', '7'], /difficulty must be an integer 1-5/],
@@ -134,78 +203,73 @@ test('log-run rejects bad input with exit 1, names the field, writes nothing', {
   for (const [over, re] of bad) {
     const args = [...VALID_FLAGS];
     args[args.indexOf(over[0]) + 1] = over[1];
-    const r = run(LOG_RUN, args, { env: { REGISTRY_RUNS_ROOT: dest } });
+    const r = run(LOG_RUN, args, { cwd });
     assert.equal(r.status, 1, `${over.join(' ')}: ${r.stdout}${r.stderr}`);
     assert.match(r.stderr, re);
   }
-  assert.equal(fs.existsSync(path.join(dest, 'usage')), false);
+  assert.equal(fs.existsSync(path.join(cwd, '.ai')), false);
 });
 
 test('log-run reports a missing required flag and an unknown flag', () => {
-  const r = run(LOG_RUN, VALID_FLAGS.slice(2), { env: { REGISTRY_RUNS_ROOT: tmp('missing') } });
+  const cwd = checkout('missing');
+  const r = run(LOG_RUN, VALID_FLAGS.slice(2), { cwd });
   assert.equal(r.status, 1);
   assert.match(r.stderr, /missing skill/);
-  const u = run(LOG_RUN, ['--bogus', 'x']);
+  const u = run(LOG_RUN, ['--bogus', 'x'], { cwd });
   assert.equal(u.status, 2);
+  assert.equal(fs.existsSync(path.join(cwd, '.ai')), false);
 });
 
-test('log-run defaults --version from SKILL.md and strips a scoped skill name', { skip: noDevice }, () => {
+test('log-run defaults --version (receipt, then SKILL.md) and strips a scoped skill name', () => {
   const fm = fs.readFileSync(path.join(ROOT, 'skills', 'spark', 'SKILL.md'), 'utf8').match(/^version:\s*(\S+)/m)[1];
   const args = VALID_FLAGS.filter((_, i, a) => a[i] !== '--version' && a[i - 1] !== '--version');
   args[args.indexOf('--skill') + 1] = 'ai-registry:spark';
-  const r = run(LOG_RUN, [...args, '--dry-run']);
+  const cwd = checkout('version');
+  const r = run(LOG_RUN, [...args, '--dry-run'], { cwd });
   assert.equal(r.status, 0, r.stderr);
   const row = JSON.parse(r.stdout.split('\n')[1]);
   assert.equal(row.skill, 'spark');
   assert.equal(row.version, fm);
+  // An installation receipt in the checkout beats the lane.
+  const withReceipt = checkout('receipt');
+  fs.mkdirSync(path.join(withReceipt, '.ai'));
+  fs.writeFileSync(path.join(withReceipt, RECEIPT_REL), JSON.stringify({ schema: 1, installations: { claude: { mode: 'release', skills: { spark: { version: '7.7.7' } } } } }));
+  const rr = run(LOG_RUN, [...args, '--dry-run'], { cwd: withReceipt });
+  assert.equal(rr.status, 0, rr.stderr);
+  assert.equal(JSON.parse(rr.stdout.split('\n')[1]).version, '7.7.7');
   // A .claude/skills lane skill resolves too.
   const lane = fs.readdirSync(path.join(ROOT, '.claude', 'skills'))[0];
-  const r2 = run(LOG_RUN, [...args.map((a) => (a === 'ai-registry:spark' ? lane : a)), '--dry-run']);
+  const r2 = run(LOG_RUN, [...args.map((a) => (a === 'ai-registry:spark' ? lane : a)), '--dry-run'], { cwd });
   assert.equal(r2.status, 0, r2.stderr);
   assert.match(JSON.parse(r2.stdout.split('\n')[1]).version, /^\d+\.\d+/);
   // An unknown skill with no --version must be told to pass one.
-  const r3 = run(LOG_RUN, [...args.map((a) => (a === 'ai-registry:spark' ? 'no-such-skill' : a)), '--dry-run']);
+  const r3 = run(LOG_RUN, [...args.map((a) => (a === 'ai-registry:spark' ? 'no-such-skill' : a)), '--dry-run'], { cwd });
   assert.equal(r3.status, 1);
   assert.match(r3.stderr, /pass --version/);
   // An explicit --version wins.
-  const r4 = run(LOG_RUN, [...args, '--version', '9.9.9', '--dry-run']);
+  const r4 = run(LOG_RUN, [...args, '--version', '9.9.9', '--dry-run'], { cwd: withReceipt });
   assert.equal(JSON.parse(r4.stdout.split('\n')[1]).version, '9.9.9');
 });
 
-test('log-run --dry-run writes nothing', { skip: noDevice }, () => {
-  const dest = tmp('dry');
-  const r = run(LOG_RUN, [...VALID_FLAGS, '--dry-run'], { env: { REGISTRY_RUNS_ROOT: dest } });
+test('log-run --dry-run writes nothing', () => {
+  const cwd = checkout('dry');
+  const r = run(LOG_RUN, [...VALID_FLAGS, '--dry-run'], { cwd });
   assert.equal(r.status, 0, r.stderr);
-  assert.match(r.stdout, /^dry run/);
-  assert.equal(fs.existsSync(path.join(dest, 'usage')), false);
+  assert.match(r.stdout, /^dry run - would append to .*skill-runs\.local\.jsonl:/);
+  assert.equal(fs.existsSync(path.join(cwd, '.ai')), false);
 });
 
-test('log-run --json supplies long text; flags override it', { skip: noDevice }, () => {
+test('log-run --json supplies long text; flags override it', () => {
   const dir = tmp('json');
   const f = path.join(dir, 'row.json');
   fs.writeFileSync(f, JSON.stringify({ comment: 'from the file', outcome: 'partial', difficulty: 4 }));
   const args = VALID_FLAGS.filter((_, i, a) => !['--comment', '--outcome'].includes(a[i]) && !['--comment', '--outcome'].includes(a[i - 1]));
-  const r = run(LOG_RUN, [...args, '--json', f, '--dry-run']);
+  const r = run(LOG_RUN, [...args, '--json', f, '--dry-run'], { cwd: checkout('json-cwd') });
   assert.equal(r.status, 0, r.stderr);
   const row = JSON.parse(r.stdout.split('\n')[1]);
   assert.equal(row.comment, 'from the file');
   assert.equal(row.outcome, 'partial');
   assert.equal(row.difficulty, 2, 'the --difficulty flag overrides the file');
-});
-
-test('log-run --pending writes to <cwd>/.ai with device and id left for backfill', () => {
-  const cwd = tmp('pending');
-  const r = run(LOG_RUN, [...VALID_FLAGS, '--pending', '--project', 'demo'], { cwd });
-  assert.equal(r.status, 0, r.stderr);
-  const file = path.join(cwd, PENDING_REL);
-  const lines = fs.readFileSync(file, 'utf8').split('\n').filter(Boolean);
-  assert.equal(lines.length, 1);
-  const row = JSON.parse(lines[0]);
-  assert.deepEqual(Object.keys(row), RUN_KEYS);
-  assert.equal(row.device, null);
-  assert.equal(row.id, null);
-  assert.equal(row.project, 'demo');
-  assert.match(r.stdout, /runs-backfill/);
 });
 
 // ------------------------------------------------------------------ the gate

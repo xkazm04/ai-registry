@@ -1,9 +1,12 @@
 /**
  * runs — the contract of the skill run log (`usage/runs/`).
  *
- * Every lane skill, at the end of every run that started work, appends ONE row to
- * `usage/runs/<device>.jsonl` through `scripts/log-run.mjs`: what ran, where, on which
- * model, how it ended, how hard it was, and a free self-reflection comment. The log is
+ * Every lane skill, at the end of every run that started work, appends ONE row to its OWN
+ * project's `.ai/skill-runs.local.jsonl` (LOCAL_REL; through `scripts/log-run.mjs` when the
+ * registry is reachable, by hand when it is not): what ran, where, on which model, how it
+ * ended, how hard it was, and a free self-reflection comment. The registry pulls those rows
+ * into `usage/runs/<device>.jsonl` with `scripts/runs-backfill.mjs` (validateLocal ->
+ * stampRow -> validateRun). The project writes, the registry pulls. The log is
  * read by exactly one consumer, `/librarian skills` (via `scripts/runs-report.mjs`), and
  * never by the skill that is running - a trace produced while the executor can read the
  * diagnosis observes the diagnosis, not the skill (agent-memory /
@@ -11,7 +14,7 @@
  *
  * Two files per device, and the split is the point:
  *
- *   usage/runs/<device>.jsonl        APPEND-ONLY. Written by the agent at run end. Its
+ *   usage/runs/<device>.jsonl        APPEND-ONLY. Drained from the local files. Its
  *                                    token figure is an ESTIMATE (the harness counter's
  *                                    drop) and its model/effort are SELF-REPORTED.
  *   usage/runs/<device>.exact.jsonl  SIDECAR, keyed by run id. Written by
@@ -100,36 +103,107 @@ export function runId(row) {
 
 const isNonNegInt = (v) => Number.isInteger(v) && v >= 0;
 
-/** Returns a list of problems; empty means the row is valid. */
-export function validateRun(row) {
+const freeText = (f) => (v) => {
+  if (typeof v !== 'string' || !v.trim()) return [`${f} must be non-empty text`];
   const p = [];
+  if (v.length > LIMITS[f]) p.push(`${f} is ${v.length} chars (limit ${LIMITS[f]})`);
+  for (const what of leaksIn(v)) p.push(`${f} contains ${what}`);
+  if (f === 'result' && /\n/.test(v)) p.push('result must be one line');
+  return p;
+};
+const rule = (ok, msg) => (v) => (ok(v) ? [] : [msg]);
+
+/**
+ * One check per field, shared by validateRun (a committed row) and validateLocal (a row in
+ * a project's local file), so the two can never disagree on what a field may hold. `id` is
+ * absent: its rule (= runId of the rest of the row) is cross-field and lives in the callers.
+ */
+const FIELD_CHECKS = {
+  schema: rule((v) => v === SCHEMA, `schema must be "${SCHEMA}"`),
+  ts: rule((v) => typeof v === 'string' && ISO_RE.test(v), 'ts must be an ISO timestamp with zone'),
+  started: rule((v) => v === null || (typeof v === 'string' && ISO_RE.test(v)), 'started must be an ISO timestamp or null'),
+  project: rule((v) => typeof v === 'string' && SLUG_RE.test(v), 'project must be a lowercase slug'),
+  skill: rule((v) => typeof v === 'string' && SLUG_RE.test(v), 'skill must be a lowercase slug'),
+  version: rule((v) => typeof v === 'string' && SEMVER_RE.test(v), 'version must be semver'),
+  device: rule((v) => typeof v === 'string' && DEVICE_RE.test(v), 'device must be a machine name'),
+  contributor: rule((v) => v === null || (typeof v === 'string' && SLUG_RE.test(v)), 'contributor must be a slug or null'),
+  provider: rule((v) => PROVIDERS.includes(v), `provider must be one of ${PROVIDERS.join('|')}`),
+  model: rule((v) => typeof v === 'string' && !!v.trim() && v.length <= 80, 'model must be a non-empty string (<= 80)'),
+  effort: rule((v) => v === null || (typeof v === 'string' && !!v.trim() && v.length <= 20), 'effort must be a short string or null'),
+  outcome: rule((v) => OUTCOMES.includes(v), `outcome must be one of ${OUTCOMES.join('|')}`),
+  difficulty: rule((v) => Object.hasOwn(DIFFICULTY, String(v)) && Number.isInteger(v), 'difficulty must be an integer 1-5'),
+  result: freeText('result'),
+  comment: freeText('comment'),
+  tokensEst: rule((v) => v === null || isNonNegInt(v), 'tokensEst must be a non-negative integer or null'),
+};
+
+const startedAfterTs = (row) =>
+  typeof row.started === 'string' && typeof row.ts === 'string' && Date.parse(row.started) > Date.parse(row.ts)
+    ? ['started is after ts'] : [];
+
+/** Returns a list of problems; empty means the row is valid. The gate for committed rows. */
+export function validateRun(row) {
   if (!row || typeof row !== 'object' || Array.isArray(row)) return ['row is not an object'];
+  const p = [];
   for (const k of Object.keys(row)) if (!RUN_KEYS.includes(k)) p.push(`unknown key "${k}"`);
   for (const k of RUN_KEYS) if (!(k in row)) p.push(`missing key "${k}"`);
-  if (row.schema !== SCHEMA) p.push(`schema must be "${SCHEMA}"`);
-  if (typeof row.ts !== 'string' || !ISO_RE.test(row.ts)) p.push('ts must be an ISO timestamp with zone');
-  if (row.started !== null && (typeof row.started !== 'string' || !ISO_RE.test(row.started))) p.push('started must be an ISO timestamp or null');
-  if (typeof row.started === 'string' && typeof row.ts === 'string' && Date.parse(row.started) > Date.parse(row.ts)) p.push('started is after ts');
-  if (typeof row.project !== 'string' || !SLUG_RE.test(row.project)) p.push('project must be a lowercase slug');
-  if (typeof row.skill !== 'string' || !SLUG_RE.test(row.skill)) p.push('skill must be a lowercase slug');
-  if (typeof row.version !== 'string' || !SEMVER_RE.test(row.version)) p.push('version must be semver');
-  if (typeof row.device !== 'string' || !DEVICE_RE.test(row.device)) p.push('device must be a machine name');
-  if (row.contributor !== null && (typeof row.contributor !== 'string' || !SLUG_RE.test(row.contributor))) p.push('contributor must be a slug or null');
-  if (!PROVIDERS.includes(row.provider)) p.push(`provider must be one of ${PROVIDERS.join('|')}`);
-  if (typeof row.model !== 'string' || !row.model.trim() || row.model.length > 80) p.push('model must be a non-empty string (<= 80)');
-  if (row.effort !== null && (typeof row.effort !== 'string' || !row.effort.trim() || row.effort.length > 20)) p.push('effort must be a short string or null');
-  if (!OUTCOMES.includes(row.outcome)) p.push(`outcome must be one of ${OUTCOMES.join('|')}`);
-  if (!Object.hasOwn(DIFFICULTY, String(row.difficulty)) || !Number.isInteger(row.difficulty)) p.push('difficulty must be an integer 1-5');
-  for (const f of ['result', 'comment']) {
-    const v = row[f];
-    if (typeof v !== 'string' || !v.trim()) { p.push(`${f} must be non-empty text`); continue; }
-    if (v.length > LIMITS[f]) p.push(`${f} is ${v.length} chars (limit ${LIMITS[f]})`);
-    for (const what of leaksIn(v)) p.push(`${f} contains ${what}`);
-  }
-  if (typeof row.result === 'string' && /\n/.test(row.result)) p.push('result must be one line');
-  if (row.tokensEst !== null && !isNonNegInt(row.tokensEst)) p.push('tokensEst must be a non-negative integer or null');
+  for (const k of RUN_KEYS) if (FIELD_CHECKS[k]) p.push(...FIELD_CHECKS[k](row[k]));
+  p.push(...startedAfterTs(row));
   if (typeof row.id !== 'string' || (p.length === 0 && row.id !== runId(row))) p.push('id must equal runId(row)');
   return p;
+}
+
+/**
+ * What a row in a project's LOCAL file must carry. This is the whole contract for an agent
+ * that writes the line itself (a release install has no registry scripts): these eight keys,
+ * `ts` as ISO with zone (UTC `Z` by convention). Everything else is stamped at drain time.
+ */
+export const LOCAL_REQUIRED = ['ts', 'skill', 'outcome', 'difficulty', 'result', 'comment', 'provider', 'model'];
+/** Keys the drain stamps, so a local row may leave them out or null. */
+export const LOCAL_STAMPED = ['schema', 'id', 'device', 'contributor', 'project', 'version', 'started', 'effort', 'tokensEst'];
+
+/**
+ * Problems with a local-file row; empty means the drain may stamp it. Same field rules as
+ * validateRun for every field present, LOCAL_REQUIRED must be present, stamped fields may be
+ * absent or null, unknown keys are refused (a typo'd key would otherwise vanish in stampRow).
+ */
+export function validateLocal(row) {
+  if (!row || typeof row !== 'object' || Array.isArray(row)) return ['row is not an object'];
+  const p = [];
+  for (const k of Object.keys(row)) if (!RUN_KEYS.includes(k)) p.push(`unknown key "${k}"`);
+  for (const k of LOCAL_REQUIRED) if (!(k in row)) p.push(`missing key "${k}"`);
+  for (const k of RUN_KEYS) {
+    if (!(k in row) || !FIELD_CHECKS[k]) continue;
+    if (LOCAL_STAMPED.includes(k) && row[k] == null) continue;
+    p.push(...FIELD_CHECKS[k](row[k]));
+  }
+  p.push(...startedAfterTs(row));
+  if (row.id != null) {
+    if (typeof row.id !== 'string') p.push('id must be a string or null');
+    else if (p.length === 0 && typeof row.device === 'string' && row.id !== runId(row)) p.push('id must equal runId(row)');
+  }
+  return p;
+}
+
+/**
+ * A local row made whole: RUN_KEYS order, schema = SCHEMA, id = runId. Fields the local
+ * row carries win over the stamp, EXCEPT device and contributor, which always come from
+ * the stamp - they name the machine the row is being committed from, and a gitignored file
+ * has no business deciding that. Keys outside RUN_KEYS are dropped (validateLocal refuses
+ * them first).
+ */
+export function stampRow(local, { device, contributor = null, project = null, version = null } = {}) {
+  const pick = (k, fallback = null) => (local[k] ?? fallback);
+  const values = {
+    schema: SCHEMA, id: null, ts: local.ts, started: pick('started'), project: pick('project', project),
+    skill: local.skill, version: pick('version', version), device, contributor: contributor ?? null,
+    provider: local.provider, model: local.model, effort: pick('effort'), outcome: local.outcome,
+    difficulty: local.difficulty, result: local.result, comment: local.comment, tokensEst: pick('tokensEst'),
+  };
+  const out = {};
+  for (const k of RUN_KEYS) out[k] = values[k];
+  out.id = runId(out);
+  return out;
 }
 
 /** Returns a list of problems; empty means the sidecar row is valid. */
@@ -154,8 +228,46 @@ export const freshTokens = (x) => x.input + x.cacheWrite + x.output;
 export const runsDir = (registryRoot) => path.join(registryRoot, 'usage', 'runs');
 export const runsFile = (registryRoot, device) => path.join(runsDir(registryRoot), `${device}.jsonl`);
 export const exactFile = (registryRoot, device) => path.join(runsDir(registryRoot), `${device}.exact.jsonl`);
-/** Where a consumer writes when the registry cannot be reached; drained by runs-backfill. */
-export const PENDING_REL = path.join('.ai', 'skill-runs.pending.jsonl');
+/**
+ * Where EVERY run is written: `<checkout root>/.ai/skill-runs.local.jsonl`, in the project
+ * that ran the skill, gitignored there. The registry pulls it into usage/runs/ with
+ * runs-backfill; a skill run never writes into the registry (see log-run.mjs for why).
+ */
+export const LOCAL_REL = path.join('.ai', 'skill-runs.local.jsonl');
+export const RECEIPT_REL = path.join('.ai', 'registry-installation.local.json');
+
+const HARNESS_OF_PROVIDER = { claude: 'claude', openai: 'codex' };
+
+/**
+ * The version an installation receipt (lib/installation.mjs) records for `skill` in the
+ * checkout at `dir`, or null. The provider's harness is asked first (claude -> claude,
+ * openai -> codex), then any harness that installed the skill, in name order.
+ */
+export function receiptVersion(dir, skill, provider = null) {
+  let state;
+  try { state = JSON.parse(fs.readFileSync(path.join(dir, RECEIPT_REL), 'utf8')); } catch { return null; }
+  const inst = state && typeof state.installations === 'object' ? state.installations : null;
+  if (!inst) return null;
+  const order = [HARNESS_OF_PROVIDER[provider], ...Object.keys(inst).sort()].filter(Boolean);
+  for (const h of order) {
+    const v = inst[h]?.skills?.[skill]?.version;
+    if (typeof v === 'string' && SEMVER_RE.test(v)) return v;
+  }
+  return null;
+}
+
+/** `version:` from the registry lane's frontmatter: skills/<skill>/SKILL.md, else .claude/skills/<skill>/SKILL.md. */
+export function laneVersion(registryRoot, skill) {
+  if (typeof skill !== 'string' || !SLUG_RE.test(skill)) return null;
+  for (const dir of [path.join(registryRoot, 'skills'), path.join(registryRoot, '.claude', 'skills')]) {
+    const f = path.join(dir, skill, 'SKILL.md');
+    if (!fs.existsSync(f)) continue;
+    const fm = fs.readFileSync(f, 'utf8').match(/^---\r?\n([\s\S]*?)\r?\n---/);
+    const m = fm && fm[1].match(/^version:\s*["']?([^"'\s#]+)["']?\s*(?:#.*)?$/m);
+    if (m) return m[1];
+  }
+  return null;
+}
 
 /** Parse a jsonl file tolerantly: { rows, bad } where bad counts unparseable lines. */
 export function readJsonl(file) {

@@ -3,7 +3,7 @@
  * transcript and turn one run-log row into one measured sidecar row.
  *
  * Why a separate module: the backfill touches three places that are not this repo (the
- * consuming projects' pending files, `~/.claude/projects/`, and the device log), and the
+ * consuming projects' local run files, `~/.claude/projects/`, and the device log), and the
  * tests must never read the real transcript store. Everything here takes its inputs as
  * arguments - paths or already-parsed lines - and writes nothing, so the tests build
  * fixture transcripts in a temp dir and call these directly.
@@ -264,17 +264,5 @@ export function matchRun(row, sessions, { schema, subagents = subagentLines } = 
   };
 }
 
-/**
- * A pending row (written by `log-run --pending` where the machine had no identity) made
- * whole: device and contributor from this machine, id recomputed. The row's own
- * contributor wins if it carried one.
- */
-export function stampPending(row, { device, contributor, runId, keys = [] }) {
-  const merged = { ...row, device, contributor: row.contributor ?? contributor ?? null };
-  merged.id = runId(merged);
-  // Written in the contract's key order; keys outside it are kept so validation names them.
-  const out = {};
-  for (const k of keys) if (k in merged) out[k] = merged[k];
-  for (const k of Object.keys(merged)) if (!(k in out)) out[k] = merged[k];
-  return out;
-}
+// Stamping a local-file row into a log row is lib/runs.mjs stampRow - the contract owns it,
+// so log-run, the drain and the tests share one definition.

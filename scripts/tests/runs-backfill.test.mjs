@@ -14,11 +14,11 @@ import os from 'node:os';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
-import { runId, RUN_KEYS, EXACT_KEYS, EXACT_SCHEMA, PENDING_REL, validateRun, validateExact, readJsonl, runsFile, exactFile } from '../lib/runs.mjs';
+import { runId, RUN_KEYS, EXACT_KEYS, EXACT_SCHEMA, LOCAL_REL, RECEIPT_REL, stampRow, validateLocal, validateRun, validateExact, readJsonl, runsFile, exactFile } from '../lib/runs.mjs';
 import {
-  encodeProjectPath, transcriptDirs, sumUsage, findAnchor, matchRun, listSessions, stampPending, observedModelEffort,
+  encodeProjectPath, transcriptDirs, sumUsage, findAnchor, matchRun, listSessions, observedModelEffort,
 } from '../lib/runs-transcript.mjs';
-import { aggregateRuns, median, catalogFields } from '../lib/runs-aggregate.mjs';
+import { aggregateRuns, median, catalogFields, skillResolver } from '../lib/runs-aggregate.mjs';
 import { backfill } from '../runs-backfill.mjs';
 import { buildReport } from '../runs-report.mjs';
 
@@ -178,25 +178,41 @@ test('matchRun: two parallel sessions are ambiguous unless exactly one ran log-r
   assert.equal(matchRun(runRow(), listSessions([dir]), { schema: EXACT_SCHEMA }).exact.session, 'sb');
 });
 
-// ---------------------------------------------------------------- pending stamping
-test('stampPending fills device/contributor, recomputes id and writes contract key order', () => {
-  const pending = { ...runRow(), id: null, device: null, contributor: null };
-  const s = stampPending(pending, { device: 'Testbox', contributor: 'test-box', runId, keys: RUN_KEYS });
+/** What an agent without the script writes by hand: LOCAL_REQUIRED and nothing else. */
+const agentRow = (over = {}) => ({
+  ts: '2026-09-10T10:30:00Z', skill: 'spark', outcome: 'shipped', difficulty: 3,
+  result: 'did the thing', comment: 'went fine', provider: 'claude', model: 'claude-opus-5', ...over,
+});
+const receipt = (dir, skills, harness = 'claude') => {
+  fs.mkdirSync(path.join(dir, '.ai'), { recursive: true });
+  fs.writeFileSync(path.join(dir, RECEIPT_REL), JSON.stringify({ schema: 1, installations: { [harness]: { mode: 'release', skills: Object.fromEntries(Object.entries(skills).map(([k, v]) => [k, { version: v }])) } } }));
+};
+const laneSkill = (reg, name, version) => {
+  fs.mkdirSync(path.join(reg, 'skills', name), { recursive: true });
+  fs.writeFileSync(path.join(reg, 'skills', name, 'SKILL.md'), `---\nname: ${name}\nversion: ${version}\n---\n# ${name}\n`);
+};
+
+// ---------------------------------------------------------------- local stamping
+test('stampRow fills device/contributor/project/version from the stamp, computes id, writes contract key order', () => {
+  const s = stampRow(agentRow(), { device: 'Testbox', contributor: 'test-box', project: 'demo', version: '1.4.0' });
+  assert.deepEqual(validateLocal(agentRow()), []);
   assert.deepEqual(Object.keys(s), RUN_KEYS);
   assert.equal(s.device, 'Testbox');
   assert.equal(s.contributor, 'test-box');
   assert.equal(s.id, 'Testbox-20260910T103000Z-spark');
+  assert.deepEqual(s, runRow({ tokensEst: null, effort: null }));
   assert.deepEqual(validateRun(s), []);
 });
 
 // ---------------------------------------------------------------- end to end
-test('backfill drains pending, measures once, and a second run appends nothing', () => {
+test('backfill drains local rows, measures once, and a second run appends nothing', () => {
   const { reg, proj, claude } = fixtureRegistry();
   const logged = runRow({ ts: '2026-09-10T12:00:00Z', skill: 'forge' });
   writeJsonl(runsFile(reg, 'Testbox'), [logged, runRow({ ts: '2026-09-10T12:05:00Z', provider: 'openai', model: 'gpt-x' })]);
-  const pending = { ...runRow(), id: null, device: null, contributor: null };
-  const invalid = { ...runRow({ ts: '2026-09-10T10:40:00Z' }), id: null, device: null, outcome: 'great' };
-  writeJsonl(path.join(proj, PENDING_REL), [pending, invalid]);
+  receipt(proj, { spark: '1.4.0' });
+  const local = agentRow(); // hand-written: no device, id, version or project
+  const invalid = { ...agentRow({ ts: '2026-09-10T10:40:00Z' }), outcome: 'great' };
+  writeJsonl(path.join(proj, LOCAL_REL), [local, invalid]);
   sessionDir(claude, proj, 'sess-e2e', [
     skillCall('2026-09-10T10:00:00Z', 'k1', 'spark', [10, 0, 100, 5]),
     asst('2026-09-10T10:20:00Z', 'a1', [1, 0, 0, 1]),
@@ -218,8 +234,12 @@ test('backfill drains pending, measures once, and a second run appends nothing',
   assert.equal(log.length, 3);
   assert.equal(log[2].id, 'Testbox-20260910T103000Z-spark');
   assert.equal(log[2].device, 'Testbox');
-  const left = readJsonl(path.join(proj, PENDING_REL)).rows;
-  assert.equal(left.length, 1, 'only the invalid row stays pending');
+  assert.equal(log[2].contributor, 'test-box');
+  assert.equal(log[2].project, 'demo', 'project = the fleet slug of the checkout the file sits in');
+  assert.equal(log[2].version, '1.4.0', 'version from the installation receipt of the checkout');
+  assert.deepEqual(validateRun(log[2]), []);
+  const left = readJsonl(path.join(proj, LOCAL_REL)).rows;
+  assert.equal(left.length, 1, 'only the invalid row stays local');
   assert.equal(left[0].outcome, 'great');
 
   const side = readJsonl(exactFile(reg, 'Testbox')).rows;
@@ -234,9 +254,9 @@ test('backfill drains pending, measures once, and a second run appends nothing',
   assert.equal(readJsonl(runsFile(reg, 'Testbox')).rows.length, 3);
 });
 
-test('backfill --dry-run writes nothing and leaves pending in place', () => {
+test('backfill --dry-run writes nothing and leaves the local file in place', () => {
   const { reg, proj, claude } = fixtureRegistry();
-  writeJsonl(path.join(proj, PENDING_REL), [{ ...runRow(), id: null, device: null }]);
+  writeJsonl(path.join(proj, LOCAL_REL), [{ ...runRow(), id: null, device: null }]);
   sessionDir(claude, proj, 's', [skillCall('2026-09-10T10:00:00Z', 'k', 'spark'), userLine('2026-09-10T10:30:01Z', 'log-run tool result')]);
   const r = spawnSync(process.execPath, [path.join(SCRIPTS, 'runs-backfill.mjs'), '--dry-run', '--root', reg, '--claude-projects', claude], { encoding: 'utf8' });
   assert.equal(r.status, 0, r.stderr);
@@ -244,7 +264,7 @@ test('backfill --dry-run writes nothing and leaves pending in place', () => {
   assert.match(r.stdout, /would write Testbox-20260910T103000Z-spark: skill-call/);
   assert.equal(fs.existsSync(runsFile(reg, 'Testbox')), false);
   assert.equal(fs.existsSync(exactFile(reg, 'Testbox')), false);
-  assert.equal(readJsonl(path.join(proj, PENDING_REL)).rows.length, 1);
+  assert.equal(readJsonl(path.join(proj, LOCAL_REL)).rows.length, 1);
 });
 
 test('backfill without a machine identity is FATAL (exit 2)', () => {
@@ -318,24 +338,90 @@ test('buildReport reads every device file plus sidecars and honours --since/--sk
   assert.match(empty.stdout, /empty/);
 });
 
-test('backfill drains pending files in project worktrees and the registry, and names a project mismatch', () => {
+test('backfill drains local files in project worktrees and the registry, and names a project mismatch', () => {
   const { reg, proj, claude } = fixtureRegistry();
   const inWt = { ...runRow({ ts: '2026-09-10T10:00:00Z' }), id: null, device: null };
   const inReg = { ...runRow({ ts: '2026-09-10T11:00:00Z', project: 'ai-registry', skill: 'forge' }), id: null, device: null };
-  writeJsonl(path.join(proj, '.claude', 'worktrees', 'wave', PENDING_REL), [inWt]);
-  writeJsonl(path.join(reg, PENDING_REL), [inReg]);
+  writeJsonl(path.join(proj, '.claude', 'worktrees', 'wave', LOCAL_REL), [inWt]);
+  writeJsonl(path.join(reg, LOCAL_REL), [inReg]);
   const s = backfill({ registryRoot: reg, claudeProjects: claude, log: () => {} });
   assert.equal(s.drained, 2);
-  assert.equal(s.pendingFiles, 2);
+  assert.equal(s.localFiles, 2);
   assert.deepEqual(s.drainProjectMismatch, []);
-  assert.equal(readJsonl(path.join(proj, '.claude', 'worktrees', 'wave', PENDING_REL)).rows.length, 0);
-  assert.equal(readJsonl(path.join(reg, PENDING_REL)).rows.length, 0);
+  assert.equal(readJsonl(path.join(proj, '.claude', 'worktrees', 'wave', LOCAL_REL)).rows.length, 0);
+  assert.equal(readJsonl(path.join(reg, LOCAL_REL)).rows.length, 0);
   // No transcripts in the fixture: both drained rows are reported unmatched, not invented.
   assert.equal(s.unmatched.length, 2);
   assert.equal(s.written, 0);
 
   const odd = { ...runRow({ ts: '2026-09-10T12:00:00Z', project: 'wave' }), id: null, device: null };
-  writeJsonl(path.join(proj, PENDING_REL), [odd]);
+  writeJsonl(path.join(proj, LOCAL_REL), [odd]);
   const s2 = backfill({ registryRoot: reg, claudeProjects: claude, log: () => {} });
   assert.deepEqual(s2.drainProjectMismatch.map((d) => [d.project, d.foundIn]), [['wave', 'demo']]);
+});
+
+test('drain: receipt version beats lane version, lane fills in, no version stays local; foreign device stays; duplicates dropped', () => {
+  const { reg, proj, claude } = fixtureRegistry();
+  laneSkill(reg, 'spark', '1.0.0');
+  laneSkill(reg, 'forge', '3.1.0');
+  receipt(proj, { spark: '2.0.0' });
+  const dup = runRow({ ts: '2026-09-10T09:00:00Z', version: '2.0.0' });
+  writeJsonl(runsFile(reg, 'Testbox'), [dup]);
+  const rows = [
+    agentRow({ ts: '2026-09-10T10:00:00Z' }), // spark: receipt 2.0.0 beats lane 1.0.0
+    agentRow({ ts: '2026-09-10T10:10:00Z', skill: 'forge' }), // forge: not in receipt -> lane 3.1.0
+    agentRow({ ts: '2026-09-10T10:20:00Z', skill: 'mystery' }), // nowhere -> stays
+    agentRow({ ts: '2026-09-10T10:30:00Z', device: 'Wolf' }), // another machine -> stays
+    agentRow({ ts: '2026-09-10T10:40:00Z', device: 'Testbox', contributor: 'someone-else', version: '0.9.0' }), // own device: stamp wins on contributor, row wins on version
+    { ...agentRow({ ts: '2026-09-10T09:00:00Z' }), version: '2.0.0' }, // already in the log
+  ];
+  writeJsonl(path.join(proj, LOCAL_REL), rows);
+  const s = backfill({ registryRoot: reg, claudeProjects: claude, log: () => {} });
+  assert.equal(s.drained, 3);
+  assert.equal(s.drainDuplicates, 1);
+  assert.deepEqual(s.drainInvalid.map((d) => d.skill), ['mystery']);
+  assert.match(s.drainInvalid[0].problems[0], /^no version/);
+  assert.deepEqual(s.drainForeign.map((d) => d.problems[0]), ['device "Wolf" is not this machine (Testbox)']);
+  const log = readJsonl(runsFile(reg, 'Testbox')).rows;
+  assert.deepEqual(log.slice(1).map((r) => [r.skill, r.version, r.contributor, r.id]), [
+    ['spark', '2.0.0', 'test-box', 'Testbox-20260910T100000Z-spark'],
+    ['forge', '3.1.0', 'test-box', 'Testbox-20260910T101000Z-forge'],
+    ['spark', '0.9.0', 'test-box', 'Testbox-20260910T104000Z-spark'],
+  ]);
+  for (const r of log) assert.deepEqual(validateRun(r), []);
+  const left = readJsonl(path.join(proj, LOCAL_REL)).rows;
+  assert.deepEqual(left.map((r) => r.skill + (r.device ? `@${r.device}` : '')), ['mystery', 'spark@Wolf']);
+  // Once the unstampable rows are gone, the file is empty.
+  writeJsonl(path.join(proj, LOCAL_REL), []);
+  fs.appendFileSync(path.join(proj, LOCAL_REL), `${JSON.stringify(agentRow({ ts: '2026-09-10T11:00:00Z' }))}\n`);
+  const s2 = backfill({ registryRoot: reg, claudeProjects: claude, log: () => {} });
+  assert.equal(s2.drained, 1);
+  assert.equal(fs.readFileSync(path.join(proj, LOCAL_REL), 'utf8'), '');
+});
+
+test('aggregation folds an aliased skill into its new name; an unknown name keeps its own', () => {
+  const { reg } = fixtureRegistry();
+  laneSkill(reg, 'forge-next', '2.0.0');
+  fs.mkdirSync(path.join(reg, 'knowledge'), { recursive: true });
+  fs.writeFileSync(path.join(reg, 'identity-aliases.json'), JSON.stringify({ schema: 1, skills: { forge: { to: 'forge-next', reason: 'renamed' } }, subjects: {}, applications: {} }));
+  const resolve = skillResolver(reg);
+  assert.equal(resolve('forge'), 'forge-next');
+  assert.equal(resolve('forge-next'), 'forge-next');
+  assert.equal(resolve('mystery'), 'mystery');
+  const rows = [
+    runRow({ ts: '2026-09-10T10:00:00Z', skill: 'forge', version: '1.0.0' }),
+    runRow({ ts: '2026-09-11T10:00:00Z', skill: 'forge-next', version: '2.0.0' }),
+    runRow({ ts: '2026-09-12T10:00:00Z', skill: 'mystery' }),
+  ];
+  const bySkill = aggregateRuns(rows, new Map(), { by: 'skill', resolveSkill: resolve });
+  assert.deepEqual(Object.keys(bySkill), ['forge-next', 'mystery']);
+  assert.equal(bySkill['forge-next'].runs, 2);
+  assert.equal(bySkill['forge-next'].skill, 'forge-next');
+  assert.deepEqual(bySkill['forge-next'].versions, ['1.0.0', '2.0.0']);
+  // Default resolver is identity: fixture rows aggregate as logged.
+  assert.deepEqual(Object.keys(aggregateRuns(rows, new Map(), { by: 'skill' })), ['forge', 'forge-next', 'mystery']);
+  // The report reads the registry's alias map itself, and --skill matches the resolved name.
+  writeJsonl(runsFile(reg, 'Testbox'), rows);
+  const rep = buildReport({ registryRoot: reg, sinceDays: 30, now: ms('2026-09-20T00:00:00Z'), skill: 'forge-next' });
+  assert.deepEqual(Object.keys(rep.skills), ['forge-next@1.0.0', 'forge-next@2.0.0']);
 });

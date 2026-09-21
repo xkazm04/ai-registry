@@ -12,18 +12,39 @@
  * `tokens` names its basis: the exact median when at least half the rows are measured,
  * else the estimate median, else null.
  *
- * Pure: takes rows, returns numbers. `loadLane` is the only reader and is separate so
- * tests can aggregate fixture rows without a directory.
+ * Skill names go through the registry's alias map (identity-aliases.json, lane `skills`,
+ * via lib/telemetry.mjs) before grouping: a renamed skill's old rows fold into its new
+ * name, and a name that resolves to nothing (a .claude/skills lane skill, a retired one)
+ * keeps the name it was logged under. Rows are never rewritten - the log is append-only.
+ *
+ * Pure: takes rows (and a resolver), returns numbers. `loadLane` is the only reader and
+ * is separate so tests can aggregate fixture rows without a directory.
  */
 import fs from 'node:fs';
 import path from 'node:path';
 import { OUTCOMES, freshTokens, readJsonl, runsDir } from './runs.mjs';
+import { loadIdentities, resolveIdentity as resolveAlias } from './telemetry.mjs';
 
-/** Every log row and every sidecar row in `usage/runs/`, all devices. */
+const sameName = (name) => name;
+
+/**
+ * The skill-name resolver for a registry root: current name -> itself, aliased old name ->
+ * its target, anything else -> itself. A root without identity-aliases.json (a test
+ * fixture) gets the identity resolver; a present but invalid alias file throws, because a
+ * silently wrong fold is worse than a failed report.
+ */
+export function skillResolver(registryRoot) {
+  if (!fs.existsSync(path.join(registryRoot, 'identity-aliases.json'))) return sameName;
+  const ids = loadIdentities(registryRoot);
+  return (name) => resolveAlias(ids, 'skills', name) ?? name;
+}
+
+/** Every log row and every sidecar row in `usage/runs/`, all devices, plus the skill resolver. */
 export function loadLane(registryRoot) {
   const dir = runsDir(registryRoot);
   const rows = []; const exact = new Map(); const files = []; let bad = 0;
-  if (!fs.existsSync(dir)) return { rows, exact, files, bad, dir };
+  const resolveSkill = skillResolver(registryRoot);
+  if (!fs.existsSync(dir)) return { rows, exact, files, bad, dir, resolveSkill };
   for (const f of fs.readdirSync(dir).filter((x) => x.endsWith('.jsonl')).sort()) {
     const r = readJsonl(path.join(dir, f));
     bad += r.bad;
@@ -31,7 +52,7 @@ export function loadLane(registryRoot) {
     if (f.endsWith('.exact.jsonl')) { for (const x of r.rows) if (x?.id && !exact.has(x.id)) exact.set(x.id, x); }
     else rows.push(...r.rows.filter((x) => x && typeof x === 'object'));
   }
-  return { rows, exact, files, bad, dir };
+  return { rows, exact, files, bad, dir, resolveSkill };
 }
 
 /** Median of numbers, rounded to an integer; null when empty. */
@@ -50,25 +71,29 @@ const isCount = (v) => Number.isInteger(v) && v >= 0;
  *   by:       'skill@version' (the report) or 'skill' (the catalog)
  *   sinceMs:  rows with ts earlier than this are ignored (null = all)
  *   untilMs:  rows with ts later than this are ignored (null = all)
- *   skill, device: optional filters
+ *   skill, device: optional filters (skill matches the RESOLVED name)
+ *   resolveSkill: logged name -> name to group under (loadLane(root).resolveSkill); default
+ *                 identity, so fixture rows aggregate as logged
  * Returns { [key]: stats }, keys sorted.
  */
-export function aggregateRuns(rows, exact = new Map(), { by = 'skill@version', sinceMs = null, untilMs = null, skill = null, device = null } = {}) {
+export function aggregateRuns(rows, exact = new Map(), { by = 'skill@version', sinceMs = null, untilMs = null, skill = null, device = null, resolveSkill = sameName } = {}) {
   const groups = new Map();
   for (const r of rows) {
     const t = Date.parse(r?.ts);
     if (Number.isNaN(t) || typeof r.skill !== 'string') continue;
     if (sinceMs !== null && t < sinceMs) continue;
     if (untilMs !== null && t > untilMs) continue;
-    if (skill && r.skill !== skill) continue;
+    const name = resolveSkill(r.skill) ?? r.skill;
+    if (skill && name !== skill) continue;
     if (device && r.device !== device) continue;
-    const key = by === 'skill' ? r.skill : `${r.skill}@${r.version}`;
-    if (!groups.has(key)) groups.set(key, []);
-    groups.get(key).push(r);
+    const key = by === 'skill' ? name : `${name}@${r.version}`;
+    if (!groups.has(key)) groups.set(key, { name, rows: [] });
+    groups.get(key).rows.push(r);
   }
   const out = {};
   for (const key of [...groups.keys()].sort()) {
-    const rs = groups.get(key).sort((a, b) => Date.parse(a.ts) - Date.parse(b.ts));
+    const { name, rows: grouped } = groups.get(key);
+    const rs = grouped.sort((a, b) => Date.parse(a.ts) - Date.parse(b.ts));
     const outcomes = {};
     for (const o of OUTCOMES) { const n = rs.filter((r) => r.outcome === o).length; if (n) outcomes[o] = n; }
     const diffs = rs.map((r) => r.difficulty).filter((d) => Number.isInteger(d));
@@ -94,7 +119,7 @@ export function aggregateRuns(rows, exact = new Map(), { by = 'skill@version', s
       if (r.device) devices.add(r.device);
     }
     out[key] = {
-      skill: rs[0].skill,
+      skill: name,
       versions: [...new Set(rs.map((r) => r.version))].sort(),
       runs: rs.length,
       outcomes,

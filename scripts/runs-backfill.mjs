@@ -1,24 +1,29 @@
 #!/usr/bin/env node
 /**
- * runs-backfill - make THIS device's run log whole: drain pending rows, then measure.
+ * runs-backfill - make THIS device's run log whole: pull the projects' local rows, then measure.
  *
- * The run log (`usage/runs/<device>.jsonl`, contract in lib/runs.mjs) is written by the
- * agent at run end, and the agent can only report what it can see: a token ESTIMATE and a
- * SELF-REPORTED model. The harness transcript on this machine holds the measurement. This
- * script is the only bridge between the two, and it runs per device on purpose - the
- * transcripts never leave the machine that produced them, and neither does the machine's
- * identity, so a backfill run elsewhere would have nothing to read.
+ * The project writes, the registry pulls. Every skill run appends its row to its OWN
+ * checkout's `.ai/skill-runs.local.jsonl` (lib/runs.mjs LOCAL_REL) - a skill run may not
+ * edit another repository, and a release install has no registry scripts to call. This
+ * script is the only thing that moves rows into `usage/runs/<device>.jsonl`. The agent can
+ * also only report what it can see: a token ESTIMATE and a SELF-REPORTED model; the harness
+ * transcript on this machine holds the measurement. Both jobs run per device on purpose -
+ * the local files and the transcripts never leave the machine that produced them, and
+ * neither does the machine's identity.
  *
  * Two passes:
  *
- *   1. DRAIN. A consuming project whose agent could not resolve the machine identity wrote
- *      its row to `<project>/.ai/skill-runs.pending.jsonl` with id and device null. Here the
- *      identity exists: stamp device + contributor, recompute the id, validate, append to
- *      the device log, then rewrite the pending file with ONLY the rows that failed - after
- *      the append succeeded, never before, so a crash loses nothing. A row whose id is
- *      already in the log (a drain that crashed between append and truncate) is dropped
- *      from pending without a second append. Pending files are looked for at the registry
- *      root, each fleet checkout, and every `.claude/worktrees/*` under either.
+ *   1. DRAIN. Local files are looked for at the registry root, each fleet checkout that
+ *      exists here, and every `.claude/worktrees/*` under either. Each row: validateLocal;
+ *      a row whose `device` names ANOTHER machine is left in place and reported; version =
+ *      the row's own, else the checkout's installation receipt, else the registry lane's
+ *      SKILL.md frontmatter (none found = left in place and reported); stampRow with
+ *      device/contributor = this machine and project = the row's own, else the checkout's
+ *      fleet slug; validateRun; dedupe by id against the device log; append. Only after the
+ *      append succeeded is the local file rewritten with ONLY the rows that failed (plus
+ *      unparseable lines and anything appended meanwhile), so a crash loses nothing. A row
+ *      whose id is already in the log (a drain that crashed between append and truncate)
+ *      is dropped without a second append.
  *
  *   2. MEASURE. For each `provider: "claude"` row with no sidecar entry, find the session
  *      that ran it and sum its usage over the run's window into ONE sidecar row
@@ -41,10 +46,11 @@ import { fileURLToPath } from 'node:url';
 import { EXIT } from './lib/exit-codes.mjs';
 import { loadFleet } from './lib/projects.mjs';
 import {
-  EXACT_SCHEMA, EXACT_KEYS, MATCHED, RUN_KEYS, REGISTRY_PROJECT,
-  validateRun, validateExact, runId, runsDir, runsFile, exactFile, PENDING_REL, readJsonl,
+  EXACT_SCHEMA, EXACT_KEYS, MATCHED, REGISTRY_PROJECT,
+  validateRun, validateLocal, validateExact, stampRow, runsDir, runsFile, exactFile, LOCAL_REL, readJsonl,
+  receiptVersion, laneVersion,
 } from './lib/runs.mjs';
-import { transcriptDirs, listSessions, matchRun, stampPending } from './lib/runs-transcript.mjs';
+import { transcriptDirs, listSessions, matchRun } from './lib/runs-transcript.mjs';
 
 const HERE_ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 
@@ -54,21 +60,22 @@ const textLines = (file) => fs.readFileSync(file, 'utf8').split(/\r?\n/).filter(
 const parses = (l) => { try { JSON.parse(l); return true; } catch { return false; } };
 
 /**
- * Where pending files can be. log-run writes `<cwd>/.ai/...`, and an agent's cwd is the
- * project root, a worktree under it, or the registry itself - so all three are looked at.
- * A pending file in any other subdirectory is not found - a consumer's agent that logs from
- * deeper in its tree strands the row until someone moves it.
+ * Where local files can be. log-run writes `<checkout root>/.ai/...`, and an agent's
+ * checkout is the project root, a worktree under it, or the registry itself - so all three
+ * are looked at. A local file in any other subdirectory is not found - an agent that
+ * writes the line by hand deeper in its tree strands the row until someone moves it.
+ * `home` is the main checkout, where a worktree's installation receipt is looked for next.
  */
-export function pendingSources(fleet, registryRoot) {
-  const roots = [{ slug: REGISTRY_PROJECT, project: REGISTRY_PROJECT, path: registryRoot }];
-  for (const p of Object.values(fleet.projects).sort((a, b) => a.slug.localeCompare(b.slug))) if (p.exists) roots.push({ slug: p.slug, project: p.slug, path: p.path });
+export function localSources(fleet, registryRoot) {
+  const roots = [{ slug: REGISTRY_PROJECT, project: REGISTRY_PROJECT, path: registryRoot, home: registryRoot }];
+  for (const p of Object.values(fleet.projects).sort((a, b) => a.slug.localeCompare(b.slug))) if (p.exists) roots.push({ slug: p.slug, project: p.slug, path: p.path, home: p.path });
   const out = [];
   for (const r of roots) {
     out.push(r);
     const wt = path.join(r.path, '.claude', 'worktrees');
     let names = [];
     try { names = fs.readdirSync(wt, { withFileTypes: true }).filter((e) => e.isDirectory()).map((e) => e.name).sort(); } catch { /* no worktrees */ }
-    for (const n of names) out.push({ slug: `${r.slug} (worktree ${n})`, project: r.project, path: path.join(wt, n) });
+    for (const n of names) out.push({ slug: `${r.slug} (worktree ${n})`, project: r.project, path: path.join(wt, n), home: r.path });
   }
   return out;
 }
@@ -89,7 +96,7 @@ export function backfill({ registryRoot = HERE_ROOT, claudeProjects = path.join(
   const sideFile = exactFile(registryRoot, device);
   const summary = {
     device, dryRun,
-    drained: 0, drainDuplicates: 0, drainInvalid: [], drainProjectMismatch: [], pendingFiles: 0,
+    drained: 0, drainDuplicates: 0, drainInvalid: [], drainForeign: [], drainProjectMismatch: [], localFiles: 0,
     matched: Object.fromEntries(MATCHED.map((k) => [k, 0])), unmatched: [], skippedNonClaude: 0,
     alreadyExact: 0, invalidLogRows: 0, written: 0,
   };
@@ -99,40 +106,49 @@ export function backfill({ registryRoot = HERE_ROOT, claudeProjects = path.join(
   const drainedRows = [];
 
   // ---------------------------------------------------------------- 1. drain
-  for (const p of pendingSources(fleet, registryRoot)) {
-    const pendingFile = path.join(p.path, PENDING_REL);
-    if (!fs.existsSync(pendingFile)) continue;
-    summary.pendingFiles += 1;
-    const origLines = textLines(pendingFile);
+  for (const p of localSources(fleet, registryRoot)) {
+    const localFile = path.join(p.path, LOCAL_REL);
+    if (!fs.existsSync(localFile)) continue;
+    summary.localFiles += 1;
+    const origLines = textLines(localFile);
     const keep = []; const take = [];
     for (const l of origLines) {
       if (!parses(l)) continue;
       const raw = JSON.parse(l);
-      let row; let problems;
+      const skill = raw?.skill ?? null;
+      const ts = raw?.ts ?? null;
+      const hold = (list, problems) => { keep.push(l); list.push({ project: p.slug, skill, ts, problems }); };
+      let problems = validateLocal(raw);
+      if (problems.length) { hold(summary.drainInvalid, problems); continue; }
+      // A gitignored file should never carry another machine's row; if one does, it was
+      // copied here, and stamping it with THIS machine would misattribute it. Leave it.
+      if (raw.device != null && raw.device !== device) { hold(summary.drainForeign, [`device "${raw.device}" is not this machine (${device})`]); continue; }
+      const version = raw.version
+        ?? receiptVersion(p.path, raw.skill, raw.provider)
+        ?? (p.home !== p.path ? receiptVersion(p.home, raw.skill, raw.provider) : null)
+        ?? laneVersion(registryRoot, raw.skill);
+      if (!version) { hold(summary.drainInvalid, [`no version: the row has none, no installation receipt names "${raw.skill}", and the registry lane has no SKILL.md for it`]); continue; }
+      let row;
       try {
-        row = stampPending(raw, { device, contributor: fleet.contributor, runId, keys: RUN_KEYS });
+        row = stampRow(raw, { device, contributor: fleet.contributor, project: p.project, version });
         problems = validateRun(row);
       } catch (e) {
         problems = [`could not stamp: ${e.message}`];
       }
-      if (problems.length) {
-        keep.push(l);
-        summary.drainInvalid.push({ project: p.slug, skill: raw?.skill ?? null, ts: raw?.ts ?? null, problems });
-        continue;
-      }
+      if (problems.length) { hold(summary.drainInvalid, problems); continue; }
       if (logIds.has(row.id)) { summary.drainDuplicates += 1; continue; }
       logIds.add(row.id);
       take.push(row);
-      // Not rewritten: the project was resolved where the row was written, and a guess here
-      // would be a second opinion. Named, because a slug the fleet does not know cannot be
-      // measured and will surface as unmatched below.
+      // Not rewritten: a project the row carries was resolved where the row was written,
+      // and a guess here would be a second opinion. Named, because a slug the fleet does
+      // not know cannot be measured and will surface as unmatched below.
       if (row.project !== p.project) summary.drainProjectMismatch.push({ id: row.id, project: row.project, foundIn: p.slug });
     }
     // Unparseable lines are kept verbatim - they are not ours to destroy, and the operator
     // needs to see them.
     const unparseable = origLines.filter((l) => !parses(l));
     if (unparseable.length) summary.drainInvalid.push({ project: p.slug, skill: null, ts: null, problems: [`${unparseable.length} unparseable line(s), kept verbatim`] });
-    log(`  drain ${p.slug}: ${take.length} to append, ${keep.length} invalid kept${unparseable.length ? `, ${unparseable.length} unparseable kept` : ''}`);
+    log(`  drain ${p.slug}: ${take.length} to append, ${keep.length} kept${unparseable.length ? `, ${unparseable.length} unparseable kept` : ''}`);
     summary.drained += take.length;
     drainedRows.push(...take);
     if (dryRun) continue;
@@ -143,9 +159,9 @@ export function backfill({ registryRoot = HERE_ROOT, claudeProjects = path.join(
     // Only after the append landed. Lines a consumer appended while this ran (the file is
     // append-only, so they sit past what we read) are kept for the next drain rather than
     // lost to the rewrite.
-    const nowLines = textLines(pendingFile);
+    const nowLines = textLines(localFile);
     const arrived = nowLines.slice(0, origLines.length).every((l, i) => l === origLines[i]) ? nowLines.slice(origLines.length) : [];
-    fs.writeFileSync(pendingFile, [...keep, ...unparseable, ...arrived].map((l) => `${l}\n`).join(''));
+    fs.writeFileSync(localFile, [...keep, ...unparseable, ...arrived].map((l) => `${l}\n`).join(''));
   }
 
   // ---------------------------------------------------------------- 2. measure
@@ -185,9 +201,10 @@ export function backfill({ registryRoot = HERE_ROOT, claudeProjects = path.join(
 function printSummary(s, log = console.log) {
   const m = Object.entries(s.matched).map(([k, n]) => `${k} ${n}`).join(', ');
   log(`\nruns-backfill on ${s.device}${s.dryRun ? ' (DRY RUN - nothing written)' : ''}`);
-  log(`  pending: ${s.drained} ${s.dryRun ? 'would be ' : ''}drained from ${s.pendingFiles} file(s), ${s.drainDuplicates} already in the log, ${s.drainInvalid.length} invalid left in place`);
+  log(`  local: ${s.drained} ${s.dryRun ? 'would be ' : ''}drained from ${s.localFiles} file(s), ${s.drainDuplicates} already in the log, ${s.drainInvalid.length} invalid and ${s.drainForeign.length} foreign-device left in place`);
   for (const d of s.drainInvalid) log(`    - ${d.project} ${d.skill ?? '?'} ${d.ts ?? '?'}: ${d.problems.join('; ')}`);
-  for (const d of s.drainProjectMismatch) log(`    ! ${d.id}: logged as project "${d.project}" but found in ${d.foundIn}'s pending file - kept as logged`);
+  for (const d of s.drainForeign) log(`    x ${d.project} ${d.skill ?? '?'} ${d.ts ?? '?'}: ${d.problems.join('; ')}`);
+  for (const d of s.drainProjectMismatch) log(`    ! ${d.id}: logged as project "${d.project}" but found in ${d.foundIn}'s local file - kept as logged`);
   log(`  exact: ${s.written} ${s.dryRun ? 'would be ' : ''}written (${m}); ${s.alreadyExact} already measured; ${s.skippedNonClaude} non-claude skipped${s.invalidLogRows ? `; ${s.invalidLogRows} log row(s) without id/ts/skill ignored` : ''}`);
   log(`  unmatched: ${s.unmatched.length}`);
   for (const u of s.unmatched) log(`    - ${u.id}: ${u.reason}`);

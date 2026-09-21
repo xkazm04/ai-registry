@@ -29,7 +29,7 @@ export const REPORT_SCHEMA = 'rkb-runs-report/1';
 export function buildReport({ registryRoot = HERE_ROOT, sinceDays = 30, skill = null, device = null, now = Date.now() } = {}) {
   const lane = loadLane(registryRoot);
   const sinceMs = now - sinceDays * 86400000;
-  const skills = aggregateRuns(lane.rows, lane.exact, { by: 'skill@version', sinceMs, skill, device });
+  const skills = aggregateRuns(lane.rows, lane.exact, { by: 'skill@version', sinceMs, skill, device, resolveSkill: lane.resolveSkill });
   return {
     schema: REPORT_SCHEMA,
     since: new Date(sinceMs).toISOString(),

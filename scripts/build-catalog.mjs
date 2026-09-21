@@ -199,7 +199,7 @@ const runsLane = loadRunsLane(ROOT);
 const runsNewest = runsLane.rows.reduce((m, r) => { const t = Date.parse(r?.ts); return Number.isNaN(t) ? m : Math.max(m, t); }, -Infinity);
 const runStats = runsNewest === -Infinity
   ? {}
-  : aggregateRuns(runsLane.rows, runsLane.exact, { by: 'skill', sinceMs: runsNewest - 30 * 86400000, untilMs: runsNewest });
+  : aggregateRuns(runsLane.rows, runsLane.exact, { by: 'skill', resolveSkill: runsLane.resolveSkill, sinceMs: runsNewest - 30 * 86400000, untilMs: runsNewest });
 
 const catalog = JSON.parse(fs.readFileSync(CATALOG, 'utf8'));
 
