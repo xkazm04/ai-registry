@@ -3,7 +3,7 @@ name: council
 description: "Strict, evidence-first triage of ONE already-built feature or ONE architecture redesign, ending at a human gate the method itself may never pass. Bounded members each answer a single question - worth to the user, workmanship, prior art, resilience, running cost, undo cost - reading only an evidence pack built from the tree, never the implementer's own account and never another member's answer. Mechanical members go first and an early exit stops the round on a security hard-fail or a measured floor; the judged ones then run in parallel. The arithmetic renormalises over what was actually measured, so a gap lowers coverage instead of becoming a fake zero. Outcomes are ready, fail, incomplete or stalled, and not one of them admits anything. Rounds are capped at three, a content receipt decides what must be re-examined, and a superseded verdict is kept rather than rewritten. Reach for this when an autonomous builder reports that a major piece of work is finished and a person is about to be asked to accept it. Invoke with /council <feature-slug|adr-slug> [--kind use_case|architecture] [--round] [--members a,b]."
 category: workflow
 memory: vault
-version: 0.2.0
+version: 0.3.0
 tags: triage, evidence-pack, human-gate, floors, rounds, receipt, supersede
 argument-hint: "<feature-slug | adr-slug> [--kind use_case|architecture] [--round] [--members a,b]"
 ---
