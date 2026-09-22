@@ -153,4 +153,16 @@ else. Shape:
 - `delta` is your score minus the same dimension's score in the run this one supersedes,
   or `null` on a first round or when the prior run did not measure it.
 
+**Validate it before you return.** One command, from the run directory:
+
+```
+node <skill>/scripts/council.mjs validate --verdict verdict-<your dimension>.json
+```
+
+It exits 0 or prints exactly what is wrong. Run it, fix what it names, run it again. This
+is not ceremony: a malformed verdict is otherwise discovered at `aggregate`, after every
+member has already run and spent, and only you may repair your own file - the Director
+editing a member's verdict is the one boundary this whole method exists to protect. The
+field that goes missing most is `recurrence`, which is required on **every** finding.
+
 Say nothing in your final message that is not in the file. The file is the verdict.

@@ -7,7 +7,7 @@
  *   receipt   - pin what this round looked at (head sha + a content digest over the span)
  *   drift     - compare two receipts: none | grown | changed | unknown
  *   aggregate - fold the members' verdict files into one result.json by the pass rule
- *   validate  - check a result.json against the contract before anything consumes it
+ *   validate  - check a result.json, or one member's verdict, against the contract
  *
  * The instrument never scores, never calls a model, never writes a database and never
  * decides. It exists so the arithmetic of a council is the same every time and can be
@@ -28,8 +28,9 @@
  * Usage:
  *   node council.mjs receipt   --root <dir> --paths <a,b,...> [--head <sha>] [--out <file>]
  *   node council.mjs drift     --prior <receipt.json> --current <receipt.json>
- *   node council.mjs aggregate --run-dir <dir> [--rubric <file>] [--trust-state <s>] [--round <n>] [--state <state.json>]
+ *   node council.mjs aggregate --run-dir <dir> --summary "<paragraph>" [--rubric <file>] [--trust-state <s>] [--round <n>] [--state <state.json>]
  *   node council.mjs validate  --result <result.json>
+ *   node council.mjs validate  --verdict <verdict-<dimension>.json> [--dimension <d>]
  *
  * Every subcommand prints JSON on stdout and human notes on stderr, so it composes.
  */
@@ -39,7 +40,7 @@ import { fileURLToPath } from 'node:url';
 import { buildReceipt } from './lib/receipt.mjs';
 import { drift } from './lib/drift.mjs';
 import { aggregate, buildResult, validateRubric } from './lib/aggregate.mjs';
-import { validateResult } from './lib/schema.mjs';
+import { validateResult, validateVerdict } from './lib/schema.mjs';
 
 const SKILL_DIR = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 const argv = process.argv.slice(2);
@@ -68,6 +69,10 @@ if (cmd === 'receipt') {
   try { receipt = buildReceipt({ root, paths, headSha: flag('head') }); }
   catch (e) { die(e.message); }
   if (receipt.missing.length) console.error(`  note: ${receipt.missing.length} spanned path(s) matched nothing: ${receipt.missing.join(', ')}`);
+  // Disclosures, never refusals. A span is a product decision; the receipt says what it
+  // noticed about its shape and a person judges the map.
+  for (const o of receipt.orphan_tests) console.error(`  note: ${o.path} tests ${o.subjects.join(', ')}, which the span does not cover`);
+  if (receipt.tests_outnumber_sources) console.error(`  note: the span holds more test files (${receipt.test_file_count}) than sources (${receipt.source_file_count})`);
   const out = flag('out');
   if (out) { fs.mkdirSync(path.dirname(path.resolve(out)), { recursive: true }); fs.writeFileSync(out, `${JSON.stringify(receipt, null, 2)}\n`); console.error(`  written ${out}`); }
   emit(receipt);
@@ -141,6 +146,30 @@ if (cmd === 'aggregate') {
     }
   }
 
+  // `summary` is REQUIRED, and it is resolved before anything is written. The documented
+  // command line used to carry no way to supply one, `started.summary` was never set by
+  // any phase, and the fallback was the empty string - so every run that followed the
+  // instructions shipped `"summary": ""` and the consuming door substituted the subject's
+  // own blurb, which then read to a person as what the council concluded.
+  //
+  // Third source: the first paragraph of a `report.md` this run already wrote. `aggregate`
+  // is idempotent and gets re-run after synthesis often enough for that to be the honest
+  // answer rather than a guess.
+  const reportFirstParagraph = () => {
+    const f = path.join(dir, 'report.md');
+    if (!fs.existsSync(f)) return '';
+    const body = fs.readFileSync(f, 'utf8')
+      .split(/\n{2,}/)
+      .map((b) => b.trim())
+      .find((b) => b && !b.startsWith('#') && !b.startsWith('|') && !b.startsWith('---'));
+    return (body ?? '').replace(/\s+/g, ' ').trim();
+  };
+  const summary = String(flag('summary') ?? started.summary ?? reportFirstParagraph() ?? '').trim();
+  if (!summary) {
+    die(`aggregate refuses an empty summary. Pass --summary "<the synthesis in a paragraph>", or put one in started.json, or write ${path.join(dir, 'report.md')} first.
+  An empty summary is not a blank: the consuming door substitutes the SUBJECT's own description for it, so a person reads the thing describing itself labelled as what the council concluded.`);
+  }
+
   const agg = aggregate(rubric, verdicts, {
     trustState, roundNo, hardFailures, mustAddress: carriedMustAddress, scenarios: declaredScenarios,
   });
@@ -157,7 +186,7 @@ if (cmd === 'aggregate') {
       ? (({ head_sha, spanned_paths, span_digest }) => ({ head_sha, spanned_paths, span_digest }))(readJson(path.join(dir, 'receipt.json')))
       : null),
     hard_failures: hardFailures,
-    summary: flag('summary') ?? started.summary ?? '',
+    summary,
   }, agg);
 
   const problems = validateResult(result);
@@ -175,8 +204,18 @@ if (cmd === 'aggregate') {
 
 // ----------------------------------------------------------------- validate
 if (cmd === 'validate') {
+  // Two shapes, because a member has a file to check too and used to have no way to check
+  // it: a broken verdict was discovered at `aggregate`, after every member had already run.
+  const verdictFile = flag('verdict');
+  if (verdictFile) {
+    const named = flag('dimension');
+    const inferred = /verdict-([A-Za-z0-9_-]+)\.json$/.exec(path.basename(verdictFile))?.[1] ?? null;
+    const problems = validateVerdict(readJson(verdictFile), { dimension: named ?? inferred });
+    emit({ valid: problems.length === 0, dimension: named ?? inferred, problems });
+    process.exit(problems.length ? 1 : 0);
+  }
   const file = flag('result') ?? argv[1];
-  if (!file) die('validate needs --result <result.json>');
+  if (!file) die('validate needs --result <result.json> or --verdict <verdict-<dimension>.json>');
   const problems = validateResult(readJson(file));
   emit({ valid: problems.length === 0, problems });
   process.exit(problems.length ? 1 : 0);
@@ -186,7 +225,8 @@ console.error(`council: unknown subcommand ${JSON.stringify(cmd ?? '')}
 
   receipt   --root <dir> --paths <a,b,...> [--head <sha>] [--out <file>]
   drift     --prior <receipt.json> --current <receipt.json>
-  aggregate --run-dir <dir> [--rubric <file>] [--trust-state <s>] [--round <n>] [--state <state.json>]
+  aggregate --run-dir <dir> --summary "<paragraph>" [--rubric <file>] [--trust-state <s>] [--round <n>] [--state <state.json>]
   validate  --result <result.json>
+  validate  --verdict <verdict-<dimension>.json> [--dimension <d>]
 `);
 process.exit(2);

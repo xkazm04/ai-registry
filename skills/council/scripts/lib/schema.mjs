@@ -23,6 +23,84 @@ export const EVIDENCE_KINDS = ['file', 'url', 'screenshot', 'video', 'metric'];
 const isStr = (v) => typeof v === 'string' && v.length > 0;
 const isNum01 = (v) => typeof v === 'number' && v >= 0 && v <= 1;
 
+/**
+ * Validate ONE member's `verdict-<dimension>.json` against the shape `member-common.md`
+ * specifies - before `aggregate` runs, which is the whole point.
+ *
+ * A malformed verdict used to be discovered only at aggregation: after every member and
+ * all their money were already spent, on a file only that member may repair. The cheapest
+ * fix is for the member to check its own file before it returns, so this exists and
+ * `council.mjs validate --verdict <file>` exposes it.
+ *
+ * It is deliberately the SAME closed sets the result contract uses. A verdict that passes
+ * here cannot fail the result contract on the fields it owns.
+ *
+ * @param {object} doc         the parsed verdict
+ * @param {object} [opts]      { dimension } - the dimension this file is supposed to be
+ */
+export function validateVerdict(doc, opts = {}) {
+  const p = [];
+  const fail = (m) => p.push(m);
+  if (!doc || typeof doc !== 'object' || Array.isArray(doc)) return ['verdict: not a JSON object'];
+
+  if (!isStr(doc.dimension)) fail('dimension is required');
+  else if (isStr(opts.dimension) && doc.dimension !== opts.dimension) {
+    fail(`dimension is ${JSON.stringify(doc.dimension)} but this file is the ${opts.dimension} verdict - a verdict filed under the wrong dimension is scored under the wrong rubric row`);
+  }
+  if (!DIMENSION_STATES.includes(doc.state)) fail(`state must be one of ${DIMENSION_STATES.join(', ')}`);
+  if (SCORING_STATES.has(doc.state)) {
+    if (!isNum01(doc.score)) fail(`a ${doc.state} verdict needs a score in 0..1`);
+  } else if (doc.score !== null && doc.score !== undefined) {
+    fail(`a ${doc.state} verdict must carry score null - an unmeasured dimension is never a zero`);
+  }
+  if (!CONFIDENCES.includes(doc.confidence)) fail(`confidence must be one of ${CONFIDENCES.join(', ')}`);
+  if (doc.state === 'unmeasured' && !isStr(doc.unmeasured_reason)) {
+    fail('unmeasured needs unmeasured_reason - "could not measure" is a finding, not a blank');
+  }
+
+  if (doc.findings !== undefined && !Array.isArray(doc.findings)) fail('findings must be an array');
+  else for (const f of doc.findings ?? []) {
+    const id = isStr(f?.id) ? f.id : '<unnamed>';
+    if (!isStr(f?.id)) fail('a finding has no id');
+    if (!SEVERITIES.includes(f?.severity)) fail(`finding ${id}: severity must be one of ${SEVERITIES.join(', ')}`);
+    if (!isStr(f?.title)) fail(`finding ${id}: title is required`);
+    // The one the first real run tripped over three times in eleven findings, and that
+    // nothing caught until aggregation: recurrence is how the synthesis tells one slip
+    // from a habit, so it is required rather than defaulted.
+    if (!Number.isInteger(f?.recurrence) || f.recurrence < 1) fail(`finding ${id}: recurrence must be an integer >= 1 - how many places in the span show this same defect`);
+  }
+
+  if (doc.evidence !== undefined && !Array.isArray(doc.evidence)) fail('evidence must be an array');
+  else for (const e of doc.evidence ?? []) {
+    if (!EVIDENCE_KINDS.includes(e?.kind)) fail(`evidence kind must be one of ${EVIDENCE_KINDS.join(', ')}`);
+    if (!isStr(e?.ref)) fail('evidence needs a ref');
+  }
+
+  if (doc.techniques !== undefined && !Array.isArray(doc.techniques)) fail('techniques must be an array');
+  else for (const t of doc.techniques ?? []) {
+    if (!isStr(t?.subject) || !isStr(t?.technique)) fail('a technique needs subject and technique slugs');
+    if (!PROOFS.includes(t?.proof)) fail(`technique ${t?.technique}: proof must be one of ${PROOFS.join(', ')}`);
+  }
+
+  if (doc.delta !== undefined && doc.delta !== null && typeof doc.delta !== 'number') fail('delta must be a number or null');
+
+  // The value member may report scenarios. Scope is NOT read from here - the product
+  // declares it - so a `scope` key is ignored rather than refused.
+  if (doc.scenarios !== undefined) {
+    if (!Array.isArray(doc.scenarios)) fail('scenarios must be an array when present');
+    else for (const s of doc.scenarios) {
+      const slug = isStr(s?.slug) ? s.slug : '<unnamed>';
+      if (!isStr(s?.slug)) fail('scenarios: an entry has no slug');
+      if (!SCENARIO_STATES.includes(s?.state)) fail(`scenarios: ${slug}: state must be one of ${SCENARIO_STATES.join(', ')}`);
+      if (s?.state === 'measured' && !isNum01(s?.score)) fail(`scenarios: ${slug}: a measured scenario needs a score in 0..1`);
+      if (s?.state !== 'measured' && s?.score !== null && s?.score !== undefined) fail(`scenarios: ${slug}: an unmeasured scenario must carry score null - never a zero`);
+      if (s?.proof !== undefined && !SCENARIO_PROOFS.includes(s.proof)) fail(`scenarios: ${slug}: proof must be one of ${SCENARIO_PROOFS.join(', ')}`);
+    }
+  }
+
+  return p;
+}
+
 export function validateResult(doc) {
   const p = [];
   const fail = (m) => p.push(m);
@@ -142,7 +220,12 @@ export function validateResult(doc) {
   if (!isNum01(doc.coverage)) fail('coverage must be a number in 0..1');
   if (!OUTCOMES.includes(doc.outcome)) fail(`outcome must be one of ${OUTCOMES.join(', ')} - the set holds no admitting value, because the skill does not admit`);
   if (!Array.isArray(doc.must_address) || doc.must_address.some((m) => !isStr(m))) fail('must_address must be an array of strings');
-  if (typeof doc.summary !== 'string') fail('summary must be a string');
+  // Required, and not merely a string. An empty summary validated for as long as the
+  // contract asked only for a type, and every run that followed the documented command
+  // line shipped one - while the consuming door quietly substituted the SUBJECT's own
+  // description, so the row a person read was the thing describing itself, labelled as
+  // what the council concluded.
+  if (!isStr(doc.summary)) fail('summary is required and may not be empty - the synthesis in a paragraph, not a blank a consuming door will fill in for you');
 
   return p;
 }
