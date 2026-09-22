@@ -157,7 +157,14 @@ signature other cards call runs ALONE in its wave, first (LESSONS 2.8.0 lighttra
 - the order: **(1)** re-verify the premise on the current tree - false is a
   `demoted` return, no code; **(2)** write the acceptance cases as tests and watch
   them fail; **(3)** build; **(4)** the tests pass, then every gate the overlay
-  names for the touched surface, each asserted by exit code (§7.2 of SKILL.md);
+  names for the touched surface, each asserted by exit code (§7.2 of SKILL.md) -
+  **and, before the last commit, the repo's FULL unit suite and any whole-tree
+  budget (import graph, bundle size), not only the tests in the touched folders.**
+  Repos keep their guards away from what they guard: a repo-wide ratchet over
+  hand-typed literals, a source-guard test in a sibling feature folder, a
+  per-route import budget. Measured on the first run (kp, 2026-09-22): all six
+  integration breaks were exactly that class, every builder's folder-scoped run was
+  green, and the wave after this clause was added had zero test failures;
   **(5)** commit as a short series (`test(<ctx>): ...` then `feat|refactor(<ctx>): ...`),
   each commit green;
 - the demotion rule: past the write set, past L, or a gate it cannot turn green in
@@ -200,7 +207,7 @@ Append one line per run to `.claude/scan-history/challenge-runs.jsonl`:
 {"at":"<ISO>","run":"challenge-<date>","models":{"scout":"<id>","critic":"<id>","builder":"<id>","coordinator":"<id>"},
  "cohort":["<ctx>"],"cards":12,"premise_false":0,"void":1,"revised":2,"approved":10,"excluded":1,
  "idea_score":{"ambition":4.1,"grounding":4.4,"falsifiability":3.9},
- "waves":3,"landed":8,"flawless":6,"demoted":1,"partial":0,"reverted":1,
+ "waves":3,"landed":8,"flawless":6,"flawless_strict":5,"demoted":1,"partial":0,"reverted":1,
  "cases":{"written":61,"red_before":61,"green_after":58},
  "integration_failures":2,"coordinator_fixes":1,"lines_changed":5210,
  "tokens":{"scouts":0,"critic":0,"builders":0},"wall_clock_min":0,"note":"<= 120 chars"}
@@ -209,6 +216,14 @@ Append one line per run to `.claude/scan-history/challenge-runs.jsonl`:
 - **`flawless`** = landed, every acceptance case red-before and green-after, every
   gate green at hand-off, no coordinator fix at integration, not reverted. It is the
   headline execution number; `landed` without it is a partial credit.
+  A **guard case** - one that pins behaviour the change must NOT alter ("a
+  non-overlapping booking is still accepted") - is green before by design. It
+  counts toward flawless only when the card or the builder DECLARED it a guard
+  before building; report `flawless_strict` (no exceptions) beside `flawless`, so
+  the two readings stay comparable across runs.
+- **Attribute a combined-growth break to no one.** A whole-tree budget that only the
+  combined wave exceeds (each builder under, the sum over) is an integration failure
+  with no builder penalty; a break one builder's own diff causes is that builder's.
 - `execution_score = flawless / approved`, `idea_score` from §5. Report both in the
   run's closing lines, and the delta against the previous `challenge-runs.jsonl`
   row when one exists - the same cohort under a different model is the fairest
@@ -221,6 +236,11 @@ Per context, the ordinary §10 snapshot is still written (`strategy: "challenge"
 pointed at the context). Challenge lenses do NOT count toward the stabilize
 coverage denominator (`coverage.mjs` excludes `Group: challenge`), so a challenge
 run cannot make a context look swept.
+
+**A fallback wake-up names no stage.** A coordinator that schedules a heartbeat while
+agents run writes the prompt as "resume the challenge run from its run directory's
+state", never as the stage it is in at the time - a heartbeat that says "proceed to
+the critic" fires hours later into wave 3 and reads as an instruction.
 
 ## 9. What a challenge run is not
 
