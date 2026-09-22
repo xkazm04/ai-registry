@@ -4519,6 +4519,7 @@ measurement and which is an artifact of asking the wrong question.
    demands one there; the verification instrument nearly did not, because it
    felt like bookkeeping rather than evidence.
 | 2.13.0 | 2026-09-21 | `https://claude-code-from-source.com` + `github:alejandrobalderas/claude-code-from-source@a6d5e452` — an 18-chapter architecture book about an agent harness, written by an agent pipeline from shipped source maps | 1 repository. **Ingest returned 996 words; the tree holds 71,197** — a 71x ratio, and the landing page is the one surface written to be quoted. Swept operating docs and the pipeline prompt first, synthesis chapter next, README last. **0 of 3 fetches** | 16 | 10 verified in full (2 accepted + 8 catches, every one opened rather than inferred from the map) | **1 technique + 1 amendment + 1 application** | 2 rows (`0c/1e/0s/1t/0r`), both `not-better` | 1 (tracklight `13dffd6`, a task plan — no code) | **Expected yield said out loud first (low content / high catches) and it held: 8 of 16 are catches and the corpus is sharper than the source in most.** The two `not-better` verdicts are honest, not empty: row 1's precondition genuinely fails in the target tree and row 2's attack class is structurally absent from the fleet | S0/T1/A1/Asrc0/task~90L · routing count **1 NONE (System A), 0 (System B)** → stay in intake, **no forge handoff** · directions=not-run |
+| 2.13.0 | 2026-09-22 | `https://mimo.xiaomi.com/mimo-v2-6` mimo-v2-6 - open-weight release + operator question "can local models compete in our media/coding stack" | 1 web page, **client-rendered: ingest 3 words, WebFetch empty**; read via HF org page + 2 model cards + GGUF listing + 2 searches (5 fetches, budget waived as the extraction); 3 local models loaded and placement read back | 8 | 4 verified (1 accepted by opening the golden path + 2 techniques; 3 catches opened) | **1 technique** + 1 handoff plan | 1 row (`0c/1e/0s/0t/0r`), `unmeasurable` with the instrument named | 0 - the plan needs an ~11 GB download, which is the operator's call (a speculative pull was removed before) | **The dispatch's half beat the source's half.** A release page yields currency; the landing came from screening the release against this machine and then measuring the incumbents, where the "what drifts" enumeration in the benchmark golden path turned out to have no member for self-hosted placement. Last run's focus item 1 (the formula hunt) applied directly: "resident memory" sat in a bake-off step as a unit with no model. `auto=1/0/0 fp=0` | S0/T1/A0/Asrc0/task-lines 0 · routing count n/a (no repository, no design record) · directions=n/a |
 
 **Next run's declared focus.**
 1. **Add the formula to the enumeration hunt.** When prior art appears only as
@@ -4538,27 +4539,6 @@ measurement and which is an artifact of asking the wrong question.
    signal.** One of the memory lane's four open questions is already landed in
    `recall-injection` with a measurement. Reference material ages like a
    citation and carries no `verified_on`; the other three were not checked.
-
-| 2.13.0 | 2026-09-22 | `youtube:-4B8_TjUlcQ` ai-shorts-full-guide | 1 video, 2,311 words; **1 of 3 fetches** (the platform's own synthetic-content disclosure policy); 9 corpus files opened; 2 fleet trees read (gravitone, systedo-case) | 15 | 8 verified by opening their homes (1 accepted + 6 catches + 1 contradicted-and-banked) | **1 technique + 1 application** (golden path: 1 carrier added, 2 sentences corrected so they stay true) | 1 row (`0c/1e/0s/0t/0r`), `not-better` | 1 (gravitone `e40e9f1`, an applied row, no code) | Expected yield said before the table and it held: the finding sat in the demo's proudest segment. It landed on **cross-run convergence**: a banked 2026-09-08 lead's return condition fired. Ship has no code because the seam's precondition was absent by construction (0 of 82 literals). Admission `auto=1/7/0`, `fp=0`. Declared focus mostly n/a: a video has no design record and no routing count. Point 3's spirit applied, since a banked lead was re-checked against its condition before use | S0/T1/A0/Asrc0/task0 · routing n/a (video) · directions=n/a |
-| 2.13.0 | 2026-09-22 | `https://mimo.xiaomi.com/mimo-v2-6` mimo-v2-6 - open-weight release + operator question "can local models compete in our media/coding stack" | 1 web page, **client-rendered: ingest 3 words, WebFetch empty**; read via HF org page + 2 model cards + GGUF listing + 2 searches (5 fetches, budget waived as the extraction); 3 local models loaded and placement read back | 8 | 4 verified (1 accepted by opening the golden path + 2 techniques; 3 catches opened) | **1 technique** + 1 handoff plan | 1 row (`0c/1e/0s/0t/0r`), `unmeasurable` with the instrument named | 0 - the plan needs an ~11 GB download, which is the operator's call (a speculative pull was removed before) | **The dispatch's half beat the source's half.** A release page yields currency; the landing came from screening the release against this machine and then measuring the incumbents, where the "what drifts" enumeration in the benchmark golden path turned out to have no member for self-hosted placement. Last run's focus item 1 (the formula hunt) applied directly: "resident memory" sat in a bake-off step as a unit with no model. `auto=1/0/0 fp=0` | S0/T1/A0/Asrc0/task-lines 0 · routing count n/a (no repository, no design record) · directions=n/a |
-
-**Weakest stage over the last ten rows: ship.** Apply rows keep arriving
-`not-better` because the chosen seam lacks the technique's precondition.
-This run shows the cost directly. The seam chosen to falsify (gravitone)
-could only confirm absence. The seam read second (systedo-case), where the
-precondition was *nearly* present, is the one that changed the landing: it
-supplied the produced-versus-captured discriminator.
-
-**Next run's declared focus.**
-1. **Before choosing a falsifying seam, check the technique's precondition
-   can occur there.** A seam where the precondition is structurally absent
-   can only return `not-better`, and it teaches the tree's shape rather than
-   the technique's. Prefer the seam where the precondition is closest to
-   holding. That is where a caught outcome can change the landing.
-2. **Read the banked leads in the home subject before scoring.** This run's
-   GAIN came from a lead two weeks old, found only because a grep for the
-   concept reached `librarian/sources/`. A lead whose return condition fires
-   is convergence that has already been paid for.
 
 **2026-09-22 (mimo-v2-6) - weakest stage and next focus.** Ship is still the
 stage losing most: this run's apply row is `unmeasurable` pending a download the
