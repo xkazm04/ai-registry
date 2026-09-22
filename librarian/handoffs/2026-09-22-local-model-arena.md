@@ -1,8 +1,8 @@
 ---
-status: proposed
+status: arena-v-executed
 origin: 2026-09-22-mimo-v2-6 (intake run intake-mimo-v26)
 governs: llm-observability/quality-scoring/cross-provider-benchmark-operations, media-generation/visual-generation/generative-provider-routing (extraction-model-bake-off)
-owner_decision: pending - needs a ~11 GB download and a llama.cpp build newer than b10964
+owner_decision: 2026-09-22 go; Arena V run the same day (pof da4df5eb). Arena C and G not run
 ---
 
 # Local model arena - test plan
@@ -33,6 +33,20 @@ The published scores for the 9B model (SWE-Verified avg@3 61.1, SWE-Pro 44.6) ar
 self-reported, and the card calls the model "a starting point for open research
 in agentic RL". They are a lead, not evidence. The arenas exist to replace them
 with our own numbers.
+
+## Arena V result (2026-09-22)
+
+- **Serving.** Ollama 0.34.2 loaded the 9B distill natively (architecture `qwen35`, vision projector attached) from a Modelfile with two FROM lines. The Hugging Face pull through Ollama failed on a blocked CDN redirect, so the files were fetched with curl at a pinned commit. The llama.cpp fallback (b11108) was downloaded and not needed. Controls passed: a text answer, a hair colour, and "entirely black image".
+- **Placement.** Every arm was 100% on the GPU at the gate's 8k window (27B: 22.3 GB, 9B: 14.0 GB, 12B: 9.8 GB), so latency is comparable here.
+- **Truth.** 60 of pof's generated images, labelled by eye against the gate's five criteria: 6 pass, 54 fail, 10 ambiguous excluded. The pass class is thin.
+
+| Arm | AUROC | Bad through at the shipped line (<5) | at <8 | at <9 | Good refused at <9 | p50 per image |
+| --- | --- | --- | --- | --- | --- | --- |
+| qwen3.8:27b (incumbent) | 0.998 | 16/54 | 3/54 | 1/54 | 0/6 | 3.55 s |
+| gemma4:12b | 0.991 | 20/54 | 11/54 | 9/54 | 0/6 | 2.84 s |
+| MiMo-9B Q8_0 | 0.966 | 8/54 | 4/54 | 3/54 | 1/6 | 0.92 s |
+
+**Verdict.** The cheapest *sufficient* grader is still the incumbent, once its refusal line is refitted. The 9B is faster and smaller, but no line makes it as safe. Its reasons name the defect while its score ignores it. The real defect the arena found is the shipped line: it was fitted on the hosted grader chain and is now served by the local eye first. The threshold change is proposed, not shipped, until the pass set reaches at least 20 images.
 
 ## 1. Instruments and preconditions
 
