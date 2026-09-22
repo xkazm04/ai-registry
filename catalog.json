@@ -146,9 +146,9 @@
       "adopters": [],
       "invokes30d": 0,
       "reportedInvokes": 0,
-      "lessons": 4,
+      "lessons": 5,
       "lessonsPath": "skills/contest/LESSONS.md",
-      "lessonsHash": "sha256-n1:7372e355d3e68b63",
+      "lessonsHash": "sha256-n1:c6f72b2d7d9f5b35",
       "usageContributors": []
     },
     {
@@ -283,19 +283,19 @@
     },
     {
       "name": "leonardo",
-      "version": "1.4.1",
+      "version": "1.5.0",
       "category": "other",
       "path": "skills/leonardo/SKILL.md",
-      "contentHash": "sha256-n1:d3f6f89d39f6a3e7",
+      "contentHash": "sha256-n1:22d1d7fbe23b8716",
       "adopters": [
         "personas-web@plugin:1.0.0",
         "personas@plugin:1.0.0"
       ],
       "invokes30d": 0,
       "reportedInvokes": 0,
-      "lessons": 3,
+      "lessons": 4,
       "lessonsPath": "skills/leonardo/LESSONS.md",
-      "lessonsHash": "sha256-n1:c32ca6ae5331f6e2",
+      "lessonsHash": "sha256-n1:ef77c0d3bdd70ba8",
       "usageContributors": []
     },
     {
@@ -524,9 +524,9 @@
       ],
       "invokes30d": 6,
       "reportedInvokes": 6,
-      "lessons": 21,
+      "lessons": 22,
       "lessonsPath": "skills/spark/LESSONS.md",
-      "lessonsHash": "sha256-n1:ff3955f2d5e26ec7",
+      "lessonsHash": "sha256-n1:63c90761b4704d44",
       "usageContributors": [
         "wolf"
       ]
@@ -758,7 +758,7 @@
     "skills": 35,
     "practices": 8,
     "memory": 6,
-    "lessons": 245
+    "lessons": 249
   },
   "bundles": [
     {
@@ -848,9 +848,9 @@
       "purity": "marketing",
       "subjects": 30,
       "techniques": 183,
-      "applications": 83,
-      "files": 300,
-      "contentHash": "sha256:6ac97b38183a1bfe"
+      "applications": 84,
+      "files": 301,
+      "contentHash": "sha256:6964fc714caf22d0"
     },
     {
       "name": "media-generation",
@@ -861,9 +861,9 @@
       "purity": "media",
       "subjects": 21,
       "techniques": 146,
-      "applications": 74,
-      "files": 246,
-      "contentHash": "sha256:b9e4507ee720d547"
+      "applications": 75,
+      "files": 247,
+      "contentHash": "sha256:7bdaf4165ce164fc"
     },
     {
       "name": "recruiting",
@@ -886,10 +886,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 229,
-      "techniques": 1763,
+      "techniques": 1764,
       "applications": 1110,
-      "files": 3107,
-      "contentHash": "sha256:ae08ee93547721d7"
+      "files": 3108,
+      "contentHash": "sha256:b41cada591c4bf88"
     }
   ],
   "usageEvidence": {

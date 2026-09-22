@@ -5,7 +5,7 @@
   "source": "knowledge/marketing/ (frontmatter only)",
   "subjects": 30,
   "techniques": 183,
-  "applications": 83,
+  "applications": 84,
   "laws": 10,
   "categories": [
    "search-and-content",
@@ -268,9 +268,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/marketing/content-production/brand-voice-capture/brand-voice-capture.md",
-   "digest": "sha256:af11cc20ef3f1fb2",
-   "revision": 1,
-   "changedAt": "2026-09-09",
+   "digest": "sha256:4d38170d51878cba",
+   "revision": 2,
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "distil-only-what-samples-show-else-ask",
@@ -309,6 +309,7 @@
      "use_when": [
       "designing the reject flow for generated drafts",
       "deciding what a pre-send edit should teach the model",
+      "deciding whether a small pre-send edit is a typo or a voice correction",
       "building the avoid block of a draft prompt"
      ]
     },
@@ -359,6 +360,13 @@
      "technique": "editorial-voice-vs-personal-voice-split",
      "file": "knowledge/marketing/content-production/brand-voice-capture/applications/node--editorial-voice-vs-personal-voice-split.md",
      "verified_on": "2026-09-09",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "rejections-and-edits-become-constraints",
+     "file": "knowledge/marketing/content-production/brand-voice-capture/applications/node--rejections-and-edits-become-constraints.md",
+     "verified_on": "2026-09-23",
      "verified_against": "node@24"
     },
     {
