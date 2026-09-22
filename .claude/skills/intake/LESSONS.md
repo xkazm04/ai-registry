@@ -11748,3 +11748,23 @@ finish on the version it loaded.)
   holding 30 GB. `guard.headroom_ok()` in the consuming project's generation
   guard would have said False at probe time. Stopping another tenant's process
   is the operator's call, and it was asked for and granted in one question.
+
+## 2.13.0 - 2026-09-23 - thirty-million-writer-ai-slop
+
+- **A small change with a large payoff probes every size threshold.** The
+  source's best anecdote was a one-percent edit that fixed a whole voice. The
+  corpus had a rule that called any edit under a quarter of the words noise,
+  and the fleet's code carried it verbatim. A magnitude filter on human input
+  declares that small means unimportant. Add it to the Phase 6 enumeration
+  hunt: when a first-party account's payoff is tiny in size, grep the target
+  subject for "threshold", "below", "at least", and test the anecdote against
+  the number. It cost one fixture file and returned a shipped change.
+- **Check the staged diff size against what you wrote, before committing to a
+  fleet tree.** An edit to an LF file came back CRLF (autocrlf off), so a
+  150-line change staged as a 332-line rewrite of the whole file. `git diff
+  --cached --stat` beside `--ignore-cr-at-eol` shows it in one line. Normalize,
+  restage, re-run the tests.
+- **Build generated artifacts in a detached worktree even with 0 siblings on
+  the board.** The board was empty. The shared tree still held unregistered
+  WIP in skills/ and catalog.json, and an index with sibling-staged files. The
+  board only knows the sessions that claimed, and the tree knows all of them.
