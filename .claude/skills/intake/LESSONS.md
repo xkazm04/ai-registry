@@ -11720,3 +11720,31 @@ finish on the version it loaded.)
   shape the corpus files under a pipe masking an exit code. **Unlock in its own
   call, always, and verify after.** The method's own examples show the unlock on
   its own line; the temptation to chain comes from wanting one round trip.
+
+## 2.13.0 - 2026-09-22 - h3-timeline-extend-bridge
+
+- **The discrimination gate cannot see a timing variable.** It compares arms
+  frame by frame at matched normalised time, which is right when the variable
+  changes *what* is on screen. Span changes *when* the move happens: both arms
+  start and end on the same pinned frames, so a per-frame mean stays near seed
+  noise (0.88x, 1.16x). The operator still told the long arm apart 2/2. So did
+  the temporal profile the director had computed and the gate never read: a
+  displacement plateau across deciles 3-5, and a largest step 3-4x the median.
+  For span, pacing, onset or hold pairs, carry the temporal profile as a second
+  discrimination measure and say before triage which one the pair is expected
+  to move. One run's observation; not yet a rule.
+- **Ask one triage question per blind pair, never one per comparison.** The look
+  page shuffled X/Y per pair, and one question covered two seeds of the same
+  comparison. The single answer "Y" then meant the 22-frame arm on one seed and
+  the 73-frame arm on the other. It was unreadable, and the pairs had to be
+  re-asked. Either shuffle once per comparison or ask per pair.
+  `render-triage.mjs` would have prevented this, because it asks per pair. The
+  mistake came from hand-building a page after the sheet refused.
+- **Probe commit headroom at the Phase 6b instrument probe, not at launch.** The
+  probe checked the model files, the node's inputs and an idle queue, and all
+  passed. The first clip then died inside the text-encoder load
+  (`HostBuffer.read_file_slice failed`) at 125 of 127 GB commit. The holder was
+  an Ollama runner that `ollama ps` did not list: a process with no loaded model
+  holding 30 GB. `guard.headroom_ok()` in the consuming project's generation
+  guard would have said False at probe time. Stopping another tenant's process
+  is the operator's call, and it was asked for and granted in one question.

@@ -4567,3 +4567,19 @@ supplied the produced-versus-captured discriminator.
    GAIN came from a lead two weeks old, found only because a grep for the
    concept reached `librarian/sources/`. A lead whose return condition fires
    is convergence that has already been paid for.
+
+| 2.13.0 | 2026-09-22 | `youtube:kqP09NfJXaQ` h3-timeline-extend-bridge - a builder's walkthrough of a timeline node pack for an open-weights first-and-last-frame video model | 1 video, 10,041 words; **1 of 3 fetches** (arXiv 2302.08113); 1 model install read (3 anchors held) + 1 fleet tree (gravitone: video README, H3 graphs, dojo ledger 17 rows, 0 on span) | 12 | 9 verified (2 accepted + 5 catches opened + 1 promoting read + 1 render proof, 6 clips) | **1 technique** (step-synchronous-windows, se) + **1 render-proven section** (generated-shot-sourcing) + 1 application | 2 rows (`0c/0e/0s/0t/1r` + 1 unapplied): render `better` on the long side, `unmeasurable` on the short | 1 (gravitone `d706a70`, an applied row, no code) | Expected yield said before the table and it held (5 catches). **Ship 0 code:** the render verdict changes what a brief should say, but the only consumer's chain lane never pins a last frame, so there is no seam to change until it does; recorded as the return condition. **The source's claim was contradicted and that was the find:** "too short a span and the bridge cuts" did not reproduce, and the real span failure (idle then snap) sat on the long side. Precondition focus met: the render seam pinned both ends in every arm. | S0/T1/A1(section, render)/Asrc0/task0 - routing n/a (video) - directions=n/a - auto=2/3/0 fp=0 |
+
+**2026-09-22 (h3-timeline-extend-bridge) - weakest stage and next focus.** Ship
+is still losing most: three rows today, three ledger commits, no code. This row's
+render also exposed an instrument gap. The discrimination gate refused both pairs
+(0.88x, 1.16x) because it measures **per-frame pixel distance at matched
+normalised time**, and the variable under test was **timing**. Two clips that
+make the same move at different moments look alike frame by frame at the ends.
+The operator nonetheless picked 2/2 on the long side, in agreement with a
+temporal measure the gate never read (a displacement plateau and a 3-4x
+max-step spike). Next run's declared focus: **when a render pair's variable is
+when something happens (span, pacing, onset, hold), gate discrimination on a
+temporal profile - displacement-from-first-frame by decile, largest step over
+median step - alongside pixel distance, and say before the operator looks which
+one the pair should move.**
