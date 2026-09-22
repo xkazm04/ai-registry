@@ -12,6 +12,7 @@ techniques:
   - rollback-to-last-green
   - unreachable-success-preflight
   - verifier-coverage-review-agenda
+  - confirmation-inherits-the-gates-limits
 ---
 
 # The unattended build loop
@@ -98,7 +99,9 @@ job is to route it correctly:
 - A **pass** from an external check promotes the feature and contributes to the
   verified numerator.
 - A **fail** from an external check is a real defect: attempt repair, and if
-  repair does not re-run the check clean, do not advance.
+  repair does not re-run the check clean, do not advance. That re-run is the
+  subtlety — see below, because it is usually not the same instrument as the
+  check it is confirming.
 - An **unverifiable** result is neither. It must not be repaired (there is no
   defect to fix — a missing environment is not a code error), it must not
   promote, and it must not be silently dropped from the denominator. It is
@@ -107,6 +110,31 @@ job is to route it correctly:
 That third branch is where most implementations are wrong. Treating unverifiable
 as fail wastes the budget attempting repairs on an environment problem; treating
 it as pass is the lie.
+
+## The run that confirms a repair is a gate, and it is rarely treated as one
+
+The third branch above has a second-order failure that costs more than it should
+and is invisible from every report. When a repair attempt finishes, something
+re-runs the failing check to see whether the repair landed. That confirming run
+is a gate — it issues a verdict, and the loop routes on it — but it almost never
+lives where the gates live. It lives in the repair path, it was written to
+answer one question quickly, and it inherits its limits from whatever the runtime
+hands out by default: a modest output ceiling, a short wall clock, an exit status
+read regardless of what signal the real gate reads.
+
+A confirmation stricter than the gate that demanded it **reports a failure it
+never observed**. The process was killed by its own harness before the command
+could settle, and a harness kill and a command failure arrive through the same
+channel. The repair worked; the item is recorded as failed; the next retry —
+another full attempt, real spend — is spent on a measurement artefact; and the
+run summary names the wrong cause, sending the operator to read correct code.
+A confirmation *looser* than its gate is the same error with the opposite sign,
+promoting a repair the gate would still reject.
+
+So a confirming re-run carries the gate's limits, every one of them, and returns
+the gate's three outcomes rather than a boolean. Best of all, it *is* the gate,
+called through the same runner: parity nobody has to maintain. The rule is
+stated in confirmation-inherits-the-gates-limits.
 
 ## Reconciliation is where the loop convinces itself it finished
 

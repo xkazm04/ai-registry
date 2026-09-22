@@ -42,6 +42,7 @@ knowledge/<domain>/
     ├── <subject>.md                  # type: golden-path      (filename == folder name)
     ├── techniques/<technique>.md     # type: technique
     ├── applications/<stack>--<technique>.md   # type: application
+    ├── applications/<stack>--<technique>--<project>.md   # a second tree's evidence
     └── .evidence.local.md            # GITIGNORED — consumer overlay, never published
 ```
 
@@ -197,6 +198,22 @@ there in the same change that adds the bundle — a floor to extend, never to na
   no folder.
 - **Applications bind to a technique that exists** in the same subject, and their filename
   is `<stack>--<technique>.md` so a directory listing reads as a matrix.
+- **A technique may carry more than one project's evidence.** Where a second tree realizes
+  the same technique differently and the difference teaches something, the second file adds
+  a witness segment: `<stack>--<technique>--<project>.md`. One witness per file, a
+  lowercase slug naming the tree the citations came from, and the plain two-part name stays
+  as it is — the first sighting is never renamed to make room for the second.
+
+  The constraint this removes was real and load-bearing: measured on 2026-09-20, **zero of
+  1,788 applications named two projects**, so the cleanest realization of
+  `live-region-architecture` anywhere in the fleet — a bounded shed that skips assertives,
+  with a written account of the batching bug it survived — had nowhere to live, because
+  another repo already owned `react--live-region-architecture.md`. A filename is a poor
+  reason to lose evidence.
+
+  It is not licence to accumulate. Two applications of one technique must say *different*
+  things; a second witness that restates the first is duplication, and the honest move is
+  to strengthen the original with the second tree named inside it.
 
 ## 5. Evidence, and why it is not here
 

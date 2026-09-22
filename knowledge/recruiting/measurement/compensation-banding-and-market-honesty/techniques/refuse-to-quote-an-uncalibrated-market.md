@@ -106,6 +106,41 @@ Test the refusal path as deliberately as the success path. A refusal that has
 never been exercised end-to-end in a test is a refusal that is being quietly
 converted into a number somewhere in the middle.
 
+### When the default cannot be removed, mark it
+
+Sometimes the materialised default is load-bearing somewhere else: a downstream
+filter needs a value in the field, a schema will not carry an absence, a shared
+pipeline stage feeds a consumer that cannot express "unknown". Refusing to
+supply it breaks that consumer; supplying it silently launders a market anchor
+into a claim about a role. There is a third answer, and it is the one to build:
+**record the imputation on the record itself** — a field naming which values
+were supplied rather than asserted — and make every reader consult it.
+
+That converts an absence that was destroyed into an absence that survives as
+data. The rule it creates for readers is the sharper half, and the one teams
+skip:
+
+> **A value flagged as imputed is read as missing, not as a value.** A
+> comparison against it does not produce a low answer or a high one. It produces
+> exactly the refusal it would have produced against an empty field.
+
+A reader that ignores the marker is not being pragmatic; it is manufacturing a
+verdict from a number nobody ever claimed, and the verdict inherits none of the
+caution the imputing step took. The most common form is a comparison that reads
+a role as paying *below* a band when the truth is that the source stated no pay
+at all — a false negative that looks like a finding and is indistinguishable
+from one in any aggregate.
+
+Two properties make the marker trustworthy, and both are structural rather than
+disciplinary:
+
+- **It is written by the same step that supplies the default**, so it cannot be
+  forgotten by a later author who adds a second default.
+- **It is cleared by the same step that later supplies a real value**, so a
+  stale marker cannot suppress a figure that has since been grounded. A marker
+  that only accumulates becomes noise within a release and is then ignored,
+  which is worse than never having had one.
+
 ## Decision rules
 
 - When creating a market, **create it uncalibrated** with an empty band list —

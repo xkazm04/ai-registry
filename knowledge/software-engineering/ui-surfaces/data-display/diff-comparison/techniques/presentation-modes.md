@@ -162,3 +162,47 @@ technique owns that the visual language never flips. A product where one
 surface's green means "new" and another's means "kept" has two diff
 languages, and readers fluent in both will still misread the one they
 visit less.
+
+## Where the values are measured, the vocabulary is one member short
+
+The closed set above was written for recorded values, where two sides are
+equal or they are not. Where the compared values are *measured* — scores,
+timings, rates, anything carrying instrument noise — a third case exists
+between them: the numbers differ by less than the comparison can resolve.
+Rendering that as **changed** asserts a movement the surface cannot support,
+and the reader acts on a wobble. Rendering it as **unchanged** is a different
+lie, and a self-refuting one, because the two numbers are on screen and the
+reader can see they are not the same.
+
+So the vocabulary gains a member — *held, within what this comparison can
+distinguish* — with its own glyph, distinct from the movement marks and from
+the equality mark. The band it is held within is the per-field tolerance that
+the level technique makes part of the comparison, so the mark and the tolerance
+are one decision recorded once, not a rendering convention invented downstream
+of the number.
+
+Two rules fall out of the same reasoning and are broken more often than the
+main one.
+
+- **A non-measurement must never reach the direction test.** The step that
+  turns a delta into a direction is almost always a comparison against zero,
+  and the values that stand for "there is no measurement here" — the
+  not-a-number a missing baseline produces, the infinity a zero denominator
+  produces — compare false in *both* directions. They fall through the sign
+  test into whichever branch is written last, and the surface draws a
+  confident arrow for a measurement gap. Which arrow is decided by the order
+  the branches happen to be in, which is to say by nothing. Classify
+  finiteness first, and render a non-measurement as a bare dash wearing no
+  direction at all: it is the subject's most expensive lie — a failure
+  rendered as a finding — arriving at the size of one glyph, and it is the
+  cheapest false claim a comparison surface can manufacture.
+- **Not-compared leaves the direction palette entirely.** It is not enough for
+  the third state to be *distinct* from changed and unchanged. It must not be
+  drawn in the hues that carry direction, because a reader takes the hue
+  before the label and will have read a sign by the time they reach the words.
+  An element scored on one side only, tinted with the gain colour because it
+  is "new", has been handed a direction the comparison never computed —
+  appearing and disappearing are changes in *what was measured*, not
+  improvements and regressions. Give the state an informational hue of its own
+  and its own non-colour channel: a glyph where there is room for one, a fill
+  pattern where the mark is a bar or a region and no glyph fits.

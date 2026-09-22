@@ -9,7 +9,7 @@ laws:
   - failure-not-empty-success
   - derivation-names-recomputation
 shared_with: []
-use_when: [declaring retention when a feed is created, reaper stopped running after a refactor, cursor past the horizon renders as no more history]
+use_when: [declaring retention when a feed is created, reaper stopped running after a refactor, cursor past the horizon renders as no more history, a retention window is operator-configurable, a purge runs under a platform execution deadline]
 ---
 
 # Feed retention
@@ -64,7 +64,79 @@ each cheap at design time and expensive to retrofit:
 - **It reaps only settled occurrences.** Rows still in flight — a running
   job, an open incident — are never eligible regardless of age; the
   predicate names the terminal states, and an occurrence that has not
-  reached one is not history yet.
+  reached one is not history yet. The corollary is the one people reach for
+  when in-flight rows pile up: **a stuck occurrence is released by its own
+  lease, never by the reaper.** Deleting a live row on age does not retire
+  its record, it silently drops the work — and it hides the leak that made
+  the row stick.
+
+Two decisions sit above the reaper and get made once:
+
+- **Not every class of row is the tenant's to configure.** Retention that is
+  a product promise about a reader's history is one thing; rows that are
+  operational plumbing — a queue's entries, a dispatch log — are another,
+  and nobody using the product has an opinion about how long they are kept.
+  Those get a fixed horizon rather than a setting, precisely so that a
+  deployment which configured *no* retention still cannot accumulate them
+  forever. Splitting the two is what lets the configurable half default
+  conservatively without the unbounded default sneaking in behind it.
+- **Unset is not zero.** A retention window has one value that means "keep
+  everything" and one state that means "nobody has decided", and collapsing
+  them is how a blank configuration field becomes a deletion. Missing, blank
+  and unparsable all fall back to the stated default; an explicit zero is a
+  decision, and the only one the safety floor below never second-guesses.
+
+## The reaper needs its own safeguards
+
+A reaper is the only process in the subject whose work is invisible by
+construction: it succeeds by removing the evidence that it ran, and it fails by
+doing nothing, which looks identical. Four safeguards, each of which exists
+because the failure it prevents is silent.
+
+- **The settings have a floor, and the floor is one-directional.** A
+  configurable horizon applied verbatim is a deletion weapon one typo wide —
+  a horizon of `1` meant as `100` irreversibly removes nearly all of a
+  tenant's history on the reaper's next tick, and no amount of "the operator
+  typed it" makes that recoverable. A configured-but-below-floor window is
+  **refused and raised**, not applied: the affected scope is skipped and an
+  operator is paged, with an explicit override for the rare intentional case.
+  "Keep everything" is never floored, because the floor bounds only the
+  destructive direction.
+- **A horizon change can be previewed before it runs.** Counting what a policy
+  *would* remove, changing nothing and writing no trace, is the only way an
+  operator can evaluate a bound whose effect is otherwise first observable as
+  loss. The preview must be able to run against a below-floor policy the
+  reaper would refuse — seeing the cost is exactly how someone discovers the
+  number was a typo.
+- **The reaper is interruptible, resumable, and reports where it stopped.**
+  Anything that deletes at scale runs under somebody's deadline — a scheduler,
+  a platform's execution cap, a maintenance window. Delete in committed
+  batches, check a wall-clock budget *between* batches (including inside a
+  single large entity, not only between entities), and stop cleanly with a
+  partial result naming how much remains. Each committed batch is its own
+  safe state, so the next run resumes by re-selecting rather than by
+  remembering. Two details decide whether this works: the budget is derived
+  from the deadline in one place rather than restated as a second constant
+  that can drift from it, and it is derived from the *real* deadline — a
+  requested cap the platform does not honor produces a budget that never trips
+  and a run that is killed mid-delete with no error and no summary.
+- **A degraded run must not report success.** The reaper is typically watched
+  by something that sees only a success signal, so an incomplete run, a
+  skipped sweep or a misconfigured deployment that has quietly stopped
+  enforcing anything must all be distinguishable from a clean one *in that
+  signal*. Both channels count: the errors raised, and the fact of having
+  stopped early with work outstanding. A run that silently skipped its
+  trailing sweeps and reported success is how the named reaper stops being
+  named.
+
+**The reap writes its own record.** What was removed, per class, under which
+policy, in which window. That record is the only detector for "the reaper
+stopped running after a refactor" that does not require waiting for the growth
+curve, and it is the trace a deletion owes anyway. It is also the one write in
+this subject that is *not* best-effort: a feed row lost while recording an
+occurrence must never suppress the occurrence, but deletes applied with their
+trace missing is a destructive act with no evidence, and that is a degraded
+run by the rule above.
 
 ## The horizon is visible
 
@@ -108,6 +180,17 @@ Retention creates an edge, and the edge must render as an edge:
   storage invariant from [event-clustering](./event-clustering.md) is
   precisely what it trades away: do it only at the retention boundary,
   where the atomic rows are leaving anyway.
+
+  **"Before" is not sufficient once the reaper retries.** A reaper that
+  deletes in retried batches will re-run a batch whose delete was rolled
+  back, and a rollup written outside that batch's transaction survives the
+  rollback and is folded a second time on the retry — the summary silently
+  double-counts exactly the rows the failure was supposed to protect. The
+  rollup must be *committed by the same transaction as the deletes that
+  remove its inputs*: then a retried batch rolls back both halves and
+  re-selects only surviving rows, so no occurrence can be summarized twice
+  and none can be deleted without its summary. Compute it outside the
+  transaction if that is cheaper, but re-read and commit it inside.
 
 ## Sizing the horizon
 

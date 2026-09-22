@@ -25,6 +25,7 @@ techniques:
   - self-reported-gate-inputs
   - renameable-detector-keys
   - instrument-answers-only-its-own-question
+  - match-the-resolved-artifact
   - shared-substrate-check-partition
   - branch-provenance-gate
   - refusal-names-a-reachable-remedy
@@ -272,6 +273,28 @@ every gap between them is a place the gate passes while the target fails
 
 Before trusting any green result, the question is never "did the check
 pass" but "what did the check read."
+
+And the answer to that question is rarely the file. Most gates are string
+searches, and between the bytes a matcher reads and the thing the rule is
+about sits a resolution step: a configuration engine deciding which of
+several declarations wins for a path, a compiler discarding comments, a
+bundler folding two literal fragments into one, a search tool deciding
+whether a file is text at all. Each step is a place the two answers come
+apart, and the direction is the permissive one. A rule can be fully declared
+in a layered configuration and apply to nothing, because a later block
+matching a superset of the same files replaced its options — at which point a
+meta-check that greps the configuration source passes for exactly as long as
+the shadowing holds. A guard that looks for a symbol in raw source text is
+satisfied by the comment explaining the rule, so it is blindest where the
+convention is best documented. An absence assertion over a built artifact
+passes forever once its needle is reworded out of existence. And one raw
+control byte drops a whole file out of every text search and every diff-shaped
+review while it continues to compile and ship. What unites them is that the
+usual liveness signals cannot see any of it: the violation count is zero and
+correct-looking for the entire period the rule is dead. Asking the engine
+rather than the file, giving every absence assertion a positive control, and
+normalising the haystack to what executes are
+[match-the-resolved-artifact](./techniques/match-the-resolved-artifact.md).
 
 ## The gate must not be writable by what it gates
 
@@ -563,6 +586,11 @@ is asked to refuse something.
   disabled in a configuration the call site never shows, verifying an
   automated edit with the instrument that owns it, and overlap that is
   division of labour rather than redundancy.
+- [match-the-resolved-artifact](./techniques/match-the-resolved-artifact.md) —
+  the rule declared in a layered configuration that the resolver applies
+  nowhere, the comment that satisfies its own rule's detector, the positive
+  control every absence assertion owes its needle, and the single byte that
+  drops a file out of every text gate.
 - [shared-substrate-check-partition](./techniques/shared-substrate-check-partition.md)
   — the same partition where no configuration can express it because both
   checks are one judgment engine reading one artifact: the inverted bounded

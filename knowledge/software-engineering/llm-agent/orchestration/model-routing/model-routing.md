@@ -9,6 +9,7 @@ techniques:
   - routing-policy
   - consumer-overrides
   - capability-floors
+  - admission-is-not-a-tier
   - policy-governance
   - model-identity
   - failover-horizon
@@ -89,7 +90,12 @@ The consequences of that stance form the spine of this subject:
 5. **Some capabilities have floors.** Below a measured minimum tier, a feature
    is not cheaper — it is broken. Floors are per-capability, recorded with the
    measurement that justified them, and no cost pressure or failover routes
-   beneath one silently (see capability-floors).
+   beneath one silently (see capability-floors). A floor is ordinal and
+   presumes the substitute is reachable at all; whether the client and the
+   candidate can transact — wire format, identifier, liveness contract — is a
+   prior gate that no amount of capability crosses, and it is the one a
+   benchmark run against the candidate's own dialect structurally cannot see
+   (see admission-is-not-a-tier).
 6. **Every decision is auditable, and policy changes are governed.** Which model
    served which call, selected by which rule, with which override applied — as a
    record, not a log line. Policy edits are diffed, reviewed, and approved,

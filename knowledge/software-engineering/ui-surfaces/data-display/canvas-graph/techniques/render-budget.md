@@ -6,7 +6,7 @@ technique: render-budget
 status: forged
 laws: [identity-survives-reuse, derivation-names-recomputation]
 shared_with: []
-use_when: [a canvas stutters on every pan gesture, deciding whether nodes may see the transform, labels pop in and out while zooming]
+use_when: [a canvas stutters on every pan gesture, deciding whether nodes may see the transform, labels pop in and out while zooming, an idle canvas keeps the machine warm]
 ---
 
 # Render budget
@@ -30,6 +30,11 @@ diagnostic that matters — each of those interactions has a correct answer
 ("nothing", "nothing", "one node plus its edges", "the nodes entering and
 leaving the selection") and the distance between the correct answer and the
 measured answer is the entire optimization backlog, already prioritized.
+
+Then ask the question the four above do not reach: **what does the surface
+cost when nobody is doing anything?** Every rung of this ladder is priced per
+interaction, which quietly assumes the canvas is free at rest. Rung 5 is
+where that assumption is checked.
 
 ## Rung 1 — pan and zoom touch one element
 
@@ -95,6 +100,17 @@ the commit cadence are one budget decided together.
   canvas's state — the full selection set, the full node map — re-renders on
   every change by construction. Pass each node its record and its own
   booleans, derived outside.
+- **Memoize the placement computation, not just the component.** Where node
+  positions are generated rather than stored, the placement function is
+  itself a hot derivation: a frame that changes only data re-runs it for
+  every node and recomputes trigonometry nothing moved. Cache it on exactly
+  the inputs that move a node and nothing else — a cache keyed on the whole
+  node record misses on every score update. Two conditions come with it:
+  the function must be *pure*, or the cache silently serves a different
+  answer than the math would; and the keyspace must be *bounded*, because a
+  memo that outlives the component tree keeps every key it has ever seen,
+  and a key containing the collection's size grows one generation per
+  arrival.
 - **Derive the render list, and name its inputs.** The culled, z-ordered
   sequence is a cached derivation of (nodes, edges, viewport rectangle,
   selection); recompute exactly when a named input changes
@@ -122,6 +138,39 @@ far-out view exists so the user can see structure, and structure reads
 better without ten thousand illegible labels. Edge-specific detail policy
 (which links deserve ink at which zoom) belongs to edge-management.
 
+## Rung 5 — what the surface costs at rest
+
+Every rung above is priced per interaction, and a canvas that passes all of
+them can still keep a machine warm indefinitely, because the cost that
+matters here is paid when nobody is touching anything. Ambient decoration — a
+per-node pulse, twinkle, drift, or shimmer — is a steady-state repaint
+multiplied by node count, on a surface people leave open on a second monitor
+all day. It is the only rung where *doing nothing* is the expensive case, and
+the only one a profiler session driven by interactions never shows you.
+
+- **Price ambient motion per node, not per effect.** One animated ornament
+  for the whole surface is a rounding error; the same ornament on every node
+  is the multiplication this technique exists to control. A single beacon at
+  the center of a field and a twinkle on each of its members are not the same
+  decision and should not share a switch.
+- **Gate it on population, and say which population.** Past some size the
+  motion stops carrying meaning and starts carrying only paint: above the
+  threshold, render static. The threshold must name *which quantity it
+  counts* — everything loaded, or only what is currently drawn — because a
+  surface that caps what it draws makes those two numbers diverge exactly
+  when the gate matters most. Prefer the larger, conservative count: it trips
+  earlier, and a collection big enough to overflow the cap is the one where
+  the animation is least worth its paint.
+- **Write the threshold's rationale in terms of the quantity it actually
+  reads.** A comment describing the bound as counting rendered nodes, over
+  code that counts loaded ones, is an invitation for a later reader to
+  "correct" the code to match the prose and silently move the gate.
+- **The density gate is not the motion preference.** Reduced-motion is an
+  accessibility contract and is honored unconditionally, at every size,
+  independently of this rung. Folding the two into one switch leaves small
+  graphs animating for the user who asked them not to — and couples a
+  performance tuning knob to a promise.
+
 ## Anti-patterns worth naming
 
 - Nodes computing their own screen positions from the transform — every pan
@@ -132,5 +181,8 @@ better without ten thousand illegible labels. Edge-specific detail policy
 - Formatting labels for culled elements.
 - Entrance animations keyed by render order, replaying on every culling
   re-entry — animation state keyed by anything but node identity.
+- Ambient per-node animation shipped with no population gate, measured only
+  by driving interactions — the one cost profile that is invisible while you
+  are the one moving the pointer.
 - Reaching for a full canvas-rasterization rewrite before measuring whether
   rungs 1–3 were ever actually in place.

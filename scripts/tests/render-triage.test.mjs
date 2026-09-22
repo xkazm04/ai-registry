@@ -47,6 +47,23 @@ test('a pair whose arms do not clear the seed-noise floor, or carry no floor, ne
  delete m.pairs[0].discrimination;fs.writeFileSync(mf,JSON.stringify(m));
  r=run('sheet',dir);assert.equal(r.status,2);assert.match(r.stderr,/no discrimination record/);
 });
+test('the sheet carries the ratio, and a refused pair is labelled rather than hidden',t=>{
+ const dir=fixture(t),mf=path.join(dir,'manifest.json'),m=JSON.parse(fs.readFileSync(mf,'utf8'));
+ // A pair that CLEARS the floor still prints its ratio, so the operator always sees it.
+ assert.equal(run('sheet',dir).status,0);
+ let html=fs.readFileSync(path.join(dir,'triage','index.html'),'utf8');
+ assert.match(html,/discrimination 5\.00x/);
+ assert.doesNotMatch(html,/may not author a landing/);
+ // A REFUSED pair, shown under --allow-indistinct, says so on the page: the gate withholds
+ // the landing, not the look, and the operator cannot overrule a number nobody showed them.
+ m.pairs[0].discrimination={between:5,within:4};fs.writeFileSync(mf,JSON.stringify(m));
+ assert.equal(run('sheet',dir,'--allow-indistinct').status,0);
+ html=fs.readFileSync(path.join(dir,'triage','index.html'),'utf8');
+ assert.match(html,/discrimination 1\.25x/);
+ assert.match(html,/may not author a landing/);
+ // ...and it is still blind.
+ assert.doesNotMatch(html,/armA|armB/);
+});
 test('reveal maps the operator label to the arm through the key',t=>{
  const dir=fixture(t);run('sheet',dir);
  const key=JSON.parse(fs.readFileSync(path.join(dir,'triage','key.json'),'utf8'));

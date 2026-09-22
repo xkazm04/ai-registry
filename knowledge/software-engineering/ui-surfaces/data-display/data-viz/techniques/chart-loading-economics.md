@@ -81,6 +81,33 @@ spends main-thread time on instruments nobody has scrolled to.
 - When many charts become visible at once (page entry on a dashboard), stagger
   or cap concurrent first-draws rather than contending for one frame budget;
   a brief ripple of arrivals reads better than one long freeze.
+- **The gate fails open.** Viewport observation is an environment capability,
+  and it is missing in more places than it looks: server-side rendering, test
+  environments, older or hardened browsers. A deferral whose gate can never
+  open renders nothing, forever — and the failure is invisible during
+  development, because the capability is present there and absent in exactly
+  the environments nobody watches interactively. When the observer cannot be
+  constructed, or there is nothing laid out to observe, the chart mounts
+  immediately. Mounting a chart nobody scrolled to costs work; never mounting
+  one somebody scrolled to is a missing surface.
+- **The reserved slot is also the observation target.** The two halves of this
+  technique are usually written as separate concerns — geometry reservation
+  for layout stability, visibility observation for cost — but the observer
+  needs something laid out to watch, and the only thing on screen before the
+  chart exists is the placeholder. So a deferral that reserves nothing has
+  nothing to intersect, and the cheapest-looking configuration (defer, no
+  placeholder) is the one that can silently never arm. Height reservation
+  earns its place twice.
+- **Deferral has two motives, and only one of them is choreography.** Holding
+  a subtree back so a surface arrives in waves rather than one block is a
+  *perceptual* device, and a reduced-motion preference collapses it: staged
+  arrival is motion, and a reader who asked for less of it should get the
+  whole surface at once. Not mounting a chart nobody scrolled to is a
+  *payload* decision about work not done, and the same preference must not
+  force it into the page — the reader asked for less movement, not for the
+  bytes and frames they were being spared. A primitive that treats both
+  motives as one setting will either animate for a reader who declined
+  animation or draw a dozen instruments for a reader who declined nothing.
 
 ## Every chart gets its own failure boundary
 
@@ -111,3 +138,6 @@ engine edge cases. The structural rule:
   and none re-animates on scroll-back.
 - Killing one chart's data (malformed fixture) leaves every sibling alive and
   produces a telemetry event.
+- With viewport observation removed from the environment, every deferred chart
+  still renders. This is the check nothing else makes: the environments where
+  the capability is absent are the ones nobody opens.

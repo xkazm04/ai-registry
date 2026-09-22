@@ -25,6 +25,8 @@ techniques:
   - far-side-oracle
   - constraint-injection-for-unreachable-tiers
   - unreached-decisions-pin-nothing
+  - pin-the-call-not-the-name
+  - assert-through-the-reader
 ---
 
 # Test harness architecture
@@ -124,6 +126,25 @@ planted on the far side of the boundary, deployed by the lane itself, reporting
 substrate facts rather than the product's own vocabulary; that is a rung above
 live-app rather than a variant of it, and
 [far-side-oracle](./techniques/far-side-oracle.md) owns it.
+
+That law — put the oracle where the effect lands — has a cheap half the ladder
+hides. When what the product emits is **input for another program** rather than
+an effect on another machine — a setup block pasted into a shell, a rule appended
+to a tool's own configuration, a command line, a manifest — the reader is already
+installed on the developer's machine and answers in milliseconds. The claim still
+belongs to the reader and not to the bytes, and near-side assertions (the text
+renders, the clipboard carries it, the write returned success) are all satisfied
+by an artifact the reader will reject or never consult. So the oracle moves, and
+the rung does not: run the reader, at unit cost
+([assert-through-the-reader](./techniques/assert-through-the-reader.md)).
+
+One instrument sits below every rung, because it never runs the program at all: a
+**structural pin** over source text, admitted where a site cannot be executed in
+any available lane. It is legitimate and it is an instrument with three settings
+that each default toward green — the population it walks, the needle it looks
+for, and the haystack it looks in, which holds the program *and the prose about
+the program* and so fails in both directions
+([pin-the-call-not-the-name](./techniques/pin-the-call-not-the-name.md)).
 
 ## Reaching the code is not the same as watching it run
 
@@ -350,6 +371,15 @@ a soak run misunderstands both; the design of these lanes is
   input) asserts whatever else answered: the reach probe that mutates the decision
   the file *claims* rather than the code it touches, lifting the decision into a
   reachable unit, and making the answer name its producer.
+- [assert-through-the-reader](./techniques/assert-through-the-reader.md) — an
+  artifact emitted for a foreign interpreter is asserted by running that
+  interpreter: asking the tool where it will read, executing the emitted block
+  with synthetic credentials, driving the consuming verb rather than the query,
+  and why the interesting fixture axis is the file's prior state.
+- [pin-the-call-not-the-name](./techniques/pin-the-call-not-the-name.md) — the
+  structural pin as an instrument: a needle prose cannot spell, a predicate that
+  reads the construct for its resource, line endings as a property of the
+  checkout, and where the explanation of a pin is allowed to live.
 - [configuration-axes-cross-the-ladder](./techniques/configuration-axes-cross-the-ladder.md)
   - the fidelity ladder is one axis and every build-configuration option is
   another: the cell as the result unit, why two one-axis jobs are not a

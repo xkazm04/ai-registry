@@ -9,7 +9,7 @@ laws:
   - count-carries-predicate
   - identity-survives-reuse
 shared_with: []
-use_when: [deciding whether seen means opened or scrolled past, unread badge flashes then zeroes on open, an unread counter keeps drifting wrong]
+use_when: [deciding whether seen means opened or scrolled past, unread badge flashes then zeroes on open, an unread counter keeps drifting wrong, seeding the anchor for a reader who has never opened the feed]
 ---
 
 # Read position and unseen
@@ -46,6 +46,34 @@ Anchor mechanics inherit the cursor rules: the tuple, not a bare timestamp
 and not an id alone (an id is not ordered; the anchor must be seekable in
 the feed's order). It is the same composite the keyset cursor uses, doing
 resumption for the reader instead of the query.
+
+## The anchor a reader has never set
+
+Every rule above describes an anchor that already exists. The first visit has
+none, and the value chosen for that case is a design decision with three
+candidates, only one of which is usually right:
+
+- **Seed at the origin** (everything is unseen). The reader's first ever look
+  at the surface is a saturated badge over history they were never party to —
+  noise, not news, and the worst possible first calibration of a number whose
+  whole value is that the reader trusts it.
+- **Seed at the head** (everything is seen). Cheap and quiet, and it discards
+  real news: anything that happened between the reader gaining access and
+  their first look is silently declared read on their behalf.
+- **Seed at enrollment** — the moment this reader gained access to this feed.
+  Everything after it is legitimately theirs to have missed, and everything
+  before it was never addressed to them. This is the honest default, and it is
+  available for free wherever the membership that grants access is itself a
+  dated record.
+
+Whichever is chosen, **the derived count now answers a different question, and
+the surface must say which**. "Since you last looked" and "since you joined"
+are two predicates over one number, and a reader who is shown the second under
+the first's label learns that the badge means roughly nothing. The cheap
+mechanism is for the anchor read to return two values rather than one — the
+instant, and whether it was a stored anchor or a fallback — so the label can
+follow the derivation instead of being chosen once at a render site that
+cannot see which branch ran.
 
 ## When does "seen" happen
 
@@ -107,6 +135,13 @@ outbound notification — and every hop strains its honesty:
   unseen by any honest reading, and a naive newer-than-head-at-last-visit
   scheme misses it. Deriving from the anchor comparison, not from a
   remembered head snapshot, gets this right automatically.
+- **A count that could not be derived is absent, not zero.** The derivation
+  has its own failure modes — no reader identity, no anchor to measure from,
+  the store unreachable — and all of them are "this surface does not know",
+  which zero states as "you have seen everything". The honest degraded form is
+  the affordance rendered *without* a count, which is also what the surface
+  looked like before the count existed, so the fallback needs no separate
+  design.
 - **The badge and the jump affordance agree.** "12 new" on the tab and
   "8 new" on the in-feed pill is two predicates leaking; if they genuinely
   differ (total unseen vs held-buffer arrivals this session), the surface
@@ -133,3 +168,13 @@ outbound notification — and every hop strains its honesty:
   trivially correct for anchors (take the max) and famously wrong for
   counters (sum? min? last-write?) — one more reason the anchor is the
   stored form.
+- **An unconditional write is a max only while the value written is the
+  writer's own now.** Stamping the anchor with the current instant on every
+  look is a single write with no read-modify-write race between two open
+  tabs, and it is monotonic for free, because a later writer necessarily
+  carries a later clock. That guarantee is a property of the *value*, not of
+  the write: the moment anything stamps a remembered position instead — a
+  mark-read-up-to-this-row, a replayed request, a client-supplied tuple — the
+  same unconditional write can move the anchor backwards and replay a week at
+  the reader. Adding such a path means the merge becomes an explicit max, in
+  the same change.

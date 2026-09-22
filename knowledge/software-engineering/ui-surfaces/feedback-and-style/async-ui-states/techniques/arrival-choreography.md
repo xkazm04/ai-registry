@@ -55,6 +55,19 @@ its position:
   own entrance completing — never by mere mounting, which fires for dozens
   of reasons unrelated to arrival. The load-bearing part is where the mark
   *lives* (the surface-scoped set), not the exact instant it is written.
+- **Some implementations have nowhere to put the guard.** A cascade
+  expressed purely declaratively — per-position entrance offsets attached by
+  the styling layer, no code and no state involved — is cheap, honest about
+  its timing, and *structurally incapable* of holding a seen-set: it has no
+  access to identity at all, so it plays for whoever occupies the position
+  whenever the elements are recreated. That form is admissible in exactly
+  one situation: **when position is identity** — the staggered children are
+  a fixed, ordered set of regions belonging to the surface, not items
+  derived from data. Sections do not reorder; rows do. The reset is then the
+  container's own recreation, so choosing the declarative cascade is also
+  choosing the reset policy, and the two should be decided together rather
+  than discovered later. Point the same mechanism at data-derived children
+  and it is the positional guard above with no place left to fix it.
 - **The set resets only on an explicit context change** — the surface now
   asking a categorically new question: a different entity, a different
   scope. A product may additionally choose to treat a *user-issued re-query*

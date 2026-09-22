@@ -144,6 +144,39 @@ one-authority-per-vocabulary_](../../../../_laws.md#one-authority-per-vocabulary
 Normalize through one shared function that every kernel and every fallback
 calls; the ledger *is* that function's contract.
 
+### One authority is one owner, not one function
+
+That rule is routinely read as "there must be exactly one normalizer", and the
+strong reading is wrong in a way that costs real comparisons. One entity can
+legitimately need two equalities, because the surface asks two different
+questions of it. A state against its own earlier state: the counts embedded in
+its evidence are exactly the finding, so equality is exact and a moved number is
+a change. The same state against a *different* entity: the counts differ by
+construction, nobody phrases a description identically twice, and exact equality
+then reports every shared property as a difference — in both directions at once,
+the same line landing in "they have it and we don't" and "we have it and they
+don't". One level is right for the first question and produces confident nonsense
+on the second, so consolidating them is not a cleanup; it is re-imposing one
+question's level on the other's answer.
+
+What the law forbids is not plurality but **unowned** plurality, and the two are
+easy to tell apart. The accidental pair is a kernel and its synchronous fallback
+holding the same policy twice, in different files, with nothing asserting they
+agree and no document saying which is intended. The deliberate pair is two
+functions with different names in one module that owns both answers, each
+stating in its own contract which comparison it is the level for and — the part
+that does the work — which comparison it is *not* for, with the failure that
+taught the distinction written beside it. A reader arriving at either function
+learns that the other exists and why.
+
+Two conditions keep a deliberate pair from decaying into an accidental one. The
+weaker key must be **at least as forgiving** as the one it can be used in place
+of, or swapping levels starts reporting differences that the stricter comparison
+had already decided were not differences. And no caller may choose between them
+by proximity: where the level is a property of the comparison rather than of the
+entity, the choice belongs to whoever selected the pair, travels with it, and is
+stated on the surface.
+
 ## The surface states its level
 
 "No differences" is only meaningful relative to a level: byte-identical is

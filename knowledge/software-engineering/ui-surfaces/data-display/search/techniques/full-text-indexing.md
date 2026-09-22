@@ -22,7 +22,7 @@ it summarizes.
 
 A linear scan — walk the rows, substring-match each — is not a failure of
 sophistication; below certain thresholds it is the correct engineering. The
-decision has three inputs:
+decision has five inputs:
 
 - **Corpus size.** A scan's query cost grows with the corpus; an index's
   query cost grows roughly with the result set. Personal-tool corpora in the
@@ -35,6 +35,24 @@ decision has three inputs:
   moment the product needs word-boundary matching, multi-term queries with
   independent term positions, relevance ranking, or phrase search, the index
   is buying capability, not just speed.
+- **The scope the query cannot escape.** Most application search runs inside a
+  mandatory predicate — a tenant, an owner, a workspace — that no user can
+  widen. The corpus the decision is about is that *partition*, not the whole
+  collection: a million-row store searched only ever inside one account of two
+  thousand is a two-thousand-row scan, and the structure that makes it so is
+  the ordinary equality index on the scope column, not a text index at all.
+  Size the decision on the partition, and record which index is bounding the
+  scan — because the day the partition stops bounding it (a cross-tenant
+  administrative view, a global search box, a report that spans accounts) the
+  engine choice has silently changed underneath a query nobody edited.
+- **Portability of the capability.** Text indexing is the least portable thing
+  most stores offer: its syntax, its analyzers and its operator classes differ
+  where plain predicates do not. Where a schema is deliberately written to run
+  on more than one store — or to survive a migration to one — adopting a text
+  index is a portability decision before it is a performance one, and the scan
+  may be the only engine both ends agree on. Say which reason applies where the
+  decision is recorded: a scan chosen for portability and a scan chosen out of
+  neglect are the same code and age completely differently.
 
 The honest failure mode runs in both directions: indexing a corpus of two
 hundred names is complexity with no payer, and scanning a million-row archive

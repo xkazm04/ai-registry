@@ -71,6 +71,26 @@ known fixed range — every override is a decision to depart from zero and
 needs a stated reason. Narrowing a value axis to "data min…data max" is the
 same defect spelled in configuration.
 
+**The door binds only the people who walk through it.** A required-domain
+signature makes the defect unwriteable for the helper's callers and says
+nothing to a module that computes its own coordinates — and computing
+coordinates is cheap enough that a second implementation appears wherever
+reaching for the shared projection felt heavier than four lines of
+arithmetic: a glyph in a different feature, a strip written against a
+deadline, anything small enough not to feel like a chart. Those four lines
+are almost always minimum, maximum, span, divide. That is the
+sample-anchored floor rebuilt from first principles, because it is simply
+what normalizing a list of numbers produces when nobody asks what the
+picture will claim; the author was not overruling the standard, they never
+met it. So the audit that keeps the structural fix honest is not "does every
+call pass a sane domain" — the signature already answers that — but **a
+census of the modules that draw without calling it at all**. It is the same
+mechanical check a centralized palette makes possible, run for the same
+reason, and it is the only one that finds the instance the primitive was
+built to prevent. Two independent projections of the same metric family in
+one product is also a scale defect by itself: the fixed-versus-auto decision
+was made twice, and only one of the two is auditable.
+
 ## Zero-baseline discipline
 
 The baseline rule follows from the encoding, not from taste:

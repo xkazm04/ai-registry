@@ -6,7 +6,7 @@ technique: declare-what-each-engine-ignores
 status: forged
 laws: [unmeasured-is-not-a-pass, no-gate-self-certifies, declaring-an-input-is-not-consuming-it]
 shared_with: []
-use_when: [several generators accept the same request type, a designer cannot tell which inputs mattered, comparing two backends on one brief]
+use_when: [several generators accept the same request type, a designer cannot tell which inputs mattered, comparing two backends on one brief, making two engines agree on one generated layout]
 ---
 
 # Declare what each engine ignores
@@ -53,8 +53,10 @@ different epistemic states, and collapsing them is exactly what
    answerable for any *pair* of generators — including a generator against itself, where the
    honest answer is "yes, it replays" or "no, this pipeline is not deterministic", which is
    precisely what a caller needs before it promises anything to a designer. Every
-   cross-generator pair answers no, with the structural reason; that the answer is always no
-   is the point, because a shared request type invites the opposite assumption.
+   *regenerating* pair answers no, with the structural reason — two generators that each
+   build a layout from the request, however faithfully, do not build the same one, and a
+   shared request type invites the opposite assumption. There is exactly one way to make a
+   pair answer yes, and it is not a better seed; see below.
 3. **Attach both to the result**, not only to the generator's static description. A result
    travelling without its caveats will be read as complete.
 4. **Verify the declaration independently.** A generator's own statement that it honoured a
@@ -64,6 +66,54 @@ different epistemic states, and collapsing them is exactly what
    assert the output changes for fields declared consumed and does not for fields declared
    ignored. A declaration that has never been differentially tested is documentation with a
    type annotation.
+
+## Agreement is bought by shipping the layout, not the seed
+
+An earlier statement of this technique held that *every* cross-generator pair answers
+no. That is true of every pair that regenerates, and it is false as an absolute — the
+correction is worth stating because the route to the exception is the useful part.
+
+Two engines asked to agree from a seed can only do so if they share the algorithm, the
+version, the draw order and the parameter set. Where one of them is authored freehand by
+a generative model, that contract is void before it starts, and no amount of porting the
+random stream repairs it. Same-seed parity across regenerating engines stays aspirational
+however honestly it is declared.
+
+The alternative is to stop asking them to regenerate. **One engine exports the finished
+layout as data; the other replays it.** Agreement is then not a property anyone verified,
+it is a property of the construction — and it holds for the fields the export carries
+and for nothing else.
+
+- **Export a versioned, self-describing artifact**, not a bag of cells. It carries its
+  version, which engine generated it, the algorithm, the seed label *and* its resolved
+  value, the requested and the achieved dimensions, the legend for its own encoding, the
+  cells, the request fields the exporting engine consumed, **the request fields it
+  ignored** — this technique's own payload, travelling with the data — and the agreement
+  claim with its rung.
+- **The replaying engine's ignored set is empty, and here that is honest.** It reads no
+  request fields at all, because the request's influence is already baked into the cells.
+  This is the one case where the strongest claim in the system is safe to assert; say
+  *why* it is empty in the same place, or it will read as the stalest declaration in the
+  file.
+- **Refuse rather than degrade on import.** An unrecognised version, a wrong row count,
+  an unknown glyph — decline. A replay that silently repairs its input is a second
+  generator wearing the word replay, and it re-opens the disagreement the export closed.
+- **State the parity rung inside the agreement reason, in the same sentence as the
+  claim.** "These two agree" reads as *verified*. The honest form names both halves: the
+  layout data is identical by construction because the replay consumes the exported cells
+  verbatim, **and** whatever the receiving engine then does with those cells at runtime is
+  unobserved until somebody observes it. A boolean carrying an unqualified true is this
+  technique's own overclaim arriving at the one place everybody assumed was safe.
+- **Pin the field names across the language boundary.** The replaying side usually lives
+  in another language and often outside the build, so nothing notices when a field is
+  renamed on the exporting side. Compare the two field lists — and the supported version,
+  and the cell vocabulary — against one source, so a rename fails the build instead of
+  silently breaking a script nothing runs.
+
+The neighbouring contract owns the storage half of this: a designer who wants a specific
+level kept stores the plan rather than the seed (seed-determinism-contract). This is that
+rule aimed across engines instead of across time, and it buys the same thing — the
+artifact, not a recipe for re-deriving it under assumptions the other side does not share.
 
 ## Decision rules
 

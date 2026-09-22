@@ -6,7 +6,7 @@ technique: paired-per-case-testing
 status: forged
 laws: [statistical-verdicts-or-no-verdict]
 shared_with: []
-use_when: [comparing two eval runs on the same case set, a gate cannot tell signal from case difficulty, choosing the test behind a regression verdict]
+use_when: [comparing two eval runs on the same case set, a gate cannot tell signal from case difficulty, choosing the test behind a regression verdict, two per-case score vectors are equal length and about to be zipped]
 ---
 
 # Paired per-case testing
@@ -32,11 +32,13 @@ cannot tell" and a gate that fires on real regressions.
    as long as it is in service
    ([baseline-carries-its-conditions](./baseline-carries-its-conditions.md)).
 2. **Compute per-case deltas by case identity.** Match on case identifier,
-   never on array position. If the case sets do not line up — different
-   length, missing ids — **refuse to pair and say so**. Silently truncating
-   to the intersection, or zipping misaligned vectors, produces a
+   never on array position, and carry the identity in the score type so the
+   pairing cannot be done any other way. Zipping two vectors produces a
    high-confidence verdict about a comparison that never happened; a paired
-   test over mismatched cases is worse than no paired test at all.
+   test over mismatched cases is worse than no paired test at all. Where the
+   two sets do not fully overlap, see *Equal length is not a matching case
+   set* below: some non-overlaps are a refusal and some are a smaller,
+   disclosed experiment, and the difference is not the vector lengths.
 3. **Test the deltas against zero.** A one-sample test on the deltas —
    `mean(Δ) / stderr(Δ)` with a two-sided p — is the workhorse. With fewer
    than two deltas there is no spread to test against; return "no test",
@@ -44,6 +46,61 @@ cannot tell" and a gate that fires on real regressions.
 4. **Report the evidence with the verdict**: the mean delta, the p-value,
    the method name, and the fallback used when pairing was impossible — so
    a reader can see *which* test decided.
+
+## Equal length is not a matching case set
+
+The guard that gets written is a length check, and a length check is not an
+identity check. It reads as one because the mental model is "the two runs
+scored the same cases, so the vectors are the same size" — but a per-case
+score vector is usually **compacted**: a case that errored, timed out, or
+was shed by a circuit breaker is skipped rather than held as a gap, so an
+index is a position among *judged* cases, not a case index. Two targets that
+each failed a different case therefore arrive the same length and one
+position out, and every length-based guard passes them. Anything that makes
+per-target case failure ordinary — an error budget, a health breaker, a
+flaky provider — makes this the common case rather than the exotic one.
+
+**The failure is direction-dependent, and the dangerous direction is the one
+that looks cleanest.** Against unstructured scores a positional offset
+differences two unrelated cases, which *adds* between-case variance to the
+deltas while the paired standard error still reports that it was removed:
+wrong, and overconfident about being wrong. But eval case sets are often
+ordered by difficulty, and against a monotone ordering a one-position offset
+yields a **constant** fake delta — one difficulty step, on every case. A
+constant delta has zero spread, so the test reports maximal evidence for a
+gap that does not exist, between two targets that scored identically on
+every case they both judged. This is the decision rule below meeting a
+defect: *report a zero-spread change as maximal evidence* is correct only
+once the pairing is known to be by identity. Composed with a positional
+pairing it is the mechanism that manufactures certainty.
+
+**Refuse what cannot be matched; pair the intersection and disclose it.**
+A flat refusal on any non-overlap is too strong, and deletes the tested
+comparison from most real result matrices for no correctness gain — the
+cases that *are* shared are genuinely matched, so the test over them is
+valid. Separate the two:
+
+- **Refusals**, each named distinctly rather than returned as one anonymous
+  absence: the two sets are disjoint (nothing judged in both); a case id
+  appears twice on one side (which score was meant is unknowable, and
+  guessing is how this defect class starts); fewer than two cases shared
+  (no spread); either side scored nothing. "No overlap", "duplicate ids"
+  and "one shared case" are three different facts about a run, and a caller
+  that prints them identically has hidden two of them.
+- **A disclosed subset** otherwise: difference the shared cases, and carry
+  the retained and dropped counts *with the deltas* so the real n reaches
+  the power disclosure. The run's own case count is the larger, flattering
+  number, and a reader who takes it for the paired n overstates the power by
+  exactly the gap. State the selection effect too: a target that errors on
+  the hard cases leaves an easier intersection, so the delta holds for the
+  cases that remain and generalizes less than a full pairing would.
+
+Pair by identity in a stable order (sorted by case id, not by either side's
+insertion order), so two evaluations of one matrix cannot produce different
+pairings. And check what the baseline actually recorded: where a run report
+stores a *bounded preview* of its cases rather than all of them, the
+intersection is silently a prefix — still a valid paired test, but over a
+systematic subset rather than a random one, which is its own caveat.
 
 ## Decision rules
 
@@ -57,6 +114,10 @@ cannot tell" and a gate that fires on real regressions.
   *perfectly consistent* change, not an untestable one: report it as
   maximal evidence (p → 0 in the direction of the mean), never discard it.
   Discarding it makes the gate blind to precisely the cleanest regressions.
+  This rule is safe only above an identity-verified pairing — a constant
+  delta is the exact signature a positional offset produces on a
+  difficulty-ordered case set, so the two rules must not be adopted
+  separately.
 - **When scores are far from normal** — heavily skewed rubric scores,
   many ties, binary pass/fail — prefer the distribution-free paired tests:
   the signed-rank test for ordinal or skewed paired scores, the

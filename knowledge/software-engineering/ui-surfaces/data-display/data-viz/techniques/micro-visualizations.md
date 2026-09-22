@@ -73,6 +73,33 @@ that must never sit unlabeled in the same visual language as the first two.
 Name the denominator, in the computation and in the surrounding context, and
 never mix families in one surface without labeling each.
 
+## The one piece of chrome worth keeping
+
+Amputating the chrome takes the axis with it, and the axis was the reader's
+only clue to **level**. A chrome-less glyph reports shape faithfully and says
+nothing about where that shape sits: two cells with identical silhouettes may
+be a healthy row and a failing one. A single rule drawn across the glyph at a
+threshold that already means something — the boundary between two named
+states, the target, the floor below which a row needs attention — restores
+level for almost no ink, and it is the one element that earns its way back
+past the amputation for exactly that reason.
+
+It pays only if the threshold is real. A rule at the middle of the range, or
+at a round number chosen because it looked central, invents a boundary the
+domain does not have, and the reader anchors to it anyway — the same
+fabrication as a diverging palette handed a midpoint the data never had. Where
+the domain has no meaningful line, draw none; an arbitrary one is worse than
+an absent one, because it is read as authoritative.
+
+And it must be declared somewhere the glyph is not. The glyph cannot label its
+own rule, so the column header, the surface's legend, or the adjacent reading
+names what the line is — an unlabeled rule inside a chrome-less mark is read
+as a threshold whether or not anyone said which. The line style that means
+"reference, not data" is vocabulary shared with every full chart on the
+surface (see [encoding-vocabulary](./encoding-vocabulary.md)), not a stroke
+pattern picked per glyph; a surface where three different dash patterns each
+mean a reference line has a convention nobody can learn.
+
 ## Design constraints at glyph size
 
 - **One series, one question.** Multi-series sparklines at cell size are

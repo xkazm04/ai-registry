@@ -76,3 +76,33 @@ one-shot standard the data-row primitives (`RevealItem` + `useRevealTracker`)
 implement correctly. The vocabulary is consistent; its two consumer families
 have opposite replay policies, and only one of them is written down as a
 policy.
+
+## Correction — what the library's kill switch actually does
+
+*Added 2026-09-20 and resolved against the tree that day; the sections above keep
+their 2026-08-18 date and were not re-checked beyond the two citations named
+here.*
+
+The engine-decision section above repeats the vocabulary's own comment: that
+under `reducedMotion="always"` framer "snaps EVERY animation (opacity included)".
+Read in `framer-motion@12.38.0` as installed in that same tree, it does not.
+`motion-dom`'s `visual-element-target.mjs` substitutes an instant transition only
+where `positionalKeys.has(key)`, and `keys-position.mjs` defines that set as
+`width`, `height`, `top`, `left`, `right`, `bottom` plus the transform props.
+Opacity, colour, and every geometry or path value animate at their authored
+duration under the switch. `VisualElement.mjs` shows `"always"` and `"user"`
+differing only in how `shouldReduceMotion` is computed, never in what reduction
+does — so `"always"` is not a stronger kill, just an unconditional one.
+
+The decision the comment justifies still stands, on the narrower and sufficient
+ground: whenever the document is hidden the app sets `"always"`, every
+transform-carrying entrance snaps to its end position, and a draw or fade-pop
+preset loses the motion that distinguishes it. Moving the vocabulary to
+stylesheet keyframes puts it outside the switch's reach entirely, which is the
+escape hatch in [engine-selection](../techniques/engine-selection.md) used
+correctly. What is wrong is the stated mechanism, and it matters because the
+false version teaches that a library's global switch is total — the belief the
+technique's engine-scope section exists to break.
+
+The `MotionConfig` call has also moved: it is `App.tsx:371` on 2026-09-20, not
+`App.tsx:321`.

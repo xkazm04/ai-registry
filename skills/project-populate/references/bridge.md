@@ -103,6 +103,33 @@ obeys — so it is confined to the tree the operator actually registered. Passin
 `"."` (or omitting it) is the normal case and keeps its meaning. The same rule
 applies to `export-context-map`.
 
+### A newly registered project has an EMPTY context database
+
+Check `created_at` on the project before planning a sweep. If the project record
+was made recently, the app holds **zero contexts** for it - and the
+`context-map.json` sitting in that repository is orphaned history from an earlier
+app record, not a description of what the database knows.
+
+This matters because `export-context-map` writes what the DATABASE holds, not a
+merge with the file. So on a fresh record:
+
+- A **whole-tree sweep is safe** - you replace every context, and the file that
+  lands is complete.
+- A **partial sweep is destructive** - the export replaces the file with only the
+  subtrees you scanned, and every other context in it is gone.
+
+Measured 2026-09-21, and it is not subtle. politicas was registered that morning,
+had 49 contexts and 670 covered files in its committed `context-map.json`, and a
+four-subtree sweep took it to **11 contexts and 203 covered files** - 82% coverage
+down to 25%. Contexts with no relationship at all to the scanned paths
+(`app-shell`, `db-store`, `budget-mirror`) were simply absent from the export. The
+repository file was recoverable from git; the 38 contexts were NOT recoverable from
+the database, because they had never been in it.
+
+The tell is cheap: `GET /dev-tools/contexts/<project_id>` before you start. If the
+count is far below what the repo file claims, the file is history and you owe the
+project a whole-tree sweep rather than a targeted one.
+
 ### Use the subtree sweep on anything non-trivial
 
 **A whole-tree scan does not scale, and it fails silently.** Contexts reach the
@@ -132,8 +159,13 @@ comparison probably uses `git ls-files`, so untracked-but-real files land in the
 numerator.
 
 **Which files a context may own.** The ingest filter accepts hand-written CODE:
-`ts tsx js jsx mjs cjs py go java kt swift c cpp cc h hpp cs rb php scala lua ex
-exs vue svelte sql css scss` (case-insensitive). It rejects generated/vendored
+`rs ts tsx js jsx mjs cjs py go java kt swift c cpp cc h hpp cs rb php scala lua ex
+exs vue svelte sql css scss` (case-insensitive) - the list is `SOURCE_EXTS` in
+`src-tauri/src/commands/infrastructure/context_generation.rs`, and `rs` is the first
+entry in it. This note omitted `rs` until 2026-09-21, which reads as "Rust repositories
+cannot be mapped" - wrong, and expensively so: tracklight and pumper are Rust, their
+maps already own 220 and 114 `.rs` paths, and an operator trusting this list would have
+diagnosed tracklight's 35% coverage as a filter rejection rather than an unfinished sweep. It rejects generated/vendored
 trees (`node_modules`, `target`, `dist`, `build`, `bindings`, `locales`,
 `section-locales`, `coverage`, `__pycache__`, `.venv`, `venv`, `.tox`,
 `site-packages`, any dot-directory) and data/doc formats (`json`, `md`, `toml`,

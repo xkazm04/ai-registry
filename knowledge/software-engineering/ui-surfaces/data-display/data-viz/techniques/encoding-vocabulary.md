@@ -69,6 +69,13 @@ polarity comes from its definition (see [metric-identity](./metric-identity.md))
 and the arrow follows the sign while the color follows whether the move is
 good.
 
+And before either question is asked: a delta smaller than the metric's
+resolution gets neither the arrow nor the hue. The direction vocabulary is
+*withheld*, not softened — a pale arrow is still read as an arrow — so that
+wearing it always means movement the instrument could actually see. Which
+delta qualifies is the metric's own property, not the chart's taste; it comes
+from the same definition as polarity.
+
 ## Series identity is stable
 
 The same entity keeps the same color **across renders, re-sorts, refreshes,

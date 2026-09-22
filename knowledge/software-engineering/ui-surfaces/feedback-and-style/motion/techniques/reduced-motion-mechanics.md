@@ -77,6 +77,23 @@ ownership analysis is [engine-selection](./engine-selection.md)). Either
 way, the audit unit is the *engine inventory*, never the rule: enumerate
 every engine that can move a pixel, and show each one's reduction path.
 
+The inventory's unit is finer than the engine, because a library's own reduce
+switch is scoped a second time: **to the properties that library counts as
+motion.** The usual implementation substitutes an instant transition for
+position-class values — translation, scale, rotation, and the box dimensions —
+and leaves every other animated value running at its authored duration. Opacity,
+color, a traced path's length, a shape's radius or centre, a flex weight: all
+untouched, all still animating, under a switch that was set to stop animation.
+The failure is worse than a missed engine for the reason that makes it hard to
+find — the switch is *present*, it is honored, and it covers exactly the
+properties a compositor-friendly vocabulary is built from, so a product that
+followed [performance-discipline](./performance-discipline.md) is almost fully
+reduced and reports no gap, while the one surface that animates a path or a
+geometry value is not reduced at all and reports no gap either. So the reduction
+path each engine declares names the **set of properties it actually reaches**,
+and every gesture animating outside that set carries its own fallback — which is
+the per-preset rule again, arriving as a consequence rather than as a preference.
+
 Two adjacent mechanics follow from the same fan-out logic. The preference
 signal is often composite — a system setting *and* a product-level
 control — and any mechanism reading only one of them silently exempts
@@ -87,6 +104,19 @@ which is a trap in every usage — subscribe, and where the platform's own
 reader does not subscribe, wrap it and forbid the raw one. (The contract
 itself — which signals exist and how they compose — is accessibility
 territory; the mechanics of not fanning it out are this technique's.)
+
+That one resolver belongs to **no engine**. It is tempting to adopt the reader
+an animation library already ships, since the library is present wherever
+gestures are — but the preference is asked about by far more of a product than
+animates. A surface that merely decides whether to defer a section, skip a
+scroll behaviour, or render a still variant is a consumer of the preference and
+of nothing else, and binding the read to the animation library makes each of
+those surfaces pull the animation runtime in with it. That is how a library
+adopted for a handful of gestures ends up in the delivery cost of every part of
+the product, including the parts whose entire relationship with motion is
+declining to use it. Keep the resolver in a module that depends on nothing but
+the platform's own preference query, and let the engines consume it like any
+other caller.
 
 Subscription is sufficient for a consumer that re-derives when it is
 notified. It is one rung short for an engine that **resolves the preference
@@ -192,7 +222,9 @@ not a faster one.
    reduced form; consumers stay ignorant of the preference entirely.
 2. **A vocabulary-level switch selects the variant** — one place reads the
    preference (per the accessibility contract) and rebinds the presets;
-   call sites never branch.
+   call sites never branch. That reader depends on no engine, and each
+   engine's own reduce switch is inventoried with the set of properties it
+   actually reaches.
 3. **Timing-load-bearing durations are marked as such** in the vocabulary
    and survive reduction untouched — an invisibility window is not motion.
 4. **Collapsed durations are epsilon, never zero**, so completion

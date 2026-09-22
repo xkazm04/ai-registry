@@ -4,140 +4,205 @@ type: application
 subject: table
 technique: performance
 stack: react
-verified_on: 2026-08-24
+verified_on: 2026-09-21
 verified_against: react@19
 ---
 
-# Performance — a runtime-selected rung ladder in `goat`, and the ladder that got built three times
+# Performance — a rung ladder in `goat` that collapsed to zero rungs, and what survived the collapse
 
 `goat` is a Next.js 16 / React 19 ranking app whose collection lists run from
-twenty items to a thousand-plus. Its contribution to this technique is a real
-one: it treats the ladder's rung as a **runtime** decision keyed on the live
-item count rather than a design-time choice, with every threshold in one named
-config and two pure predicates as the only decision sites.
+twenty items to a thousand-plus. This technique's earlier reading of `goat`
+called it a runtime-selected rung ladder: the rung a surface sits on was a
+function of the live item count, picked by two pure predicates reading one
+config. That is no longer true of this repo. `CollectionPanel.tsx` does not
+select a rung anymore — it does not select anything.
+`src/app/features/Collection/components/CollectionPanel.tsx:95` reads, in
+full: `const displayItems = filteredItems;`. No predicate is imported, no
+threshold is checked, no branch exists. Twenty items and twenty thousand take
+the same path.
 
-Its second contribution is the more transplantable of the two, and it is a
-negative: the ladder is implemented three times, with disagreeing thresholds,
-and its top rung has no call site at all. That failure is what a config-driven
-ladder actually fails as, and it is worth more to a reader than the config
-object is.
+What is transplantable now is the negative this repo has become, and it is
+stronger than the version first written up here: a config-driven, two-rung
+ladder didn't just leave its top rung unselected — it lost its remaining rung
+too, while every piece that used to make the ladder look complete (the
+config, the two predicates, the trigger component, a hook's own README
+description) kept existing around the gap. Deleting a decision site turned
+out to be the cheapest, least visible edit available, and this tree shows
+what it looks like after that edit lands.
 
-## The decision, as designed
+## What the rung-1 machinery lost
 
-`src/app/features/Collection/constants/lazyLoadConfig.ts:8-63` is the whole
-policy in one object: `VIRTUALIZATION_THRESHOLD: 100`, `LAZY_LOAD_PAGE_SIZE: 20`,
+Three things this application used to cite as rung-1 machinery are gone or
+orphaned:
+
+- **The decision site.** `CollectionPanel.tsx`'s import list (`:1-18`) has no
+  reference to `shouldUseLazyLoading`, `shouldUseVirtualization`, or
+  `./constants/lazyLoadConfig`. There is no `useLazyLoading` variable, no
+  threshold comparison, no lazy-loaded slice — `displayItems` is the
+  unconditional `filteredItems` at `:95`, full stop.
+- **The hook.** `hooks/useCollectionLazyLoad.ts` is not in `git ls-files`; it
+  is gone from the tree. It survives only as prose describing a file that no
+  longer exists: `src/app/features/Collection/README.md:23` still lists it in
+  a directory-tree comment (`useCollectionLazyLoad.ts      # Lazy loading
+  pagination`), `:135` still names it as the medium-collection strategy
+  (`Medium: useCollectionLazyLoad → LazyLoadTrigger`), and `:151` still
+  describes its initialization (`useCollectionLazyLoad initializes with
+  pageSize=20`). The README was never touched when the hook was deleted.
+- **The render site.** `components/LazyLoadTrigger.tsx` still exists and
+  still reads the config's intersection-observer settings
+  (`rootMargin = LAZY_LOAD_CONFIG.INTERSECTION_ROOT_MARGIN` at `:65`,
+  `threshold: LAZY_LOAD_CONFIG.INTERSECTION_THRESHOLD` at `:70`), but nothing
+  renders it. A repo-wide search for `<LazyLoadTrigger` returns three hits,
+  all inside `/** */` example comments (`LazyLoadTrigger.tsx:53`,
+  `src/components/patterns/virtualization/index.ts:33`,
+  `src/components/patterns/virtualization/useLazyLoad.ts:23`); the only live
+  reference anywhere is a barrel re-export,
+  `export { LazyLoadTrigger } from './components/LazyLoadTrigger';`, at
+  `src/app/features/Collection/index.ts:15`.
+
+The config and its two predicates are exactly where they were.
+`src/app/features/Collection/constants/lazyLoadConfig.ts:8-63` is the same
+object (`VIRTUALIZATION_THRESHOLD: 100`, `LAZY_LOAD_PAGE_SIZE: 20`,
 `PREFETCH_COUNT: 10`, `INTERSECTION_ROOT_MARGIN: '200px'`,
-`INTERSECTION_THRESHOLD: 0.1`, a `VIRTUAL_LIST` block (`ITEM_HEIGHT: 120`,
-`OVERSCAN_COUNT: 5`, `MIN_BATCH_SIZE: 10`) and `SCROLL_DEBOUNCE_MS: 150`. Two
-pure predicates read it: `shouldUseVirtualization(itemCount)` (`:68-70`) and
-`shouldUseLazyLoading(itemCount)` (`:75-77`). Rung 1's machinery is complete —
-`hooks/useCollectionLazyLoad.ts:106-108` takes its page size and prefetch count
-from the config, `components/LazyLoadTrigger.tsx:64-69` takes the observer's
-root margin and threshold from it.
-
-That is the good idea: the rung a surface sits on is a function of the data it
-was handed this render, not a decision frozen when the component was written.
+`INTERSECTION_THRESHOLD: 0.1`, a `VIRTUAL_LIST` block with `ITEM_HEIGHT: 120`,
+`OVERSCAN_COUNT: 5`, `MIN_BATCH_SIZE: 10`, and `SCROLL_DEBOUNCE_MS: 150`), and
+`shouldUseVirtualization(itemCount)` (`:68-70`) and
+`shouldUseLazyLoading(itemCount)` (`:75-77`) are still two pure,
+individually testable predicates that do what their names say. A `git grep`
+for `shouldUseLazyLoading` across tracked files now returns exactly three
+lines: the definition, a barrel re-export
+(`src/app/features/Collection/index.ts:45`), and an unrelated second
+definition in another module (below). **None of the three is a call.**
+Neither predicate has a single call site left in the app —
+`shouldUseVirtualization` didn't have one when this application was last
+checked either, but `shouldUseLazyLoading` did, and that call site is what
+got removed.
 
 ## Rung 0 and rung 4's costs, built and unused
 
-`src/lib/virtual/` is 2,183 lines across six modules and it pays, on paper,
-exactly what the technique says rung 4 costs.
+`src/lib/virtual/` is 2,118 lines across six modules (`InfiniteLoader.tsx`,
+`PerformanceMonitor.tsx`, `ScrollPositionManager.ts`, `SkeletonLoader.tsx`,
+`VirtualCollectionList.tsx`, `index.ts`) and it pays, on paper, exactly what
+the technique says rung 4 costs.
 
-`PerformanceMonitor.tsx:25-46` defines the measurement the technique's rung 0
+`PerformanceMonitor.tsx:25-47` defines the measurement the technique's rung 0
 asks for and most implementations skip: `fps`, `avgFps`, `minFps`, `maxFps`,
 `frameTime`, `renderCount`, live `domNodes` (counted at `:211-213` with a
 `querySelectorAll('*')` over the monitored subtree) and `jankFrames`,
-incremented per frame over 16 ms at `:200`. Its verdict thresholds are declared
-rather than eyeballed (`:65-70`: poor under 30 fps, fair under 50, poor frame
-time over 33 ms, high DOM nodes over 100).
+incremented per frame over 16.67 ms at `:200`. Its verdict thresholds are
+declared rather than eyeballed (`:65-70`: poor under 30 fps, fair under 50,
+poor frame time over 33 ms, high DOM nodes over 100).
 
-`ScrollPositionManager.ts` is the "scroll anchoring and restoration become your
-code's problem" clause, implemented: a `sessionStorage`-backed record of offset,
-timestamp, `firstVisibleIndex` and item count at save time (`:10-19`, read at
-`:91`, written at `:108`) with a default 30-minute max age enforced on restore
-(`:210-218`), so a stale position is skipped rather than applied to a list that
-has since changed. `VirtualCollectionList.tsx:233-242` is the windowed list
-itself, overscan defaulted to 5.
+`ScrollPositionManager.ts` is the "scroll anchoring and restoration become
+your code's problem" clause, implemented: a `sessionStorage`-backed record of
+offset, timestamp, `firstVisibleIndex` and item count at save time (`:10-19`,
+read at `:91`, written at `:108`) with a default 30-minute max age enforced on
+restore (`:210-218`), so a stale position is skipped rather than applied to a
+list that has since changed. `VirtualCollectionList.tsx:232-241` is the
+windowed list itself, overscan defaulted to 5.
 
-**None of it is referenced.** A grep for `VirtualCollectionList`,
-`ScrollPositionManager`, `PerformanceMonitor`, `InfiniteLoader`, `SkeletonLoader`
-or the path `lib/virtual` across the entire tree returns only the library's own
-files. The rung-0 harness that would have measured whether rung 4 was needed,
-and the rung-4 cost payments that would have made it safe, are both dead code.
+**None of it is referenced.** A `git grep` for `VirtualCollectionList`,
+`ScrollPositionManager`, `PerformanceMonitor`, `InfiniteLoader`,
+`SkeletonLoader`, or the path `lib/virtual` across the tracked tree returns
+only the library's own files. The rung-0 harness that would have measured
+whether rung 4 was needed, and the rung-4 cost payments that would have made
+it safe, are both dead code — unchanged since this application was last
+checked.
 
-## The counter-finding: a two-rung ladder wearing three implementations
+## The counter-finding: from a two-rung ladder to a zero-rung one
 
-**The top rung is never selected.** `CollectionPanel.tsx:15` imports
-`shouldUseLazyLoading` and nothing else; the strategy choice is
-`useLazyLoading = shouldUseLazyLoading(filteredItems.length)` (`:80-83`), and
-`displayItems` is either the lazy slice or the whole array (`:92-99`), with the
-observer trigger rendered at `:310-319`. There is no virtualization branch.
-`shouldUseVirtualization` has no call site anywhere in the app — the only
-reference outside its own module is a barrel re-export at
-`src/app/features/Collection/index.ts:47`. The three-tier ladder is a two-tier
-ladder in shipped code.
+This is the part of the finding that got stronger. The version of `goat`
+first cited here had a two-tier ladder in shipped code — no virtualization
+branch, but a working lazy-load branch: `CollectionPanel.tsx` imported
+`shouldUseLazyLoading`, called it, and rendered `LazyLoadTrigger` when it
+returned true. That branch is gone. What ships today has zero tiers: one
+unconditional render path, for every item count.
 
-**The vocabulary has two owners that disagree.**
-`src/components/patterns/virtualization/useLazyLoad.ts:261-266` exports a
+**The documentation still describes an integration that never shipped, and
+some of what it describes has since stopped existing at all.**
+`docs/lazy-loading-implementation.md:18-22` presents the three-strategy table
+as fact ("< 20 items", "20-100 items", "> 100 items"). `:100-140` quotes an
+"Integration in CollectionPanel" as if it were the code: a `useVirtualization`
+memo, a call to `useCollectionLazyLoad`, an `itemsToRender` that branches on
+both, and a `<VirtualizedCollectionList />` imported from
+`components/VirtualizedCollectionList.tsx` — a file that has never been in
+`git ls-files` in that directory. Two of the symbols this block treats as
+current — `useCollectionLazyLoad` and `VirtualizedCollectionList` — are not
+merely unwired now; one of them no longer exists anywhere in the tree.
+`:195-201` reports before-and-after numbers for the path that does not run:
+"~50 DOM nodes total", "Memory: Reduced by 60-80%", "Smooth 60fps". No
+predicate produced them, no monitor recorded them, and the monitor that could
+have is the unreferenced `PerformanceMonitor.tsx` above. The doc did not
+drift when the code did — it was already describing code that had never
+shipped, and the code has since drifted further away from the doc without
+the doc moving at all.
+
+**The vocabulary still has two owners that disagree, and one of them is now
+completely unconsulted.**
+`src/components/patterns/virtualization/useLazyLoad.ts:262-267` exports a
 second function also named `shouldUseLazyLoading`, defaulting its threshold to
-50, alongside a second `shouldUseVirtualization` at `:271-276`. The config
-module's version reuses `LAZY_LOAD_PAGE_SIZE` (20) as the threshold
+50, alongside a second `shouldUseVirtualization` at `:272-277`. The config
+module's version still reuses `LAZY_LOAD_PAGE_SIZE` (20) as its threshold
 (`lazyLoadConfig.ts:76`). Two modules, one name, thresholds 20 and 50 — and
-because neither is wrong on its face, the disagreement is invisible until
-somebody tunes one of them.
+now neither module's `shouldUseLazyLoading` has a caller anywhere in the
+shipped panel, so the disagreement is not just invisible, it is moot: tuning
+either one changes nothing a user will see.
 
-**The documentation describes the version that was never wired.**
-`docs/lazy-loading-implementation.md:18-22` presents the three-strategy table as
-fact ("< 20 items", "20-100 items", "> 100 items"). `:100-140` quotes the
-integration as if it were the code: a `useVirtualization` memo, an
-`itemsToRender` that branches on it, and a `<VirtualizedCollectionList />`
-imported from `components/VirtualizedCollectionList.tsx` — a file that is not in
-that directory. `:186-198` then reports before-and-after numbers for the path
-that does not run: "~50 DOM nodes total", "Memory: Reduced by 60-80%", "Smooth
-60fps". No predicate produced them, no monitor recorded them, and the monitor
-that could have is in the unreferenced library above.
-
-**And the one live virtualization made the opposite decision.**
-`src/app/features/Match/sub_MatchCollections/components/VirtualizedCollectionGrid.tsx:68-73`
-is the only `useVirtualizer` on a rendered path: rows chunked from a flattened,
-sorted item list, `estimateSize: () => rowHeight + 8`, `overscan: 3`,
-`measureElement` for real heights. Its consumer renders it unconditionally
-(`SimpleCollectionPanel.tsx:181-188`) — no threshold, no predicate, rung 4 for
-a four-item list as readily as a thousand-item one. Two features of one app
-answered "when do we window?" independently, one with a config nobody consults
-and one with no question asked.
+**And the one live virtualization still makes the opposite decision, at
+different line numbers than before.**
+`src/app/features/Match/sub_MatchCollections/components/VirtualizedCollectionGrid.tsx:86-91`
+is still the only `useVirtualizer` on a rendered path: rows chunked from a
+flattened, sorted item list, `estimateSize: () => rowHeight + 8`,
+`overscan: 3`, `measureElement` for real heights. Its consumer still renders
+it unconditionally (`SimpleCollectionPanel.tsx:219-226`) — no threshold, no
+predicate, rung 4 for a four-item list as readily as a thousand-item one.
+Two features of one app still answer "when do we window?" independently: one
+used to have a config nobody consulted for the small case and no question
+asked for the large case; now the small case has no config-driven answer at
+all, and the large case still has no question asked.
 
 ## Reading the negative
 
-The lesson is not "their thresholds were wrong". It is that in a config-driven
-ladder, the **decision site is the only load-bearing part**, and it is the
-cheapest part to leave out — the config, the predicates, the windowed list and
-the measurement harness can all be written, reviewed and merged while the two
-lines that consult them are quietly never added. Everything else looks like
-progress.
+The lesson is stronger than it was, not different. It already read: in a
+config-driven ladder, the decision site is the only load-bearing part, and it
+is the cheapest part to leave out. What happened here since is the
+demonstration of exactly that. The decision site — an import and a call, two
+lines — is precisely what disappeared when `CollectionPanel.tsx` was reworked,
+while the config, the two predicates, the trigger component, the six-module
+measurement library, and even a hook's description in a README all survived
+the same change untouched. Deleting a decision site produces no compile
+error and no broken import; it produces a smaller diff than deleting any of
+the machinery it used to call, which is exactly why it is what got left out.
 
-Three symptoms, in the order they become detectable, and all three are here:
-two exported functions with one name and different defaults; a predicate with
-no call site; a document quoting integration code that does not compile against
-the tree. The first is a lint-able condition, the second is a dead-export
-sweep, and the third is what a reader trusts when the first two go unchecked.
+Four symptoms, in the order they become detectable, and all four are present
+here: two exported functions sharing one name with different defaults; a
+predicate with no call site; a hook a README keeps describing after its file
+is gone; and a document quoting integration code that names a file and a hook
+that have never coexisted in the tracked tree. The first is a lint-able
+condition, the second is a dead-export sweep, the third is a doc check
+against `git ls-files`, and the fourth is what a reader trusts when the first
+three go unchecked.
 
 The rule worth transplanting out of this: **put the rung selection where it
-cannot be skipped.** A list component that reads its own item count and picks
-its own strategy has one decision site that every caller passes through; a
-config module plus predicates that each container must remember to consult has
-as many decision sites as there are containers, and a ladder whose rungs are
-opt-in converges on the bottom rung. If the predicates must live apart from the
-component, the container that ignores them should not compile — an unread
-export is the same failure as an unread config.
+cannot be skipped, and where it cannot be quietly deleted either.** A list
+component that reads its own item count and picks its own strategy has one
+decision site that every caller passes through and that any change to the
+component has to touch on purpose. A config module plus predicates that a
+container calls has a decision site a refactor can remove by accident,
+because removing it looks like simplification — fewer branches, a shorter
+render function, a smaller diff, a change that reviews clean. If the
+predicates must live apart from the component, the container that stops
+calling them should not compile. An unread export is the same failure as an
+unread config, and a deleted call site is the same failure wearing a green
+build.
 
 ## One rung-3 detail worth flagging
 
-`VirtualizedCollectionGrid.tsx:116` keys each windowed row `row-${virtualRow.index}`
-while the items inside it are keyed by identity (`:129`,
-`key={flatItem.item.id}`). The index key is survivable only while the row
-wrapper holds no state of its own — but the rows are chunks of a list whose
-order changes when the consensus sort is toggled (`:48-64`), so the day a row
-gains an expansion, an entrance animation or a measured height cache, it will
-inherit the previous occupant's. Recycling is reuse, and the row wrapper is the
-one element in this component that positional keying still reaches.
+`VirtualizedCollectionGrid.tsx:134` keys each windowed row
+`row-${virtualRow.index}` while the items inside it are keyed by identity
+(`:147`, `key={flatItem.item.id}`). The index key is survivable only while
+the row wrapper holds no state of its own — but the rows are chunks of a list
+whose order changes when the consensus sort is toggled (`:65-80`), so the day
+a row gains an expansion, an entrance animation or a measured height cache, it
+will inherit the previous occupant's. Recycling is reuse, and the row wrapper
+is the one element in this component that positional keying still reaches.

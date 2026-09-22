@@ -6,7 +6,7 @@ technique: status-color-mapping
 status: forged
 laws: [one-authority-per-vocabulary]
 shared_with: []
-use_when: [mapping status members to themed color roles, a new status renders as a colorless pill, choosing what unknown severities fall back to]
+use_when: [mapping status members to themed color roles, a new status renders as a colorless pill, choosing what unknown severities fall back to, splitting one vocabulary's presentation across several tables, two surfaces render the same member in different shades]
 ---
 
 # Status color mapping
@@ -54,6 +54,40 @@ side. Both halves of the rule are earned:
   map here, a label map there) drift precisely when a member is added to
   one of them, and the degradation is silent. The repos that learned this
   wrote the post-mortem into the merged table's own doc comment.
+
+### Totality is not agreement
+
+The parallel-table argument names *omission* as the failure, and a
+counter-case earns the boundary. Where **every** channel's table is
+separately annotated total over the union — the class triplet here, the
+raw value there, the redundant glyph in a third — a new member is a
+compile error in all of them at once, and the silent-omission drift the
+rule was built on is already gated at the keystroke. What the split still
+costs is **agreement**. Two total tables can cover exactly the same
+members and disagree about what they say, because no type system compares
+values. The measured instance: one member's entry in the class table had
+drifted to a different hue *and* a different shade stop from the same
+member's entry in the raw-value table, so a level pill and the score ring
+beside it rendered two different greens on one row — each table complete,
+each internally consistent, the disagreement visible only to a person
+looking at the two literals side by side. The correction shipped as a
+prose instruction in the class table's own comment telling the next
+author to keep the two in lockstep, which is precisely the gate a merged
+entry would never have needed.
+
+So the rule survives with its reason restated: prefer one entry per
+member because that makes agreement **structural**, not merely because
+splitting risks omission. Where the channels genuinely must be split — a
+raw value a vector or canvas consumer needs beside class names the
+document needs, a decorative glyph beside both — the split is tolerable
+only when every table is total over the union **and** something other
+than the type system pins their values together: derive the dependent
+tables from one authority, or pin them with a test that reads both. A
+comment asking the next author to remember is not that something. A
+second signal that the channels have come apart is their *reach*: when
+the glyph table is imported by a visibly different set of surfaces from
+the class table it is supposed to accompany, the redundancy rule below is
+already being re-decided by hand, one call site at a time.
 
 The badge component itself stays **vocabulary-agnostic or token-fronted**
 — either it takes a color role and children (and the table wires both),

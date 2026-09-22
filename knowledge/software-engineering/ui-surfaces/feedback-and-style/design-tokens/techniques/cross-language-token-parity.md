@@ -88,6 +88,29 @@ until it matters.
   frame scheduling; an event is neither. Use the token for the declaration,
   the event for the observation.
 
+The split above is stated by value type because that is how the cases usually
+present, but the two questions actually deciding it are narrower: **does any
+binding set rebind this value, and can the consuming runtime observe the live
+binding?** Both have answers that cut across the value's type, and both send
+work back to generation:
+
+- A product with exactly one binding set has no theme-varying values at all.
+  Its color roles are theme-stable structure until the day a second set
+  exists — which is the day a generated mirror keeps working and a
+  hand-written one becomes wrong.
+- A consumer that runs where no live style system exists cannot read back at
+  any price: values assembled before or outside the rendering surface, a
+  drawing surface that only accepts resolved values, and — most often — the
+  tests, which are a second runtime nobody counts until the readback returns
+  nothing there.
+
+Those are the cases where teams reach for the comment, and it is worth being
+precise about why: the reader consults the ranking, finds readback prescribed
+for their value's type, discovers it cannot work at their call site, and takes
+the absence of a third answer as permission. There is a third answer, it is
+strategy 1, and the same generation that serves the spacing grid serves a
+color that no theme rebinds.
+
 ## The vocabulary boundary is part of parity
 
 Parity is not only value equality — it is *set* equality. The scripting copy

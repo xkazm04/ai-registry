@@ -1,0 +1,82 @@
+{
+  "version": "architecture-v1",
+  "kind": "architecture",
+  "title": "Council rubric for one architecture redesign",
+  "threshold": 0.7,
+  "coverage_floor": 0.6,
+  "scale": "Real 0..1. Anchored at three points only; a member interpolates between them and says so in its confidence, it does not invent a fourth anchor.",
+  "totals": {
+    "weights_sum": 1.0,
+    "dimension_count": 4,
+    "mechanical_weight": 0.65,
+    "judged_weight": 0.0,
+    "mixed_weight": 0.35
+  },
+  "notes": [
+    "A redesign has no users of its own, so there is no value member and no rivalry member here. The value of a redesign is the value of the features that ride on it, and those are councilled as features.",
+    "The mechanical share is deliberately the majority: a redesign is judged mostly on properties that can be read off the diff and the migration, not on taste.",
+    "Reversibility is what makes a redesign safe to accept from an autonomous builder at all, which is why it carries a binding floor."
+  ],
+  "dimensions": [
+    {
+      "dimension": "craft",
+      "kind": "mixed",
+      "weight": 0.35,
+      "weight_rationale": "The largest share, because in a redesign the design IS the deliverable: there is no user-visible behaviour to compensate for a shape that will have to be undone.",
+      "floor": null,
+      "floor_rationale": "No floor: a redesign that is merely adequate is still a decision for the person at the gate.",
+      "question": "Is the new shape the right one - against the standards this repo subscribes to and against current practice outside them?",
+      "levels": {
+        "1.0": "The new shape matches the governing golden path or names a deliberate, recorded deviation with its reason, and retires more hand-rolled copies than it adds abstractions.",
+        "0.5": "A defensible shape with at least one unrecorded departure from the standard, or a new abstraction with fewer than three call sites retired.",
+        "0": "The shape contradicts the standard that governs it with no recorded reason, or adds an abstraction nothing yet uses."
+      },
+      "not_applicable_when": null
+    },
+    {
+      "dimension": "robustness",
+      "kind": "mechanical",
+      "weight": 0.3,
+      "weight_rationale": "A redesign touches everything that already worked, so the largest mechanical share goes to the question of whether it still does.",
+      "floor": 0.5,
+      "floor_rationale": "Binding. A redesign whose own repo's gates do not pass over the span has already failed the only measurement available before it ships.",
+      "question": "Does the repo's own verification pass over the whole span, including every consumer the redesign moved?",
+      "levels": {
+        "1.0": "Every declared gate passes over the span, every consumer of the moved surface is enumerated by a command shown in the evidence, and each is covered.",
+        "0.5": "Gates pass but the consumer enumeration is asserted rather than shown, or one consumer is uncovered and named.",
+        "0": "A declared gate fails over this span, or a consumer of the moved surface was missed."
+      },
+      "not_applicable_when": null
+    },
+    {
+      "dimension": "reversibility",
+      "kind": "mechanical",
+      "weight": 0.25,
+      "weight_rationale": "Weighted just below robustness because it is the property that converts a wrong redesign from a catastrophe into a bad week, and it is fully readable off the migration and the rollout.",
+      "floor": 0.5,
+      "floor_rationale": "Binding. An irreversible data rewrite accepted on an uncalibrated judged opinion is exactly the failure this whole method exists to prevent.",
+      "question": "If this redesign turns out to be wrong after it ships, what does undoing it cost?",
+      "levels": {
+        "1.0": "Every migration has a guard or a down path, the rollout lands per pull request behind a switch, and no step rewrites data irreversibly.",
+        "0.5": "Reversible with manual work: a down path exists but is untested, or the rollout is one landing that could be reverted as a whole.",
+        "0": "An irreversible data rewrite, a destructive migration with no down path, or a rollout that cannot be reverted once any consumer has read the new shape."
+      },
+      "not_applicable_when": null
+    },
+    {
+      "dimension": "economics",
+      "kind": "mechanical",
+      "weight": 0.1,
+      "weight_rationale": "The smallest share for the same reason as in the feature rubric: it informs the trade the person makes at the gate and decides nothing by itself.",
+      "floor": null,
+      "floor_rationale": "No floor: a redesign that costs more to run can still be the right shape.",
+      "question": "What does the new shape cost to run and to build against, compared with the old one?",
+      "levels": {
+        "1.0": "The change in running cost and in build time is measured against the old shape with named figures.",
+        "0.5": "The change is estimated from a named model rather than measured, and labelled as an estimate.",
+        "0": "The new shape adds an unbounded cost: an unbounded query, an uncapped fan-out, or a build step with no ceiling."
+      },
+      "not_applicable_when": "the redesign is confined to a surface with no metered call and no measurable build or runtime cost difference"
+    }
+  ]
+}

@@ -3,7 +3,7 @@ name: conform
 description: "Evaluate this repository against the registry standards that govern it, one context at a time, and keep the verdicts. Reads .ai/registry-map.json (the generated join between this repo's contexts and the registry's subjects), picks the highest-value unevaluated or stale pairs, reads the governing golden path and techniques against the context's real code, and writes back conformant / deviation / not-applicable with file:line evidence - so the map becomes a standing, incrementally-completed deviation backlog instead of a one-off audit. Use to answer 'where does this repo fall short of the standard', before a hardening pass, after a bundle changes, or when a context is about to be rewritten. Invoke with /conform [context-or-path] [--subject <slug>] [--stale] [--budget <n>]."
 category: ai-native
 memory: project
-version: 1.7.0
+version: 1.8.0
 tags: conformance, deviations, registry, audit, backlog
 argument-hint: "[context-or-path] [--subject <slug>] [--stale] [--budget <n>]"
 ---
@@ -59,6 +59,15 @@ Choose the pairs to evaluate, in this order:
    unjudged code in the repo and the map's `stats.arrivedContexts` says how many there are.
    A context marked `source: "renamed"` is NOT an arrival: its verdicts were carried over
    from `renamedFrom`, and they are judged by the `--stale` rule like any other.
+
+   **When a context's `paths` have grown since its verdict, check `orphans[]` for a verdict
+   on the same subject before trusting the carried one.** Two contexts that merge bring both
+   their verdicts, one wins silently, and nothing flags the contradiction — neither
+   `staleVerdicts` nor `orphanedVerdicts` can see it, because each row is individually
+   ordinary. Measured: a `conformant` and a `deviation` on one subject collided at a merge,
+   the `conformant` survived onto the merged context and the deviation was orphaned out of
+   sight. It was the true one, and it was still live four weeks later. A merge can promote
+   the more flattering of two verdicts, so the carried verdict is the one to distrust.
 4. **Otherwise**: `state: "unknown"` pairs with `confidence: "strong"`, preferring contexts
    with many governing subjects (a dense context pays back the read) and contexts whose
    paths were touched recently in git.
@@ -109,7 +118,12 @@ For each chosen pair:
 3. Check for an application on this repo's stack (`applications/<stack>--<technique>.md`).
    It is teaching material with real citations, not a mandate, and it usually shows the
    shape a conformant realization takes.
-4. **Only now** open the context's code, from the map row's `paths`.
+4. **Only now** open the context's code — and not only from the map row's `paths`, which is
+   a TWELVE-PATH SAMPLE (`build-registry-map.mjs` publishes `c.paths.slice(0, 12)` while
+   matching against up to sixty). Read the project's own `context-map.json` for the real
+   list. Measured in one repo on one run: the sole anchor for a surviving deviation was
+   absent from the sample in three separate contexts, and a judge working from the sample
+   alone returns `conformant` on all three.
 
 Reading the code first is how an audit turns into a description of what the code already
 does. The standard has to be in your head before the code is, or you will grade the repo
@@ -137,6 +151,12 @@ packages, and an anchor that does not resolve is not evidence. This applies to a
 verdicts, `not-applicable` included: "the repo has no worker tier" is a sentence;
 "`Cargo.toml:1` declares four crates, none a worker" is an anchor.
 
+**"It resolves" is the wrong check — a blank line resolves.** Print every anchor's line back
+(`sed -n "<n>p" <path>`) and read it before writing the verdict; the test is whether that line
+SAYS what the evidence claims. Measured on one run: four of twenty-three anchors first landed
+on a blank line, a `*/`, or the line above the construct, because the author recorded the line
+they had scrolled to rather than the line the construct sits on. All four resolved.
+
 Three rules that keep verdicts honest:
 
 - **`not-applicable` is a real verdict and must be argued and anchored.** It is the honest
@@ -159,9 +179,17 @@ Update each evaluated pair in `.ai/registry-map.json`, in place, changing nothin
   "evaluatedRevision": 4 }
 ```
 
-- `evaluatedAgainst` is the pair's `digest` at the time you judged - the subject's own
-  content digest, not the bundle's. Copy it verbatim; it is what makes `--stale` work later,
-  and it goes stale only when THAT subject changes. Remove a `stale: true` you have re-judged.
+- `evaluatedAgainst` is the digest of the subject **as you actually read it** - the subject's
+  own content digest, not the bundle's. It is what makes `--stale` work later, and it goes
+  stale only when THAT subject changes. Remove a `stale: true` you have re-judged.
+  **Take it from the registry's `index.json` when the registry is reachable, and fall back
+  to the pair's copy only when it is not.** The pair's copy is the digest the map was BUILT
+  with, and a map can lag the corpus by hours: measured on 2026-09-20, five projects' maps
+  were rebuilt at 14:35 and a technique landed in `table` the same afternoon, so every pair
+  still read revision 4 while every reader was reading revision 5. Copying the pair's digest
+  verbatim would have stamped those verdicts as current against a version of the subject
+  nobody read - the one error this field exists to make impossible. Say in the report when
+  the two disagreed and which you wrote.
 - `evaluatedRevision` is the pair's `revision` at the time you judged - the subject's
   revision counter, mirrored from the bundle index beside `changedAt`. Copy it verbatim
   beside `evaluatedAgainst`; it is what makes `revisionsBehind` (`revision -
@@ -192,11 +220,30 @@ forward exactly like verdicts, because a pairing somebody established by reading
 worth more than one a token overlap produced. Add the pair, then judge it like any other
 (usually in the next run; establishing the pairing is enough for this one).
 
+**Before adding a pair the matcher scored at zero, read the golden path's "when NOT to use
+this" section.** A subject that scored zero and a surface that should not carry that subject
+are indistinguishable from the map, and the correction for the first is the mistake for the
+second. The test is cheap and it fires often: in one wave it stopped four unearned pairings
+on card grids and a log feed in one repository, and a deck of four cards and a virtualized
+collection grid in two others - every one of them a surface the governing subject's own
+opening section tells you not to build that way. An unearned pairing is worse than none,
+because the next run inherits it as established.
+
 **Commit the map edit — it is the deliverable.** The verdicts are the expensive part of the
 run, and an uncommitted `.ai/registry-map.json` is a run that produced nothing durable. Default:
-one path-scoped commit, `conform: <n> verdicts on <context>`, staging `.ai/registry-map.json`
-(and the gap-register file if this repo keeps one) by explicit path — never `-A`. Commit on the
-current branch; do not push. If the tree is dirty with another session's work, commit *your*
+one path-scoped commit, `conform: <n> verdicts on <context>`, naming `.ai/registry-map.json`
+(and the gap-register file if this repo keeps one) by explicit path — never `-A`.
+
+**Put the pathspec on the COMMIT, not only on the `git add`.** Staging by explicit path is not
+enough: `git commit -F <msg>` with no pathspec commits the whole INDEX, including anything a
+sibling session staged before you arrived. Measured on 2026-09-20, that swept another session's
+pre-staged file into a conform commit, and in the same wave a second repository was holding
+sixty-five staged files from a live feature branch. Write it `git commit -F <msg> --
+.ai/registry-map.json`, and read `git diff --cached --name-only` first so you know what you are
+standing next to. If it has already happened, `git reset --soft HEAD~1` restores the index
+intact; recover, then re-commit with the `--` form.
+
+Commit on the current branch; do not push. If the tree is dirty with another session's work, commit *your*
 paths only and say so in the report. If the task forbids committing, say plainly that the map
 edit is uncommitted and name the file.
 
@@ -210,6 +257,13 @@ When a context leaves the context map, the generator does not discard its verdic
 are retained under the map's top-level `orphans[]` as
 `{ context, name, group, paths, subjects: [<pairs>] }`, and `stats.orphanedVerdicts` counts
 them. Each is a decision waiting for a reader, and this skill is the reader:
+
+**Route an orphan by the files its own `evidence` anchors, not by its bulk path list** — the
+list in the map is a twelve-path sample and it disagreed with the anchors twice in one run.
+And **never copy an orphan's `digest`**: it is metadata from the build that orphaned it, so
+copying it stamps a verdict against a version of the subject that no longer exists. Measured:
+three orphans in one repo carried digests the index had moved past. Take the current one, or
+leave the pair unjudged.
 
 - **Adopt** - when the code the verdicts were about now lives under another context (a
   split, a move the renamer did not catch), move the pair under that context's

@@ -6,7 +6,7 @@ technique: incremental-window-accounting
 status: forged
 laws: [server-owns-the-accounting-clock]
 shared_with: []
-use_when: [admission cost grows with rolling-window size, maintaining rolling usage totals on the ingest hot path, proving a usage cache equals its full-scan reference]
+use_when: [admission cost grows with rolling-window size, maintaining rolling usage totals on the ingest hot path, proving a usage cache equals its full-scan reference, a batch folds into the cache inside a transaction that can roll back]
 ---
 
 # Incremental window accounting
@@ -60,6 +60,45 @@ out of the window on the next eviction pass, un-spending itself. Clients
 keep their event time for debugging and display; the accounting window is
 windowed on receipt, where the server is the sole author. Break timestamp
 ties with the insertion cursor so eviction order is total.
+
+## The fold must not outlive the transaction
+
+Batch admission puts the fold *inside* a transaction: each accepted row is
+written and folded into the cache so the next item in the batch is evaluated
+against a total that already contains its predecessors. If that transaction
+then fails to commit, the cache is holding two errors at once, and only one
+of them is the obvious one.
+
+The obvious error is the **phantom**: contributions from rows that no longer
+exist. It over-counts, which is the safe direction, and it is the one the
+reassuring comment gets written about.
+
+The dangerous error is the **advanced cursor**. Insertion ids are not
+reserved forever by a rolled-back write — a store that derives the id from
+the current maximum hands the freed ids straight to the next events. The
+cursor is already past them, and the cursor is the exactly-once mechanism:
+those events will never be folded in, for the life of the process. That is
+an under-count, the unsafe direction, and it grows silently while the cache
+still answers every read.
+
+So: **on a failed commit, reset the cache and rebuild from the store.**
+Restoring the cursor alone is not a fix and is worth naming because it is the
+obvious one — it un-hides the next events but leaves the rolled-back
+contributions in the total, so the ledger now counts rows that do not exist
+*plus* rows that do. Both halves of the fold are undone together or neither
+is. A full reload on the next admission is cheap next to a cap that can be
+walked past indefinitely.
+
+Two properties make this reachable rather than theoretical. Confirm that the
+store actually reuses insertion ids after a rollback — it is a property of
+how the id is generated, not a universal, and the answer decides whether the
+cursor error exists at all. And notice that the damage is **uneven across
+the cached fields**: a cache that both keeps a phantom and misses a
+replacement can report the right event *count* at the wrong *cost*, so a
+reconciliation that checks only the headline call count passes while the
+money is wrong. Compare every field against the reference, and prefer a
+reference comparison over an eyeball on the one number that happens to be
+easy to read.
 
 ## Exactness is proven, not asserted
 

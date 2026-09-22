@@ -14,6 +14,7 @@ techniques:
   - async-run-queue-with-cancel
   - failure-clustering-recommendations
   - handicap-disclosure-in-the-result-row
+  - axes-and-caveats-live-at-the-surface
   - cheapest-sufficient-configuration
   - entitlement-exhaustion-is-not-ill-health
 ---
@@ -85,6 +86,14 @@ honest. Run it out of order and the failure is silent, which is the worst kind.
    name one configuration, "cheapest not significantly worse than the best" is
    the primitive, and both halves are tested rather than eyeballed
    (cheapest-sufficient-configuration).
+
+Every link in that chain has two outward faces — the declaration a caller writes
+against, and the artifact a reader sees — and a field that exists in the run but
+at neither of them does not exist at all. An axis absent from the contract
+callers read is an axis nobody varies; a caveat printed on only one branch of
+the verdict is missing from exactly the sentence that claims the most. Both fail
+without an error, which is why the surfaces are enumerated deliberately rather
+than noticed (axes-and-caveats-live-at-the-surface).
 
 ## The three-axis reading is the point
 

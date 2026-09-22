@@ -87,6 +87,21 @@ unfilterable-to precisely because they are new. Facets over open vocabularies
 (tags, owners) derive their options from the data — which means the option
 list is itself a query with a staleness story.
 
+Two different defects make an option list shrink, and the fix for one is
+routinely mistaken for the fix for the other. A list built from the
+*currently filtered* rows shrinks as the user filters, stranding them in a
+corner they cannot climb out of; the fix is to build it from the whole row
+set, and for an open vocabulary that is the entire rule. A list built from
+the whole row set still shrinks with the *data*: a closed vocabulary's value
+that happens to have no rows today is not offered at all, and the user who
+knows the value exists reads its absence as the surface having lost it. That
+is the hidden treatment of zero counts, arrived at by accident instead of
+declared — and it falls hardest on exactly the values someone opens a filter
+to check, the empty ones. The two sources are one line of code apart and
+identical in review, so name the source beside the list: from the vocabulary
+for a closed one, its empty values rendered dead rather than dropped; from
+all rows — never the filtered ones — for an open one.
+
 ## The completeness precondition
 
 A filter evaluated in memory carries an obligation the server-evaluated kind
@@ -122,7 +137,19 @@ user mid-way through different data. **Reset to the first page on any filter
 change — reset, not clamp.** The same applies to cursors: a keyset cursor
 minted under one predicate must not be resumed under another. Surfaces that
 skip this ship the classic pair of defects — "page 2 of the filtered list is
-empty" and "I filtered and it kept me on page 3".
+empty" and "I filtered and it kept me on page 3". *Any* change includes the
+ones that widen: a clear-all is a filter change, and it is the path that most
+often misses the reset, because it was written after the per-control ones and
+because its consequence — a window larger than the set it was minted for —
+looks harmless until an affordance for the rest of the rows lingers with
+nothing behind it.
+
+Where the filtered surface is a table, the predicate's whole lifecycle — the
+entered-versus-applied split, where each control commits, which in-flight
+response is allowed to land, what happens to selection when the rows change —
+is the table subject's filtering technique, and this rule is stated there as
+well because the window is a table's own. What stays here is the facet: the
+dimension, its vocabulary, its counts, and filter state's life as a location.
 
 ## Filter state is navigational state
 
@@ -140,6 +167,23 @@ The active filter set is part of where the user *is*:
 - **It is shareable when locations are shareable.** If the surface has
   addressable locations, the filter state serializes into them, so a
   colleague opening the shared address sees the same slice.
+- **The location is shared with every other surface, so each parameter
+  declares its scope.** The moment filter state lives in the address, one
+  namespace carries the filters of every view reachable from here, and a move
+  between views must answer, per parameter, whether it is *view-scoped* (a
+  selection, a drill-in, a free-text query, a one-shot return flag — it must
+  not follow) or *ambient* (a period, a workspace, an environment — carrying
+  it across is the entire point of it). Getting it wrong outward opens a view
+  silently narrowed by a predicate its own controls never showed, which is
+  the invisible-filter defect arriving through a link instead of a default;
+  getting it wrong inward resets the user's chosen period on every click. The
+  answer is **one declared list of the view-scoped keys**, and the move clears
+  by that list — never a set of keys written out at the navigation site, which
+  is precisely the literal that rots the next time a parameter is added, and
+  rots invisibly, because the leak it opens looks like a filter the user must
+  have set. Watch the parameter two views happen to share: the same key
+  meaning the same kind of thing on both is still view-scoped, and a move
+  between them must clear it rather than treat the coincidence as continuity.
 - **Defaults are declared.** A surface that opens pre-filtered (current
   period, active-only) shows those defaults as removable chips like any user
   choice. A default the user cannot see is a default they cannot remove.

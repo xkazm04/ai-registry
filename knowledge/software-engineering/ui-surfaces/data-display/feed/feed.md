@@ -130,7 +130,12 @@ measured failure:
   of the timeline (source A's page ends at noon, source B's rows from the
   morning show anyway) reads as "nothing happened at noon", which is false.
   Clamp the visible union at the least-loaded source's horizon; a shorter
-  honest feed beats a longer holed one.
+  honest feed beats a longer holed one. The clamp can also be designed away
+  rather than computed: when every source's budget is at least the size of
+  the window the union will actually render, no source can run out before the
+  window is filled and the hole cannot form. That is the cheap shape for a
+  small fixed window — a badge's list, a digest panel — and it stops being
+  available the moment the union is paged.
 
 ## Live arrivals respect the reader
 

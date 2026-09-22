@@ -145,6 +145,23 @@ partial (truncated, degraded), the summary says so — "3+ fields changed"
 or "partial comparison" — because a precise number over an imprecise
 body is false precision wearing a badge.
 
+The rule has a direction most surfaces miss. When a comparison's claim is
+*refused* — the pair turned out not to be attributable, the movement fell
+inside the noise band, one side was never measured — everything that restates
+that claim in other words has to be refused with it. The number is usually the
+only thing withheld, because the number is what the refusal was written
+against; the prose narration of the same movement, the headline, the badge
+copy, the generated summary sentence all survive and go on asserting in words
+exactly what the refusal just suppressed in digits. A surface that suppresses
+"+12" and keeps "rose sharply after the test suite landed" has refused nothing.
+
+What does *not* travel with the refusal is the underlying observation. The raw
+evidence — the individual differences that were seen, unsummarised — was never
+a claim about causation or magnitude; it is what was observed. Withholding it
+alongside the claim trades one dishonesty for another, because the reader then
+cannot tell a refused comparison from an empty one. Refuse the claim and every
+paraphrase of it; keep the observations and say which they are.
+
 ## Honesty compounds
 
 None of these disclosures is expensive; each is a label, a third state, a

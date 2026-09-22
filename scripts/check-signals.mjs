@@ -30,9 +30,15 @@ const LANE = path.join(ROOT, 'signals');
 const KNOWLEDGE = path.join(ROOT, 'knowledge');
 
 const SCHEMA = 'rkb-signals/1';
-const TOP_KEYS = new Set(['schema', 'contributor', 'app', 'generatedAt', 'windowDays', 'stack', 'bundles']);
-const BUNDLE_KEYS = new Set(['consults', 'deviations', 'citations']);
+const TOP_KEYS = new Set(['schema', 'contributor', 'app', 'generatedAt', 'windowDays', 'stack', 'bundles', 'meta']);
+const BUNDLE_KEYS = new Set(['consults', 'deviations', 'citations', 'councils']);
 const CITATION_KEYS = new Set(['resolved', 'moved', 'gone']);
+const COUNCIL_KEYS = new Set(['approved', 'rejected']);
+// `meta` is a closed set of DENOMINATORS, never a notes field. It exists so an absent
+// observation can be told from an unread one: a bundle with no `councils` means either
+// "no project logged a council decision" or "no project was readable", and only a count of
+// what was read separates them. A key here must be a bare non-negative integer.
+const META_KEYS = new Set(['councils_projects_read']);
 const CONTRIBUTOR_RE = /^[a-z0-9][a-z0-9-]*$/;
 const ISO_RE = /^\d{4}-\d{2}-\d{2}T[\d:.]+(?:Z|[+-]\d{2}:\d{2})$/;
 const SLUG_RE = /^[a-z0-9][a-z0-9-]*$/;
@@ -181,6 +187,18 @@ for (const file of files) {
     }
   }
 
+  // -- meta (optional; closed set of counts)
+  if (doc.meta !== undefined) {
+    if (doc.meta === null || typeof doc.meta !== 'object' || Array.isArray(doc.meta)) {
+      fail(`${rel}: meta must be an object of denominator → count`);
+    } else {
+      for (const [k, v] of Object.entries(doc.meta)) {
+        if (!META_KEYS.has(k)) fail(`${rel}: meta has unexpected key "${k}" — the spec names ${[...META_KEYS].join(', ')}`);
+        else if (!Number.isInteger(v) || v < 0) fail(`${rel}: meta["${k}"] must be a non-negative integer — found ${JSON.stringify(v)}`);
+      }
+    }
+  }
+
   // -- bundles
   if (doc.bundles === null || typeof doc.bundles !== 'object' || Array.isArray(doc.bundles)) {
     fail(`${rel}: bundles must be an object of bundle name → observations`);
@@ -226,6 +244,41 @@ for (const file of files) {
         count(`bundles["${bundleName}"].${which}["${slug}"]`, n);
         if (known && !known.subjects.has(slug)) {
           notes.push(`${rel} reports ${which} for "${bundleName}/${slug}", which has no subject here`);
+        }
+      }
+    }
+
+    // A council decision is a HUMAN verdict on work that cited a subject. It crosses the
+    // boundary as two counts and a slug and nothing else: which feature, in which repo,
+    // for which reason, all stay on the machine that decided.
+    const councils = obs.councils;
+    if (councils !== undefined) {
+      if (councils === null || typeof councils !== 'object' || Array.isArray(councils)) {
+        fail(`${rel}: bundles["${bundleName}"].councils must be an object of subject slug → {approved, rejected}`);
+      } else {
+        for (const [slug, verdict] of Object.entries(councils)) {
+          if (!SLUG_RE.test(slug)) {
+            fail(`${rel}: councils key "${slug}" is not a bare subject slug — never a path (docs/signals-lane.md)`);
+            continue;
+          }
+          if (verdict === null || typeof verdict !== 'object' || Array.isArray(verdict)) {
+            fail(`${rel}: councils["${slug}"] must be an object of ${[...COUNCIL_KEYS].join(' / ')} counts`);
+            continue;
+          }
+          for (const k of Object.keys(verdict)) {
+            if (!COUNCIL_KEYS.has(k)) {
+              fail(
+                `${rel}: councils["${slug}"] has unexpected key "${k}" — the verdict is counts only; ` +
+                  'WHICH feature was rejected and why is a fact about one tree and stays there',
+              );
+            }
+          }
+          for (const k of COUNCIL_KEYS) {
+            if (verdict[k] !== undefined) count(`councils["${slug}"].${k}`, verdict[k]);
+          }
+          if (known && !known.subjects.has(slug)) {
+            notes.push(`${rel} reports councils for "${bundleName}/${slug}", which has no subject here`);
+          }
         }
       }
     }

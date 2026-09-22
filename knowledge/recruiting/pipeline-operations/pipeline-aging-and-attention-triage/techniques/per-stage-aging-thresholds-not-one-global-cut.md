@@ -43,6 +43,31 @@ Practical consequences:
 - Two boards using different words for the same role get the same threshold,
   and the workspace summary stays comparable.
 
+### The role lookup needs the board in scope
+
+Keying by role is a statement about the *table*. It is only realised if the
+**resolver can see the board being rendered**. Where the stage axis is editable
+— a team composes its own columns — a stage identifier alone does not determine
+a role, so a resolver whose inputs are the stage and the overrides has no way to
+answer the role question, and it will answer the name question instead. Make the
+axis a parameter of the resolution, passed by every caller from the board it is
+rendering, rather than an ambient default that quietly resolves to the shipped
+columns.
+
+The failure this closes is hard to see, and that is what makes it expensive.
+The shipped columns keep firing correctly, because theirs are the identifiers
+the name-keyed table was built from. Only the columns a team *added* degrade,
+silently and uniformly, to whatever the fallback cut is. The board looks alive,
+the counts look plausible, and the teams who customised their funnel — the ones
+most likely to believe the tool fits their process — are the ones flying blind.
+Nothing on screen admits the change, because nothing failed.
+
+One tell is worth checking on the same pass: a threshold editor that iterates
+the *published* vocabulary rather than the board's own columns will offer inputs
+for columns nobody renders, and none for the columns that are there. Two
+surfaces derived from two different answers to "what are this board's stages?"
+is the same defect showing twice.
+
 ## Shape of the table
 
 The defaults want to be *legible*, so a recruiting lead can argue with them.
@@ -54,6 +79,7 @@ row. The shape that survives contact with real funnels:
 | Entry / new arrivals | longest | high volume, batch triage is legitimate, most entries here are genuinely untouched by design |
 | Screening | medium | a person has begun work; a week of nothing means it was dropped |
 | Interview | shorter | scheduling is in flight and coordination decays fast |
+| Work the candidate owes | at least as long as the step before it | the wait is their unpaid evening work, not your silence — see below |
 | Offer | shortest | every day of silence measurably costs acceptance, and the candidate is almost certainly holding another process open |
 | Terminal | none | see terminal-stages-never-age |
 
@@ -63,6 +89,20 @@ universal. What does not vary is the **ordering**: thresholds shorten
 monotonically as the candidate invests more. The reason is not that late stages
 are more valuable to you. It is that the candidate's cost of your silence rises
 with every step they take toward you.
+
+That reasoning also names the ordering's one principled exception: the stage
+where **the next move is theirs**. A take-home, a case study, a portfolio they
+were asked to assemble — the clock there is not measuring your silence, it is
+measuring their unpaid evening work. A threshold set on the interview cadence
+fires before a working person has had a weekend, and what it produces is a nudge
+that reads as pressure applied to labour you are not paying for. Such a stage
+takes a threshold at least as long as the step before it, derived from the size
+of the work you asked for rather than from the stage's position in the funnel.
+
+The test is not the stage's name but its direction: **who owes the next action?**
+Where it is you, the ordering holds and the badge is a stall alarm. Where it is
+the candidate, the count is a courtesy timer, and what it should prompt is a
+check that they have everything they need — not an alert that they are late.
 
 ## Deriving a threshold honestly
 
@@ -98,6 +138,9 @@ how an entry disappears for a quarter.
 - When a stage's role is known and its threshold is exceeded, mark the entry
   aging — do not act on it.
 - When a stage's role is unknown, render no aging state at all.
+- Resolve a threshold against the axis the entry's own board renders. A
+  resolver that cannot name the board cannot name the role, and will silently
+  fall back to matching the name.
 - When a team asks for a longer threshold on a specific board, give them a
   documented per-board override rather than moving the default (see
   overridable-defaults-with-a-server-side-approximation).

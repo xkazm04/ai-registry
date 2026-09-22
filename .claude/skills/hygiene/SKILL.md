@@ -3,7 +3,7 @@ name: hygiene
 description: "Start-of-day fleet sweep before any development: scan every project registered on this machine for open pull requests, merged or abandoned branches and worktrees, a red default branch, and open GitHub security alerts (code scanning, secret scanning, Dependabot). Cleans up what is mechanical itself, then dispatches one Sonnet worker per project to ship, repair, merge, delete or fix the rest onto main/master, and hands back only what needs a human. Use at the start of a day, or when branches, PRs and alerts have piled up across the fleet."
 category: ai-native
 memory: project
-version: 1.0.2
+version: 1.0.4
 tags: fleet, hygiene, pull-requests, branches, worktrees, security-alerts, ship, dispatch, sonnet-workers, start-of-day
 ---
 
@@ -84,6 +84,10 @@ classes:
 If the plan looks wrong, fix `scripts/hygiene-scan.mjs` - never override a class by
 hand in the run. A classification the director overrides once is overridden
 differently tomorrow.
+
+Re-verify any change to it against **a project you already know is red and one you know is
+green**, before and after. Every wrong version of the 2026-09-21 CI-selection fix made the
+table calmer than the truth - an all-green control set would have passed all three.
 
 ## Phase 0 - Preflight
 

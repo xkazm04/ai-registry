@@ -11,6 +11,7 @@ techniques:
   - direction-as-first-class-produce-input
   - seed-entities-and-walker-coverage
   - packaging-exempt-two-state-rule
+  - producer-facts-are-observed-not-declared
 ---
 
 # Catalog pipeline authoring
@@ -139,6 +140,35 @@ downstream. The neighbouring concern of revision history, drift detection and bi
 a verdict to the content it judged is a separate subject; the seam is that this side
 owns *capturing what was asked for at authoring time*, and that side owns *what
 happens to it when the content later changes*.
+
+## What the catalog records about its own producers
+
+The stamp above is authoring provenance captured at the moment of the request.
+The system also records facts *about the producers themselves* — whether this
+producer can consume a steer at all, which engine made this artifact, which
+engine makes each of these hundreds of steps — and every one of those has a
+cheap answer and a true one. The cheap answer is a field somebody authored. The
+true answer comes from the party that can observe what the field claims.
+
+At catalog scale the difference is not stylistic. A boolean on several hundred
+specs saying "this producer reads the direction" is a claim about a function
+body maintained beside that body, and the two edits are separable, so the field
+degrades into a record of what the producers used to do. A provenance field a
+caller may write is a field a caller may fabricate — the self-certifying hole
+reopened one field over, in a system that already closed it for verdicts. And a
+heuristic filling in what nothing observed will be displayed beside facts that
+were actually observed, indistinguishable from them.
+
+So: derive from the body where the body can be asked; let only the party that
+dispatched the work attest that it ran; and where nothing can observe the fact,
+record the stated absence rather than a guess. The consequence people skip is
+that the derived fact must then **gate what the interface offers** — an
+offered corrective run whose producer provably cannot read the instruction is a
+no-op the operator is invited to click, forever. And before funding a campaign
+to author the unobservable across hundreds of items, measure what the guesser
+actually decides and how often it agrees where something stronger exists;
+finding the campaign unwarranted is the measurement succeeding. The rule is
+stated in producer-facts-are-observed-not-declared.
 
 ## Proving the line works at all
 

@@ -6,7 +6,7 @@ technique: vision-model-grading-schema
 status: forged
 laws: [unmeasured-is-not-pass, checkability-routes-the-pixel]
 shared_with: []
-use_when: [automating judgement of generated images, a sharp field keeps producing arguable answers because the cases are borderline, deciding whether a grader may return a distribution instead of a label, a second grader is proposed for a whole batch, designing the fields a vision grader must fill, deciding what a machine grader can and cannot be trusted with, a failure everyone can see never shows up in the grades]
+use_when: [automating judgement of generated images, a sharp field keeps producing arguable answers because the cases are borderline, deciding whether a grader may return a distribution instead of a label, a second grader is proposed for a whole batch, designing the fields a vision grader must fill, deciding what a machine grader can and cannot be trusted with, a failure everyone can see never shows up in the grades, comparing two models as graders and one looks out of its depth, a readback has to capture a style rather than score it]
 ---
 
 # Vision-model grading schema
@@ -178,6 +178,50 @@ discipline rather than invented here:
   beside any band, and when it is the majority, drop the band and keep the
   discrete grade.
 
+### Spread is not information, and the check for that is a different check
+
+The saturation rule above asks whether the distribution has any resolution. It
+is necessary and it is **not sufficient**, and the gap between the two is where
+a measured attempt at this failed.
+
+Eighteen labelled concept images through a locally served grader, one call each,
+the distribution read from the same response: the answers were **not** saturated
+— a median peak probability of 0.71, one cell of eighteen above 0.99 — so the
+band had plenty of room to sit. It still bought nothing. Borderline-ness ranked
+the gate's own errors at an **AUROC of 0.54**, which is a coin flip, and the
+probability-weighted mean *reduced* the separation between good and bad inputs
+against the stated integer (0.68 against 0.70). Both of the gate's false passes
+were held confidently: a user-interface wireframe, which cannot be turned into a
+mesh at all, scored 9 with two thirds of the mass on 9.
+
+The reading is the subject's characteristic failure arriving in the grading lane
+rather than a new one. A distribution reports how firmly the model committed. It
+has no channel to the image, so a grader that is confidently wrong about a
+wireframe produces a confident distribution about a wireframe. Spread and
+correctness are different quantities, and one does not stand in for the other
+merely because it is cheap.
+
+So the admission test is a **correlation, measured on labelled cells**, not a
+spread:
+
+> **Before a band routes anything, show that borderline-ness ranks this
+> grader's errors on this field above chance.** Report the AUROC beside the
+> band. Where it sits at chance, the distribution is a diagnostic to log and not
+> a router, and the second grader goes back on every cell.
+
+Two practical traps the same measurement surfaced, both cheap to avoid:
+
+- **A two-token score silently reads as its first digit.** On a 0–10 scale the
+  top answer is two tokens, so a distribution read at the score position scores
+  `10` as a `1` — which does not error, does not look wrong, and in the run that
+  found it produced an apparent eight-point correction that was pure artifact.
+  Keep the scale single-token (0–9), or reassemble the number before reading any
+  mass over it.
+- **A grader swap re-opens the threshold.** The same prompt and the same
+  `passAt` line, served by a different resident model, failed **every** correct
+  input in the set. A threshold is fitted to a grader, and a local substitution
+  is a grader change, not a deployment detail.
+
 ## The cost class decides whether this is free or a second bill
 
 Whether the shape costs anything is not a property of the technique. It is a
@@ -200,6 +244,91 @@ One consequence worth planning for: a batch graded locally can be **re-banded
 without re-grading**, because the distributions were stored. That is the
 regrade-without-regenerate move applied one layer up, and it is the reason to
 store the full distribution rather than the grade the band produced.
+
+## Two instruments per eye: one to score, one to see
+
+Everything above is written for one job — producing rows that aggregate — and
+read carelessly it says that free prose has no job at all: it does not
+aggregate, it does not diff, and a property whose only home is a free-text
+field is uncovered. All of that stands, **for grading**. None of it makes prose
+the weaker instrument, and a pipeline that owns only the enum pays for the
+confusion.
+
+A closed enumeration flattens *by design*. That is what makes the answers
+comparable and the arithmetic safe, and the price is that every value the
+enumeration does not distinguish becomes the nearest value it does. What gets
+flattened is predictable: **relations**. Which colour owns the ground and which
+owns the single accent; whether black is a flat fill or an opaque silhouette
+and how much of the frame it swallows; how many layers of light there are and
+what is left dark. Each of those is a relation across the frame, and a
+vocabulary of per-property fields has no cell that can hold one. The result is
+the schema defect this document opened with, in its hardest form to see: every
+field answered, one modal value down the whole batch, and no trace of a
+difference a reviewer spots at a glance. Observed in a live loop on two
+consecutive comparison cycles (2026-08-30): the enum readback returned flat
+across both while a second, unconstrained eye picked the challenger four times
+in six on each — the enum could not see a lifted black or a change of colour
+role, so the human gate was the only instrument those cycles had.
+
+The answer is not a wider enumeration. It is a second readback with a different
+job:
+
+> **Keep two instruments per eye and never conflate them: a closed-enum schema
+> for GRADING, and a taught free-prose read for SEEING. The enum's output is a
+> row; the deep read's output is a description a person or a generator can act
+> on. Neither is scored on the other's terms.**
+
+"Taught" carries the weight. An untaught free-prose read is the fluent generic
+paragraph that [replication-as-comprehension-test](./replication-as-comprehension-test.md)
+exists to catch, and it fails for the same reason a free-text schema field
+does. A taught read *names the relations it must cover* — ownership of ground,
+figure and accent, and what is deliberately absent; black as a shape and its
+share of the frame; the dominant source and the second environmental layer, and
+what stays dark; where edges are lost against where they are found — and then
+asks for them in prose, because prose is the form a relation fits. It is a
+structured instrument whose structure lives in the **question** rather than in
+the answer type, which is exactly why it must not be graded: the moment its
+output is scored, it is being asked to aggregate, and it will be cut back to an
+enumeration by whoever has to aggregate it.
+
+### Before buying parameters, buy a better question
+
+The second instrument also changes what a comparison between graders means. A
+reader of one size returning a thin readback where a much larger one returns a
+rich one looks like a capability gap, and capability is the expensive
+explanation. The cheap one has to be excluded first:
+
+> **When comparing models as eyes, hold the question constant — and before
+> concluding that a small reader cannot see something, re-ask it with the
+> question the large one demonstrated.**
+
+The demonstration on record: a hosted reader of roughly 300-billion-parameter
+class read craft — palette roles, black-as-silhouette, layered light — that a
+locally served reader of roughly 27-billion-parameter class had flattened under
+a schema-constrained prompt, at about twenty-three minutes per frame. Re-asking
+the small reader with the vocabulary the large one had demonstrated produced
+readbacks covering the same relations, at about twenty-five seconds per frame
+and no marginal cost (three frames, two arms each, 2026-09-03). Two honesties
+about that figure: n is three, so it is a demonstration and not a rate; and the
+comparison of *depth* was a human reading of two prose passages, not a scored
+one — the timing and the cost are the measured parts. It is still enough to
+make the cheap check mandatory before the expensive conclusion, because an
+elicitation gap and a capability gap present identically and have opposite
+fixes.
+
+### The deep read is not a grader in disguise
+
+The pull, once the prose reads well, is to promote it — to let the rich
+readback carry a verdict because it is so obviously seeing more. Refuse it. The
+prose read carries no comparable scale and no confidence a pipeline can route
+on, and this subject has already measured what happens when a grader's own
+confidence is trusted as a proxy for its correctness: at chance, on cells where
+the distribution had ample room to discriminate. A deep read that reads well is
+evidence that the **question** was good. It is not evidence that the answer is
+right, and the characteristic failure of this whole lane — confidently wrong,
+scoring high — reaches fluent prose at least as easily as it reaches a number.
+The deep read earns its place by what it recovers for the next step: a style
+contract, a critique, a brief to regenerate from. Never by scoring higher.
 
 ## When not to use it
 

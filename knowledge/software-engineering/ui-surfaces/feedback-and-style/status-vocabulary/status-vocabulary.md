@@ -87,7 +87,9 @@ the contrast floor, and the day the vocabulary gains a member.
 The structural rule is one presentation table per vocabulary, keyed by the
 wire type, carrying the color role *and* the label key together — because
 two parallel tables (one for color, one for labels) drift precisely when a
-member is added to one of them. And the table needs a decided **unknown
+member is added to one of them. Making each parallel table total over the
+vocabulary closes that hole and leaves the other one open: totality is
+checked by the type system, agreement between the tables' values is not. And the table needs a decided **unknown
 direction**: an unrecognized token degrades *toward the value that demands
 attention, never toward the calm one*. A token you do not know is a token
 you cannot vouch for; rendering it green and rendering its raw spelling
@@ -114,7 +116,10 @@ notation are all the primitive's decisions too:
 A stored moment is a point on the timeline; what a person reads is a
 projection of it through a timezone, a locale, and a style — and any
 render that does not supply those inputs has taken them from the host
-machine, silently. The house policy is: **relative by default, absolute
+machine, silently. A surface that renders twice — once wherever it is
+prepared, once in front of the reader — has taken them from two different
+machines, so the present instant and the locale are both inputs that must
+cross that seam rather than be read on each side of it. The house policy is: **relative by default, absolute
 one hover away**, elapsed labels refreshed by **one shared, self-scaling
 ticker** (never a per-cell timer), the elapsed vocabulary taken from the
 platform rather than authored per call site, and the future clamped —

@@ -9,6 +9,7 @@ techniques:
   - engine-selection
   - performance-discipline
   - taste-budgets
+  - continuity-across-change
   - one-shot-guarding
   - reduced-motion-mechanics
   - content-bearing-degradation
@@ -160,6 +161,37 @@ therefore *numbers*, owned centrally, not sensibilities:
 
 The ladders, caps, and the class hierarchy that decides which motion is even
 eligible for a surface are [taste-budgets](./techniques/taste-budgets.md).
+
+## The budget's best purchase is a change, not an entrance
+
+Where that budget is spent matters more than how large it is, and the default
+allocation is backwards. An entrance is seen once, by a reader who has not
+started; a change happens while they are reading, at the moment they were about
+to act. The transition class is where motion earns its cost, and it earns it by
+doing one job: making a change legible as *one thing becoming another* rather
+than as one thing disappearing and another appearing nearby.
+
+The default shape of a change — a condition flips, an element leaves, a
+different element arrives — gives the reader two events and asks them to
+assemble the change themselves. The countermeasure runs in a strict order.
+Where the element can stay mounted, it stays mounted and the property that
+changed is animated, because that is the only form that preserves what the
+platform attached to the element: focus, selection, scroll anchoring, an
+uncommitted edit. Where two elements genuinely must exist, they are given one
+**animation identity**, held by exactly one of them at a time, and the engine
+tweens a single object between two states — continuous to read, though the
+interaction state is still discarded, which is why it is the second choice and
+not the first. Where neither is available, the swap is made short and plain,
+because a cross-fade between two things a reader cannot match is not
+continuity.
+
+The same principle decides how much of a surface moves when part of it changes:
+the gesture belongs to the members that actually changed, derived from a delta
+over the data rather than from whatever re-rendered, so that the amount of
+movement is the size of the change and never the size of the surface. The
+identity rules, the preference order, the delta discipline, and the reduced form
+that withdraws an identity instead of zeroing its duration are
+[continuity-across-change](./techniques/continuity-across-change.md).
 
 ## Performance is architectural
 
@@ -339,6 +371,10 @@ for a component mounted outside the coordinator, and the recovery rules are
   shared engine, and the layout-thrash audit.
 - [taste-budgets](./techniques/taste-budgets.md) — the motion class hierarchy,
   duration caps, ambient distance bounds, and easing-family rules.
+- [continuity-across-change](./techniques/continuity-across-change.md) — the
+  swap as a discontinuity, one animation identity held by one element at a
+  time, why a matched pair keeps the reading but not the focus, and animating
+  the delta rather than the surface.
 - [one-shot-guarding](./techniques/one-shot-guarding.md) — identity-keyed
   entrance tracking, the replay bug class, and reset policy mechanics.
 - [reduced-motion-mechanics](./techniques/reduced-motion-mechanics.md) —

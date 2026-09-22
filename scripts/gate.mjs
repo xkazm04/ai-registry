@@ -53,6 +53,14 @@ const WEIGHTS = step('librarian-scan.mjs', { check: ['--check-weights'], write: 
 const TOOL_TESTS = step('run-tests.mjs');
 const SIMPLE_LANES = step('check-simple-lanes.mjs');
 const PROJECTS = step('check-projects.mjs');
+// The fleet cannot be measured from CI: every instrument that walks it resolves through
+// the gitignored machine bridge, and publishing that to satisfy a gate would trade a real
+// privacy rule for a green tick. So the gate checks the AGE of the last measurement
+// instead - `converge.mjs` runs where the fleet is visible and commits a public-safe
+// report, and this fails when nobody has looked recently. A red row here never means the
+// fleet is broken; it means it is unobserved, which is the drift that went unnoticed for
+// three weeks and produced 13 stale maps and 193 uncollected leads at once.
+const COVERAGE_AGE = step('check-coverage-age.mjs');
 const REVIEW_COVERAGE = step('review-coverage.mjs');
 
 // The catalog job's path filter covers knowledge/, skills/, practices/, memory/ and
@@ -75,7 +83,7 @@ const LANES = {
   memory: [SIMPLE_LANES, ...CATALOG_TAIL],
   // knowledge.yml `tooling` job: scripts/** and librarian/standard.md trigger it.
   scripts: [PROJECTS, EXIT_CONTRACT, WEIGHTS, TOOL_TESTS],
-  librarian: [WEIGHTS, REVIEW_COVERAGE],
+  librarian: [WEIGHTS, REVIEW_COVERAGE, COVERAGE_AGE],
 };
 
 // --all is not the concatenation of the lane rows: the shared tail would run five
@@ -83,7 +91,7 @@ const LANES = {
 // first, then knowledge.yml's bundles, index, usage, signals and catalog.
 const ALL = [
   CHECK_SKILLS, CLAUSES, MARKETPLACE,
-  CHECK_BUNDLES, INDEX, KNOWLEDGE_RULES, REVIEW_COVERAGE,
+  CHECK_BUNDLES, INDEX, KNOWLEDGE_RULES, REVIEW_COVERAGE, COVERAGE_AGE,
   CHECK_RECIPES, RECIPE_VIEWS, RECIPES_INDEX, SIMPLE_LANES,
   CHECK_USAGE, CHECK_RUNS, CHECK_SIGNALS,
   PROJECTS, EXIT_CONTRACT, WEIGHTS, TOOL_TESTS,

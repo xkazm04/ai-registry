@@ -96,6 +96,49 @@ still. This is the payoff for keying by identity rather than by load
 cycle: "first appearance" is decided per item, and the full-surface cascade
 versus the single-item entrance fall out of the same mechanism.
 
+## Two shapes that carry the contract without a growing set
+
+The seen-set is the general mechanism, and a surface that windows its rows,
+polls, and resorts needs all of it. Two narrower shapes satisfy the same
+contract with less machinery, and both are worth recognizing, because a reviewer
+who knows only the general mechanism reads them as missing guards.
+
+**The structural reset.** Where a subtree can mount for exactly one reason — it
+is assembled ahead of time, it does not refetch beneath itself, it is not
+windowed, and the only navigation that reaches it replaces it — then keying that
+subtree on the *question's* identity makes mount and first arrival the same
+event. The entrance replays on a context change because the subtree is genuinely
+new, and it cannot replay on a refresh because no refresh reaches it. The reset
+policy has not been skipped; it has been collapsed into the key, which is the one
+place it could drift to and the one place a reviewer will look.
+
+What makes this legitimate is a *precondition*, not a preference, and the
+precondition is the thing to write down beside the key: **mount has exactly one
+cause.** The day the panel gains a poll, a windowed list, or an enclosing
+navigation that remounts it, the same key becomes a replay engine, and nothing
+about the change announces it — the edit that breaks the contract is in a
+different file from the key that carried it. A structural reset with its
+precondition unstated is a guard that will be removed by someone who never knew
+it was one.
+
+**The short-lived arrived-set.** The memory can also be inverted. Instead of
+recording everything that has entered and defaulting to *animate*, record what
+just *changed* and default to *settled*: compare the previous snapshot with the
+current one, derive the identities that arrived or were rewritten, mark those,
+and clear the mark after a fixed window. The set is bounded by the size of one
+change rather than by the life of the surface, a re-render for any other reason
+finds nothing marked and plays nothing, and "already seen" needs no storage
+because it is the resting state.
+
+Two conditions keep it honest. **The first snapshot is history, whatever its
+age** — a surface opened onto work that has already happened must not animate it
+as if it had just arrived, so only a snapshot that *replaces* one is a change.
+And the window is a real limit: a change that lands while the mark is clearing,
+or an update the surface receives without re-deriving a delta, shows nothing at
+all. That is the trade — the growing set can always answer *has this been seen*,
+and the arrived-set can only answer *did this just change*, which is a different
+and smaller question that happens to be the one an entrance needs.
+
 ## Testing the contract
 
 Entrance replay is a defect almost no automated suite catches, because

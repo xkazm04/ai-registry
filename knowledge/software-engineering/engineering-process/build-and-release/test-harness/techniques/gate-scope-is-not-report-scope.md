@@ -6,7 +6,7 @@ technique: gate-scope-is-not-report-scope
 status: forged
 laws: [count-carries-predicate, failure-not-empty-success]
 shared_with: []
-use_when: [a coverage gate is green over a scoped include set, deciding which files a quality report is defined over, an untested directory has never appeared in any report, a coverage floor is met by tests that take no decision the code offers]
+use_when: [a coverage gate is green over a scoped include set, deciding which files a quality report is defined over, an untested directory has never appeared in any report, a coverage floor is met by tests that take no decision the code offers, a test claims a rule holds uniformly across a closed set of kinds, a parameterised test runs over a hand-written list of members]
 ---
 
 # The gate's scope is not the report's scope
@@ -52,6 +52,40 @@ work with an immediate red-green signal. The report's scope must be
 has thought about yet, and a hand-maintained list of things you have thought
 about cannot do that. A scope that must be extended by remembering to extend
 it converges on stale, and it fails in the direction that looks like success.
+
+## The same asymmetry inside a single test
+
+The include list is the large, visible case. The same defect appears at the
+smallest scale available, and there it is invisible because nothing is called a
+"scope" at all: **a test that claims a rule now holds uniformly across a closed
+set, running over a hand-written list of that set's members.**
+
+The list is written by the author who just fixed the members they were thinking
+about. It is therefore not a sample of the set — it is a sample *correlated with
+having been fixed*, and the member nobody listed is the member where the rule is
+still broken. The parameterised run then reports one green case per listed
+member, which reads exactly like coverage of the set.
+
+Measured: a suite opened with *no gate self-certifies … it is now uniform* and
+enumerated **six of the ten** members of a closed union of gate kinds. One of the
+four omitted still answered *passed* when it had nowhere to write its output, and
+had done so through every green run of that file since it was written. The six
+honest ones were exactly the six the list named.
+
+The repair is the report-scope rule applied to a case population: **derive it
+from the definition of the set.** Where the set is a type, the cheapest
+derivation available is a table keyed by that type — one the type checker refuses
+to accept until every member has an entry — so adding a member to the set fails
+the build rather than silently shrinking the claim. Where the set is a directory,
+a registry or a database of kinds, enumerate it from that source at run time and
+assert the count.
+
+A hand-written list remains correct for a **sub-population with its own
+predicate** — "these six, which take a command, also refuse when the command is
+missing" — and the discriminator is the sentence the file writes about itself. A
+list under a claim that says *every* is the defect; a list under a claim that
+names its members is a different test
+([count-carries-predicate](../../../../_laws.md#count-carries-predicate)).
 
 This is the same failure the harness's own lane health section describes, one
 level up: a lane that has never been green is visibly scaffolding, but a lane
@@ -160,3 +194,8 @@ And one against the number: **could a decision the source text offers be
 untaken by every test in the suite, and the figure be unchanged?** If yes, the
 figure is a line-criterion measurement, and it must say so wherever it renders.
 The fix is a second criterion published beside it, not a higher floor.
+
+And one against a uniformity claim: **could a member be added to the set this
+test says it covers, and nothing go red?** If yes, the population is a list and
+the claim is about the list. The fix is to derive the population from whatever
+defines the set, not to add the member you happened to notice.

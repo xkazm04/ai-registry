@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 232,
-  "techniques": 1780,
-  "applications": 1099,
+  "techniques": 1787,
+  "applications": 1129,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1780/1780",
+  "use_when_coverage": "1787/1787",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -29,9 +29,9 @@
    "subcategory": "feedback-and-style",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/accessibility/accessibility.md",
-   "digest": "sha256:e7079c6845ba0270",
-   "revision": 6,
-   "changedAt": "2026-09-01",
+   "digest": "sha256:d02f805a960c2f6c",
+   "revision": 7,
+   "changedAt": "2026-09-22",
    "techniques": [
     {
      "slug": "a11y-verification",
@@ -167,6 +167,13 @@
      "technique": "live-region-architecture",
      "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/accessibility/applications/react--live-region-architecture.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "react",
+     "technique": "name-and-description-wiring",
+     "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/accessibility/applications/react--name-and-description-wiring.md",
+     "verified_on": "2026-09-20",
+     "verified_against": "react@19"
     },
     {
      "stack": "react",
@@ -2478,9 +2485,9 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-runtime-assembly/agent-runtime-assembly.md",
-   "digest": "sha256:cf61b4f1e126acc8",
-   "revision": 22,
-   "changedAt": "2026-09-21",
+   "digest": "sha256:e2f38e9d0dea752a",
+   "revision": 23,
+   "changedAt": "2026-09-22",
    "techniques": [
     {
      "slug": "activation-is-a-separate-mutation",
@@ -2680,7 +2687,9 @@
       "a broken extension takes the host down",
       "a contributed hook's timeout ends the run as cancelled",
       "choosing whether a load failure is fatal",
-      "deciding whether a sandbox lets administrators install code through the product"
+      "deciding whether a sandbox lets administrators install code through the product",
+      "a configuration key names a path that a standing permission carve-out then trusts",
+      "auditing which settings tier may set the scope of an approval exemption"
      ],
      "stage": "team"
     },
@@ -3253,9 +3262,9 @@
    "subcategory": "feedback-and-style",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/async-ui-states/async-ui-states.md",
-   "digest": "sha256:4d89ccb3b7b69ed0",
-   "revision": 3,
-   "changedAt": "2026-08-31",
+   "digest": "sha256:9ba2dd1115069897",
+   "revision": 4,
+   "changedAt": "2026-09-22",
    "techniques": [
     {
      "slug": "action-busy-states",
@@ -3350,6 +3359,27 @@
     }
    ],
    "applications": [
+    {
+     "stack": "next",
+     "technique": "empty-state-design",
+     "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/async-ui-states/applications/next--empty-state-design.md",
+     "verified_on": "2026-09-20",
+     "verified_against": "next@16.3.3"
+    },
+    {
+     "stack": "next",
+     "technique": "placeholder-design",
+     "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/async-ui-states/applications/next--placeholder-design.md",
+     "verified_on": "2026-09-20",
+     "verified_against": "next@16.3.3"
+    },
+    {
+     "stack": "next",
+     "technique": "state-model",
+     "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/async-ui-states/applications/next--state-model.md",
+     "verified_on": "2026-09-20",
+     "verified_against": "next@16.3.3"
+    },
     {
      "stack": "react",
      "technique": "action-busy-states",
@@ -4651,9 +4681,9 @@
    "subcategory": "data-display",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/data-display/canvas-graph/canvas-graph.md",
-   "digest": "sha256:9eedbc25626767bc",
-   "revision": 3,
-   "changedAt": "2026-08-29",
+   "digest": "sha256:858b583483e24ef1",
+   "revision": 4,
+   "changedAt": "2026-09-22",
    "techniques": [
     {
      "slug": "canvas-accessibility",
@@ -4663,7 +4693,9 @@
      "use_when": [
       "making an infinite canvas usable without a pointer",
       "tab order fills with one stop per node",
-      "choosing spatial versus topological navigation"
+      "choosing spatial versus topological navigation",
+      "the drawn set is smaller than the real one",
+      "deciding what role the surface itself announces"
      ]
     },
     {
@@ -4703,7 +4735,9 @@
      "use_when": [
       "deciding whether auto-layout may move a node",
       "user-placed nodes shift after a reload",
-      "choosing between layered and force-directed"
+      "choosing between layered and force-directed",
+      "one arrival re-seats the whole picture",
+      "a generated layout renders differently on the server and the client"
      ]
     },
     {
@@ -4717,7 +4751,8 @@
      "use_when": [
       "a canvas stutters on every pan gesture",
       "deciding whether nodes may see the transform",
-      "labels pop in and out while zooming"
+      "labels pop in and out while zooming",
+      "an idle canvas keeps the machine warm"
      ]
     },
     {
@@ -4731,11 +4766,26 @@
      "use_when": [
       "deciding where screen-world conversion lives",
       "content rockets toward a corner on every zoom",
-      "scrolling an overlay zooms the canvas behind it"
+      "scrolling an overlay zooms the canvas behind it",
+      "a surface with no pan or zoom still has to read a pointer"
      ]
     }
    ],
    "applications": [
+    {
+     "stack": "react",
+     "technique": "canvas-accessibility",
+     "file": "knowledge/software-engineering/ui-surfaces/data-display/canvas-graph/applications/react--canvas-accessibility.md",
+     "verified_on": "2026-09-20",
+     "verified_against": "react@19.2"
+    },
+    {
+     "stack": "react",
+     "technique": "graph-layout",
+     "file": "knowledge/software-engineering/ui-surfaces/data-display/canvas-graph/applications/react--graph-layout.md",
+     "verified_on": "2026-09-20",
+     "verified_against": "react@19.2"
+    },
     {
      "stack": "react",
      "technique": "render-budget",
@@ -8823,9 +8873,9 @@
    "subcategory": "data-display",
    "status": "reconciled",
    "file": "knowledge/software-engineering/ui-surfaces/data-display/data-viz/data-viz.md",
-   "digest": "sha256:b6657691892c6b9b",
-   "revision": 5,
-   "changedAt": "2026-09-01",
+   "digest": "sha256:658aefc7371b7fdb",
+   "revision": 6,
+   "changedAt": "2026-09-22",
    "techniques": [
     {
      "slug": "chart-loading-economics",
@@ -8939,6 +8989,13 @@
      "technique": "metric-identity",
      "file": "knowledge/software-engineering/ui-surfaces/data-display/data-viz/applications/react--metric-identity.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "react",
+     "technique": "scale-and-axis-design",
+     "file": "knowledge/software-engineering/ui-surfaces/data-display/data-viz/applications/react--scale-and-axis-design.md",
+     "verified_on": "2026-09-20",
+     "verified_against": "react@19"
     }
    ]
   },
@@ -10533,9 +10590,9 @@
    "subcategory": "feedback-and-style",
    "status": "reconciled",
    "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/design-tokens/design-tokens.md",
-   "digest": "sha256:285d0bf6dac74e64",
-   "revision": 5,
-   "changedAt": "2026-09-01",
+   "digest": "sha256:677bcf6173f511aa",
+   "revision": 6,
+   "changedAt": "2026-09-22",
    "techniques": [
     {
      "slug": "cross-language-token-parity",
@@ -10575,7 +10632,8 @@
      "use_when": [
       "picking which duration step a change belongs to",
       "naming easings by role instead of curve shape",
-      "reduced-motion honoring keeps getting missed"
+      "reduced-motion honoring keeps getting missed",
+      "reduced-motion is honored by a hand-maintained list of animations"
      ]
     },
     {
@@ -10604,7 +10662,8 @@
      "use_when": [
       "deciding whether a rule should warn or fail the build",
       "a rule fires daily but half the violations go unseen",
-      "counting inline suppressions before they become a dialect"
+      "counting inline suppressions before they become a dialect",
+      "a clean run is being read as evidence that a rule is armed"
      ]
     },
     {
@@ -10617,7 +10676,8 @@
      "use_when": [
       "deciding whether a candidate token earns its name",
       "semantic names still carry colors or numbers",
-      "components reaching past roles for raw values"
+      "components reaching past roles for raw values",
+      "a local override of a recipe or a primitive is being ignored"
      ]
     }
    ],
@@ -10639,6 +10699,13 @@
      "technique": "token-enforcement",
      "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/design-tokens/applications/react--token-enforcement.md",
      "verified_on": "2026-08-29",
+     "verified_against": "react@19"
+    },
+    {
+     "stack": "react",
+     "technique": "token-taxonomy",
+     "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/design-tokens/applications/react--token-taxonomy.md",
+     "verified_on": "2026-09-20",
      "verified_against": "react@19"
     }
    ]
@@ -10899,9 +10966,9 @@
    "subcategory": "data-display",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/data-display/diff-comparison/diff-comparison.md",
-   "digest": "sha256:a2109f78c6591155",
-   "revision": 5,
-   "changedAt": "2026-09-06",
+   "digest": "sha256:cd39f98cfe768f03",
+   "revision": 6,
+   "changedAt": "2026-09-22",
    "techniques": [
     {
      "slug": "baseline-species-degradation",
@@ -11018,6 +11085,20 @@
     }
    ],
    "applications": [
+    {
+     "stack": "next",
+     "technique": "diff-honesty",
+     "file": "knowledge/software-engineering/ui-surfaces/data-display/diff-comparison/applications/next--diff-honesty.md",
+     "verified_on": "2026-09-20",
+     "verified_against": "next@16"
+    },
+    {
+     "stack": "next",
+     "technique": "pair-and-baseline-selection",
+     "file": "knowledge/software-engineering/ui-surfaces/data-display/diff-comparison/applications/next--pair-and-baseline-selection.md",
+     "verified_on": "2026-09-20",
+     "verified_against": "next@16"
+    },
     {
      "stack": "react",
      "technique": "computation-offload",
@@ -14345,9 +14426,9 @@
    "subcategory": "data-display",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/data-display/feed/feed.md",
-   "digest": "sha256:23236fee1ffbf827",
-   "revision": 3,
-   "changedAt": "2026-09-03",
+   "digest": "sha256:9484e5434f2c7a32",
+   "revision": 4,
+   "changedAt": "2026-09-22",
    "techniques": [
     {
      "slug": "event-clustering",
@@ -14361,7 +14442,8 @@
      "use_when": [
       "one busy producer drowns the whole feed",
       "deciding whether clusters may be stored or only derived",
-      "expanded clusters reset as new members arrive"
+      "expanded clusters reset as new members arrive",
+      "a push channel is throttled while the feed must stay complete"
      ]
     },
     {
@@ -14376,7 +14458,9 @@
      "use_when": [
       "declaring retention when a feed is created",
       "reaper stopped running after a refactor",
-      "cursor past the horizon renders as no more history"
+      "cursor past the horizon renders as no more history",
+      "a retention window is operator-configurable",
+      "a purge runs under a platform execution deadline"
      ]
     },
     {
@@ -14390,7 +14474,8 @@
      "use_when": [
       "keeping the viewport still while rows prepend above",
       "entrance animations replay on every refresh",
-      "resuming a live feed after a dropped connection"
+      "resuming a live feed after a dropped connection",
+      "a live list capped by length with no history behind it"
      ]
     },
     {
@@ -14405,7 +14490,8 @@
      "use_when": [
       "deciding whether seen means opened or scrolled past",
       "unread badge flashes then zeroes on open",
-      "an unread counter keeps drifting wrong"
+      "an unread counter keeps drifting wrong",
+      "seeding the anchor for a reader who has never opened the feed"
      ]
     },
     {
@@ -14426,6 +14512,13 @@
    ],
    "applications": [
     {
+     "stack": "next",
+     "technique": "feed-retention",
+     "file": "knowledge/software-engineering/ui-surfaces/data-display/feed/applications/next--feed-retention.md",
+     "verified_on": "2026-09-20",
+     "verified_against": "next@16"
+    },
+    {
      "stack": "react",
      "technique": "read-position-and-unseen",
      "file": "knowledge/software-engineering/ui-surfaces/data-display/feed/applications/react--read-position-and-unseen.md",
@@ -14444,9 +14537,9 @@
    "subcategory": "data-display",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/data-display/file-browsing/file-browsing.md",
-   "digest": "sha256:ae56dce70c40004c",
-   "revision": 2,
-   "changedAt": "2026-08-21",
+   "digest": "sha256:db6a6903ad69c236",
+   "revision": 3,
+   "changedAt": "2026-09-22",
    "techniques": [
     {
      "slug": "file-mutations",
@@ -14534,6 +14627,13 @@
    ],
    "applications": [
     {
+     "stack": "node",
+     "technique": "listing-and-refresh",
+     "file": "knowledge/software-engineering/ui-surfaces/data-display/file-browsing/applications/node--listing-and-refresh.md",
+     "verified_on": "2026-09-20",
+     "verified_against": "node@24"
+    },
+    {
      "stack": "react",
      "technique": "navigation-state",
      "file": "knowledge/software-engineering/ui-surfaces/data-display/file-browsing/applications/react--navigation-state.md",
@@ -14541,9 +14641,23 @@
     },
     {
      "stack": "react",
+     "technique": "selection-model",
+     "file": "knowledge/software-engineering/ui-surfaces/data-display/file-browsing/applications/react--selection-model.md",
+     "verified_on": "2026-09-20",
+     "verified_against": "react@19"
+    },
+    {
+     "stack": "react",
      "technique": "thumbnails-and-previews",
      "file": "knowledge/software-engineering/ui-surfaces/data-display/file-browsing/applications/react--thumbnails-and-previews.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "rust",
+     "technique": "thumbnails-and-previews",
+     "file": "knowledge/software-engineering/ui-surfaces/data-display/file-browsing/applications/rust--thumbnails-and-previews.md",
+     "verified_on": "2026-09-20",
+     "verified_against": "rust@1.80"
     }
    ]
   },
@@ -17577,9 +17691,9 @@
    "subcategory": "standards-and-gates",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/knowledge-registry/knowledge-registry.md",
-   "digest": "sha256:9c9f691ae63896a8",
-   "revision": 6,
-   "changedAt": "2026-08-28",
+   "digest": "sha256:7e0fc4a7e1bf9a27",
+   "revision": 7,
+   "changedAt": "2026-09-22",
    "techniques": [
     {
      "slug": "catalog-as-sync-key",
@@ -20404,10 +20518,25 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/model-routing/model-routing.md",
-   "digest": "sha256:ecdadf979fa40ae4",
-   "revision": 16,
-   "changedAt": "2026-09-08",
+   "digest": "sha256:d833892209435380",
+   "revision": 17,
+   "changedAt": "2026-09-22",
    "techniques": [
+    {
+     "slug": "admission-is-not-a-tier",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "evaluating a substitute that is cheaper or free but speaks a different dialect",
+      "a benchmark says a candidate is good enough and the client still cannot use it",
+      "adding a self-hosted or borrowed endpoint to a roster the client reads",
+      "deciding why a fallback never appears in the picker despite being healthy"
+     ]
+    },
     {
      "slug": "cache-continuity",
      "status": "forged",
@@ -20631,6 +20760,13 @@
      "technique": "routing-policy",
      "file": "knowledge/software-engineering/llm-agent/orchestration/model-routing/applications/react--routing-policy.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "rust",
+     "technique": "admission-is-not-a-tier",
+     "file": "knowledge/software-engineering/llm-agent/orchestration/model-routing/applications/rust--admission-is-not-a-tier.md",
+     "verified_on": "2026-09-20",
+     "verified_against": "rust@1.96.1"
     },
     {
      "stack": "rust",
@@ -21007,9 +21143,9 @@
    "subcategory": "feedback-and-style",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/motion/motion.md",
-   "digest": "sha256:6e7e36e844ef0ad8",
-   "revision": 8,
-   "changedAt": "2026-09-15",
+   "digest": "sha256:d623a3bcfdcbd1c0",
+   "revision": 9,
+   "changedAt": "2026-09-22",
    "techniques": [
     {
      "slug": "content-bearing-degradation",
@@ -21023,6 +21159,20 @@
       "deciding what a gesture renders when it will not play",
       "a surface renders blank under reduced motion",
       "a label still says live while its loop is stopped"
+     ]
+    },
+    {
+     "slug": "continuity-across-change",
+     "status": "forged",
+     "laws": [
+      "identity-survives-reuse"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a state change is rendered by swapping one element for another",
+      "a pending marker and the result it becomes are separate components",
+      "deciding whether an update animates the whole surface or only what changed",
+      "an update flickers at the moment the reader engages"
      ]
     },
     {
@@ -21147,6 +21297,20 @@
      "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/motion/applications/node--content-bearing-degradation.md",
      "verified_on": "2026-08-22",
      "verified_against": "node@22"
+    },
+    {
+     "stack": "react",
+     "technique": "content-bearing-degradation",
+     "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/motion/applications/react--content-bearing-degradation.md",
+     "verified_on": "2026-09-20",
+     "verified_against": "react@19.2.4"
+    },
+    {
+     "stack": "react",
+     "technique": "continuity-across-change",
+     "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/motion/applications/react--continuity-across-change.md",
+     "verified_on": "2026-09-20",
+     "verified_against": "react@19.2.8"
     },
     {
      "stack": "react",
@@ -24345,9 +24509,9 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/prompt-assembly.md",
-   "digest": "sha256:b36268c725b5dd12",
-   "revision": 35,
-   "changedAt": "2026-09-21",
+   "digest": "sha256:23dde2144f1e50ad",
+   "revision": 36,
+   "changedAt": "2026-09-22",
    "techniques": [
     {
      "slug": "amortized-compaction-cadence",
@@ -24692,6 +24856,22 @@
      ]
     },
     {
+     "slug": "response-reservation-sizing",
+     "status": "forged",
+     "laws": [
+      "limits-are-derived",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding how much of the window to reserve for the response",
+      "a platform default sets the output ceiling and nobody chose it",
+      "usable input context is short and the prompt is already trimmed",
+      "an output ceiling is raised for a capability and never lowered again",
+      "the observed output length is recorded but never feeds the ceiling"
+     ]
+    },
+    {
      "slug": "speculative-compaction-splice",
      "status": "forged",
      "laws": [
@@ -24930,6 +25110,13 @@
      "technique": "recovery-path-as-loss-signal",
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/applications/rust--recovery-path-as-loss-signal.md",
      "verified_on": "2026-09-04",
+     "verified_against": "rust@1.96.1"
+    },
+    {
+     "stack": "rust",
+     "technique": "response-reservation-sizing",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/applications/rust--response-reservation-sizing.md",
+     "verified_on": "2026-09-21",
      "verified_against": "rust@1.96.1"
     },
     {
@@ -25371,9 +25558,9 @@
    "subcategory": "standards-and-gates",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/quality-gates.md",
-   "digest": "sha256:084c3a48cd05f35c",
-   "revision": 47,
-   "changedAt": "2026-09-21",
+   "digest": "sha256:d7deee105a13022b",
+   "revision": 48,
+   "changedAt": "2026-09-22",
    "techniques": [
     {
      "slug": "advancement-evidence-fields",
@@ -25402,7 +25589,9 @@
       "deciding whether a check is permitted to block",
       "a gate advisory since the day it was added",
       "one invocation mixing deterministic and externally-moving checks",
-      "a gate whose verdict varies on an unchanged commit"
+      "a gate whose verdict varies on an unchanged commit",
+      "choosing the implementation of the first check for a lane no gate covers",
+      "a second language in the build that the test lanes never execute"
      ]
     },
     {
@@ -25601,6 +25790,26 @@
      ]
     },
     {
+     "slug": "match-the-resolved-artifact",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "failure-not-empty-success",
+      "count-carries-predicate",
+      "deletion-is-not-repair"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a check is implemented as a literal string search over a file",
+      "a rule is declared in a layered configuration and its finding count is zero",
+      "a later declaration can replace an earlier one for the same rule",
+      "a convention is explained in a comment beside the code that obeys it",
+      "a gate asserts a literal string is absent from a built artifact",
+      "deciding whether a green from a text-matching guard means the rule holds",
+      "a guard reads a configuration's source text to prove a rule is enforced"
+     ]
+    },
+    {
      "slug": "oracle-frozen-during-repair",
      "status": "forged",
      "laws": [
@@ -25747,7 +25956,9 @@
       "deciding whether missing evidence blocks or skips",
       "a gate reports a verdict over a partly failed assessment",
       "a guard sits in the path of the work rather than beside it",
-      "deciding what a check does when its own runtime is missing"
+      "deciding what a check does when its own runtime is missing",
+      "a surface advertises a bar whose input it can never read",
+      "a condition skipped on every run a surface has ever served"
      ]
     },
     {
@@ -25866,6 +26077,12 @@
     },
     {
      "stack": "node",
+     "technique": "match-the-resolved-artifact",
+     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/applications/node--match-the-resolved-artifact.md",
+     "verified_on": "2026-09-20"
+    },
+    {
+     "stack": "node",
      "technique": "policy-projection",
      "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/applications/node--policy-projection.md",
      "verified_on": "2026-08-20"
@@ -25920,6 +26137,13 @@
      "technique": "shared-substrate-check-partition",
      "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/applications/process--shared-substrate-check-partition.md",
      "verified_on": "2026-09-04"
+    },
+    {
+     "stack": "python",
+     "technique": "blocking-by-input-determinism",
+     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/applications/python--blocking-by-input-determinism.md",
+     "verified_on": "2026-09-20",
+     "verified_against": "python@3.14"
     },
     {
      "stack": "python",
@@ -27799,9 +28023,9 @@
    "subcategory": "prompt-and-context",
    "status": "reconciled",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/retrieval/retrieval.md",
-   "digest": "sha256:131210cdd2e2b5aa",
-   "revision": 15,
-   "changedAt": "2026-09-15",
+   "digest": "sha256:1280e85fd10ab66e",
+   "revision": 16,
+   "changedAt": "2026-09-22",
    "techniques": [
     {
      "slug": "chunking-and-indexing",
@@ -27846,7 +28070,9 @@
       "merging candidate lists from several matchers",
       "adding raw scores from incomparable scales",
       "nearest-neighbor hits leaking across scopes",
-      "fusing a lane whose input is another lane's output"
+      "fusing a lane whose input is another lane's output",
+      "a retired or superseded item still reaches the slice",
+      "another subsystem claims its column already gates retrieval"
      ]
     },
     {
@@ -28025,7 +28251,8 @@
      "stack": "rust",
      "technique": "hybrid-lane-fusion",
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/retrieval/applications/rust--hybrid-lane-fusion.md",
-     "verified_on": "2026-08-18"
+     "verified_on": "2026-09-20",
+     "verified_against": "rust@1.80.0"
     },
     {
      "stack": "rust",
@@ -29066,9 +29293,9 @@
    "subcategory": "data-display",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/data-display/search/search.md",
-   "digest": "sha256:54682051824eb2b3",
-   "revision": 3,
-   "changedAt": "2026-09-03",
+   "digest": "sha256:b02a2eca8c0c6377",
+   "revision": 4,
+   "changedAt": "2026-09-22",
    "techniques": [
     {
      "slug": "command-surface",
@@ -29180,6 +29407,13 @@
      "file": "knowledge/software-engineering/ui-surfaces/data-display/search/applications/cpp--typed-filter-language.md",
      "verified_on": "2026-09-03",
      "verified_against": "cpp@23"
+    },
+    {
+     "stack": "next",
+     "technique": "query-parsing",
+     "file": "knowledge/software-engineering/ui-surfaces/data-display/search/applications/next--query-parsing.md",
+     "verified_on": "2026-09-20",
+     "verified_against": "next@16"
     },
     {
      "stack": "react",
@@ -30935,9 +31169,9 @@
    "subcategory": "feedback-and-style",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/status-vocabulary/status-vocabulary.md",
-   "digest": "sha256:1074e673f8325f01",
-   "revision": 4,
-   "changedAt": "2026-09-09",
+   "digest": "sha256:569058d5320dbed2",
+   "revision": 5,
+   "changedAt": "2026-09-22",
    "techniques": [
     {
      "slug": "number-formatting",
@@ -30966,7 +31200,9 @@
      "use_when": [
       "mapping status members to themed color roles",
       "a new status renders as a colorless pill",
-      "choosing what unknown severities fall back to"
+      "choosing what unknown severities fall back to",
+      "splitting one vocabulary's presentation across several tables",
+      "two surfaces render the same member in different shades"
      ]
     },
     {
@@ -30980,7 +31216,9 @@
      "use_when": [
       "deciding whether a moment shows as elapsed or exact",
       "per-row timers multiplying in a long list",
-      "future timestamps rendering as just now"
+      "future timestamps rendering as just now",
+      "an elapsed label on a surface rendered once ahead of delivery and again in the browser",
+      "a hydration mismatch naming a component that shows an age"
      ]
     },
     {
@@ -30993,7 +31231,10 @@
      "use_when": [
       "deciding whether a rendered string is repo-authored",
       "a pill hue keyed on a user-typed name",
-      "a crafted name breaks the layout"
+      "a crafted name breaks the layout",
+      "choosing a markdown renderer for text a model wrote",
+      "untrusted prose flows into a channel carrying the product's own marker",
+      "bounding the length of a model-supplied field"
      ]
     },
     {
@@ -31030,9 +31271,30 @@
    "applications": [
     {
      "stack": "next",
+     "technique": "status-color-mapping",
+     "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/status-vocabulary/applications/next--status-color-mapping.md",
+     "verified_on": "2026-09-20",
+     "verified_against": "next@16"
+    },
+    {
+     "stack": "next",
+     "technique": "timestamp-display",
+     "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/status-vocabulary/applications/next--timestamp-display.md",
+     "verified_on": "2026-09-20",
+     "verified_against": "next@16"
+    },
+    {
+     "stack": "next",
+     "technique": "untrusted-label-rendering",
+     "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/status-vocabulary/applications/next--untrusted-label-rendering.md",
+     "verified_on": "2026-09-20",
+     "verified_against": "next@16"
+    },
+    {
+     "stack": "next",
      "technique": "vocabulary-chain-integrity",
      "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/status-vocabulary/applications/next--vocabulary-chain-integrity.md",
-     "verified_on": "2026-09-01",
+     "verified_on": "2026-09-20",
      "verified_against": "next@16"
     },
     {
@@ -32452,9 +32714,9 @@
    "subcategory": "data-display",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/data-display/table/table.md",
-   "digest": "sha256:6a77e71f01e80b19",
-   "revision": 4,
-   "changedAt": "2026-08-31",
+   "digest": "sha256:b220b0cfe6a4bcda",
+   "revision": 5,
+   "changedAt": "2026-09-22",
    "techniques": [
     {
      "slug": "client-server-split",
@@ -32467,6 +32729,22 @@
       "placing filter sort and window on server or client",
       "a sort that only reorders the loaded page",
       "deciding when a client-held table must move server-side"
+     ]
+    },
+    {
+     "slug": "filtering",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "derivation-names-recomputation"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a filter bar's controls and the rows on screen disagree",
+      "deciding whether a control applies on change or on submit",
+      "an export or share link carries a predicate the table never showed",
+      "rows from a superseded filter landing in the current results",
+      "a selection surviving a filter change and acting on rows nobody can see"
      ]
     },
     {
@@ -32529,16 +32807,38 @@
    ],
    "applications": [
     {
+     "stack": "next",
+     "technique": "filtering",
+     "file": "knowledge/software-engineering/ui-surfaces/data-display/table/applications/next--filtering.md",
+     "verified_on": "2026-09-20",
+     "verified_against": "next@16"
+    },
+    {
+     "stack": "next",
+     "technique": "pagination",
+     "file": "knowledge/software-engineering/ui-surfaces/data-display/table/applications/next--pagination.md",
+     "verified_on": "2026-09-20",
+     "verified_against": "next@16"
+    },
+    {
+     "stack": "next",
+     "technique": "sorting",
+     "file": "knowledge/software-engineering/ui-surfaces/data-display/table/applications/next--sorting.md",
+     "verified_on": "2026-09-20",
+     "verified_against": "next@16"
+    },
+    {
      "stack": "react",
      "technique": "client-server-split",
      "file": "knowledge/software-engineering/ui-surfaces/data-display/table/applications/react--client-server-split.md",
-     "verified_on": "2026-08-18"
+     "verified_on": "2026-09-21",
+     "verified_against": "react@19.2.6"
     },
     {
      "stack": "react",
      "technique": "performance",
      "file": "knowledge/software-engineering/ui-surfaces/data-display/table/applications/react--performance.md",
-     "verified_on": "2026-08-24",
+     "verified_on": "2026-09-21",
      "verified_against": "react@19"
     },
     {
@@ -33138,9 +33438,9 @@
    "subcategory": "build-and-release",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/build-and-release/test-harness/test-harness.md",
-   "digest": "sha256:d4f324cd853a7f44",
-   "revision": 22,
-   "changedAt": "2026-09-17",
+   "digest": "sha256:c449405aa9d2e869",
+   "revision": 23,
+   "changedAt": "2026-09-22",
    "techniques": [
     {
      "slug": "approval-snapshots-with-guarded-update",
@@ -33156,6 +33456,23 @@
       "deciding how a snapshot suite may be re-baselined",
       "a pipeline run went green after a change that should have altered recorded output",
       "choosing between an environment flag and a source constant for record mode"
+     ]
+    },
+    {
+     "slug": "assert-through-the-reader",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "the product emits text another program will interpret",
+      "a setup snippet is offered for a user to paste into a shell",
+      "a rule is appended to a configuration file some other tool owns",
+      "a write succeeded and the effect never appeared",
+      "deciding whether a rendering or clipboard assertion covers a generated command",
+      "a product reconstructs a tool's file layout instead of asking it"
      ]
     },
     {
@@ -33302,7 +33619,9 @@
       "a coverage gate is green over a scoped include set",
       "deciding which files a quality report is defined over",
       "an untested directory has never appeared in any report",
-      "a coverage floor is met by tests that take no decision the code offers"
+      "a coverage floor is met by tests that take no decision the code offers",
+      "a test claims a rule holds uniformly across a closed set of kinds",
+      "a parameterised test runs over a hand-written list of members"
      ]
     },
     {
@@ -33375,7 +33694,10 @@
      "use_when": [
       "adding tests that license a refactor",
       "covering a recovery or crash path the normal suite never executes",
-      "a suite has been green since it was written"
+      "a suite has been green since it was written",
+      "a test stayed green under a deliberate break",
+      "writing the regression test for a defect that has just been fixed",
+      "a defect's trigger is a plan or an ordering the platform chooses"
      ]
     },
     {
@@ -33390,6 +33712,24 @@
       "a shipped artifact builds outside every gated build graph",
       "a whole-project build flag read as covering the repository",
       "a path dependency broke a project nothing compiles"
+     ]
+    },
+    {
+     "slug": "pin-the-call-not-the-name",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "failure-not-empty-success",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a test asserts that one call appears before another in a file's source",
+      "a conformance check walks the suite's own files and reads them as text",
+      "a structural assertion went red after an edit that changed only a comment",
+      "a check accepts a cleanup or restore hook by its presence",
+      "deciding which marker a source-text assertion should search for",
+      "a source-text assertion disagrees between two checkouts of the same commit"
      ]
     },
     {
@@ -33452,7 +33792,9 @@
       "a test file claims to pin a decision the run never executes",
       "deciding whether a green suite covers the argument that crosses a process boundary",
       "a fixture is named the way the resolver's default would name it",
-      "a mutated payload is rejected by an outer check before it reaches the parser"
+      "a mutated payload is rejected by an outer check before it reaches the parser",
+      "a duplicated condition was extracted into a shared predicate and covered by driving the predicate",
+      "a test's name claims a stronger guard than its assertions make"
      ]
     },
     {
@@ -33491,6 +33833,13 @@
      "technique": "approval-snapshots-with-guarded-update",
      "file": "knowledge/software-engineering/engineering-process/build-and-release/test-harness/applications/node--approval-snapshots-with-guarded-update.md",
      "verified_on": "2026-09-03",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "assert-through-the-reader",
+     "file": "knowledge/software-engineering/engineering-process/build-and-release/test-harness/applications/node--assert-through-the-reader.md",
+     "verified_on": "2026-09-20",
      "verified_against": "node@24"
     },
     {
@@ -33901,9 +34250,9 @@
    "subcategory": "feedback-and-style",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/toasts-notifications/toasts-notifications.md",
-   "digest": "sha256:4c6dc8858a53f603",
-   "revision": 2,
-   "changedAt": "2026-08-21",
+   "digest": "sha256:5f10d994e5c16ef6",
+   "revision": 3,
+   "changedAt": "2026-09-22",
    "techniques": [
     {
      "slug": "actionable-toasts",
@@ -33988,6 +34337,20 @@
     }
    ],
    "applications": [
+    {
+     "stack": "next",
+     "technique": "durable-notification-ledger",
+     "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/toasts-notifications/applications/next--durable-notification-ledger.md",
+     "verified_on": "2026-09-20",
+     "verified_against": "next@16"
+    },
+    {
+     "stack": "next",
+     "technique": "os-escalation",
+     "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/toasts-notifications/applications/next--os-escalation.md",
+     "verified_on": "2026-09-20",
+     "verified_against": "next@16"
+    },
     {
      "stack": "react",
      "technique": "durable-notification-ledger",
@@ -36994,6 +37357,7 @@
     "migrations/schema-drift-detection",
     "migrations/transactional-ddl",
     "model-call-outcome-integrity/the-measurement-runs-the-served-configuration",
+    "model-routing/admission-is-not-a-tier",
     "model-routing/effort-calibration",
     "model-routing/failover-path-liveness",
     "model-routing/policy-governance",
@@ -37066,6 +37430,7 @@
     "quality-gates/gate-liveness",
     "quality-gates/hook-hygiene",
     "quality-gates/instrument-answers-only-its-own-question",
+    "quality-gates/match-the-resolved-artifact",
     "quality-gates/oracle-frozen-during-repair",
     "quality-gates/policy-projection",
     "quality-gates/prose-rule-drift",
@@ -37174,6 +37539,7 @@
     "terminal-multiplexing/occupant-state-detection",
     "terminal-multiplexing/readiness-edge-detection",
     "test-harness/approval-snapshots-with-guarded-update",
+    "test-harness/assert-through-the-reader",
     "test-harness/configuration-axes-cross-the-ladder",
     "test-harness/constraint-injection-for-unreachable-tiers",
     "test-harness/context-starved-executor",
@@ -37184,6 +37550,7 @@
     "test-harness/live-app-harness",
     "test-harness/negative-control-tests",
     "test-harness/out-of-graph-artifacts",
+    "test-harness/pin-the-call-not-the-name",
     "test-harness/recorded-interaction-fixtures",
     "test-harness/suite-partitioning",
     "test-harness/unreached-decisions-pin-nothing",
@@ -37552,6 +37919,7 @@
     "migrations/transactional-ddl",
     "model-call-outcome-integrity/spend-precedes-the-error",
     "model-call-outcome-integrity/unattempted-is-not-failed",
+    "model-routing/admission-is-not-a-tier",
     "model-routing/capability-floors",
     "model-routing/failover-horizon",
     "model-routing/quality-axis-separation",
@@ -37637,6 +38005,7 @@
     "quality-gates/excess-indicts-the-instrument",
     "quality-gates/gate-liveness",
     "quality-gates/hook-hygiene",
+    "quality-gates/match-the-resolved-artifact",
     "quality-gates/oracle-frozen-during-repair",
     "quality-gates/self-reported-gate-inputs",
     "quality-gates/unmeasurable-criteria",
@@ -37762,6 +38131,7 @@
     "terminal-multiplexing/multi-client-fan-out",
     "terminal-multiplexing/pty-management",
     "test-harness/approval-snapshots-with-guarded-update",
+    "test-harness/assert-through-the-reader",
     "test-harness/constraint-injection-for-unreachable-tiers",
     "test-harness/context-starved-executor",
     "test-harness/derived-selection-must-be-measured",
@@ -37770,6 +38140,7 @@
     "test-harness/live-app-harness",
     "test-harness/long-lane-certification",
     "test-harness/negative-control-tests",
+    "test-harness/pin-the-call-not-the-name",
     "test-harness/platform-quirk-absorption",
     "test-harness/unreached-decisions-pin-nothing",
     "test-input-generation/exhaustive-when-bounded",
@@ -37912,6 +38283,7 @@
     "prompt-safety/payoff-removal",
     "quality-gates/fabrication-economics",
     "quality-gates/false-positive-economics",
+    "quality-gates/match-the-resolved-artifact",
     "quality-gates/renameable-detector-keys",
     "quality-gates/waiver-names-its-finding",
     "release-pipeline/size-budgets",
@@ -38261,6 +38633,7 @@
     "prompt-assembly/context-reachability",
     "prompt-assembly/history-compaction",
     "prompt-assembly/recovery-path-as-loss-signal",
+    "prompt-assembly/response-reservation-sizing",
     "prompt-safety/input-caps-and-clamps",
     "prompt-safety/inspection-coverage-is-a-verdict",
     "public-claim-provenance/derived-numerator-authored-denominator",
@@ -38275,6 +38648,7 @@
     "quality-gates/false-positive-economics",
     "quality-gates/instrument-answers-only-its-own-question",
     "quality-gates/item-liveness",
+    "quality-gates/match-the-resolved-artifact",
     "quality-gates/renameable-detector-keys",
     "quality-gates/severity-by-construction",
     "quality-gates/shared-substrate-check-partition",
@@ -38355,6 +38729,7 @@
     "supply-chain/toolchain-floor-drift",
     "sync-replication/sync-observability",
     "table/client-server-split",
+    "table/filtering",
     "table/pagination",
     "templates-scaffolding/catalog-curation",
     "templates-scaffolding/integrity-and-provenance",
@@ -38368,6 +38743,7 @@
     "test-harness/history-driven-partitioning",
     "test-harness/long-lane-certification",
     "test-harness/out-of-graph-artifacts",
+    "test-harness/pin-the-call-not-the-name",
     "test-harness/recorded-interaction-fixtures",
     "test-harness/suite-partitioning",
     "test-harness/unreached-decisions-pin-nothing",
@@ -39054,6 +39430,7 @@
     "modal-stack/stack-ownership",
     "model-call-outcome-integrity/declared-call-site-identity",
     "model-routing/model-identity",
+    "motion/continuity-across-change",
     "motion/one-shot-guarding",
     "multi-project/cross-project-comparison",
     "multi-project/per-project-tabs-and-state",
@@ -40131,6 +40508,7 @@
     "subscription-billing-periods/anchor-re-derived-not-chained",
     "subscription-proration/whole-period-denominator",
     "sync-replication/change-tracking-and-cursors",
+    "table/filtering",
     "table/pagination",
     "table/performance",
     "templates-scaffolding/adoption-lifecycle",
@@ -40327,6 +40705,7 @@
     "prompt-assembly/compaction-horizon-breakeven",
     "prompt-assembly/context-ownership-regimes",
     "prompt-assembly/elision-to-a-refetch-pointer",
+    "prompt-assembly/response-reservation-sizing",
     "register-bytecode-execution/instruction-format-follows-program-lifetime",
     "remote-capability-probing/buffer-by-access-latency-class",
     "remote-capability-probing/degraded-rung-refusal-ceiling",

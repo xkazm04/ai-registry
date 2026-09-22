@@ -45,9 +45,11 @@ signals/<contributor>.json
       "deviations": { "quality-gates": 2 },
       "citations": {
         "table/react--pagination": { "resolved": 4, "moved": 1, "gone": 2 }
-      }
+      },
+      "councils": { "table": { "approved": 2, "rejected": 1 } }
     }
-  }
+  },
+  "meta": { "councils_projects_read": 7 }
 }
 ```
 
@@ -60,14 +62,37 @@ signals/<contributor>.json
 | `windowDays` | yes | The window `consults` covers. |
 | `stack` | yes | Capability → version this installation runs. Lifted from the repo's own `.ai/manifest.yaml`; a bare major is enough. |
 | `bundles` | yes | Bundle name → what this installation observed about it. |
+| `meta` | no | A closed set of **denominators**, never a notes field. Currently one key: `councils_projects_read`. |
 
-Inside a bundle, all three keys are optional — an installation reports what it can measure:
+Inside a bundle, all four keys are optional — an installation reports what it can measure:
 
 | field | meaning |
 | --- | --- |
 | `consults` | Subject slug → how often an agent read it in the window. The knowledge analogue of `invokes30d`. |
 | `deviations` | Subject slug → how many places this repo knowingly falls short of the standard. A deviation is not a defect in the standard; it is demand pointing at it. |
 | `citations` | `<subject>/<application-stem>` → `{ resolved, moved, gone }`. How many of that document's cited anchors still land in this tree. |
+| `councils` | Subject slug → `{ approved, rejected }`. How often a **person** accepted or rejected work that cited the subject, at a review gate. Every other key here counts reading; this one counts an outcome. |
+
+### `councils` and its denominator
+
+A consult says the corpus was read. A council says the work it shaped went in front of a
+human and survived, or did not — which is the only signal in this lane with a verdict
+attached, and the reason a rejection count is as valuable as an approval count.
+
+The contributor-side log is `<repo>/.ai/councils.jsonl`, appended when a decision is
+recorded. A line names subject slugs but no bundle, so the collector resolves the bundle
+from the registry's own `knowledge/<domain>/index.json`; **a slug that resolves nowhere is
+dropped, never filed under a default bundle.**
+
+`meta.councils_projects_read` is the denominator, and it is why `meta` exists at all. A
+bundle with no `councils` key could mean "nobody councilled anything here" or "no council
+log was readable on that machine". The count separates them: `0` means no project carried
+a log, and an absent `meta` means an older collector that did not look. **Absent is not
+read; it is never zero.**
+
+What still stays on the machine: which feature, in which repository, at which round, for
+which reason. The reason a person gave for a rejection is the most useful sentence a
+council produces and the least publishable — it lives in the consumer's own vault.
 
 ### Subjects are named by slug, never by path
 

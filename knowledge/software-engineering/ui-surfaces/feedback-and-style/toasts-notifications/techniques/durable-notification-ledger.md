@@ -41,6 +41,15 @@ the golden path established:
   or coalesced still reaches the ledger (see
   [queue-discipline](./queue-discipline.md)); display and record are
   independent outcomes of one event.
+- **The record is not part of the transaction it records.** Delivery
+  machinery keeps bookkeeping of its own — a claimed window, a retry
+  slot, an in-flight marker — and that bookkeeping is *rolled back* when
+  a send fails, so the next attempt can proceed. The ledger row must sit
+  outside that rollback and outside the failure path that triggers it.
+  The moment a release, a retry reset or an error handler can carry the
+  record away with it, the one outcome that most needs remembering —
+  we decided to tell them and they were never told — is the only outcome
+  that leaves no trace.
 
 ## One identity across tiers
 
@@ -104,6 +113,42 @@ declared at the ledger, per class
 - Caps (max entries) back the time rules so a failure storm cannot bloat
   the store; overflow evicts oldest-read-first, never unresolved
   obligations.
+
+## Derived notices: dismissal retracts the predicate
+
+Not every durable notice is a row in the ledger's own store. A notice can
+be *derived* — rendered because a route parameter is present, because a
+stored flag is set, because a query still matches. Its persistence is real
+and it belongs to a store the message layer does not own, which changes
+what dismissal has to mean:
+
+> **A derived notice is dismissed by falsifying its predicate, not by
+> unmounting its view.**
+
+Hiding the view satisfies the gesture and nothing else. The predicate is
+still true, so the notice returns on reload, on back-navigation, and —
+worst — for whoever the user sends the link to, who sees a message about
+an event that was never theirs. A user who dismissed something and finds
+it again learns that dismissal is decorative, which is the same lesson a
+badge that will not reach zero teaches.
+
+Two consequences worth designing for:
+
+- **Dismiss optimistically, retract durably.** Retracting the predicate
+  usually costs a round trip or a navigation; the user's gesture must not
+  wait for it. Hide immediately, commit the retraction behind it, and
+  make the retraction idempotent so a failed or repeated commit is
+  harmless. The visible half is latency work; the durable half is the
+  actual dismissal.
+- **The retraction preserves everything else in the predicate's home.**
+  Clearing one parameter must not clear the others that happened to
+  travel with it — a dismissal that resets the user's filters, scroll
+  target or view state has charged them for reading a notice.
+
+Where the derived notice carries an obligation, the predicate's home is
+the wrong place for it: obligations belong in the ledger, where the
+retention rules above protect them. Derivation is for notices whose whole
+life is one visit.
 
 ## Ordering and grouping
 

@@ -6,7 +6,7 @@ technique: blocking-by-input-determinism
 status: forged
 laws: [gate-sees-target, absent-guard-is-loud]
 shared_with: []
-use_when: [deciding whether a check is permitted to block, a gate advisory since the day it was added, one invocation mixing deterministic and externally-moving checks, a gate whose verdict varies on an unchanged commit]
+use_when: [deciding whether a check is permitted to block, a gate advisory since the day it was added, one invocation mixing deterministic and externally-moving checks, a gate whose verdict varies on an unchanged commit, choosing the implementation of the first check for a lane no gate covers, a second language in the build that the test lanes never execute]
 ---
 
 # Blocking by input determinism
@@ -133,6 +133,70 @@ and nearly always cheap, and it recovers most of a bundled gate's enforcement
 value. Where it has not been done yet, the honest interim is a single advisory
 job whose comment names the split as the pending trigger, rather than a blocking
 job that occasionally walls the world.
+
+## The first check for an uncovered lane is chosen for its input
+
+Everything above grades a gate that exists. The axis has a second use, at the
+other end: choosing the **implementation** of a lane's first check, where
+today there is none.
+
+A build usually contains more than one lane — a second language, a directory
+of operational scripts, a generated artifact — and a gate suite grown around
+the dominant one covers the rest not at all. That state is invisible to every
+liveness instrument this subject owns. Nothing went false-green, because
+nothing ran; no row aged, because there is no row; no count fell, because
+there was never a count. Every gate is green and every gate is honest
+([gate-liveness](./gate-liveness.md) covers the gate that died, not the gate
+that was never born). The inventory unit that finds it is **what the build
+contains**, walked against **which gate reads it** — not the gate list, which
+can only enumerate itself.
+
+The reason such a lane stays uncovered is this technique's own axis, applied
+once and then abandoned. The obvious first check needs that lane's toolchain,
+and its toolchain wants a dependency installation. An installation resolved
+from a public index with nothing of the shape a lockfile has — no pinned
+versions, no integrity hashes — takes an input the commit does not pin, and
+could hand a different verdict to the same commit next month. So the check
+can only be advisory; an advisory check for a lane nobody is watching is
+worth little; and it does not get written at all. Zero is the stable
+equilibrium.
+
+The move that breaks it is to **write the first check to whatever constraint
+keeps its input shape identical to the checks that already block.** For a
+second language that usually means the standard library only, with vendor
+calls faked at the seam, no network and no installation step, so the job's
+input is what every other blocking job's input is: this tree's sources plus a
+pinned interpreter. Such a check covers far less than the one a specialist
+would design. It blocks, which the better one would not, and a narrow
+blocking check beats a broad advisory one for a lane whose current coverage
+is nothing.
+
+Two riders keep this honest:
+
+- **An installation is not automatically nondeterministic.** A dependency set
+  pinned by hash in a committed manifest is deterministic given the commit and
+  may block, by the same rule that lets a gate read a locked toolchain. The
+  no-install constraint is the *cheap* route to a blockable grade, not a
+  different grade — and the promotion sentence this technique demands should
+  say so, because the day someone commits a pinned manifest, the constraint
+  can be relaxed.
+- **The constraint is a claim, so verify it by running.** A module that
+  imports a third-party package lazily, inside the function that needs it,
+  satisfies a source read and fails in the pipeline. The check is that the
+  suite still passes with the ambient packages blocked at import, recorded
+  with its date.
+
+Measured, in one application repository whose pipeline ran on both: at the
+time the job was written, 2026-09-05, 33 tracked files of the second
+language — about 965 lines of them in a single directory — ran for hours on
+an accelerator and then wrote a verdict, and no gate executed a line of any
+of it, because both test lanes belonged to the other language. A standard-library-only self-test of roughly three hundred lines,
+verified stdlib-clean on 2026-09-06 by re-running it with six common packages
+blocked at import (five cases green, exit zero), found three real defects on
+its first run: each was a total loss of a multi-hour run, and two of them
+falsified the directory's own headline promises about what it guaranteed. It
+runs in under a second, as a separate blocking job with no dependency step,
+whose header names the one change that would drop it to advisory.
 
 ## An advisory gate still needs a clock and a reader
 

@@ -469,8 +469,21 @@ for (const domain of bundles) {
         if (fm.subject !== slug) fail(`${here}/applications/${f}: subject "${fm.subject}" ≠ "${slug}"`);
         if (!bundleStacks.has(fm.stack)) fail(`${here}/applications/${f}: unknown stack "${fm.stack}" (add it to this bundle's index.md \`stacks:\` if it is real)`);
         if (!onDisk.has(fm.technique)) fail(`${here}/applications/${f}: technique "${fm.technique}" not in this subject's techniques/`);
-        const expectName = `${fm.stack}--${fm.technique}.md`;
-        if (f !== expectName) fail(`${here}/applications/${f}: filename should be "${expectName}" (rkb-profile §2)`);
+        // `<stack>--<technique>.md`, or `<stack>--<technique>--<witness>.md` when a second
+        // project's evidence is worth keeping beside the first. One witness per file: the
+        // two-part name is the first sighting and stays as it is, so nothing is renamed to
+        // make room. Measured need (2026-09-20): zero of 1,788 applications named two
+        // projects, so the cleanest realization of `live-region-architecture` found anywhere
+        // in the fleet had nowhere to live because another repo already owned the filename.
+        // The witness segment is the PROJECT, not a variant label — it answers "whose tree
+        // is this?", which is the question a reader of two applications actually has.
+        const base = `${fm.stack}--${fm.technique}`;
+        const witness = f.startsWith(`${base}--`) ? f.slice(base.length + 2, -3) : null;
+        const expectName = witness ? `${base}--${witness}.md` : `${base}.md`;
+        if (f !== expectName) fail(`${here}/applications/${f}: filename should be "${base}.md" or "${base}--<witness>.md" (rkb-profile §2)`);
+        if (witness !== null && !/^[a-z0-9][a-z0-9-]*$/.test(witness)) {
+          fail(`${here}/applications/${f}: witness segment "${witness}" must be a lowercase slug naming the project the evidence came from`);
+        }
 
         // -- currency
         const arel = `${here}/applications/${f}`;

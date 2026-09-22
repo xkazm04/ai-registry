@@ -403,10 +403,52 @@ async function scanProject(slug, proj) {
   P.requiredChecks = req.data?.contexts ?? (req.data?.checks ?? []).map((c) => c.context) ?? null;
   if (req.error) P.requiredChecks = null;
 
-  // ---- CI on the default branch: latest run per workflow
-  const runs = await ghJson(['run', 'list', '-R', P.repo, '--branch', P.defaultBranch, '--limit', '30', '--json', 'databaseId,conclusion,status,workflowName,headSha,createdAt,event']);
+  // ---- CI on the default branch: latest run per workflow.
+  // Never trust the branch listing's order. On 2026-09-21 `gh run list --branch master` for
+  // ascent returned a page whose newest CI run was three weeks stale - twice in one run, each
+  // time a different stale run - while master had been red on its tip since 2026-09-19. Both
+  // scans read ascent as healthier than it was. So sort by createdAt here, and ask for the tip
+  // sha explicitly: a run on the tip is the default branch's actual verdict and wins over
+  // whatever the branch page happened to return.
+  const RUN_FIELDS = 'databaseId,conclusion,status,workflowName,headSha,createdAt,event';
+  const listBranchRuns = () => ghJson(['run', 'list', '-R', P.repo, '--branch', P.defaultBranch, '--limit', '30', '--json', RUN_FIELDS]);
+  // The tip's runs come from an UNFILTERED listing matched on headSha here, not from
+  // `--limit 30 --commit <sha>`. Both server-side filters are served stale, in opposite
+  // directions: `--branch` manufactures a stale presence (see below) and `--commit`
+  // manufactures an absence - on 2026-09-21 `--commit befe6d59` returned zero rows for
+  // ai-registry twice, minutes apart, while an unfiltered listing showed four completed
+  // successful runs on that exact sha. An empty `--commit` is indistinguishable from "CI
+  // never ran", so it cannot be the freshness check. Filtering rows we were handed can
+  // only miss the tip when the window is too small, which is the safe direction.
+  const recent = await ghJson(['run', 'list', '-R', P.repo, '--limit', '60', '--json', RUN_FIELDS]);
+  const tipRuns = { data: (recent.data ?? []).filter((r) => P.defaultSha && r.headSha === P.defaultSha) };
+  // The branch listing is served stale often enough to matter: three times on 2026-09-21,
+  // across two repos, it came back without any of the tip's runs on it - once handing ascent a
+  // CI run from three weeks earlier and once handing personas one from two weeks earlier. The
+  // tip runs above double as the freshness check: a branch page that has none of them on it is
+  // stale. Retry once, then say so rather than quietly reporting months-old history as health.
+  let runs = await listBranchRuns();
+  const tipIds = new Set((tipRuns.data ?? []).map((r) => r.databaseId));
+  const missesTip = () => tipIds.size > 0 && !(runs.data ?? []).some((r) => tipIds.has(r.databaseId));
+  if (missesTip()) runs = await listBranchRuns();
+  if (missesTip()) P.problems.push(`gh run list --branch ${P.defaultBranch} served a stale page twice (no run for tip ${P.defaultSha?.slice(0, 8)}); per-workflow history below may be out of date`);
+  // Only a run that actually reached a verdict says anything about the branch. In flight says
+  // "not yet"; cancelled and skipped say "never ran" - personas' tip push cancelled the run
+  // before it, and taking that cancellation as the answer read a branch that had been failing
+  // since the day before as green. So per workflow: the newest run carrying a real verdict, the
+  // tip's if it has one, falling back to the newest run of any kind only when none does.
+  const newestFirst = (rs) => [...(rs ?? [])].sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt));
+  const VERDICT = new Set(['success', ...RED_CONCLUSIONS]);
+  const workflows = new Set([...(runs.data ?? []), ...(tipRuns.data ?? [])].map((r) => r.workflowName));
   const latest = new Map();
-  for (const r of runs.data ?? []) if (!latest.has(r.workflowName)) latest.set(r.workflowName, r);
+  for (const workflow of workflows) {
+    const forThis = (rs) => newestFirst(rs).filter((r) => r.workflowName === workflow);
+    const tip = forThis(tipRuns.data);
+    const any = forThis(runs.data);
+    const decided = (rs) => rs.find((r) => r.status === 'completed' && VERDICT.has(r.conclusion));
+    const pick = decided(tip) ?? decided(any) ?? tip[0] ?? any[0];
+    if (pick) latest.set(workflow, pick);
+  }
   P.defaultCi = [...latest.values()].map((r) => ({
     workflow: r.workflowName, status: r.status, conclusion: r.conclusion || null, id: r.databaseId, event: r.event,
     onTip: r.headSha === P.defaultSha, ageMin: minutesSince(Date.parse(r.createdAt)),

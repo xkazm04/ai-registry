@@ -8,7 +8,7 @@ laws: [gate-sees-target, failure-not-empty-success, count-carries-predicate]
 shared_with: []
 applied: code
 ab_verdict: better
-use_when: [a test forces a dependency to fail so the fallback answers, a suite asserts a value a cache or a default could also have produced, a test file claims to pin a decision the run never executes, deciding whether a green suite covers the argument that crosses a process boundary, a fixture is named the way the resolver's default would name it, a mutated payload is rejected by an outer check before it reaches the parser]
+use_when: [a test forces a dependency to fail so the fallback answers, a suite asserts a value a cache or a default could also have produced, a test file claims to pin a decision the run never executes, deciding whether a green suite covers the argument that crosses a process boundary, a fixture is named the way the resolver's default would name it, a mutated payload is rejected by an outer check before it reaches the parser, a duplicated condition was extracted into a shared predicate and covered by driving the predicate, a test's name claims a stronger guard than its assertions make]
 ---
 
 # An unreached decision pins nothing
@@ -63,6 +63,27 @@ Report the outcome as a count with its predicate
 ([count-carries-predicate](../../../../_laws.md#count-carries-predicate)): *three
 mutations of the decision, one caught*, never *the suite is green*.
 
+## The test's name is the claim with the most reach
+
+The file's comment is what a reader trusts. The test's **name** is worse, because
+it is what a *searcher* trusts: the question "is this checked?" is asked as a grep,
+and an overstated name answers it in the affirmative and ends the search. An
+overstated name therefore hides a gap **more effectively than no test at all** —
+absence returns nothing and sends the searcher to read the code.
+
+Measured: a statistics helper compared two score vectors by position and checked
+only that their lengths matched. Its test was called *refuses mismatched case
+sets*, which is a different and much stronger claim; the name and the doc comment
+made the same overstatement and both survived months of review, while callers
+built on the guarantee the name asserted. The repair had two parts and the second
+is not cosmetic: rename the test to the sentence it actually settles (*pairs by
+position and checks length only*), and add an assertion that pins the **hazard** —
+two vectors from different case sets pairing silently — so the file now documents
+its own limit in the one place a future reader cannot skip.
+
+A name is a claim like any other, and it is settled the same way: mutate what the
+name says is guarded and watch what happens.
+
 ## Repair, in preference order
 
 **1. Make the decision reachable.** Lift it out of the unreachable region into a
@@ -72,13 +93,26 @@ its output directly. The decision is then covered by an ordinary test at full
 strength, and what remains unreachable is only the *wiring*: that the unreachable
 site calls this unit with these arguments.
 
+**The lift creates the gap it is judged on.** Extracting a duplicated condition
+into one shared predicate is the standard repair for two copies that drifted, and
+the test written alongside it drives the predicate — which is the half that was
+never broken. The half that shipped is the call site's *adoption* of it, and a
+suite that drives only the predicate stays green when a call site quietly reverts
+to its own copy. Measured, 2026-09-06: a render condition duplicated between a
+navigation rail and the section it jumps to was extracted into one predicate and
+covered by five assertions; reverting the component to map the unfiltered list
+left all five green. Only seeding the component revealed it. Assert both — the
+predicate's behaviour *and* its adoption — because the extraction is what you
+fixed and the adoption is what you shipped.
+
 Pin the wiring explicitly rather than hoping. Where the site itself cannot be
 executed in the lane, a structural assertion over the calling code is the honest
 interim — and it is weaker than it looks, because it pins the text and not the
-behaviour, so it belongs beside a comment saying so and inherits the drift
-problem that [prose-rule-drift](../../../standards-and-gates/quality-gates/techniques/prose-rule-drift.md)
-describes. Prefer a lane that can execute the site once over a permanent text
-match.
+behaviour, so it belongs beside a comment saying so. Building that assertion so
+it means what it says is its own discipline, with its own failure modes in both
+directions:
+[pin-the-call-not-the-name](./pin-the-call-not-the-name.md). Prefer a lane that
+can execute the site once over a permanent text match.
 
 **2. Make the answer name its producer.** Where the value can be produced by more
 than one path, the value alone is not evidence; the answer carries a
@@ -148,7 +182,12 @@ covers it or the reason there is none.
 ## Decision rules
 
 - **A file's claim about what it pins is a hypothesis.** Settle it by mutating the
-  decision it names, not the code it reaches.
+  decision it names, not the code it reaches. The test's **name** is that claim at
+  its highest leverage, because it is the string a later search stops at; a name
+  that overstates is renamed as part of the fix.
+- **When a condition is extracted into a shared predicate, assert its adoption**
+  as well as its behaviour. A suite that drives only the predicate is green while
+  a call site keeps its own copy.
 - **Where two producers can yield the value, assert the producer.** A value with
   no producer named is one observation of two possible worlds.
 - **A deliberately unreachable region is declared, with its uncovered decisions

@@ -99,7 +99,8 @@ memory/<kind>/<slug>.md   # frontmatter: kind, confidence, namespace, source
 memory/_index.md          # map of content over the notes
 usage/<contributor>.json  # counts from ONE installation - see docs/usage-lane.md
 signals/<contributor>.json# currency verdicts from ONE installation - see docs/signals-lane.md
-.projects.local.json      # GITIGNORED: slug -> checkout path on this machine; the bridge the operator-side scripts read
+projects.json             # COMMITTED: slug -> per-MACHINE checkout, relative to that machine's root
+.machine.local.json       # GITIGNORED: which machine this is, its root, optional overrides; resolve both via scripts/lib/projects.mjs
 ```
 
 Two `registry.yaml` files is deliberate, not drift: the root one says what this repository is,

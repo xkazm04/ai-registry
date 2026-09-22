@@ -6,7 +6,7 @@ technique: viewport-transform
 status: forged
 laws: [one-authority-per-vocabulary, derivation-names-recomputation]
 shared_with: []
-use_when: [deciding where screen-world conversion lives, content rockets toward a corner on every zoom, scrolling an overlay zooms the canvas behind it]
+use_when: [deciding where screen-world conversion lives, content rockets toward a corner on every zoom, scrolling an overlay zooms the canvas behind it, a surface with no pan or zoom still has to read a pointer]
 ---
 
 # Viewport transform
@@ -42,6 +42,37 @@ derivation, per
 [derivation-names-recomputation](../../../../_laws.md#derivation-names-recomputation))
 and the **fit-to-content transform** (the pan/scale that frames a given world
 rectangle with margins).
+
+## No camera is not no authority
+
+A surface with no pan and no zoom — a field fit to its container, a diagram
+sized by layout — looks like it has escaped this technique. It has not. It
+still has a mapping, and the mapping is usually *harder* than a camera's:
+asymmetric margins for axes and labels, a vertical axis inverted so the data
+maximum sits at the top, a scale that is whatever the container turned out to
+be this render. The camera is the part that went away.
+
+What survives is the failure mode, with one difference that makes it easier
+to miss. On a camera-driven canvas both directions are obviously geometry and
+tend to be written together. Without a camera, the *forward* direction feels
+like drawing — it lives beside the marks, as the projection each mark's
+coordinates go through — while the *inverse* is only ever needed by whoever
+reads a pointer, so it gets written where that need appeared: in the gesture
+module, the tooltip, the hit test. Each one is hand-derived from the same
+constants rather than derived from the projection, and now the surface has
+two independent statements of one mapping, in two modules, neither aware of
+the other.
+
+They then drift on the first wrinkle, and a fit-to-container field has
+wrinkles: a clamp to the data domain that the forward function does not
+have, a margin adjustment, an axis that becomes logarithmic. The rule is
+unchanged and merely relocated — **forward and inverse are one authority,
+stated once, beside each other** — and it carries one extra obligation the
+camera case gets for free from zoom-to-point: the pair is tested as a *round
+trip*. Project a point, invert it, and land back where you started, for the
+corners and the margins as well as the middle. A hand-written inverse that
+nobody round-trips is correct until the day the frame changes, which is the
+day nobody looks at it.
 
 ## Zoom-to-point
 
@@ -146,6 +177,9 @@ to zoom-to-point regardless of the bare-wheel policy.
 ## Anti-patterns worth naming
 
 - Scale math scattered across features — the five-symptom geometry haunt.
+- A hand-written inverse written wherever a pointer was first read, on a
+  surface that "has no transform" — and never round-tripped against the
+  projection it is supposed to undo.
 - Zoom about the origin, or zoom-to-point re-derived (differently) per entry
   point.
 - Reading the container's transform back as a source of truth.

@@ -1,6 +1,6 @@
 {
   "schema": "rkb-usage/1",
-  "contributor": "kazda-dev-box",
+  "contributor": "wolf",
   "app": "personas",
   "generatedAt": "2026-08-22T17:24:57Z",
   "windowDays": 30,

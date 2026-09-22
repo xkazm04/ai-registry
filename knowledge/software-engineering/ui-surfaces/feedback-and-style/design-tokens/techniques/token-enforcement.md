@@ -8,7 +8,7 @@ laws:
   - gate-sees-target
   - failure-not-empty-success
   - deletion-is-not-repair
-use_when: [deciding whether a rule should warn or fail the build, a rule fires daily but half the violations go unseen, counting inline suppressions before they become a dialect]
+use_when: [deciding whether a rule should warn or fail the build, a rule fires daily but half the violations go unseen, counting inline suppressions before they become a dialect, a clean run is being read as evidence that a rule is armed]
 ---
 
 # Token enforcement
@@ -145,6 +145,39 @@ Two honesty clauses, both instances of
    reports as perfection.
 2. **The gate runs where merges are decided.** An enforcement script that
    exists but is wired into no pipeline is documentation with an exit code.
-   The chain to verify: rule exists → severity fails builds → pipeline runs
-   it → pipeline blocks the merge. Any broken link and the system is
-   advisory de facto, whatever the severity says.
+   The chain to verify: rule exists → rule is *armed over the files it
+   claims* → severity fails builds → pipeline runs it → pipeline blocks the
+   merge. Any broken link and the system is advisory de facto, whatever the
+   severity says.
+
+## A rule can be disarmed by its own configuration
+
+The second link in that chain is the one nobody checks, because every other
+link is visible in a file somebody wrote on purpose. Where a checker composes
+its configuration as **ordered blocks that each claim a set of files**, a
+later block naming the same rule generally *replaces* that rule's arguments
+rather than merging with them. So a law expressed as arguments to a shared,
+general-purpose rule — a selector list, a pattern set, a banned-value table —
+is switched off for every file a later block claims for some unrelated
+purpose: a layering rule, an import ban, a per-directory override. Nothing
+reports this. The rule exists, its severity is fatal, the pipeline runs it,
+the run is clean, and a violation typed into the covered directory is not
+seen.
+
+Two disciplines follow, and the second one is the load-bearing one:
+
+- **Name the law once and restate it in every block that overrides.** A law
+  carried as a named collection, referenced by each block that claims its
+  files, makes the restatement mechanical and reviewable; a law typed inline
+  at the top of a configuration is only as durable as the next person's
+  unrelated override.
+- **Probe liveness with a fixture that is supposed to fail.** A violation
+  planted in each region the rule claims, asserted to be *reported*, is the
+  only evidence that the rule is armed there. Absence of findings is
+  compatible with a clean codebase and with a disarmed rule, and the two are
+  indistinguishable from the outside — a clean run means something only when
+  something in it was meant to be dirty
+  ([failure-not-empty-success](../../../../_laws.md#failure-not-empty-success)).
+  This is the same probe the zero-input clause asks for, one level up: there
+  the instrument read nothing, here the instrument read everything and
+  applied nothing.

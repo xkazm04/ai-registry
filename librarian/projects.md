@@ -9,8 +9,8 @@ without anybody having to remember, and so demand has a name before the
 the same rule as `usage/` and `signals/`, and the machine-readable half that resolves a
 slug to a checkout is `projects.json` at the registry root - **committed**, because a
 path relative to a machine root names no tree until that root is supplied. Only
-`.machine.local.json` stays gitignored: the machine's name, its root, and its
-contributor id. See [`.claude/skills/intake/SKILL.md`](../.claude/skills/intake/SKILL.md), Phase 8.
+`.machine.local.json` stays gitignored: the machine's name, its root, and an optional
+overrides map. The contributor id is DERIVED from the machine name, so no box carries two names. See [`.claude/skills/intake/SKILL.md`](../.claude/skills/intake/SKILL.md), Phase 8.
 
 ## The map
 
@@ -25,6 +25,7 @@ contributor id. See [`.claude/skills/intake/SKILL.md`](../.claude/skills/intake/
 | `gravity` | `media-generation`, `software-engineering` | A content-creation studio for trailer-shaped pieces: research, script, frames, score, cut over a captioned asset library. The first consumer of the `audio-generation` category — its Score phase renders spotting cues through a server-side music seam (2026-08-26), and the fixture cut already spoke the spotting doctrine before the engine existed. |
 | `gravitone` | `software-engineering` | A CPU-only, Arm-native text-to-speech and speech-to-text service with voice cloning, shaped like a hosted TTS API: a bounded pool of model instances behind an admission queue with 429 backpressure, a sealed air-gapped appliance image, and a Helm chart whose autoscaling reads queue depth through an external scaler. The fleet's most advanced cluster surface; onboarded 2026-09-03 after the kube-rs round found it missing (the `gravity` row above is the content studio at `gravitone-gcloud`, which this slug was previously confused with). |
 | `athena-everywhere` | `software-engineering`, `llm-observability` | A standalone, Python, cloud-capable variant of the Personas companion: one brain (markdown truth + SQLite index, provenance, gate, ledger) on two harnesses (Claude Code CLI, Strands), realtime and async lanes, every surface a channel adapter (AG-UI/CopilotKit, WebMCP, voice, MCP), self-onboarding into a host app. MIT, built for open contribution. Registered 2026-09-06 at scaffold time; it consumes the registry now and is expected to contribute usage and signals once hardened. |
+| `gravitone` | `media-generation`, `software-engineering` | A content-creation studio for trailer-shaped pieces: research, script, frames, score, cut over a captioned asset library. The first consumer of the `audio-generation` category - its Score phase renders spotting cues through a server-side music seam (2026-08-26), and the fixture cut already spoke the spotting doctrine before the engine existed. Held the slug `gravity` until 2026-09-21, when the unrelated TTS service that owned `gravitone` was retired and the name was freed; its checkout has always been `gravitone-gcloud`. |
 | `athena-everywhere` | `software-engineering`, `llm-observability` | A standalone, cloud-capable Athena: one agent brain (markdown episodes as truth, SQLite as a rebuildable index) behind two harnesses and a set of channel adapters, which self-onboards into a host repository behind a decision card. The runtime half of the companion that `personas` ships as a desktop app, extracted from it and ported to Python; it registers back into that app as a project and carries four demo host applications plus a Tauri desktop shell for exercising the onboarding seam. Onboarded 2026-09-11. |
 
 ## What this map is for, and what it is not
@@ -61,7 +62,7 @@ once, **at a different path on each**. `projects.json` gives every project a
 The keys ARE the machines it exists on; a machine absent from the map does not have
 it, and resolving there yields nothing rather than an error. Adding a machine is
 adding one key. The machine's **root** is declared only in the ignored
-`.machine.local.json`, alongside its machine name and contributor id. An optional
+`.machine.local.json`, alongside its machine name. An optional
 `overrides` map supplies absolute locations for checkouts outside that root.
 Missing roots are reported; the resolver never guesses relative to its working directory.
 
@@ -86,6 +87,6 @@ wrote nothing, silently, for days.
 
 Edit both halves in the same change: this table, and `projects.json` at the registry
 root. Only a NEW machine needs a local file - write `.machine.local.json` with its
-name, its root and its contributor id, then add that name and relative path to the project's `checkouts`
+name and its root, then add that name and relative path to the project's `checkouts`
 map in `projects.json`. A project in only the local half is invisible to
 review; a project in only this one cannot be reached by a run.

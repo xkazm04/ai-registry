@@ -33,7 +33,14 @@ With capture, the initiating element receives every subsequent pointer event
 until release, no matter where the pointer travels. Release the capture in
 every exit path — completion, cancel, and disconnection — or the next
 interaction starts with a stale capture ("who releases this" is a question to
-answer at capture time, not later).
+answer at capture time, not later). The release is easiest to lose to an
+*early return*: a handler that bails out before reaching the release line —
+on a stray event, an empty gesture, a guard clause added months later —
+leaves the capture held, and the surface then swallows every pointer event
+for the rest of the session. Release before the branching starts, or in the
+handler that runs whatever happens; and subscribe to the platform's
+capture-lost and gesture-cancel events rather than assuming a release always
+arrives.
 
 **When to capture depends on who else needs the stream.** On an element that
 is itself the whole gesture target — a node's drag handle — capture at press.
@@ -51,8 +58,8 @@ that press-release pair unless the gesture layer eats it.
 A node is both clickable (select, open) and draggable (move), and the same
 press begins either. Disambiguate by **movement**: a press is a click until
 the pointer travels beyond a small threshold from its origin — a few pixels,
-in *screen* space, so the threshold feels identical at every zoom — and
-becomes a drag the moment it crosses. Two invariants:
+in *screen* space — and becomes a drag the moment it crosses. Two
+invariants:
 
 - **No model mutation before the threshold.** If the position updates from
   the first pointer event, every selection click nudges the node a
@@ -61,6 +68,22 @@ becomes a drag the moment it crosses. Two invariants:
 - **The click fires on release only if the threshold was never crossed** —
   not "if the drag was short". A slow careful two-pixel adjustment is a drag;
   a fast sloppy click with one pixel of travel is a click.
+
+The threshold lives in screen space because that is the space the hand moves
+in, and a threshold expressed in model units is scaled by whatever maps the
+two — which is *not* only zoom. A surface with no camera at all, fit to its
+container and responsive, has a scale that changes with the window: the same
+small distance in model units is a comfortable deliberate drag on a wide
+display and a hair-trigger on a phone, so one hand gesture produces
+different verdicts on different screens. Wherever the threshold is compared,
+convert first. The rule is not "beware zoom"; it is that the verdict belongs
+in the space the gesture happened in.
+
+Cross the threshold *during* the gesture, not at release. Deferring the
+verdict to release satisfies the no-mutation invariant but not the feedback
+one — a rubber band or a drag ghost that appears on the first pointer move
+and is then retroactively ruled a click has already told the user something
+untrue about what their press was doing.
 
 Timing-based disambiguation (long-press-to-drag) belongs to touch idioms, not
 to pointer-first canvases; a timer on a mouse makes both gestures feel

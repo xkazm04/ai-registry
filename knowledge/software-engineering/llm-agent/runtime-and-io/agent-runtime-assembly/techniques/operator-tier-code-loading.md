@@ -7,7 +7,7 @@ status: forged
 stage: team
 laws: [one-validation-door, failure-not-empty-success, verdict-survives-boundary, one-authority-per-vocabulary]
 shared_with: []
-use_when: [deciding which configuration file may name code to load, a broken extension takes the host down, a contributed hook's timeout ends the run as cancelled, choosing whether a load failure is fatal, deciding whether a sandbox lets administrators install code through the product]
+use_when: [deciding which configuration file may name code to load, a broken extension takes the host down, a contributed hook's timeout ends the run as cancelled, choosing whether a load failure is fatal, deciding whether a sandbox lets administrators install code through the product, a configuration key names a path that a standing permission carve-out then trusts, auditing which settings tier may set the scope of an approval exemption]
 ---
 
 # Operator-tier code loading
@@ -356,11 +356,66 @@ refusal with a named reason, not a bigger denylist of what such code may do.
 The denylist is a substitute for the boundary; the boundary is the
 technique.
 
+## The tier rule is about authority, not about code
+
+Everything above is stated over keys that **name code**, and the mechanical
+test inherits that framing: write a code-naming key through the untrusted
+tier and confirm the runtime does not load it. A runtime can pass that test
+and still hand the untrusted tier the same power, because code is not the
+only thing a configuration key can carry.
+
+The shape is a key whose *value is consumed by a standing permission
+carve-out*. Runtimes grant these routinely and for good reasons: a directory
+the agent may write to without asking, a path exempt from the approval
+prompt, a location whose contents are trusted on read. The carve-out is
+written against the key's value rather than against a fixed path, because
+the value is configurable. Then the same key is made settable from the
+repository-writable tier, and the two features compose into an arbitrary
+write: point the key at a credential directory, a shell profile, an autostart
+location, and the carve-out that was scoped to a scratch directory now
+authorizes writes wherever the untrusted tier says.
+
+No code was named. The tier check, asked whether this key names an entry
+point, correctly answers no.
+
+**So the question the tier rule asks is not "does this key name code" but
+"what authority does this key's value acquire".** A key is startup-tier
+whenever anything downstream treats its value as trusted — as a write
+destination that skips a prompt, as a read source whose contents are not
+sanitised, as an identity a policy matches on. The carve-out is what
+converts a string into a capability, and the carve-out is usually written by
+a different person, in a different file, from the one who decided the key was
+harmless because it was "just a path".
+
+Two consequences for the mechanical test:
+
+- **Enumerate the carve-outs, then the keys, then the intersection.** The
+  audit runs from the permission side, not the configuration side: for every
+  standing exemption, ask what determines its scope, and which tier may write
+  that determinant. A configuration-side audit sorts keys by whether they look
+  dangerous, and a path never does.
+- **Test it the same way.** Write a path-valued key through the untrusted
+  tier, point it somewhere the carve-out would make catastrophic, and confirm
+  the runtime ignores the key with a diagnostic. A runtime that passes only
+  the code-naming version of this test has been checked against one of the two
+  doors.
+
+The fix is the same fix, which is why this is a widening and not a new rule:
+keys that acquire authority come only from tiers the untrusted party cannot
+write, and one whose value arrives from below is ignored, loudly. The default
+computed location stands in for it — not the untrusted value.
+
 ## Decision rules
 
 - Load code only from the startup configuration tier; ignore, with a
   diagnostic, any code-naming key arriving through the service-writable
   tier. Test it by writing one.
+- Apply the same tier rule to any key whose value a standing permission
+  carve-out consumes — a write destination that skips approval, a read source
+  trusted on content, an identity a policy matches. Audit from the carve-out
+  inward: for each exemption, name what sets its scope and which tier may
+  write that. Test it by writing a path-valued key from below and confirming
+  the runtime falls back to the computed default.
 - Lift that prohibition only when all four third-row conditions hold
   together — real isolation with the host's ceilings, one manifest that is
   both the disclosure and the enforcement input, consent at install, and a

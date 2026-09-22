@@ -59,6 +59,42 @@ in-flight work. A comparison surface that leaks one background computation
 per visit is a slow-motion resource exhaustion that profiles as "the app
 gets worse over the day".
 
+### Discarding the stale answer is not the same as not showing it
+
+The guard as usually built is a test at apply time: when the response arrives,
+compare its identity against the current request and drop it if they differ.
+That closes half the race and leaves the louder half open, because it says
+nothing about the answer that is *already on the surface*. The reader changes
+the pair; the new computation starts; the previous pair's fully rendered diff
+goes on sitting under the new pair's header until the new answer lands. Every
+property that made the first failure invisible is present in the second, and
+the window is longer — the whole computation rather than the tail of one — so
+the surface spends most of its slow moments displaying a correct answer to a
+question the reader has already replaced.
+
+The fix is structural rather than another check: **store the answer together
+with the request it answers, and read it back only on an exact match.** The
+state then cannot hold an answer and a mismatched question at the same time,
+and the apply-time test stops being a rule anyone can forget — a response
+whose identity does not match is not rejected, it is simply filed under a key
+nobody is reading. The display falls out of the same invariant: a request with
+no answer of its own renders as pending, which is the honest state, with
+nothing to reset.
+
+The alternative that suggests itself — clear the previous answer when the pair
+changes — is worse than it looks, and for a reason that is not about taste. It
+is a second write that has to be ordered against the arrival of the first, and
+on most surfaces that ordering is either unavailable or explicitly forbidden;
+where it is available, the clear lands after the new question is already drawn,
+so the old diff is displayed under the new header for at least one frame. One
+frame of a confidently wrong comparison is enough when the thing beside it is a
+control the reader is about to act on.
+
+The keying discipline extends past the pair. Whatever else changes the question
+— the level, the normalization ledger in force, a filter the reader toggled —
+belongs in the key too, because those change the answer without changing the
+pair, and an answer keyed on the pair alone survives them silently.
+
 ## Budgets, and disclosed degradation
 
 Unbounded inputs meet fixed patience. Declare budgets on the way in — an

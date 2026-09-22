@@ -1,0 +1,124 @@
+{
+  "schema_version": 1,
+  "run_id": "2026-09-20-council-example-r2",
+  "subject": {
+    "kind": "use_case",
+    "slug": "example-feature",
+    "title": "Example feature",
+    "summary": "What it does."
+  },
+  "rubric_version": "feature-v1",
+  "round_no": 2,
+  "supersedes_run_id": "2026-09-20-council-example-r1",
+  "trust_state": "uncalibrated",
+  "receipt": {
+    "head_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "spanned_paths": [
+      "src/a.ts"
+    ],
+    "span_digest": "0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "hard_failures": [],
+  "dimensions": [
+    {
+      "dimension": "value",
+      "kind": "judged",
+      "state": "measured",
+      "score": 0.8,
+      "confidence": "med",
+      "floor": 0.4,
+      "floor_hit": false,
+      "advisory": false,
+      "unmeasured_reason": null,
+      "findings": [
+        {
+          "id": "v1",
+          "severity": "med",
+          "title": "the second character never reaches the entry point",
+          "detail": "d",
+          "recurrence": 1
+        }
+      ],
+      "evidence": [
+        {
+          "kind": "file",
+          "ref": "src/a.ts:12",
+          "caption": "the entry point"
+        }
+      ],
+      "techniques": [
+        {
+          "subject": "async-ui-states",
+          "technique": "ghost-under-chrome",
+          "proof": "inspection"
+        }
+      ],
+      "delta": null
+    },
+    {
+      "dimension": "craft",
+      "kind": "mixed",
+      "state": "measured",
+      "score": 0.7,
+      "confidence": "med",
+      "floor": null,
+      "floor_hit": false,
+      "advisory": false,
+      "unmeasured_reason": null,
+      "findings": [],
+      "evidence": [],
+      "techniques": [],
+      "delta": null
+    },
+    {
+      "dimension": "rivalry",
+      "kind": "judged",
+      "state": "measured",
+      "score": 0.6,
+      "confidence": "med",
+      "floor": null,
+      "floor_hit": false,
+      "advisory": false,
+      "unmeasured_reason": null,
+      "findings": [],
+      "evidence": [],
+      "techniques": [],
+      "delta": null
+    },
+    {
+      "dimension": "robustness",
+      "kind": "mechanical",
+      "state": "measured",
+      "score": 0.9,
+      "confidence": "med",
+      "floor": 0.5,
+      "floor_hit": false,
+      "advisory": false,
+      "unmeasured_reason": null,
+      "findings": [],
+      "evidence": [],
+      "techniques": [],
+      "delta": null
+    },
+    {
+      "dimension": "economics",
+      "kind": "mechanical",
+      "state": "not_applicable",
+      "score": null,
+      "confidence": "high",
+      "floor": null,
+      "floor_hit": false,
+      "advisory": false,
+      "unmeasured_reason": null,
+      "findings": [],
+      "evidence": [],
+      "techniques": [],
+      "delta": null
+    }
+  ],
+  "overall": 0.7444,
+  "coverage": 1,
+  "outcome": "ready",
+  "must_address": [],
+  "summary": "Ready for a decision."
+}

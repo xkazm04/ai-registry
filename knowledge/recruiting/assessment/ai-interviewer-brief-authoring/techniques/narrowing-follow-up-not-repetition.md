@@ -87,6 +87,52 @@ technique that produces the strongest evidence in the transcript.
   pursuit, and the candidate feels it as one. Record the topic as thinly covered
   rather than mining it.
 
+## Coverage is earned, not declared
+
+"Stop on coverage, not on count" hands the completion decision to a judgement
+about whether there is enough material. Where the interviewer makes that
+judgement about its own conversation, it is worth what any self-report is worth.
+An interviewer asked to report its own progress reports progress: it closes a
+topic on a fluent summary of what it believes it heard, in its own words, and
+the record then carries a covered topic whose evidence the candidate never gave.
+This is not a compliance failure that better wording fixes — a summary is what
+the instrument is *for*, and the summary is always available.
+
+The remedy is to make the claim carry its evidence, and to check it: **a topic
+is covered when the interviewer can quote the candidate's own words for it, and
+the quote is verified against what the candidate actually said before the
+coverage is recorded.** The scorecard instrument's evidence-quote requirement is
+the same rule one layer later; this is it applied live, while there is still a
+turn left in which to close the gap.
+
+Three properties decide whether this helps or harms:
+
+- **The check is mechanical and needs no second opinion.** Matching a quote to
+  the record is a comparison, not a judgement, so it costs nothing per turn and
+  cannot itself invent. It must be tolerant of *form* — a spoken interview's
+  stored text and the interviewer's rendering of what it heard differ in
+  casing, punctuation and hearing — and strict about *direction*: the quote sits
+  inside what the candidate said, never the reverse, or a long summary that
+  happens to contain a short "yes, I did" passes as evidence of everything
+  around it.
+- **A minimum substance, or provenance is not evidence.** A two-word
+  affirmation is genuinely the candidate's words and demonstrates nothing. The
+  floor is low, and it is a floor.
+- **The refusal is a directive, and it is the ladder's next rung.** What goes
+  back to the interviewer arrives at the position this subject's ordering
+  doctrine says is the most reliably applied — last, immediately before the
+  turn it will generate (rule-ordering-adjacency-and-form). Spend it: say what
+  to do, in interviewing language, not that a validation failed. *Ask one
+  narrower question for a concrete instance, then try again.* A refusal that
+  only says no produces an interviewer that asks its question again, which is
+  the move this technique exists to forbid — so a badly written refusal
+  manufactures the defect it was added to catch.
+
+Record the refused claim as well as the accepted one. A topic the interviewer
+tried three times to close and could not is a finding about the conversation,
+usually about the item rather than the candidate, and it is invisible if only
+the successes are stored.
+
 ## When not to use it
 
 - **When the answer was complete.** Narrowing a good answer for the sake of the

@@ -71,6 +71,30 @@ Two properties make it an authority rather than a chain of guesses:
    deadline phrasing and any link text derive from the same resolved value. A
    subject line in one language over a body in another is a common and revealing
    bug.
+
+   **A link inside the message is part of "carry it", and it is the part that
+   gets forgotten**, because a link reads as an address rather than as prose.
+   The page at the other end resolves its own locale from its own signals — and
+   the person arriving from a message has none of them. They come from a mail
+   client with no session and no stored preference, so the destination falls
+   back to the device's language, which is the one thing in the chain that was
+   never a statement about them. A letter in the candidate's language whose door
+   opens in another is the same integrity failure as a mismatched subject line,
+   and it lands on whatever the link was for — which is usually the most
+   consequential moment in the process, because those are the messages that
+   carry links.
+
+   **Pin the locale where it was resolved, not where the link is built.** A link
+   builder sits below the composition and cannot see which locale this letter
+   resolved to; asking it to work that out again creates a second resolver, and
+   two resolvers drift — which is the failure this whole technique exists to
+   prevent, reappearing one layer down. The composition already holds the
+   answer, so it stamps the link as it embeds it: one pure, idempotent step, so
+   a link that was already pinned upstream is left alone rather than pinned
+   twice. Then the destination honours the stamp **and still offers its own
+   language control**: the pin is the default the letter promised, not a cage,
+   and a candidate who wants to read it in another language is exercising the
+   same recorded choice step one is built on.
 5. **Persist structured facts, compose prose at render time.** Never freeze a
    generated sentence in the producing process's language into a durable record;
    the next reader, the next jurisdiction and the audit export all need it
@@ -90,6 +114,10 @@ Two properties make it an authority rather than a chain of guesses:
 - **When a message is legally consequential** — an adverse decision, a data-rights
   notice, an offer — and the resolved locale came from step three, treat that as a
   quality signal worth a human's attention before dispatch, not after.
+- **When a message carries a link, the resolved locale travels with the link.**
+  An unpinned link is an unresolved message; the resolution simply happens later,
+  on the candidate's device, using signals about their hardware rather than about
+  them.
 - **When a candidate replies in a different language from the one you used, that
   is a recorded choice.** Update the field; do not keep addressing them in the
   language of an old inference.

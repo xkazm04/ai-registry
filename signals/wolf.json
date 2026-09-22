@@ -1,6 +1,6 @@
 {
   "schema": "rkb-signals/1",
-  "contributor": "kazda-dev-box",
+  "contributor": "wolf",
   "app": "ai-registry-scripts",
   "generatedAt": "2026-08-29T20:59:52Z",
   "windowDays": 30,

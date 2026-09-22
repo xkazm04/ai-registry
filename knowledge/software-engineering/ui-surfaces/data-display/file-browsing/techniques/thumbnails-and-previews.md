@@ -44,12 +44,26 @@ obligation cached derivations carry:
   cancellable on scroll-away — work for tiles the user has already left is
   work stolen from tiles they are looking at.
 - **The cache key names the recomputation.** Key thumbnails by identity
-  *plus content version* (modification time, size, or content hash). Keyed
-  by name alone, the cache serves yesterday's pixels for today's file —
-  the stale-thumbnail bug users describe as "the browser shows the wrong
-  photo", which is precisely a stored derivation that lost track of how it
-  is recomputed. When the version changes, the old entry is invalid by
-  construction; no manual "clear cache" folklore required.
+  *plus content version* (modification time, size, or content hash), and by
+  the size requested — one file at three preview sizes is three
+  derivations. Keyed by name alone, the cache serves yesterday's pixels for
+  today's file — the stale-thumbnail bug users describe as "the browser
+  shows the wrong photo", which is precisely a stored derivation that lost
+  track of how it is recomputed. When the version changes, the old entry is
+  invalid by construction; no manual "clear cache" folklore required. Where
+  the derivation is cached at more than one tier — a durable store near the
+  decoder and a small hot cache near the viewport — every tier composes its
+  key from the same fields, or the tiers disagree about what is stale and
+  the nearest one wins.
+- **A thumbnail is never larger than its source.** The requested edge is a
+  *maximum*, not a target. General-purpose resize helpers scale in both
+  directions and will enlarge a small source to fill the box: bytes spent
+  to store, bytes spent to transfer, and a blurred preview of an image that
+  was already small enough to show exactly as it is. A source inside the
+  requested edge is re-encoded at its own size, or passed through
+  untouched; only a larger source is resized. The branch is one comparison
+  and it is missed constantly, because the helper is named for what the
+  caller wanted and behaves as what it was written to do.
 - **The cache names its reaper.** Disk- or memory-resident thumbnail caches
   grow monotonically under a browser that only adds. Set a budget and an
   eviction order at creation time; a cache without a reaper is a slow leak
@@ -73,6 +87,15 @@ browser input is maximally wild. Boundaries, from inside out:
   still selectable, renamable, deletable. The user's recourse to a broken
   preview is to *act on the file* — the mutation surface must survive the
   preview's death.
+- **The boundary resets with its subject.** A failure boundary that has
+  caught something holds it until something clears it, and selecting a
+  different item does not clear it on its own — the same panel, now aimed
+  at a healthy file, keeps rendering "could not preview this file" until
+  the whole surface is reloaded. So the boundary is keyed to the identity
+  it is previewing: a change of subject drops the caught failure and
+  renders the new item from nothing. This is the rule that keeps a previous
+  file's camera angle, zoom or page position out of the next preview,
+  applied to the one piece of leftover state nobody files under state.
 - **Resource discipline**: one heavyweight viewer active at a time as the
   default; a grid of simultaneously playing videos or spinning models is a
   resource exhaustion with good production values. Offscreen viewers pause

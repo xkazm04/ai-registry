@@ -9,7 +9,7 @@ laws:
   - count-carries-predicate
   - identity-survives-reuse
 shared_with: []
-use_when: [one busy producer drowns the whole feed, deciding whether clusters may be stored or only derived, expanded clusters reset as new members arrive]
+use_when: [one busy producer drowns the whole feed, deciding whether clusters may be stored or only derived, expanded clusters reset as new members arrive, a push channel is throttled while the feed must stay complete]
 ---
 
 # Event clustering
@@ -128,6 +128,49 @@ the newest cluster. Identity discipline keeps that stable:
 - **Expansion state survives growth.** A cluster the reader has expanded
   stays expanded as members join; the new member appears at the appropriate
   end of the expanded run.
+
+## The channel's throttle is not the feed's cluster
+
+Clustering serves a reader who is looking at the surface. A feed that also
+*pushes* — to a pager, a chat sink, an inbox — is interrupting a reader who is
+not, and that channel needs a volume control of its own: a cooldown admitting
+at most one notification per relation per window. The two are easy to mistake
+for one mechanism, and each is the wrong fix for the other's problem.
+Throttling the feed deletes occurrences; clustering the pager delays the one
+notice that was worth the interruption.
+
+What keeps a channel throttle from quietly becoming write-time clustering:
+
+- **The occurrence still lands in the feed, every time.** The throttle decides
+  *delivery*, never existence. A stream the pager thinned is a stream that lies
+  to the reader who opened the surface precisely to find out what they missed.
+- **The suppression is recorded on the occurrence, with its reason.** Not
+  delivered, and why — no sink configured, inside the cooldown window, the send
+  failed. Those are three different facts about one row, and the row is the
+  only place a reader can ever learn them. A throttle that leaves no mark *is*
+  write-time collapse with no expansion: the members are gone, the count is
+  gone, and nothing states that anything was withheld.
+- **One key spans the opposing directions of a relation.** A subject
+  oscillating across a threshold — degraded, recovered, degraded — is exactly
+  the noise a cooldown exists to mute, and two pools keyed by direction let it
+  alternate every cycle, each pool individually within its window and the
+  channel unreadable. Claiming the slot must also *consume* it, or the two
+  directions double-fire inside one window.
+- **Classes that must not starve each other get separate keys.** A routine
+  notice and a rare high-consequence one sharing a key means the routine one
+  wins the window every time and the consequential one is never sent. This is
+  the per-source budget argument from the feed's union rules, pointed at the
+  outbound channel.
+- **Claim the slot at the delivery door, not at detection.** A window burned by
+  an occurrence that was never going to be sent — no sink resolved, the send
+  abandoned upstream — suppresses the next one that would have been. The
+  check-and-stamp is one indivisible step taken immediately before the send,
+  which also collapses two overlapping detections into a single notice.
+
+The cost is real and belongs in the design note rather than in a later
+incident: a genuine second occurrence inside the window loses its push. That is
+acceptable only because the feed kept it — which is why the first rule is
+first.
 
 ## What not to cluster
 

@@ -14,6 +14,7 @@ techniques:
   - attribution-share-accounting
   - follow-up-that-can-kill-a-fact
   - critique-carries-its-fix
+  - gate-record-outlives-the-media
 ---
 
 # Review iteration loops
@@ -172,6 +173,32 @@ beats resting on it need edits or cuts, gates need re-running, and the
 attribution ledger records the exclusion with its reason. Review that can
 strengthen a claim but never retract one converges on confidence, not truth.
 
+## What the loop leaves behind
+
+Every section above is about a cycle in flight. One question remains when it
+stops, and a loop that never answers it deliberately spends a person's
+attention and then throws the result away.
+
+A review gate produces a verdict and leaves behind the work the verdict was
+about, and those two have opposite economics: the media is heavy, remakeable
+from its recipe, and bounded by somebody's quota; the judgement is light and
+cannot be remade at all, because it is attention spent once on a specific
+artifact. Keeping them together loses both — bytes hoarded to protect a
+judgement, and the judgement lost with the next cleanup. So at the moment a
+decision is recorded, the verdict and **one** kept frame per approval become
+durable in whatever channel the loop's participants already share, and
+everything else the decision touched is destroyed in the same operation, with
+the record saying that it is gone
+([gate-record-outlives-the-media](./techniques/gate-record-outlives-the-media.md)).
+
+Two properties follow and neither is optional. The record is a **queue**: a
+verdict obliges a change somewhere, so each row carries whether that change has
+been made, or approvals pile up and get worked twice. And the record only
+syncs if the write happened inside the shared channel — a commit made in a
+secondary working copy does everything right and reaches nobody, which is
+invisible from the committing side and shows up only when the record is
+reconciled against the evidence from the reading end.
+
 ## Failure modes this standard exists to prevent
 
 - **The helpful rewrite** — regeneration wearing an edit's clothes; the tell
@@ -194,6 +221,10 @@ strengthen a claim but never retract one converges on confidence, not truth.
 - **The decoy slate** — alternatives built so a reviewer can be shown options,
   never meant to ship; a decision already made, charging the reviewer for the
   appearance of making it.
+- **The vanished verdict** — judgement stored with the media it judged and
+  cleaned up alongside it; the one part that cannot be regenerated.
+- **The private ledger** — a gate commit written in a working copy nobody else
+  reads, indistinguishable from a successful one from inside.
 
 ## The techniques
 
@@ -222,3 +253,7 @@ strengthen a claim but never retract one converges on confidence, not truth.
 - [follow-up-that-can-kill-a-fact](./techniques/follow-up-that-can-kill-a-fact.md) —
   an interrogation queue whose outcomes include kill, downgrade, resolve,
   and unanswered — and whose results propagate through the edit machinery.
+- [gate-record-outlives-the-media](./techniques/gate-record-outlives-the-media.md) —
+  what survives a decision: the verdict and one frame per approval in the
+  shared channel, a destructive one-way cull of everything else, a discharge
+  marker per row, and reconciliation read from the receiving end.

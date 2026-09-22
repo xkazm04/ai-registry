@@ -6,7 +6,7 @@ technique: negative-control-tests
 status: forged
 laws: [failure-not-empty-success, gate-sees-target]
 shared_with: []
-use_when: [adding tests that license a refactor, covering a recovery or crash path the normal suite never executes, a suite has been green since it was written]
+use_when: [adding tests that license a refactor, covering a recovery or crash path the normal suite never executes, a suite has been green since it was written, a test stayed green under a deliberate break, writing the regression test for a defect that has just been fixed, a defect's trigger is a plan or an ordering the platform chooses]
 ---
 
 # Negative-control tests
@@ -29,6 +29,8 @@ failures; tests get negative controls.
    recovery arm, the boundary check, the projection matching the store.
 2. **Remove it, minimally.** Delete the recovery call, drop the guard, mutate
    one identifier. One edit, in the production path, not in the test.
+2b. **Prove the edit landed** before reading the run. See below; this step is
+   skipped almost every time and it inverts the conclusion.
 3. **Run and read the failure.** Two things are being checked, not one: that
    the test fails, and that its message names the defect well enough to act
    on. A test that fails with an unhelpful message will cost its debugging
@@ -55,6 +57,49 @@ default, or absorb.** Rename to something absent, not to a variant. Delete a
 required element rather than reordering it. Where a layer is known to be
 lenient — case folding, coercion, silent defaulting, tolerant parsing — assume
 it will eat any subtle mutation, and make a coarse one.
+
+## An unapplied break is a passing test that reads as proof of the opposite
+
+Step 2 has a failure mode that has nothing to do with the mutation's quality:
+**the edit never reached the file.** A string replacement whose target had
+already drifted, a patch applied in the wrong checkout, an editing tool that
+reported success on a no-op — the break silently does not happen, the suite is
+run, and it passes. The observation is *the test did not fail when I broke the
+code*, and the conclusion drawn from it is that the test is worthless. The test
+was fine; nothing was broken.
+
+This is not a rare slip. It happened twice in one session on one project, to a
+builder and, independently, to the reviewer checking the builder's work — the
+same wrong conclusion reached twice from the same missing check.
+
+The remedy costs nothing and belongs in the procedure permanently: **before
+running, confirm the file changed** — a diff of the working tree, or an
+assertion inside the edit step that the replacement matched. Where the break is
+scripted, the script fails loudly when its target is not found rather than
+writing the file back unchanged. A negative control with no evidence that the
+mutation applied is a coincidence, not a proof, and it is a coincidence that
+argues for deleting a working test.
+
+## A regression test's control is its own fix
+
+For a test written *after* a defect, the mutation is not chosen from the feature
+— it is the **revert of the repair**. Delete the line the fix added and the test
+must go red. That framing catches two things a feature-shaped control does not:
+
+- **A test that pins the observation rather than the mechanism.** A defect whose
+  trigger is an environmental decision — a plan, a cache, a schedule, an
+  ordering the platform is free to choose — is not reproduced by repeating the
+  observation, because two identical requests are answered the same way with or
+  without the fix. Measured: a listing whose tied rows came back in
+  plan-dependent order was first covered by reading it twice and comparing; that
+  test passed on the unfixed code. The replacement arranges inputs that
+  *disagree* with the intended order and asserts the pinned sequence, and it was
+  verified by deleting the tie-break clause and watching it fail.
+- **A repair that was a no-op.** The same procedure, run against a second
+  reported defect in the same session, showed the test still passing after the
+  fix was reverted — which said the fix had changed nothing, and that the
+  reported defect was either absent or elsewhere. A control that cannot
+  distinguish the fixed tree from the broken one has measured neither.
 
 ## Never quiet the harness's failure channel
 

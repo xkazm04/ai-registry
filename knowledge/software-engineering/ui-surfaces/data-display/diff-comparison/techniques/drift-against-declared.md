@@ -36,6 +36,37 @@ gate-sees-target_](../../../../_laws.md#gate-sees-target)). The same law binds
 the right side: the "actual" must be observed from the live system, not
 from a report the system wrote about itself earlier.
 
+## A copied declaration carries two stamps
+
+Sometimes the detector cannot read the authoritative declaration, because the
+promise has to exist in several places at once: consumers that each insist on
+their own file, a format that cannot be pointed at a shared one. The copy is
+then a second thing that can be wrong, and it can be wrong in two ways whose
+responses are opposites. It can be **behind** — the authority moved on and
+nobody re-derived it — which is lag and nothing worse; the verb is regenerate
+and the severity is a warning. Or it can have been **edited in place** —
+somebody changed the copy instead of the source — which is precisely the
+condition the single-authority rule exists to prevent, because the system now
+answers differently depending on which file a consumer happened to open.
+
+One stamp cannot separate those. Two can, and each answers a different
+question: a stamp of the **source** as it stood when the copy was derived,
+which detects lag whenever the authority is reachable, and a stamp of the
+**copy's own body**, which detects local editing with no second file to
+consult. The self-stamp is the more valuable of the pair for exactly that
+reason — it still fires in an environment where the authority cannot be read
+at all, and an unreachable authority is the environment where a forked copy
+goes unnoticed longest. A detector that collapses both into one "out of sync"
+has thrown away the verb, and the reader is left to guess which of two
+opposite actions the finding is asking for.
+
+Note what a copy edited in place *is*, in this technique's own terms: the
+fix-or-amend fork below, arriving pre-made and unattributed. Somebody amended
+the promise without the promotion that amending is supposed to be. That is why
+it is a failure rather than a warning — not because the content is necessarily
+wrong, but because the governance step was skipped and no record of the
+decision exists.
+
 ## Drift is directional
 
 "Actual exceeds declared" and "actual falls short of declared" are
@@ -116,3 +147,31 @@ reports that clause as *unevaluated*, never as *passing*. This is the
 diff-honesty floor applied to the species where it costs most, because
 drift reports feed governance decisions, and governance acts on the
 absence of findings.
+
+Three disciplines keep that honesty from becoming its own noise.
+
+- **Unevaluated is excluded from both halves of the ratio, never weighted into
+  it.** A clause the detector declined to judge is not half a pass, and folding
+  it in at any weight lets an absence of evidence move the number in one
+  direction or the other. Excluded *and counted* is the honest pair: the score
+  stays a ratio over what was actually judged, and the count publishes how much
+  was not.
+- **The count is published even at zero.** "Nothing went unevaluated" is
+  exactly the statement a reader comparing two runs needs, and it cannot be
+  inferred from a percentage. A report that prints the unevaluated count only
+  when it is non-zero has made its absence ambiguous with its own omission.
+- **Unevaluated findings aggregate by their cause, not by their subject.**
+  When a clause could not be judged because of the environment the check ran in
+  — evidence that was not available *here*, an authority not reachable from
+  *this* runner — that is one fact about the run, and it belongs in one finding
+  however many subjects it touched. Emitting one per subject builds a wall of
+  non-findings that buries the findings which are about the system, and that is
+  the alarm-fatigue death arriving through the honesty mechanism itself. Where
+  the reason is a property of the subject instead — a clause left unfilled, a
+  value that cannot be parsed — the finding stays per-subject, because there
+  the subject is the thing to act on.
+
+The same reasoning binds anything the score travels to. A run's shape decides
+its denominator, so a receiver that stores the percentage without the
+unevaluated count and the judged count has stored a number it cannot compare
+to the next one — and will, eventually, read a missing check as a pass.

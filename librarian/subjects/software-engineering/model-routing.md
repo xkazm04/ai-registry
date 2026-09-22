@@ -297,3 +297,33 @@ headless run: held effort read 33,353 / wrote 59; flipped read 23,997 / wrote
 the standing `rust--cache-continuity` application by enumeration: the companion
 has two resume doors and only one is pinned; the fleet wake door is filed as a
 task in the project.
+
+Touched by [[2026-09-20-kaggle-tunnel-free-gpu]] (2026-09-20). New technique
+`admission-is-not-a-tier`: a substitute clears two independent gates and only one
+of them is ordinal. `capability-floors` ranks tiers; admission asks whether the
+client can address the candidate at all, on three surfaces - wire format,
+identifier, liveness contract - and no amount of capability crosses it. Found by
+the enumeration hunt: `failover-path-liveness` closes with "what a substitute
+must be able to do before it is eligible is capability-floors", and that
+enumeration is missing this member. A mechanism the corpus lacked, so a
+technique, never an amendment - `capability-floors` is ordinal by construction
+and structurally cannot express a binary gate.
+
+The technique carries an inversion worth remembering: a client that does not
+recognize a candidate's identifier does not become conservative, it becomes
+maximally demanding, because "unrecognized" is indistinguishable from "newer
+than my release". The weakest substitute on a roster therefore receives the
+largest request body. Also the loud/silent split - a rejected field is loud and
+cheap, while a filtered identifier, a dropped cache marker and an expired
+silence budget are silent and survive into the incident the fallback existed for.
+
+The golden path gained a clause on the floors point (appended, not renumbered,
+so every existing sentence stays true). New application
+`rust--admission-is-not-a-tier` (experiment, not-better, ab-paired): the seam
+was chosen to falsify and refuted its own prediction - a benchmark engine's
+2s endpoint-probe cap survived a 17 GB model load at 0.03s worst - but returned
+a better structural fact, that the probe never generates, so field-level
+admission is discovered mid-run by a fallback that silently drops the pin along
+with the rejected schema. Note for a later run: `llm-agent/orchestration` is at
+exactly 10 children, at `MAX_CHILD_DIRS`, so nothing new can land there as a
+subject until the category is subdivided.

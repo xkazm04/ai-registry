@@ -4,8 +4,8 @@
   "bundle": "llm-observability",
   "source": "knowledge/llm-observability/ (frontmatter only)",
   "subjects": 18,
-  "techniques": 123,
-  "applications": 75,
+  "techniques": 124,
+  "applications": 77,
   "laws": 9,
   "categories": [
    "telemetry-and-data",
@@ -14,7 +14,7 @@
    "federation-and-surfaces"
   ],
   "layout": "nested",
-  "use_when_coverage": "123/123",
+  "use_when_coverage": "124/124",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -279,9 +279,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/llm-observability/economics-and-governance/breach-alerting-and-attribution/breach-alerting-and-attribution.md",
-   "digest": "sha256:19d2ce4bc86521b8",
-   "revision": 2,
-   "changedAt": "2026-08-29",
+   "digest": "sha256:8dcf7187f4ca59f9",
+   "revision": 3,
+   "changedAt": "2026-09-22",
    "techniques": [
     {
      "slug": "identity-scope-attribution-refusal",
@@ -359,7 +359,8 @@
      "use_when": [
       "a sustained breach re-fires on every admission",
       "scoped and global caps suppress each other's alerts",
-      "designing an alert cooldown"
+      "designing an alert cooldown",
+      "an alert carries a periodically flushed counter delta"
      ]
     },
     {
@@ -404,9 +405,9 @@
    "subcategory": null,
    "status": "reconciled",
    "file": "knowledge/llm-observability/quality-scoring/cross-provider-benchmark-operations/cross-provider-benchmark-operations.md",
-   "digest": "sha256:e8e4c6459e230953",
-   "revision": 9,
-   "changedAt": "2026-09-07",
+   "digest": "sha256:c676b38cbfcb70b5",
+   "revision": 10,
+   "changedAt": "2026-09-22",
    "techniques": [
     {
      "slug": "async-run-queue-with-cancel",
@@ -420,6 +421,22 @@
       "benchmark runs must not block ingestion",
       "a paid long-running run needs a stop button",
       "distinguishing a crashed worker from a failed run"
+     ]
+    },
+    {
+     "slug": "axes-and-caveats-live-at-the-surface",
+     "status": "forged",
+     "laws": [
+      "never-present-absence-as-an-answer",
+      "estimation-announces-itself"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a benchmark gains a new target axis or a graded field",
+      "a machine-readable contract describes a benchmark's declaration",
+      "a verdict line branches on whether the claim is significant",
+      "one render layer serves a runner and a console and an agent",
+      "deciding where a caveat has to be printed"
      ]
     },
     {
@@ -553,7 +570,8 @@
       "comparing reasoning-effort or thinking-budget settings of one model",
       "designing a benchmark's target declaration",
       "a model spec carries a suffix like model@effort",
-      "deciding where a per-call generation knob belongs"
+      "deciding where a per-call generation knob belongs",
+      "a high-effort column times out where the default-effort one did not"
      ]
     },
     {
@@ -599,6 +617,13 @@
      "technique": "entitlement-exhaustion-is-not-ill-health",
      "file": "knowledge/llm-observability/quality-scoring/cross-provider-benchmark-operations/applications/rust--entitlement-exhaustion-is-not-ill-health.md",
      "verified_on": "2026-09-07",
+     "verified_against": "rust@2021"
+    },
+    {
+     "stack": "rust",
+     "technique": "graded-case-difficulty",
+     "file": "knowledge/llm-observability/quality-scoring/cross-provider-benchmark-operations/applications/rust--graded-case-difficulty.md",
+     "verified_on": "2026-09-20",
      "verified_against": "rust@2021"
     }
    ]
@@ -1686,9 +1711,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/llm-observability/telemetry-and-data/multi-provider-event-normalization/multi-provider-event-normalization.md",
-   "digest": "sha256:20d80bd47dbe78cc",
-   "revision": 5,
-   "changedAt": "2026-09-03",
+   "digest": "sha256:1b6b6194387dbf70",
+   "revision": 6,
+   "changedAt": "2026-09-22",
    "techniques": [
     {
      "slug": "attribute-precedence-lists",
@@ -1708,13 +1733,15 @@
      "status": "forged",
      "laws": [
       "no-retroactive-restatement",
-      "server-owns-the-accounting-clock"
+      "server-owns-the-accounting-clock",
+      "never-present-absence-as-an-answer"
      ],
      "shared_with": [],
      "use_when": [
       "making ingestion idempotent against sender retries",
       "choosing event identity for mapped telemetry spans",
-      "debugging double-counted spend"
+      "debugging double-counted spend",
+      "resolving a duplicate-id collision by reading the stored row back"
      ]
     },
     {
@@ -1727,7 +1754,8 @@
      "use_when": [
       "writing a client wrapper that records usage from provider responses",
       "reconciling divergent SDK response shapes",
-      "reviewing a generic usage parser for silent misses"
+      "reviewing a generic usage parser for silent misses",
+      "checking whether a normalized usage record honors the inclusive convention"
      ]
     },
     {
@@ -1785,6 +1813,13 @@
      "technique": "attribute-precedence-lists",
      "file": "knowledge/llm-observability/telemetry-and-data/multi-provider-event-normalization/applications/rust--attribute-precedence-lists.md",
      "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "rust",
+     "technique": "per-provider-usage-extractors",
+     "file": "knowledge/llm-observability/telemetry-and-data/multi-provider-event-normalization/applications/rust--per-provider-usage-extractors.md",
+     "verified_on": "2026-09-20",
+     "verified_against": "rust@1.96"
     },
     {
      "stack": "rust",
@@ -2035,9 +2070,9 @@
    "subcategory": null,
    "status": "reconciled",
    "file": "knowledge/llm-observability/quality-scoring/quality-regression-gating/quality-regression-gating.md",
-   "digest": "sha256:625763675c86f196",
-   "revision": 6,
-   "changedAt": "2026-09-01",
+   "digest": "sha256:11689a8de9a9d657",
+   "revision": 7,
+   "changedAt": "2026-09-22",
    "techniques": [
     {
      "slug": "baseline-carries-its-conditions",
@@ -2093,7 +2128,8 @@
      "use_when": [
       "comparing two eval runs on the same case set",
       "a gate cannot tell signal from case difficulty",
-      "choosing the test behind a regression verdict"
+      "choosing the test behind a regression verdict",
+      "two per-case score vectors are equal length and about to be zipped"
      ]
     },
     {
@@ -2159,7 +2195,7 @@
      "stack": "rust",
      "technique": "paired-per-case-testing",
      "file": "knowledge/llm-observability/quality-scoring/quality-regression-gating/applications/rust--paired-per-case-testing.md",
-     "verified_on": "2026-08-30",
+     "verified_on": "2026-09-20",
      "verified_against": "rust@1.96"
     },
     {
@@ -2310,9 +2346,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/llm-observability/economics-and-governance/usage-limit-governance/usage-limit-governance.md",
-   "digest": "sha256:f7da8fcc8585b66f",
-   "revision": 4,
-   "changedAt": "2026-09-18",
+   "digest": "sha256:7ef9585a28aada06",
+   "revision": 5,
+   "changedAt": "2026-09-22",
    "techniques": [
     {
      "slug": "concurrent-admission-integrity",
@@ -2390,7 +2426,8 @@
      "use_when": [
       "admission cost grows with rolling-window size",
       "maintaining rolling usage totals on the ingest hot path",
-      "proving a usage cache equals its full-scan reference"
+      "proving a usage cache equals its full-scan reference",
+      "a batch folds into the cache inside a transaction that can roll back"
      ]
     },
     {
@@ -2483,6 +2520,7 @@
     "breach-alerting-and-attribution/scope-inverted-attribution",
     "breach-alerting-and-attribution/top-contributor-attribution",
     "cross-provider-benchmark-operations/async-run-queue-with-cancel",
+    "cross-provider-benchmark-operations/axes-and-caveats-live-at-the-surface",
     "cross-provider-benchmark-operations/determinism-stamping",
     "cross-provider-benchmark-operations/entitlement-exhaustion-is-not-ill-health",
     "cross-provider-benchmark-operations/failure-clustering-recommendations",
@@ -2507,6 +2545,7 @@
     "llm-call-telemetry-model/nullable-cost-never-zero",
     "llm-price-book-operations/embedded-seed-fallback",
     "margin-and-unit-economics/below-filter-honesty",
+    "multi-provider-event-normalization/deterministic-span-derived-ids",
     "multi-provider-event-normalization/provider-family-matching",
     "multi-provider-event-normalization/refuse-to-derive",
     "operator-surfaces-for-llm-spend/agent-prompts-as-dashboards",
@@ -2531,6 +2570,7 @@
    "techniques": [
     "analytics-store-design/backend-parity-as-contract",
     "breach-alerting-and-attribution/pre-breach-forecasting",
+    "cross-provider-benchmark-operations/axes-and-caveats-live-at-the-surface",
     "cross-provider-benchmark-operations/budget-preflight-and-ceiling",
     "cross-provider-benchmark-operations/cheapest-sufficient-configuration",
     "cross-provider-benchmark-operations/dataset-sampling-anonymize-freeze",
