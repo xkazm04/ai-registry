@@ -116,3 +116,8 @@ cost the owner a review to catch it.
 - **Git, when the product commits through an isolated index:** the shared index is left one commit
   behind, and against the new HEAD it reads as *delete everything you just committed*. Resync your
   own paths (`git reset -q -- <paths>`) immediately after, before any other session commits.
+- **The harness must scroll the way the product does.** The app locks `body { overflow: hidden }`
+  and scrolls inside panels, so a harness page served with the product's stylesheet could not scroll
+  at all, and a scroll-driven behaviour's first drive "passed" vacuously (40 wheel events, scrollY
+  0). Give the harness root a panel scroller, and have scroll logic find its scroll parent rather
+  than assume the window.
