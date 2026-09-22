@@ -63,3 +63,66 @@ from the first contest, so it is recorded apart from the mechanics above.
   patterns as wins for a variant the owner then rejected. A shortlist verdict records sightings
   only, and the curated patterns now come from the owner's words: practical before spectacular,
   levels not one layer, heavy content gets its own surface.
+
+## 1.2.0 - 2026-09-21 - personas (QuickDispatchDock redesign, 2 seats x 3 variants)
+
+Run shape: `claude:opus@xhigh` vs `grok:grok-4.7@high`, three variants each, the real dock's
+material staged as 26 i18n strings + 12 projects + 27 skills + a 27x12 install matrix +
+`globals.css` tokens verbatim. Owner chose NO panel, so the host's visual pass was the only
+verdict. 6/6 delivered, 0 page errors, no seat failed.
+
+- **`resolveBin` cannot find the current Claude CLI.** The npm package no longer ships
+  `node_modules/@anthropic-ai/claude-code/cli.js`; v2.1.278 installs a real `bin/claude.exe`,
+  so the npm-shim branch resolves nothing and the run dies at step 3 with "cannot find the
+  claude CLI on PATH". Worked around with `CONTEST_CLAUDE_BIN`. The fallback table should
+  learn the `bin/claude.exe` entry point.
+- **`IDENTITY_WORDS` redacted the MATERIAL, not the author, and corrupted an entry.** The
+  list hardcodes `opus`, `sonnet`, `haiku` - which in this app are the product's own model
+  presets, staged as contest data and named in `data/SCHEMA.md`. `collect` rewrote entry A's
+  `var MODEL_RATE = {haiku:0.35, sonnet:1.0, opus:4.2}` into `{[redacted]:0.35, ...}`, which
+  is a JS *computed property* over an undefined identifier: the page throws at load. Two of
+  three variants of one seat would have been scored `broken` for a defect the instrument
+  introduced, and it penalises precisely the seat that hardcoded the preset table. Blinding
+  must not scrub a word the brief itself staged - reconcile `IDENTITY_WORDS` against
+  `data/` and skip (or warn about) collisions. The host ran the visual pass over unredacted
+  `entries/` instead.
+- **`visual-pass.py` needs a Node sibling.** Playwright for Python was not installed, but the
+  consuming repo carried Playwright for Node 1.59 + Chromium. A port took minutes and the
+  pass ran. Worth shipping `visual-pass.mjs` beside the `.py` so the fallback does not depend
+  on a second Python toolchain.
+- **A centre-of-page probe measures the scenery when the subject is docked.** This brief's
+  subject is a bar pinned to the bottom of the window; `--click-text` does not help either.
+  The probe that worked was positional and uniform: click `(w/2, h-18)`, type an objective,
+  type `@`, Escape. Consider a `--probe bottom-bar` shape, or document that the host should
+  write the probe for the subject's geometry.
+- **A pixel diff is the wrong instrument for a layout-stability claim.** Comparing PNG clips
+  of the region above the dock reported all six variants as MOVED - every one of them
+  animates at rest (a travelling light, a breathing lamp, a live gauge), so the bytes differ
+  for reasons unrelated to layout. Measuring the subject's own top edge with
+  `getBoundingClientRect` across five states reported all six STABLE, which matched the
+  frames. Geometry, not pixels, for a geometry claim.
+  - And the first geometric attempt was ALSO wrong: walking up to the OUTERMOST bottom-pinned
+    ancestor returned the page shell (`top=0` in every state), a reading that is constant
+    because it measures nothing. A degenerate-but-consistent result looks exactly like a
+    pass; cap the candidate's height so the shell cannot qualify.
+- **`verdict --winner` credits every `--pattern` as a WIN, including one the winner did not
+  earn.** The host curated four patterns, one of which came from the LOSING seat's variant
+  (a rival's collapsed-state idea the owner also saw). `Patterns.md` recorded "4 pattern(s),
+  4 credited to a winner". 1.1.0's own lesson says the ledger must not credit wins the owner
+  did not award; the same applies within a winner verdict. A `--pattern` needs a way to say
+  which variant it is evidence FROM, independent of who won.
+- **The owner again chose practical over spectacular, and the host again ranked them the
+  other way.** The host's scoreboard put the conceptually strongest entry first (a sigil
+  grammar, `concept` 10); the owner picked the one that scored highest on `utility` (9) -
+  the variant with a live cost/time readout - and did so without opening the gallery,
+  citing what it would tell him before a dispatch. Two contests, two times the `utility`
+  dimension predicted the owner's pick better than the mean did. Consider weighting
+  `utility`, or at least reporting the utility ranking alongside the mean in step 8.
+- **Cost and wall, as the CLIs reported them**: opus@xhigh 30.3 min / $11.52 / 58 turns /
+  142,875 output tokens; grok-4.7@high 39.9 min / $7.73 / 59 turns / 151,232 output tokens.
+  Grok 4.7 is far pricier than the 4.6 run in the first contest ($1.42) - the cheap-seat
+  assumption from 2026-09-17 no longer holds.
+- **Same brief, different families, converging concepts.** Both seats independently produced
+  a "rail" and a "loading bay". 1.0.0 recorded convergence between two seats of ONE family;
+  it happens across families too, so the duplicate-bet warning in the method should not be
+  scoped to same-family seats.
