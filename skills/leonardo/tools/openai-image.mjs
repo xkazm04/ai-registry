@@ -1,21 +1,27 @@
 #!/usr/bin/env node
 
 /**
- * OpenAI Image Tool — generate / edit images with gpt-image-2.
+ * OpenAI Image Tool — generate / edit images with GPT Image 2.5.
  *
- * gpt-image-2 (snapshot gpt-image-2-2026-04-21) is OpenAI's agentic image model:
- * it reasons about structure (and can web-search) before rendering, and returns
- * 2K-capable PNGs as base64. It runs through the standard Images API, so unlike
- * the Leonardo flow there is NO polling job — the call returns the image inline.
+ * Default model: `gpt-image-2.5-sunburst` (released 2026-09-08 alongside
+ * `gpt-image-2.5-flare`). Sunburst spends longer and holds intricate detail —
+ * the right default for brand work, illustration and anything a person will
+ * look at closely; Flare is the same family at roughly half the latency and is
+ * the better pick for bulk or draft passes (`--model gpt-image-2.5-flare`).
+ * Both reason about structure before rendering and return PNGs as base64 up to
+ * 3840px. They run through the standard Images API, so unlike the Leonardo flow
+ * there is NO polling job — the call returns the image inline.
  *
  * Commands:
  *   generate --prompt "..." --output path.png
  *            [--size 1024x1024|1536x1024|1024x1536|auto] [--quality low|medium|high|auto]
- *            [--n 1] [--background transparent|opaque|auto]
+ *            [--n 1] [--background transparent|opaque|auto] [--model <id>]
  *   edit     --prompt "..." --image in.png [--image in2.png ...] --output path.png
  *            [--size ...] [--quality ...]
  *
- * Requires OPENAI_API_KEY. Model id is researched/current: `gpt-image-2`.
+ * Requires OPENAI_API_KEY. Model ids verified 2026-09-22 against OpenAI's model
+ * pages: `gpt-image-2.5-sunburst`, `gpt-image-2.5-flare`, and the older
+ * `gpt-image-2`.
  */
 
 import { readFileSync, writeFileSync, mkdirSync } from "fs";
@@ -23,9 +29,16 @@ import { dirname, resolve, basename } from "path";
 
 const API_KEY = process.env.OPENAI_API_KEY;
 const BASE_URL = process.env.OPENAI_BASE_URL || "https://api.openai.com/v1";
-// Current OpenAI image model (researched June 2026): gpt-image-2, snapshot
-// gpt-image-2-2026-04-21. Override with OPENAI_IMAGE_MODEL if a newer snapshot ships.
-const MODEL = process.env.OPENAI_IMAGE_MODEL || "gpt-image-2";
+// Current OpenAI image model (verified 2026-09-22): gpt-image-2.5-sunburst, the
+// detail-holding half of the GPT Image 2.5 pair. `--model` wins over the env var,
+// which wins over this default; `gpt-image-2.5-flare` is the fast/cheap sibling
+// and `gpt-image-2` is still accepted for reproducing an older asset.
+const DEFAULT_MODEL = "gpt-image-2.5-sunburst";
+
+/** `--model` wins over `OPENAI_IMAGE_MODEL`, which wins over the default. */
+function modelOf(args) {
+  return args.model || process.env.OPENAI_IMAGE_MODEL || DEFAULT_MODEL;
+}
 
 function parseArgs(argv) {
   const args = {};
@@ -69,17 +82,18 @@ async function generate(args) {
   if (!API_KEY) {
     fail({
       error: "OPENAI_API_KEY not set",
-      hint: "Add OPENAI_API_KEY to .env (or export it) to generate with gpt-image-2. " +
+      hint: "Add OPENAI_API_KEY to .env (or export it) to generate with GPT Image 2.5. " +
         "Get a key at https://platform.openai.com/api-keys. Until then, the Leonardo " +
         "backend (leonardo-image.mjs) is the working fallback.",
-      model: MODEL,
+      model: modelOf({}),
     });
   }
   if (!args.prompt || !args.output) {
     fail({ error: "Usage: openai-image.mjs generate --prompt \"...\" --output path.png [--size 1024x1024] [--quality high]" });
   }
+  const model = modelOf(args);
   const body = {
-    model: MODEL,
+    model,
     prompt: args.prompt,
     n: parseInt(args.n || "1", 10),
     size: args.size || "1024x1024",
@@ -87,7 +101,7 @@ async function generate(args) {
   };
   if (args.background) body.background = args.background; // transparent|opaque|auto
 
-  process.stderr.write(`[openai] ${MODEL} generate ${body.size} quality=${body.quality}\n`);
+  process.stderr.write(`[openai] ${model} generate ${body.size} quality=${body.quality}\n`);
   const res = await fetch(`${BASE_URL}/images/generations`, {
     method: "POST",
     headers: { "content-type": "application/json", authorization: `Bearer ${API_KEY}` },
@@ -95,7 +109,7 @@ async function generate(args) {
   });
   if (!res.ok) {
     const t = await res.text();
-    fail({ error: `OpenAI API ${res.status}`, details: t.slice(0, 800), model: MODEL });
+    fail({ error: `OpenAI API ${res.status}`, details: t.slice(0, 800), model });
   }
   const data = await res.json();
   const items = data.data || [];
@@ -112,17 +126,18 @@ async function generate(args) {
     outputs.push({ output: absPath, bytes });
   });
 
-  console.log(JSON.stringify({ success: true, model: MODEL, usage: data.usage, outputs }, null, 2));
+  console.log(JSON.stringify({ success: true, model, usage: data.usage, outputs }, null, 2));
 }
 
 async function edit(args) {
-  if (!API_KEY) fail({ error: "OPENAI_API_KEY not set", model: MODEL });
+  const model = modelOf(args);
+  if (!API_KEY) fail({ error: "OPENAI_API_KEY not set", model });
   if (!args.prompt || !args.image || !args.output) {
     fail({ error: "Usage: openai-image.mjs edit --prompt \"...\" --image in.png [--image in2.png] --output path.png" });
   }
   const images = Array.isArray(args.image) ? args.image : [args.image];
   const form = new FormData();
-  form.append("model", MODEL);
+  form.append("model", model);
   form.append("prompt", args.prompt);
   form.append("size", args.size || "1024x1024");
   form.append("quality", args.quality || "high");
@@ -131,7 +146,7 @@ async function edit(args) {
     form.append("image[]", new Blob([buf], { type: "image/png" }), basename(p));
   }
 
-  process.stderr.write(`[openai] ${MODEL} edit (${images.length} input image(s))\n`);
+  process.stderr.write(`[openai] ${model} edit (${images.length} input image(s))\n`);
   const res = await fetch(`${BASE_URL}/images/edits`, {
     method: "POST",
     headers: { authorization: `Bearer ${API_KEY}` },
@@ -139,13 +154,13 @@ async function edit(args) {
   });
   if (!res.ok) {
     const t = await res.text();
-    fail({ error: `OpenAI API ${res.status}`, details: t.slice(0, 800), model: MODEL });
+    fail({ error: `OpenAI API ${res.status}`, details: t.slice(0, 800), model });
   }
   const data = await res.json();
   const b64 = data.data?.[0]?.b64_json;
   if (!b64) fail({ error: "No image returned", response: data });
   const { absPath, bytes } = writeImage(b64, args.output);
-  console.log(JSON.stringify({ success: true, model: MODEL, usage: data.usage, output: absPath, bytes }, null, 2));
+  console.log(JSON.stringify({ success: true, model, usage: data.usage, output: absPath, bytes }, null, 2));
 }
 
 const { command, args } = parseArgs(process.argv);

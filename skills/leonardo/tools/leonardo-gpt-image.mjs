@@ -1,10 +1,22 @@
 #!/usr/bin/env node
 
 /**
- * gpt-image-2 via the Leonardo platform (v2 generations).
+ * OpenAI image models via the Leonardo platform (v2 generations).
  *
- * Leonardo hosts OpenAI's gpt-image-2 under its own v2 API, so it runs on a
- * LEONARDO_API_KEY (no OpenAI key needed). Endpoint + body per Leonardo docs:
+ * Leonardo hosts OpenAI's image models under its own v2 API, so they run on a
+ * LEONARDO_API_KEY (no OpenAI key needed).
+ *
+ * WHICH MODEL: the `model` tag is an enum of Leonardo's own slugs, not OpenAI's
+ * ids and not the UUIDs `models` returns. Measured 2026-09-22 on a paid account:
+ * `gpt-image-2` is accepted; `GPT Image 2.5 Sunburst` and `Flare` appear in
+ * `productionApiAvailableModels` (with a richer quality enum: LOW..MAX) but every
+ * slug tried for them - `gpt-image-2.5-sunburst`, `gpt-image-2-5-sunburst`,
+ * `gpt-image-25-sunburst`, `sunburst`, the display name, the UUID - was refused
+ * with `value of tag "model" must be in oneOf`, and v1 refuses the UUID outright
+ * ("not supported in this API version"). So: 2.5 runs through openai-image.mjs on
+ * an OpenAI key (or through Leonardo's web Studio); pass `--model <slug>` here the
+ * day Leonardo publishes it. `node leonardo-gpt-image.mjs models` lists what this
+ * key can see. Endpoint + body per Leonardo docs:
  *   POST https://cloud.leonardo.ai/api/rest/v2/generations
  *   { model: "gpt-image-2", prompt, quality: LOW|MEDIUM|HIGH, width, height,
  *     quantity, prompt_enhance: ON|OFF, public }
@@ -24,7 +36,10 @@ import { dirname, resolve } from "path";
 
 const API_KEY = process.env.LEONARDO_API_KEY;
 const BASE = "https://cloud.leonardo.ai/api/rest";
-const MODEL = "gpt-image-2";
+// `--model` wins over LEONARDO_IMAGE_MODEL, which wins over this default. The
+// default stays gpt-image-2 because it is the only slug this API accepts today
+// (see the header note); it is NOT a judgement that 2.5 is worse.
+const DEFAULT_MODEL = "gpt-image-2";
 const POLL_INTERVAL_MS = 4000;
 const MAX_POLL = 75;
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -115,10 +130,21 @@ async function generate(args) {
     },
   };
   const P = body.parameters;
-  process.stderr.write(`[gpt-image-2@leonardo] submit ${P.width}x${P.height} q=${P.quality} n=${P.quantity}\n`);
+  process.stderr.write(`[${MODEL}@leonardo] submit ${P.width}x${P.height} q=${P.quality} n=${P.quantity}\n`);
 
   const submit = await api("POST", "/v2/generations", body);
-  process.stderr.write(`[gpt-image-2@leonardo] submit status=${submit.status} body=${submit.text.slice(0, 600)}\n`);
+  if (/must be in oneOf/.test(submit.text) && /"model"/.test(submit.text)) {
+    fail({
+      error: `Leonardo rejected the model slug "${MODEL}"`,
+      hint:
+        "The v2 `model` tag is an enum of Leonardo's own slugs. `gpt-image-2` is known good; " +
+        "the GPT Image 2.5 models (Sunburst, Flare) appear in `models` but no slug for them was " +
+        "accepted as of 2026-09-22. Run `leonardo-gpt-image.mjs models --filter gpt` to see what " +
+        "this key has, use openai-image.mjs on an OPENAI_API_KEY for 2.5, or pass --model <slug>.",
+      model: MODEL,
+    });
+  }
+  process.stderr.write(`[${MODEL}@leonardo] submit status=${submit.status} body=${submit.text.slice(0, 600)}\n`);
   if (!submit.ok) fail({ error: `Leonardo v2 ${submit.status}`, details: submit.text.slice(0, 800) });
 
   // Maybe the result is already inline.
@@ -126,7 +152,7 @@ async function generate(args) {
   const genId = findGenerationId(submit.json);
 
   if (urls.length === 0 && genId) {
-    process.stderr.write(`[gpt-image-2@leonardo] polling generationId=${genId}\n`);
+    process.stderr.write(`[${MODEL}@leonardo] polling generationId=${genId}\n`);
     for (let i = 0; i < MAX_POLL; i++) {
       await sleep(POLL_INTERVAL_MS);
       // Retrieval is the v1 generation-by-id endpoint (shared store; the v2
@@ -135,7 +161,7 @@ async function generate(args) {
       if (!g.ok || !g.json) g = await api("GET", `/v2/generations/${genId}`);
       const st = statusOf(g.json) || "";
       urls = collectImageUrls(g.json);
-      process.stderr.write(`[gpt-image-2@leonardo] poll ${i + 1}/${MAX_POLL} status=${st} urls=${urls.length}\n`);
+      process.stderr.write(`[${MODEL}@leonardo] poll ${i + 1}/${MAX_POLL} status=${st} urls=${urls.length}\n`);
       if (/fail/i.test(st)) fail({ error: "generation failed", generationId: genId, body: g.text.slice(0, 600) });
       if (urls.length > 0 && (/complete|finish|success/i.test(st) || urls.length >= P.quantity)) break;
     }
@@ -156,17 +182,45 @@ async function generate(args) {
   }
 
   // Cloud cleanup — delete the generation from Leonardo unless --no-cleanup.
-  // gpt-image-2 gens accumulate in the account otherwise (this tool previously
+  // These gens accumulate in the account otherwise (this tool previously
   // never cleaned up, unlike leonardo-image.mjs). Best-effort.
   let cleaned = false;
   if (genId && !args["no-cleanup"]) {
     const del = await api("DELETE", `/v1/generations/${genId}`);
     cleaned = del.ok;
-    process.stderr.write(`[gpt-image-2@leonardo] cloud cleanup ${del.ok ? "ok" : `failed(${del.status})`}\n`);
+    process.stderr.write(`[${MODEL}@leonardo] cloud cleanup ${del.ok ? "ok" : `failed(${del.status})`}\n`);
   }
   console.log(JSON.stringify({ success: true, model: MODEL, generationId: genId, cleaned, outputs }, null, 2));
 }
 
+/**
+ * What this key can see. The `model` tag of /v2/generations is an enum of slugs
+ * and this list gives NAMES and UUIDs, not slugs - so it answers "does this
+ * account have Sunburst at all", not "what do I pass". Filter with --filter.
+ */
+async function models(args) {
+  if (!API_KEY) fail({ error: "LEONARDO_API_KEY not set" });
+  const res = await api("GET", "/v2/models");
+  let rows = [];
+  try {
+    const data = JSON.parse(res.text);
+    for (const v of Object.values(data)) {
+      if (!Array.isArray(v)) continue;
+      for (const m of v) {
+        const q = m?.parameters?.properties?.quality?.enum;
+        rows.push({ name: m.name, id: m.id, quality: Array.isArray(q) ? q.join("|") : undefined });
+      }
+    }
+  } catch {
+    fail({ error: `could not parse /v2/models (status ${res.status})`, body: res.text.slice(0, 400) });
+  }
+  const needle = (args.filter || "").toLowerCase();
+  if (needle) rows = rows.filter((r) => r.name.toLowerCase().includes(needle));
+  console.log(JSON.stringify({ success: true, count: rows.length, models: rows }, null, 2));
+}
+
 const { command, args } = parseArgs(process.argv);
+const MODEL = args.model || process.env.LEONARDO_IMAGE_MODEL || DEFAULT_MODEL;
 if (command === "generate") generate(args);
-else { console.error("Commands: generate"); process.exit(1); }
+else if (command === "models") models(args);
+else { console.error("Commands: generate | models [--filter <text>]"); process.exit(1); }
