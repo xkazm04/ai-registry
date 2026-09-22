@@ -36,6 +36,19 @@ Use them as follows, and only as follows:
 - **A pair with no state at all** (a context nothing governs) lowers nothing. A weakly
   governed context is a coverage question for the registry, not a mark against this code.
 
+**In a repo that has never run `/conform`, every pair is `unknown` and this half of your
+input is empty.** That is the common case, not the broken one: the rubric's weight
+rationale says the pair states make part of craft cheap to measure, and the word "cheap"
+assumes a conformance pass that most repos have not run. When the half is empty, **judge on
+half two alone, cap your `confidence` at `med`, and say in your detail that the mechanical
+half carried no information and why**. Your dimension is still `measured` and coverage is
+unaffected - an empty input is not a missing dimension - but a reader who sees `mixed`
+deserves to know it was judged.
+
+**Unbounded growth is economics' ground** (`member-common.md`, the ownership table). You
+will reach it - a buffer that never drains is bad craft too - and when you do, file it
+`low`, cross-referenced, and leave your score alone.
+
 Cite each governing pair you used in `techniques` with `proof: "inspection"` (or
 `execution` if you ran the check yourself).
 
@@ -52,7 +65,12 @@ so), answer: has practice for this specific kind of thing moved since this was w
   that you found it and rejected it.
 - If your read produces something the corpus does not know - a rule that broke against
   real code, a place this repo does it better than the golden path - say so in a finding
-  titled `lead:`. The method files it where leads go; you do not edit a bundle.
+  titled `lead:`. You do not edit a bundle, and you do not write the leads file. The
+  destination is `<repo>/.ai/registry-leads.jsonl` and the Director decides whether this
+  run earned it (`references/synthesis.md`, "Leads, and the honest `none`"): a council that
+  changed no code files none and says so, and your finding stays in your verdict where a
+  person reads it. **File it anyway** - an unfiled lead in a verdict is still the only
+  record that anyone noticed.
 
 ## What you may read
 

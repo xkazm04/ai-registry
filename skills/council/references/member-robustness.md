@@ -18,8 +18,10 @@ does not work is money spent on a conclusion nobody will read. So be quick and b
 ## What you may read
 
 - `evidence/gates/` - the repo's own declared checks and their recorded output. The
-  overlay names the commands; the method ran them and captured the output. **You report
-  what they said.**
+  commands come from the overlay's `## Gates` when it has one, else from the repo's own
+  manifest wherever that manifest keeps its verification commands (`guidance.verify` in the
+  `ai-manifest` spec; the verification entries of a `capabilities` map in the variant that
+  carries one). The method ran them and captured the output. **You report what they said.**
 - `evidence/span/` - the code and the diff.
 - `evidence/tests.md` - the test inventory over the span: which test files exist, which
   name the span's symbols, which failure paths have a case.
@@ -35,11 +37,27 @@ are reported as `hard_failures` rather than as a low robustness score:
 | `write_outside_door` | the subject writes the application's own datastore from anywhere other than the single module the repo declares as its ingest door |
 | `unbounded_foreign_decode` | data from outside the process is parsed, decoded or buffered with no size cap, no timeout and no error path |
 
+**Unbounded growth is economics' ground** (`member-common.md`, the ownership table): a
+retry with no cap, a cache with no maximum, a buffer that never drains is economics' score
+to move, and yours to file as a `low` cross-reference at most. `unbounded_foreign_decode`
+is the exception and it is yours, because a hard failure ends the round rather than moving
+a number - so the bar for it is a size cap, a timeout and an error path all three missing on
+data from **outside the process**, named at `file:line`.
+
 Write these to `hard-failures.json` in the run directory as
 `[{ "code": "...", "detail": "<file:line and what it does>" }]`. One of them present means
 the run fails whatever every other member would have said, so the bar is evidence, not
 suspicion: name the file and the line. **A suspicion is a `high` finding, not a hard
 failure.**
+
+**A check whose subject the repo never declared is `not_applicable`, never inferred.**
+`write_outside_door` rests on "the single module the repo declares as its ingest door", and
+most repos declare no such module anywhere. When the overlay's `## Hard failures` section
+does not name the door, **do not pick one** - record the check as `not_applicable` in your
+detail, say which declaration you looked for and did not find, and move on. Choosing a door
+yourself and then failing the run against it is the method inventing the rule it enforces.
+The same reading applies to `credential_outside_vault` when no credential store is
+declared.
 
 ## Scoring
 
@@ -49,15 +67,33 @@ failure.**
   the skip is recorded with its reason.
 - **0** - a declared gate fails over this span, or an error path swallows its error.
 
+### A gate result is two numbers, and you score the second one
+
+The pack records every gate as **`(exit code, span-attributable findings)`**, with the
+attribution rule stated in the pack index and the attributed lines quoted. Read both, and
+keep them apart:
+
+- **Score the span-attributable count.** The `0` anchor above says "over this span", and it
+  means it. A gate that exits non-zero with **zero** span-attributable findings has not
+  shown you anything about the subject.
+- **File the exit code as a finding about the repository**, severity `med`, naming what the
+  failures were and where they live. It is true, it is worth a person's attention, and it is
+  not this subject's defect - so it does not anchor your score at 0.
+- **Never ask for a gate to be re-run with an exclude, a filter or a narrower path** to get
+  a cleaner exit code, and never treat a filtered re-run as the measurement. The two
+  numbers exist precisely so nobody has to. If the pack recorded only one number, say so in
+  `findings` and mark `confidence: "low"`.
+
 Report gate output verbatim in `evidence` with `kind: "metric"` and the command as the
 `ref`. **Do not re-run a gate to get a better draw**; if a gate is flaky, that is a
 `high` finding about the gate, and the first run stands.
 
 ## What you cannot measure honestly
 
-- **The repo declares no gates at all** -> `unmeasured`, reason "the overlay declares no
-  verification commands". Do not invent a build command and run it; a command the repo
-  does not own tells you nothing about the repo's bar.
+- **The repo declares no gates at all** - neither an overlay `## Gates` section nor a
+  manifest carrying verification commands -> `unmeasured`, reason naming both places that
+  were looked in and found empty. Do not invent a build command and run it; a command the
+  repo does not own tells you nothing about the repo's bar.
 - **A gate could not run** (a missing toolchain, a lock held by another session) ->
   report the ones that did, mark `confidence: "low"`, and name the one that did not. Only
   when none ran is `unmeasured` right.

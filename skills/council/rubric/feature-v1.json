@@ -38,7 +38,7 @@
       "dimension": "craft",
       "kind": "mixed",
       "weight": 0.25,
-      "weight_rationale": "Half the weight of value because craft is what makes the value survive the second month, and the pair states from a conformance pass make part of it cheap to measure.",
+      "weight_rationale": "Half the weight of value because craft is what makes the value survive the second month, and the pair states from a conformance pass make part of it cheap to measure. That second clause holds only where a conformance pass has run: in a repo that has never run one, every pair reads 'unknown', the mechanical half of this dimension carries no information at all, and craft is judged rather than mixed. The member then scores half two alone and caps confidence at 'med'; coverage is unaffected, because an empty input is not a missing dimension.",
       "floor": null,
       "floor_rationale": "No floor: a weak craft score on a valuable feature is a backlog item, not a refusal.",
       "question": "Does the implementation meet current best practice for what it is, inside and outside the standards this repo subscribes to?",

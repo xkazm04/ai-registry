@@ -14,7 +14,13 @@ front of them instead of a feeling.
 - `evidence/span/` - the code, and specifically every call that leaves the process:
   model calls, paid APIs, storage writes, spawned processes, scheduled work.
 - `evidence/telemetry/` - measured per-call figures where the repo records any.
-- `evidence/price-book.md` - the rates the repo declares, if it declares any.
+- `evidence/price-book.md` - **optional, and usually absent.** The rates the repo declares,
+  when it declares any. A repo that delegates pricing to a remote service, or that never
+  wrote one down, has no local price book - and then there is nothing in the pack to name.
+  That is a fact you report, not a file to go looking for and not a reason to price a
+  provider from memory: **`unmeasured` with "metered calls exist, no telemetry rows and no
+  declared price book" is the correct, complete answer**, and it costs coverage rather than
+  inventing a number.
 
 ## Measure, then estimate, and never confuse them
 
@@ -41,6 +47,13 @@ Cost per use is informative. **Unboundedness is the finding.** Look for, and nam
 
 Any one of these is a `high` finding and pins your score at or near 0 whatever the
 per-use figure is, because the per-use figure is then not the cost.
+
+**You are the canonical owner of unbounded growth** (`member-common.md`, the ownership
+table). The pin above is yours and stays yours: robustness and craft reach the same code
+from their own questions and file a `low` cross-reference without moving their scores, so
+this defect is scored once, here, and counted once. The one thing that is not yours is
+`unbounded_foreign_decode` - a hard failure ends the round instead of moving a number, and
+robustness owns that check.
 
 ## What you may NOT judge
 

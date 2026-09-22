@@ -1,8 +1,27 @@
 # The vault - what a council remembers between runs
 
 Resolve `VAULT` = the first existing `vault:` candidate in the overlay, else
-`<repo>/.council/`. **The same schema either way**, and an Obsidian-openable folder either
-way. Everything then lives under `$VAULT/<vault_subdir>/` (default `Council`).
+**`<repo>/.personas/council/vault/`**. **The same schema either way**, and an
+Obsidian-openable folder either way. Everything then lives under
+`$VAULT/<vault_subdir>/` (default `Council`).
+
+> **The `<repo>/.council/` default is retired.** It put an untracked directory in the
+> consuming repo's `git status` forever, in a repo that had no reason to ignore a path it
+> had never heard of - while this file's own rule two paragraphs down says the vault is not
+> version controlled. The new default lives under `.personas/`, the tree that already holds
+> the run directories and the `state_file` and that a consuming repo has therefore already
+> had to ignore. **To move an existing one:** `git status` first to be sure nothing in
+> `.council/` was ever committed, then move the whole directory to
+> `<repo>/.personas/council/vault/` (`mv`, not copy-and-delete - the notes are the record
+> and there is no recovery feature behind them), confirm `runs/` came with it, and delete
+> the old path only once the new one reads. Nothing inside needs rewriting: the schema is
+> identical and no note stores its own location. A repo that prefers the old path keeps it
+> by naming it in the overlay's `vault:` - the default moved, the key did not.
+
+**The vault is created when it is absent**, at phase 0, before anything reads it: the vault
+directory, `runs/`, a headed but empty `Bar.md`, and an empty `Calibration.md`. **An empty
+`Calibration.md` means `uncalibrated`**, which is the correct first state of every repo and
+not a gap for a Director to fill in.
 
 The run directory in the repo holds what ONE run produced. The vault holds what the
 councils have learned, which is the part that makes the tenth run better than the first.

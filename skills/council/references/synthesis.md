@@ -58,6 +58,19 @@ Editing a score after seeing the total is how a gate becomes a formality.
 7. **The oracle.** For `ready`, name the comparison object the person at the gate needs in
    order to decide: the thing this is better or worse THAN. A gate with no oracle is a
    yes/no button, and a yes/no button is what this method exists to avoid.
+8. **Leads, and the honest `none`.** Members file `lead:` findings - a rule that broke
+   against real code, a place this repo does it better than the golden path. The
+   destination is **`<repo>/.ai/registry-leads.jsonl`**, one line per lead in the shape the
+   `## Knowledge sync` clause specifies, `"from": "council@<version>"`.
+
+   The clause's bar is **earned only: it came from code you changed**. A plain `/council`
+   changes no code, so a plain `/council` files **no leads** and says `leads: none` in the
+   report, with the members' `lead:` findings left where they are - in the verdicts, where a
+   person reads them. The one case that clears the bar is `council x implementation`, where
+   the Director landed and verified a fix between rounds: a lead *from that fix* is earned
+   and is filed. Naming the file and both branches is the whole fix here - the old text
+   promised "the method files it where leads go" and there was no lane behind the promise,
+   so a well-earned finding went nowhere and nothing said it had.
 
 ## What the synthesis must never do
 
