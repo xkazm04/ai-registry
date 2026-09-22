@@ -565,6 +565,13 @@ for (const [slug, p] of Object.entries(bridge.projects ?? {})) {
         if (Number.isInteger(old.evaluatedRevision)) s.evaluatedRevision = old.evaluatedRevision;
         if (old.source) s.source = old.source;
         if (old.renamedFrom) s.renamedFrom = old.renamedFrom;
+        // `adoptedFrom` is `renamedFrom`'s sibling and was missing from this list until
+        // 2026-09-22. /conform tells a reader to stamp an adopted verdict with the orphan
+        // key it came from, and the next rebuild silently dropped it — while keeping the
+        // verdict, so the loss looked like success. Without it an adopted verdict is
+        // indistinguishable from one judged in place, which is exactly the provenance the
+        // orphan mechanism exists to preserve.
+        if (old.adoptedFrom) s.adoptedFrom = old.adoptedFrom;
         carried += 1;
         prevPairs.delete(`${r.context}|${s.subject}`);
       }
