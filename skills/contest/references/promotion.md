@@ -73,6 +73,13 @@ cost the owner a review to catch it.
    clickable block while the port wraps it: fix the *selector* so both sides name the equivalent
    element, and say so). Never widen a tolerance to pass. The instrument exits non-zero on drift.
 
+   **When the owner reviews the port and asks for a change the winner did not have** ("the rail
+   titles more dominant", "a wider column on large screens"), record it as an owner-accepted
+   override (`"accept": ["fontSize", "color"]` on that role) rather than re-capturing the
+   contract. The contract stays the winner; every run lists the accepted departures by property,
+   so the review that moved the design stays visible. A breakpoint the owner added is checked by
+   running below it (`--width`) against the winner, and above it by a scripted drive.
+
 6. **Drive every named interaction in a browser.** A still frame cannot tell a selected row from a
    row with a caret in it, and the panel scores code, not behaviour. For each borrowing the owner
    named that is an interaction, script it — click, key, result — and assert on the product's own

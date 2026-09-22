@@ -11,6 +11,10 @@ roles.json:
                  "title": { "winner": ".page-title", "port": "[data-role=doc-title]" },
                  "band":  { "winner": ".band-t",     "port": "[data-role=doc-band-title]", "position": true } } }
 
+"accept": ["fontSize", "color"] records properties the OWNER changed on purpose after choosing
+the winner: they are reported as accepted on every run instead of failing, so the contract stays the
+winner and the review that departed from it stays visible. Never use it for a drift nobody approved.
+
 "position": true adds a probe for where the element sits inside its parent (0 top, 0.5 centred,
 1 bottom). Opt-in, because a position only means something when both parents are the same box.
 
@@ -136,7 +140,7 @@ def main():
         return
 
     contract = json.loads(Path(a.contract).read_text(encoding="utf-8"))
-    rows, missing = [], []
+    rows, missing, accepted = [], [], []
     for role, want in contract.items():
         if want is None:
             continue
@@ -147,9 +151,13 @@ def main():
         # vpos is opt-in per role: a position inside the parent only means
         # something when the two parents are the same kind of box.
         probe = ["width", "vpos"] if spec.get(role, {}).get("position") else ["width"]
+        accepted_here = set(spec.get(role, {}).get("accept", []))
         for prop in probe + PROPS:
             if differs(prop, want.get(prop), got.get(prop)):
-                rows.append((role, prop, want.get(prop), got.get(prop)))
+                if prop in accepted_here:
+                    accepted.append((role, prop, want.get(prop), got.get(prop)))
+                else:
+                    rows.append((role, prop, want.get(prop), got.get(prop)))
 
     for role in missing:
         print(f"  MISSING  {role}: the port renders nothing at {spec.get(role, {}).get('port')!r}")
@@ -157,6 +165,10 @@ def main():
         print(f"{'role':<14} {'property':<20} {'winner':<34} port")
         for role, prop, w, g in rows:
             print(f"{role:<14} {prop:<20} {str(w)[:33]:<34} {str(g)[:60]}")
+    # An owner-approved departure is listed on every run, never hidden: the
+    # contract stays the winner, and the review that moved it stays visible.
+    for role, prop, w, g in accepted:
+        print(f"  accepted by the owner  {role}.{prop}: winner {str(w)[:24]} -> port {str(g)[:40]}")
     drift = len(rows) + len(missing)
     print(f"\n{drift} deviation(s) from the winner's contract across {len(contract)} role(s)")
     sys.exit(1 if drift else 0)
