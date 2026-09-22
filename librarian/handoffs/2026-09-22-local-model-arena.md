@@ -1,8 +1,8 @@
 ---
-status: arena-v-executed
+status: arena-v-shipped, arena-c-executed
 origin: 2026-09-22-mimo-v2-6 (intake run intake-mimo-v26)
 governs: llm-observability/quality-scoring/cross-provider-benchmark-operations, media-generation/visual-generation/generative-provider-routing (extraction-model-bake-off)
-owner_decision: 2026-09-22 go; Arena V run the same day (pof da4df5eb). Arena C and G not run
+owner_decision: 2026-09-22 go; Arena V shipped (pof 255ad7a9); Arena C run as an Ascent lane wave (4/5 landed); Arena G not run
 ---
 
 # Local model arena - test plan
