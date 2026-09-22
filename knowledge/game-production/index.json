@@ -1004,7 +1004,7 @@
    "file": "knowledge/game-production/content-pipeline/catalog-pipeline-authoring/catalog-pipeline-authoring.md",
    "digest": "sha256:b3fc5effc0b03488",
    "revision": 3,
-   "changedAt": "2026-09-22",
+   "changedAt": "2026-09-20",
    "techniques": [
     {
      "slug": "archetype-view-coherence-ratchet",
@@ -3538,7 +3538,7 @@
    "file": "knowledge/game-production/asset-production/geometry/mesh-finishing-for-engine-readiness/mesh-finishing-for-engine-readiness.md",
    "digest": "sha256:deb5005c6058851c",
    "revision": 3,
-   "changedAt": "2026-09-22",
+   "changedAt": "2026-09-20",
    "techniques": [
     {
      "slug": "conform-target-is-not-a-remap-row",
@@ -3938,7 +3938,7 @@
    "file": "knowledge/game-production/balance-validation/procedural-level-planning/procedural-level-planning.md",
    "digest": "sha256:bc7a026c0a74a2ee",
    "revision": 6,
-   "changedAt": "2026-09-22",
+   "changedAt": "2026-09-20",
    "techniques": [
     {
      "slug": "algorithm-parameter-support-matrix",
@@ -6046,7 +6046,7 @@
    "file": "knowledge/game-production/craft-judgment/unattended-build-loop/unattended-build-loop.md",
    "digest": "sha256:1c57d21a411efee4",
    "revision": 4,
-   "changedAt": "2026-09-22",
+   "changedAt": "2026-09-20",
    "techniques": [
     {
      "slug": "budget-reservation-and-drain-not-kill",

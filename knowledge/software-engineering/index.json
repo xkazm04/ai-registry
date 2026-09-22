@@ -31,7 +31,7 @@
    "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/accessibility/accessibility.md",
    "digest": "sha256:d02f805a960c2f6c",
    "revision": 7,
-   "changedAt": "2026-09-22",
+   "changedAt": "2026-09-20",
    "techniques": [
     {
      "slug": "a11y-verification",
@@ -2486,7 +2486,7 @@
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-runtime-assembly/agent-runtime-assembly.md",
    "digest": "sha256:e2f38e9d0dea752a",
-   "revision": 23,
+   "revision": 24,
    "changedAt": "2026-09-22",
    "techniques": [
     {
@@ -3264,7 +3264,7 @@
    "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/async-ui-states/async-ui-states.md",
    "digest": "sha256:9ba2dd1115069897",
    "revision": 4,
-   "changedAt": "2026-09-22",
+   "changedAt": "2026-09-20",
    "techniques": [
     {
      "slug": "action-busy-states",
@@ -4683,7 +4683,7 @@
    "file": "knowledge/software-engineering/ui-surfaces/data-display/canvas-graph/canvas-graph.md",
    "digest": "sha256:858b583483e24ef1",
    "revision": 4,
-   "changedAt": "2026-09-22",
+   "changedAt": "2026-09-20",
    "techniques": [
     {
      "slug": "canvas-accessibility",
@@ -8875,7 +8875,7 @@
    "file": "knowledge/software-engineering/ui-surfaces/data-display/data-viz/data-viz.md",
    "digest": "sha256:658aefc7371b7fdb",
    "revision": 6,
-   "changedAt": "2026-09-22",
+   "changedAt": "2026-09-20",
    "techniques": [
     {
      "slug": "chart-loading-economics",
@@ -10592,7 +10592,7 @@
    "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/design-tokens/design-tokens.md",
    "digest": "sha256:677bcf6173f511aa",
    "revision": 6,
-   "changedAt": "2026-09-22",
+   "changedAt": "2026-09-20",
    "techniques": [
     {
      "slug": "cross-language-token-parity",
@@ -10968,7 +10968,7 @@
    "file": "knowledge/software-engineering/ui-surfaces/data-display/diff-comparison/diff-comparison.md",
    "digest": "sha256:cd39f98cfe768f03",
    "revision": 6,
-   "changedAt": "2026-09-22",
+   "changedAt": "2026-09-20",
    "techniques": [
     {
      "slug": "baseline-species-degradation",
@@ -14428,7 +14428,7 @@
    "file": "knowledge/software-engineering/ui-surfaces/data-display/feed/feed.md",
    "digest": "sha256:9484e5434f2c7a32",
    "revision": 4,
-   "changedAt": "2026-09-22",
+   "changedAt": "2026-09-20",
    "techniques": [
     {
      "slug": "event-clustering",
@@ -14539,7 +14539,7 @@
    "file": "knowledge/software-engineering/ui-surfaces/data-display/file-browsing/file-browsing.md",
    "digest": "sha256:db6a6903ad69c236",
    "revision": 3,
-   "changedAt": "2026-09-22",
+   "changedAt": "2026-09-20",
    "techniques": [
     {
      "slug": "file-mutations",
@@ -17693,7 +17693,7 @@
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/knowledge-registry/knowledge-registry.md",
    "digest": "sha256:7e0fc4a7e1bf9a27",
    "revision": 7,
-   "changedAt": "2026-09-22",
+   "changedAt": "2026-09-21",
    "techniques": [
     {
      "slug": "catalog-as-sync-key",
@@ -20520,7 +20520,7 @@
    "file": "knowledge/software-engineering/llm-agent/orchestration/model-routing/model-routing.md",
    "digest": "sha256:d833892209435380",
    "revision": 17,
-   "changedAt": "2026-09-22",
+   "changedAt": "2026-09-20",
    "techniques": [
     {
      "slug": "admission-is-not-a-tier",
@@ -21145,7 +21145,7 @@
    "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/motion/motion.md",
    "digest": "sha256:d623a3bcfdcbd1c0",
    "revision": 9,
-   "changedAt": "2026-09-22",
+   "changedAt": "2026-09-20",
    "techniques": [
     {
      "slug": "content-bearing-degradation",
@@ -24510,7 +24510,7 @@
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/prompt-assembly.md",
    "digest": "sha256:23dde2144f1e50ad",
-   "revision": 36,
+   "revision": 37,
    "changedAt": "2026-09-22",
    "techniques": [
     {
@@ -25559,7 +25559,7 @@
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/quality-gates.md",
    "digest": "sha256:d7deee105a13022b",
-   "revision": 48,
+   "revision": 49,
    "changedAt": "2026-09-22",
    "techniques": [
     {
@@ -28025,7 +28025,7 @@
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/retrieval/retrieval.md",
    "digest": "sha256:1280e85fd10ab66e",
    "revision": 16,
-   "changedAt": "2026-09-22",
+   "changedAt": "2026-09-20",
    "techniques": [
     {
      "slug": "chunking-and-indexing",
@@ -29295,7 +29295,7 @@
    "file": "knowledge/software-engineering/ui-surfaces/data-display/search/search.md",
    "digest": "sha256:b02a2eca8c0c6377",
    "revision": 4,
-   "changedAt": "2026-09-22",
+   "changedAt": "2026-09-20",
    "techniques": [
     {
      "slug": "command-surface",
@@ -31171,7 +31171,7 @@
    "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/status-vocabulary/status-vocabulary.md",
    "digest": "sha256:569058d5320dbed2",
    "revision": 5,
-   "changedAt": "2026-09-22",
+   "changedAt": "2026-09-20",
    "techniques": [
     {
      "slug": "number-formatting",
@@ -32715,8 +32715,8 @@
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/data-display/table/table.md",
    "digest": "sha256:b220b0cfe6a4bcda",
-   "revision": 5,
-   "changedAt": "2026-09-22",
+   "revision": 7,
+   "changedAt": "2026-09-21",
    "techniques": [
     {
      "slug": "client-server-split",
@@ -33440,7 +33440,7 @@
    "file": "knowledge/software-engineering/engineering-process/build-and-release/test-harness/test-harness.md",
    "digest": "sha256:c449405aa9d2e869",
    "revision": 23,
-   "changedAt": "2026-09-22",
+   "changedAt": "2026-09-20",
    "techniques": [
     {
      "slug": "approval-snapshots-with-guarded-update",
@@ -34252,7 +34252,7 @@
    "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/toasts-notifications/toasts-notifications.md",
    "digest": "sha256:5f10d994e5c16ef6",
    "revision": 3,
-   "changedAt": "2026-09-22",
+   "changedAt": "2026-09-20",
    "techniques": [
     {
      "slug": "actionable-toasts",

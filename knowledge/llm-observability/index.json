@@ -281,7 +281,7 @@
    "file": "knowledge/llm-observability/economics-and-governance/breach-alerting-and-attribution/breach-alerting-and-attribution.md",
    "digest": "sha256:8dcf7187f4ca59f9",
    "revision": 3,
-   "changedAt": "2026-09-22",
+   "changedAt": "2026-09-20",
    "techniques": [
     {
      "slug": "identity-scope-attribution-refusal",
@@ -407,7 +407,7 @@
    "file": "knowledge/llm-observability/quality-scoring/cross-provider-benchmark-operations/cross-provider-benchmark-operations.md",
    "digest": "sha256:c676b38cbfcb70b5",
    "revision": 10,
-   "changedAt": "2026-09-22",
+   "changedAt": "2026-09-20",
    "techniques": [
     {
      "slug": "async-run-queue-with-cancel",
@@ -1713,7 +1713,7 @@
    "file": "knowledge/llm-observability/telemetry-and-data/multi-provider-event-normalization/multi-provider-event-normalization.md",
    "digest": "sha256:1b6b6194387dbf70",
    "revision": 6,
-   "changedAt": "2026-09-22",
+   "changedAt": "2026-09-20",
    "techniques": [
     {
      "slug": "attribute-precedence-lists",
@@ -2072,7 +2072,7 @@
    "file": "knowledge/llm-observability/quality-scoring/quality-regression-gating/quality-regression-gating.md",
    "digest": "sha256:11689a8de9a9d657",
    "revision": 7,
-   "changedAt": "2026-09-22",
+   "changedAt": "2026-09-20",
    "techniques": [
     {
      "slug": "baseline-carries-its-conditions",
@@ -2348,7 +2348,7 @@
    "file": "knowledge/llm-observability/economics-and-governance/usage-limit-governance/usage-limit-governance.md",
    "digest": "sha256:7ef9585a28aada06",
    "revision": 5,
-   "changedAt": "2026-09-22",
+   "changedAt": "2026-09-20",
    "techniques": [
     {
      "slug": "concurrent-admission-integrity",

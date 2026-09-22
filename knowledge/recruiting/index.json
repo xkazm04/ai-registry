@@ -262,7 +262,7 @@
    "file": "knowledge/recruiting/assessment/ai-interviewer-brief-authoring/ai-interviewer-brief-authoring.md",
    "digest": "sha256:a7cb79a426741c05",
    "revision": 2,
-   "changedAt": "2026-09-22",
+   "changedAt": "2026-09-20",
    "techniques": [
     {
      "slug": "closing-read-back",
@@ -1214,7 +1214,7 @@
    "file": "knowledge/recruiting/candidate-experience/candidate-communication-integrity/candidate-communication-integrity.md",
    "digest": "sha256:472afabca4c736ef",
    "revision": 3,
-   "changedAt": "2026-09-22",
+   "changedAt": "2026-09-20",
    "techniques": [
     {
      "slug": "bounce-receipt-supersedes-a-green-send",
@@ -1338,7 +1338,7 @@
    "file": "knowledge/recruiting/governance/candidate-consent-and-retention/candidate-consent-and-retention.md",
    "digest": "sha256:2657bd37f2c33b2b",
    "revision": 2,
-   "changedAt": "2026-09-22",
+   "changedAt": "2026-09-20",
    "techniques": [
     {
      "slug": "anonymise-but-retain-the-aggregate-signal",
@@ -2287,7 +2287,7 @@
    "file": "knowledge/recruiting/measurement/compensation-banding-and-market-honesty/compensation-banding-and-market-honesty.md",
    "digest": "sha256:267554dbff8930c4",
    "revision": 2,
-   "changedAt": "2026-09-22",
+   "changedAt": "2026-09-20",
    "techniques": [
     {
      "slug": "advertised-pay-is-not-earnings",
@@ -2407,7 +2407,7 @@
    "file": "knowledge/recruiting/assessment/conversational-assessment-validation/conversational-assessment-validation.md",
    "digest": "sha256:ec5483ef9bd7f6b1",
    "revision": 2,
-   "changedAt": "2026-09-22",
+   "changedAt": "2026-09-20",
    "techniques": [
     {
      "slug": "candidate-behaviour-persona-bank",
@@ -3236,7 +3236,7 @@
    "file": "knowledge/recruiting/role-definition/hiring-need-as-structured-brief/hiring-need-as-structured-brief.md",
    "digest": "sha256:de4b9cd0cbc9a92f",
    "revision": 2,
-   "changedAt": "2026-09-22",
+   "changedAt": "2026-09-20",
    "techniques": [
     {
      "slug": "graded-requirements-two-axes",
@@ -4769,7 +4769,7 @@
    "file": "knowledge/recruiting/pipeline-operations/pipeline-aging-and-attention-triage/pipeline-aging-and-attention-triage.md",
    "digest": "sha256:6790a99521a41b7a",
    "revision": 2,
-   "changedAt": "2026-09-22",
+   "changedAt": "2026-09-20",
    "techniques": [
     {
      "slug": "aging-versus-stalled-two-tier-alerts",

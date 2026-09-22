@@ -875,8 +875,8 @@
    "status": "forged",
    "file": "knowledge/media-generation/visual-generation/generated-output-grading/generated-output-grading.md",
    "digest": "sha256:d2f9f05b1fbab438",
-   "revision": 10,
-   "changedAt": "2026-09-22",
+   "revision": 11,
+   "changedAt": "2026-09-20",
    "techniques": [
     {
      "slug": "cross-provider-flip-analysis",
@@ -1229,8 +1229,8 @@
    "status": "forged",
    "file": "knowledge/media-generation/visual-generation/image-prompt-composition/image-prompt-composition.md",
    "digest": "sha256:bea76c7be2d43364",
-   "revision": 11,
-   "changedAt": "2026-09-22",
+   "revision": 12,
+   "changedAt": "2026-09-21",
    "techniques": [
     {
      "slug": "assigned-colour-roles",
@@ -1978,7 +1978,7 @@
    "file": "knowledge/media-generation/production-ops/review-iteration-loops/review-iteration-loops.md",
    "digest": "sha256:4e86071bf5a17b46",
    "revision": 10,
-   "changedAt": "2026-09-22",
+   "changedAt": "2026-09-20",
    "techniques": [
     {
      "slug": "anchored-variation-slate",
