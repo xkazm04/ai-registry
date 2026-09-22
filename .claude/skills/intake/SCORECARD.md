@@ -4583,3 +4583,14 @@ when something happens (span, pacing, onset, hold), gate discrimination on a
 temporal profile - displacement-from-first-frame by decile, largest step over
 median step - alongside pixel distance, and say before the operator looks which
 one the pair should move.**
+
+| 2.13.0 | 2026-09-23 | `youtube:YuOSyRj3sXg` thirty-million-writer-ai-slop - a ghostwriter's method for writing with a model (commodity / personality / original, approved language, a stance per contested claim) | 1 video, 11,490 words; **0 of 3 fetches**; 7 corpus files opened; 1 fleet tree read (systedo-case: the edit-bank seam, both callers, its tests, its applied ledger, with 0 prior rows on the seam) | 12 | 6 verified (1 accepted + 4 catches opened + 1 promoting read) | **1 correction** (technique section + decision rules, golden-path sentence) + **1 application** (`applied: code`, `ab_verdict: better`, 6/6 anchors held) | 1 row (`1c/0e/0s/0t/0r`), `better`: voice corrections banked 0/11 -> 10/11, floor 0/9 typo and price held | **1 code** (systedo-case `e1ec5d46`, not pushed) | Expected yield said before the table and it held (4 catches, 3 leads, 1 landing). The landing came from the anecdote's *size*: a one-percent edit against a corpus rule that called anything under a quarter noise. Admission `auto=1/3/0`, `fp=0`. Depth `0/0/1/0/0` (a correction, correctly: the finding inverts a rule the file states; it is not a new mechanism); routing count n/a (a video); `directions=n/a`; gate=n/a. Declared focus (temporal render discrimination) did not apply: no render-bound row |
+
+**2026-09-23 (thirty-million-writer-ai-slop) - weakest stage and next focus.**
+Ship is still the stage losing most: four of the five rows before this one
+shipped no code. This run shipped because the seam was a pure function with a
+unit suite beside it, so both arms could be imported from the tree and the
+gate could see the change. Next run's declared focus: the render-temporal
+focus above carries forward unchanged, and **when Phase 7.5 opens a seam,
+first ask whether both arms can be imported from the tree as they are**. If
+they can, the apply row is `code` at the price of a fixture file.
