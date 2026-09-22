@@ -4547,3 +4547,23 @@ declared focus: **when an operator dispatch rides on a source, screen the
 source against the machine or tree it would run on before extracting from the
 source's prose** - here the screen and one placement readback produced the only
 landing, and a release page on its own would have yielded currency alone.
+
+| 2.13.0 | 2026-09-22 | `youtube:-4B8_TjUlcQ` ai-shorts-full-guide | 1 video, 2,311 words; **1 of 3 fetches** (the platform's own synthetic-content disclosure policy); 9 corpus files opened; 2 fleet trees read (gravitone, systedo-case) | 15 | 8 verified by opening their homes (1 accepted + 6 catches + 1 contradicted-and-banked) | **1 technique + 1 application** (golden path: 1 carrier added, 2 sentences corrected so they stay true) | 1 row (`0c/1e/0s/0t/0r`), `not-better` | 1 (gravitone `e40e9f1`, an applied row, no code) | Expected yield said before the table and it held: the finding sat in the demo's proudest segment. It landed on **cross-run convergence**: a banked 2026-09-08 lead's return condition fired. Ship has no code because the seam's precondition was absent by construction (0 of 82 literals). Admission `auto=1/7/0`, `fp=0`. Declared focus mostly n/a: a video has no design record and no routing count. Point 3's spirit applied, since a banked lead was re-checked against its condition before use | S0/T1/A0/Asrc0/task0 · routing n/a (video) · directions=n/a |
+
+**Weakest stage over the last ten rows: ship.** Apply rows keep arriving
+`not-better` because the chosen seam lacks the technique's precondition.
+This run shows the cost directly. The seam chosen to falsify (gravitone)
+could only confirm absence. The seam read second (systedo-case), where the
+precondition was *nearly* present, is the one that changed the landing: it
+supplied the produced-versus-captured discriminator.
+
+**Next run's declared focus.**
+1. **Before choosing a falsifying seam, check the technique's precondition
+   can occur there.** A seam where the precondition is structurally absent
+   can only return `not-better`, and it teaches the tree's shape rather than
+   the technique's. Prefer the seam where the precondition is closest to
+   holding. That is where a caught outcome can change the landing.
+2. **Read the banked leads in the home subject before scoring.** This run's
+   GAIN came from a lead two weeks old, found only because a grep for the
+   concept reached `librarian/sources/`. A lead whose return condition fires
+   is convergence that has already been paid for.

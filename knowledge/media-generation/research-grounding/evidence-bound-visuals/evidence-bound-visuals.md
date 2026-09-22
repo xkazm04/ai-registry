@@ -14,6 +14,7 @@ techniques:
   - screenshots-claim-a-record
   - slots-claim-their-subjects
   - anchor-removal-ablation
+  - footage-claims-a-camera
 ---
 
 # Evidence-bound visuals
@@ -23,7 +24,8 @@ part of the argument, and it makes claims with a grammar of its own. An axis
 with fine ticks claims precision. An arrow claims causation. Two series on a
 shared scale claim comparability. A number on screen claims that somebody
 checked it. A person on screen saying "I used this" claims a person. A
-rendered screenshot of a platform claims a record. And a generated figure
+rendered screenshot of a platform claims a record. Footage in a phone's
+capture register claims a camera, and a person holding it. And a generated figure
 sitting in a slot the piece has labelled claims the subject named on that
 label, while asserting nothing itself. The
 subject of this document is keeping those claims honest:
@@ -79,8 +81,8 @@ has no referent at all.** Nothing was overstated, because there was nothing to
 overstate. There is no grade to propagate, so every mechanism this subject
 builds around propagating grades passes it silently.
 
-The subject has met this family twice, from unrelated directions, and the
-pair is what names it:
+The subject has met this family three times, from unrelated directions, and
+the set is what names it:
 
 - **The claim rides on the element.** A synthetic performer says "I used
   this", and the line asserts an experiencer who does not exist. Catchable at
@@ -89,8 +91,14 @@ pair is what names it:
   surrounding artifact has labelled with a real subject, and asserts that
   subject while saying nothing whatsoever. Not catchable at the element,
   because the element is innocent and the assembly is where the claim lives.
+- **The claim rides on the register.** A generated clip styled as amateur
+  capture asserts that a device was pointed at a real event by a real
+  person, while no mark lies and no slot is labelled. A compilation that
+  varies the register clip by clip goes further and asserts independent
+  witnesses. Caught only by a rule about how the frame claims it was made
+  ([footage-claims-a-camera](./techniques/footage-claims-a-camera.md)).
 
-The root under both: **the piece can assert what the mark does not.** An
+The root under all three: **the piece can assert what the mark does not.** An
 element is not a self-contained claim; it inherits the assertions of the
 copy, schema and premise around it. The grammar at the top of this document
 reads marks, and reading marks is necessary but not sufficient — the same
@@ -245,3 +253,7 @@ revise rather than merely contradict.
   a generated interface or platform screenshot asserts that a state existed
   on a system; system, actors and state are each real or labelled, and
   invented counts never sit on real chrome.
+- [footage-claims-a-camera](./techniques/footage-claims-a-camera.md) —
+  a capture register asserts a camera, a filmer and an event; photoreal
+  event footage in that register is labelled on the frame or re-briefed,
+  and a compilation of varied capture signatures is disclosed as one origin.

@@ -139,30 +139,30 @@
     },
     {
       "name": "contest",
-      "version": "1.1.1",
+      "version": "1.2.0",
       "category": "workflow",
       "path": "skills/contest/SKILL.md",
-      "contentHash": "sha256-n1:6ecb2171901385bc",
+      "contentHash": "sha256-n1:7041c6f8bbbdab89",
       "adopters": [],
       "invokes30d": 0,
       "reportedInvokes": 0,
-      "lessons": 3,
+      "lessons": 4,
       "lessonsPath": "skills/contest/LESSONS.md",
-      "lessonsHash": "sha256-n1:b5e8fc6571e8fe5f",
+      "lessonsHash": "sha256-n1:7372e355d3e68b63",
       "usageContributors": []
     },
     {
       "name": "council",
-      "version": "0.2.0",
+      "version": "0.3.0",
       "category": "workflow",
       "path": "skills/council/SKILL.md",
-      "contentHash": "sha256-n1:7c059a31a0b06017",
+      "contentHash": "sha256-n1:0cd1fb7119c0766d",
       "adopters": [],
       "invokes30d": 0,
       "reportedInvokes": 0,
-      "lessons": 2,
+      "lessons": 3,
       "lessonsPath": "skills/council/LESSONS.md",
-      "lessonsHash": "sha256-n1:27a5fd8b43c69bcc",
+      "lessonsHash": "sha256-n1:e7022b100d971211",
       "usageContributors": []
     },
     {
@@ -758,7 +758,7 @@
     "skills": 35,
     "practices": 8,
     "memory": 6,
-    "lessons": 243
+    "lessons": 245
   },
   "bundles": [
     {
@@ -821,10 +821,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 18,
-      "techniques": 124,
+      "techniques": 125,
       "applications": 77,
-      "files": 224,
-      "contentHash": "sha256:2f75ad925fc62544"
+      "files": 225,
+      "contentHash": "sha256:1cf8f1dee8a2e3e2"
     },
     {
       "name": "localization",
@@ -860,10 +860,10 @@
       "profile": "rkb/0.1",
       "purity": "media",
       "subjects": 21,
-      "techniques": 145,
-      "applications": 73,
-      "files": 244,
-      "contentHash": "sha256:4557288ef8217f09"
+      "techniques": 146,
+      "applications": 74,
+      "files": 246,
+      "contentHash": "sha256:b9e4507ee720d547"
     },
     {
       "name": "recruiting",
