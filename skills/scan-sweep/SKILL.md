@@ -1,11 +1,11 @@
 ---
 name: scan-sweep
-description: "Long-running quality sweep that walks a repository context by context, reads each area's code once, judges it through every scan lens, and lands what it can PROVE itself with atomic commits. With no arguments it runs the STABILIZE loop - bug hunting, UI perfection, performance - picking the least-covered context each round and keeping a per-context lens-coverage ledger so a codebase gets swept evenly instead of repeatedly in the same corner. Every finding climbs an evidence ladder (gate > probe > experiment > simulation) before it is routed: a measured `better` with no escalation builds in-session, S or M, under any strategy; `not-better` is rejected with its figures; only architecture (L), a direction outside the context's declared scope, an irreversible change, or a loosened policy still waits for a human. Use for a standing quality loop, before a hardening milestone, or to work down a backlog. Pass --develop for new capability, --optimize for deep hardening, --ideas-only to change no code, --coverage for the pick list."
-argument-hint: "[--stabilize|--develop|--optimize] [--one <context>] [--depth N] [--ideas-only] [--lenses k1,k2] [--coverage] [--backlogs]"
+description: "Long-running quality sweep that walks a repository context by context, reads each area's code once, judges it through every scan lens, and lands what it can PROVE itself with atomic commits. With no arguments it runs the STABILIZE loop - bug hunting, UI perfection, performance - picking the least-covered context each round and keeping a per-context lens-coverage ledger so a codebase gets swept evenly instead of repeatedly in the same corner. Every finding climbs an evidence ladder (gate > probe > experiment > simulation) before it is routed: a measured `better` with no escalation builds in-session, S or M, under any strategy; `not-better` is rejected with its figures; only architecture (L), a direction outside the context's declared scope, an irreversible change, or a loosened policy still waits for a human. Use for a standing quality loop, before a hardening milestone, or to work down a backlog. Pass --develop for new capability, --optimize for deep hardening, --challenge to put a model through high-effort / high-impact / moderate-to-high-risk work (two architecture + UX candidates per context, critic-graded, built in waves, scored), --ideas-only to change no code, --coverage for the pick list."
+argument-hint: "[--stabilize|--develop|--optimize|--challenge] [--cohort N] [--go] [--one <context>] [--depth N] [--ideas-only] [--lenses k1,k2] [--coverage] [--backlogs]"
 category: workflow
 contexts: tracked
 memory: project
-version: 3.3.1
+version: 3.4.0
 tags: sweep, quality, stabilization, backlog, coverage, registry, atomic-commits
 ---
 # Context Sweep
@@ -26,6 +26,8 @@ returning to the next-least-covered area, not from skimming.
 /scan-sweep --coverage          # the pick list; scan nothing
 /scan-sweep --ideas-only        # scan and propose; change no code
 /scan-sweep --backlogs          # list the open backlogs earlier passes left behind; scan nothing
+/scan-sweep --challenge [--cohort N] [--go]
+                                # proving ground: 2 hard candidates per context, critic, deck, build waves, scorecard
 ```
 
 **Default = the stabilize loop.** No arguments means: pick the least lens-covered
@@ -89,8 +91,72 @@ forgotten its own queue.
   no figure is `not-better` (pure churn), never `unmeasurable` - the
   `unmeasurable` drawer is where this strategy's whole output went under v2.x.
 
+- **`--challenge`** - the PROVING GROUND. High effort, high impact, moderate to
+  high risk, built rather than parked. For the moment a new model (or a new
+  builder setup) arrives and the question is whether it can do the hard half of
+  the job: see the structural move a context needs, argue it from the tree, and
+  land a multi-file risky change without breaking anything. It inverts the other
+  three strategies' tuning on purpose, so it runs on its own procedure - see
+  **§ Challenge mode** below and `references/challenge.md`. Lenses:
+  `architecture-challenger` and `ux-elevation`, exactly **two candidates per
+  context** (one per slot), M or L only.
+
 Name the strategy in the report header and record it in the snapshot's `strategy`
 field.
+
+## Challenge mode - `--challenge`
+
+A challenge run replaces §1, §4.4-§4.8, §5's escalation table and §7's one-at-a-
+time queue with the procedure below. Everything else binds unchanged: §0 speaks the
+open backlogs first, §2's never-re-propose lists apply, §4.10's card form and
+`file:line` anchors apply, §7.2's asserted gates and §7's staging rules apply, and
+§10 writes a per-context snapshot. The long form is `references/challenge.md`;
+read it before the first scout goes out.
+
+1. **Cohort, not a context.** `node ${CLAUDE_SKILL_DIR}/scripts/coverage.mjs
+   --challenge [--cohort N]` picks N contexts (default 6): >= 10 files, never
+   challenged first, at most one per group, larger first. `--one` / `--group`
+   override. Print the cohort and the reason for each pick.
+2. **Scout - two cards per context.** One read-only subagent per context (or the
+   coordinator, sequentially, when there are none) reads the context once, the
+   governing registry subject (§6), and the open backlogs, then returns exactly two
+   cards: slot A `architecture-challenger`, slot B `ux-elevation` (a second
+   architecture card on a different seam when the context has no user surface).
+   Floors: size M/L, effort >= 5, impact >= 7, risk 4-8, a declared `write_set`,
+   and 3-8 `acceptance` cases a builder can write as failing tests first. A card
+   under a floor is re-homed to the ordinary backlog and the slot re-scouted once.
+   Every scout writes its cards to the run directory BEFORE replying.
+3. **Critic - an independent reader.** A separate subagent gets the cards and the
+   tree, never the scout's reasoning: re-verifies every premise, checks floors and
+   never-re-propose, grades ambition / grounding / falsifiability 1-5, and returns
+   `build` / `revise` / `void`. The mean is the run's `idea_score`.
+4. **Deck - one human decision.** The deck approval IS the human gate for
+   `architecture` and in-scope `direction` - that is what this mode exists to
+   exercise. `irreversible`, `policy-loosen`, cross-repo contracts and out-of-scope
+   directions are **never built** under this mode, whatever the approval says.
+   Attended: ask once. `--go`, or an invocation that explicitly asks for execution,
+   is the approval in advance - the report says which. Unattended without either:
+   stop at the deck and register it as an open backlog (§9).
+5. **Build in waves.** Waves of <= `waveSize` (default 4) builders with disjoint
+   write sets; a signature change runs alone and first. Each builder: re-verify the
+   premise -> write the acceptance tests and watch them fail -> build -> tests and
+   the overlay's gates green by asserted exit code -> commit a short series. In a
+   shared checkout: `git commit -- <paths>` only, and the shared-surface `mkdir`
+   lock for locale catalogs, generated references and ratchet files. Past the
+   write set or past L -> revert and return `demoted`.
+6. **Integrate after every wave.** Full gate on the combined tree before the next
+   wave starts. Red: one fix-forward, then `git revert` the offending series.
+7. **Score the run.** One row in `.claude/scan-history/challenge-runs.jsonl`:
+   models per role, cards, premise-false, void, approved, excluded, landed,
+   **flawless** (landed + cases red-before/green-after + gates green at hand-off +
+   no integration fix + not reverted), demoted, reverted, integration failures,
+   idea score, tokens and wall-clock as reported (null, never estimated). Close the
+   report with `execution_score = flawless / approved`, `idea_score`, and the delta
+   against the previous challenge row.
+
+Challenge lenses carry `Group: challenge` in `references/lenses.md`; they run only
+under this strategy and are excluded from the stabilize coverage denominator, so a
+challenge run can never make a context read as swept.
 
 ## 0. Open backlogs - tell the operator FIRST
 
@@ -187,7 +253,8 @@ Rules that keep the notice honest:
 ## 3. Pick the lens package
 
 - `--lenses k1,k2` uses exactly those keys.
-- Otherwise the package is **ALL lenses in `references/lenses.md`**, ordered:
+- Otherwise the package is **ALL lenses in `references/lenses.md`** except the
+  `Group: challenge` pair, which only `--challenge` runs, ordered:
   the active strategy's deep tier first, then lenses whose `Match` regex hits the
   context's name, description, keywords, stack or paths, then the rest as a
   lighter pass. Most of the tail will honestly report "nothing real" - but a
@@ -873,6 +940,11 @@ consuming repo. The skill runs on the defaults without it.
 | `gates` | from `.claude/conventions.json` / manifest capabilities | Verification commands per surface. |
 | `depth` | 5 (loop), 10 (`--one`) | Findings per context per round. |
 | `neverSweep` | none | Contexts the loop skips (generated, vendored). |
+| `challenge.cohort` | 6 | Contexts per `--challenge` run. |
+| `challenge.waveSize` | 4 | Concurrent builders per wave. |
+| `challenge.sharedSurfaces` | none | Files every builder may append to under the shared-surface lock (locale catalogs, generated references, ratchet ceilings). |
+| `challenge.integrationGate` | the overlay's full gate list | What runs on the combined tree after each wave. |
+| `challenge.worktrees` | `false` | Whether builders may take worktrees (only when the repo's gates run in one). |
 
 ## Coverage table
 
