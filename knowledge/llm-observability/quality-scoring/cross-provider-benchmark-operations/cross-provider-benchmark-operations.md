@@ -17,6 +17,7 @@ techniques:
   - axes-and-caveats-live-at-the-surface
   - cheapest-sufficient-configuration
   - entitlement-exhaustion-is-not-ill-health
+  - self-hosted-residency-is-part-of-the-target
 ---
 
 # Cross-provider benchmark operations
@@ -129,6 +130,10 @@ every one of them drifts by default:
   batching, or judge configuration is a different instrument; never compare
   across a method change without re-baselining, because the difference you
   see is method, not quality.
+- **The residency drifts** for a target served on your own hardware - the
+  context window it was loaded at and whatever else holds accelerator memory
+  decide how much of it spills to host memory, and a spilled target is slower
+  for reasons that are not the model (self-hosted-residency-is-part-of-the-target).
 - **The completeness drifts** — a run that stopped at a budget ceiling or a
   cancel scored a different (and not random) subset of cases; it is marked
   partial and excluded from comparison rather than averaged in
