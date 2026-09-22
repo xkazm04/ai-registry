@@ -40,6 +40,30 @@ test('cohort: >= 10 files, one per group, never-challenged and larger first', ()
   assert.ok(!cohort.some((c) => c.name === 'tiny'));
 });
 
+test('riders: a small context rides with its group host; an all-small group is promoted', () => {
+  const dir = mkdtempSync(join(tmpdir(), 'scan-sweep-cov-'));
+  writeFileSync(join(dir, 'context-map.json'), JSON.stringify({
+    contexts: [
+      { name: 'host', group: 'G1', file_paths: files(20) },
+      { name: 'small-a', group: 'G1', file_paths: files(3) },
+      { name: 'small-b', group: 'G1', file_paths: files(4) },
+      { name: 'lonely-1', group: 'G2', file_paths: files(5) },
+      { name: 'lonely-2', group: 'G2', file_paths: files(7) },
+      { name: 'empty', group: 'G3', file_paths: [] },
+    ],
+  }));
+  mkdirSync(join(dir, '.claude', 'scan-history'), { recursive: true });
+  writeFileSync(join(dir, '.claude', 'scan-history', 'scan-sweep.jsonl'), '');
+  const { cohort, uncovered } = run(dir, '--challenge', '--riders', '1');
+  const host = cohort.find((c) => c.name === 'host');
+  assert.deepEqual(host.riders.map((r) => r.name), ['small-a'], 'riders are capped and in map order');
+  const promoted = cohort.find((c) => c.group === 'G2');
+  assert.equal(promoted.name, 'lonely-2', 'an all-small group promotes its largest context to host');
+  assert.deepEqual(promoted.riders.map((r) => r.name), ['lonely-1']);
+  assert.ok(!cohort.some((c) => c.name.startsWith('small')), 'a small context is never a host while its group has a big one left');
+  assert.equal(uncovered, 5, 'zero-file contexts are not owed coverage');
+});
+
 test('cohort: --group lifts the one-per-group rule inside that group', () => {
   const { cohort } = run(fixture([]), '--challenge', '--group', 'G1');
   assert.deepEqual(cohort.map((c) => c.name), ['big-g1', 'mid-g1']);

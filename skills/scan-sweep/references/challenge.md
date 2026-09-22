@@ -42,6 +42,37 @@ The loop picks ONE context; a challenge run picks a **cohort** (default 6,
 
 State the cohort and why in the run header. `neverSweep` contexts are skipped.
 
+### 2.1 Riders - how the small contexts get covered
+
+The >= 10-file floor alone would leave every small context unchallenged forever
+(measured on kp: 40 of 210). So each host carries up to `--riders N` (default 3)
+**riders**: never-challenged contexts under 10 files from the host's group, in map
+order. A small context is never a host while its group still has an unchallenged
+large one; once none is left, the group's small contexts are promoted to hosts,
+largest first, and the rest ride with them.
+
+The host's scout reads every rider in full alongside the host. Riders do not add
+cards - the host still returns exactly two - but either card MAY target a rider, and
+the scout records for each rider one line of what it checked (the files read, the
+hypothesis it traced, why no card went there). That line is the rider's coverage
+record (§4.9 of SKILL.md: a lens counts only when pointed at a named artefact), and
+the rider gets its own §10 snapshot with `"note":"rider of <host>"`.
+
+### 2.2 `--until-covered` - the coverage loop
+
+Runs cohort after cohort until `coverage.mjs --challenge` reports `0 context(s)
+never challenged`. Two rules keep it affordable:
+
+- **Pipeline the read-only stages.** Scouts and the critic of run N+1 read the tree
+  while run N's builders write it - they change nothing, and their premises are
+  re-verified by the builder at build time anyway (§7 step 1). Only one run's
+  BUILDS are ever in flight.
+- **One deck approval covers the loop** when the operator asked for coverage; each
+  run's deck is still written, and `irreversible` / `policy-loosen` stay out.
+
+Each run is a complete run: its scorecard row, snapshots and integration gate land
+before the next run's first builder starts.
+
 ## 3. The two lenses and the two slots
 
 Every context in the cohort yields **exactly two candidates**, one per slot:

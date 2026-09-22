@@ -1,11 +1,11 @@
 ---
 name: scan-sweep
 description: "Long-running quality sweep that walks a repository context by context, reads each area's code once, judges it through every scan lens, and lands what it can PROVE itself with atomic commits. With no arguments it runs the STABILIZE loop - bug hunting, UI perfection, performance - picking the least-covered context each round and keeping a per-context lens-coverage ledger so a codebase gets swept evenly instead of repeatedly in the same corner. Every finding climbs an evidence ladder (gate > probe > experiment > simulation) before it is routed: a measured `better` with no escalation builds in-session, S or M, under any strategy; `not-better` is rejected with its figures; only architecture (L), a direction outside the context's declared scope, an irreversible change, or a loosened policy still waits for a human. Use for a standing quality loop, before a hardening milestone, or to work down a backlog. Pass --develop for new capability, --optimize for deep hardening, --challenge to put a model through high-effort / high-impact / moderate-to-high-risk work (two architecture + UX candidates per context, critic-graded, built in waves, scored), --ideas-only to change no code, --coverage for the pick list."
-argument-hint: "[--stabilize|--develop|--optimize|--challenge] [--cohort N] [--go] [--one <context>] [--depth N] [--ideas-only] [--lenses k1,k2] [--coverage] [--backlogs]"
+argument-hint: "[--stabilize|--develop|--optimize|--challenge] [--cohort N] [--riders N] [--until-covered] [--go] [--one <context>] [--depth N] [--ideas-only] [--lenses k1,k2] [--coverage] [--backlogs]"
 category: workflow
 contexts: tracked
 memory: project
-version: 3.4.1
+version: 3.5.0
 tags: sweep, quality, stabilization, backlog, coverage, registry, atomic-commits
 ---
 # Context Sweep
@@ -114,9 +114,13 @@ open backlogs first, §2's never-re-propose lists apply, §4.10's card form and
 read it before the first scout goes out.
 
 1. **Cohort, not a context.** `node ${CLAUDE_SKILL_DIR}/scripts/coverage.mjs
-   --challenge [--cohort N]` picks N contexts (default 6): >= 10 files, never
-   challenged first, at most one per group, larger first. `--one` / `--group`
-   override. Print the cohort and the reason for each pick.
+   --challenge [--cohort N] [--riders N]` picks N contexts (default 6): >= 10
+   files, never challenged first, at most one per group, larger first, each
+   carrying up to 3 small same-group **riders** the scout reads and records (a
+   group with no large context left promotes its small ones). `--one` /
+   `--group` override. `--until-covered` loops cohorts until none is left
+   unchallenged, pipelining the next run's scouts behind this run's builds
+   (references/challenge.md §2.1-2.2). Print the cohort and the reason for each pick.
 2. **Scout - two cards per context.** One read-only subagent per context (or the
    coordinator, sequentially, when there are none) reads the context once, the
    governing registry subject (§6), and the open backlogs, then returns exactly two

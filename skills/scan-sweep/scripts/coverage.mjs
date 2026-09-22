@@ -118,11 +118,19 @@ const strictNote = strict ? `strict: fp=${fpRecent} in last ${recent.length} rou
 // --challenge: the cohort rule of references/challenge.md section 2, in one place.
 // >= 10 files; never challenged first, then oldest challenge; at most one context per
 // group; larger first among equals. A group-less context is its own group.
+// Riders (references/challenge.md section 2.1): a context under 10 files is never a host
+// while its group still has an unchallenged >= 10-file context; it rides with that group's
+// host instead (up to RIDERS per host). A group with no such host left promotes its small
+// contexts to hosts, largest first, so full coverage is reachable.
 if (has('--challenge')) {
   const size = Math.max(1, Number(opt('--cohort', '6')) || 6);
+  const RIDERS = Math.max(0, Number(opt('--riders', '3')) || 0);
   const onlyGroup = opt('--group', null);
+  const groupOf = (r) => r.group ?? `solo:${r.name}`;
+  const bigLeft = new Set(rows.filter((r) => r.files >= 10 && !r.challenged).map(groupOf));
   const pool = rows
-    .filter((r) => r.files >= 10 && (!onlyGroup || r.group === onlyGroup))
+    .filter((r) => r.files > 0 && (r.files >= 10 || (!r.challenged && !bigLeft.has(groupOf(r)))))
+    .filter((r) => !onlyGroup || r.group === onlyGroup)
     .sort((a, b) => (a.challenged ? 1 : 0) - (b.challenged ? 1 : 0)
       || (a.challenged && b.challenged ? Date.parse(a.challenged) - Date.parse(b.challenged) : 0)
       || b.files - a.files || a.order - b.order);
@@ -133,11 +141,24 @@ if (has('--challenge')) {
     const g = r.group ?? `solo:${r.name}`;
     if (!onlyGroup && seen.has(g)) continue;
     seen.add(g);
-    cohort.push({ name: r.name, group: r.group, files: r.files, reason: r.challenged ? `last challenged ${r.challenged.slice(0, 10)}` : 'never challenged' });
+    cohort.push({ name: r.name, group: r.group, files: r.files, reason: r.challenged ? `last challenged ${r.challenged.slice(0, 10)}` : 'never challenged', riders: [] });
   }
-  if (asJson) console.log(JSON.stringify({ cohort, eligible: pool.length }, null, 2));
+  // Attach riders: unchallenged small contexts of the host's group, map order.
+  const riding = new Set(cohort.map((c) => c.name));
+  for (const c of cohort) {
+    for (const r of rows) {
+      if (c.riders.length >= RIDERS) break;
+      if (r.files > 0 && r.files < 10 && !r.challenged && !riding.has(r.name) && groupOf(r) === (c.group ?? `solo:${c.name}`)) {
+        c.riders.push({ name: r.name, files: r.files });
+        riding.add(r.name);
+      }
+    }
+  }
+  const uncovered = rows.filter((r) => r.files > 0 && !r.challenged).length;
+  if (asJson) console.log(JSON.stringify({ cohort, eligible: pool.length, uncovered }, null, 2));
   else {
-    for (const c of cohort) console.log(`${c.name}\t${c.files} files\t${c.group ?? '-'}\t${c.reason}`);
+    for (const c of cohort) console.log(`${c.name}\t${c.files} files\t${c.group ?? '-'}\t${c.reason}${c.riders.length ? `\triders: ${c.riders.map((x) => `${x.name}(${x.files})`).join(', ')}` : ''}`);
+    console.log(`${uncovered} context(s) never challenged`);
     console.log(`\n${cohort.length} of ${pool.length} eligible contexts (>= 10 files${onlyGroup ? `, group ${onlyGroup}` : ', one per group'})`);
   }
   process.exit(cohort.length ? 0 : 2);
