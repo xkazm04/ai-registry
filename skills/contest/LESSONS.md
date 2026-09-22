@@ -73,3 +73,39 @@ from the first contest, so it is recorded apart from the mechanics above.
   scoreboard that looks complete.
 - **A seat-limit on the only second family leaves a one-judge panel.** Say so in the report and
   let the owner decide; do not substitute a same-family judge to fill the chair.
+
+## 1.3.0 - 2026-09-22 - personas (manifest-editor, the promotion)
+
+The owner's fused winner (a document editor) was promoted into the product and the owner said the
+quality had massively degraded. This entry is about the step after the verdict, which the method
+did not have. Section 9 and `references/promotion.md` add it.
+
+- **Every product gate was green on a port the owner rejected on sight.** tsc, eslint, 24 tests, a
+  205-rule census and a production build all passed. Measured afterwards with a computed-style
+  contract, the port carried 69 deviations across 10 roles, and all three properties the owner had
+  named ("book wrapping, font choices, wider width") were among them. The port had been rebuilt from
+  the product's generic tokens from memory of the winner. No gate reads a computed style; the
+  contract (`scripts/style-contract.py`) does, and took it to 0.
+- **A named interaction was lost the same way, and only driving it showed that.** The owner asked
+  for one variant's "row focus on click". The port selected a paragraph; the winner selected one
+  bullet, which is what the owner meant, because a manifest is mostly bullets. Screenshots could not
+  show it, since a selected row and a row with a caret look the same in a still frame. The fix
+  was read from the winner's markup (`<li data-block>`), and a scripted browser drive now asserts
+  on what the save writes.
+- **"Extract the style from this screen" is a claim the instrument can prove.** When the owner
+  pointed at an existing product surface as the reference, its components were extracted and that
+  surface migrated onto them; old render as contract, new render checked: 0 deviations across 15
+  roles. The same check caught this product's re-pointed radius scale (`rounded-xl` = 16px here, not
+  12px), which a mapping from Tailwind defaults would have shipped 4px wrong on every card.
+- **The instrument needed a negative control to be trusted.** Its first run against an old-selector
+  roles file crashed on a role absent from the roles file instead of reporting it missing. Fixed; it
+  now exits 1 on the pre-fix port (15 deviations, 5 roles missing) and 0 on the fixed one.
+- **A layout position is not a computed style.** A `<button>` centres its label; a flex column
+  pinned it to the bottom, and every property still matched. The opt-in `position` probe caught it.
+- **A prototype's viewport breakpoint became the wrong signal in the product.** The harness ran the
+  surface at 1,400px; the live app put it in a 597px panel. A container query now decides the rail.
+- **The bridge's screenshot route captured the foreground window (a terminal) twice**, focus route
+  or not. Live verification went through DOM queries instead; don't rely on that route for pixels.
+- **Git, product side:** committing through an isolated index left the shared index one commit
+  behind, which against the new HEAD read as "delete the 22 files just committed". Caught before any
+  other session committed; resync your own paths right after an isolated commit.

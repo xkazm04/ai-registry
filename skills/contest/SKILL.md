@@ -3,7 +3,7 @@ name: contest
 description: "Blind design contest between CLI agent seats (Claude Code, Codex CLI, Grok CLI). Each participant you name - engine:model@effort - builds three genuinely different prototype variants of one idea in its own workspace; a cross-family panel scores every variant blind on seven dimensions (wow, clarity at scale, wayfinding, interaction, craft, concept, utility); the host adds a visual pass in a browser; the owner declares the winner or sends a shortlist into a refinement round with their review; the winner and the design philosophies behind it land in an Obsidian vault whose pattern ledger becomes the bar in the next brief. Built for UI prototypes with a wow factor, usable for any solution design. Invoke with /contest \"<idea>\" --participants <specs> for a full round, or /contest init|run|collect|judge|verdict|refine|status <id> to drive one step."
 category: workflow
 memory: vault
-version: 1.1.1
+version: 1.2.0
 tags: contest, prototyping, ui, multi-model, blind-judging, vault
 argument-hint: "\"<idea>\" --participants engine:model@effort,... | init|run|collect|judge|verdict|refine|status <id>"
 ---
@@ -228,6 +228,31 @@ time and reported cost (the CLI's figure, never an invoice); which seats did not
 why; the panel's composition and the self-preference disclosure when it applies; the patterns
 written to the ledger; and the path of the winning artefact. A winner is promoted into a product
 by a separate, reviewed change - never by copying it out of the arena inside this run.
+
+## 9. Promote - hold the port to the winner
+
+**A winner is chosen from pixels and ported from memory, and the port is where the win is lost.**
+The first promotion measured under this method passed every gate its product had - typecheck,
+lint, tests, a 205-rule census, a production build - and carried 69 computed-style deviations
+from the winner, including all three properties the owner had named as the reason for choosing
+it. No product gate reads a computed style or drives an interaction; this step does. The full
+procedure, and the drifts it has already caught, are in **`references/promotion.md`**. In short:
+
+1. Turn each *why* in the owner's verdict into a **role** and capture the winner's contract:
+   `python <skill>/scripts/style-contract.py capture <winner> roles.json contract.json`.
+2. Render the **real** product component with the **real** stylesheet and data in a harness served
+   by the product's own dev server (a git-ignored folder), and port the look in the form the winner
+   expressed it - a stylesheet when it is gradients and pseudo-elements, not the nearest tokens.
+3. `style-contract.py check <harness> roles.json contract.json` until **0 deviations**. A structural
+   deviation is fixed in the selector and said out loud; a tolerance is never widened to pass.
+4. **Drive every interaction the owner named** in a browser and assert on what the product writes.
+   A still frame cannot tell a selected row from one with a caret in it.
+5. `scripts/side-by-side.py` for the eyes, then the **live product**, whose containers impose
+   widths no harness has.
+
+When the owner names an existing product surface as the style reference, extract it into shared
+components, migrate that surface onto them, and prove the migration with the same instrument.
+Report the before/after deviation counts; "it compiles and the tests pass" is not a promotion.
 
 ## Project overlay
 
