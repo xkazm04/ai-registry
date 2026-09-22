@@ -5,7 +5,7 @@
   "source": "knowledge/media-generation/ (frontmatter only)",
   "subjects": 21,
   "techniques": 146,
-  "applications": 74,
+  "applications": 75,
   "laws": 9,
   "categories": [
    "narrative-craft",
@@ -2500,9 +2500,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/production-ops/video-assembly/video-assembly.md",
-   "digest": "sha256:72dbf7047e97d78a",
-   "revision": 15,
-   "changedAt": "2026-09-16",
+   "digest": "sha256:eb70128eba2509f3",
+   "revision": 16,
+   "changedAt": "2026-09-22",
    "techniques": [
     {
      "slug": "cut-compiled-from-source",
@@ -2582,7 +2582,9 @@
       "a pipeline's derived durations must survive a model's fixed generation steps",
       "animating a designed graphic whose artwork must stay exact across the shot",
       "a walk or other cyclic movement comes back stiff from an anchored generation",
-      "minting a series of keyframes or end-frame anchors for a multi-shot sequence"
+      "minting a series of keyframes or end-frame anchors for a multi-shot sequence",
+      "choosing the length of a bridge or of a backward or end-anchored extension",
+      "a clip pinned at both ends holds still and then snaps to its last frame"
      ]
     },
     {
@@ -2673,6 +2675,13 @@
      "technique": "generated-shot-sourcing",
      "file": "knowledge/media-generation/production-ops/video-assembly/applications/process--generated-shot-sourcing.md",
      "verified_on": "2026-09-08"
+    },
+    {
+     "stack": "python",
+     "technique": "generated-shot-sourcing",
+     "file": "knowledge/media-generation/production-ops/video-assembly/applications/python--generated-shot-sourcing.md",
+     "verified_on": "2026-09-22",
+     "verified_against": "python@3.12"
     },
     {
      "stack": "react",

@@ -1,7 +1,7 @@
 ---
 subject: video-assembly
 domain: media-generation
-last_touched: 2026-09-16
+last_touched: 2026-09-22
 dry_streak: 0
 ---
 
@@ -246,3 +246,7 @@ source note.
   deterministic evaluation - which this run's measurement refutes, since there is no
   randomness anywhere in it. Out of the run's declared domain; banked as a lead with its
   return condition in the source note.
+
+### 2026-09-22 - `/intake` intake-kqP09, one render-proven section (source: [[2026-09-22-h3-timeline-extend-bridge]])
+
+generated-shot-sourcing gains *A clip pinned at both ends is paced by the model, not by its span*. The ladder's rung 3 said the model "interpolates a motion path" between head and tail; a render pair on a local first-and-last-frame model said it does not interpolate evenly. Surplus span is spent holding the first frame and then snapping (3-4x the median step), and the operator chose the travel-sized span 2/2 blind over a discrimination ratio the gate had refused (1.16x). The source's own claim, that too short a span makes a bridge cut, **did not reproduce** for a small travel: a split 1/1 at 0.88x, recorded as unmeasurable. A corrected premise worth keeping: the practitioner located a real span failure and put it on the wrong side. Not landed: that an arrival needs the end-frame channel and a mask alone will not converge (never rendered; lead with a named instrument). Banked beside it: the tail's momentum outvotes the prompt (cut back before extending), the window as a subtrahend of each call's kept seconds, and keeping the pre-decode state with the clip. The last one has its home-if-landed in review-iteration-loops' stored-original rule. Director error recorded: one triage question was asked across two differently shuffled pairs and had to be re-asked per seed.

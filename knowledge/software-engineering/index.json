@@ -4,7 +4,7 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 229,
-  "techniques": 1763,
+  "techniques": 1764,
   "applications": 1110,
   "laws": 15,
   "categories": [
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1763/1763",
+  "use_when_coverage": "1764/1764",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -36140,9 +36140,9 @@
    "subcategory": "model-workflow-contracts",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/model-workflow-contracts/windowed-inference-over-oversized-inputs/windowed-inference-over-oversized-inputs.md",
-   "digest": "sha256:4e1576552155a7a1",
-   "revision": 2,
-   "changedAt": "2026-09-17",
+   "digest": "sha256:19204822e7d191e7",
+   "revision": 3,
+   "changedAt": "2026-09-22",
    "techniques": [
     {
      "slug": "axis-buffered-writeback",
@@ -36225,6 +36225,22 @@
       "the stitched canvases do not fit on the accelerator beside the model",
       "designing the device parameters of an inference entry point",
       "an inference call fails on allocation of the output rather than on the model"
+     ]
+    },
+    {
+     "slug": "step-synchronous-windows",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "derivation-names-recomputation"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "running an iterative or sampling model over windows because the whole input does not fit",
+      "a windowed refinement pass shows detail that changes abruptly at a window boundary although the geometry lines up",
+      "handing the finished tail of one window to the next as fixed context and still seeing a seam",
+      "choosing between window-major and step-major order for a multi-step model",
+      "deciding what state must stay resident for a windowed multi-step run"
      ]
     },
     {
@@ -39693,6 +39709,7 @@
     "voice-io/portable-provider-package",
     "web-scraping/extraction-rule-dsl",
     "windowed-inference-over-oversized-inputs/schedule-parity-by-realized-cut",
+    "windowed-inference-over-oversized-inputs/step-synchronous-windows",
     "wizard-flows/branching-and-skipping",
     "wizard-flows/step-state-model",
     "workflow-property-contracts/attribute-protocol-over-accessors",
@@ -39962,6 +39979,7 @@
     "web-scraping/negotiated-representation-probe",
     "windowed-inference-over-oversized-inputs/overlap-weighted-stitching",
     "windowed-inference-over-oversized-inputs/schedule-parity-by-realized-cut",
+    "windowed-inference-over-oversized-inputs/step-synchronous-windows",
     "wizard-flows/progress-communication"
    ]
   },
