@@ -4797,3 +4797,18 @@ a decision the source's numbers bear on (a measured rule, a benchmark, a thresho
 and read its derivation.** A project rule derived from a narrower regime than it now
 governs is a seam the source can falsify. And read every hook's output on every fleet
 commit; a green tick is not evidence that the hook ran.
+
+| 2.14.1 | 2026-09-24 | `github:yifanzhang-pro/Agora@4ce939e` agora - a paper (arXiv:2609.18094) with a code-less project-page repo: self-directed agent sessions coordinating through an append-only git DAG of typed contributions, reuse-based evidence scores and explore slots; one 13-worker community run | 1 repo cloned (README, project page, 4 figures, no code); **1 of 3 fetches** (the paper, which was the extraction, ~6,500 words); 9 corpus files opened; 12 fleet trees grepped for a keep-if-better / leader decision; 1 tree read (personas memory-year: FINDINGS, 17 run outputs); 345 registry commits replayed for concentration | 12 (5 design + 7 claim) | 6 verified (3 design entries against opened homes, 2 promoting reads, 1 V1 placement count) | **1 subject** (5 techniques, 3 applications) via one forge worker; director amendments to 2 techniques and the golden path from the apply results; 3 catches, 3 leads | 2 rows (`1c/1e/0s/0t/0r`): explore slots `not-better` (registry fleet, falsifying: the defect worklist does not herd), resolution-bounded leaders `better` (personas ladder: 5 leader claims, 0 resolve, floor +40/64) | **1 code** (personas `bf6a039c6`: ladder resolution check + FINDINGS qualification + applied row), + registry `371582a8`, `08c9ba12`; not pushed | Declared focus (self-compact: read the floor from the same instrument as the target) **met on both rows**. The ladder's floor was a known-separated pair on the same answers.json. The concentration floor was source-driven work on the same mapper. The tin focus (grep the fleet for a decision the source's numbers bear on), appended mid-run, was met by the ladder seam. Admission `auto=1/0/1` (E4+E2 escalated, operator chose forge now), `fp=0`. `build-marketplace --check` was red in HEAD from a sibling's contest 1.4.1 bump; it was not regenerated here. | S1/T5/A0/Asrc0/task0 - paper-class, routing count 3 NONE in one system with one shared home (XL fired, forged in-session; no forge scouts, no code to scout) - directions=0/0 (no fleet project declares agent-operations; the registry is the peer and got an application instead) - gate=n/a |
+
+**2026-09-24 (agora) - weakest stage and next focus.** Ship moved again. This is the
+third row in a row with product code, and all three came from a fleet decision the
+source's numbers bear on, not from the source's own claims. This run adds a second
+pattern, and it is the one worth carrying: **the falsifying seam was this registry
+itself, and the catch was a boundary.** A technique written from a community that herded
+was tested against our own fleet's history. It came back `not-better`, and the reason
+(a defect worklist empties itself; a leaderboard does not) is now the technique's first
+boundary. Next run's declared focus: **when a source describes a system of the same class
+as one of our own instruments (the run board, the scan, the ledgers, a harness ladder),
+replay our instrument's own history against the source's headline measurement before
+writing the technique.** It costs one git log. It either confirms the mechanism or hands
+the technique its boundary before it is written.

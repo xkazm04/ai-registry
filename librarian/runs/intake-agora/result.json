@@ -1,0 +1,81 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "intake-agora",
+  "skill": "intake",
+  "skill_version": "2.14.1",
+  "mode": "run",
+  "domain": "agent-operations",
+  "started_at": "2026-09-24T07:00:00Z",
+  "ended_at": "2026-09-24T10:30:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 1,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "agent-operations/shared-research-record",
+      "at": "2026-09-24",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "shared-research-record",
+      "technique": "explicit-explore-slots",
+      "verdict": "not-better",
+      "mode": "experiment"
+    },
+    {
+      "subject": "shared-research-record",
+      "technique": "resolution-bounded-leaders",
+      "verdict": "better",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "knowledge/agent-operations/coordination/shared-research-record/shared-research-record.md",
+    "knowledge/agent-operations/taxonomy.json",
+    "knowledge/agent-operations/index.json",
+    "rules/ai-registry-agent-operations.md",
+    "catalog.json",
+    "librarian/handoffs/2026-09-24-agora-shared-research-record.md",
+    "librarian/sources/2026-09-24-agora.md",
+    "librarian/sources/index.md",
+    "librarian/applied.md",
+    "librarian/subjects/agent-operations/shared-research-record.md",
+    ".claude/skills/intake/SCORECARD.md"
+  ],
+  "commits": [
+    {
+      "sha": "371582a8",
+      "pathspec": [
+        "knowledge/agent-operations/coordination",
+        "knowledge/agent-operations/taxonomy.json",
+        "librarian/handoffs/2026-09-24-agora-shared-research-record.md",
+        "librarian/sources/2026-09-24-agora.md",
+        "librarian/subjects/agent-operations/shared-research-record.md"
+      ],
+      "branch": "main"
+    },
+    {
+      "sha": "08c9ba12",
+      "pathspec": [
+        "catalog.json",
+        "knowledge/agent-operations/index.json",
+        "rules/ai-registry-agent-operations.md"
+      ],
+      "branch": "main"
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "XL from a code-less paper repo: new agent-operations/coordination subject (5t/3a). Explore slots not-better on our self-depleting worklist; resolution-bounded leaders better on the personas ladder, shipped. Marketplace contest staleness pre-existed in HEAD."
+}
