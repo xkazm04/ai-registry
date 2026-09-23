@@ -122,3 +122,22 @@ its own. Step 7's "reflect" now has an artifact to land in.
 - **Gate list corrected.** `build-knowledge-rules` and `build-registry-map --check`
   are now in step 1; the first had been missing since the skill was written and was
   the cause of three red-trunk findings.
+
+## 1.4.0 - 2026-09-23 - ai-registry (bumped to 1.5.0 in the same change)
+
+- **The dispatcher half of step 7 was missing and nobody noticed, because a person
+  was always reading the note.** This skill's whole job is deciding what to run and
+  whether it was worth running, and every run reported that judgment in prose. A run
+  that dispatched eight workers, landed six and declined two reads identically from
+  outside to one that swept and found nothing - and the difference is the entire
+  output of the sweep. Step 7b writes it as `rkb-run-result/1`.
+- **`points_before` / `points_after` is the field only this skill can fill.** The scan
+  produces both halves of the attention-point delta every run and nothing in the fleet
+  has ever recorded the pair. It is the one number that says whether a dispatch was
+  worth its tokens, and it now survives the run.
+- **What the result deliberately does not carry.** No coverage ratio, no corpus count,
+  no score the scan can recompute - `librarian/index.md`'s law binds it exactly as it
+  binds the notes, and a derived number in a durable file is a number the next run will
+  trust instead of measuring. It also carries no consumer path: `files[]` is the
+  registry's own tree, and a landing into a project is a `subjects[]` row. The vault
+  stays public with slugs, scores and dates.

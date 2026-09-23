@@ -292,3 +292,21 @@ per-project entries above stand; this is what only shows up across them.
   its pattern through an argv bug and returned "(no match)" for all six contexts — a clean,
   confident, wrong negative. And a first read of one file alone would have produced a false
   deviation; the append-only trail it wanted was in a neighbour.
+
+## 1.7.3 - 2026-09-23 - ai-registry (bumped to 1.8.0 in the same change)
+
+- **The verdicts were durable and the run was not.** Every verdict this skill produces
+  lands in `.ai/registry-map.json` and survives regeneration, which is the design. But
+  the *run* left no trace a caller could read: four pairs judged, a map that could not be
+  read, and a run that declined to judge a weak context all looked the same from outside.
+  The result file records the run; the map keeps the verdicts. Neither duplicates the other.
+- **This skill's result does not live in the registry, and saying so was the whole design
+  question.** `/conform` executes inside the consuming project, so its result lands at
+  `.ai/conform-runs/<run-id>.json` beside the consults log rather than in the registry's
+  public `librarian/runs/` lane. That also makes its paths project-relative and correct -
+  `files[]` naming `.ai/registry-map.json` is the right answer here and would be a leak
+  there.
+- **`verdicts[]` stays empty here on purpose.** It is the apply/A-B lane's field, and a
+  `conformant` / `deviation` / `not-applicable` forced into it would be a second copy of a
+  judgment that already has one home, free to disagree with it. The map is the memory; the
+  result says only that the run happened and what it cost.

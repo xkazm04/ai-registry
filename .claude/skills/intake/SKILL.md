@@ -3,7 +3,7 @@ name: intake
 description: "Mine an external source - a YouTube video, a news roundup, an article, pasted notes, a repository - for what it should change in THIS registry, and in the connected projects that consume it. Ingests the source, reads its design decisions as well as its claims, maps both against existing bundles for prior art, triages with the operator, and lands what survives corroboration - amendments for boundary cases, techniques and subjects for mechanisms, forge handoffs for systems whose architecture the corpus lacks. News sources mostly yield currency signals and leads; that is a successful run. Use when someone shares a link and asks what it means for us."
 category: ai-native
 memory: project
-version: 2.13.0
+version: 2.14.0
 tags: research, sources, memory-lane, admission-gate, render-proof, triage, currency, cross-repo, leads, apply, ab-test, parallel, reference-index, design-read, forge-handoff, directions, fleet-map, peer-study, opus-workers, decision-gate
 ---
 
@@ -1688,6 +1688,25 @@ directory **by its run id**, never by sweeping the scratch root.
   cell (v2)**: `subjects/techniques/amendments/apps-vs-source/
   task-lines`, plus the routing count from Phase 2d and whether the run handed off.
   Five one-paragraph amendments and one subject no longer score the same.
+- **Run result** `librarian/runs/<run-id>/result.json` - the same run, for a program.
+  Everything above is written for a reader, and a dispatcher can read none of it: a
+  landing, a leads-only pass and a refusal are indistinguishable from outside. Write it
+  through the helper that owns the rules (public-safe paths, a decline with its reason,
+  unknown fields rejected, atomic placement), using this run's board id:
+
+  ```sh
+  node scripts/lib/run-result.mjs write <draft.json>   # -> librarian/runs/<run-id>/result.json
+  ```
+
+  This skill fills it from figures it already has: the five `counts` from the triage
+  table (`contended` is the Phase 0 exit-3 case), `declined[]` from the decline ledger -
+  **`untriaged` is not `declined`**, here exactly as everywhere else in this file - one
+  `subjects[]` row per landing, and `verdicts[]` straight from Phase 7.5's
+  `better` / `not-better` / `unmeasurable` / `COVERED`. `pr` is **null**: Phase 10 commits
+  direct to `main`. List the commits made so far and let Phase 10 carry this file in its
+  pathspec; the commit that carries it cannot name itself. `files[]` and
+  `commits[].pathspec` stay the **registry's** own paths - a Phase 8 landing in a project
+  tree is a `subjects[]` row, never that repo's file list, because this lane is public.
 - **Subject notes** `librarian/subjects/<domain>/<subject>.md` for every subject
   touched, same shape `librarian` writes.
 - **Leads** carry a return condition. "When the model is actually released", "when a

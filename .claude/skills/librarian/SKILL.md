@@ -3,7 +3,7 @@ name: librarian
 description: "Maintain the registry as a whole: sweep every bundle for structural and quality decay, rank what needs work by measured attention points, and dispatch scoped /deepen or /forge workers at it. Keeps coverage memory in an Obsidian vault under librarian/ so each run knows what the last one touched, what is saturated, and what is owed. Run manually; a scheduler is a later wrapper. Use when nobody has looked at the registry in a while."
 category: ai-native
 memory: project
-version: 1.4.0
+version: 1.5.0
 tags: registry, maintenance, coverage, dispatch, quality, upstream
 ---
 
@@ -146,6 +146,26 @@ gets re-proposed every run forever. Re-run `node scripts/upstream-check.mjs --le
 a repository checked and found unmoved still gets its date carried forward, because
 without that row "are we overdue?" has no answer.
 
+**7b. Write the machine-readable result beside the note.** The run note explains this
+run to a person and says nothing a program can read, so a dispatcher cannot tell a
+landing from a refusal from a quiet pass. One file closes that, through the helper that
+owns the rules (public-safe paths, a decline with its reason, unknown fields rejected,
+atomic placement):
+
+```sh
+node scripts/lib/run-result.mjs write <draft.json>   # -> librarian/runs/<run-id>/result.json
+```
+
+This skill can fill it almost entirely: `mode` (the invocation), `domain`, all five
+`counts`, one `subjects[]` row per dispatch with the attention points **before and
+after** (the scan produces both, and nothing else in the fleet records the delta),
+`declined[]` with the same reasons step 7 already demands, `verdicts[]` for every
+`applied.md` row this run earned, and `pr` once the pull request is open. Use a short
+`--run <id>`, list the commits made so far - the commit that carries this file cannot
+name itself - and keep `files[]` and `commits[].pathspec` to the **registry's own**
+paths: a landing into a project is a `subjects[]` row, never a consumer's file list.
+Guess nothing; a field this run cannot say honestly is `null`.
+
 **8. Propagate.** The run is not over at the registry commit; that is where every run
 before 2026-09-02 stopped, and the measured result was a fleet whose recorded verdicts
 were 100% stale against the corpus with nothing having told any project. After the
@@ -173,6 +193,7 @@ librarian/projects.md                     which connected project relates to whi
 librarian/domains/<domain>.md             per bundle: last swept, shape, what is owed
 librarian/subjects/<domain>/<subject>.md  last touched, dry streak, open leads, declines
 librarian/runs/<YYYY-MM-DD>-<n>.md        what one run swept, dispatched, accepted, declined
+librarian/runs/<run-id>/result.json       the same run, for a program (rkb-run-result/1)
 librarian/sources/index.md                the ledger of external sources /research mined
 librarian/sources/<YYYY-MM-DD>-<slug>.md  what one source yielded, and what it did not
 librarian/upstream.md                     every mined repository: when we last looked, what moved

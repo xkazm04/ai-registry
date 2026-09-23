@@ -11768,3 +11768,23 @@ finish on the version it loaded.)
   the board.** The board was empty. The shared tree still held unregistered
   WIP in skills/ and catalog.json, and an index with sibling-staged files. The
   board only knows the sessions that claimed, and the tree knows all of them.
+
+## 2.13.0 - 2026-09-23 - ai-registry (bumped to 2.14.0 in the same change)
+
+- **Phase 9 had five human records and no machine one.** The source note, the source
+  ledger, the applied ledger, the scorecard and the subject notes are all excellent and
+  all unreadable to a program. A dispatcher could not tell the run that landed a subject
+  from the run that produced leads only - and this skill says out loud that the second
+  is a successful run, which is exactly the distinction that was being lost.
+- **The schema inherited two of this skill's hardest-won vocabularies unchanged**, which
+  is why it was cheap to adopt: `verdicts[].verdict` is Phase 7.5's
+  `better` / `not-better` / `unmeasurable` / `COVERED` verbatim, and `declined[]` is the
+  decline ledger with its reason made mandatory by the helper rather than by a rule
+  somebody remembers. A decline with no reason now fails the write.
+- **`untriaged` is still not `declined`, and the file cannot say otherwise.** There is no
+  field for the untriaged tail, deliberately: it belongs in the source note's table, where
+  `/harvest backlog` enumerates it. Giving it a count here would have created a second
+  place to look and a second number to drift.
+- **The commit that carries the result cannot name itself.** Phase 9 writes it and Phase
+  10 commits it, so `commits[]` lists the commits made up to that point. Stating that is
+  better than a second commit for one file, and much better than a sha nobody wrote.
