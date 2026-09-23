@@ -962,11 +962,11 @@
       "okfVersion": "0.1",
       "profile": "rkb/0.1",
       "purity": "agent-ops",
-      "subjects": 8,
-      "techniques": 25,
-      "applications": 12,
-      "files": 49,
-      "contentHash": "sha256:4d8c27fb2c9bb1b3"
+      "subjects": 9,
+      "techniques": 30,
+      "applications": 15,
+      "files": 58,
+      "contentHash": "sha256:e88e46ca7ec69660"
     },
     {
       "name": "civic-intelligence",

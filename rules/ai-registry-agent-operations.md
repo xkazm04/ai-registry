@@ -1,6 +1,6 @@
 # Agent operations - the subjects this registry carries
 
-`agent-operations` - 8 subjects, 25 techniques, 12 applications.
+`agent-operations` - 9 subjects, 30 techniques, 15 applications.
 Slugs only; resolve one through `index.json` as the access rule beside this file describes.
 
 ### configuration-choice
@@ -11,3 +11,6 @@ Slugs only; resolve one through `index.json` as the access rule beside this file
 
 ### run-safety
 - unattended-run-isolation
+
+### coordination
+- shared-research-record
