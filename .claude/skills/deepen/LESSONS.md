@@ -279,3 +279,27 @@ Format: `## <version used> - <YYYY-MM-DD> - <project>` followed by `- ` bullets.
 - **Convergence held at 7/8, 7/11, 7/11, 9/14 with blind-first inside each worker.**
   Every blind-only item was again an internal contradiction between techniques
   landed one at a time by different runs - the lane's second job, third batch running.
+
+## 1.2.0 - 2026-09-23 - software-engineering (3-wide batch on map demand; two apply workers)
+
+- **The scan's demand input can be three weeks stale while every other input is fresh.**
+  `librarian-scan` ranked on `signals/` files from 2026-08-29/30; its top two had been
+  worked repeatedly since. The regenerated registry map, aggregated for fresh (non-stale)
+  `deviation` verdicts, surfaced the companion subcategory at the top - scored 3 points by
+  the scan. Check the signals date before trusting a demand rank; the map is the fresher
+  instrument and costs one pass.
+- **A "retired" guard is a claim about motive; read the history before softening the
+  rule.** The deviation said a parity test was retired, which reads as "too costly". Git
+  said a dead-code sweep deleted the helper it alone used. The correction became "a pin
+  written as a list is a copy", not a softer pin.
+- **Two apply workers on sibling subjects converged on one live defect neither was
+  hunting** - test processes writing the operator's real store through a process-global
+  root. Independent convergence at apply time is as strong a signal as it is at research
+  time, and the Director should surface it to the operator directly; the registry keeps
+  only the mechanism.
+- **Apply workers will copy private stores to read them.** Two copies of the operator's
+  app database sat in the scratchpad at return. The apply brief should say: read private
+  stores in place and read-only, and never leave a copy behind.
+- **Workers ran the gate in detached worktrees holding only their subject** because
+  trunk's generated files are stale while siblings are mid-edit. It worked and should be
+  the brief's default; the Director regenerates once over the batch.

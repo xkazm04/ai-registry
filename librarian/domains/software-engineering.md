@@ -408,3 +408,27 @@ no rule; it changes which golden path a reader lands on when the verdict is a nu
 - metric-gates: demand unknown, four techniques, two named candidates waiting on a
   second sighting. First `/conform` on a project with a ratchet or size gate.
 - The quality-gates split item is closed. Everything else from [[2026-09-04-1]] stands.
+
+## Run [[2026-09-23-1]] - the companion subcategory on fresh demand, four clocks
+
+The first sweep of companion-runtime and companion-identity since their 2026-08-24 forge,
+ranked on the regenerated registry map rather than the scan, whose signals were three
+weeks old. Twelve corrections, no new technique, eight apply rows (two `not-better`, each
+a condition). Four applications on their own clocks refreshed ahead of expiry.
+
+### Saturation ledger (companion subcategory)
+
+| subject | rung | last-pass yield | clocks | demand | dry |
+| --- | --- | --- | --- | --- | --- |
+| companion-runtime | L3 (read-only experiments on a live tree) | 8 corrections, 1 condition | three applications still at 2026-08-23 | 10 stale verdicts, one project | 0 |
+| companion-identity | L3 | 4 corrections, 1 condition | none near | 6 stale verdicts, one project | 0 |
+| conversation-orchestration | not swept | - | - | 3 stale deviations | - |
+
+### What is owed (updated)
+
+- Refresh `signals/` from both machines; the scan's demand input is stale.
+- `/conform --stale` on personas for the two companion subjects (16 verdicts).
+- conversation-orchestration, the third companion subject, is unswept with 3 stale
+  deviations - the natural next target in this subcategory.
+- A testing-isolation home for process-global state in tests (two independent sightings
+  this run).
