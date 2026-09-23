@@ -7,6 +7,8 @@ stack: react
 status: forged
 verified_on: 2026-09-23
 verified_against: react@19
+applied: experiment
+ab_verdict: not-better
 ---
 
 # Recipe adoption: an offer that can fire now, and an accept path that erases
@@ -70,3 +72,27 @@ edits will be discarded.
   frontend adapter defaults it to `'1.0.0'`
   (`libs/recipeAdapter.ts:560`). How many live recipes ever carry
   anything but the default was not counted.
+
+## Applied 2026-09-23 - the merge base and the offer, read-only experiment
+
+The tree's own adoption mapping ran over the 132 shipped recipes and 9 real content
+revisions from the seed bundle's history. The mapping is deterministic for all 132 once
+the minted use-case id is masked, so a base could be regenerated, but the stamp holds id
+and version and no answers: 278 bindings across 119 recipes are dropped. Three edit
+surfaces reach an adopted use case (an enabled toggle with a UI caller; generation
+settings and a model pin with a command but no UI caller). Remove-then-adopt loses 27 of
+27 walked edits (3 surfaces x 9 revisions); a three-way merge from a stamp with answers
+keeps all 27, both deliver the upstream change, and there are 0 conflicts. Tuned parameter
+values do survive remove-then-adopt through a persona-level merge where existing keys
+win, and by the same rule a revised default never arrives. Trigger rows keyed to the old
+use-case id are neither removed nor re-keyed on re-adopt, though the confirmation text
+says they are removed.
+
+**Caught, `not-better`:** the offer fires for 0 of 132 recipes at HEAD. Over 32 commits
+of the seed bundle, 783 payload changes moved the version 0 times - the only version ever
+shipped is 1.0.0 - because the boot seeder rewrites built-in content in place without a
+bump. The stamp has been written since 2026-09-17, and the fire test exists and passes,
+but it sets a fixture version by hand. Only 1 of the 9 revisions changes the copied
+instance; 2 change the input schema, which is read by reference. The technique gained the
+condition that the fire test moves the version through the publisher's own content-change
+path. No product test ran.

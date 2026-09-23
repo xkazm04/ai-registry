@@ -35,7 +35,11 @@ failure, and no adoption-time gate can see it. That half belongs to the
 instance's run-time health: pause, name the requirement that broke, link
 the reconnect. The gate writes the requirement records that this run-time
 check reads, so the remedy it names later is the same one the gate would
-have named on day one.
+have named on day one. The reach is also set by what the gate *reads*, not
+only by when it runs. A gate whose input is the presence of a credential
+also passes one that has already failed at adoption. Where a run-time
+usability predicate exists, the adoption gate reads that one, so the two
+halves cannot disagree about the same credential on the same day.
 
 ## Requirements are declared as roles, matched as facts
 

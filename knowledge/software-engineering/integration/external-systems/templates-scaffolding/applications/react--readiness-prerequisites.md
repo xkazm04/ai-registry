@@ -6,6 +6,8 @@ technique: readiness-prerequisites
 stack: react
 verified_on: 2026-09-23
 verified_against: react@19
+applied: experiment
+ab_verdict: better
 ---
 
 # Readiness prerequisites in the template adoption frontend
@@ -131,3 +133,23 @@ treats a question with declared credential options but no vault match as
 *blocked* rather than silently answered. An unattended answer to an
 unsatisfiable question is exactly the born-broken instance the technique
 exists to prevent.
+
+## Applied 2026-09-23 - gate reach and the browse badge, read-only experiments
+
+**The gate's reach (`better`).** The adoption gate ran over the 38 published templates:
+27 carry a credential-gated question, 63 in all. An empty vault blocks 63 of 63; a present
+credential clears 63 of 63; a present credential whose health check failed turns the gate
+red 0 of 63, because the gate's only input is a set of service types. The run-time half
+exists and reads live usability (fields present, last check not failed, success newer than
+the last field edit). The refinement written into the technique: a presence-only gate also
+passes a credential already failed at adoption, so the adoption gate should read the
+run-time predicate. Also found: 13 of the 63 blocked questions carry a template default
+that answers them, so the gate lets them through with no credential.
+
+**The browse badge (`better`).** Badge and gate over the 38 templates on the default path:
+with an empty vault 5 cards read Ready and 2 of those are blocked by the gate; with a vault
+built to make every badge read Ready, 38 read Ready and 4 are blocked. The safe direction
+also shows: 12 of the 33 not-Ready cards would pass the gate with an empty vault. Badge and
+gate read two different category vocabularies - the badge a primary-category map in which
+messaging always counts as ready, the gate each connector's own category tags - and the
+gallery's readiness sort and filter inherit the badge.

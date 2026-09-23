@@ -70,6 +70,14 @@ stamp.
   [template-anatomy](./template-anatomy.md). The offer has to be *seen to
   fire*: one test that adopts, bumps the template, and requires the
   out-of-date signal.
+- **A version nobody bumps.** The same darkness arrives from the publisher's
+  side. A pipeline that rewrites shipped content in place without moving its
+  version leaves a correctly written stamp and a correct comparator reading
+  "current" for every instance, forever. So the fire test moves the version
+  through the publisher's own content-change path, not a hand-set fixture.
+  Better still, the version is derived from the content (a digest, or a bump
+  the content change cannot land without), so a change that skips the bump
+  cannot exist.
 - **A mapping that is not deterministic.** If the same version and the same
   answers do not reproduce the same instance (timestamps, generated ids,
   model output inside the mapping), the base diff is noise. Keep minted

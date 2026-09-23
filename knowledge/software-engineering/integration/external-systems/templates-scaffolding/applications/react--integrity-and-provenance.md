@@ -6,6 +6,8 @@ technique: integrity-and-provenance
 stack: react
 verified_on: 2026-09-23
 verified_against: react@19
+applied: experiment
+ab_verdict: better
 ---
 
 # Template integrity in the catalog loader, the badge, and the autopsy of the gate that wasn't
@@ -146,3 +148,19 @@ technique's independence rule is measured here, not hypothetical.
 - **Provenance is thin.** The manifest records hashes but not generator
   run, source or time, and the adopted instance's stamp does not chain to
   a manifest version.
+
+## Applied 2026-09-23 - the timing window, replayed against the tree's verifier
+
+The start-up order was replayed against the real verifier over the 38 published built-ins.
+Rows saved by the last session are fetched and painted before the seed pass runs (deferred
+behind idle, up to one second), and expected digests exist only once that pass computes
+them. Before the digest: 38 of 38 read verified, and a tampered row reads verified too.
+After it: a tampered row reads untrusted, an untouched one verified. The window appears on
+every cold start with the gallery mounted, folded into the success mark. Not hunted, the
+mirror window: the pass registers the new payloads' digests before its write lands, so
+after an update stale rows are accused until the refetch - 18 of 37 built-ins when
+upgrading from a 2026-06-01 build, 1 of 38 from 2026-07-01, 0 from 2026-08-01 - and if the
+write fails, the error is swallowed and the accusation lasts the session. Two timing
+absences, folded opposite ways; one bounded pending state covers both. A build-time
+checksum of every catalog entry (43) already ships in the binary, but over the entry
+rather than the seeded payload. `better`.
