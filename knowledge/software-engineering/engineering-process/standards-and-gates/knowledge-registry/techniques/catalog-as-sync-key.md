@@ -93,6 +93,48 @@ field so a third implementation can match it. When a registry already publishes
 digests computed the naive way, the normalization is a schema change with a
 version bump, because every stored digest changes.
 
+### Normalization fails in two directions, and only one of them is loud
+
+Everything above is about normalizing too *little*, and that failure announces
+itself: a false **diverged**, wrong for everybody on one platform at once, until
+the operators stop reading the field. The opposite failure is quieter and worse.
+A normalizer that discards information, or a serialization that is not
+injective, maps two different inputs to one digest — a false **in-sync**, which
+is the one state a sync key exists to make impossible. Nobody is told anything;
+the consumer holds different bytes and is informed that it does not.
+
+The tell is that the digest is defined over a *projection* of the content rather
+than over the content. Two shapes produce it:
+
+- **A lossy canonicalizer.** A serializer that silently drops a class of key
+  before hashing is authenticating the projection, not the input. One recorded
+  instance dropped a reserved property name during canonical JSON encoding, so
+  two objects differing only in that key were indistinguishable to the chain
+  built on top of it.
+- **An ambiguous concatenation.** A digest over several fields — the item's path
+  and its bytes, an identity and a body — that joins them without a delimiter or
+  a length prefix admits a boundary shift: a character moved from the end of one
+  field to the front of the next leaves the hashed stream identical. A registry
+  hashing `path + content` this way gives the file `ab.md` holding `X` and the
+  file `ab.m` holding `dX` the same digest, and neither file is contrived.
+
+Both are closed by making the hashed stream self-delimiting — length-prefix each
+field, or hash a canonical structure rather than a concatenation — and the
+property to state beside the field is the one consumers actually rely on: **equal
+digests imply equal content.** A digest whose serialization does not carry that
+property is drift detection that cannot detect the drift it was built for.
+
+Repairing it is the version bump above, with one addition that decides whether
+the bump is a migration or an amnesia. The reader must keep the superseded
+function, not merely the superseded prefix, because a record written under the
+old scheme is still *readable* — compare it with the scheme it was written under,
+which its own prefix names. A reader that answers "cannot compare" to every
+stored record is honest and lossy: it discards the genuine staleness those
+records still carry in order to fix a collision none of them had hit
+(`_laws.md#unknown-is-not-a-value` is about not inventing a value, not about
+discarding one you have). The old function is dated by a condition — delete it
+when no record under the old prefix remains — and by nothing else.
+
 ## Serialization is part of the contract
 
 The catalog is committed and read as a diff. Fix the indentation, fix the key

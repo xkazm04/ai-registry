@@ -4,7 +4,7 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 232,
-  "techniques": 1788,
+  "techniques": 1789,
   "applications": 1136,
   "laws": 15,
   "categories": [
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1788/1788",
+  "use_when_coverage": "1789/1789",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -29,7 +29,7 @@
    "subcategory": "feedback-and-style",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/accessibility/accessibility.md",
-   "digest": "sha256:d02f805a960c2f6c",
+   "digest": "sha256-b2:5e30485ee0c7c123",
    "revision": 7,
    "changedAt": "2026-09-20",
    "techniques": [
@@ -196,7 +196,7 @@
    "subcategory": "model-workflow-contracts",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/model-workflow-contracts/accumulate-then-aggregate-metrics/accumulate-then-aggregate-metrics.md",
-   "digest": "sha256:ecf3a75e02158b70",
+   "digest": "sha256-b2:ea4763c3df4dd4c8",
    "revision": 1,
    "changedAt": "2026-09-03",
    "techniques": [
@@ -290,7 +290,7 @@
    "subcategory": "feedback-and-style",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/adaptive-fidelity-tiers/adaptive-fidelity-tiers.md",
-   "digest": "sha256:b28d9f28795d6750",
+   "digest": "sha256-b2:88b6dccff546cb65",
    "revision": 2,
    "changedAt": "2026-08-31",
    "techniques": [
@@ -394,7 +394,7 @@
    "subcategory": "work-execution",
    "status": "reconciled",
    "file": "knowledge/software-engineering/backend-platform/work-execution/admission-queue/admission-queue.md",
-   "digest": "sha256:dd5d5ee4527be1d5",
+   "digest": "sha256-b2:56e509787bc708cd",
    "revision": 15,
    "changedAt": "2026-09-17",
    "techniques": [
@@ -746,7 +746,7 @@
    "subcategory": "reporting-and-remediation",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-assessment/reporting-and-remediation/adoption-measurement/adoption-measurement.md",
-   "digest": "sha256:4240281a64bbf913",
+   "digest": "sha256-b2:e188dc720b03d6b6",
    "revision": 2,
    "changedAt": "2026-08-31",
    "techniques": [
@@ -864,7 +864,7 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-addressable-ui/agent-addressable-ui.md",
-   "digest": "sha256:26420ee868fae085",
+   "digest": "sha256-b2:db15363c780a3072",
    "revision": 2,
    "changedAt": "2026-09-05",
    "techniques": [
@@ -973,7 +973,7 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-browser-control/agent-browser-control.md",
-   "digest": "sha256:da25236df779e949",
+   "digest": "sha256-b2:32ac71526b7a7559",
    "revision": 2,
    "changedAt": "2026-09-03",
    "techniques": [
@@ -1070,7 +1070,7 @@
    "subcategory": "orchestration",
    "status": "reconciled",
    "file": "knowledge/software-engineering/llm-agent/orchestration/agent-chaining/agent-chaining.md",
-   "digest": "sha256:edd49b1ead1efac5",
+   "digest": "sha256-b2:596d59ae9fc2d310",
    "revision": 12,
    "changedAt": "2026-09-18",
    "techniques": [
@@ -1242,7 +1242,7 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-cli-transport/agent-cli-transport.md",
-   "digest": "sha256:fd190f2ed79b142e",
+   "digest": "sha256-b2:7080994410b4a7dc",
    "revision": 6,
    "changedAt": "2026-09-15",
    "techniques": [
@@ -1440,7 +1440,7 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-instruction-files/agent-instruction-files.md",
-   "digest": "sha256:6b31e7ab0d2fa5ec",
+   "digest": "sha256-b2:3a622f5787b959ad",
    "revision": 27,
    "changedAt": "2026-09-18",
    "techniques": [
@@ -1827,7 +1827,7 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/agent-memory.md",
-   "digest": "sha256:5aa34a882ba84ee1",
+   "digest": "sha256-b2:bf32769df633d0bf",
    "revision": 44,
    "changedAt": "2026-09-21",
    "techniques": [
@@ -2485,7 +2485,7 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-runtime-assembly/agent-runtime-assembly.md",
-   "digest": "sha256:4f0d617198d3030b",
+   "digest": "sha256-b2:5ce024fa5bfd20d5",
    "revision": 25,
    "changedAt": "2026-09-23",
    "techniques": [
@@ -2879,7 +2879,7 @@
    "subcategory": "platform-observability",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/platform-observability/alerting/alerting.md",
-   "digest": "sha256:658e6f2611602977",
+   "digest": "sha256-b2:bad79dd7b84ba6b3",
    "revision": 2,
    "changedAt": "2026-08-21",
    "techniques": [
@@ -2997,7 +2997,7 @@
    "subcategory": "measurement-method",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-assessment/measurement-method/analytics-time-windows/analytics-time-windows.md",
-   "digest": "sha256:e84b5105b8a35f4d",
+   "digest": "sha256-b2:92b652495184231c",
    "revision": 3,
    "changedAt": "2026-08-29",
    "techniques": [
@@ -3115,7 +3115,7 @@
    "subcategory": "shell-and-navigation",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/app-shell/app-shell.md",
-   "digest": "sha256:7d62a83fa7e636cf",
+   "digest": "sha256-b2:62a9a7fc993ea8b5",
    "revision": 6,
    "changedAt": "2026-09-23",
    "techniques": [
@@ -3262,7 +3262,7 @@
    "subcategory": "feedback-and-style",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/async-ui-states/async-ui-states.md",
-   "digest": "sha256:9ba2dd1115069897",
+   "digest": "sha256-b2:c71d22c8deba8577",
    "revision": 4,
    "changedAt": "2026-09-20",
    "techniques": [
@@ -3406,7 +3406,7 @@
    "subcategory": "governance-and-records",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/governance-and-records/audit-logging/audit-logging.md",
-   "digest": "sha256:a4f6149a3b0705d5",
+   "digest": "sha256-b2:1fadfb8d9819f243",
    "revision": 9,
    "changedAt": "2026-09-05",
    "techniques": [
@@ -3639,7 +3639,7 @@
    "subcategory": "published-surfaces",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/published-surfaces/authoring-block-vocabulary/authoring-block-vocabulary.md",
-   "digest": "sha256:d980db1bea253f54",
+   "digest": "sha256-b2:56958110621cdb65",
    "revision": 1,
    "changedAt": "2026-08-22",
    "techniques": [
@@ -3736,7 +3736,7 @@
    "subcategory": "identity-and-access",
    "status": "reconciled",
    "file": "knowledge/software-engineering/security/identity-and-access/authorization/authorization.md",
-   "digest": "sha256:5f64bbab156656d1",
+   "digest": "sha256-b2:57d60a438fa36d05",
    "revision": 6,
    "changedAt": "2026-09-18",
    "techniques": [
@@ -4030,7 +4030,7 @@
    "subcategory": "work-execution",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/work-execution/background-jobs/background-jobs.md",
-   "digest": "sha256:3f8769df97968b35",
+   "digest": "sha256-b2:4a1ddf4af408b961",
    "revision": 4,
    "changedAt": "2026-09-03",
    "techniques": [
@@ -4147,7 +4147,7 @@
    "subcategory": "input-and-editing",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/batch-undo-commit-window/batch-undo-commit-window.md",
-   "digest": "sha256:e9dd78bd49b9005f",
+   "digest": "sha256-b2:140b51387ec6d463",
    "revision": 1,
    "changedAt": "2026-08-22",
    "techniques": [
@@ -4258,7 +4258,7 @@
    "subcategory": "data-layer",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/data-layer/bounded-enumeration/bounded-enumeration.md",
-   "digest": "sha256:467f140e40571ece",
+   "digest": "sha256-b2:860f698a24258a38",
    "revision": 2,
    "changedAt": "2026-09-03",
    "techniques": [
@@ -4381,7 +4381,7 @@
    "subcategory": "data-and-transport",
    "status": "forged",
    "file": "knowledge/software-engineering/security/data-and-transport/browser-credential-boundary/browser-credential-boundary.md",
-   "digest": "sha256:872dee7802148571",
+   "digest": "sha256-b2:d3eef10e9ed8459f",
    "revision": 3,
    "changedAt": "2026-09-03",
    "techniques": [
@@ -4542,7 +4542,7 @@
    "subcategory": "build-and-release",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/build-and-release/build-economics/build-economics.md",
-   "digest": "sha256:83a15c26d468607c",
+   "digest": "sha256-b2:2dc0e92ddb23f674",
    "revision": 7,
    "changedAt": "2026-09-06",
    "techniques": [
@@ -4681,7 +4681,7 @@
    "subcategory": "data-display",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/data-display/canvas-graph/canvas-graph.md",
-   "digest": "sha256:858b583483e24ef1",
+   "digest": "sha256-b2:de04d3ae6ea0cc73",
    "revision": 4,
    "changedAt": "2026-09-20",
    "techniques": [
@@ -4805,7 +4805,7 @@
    "subcategory": "shell-and-navigation",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/chat-transcript/chat-transcript.md",
-   "digest": "sha256:2fd7a46635c5b4ae",
+   "digest": "sha256-b2:85eb3f7a9165bba9",
    "revision": 4,
    "changedAt": "2026-09-03",
    "techniques": [
@@ -4986,7 +4986,7 @@
    "subcategory": "continuous-integration",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/continuous-integration/ci-execution-trust/ci-execution-trust.md",
-   "digest": "sha256:7c48e049c44eb11d",
+   "digest": "sha256-b2:d02dba0bfbaf98f9",
    "revision": 6,
    "changedAt": "2026-09-03",
    "techniques": [
@@ -5103,7 +5103,7 @@
    "subcategory": "external-systems",
    "status": "forged",
    "file": "knowledge/software-engineering/integration/external-systems/cicd-monitoring/cicd-monitoring.md",
-   "digest": "sha256:d8518aaccc214d6b",
+   "digest": "sha256-b2:b2b23cb5f5be38ea",
    "revision": 1,
    "changedAt": "2026-09-05",
    "techniques": [
@@ -5224,7 +5224,7 @@
    "subcategory": null,
    "status": "reconciled",
    "file": "knowledge/software-engineering/client-architecture/client-fetch-cache/client-fetch-cache.md",
-   "digest": "sha256:4d99e2f5de14142b",
+   "digest": "sha256-b2:c699022f81acff3b",
    "revision": 14,
    "changedAt": "2026-09-08",
    "techniques": [
@@ -5431,7 +5431,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/client-architecture/client-state/client-state.md",
-   "digest": "sha256:084c2956d1ea0133",
+   "digest": "sha256-b2:b667f5c1f4abdd9d",
    "revision": 15,
    "changedAt": "2026-09-05",
    "techniques": [
@@ -5713,7 +5713,7 @@
    "subcategory": "codebase-stewardship",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/codebase-scanning/codebase-scanning.md",
-   "digest": "sha256:0a379ecdc679e329",
+   "digest": "sha256-b2:7b74d41d3b597c2b",
    "revision": 11,
    "changedAt": "2026-09-17",
    "techniques": [
@@ -5992,7 +5992,7 @@
    "subcategory": "build-and-release",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/build-and-release/codegen/codegen.md",
-   "digest": "sha256:e69d756a575b31ce",
+   "digest": "sha256-b2:9a082bd05760516a",
    "revision": 6,
    "changedAt": "2026-09-21",
    "techniques": [
@@ -6148,7 +6148,7 @@
    "subcategory": "companion",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/companion/companion-identity/companion-identity.md",
-   "digest": "sha256:0fbfbd98153dd22a",
+   "digest": "sha256-b2:350df7aa6930f716",
    "revision": 4,
    "changedAt": "2026-09-23",
    "techniques": [
@@ -6305,7 +6305,7 @@
    "subcategory": "companion",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/companion/companion-runtime/companion-runtime.md",
-   "digest": "sha256:8254ba4dbbaf7bea",
+   "digest": "sha256-b2:7a0b336cac31d173",
    "revision": 4,
    "changedAt": "2026-09-23",
    "techniques": [
@@ -6468,7 +6468,7 @@
    "subcategory": "work-execution",
    "status": "reconciled",
    "file": "knowledge/software-engineering/backend-platform/work-execution/concurrency-guards/concurrency-guards.md",
-   "digest": "sha256:0efe8017c915870d",
+   "digest": "sha256-b2:41b09d489d8f7ef9",
    "revision": 14,
    "changedAt": "2026-09-17",
    "techniques": [
@@ -6759,7 +6759,7 @@
    "subcategory": "codebase-stewardship",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/concurrent-vcs/concurrent-vcs.md",
-   "digest": "sha256:8b6ffdb068226877",
+   "digest": "sha256-b2:575343defdd4fe41",
    "revision": 4,
    "changedAt": "2026-09-17",
    "techniques": [
@@ -6877,7 +6877,7 @@
    "subcategory": "service-operations",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/service-operations/conditional-service-composition/conditional-service-composition.md",
-   "digest": "sha256:080aa3c7fa2cde0d",
+   "digest": "sha256-b2:07eff75ad030716d",
    "revision": 2,
    "changedAt": "2026-09-07",
    "techniques": [
@@ -6940,7 +6940,7 @@
    "subcategory": "maturity-and-conformance",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-assessment/maturity-and-conformance/conformance-checking/conformance-checking.md",
-   "digest": "sha256:939154eedcd46746",
+   "digest": "sha256-b2:fe3003005f409337",
    "revision": 9,
    "changedAt": "2026-09-07",
    "techniques": [
@@ -7194,7 +7194,7 @@
    "subcategory": "external-systems",
    "status": "forged",
    "file": "knowledge/software-engineering/integration/external-systems/connector-catalog/connector-catalog.md",
-   "digest": "sha256:0e2ac601846a72b7",
+   "digest": "sha256-b2:030b7f4cd9ab8b4b",
    "revision": 3,
    "changedAt": "2026-09-23",
    "techniques": [
@@ -7328,7 +7328,7 @@
    "subcategory": "acquisition-and-ingest",
    "status": "forged",
    "file": "knowledge/software-engineering/integration/acquisition-and-ingest/contested-acquisition/contested-acquisition.md",
-   "digest": "sha256:7281ac20ecf1f2c8",
+   "digest": "sha256-b2:0b6cb286efe2e421",
    "revision": 1,
    "changedAt": "2026-09-05",
    "techniques": [
@@ -7419,7 +7419,7 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/context-hierarchy/context-hierarchy.md",
-   "digest": "sha256:b38973b88bc60c3b",
+   "digest": "sha256-b2:09d2467f58c2c036",
    "revision": 1,
    "changedAt": "2026-09-02",
    "techniques": [
@@ -7501,7 +7501,7 @@
    "subcategory": "control-plane-operations",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/control-plane-operations/convergence-loop-and-requeue/convergence-loop-and-requeue.md",
-   "digest": "sha256:8276705efd01d895",
+   "digest": "sha256-b2:fc5a1774272e601e",
    "revision": 2,
    "changedAt": "2026-09-17",
    "techniques": [
@@ -7616,7 +7616,7 @@
    "subcategory": "companion",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/companion/conversation-orchestration/conversation-orchestration.md",
-   "digest": "sha256:7ee09cc0690f3023",
+   "digest": "sha256-b2:b2e230948292db97",
    "revision": 5,
    "changedAt": "2026-08-31",
    "techniques": [
@@ -7776,7 +7776,7 @@
    "subcategory": "process-graph-runtime",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/process-graph-runtime/correlated-exchange-over-broadcast/correlated-exchange-over-broadcast.md",
-   "digest": "sha256:5c8f53203d288847",
+   "digest": "sha256-b2:cda56907c8605ae9",
    "revision": 1,
    "changedAt": "2026-09-02",
    "techniques": [
@@ -7889,7 +7889,7 @@
    "subcategory": "evaluation-and-cost",
    "status": "reconciled",
    "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/cost-metering/cost-metering.md",
-   "digest": "sha256:277c277d0e17e1ab",
+   "digest": "sha256-b2:79287e88826c07be",
    "revision": 12,
    "changedAt": "2026-09-04",
    "techniques": [
@@ -8086,7 +8086,7 @@
    "subcategory": "identity-and-access",
    "status": "reconciled",
    "file": "knowledge/software-engineering/security/identity-and-access/credential-vault/credential-vault.md",
-   "digest": "sha256:0f2e608df36858a3",
+   "digest": "sha256-b2:1c57e44b947c96ef",
    "revision": 4,
    "changedAt": "2026-09-23",
    "techniques": [
@@ -8311,7 +8311,7 @@
    "subcategory": "inference-serving",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/inference-serving/cross-instance-cache-lease/cross-instance-cache-lease.md",
-   "digest": "sha256:a26ec35fc335ad6a",
+   "digest": "sha256-b2:5d52f304bfaf51df",
    "revision": 3,
    "changedAt": "2026-09-03",
    "techniques": [
@@ -8408,7 +8408,7 @@
    "subcategory": "data-layer",
    "status": "reconciled",
    "file": "knowledge/software-engineering/backend-platform/data-layer/data-access/data-access.md",
-   "digest": "sha256:adfb0314c7db7f52",
+   "digest": "sha256-b2:7bc5f1ebaf276655",
    "revision": 17,
    "changedAt": "2026-09-17",
    "techniques": [
@@ -8692,7 +8692,7 @@
    "subcategory": "process-graph-runtime",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/process-graph-runtime/data-plane-transport-selection/data-plane-transport-selection.md",
-   "digest": "sha256:98acf18f6ee6f3b8",
+   "digest": "sha256-b2:0b29d5d6d98509f2",
    "revision": 1,
    "changedAt": "2026-09-02",
    "techniques": [
@@ -8807,7 +8807,7 @@
    "subcategory": "governance-and-records",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/governance-and-records/data-retention/data-retention.md",
-   "digest": "sha256:14f624480d0c165b",
+   "digest": "sha256-b2:c04dbf25f3ca1ea6",
    "revision": 2,
    "changedAt": "2026-08-27",
    "techniques": [
@@ -8924,7 +8924,7 @@
    "subcategory": "data-display",
    "status": "reconciled",
    "file": "knowledge/software-engineering/ui-surfaces/data-display/data-viz/data-viz.md",
-   "digest": "sha256:658aefc7371b7fdb",
+   "digest": "sha256-b2:0a15845e9dc44963",
    "revision": 6,
    "changedAt": "2026-09-20",
    "techniques": [
@@ -9055,7 +9055,7 @@
    "subcategory": "codebase-stewardship",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/dead-code/dead-code.md",
-   "digest": "sha256:4b0d6f434c811201",
+   "digest": "sha256-b2:400586c502acd4a1",
    "revision": 11,
    "changedAt": "2026-09-17",
    "techniques": [
@@ -9220,7 +9220,7 @@
    "subcategory": "code-provenance",
    "status": "forged",
    "file": "knowledge/software-engineering/security/code-provenance/decentralized-artifact-distribution/decentralized-artifact-distribution.md",
-   "digest": "sha256:34ee7d614823f1b7",
+   "digest": "sha256-b2:12246adf5edf5427",
    "revision": 1,
    "changedAt": "2026-09-03",
    "techniques": [
@@ -9352,7 +9352,7 @@
    "subcategory": "model-workflow-contracts",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/model-workflow-contracts/declarative-object-graph-configs/declarative-object-graph-configs.md",
-   "digest": "sha256:614255c047c3631e",
+   "digest": "sha256-b2:248352af1a4c3488",
    "revision": 1,
    "changedAt": "2026-09-03",
    "techniques": [
@@ -9463,7 +9463,7 @@
    "subcategory": "control-plane-operations",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/control-plane-operations/declarative-resource-lifecycle/declarative-resource-lifecycle.md",
-   "digest": "sha256:65b71f6aefb98080",
+   "digest": "sha256-b2:d17485a3a3a8ddea",
    "revision": 2,
    "changedAt": "2026-09-03",
    "techniques": [
@@ -9551,7 +9551,7 @@
    "subcategory": "process-graph-runtime",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/process-graph-runtime/declared-process-graph/declared-process-graph.md",
-   "digest": "sha256:d2926b19c6711b3e",
+   "digest": "sha256-b2:8bc79a0c5315d2ac",
    "revision": 1,
    "changedAt": "2026-09-02",
    "techniques": [
@@ -9664,7 +9664,7 @@
    "subcategory": "metered-billing",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/metered-billing/deferred-finalization/deferred-finalization.md",
-   "digest": "sha256:8c144b186b96b3c9",
+   "digest": "sha256-b2:9c05534d4586da00",
    "revision": 1,
    "changedAt": "2026-09-07",
    "techniques": [
@@ -9757,7 +9757,7 @@
    "subcategory": "data-pipeline-semantics",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/data-pipeline-semantics/deferred-operation-fusion/deferred-operation-fusion.md",
-   "digest": "sha256:fc0b36fe0c95d66d",
+   "digest": "sha256-b2:7a570717a3b5603e",
    "revision": 2,
    "changedAt": "2026-09-04",
    "techniques": [
@@ -9863,7 +9863,7 @@
    "subcategory": "reporting-and-remediation",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-assessment/reporting-and-remediation/delivery-analytics/delivery-analytics.md",
-   "digest": "sha256:2527c2b1c7b7b888",
+   "digest": "sha256-b2:e43700f2d197398b",
    "revision": 5,
    "changedAt": "2026-09-17",
    "techniques": [
@@ -10035,7 +10035,7 @@
    "subcategory": "work-execution",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/work-execution/delivery-guarantees/delivery-guarantees.md",
-   "digest": "sha256:8b78b1578f4d8deb",
+   "digest": "sha256-b2:3ee7f0ba195adc04",
    "revision": 7,
    "changedAt": "2026-09-17",
    "techniques": [
@@ -10222,7 +10222,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/client-architecture/demo-data-plane/demo-data-plane.md",
-   "digest": "sha256:cbf45005151d951d",
+   "digest": "sha256-b2:952fe6652c22027d",
    "revision": 4,
    "changedAt": "2026-09-05",
    "techniques": [
@@ -10351,7 +10351,7 @@
    "subcategory": "codebase-stewardship",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/dependency-declaration/dependency-declaration.md",
-   "digest": "sha256:726d0c480e0b3943",
+   "digest": "sha256-b2:4eb7088d6ed99926",
    "revision": 6,
    "changedAt": "2026-09-11",
    "techniques": [
@@ -10497,7 +10497,7 @@
    "subcategory": "continuous-integration",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/continuous-integration/deployment-contract/deployment-contract.md",
-   "digest": "sha256:5b82707590843e62",
+   "digest": "sha256-b2:0aecb9f382210cdc",
    "revision": 4,
    "changedAt": "2026-09-05",
    "techniques": [
@@ -10641,7 +10641,7 @@
    "subcategory": "feedback-and-style",
    "status": "reconciled",
    "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/design-tokens/design-tokens.md",
-   "digest": "sha256:677bcf6173f511aa",
+   "digest": "sha256-b2:a8823ec7fc5d4f98",
    "revision": 6,
    "changedAt": "2026-09-20",
    "techniques": [
@@ -10766,7 +10766,7 @@
    "subcategory": "data-pipeline-semantics",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/data-pipeline-semantics/deterministic-prefix-caching/deterministic-prefix-caching.md",
-   "digest": "sha256:6e88046426323f7a",
+   "digest": "sha256-b2:43c1666c71913bd2",
    "revision": 1,
    "changedAt": "2026-09-03",
    "techniques": [
@@ -10877,7 +10877,7 @@
    "subcategory": "identity-and-access",
    "status": "forged",
    "file": "knowledge/software-engineering/security/identity-and-access/device-pairing/device-pairing.md",
-   "digest": "sha256:8d03414eb899fb48",
+   "digest": "sha256-b2:733c58c28ea46775",
    "revision": 3,
    "changedAt": "2026-09-05",
    "techniques": [
@@ -11017,7 +11017,7 @@
    "subcategory": "data-display",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/data-display/diff-comparison/diff-comparison.md",
-   "digest": "sha256:cd39f98cfe768f03",
+   "digest": "sha256-b2:8d6a27cb32976f49",
    "revision": 6,
    "changedAt": "2026-09-20",
    "techniques": [
@@ -11199,7 +11199,7 @@
    "subcategory": "published-surfaces",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/published-surfaces/docs-content-model/docs-content-model.md",
-   "digest": "sha256:010ec06bc7c6b505",
+   "digest": "sha256-b2:639026a17955f1e4",
    "revision": 1,
    "changedAt": "2026-08-22",
    "techniques": [
@@ -11298,7 +11298,7 @@
    "subcategory": "codebase-stewardship",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/docs-sync/docs-sync.md",
-   "digest": "sha256:e0debca9966dc4a7",
+   "digest": "sha256-b2:e339ba7cf1fe0a3c",
    "revision": 12,
    "changedAt": "2026-09-04",
    "techniques": [
@@ -11602,7 +11602,7 @@
    "subcategory": "acquisition-and-ingest",
    "status": "forged",
    "file": "knowledge/software-engineering/integration/acquisition-and-ingest/document-text-extraction/document-text-extraction.md",
-   "digest": "sha256:dac597f9cfecba3c",
+   "digest": "sha256-b2:1d954936d5cf2509",
    "revision": 1,
    "changedAt": "2026-09-05",
    "techniques": [
@@ -11745,7 +11745,7 @@
    "subcategory": "input-and-editing",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/draft-editing/draft-editing.md",
-   "digest": "sha256:ed50e6289259ec84",
+   "digest": "sha256-b2:79771a6adb7936e5",
    "revision": 3,
    "changedAt": "2026-08-29",
    "techniques": [
@@ -11860,7 +11860,7 @@
    "subcategory": "input-and-editing",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/drag-drop/drag-drop.md",
-   "digest": "sha256:884c0f919b53ebfc",
+   "digest": "sha256-b2:117debc61b2131f0",
    "revision": 3,
    "changedAt": "2026-08-24",
    "techniques": [
@@ -11961,7 +11961,7 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/durable-agent-operations/durable-agent-operations.md",
-   "digest": "sha256:357ba2c2d1e3b8ab",
+   "digest": "sha256-b2:be1f2436c2c026ed",
    "revision": 1,
    "changedAt": "2026-09-04",
    "techniques": [
@@ -12064,7 +12064,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/secret-custody-and-issuance/dynamic-secret-lifecycle/dynamic-secret-lifecycle.md",
-   "digest": "sha256:f68b21d1371f040a",
+   "digest": "sha256-b2:7bdbed7832592b66",
    "revision": 1,
    "changedAt": "2026-09-02",
    "techniques": [
@@ -12189,7 +12189,7 @@
    "subcategory": "process-graph-runtime",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/process-graph-runtime/edge-queue-policy/edge-queue-policy.md",
-   "digest": "sha256:05657f1ae54dcfd5",
+   "digest": "sha256-b2:b3e96fa159f5a35a",
    "revision": 1,
    "changedAt": "2026-09-02",
    "techniques": [
@@ -12301,7 +12301,7 @@
    "subcategory": "data-layer",
    "status": "reconciled",
    "file": "knowledge/software-engineering/backend-platform/data-layer/embedded-db/embedded-db.md",
-   "digest": "sha256:af0d3d2072b2f20e",
+   "digest": "sha256-b2:0722fec97cff5b66",
    "revision": 15,
    "changedAt": "2026-09-23",
    "techniques": [
@@ -12514,7 +12514,7 @@
    "subcategory": "embedded-surfaces",
    "status": "forged",
    "file": "knowledge/software-engineering/integration/embedded-surfaces/embedded-preview/embedded-preview.md",
-   "digest": "sha256:f635c58da94eabba",
+   "digest": "sha256-b2:a6e12ae70d42efcc",
    "revision": 2,
    "changedAt": "2026-09-15",
    "techniques": [
@@ -12657,7 +12657,7 @@
    "subcategory": "language-runtime",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/language-runtime/embedded-tracing-collector/embedded-tracing-collector.md",
-   "digest": "sha256:1cb734c62ba4f1df",
+   "digest": "sha256-b2:a1c32239e53083cd",
    "revision": 1,
    "changedAt": "2026-09-03",
    "techniques": [
@@ -12755,7 +12755,7 @@
    "subcategory": "language-runtime",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/language-runtime/engine-binding-surface/engine-binding-surface.md",
-   "digest": "sha256:18fd56b71665e315",
+   "digest": "sha256-b2:742cdaca978f688b",
    "revision": 1,
    "changedAt": "2026-09-05",
    "techniques": [
@@ -12864,7 +12864,7 @@
    "subcategory": "language-runtime",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/language-runtime/engine-host-contract/engine-host-contract.md",
-   "digest": "sha256:65e9de17d5b89a5b",
+   "digest": "sha256-b2:08d3fea13f40733a",
    "revision": 2,
    "changedAt": "2026-09-04",
    "techniques": [
@@ -12978,7 +12978,7 @@
    "subcategory": "language-runtime",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/language-runtime/engine-string-representation/engine-string-representation.md",
-   "digest": "sha256:ff336bbfd1d63764",
+   "digest": "sha256-b2:70121ae88b78b37e",
    "revision": 2,
    "changedAt": "2026-09-05",
    "techniques": [
@@ -13070,7 +13070,7 @@
    "subcategory": "governance-and-records",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/governance-and-records/entity-lifecycle/entity-lifecycle.md",
-   "digest": "sha256:5967905d0c5e8892",
+   "digest": "sha256-b2:cef5e3463825ff22",
    "revision": 6,
    "changedAt": "2026-08-31",
    "techniques": [
@@ -13231,7 +13231,7 @@
    "subcategory": "resilience",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/resilience/error-handling/error-handling.md",
-   "digest": "sha256:bff8a6f2a4c150ac",
+   "digest": "sha256-b2:e561e382d42cb2f2",
    "revision": 15,
    "changedAt": "2026-09-05",
    "techniques": [
@@ -13459,7 +13459,7 @@
    "subcategory": "evaluation-and-cost",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/eval-harness/eval-harness.md",
-   "digest": "sha256:204df3c0fb25a19c",
+   "digest": "sha256-b2:8c48af435a78adbe",
    "revision": 34,
    "changedAt": "2026-09-18",
    "techniques": [
@@ -13950,7 +13950,7 @@
    "subcategory": "work-execution",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/work-execution/execution-state-checkpointing/execution-state-checkpointing.md",
-   "digest": "sha256:efb8e034d1f9c195",
+   "digest": "sha256-b2:8694be05cf9e9679",
    "revision": 1,
    "changedAt": "2026-09-04",
    "techniques": [
@@ -14039,7 +14039,7 @@
    "subcategory": "reporting-and-remediation",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-assessment/reporting-and-remediation/executive-reporting/executive-reporting.md",
-   "digest": "sha256:6315c7abe4f145f2",
+   "digest": "sha256-b2:c02a480b854ff920",
    "revision": 2,
    "changedAt": "2026-09-03",
    "techniques": [
@@ -14155,7 +14155,7 @@
    "subcategory": "extension-trust",
    "status": "forged",
    "file": "knowledge/software-engineering/security/extension-trust/extension-trust-boundary/extension-trust-boundary.md",
-   "digest": "sha256:63df9fb67e21e789",
+   "digest": "sha256-b2:8fa86538a46c8656",
    "revision": 1,
    "changedAt": "2026-09-03",
    "techniques": [
@@ -14250,7 +14250,7 @@
    "subcategory": "process-graph-runtime",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/process-graph-runtime/fault-signal-propagation/fault-signal-propagation.md",
-   "digest": "sha256:28425eec0acdbd8b",
+   "digest": "sha256-b2:0b59042fbc5ac45b",
    "revision": 1,
    "changedAt": "2026-09-02",
    "techniques": [
@@ -14368,7 +14368,7 @@
    "subcategory": "model-workflow-contracts",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/model-workflow-contracts/federated-client-contracts/federated-client-contracts.md",
-   "digest": "sha256:8c52ace21ddcc8ff",
+   "digest": "sha256-b2:153c79fcdc83adae",
    "revision": 1,
    "changedAt": "2026-09-03",
    "techniques": [
@@ -14477,7 +14477,7 @@
    "subcategory": "data-display",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/data-display/feed/feed.md",
-   "digest": "sha256:9484e5434f2c7a32",
+   "digest": "sha256-b2:fdaa24ca3f5177d9",
    "revision": 4,
    "changedAt": "2026-09-20",
    "techniques": [
@@ -14588,7 +14588,7 @@
    "subcategory": "data-display",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/data-display/file-browsing/file-browsing.md",
-   "digest": "sha256:db6a6903ad69c236",
+   "digest": "sha256-b2:709a7dcf28ef6b44",
    "revision": 3,
    "changedAt": "2026-09-20",
    "techniques": [
@@ -14717,7 +14717,7 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/fleet-orchestration/fleet-orchestration.md",
-   "digest": "sha256:b1c0a59256b48308",
+   "digest": "sha256-b2:ef76f38fd97a3f0e",
    "revision": 23,
    "changedAt": "2026-09-17",
    "techniques": [
@@ -15114,7 +15114,7 @@
    "subcategory": "input-and-editing",
    "status": "reconciled",
    "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/form/form.md",
-   "digest": "sha256:44c768f7cfec8f3e",
+   "digest": "sha256-b2:8c778ef90ec95e82",
    "revision": 4,
    "changedAt": "2026-09-01",
    "techniques": [
@@ -15212,7 +15212,7 @@
    "subcategory": "model-workflow-contracts",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/model-workflow-contracts/generated-workflow-candidates/generated-workflow-candidates.md",
-   "digest": "sha256:1acbb7ef2ada5903",
+   "digest": "sha256-b2:acd501ca62d5c9f0",
    "revision": 1,
    "changedAt": "2026-09-03",
    "techniques": [
@@ -15320,7 +15320,7 @@
    "subcategory": "language-runtime",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/language-runtime/guest-execution-bounding/guest-execution-bounding.md",
-   "digest": "sha256:493f1cbc43905005",
+   "digest": "sha256-b2:a59e479b7cea486b",
    "revision": 3,
    "changedAt": "2026-09-04",
    "techniques": [
@@ -15532,7 +15532,7 @@
    "subcategory": "language-runtime",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/language-runtime/guest-language-introspection/guest-language-introspection.md",
-   "digest": "sha256:a6e450dc9c28bd76",
+   "digest": "sha256-b2:aef36b9f494a27f8",
    "revision": 1,
    "changedAt": "2026-09-03",
    "techniques": [
@@ -15627,7 +15627,7 @@
    "subcategory": "shell-and-navigation",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/guided-tours/guided-tours.md",
-   "digest": "sha256:6e62aed28e4419e5",
+   "digest": "sha256-b2:6f44ad03ebd5bd19",
    "revision": 4,
    "changedAt": "2026-09-02",
    "techniques": [
@@ -15748,7 +15748,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/client-architecture/hash-pinned-translation-pipeline/hash-pinned-translation-pipeline.md",
-   "digest": "sha256:d7cc1634adbd986f",
+   "digest": "sha256-b2:5fb570c0ab07039a",
    "revision": 2,
    "changedAt": "2026-09-03",
    "techniques": [
@@ -15863,7 +15863,7 @@
    "subcategory": "service-operations",
    "status": "reconciled",
    "file": "knowledge/software-engineering/operations/service-operations/health-checks/health-checks.md",
-   "digest": "sha256:53d576c91adb4d7f",
+   "digest": "sha256-b2:9254e4fb7feef6b1",
    "revision": 11,
    "changedAt": "2026-09-04",
    "techniques": [
@@ -16010,7 +16010,7 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/hitl-approval/hitl-approval.md",
-   "digest": "sha256:7a6a16d6efaa416c",
+   "digest": "sha256-b2:850ca0fcd79010f4",
    "revision": 18,
    "changedAt": "2026-09-17",
    "techniques": [
@@ -16277,7 +16277,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/client-architecture/i18n/i18n.md",
-   "digest": "sha256:63c2ac2d6aa9baca",
+   "digest": "sha256-b2:13f1a2698a82c874",
    "revision": 7,
    "changedAt": "2026-09-06",
    "techniques": [
@@ -16450,7 +16450,7 @@
    "subcategory": "acquisition-and-ingest",
    "status": "forged",
    "file": "knowledge/software-engineering/integration/acquisition-and-ingest/import-normalization/import-normalization.md",
-   "digest": "sha256:ce0ff0c823cef672",
+   "digest": "sha256-b2:4981ff0ea8a59c1b",
    "revision": 1,
    "changedAt": "2026-09-05",
    "techniques": [
@@ -16612,7 +16612,7 @@
    "subcategory": "data-pipeline-semantics",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/data-pipeline-semantics/index-free-random-access/index-free-random-access.md",
-   "digest": "sha256:89644138393711ee",
+   "digest": "sha256-b2:938e37a6912a9762",
    "revision": 1,
    "changedAt": "2026-09-21",
    "techniques": [
@@ -16734,7 +16734,7 @@
    "subcategory": "standards-and-gates",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/invariant-placement/invariant-placement.md",
-   "digest": "sha256:f09d82b2b9bd2d4c",
+   "digest": "sha256-b2:c6563834f502429c",
    "revision": 9,
    "changedAt": "2026-09-21",
    "techniques": [
@@ -16985,7 +16985,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/client-architecture/ipc-contract/ipc-contract.md",
-   "digest": "sha256:4c5a71b4b9492d4c",
+   "digest": "sha256-b2:c9cce81ffdd6456a",
    "revision": 6,
    "changedAt": "2026-08-31",
    "techniques": [
@@ -17125,7 +17125,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/secret-custody-and-issuance/issuance-policy-ladder/issuance-policy-ladder.md",
-   "digest": "sha256:a515f3a0584374f3",
+   "digest": "sha256-b2:fc31943d5d78e4d2",
    "revision": 3,
    "changedAt": "2026-09-17",
    "techniques": [
@@ -17274,7 +17274,7 @@
    "subcategory": "work-execution",
    "status": "reconciled",
    "file": "knowledge/software-engineering/backend-platform/work-execution/job-coordination/job-coordination.md",
-   "digest": "sha256:1090a84300016a2d",
+   "digest": "sha256-b2:2bd472ebca7609ca",
    "revision": 16,
    "changedAt": "2026-09-17",
    "techniques": [
@@ -17522,7 +17522,7 @@
    "subcategory": "evaluation-and-cost",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/judgment-guardbands/judgment-guardbands.md",
-   "digest": "sha256:7226834f4b17d524",
+   "digest": "sha256-b2:6f0d381e3a82e919",
    "revision": 2,
    "changedAt": "2026-08-31",
    "techniques": [
@@ -17642,7 +17642,7 @@
    "subcategory": "data-pipeline-semantics",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/data-pipeline-semantics/keyed-sample-transforms/keyed-sample-transforms.md",
-   "digest": "sha256:7084a80ffcb15e23",
+   "digest": "sha256-b2:926f399475e0ef4d",
    "revision": 1,
    "changedAt": "2026-09-03",
    "techniques": [
@@ -17742,9 +17742,9 @@
    "subcategory": "standards-and-gates",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/knowledge-registry/knowledge-registry.md",
-   "digest": "sha256:7e0fc4a7e1bf9a27",
-   "revision": 7,
-   "changedAt": "2026-09-21",
+   "digest": "sha256-b2:1237838c14642bca",
+   "revision": 8,
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "catalog-as-sync-key",
@@ -17900,7 +17900,7 @@
    "subcategory": "published-surfaces",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/published-surfaces/lazy-section-addressability/lazy-section-addressability.md",
-   "digest": "sha256:c40bce422c368962",
+   "digest": "sha256-b2:91bc8c88178741f5",
    "revision": 1,
    "changedAt": "2026-08-22",
    "techniques": [
@@ -17994,7 +17994,7 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/llm-extracted-entity-graph/llm-extracted-entity-graph.md",
-   "digest": "sha256:bbc027c9e0c6b9fd",
+   "digest": "sha256-b2:bd7032bc2fb05c3b",
    "revision": 2,
    "changedAt": "2026-09-16",
    "techniques": [
@@ -18085,7 +18085,7 @@
    "subcategory": "published-surfaces",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/published-surfaces/long-form-reading-surface/long-form-reading-surface.md",
-   "digest": "sha256:aeaa9fa2ed46d0b1",
+   "digest": "sha256-b2:0073dc38cb06cee0",
    "revision": 2,
    "changedAt": "2026-08-29",
    "techniques": [
@@ -18189,7 +18189,7 @@
    "subcategory": "codebase-stewardship",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/machine-authored-documentation/machine-authored-documentation.md",
-   "digest": "sha256:eecab5d87cb41501",
+   "digest": "sha256-b2:e02500921c1ec7c8",
    "revision": 2,
    "changedAt": "2026-08-31",
    "techniques": [
@@ -18322,7 +18322,7 @@
    "subcategory": "continuous-integration",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/continuous-integration/machine-paced-delivery/machine-paced-delivery.md",
-   "digest": "sha256:9076905cbdcf65b2",
+   "digest": "sha256-b2:7c45f5d81cc35bf6",
    "revision": 9,
    "changedAt": "2026-09-03",
    "techniques": [
@@ -18495,7 +18495,7 @@
    "subcategory": "embedded-surfaces",
    "status": "forged",
    "file": "knowledge/software-engineering/integration/embedded-surfaces/markdown-vault/markdown-vault.md",
-   "digest": "sha256:f6a2ff361c8b10e4",
+   "digest": "sha256-b2:7a10f98b2d9488ac",
    "revision": 2,
    "changedAt": "2026-09-07",
    "techniques": [
@@ -18701,7 +18701,7 @@
    "subcategory": "maturity-and-conformance",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-assessment/maturity-and-conformance/maturity-ladders/maturity-ladders.md",
-   "digest": "sha256:0f2f1d831991ecba",
+   "digest": "sha256-b2:7bf11d22a28619eb",
    "revision": 1,
    "changedAt": "2026-08-21",
    "techniques": [
@@ -18820,7 +18820,7 @@
    "subcategory": "runtime-and-io",
    "status": "reconciled",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/mcp-tools.md",
-   "digest": "sha256:9fb673a2a2cbe4da",
+   "digest": "sha256-b2:93d916f92c0b49ef",
    "revision": 28,
    "changedAt": "2026-09-20",
    "techniques": [
@@ -19278,7 +19278,7 @@
    "subcategory": "measurement-method",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-assessment/measurement-method/measurement-honesty/measurement-honesty.md",
-   "digest": "sha256:78bf0a53f49a149e",
+   "digest": "sha256-b2:1c217f8b0c88c8ff",
    "revision": 9,
    "changedAt": "2026-09-17",
    "techniques": [
@@ -19510,7 +19510,7 @@
    "subcategory": "shell-and-navigation",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/media-playback/media-playback.md",
-   "digest": "sha256:eb721ed85a1084b6",
+   "digest": "sha256-b2:7b5d8df86fc6143a",
    "revision": 5,
    "changedAt": "2026-09-15",
    "techniques": [
@@ -19687,7 +19687,7 @@
    "subcategory": "measurement-method",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-assessment/measurement-method/metric-forecasting/metric-forecasting.md",
-   "digest": "sha256:08ee056c4c84ea49",
+   "digest": "sha256-b2:49a8bbc32dac3476",
    "revision": 1,
    "changedAt": "2026-08-21",
    "techniques": [
@@ -19798,7 +19798,7 @@
    "subcategory": "standards-and-gates",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/metric-gates/metric-gates.md",
-   "digest": "sha256:e5447110c341ba82",
+   "digest": "sha256-b2:955c2a8666387b66",
    "revision": 2,
    "changedAt": "2026-09-06",
    "techniques": [
@@ -19919,7 +19919,7 @@
    "subcategory": "platform-observability",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/platform-observability/metric-surface-contract/metric-surface-contract.md",
-   "digest": "sha256:c99c042111aeef9f",
+   "digest": "sha256-b2:e8bf5f739fe682e7",
    "revision": 2,
    "changedAt": "2026-09-04",
    "techniques": [
@@ -20040,7 +20040,7 @@
    "subcategory": "platform-observability",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/platform-observability/metrics-rollups/metrics-rollups.md",
-   "digest": "sha256:25d42fbe3794b91f",
+   "digest": "sha256-b2:e67c71e414c9a9c0",
    "revision": 2,
    "changedAt": "2026-08-21",
    "techniques": [
@@ -20146,7 +20146,7 @@
    "subcategory": "data-layer",
    "status": "reconciled",
    "file": "knowledge/software-engineering/backend-platform/data-layer/migrations/migrations.md",
-   "digest": "sha256:3285e1d8524603bd",
+   "digest": "sha256-b2:b7d5afcb859dfff9",
    "revision": 10,
    "changedAt": "2026-09-05",
    "techniques": [
@@ -20313,7 +20313,7 @@
    "subcategory": "shell-and-navigation",
    "status": "reconciled",
    "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/modal-stack/modal-stack.md",
-   "digest": "sha256:e4aa47b6a226c7fc",
+   "digest": "sha256-b2:c0c7b5eacfef8679",
    "revision": 4,
    "changedAt": "2026-09-01",
    "techniques": [
@@ -20422,7 +20422,7 @@
    "subcategory": "evaluation-and-cost",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/model-call-outcome-integrity/model-call-outcome-integrity.md",
-   "digest": "sha256:c9eeeaa8fa7c9944",
+   "digest": "sha256-b2:068da95be00c5489",
    "revision": 1,
    "changedAt": "2026-09-05",
    "techniques": [
@@ -20569,7 +20569,7 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/model-routing/model-routing.md",
-   "digest": "sha256:d833892209435380",
+   "digest": "sha256-b2:d597d76e17250508",
    "revision": 17,
    "changedAt": "2026-09-20",
    "techniques": [
@@ -20846,7 +20846,7 @@
    "subcategory": "measurement-method",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-assessment/measurement-method/modelled-performance-estimates/modelled-performance-estimates.md",
-   "digest": "sha256:25c1d6264c3a4e56",
+   "digest": "sha256-b2:16f70ca8388660da",
    "revision": 2,
    "changedAt": "2026-09-09",
    "techniques": [
@@ -20926,7 +20926,7 @@
    "subcategory": "codebase-stewardship",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/module-design/module-design.md",
-   "digest": "sha256:6504a0f64d826c91",
+   "digest": "sha256-b2:b72d291fa9ff71e7",
    "revision": 14,
    "changedAt": "2026-09-04",
    "techniques": [
@@ -21194,7 +21194,7 @@
    "subcategory": "feedback-and-style",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/motion/motion.md",
-   "digest": "sha256:d623a3bcfdcbd1c0",
+   "digest": "sha256-b2:d8dbb7eb00691c2b",
    "revision": 9,
    "changedAt": "2026-09-20",
    "techniques": [
@@ -21388,7 +21388,7 @@
    "subcategory": "standards-and-gates",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/multi-project/multi-project.md",
-   "digest": "sha256:0488243424dc82a4",
+   "digest": "sha256-b2:07b32de44fd25fc6",
    "revision": 3,
    "changedAt": "2026-08-29",
    "techniques": [
@@ -21511,7 +21511,7 @@
    "subcategory": "resilience",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/resilience/multi-provider-gateway-plane/multi-provider-gateway-plane.md",
-   "digest": "sha256:45bcc427a8ddca15",
+   "digest": "sha256-b2:f268193750c0a517",
    "revision": 9,
    "changedAt": "2026-09-09",
    "techniques": [
@@ -21741,7 +21741,7 @@
    "subcategory": "published-surfaces",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/published-surfaces/narrative-scroll-surface/narrative-scroll-surface.md",
-   "digest": "sha256:aabd5cfef103cfb6",
+   "digest": "sha256-b2:63538d356e339714",
    "revision": 1,
    "changedAt": "2026-09-08",
    "techniques": [
@@ -21851,7 +21851,7 @@
    "subcategory": "acquisition-and-ingest",
    "status": "forged",
    "file": "knowledge/software-engineering/integration/acquisition-and-ingest/native-document-format/native-document-format.md",
-   "digest": "sha256:f7411ccaa5c04a87",
+   "digest": "sha256-b2:b6e8c7cf7888676f",
    "revision": 1,
    "changedAt": "2026-09-05",
    "techniques": [
@@ -21952,7 +21952,7 @@
    "subcategory": "language-runtime",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/language-runtime/native-guest-interop/native-guest-interop.md",
-   "digest": "sha256:6c82c2fe8a339449",
+   "digest": "sha256-b2:2f33f632688cd73a",
    "revision": 2,
    "changedAt": "2026-09-04",
    "techniques": [
@@ -22063,7 +22063,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/client-architecture/native-shell-integration/native-shell-integration.md",
-   "digest": "sha256:d0a9900439717735",
+   "digest": "sha256-b2:eb941b25ec740109",
    "revision": 3,
    "changedAt": "2026-09-04",
    "techniques": [
@@ -22241,7 +22241,7 @@
    "subcategory": "service-operations",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/service-operations/node-boot-and-declarative-bootstrap/node-boot-and-declarative-bootstrap.md",
-   "digest": "sha256:12d6b91ccdadd5eb",
+   "digest": "sha256-b2:12254224c07cdd4c",
    "revision": 1,
    "changedAt": "2026-09-02",
    "techniques": [
@@ -22366,7 +22366,7 @@
    "subcategory": "language-runtime",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/language-runtime/object-shape-representation/object-shape-representation.md",
-   "digest": "sha256:3054d8b37ef683eb",
+   "digest": "sha256-b2:4a45578e05e1fef1",
    "revision": 1,
    "changedAt": "2026-09-03",
    "techniques": [
@@ -22465,7 +22465,7 @@
    "subcategory": "platform-observability",
    "status": "reconciled",
    "file": "knowledge/software-engineering/backend-platform/platform-observability/observability-telemetry/observability-telemetry.md",
-   "digest": "sha256:a8d8676da144fd28",
+   "digest": "sha256-b2:5f1eca73a0e27036",
    "revision": 6,
    "changedAt": "2026-09-04",
    "techniques": [
@@ -22574,7 +22574,7 @@
    "subcategory": "resilience",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/resilience/optional-dependency-degradation/optional-dependency-degradation.md",
-   "digest": "sha256:def07f6c5ed2c921",
+   "digest": "sha256-b2:5740098d6095e387",
    "revision": 16,
    "changedAt": "2026-09-16",
    "techniques": [
@@ -22802,7 +22802,7 @@
    "subcategory": "platform-observability",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/platform-observability/outbound-notifications/outbound-notifications.md",
-   "digest": "sha256:b59fe375ccf4947a",
+   "digest": "sha256-b2:fa75c38baf3e6de1",
    "revision": 3,
    "changedAt": "2026-08-31",
    "techniques": [
@@ -22958,7 +22958,7 @@
    "subcategory": "data-and-transport",
    "status": "reconciled",
    "file": "knowledge/software-engineering/security/data-and-transport/p2p-networking/p2p-networking.md",
-   "digest": "sha256:05e77b69ab06ba59",
+   "digest": "sha256-b2:c6291d8abe49c1d3",
    "revision": 2,
    "changedAt": "2026-09-03",
    "techniques": [
@@ -23073,7 +23073,7 @@
    "subcategory": "build-and-release",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/build-and-release/packaging/packaging.md",
-   "digest": "sha256:f47628a96c37323d",
+   "digest": "sha256-b2:e3584aae3c68e668",
    "revision": 7,
    "changedAt": "2026-09-03",
    "techniques": [
@@ -23212,7 +23212,7 @@
    "subcategory": "inference-serving",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/inference-serving/paged-block-cache/paged-block-cache.md",
-   "digest": "sha256:1293c588b3679d52",
+   "digest": "sha256-b2:bdc97e412853bc4f",
    "revision": 1,
    "changedAt": "2026-09-03",
    "techniques": [
@@ -23322,7 +23322,7 @@
    "subcategory": "measurement-method",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-assessment/measurement-method/peer-benchmarking/peer-benchmarking.md",
-   "digest": "sha256:898740060ce84b5d",
+   "digest": "sha256-b2:3ff7a39dbfa9a12e",
    "revision": 1,
    "changedAt": "2026-08-21",
    "techniques": [
@@ -23423,7 +23423,7 @@
    "subcategory": "measurement-method",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-assessment/measurement-method/people-analytics-ethics/people-analytics-ethics.md",
-   "digest": "sha256:87d336aa6d645733",
+   "digest": "sha256-b2:276b9ca04a596780",
    "revision": 1,
    "changedAt": "2026-08-21",
    "techniques": [
@@ -23535,7 +23535,7 @@
    "subcategory": "service-operations",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/service-operations/perf-instrumentation/perf-instrumentation.md",
-   "digest": "sha256:5f18efa3b13432a5",
+   "digest": "sha256-b2:b3c34793ca9aec59",
    "revision": 2,
    "changedAt": "2026-08-21",
    "techniques": [
@@ -23647,7 +23647,7 @@
    "subcategory": "inference-serving",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/inference-serving/persistent-batch-mutation/persistent-batch-mutation.md",
-   "digest": "sha256:25a6c7f22a7d7d36",
+   "digest": "sha256-b2:22fd1ddca6e49d5f",
    "revision": 1,
    "changedAt": "2026-09-03",
    "techniques": [
@@ -23718,7 +23718,7 @@
    "subcategory": "continuous-integration",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/continuous-integration/pipeline-authoring/pipeline-authoring.md",
-   "digest": "sha256:cf1c520fc79fd382",
+   "digest": "sha256-b2:4c404663bc02db32",
    "revision": 4,
    "changedAt": "2026-09-05",
    "techniques": [
@@ -23844,7 +23844,7 @@
    "subcategory": "work-execution",
    "status": "reconciled",
    "file": "knowledge/software-engineering/backend-platform/work-execution/pipeline-dag/pipeline-dag.md",
-   "digest": "sha256:4b2a106213b41810",
+   "digest": "sha256-b2:396bc727ea6bcf37",
    "revision": 9,
    "changedAt": "2026-09-04",
    "techniques": [
@@ -24009,7 +24009,7 @@
    "subcategory": "service-operations",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/service-operations/plan-entitlements/plan-entitlements.md",
-   "digest": "sha256:638c778475311ce1",
+   "digest": "sha256-b2:58f21c0561a86e45",
    "revision": 7,
    "changedAt": "2026-09-18",
    "techniques": [
@@ -24218,7 +24218,7 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/plan-review/plan-review.md",
-   "digest": "sha256:bd0c53f634a72ef4",
+   "digest": "sha256-b2:cb405581d6418f66",
    "revision": 3,
    "changedAt": "2026-09-09",
    "techniques": [
@@ -24322,7 +24322,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/secret-custody-and-issuance/priced-authority/priced-authority.md",
-   "digest": "sha256:e0b5d136f412a0a2",
+   "digest": "sha256-b2:6adc6d2c9dc67b99",
    "revision": 3,
    "changedAt": "2026-09-17",
    "techniques": [
@@ -24454,7 +24454,7 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/proactive-nudges/proactive-nudges.md",
-   "digest": "sha256:d248dd97b6a5c69f",
+   "digest": "sha256-b2:5e13c88d70a4c50a",
    "revision": 5,
    "changedAt": "2026-09-10",
    "techniques": [
@@ -24560,7 +24560,7 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/prompt-assembly.md",
-   "digest": "sha256:0a8e30fdc764180f",
+   "digest": "sha256-b2:4fe9821aa9f9fd53",
    "revision": 38,
    "changedAt": "2026-09-23",
    "techniques": [
@@ -25184,7 +25184,7 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-safety/prompt-safety.md",
-   "digest": "sha256:21c20267ba0c2084",
+   "digest": "sha256-b2:51087132dbd1c9fb",
    "revision": 7,
    "changedAt": "2026-09-17",
    "techniques": [
@@ -25365,7 +25365,7 @@
    "subcategory": "published-surfaces",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/published-surfaces/public-claim-provenance/public-claim-provenance.md",
-   "digest": "sha256:fbf0d276b5013545",
+   "digest": "sha256-b2:df9980b5ba402dfc",
    "revision": 2,
    "changedAt": "2026-08-24",
    "techniques": [
@@ -25495,7 +25495,7 @@
    "subcategory": "maturity-and-conformance",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-assessment/maturity-and-conformance/public-verdict-badge/public-verdict-badge.md",
-   "digest": "sha256:f1e00fe96416c6ae",
+   "digest": "sha256-b2:200cd4cd4f576869",
    "revision": 3,
    "changedAt": "2026-09-08",
    "techniques": [
@@ -25609,9 +25609,9 @@
    "subcategory": "standards-and-gates",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/quality-gates.md",
-   "digest": "sha256:d7deee105a13022b",
-   "revision": 49,
-   "changedAt": "2026-09-22",
+   "digest": "sha256-b2:75104f19654589fb",
+   "revision": 50,
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "advancement-evidence-fields",
@@ -26013,6 +26013,24 @@
      ]
     },
     {
+     "slug": "unparseable-form-is-a-finding",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "absent-guard-is-loud",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a source-pattern gate can be evaded by writing the same access a different way",
+      "deciding whether a check without a parser can block rather than merely warn",
+      "a gate reports a plausible complete answer over a language it only pattern-matches",
+      "choosing between improving a matcher and constraining what it must match",
+      "a negative-space rule is described as a ratchet against accident",
+      "a regex-based checker is being promoted from advisory to blocking"
+     ]
+    },
+    {
      "slug": "vacuous-by-evaluation",
      "status": "forged",
      "laws": [
@@ -26237,7 +26255,7 @@
    "subcategory": "service-operations",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/service-operations/quorum-and-recovery-procedures/quorum-and-recovery-procedures.md",
-   "digest": "sha256:33e7576bc21d2311",
+   "digest": "sha256-b2:c7343c956ae07e3c",
    "revision": 2,
    "changedAt": "2026-09-03",
    "techniques": [
@@ -26361,7 +26379,7 @@
    "subcategory": "resilience",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/resilience/rate-limiting/rate-limiting.md",
-   "digest": "sha256:a81b069ef7e72fbd",
+   "digest": "sha256-b2:c1ab95c98c885951",
    "revision": 8,
    "changedAt": "2026-09-03",
    "techniques": [
@@ -26554,7 +26572,7 @@
    "subcategory": "data-layer",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/data-layer/read-serving-replicas/read-serving-replicas.md",
-   "digest": "sha256:1f585683a73822ee",
+   "digest": "sha256-b2:dd533dc5b11bf38f",
    "revision": 1,
    "changedAt": "2026-09-02",
    "techniques": [
@@ -26678,7 +26696,7 @@
    "subcategory": "maturity-and-conformance",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-assessment/maturity-and-conformance/readiness-passports/readiness-passports.md",
-   "digest": "sha256:bb184a54179a32d1",
+   "digest": "sha256-b2:588ec936ab3e51d0",
    "revision": 1,
    "changedAt": "2026-08-21",
    "techniques": [
@@ -26782,7 +26800,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/client-architecture/realtime-events/realtime-events.md",
-   "digest": "sha256:11687553ff97b0af",
+   "digest": "sha256-b2:a0685592373df03f",
    "revision": 6,
    "changedAt": "2026-09-03",
    "techniques": [
@@ -26925,7 +26943,7 @@
    "subcategory": "language-runtime",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/language-runtime/register-bytecode-execution/register-bytecode-execution.md",
-   "digest": "sha256:2147ae265d47d49f",
+   "digest": "sha256-b2:e9d7b45e69f60087",
    "revision": 3,
    "changedAt": "2026-09-04",
    "techniques": [
@@ -27083,7 +27101,7 @@
    "subcategory": "build-and-release",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/build-and-release/release-pipeline/release-pipeline.md",
-   "digest": "sha256:2cfcf9c12c9413e2",
+   "digest": "sha256-b2:faf052699c35ced4",
    "revision": 11,
    "changedAt": "2026-09-20",
    "techniques": [
@@ -27276,7 +27294,7 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/remediation-handoff/remediation-handoff.md",
-   "digest": "sha256:a59d2ce05cfb8d3c",
+   "digest": "sha256-b2:940036e1a6fcd893",
    "revision": 3,
    "changedAt": "2026-08-31",
    "techniques": [
@@ -27401,7 +27419,7 @@
    "subcategory": "reporting-and-remediation",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-assessment/reporting-and-remediation/remediation-roadmaps/remediation-roadmaps.md",
-   "digest": "sha256:4a4d471536ab014d",
+   "digest": "sha256-b2:c1c22f2efa9f9a74",
    "revision": 1,
    "changedAt": "2026-08-21",
    "techniques": [
@@ -27511,7 +27529,7 @@
    "subcategory": "resilience",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/resilience/remote-capability-probing/remote-capability-probing.md",
-   "digest": "sha256:944cd48868c33525",
+   "digest": "sha256-b2:a4c05c585323b3c3",
    "revision": 1,
    "changedAt": "2026-09-04",
    "techniques": [
@@ -27621,7 +27639,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/client-architecture/render-mount-pipeline/render-mount-pipeline.md",
-   "digest": "sha256:021fe86f5ecfb2aa",
+   "digest": "sha256-b2:df020f172eb32893",
    "revision": 1,
    "changedAt": "2026-09-14",
    "techniques": [
@@ -27779,7 +27797,7 @@
    "subcategory": "standards-and-gates",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/repo-manifest-standard/repo-manifest-standard.md",
-   "digest": "sha256:f3be5416c1ea86f7",
+   "digest": "sha256-b2:a845ac665bf267e9",
    "revision": 10,
    "changedAt": "2026-09-17",
    "techniques": [
@@ -27956,7 +27974,7 @@
    "subcategory": "codebase-stewardship",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/repository-landing-document/repository-landing-document.md",
-   "digest": "sha256:b2963440e0f609f4",
+   "digest": "sha256-b2:275a789501dfda1a",
    "revision": 1,
    "changedAt": "2026-09-01",
    "techniques": [
@@ -28074,7 +28092,7 @@
    "subcategory": "prompt-and-context",
    "status": "reconciled",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/retrieval/retrieval.md",
-   "digest": "sha256:1280e85fd10ab66e",
+   "digest": "sha256-b2:8cfc2c346bb4e161",
    "revision": 16,
    "changedAt": "2026-09-20",
    "techniques": [
@@ -28340,7 +28358,7 @@
    "subcategory": "resilience",
    "status": "reconciled",
    "file": "knowledge/software-engineering/backend-platform/resilience/retry-backoff/retry-backoff.md",
-   "digest": "sha256:808a4609c4e5c995",
+   "digest": "sha256-b2:4ca1a8af506f44d9",
    "revision": 13,
    "changedAt": "2026-09-03",
    "techniques": [
@@ -28532,7 +28550,7 @@
    "subcategory": "data-pipeline-semantics",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/data-pipeline-semantics/reversible-transform-pipelines/reversible-transform-pipelines.md",
-   "digest": "sha256:a024109be806d8b1",
+   "digest": "sha256-b2:6b1454a123540e65",
    "revision": 1,
    "changedAt": "2026-09-03",
    "techniques": [
@@ -28640,7 +28658,7 @@
    "subcategory": "continuous-integration",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/continuous-integration/runner-fleet/runner-fleet.md",
-   "digest": "sha256:5f9ab9dee3cb91cc",
+   "digest": "sha256-b2:9f9c2122f589ed3d",
    "revision": 2,
    "changedAt": "2026-08-31",
    "techniques": [
@@ -28750,7 +28768,7 @@
    "subcategory": "resilience",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/resilience/scale-investment-timing/scale-investment-timing.md",
-   "digest": "sha256:c577a2c04c7cf434",
+   "digest": "sha256-b2:43b2188e6c19354d",
    "revision": 7,
    "changedAt": "2026-09-04",
    "techniques": [
@@ -28868,7 +28886,7 @@
    "subcategory": "work-execution",
    "status": "reconciled",
    "file": "knowledge/software-engineering/backend-platform/work-execution/scheduling/scheduling.md",
-   "digest": "sha256:440155430b17d557",
+   "digest": "sha256-b2:f60a09f888a54a35",
    "revision": 5,
    "changedAt": "2026-09-01",
    "techniques": [
@@ -28974,7 +28992,7 @@
    "subcategory": "input-and-editing",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/schema-driven-ui/schema-driven-ui.md",
-   "digest": "sha256:f1899f8c7ac0e807",
+   "digest": "sha256-b2:3a801e8a0fefc717",
    "revision": 2,
    "changedAt": "2026-08-21",
    "techniques": [
@@ -29085,7 +29103,7 @@
    "subcategory": "service-operations",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/service-operations/scoring-rubrics/scoring-rubrics.md",
-   "digest": "sha256:1d2228b7cf8cb6bb",
+   "digest": "sha256-b2:476078a37f34137d",
    "revision": 3,
    "changedAt": "2026-09-20",
    "techniques": [
@@ -29217,7 +29235,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/secret-custody-and-issuance/seal-and-key-hierarchy/seal-and-key-hierarchy.md",
-   "digest": "sha256:55d313eb16e99ade",
+   "digest": "sha256-b2:fa4d5b2b78b53dbe",
    "revision": 2,
    "changedAt": "2026-09-03",
    "techniques": [
@@ -29344,7 +29362,7 @@
    "subcategory": "data-display",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/data-display/search/search.md",
-   "digest": "sha256:b02a2eca8c0c6377",
+   "digest": "sha256-b2:62c2dfbd42c978e9",
    "revision": 4,
    "changedAt": "2026-09-20",
    "techniques": [
@@ -29485,7 +29503,7 @@
    "subcategory": "data-pipeline-semantics",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/data-pipeline-semantics/self-describing-data-envelopes/self-describing-data-envelopes.md",
-   "digest": "sha256:1e203a3facadd103",
+   "digest": "sha256-b2:39e97c4f0f91579f",
    "revision": 1,
    "changedAt": "2026-09-03",
    "techniques": [
@@ -29585,7 +29603,7 @@
    "subcategory": "model-workflow-contracts",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/model-workflow-contracts/self-describing-model-packages/self-describing-model-packages.md",
-   "digest": "sha256:a09134049a282b91",
+   "digest": "sha256-b2:d22f4172adbc5004",
    "revision": 1,
    "changedAt": "2026-09-03",
    "techniques": [
@@ -29696,7 +29714,7 @@
    "subcategory": "resilience",
    "status": "reconciled",
    "file": "knowledge/software-engineering/backend-platform/resilience/self-healing/self-healing.md",
-   "digest": "sha256:36f871dc53a083e0",
+   "digest": "sha256-b2:d27f99525a697c4b",
    "revision": 11,
    "changedAt": "2026-09-04",
    "techniques": [
@@ -29900,7 +29918,7 @@
    "subcategory": "inference-serving",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/inference-serving/serving-process-topology/serving-process-topology.md",
-   "digest": "sha256:e213be8c538e7596",
+   "digest": "sha256-b2:d8ed5a9bfd85e73c",
    "revision": 3,
    "changedAt": "2026-09-04",
    "techniques": [
@@ -30020,7 +30038,7 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/session-continuation/session-continuation.md",
-   "digest": "sha256:afcbb04332237df6",
+   "digest": "sha256-b2:89e82a9f790ac3fb",
    "revision": 6,
    "changedAt": "2026-09-15",
    "techniques": [
@@ -30217,7 +30235,7 @@
    "subcategory": "shell-and-navigation",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/session-resume/session-resume.md",
-   "digest": "sha256:f8401219466605e7",
+   "digest": "sha256-b2:decf8de1f4ef5cab",
    "revision": 3,
    "changedAt": "2026-08-29",
    "techniques": [
@@ -30320,7 +30338,7 @@
    "subcategory": "governance-and-records",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/governance-and-records/settings/settings.md",
-   "digest": "sha256:e29ad5f70c1e363a",
+   "digest": "sha256-b2:85c48ec5bdb5581f",
    "revision": 13,
    "changedAt": "2026-09-05",
    "techniques": [
@@ -30617,7 +30635,7 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/sidecar-provisioning/sidecar-provisioning.md",
-   "digest": "sha256:2f632b71b0942ba5",
+   "digest": "sha256-b2:25f000a9ae879947",
    "revision": 8,
    "changedAt": "2026-09-03",
    "techniques": [
@@ -30818,7 +30836,7 @@
    "subcategory": "code-provenance",
    "status": "forged",
    "file": "knowledge/software-engineering/security/code-provenance/signed-artifacts/signed-artifacts.md",
-   "digest": "sha256:302cf6b0885fc1ac",
+   "digest": "sha256-b2:387437132971999b",
    "revision": 2,
    "changedAt": "2026-09-04",
    "techniques": [
@@ -30972,7 +30990,7 @@
    "subcategory": "embedded-surfaces",
    "status": "forged",
    "file": "knowledge/software-engineering/integration/embedded-surfaces/sql-console/sql-console.md",
-   "digest": "sha256:0b492ba3c4dd193b",
+   "digest": "sha256-b2:60a26f15745fd8c1",
    "revision": 1,
    "changedAt": "2026-09-05",
    "techniques": [
@@ -31110,7 +31128,7 @@
    "subcategory": "language-runtime",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/language-runtime/standards-layered-runtime/standards-layered-runtime.md",
-   "digest": "sha256:262cf3e9c9d6e619",
+   "digest": "sha256-b2:9cfe5aba03ea1a19",
    "revision": 1,
    "changedAt": "2026-09-03",
    "techniques": [
@@ -31220,7 +31238,7 @@
    "subcategory": "feedback-and-style",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/status-vocabulary/status-vocabulary.md",
-   "digest": "sha256:569058d5320dbed2",
+   "digest": "sha256-b2:bea7b30fd48d528d",
    "revision": 5,
    "changedAt": "2026-09-20",
    "techniques": [
@@ -31393,7 +31411,7 @@
    "subcategory": "resilience",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/resilience/stream-proxy-hop/stream-proxy-hop.md",
-   "digest": "sha256:458226e8e2adff39",
+   "digest": "sha256-b2:938b7cdbd09bbf28",
    "revision": 6,
    "changedAt": "2026-09-05",
    "techniques": [
@@ -31541,7 +31559,7 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/streaming-output/streaming-output.md",
-   "digest": "sha256:d7f8b2571b44628e",
+   "digest": "sha256-b2:f390cca5c416535b",
    "revision": 8,
    "changedAt": "2026-09-17",
    "techniques": [
@@ -31715,7 +31733,7 @@
    "subcategory": "prompt-and-context",
    "status": "reconciled",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/structured-output/structured-output.md",
-   "digest": "sha256:d2e444c639b21ac1",
+   "digest": "sha256-b2:038b3002d55f1c85",
    "revision": 13,
    "changedAt": "2026-09-17",
    "techniques": [
@@ -31966,7 +31984,7 @@
    "subcategory": "runtime-and-io",
    "status": "reconciled",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/subprocess-lifecycle/subprocess-lifecycle.md",
-   "digest": "sha256:d9717b151d3057be",
+   "digest": "sha256-b2:14e6e49e4c386292",
    "revision": 12,
    "changedAt": "2026-09-04",
    "techniques": [
@@ -32127,7 +32145,7 @@
    "subcategory": "metered-billing",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/metered-billing/subscription-billing-periods/subscription-billing-periods.md",
-   "digest": "sha256:0c81dcb426ffaad5",
+   "digest": "sha256-b2:e5bcae321ac53d1d",
    "revision": 1,
    "changedAt": "2026-09-07",
    "techniques": [
@@ -32221,7 +32239,7 @@
    "subcategory": "metered-billing",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/metered-billing/subscription-proration/subscription-proration.md",
-   "digest": "sha256:00650314f8f35ab6",
+   "digest": "sha256-b2:553232471c2820e5",
    "revision": 1,
    "changedAt": "2026-09-07",
    "techniques": [
@@ -32310,7 +32328,7 @@
    "subcategory": "code-provenance",
    "status": "forged",
    "file": "knowledge/software-engineering/security/code-provenance/supply-chain/supply-chain.md",
-   "digest": "sha256:9a6c4a13d7a638f6",
+   "digest": "sha256-b2:a43084e32ba83d48",
    "revision": 5,
    "changedAt": "2026-09-17",
    "techniques": [
@@ -32634,7 +32652,7 @@
    "subcategory": "data-layer",
    "status": "reconciled",
    "file": "knowledge/software-engineering/backend-platform/data-layer/sync-replication/sync-replication.md",
-   "digest": "sha256:0b3cda4dce1385a8",
+   "digest": "sha256-b2:97c171272d09fb00",
    "revision": 9,
    "changedAt": "2026-09-03",
    "techniques": [
@@ -32765,7 +32783,7 @@
    "subcategory": "data-display",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/data-display/table/table.md",
-   "digest": "sha256:b220b0cfe6a4bcda",
+   "digest": "sha256-b2:e00a12f0debba6f5",
    "revision": 7,
    "changedAt": "2026-09-21",
    "techniques": [
@@ -32905,7 +32923,7 @@
    "subcategory": "data-and-transport",
    "status": "forged",
    "file": "knowledge/software-engineering/security/data-and-transport/telemetry-pii-redaction/telemetry-pii-redaction.md",
-   "digest": "sha256:2c39a3159aaf92eb",
+   "digest": "sha256-b2:291ed63388cf9602",
    "revision": 1,
    "changedAt": "2026-09-03",
    "techniques": [
@@ -33028,7 +33046,7 @@
    "subcategory": "external-systems",
    "status": "forged",
    "file": "knowledge/software-engineering/integration/external-systems/templates-scaffolding/templates-scaffolding.md",
-   "digest": "sha256:24c04594fbde263e",
+   "digest": "sha256-b2:3dd9549b75f4f998",
    "revision": 3,
    "changedAt": "2026-09-23",
    "techniques": [
@@ -33182,7 +33200,7 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/tenant-scoped-agent-runtime/tenant-scoped-agent-runtime.md",
-   "digest": "sha256:ca1b2071a269631a",
+   "digest": "sha256-b2:ae4ba4c01a933a35",
    "revision": 6,
    "changedAt": "2026-09-23",
    "techniques": [
@@ -33300,7 +33318,7 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/terminal-multiplexing/terminal-multiplexing.md",
-   "digest": "sha256:b2a6f2e8669dd52c",
+   "digest": "sha256-b2:c3ef11aba4a471f5",
    "revision": 7,
    "changedAt": "2026-09-04",
    "techniques": [
@@ -33521,7 +33539,7 @@
    "subcategory": "build-and-release",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/build-and-release/test-harness/test-harness.md",
-   "digest": "sha256:c449405aa9d2e869",
+   "digest": "sha256-b2:5d7a3a86bd18b6e1",
    "revision": 23,
    "changedAt": "2026-09-20",
    "techniques": [
@@ -34013,7 +34031,7 @@
    "subcategory": "build-and-release",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/build-and-release/test-input-generation/test-input-generation.md",
-   "digest": "sha256:d64189d33d00ea42",
+   "digest": "sha256-b2:9c6c3a722cb0e638",
    "revision": 7,
    "changedAt": "2026-09-04",
    "techniques": [
@@ -34226,7 +34244,7 @@
    "subcategory": "evaluation-and-cost",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/time-travel-replay/time-travel-replay.md",
-   "digest": "sha256:cb808c473633d0dd",
+   "digest": "sha256-b2:138fd12f5cb3022b",
    "revision": 4,
    "changedAt": "2026-09-02",
    "techniques": [
@@ -34333,7 +34351,7 @@
    "subcategory": "feedback-and-style",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/toasts-notifications/toasts-notifications.md",
-   "digest": "sha256:5f10d994e5c16ef6",
+   "digest": "sha256-b2:00266562e54f6f86",
    "revision": 3,
    "changedAt": "2026-09-20",
    "techniques": [
@@ -34453,7 +34471,7 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/tool-result-economy/tool-result-economy.md",
-   "digest": "sha256:775d27f5414cc557",
+   "digest": "sha256-b2:127ca6c661c6548e",
    "revision": 2,
    "changedAt": "2026-09-04",
    "techniques": [
@@ -34533,7 +34551,7 @@
    "subcategory": "evaluation-and-cost",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/tracing/tracing.md",
-   "digest": "sha256:16ced18f12da23d1",
+   "digest": "sha256-b2:2834875c395bfaad",
    "revision": 6,
    "changedAt": "2026-09-17",
    "techniques": [
@@ -34679,7 +34697,7 @@
    "subcategory": "data-layer",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/data-layer/transactions-over-a-replicated-log/transactions-over-a-replicated-log.md",
-   "digest": "sha256:2b7b74064ebf75ef",
+   "digest": "sha256-b2:230a37319e1dd059",
    "revision": 2,
    "changedAt": "2026-09-03",
    "techniques": [
@@ -34826,7 +34844,7 @@
    "subcategory": "service-operations",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/service-operations/triage-queues/triage-queues.md",
-   "digest": "sha256:89add251704338ae",
+   "digest": "sha256-b2:70c2c3ebc5f18a8f",
    "revision": 3,
    "changedAt": "2026-08-29",
    "techniques": [
@@ -34942,7 +34960,7 @@
    "subcategory": "input-and-editing",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/ui-controls/ui-controls.md",
-   "digest": "sha256:368a362fd9db43af",
+   "digest": "sha256-b2:587853ec42e75f60",
    "revision": 3,
    "changedAt": "2026-09-01",
    "techniques": [
@@ -35046,7 +35064,7 @@
    "subcategory": "input-and-editing",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/undo-history/undo-history.md",
-   "digest": "sha256:558c31fd4198667e",
+   "digest": "sha256-b2:6b331b14c940f6a7",
    "revision": 3,
    "changedAt": "2026-09-04",
    "techniques": [
@@ -35170,7 +35188,7 @@
    "subcategory": "extension-trust",
    "status": "forged",
    "file": "knowledge/software-engineering/security/extension-trust/untrusted-extension-host/untrusted-extension-host.md",
-   "digest": "sha256:e588dd6ce1c761f0",
+   "digest": "sha256-b2:e829cbd80e70c8d0",
    "revision": 5,
    "changedAt": "2026-09-04",
    "techniques": [
@@ -35385,7 +35403,7 @@
    "subcategory": "metered-billing",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/metered-billing/usage-aggregation-semantics/usage-aggregation-semantics.md",
-   "digest": "sha256:e205564f298ac736",
+   "digest": "sha256-b2:8c2dd21982ce8fe9",
    "revision": 1,
    "changedAt": "2026-09-07",
    "techniques": [
@@ -35480,7 +35498,7 @@
    "subcategory": "service-operations",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/service-operations/usage-analytics/usage-analytics.md",
-   "digest": "sha256:d1faf87976598af1",
+   "digest": "sha256-b2:5233096144eea5b2",
    "revision": 3,
    "changedAt": "2026-08-29",
    "techniques": [
@@ -35605,7 +35623,7 @@
    "subcategory": "metered-billing",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/metered-billing/usage-event-ingestion/usage-event-ingestion.md",
-   "digest": "sha256:ef58d3e75e6b1860",
+   "digest": "sha256-b2:74ce470dc4579c08",
    "revision": 3,
    "changedAt": "2026-09-15",
    "techniques": [
@@ -35732,7 +35750,7 @@
    "subcategory": "metered-billing",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/metered-billing/usage-pricing-models/usage-pricing-models.md",
-   "digest": "sha256:6701676d49877856",
+   "digest": "sha256-b2:19da164d50059c7d",
    "revision": 1,
    "changedAt": "2026-09-07",
    "techniques": [
@@ -35823,7 +35841,7 @@
    "subcategory": "build-and-release",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/build-and-release/vendored-patch-stack/vendored-patch-stack.md",
-   "digest": "sha256:9103690a148b10ab",
+   "digest": "sha256-b2:9e3d241f02d95329",
    "revision": 1,
    "changedAt": "2026-09-09",
    "techniques": [
@@ -35911,7 +35929,7 @@
    "subcategory": "governance-and-records",
    "status": "reconciled",
    "file": "knowledge/software-engineering/operations/governance-and-records/versioning-snapshots/versioning-snapshots.md",
-   "digest": "sha256:3fc435590ed89b79",
+   "digest": "sha256-b2:e895b228981cf506",
    "revision": 7,
    "changedAt": "2026-09-03",
    "techniques": [
@@ -36033,7 +36051,7 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/voice-io/voice-io.md",
-   "digest": "sha256:02053fb68baba5f7",
+   "digest": "sha256-b2:4337a608b34cbe4a",
    "revision": 18,
    "changedAt": "2026-09-16",
    "techniques": [
@@ -36402,7 +36420,7 @@
    "subcategory": "control-plane-operations",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/control-plane-operations/watch-cache-and-resync/watch-cache-and-resync.md",
-   "digest": "sha256:18ec2a7b7d7ace25",
+   "digest": "sha256-b2:8c44d83601ed45b3",
    "revision": 1,
    "changedAt": "2026-09-03",
    "techniques": [
@@ -36493,7 +36511,7 @@
    "subcategory": "acquisition-and-ingest",
    "status": "forged",
    "file": "knowledge/software-engineering/integration/acquisition-and-ingest/web-scraping/web-scraping.md",
-   "digest": "sha256:e836deab7a69bcd5",
+   "digest": "sha256-b2:19cc38b48911ea64",
    "revision": 1,
    "changedAt": "2026-09-05",
    "techniques": [
@@ -36650,7 +36668,7 @@
    "subcategory": "resilience",
    "status": "reconciled",
    "file": "knowledge/software-engineering/backend-platform/resilience/webhook-ingestion/webhook-ingestion.md",
-   "digest": "sha256:c45c1d6ac548e84d",
+   "digest": "sha256-b2:42ae9b9486b8352d",
    "revision": 11,
    "changedAt": "2026-09-03",
    "techniques": [
@@ -36769,7 +36787,7 @@
    "subcategory": "model-workflow-contracts",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/model-workflow-contracts/windowed-inference-over-oversized-inputs/windowed-inference-over-oversized-inputs.md",
-   "digest": "sha256:4e1576552155a7a1",
+   "digest": "sha256-b2:614b70883fd3853c",
    "revision": 2,
    "changedAt": "2026-09-17",
    "techniques": [
@@ -36899,7 +36917,7 @@
    "subcategory": "input-and-editing",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/wizard-flows/wizard-flows.md",
-   "digest": "sha256:27176b11b1406a6a",
+   "digest": "sha256-b2:e0fac678b7164451",
    "revision": 4,
    "changedAt": "2026-08-22",
    "techniques": [
@@ -37027,7 +37045,7 @@
    "subcategory": "model-workflow-contracts",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/model-workflow-contracts/workflow-property-contracts/workflow-property-contracts.md",
-   "digest": "sha256:d7648cd83ff1f485",
+   "digest": "sha256-b2:3007baaff69ec912",
    "revision": 1,
    "changedAt": "2026-09-03",
    "techniques": [
@@ -37522,6 +37540,7 @@
     "quality-gates/self-reported-gate-inputs",
     "quality-gates/severity-by-construction",
     "quality-gates/unmeasurable-criteria",
+    "quality-gates/unparseable-form-is-a-finding",
     "quality-gates/vacuous-by-evaluation",
     "quorum-and-recovery-procedures/migration-lock-in-source",
     "quorum-and-recovery-procedures/nonce-progress-verify",
@@ -38093,6 +38112,7 @@
     "quality-gates/oracle-frozen-during-repair",
     "quality-gates/self-reported-gate-inputs",
     "quality-gates/unmeasurable-criteria",
+    "quality-gates/unparseable-form-is-a-finding",
     "quality-gates/vacuous-by-evaluation",
     "rate-limiting/refusal-contract",
     "read-serving-replicas/fairshare-invalidation-queues",
@@ -40960,6 +40980,7 @@
     "quality-gates/refusal-names-a-reachable-remedy",
     "quality-gates/self-reported-gate-inputs",
     "quality-gates/unmeasurable-criteria",
+    "quality-gates/unparseable-form-is-a-finding",
     "quality-gates/waiver-names-its-finding",
     "quorum-and-recovery-procedures/migration-lock-in-source",
     "quorum-and-recovery-procedures/unauthenticated-ritual-is-a-vulnerability",
