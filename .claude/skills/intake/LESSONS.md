@@ -11954,3 +11954,21 @@ finish on the version it loaded.)
   three days, after a fix that stopped it blocking and left it dead. The cause was
   lefthook substituting `$` in `run:` lines itself. It was found only because this
   run's commit output was read line by line rather than by its summary.
+
+## 2.14.1 - 2026-09-24 - agora
+
+- **A repository with no code can still fire the routing count, and then there is nothing
+  for forge scouts to read.** The design record came from a paper, and the repository was
+  a project page. The XL route (spec, one forge worker, the director reviewing the diff)
+  was the right one. The Phase 2d branch "dispatch /forge's Phase 0 scouts over the clone"
+  assumes a tree exists. When the clone is empty, go straight to the XL spec, and name a
+  tree that implements the pattern for the worker to reconcile against. Here that tree
+  was this registry itself.
+- **Our own instruments are a falsifying seam, and they are cheap.** The source's
+  headline (a community herding onto one lineage) was replayed against 30 days of this
+  registry's commit history in one git log. It came back `not-better`, and the reason (a
+  defect worklist empties itself when worked) became the technique's first boundary
+  before the technique shipped. A worker had written the opposite prediction into the
+  registry's own application from reading the code alone.
+- **check-anchors cannot parse an escaped quote inside an anchor quote.** `"Read \"tops\"
+  ..."` reported quote-absent on a line that holds the text. Anchor to a quote-free line.
