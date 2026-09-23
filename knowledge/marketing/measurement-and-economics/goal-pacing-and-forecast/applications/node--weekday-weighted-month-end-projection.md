@@ -11,7 +11,7 @@ verified_against: node@24
 
 # Month-end projection with band, suppressed probability and a future-day prescription - a pure pacing module in a Czech adtech workspace
 
-Verified against `C:\Users\kazda\kiro\systedo-case` at commit
+Verified against `systedo-case` at commit
 `2893314930546ed3a314a19a155bcf2f8841a0ea` (2026-09-08), `package.json` engines
 `node: 24.x`. The whole subject's forecast half lives in one pure function,
 `monthlyPacing()` in `src/lib/metrics/pacing.ts:121-225`, with its statistical inputs

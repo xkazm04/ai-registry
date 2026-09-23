@@ -170,7 +170,7 @@ and maturity are unchanged.
 Second review on this date, against the reverted bytes (HEAD `44c8996`). All 13
 owned documents read in full: the golden path, seven techniques, five
 applications. Two primary sources were re-resolved this run; the LightTrack
-tree the applications cite is on this machine as `C:/Users/kazda/kiro/tracklight`
+tree the applications cite is on this machine as `tracklight`
 and six of its cited seams were opened directly.
 
 **Retraction.** The earlier 2026-09-10 record on this note assigned `reverify`
@@ -265,7 +265,7 @@ caps, Bedrock, Google Cloud spend-cap budgets) were not re-resolved; its
       "result": "Read (not executed). Confirms verbatim the organization-vs-project scoping sentence, the 429 with organization_spend_limit_exceeded / project_spend_limit_exceeded, 'Enforcement is not instantaneous… recorded spend can slightly exceed the configured amount', 'Spend alerts do not enforce a cap', and reset with the next monthly cycle. Does not establish the broader error-type behaviour the application asserts about insufficient_quota."
     },
     {
-      "path": "C:/Users/kazda/kiro/tracklight",
+      "path": "tracklight",
       "result": "Read at d398835. Confirms the advisory-lock rationale and pg_advisory_xact_lock(hashtextextended($1,0)) in crates/store-pg/src/admission.rs; shed_ticket's hand-written FNV-1a, \\x1f separator and SplitMix64 finisher in crates/core/src/limits/status.rs; and the worst-case paragraph at clients/README.md:153-159. Cited line numbers have drifted a few lines since 2026-09-05. Nothing was built or executed."
     }
   ],

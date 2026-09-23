@@ -11,7 +11,7 @@ verified_against: node@24
 
 # Goal in force per month - a pure goal timeline and a complete-months-only track record
 
-Verified against `C:\Users\kazda\kiro\systedo-case` at commit
+Verified against `systedo-case` at commit
 `2893314930546ed3a314a19a155bcf2f8841a0ea` (2026-09-08), `package.json` engines
 `node: 24.x`. The timeline lives in `src/lib/metrics/goal-history.ts` (76 lines,
 framework-free) and the scorer that reads it in `monthlyAttainmentHistory()` at

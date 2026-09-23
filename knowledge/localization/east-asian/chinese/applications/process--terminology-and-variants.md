@@ -11,7 +11,7 @@ verified_on: 2026-08-24
 # Process — terminology and variants in a live 14-locale catalog
 
 How the Personas product's Chinese style guide
-(`C:\Users\kazda\kiro\personas\docs\i18n\style-zh.md`, companion to
+(`personas/docs/i18n/style-zh.md`, companion to
 `docs/i18n/glossary.md`) realizes ZH-TERM-COLLISION, ZH-LOAN, and the
 counted-authority discipline against the ~11,500-key shipped catalog
 `src/i18n/locales/zh.json` (2026-07-10 source audit).

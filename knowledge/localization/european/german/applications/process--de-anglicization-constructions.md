@@ -10,14 +10,14 @@ verified_on: 2026-08-24
 
 # How the kp repo runs the German construction audit
 
-The kp project (`C:\Users\kazda\kiro\kp`) is where the German construction
+The kp project (`kp`) is where the German construction
 rules were minted as anchored IDs, and its i18n tree shows the full mechanism
 working: rules with identifiers, review records citing them, and settled
 exceptions found by over-application.
 
 ## The artifacts
 
-- `C:\Users\kazda\kiro\kp\docs\i18n\constructions-de.md` — the rule file this
+- `kp/docs/i18n/constructions-de.md` — the rule file this
   subject's IDs were migrated from: DE-DASH, DE-LOANWORD, DE-HYPHEN,
   DE-CALQUE-PREP, DE-FORMAL, DE-PLEONASM, DE-NOMINALSTIL, DE-NBSP, DE-ANTHRO,
   DE-ONE-WORD. Each rule carries trigger/rule/source, with Microsoft German
@@ -26,14 +26,14 @@ exceptions found by over-application.
   §4.1.18 non-breaking spaces) and **(house)** marking where the rule is kp's
   own decision because Microsoft defers to Duden (DE-PLEONASM,
   DE-NOMINALSTIL). Every ✗/✓ pair is a real string from `messages/de.json`.
-- `C:\Users\kazda\kiro\kp\docs\i18n\style-de.md` — the register/typography
+- `kp/docs/i18n/style-de.md` — the register/typography
   contract the rules sit inside. Note its dash section: kp *bans* the dash as
   prose punctuation outright (recast with full stop, colon, comma pair;
   en dash survives only in ranges like `3–5 Tage`) — a recorded house ruling
   that deliberately goes beyond DE-DASH. This is the live example of a house
   overruling the authority legitimately: the ruling is written where the rule
   lives (`contract.md` §5 is cited).
-- `C:\Users\kazda\kiro\kp\docs\i18n\review-de.md` — the review ledger. Its
+- `kp/docs/i18n/review-de.md` — the review ledger. Its
   2026-08-12 full-sweep section is the proof the anchor mechanism works at
   audit time: findings cite the IDs directly ("constructions-de.md
   DE-CALQUE-PREP" on `scheduleTab.transcript.readbackHeading`'s

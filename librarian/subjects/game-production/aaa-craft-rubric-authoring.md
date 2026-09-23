@@ -138,7 +138,7 @@ cap and as the period during which verdicts are calibration observations. Those 
 compatible readings but nothing names the boundary.
 
 I read source for the four applications rather than executing anything, against the
-`pof` working tree at `C:\Users\kazda\kiro\pof` (read-only; no build, no test run, no
+`pof` working tree at `pof` (read-only; no build, no test run, no
 model call). That resolved three items the previous record left open.
 
 `src/lib/craft/lens-map.ts` **contradicts the routing claim the application quotes.**

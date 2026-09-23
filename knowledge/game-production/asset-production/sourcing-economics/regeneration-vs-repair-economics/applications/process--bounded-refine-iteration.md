@@ -10,7 +10,7 @@ verified_on: 2026-08-20
 
 # Bounding the critique-and-refine loop: a spec'd doctrine and its shipped retry loop
 
-Two artifacts in PoF (`C:\Users\kazda\kiro\pof`) cover this technique: a research spec that
+Two artifacts in PoF (`pof`) cover this technique: a research spec that
 states the loop doctrine, and a live retry loop that already implements the bound.
 
 ## The doctrine

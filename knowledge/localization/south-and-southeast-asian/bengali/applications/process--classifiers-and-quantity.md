@@ -13,7 +13,7 @@ verified_on: 2026-08-24
 How the classifier and plural anchors play out in a real consumer catalog: the
 Personas app, whose Bengali catalog (`src/i18n/locales/bn.json`, ~19k keys
 across 14 locales) was about 75% shipped, human-reviewed Bengali at the
-2026-07-10 sweep documented in `C:\Users\kazda\kiro\personas\docs\i18n\style-bn.md`.
+2026-07-10 sweep documented in `personas/docs/i18n/style-bn.md`.
 That style guide's counts are the evidence base cited below.
 
 ## The classifier as the top pitfall — with a shipped counter-example

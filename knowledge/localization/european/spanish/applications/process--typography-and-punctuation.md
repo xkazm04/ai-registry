@@ -12,7 +12,7 @@ verified_on: 2026-08-24
 
 The typography rules in this subject are cheap to state and easy to believe
 nobody breaks. The Personas fleet's Spanish style guide
-(`C:\Users\kazda\kiro\personas\docs\i18n\style-es.md`, Typography & punctuation
+(`personas/docs/i18n/style-es.md`, Typography & punctuation
 and Pitfalls sections) is useful precisely because it documents each rule against
 a *live* violation found in the shipped `messages/es.json` — every anchor below
 had a real string paying for it on 2026-08-24.

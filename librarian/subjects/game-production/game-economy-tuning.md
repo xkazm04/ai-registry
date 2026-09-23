@@ -107,7 +107,7 @@ not refreshed runtime witnesses and do not override the qualifications below.
 ## Architecture re-review - 2026-09-10 (after the compression revert)
 
 Read all sixteen documents at their reverted bytes, and read the consumer this
-subject's applications cite (`C:/Users/kazda/kiro/pof`, `master`) as a primary source.
+subject's applications cite (`pof`, `master`) as a primary source.
 Reading source is not executing it: no simulation, sweep, playtest or build was run.
 
 **Retraction.** The earlier 2026-09-10 record on this note filed eleven of sixteen
@@ -199,7 +199,7 @@ still correct, which is the argument for citing symbols rather than lines.
   "baseline": "44c8996585f2e5e3f36e0cb0bd1983c607cadfd7",
   "digest": "sha256:cbea1e79760b8811",
   "disposition": "clarify",
-  "coverage": "All 16 owned documents read at reverted bytes. The cited consumer (C:/Users/kazda/kiro/pof, master) was read as source for every application claim I report on, including git history for the 2026-09-03 vocabulary adoption. Not evaluated: no economy simulation, sweep, goal-seek or test was executed; no telemetry, playtest or market data was consulted; the numeric defensibility of the +/-15% band, the Gini 0.6/0.8 thresholds and the five loot thresholds against real player data is untested and out of scope for a document review.",
+  "coverage": "All 16 owned documents read at reverted bytes. The cited consumer (pof, master) was read as source for every application claim I report on, including git history for the 2026-09-03 vocabulary adoption. Not evaluated: no economy simulation, sweep, goal-seek or test was executed; no telemetry, playtest or market data was consulted; the numeric defensibility of the +/-15% band, the Gini 0.6/0.8 thresholds and the five loot thresholds against real player data is untested and out of scope for a document review.",
   "counterexamples": [
     "faucet-sink-balance-band: at inflow 1.2 and outflow 0.8 the entry-shape rule gives 50% of the faucet total and procedure step 5 gives 33.3% of max(inflow,outflow). Against a +/-15% band both are failures, but at inflow 1.0 / outflow 0.87 they read 13% and 13% versus a case at inflow 0.87 / outflow 1.0 where the faucet denominator reads 15% and the max denominator reads 13% - the same economy passes or fails on which sentence the reader obeyed.",
     "structural-economy-simulation-before-numbers: a converter authored at ten ore per bar is walked at one-for-one by step 2, so the bar pool diverges at unit rates and starves at authored rates. That falsifies 'a pool that diverges at unit rates diverges at every set of rates that preserves the loop'.",
@@ -208,15 +208,15 @@ still correct, which is the argument for citing symbols rather than lines.
   ],
   "sources": [
     {
-      "path": "C:/Users/kazda/kiro/pof src/types/economy-simulator.ts, src/lib/economy/node-audit.ts, git log bec84b0a (2026-09-03)",
+      "path": "pof src/types/economy-simulator.ts, src/lib/economy/node-audit.ts, git log bec84b0a (2026-09-03)",
       "result": "Established that EconomyEventType now carries all five node kinds and that node-audit.ts implements the classification, book-closing and unaudited verdict, one day after node--source-drain-converter-trader-vocabulary's stated citation date. Did not establish whether the audit is correct or reachable from the UI; the module was read, not run."
     },
     {
-      "path": "C:/Users/kazda/kiro/pof src/lib/balance/canon-conformance.ts:103-118, 206-231",
+      "path": "pof src/lib/balance/canon-conformance.ts:103-118, 206-231",
       "result": "Confirmed the max(inflow,outflow,1) denominator and confirmed that the unmeasured-verdict escalation now lives at the caller, so process--faucet-sink-balance-band's closing gap is closed. Did not run the linter or its tests."
     },
     {
-      "path": "C:/Users/kazda/kiro/pof src/lib/economy/sensitivity-sweep.ts, src/lib/economy/simulation-engine.ts:639-652",
+      "path": "pof src/lib/economy/sensitivity-sweep.ts, src/lib/economy/simulation-engine.ts:639-652",
       "result": "Confirmed the two tornado limitations and the hardcoded health-potion triviality guard still stand; confirmed line-number citations have drifted while symbol names have not. Did not execute a sweep."
     }
   ],

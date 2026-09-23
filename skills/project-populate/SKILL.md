@@ -3,7 +3,7 @@ name: project-populate
 category: workflow
 memory: vault
 description: Populate a newly managed repository with the data Personas needs to maintain and develop it - a context map, a feature (use-case) inventory, a triaged KPI set, and optionally simulated KPI data for a product that has not shipped yet. Contexts and features are assigned autonomously; KPIs are negotiated with the operator wave by wave. Scopeable - run all four lanes or just the ones you name. Dispatched by the passport wall, or run standalone with /project-populate.
-version: 1.5.0
+version: 1.5.1
 argument-hint: "[contexts|features|kpis|kpi-sim ...]"
 ---
 
@@ -34,7 +34,7 @@ remembers. Resolve the vault root (first hit wins) and use
 `$VAULT/ProjectPopulate/<project-slug>/`:
 
 ```
-VAULT="C:/Users/kazda/Documents/Obsidian/personas"
+VAULT="<the operator's Obsidian vault>"   # per machine; never commit an absolute path
 # Portable fallback if no Obsidian vault exists: <repo>/.project-populate/
 ```
 

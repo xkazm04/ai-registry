@@ -10,7 +10,7 @@ verified_on: 2026-08-24
 
 # Register, address and terminology in Personas Desktop's Arabic
 
-Personas Desktop (`C:\Users\kazda\kiro\personas`) settled its Arabic register
+Personas Desktop (`personas`) settled its Arabic register
 decisions in `docs/i18n/style-ar.md`, derived from the shipped,
 voice-consistent portion of `src/i18n/locales/ar.json`. The guide is a clean
 instance of the default posture the register technique describes, with the

@@ -10,7 +10,7 @@ verified_on: 2026-08-24
 
 # Process: register calibration by counting the shipped catalog
 
-How Personas (`C:\Users\kazda\kiro\personas`) settled its Korean register mix
+How Personas (`personas`) settled its Korean register mix
 in `docs/i18n/style-ko.md` — a worked example of KO-REGISTER and KO-NOUNFORM
 being *calibrated against a shipped catalog* rather than legislated from a
 style authority, i.e. the authority-is-a-hypothesis law applied to register.

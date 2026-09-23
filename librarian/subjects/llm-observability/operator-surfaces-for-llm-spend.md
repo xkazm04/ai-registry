@@ -274,7 +274,7 @@ instrument for those.
       "result": "Read (not executed). Confirms v1.4 as the latest release and v1.5 as in development, matching the survey's line. The page does not carry ratification dates, so the survey's 'FOCUS 1.2 (ratified May 2025)' and '1.3 (ratified December 2025)' were not corroborated here."
     },
     {
-      "path": "C:/Users/kazda/kiro/tracklight",
+      "path": "tracklight",
       "result": "Read at d398835. Confirms exactly seven prompts in crates/mcp/src/prompts.rs with the named descriptions; the glyph, delta_glyph and signed functions in crates/render/src/margin.rs including the is_some_and absence routing; and 14 Grafana panels with no margin panel. Nothing was built or executed."
     }
   ],

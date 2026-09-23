@@ -100,7 +100,7 @@ the qualifications below govern this review.
 
 Read all fourteen owned documents at their reverted bytes, then went to the primary
 source the four applications are written against: the Path of Fire tooling checkout at
-`C:\Users\kazda\kiro\pof`, HEAD `d823bffe` (2026-09-09). I read that source; I did not
+`pof`, HEAD `d823bffe` (2026-09-09). I read that source; I did not
 build it, run its test suites, or execute any generator. Every claim below that cites a
 pof file is a reading of the file at that commit.
 
@@ -194,9 +194,9 @@ technique says so itself, which is why I keep it rather than marking it unresolv
     "A key that is provably reachable at the end of an unmarked branch in a room the sightline check already flagged as indistinguishable is solvable and unfindable; the closure passes it and the subject is explicit that findability sits a rung above, so this is a stated silence rather than a defect."
   ],
   "sources": [
-    {"url": "file:///C:/Users/kazda/kiro/pof/src/lib/level-design/procgen-spec.ts", "result": "Read at pof HEAD d823bffe. Established four engines in PROCGEN_ENGINES (:99) and eight ProcgenSpecFields including ensureConnected, and that layoutAgreement() (:184) returns agree:true for the browser-preview/grid-replay pair. Did not establish anything about runtime behaviour; the file itself flags UE placement as unverified. Confirms ProcgenSpec still carries no generator version field."},
-    {"url": "file:///C:/Users/kazda/kiro/pof/src/lib/level-design/pacing-linter.ts", "result": "Read at pof HEAD. Established that a gate-and-key fixed-point closure, key levels, residual-gate reporting, undeclared-prose-gate reporting and a proven flag now exist, superseding the application's recorded absence at commit 9aa31407. Did not establish that the closure is correct on any fixture — no test was run. A search for 'unevaluated' returns nothing, so the per-rule evaluated-state shortfall still stands."},
-    {"url": "file:///C:/Users/kazda/kiro/pof/src/lib/prompts/level-design.ts", "result": "Read at pof HEAD. Confirmed the unseeded-fallback contradiction the application records: line 415 instructs FMath::Rand() for a blank seed, line 464 forbids FMath::Rand. Line numbers have drifted from the application's citations. Did not run the prompt or observe generated output."}
+    {"url": "file:///pof/src/lib/level-design/procgen-spec.ts", "result": "Read at pof HEAD d823bffe. Established four engines in PROCGEN_ENGINES (:99) and eight ProcgenSpecFields including ensureConnected, and that layoutAgreement() (:184) returns agree:true for the browser-preview/grid-replay pair. Did not establish anything about runtime behaviour; the file itself flags UE placement as unverified. Confirms ProcgenSpec still carries no generator version field."},
+    {"url": "file:///pof/src/lib/level-design/pacing-linter.ts", "result": "Read at pof HEAD. Established that a gate-and-key fixed-point closure, key levels, residual-gate reporting, undeclared-prose-gate reporting and a proven flag now exist, superseding the application's recorded absence at commit 9aa31407. Did not establish that the closure is correct on any fixture — no test was run. A search for 'unevaluated' returns nothing, so the per-rule evaluated-state shortfall still stands."},
+    {"url": "file:///pof/src/lib/prompts/level-design.ts", "result": "Read at pof HEAD. Confirmed the unseeded-fallback contradiction the application records: line 415 instructs FMath::Rand() for a blank seed, line 464 forbids FMath::Rand. Line numbers have drifted from the application's citations. Did not run the prompt or observe generated output."}
   ],
   "documents": {
     "procedural-level-planning.md": {"disposition": "keep", "reason": "The golden path's five sections each hand off to a technique that carries the rule, the seams to encounter pacing, balance simulation and downstream scene derivation are named, and the naive-reading list is falsifiable rather than rhetorical. It repeats the cross-generator absolute only by implication, so the correction belongs on the technique."},

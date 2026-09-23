@@ -83,7 +83,7 @@ The digest binds the reviewed working-tree content, not a new runtime witness.
 ## Architecture re-review - 2026-09-10 (after the compression revert)
 
 Read all nine documents at their reverted bytes, read the cited consumer
-(`C:/Users/kazda/kiro/pof`, `master`) as source, and checked two external claims against
+(`pof`, `master`) as source, and checked two external claims against
 primary sources. Reading a source is not executing the software it describes: no combat
 sim, kernel test or game was run.
 
@@ -168,7 +168,7 @@ table are all internally consistent and stated with their bases.
   "baseline": "44c8996585f2e5e3f36e0cb0bd1983c607cadfd7",
   "digest": "sha256:9a0893f9b812d20f",
   "disposition": "clarify",
-  "coverage": "All 9 owned documents read at reverted bytes. Two external claims checked against primary sources (the PoE 3.0.0 patch notes cited by an appended review boundary, and the genre's ailment coefficient convention). The cited consumer C:/Users/kazda/kiro/pof was read as source for canon-kernel.ts constants and the armour signature. Not evaluated: no combat simulation, kernel unit test, item generation run or gameplay was executed; the balance defensibility of the stated envelopes (crit multiplier 2.5, tier spreads, the three-hit floor) against real play is untested; ARPG-LAWS.md and the catalog pipelines cited by process--rarity-is-an-affix-budget were not re-read line by line.",
+  "coverage": "All 9 owned documents read at reverted bytes. Two external claims checked against primary sources (the PoE 3.0.0 patch notes cited by an appended review boundary, and the genre's ailment coefficient convention). The cited consumer pof was read as source for canon-kernel.ts constants and the armour signature. Not evaluated: no combat simulation, kernel unit test, item generation run or gameplay was executed; the balance defensibility of the stated envelopes (crit multiplier 2.5, tier spreads, the three-hit floor) against real play is untested; ARPG-LAWS.md and the catalog pipelines cited by process--rarity-is-an-affix-budget were not re-read line by line.",
   "counterexamples": [
     "mitigation-order-and-soft-caps: on a hit that is 60% physical and 40% fire, the technique's non-commutativity argument requires resistance to shrink the hit armour sees. Under its own type split resistance touches only the fire portion, so with the golden path's rawPhysicalHit denominator (which the consumer implements) the two fractional layers commute exactly and the stated reason for fixing their order does not hold.",
     "ailments-scale-off-the-hit: a build whose damage is meant to come from ignition. Under the stated formula (coefficient / duration) at ~90% over 4s with highest-only accumulation, ignition peaks at roughly 22% of one hit per second and can never be a main channel - contradicting the same document's decision rule for exactly that case.",
@@ -184,7 +184,7 @@ table are all internally consistent and stated with their bases.
       "result": "Searched for the genre's damaging-ailment coefficients. The convention is stated per second - ignite 90%/s for 4s, bleed 70%/s for 5s, poison 30%/s for 2s - which is 4x, 5x and 3x the totals this subject's envelopes imply under its own coefficient/duration formula. This establishes the ambiguity; it does not establish what this canon intended, which only the author can settle."
     },
     {
-      "path": "C:/Users/kazda/kiro/pof src/lib/combat/canon-kernel.ts:34-43, :118-121",
+      "path": "pof src/lib/combat/canon-kernel.ts:34-43, :118-121",
       "result": "Confirmed CRIT_MULTIPLIER 2.5, CRIT_CHANCE_CAP 0.95, RESIST_CAP 0.75, ARMOUR_HIT_COEFF 5, and RESIST_TYPES = Fire/Cold/Lightning/Chaos, and confirmed armourReduction takes rawPhysHit - settling the golden-path-versus-technique formula disagreement in the golden path's favour. The module was read, not executed; no parity or regression test was run."
     }
   ],

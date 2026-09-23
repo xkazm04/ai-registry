@@ -16,7 +16,7 @@ because the products have different conversational surfaces.
 
 ## Personas Desktop: du-drift in exactly the chatty strings
 
-`C:\Users\kazda\kiro\personas\docs\i18n\style-de.md` fixes "formal Sie / Ihr
+`personas/docs/i18n/style-de.md` fixes "formal Sie / Ihr
 everywhere — no exceptions, including companion and onboarding copy" for an
 ~11,500-key catalog (`src/i18n/locales/de.json`). Its "Known drift to fix,
 not imitate" block is the DE-ADDRESS incident in the wild: shipped `du`-form
@@ -37,11 +37,11 @@ sentences (`Das Speichern durchführen`).
 
 ## kp: register held, first-person leak and vocabulary register
 
-`C:\Users\kazda\kiro\kp\docs\i18n\style-de.md` makes the same Sie ruling for
+`kp/docs/i18n/style-de.md` makes the same Sie ruling for
 a B2B recruiting product and adds the vocabulary axis explicitly: "formal in
 *address* (Siezen) and plain in *vocabulary*", with the DE-FORMAL avoid-list
 (mittels, seitens, sämtliche…). kp's review ledger
-(`C:\Users\kazda\kiro\kp\docs\i18n\review-de.md`) then shows the
+(`kp/docs/i18n/review-de.md`) then shows the
 DE-ANTHRO-adjacent leak: progress labels split between first-person singular
 ("Denke nach…", "Verbinde…") and the passive the rest of the catalog uses
 ("Wird gestartet…", "Wird erstellt…") — flagged, with the note that the

@@ -155,11 +155,11 @@ an atom inventory to run it against, which the application says plainly.
   ],
   "sources": [
     {
-      "path": "C:/Users/kazda/kiro/pof/src/lib/evaluator/module-eval-prompts.ts",
+      "path": "pof/src/lib/evaluator/module-eval-prompts.ts",
       "result": "Read, not executed. Confirms the flow-channel sentence at line 256, the four-term difficulty decomposition with 'player raw skill cannot be set, only estimated' at 255, and the 'at least one new decision' clause at 182 — the exact lines the application cites. Confirms by absence that nothing in the file asks where a mechanic is introduced or whether a demanded competence was granted."
     },
     {
-      "path": "C:/Users/kazda/kiro/pof/src/lib/combat/simulation-engine.ts and src/lib/catalog/pipelines/tutorial-beats.ts",
+      "path": "pof/src/lib/combat/simulation-engine.ts and src/lib/catalog/pipelines/tutorial-beats.ts",
       "result": "Read, not executed. Confirms the ability-unused detector with avgUses < 0.1 near line 946 (two lines' drift from the cited range), tutorial-beats.ts at 619 lines against 612 at the pinned commit, and the gap plugin at exactly 9 lines. Establishes that both applications describe the tree accurately; establishes nothing about the detector's threshold or about any player."
     }
   ],

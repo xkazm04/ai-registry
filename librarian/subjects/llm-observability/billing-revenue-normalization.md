@@ -181,7 +181,7 @@ itself instructs a reader to do.
       "result": "Read (not executed). Confirms the signed content msg_id.timestamp.payload, the webhook-id / webhook-timestamp / webhook-signature headers, the v1a ed25519 asymmetric variant with whsk_/whpk_ prefixes, and the recommendation to use webhook-id as an idempotency key. Establishes the correction: the spec prescribes no tolerance value, saying only 'within some allowable tolerance'; its single 5-minute figure is an example TTL for the idempotency seen-set, not a replay bound."
     },
     {
-      "path": "C:/Users/kazda/kiro/tracklight",
+      "path": "tracklight",
       "result": "Read at d398835. Confirms TOLERANCE_SECS = 300 with a two-sided abs() comparison, the MAC over t + '.' + raw body, and verify_slice as the constant-time compare in crates/billing/src/stripe.rs; and the _meta convention note, 'NOT a live feed' sentence, last_verified 2026-07-13 and ECB/IMF sources in config/fx_rates.json, with UsdAmount{amount_usd, converted} and the shared-instance rationale in fx.rs. Nothing was built or executed."
     }
   ],

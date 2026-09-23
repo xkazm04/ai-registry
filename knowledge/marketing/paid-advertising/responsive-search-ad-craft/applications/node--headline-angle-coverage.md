@@ -11,7 +11,7 @@ verified_against: node@24
 
 # Headline angle coverage - the ad-copy prompt, its golden fingerprint, and the judge
 
-The marketing workspace at `C:\Users\kazda\kiro\systedo-case` (commit
+The marketing workspace at `systedo-case` (commit
 `2893314930546ed3a314a19a155bcf2f8841a0ea`, 2026-09-08) puts the angle list into the
 system prompt of its ad tool, freezes that prompt under a golden fingerprint, and judges
 the output against a copywriter character whose acceptance bar is angle count. The

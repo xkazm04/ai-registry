@@ -20,7 +20,7 @@ the rule's own exceptions, and that half of the lesson is the one a word list ca
 ## Findings that stand
 
 **One undeclared Title Case line in six places (personas-web).**
-`C:\Users\kazda\kiro\personas-web\src\app\layout.tsx:69`:
+`personas-web/src/app/layout.tsx:69`:
 
 ```
     title: `${SITE_NAME} — AI Agents That Work For You`,
@@ -43,13 +43,13 @@ and "40+ integrations" are checkable facts no competitor can borrow unchanged. O
 execution" is unbacked in the sentence, and that is at most one EN-PUFFERY finding.
 
 **A jargon verb and a soft triad (ascent).**
-`C:\Users\kazda\kiro\ascent\src\components\landing\prototypes\index\IndexOrg.tsx:32`: "See which
+`ascent/src/components/landing/prototypes/index/IndexOrg.tsx:32`: "See which
 teams have operationalized AI tooling, agents, and shared conventions." *Operationalized* is
 EN-JARGON (*put into daily use*). The list is an EN-TRIAD candidate, a warning for a reviewer to
 confirm: agents are a kind of AI tooling, so the weakest item may not be a separate item.
 
 **A hero metaphor the next section contradicts (kp).**
-`C:\Users\kazda\kiro\kp\messages\en.json:731`, key `landing.hero.title`: "Your
+`kp/messages/en.json:731`, key `landing.hero.title`: "Your
 hiring,<br></br>on <emph>autopilot</emph>". Line 844, `landing.trust.heading`: "Powerful
 AI.<br></br><emph>A human signs every call.</emph>". The hero fails EN-TAGLINE's name-swap test,
 while the subtitle at line 732 carries the specific claim a hero line could lead with. "Powerful
@@ -60,7 +60,7 @@ every call* pull against each other is a positioning question. The language revi
 wording and leaves the claim to the marketing side.
 
 **Title Case held consistently, and toasts that break four rules (goat).**
-`C:\Users\kazda\kiro\goat\src\app\features\Landing\LandingMain.tsx:114-115`: title "Browse by
+`goat/src/app/features/Landing/LandingMain.tsx:114-115`: title "Browse by
 Category", subtitle "Explore rankings across different topics". Its siblings agree:
 `sub_LandingLists\FeaturedListsSection.tsx:286-287` ("Featured Rankings" / "Discover the most
 popular lists from our community"), `SavedListsSection.tsx:301-302`, `CollectionsSection.tsx:74-75`.
@@ -91,7 +91,7 @@ unlocked things named in the sentence. It is clean under EN-PUFFERY. The real fi
 *repositories* and *repos* in one sentence (EN-ONE-TERM).
 
 **A staccato run within its allowance (gravitone).**
-`C:\Users\kazda\kiro\gravitone\gravitone\web\components\variants\StudioDark.tsx:180`: "Type it.
+`gravitone/gravitone/web/components/variants/StudioDark.tsx:180`: "Type it.
 Hear it. Ship it." The page's other headings are a data-driven card title (line 134) and "A voice
 for every line." (line 152). One fragment run per page is within EN-STACCATO. Line 152's closing
 full stop is EN-END-PUNCT unless the product declares full stops on display headlines, which is a

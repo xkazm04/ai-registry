@@ -3,7 +3,7 @@ name: harvest
 description: "Drain the graded source queue in librarian/harvest/ through the /intake method, in parallel and in bulk - or, in backlog mode, drain the untriaged tail of past intake runs by measuring each candidate and landing only what comes back better: admit only sources that map to a measured live gap, mine a batch with scoped subagent miners, land what survives the intake discipline, then prove or refute the landing's impact with an A/B evaluation on a connected project. The loop that turns 100+ queued URLs into corpus mastery without turning the corpus into a feed. Use when the queue has rows and nobody is hand-feeding /intake links."
 category: ai-native
 memory: project
-version: 0.5.1
+version: 0.5.2
 tags: research, queue, batch, orchestration, evaluation, ab-test, cross-repo
 ---
 

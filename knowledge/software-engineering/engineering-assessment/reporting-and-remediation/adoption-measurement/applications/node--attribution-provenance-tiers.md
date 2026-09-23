@@ -10,7 +10,7 @@ verified_on: 2026-08-20
 
 # Fidelity tiers on an AI-usage signal, and the tier that had to be deleted
 
-The source app (`C:\Users\kazda\kiro\ascent`) joins git-derived AI-adoption
+The source app (`ascent`) joins git-derived AI-adoption
 signals with a spend/usage layer whose quality depends entirely on what the
 customer connected. Two modules carry the tiering: the connector registry
 `src/lib/integrations/providers.ts` and the model that consumes it,

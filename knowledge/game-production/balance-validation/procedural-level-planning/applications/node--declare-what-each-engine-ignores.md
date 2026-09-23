@@ -11,7 +11,7 @@ verified_against: node@24
 
 # Declaring the discarded inputs in a shared procgen spec
 
-The Path of Fire tooling repo (`C:\Users\kazda\kiro\pof`) realizes this technique in two
+The Path of Fire tooling repo (`pof`) realizes this technique in two
 cooperating modules: `src/lib/level-design/algo-params.ts` (the per-algorithm parameter
 table) and `src/lib/level-design/procgen-spec.ts` (the one spec/result model every procgen
 surface answers to).

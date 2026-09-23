@@ -11,7 +11,7 @@ verified_on: 2026-08-24
 # Process — de-anglicization findings from a shipped zh catalog
 
 The Personas Chinese style guide
-(`C:\Users\kazda\kiro\personas\docs\i18n\style-zh.md`, "Pitfalls" section)
+(`personas/docs/i18n/style-zh.md`, "Pitfalls" section)
 records each de-anglicization rule with the exact wrong form that shipped in
 `src/i18n/locales/zh.json` — incident-shaped evidence for the technique's
 rules, verified against the 2026-07-10 source audit of ~11,500 keys.

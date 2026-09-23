@@ -11,7 +11,7 @@ verified_on: 2026-08-20
 # Placement rules carried by a generation prompt
 
 `buildProceduralLevelPrompt()` in `src/lib/prompts/level-design.ts:361-474` (Path of Fire
-tooling repo, `C:\Users\kazda\kiro\pof`) is the prompt-pipeline realization: the designer's
+tooling repo, `pof`) is the prompt-pipeline realization: the designer's
 wizard selections become a structured brief that a code-generating CLI turns into a level
 generator. The placement rules live in that brief as **declared constraints with reasons**,
 not as prose the model is left to infer.

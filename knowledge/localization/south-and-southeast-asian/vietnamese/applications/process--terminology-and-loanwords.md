@@ -11,7 +11,7 @@ verified_on: 2026-08-24
 # Term-stratum rulings in a real vi termbase — Personas
 
 The Personas app's Vietnamese style guide
-(`C:\Users\kazda\kiro\personas\docs\i18n\style-vi.md`, companion to
+(`personas/docs/i18n/style-vi.md`, companion to
 `docs/i18n/glossary.md`) is a worked instance of every rule in
 terminology-and-loanwords: a ~25-row termbase, a recorded borrow-vs-translate
 test, and three shipped incidents in `src/i18n/locales/vi.json`.

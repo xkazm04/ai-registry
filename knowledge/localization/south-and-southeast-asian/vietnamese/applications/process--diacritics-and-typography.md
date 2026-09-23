@@ -11,7 +11,7 @@ verified_on: 2026-08-24
 # Typography audit of a real vi catalog — Personas
 
 How VI-PUNCT and VI-NFC play out against a living 19k-key consumer catalog:
-the Personas app (`C:\Users\kazda\kiro\personas`), whose Vietnamese style guide
+the Personas app (`personas`), whose Vietnamese style guide
 `docs/i18n/style-vi.md` was written from a line-by-line sample of
 `src/i18n/locales/vi.json` and quantifies exactly the defects the technique
 predicts.

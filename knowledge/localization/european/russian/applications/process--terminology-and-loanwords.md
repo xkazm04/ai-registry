@@ -10,7 +10,7 @@ verified_on: 2026-08-24
 
 # Process — terminology and loanwords in the Personas ru catalog
 
-How the Personas app (`C:\Users\kazda\kiro\personas`, 19k keys, 14 locales) runs
+How the Personas app (`personas`, 19k keys, 14 locales) runs
 the RU-LOAN bucket policy and the RU-TERMSPLIT collapse audit in a real Russian
 catalog. The locale contract is `docs/i18n/style-ru.md` ("Loanword policy",
 "Termbase", "Pitfalls"), on top of `docs/i18n/glossary.md`.

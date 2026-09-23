@@ -10,7 +10,7 @@ verified_on: 2026-08-20
 
 # Dormancy verdicts in a server-side org-skills library
 
-The source app (`C:\Users\kazda\kiro\ascent`) runs a shared library of
+The source app (`ascent`) runs a shared library of
 organization "skills" — reusable practice artifacts a team can pull into a
 repository — and has to answer, per artifact, whether anyone is still using
 it. The verdict engine is a pure module, `src/lib/org/skill-usage.ts`, fed by

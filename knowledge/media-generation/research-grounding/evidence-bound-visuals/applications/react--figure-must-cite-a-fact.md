@@ -10,7 +10,7 @@ verified_on: 2026-08-19
 
 # Figure-must-cite-a-fact in the Gravitone frames validator (React/TypeScript)
 
-The Gravitone video studio (`C:\Users\mkdol\dolla\gravitone-gcloud`) realizes
+The Gravitone video studio (`gravitone`) realizes
 the technique as a typed frame model plus a rejecting parser that sits
 between the LLM direction pass and the compositor. Nothing reaches the
 render that did not survive the gate.

@@ -208,11 +208,11 @@ exists, not that the probe result still holds on the current engine build. Those
   ],
   "sources": [
     {
-      "path": "C:/Users/kazda/kiro/pof/src/lib/visual-gen/mesh-finish.ts",
+      "path": "pof/src/lib/visual-gen/mesh-finish.ts",
       "result": "Read, not executed. Confirms UNWRAP_FACE_CEILING = 200_000, BAKEABLE_MAPS = ['normal','ao','diffuse','roughness'] and DEFAULT_SMOOTH_ANGLE = 30, and establishes that resolveBakeSize prefers an explicit size, then bakeSizeForExtent, and reaches a flat 1024 only as a fallback — which refutes the older application's 'bakeSize defaults to 1024'. Also establishes the file is 635 lines, not the 484 an application reports. Establishes nothing about any Blender behaviour."
     },
     {
-      "path": "C:/Users/kazda/kiro/pof/src/lib/visual-gen/texel-density.ts",
+      "path": "pof/src/lib/visual-gen/texel-density.ts",
       "result": "Read, not executed. Its header describes the flat 1024 default as the defect it exists to replace and sets DEFAULT_TARGET_PX_PER_M = 1024, corroborating that the texel-density path is the current sizing authority. Says nothing about whether the resulting map sizes are correct for any asset class."
     }
   ],
