@@ -99,8 +99,13 @@ untouched by anything a sibling does to the shared index in the meantime. The
 seeding rule matters as much as the isolation: a private index seeded by
 *copying* the shared one inherits every staleness the copy contained, and a
 stale private index quietly encodes old file states that your commit then
-*reverts*. The full ritual, its seeding discipline, and its failure modes are
-[isolated-index-commits](./techniques/isolated-index-commits.md).
+*reverts*. The ritual has a cost on the reading side as well: the shared
+index never sees the private commits, so the shared status view reports
+committed work as pending in a recognisable shape, and a session that reads
+it at face value waits on work that has already landed. The full ritual, its
+seeding discipline, committing a composite of a shared file together with the
+derived files built from it, and reading a status view the ritual has made
+stale are [isolated-index-commits](./techniques/isolated-index-commits.md).
 
 ## Verification is the only detection
 
@@ -223,8 +228,10 @@ its crashed owner, but activity does not. This is
   link-artifact hazards at removal, and worktree garbage collection.
 - [isolated-index-commits](./techniques/isolated-index-commits.md) — the
   private-index commit ritual: seeding from the head commit, scoped adds,
-  committing staged content rather than the working tree, and the staleness
-  trap in seeding by copy.
+  committing staged content rather than the working tree, the staleness
+  trap in seeding by copy, composite blobs for shared aggregates and the
+  derived files built from them, and verifying a stale status view against
+  the head.
 - [commit-verification](./techniques/commit-verification.md) — staged-count
   checks before, log readback after, the time-of-check honesty rule, and
   amend-first recovery.
