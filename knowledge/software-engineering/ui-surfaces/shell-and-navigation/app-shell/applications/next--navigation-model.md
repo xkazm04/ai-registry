@@ -7,6 +7,8 @@ stack: next
 status: forged
 verified_on: 2026-09-23
 verified_against: next@16
+applied: experiment
+ab_verdict: better
 ---
 
 # useUrlInboxState + shallow-nav — the address demoted to an inbox, and what it cost
@@ -147,3 +149,21 @@ selection — and the allow-list lives beside the catalog, not at the call site.
   (`WorkspaceNav({ active })`, `WorkspaceNav.tsx:29`) because it cannot read the client shell's state.
   Two renderers agree today only because the same catalog feeds both; nothing
   fails the build if a caller passes the wrong one.
+
+## Applied 2026-09-23 - the entry-state Back, read-only experiment
+
+The installed router's own restore reducer, run in node with fetches counted: traversal
+to a same-URL entry with the same stored tree, and the push patch at an unchanged URL,
+made 0 server requests. Negative controls (an entry that differs only in the page search,
+and a different route) made 1 each. The push patch keeps the caller's `{tab}` beside the
+router's key, and traversal preserves custom state, so the host-rule fix is cheap here.
+What caught: the router's history copy keeps only its own two keys, so any replace with
+null state erases the recorded tab, and its own soft-navigation replace discards custom
+state too. The workspace's history writers: 4 through the shell's navigate helper with
+null state, 3 direct null replaces (the arrival inbox's cleanup among them), 6 framework
+replaces, and 3 that already carry the entry's state forward. Back presses landing right
+over 4 real sequences (n=8): today 1, with 7 leaving the workspace early; entry-state push
+as first specified 3, with 5 on the wrong tab; with the helper carrying entry state and
+the inbox cleanup writing the adopted tab 7; with the 6 framework replaces moved onto the
+helper 8. The history stack is a model whose two router rules are read from the installed
+source; no e2e run.

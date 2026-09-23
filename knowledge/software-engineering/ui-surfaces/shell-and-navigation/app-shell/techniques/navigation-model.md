@@ -129,6 +129,11 @@ The first bullet above is a browser-and-desktop convention, not a universal:
   entry that carries the location in the entry's state and leaves the address
   alone, then restore the location from that state when the user traverses.
   Otherwise Back does not step between sections. It leaves the application.
+  A location held in an entry's state lasts only as long as every writer that
+  replaces that entry carries it forward. A cleanup that rewrites the address
+  with empty state, or a framework replace that keeps only its own keys,
+  silently erases it, so the navigate door passes the entry's existing state
+  on and nothing else replaces entries directly.
   A private stack kept beside the browser's is a second history, and the
   browser's Back button never consults it.
 - **With no browser chrome** (a desktop webview, an embedded host), nothing

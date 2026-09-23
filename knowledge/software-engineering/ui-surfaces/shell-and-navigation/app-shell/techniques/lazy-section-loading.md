@@ -135,8 +135,15 @@ needs an explicit reset when the section is hidden:
 - **Transient UI.** An open menu, a stale "saved" notice or a half-dismissed
   popover comes back exactly as it was left. The navigation model's rule
   applies: transient UI rides along only where the product promises it.
-- **Mount-time initialization runs once.** Logic keyed to "on open" or "on
-  mount" does not re-run on return, because nothing re-opened.
+- **Lifecycle timing depends on the primitive.** Where the keep-alive keeps
+  effects running, logic keyed to "on open" or "on mount" does not re-run on
+  return, because nothing re-opened. Where it suspends effects, the opposite
+  holds: mount-keyed effects re-run on every reveal, and unmount-keyed
+  cleanups run on every hide. Only state initializers and refs run once. So a
+  cleanup that records the user leaving for good (ending a call, sending a
+  completion) fires on a mere hide, and a ref that survives the reveal can
+  then describe a session that no longer exists. Know which primitive you
+  have, and audit teardown-on-unmount before keeping anything alive.
 - **Side effects that belong to the nodes, not the code.** Media keeps
   playing, and a stylesheet or document-level attribute the section set keeps
   applying to whatever is visible. Suspended effects do not cover these.

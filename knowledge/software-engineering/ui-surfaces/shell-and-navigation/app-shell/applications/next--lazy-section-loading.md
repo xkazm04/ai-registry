@@ -7,6 +7,8 @@ stack: next
 status: forged
 verified_on: 2026-09-23
 verified_against: next@16
+applied: experiment
+ab_verdict: better
 ---
 
 # TAB_CHUNKS + TabChunkGap: one import map, two consumers, and the skeleton they deleted
@@ -139,3 +141,20 @@ reached from the other side: ghost what is genuinely common, or ghost nothing.
   notification points at" has no implementation. The attention counts refresh
   on a 60-second visible-tab poll (`attentionPoll.ts:16`) that backs off on
   failure, and none of them warms the destination it points at.
+
+## Applied 2026-09-23 - the keep-alive hazard census, read-only experiment
+
+Census over the 24 tab chunks' import closures, with 9 of 9 detector controls passing.
+Transient open/menu flags: 40 across 14 of 24 tabs (21 of 24 counting shared components).
+Live microphone/voice sessions: 2 tabs. Cross-tab duplicate static ids or test ids: 0 of
+39 literals, and 0 of 10 e2e id selectors hit two tabs. The 60 text-, label- and
+placeholder-based e2e locators, which also match hidden nodes, were not measured.
+Document-level style hazards: 0. The installed React 19.2.5's hide path runs passive-effect
+cleanups and its reveal re-runs them, so all 22 tabs that load data in effects re-request
+on every return; 18 keep their last data on screen while reloading, 4 blank first. Today 0
+of 24 surfaces survive a return; bounded keep-alive would keep at least 20. What caught:
+the voice interview's unmount cleanup ends the call and beacons a completion, so under
+keep-alive it fires on every hide, and a ref that survives the reveal marks the call
+finished - the kept surface would show a dead call. That corrected the technique's
+lifecycle bullet. The lockfile pins Next 16.3.3 and React ^19.2.8; the installed 16.3.0
+and 19.2.5 were what was read.
