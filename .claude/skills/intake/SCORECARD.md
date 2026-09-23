@@ -4783,3 +4783,17 @@ run's declared focus: **before building the arms, check that the floor is
 readable from the same instrument as the target.** If it is not, name the floor
 instrument first, and budget for it or say up front that the row can reach
 `unmeasurable` at best.
+| 2.14.1 | 2026-09-24 | `planetscale.com/blog/introducing-tin` introducing-tin - a vendor announces a text-index extension for hosted Postgres, with a benchmark against three in-database indexes and a design section (row-locator postings, page/offset bitmaps, visibility-map counts) | 1 article, 3,534 words; **0 of 3 fetches**; 4 corpus files opened; 12 fleet trees grepped for in-database text search (rows read, not counted), 1 tree read (politicas: its measured full-text case, rule and harness) | 12 | 4 verified (1 accepted + 2 catches opened + 1 promotion read spent as a paired measurement) | **1 amendment** (section + use_when + golden-path clause) + **1 application** (`applied: experiment`, `better`, 7/7 anchors held) | 2 rows (`1c/1e/0s/0t/0r`): the technique `better` (speedup 150-234x at 0% matched -> ~1x past 23%, floor identical results 24/24 twice); the `c` is a fleet-tooling fix the seam hunt found, not a technique | **2 code** (politicas `75aa6d3` case #3b + R11a; `74eb3c0` consult hook that crashed green since 2026-09-21), + registry `7d152858` (the installer that printed the broken line); not pushed | Expected yield said before the table and held (2 catches, 3 leads, 1 landing). **The source located the gap and the fleet authorized it:** a project rule derived from rare-term counts was about to govern ranked common-word search. Declared focus met by construction: the floor was result equality between arms, read from the timing harness itself. The pre-registered prediction was falsified at the 20k smoke and corrected before landing. Admission `auto=1/8/0`, `fp=0`; row 1 cleared only after the promotion read, spent as a measurement rather than a file read (recorded as a stretch). | S0/T0/A1/Asrc0/task0 - routing n/a (article, not a repository) - directions=n/a - gate=n/a |
+
+**2026-09-24 (introducing-tin) - weakest stage and next focus.** Ship is still the
+stage losing most over the last ten rows (four shipped no code), but the rows that did
+ship share a shape this run repeated: the landing's authority came from a fleet
+project that had already made the decision the source's numbers bear on, not from
+the source. Here a vendor benchmark named a failure regime, and politicas turned out
+to hold a measured rule sitting on the other side of it. The same seam hunt produced
+the run's second ship, a gate that had crashed green for three days, which no source
+would have pointed at. Next run's declared focus: **before scoring, grep the fleet for
+a decision the source's numbers bear on (a measured rule, a benchmark, a threshold),
+and read its derivation.** A project rule derived from a narrower regime than it now
+governs is a seam the source can falsify. And read every hook's output on every fleet
+commit; a green tick is not evidence that the hook ran.

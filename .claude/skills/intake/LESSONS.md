@@ -11929,3 +11929,28 @@ finish on the version it loaded.)
   self-checking against an earlier run's count. What a compaction costs the task is
   not in them, so the row reached `unmeasurable` before the script ran. Check that the
   floor is readable from the same instrument before building the arms.
+
+## 2.14.1 - 2026-09-24 - introducing-tin
+
+- **A vendor benchmark's failure regime lands when a fleet project holds a rule derived
+  from the other regime.** The announcement's numbers said an in-core text index can
+  run at 0.4 ranked queries a second; the corpus had no reason why. politicas held a
+  measured rule ("index, 52-68x") derived from rare single-term counts and about to
+  govern ranked common-word search. Measuring the gap in the project's own engine
+  replaced the fetch budget (0 of 3 spent) and authorized the amendment. The source
+  never could have: its numbers are a vendor's, taken against its competitors.
+- **Smoke the arm at a tenth of the scale before the full run, with the prediction
+  written down.** The 20k smoke falsified the stated mechanism (ranking vs counting
+  split nothing per query; match fraction did) and showed the corpus could not answer
+  the question (random token bags gave every AND and phrase zero matches). The full run
+  on that corpus would have printed a confident table about the wrong variable. Both
+  were fixed in minutes, and the landing states the corrected mechanism.
+- **The promotion read can be a measurement.** Row 1's only blocker was an unre-checked
+  premise (G2/R1). The method names a file read; here the premise lived in an engine's
+  behaviour, and no file could re-check it. Spending one paired measurement took RISK
+  to 0. Recorded as a stretch until two more runs do the same.
+- **A fleet commit's hook output is evidence; read it.** The registry's own consult
+  hook in politicas printed MODULE_NOT_FOUND under a green tick on every commit for
+  three days, after a fix that stopped it blocking and left it dead. The cause was
+  lefthook substituting `$` in `run:` lines itself. It was found only because this
+  run's commit output was read line by line rather than by its summary.
