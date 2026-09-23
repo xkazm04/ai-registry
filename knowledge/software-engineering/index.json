@@ -6148,8 +6148,8 @@
    "subcategory": "companion",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/companion/companion-identity/companion-identity.md",
-   "digest": "sha256:fca51c230d725564",
-   "revision": 3,
+   "digest": "sha256:0fbfbd98153dd22a",
+   "revision": 4,
    "changedAt": "2026-09-23",
    "techniques": [
     {
@@ -6305,8 +6305,8 @@
    "subcategory": "companion",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/companion/companion-runtime/companion-runtime.md",
-   "digest": "sha256:7e1883cd91b41e16",
-   "revision": 3,
+   "digest": "sha256:8254ba4dbbaf7bea",
+   "revision": 4,
    "changedAt": "2026-09-23",
    "techniques": [
     {
