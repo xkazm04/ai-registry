@@ -127,7 +127,10 @@ Rendering "no results" is asserting a fact about the dataset. Two rules:
    own state, naming what the view expected and what it received, with the
    failure's styling rather than the empty state's. The tell in code is a
    defaulted decode — `rows = payload.items ?? []` — standing between the
-   response and the body-state machine.
+   response and the body-state machine. The state names a *mismatch*, not a
+   bad payload: where a view descriptor chooses the fields, the descriptor
+   can be the side that is wrong for this record, and a message that blames
+   the data sends the reader to fix what was never broken.
 
 ## ERROR — failure is not empty success
 
