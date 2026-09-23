@@ -227,6 +227,18 @@ Two boundaries on that default, both corrections to reading it too literally:
   the same full set and printed without a hidden figure, is what makes it
   wrong.
 
+  **The hidden figure rides on every count read before firing, not only on
+  the selection total.** Where each action takes only part of the selection
+  (an action that applies to one row state, a bulk verb that skips rows it
+  cannot act on), the bar's "3 hidden" is an upper bound for any one action,
+  not a name: it cannot tell the user that *this* button reaches two of them.
+  So each action whose payload includes a hidden row states its own share
+  ("Resolve 4 (2 hidden)"), and an action that reaches none prints no hidden
+  figure. Measured on a decision ledger whose actions each took a subset:
+  with the total alone, half the hidden rows the actions would receive stayed
+  undisclosed; with the per-action figure, none did, and the payloads were
+  unchanged.
+
 This is [performance](./performance.md)'s derive-don't-store rule applied to a
 second class of value: not the presentation sequence, but a record-keyed set
 whose meaning depends on a row set that moves underneath it.

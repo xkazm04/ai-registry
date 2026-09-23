@@ -7,6 +7,9 @@ stack: next
 status: forged
 verified_on: 2026-09-23
 verified_against: next@16
+applied: code
+ab_verdict: better
+proof: ab-paired
 ---
 
 # Two filtered tables in one tree — one that named its applied predicate, and one that forwards it an axis at a time
@@ -14,7 +17,9 @@ verified_against: next@16
 Read in the `ascent` tree (Next.js 16.3.3, React 19.2.4, Prisma 6.19.x) at HEAD
 `62c252dd` on 2026-09-20; every citation below was re-resolved against HEAD
 `aff9991a` on 2026-09-23 (one anchor had moved), and the selection section near
-the end was added from that reading.
+the end was added from that reading. The last section records the change that
+section led to, applied and measured the same day at `5f17b6c5`; the selection
+section's `DecisionTable.tsx` anchors describe the tree before it.
 
 The repo is worth reading on this technique because it contains both halves of
 the same lesson, in two features that never met. The audit-trail viewer holds
@@ -245,3 +250,53 @@ is therefore automatically right; the href is derived from the filter
 *variables* and is right only for the axes someone listed. When the two sit
 four lines apart, as they do at `:94` and `:102`, the correct one vouches for
 the incorrect one in review.
+
+## Applied: the disclosed form, and why the bar total was not enough
+
+The change took the disclosed branch rather than the default. Both callers
+pass `rows={shown}` with the full set on purpose, so gathering a batch across
+filters is a workflow two ledgers depend on. Deriving `picked` from `rows`
+would have removed it to fix a sentence. The payload was left as it was, and
+the count was made to carry the reach: the bar reads
+`6 selected · 3 hidden by the current filter` beside a `drop hidden` control
+that removes only the hidden ticks. That is the technique's own example.
+
+**The seam was picked because it could falsify that example.** This
+component scopes each action with `appliesTo`, so one selection gives each
+button a different share of it: `Resolve` takes only follow-ups, `Approve`
+only loop proposals. The bar's hidden figure is a total over the whole
+selection. The question was whether a total names the hidden records of an
+action that receives only part of the selection.
+
+It does not. The paired fixture was 6 rows, a filter showing 3, all 6
+ticked, and three actions (one unscoped, two scoped by kind). That gives 6
+hidden-row deliveries: 3 to the unscoped action, then 1 and 2 to the scoped
+ones. The measurable was the number of those deliveries that the text on
+screen does not let the user count exactly:
+
+| Arm | What the bar and buttons say | Undisclosed hidden deliveries |
+| --- | --- | --- |
+| A, tree as it was | `6 selected`, `Dismiss 6`, `Resolve 3`, `Approve 3` | 6 of 6 |
+| B-bar, the technique's example | adds `· 3 hidden by the current filter` | 3 of 6 (both scoped actions) |
+| B, as shipped | adds `(1 hidden)` / `(2 hidden)` on each action that reaches one | 0 of 6 |
+
+The floor held in all three arms. Every action received the same record ids,
+select-all still toggled only the shown rows, and with no selected row
+hidden the labels were unchanged (`Dismiss 2`, `Resolve 1`, no "hidden"
+anywhere). The instrument is
+`src/components/org/shared/DecisionTable.hidden.dom.test.tsx`, kept in the
+tree. Its first run at A was an instrument fault and was not counted. The bar
+disables its buttons while an action runs, so clicks that were not awaited
+captured only the first action's payload.
+
+What this adds to the technique is that the disclosure belongs on every
+count the user reads before firing, not only on the selection's size. Where
+the actions split the selection, the per-action count is the one read
+before firing, and a hidden total beside it is an upper bound, not a name.
+
+What the change does not do: a `countless` action (one that opens a dialog,
+`Generate fix prompt →`) prints no count and no hidden figure, and leaves
+disclosure to its dialog. A row settled inline while ticked stays in the
+selection and in the next batch, because `picked` is filtered by
+membership, not by `isSelectable`. That is a separate reach defect of the
+same kind, left for the owner.
