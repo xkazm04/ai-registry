@@ -432,3 +432,25 @@ a condition). Four applications on their own clocks refreshed ahead of expiry.
   deviations - the natural next target in this subcategory.
 - A testing-isolation home for process-global state in tests (two independent sightings
   this run).
+
+## Run [[2026-09-23-2]] - four subjects outside the companion area, one technique
+
+templates-scaffolding gained `instance-upgrade`; connector-catalog, credential-vault and
+app-shell took corrections. Thirteen apply rows, four `not-better`. 13 of 22 demand
+deviations were already fixed in the projects.
+
+### Saturation ledger (this batch)
+
+| subject | rung | last-pass yield | demand after | dry |
+| --- | --- | --- | --- | --- |
+| templates-scaffolding | L3 | 1 technique, 10 corrections, 1 condition | 8 stale, 4 fixed in tree | 0 |
+| connector-catalog | L3 | corrections, 1 condition, 1 app corrected | 5 stale, 2 fixed/superseded | 0 |
+| credential-vault | L3 | 4 corrections, 2 conditions | 9 stale, 5 fixed in tree | 0 |
+| app-shell | L3 | corrections, 2 technique fixes from apply | 3 stale | 0 |
+
+### What is owed (updated)
+
+- `/conform --stale` on personas: the fleet's stale verdicts are now mostly fixed code, not
+  open defects - the queue measures the conform lane's lag more than the corpus.
+- A testing-isolation home (from [[2026-09-23-1]]), and a status-vocabulary application for
+  a panel whose fallback defaults to healthy.

@@ -1,7 +1,7 @@
 ---
 subject: credential-vault
 domain: software-engineering
-last_touched: 2026-09-02
+last_touched: 2026-09-23
 dry_streak: 0
 ---
 
@@ -83,3 +83,44 @@ subject will soon have to state.
 ## 2026-09-02 - `/intake` portkey-gateway (run `intake-portkey-0902`, intake 2.1.1, Opus workers)
 
 `brokered-egress` gained "The credential can carry a priced roster": the brokered credential names which models it may reach and at what price, so price resolution gains the credential as an axis; boundary to the observability price book stated in prose. Direction proposal in tracklight.
+
+## 2026-09-23 - `/deepen` batch ([[2026-09-23-2]])
+
+Chosen on 8 stale deviations in one project; **5 had been fixed** there (four fully),
+mostly the tri-state health work of 2026-09-17. The dominant theme - probes with no
+unverifiable state - turned out to have its general home in health-checks'
+three-state-outcomes; this pass placed only the credential form here and cross-linked.
+
+**No new technique; four corrections** to `health-probing` and the golden path: verdict and
+attempt are **two facts** (keeping the last verdict is right; losing the attempt is the
+collapse); **which provider answers are verdicts** - status line alone does not decide,
+forbidden is ambiguous across providers, classify from the protocol's typed signals, the
+kind crosses boundaries as a field; the compatibility boolean kept beside a typed state as
+a **fourth narrowing**; field sensitivity is **one classification with one authority**.
+The IPC-envelope deviation was declined as a subject rule: the framework's own guidance
+aims IPC encryption at untrusted frontend code, and the renderer already holds the
+plaintext.
+
+**Apply (three rows, [[applied]]):** 1 `better`, 2 `not-better`, both conditions written.
+Verdict/attempt: no verdict writer clears the attempt, so "render both" alone shows a stale
+could-not-check beside an answered verdict in 50 of 80 sequences - the next verdict clears
+it, or readers order by time. Sensitivity: the storage seal over-classifies (identifiers
+flagged sensitive, a substring name backstop), so pushing its predicate onto the screen
+would mask 44 identifiers the confirm screen exists to show - correct the classification
+first. The partition row also found a provider answering a revoked token with a success
+status and an error body; written in.
+
+Project defects surfaced (for `/conform`, not the subject): every non-2xx filed as a failed
+verdict, including rate limits and outages; the gateway sweep writes verdicts through its
+own path with no unreachable branch; the attempt fields have no reader.
+
+### Impact (registry map, regenerated 2026-09-23 after this landing)
+
+personas: 9 stale (8 `deviation`, 1 `not-applicable`); 5 of the 8 already fixed.
+
+### Leads
+
+- `rust--acquisition` is partly wrong (the reveal toggle gates on template type, not the
+  sensitive flag) and its anchors have drifted. Return: next currency pass or its clock.
+- A status-color fallback that defaults to healthy in one panel belongs to status-vocabulary.
+  Not placed.

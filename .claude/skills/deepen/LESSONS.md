@@ -303,3 +303,24 @@ Format: `## <version used> - <YYYY-MM-DD> - <project>` followed by `- ` bullets.
 - **Workers ran the gate in detached worktrees holding only their subject** because
   trunk's generated files are stale while siblings are mid-edit. It worked and should be
   the brief's default; the Director regenerates once over the batch.
+
+## 1.2.0 - 2026-09-23 - software-engineering (second batch: 4 research + 4 apply workers)
+
+- **Stale verdicts were mostly fixed code.** 13 of 22 deviations that picked this batch
+  had been fixed in the project, most on one day. A demand rank built from stale verdicts
+  points at subjects whose projects already moved; it still paid, because the fixes taught
+  (a fix's detail is often the condition the subject lacked). Next time, check each
+  deviation's file history before the brief, and say in the brief which are fixed.
+- **The apply refuted the research pass's own predictions twice** - a minting gap that a
+  transactional door check had closed months earlier, and an application's claim about
+  which lookups lose a row. A research worker's "rows owed" are hypotheses; the falsifying
+  seam is the only reason they are worth running.
+- **Apply workers caught mechanism errors, not only missing conditions.** A lifecycle
+  bullet was right for one keep-alive primitive and backwards for the other. Reading the
+  installed framework source (not docs) at apply time found it; the brief should keep
+  saying "read what is installed".
+- **Holding the map regeneration until after the apply conditions saved a round** of ten
+  project commits. Order: research commits, apply, conditions, one map pass.
+- **Two subjects described one defect from opposite sides the same day** (a compatibility
+  boolean persisted beside a typed state). Concurrent workers on neighbouring subjects are
+  a convergence instrument; the run note should record it even when no technique follows.

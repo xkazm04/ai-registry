@@ -1,7 +1,7 @@
 ---
 domain: software-engineering
 subject: app-shell
-last_touched: 2026-08-30
+last_touched: 2026-09-23
 touched_by: deepen
 dry_streak: 0
 ---
@@ -122,3 +122,39 @@ outcome, and flags that "navigation moves focus" is **craft, not conformance**.
   process" using the same word our sub-nav admission test uses to reject a setup
   destination — two documents written for unrelated reasons drawing the same place/step
   line.
+
+## 2026-09-23 - `/deepen` batch ([[2026-09-23-2]])
+
+Chosen on the only fresh verdicts outside the companion subjects: 2 in kp that opened
+"architecture check first: a single-mount client-state shell". Read in full, they
+confirmed the subject's fit rather than disputing it - but the question was worth asking.
+The subject had one hidden fork: a frame that never unmounts can hold its location **in the
+address or in its own state**, and three obligations depend on which (Back, what a switch
+announces, warm return), because the framework's machinery for each fires on address
+changes. Written in.
+
+**No new technique; corrections.** The back gesture **belongs to whoever draws it** (a
+browser tab feeds the browser's history, possibly with the location in entry state; no
+chrome means the shell owns an engine; some mobile platforms say Back never moves between
+top-level destinations). Keep-alive is an **optimization over restore, bounded**, with
+named resets. Route announcers speak only on router navigations. One application claim was
+wrong at its first read (a key was said to scope an error boundary; it only replays an
+entrance).
+
+**Apply (two rows, [[applied]]):** both `better`, both returning a correction. The Back row
+ran the installed router's own restore reducer: a same-URL entry costs no server request,
+but every null-state replace erases the recorded location, so an entry-state location
+survives only writers that carry it forward (written in). The keep-alive row caught the
+technique's lifecycle bullet backwards for the suspend-effects primitive: mount-keyed
+effects re-run on every reveal and unmount cleanups fire on every hide, so a voice call's
+teardown would fire on a mere hide (corrected).
+
+### Impact (registry map, regenerated 2026-09-23 after this landing)
+
+kp: 2 stale `deviation`; personas: 1 stale `deviation` (still valid on substance).
+
+### Leads
+
+- A companion sub-nav comment in the project's sidebar data conflicts with nav-hierarchy's
+  L3 rule. Return: when the companion area is no longer under another session's work.
+- `next--shell-hosted-services` anchors have drifted. Return: next touch of that application.
