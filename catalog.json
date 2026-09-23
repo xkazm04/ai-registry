@@ -136,9 +136,9 @@
       "adopters": [],
       "invokes30d": 0,
       "reportedInvokes": 0,
-      "lessons": 11,
+      "lessons": 12,
       "lessonsPath": "skills/conform/LESSONS.md",
-      "lessonsHash": "sha256-n1:a8245f4d9b793253",
+      "lessonsHash": "sha256-n1:349bbf430aa61497",
       "usageContributors": [],
       "runs30d": 0,
       "outcomes30d": {},
@@ -952,7 +952,7 @@
     "skills": 36,
     "practices": 8,
     "memory": 6,
-    "lessons": 275
+    "lessons": 276
   },
   "bundles": [
     {
