@@ -103,7 +103,15 @@ column model:
   own, neither of which need be the language the surface is read in, so an
   unparameterized comparison produces one order on the server, another after
   hydration, and a third for a reader whose language treats a diacritic letter
-  as its own letter rather than a variant.
+  as its own letter rather than a variant. Know which of those forces you
+  have before counting the fix as a gain: with no server render there is no
+  second tier to disagree with, and the reader's locale moves rows only when
+  it differs from the runtime's *and* the data holds letters the two collate
+  differently. Measured on a desktop app's own data in all fourteen of its
+  shipped languages, over tens of thousands of pairs: no row moved, while a
+  small mixed-language control moved almost half its rows under one of them.
+  Pass the locale anyway, because the next record may carry those letters,
+  but it is a guard, not a fix, until the data or a second tier makes it one.
 - **Mixed alphanumerics** (versions, serials, hostnames) get natural ordering
   — numeric runs compared as numbers — or they interleave uselessly.
 - **Absent values have one declared home** — conventionally last regardless of
