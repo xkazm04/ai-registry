@@ -6,7 +6,7 @@ technique: same-change-enforcement
 status: forged
 laws: [gate-sees-target, failure-not-empty-success, count-carries-predicate, derivation-names-recomputation]
 shared_with: []
-use_when: [deciding what record of change a doc gate should read, a gate that exits zero yet has never fired, seeding a violation to see whether the nag arrives, a coupled document that could be generated from its source of truth]
+use_when: [deciding what record of change a doc gate should read, a gate that exits zero yet has never fired, seeding a violation to see whether the nag arrives, a coupled document that could be generated from its source of truth, an in-session doc hook and a pipeline doc gate enforce the same obligation]
 ---
 
 # Same-change enforcement
@@ -121,6 +121,29 @@ record of change. Designs in order of strength:
 - **transcript or editor-event walks** — last resort; if used, the walk's
   boundary predicate must be validated against captured real events, and an
   empty result must be distinguishable from a failed walk.
+
+Moving the binding check onto the change record rarely retires the in-session
+nag, and should not: the nag is still the cheapest moment to collect the debt.
+That leaves the obligation enforced at two points, reading two different
+records of change, and they will disagree about what was owed unless they
+share **one predicate**. Split each enforcement point into an input adapter —
+changed paths from the session's own record, changed paths from a
+version-control range — and a pure rule that takes the paths and the coupling
+map and returns what is covered and what is missing. Export the rule from one
+of them and import it into the other; never restate it
+([one-authority-per-vocabulary](../../../../_laws.md#one-authority-per-vocabulary)
+is the same law about a vocabulary). Two implementations of *is this obligation
+discharged* are a guarantee that one of them is wrong, and the disagreement
+surfaces as a change the session was told was fine and the pipeline refuses —
+or, worse, the reverse. Sharing is not certification, though: the shared rule
+carries its defects into the binding point. A rule that still satisfies on
+*any* document under the docs prefix, rather than the named target (below),
+was advisory noise in the session and becomes a binding false pass once the
+pipeline imports it — so audit the predicate before promoting it. The
+dismissal moves with the binding check: a range
+gate cannot read a reply in a conversation, so the dismissal it honours is a
+recorded one — a line in the commit message the gate parses — which is also
+what finally makes the dismissal rate countable.
 
 ## Satisfy on the named target
 
