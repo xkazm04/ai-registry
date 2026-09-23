@@ -174,16 +174,16 @@
     },
     {
       "name": "contest",
-      "version": "1.3.1",
+      "version": "1.4.1",
       "category": "workflow",
       "path": "skills/contest/SKILL.md",
-      "contentHash": "sha256-n1:c26bac35fd02d0f7",
+      "contentHash": "sha256-n1:e172ecde2da94387",
       "adopters": [],
       "invokes30d": 0,
       "reportedInvokes": 0,
-      "lessons": 6,
+      "lessons": 10,
       "lessonsPath": "skills/contest/LESSONS.md",
-      "lessonsHash": "sha256-n1:c3376e3684c340cc",
+      "lessonsHash": "sha256-n1:e58db7929852792b",
       "usageContributors": [],
       "runs30d": 0,
       "outcomes30d": {},
@@ -952,7 +952,7 @@
     "skills": 36,
     "practices": 8,
     "memory": 6,
-    "lessons": 276
+    "lessons": 280
   },
   "bundles": [
     {
@@ -1083,7 +1083,7 @@
       "techniques": 1788,
       "applications": 1141,
       "files": 3166,
-      "contentHash": "sha256:5aee37a68f6842fb"
+      "contentHash": "sha256:f35183f4eaaa3d51"
     }
   ],
   "usageEvidence": {
