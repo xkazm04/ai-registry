@@ -123,6 +123,17 @@ ceiling, and what is its default?" is therefore a
 where a tool has one the adapter sets it explicitly to a value it chose,
 rather than inheriting a default it never saw.
 
+The run ceiling is not the only clock inside the child. A client in this
+class can also cap each model request, and can abandon any streaming
+response that stays silent past an **idle budget**, often with no flag and
+no config field to change it. Against a slow endpoint, such as a
+self-hosted model that prefills a large context and then reasons without
+streaming, that budget ends accepted work from inside the child. The result
+reads from outside as the model failing. Those clocks are matrix rows too,
+and the per-request ceiling is set **below** the session's, never equal to
+it, so that one dead request cannot hold a lane silent for the whole
+session ([dated-capability-matrix](./techniques/dated-capability-matrix.md)).
+
 **The stance is fixed before the run because nobody is there to answer — and
 that premise is a variable.** When the host puts a person within reach of the
 child's turn, through a chat surface or a console, a pre-set stance forces a
