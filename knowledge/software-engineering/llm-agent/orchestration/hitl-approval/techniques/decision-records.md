@@ -4,9 +4,9 @@ type: technique
 subject: hitl-approval
 technique: decision-records
 status: forged
-laws: [identity-survives-reuse, deletion-is-not-repair, failure-not-empty-success]
+laws: [identity-survives-reuse, deletion-is-not-repair, failure-not-empty-success, unknown-is-not-a-value]
 shared_with: []
-use_when: [deciding whether an old approval still covers this, proving what the decider saw when they said yes, rewriting a verdict instead of superseding it]
+use_when: [deciding whether an old approval still covers this, proving what the decider saw when they said yes, rewriting a verdict instead of superseding it, an agent types into a surface whose own send control the person presses]
 ---
 
 # Decision records
@@ -94,6 +94,23 @@ tempting shortcut â€” flip the state now, log the record on a queue for later â€
 produces gates whose openings have no witnesses precisely on the days the
 logging pipeline is unhealthy, which are the days someone will want the
 witnesses.
+
+That rule presumes the system owns the transition. It does not always. When
+an agent writes *into* a surface the person is already looking at (a field on
+someone else's web page, a terminal prompt, a compose box in another
+application), the surface's own commit control is the human gate. Adding a
+second, app-side confirmation in front of it asks one question twice. The
+system then never sees the verdict: the person may edit the text, send it,
+or abandon it, and nothing reports back. There is no transition for the
+record to be atomic with. What the system can record truthfully is its own
+act, meaning what it placed, where, and when, written at the moment of
+placing and **labelled as a placement**. Filing it as a sent message or an
+approved action is a verdict nobody observed
+([unknown-is-not-a-value](../../../../_laws.md#unknown-is-not-a-value)). The
+failure rule relaxes accordingly. The placement already happened and the
+person can see it, so a failed write of that record is an observability
+fault. It is reported wherever faults are reported, it is never shown to the
+person as a failed placement, and it does not roll the placement back.
 
 ## Records feed the trigger loop
 
