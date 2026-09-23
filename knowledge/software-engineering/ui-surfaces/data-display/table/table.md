@@ -78,7 +78,14 @@ Column conventions that read as craft:
   align vertically and the eye can compare lengths. Text left-aligned. Never
   center columns by default; centering destroys the shared edge scanning needs.
 - **Units and precision decided per column, once** — not per cell. A column
-  that mixes "1.2 GB" and "1240000000" has no owner.
+  that mixes "1.2 GB" and "1240000000" has no owner. What the column decides
+  is a *policy*, not always a single value: a rate column also owns its
+  denominator, and where that population legitimately differs by row (a
+  review rate over reviewed items, a merge rate over decided ones) the policy
+  is that every cell states its own base. A neighbouring count column is
+  never allowed to stand in as the denominator unless it is one — printed
+  beside a percentage, a count invites exactly that division — and a cell
+  whose base was not recorded says so rather than borrowing one.
 - **Truncation with recourse.** Long values truncate to protect the grid, but
   the full value must remain reachable (expansion, tooltip-equivalent, or a
   detail affordance). Truncation without recourse is data loss with good
@@ -156,9 +163,13 @@ A table is one of the few surfaces with rich native semantics — use them.
 - Real table semantics (or the equivalent grid role when cells are
   interactive): rows, column headers associated with their cells, a caption or
   accessible name stating what the table contains.
-- **Sort state is announced, not just drawn.** The header cell carries the
-  current sort direction in the accessibility layer, and the header is a real
-  button — reachable, activatable, focus-visible.
+- **Sort state is exposed, not just drawn — and its change is spoken.** The
+  header cell carries the current sort direction in the accessibility layer,
+  and the header is a real button — reachable, activatable, focus-visible.
+  Exposed state is heard only when the user navigates back to the header;
+  several common assistive pairings say nothing at the moment of activation,
+  so the change also goes out as a status message or an updated caption (the
+  sorting technique has the measurement).
 - **Row actions are reachable without a pointer.** Hover-revealed action
   clusters must also appear on keyboard focus; anything reachable only by hover
   does not exist for keyboard and switch users.

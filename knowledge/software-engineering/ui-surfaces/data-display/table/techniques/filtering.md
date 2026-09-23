@@ -6,7 +6,7 @@ technique: filtering
 status: forged
 laws: [count-carries-predicate, derivation-names-recomputation]
 shared_with: []
-use_when: [a filter bar's controls and the rows on screen disagree, deciding whether a control applies on change or on submit, an export or share link carries a predicate the table never showed, rows from a superseded filter landing in the current results, a selection surviving a filter change and acting on rows nobody can see]
+use_when: [a filter bar's controls and the rows on screen disagree, deciding whether a control applies on change or on submit, an export or share link carries a predicate the table never showed, rows from a superseded filter landing in the current results, a selection surviving a filter change and acting on rows nobody can see, deciding whether a text filter may apply on every keystroke, selections dropped when the user turns the page]
 ---
 
 # Filtering
@@ -61,6 +61,21 @@ for a submit. The split follows the control's shape:
   stating, which is why every such implementation grows a debounce, and the
   debounce is a guess at when the user stopped rather than a statement that
   they are done.
+
+That second rule is a rule about **commits that cost a round trip**, and it
+holds exactly where they do. In the all-client regime
+([client-server-split](./client-server-split.md)) the complete set is already
+held and a text predicate costs a pass over memory, so keystroke application is
+the regime's main benefit, not a defect: entered and applied are one value, the
+rows follow the typing, and there is no request to fire per character. Two
+obligations come with it. The input must stay responsive while the rows
+re-derive — defer the row derivation behind the keystroke rather than debounce
+it, because a debounce reintroduces the guess — and the result count becomes a
+**status message** (the accessibility standard's status-message criterion, SC
+4.1.3, level AA): rows changing under a text field are silent to a screen-reader
+user unless the new count is announced. Open ranges keep the explicit commit
+in both regimes, because a half-entered date or bound is not a predicate at
+all, only a draft that fails to parse.
 
 And the rule that binds them: **an auto-committing control composes onto the
 applied set, never onto the entered one.** Changing the select must not also
@@ -178,15 +193,39 @@ Selection, expansion and focus are keyed to records, and a filter change alters
 rule that covers a resort ([sorting](./sorting.md)) does not answer it. Two
 demands pull in opposite directions: a user who narrows the view and widens it
 again expects their ticks back, and a bulk action must never reach a record the
-user cannot currently see.
+user did not know it would reach.
 
-Both are satisfied by keeping the raw record-keyed state intact and
-**intersecting it with the visible set at read time**. Everything downstream —
+The invariant underneath both is one sentence: **the count the user reads
+before firing names every record the action will receive.** The default that
+satisfies it is to keep the raw record-keyed state intact and **intersect it
+with the applied predicate's result set at read time**. Everything downstream —
 the bulk-action count, the action's payload, the header's select-all state —
 reads the intersection; the raw set is never pruned. Pruning it into state
 through an effect loses the widen-back case, costs a second render pass, and
 leaves a frame in which the stale entry is live and clickable — which is the
 frame a fast user acts in.
+
+Two boundaries on that default, both corrections to reading it too literally:
+
+- **The set intersected with is the predicate's answer, not the rendered
+  window.** A row paged away, scrolled out of a virtualized body, or behind a
+  load-more that has not fired is still in the answer — a windowing change,
+  not an identifying one — and pruning it drops ticks the user made on page
+  one the moment they turn to page two. Where the full answer is not held,
+  the selection that spans it is an explicit predicate-plus-exclusions value,
+  not a materialized list.
+- **Gathering across filters is a legitimate workflow, and it is the
+  disclosed form, not the default.** A triage surface where the user ticks a
+  few rows under one filter, switches to another and ticks more, then acts
+  on all of them may keep the hidden ticks actionable — but only if the count
+  says both numbers ("14 selected — 3 hidden by the current filter") and the
+  hidden ones can be reviewed or cleared. The undisclosed version is the
+  defect this section exists for, and it has a detectable tell: a table
+  component that takes the shown rows and the full set as two props and
+  computes the action's payload from the full one. The prop pair makes the
+  reach look deliberate in review; the count beside the button, computed from
+  the same full set and printed without a hidden figure, is what makes it
+  wrong.
 
 This is [performance](./performance.md)'s derive-don't-store rule applied to a
 second class of value: not the presentation sequence, but a record-keyed set

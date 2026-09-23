@@ -5,14 +5,16 @@ subject: table
 technique: filtering
 stack: next
 status: forged
-verified_on: 2026-09-20
+verified_on: 2026-09-23
 verified_against: next@16
 ---
 
 # Two filtered tables in one tree — one that named its applied predicate, and one that forwards it an axis at a time
 
 Read in the `ascent` tree (Next.js 16.3.3, React 19.2.4, Prisma 6.19.x) at HEAD
-`62c252dd`; every citation below was resolved against that tree on 2026-09-20.
+`62c252dd` on 2026-09-20; every citation below was re-resolved against HEAD
+`aff9991a` on 2026-09-23 (one anchor had moved), and the selection section near
+the end was added from that reading.
 
 The repo is worth reading on this technique because it contains both halves of
 the same lesson, in two features that never met. The audit-trail viewer holds
@@ -120,7 +122,7 @@ resets the cursor and replaces the list rather than extending it.
   while the fetch is out. The title is the claim; changing the subtitle under
   it does not retract it.
 - **There is no clear-all.** The action select carries an "All actions" option
-  (`auditActions.ts:163-166`), but the two dates and the actor must each be
+  (`auditActions.ts:165-168`), but the two dates and the actor must each be
   blanked by hand and then submitted. Nothing on the surface says which axis is
   still narrowing the set.
 - **The count is a loaded count, and says so.** `{entriesShown} shown` (`AuditLogFilterBar.tsx:80`) is the
@@ -189,6 +191,52 @@ protection is not "forward the filters", it is "derive from one value".**
 literal with two ternaries in it has to be remembered, and the surface that
 sits beside it has already demonstrated what gets remembered — the axis
 somebody filed a bug about.
+
+## Selection across a filter change — both answers, one tree
+
+The same tree also holds both realizations of the technique's record-keyed
+state rule, and again in two features that never met.
+
+The repositories leaderboard intersects at read time.
+`src/features/standing/repositories/useRepoLeaderboard.ts:51-64` keeps the raw
+`rawSelected` set and derives `selected` as its intersection with the visible
+rows' names in a `useMemo`; the comment argues against the effect-based prune
+in the technique's own terms (an extra cascading render, "a frame where the
+stale tick is still live") and records why the raw set survives — "navigating
+back to a wider filter restores the ticks the user made there".
+
+The shared `DecisionTable` does the opposite, on purpose and without saying
+so to the user. Its props declare the pair
+(`src/components/org/shared/DecisionTable.tsx:59-62`): `rows`, "already
+filtered", and `allRows`, "every row a selection may reference, including rows
+the current filters hide". The batch reads the second:
+
+```ts
+// DecisionTable.tsx:88
+const picked = (p.allRows ?? p.rows).filter((r) => p.selected.has(p.rowId(r)));
+```
+
+`picked` feeds the sticky bar's count (`:180-183`), each action's
+per-action count (`:195`) and each action's payload (`:108`). Two ledgers pass
+the pair — `ProposalsWorklist.tsx:147-148` (`rows={shown}`,
+`allRows={rows}`) and `LessonsWorklist.tsx:112-113` — so a row ticked under
+one filter is still in the batch after the filter hides it. Gathering across
+filters is a legitimate triage workflow, and the technique allows it in its
+disclosed form. This is not that form: the bar prints `picked.length
+selected` (the Proposals summary, `ProposalsWorklist.tsx:35-52`, adds repos,
+loop count and projected points, all computed over the same `picked`), and
+nothing on it says how many of those rows the current filter is hiding. The
+number the user reads before pressing the action is right about the payload
+and silent about where it came from.
+
+Select-all, by contrast, is scoped to the shown rows (`:89-91`, "the same rule
+the row checkbox enforces"), so the component's two sights disagree: the
+header's "all" means all *shown*, the bar's count means all *ever ticked*. The
+tell for an auditor is the prop pair itself — a table taking the shown rows
+and the full set, and computing its payload from the full one — and the fix
+the technique names is small: either derive `picked` from `rows`, as the
+leaderboard does, or keep `allRows` and print the hidden figure beside the
+count.
 
 The detectable symptom, for anyone auditing a tree for this: an export href
 assembled from more than one filter variable, in a component that also renders

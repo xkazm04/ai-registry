@@ -7,7 +7,7 @@ status: forged
 laws: [identity-survives-reuse, count-carries-predicate, derivation-names-recomputation]
 shared_with:
   - feed
-use_when: [choosing between offset and keyset, rows skipped or repeated where sort values collide, a total disagrees with the current filter]
+use_when: [choosing between offset and keyset, rows skipped or repeated where sort values collide, a total disagrees with the current filter, rows with an empty sort value never appear in a paged walk]
 ---
 
 # Pagination
@@ -60,7 +60,23 @@ A keyset cursor is a resumption point, and its design rules are strict:
    a cursor built on a non-unique or mutable field does not survive reuse.
 2. **The next-window predicate compares the whole tuple**, e.g. conceptually
    `(sort_value, id) < (cursor_value, cursor_id)` for a descending order — not
-   the sort value alone.
+   the sort value alone. The compact tuple comparison has two preconditions,
+   and each fails silently rather than loudly:
+   - **Every term runs in one direction.** A single tuple comparison cannot
+     express "value descending, identity ascending". Either run the
+     tiebreaker in the primary key's direction (its direction is arbitrary;
+     only its presence matters) or write the expanded form —
+     `value < v OR (value = v AND id > i)` — and give the store an access
+     path in the same mixed order.
+   - **No term can be absent.** A comparison against an absent value is
+     neither true nor false in most stores, so a nullable sort column drops
+     every absent-valued row from the walk: the pages never cross the boundary
+     between the present and absent partitions, and no error says so. The
+     [sorting](./sorting.md) technique's declared home for absent values has
+     to be spelled in the seek predicate as well as the order — an explicit
+     absent-rank term in both, and in the cursor — or the column is made
+     non-nullable with a sentinel that sorts where the policy says. A cursor
+     that reaches the absent partition resumes inside it by identity alone.
 3. **The cursor is opaque to the client and self-describing to the server.** It
    encodes (or is validated against) the ordering it belongs to, so a cursor
    minted under one sort cannot be replayed against another. Changing sort or

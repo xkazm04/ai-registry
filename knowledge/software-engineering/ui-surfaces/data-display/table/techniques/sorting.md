@@ -6,7 +6,7 @@ technique: sorting
 status: forged
 laws: [identity-survives-reuse]
 shared_with: []
-use_when: [rows shuffle on refresh with unchanged data, deciding where absent values land in a sort, selection lands on the wrong row after a resort]
+use_when: [rows shuffle on refresh with unchanged data, deciding where absent values land in a sort, selection lands on the wrong row after a resort, client and server order the same rows differently, a sort header press that assistive technology does not announce]
 ---
 
 # Sorting
@@ -40,6 +40,18 @@ The tiebreaker must be the *identity*, not a timestamp (collides) and not the
 display label (mutable, collides). Identity survives reordering and reuse;
 that is what it is for.
 
+The third property has a precondition the tiebreaker cannot supply. It decides
+only the rows the comparator calls equal; which rows are equal, and in what
+order the rest fall, is the comparator's own business — and two tiers routinely
+run different ones. A store collating text by byte order and a client collating
+by locale disagree about accented and mixed-case names long before any tie; a
+store that puts absent values first and a client that puts them last disagree
+about every row that lacks one. **Cross-tier agreement needs the same
+comparator on both tiers — collation locale and strength, absent-value home,
+numeric typing — plus the tiebreaker**, and the tiebreaker is the part that is
+easy to check. The same holds between a server render and the client that
+hydrates it: that is two tiers too.
+
 ## Sort state is a small, explicit model
 
 Sort state is `(column id, direction)` — or an ordered list of such pairs if
@@ -54,7 +66,13 @@ analyst-shaped work and confuses everyone else. Rules:
   (choose the direction users expect for the type: descending for dates and
   magnitudes, ascending for names); click again reverses. If a third
   "clear" state exists, it returns to the *named default*, never to
-  "unsorted".
+  "unsorted". The type that picks the opening direction is the column
+  model's declared one. Where a table infers it from the data instead, a
+  missing cell carries no type: sample the first row that *has* a value, or a
+  numeric column whose top row happens to be empty reads as text and opens
+  smallest-first — the opposite of what the click meant, on the column where
+  the reader wanted the largest. Inference is the fallback; declaring the type
+  is the fix.
 - **Exactly one visible indicator** (per sort level). A table drawing arrows
   on multiple headers while single-sorting is displaying a state model it does
   not have.
@@ -79,7 +97,13 @@ column model:
 - **Dates and times compare as instants**, never as display strings; display
   formats do not collate.
 - **Text compares with locale-aware collation**, case-insensitive by default;
-  byte-order comparison misfiles accented and non-Latin names.
+  byte-order comparison misfiles accented and non-Latin names. The locale is
+  the *reader's*, passed explicitly — never the runtime's default. A server
+  render collates under the server process's locale and the browser under its
+  own, neither of which need be the language the surface is read in, so an
+  unparameterized comparison produces one order on the server, another after
+  hydration, and a third for a reader whose language treats a diacritic letter
+  as its own letter rather than a variant.
 - **Mixed alphanumerics** (versions, serials, hostnames) get natural ordering
   — numeric runs compared as numbers — or they interleave uselessly.
 - **Absent values have one declared home** — conventionally last regardless of
@@ -114,3 +138,13 @@ The sorted header exposes its state to assistive technology (sorted,
 ascending/descending) and is operable as a real button from the keyboard. A
 sort that exists only as a pointer affordance and a tiny glyph excludes both
 assistive users and anyone automating against the surface.
+
+Exposing the state is not the same as announcing the change, and the
+difference is measured, not theoretical: an independent accessibility tester's
+matrix (updated 2024) found several common screen-reader and browser pairings
+say nothing when a sort header is activated, although each exposes the header's
+state once the user navigates back to it. So the header's state is the record,
+and the *change* also needs a channel that is spoken — a polite status message
+("sorted by date, newest first"), or the table's caption or description
+updated with the current order. Without one, the user presses a button and
+hears silence, which reads as a button that does nothing.
