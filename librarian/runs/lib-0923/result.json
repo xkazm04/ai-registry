@@ -1,0 +1,975 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "lib-0923",
+  "skill": "librarian",
+  "skill_version": "1.6.2",
+  "mode": "run",
+  "domain": "software-engineering",
+  "started_at": "2026-09-23T10:08:00Z",
+  "ended_at": "2026-09-23T11:50:37Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 19,
+    "declined": 5,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/table",
+      "at": "2026-09-23",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": 44,
+      "points_after": 44
+    },
+    {
+      "id": "software-engineering/mcp-tools",
+      "at": "2026-09-23",
+      "engine": "lead-drain",
+      "outcome": "landed",
+      "points_before": 0,
+      "points_after": 0
+    },
+    {
+      "id": "software-engineering/companion-identity",
+      "at": "2026-09-23",
+      "engine": "lead-drain",
+      "outcome": "landed",
+      "points_before": 7,
+      "points_after": 4
+    },
+    {
+      "id": "software-engineering/agent-cli-transport",
+      "at": "2026-09-23",
+      "engine": "lead-drain",
+      "outcome": "landed",
+      "points_before": 32,
+      "points_after": 32
+    },
+    {
+      "id": "software-engineering/agent-browser-control",
+      "at": "2026-09-23",
+      "engine": "lead-drain",
+      "outcome": "landed",
+      "points_before": 5,
+      "points_after": 2
+    },
+    {
+      "id": "software-engineering/agent-memory",
+      "at": "2026-09-23",
+      "engine": "lead-drain",
+      "outcome": "landed",
+      "points_before": 56,
+      "points_after": 56
+    },
+    {
+      "id": "software-engineering/cost-metering",
+      "at": "2026-09-23",
+      "engine": "lead-drain",
+      "outcome": "landed",
+      "points_before": 12,
+      "points_after": 12
+    },
+    {
+      "id": "software-engineering/eval-harness",
+      "at": "2026-09-23",
+      "engine": "lead-drain",
+      "outcome": "landed",
+      "points_before": 0,
+      "points_after": 0
+    },
+    {
+      "id": "software-engineering/fleet-orchestration",
+      "at": "2026-09-23",
+      "engine": "lead-drain",
+      "outcome": "landed",
+      "points_before": 32,
+      "points_after": 32
+    },
+    {
+      "id": "software-engineering/hitl-approval",
+      "at": "2026-09-23",
+      "engine": "lead-drain",
+      "outcome": "landed",
+      "points_before": 4,
+      "points_after": 4
+    },
+    {
+      "id": "software-engineering/model-routing",
+      "at": "2026-09-23",
+      "engine": "lead-drain",
+      "outcome": "landed",
+      "points_before": 12,
+      "points_after": 12
+    },
+    {
+      "id": "software-engineering/structured-output",
+      "at": "2026-09-23",
+      "engine": "lead-drain",
+      "outcome": "landed",
+      "points_before": 28,
+      "points_after": 28
+    },
+    {
+      "id": "software-engineering/codebase-scanning",
+      "at": "2026-09-23",
+      "engine": "lead-drain",
+      "outcome": "landed",
+      "points_before": 0,
+      "points_after": 0
+    },
+    {
+      "id": "software-engineering/concurrent-vcs",
+      "at": "2026-09-23",
+      "engine": "lead-drain",
+      "outcome": "landed",
+      "points_before": 5,
+      "points_after": 5
+    },
+    {
+      "id": "software-engineering/docs-sync",
+      "at": "2026-09-23",
+      "engine": "lead-drain",
+      "outcome": "landed",
+      "points_before": 0,
+      "points_after": 0
+    },
+    {
+      "id": "software-engineering/knowledge-registry",
+      "at": "2026-09-23",
+      "engine": "lead-drain",
+      "outcome": "landed",
+      "points_before": 2,
+      "points_after": 2
+    },
+    {
+      "id": "software-engineering/metric-gates",
+      "at": "2026-09-23",
+      "engine": "lead-drain",
+      "outcome": "landed",
+      "points_before": 0,
+      "points_after": 0
+    },
+    {
+      "id": "software-engineering/quality-gates",
+      "at": "2026-09-23",
+      "engine": "lead-drain",
+      "outcome": "landed",
+      "points_before": 52,
+      "points_after": 52
+    },
+    {
+      "id": "software-engineering/repo-manifest-standard",
+      "at": "2026-09-23",
+      "engine": "lead-drain",
+      "outcome": "landed",
+      "points_before": 0,
+      "points_after": 0
+    },
+    {
+      "id": "software-engineering/agent-memory",
+      "at": "2026-09-23",
+      "engine": "deepen",
+      "outcome": "declined",
+      "points_before": 56,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/quality-gates",
+      "at": "2026-09-23",
+      "engine": "deepen",
+      "outcome": "declined",
+      "points_before": 52,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/accessibility",
+      "at": "2026-09-23",
+      "engine": "deepen",
+      "outcome": "declined",
+      "points_before": 44,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/markdown-vault",
+      "at": "2026-09-23",
+      "engine": "deepen",
+      "outcome": "declined",
+      "points_before": 44,
+      "points_after": null
+    },
+    {
+      "id": "llm-observability/operator-surfaces-for-llm-spend",
+      "at": "2026-09-23",
+      "engine": "deepen",
+      "outcome": "declined",
+      "points_before": 40,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "table",
+      "technique": "filtering",
+      "verdict": "better",
+      "mode": "code"
+    },
+    {
+      "subject": "table",
+      "technique": "performance",
+      "verdict": "better",
+      "mode": "code"
+    },
+    {
+      "subject": "table",
+      "technique": "loading-and-empty-states",
+      "verdict": "better",
+      "mode": "code"
+    },
+    {
+      "subject": "table",
+      "technique": "sorting",
+      "verdict": "not-better",
+      "mode": "experiment"
+    },
+    {
+      "subject": "hitl-approval",
+      "technique": "decision-records",
+      "verdict": "better",
+      "mode": "code"
+    },
+    {
+      "subject": "companion-identity",
+      "technique": "anchored-identity-diffs",
+      "verdict": "better",
+      "mode": "code"
+    },
+    {
+      "subject": "structured-output",
+      "technique": "enumerable-domain-decoding",
+      "verdict": "not-better",
+      "mode": "experiment"
+    },
+    {
+      "subject": "cost-metering",
+      "technique": "budget-enforcement",
+      "verdict": "unmeasurable",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    ".claude-plugin/marketplace.json",
+    ".claude/skills/assay/SKILL.md",
+    ".claude/skills/harvest/SKILL.md",
+    ".claude/skills/harvest/references/backlog-worker-brief.md",
+    ".claude/skills/librarian/SKILL.md",
+    ".claude/skills/reconcile/SKILL.md",
+    "catalog.json",
+    "docs/forge-brief.md",
+    "docs/reconcile-brief.md",
+    "docs/runs-lane.md",
+    "docs/signals-lane.md",
+    "knowledge/game-production/asset-production/sourcing-economics/image-to-3d-input-gating/applications/node--reference-role-tagging.md",
+    "knowledge/game-production/asset-production/sourcing-economics/image-to-3d-input-gating/applications/node--single-subject-plain-background.md",
+    "knowledge/game-production/asset-production/sourcing-economics/image-to-3d-input-gating/applications/process--score-defect-verdict-protocol.md",
+    "knowledge/game-production/asset-production/sourcing-economics/regeneration-vs-repair-economics/applications/node--defect-class-to-remedy-map.md",
+    "knowledge/game-production/asset-production/sourcing-economics/regeneration-vs-repair-economics/applications/process--bounded-refine-iteration.md",
+    "knowledge/game-production/asset-production/surface-and-imagery/shader-budget-authoring/applications/node--feature-cost-with-a-cheaper-swap.md",
+    "knowledge/game-production/asset-production/surface-and-imagery/shader-budget-authoring/applications/process--hardware-tier-lighting-presets.md",
+    "knowledge/game-production/balance-validation/procedural-level-planning/applications/node--declare-what-each-engine-ignores.md",
+    "knowledge/game-production/balance-validation/procedural-level-planning/applications/node--gate-and-key-solvability-proof.md",
+    "knowledge/game-production/balance-validation/procedural-level-planning/applications/node--pacing-linter-rules.md",
+    "knowledge/game-production/balance-validation/procedural-level-planning/applications/process--safe-room-and-boss-placement.md",
+    "knowledge/game-production/craft-judgment/quality-verdict-integrity/applications/node--content-hash-binding.md",
+    "knowledge/game-production/engine-integration/engine-pitfall-corpus/applications/process--incident-entry-shape.md",
+    "knowledge/game-production/index.json",
+    "knowledge/localization/east-asian/chinese/applications/process--de-anglicization-constructions.md",
+    "knowledge/localization/east-asian/chinese/applications/process--terminology-and-variants.md",
+    "knowledge/localization/east-asian/japanese/applications/process--counting-and-quantity.md",
+    "knowledge/localization/east-asian/japanese/applications/process--register-and-politeness.md",
+    "knowledge/localization/east-asian/korean/applications/process--particles-and-interpolation.md",
+    "knowledge/localization/east-asian/korean/applications/process--register-and-honorifics.md",
+    "knowledge/localization/european/czech/applications/process--de-anglicization-constructions.md",
+    "knowledge/localization/european/czech/applications/process--plural-and-count-agreement.md",
+    "knowledge/localization/european/english/applications/process--generated-prose-patterns.md",
+    "knowledge/localization/european/english/applications/process--interference-constructions.md",
+    "knowledge/localization/european/english/applications/spec--typography-and-capitalization.md",
+    "knowledge/localization/european/french/applications/process--terminology-and-loanwords.md",
+    "knowledge/localization/european/french/applications/process--typography-and-spacing.md",
+    "knowledge/localization/european/german/applications/process--de-anglicization-constructions.md",
+    "knowledge/localization/european/german/applications/process--register-and-address.md",
+    "knowledge/localization/european/russian/applications/process--plural-and-count-agreement.md",
+    "knowledge/localization/european/russian/applications/process--terminology-and-loanwords.md",
+    "knowledge/localization/european/spanish/applications/process--register-and-address.md",
+    "knowledge/localization/european/spanish/applications/process--typography-and-punctuation.md",
+    "knowledge/localization/index.json",
+    "knowledge/localization/right-to-left/arabic/applications/process--bidirectional-text-and-interpolation.md",
+    "knowledge/localization/right-to-left/arabic/applications/process--register-and-address.md",
+    "knowledge/localization/south-and-southeast-asian/bengali/applications/process--classifiers-and-quantity.md",
+    "knowledge/localization/south-and-southeast-asian/bengali/applications/process--terminology-and-loanwords.md",
+    "knowledge/localization/south-and-southeast-asian/hindi/applications/process--devanagari-and-numerals.md",
+    "knowledge/localization/south-and-southeast-asian/hindi/applications/process--terminology-and-loanwords.md",
+    "knowledge/localization/south-and-southeast-asian/vietnamese/applications/process--diacritics-and-typography.md",
+    "knowledge/localization/south-and-southeast-asian/vietnamese/applications/process--terminology-and-loanwords.md",
+    "knowledge/marketing/index.json",
+    "knowledge/marketing/measurement-and-economics/goal-pacing-and-forecast/applications/node--goal-in-force-per-month.md",
+    "knowledge/marketing/measurement-and-economics/goal-pacing-and-forecast/applications/node--weekday-weighted-month-end-projection.md",
+    "knowledge/marketing/paid-advertising/responsive-search-ad-craft/applications/node--ad-strength-is-a-proxy-not-relevance.md",
+    "knowledge/marketing/paid-advertising/responsive-search-ad-craft/applications/node--headline-angle-coverage.md",
+    "knowledge/marketing/paid-advertising/responsive-search-ad-craft/applications/node--over-limit-omitted-not-truncated.md",
+    "knowledge/media-generation/index.json",
+    "knowledge/media-generation/production-ops/video-assembly/applications/react--gap-and-refusal-honesty.md",
+    "knowledge/media-generation/research-grounding/evidence-bound-visuals/applications/process--epistemic-draw-routing.md",
+    "knowledge/media-generation/research-grounding/evidence-bound-visuals/applications/react--figure-must-cite-a-fact.md",
+    "knowledge/software-engineering/engineering-assessment/maturity-and-conformance/conformance-checking/applications/node--declared-then-proven.md",
+    "knowledge/software-engineering/engineering-assessment/measurement-method/people-analytics-ethics/applications/node--contribution-eligibility-floors.md",
+    "knowledge/software-engineering/engineering-assessment/measurement-method/people-analytics-ethics/applications/node--producer-enforced-suppression.md",
+    "knowledge/software-engineering/engineering-assessment/measurement-method/people-analytics-ethics/applications/process--risk-framing-anonymization.md",
+    "knowledge/software-engineering/engineering-assessment/reporting-and-remediation/adoption-measurement/applications/node--attribution-provenance-tiers.md",
+    "knowledge/software-engineering/engineering-assessment/reporting-and-remediation/adoption-measurement/applications/node--dormancy-verdicts.md",
+    "knowledge/software-engineering/engineering-assessment/reporting-and-remediation/executive-reporting/applications/node--expiring-share-links.md",
+    "knowledge/software-engineering/engineering-assessment/reporting-and-remediation/executive-reporting/applications/node--grounded-narrative-generation.md",
+    "knowledge/software-engineering/engineering-assessment/reporting-and-remediation/executive-reporting/applications/process--bad-news-labelling.md",
+    "knowledge/software-engineering/engineering-process/codebase-stewardship/codebase-scanning/applications/node--sensor-pipeline.md",
+    "knowledge/software-engineering/engineering-process/codebase-stewardship/codebase-scanning/codebase-scanning.md",
+    "knowledge/software-engineering/engineering-process/codebase-stewardship/codebase-scanning/techniques/sensor-pipeline.md",
+    "knowledge/software-engineering/engineering-process/codebase-stewardship/concurrent-vcs/concurrent-vcs.md",
+    "knowledge/software-engineering/engineering-process/codebase-stewardship/concurrent-vcs/techniques/isolated-index-commits.md",
+    "knowledge/software-engineering/engineering-process/codebase-stewardship/docs-sync/techniques/same-change-enforcement.md",
+    "knowledge/software-engineering/engineering-process/standards-and-gates/knowledge-registry/applications/node--catalog-as-sync-key.md",
+    "knowledge/software-engineering/engineering-process/standards-and-gates/knowledge-registry/applications/node--deterministic-seeding.md",
+    "knowledge/software-engineering/engineering-process/standards-and-gates/knowledge-registry/knowledge-registry.md",
+    "knowledge/software-engineering/engineering-process/standards-and-gates/knowledge-registry/techniques/catalog-as-sync-key.md",
+    "knowledge/software-engineering/engineering-process/standards-and-gates/knowledge-registry/techniques/lane-contracts.md",
+    "knowledge/software-engineering/engineering-process/standards-and-gates/metric-gates/applications/node--ratchet-design--personas.md",
+    "knowledge/software-engineering/engineering-process/standards-and-gates/metric-gates/techniques/ratchet-design.md",
+    "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/applications/node--gate-liveness.md",
+    "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/applications/rust--self-reported-gate-inputs.md",
+    "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/techniques/refusal-names-a-reachable-remedy.md",
+    "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/techniques/self-reported-gate-inputs.md",
+    "knowledge/software-engineering/engineering-process/standards-and-gates/repo-manifest-standard/applications/node--generated-from-provenance.md",
+    "knowledge/software-engineering/engineering-process/standards-and-gates/repo-manifest-standard/applications/node--must-ignore-unknown.md",
+    "knowledge/software-engineering/engineering-process/standards-and-gates/repo-manifest-standard/applications/node--pointers-not-embeds.md",
+    "knowledge/software-engineering/engineering-process/standards-and-gates/repo-manifest-standard/applications/node--spec-ships-with-artifact.md",
+    "knowledge/software-engineering/engineering-process/standards-and-gates/repo-manifest-standard/applications/process--spec-ships-with-artifact.md",
+    "knowledge/software-engineering/engineering-process/standards-and-gates/repo-manifest-standard/techniques/must-ignore-unknown.md",
+    "knowledge/software-engineering/index.json",
+    "knowledge/software-engineering/llm-agent/companion/companion-identity/applications/rust--constitution-self-model-split.md",
+    "knowledge/software-engineering/llm-agent/companion/companion-identity/companion-identity.md",
+    "knowledge/software-engineering/llm-agent/companion/companion-identity/techniques/anchored-identity-diffs.md",
+    "knowledge/software-engineering/llm-agent/companion/companion-identity/techniques/constitution-self-model-split.md",
+    "knowledge/software-engineering/llm-agent/evaluation-and-cost/cost-metering/applications/next--budget-enforcement.md",
+    "knowledge/software-engineering/llm-agent/evaluation-and-cost/cost-metering/techniques/budget-enforcement.md",
+    "knowledge/software-engineering/llm-agent/evaluation-and-cost/eval-harness/applications/python--eval-economics.md",
+    "knowledge/software-engineering/llm-agent/evaluation-and-cost/eval-harness/techniques/eval-economics.md",
+    "knowledge/software-engineering/llm-agent/orchestration/fleet-orchestration/techniques/parallel-dispatch.md",
+    "knowledge/software-engineering/llm-agent/orchestration/hitl-approval/applications/react--decision-records.md",
+    "knowledge/software-engineering/llm-agent/orchestration/hitl-approval/techniques/decision-records.md",
+    "knowledge/software-engineering/llm-agent/orchestration/model-routing/techniques/cache-continuity.md",
+    "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/react--coverage-instrumentation.md",
+    "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/techniques/decay-and-forgetting.md",
+    "knowledge/software-engineering/llm-agent/prompt-and-context/structured-output/techniques/enumerable-domain-decoding.md",
+    "knowledge/software-engineering/llm-agent/runtime-and-io/agent-browser-control/techniques/socket-scoped-surface.md",
+    "knowledge/software-engineering/llm-agent/runtime-and-io/agent-cli-transport/agent-cli-transport.md",
+    "knowledge/software-engineering/llm-agent/runtime-and-io/agent-cli-transport/techniques/dated-capability-matrix.md",
+    "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/applications/node--authentication-and-scoping.md",
+    "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/applications/node--tool-schema-design.md",
+    "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/techniques/authentication-and-scoping.md",
+    "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/techniques/catalog-projection-modes.md",
+    "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/techniques/tool-schema-design.md",
+    "knowledge/software-engineering/ui-surfaces/data-display/table/applications/next--filtering.md",
+    "knowledge/software-engineering/ui-surfaces/data-display/table/applications/react--loading-and-empty-states.md",
+    "knowledge/software-engineering/ui-surfaces/data-display/table/applications/react--performance.md",
+    "knowledge/software-engineering/ui-surfaces/data-display/table/table.md",
+    "knowledge/software-engineering/ui-surfaces/data-display/table/techniques/filtering.md",
+    "knowledge/software-engineering/ui-surfaces/data-display/table/techniques/loading-and-empty-states.md",
+    "knowledge/software-engineering/ui-surfaces/data-display/table/techniques/pagination.md",
+    "knowledge/software-engineering/ui-surfaces/data-display/table/techniques/performance.md",
+    "knowledge/software-engineering/ui-surfaces/data-display/table/techniques/sorting.md",
+    "librarian/applied.md",
+    "librarian/domains/software-engineering.md",
+    "librarian/handoffs/2026-09-02-oh-my-claudecode-session-continuation-spec.md",
+    "librarian/inbox.md",
+    "librarian/runs/2026-09-23-1.md",
+    "librarian/sources/2026-09-03-kube-rs.design-read.md",
+    "librarian/sources/2026-09-03-kube-rs.md",
+    "librarian/specs/2026-09-07-index-free-random-access.md",
+    "librarian/subjects/game-production/aaa-craft-rubric-authoring.md",
+    "librarian/subjects/game-production/acceptance-verdict-spine.md",
+    "librarian/subjects/game-production/agent-behaviour-authoring.md",
+    "librarian/subjects/game-production/arpg-systems-canon.md",
+    "librarian/subjects/game-production/asset-class-poly-budgeting.md",
+    "librarian/subjects/game-production/engine-pitfall-corpus.md",
+    "librarian/subjects/game-production/game-economy-tuning.md",
+    "librarian/subjects/game-production/gameplay-runtime-patterns.md",
+    "librarian/subjects/game-production/learning-curve-and-teaching-design.md",
+    "librarian/subjects/game-production/mesh-finishing-for-engine-readiness.md",
+    "librarian/subjects/game-production/motion-quality-gating.md",
+    "librarian/subjects/game-production/playtest-signal-to-defect.md",
+    "librarian/subjects/game-production/procedural-level-planning.md",
+    "librarian/subjects/game-production/production-coverage-measurement.md",
+    "librarian/subjects/game-production/production-work-prioritization.md",
+    "librarian/subjects/game-production/prompt-fitness-and-evolution.md",
+    "librarian/subjects/game-production/realtime-combat-semantics.md",
+    "librarian/subjects/game-production/reference-parity-gating.md",
+    "librarian/subjects/game-production/regeneration-vs-repair-economics.md",
+    "librarian/subjects/game-production/ship-pipeline-gating.md",
+    "librarian/subjects/game-production/subsystem-review-doctrine.md",
+    "librarian/subjects/game-production/terrain-synthesis-acceptance.md",
+    "librarian/subjects/game-production/tiling-texture-acceptance.md",
+    "librarian/subjects/game-production/visual-script-to-code-transpilation.md",
+    "librarian/subjects/game-production/wiring-contract-doctrine.md",
+    "librarian/subjects/llm-observability/billing-revenue-normalization.md",
+    "librarian/subjects/llm-observability/llm-call-telemetry-model.md",
+    "librarian/subjects/llm-observability/margin-and-unit-economics.md",
+    "librarian/subjects/llm-observability/operator-surfaces-for-llm-spend.md",
+    "librarian/subjects/llm-observability/usage-limit-governance.md",
+    "librarian/subjects/software-engineering/agent-browser-control.md",
+    "librarian/subjects/software-engineering/agent-cli-transport.md",
+    "librarian/subjects/software-engineering/agent-memory.md",
+    "librarian/subjects/software-engineering/codebase-scanning.md",
+    "librarian/subjects/software-engineering/companion-identity.md",
+    "librarian/subjects/software-engineering/concurrent-vcs.md",
+    "librarian/subjects/software-engineering/conformance-checking.md",
+    "librarian/subjects/software-engineering/context-hierarchy.md",
+    "librarian/subjects/software-engineering/cost-metering.md",
+    "librarian/subjects/software-engineering/diff-comparison.md",
+    "librarian/subjects/software-engineering/docs-sync.md",
+    "librarian/subjects/software-engineering/eval-harness.md",
+    "librarian/subjects/software-engineering/fleet-orchestration.md",
+    "librarian/subjects/software-engineering/guest-execution-bounding.md",
+    "librarian/subjects/software-engineering/hitl-approval.md",
+    "librarian/subjects/software-engineering/index-free-random-access.md",
+    "librarian/subjects/software-engineering/knowledge-registry.md",
+    "librarian/subjects/software-engineering/mcp-tools.md",
+    "librarian/subjects/software-engineering/measurement-honesty.md",
+    "librarian/subjects/software-engineering/metric-gates.md",
+    "librarian/subjects/software-engineering/model-routing.md",
+    "librarian/subjects/software-engineering/quality-gates.md",
+    "librarian/subjects/software-engineering/repo-manifest-standard.md",
+    "librarian/subjects/software-engineering/session-continuation.md",
+    "librarian/subjects/software-engineering/structured-output.md",
+    "librarian/subjects/software-engineering/table.md",
+    "librarian/upstream.md",
+    "rules/ai-registry-software-engineering.md",
+    "scripts/check-public-paths.mjs",
+    "scripts/check-signals.mjs",
+    "scripts/gate.mjs",
+    "scripts/lib/run-result.mjs",
+    "scripts/librarian-scan.mjs",
+    "scripts/signals-collect.mjs",
+    "scripts/tests/run-result.test.mjs",
+    "scripts/upstream-check.mjs",
+    "signals/wolf.json",
+    "skills/architect/LESSONS.md",
+    "skills/explorer/LESSONS.md",
+    "skills/project-populate/SCAN-PLAN.md",
+    "skills/project-populate/SKILL.md",
+    "skills/research/LESSONS.md"
+  ],
+  "commits": [
+    {
+      "sha": "105b5d42",
+      "branch": "librarian/2026-09-23-1",
+      "pathspec": [
+        "scripts/upstream-check.mjs"
+      ]
+    },
+    {
+      "sha": "041bc96b",
+      "branch": "librarian/2026-09-23-1",
+      "pathspec": [
+        "librarian/upstream.md"
+      ]
+    },
+    {
+      "sha": "f32def9d",
+      "branch": "librarian/2026-09-23-1",
+      "pathspec": [
+        "docs/signals-lane.md",
+        "scripts/check-signals.mjs",
+        "scripts/signals-collect.mjs"
+      ]
+    },
+    {
+      "sha": "2136bef5",
+      "branch": "librarian/2026-09-23-1",
+      "pathspec": [
+        "signals/wolf.json"
+      ]
+    },
+    {
+      "sha": "2cb2539e",
+      "branch": "librarian/2026-09-23-1",
+      "pathspec": [
+        "librarian/inbox.md"
+      ]
+    },
+    {
+      "sha": "0b11fb22",
+      "branch": "librarian/2026-09-23-1",
+      "pathspec": [
+        ".claude/skills/librarian/SKILL.md",
+        ".claude/skills/reconcile/SKILL.md",
+        "docs/reconcile-brief.md",
+        "scripts/lib/run-result.mjs",
+        "scripts/librarian-scan.mjs",
+        "scripts/tests/run-result.test.mjs"
+      ]
+    },
+    {
+      "sha": "d31d6ed8",
+      "branch": "librarian/2026-09-23-1",
+      "pathspec": [
+        "knowledge/software-engineering/ui-surfaces/data-display/table/applications/next--filtering.md",
+        "knowledge/software-engineering/ui-surfaces/data-display/table/applications/react--performance.md",
+        "knowledge/software-engineering/ui-surfaces/data-display/table/table.md",
+        "knowledge/software-engineering/ui-surfaces/data-display/table/techniques/filtering.md",
+        "knowledge/software-engineering/ui-surfaces/data-display/table/techniques/loading-and-empty-states.md",
+        "knowledge/software-engineering/ui-surfaces/data-display/table/techniques/pagination.md",
+        "knowledge/software-engineering/ui-surfaces/data-display/table/techniques/performance.md",
+        "knowledge/software-engineering/ui-surfaces/data-display/table/techniques/sorting.md"
+      ]
+    },
+    {
+      "sha": "cf114245",
+      "branch": "librarian/2026-09-23-1",
+      "pathspec": [
+        "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/applications/node--authentication-and-scoping.md",
+        "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/applications/node--tool-schema-design.md",
+        "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/techniques/authentication-and-scoping.md",
+        "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/techniques/catalog-projection-modes.md",
+        "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/techniques/tool-schema-design.md"
+      ]
+    },
+    {
+      "sha": "d151ea2f",
+      "branch": "librarian/2026-09-23-1",
+      "pathspec": [
+        "knowledge/software-engineering/llm-agent/companion/companion-identity/applications/rust--constitution-self-model-split.md",
+        "knowledge/software-engineering/llm-agent/companion/companion-identity/companion-identity.md",
+        "knowledge/software-engineering/llm-agent/companion/companion-identity/techniques/anchored-identity-diffs.md",
+        "knowledge/software-engineering/llm-agent/companion/companion-identity/techniques/constitution-self-model-split.md"
+      ]
+    },
+    {
+      "sha": "490f3202",
+      "branch": "librarian/2026-09-23-1",
+      "pathspec": [
+        "knowledge/software-engineering/llm-agent/runtime-and-io/agent-cli-transport/agent-cli-transport.md",
+        "knowledge/software-engineering/llm-agent/runtime-and-io/agent-cli-transport/techniques/dated-capability-matrix.md"
+      ]
+    },
+    {
+      "sha": "6d8ec7dd",
+      "branch": "librarian/2026-09-23-1",
+      "pathspec": [
+        "knowledge/software-engineering/llm-agent/runtime-and-io/agent-browser-control/techniques/socket-scoped-surface.md"
+      ]
+    },
+    {
+      "sha": "b0087944",
+      "branch": "librarian/2026-09-23-1",
+      "pathspec": [
+        "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/react--coverage-instrumentation.md",
+        "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/techniques/decay-and-forgetting.md"
+      ]
+    },
+    {
+      "sha": "73e26ae0",
+      "branch": "librarian/2026-09-23-1",
+      "pathspec": [
+        "knowledge/software-engineering/llm-agent/evaluation-and-cost/cost-metering/applications/next--budget-enforcement.md",
+        "knowledge/software-engineering/llm-agent/evaluation-and-cost/cost-metering/techniques/budget-enforcement.md"
+      ]
+    },
+    {
+      "sha": "1752309f",
+      "branch": "librarian/2026-09-23-1",
+      "pathspec": [
+        "knowledge/software-engineering/llm-agent/evaluation-and-cost/eval-harness/applications/python--eval-economics.md",
+        "knowledge/software-engineering/llm-agent/evaluation-and-cost/eval-harness/techniques/eval-economics.md"
+      ]
+    },
+    {
+      "sha": "520032e4",
+      "branch": "librarian/2026-09-23-1",
+      "pathspec": [
+        "knowledge/software-engineering/llm-agent/orchestration/fleet-orchestration/techniques/parallel-dispatch.md"
+      ]
+    },
+    {
+      "sha": "941740aa",
+      "branch": "librarian/2026-09-23-1",
+      "pathspec": [
+        "knowledge/software-engineering/llm-agent/orchestration/hitl-approval/applications/react--decision-records.md",
+        "knowledge/software-engineering/llm-agent/orchestration/hitl-approval/techniques/decision-records.md"
+      ]
+    },
+    {
+      "sha": "b0b63663",
+      "branch": "librarian/2026-09-23-1",
+      "pathspec": [
+        "knowledge/software-engineering/llm-agent/orchestration/model-routing/techniques/cache-continuity.md"
+      ]
+    },
+    {
+      "sha": "d620b535",
+      "branch": "librarian/2026-09-23-1",
+      "pathspec": [
+        "knowledge/software-engineering/llm-agent/prompt-and-context/structured-output/techniques/enumerable-domain-decoding.md"
+      ]
+    },
+    {
+      "sha": "745f0b17",
+      "branch": "librarian/2026-09-23-1",
+      "pathspec": [
+        "knowledge/software-engineering/engineering-process/codebase-stewardship/codebase-scanning/applications/node--sensor-pipeline.md",
+        "knowledge/software-engineering/engineering-process/codebase-stewardship/codebase-scanning/codebase-scanning.md",
+        "knowledge/software-engineering/engineering-process/codebase-stewardship/codebase-scanning/techniques/sensor-pipeline.md"
+      ]
+    },
+    {
+      "sha": "a87fb08c",
+      "branch": "librarian/2026-09-23-1",
+      "pathspec": [
+        "knowledge/software-engineering/engineering-process/codebase-stewardship/concurrent-vcs/concurrent-vcs.md",
+        "knowledge/software-engineering/engineering-process/codebase-stewardship/concurrent-vcs/techniques/isolated-index-commits.md"
+      ]
+    },
+    {
+      "sha": "be04446a",
+      "branch": "librarian/2026-09-23-1",
+      "pathspec": [
+        "knowledge/software-engineering/engineering-process/codebase-stewardship/docs-sync/techniques/same-change-enforcement.md"
+      ]
+    },
+    {
+      "sha": "57b9f58c",
+      "branch": "librarian/2026-09-23-1",
+      "pathspec": [
+        "knowledge/software-engineering/engineering-process/standards-and-gates/knowledge-registry/applications/node--catalog-as-sync-key.md",
+        "knowledge/software-engineering/engineering-process/standards-and-gates/knowledge-registry/applications/node--deterministic-seeding.md",
+        "knowledge/software-engineering/engineering-process/standards-and-gates/knowledge-registry/knowledge-registry.md",
+        "knowledge/software-engineering/engineering-process/standards-and-gates/knowledge-registry/techniques/catalog-as-sync-key.md",
+        "knowledge/software-engineering/engineering-process/standards-and-gates/knowledge-registry/techniques/lane-contracts.md"
+      ]
+    },
+    {
+      "sha": "273bd749",
+      "branch": "librarian/2026-09-23-1",
+      "pathspec": [
+        "knowledge/software-engineering/engineering-process/standards-and-gates/metric-gates/applications/node--ratchet-design--personas.md",
+        "knowledge/software-engineering/engineering-process/standards-and-gates/metric-gates/techniques/ratchet-design.md"
+      ]
+    },
+    {
+      "sha": "b8eac39b",
+      "branch": "librarian/2026-09-23-1",
+      "pathspec": [
+        "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/applications/node--gate-liveness.md",
+        "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/applications/rust--self-reported-gate-inputs.md",
+        "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/techniques/refusal-names-a-reachable-remedy.md",
+        "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/techniques/self-reported-gate-inputs.md"
+      ]
+    },
+    {
+      "sha": "b0ca903d",
+      "branch": "librarian/2026-09-23-1",
+      "pathspec": [
+        "knowledge/software-engineering/engineering-process/standards-and-gates/repo-manifest-standard/applications/node--generated-from-provenance.md",
+        "knowledge/software-engineering/engineering-process/standards-and-gates/repo-manifest-standard/applications/node--must-ignore-unknown.md",
+        "knowledge/software-engineering/engineering-process/standards-and-gates/repo-manifest-standard/applications/node--pointers-not-embeds.md",
+        "knowledge/software-engineering/engineering-process/standards-and-gates/repo-manifest-standard/applications/node--spec-ships-with-artifact.md",
+        "knowledge/software-engineering/engineering-process/standards-and-gates/repo-manifest-standard/applications/process--spec-ships-with-artifact.md",
+        "knowledge/software-engineering/engineering-process/standards-and-gates/repo-manifest-standard/techniques/must-ignore-unknown.md"
+      ]
+    },
+    {
+      "sha": "349d2092",
+      "branch": "librarian/2026-09-23-1",
+      "pathspec": [
+        ".claude/skills/assay/SKILL.md",
+        ".claude/skills/harvest/SKILL.md",
+        ".claude/skills/harvest/references/backlog-worker-brief.md",
+        "docs/forge-brief.md",
+        "docs/runs-lane.md",
+        "knowledge/game-production/asset-production/sourcing-economics/image-to-3d-input-gating/applications/node--reference-role-tagging.md",
+        "knowledge/game-production/asset-production/sourcing-economics/image-to-3d-input-gating/applications/node--single-subject-plain-background.md",
+        "knowledge/game-production/asset-production/sourcing-economics/image-to-3d-input-gating/applications/process--score-defect-verdict-protocol.md",
+        "knowledge/game-production/asset-production/sourcing-economics/regeneration-vs-repair-economics/applications/node--defect-class-to-remedy-map.md",
+        "knowledge/game-production/asset-production/sourcing-economics/regeneration-vs-repair-economics/applications/process--bounded-refine-iteration.md",
+        "knowledge/game-production/asset-production/surface-and-imagery/shader-budget-authoring/applications/node--feature-cost-with-a-cheaper-swap.md",
+        "knowledge/game-production/asset-production/surface-and-imagery/shader-budget-authoring/applications/process--hardware-tier-lighting-presets.md",
+        "knowledge/game-production/balance-validation/procedural-level-planning/applications/node--declare-what-each-engine-ignores.md",
+        "knowledge/game-production/balance-validation/procedural-level-planning/applications/node--gate-and-key-solvability-proof.md",
+        "knowledge/game-production/balance-validation/procedural-level-planning/applications/node--pacing-linter-rules.md",
+        "knowledge/game-production/balance-validation/procedural-level-planning/applications/process--safe-room-and-boss-placement.md",
+        "knowledge/game-production/craft-judgment/quality-verdict-integrity/applications/node--content-hash-binding.md",
+        "knowledge/game-production/engine-integration/engine-pitfall-corpus/applications/process--incident-entry-shape.md",
+        "knowledge/localization/east-asian/chinese/applications/process--de-anglicization-constructions.md",
+        "knowledge/localization/east-asian/chinese/applications/process--terminology-and-variants.md",
+        "knowledge/localization/east-asian/japanese/applications/process--counting-and-quantity.md",
+        "knowledge/localization/east-asian/japanese/applications/process--register-and-politeness.md",
+        "knowledge/localization/east-asian/korean/applications/process--particles-and-interpolation.md",
+        "knowledge/localization/east-asian/korean/applications/process--register-and-honorifics.md",
+        "knowledge/localization/european/czech/applications/process--de-anglicization-constructions.md",
+        "knowledge/localization/european/czech/applications/process--plural-and-count-agreement.md",
+        "knowledge/localization/european/english/applications/process--generated-prose-patterns.md",
+        "knowledge/localization/european/english/applications/process--interference-constructions.md",
+        "knowledge/localization/european/english/applications/spec--typography-and-capitalization.md",
+        "knowledge/localization/european/french/applications/process--terminology-and-loanwords.md",
+        "knowledge/localization/european/french/applications/process--typography-and-spacing.md",
+        "knowledge/localization/european/german/applications/process--de-anglicization-constructions.md",
+        "knowledge/localization/european/german/applications/process--register-and-address.md",
+        "knowledge/localization/european/russian/applications/process--plural-and-count-agreement.md",
+        "knowledge/localization/european/russian/applications/process--terminology-and-loanwords.md",
+        "knowledge/localization/european/spanish/applications/process--register-and-address.md",
+        "knowledge/localization/european/spanish/applications/process--typography-and-punctuation.md",
+        "knowledge/localization/right-to-left/arabic/applications/process--bidirectional-text-and-interpolation.md",
+        "knowledge/localization/right-to-left/arabic/applications/process--register-and-address.md",
+        "knowledge/localization/south-and-southeast-asian/bengali/applications/process--classifiers-and-quantity.md",
+        "knowledge/localization/south-and-southeast-asian/bengali/applications/process--terminology-and-loanwords.md",
+        "knowledge/localization/south-and-southeast-asian/hindi/applications/process--devanagari-and-numerals.md",
+        "knowledge/localization/south-and-southeast-asian/hindi/applications/process--terminology-and-loanwords.md",
+        "knowledge/localization/south-and-southeast-asian/vietnamese/applications/process--diacritics-and-typography.md",
+        "knowledge/localization/south-and-southeast-asian/vietnamese/applications/process--terminology-and-loanwords.md",
+        "knowledge/marketing/measurement-and-economics/goal-pacing-and-forecast/applications/node--goal-in-force-per-month.md",
+        "knowledge/marketing/measurement-and-economics/goal-pacing-and-forecast/applications/node--weekday-weighted-month-end-projection.md",
+        "knowledge/marketing/paid-advertising/responsive-search-ad-craft/applications/node--ad-strength-is-a-proxy-not-relevance.md",
+        "knowledge/marketing/paid-advertising/responsive-search-ad-craft/applications/node--headline-angle-coverage.md",
+        "knowledge/marketing/paid-advertising/responsive-search-ad-craft/applications/node--over-limit-omitted-not-truncated.md",
+        "knowledge/media-generation/production-ops/video-assembly/applications/react--gap-and-refusal-honesty.md",
+        "knowledge/media-generation/research-grounding/evidence-bound-visuals/applications/process--epistemic-draw-routing.md",
+        "knowledge/media-generation/research-grounding/evidence-bound-visuals/applications/react--figure-must-cite-a-fact.md",
+        "knowledge/software-engineering/engineering-assessment/maturity-and-conformance/conformance-checking/applications/node--declared-then-proven.md",
+        "knowledge/software-engineering/engineering-assessment/measurement-method/people-analytics-ethics/applications/node--contribution-eligibility-floors.md",
+        "knowledge/software-engineering/engineering-assessment/measurement-method/people-analytics-ethics/applications/node--producer-enforced-suppression.md",
+        "knowledge/software-engineering/engineering-assessment/measurement-method/people-analytics-ethics/applications/process--risk-framing-anonymization.md",
+        "knowledge/software-engineering/engineering-assessment/reporting-and-remediation/adoption-measurement/applications/node--attribution-provenance-tiers.md",
+        "knowledge/software-engineering/engineering-assessment/reporting-and-remediation/adoption-measurement/applications/node--dormancy-verdicts.md",
+        "knowledge/software-engineering/engineering-assessment/reporting-and-remediation/executive-reporting/applications/node--expiring-share-links.md",
+        "knowledge/software-engineering/engineering-assessment/reporting-and-remediation/executive-reporting/applications/node--grounded-narrative-generation.md",
+        "knowledge/software-engineering/engineering-assessment/reporting-and-remediation/executive-reporting/applications/process--bad-news-labelling.md",
+        "librarian/handoffs/2026-09-02-oh-my-claudecode-session-continuation-spec.md",
+        "librarian/sources/2026-09-03-kube-rs.design-read.md",
+        "librarian/sources/2026-09-03-kube-rs.md",
+        "librarian/specs/2026-09-07-index-free-random-access.md",
+        "librarian/subjects/game-production/aaa-craft-rubric-authoring.md",
+        "librarian/subjects/game-production/acceptance-verdict-spine.md",
+        "librarian/subjects/game-production/agent-behaviour-authoring.md",
+        "librarian/subjects/game-production/arpg-systems-canon.md",
+        "librarian/subjects/game-production/asset-class-poly-budgeting.md",
+        "librarian/subjects/game-production/engine-pitfall-corpus.md",
+        "librarian/subjects/game-production/game-economy-tuning.md",
+        "librarian/subjects/game-production/gameplay-runtime-patterns.md",
+        "librarian/subjects/game-production/learning-curve-and-teaching-design.md",
+        "librarian/subjects/game-production/mesh-finishing-for-engine-readiness.md",
+        "librarian/subjects/game-production/motion-quality-gating.md",
+        "librarian/subjects/game-production/playtest-signal-to-defect.md",
+        "librarian/subjects/game-production/procedural-level-planning.md",
+        "librarian/subjects/game-production/production-coverage-measurement.md",
+        "librarian/subjects/game-production/production-work-prioritization.md",
+        "librarian/subjects/game-production/prompt-fitness-and-evolution.md",
+        "librarian/subjects/game-production/realtime-combat-semantics.md",
+        "librarian/subjects/game-production/reference-parity-gating.md",
+        "librarian/subjects/game-production/regeneration-vs-repair-economics.md",
+        "librarian/subjects/game-production/ship-pipeline-gating.md",
+        "librarian/subjects/game-production/subsystem-review-doctrine.md",
+        "librarian/subjects/game-production/terrain-synthesis-acceptance.md",
+        "librarian/subjects/game-production/tiling-texture-acceptance.md",
+        "librarian/subjects/game-production/visual-script-to-code-transpilation.md",
+        "librarian/subjects/game-production/wiring-contract-doctrine.md",
+        "librarian/subjects/llm-observability/billing-revenue-normalization.md",
+        "librarian/subjects/llm-observability/llm-call-telemetry-model.md",
+        "librarian/subjects/llm-observability/margin-and-unit-economics.md",
+        "librarian/subjects/llm-observability/operator-surfaces-for-llm-spend.md",
+        "librarian/subjects/llm-observability/usage-limit-governance.md",
+        "skills/architect/LESSONS.md",
+        "skills/explorer/LESSONS.md",
+        "skills/project-populate/SCAN-PLAN.md",
+        "skills/project-populate/SKILL.md",
+        "skills/research/LESSONS.md"
+      ]
+    },
+    {
+      "sha": "1b655e5d",
+      "branch": "librarian/2026-09-23-1",
+      "pathspec": [
+        "scripts/check-public-paths.mjs",
+        "scripts/gate.mjs"
+      ]
+    },
+    {
+      "sha": "7686ad0c",
+      "branch": "librarian/2026-09-23-1",
+      "pathspec": [
+        "librarian/inbox.md",
+        "librarian/subjects/software-engineering/agent-browser-control.md",
+        "librarian/subjects/software-engineering/agent-cli-transport.md",
+        "librarian/subjects/software-engineering/agent-memory.md",
+        "librarian/subjects/software-engineering/codebase-scanning.md",
+        "librarian/subjects/software-engineering/companion-identity.md",
+        "librarian/subjects/software-engineering/concurrent-vcs.md",
+        "librarian/subjects/software-engineering/cost-metering.md",
+        "librarian/subjects/software-engineering/docs-sync.md",
+        "librarian/subjects/software-engineering/eval-harness.md",
+        "librarian/subjects/software-engineering/fleet-orchestration.md",
+        "librarian/subjects/software-engineering/hitl-approval.md",
+        "librarian/subjects/software-engineering/knowledge-registry.md",
+        "librarian/subjects/software-engineering/mcp-tools.md",
+        "librarian/subjects/software-engineering/metric-gates.md",
+        "librarian/subjects/software-engineering/model-routing.md",
+        "librarian/subjects/software-engineering/quality-gates.md",
+        "librarian/subjects/software-engineering/repo-manifest-standard.md",
+        "librarian/subjects/software-engineering/session-continuation.md",
+        "librarian/subjects/software-engineering/structured-output.md",
+        "librarian/subjects/software-engineering/table.md"
+      ]
+    },
+    {
+      "sha": "f56ed343",
+      "branch": "librarian/2026-09-23-1",
+      "pathspec": [
+        "knowledge/software-engineering/ui-surfaces/data-display/table/applications/next--filtering.md",
+        "knowledge/software-engineering/ui-surfaces/data-display/table/techniques/filtering.md"
+      ]
+    },
+    {
+      "sha": "fc2710ad",
+      "branch": "librarian/2026-09-23-1",
+      "pathspec": [
+        "knowledge/software-engineering/ui-surfaces/data-display/table/applications/react--performance.md",
+        "knowledge/software-engineering/ui-surfaces/data-display/table/techniques/performance.md"
+      ]
+    },
+    {
+      "sha": "97431955",
+      "branch": "librarian/2026-09-23-1",
+      "pathspec": [
+        "knowledge/software-engineering/ui-surfaces/data-display/table/applications/react--loading-and-empty-states.md",
+        "knowledge/software-engineering/ui-surfaces/data-display/table/techniques/loading-and-empty-states.md"
+      ]
+    },
+    {
+      "sha": "233209b1",
+      "branch": "librarian/2026-09-23-1",
+      "pathspec": [
+        "knowledge/software-engineering/llm-agent/orchestration/hitl-approval/applications/react--decision-records.md"
+      ]
+    },
+    {
+      "sha": "bb1016c2",
+      "branch": "librarian/2026-09-23-1",
+      "pathspec": [
+        "knowledge/software-engineering/ui-surfaces/data-display/table/techniques/sorting.md"
+      ]
+    },
+    {
+      "sha": "5fd55fb3",
+      "branch": "librarian/2026-09-23-1",
+      "pathspec": [
+        "knowledge/software-engineering/llm-agent/companion/companion-identity/applications/rust--constitution-self-model-split.md",
+        "knowledge/software-engineering/llm-agent/companion/companion-identity/techniques/anchored-identity-diffs.md"
+      ]
+    },
+    {
+      "sha": "0a429a5a",
+      "branch": "librarian/2026-09-23-1",
+      "pathspec": [
+        "knowledge/software-engineering/llm-agent/prompt-and-context/structured-output/techniques/enumerable-domain-decoding.md"
+      ]
+    },
+    {
+      "sha": "3394c37e",
+      "branch": "librarian/2026-09-23-1",
+      "pathspec": [
+        "scripts/gate.mjs"
+      ]
+    },
+    {
+      "sha": "9e23c2a7",
+      "branch": "librarian/2026-09-23-1",
+      "pathspec": [
+        "librarian/applied.md"
+      ]
+    },
+    {
+      "sha": "846db314",
+      "branch": "librarian/2026-09-23-1",
+      "pathspec": [
+        ".claude-plugin/marketplace.json",
+        "catalog.json",
+        "knowledge/game-production/index.json",
+        "knowledge/localization/index.json",
+        "knowledge/marketing/index.json",
+        "knowledge/media-generation/index.json",
+        "knowledge/software-engineering/index.json",
+        "rules/ai-registry-software-engineering.md"
+      ]
+    },
+    {
+      "sha": "ec0f5ae5",
+      "branch": "librarian/2026-09-23-1",
+      "pathspec": [
+        "librarian/subjects/software-engineering/concurrent-vcs.md",
+        "librarian/subjects/software-engineering/conformance-checking.md",
+        "librarian/subjects/software-engineering/context-hierarchy.md",
+        "librarian/subjects/software-engineering/diff-comparison.md",
+        "librarian/subjects/software-engineering/guest-execution-bounding.md",
+        "librarian/subjects/software-engineering/index-free-random-access.md",
+        "librarian/subjects/software-engineering/measurement-honesty.md"
+      ]
+    },
+    {
+      "sha": "2d1a9347",
+      "branch": "librarian/2026-09-23-1",
+      "pathspec": [
+        "librarian/domains/software-engineering.md",
+        "librarian/runs/2026-09-23-1.md"
+      ]
+    }
+  ],
+  "pr": {
+    "number": 10,
+    "url": "https://github.com/xkazm04/ai-registry/pull/10"
+  },
+  "declined": [
+    {
+      "subject": "software-engineering/agent-memory",
+      "reason": "rank set by the other contributor's signals file (2026-08-30, pre-fix collector, scored by max); fresh state-correct demand is far lower - re-rank after it re-collects"
+    },
+    {
+      "subject": "software-engineering/quality-gates",
+      "reason": "rank set by the other contributor's signals file (2026-08-30, pre-fix collector, scored by max); fresh state-correct demand is far lower - re-rank after it re-collects"
+    },
+    {
+      "subject": "software-engineering/accessibility",
+      "reason": "rank set by the other contributor's signals file (2026-08-30, pre-fix collector, scored by max); fresh state-correct demand is far lower - re-rank after it re-collects"
+    },
+    {
+      "subject": "software-engineering/markdown-vault",
+      "reason": "rank set by the other contributor's signals file (2026-08-30, pre-fix collector, scored by max); fresh state-correct demand is far lower - re-rank after it re-collects"
+    },
+    {
+      "subject": "llm-observability/operator-surfaces-for-llm-spend",
+      "reason": "rank set by the other contributor's signals file (2026-08-30, pre-fix collector, scored by max); fresh state-correct demand is far lower - re-rank after it re-collects"
+    },
+    {
+      "subject": "agent-operations (bundle, 7 thin draft subjects)",
+      "reason": "one week old, never applied anywhere, demand unknown - a wiki page not yet tried once"
+    },
+    {
+      "subject": "upstream re-scans",
+      "reason": "none due once upstream-check parsed annotated pins: knip dormant, memory-lancedb-pro 74 days short of its floor, lago withheld by an un-executed handoff"
+    },
+    {
+      "subject": "152 single-stack subjects",
+      "reason": "a /reconcile wave, not this run"
+    }
+  ],
+  "failure_signature": null,
+  "notes": "Four instruments repaired before any dispatch (upstream pins, signals deviations, dry streak, public paths). 41 leads ruled, 19 subjects landed, 7 apply findings (5 better shipped, 2 not-better). Post-merge map rebuild owed."
+}
