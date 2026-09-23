@@ -7,6 +7,8 @@ stack: rust
 status: forged
 verified_on: 2026-09-23
 verified_against: rust@1.96
+applied: experiment
+ab_verdict: not-better
 ---
 
 # A four-state probe that got the verdict and attempt split right in storage, and still files every non-2xx as a failure
@@ -87,3 +89,30 @@ Any other send error stays a failure.
   Before `afa6c42cb` it was missing `unreachable` even though the backend
   had emitted it for some time. The four-member union matches the enum at
   this commit, but nothing enforces that.
+
+## Applied 2026-09-23 - two experiments, read-only against the tree
+
+**Verdict and attempt: `not-better`, and the technique gained an ordering clause.**
+Write sets extracted from source: 0 of 3 verdict writers clear the attempt fields (the
+engine's single writer, the gateway sweep, the renderer's post-probe patch), and the
+attempt fields have no reader outside their writer. Over 120 outcome sequences of length
+1-4, the tree hides the attempt in all 40 that end unreachable. The rule as first landed,
+paired with a reader that only checks whether an attempt is present, fixes those 40 but
+shows a stale "could not check" in 50 of the 80 that end in a verdict. A reader that
+compares the two times, or a verdict that clears the attempt, gets 0 and 0. The clear is
+one line here: the metadata patch already deletes a key sent as null. Not hunted: the
+gateway sweep persists through its own path with no unreachable branch, so a connection
+error there is still filed as a failed verdict. This is a model over extracted write sets,
+not an executed run.
+
+**Which answers are verdicts: `better`.** The shipped catalog carries 115 probe recipes
+over 113 connectors. The probe reads the status line only, with no headers or body, so 0
+recipes read a rate-limit header. One recipe declares an expected status that the parser
+never reads. Over 9 answer shapes documented by 3 providers, the status-line classifier
+gets 2 right and the typed-signal partition gets 5. Revoked keys are answered 401 by two
+providers and 200 by the third, so none is quota-shaped or 5xx, and the per-provider
+override the partition feared is not needed here. The floor, real rejections kept as
+failures, is 2 of 4 in both arms: one provider answers a revoked token with HTTP 200 and
+an error body, which both arms draw green. The status line fails in the success direction
+too, and quota signals carried in a body are missed by a header-only reader. The evidence
+is provider documentation, not recorded answers.

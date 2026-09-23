@@ -49,7 +49,13 @@ outcome, its time, and the obstacle. A could-not-reach updates the attempt
 and leaves the verdict alone, and the surface renders both — "verified four
 days ago; could not check since this morning, offline". Overwrite the verdict
 and the offline laptop paints the vault red; drop the attempt and the last
-green ages behind a checkmark nobody knows is unrefreshed.
+green ages behind a checkmark nobody knows is unrefreshed. The two facts
+also need an order. Where the attempt is written only when a probe reaches no
+verdict, the next verdict must clear it, or every surface must compare the
+attempt's time with the verdict's. Otherwise a "could not check" that a later
+verdict has already answered renders beside that verdict. Every path that
+writes a verdict owes the clear, including a sweep or a gateway that
+persists results through a writer of its own.
 
 The same honesty applies inside "broken": a rejection carries its kind where
 the provider offers one — expired, revoked, insufficient scope, account
@@ -72,7 +78,10 @@ to prevent, and it gets in through the classifier rather than the renderer.
 Classify from the typed signals the protocol carries — the authentication
 challenge's error code, the token endpoint's error field, the rate-limit
 headers — and treat an answer none of them explains as unknown, with the raw
-evidence kept for diagnosis.
+evidence kept for diagnosis. The success status is not a verdict either,
+where a provider carries its errors in the body: an API that answers a
+revoked token with a success status and an error flag in the payload is
+drawn green by any classifier that stops at the status line.
 
 The kind, once classified, crosses every boundary as a field
 ([verdict-survives-boundary](../../../../_laws.md#verdict-survives-boundary)).

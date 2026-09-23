@@ -110,7 +110,13 @@ key the template called text is sealed on disk and in plain view on the
 screen that confirms it. When the seal is stricter than the screen, the
 backstop protected the disk and nothing else. Ask each surface that renders
 a value which predicate it consults, and whether that predicate fails
-closed.
+closed. One predicate is only as good as its classification, though. Where
+the seal's strictness comes from a name backstop matching substrings, or
+from sensitive flags set on identifiers, the disagreement is the seal
+over-classifying. Making the screen consume that predicate masks the account
+ids and addresses the confirming screen exists to show. Correct the
+classification first. A name backstop stays a floor for the seal and does
+not decide what a screen hides.
 
 ## Blast radius is a design input
 
