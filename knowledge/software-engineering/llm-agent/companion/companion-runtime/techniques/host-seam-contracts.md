@@ -112,6 +112,16 @@ testability where the engine is embedded — it is the runtime's own nouns at th
 boundary, and a second host whose storage differs. Where the engine is a server
 the runtime cannot open cheaply, the in-memory double earns its place as before.
 
+That return has a precondition: **the whole store is reached through the handle
+the test opens.** A companion's store is rarely one engine — a database beside a
+directory of documents is the common shape — and the half found through
+process-global state (an environment variable, a well-known home directory) is not
+isolated by the throwaway instance. Every test in the process shares it, and a
+test that clears the variable falls back to the real store. For that half the
+capability does pay for testability after all: carry its location on the handle.
+Until it is carried there, every writer of the global takes one lock — not one
+lock per module that happened to notice the race.
+
 ## The second consumer is the proof, and the parity trap is the usual outcome
 
 A seam that has only ever had one host is a hypothesis. The evidence is a second

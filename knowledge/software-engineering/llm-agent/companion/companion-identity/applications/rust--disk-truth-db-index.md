@@ -7,6 +7,8 @@ stack: rust
 status: forged
 verified_on: 2026-09-23
 verified_against: rust@1.96
+applied: experiment
+ab_verdict: better
 ---
 
 # The companion brain as a folder, with SQLite as its index (Athena)
@@ -143,3 +145,22 @@ reconciles the node index against the files (`backlog.rs:440-445` records the
 search), so a document with no row — the mirror of the "stored but unfindable"
 defect at `README.md:486` — has no detector, and the rebuild the backlog repair was
 written for does not yet exist.
+
+## Applied 2026-09-23 - write order under injected faults, modelled over the extracted order
+
+The resolve path's own comment calls claiming the index first "the safe direction". A
+script extracted the order from source (row claim, then document, then the node's
+importance stamp: three writes, no transaction) and a fault-injection model walked a
+failure at every boundary with one caller retry, reading three surfaces - the backlog
+list, the retrieval gate (importance above zero) and the document's status. Fault points
+leaving a surface false after the retry: 2 of 3 as built with no rebuild, 1 of 3 with a
+rebuild from disk; 0 of 3 either way with the document written first and claim plus stamp
+in one transaction. No-fault behaviour and the double-resolve refusal held in both arms.
+The stated safety never existed: the write that takes the item out of retrieval is last,
+so a document failure leaves it retrievable, pending, and refused on retry. This is a
+model of the extracted order, not an executed run. The reminder counter is index-only
+(3 of 3 rows at 0, one of its two writers dead code) and no rebuild exists yet, so "the
+rebuild names what it resets" is unmeasurable. Not hunted: 5 documents against 3 index
+rows, the 2 without rows being test-fixture promises that a rebuild from disk would
+import. `better`. Return: when a rebuild from disk lands, check it names what it resets
+and what it adds.

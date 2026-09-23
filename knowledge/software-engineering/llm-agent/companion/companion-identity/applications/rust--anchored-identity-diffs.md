@@ -7,6 +7,8 @@ stack: rust
 status: forged
 verified_on: 2026-09-23
 verified_against: rust@1.96
+applied: experiment
+ab_verdict: not-better
 ---
 
 # Anchored identity diffs in the Personas companion (Athena)
@@ -129,3 +131,27 @@ copy (`let _ = std::fs::copy(…)`, `identity.rs:340-345`) and writes anyway;
 **A stale anchor is not distinguished from a rejected one.** `apply_to` returns
 `AppError::Validation` for "section does not exist" and "bullet not found" alike
 (`identity.rs:227-230, 248-252, 258-262`), with no re-derivation path.
+
+## Applied 2026-09-23 - consent under autonomy, read-only experiment
+
+A sentence-scoped parse of the shipped law against the approval resolver: of 7 ops the
+law says never auto-fire, 1 agrees (credential reconnect defers, as do the browser ops);
+6 conflict - the identity op, both dev-mode ops, fleet broadcast and redirect fire with no
+human under autonomous mode, and fleet kill fires on its own gate. The whole-content
+identity mode fires too. The rule's fix (an unconditional defer arm for the identity op)
+moves the identity conflict to 0 and leaves the other 55 approval ops unchanged.
+
+**On real traffic it moved nothing, and that is the finding.** With autonomous mode on,
+the install carries 26 unreviewed writes to the self-model across 4 days - none of them
+through the autopilot (0 identity approvals among 120; 0 approvals of any kind in 66
+turns since the allowlist was removed). Since 2026-09-20 the live self-model is a
+byte-exact literal from the data-portability tests, and both self-promise documents in
+the brain carry test-fixture text. The brain root is resolved from a process-global
+environment variable; of 6 source files that set or clear it, 3 take no lock and 1 a
+private one, so a test running beside a brain test writes the operator's real brain. The
+door list over the product's call sites finds 4 doors and cannot see this writer. The
+fixture match proves a test wrote the last version; that tests wrote the rest is inferred
+from burst timing and the lock census. `not-better`: the technique gained the condition
+that the door list enumerates every process resolving the location. Return: rerun once
+the root is under one lock or injected, on an install whose autonomous history includes
+identity proposals.

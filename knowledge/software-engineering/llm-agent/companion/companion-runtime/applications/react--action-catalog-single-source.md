@@ -7,6 +7,8 @@ stack: react
 status: forged
 verified_on: 2026-09-23
 verified_against: react@19
+applied: experiment
+ab_verdict: better
 ---
 
 # The surfaces over the op catalog: one gated, two tolerant (Personas / Athena)
@@ -97,3 +99,15 @@ the same co-deployed-fallback case: a sixth backend status would render as its
 identifier with a neutral tone, and nothing would fail. The same file's
 neighbour `ChatCardStatus` (`src/api/companion.ts:1927`) is a closed union, which
 is the shape this one lacks.
+
+## Applied 2026-09-23 - the co-deployed label surface, read-only experiment
+
+The label switch has 36 cases; 22 of 56 accepted kinds, and 25 of the 59 kinds that can
+reach an approval card, have none and render through the title-cased-slug fallback. In
+the live store 18 of 120 approval rows (5 of the 16 kinds in use) were carded through
+that fallback. The falsifier for "cannot be out of step inside one artifact" is a stored
+row that outlives a release: rows do cross releases (8 pending for 44 days), but 0 of
+120 carry a kind outside the current table, and approvals are excluded from the data
+export, so no row arrives from another install. A generated exhaustive union would turn
+all 22 into build errors. Return: the first time a kind is retired while rows of it are
+pending - the first live test of the tolerant arm.

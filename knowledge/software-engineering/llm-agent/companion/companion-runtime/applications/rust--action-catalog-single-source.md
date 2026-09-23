@@ -7,6 +7,8 @@ stack: rust
 status: forged
 verified_on: 2026-09-23
 verified_against: rust@1.96
+applied: experiment
+ab_verdict: better
 ---
 
 # The op catalog and the cockpit post-mortem (Personas / Athena)
@@ -170,3 +172,16 @@ same move over the kind set would let every frontend table be a
 `Record<Kind, …>` the compiler checks. The reset is the one thing generation does
 not supply, and here it is the smallest missing piece: a floor that already
 exists and a control that points at it.
+
+## Applied 2026-09-23 - the per-producer pin, read-only experiment
+
+Whole-executor equality flags 5 executor arms beyond the 56 accepted kinds; a producer
+column (the model's grammar, its connector arm, and five host paths that file approvals)
+flags 2 of those 5 and none of the 56. Three are claimed by real non-model producers. Of
+the two unclaimed, one is a fallback kept for rows filed before its kind became
+auto-fire (0 such rows among 120 in the live store), and one has had no producer since
+the day it was added - while a composer prompt on the frontend still teaches the model to
+use it, and the dispatcher rejects it as unknown. The list guard deleted in the dead-code
+sweep had recorded that kind as dead in a comment; the comment went with the list.
+Refinement banked: the producer column wants a *retired* value, so an arm kept for
+draining rows reads differently from an arm nobody can reach.

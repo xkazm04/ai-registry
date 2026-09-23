@@ -159,6 +159,17 @@ system can be in.** A door whose resolver is an automatic policy in some mode is
 not human-gated in that mode, whatever the prompt and the documentation say about
 it. A list that cannot be completed is the finding.
 
+**Enumerate over every process that resolves the document's location, not over the
+product's call sites.** A door list built by reading the product finds the doors the
+product has. Where the location itself comes from process-global state — an
+environment variable, a well-known home directory — that other code in the same
+build can set or clear, every such process is a writer: a test harness, a
+simulator, a second instance. A test that clears the variable and falls back to the
+default location writes the person's real self-model through no door at all, and a
+consent rule over the product's doors is then correct and irrelevant. The list is
+complete when it names those processes too, and the one lock or the injected
+location that keeps them out.
+
 ## Standing consent does not reach the self-description
 
 Companions grow an autonomy mode — the person flips a switch that means "act

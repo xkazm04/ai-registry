@@ -7,6 +7,8 @@ stack: rust
 status: forged
 verified_on: 2026-09-23
 verified_against: rust@1.96
+applied: experiment
+ab_verdict: better
 ---
 
 # A shipped constitution that carries the op catalog (Personas / Athena)
@@ -94,3 +96,22 @@ has one. The gate the comment describes exists only in manual mode.
   (`disk.rs:100-106`).
 - **The upstream is writable by the companion** under dev mode, and under autonomous
   mode without a click; the code's own comments still describe a click gate.
+
+## Applied 2026-09-23 - the upgrade ladder over git history and the install, read-only
+
+57 constitution version bumps in 143 days. By a lexical test (an op line or a catalog op
+name) 21 are grammar-only, 32 mixed and 4 law-only; reading the 4 by hand, 3 are feature
+procedures, so at most 1 of 57 changed durable law. 20 template commits changed the text
+without a bump and 17 of them changed op lines - grammar that reaches an existing install
+only at the next bump, and would ship with the binary under layering. Person's file
+rewritten per bump: 57 as built, at most 1 with the grammar out.
+
+The floor refuted the landing's worst case *on this install*: 39 of 39 backups are
+byte-identical to a shipped text, so no amendment was ever displaced - nothing had been
+written, and the product has no in-product editor for the law. A fingerprint of the
+shipped text would have made all 39 upgrades silent; 3 of them re-fired over text that was
+already current (the stamp lives in the app database, the file in the home folder -
+mechanism inferred). The backup's result is discarded; the failure path was never
+observed. Both dev-mode ops fire under autonomy, so the law's source is writable without a
+click. `better`. Return: rerun when an in-product law editor ships or any install shows
+an amended file.

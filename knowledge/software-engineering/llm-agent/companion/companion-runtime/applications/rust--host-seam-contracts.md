@@ -7,6 +7,8 @@ stack: rust
 status: forged
 verified_on: 2026-09-23
 verified_against: rust@1.96
+applied: experiment
+ab_verdict: not-better
 ---
 
 # The host seam in the Personas companion (Athena)
@@ -151,3 +153,29 @@ instead of re-implementing its write path. For the store: a Store trait is not
 what testing needs here, since the real engine already serves; what a crate
 boundary would buy is a build that sees the line, with `personas_db` as the one
 declared lower edge.
+
+## Applied 2026-09-23 - two experiments, read-only against the tree
+
+**The embedded store as its own double: `not-better`, and the technique gained its
+precondition.** The database half confirms the rule outright - 104 calls that open a
+throwaway real database across 28 companion files, each a unique temp file with the
+production pragmas and schema, and no hand-written store double anywhere. The markdown
+brain half does not: its root is resolved from a process-wide environment variable that
+falls back to the operator's real home when unset. One test binary holds three separate
+populations of writers to that variable - the brain module's lock, a data-portability
+lock, and seven voice-engine tests with no lock at all, making 14 writes of which 7
+clear it. The brain module's own comment records two of the three. Known positive (a
+guarded writer classified guarded) and known negative (a voice-test writer classified
+unguarded) both fired. Not shown: that the race has happened - this machine's test binary
+does not launch, as the project's own ledger records. Return: the brain root carried on
+the handle, or every writer behind one lock.
+
+**The package boundary as the cheapest direction check: `better`.** Of 152 companion
+files, 25 reach modules only the host package has (command handlers 16, app state 6,
+browser bridge 6, notifications 3, host-local engine 2, web build 2) - the set an
+extraction would make the build refuse. 15 more reach only the UI framework, which an
+extracted crate may depend on (the earlier estimate of 41 counted those as host). And
+100 of 152 reach the data-layer crate directly: the acyclic edge the technique warns the
+build cannot see. So a crate boundary would enforce about a quarter of the direction
+rule here, and the import count stays the only instrument until the companion leaves the
+host crate - the workspace's own manifest keeps it there as "what's left".
