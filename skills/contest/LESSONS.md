@@ -3,6 +3,11 @@
 Append-only reflection lane. One entry per run that taught something. Format:
 `## <version used> - <YYYY-MM-DD> - <project>` followed by `- ` bullets.
 
+## 1.4.0 - 2026-09-23 - personas (Cadastre promotion, contract capture)
+
+- A winner's heavy content lives behind an interaction (a deed opens a full-scale layer on click), so a contract captured at load found 13 of 34 roles NOT FOUND and would have licensed a port that never checked the part the owner chose it for. `style-contract.py` gained `--drive click:<sel> | press:<key> | wait:<ms>` (repeatable, run in order before measuring); a role that only exists after an interaction carries the same steps in `roles.json` and is captured and checked through them on both sides. Two captures are merged: the base one and the driven one.
+- The winner's selectors were guessed from screenshots first (`.dist-h`, `.pc[data-tone]`, `.ftag.waiting`) and half were wrong; read the prototype's own class names from its stylesheet and its render functions before writing `roles.json`. A NOT FOUND role is a wrong selector, never an absent element.
+
 ## 1.0.0 - 2026-09-17 - tracklight (knowledge-skill-tree, the hardening contest)
 
 Run shape: three seats (grok-4.6@high, opus@xhigh, fable@high), three variants each, the
@@ -136,6 +141,106 @@ verdict. 6/6 delivered, 0 page errors, no seat failed.
 - **A seat-limit on the only second family leaves a one-judge panel.** Say so in the report and
   let the owner decide; do not substitute a same-family judge to fill the chair.
 
+## 1.1.1 - 2026-09-22 - pumper, tracklight (backend design contests)
+
+- **`--sandbox workspace-write` is not enough for codex on Windows; the seat can think and never
+  write.** Probed directly before a run: codex-cli 0.154 with that flag answered "the read-only
+  filesystem policy blocked the write" and left no file, because its shell invocation is
+  `Rejected(... blocked by policy)`. The same prompt with
+  `--dangerously-bypass-approvals-and-sandbox` wrote the file and exited 0. The runner now passes
+  the bypass flag, which is parity with the other two seats (claude runs `bypassPermissions`,
+  grok `--always-approve`), not a new risk class. Probe a seat with a one-line write before
+  spending a contest on it.
+
+## 1.1.1 - 2026-09-22 - personas (manifest-editor, the Manifest tab redesign)
+
+Two seats (opus@xhigh, grok-4.6@high), three variants each, 22 real persona
+manifests + 18 real pending diffs staged from the live app. Panel opus@high +
+grok-4.6@high blind, plus a host visual pass and a keyboard pass. Owner answered
+round one with a shortlist, then answered the refinement round with a FUSION.
+
+- **The codex engine line has drifted: `codex exec` dropped `--full-auto` in
+  0.154.0** ("error: unexpected argument '--full-auto' found"), so the seat
+  errored in 0.11s before reaching the API. `--sandbox workspace-write` is the
+  right replacement for a judge, which only reads files and writes one JSON.
+  Worth pinning: the engine table is the one part of the method that rots
+  against a CLI it does not own.
+- **`errored` and `seat-limit` can be the same seat twice.** After the flag was
+  fixed the codex judge reached the API and returned a usage-limit error, which
+  the method already classifies correctly - but the FIRST failure was a method
+  bug wearing the costume of a vendor problem. Read stderr before concluding
+  which of the three non-score outcomes you have.
+- **The rubric's seven dimensions do not include "did it build the interaction
+  the brief named".** The winning fuse carried the owner's chapter-level ask and
+  silently dropped the content-row one; every judge scored it highly and the
+  host's screenshots could not show the difference, because a still frame of a
+  selected paragraph and a still frame of a paragraph with a caret in it look
+  identical. The owner caught it in seconds by clicking. A refinement round that
+  names specific borrowings should be verified by DRIVING each named borrowing,
+  not by scoring the result.
+- **A fusion is a third owner answer the method does not model.** `/contest`
+  offers "winner" or "shortlist"; this owner answered with a baseline plus three
+  named borrowings from two other variants. `refine --shortlist A/1,B/1,B/3`
+  builds three seats each improving its own entry, which is the opposite of a
+  fusion. The scaffold had to be reshaped by hand into one seat whose variant-1
+  is the baseline and whose reference/ holds the donors. Worth a `--fuse` mode:
+  one seat, one baseline, the rest as references, and a brief that quotes the
+  borrowings one per section.
+- **Let the executing seat be one that did not build the baseline.** The owner
+  chose opus@xhigh to fuse a grok-built baseline. It found and fixed three real
+  defects in that baseline (a save that re-emitted H2/H3 with NO `##` prefix and
+  wrote it back over the section body; Escape deleting an uncommitted draft; a
+  key card naming the wrong axis) plus two more of the same family that nobody
+  had spotted. A seat refining its own entry had already missed all of them.
+- **Verify a prototype's own verification.** The fuse claimed a corpus-wide
+  round-trip via a harness it shipped (`window.__folioAudit`). Driving the real
+  UI instead - 18 edit/commit cycles through actual keystrokes, compared against
+  the original data globals rather than the page's own parse - reproduced the
+  claim, but that is a check the host should run, not a claim the host should
+  relay. Same family as the repo's own "a gate that asserts data is not a gate
+  on behavior".
+- **The stock visual pass is wrong for a keyboard-first brief.** It clicks the
+  centre and types into the first input, which scores every variant on the
+  chrome the brief told them to remove. A keyboard pass (load, `?`, Escape,
+  three Tabs, deep scroll, visible-button vs `<kbd>` census) separated the field
+  immediately: 0-1 `<kbd>` and 6-9 visible buttons on one entry against 16-59
+  and 1-8 on the other. Consider shipping it beside visual-pass.py.
+- **A probe's boolean can be a false negative; say so in the verdict.** The
+  keyboard pass reported "'?' changed the page: False" for one variant because
+  it compared `innerText` length; the variant does respond to `?`, minimally.
+  The host verdict recorded the correction rather than the metric.
+- **Cost and wall, as the CLIs reported them**: opus@xhigh 40 min / 103 turns /
+  $21.76; grok-4.6@high 24 min / 28 turns / $0.95. Judging: opus@high 10 min /
+  $8.25; grok-4.6@high 8 min / $1.26. The fuse round: opus@xhigh 25 min / 78
+  turns / $13.46. Whole arc about 2 hours and under $46 reported.
+- **Blinding ate the evidence when the brief was about models.** The tracklight brief's material is
+  judge identities (`anthropic/opus@xhigh`, `google/gemini-2.5-flash`), and collect redacted 281
+  strings, 125 of them in the most thorough entry and 3 in the terse one - the panel would have read
+  thoroughness as sloppiness. 1.2.0 keeps compound identifiers that appear verbatim in the staged
+  `data/` (and their path tails), counts them as "kept", and still redacts every bare vendor word:
+  281 became 127, the rest being prose mentions no rule can tell from a signature. Tell the judges
+  what `[redacted]` stands for when the material names models.
+- **The code-reading judge from a competing family was the better engineer, and its self-preference
+  was real too.** On pumper the codex judge scored its own family 8.4-9.0 and Claude entries 5.4-7;
+  the fable judge did the reverse. But the codex judge's two sharpest defects - a safety bound that
+  contradicts `detect.rs:711-731`, and field eras built on a hash of the whole RuleSet - both
+  verified against the tree, and the host (screenshots plus a citation range check) had ranked the
+  second of those variants first. On a design brief the host's pass measures legibility, not
+  soundness; say so in the report and weight the verified claims, not the totals.
+- **Two Claude seats of different tiers converge on bets, and seats of different families converge
+  on names.** Every seat brought a "human decides, automate the evidence" variant, and two families
+  independently called their model-behind-gates design "Airlock".
+- **A claude seat can report `completed` with zero variants.** On athena, opus@xhigh ($11.97, 39
+  turns) delegated its three variants to background subagents and ended its turn; headless `-p`
+  waits 600 s for background tasks and then terminates them ("Background tasks still running after
+  600s; terminating"), so nothing reached the workspace. The claude seat now runs with
+  `CLAUDE_CODE_PRINT_BG_WAIT_CEILING_MS=0`. A completed seat with zero variants is an
+  infrastructure failure, not a result: read `runs/<id>/stderr.log`, and a rerun is not a redraw.
+- **The owner reviews in a browser, across contests, and the gallery names the seats.** A
+  hand-built page linking the blinded copies of every contest was the first thing the owner asked
+  for once two contests existed. 1.3.0 makes it an instrument output (`router`), plus `reveal`: the
+  owner asked for a round where each seat sees the field, keeps one variant and argues it.
+
 ## 1.3.0 - 2026-09-22 - personas (manifest-editor, the promotion)
 
 The owner's fused winner (a document editor) was promoted into the product and the owner said the
@@ -171,6 +276,29 @@ did not have. Section 9 and `references/promotion.md` add it.
 - **Git, product side:** committing through an isolated index left the shared index one commit
   behind, which against the new HEAD read as "delete the 22 files just committed". Caught before any
   other session committed; resync your own paths right after an isolated commit.
+## 1.3.0 - 2026-09-22 - pumper, tracklight (the owner's review of the design reports)
+
+- **The owner judged the reports on how they carry the argument, and every report missed the
+  pay-off.** Praised: a commented diagram per part of the solution instead of paragraphs, a grouped
+  left navigation, data models as code, designed comparison tables and claims, and a hero that puts
+  the claim "right into my face". Faulted across the field: no clarity about the positive impact
+  achievable. Marked down: a strong theme that crowds text and competes with its own diagrams.
+  Recorded verbatim, with a transferable bar, in `references/design-report-craft.md`.
+- **The owner decided two contests without the panel's order.** On pumper they asked for one
+  design merging B/1 and C/1 (panel 1st and 6th); on tracklight they named C/2 (panel 2nd, and the
+  variant its own seat kept in reveal over the panel's 1st). `verdict --design` links the resulting
+  design doc from the router.
+- **Reveal choices:** on pumper every seat kept its own panel-best variant; on tracklight two of
+  three seats did not - opus kept its panel-2nd, and fable dropped the variant whose premise the
+  judge had shown wrong. The reveal is a second opinion from the makers, not a repeat of the panel.
+- **The owner's four decisions took four shapes, and the instrument knew two.** Pumper: one design
+  merging two finalists (recorded as winner + runner-up, which understates the runner-up). Tracklight:
+  a single winner. Athena: all three reveal survivors combined as layers, decided without any panel
+  (`verdict` refused to run without judges). Personas: all three kept, pending a business consult.
+  `--combine` and panel-less verdicts were added; a shortlist now reads as "decision pending" with
+  its reason linked. The reveal is what made these decisions possible - each survivor arrived with
+  its own comparison against the field, which is what the owner read to see that three designs
+  answered three different questions.
 
 ## 1.4.0 - 2026-09-22 - personas
 

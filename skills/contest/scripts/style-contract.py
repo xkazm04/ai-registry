@@ -95,7 +95,24 @@ def differs(prop, a, b):
     return True
 
 
-def measure(target, roles_for_page, width):
+def drive(pg, steps):
+    """Named interactions before measuring: click:<selector>, press:<key>, wait:<ms>. A role that
+    only exists after an interaction (a layer a row opens) is captured through the same steps on
+    both sides, so the contract compares like with like."""
+    for step in steps or []:
+        kind, _, arg = step.partition(":")
+        if kind == "click":
+            pg.click(arg)
+        elif kind == "press":
+            pg.keyboard.press(arg)
+        elif kind == "wait":
+            pg.wait_for_timeout(int(arg))
+        else:
+            raise SystemExit(f"unknown drive step: {step}")
+        pg.wait_for_timeout(200)
+
+
+def measure(target, roles_for_page, width, steps=None):
     from playwright.sync_api import sync_playwright
     w, h = (int(x) for x in width.split("x"))
     url = target if target.startswith(("http://", "https://")) else Path(target).resolve().as_uri()
@@ -106,6 +123,7 @@ def measure(target, roles_for_page, width):
         pg.on("pageerror", lambda e: errs.append(str(e)[:200]))
         pg.goto(url, wait_until="networkidle")
         pg.wait_for_timeout(2500)
+        drive(pg, steps)
         data = pg.evaluate(MEASURE_JS, {"roles": roles_for_page, "props": PROPS})
         b.close()
     return data, errs
@@ -118,6 +136,7 @@ def main():
     ap.add_argument("roles")
     ap.add_argument("contract")
     ap.add_argument("--width", default="1440x900")
+    ap.add_argument("--drive", action="append", default=[], help="click:<selector> | press:<key> | wait:<ms>; repeatable, run in order before measuring")
     a = ap.parse_args()
 
     spec = json.loads(Path(a.roles).read_text(encoding="utf-8"))["roles"]
@@ -127,7 +146,7 @@ def main():
         # a role the contract holds but roles.json dropped is still owed: ask for it as absent
         for role in json.loads(Path(a.contract).read_text(encoding="utf-8")):
             wanted.setdefault(role, None)
-    data, errs = measure(a.target, wanted, a.width)
+    data, errs = measure(a.target, wanted, a.width, a.drive)
     if errs:
         print("PAGE ERRORS:", errs)
 
