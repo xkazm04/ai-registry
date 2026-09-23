@@ -26,9 +26,16 @@ asymmetric in cost:
   under the adopter's name, diagnosed from a log, by someone who has
   forgotten the adoption ever happened. Cost: an incident.
 
-A readiness gate is the mechanism that keeps every such defect at the first
-site. Skipping it doesn't remove the check; it moves the check to
-production and reassigns it to the on-call.
+A readiness gate keeps every defect that is *present at adoption* at the
+first site. Skipping it doesn't remove the check; it moves the check to
+production and reassigns it to the on-call. The limit of its reach needs
+stating just as plainly. A credential that was healthy at adoption and
+later expires, is revoked, or loses a scope produces the same unattended
+failure, and no adoption-time gate can see it. That half belongs to the
+instance's run-time health: pause, name the requirement that broke, link
+the reconnect. The gate writes the requirement records that this run-time
+check reads, so the remedy it names later is the same one the gate would
+have named on day one.
 
 ## Requirements are declared as roles, matched as facts
 
@@ -62,6 +69,11 @@ keep:
   exactly when it shouldn't. The matcher and the adoption-time resolver
   must be the same logic or provably the same query, not two teams'
   approximations of each other.
+- **A probe must reach what it claims to test.** A "Test delivery" or
+  "check connection" button inside the adoption flow is a readiness probe.
+  If it runs against a stub, it reports success for a path that was never
+  exercised. Either it calls the real path, or it is labelled a preview and
+  never shows a success mark.
 
 ## The verdict is three-valued, and each value has a next action
 
@@ -83,7 +95,9 @@ Two spelling rules keep the verdict honest
 - **"The gate could not run" is not "ready".** A matcher that errors — the
   registry unreachable, the vault locked — must not fall through to a
   green verdict. Readiness computed over an unreadable environment is the
-  gate lying in the direction that costs the most.
+  gate lying in the direction that costs the most. The same goes for an
+  unreadable *template*. When the requirement list can't be parsed, the
+  answer is "unknown", not "no requirements, therefore ready".
 
 The verdict vocabulary is defined once and every surface derives from it
 ([one-authority-per-vocabulary](../../../../_laws.md#one-authority-per-vocabulary)):
@@ -104,6 +118,20 @@ browse-time render is advisory (the environment can change between browse
 and adopt); the pre-commit run is the one that gates. Evaluating only at
 browse time and trusting it at commit time is a time-of-check race wearing
 a UX improvement's clothes.
+
+"Same evaluator" has one condition the browse render can't escape: it runs
+*before the interview*. The gate's verdict can depend on answers, such as
+which credential-backed option was picked or whether a custom fallback was
+chosen, and those answers don't exist yet at browse time. So the browse
+render has to ask the evaluator a stated question. "Would the defaults
+pass?" is one. "Does some answer set pass?" is another. Its label then says
+which. A badge that says "Ready" should mean the gate passes on the path
+the adopter is most likely to take, and a sort or filter named after
+readiness inherits that meaning. If the browse render has to be a cheaper
+approximation, it should only ever err toward "needs setup". A card that
+says ready and a gate that then blocks is the disagreement adopters
+remember. A card that says "needs setup" over a template the gate would
+pass costs one click.
 
 ## Degraded adoption is legitimate; silent degradation is not
 
