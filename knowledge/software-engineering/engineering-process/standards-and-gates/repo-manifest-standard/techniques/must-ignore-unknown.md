@@ -6,7 +6,7 @@ technique: must-ignore-unknown
 status: forged
 laws: [one-validation-door, failure-not-empty-success]
 shared_with: []
-use_when: [specifying how a reader parses a contract, adding a field to a shared artifact, writing a generator that rewrites a file others also write]
+use_when: [specifying how a reader parses a contract, adding a field to a shared artifact, writing a generator that rewrites a file others also write, a tool writes one field back into a manifest in place]
 ---
 
 # Must ignore unknown
@@ -101,6 +101,18 @@ The writer's contract, in three obligations:
 This is worth a test, and the test is cheap: place a foreign key in the
 committed file, regenerate, and assert it survives; place a hostile value in an
 owned key, regenerate, and assert it is replaced rather than merged.
+
+A writer that edits the file **in place** — rewriting one flag or one hash
+rather than regenerating — passes that test by construction and fails a
+different one. It finds its target by a pattern, and a pattern selects by
+shape: a same-named row in another block, a nested map carrying the same field
+name, the field's text inside a quoted string. So bind the write to what the
+parse owned — the owned block's range, and the direct field of the owned
+entry, never the first or last textual match — and make the foreign fixture
+**look owned**: same row shape, same key name, nested and quoted near-misses,
+under each line-ending convention the file may arrive in. Assert on the whole
+file after a real run, not on the owned field alone; only whole-file equality
+sees a write that landed somewhere else.
 
 ## One door
 

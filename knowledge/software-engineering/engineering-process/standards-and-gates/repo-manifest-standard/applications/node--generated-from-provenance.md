@@ -12,7 +12,7 @@ verified_against: node@24
 # Synthesizing the manifest from a scan, with drift-checkable provenance
 
 `src/lib/standard/manifest.ts` in the Ascent repo
-(`C:\Users\kazda\kiro\ascent`) is the synthesizer: `buildManifestData(report,
+is the synthesizer: `buildManifestData(report,
 opts?)` (`manifest.ts:107`) maps a repository scan to the structured contract, and
 `serializeManifestYaml(d)` (`manifest.ts:256`) renders it. It is deterministic —
 same scan in, same bytes out — which is the precondition for the drift check to

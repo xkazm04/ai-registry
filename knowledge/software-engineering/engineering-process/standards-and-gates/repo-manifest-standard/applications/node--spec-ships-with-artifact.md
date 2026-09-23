@@ -11,7 +11,7 @@ verified_against: node@24
 
 # The one reader in the kit was the one reader that could not see the bug
 
-The Ascent repo (`C:\Users\kazda\kiro\ascent`) ships its manifest standard as a
+The Ascent repo ships its manifest standard as a
 kit: a serializer (`src/lib/standard/manifest.ts`), a vendored specification
 (`src/lib/standard/spec.ts`) and a zero-dependency reference runner emitted into
 every adopting repo as `.ai/doctor.mjs`. The specification carries the
