@@ -1,7 +1,7 @@
 ---
 subject: knowledge-registry
 domain: software-engineering
-last_touched: 2026-08-27
+last_touched: 2026-09-23
 touched_by: intake
 dry_streak: 0
 ---
@@ -108,3 +108,9 @@ this was findable at all.
   Return when either file is next touched. Banked as a lead on the source note
   rather than done in-run: it is an instrument change, not a knowledge change,
   and it wants its own diff.
+
+## 2026-09-23 - [[2026-09-23-1]]
+
+Lead drain (run lib-0923). L164 AMEND (`catalog-as-sync-key` now says what its citers claimed: revision orders, digest identifies, with the change count's three conditions - the source was this registry's own tooling). L165 AMEND to `lane-contracts` (a regeneration parks an orphaned verdict and re-attaches only on a measured match; the lead's "fixture proved it" did not hold - no churn fixture is committed). Machine paths removed from two applications. Proposals: `multi-project/project-identity-and-joins` park-don't-drop; `build-registry-map.mjs` `revisionsBehind` goes negative after a taxonomy move (plain subtraction, revisions counted without --follow).
+
+**Impact** (stale verdicts before this landing, from the map rebuilt at the run start): personas-web 1.

@@ -147,7 +147,7 @@ and maturity are unchanged.
 Read the golden path, all six techniques and all three applications at their reverted bytes.
 Checked the two `process` applications' pinned external evidence: they cite a public
 browser-game repository at commit `286bd2a`, which is not in the local fleet (I enumerated
-`C:/Users/kazda/kiro`) and which I did not fetch. The `node` application's own A/B
+the local fleet root) and which I did not fetch. The `node` application's own A/B
 experiment I could not re-run because the connected project's specification library is not
 identified by path in the document.
 
@@ -204,7 +204,7 @@ the shape of evidence this corpus should not silently refresh, so those two docu
   ],
   "sources": [
     {"path": "knowledge/game-production/content-pipeline/reference-parity-gating/techniques/no-average-hides-a-failure.md", "result": "Supplies the coupled-terms case that refutes the unconditional termination claim in findings-carry-the-correction. Establishes the internal contradiction; does not establish how often coupled rows actually stall a real loop."},
-    {"path": "C:/Users/kazda/kiro (fleet enumeration)", "result": "Establishes that the external browser-game repository pinned at commit 286bd2a has no local checkout in the eleven-tree fleet, so its rows could not be re-read this run. Establishes nothing about whether those rows are still accurate."}
+    {"path": "(fleet root enumeration)", "result": "Establishes that the external browser-game repository pinned at commit 286bd2a has no local checkout in the eleven-tree fleet, so its rows could not be re-read this run. Establishes nothing about whether those rows are still accurate."}
   ],
   "documents": {
     "reference-parity-gating.md": {"disposition": "keep", "reason": "The accept-versus-reject asymmetry that opens it, the two-anchor conjunction, register-once, the adversarial statistics and the waiver-reach rule are consistent with every technique below and with each other. The one-authority-per-quantity objection is raised and answered rather than ignored."},

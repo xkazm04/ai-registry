@@ -154,11 +154,11 @@ their prompt-side quotations check out.
   ],
   "sources": [
     {
-      "path": "C:/Users/kazda/kiro/pof/src/lib/combat/choreography-sim.ts",
+      "path": "pof/src/lib/combat/choreography-sim.ts",
       "result": "Read, not executed. Confirms the five quoted thresholds at lines 272, 278, 282, 287 and 292, and establishes that the enemy-health comparison is playerMaxHP * tuning.playerHealthMul * 5 — which the golden path restates as five times the player's own maximum. Establishes nothing about whether any threshold is well chosen."
     },
     {
-      "path": "C:/Users/kazda/kiro/pof/src/lib/ability/effect-codegen-prompt.ts and src/lib/prompts/ability-forge.ts",
+      "path": "pof/src/lib/ability/effect-codegen-prompt.ts and src/lib/prompts/ability-forge.ts",
       "result": "Read, not executed. Confirms the cooldown-is-not-a-GE-Period comment at effect-codegen-prompt.ts:17-20, the unconditional State_Dead/State_Stunned rule at ability-forge.ts:272 and the 0.4-1.5s / 0.1-0.5s band at 279. Establishes that the applications quote the tree accurately; establishes nothing about the bands' empirical basis."
     }
   ],

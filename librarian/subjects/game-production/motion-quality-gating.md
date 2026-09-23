@@ -87,7 +87,7 @@ the qualifications below govern this review.
 ## Architecture re-review after the compression revert - 2026-09-10
 
 Read the golden path, all six techniques and all three applications at their reverted bytes,
-then opened the PoF checkout at `C:/Users/kazda/kiro/pof` (HEAD `d823bffe`) to check the
+then opened the PoF checkout at `pof` (HEAD `d823bffe`) to check the
 three applications. Reading source, not executing it: no critic invocation, no capture, no
 engine run, no filmstrip assembled.
 
@@ -141,8 +141,8 @@ mean - still holds. `node--asset-reality-ledger`'s stated deviation, `DEFAULT_GE
     "The asset reality ledger's size-floor heuristic is per kind, but a legitimately short reaction montage and a failed export of a long traversal montage can land on the same side of a per-kind floor, because the floor is a property of the kind and the defect is a property of the export."
   ],
   "sources": [
-    {"path": "C:/Users/kazda/kiro/pof/src/lib/anim-critique/score.ts", "result": "Establishes that the verdict is now the worst dimension's band rather than the mean, with the worst dimension named on the card and this subject cited in the docstring - closing the capped-disqualifier deviation the process application records as open. Does not establish that the thresholds (70/45) were re-validated against any corpus."},
-    {"path": "C:/Users/kazda/kiro/pof/src/components/modules/core-engine/sub_animation/_shared/data.ts", "result": "Confirms DEFAULT_GENRE_NORM = 0.2 is still applied as a silent fallback budget, so the node application's recorded deviation still stands. Does not establish where else that fallback surfaces in the UI."}
+    {"path": "pof/src/lib/anim-critique/score.ts", "result": "Establishes that the verdict is now the worst dimension's band rather than the mean, with the worst dimension named on the card and this subject cited in the docstring - closing the capped-disqualifier deviation the process application records as open. Does not establish that the thresholds (70/45) were re-validated against any corpus."},
+    {"path": "pof/src/components/modules/core-engine/sub_animation/_shared/data.ts", "result": "Confirms DEFAULT_GENRE_NORM = 0.2 is still applied as a silent fallback budget, so the node application's recorded deviation still stands. Does not establish where else that fallback surfaces in the UI."}
   ],
   "documents": {
     "motion-quality-gating.md": {"disposition": "keep", "reason": "Three verdicts that do not average, the sampler as half the instrument, the norm-table-is-not-an-audit rule and the four-view reconciliation are each argued from a named failure rather than asserted. The never-manufacture-a-number section states the correct consequence - a function that returns nothing for most inputs is the right behaviour, not a regression."},

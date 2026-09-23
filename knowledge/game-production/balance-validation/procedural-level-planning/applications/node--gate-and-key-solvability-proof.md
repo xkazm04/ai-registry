@@ -11,7 +11,7 @@ verified_against: node@24
 
 # A gated graph whose linter walks every edge as if it were open
 
-Read against the Path of Fire tooling repo (`C:\Users\kazda\kiro\pof`) at commit
+Read against the Path of Fire tooling repo (`pof`) at commit
 `9aa31407`. The tree has three separate places where a gate is *declared* and no place
 where one is *resolved*, which makes it a clean specimen of the failure this technique
 exists to prevent: the data model is ready for the proof and the proof was never written,

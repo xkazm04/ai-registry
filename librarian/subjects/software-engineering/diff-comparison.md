@@ -1,3 +1,8 @@
+---
+subject: diff-comparison
+domain: software-engineering
+last_touched: 2026-09-06
+---
 # diff-comparison
 
 ## 2026-09-06 — intake sofka-0906

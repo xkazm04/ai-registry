@@ -21,12 +21,12 @@ something different about what happens after the choice is made.
 | kp | No em dash in any catalog; en dash only between numbers | `docs\i18n\contract.md` §5, lines 83-113 | Blocking check in `scripts\i18n-check.mjs`, which skips array values |
 | systedo-case | Default no dash; a spaced en dash for one beat of contrast; never an em dash | `docs\i18n\constructions-en.md:161-177`, `docs\i18n\style-en.md:46-60` | A count ratchet on the Czech column only |
 | ascent | Em dashes swept from user-facing text | `scripts\check-em-dashes.mjs:1-22` | A manual reporter; model output sanitized at parse time |
-| athena-everywhere | Em dash allowed | `docs\athena-desktop\house-style.md:113` | None needed |
+| a private desktop product | Em dash allowed | its house-style document | None needed |
 | politicas | An em-dash-overuse advisory rejected | `docs\design\impeccable-pass-01.md:244-247` | None |
 
 ## kp: a ban with a gate, and the gate's blind spot
 
-`C:\Users\kazda\kiro\kp\docs\i18n\contract.md:85`: "**U+2014 `—` must not appear in any catalog,
+`kp/docs/i18n/contract.md:85`: "**U+2014 `—` must not appear in any catalog,
 in any locale.**" Line 100 keeps the en dash "**only between numbers**". Lines 108-113 give the
 reason for enforcement, the strongest argument in the fleet for gating a typography ruling:
 "**It is gated.** … The gate exists because the rule decayed without one: within hours of the
@@ -34,11 +34,11 @@ sweep that cleared all four catalogs, a parallel session added four new keys car
 It had no way to know the rule existed, which is precisely the case a gate covers and a doc does
 not."
 
-The gate is `C:\Users\kazda\kiro\kp\scripts\i18n-check.mjs`. `flatten()` at lines 132-137 recurses
+The gate is `kp/scripts/i18n-check.mjs`. `flatten()` at lines 132-137 recurses
 into objects but not arrays (line 135: `if (value && typeof value === "object" &&
 !Array.isArray(value)) flatten(value, path, out); else out[path] = value;`), and `dashError()` at
 line 259 returns early: `if (typeof value !== "string") return null;`. Walking
-`C:\Users\kazda\kiro\kp\messages\en.json` on 2026-09-14 found 8,491 string values outside arrays
+`kp/messages/en.json` on 2026-09-14 found 8,491 string values outside arrays
 and 14 arrays holding 62 strings; those 62 are never checked. The catalog's only em dash sits in
 one of them, `landing.voice.transcript[0]` at line 838: "You shipped a React app for a school
 project — what broke first when real users hit it?". The ruling stands and the deviation stands
@@ -47,7 +47,7 @@ the extraction beneath it.
 
 ## systedo-case: a ruling that reversed itself, gated on one side
 
-`C:\Users\kazda\kiro\systedo-case\docs\i18n\constructions-en.md:163-167` records the reversal:
+`systedo-case/docs/i18n/constructions-en.md:163-167` records the reversal:
 "This rule previously read *"The em dash IS English punctuation"* … **The owner decided against it
 on 2026-08-06.** The em dash is grammatical English, but a product that reaches for it constantly
 reads as machine-written — and this catalog reached for it **254 times** in the `en` column,
@@ -58,7 +58,7 @@ middots, which are EN-DASH's own exceptions.
 
 The ruling is the kind this subject calls legitimate: counted first, recorded with the rule, the
 earlier opposite guidance kept visible as reversed instead of silently deleted. The enforcement
-is uneven. `C:\Users\kazda\kiro\systedo-case\scripts\i18n-gate.mjs:43-46` holds a count ratchet,
+is uneven. `systedo-case/scripts/i18n-gate.mjs:43-46` holds a count ratchet,
 "the count may only go DOWN", whose only dash entry is `{ id: "CS-DASH", name: "em dash in cs", re:
 /—/g }`. The English half of a rule the file calls "Deliberately identical to the cs rule"
 (`constructions-en.md:171-172`) has no ratchet of its own. The gate is exposed as `npm run i18n:gate` (`package.json:96`) and run
@@ -67,30 +67,30 @@ hook or workflow files I searched.
 
 ## ascent: a reporter by design, and a sanitizer for model output
 
-`C:\Users\kazda\kiro\ascent\scripts\check-em-dashes.mjs:2-4` names the decay the kp incident
+`ascent/scripts/check-em-dashes.mjs:2-4` names the decay the kp incident
 showed: "A one-time sweep decays: the models that write most of this repo reach for the character
 constantly, so without a check it comes back a file at a time". Line 17 is explicit about its
 status: "This is a REPORTER, not a fixer, and it is not wired into any hook or CI gate." Its scope
 (lines 6-15) excludes code comments, the no-data glyph and archived docs, which is a good model
 for scoping a typography rule to text a user reads.
 
-The upward lesson is in `C:\Users\kazda\kiro\ascent\docs\features\scanning\llm-providers.md:625-627`,
+The upward lesson is in `ascent/docs/features/scanning/llm-providers.md:625-627`,
 about model-written narrative produced at runtime: the path "**sanitizes rather than rejects**:
 gating that narrative on em dashes would fall back to the deterministic template almost every
 time and quietly delete the feature." A typography ban enforced by rejection on a generated
 stream turns a punctuation preference into a feature outage. Catalog copy is gated at write
 time; generated runtime copy is repaired, not refused.
 
-## athena-everywhere: allowing it is also a ruling
+## A private desktop product: allowing it is also a ruling
 
-`C:\Users\kazda\kiro\athena-everywhere\docs\athena-desktop\house-style.md:113`: "The em-dash is
+Its house-style document: "The em-dash is
 fine; the exclamation mark is not, outside the `ProblemNote` glyph." That is a complete declared
 row, and it pairs the dash decision with EN-EXCLAIM in one line. Nothing needs enforcing: a
 permissive ruling still stops the next reviewer from raising dashes as findings.
 
 ## politicas: a ruling reasoned from the wrong locale
 
-`C:\Users\kazda\kiro\politicas\docs\design\impeccable-pass-01.md:244-247`: "### `em-dash-overuse`
+`politicas/docs/design/impeccable-pass-01.md:244-247`: "### `em-dash-overuse`
 × 28 — REJECTED (advisory) / The em dash is standard Czech typographic punctuation. The rule is
 calibrated for English AI-slop prose." Two things are wrong with the reasoning, and neither is the
 decision to reject. First, its premise conflicts with this bundle's [Czech subject](../../czech/czech.md),

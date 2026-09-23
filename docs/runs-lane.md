@@ -123,7 +123,7 @@ Device = `loadFleet(root).machine`; no identity is FATAL (exit 2). Two passes:
    `<device>.exact.jsonl`, find its Claude Code session and write ONE sidecar row.
    Transcripts live in `~/.claude/projects/<encoded>/`, where `<encoded>` is the checkout's
    absolute path with every non-alphanumeric character replaced by `-`
-   (`C:\Users\x\dolla\ai-registry` -> `C--Users-x-dolla-ai-registry`); worktree sessions
+   (`ai-registry` -> `C--Users-x-dolla-ai-registry`); worktree sessions
    get their own `<encoded>--claude-worktrees-<name>` folder, which is searched too.
    Project `ai-registry` resolves to the registry root. A session is a candidate when its
    lines span the row's `ts` (2 min slack). Window end = `ts`; window start = `started` if

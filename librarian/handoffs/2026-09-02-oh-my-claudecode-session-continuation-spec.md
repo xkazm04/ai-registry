@@ -158,7 +158,7 @@ identity, not attempt count.
 
 ## Source-tree applications the worker writes (v2: the clone is an opened tree)
 
-Clone: `C:/Users/kazda/AppData/Local/Temp/claude/C--Users-kazda-kiro-ai-registry/9edd554e-ce7d-485c-bf5b-9c3b871bea4b/scratchpad/intake-omc-0902/repo`
+Clone: `<the run's scratch directory, deleted after the run>`
 at commit `e9e8fa3847ce0b3529b84d895e841988c7308f3d`. Three applications,
 `stack: process` or `node`, citing the tree's own files:
 

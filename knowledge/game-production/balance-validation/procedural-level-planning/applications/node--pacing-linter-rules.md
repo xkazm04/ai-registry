@@ -12,7 +12,7 @@ verified_against: node@24
 # A five-rule pacing linter over a room graph
 
 `src/lib/level-design/pacing-linter.ts` in the Path of Fire tooling repo
-(`C:\Users\kazda\kiro\pof`) is a pure function from a `LevelDesignDocument` — rooms,
+(`pof`) is a pure function from a `LevelDesignDocument` — rooms,
 connections, and an explicit `difficultyArc` — to a `PacingLintResult`. It runs in the
 browser, before any geometry exists.
 

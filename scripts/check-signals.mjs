@@ -38,7 +38,10 @@ const COUNCIL_KEYS = new Set(['approved', 'rejected']);
 // observation can be told from an unread one: a bundle with no `councils` means either
 // "no project logged a council decision" or "no project was readable", and only a count of
 // what was read separates them. A key here must be a bare non-negative integer.
-const META_KEYS = new Set(['councils_projects_read']);
+// `deviation_lines_unattributed` counts consult lines whose one deviation figure spans
+// several subjects and so could not be credited to any of them - the size of what
+// `deviations` could not see.
+const META_KEYS = new Set(['councils_projects_read', 'deviation_lines_unattributed']);
 const CONTRIBUTOR_RE = /^[a-z0-9][a-z0-9-]*$/;
 const ISO_RE = /^\d{4}-\d{2}-\d{2}T[\d:.]+(?:Z|[+-]\d{2}:\d{2})$/;
 const SLUG_RE = /^[a-z0-9][a-z0-9-]*$/;

@@ -12,7 +12,7 @@ verified_against: node@24
 # A declared role table with a numeric assembly order
 
 `src/lib/visual-gen/reference-roles.ts:30-60` in the PoF repo
-(`C:\Users\kazda\kiro\pof`) is the technique as a data table: four roles, each with an id, a
+(`pof`) is the technique as a data table: four roles, each with an id, a
 label, a description, a `promptCue`, and an `order`.
 
 ## The table

@@ -102,9 +102,12 @@ two, because *stale* wants a pull and *diverged* wants a conversation, and a
 tool that collapses them will overwrite somebody's local edit while reporting
 success. And the digest is only trustworthy if it is defined over a normalized
 form: a digest taken over whatever bytes happen to be on disk answers a question
-about the checkout rather than about the content.
-[catalog-as-sync-key](./techniques/catalog-as-sync-key.md) covers the envelope, the
-four states, and the normalization rule that keeps the answer true.
+about the checkout rather than about the content. A digest also identifies
+without ordering: it can say a stored verdict is stale and never how far, which
+is a second derived field's job — a change count beside the digest, never in
+place of it. [catalog-as-sync-key](./techniques/catalog-as-sync-key.md) covers
+the envelope, the four states, the normalization rule that keeps the answer
+true, and the conditions under which a change count is honest.
 
 ## The question the catalog cannot answer
 

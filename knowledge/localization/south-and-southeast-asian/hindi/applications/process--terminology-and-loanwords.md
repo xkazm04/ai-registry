@@ -11,7 +11,7 @@ verified_on: 2026-08-24
 # Process — the Personas hi termbase as a worked loanword dial
 
 The Personas app (a ~19k-key consumer/developer product shipping 14 locales)
-carries its Hindi ruling in `C:\Users\kazda\kiro\personas\docs\i18n\style-hi.md`,
+carries its Hindi ruling in `personas/docs/i18n/style-hi.md`,
 layered on the shared `docs/i18n/glossary.md` and grounded in the ~75% of
 `src/i18n/locales/hi.json` that is shipped, human-reviewed Hindi. It is the
 clearest worked instance of the term-class system this technique teaches, with

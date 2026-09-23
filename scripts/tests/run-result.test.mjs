@@ -4,7 +4,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { EXIT } from '../lib/exit-codes.mjs';
-import { SCHEMA, validateRunResult, writeRunResult, readRunResult, unpublishablePath } from '../lib/run-result.mjs';
+import { SCHEMA, validateRunResult, writeRunResult, readRunResult, unpublishablePath, dryStreaks } from '../lib/run-result.mjs';
 
 /** A minimal result that passes every rule - each test breaks exactly one thing. */
 const valid = (over = {}) => ({
@@ -233,4 +233,27 @@ test('a corrupt result on disk is an error, never a quiet absence', () => {
     fs.writeFileSync(path.join(root, rel), JSON.stringify({ ...valid(), files: ['/etc/passwd'] }));
     assert.throws(() => readRunResult(valid().run_id, { root }), /is not a valid rkb-run-result\/1/);
   });
+});
+
+test('dryStreaks counts trailing idled passes, resets on a landing, and leaves the unrecorded unknown', () => {
+  const run = (at, subjects) => ({ ended_at: at, subjects });
+  const row = (id, outcome, at) => ({ id, at, engine: 'deepen', outcome, points_before: null, points_after: null });
+  const results = [
+    // out of order on purpose: the fold must sort by `at`, not by file order
+    run('2026-09-03', [row('se/table', 'idled', '2026-09-03'), row('se/cache', 'idled', '2026-09-03')]),
+    run('2026-09-01', [row('se/table', 'landed', '2026-09-01'), row('se/cache', 'idled', '2026-09-01')]),
+    run('2026-09-02', [row('se/table', 'idled', '2026-09-02'), row('se/cache', 'landed', '2026-09-02')]),
+    // not passes: a decline, a contention and a dispatch never move the brake
+    run('2026-09-04', [row('se/table', 'declined', '2026-09-04'), row('se/cache', 'contended', '2026-09-04'), row('se/memo', 'dispatched', '2026-09-04')]),
+    // a bare slug cannot say which bundle it means, so it is skipped rather than guessed
+    run('2026-09-05', [row('table', 'idled', '2026-09-05')]),
+  ];
+  const got = dryStreaks(results);
+  assert.equal(got['se/table'], 2, 'landed, then two idled in a row');
+  assert.equal(got['se/cache'], 1, 'the landing on 09-02 reset it; one idled since');
+  assert.equal('se/memo' in got, false, 'dispatched only: no pass recorded, so unknown - not zero');
+  assert.equal('table' in got, false, 'a bare slug is never credited');
+  assert.deepEqual(dryStreaks([]), {}, 'no results at all: every subject unknown');
+  // negative control: a landing as the LAST pass must read 0, not the idled count before it
+  assert.equal(dryStreaks([run('a', [row('x/y', 'idled', '1'), row('x/y', 'idled', '2'), row('x/y', 'landed', '3')])])['x/y'], 0);
 });

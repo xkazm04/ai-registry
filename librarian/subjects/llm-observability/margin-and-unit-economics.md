@@ -207,7 +207,7 @@ thin band that three documents in this bundle key on.
   ],
   "sources": [
     {
-      "path": "C:/Users/kazda/kiro/tracklight",
+      "path": "tracklight",
       "result": "Read at d398835. crates/core/src/margin.rs:139-168 confirms recognized_amount amortizes any event whose period_end exceeds period_start across period-intersect-window, with the refund kind only flipping the sign — so a refund does not truncate the periodic event it cancels. Confirms the technique describes the implementation accurately; the gap is in the standard. Nothing was built or executed."
     }
   ],

@@ -16,7 +16,7 @@ working tree on 2026-08-24.
 
 ## The artifacts
 
-- `C:\Users\kazda\kiro\kp\docs\i18n\constructions-cs.md` — the origin of this
+- `kp/docs/i18n/constructions-cs.md` — the origin of this
   subject's construction rule set: ~25 rules with IDs, each in
   trigger/rule/source/exception shape, provenance cited per rule to the
   Microsoft Czech Style Guide (`ces-cze-StyleGuide.pdf`, section numbers per
@@ -24,9 +24,9 @@ working tree on 2026-08-24.
   with kp's own rewrite — e.g. CS-NOM demonstrated on
   `decisions.summary.summaryNote`, CS-CALQUE on `landing.features.heading`
   ("trychtýř" → "nábor").
-- `C:\Users\kazda\kiro\kp\docs\i18n\style-cs.md` — the voice guide the rules
+- `kp/docs/i18n/style-cs.md` — the voice guide the rules
   interlock with (register, percent spacing, progress-label voice).
-- `C:\Users\kazda\kiro\kp\docs\i18n\review-cs.md` — the native-review queue
+- `kp/docs/i18n/review-cs.md` — the native-review queue
   where findings that need a house/native decision wait, each citing the key,
   MQM severity, and the rule at issue.
 

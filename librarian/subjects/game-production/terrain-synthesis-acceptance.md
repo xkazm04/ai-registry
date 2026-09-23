@@ -87,7 +87,7 @@ and maturity are unchanged.
 ## Architecture re-review after the compression revert - 2026-09-10
 
 Read the golden path, all six techniques and both applications at their reverted bytes, then
-opened the PoF checkout at `C:/Users/kazda/kiro/pof` (HEAD `d823bffe`) to check the `node`
+opened the PoF checkout at `pof` (HEAD `d823bffe`) to check the `node`
 application's citations. Reading source, not executing it: no generator run, no mesh export,
 no engine import.
 
@@ -150,8 +150,8 @@ that adopts the cards has eliminated one class of composition failure and improv
     "Drainage coherence is declared inapplicable to overhangs and caves, but a heightfield with a declared water level and a separately generated cave volume beneath it is a common shipping shape, and nothing says which parts of the field remain checkable."
   ],
   "sources": [
-    {"path": "C:/Users/kazda/kiro/pof/src/lib/visual-gen/generators/terrain.ts", "result": "Establishes that TERRAIN_UNIT, cellSizeM/verticalRangeM, resolveTerrainBasis and UINT16_LEVELS now exist, so the three changes the node application lists as owed have landed since commit 9aa31407. Does not establish that any downstream consumer reads the basis; that was not traced."},
-    {"path": "C:/Users/kazda/kiro/pof/src/components/modules/visual-gen/procedural-engine/useProceduralStore.ts", "result": "Confirms the hand-typed heightScale: 10 is gone and the site records why. Does not establish what replaced it end to end."}
+    {"path": "pof/src/lib/visual-gen/generators/terrain.ts", "result": "Establishes that TERRAIN_UNIT, cellSizeM/verticalRangeM, resolveTerrainBasis and UINT16_LEVELS now exist, so the three changes the node application lists as owed have landed since commit 9aa31407. Does not establish that any downstream consumer reads the basis; that was not traced."},
+    {"path": "pof/src/components/modules/visual-gen/procedural-engine/useProceduralStore.ts", "result": "Confirms the hand-typed heightScale: 10 is gone and the site records why. Does not establish what replaced it end to end."}
   ],
   "documents": {
     "terrain-synthesis-acceptance.md": {"disposition": "clarify", "reason": "The opening claim that a heightfield cannot be malformed and offers no structural defect to find is overstated: NaN and infinity samples, and dimension disagreement between the grid, its declared extent and its mask stack, are structural defects on this exact artifact. Narrow it to the claim that actually carries the argument - a well-formed heightfield is always well-formed, so structural proof cannot separate playable ground from unplayable ground. Everything downstream of that sentence is sound."},

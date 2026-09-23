@@ -18,7 +18,7 @@ what a single favourite rule absorbs that it should not, and why every audit sta
 
 ## systedo-case: an anchored file, and the rule that earned "validated"
 
-`C:\Users\kazda\kiro\systedo-case\docs\i18n\constructions-en.md` states its direction first
+`systedo-case/docs/i18n/constructions-en.md` states its direction first
 (lines 3-6): "`en` is this repo's **derived** locale … this file governs writing *English out of
 Czech*". Its sibling `style-en.md` records that the direction later flipped (line 3: "`en` is
 the **source** locale (see `contract.md` — reversed 2026-08-05)") and draws the right conclusion
@@ -71,7 +71,7 @@ catalog verbatim goes stale when the catalog moves**".
 
 ## politicas: an English column that follows the Czech clause by clause
 
-`C:\Users\kazda\kiro\politicas\messages\en.json` and `cs.json` hold the same keys on the same
+`politicas/messages/en.json` and `cs.json` hold the same keys on the same
 lines. I found no localization contract naming the source locale; the derivation is read from
 the shape, because the English reproduces the Czech clause order and dash positions exactly. The
 column is article-correct throughout the strings below: the first-order rules were solved. What

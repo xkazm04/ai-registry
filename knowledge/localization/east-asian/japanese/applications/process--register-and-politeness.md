@@ -13,7 +13,7 @@ verified_on: 2026-08-24
 How one real 19k-key consumer-of-record — the Personas app, 14 locales,
 ~14,500 shipped lines of Japanese in `src/i18n/locales/ja.json` — realizes the
 register technique, verified 2026-08-24 against
-`C:\Users\kazda\kiro\personas\docs\i18n\style-ja.md`.
+`personas/docs/i18n/style-ja.md`.
 
 ## JA-DESU-MASU, enforced by count rather than decree
 

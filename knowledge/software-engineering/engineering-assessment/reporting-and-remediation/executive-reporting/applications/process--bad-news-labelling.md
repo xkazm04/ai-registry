@@ -10,7 +10,7 @@ verified_on: 2026-08-20
 
 # A reader's verdict as the change driver: heading rules in a board briefing
 
-The document contract in `C:\Users\kazda\kiro\ascent` was not designed up
+The document contract in `ascent` was not designed up
 front. It was assembled defect by defect from acceptance-test sessions in
 which a simulated executive reader was shown a real generated briefing and
 asked what they concluded. Every rule in `src/lib/org/briefing.ts` carries the

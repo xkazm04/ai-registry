@@ -79,7 +79,7 @@ the qualifications below govern this review.
 ## Architecture re-review after the compression revert - 2026-09-10
 
 Read the golden path, all six techniques and both applications at their reverted bytes, then
-opened the PoF checkout at `C:/Users/kazda/kiro/pof` (HEAD `d823bffe`) to check the two
+opened the PoF checkout at `pof` (HEAD `d823bffe`) to check the two
 applications, both of which are pinned to commit `9aa31407`. Reading source, not executing
 it: no session harness, no agent playtest, no database run.
 
@@ -136,8 +136,8 @@ consumer should copy" sections end by naming work that has since landed.
     "Routing requires the observation to discriminate between candidate classes, but the golden path's own worked example ('I never used the shield') is discriminated by an absence in the recording - and a session whose instrumentation does not record ability usage cannot produce that absence as evidence, so the finding is unrouted for an instrumentation reason the routing table cannot express."
   ],
   "sources": [
-    {"path": "C:/Users/kazda/kiro/pof/src/types/game-director.ts", "result": "Establishes that TriageStatus now carries unreproducible with an attempt-series record, closing the deviation the node application records as absent. Does not establish that any code path sets it or that attempt counts are populated."},
-    {"path": "C:/Users/kazda/kiro/pof/src/lib/game-director-db.ts", "result": "Confirms confidence is now nullable with a confidence_basis column constrained to observer or unattributed, closing the deviation the process application records. Does not establish how existing rows were migrated beyond the comment saying preserved values are stamped unattributed."}
+    {"path": "pof/src/types/game-director.ts", "result": "Establishes that TriageStatus now carries unreproducible with an attempt-series record, closing the deviation the node application records as absent. Does not establish that any code path sets it or that attempt counts are populated."},
+    {"path": "pof/src/lib/game-director-db.ts", "result": "Confirms confidence is now nullable with a confidence_basis column constrained to observer or unattributed, closing the deviation the process application records. Does not establish how existing rows were migrated beyond the comment saying preserved values are stamped unattributed."}
   ],
   "documents": {
     "playtest-signal-to-defect.md": {"disposition": "keep", "reason": "The two-compressions argument, the treatment of an automated tester as testimony with different biases, the routing-is-where-this-pays section and the boundary statements against crash forensics, review doctrine, verdict integrity and runtime observation are each specific and mutually consistent. It names what it inherits rather than restating it."},

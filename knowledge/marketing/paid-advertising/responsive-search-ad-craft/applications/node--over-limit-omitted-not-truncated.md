@@ -11,7 +11,7 @@ verified_against: node@24
 
 # Over-limit omitted, not truncated - two export paths, one rule, and a clamp upstream
 
-The marketing workspace at `C:\Users\kazda\kiro\systedo-case` (commit
+The marketing workspace at `systedo-case` (commit
 `2893314930546ed3a314a19a155bcf2f8841a0ea`, 2026-09-08) exports a generated ad set to
 two platform import sheets, and both realise the technique's export-time half
 identically. The generation-time half - one self-correction pass, then drop - is only

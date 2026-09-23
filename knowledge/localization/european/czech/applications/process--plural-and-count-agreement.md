@@ -17,11 +17,11 @@ Verified against both working trees on 2026-08-24.
 
 ## kp — full ICU, and the defects that survive it (~4 800-key catalog)
 
-`C:\Users\kazda\kiro\kp\docs\i18n\style-cs.md` states the rule (one/few/other
+`kp/docs/i18n/style-cs.md` states the rule (one/few/other
 ICU blocks, `many` optional for integer counts) and the escape hatch
 (count-invariant neuter verb — "postoupilo {n}" — when the number renders in
 a separate badge). The 2026-08 review wave (recorded in
-`C:\Users\kazda\kiro\kp\docs\i18n\review-cs.md`) fixed ~55 keys of ICU
+`kp/docs/i18n/review-cs.md`) fixed ~55 keys of ICU
 number agreement, the largest theme of the whole 455-key wave, in exactly
 the two shapes this technique predicts:
 
@@ -48,7 +48,7 @@ under the `jobMarket` section — a textbook source-defect register entry.
 
 ## personas — a two-slot system and the settled workarounds (~19k-key catalog)
 
-`C:\Users\kazda\kiro\personas\docs\i18n\style-cs.md` (Pitfall 1) documents
+`personas/docs/i18n/style-cs.md` (Pitfall 1) documents
 the constrained case: the i18n system exposes only `_one`/`_other` for cs —
 no `_few`. The guide pins exactly the two house patterns this technique
 teaches, and forbids inventing a third:

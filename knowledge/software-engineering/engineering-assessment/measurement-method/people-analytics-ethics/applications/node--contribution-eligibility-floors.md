@@ -10,7 +10,7 @@ verified_on: 2026-08-20
 
 # Eligibility floors over a mixed-cadence fleet
 
-The source app (`C:\Users\kazda\kiro\ascent`) aggregates contributor activity
+The source app (`ascent`) aggregates contributor activity
 from per-repository snapshots that are refreshed independently — each repo's
 data is anchored to that repo's own last scan. That single fact produces the
 recency failure this technique exists to prevent, and the fix is recorded at

@@ -54,7 +54,7 @@
       "reportedInvokes": 2,
       "lessons": 16,
       "lessonsPath": "skills/architect/LESSONS.md",
-      "lessonsHash": "sha256-n1:8e6fd704adaea725",
+      "lessonsHash": "sha256-n1:d22d52ea7a5d5cd8",
       "usageContributors": [
         "wolf"
       ],
@@ -262,7 +262,7 @@
       "reportedInvokes": 2,
       "lessons": 21,
       "lessonsPath": "skills/explorer/LESSONS.md",
-      "lessonsHash": "sha256-n1:16a257efed04959c",
+      "lessonsHash": "sha256-n1:adb1dd92606b53b2",
       "usageContributors": [
         "wolf"
       ],
@@ -556,10 +556,10 @@
     },
     {
       "name": "project-populate",
-      "version": "1.5.0",
+      "version": "1.5.1",
       "category": "workflow",
       "path": "skills/project-populate/SKILL.md",
-      "contentHash": "sha256-n1:7e13a52b876b90da",
+      "contentHash": "sha256-n1:ebb3c6cf5f9fcf44",
       "adopters": [
         "ascent@plugin:1.0.0",
         "kp@plugin:1.0.0",
@@ -615,7 +615,7 @@
       "reportedInvokes": 20,
       "lessons": 15,
       "lessonsPath": "skills/research/LESSONS.md",
-      "lessonsHash": "sha256-n1:eaba0dbcdfcba9e4",
+      "lessonsHash": "sha256-n1:1cb9d762bd230ee0",
       "usageContributors": [
         "wolf"
       ],
@@ -992,7 +992,7 @@
       "techniques": 331,
       "applications": 142,
       "files": 529,
-      "contentHash": "sha256:77a2cec63d513623"
+      "contentHash": "sha256:19fdebaca517ff24"
     },
     {
       "name": "grant-funding",
@@ -1031,7 +1031,7 @@
       "techniques": 119,
       "applications": 55,
       "files": 195,
-      "contentHash": "sha256:a34ed3fdd5b86aec"
+      "contentHash": "sha256:36782a08812f8af4"
     },
     {
       "name": "marketing",
@@ -1044,7 +1044,7 @@
       "techniques": 183,
       "applications": 84,
       "files": 301,
-      "contentHash": "sha256:6964fc714caf22d0"
+      "contentHash": "sha256:b40dd952d92f5be9"
     },
     {
       "name": "media-generation",
@@ -1057,7 +1057,7 @@
       "techniques": 146,
       "applications": 75,
       "files": 247,
-      "contentHash": "sha256:7bdaf4165ce164fc"
+      "contentHash": "sha256:d256cd269085ff4c"
     },
     {
       "name": "recruiting",
@@ -1081,9 +1081,9 @@
       "purity": "software",
       "subjects": 232,
       "techniques": 1788,
-      "applications": 1129,
-      "files": 3154,
-      "contentHash": "sha256:eaacdad2b6468309"
+      "applications": 1141,
+      "files": 3166,
+      "contentHash": "sha256:5aee37a68f6842fb"
     }
   ],
   "usageEvidence": {

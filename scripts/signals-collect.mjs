@@ -10,7 +10,10 @@
  *                (node engines, react, next, vite, typescript...) - a bare major is enough;
  *   - `consults`: subject slug -> count, from `<repo>/.ai/consults.jsonl`, the append-only
  *                log `/consult` writes (one line per consult; slugs only);
- *   - `deviations`: subject slug -> count, from the same log's `deviations` field.
+ *   - `deviations`: subject slug -> count, from the same log's `deviations` field - a STATE,
+ *                so per project only the latest line naming that ONE subject counts; a line
+ *                naming several subjects cannot attribute its figure and is counted in
+ *                `meta.deviation_lines_unattributed` instead.
  *   - `councils` : subject slug -> {approved, rejected}, from `<repo>/.ai/councils.jsonl`,
  *                the append-only log a `/council` decision appends when a HUMAN accepted or
  *                rejected work that cited the subject. A consult says the corpus was read;
@@ -59,6 +62,7 @@ const stack = {};
 const bundles = {};
 let projectsRead = 0;
 let consultLines = 0;
+let deviationLinesUnattributed = 0;
 let councilLines = 0;
 let councilProjectsRead = 0;
 
@@ -105,6 +109,7 @@ for (const [slug, p] of Object.entries(bridge.projects ?? {})) {
       }
     } catch { /* a project with a broken package.json contributes no stack; it still contributes consults */ }
   }
+  const latestDeviation = new Map(); // `${bundle}/${subject}` -> this project's latest single-subject observation
   const log = path.join(p.path, '.ai', 'consults.jsonl');
   if (fs.existsSync(log)) {
     for (const line of fs.readFileSync(log, 'utf8').split(/\r?\n/)) {
@@ -117,12 +122,30 @@ for (const [slug, p] of Object.entries(bridge.projects ?? {})) {
       if (!/^[a-z0-9-]+$/.test(bundle)) continue;
       consultLines += 1;
       const b = (bundles[bundle] ??= { consults: {}, deviations: {} });
-      for (const s of rec.subjects ?? []) {
-        if (!/^[a-z0-9-]+$/.test(String(s))) continue; // slugs only - a path-shaped value is dropped, not sanitized
-        b.consults[s] = (b.consults[s] ?? 0) + 1;
-        if (Number.isInteger(rec.deviations) && rec.deviations > 0) b.deviations[s] = (b.deviations[s] ?? 0) + rec.deviations;
+      const subjects = (rec.subjects ?? []).map(String).filter((s) => /^[a-z0-9-]+$/.test(s)); // slugs only - a path-shaped value is dropped, not sanitized
+      for (const s of subjects) b.consults[s] = (b.consults[s] ?? 0) + 1;
+      // `deviations` is a STATE - how many places this repo falls short right now - and a
+      // consult line carries one count for all the subjects it names. Adding that count to
+      // every subject, on every consult, turned one line's 2 deviations over 3 subjects into
+      // 6, and one subject consulted 11 times into 11x its state (2026-09-23: 273 -> 1806
+      // on a refresh). Only a line naming ONE subject can attribute; the latest such line
+      // is this project's state for it; the rest is counted, not guessed.
+      if (Number.isInteger(rec.deviations) && rec.deviations >= 0) {
+        if (subjects.length === 1) {
+          const key = `${bundle}/${subjects[0]}`;
+          const prev = latestDeviation.get(key);
+          if (!prev || ts >= prev.ts) latestDeviation.set(key, { ts, n: rec.deviations });
+        } else if (rec.deviations > 0) {
+          deviationLinesUnattributed += 1;
+        }
       }
     }
+  }
+  for (const [key, { n }] of latestDeviation) {
+    if (n <= 0) continue;
+    const [bundle, s] = key.split('/');
+    const b = (bundles[bundle] ??= { consults: {}, deviations: {} });
+    b.deviations[s] = (b.deviations[s] ?? 0) + n; // projects' states add: each is its own shortfall
   }
 
   const councilLog = path.join(p.path, '.ai', 'councils.jsonl');
@@ -168,7 +191,7 @@ const doc = {
   // `meta` is a closed set of DENOMINATORS, not a notes field. `citations` needs none - an
   // absent one already means "not measured" by the lane's own rule - but `councils` does:
   // an empty bundle cannot otherwise be told from a machine where no council log existed.
-  meta: { councils_projects_read: councilProjectsRead },
+  meta: { councils_projects_read: councilProjectsRead, deviation_lines_unattributed: deviationLinesUnattributed },
 };
 fs.mkdirSync(OUT_DIR, { recursive: true });
 const out = path.join(OUT_DIR, `${contributor}.json`);

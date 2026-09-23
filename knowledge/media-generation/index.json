@@ -505,9 +505,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/research-grounding/evidence-bound-visuals/evidence-bound-visuals.md",
-   "digest": "sha256:d5bc649ce4a81a3d",
-   "revision": 7,
-   "changedAt": "2026-09-22",
+   "digest": "sha256:8d91cd0498c085b1",
+   "revision": 8,
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "anchor-removal-ablation",
@@ -2500,9 +2500,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/production-ops/video-assembly/video-assembly.md",
-   "digest": "sha256:eb70128eba2509f3",
-   "revision": 16,
-   "changedAt": "2026-09-22",
+   "digest": "sha256:89f495af7a33add5",
+   "revision": 17,
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "cut-compiled-from-source",

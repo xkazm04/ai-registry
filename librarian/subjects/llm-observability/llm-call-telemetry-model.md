@@ -241,7 +241,7 @@ without the `applied:` / `ab_verdict:` pair that convention puts beside it.
       "result": "Read (not executed). Establishes only that the GenAI conventions have moved to a separate repository; the metrics document itself defines gen_ai.client.token.usage with an input/output token-type attribute and carries no cache guidance. The survey's claim had to be resolved in the attribute registry instead — a citation the application should point at directly."
     },
     {
-      "path": "C:/Users/kazda/kiro/tracklight",
+      "path": "tracklight",
       "result": "Read at d398835. Confirms received_at as skip_deserializing with a default, the named outside-in test, and prepare_event's normalize_ids / stamp_api_key / mark_cost_source ordering. Cited line numbers have drifted since 2026-08-20. Nothing was built or executed."
     }
   ],

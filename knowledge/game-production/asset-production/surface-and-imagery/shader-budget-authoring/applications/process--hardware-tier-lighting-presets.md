@@ -10,7 +10,7 @@ verified_on: 2026-08-20
 
 # Process: four global-illumination presets, each carrying its own rationale into the prompt
 
-`src/lib/visual-gen/lighting-presets.ts:39-95` in PoF (`C:\Users\kazda\kiro\pof`) is a
+`src/lib/visual-gen/lighting-presets.ts:39-95` in PoF (`pof`) is a
 closed set of exactly four `LightingPreset` entries. Each declares a `targetTier`, one
 `rayTracing` method, an optional `softwareMode`, a `reflectionMethod`, whether per-mesh
 distance fields are required, and — the load-bearing field — a `notes` string described

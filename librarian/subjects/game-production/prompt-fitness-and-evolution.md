@@ -91,7 +91,7 @@ the qualifications below govern this review.
 ## Architecture re-review - 2026-09-10 (after the compression revert)
 
 Read all ten documents at their reverted bytes and re-read the consumer the three
-applications cite (`C:/Users/kazda/kiro/pof`, `master`) as source. Reading source is not
+applications cite (`pof`, `master`) as source. Reading source is not
 executing it: no A/B test, judging pass, fitness query or model call was run.
 
 The subject's spine is sound and unusually well argued. The five obligations are stated
@@ -164,7 +164,7 @@ standard.
   "baseline": "44c8996585f2e5e3f36e0cb0bd1983c607cadfd7",
   "digest": "sha256:1e4c8d8d453819e9",
   "disposition": "clarify",
-  "coverage": "All 10 owned documents read at reverted bytes. The cited consumer (C:/Users/kazda/kiro/pof src/lib/prompt-evolution/ab-testing.ts and judge-fitness.ts) was read as source and its confidence mapping, termination rule, trial floor, override cap, indifference margin and allocation policy were confirmed against the documents' claims. Not evaluated: no A/B test, judging pass, fitness aggregation or model call was executed; the measured figures the applications quote (240/816, 314/816, 342/780, control +0.4 sd 3.1, contaminated +16.9, blind-siblings +4.3, the 40s-to-90 rewrite result) were not re-derived from data and remain historical measurements; the rubric files and the quality prompt module were not re-read.",
+  "coverage": "All 10 owned documents read at reverted bytes. The cited consumer (pof src/lib/prompt-evolution/ab-testing.ts and judge-fitness.ts) was read as source and its confidence mapping, termination rule, trial floor, override cap, indifference margin and allocation policy were confirmed against the documents' claims. Not evaluated: no A/B test, judging pass, fitness aggregation or model call was executed; the measured figures the applications quote (240/816, 314/816, 342/780, control +0.4 sd 3.1, contaminated +16.9, blind-siblings +4.3, the 40s-to-90 rewrite result) were not re-derived from data and remain historical measurements; the rubric files and the quality prompt module were not re-read.",
   "counterexamples": [
     "min-trials-and-confidence-banded-conclusion: an arm at 3/3 successes against an arm at 1/3. The pooled two-proportion z is about 1.9, which the table bands as 'moderate - adopt provisionally' and the termination rule concludes on, yet Fisher's exact test on that table gives p of roughly 0.2. The instrument adopts a variant on evidence that would not clear any conventional threshold, and the technique's honesty section does not cover it because the failure is in the critical values, not the sample size.",
     "min-trials-and-confidence-banded-conclusion: a comparison that reaches z = 1.28 on trial four. The band table says extend the run; the termination rule says conclude at confidence 0.8, which is that band. The two sentences give opposite instructions for the same state and the document offers no precedence between them.",
@@ -173,11 +173,11 @@ standard.
   ],
   "sources": [
     {
-      "path": "C:/Users/kazda/kiro/pof src/lib/prompt-evolution/ab-testing.ts:15, :249-261, :297-317",
+      "path": "pof src/lib/prompt-evolution/ab-testing.ts:15, :249-261, :297-317",
       "result": "Confirmed the trial floor of 3, the pooled two-proportion z-test, the exact confidence mapping (z>=1.96 -> 0.95, >=1.65 -> 0.9, >=1.28 -> 0.8), the termination rule shouldConclude = confidence >= 0.8, the 0.05 indifference margin with a declared secondary axis, the forceConclude refusal below the floor and its Math.min(0.7, ...) confidence cap. This establishes that the technique's own termination threshold coincides with the band it says must not conclude. It does not establish how often the coincidence changes an outcome in practice; no test was executed."
     },
     {
-      "path": "C:/Users/kazda/kiro/pof src/lib/prompt-evolution/judge-fitness.ts:35-79, :109-152",
+      "path": "pof src/lib/prompt-evolution/judge-fitness.ts:35-79, :109-152",
       "result": "Confirmed the null-not-zero return shape, the merge-not-overwrite provenance stamp with an explicit version winning over the current pack version, and isSyntheticEntity applied inside aggregateFitness on both sides of the join. Did not run the aggregation or query the database, so the quoted 43.8% and 780/7 figures remain historical."
     }
   ],

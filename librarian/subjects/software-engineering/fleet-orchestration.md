@@ -1,7 +1,7 @@
 ---
 domain: software-engineering
 subject: fleet-orchestration
-last_touched: 2026-09-10
+last_touched: 2026-09-23
 touched_by: intake
 dry_streak: 0
 ---
@@ -731,3 +731,9 @@ recorded and remains the subject's most interesting open deviation.
 ### 2026-09-17 - `/harvest backlog` wave 5, one technique + one application
 
 `evidence-outranks-a-liveness-claim`. The subject carried a stored status beside a staleness sweep and never said what happens when the two disagree. They disagree in exactly one shape, and it is the expensive one. The mechanism is worth stating on its own: **a session reports at transitions, and the long silences are the work.** So the moment its report looks oldest is the moment it is deepest in the work - and the guarded sections it needs are taken at the END of a long quiet stretch. The interval where the claim is most stale and the interval where the holder is most certainly alive and holding something are the same interval, which is why widening the budget cannot separate them. The distinction that makes it decidable: **who wrote the record and why.** A claim is a session's statement about its own condition, worth what the writer's continued existence is worth. Evidence is a record some other obligation forced into existence, so its timestamp is a fact about execution. Outstanding, terminal and suspension records are usually already lying there unread. It does not overturn the expiring lease, and the boundary is instructive: a lease buys its authority with a renewal loop on a fixed cadence (so the longest legitimate silence is the cadence, not the work's duration) and with fenced writes (so a wrong takeover is a retry, not damage). A report-driven budget has neither. **Measured against this registry's own board, and it found a live defect there** - a lock taken one second earlier handed to a sibling, and `check` calling the holder's paths clear in the same second. The rule's strong form, carry no status field at all, was armed literally and broke reclaim entirely: with no budget and no probe nothing can ever say *dead*. Removing the claim is not the rule; demoting it is.
+
+## 2026-09-23 - [[2026-09-23-1]]
+
+Lead drain (run lib-0923). L285 AMEND to `parallel-dispatch`: a promoted queued entry keeps its id and a spawn never lands on a live entry. **L271 COVERED** by `concurrent-vcs/isolated-index-commits`; its private-repo application declined.
+
+**Impact** (stale verdicts before this landing, from the map rebuilt at the run start): personas 14, personas-web 1.

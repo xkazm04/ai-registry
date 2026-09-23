@@ -6,7 +6,7 @@ technique: catalog-projection-modes
 status: forged
 laws: [limits-are-derived, gate-sees-target, one-authority-per-vocabulary]
 shared_with: []
-use_when: [a host refuses the request because too many tools are listed, one server's catalog crowds out every other installed server, deciding whether to fold operations behind a routing tool, a model knows a compressed operation name but not its arguments, deciding whether a description-only catalog may be selected per request, a per-request selector is proposed to reclaim standing prompt tokens]
+use_when: [a host refuses the request because too many tools are listed, one server's catalog crowds out every other installed server, deciding whether to fold operations behind a routing tool, a model knows a compressed operation name but not its arguments, deciding whether a description-only catalog may be selected per request, a per-request selector is proposed to reclaim standing prompt tokens, an operator switch withholds whole tool groups from an unattended caller]
 ---
 
 # Catalog projection modes
@@ -220,6 +220,47 @@ capability that simply is not there, which reads to the user as the model
 being unable to do something it could do last week. If the assertions do not
 run in the artifact users install, the second authority is unpaid for and
 will rot.
+
+## Withholding is the projection that loses capability
+
+The four projections above compress: every operation stays reachable at some
+altitude. A fifth shape turns up once a server's operations are grouped into
+families. An operator switch **withholds** whole families from the listing,
+and it is the one projection that removes capability instead of relocating
+it. Whether to offer it is the question the rest of this technique answers,
+and "the listing looks large" is not a reason
+(see the closing section, on when not to do any of this). These rules
+govern the switch once it exists, and they matter most when some caller of
+the server runs with nobody watching:
+
+- **The default is the whole surface; withholding is opt-in.** The
+  attractive alternative is a trimmed default plus an in-session "activate
+  this group", and it rests on the host re-listing when the server says the
+  list changed. That signal is best-effort by contract, and hosts act on it
+  unevenly. An unattended caller whose host never re-lists cannot get back
+  a family it was never shown. It does not know the family exists, and
+  nobody is present to reconnect it. A spec that names only unknown groups
+  falls back to the full surface rather than to none, and the names it
+  ignored are reported instead of dropped. A typo must not strip a run of
+  everything.
+- **One discovery tool is never withheld.** It lists every group, marks
+  which are withheld in this session, and names each withheld group's tools.
+  That lets a trimmed caller say "the capability exists and this session
+  lacks it" instead of concluding the capability does not exist. A caller
+  that cannot see the discovery tool cannot find out what it cannot see.
+- **A withheld tool that is called anyway is refused, and the refusal
+  names its group** and the setting that restores it. The listing and the
+  dispatch door answer from one resolution, so listed-is-callable holds in
+  both directions. This is the rule of re-checking at the resolved operation,
+  applied to a listing that shrank.
+
+The discriminator for a trimmed default is who is on the other end. It is
+the publisher-side mirror of the host's progressive discovery, and that
+only works when the host acts on the signal. If every caller sits behind a host that
+re-lists on change and has a person who can reconnect, a trimmed default
+with activation is fine and cheaper. If any caller runs unattended, or
+behind a host whose re-listing you have not verified, default to everything
+and let the operator trim per client.
 
 ## The second budget: a catalog in a cached prefix
 

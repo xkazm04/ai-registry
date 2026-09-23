@@ -6,7 +6,7 @@ technique: ratchet-design
 status: forged
 laws: [count-carries-predicate, derivation-names-recomputation, failure-not-empty-success]
 shared_with: []
-use_when: [gating a metric that cannot be zeroed today, a below-baseline reading passes silently, upward re-baselines are becoming routine, the baseline's editors are a smaller set than the authors who trip it, the metric can only be produced by a build the change's author cannot run]
+use_when: [gating a metric that cannot be zeroed today, a below-baseline reading passes silently, upward re-baselines are becoming routine, the baseline's editors are a smaller set than the authors who trip it, the metric can only be produced by a build the change's author cannot run, recording a drop in a checkout other work is also moving]
 ---
 
 # Ratchet design
@@ -155,6 +155,21 @@ deliberately does not cover.
   The narrow exception above (downward only, as a reviewable diff, behind the
   counter's instrument assertions) is what keeps a drop recordable without
   blocking the fix that caused it.
+- **Record the change's delta, not the tree's reading.** The convenient
+  recording command re-measures the whole tree and writes what it found, and
+  that is only the change's own effect when the tree contains nothing else. A
+  working tree that other work is also moving — a shared checkout, a branch
+  with a merge from mainline in it, an uncommitted edit elsewhere — carries
+  other people's rises, and a whole-tree record writes them into the floor
+  under your change's name. *Downward only* does not protect against it: a
+  foreign rise and your drop in the same bucket net to a smaller drop, which
+  the downward-only rule records happily, and the rise is now invisible. So
+  measure the change's footprint — the code it touched or retired — at the
+  change's base and at its tip, apply the per-bucket difference to the
+  committed baseline, and leave every other bucket's reading to fail where it
+  belongs. Both endpoints must measure the **same population**: counting the
+  whole footprint at the base and only the changed files at the tip
+  manufactures drops out of every file that did not change.
 
 ## The one honest auto-update, and what it costs
 

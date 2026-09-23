@@ -10,7 +10,7 @@ verified_on: 2026-08-24
 
 # Process: dual-form particles in the Personas ko catalog
 
-How a real 14-locale consumer product (Personas, `C:\Users\kazda\kiro\personas`)
+How a real 14-locale consumer product (Personas, `personas`)
 realizes KO-PARTICLE-DUAL and KO-PARTICLE-AVOID across a ~19k-key catalog, as
 codified in its per-locale style guide `docs/i18n/style-ko.md` and shipped in
 `ko.json` (~14,500 lines at the time the guide was calibrated).

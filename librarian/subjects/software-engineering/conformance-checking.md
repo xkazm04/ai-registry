@@ -1,3 +1,8 @@
+---
+subject: conformance-checking
+domain: software-engineering
+last_touched: 2026-09-07
+---
 # conformance-checking
 
 Coverage notes for `software-engineering/engineering-assessment/maturity-and-conformance/conformance-checking`.

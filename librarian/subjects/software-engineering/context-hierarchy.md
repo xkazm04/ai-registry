@@ -1,3 +1,8 @@
+---
+subject: context-hierarchy
+domain: software-engineering
+last_touched: 2026-09-10
+---
 # context-hierarchy
 
 **Path:** `knowledge/software-engineering/llm-agent/prompt-and-context/context-hierarchy/`

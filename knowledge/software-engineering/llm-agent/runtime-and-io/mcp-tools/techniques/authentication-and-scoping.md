@@ -4,9 +4,9 @@ type: technique
 subject: mcp-tools
 technique: authentication-and-scoping
 status: forged
-laws: [one-validation-door, gate-sees-target, creation-names-reaper]
+laws: [one-validation-door, gate-sees-target, creation-names-reaper, identity-survives-reuse]
 shared_with: []
-use_when: [minting per-consumer tokens for a tool server, deciding whether listing tools needs a token, a caller's inbound token reaching downstream]
+use_when: [minting per-consumer tokens for a tool server, deciding whether listing tools needs a token, a caller's inbound token reaching downstream, keying an audit actor quota or lease holder on a caller's token]
 ---
 
 # Authentication and scoping
@@ -30,6 +30,30 @@ token, so that:
 - scope is individual — the read-only dashboard consumer and the
   full-control automation consumer hold different powers even against the
   same server.
+
+All three depend on what the server uses as the token's identity. **The
+identity is the credential's minted identifier, never the name a person gave
+it.** Token names are labels. Issuance flows rarely enforce that they are
+unique, and operators reuse the obvious ones ("ci", "agent") across
+integrations. Once a name becomes a key — the audit actor, the per-caller
+quota counter, the holder recorded on a leased work item — two tokens with
+one name share that key. The audit then attributes one integration's calls
+to the other. The quota becomes a budget either can exhaust. The lease
+check, worst of all, becomes an **authorization** fact: a holder comparison
+that matches on the name lets one credential read and report on work that
+another credential claimed. What looked like a cosmetic audit ambiguity is a
+cross-credential authorization hole
+([identity-survives-reuse](../../../../_laws.md#identity-survives-reuse)).
+
+So every key the server derives from a caller — actor, counter, holder —
+is built from the minted identifier, and the name travels beside it as
+display metadata that nothing compares. A server that already stored
+name-keyed holders migrates with an explicit transitional match: the new
+key, or the old form **for the caller that currently carries that name**.
+That match inherits the old ambiguity for the rows written before the
+change and creates none after it. It also names its own end: the date, or
+the lease horizon after which no old-form row can still be live. An open
+transitional arm is the hole still open.
 
 Every token names its reaper at mint time
 ([creation-names-reaper](../../../../_laws.md#creation-names-reaper)): an expiry, a

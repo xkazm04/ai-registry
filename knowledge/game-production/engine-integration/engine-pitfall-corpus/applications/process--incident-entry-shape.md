@@ -10,7 +10,7 @@ verified_on: 2026-08-20
 
 # A 42-entry Unreal pitfall corpus as a curated authoring artifact
 
-PoF (`C:\Users\kazda\kiro\pof`) keeps its hard-won Unreal Engine knowledge as a
+PoF (`pof`) keeps its hard-won Unreal Engine knowledge as a
 hand-curated array of typed entries in `src/lib/knowledge/ue-gotchas.ts`. At the
 time of extraction it held **42 entries**, alongside an 18-entry identifier
 catalogue in `src/lib/knowledge/ue-known-assets.ts` and a one-screen boundary

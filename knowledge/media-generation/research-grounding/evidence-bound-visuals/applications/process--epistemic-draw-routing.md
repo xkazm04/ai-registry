@@ -10,7 +10,7 @@ verified_on: 2026-08-19
 
 # Epistemic draw routing in the Gravitone direction pipeline (process)
 
-The Gravitone studio (`C:\Users\mkdol\dolla\gravitone-gcloud`) realizes the
+The Gravitone studio (`gravitone`) realizes the
 routing as a prompt-pipeline contract: the frames direction prompt declares
 the layer split and its rules to the model, the style compiler welds the
 no-text constraint into every image call, and the director-dimension

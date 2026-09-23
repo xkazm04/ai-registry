@@ -4,7 +4,7 @@ type: technique
 subject: fleet-orchestration
 technique: parallel-dispatch
 status: forged
-laws: [gate-sees-target, one-validation-door, creation-names-reaper, count-carries-predicate, limits-are-derived, failure-not-empty-success, silent-state-is-ungoverned, absent-guard-is-loud]
+laws: [gate-sees-target, one-validation-door, creation-names-reaper, count-carries-predicate, limits-are-derived, failure-not-empty-success, silent-state-is-ungoverned, absent-guard-is-loud, identity-survives-reuse]
 shared_with: []
 use_when: [deciding how many sessions may run at once, two sessions wrote the same file at once, fanning one task across many targets, a run keeps issuing legal-sized batches and nothing bounds what it spends in total, results pile up faster than anyone decides on them, a wave's size was chosen from the runtime's own concurrency cap, one verdict is covering items that are not alike]
 ---
@@ -33,7 +33,16 @@ passes the same admission check.
 - **Admit to cap, queue beyond it.** The queue is ordered and visible; a
   queued dispatch is a registry entry in a pre-life state, not a closure
   waiting in memory — the queue must survive an orchestrator restart like
-  everything else.
+  everything else. **Promotion keeps that entry's identity.** The queued row
+  is the session. The spawn lands on the row's own id and moves it from the
+  pre-life state to starting, so it does not mint a new entry. Everything
+  handed the id while the work waited (an operator's tool result, a task
+  binding, a board tile) must still resolve afterwards. A design that keeps
+  the queue as a separate intent table and mints the session at promotion
+  breaks each of those addresses at exactly the moment the work begins
+  ([identity-survives-reuse](../../../../_laws.md#identity-survives-reuse)).
+  The door that lands a spawn on an existing id must refuse a live,
+  non-queued entry rather than overwrite it.
 - **Slots are released by the state machine, not by goodwill.** A confirmed stop or effective resource fence
   frees the slot through the transition authority. Suspicion of loss alone
   cannot establish that a remote worker stopped consuming capacity. The classic leak is the

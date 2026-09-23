@@ -6,7 +6,7 @@ technique: isolated-index-commits
 status: forged
 laws: [gate-sees-target, creation-names-reaper]
 shared_with: []
-use_when: [committing from a checkout shared with live siblings, second commit on a reused index reverts the first, deciding whether to resync the shared index at close]
+use_when: [committing from a checkout shared with live siblings, second commit on a reused index reverts the first, deciding whether to resync the shared index at close, a shared file you must commit carries a sibling's in-flight edits, the shared status view shows pending work that may already be committed]
 ---
 
 # Isolated-index commits
@@ -56,6 +56,22 @@ committing interact, not exotic races:
    them — stage only your hunks, patch-wise, into the private index; it is
    the only honest way to commit a co-mingled file, and it has held in the
    field where whole-file pathspec forms swept.
+   Where hunk selection is impractical — a structured aggregate such as a
+   string catalog touched in many places, or one file per locale — **build the
+   content instead of selecting it**: take the head's version of the file,
+   apply only your section, write that composite into the object store as a
+   blob, and point the private index's entry at it. Write the blob from raw
+   bytes: a text-mode pipe that translates line endings produces a blob that
+   rewrites every line of the file, and the commit then claims the whole file
+   under your message.
+   **Derive from what you commit, not from the tree.** A generated file whose
+   input is one of those shared files — a type declaration built from a
+   string catalog, an index built from a directory — must be regenerated
+   from the composites, in a scratch directory, and staged the same way.
+   Regenerated in the shared working tree it encodes the sibling's in-flight
+   edits, and the commit ships a derived file that disagrees with the input
+   committed beside it. Waiting for the sibling to land first is not a
+   remedy: nothing bounds the wait.
 4. **Commit with the same index override.** The commit's tree is the head's
    tree plus exactly your additions — built from *staged content*, immune
    to sibling working-tree edits and sibling index activity alike.
@@ -101,8 +117,25 @@ reading the shared status view sees phantom differences. Close the session
 by resynchronizing the shared index to the head (a mixed reset — it touches
 no working files), **after** first checking that nothing a sibling has
 staged there would be swept out by the resync. If a sibling's staged work is
-present, leave the shared index alone; phantom staleness is annoying, and
-destroying a sibling's staging is a loss.
+present, leave the shared index alone; destroying a sibling's staging is a
+loss.
+
+The phantoms are not merely annoying, and the reader's half is where they
+cost. A stale shared index is the middle term of the status view, so every
+file committed around it is misreported in a recognisable shape: a file the
+isolated commits *added* shows as staged-for-deletion **and** untracked at
+once; a file they *modified* shows as a staged change and an unstaged change
+that cancel. Read at face value that is a checkout full of somebody's pending
+work — and an integration step that refuses to proceed over foreign pending
+work will wait on it indefinitely. So in any checkout where isolated-index
+commits happen, **treat the status view as unverified and compare the two
+ends directly** before concluding anything is pending: the working tree
+against the head, which skips the index entirely, and for each untracked path
+whether the head already holds it with that content. Only what differs from
+the head is anybody's work. A staged deletion whose file sits in the tree
+byte-identical to the head's copy is a phantom; one whose file differs, or is
+gone, is a sibling's act. When every difference turns out to be a phantom,
+the resync above is safe, and it is the whole repair.
 
 ## Scope and honesty
 

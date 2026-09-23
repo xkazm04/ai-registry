@@ -8,7 +8,7 @@ laws: [absent-guard-is-loud, derivation-names-recomputation, gate-sees-target]
 shared_with: []
 applied: code
 ab_verdict: better
-use_when: [writing the message a blocking check prints when it refuses, a gate announces a skip and tells the reader how to restore it, a refusal names a command, script or tool the reader is expected to run, the remedy for a finding lives outside the repository the gate ships with, a contributor says they bypassed a gate because they could not act on it, auditing why a gate's bypass rate is high while its precision is good, deciding what a refusal should say when its preferred remedy is unavailable]
+use_when: [writing the message a blocking check prints when it refuses, a gate announces a skip and tells the reader how to restore it, a refusal names a command, script or tool the reader is expected to run, the remedy for a finding lives outside the repository the gate ships with, a contributor says they bypassed a gate because they could not act on it, auditing why a gate's bypass rate is high while its precision is good, deciding what a refusal should say when its preferred remedy is unavailable, a conformant call through a shared helper still reads as a violation]
 ---
 
 # A refusal names a remedy, and the remedy exists where it is read
@@ -141,6 +141,52 @@ The check inherits the standing obligation of its class: assert that the
 population is non-empty, or a renamed hooks directory retires the rule reporting
 clean ([gate-sees-target](../../../../_laws.md#gate-sees-target)).
 
+## Reachable is not enough: the remedy, applied, must clear the check
+
+Everything above asks whether the reader *can* perform the remedy. The next
+question is whether performing it turns the gate green, and a text-matching gate
+can fail it while the remedy is reachable, correct and exactly what the codebase
+wants. The sharp form: the gate keys on a literal idiom — an attribute, a role, a
+call name — and the codebase ships a shared helper that **emits that idiom at
+run time**, through a call or a spread the matcher reads as opaque. Every site
+that does the right thing through the helper still reads as a violation.
+
+The cost is not a false positive in the ordinary sense, paid once and
+suppressed. It is a pressure on the code. Authors learn that the way to satisfy
+the gate is to write the literal by hand — beside the helper, redundantly, or
+instead of it — which is the opposite of what the primitive exists to teach, and
+the gate that was meant to spread a convention now spreads a duplicate of the
+primitive's internals. A rule whose **own documented fix** does not clear it is
+the extreme case, and it is common, because the fix is written in prose and the
+matcher in a pattern, by the same author, on different days.
+
+Two acceptable resolutions, and the choice is the gate owner's, not the
+author's:
+
+- **The gate recognises the helper.** The helper's call counts as the idiom, by
+  name, in the same match that looks for the literal. This is the usual answer
+  where the helper is the preferred form.
+- **The helper is made unusable for the case**, so the gate and the primitive
+  stop disagreeing about which form is correct.
+
+Either way, the prescribed remedy becomes a fixture: apply it, exactly as the
+message words it, to a minimal violating file, and assert the rule stops
+matching. That is the positive control this family of gate is otherwise
+missing — a needle must be findable in the source it names
+([match-the-resolved-artifact](./match-the-resolved-artifact.md)); a remedy must
+be *clearing* in the gate that names it.
+
+Measured on 2026-09-23 in one desktop application tree: a rule requiring a tab
+strip's file to declare its panel matches on the literal panel role, and its
+documented fix is to spread the tab primitive's panel-props helper, which sets
+that role. Of the five files that import the helper, three also write the role
+out literally, two of them with a comment naming the gate as the reason;
+for both files that rely on the helper alone, the strip it closes is still
+counted as a violation — once because the spread is opaque to the match, once
+because the strip sits in a neighbouring file the single-file match cannot join
+to. A sixth file writes the attributes by hand instead of calling the helper, and says
+in a comment that the helper is invisible to the rule.
+
 ## Decision rules
 
 - Every refusal names a remedy; that is settled elsewhere. **This is the next
@@ -154,6 +200,10 @@ clean ([gate-sees-target](../../../../_laws.md#gate-sees-target)).
   guidance and not its own output has audited the instruction nobody reads.
 - Exclude narration and emit-time-resolved paths from the check, and put a
   fixture behind each exclusion.
+- **The remedy, applied as worded, must clear the check.** Keep it as a fixture.
+  Where the codebase ships a helper that produces the idiom the gate matches,
+  either the gate recognises the helper or the helper is withdrawn from the
+  case — never leave authors to restate the helper's output by hand.
 - The audit question for a gate with good precision and a high bypass rate is
   not "is the finding right" but **"can the reader do what the message says,
   here?"**

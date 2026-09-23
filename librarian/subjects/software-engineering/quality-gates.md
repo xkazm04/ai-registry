@@ -1,7 +1,7 @@
 ---
 subject: quality-gates
 domain: software-engineering
-last_touched: 2026-09-06
+last_touched: 2026-09-23
 touched_by: deepen
 dry_streak: 0
 ---
@@ -1076,3 +1076,9 @@ New section: a canary enrolled in the judged population. From [[2026-08-31-tiger
 ### 2026-09-17 - `/harvest backlog` wave 5, one technique + two amendments
 
 `decidable-in-a-window`, landed from a backlog row marked **refuted** - the row was a correction to this subject, and it was right. `prose-rule-drift` stated that rules about artifacts a parser can see are mechanised *full stop*, and the file's own text already knew why that is wrong: it says elsewhere that most gates read the tree and that is what makes them **cheap**. Cost was the real axis and artifact shape was standing in for it. The test that replaces it: **can a pattern decide this from a bounded region of one file?** A rule can be entirely about syntax and still need the call graph, the type of a receiver, or which paths an input travels. 'This call is forbidden on any path a request can reach' is artifact-shaped and is not a pattern. The measured half is the part worth keeping. A cheap guard for a non-local rule does not answer a weaker version of the question - **it answers a different question and reports it in the same vocabulary.** Keying on bare names, the reachability guard resolved every name to every definition and marked 82.7% of functions reachable from a request handler; 1 of 10 on precision against the window scan's 6 of 6. And the negative control found that deleting its traversal removed the analysis without removing the noise: 12 of 21 survivors were the same false positives. The case that looked like a refutation confirmed it: a guard for a genuine whole-program dataflow property does not compute it - it narrows to a two-file allowlist and greps one literal, and its author knew, because the test asserts the allowlisted files still exist, since 'a guard that passes because its subject moved away is worse than no guard'. **Locality is necessary and not sufficient**, and the honest resolutions are to narrow the rule, to pin the scope and assert the pin, or to leave it to review and say so.
+
+## 2026-09-23 - [[2026-09-23-1]]
+
+Lead drain (run lib-0923). L283 (filed under metric-gates) AMEND to `refusal-names-a-reachable-remedy`: the rule's own documented remedy did not clear its pattern in 3 of 5 importing files. L324 AMEND + APPLICATION to `self-reported-gate-inputs`: the ingest door recomputes and refuses on disagreement.
+
+**Impact** (stale verdicts before this landing, from the map rebuilt at the run start): gravitone 1, personas 1.

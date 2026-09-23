@@ -1,7 +1,7 @@
 ---
 domain: software-engineering
 subject: hitl-approval
-last_touched: 2026-08-31
+last_touched: 2026-09-23
 touched_by: intake
 dry_streak: 0
 ---
@@ -249,3 +249,9 @@ two-sighting return condition.
 ### 2026-09-17 - `/harvest backlog` wave 6, one amendment
 
 `oracle-before-gate` gains **'The remainder is not, by itself, the risky part'**, and it exists because a residual I declared was refuted rather than confirmed. The technique requires the no-oracle count to be published with the total. That is right, and the count carries an implication it does not support: that the unverified slice is where the defects are. Measured over two mainline histories with size and the file's own churn held, the slice no test reached was repaired at **0.84x and 0.49x** the rate of the covered slice - so the priority order does not follow from the count. **About half the raw gap was churn**, which is the confound worth remembering: a file with tests is a file under active work, and active work has more chances at a fix. What survived is stronger than what I predicted. **The covered slice is not the safe slice** - those changes were green at merge and repaired within a fortnight at 26.6% and 12.3%. A green row is evidence that one question was asked and answered, not that the change was right, and where the lower artifact is a standing pass list rather than a check that moved with the change it is not evidence the change was examined at all. The bound on the bound, stated in the landing so nobody reads it as a licence: repair history sees only harm somebody found, and the drift this technique warns about in reversible-but-opaque work is by construction the harm nobody found. A null against repair frequency is not a null against that.
+
+## 2026-09-23 - [[2026-09-23-1]]
+
+Lead drain (run lib-0923), L284 AMEND + APPLICATION. **Correction** to `decision-records`: "the write is part of the gate" presumed the system owns the transition; when another surface's own send control is the human gate, the system records its own act labelled as a placement, and a failed write of it is an observability fault that never rolls the placement back.
+
+**Impact** (stale verdicts before this landing, from the map rebuilt at the run start): personas 3, personas-web 3.

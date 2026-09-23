@@ -11,7 +11,7 @@ verified_against: node@24
 
 # Ad strength as a proxy - a pure client-side rater that says what it is
 
-The Czech-first marketing workspace at `C:\Users\kazda\kiro\systedo-case` (commit
+The Czech-first marketing workspace at `systedo-case` (commit
 `2893314930546ed3a314a19a155bcf2f8841a0ea`, 2026-09-08) realises the technique as one
 pure module, `src/lib/ad-strength.ts`, that rates a generated `AdResult` with no network
 and no API (`ad-strength.ts:1-7`). The structural fact the tree proves is the

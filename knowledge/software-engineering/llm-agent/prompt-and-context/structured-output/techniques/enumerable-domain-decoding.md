@@ -97,7 +97,7 @@ quietly missing legal values.
 
 ## What this does not buy, and the door that stays
 
-The validation door does not move. Three things survive decoder-level
+The validation door does not move. Four things survive decoder-level
 enforcement, and each is a reason the door is load-bearing rather than
 ceremonial:
 
@@ -110,6 +110,31 @@ ceremonial:
   guarantees "no illegal continuation", never "the value is complete", so
   completeness is the door's to check
   ([unknown-is-not-a-value](../../../../_laws.md#unknown-is-not-a-value)).
+- **Properties between candidates.** When one reply must carry several
+  *different* candidates over the same closed domain, every candidate can
+  be individually in range while all of them are the same. Asking the model
+  for variety does not fix this, because a model asked for several
+  different values tends to return variations on one. The workable split
+  is to construct the spread in code. Draw one anchor vector per candidate
+  (pins held, pairwise distance and distance from what was already seen
+  enforced by the drawing), let the model move each value by at most a
+  declared step, and check each candidate against its own anchor at the
+  door. But a bound of *k* steps per value does not preserve the anchors'
+  spread. Two candidates may each move toward the other, so the spread
+  shrinks by up to 2*k* on every value where they differ. Drawn spread
+  survives only if it exceeds the most the nudges can remove. Otherwise the
+  door re-checks the set-level property on the candidates themselves. A
+  door that checks candidates one at a time cannot see a property that
+  exists only between them. The re-check is paid in retries, and it
+  charges honest output too: nudges that share a direction near the edge of
+  the scale are clamped there and lose spread without any collapse behind
+  them. Measured over a thousand real anchor draws, a full-strength re-check
+  removed every lost-spread set and turned roughly 3 to 4 percent of
+  otherwise honest rolls into failed ones after the single retry. So state
+  the set-level bar in the prompt, which lets the retry comply, and draw the
+  anchors with margin enough to absorb 2*k* of shrink. Keep the re-check,
+  because it is the only thing that sees collapse, but budget the retries it
+  will cost.
 
 What changes is the door's job. It stops being the only thing standing between
 the model and a corrupt field, and becomes the check on the classes the

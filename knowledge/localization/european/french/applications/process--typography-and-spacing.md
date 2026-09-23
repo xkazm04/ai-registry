@@ -16,7 +16,7 @@ against their trees on 2026-08-24. The instructive part is that they made
 
 ## kp — anchored rules, measured non-compliance, staged sweeps
 
-`C:\Users\kazda\kiro\kp\docs\i18n\constructions-fr.md` is the anchored rule
+`kp/docs/i18n/constructions-fr.md` is the anchored rule
 set this subject's IDs were migrated from. Its provenance section pins the
 Microsoft French (France) Localization Style Guide (`fra-fra-StyleGuide.pdf`,
 53 pp, via aka.ms/french-france-styleguide) as house authority and cites its
@@ -50,7 +50,7 @@ The rules arrived with **measurements, not vibes**:
 
 ## Personas — the pragmatic variant of the same rules
 
-`C:\Users\kazda\kiro\personas\docs\i18n\style-fr.md` runs the same rule set
+`personas/docs/i18n/style-fr.md` runs the same rule set
 with two different house calls:
 
 - **U+00A0 instead of U+202F** before `: ; ! ?` and inside guillemets — the

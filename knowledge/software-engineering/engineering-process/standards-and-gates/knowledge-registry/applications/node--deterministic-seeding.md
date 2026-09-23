@@ -9,7 +9,7 @@ verified_on: 2026-08-20
 
 # Seeding a registry into somebody else's repository, twice
 
-A fleet-management service (`C:\Users\kazda\kiro\ascent`) creates registries it
+A fleet-management service creates registries it
 does not own: it opens one draft pull request that seeds the layout into a
 customer repository, and a human merging that request is the act of adoption.
 Because the request stays open while people ask what it is for, the seeding is

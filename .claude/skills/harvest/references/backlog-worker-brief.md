@@ -12,7 +12,7 @@ You measure ONE backlog unit for `/harvest backlog`. Your prompt names your UNIT
 
 ## Trees
 - **Registry main (authoritative for landing):** `C:/t/main-land`. It has `.machine.local.json`, so `loadFleet()` resolves from there.
-- **Shared checkout (a sibling branch carrying landings not yet on main):** `C:/Users/kazda/kiro/ai-registry`. Check BOTH for coverage; a technique only on the shared checkout still counts. Say which tree.
+- **Shared checkout (a sibling branch carrying landings not yet on main):** `ai-registry`. Check BOTH for coverage; a technique only on the shared checkout still counts. Say which tree.
 
 ## Method - read before step 1
 `C:/t/main-land/.claude/skills/harvest/references/backlog.md`, intake Phase 6, 7 and 7.5 in `C:/t/main-land/.claude/skills/intake/SKILL.md`, and `C:/t/main-land/.claude/skills/harvest/references/evaluation.md`.

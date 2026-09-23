@@ -6,7 +6,7 @@ technique: loading-and-empty-states
 status: forged
 laws: [failure-not-empty-success]
 shared_with: []
-use_when: [deciding whether no results can be shown yet, rows replaced by skeletons while refreshing, entrance animation replaying on scroll back]
+use_when: [deciding whether no results can be shown yet, rows replaced by skeletons while refreshing, entrance animation replaying on scroll back, an empty table after the response shape changed]
 ---
 
 # Loading and empty states
@@ -113,6 +113,25 @@ Rendering "no results" is asserting a fact about the dataset. Two rules:
    - **Nothing visible at this permission level** → distinct again; the fix is
      a request or an account action, not a filter change.
 
+   All three presume the answer was *read*. A fourth situation fires before
+   any of them and wears their clothes: **the payload arrived, and the body
+   could not read its shape.** It is the ordinary way a contract change
+   reaches a table — the rows moved under a wrapper key, a field was renamed,
+   a view is driven by a descriptor that expects a list and received a keyed
+   record — and the decode that defaults to an empty list turns it into
+   "nothing here yet". That is the same lie the failure rule below forbids,
+   one step later: it reports a step that ran as a step that never ran, and
+   it survives testing because every fixture has the expected shape. So
+   emptiness is asserted only for a payload that is genuinely absent or
+   genuinely zero-length; a present payload that does not decode renders its
+   own state, naming what the view expected and what it received, with the
+   failure's styling rather than the empty state's. The tell in code is a
+   defaulted decode — `rows = payload.items ?? []` — standing between the
+   response and the body-state machine. The state names a *mismatch*, not a
+   bad payload: where a view descriptor chooses the fields, the descriptor
+   can be the side that is wrong for this record, and a message that blames
+   the data sends the reader to fix what was never broken.
+
 ## ERROR — failure is not empty success
 
 A failed fetch with nothing to show renders a **failure state**: visually and
@@ -148,7 +167,8 @@ craft instead of noise:
 1. Chrome never unmounts because data is in flight.
 2. A placeholder never covers rendered rows.
 3. Empty is never asserted before the first settle.
-4. Error never wears the empty state's clothes.
+4. Error never wears the empty state's clothes — nor does a payload that
+   arrived and could not be read.
 5. A placeholder never appears on a warm load (delay it) — and the motion
    preference removes the fade, never the delay.
 6. Entrance animation never replays for a row that merely moved.

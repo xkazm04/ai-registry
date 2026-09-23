@@ -11,7 +11,7 @@ verified_against: node@24
 
 # Content-hash binding in the PoF judge layer
 
-PoF (`C:\Users\kazda\kiro\pof`, a Next.js game-production catalog) grades every
+PoF (`pof`, a Next.js game-production catalog) grades every
 produced step with an LLM judge and stores the verdicts in a `judge_verdicts`
 table. The binding lives in `src/lib/judge/contentHash.ts`, and it is deliberately
 plain TypeScript — no `node:crypto` — because the same function must run on the

@@ -1,7 +1,7 @@
 ---
 domain: software-engineering
 subject: eval-harness
-last_touched: 2026-09-04
+last_touched: 2026-09-23
 touched_by: intake
 dry_streak: 0
 ---
@@ -693,3 +693,9 @@ verdict and probed by nothing.
   open. Not merged, not pushed.
 - **The existing `judge-stability` sighting (2026-09-04)** still waits on the year run.
   This run did not touch the judge.
+
+## 2026-09-23 - [[2026-09-23-1]]
+
+Lead drain (run lib-0923), L263 AMEND to `eval-economics` (a long run persists each cell as it finishes) + APPLICATION. The lead's other half (run before polishing the output surface) **declined**: one sighting, figures unverifiable.
+
+**Impact** (stale verdicts before this landing, from the map rebuilt at the run start): personas 2, systedo-case 1.

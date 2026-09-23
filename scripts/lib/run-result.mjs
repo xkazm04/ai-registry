@@ -397,6 +397,32 @@ export function writeRunResult(result, options = {}) {
  * @param {{root?: string, path?: string}} [options]
  * @returns {object|null}
  */
+/**
+ * The saturation brake, computed from what runs recorded: per subject id, the number of
+ * TRAILING `idled` outcomes among its `landed`/`idled` rows in time order. A `landed` row
+ * resets it; `declined`, `contended` and `dispatched` are not passes and do not move it.
+ * A subject no result has recorded is ABSENT from the map - unknown, never zero. A bare
+ * slug id is skipped: without its bundle it could be any of several subjects.
+ *
+ * `librarian-scan.mjs` reads `dryStreak` from here, never from a note's frontmatter: that
+ * field had one writer, which only ever wrote 0 (349 of 349 notes, 2026-09-23).
+ */
+export function dryStreaks(results) {
+  const rows = [];
+  for (const doc of results) {
+    for (const s of doc?.subjects ?? []) {
+      if (s?.outcome !== 'landed' && s?.outcome !== 'idled') continue;
+      const id = String(s.id ?? '');
+      if (!id.includes('/')) continue;
+      rows.push({ id, at: String(s.at ?? doc.ended_at ?? ''), outcome: s.outcome });
+    }
+  }
+  rows.sort((a, b) => a.at.localeCompare(b.at));
+  const out = {};
+  for (const r of rows) out[r.id] = r.outcome === 'idled' ? (out[r.id] ?? 0) + 1 : 0;
+  return out;
+}
+
 export function readRunResult(runId, options = {}) {
   if (!RUN_ID_RE.test(String(runId ?? ''))) throw new Error(`run-result: run id must match ${RUN_ID_RE} (got ${JSON.stringify(runId)})`);
   const { rel, abs } = resolveDestination(runId, options);

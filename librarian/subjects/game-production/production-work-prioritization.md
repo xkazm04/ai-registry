@@ -99,7 +99,7 @@ the qualifications below govern this review.
 ## Architecture re-review after the compression revert - 2026-09-10
 
 Read all fourteen documents at their reverted bytes, then checked the four `node`/`process`
-applications against the live Proof of Fun checkout at `C:/Users/kazda/kiro/pof` (HEAD
+applications against the live Proof of Fun checkout at `pof` (HEAD
 `d823bffe`) rather than against the commit they were forged from. Reading source, not
 executing it: no PoF build, no test run, no engine session.
 
@@ -177,9 +177,9 @@ the opposite of single-sourced.
     "The subject offers no guidance for a candidate that is on the declared slice and blocked. Slice membership is a filter above the ranking and blocked-ness excludes before ranking, so the two filters can empty the candidate list with no stated escalation."
   ],
   "sources": [
-    {"path": "C:/Users/kazda/kiro/pof/src/lib/health-engine.ts", "result": "Establishes that the slice milestone now reports currentProgress: null with a note citing this subject, so the application's headline defect is fixed upstream. Does not establish that any slice path is declared - the note says none is."},
-    {"path": "C:/Users/kazda/kiro/pof/src/lib/nba-engine.ts", "result": "Confirms the weight table, the per-factor clamps, the readiness reduction, the nullable success rate, the capped-confidence pattern selection and the 0.7/0.3 blend all still hold. Also shows a new bounded deadline term that the vertical-slice application asserts does not exist. Read only; not executed."},
-    {"path": "C:/Users/kazda/kiro/pof/src/components/layout-lab/labGlossary.ts", "result": "Confirms STATUS_GLOSSARY.pending is 'not started', contradicting the ladder's pending rung. Does not establish which vocabulary is correct for PoF - only that two exist."}
+    {"path": "pof/src/lib/health-engine.ts", "result": "Establishes that the slice milestone now reports currentProgress: null with a note citing this subject, so the application's headline defect is fixed upstream. Does not establish that any slice path is declared - the note says none is."},
+    {"path": "pof/src/lib/nba-engine.ts", "result": "Confirms the weight table, the per-factor clamps, the readiness reduction, the nullable success rate, the capped-confidence pattern selection and the 0.7/0.3 blend all still hold. Also shows a new bounded deadline term that the vertical-slice application asserts does not exist. Read only; not executed."},
+    {"path": "pof/src/components/layout-lab/labGlossary.ts", "result": "Confirms STATUS_GLOSSARY.pending is 'not started', contradicting the ladder's pending rung. Does not establish which vocabulary is correct for PoF - only that two exist."}
   ],
   "documents": {
     "production-work-prioritization.md": {"disposition": "keep", "reason": "The two-stage split, the curriculum-versus-build-order distinction, the binding-caps-everything rule and the ladder-before-score ordering are all internally consistent and independently argued. The earlier entry's objections to ladder ordering and to zero-for-absent-evidence are policy disagreements, not defects; both are stated as declared policies in the text."},

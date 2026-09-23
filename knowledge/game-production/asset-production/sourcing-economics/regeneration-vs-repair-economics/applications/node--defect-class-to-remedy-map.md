@@ -11,7 +11,7 @@ verified_against: node@24
 
 # The remedy map and its router, in a Node visual-generation pipeline
 
-PoF (`C:\Users\kazda\kiro\pof`) implements the map as two exported constants and a pure
+PoF (`pof`) implements the map as two exported constants and a pure
 assessor, with the routing refusals in a separate module. Nothing here touches Blender, a
 job store or the network — which is the property that makes the rules testable.
 

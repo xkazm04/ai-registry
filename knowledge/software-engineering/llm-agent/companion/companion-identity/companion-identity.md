@@ -103,8 +103,9 @@ remembered episode. Left unstated, that ordering is re-decided per turn by
 whichever text happened to be most vivid — usually the most recent memory, which
 is exactly backwards.
 [constitution-self-model-split](./techniques/constitution-self-model-split.md)
-owns the partition, the failure of the single blended document, and what belongs
-where.
+owns the partition, the failure of the single blended document, what belongs
+where, and the narrow conditions under which one file with heading-owned
+sections still counts as two.
 
 ## The self-model changes by diff, or it does not change
 

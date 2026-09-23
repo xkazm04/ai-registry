@@ -10,7 +10,7 @@ verified_on: 2026-08-24
 
 # Bidi and interpolation in a real 14-locale catalog: Personas Desktop (ar)
 
-The Personas Desktop app (`C:\Users\kazda\kiro\personas`) ships a ~19k-key
+The Personas Desktop app (`personas`) ships a ~19k-key
 catalog in 14 locales; Arabic is its only RTL locale, and its worked style
 guide — `docs/i18n/style-ar.md` — is the fleet's richest record of how this
 technique's rules play out against a real `ar.json`

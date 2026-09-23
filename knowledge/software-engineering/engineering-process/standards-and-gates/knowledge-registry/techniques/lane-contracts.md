@@ -6,7 +6,7 @@ technique: lane-contracts
 status: forged
 laws: [gate-sees-target, one-authority-per-vocabulary]
 shared_with: []
-use_when: [dividing mixed registry content into single-shape lanes, a rebuild wipes fields another producer owns, deciding whether an empty lane passes its gate]
+use_when: [dividing mixed registry content into single-shape lanes, a rebuild wipes fields another producer owns, a regeneration drops verdicts whose key was renamed, deciding whether an empty lane passes its gate]
 ---
 
 # Lane contracts
@@ -64,6 +64,24 @@ forward what it does not own, and write only its own keys — with its own keys
 winning, so a foreign field cannot shadow a schema identifier or a count. This is
 worth a test: assert that a field belonging to another producer survives a
 rebuild, and that a hostile value in an owned field does not.
+
+The same rule governs **rows**, and there it is quieter still. A derived view
+that joins a source's names to judgements people paid for — which code a
+verdict was made about, which item it was made against — drops the judgement
+the first time the source renames or retires the name, if the regeneration
+simply skips a row whose key it no longer finds. Nothing errors, the view
+looks complete, and the loss surfaces weeks later as work somebody has to
+redo. So a judgement whose key vanished is **parked, not dropped**: it moves
+to a visible list of orphans that persists across regenerations until the key
+returns, something adopts it, or a person removes it. Re-attaching is allowed
+only on a *measured* correspondence — a new key that carries most of what the
+old one covered, by a stated threshold, or the same stable identifier on both
+sides — and the pairing writes its provenance on the judgement (where it came
+from, how the match was made), because a silent re-attach claims the verdict
+covered code it was never written about. Where the match cannot be measured,
+orphaned is the honest answer. And the carry-forward list itself obeys the
+field rule: a provenance field missing from the list of what a regeneration
+keeps is dropped the same silent way, one level down.
 
 ## Gate the lane against its own emptiness
 

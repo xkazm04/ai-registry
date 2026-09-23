@@ -6,7 +6,7 @@ technique: anchored-identity-diffs
 status: forged
 laws: [one-validation-door, identity-survives-reuse, failure-not-empty-success]
 shared_with: []
-use_when: [an agent proposes a change to its own description, designing the approval surface for self-edits, a self-document is being rewritten wholesale by the model]
+use_when: [an agent proposes a change to its own description, designing the approval surface for self-edits, a self-document is being rewritten wholesale by the model, a proposal the apply step will certainly refuse is reaching the review queue]
 ---
 
 # Anchored identity diffs
@@ -136,6 +136,24 @@ text, and the reason. It permits **edit before approval**, because the most
 common good outcome is not accept-or-reject but "nearly right, in slightly
 different words", and a system that forces rejection for that case teaches the
 companion nothing.
+
+**What apply would refuse on static grounds, propose refuses first.** A
+proposal passes two doors: it is filed, and later it is applied. Some of the
+reasons it can fail do not depend on the live document at all. It names a
+section that does not exist in the skeleton, it targets a section this author
+may not write, it breaks the grammar, or it exceeds a cap. Check every one of
+those at filing time. Judge them against the **declared** lists, not against
+what the apply step happens to do today: when a migrated document carries a
+heading on neither list, an apply that matches the heading text on disk will
+land a diff under it, so "apply would refuse it" is not even true. The
+refusal belongs to the closed list, which means the fix closes a write path
+under a heading nobody owns at both doors, not only a wasted review round. A proposal the apply door is certain to refuse is not a
+question for the person. It spends a review round, and when it targets
+something the companion may never write, it presents a forbidden change as
+an ordinary request. Only anchor matching legitimately waits for apply,
+because only anchor matching depends on the document as it stands when the
+person approves. Apply still re-checks the static grounds, since a proposal
+filed around the door is exactly what the second check exists for.
 
 The gate is also the **one validation door** to the document
 ([one-validation-door](../../../../_laws.md#one-validation-door)), and the writers
