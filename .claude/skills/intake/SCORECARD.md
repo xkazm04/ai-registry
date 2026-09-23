@@ -4769,3 +4769,17 @@ gate could see the change. Next run's declared focus: the render-temporal
 focus above carries forward unchanged, and **when Phase 7.5 opens a seam,
 first ask whether both arms can be imported from the tree as they are**. If
 they can, the apply row is `code` at the price of a fixture file.
+
+| 2.13.0 | 2026-09-23 | `youtube:3b0U4_02bAE` self-compact-pi-agent - a builder's devlog for a self-compacting coding agent (own compaction tool + note-to-self, three thresholds set under one vendor's price step) plus a three-harness bake-off | 1 video, 6,214 words; **1 of 3 fetches** (vendor pricing page); 9 corpus files opened; 7 fleet trees grepped for a compaction trigger (none); 190 session records replayed | 12 | 7 verified (1 accepted + 4 catches opened + 1 promoting grep + 1 primary) | **1 amendment** (section + decision rule + use_when + golden-path clause) | 1 row (`0c/1e/0s/0t/0r`), `unmeasurable`: step premium +58% -> 0 on real traffic, floor (fidelity after 9 -> 187 compactions) has no instrument | 0 (no fleet project owns a compaction trigger; the seam is the registry's own session records) | Expected yield said before the table and held (5 catches). **The primary corrected the source:** this fleet's vendor bills its million-token window flat, so the step the source hardcoded is a per-model dated fact, read from the price book. The falsifying arm (the flat book) returned the unexpected result: a 272K wall still cut priced input to 0.64x, so the window is not the economic threshold on either book (lead L3). Declared focus met: both arms came from records already on disk, at the price of one script. | S0/T0/A1/Asrc0/task0 - routing n/a (video) - directions=n/a - auto=1/3/0 fp=0 |
+
+**2026-09-23 (self-compact-pi-agent) - weakest stage and next focus.** Ship is
+still losing most: five of the last six rows shipped no code. This run's zero
+has a different cause from the precondition misses: no fleet project owns the
+decision at all, so the arms had to be rebuilt from session records. The
+importable-arms focus paid (a 10-second replay over 26,299 real requests), but
+it moved only the target. The floor, what a compaction costs the task, is not
+in the records, so the verdict was `unmeasurable` before the script ran. Next
+run's declared focus: **before building the arms, check that the floor is
+readable from the same instrument as the target.** If it is not, name the floor
+instrument first, and budget for it or say up front that the row can reach
+`unmeasurable` at best.

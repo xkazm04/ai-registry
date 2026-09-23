@@ -513,8 +513,10 @@ disappearing.
   a compaction is authorized when its rewrite premium repays before the run's
   remaining requests, with the horizon estimated from the run's own completed
   boundaries and capped by the window; why the first compaction gets a wider
-  horizon and every later one carries debt; and the replay showing the test is
-  vacuous at the wall and only governs early, boundary-triggered compaction.
+  horizon and every later one carries debt; the replay showing the test is
+  vacuous at the wall and only governs early, boundary-triggered compaction;
+  and the prompt-length price step that moves the wall below the window on a
+  model the price book bands.
 - [speculative-compaction-splice](./techniques/speculative-compaction-splice.md)
   — the third schedule, which takes the work off the turn's critical path
   entirely: fork at a derived margin below the threshold, summarize beside the

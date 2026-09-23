@@ -24589,9 +24589,9 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/prompt-assembly.md",
-   "digest": "sha256:23dde2144f1e50ad",
-   "revision": 37,
-   "changedAt": "2026-09-22",
+   "digest": "sha256:fa26f12e1d02a2ae",
+   "revision": 38,
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "amortized-compaction-cadence",
@@ -24650,7 +24650,8 @@
       "a compaction fires at the window threshold and nowhere else",
       "choosing the denominator for a compaction's break-even",
       "a second compaction is proposed before the first one has repaid its rewrite",
-      "a compaction policy needs a cache write/read ratio it cannot look up"
+      "a compaction policy needs a cache write/read ratio it cannot look up",
+      "the provider reprices the whole request above a prompt-length threshold below the window"
      ]
     },
     {
