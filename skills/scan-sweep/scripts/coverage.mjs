@@ -57,6 +57,17 @@ for (const h of hist) {
   const prev = challenged.get(h.scope);
   if (!prev || h.at > prev) challenged.set(h.scope, h.at);
 }
+// --in-flight <cohort.json>[,<cohort.json>]: a run whose scouts are done but whose
+// snapshots are not yet written (challenge.md section 2.2, pipelining). Its hosts and
+// riders count as challenged "now" so the next cohort does not pick them again.
+for (const f of (opt('--in-flight', '') || '').split(',').filter(Boolean)) {
+  const c = JSON.parse(readFileSync(f, 'utf8'));
+  const now = new Date().toISOString();
+  for (const h of c.cohort ?? []) {
+    challenged.set(h.name, now);
+    for (const r of h.riders ?? []) challenged.set(r.name, now);
+  }
+}
 
 const byScope = new Map();
 for (const h of hist) {

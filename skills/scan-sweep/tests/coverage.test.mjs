@@ -64,6 +64,16 @@ test('riders: a small context rides with its group host; an all-small group is p
   assert.equal(uncovered, 5, 'zero-file contexts are not owed coverage');
 });
 
+test('--in-flight: a scouted-but-unclosed run keeps its hosts and riders out of the next cohort', () => {
+  const dir = fixture([]);
+  writeFileSync(join(dir, 'inflight.json'), JSON.stringify({ cohort: [{ name: 'big-g1', riders: [{ name: 'tiny' }] }] }));
+  const plain = run(dir, '--challenge').cohort.map((c) => c.name);
+  assert.ok(plain.includes('big-g1'), 'non-vacuity: without --in-flight the host is picked');
+  const next = run(dir, '--challenge', '--in-flight', join(dir, 'inflight.json'));
+  assert.ok(!next.cohort.some((c) => c.name === 'big-g1' || c.riders.some((r) => r.name === 'tiny')), 'in-flight host and rider are skipped');
+  assert.ok(next.cohort.some((c) => c.name === 'mid-g1'), 'the group falls to its next unchallenged context');
+});
+
 test('cohort: --group lifts the one-per-group rule inside that group', () => {
   const { cohort } = run(fixture([]), '--challenge', '--group', 'G1');
   assert.deepEqual(cohort.map((c) => c.name), ['big-g1', 'mid-g1']);

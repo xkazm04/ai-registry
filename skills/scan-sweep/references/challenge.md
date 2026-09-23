@@ -66,7 +66,9 @@ never challenged`. Two rules keep it affordable:
 - **Pipeline the read-only stages.** Scouts and the critic of run N+1 read the tree
   while run N's builders write it - they change nothing, and their premises are
   re-verified by the builder at build time anyway (§7 step 1). Only one run's
-  BUILDS are ever in flight.
+  BUILDS are ever in flight. Pick the next cohort with `coverage.mjs --challenge
+  --in-flight <run>/cohort.json`: a run whose snapshots are not yet written would
+  otherwise be picked again, host and riders both.
 - **One deck approval covers the loop** when the operator asked for coverage; each
   run's deck is still written, and `irreversible` / `policy-loosen` stay out.
 
