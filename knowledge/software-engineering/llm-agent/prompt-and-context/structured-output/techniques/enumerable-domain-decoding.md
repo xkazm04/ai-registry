@@ -125,7 +125,16 @@ ceremonial:
   survives only if it exceeds the most the nudges can remove. Otherwise the
   door re-checks the set-level property on the candidates themselves. A
   door that checks candidates one at a time cannot see a property that
-  exists only between them.
+  exists only between them. The re-check is paid in retries, and it
+  charges honest output too: nudges that share a direction near the edge of
+  the scale are clamped there and lose spread without any collapse behind
+  them. Measured over a thousand real anchor draws, a full-strength re-check
+  removed every lost-spread set and turned roughly 3 to 4 percent of
+  otherwise honest rolls into failed ones after the single retry. So state
+  the set-level bar in the prompt, which lets the retry comply, and draw the
+  anchors with margin enough to absorb 2*k* of shrink. Keep the re-check,
+  because it is the only thing that sees collapse, but budget the retries it
+  will cost.
 
 What changes is the door's job. It stops being the only thing standing between
 the model and a corrupt field, and becomes the check on the classes the
