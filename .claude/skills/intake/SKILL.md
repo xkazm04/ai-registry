@@ -3,7 +3,7 @@ name: intake
 description: "Mine an external source - a YouTube video, a news roundup, an article, pasted notes, a repository - for what it should change in THIS registry, and in the connected projects that consume it. Ingests the source, reads its design decisions as well as its claims, maps both against existing bundles for prior art, triages with the operator, and lands what survives corroboration - amendments for boundary cases, techniques and subjects for mechanisms, forge handoffs for systems whose architecture the corpus lacks. News sources mostly yield currency signals and leads; that is a successful run. Use when someone shares a link and asks what it means for us."
 category: ai-native
 memory: project
-version: 2.14.0
+version: 2.14.1
 tags: research, sources, memory-lane, admission-gate, render-proof, triage, currency, cross-repo, leads, apply, ab-test, parallel, reference-index, design-read, forge-handoff, directions, fleet-map, peer-study, opus-workers, decision-gate
 ---
 
@@ -1702,7 +1702,11 @@ directory **by its run id**, never by sweeping the scratch root.
   table (`contended` is the Phase 0 exit-3 case), `declined[]` from the decline ledger -
   **`untriaged` is not `declined`**, here exactly as everywhere else in this file - one
   `subjects[]` row per landing, and `verdicts[]` straight from Phase 7.5's
-  `better` / `not-better` / `unmeasurable` / `COVERED`. `pr` is **null**: Phase 10 commits
+  `better` / `not-better` / `unmeasurable` / `COVERED` at the mode it was measured at
+  (`code` / `experiment` / `blind-ab` / `simulation` / `render`). **A subject row's
+  `outcome` is the counts vocabulary, not this skill's five outcomes** - `landed` /
+  `declined` / `idled` / `contended` / `dispatched`, so a currency reset and a technique
+  are both `landed` here and the triage table stays the place that tells them apart. `pr` is **null**: Phase 10 commits
   direct to `main`. List the commits made so far and let Phase 10 carry this file in its
   pathspec; the commit that carries it cannot name itself. `files[]` and
   `commits[].pathspec` stay the **registry's** own paths - a Phase 8 landing in a project

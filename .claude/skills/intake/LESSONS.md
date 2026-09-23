@@ -11769,7 +11769,7 @@ finish on the version it loaded.)
   WIP in skills/ and catalog.json, and an index with sibling-staged files. The
   board only knows the sessions that claimed, and the tree knows all of them.
 
-## 2.13.0 - 2026-09-23 - ai-registry (bumped to 2.14.0 in the same change)
+## 2.13.0 - 2026-09-23 - ai-registry (bumped to 2.14.1 across the same change)
 
 - **Phase 9 had five human records and no machine one.** The source note, the source
   ledger, the applied ledger, the scorecard and the subject notes are all excellent and
@@ -11788,3 +11788,8 @@ finish on the version it loaded.)
 - **The commit that carries the result cannot name itself.** Phase 9 writes it and Phase
   10 commits it, so `commits[]` lists the commits made up to that point. Stating that is
   better than a second commit for one file, and much better than a sha nobody wrote.
+- **This skill's five outcomes are not the result file's five outcomes**, and closing
+  the vocabulary is what made that visible. `content` / `currency` / `lead` / `covered` /
+  `decline` is the triage table's language and it stays there; a subject row's `outcome`
+  is the counts vocabulary, so a currency reset and a new technique are both `landed`.
+  Two vocabularies that nearly overlap are worse than two that plainly do not.

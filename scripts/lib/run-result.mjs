@@ -42,6 +42,18 @@
  *     absolute, carries a drive letter, contains a `..` segment, uses a backslash, opens
  *     at a home directory, or names this machine or its user. A leak that a gate would
  *     catch a week later is a leak that was published.
+ *
+ *     **One half of that rule is PROSE-ENFORCED on purpose, and this note exists so the
+ *     next reader does not "fix" it.** In the `librarian/` lane `files[]` must name the
+ *     REGISTRY's own paths - a landing in a project tree is a `subjects[]` row, never
+ *     that repo's file list - and nothing here can tell `src/api/limiter.ts` in a
+ *     consumer from a relative path in the registry; both are ordinary and neither is a
+ *     leak by shape. The mechanical version (require every `files[]` entry to exist in
+ *     the destination root) was considered and DECLINED on 2026-09-23: it would refuse a
+ *     run that DELETED a file, which is a legitimate result, and a door that refuses
+ *     honest reports is worse than one rule carried by the five skills' own steps.
+ *     `/conform` is the deliberate exception - its result lives in the project it
+ *     judged, so project-relative paths there are correct rather than a leak.
  *   - **A decline is only real when written down.** A `declined[]` entry without a
  *     non-blank reason is an error, and so is a positive `counts.declined` with nothing
  *     written down. The registry re-proposes forever what it did not record.
@@ -83,16 +95,30 @@ export const SCHEMA = 'rkb-run-result/1';
 export const REGISTRY_ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..', '..');
 
 /**
- * A run id is a directory name and a key a dispatcher quotes back, so it is deliberately
- * narrow: no spaces, no separators, nothing a shell or a filesystem has an opinion about.
- * Note for callers: `run-board.mjs` DERIVES a default id up to ~98 characters long when
- * `--run` is omitted (date + skill slug + a 40-char source slug + pid). Pass a short,
- * stable `--run <id>` rather than letting it derive one, or this refuses it.
+ * A run id is a directory name and a key a dispatcher quotes back, so the CHARSET is
+ * deliberately narrow: no spaces, no separators, nothing a shell or a filesystem has an
+ * opinion about. The LENGTH bound is about path safety, not brevity, which is why it is
+ * 128 rather than 64: `run-board.mjs` DERIVES a default id up to ~98 characters when
+ * `--run` is omitted (date + skill slug + a 40-char source slug + pid), and a door that
+ * refuses that would fail precisely when a skill behaved correctly. 128 still leaves
+ * `librarian/runs/<id>/result.json` comfortably inside Windows' path limit. Pass a short,
+ * stable `--run <id>` anyway - a run id is quoted back in reports and read by people.
  */
-const RUN_ID_RE = /^[A-Za-z0-9._-]{4,64}$/;
+const RUN_ID_RE = /^[A-Za-z0-9._-]{4,128}$/;
 
 /** The closed verdict vocabulary of the apply/A-B lane (`librarian/applied.md`). */
 const VERDICTS = new Set(['better', 'not-better', 'unmeasurable', 'COVERED']);
+
+/**
+ * The closed vocabularies for the two fields that used to admit free text. Non-uniform
+ * free-text `kind` in the run notes is the defect this whole file exists to end, so
+ * leaving two of its own fields open would have reintroduced it one level down.
+ *
+ * `OUTCOMES` mirrors `counts` exactly, so a subject row and the tally cannot describe
+ * different things. `MODES` is the applied ledger's own ladder, highest reachable first.
+ */
+const OUTCOMES = new Set(['landed', 'declined', 'idled', 'contended', 'dispatched']);
+const MODES = new Set(['code', 'experiment', 'blind-ab', 'simulation', 'render']);
 
 const COUNT_KEYS = ['dispatched', 'landed', 'declined', 'idled', 'contended'];
 
@@ -218,7 +244,8 @@ export function validateRunResult(draft) {
     const keys = ['id', 'at', 'engine', 'outcome', 'points_before', 'points_after'];
     unknownKeys(s, keys, where, problems);
     requireKeys(s, keys, where, problems);
-    for (const k of ['id', 'engine', 'outcome']) if (!isNonBlankString(s[k])) problems.push(`${where}.${k} must be a non-blank string`);
+    for (const k of ['id', 'engine']) if (!isNonBlankString(s[k])) problems.push(`${where}.${k} must be a non-blank string`);
+    if (!OUTCOMES.has(s.outcome)) problems.push(`${where}.outcome must be one of ${[...OUTCOMES].join(' | ')} (got ${JSON.stringify(s.outcome)})`);
     if (!(INSTANT_RE.test(String(s.at ?? '')) || DATE_RE.test(String(s.at ?? '')))) {
       problems.push(`${where}.at must be a date or an ISO-8601 instant`);
     }
@@ -238,7 +265,7 @@ export function validateRunResult(draft) {
     if (!isNonBlankString(v.subject)) problems.push(`${where}.subject must be a non-blank string`);
     if (!(v.technique === null || isNonBlankString(v.technique))) problems.push(`${where}.technique must be a slug or null`);
     if (!VERDICTS.has(v.verdict)) problems.push(`${where}.verdict must be one of ${[...VERDICTS].join(' | ')} (got ${JSON.stringify(v.verdict)})`);
-    if (!isNonBlankString(v.mode)) problems.push(`${where}.mode must be a non-blank string (the mode the verdict was measured at)`);
+    if (!MODES.has(v.mode)) problems.push(`${where}.mode must be one of ${[...MODES].join(' | ')} - the mode the verdict was MEASURED at (got ${JSON.stringify(v.mode)})`);
   });
 
   // files - the public-safe lane's hardest rule

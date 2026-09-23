@@ -280,7 +280,7 @@ Format: `## <version used> - <YYYY-MM-DD> - <project>` followed by `- ` bullets.
   Every blind-only item was again an internal contradiction between techniques
   landed one at a time by different runs - the lane's second job, third batch running.
 
-## 1.2.0 - 2026-09-23 - ai-registry (bumped to 1.3.0 in the same change)
+## 1.2.0 - 2026-09-23 - ai-registry (bumped to 1.3.1 across the same change)
 
 - **"Dry is a result" was true in the ledger and invisible to a caller.** Loop mode's
   saturation state - the honest, expensive finding this skill fought for - reached the

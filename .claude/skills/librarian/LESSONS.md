@@ -123,7 +123,7 @@ its own. Step 7's "reflect" now has an artifact to land in.
   are now in step 1; the first had been missing since the skill was written and was
   the cause of three red-trunk findings.
 
-## 1.4.0 - 2026-09-23 - ai-registry (bumped to 1.5.0 in the same change)
+## 1.4.0 - 2026-09-23 - ai-registry (bumped to 1.5.1 across the same change)
 
 - **The dispatcher half of step 7 was missing and nobody noticed, because a person
   was always reading the note.** This skill's whole job is deciding what to run and

@@ -7,7 +7,7 @@ This file exists because a change needed one and there was none: the skill whose
 stop rule is a memory across passes carried no record of what any pass taught. Phase 6's
 report now has a lane to land in.
 
-## 0.4.1 - 2026-09-23 - ai-registry (bumped to 0.5.0 in the same change)
+## 0.4.1 - 2026-09-23 - ai-registry (bumped to 0.5.1 across the same change)
 
 - **This skill's three halt rules were written for a reader and could not be computed.**
   Two consecutive passes landing nothing but leads and catches; the same failure
@@ -25,3 +25,7 @@ report now has a lane to land in.
   `verdicts[]`, so the debt guard reads the *gap* between content landings and settled
   verdicts rather than a field that could be filled optimistically. Every place this
   skill refuses to conflate two outcomes, the schema refuses too.
+- **`mined` and `parked` are queue states, not outcomes**, which the closed vocabulary
+  settled rather than debated. A parked row never reaches a subject row at all - parking
+  is a judgment about timing and the result file has nothing to say about it - and a
+  mined row's outcome is whatever it landed. The queue keeps its own words.

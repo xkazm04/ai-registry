@@ -3,7 +3,7 @@ name: conform
 description: "Evaluate this repository against the registry standards that govern it, one context at a time, and keep the verdicts. Reads .ai/registry-map.json (the generated join between this repo's contexts and the registry's subjects), picks the highest-value unevaluated or stale pairs, reads the governing golden path and techniques against the context's real code, and writes back conformant / deviation / not-applicable with file:line evidence - so the map becomes a standing, incrementally-completed deviation backlog instead of a one-off audit. Use to answer 'where does this repo fall short of the standard', before a hardening pass, after a bundle changes, or when a context is about to be rewritten. Invoke with /conform [context-or-path] [--subject <slug>] [--stale] [--budget <n>]."
 category: ai-native
 memory: project
-version: 1.8.0
+version: 1.8.1
 tags: conformance, deviations, registry, audit, backlog
 argument-hint: "[context-or-path] [--subject <slug>] [--stale] [--budget <n>]"
 ---
@@ -309,7 +309,10 @@ Fill `skill_version` from this file's frontmatter, `mode` (`named` / `stale` / `
 `counts.landed` = pairs judged, `counts.declined` = pairs deliberately left unjudged with
 their reason in `declined[]` - an unread pair left for the next run is a decline, and this
 skill's own rule is that uncertain is `unknown`, which is only honest when it is written
-down. `verdicts[]` is for the apply/A-B lane and is usually **empty here**: a
+down. One `subjects[]` row per subject judged, whose `outcome` is the counts vocabulary
+(`landed` / `declined` / `idled` / `contended` / `dispatched`) - **never `conformant` or
+`deviation`**, which are map states and would be a second copy of a judgment that already
+has a home. `verdicts[]` is for the apply/A-B lane and is usually **empty here**: a
 `conformant` / `deviation` / `not-applicable` verdict belongs in the map, and forcing it
 into that field would be a second, disagreeing copy. `pr: null` - step 4 commits.
 

@@ -3,7 +3,7 @@ name: librarian
 description: "Maintain the registry as a whole: sweep every bundle for structural and quality decay, rank what needs work by measured attention points, and dispatch scoped /deepen or /forge workers at it. Keeps coverage memory in an Obsidian vault under librarian/ so each run knows what the last one touched, what is saturated, and what is owed. Run manually; a scheduler is a later wrapper. Use when nobody has looked at the registry in a while."
 category: ai-native
 memory: project
-version: 1.5.0
+version: 1.5.1
 tags: registry, maintenance, coverage, dispatch, quality, upstream
 ---
 
@@ -158,7 +158,9 @@ node scripts/lib/run-result.mjs write <draft.json>   # -> librarian/runs/<run-id
 
 This skill can fill it almost entirely: `mode` (the invocation), `domain`, all five
 `counts`, one `subjects[]` row per dispatch with the attention points **before and
-after** (the scan produces both, and nothing else in the fleet records the delta),
+after** (the scan produces both, and nothing else in the fleet records the delta) and
+an `outcome` from the same closed set as the counts - `landed` / `declined` / `idled` /
+`contended` / `dispatched`, where a worker that came back dry is `idled`, not `landed` -
 `declined[]` with the same reasons step 7 already demands, `verdicts[]` for every
 `applied.md` row this run earned, and `pr` once the pull request is open. Use a short
 `--run <id>`, list the commits made so far - the commit that carries this file cannot

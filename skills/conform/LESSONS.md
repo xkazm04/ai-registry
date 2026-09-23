@@ -293,7 +293,7 @@ per-project entries above stand; this is what only shows up across them.
   confident, wrong negative. And a first read of one file alone would have produced a false
   deviation; the append-only trail it wanted was in a neighbour.
 
-## 1.7.3 - 2026-09-23 - ai-registry (bumped to 1.8.0 in the same change)
+## 1.7.3 - 2026-09-23 - ai-registry (bumped to 1.8.1 across the same change)
 
 - **The verdicts were durable and the run was not.** Every verdict this skill produces
   lands in `.ai/registry-map.json` and survives regeneration, which is the design. But
@@ -310,3 +310,8 @@ per-project entries above stand; this is what only shows up across them.
   `conformant` / `deviation` / `not-applicable` forced into it would be a second copy of a
   judgment that already has one home, free to disagree with it. The map is the memory; the
   result says only that the run happened and what it cost.
+- **`conformant` and `deviation` are map states and must never become run outcomes.**
+  The closed `outcome` vocabulary makes that mechanical instead of a convention: a
+  subject row says `landed` when the pair was judged, and what the verdict WAS lives in
+  `.ai/registry-map.json`, once. The alternative was a second copy free to disagree with
+  the first, which is the failure this skill's whole memory design exists to avoid.

@@ -150,13 +150,18 @@ test('a missing field is named rather than defaulted', () => {
   assert.ok(problems.some((p) => /missing required field "failure_signature"/.test(p)));
 });
 
-test('the run id is a directory name, so it is narrow', () => {
+test('the run id is narrow in charset and bounded for path safety, not brevity', () => {
   scratch((root) => {
-    for (const bad of ['abc', 'a'.repeat(65), 'has space', 'has/slash', '']) {
+    for (const bad of ['abc', 'a'.repeat(129), 'has space', 'has/slash', 'has\\back', '']) {
       assert.throws(() => writeRunResult(valid({ run_id: bad }), { root }), /run_id must match/, `expected ${JSON.stringify(bad)} to be refused`);
     }
     assert.equal(fs.existsSync(path.join(root, 'librarian')), false, 'a refused id never creates its directory');
     assert.throws(() => readRunResult('a b', { root }), /run id must match/);
+    // run-board.mjs derives up to ~98 characters when --run is omitted (date + skill slug
+    // + a 40-char source slug + pid). The door must not fail a skill that behaved correctly.
+    const derived = `2026-09-23-intake-${'a'.repeat(40)}-${'b'.repeat(40)}-12345`;
+    assert.ok(derived.length > 64 && derived.length <= 128, `fixture is the shape at issue (${derived.length} chars)`);
+    assert.equal(writeRunResult(valid({ run_id: derived }), { root }), `librarian/runs/${derived}/result.json`);
   });
 });
 
@@ -164,6 +169,26 @@ test('exit mirrors the declared vocabulary and nothing else', () => {
   for (const code of Object.values(EXIT)) assert.deepEqual(validateRunResult(valid({ exit: code })), []);
   for (const bad of [97, -1, '0', null]) {
     assert.ok(validateRunResult(valid({ exit: bad })).some((p) => /result\.exit must be a code/.test(p)), `expected ${JSON.stringify(bad)} to be refused`);
+  }
+});
+
+test('a subject outcome is the counts vocabulary, so a row and the tally cannot disagree', () => {
+  for (const o of ['landed', 'declined', 'idled', 'contended', 'dispatched']) {
+    assert.deepEqual(validateRunResult(valid({ subjects: [{ ...valid().subjects[0], outcome: o }] })), []);
+  }
+  for (const bad of ['mined', 'parked', 'ok', '', null, 'Landed']) {
+    assert.ok(validateRunResult(valid({ subjects: [{ ...valid().subjects[0], outcome: bad }] }))
+      .some((p) => /subjects\[0\]\.outcome must be one of/.test(p)), `expected ${JSON.stringify(bad)} to be refused`);
+  }
+});
+
+test('a verdict mode is the applied ledger ladder, never free text', () => {
+  for (const m of ['code', 'experiment', 'blind-ab', 'simulation', 'render']) {
+    assert.deepEqual(validateRunResult(valid({ verdicts: [{ subject: 'a', technique: null, verdict: 'better', mode: m }] })), []);
+  }
+  for (const bad of ['ab', 'manual', 'measured', '', null]) {
+    assert.ok(validateRunResult(valid({ verdicts: [{ subject: 'a', technique: null, verdict: 'better', mode: bad }] }))
+      .some((p) => /verdicts\[0\]\.mode must be one of/.test(p)), `expected ${JSON.stringify(bad)} to be refused`);
   }
 });
 
