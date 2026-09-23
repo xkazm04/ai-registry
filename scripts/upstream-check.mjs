@@ -296,7 +296,7 @@ function loadRepos() {
       url,
       note: slug,
       minedOn,
-      pin: fm.commit ? fm.commit.trim() : null,
+      ...parsePin(fm.commit),
       condition: fm.rescan_when || null,
       catalogue: CATALOGUE.test(kind),
       peer: /peer/i.test(fm.directions || '') || /peer/i.test(handoffField),
@@ -314,7 +314,7 @@ function loadRepos() {
     keep.peer = keep.peer || drop.peer;
     keep.handoff = keep.handoff || drop.handoff;
     keep.condition = keep.condition || drop.condition;
-    keep.pin = keep.pin || drop.pin;
+    if (!keep.pin && drop.pin) { keep.pin = drop.pin; keep.pinNote = drop.pinNote; }
     keep.shipped = Math.max(keep.shipped, drop.shipped);
     keep.applied = Math.max(keep.applied, drop.applied);
     keep.subjects = [...new Set([...keep.subjects, ...drop.subjects])];
@@ -329,7 +329,11 @@ function loadRepos() {
     if (r.tier === 0) r.exclusions.push('no fleet evidence: nothing this source landed has been shipped, applied with a better verdict, or made a peer study or a handoff');
     if (r.catalogue) r.exclusions.push('catalogue class: a delta is more rows, which belong in the harvest queue');
     if (laneExcluded.has(r.key)) r.exclusions.push('reconcile lane: named in watchlist.md outside Track A');
-    if (!r.pin) r.exclusions.push('no commit pin: a delta has no base, so movement is unknown rather than absent');
+    if (!r.pin) {
+      r.exclusions.push(r.pinNote
+        ? `commit field names no hash ("${r.pinNote.slice(0, 60)}"): a delta has no base, so movement is unknown rather than absent`
+        : 'no commit pin: a delta has no base, so movement is unknown rather than absent');
+    }
     r.eligible = r.exclusions.length === 0;
     r.floor = FLOOR[r.tier] || null;
     r.queuedInHarvest = queued.has(r.key);
@@ -337,6 +341,22 @@ function loadRepos() {
     r.openHandoff = own.find((h) => !h.executed)?.file || null;
   }
   return [...byRepo.values()];
+}
+
+/**
+ * A source note's `commit:` is written by a person, and people annotate it:
+ * `4fc6ceda… (knip@6.3.1)`, `1a683cf5… (2026-08-29)`, or a meta repo and its engine in
+ * one line. The first reading of this script sent the whole string to the compare API,
+ * got a 404 for the malformed ref, and reported every annotated pin as unreachable - a
+ * citation risk that was really a parse failure, on 3 of 3 rows it flagged (2026-09-23).
+ * The pin is the FIRST standalone hex run of 7-40 characters; the rest is kept as a note.
+ */
+function parsePin(raw) {
+  const text = String(raw ?? '').trim();
+  if (!text) return { pin: null, pinNote: null };
+  const m = text.match(/(?<![0-9a-z])[0-9a-f]{7,40}(?![0-9a-z])/i);
+  if (!m) return { pin: null, pinNote: text };
+  return { pin: m[0].toLowerCase(), pinNote: text === m[0] ? null : text };
 }
 
 // ------------------------------------------------------------------- the API
@@ -396,7 +416,21 @@ async function probe(r) {
       '{status,ahead_by,behind_by,total_commits,files:(.files|length)}');
     if (!cmp.ok) {
       if (cmp.status === 404) {
-        // the commit we cite is not reachable from the default branch any more
+        // A compare 404 says only that the API could not answer. Before calling it decay,
+        // ask for the commit itself: a pin the repository still serves is an instrument
+        // problem, not a citation nobody can re-open.
+        const commit = await gh(`repos/${r.repo}/commits/${r.pin}`, '.sha');
+        if (commit.ok) {
+          r.state = 'error';
+          r.error = `compare returned 404 but commit ${r.pin.slice(0, 8)} resolves - instrument problem, not decay`;
+          return r;
+        }
+        if (commit.status !== 404 && commit.status !== 422) {
+          r.state = 'error';
+          r.error = commit.error;
+          return r;
+        }
+        // the commit we cite is gone from the repository, by two separate calls
         r.state = 'pin-unreachable';
         r.citationRisk = true;
       } else {
@@ -524,6 +558,37 @@ async function selfTest() {
     { repo: 'kube-rs/kube', pin: '7a4641d4cc', expect: 'ahead' },
   ];
   let failed = 0;
+
+  // The parse step is where 3 of 3 flagged rows went wrong once, so it is asserted on the
+  // shapes the vault actually writes, including one that must yield no pin at all.
+  const parses = [
+    ['4fc6ceda5b6465c907f8b0a360ef186d2a1cab2d (knip@6.3.1)', '4fc6ceda5b6465c907f8b0a360ef186d2a1cab2d'],
+    ['1a683cf5baba8537842f661d07bc5925b761efaf (2026-08-29)', '1a683cf5baba8537842f661d07bc5925b761efaf'],
+    ['lago 24539455 (meta) -> lago-api a24f3abe (2026-09-04, the engine)', '24539455'],
+    ['7a4641d4cc', '7a4641d4cc'],
+    ['main (no hash recorded)', null],
+  ];
+  for (const [raw, want] of parses) {
+    const got = parsePin(raw).pin;
+    const ok = got === want;
+    console.log(`${ok ? 'ok  ' : 'FAIL'}  parse ${JSON.stringify(raw.slice(0, 40))} -> ${got} (expected ${want})`);
+    if (!ok) failed++;
+  }
+
+  // End to end through probe(), the path the ledger uses: an ANNOTATED pin must read as
+  // reachable, and a hash the repository never had must still read as unreachable -
+  // the negative control that proves the fix did not just silence the state.
+  const probes = [
+    { repo: 'openbao/openbao', commit: '6b5f82e1acc4868c19e5b11c0aee25ce4fd3ec38 (annotated, 2026-01)', expect: 'moved' },
+    { repo: 'openbao/openbao', commit: 'deadbeefdeadbeefdeadbeefdeadbeefdeadbeef', expect: 'pin-unreachable' },
+  ];
+  for (const c of probes) {
+    const r = await probe({ repo: c.repo, minedOn: '2026-01-01', ...parsePin(c.commit) });
+    const ok = r.state === c.expect;
+    console.log(`${ok ? 'ok  ' : 'FAIL'}  probe ${c.repo} @ ${c.commit.slice(0, 12)}…  state=${r.state}${r.error ? ` (${r.error})` : ''} (expected ${c.expect})`);
+    if (!ok) failed++;
+  }
+
   for (const c of cases) {
     const meta = await gh(`repos/${c.repo}`, '.default_branch');
     if (!meta.ok) { console.error(`FAIL  ${c.repo}: metadata call failed - ${meta.error}`); failed++; continue; }
