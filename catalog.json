@@ -1080,10 +1080,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 232,
-      "techniques": 1787,
-      "applications": 1131,
-      "files": 3155,
-      "contentHash": "sha256:5bd78893ee372186"
+      "techniques": 1788,
+      "applications": 1136,
+      "files": 3161,
+      "contentHash": "sha256:5121b952058b5847"
     }
   ],
   "usageEvidence": {
