@@ -1828,8 +1828,8 @@
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/agent-memory.md",
    "digest": "sha256:5aa34a882ba84ee1",
-   "revision": 41,
-   "changedAt": "2026-09-23",
+   "revision": 44,
+   "changedAt": "2026-09-21",
    "techniques": [
     {
      "slug": "addresses-before-compression",
@@ -2486,8 +2486,8 @@
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-runtime-assembly/agent-runtime-assembly.md",
    "digest": "sha256:e2f38e9d0dea752a",
-   "revision": 22,
-   "changedAt": "2026-09-23",
+   "revision": 24,
+   "changedAt": "2026-09-22",
    "techniques": [
     {
      "slug": "activation-is-a-separate-mutation",
@@ -3408,7 +3408,7 @@
    "file": "knowledge/software-engineering/operations/governance-and-records/audit-logging/audit-logging.md",
    "digest": "sha256:a4f6149a3b0705d5",
    "revision": 9,
-   "changedAt": "2026-09-23",
+   "changedAt": "2026-09-05",
    "techniques": [
     {
      "slug": "append-only-design",
@@ -5994,7 +5994,7 @@
    "file": "knowledge/software-engineering/engineering-process/build-and-release/codegen/codegen.md",
    "digest": "sha256:e69d756a575b31ce",
    "revision": 6,
-   "changedAt": "2026-09-23",
+   "changedAt": "2026-09-21",
    "techniques": [
     {
      "slug": "commit-vs-derive-policy",
@@ -13182,7 +13182,7 @@
    "file": "knowledge/software-engineering/backend-platform/resilience/error-handling/error-handling.md",
    "digest": "sha256:bff8a6f2a4c150ac",
    "revision": 15,
-   "changedAt": "2026-09-23",
+   "changedAt": "2026-09-05",
    "techniques": [
     {
      "slug": "cancellation-attribution",
@@ -16563,7 +16563,7 @@
    "file": "knowledge/software-engineering/backend-platform/data-pipeline-semantics/index-free-random-access/index-free-random-access.md",
    "digest": "sha256:89644138393711ee",
    "revision": 1,
-   "changedAt": "2026-09-23",
+   "changedAt": "2026-09-21",
    "techniques": [
     {
      "slug": "conservation-sweep-over-a-partition-parameter",
@@ -16684,8 +16684,8 @@
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/invariant-placement/invariant-placement.md",
    "digest": "sha256:f09d82b2b9bd2d4c",
-   "revision": 8,
-   "changedAt": "2026-09-23",
+   "revision": 9,
+   "changedAt": "2026-09-21",
    "techniques": [
     {
      "slug": "build-time-evaluation-of-cross-value-invariants",
@@ -20097,7 +20097,7 @@
    "file": "knowledge/software-engineering/backend-platform/data-layer/migrations/migrations.md",
    "digest": "sha256:3285e1d8524603bd",
    "revision": 10,
-   "changedAt": "2026-09-23",
+   "changedAt": "2026-09-05",
    "techniques": [
     {
      "slug": "data-migrations",
@@ -20373,7 +20373,7 @@
    "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/model-call-outcome-integrity/model-call-outcome-integrity.md",
    "digest": "sha256:c9eeeaa8fa7c9944",
    "revision": 1,
-   "changedAt": "2026-09-23",
+   "changedAt": "2026-09-05",
    "techniques": [
     {
      "slug": "credential-posture-at-the-call-door",
@@ -24510,8 +24510,8 @@
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/prompt-assembly.md",
    "digest": "sha256:23dde2144f1e50ad",
-   "revision": 35,
-   "changedAt": "2026-09-23",
+   "revision": 37,
+   "changedAt": "2026-09-22",
    "techniques": [
     {
      "slug": "amortized-compaction-cadence",
@@ -25559,8 +25559,8 @@
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/quality-gates.md",
    "digest": "sha256:d7deee105a13022b",
-   "revision": 46,
-   "changedAt": "2026-09-23",
+   "revision": 49,
+   "changedAt": "2026-09-22",
    "techniques": [
     {
      "slug": "advancement-evidence-fields",
@@ -35742,7 +35742,7 @@
    "file": "knowledge/software-engineering/engineering-process/build-and-release/vendored-patch-stack/vendored-patch-stack.md",
    "digest": "sha256:9103690a148b10ab",
    "revision": 1,
-   "changedAt": "2026-09-23",
+   "changedAt": "2026-09-09",
    "techniques": [
     {
      "slug": "collapse-patch-axes-that-share-hunks",
