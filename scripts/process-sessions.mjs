@@ -78,7 +78,8 @@ if (fs.existsSync(claudeProjects)) {
 }
 fs.writeFileSync(cacheFile, JSON.stringify(cache));
 
-let sessions = Object.values(cache.files).map((e) => e.session).filter(Boolean);
+const remembered = Object.values(cache.files).map((e) => e.session).filter(Boolean);
+let sessions = remembered;
 if (onlyProject) sessions = sessions.filter((s) => s.project === onlyProject);
 if (since) {
   const m = String(since).match(/^(\d+)d$/);
@@ -87,12 +88,14 @@ if (since) {
 }
 sessions.sort((a, b) => a.start - b.start);
 const out = encode(sessions, { minWorkSteps: minWork });
-out.source = { scanned, parsed, cached: Object.keys(cache.files).length, window: [out.sessions[0]?.start ?? null, out.sessions.at(-1)?.start ?? null] };
+// `cached` counts SESSIONS the device remembers (with work, any date, any project), including
+// ones whose transcript has rolled off - not cache entries, which also hold empty transcripts.
+out.source = { scanned, parsed, cached: encode(remembered, { minWorkSteps: minWork }).sessions.length, window: [out.sessions[0]?.start ?? null, out.sessions.at(-1)?.start ?? null] };
 
 if (argv.includes('--json')) process.stdout.write(JSON.stringify(out));
 else {
   const byProject = {};
   for (const s of out.sessions) byProject[s.project] = (byProject[s.project] || 0) + 1;
-  console.log(`${SCHEMA}: ${out.sessions.length} sessions (${scanned} transcripts, ${parsed} parsed this run, ${out.source.cached} in the device cache)`);
+  console.log(`${SCHEMA}: ${out.sessions.length} sessions (${scanned} transcripts, ${parsed} parsed this run, ${out.source.cached} sessions remembered)`);
   for (const [p, n] of Object.entries(byProject).sort((a, b) => b[1] - a[1])) console.log(`  ${p.padEnd(24)} ${n}`);
 }
