@@ -6,7 +6,7 @@ technique: schema-driven-forms
 status: forged
 laws: [one-authority-per-vocabulary, gate-sees-target, creation-names-reaper]
 shared_with: []
-use_when: [deciding what each declared form field must carry, a probe goes green without touching the credential, an override starts collecting undeclared fields]
+use_when: [deciding what each declared form field must carry, a probe goes green without touching the credential, a connector has fields but no probe recipe, an override starts collecting undeclared fields]
 ---
 
 # Schema-driven forms
@@ -97,6 +97,33 @@ its probe, and a connector that legitimately has no fields is explicitly
 marked unauthenticated rather than passing by accident. This is an intra-row
 consistency rule; no per-field validation can express it, which is why it is
 so commonly missing.
+
+## No probe is a third outcome, not a green and not a lock
+
+The same cross-check has to handle a row that declares credential fields and
+has **no probe recipe at all**. Sometimes that is a defect, and sometimes it
+is the only honest option. An incoming webhook cannot be tested without
+sending a real message, and a database or a local tool may be outside what
+the probe machinery can reach. The form then has two easy readings, and both
+are wrong:
+
+- **Absence read as success.** The probe step reports "passed" because
+  nothing ran, and the stored credential carries a verified mark it never
+  earned. This is the vacuous green arriving by another route. It is worse,
+  because a boolean projection further along (a `passed` column, a green
+  dot) erases the difference for good.
+- **Absence read as "gate required".** Save stays disabled behind a test
+  that has no recipe to run, and the user cannot finish at all. A gate that
+  can never pass is a broken form, not a strict one.
+
+The honest shape has three outcomes carried end to end: **verified**,
+**rejected**, and **unverifiable**. Save is gated only where a recipe exists.
+A credential saved without a probe is stored and shown as *unverified*, and
+no projection may collapse it into verified. The authoring-time check covers
+both cases: a row with fields either has a probe that references them, or an
+explicit no-probe declaration with a reason. An empty probe field without
+that declaration fails the seed check, the same as a probe that references
+no field.
 
 ## When acquisition mints a row, failure must reap it
 
