@@ -81,7 +81,7 @@ const LANES = {
   // The gate first, then the index it presupposes - an index built over a lane that
   // failed its shape check describes a tree nobody has. recipes/ is NOT one of
   // build-catalog's five hashed lanes, so this row correctly stops before the tail.
-  recipes: [CHECK_RECIPES, RECIPE_VIEWS, RECIPES_INDEX, ...PUBLIC],
+  recipes: [CHECK_RECIPES, RECIPE_VIEWS, RECIPES_INDEX],   // public paths: registry.yml runs --all on every PR
   usage: [CHECK_USAGE, CHECK_RUNS, ...CATALOG_TAIL],
   signals: [CHECK_SIGNALS],
   practices: [SIMPLE_LANES, ...PUBLIC, ...CATALOG_TAIL],
