@@ -112,6 +112,55 @@ Re-entering a section the user already visited must not cost a reload:
 - The seen-it choreography rule follows: entrance animation and
   placeholders belong to *first* arrival in a session, not to every visit.
 
+There are two ways to keep a surface, and they are not alternatives:
+
+- **Restore.** The section unmounts when the user leaves. What it must
+  remember lives outside it, in session-held state, and a return re-renders
+  from that state. Memory stays flat, and every section has to externalize
+  what it wants kept.
+- **Keep alive.** The section stays mounted but hidden: its state and its
+  document nodes survive, and its effects are suspended until it is shown
+  again. A return is instant and nothing has to be externalized.
+
+Keep-alive is an optimization *over* restore, never a substitute for it. It
+has to be bounded, because every hidden section is memory, nodes and pending
+re-renders paid on every screen. The bounded forms evict the least recently
+used section, and an evicted section comes back cold, through the restore path.
+A shell with no restore path therefore loses exactly the sections the user left
+longest ago, and that is the one case the bound exists for.
+
+Keeping a section alive also keeps what should not survive, and each case
+needs an explicit reset when the section is hidden:
+
+- **Transient UI.** An open menu, a stale "saved" notice or a half-dismissed
+  popover comes back exactly as it was left. The navigation model's rule
+  applies: transient UI rides along only where the product promises it.
+- **Mount-time initialization runs once.** Logic keyed to "on open" or "on
+  mount" does not re-run on return, because nothing re-opened.
+- **Side effects that belong to the nodes, not the code.** Media keeps
+  playing, and a stylesheet or document-level attribute the section set keeps
+  applying to whatever is visible. Suspended effects do not cover these.
+- **Duplicate identity in the document.** Two kept sections can each hold an
+  element with the same id, label or accessible name. Hidden nodes are out of
+  the accessibility tree, but anything that queries the document directly now
+  has two matches.
+- **User-scoped drafts across a session change.** State that survives
+  navigation also survives the user changing underneath it. A sign-out or
+  switch must reset kept sections as part of the session-end teardown
+  ([shell-hosted-services](./shell-hosted-services.md)).
+
+Where the location is held decides who provides this. A shell whose sections
+are routes may be given bounded keep-alive by its router. A shell that switches
+sections in its own state and mounts one at a time has neither form until it
+builds one.
+
+**Containing a section's crash does not need a remount.** Scoping an error
+boundary to the current section is right, but resetting that boundary on
+location change is enough. Re-keying the whole section subtree per location
+also discards every healthy surface on every switch. That trades warm return
+for an entrance animation, and it should be written down as that trade rather
+than justified as error scoping.
+
 ## Failure: a chunk that cannot load is a failure, not a blank
 
 Lazy units load over real networks from real deployments, and both fail:
@@ -139,6 +188,7 @@ today's. The click path handles all of them honestly
 2. No load transition ever blanks or shifts the shell's frame.
 3. No placeholder without the warm-path delay.
 4. No prefetch that competes with the click path or repeats per hover.
-5. No cold-load choreography on warm return.
+5. No cold-load choreography on warm return, and no unbounded keep-alive or
+   keep-alive without a restore path behind it.
 6. No chunk failure rendered as blank; retry, then a stated failure with a
    cure — and version skew offers refresh, not eternal retry.
