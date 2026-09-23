@@ -980,6 +980,17 @@ moved: gravity (1), personas (1). That is the `/conform --stale` queue for this 
 Fleet-wide 247 of 287 recorded verdicts were already stale before this run began - the
 maps had not been regenerated since 2026-08-31 - and remain so after it.
 
+## Intake 2026-09-05 (`intake-utopia-0905`, source `github:deeplethe/utopia`)
+
+**Application `rust--gate-liveness`:** one skip function every database-backed test
+calls, returning `None` (skip) without a database URL unless `UTOPIA_TEST_REQUIRE_DB`
+is set, in which case it panics - the pipeline's database job sets it, a developer's
+shell does not. A catch on § "Reporting could-not-run and routing it are separate
+decisions", with the structural fact that the two routings share one predicate and one
+line, differing only by an environment variable set where the green authorizes a merge.
+The tree's own words: "green was fake" - twenty-four store tests had skipped silently in
+the job without a database. Not closed: the summary greps `passed`/`failed` from runner
+output with no floor, one format change from a zero-population pass.
 ## 2026-09-06 - split executed: metric-gates ([[2026-09-06-1]])
 
 The standing question from [[2026-09-04-1]] answered by the operator. 25 -> 21

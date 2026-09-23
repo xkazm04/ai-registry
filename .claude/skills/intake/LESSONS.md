@@ -9204,6 +9204,65 @@ into `dispatched` as a value rather than a count. Not applied: it is a schema
 change to 200+ existing notes' vocabulary and belongs to whoever next touches
 the note format.
 
+
+## 2.5.0 - 2026-09-05 - utopia (github:deeplethe/utopia)
+
+- **An operator focus is a `--domain` on a forge-shaped tree, and the method should say so.**
+  Three questions routed everything: the extraction system (the tree's largest, 2 NONE + 2
+  partial in an existing home) was banked as a handoff without a design-record entry being
+  scored, and the routing count was written per system so the next run can dispatch from
+  the handoff in one step. Nothing in SKILL.md names this; it should, as a sentence under
+  Phase 2d: *a focus argument scopes which systems land here; the others get their count
+  and a handoff, never silence.*
+- **The seam search is the second falsifier grep.** Writing "unapplied - no fleet project
+  keeps two clocks" was wrong within the hour: politicas has an as-of lens with six states,
+  and reading it added a section to the technique. Two lessons: the apply step's grep must
+  run over every checkout before the ledger row is written, and a fleet counterpart found
+  at apply time is a *second sighting* that counts toward the technique's sourcing - the
+  reconcile debt closed itself. Proposed as round 28's focus (1).
+- **The design-count-to-technique collapse needs its own number.** Seven NONE entries became
+  two techniques on purpose (one mechanism, four rules). The depth cell reads `2T`, which a
+  later reader will score as a routing miss against the count. Say both.
+- **The registry can be a project for Phase 7.5.** The practice amendment's experiment ran
+  against the registry's own proposal documents and found the source's exact failure (status
+  lines lagging the disk) at 5/17. It shipped in the run's own commit. A practice lane
+  finding needs no fleet project when the registry is itself an instance.
+- **A build flag the tree documents is part of the gate.** The personas worktree compile
+  failed on a plugin permission until `--features desktop` was passed, which the tree's own
+  applied rows and clippy policy state. Read the project's documented test command before
+  the first compile, not after the first failure.
+
+## 2.5.0 - 2026-09-05 - codecompanion (github:olimorris/codecompanion.nvim)
+
+- **An operator focus is a sweep scope, and it should be written down as one.** The
+  invocation named four concerns; the run swept four subsystems and left the rest
+  of a 455-file plugin unread. That is the right economics for a mature subject,
+  but the note has to say what was left, as a count, or the next pass re-derives
+  the scope from scratch. Proposed as round 29's focus (1).
+- **The measured apply row came from a fleet project's own instrument, found by
+  reading the subject's applications directory.** personas had a per-block content
+  hash ledger built for an unrelated cache investigation; replaying it gave the new
+  technique its only number. The seam grep (terms against trees) would not have
+  found it, because the instrument is named for what it measures, not for the
+  technique. Check the subject's existing applications for the fleet stack first.
+- **A source that contradicts itself on the exact design decision being reconstructed
+  is the best case, and the resolution has two halves.** The architecture doc kept
+  client editing under server-side compaction; the code at HEAD switched both lanes
+  off and the changelog named the fix. Code won by tier and decided the technique;
+  the doc's intent became the technique's recorded trade (the wire cost). Record
+  both or the boundary is lost.
+- **The long-path clone failure has a cheap fix worth stating in the method:** clone
+  `--filter=blob:none --sparse` to a short path and exclude the fixture directory
+  whose names blow the platform limit (`tests/screenshots/` here), then
+  `core.longpaths true`. Two minutes, no worktree, no scratch-root hazard.
+- **The commit-message hook in a fleet project is part of its gate.** kp rejected an
+  `ai:` type and then a long subject; the row landed on the third try as
+  `chore(ai): <one clause>` with the detail in the body. Read the project's
+  CONTRIBUTING commit convention before the first ledger commit, not after the
+  first rejection.
+- **Long heredocs through the shell tool broke twice this run** (a parse error with
+  nothing written); the Write tool into scratch and a `cat >>` under the lock is the
+  reliable shape for a ledger append.
 ## v2.5.0 - 2026-09-06 - sofka
 
 - **A host file's completeness claim is the highest-yield thing to read, and
@@ -10075,6 +10134,67 @@ has no reason to state. Not applied to `SKILL.md` this round: a sibling was live
 run, a method edit is the one change a parallel fleet cannot absorb quietly, and this is one
 run's evidence. It is filed as round 35's focus item (2) so the next two runs can confirm or
 kill it on the three-runs rule.
+
+## 2.7.0 - 2026-09-08 - camoufox (`github:daijro/camoufox`)
+
+- **Never write a file whole that you did not read in this session — and the method only
+  says this for ledgers.** The subject note for a touched subject was written with a
+  whole-file write, over a file that already carried 102 lines of history from three prior
+  runs, and it destroyed all of it. The parallel-safety section covers exactly this hazard
+  for `librarian/sources/index.md`, `applied.md` and the scorecard: take the lock, *re-read
+  inside it*, append. Subject notes are explicitly exempted from the lock — "the source note
+  and the subject notes are yours alone" — and that exemption reads as permission to write
+  them freely. It is not: they are yours alone across *sessions*, not across *phases*. The
+  rule that generalises is about the write, not the lock. Phase 9 should say: an existing
+  file is appended to, never replaced, and a whole-file write over a path that already
+  exists is a bug regardless of who owns it.
+
+- **A falsifying seam that refutes the finding hands you the technique's precondition, and
+  the refutation belongs in the technique before the row is filed.** The claim was "a fixture
+  that pins the variable deciding whether a bug fires blinds the suite". The first seam
+  refuted it: that tree straddles its threshold deliberately, with comments saying so.
+  The reason is the rule — **a declared threshold advertises both of its sides**, so fixture
+  authors cover both, and the blindness needs a *derived* quantity that appears nowhere in
+  the code under test. The narrowed technique is strictly better than the one the seam was
+  picked to confirm. Fifth consecutive round; round 37 set the bar at four. **This is a rule
+  now, and v2.8 should carry it in Phase 7.5.**
+
+- **The +2 admission threshold is doing blast-radius control, not error-cost control, and
+  the method's stated rationale is wrong about its own mechanism.** Two consecutive rounds:
+  a real finding, a first shape that falsifies a standing enumeration (RISK +2, below
+  threshold), and a re-shaping with identical content that leaves every standing sentence
+  true and scores well clear. The method explains the threshold as "bias the gate toward the
+  recoverable error". What it actually did both times was cap how much of the existing corpus
+  one source's evidence is allowed to invalidate — which is a better rule and a different
+  one. Third sighting and the Phase 5 rationale should be rewritten.
+
+- **A reaped sibling is more dangerous than a live one, because the board says the ground is
+  free.** A sibling's claim was GC'd at the 45-minute heartbeat while its forge worker kept
+  running; the worker then landed a golden path declaring five techniques with none of them
+  on disk, and turned the whole bundle red in a subject this run never touched. The board is
+  a liveness signal for *sessions*, and a session's dispatched workers outlive it. Two
+  consequences worth carrying: `check-bundles` going red mid-run is not evidence that your
+  own landing is broken — attribute the failures by path before reacting — and the correct
+  response to a bundle red you do not own is to commit your own content and leave
+  `index.json`/`catalog.json` uncommitted, which the method already says and which this round
+  is the first to actually exercise.
+
+- **Resume a stalled worker with a narrow brief instead of restarting it.** The forge worker
+  stalled at the 600s watchdog having written 5 of 6 files, all of them sound — purity clean,
+  every `use_when` present, all six cited laws real. A restart would have paid for the whole
+  subject again and lost its reconciliation reading. A three-item resume message
+  ("do not redo any of it, do not re-read the briefs, here are the three things left")
+  finished it in 85 seconds, and the finish included the worker overriding the spec on two of
+  five proposed techniques with evidence from both trees it had reached. **Check what a
+  stalled worker actually wrote before deciding it failed.**
+
+- **A patched-upstream fork is a source class whose operating documents are a post-mortem
+  lane.** Landing page 4,227 words, in-tree markdown 20,012, and every catch and the one
+  landing came from the numerator. This class records failures the maintainers paid for in
+  production — dated, with commit anchors, and with the enforcing instrument beside them
+  explaining why review could not have caught them. The ratio to compute on the next one is
+  operating-document words over landing-page words; at 4.7:1 the README was worth reading
+  last and nothing was lost by it.
 
 ## 2.7.0 - 2026-09-07 - grimstone-opening-cinematic
 

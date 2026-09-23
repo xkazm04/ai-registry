@@ -22,6 +22,7 @@ techniques:
   - owner-and-counterpart-scope
   - read-set-bounded-links
   - durable-store-failure-posture
+  - pending-beliefs-live-apart
   - self-trained-capture-filter
   - gap-directed-elicitation
   - loss-site-inventory
@@ -543,6 +544,12 @@ comparison a stated result instead of an unexamined premise.
 - [probe-without-write-back](./techniques/probe-without-write-back.md) — the
   read path is not read-only, so a scheduled measurement through it entrenches
   its own fixtures: suppress the feedback write, per caller.
+- [pending-beliefs-live-apart](./techniques/pending-beliefs-live-apart.md) —
+  the shape of the proposal-reviewed lane: pending items in their own table so
+  a forgotten read hides the queue instead of leaking a belief, the review card
+  shows the utterance above the extraction, the proposer checks rejections by
+  whole-claim identity before asking again, and the reply never claims a
+  completion extraction has not reached.
 - [self-trained-capture-filter](./techniques/self-trained-capture-filter.md) —
   the cheap screen that learns from the distiller's silence: type the null
   before training on it, and give the loop an exit, because the screen runs

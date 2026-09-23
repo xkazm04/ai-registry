@@ -1318,6 +1318,164 @@ that check stays cheap.
 - **Measure the platform code before you key a classifier on it.** cmd.exe's "9009 for a name it cannot resolve" is what `%ERRORLEVEL%` shows at a prompt; through Node's `shell: true` the process exits 1 with the sentence on stderr. The first cut of the fix keyed on 9009, was green against its own probe, and would have missed every real case. One measured spawn before writing the mapping; the shell's sentence, not its number, is the signal.
 - **A negative-control test for a stranded grandchild waits on `exit`, never `close`.** The orphan inherits the shell's pipes and holds them open, so `close` never fires while the defect is present — the control timed out at 30s and looked like a flake until that was seen. The fixed path can wait on `close` precisely because it only fires once nothing holds the pipes; the two waits are part of the assertion.
 
+
+## 3.0.1 - 2026-09-05 - gravitone-gcloud (foundry-pipeline)
+- **§7.2 silently degrades to nothing in a context whose language the gate suite does not cover, and the round reads as fully verified.** This repo's gates are `typecheck && lint:ratchet && npm test`; the swept context is 965 lines of Python. All three gates were green before and after every one of five commits and could not have gone red for any of them — yet every commit could honestly report "gates: 0/0/0". A degraded round and a clean one produced identical gate lines. §7.2 should require naming which of the touched files the gates actually read: a gate that cannot see the change is a gate that did not pass, exactly as the clause already says about a gate that could not be RUN. The failure mode is worse than an unrun gate because it looks like success.
+- **The highest-yield context in a polyglot repo is the one no gate executes, and that is predictable before reading a line.** Five defects in 965 lines, two of them falsifying the README's two headline promises, in a context swept twice before under other strategies. The prior rounds' notes read "module sound" and "clean round earned". The cheap pre-read that would have flagged it: compare the languages the gate suite runs against the languages `git ls-files` finds under the context's paths. Worth a clause in §2 beside the backlog/gates/history loads — it costs one command and it re-ranks the whole picker.
+- **When §4.11 says "build the instrument as its own S fix", the constraint to give the instrument is the one that decides its adoptability, not just its correctness.** The selftest here was written stdlib-only on purpose and then VERIFIED stdlib-only by re-running it with every third-party package blocked at `__import__`. That single property is what converts the follow-up card from "add a CI job (advisory, because pip is external)" to "add a CI job (blocking, same input shape as typecheck)" under the repo's own determinism doctrine. An instrument built without asking what would let it become a gate produces a card the operator cannot say yes to cheaply.
+- **Three `not-better` rejections came from measuring hypotheses that all "read" like real findings** — a per-scene corpus re-parse (143ms against a 4-hour run), a hardcoded mechanism count that prints an identical string today, a validation-parity gap that would refuse 0 of 27 real catalogue entries. Each would have been a plausible backlog card under a routing rule that asked "does it sound better?". The figures took under five minutes each. This is v3.0's rule working as designed and worth recording as evidence for it.
+
+
+## 3.0.1 - 2026-09-05 - ascent (Fleet Alerts & Digests)
+- **A codebase's own transition notes are the best pair-hunting index §4.6 has.** Mature code records when a mechanism changed - "releaseAuditClaim used to DELETE a claim row; it now appends a `claim.released` record". Each such note names, in prose, the exact moment every OTHER reader of that rule could have silently gone stale, and the note is usually written at the site that WAS updated. Two of this round's seven fixes came from one: a route pre-check that read the audit trail for the claim marker was correct under delete-on-release and became a digest-dropping bug under append-on-release, and the feature doc still gave the delete as a design rationale. §4.6 says grep the shared SYMBOL and diff its call sites; this is cheaper and hits earlier - grep `used to|no longer|now appends|used to be`, and for each hit ask who else reads the rule it describes. On a repo swept several times, the symbol greps were clean and this one was not.
+- **The fail-before proof needs the OLD source with the NEW test, and `git stash` gives you neither.** §7.5 and §4.11 both require watching the gate go red before it goes green, and the obvious reach - stash the round's work, run the test - reverts the TEST too, so the run reports "1 skipped" or a spurious pass and the proof is silently void. It also violates the parallel-session rule that forbids stash outright. The shape that works, and that the skill should prescribe where it asks for a fail-before: `cp <file> $TMP/new` -> `git show HEAD:<file> > <file>` -> run the single test by name -> `cp $TMP/new <file>`. One file reverted, the tests untouched, and the red is unambiguous.
+- **A "defensive duplicate" and a "parity defect" look identical until you read the callee.** Two candidates this round were the same shape - a guard present at one call site and absent at its twin. One was real (sinkKind classified an unresolved value at two of four sites) and one was not (an unguarded `releaseAuditClaim` next to a `.catch(() => {})` sibling - the function wraps its entire body and cannot throw). The distinguishing read is thirty seconds in the callee, and it is the difference between a fix and churn. Worth naming in §4.6: a pair is only a defect once you have read what the two sites CALL, not just how they call it.
+
+## 3.0.1 - 2026-09-05 - gravitone-gcloud (foundry-ui)
+- **§7.6 says to seed a violation and watch the gate bite. Do it PER SURFACE, and treat it as the step that validates the probe rather than a formality.** Two probes written this round looked correct; one was vacuous, and the seeded control is the only thing that revealed it. A probe covering N surfaces needs N independent seedings: the upgraded `cull-keys` probe was only trustworthy once each of its two files had been made to fail alone. §7.6 currently reads as a rule about scripted edits to checkers; it is really a rule about every gate a round writes, and it should say "seed each surface the gate claims to cover, separately".
+- **The mechanism §7.6 warns about is not only heredoc escaping — it is the comment stripper every source ratchet carries.** The idiom `.replace(/block/g,"").replace(/line/g,"")` strips blocks FIRST, so a block-open sequence inside a LINE comment opens a real block that runs to the next terminator. In a repo whose prose cites route globs, that hid a contiguous region of 14 of 268 files, up to 80% of one. No existing probe was blinded (checked three); the casualty was the probe being written. §7.7 tells a sweep to strip comments before matching — it should also say HOW, because the obvious two-line implementation is unsound and it is the one everyone writes. A scanner tracking the three quoting forms is ~30 lines.
+- **A probe's own parser is a surface that can be defeated by the fix it demands.** Slicing a switch case to its first `break;` is fine until the fix adds a guard clause — `if (guard) break;` IS the first break, so the slice ended before the statement being ordered against and the ordering assertion compared against -1. The fix required brace-matching the case AND asserting the thing being ordered against is still present, or two absences read as correct order. Worth a line in §7.5 beside the contract-test rule: when you strengthen an assertion, check the parser that feeds it still spans what it used to.
+- **`--optimize`'s "every hardening claim has a count" worked, and the counts that came back NEGATIVE were the useful ones.** Five hypotheses this round measured to zero — ledger vs style evidence 0 of 27 disagreements, a plan-field guard 0 of 2 plans affected, a validation-parity gap 0 of 27 styles refused, a per-scene corpus re-parse at 143ms against a 4-hour run, a duplicated constant printing an identical string. Each reads as a real finding in prose and each would have been a plausible backlog card under a "does it sound better?" rule. The measurement took under five minutes apiece. The deck the operator triages is better for their absence than it would have been for their presence.
+
+## 3.0.1 - 2026-09-06 - gravitone-gcloud (research-step)
+- **§4.6 tells a sweep to hunt PAIRS by grepping a shared symbol. On a well-swept codebase that battery is exhausted, and the instrument that replaced it is the PROSE.** This round's strongest pair candidate — a second run clock in a newer sibling surface — turned out to be a file that explicitly refuses to fork it and cites the original bug. All four fixes came from a different tell: **a docstring making a promise the code does not keep.** A wound function whose comment says "three beats away" and walks one hop; a notice titled with the field name of a count it does not use; a function stating "a dangling id gets REPORTED" with one branch that cannot; a docstring naming its own blind spot and asking, in words, for the ratchet nobody wrote. §4.6 should name this alongside the grep: on a repo whose comments are load-bearing, read the prose as a SPEC and diff it against the code. It is cheap, it needs no hypothesis, and the comment tells you what the correct behaviour is.
+- **A stated limit is a finding, and the instrument IS the fix.** Two of four builds changed no source at all — they pinned an assumption the code silently depends on (a graph depth; a detector's documented blind spot). §4.11 already says to build the instrument when it is S-sized and then measure; it frames that as a step toward a fix. Sometimes there is no fix to reach: the code is correct BECAUSE of an unwritten property, and writing the property down as a gate is the whole deliverable. Worth stating in §5 so a round does not discard these as "no change, therefore not-better" — the before/after is *unpinned → pinned*, and the seeded control proves it.
+- **Prove a ratchet with a seed that is one ORDINARY line, not an implausible one.** The depth ratchet looked speculative until the seed turned out to be `evidence: ["f-etf-lag"]` on a mechanism — a field the builder already reads, on a card three others already depend on. That single line moved the graph to depth 2 and broke the guard. The seed's plausibility is what separates a guard worth landing from ceremony, and it belongs in the commit message as evidence.
+- **The finding budget is not the binding constraint; the OUTBOX LINE budget is.** §9 caps at 200 lines and 30 findings, and a full 28-lens round emits ~36 lines of which ~29 are per-lens coverage nodes. Three rounds fill the file. §9 tells a round to check whether the file was drained and to stop at the cap, but the arithmetic means a sweep loop on any repo hits it on round 3-4 every time, and the drain is a UI action no session can perform. §9 should say to check the LINE count in §2 (before reading code) and, when headroom is under one round, to emit findings plus the round node only and mark the snapshot degraded — rather than discovering it at emit time with the analysis paid for.
+
+## 4.0.0 - 2026-09-06 - gravitone-gcloud
+- **Three lanes, not two.** v3.0 had "build in-session" and "human", and measured on a real deck the entire S-sized backlog fell into neither: every S card was `Method: simulation` with its instrument named and unbuilt. Not risky - unmeasured. v4.0 adds Lane B, the A/B wave, carried over from intake's Phase 7.5/7.7: one Opus worker per write-set group in an isolated worktree, re-measure A, build the instrument, build B, same figure both arms, gates asserted, **seeded control red**, pathspec commit, director merges `--no-ff` / throws `not-better` with figures / escalates `unmeasurable`. The seeded control is the sweep's own addition and the reason the lane can be trusted: a probe that stays green on A is not an instrument.
+- **`architecture` was doing two jobs and one of them was not a human's.** v3.0's veto 1 ("file outside my paths") was routed as `architecture`, so an out-of-scope fix looked like a product decision on the deck. It is a coordination fact about THIS session's hands: split into `out-of-scope` (Lane B, a worker that owns the context) and `architecture` (Lane C, XL / what the product IS). Three of twelve gravitone cards moved lanes on that split alone.
+- **Name whose hands a Lane C card needs.** "Human" hid three different things on one deck: an ingest only the app can do, a scan that needs the bridge alive, a `pip freeze` on another machine. Added `operator-only act` as its own escalation so the card says which act, and a run does not re-derive an item nobody in a session can ever close.
+- **A backlog's honest reading is "what the round could not measure", and that is a work queue, not a decision queue.** Twelve cards: zero Lane A (v3.0 already built everything a probe had measured), seven Lane B, four Lane C - and one of the four is a genuine policy conflict two rounds disagreed on, which is the kind of card the deck exists for.
+
+## 4.0.0 - 2026-09-06 - gravitone-gcloud (golden-path-tests, --develop)
+- **The `--develop` deep tier is chosen by strategy, not by the context's `category`, and on a `test` context the wrong eight lead.** feature-scout, growth-hacker, monetization-advisor and business-strategist had nothing real for a probe suite; all nine builds came from the five never-applied quality lenses and test-strategist. The "new capability" a test context can absorb is a new DERIVED probe over a population previously asserted only in prose (here: walking a public route's import graph). A `category: test` or `config` context should promote test-strategist / state-coverage / parity-auditor into the deep tier under every strategy and demote the market lenses to the tail.
+- **A derived check that accepts a cleanup hook by PRESENCE is the coverage-theater shape §4.7 describes, one level up.** The check derived its population correctly (every probe that writes env) and then read the fix off a hand-shaped predicate (`test.afterEach(` exists). Ask of every derived check: does its acceptance predicate read the hook's BODY against the resource, or its name? Filed as a registry lead; recording it here because the §4.7 clause names lists and not predicates.
+- **On a test context the operator's temp folder is an evidence surface.** 392 `gravitone-argv-*` directories were the measurement for a leak no lens looks for; a sweep of a `test` context should glance at `$TEMP` for the repo's prefix before declaring code-optimizer clean.
+
+## 4.0.0 - 2026-09-06 - ascent (Members & Access Control, --develop)
+
+- **"A gate you could not run is a gate that did not pass" needs a third branch: a gate that CANNOT
+  be run, for reasons that will not clear.** §7.2's advice for a red whole-tree gate is "wait for the
+  tree to settle." In a checkout several agents share, the tree does not settle: a foreign `next dev`
+  rewrote `.next/dev/types/**` (which the repo's tsconfig *includes*) continuously for the whole
+  round, leaving it truncated mid-write, while a second session half-applied a feature whose imports
+  did not exist yet. Waiting is unbounded, and reporting DEGRADED for nine commits abandons the
+  typecheck entirely. What worked, and what the skill should name: build a **closure typecheck** - a
+  tsconfig extending the repo's, whose `files` are the round's changed files plus each one's
+  CONSUMERS. TypeScript pulls the full import closure, so it is a real compile-time assertion on
+  everything the change can break, and it is immune to unrelated churn. The trap worth writing down
+  with it: **`exclude` cannot drop a transitively-imported tree** - excluding the foreign directory
+  still typechecks it, because a non-excluded file imports it. `files` is the only lever.
+
+- **Veto 1 (out-of-scope -> Lane B) mis-routes a change that the repo's OWN gate makes mandatory.**
+  Adding a `recordOrgAudit` call site in this repo fails a static test unless a line is appended to a
+  registry file in a DIFFERENT context. Read literally, veto 1 sends that to a Lane B worker who owns
+  the registry's context - but that worker does not own the route, so neither of them can build the
+  finding, and it is unbuildable forever. The distinction the section needs: a file outside your paths
+  that you are changing to **alter another context's behaviour** is veto 1; one you are changing
+  because **a gate in your own path names it as the mechanical consequence** is part of your atomic
+  unit. The test for it is objective - would the repo's gate go red without the second edit? If yes,
+  it is one change; declare the crossing in the commit and keep the edit minimal.
+
+- **`--develop` found its best forward-building item by grepping for a field's CONSUMERS, not by
+  imagining a feature.** Four of the nine builds were the same shape: a value the backend already
+  computes, stores and documents, with zero readers in the UI (`emailed`, `invitedBy`, and the
+  audit action that was never recorded). The repo's own backlog had named that class after a UAT
+  measured 22 instances of it. A `--develop` round should run the zero-consumer grep over the
+  context's exported fields, route response keys and db columns BEFORE opening the market lenses:
+  a capability the product has already paid for and not delivered outranks one it has not built, it
+  is always inside declared scope (so never a `direction`), and its Before figure is a grep count -
+  which is exactly the `gate`-rung evidence the market lenses cannot produce.
+
+- **A test file split under a LOC cap is a warning-generating event.** Splitting a jsdom test into
+  sibling theme files copies the whole preamble into each, and most of it is dead in each half. Eight
+  unused-helper warnings shipped in one commit before the next `eslint` over the directory caught
+  them. Run the linter over the DIRECTORY immediately after any split, not over the changed files.
+
+## 4.0.0 - 2026-09-06 - pumper (app-runtime, --develop)
+
+- **A single-file context inverts the A/B ratio, and veto 1 is why — not measurability.** Six of twelve findings went to Lane B, and every one of them was `better` with a real figure already taken (`probe` on four of them). None was routed there because the evidence was thin; all were routed there because the fix's write set crossed the one path the context declares. SKILL 5's Lane B trigger table reads as if B is mostly "the round could not measure it", and on a narrow context that is inverted: B fills up with fully-measured work whose only defect is that this session does not own the second file. Worth saying in the trigger table, because a director reading `A:6/B:6` on a one-file context should not read it as six weak findings.
+- **4.11's "build the instrument when it is S" converts the parity class specifically, and that is its highest-value use.** A `parity-auditor` finding where the two implementations are *currently equivalent* has no red-then-green available: the duplicate guard rejected the same inputs as the shared one, so any test written against the behaviour passes on both arms. It reads as `unmeasurable`. Building the S instrument first (a test driving the second door) changes the question from "does this door reject `..`" to "is this door reaching the SHARED guard" — and that one IS gate-measurable, by seeding the shared guard and watching the previously-green test go red. The generalisation: for a parity finding, the fail-before seed goes in the SHARED implementation, never in the call site, or the seed proves nothing.
+- **Two of six fixes were text, and both shipped to an end user through a path no lens is pointed at by default.** A thirty-space run inside a string literal (a wrapped source line whose indentation landed in the string) reached the operator's job receipt verbatim, and a merge had orphaned a function's doc comment onto the next item so rustdoc described a routing enum as build identity. Neither is reachable by reading for correctness; `copy-auditor` and `documentation-auditor` found them only because the tail was driven at something specific per 4.9. Cheap heuristic worth adding to `copy-auditor`: grep the context for runs of two or more spaces inside string literals, and for two doc-comment blocks with no item between them.
+
+## 4.0.0 - 2026-09-06 - gravitone-gcloud (shared-notebook, --develop)
+
+- **A probe that drives an extracted predicate is not a probe of the fix.** The round's first build removed a condition that existed twice (a rail's pill list and the section it jumps to) by extracting one predicate. The probe drove the predicate over a synthetic notebook and passed five assertions — and reverting the COMPONENT to map the unfiltered list left every one of them green, because the probe did the filtering itself. §7.6 says to seed the defect; what this adds is WHERE: when a fix is an extraction, the seed must be applied at the CALL SITE, not to the extracted unit, and the probe needs a second assertion that reads the call site. Filed as a registry lead.
+- **§4.6's "docstring as spec" tell has a second direction the clause does not name: a comment asserting a defect that has been FIXED.** Two files here carried "app/api/recalibrate/route.ts does not send conclusions" months after it started to. That is not a harmless stale comment — it is shaped exactly like a live finding, so the next reader (or sweep) either re-fixes it or distrusts a working path. Worth adding to §4.6: grep a context's headers for claims about OTHER files, and check each in both directions. Four of five builds this round came from that one grep.
+- **A countable claim in prose is a finding waiting to happen, and the fix is a walk, not a corrected number.** "The thirteen other call sites … assets.ts (3)" was 21 across 5 files with assets.ts at 8. Correcting the number would have restarted the same clock; replacing it with a derived population found a real violator the paragraph's own rule forbids. The `--develop` recipe in references/evidence.md should name this explicitly: on a context whose value is a CONTRACT, "new capability" usually means turning one of its stated rules into a walked population with a listed-exemption map.
+- **The outbox cap is now a hard stop on this fleet's largest consumer, and the skill has no back-pressure.** Two consecutive rounds have been degraded for it; this one had a single line and spent it on the round node, so five verified fixes have no progress node anywhere but git history. §9 tells a run to "say in the report which findings did not fit", which is honest and does not help the NEXT run. Worth a redesign look: §9 could route overflow to a repo-local file the ingest also drains, the way `.claude/scan-history/lanes.jsonl` already absorbs routing rows with no cap.
+
+## 4.0.0 - 2026-09-06 - pumper (archive-engine, --develop)
+
+### Redesign proposal
+
+- **SKILL 6's read side is ordered wrong for anything security- or contract-shaped, and this run paid for it.** The skill says to resolve the governing subject before judging (§4.3), which I did — for the subject the map ranked highest. But a lens does not know which technique governs its *fix* until the fix has a shape, and by then the code is written. This round built a credential-header guard as a substring denylist, committed it, and only afterwards found `broker-proxy-attaches-secret`, which forbids denylists by name and gives the reason ("the header added to the protocol next year is forwarded by default"). Four real secret-bearing header names walked straight through the shipped version. The correction cost a second commit and is now the more interesting of the two. Proposal for §7: **before committing a fix whose shape is a policy decision — an allow/deny set, a retry rule, a validation boundary, a redaction — grep the registry for the technique that governs THAT SHAPE, not the one that governs the context.** The context-level read (§4.3) and the fix-level read are different lookups, and only the first is currently in the skill.
+- **A round's leads should be checked against the corpus before they are written, not after — and three of three dying there is a healthy result worth reporting as one.** All three lead candidates this round turned out to be in the bundle already, stated better: `_laws.md#unknown-is-not-a-value` and error-handling's "one observable, four answers" cover the two-facts-one-message rule; `broker-proxy-attaches-secret` covers third-party header forwarding. §6's bar 3 ("novel against the corpus") reads like a formality next to the other three bars and is in fact the expensive one, because clearing it honestly means reading subjects the round did not otherwise need. Worth saying in §6 that a round filing zero leads after checking is a *better* outcome than one filing two unchecked, and that the check often pays for itself in the read direction — here it did, by correcting a build.
+- **The strongest single-file findings this run were all "two states, one observable value".** Across two contexts: an inverted date range answered like an empty archive; an unreadable index reported as an unarchived URL; a discarded poisoned checkpoint indistinguishable from a first attempt; a blank credential reported as ready; over-cap schedule requests counted nowhere. Five of eleven builds, from four different lenses, all one shape — and `state-coverage`'s current blurb frames it as a UI concern ("a screen that renders as though nothing is wrong"), which is why three of the five were found by other lenses instead. Proposal: generalise that lens's description from surfaces to **observables** — for each value a caller can see, ask which distinct runtime states produce it, and treat any two that a caller would act on differently as the finding. It is the highest-yield question available on a mature backend context, and today the skill only asks it about screens.
+
+## 4.0.0 - 2026-09-06 - ascent (Org Import/Scan/Watchlist, --develop)
+
+- **The zero-consumer scan is not a dead-code check, it is a DEFECT check, and the docstring is the
+  tell.** Round 2's lesson proposed grepping a context's exported fields for readers. Run three times
+  now, the refinement that matters is which survivors to look at: a field that is merely unused is
+  usually fine (queue-row internals, DB-only columns), while a field whose DOCSTRING ASSERTS A
+  PURPOSE and has no reader is where the defects are — because the docstring is the consumer nobody
+  wrote, and the code around it was designed on the assumption that consumer exists. Three examples,
+  ascending in cost: `OrgBenchmark.corpusBasis` ("a percentile without its basis is not an auditable
+  number") — nobody renders the basis; `TeamRollup.onboardedRepos` ("reported separately") — nobody
+  reports it; `ScanJob.creditCharged` ("the single record of the reservation - a process kill leaves
+  it attributable") — nobody read it, so a process-killed worker's job reserved a SECOND credit on
+  retry, up to five times for one repo. The first two are gaps. The third is money. **Sort the
+  survivors by how strongly their docstring claims a consumer, and start at the top.**
+
+- **A `.catch(() => <empty>)` is safe on a read that feeds a DISPLAY and unsafe on a read that feeds
+  a DECISION TO WARN.** `/api/org/scan` computes its unfinished-work remainder as
+  `(await listJobsForRun(...).catch(() => [])).filter(...).length`, then emits its "N still queued"
+  frame only `if (remaining > 0)` — so a failed read is indistinguishable from a finished run, two
+  lines below a comment explaining that a remainder which "only ever existed in a lost frame is
+  exactly the silence this fixes". Worth adding to `error-handler` / `observability-auditor` as a
+  standing question: for each swallowed error, is the fallback VALUE rendered, or does it select a
+  BRANCH? A fallback that selects the quiet branch converts a failure into a false all-clear, and no
+  test will ever see it because the catch makes the function total.
+
+- **`--develop` on an `api`-category context produces safety work, and that is the correct result,
+  not a strategy failure.** All three builds were correctness/observability (a money double-charge, a
+  half-applied org-row stamp, an invisible failure mode); the eight market lenses produced nothing
+  real between them. A queue, a cron and a fan-out pool have no user-facing capability of their own —
+  their "new capability" is always someone else's render. This is now the second `--develop` round
+  (with gravitone's `test` context) where the deep tier was wrong for the context's CATEGORY. The
+  skill should let `category` reorder the deep tier under any strategy: `api`/`data` promote
+  parity-auditor, observability-auditor, risk-assessor and test-strategist and demote the market four.
+
+### Redesign proposal — the skill should say where NOT to run the gate
+
+- **§7's parallel-session rules cover STAGING and VERIFICATION, and miss the third hazard: WHERE the
+  verification runs.** Shipping three rounds from a checkout shared with another live agent cost two
+  self-inflicted repo injuries, both from running gates in the wrong place rather than from any code
+  change. (a) The repo's test suite contains git-fixture tests that COMMIT into whatever branch the
+  tree they run in has checked out — run inside a worktree on `master`, they buried the real tip
+  under 19 fixture commits and set `core.bare=true` on the shared config, breaking `git status` for
+  the other session. (b) Junctioning `node_modules` into a scratch worktree and then
+  `git worktree remove --force` deleted THROUGH the link, destroying the real `.bin` and several deep
+  packages and breaking `npm`/`npx` repo-wide.
+  Neither is exotic: any repo whose suite shells out to `git`, and any Windows worktree with a
+  linked `node_modules`, has both. The generalizable rules are short enough to state:
+  **run a whole-repo gate in a `--detach`ed worktree** (fixture commits then cannot move a branch
+  ref), **never link a dependency tree into a worktree you will force-remove** (unlink first), and
+  **after any whole-suite run in a shared checkout, re-check `git rev-parse --is-bare-repository`
+  and the branch tip you care about** before trusting either.
+  §7 already tells the sweep to stage by explicit pathspec and to distrust a red whole-tree gate that
+  is not its own. It should also tell it that running the gate can itself be the destructive act.
+
+- **A pre-push gate that runs in the working tree cannot verify a push from a shared checkout.** This
+  repo's hook runs `npm run verify` where the push is issued, not on the ref being pushed — so with
+  the checkout on a sibling session's branch it verifies the wrong tree, and a green result is
+  evidence about someone else's work. The honest route (run each stage against the exact commit in a
+  detached worktree, then use the documented skip flag and record the stage-by-stage evidence where
+  the repo keeps such records) is worth naming in §7 as the shared-checkout push procedure.
+
 ## 3.0.1 - 2026-09-07 - personas
 - **A single-lens `--lenses` round has no tier caps that fit it.** §4.3 caps the deep tier at 3 findings per lens; an operator who narrows the package to ONE lens on a 34-file context would get three findings from a full read. Treated the requested lens as the whole package and let the budget absorb it (12 findings, 8 built). §4.4 already says the budget must absorb the package; §4.3 should say the per-lens cap applies only when the package has more than one lens.
 - **A whole-tree gate served from a warm daemon is a moving target under a concurrent session.** Three census drifts in one round, all in a sibling's uncommitted files, each verified by a cold single-rule run and a listing check against my own dirty files. The §7.2 rule covers the exit code and the composite; it should add: when the gate is a delta engine, re-run the flagged rule cold and confirm your files are absent from its listing before treating it as foreign.

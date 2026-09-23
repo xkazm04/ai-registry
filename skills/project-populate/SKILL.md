@@ -3,7 +3,7 @@ name: project-populate
 category: workflow
 memory: vault
 description: Populate a newly managed repository with the data Personas needs to maintain and develop it - a context map, a feature (use-case) inventory, a triaged KPI set, and optionally simulated KPI data for a product that has not shipped yet. Contexts and features are assigned autonomously; KPIs are negotiated with the operator wave by wave. Scopeable - run all four lanes or just the ones you name. Dispatched by the passport wall, or run standalone with /project-populate.
-version: 1.3.3
+version: 1.5.0
 argument-hint: "[contexts|features|kpis|kpi-sim ...]"
 ---
 
@@ -211,14 +211,14 @@ here — a use-case scan is always a fresh proposal pass.
 `POST /dev-tools/scan-use-cases`, then poll
 `GET /dev-tools/use-case-scan-status/{scan_id}`.
 
-Two failures are expected rather than exceptional, and both are informative
-rather than fatal — report them and move to Phase 3:
+One failure is expected rather than exceptional — *"Scan the codebase into a
+context map first"* means Phase 1 skipped or failed; report it and move to
+Phase 3.
 
-- *"Scan the codebase into a context map first"* — Phase 1 skipped or failed.
-- *"N proposals already await review"* — the operator has an unreviewed queue.
-  Point them at Projects → Factory → Overview and move on. Do not triage use
-  cases yourself; unlike KPIs, they have a review surface in the app and it is
-  the better place to do it.
+Features land **active**: the app has no review queue for them, so there is
+nothing to triage and Phase 3's KPI scan sees them at once. Report the count
+and names; if the operator calls one wrong, archive it (see
+`references/bridge.md`) rather than leaving it in place.
 
 ## Phase 3 — KPIs, with the operator
 
@@ -516,12 +516,43 @@ This skill proposes and executes backlog items. Every item it proposes is judged
 **Send back what a LANDED fix taught.** When a change you made and verified generalizes past this repo - a rule that would transplant to an unrelated team, a case where a technique's rule broke against real code, or a place this repo does it BETTER than the golden path - append one line to `.ai/registry-leads.jsonl`: `{"ts":"<ISO>","bundle":"<domain>","nearest":"<subject-slug or null>","kind":"technique|application|subject","claim":"<when X, do Y, because Z - one sentence>","because":"<what this run measured or broke and fixed>","confidence":"low|medium|high","from":"project-populate@<version>"}`. Earned only: it came from code you changed, not from a fix you proposed. A lead ORIGINATES a finding and never authorizes one - nothing here edits a bundle; the registry's `leads-collect.mjs` -> `librarian/inbox.md` -> `/intake` decides what survives. Say in the report that you filed one, and say plainly when you filed none. Verdicts on a pair's state belong to `/conform`: close by naming the contexts you touched so it can re-judge them.
 <!-- /clause: knowledge-sync -->
 
-<!-- clause: skill-reflection v4 - stamped by scripts/apply-skill-clauses.mjs from docs/skill-clauses/skill-reflection.md; edit the template, then re-stamp -->
+<!-- clause: skill-reflection v5 - stamped by scripts/apply-skill-clauses.mjs from docs/skill-clauses/skill-reflection.md; edit the template, then re-stamp -->
 ## Skill Reflection
 
 After the work, record only useful observations supported by this run. No lesson is
 a valid result. Reflection inherits the task's authorization; it grants no additional
 permission to edit another repository, send data, commit, or publish.
+
+**Run log.** Unlike a lesson, this is written on every run that started work - failed and
+aborted runs included; skip read-only info modes and runs cancelled before any work. Append
+ONE line to `.ai/skill-runs.local.jsonl` at the root of the checkout you worked in: local,
+gitignored run output inside the task's own repository, never a write into the registry.
+The registry pulls it later (`/librarian skills` on the same machine). When a registry
+checkout is reachable (`registry.local` in `.ai/manifest.yaml`), prefer its writer, which
+stamps project, device and version for you:
+
+```sh
+node <registry>/scripts/log-run.mjs --skill project-populate --outcome <o> --difficulty <1-5> \
+  --provider <claude|openai|xai|qwen|google|other> --model <your model id> [--effort <level>] \
+  [--tokens-est <n>] --result "<one sentence>" --comment "<self-reflection>"
+```
+
+Otherwise write the line yourself: `{"ts":"<ISO, UTC Z>","skill":"project-populate","outcome":…,
+"difficulty":…,"provider":…,"model":…,"effort":…|null,"tokensEst":…|null,"result":…,"comment":…}`.
+
+- `outcome`: `shipped` (the goal landed) / `partial` / `no-op` (ran correctly, nothing to
+  do) / `parked` (designed or staged, deliberately not landed) / `failed` / `aborted`.
+- `difficulty` rates the task as this run met it: 1 trivial - mechanical; 2 routine - the
+  method as written; 3 demanding - real judgment calls or one detour; 4 hard - dead ends,
+  rework or an operator course-correction; 5 at the edge - partial or failed on the merits.
+- `model`/`effort` as your harness states them (`null` effort when you cannot see it).
+  `tokensEst` is the drop in the harness's remaining-token counter since this skill was
+  invoked, or `null`; exact figures are measured later from transcripts - never guess one.
+- `result` is one line (max 240 chars). `comment` (max 2000) is the self-reflection a
+  reviewer reads: what worked, what the method made harder, where its instructions were
+  wrong, missing or ignored. No filesystem paths or email addresses.
+- Never read run logs during a run. They are evidence ABOUT this skill for its reviewer;
+  an executor that reads its own diagnosis contaminates the next measurement.
 
 **Project learning.** Only when this run produced an observation that would change how a
 future run behaves. A run that went as the method describes writes nothing: an entry that

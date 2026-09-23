@@ -1,11 +1,11 @@
 ---
 name: scan-sweep
-description: "Long-running quality sweep that walks a repository context by context, reads each area's code once, judges it through every scan lens, and lands what it can PROVE itself with atomic commits. With no arguments it runs the STABILIZE loop - bug hunting, UI perfection, performance - picking the least-covered context each round and keeping a per-context lens-coverage ledger so a codebase gets swept evenly instead of repeatedly in the same corner. Every finding climbs an evidence ladder (gate > probe > experiment > simulation) before it is routed: a measured `better` with no escalation builds in-session, S or M, under any strategy; `not-better` is rejected with its figures; only architecture (L), a direction outside the context's declared scope, an irreversible change, or a loosened policy still waits for a human. Use for a standing quality loop, before a hardening milestone, or to work down a backlog. Pass --develop for new capability, --optimize for deep hardening, --challenge to put a model through high-effort / high-impact / moderate-to-high-risk work (two architecture + UX candidates per context, critic-graded, built in waves, scored), --ideas-only to change no code, --coverage for the pick list."
-argument-hint: "[--stabilize|--develop|--optimize|--challenge] [--cohort N] [--riders N] [--until-covered] [--go] [--one <context>] [--depth N] [--ideas-only] [--lenses k1,k2] [--coverage] [--backlogs]"
+description: "Long-running quality sweep that walks a repository context by context, reads each area's code once, judges it through every scan lens, and lands what it can PROVE itself with atomic commits. With no arguments it runs the STABILIZE loop - bug hunting, UI perfection, performance - picking the least-covered context each round and keeping a per-context lens-coverage ledger so a codebase gets swept evenly instead of repeatedly in the same corner. Every finding climbs an evidence ladder (gate > probe > experiment > simulation) before it is routed: a measured `better` with no escalation builds in-session, S or M, under any strategy; `not-better` is rejected with its figures; what a probe could not measure - a walked simulation, a named-but-unbuilt instrument, an out-of-scope seam, an M or L too large to land unread - goes to Lane B, an A/B wave of Opus workers in parallel worktrees that build both arms, measure with the same instrument, seed the control red, and let the director merge `better` and throw `not-better`; only a direction, an XL, an irreversible change, a loosened policy, or an operator-only act still waits for a human. Use for a standing quality loop, before a hardening milestone, or to work down a backlog. Pass --develop for new capability, --optimize for deep hardening, --challenge for a proving ground (two critic-graded hard candidates per context), --ideas-only to change no code, --coverage for the pick list, --backlogs for what earlier passes left unworked (announced first on every run)."
+argument-hint: "[--stabilize|--develop|--optimize|--challenge] [--cohort N] [--riders N] [--until-covered] [--go] [--one <context>] [--depth N] [--ideas-only] [--lenses k1,k2] [--coverage] [--backlogs] [--ab] [--ab-only] [--workers N]"
 category: workflow
 contexts: tracked
 memory: project
-version: 3.5.1
+version: 4.3.0
 tags: sweep, quality, stabilization, backlog, coverage, registry, atomic-commits
 ---
 # Context Sweep
@@ -28,6 +28,9 @@ returning to the next-least-covered area, not from skimming.
 /scan-sweep --backlogs          # list the open backlogs earlier passes left behind; scan nothing
 /scan-sweep --challenge [--cohort N] [--go]
                                 # proving ground: 2 hard candidates per context, critic, deck, build waves, scorecard
+/scan-sweep --ab                # after the round's Lane A commits, dispatch Lane B (§5, references/ab-lane.md)
+/scan-sweep --ab-only           # no scan: drain the existing backlog's Lane B items through the wave
+/scan-sweep --workers N         # cap on concurrent Lane B workers (default 4)
 ```
 
 **Default = the stabilize loop.** No arguments means: pick the least lens-covered
@@ -198,9 +201,11 @@ OPEN BACKLOG  <strategy> wave of <date> (<age>) - <open> of <total> findings unw
               tiers: <undisputed n> ready to build, <n> need a contract/policy review, <n> need a direction call
 ```
 
-and say what can be done with it: **work it down** (triage by `gate`, build the
-`gate: none` S/M items in waves, leave `direction` / `architecture` /
-`irreversible` / `policy-loosen` for the operator), **keep sweeping anyway**, or
+and say what can be done with it: **work it down** (route it through §5 exactly as
+a fresh round would: Lane A items build in-session, Lane B items drain through
+the wave with `--ab-only`, Lane C - `direction` / `architecture` /
+`irreversible` / `policy-loosen` / operator-only - stays for the operator),
+**keep sweeping anyway**, or
 **close it** (the operator says the rest is not wanted; set the row `closed` with
 the reason). When the operator is present, ask which. When the run is
 unattended, do not block: repeat the notice at the top of every round report
@@ -469,196 +474,194 @@ Rules that keep the notice honest:
     and reads as the lower-quality item it is. Do not invent extra sections;
     put anything else under Description.
 
-## 5. Routing - evidence decides, four escalations stay human
+## 5. Routing - three lanes, evidence decides, four escalations stay human
 
-Size describes the work and bounds what a round may build, but it does not
-decide who approves. **The Evaluation of §4.10 does, after the ladder of §4.11
-has been climbed.** The history of this section is four routing rules on one
-operator's deck: reward/risk asked "how dangerous is the edit?"; net delta
-asked "does it sound better?" and passed 85 of 149 on stories; measured
-evaluation (v2.5) asked "is it measurably better?" and could say NO - but it
-sent every `unmeasurable` and every contract or policy change to a human, and
-under `--develop` and `--optimize` that was the whole output: 21 of 46
-`uncertain` items became `unmeasurable` and zero became `better`, because
-nobody had tried to build the measurement. This rule (v3.0) asks "did you
-TRY to measure it, and what did the instrument say?" - and reserves the human
-for the decisions a human actually owns. It is the same move `/intake` made
-in v2.5 when its ledger showed 134 of 149 human gates changed nothing: the
-run's own read was already selecting, so make the read explicit, veto-first
-and auditable, and narrow the ask to the escalations.
+Every finding leaves §4 with a size, an Evaluation (Before / After / Method /
+Result / Gate) and two scores. §5 turns that into exactly one of three lanes:
 
-Classify every candidate by size for the build bound:
-
-- **S** - localized: one file, one mechanism (a rename, a guard, an attribute, a
-  clamp, one component's states).
-- **M** - a few files or one subsystem seam; a normal PR.
-- **L** - structural: architecture-grade work spanning modules - new layers,
-  protocol redesigns, cross-cutting migrations.
-
-### The evaluation rule
-
-| Result | Gate | Route |
+| Lane | Who decides | What it holds |
 | --- | --- | --- |
-| `better` | `none` / `policy-tighten` / `contract` with its verifier green | **Auto-accept. Build it** - S or M, any strategy - in-session, or by a coordinator subagent in a wave. |
-| `better` | `direction` / `architecture` / `irreversible` / `policy-loosen` / `contract` without its verifier | **Human.** The benefit is proven; the decision is one the run does not own. The card names WHICH escalation. |
-| `not-better` | any | **Reject**, with the Before/After figures as the rejection reason. It leaves the backlog. |
-| `unmeasurable` | any | **Human**, and only after §4.11: the card names the highest rung attempted, why the next one was out of reach, and the instrument that would decide it. |
+| **A - build now** | the measurement already taken | `better` at `gate` or `probe`, no escalation, XS/S, or M with risk ≤ 3, inside this round's paths. Built in-session, one commit each, seeded control on every instrument. |
+| **B - A/B, then build or throw** | the same instrument on both arms, in isolation | everything claimable that A could not measure or should not land unread: `simulation`-only, `unmeasurable`-with-a-named-instrument, M with risk ≥ 4, L, out-of-scope seams, in-tree contracts without a verifier, carries that still lack their instrument. Dispatched to Opus workers in worktrees, in parallel; the director merges `better`, rejects `not-better` with figures, escalates the rest. `references/ab-lane.md` is the contract. |
+| **C - human** | the operator, from the deck | the four escalations — `direction`, `architecture`, `irreversible`, `policy-loosen` — plus XL, contracts with consumers outside the tree, and anything Lane B returned `unmeasurable` after a real attempt. |
 
-**The gate column is an ESCALATION list, not a danger list.** A change is
-escalated when the decision belongs to someone other than the run - because it
-changes what the product IS, cannot be undone, or weakens a protection - never
-because it is merely large or merely touches something important. Important
-things that are verifiable are exactly what a sweep is for.
+`not-better` is not a lane. It is a rejection, with both figures, and it leaves the
+backlog. The three lanes are checked **in the order C, then A, then B**: escalations
+first because a score may never overturn one; A second because what is already
+measured needs no wave; B takes what is left.
 
-**What counts as a measurement.** A count (sites, files, keys, renders,
-IPC calls), a duration or a size, a reproduced failure and its absence, a
-test that goes red-then-green, a gate's exit code, or a walked sample of
-concrete inputs with their outputs before and after. "Cleaner", "more
-maintainable", "safer" with no figure is not a measurement; if you cannot
-attach one, the result is `unmeasurable`, not `better`. A probe on a SMALL
-sample is enough - three call sites, one reproduced flow, one timed path -
-as long as it is the same sample on both sides.
+The history of this section is four routing rules on one operator's deck.
+Reward/risk asked "how dangerous is the edit?"; net delta asked "does it sound
+better?" and passed 85 of 149 on stories; measured evaluation (v2.5) could say NO
+but sent every `unmeasurable` and every contract to a human; v3.0 built what a
+probe had measured and handed the rest over. Measured on gravitone 2026-09-06:
+twelve backlog cards, **all five S-sized ones `Method: simulation`** — walked
+cases with the instrument named and unbuilt. None was risky. Each was backlogged
+because the round could not take the figure, and v3.0 had no lane whose job was
+to go and take it. That lane is B (v4.0), and it is the same move `intake` made
+in its Phase 7.5/7.7: the run builds both arms and reads the verdict off the
+project's own gate, and the human sees only what no instrument can decide.
 
-**The four escalations** - an escalation applies when the implementation
-REQUIRES it, not when the finding merely mentions it. Design and feature are
-not escalations: a feature inside scope with a passing test is coverage.
+### Size
 
-- **direction** - a capability the context's declared scope does not name:
-  the manifest's `scope` block when the repo carries one, else the context
-  map entry's description and keywords. A one-line change that creates a
-  capability the scope does not name is a direction; a two-hundred-line build
-  inside the declared purpose is coverage. This is `--develop`'s human gate,
-  and it is the one `/intake` kept too (its E1).
-- **architecture** - every **L**: a new layer, a protocol redesign, a
-  cross-cutting migration, an edit to the context map itself. Human even with
-  a figure attached - the largest change in the round is the one the owner
-  sees, by definition.
-- **irreversible** - deletes user data, rewrites stored history, a migration
-  with no rollback, or changes what is paid for.
-- **policy-loosen** - removes or weakens a security, privacy or audit check,
-  widens access, or stores or sends MORE than before. Its mirror,
-  **`policy-tighten`** - adds a check, narrows access, logs or audits more -
-  is auto-accepted when a test pins the new behaviour, because a reviewer
-  would only ever say yes to it and the test is the review.
+Classify every candidate for the build bound:
 
-**`contract` is evidence-gated, not human by default.** A DB schema, IPC or
-public API, generated binding or persisted format builds in-round when ALL of:
-(a) every consumer is enumerated by instrument (grep for the shared symbol,
-the generated client's call sites, the migration's readers) and updated in
-the same commit; (b) generated artefacts are regenerated by the repo's own
-step; (c) a contract test pins the new shape AND forbids the old (§7.5); (d)
-the gate is green. Missing any one, it is human and the card says which
-letter. A contract another REPOSITORY consumes is always human - the
-consumer is not in this tree and (a) cannot be done.
+- **XS** - one line, one mechanism, no new file: a guard, a clamp, an attribute.
+- **S** - localized: one file, one mechanism, plus its test.
+- **M** - a few files or one subsystem seam; a normal PR.
+- **L** - structural within one context: a new module, a migrated seam, an
+  instrument that did not exist.
+- **XL** - architecture-grade work spanning contexts or modules: new layers,
+  protocol redesigns, cross-cutting migrations, an edit to the context map itself.
 
-**Size still bounds the build.** An **L** is `architecture` and stays human;
-an auto-accepted M that grows past its seam mid-build is demoted like any
-other (§7.4). Effort / impact / risk are still scored - they order the queue
-and calibrate the delta - they just no longer gate it.
+Size bounds the build and picks the lane's ceiling; it does not decide who
+approves. XS and S may go to A; M may go to A or B; L goes to B; XL goes to C.
 
-**The mechanism measures itself.** The snapshot (§10) carries
-`auto=<accepted>/<rejected>/<escalated>` and `fp=<n>`, where a false positive
-is an auto-accepted item that an executor demoted or that failed its gate at
-build. **Three `fp` across the last five rounds on a repo and auto-accept
-requires Method `gate` - a probe no longer suffices - until three consecutive
-rounds at `fp=0`.** This is `/intake`'s `fp` rule carried over: a gate that
-never counts its own false positives drifts toward accepting everything.
+### Lane C - the escalations (checked first)
 
-**So does the repo's own mechanical gate, and it binds on the SITE, not on the
-idea.** A ratchet - a LOC ceiling on a file, a bundle-size budget, a dependency
-ban, a coverage floor - can make a `better` + no-hard-gate finding unbuildable
-purely because the only file its fix belongs in is already at the line. That is
-not a reason to shrink the fix until it slips through, and not a reason to
-invent a new file to escape the rule (a new path is usually outside the
-context's declared `file_paths`, which is veto 1, and often trips an
-unmapped-file ratchet as well). **Before choosing the build list, check each
-candidate's implementation site against the gates the repo declares**, and route
-the blocked ones to the backlog naming THAT gate as the blocker - the operator
-needs to see "correct, safe, and blocked by A1", not a silent absence. Measured
-2026-08-29: in one context, six findings were `better` with no hard gate and only
-three had a file with headroom.
+An escalation applies when the implementation REQUIRES it, not when the finding
+mentions it. Design and feature are not escalations: a feature inside scope with a
+passing test is coverage.
+
+- **direction** - a capability the context's declared scope does not name: the
+  manifest's `scope` block when the repo carries one, else the context map entry's
+  description and keywords. A one-line change that creates a capability the scope
+  does not name is a direction; a two-hundred-line build inside the declared
+  purpose is coverage.
+- **architecture** - every **XL**, and any change that alters what the product IS:
+  a new layer, a protocol redesign, a cross-cutting migration, the context map.
+  **Not** "a file outside my paths" — that is `out-of-scope`, and it is Lane B.
+- **irreversible** - deletes user data, rewrites stored history, a migration with no
+  rollback, or changes what is paid for.
+- **policy-loosen** - removes or weakens a security, privacy or audit check, widens
+  access, or stores or sends MORE than before. Its mirror, **`policy-tighten`**, is
+  Lane A when a test pins the new behaviour: a reviewer would only ever say yes and
+  the test is the review.
+- **contract with consumers outside this tree** - another repository's, a public
+  SDK's, a wire format with readers elsewhere. Letter (a) of the contract rule
+  cannot be done, so nobody in the run can verify it.
+- **an operator-only act** - an ingest, a scan, a `pip freeze` on a machine this
+  session is not on. Named so the card says whose hands it needs, not "human" in
+  the abstract.
+- **`unmeasurable` after a Lane B attempt** - a worker built what it could and
+  still has no figure. The card carries the instrument it could not build and why.
+
+The gate column is an ESCALATION list, not a danger list. Important things that are
+verifiable are exactly what a sweep is for.
+
+### Lane A - build now (checked second)
+
+An item is Lane A when **all** of:
+
+- `Result: better` and `Method: gate` or `probe` — a figure was actually taken, on
+  the real tree or a real sample, on both sides;
+- `Gate: none`, or `policy-tighten` with a test, or `contract` with its verifier
+  green and letters (a)–(d) met;
+- size XS or S; or M with **risk ≤ 3**;
+- every file it touches is inside this round's declared paths (or the round is a
+  coordinator wave, where that veto does not bind);
+- a gate exists that can see it, or one can be built at S — and if one is built,
+  it is built **first**, seeded red, then the fix lands green (§4.11, §7.6).
+
+Lane A is executed in-session, one atomic commit per item, highest-reward first,
+under §7. A Lane A item the round cannot build (budget, time, a tree that will not
+take a commit) is emitted `disposition: carry` and is Lane A **first** next round —
+unless it is carried for the same missing instrument twice, in which case it is B.
+
+### Lane B - A/B, then build or throw (takes what remains)
+
+An item is Lane B when it is neither C nor A and its Result is `better` or
+`unmeasurable`. In practice that is one of:
+
+| Trigger | Why it is B and not A |
+| --- | --- |
+| `Method: simulation` | three walked cases predict; nothing measured. B builds the instrument, then measures. |
+| `unmeasurable` with a named S/M instrument | the round said what would decide it and lacked the budget to build it |
+| `better` by probe, M with risk ≥ 4, or L | real on a sample; the whole change needs its own isolated gate run before landing |
+| `out-of-scope` (the old veto 1) | the seam is in a context this round did not own; a worker that owns it can build it |
+| in-tree `contract` without a verifier | letters (a)–(d) are the worker's checklist |
+| `carry` lacking its instrument for the second time | approved twice and unbuilt twice is a wave item, not a third carry |
+
+Lane B is dispatched after the round's Lane A commits have landed, one Opus worker
+per write-set group, in isolated worktrees, in parallel, capped by `--workers`. The
+worker re-measures A, builds the instrument if the card names one, builds B within
+the stated size, takes the same figure on B, runs every gate with its status
+asserted, **seeds the control red**, and commits with a pathspec on its branch. The
+director reviews each return against the diff, merges `better` `--no-ff`, deletes
+`not-better` with both figures in the ledger, escalates `unmeasurable` to C, counts
+`fp` and `demoted` against the mechanism, and never pushes. The whole contract —
+worker steps, director rules, ledger shape, prompt template — is
+`references/ab-lane.md`; this section only says who goes there.
+
+**What Lane B is for, stated once.** Unit tests say a change did not break what was
+already pinned. Lane B says the change made the figure better than it was, on the
+same inputs, with an instrument that has been shown to notice the difference. That
+is the harder claim, and it is the one a backlog card actually makes.
+
+### The four vetoes - they override every route above
+
+An item is set aside regardless of lane when it:
+
+1. **touches a file outside this context's declared paths** (see the parallel
+   rules in §7) — no longer a backlog verdict but a routing one: it goes to
+   Lane B as `out-of-scope`, to a worker that owns that context. It is a veto on
+   THIS session's hands only. **But a coupled doc, test, locale entry or
+   generated artefact the fix REQUIRES is part of the fix**, not a second change,
+   not `out-of-scope` and not an escalation: build it, stage it with the rest,
+   and name the extra path and why it was coupled in the commit body. Veto 1 is
+   for a change that wanders into another area, not for the file the change
+   cannot land without.
+2. **changes a contract whose consumers you cannot enumerate by instrument** —
+   another repository's, a public SDK's, a wire format with readers outside this
+   tree — Lane C. An in-tree contract with a verifier is A; without one it is B.
+3. **has no gate that can verify it and none can be built at S or M** — if
+   nothing can tell you the fix worked, committing it is committing a belief. A
+   missing test you could write in twenty lines is not this veto; write it. Lane
+   B attempts the rest; if the worker cannot build an instrument either, it
+   returns `unmeasurable` and the card goes to C naming the instrument.
+4. **is a foreign session's in-flight file** — a coordination call, not a triage
+   call: wait, and say so in the finding. Neither lane nor human; the next session
+   sees the note and knows the difference.
+
+### The mechanism measures itself
+
+The snapshot (§10) carries `lanes=A:<n>/B:<n>/C:<n>`,
+`ab=<better>/<not-better>/<unmeasurable>/<fp>/<demoted>` and `fp=<n>`. A false
+positive is a Lane A item that failed its gate at build, **or a Lane B item whose
+`Before` did not reproduce on the base tree**. **Three `fp` across the last five
+rounds and Lane A requires `Method: gate` — a probe no longer suffices — and Lane B
+requires the instrument commit to land before the fix, until three consecutive
+rounds at `fp=0`.** Two `not-better` verdicts on one finding from two different
+workers is a measurement: the finding is rejected with both, never dispatched a
+third time.
+
+**The repo's own mechanical gate binds on the SITE, not on the idea.** A ratchet — a
+LOC ceiling, a bundle budget, a dependency ban, a coverage floor — can make a
+`better` item unbuildable because the only file its fix belongs in is already at
+the line. That is not a reason to shrink the fix until it slips through, and not a
+reason to invent a new file to escape the rule. Check each candidate's site against
+the declared gates before choosing a lane, and route the blocked ones to C naming
+THAT gate as the blocker.
 
 **A ratchet blocks the change that would BREACH it, and nothing else.** Measure
 the headroom before deferring: if the fix fits under the ceiling, **build it**
 and put the measured headroom in the commit body ("file at 284/300 after"). Only
-a candidate whose own implementation site is at the line is backlogged, and the
+a candidate whose own implementation site is at the line goes to C, and the
 card says which gate and by how much it overshoots. Deferring on the mere
 existence of a ratchet is how a proven fix goes unbuilt - ~16 judge verdicts
 split on exactly this, in both directions.
 
-**Pure churn measures the same on both sides** and is therefore `not-better`
-- rejected, with the identical figures as the reason. That is the intent.
+**Unattended runs** (dispatched by an app or a fleet, no operator present): Lane A
+builds, Lane B dispatches if `--ab` was given, Lane C waits for the deck. Nothing
+asks.
 
-**Two demotions are a measurement.** An idea that two independent executors
-turned back (each with a reason) has been measured twice at the point of
-build with the same result: it does not land. Treat it as `not-better` -
-reject it with both reasons attached - rather than re-queuing it for a third
-attempt. Measured 2026-08-29: three ideas reached a third executor and were
-demoted a third time, at ~200k tokens each.
-
-**Name the missing instrument - then build it when it is small.**
-`unmeasurable` covers two different things: a benefit that has no figure
-(taste, product direction), and a benefit that HAS a figure nobody can take
-yet (a performance claim with no benchmark, a resilience claim with no fault
-injector). For the second kind the rule is §4.11: if the instrument is
-S-sized, build it in-round as its own fix and re-measure; if it is not, say
-which instrument is missing in the Evaluation's After line - that sentence is
-a finding of its own for the next round. Measured 2026-08-29 on kp: two of
-three `unmeasurable` results were avoidable, each by a small instrument the
-round had budget for.
-
-### The four vetoes - they override every route above
-
-An item is backlogged regardless of size or result when it:
-
-1. **touches a file outside this context's declared paths** (see the parallel
-   rules in §7) - not yours to change this round. **But a coupled doc, test,
-   locale entry or generated artefact the fix REQUIRES is part of the fix**, not
-   a second change and not an escalation: build it, stage it with the rest, and
-   name the extra path and why it was coupled in the commit body. Veto 1 is for
-   a change that wanders into another area, not for the file the change cannot
-   land without;
-2. **changes a contract whose consumers you cannot enumerate by instrument**
-   - another repository's, a public SDK's, a wire format with readers outside
-   this tree. An in-tree contract with its verifier green is not vetoed; see
-   the contract rule above;
-3. **has no gate that can verify it and none can be built at S** - if nothing
-   in the repo can tell you the fix worked, you are committing a belief. A
-   missing test you could write in twenty lines is not this veto; write it;
-4. **is a foreign session's in-flight file** - a coordination call, not a triage
-   call. Say so in the finding so the next session knows the difference.
-
-**Unattended runs** (dispatched by an app or a fleet, no operator present):
-nothing changes - there is no "ask" band. `better` with no escalation builds,
-`not-better` is rejected with its figures, everything else waits for the deck.
-
-**`carry` - approved and not built is a state, and it goes first next time.**
-A `better` item with no escalation that the round could not build (budget,
-time, a tree that would not take a commit) is emitted with
-`disposition: carry`, never as a plain backlog card - it needs no decision.
-The next round on the same context builds its carries BEFORE it scans, and
-counts them in `fixed`. Measured 2026-09-01 on pof: a `--one` round left
-approved items unbuilt and the next run presented one as a discovery.
-
-**What the backlog is FOR - and what never goes in it.** The Personas idea
-backlog (the memory outbox → `dev_ideas` → the Quick Answer triage deck) is the
-surface where a HUMAN or Athena decides. It holds exactly three things: the
-**escalated** band (`direction`, `architecture`, `irreversible`,
-`policy-loosen`, unverifiable `contract`), the **`unmeasurable`-after-ladder**
-band with its named instrument, and anything a veto turned back. An item the
-routing table already approved does **not** need a decision and must not be
-parked there - it is executed, in this CLI session:
-by the sweep itself in a single-context round, or, in a **coordinator wave**
-(many contexts, workers that return results instead of committing), by
-subagents the coordinator dispatches from the returned list, one context per
-subagent, each re-checking vetoes 2 and 3 and RE-MEASURING the Evaluation's
-Before on the real tree before building, and demoting to the backlog what
-fails them. Vetoes 1 and 4 are parallel-session vetoes: under a single
-coordinator they do not bind, and an S a worker turned back only for
-"outside my paths" or "shared surface" is still an S. A backlog full of
-approved-but-unbuilt items is a sweep that stopped one step early - measured
-2026-08-28: 149 of 240 backlogged wave findings were auto-approvable by the
-sweep's own table.
+**What the backlog is FOR — and what never goes in it.** The Personas idea backlog
+(the memory outbox → `dev_ideas` → the triage deck) is where a HUMAN decides. It
+holds Lane C and nothing else: the escalations, the operator-only acts, and what
+Lane B could not measure. A Lane A item is built. A Lane B item is built or thrown.
+A backlog full of approved-but-unbuilt items is a sweep that stopped one step early
+— measured 2026-08-28, 149 of 240 wave findings were auto-approvable, and measured
+again 2026-09-06, every S card on the deck was one an instrument would have decided.
 
 ## 6. The registry lane - knowledge feeds the lenses, deviations are one lens, leads flow back
 
@@ -722,7 +725,9 @@ you filed one, and say plainly when you filed none.
 
 ## 7. Execution — land the approved list
 
-Work the approved queue - this context's `carry` items from prior rounds
+This section is **Lane A**. Lane B's execution is a wave of workers under
+`references/ab-lane.md`, dispatched after this section's commits have landed; the
+director's merge rules live there too. Work the approved queue - this context's `carry` items from prior rounds
 first, then this round's, highest-reward first - one finding at a time:
 
 1. **One atomic commit per finding.** Fix, verify, commit, then start the next.
@@ -854,7 +859,17 @@ backlog as open work:
 {"type":"node","kind":"progress","skill":"scan-<lens-key>","context":"<context>","title":"Fixed: <title>","body":"<sha>; <one-line gist>"}
 ```
 
-Each BACKLOGGED finding:
+A Lane B item that MERGED is the same progress node with the wave's figures:
+
+```json
+{"type":"node","kind":"progress","skill":"scan-<lens-key>","context":"<context>","title":"Fixed (A/B): <title>","body":"<merge sha>; before <..> -> after <..>; seeded red; worker opus"}
+```
+
+A Lane B `not-better` is never emitted - it was rejected with figures in the report
+and the ab ledger. A Lane B `unmeasurable` is emitted as a BACKLOGGED finding whose
+After line names the instrument the worker could not build.
+
+Each BACKLOGGED finding (Lane C only):
 
 ```json
 {"type":"finding","skill":"scan-sweep","lens":"<lens-key>","context":"<context>","title":"<title>","body":"## Summary\n...\n\n## Description\n...\n\n## Flow\n- ...\n\n## Expected impact\n...\n\n## Evaluation\nClaim: performance - ...\nBefore: ...\nAfter: ...\nMethod: probe - ...\nResult: better\nGate: none","evidence":"<code block or file:line list - the proof, not the prose>","size":"S|M|L","effort":3,"impact":7,"risk":2,"result":"better|not-better|unmeasurable","method":"gate|probe|experiment|simulation","gate":"none|contract|policy-tighten|policy-loosen|irreversible|architecture|direction","disposition":"backlog|carry"}
@@ -917,11 +932,11 @@ lens ordering both read, so a key written for a lens that looked at nothing
 inflates it permanently. `lens_no_surface` holds the rest and earns no credit.
 `findings` counts built, rejected, carried and backlogged. `auto` is the
 routing tally (`accepted/rejected/escalated`), `fp` the auto-accepted items
-demoted at build, `carried` the approved items left for the next round - the
-three numbers §5's self-correction reads.
+demoted at build, `carried` the approved items left for the next round, `lanes` the routing
+tally and `ab` the wave's verdicts - the numbers §5's self-correction reads.
 
 ```json
-{"at":"<ISO-8601>","scope":"<context>","mode":"resolve|ideas","strategy":"stabilize|develop|optimize","lens_keys":["<key>"],"lens_no_surface":["<key>"],"lenses":<n>,"findings":<n>,"fixed":<n>,"auto":"<a>/<r>/<e>","fp":<n>,"carried":<n>,"escalations":<n>,"leads":<n>,"degraded":<bool>,"note":"<<=80 chars>"}
+{"at":"<ISO-8601>","scope":"<context>","mode":"resolve|ideas","strategy":"stabilize|develop|optimize","lens_keys":["<key>"],"lens_no_surface":["<key>"],"lenses":<n>,"findings":<n>,"fixed":<n>,"auto":"<a>/<r>/<e>","lanes":"A:<n>/B:<n>/C:<n>","ab":"<better>/<not-better>/<unmeasurable>/<fp>/<demoted>","fp":<n>,"carried":<n>,"escalations":<n>,"leads":<n>,"degraded":<bool>,"note":"<<=80 chars>"}
 ```
 
 **The row is committed, not left dirty.** Where `.claude/scan-history/` is
@@ -959,12 +974,43 @@ fixed, last strategy and age, least-covered first. Then stop.
 
 ---
 
-<!-- clause: skill-reflection v4 - stamped by scripts/apply-skill-clauses.mjs from docs/skill-clauses/skill-reflection.md; edit the template, then re-stamp -->
+<!-- clause: skill-reflection v5 - stamped by scripts/apply-skill-clauses.mjs from docs/skill-clauses/skill-reflection.md; edit the template, then re-stamp -->
 ## Skill Reflection
 
 After the work, record only useful observations supported by this run. No lesson is
 a valid result. Reflection inherits the task's authorization; it grants no additional
 permission to edit another repository, send data, commit, or publish.
+
+**Run log.** Unlike a lesson, this is written on every run that started work - failed and
+aborted runs included; skip read-only info modes and runs cancelled before any work. Append
+ONE line to `.ai/skill-runs.local.jsonl` at the root of the checkout you worked in: local,
+gitignored run output inside the task's own repository, never a write into the registry.
+The registry pulls it later (`/librarian skills` on the same machine). When a registry
+checkout is reachable (`registry.local` in `.ai/manifest.yaml`), prefer its writer, which
+stamps project, device and version for you:
+
+```sh
+node <registry>/scripts/log-run.mjs --skill scan-sweep --outcome <o> --difficulty <1-5> \
+  --provider <claude|openai|xai|qwen|google|other> --model <your model id> [--effort <level>] \
+  [--tokens-est <n>] --result "<one sentence>" --comment "<self-reflection>"
+```
+
+Otherwise write the line yourself: `{"ts":"<ISO, UTC Z>","skill":"scan-sweep","outcome":…,
+"difficulty":…,"provider":…,"model":…,"effort":…|null,"tokensEst":…|null,"result":…,"comment":…}`.
+
+- `outcome`: `shipped` (the goal landed) / `partial` / `no-op` (ran correctly, nothing to
+  do) / `parked` (designed or staged, deliberately not landed) / `failed` / `aborted`.
+- `difficulty` rates the task as this run met it: 1 trivial - mechanical; 2 routine - the
+  method as written; 3 demanding - real judgment calls or one detour; 4 hard - dead ends,
+  rework or an operator course-correction; 5 at the edge - partial or failed on the merits.
+- `model`/`effort` as your harness states them (`null` effort when you cannot see it).
+  `tokensEst` is the drop in the harness's remaining-token counter since this skill was
+  invoked, or `null`; exact figures are measured later from transcripts - never guess one.
+- `result` is one line (max 240 chars). `comment` (max 2000) is the self-reflection a
+  reviewer reads: what worked, what the method made harder, where its instructions were
+  wrong, missing or ignored. No filesystem paths or email addresses.
+- Never read run logs during a run. They are evidence ABOUT this skill for its reviewer;
+  an executor that reads its own diagnosis contaminates the next measurement.
 
 **Project learning.** Only when this run produced an observation that would change how a
 future run behaves. A run that went as the method describes writes nothing: an entry that

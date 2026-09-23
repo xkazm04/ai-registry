@@ -7,6 +7,10 @@ which ones anyone reaches for — and that is the signal that separates a librar
 graveyard. The usage lane carries it, contributed by every installation that runs skills
 from this registry.
 
+How each run WENT - outcome, difficulty, tokens, the agent's own reflection - is a
+different record with different rules (append-only, per device, free text): the run log
+under `usage/runs/`, described in [runs-lane.md](./runs-lane.md). This page is the counts.
+
 ## The shape
 
 One file per contributing installation:

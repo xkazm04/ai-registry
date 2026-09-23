@@ -151,7 +151,8 @@
             "judgment-guardbands",
             "cost-metering",
             "tracing",
-            "time-travel-replay"
+            "time-travel-replay",
+            "model-call-outcome-integrity"
           ]
         },
         {
@@ -253,7 +254,8 @@
             "reversible-transform-pipelines",
             "deferred-operation-fusion",
             "keyed-sample-transforms",
-            "deterministic-prefix-caching"
+            "deterministic-prefix-caching",
+            "index-free-random-access"
           ]
         },
         {
@@ -433,7 +435,8 @@
             "release-pipeline",
             "codegen",
             "test-harness",
-            "test-input-generation"
+            "test-input-generation",
+            "vendored-patch-stack"
           ]
         },
         {

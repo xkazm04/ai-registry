@@ -13,6 +13,7 @@ techniques:
   - tamper-evidence
   - decision-records
   - two-clock-records
+  - record-axis-predicate
 ---
 
 # Audit logging
@@ -293,3 +294,9 @@ The techniques converge on what one record minimally carries:
 - [decision-records](./techniques/decision-records.md) — recording a
   human's judgment about a regenerated finding: identity before wording,
   state and act stored separately, decisions that never move the score.
+- [record-axis-predicate](./techniques/record-axis-predicate.md) — the read
+  side of two clocks: one `held_at(T)` predicate per table composed in one
+  module, null meaning now so one statement serves replay and the present,
+  write paths keeping the current-row guard, a rewritten row's clock derived
+  from the ledger that rewrote it, and a database-backed test in both
+  directions.

@@ -16,6 +16,7 @@ consecutive 1.x runs over large systems scored the same as twelve runs over vide
 
 | Version | Date | Source | Research | Extract | Test | Landed | Apply | Ship | Zero reason / focus moved? | Depth |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2.7.0 | 2026-09-08 | `github:daijro/camoufox` @ `eb5dc3bc` — a patched-upstream browser fork (**vendor repository**; 4,227 landing / **20,012 in-tree markdown**, 4.7:1) | 1 source, cloned per Phase 2b and swept in yield-density order — 5 operating documents (9,073 words), the lint enforcing the tree's sharpest invariant, the config-schema DSL, the client library's precedence table, the tests, README last. **0 of 3 fetches by the director** (sixteenth consecutive corpus-internal run); the forge worker spent 6/6 of its own budget on two reconciliation trees | 9 | 6 | **1 technique + 1 rust application + 1 XL subject forged** (`vendored-patch-stack`, golden path + 5 techniques, 0 applications) | **1 of 1 owed** — 0c/**1e**/0s/0t | 1 (`pumper` `2d3b9d8`, applied ledger row, pathspec, not pushed) — **but no product change**, so the honest cell is `ship 1 (ledger only) / product 0 (unspent)` | **The strongest material in the source is already covered, twice, and the run's landing came from our own corpus instead.** The tree's headline engineering — a first-party post-mortem of four deadlocks, a chokepoint module and a lint that ended them — is `ipc-contract/call-wrapping` ("ban the raw primitive mechanically… the mechanical ban catches the rest, which is the part that matters"), and its deadline-sizing rule is `terminate-from-outside-when-you-cannot-count` verbatim. Four catches, and reporting them as the result is the run. **What landed came from the Phase 6 enumeration hunt**: `invariant-placement` says every rule is enforced at one of four altitudes, and all four *refuse*; a check that **repairs** — clamps, saturates, coerces — turns the invalid state into a valid one, so every assertion over the legal range passes either way. **The score chose the shape for the second consecutive round**: as a fifth altitude it falsifies "somewhere has four addresses" (shared-spine rewrite, RISK +2, total 1, below threshold); as a *posture of the fourth altitude* every standing sentence stays true and it scores 4/1/2. **Focus item 1 (round 37) discharged: 2.7.0 is in `HEAD`, and the run picked a falsifying seam with nothing reminding it to — and the seam refuted the finding.** A *declared* cohort threshold was the obvious instance and that tree already straddles it deliberately, because **a declared threshold advertises both of its sides**; the blindness needs a **derived** quantity. That refutation narrowed the technique before it was written, which is the fifth consecutive round a falsifying seam returned something the run was not hunting — it should now be a rule, not a focus item. **Focus item 2 applied**: the ship cell is split by reason. **Focus item 3 retired**: no second measured ladder is proposed; this domain has no four-call contract and no ordinary run can advance the question. | `S1/T1(+5 forged)/A0/Asrc0/0 task-lines` · **routing count 4 `corpus: NONE` in one system** (fork/patch-stack maintenance) against a trigger of 3 — the count survived a real challenge, `supply-chain/vendored-fork-ledger` models the fork's *provenance* and none of the *mechanics*; **handoff taken, E4 escalated, operator chose forge-now** · `directions=0/0` (no fleet project carries a vendored patch stack, so no absence is `candidate`) · `gate=n/a` (no proposals pending) · `auto=1/0/1` `fp=0` · both `partial` rows had their promoting question executed (one promoted, one banked at 1/0/2) · **`selfcatch=3`** — (a) the director wrote a subject note with `Write` over an existing file and destroyed 102 lines of its history, caught in the same step and restored from `HEAD`, final diff 55 insertions and 1 replaced line; (b) the new technique shipped with a 3-level `_laws.md` link where siblings use 4, caught by `check-bundles` not by care; (c) the application shipped `status: verified`, which is not in the checker's allowed set. **The forge worker stalled at 600s after 5 of 6 files and was resumed with a narrow 3-item brief rather than restarted** — it then overrode the spec on 2 of 5 proposed techniques with evidence from both reconciliation trees, and added `least-invasive-carrier`, which the spec did not have and which is the subject's best idea. 1 sibling live at claim, reaped mid-run at the 45-minute heartbeat; **its own forge landed a golden path with zero techniques, so `check-bundles` is red on 16 problems in `index-free-random-access` — named, not fixed, and `index.json`/`catalog.json` are deliberately NOT regenerated or committed.** |
 | 2.5.0 | 2026-09-07 | `github:CortexReach/memory-lancedb-pro` @ `1a683cf5` (**vendor repository**, agent-memory plugin; 5,727 landing words against ~16,868 English in-tree markdown and **41,186 lines of TypeScript**) | 1 clone swept in yield-density order, with the **route table read before the README** per round 32's focus — `openclaw.plugin.json` (92KB) is this tree's route table and reading its config schema is what produced the governance-polarity measurement; 4 sweep workers, one per subsystem; **0 of 3 fetches**, as the class predicts | 13 | 3 | **1 technique + 2 amendments + 3 applications** (`agent-memory/self-trained-capture-filter`; `decay-and-forgetting` the-test-enters-through-the-door; `retrieval/relevance-floors` substitute-path-score-space) | **3 of 3** — `0c/2e/0s/0t` + 1 unapplied, personas both times | **0 — and the zero is the result** | **Focus moved twice and both items paid.** Round 32 item (1) — grep every `Next run's declared focus` block and take the highest round, not the file's last — **changed which focus applied** (the file's tail is round 27; the newest is 32) and is the first use of that rule. Item (2), the route table in the sweep order, produced the run's whole-system reading: the config schema is where the ingestion-on/governance-off polarity is legible, and the README would have said the opposite. **Ship 0 with its predicate: 2 seams found, 2 already correct.** Both amendments were tested against personas and personas was already right on both, so the corrections ran **backwards** — its `every_delete_door_records_the_owed_cleanup` supplied the door-test remedy, and its multiplicative `value * (1 + w * similarity)` blend replaced the amendment's weaker "emit no score" wording before commit. That is two landings changed by their own apply step. The third row is honestly `unapplied` with a **measured** absence: no fleet project carries a learned pre-filter, and personas' sleep-cycle gate is the stated-rule screen the technique's own closing section prescribes for stable noise. | `S/T/A/Asrc/task-lines` = **0/1/2/3/0**; routing count **max 1 `corpus: NONE` per system (retrieval 1, write-path 1, lifecycle 0, reflection 0) and max 1 sharing one HOME-IF-NEW — neither v2.2 clause fires, no handoff, no XL spec** (forge-shaped by size at 41k LOC and ~190 test files, intake-shaped by coverage: `agent-memory` already carries 18 techniques modelling most of this system's forces); `auto=3/0/0` `fp=0`; `directions=0/0` (both implicated subjects show personas *present* and already compliant, so every applicable change is coverage and none is a direction); **`selfcatch=3`** — (a) the run's first reading of the lifecycle came from the repo's own architecture document and was **wrong**, because that document is six months stale and its two sharpest lifecycle claims are both false against the code, one flatteringly; (b) the dead-governor instrument over-counted `getStaleMemories` at 2, and the rows opened to an interface declaration plus its implementation, so the worker's zero was right and the director's grep was not; (c) row 13, the 6→5 category projection, was extracted as a consumer-facing defect and is a **catch** — the semantic register is stamped in metadata and the read path checks it first. Two shell hazards hit, both already in memory and both caught by verification rather than by care: backticks substituted inside a double-quoted node argument emptied every code span in two subject notes (repaired from Write'd files), and the ledger append was verified by line count and tail read rather than by the command's exit. `check-bundles` red at Phase 9 on **1 sibling-owned file** (`data-layer/data-access/applications/node--capability-declared-in-the-type.md`, `verified_against: node@lts`), held by the live `unstorage` run — named, not fixed. 3 siblings live at claim, one (`gbrain`) holding `agent-memory`; the golden-path edit took the `content` lock and re-read inside it. |
 | 2.5.0 | 2026-09-06 | `flatnotes` | 1 (784 landing / **917 in-tree markdown**; vendor repository) | 8 | 2 | **2 techniques + 2 source-tree applications** | 2 rows: 1c/**1e**/0s/0t — 1:1 with landings | **2** (`pumper` `b086a30`, node lane 34/34, not pushed; + this registry's own map instrument) | **Focus applied, and it produced a rejection rather than a landing.** Round 27 item 1 — score the landing *shape* before the row — decided row 3: version-as-index-identity reads as a technique (G3, lands) and honestly *is* a boundary case of `mirror-indexes`' existing rebuild rule, so at its least-rewriting shape it is an amendment at G1 against a +2 threshold. Banked with anchors. The focus's value here was **stopping** a landing that a shape chosen after scoring would have justified. Item 3 also paid: the pumper checker was asserted against a known positive *and* cross-checked from another layer. | `0S/2T/0A/2Asrc/0 task-lines` · routing count **8 entries / 2 systems / 2 unhomed; per system max 1; two different existing homes, so no three share one HOME IF NEW — neither v2.2 clause fires** · handoff **declined by count, not by choice** · `directions=n/a` (no candidate absence: the design record's two unhomed entries both landed as techniques) · `auto=2/0/0`, `fp=0` · `selfcatch=1` (a fleet mode-flag grep returned 93–962 files per project; reading the matched rows cut it to one real seam — `readOnly` matches React props and DB transactions) · fetches **0/3**, twelfth consecutive zero · **doc surface the smallest recorded (917 words) and test count zero**, so both landings were read from code and one was verified by executing it |
 | 2.5.0 | 2026-09-06 | `aws-agent-exposure` | 1 (15,572 words; **vendor educational guide** — a class the reference does not name) | 24 | 2 | 2 amendments | 2 rows: **1c**/0e/0s + 1 unapplied — 1:1 with landings | **1** (`pof` `cb9cdbac`, vitest+tsgo+eslint green, not pushed) | **Focus applied and paid twice.** Round 30 asked for the *unstated premise* as a fifth Phase 6 move — a rule that is **inapplicable rather than false** — and both accepted rows are exactly that, from two different bundles. Neither survives any of the other four hunts: in both the corpus owns the mechanism and states it better than the source, and is wrong only about what it may assume. This is the first run where the declared focus, not the source, decided what landed. | `0S/0T/2A/0Asrc/0 task-lines` · routing count **n/a** (not a repository — the source *reports*, so no design read) · handoff n/a · `directions=n/a` · `generalised=no/—` (the 1 code row landed unweakened; the other is unapplied) · `auto=2/0/0`, `fp=0` · `selfcatch=1` (a 136-file population narrowed to 1 by reading the matched rows) · fetches `0/3`, eleventh consecutive zero |
@@ -2832,6 +2833,44 @@ good manners, because `1S` rounds will keep arriving now that the second routing
 count is live. **The check the next row should make:** did the run name what its
 new content is single-sourced on, before the librarian had to find out?
 
+
+---
+
+**Round 27 (`utopia`).** v2.5.0 · 2026-09-05 · `github:deeplethe/utopia` @ `75a44cbc`
+
+| stage | count |
+| --- | --- |
+| research | 1 source (vendor repository, cloned; 1,596 landing / **36,854** in-tree design prose, 1:23; 21 decision records + a pipeline document; read under a three-question operator focus) |
+| extract | 22 candidates (15 design across 5 systems + 7 claim/craft) |
+| test | 10 picks verified with the host file open (6 of them also against the source tree's tests), 7 catches |
+| apply | `1c/2e/1s/0t` - one `code` row (`ab-paired`, **better**), one registry-self experiment (**better**, 5/17 → 0/17), one experiment **unmeasurable** with the instrument named, one simulation over a fleet tree found by the seam search (**better** for the section it contributed) |
+| ship | 2 (personas branch `intake/utopia-pending-rejections`, `50bdbb5fc` merged as `41752ff97`, not pushed; the registry's own five proposal status lines, in this commit) |
+| admission | `auto=10/0/1`, `fp=0` |
+| depth | `0S/2T/3A/5Asrc+fleet/0 task-lines` · routing count **M 3 NONE, L 2 NONE, X 2 NONE - every system in an EXISTING home; no HOME IF NEW shared by three** · XL not fired · handoff **banked** (system X, out of focus; scoped deepen/reconcile on `llm-extracted-entity-graph`) · `directions=0/5` (candidates read, none admitted by forces) · `selfcatch=1` (the paired test's arm A) · fetches `0/3` |
+
+**What the row says.** The technique count (2) is below the design count that reached
+`NONE` (7) by choice: M's four entries share one mechanism and were written as one file with
+four sections; L's two folded. Said in the note so the depth cell is not read as a routing
+miss. The apply column is the strongest this skill has filed on a repository round: every
+landed technique or amendment has a row, two rows are `better` with the arm A inside the
+harness, and the seam search for the technique that looked unapplied found a second
+independent implementation in the fleet and pulled a section out of it - which is the
+single-source debt the round-27 focus asked to be *named* being *closed* instead.
+
+**Declared focus, answered in the note:** (1) the contested-home promotion read settled the
+home and not the row - it works for boundary cases and is not sufficient for a mechanism;
+(2) the falsifier map before the design record changed what got written; (3) single-source
+debt named on both techniques and closed on one.
+
+**Next run's declared focus (round 28).** (1) **Run the seam search for every technique
+before writing "unapplied"** - this round's second technique was one grep away from a
+fleet counterpart that improved it, and the first pass had already written the unapplied
+row. Make the grep mandatory and cheap: the technique's own `use_when` terms against every
+fleet checkout, before the applied ledger is touched. (2) **When a repository's decision
+count collapses into one technique, say the count in the depth cell** (`2T (7 NONE)`) so
+the librarian can read routing and landing apart. (3) **The registry-self experiment is
+reusable**: the proposal-status check is one loop and it found 5/17; wire it into the
+librarian sweep rather than re-deriving it per run.
 **Round 27 (`sofka`).** v2.5.0 · 2026-09-06 · `github:nklmilojevic/sofka` @ `fdb58c0d`
 
 | stage | count |
@@ -3153,6 +3192,49 @@ behind?
 
 ---
 
+**Round 28 (`codecompanion`).** v2.5.0 · 2026-09-05 · `github:olimorris/codecompanion.nvim` @ `f73f40e9`
+
+| stage | count |
+| --- | --- |
+| research | 1 source (practitioner build-walkthrough in repository form, cloned at a short path with the screenshot fixtures excluded; 973 landing / ~64,000 in-tree words; 4 subsystems swept under the operator's focus) |
+| extract | 15 candidates (11 design across 5 systems + 4 claim/craft) |
+| test | 4 picks verified with the host file open (elision, history-compaction, endpoint-sealed-continuation-metadata, unattended-mode), 7 catches, 4 untriaged with anchors; fetches 0/3 |
+| apply | `0c/1e/2s/0t` - one `experiment` row (`ab-paired`, **better**, 65 recorded turn pairs), two `simulation` rows (personas `unmeasurable` with the instrument named; kp **not-better**, which improved the amendment) |
+| ship | 0 project code commits - the `better` row's change is a few lines but its proof needs live turns, so it is filed with its measurable; 2 project ledger commits (personas `b0ead7cd7`, kp `40ffd8aa`), pathspec, not pushed |
+| admission | `auto=4/4/0`, `fp=0` |
+| depth | `0S/2T (2 NONE of 11)/2A/4Asrc+3 fleet/0 task-lines` · routing count **C 1 NONE, W 1 NONE, P/M/B 0 - both NONE homed in prompt-assembly; no system at three, no home-if-new shared by three** · XL not fired · no handoff · `directions=0/0` (prompt-assembly and agent-runtime-assembly have no absent project) · `gate=n/a` · self-contradiction in the source resolved by tier (code over doc) |
+
+**What the row says.** The operator's focus (chatbot/voicebot proficiency) did the
+routing this round: four subsystems read, the rest of a large plugin left unread on
+purpose, and the count says it was the right cut - 11 design entries, 9 of them
+catches or partials against a subject that already carries 21 techniques, and the
+two mechanisms it did not have (who holds the transcript; what enters the record for
+material that keeps changing) both landed. The apply column is the strongest
+evidence: the experiment did not need the source's tree at all, because a fleet
+project had built the witness (a per-block content hash) for its own reasons, and
+the replay over its ledger gave the technique its number (86% unchanged) and the
+project its next change with the measurable that decides it. The `not-better` row
+did what the method says it should: the amendment was written from the source, tested
+on a seam class the source never had (spoken utterances, no tool results), and came
+back with a precondition the source could not have supplied.
+
+**Declared focus, answered in the note:** (1) the seam search ran across ten
+checkouts before any row read "unapplied", found only usage accounting outside two
+projects, and the two amendments applied as a simulation on the nearest seam instead;
+(2) the depth cell carries the decision count beside the technique count;
+(3) not applicable to this source.
+
+**Next run's declared focus (round 29).** (1) **When the operator names a focus,
+write the unread half into the note as a count** (files, docs, subsystems not swept)
+so a later run over the same source knows what is still mining-grade there; this
+round said "the rest was left unread" without a number. (2) **A fleet project that
+already carries the technique's witness is the first seam to look for**, before the
+source's own tree: this round's only measured row came from an instrument personas had
+built for itself, and the search that found it was the applications directory of the
+subject, not the seam grep. Make that the first step of Phase 7.5's seam search.
+(3) **Say which reader a source's self-contradiction was resolved for.** Code over
+doc settled the technique; the doc's intent was the trade worth recording. A run that
+only records the winner loses the boundary.
 **Weakest stage, read across the last ten rows.** `extract -> test` is now the
 narrow point by a wide margin: 24 candidates in, 2 verified, and the eight rows
 above this one sit between a third and a sixth. That is not a defect on its own -
@@ -3551,6 +3633,99 @@ scorecard entry to say some version of "assert the instrument"; if a fourth run 
 it, it belongs in Phase 8 step 3 beside the paired-proof rules rather than in this
 paragraph.
 
+---
+
+**Round 38 (`camoufox`).** v2.7.0 · 2026-09-08 · `github:daijro/camoufox` @ `eb5dc3bc`
+
+*Numbering note: the two-machine merge of 2026-09-07 left this ledger carrying duplicate
+round numbers (two 26s, two 27s, two 28s) because both machines incremented independently
+from a shared base. The highest narrative block is 33 and the highest declared-focus block
+is 37; this run takes 38 and does not renumber anything. A later run should read the
+maximum across BOTH block kinds, not the file's tail.*
+
+| stage | count |
+| --- | --- |
+| research | 1 source (vendor repository, cloned; 4,227 landing / **20,012** in-tree markdown, 4.7:1) |
+| extract | 9 candidates |
+| test | 6 verified (1 accepted, 4 catches, 1 refuted-then-narrowed) |
+| apply | `0c/1e/0s/0t` — 1 of 1 owed, verdict **better** |
+| ship | 1 ledger commit in a consumer tree; **0 product changes** (unspent, not unrunnable) |
+| admission | `auto=1/0/1`, `fp=0` |
+| depth | `S1/T1(+5 forged)/A0/Asrc0/0` · routing **4 NONE / 1 system** · handoff **taken** · `selfcatch=3` |
+
+**The run's shape is four catches and one landing that the source did not contain.** This
+tree is a strong one — its `docs/` carry a dated post-mortem of four production deadlocks
+with commit anchors, and a lint whose header explains why review could not have caught any
+of them. All of it is already in the corpus, in two subjects, stated more generally. That
+is a **good** run for a mature corpus and the honest way to report it is as catches, not as
+four thin amendments.
+
+**The landing came from the enumeration hunt, not from the source.** `invariant-placement`
+publishes four altitudes and every one of them describes a check that *refuses*. A check
+that **repairs** has no violation signature, because it converts the invalid state into a
+valid one before anything downstream can see it. The source was the occasion; the corpus
+was the evidence.
+
+**The scoring changed the landing's shape for the second consecutive round, and this is now
+a pattern worth naming.** Both times the finding was real and the *first* shape chosen for
+it was a shared-spine rewrite that the arithmetic rejected (RISK +2), and both times a
+re-shaping that left every standing sentence true scored above threshold with the same
+content. The gate is not filtering findings; it is filtering *how much of the corpus a
+finding is allowed to invalidate on one source's evidence*. That is a different and better
+description of what the +2 threshold buys than "bias toward the recoverable error", and it
+should go in the method body on a third sighting.
+
+**The falsifying seam refuted the finding, and that is the fifth consecutive round.** The
+claim entering Phase 7.5 was "a fixture that pins the variable deciding whether a bug fires
+blinds the suite to it". The first seam — a *declared* cohort-size threshold — refuted it
+outright: that tree's fixtures deliberately straddle it, with in-source comments saying so
+and three different values across the suite. The rule the refutation produced is the
+technique's precondition: **a declared threshold advertises both of its sides.** A named
+config field with a documented meaning tells every fixture author that two behaviours
+exist; blindness requires a **derived** quantity, one the repair compares against but which
+appears nowhere in the code under test. Round 37 said a fourth sighting meant the method
+should carry seam-to-falsify as a rule rather than a focus item. This is the fifth, and the
+sixth consecutive one in which the seam returned something the run was not hunting.
+
+**The stage the funnel lost at is `ship`, and for the first time the reason is not the
+run's.** An arm existed, the fix is one character, and it was not shipped because the
+consumer tree carried another session's uncommitted work in unrelated files and the change
+belongs to that tree's owner. That is `unspent`, and round 37's focus item 2 exists so the
+cell can say so instead of reading like `unrunnable`.
+
+**Three self-catches, and all three were caught by an instrument rather than by care.** The
+subject note was written with a whole-file write over an existing file and lost 102 lines of
+history until `git diff` was read; the new technique shipped a 3-level `_laws.md` link where
+its siblings use 4; the application shipped a `status:` value outside the checker's allowed
+set. The first is the serious one and it is the same class as the ledger-append hazard the
+method already warns about — **a shared file read at one phase and written at another** —
+except the method states that rule for ledgers under a lock and says nothing about subject
+notes, which need no lock and are therefore written without a re-read. The rule generalises:
+*never write a file whole that you did not read in this session*, lock or no lock.
+
+**A sibling died mid-forge in the shared checkout and left the bundle red.** Its claim was
+reaped at the 45-minute heartbeat, its forge worker kept running and landed a golden path
+declaring five techniques with none of them on disk, and `check-bundles` now reports 16
+problems in a subject this run never touched. Handled per the method: named, not fixed, and
+**`index.json`/`catalog.json` were deliberately not regenerated or committed**, because a
+committed hash over somebody's half-written subject is the one state that is not
+self-correcting. This is the first round where the parallel-safety rules paid out against a
+*dead* sibling rather than a live one, and the reaping is what made it dangerous — the board
+said nobody held that ground.
+
+**Next run's declared focus (round 38).** Three.
+1. **Land seam-to-falsify in the method body.** Five sightings, and round 37 already said
+   four was the bar. Stop carrying it as a focus item. The clause to add is the one this
+   round supplies: *a seam that refutes the finding is not a failed apply — the refutation
+   is the technique's missing precondition, and it must be written into the technique before
+   the row is filed.*
+2. **Say whether the +2 threshold's real job is bounding blast radius.** Two consecutive
+   rounds where the score rejected a shared-spine rewrite and accepted the same content
+   re-shaped. If a third round does it, rewrite the Phase 5 rationale: the threshold does not
+   bias toward recoverable errors, it caps how much standing corpus one source may invalidate.
+3. **Extend the never-write-whole rule beyond ledgers.** The method protects shared appends
+   with a lock and a re-read, and subject notes need no lock — which is exactly why one was
+   overwritten this round. One sentence in Phase 9.
 | 2.7.0 | 2026-09-07 | `youtube:EdCUpP4_8y4` "I Built an Opening Cinematic for My Game Using AI (Full Process)", Building Aeon (**first-party practitioner account in build-walkthrough form**; operator brief `domain media-generation`; 1,080 words, real subtitle track, container checked) | 1 source, read whole; class and expected yield (LOW) said before the table. **0 of 3 fetches - sixteenth consecutive corpus-internal run**; corroboration was code read in a connected tree plus training-data convergence | 12 | 4 scored (2 accepted, 1 lead, 1 promoting read that did not promote), **0 declined**, 7 already covered | **2 amendments + 1 new application + 1 extended application**, in two subjects of one bundle | **2 rows of 2 owed: 0c/1e/1s/0t** | **1** (gravity `577524b`, ledger `5a8550e`) | **Focus (round 36) on all three points.** (1) Subjects claimed by the address `research-map` printed and the pre-write check compared the same strings - clear, but 0 siblings were live for the whole run, so the item passed trivially and still has not been *tested*; it needs a run with live siblings. (2) **The caught-arm pre-check was written before arm one and it is why the confirmation counts**: had the near-still clip measured at the frozen floor, the finding would have inverted into a boundary on the directive rather than on the judge. It measured 0.210 against 0.000, the judge had called it "frozen", and the instrument's blindness became the landing's second half. Fifth consecutive round of seam-to-falsify; v2.7 already carries it as a step. (3) No fetch needed, so the young-release rule did not apply - stated rather than skipped. Round 35's premise hunt fired again: the larger landing is an enumeration whose members all silently share a premise (every rung makes a generation). **Both landings are amendments and that is the right shape for this source**: a mechanism boundary (rung zero) and a channel boundary (the zero-beat performer), each appended with every standing sentence true; a video is not a system and no subject was implied. **The strongest fact came from the connected tree's own recorded cycles, not from the source** - the harness that tests the corpus's motion rules had penalised a clip that quoted one of them, and the recorded webm files were a paired experiment already run, waiting for a ruler. Ship 1 of 2 with the reason for the zero stated: the rung-zero field cannot be added before the renderer that would read it | `subjects=0 / techniques=0 / amendments=2 / apps-vs-source=0 (2 fleet apps: 1 new, 1 extended) / task-lines=0`; routing count n/a (video); no handoff; `auto=2/1/0` `fp=0`; `directions=n/a` |
 | 2.7.0 | 2026-09-07 | `github:debpalash/VoiceStudio` @`9790d289` - a fully-local voice studio over ~15 swappable TTS/ASR engines (**repository**, single-owner, vendor/first-party boundary) | 1 source, cloned and swept in yield order (admission contract, standing rules, 405 test files, ADRs, longform specs); README read last. **The ratio is the class finding: 3,383 words on the landing page against 341,468 in-tree** - a hundred to one, the largest single spec five times the whole README. **0 of 3 fetches - seventeenth consecutive corpus-internal run**; corroboration was code read in the source tree and in ours | 12 | 1 scored and accepted, **0 declined**, 4 already covered, 6 untriaged with anchors, 1 lead | **1 amendment**, to `quality-gates/gate-liveness` | **1 of 1 owed: 1c/0e/0s/0t** | **2**, both into this registry's own tooling (`run-board.mjs`, `check-skills.mjs`) | **Focus (round 37) on both points.** (1) Read the connected tree's recorded state before the source - applied in the form the domain allowed: this is not media-generation and has no cycle archive, so the analogue was aiming the falsifying seam at *our own checkers* rather than at the source's, and that is what produced the apply row. (2) **The board-address item, open two rounds for want of a live sibling, finally executed - and it failed.** `run-board`'s `touches` compared raw tokens while `norm`'s docstring claimed a fold it never implemented, so Phase 4's slug claims and Phase 7's path checks have never met: three of four realistic pairs reported `clear`, including the documented workflow. Every collision check against a held subject has been a false all-clear for the life of the board. Fixed, paired 1/4 -> 4/4, self-asserting on every invocation. **The item is now closed, and it closed red** | `subjects=0 / techniques=0 / amendments=1 / apps-vs-source=0 / task-lines=0`; **routing count 1-2 (per system), no handoff** - the mechanical XL trigger would have fired on three clauses of one admission bar and been wrong; `auto=1/0/0` `fp=0`; `directions=n/a` |
 

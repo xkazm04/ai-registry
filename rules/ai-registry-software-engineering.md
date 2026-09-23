@@ -1,6 +1,6 @@
 # Software engineering - the subjects this registry carries
 
-`software-engineering` - 229 subjects, 1764 techniques, 1110 applications.
+`software-engineering` - 232 subjects, 1788 techniques, 1129 applications.
 Slugs only; resolve one through `index.json` as the access rule beside this file describes.
 
 ### ui-surfaces
@@ -15,14 +15,14 @@ Slugs only; resolve one through `index.json` as the access rule beside this file
 
 ### llm-agent
 - **companion** - companion-identity, companion-runtime, conversation-orchestration
-- **evaluation-and-cost** - cost-metering, eval-harness, judgment-guardbands, time-travel-replay, tracing
+- **evaluation-and-cost** - cost-metering, eval-harness, judgment-guardbands, model-call-outcome-integrity, time-travel-replay, tracing
 - **orchestration** - agent-chaining, durable-agent-operations, fleet-orchestration, hitl-approval, model-routing, plan-review, proactive-nudges, remediation-handoff, session-continuation, tenant-scoped-agent-runtime
 - **prompt-and-context** - agent-instruction-files, agent-memory, context-hierarchy, llm-extracted-entity-graph, prompt-assembly, prompt-safety, retrieval, structured-output, tool-result-economy
 - **runtime-and-io** - agent-addressable-ui, agent-browser-control, agent-cli-transport, agent-runtime-assembly, mcp-tools, sidecar-provisioning, streaming-output, subprocess-lifecycle, terminal-multiplexing, voice-io
 
 ### backend-platform
 - **data-layer** - bounded-enumeration, data-access, embedded-db, migrations, read-serving-replicas, sync-replication, transactions-over-a-replicated-log
-- **data-pipeline-semantics** - deferred-operation-fusion, deterministic-prefix-caching, keyed-sample-transforms, reversible-transform-pipelines, self-describing-data-envelopes
+- **data-pipeline-semantics** - deferred-operation-fusion, deterministic-prefix-caching, index-free-random-access, keyed-sample-transforms, reversible-transform-pipelines, self-describing-data-envelopes
 - **inference-serving** - cross-instance-cache-lease, paged-block-cache, persistent-batch-mutation, serving-process-topology
 - **language-runtime** - embedded-tracing-collector, engine-binding-surface, engine-host-contract, engine-string-representation, guest-execution-bounding, guest-language-introspection, native-guest-interop, object-shape-representation, register-bytecode-execution, standards-layered-runtime
 - **model-workflow-contracts** - accumulate-then-aggregate-metrics, declarative-object-graph-configs, federated-client-contracts, generated-workflow-candidates, self-describing-model-packages, windowed-inference-over-oversized-inputs, workflow-property-contracts
@@ -49,7 +49,7 @@ Slugs only; resolve one through `index.json` as the access rule beside this file
 - **external-systems** - cicd-monitoring, connector-catalog, templates-scaffolding
 
 ### engineering-process
-- **build-and-release** - build-economics, codegen, packaging, release-pipeline, test-harness, test-input-generation
+- **build-and-release** - build-economics, codegen, packaging, release-pipeline, test-harness, test-input-generation, vendored-patch-stack
 - **codebase-stewardship** - codebase-scanning, concurrent-vcs, dead-code, dependency-declaration, docs-sync, machine-authored-documentation, module-design, repository-landing-document
 - **continuous-integration** - ci-execution-trust, deployment-contract, machine-paced-delivery, pipeline-authoring, runner-fleet
 - **standards-and-gates** - invariant-placement, knowledge-registry, metric-gates, multi-project, quality-gates, repo-manifest-standard

@@ -40,3 +40,19 @@ Hint fate (from [[2026-08-22-2]] and the application's own close): **confirmed**
 ## 2026-09-03 - `/intake` lightrag (run `intake-lightrag-0902`, intake 2.2.0, Opus workers)
 
 New technique `migrate-from-data-shape`: when half the backends have no atomic home for a version marker, the migration decides from the shape of the data it finds; `schema-drift-detection` is the two-authority problem and presumes a replayable step chain with a recorded version - this is the zero-marker answer, where the convergence test and the boot assertion transpose and the integrity sweeps carry over.
+
+## Intake 2026-09-05 (`intake-utopia-0905`, source `github:deeplethe/utopia`)
+
+**Two golden-path amendments, both boundary cases:** § "Two roads" gained the merge as
+a third road (a version-indexed runner plus a file-level merge: two branches each add
+step 25, both green, the merged chain never ran; refuse duplicate numbers explicitly and
+run the chain on a fresh store in the pipeline, twice). § "The drift class nobody's
+compiler catches" gained the nullable column as a second member (`<>` against null
+selects nothing and raises nothing; inner joins become silent filters; a nullability
+migration is a query audit with a database-backed test on the mostly-null paths).
+
+**Applied to personas as an experiment, unmeasurable:** its migrations are Rust modules
+in one registry list, so a duplicate is a compile error and the merge boundary does not
+apply; the 22 `<>`/`!=` comparisons found are against keys and NOT NULL columns as far
+as this run could read without the schema in hand. Instrument that would measure: a
+schema-aware audit of each comparison column's nullability.

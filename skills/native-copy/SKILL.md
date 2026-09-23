@@ -3,7 +3,7 @@ name: native-copy
 description: "Write, check and review native-quality ENGLISH web copy where it lives: i18n JSON catalogs, TS dictionary modules, hardcoded JSX text, MDX. Records the product's declared English (US/UK spelling, dash system, quotes, case per element) in a copy contract counted against the real strings, gates changed copy with a zero-dependency checker whose every finding cites a registry EN-* rule ID (baseline ratchet, coverage printed), runs an anchored checklist review for judgment rules, and drafts page copy from a brief and fact sheet. Use when English UI or landing copy is written, reviewed, wired into pre-push, or reads non-native, translated or generated. Boundary: i18n-translate turns the source catalog into OTHER locales and treats it as truth; native-copy owns the English source copy itself. Invoke /native-copy <init|check|review|write|wire> [scope]."
 category: workflow
 memory: project
-version: 1.3.1
+version: 1.4.0
 tags: english, copy, microcopy, lint, gate, review
 argument-hint: "<init|check|review|write|wire> [--changed | scope | page]"
 ---
@@ -281,12 +281,43 @@ ARGUMENTS: `<mode> [scope]` - e.g. `init`, `check --changed`, `review landing.he
 
 ---
 
-<!-- clause: skill-reflection v4 - stamped by scripts/apply-skill-clauses.mjs from docs/skill-clauses/skill-reflection.md; edit the template, then re-stamp -->
+<!-- clause: skill-reflection v5 - stamped by scripts/apply-skill-clauses.mjs from docs/skill-clauses/skill-reflection.md; edit the template, then re-stamp -->
 ## Skill Reflection
 
 After the work, record only useful observations supported by this run. No lesson is
 a valid result. Reflection inherits the task's authorization; it grants no additional
 permission to edit another repository, send data, commit, or publish.
+
+**Run log.** Unlike a lesson, this is written on every run that started work - failed and
+aborted runs included; skip read-only info modes and runs cancelled before any work. Append
+ONE line to `.ai/skill-runs.local.jsonl` at the root of the checkout you worked in: local,
+gitignored run output inside the task's own repository, never a write into the registry.
+The registry pulls it later (`/librarian skills` on the same machine). When a registry
+checkout is reachable (`registry.local` in `.ai/manifest.yaml`), prefer its writer, which
+stamps project, device and version for you:
+
+```sh
+node <registry>/scripts/log-run.mjs --skill native-copy --outcome <o> --difficulty <1-5> \
+  --provider <claude|openai|xai|qwen|google|other> --model <your model id> [--effort <level>] \
+  [--tokens-est <n>] --result "<one sentence>" --comment "<self-reflection>"
+```
+
+Otherwise write the line yourself: `{"ts":"<ISO, UTC Z>","skill":"native-copy","outcome":…,
+"difficulty":…,"provider":…,"model":…,"effort":…|null,"tokensEst":…|null,"result":…,"comment":…}`.
+
+- `outcome`: `shipped` (the goal landed) / `partial` / `no-op` (ran correctly, nothing to
+  do) / `parked` (designed or staged, deliberately not landed) / `failed` / `aborted`.
+- `difficulty` rates the task as this run met it: 1 trivial - mechanical; 2 routine - the
+  method as written; 3 demanding - real judgment calls or one detour; 4 hard - dead ends,
+  rework or an operator course-correction; 5 at the edge - partial or failed on the merits.
+- `model`/`effort` as your harness states them (`null` effort when you cannot see it).
+  `tokensEst` is the drop in the harness's remaining-token counter since this skill was
+  invoked, or `null`; exact figures are measured later from transcripts - never guess one.
+- `result` is one line (max 240 chars). `comment` (max 2000) is the self-reflection a
+  reviewer reads: what worked, what the method made harder, where its instructions were
+  wrong, missing or ignored. No filesystem paths or email addresses.
+- Never read run logs during a run. They are evidence ABOUT this skill for its reviewer;
+  an executor that reads its own diagnosis contaminates the next measurement.
 
 **Project learning.** Only when this run produced an observation that would change how a
 future run behaves. A run that went as the method describes writes nothing: an entry that

@@ -49,9 +49,18 @@ fleet-*.proposals.json
 # skill that runs on this repo. Not content; and the checkout hosts concurrent sessions.
 .perfect/
 
+# Lane skills the registry itself runs, LINKED into .claude/skills (never copied - see
+# docs/skills-lane.md "Distribution, part 1"). The link is machine state; recreate with
+# a symlink/junction from .claude/skills/<name> to skills/<name>.
+/.claude/skills/spark
+
 # Personas handoff state. `.personas/registry.yaml` is the committed declaration; the outbox
 # is a queue the app DELETES on ingest, so a committed copy is a replay of work already taken.
 .personas/memory-outbox.jsonl
+
+# The skill run log's local half (docs/runs-lane.md): skills append here, runs-backfill
+# drains it into usage/runs/<device>.jsonl. Local run output, never committed.
+/.ai/skill-runs.local.jsonl
 
 # /spark run memory: an Obsidian-openable vault of idea notes and session records for a
 # skill that runs on this repo. Regenerable working memory, not registry content - the

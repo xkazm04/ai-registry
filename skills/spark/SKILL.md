@@ -5,7 +5,7 @@ memory: vault
 category: workflow
 description: Turn a vague product idea (a "sparkle") into a complete, grounded design through waves of select/multi-select questions - then orchestrate the build. Targets exactly which contexts/files the idea touches, scouts them before asking anything, converges the design across four perspectives (functional, UX, UI, performance/architecture), and executes via builder subagents in a worktree under Director review. Runs live in a memory vault (a linked Obsidian folder, or <repo>/.spark/ with the same schema); every run ends with a self-improvement retro that sharpens the skill itself. Per-repo specifics - vault path, gates, context map, host rituals, repo law - come from the overlay at .claude/spark/config.md, and the loop runs on defaults without it. Invoke with `/spark <idea...>` or `/spark resume <slug> | status | reflect`.
 argument-hint: "<idea...> | resume <slug> | status | reflect"
-version: 1.5.0
+version: 1.7.0
 model: fable
 ---
 
@@ -95,7 +95,8 @@ waves_used: <n>   questions_asked: <n>
    **Promote recurring lessons before anything else.** Read the overlay's `## Skill improvement log`. A lesson that appears in two entries, or whose trap this repo has hit again, moves now into `## Gates` (a check to run, and when) or `## Repo law` (a constraint to obey). Those are the only overlay sections a builder brief carries: a lesson that lives only in the log never reaches the builder who repeats it.
 2. Parse invocation: new idea text → new slug; `resume <slug>` → jump to the phase its `status` names; `status` → render the ledger table and stop; `reflect` → Phase 6 only.
 3. Host rituals: run the overlay's Phase-0 `## Rituals` entries (typically a live-sessions ledger check + register — one bash invocation, since such a ledger is unsafe to edit-then-commit across concurrent sessions). Always run `git status` regardless: repos host parallel sessions, and foreign WIP is never swept into your commits. Scan the harness's auto-memory for veto signals.
-4. Record the spark verbatim in `ideas/<slug>.md` (`status: sparked`).
+4. **Fetch before you look at anything.** `git fetch` and report, in one line, how far the base is from its remote (`git rev-list --count <base>..origin/<base>`) and whether the checkout's gates are green *before* this spark touched them. Both are inherited state that will otherwise be discovered as your defect: a repo developed on two machines can be hundreds of commits behind, and a red gate on arrival is attributed to the builders who found it. If the base is behind, say which of the two you are designing against — the local base or the remote's — and prefer the remote's.
+5. Record the spark verbatim in `ideas/<slug>.md` (`status: sparked`).
 
 ### Phase 1 — Target (evidence, not vibes)
 1. Read the overlay's `context_map`. **If the repo has no context map**, target from the repo's **top-level source directories** plus the scout's own findings, and say plainly in `## Targeting` that the partition is provisional — a wrong target is then a scout finding, not a silent miss.
@@ -105,6 +106,8 @@ waves_used: <n>   questions_asked: <n>
 
 ### Phase 2 — Scout before asking
 Launch one Explore scout per primary context (parallel, "very thorough"): what exists, what the idea overlaps/duplicates, reusable primitives (check the repo's shared-component catalog when the overlay's `## Repo law` names one), data model touchpoints, perf-relevant volumes, `file:line` evidence. Digest into `## Scout digest` (`status: scouted`). **When the target is a new or empty repo** (an extraction, a greenfield package), scout the repos the idea is extracted from or must integrate with, under the same evidence rules, and say so in `## Targeting`. **If scouts cannot be launched** (pool exhausted, tool unavailable), the Director scouts directly under the same evidence rules and says so in `## Scout digest` — never skip scouting, never retry a refused launch.
+
+**Scout the remote's version of the target paths, not just the checkout's.** When Phase 0 found the base behind its remote, run `git log HEAD..origin/<base> -- <the target contexts' paths>` before the scouts report. A non-empty result means the thing you are about to design against has already been redesigned elsewhere: read those commits and treat what they changed as a wave-1 constraint. One command here replaces re-cutting a built, gate-green design after the sync.
 
 **Read the governing registry subject BEFORE the waves, not after.** Resolve the target contexts' subjects through `.ai/registry-map.json` and read the golden path plus the techniques whose `use_when` matches the idea. A standard read here becomes a wave-1 constraint or a named deviation; read afterwards it is only a review comment. (The weekly-digest spark found that a documented whole-fleet period delta inverts at a 7-day window only because the time-windows subject was open before Q1.)
 
@@ -160,6 +163,8 @@ Write `## Design brief` in the idea note:
 - **The absent-value convention is stated once** in `### Data & API` (omit the key, `null`, or `0`, and why), so two packages coding the same missing value do not drift.
 - **A number a sibling package computes is derived from the contract or labelled "illustrative, not arithmetic".** A fixture figure that contradicts the formula is resolved three different ways by three builders.
 
+**Compute the landing overlap before the gate, not at merge.** Intersect the brief's file list with the landing checkout's `git status --short` (and, for a fan-out that re-stamps or regenerates shared files, say so plainly: a clause re-stamp, a codegen pass and a regenerated index each touch files no work package names). A non-empty intersection means the merge is already blocked by someone else's uncommitted work, so the gate question names the landing path with the build — land later, open a PR, or have the operator commit first. "Build now" must not silently mean "build now, block at merge".
+
 Gate with one AskUserQuestion: **Build now / Adjust (say what) / Park it** (`status: designed`). "Adjust" loops one targeted wave, not a restart. "Park" is a first-class success — a designed-but-parked idea is a shippable asset in the vault.
 
 ### Phase 5 — Fire (execution)
@@ -210,12 +215,43 @@ This skill proposes and executes backlog items. Every item it proposes is judged
 **Send back what a LANDED fix taught.** When a change you made and verified generalizes past this repo - a rule that would transplant to an unrelated team, a case where a technique's rule broke against real code, or a place this repo does it BETTER than the golden path - append one line to `.ai/registry-leads.jsonl`: `{"ts":"<ISO>","bundle":"<domain>","nearest":"<subject-slug or null>","kind":"technique|application|subject","claim":"<when X, do Y, because Z - one sentence>","because":"<what this run measured or broke and fixed>","confidence":"low|medium|high","from":"spark@<version>"}`. Earned only: it came from code you changed, not from a fix you proposed. A lead ORIGINATES a finding and never authorizes one - nothing here edits a bundle; the registry's `leads-collect.mjs` -> `librarian/inbox.md` -> `/intake` decides what survives. Say in the report that you filed one, and say plainly when you filed none. Verdicts on a pair's state belong to `/conform`: close by naming the contexts you touched so it can re-judge them.
 <!-- /clause: knowledge-sync -->
 
-<!-- clause: skill-reflection v4 - stamped by scripts/apply-skill-clauses.mjs from docs/skill-clauses/skill-reflection.md; edit the template, then re-stamp -->
+<!-- clause: skill-reflection v5 - stamped by scripts/apply-skill-clauses.mjs from docs/skill-clauses/skill-reflection.md; edit the template, then re-stamp -->
 ## Skill Reflection
 
 After the work, record only useful observations supported by this run. No lesson is
 a valid result. Reflection inherits the task's authorization; it grants no additional
 permission to edit another repository, send data, commit, or publish.
+
+**Run log.** Unlike a lesson, this is written on every run that started work - failed and
+aborted runs included; skip read-only info modes and runs cancelled before any work. Append
+ONE line to `.ai/skill-runs.local.jsonl` at the root of the checkout you worked in: local,
+gitignored run output inside the task's own repository, never a write into the registry.
+The registry pulls it later (`/librarian skills` on the same machine). When a registry
+checkout is reachable (`registry.local` in `.ai/manifest.yaml`), prefer its writer, which
+stamps project, device and version for you:
+
+```sh
+node <registry>/scripts/log-run.mjs --skill spark --outcome <o> --difficulty <1-5> \
+  --provider <claude|openai|xai|qwen|google|other> --model <your model id> [--effort <level>] \
+  [--tokens-est <n>] --result "<one sentence>" --comment "<self-reflection>"
+```
+
+Otherwise write the line yourself: `{"ts":"<ISO, UTC Z>","skill":"spark","outcome":…,
+"difficulty":…,"provider":…,"model":…,"effort":…|null,"tokensEst":…|null,"result":…,"comment":…}`.
+
+- `outcome`: `shipped` (the goal landed) / `partial` / `no-op` (ran correctly, nothing to
+  do) / `parked` (designed or staged, deliberately not landed) / `failed` / `aborted`.
+- `difficulty` rates the task as this run met it: 1 trivial - mechanical; 2 routine - the
+  method as written; 3 demanding - real judgment calls or one detour; 4 hard - dead ends,
+  rework or an operator course-correction; 5 at the edge - partial or failed on the merits.
+- `model`/`effort` as your harness states them (`null` effort when you cannot see it).
+  `tokensEst` is the drop in the harness's remaining-token counter since this skill was
+  invoked, or `null`; exact figures are measured later from transcripts - never guess one.
+- `result` is one line (max 240 chars). `comment` (max 2000) is the self-reflection a
+  reviewer reads: what worked, what the method made harder, where its instructions were
+  wrong, missing or ignored. No filesystem paths or email addresses.
+- Never read run logs during a run. They are evidence ABOUT this skill for its reviewer;
+  an executor that reads its own diagnosis contaminates the next measurement.
 
 **Project learning.** Only when this run produced an observation that would change how a
 future run behaves. A run that went as the method describes writes nothing: an entry that

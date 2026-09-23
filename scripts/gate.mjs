@@ -36,6 +36,9 @@ const CHECK_BUNDLES = step('check-bundles.mjs');
 const INDEX = step('build-index.mjs', { check: ['--check'], write: [] });
 const KNOWLEDGE_RULES = step('build-knowledge-rules.mjs', { check: ['--check'], write: [] });
 const CHECK_USAGE = step('check-usage.mjs');
+// The skill run log under usage/runs/ (contract: scripts/lib/runs.mjs). Same job as
+// check-usage in knowledge.yml, run right after it.
+const CHECK_RUNS = step('check-runs.mjs');
 const CHECK_SIGNALS = step('check-signals.mjs');
 // Asks whether "current" means the same thing here as on the machine that wrote the
 // catalog, so it runs immediately BEFORE the catalog check, exactly as knowledge.yml
@@ -74,7 +77,7 @@ const LANES = {
   // failed its shape check describes a tree nobody has. recipes/ is NOT one of
   // build-catalog's five hashed lanes, so this row correctly stops before the tail.
   recipes: [CHECK_RECIPES, RECIPE_VIEWS, RECIPES_INDEX],
-  usage: [CHECK_USAGE, ...CATALOG_TAIL],
+  usage: [CHECK_USAGE, CHECK_RUNS, ...CATALOG_TAIL],
   signals: [CHECK_SIGNALS],
   practices: [SIMPLE_LANES, ...CATALOG_TAIL],
   memory: [SIMPLE_LANES, ...CATALOG_TAIL],
@@ -90,7 +93,7 @@ const ALL = [
   CHECK_SKILLS, CLAUSES, MARKETPLACE,
   CHECK_BUNDLES, INDEX, KNOWLEDGE_RULES, REVIEW_COVERAGE, COVERAGE_AGE,
   CHECK_RECIPES, RECIPE_VIEWS, RECIPES_INDEX, SIMPLE_LANES,
-  CHECK_USAGE, CHECK_SIGNALS,
+  CHECK_USAGE, CHECK_RUNS, CHECK_SIGNALS,
   PROJECTS, EXIT_CONTRACT, WEIGHTS, TOOL_TESTS,
   HASH_STABILITY, CATALOG,
 ];

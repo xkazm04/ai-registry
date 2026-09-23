@@ -3,9 +3,9 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
-  "subjects": 229,
-  "techniques": 1764,
-  "applications": 1110,
+  "subjects": 232,
+  "techniques": 1788,
+  "applications": 1129,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1764/1764",
+  "use_when_coverage": "1788/1788",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -1827,9 +1827,9 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/agent-memory.md",
-   "digest": "sha256:9e67ed589b1ef6a3",
-   "revision": 40,
-   "changedAt": "2026-09-18",
+   "digest": "sha256:5aa34a882ba84ee1",
+   "revision": 41,
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "addresses-before-compression",
@@ -2099,6 +2099,25 @@
       "the same person talks to the agent through several channels or bots",
       "a memory about one counterpart surfaces in a conversation with another",
       "migrating a store keyed by the runtime that wrote it"
+     ]
+    },
+    {
+     "slug": "pending-beliefs-live-apart",
+     "status": "forged",
+     "laws": [
+      "silent-state-is-ungoverned",
+      "one-validation-door",
+      "deletion-is-not-repair",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing the store for beliefs an agent proposed and nobody has confirmed",
+      "a forgotten filter could recall an unconfirmed item as settled",
+      "deciding what a review card must show beside an extracted claim",
+      "a rejected proposal comes back on the next pass",
+      "an assistant replies before its extraction has run",
+      "several agents write memory under one person's identity"
      ]
     },
     {
@@ -2427,6 +2446,13 @@
     },
     {
      "stack": "rust",
+     "technique": "pending-beliefs-live-apart",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/rust--pending-beliefs-live-apart.md",
+     "verified_on": "2026-09-05",
+     "verified_against": "rust@1.85"
+    },
+    {
+     "stack": "rust",
      "technique": "probe-without-write-back",
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/rust--probe-without-write-back.md",
      "verified_on": "2026-08-31",
@@ -2459,9 +2485,9 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-runtime-assembly/agent-runtime-assembly.md",
-   "digest": "sha256:570653d59e0d247b",
-   "revision": 21,
-   "changedAt": "2026-09-21",
+   "digest": "sha256:e2f38e9d0dea752a",
+   "revision": 22,
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "activation-is-a-separate-mutation",
@@ -2734,6 +2760,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "neovim",
+     "technique": "indeterminate-closure-on-interruption",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-runtime-assembly/applications/neovim--indeterminate-closure-on-interruption.md",
+     "verified_on": "2026-09-05",
+     "verified_against": "neovim@0.11.0"
+    },
     {
      "stack": "next",
      "technique": "additive-input-at-the-call-boundary",
@@ -3373,9 +3406,9 @@
    "subcategory": "governance-and-records",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/governance-and-records/audit-logging/audit-logging.md",
-   "digest": "sha256:f7ce3d08d3dbd8f2",
-   "revision": 8,
-   "changedAt": "2026-09-03",
+   "digest": "sha256:a4f6149a3b0705d5",
+   "revision": 9,
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "append-only-design",
@@ -3432,6 +3465,23 @@
       "recording that a human accepted or declined a finding",
       "letting users dismiss recomputed items",
       "keeping judgments alive across regeneration"
+     ]
+    },
+    {
+     "slug": "record-axis-predicate",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "unknown-is-not-a-value",
+      "silent-state-is-ungoverned"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a ledger keeps two clocks but every read hard-codes now",
+      "adding an as-of parameter to reads over a two-clock store",
+      "a rewind must reach every table a read joins",
+      "deciding which write paths may ignore the record clock",
+      "a state that was rewritten in place has no record-clock column of its own"
      ]
     },
     {
@@ -3524,6 +3574,13 @@
      "verified_against": "go@1.27"
     },
     {
+     "stack": "next",
+     "technique": "record-axis-predicate",
+     "file": "knowledge/software-engineering/operations/governance-and-records/audit-logging/applications/next--record-axis-predicate.md",
+     "verified_on": "2026-09-05",
+     "verified_against": "next@16.3.1"
+    },
+    {
      "stack": "node",
      "technique": "best-effort-with-accounting",
      "file": "knowledge/software-engineering/operations/governance-and-records/audit-logging/applications/node--best-effort-with-accounting.md",
@@ -3541,6 +3598,13 @@
      "technique": "tamper-evidence",
      "file": "knowledge/software-engineering/operations/governance-and-records/audit-logging/applications/node--tamper-evidence.md",
      "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "rust",
+     "technique": "record-axis-predicate",
+     "file": "knowledge/software-engineering/operations/governance-and-records/audit-logging/applications/rust--record-axis-predicate.md",
+     "verified_on": "2026-09-05",
+     "verified_against": "rust@1.85"
     },
     {
      "stack": "rust",
@@ -5928,9 +5992,9 @@
    "subcategory": "build-and-release",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/build-and-release/codegen/codegen.md",
-   "digest": "sha256:ff17f1aab6e10418",
-   "revision": 5,
-   "changedAt": "2026-09-03",
+   "digest": "sha256:e69d756a575b31ce",
+   "revision": 6,
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "commit-vs-derive-policy",
@@ -5972,7 +6036,9 @@
      "use_when": [
       "deciding what a generated file's header must say",
       "formatter keeps reflowing regenerated output",
-      "regenerated output differs between runs"
+      "regenerated output differs between runs",
+      "a few generated artifacts need hand-written prose the generator keeps overwriting",
+      "maintaining a list of files the generator must skip"
      ]
     },
     {
@@ -6048,6 +6114,13 @@
      "technique": "drift-gating",
      "file": "knowledge/software-engineering/engineering-process/build-and-release/codegen/applications/node--drift-gating.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "node",
+     "technique": "generated-file-hygiene",
+     "file": "knowledge/software-engineering/engineering-process/build-and-release/codegen/applications/node--generated-file-hygiene.md",
+     "verified_on": "2026-09-07",
+     "verified_against": "node@22"
     },
     {
      "stack": "node",
@@ -13107,9 +13180,9 @@
    "subcategory": "resilience",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/resilience/error-handling/error-handling.md",
-   "digest": "sha256:7d61cb18c9c8439d",
-   "revision": 14,
-   "changedAt": "2026-09-04",
+   "digest": "sha256:bff8a6f2a4c150ac",
+   "revision": 15,
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "cancellation-attribution",
@@ -13314,6 +13387,13 @@
      "file": "knowledge/software-engineering/backend-platform/resilience/error-handling/applications/rust--reclassification-is-not-repair.md",
      "verified_on": "2026-08-31",
      "verified_against": "rust@1.96.1"
+    },
+    {
+     "stack": "rust",
+     "technique": "structured-propagation",
+     "file": "knowledge/software-engineering/backend-platform/resilience/error-handling/applications/rust--structured-propagation.md",
+     "verified_on": "2026-09-05",
+     "verified_against": "rust@1.85"
     },
     {
      "stack": "rust",
@@ -16476,14 +16556,136 @@
     }
    ]
   },
+  "index-free-random-access": {
+   "category": "backend-platform",
+   "subcategory": "data-pipeline-semantics",
+   "status": "forged",
+   "file": "knowledge/software-engineering/backend-platform/data-pipeline-semantics/index-free-random-access/index-free-random-access.md",
+   "digest": "sha256:89644138393711ee",
+   "revision": 1,
+   "changedAt": "2026-09-23",
+   "techniques": [
+    {
+     "slug": "conservation-sweep-over-a-partition-parameter",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "absent-guard-is-loud"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "testing a component whose correct output cannot be written down",
+      "verifying that a partitioner drops or duplicates nothing",
+      "a heuristic covered only by fixtures asserting whatever it produced once",
+      "choosing what to assert about an approximate algorithm"
+     ]
+    },
+    {
+     "slug": "framing-recovery-by-hypothesis-rejection",
+     "status": "forged",
+     "laws": [
+      "unknown-is-not-a-value",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "finding the next record boundary after an arbitrary byte offset",
+      "a format that escapes its own separators in band",
+      "deciding whether a jump landed inside a quoted field"
+     ]
+    },
+    {
+     "slug": "reversible-encoding-buys-tail-recovery",
+     "status": "forged",
+     "laws": [
+      "record-precedes-effect",
+      "limits-are-derived"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing an escape scheme for a record format",
+      "reading the last records of a large artifact without scanning it",
+      "resuming a long job that already wrote part of its output",
+      "deciding whether progress needs a checkpoint file of its own"
+     ]
+    },
+    {
+     "slug": "segment-then-parallelize",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "limits-are-derived"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "parallelising work over one large artifact rather than over many",
+      "a worker pool reading one file is no faster than one thread",
+      "choosing a thread count for record processing",
+      "output rows arrive in an order callers did not expect"
+     ]
+    },
+    {
+     "slug": "sorted-data-as-a-read-only-index",
+     "status": "forged",
+     "laws": [
+      "silent-state-is-ungoverned",
+      "limits-are-derived"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "looking up a record by a key the artifact is already ordered on",
+      "deciding whether a lookup justifies building an index",
+      "a search structure that must be rebuilt every time the data changes",
+      "bisecting a stream that can only be positioned approximately"
+     ]
+    },
+    {
+     "slug": "structure-derived-read-budget",
+     "status": "forged",
+     "laws": [
+      "limits-are-derived",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "bounding a speculative parse whose wrong branch has no natural end",
+      "choosing what a head sample must record",
+      "a lookahead constant written as a literal"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "rust",
+     "technique": "conservation-sweep-over-a-partition-parameter",
+     "file": "knowledge/software-engineering/backend-platform/data-pipeline-semantics/index-free-random-access/applications/rust--conservation-sweep-over-a-partition-parameter.md",
+     "verified_on": "2026-09-07",
+     "verified_against": "rust@1.85"
+    },
+    {
+     "stack": "rust",
+     "technique": "framing-recovery-by-hypothesis-rejection",
+     "file": "knowledge/software-engineering/backend-platform/data-pipeline-semantics/index-free-random-access/applications/rust--framing-recovery-by-hypothesis-rejection.md",
+     "verified_on": "2026-09-07",
+     "verified_against": "rust@1.85"
+    },
+    {
+     "stack": "rust",
+     "technique": "segment-then-parallelize",
+     "file": "knowledge/software-engineering/backend-platform/data-pipeline-semantics/index-free-random-access/applications/rust--segment-then-parallelize.md",
+     "verified_on": "2026-09-07",
+     "verified_against": "rust@1.85"
+    }
+   ]
+  },
   "invariant-placement": {
    "category": "engineering-process",
    "subcategory": "standards-and-gates",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/invariant-placement/invariant-placement.md",
-   "digest": "sha256:993670bb930d5af9",
-   "revision": 7,
-   "changedAt": "2026-09-17",
+   "digest": "sha256:f09d82b2b9bd2d4c",
+   "revision": 8,
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "build-time-evaluation-of-cross-value-invariants",
@@ -16649,6 +16851,23 @@
      ]
     },
     {
+     "slug": "repairing-check-erases-its-evidence",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "count-carries-predicate",
+      "absent-guard-is-loud"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a guard repairs a value instead of refusing it",
+      "deciding what a test may assert about a clamped or saturating output",
+      "a defensive clamp has never fired and nobody can prove it",
+      "an assertion is written over the range a value is coerced into",
+      "choosing between refusing and coercing at the call-site altitude"
+     ]
+    },
+    {
      "slug": "shape-with-a-not-applicable-member",
      "status": "forged",
      "laws": [
@@ -16692,6 +16911,13 @@
      "technique": "paired-sites-localize-the-fault",
      "file": "knowledge/software-engineering/engineering-process/standards-and-gates/invariant-placement/applications/rust--paired-sites-localize-the-fault.md",
      "verified_on": "2026-09-17",
+     "verified_against": "rust@1.96.1"
+    },
+    {
+     "stack": "rust",
+     "technique": "repairing-check-erases-its-evidence",
+     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/invariant-placement/applications/rust--repairing-check-erases-its-evidence.md",
+     "verified_on": "2026-09-07",
      "verified_against": "rust@1.96.1"
     },
     {
@@ -19869,9 +20095,9 @@
    "subcategory": "data-layer",
    "status": "reconciled",
    "file": "knowledge/software-engineering/backend-platform/data-layer/migrations/migrations.md",
-   "digest": "sha256:236c5264a1e85d15",
-   "revision": 9,
-   "changedAt": "2026-09-03",
+   "digest": "sha256:3285e1d8524603bd",
+   "revision": 10,
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "data-migrations",
@@ -20137,6 +20363,153 @@
      "technique": "stack-ownership",
      "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/modal-stack/applications/react--stack-ownership.md",
      "verified_on": "2026-08-18"
+    }
+   ]
+  },
+  "model-call-outcome-integrity": {
+   "category": "llm-agent",
+   "subcategory": "evaluation-and-cost",
+   "status": "forged",
+   "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/model-call-outcome-integrity/model-call-outcome-integrity.md",
+   "digest": "sha256:c9eeeaa8fa7c9944",
+   "revision": 1,
+   "changedAt": "2026-09-23",
+   "techniques": [
+    {
+     "slug": "credential-posture-at-the-call-door",
+     "status": "forged",
+     "laws": [
+      "absent-guard-is-loud",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a flat-rate seat and a metered account can both serve the same call",
+      "spawning a child process that may inherit credentials",
+      "an outcome must record which billing relationship paid",
+      "redaction lists and environment lists have drifted apart"
+     ]
+    },
+    {
+     "slug": "declared-call-site-identity",
+     "status": "forged",
+     "laws": [
+      "identity-survives-reuse",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "outcomes cannot be grouped by what the call was for",
+      "deciding what identifier a call carries into telemetry",
+      "a new call path shipped and nobody noticed it spending",
+      "telling a use case that went quiet from one that was never instrumented"
+     ]
+    },
+    {
+     "slug": "elimination-reasons-are-a-closed-vocabulary",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "silent-state-is-ungoverned"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "no candidate engine was eligible and the caller must be told why",
+      "a fallback fired and the answer will be published as though it had not",
+      "an operator is fixing the wrong cause of an unavailability",
+      "deciding what a degrade must carry with it"
+     ]
+    },
+    {
+     "slug": "enforcement-demotion-on-translation-loss",
+     "status": "forged",
+     "laws": [
+      "one-validation-door",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a structured-output contract is translated into a vendor's own constraint dialect",
+      "deciding whether to trust that a vendor enforced what was sent",
+      "documentation claims enforcement the adapters do not perform",
+      "choosing what to validate after a constrained generation"
+     ]
+    },
+    {
+     "slug": "one-deadline-across-attempts",
+     "status": "forged",
+     "laws": [
+      "limits-are-derived",
+      "record-precedes-effect"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a retry ladder sits inside a caller that has its own deadline",
+      "a supervising process can kill the seam mid-call",
+      "deciding whether a stated retry delay may be shortened",
+      "a remote window ends calls the local timeout never sees"
+     ]
+    },
+    {
+     "slug": "spend-precedes-the-error",
+     "status": "forged",
+     "laws": [
+      "record-precedes-effect",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a call consumed budget and then failed",
+      "deciding the order of the ledger write and the error raise",
+      "a budget ceiling can be defeated by failing",
+      "reconciling metered spend against a vendor invoice"
+     ]
+    },
+    {
+     "slug": "the-measurement-runs-the-served-configuration",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a benchmark and production disagree about which settings were used",
+      "choosing a model from a comparison whose harness was configured separately",
+      "a measurement is about to be published as a fact about a vendor",
+      "deciding what a result row must disclose"
+     ]
+    },
+    {
+     "slug": "unattempted-is-not-failed",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a model returns nothing and the seam must decide what that means",
+      "output is present but ends mid-structure",
+      "a model scores badly and the configuration has not been ruled out",
+      "choosing what a completion ceiling does to a reported outcome"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "next",
+     "technique": "elimination-reasons-are-a-closed-vocabulary",
+     "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/model-call-outcome-integrity/applications/next--elimination-reasons-are-a-closed-vocabulary.md",
+     "verified_on": "2026-09-05",
+     "verified_against": "next@16.3.3"
+    },
+    {
+     "stack": "rust",
+     "technique": "spend-precedes-the-error",
+     "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/model-call-outcome-integrity/applications/rust--spend-precedes-the-error.md",
+     "verified_on": "2026-09-05",
+     "verified_against": "rust@1.96.1"
     }
    ]
   },
@@ -24136,9 +24509,9 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/prompt-assembly.md",
-   "digest": "sha256:d09e57cdf6e2d34e",
-   "revision": 34,
-   "changedAt": "2026-09-21",
+   "digest": "sha256:23dde2144f1e50ad",
+   "revision": 35,
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "amortized-compaction-cadence",
@@ -24244,6 +24617,24 @@
       "each section fits its cap but the total still overflows",
       "deciding whether heavy material rides every call",
       "deciding whether shrinking a standing layer repays the authoring cost"
+     ]
+    },
+    {
+     "slug": "context-ownership-regimes",
+     "status": "forged",
+     "laws": [
+      "limits-are-derived",
+      "silent-state-is-ungoverned",
+      "derivation-names-recomputation"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a provider offers context editing or compaction on its side beside the client's own",
+      "a stateful agent protocol holds the conversation and the client sends only new messages",
+      "a transcript was edited or compacted twice in one turn",
+      "deciding which client-side context operations still run when the window is managed elsewhere",
+      "a client rewrite would orphan an opaque continuation block the provider returned",
+      "the same threshold has to be expressed to two different owners"
      ]
     },
     {
@@ -24431,6 +24822,24 @@
      ]
     },
     {
+     "slug": "live-attachment-delta-resharing",
+     "status": "forged",
+     "laws": [
+      "derivation-names-recomputation",
+      "identity-survives-reuse",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an attached file or buffer changes under a conversation that already saw it",
+      "deciding whether to re-send an attachment the model was shown earlier",
+      "a composed block is re-rendered every turn although its content is unchanged",
+      "the model is handed a fresh copy and has to work out what moved",
+      "an attachment is deleted or closed mid-conversation",
+      "a cached prefix is invalidated by material that did not change"
+     ]
+    },
+    {
      "slug": "recovery-path-as-loss-signal",
      "status": "forged",
      "laws": [
@@ -24551,6 +24960,27 @@
      "verified_against": "claude-code@2.1"
     },
     {
+     "stack": "neovim",
+     "technique": "context-ownership-regimes",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/applications/neovim--context-ownership-regimes.md",
+     "verified_on": "2026-09-05",
+     "verified_against": "neovim@0.11.0"
+    },
+    {
+     "stack": "neovim",
+     "technique": "history-compaction",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/applications/neovim--history-compaction.md",
+     "verified_on": "2026-09-05",
+     "verified_against": "neovim@0.11.0"
+    },
+    {
+     "stack": "neovim",
+     "technique": "live-attachment-delta-resharing",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/applications/neovim--live-attachment-delta-resharing.md",
+     "verified_on": "2026-09-05",
+     "verified_against": "neovim@0.11.0"
+    },
+    {
      "stack": "node",
      "technique": "compaction-horizon-breakeven",
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/applications/node--compaction-horizon-breakeven.md",
@@ -24577,6 +25007,13 @@
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/applications/node--foreign-harness-history-folding.md",
      "verified_on": "2026-09-15",
      "verified_against": "node@22"
+    },
+    {
+     "stack": "node",
+     "technique": "history-compaction",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/applications/node--history-compaction.md",
+     "verified_on": "2026-09-05",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
@@ -24636,6 +25073,13 @@
     },
     {
      "stack": "rust",
+     "technique": "context-ownership-regimes",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/applications/rust--context-ownership-regimes.md",
+     "verified_on": "2026-09-05",
+     "verified_against": "rust@1.96.1"
+    },
+    {
+     "stack": "rust",
      "technique": "elision-to-a-refetch-pointer",
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/applications/rust--elision-to-a-refetch-pointer.md",
      "verified_on": "2026-09-04",
@@ -24653,6 +25097,13 @@
      "technique": "layered-composition",
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/applications/rust--layered-composition.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "rust",
+     "technique": "live-attachment-delta-resharing",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/applications/rust--live-attachment-delta-resharing.md",
+     "verified_on": "2026-09-05",
+     "verified_against": "rust@1.96.1"
     },
     {
      "stack": "rust",
@@ -25107,9 +25558,9 @@
    "subcategory": "standards-and-gates",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/quality-gates.md",
-   "digest": "sha256:c2e9c61dc65c96a9",
-   "revision": 45,
-   "changedAt": "2026-09-20",
+   "digest": "sha256:d7deee105a13022b",
+   "revision": 46,
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "advancement-evidence-fields",
@@ -25720,6 +26171,13 @@
      "technique": "false-positive-economics",
      "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/applications/rust--false-positive-economics.md",
      "verified_on": "2026-08-31"
+    },
+    {
+     "stack": "rust",
+     "technique": "gate-liveness",
+     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/applications/rust--gate-liveness.md",
+     "verified_on": "2026-09-05",
+     "verified_against": "rust@1.85"
     }
    ]
   },
@@ -35277,6 +35735,94 @@
     }
    ]
   },
+  "vendored-patch-stack": {
+   "category": "engineering-process",
+   "subcategory": "build-and-release",
+   "status": "forged",
+   "file": "knowledge/software-engineering/engineering-process/build-and-release/vendored-patch-stack/vendored-patch-stack.md",
+   "digest": "sha256:9103690a148b10ab",
+   "revision": 1,
+   "changedAt": "2026-09-23",
+   "techniques": [
+    {
+     "slug": "collapse-patch-axes-that-share-hunks",
+     "status": "forged",
+     "laws": [
+      "identity-survives-reuse",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing how to split a patch set into files",
+      "a rejected hunk cannot be attributed to one local change",
+      "patches in the set conflict with each other and not only with upstream",
+      "a patch set has grouped changes by feature and bumps keep getting worse"
+     ]
+    },
+    {
+     "slug": "least-invasive-carrier",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "absent-guard-is-loud"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding how a local change should be carried against a third-party tree",
+      "an upstream bump is producing more conflicts every release",
+      "someone proposes replacing an upstream source file with a modified copy",
+      "a local override stopped taking effect and nothing reported it"
+     ]
+    },
+    {
+     "slug": "one-reset-authority",
+     "status": "forged",
+     "laws": [
+      "creation-names-reaper",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a vendored upstream tree is also a version-control checkout",
+      "deciding what a clean build of a patched third-party tree means",
+      "a build failed in a way that only re-extracting the upstream tree fixed",
+      "a maintainer wiped a vendored tree and lost work or an expensive download"
+     ]
+    },
+    {
+     "slug": "patch-set-authority",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "derivation-names-recomputation",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether the patched tree or the patch files are the source of truth",
+      "a regenerated patch turned out to be missing part of the change",
+      "someone hand-edited a diff to make it apply",
+      "an upstream bump found the tree and the patch set describing different divergence"
+     ]
+    },
+    {
+     "slug": "reject-triage-is-a-port-not-a-merge",
+     "status": "forged",
+     "laws": [
+      "verdict-survives-boundary",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an upstream bump left hunks that no longer apply",
+      "deciding what to do with a rejected patch fragment",
+      "a patch reported as applied landed somewhere unintended",
+      "triaging an upstream bump where the code a patch targeted has been refactored away"
+     ]
+    }
+   ],
+   "applications": []
+  },
   "versioning-snapshots": {
    "category": "operations",
    "subcategory": "governance-and-records",
@@ -36826,6 +37372,7 @@
     "migrations/pre-migration-snapshots",
     "migrations/schema-drift-detection",
     "migrations/transactional-ddl",
+    "model-call-outcome-integrity/the-measurement-runs-the-served-configuration",
     "model-routing/admission-is-not-a-tier",
     "model-routing/effort-calibration",
     "model-routing/failover-path-liveness",
@@ -37045,6 +37592,9 @@
     "usage-analytics/activation-and-funnel-honesty",
     "usage-analytics/coverage-from-registries",
     "usage-event-ingestion/ingestion-contract-parity",
+    "vendored-patch-stack/least-invasive-carrier",
+    "vendored-patch-stack/patch-set-authority",
+    "vendored-patch-stack/reject-triage-is-a-port-not-a-merge",
     "versioning-snapshots/promotion-lifecycle",
     "versioning-snapshots/snapshot-scope",
     "voice-io/duplex-agent-sessions",
@@ -37318,10 +37868,12 @@
     "import-normalization/format-detection",
     "import-normalization/import-validation",
     "import-normalization/lossy-conversion-disclosure",
+    "index-free-random-access/framing-recovery-by-hypothesis-rejection",
     "invariant-placement/constraint-deletion-is-silent",
     "invariant-placement/indistinguishable-members-do-not-rise",
     "invariant-placement/occurrence-is-not-a-type",
     "invariant-placement/paired-sites-localize-the-fault",
+    "invariant-placement/repairing-check-erases-its-evidence",
     "invariant-placement/shape-with-a-not-applicable-member",
     "ipc-contract/call-wrapping",
     "ipc-contract/command-registration",
@@ -37381,6 +37933,8 @@
     "migrations/idempotent-steps",
     "migrations/migrate-from-data-shape",
     "migrations/transactional-ddl",
+    "model-call-outcome-integrity/spend-precedes-the-error",
+    "model-call-outcome-integrity/unattempted-is-not-failed",
     "model-routing/admission-is-not-a-tier",
     "model-routing/capability-floors",
     "model-routing/failover-horizon",
@@ -37680,6 +38234,7 @@
     "agent-memory/decay-and-forgetting",
     "agent-memory/durable-store-failure-posture",
     "agent-memory/memory-governance",
+    "agent-memory/pending-beliefs-live-apart",
     "agent-memory/read-set-bounded-links",
     "agent-memory/rejected-revision-leaves-its-evidence",
     "audit-logging/append-only-design",
@@ -37819,6 +38374,7 @@
     "async-ui-states/windowing-vs-identifying-keys",
     "audit-logging/audit-querying",
     "audit-logging/best-effort-with-accounting",
+    "audit-logging/record-axis-predicate",
     "audit-logging/retention-and-partitioning",
     "audit-logging/two-clock-records",
     "authorization/authorization-audit",
@@ -37979,7 +38535,11 @@
     "i18n/encoding-corruption-ratchet",
     "import-normalization/adapter-capability-tables",
     "import-normalization/lossy-conversion-disclosure",
+    "index-free-random-access/conservation-sweep-over-a-partition-parameter",
+    "index-free-random-access/segment-then-parallelize",
+    "index-free-random-access/structure-derived-read-budget",
     "invariant-placement/occurrence-is-not-a-type",
+    "invariant-placement/repairing-check-erases-its-evidence",
     "ipc-contract/casing-and-naming",
     "job-coordination/job-observability",
     "job-coordination/no-wall-clock-in-the-advance-contract",
@@ -38033,6 +38593,7 @@
     "migrations/pre-migration-snapshots",
     "migrations/schema-drift-detection",
     "modal-stack/destructive-confirmation",
+    "model-call-outcome-integrity/the-measurement-runs-the-served-configuration",
     "model-routing/cache-continuity",
     "model-routing/candidate-ranking",
     "model-routing/effort-calibration",
@@ -38258,6 +38819,7 @@
     "agent-memory/gap-directed-elicitation",
     "agent-memory/lane-reconciliation",
     "agent-memory/loss-site-inventory",
+    "agent-memory/pending-beliefs-live-apart",
     "agent-memory/probe-without-write-back",
     "agent-memory/self-trained-capture-filter",
     "agent-runtime-assembly/additive-input-at-the-call-boundary",
@@ -38267,6 +38829,7 @@
     "agent-runtime-assembly/nested-run-is-not-its-parent",
     "agent-runtime-assembly/session-scoped-capability",
     "agent-runtime-assembly/substituted-result-attribution",
+    "audit-logging/record-axis-predicate",
     "audit-logging/two-clock-records",
     "authorization/ceiling-before-consent",
     "authorization/delegated-authority",
@@ -38340,6 +38903,7 @@
     "generated-workflow-candidates/two-tier-data-statistics",
     "hitl-approval/oracle-before-gate",
     "import-normalization/overlay-merge-absence-semantics",
+    "index-free-random-access/framing-recovery-by-hypothesis-rejection",
     "invariant-placement/completeness-at-emission",
     "invariant-placement/initialization-proof-tokens",
     "invariant-placement/shape-with-a-not-applicable-member",
@@ -38370,6 +38934,9 @@
     "migrations/error-propagation",
     "migrations/expand-deploy-contract",
     "migrations/migrate-from-data-shape",
+    "model-call-outcome-integrity/declared-call-site-identity",
+    "model-call-outcome-integrity/enforcement-demotion-on-translation-loss",
+    "model-call-outcome-integrity/unattempted-is-not-failed",
     "model-routing/quality-axis-separation",
     "modelled-performance-estimates/refuse-rather-than-emit-a-sentinel",
     "multi-provider-gateway-plane/caller-scoped-normalization-strictness",
@@ -38399,6 +38966,7 @@
     "prompt-assembly/endpoint-sealed-continuation-metadata",
     "prompt-assembly/fold-only-acknowledged-evidence",
     "prompt-assembly/foreign-harness-history-folding",
+    "prompt-assembly/live-attachment-delta-resharing",
     "prompt-assembly/recovery-path-as-loss-signal",
     "prompt-safety/inspection-coverage-is-a-verdict",
     "quality-gates/advancement-evidence-fields",
@@ -38487,6 +39055,7 @@
     "agent-cli-transport/subscription-auth-selection",
     "agent-memory/consolidation",
     "agent-memory/memory-governance",
+    "agent-memory/pending-beliefs-live-apart",
     "agent-memory/procedure-promotion",
     "agent-memory/rejected-revision-leaves-its-evidence",
     "agent-memory/rollup-compaction",
@@ -38607,6 +39176,7 @@
     "mcp-tools/write-freshness-gate",
     "metric-forecasting/projection-presentability-gates",
     "modal-stack/stack-ownership",
+    "model-call-outcome-integrity/enforcement-demotion-on-translation-loss",
     "model-routing/routing-policy",
     "module-design/borrowed-surface",
     "module-design/concurrency-at-the-edge",
@@ -38874,6 +39444,7 @@
     "metric-forecasting/pace-against-a-deadline",
     "migrations/data-migrations",
     "modal-stack/stack-ownership",
+    "model-call-outcome-integrity/declared-call-site-identity",
     "model-routing/model-identity",
     "motion/continuity-across-change",
     "motion/one-shot-guarding",
@@ -38912,6 +39483,7 @@
     "prompt-assembly/foreign-harness-history-folding",
     "prompt-assembly/history-compaction",
     "prompt-assembly/house-vocabulary-layer",
+    "prompt-assembly/live-attachment-delta-resharing",
     "prompt-assembly/tiered-history-projection",
     "quorum-and-recovery-procedures/nonce-progress-verify",
     "rate-limiting/unattributable-client-bucketing",
@@ -38994,6 +39566,7 @@
     "usage-aggregation-semantics/replayed-state-machine-count",
     "usage-analytics/event-taxonomy",
     "usage-event-ingestion/dedupe-key-survives-soft-delete",
+    "vendored-patch-stack/collapse-patch-axes-that-share-hunks",
     "versioning-snapshots/lineage-and-variants",
     "versioning-snapshots/version-identity",
     "voice-io/authored-voice-identity",
@@ -39284,6 +39857,7 @@
     "untrusted-extension-host/declared-schema-extension-storage",
     "untrusted-extension-host/per-callback-failure-policy",
     "usage-analytics/batching-and-quota",
+    "vendored-patch-stack/one-reset-authority",
     "versioning-snapshots/retention-and-pruning",
     "voice-io/stt-pipeline",
     "voice-io/transcript-handoff-receipts",
@@ -39537,6 +40111,8 @@
     "migrations/dynamic-table-set-migrations",
     "migrations/schema-drift-detection",
     "modal-stack/layering-and-precedence",
+    "model-call-outcome-integrity/credential-posture-at-the-call-door",
+    "model-call-outcome-integrity/elimination-reasons-are-a-closed-vocabulary",
     "model-routing/failover-horizon",
     "model-routing/model-identity",
     "model-routing/turn-classification",
@@ -39702,6 +40278,9 @@
     "usage-event-ingestion/running-total-or-increment",
     "usage-pricing-models/grouping-key-reruns-the-ladder",
     "usage-pricing-models/inferred-tier-boundary-convention",
+    "vendored-patch-stack/collapse-patch-axes-that-share-hunks",
+    "vendored-patch-stack/one-reset-authority",
+    "vendored-patch-stack/patch-set-authority",
     "versioning-snapshots/promotion-lifecycle",
     "versioning-snapshots/version-identity",
     "voice-io/duplex-agent-sessions",
@@ -39887,8 +40466,10 @@
     "prompt-assembly/amortized-compaction-cadence",
     "prompt-assembly/cache-breakpoint-allocation",
     "prompt-assembly/compaction-horizon-breakeven",
+    "prompt-assembly/context-ownership-regimes",
     "prompt-assembly/elision-to-a-refetch-pointer",
     "prompt-assembly/fingerprinting-and-cache-keys",
+    "prompt-assembly/live-attachment-delta-resharing",
     "prompt-assembly/speculative-compaction-splice",
     "prompt-assembly/summary-evidence-gate",
     "prompt-assembly/tiered-history-projection",
@@ -39971,6 +40552,7 @@
     "usage-event-ingestion/late-event-subscription-resolution",
     "usage-pricing-models/exact-money-with-one-rounding-boundary",
     "usage-pricing-models/inferred-tier-boundary-convention",
+    "vendored-patch-stack/patch-set-authority",
     "voice-io/authored-voice-identity",
     "voice-io/render-acceptance",
     "voice-io/tts-pipeline",
@@ -40084,6 +40666,7 @@
     "untrusted-extension-host/per-callback-failure-policy",
     "usage-event-ingestion/late-event-subscription-resolution",
     "usage-pricing-models/advance-billing-refuses-retroactive-models",
+    "vendored-patch-stack/reject-triage-is-a-port-not-a-merge",
     "voice-io/decode-time-vocabulary-biasing",
     "voice-io/portable-provider-package",
     "voice-io/speech-ready-text",
@@ -40118,12 +40701,17 @@
     "guest-execution-bounding/budget-tier-from-observed-output",
     "guest-execution-bounding/cost-budget-cooperative-yield",
     "guest-execution-bounding/nested-liveness-ceilings",
+    "index-free-random-access/reversible-encoding-buys-tail-recovery",
+    "index-free-random-access/segment-then-parallelize",
+    "index-free-random-access/sorted-data-as-a-read-only-index",
+    "index-free-random-access/structure-derived-read-budget",
     "invariant-placement/build-time-evaluation-of-cross-value-invariants",
     "mcp-tools/catalog-projection-modes",
     "media-playback/committed-buffer-steering",
     "media-playback/generated-supply-margin",
     "media-playback/self-conditioned-supply",
     "metric-gates/deterministic-proxy-gate",
+    "model-call-outcome-integrity/one-deadline-across-attempts",
     "modelled-performance-estimates/one-ratio-then-a-capability-cap",
     "narrative-scroll-surface/scroll-bound-progression",
     "native-guest-interop/aligned-native-data-cell",
@@ -40133,6 +40721,7 @@
     "paged-block-cache/one-page-size-bought-with-padding",
     "paged-block-cache/release-order-is-the-eviction-policy",
     "prompt-assembly/compaction-horizon-breakeven",
+    "prompt-assembly/context-ownership-regimes",
     "prompt-assembly/elision-to-a-refetch-pointer",
     "prompt-assembly/response-reservation-sizing",
     "register-bytecode-execution/instruction-format-follows-program-lifetime",
@@ -40240,6 +40829,7 @@
     "guest-language-introspection/flag-gated-debug-global",
     "hitl-approval/truncated-verdict-space",
     "import-normalization/durable-intermediate-representation",
+    "index-free-random-access/conservation-sweep-over-a-partition-parameter",
     "invariant-placement/consumption-bounds-at-most-once",
     "invariant-placement/derived-properties-cannot-be-forged",
     "invariant-placement/indistinguishable-members-do-not-rise",
@@ -40247,6 +40837,7 @@
     "invariant-placement/occurrence-is-not-a-type",
     "invariant-placement/paired-sites-localize-the-fault",
     "invariant-placement/placement-precedes-gate",
+    "invariant-placement/repairing-check-erases-its-evidence",
     "issuance-policy-ladder/require-one-constraint",
     "issuance-policy-ladder/verbatim-is-a-separate-privilege",
     "keyed-sample-transforms/missing-key-policy",
@@ -40265,6 +40856,7 @@
     "mcp-tools/tool-identity-vs-tool-name",
     "mcp-tools/transport-selection",
     "metric-surface-contract/fault-localizing-metric-set",
+    "model-call-outcome-integrity/credential-posture-at-the-call-door",
     "model-routing/failover-path-liveness",
     "module-design/borrowed-surface",
     "multi-provider-gateway-plane/caller-scoped-normalization-strictness",
@@ -40338,6 +40930,7 @@
     "untrusted-extension-host/safe-mode-registration",
     "untrusted-extension-host/two-tier-extension-format",
     "usage-pricing-models/advance-billing-refuses-retroactive-models",
+    "vendored-patch-stack/least-invasive-carrier",
     "voice-io/render-acceptance",
     "voice-io/unattended-caller-attribution",
     "watch-cache-and-resync/completeness-barrier-with-a-warm-queue",
@@ -40354,7 +40947,9 @@
     "agent-instruction-files/rewrite-behavior-pinning",
     "agent-memory/diagnosis-withheld-from-the-executor",
     "agent-memory/owner-and-counterpart-scope",
+    "agent-memory/pending-beliefs-live-apart",
     "agent-runtime-assembly/activation-is-a-separate-mutation",
+    "audit-logging/record-axis-predicate",
     "concurrency-guards/race-catalog-with-two-histories",
     "context-hierarchy/digest-gated-upward-refresh",
     "decentralized-artifact-distribution/signal-that-only-subtracts",
@@ -40371,9 +40966,11 @@
     "fleet-orchestration/parallel-dispatch",
     "fleet-orchestration/worker-trajectory-anatomy",
     "hitl-approval/fixed-policy-amendable-plan",
+    "index-free-random-access/sorted-data-as-a-read-only-index",
     "job-coordination/in-flight-is-a-position",
     "llm-extracted-entity-graph/recall-passes-with-a-declared-cap",
     "machine-authored-documentation/preregistered-kill-criterion",
+    "model-call-outcome-integrity/elimination-reasons-are-a-closed-vocabulary",
     "module-design/state-carrier-decides-the-lane",
     "persistent-batch-mutation/declared-skippability-at-batch-granularity",
     "plan-review/decision-sized-slicing",
@@ -40381,6 +40978,7 @@
     "plan-review/objection-before-artifacts",
     "plan-review/silent-decision-surfacing",
     "prompt-assembly/compression-hardens-deferred-decisions",
+    "prompt-assembly/context-ownership-regimes",
     "prompt-assembly/deferred-interface-invalidation",
     "prompt-assembly/task-envelope",
     "quality-gates/prose-rule-drift",
@@ -40413,10 +41011,13 @@
     "execution-state-checkpointing/the-record-outlives-the-rewind",
     "fleet-orchestration/evidence-outranks-a-liveness-claim",
     "guest-execution-bounding/bounded-shadow-backtrace",
+    "index-free-random-access/reversible-encoding-buys-tail-recovery",
     "job-coordination/in-flight-is-a-position",
     "job-coordination/no-unrestorable-state-at-a-suspension-point",
     "job-coordination/terms-travel-permission-does-not",
     "mcp-tools/sealed-continuation-state",
+    "model-call-outcome-integrity/one-deadline-across-attempts",
+    "model-call-outcome-integrity/spend-precedes-the-error",
     "prompt-assembly/fold-only-acknowledged-evidence",
     "prompt-assembly/speculative-compaction-splice",
     "self-healing/consume-once-mode-handoff",

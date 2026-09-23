@@ -81,6 +81,7 @@
     },
     "athena-everywhere": {
       "checkouts": {
+        "Fox": "dolla/athena-everywhere",
         "Wolf": "kiro/athena-everywhere"
       }
     }

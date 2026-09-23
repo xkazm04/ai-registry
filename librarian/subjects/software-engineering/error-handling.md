@@ -288,3 +288,14 @@ One technique, from [[../../sources/2026-09-04-cargo-make-rust-craft]].
   code 3 was carrying three incompatible meanings with no declaration anywhere;
   codes 0/1/2 had held across ~30 scripts and broke at the first code a later
   script added.
+
+## Intake 2026-09-05 (`intake-utopia-0905`, source `github:deeplethe/utopia`)
+
+**Application `rust--structured-propagation`:** a `Terminal` marker type attached as
+context by the handler that recognises a permanent failure, found by the queue with
+`chain().any(|e| e.is::<Terminal>())` because layers above keep wrapping. A catch on
+"category-specific data travels in the value" and "wrap, never replace", at a boundary
+the technique's prose does not name: the deciding layer (the queue, in the store crate)
+sits *below* the layer that knows the category (the LLM crate) in the dependency graph,
+so a typed enum is unreachable and a marker in the shared core crate is the only shape.
+One bit only; the fault-line axis and retry-after are not carried.

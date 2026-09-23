@@ -18,6 +18,10 @@
 // DERIVED: contributors each own one file, this sums them, and hand-editing the count in
 // catalog.json is overwritten on the next build. That is the point — many writers into one
 // shared field is the failure the per-contributor files exist to prevent.
+//
+// And each skill's run-log fields (`runs30d`, `outcomes30d`, `difficulty30d`,
+// `tokensMedian30d`, `tokensBasis30d`) from `usage/runs/`, folded by the same function
+// scripts/runs-report.mjs uses (lib/runs-aggregate.mjs) - one fold, two readers.
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -25,6 +29,7 @@ import { hashBundle, sameIgnoringNewlines } from './lib/bundle-hash.mjs';
 import { walkSubjects } from './lib/taxonomy.mjs';
 import { readLane, contentDigest } from './lib/skills-lane.mjs';
 import {loadIdentities,resolveIdentity} from './lib/telemetry.mjs';
+import { loadLane as loadRunsLane, aggregateRuns, catalogFields } from './lib/runs-aggregate.mjs';
 
 const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 const KNOWLEDGE = path.join(ROOT, 'knowledge');
@@ -180,6 +185,22 @@ if (fs.existsSync(USAGE)) {
   }
 }
 
+// -- run-log aggregation (usage/runs/, docs/runs-lane.md) ---------------------
+// Folded by the SAME function runs-report.mjs uses, so the catalog and the librarian's
+// report cannot disagree about a skill. Grouped by skill name across versions: the catalog
+// entry is per skill, and a version bump must not zero a skill's recent history.
+//
+// The 30-day window ends at the NEWEST row in the lane, not at the wall clock. `--check`
+// must be a pure function of the tree: anchored to "now", a committed catalog would go
+// stale on its own as rows aged out, and CI would fail on a day nothing changed. The
+// price is that a lane nobody writes to keeps showing its last 30 days of activity - a
+// reader who needs "as of today" runs runs-report.mjs, which counts back from now.
+const runsLane = loadRunsLane(ROOT);
+const runsNewest = runsLane.rows.reduce((m, r) => { const t = Date.parse(r?.ts); return Number.isNaN(t) ? m : Math.max(m, t); }, -Infinity);
+const runStats = runsNewest === -Infinity
+  ? {}
+  : aggregateRuns(runsLane.rows, runsLane.exact, { by: 'skill', resolveSkill: runsLane.resolveSkill, sinceMs: runsNewest - 30 * 86400000, untilMs: runsNewest });
+
 const catalog = JSON.parse(fs.readFileSync(CATALOG, 'utf8'));
 
 // -- the skills lane --------------------------------------------------------
@@ -216,6 +237,11 @@ const skills = laneSkills.map((s) => {
   // a zero with no contributors means the lane has no witness, not that the skill
   // is dead.
   entry.usageContributors = row ? [...row.contributors].sort() : [];
+  // From the run log, not the usage lane: invokes30d counts invocations a contributor
+  // reported; these describe how the runs that logged themselves went. Always present -
+  // zero/null on a skill with no logged runs, so a reader never has to tell "absent" from
+  // "none".
+  Object.assign(entry, catalogFields(runStats[s.name]));
   return entry;
 });
 
@@ -260,7 +286,7 @@ const counts = { skills: skills.length, practices: practices.length, memory: mem
 
 const next = {
   ...catalog,
-  _note: 'GENERATED FILE — scripts/build-catalog.mjs reads every lane (skills, practices, memory, knowledge, usage) and rewrites this file; --check fails CI when it is stale. Per skill, `adopters` is carried forward untouched (the registry cannot see installations; an operator\'s scripts/fleet-audit.mjs --write-adopters maintains it) and `invokes30d` + `usageContributors` are DERIVED from the usage/ lane. Hand-edits to anything else are overwritten on the next build. A second producer (e.g. Ascent\'s indexer) may rewrite the envelope from the same files; two producers computing one truth from one source is not a conflict.',
+  _note: 'GENERATED FILE — scripts/build-catalog.mjs reads every lane (skills, practices, memory, knowledge, usage) and rewrites this file; --check fails CI when it is stale. Per skill, `adopters` is carried forward untouched (the registry cannot see installations; an operator\'s scripts/fleet-audit.mjs --write-adopters maintains it) and `invokes30d` + `usageContributors` are DERIVED from the usage/ lane; `runs30d`, `outcomes30d`, `difficulty30d`, `tokensMedian30d` and `tokensBasis30d` are DERIVED from the usage/runs/ run log (30 days ending at the newest logged run; tokens are the measured median when at least half the runs are measured, else the agents\' estimate, and tokensBasis30d says which). Hand-edits to anything else are overwritten on the next build. A second producer (e.g. Ascent\'s indexer) may rewrite the envelope from the same files; two producers computing one truth from one source is not a conflict.',
   generatedAt: catalog.generatedAt,
   generatedBy: 'scripts/build-catalog.mjs',
   skills, practices, memory, counts, bundles,

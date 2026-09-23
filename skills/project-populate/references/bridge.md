@@ -276,12 +276,13 @@ curl -s "${AUTH[@]}" -X POST "http://127.0.0.1:$PORT/dev-tools/scan-use-cases" \
 curl -s "${AUTH[@]}" "http://127.0.0.1:$PORT/dev-tools/use-case-scan-status/<scan_id>"
 ```
 
-Two 500s are expected rather than exceptional:
+One 500 is expected rather than exceptional:
 
 - *"Scan the codebase into a context map first"* — there is no map to slice.
-- *"N proposals already await review (cap …)"* — an unreviewed queue exists.
-  Send the operator to Projects → Factory → Overview; that surface is built
-  for reviewing use cases and this session is not.
+
+Features land **active** — there is no review queue to drain (removed in the
+app 2026-09-17). A bad one is archived with `POST /dev-tools/use-case-decision`
+`{"use_case_id": "...", "status": "archived"}`, which also stops re-proposal.
 
 ### KPIs
 

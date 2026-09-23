@@ -1,6 +1,7 @@
 # Subject proposal: repository-landing-document
 
-**Status:** proposed by `/intake` on 2026-09-01 from `github:glukicov/slideops` @ `66af7de`
+**Status:** **EXECUTED** - on disk since 2026-09-01 at `knowledge/software-engineering/engineering-process/codebase-stewardship/repository-landing-document/` (in the bundle index). The line below is the status as it stood until 2026-09-05, kept in place: run `intake-utopia-0905` found five of seventeen proposal status lines lagging the disk and moved them in one change, per the practice rule that the change closing a gap moves its label.
+**Status as originally written (stale until 2026-09-05):** proposed by `/intake` on 2026-09-01 from `github:glukicov/slideops` @ `66af7de`
 **Bundle:** `software-engineering`
 **Category:** `engineering-process/codebase-stewardship` (flat subcategory, 7 subjects; an
 8th is legal and no nesting change is required)
