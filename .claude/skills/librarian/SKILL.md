@@ -3,7 +3,7 @@ name: librarian
 description: "Maintain the registry as a whole: sweep every bundle for structural and quality decay, rank what needs work by measured attention points, and dispatch scoped /deepen or /forge workers at it. Also evaluates the lane skills from their per-run log (`/librarian skills`). Keeps coverage memory in an Obsidian vault under librarian/ so each run knows what the last one touched, what is saturated, and what is owed. Run manually; a scheduler is a later wrapper. Use when nobody has looked at the registry in a while."
 category: ai-native
 memory: project
-version: 1.6.1
+version: 1.6.2
 tags: registry, maintenance, coverage, dispatch, quality, upstream
 ---
 
@@ -57,7 +57,9 @@ always-on consumer rule; CI gates it under "bundle index freshness" and it has b
 stale on trunk three times because this list used to omit it). Then the scan, and
 `node scripts/build-registry-map.mjs --check` for the **consumer side**: how many recorded
 verdicts in the fleet were judged against a subject that has since changed, by subject.
-Confirm one figure by opening one file. If a gate is red, stop: you are about to rank a
+Only `--check` (and `--dry-run`) are read-only: `--json` is an OUTPUT format, not a
+report mode, and it rebuilds and writes every project's `.ai/registry-map.json`
+(2026-09-23, twelve trees dirtied mid-sweep). Confirm one figure by opening one file. If a gate is red, stop: you are about to rank a
 corpus that does not parse.
 
 Then the **upstream side**: `node scripts/upstream-check.mjs --self-test`, and only if it
@@ -82,9 +84,15 @@ script cannot:
 - **Demand outranks structure.** A consumer deviation or a citation reported `gone`
   beats any structural gap. But when `demandKnown` is false, demand is UNKNOWN, not
   zero - say so in the report rather than ranking as though nobody needs anything.
-- **Suppress the saturated.** A subject with `dry_streak >= 2`, no expired clock and
-  no event to point at does not get re-run. That is deepen's law and it is what stops
-  the loop burning tokens on settled ground.
+- **Suppress the saturated.** A subject whose scan `dryStreak >= 2`, with no expired
+  clock and no event to point at, does not get re-run. That is deepen's law and it is
+  what stops the loop burning tokens on settled ground. The scan COMPUTES the streak
+  from the `idled` rows in `librarian/runs/*/result.json` (step 7b) - it no longer reads
+  a note's `dry_streak`, which had one writer that only ever wrote 0 (349 of 349 notes,
+  2026-09-23). `dryStreak: null` means no run has recorded a pass: the brake is UNKNOWN
+  for that subject, so say so rather than treating it as not saturated. The brake only
+  works if step 7b writes a worker that came back dry as `idled`, with a
+  `<domain>/<slug>` id - a bare slug is skipped.
 - **Systemic beats individual.** When one defect dominates the worklist across dozens
   of subjects, the fix is one systematic pass, not forty dispatches. Notice this
   before you dispatch, not after.
