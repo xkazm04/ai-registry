@@ -142,7 +142,12 @@ proposal passes two doors: it is filed, and later it is applied. Some of the
 reasons it can fail do not depend on the live document at all. It names a
 section that does not exist in the skeleton, it targets a section this author
 may not write, it breaks the grammar, or it exceeds a cap. Check every one of
-those at filing time. A proposal the apply door is certain to refuse is not a
+those at filing time. Judge them against the **declared** lists, not against
+what the apply step happens to do today: when a migrated document carries a
+heading on neither list, an apply that matches the heading text on disk will
+land a diff under it, so "apply would refuse it" is not even true. The
+refusal belongs to the closed list, which means the fix closes a write path
+under a heading nobody owns at both doors, not only a wasted review round. A proposal the apply door is certain to refuse is not a
 question for the person. It spends a review round, and when it targets
 something the companion may never write, it presents a forbidden change as
 an ordinary request. Only anchor matching legitimately waits for apply,

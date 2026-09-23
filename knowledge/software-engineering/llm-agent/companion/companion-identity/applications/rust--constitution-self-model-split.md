@@ -7,8 +7,8 @@ stack: rust
 verified_on: 2026-09-23
 verified_against: rust@1.96.1
 applied: code
-ab_verdict: unmeasurable
-proof: structural-only
+ab_verdict: better
+proof: ab-paired
 ---
 
 # One manifest, two authors: the split held by headings in the Personas app
@@ -67,7 +67,7 @@ against the four conditions under which a single file still counts as two.
   carries law and learning together, but one automated writer does
   overwrite the operator's law.
 
-## Where the propose door still admits what apply will refuse
+## Where the propose door admitted what apply would refuse (at `a8a833d9`)
 
 The law check is complete. The broader rule is that propose refuses
 everything apply would refuse on static grounds, and this tree meets it only
@@ -87,12 +87,63 @@ self sections before they propose. The operator-facing command
 parsed diffs straight to `propose_diffs`, so a proposal naming a heading on
 neither list reaches the review queue through that door.
 
+## Applied: propose now refuses a heading on neither list (2026-09-23)
+
+The first gap was closed in commit `10d56124`. A new
+`unknown_section_errors` builds a typed `{diffs, self_section}` refusal for
+each diff whose top-level heading is on neither list. `propose_diffs` adds it
+beside the law check, and `apply_approved` re-checks it on the stored payload.
+The test `diffs_under_a_heading_on_neither_list_are_refused_at_both_doors`
+covers both doors. The older test that filed `No Such / Section` now files
+`My work / No such subsection`. That is a self heading with a `##` the live
+file lacks, which is the one refusal that legitimately waits for apply.
+
+The seam was chosen to falsify the rule. The rule assumes apply is *certain*
+to refuse a heading on neither list. If a live file could carry such a
+heading, apply could land it, and the refusal would not be static. The tree
+has a way for that to happen: a pre-rebase `identity.md` is carried into
+`manifest.md` verbatim on migration. So one case gives a persona a legacy
+file with a `# Notes` heading.
+
+**Caught.** At HEAD that diff **landed**. The premise was false here: apply
+was not certain to refuse it. The ground that makes the refusal static is the
+closed vocabulary, not apply's behaviour. A heading on neither list belongs to
+nobody whether or not the file happens to contain it. The fix therefore does
+more than save a review round. It closes a write path from the agent's door
+into a heading no author owns. The tree still disagrees with itself here:
+`view()` partitions every non-law heading into `self_sections`, so the editor
+shows `Notes` as self while both doors now refuse to write under it.
+
+**What the fix does not do.** A path with a self heading and no `##` part
+(`My work`) is still filed and always refused at apply, because the section
+matcher only resolves `<h1> / <h2>` paths. That is a static ground too. It was
+left alone because the growth and sleep doors send whole batches, and one such
+diff would then cost every sibling diff in the batch.
+
+## Proof
+
+- **Status:** `ab-paired`, mode `code`. Ten cases went through the command's
+  own path, `IdentityDiff::from_json` then `propose_diffs`. Each case that was
+  filed went straight to `apply_approved`. Both arms used the same inputs, and
+  the instrument is the ignored test `propose_door_outcome_table`.
+- **Target:** proposals filed that can never land on static grounds. A: 3 of
+  3 unknown-heading cases were filed, then refused at apply. B: 0; all 3 were
+  refused at propose.
+- **Floor** (tolerance 0): valid self diffs land (2/2 in both arms).
+  Live-document refusals, an unknown `##` or a missing anchor, are still filed
+  and refused at apply (2/2 in both arms). The law control is refused at
+  propose in both arms.
+- **Falsifier:** a `# Notes` heading present on disk. It landed in A and was
+  refused at propose in B.
+- **Gates:** the app's `persona_brain` and `twin_style` unit tests passed 53
+  of 53. Clippy (`--features desktop --lib --tests`) reported 73 warnings
+  elsewhere and none in this file. `rustfmt --check` was clean.
+
 ## Verdict
 
 Against the agent, this is a clean single-file realization. The law boundary
-holds at both doors, it is tested at both, and no door can move it. There
-are two gaps. The first is the general form of the propose rule: propose
-checks `is_law_section` where it could check `is_self_section`, the strict
-allow-list, so unknown-heading proposals get through to a review round they
-cannot survive. The second is that the adoption door re-renders shipped law
-over the operator's edits instead of seeding it only when absent.
+holds at both doors, it is tested at both, and no door can move it. The
+propose door now also refuses a heading on neither list. That was the general
+form of the propose rule, and the only gap measured here. One gap remains. The
+adoption door re-renders shipped law over the operator's edits instead of
+seeding it only when absent.
