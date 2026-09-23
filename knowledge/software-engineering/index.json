@@ -3115,8 +3115,8 @@
    "subcategory": "shell-and-navigation",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/app-shell/app-shell.md",
-   "digest": "sha256:6fda66cea1f75c80",
-   "revision": 5,
+   "digest": "sha256:7d62a83fa7e636cf",
+   "revision": 6,
    "changedAt": "2026-09-23",
    "techniques": [
     {
@@ -7194,8 +7194,8 @@
    "subcategory": "external-systems",
    "status": "forged",
    "file": "knowledge/software-engineering/integration/external-systems/connector-catalog/connector-catalog.md",
-   "digest": "sha256:c840d51f641a2c83",
-   "revision": 2,
+   "digest": "sha256:0e2ac601846a72b7",
+   "revision": 3,
    "changedAt": "2026-09-23",
    "techniques": [
     {
@@ -8086,8 +8086,8 @@
    "subcategory": "identity-and-access",
    "status": "reconciled",
    "file": "knowledge/software-engineering/security/identity-and-access/credential-vault/credential-vault.md",
-   "digest": "sha256:a678b05bc05b47c5",
-   "revision": 3,
+   "digest": "sha256:0f2e608df36858a3",
+   "revision": 4,
    "changedAt": "2026-09-23",
    "techniques": [
     {
@@ -33028,8 +33028,8 @@
    "subcategory": "external-systems",
    "status": "forged",
    "file": "knowledge/software-engineering/integration/external-systems/templates-scaffolding/templates-scaffolding.md",
-   "digest": "sha256:2bdd2a4ef23239bb",
-   "revision": 2,
+   "digest": "sha256:24c04594fbde263e",
+   "revision": 3,
    "changedAt": "2026-09-23",
    "techniques": [
     {
