@@ -7,6 +7,9 @@ stack: react
 status: forged
 verified_on: 2026-09-23
 verified_against: react@19
+applied: code
+ab_verdict: better
+proof: ab-paired
 ---
 
 # The page's send button as the gate, and a record that claims a send (personas)
@@ -43,9 +46,9 @@ caught into the error channel (`:248`), and the comment above it explains that "
 text is already in the box: a failed ledger write is telemetry, not a failed insert,
 and telling the user 'failed' over a draft they can see would be a lie."
 
-## Where it departs from the technique
+## Where it departed from the technique (fixed at `ada169077` for the app's own readers)
 
-**The placement is filed as a sent message.** The row is written with direction `out`
+**The placement was filed as a sent message.** At `39272628` the row is written with direction `out`
 (`twinDraftLane.ts:238-247`) through the same `record_interaction` every outbound reply
 uses (`src-tauri/db/src/repos/twin.rs:670`). The row has no field that separates
 "placed in a box" from "delivered". Only the channel name hints at it. The feature
@@ -59,3 +62,54 @@ Two consequences follow from the code:
 
 A placement label, or a direction value of its own, would make both cases truthful
 without the app ever needing to see the send.
+
+## The change: a label, not a new direction
+
+The direction column is closed twice, by a `VALID_DIRECTIONS` check at the command
+boundary (`src-tauri/src/commands/infrastructure/twin.rs`) and a DB `CHECK` behind it,
+so a direction of its own is a schema change. The tree already had a cheaper channel for
+a label: `key_facts_json` is an opaque passthrough that nothing in Rust parses, and the
+training studio already tags its rows there with a `kind`
+(`src/features/plugins/twin/sub_training/topicCoverage.ts`). `ada169077` does three
+things. The lane writes `{"kind":"placement"}` on every insert. One predicate,
+`isSentMessage` in `src/api/twin/placement.ts`, means outbound and not a placement. And
+the two readers that mean "sent" use it: the "Recently sent" list (`SentReplies.tsx`)
+and the per-channel send count (`useChannelActivity.ts`). The row is still written on
+every insert and every regenerate. The technique asks for a record of each of the app's
+own acts, not one per conversation, so the regenerate case needed a label, not
+deduplication. `lastByChannel` still counts placements, because a placement is activity
+on the channel even though it is not a send.
+
+## Proof
+
+Paired A/B on one fixture: the real lane driven through one insert and two regenerates
+into the same box, the three rows it asked the backend to store rendered beside one reply
+that really was sent from the outbox. Instrument:
+`src/features/plugins/twin/sub_channels/__tests__/browserPlacement.sent.test.tsx`, run
+against `392726280` (A) and the fix (B). n = 1 scenario, 3 placements + 1 send.
+
+| | "Recently sent" rows | browser sends counted | real sends counted | placement rows written |
+| --- | --- | --- | --- | --- |
+| A (`392726280`) | 4 | 3 | 1 | 3 |
+| B (`ada169077`) | 1 | 0 | 1 | 3 |
+
+Target: placements that read as sent, 3 to 0. Floor: the real send listed and counted,
+every placement still recorded, the lane still reaching `inserted`, the browser channel
+still showing activity. All held, with tolerance 0. Gates: vitest over the browser lane
+and the twin channel, hub and training suites (66 tests), `tsc --noEmit` clean, eslint on
+the touched files clean.
+
+The seam was chosen to falsify, on the reading side. A caught outcome would have been a
+surface that needs placements counted as sends, such as channel health, training momentum
+or topic coverage. None does. `ChannelHealthStrip` reads only last activity, which still
+counts placements.
+
+## What the change cannot do
+
+The backend's own prompt builders still read `direction` alone. The reflect prompt draws
+every `out` row as an arrow from the twin (`twin.rs`, `twin_reflect`). The reply
+drafter's thread block attributes an `out` row to the twin by name (`twin_draft_reply`),
+and a placement would reach it if a contact's handle ever equalled a page host. The
+frontend label does not reach either one. Making those truthful needs the direction value
+the schema does not yet have, or a `key_facts_json` read in Rust, which today parses
+nothing in that column.
