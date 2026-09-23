@@ -8,7 +8,7 @@ laws:
   - failure-not-empty-success
   - count-carries-predicate
 shared_with: []
-use_when: [one broken sensor is crashing the whole sweep, deciding whether a rule may read during emission, cap survivors change from run to run]
+use_when: [one broken sensor is crashing the whole sweep, deciding whether a rule may read during emission, cap survivors change from run to run, a failed read is scored as a missing control]
 ---
 
 # Sensor pipeline
@@ -40,6 +40,22 @@ configuration, the system's own stored records. Its contract is tolerance.
   ([failure-not-empty-success](../../../../_laws.md#failure-not-empty-success)).
   The report's headline is not "N findings" but "N findings from M of K
   sensors".
+- **The skip travels in the snapshot, not only in the report.** A tolerant
+  catch almost always returns the degraded value the rest of the pipeline
+  already handles — an empty list, a null — and that is the *same* value a
+  sensor that ran and found nothing returns. Printing the skip in the
+  report does not stop a rule downstream from reading that value as
+  absence, scoring it zero and attaching a remediation for a control the
+  target has. So the failure is recorded per sensor at every catch site
+  (one shared recorder, so a new sensor cannot be added with a silent
+  catch), carried in the snapshot beside the degraded value, and every rule
+  whose finding is an *absence* the failed sensor could have refuted
+  returns **unknown** — excluded from any blend, no finding, no remediation
+  — instead of zero. The boundary is narrow on purpose: a rule that scored
+  on evidence the failed sensor could not have supplied keeps its score,
+  and a sensor that ran and found nothing scores exactly as before. A
+  reading recovered by other means (carried from an earlier sweep, read
+  from a fallback) counts as read.
 - **Snapshot semantics.** Gathering produces an immutable snapshot that the
   emission stage reads. Sensors that let rules reach back into the live
   world mid-scan produce findings that mix two moments in time, and those
@@ -100,5 +116,9 @@ Adding sensor N+1 means writing one collector and registering it in the
 sensor roster — zero edits to emission, dedup, ranking, or persistence. And
 killing any single sensor (unplug its input, make it throw) must degrade the
 sweep to a *reported* partial result, never to a crash and never to a
-silently smaller green report. If either test fails, the stage boundaries
-have been breached.
+silently smaller green report — and never to a *louder* one either. A
+thrown read that produces new absence findings, or drags a score toward
+zero, has failed the test in the direction the skip report does not
+catch, because the report duly names the skipped sensor while the rules
+below it indict the target for what nobody looked at. If any of these
+fails, the stage boundaries have been breached.
