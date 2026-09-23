@@ -1,3 +1,8 @@
+---
+subject: concurrent-vcs
+domain: software-engineering
+last_touched: 2026-09-23
+---
 # concurrent-vcs
 
 Subject note. Slugs, dates and scores only.
