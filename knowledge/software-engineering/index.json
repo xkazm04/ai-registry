@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 232,
   "techniques": 1788,
-  "applications": 1129,
+  "applications": 1141,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -746,9 +746,9 @@
    "subcategory": "reporting-and-remediation",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-assessment/reporting-and-remediation/adoption-measurement/adoption-measurement.md",
-   "digest": "sha256:4240281a64bbf913",
-   "revision": 2,
-   "changedAt": "2026-08-31",
+   "digest": "sha256:66f6d2712bdac80a",
+   "revision": 3,
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "adoption-distribution-bands",
@@ -973,9 +973,9 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-browser-control/agent-browser-control.md",
-   "digest": "sha256:da25236df779e949",
-   "revision": 2,
-   "changedAt": "2026-09-03",
+   "digest": "sha256:7ef59c7ec2ec9016",
+   "revision": 3,
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "agent-actionable-errors",
@@ -1052,7 +1052,8 @@
       "a remote agent must drive a browser daemon that was designed for loopback",
       "deciding whether a request is local by reading its headers",
       "a health endpoint that returns a token",
-      "choosing which commands a paired remote agent may run"
+      "choosing which commands a paired remote agent may run",
+      "an embedded webview refuses host IPC from remote-origin pages and page results must reach the shell"
      ]
     }
    ],
@@ -1242,9 +1243,9 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-cli-transport/agent-cli-transport.md",
-   "digest": "sha256:fd190f2ed79b142e",
-   "revision": 6,
-   "changedAt": "2026-09-15",
+   "digest": "sha256:33f714b8c873bd14",
+   "revision": 7,
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "availability-probe",
@@ -1290,7 +1291,9 @@
       "an adapter hardcodes flags a version bump may break",
       "deciding whether a feature can rely on schema-constrained output",
       "a capability works on one machine and not another at the same version",
-      "a feature is gated by a remotely-fetched flag payload"
+      "a feature is gated by a remotely-fetched flag payload",
+      "a second agent CLI is proposed as the fast lane",
+      "a CLI pointed at a self-hosted model times out and reads as model incapacity"
      ]
     },
     {
@@ -1827,9 +1830,9 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/agent-memory.md",
-   "digest": "sha256:5aa34a882ba84ee1",
-   "revision": 44,
-   "changedAt": "2026-09-21",
+   "digest": "sha256:5cd18f07a2da7243",
+   "revision": 45,
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "addresses-before-compression",
@@ -2408,6 +2411,13 @@
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/python--stale-served-versus-stale-answered.md",
      "verified_on": "2026-09-18",
      "verified_against": "python@3"
+    },
+    {
+     "stack": "react",
+     "technique": "coverage-instrumentation",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/react--coverage-instrumentation.md",
+     "verified_on": "2026-09-23",
+     "verified_against": "react@19"
     },
     {
      "stack": "rust",
@@ -5713,9 +5723,9 @@
    "subcategory": "codebase-stewardship",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/codebase-scanning/codebase-scanning.md",
-   "digest": "sha256:0a379ecdc679e329",
-   "revision": 11,
-   "changedAt": "2026-09-17",
+   "digest": "sha256:c352f402689ca943",
+   "revision": 12,
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "causes-beside-the-finding-count",
@@ -5867,7 +5877,8 @@
      "use_when": [
       "one broken sensor is crashing the whole sweep",
       "deciding whether a rule may read during emission",
-      "cap survivors change from run to run"
+      "cap survivors change from run to run",
+      "a failed read is scored as a missing control"
      ]
     },
     {
@@ -5958,6 +5969,13 @@
      "technique": "rule-precision-discipline",
      "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/codebase-scanning/applications/node--rule-precision-discipline.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "node",
+     "technique": "sensor-pipeline",
+     "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/codebase-scanning/applications/node--sensor-pipeline.md",
+     "verified_on": "2026-09-23",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
@@ -6148,9 +6166,9 @@
    "subcategory": "companion",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/companion/companion-identity/companion-identity.md",
-   "digest": "sha256:f923498c9a7bf176",
-   "revision": 2,
-   "changedAt": "2026-08-24",
+   "digest": "sha256:10f453fb264b1af7",
+   "revision": 4,
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "anchored-identity-diffs",
@@ -6164,7 +6182,8 @@
      "use_when": [
       "an agent proposes a change to its own description",
       "designing the approval surface for self-edits",
-      "a self-document is being rewritten wholesale by the model"
+      "a self-document is being rewritten wholesale by the model",
+      "a proposal the apply step will certainly refuse is reaching the review queue"
      ]
     },
     {
@@ -6210,7 +6229,8 @@
      "use_when": [
       "deciding what an agent may change about itself",
       "writing a companion's identity documents",
-      "a rule keeps getting overwritten by the agent's own learning"
+      "a rule keeps getting overwritten by the agent's own learning",
+      "one document carries operator-owned and agent-owned sections"
      ]
     },
     {
@@ -6273,6 +6293,13 @@
      "technique": "anchored-identity-diffs",
      "file": "knowledge/software-engineering/llm-agent/companion/companion-identity/applications/rust--anchored-identity-diffs.md",
      "verified_on": "2026-08-23"
+    },
+    {
+     "stack": "rust",
+     "technique": "constitution-self-model-split",
+     "file": "knowledge/software-engineering/llm-agent/companion/companion-identity/applications/rust--constitution-self-model-split.md",
+     "verified_on": "2026-09-23",
+     "verified_against": "rust@1.96.1"
     },
     {
      "stack": "rust",
@@ -6735,9 +6762,9 @@
    "subcategory": "codebase-stewardship",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/concurrent-vcs/concurrent-vcs.md",
-   "digest": "sha256:8b6ffdb068226877",
-   "revision": 4,
-   "changedAt": "2026-09-17",
+   "digest": "sha256:92ed76aea4dc2d76",
+   "revision": 5,
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "commit-verification",
@@ -6779,7 +6806,9 @@
      "use_when": [
       "committing from a checkout shared with live siblings",
       "second commit on a reused index reverts the first",
-      "deciding whether to resync the shared index at close"
+      "deciding whether to resync the shared index at close",
+      "a shared file you must commit carries a sibling's in-flight edits",
+      "the shared status view shows pending work that may already be committed"
      ]
     },
     {
@@ -6916,9 +6945,9 @@
    "subcategory": "maturity-and-conformance",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-assessment/maturity-and-conformance/conformance-checking/conformance-checking.md",
-   "digest": "sha256:939154eedcd46746",
-   "revision": 9,
-   "changedAt": "2026-09-07",
+   "digest": "sha256:2a18677bc14ee2cd",
+   "revision": 10,
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "checker-false-positive-discipline",
@@ -7848,9 +7877,9 @@
    "subcategory": "evaluation-and-cost",
    "status": "reconciled",
    "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/cost-metering/cost-metering.md",
-   "digest": "sha256:277c277d0e17e1ab",
-   "revision": 12,
-   "changedAt": "2026-09-04",
+   "digest": "sha256:3bdc8c71fb8fb369",
+   "revision": 13,
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "budget-enforcement",
@@ -7990,6 +8019,13 @@
      "technique": "spend-attribution",
      "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/cost-metering/applications/go--spend-attribution.md",
      "verified_on": "2026-08-23"
+    },
+    {
+     "stack": "next",
+     "technique": "budget-enforcement",
+     "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/cost-metering/applications/next--budget-enforcement.md",
+     "verified_on": "2026-09-23",
+     "verified_against": "next@16"
     },
     {
      "stack": "node",
@@ -11247,9 +11283,9 @@
    "subcategory": "codebase-stewardship",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/docs-sync/docs-sync.md",
-   "digest": "sha256:e0debca9966dc4a7",
-   "revision": 12,
-   "changedAt": "2026-09-04",
+   "digest": "sha256:c16a15d29d96e263",
+   "revision": 13,
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "catch-up-markers",
@@ -11431,7 +11467,8 @@
       "deciding what record of change a doc gate should read",
       "a gate that exits zero yet has never fired",
       "seeding a violation to see whether the nag arrives",
-      "a coupled document that could be generated from its source of truth"
+      "a coupled document that could be generated from its source of truth",
+      "an in-session doc hook and a pipeline doc gate enforce the same obligation"
      ]
     },
     {
@@ -13408,9 +13445,9 @@
    "subcategory": "evaluation-and-cost",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/eval-harness/eval-harness.md",
-   "digest": "sha256:204df3c0fb25a19c",
-   "revision": 34,
-   "changedAt": "2026-09-18",
+   "digest": "sha256:9925a17a21cb260f",
+   "revision": 35,
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "assertion-vs-judgment",
@@ -13832,6 +13869,13 @@
     },
     {
      "stack": "python",
+     "technique": "eval-economics",
+     "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/eval-harness/applications/python--eval-economics.md",
+     "verified_on": "2026-09-23",
+     "verified_against": "python@3.12"
+    },
+    {
+     "stack": "python",
      "technique": "monitor-inside-the-loop",
      "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/eval-harness/applications/python--monitor-inside-the-loop.md",
      "verified_on": "2026-09-03",
@@ -13988,9 +14032,9 @@
    "subcategory": "reporting-and-remediation",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-assessment/reporting-and-remediation/executive-reporting/executive-reporting.md",
-   "digest": "sha256:6315c7abe4f145f2",
-   "revision": 2,
-   "changedAt": "2026-09-03",
+   "digest": "sha256:6a34de13acc6b18c",
+   "revision": 3,
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "bad-news-labelling",
@@ -14666,9 +14710,9 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/fleet-orchestration/fleet-orchestration.md",
-   "digest": "sha256:b1c0a59256b48308",
-   "revision": 23,
-   "changedAt": "2026-09-17",
+   "digest": "sha256:a03459c799a53308",
+   "revision": 24,
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "absent-status-passthrough",
@@ -14874,7 +14918,8 @@
       "limits-are-derived",
       "failure-not-empty-success",
       "silent-state-is-ungoverned",
-      "absent-guard-is-loud"
+      "absent-guard-is-loud",
+      "identity-survives-reuse"
      ],
      "shared_with": [],
      "use_when": [
@@ -15959,9 +16004,9 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/hitl-approval/hitl-approval.md",
-   "digest": "sha256:7a6a16d6efaa416c",
-   "revision": 18,
-   "changedAt": "2026-09-17",
+   "digest": "sha256:a21c8cbbcff78595",
+   "revision": 20,
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "consent-gates",
@@ -16000,13 +16045,15 @@
      "laws": [
       "identity-survives-reuse",
       "deletion-is-not-repair",
-      "failure-not-empty-success"
+      "failure-not-empty-success",
+      "unknown-is-not-a-value"
      ],
      "shared_with": [],
      "use_when": [
       "deciding whether an old approval still covers this",
       "proving what the decider saw when they said yes",
-      "rewriting a verdict instead of superseding it"
+      "rewriting a verdict instead of superseding it",
+      "an agent types into a surface whose own send control the person presses"
      ]
     },
     {
@@ -16191,6 +16238,13 @@
      "technique": "cosmetic-vs-enforced-threshold-invariant",
      "file": "knowledge/software-engineering/llm-agent/orchestration/hitl-approval/applications/react--cosmetic-vs-enforced-threshold-invariant.md",
      "verified_on": "2026-08-22",
+     "verified_against": "react@19"
+    },
+    {
+     "stack": "react",
+     "technique": "decision-records",
+     "file": "knowledge/software-engineering/llm-agent/orchestration/hitl-approval/applications/react--decision-records.md",
+     "verified_on": "2026-09-23",
      "verified_against": "react@19"
     },
     {
@@ -17691,9 +17745,9 @@
    "subcategory": "standards-and-gates",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/knowledge-registry/knowledge-registry.md",
-   "digest": "sha256:7e0fc4a7e1bf9a27",
-   "revision": 7,
-   "changedAt": "2026-09-21",
+   "digest": "sha256:d72cba1c69e2d674",
+   "revision": 8,
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "catalog-as-sync-key",
@@ -17706,7 +17760,8 @@
      "use_when": [
       "consumers need to know whether their copy is current",
       "designing a generated index",
-      "choosing a content hash for drift detection"
+      "choosing a content hash for drift detection",
+      "a consumer needs to know how far behind its verdict is"
      ]
     },
     {
@@ -17747,6 +17802,7 @@
      "use_when": [
       "dividing mixed registry content into single-shape lanes",
       "a rebuild wipes fields another producer owns",
+      "a regeneration drops verdicts whose key was renamed",
       "deciding whether an empty lane passes its gate"
      ]
     },
@@ -18769,9 +18825,9 @@
    "subcategory": "runtime-and-io",
    "status": "reconciled",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/mcp-tools.md",
-   "digest": "sha256:9fb673a2a2cbe4da",
-   "revision": 28,
-   "changedAt": "2026-09-20",
+   "digest": "sha256:b50d25580544c8c0",
+   "revision": 29,
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "ambient-selection-is-not-an-argument",
@@ -18796,13 +18852,15 @@
      "laws": [
       "one-validation-door",
       "gate-sees-target",
-      "creation-names-reaper"
+      "creation-names-reaper",
+      "identity-survives-reuse"
      ],
      "shared_with": [],
      "use_when": [
       "minting per-consumer tokens for a tool server",
       "deciding whether listing tools needs a token",
-      "a caller's inbound token reaching downstream"
+      "a caller's inbound token reaching downstream",
+      "keying an audit actor quota or lease holder on a caller's token"
      ]
     },
     {
@@ -18838,7 +18896,8 @@
       "deciding whether to fold operations behind a routing tool",
       "a model knows a compressed operation name but not its arguments",
       "deciding whether a description-only catalog may be selected per request",
-      "a per-request selector is proposed to reclaim standing prompt tokens"
+      "a per-request selector is proposed to reclaim standing prompt tokens",
+      "an operator switch withholds whole tool groups from an unattended caller"
      ]
     },
     {
@@ -19047,7 +19106,8 @@
       "an argument the handler never reads",
       "requiredness that depends on the operation",
       "a schema crossing an endpoint that accepts a narrower subset than the one authored",
-      "a rejection the model cannot diagnose from the schema it was given"
+      "a rejection the model cannot diagnose from the schema it was given",
+      "proving a read-only annotation before a host auto-approves on it"
      ]
     },
     {
@@ -19144,10 +19204,23 @@
     },
     {
      "stack": "node",
+     "technique": "authentication-and-scoping",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/applications/node--authentication-and-scoping.md",
+     "verified_on": "2026-09-23",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
      "technique": "fluent-syntax-bounded-grammar",
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/applications/node--fluent-syntax-bounded-grammar.md",
      "verified_on": "2026-09-04",
      "verified_against": "node@22"
+    },
+    {
+     "stack": "node",
+     "technique": "tool-schema-design",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/applications/node--tool-schema-design.md",
+     "verified_on": "2026-09-23"
     },
     {
      "stack": "node",
@@ -19747,9 +19820,9 @@
    "subcategory": "standards-and-gates",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/metric-gates/metric-gates.md",
-   "digest": "sha256:e5447110c341ba82",
-   "revision": 2,
-   "changedAt": "2026-09-06",
+   "digest": "sha256:d3ab6f2dc19bae1e",
+   "revision": 3,
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "counted-set-snapshot",
@@ -19828,7 +19901,8 @@
       "a below-baseline reading passes silently",
       "upward re-baselines are becoming routine",
       "the baseline's editors are a smaller set than the authors who trip it",
-      "the metric can only be produced by a build the change's author cannot run"
+      "the metric can only be produced by a build the change's author cannot run",
+      "recording a drop in a checkout other work is also moving"
      ]
     }
    ],
@@ -19846,6 +19920,12 @@
      "file": "knowledge/software-engineering/engineering-process/standards-and-gates/metric-gates/applications/node--operation-assertion-gates.md",
      "verified_on": "2026-08-31",
      "verified_against": "node@24.12.0"
+    },
+    {
+     "stack": "node",
+     "technique": "ratchet-design",
+     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/metric-gates/applications/node--ratchet-design--personas.md",
+     "verified_on": "2026-09-23"
     },
     {
      "stack": "node",
@@ -20518,9 +20598,9 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/model-routing/model-routing.md",
-   "digest": "sha256:d833892209435380",
-   "revision": 17,
-   "changedAt": "2026-09-20",
+   "digest": "sha256:882e564ae1160b86",
+   "revision": 18,
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "admission-is-not-a-tier",
@@ -23372,9 +23452,9 @@
    "subcategory": "measurement-method",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-assessment/measurement-method/people-analytics-ethics/people-analytics-ethics.md",
-   "digest": "sha256:87d336aa6d645733",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256:931532b4763ab970",
+   "revision": 2,
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "aggregate-vs-individual-split",
@@ -25558,9 +25638,9 @@
    "subcategory": "standards-and-gates",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/quality-gates.md",
-   "digest": "sha256:d7deee105a13022b",
-   "revision": 49,
-   "changedAt": "2026-09-22",
+   "digest": "sha256:8913271b16f56f9f",
+   "revision": 50,
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "advancement-evidence-fields",
@@ -25876,7 +25956,8 @@
       "the remedy for a finding lives outside the repository the gate ships with",
       "a contributor says they bypassed a gate because they could not act on it",
       "auditing why a gate's bypass rate is high while its precision is good",
-      "deciding what a refusal should say when its preferred remedy is unavailable"
+      "deciding what a refusal should say when its preferred remedy is unavailable",
+      "a conformant call through a shared helper still reads as a violation"
      ]
     },
     {
@@ -25909,7 +25990,8 @@
       "a gate counts records the gated party writes",
       "designing an override for a check that machinery rather than a person will trip",
       "a guard passed every review and never fired in production",
-      "deciding which layer of a guard stack is load-bearing"
+      "deciding which layer of a guard stack is load-bearing",
+      "a result file states its own score and verdict beside the raw judgements"
      ]
     },
     {
@@ -26178,6 +26260,12 @@
      "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/applications/rust--gate-liveness.md",
      "verified_on": "2026-09-05",
      "verified_against": "rust@1.85"
+    },
+    {
+     "stack": "rust",
+     "technique": "self-reported-gate-inputs",
+     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/applications/rust--self-reported-gate-inputs.md",
+     "verified_on": "2026-09-23"
     }
    ]
   },
@@ -27728,9 +27816,9 @@
    "subcategory": "standards-and-gates",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/repo-manifest-standard/repo-manifest-standard.md",
-   "digest": "sha256:f3be5416c1ea86f7",
-   "revision": 10,
-   "changedAt": "2026-09-17",
+   "digest": "sha256:3ca203a6da759672",
+   "revision": 11,
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "capability-not-tool-vocabulary",
@@ -27771,7 +27859,8 @@
      "use_when": [
       "specifying how a reader parses a contract",
       "adding a field to a shared artifact",
-      "writing a generator that rewrites a file others also write"
+      "writing a generator that rewrites a file others also write",
+      "a tool writes one field back into a manifest in place"
      ]
     },
     {
@@ -27856,6 +27945,13 @@
      "technique": "generated-from-provenance",
      "file": "knowledge/software-engineering/engineering-process/standards-and-gates/repo-manifest-standard/applications/node--generated-from-provenance.md",
      "verified_on": "2026-09-01",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "must-ignore-unknown",
+     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/repo-manifest-standard/applications/node--must-ignore-unknown.md",
+     "verified_on": "2026-09-23",
      "verified_against": "node@24"
     },
     {
@@ -31664,9 +31760,9 @@
    "subcategory": "prompt-and-context",
    "status": "reconciled",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/structured-output/structured-output.md",
-   "digest": "sha256:d2e444c639b21ac1",
-   "revision": 13,
-   "changedAt": "2026-09-17",
+   "digest": "sha256:1c04ffd949784831",
+   "revision": 15,
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "answer-coverage-gating",
@@ -32714,9 +32810,9 @@
    "subcategory": "data-display",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/data-display/table/table.md",
-   "digest": "sha256:b220b0cfe6a4bcda",
-   "revision": 7,
-   "changedAt": "2026-09-21",
+   "digest": "sha256:801583a12b103cd7",
+   "revision": 12,
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "client-server-split",
@@ -32744,7 +32840,9 @@
       "deciding whether a control applies on change or on submit",
       "an export or share link carries a predicate the table never showed",
       "rows from a superseded filter landing in the current results",
-      "a selection surviving a filter change and acting on rows nobody can see"
+      "a selection surviving a filter change and acting on rows nobody can see",
+      "deciding whether a text filter may apply on every keystroke",
+      "selections dropped when the user turns the page"
      ]
     },
     {
@@ -32757,7 +32855,8 @@
      "use_when": [
       "deciding whether no results can be shown yet",
       "rows replaced by skeletons while refreshing",
-      "entrance animation replaying on scroll back"
+      "entrance animation replaying on scroll back",
+      "an empty table after the response shape changed"
      ]
     },
     {
@@ -32774,7 +32873,8 @@
      "use_when": [
       "choosing between offset and keyset",
       "rows skipped or repeated where sort values collide",
-      "a total disagrees with the current filter"
+      "a total disagrees with the current filter",
+      "rows with an empty sort value never appear in a paged walk"
      ]
     },
     {
@@ -32788,7 +32888,8 @@
      "use_when": [
       "diagnosing the actual shape of a slow table",
       "choosing between pagination and windowing",
-      "one selection toggle repaints every row"
+      "one selection toggle repaints every row",
+      "memoized rows re-rendering after an insert or resort"
      ]
     },
     {
@@ -32801,7 +32902,9 @@
      "use_when": [
       "rows shuffle on refresh with unchanged data",
       "deciding where absent values land in a sort",
-      "selection lands on the wrong row after a resort"
+      "selection lands on the wrong row after a resort",
+      "client and server order the same rows differently",
+      "a sort header press that assistive technology does not announce"
      ]
     }
    ],
@@ -32810,7 +32913,7 @@
      "stack": "next",
      "technique": "filtering",
      "file": "knowledge/software-engineering/ui-surfaces/data-display/table/applications/next--filtering.md",
-     "verified_on": "2026-09-20",
+     "verified_on": "2026-09-23",
      "verified_against": "next@16"
     },
     {
@@ -32836,9 +32939,16 @@
     },
     {
      "stack": "react",
+     "technique": "loading-and-empty-states",
+     "file": "knowledge/software-engineering/ui-surfaces/data-display/table/applications/react--loading-and-empty-states.md",
+     "verified_on": "2026-09-23",
+     "verified_against": "react@19"
+    },
+    {
+     "stack": "react",
      "technique": "performance",
      "file": "knowledge/software-engineering/ui-surfaces/data-display/table/applications/react--performance.md",
-     "verified_on": "2026-09-21",
+     "verified_on": "2026-09-23",
      "verified_against": "react@19"
     },
     {
@@ -38901,6 +39011,7 @@
     "fleet-orchestration/inherited-state-provenance",
     "generated-workflow-candidates/score-keyed-candidate-selection",
     "generated-workflow-candidates/two-tier-data-statistics",
+    "hitl-approval/decision-records",
     "hitl-approval/oracle-before-gate",
     "import-normalization/overlay-merge-absence-semantics",
     "index-free-random-access/framing-recovery-by-hypothesis-rejection",
@@ -39412,6 +39523,7 @@
     "file-browsing/selection-model",
     "fleet-orchestration/durable-fleet-state",
     "fleet-orchestration/hibernation-and-resume",
+    "fleet-orchestration/parallel-dispatch",
     "fleet-orchestration/session-registry",
     "form/submit-lifecycle",
     "generated-workflow-candidates/candidates-as-ordinary-artifacts",
@@ -39436,6 +39548,7 @@
     "long-form-reading-surface/focus-transfer-on-in-place-navigation",
     "markdown-vault/vault-as-database",
     "mcp-tools/ambient-selection-is-not-an-argument",
+    "mcp-tools/authentication-and-scoping",
     "mcp-tools/one-server-many-registrations",
     "mcp-tools/sanctioned-session-state",
     "mcp-tools/sealed-continuation-state",
