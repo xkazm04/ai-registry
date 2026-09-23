@@ -124,3 +124,15 @@ personas: 9 stale (8 `deviation`, 1 `not-applicable`); 5 of the 8 already fixed.
   sensitive flag) and its anchors have drifted. Return: next currency pass or its clock.
 - A status-color fallback that defaults to healthy in one panel belongs to status-vocabulary.
   Not placed.
+
+### 2026-09-23 - `/conform --stale` on personas (9 pairs re-judged)
+
+7 deviation, 1 not-applicable, 1 unknown; five of the 2026-08-29 deviations were fixed in
+the tree, and every surviving pair deviates for a reason today's landing named (the
+compatibility boolean drawn as the verdict, a verdict never clearing the attempt, a
+skipped rotation painted as failed). **Proposal (from the judge):** no rule decides whether
+a foreign secret arriving *inbound* over an in-app IPC hop must use the transit envelope
+the rest of the vault uses; the golden path's boundary argument is written for values going
+out, so the api-vault pair could only be `unknown`. `acquisition` is the natural home for
+one sentence. **Coverage:** the root causes (the status-only classifier, the verdict writer)
+live in a backend engine file no context of this subject owns.

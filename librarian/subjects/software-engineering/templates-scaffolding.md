@@ -62,3 +62,14 @@ already fixed in the tree.
 
 - A blog statistic on shared-workflow credential failures (no method). Validator option
   names from recall (unverified; written nowhere).
+
+### 2026-09-23 - `/conform --stale` on personas (8 pairs re-judged)
+
+7 deviation, 1 unknown; the questionnaire pair flipped conformant -> deviation. Proposals
+from the judge, unplaced: (1) the mirror of the escape-hatch rule - a closed picker that
+receives an off-list value says it cannot show it rather than hiding it (live through a
+published template's default); (2) readiness should say outright that a template default
+never satisfies a credential-blocked requirement; (3) `react--template-anatomy` is due a
+re-verify (the off-list-default incident is still live, smaller). **Coverage:** the seeder,
+the catalog admission door and the verification lib own the root causes and sit in no
+context paired with this subject - missing pairs.

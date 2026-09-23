@@ -158,3 +158,13 @@ kp: 2 stale `deviation`; personas: 1 stale `deviation` (still valid on substance
 - A companion sub-nav comment in the project's sidebar data conflicts with nav-hierarchy's
   L3 rule. Return: when the companion area is no longer under another session's work.
 - `next--shell-hosted-services` anchors have drifted. Return: next touch of that application.
+
+### 2026-09-23 - `/conform --stale` on personas (shared-chrome re-judged)
+
+Still `deviation`: eleven hand-maintained sub-nav vocabularies, inline gate checks in the
+rail beside a single gate authority, Level 2 lost when collapsed. Proposals from the judge,
+unplaced: `nav-hierarchy` should count depth in *destinations*, not panes (a grouped-row
+rewrite of a third pane is still a third level when the group header is also a
+destination); `entitlement-gating` should say a re-implemented predicate over the same data
+is a second policy authority. **Coverage:** `lazy-section-loading` has no home in the shell
+chrome context - it belongs with the section router's context.
