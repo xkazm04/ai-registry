@@ -32,6 +32,14 @@
       "subjects": [
         "unattended-run-isolation"
       ]
+    },
+    {
+      "id": "coordination",
+      "title": "Coordination",
+      "order": 4,
+      "subjects": [
+        "shared-research-record"
+      ]
     }
   ]
 }
