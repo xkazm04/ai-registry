@@ -11913,3 +11913,19 @@ finish on the version it loaded.)
   `decline` is the triage table's language and it stays there; a subject row's `outcome`
   is the counts vocabulary, so a currency reset and a new technique are both `landed`.
   Two vocabularies that nearly overlap are worse than two that plainly do not.
+
+## 2.13.0 - 2026-09-23 - self-compact-pi-agent
+
+- **A primary can confirm a source's mechanism and refute its number in one read.**
+  The source set compaction thresholds under one vendor's price step; the fetched
+  pricing page showed this fleet's own vendor has no step at all on its current
+  models. The step being real (for some models) is what made the landing; the step
+  being a per-model, dated fact is what decided its shape: the rule reads the step
+  from the price book at session start and never carries the number. When a source
+  hardcodes a vendor constant, land the lookup, not the constant.
+- **When no fleet project owns the decision, the registry's own session records are
+  an importable arm, but they carry the target and not the floor.** Token and
+  occupancy fields make a cost replay cheap (10 s over 26,299 requests) and
+  self-checking against an earlier run's count. What a compaction costs the task is
+  not in them, so the row reached `unmeasurable` before the script ran. Check that the
+  floor is readable from the same instrument before building the arms.
