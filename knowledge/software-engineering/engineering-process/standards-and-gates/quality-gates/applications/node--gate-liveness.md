@@ -38,8 +38,8 @@ still finds *some* nodes is caught by the bound, not just by zero.
 
 ## The portability incident, preserved at the fix site
 
-The `ROOT` constant carries this comment: it "read
-`const ROOT = 'C:/Users/mkdol/dolla/personas'` until 2026-08-15 — the
+The `ROOT` constant carries this comment (the machine path redacted here): it "read
+`const ROOT = '<absolute checkout path>'` until 2026-08-15 — the
 author's machine. On any other checkout it exits non-zero immediately, and
 because `npm run check` is an `&&` chain with `check:corpus` at step 5 of
 9, that aborted the run before `tsc --noEmit`, `eslint src/` and

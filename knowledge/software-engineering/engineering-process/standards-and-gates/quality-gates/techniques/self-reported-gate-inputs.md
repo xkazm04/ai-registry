@@ -6,7 +6,7 @@ technique: self-reported-gate-inputs
 status: forged
 laws: [gate-sees-target, absent-guard-is-loud, failure-not-empty-success]
 shared_with: []
-use_when: [a gate counts records the gated party writes, designing an override for a check that machinery rather than a person will trip, a guard passed every review and never fired in production, deciding which layer of a guard stack is load-bearing]
+use_when: [a gate counts records the gated party writes, designing an override for a check that machinery rather than a person will trip, a guard passed every review and never fired in production, deciding which layer of a guard stack is load-bearing, a result file states its own score and verdict beside the raw judgements]
 ---
 
 # Evidence the subject authors
@@ -104,6 +104,39 @@ mis-describing the codebase. A list that answers "where is this rule
 stricter" is a policy statement and may be written by hand; a list that
 answers "what did the gate look at" is an instrument reading and must be
 derived.
+
+## The subject's arithmetic is an input too
+
+The inert branch is the record that is missing. Its sibling is the record that
+is present, complete, schema-valid — and carries its own conclusion. A result
+file written by the gated party typically holds the raw judgements *and* what
+follows from them: an overall score, a coverage figure, which objections bind
+and which are advisory, and the outcome itself. A door that validates the
+fields and stores the stated outcome has let the judged party grade itself;
+every field passed validation, and the one that decides was never checked
+against the others.
+
+**So the door recomputes everything derivable from the raw dimensions and a
+pinned rubric, and refuses a file whose own numbers disagree** — rather than
+quietly storing its own answer, which would hide that the producer and the
+door hold different contracts. Three details decide whether the recompute is
+honest rather than a second source of noise:
+
+- **Derive the classifications, not only the sums.** Which floor binds, which
+  objection is advisory, which rule outranks which when two fire — these are
+  outputs of the rubric, and a party allowed to state them can soften its own
+  failure without touching a number.
+- **Pin one contract for both sides**: the rubric's weights and floors, the
+  rounding the producer applies, and the precedence of outcomes. A tolerance
+  tighter than the producer's rounding refuses arithmetic that agrees; a
+  precedence the door re-derives from prose disagrees with the producer on
+  exactly the cases where two outcomes are both true. Forcing the two sides
+  to agree is how such differences surface at all — the refusal is the
+  instrument that finds them.
+- **The refusal names the disagreement**, field by field, with both values —
+  *states X, its own dimensions give Y*. The refusal is how a contract
+  difference gets found, and one that says only *rejected* leaves nobody
+  able to tell whether the producer or the door holds the wrong rule.
 
 ## The override is an input too
 
