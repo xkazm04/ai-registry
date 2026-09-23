@@ -6,6 +6,8 @@ technique: schema-driven-forms
 stack: react
 verified_on: 2026-09-23
 verified_against: react@19
+applied: experiment
+ab_verdict: better
 ---
 
 # Schema-driven credential forms in the vault catalog
@@ -128,3 +130,18 @@ from a row whose author forgot the probe.
   the row's declared required fields. Non-form writers (import, automation)
   therefore bypass the declared contract, which is the gap the technique's
   "three more readers" section names.
+
+## Applied 2026-09-23 - the no-probe third outcome, read-only experiment
+
+115 rows declare fields; 13 have no probe and 0 of those carry an explicit no-probe
+declaration. 3 of the 13 end Verified through a desktop install check that reads no
+field; 10 end Unverifiable. The main catalog form gates Save behind a test for every row,
+and on a row with no recipe the no-recipe result's compatibility boolean (true) opens it.
+The save requests no server re-probe, so the credential stays untested until the daily
+sweep, which stores the unverifiable state beside a boolean persisted as true. After the
+sweep, 7 of 10 consumers draw it as passed: three visual (a graph node stroke, a failover
+check icon, a playground banner reading "Verified"), two ordering (failover rank, list
+health sort) and two back-end texts (a build tool test "passed", key rotation "verified
+healthy"). 3 of 10 read the state. Consumers reading the state token: 0 of 10. Controls: a
+verified record is drawn as passed by 10 of 10, a failed one by 0. The floor held in the
+model. Each stored fallback builds a result from the boolean alone. `better`.

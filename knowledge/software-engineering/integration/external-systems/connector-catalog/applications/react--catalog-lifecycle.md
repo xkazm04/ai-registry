@@ -7,6 +7,8 @@ stack: react
 status: forged
 verified_on: 2026-09-23
 verified_against: react@19
+applied: experiment
+ab_verdict: better
 ---
 
 # A catalog with no lifecycle vocabulary, and a door that filters the only list
@@ -54,7 +56,9 @@ same field is read by the gallery and also by 16 lookups by identity across
 15 files (`connectorDefinitions.find(...)`, e.g. `SidebarLevel2.tsx:96`,
 `useHealthyConnectors.ts:39`, `connectorRunnability.ts:156`). When a user
 disconnects the plugin, the gate that should only stop new adoption also
-removes the row from their existing credential's lookups.
+removes the row from lookups that name it. (Corrected by the 2026-09-23 apply
+below: the only gated row is a credential-less singleton, so the credential-keyed
+lookups cannot lose it; the loss runs through declared references.)
 
 The split the technique asks for was designed here once. It is in
 `src/features/plugins/obsidian-brain/useVisibleConnectorDefinitions.ts:5-17`,
@@ -83,3 +87,23 @@ assumes has not existed since the day the selector was written.
   (`types.ts:253-254`). The union accessor that reads the list
   (`builtinConnectors.ts:231-243`) looks it up from the bundled JSON by name,
   so a consumer holding stored rows cannot use it.
+
+## Applied 2026-09-23 - the door's two reads, read-only experiment
+
+**Caught in part, `better`.** The only gated row (1 of 135) is a global-probe singleton
+with no credential fields, no credential of its type is seeded, and the zero-config form
+cancels rather than minting one. So 10 of the 17 identity lookups (9 credential-keyed, 1
+constant-keyed) can never lose it; the loss runs through declared references. The build
+session offers all 135 rows to the model unfiltered, so a persona can name the gated
+connector on an install with no vault, and the back end answers "needs a vault" while the
+front end has lost the row. With the predicate on the only list, 7 of 17 lookups return
+nothing for the gated key: 6 declared-reference reads and the design flow's mint
+pre-check, which then hits the store's duplicate-name refusal where it should have reused
+the row. Rendered: a raw slug, a generic icon, "Connector not installed" for a shipped
+row, category "unknown", and an add-key click that does nothing. With an unfiltered
+resolve read beside an offer-only selector: 0. Controls: a non-gated key and the gated key
+with the plugin ready each differ 0; forcing credential reachability gives a ceiling of
+17. The floor (the gated row absent from every offer surface) is unmeasured, because the
+selector still has 0 callers. Not hunted: vault rehydration flips the gate without
+refetching the door, so the filtered list can be stale for an install that does have a
+vault.

@@ -7,6 +7,8 @@ stack: next
 status: forged
 verified_on: 2026-09-23
 verified_against: next@16
+applied: experiment
+ab_verdict: better
 ---
 
 # The stage decides the surface: a three-row catalog keyed by id, then by row
@@ -72,3 +74,15 @@ authorities. Now both read the same field, so they cannot disagree.
 - **The stage and support axes are not separable here.** With two stages and
   no notion of who maintains a provider, the technique's advice to keep
   those axes apart has nothing to test against.
+
+## Applied 2026-09-23 - confirmation row, read-only experiment
+
+Not independent evidence: this application was written from the same tree. All 3 surfaces
+on the page (connect action, first-action copy, badge) read the stage, and 0 test a
+literal id. Before the fix (the dispatch as it stood at the parent of the fixing commit),
+1 of 2 available rows had no connect surface; at HEAD 0 of 1 planned rows get one and 2 of
+2 available rows get exactly one. A component test pins the planned case, and the pre-fix
+id test run over the same rows reproduces the bug. Off the page: the generic ingest write
+door accepts any source string, including the planned row's identity, and checks neither
+catalog nor stage; whether those records reach the delivery views while the card says
+Planned was not hunted. `better`.

@@ -49,9 +49,14 @@ consumer reads it.
   it is the one field that can never be edited, only aliased
   ([catalog-lifecycle](./catalog-lifecycle.md)). Minting is an act with a
   check, not a formula: a key slugged from the label is acceptable if the
-  mint refuses a key already in use and nothing derives it again. The store
-  should enforce the uniqueness itself, because the form is not the only
-  path that mints. When the key embeds a name the catalog does not own, such
+  mint refuses a key already in use and nothing derives it again. The
+  check belongs at the store's door, not in the form, because the form is
+  not the only path that mints. Where every runtime mint passes one door
+  that checks the key inside the same write transaction, a schema
+  uniqueness constraint changes no outcome for those mints. The exposure
+  that remains is any writer keyed on another column, such as a seed or a
+  migration inserting by id. Close it by keeping shipped names out of every
+  namespace users mint in, or by checking the name there too. When the key embeds a name the catalog does not own, such
   as a publisher's account handle, the name can later change owners. The key
   must stay bound to its original holder, and the freed name must not
   re-mint it.
@@ -153,7 +158,13 @@ predicates to one list and hands that list to both kinds of reader makes
 every predicate a way to lose rows. When a dependency goes unmet or a row is
 deprecated, the existing instances stop finding the row. Build two reads at
 the door, one filtered for offering and one unfiltered lookup by identity,
-and decide which one each consumer uses.
+and decide which one each consumer uses. Which resolve readers are at risk
+depends on what can name a gated row. Where gated rows carry credentials,
+existing instances lose their type. Where they carry none, the loss travels
+through declared references instead: a persona, a template or a step that
+names the connector. It is sharpest when the catalog offers every row to a
+generator (a model composing a configuration) through a path the door's
+filter does not cover.
 
 ## Declarations rot without a consumer that checks them
 
