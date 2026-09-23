@@ -23,7 +23,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/grant-funding/matching-and-intelligence/coalition-and-portfolio-strategy/coalition-and-portfolio-strategy.md",
-   "digest": "sha256:57e9ab887c9fac22",
+   "digest": "sha256-b2:2308e4cb611520b9",
    "revision": 1,
    "changedAt": "2026-08-21",
    "techniques": [
@@ -124,7 +124,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/grant-funding/grant-operations/deadline-pipeline-management/deadline-pipeline-management.md",
-   "digest": "sha256:cfa13898c7fbb4b2",
+   "digest": "sha256-b2:399ca23b5d30dcec",
    "revision": 1,
    "changedAt": "2026-08-21",
    "techniques": [
@@ -247,7 +247,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/grant-funding/matching-and-intelligence/eligibility-analysis/eligibility-analysis.md",
-   "digest": "sha256:a6127aa5227462e1",
+   "digest": "sha256-b2:6b6806cff275bcee",
    "revision": 1,
    "changedAt": "2026-08-21",
    "techniques": [
@@ -375,7 +375,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/grant-funding/proposal-craft/evidence-grounded-claims/evidence-grounded-claims.md",
-   "digest": "sha256:7991d799a5017298",
+   "digest": "sha256-b2:e51dfebdc4addd28",
    "revision": 1,
    "changedAt": "2026-08-21",
    "techniques": [
@@ -483,7 +483,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/grant-funding/proposal-craft/funder-format-blueprints/funder-format-blueprints.md",
-   "digest": "sha256:82526c02b7275f63",
+   "digest": "sha256-b2:ac2f6016de7c700f",
    "revision": 1,
    "changedAt": "2026-08-21",
    "techniques": [
@@ -596,7 +596,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/grant-funding/matching-and-intelligence/funder-intelligence-index/funder-intelligence-index.md",
-   "digest": "sha256:a52b4fc0316b45f7",
+   "digest": "sha256-b2:0bb1b4772365c9ef",
    "revision": 1,
    "changedAt": "2026-08-21",
    "techniques": [
@@ -704,7 +704,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/grant-funding/funding-landscape/funder-research/funder-research.md",
-   "digest": "sha256:5dc32f745fcfc694",
+   "digest": "sha256-b2:f13ef61cbc49e47b",
    "revision": 1,
    "changedAt": "2026-08-21",
    "techniques": [
@@ -811,7 +811,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/grant-funding/matching-and-intelligence/grant-matching/grant-matching.md",
-   "digest": "sha256:e52c421c0cab9483",
+   "digest": "sha256-b2:6654ef9e8de9eabb",
    "revision": 2,
    "changedAt": "2026-09-10",
    "techniques": [
@@ -917,7 +917,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/grant-funding/funding-landscape/grant-source-landscape/grant-source-landscape.md",
-   "digest": "sha256:605e027ddf0114c2",
+   "digest": "sha256-b2:e9556d995de9d07c",
    "revision": 2,
    "changedAt": "2026-08-27",
    "techniques": [
@@ -1037,7 +1037,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/grant-funding/funding-landscape/grant-taxonomy-design/grant-taxonomy-design.md",
-   "digest": "sha256:a4ebc487d22f12f4",
+   "digest": "sha256-b2:7e38d8ac40e698b3",
    "revision": 1,
    "changedAt": "2026-08-21",
    "techniques": [
@@ -1140,7 +1140,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/grant-funding/grant-operations/impact-reporting/impact-reporting.md",
-   "digest": "sha256:72dcd7f031e68ec6",
+   "digest": "sha256-b2:b1df498910216ab9",
    "revision": 1,
    "changedAt": "2026-08-21",
    "techniques": [
@@ -1269,7 +1269,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/grant-funding/grant-operations/jurisdiction-modelling/jurisdiction-modelling.md",
-   "digest": "sha256:7f85406ebe7d3130",
+   "digest": "sha256-b2:20b9b2d9afba0f40",
    "revision": 1,
    "changedAt": "2026-08-21",
    "techniques": [
@@ -1376,7 +1376,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/grant-funding/grant-operations/nonprofit-verification/nonprofit-verification.md",
-   "digest": "sha256:d40042c3d47b9670",
+   "digest": "sha256-b2:d434b75d340d872e",
    "revision": 1,
    "changedAt": "2026-08-21",
    "techniques": [
@@ -1487,7 +1487,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/grant-funding/grant-operations/organizational-grant-readiness/organizational-grant-readiness.md",
-   "digest": "sha256:439bd1d2d1fcfd2e",
+   "digest": "sha256-b2:900ce5832e2e35d5",
    "revision": 1,
    "changedAt": "2026-08-21",
    "techniques": [
@@ -1592,7 +1592,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/grant-funding/proposal-craft/proposal-narrative-structure/proposal-narrative-structure.md",
-   "digest": "sha256:aee3ac802a01e6de",
+   "digest": "sha256-b2:79e64d68ff33874e",
    "revision": 1,
    "changedAt": "2026-08-21",
    "techniques": [
@@ -1698,7 +1698,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/grant-funding/proposal-craft/proposal-quality-review/proposal-quality-review.md",
-   "digest": "sha256:388163d9f6095a1e",
+   "digest": "sha256-b2:9a6467adf9a5b846",
    "revision": 1,
    "changedAt": "2026-08-21",
    "techniques": [
@@ -1803,7 +1803,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/grant-funding/grant-operations/submission-filing/submission-filing.md",
-   "digest": "sha256:6c54de904ee365f0",
+   "digest": "sha256-b2:3cdbdffa62af2f49",
    "revision": 1,
    "changedAt": "2026-08-21",
    "techniques": [
