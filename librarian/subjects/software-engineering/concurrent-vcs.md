@@ -15,3 +15,9 @@ Subject note. Slugs, dates and scores only.
   checkout. `applied: experiment`, `ab_verdict: unmeasurable`, instrument named.
 - Boundary with `fleet-orchestration` untouched: assignment stays theirs, the
   resource cost of the isolation stays here.
+
+## 2026-09-23 - [[2026-09-23-1]]
+
+Lead drain (run lib-0923), L274 + L351 AMEND to `isolated-index-commits` and the golden path: composite blobs, derived files built from what you commit, and **correction** - phantom index staleness is not "merely annoying"; it read as pending work and blocked a merge for a session. Unverifiable counts dropped. Proposal: `commit-verification` - a swept-in sibling edit can reference untracked files, so verify a commit builds on its own.
+
+**Impact** (stale verdicts before this landing, from the map rebuilt at the run start): none recorded.

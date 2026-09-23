@@ -1,7 +1,7 @@
 ---
 subject: repo-manifest-standard
 domain: software-engineering
-last_touched: 2026-09-02
+last_touched: 2026-09-23
 dry_streak: 0
 ---
 
@@ -54,3 +54,9 @@ Gained `version-gate-precedes-schema-gate` + `node--version-gate-precedes-schema
 ### 2026-09-17 - `/harvest backlog` wave 3, one technique + one application from a tension unit
 
 `reserved-space-must-be-unusable`, from [[2026-09-16-squid]] (shape claim), [[2026-08-31-whatwg-html]] (invalid on purpose) and [[2026-08-31-verou-2026-blog]] (an experimental namespace preserves nothing). The subject owned the reader's half of the forward-compatibility promise (`must-ignore-unknown`) and what may change (`semver-additive-evolution`); nobody owned how an author reserves room. The tension resolved into three rungs ordered by what a writer loses today, with the third member confirmed as the bottom rung rather than contradicted. Measured on a free-form field a service had already carved two names out of by enumeration: a caller could write both and have them read as host policy, 2 to 0. The unhunted return is the timing rule - the shape half was no longer reachable at that seam, priced at one migration per key, because the space had been released free-form. The golden path gains a section (the room you keep is the room nobody can use) and a failure mode (the extension space was reserved by announcement).
+
+## 2026-09-23 - [[2026-09-23-1]]
+
+Lead drain (run lib-0923), L268 APPLICATION + AMEND. **Correction** to `must-ignore-unknown`: an in-place writer passes the foreign-key test by construction; the fixture must look owned and the assertion cover the whole file. Machine paths removed from four published applications.
+
+**Impact** (stale verdicts before this landing, from the map rebuilt at the run start): none recorded.

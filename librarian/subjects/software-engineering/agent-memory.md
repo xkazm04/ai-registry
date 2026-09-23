@@ -1,7 +1,7 @@
 ---
 domain: software-engineering
 subject: agent-memory
-last_touched: 2026-09-07
+last_touched: 2026-09-23
 touched_by: deepen, intake
 dry_streak: 0
 ---
@@ -838,3 +838,9 @@ Two landings that turn out to be about the same thing from opposite ends, and bo
 - **Untriaged:** a temporal boost that never filters may be unable to retire a contradicted
   belief at read time. Promoting question for `recall-injection`: must read-time
   adjudication be able to exclude a superseded belief, or only rank it?
+
+## 2026-09-23 - [[2026-09-23-1]]
+
+Lead drain (run lib-0923). L127 APPLICATION (coverage instrumentation; the lead's "distinguish at every tile" did not hold - the distinction lives in the type). L270 AMEND to `decay-and-forgetting`: a last-use decay input needs a writer on the read path, guarded by a paired test that fails on the broken form (a private repository's sighting; nothing from it is named). Unverifiable figures omitted.
+
+**Impact** (stale verdicts before this landing, from the map rebuilt at the run start): ascent 2.

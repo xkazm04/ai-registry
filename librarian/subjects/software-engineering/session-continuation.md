@@ -1,7 +1,7 @@
 ---
 domain: software-engineering
 subject: session-continuation
-last_touched: 2026-09-09
+last_touched: 2026-09-23
 touched_by: intake
 dry_streak: 0
 ---
@@ -198,3 +198,9 @@ Source [[../../sources/2026-09-15-qwenpaw]]: an agent runtime whose loop evaluat
   - unscoped handlers running beside an active mode (a single-loop-authority boundary, GAIN 1)
   - a mirrored transcript that silently re-threads on a failed resume (home contested with fleet-orchestration)
 - **The source contradicts its own docs.** The docs say the first definitive gate wins; the code lets a later TERMINATE win.
+
+## 2026-09-23 - [[2026-09-23-1]]
+
+Lead drain (run lib-0923): **L132 COVERED** by `subprocess-lifecycle/termination-and-reaping`. Proposal from L369 (declined at `durable-agent-operations`): `stuck-loop-detection` could carry "a stagnation or saturation counter is recomputed from the loop's recorded outcomes; a field only an initialiser writes cannot fire" - the registry itself was the sighting and was fixed the same run (librarian-scan computes `dryStreak` from run results).
+
+**Impact** (stale verdicts before this landing, from the map rebuilt at the run start): none recorded.

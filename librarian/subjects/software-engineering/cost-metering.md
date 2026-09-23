@@ -1,7 +1,7 @@
 ---
 subject: cost-metering
 domain: software-engineering
-last_touched: 2026-09-04
+last_touched: 2026-09-23
 touched_by: intake
 dry_streak: 0
 ---
@@ -121,3 +121,9 @@ not touch it, because one tree is not convergence.
 
 Gained `rust--unit-classes-are-open` (applied `experiment`, verdict `better`,
 proof `ab-paired`: 2,000 tokens reported against 157,000 in the payload).
+
+## 2026-09-23 - [[2026-09-23-1]]
+
+Lead drain (run lib-0923), L144 AMEND + APPLICATION. **Correction** to `budget-enforcement`: "one chokepoint, the client wrapper" holds for a model-call unit; a product-action unit reserves before the first streamed byte, so the door is a gate module every route imports, and a streaming twin of a route is a third path class where enumeration fails.
+
+**Impact** (stale verdicts before this landing, from the map rebuilt at the run start): personas-web 1, ascent 3.
