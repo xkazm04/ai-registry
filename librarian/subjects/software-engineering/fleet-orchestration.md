@@ -731,3 +731,25 @@ recorded and remains the subject's most interesting open deviation.
 ### 2026-09-17 - `/harvest backlog` wave 5, one technique + one application
 
 `evidence-outranks-a-liveness-claim`. The subject carried a stored status beside a staleness sweep and never said what happens when the two disagree. They disagree in exactly one shape, and it is the expensive one. The mechanism is worth stating on its own: **a session reports at transitions, and the long silences are the work.** So the moment its report looks oldest is the moment it is deepest in the work - and the guarded sections it needs are taken at the END of a long quiet stretch. The interval where the claim is most stale and the interval where the holder is most certainly alive and holding something are the same interval, which is why widening the budget cannot separate them. The distinction that makes it decidable: **who wrote the record and why.** A claim is a session's statement about its own condition, worth what the writer's continued existence is worth. Evidence is a record some other obligation forced into existence, so its timestamp is a fact about execution. Outstanding, terminal and suspension records are usually already lying there unread. It does not overturn the expiring lease, and the boundary is instructive: a lease buys its authority with a renewal loop on a fixed cadence (so the longest legitimate silence is the cadence, not the work's duration) and with fenced writes (so a wrong takeover is a retry, not damage). A report-driven budget has neither. **Measured against this registry's own board, and it found a live defect there** - a lock taken one second earlier handed to a sibling, and `check` calling the holder's paths clear in the same second. The rule's strong form, carry no status field at all, was armed literally and broke reclaim entirely: with no budget and no probe nothing can ever say *dead*. Removing the claim is not the rule; demoting it is.
+
+### 2026-09-23 - `/conform --stale` on personas (14 pairs re-judged at revision 23)
+
+9 deviation, 4 not-applicable, 1 conformant. Fixed since the old verdicts: the one state
+door, a durable admission queue, grid exhaustiveness over the state union, and a monitor
+that no longer defaults an unknown status to running. Still short: no declared write set
+at dispatch (so no disjointness check), restart recovery that never adopts or quarantines,
+a hibernation that commits before the kill is confirmed and mints a new id on wake, a
+harvest that folds self-declared completions into "delivered", and a build loop whose
+hard turn cap finalizes as a draft rather than as truncated. Proposals from the judges,
+unplaced: (1) "read status from a runtime-owned marker, never from prose" lives only in
+`completion-claim-verification`, and failed here in the lifecycle lane (an eviction
+inferred from reason text) - it belongs in `lifecycle-signals` and `session-registry` too;
+(2) `session-registry` should say the emit boundary carries the typed state (a string
+emitter plus a consumer-side cast is the mapping layer it warns about); (3)
+`result-harvest` should require an abort to move every non-terminal roster member into a
+named class; (4) `lifecycle-signals`' orphan scan wants a shared-machine boundary case - a
+name-based scan picks up the operator's own external sessions, and a one-click Resume that
+kills without the re-check the Kill path does. **Coverage:** four contexts matched on
+vocabulary, not precondition (two decision surfaces that are hitl-approval's, a learning
+page, a design hub); a team-assignment orchestrator is probably `pipeline-dag` first; ten
+fleet backend files belong to no context in the project's map.

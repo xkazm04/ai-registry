@@ -292,3 +292,22 @@ per-project entries above stand; this is what only shows up across them.
   its pattern through an argv bug and returned "(no match)" for all six contexts — a clean,
   confident, wrong negative. And a first read of one file alone would have produced a false
   deviation; the append-only trail it wanted was in a neighbour.
+
+## 1.8.0 - 2026-09-23 - personas (50 stale verdicts across six subjects, two runs)
+
+- **A digest-scheme change mid-session nearly staled a same-day run.** The registry moved
+  subject digests to a new scheme between two conform runs. The builder re-stamps an
+  old-scheme verdict only when the subject changed strictly *before* `evaluatedAt`, so
+  verdicts judged the same day their subject changed would all have come back stale on the
+  next rebuild. Checked that no subject commit landed after judging, then re-stamped the
+  22 with the new digest. The skill says to take the index digest; it should also say what
+  to do when the index on disk is another session's uncommitted regeneration (stamp the
+  committed one) and when the scheme itself changes (re-stamp only where the content is
+  provably unchanged).
+- **Most stale verdicts were stale in both directions.** Of 50 re-judged, roughly a third of
+  the old findings were fixed in the code, several old ones fell because the standard
+  moved, and most surviving pairs deviate for a newer, sharper reason. A stale verdict is a
+  claim about two documents that have both moved.
+- **Parallel read-only judges with one map writer** kept the single-owner rule without
+  serializing the reading. Judges' anchors were off by one line twice in 50; printing
+  them back caught it.

@@ -161,3 +161,20 @@ absences from it twice without naming the mechanism. Paired: `shared custody`
 is not an empty result, it is a full one. Corrected the instrument's own
 guidance, which had keyed the habit on emptiness while neither recorded failure
 was ever empty.
+### 2026-09-23 - `/conform --stale` on personas (14 pairs re-judged)
+
+3 deviation, 11 not-applicable. The eleven are credential-vault contexts matched on the
+bare word "vault" - a matcher false positive that recurs on every rebuild. Fixed since:
+the sidecar's escaping and atomic write, and the graph panel's orphan predicate. Still
+short: a second hand-rolled walker in the sidecar, slug-keyed note writes that overwrite
+on collision, a Drive pull that writes notes non-atomically and without a divergence check,
+two orphan predicates and two duplicate-basename rules between graph and lint, and an
+open-in-editor link built from an absolute path. Proposals from the judge, unplaced: (1)
+the golden path has no when-not-to-use section - add one naming credential vaults,
+database browsers and one-shot vector ingest as out of scope, which would also give the
+matcher a precondition to route by; (2) `editor-interop`'s deep-link rule should cover the
+reverse path-shape error (absolute where the scheme is vault-relative): convert at one
+boundary; (3) `replicated-substrate` should cover the application as its own replication
+agent - its writes owe atomic replace and a divergence check, and they reset the mtime
+the staleness check reads. **Coverage:** a directory ingest into a vector store is a real
+gap for an ingestion subject, not this one.
