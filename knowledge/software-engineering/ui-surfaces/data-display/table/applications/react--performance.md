@@ -6,6 +6,9 @@ technique: performance
 stack: react
 verified_on: 2026-09-23
 verified_against: react@19
+applied: code
+ab_verdict: better
+proof: ab-paired
 ---
 
 # Performance — a rung ladder in `goat` that collapsed to zero rungs, and what survived the collapse
@@ -250,3 +253,83 @@ The callback is the stronger defeater: both live callers pass an
 closure is a new function on every grid render and the comparator returns
 false for every mounted card every time. The memo is present; it does not
 hold.
+
+## Applied: one stable handler, and the two upstream handlers that undid it
+
+The change, at `goat` `9e34aaf` on 2026-09-23, did what the technique says.
+The card's `onClick` now takes the item (`(item) => void`), and the grid hands
+every card the one `handleItemClick` that already existed as a `useCallback`
+(`VirtualizedCollectionGrid.tsx:156`). The widened type is
+backward-compatible, because a `() => void` is still assignable. The card
+never calls the prop anyway. It reads only whether the prop is set, for its
+aria label. The click itself lands on the wrapper `div`, which the comparator
+never sees.
+
+**The seam was picked because it could falsify the rule.** The rule says
+"hand rows one stable callback". The question was whether a stable callback at
+the row's call site is enough when the handler it wraps comes from further up.
+It was not enough. Both live callers defeated it:
+
+- `AwardList.tsx:438` passed `onItemClick={(item) => setSelectedItem(item)}`,
+  so every render of the award list built a new handler. `handleItemClick`
+  depends on that handler, so it was rebuilt too, and every card re-rendered.
+- `SimpleMatchGrid.tsx`'s `handleCollectionItemClick` depended on
+  `[mobileSelectedItem, ...]`. So it changed identity on every selection, and
+  selecting one card re-rendered all of them.
+
+So the shipped change fixed both. The award list passes the state setter,
+which is stable by React's guarantee. The match grid reads the selection at
+click time through `useGridStore.getState()` and depends only on the setter.
+
+The instrument was a jsdom harness kept outside the tree. `goat` has no unit
+runner and no DOM library. The harness mounts the real grid, so the real card
+and its hand-written comparator run. It counts one kind of render: a card that
+was already mounted, rendered again with a new props object, which means the
+comparator returned false. Renders driven by the card's own state are
+excluded. The parent is a replica, and its upstream handler takes each live
+caller's shape. The input was fixed: 60 items in 2 groups, 6 columns, and 30
+cards mounted. Each arm ran 3 times, and all 3 runs gave the same numbers.
+
+| Scenario | A, tree as it was | B, as shipped |
+| --- | --- | --- |
+| 5 parent renders that change no card | 150 | 0 |
+| 5 parent renders, fresh but equal item objects each render | 150 | 0 |
+| select one card | 30 | 1 |
+| scroll down one row (30 cards stay mounted) | 66 | 0 |
+| move the selection, selection-dependent upstream handler | 30 | 30 |
+| 5 parent renders, inline upstream handler | 150 | 150 |
+
+The first four rows are the target. The last two are the falsifier: they are
+the upstream shapes the two callers had before this change. In the last two
+rows, B's grid-level fix alone buys nothing.
+
+The floor held in both arms:
+
+- Clicking three card wrappers delivered those three items, in order.
+- Every mounted card kept its clickable aria label.
+- The one card whose selection changed still re-rendered.
+- `tsc --noEmit` reported no error in any touched file. The same run reported
+  39 errors in 15 files that this change did not touch.
+
+ESLint could not run, because the config imports `eslint-plugin-storybook`,
+which is not installed.
+
+What this adds to the technique: a stable callback has to be stable all the
+way to where the handler is first created. A `useCallback` at the row's call
+site takes the identity of every handler it closes over. So an inline arrow,
+or a closure over the current selection, two components up, makes the
+call-site fix decoration again, just as the inline closure did at the row.
+The fresh-items row shows the reverse. Both callers rebuild their groups
+inline on every render (`backlogGroupsToItemCategories(groups)`), but this
+did not defeat the memo. The comparator checks the item's fields, not its
+identity.
+
+What the change does not do:
+
+- The positional `index` prop is still passed. On this path a resort moves
+  most cards into a different row wrapper, and the wrappers are keyed
+  `row-${index}`, so those cards remount whatever `index` does. Dropping
+  `index` without fixing the row key would buy little. This was not measured.
+- The harness's parent is a replica, not `AwardList` or `SimpleMatchGrid`
+  mounted with their stores.
+- jsdom has no layout, so the virtualizer's measurements were stubbed.

@@ -85,6 +85,19 @@ Two invariants make memoization safe instead of stale:
    presentation where it is consumed (or once, at the arrival edge), and hand
    rows one stable callback that takes the identity as its argument.
 
+   "Stable" is a property of the whole chain, not of the row's call site. The
+   container's single callback is only as stable as the handler it wraps, and
+   that handler usually arrives from further up: a parent that writes it
+   inline, or one that recreates it whenever the current selection changes
+   because it reads the selection from its closure. Either one hands the
+   container a new function per render and undoes the row-level fix
+   completely. Measured on a virtualized card grid: the call-site fix alone
+   left every mounted card re-rendering under both upstream shapes, and
+   stabilizing the two upstream handlers too took re-renders on a parent
+   render that changed no card from 150 to 0. Trace the callback back to
+   where it is first created. A handler that needs changing state reads it
+   when the event fires, not from a closure that must be rebuilt to see it.
+
 Selection sets, hover state, and "last updated" markers are the classic
 memoization-defeaters: model them so that a change touches only the rows it
 names.
