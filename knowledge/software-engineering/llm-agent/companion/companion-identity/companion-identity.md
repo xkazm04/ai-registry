@@ -68,9 +68,13 @@ the design, not an implementation detail.
 The **constitution** is law. It states what the companion is for, the boundaries
 it does not cross, how it treats its person, and what it must refuse. Its author
 is the human, always; the companion reads it, is bound by it, and cannot propose
-a change to it through any mechanism the running system exposes. Amending it is
+a change to it through any mechanism the running system exposes — including the
+one that runs through the product, when the companion can change the code that
+ships the baseline law. Amending it is
 an out-of-band act — the person edits the document — and that friction is the
-feature. A companion able to argue its way into an amendment has a constitution
+feature. A product that ships a baseline law keeps its own grammar (the actions
+it offers, its formats) out of that document, so an upgrade has almost nothing to
+change and never needs to overwrite what the person wrote. A companion able to argue its way into an amendment has a constitution
 in the same sense that a lock with the key taped to it is a lock.
 
 The **self-model** is the accumulated self: preferences discovered, working
@@ -131,6 +135,14 @@ is the failure that looks like success and slowly fills the document with
 orphaned restatements of edits that were meant to replace something. Every
 applied diff carries what motivated it and who approved it, so the document's
 history answers "why do you think this about yourself" at every line.
+
+"Human-approved" has to survive the companion's autonomy mode. A switch that means
+"act without asking me" covers acting in the world; it does not cover rewriting,
+unseen, the one document read into every future context, which is also the place
+an instruction injected into a single turn would go to become permanent. Where a
+design does move review after the fact, as widely deployed memory features do,
+the timing moved and the grammar did not: anchored operations only, each shown to
+the person as its before and after, each revertible in one step.
 [anchored-identity-diffs](./techniques/anchored-identity-diffs.md) owns the diff
 grammar, anchor matching, the approval envelope, and the reconciliation of a
 stale proposal.
@@ -145,7 +157,10 @@ The rule is that **the durable self is a folder of plain documents, and any
 database over it is a derived index.** The documents are the truth. The index
 exists because search, recency ordering and relational queries over a folder are
 slow and awkward, and it is rebuilt from the documents whenever the two
-disagree. This inverts the ordinary instinct — most systems make the database
+disagree. So anything whose loss would make the companion say something false —
+whether a promise is still open, for instance — is written to the document, and
+written there first; the index may keep only operational scratch whose reset on
+rebuild is harmless and named. This inverts the ordinary instinct — most systems make the database
 authoritative and the files an export — and the inversion buys three properties
 that nothing else buys.
 
@@ -285,6 +300,13 @@ derivation, the exercise protocol, and the three-state ledger.
 - **The silent append fallback** — a failed anchor match degraded into "add it at
   the end", filling the document with orphaned restatements of edits that were
   supposed to replace something.
+- **Consent by toggle** — an autonomy mode that resolves every approval, including
+  self-model changes and a whole-document form nobody restricted to the first day,
+  so the gate exists in the manual mode only.
+- **The upgrade that rewrites the law** — a shipped baseline that carries the
+  product's own grammar, bumps with every feature, and on each bump sets the
+  person's amendments aside; or a companion able to edit the product's source,
+  which is an amendment path that passes through a build.
 - **The rented self** — identity locked inside an application's database, so the
   person's years of accumulated relationship are non-portable and the promise of
   permanence is unverifiable until it fails.

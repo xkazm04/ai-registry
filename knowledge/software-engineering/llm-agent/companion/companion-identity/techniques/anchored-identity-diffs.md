@@ -6,7 +6,7 @@ technique: anchored-identity-diffs
 status: forged
 laws: [one-validation-door, identity-survives-reuse, failure-not-empty-success]
 shared_with: []
-use_when: [an agent proposes a change to its own description, designing the approval surface for self-edits, a self-document is being rewritten wholesale by the model]
+use_when: [an agent proposes a change to its own description, designing the approval surface for self-edits, a self-document is being rewritten wholesale by the model, an autonomy mode starts resolving approvals without the person]
 ---
 
 # Anchored identity diffs
@@ -51,6 +51,17 @@ headings, and what each is for — is authored by the human, and the companion
 fills it. An operation that can create a section can restructure the document,
 which is the rewrite again wearing a smaller hat, and it also removes the one
 place where the person's intent about *what is worth knowing* is expressed.
+
+**The empty document is not an exception.** The pressure to add a whole-document
+mode arrives with the first draft — an onboarding conversation, nothing yet to
+diff against — and it is the usual way the rewrite gets back in, because once the
+operation exists nothing about it knows it was meant for the first day only. A
+first draft is appends under the human's skeleton, which the grammar already
+expresses; if it will not fit under the per-proposal cap, it is several proposals,
+not a raised cap. Where a design does keep a bootstrap door, it is a **separate
+operation** rather than a mode of the ordinary one, its precondition — the document
+is still only the skeleton — is re-checked against the file at the moment of the
+write, and it is unreachable once that precondition is false.
 
 ## Why whole-file rewrites are excluded
 
@@ -142,8 +153,41 @@ The gate is also the **one validation door** to the document
 passing through it are enumerable and few: an approved proposal, the person's own
 direct edit, and — where the design has one — a correction fast-path. Any code
 that can reach the file without passing the door is the vulnerability, and the
-test is concrete: list every path that can modify the document and name the door
-each one goes through. A list that cannot be completed is the finding.
+test is concrete: list every path that can modify the document, name the door
+each one goes through, **and name who resolves that door in every mode the
+system can be in.** A door whose resolver is an automatic policy in some mode is
+not human-gated in that mode, whatever the prompt and the documentation say about
+it. A list that cannot be completed is the finding.
+
+## Standing consent does not reach the self-description
+
+Companions grow an autonomy mode — the person flips a switch that means "act
+without asking me" — and the natural implementation resolves every pending
+approval automatically. Applied to the self-model, that silently converts the gate
+this technique is built around into a log line, and it does so for the one
+document whose every word is read into every future context. That property is
+what makes the exclusion necessary rather than fussy: an unreviewed write to an
+always-loaded document is the persistence mechanism for anything that got into the
+turn that produced it. An instruction smuggled in through a web page, a message or
+a tool result lasts one turn; the same instruction written into the self-model
+lasts until somebody reads the file. Persistent memory injection against deployed
+assistants is a demonstrated attack class, not a hypothetical.
+
+So the default is that **self-model diffs are outside any blanket consent**, in
+the same class as the few acts only the person can perform. The mode that means
+"act for me" covers acting in the world; it does not cover deciding, unseen, who
+the companion is.
+
+The field's own practice is the counter-case and should be stated fairly: the
+widely deployed memory features write autonomously and let the person review
+afterwards, and agent frameworks hand the model its own editable persona. A design
+may choose that — **pre-approval versus review-after is a timing decision; the
+grammar is not.** Moving review after the fact is defensible only when all of the
+following hold: the automatic path accepts only the anchored operations, never a
+whole-document form; every applied change is shown to the person as its before and
+after, not as "memory updated"; one action reverts it; and the turns that can
+propose it are not reading untrusted content. Where any of those fails, the
+approval waits for the person, and an autonomy mode leaves it waiting.
 
 ## Corrections take the fast path, and are still diffs
 
