@@ -181,9 +181,9 @@
       "adopters": [],
       "invokes30d": 0,
       "reportedInvokes": 0,
-      "lessons": 4,
+      "lessons": 5,
       "lessonsPath": "skills/contest/LESSONS.md",
-      "lessonsHash": "sha256-n1:50e4680de0908169",
+      "lessonsHash": "sha256-n1:7e622c300e23219d",
       "usageContributors": [],
       "runs30d": 0,
       "outcomes30d": {},
@@ -952,7 +952,7 @@
     "skills": 36,
     "practices": 8,
     "memory": 6,
-    "lessons": 267
+    "lessons": 268
   },
   "bundles": [
     {
@@ -1081,9 +1081,9 @@
       "purity": "software",
       "subjects": 232,
       "techniques": 1787,
-      "applications": 1129,
-      "files": 3153,
-      "contentHash": "sha256:50f04f9944a7924b"
+      "applications": 1131,
+      "files": 3155,
+      "contentHash": "sha256:574550afff99f6d9"
     }
   ],
   "usageEvidence": {

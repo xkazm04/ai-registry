@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 232,
   "techniques": 1787,
-  "applications": 1129,
+  "applications": 1131,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -2485,9 +2485,9 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-runtime-assembly/agent-runtime-assembly.md",
-   "digest": "sha256:e2f38e9d0dea752a",
-   "revision": 24,
-   "changedAt": "2026-09-22",
+   "digest": "sha256:4f0d617198d3030b",
+   "revision": 25,
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "activation-is-a-separate-mutation",
@@ -2833,9 +2833,9 @@
      "stack": "python",
      "technique": "rewrite-before-the-gate",
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-runtime-assembly/applications/python--rewrite-before-the-gate.md",
-     "verified_on": "2026-09-02",
+     "verified_on": "2026-09-23",
      "verified_against": "python@3.12",
-     "refresh_by": "2026-10-15"
+     "refresh_by": "2026-11-05"
     },
     {
      "stack": "python",
@@ -6148,9 +6148,9 @@
    "subcategory": "companion",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/companion/companion-identity/companion-identity.md",
-   "digest": "sha256:f923498c9a7bf176",
-   "revision": 2,
-   "changedAt": "2026-08-24",
+   "digest": "sha256:fca51c230d725564",
+   "revision": 3,
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "anchored-identity-diffs",
@@ -6164,7 +6164,8 @@
      "use_when": [
       "an agent proposes a change to its own description",
       "designing the approval surface for self-edits",
-      "a self-document is being rewritten wholesale by the model"
+      "a self-document is being rewritten wholesale by the model",
+      "an autonomy mode starts resolving approvals without the person"
      ]
     },
     {
@@ -6210,7 +6211,9 @@
      "use_when": [
       "deciding what an agent may change about itself",
       "writing a companion's identity documents",
-      "a rule keeps getting overwritten by the agent's own learning"
+      "a rule keeps getting overwritten by the agent's own learning",
+      "upgrading a shipped constitution the person may have edited",
+      "the companion can change the code of the product that ships its law"
      ]
     },
     {
@@ -6272,13 +6275,22 @@
      "stack": "rust",
      "technique": "anchored-identity-diffs",
      "file": "knowledge/software-engineering/llm-agent/companion/companion-identity/applications/rust--anchored-identity-diffs.md",
-     "verified_on": "2026-08-23"
+     "verified_on": "2026-09-23",
+     "verified_against": "rust@1.96"
+    },
+    {
+     "stack": "rust",
+     "technique": "constitution-self-model-split",
+     "file": "knowledge/software-engineering/llm-agent/companion/companion-identity/applications/rust--constitution-self-model-split.md",
+     "verified_on": "2026-09-23",
+     "verified_against": "rust@1.96"
     },
     {
      "stack": "rust",
      "technique": "disk-truth-db-index",
      "file": "knowledge/software-engineering/llm-agent/companion/companion-identity/applications/rust--disk-truth-db-index.md",
-     "verified_on": "2026-08-23"
+     "verified_on": "2026-09-23",
+     "verified_against": "rust@1.96"
     },
     {
      "stack": "rust",
@@ -6293,9 +6305,9 @@
    "subcategory": "companion",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/companion/companion-runtime/companion-runtime.md",
-   "digest": "sha256:0d0b7d17a538708c",
-   "revision": 2,
-   "changedAt": "2026-08-24",
+   "digest": "sha256:7e1883cd91b41e16",
+   "revision": 3,
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "action-catalog-single-source",
@@ -6312,7 +6324,9 @@
       "the model emits an action kind nothing executes",
       "a model-composed surface has no way back to a good state",
       "the component that teaches the model does not share a process or a language with the one that executes",
-      "an accepted proposal must run against a catalog that has changed since it was made"
+      "an accepted proposal must run against a catalog that has changed since it was made",
+      "a label or risk table on a surface keeps its own list of action kinds",
+      "a parity test over the catalog was deleted in a refactor"
      ]
     },
     {
@@ -6356,7 +6370,8 @@
      "use_when": [
       "a second channel needs the same companion brain",
       "the companion cannot be constructed in a test",
-      "deciding what a companion runtime may import from its host"
+      "deciding what a companion runtime may import from its host",
+      "deciding whether the store needs a hand-written double"
      ],
      "stage": "team"
     },
@@ -6420,16 +6435,25 @@
      "verified_on": "2026-08-24"
     },
     {
+     "stack": "react",
+     "technique": "action-catalog-single-source",
+     "file": "knowledge/software-engineering/llm-agent/companion/companion-runtime/applications/react--action-catalog-single-source.md",
+     "verified_on": "2026-09-23",
+     "verified_against": "react@19"
+    },
+    {
      "stack": "rust",
      "technique": "action-catalog-single-source",
      "file": "knowledge/software-engineering/llm-agent/companion/companion-runtime/applications/rust--action-catalog-single-source.md",
-     "verified_on": "2026-08-23"
+     "verified_on": "2026-09-23",
+     "verified_against": "rust@1.96"
     },
     {
      "stack": "rust",
      "technique": "host-seam-contracts",
      "file": "knowledge/software-engineering/llm-agent/companion/companion-runtime/applications/rust--host-seam-contracts.md",
-     "verified_on": "2026-08-23"
+     "verified_on": "2026-09-23",
+     "verified_against": "rust@1.96"
     },
     {
      "stack": "rust",
@@ -12250,9 +12274,9 @@
    "subcategory": "data-layer",
    "status": "reconciled",
    "file": "knowledge/software-engineering/backend-platform/data-layer/embedded-db/embedded-db.md",
-   "digest": "sha256:81a015d32c782317",
-   "revision": 14,
-   "changedAt": "2026-09-17",
+   "digest": "sha256:af0d3d2072b2f20e",
+   "revision": 15,
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "analytical-reads-off-the-serving-store",
@@ -12433,9 +12457,9 @@
      "stack": "python",
      "technique": "corruption-class-response",
      "file": "knowledge/software-engineering/backend-platform/data-layer/embedded-db/applications/python--corruption-class-response.md",
-     "verified_on": "2026-09-02",
+     "verified_on": "2026-09-23",
      "verified_against": "python@3.12",
-     "refresh_by": "2026-10-15"
+     "refresh_by": "2026-11-05"
     },
     {
      "stack": "rust",
@@ -24509,9 +24533,9 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/prompt-assembly.md",
-   "digest": "sha256:23dde2144f1e50ad",
-   "revision": 37,
-   "changedAt": "2026-09-22",
+   "digest": "sha256:0a8e30fdc764180f",
+   "revision": 38,
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "amortized-compaction-cadence",
@@ -25033,9 +25057,9 @@
      "stack": "python",
      "technique": "amortized-compaction-cadence",
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/applications/python--amortized-compaction-cadence.md",
-     "verified_on": "2026-09-02",
+     "verified_on": "2026-09-23",
      "verified_against": "python@3.12",
-     "refresh_by": "2026-10-15"
+     "refresh_by": "2026-11-05"
     },
     {
      "stack": "python",
@@ -33099,9 +33123,9 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/tenant-scoped-agent-runtime/tenant-scoped-agent-runtime.md",
-   "digest": "sha256:8c40dd590387bd63",
-   "revision": 5,
-   "changedAt": "2026-09-17",
+   "digest": "sha256:ca1b2071a269631a",
+   "revision": 6,
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "fail-direction-follows-deployment-mode",
@@ -33206,9 +33230,9 @@
      "stack": "python",
      "technique": "task-local-tenant-scope",
      "file": "knowledge/software-engineering/llm-agent/orchestration/tenant-scoped-agent-runtime/applications/python--task-local-tenant-scope.md",
-     "verified_on": "2026-09-02",
+     "verified_on": "2026-09-23",
      "verified_against": "python@3.12",
-     "refresh_by": "2026-10-15"
+     "refresh_by": "2026-11-05"
     }
    ]
   },
