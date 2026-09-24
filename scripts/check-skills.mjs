@@ -56,7 +56,11 @@ const NAME_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 // Frontmatter keys the lane names, plus the keys the reference harness (Claude Code)
 // reads from a SKILL.md. Unknown keys are NOT a failure: this registry guarantees
 // `compatibility: additive`. They are surfaced as notes so a typo'd key is visible.
-const LANE_KEYS = ['name', 'description', 'category', 'memory', 'version', 'tags'];
+const LANE_KEYS = ['name', 'description', 'category', 'memory', 'version', 'tags', 'listing'];
+// `listing:` is the skill's tier in the model's skill listing, written into each consumer's
+// skillOverrides by link-registry.mjs. Absent means `name-only`: most of this lane is started by
+// the operator by name, and the description is the per-session cost.
+const LISTING_TIERS = new Set(['on', 'name-only', 'user-invocable-only']);
 const HARNESS_KEYS = [
   'argument-hint', 'arguments', 'allowed-tools', 'disallowed-tools', 'disable-model-invocation',
   'user-invocable', 'paths', 'context', 'agent', 'model', 'effort', 'background', 'hooks', 'shell',
@@ -218,6 +222,9 @@ for (const s of skills) {
 
   if (fm.category !== undefined && !CATEGORIES.has(String(fm.category))) {
     fail(`${rel}/SKILL.md: category ${JSON.stringify(fm.category)} is outside the closed set [${[...CATEGORIES].join(', ')}] — an unlisted value is normalized to "other" at index time, so a typo would silently recategorize the skill rather than fail`);
+  }
+  if (fm.listing !== undefined && !LISTING_TIERS.has(String(fm.listing))) {
+    fail(`${rel}/SKILL.md: listing ${JSON.stringify(fm.listing)} is outside [${[...LISTING_TIERS].join(', ')}] - link-registry would refuse to write it, and the skill would keep the default name-only tier silently`);
   }
   if (fm.version !== undefined && !parseSemver(fm.version)) {
     fail(`${rel}/SKILL.md: version ${JSON.stringify(fm.version)} is not semver (MAJOR.MINOR.PATCH)`);

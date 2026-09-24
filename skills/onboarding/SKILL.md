@@ -3,7 +3,8 @@ name: onboarding
 description: "Take a fresh clone of an app repo to a running, honestly-labelled install in one conversation: probe runtime deps, ask which connector capabilities the operator wants, collect keys into .env.local without ever echoing a secret, verify by booting the app, and hand back a capability matrix with three honest states per group (works / degraded with a stated fallback / hidden). Runs on generic defaults with no configuration (probe node, git and the Claude CLI; read .env.example; boot the dev script) and reads project specifics from .claude/onboarding/config.md. Invoke with /onboarding (full run), /onboarding <group> (one capability group), or /onboarding check (doctor pass, no questions)."
 category: workflow
 memory: none
-version: 0.6.0
+listing: on
+version: 0.6.1
 tags: onboarding, setup, env, secrets, capability-matrix, doctor, fresh-clone
 argument-hint: "[<group>|check]"
 ---

@@ -3,7 +3,7 @@ name: agent-guidance-bootstrap
 description: "Create or refresh a repo's AGENTS.md so an agent joining the codebase gets commands, architecture and constraints without guessing. Use on a repo with no agent guidance, or when the existing file has gone stale."
 category: ai-native
 memory: project
-version: 0.8.0
+version: 0.9.0
 tags: agents-md, onboarding, context, conventions
 argument-hint: "[project-root]"
 ---
@@ -94,6 +94,18 @@ Do not report a change as done before these pass.
   five of five runs on a repo with a 77-line canonical `CLAUDE.md` chose the lossy direction,
   and each dropped rules nobody noticed were gone. Only when both files carry content does
   merging arise, and then the older, more-referenced one is canonical.
+- **The pointer must be in the form the reader resolves.** A pointer written for a human -
+  "see AGENTS.md" in prose, or the bare filename - delivers nothing to an agent that does not
+  decide to open it. Three topologies are valid, and each has one check:
+  - `AGENTS.md` canonical, no `CLAUDE.md` anywhere on the path: harnesses that read
+    `AGENTS.md` natively serve it directly. Check that no `CLAUDE.md`, `.claude/CLAUDE.md` or
+    `CLAUDE.local.md` exists at or above the root, because any one of them suppresses it.
+  - `AGENTS.md` canonical and a `CLAUDE.md` also needed: the `CLAUDE.md` carries the line
+    `@AGENTS.md` (an import, not a sentence), with anything Claude-specific below it.
+  - `CLAUDE.md` canonical: `AGENTS.md` is a pointer for other tools and restates nothing.
+  Two populated files with neither importing the other is a fork, and in the common harness
+  the second file never loads at all. Adding an `AGENTS.md` beside a populated `CLAUDE.md` does
+  not "enable native support"; fold its content into the canonical file instead.
 - **Demotion is no-loss.** Before a file becomes a pointer, every rule in it appears in the
   canonical file — same meaning, same specificity. A rule you deliberately leave out is named
   in the report as dropped, with the reason. Check by listing the demoted file's rules and

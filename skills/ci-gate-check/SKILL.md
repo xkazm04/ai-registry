@@ -3,7 +3,8 @@ name: ci-gate-check
 description: "Run the exact checks CI enforces before you push, so a red pipeline is never how you find out. Use before every push, before opening a PR, and after an agent finishes a batch of edits."
 category: ci-cd
 memory: project
-version: 1.7.0
+listing: on
+version: 1.7.1
 tags: pre-push, gate, lint, typecheck, tests
 argument-hint: "[--fix]"
 ---

@@ -5,7 +5,8 @@ category: other
 description: Generate images with OpenAI GPT Image 2.5 (Sunburst for detail, Flare for speed) or Leonardo AI (fallback), remove backgrounds, analyze with Gemini vision, and write SVG. For brand assets, UI illustrations, backgrounds, and icons.
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash(node *), Bash(npx *)
 argument-hint: <description of visual asset to create>
-version: 1.5.1
+listing: on
+version: 1.5.2
 ---
 
 # Leonardo — AI Image Generation & Visual Assets

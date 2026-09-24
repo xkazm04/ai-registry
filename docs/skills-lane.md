@@ -101,6 +101,7 @@ argument-hint: "[--fix]"          # optional - a harness key
 | `memory` | yes | Which memory scope the skill reads and writes: `project`, `vault`, `user`, `none`. |
 | `version` | yes | Semver `MAJOR.MINOR.PATCH`, three parts. See below — this field does more work than any other. |
 | `tags` | no | Free-form, comma-separated or a list. |
+| `listing` | no | The skill's tier in the model's skill listing: `on` (name and description, selected on resemblance), `name-only` (listed by name, reachable by anything that names it, description not paid for), `user-invocable-only` (hidden from the model; a person starts it). **Absent means `name-only`**: most of the lane is started by the operator by name. Declare `on` only for a skill that must fire mid-task without being named (a gate, a guard, a copy check). `scripts/link-registry.mjs` writes the tier into each consumer's gitignored `.claude/settings.local.json` (`--listing-only` runs that pass alone). See the `listing-tier-by-initiator` technique for the evidence and the falsifier. |
 
 **Harness keys are allowed** and passed through unchanged: `argument-hint`, `arguments`,
 `allowed-tools`, `disallowed-tools`, `disable-model-invocation`, `user-invocable`,

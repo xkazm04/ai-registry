@@ -118,6 +118,21 @@ has imported the third shape's rule into a provider that runs the first.
 Record the shape beside the price ratios, and re-measure it when the
 provider's API changes — for one provider it moved inside a single release.
 
+The re-measurement is worth running whenever the claim arrives second-hand.
+On 2026-09-24 two practitioner reports relayed that a vendor's newest models
+"update effort mid-conversation without breaking the cache". The same
+harness, re-measured on its two newest model families with the flip arm run
+*first* on a forked resume (so no sibling arm could have warmed it), showed
+the first shape unchanged: the flip read only the tool layer (17-19k tokens)
+and rewrote everything below it, while the same-effort arm read the whole
+prefix and wrote 38 tokens. The flip turn cost 1.7-1.9x at a near-empty
+conversation, and since the cache is a prefix, in a long conversation "below
+the tool layer" is the entire history. Clean in both repeats on one family
+and in four of five forks on the other; the fifth read everything, and one
+unexplained read is recorded, not averaged away. The relayed rule was the
+third shape's rule imported into a provider that runs the first, which is
+the error the paragraph above predicts.
+
 ## The cached prefix is also a latency asset
 
 Everything above prices the prefix in money. For an interactive class the

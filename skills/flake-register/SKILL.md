@@ -3,7 +3,8 @@ name: flake-register
 description: "Quarantine an intermittently failing test as tracked debt - owner, cause, expiry - instead of deleting it or leaving it to rot. Use before muting or skipping any test, and on a schedule to review the register."
 category: testing
 memory: project
-version: 0.4.0
+listing: on
+version: 0.4.1
 tags: flaky, quarantine, register, debt, review
 argument-hint: "[test-id | review]"
 ---

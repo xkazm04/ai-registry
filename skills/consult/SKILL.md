@@ -3,7 +3,8 @@ name: consult
 description: "Consult the ai-registry's knowledge bundles before a product, architecture or domain decision: resolve the registry (local checkout or GitHub), pick the bundle(s) this repo consumes, match the task against subjects and techniques by their use_when triggers, read the golden path + the techniques that apply, apply them, and log the consult so the signals lane can count demand. Use before designing a feature, choosing a pattern, writing a prompt/rubric, or making a product call in any domain the registry covers (software engineering, recruiting, media generation, game production, LLM observability, grant funding, civic intelligence). Invoke with /consult <what you are about to decide or build> [--bundle <name>] [--deep]."
 category: ai-native
 memory: project
-version: 1.6.0
+listing: on
+version: 1.6.1
 tags: knowledge, rkb, consult, routing, signals
 argument-hint: "<topic or decision> [--bundle <name>] [--deep]"
 ---

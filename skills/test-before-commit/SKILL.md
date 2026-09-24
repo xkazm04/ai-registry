@@ -3,7 +3,8 @@ name: test-before-commit
 description: "Prove a change works before it is committed by writing or extending a test that fails first and then passes. Use whenever you change behaviour, fix a bug, or accept AI-generated code."
 category: testing
 memory: project
-version: 2.5.0
+listing: on
+version: 2.5.1
 tags: verification, regression, red-green, review
 argument-hint: "[change description]"
 ---
