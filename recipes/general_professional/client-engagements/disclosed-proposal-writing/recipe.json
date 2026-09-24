@@ -1,0 +1,124 @@
+{
+  "id": "8bd21405-48a4-4582-88ad-aa26021beadd",
+  "slug": "disclosed-proposal-writing",
+  "title": "Disclosed freelance proposal writing",
+  "version": "0.1.0",
+  "status": "seed",
+  "path": "general_professional/client-engagements",
+  "domain": "general_professional",
+  "description": {
+    "need": "Proposals written for volume read as written for volume: a generic opening, a list of skills, a promise of quality, and the client who received forty of them answers none. Assisted writing makes the volume cheaper and the sameness worse, and it adds two failures of its own: a promise the operator's past work cannot back, and assistance hidden from a client who would have wanted to know, which some venues require and which, for clients in the EU, the transparency obligation now expects. A proposal is the first evidence a client has of how the operator tells the truth.",
+    "input": "The client's brief and anything it links, the questions the venue or the client asks applicants to answer, the operator's verified past work and what each piece proves, the operator's rates and availability, and the venue's rules on AI assistance.",
+    "core_action": "Decide whether this is a brief the operator can demonstrably do well, and only then write a short note that shows it was understood, names the one or two decisions the work turns on, offers past work that bears on exactly those, and states plainly how AI assistance is used.",
+    "output": "A draft the human operator reads, edits and sends under their own name, specific to the brief, backed only by claims the operator can evidence and with any AI assistance disclosed; or a recorded decision not to bid, with the reason."
+  },
+  "activities": [
+    {
+      "id": "read",
+      "label": "Read the brief for the outcome and the decisions the work turns on",
+      "kind": "observe"
+    },
+    {
+      "id": "qualify",
+      "label": "Decide whether the operator can demonstrably do it well, or pass",
+      "kind": "decide"
+    },
+    {
+      "id": "match",
+      "label": "Match each claim to past work that proves it, dropping any without",
+      "kind": "decide"
+    },
+    {
+      "id": "draft",
+      "label": "Draft a short note specific to the brief, with assistance disclosed",
+      "kind": "act"
+    },
+    {
+      "id": "handover",
+      "label": "Hand the draft to the operator to edit and send under their own name",
+      "kind": "deliver"
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "every-proposal-is-about-this-brief",
+      "statement": "A client reading the proposal can tell within its first lines that their brief was read and understood.",
+      "success_criteria": [
+        "The opening restates the client's problem or names a decision inside it, rather than introducing the operator.",
+        "The proposal names the one or two questions the work turns on, or a risk the brief did not mention, because a specific question is the cheapest proof of understanding available.",
+        "Questions the venue or the client asks applicants are answered directly and specifically, never with a paragraph reused across bids.",
+        "A brief the operator cannot do well is passed with the reason recorded, because a weak bid spends the operator's reputation, and often a bidding cost, on a reply that rarely comes."
+      ]
+    },
+    {
+      "id": "claims-are-backed-by-evidence",
+      "statement": "Nothing in the proposal promises more than the operator's record can show.",
+      "success_criteria": [
+        "Every claim of experience points to past work that demonstrates it, and a claim with no such work is dropped rather than softened into something vaguer.",
+        "A price or timeline is given with the assumptions it rests on, and nothing is promised that depends on facts the brief has not supplied.",
+        "No invented portfolio item, client, review or credential appears, and the availability stated is the operator's real availability."
+      ]
+    },
+    {
+      "id": "assistance-is-disclosed-and-a-human-sends",
+      "statement": "The client knows how AI assistance is used, and a person stands behind what was sent.",
+      "success_criteria": [
+        "The proposal says plainly and briefly how AI assistance is used in the work, in terms a client can weigh, wherever a venue or jurisdiction requires it and by default elsewhere.",
+        "The draft is sent, if at all, by the human operator from their own account after reading it; the agent never submits, never holds an account and never contacts the client directly.",
+        "The operator's edits to each draft are kept, because the difference between the draft and what was sent is how the next draft improves."
+      ]
+    }
+  ],
+  "guidance": "Bid less, and bid specifically. A proposal proves understanding by naming a decision the brief turns on, not by listing skills. Every claim needs past work behind it; drop the ones without. Give prices and dates with the assumptions they rest on. Disclose AI assistance plainly: a client who finds out later rereads the whole relationship, and some venues and jurisdictions require it anyway. When the operator cannot demonstrably do the work, the best proposal is none.",
+  "use_cases": [
+    "An operator whose proposals draw few replies, who suspects they read like everyone else's and cannot tell which part makes them so.",
+    "A specialist moving from general bids to a narrow niche, whose past work has to be matched carefully to each brief to justify a specialist rate.",
+    "A freelancer using an assistant to draft bids, who wants the speed without the generic register clients have learned to skip, and without hiding that the assistant exists.",
+    "An operator serving clients in the EU, where telling a client they are dealing with AI assisted work is becoming an obligation rather than a courtesy.",
+    "Someone bidding on a venue that charges for each proposal, where answering briefs they cannot win is a direct cost as well as a reputational one."
+  ],
+  "connector_types": [
+    "messaging",
+    "email",
+    "knowledge_base"
+  ],
+  "recommended_trigger": {
+    "kind": "event",
+    "rationale": "A proposal answers one brief, and the work has nothing to do until a brief the operator might take is put in front of it. Briefs are often decided within days, which argues for starting when one arrives rather than on a schedule that would batch it into lateness, and choosing which briefs reach the work is the operator's call, not the recipe's."
+  },
+  "personalization_needs": [
+    "The operator's verified past work and what each piece proves, because a proposal can only claim what that record supports.",
+    "Rates, availability and the kinds of work the operator declines, since a proposal promising a start the operator cannot keep costs more than no proposal.",
+    "The operator's own wording for disclosing AI assistance, so the disclosure reads as theirs and stays consistent from bid to bid.",
+    "The operator's voice, drawn from proposals they wrote themselves, because the draft goes out under their name."
+  ],
+  "dependencies": [],
+  "input_schema": [
+    {
+      "name": "disclosure_default",
+      "type": "enum",
+      "options": [
+        "always",
+        "where_required"
+      ],
+      "default": "always",
+      "description": "When the proposal states how AI assistance is used. Always is the default because a client who learns it later reads every earlier message differently; where_required narrows it to the venues and jurisdictions that demand it, and leaves the operator owning that choice."
+    }
+  ],
+  "examples": [
+    {
+      "title": "Upwork proposals as the messaging connector",
+      "connector": "upwork",
+      "connector_type": "messaging",
+      "notes": "See examples/upwork.md."
+    }
+  ],
+  "lessons": [],
+  "provenance": {
+    "from_recipes": [
+      "1e3b8fa3-8146-510a-8294-21593e156389"
+    ],
+    "from_templates": [],
+    "source_note": "Authored 2026-09-24 for an operator composing specialist agents that take paid work, with a human reviewing every draft and sending it under their own account. Two judgments come from the correspondence drafting recipe named in from_recipes: that a draft which cannot be written specifically should not be written at all, and that the human's edits are the learning signal. Grounded in research of that date: no paying venue lets an unattended agent hold an account or submit, marketplace bot use leads to permanent bans, specialists command several times generalist rates, and disclosure of AI use is required by some venues and, for anyone interacting with clients in the EU, by the AI Act transparency obligation from 2 August 2026."
+  }
+}

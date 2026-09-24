@@ -3,18 +3,18 @@
   "generated_by": "scripts/build-recipes-index.mjs",
   "lane": "recipes",
   "source": "recipes/<domain>/<topic>/<slug>/recipe.json",
-  "recipes": 136,
+  "recipes": 141,
   "by_status": {
-   "seed": 136
+   "seed": 141
   },
   "by_domain": {
    "legal_compliance": 9,
    "operations_logistics": 4,
    "finance_accounting": 12,
-   "data_ai": 8,
+   "data_ai": 9,
    "software_engineering": 45,
    "creative_design": 13,
-   "general_professional": 13,
+   "general_professional": 17,
    "customer_support": 8,
    "sales_marketing": 19,
    "product_project": 5
@@ -591,6 +591,20 @@
    ],
    "recommended_trigger_kind": "self_paced"
   },
+  "data-competition-entry": {
+   "path": "recipes/data_ai/competitions/data-competition-entry",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "data_ai",
+   "topic": "competitions",
+   "title": "Data competition entry",
+   "connector_types": [
+    "research",
+    "source_control",
+    "knowledge_base"
+   ],
+   "recommended_trigger_kind": "self_paced"
+  },
   "data-dictionary-stewardship": {
    "path": "recipes/data_ai/data-quality/data-dictionary-stewardship",
    "version": "0.1.1",
@@ -774,6 +788,20 @@
    ],
    "recommended_trigger_kind": "self_paced"
   },
+  "disclosed-proposal-writing": {
+   "path": "recipes/general_professional/client-engagements/disclosed-proposal-writing",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "general_professional",
+   "topic": "client-engagements",
+   "title": "Disclosed freelance proposal writing",
+   "connector_types": [
+    "messaging",
+    "email",
+    "knowledge_base"
+   ],
+   "recommended_trigger_kind": "event"
+  },
   "email-inbox-attention-digest": {
    "path": "recipes/general_professional/digests/email-inbox-attention-digest",
    "version": "0.2.2",
@@ -865,6 +893,20 @@
     "development"
    ],
    "recommended_trigger_kind": "self_paced"
+  },
+  "freelance-brief-delivery": {
+   "path": "recipes/general_professional/client-engagements/freelance-brief-delivery",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "general_professional",
+   "topic": "client-engagements",
+   "title": "Freelance client brief delivery",
+   "connector_types": [
+    "messaging",
+    "email",
+    "source_control"
+   ],
+   "recommended_trigger_kind": "event"
   },
   "general-ledger-close-and-reconciliation": {
    "path": "recipes/finance_accounting/spend-and-budget/general-ledger-close-and-reconciliation",
@@ -1229,6 +1271,20 @@
    ],
    "recommended_trigger_kind": "self_paced"
   },
+  "paid-work-outcome-retrospective": {
+   "path": "recipes/general_professional/client-engagements/paid-work-outcome-retrospective",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "general_professional",
+   "topic": "client-engagements",
+   "title": "Paid work outcome retrospective",
+   "connector_types": [
+    "messaging",
+    "email",
+    "source_control"
+   ],
+   "recommended_trigger_kind": "event"
+  },
   "payment-event-scoring-for-churn-and-expansion": {
    "path": "recipes/finance_accounting/revenue/payment-event-scoring-for-churn-and-expansion",
    "version": "0.2.1",
@@ -1278,6 +1334,19 @@
     "productivity"
    ],
    "recommended_trigger_kind": "self_paced"
+  },
+  "pre-send-deliverable-verification": {
+   "path": "recipes/general_professional/client-engagements/pre-send-deliverable-verification",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "general_professional",
+   "topic": "client-engagements",
+   "title": "Pre-send client deliverable verification",
+   "connector_types": [
+    "source_control",
+    "knowledge_base"
+   ],
+   "recommended_trigger_kind": "event"
   },
   "product-design-brief-authoring": {
    "path": "recipes/creative_design/visual-assets/product-design-brief-authoring",
