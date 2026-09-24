@@ -6,7 +6,7 @@ three. The families differ in **what evidence they offer**, not in how they look
 
 | Family | Evidence it offers | Good for | Implies falsely when misused | Cost |
 | --- | --- | --- | --- | --- |
-| Product-true | "this is what you will see" | features, onboarding, hero, anything the reader will meet in the product | a screen or control the product does not have; a number that reads as a metric | medium; decays when the product changes, so name what it copies |
+| Product-true (a silhouette) | "this is what you will see", shown by structure, with skeleton bars for text | features, onboarding, hero, anything the reader will meet in the product | a screen or control the product does not have; a number that reads as a metric | medium; decays when the product changes, so name what it copies |
 | Mechanism | "this is how it works" | pipelines, hand-offs, sync, anything with order, overlap or waiting | a sequence the system does not follow; timing that implies speed | medium-high; needs a beat list, step controls, a still form |
 | Transformation | "this is what changes" | automation, cleanup, extraction, before/after value | a before that is a strawman; an after nobody gets on day one | low-medium |
 | Spatial metaphor | "this is how the parts relate" | architecture, ecosystems, integrations, hubs and layers | structure the system does not have (a hub where there is none) | medium |
@@ -38,5 +38,15 @@ Break the default when the brief says so:
 4. **Still test.** Take one frame (thumbnail, reduced motion, print). Does the claim
    survive? For a mechanism, it survives only if the art gives time an axis or ships a
    filmstrip.
-5. **False-implication test.** Name what the picture implies that the product does not
+5. **Mute test.** Hide every word. The idea must still read from shape, position,
+   colour, grouping and motion. If it does not, the candidate is a text layout.
+6. **False-implication test.** Name what the picture implies that the product does not
    do. If it cannot be removed, the candidate is out.
+
+## The text budget
+
+Every family is judged against the same budget inside the art: at most 30 words, no
+run longer than 6 words, text on at most 6% of the area, and one caption line outside.
+The first run's lesson is that the product-true family breaks the budget by default,
+because a faithful screen is full of real sentences. Draw its structure and skeleton
+its text.

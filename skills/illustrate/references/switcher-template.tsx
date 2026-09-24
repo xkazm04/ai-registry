@@ -10,6 +10,8 @@
  *   - each tab carries data-illustrate-tab="<variant-key>"
  *   - "current" is the first tab and the default
  *   - the selection is mirrored to ?illustrate=<section>:<key> so a variant can be linked
+ *   - each variant marks its illustration root data-illustrate-art (the text budget is
+ *     measured inside it; the section heading and lede sit outside)
  *
  * It renders the same markup on the server and on the first client render
  * (current selected), then reads the query after mount. That keeps hydration

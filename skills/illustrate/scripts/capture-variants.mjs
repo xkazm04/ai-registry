@@ -9,8 +9,10 @@
  *
  * Output: <out>/<section>-<tab>-<width>-<motion>.png, report.json, contact.html.
  * Exit 0 = captured, 2 = instrument failure (no browser library, page unreachable,
- * section or tab not found), 3 = captured but at least one capture is BLANK or a
- * variant runs an infinite animation under reduced motion.
+ * section or tab not found), 3 = captured but at least one capture is BLANK, a
+ * variant runs an infinite animation under reduced motion, or a variant's art is
+ * TEXT-HEAVY (more words than a label layer, a sentence-length run, or text covering
+ * too much of the picture; limits via --max-words --max-run --max-ratio).
  *
  * No dependencies of its own: it resolves the browser automation library from the
  * consuming project (the current working directory), because that project already
@@ -19,10 +21,11 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { createRequire } from 'node:module';
-import { parseArgs, blankScore, captureName } from './lib/capture-core.mjs';
+import { parseArgs, blankScore, captureName, textVerdict, TEXT_LIMITS } from './lib/capture-core.mjs';
 
 const args = parseArgs(process.argv.slice(2));
 if (args.error) { console.error(args.error); process.exit(2); }
+const limits = { ...TEXT_LIMITS, ...args.limits };
 
 let chromium;
 try {
@@ -88,8 +91,29 @@ try {
             r?.contains(a.effect.target)).length;
         }, `[data-illustrate="${args.section}"]`);
         const smil = await root.locator('animate, animateTransform, animateMotion').count();
-        const row = { tab, width, motion, file, blank: blank.blank, spread: blank.spread, infinite, smil };
-        if (blank.blank || (motion === 'reduce' && (infinite > 0 || smil > 0))) failed = true;
+        // Text inside the illustration: variants mark their art root with data-illustrate-art,
+        // so the section's own heading and copy are not counted against the picture.
+        const text = await root.evaluate((r) => {
+          const art = r.querySelector('[data-illustrate-art]');
+          const scope = art || r;
+          const box = scope.getBoundingClientRect();
+          const area = Math.max(1, box.width * box.height);
+          let words = 0, longestRun = 0, textArea = 0;
+          const walk = document.createTreeWalker(scope, NodeFilter.SHOW_TEXT);
+          while (walk.nextNode()) {
+            const n = walk.currentNode; const t = n.textContent.trim(); if (!t) continue;
+            const range = document.createRange(); range.selectNodeContents(n);
+            const a = [...range.getClientRects()].reduce((s, q) => s + q.width * q.height, 0);
+            if (a < 1) continue; // not rendered
+            const k = t.split(/s+/).length; words += k; longestRun = Math.max(longestRun, k); textArea += a;
+          }
+          return { scoped: !!art, words, longestRun, textRatio: textArea / area };
+        });
+        const tv = textVerdict(text, limits);
+        const row = { tab, width, motion, file, blank: blank.blank, spread: blank.spread, infinite, smil,
+          artScoped: text.scoped, words: text.words, longestRun: text.longestRun, textRatio: +text.textRatio.toFixed(3),
+          textHeavy: tv.heavy, textReasons: tv.reasons };
+        if (blank.blank || (motion === 'reduce' && (infinite > 0 || smil > 0)) || (tab !== 'current' && tv.heavy)) failed = true;
         rows.push(row);
       }
       await ctx.close();
@@ -104,13 +128,13 @@ await browser.close();
 
 fs.writeFileSync(path.join(args.out, 'report.json'), JSON.stringify({ url: args.url, section: args.section, rows }, null, 2));
 const cell = (r) => r.hidden ? `<figure><figcaption>${r.tab} · ${r.width}px · ${r.motion} · hidden at this width by the layout</figcaption></figure>` : `<figure><img src="${r.file}" loading="lazy"><figcaption>${r.tab} · ${r.width}px · ${r.motion}` +
-  `${r.blank ? ' · <b>BLANK</b>' : ''}${r.motion === 'reduce' && (r.infinite || r.smil) ? ` · <b>moving under reduce (${r.infinite}+${r.smil})</b>` : ''}</figcaption></figure>`;
+  `${r.blank ? ' · <b>BLANK</b>' : ''}${r.textHeavy ? ` · <b>TEXT-HEAVY: ${r.textReasons.join('; ')}</b>` : ` · ${r.words} words`}${r.motion === 'reduce' && (r.infinite || r.smil) ? ` · <b>moving under reduce (${r.infinite}+${r.smil})</b>` : ''}</figcaption></figure>`;
 const byTab = args.tabs.map((t) => `<section><h2>${t}</h2><div class="g">${rows.filter((r) => r.tab === t).map(cell).join('')}</div></section>`).join('');
 fs.writeFileSync(path.join(args.out, 'contact.html'), `<!doctype html><meta charset="utf-8"><title>${args.section} variants</title>
 <style>body{font:14px system-ui;margin:24px;background:#f4f5f7}h2{margin:24px 0 8px}.g{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:12px}
 figure{margin:0;background:#fff;padding:8px;border-radius:8px}img{width:100%;display:block}figcaption{font:12px ui-monospace,monospace;margin-top:6px;color:#444}b{color:#b00}</style>
 <h1>${args.section}</h1>${byTab}`);
 
-for (const r of rows) if (r.hidden) console.log(`${r.tab.padEnd(14)} ${String(r.width).padEnd(5)} ${r.motion.padEnd(14)} hidden-by-layout`); else console.log(`${r.tab.padEnd(14)} ${String(r.width).padEnd(5)} ${r.motion.padEnd(14)} ${r.blank ? 'BLANK ' : 'ok    '} infinite=${r.infinite} smil=${r.smil}`);
+for (const r of rows) if (r.hidden) console.log(`${r.tab.padEnd(14)} ${String(r.width).padEnd(5)} ${r.motion.padEnd(14)} hidden-by-layout`); else console.log(`${r.tab.padEnd(14)} ${String(r.width).padEnd(5)} ${r.motion.padEnd(14)} ${r.blank ? 'BLANK ' : 'ok    '} infinite=${r.infinite} smil=${r.smil} words=${r.words}${r.artScoped ? '' : '(section)'} run=${r.longestRun} text=${Math.round(r.textRatio * 100)}%${r.textHeavy ? ' TEXT-HEAVY' : ''}`);
 console.log(`contact sheet: ${path.join(args.out, 'contact.html')}`);
 process.exit(failed ? 3 : 0);

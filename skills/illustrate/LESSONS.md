@@ -29,3 +29,28 @@ Append-only. One block per run: `## <version used> - <YYYY-MM-DD> - <project>`.
   branch, per Phase 2's "fix the baseline separately".
 - Variants widened the hero slot by 44-64 px. At consolidation, cap the winner at the
   slot's width. The brief should state the slot's width in pixels, not "roughly".
+
+## 1.0.1 - 2026-09-25 - personas-web
+
+- **Owner verdict on round 1: the skill overflowed with descriptive text.** The goal
+  was an abstracted idea carried by illustration and animation, with a dominant visual
+  structure and text labels as support. Picks: hero kept CURRENT (the abstract ring,
+  roughly zero words) over three text-rich product mockups; tools took the persona
+  card; platform took the exploded layer stack. Measured after consolidation, the two
+  kept variants still held 92 and 131 words with runs of 16-19 words. The method
+  produced this: the brief asked for "real nouns", "sample values" and faithful
+  screens, and every builder complied with sentences. 1.1.0 adds the text budget, the
+  mute test, a word list in every spec, silhouettes for product-true art, and an
+  instrument check that flags text-heavy art.
+- **The owner's picks favour spatial structure.** Both picked variants lead with a
+  shape (a stack, a card that grows) and both rejected mechanism variants read as
+  panels of prose. Weight the triad toward structures that survive the mute test.
+- **Removing a worktree with --force emptied this skill's source directory.** The
+  worktree held a junction into `ai-registry/skills/illustrate`; the forced recursive
+  removal followed it. Restored from HEAD, with nothing lost because everything was
+  committed. 1.1.0 makes unlinking before removal a stated step.
+- **Consolidation found two hidden contracts the variants had not honoured:** the
+  guided tour's spotlight anchor (`data-tour-diagram`) and its click targets
+  (`data-card-id`) on the replaced section. The project's anchor test caught both.
+  Add to the builder brief: grep the section for tour, analytics and test hooks and
+  carry them into every variant.

@@ -3,7 +3,7 @@ name: illustrate
 description: "Take an existing web component that explains a concept with conventional web design (a card grid, a bulleted feature list, a static diagram, decorative art) and give it an illustration layer that carries the claim: read what the section is trying to prove, think divergently about how to abstract it graphically, then prototype three directional illustration variants inside the component behind a tab switcher, with the original kept as the default tab. Use when a landing, marketing, onboarding or how-it-works section explains something in words that a picture or a short animation could prove, or when its current art is decorative. Not for dense data dashboards (layout variants) or single icons (use an icon/asset skill)."
 category: workflow
 memory: project
-version: 1.0.1
+version: 1.1.0
 tags: illustration, explainer, landing, prototype, variants, motion, design
 argument-hint: "<component path | page route | --survey> [--variants 3]"
 ---
@@ -18,13 +18,54 @@ decides what picture or short animation would **evidence** it, prototypes three
 genuinely different ways to do that inside the real component, and leaves all three
 switchable behind tabs until the owner picks one.
 
-Say the rule once per run: **an illustration either carries the claim or it is
-furniture, and furniture is rationed.**
+Say the two rules once per run: **an illustration either carries the claim or it is
+furniture, and furniture is rationed.** And: **the picture carries the argument;
+words only label it.**
 
 The skill is a specialization of directional variant prototyping. It differs in
 what it varies (the *abstraction* of a concept, not the layout of data) and in what
 it checks (whether each variant evidences the claim and survives being seen as a
 still).
+
+## Picture first, words as labels
+
+The goal is an **abstracted idea**: a dominant visual structure that a reader
+understands before reading anything, with text as short supporting labels. It is
+not a mockup annotated with explanations. The failure this section exists for is
+the one the first run produced: every variant carried the claim, and every one said
+it in sentences inside the picture. The owner kept the abstract original over three
+text-rich product mockups, and judged even the two variants they picked
+text-heavy (92 and 131 words, runs of 16-19 words).
+
+The rules, which the capture instrument checks:
+
+| | Budget inside the illustration (`data-illustrate-art`) |
+| --- | --- |
+| Words | at most **30** in total |
+| Run | no text run longer than **6** words: labels, never sentences; prefer 1-3 words |
+| Area | text covers at most **6%** of the art's area |
+| Caption | at most one line, **outside** the art; the section heading already exists |
+| Numbers | only as labels on a shape (a count on a bar, a time on a dial), never in prose |
+
+**The mute test**, run on every candidate before it is chosen and on every variant
+before it is shown: hide every word. If the idea no longer reads from shape,
+position, colour, grouping and motion, the illustration is a text layout, and it goes
+back to Phase 3.
+
+What this means per family:
+
+- **Product-true** becomes a **silhouette**. Fidelity lives in *structure* (the real
+  layout, the real shapes, the real colours, the real motion). Text inside the
+  mockup is drawn as skeleton bars, with at most three real labels where a word is
+  the point (a name, a status). A faithful screen full of sample sentences fails.
+- **Mechanism and transformation** show change through position and motion. Stages
+  are marks on a track, not paragraphs beside it.
+- **Metaphors** are silent by construction. Label the two or three parts a reader
+  must name, no more.
+- **Real nouns** arrive as icons, logos, colours and counts, not as descriptions.
+
+Section copy (the heading and one line of lede) stays in the section, outside the
+art, and does not grow to compensate.
 
 ## When to use / when not
 
@@ -133,9 +174,11 @@ For each candidate write: the claim it carries, what the reader notices first, w
 it would cost, and **what it would teach that is false** (a metaphor always implies
 more than the product does).
 
-**Score** each candidate 0-3 on: carries the claim (the three tests), fidelity (does
-it promise anything the product does not do?), distinctness from the page's other
-sections, legibility as a still, and cost. Discard anything that scores 0 on
+**Score** each candidate 0-3 on: carries the claim (the three tests), **visual
+dominance (does it pass the mute test?)**, fidelity (does it promise anything the
+product does not do?), distinctness from the page's other sections, legibility as a
+still, and cost. Discard anything that scores 0 on the mute test: a candidate whose
+idea lives in its words is a copy change, not an illustration. Discard anything that scores 0 on
 fidelity. That rule has no exceptions: a picture of a capability the product lacks
 turns the page into a liability.
 
@@ -152,8 +195,15 @@ One short spec per variant, handed to the builder as-is:
 
 - claim carried, and the caption line a reader should come away with;
 - central idea, carried through layout, shape language, motion and copy voice;
+- **the word list**: every word that will appear inside the art, written out, within
+  the budget above. A spec without a word list is not finished; the word list is
+  where text creep is stopped cheaply;
+- **the visual structure** in one sentence: what a reader sees in the first second
+  (an exploded stack, a ring of ports, a track with marks), and what the mute test
+  leaves readable;
 - **informative vs decorative inventory**. Informative elements use real product
-  nouns and plausible, obviously-sample values. Never a metric-shaped number without a
+  nouns (as icons, colours, counts and short labels) and plausible, obviously-sample
+  values. Never a metric-shaped number without a
   source. Decorative elements are `aria-hidden`, carry no text, and one signature
   flourish at most;
 - **motion plan**. Label each moving element *reveal* (its last frame says
@@ -202,6 +252,10 @@ a survey guesses at details the app states exactly.
 
 Builder rules:
 
+- **Picture first.** Stay inside the spec's word list and the budget. Mark the
+  illustration root `data-illustrate-art`. Product-true art is a silhouette: skeleton
+  bars for text, three real labels at most. If the idea needs a sentence to be
+  understood, stop and report it rather than write the sentence.
 - Semantic tokens only. No raw palette values where a token exists, no raw
   white/black overlays where the project defines surface tokens.
 - Real text stays real text: headings, labels and captions inside the illustration
@@ -228,10 +282,13 @@ Builder rules:
    with reduced motion emulated (a section the layout hides at a width is recorded as
    hidden, not failed), flags **blank captures** (a near-uniform frame is a
    finding, not a harness error), counts infinite animations under reduced motion,
+   flags **text-heavy art** (words, longest run and text area inside
+   `data-illustrate-art`, against the budget; without the marker it measures the
+   whole section and says so),
    and writes `contact.html` beside the images. It resolves the browser automation
    library from the consuming project and has no dependencies of its own.
 3. Self-audit each variant against its spec before the owner sees it: the three
-   claim tests, token grep, no text baked into art, reduced-motion capture not blank,
+   claim tests, **the mute test and the text budget**, token grep, no text baked into art, reduced-motion capture not blank,
    no infinite animation under reduced motion. A variant that fails is fixed first.
    The owner chooses between directions, never between a working variant and a
    broken one.
@@ -248,8 +305,17 @@ components, run the gates, capture once more, and merge the branch with the
 project's merge convention. A section left with a live switcher after a decision is
 debt. Record the decision in the overlay's run log.
 
+**Removing a worktree deletes through links.** If a skill was linked into the
+worktree (a symlink or, on Windows, a junction into the registry checkout), a
+recursive or forced worktree removal follows the link and empties the linked source.
+It happened on the first run and emptied this skill's own directory. Unlink first
+(remove the link itself, never with a recursive flag), confirm the source still
+exists, then remove the worktree, without `--force` if you can.
+
 ## Anti-patterns
 
+- **Explaining in the picture.** Sentences, descriptions and sample prose inside the
+  art. The illustration shows, labels name, and the section heading claims.
 - **Three stylings of one idea.** Palette and layout are not directions.
 - **Art that promises what the product does not do.** Fidelity 0 is disqualifying.
 - **Decoration upgraded to more decoration.** A nicer gradient is still furniture.
