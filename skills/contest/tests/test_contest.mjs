@@ -113,3 +113,49 @@ test('the contest index upserts its row and the note renders its frontmatter', (
   assert.match(note, /winner_seat: "a:b@high"/);
   assert.match(note, /\[\[Patterns#p\|p\]\]/);
 });
+
+test('plan hands seats to an outside dispatcher, and the other steps accept what it leaves behind', async () => {
+  const { spawnSync } = await import('node:child_process');
+  const fs = await import('node:fs');
+  const os = await import('node:os');
+  const path = await import('node:path');
+  const { fileURLToPath } = await import('node:url');
+  const script = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', 'scripts', 'contest.mjs');
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'contest-plan-'));
+  const cli = (...a) => {
+    const r = spawnSync(process.execPath, [script, ...a, '--vault', path.join(root, 'vault')], { cwd: root, encoding: 'utf8' });
+    assert.equal(r.status, 0, `${a[0]} failed: ${r.stderr}`);
+    return r.stdout;
+  };
+  fs.writeFileSync(path.join(root, 'BRIEF.md'), 'A small idea.\n');
+  cli('init', '--id', 'p1', '--title', 'Plan test', '--brief', 'BRIEF.md', '--participants', 'claude:opus@high,codex:gpt-x@high', '--variants', '1');
+  const planned = JSON.parse(cli('plan', '--id', 'p1'));
+  assert.equal(planned.kind, 'participants');
+  assert.equal(planned.seats.length, 2);
+  for (const s of planned.seats) {
+    assert.ok(fs.existsSync(path.join(s.cwd, 'PARTICIPANT.md')), 'the seat cwd is the prepared workspace');
+    assert.match(s.prompt, /PARTICIPANT\.md/);
+    // The dispatcher's side of the contract: a variant, a record and a final message.
+    fs.mkdirSync(path.join(s.cwd, 'variant-1'), { recursive: true });
+    fs.writeFileSync(path.join(s.cwd, 'variant-1', 'index.html'), '<title>V</title>');
+    fs.mkdirSync(s.log_dir, { recursive: true });
+    fs.writeFileSync(path.join(s.log_dir, 'record.json'), JSON.stringify({ id: s.id, spec: s.spec, outcome: 'completed', wall_s: 60 }));
+    fs.writeFileSync(path.join(s.log_dir, 'final.md'), 'done');
+  }
+  cli('collect', '--id', 'p1');
+  const judges = JSON.parse(cli('plan', '--id', 'p1', '--kind', 'judges', '--judges', 'grok:grok-9@high'));
+  assert.equal(judges.seats.length, 1);
+  const [j] = judges.seats;
+  assert.ok(fs.existsSync(path.join(j.cwd, `JUDGE-${j.id}.md`)), 'plan prepares the judge brief without spawning');
+  const c = JSON.parse(fs.readFileSync(path.join(root, '.contest', 'arena', 'p1', 'contest.json'), 'utf8'));
+  assert.deepEqual(c.judges, ['grok:grok-9@high']);
+  // A verdict left only in the final message is recovered by aggregate, whoever ran the seat.
+  const dims = { wow: 7, clarity: 7, wayfinding: 7, interaction: 7, craft: 7, concept: 7, utility: 7 };
+  const verdict = { judge: j.id, entries: { A: { variants: [{ n: 1, scores: dims }] }, B: { variants: [{ n: 1, scores: dims }] } }, ranking: ['A/1', 'B/1'] };
+  fs.mkdirSync(j.log_dir, { recursive: true });
+  fs.writeFileSync(path.join(j.log_dir, 'final.md'), `Here it is:\n${JSON.stringify(verdict)}`);
+  cli('aggregate', '--id', 'p1');
+  assert.ok(fs.existsSync(path.join(j.cwd, `verdict-${j.id}.json`)));
+  assert.ok(fs.existsSync(path.join(j.cwd, 'scoreboard.json')));
+  fs.rmSync(root, { recursive: true, force: true });
+});

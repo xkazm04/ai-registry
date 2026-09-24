@@ -6,6 +6,8 @@
  *                            [--arena .contest/arena] [--data <dir>] [--vault .contest] [--vault-subdir Contest]
  *                            [--project <name>] [--timeout-min 60]
  *   node contest.mjs run     --id <slug> [--only <participant-id>] [--force]
+ *   node contest.mjs plan    --id <slug> [--kind participants|judges] [--judges <specs>] [--only <id>]
+ *                            (seats as JSON, prepared but not spawned - for a host's own queue)
  *   node contest.mjs collect --id <slug>
  *   node contest.mjs judge   --id <slug> --judges <specs> [--timeout-min 30] [--force]
  *   node contest.mjs aggregate --id <slug>
@@ -208,13 +210,18 @@ function init() {
 }
 
 // ---------------------------------------------------------------- run
+const PARTICIPANT_PROMPT = 'You are a participant in a design contest. Read PARTICIPANT.md in the current directory and deliver exactly what it specifies, into this directory. Work autonomously to the end; never ask a question; stop when every variant and its notes exist.';
+
+function participantSeats(c, dir) {
+  const only = opts.only ? String(opts.only).split(',') : null;
+  return c.participants.filter((p) => !only || only.includes(p.id)).map((p) => ({
+    p, dir: path.join(dir, 'entries', p.id), logDir: path.join(dir, 'runs', p.id), prompt: PARTICIPANT_PROMPT,
+  }));
+}
+
 async function run() {
   const { c, dir } = load();
-  const only = opts.only ? String(opts.only).split(',') : null;
-  const seats = c.participants.filter((p) => !only || only.includes(p.id)).map((p) => ({
-    p, dir: path.join(dir, 'entries', p.id), logDir: path.join(dir, 'runs', p.id),
-    prompt: 'You are a participant in a design contest. Read PARTICIPANT.md in the current directory and deliver exactly what it specifies, into this directory. Work autonomously to the end; never ask a question; stop when every variant and its notes exist.',
-  }));
+  const seats = participantSeats(c, dir);
   if (!seats.length) die('no participants selected');
   const records = await runSeats(seats, { timeoutMs: Number(opts['timeout-min'] ?? c.timeout_min) * 60000, force: !!opts.force, kind: 'participant' });
   const bad = records.filter((r) => r.outcome !== 'completed');
@@ -300,6 +307,17 @@ const esc = (s) => String(s).replace(/[&<>"]/g, (ch) => ({ '&': '&amp;', '<': '&
 async function judge() {
   const { c, dir } = load();
   const judges = parseParticipants(need('judges'));
+  const seats = prepareJudges(c, dir, judges);
+  const records = await runSeats(seats, { timeoutMs: Number(opts['timeout-min'] ?? 30) * 60000, force: !!opts.force, kind: 'judge' });
+  const badRecords = records.filter((r) => r.outcome !== 'completed');
+  if (badRecords.length) console.log(`${badRecords.length} judge(s) did not complete: ${badRecords.map((r) => `${r.id} (${r.outcome})`).join(', ')}`);
+  aggregateVerdicts();
+}
+
+// Writes each judge's JUDGE-<id>.md and records the panel in contest.json, without spawning
+// anything - `judge` runs the seats itself, `plan --kind judges` hands them to an outside
+// dispatcher (a host app's own queue) that writes the same runs/<id>/record.json and final.md.
+function prepareJudges(c, dir, judges) {
   const manifest = readJson(path.join(dir, 'manifest.json'));
   const judging = path.join(dir, 'judging');
   const brief = read(path.join(dir, 'BRIEF.md')).trim();
@@ -316,24 +334,28 @@ async function judge() {
       .replaceAll('{{verdict_file}}', verdictFile).replaceAll('{{judge_id}}', p.id));
     return { p, dir: judging, logDir: path.join(dir, 'runs', `judge-${p.id}`), prompt: `You are a judge on a blind design panel. Read ${file} in the current directory and follow it exactly; write your verdict to ${verdictFile} in the current directory. Never leave this directory. Work autonomously to the end; never ask a question.` };
   });
-  const records = await runSeats(seats, { timeoutMs: Number(opts['timeout-min'] ?? 30) * 60000, force: !!opts.force, kind: 'judge' });
   c.judges = [...new Set([...c.judges, ...judges.map((j) => j.spec)])];
   save(dir, c);
-  // A judge that wrote its JSON into the final message instead of the file still counts.
-  for (const s of seats) {
-    const vf = path.join(judging, `verdict-${s.p.id}.json`);
+  return seats;
+}
+
+// A judge that wrote its JSON into the final message instead of the file still counts. Runs on
+// every aggregate, so a verdict recovers the same way whoever ran the judge seat.
+function recoverVerdicts(c, dir) {
+  if (!c.judges?.length) return;
+  const judging = path.join(dir, 'judging');
+  for (const p of parseParticipants(c.judges.join(','))) {
+    const vf = path.join(judging, `verdict-${p.id}.json`);
     if (fs.existsSync(vf)) continue;
-    const final = readIf(path.join(s.logDir, 'final.md')) ?? '';
+    const final = readIf(path.join(dir, 'runs', `judge-${p.id}`, 'final.md')) ?? '';
     const m = final.match(/\{[\s\S]*\}/);
-    if (m) { try { writeJson(vf, JSON.parse(m[0])); console.log(`judge ${s.p.id}: verdict recovered from the final message`); } catch { /* reported below */ } }
+    if (m) { try { writeJson(vf, JSON.parse(m[0])); console.log(`judge ${p.id}: verdict recovered from the final message`); } catch { /* reported by aggregate */ } }
   }
-  const badRecords = records.filter((r) => r.outcome !== 'completed');
-  if (badRecords.length) console.log(`${badRecords.length} judge(s) did not complete: ${badRecords.map((r) => `${r.id} (${r.outcome})`).join(', ')}`);
-  aggregateVerdicts();
 }
 
 function aggregateVerdicts() {
   const { c, dir } = load();
+  recoverVerdicts(c, dir);
   const judging = path.join(dir, 'judging');
   const manifest = readJson(path.join(dir, 'manifest.json'));
   const expected = Object.fromEntries(Object.values(manifest.entries).map((e) => [e.letter, e.variants.filter((v) => v.present).map((v) => v.n)]));
@@ -527,7 +549,34 @@ function status() {
   console.log(`  collected: ${fs.existsSync(path.join(dir, 'manifest.json')) ? 'yes' : 'no'}; verdicts: ${verdicts.length ? verdicts.join(', ') : 'none'}; decided: ${c.winner ? `${c.winner.label} (${c.winner.spec})` : 'no'}`);
 }
 
+// ---------------------------------------------------------------- plan
+// The seats of one kind as JSON, prepared but not spawned, for a host that runs them through its
+// own queue (Personas runs them as fleet sessions). The host owns the spawn and must leave behind
+// exactly what `run`/`judge` would: runs/<logId>/record.json (same fields as runSeats writes) and
+// runs/<logId>/final.md. Every other step then works unchanged.
+function plan() {
+  const { c, dir } = load();
+  const kind = opts.kind ?? 'participants';
+  let seats;
+  let timeoutMin;
+  if (kind === 'participants') {
+    seats = participantSeats(c, dir);
+    timeoutMin = Number(opts['timeout-min'] ?? c.timeout_min);
+  } else if (kind === 'judges') {
+    seats = prepareJudges(c, dir, parseParticipants(need('judges')));
+    timeoutMin = Number(opts['timeout-min'] ?? 30);
+  } else die(`--kind must be participants or judges, not "${kind}"`);
+  const out = {
+    contest: c.id, dir, kind, timeout_min: timeoutMin,
+    seats: seats.map(({ p, dir: seatDir, logDir, prompt }) => ({
+      id: p.id, spec: p.spec, engine: p.engine, model: p.model, effort: p.effort, label: p.label,
+      cwd: seatDir, log_dir: logDir, prompt,
+    })),
+  };
+  process.stdout.write(`${JSON.stringify(out, null, 2)}\n`);
+}
+
 // ---------------------------------------------------------------- dispatch
-const commands = { init, run, collect, judge, aggregate: aggregateVerdicts, verdict, refine, status };
+const commands = { init, run, plan, collect, judge, aggregate: aggregateVerdicts, verdict, refine, status };
 if (!commands[cmd]) die(`usage: contest.mjs <${Object.keys(commands).join('|')}> --id <slug> ...`);
 Promise.resolve(commands[cmd]()).catch((e) => die(e.stack ?? String(e), 1));
