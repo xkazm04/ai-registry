@@ -11991,3 +11991,26 @@ finish on the version it loaded.)
   mechanism (a writable vocabulary). It showed no relocation and could confirm
   nothing. Record such a replay as weak, keep the landing on the primary's
   measurement, and name the instrument that would be the true replay.
+
+## 2.14.1 - 2026-09-24 - harness-token-floor
+
+- An operator's phrase can point at the wrong switch. "Deactivated by default"
+  read naturally as the harness's hide-from-model switches, and the docs call
+  those the tool for deliberately started workflows. A replay of who actually
+  started each skill refuted them: the operator names skills in prose, pastes
+  briefs with the command mid-text, one skill dispatches another by name, and a
+  product engine prompts the model. The middle tier (name only) kept every one
+  of those paths. Before landing a mechanism a dispatch names, replay the
+  initiators, not the invocation counts.
+- A config finding can be A/B-tested on the harness itself, with no tree change:
+  headless `--settings <file>` arms against the as-installed arm, reading the
+  first request's input + cache tokens. Repeats were identical to the token, so
+  n=2 per arm was a real proof and cost cents. Use it for any rule, skill, MCP
+  or settings finding before touching a consumer.
+- Build the instrument's self-test from the sweep's surprises. The first
+  delivery classifier looked only for the import line and flagged a correct
+  reverse topology as a fork. Reading the flagged file caught it. The shipped
+  checker's self-test carries that case, plus a prose-pointer negative.
+- When the fleet installer carries drift that belongs to someone else (stale
+  rule copies, an old gitignore block), add a scoped pass (`--listing-only`)
+  rather than letting this run ship their drift into twelve tracked files.

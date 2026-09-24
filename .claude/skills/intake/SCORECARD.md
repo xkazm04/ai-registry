@@ -4826,3 +4826,17 @@ the seam already violates it, ship it as a ratchet at today's count in the proje
 baseline format, in the same session, instead of filing it.** A ratchet changes no
 behaviour on the day it lands, so it needs no larger proof than the census that set the
 baseline.
+
+| 2.14.1 | 2026-09-24 | `youtube:Jr-jyTL2MYI` + `youtube:SFh6MMe-XcM` harness-token-floor - two same-titled token-saving listicles + operator dispatch (instruction-file practice fleet-wide; skills off by default; no-degradation efficiency) | 2 videos, 7,622 words; **3 of 3 fetches** (skills, memory, costs documentation - the extraction for this class); 9 corpus files opened; 12 fleet trees surveyed; 13,649 transcript files replayed for who starts each skill; 30 headless probe sessions (skill tiers, floors, effort-flip cache, guidance fold) | 20 | 8 verified (4 accepts against opened homes and probes, 1 classifier false positive caught by reading the file, 3 catches opened) | **1 technique** + **1 application** + 1 application currency section + 1 technique re-verification + skill 0.9.0 + 9 patch bumps + 2 scripts | 3 rows (`2c/1e/0s/0t/0r`): listing tiers `better` (kp -2,416 tokens per session start, ab-paired n=2); the guidance fold `better` (0/4 -> 4/4, +858 tokens); the delivery rule `better` (1 fork -> 0) | **3 code**: athena `71d0bfd` + `64c322e`, kp `271992747`, 13 machine-state installs; registry `1dec1f05`, `35cbf0e7`; not pushed | Declared focus (replay our own instrument against the headline) **met twice, and it changed both landings**: the transcript replay refuted the hide-from-model switch the dispatch pointed at (prose, chains and one product engine start initiators by name), and re-running the 2026-09-08 cache measurement refuted a relayed "effort flip is cache-free". Admission `auto=2/0/1`, `fp=0`. Escalated: eight instruction files over target, because a trim is a rewrite and rewrite-behavior-pinning puts that inside the degradation the operator excluded. | S0/T1/A1/Asrc0/task0 - listicle batch, no design record; directions=n/a - gate=n/a |
+
+**2026-09-24 (harness-token-floor) - weakest stage and next focus.** Ship moved
+this run (three code rows, one of them fleet-wide machine state), so the stage
+losing most across the last ten rows is **apply for rewrite-shaped findings**:
+twice now (the oversized instruction files here, the ratchet the previous row
+named) a run identified a real, measured seam and escalated it because the fix
+rewrites standing text. Next run's declared focus: **when the owed change is a
+rewrite of instructions, ship its behavior pins in the session - the assertions
+the file must still satisfy, written and run against today's file - and escalate
+only the trim.** Pins change nothing on the day they land, so they need no
+larger proof than running green, and they turn the escalated rewrite into a
+gated one.

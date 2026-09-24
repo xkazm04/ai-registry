@@ -1,0 +1,83 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "in-0924-harness",
+  "skill": "intake",
+  "skill_version": "2.14.1",
+  "mode": "run",
+  "domain": "software-engineering",
+  "started_at": "2026-09-24T08:00:00Z",
+  "ended_at": "2026-09-24T12:30:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 2,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/agent-instruction-files",
+      "at": "2026-09-24",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/model-routing",
+      "at": "2026-09-24",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "agent-instruction-files",
+      "technique": "listing-tier-by-initiator",
+      "verdict": "better",
+      "mode": "code"
+    },
+    {
+      "subject": "agent-instruction-files",
+      "technique": "single-source-topology",
+      "verdict": "better",
+      "mode": "code"
+    },
+    {
+      "subject": "agent-instruction-files",
+      "technique": "single-source-topology",
+      "verdict": "better",
+      "mode": "experiment"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/llm-agent/prompt-and-context/agent-instruction-files/techniques/listing-tier-by-initiator.md",
+    "knowledge/software-engineering/llm-agent/prompt-and-context/agent-instruction-files/applications/claude-code--listing-tier-by-initiator.md",
+    "knowledge/software-engineering/llm-agent/prompt-and-context/agent-instruction-files/applications/claude-code--single-source-topology.md",
+    "knowledge/software-engineering/llm-agent/prompt-and-context/agent-instruction-files/agent-instruction-files.md",
+    "knowledge/software-engineering/llm-agent/orchestration/model-routing/techniques/cache-continuity.md",
+    "knowledge/software-engineering/index.json",
+    "catalog.json",
+    "rules/ai-registry-software-engineering.md",
+    "skills/agent-guidance-bootstrap/SKILL.md",
+    "scripts/link-registry.mjs",
+    "scripts/check-skills.mjs",
+    "scripts/check-agent-guidance.mjs",
+    "docs/skills-lane.md",
+    "librarian/sources/2026-09-24-harness-token-floor.md",
+    "librarian/sources/index.md",
+    "librarian/applied.md",
+    "librarian/subjects/software-engineering/agent-instruction-files.md",
+    "librarian/subjects/software-engineering/model-routing.md",
+    ".claude/skills/intake/SCORECARD.md",
+    ".claude/skills/intake/LESSONS.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Name-only skill listing by default (lane listing key, machine state): kp -2416 tokens/session, paired. AGENTS.md native-read currency; a fleet fork folded 0/4->4/4. Effort-flip cache claim refuted. Oversized instruction files escalated."
+}

@@ -648,3 +648,18 @@ it offers the honest substitute.
 Applied to this registry's own intake skill (2.11.1): it claimed /librarian reads
 rescan_when "on a clock", but the weekly CI cron does not run upstream-check.mjs.
 One false forward claim before, 0 after. A grep of 7 fleet trees found no other.
+
+## 2026-09-24 - intake, harness token floor ([[2026-09-24-harness-token-floor]])
+
+New technique `listing-tier-by-initiator`: a capability can be listed, listed by
+name only, or hidden, and the tier is set by who starts it. A fleet transcript
+replay found no resemblance-driven starts among initiator skills. It also
+refuted the hidden tier, because prose, chains and one product engine all start
+those skills by name. Shipped through a lane `listing:` key; kp's session floor
+fell by 2,416 tokens, paired.
+
+Currency on the claude-code single-source-topology application: AGENTS.md is
+read natively since 2.1.277, but only when no CLAUDE.md is on the path. One
+fleet fork (two populated files, no import) measured 0/4 -> 4/4 after the
+fold. Owed: eight always-loaded files over the 200-line target, which need a
+line-earning pass with behavior pins, never a bulk rewrite.
