@@ -52,3 +52,24 @@ report now has a lane to land in.
   the source.
 - **The orchestrator broke the cap of 5 once**, topping up before a completion arrived.
   Background agents give no count back unprompted. Keep a running tally in the scratch file.
+
+## 0.5.2 - 2026-09-24 - ai-registry (first `auto` pass on software-engineering core, run hv-auto-0924)
+
+- **The queue's host is not the source's host any more.** Every `aws.amazon.com/builders-library/*`
+  row now redirects to builder.aws.com, which serves a JavaScript shell. One miner came back
+  with 0 words, and `research-ingest` called the 18-byte shell "too thin" (exit 3), a
+  verdict about the source when the fetch had failed. A sibling miner found the readable
+  copy (the Builders' Library PDF on d1.awsstatic.com), and a single re-dispatch on that
+  route read the article on its first call. When one lane of a batch fails at fetch, read
+  the sibling lanes' fetch routes before parking the row: the fix is often already in the
+  batch.
+- **Auto mode's `accepted: 0` hid the largest finding of the pass.** Three rows from two
+  publishers converged on a subject the corpus names as missing in its own words. In auto
+  that banks as a spec, correctly. So the report must lead with the spec bank, and
+  `landed: 0` must not be read as stagnation when the batch found content. The two-pass
+  stagnation rule reads `landed`, and in auto it cannot tell "nothing here" from "all of
+  it is waiting for a person".
+- **Expected currency never arrived.** Upper-layer techniques carry no citations and these
+  subjects' applications cite no external canon, so a 2019-2022 canon source had no clock
+  to move. Against mature software-engineering subjects, predict 0 currency from practitioner
+  canon; currency comes from vendor releases.
