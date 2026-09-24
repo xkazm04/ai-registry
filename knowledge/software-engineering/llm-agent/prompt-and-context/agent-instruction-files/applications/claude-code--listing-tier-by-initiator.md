@@ -96,8 +96,12 @@ and the two ambient skills with their descriptions, as intended.
 
 A second arm priced the harness's own and platform-supplied entries in an
 empty repository: listing all 30 of them `name-only` moved the first request
-from 25,316 to 20,039 tokens. Those are user-scope and were not changed here;
-several are resemblance-driven and must stay listed.
+from 25,316 to 20,039 tokens. Those are user-scope, and several are
+resemblance-driven and must stay listed. Nine that are only ever started by name
+were set to `name-only` in the user's settings the same day. A user-scope and a
+project-local `skillOverrides` object merge per key rather than replacing each
+other: in the same 21-skill consumer both scopes' entries applied together, and
+the first request fell a further 811 tokens, to 53,055.
 
 ## What this application cannot say
 

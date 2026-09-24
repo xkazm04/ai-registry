@@ -135,9 +135,14 @@ the file corrected the classifier before it shipped.
   hedges first. That is the degradation the operator excluded. The owed work is
   per project: a line-earning pass with behavior pins written first, starting
   with the largest. `check-agent-guidance.mjs` marks each one with `!`.
+  **Largest one done the same day, on the operator's go-ahead**: systedo-case
+  `ec3ebe66`, pins first, 18/18 before and after, 1,049 -> 430 lines, first
+  request 55,868 -> 39,977 tokens (application
+  `claude-code--rewrite-behavior-pinning`). Seven remain.
 - **The harness's own and platform-supplied skills** (about 5.3k tokens,
-  user-scope settings). Several are resemblance-driven and must stay listed; the
-  per-entry sort is the operator's to approve.
+  user-scope settings). **Applied the same day on the operator's go-ahead**: nine
+  started-by-name entries set to `name-only`, the resemblance-driven ones left
+  listed; user and project overrides merge per key.
 - **One consumer tracks `.claude/settings.local.json`**, so the installer refused
   it. Untrack it, or set its single skill's tier by hand.
 - **Pre-existing link drift**: every consumer's knowledge-rule copy and managed

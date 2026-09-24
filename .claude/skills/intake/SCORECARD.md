@@ -4840,3 +4840,13 @@ the file must still satisfy, written and run against today's file - and escalate
 only the trim.** Pins change nothing on the day they land, so they need no
 larger proof than running green, and they turn the escalated rewrite into a
 gated one.
+
+**2026-09-24 (harness-token-floor, follow-up on the operator's go-ahead).** The
+declared focus written above was met in the same session: the largest escalated
+rewrite (systedo-case's 1,049-line guide) shipped with its behaviour pins first -
+18/18 before and after, 55,868 -> 39,977 tokens, `ec3ebe66` - and the user-scope
+skill tiers were applied (kp 53,866 -> 53,055). Ship for this run rises to 5 code
+rows. The pins caught nothing the repository's own quote tests and unit suite did
+not; those two caught one defect each, and a hand read found one thinned answer the
+patterns could not see. Keep the focus for the seven remaining files: pins first,
+then the repository's own structural tests, then read one run per arm by hand.
