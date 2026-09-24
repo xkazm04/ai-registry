@@ -6,7 +6,7 @@ technique: script-cost-is-main-thread-time
 status: forged
 laws: [limits-are-derived]
 shared_with: []
-use_when: [a page looks ready but ignores the first taps or keystrokes, deciding whether a heavy module belongs in a route's first load, splitting a bundle or deferring a below-the-fold section]
+use_when: [a page looks ready but ignores the first taps or keystrokes, deciding whether a heavy module belongs in a route's first load, splitting a bundle or deferring a below-the-fold section, the served markup hides the headline or page until an entrance animation runs]
 ---
 
 # Script cost is main-thread time
@@ -86,6 +86,40 @@ continuation ahead of unrelated queued tasks, falling back to a zero-delay timer
 where it is absent. Where the framework can attach behaviour to parts of the
 page progressively, in priority order, let it: the region the reader is
 interacting with should become responsive first.
+
+## The cheapest way to make the first render wait: hide it
+
+Everything above prices script by the work it does. There is a way for script to
+delay the page that costs no main-thread time at all: **the served markup starts the
+page invisible, and only script can reveal it.** An entrance animation library that
+renders on the server writes its opening values into the document: zero opacity, an
+offset transform, on the wrapper around the headline, or around the whole route.
+The first render paints nothing the reader can see. The largest-paint metric agrees
+with the reader: an element at zero opacity is not a candidate. So the page's
+largest paint happens after the script downloads, compiles, executes and hydrates,
+plus the animation's delay. On a weak device, that is the whole script budget
+added to the page's most important number. The page looks like it loads quickly
+on a fast machine, because hydration there is quick.
+
+This is not a rare mistake. In one fleet audit, five of five server-rendered web
+applications did it on their landing headline, and one did it on every route,
+through a page-transition wrapper around the main content. None of them had
+decided to. It is the entrance library's default when the component is rendered on
+the server.
+
+The rule is the motion subject's start-state placement rule, and the page-load
+reason makes it mandatory rather than stylistic:
+[content-bearing-degradation](../../../ui-surfaces/feedback-and-style/motion/techniques/content-bearing-degradation.md)
+says **what is served is the settled state**, and the hidden start state is armed on
+the client after mount, or not at all. For the first screen, prefer not at all.
+An entrance that delays the largest paint to add a flourish has spent the page's
+most expensive number on decoration.
+
+How to see it without a lab: fetch the served document and search it for inline
+zero opacity on any ancestor of the headline. Treat a count above zero as a defect.
+A reduced-motion accommodation does not repair this. It changes what the
+preference-setting reader sees after script runs, and changes nothing about what
+every reader sees before it.
 
 ## Decision rules
 

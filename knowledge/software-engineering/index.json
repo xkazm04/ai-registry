@@ -23235,8 +23235,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/client-architecture/page-load-pipeline/page-load-pipeline.md",
-   "digest": "sha256-b2:a3a452f743e73f21",
-   "revision": 1,
+   "digest": "sha256-b2:8ce99c4e6acfe0fa",
+   "revision": 2,
    "changedAt": "2026-09-24",
    "techniques": [
     {
@@ -23338,7 +23338,8 @@
      "use_when": [
       "a page looks ready but ignores the first taps or keystrokes",
       "deciding whether a heavy module belongs in a route's first load",
-      "splitting a bundle or deferring a below-the-fold section"
+      "splitting a bundle or deferring a below-the-fold section",
+      "the served markup hides the headline or page until an entrance animation runs"
      ]
     }
    ],
