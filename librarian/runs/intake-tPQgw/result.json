@@ -1,0 +1,105 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "intake-tPQgw",
+  "skill": "intake",
+  "skill_version": "2.14.1",
+  "mode": "run",
+  "domain": "software-engineering",
+  "started_at": "2026-09-24T08:40:00Z",
+  "ended_at": "2026-09-24T11:40:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 2,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/ui-controls",
+      "at": "2026-09-24",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/design-tokens",
+      "at": "2026-09-24",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "ui-controls",
+      "technique": "call-site-ownership",
+      "verdict": "better",
+      "mode": "experiment"
+    },
+    {
+      "subject": "design-tokens",
+      "technique": "token-enforcement",
+      "verdict": "better",
+      "mode": "code"
+    },
+    {
+      "subject": "design-tokens",
+      "technique": "token-enforcement",
+      "verdict": "unmeasurable",
+      "mode": "experiment"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/ui-surfaces/input-and-editing/ui-controls/techniques/call-site-ownership.md",
+    "knowledge/software-engineering/ui-surfaces/input-and-editing/ui-controls/applications/react--call-site-ownership.md",
+    "knowledge/software-engineering/ui-surfaces/input-and-editing/ui-controls/ui-controls.md",
+    "knowledge/software-engineering/ui-surfaces/feedback-and-style/design-tokens/techniques/token-enforcement.md",
+    "knowledge/software-engineering/ui-surfaces/feedback-and-style/design-tokens/applications/react--token-enforcement.md",
+    "knowledge/software-engineering/index.json",
+    "catalog.json",
+    "rules/ai-registry-software-engineering.md",
+    "librarian/sources/2026-09-24-shadcn-lint-tailwind-design-system.md",
+    "librarian/sources/index.md",
+    "librarian/applied.md",
+    "librarian/subjects/software-engineering/ui-controls.md",
+    "librarian/subjects/software-engineering/design-tokens.md",
+    ".claude/skills/intake/SCORECARD.md",
+    ".claude/skills/intake/LESSONS.md"
+  ],
+  "commits": [
+    {
+      "sha": "040cf4fe",
+      "pathspec": [
+        "knowledge/software-engineering/ui-surfaces/input-and-editing/ui-controls",
+        "knowledge/software-engineering/ui-surfaces/feedback-and-style/design-tokens",
+        "knowledge/software-engineering/index.json",
+        "librarian/sources/2026-09-24-shadcn-lint-tailwind-design-system.md",
+        "librarian/subjects/software-engineering/ui-controls.md",
+        "librarian/subjects/software-engineering/design-tokens.md"
+      ],
+      "branch": "main"
+    },
+    {
+      "sha": "d0875008",
+      "pathspec": [
+        "catalog.json"
+      ],
+      "branch": "main"
+    },
+    {
+      "sha": "29843d42",
+      "pathspec": [
+        "rules/ai-registry-software-engineering.md"
+      ],
+      "branch": "main"
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Video review; primary repo cloned. New ui-controls/call-site-ownership + token-enforcement vocabulary section. Personas: 17 of 34 button restyles carry no raw value; its gate sees 0. Seam hunt shipped a white-rule recall fix. Multiplier-scale row falsified, banked."
+}

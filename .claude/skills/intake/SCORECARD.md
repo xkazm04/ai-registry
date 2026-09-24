@@ -4812,3 +4812,17 @@ as one of our own instruments (the run board, the scan, the ledgers, a harness l
 replay our instrument's own history against the source's headline measurement before
 writing the technique.** It costs one git log. It either confirms the mechanism or hands
 the technique its boundary before it is written.
+
+| 2.14.1 | 2026-09-24 | `youtube:tPQgw_DPIoM` shadcn-lint-tailwind-design-system - a channel demos a design-system linter for agent-written utility-class UI | 1 video, 1,583 words; primary cloned at `a89d047` (16,383 doc words + eval harness); **0 of 3 fetches** (1 search); 8 corpus files opened; 12 fleet trees censused for a shared-primitive layer; 1 tree read in depth (personas: button primitive, lint config, 2 custom rules, census format) | 11 | 5 verified (2 accepts against opened homes, 1 promotion read, 1 row falsified at its seam, 1 catch opened) | **1 technique** + **1 amendment** (section + use_when) + **1 application** (`applied: experiment`, `better`) + 1 application section (the shipped fix) | 3 rows (`1c/2e/0s/0t/0r`): call-site-ownership `better` (0 of 34 restyles seen by the project's gate, 17 on-token); the white-rule recall fix `better` (3 -> 9, floor held); the vocabulary section `unmeasurable` (instrument named) | **1 code** (personas `f9e257bcd` + applied rows `270485270`), + registry `040cf4fe`, `d0875008`, `29843d42`; not pushed | Declared focus (replay our own instrument against the headline) **met, weakly**: the copy-baseline history was the nearest same-class instrument and showed no relocation. It could not confirm the mechanism, so the amendment cites the primary's measurement and the row is `unmeasurable`. Admission `auto=2/4/0`, `fp=0`. The census instrument over-read nested JSX props (385 -> 74); caught by opening one site, not by the assertion, which only checks for zero. An escaped-regex grep returned a false "none" for the anchor in other rules; a fixed-string rerun with a positive control found it. | S0/T1/A1/Asrc0/task0 - review-class source with the primary as extraction; routing count 1 NONE (the ownership partition), stayed in intake, no handoff - directions=n/a (a lint rule over an existing primitive is coverage, not a capability) - gate=n/a |
+
+**2026-09-24 (shadcn-lint) - weakest stage and next focus.** Ship moved for the fourth
+row running, and for the fourth time the shipped change came from the seam hunt, not from
+the landed technique. The technique's own apply stopped at "filed as next change", because
+a new gate over a tree that already violates it is a ratchet, and the run treated that as
+too large to ship. It is not. A ratchet is a baseline file plus one rule entry, and personas
+already has the format (its census). The weakest stage is still **apply -> ship for a
+gate-shaped technique**. Next run's declared focus: **when the landed technique is a gate and
+the seam already violates it, ship it as a ratchet at today's count in the project's own
+baseline format, in the same session, instead of filing it.** A ratchet changes no
+behaviour on the day it lands, so it needs no larger proof than the census that set the
+baseline.

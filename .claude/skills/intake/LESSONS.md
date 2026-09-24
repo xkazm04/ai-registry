@@ -11972,3 +11972,22 @@ finish on the version it loaded.)
   registry's own application from reading the code alone.
 - **check-anchors cannot parse an escaped quote inside an anchor quote.** `"Read \"tops\"
   ..."` reported quote-absent on a line that holds the text. Anchor to a quote-free line.
+
+## 2.14.1 - 2026-09-24 - shadcn-lint-tailwind-design-system
+
+- **A pattern fix from the seam hunt is read against each rule's contract before it
+  spreads.** A whitespace-only anchor was a recall bug in one custom rule (every
+  `hover:` form escaped) and a documented exemption in its sibling, whose contract
+  allows state modifiers. The same bytes, opposite verdicts. Propagating the fix by
+  grep would have broken the sibling's stated behaviour.
+- **A zero-assertion guards against a dead instrument, not an inflated one.** A JSX
+  census read a tag's attributes by regex, ran into a prop holding nested JSX
+  (`icon={<X className=... />}`), and reported the child's classes as the parent's:
+  385 sites where the corrected count is 74. The number was plausible and cleared the
+  "zero call sites is BROKEN" check. Opening one matched site caught it. Before a
+  count authorizes anything, read one row that should not have matched.
+- **The declared-focus replay authorizes only when the fleet has the same mechanism.**
+  The nearest instrument here (a writable ratchet baseline) was not the source's
+  mechanism (a writable vocabulary). It showed no relocation and could confirm
+  nothing. Record such a replay as weak, keep the landing on the primary's
+  measurement, and name the instrument that would be the true replay.
