@@ -1,0 +1,38 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "hr-0924",
+  "skill": "harvest",
+  "skill_version": "0.5.2",
+  "mode": "research",
+  "domain": null,
+  "started_at": "2026-09-24T14:59:22Z",
+  "ended_at": "2026-09-24T15:17:30Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 20,
+    "landed": 0,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [],
+  "verdicts": [],
+  "files": [
+    "librarian/harvest/queue.md",
+    "librarian/harvest/coverage-gaps.md"
+  ],
+  "commits": [
+    {
+      "sha": "d594a96b",
+      "branch": "main",
+      "pathspec": [
+        "librarian/harvest/queue.md",
+        "librarian/harvest/coverage-gaps.md"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Refill: 20 gap-line research agents (cap 5, once 6 by an early top-up). 60 queue rows (177->237), 14 gap lines struck, 6 stand-ins updated. Nothing mined or landed. A sibling harvest research run (hv-rsch-0924) claimed 2 s later; told it."
+}

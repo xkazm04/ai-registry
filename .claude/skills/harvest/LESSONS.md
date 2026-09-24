@@ -29,3 +29,26 @@ report now has a lane to land in.
   settled rather than debated. A parked row never reaches a subject row at all - parking
   is a judgment about timing and the result file has nothing to say about it - and a
   mined row's outcome is whatever it landed. The queue keeps its own words.
+
+## 0.5.2 - 2026-09-24 - ai-registry (first `research` refill, run hr-0924)
+
+- **Most founding "no elite source" lines were search-budget artifacts, not literature
+  facts.** One targeted agent per line struck 14 of 20 in a single pass, and the founding
+  notes admitted it ("search budget capped before confirming candidates"). One line closed
+  because the world moved: the benchmark-sharing spec got its first government adopter two
+  days before the pass. A gap line ages like a lead and needs a refresh date, not just a
+  strike.
+- **Two refills claimed the same work two seconds apart, and the board could not see it.**
+  This run claimed subject `harvest/coverage-gaps`; the sibling claimed
+  `librarian/harvest/queue.md`, with a different `--source` string. Neither form ever
+  contends with the other, so `claim` reported zero siblings, and both runs wrote the same
+  two files. A refill should claim the literal paths it writes, as `paths`, because those
+  strings are the same for every run. Found by listing the board before committing; the
+  sibling was told by message.
+- **Research agents put types in the class column** (`style-guide`, `reference-repo`,
+  `handbook`), and source-classes.md has no class for a regulator, a standards body or a
+  statute. The queue's own precedent files those as `vendor repository`. The orchestrator
+  normalized each row by hand; a brief that quotes the queue's precedent would stop it at
+  the source.
+- **The orchestrator broke the cap of 5 once**, topping up before a completion arrived.
+  Background agents give no count back unprompted. Keep a running tally in the scratch file.
