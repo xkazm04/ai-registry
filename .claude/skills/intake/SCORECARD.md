@@ -4769,3 +4769,13 @@ success from the target's side.
    without one discipline, in one tree, with a 32-file leak measuring the
    difference. A repository that does something twice, unevenly, is a natural
    experiment, and that is worth more than one that does it well.
+
+| 2.13.0 | 2026-09-24 | `web:addyo.substack.com/p/how-modern-browsers-work` - a browser-internals explainer, plus an operator dispatch: the golden path for model-authored explainer animations in five art styles | 1 article (12,570 words, prose; the "animations" were 11 static images) + 1 research worker (11 web calls, operator budget). **0 of 3 source fetches** | 12 | 4 verified in full (2 accepted, both neighbours opened; 2 catches opened) + 5 skins rendered at 7 beats each | **1 technique + 1 amendment + 1 application** | 2 rows (`2c/0e/0s/0t/0r`), both `better`, ab-paired | 2 (personas-web `f0b9816`, `11601e0`, pathspec, not pushed) | **Expected yield said out loud first (low content / high catches) and it held for the prose.** Both landings came from the source's static filmstrip and the operator's question. Declared focus (floor before fix) applied: both fixes declared the no-preference floor first, and both floors held | S0/T1/A1/Asrc0/code~70L · no design record (article), routing count n/a · auto=2/2/1 fp=0 · directions=n/a · XL page-load subject escalated, not dispatched |
+
+**Next run's declared focus.** The seam hunt was again the strongest stage: the
+second defect (every route blank for reduced-motion visitors) came from a
+screenshot taken to check the first fix, not from the source. **When a fix is
+verified by eye, take the capture under the same condition the fix targets and
+distrust a blank.** The blank frame found a site-wide defect that two earlier
+reduced-motion passes over this tree had missed, because those passes read the
+code and never looked at the page.

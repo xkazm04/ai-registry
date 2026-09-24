@@ -11885,3 +11885,23 @@ finish on the version it loaded.)
 - **Mid-flight runs on an earlier version: nothing to do.** No step ordering
   changed and no instrument changed; the additions above are lesson-level and
   await a third sighting before they become rules in `SKILL.md`.
+
+## 2.13.0 - 2026-09-24 - how-modern-browsers-work
+
+- **The operator's memory of a source is a claim about its container, and it
+  can be wrong usefully.** The article was remembered as "animated walkthroughs"
+  and carries only static images. Checking the container turned the run toward
+  the right question: how a still (a filmstrip, a before/after pair) carries a
+  process. Read the media list of a web source, not only its text, when the
+  operator names its visuals as the reason for sharing it.
+- **Parallel model workers over one contract are an instrument for the
+  contract.** Four skin authors each met the contract, and three of four named
+  the same defect in it without seeing each other. Convergence across
+  independent workers is the fastest way to find where a brief states a target
+  in the wrong units. Ask every worker for "the rule that was awkward", and
+  count the overlaps.
+- **Verify a fix by looking under the condition it targets.** The reduced-motion
+  still capture meant to confirm a local fix came back blank, and the cause was
+  one level up: every route. A blank capture is a finding, not a harness bug,
+  until proven otherwise.
+- **Mid-flight runs: nothing to do.** No step or instrument changed.
