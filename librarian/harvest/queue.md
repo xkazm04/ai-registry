@@ -1,8 +1,8 @@
 ---
 kind: harvest-queue
 created: 2026-08-28
-updated: 2026-09-17
-entries: 177
+updated: 2026-09-24
+entries: 237
 statuses: mixed
 ---
 
@@ -15,7 +15,7 @@ gets batched. `class` uses the intake source-class taxonomy
 `yield` is the honest expectation - `content` (new techniques), `currency` (updates
 existing claims), `lead` (watch, return later).
 
-## software-engineering / llm-agent + AI-native (39)
+## software-engineering / llm-agent + AI-native (47)
 
 | id | pri | source | type | class | target | why it is here | yield | status |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -58,8 +58,16 @@ existing claims), `lead` (watch, return later).
 | SEA-037 | 3 | https://github.com/wshobson/agents | code-repo | app/tutorial aggregator | llm-agent/orchestration (subagent fan-out) | largest production-grade Claude Code subagent/orchestration collection | lead | queued |
 | SEA-038 | 3 | https://github.com/dloss/awesome-agent-sandboxes | awesome-list | app/tutorial aggregator | llm-agent/runtime-and-io (sandboxing) | curated map of agent code-execution sandbox solutions (gVisor/Firecracker/microVM landscape) | lead | queued |
 | SEA-039 | 3 | https://github.com/anthropics/claude-plugins-official | reference-repo | vendor repository | skills/plugin ecosystems | Anthropic-managed directory of vetted Claude Code plugins; ecosystem ground truth | lead | queued |
+| SEA-040 | 1 | https://arxiv.org/abs/2507.22358 | paper | first-party practitioner account | software-engineering/llm-agent (hitl-approval) | Microsoft Research, Magentic-UI (Mozannar et al., 2025-07-30): five measured HITL mechanisms (co-planning, co-tasking, multi-tasking, action guards, long-term memory) with benchmark, simulated-user, user-study and safety evaluation | content | queued |
+| SEA-041 | 1 | https://github.com/microsoft/magentic-ui | code-repo | first-party practitioner account | software-engineering/llm-agent (hitl-approval) | reference implementation of the Magentic-UI patterns: approval gates before critical actions, sandbox isolation, steer/approve/take-over controls; 10.1k stars, 820 commits, active | content | queued |
+| SEA-042 | 2 | https://github.github.com/gh-aw/specs/ai-credits-specification/ | spec | vendor repository | software-engineering/llm-agent/evaluation-and-cost/cost-metering | GitHub's normative spec (v1.4.0, 2026-06-09) for gh-aw cost control: AI Credits cross-provider unit, 4-level precedence for per-run and rolling-24h ceilings, env-var contract, guardrail-bypass conditions; github/gh-aw v0.89.20 2026-09-23 | content | queued |
+| SEA-043 | 3 | https://github.github.com/gh-aw/reference/cost-management/ | docs | vendor repository | software-engineering/llm-agent/evaluation-and-cost/cost-metering | companion reference: pre-engine noop short-circuit (exit at 0 credits before spend), gh aw logs/audit drift monitoring; same live repo | content | queued |
+| SEA-044 | 1 | https://huggingface.co/blog/agent-intrusion-technical-timeline | article | first-party practitioner account | software-engineering/llm-agent/runtime-and-io (no escape subject yet) | Hugging Face's forensic timeline (2026-07-27) of an evaluation agent escaping its sandbox via a package-registry-proxy zero-day, then HDF5 file-read + Jinja2 template injection (code, not prompt, injection) into production Kubernetes; ~17,600 recovered actions | content | queued |
+| SEA-045 | 1 | https://arxiv.org/abs/2603.02277 | paper | research-model release | software-engineering/llm-agent/runtime-and-io (no escape subject yet) | SANDBOXESCAPEBENCH (Oxford + UK AISI): Inspect-based CTF, 18 container-escape scenarios across orchestration/runtime/kernel layers; submitted 2026-03-01, revised 2026-08-01, code public | content | queued |
+| SEA-046 | 2 | https://arxiv.org/abs/2607.05743 | paper | paper aggregator | software-engineering/llm-agent/runtime-and-io (no escape subject yet) | "Balkanization of Execution-Security Research for AI Coding Agents" (2026-07-07): systematizes 39 papers into 17 categories on isolation, access control, TOCTOU/MCP threats, framed apart from prompt injection | content | queued |
+| SEA-047 | 2 | https://arxiv.org/abs/2606.08433 | paper | research-model release | software-engineering/llm-agent/runtime-and-io (no escape subject yet) | "AI Code Sandboxes: A Comparative Security Study, Part 1" (2026-06-07): 5 engines (microVM / userspace kernel / OCI) compared on attack surface, CVE history, patch cadence, fuzzing; companion repo | content | queued |
 
-## software-engineering / core (28)
+## software-engineering / core (43)
 
 | id | pri | source | type | class | target | why it is here | yield | status |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -91,8 +99,23 @@ existing claims), `lead` (watch, return later).
 | SEC-026 | 3 | https://github.com/excalidraw/excalidraw | code-repo | vendor repository | client-architecture + ui-surfaces (local-first canvas app) | production TypeScript/React codebase teaching offline persistence, collab sync, component architecture | content | queued |
 | SEC-027 | 3 | https://minimumcd.org/ | docs | first-party practitioner account | engineering-process/continuous-integration | practitioner-signed minimum viable continuous delivery definition; concise CD standard | content | queued |
 | SEC-028 | 3 | https://www.microsoft.com/en-us/research/publication/the-space-of-developer-productivity-theres-more-to-it-than-you-think/ | paper | paper aggregator | engineering-assessment (beyond DORA) | SPACE framework paper (Forsgren et al.); the maturity-measurement complement to DORA | content | queued |
+| SEC-029 | 1 | https://transparency.dev/ | docs | first-party practitioner account | software-engineering/operations/governance-and-records/audit-logging | the Certificate Transparency team's generalized append-only verifiable log (Trillian / Tessera, commits into 2026-08): the exemplar for the chained rung of the tamper-evidence ladder | content | queued |
+| SEC-030 | 1 | https://github.com/sigstore/rekor-tiles | code-repo | vendor repository | software-engineering/operations/governance-and-records/audit-logging | Rekor v2 on Tessera: the production transparency log Sigstore runs at scale, GA, 2026 log instance provisioning | content | queued |
+| SEC-031 | 2 | https://csrc.nist.gov/pubs/sp/800/92/r1/ipd | spec | first-party practitioner account | software-engineering/operations/governance-and-records/audit-logging | NIST SP 800-92 Rev 1 initial public draft (updated 2025-02-04): the federal log-management planning playbook, practice not product; still draft | content | queued |
+| SEC-032 | 2 | https://github.com/ocsf/ocsf-schema | spec | vendor repository | software-engineering/operations/governance-and-records/audit-logging | Open Cybersecurity Schema Framework: cross-vendor typed schema for security and audit event records (actor/action/subject/outcome); active 2026-09-22 | content | queued |
+| SEC-033 | 1 | https://aws.amazon.com/builders-library/avoiding-fallback-in-distributed-systems/ | article | first-party practitioner account | software-engineering/backend-platform/resilience/optional-dependency-degradation | Jacob Gabrielson (AWS): retry / hedging / failover / fallback taxonomy and the case that distributed fallback is riskier than hardening the primary path - the counter-argument a naive degradation playbook needs; live (redirects to builder.aws.com) | content | queued |
+| SEC-034 | 2 | https://aws.amazon.com/builders-library/static-stability-using-availability-zones/ | article | first-party practitioner account | software-engineering/backend-platform/resilience/retry-backoff | Becky Weiss & Mike Furr (AWS): origin of "static stability" - pre-provision so the system keeps working while a dependency is impaired instead of reacting after it fails | content | queued |
+| SEC-035 | 3 | https://aws.amazon.com/builders-library/using-load-shedding-to-avoid-overload/ | article | first-party practitioner account | software-engineering/backend-platform/work-execution/admission-queue | AWS principal engineer on load shedding, queue-age triage, LIFO under load, brownout from surge queuing vs fail-fast; seen in search only | content | queued |
+| SEC-036 | 1 | https://web.dev/articles/vitals | docs | first-party practitioner account | software-engineering/ui-surfaces/published-surfaces (no web-performance subject yet) | Chrome team's Core Web Vitals definition (LCP/INP/CLS) and thresholds, Philip Walton, updated 2024-10-31 - the page staff engineers cite for "what counts as fast"; zero corpus mentions of CWV today | content | queued |
+| SEC-037 | 1 | https://almanac.httparchive.org/en/2025/performance | dataset | first-party practitioner account | software-engineering/ui-surfaces/published-surfaces (no web-performance subject yet) | HTTP Archive Web Almanac 2025 performance chapter (published 2026-01-15, ~17M sites, CrUX + lab): the population distribution of real-world web performance | content | queued |
+| SEC-038 | 2 | https://developer.chrome.com/docs/crux/methodology | docs | first-party practitioner account | software-engineering/ui-surfaces/published-surfaces (no web-performance subject yet) | CrUX collection, eligibility and aggregation rules - the dataset behind PageSpeed Insights and Search's page-experience signal; updated 2024-06-20 | content | queued |
+| SEC-039 | 2 | https://developers.google.com/search/docs/essentials | docs | first-party practitioner account | software-engineering/ui-surfaces/published-surfaces (technical layer of marketing/search-and-content) | Google Search Central's technical minimum for crawl/index eligibility, distinct from on-page craft; updated 2025-12-10 | content | queued |
+| SEC-040 | 1 | https://docs.gitlab.com/ee/development/migration_style_guide/ | style-guide | first-party practitioner account | software-engineering/backend-platform/data-layer/migrations | GitLab's enforced migration standard across production installations: expand-contract, disable_ddl_transaction!, with_lock_retries, concurrent indexes, per-migration time budgets; maintained | content | queued |
+| SEC-041 | 1 | https://github.com/xataio/pgroll | code-repo | vendor repository | software-engineering/backend-platform/data-layer/migrations | Xata's open-source expand/contract implementation on Postgres 14+ via dual-schema views, automatic backfill, instant rollback; active into 2026 | content | queued |
+| SEC-042 | 2 | https://github.com/ankane/strong_migrations | code-repo | vendor repository | software-engineering/backend-platform/data-layer/migrations | maintained catalog of unsafe DDL per engine (Postgres, MySQL, MariaDB) with the safe rewrite for each; v2.3.0 2025-04 | content | queued |
+| SEC-043 | 2 | https://martinfowler.com/articles/evodb.html | article | first-party practitioner account | software-engineering/backend-platform/data-layer/migrations | Fowler & Sadalage, Evolutionary Database Design (2003, rewritten 2016): the founding text migrations-as-code and expand-contract trace back to | currency | queued |
 
-## llm-observability (14)
+## llm-observability (18)
 
 | id | pri | source | type | class | target | why it is here | yield | status |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -110,8 +133,12 @@ existing claims), `lead` (watch, return later).
 | OBS-012 | 2 | https://github.com/evidentlyai/evidently | code-repo | vendor repository | quality-scoring (drift detection) | canonical open-source drift/monitoring framework extended to LLMs | content | parked: quality-scoring drift subjects at 0 pts; generator-uncertainty-scoring's no-app needle is a different subject |
 | OBS-013 | 2 | https://github.com/stanford-crfm/helm | code-repo | research-model release | federation-and-surfaces (benchmark publishing) | Stanford CRFM's transparent, reproducible benchmark framework; the model for sharing eval results | content | mined: 0c/1cur/1L/10cat |
 | OBS-014 | 3 | https://github.com/QuesmaOrg/awesome-ai-tokenomics | awesome-list | app/tutorial aggregator | economics-and-governance | curated map of the tokenomics niche (costs, waste, bill-cutting); dense lead generator | lead | mined: 0c/0cur/5L/4cat |
+| OBS-015 | 1 | https://arxiv.org/abs/2606.14516 | paper | first-party practitioner account | llm-observability/federation-and-surfaces/federated-benchmark-sharing | EvalEval Coalition (Batzner et al.), Every Eval Ever: open aggregate + instance-level schema and community repository for publishing eval results other orgs ingest; 22,235 models, 2,273 benchmarks, 31 source formats | content | queued |
+| OBS-016 | 1 | https://github.com/evaleval/every_eval_ever | code-repo | first-party practitioner account | llm-observability/federation-and-surfaces/federated-benchmark-sharing | the live EEE schema + crowdsourced database: PR-based submission from any org, converters from Inspect AI / HELM / lm-eval-harness; MIT, updated 2026-09-20 | content | queued |
+| OBS-017 | 2 | https://huggingface.co/docs/hub/eval-results | docs | first-party practitioner account | llm-observability/federation-and-surfaces/federated-benchmark-sharing | Hugging Face's .eval_results/*.yaml and eval.yaml benchmark-registration spec, community-provided badge flow, Inspect interop; marked work in progress | content | queued |
+| OBS-018 | 2 | https://huggingface.co/blog/evaleval-aisi | article | vendor release announcement | llm-observability/federation-and-surfaces/federated-benchmark-sharing | 2026-09-22: UK AISI publishes five benchmarks x six frontier models as EEE Evaluation Cards - the first government cross-org adoption | currency | queued |
 
-## recruiting (14)
+## recruiting (22)
 
 | id | pri | source | type | class | target | why it is here | yield | status |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -129,8 +156,16 @@ existing claims), `lead` (watch, return later).
 | REC-012 | 2 | https://www.onetcenter.org/database.html | docs | vendor repository | role-definition (occupational taxonomy) | US DOL's O*NET - the authoritative machine-readable job/skills taxonomy | currency | queued |
 | REC-013 | 2 | https://www.imsglobal.org/spec/ob/v3p0 | spec | vendor repository | candidate-evidence (verifiable credentials) | Open Badges 3.0 on Verifiable Credentials; the deeper sibling to the consumed W3C VC model | content | queued |
 | REC-014 | 3 | https://github.com/opencats/OpenCATS | code-repo | vendor repository | pipeline-operations (ATS data model) | the long-standing open-source ATS; real candidate/pipeline schema to mine, though aging | lead | queued |
+| REC-015 | 1 | https://www.siop.org/wp-content/uploads/2024/07/SIOP-Applicant_Reactions_to_Selection_final.pdf | docs | first-party practitioner account | recruiting/candidate-experience | SIOP's 2024 practitioner synthesis of the applicant-reactions literature (Bauer, Truxillo et al.), refreshing the 2011/2012 SIOP-SHRM edition; neutral professional body, not vendor | content | queued |
+| REC-016 | 1 | https://ecommons.cornell.edu/items/4ab12de5-15ca-4de2-b9d4-efb3609b51ae | paper | research-model release | recruiting/candidate-experience | Hausknecht, Day & Thomas 2004 meta-analysis (Personnel Psychology, 86 samples, N=48,750) linking applicant perceptions to offer acceptance and referral intent; author-deposited open full text | content | queued |
+| REC-017 | 3 | https://onlinelibrary.wiley.com/doi/abs/10.1111/j.1744-6570.2012.01254.x | paper | research-model release | recruiting/sourcing-and-intake | Uggerslev, Fassina & Kraichy 2012 "Recruiting Through the Stages" meta-analysis (232 studies, n=108,632) of attraction predictors across funnel stages; paywalled, abstract only - lead until an open copy exists | lead | queued |
+| REC-018 | 1 | https://www.apa.org/ed/accreditation/personnel-selection-procedures.pdf | spec | vendor repository | recruiting/assessment/assessment-instrument-validation | SIOP Principles for the Validation and Use of Personnel Selection Procedures, 5th ed. (APA-approved 2018, current): the professional standard for validating a selection procedure; content-oriented validation is what work-sample design leans on | content | queued |
+| REC-019 | 1 | https://www.eeoc.gov/select-issues-assessing-adverse-impact-software-algorithms-and-artificial-intelligence-used | docs | vendor repository | recruiting/governance/candidate-ai-disclosure-and-explanation | EEOC technical assistance (2023-05) applying disparate-impact analysis to algorithmic selection tools - the regulator's operative AI position, sibling to UGESP (REC-001); seen in search, fetcher blocked | content | queued |
+| REC-020 | 1 | https://www.ilga.gov/Legislation/ILCS/Articles?ActID=4015&ChapterID=68 | spec | vendor repository | recruiting/governance/candidate-ai-disclosure-and-explanation | Illinois Artificial Intelligence Video Interview Act (820 ILCS 42): statutory notice, explanation and affirmative consent before AI video-interview analysis, plus sharing and destruction duties; seen in search with statute text, fetcher blocked | content | queued |
+| REC-021 | 1 | https://leg.colorado.gov/bills/sb26-189 | spec | vendor repository | recruiting/governance/candidate-ai-disclosure-and-explanation | Colorado SB26-189 Automated Decision-Making Technology act (signed 2026-05-14): repeals and reenacts SB24-205 before it took effect; employment is a consequential decision with disclosure and appeal duties; fetched | content | queued |
+| REC-022 | 3 | https://www.iso.org/standard/42001 | spec | vendor repository | recruiting/governance | ISO/IEC 42001:2023 AI management-system standard, named beneath vendor AEDT compliance claims; paywalled, seen in search only - anchor lead | lead | queued |
 
-## game-production (18)
+## game-production (22)
 
 | id | pri | source | type | class | target | why it is here | yield | status |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -152,8 +187,12 @@ existing claims), `lead` (watch, return later).
 | GAME-016 | 3 | https://github.com/veloren/veloren | code-repo | vendor repository | content-pipeline (open-source game exemplar) | large open voxel RPG with mature contributor pipeline, asset conventions, CI | lead | queued |
 | GAME-017 | 3 | https://github.com/godotengine/awesome-godot | awesome-list | app/tutorial aggregator | engine-integration (Godot tooling) | officially curated by Godot org; unusually high signal for plugin discovery | lead | queued |
 | GAME-018 | 3 | https://github.blog/open-source/gaming/beyond-the-engine-10-open-source-projects-shaping-how-games-actually-get-made/ | article | app/tutorial aggregator | production-governance (tooling landscape) | GitHub's curated survey of production tooling repos beyond engines | lead | queued |
+| GAME-019 | 3 | https://github.com/TaloDev/backend | code-repo | vendor repository | game-production (no telemetry-stack subject yet) | self-hostable MIT game backend with player events, stats, leaderboards; Unity + Godot SDKs; v1.3.0 merged 2026-09-10; showcase lists three shipped indie games - a lead, ~100 stars is below the category-reference bar | lead | queued |
+| GAME-020 | 2 | https://schedule.gdconf.com/session/turning-conversation-into-gameplay-lessons-from-courtroom-chaos-with-snoop-dogg-presented-by-amazon-web-services/917502 | talk | first-party practitioner account | game-production/content-pipeline | GDC 2026 session, Amber head of design + AWS prototyper, on shipping Courtroom Chaos (real-time generative dialogue, Amazon Luna 2025-10-23): stability, personality, latency; AWS-presented, schedule page only - lead until the Vault recording is public | lead | queued |
+| GAME-021 | 2 | https://content.latitude.io/blog/ai-dungeon-dragon-model-upgrade/ | article | first-party practitioner account | game-production/content-pipeline | Latitude's own account of fine-tuning the Dragon model for AI Dungeon, a shipped game whose content is generated; seen in search, fetch hit Cloudflare 522 twice - re-fetch before mining | content | queued |
+| GAME-022 | 3 | https://retrodiffusion.ai/ | docs | vendor release announcement | game-production/asset-production | durable URL for the standing Retro Diffusion / Astropulse lead: the pixel-art diffusion tool's own live site (2026 devlog updates); a tool vendor, not a shipped-game postmortem | lead | queued |
 
-## media-generation (16)
+## media-generation (22)
 
 | id | pri | source | type | class | target | why it is here | yield | status |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -173,8 +212,14 @@ existing claims), `lead` (watch, return later).
 | MED-014 | 3 | https://doc.dvc.org/user-guide | docs | vendor repository | production-ops (generated-asset versioning) | mature large-binary versioning and pipeline DAGs, transferable to generated-media repos | content | queued |
 | MED-015 | 3 | https://github.com/yuxiaw/openfactcheck | code-repo | research-model release | research-grounding (factuality evaluation) | unified LLM factuality-evaluation framework complementing Loki for script checking | lead | queued |
 | MED-016 | 3 | https://github.com/eduardolat/kokoro-web | code-repo | vendor repository | audio-generation (self-hosted TTS) | self-hostable OpenAI-compatible Kokoro TTS server; practical narration-ops entry point | lead | queued |
+| MED-017 | 1 | https://docs.comfy.org/development/serverless/overview | docs | vendor repository | media-generation/production-ops (no serving-infra subject yet) | Comfy-Org's first-party serverless deployment reference: active vs flex workers, idle scale-down, scale-to-zero cold start, network-storage model caching, per-second cost model; beta, live | content | queued |
+| MED-018 | 3 | https://dev.to/thangchung/auto-scaling-comfyui-api-and-comfyui-orchestrating-gpu-workloads-with-azure-kubernetes-service-and-2207 | article | first-party practitioner account | media-generation/production-ops (no serving-infra subject yet) | Thang Chung (2026-01-21), first-hand AKS refactor: rejected Ollama/vLLM/KServe/KAITO as wrong shape, KEDA HTTP add-on on pending requests, GPU-only node pool, ~2 min cold start measured | content | queued |
+| MED-019 | 1 | https://huggingface.co/hexgrad/Kokoro-82M | docs | research-model release | software-engineering/llm-agent/runtime-and-io/voice-io | canonical Kokoro model card (82M, Apache-2.0, v1.0 2025-01-27, ~11.9M downloads/month); names hexgrad/kokoro as inference code and hexgrad/misaki as G2P | content | queued |
+| MED-020 | 2 | https://github.com/hexgrad/kokoro | code-repo | research-model release | software-engineering/llm-agent/runtime-and-io/voice-io | the inference code the card names canonical; 9k stars but last commit 2025-08-06, no releases - queue as the card's companion, frozen code over live weights | content | queued |
+| MED-021 | 1 | https://github.com/SWivid/F5-TTS | code-repo | research-model release | software-engineering/llm-agent/runtime-and-io/voice-io | the F5-TTS paper authors' own upstream (arXiv 2410.06885), MIT code; latest commit 2026-09-21, v1.1.22 2026-07-23 | content | queued |
+| MED-022 | 2 | https://github.com/resemble-ai/chatterbox | code-repo | research-model release | software-engineering/llm-agent/runtime-and-io/voice-io | Resemble AI's MIT open TTS, 26.5k stars, v3 multilingual 2026-06-10; the alternative named when Kokoro's fixed voices or F5's checkpoint licensing do not fit | lead | queued |
 
-## civic-intelligence (14)
+## civic-intelligence (17)
 
 | id | pri | source | type | class | target | why it is here | yield | status |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -192,8 +237,11 @@ existing claims), `lead` (watch, return later).
 | CIV-012 | 1 | https://datajournalism.com/read/handbook/verification-3 | handbook | first-party practitioner account | accountability-method (OSINT verification) | Silverman-edited Verification Handbook; canonical standard for verifying digital evidence about real people | content | queued |
 | CIV-013 | 2 | https://gijn.org/resource/reporters-guide-to-investigating-organized-crime/ | handbook | first-party practitioner account | accountability-method (follow-the-money) | GIJN reporter's guide incl. money-laundering chapter; field-standard investigative methodology | content | queued |
 | CIV-014 | 3 | https://github.com/bellingcat/toolkit | reference-repo | vendor repository | accountability-method (OSINT tool selection) | Bellingcat's curated, maintained investigations toolkit with per-tool evaluations | lead | queued |
+| CIV-015 | 1 | https://internationalbudget.org/open-budget-survey/ | docs | first-party practitioner account | civic-intelligence/public-money/state-budget-analysis | International Budget Partnership's Open Budget Survey: the comparative scored questionnaire + peer-review protocol for budget transparency across ~120 countries; OBS 2025 round live; also now hosts GIFT's legacy materials | content | queued |
+| CIV-016 | 1 | https://ec.europa.eu/budget/financial-transparency-system/ | docs | vendor repository | civic-intelligence/public-money/state-budget-analysis | the European Commission's official EU-budget beneficiary disclosure portal, bulk xlsx/csv 2007-2025, no REST API; updated 2026-06-30 | currency | queued |
+| CIV-017 | 2 | https://www.imf.org/external/np/sta/gfsm | spec | vendor repository | civic-intelligence/public-money/state-budget-analysis | IMF Government Finance Statistics Manual 2014 (page updated 2025-11): the international classification framework for government finance, harmonized with SNA 2008 / ESA 2010; already cited in the subject's review note, never queued | content | queued |
 
-## grant-funding (12)
+## grant-funding (17)
 
 | id | pri | source | type | class | target | why it is here | yield | status |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -209,8 +257,13 @@ existing claims), `lead` (watch, return later).
 | GRA-010 | 2 | https://github.com/weecology/ogrants | reference-repo | first-party practitioner account | proposal-craft (real funded proposals corpus) | community corpus of openly shared (mostly funded) grant proposals across funders | content | queued |
 | GRA-011 | 2 | https://www.naccho.org/uploads/downloadable-resources/Programs/Public-Health-Infrastructure/KelloggLogicModelGuide_161122_162808.pdf | handbook | first-party practitioner account | proposal-craft (logic models) | W.K. Kellogg Foundation Logic Model Development Guide - the canonical logic-model text | content | queued |
 | GRA-012 | 2 | https://www.ecfr.gov/current/title-2/subtitle-A/chapter-II/part-200 | spec | vendor repository | grant-operations (cost principles, audit) | 2 CFR 200 Uniform Guidance, live official text - reference model for grant cost accounting | content | queued |
+| GRA-013 | 3 | https://docs.civicrm.org/user/en/latest/grants/what-is-civigrant/ | docs | vendor repository | grant-funding/grant-operations/impact-reporting | CiviGrant, the grants component shipped in CiviCRM core (AGPL, core commits 2026-09-24, ~10k org installs; docs current at 6.17, 2026-08-05): status, decision, amount, disbursement, report-received flag - the only live adopted OSS option, thin on budget-vs-actuals and audit trail | lead | queued |
+| GRA-014 | 1 | https://tacr.gov.cz/dokumenty/obecna-prirucka-pro-hodnotitele-27 | docs | vendor repository | grant-funding/proposal-craft/funder-format-blueprints | TA CR "Obecna prirucka pro hodnotitele" (General Handbook for Evaluators, effective 2024-09-04): the criteria Czech applied-research evaluators score against - craft, where GRA-005 is only the portal | content | queued |
+| GRA-015 | 1 | https://opjak.cz/dokumenty/pravidla-pro-zadatele-a-prijemce-obecna-cast/ | docs | vendor repository | grant-funding/proposal-craft/funder-format-blueprints | MSMT OP JAK "Pravidla pro zadatele a prijemce - obecna cast" v3 (effective 2024-06-21, 2026-05 clarification): binding applicant rules for the largest current Czech research and education programme | content | queued |
+| GRA-016 | 1 | https://philea.eu/insights/publications/the-fabric-of-giving-2025-public-benefit-foundation-data-in-europe/ | dataset | first-party practitioner account | grant-funding/funding-landscape/grant-source-landscape | Philea (ex-EFC/Dafne) Fabric of Giving 2025: 175,203 public-benefit foundations across 34 countries incl. Czechia via national associations - Europe's nearest Candid-class census | currency | queued |
+| GRA-017 | 2 | https://www.donorsforum.cz/nadace-a-fondy/prehled-nadaci-a-nadacnich-fondu.html | dataset | vendor repository | grant-funding/funding-landscape/grant-source-landscape | Forum darcu "Nadacni vyhledavac" + annual Mapa darcovstvi (3,236 Czech nadace and nadacni fondy, 2025 maps live), filterable by area, support type, region | currency | queued |
 
-## localization (11)
+## localization (14)
 
 | id | pri | source | type | class | target | why it is here | yield | status |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -225,8 +278,11 @@ existing claims), `lead` (watch, return later).
 | LOC-009 | 2 | https://github.com/w3c/sealreq | spec | vendor repository | south-and-southeast-asian (also: w3c.github.io/ilreq for Indic) | W3C Southeast Asian + Indic layout task forces; only authoritative source for these scripts | content | queued |
 | LOC-010 | 1 | https://github.com/Unbabel/COMET | code-repo | vendor repository | craft (MT/LLM translation evaluation) | the standard neural MT eval framework (WMT-winning); docs teach evaluation methodology | content | queued |
 | LOC-011 | 2 | https://github.com/unicode-org/message-format-wg | spec | vendor repository | craft (grammatical message design) | MessageFormat 2.0, CLDR-approved; teaches plural/gender/agreement handling in UI strings | content | queued |
+| LOC-012 | 1 | https://aclanthology.org/2025.naacl-long.548/ | paper | research-model release | localization/craft/translation-quality-measurement | Zhang, Zhao & Eger (NAACL 2025): human eval of LLM literary translation, 13k sentences, 4 pairs, 9 systems; MQM misjudges ~60% of human translations as no better than MT on creative text while best-worst scaling gets 80-100% right - a measured caveat on the scheme the subject leans on | content | queued |
+| LOC-013 | 2 | https://aclanthology.org/2025.wmt-1.22/ | paper | research-model release | localization/craft/translation-quality-measurement | WMT25 general MT findings (Kocmi et al., 30 pairs, 60 systems incl. LLMs, ESA/MQM human annotation, 2025-11) | currency | queued |
+| LOC-014 | 3 | https://aclanthology.org/2024.wmt-1.1/ | paper | research-model release | localization/craft/translation-quality-measurement | WMT24 findings "The LLM Era Is Here but MT Is Not Solved Yet": introduced Error Span Annotation and the first WMT-scale LLM-vs-MT human evaluation; seen in search | currency | queued |
 
-## knowledge-ops - the registry's own craft (11)
+## knowledge-ops - the registry's own craft (15)
 
 Sources for how THIS registry runs: curation, freshness, agent-consumable knowledge.
 Findings here usually land in `.claude/skills/`, `docs/`, or `practices/` rather than
@@ -245,3 +301,7 @@ a bundle.
 | KOP-009 | 2 | https://handbook.gitlab.com/handbook/about/handbook-usage/ | docs | first-party practitioner account | docs-as-code at scale / org memory | the handbook-first operating doctrine from the largest public company-scale knowledge base | content | queued |
 | KOP-010 | 3 | https://www.writethedocs.org/guide/docs-as-code/ | docs | app/tutorial aggregator | docs-as-code methodology | community-canonical definition of docs-as-code, with a decade of practitioner talks indexed | content | queued |
 | KOP-011 | 3 | https://github.com/sindresorhus/awesome/blob/main/awesome.md | reference-repo | first-party practitioner account | curation-of-curated-lists methodology | the "awesome manifesto": the de facto quality bar and review criteria for curated source lists | content | queued |
+| KOP-012 | 1 | https://www.pewresearch.org/data-labs/2024/05/17/when-online-content-disappears/ | article | first-party practitioner account | knowledge-ops (nearest: software-engineering/engineering-process/codebase-stewardship/docs-sync) | Pew Research (2024-05-17) link-rot measurement over Common Crawl 2013-2023: 25% of pages gone, 38% of 2013 pages dead, 54% of Wikipedia reference sections carry a broken link | content | queued |
+| KOP-013 | 1 | https://harvardlawreview.org/forum/vol-127/perma-scoping-and-addressing-the-problem-of-link-and-reference-rot-in-legal-citations/ | paper | first-party practitioner account | knowledge-ops (nearest: software-engineering/engineering-process/codebase-stewardship/docs-sync) | Zittrain, Albert & Lessig (Harvard Law Review Forum 127): >70% reference rot in law journals, 50% in Supreme Court opinions; founded Perma.cc, still operating; seen in search | content | queued |
+| KOP-014 | 1 | https://arxiv.org/abs/2212.01479 | paper | first-party practitioner account | software-engineering/engineering-process/codebase-stewardship/docs-sync | Tan, Wagner & Treude, DOCER (EMSE / ICSE 2024 journal-first): 28.9% of popular GitHub projects hold an outdated code reference in docs, 82.3% did at some point | content | queued |
+| KOP-015 | 2 | https://arxiv.org/abs/1903.12282 | paper | first-party practitioner account | software-engineering/engineering-process/codebase-stewardship/docs-sync | Zhang et al., Obsolete Answers on Stack Overflow (IEEE TSE 2019): 58.4% obsolete when posted, only 20.5% ever updated - decay in a large public knowledge corpus | content | queued |
