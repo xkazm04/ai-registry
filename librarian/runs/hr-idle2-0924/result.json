@@ -1,0 +1,26 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "hr-idle2-0924",
+  "skill": "harvest",
+  "skill_version": "0.5.2",
+  "mode": "research",
+  "domain": null,
+  "started_at": "2026-09-24T15:35:00Z",
+  "ended_at": "2026-09-24T15:40:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 0,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [],
+  "verdicts": [],
+  "files": [],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "No work at 2a57ca35, recomputed: 268 of 294 queue rows queued, all ten sections hold queued rows (min 5), no domain terminal. coverage-gaps.md unchanged since hr-idle-0924; all 20 lines researched twice today. Board empty. Nothing dispatched."
+}
