@@ -73,3 +73,27 @@ report now has a lane to land in.
   subjects' applications cite no external canon, so a 2019-2022 canon source had no clock
   to move. Against mature software-engineering subjects, predict 0 currency from practitioner
   canon; currency comes from vendor releases.
+
+## 0.5.2 - 2026-09-24 - ai-registry (`auto` pass on the llm-agent sandbox cluster, run hv-sea-0924)
+
+- **Quote the sentence under test in the miner brief, not the topic.** The admission read
+  found the subject's own words ("Runs may share a read-mostly package cache") and every
+  brief carried them verbatim. Four lanes then tested one sentence from four sides, and the
+  batch returned a contradiction with its corrected wording. A topic-level brief ("sandbox
+  escape") would have returned five competing new-technique proposals instead of the
+  corpus's one wrong line.
+- **Send the repository lane last, against the other lanes' drafts.** SEA-023 was a top-up,
+  so its brief could list the five specs the paper lanes had drafted and ask for corroborate
+  / contradict / silent with file:line anchors. The clone refined the headline: fill-on-demand
+  is safe when the host is the one writer and the run chooses no key. The measured failure
+  alone would have banked a rule too strict to be true. When a batch holds one code row,
+  hold it back until drafts exist.
+- **The queue's class column was wrong on 5 of 7 rows**, with papers the most common miss:
+  measurement studies filed as "research-model release", an incident investigation filed as a
+  second-hand review. The miners corrected it at ingest, as the method says, but refill
+  agents should be told that a paper without weights is not a model release.
+- **The dispatch's recount agreed only because both counted a sibling's uncommitted
+  edits.** The working tree read 262 queued rows and HEAD read 268: six SEC flips were a
+  live sibling's work in progress. The target section was untouched either way, so there
+  was no contradiction. But a recount should say which tree it read, or a sibling's work in
+  progress reads as queue drift.

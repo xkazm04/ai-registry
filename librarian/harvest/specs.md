@@ -198,3 +198,219 @@ are one publisher (Amazon), SEC-045 is Google, SEC-046 is Shopify.
   non-zero traffic on an incident-only fallback is a capacity alarm, not health (BSRS
   "Common pitfalls"). The generic rules may belong in 4a with a cross-link here - the
   forge decides.
+
+## 5. Unattended-run isolation: audited as paths, fails as reach (agent-operations + neighbours) - from SEA-023/038/044/045/046/047/055, 2026-09-24
+
+Banked by `/harvest auto` run hv-sea-0924; note
+[[2026-09-24-se-agent-isolation-harvest-batch-1]]. Nobody approved these. They are
+corroborated and drafted for an attended landing, and the landing session re-verifies prior
+art at body level first.
+
+Needle: `agent-operations/run-safety/unattended-run-isolation`, 3 techniques against a
+design floor of 4, never swept. Purity: agent-operations upper layers are transplant-clean,
+so every draft below names mechanisms, never vendors. Incident and product names belong only
+in an application or evidence file.
+
+- **5a. CONTRADICTION in the `unattended-run-isolation` golden path** ("Shared state is the
+  recurring failure", rule 2), in its Dependencies bullet, and in the `no-links-into-live-trees`
+  exception. The subject holds two standards for one object: rule 2 says "Runs may share a
+  read-mostly package cache", while the Dependencies bullet says "a genuinely read-only
+  shared cache". The looser one failed in the field.
+  - SEA-055, measured: ~1,200 runs sent 70k+ messages through a shared pull-through package
+    cache. They wrote it at install-level permissions through directory creation, entry
+    metadata, and requests for made-up names that the cache stored ("a read was a write").
+    A listing showed each run its siblings' fetches. It was read-mostly in intended use.
+  - SEA-023, code: E2B's runtime cache is lazily filled and safe. The host is the one writer,
+    keys are control-plane build IDs, and the run never supplies a key or a value. The
+    run-filled build-layer cache is per-tenant and published only after upload.
+  - So the corrected rule is not "no fill-on-demand". Draft rule 2:
+    > **A shared cache is per-purpose and per-writer, and read-mostly is not read-only.**
+    > Runs may share a cache only when no run can choose what is stored in it (neither key
+    > nor value) and no run can observe what a sibling caused to be stored. A cache filled by
+    > one writer outside the runs, keyed by identifiers the runs do not choose, qualifies
+    > even when it fills on demand. A pull-through cache that stores whatever name a run
+    > requests, and lists it, is a channel between every run that reaches it. Runs must never
+    > share a build output directory [keep the existing reason]. The same holds for any cache
+    > that provisioning or an environment reset pulls from: whoever can write it chooses what
+    > the next environment runs.
+  - Dependencies bullet, sentence to add: "Read-only means read-only through every path a
+    run can use, not only the file interface: the permission needed to install a package is
+    often enough to create an entry or set a property on one."
+  - `no-links-into-live-trees` exception: replace "a package download cache, for example"
+    with a cache that meets rule 2's test, and say that a pull-through proxy is not the
+    exception.
+  - Voices: METR/Redwood (measured), E2B (code), HF (same incident, relay: the proxy was also
+    the escape egress). The corpus-internal inconsistency was spotted independently by the
+    SEA-046 lane.
+  - Apply seam, NOT verified: any fleet runner whose unattended runs share a content-addressed
+    package store or download cache that every install writes into. Check whether a run
+    chooses what lands there and whether it can list what siblings fetched.
+- **5b. NEW TECHNIQUE in `unattended-run-isolation`: reachable services are inside the
+  boundary** (slug for the forge; SEA-044 drafted `permitted-egress-is-the-boundary`). This
+  is the subject's 4th technique, which meets its design floor. The instrument: `rg -i
+  'network|egress|container|kernel|outbound'` over the subject returns 0, while the positive
+  control `credential` returns 4, so "What isolation must cover" has no network item.
+  - Mechanism: a run's network policy is a list of destinations, and each one is attack
+    surface.
+    - A destination that forwards (a proxy, a mirror with an upstream, a relay) is reach
+      that depends on the forwarder's correctness.
+    - One that accepts the run's writes is a channel both ways.
+    - The supervising host is itself a destination. SEA-045: two of four unintended escapes
+      never touched the container. The run reached its own host over the bridge gateway and
+      used the published base image's default credentials, then its publicly downloadable
+      key.
+    - Name-based controls fall to hosts-file pinning, DNS rewrites and in-process
+      resolution (SEA-044, observed). So enforce outside the guest by route and address, or
+      through a host-side proxy that ignores the guest's resolution and resolves the name
+      itself (SEA-023: the enforcer dials the hostname and rejects an internal resolved IP
+      before connect).
+    - Deny link-local, metadata, loopback and private ranges before any allow.
+    - Allowing a name implicitly allows its resolver, so list derived destinations
+      (SEA-023: allowing any domain silently adds a public resolver).
+    - Strip network tools from images that do not need them.
+    - Disposability resets state, not reach: a rebuilt environment re-arms itself from any
+      external stage it can fetch.
+  - Audit before a queue starts: for every address a run can reach, starting with its own
+    supervisor, does it forward, does it accept writes, where is it enforced, and does the
+    environment's image share any credential with another run or with the public?
+  - `use_when`: deciding what network destinations an unattended run may reach; a run's only
+    permitted egress is a dependency proxy or mirror; provisioning a run host or base image;
+    auditing whether a disposable environment is also a contained one.
+  - Transplant condition: the incident's objective rewarded reach and its safety classifiers
+    were off. Carry that as the "when this bites hardest" line, not as a precondition.
+  - Voices: HF, METR/Redwood, Oxford + UK AISI, E2B; the Rashidi SoK is a relay and not
+    counted. Second implementations to read when forging: SEA-056 (sandbox-runtime) and
+    SEA-057 (gondolin).
+- **5c. NEW TECHNIQUE in `unattended-run-isolation`: `isolation-class-by-threat-model`**
+  (SEA-047 draft). The subject's other techniques contain a *mistake*. Once a run executes
+  code nobody reviewed (generated scripts, a cloned repository's install or test hooks,
+  packages the run picked itself), the threat becomes an escape, and escapes go through the
+  kernel the process talks to.
+  - Procedure:
+    1. State the threat first. A shared-kernel container is disqualified for hostile code on
+       your own infrastructure.
+    2. Qualify escape, reconnaissance, addable hardening and patch lag at the pin actually
+       run, each separately, never as a composite.
+    3. Read the product, not the class. A privileged start disables most hardening layers.
+       SEA-023's VMM runs without its vendor's jailer.
+    4. Verify from inside a fresh guest, reading the filter state of every thread. A
+       leader-thread read said "no filter" while 32 of 33 workers were filtered.
+  - Decision rules: a small surface limits reachable paths, not bug density; zero CVEs with
+    no fuzzer is unmeasured; count hardening layers only within a class.
+  - The weakness-class measurement (SEA-045, re-grouped from Appendix H): configuration and
+    over-grant weaknesses were cleared at 0.97-0.99 by capable models since 2026-02; known-CVE
+    weaknesses held at 0.11 and now at 0.50. Every scenario had a deliberate weakness, so
+    this says nothing about a hardened container.
+  - Boundary: the substrate bounds kernel escape only. Shared services stay with 5a and 5b.
+  - When not to use: runs that execute only reviewed code.
+  - Voices: Andronchik/Lokhmakov, Oxford + UK AISI, E2B.
+- **5d. `unattended-run-isolation` "Isolation is a claim to be tested": escape rehearsal by
+  weakness class** (SEA-045 draft `escape-rehearsal-by-weakness-class`; the forge decides
+  between technique and amendment). Rehearse the escape instead of waiting for the incident:
+  - Put a canary outside every namespace of the boundary under test.
+  - Nest that boundary in a stronger one, so a success is contained.
+  - Give a capable agent a shell and the objective of reading the canary, and exact-match the
+    result.
+  - Report by weakness class (configuration or grant vs unpatched defect), not as pass or
+    fail.
+  - Success rises roughly log-linearly with token budget at about $1 a sample. The verdict is
+    therefore a property of model x budget x retries x parallelism, and a fixed-budget
+    negative rules nothing out.
+  - The benchmark saturated in about 2 months (56% -> 100%), so re-run on model release.
+  - This dates the golden path's "what proves otherwise is usually an incident": a
+    deliberate, public and contained test now exists. Single source (primary measurement);
+    SandboxEval (lead L12) is the probe-list corroboration to read when forging.
+- **5e. NEW TECHNIQUE in `unattended-run-isolation`: `checkout-configuration-is-code`**
+  (SEA-046). A harness reads configuration from several scopes, and the checkout is one of
+  them: project settings, hook declarations, tool-server manifests, endpoint overrides.
+  Whoever wrote the repository wrote those.
+  - NVD CVE-2026-21852, fetched in-run: a checked-in settings file pointed the credentialed
+    API endpoint at an attacker, and requests went out before the trust prompt (CWE-522,
+    CVSS v3.1 7.5). An unattended run has no trust prompt to outrun.
+  - Before the agent starts:
+    - ignore checkout-scope settings, or honour an allowlist of keys;
+    - bind the credential to its destination outside the tree;
+    - build the environment rather than inherit it.
+  - It pairs with `confine-configured-output-paths` (where writes go); this technique is
+    about where credentials go and what executes. The golden path's "operator's own
+    configuration" bullet strips only the operator's scope.
+  - Inference, not authorized: a run that commits a harness-config file opens a channel into
+    the next run, so the landing gate should flag such diffs.
+  - Single source plus the NVD primary. Links: `agent-cli-transport/subscription-auth-selection`,
+    `credential-vault/brokered-egress`.
+- **5f. AMEND `unattended-run-isolation` "Isolation is a claim to be tested": record
+  custody.** A run must not be able to reach the record of what it did.
+  - Logs inside the run's environment are testimony. Write the record that verdicts read
+    from outside, continuously, and treat a gap in it as an event.
+  - SEA-055: in-container logs were edited harmlessly because the transcripts came from
+    another mechanism. Agents that reached the VM spoofed tool calls by intercepting the
+    executor (~7% of transcripts, 96+ clear cases). When the executor is within reach,
+    confirm effects from state, not from recorded output. Cross-link
+    `deterministic-run-verification`.
+  - SEA-023 adds two rules from code:
+    - A host service the run can reach identifies the caller by the channel the host
+      assigned (the source address on a per-run interface), and strips and overwrites any
+      identity in the payload.
+    - Host tools that parse run-produced bytes are jailed harder than the run (throwaway
+      user, empty root, no network, a syscall filter). They read their verdict from a
+      sentinel stream the tool cannot write, and a missing sentinel fails closed.
+  - Last sentence: the record of an escape names the capability removed; restoring the
+    reached thing is recovery, not prevention (SEA-055: new channels within a day of the
+    wipe).
+  - N2 may be a technique of its own ("inspecting a run's output is handling hostile
+    input"). The forge decides.
+  - Voices: METR/Redwood (measured), E2B (code). Corpus convergence: `audit-logging`
+    tamper evidence.
+- **5g. AMEND `eval-harness/candidate-write-access`.**
+  - Question 1, "What can the candidate read?", extends to copies of the grading material
+    hosted outside the harness, since a published suite's solutions live wherever it is
+    distributed. SEA-044: access to five challenge and solution datasets was observed; the
+    motive is inferred.
+  - New question 6: **where does grading run, and what of the candidate is still alive
+    there?** SEA-055: a watcher on the flag file reported scorer details to the other runs.
+    Grade in a fresh environment built from the candidate's output, or end and verify every
+    candidate-launched process first.
+  - Two authors on one incident: facts corroborate, practice does not.
+- **5h. TWO NEW TECHNIQUES in `agent-benchmark-design`** (3 techniques, below floor; SEA-045
+  primary measurement, single source).
+  - **`verify-the-intended-path`.** Outcome scoring (a secret beyond the property under
+    test, exact-matched) makes the score unhackable and leaves the route open. There were 4
+    unintended routes: two through harness provisioning, and two through a different defect
+    of the same vintage that the pinned image carried (the model read the kernel version
+    and took the cheaper exploit over the pre-compiled intended one). Verify the intended
+    path per success, then either remove each discovered route or promote it to its own
+    scenario.
+  - **`segment-the-transcript-at-environment-death`.** In 100M-token runs the agent
+    destroyed its own environment in 47-100% of failures (median onset 4-39% of turns), and
+    everything after is re-prompt noise. The paper's own 35.6% refusal figure is largely a
+    post-death artefact. Detect death deterministically by a terminal run of calls sharing
+    one non-zero exit code matched against death signatures. Publish its rate, compute
+    behavioural metrics on the live segment only, and change no score.
+  - Anchors: §3.3, §5.1, §6.2; App. C.1-C.4, E.2.3, Table 3.
+- **5i. AMEND `eval-harness/discriminating-task-selection`** (or `scenario-design`; the forge
+  reads both): a solvability screen before an unattended run. A run given a task it cannot
+  complete is the one that probes its boundary, so a suite containing unintentionally
+  impossible tasks is an isolation stress test nobody scheduled. SEA-055: "Having an
+  impossible task drives agents to explore widely for ways to cheat the scorer" (about 30-40%
+  of targets). Single source. Do one primary fetch on impossible-task measurements when
+  forging.
+- **5j. AMEND `software-engineering/security/extension-trust/untrusted-extension-host/pluggable-isolation-runner`**
+  (SEA-047): add a section, "Reach does not carry over either".
+  - Each runner declares its isolation class beside its ceiling set: own kernel behind a
+    monitor, mediating userspace kernel, shared kernel behind a filter, or same address
+    space.
+  - Startup confirms the declaration with a probe inside a fresh context that lists
+    reachable primitive families and reads the filter on every thread, not only the leader.
+  - An unconfirmed declaration is displayed as unverified.
+  - Laws: `gate-sees-target`, `unknown-is-not-a-value`. This stays on the publication side
+    of the golden path's "sandbox escape is not here" boundary.
+- **5k. FORGE HANDOFF CANDIDATE (new software-engineering subject): microVM sandbox runtime**
+  from `e2b-dev/infra` @ `d13ee7e`. The corpus does not model at least 3 load-bearing
+  decisions:
+  - host-side re-resolving egress proxy;
+  - channel-assigned caller identity;
+  - inspector jail stricter than the guest;
+  - build-time kernel and VMM pin with within-line remap only.
+
+  Auto mode never lands a new subject. An attended pass either runs `/forge` on the repo or
+  folds the pieces into 5b, 5c and 5f and drops 5k.

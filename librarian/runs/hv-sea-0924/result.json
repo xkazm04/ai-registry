@@ -1,0 +1,66 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "hv-sea-0924",
+  "skill": "harvest",
+  "skill_version": "0.5.2",
+  "mode": "auto",
+  "domain": "software-engineering",
+  "started_at": "2026-09-24T18:32:11Z",
+  "ended_at": "2026-09-24T18:56:46Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 4,
+    "landed": 0,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "agent-operations/unattended-run-isolation",
+      "at": "2026-09-24T18:56:46Z",
+      "engine": "harvest",
+      "outcome": "dispatched",
+      "points_before": 9,
+      "points_after": 9
+    },
+    {
+      "id": "agent-operations/agent-benchmark-design",
+      "at": "2026-09-24T18:56:46Z",
+      "engine": "harvest",
+      "outcome": "dispatched",
+      "points_before": 9,
+      "points_after": 9
+    },
+    {
+      "id": "software-engineering/eval-harness",
+      "at": "2026-09-24T18:56:46Z",
+      "engine": "harvest",
+      "outcome": "dispatched",
+      "points_before": 0,
+      "points_after": 0
+    },
+    {
+      "id": "software-engineering/untrusted-extension-host",
+      "at": "2026-09-24T18:56:46Z",
+      "engine": "harvest",
+      "outcome": "dispatched",
+      "points_before": 0,
+      "points_after": 0
+    }
+  ],
+  "verdicts": [],
+  "files": [
+    "librarian/sources/2026-09-24-se-agent-isolation-harvest-batch-1.md",
+    "librarian/sources/index.md",
+    "librarian/harvest/queue.md",
+    "librarian/harvest/specs.md",
+    "librarian/harvest/coverage-gaps.md",
+    ".claude/skills/harvest/LESSONS.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Auto SEA-023/038/044-047/055. Recount matched (55/55; 262 WT, 268 HEAD - sibling WIP). 118 extracted, 21 caught, 25 leads, 0 landed; 11 specs banked (specs.md s5) incl. a contradiction of isolation rule 2. +2 queue rows. 10 older evals still pending."
+}
