@@ -8,7 +8,7 @@ laws: [gate-sees-target, count-carries-predicate, unknown-is-not-a-value]
 shared_with: []
 applied: code
 ab_verdict: better
-use_when: [a suite runs under more than one build configuration or feature set, deciding whether an environment or capability option is a rung of the fidelity ladder or an axis across it, a result is reported per file or per platform while the run varied something else too, two separate jobs each vary one option and the pair is read as covering both, a conditional-compilation flag decides which tests exist, the same test passes under one configuration and fails under another, publishing a green verdict for a suite whose options multiply]
+use_when: [a suite runs under more than one build configuration or feature set, deciding whether an environment or capability option is a rung of the fidelity ladder or an axis across it, a result is reported per file or per platform while the run varied something else too, two separate jobs each vary one option and the pair is read as covering both, a conditional-compilation flag decides which tests exist, the same test passes under one configuration and fails under another, publishing a green verdict for a suite whose options multiply, run records described as immutable that a reader or a second mode can still change]
 ---
 
 # Configuration axes cross the ladder
@@ -65,6 +65,26 @@ edit history. A mutable record with several observers produces a report whose
 content depends on when it was read, and an immutable collection cannot
 represent a run in progress; the asymmetry is the design, and it is worth
 stating because the intuitive arrangement is the opposite one.
+
+That guarantee holds only where immutability is **enforced**. Where it is merely
+agreed, it breaks in two ways, and both are on record. The first is on the reader's
+side. A record that is a plain object *treated* as immutable is immutable one level
+deep. One browser test runner states the rule in its own architecture document and
+spreads a fresh object on every status change. It then hands each session's
+coverage to a merging library that mutates what it is given. Its source carries the
+repair, a deep clone at the reader, beside a note that repeated watch-mode runs had
+been polluted. So a reader edited history through a nested reference, which is
+exactly what the split exists to prevent. The second is on the writer's side. An
+evaluation harness calls its gathered evidence immutable in the header of the module
+that writes it, and ships a second mode that re-gathers into the same run directory
+and overwrites every file in place. The scorecard computed from the first gather then
+sits beside the second, with nothing in it naming which bundle it scored. In the
+fourteen archived runs of that harness none had been re-gathered, so the hazard there
+is structural and its observed incidence was zero. The repair is the same for both.
+Put the property where no path can skip it: a serialization boundary every reader
+crosses, a frozen or read-only type, or a new version written beside the old rather
+than over it. And a verdict computed from evidence names the evidence it read, or a
+later rewrite turns it into a claim about a bundle that no longer exists.
 
 ## Two one-axis jobs are not a two-axis matrix
 

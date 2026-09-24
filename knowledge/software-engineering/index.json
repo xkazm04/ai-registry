@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 232,
   "techniques": 1790,
-  "applications": 1145,
+  "applications": 1146,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -33589,9 +33589,9 @@
    "subcategory": "build-and-release",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/build-and-release/test-harness/test-harness.md",
-   "digest": "sha256:c449405aa9d2e869",
-   "revision": 23,
-   "changedAt": "2026-09-20",
+   "digest": "sha256:4864ae9900a87511",
+   "revision": 24,
+   "changedAt": "2026-09-24",
    "techniques": [
     {
      "slug": "approval-snapshots-with-guarded-update",
@@ -33642,7 +33642,8 @@
       "two separate jobs each vary one option and the pair is read as covering both",
       "a conditional-compilation flag decides which tests exist",
       "the same test passes under one configuration and fails under another",
-      "publishing a green verdict for a suite whose options multiply"
+      "publishing a green verdict for a suite whose options multiply",
+      "run records described as immutable that a reader or a second mode can still change"
      ]
     },
     {
@@ -33992,6 +33993,13 @@
      "file": "knowledge/software-engineering/engineering-process/build-and-release/test-harness/applications/node--assert-through-the-reader.md",
      "verified_on": "2026-09-20",
      "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "configuration-axes-cross-the-ladder",
+     "file": "knowledge/software-engineering/engineering-process/build-and-release/test-harness/applications/node--configuration-axes-cross-the-ladder.md",
+     "verified_on": "2026-09-25",
+     "verified_against": "node@22"
     },
     {
      "stack": "node",

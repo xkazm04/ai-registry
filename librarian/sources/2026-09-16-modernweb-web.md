@@ -5,13 +5,13 @@ url: https://github.com/modernweb-dev/web
 title: "Guides, tools and libraries for modern web development"
 author: modern-web (org)
 words: 609 landing page / 85217 in-tree markdown (38207 under docs/)
-extracted: 13 (6 design + 7 claim)
-accepted: 1
+extracted: 15 (6 design + 7 claim; +2 on 2026-09-25)
+accepted: 2
 declined: 0
-leads: 3
-already_covered: 1
-untriaged: 6
-applied: 2
+leads: 4
+already_covered: 2
+untriaged: 5
+applied: 3
 shipped: 1
 dispatched: 0
 run_id: mwd-web-0916
@@ -192,7 +192,7 @@ subject lacks, not a boundary case of one it owns.
 | 2 | K | technique | M | Arbitration follows the answer's cardinality | se/…/agent-runtime-assembly | new-technique | real gap | 2/1/2 | untriaged (+1, below threshold; no clean home) |
 | 3 | K | amendment | S | Per-capability support matrix | se/…/agent-cli-transport | none | likely catch | — | catch |
 | 4 | K | design | M | MIME as a hook, not an extension | se/…/embedded-preview | none | partial | — | untriaged |
-| 5 | K | design | M | Session = browser x file, immutable | se/…/test-harness | none | partial | — | untriaged (V5 contended) |
+| 5 | K | design | M | Session = browser x file, immutable | se/…/test-harness | none | partial | — | ~~untriaged (V5 contended)~~ **covered** — landed 2026-09-17 by harvest `3-026` (`350e40d7`); see the 2026-09-25 pass |
 | 6 | K | design | M | Thin launcher, protocol in the page | se/…/agent-browser-control | none | partial | — | untriaged |
 | 7 | K | technique | M | Bare specifiers resolved server-side | se/…/dependency-declaration | none | likely catch | — | untriaged |
 | 8 | K | practice | S | The CommonJS interop escalation ladder | — | none | partial | — | untriaged |
@@ -339,8 +339,14 @@ source, and this is the round where it paid.
   witness per cell. This source publishes the matrix as undated prose in a guide,
   which is the version that rots. Nothing to land; the catch is worth recording
   because a future run over any multi-backend tool will map here again.
+- **Session = (browser x file), immutable, mutable manager (D4)** — moved here
+  from the untriaged table on 2026-09-25. Harvest wave 7 landed it the day after
+  this note as backlog `3-026` (`350e40d7`), inside
+  `test-harness/techniques/configuration-axes-cross-the-ladder.md`, and the
+  writer half is owned by `client-state/techniques/async-race-guards.md`. See
+  the 2026-09-25 pass below.
 
-## Untriaged (6) — nobody verified these
+## Untriaged (5) — nobody verified these
 
 Anchors kept so a later run does not re-derive them. No judgment implied.
 
@@ -350,8 +356,9 @@ Anchors kept so a later run does not re-derive them. No judgment implied.
    source with a plugin surface that distinguishes single-answer resolution from
    compositional transformation.
 2. **MIME as a hook, not an extension** (D3). `hooks.md:66-70`.
-3. **Session = (browser x file), immutable, mutable manager** (D4).
-   `architecture.md:158`, `:177`. Home contended all run by a live sibling.
+3. ~~**Session = (browser x file), immutable, mutable manager** (D4).
+   `architecture.md:158`, `:177`. Home contended all run by a live sibling.~~
+   Covered, 2026-09-25 - see "Already covered".
 4. **Thin launcher, protocol in the served page** (D5). `architecture.md:215`,
    `:107`.
 5. **Bare specifiers resolved server-side.** The `--node-resolve` flag rewrites
@@ -386,6 +393,10 @@ Anchors kept so a later run does not re-derive them. No judgment implied.
    `packages/test-runner-core/src/config/TestRunnerCoreConfig.ts`. *Return
    condition*: when a fleet project grows a multi-hop startup whose single
    timeout cannot say which hop failed.
+4. **The manager's queries are live views, not snapshots** (2026-09-25).
+   Immutable records do not give a consistent read of the set. *Return
+   condition*: when a tree holds a reader that iterates a live view of a mutable
+   run collection across a suspension point.
 
 ## Currency (dated facts, 2026-09-14)
 
@@ -435,3 +446,106 @@ adds is this run's. `knowledge/agent-operations/index.json`, which the
 regeneration created, is left for its owner.
 
 Scratch (`C:/t/mwd-web-0916`, the clone) deleted by run id at Phase 9.
+
+## 2026-09-25 pass — D4 (run `in-mwd-d4-0925`)
+
+The operator picked D4 from this note's untriaged table. Nothing was live on the
+board (0 siblings), so its old V5 contention was gone. Re-cloned at
+`43bbf0415f7f9aedfac02c52e363746decdb0ca8` (2026-09-19). Since `f72d33e1` the only
+changes are two dependency bumps (`package-lock.json`,
+`packages/dev-server-core/package.json`), so `rescan_when` has not fired and every
+anchor above still stands.
+
+**D4 had already landed, and this note did not know it.** Harvest wave 7 took it
+from the backlog as `3-026` on 2026-09-17 (`350e40d7`) and wrote both halves into
+`test-harness/techniques/configuration-axes-cross-the-ladder.md`: the result unit
+is the cell (section "Why a file-level result cannot represent a multi-cell
+run"), and the paragraph "The per-cell records are the run's evidence and must be
+immutable once written, while the collection that holds them is mutable". The
+matrix half was measured `better` (personas `2c1df0186`). The immutability half
+was marked unmeasurable and re-banked as `w7-session-immutability-arm`, still
+`queued`. The note's untriaged table stayed at 6, and that stale table is what
+this pass was spent on. Outcome: **already covered**.
+
+**The tree was read for the half the landed paragraph leaves out, the writer, and
+the corpus owns that too.** Records really are replaced, never mutated:
+`packages/test-runner-core/src/test-session/TestSessionManager.ts:41 "const updatedSession: TestSession = { ...session, status };"`.
+But replacement is whole-record and last-writer-wins
+(`packages/test-runner-core/src/test-session/TestSessionManager.ts:50 "this.sessionsMap.set(session.id, session);"`),
+so an immutable snapshot held across an await turns into a stale write. The
+source's guard is a token compare on `(testRun, status)`:
+`packages/test-runner-core/src/runner/TestSessionTimeoutHandler.ts:75 "currentSession.testRun !== session.testRun ||"`
+and `packages/test-runner-core/src/runner/TestSessionTimeoutHandler.ts:76 "currentSession.status !== session.status"`.
+On top of that, a run-level flag defers any re-run that arrives mid-run
+(`packages/test-runner-core/src/runner/TestRunner.ts:118 "if (this.running) {"`).
+This is `client-state/techniques/async-race-guards.md` "Latest-wins tokens":
+capture at dispatch, compare against the slot, stale is inert. Catch, no landing.
+
+One placement is worth recording and is not a defect here. `stopSession` checks
+staleness on entry
+(`packages/test-runner-core/src/runner/TestScheduler.ts:166 "if (this.timeoutHandler.isStale(session)) {"`),
+then awaits the page close
+(`packages/test-runner-core/src/runner/TestScheduler.ts:175 "session.browser.stopSession(session.id),"`),
+and writes back without re-checking
+(`packages/test-runner-core/src/runner/TestScheduler.ts:191 "this.sessions.updateStatus(updatedSession, SESSION_STATUS.FINISHED);"`).
+That is the check placed before the await, not after it. I walked the other
+writers of one session within one `testRun`. The tests-finished timeout fires only
+while status is not `TEST_FINISHED`, the browser-start timeout is itself
+`isStale`-guarded, and the `running` flag keeps re-runs out. None of them can land
+inside that await, so the window is closed from outside by the run mutex and not
+by the token. No bug is claimed.
+
+**Lead 4, added.** The manager's queries are lazy generators over the live `Map`
+(`packages/test-runner-core/src/test-session/TestSessionManager.ts:63 "return this.sessionsMap.values();"`),
+not snapshots. Immutable records do not give a consistent read of the *set*: a
+reader that iterates a view across a suspension sees records from two moments.
+Every in-tree consumer materializes synchronously (`Array.from`, a spread, or an
+immediate `for...of`; 9 call sites grepped), so it never happens here, and an
+unobserved hazard is not a boundary worth an amendment.
+
+**What did land: one boundary amendment, found in a code comment.** The same
+walk turned up
+`packages/test-runner-core/src/coverage/getTestCoverage.ts:186 "// istanbul mutates the coverage objects, which pollutes coverage in watch mode"`,
+repaired by a deep clone at the reader
+(`packages/test-runner-core/src/coverage/getTestCoverage.ts:189 "coverages = JSON.parse(JSON.stringify(coverages));"`).
+That is a paid-for incident in which a reader **edited history** through a
+nested reference inside a record the architecture document calls immutable. It
+refutes, as stated, the landed paragraph's claim that the split lets a reporter
+observe transitions "without owning the record or being able to edit history".
+The paragraph holds only where immutability is enforced. The neighbours own the
+general copy rule: `batch-vs-instance-copy-policy` has a clone row for values
+"mutated in place by an engine operation", and `network-faithful-mocks` says to
+copy on the way out, deeply enough. What they do not own is the boundary on this
+paragraph.
+
+| # | Lane | Shape | Eff | Title | Prior art | Impact | Read | G/R/C | Decision |
+|---|---|---|---|---|---|---|---|---|---|
+| 10 | K | amendment | S | Immutable must mean enforced | se/…/test-harness/configuration-axes-cross-the-ladder | corrects-claim | real gap | 2/0/1 | **accept** |
+| 11 | K | technique | M | Queries over the mutable collection are live views | se/…/test-harness | none | thin | — | lead (no instance in either tree) |
+
+GAIN 1 (boundary case) +1 (refutes a standing sentence); RISK 0 (the director
+opened the tree; the paragraph's sentences stay true under enforcement, so it
+is an append). V1-V5 clear: the amendment lands in an existing technique and
+places nothing in a category. `auto=1/0/0`, `fp=0`.
+
+**Apply (Phase 7.5): personas, mode `experiment`, verdict `unmeasurable`.** The
+backlog row `w7-session-immutability-arm` named "a test-runner summary builder
+used by three modes". That is `gatherBundle`, called by the harness run, by
+watch-and-gather and by re-gather. The seam was chosen to falsify. It turned out
+to hold the *writer-side* form of the same failure, which the amendment now
+names as its second instance. The module declares "an immutable bundle",
+re-gather overwrites it in place, and the scorecard pins nothing about which
+bundle it scored. A replay over the 14 archived bundles (git history, pruned
+since) found **0 re-gathered**, 2 carrying scorecards, and summaries agreeing
+with bundles on 13 of 13 comparable. So the hazard is structural and its
+incidence zero. No change can move the target on this tree, and nothing
+shipped (`structural-only` cannot carry a commit). Return condition: the first
+re-gather of a bundle that already carries a scorecard. See
+`node--configuration-axes-cross-the-ladder.md`.
+
+`w7-session-immutability-arm` stays `queued` in the harvest backlog. This pass
+did not touch that ledger. Its recorded home,
+`llm-agent/orchestration/fleet-orchestration`, looks wrong now that the
+mechanism is split across `test-harness` (reader boundary, landed here) and
+`client-state/async-race-guards` (writer tokens), so the harvest run that picks
+it up should re-home it before measuring.

@@ -1,0 +1,53 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "in-mwd-d4-0925",
+  "skill": "intake",
+  "skill_version": "2.14.1",
+  "mode": "run",
+  "domain": "software-engineering",
+  "started_at": "2026-09-25T00:00:00Z",
+  "ended_at": "2026-09-25T00:00:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/test-harness",
+      "at": "2026-09-25",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "test-harness",
+      "technique": "configuration-axes-cross-the-ladder",
+      "verdict": "unmeasurable",
+      "mode": "experiment"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/engineering-process/build-and-release/test-harness/techniques/configuration-axes-cross-the-ladder.md",
+    "knowledge/software-engineering/engineering-process/build-and-release/test-harness/applications/node--configuration-axes-cross-the-ladder.md",
+    "knowledge/software-engineering/index.json",
+    "rules/ai-registry-software-engineering.md",
+    "librarian/sources/2026-09-16-modernweb-web.md",
+    "librarian/sources/index.md",
+    "librarian/applied.md",
+    "librarian/subjects/software-engineering/test-harness.md",
+    ".claude/skills/intake/SCORECARD.md",
+    ".claude/skills/intake/LESSONS.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "D4 had already landed (harvest 3-026); the note was stale. Landed an amendment: immutable must mean enforced. Applied on personas as an experiment: 0 of 14 bundles re-gathered, unmeasurable, nothing shipped. catalog.json left uncommitted (foreign WIP)."
+}

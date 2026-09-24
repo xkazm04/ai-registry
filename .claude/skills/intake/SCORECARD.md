@@ -4850,3 +4850,10 @@ rows. The pins caught nothing the repository's own quote tests and unit suite di
 not; those two caught one defect each, and a hand read found one thinned answer the
 patterns could not see. Keep the focus for the seven remaining files: pins first,
 then the repository's own structural tests, then read one run per arm by hand.
+
+| 2.14.1 | 2026-09-25 | `github:modernweb-dev/web@43bbf041` D4 pass - the operator picked D4 from the 2026-09-16 note's untriaged table | 1 repository re-cloned (2 upstream commits since the mine, both dependency bumps; `rescan_when` not fired); **0 of 3 fetches**; 7 corpus files opened; 1 fleet tree read (personas `scripts/test/`); 14 archived bundles replayed from git history | 2 (+ D4 itself) | 3 verified: D4 was **already landed** by harvest `3-026` on 2026-09-17 (catch); the writer half was a catch against `async-race-guards`; one boundary amendment accepted at 2/0/1 | **1 amendment** (paragraph + use_when) + **1 application** | 1 row (`0c/1e/0s/0t/0r`): enforced-immutability `unmeasurable` (0 of 14 bundles were ever re-gathered; replay script named as the instrument) | 0 - `structural-only` cannot carry a commit, and zero incidence leaves no target to move | The declared focus (pins first, for the remaining instruction-file rewrites) does not apply to a one-row re-pass. The loss this run found is upstream of the funnel: a stale untriaged table sent the operator to a row that had already landed | `0/0/1/1/0`; no routing count (one-row pass), no handoff, directions=n/a, auto=1/0/0 fp=0 |
+
+The focus carries forward unchanged. One addition from this run: before offering an
+untriaged row from an earlier note, grep `librarian/harvest/backlog.jsonl` for it. The
+note's table and the backlog's `status` disagree whenever a harvest wave lands a row,
+and `backlog-phantom-screen.mjs` only catches forge-landed rows that are still queued.

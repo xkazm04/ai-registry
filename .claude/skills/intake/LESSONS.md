@@ -12014,3 +12014,23 @@ finish on the version it loaded.)
 - When the fleet installer carries drift that belongs to someone else (stale
   rule copies, an old gitignore block), add a scoped pass (`--listing-only`)
   rather than letting this run ship their drift into twelve tracked files.
+
+## 2.14.1 - 2026-09-25 - modernweb-web-d4
+
+- **A note's untriaged table is not the backlog's state.** D4 was offered to the
+  operator from the 2026-09-16 note while `librarian/harvest/backlog.jsonl` had held it
+  as `landed` since 2026-09-17. `backlog-phantom-screen.mjs` did not flag it, because
+  it matches *forge* commits against *queued* rows. A harvest wave that lands a row sets
+  the row to `landed` and leaves the note alone. Before offering or picking an untriaged
+  row, grep the backlog for the note slug and the row title. It costs one command, and
+  here it would have saved the pass's first hour.
+- **The landing came from a code comment, not the design record.** A comment of the
+  form "X mutates Y, cloning prevents this" is a paid-for incident with its repair
+  attached, and it refuted a standing corpus sentence. The Phase 2b sweep reads
+  operating documents, instruments, measurements, types and tests, but not incident
+  comments in source. A grep for `mutates|pollutes|workaround|prevents this` over the
+  source tree is cheap and belongs in the sweep. One run so far; a lesson, not a rule.
+- **The seam named by a backlog row was worth re-reading as a falsifier.** The row
+  called it "a summary builder used by three modes". Read for the amendment's claim,
+  it held the opposite-side failure (a second writer rewriting "immutable" evidence),
+  which the source did not show.
