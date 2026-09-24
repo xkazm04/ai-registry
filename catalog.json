@@ -14,10 +14,10 @@
   "skills": [
     {
       "name": "agent-guidance-bootstrap",
-      "version": "0.8.0",
+      "version": "0.9.0",
       "category": "ai-native",
       "path": "skills/agent-guidance-bootstrap/SKILL.md",
-      "contentHash": "sha256-n1:77f8dccc7e87c573",
+      "contentHash": "sha256-n1:3d3d5b2f706b7e7f",
       "applicability": {
         "dimensions": [
           "D1",
@@ -85,10 +85,10 @@
     },
     {
       "name": "ci-gate-check",
-      "version": "1.7.0",
+      "version": "1.7.1",
       "category": "ci-cd",
       "path": "skills/ci-gate-check/SKILL.md",
-      "contentHash": "sha256-n1:c129b07e4a5a72dc",
+      "contentHash": "sha256-n1:c2d2b6e1f4740f98",
       "applicability": {
         "dimensions": [
           "D3"
@@ -110,10 +110,10 @@
     },
     {
       "name": "ci-triage",
-      "version": "0.4.0",
+      "version": "0.4.1",
       "category": "ci-cd",
       "path": "skills/ci-triage/SKILL.md",
-      "contentHash": "sha256-n1:2382f7200579d9ec",
+      "contentHash": "sha256-n1:d661f774fe8c167d",
       "adopters": [],
       "invokes30d": 0,
       "reportedInvokes": 0,
@@ -148,10 +148,10 @@
     },
     {
       "name": "consult",
-      "version": "1.6.0",
+      "version": "1.6.1",
       "category": "ai-native",
       "path": "skills/consult/SKILL.md",
-      "contentHash": "sha256-n1:bfe859cbfa906c21",
+      "contentHash": "sha256-n1:7d5f5bff411eb74a",
       "adopters": [
         "ascent@plugin:1.0.0",
         "kp@plugin:1.0.0",
@@ -274,10 +274,10 @@
     },
     {
       "name": "flake-register",
-      "version": "0.4.0",
+      "version": "0.4.1",
       "category": "testing",
       "path": "skills/flake-register/SKILL.md",
-      "contentHash": "sha256-n1:82fbfd5be12cc662",
+      "contentHash": "sha256-n1:9e1624debd642442",
       "adopters": [],
       "invokes30d": 0,
       "reportedInvokes": 0,
@@ -317,10 +317,10 @@
     },
     {
       "name": "i18n-translate",
-      "version": "1.6.0",
+      "version": "1.6.1",
       "category": "workflow",
       "path": "skills/i18n-translate/SKILL.md",
-      "contentHash": "sha256-n1:eeab535a3fb35f1f",
+      "contentHash": "sha256-n1:d6375b2526b5786d",
       "adopters": [
         "kp@plugin:1.1.0",
         "personas@plugin:1.1.0",
@@ -363,10 +363,10 @@
     },
     {
       "name": "leonardo",
-      "version": "1.5.1",
+      "version": "1.5.2",
       "category": "other",
       "path": "skills/leonardo/SKILL.md",
-      "contentHash": "sha256-n1:a1d440124e695e65",
+      "contentHash": "sha256-n1:21d3c762790cd36c",
       "adopters": [
         "personas-web@plugin:1.0.0",
         "personas@plugin:1.0.0"
@@ -466,10 +466,10 @@
     },
     {
       "name": "native-copy",
-      "version": "1.4.0",
+      "version": "1.4.1",
       "category": "workflow",
       "path": "skills/native-copy/SKILL.md",
-      "contentHash": "sha256-n1:28423598685dd9ab",
+      "contentHash": "sha256-n1:aafb26aa0114534e",
       "adopters": [],
       "invokes30d": 0,
       "reportedInvokes": 0,
@@ -509,10 +509,10 @@
     },
     {
       "name": "onboarding",
-      "version": "0.6.0",
+      "version": "0.6.1",
       "category": "workflow",
       "path": "skills/onboarding/SKILL.md",
-      "contentHash": "sha256-n1:a39d01ae52762169",
+      "contentHash": "sha256-n1:85cfafaf35eff53e",
       "adopters": [],
       "invokes30d": 0,
       "reportedInvokes": 0,
@@ -721,10 +721,10 @@
     },
     {
       "name": "test-before-commit",
-      "version": "2.5.0",
+      "version": "2.5.1",
       "category": "testing",
       "path": "skills/test-before-commit/SKILL.md",
-      "contentHash": "sha256-n1:868a27175180cbf9",
+      "contentHash": "sha256-n1:e597db4d6dfb2d39",
       "applicability": {
         "dimensions": [
           "D2"
@@ -1080,10 +1080,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 232,
-      "techniques": 1789,
-      "applications": 1143,
-      "files": 3169,
-      "contentHash": "sha256:76b39524475a0e0a"
+      "techniques": 1790,
+      "applications": 1144,
+      "files": 3171,
+      "contentHash": "sha256:a016e2eddfc1b86e"
     }
   ],
   "usageEvidence": {

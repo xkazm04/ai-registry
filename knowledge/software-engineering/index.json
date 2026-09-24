@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 232,
-  "techniques": 1789,
-  "applications": 1143,
+  "techniques": 1790,
+  "applications": 1144,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1789/1789",
+  "use_when_coverage": "1790/1790",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -1443,9 +1443,9 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-instruction-files/agent-instruction-files.md",
-   "digest": "sha256:6b31e7ab0d2fa5ec",
-   "revision": 27,
-   "changedAt": "2026-09-18",
+   "digest": "sha256:1fe3a67c832dfa13",
+   "revision": 28,
+   "changedAt": "2026-09-24",
    "techniques": [
     {
      "slug": "capability-before-steering",
@@ -1574,6 +1574,22 @@
       "an instruction file has grown past the point where agents follow it",
       "reviewing a machine-generated repo overview before committing it",
       "an agent keeps repeating a mistake the file was supposed to prevent"
+     ]
+    },
+    {
+     "slug": "listing-tier-by-initiator",
+     "status": "forged",
+     "laws": [
+      "deletion-is-not-repair",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an installed capability is paid for on every session but is only ever started deliberately by a person",
+      "deciding between keeping and removing a capability that rarely fires",
+      "a harness offers a listing state between fully listed and hidden",
+      "the session floor is dominated by capability descriptions rather than the instruction file",
+      "a capability is started by typing its name or by another capability naming it"
      ]
     },
     {
@@ -1743,6 +1759,13 @@
     },
     {
      "stack": "claude-code",
+     "technique": "listing-tier-by-initiator",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-instruction-files/applications/claude-code--listing-tier-by-initiator.md",
+     "verified_on": "2026-09-24",
+     "verified_against": "claude-code@2.1.281"
+    },
+    {
+     "stack": "claude-code",
      "technique": "sibling-floor-ownership",
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-instruction-files/applications/claude-code--sibling-floor-ownership.md",
      "verified_on": "2026-09-08",
@@ -1752,8 +1775,8 @@
      "stack": "claude-code",
      "technique": "single-source-topology",
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-instruction-files/applications/claude-code--single-source-topology.md",
-     "verified_on": "2026-09-08",
-     "verified_against": "claude-code@2"
+     "verified_on": "2026-09-24",
+     "verified_against": "claude-code@2.1.281"
     },
     {
      "stack": "node",
@@ -20599,9 +20622,9 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/model-routing/model-routing.md",
-   "digest": "sha256:882e564ae1160b86",
-   "revision": 18,
-   "changedAt": "2026-09-23",
+   "digest": "sha256:178446fb9a484fde",
+   "revision": 19,
+   "changedAt": "2026-09-24",
    "techniques": [
     {
      "slug": "admission-is-not-a-tier",
@@ -38376,6 +38399,7 @@
     "accessibility/assistive-tech-divergence",
     "accessibility/keyboard-navigation-models",
     "accessibility/primitive-level-a11y",
+    "agent-instruction-files/listing-tier-by-initiator",
     "agent-memory/cross-context-promotion",
     "agent-memory/decay-and-forgetting",
     "agent-memory/durable-store-failure-posture",
@@ -38500,6 +38524,7 @@
     "agent-chaining/stop-reason-ledgers",
     "agent-instruction-files/instruction-freshness",
     "agent-instruction-files/line-earning",
+    "agent-instruction-files/listing-tier-by-initiator",
     "agent-instruction-files/sibling-floor-ownership",
     "agent-instruction-files/write-back-sink-class",
     "agent-memory/baseline-ladder",
