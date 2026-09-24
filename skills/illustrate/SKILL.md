@@ -3,7 +3,7 @@ name: illustrate
 description: "Take an existing web component that explains a concept with conventional web design (a card grid, a bulleted feature list, a static diagram, decorative art) and give it an illustration layer that carries the claim: read what the section is trying to prove, think divergently about how to abstract it graphically, then prototype three directional illustration variants inside the component behind a tab switcher, with the original kept as the default tab. Use when a landing, marketing, onboarding or how-it-works section explains something in words that a picture or a short animation could prove, or when its current art is decorative. Not for dense data dashboards (layout variants) or single icons (use an icon/asset skill)."
 category: workflow
 memory: project
-version: 1.0.0
+version: 1.0.1
 tags: illustration, explainer, landing, prototype, variants, motion, design
 argument-hint: "<component path | page route | --survey> [--variants 3]"
 ---
@@ -180,8 +180,9 @@ Keep the component's exported name and props. Consumers must not change.
    the project's own segmented or tab component when one exists. Otherwise it adapts
    the template.
 4. **Current is the default tab.** Loading the page changes nothing until someone
-   clicks. The selection is kept in the URL hash or query (`?illustrate=<variant>`) so
-   a variant can be linked in review, and it is keyboard-operable with arrow keys.
+   clicks. The selection is kept in the query (`?illustrate=<section>:<variant>`, one
+   parameter for every switcher on the page) so a variant can be linked in review, and
+   it is keyboard-operable with arrow keys.
 5. Give the section root `data-illustrate="<section-slug>"` and each tab
    `data-illustrate-tab="<variant-key>"`. The capture instrument uses those.
 6. Under `switcher_visibility: query`, the strip renders only with `?illustrate=1`;
@@ -195,7 +196,11 @@ its spec, the design doc and tokens, the switcher contract (props, file name), a
 existing polished section of the same project as the quality reference. Builders run
 no git commands. The director owns the switcher file and every commit.
 
-Builder rules, stated in the brief:
+Builder rules, stated in the brief. Tell builders to **verify every product noun
+against the source app and override the brief when it is wrong**; a brief written from
+a survey guesses at details the app states exactly.
+
+Builder rules:
 
 - Semantic tokens only. No raw palette values where a token exists, no raw
   white/black overlays where the project defines surface tokens.
@@ -220,7 +225,8 @@ Builder rules, stated in the brief:
    ```
 
    It clicks each tab, captures desktop and phone widths with motion allowed and
-   with reduced motion emulated, flags **blank captures** (a near-uniform frame is a
+   with reduced motion emulated (a section the layout hides at a width is recorded as
+   hidden, not failed), flags **blank captures** (a near-uniform frame is a
    finding, not a harness error), counts infinite animations under reduced motion,
    and writes `contact.html` beside the images. It resolves the browser automation
    library from the consuming project and has no dependencies of its own.

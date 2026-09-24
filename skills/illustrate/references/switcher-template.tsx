@@ -9,14 +9,24 @@
  *   - the section root carries data-illustrate="<section-slug>"
  *   - each tab carries data-illustrate-tab="<variant-key>"
  *   - "current" is the first tab and the default
- *   - the selection is mirrored to ?illustrate=<key> so a variant can be linked
+ *   - the selection is mirrored to ?illustrate=<section>:<key> so a variant can be linked
  *
  * It renders the same markup on the server and on the first client render
  * (current selected), then reads the query after mount. That keeps hydration
  * stable, and a visitor without script sees the current section unchanged.
  */
 
-import { useEffect, useId, useState, type ComponentType, type KeyboardEvent } from "react";
+import { useId, useState, useSyncExternalStore, type ComponentType, type KeyboardEvent } from "react";
+
+// The query is external state. Reading it through useSyncExternalStore keeps the server
+// and hydration renders identical (null) without a setState inside an effect, which
+// strict hook lint rules reject.
+const subscribe = (onChange: () => void) => {
+  window.addEventListener("popstate", onChange);
+  return () => window.removeEventListener("popstate", onChange);
+};
+const readQuery = () => new URLSearchParams(window.location.search).get("illustrate");
+const noQueryOnServer = () => null;
 
 export interface IllustrationVariant<P> {
   key: string;            // "current", "console", "relay", ...
@@ -37,20 +47,18 @@ export function IllustrationSwitcher<P extends object>({
   visibility?: "always" | "query";
 }) {
   const uid = useId();
-  const [active, setActive] = useState(variants[0].key);
-  const [showTabs, setShowTabs] = useState(visibility === "always");
-
-  useEffect(() => {
-    const q = new URLSearchParams(window.location.search);
-    const wanted = q.get("illustrate");
-    if (wanted && variants.some((v) => v.key === wanted)) setActive(wanted);
-    if (visibility === "query" && wanted) setShowTabs(true);
-  }, [variants, visibility]);
+  const [picked, setPicked] = useState<string | null>(null);
+  const wanted = useSyncExternalStore(subscribe, readQuery, noQueryOnServer);
+  // One query param serves every switcher on the page: ?illustrate=<section>:<key>.
+  const [sec, fromQuery] = (wanted ?? "").split(":");
+  const linked = sec === section && variants.some((v) => v.key === fromQuery) ? fromQuery : null;
+  const active = picked ?? linked ?? variants[0].key;
+  const showTabs = visibility === "always" || wanted !== null;
 
   const select = (key: string) => {
-    setActive(key);
+    setPicked(key);
     const url = new URL(window.location.href);
-    url.searchParams.set("illustrate", key);
+    url.searchParams.set("illustrate", `${section}:${key}`);
     window.history.replaceState(null, "", url);
   };
 

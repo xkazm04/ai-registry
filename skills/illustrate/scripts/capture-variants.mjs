@@ -65,6 +65,14 @@ try {
       const page = await ctx.newPage();
       await page.goto(args.url, { waitUntil: 'networkidle', timeout: 180000 });
       const root = await reach(page, `[data-illustrate="${args.section}"]`);
+      await root.scrollIntoViewIfNeeded().catch(() => {});
+      // A section the layout hides at this width (a desktop-only column) is a fact about
+      // the design, not an instrument failure: record it and move on.
+      if (!(await root.isVisible())) {
+        for (const tab of args.tabs) rows.push({ tab, width, motion, file: null, hidden: true });
+        await ctx.close();
+        continue;
+      }
       for (const tab of args.tabs) {
         const btn = root.locator(`[data-illustrate-tab="${tab}"]`);
         if (!(await btn.count())) throw new Error(`tab [data-illustrate-tab="${tab}"] not found in ${args.section}`);
@@ -95,7 +103,7 @@ try {
 await browser.close();
 
 fs.writeFileSync(path.join(args.out, 'report.json'), JSON.stringify({ url: args.url, section: args.section, rows }, null, 2));
-const cell = (r) => `<figure><img src="${r.file}" loading="lazy"><figcaption>${r.tab} · ${r.width}px · ${r.motion}` +
+const cell = (r) => r.hidden ? `<figure><figcaption>${r.tab} · ${r.width}px · ${r.motion} · hidden at this width by the layout</figcaption></figure>` : `<figure><img src="${r.file}" loading="lazy"><figcaption>${r.tab} · ${r.width}px · ${r.motion}` +
   `${r.blank ? ' · <b>BLANK</b>' : ''}${r.motion === 'reduce' && (r.infinite || r.smil) ? ` · <b>moving under reduce (${r.infinite}+${r.smil})</b>` : ''}</figcaption></figure>`;
 const byTab = args.tabs.map((t) => `<section><h2>${t}</h2><div class="g">${rows.filter((r) => r.tab === t).map(cell).join('')}</div></section>`).join('');
 fs.writeFileSync(path.join(args.out, 'contact.html'), `<!doctype html><meta charset="utf-8"><title>${args.section} variants</title>
@@ -103,6 +111,6 @@ fs.writeFileSync(path.join(args.out, 'contact.html'), `<!doctype html><meta char
 figure{margin:0;background:#fff;padding:8px;border-radius:8px}img{width:100%;display:block}figcaption{font:12px ui-monospace,monospace;margin-top:6px;color:#444}b{color:#b00}</style>
 <h1>${args.section}</h1>${byTab}`);
 
-for (const r of rows) console.log(`${r.tab.padEnd(14)} ${String(r.width).padEnd(5)} ${r.motion.padEnd(14)} ${r.blank ? 'BLANK ' : 'ok    '} infinite=${r.infinite} smil=${r.smil}`);
+for (const r of rows) if (r.hidden) console.log(`${r.tab.padEnd(14)} ${String(r.width).padEnd(5)} ${r.motion.padEnd(14)} hidden-by-layout`); else console.log(`${r.tab.padEnd(14)} ${String(r.width).padEnd(5)} ${r.motion.padEnd(14)} ${r.blank ? 'BLANK ' : 'ok    '} infinite=${r.infinite} smil=${r.smil}`);
 console.log(`contact sheet: ${path.join(args.out, 'contact.html')}`);
 process.exit(failed ? 3 : 0);
