@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 232,
   "techniques": 1790,
-  "applications": 1144,
+  "applications": 1145,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -1443,8 +1443,8 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-instruction-files/agent-instruction-files.md",
-   "digest": "sha256:1fe3a67c832dfa13",
-   "revision": 28,
+   "digest": "sha256:f8501c2742fba8df",
+   "revision": 29,
    "changedAt": "2026-09-24",
    "techniques": [
     {
@@ -1761,6 +1761,13 @@
      "stack": "claude-code",
      "technique": "listing-tier-by-initiator",
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-instruction-files/applications/claude-code--listing-tier-by-initiator.md",
+     "verified_on": "2026-09-24",
+     "verified_against": "claude-code@2.1.281"
+    },
+    {
+     "stack": "claude-code",
+     "technique": "rewrite-behavior-pinning",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-instruction-files/applications/claude-code--rewrite-behavior-pinning.md",
      "verified_on": "2026-09-24",
      "verified_against": "claude-code@2.1.281"
     },
