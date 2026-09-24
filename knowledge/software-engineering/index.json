@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 232,
-  "techniques": 1788,
-  "applications": 1142,
+  "techniques": 1789,
+  "applications": 1143,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1788/1788",
+  "use_when_coverage": "1789/1789",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -10626,9 +10626,9 @@
    "subcategory": "feedback-and-style",
    "status": "reconciled",
    "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/design-tokens/design-tokens.md",
-   "digest": "sha256:677bcf6173f511aa",
-   "revision": 6,
-   "changedAt": "2026-09-20",
+   "digest": "sha256:db75496bb5bf0168",
+   "revision": 7,
+   "changedAt": "2026-09-24",
    "techniques": [
     {
      "slug": "cross-language-token-parity",
@@ -10699,7 +10699,8 @@
       "deciding whether a rule should warn or fail the build",
       "a rule fires daily but half the violations go unseen",
       "counting inline suppressions before they become a dialect",
-      "a clean run is being read as evidence that a rule is armed"
+      "a clean run is being read as evidence that a rule is armed",
+      "a membership gate went green after the author added the tokens or variants it wanted"
      ]
     },
     {
@@ -34979,9 +34980,9 @@
    "subcategory": "input-and-editing",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/ui-controls/ui-controls.md",
-   "digest": "sha256:368a362fd9db43af",
-   "revision": 3,
-   "changedAt": "2026-09-01",
+   "digest": "sha256:1fc467cd863a0bc1",
+   "revision": 4,
+   "changedAt": "2026-09-24",
    "techniques": [
     {
      "slug": "adoption-enforcement",
@@ -34996,6 +34997,23 @@
       "hand-rolled copies outnumber the adopters",
       "deciding whether a rule should warn or fail builds",
       "citing an adoption count without its predicate"
+     ]
+    },
+    {
+     "slug": "call-site-ownership",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "gate-sees-target",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a shared control accepts a class or style passthrough",
+      "a token gate is green but controls still look different at every call site",
+      "deciding which styling a caller may pass to a primitive",
+      "an agent restyles the components it was handed while building a page",
+      "override counts climbing on one control with no raw values in them"
      ]
     },
     {
@@ -35063,6 +35081,13 @@
      "technique": "adoption-enforcement",
      "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/ui-controls/applications/react--adoption-enforcement.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "react",
+     "technique": "call-site-ownership",
+     "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/ui-controls/applications/react--call-site-ownership.md",
+     "verified_on": "2026-09-24",
+     "verified_against": "react@19"
     },
     {
      "stack": "react",
@@ -37706,6 +37731,7 @@
     "transactions-over-a-replicated-log/list-verification-by-present-keys",
     "transactions-over-a-replicated-log/snapshot-read-plus-verify-log",
     "ui-controls/adoption-enforcement",
+    "ui-controls/call-site-ownership",
     "ui-controls/control-inventory-and-discovery",
     "untrusted-extension-host/capability-subtraction-sandbox",
     "untrusted-extension-host/grant-change-consent",
@@ -38901,6 +38927,7 @@
     "transactions-over-a-replicated-log/same-value-still-conflicts",
     "triage-queues/bulk-triage",
     "ui-controls/adoption-enforcement",
+    "ui-controls/call-site-ownership",
     "untrusted-extension-host/host-api-import-budget",
     "untrusted-extension-host/safe-mode-registration",
     "usage-aggregation-semantics/level-valued-time-integral",
@@ -40390,6 +40417,7 @@
     "tracing/vocabulary-source-selection",
     "transactions-over-a-replicated-log/compose-then-conform",
     "triage-queues/source-normalization",
+    "ui-controls/call-site-ownership",
     "ui-controls/variant-discipline",
     "untrusted-extension-host/canonicalizable-privilege-declaration",
     "untrusted-extension-host/host-api-import-budget",

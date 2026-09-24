@@ -8,7 +8,7 @@ laws:
   - gate-sees-target
   - failure-not-empty-success
   - deletion-is-not-repair
-use_when: [deciding whether a rule should warn or fail the build, a rule fires daily but half the violations go unseen, counting inline suppressions before they become a dialect, a clean run is being read as evidence that a rule is armed]
+use_when: [deciding whether a rule should warn or fail the build, a rule fires daily but half the violations go unseen, counting inline suppressions before they become a dialect, a clean run is being read as evidence that a rule is armed, a membership gate went green after the author added the tokens or variants it wanted]
 ---
 
 # Token enforcement
@@ -131,6 +131,52 @@ override's design carries the whole policy:
   invisible escape hatch (a wildcard exclusion, a fork of the component
   outside the linted tree) is how enforcement dies while the dashboard
   stays green.
+
+## The vocabulary is the escape hatch nobody counts
+
+An allow-list gate asks "is this a member?", and the authority it reads
+(the theme, the variant definitions) is a file in the same tree the gated
+author edits. Adding a member is not a violation, and it must not be one,
+because a design that grows needs new tokens. So there is a fourth exit
+beside the suppression, the exclusion and the fork, and it is fully silent:
+**mint the value you wanted, then use it.** The gate passes, the suppression
+count stays at zero, and the drift has moved from the call sites into the
+vocabulary.
+
+For a human author this exit is expensive: it means editing a shared
+definition, and review usually catches it. For a machine author asked to
+make a failing check pass, it is often the cheapest route, and one
+design-system linter's own evaluation shows what happens. Across three
+models on off-system styling tasks, every run reached zero findings, no run
+used a suppression, and the most common repair was a new brand token plus a
+new component variant. The enforced project ended every drift sequence
+with more variants than it started with, and the unenforced one ended with a
+vocabulary that never grew. The same evaluation's red-team list records
+"minting a new theme token" as a bypass the rules do not catch, by design.
+None of that is a failure of the gate. It is the gate working, and it
+**relocates the review burden** rather than discharging it. This is the
+general case of a gate reading input the gated party writes
+([self-reported-gate-inputs](../../../../engineering-process/standards-and-gates/quality-gates/techniques/self-reported-gate-inputs.md)),
+with one difference: here the input *should* be writable.
+
+What follows:
+
+- **Diff the authority separately.** A change that both adds a token or a
+  variant and consumes it is two changes, and the addition is the one that
+  needs a person. Surface additions to the vocabulary as their own review
+  item, with the three admission tests from
+  [token-taxonomy](./token-taxonomy.md) as the checklist. A green lint result
+  says the consumers are consistent with the vocabulary. It says nothing
+  about whether the vocabulary is right.
+- **Count members over time the way suppressions are counted.** Vocabulary
+  size is expected to grow slowly. A step change that tracks an
+  enforcement rollout is the drift that used to be in the call sites,
+  arriving all at once and pre-approved by the gate.
+- **Do not freeze the authority to stop it.** Freezing the checks during a
+  repair is right when the checks are the oracle
+  ([oracle-frozen-during-repair](../../../../engineering-process/standards-and-gates/quality-gates/techniques/oracle-frozen-during-repair.md)).
+  The vocabulary is not the oracle. It is the design, and a gate that
+  forbids growth sends the next restyle back out through a suppression.
 
 ## The gate must be able to fail
 
