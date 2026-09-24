@@ -3,9 +3,9 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
-  "subjects": 232,
-  "techniques": 1789,
-  "applications": 1136,
+  "subjects": 233,
+  "techniques": 1798,
+  "applications": 1139,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1789/1789",
+  "use_when_coverage": "1798/1798",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -21194,9 +21194,9 @@
    "subcategory": "feedback-and-style",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/motion/motion.md",
-   "digest": "sha256-b2:d8dbb7eb00691c2b",
-   "revision": 9,
-   "changedAt": "2026-09-20",
+   "digest": "sha256-b2:8d9b3eabe2f3b534",
+   "revision": 10,
+   "changedAt": "2026-09-24",
    "techniques": [
     {
      "slug": "content-bearing-degradation",
@@ -21741,9 +21741,9 @@
    "subcategory": "published-surfaces",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/published-surfaces/narrative-scroll-surface/narrative-scroll-surface.md",
-   "digest": "sha256-b2:63538d356e339714",
-   "revision": 1,
-   "changedAt": "2026-09-08",
+   "digest": "sha256-b2:fe3f94481540b4f2",
+   "revision": 2,
+   "changedAt": "2026-09-24",
    "techniques": [
     {
      "slug": "illustration-carries-the-claim",
@@ -21757,6 +21757,22 @@
       "an illustration decorates a claim without evidencing it",
       "mockup art looks small beside the display copy next to it",
       "deciding whether a graphic element is content or decoration"
+     ]
+    },
+    {
+     "slug": "motion-carries-the-mechanism",
+     "status": "forged",
+     "laws": [
+      "derivation-names-recomputation",
+      "deletion-is-not-repair"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "animating how a process works rather than revealing a finished picture",
+      "an explainer animation shows steps that overlap wait or block",
+      "deciding what a mechanism animation shows under reduced motion or as a still",
+      "exporting an explainer animation to video or a filmstrip",
+      "having a model author the same explainer in several art styles"
      ]
     },
     {
@@ -21823,6 +21839,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "react",
+     "technique": "motion-carries-the-mechanism",
+     "file": "knowledge/software-engineering/ui-surfaces/published-surfaces/narrative-scroll-surface/applications/react--motion-carries-the-mechanism.md",
+     "verified_on": "2026-09-24",
+     "verified_against": "react@19.2.8"
+    },
     {
      "stack": "react",
      "technique": "no-orientation-tax",
@@ -23204,6 +23227,135 @@
      "technique": "signing-and-trust",
      "file": "knowledge/software-engineering/engineering-process/build-and-release/packaging/applications/process--signing-and-trust.md",
      "verified_on": "2026-09-03"
+    }
+   ]
+  },
+  "page-load-pipeline": {
+   "category": "client-architecture",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/software-engineering/client-architecture/page-load-pipeline/page-load-pipeline.md",
+   "digest": "sha256-b2:a3a452f743e73f21",
+   "revision": 1,
+   "changedAt": "2026-09-24",
+   "techniques": [
+    {
+     "slug": "discoverable-critical-resources",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "the largest element's request starts late in the waterfall with the network idle before it",
+      "a first-render resource is referenced from a stylesheet or created by script",
+      "deciding whether to add a preload declaration"
+     ]
+    },
+    {
+     "slug": "field-measured-load-budget",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "gate-sees-target",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing which load numbers to gate before merge",
+      "a lab score and real-visit experience disagree",
+      "setting up or reviewing a per-route bundle budget"
+     ]
+    },
+    {
+     "slug": "font-loading-discipline",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "adding a web font family or weight",
+      "text flashes invisible or reflows when a font arrives",
+      "loading fonts for several writing systems or locales"
+     ]
+    },
+    {
+     "slug": "layout-stability-by-reservation",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "content jumps while the page loads",
+      "a lazily loaded section or embed arrives into a placeholder",
+      "adding media",
+      "a banner or late-arriving content to a page"
+     ]
+    },
+    {
+     "slug": "navigation-reuse",
+     "status": "forged",
+     "laws": [
+      "creation-names-reaper"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "going back to a page reloads it from scratch",
+      "adding an unload handler",
+      "a cache header or a long-lived connection to a document",
+      "deciding whether to prepare the next page before the reader commits"
+     ]
+    },
+    {
+     "slug": "priority-is-declared-not-hoped",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "the largest element is discovered early but still finishes late",
+      "marking an image or script as high priority",
+      "adding connection warm-up hints for other origins"
+     ]
+    },
+    {
+     "slug": "render-blocking-budget",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "adding a stylesheet",
+      "a third-party tag or an inline script to the head of a document",
+      "the first render waits on a resource nobody can justify",
+      "choosing between deferred",
+      "asynchronous and module script loading"
+     ]
+    },
+    {
+     "slug": "script-cost-is-main-thread-time",
+     "status": "forged",
+     "laws": [
+      "limits-are-derived"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a page looks ready but ignores the first taps or keystrokes",
+      "deciding whether a heavy module belongs in a route's first load",
+      "splitting a bundle or deferring a below-the-fold section"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "next",
+     "technique": "field-measured-load-budget",
+     "file": "knowledge/software-engineering/client-architecture/page-load-pipeline/applications/next--field-measured-load-budget.md",
+     "verified_on": "2026-09-24",
+     "verified_against": "next@16.3.3"
+    },
+    {
+     "stack": "next",
+     "technique": "layout-stability-by-reservation",
+     "file": "knowledge/software-engineering/client-architecture/page-load-pipeline/applications/next--layout-stability-by-reservation.md",
+     "verified_on": "2026-09-24",
+     "verified_against": "next@16.3.3"
     }
    ]
   },
@@ -37493,6 +37645,7 @@
     "packaging/os-arch-matrix",
     "packaging/signing-and-trust",
     "packaging/variant-config-parity",
+    "page-load-pipeline/field-measured-load-budget",
     "perf-instrumentation/semantic-flags-over-heuristics",
     "pipeline-authoring/change-scoped-work-selection",
     "pipeline-dag/external-adapter-nodes",
@@ -38061,6 +38214,7 @@
     "packaging/installed-tree-acceptance",
     "packaging/native-payload-verification",
     "packaging/signing-and-trust",
+    "page-load-pipeline/field-measured-load-budget",
     "peer-benchmarking/basis-disclosure",
     "peer-benchmarking/cohort-minimum-size",
     "people-analytics-ethics/producer-enforced-suppression",
@@ -38377,6 +38531,7 @@
     "modelled-performance-estimates/scoped-calibration-fallback",
     "motion/content-bearing-degradation",
     "motion/reduced-motion-mechanics",
+    "narrative-scroll-surface/motion-carries-the-mechanism",
     "narrative-scroll-surface/reveal-without-loss",
     "narrative-scroll-surface/scroll-bound-progression",
     "peer-benchmarking/comparability-filters",
@@ -38709,6 +38864,7 @@
     "p2p-networking/manifest-negotiation",
     "p2p-networking/peer-state-honesty",
     "packaging/os-arch-matrix",
+    "page-load-pipeline/field-measured-load-budget",
     "paged-block-cache/one-page-size-bought-with-padding",
     "peer-benchmarking/basis-disclosure",
     "peer-benchmarking/comparability-filters",
@@ -39852,6 +40008,7 @@
     "p2p-networking/manifest-negotiation",
     "p2p-networking/resilience-and-reconnection",
     "packaging/installer-authoring",
+    "page-load-pipeline/navigation-reuse",
     "paged-block-cache/release-order-is-the-eviction-policy",
     "perf-instrumentation/continuous-monitors",
     "perf-instrumentation/perf-data-lifecycle",
@@ -40232,6 +40389,7 @@
     "p2p-networking/manifest-negotiation",
     "packaging/native-payload-verification",
     "packaging/variant-config-parity",
+    "page-load-pipeline/layout-stability-by-reservation",
     "peer-benchmarking/cohort-minimum-size",
     "peer-benchmarking/comparability-filters",
     "people-analytics-ethics/contribution-eligibility-floors",
@@ -40535,6 +40693,7 @@
     "multi-project/portfolio-drill-hierarchy",
     "multi-project/project-onboarding-lifecycle",
     "narrative-scroll-surface/illustration-carries-the-claim",
+    "narrative-scroll-surface/motion-carries-the-mechanism",
     "native-document-format/one-writer-per-fact",
     "native-shell-integration/unexported-capability-ladder",
     "object-shape-representation/polymorphic-inline-cache-with-weak-shapes",
@@ -40808,6 +40967,7 @@
     "native-shell-integration/native-owned-stream",
     "object-shape-representation/dictionary-mode-fallback",
     "object-shape-representation/weak-forward-transitions-with-counted-prune",
+    "page-load-pipeline/script-cost-is-main-thread-time",
     "paged-block-cache/one-page-size-bought-with-padding",
     "paged-block-cache/release-order-is-the-eviction-policy",
     "prompt-assembly/compaction-horizon-breakeven",
