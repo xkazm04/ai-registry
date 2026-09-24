@@ -1,7 +1,7 @@
 // Pure half of capture-variants: argument parsing, file naming, blank detection.
 
 export function parseArgs(argv) {
-  const out = { widths: [1280, 390], settle: 1800, tabs: [], limits: {} };
+  const out = { widths: [1280, 390], settle: 1800, tabs: [], limits: {}, hide: [] };
   for (let i = 0; i < argv.length; i++) {
     const k = argv[i];
     const v = argv[i + 1];
@@ -11,6 +11,7 @@ export function parseArgs(argv) {
     else if (k === '--out') { out.out = v; i++; }
     else if (k === '--widths') { out.widths = String(v || '').split(',').map(Number).filter((n) => n > 0); i++; }
     else if (k === '--settle') { out.settle = Number(v); i++; }
+    else if (k === '--hide') { out.hide = String(v || '').split(',').map((x) => x.trim()).filter(Boolean); i++; }
     else if (k === '--max-words') { out.limits.maxWords = Number(v); i++; }
     else if (k === '--max-run') { out.limits.maxRun = Number(v); i++; }
     else if (k === '--max-ratio') { out.limits.maxRatio = Number(v); i++; }
@@ -61,4 +62,11 @@ export function textVerdict({ words, longestRun, textRatio }, limits = TEXT_LIMI
   if (longestRun > limits.maxRun) reasons.push(`a ${longestRun}-word run > ${limits.maxRun} (a sentence, not a label)`);
   if (textRatio > limits.maxRatio) reasons.push(`text covers ${Math.round(textRatio * 100)}% of the art > ${Math.round(limits.maxRatio * 100)}%`);
   return { heavy: reasons.length > 0, reasons };
+}
+
+/** Words and longest run in one text node's content. Unit-tested: a regex slip here
+ * silently miscounts every capture. */
+export function countWords(text) {
+  const t = String(text).trim();
+  return t ? t.split(/\s+/).length : 0;
 }

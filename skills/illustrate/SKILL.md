@@ -3,7 +3,7 @@ name: illustrate
 description: "Take an existing web component that explains a concept with conventional web design (a card grid, a bulleted feature list, a static diagram, decorative art) and give it an illustration layer that carries the claim: read what the section is trying to prove, think divergently about how to abstract it graphically, then prototype three directional illustration variants inside the component behind a tab switcher, with the original kept as the default tab. Use when a landing, marketing, onboarding or how-it-works section explains something in words that a picture or a short animation could prove, or when its current art is decorative. Not for dense data dashboards (layout variants) or single icons (use an icon/asset skill)."
 category: workflow
 memory: project
-version: 1.1.0
+version: 1.1.1
 tags: illustration, explainer, landing, prototype, variants, motion, design
 argument-hint: "<component path | page route | --survey> [--variants 3]"
 ---

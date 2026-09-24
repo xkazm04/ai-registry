@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { parseArgs, blankScore, captureName, textVerdict, TEXT_LIMITS } from '../scripts/lib/capture-core.mjs';
+import { parseArgs, blankScore, captureName, textVerdict, TEXT_LIMITS, countWords } from '../scripts/lib/capture-core.mjs';
 
 const px = (r, g, b) => [r, g, b, 255];
 
@@ -50,4 +50,16 @@ test('the first run kept-variant measurements are flagged under the defaults', (
 test('text limits are overridable from the command line', () => {
   const a = parseArgs(['--url', 'x', '--section', 's', '--tabs', 'current,a', '--out', 'o', '--max-words', '50', '--max-run', '8']);
   assert.deepEqual(a.limits, { maxWords: 50, maxRun: 8 });
+});
+
+test('words split on whitespace, not on a letter', () => {
+  assert.equal(countWords('Constraint'), 1);
+  assert.equal(countWords('  Your  device  '), 2);
+  assert.equal(countWords('Stores secrets in the OS vault'), 6);
+  assert.equal(countWords(''), 0);
+});
+
+test('--hide takes a comma list of selectors', () => {
+  const a = parseArgs(['--url', 'x', '--section', 's', '--tabs', 'current,a', '--out', 'o', '--hide', '.cookie, #banner']);
+  assert.deepEqual(a.hide, ['.cookie', '#banner']);
 });

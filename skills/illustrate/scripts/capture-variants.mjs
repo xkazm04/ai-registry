@@ -79,6 +79,7 @@ try {
       for (const tab of args.tabs) {
         const btn = root.locator(`[data-illustrate-tab="${tab}"]`);
         if (!(await btn.count())) throw new Error(`tab [data-illustrate-tab="${tab}"] not found in ${args.section}`);
+        if (args.hide.length) await page.addStyleTag({ content: args.hide.join(',') + '{visibility:hidden!important}' }).catch(() => {});
         await btn.click();
         await root.scrollIntoViewIfNeeded();
         await page.waitForTimeout(args.settle);
@@ -105,7 +106,7 @@ try {
             const range = document.createRange(); range.selectNodeContents(n);
             const a = [...range.getClientRects()].reduce((s, q) => s + q.width * q.height, 0);
             if (a < 1) continue; // not rendered
-            const k = t.split(/s+/).length; words += k; longestRun = Math.max(longestRun, k); textArea += a;
+            const k = t.split(/\s+/).length; words += k; longestRun = Math.max(longestRun, k); textArea += a;
           }
           return { scoped: !!art, words, longestRun, textRatio: textArea / area };
         });

@@ -54,3 +54,16 @@ Append-only. One block per run: `## <version used> - <YYYY-MM-DD> - <project>`.
   (`data-card-id`) on the replaced section. The project's anchor test caught both.
   Add to the builder brief: grep the section for tour, analytics and test hooks and
   carry them into every variant.
+
+## 1.1.0 - 2026-09-25 - personas-web
+
+- **The 1.1.0 text metric split words on the letter "s".** The instrument's word
+  counter shipped as `/s+/` instead of a whitespace class, so "Constraint" and "Opus"
+  counted as two words and every run length was wrong. Two builders caught it from
+  their own numbers. The cause was an editing pipeline that stripped the backslash
+  from a regex written through a shell heredoc; the unit tests exercised the verdict
+  and not the counter. 1.1.1 fixes it, exports the counter, and tests it directly.
+  Any pure logic an instrument runs inside a browser page gets a tested twin.
+- **Fixed page chrome (a cookie banner) covered the bottom of every capture.** 1.1.1
+  adds `--hide <selectors>` so a run can hide overlays that are not part of the
+  section.
