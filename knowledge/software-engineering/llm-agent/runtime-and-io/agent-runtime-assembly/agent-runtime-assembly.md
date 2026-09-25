@@ -401,9 +401,11 @@ special-case it.
 - [guard-input-custody](./techniques/guard-input-custody.md) — a guard's
   policy inputs sit outside the write reach of the party it constrains, so
   re-reading a rule per decision is custody's opposite rather than its
-  freshness; a missing input fails loudly instead of degrading; and the
+  freshness; a missing input fails loudly instead of degrading; the
   strongest form is a ceiling issued by whoever grants the resource, which
-  the governed process can spend but cannot raise.
+  the governed process can spend but cannot raise; and a record any trust
+  decision reads is a guard input too - the recorded party keeps read and
+  loses write through every capability it has, generic ones included.
 - [nested-run-is-not-its-parent](./techniques/nested-run-is-not-its-parent.md) —
   a run started by a run is a second actor: re-root it at the launch door, and at
   every receiver resolve an unbound session to nothing, rebinding only on an

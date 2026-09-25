@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 233,
-  "techniques": 1803,
-  "applications": 1155,
+  "techniques": 1804,
+  "applications": 1156,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1803/1803",
+  "use_when_coverage": "1804/1804",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -1243,9 +1243,9 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-cli-transport/agent-cli-transport.md",
-   "digest": "sha256-b2:7b28613fbbd62708",
-   "revision": 7,
-   "changedAt": "2026-09-23",
+   "digest": "sha256-b2:5b7a2130a983e39f",
+   "revision": 8,
+   "changedAt": "2026-09-25",
    "techniques": [
     {
      "slug": "availability-probe",
@@ -1370,6 +1370,24 @@
       "an API key in the host environment could silently switch billing",
       "a batch workload must run on the operator's flat-rate seat",
       "a spawned child reads untrusted content and inherits the host environment"
+     ]
+    },
+    {
+     "slug": "thread-custody-across-resume",
+     "status": "forged",
+     "laws": [
+      "derivation-names-recomputation",
+      "failure-not-empty-success",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a host stores the child's session or thread id and passes it back to continue a conversation",
+      "a resume fails and the host retries on a fresh session",
+      "the host shows a chat history or a plan the child no longer has",
+      "deciding which resume failures may drop the stored thread id",
+      "a conversation idle for weeks is reopened",
+      "the host keeps its own transcript mirror beside the child's thread"
      ]
     }
    ],
@@ -2525,9 +2543,9 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-runtime-assembly/agent-runtime-assembly.md",
-   "digest": "sha256-b2:5ce024fa5bfd20d5",
-   "revision": 25,
-   "changedAt": "2026-09-23",
+   "digest": "sha256-b2:b508c99562d1b81d",
+   "revision": 26,
+   "changedAt": "2026-09-25",
    "techniques": [
     {
      "slug": "activation-is-a-separate-mutation",
@@ -2626,7 +2644,9 @@
       "deciding where a containment policy is stored",
       "an agent can edit the configuration that restricts it",
       "a limit is enforced by code the governed process could rewrite",
-      "choosing between refreshing a policy per decision and holding it out of reach"
+      "choosing between refreshing a policy per decision and holding it out of reach",
+      "an agent's generic tool reaches the store that holds the runtime's records of that agent",
+      "a recorder or session log is replaceable and the party it records could replace it"
      ]
     },
     {
@@ -2890,6 +2910,13 @@
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-runtime-assembly/applications/rust--bounded-projection-of-external-work.md",
      "verified_on": "2026-09-02",
      "verified_against": "rust@1.97"
+    },
+    {
+     "stack": "rust",
+     "technique": "guard-input-custody",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-runtime-assembly/applications/rust--guard-input-custody.md",
+     "verified_on": "2026-09-25",
+     "verified_against": "rust@1.96"
     },
     {
      "stack": "rust",
@@ -38117,6 +38144,7 @@
     "agent-cli-transport/child-observed-posture",
     "agent-cli-transport/fallback-ladder",
     "agent-cli-transport/output-normalization",
+    "agent-cli-transport/thread-custody-across-resume",
     "agent-instruction-files/capability-before-steering",
     "agent-memory/coverage-instrumentation",
     "agent-memory/durable-store-failure-posture",
@@ -39293,6 +39321,7 @@
     "agent-cli-transport/child-observed-posture",
     "agent-cli-transport/dated-capability-matrix",
     "agent-cli-transport/host-routed-approval-round-trip",
+    "agent-cli-transport/thread-custody-across-resume",
     "agent-instruction-files/context-reset-redelivery",
     "agent-instruction-files/instruction-freshness",
     "agent-instruction-files/substrate-coupled-expiry",
@@ -40801,6 +40830,7 @@
     "agent-chaining/chain-identity-and-rollup",
     "agent-chaining/graph-to-wiring-translation",
     "agent-cli-transport/dated-capability-matrix",
+    "agent-cli-transport/thread-custody-across-resume",
     "agent-instruction-files/context-reset-redelivery",
     "agent-instruction-files/machine-owned-regions",
     "agent-memory/baseline-ladder",
