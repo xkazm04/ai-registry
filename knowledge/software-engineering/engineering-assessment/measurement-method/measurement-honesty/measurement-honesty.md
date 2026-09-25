@@ -354,8 +354,9 @@ that they do. Two rules follow:
   completeness predicate between collection and interpretation, and why an
   incomplete run must be a different kind of result.
 - [lower-bound-disclosure](./techniques/lower-bound-disclosure.md) — publishing a
-  structurally undercounting tally as an explicit floor, and the under-claim
-  rule for ambiguous levels.
+  structurally undercounting tally as an explicit floor, the under-claim rule for
+  ambiguous levels, and the smaller-effect quote (never a floor) when one comparison
+  replicates at two sizes with the cause unisolated.
 - [co-published-numbers-must-reconcile](./techniques/co-published-numbers-must-reconcile.md)
   — the arithmetic constraints a set of numbers published together creates, the
   identity that bounds a joint by its marginal, and why a failed reconciliation

@@ -6,6 +6,7 @@ status: forged
 techniques:
   - secret-scanning-architecture
   - dependency-policy-gates
+  - license-reach-follows-integration-form
   - verification-scope
   - lockfile-freshness-oracle
   - scheduled-deep-analysis
@@ -317,6 +318,10 @@ are [scheduled-deep-analysis](./techniques/scheduled-deep-analysis.md).
 - [dependency-policy-gates](./techniques/dependency-policy-gates.md) —
   advisory/license/source policy as reviewed config, the lockfile as the
   gate's target, and exceptions with rationale and expiry.
+- [license-reach-follows-integration-form](./techniques/license-reach-follows-integration-form.md)
+  — the license verdict keyed on the (license, form) pair across data, separate
+  program, dynamic and linked code; the form made a checkable place in the tree;
+  and the form change that no identifier-keyed gate can see.
 - [build-time-dependency-tier](./techniques/build-time-dependency-tier.md) —
   the graph split by execution phase, the build-time slice priced by the
   host's exposure and inventoried by hand, and the hermetic build that

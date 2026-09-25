@@ -24,6 +24,7 @@ techniques:
   - enumeration-without-a-scope
   - ambient-selection-is-not-an-argument
   - command-audit-by-position
+  - first-party-agent-is-a-principal
 ---
 
 # Tool protocols (MCP)
@@ -356,6 +357,10 @@ same obligations as the wire itself:
   instead of by the characters it contains, per-program flag and verb tables,
   two opposing assertions over a corpus of live commands, and the one clause
   position cannot supply - a transport that re-parses.
+- [first-party-agent-is-a-principal](./techniques/first-party-agent-is-a-principal.md)
+  — the product's own agent as a caller with a grant rather than a code path:
+  one door when it can present the external credential, one admission when it
+  cannot, and admission by grant so a new scoped tool is never its by default.
 
 ## What a removed boundary was silently scoping
 

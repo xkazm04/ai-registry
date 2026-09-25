@@ -5,9 +5,11 @@ subject: pipeline-authoring
 technique: pipeline-plan-auditability
 status: forged
 stage: multi-service
-laws: [derivation-names-recomputation, count-carries-predicate]
+laws: [derivation-names-recomputation, count-carries-predicate, unknown-is-not-a-value]
 shared_with: []
-use_when: [the plan is generated rather than written, explaining an old run, reviewing a change to a generator]
+applied: code
+ab_verdict: better
+use_when: [the plan is generated rather than written, explaining an old run, reviewing a change to a generator, a dry run or preview prints units whose inclusion is decided at run time, a preview's total disagrees with what the run then did]
 ---
 
 # Pipeline plan auditability
@@ -55,6 +57,60 @@ convenience, it is what makes the generator reviewable:
 - **In the run itself.** Emitting the plan before submitting it costs nothing and puts the
   answer in the log, where the person debugging is already looking.
 
+## What a printed plan may claim
+
+Every reader takes a printed plan as a forecast: *these units will run*. It is one only when
+every decision that selects a unit has been made by the time the plan is printed. A generator
+that builds the whole plan up front and decides each unit at run time breaks that in two
+ordinary ways:
+
+- **Inclusion decided by a run-time condition.** An environment value an earlier unit sets, a
+  size an earlier unit changes, a liveness or lock check the print mode skips because it only
+  matters when acting. The printer has no verdict, so it prints the unit. The plan is then an
+  **upper bound**: every unit that can run is on it, some that will not run are on it too, and
+  nothing on the page says which.
+- **An earlier unit's effect not carried forward.** A print mode performs nothing, so every
+  later decision that responds to state an earlier unit would have changed is answered
+  against the old state. The signature is a later stage claiming what an earlier stage already
+  claimed (one item counted twice, a total inflated by the overlap) and a stage planning work
+  the earlier stage has already made unnecessary.
+
+A third arrangement breaks even the upper bound: **a unit the printer cannot simulate** (its
+effect is decided by something outside the generator) and therefore leaves out. The plan now
+understates the run as well as overstating it, which makes it neither a forecast nor a bound.
+
+Printing an undecided unit as if it will run is
+[unknown-is-not-a-value](../../../../_laws.md#unknown-is-not-a-value) at the one place a
+reviewer reads. The rule, in order:
+
+1. **Forecast wherever the decision is computable at print time.** Carry each earlier unit's
+   would-be effect forward into the state later decisions read, such as a set of would-be
+   removals or a would-be-set variable. Run the same read-only checks the real run runs,
+   through the same evaluator, which is
+   [conditional-edges](../../../../backend-platform/work-execution/pipeline-dag/techniques/conditional-edges.md)'
+   one-evaluator rule applied to evaluation order. What remains after that is genuinely
+   decided at run time.
+2. **Mark the remainder per unit, never the whole plan.** A unit the printer could not decide
+   is printed with its condition and a different verb (*may* beside *will*). A unit the
+   printer cannot simulate is named rather than skipped, and every unit downstream of it is
+   marked *may* too, because those units respond to state the printer cannot know. A total
+   that sums across a *may* says it is not a forecast, per
+   [count-carries-predicate](../../../../_laws.md#count-carries-predicate).
+3. **Do not buy honesty by marking everything.** A plan labelled *may* from top to bottom is
+   honest and useless: the reviewer can no longer tell which lines are certain, and telling
+   them is the only reason to print. Measured on a multi-stage cleanup preview, marking every
+   run-time-decided unit removed every false claim and removed every certain line with it.
+   On a fixture where nothing was contingent, the preview certified none of the evictions the
+   run made. Carrying effects forward and running the checks gave an exact forecast on the
+   three fixtures without an unsimulatable stage. On the fixture with one, it certified three
+   of five evictions and named the rest.
+
+Pin it with a test that runs the print mode and the real mode on identical inputs and asserts
+two opposing properties together: every unit printed as certain is one the real run executes,
+and every unit the real run executes appears somewhere in the preview. The first assertion
+alone is satisfied by marking everything; the second alone is satisfied by the unmarked upper
+bound.
+
 ## One code path generates and verifies
 
 Where a plan or a generated artifact is also checked for freshness — the common arrangement is
@@ -93,6 +149,13 @@ normalization itself.
   run's retention.
 - The generator has a print-without-submitting mode, used in review, locally, and in the run.
 - Review a generator change by diffing the plans it produces, not the code alone.
+- A printed plan is a forecast only where each earlier unit's effect is carried forward and
+  the real run's read-only checks are run too. Anything short of that is an upper bound, and
+  it says so per unit.
+- Mark per unit: *will*, *may* with its condition, or *not simulated*. Every unit downstream of
+  an unsimulated one is *may*. Never mark the whole plan.
+- Test the print mode against the real mode on identical inputs, and assert both directions:
+  certain implies executed, and executed implies shown.
 - Generation and verification are one code path with two modes.
 - The verifying mode recomputes from inputs; it never compares against a stored digest of its
   own output.

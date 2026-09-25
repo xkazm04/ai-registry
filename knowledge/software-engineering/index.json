@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 233,
-  "techniques": 1809,
-  "applications": 1158,
+  "techniques": 1813,
+  "applications": 1161,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1809/1809",
+  "use_when_coverage": "1813/1813",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -4892,23 +4892,27 @@
    "subcategory": "shell-and-navigation",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/chat-transcript/chat-transcript.md",
-   "digest": "sha256-b2:85eb3f7a9165bba9",
-   "revision": 4,
-   "changedAt": "2026-09-03",
+   "digest": "sha256-b2:5b4e7d399a4d924e",
+   "revision": 5,
+   "changedAt": "2026-09-25",
    "techniques": [
     {
      "slug": "composer-turn-queue",
      "status": "forged",
      "laws": [
       "identity-survives-reuse",
-      "failure-not-empty-success"
+      "failure-not-empty-success",
+      "creation-names-reaper"
      ],
      "shared_with": [],
      "use_when": [
       "the send control is disabled while a turn runs",
       "a user types a follow-up mid-answer and loses it",
       "deciding whether \"stop\" and \"say something now\" are the same button",
-      "two quick follow-ups produce two separate machine turns"
+      "two quick follow-ups produce two separate machine turns",
+      "a message queued mid-turn is gone after the app restarts",
+      "deciding whether the pending-prompt queue should be durable",
+      "a restart delivers a follow-up written for a turn that no longer exists"
      ]
     },
     {
@@ -5039,6 +5043,13 @@
      "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/chat-transcript/applications/cpp--virtual-filtered-channel.md",
      "verified_on": "2026-09-03",
      "verified_against": "cpp@23"
+    },
+    {
+     "stack": "react",
+     "technique": "composer-turn-queue",
+     "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/chat-transcript/applications/react--composer-turn-queue.md",
+     "verified_on": "2026-09-25",
+     "verified_against": "react@19.2"
     },
     {
      "stack": "react",
@@ -19050,9 +19061,9 @@
    "subcategory": "runtime-and-io",
    "status": "reconciled",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/mcp-tools.md",
-   "digest": "sha256-b2:faecb821952e6b9e",
-   "revision": 29,
-   "changedAt": "2026-09-23",
+   "digest": "sha256-b2:fac6fd7fb360c72c",
+   "revision": 30,
+   "changedAt": "2026-09-25",
    "techniques": [
     {
      "slug": "ambient-selection-is-not-an-argument",
@@ -19186,6 +19197,24 @@
       "removing a session or tenant boundary that a list endpoint depended on",
       "deciding whether an unguessable identifier is enough",
       "reviewing an API that leaks the existence of other callers' objects"
+     ]
+    },
+    {
+     "slug": "first-party-agent-is-a-principal",
+     "status": "forged",
+     "laws": [
+      "one-validation-door",
+      "unknown-is-not-a-value",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "the product's own agent calls the tools the protocol door serves",
+      "an in-process companion reuses the tool handlers without going through the route",
+      "deciding whether the vendor's agent may skip the public tool door",
+      "an agent's tool set is computed by excluding writes rather than by granting reads",
+      "a new scoped read tool lands and nobody edits the companion",
+      "two doors onto one store resolve their gates separately"
      ]
     },
     {
@@ -19428,6 +19457,13 @@
      "verified_against": "dotnet@10.0.202"
     },
     {
+     "stack": "next",
+     "technique": "first-party-agent-is-a-principal",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/applications/next--first-party-agent-is-a-principal.md",
+     "verified_on": "2026-09-25",
+     "verified_against": "next@16.3.3"
+    },
+    {
      "stack": "node",
      "technique": "authentication-and-scoping",
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/applications/node--authentication-and-scoping.md",
@@ -19525,9 +19561,9 @@
    "subcategory": "measurement-method",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-assessment/measurement-method/measurement-honesty/measurement-honesty.md",
-   "digest": "sha256-b2:1c217f8b0c88c8ff",
-   "revision": 9,
-   "changedAt": "2026-09-17",
+   "digest": "sha256-b2:d4b324065f09cebd",
+   "revision": 10,
+   "changedAt": "2026-09-25",
    "techniques": [
     {
      "slug": "co-published-numbers-must-reconcile",
@@ -19592,13 +19628,16 @@
      "slug": "lower-bound-disclosure",
      "status": "forged",
      "laws": [
-      "count-carries-predicate"
+      "count-carries-predicate",
+      "unknown-is-not-a-value"
      ],
      "shared_with": [],
      "use_when": [
       "publishing a reach or usage tally assembled from partial observation",
       "two rungs of a ladder are both arguable",
-      "a number will be quoted outside its context"
+      "a number will be quoted outside its context",
+      "the same comparison measured in two environments agrees on direction and disagrees on size",
+      "a newer run shows a larger effect than a figure already published"
      ]
     },
     {
@@ -21196,9 +21235,9 @@
    "subcategory": "codebase-stewardship",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/module-design/module-design.md",
-   "digest": "sha256-b2:b72d291fa9ff71e7",
-   "revision": 14,
-   "changedAt": "2026-09-04",
+   "digest": "sha256-b2:96e286af9f57c45e",
+   "revision": 15,
+   "changedAt": "2026-09-25",
    "techniques": [
     {
      "slug": "borrowed-surface",
@@ -21239,6 +21278,21 @@
       "choosing a form for code that produces several outputs in one pass",
       "a declarative rewrite came out longer than what it replaced",
       "a call chain interleaves pure steps with steps that touch the outside world"
+     ]
+    },
+    {
+     "slug": "emitted-code-names-from-a-root",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing or reviewing a macro or code generator whose output is spliced into a caller's scope",
+      "an exported generator works at every call site today and every call site lives beside it",
+      "moving a generator or its callers across a package boundary",
+      "a generated body names a library or a sibling generator or a standard type by its bare name",
+      "deciding which of a generator's names the caller should be able to see"
      ]
     },
     {
@@ -21421,6 +21475,13 @@
      "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/module-design/applications/rust--borrowed-surface.md",
      "verified_on": "2026-08-31",
      "verified_against": "rust@1"
+    },
+    {
+     "stack": "rust",
+     "technique": "emitted-code-names-from-a-root",
+     "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/module-design/applications/rust--emitted-code-names-from-a-root.md",
+     "verified_on": "2026-09-25",
+     "verified_against": "rust@1.96.1"
     },
     {
      "stack": "rust",
@@ -24141,9 +24202,9 @@
    "subcategory": "continuous-integration",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/continuous-integration/pipeline-authoring/pipeline-authoring.md",
-   "digest": "sha256-b2:4c404663bc02db32",
-   "revision": 4,
-   "changedAt": "2026-09-05",
+   "digest": "sha256-b2:809d2a648d853f13",
+   "revision": 5,
+   "changedAt": "2026-09-25",
    "techniques": [
     {
      "slug": "change-scoped-work-selection",
@@ -24198,13 +24259,16 @@
      "status": "forged",
      "laws": [
       "derivation-names-recomputation",
-      "count-carries-predicate"
+      "count-carries-predicate",
+      "unknown-is-not-a-value"
      ],
      "shared_with": [],
      "use_when": [
       "the plan is generated rather than written",
       "explaining an old run",
-      "reviewing a change to a generator"
+      "reviewing a change to a generator",
+      "a dry run or preview prints units whose inclusion is decided at run time",
+      "a preview's total disagrees with what the run then did"
      ],
      "stage": "multi-service"
     },
@@ -32777,9 +32841,9 @@
    "subcategory": "code-provenance",
    "status": "forged",
    "file": "knowledge/software-engineering/security/code-provenance/supply-chain/supply-chain.md",
-   "digest": "sha256-b2:a43084e32ba83d48",
-   "revision": 5,
-   "changedAt": "2026-09-17",
+   "digest": "sha256-b2:f5666db1094acd9f",
+   "revision": 6,
+   "changedAt": "2026-09-25",
    "techniques": [
     {
      "slug": "archive-extraction-safety",
@@ -32823,6 +32887,23 @@
       "deciding whether the gate reads the manifest or the lockfile",
       "an advisory lands on an untouched lockfile",
       "ignore entries piling up without expiry"
+     ]
+    },
+    {
+     "slug": "license-reach-follows-integration-form",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a copyleft-licensed component meets a product under a different license",
+      "deciding whether a license belongs on the allowlist",
+      "bundling third-party data such as dictionaries fonts datasets or certificate bundles",
+      "shipping or spawning a third-party executable beside the product",
+      "replacing a spawned tool or a protocol peer with its library binding",
+      "a license exception justified by \"it is only data\" or \"it runs as a separate process\""
      ]
     },
     {
@@ -34502,8 +34583,8 @@
    "subcategory": "build-and-release",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/build-and-release/test-input-generation/test-input-generation.md",
-   "digest": "sha256-b2:53394f527e9f1b6f",
-   "revision": 8,
+   "digest": "sha256-b2:bed0cf46aa1b4567",
+   "revision": 9,
    "changedAt": "2026-09-25",
    "techniques": [
     {
@@ -34608,6 +34689,23 @@
       "testing a parser validator or decoder",
       "a suite built from the specification's happy path",
       "deciding how to generate inputs the system must reject"
+     ]
+    },
+    {
+     "slug": "proof-cost-follows-the-circuit",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "failure-not-empty-success",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a solver-backed check is being considered for a function whose input space is far too large to enumerate",
+      "deciding which functions a symbolic proof campaign should take on first",
+      "a symbolic proof returned no verdict and the next move is being chosen",
+      "a symbolic equivalence proof between two ports passed in milliseconds",
+      "a timeout from a prover is about to be recorded as a pass or a fail"
      ]
     },
     {
@@ -37948,6 +38046,7 @@
     "mcp-tools/command-audit-by-position",
     "mcp-tools/egress-argument-gating",
     "mcp-tools/enumeration-without-a-scope",
+    "mcp-tools/first-party-agent-is-a-principal",
     "mcp-tools/one-server-many-registrations",
     "mcp-tools/orchestration-to-tool-migration",
     "mcp-tools/sanctioned-session-state",
@@ -37981,6 +38080,7 @@
     "model-routing/failover-path-liveness",
     "model-routing/policy-governance",
     "modelled-performance-estimates/one-ratio-then-a-capability-cap",
+    "module-design/emitted-code-names-from-a-root",
     "module-design/io-free-core",
     "module-design/mirror-type-at-the-edge",
     "module-design/scoreable-designs-are-built-not-argued",
@@ -38134,6 +38234,7 @@
     "supply-chain/archive-extraction-safety",
     "supply-chain/build-time-dependency-tier",
     "supply-chain/dependency-policy-gates",
+    "supply-chain/license-reach-follows-integration-form",
     "supply-chain/lockfile-freshness-oracle",
     "supply-chain/one-version-decays-to-a-floor",
     "supply-chain/patching-mechanism-ladder",
@@ -38778,6 +38879,7 @@
     "test-input-generation/liveness-needs-a-quiet-period",
     "test-input-generation/model-based-oracle",
     "test-input-generation/negative-space-generation",
+    "test-input-generation/proof-cost-follows-the-circuit",
     "test-input-generation/seed-is-not-a-reproduction",
     "test-input-generation/stage-ordered-fuzz-targets",
     "time-travel-replay/timeline-derivation",
@@ -39384,6 +39486,7 @@
     "test-harness/verification-inherits-driver-reach",
     "test-input-generation/exhaustive-when-bounded",
     "test-input-generation/negative-space-generation",
+    "test-input-generation/proof-cost-follows-the-circuit",
     "time-travel-replay/accrual-overlays",
     "time-travel-replay/estimate-labeling",
     "time-travel-replay/transport-and-time-mapping",
@@ -39549,9 +39652,11 @@
     "mcp-tools/ambient-selection-is-not-an-argument",
     "mcp-tools/command-audit-by-position",
     "mcp-tools/egress-argument-gating",
+    "mcp-tools/first-party-agent-is-a-principal",
     "mcp-tools/one-server-many-registrations",
     "mcp-tools/suspendable-request-classes",
     "measurement-honesty/instrument-exposure-control",
+    "measurement-honesty/lower-bound-disclosure",
     "measurement-honesty/speed-figure-names-its-endpoints",
     "metric-surface-contract/fault-localizing-metric-set",
     "metric-surface-contract/metric-removal-is-a-staged-pipeline",
@@ -39583,6 +39688,7 @@
     "optional-dependency-degradation/fallback-retirement-condition",
     "optional-dependency-degradation/misconfiguration-never-reaches-a-fallback",
     "p2p-networking/peer-state-honesty",
+    "pipeline-authoring/pipeline-plan-auditability",
     "pipeline-dag/composite-condition-verdicts",
     "plan-entitlements/provider-publishes-state-not-decision",
     "plan-entitlements/subtractive-entitlement",
@@ -39638,6 +39744,7 @@
     "structured-output/schema-validation-and-repair",
     "subscription-billing-periods/boundary-stitch-on-timezone-change",
     "subscription-billing-periods/timezone-anchored-period-dates",
+    "supply-chain/license-reach-follows-integration-form",
     "supply-chain/reading-is-not-running",
     "supply-chain/review-attestation-ledger",
     "telemetry-pii-redaction/exclusion-bounds-reads-not-output",
@@ -39647,6 +39754,7 @@
     "terminal-multiplexing/completion-authority-arbitration",
     "terminal-multiplexing/occupant-state-detection",
     "test-harness/configuration-axes-cross-the-ladder",
+    "test-input-generation/proof-cost-follows-the-circuit",
     "tracing/class-before-inspection",
     "transactions-over-a-replicated-log/capture-index-before-snapshot",
     "transactions-over-a-replicated-log/live-file-is-the-snapshot",
@@ -39797,6 +39905,7 @@
     "mcp-tools/caller-differentiated-capability",
     "mcp-tools/command-audit-by-position",
     "mcp-tools/egress-argument-gating",
+    "mcp-tools/first-party-agent-is-a-principal",
     "mcp-tools/fluent-syntax-bounded-grammar",
     "mcp-tools/server-composition",
     "mcp-tools/write-freshness-gate",
@@ -40243,6 +40352,7 @@
     "browser-credential-boundary/allowlisted-operator-stream",
     "build-economics/cache-budgeting",
     "build-economics/debug-artifact-economics",
+    "chat-transcript/composer-turn-queue",
     "ci-execution-trust/secret-materialization-discipline",
     "cicd-monitoring/liveness-scoped-polling",
     "client-fetch-cache/in-flight-dedup",

@@ -7,8 +7,11 @@ status: forged
 laws:
   - identity-survives-reuse
   - failure-not-empty-success
+  - creation-names-reaper
 shared_with: []
-use_when: [the send control is disabled while a turn runs, a user types a follow-up mid-answer and loses it, deciding whether "stop" and "say something now" are the same button, two quick follow-ups produce two separate machine turns]
+applied: code
+ab_verdict: better
+use_when: [the send control is disabled while a turn runs, a user types a follow-up mid-answer and loses it, deciding whether "stop" and "say something now" are the same button, two quick follow-ups produce two separate machine turns, a message queued mid-turn is gone after the app restarts, deciding whether the pending-prompt queue should be durable, a restart delivers a follow-up written for a turn that no longer exists]
 ---
 
 # Composer turn queue
@@ -46,6 +49,46 @@ They are different features and must not share a control or a code path:
   prompt (by the same id), the optimistic row *becomes* the confirmed row. A
   queue that keeps its own copy pinned alongside the server's produces the
   doubled bubble every user has seen.
+
+## A queued prompt is still a draft until it is delivered
+
+Submitting while busy moves the text out of the composer: the box clears and
+the prompt becomes a queued row. If the draft is durable and the queue lives
+only in memory, the gesture that says "I mean this" is the one that makes the
+text perishable. A restart before the turn settles loses the prompt, when the
+same words left unsent in the box would have survived. **The queue must
+survive whatever the draft survives.**
+
+It must not survive *as a queue*, though. A queued prompt was written against
+a turn in progress. A restart ends that turn, which comes back interrupted
+rather than running, so every restored queued prompt is stale by
+construction. Restore it as a queue and it runs on the next trigger the
+drain listens for. That trigger need not be startup: a drain keyed to "a turn
+just settled" fires on the first unrelated turn the person starts afterwards,
+and delivers a message into a conversation it was not written for. The person
+asked for that message against a turn that is gone. Nobody asked for it
+against the new one.
+
+So **a restart hands queued prompts back to the person as draft text**. They
+go into the composer of their own thread, in arrival order, ahead of anything
+already typed there, and the runtime queue starts empty. The text is kept and
+the decision to send goes back to the person who made it. If a prompt was in
+fact delivered just before the crash and also restored, the person sees a
+duplicate they can delete. That is the right way for the rare case to fail:
+visibly, and never as a second send nobody made. This gives a queued row three
+exits and names all three
+([creation-names-reaper](../../../../_laws.md#creation-names-reaper)):
+delivered, removed by the person, or returned to the draft. "The process
+ended" is not one of them.
+
+A sender with no composer changes the answer. A prompt queued from another
+device or through a bridge has no draft to return to. Either persist it as
+*held*, meaning visible and delivered only on a fresh decision, or keep it in
+memory and tell the sender it was dropped. Silent loss to a sender who cannot
+see the queue is never a disposition, only an absence
+([failure-not-empty-success](../../../../_laws.md#failure-not-empty-success)).
+A design that accepts it anyway writes the cost down beside the decision,
+where the next reader will find it.
 
 ## Consecutive follow-ups combine into one turn
 
@@ -94,7 +137,9 @@ different moments, and the transcript's job is to say so.
 - **Never merge an interjection into the running turn's text.** It rewrites
   what the machine was asked.
 - **Never clear the draft on cancel, error, or disconnect.** Drafts are
-  persisted per thread and survive all three.
+  persisted per thread and survive all three, and a restart as well. A queued
+  prompt is a draft that has not been delivered yet, so it survives the same
+  events. It comes back as a draft, never as a queued send.
 - **Large pastes and references collapse into chips**, not raw text: a
   ten-thousand-character paste is one element in the composer, expandable on
   demand, so the box stays a place to write rather than a place to scroll.

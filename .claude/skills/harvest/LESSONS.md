@@ -97,3 +97,29 @@ report now has a lane to land in.
   live sibling's work in progress. The target section was untouched either way, so there
   was no contradiction. But a recount should say which tree it read, or a sibling's work in
   progress reads as queue drift.
+
+## 0.5.2 - 2026-09-25 - ai-registry (backlog loop x3, waves 8-10, runs hb-w8/w9/w10-0925, secondary machine)
+
+- **The unit's home was wrong on about half the units in all three waves**, and twice it named a
+  path that does not exist. The worker-brief lesson ("the home is a hint") held; what helped more
+  was saying it again in a per-wave director note, alongside the lessons the previous wave had
+  just earned. Director notes that carry forward from wave to wave are cheap, and every wave
+  lesson that reached the next brief was followed there.
+- **The literal repair lost to the residual in most code-mode units.** Arming the unit's own
+  prescription as B1 (brief lesson 9) was the single most informative arm: it tied the as-is arm
+  (a comment that changes no behaviour; "tell the model its session was lost") or it
+  over-corrected (mark every step "may" and certify nothing; escape everything). A wave without
+  B1 would have landed rules that the fleet had already shown to be too weak or too strong.
+- **`checked: unverifiable` was wrong every time it was re-verified in these waves**: the source
+  cloned, and the quote was still there. Read it as "the enumerator did not try".
+- **One worker ran `taskkill /IM python.exe` and killed every Python process on the machine.** The
+  director warned the live siblings, and each re-checked its logs. From wave 9 on, the director
+  note says: stop only the PIDs you started.
+- **A code verdict on a project whose checkout lives on another machine cannot ship from here.**
+  The worker cloned the public remote and proved the change there. The commit sits on a local
+  clone branch, and the applied row says UNSHIPPED rather than implying a fleet ship.
+- **The director must count returns against the wave, not against the ledger.** The director
+  began closing wave 10 with one unit still out, because the ledger rows looked complete. The
+  wave file is the roster; the ledger only records what has already returned.
+- **Paid headless arms need a declared cap in the declaration.** The blind-ab units spent
+  $5-8 each against caps of $15-20, and each return reported its spend.

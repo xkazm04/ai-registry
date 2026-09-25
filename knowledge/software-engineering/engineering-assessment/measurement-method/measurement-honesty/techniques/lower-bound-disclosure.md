@@ -4,9 +4,11 @@ type: technique
 subject: measurement-honesty
 technique: lower-bound-disclosure
 status: forged
-laws: [count-carries-predicate]
+laws: [count-carries-predicate, unknown-is-not-a-value]
 shared_with: []
-use_when: [publishing a reach or usage tally assembled from partial observation, two rungs of a ladder are both arguable, a number will be quoted outside its context]
+applied: blind-ab
+ab_verdict: better
+use_when: [publishing a reach or usage tally assembled from partial observation, two rungs of a ladder are both arguable, a number will be quoted outside its context, the same comparison measured in two environments agrees on direction and disagrees on size, a newer run shows a larger effect than a figure already published]
 ---
 
 # Lower-bound disclosure
@@ -95,6 +97,61 @@ Making it work in practice takes two supports:
   rounds down at the bottom and up at the top compresses toward the middle and
   loses its discriminating power — which was the only reason to have rungs.
 
+## The second sibling: one comparison, two sizes, no mechanism
+
+A third shape sits between a bound and an estimate. The same comparison — same
+builds, same workload, same procedure — is run in two environments, and each
+run is clean. Both favour the same side. They disagree on *how much*, and
+nobody has isolated why. Neither observation is an undercount, so neither is a
+bound. Neither is noise in the sense a measured noise band describes, because
+each reproduces where it was taken. They are two true answers to a question
+whose answer depends on something nobody has named yet.
+
+> **Headline the smaller effect, with its environment. Publish the larger one
+> beside it with its environment, and say in the same place that the split is
+> not explained.**
+
+The reason is the ladder rule's asymmetry, applied to a different unknown. The
+effect depends on the environment, and you do not know on what about it — so
+you cannot tell a reader which of your two numbers they will get, and the
+headline is the one they will plan around. An over-promise is discovered by the
+reader who deploys and misses the number. An under-promise is discovered by the
+reader who beats it.
+
+The same rule holds across time. When a newer environment or a newer run shows
+a **larger** effect than a figure already published, the published figure does
+not rise to meet it. The larger observation is evidence that the effect is
+environment-sensitive, not evidence that the earlier figure was modest; raising
+the headline to whichever observation flatters is selection with a delay.
+
+Four disciplines keep this from collapsing into one of its neighbours:
+
+1. **It is not a floor, so never write "at least".** A third environment can
+   come in below both. The smaller of two observations is a conservative
+   *quote*, not a bound — case 3 above still governs: the direction is agreed,
+   the size is not bounded by anything. Write "30% on bare hosts; 50–60% on the
+   orchestrated cluster, and we have not isolated why", not "at least 30%".
+2. **Do not average, and do not headline the range.** A midpoint is true in
+   neither environment. A range as the headline is read by its top end. The
+   range belongs in the body; the headline carries one number and the
+   environment it was measured in
+   ([count-carries-predicate](../../../../_laws.md#count-carries-predicate)).
+3. **Do not explain the split in prose you did not measure.** A plausible cause
+   attached to an unisolated difference ("likely the network stack") turns an
+   open question into a closed one, which is an unknown rendered as a value
+   ([unknown-is-not-a-value](../../../../_laws.md#unknown-is-not-a-value)).
+   Record the split as an open item, with the experiment that would isolate it.
+4. **Opposite signs are a different case.** If each environment favours a
+   different side, there is no conservative quote — the smaller effect is a
+   loss. That is an estimate of unknown sign, or a failed control: publish both
+   observations and headline neither.
+
+The rule ends where the mechanism is found. Once the cause of the split is
+named **and verified by moving it**, the environment is an axis rather than a
+mystery: publish one figure per condition, each with its condition, and do not
+collapse them to the smaller one. Quoting the lower number for an explained
+split throws away a result you have.
+
 ## When not to use it
 
 - **When the number really is a total.** A count over a closed system you fully
@@ -113,3 +170,7 @@ Making it work in practice takes two supports:
   floor at five percent of the true value is technically true and functionally a
   lie; if you can characterize the absorption ratio at all, publish the method
   and the range instead.
+- **When the reader's environment is known and is one you measured.** The
+  smaller-effect quote protects a reader whose environment you cannot see. A
+  figure written for a known deployment carries that deployment's number, and
+  the other environment is a footnote, not the headline.

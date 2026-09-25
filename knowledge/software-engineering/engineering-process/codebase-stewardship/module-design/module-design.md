@@ -18,6 +18,7 @@ techniques:
   - marked-unverifiable-region
   - mirror-type-at-the-edge
   - state-carrier-decides-the-lane
+  - emitted-code-names-from-a-root
 ---
 
 # Module design
@@ -419,3 +420,7 @@ manners.
   mirror of what the module actually reads, conversion at both edges, the
   branchless shim, why mocking the host type is a gate reading its own author,
   and the three rules that keep a second vocabulary from drifting.
+- [emitted-code-names-from-a-root](./techniques/emitted-code-names-from-a-root.md) — a
+  generator's hidden interface is the scope it expands into: every name the invocation
+  does not supply spelled from a root, helpers enclosed but products left visible, the
+  composition obligation no root reaches, and the foreign-package probe that finds it.

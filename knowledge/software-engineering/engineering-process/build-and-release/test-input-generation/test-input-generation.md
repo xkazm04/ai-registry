@@ -9,6 +9,7 @@ techniques:
   - swarm-feature-sampling
   - negative-space-generation
   - exhaustive-when-bounded
+  - proof-cost-follows-the-circuit
   - model-based-oracle
   - inside-out-invariants
   - liveness-needs-a-quiet-period
@@ -141,6 +142,12 @@ factorial that looks alarming at n=10 is trivial at the n=6 the system actually
 supports. [exhaustive-when-bounded](./techniques/exhaustive-when-bounded.md)
 carries the bound calculation and the escape hatch for when it comes back too
 large.
+
+When the check is symbolic, meaning a solver covers every input at once, the written bound stops being
+the cost variable: 2^512 inputs can prove in milliseconds while a 2^22 date round trip walls. Triage
+those targets by the arithmetic the property relates, calibrated on the engine that will run them, and
+send a symbolic wall with a small real domain back to enumeration
+([proof-cost-follows-the-circuit](./techniques/proof-cost-follows-the-circuit.md)).
 
 ## A generator is worth exactly as much as what checks it
 
