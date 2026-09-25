@@ -204,7 +204,7 @@
       "name": "illustrate",
       "source": "./skills/illustrate",
       "description": "Take an existing web component that explains a concept with conventional web design (a card grid, a bulleted feature list, a static diagram, decorative art) and give it an illustration layer that carries the claim: read what the section is trying to prove, think divergently about how to abstract it graphically, then prototype three directional illustration variants inside the component behind a ta",
-      "version": "1.1.1",
+      "version": "1.2.0",
       "category": "workflow",
       "tags": [
         "illustration",

@@ -3,7 +3,7 @@ name: illustrate
 description: "Take an existing web component that explains a concept with conventional web design (a card grid, a bulleted feature list, a static diagram, decorative art) and give it an illustration layer that carries the claim: read what the section is trying to prove, think divergently about how to abstract it graphically, then prototype three directional illustration variants inside the component behind a tab switcher, with the original kept as the default tab. Use when a landing, marketing, onboarding or how-it-works section explains something in words that a picture or a short animation could prove, or when its current art is decorative. Not for dense data dashboards (layout variants) or single icons (use an icon/asset skill)."
 category: workflow
 memory: project
-version: 1.1.1
+version: 1.2.0
 tags: illustration, explainer, landing, prototype, variants, motion, design
 argument-hint: "<component path | page route | --survey> [--variants 3]"
 ---
@@ -19,53 +19,76 @@ genuinely different ways to do that inside the real component, and leaves all th
 switchable behind tabs until the owner picks one.
 
 Say the two rules once per run: **an illustration either carries the claim or it is
-furniture, and furniture is rationed.** And: **the picture carries the argument;
-words only label it.**
+furniture, and furniture is rationed.** And: **picture and words are one argument;
+a reader who has never seen the product must get it from the two together, in five
+seconds.**
 
 The skill is a specialization of directional variant prototyping. It differs in
 what it varies (the *abstraction* of a concept, not the layout of data) and in what
 it checks (whether each variant evidences the claim and survives being seen as a
 still).
 
-## Picture first, words as labels
+## Picture and words, balanced
 
-The goal is an **abstracted idea**: a dominant visual structure that a reader
-understands before reading anything, with text as short supporting labels. It is
-not a mockup annotated with explanations. The failure this section exists for is
-the one the first run produced: every variant carried the claim, and every one said
-it in sentences inside the picture. The owner kept the abstract original over three
-text-rich product mockups, and judged even the two variants they picked
-text-heavy (92 and 131 words, runs of 16-19 words).
+The goal is a section a first-time reader **understands in five seconds**. The
+picture shows the product doing the thing, and the words tell the reader what they
+are looking at. Neither side carries the claim alone. The skill has failed both
+ways, and both failures are the reason for the rules below:
 
-The rules, which the capture instrument checks:
+- **Too many words (run 1).** Every variant said the claim in sentences inside the
+  picture: 92 and 131 words, with 16-19 word runs. The owner kept the abstract
+  original.
+- **Too few words and too little picture (run 3, under 1.1's 30-word, 6-word-run
+  budget).** In the owner's words: "huge illustrations representing very little,
+  cutting all text, leading into no idea what is meant." Art filled a whole screen
+  with five marks and two generic words ("Goal", "Shipped", "Everything", "$0").
+  Metaphors like a puzzle, a balance scale or a mended bowl would fit any product in
+  the category. Product-true mockups were skeleton bars with nothing real on them.
 
-| | Budget inside the illustration (`data-illustrate-art`) |
-| --- | --- |
-| Words | at most **30** in total |
-| Run | no text run longer than **6** words: labels, never sentences; prefer 1-3 words |
-| Area | text covers at most **6%** of the art's area |
-| Caption | at most one line, **outside** the art; the section heading already exists |
-| Numbers | only as labels on a shape (a count on a bar, a time on a dial), never in prose |
+What the accepted illustrations share (memory "run 1 vs run 12", the AI-model router,
+the nested vault): **one specific mechanism**, drawn at a size that fits its
+content (23-33% empty); **every word a product noun or state** (Haiku, Sonnet, Opus,
+Ollama, Run 1, Run 12, OS keychain, AES-256-GCM); labels at 14-19px; and a heading
+and lede that state the claim in plain words.
 
-**The mute test**, run on every candidate before it is chosen and on every variant
-before it is shown: hide every word. If the idea no longer reads from shape,
-position, colour, grouping and motion, the illustration is a text layout, and it goes
-back to Phase 3.
+### The balance, which the capture instrument checks
+
+| | Rule | Flag |
+| --- | --- | --- |
+| Section copy | a heading that states the claim plus a lede of **1-2 plain sentences** saying what the reader is looking at and what they get. It is not shortened to make room for the art | TEXT-THIN below 14 words in the whole section |
+| Words in the art | **labels and a short key**: name every part the reader must identify, with real product nouns, states and values. At most **40** words, runs of at most **8** (a label or a beat caption, never a sentence), text on at most **10%** of the art | TEXT-HEAVY |
+| Word quality | each label names something **specific**. "Goal", "Done", "Everything", "Input" and "$0" alone are not labels; they are placeholders. Replace them with the real noun (the goal's name, the state the app shows, what the $0 buys) | reviewer check |
+| Size | the art is **sized to its content, not to the space available**. A picture with five marks is small. Leftover space goes to whitespace or to the key, never to scaling the art up. At most about 45% of the art may be empty | SPARSE |
+| Legibility | labels render at **12px or more** on desktop (10px on a phone). If a label would fall below that at the slot's size, the art has too many parts or is scaled wrong | TINY-LABELS |
+| Numbers | only as labels on a shape (a count on a bar, a time on a dial), never in prose, never a metric-shaped number without a source | reviewer check |
+
+### Three tests every candidate and every variant must pass
+
+- **The mute test** (hide every word): the structure still reads from shape,
+  position, colour, grouping and motion. If it does not, the illustration is a text
+  layout.
+- **The cold-read test** (hide nothing, know nothing): someone who has never seen the
+  product looks at a still of the section for five seconds and says, specifically,
+  what the product does here and what the reader would get. "Something about goals"
+  fails. In Phase 7 a fresh reviewer runs it on the screenshot alone (see there).
+- **The competitor-swap test**: put the picture on a competitor's page. If it still
+  fits unchanged, it is generic and says nothing about this product. A puzzle, a
+  scale, a staircase or a bowl fails unless its parts carry this product's real
+  nouns and behaviour.
 
 What this means per family:
 
-- **Product-true** becomes a **silhouette**. Fidelity lives in *structure* (the real
-  layout, the real shapes, the real colours, the real motion). Text inside the
-  mockup is drawn as skeleton bars, with at most three real labels where a word is
-  the point (a name, a status). A faithful screen full of sample sentences fails.
-- **Mechanism and transformation** show change through position and motion. Stages
-  are marks on a track, not paragraphs beside it.
-- **Metaphors** are silent by construction. Label the two or three parts a reader
-  must name, no more.
-- **Real nouns** arrive as icons, logos, colours and counts, not as descriptions.
-
-Section copy (the heading and one line of lede) stays in the section, outside the
-art, and does not grow to compensate.
+- **Product-true** shows **real content in reduced quantity**: three real rows with
+  their real names and states, not six skeleton bars. Structure, colours and motion
+  are the app's own. Cut quantity, never meaning. A skeleton screen communicates
+  "a screen", which the reader already assumed.
+- **Mechanism and transformation** show change through position and motion, with a
+  short caption per beat (at most 8 words) naming what happens at that beat.
+- **Metaphors** earn their place only with the competitor-swap test: every part the
+  reader must name is labelled with the product's real noun. An unlabelled or
+  generic metaphor is decoration.
+- **Real nouns** appear as words when the word is the information (a model, a
+  connector, a state), and as icons or colours when the shape is.
 
 ## When to use / when not
 
@@ -128,6 +151,13 @@ variant is judged against.
 - **The claim**, in one sentence, in the reader's terms. "Agents hand work to each
   other without you wiring every step." If you cannot write it, stop: the section
   has a copy problem.
+- **The five-second answer**: the sentence a cold reader should be able to say back
+  after five seconds with the section (it is what Phase 7's cold-read test checks).
+  It names this product's specifics: "It routes each task to Haiku, Sonnet or Opus by
+  weight, and keeps private ones on Ollama locally", not "it picks the right model".
+- **The facts the picture must show**: at least three product-specific facts, each
+  verified in the source app (a real state name, a real noun, a real limit, a real
+  order of steps). These are what make the picture fail the competitor-swap test.
 - **The evidence the reader needs.** What would convince a sceptic? The real screen?
   A before/after? The mechanism running? A number?
 - **Process or state?** Does the claim describe a *process* (order, overlap, waiting,
@@ -174,33 +204,47 @@ For each candidate write: the claim it carries, what the reader notices first, w
 it would cost, and **what it would teach that is false** (a metaphor always implies
 more than the product does).
 
-**Score** each candidate 0-3 on: carries the claim (the three tests), **visual
-dominance (does it pass the mute test?)**, fidelity (does it promise anything the
-product does not do?), distinctness from the page's other sections, legibility as a
-still, and cost. Discard anything that scores 0 on the mute test: a candidate whose
-idea lives in its words is a copy change, not an illustration. Discard anything that scores 0 on
-fidelity. That rule has no exceptions: a picture of a capability the product lacks
+**Score** each candidate 0-3 on: carries the claim (the three tests), **structure
+(does it pass the mute test?)**, **specificity (does it fail the competitor-swap
+test - i.e. could only this product show it?)**, **cold read (would a stranger say
+the five-second answer back?)**, fidelity (does it promise anything the product does
+not do?), distinctness from the page's other sections, legibility as a still, and
+cost. Discard anything that scores 0 on structure (its idea lives in its words: a
+copy change), 0 on specificity (it is decoration), 0 on cold read, or 0 on fidelity.
+The fidelity rule has no exceptions: a picture of a capability the product lacks
 turns the page into a liability.
 
 **Choose three directions that differ in abstraction strategy, not in styling.** The
-default triad is one product-true, one mechanism or transformation, and one
-metaphor (spatial, physical or data-as-art). Name each variant after its central
-idea ("Live console", "Relay", "Switchboard"), and give each one sentence on why it
-is not the other two. Two variants that differ only in palette or layout are one
-variant. Replace one.
+default triad is **one mechanism or transformation, one product-true (real content,
+reduced) and one spatial or data-as-art** direction. A **physical metaphor** enters
+the triad only when it scored 3 on specificity - its parts carry this product's
+nouns and behaviour; the generic metaphors (a puzzle, a scale, a staircase, a bowl)
+were the weakest variants in every round they entered. Name each variant after its
+central idea ("Live console", "Relay", "Switchboard"), and give each one sentence on
+why it is not the other two. Two variants that differ only in palette or layout are
+one variant. Replace one.
 
 ## Phase 4 - Specify each variant before building it
 
 One short spec per variant, handed to the builder as-is:
 
-- claim carried, and the caption line a reader should come away with;
+- claim carried, and the five-second answer a reader should say back;
 - central idea, carried through layout, shape language, motion and copy voice;
-- **the word list**: every word that will appear inside the art, written out, within
-  the budget above. A spec without a word list is not finished; the word list is
-  where text creep is stopped cheaply;
+- **the section copy**: the heading (usually the current one) and a lede of 1-2 plain
+  sentences that tell a stranger what the picture shows and what they get. Written
+  out in full; it is part of the variant, not left over from the current section;
+- **the label plan**: every word that will appear inside the art, written out, each
+  attached to the element it names, within the budget above. Every part a reader
+  must identify has a label; every label is a specific product noun, state or value
+  (no bare "Goal", "Done", "Everything"). A spec without a label plan is not
+  finished; this is where both text creep and text starvation are stopped cheaply;
 - **the visual structure** in one sentence: what a reader sees in the first second
-  (an exploded stack, a ring of ports, a track with marks), and what the mute test
-  leaves readable;
+  (an exploded stack, a ring of ports, a track with marks), what the mute test
+  leaves readable, and which of the brief's product facts each part shows;
+- **the size plan**: the art's natural size for its content (how many elements, how
+  much room each needs at a 12px-or-larger label), its aspect ratio, and its maximum
+  size. The art never scales past what its content needs to fill a larger slot;
+  leftover space stays empty or holds the key;
 - **informative vs decorative inventory**. Informative elements use real product
   nouns (as icons, colours, counts and short labels) and plausible, obviously-sample
   values. Never a metric-shaped number without a
@@ -252,10 +296,17 @@ a survey guesses at details the app states exactly.
 
 Builder rules:
 
-- **Picture first.** Stay inside the spec's word list and the budget. Mark the
-  illustration root `data-illustrate-art`. Product-true art is a silhouette: skeleton
-  bars for text, three real labels at most. If the idea needs a sentence to be
-  understood, stop and report it rather than write the sentence.
+- **Picture and words together.** Build the spec's section copy and label plan
+  exactly; stay inside the balance above. Mark the illustration root
+  `data-illustrate-art`. Product-true art shows real content in reduced quantity,
+  not skeleton bars. If a part cannot be understood without a sentence, report it
+  rather than write the sentence; if a label would be generic ("Goal", "Done"), find
+  the real noun in the source app.
+- **Size to content, not to the slot.** Render the art at the spec's size plan, even
+  when the container offers more room. A layout system that hands the art a large
+  slot (a full-screen stage, a hero column) sets the art's **maximum**, never its
+  size; centre the art and leave the rest empty. Labels render at 12px or more on
+  desktop at the slot's smallest size.
 - Semantic tokens only. No raw palette values where a token exists, no raw
   white/black overlays where the project defines surface tokens.
 - Real text stays real text: headings, labels and captions inside the illustration
@@ -284,17 +335,30 @@ Builder rules:
    finding, not a harness error), counts infinite animations under reduced motion,
    flags **text-heavy art** (words, longest run and text area inside
    `data-illustrate-art`, against the budget; without the marker it measures the
-   whole section and says so),
+   whole section and says so), flags the **floor side of the balance** - SPARSE art
+   (share of empty cells in the art), TINY-LABELS (smallest rendered label) and
+   TEXT-THIN (words in the whole section) -
    and writes `contact.html` beside the images. It resolves the browser automation
    library from the consuming project and has no dependencies of its own.
-3. Self-audit each variant against its spec before the owner sees it: the three
-   claim tests, **the mute test and the text budget**, token grep, no text baked into art, reduced-motion capture not blank,
-   no infinite animation under reduced motion. A variant that fails is fixed first.
-   The owner chooses between directions, never between a working variant and a
-   broken one.
-4. Present: the contact sheet, one line per variant (central idea, what the reader
-   notices, what it costs), your recommendation with its reason, and the tab links.
-   Commit the round on the worktree branch with a pathspec. Never push.
+3. **Cold-read test.** For every variant, give a **fresh reviewer** - an agent with no
+   brief, no spec and no knowledge of the product (a new subagent that can read
+   images), or a person who has not seen the work - only the desktop capture of the
+   section, and ask: "In one or two sentences: what does this product do, according to
+   this section, and what would you get from it? Name anything you could not tell."
+   Compare the answer with the brief's five-second answer. A vague answer ("something
+   about goals"), a wrong one, or a list of unreadable parts fails the variant. Put
+   each reviewer answer, verbatim, in the contact sheet beside its capture; the owner
+   reads what a stranger took away before choosing.
+4. Self-audit each variant against its spec before the owner sees it: the claim
+   tests, **the mute, cold-read and competitor-swap tests**, the balance flags, the
+   brief's product facts all visible, token grep, no text baked into art,
+   reduced-motion capture not blank, no infinite animation under reduced motion. A
+   variant that fails is fixed first. The owner chooses between directions, never
+   between a working variant and a broken one.
+5. Present: the contact sheet with the cold-read answers, one line per variant
+   (central idea, what the reader notices, what it costs), your recommendation with
+   its reason, and the tab links. Commit the round on the worktree branch with a
+   pathspec. Never push.
 
 ## Phase 8 - Consolidate when the owner picks
 
@@ -316,6 +380,17 @@ exists, then remove the worktree, without `--force` if you can.
 
 - **Explaining in the picture.** Sentences, descriptions and sample prose inside the
   art. The illustration shows, labels name, and the section heading claims.
+- **Cutting words until the meaning goes.** A section a stranger cannot read back is
+  worse than a wordy one. Labels name specific things; the lede says what the picture
+  shows. Fewer words is not the goal; fewer *unnecessary* words is.
+- **Filling the slot.** Scaling a five-element picture to a full screen because the
+  layout offered the space. Size follows content.
+- **Generic pictures.** A puzzle, a scale, a staircase, a bowl, skeleton bars in a
+  window frame: anything that would fit a competitor's page unchanged.
+- **A director's brief that dictates size or silence.** "Art at least 60% of the
+  width", "fill the slot", "shorten the lede" in a brief override the balance above
+  for every builder at once. State the section's constraints (slot, fit), never a
+  target size or a word ceiling below the method's.
 - **Three stylings of one idea.** Palette and layout are not directions.
 - **Art that promises what the product does not do.** Fidelity 0 is disqualifying.
 - **Decoration upgraded to more decoration.** A nicer gradient is still furniture.

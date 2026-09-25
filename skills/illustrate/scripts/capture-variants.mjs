@@ -12,7 +12,9 @@
  * section or tab not found), 3 = captured but at least one capture is BLANK, a
  * variant runs an infinite animation under reduced motion, or a variant's art is
  * TEXT-HEAVY (more words than a label layer, a sentence-length run, or text covering
- * too much of the picture; limits via --max-words --max-run --max-ratio).
+ * too much of the picture; limits via --max-words --max-run --max-ratio), or the section
+ * is UNBALANCED the other way: SPARSE art (mostly empty; --max-empty), TINY-LABELS
+ * (--min-label) or TEXT-THIN (too few words in the whole section; --min-section-words).
  *
  * No dependencies of its own: it resolves the browser automation library from the
  * consuming project (the current working directory), because that project already
@@ -21,11 +23,12 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { createRequire } from 'node:module';
-import { parseArgs, blankScore, captureName, textVerdict, TEXT_LIMITS } from './lib/capture-core.mjs';
+import { parseArgs, blankScore, captureName, textVerdict, TEXT_LIMITS, balanceVerdict, emptyRatio, BALANCE_LIMITS } from './lib/capture-core.mjs';
 
 const args = parseArgs(process.argv.slice(2));
 if (args.error) { console.error(args.error); process.exit(2); }
 const limits = { ...TEXT_LIMITS, ...args.limits };
+const balance = { ...BALANCE_LIMITS, ...args.balance };
 
 let chromium;
 try {
@@ -45,7 +48,7 @@ async function pixels(buf) {
     const img = new Image(); img.src = 'data:image/png;base64,' + b64; await img.decode();
     const c = document.createElement('canvas'); const w = 96; const h = Math.max(1, Math.round(96 * img.height / img.width));
     c.width = w; c.height = h; const g = c.getContext('2d'); g.drawImage(img, 0, 0, w, h);
-    return Array.from(g.getImageData(0, 0, w, h).data);
+    return { w, h, data: Array.from(g.getImageData(0, 0, w, h).data) };
   }, buf.toString('base64'));
 }
 // Sections below the fold often mount only when the reader approaches: walk down to it.
@@ -85,7 +88,7 @@ try {
         await page.waitForTimeout(args.settle);
         const file = captureName(args.section, tab, width, motion);
         const buf = await root.screenshot({ path: path.join(args.out, file) });
-        const blank = blankScore(await pixels(buf));
+        const blank = blankScore((await pixels(buf)).data);
         const infinite = await page.evaluate((sel) => {
           const r = document.querySelector(sel);
           return document.getAnimations().filter((a) => a.effect?.getComputedTiming?.().iterations === Infinity &&
@@ -95,26 +98,58 @@ try {
         // Text inside the illustration: variants mark their art root with data-illustrate-art,
         // so the section's own heading and copy are not counted against the picture.
         const text = await root.evaluate((r) => {
-          const art = r.querySelector('[data-illustrate-art]');
+          // The visible art: a variant may keep a hidden twin (a phone layout, say).
+          const art = [...r.querySelectorAll('[data-illustrate-art]')]
+            .find((e) => { const b = e.getBoundingClientRect(); return b.width > 0 && b.height > 0; }) || null;
           const scope = art || r;
           const box = scope.getBoundingClientRect();
           const area = Math.max(1, box.width * box.height);
-          let words = 0, longestRun = 0, textArea = 0;
+          let words = 0, longestRun = 0, textArea = 0, minLabelPx = null;
           const walk = document.createTreeWalker(scope, NodeFilter.SHOW_TEXT);
           while (walk.nextNode()) {
             const n = walk.currentNode; const t = n.textContent.trim(); if (!t) continue;
             const range = document.createRange(); range.selectNodeContents(n);
-            const a = [...range.getClientRects()].reduce((s, q) => s + q.width * q.height, 0);
+            const rects = [...range.getClientRects()];
+            const a = rects.reduce((s, q) => s + q.width * q.height, 0);
             if (a < 1) continue; // not rendered
             const k = t.split(/\s+/).length; words += k; longestRun = Math.max(longestRun, k); textArea += a;
+            // Rendered font size, not the line box (which runs ~1.3x taller): the computed
+            // size, scaled by the SVG's user-space-to-screen transform for SVG text.
+            const el = n.parentElement;
+            let px = parseFloat(getComputedStyle(el).fontSize) || 0;
+            if (el instanceof SVGGraphicsElement) { const m = el.getScreenCTM(); if (m) px *= Math.hypot(m.a, m.b); }
+            if (px > 0) minLabelPx = minLabelPx === null ? px : Math.min(minLabelPx, px);
           }
-          return { scoped: !!art, words, longestRun, textRatio: textArea / area };
+          // Words in the whole section - heading, lede and art - minus the prototype's own
+          // tab strip: the floor-side check asks whether the section says enough.
+          let sectionWords = 0;
+          const all = document.createTreeWalker(r, NodeFilter.SHOW_TEXT);
+          while (all.nextNode()) {
+            const n = all.currentNode; const t = n.textContent.trim(); if (!t) continue;
+            if (n.parentElement?.closest('[role="tablist"], [data-illustrate-tab]')) continue;
+            const range = document.createRange(); range.selectNodeContents(n);
+            if (![...range.getClientRects()].some((q) => q.width * q.height >= 1)) continue;
+            sectionWords += t.split(/\s+/).length;
+          }
+          return { scoped: !!art, words, longestRun, textRatio: textArea / area,
+            minLabelPx: minLabelPx === null ? null : Math.round(minLabelPx), sectionWords };
         });
+        // Emptiness is measured on the art alone, so a roomy section around a dense
+        // picture is not penalised - only a picture that is mostly background.
+        let empty = null;
+        if (text.scoped) {
+          const art = root.locator('[data-illustrate-art]:visible').first();
+          const p = await pixels(await art.screenshot());
+          empty = emptyRatio(p.data, p.w, p.h);
+        }
         const tv = textVerdict(text, limits);
+        const bv = balanceVerdict({ empty, minLabelPx: text.minLabelPx, sectionWords: text.sectionWords, width }, balance);
         const row = { tab, width, motion, file, blank: blank.blank, spread: blank.spread, infinite, smil,
           artScoped: text.scoped, words: text.words, longestRun: text.longestRun, textRatio: +text.textRatio.toFixed(3),
-          textHeavy: tv.heavy, textReasons: tv.reasons };
-        if (blank.blank || (motion === 'reduce' && (infinite > 0 || smil > 0)) || (tab !== 'current' && tv.heavy)) failed = true;
+          textHeavy: tv.heavy, textReasons: tv.reasons,
+          empty: empty === null ? null : +empty.toFixed(2), minLabelPx: text.minLabelPx, sectionWords: text.sectionWords,
+          unbalanced: bv.failed, balanceReasons: bv.reasons };
+        if (blank.blank || (motion === 'reduce' && (infinite > 0 || smil > 0)) || (tab !== 'current' && (tv.heavy || bv.failed))) failed = true;
         rows.push(row);
       }
       await ctx.close();
@@ -129,13 +164,15 @@ await browser.close();
 
 fs.writeFileSync(path.join(args.out, 'report.json'), JSON.stringify({ url: args.url, section: args.section, rows }, null, 2));
 const cell = (r) => r.hidden ? `<figure><figcaption>${r.tab} · ${r.width}px · ${r.motion} · hidden at this width by the layout</figcaption></figure>` : `<figure><img src="${r.file}" loading="lazy"><figcaption>${r.tab} · ${r.width}px · ${r.motion}` +
-  `${r.blank ? ' · <b>BLANK</b>' : ''}${r.textHeavy ? ` · <b>TEXT-HEAVY: ${r.textReasons.join('; ')}</b>` : ` · ${r.words} words`}${r.motion === 'reduce' && (r.infinite || r.smil) ? ` · <b>moving under reduce (${r.infinite}+${r.smil})</b>` : ''}</figcaption></figure>`;
+  `${r.blank ? ' · <b>BLANK</b>' : ''}${r.textHeavy ? ` · <b>TEXT-HEAVY: ${r.textReasons.join('; ')}</b>` : ` · ${r.words} words in art, ${r.sectionWords} in section`}` +
+  `${r.empty === null ? '' : ` · ${Math.round(r.empty * 100)}% empty`}${r.minLabelPx ? ` · labels ≥${r.minLabelPx}px` : ''}` +
+  `${r.unbalanced ? ` · <b>${r.balanceReasons.join('; ')}</b>` : ''}${r.motion === 'reduce' && (r.infinite || r.smil) ? ` · <b>moving under reduce (${r.infinite}+${r.smil})</b>` : ''}</figcaption></figure>`;
 const byTab = args.tabs.map((t) => `<section><h2>${t}</h2><div class="g">${rows.filter((r) => r.tab === t).map(cell).join('')}</div></section>`).join('');
 fs.writeFileSync(path.join(args.out, 'contact.html'), `<!doctype html><meta charset="utf-8"><title>${args.section} variants</title>
 <style>body{font:14px system-ui;margin:24px;background:#f4f5f7}h2{margin:24px 0 8px}.g{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:12px}
 figure{margin:0;background:#fff;padding:8px;border-radius:8px}img{width:100%;display:block}figcaption{font:12px ui-monospace,monospace;margin-top:6px;color:#444}b{color:#b00}</style>
 <h1>${args.section}</h1>${byTab}`);
 
-for (const r of rows) if (r.hidden) console.log(`${r.tab.padEnd(14)} ${String(r.width).padEnd(5)} ${r.motion.padEnd(14)} hidden-by-layout`); else console.log(`${r.tab.padEnd(14)} ${String(r.width).padEnd(5)} ${r.motion.padEnd(14)} ${r.blank ? 'BLANK ' : 'ok    '} infinite=${r.infinite} smil=${r.smil} words=${r.words}${r.artScoped ? '' : '(section)'} run=${r.longestRun} text=${Math.round(r.textRatio * 100)}%${r.textHeavy ? ' TEXT-HEAVY' : ''}`);
+for (const r of rows) if (r.hidden) console.log(`${r.tab.padEnd(14)} ${String(r.width).padEnd(5)} ${r.motion.padEnd(14)} hidden-by-layout`); else console.log(`${r.tab.padEnd(14)} ${String(r.width).padEnd(5)} ${r.motion.padEnd(14)} ${r.blank ? 'BLANK ' : 'ok    '} infinite=${r.infinite} smil=${r.smil} words=${r.words}${r.artScoped ? '' : '(section)'} run=${r.longestRun} text=${Math.round(r.textRatio * 100)}% section=${r.sectionWords} empty=${r.empty === null ? '-' : Math.round(r.empty * 100) + '%'} label=${r.minLabelPx ?? '-'}px${r.textHeavy ? ' TEXT-HEAVY' : ''}${r.unbalanced ? ' ' + r.balanceReasons.map((x) => x.split(':')[0]).join(' ') : ''}`);
 console.log(`contact sheet: ${path.join(args.out, 'contact.html')}`);
 process.exit(failed ? 3 : 0);

@@ -342,16 +342,16 @@
     },
     {
       "name": "illustrate",
-      "version": "1.1.1",
+      "version": "1.2.0",
       "category": "workflow",
       "path": "skills/illustrate/SKILL.md",
-      "contentHash": "sha256-n1:35dc7c48b0e8b6e7",
+      "contentHash": "sha256-n1:d3da744ba5fd829b",
       "adopters": [],
       "invokes30d": 0,
       "reportedInvokes": 0,
-      "lessons": 4,
+      "lessons": 5,
       "lessonsPath": "skills/illustrate/LESSONS.md",
-      "lessonsHash": "sha256-n1:6e17369e496c1693",
+      "lessonsHash": "sha256-n1:eaf181c8146f2367",
       "usageContributors": [],
       "runs30d": 0,
       "outcomes30d": {},
@@ -971,7 +971,7 @@
     "skills": 37,
     "practices": 8,
     "memory": 6,
-    "lessons": 286
+    "lessons": 287
   },
   "bundles": [
     {

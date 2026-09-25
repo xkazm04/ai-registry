@@ -82,3 +82,42 @@ Append-only. One block per run: `## <version used> - <YYYY-MM-DD> - <project>`.
   came in at 4-6 words (budget 30) and the owner chose among them without asking for
   less text. The budget did not need to be tighter; the word list in the spec did the
   work.
+
+## 1.1.1 - 2026-09-25 - personas-web (revamp round)
+
+- **Owner verdict: all 15 variants discarded.** Five text-heavy sections (team canvas,
+  get started, pricing; healing, lab), three directions each, built into a new
+  one-section-per-screen layout. In the owner's words: "in all cases it generated huge
+  illustrations representing very little, cutting all text leading into no idea what
+  is meant behind. Balancing of visual/text part was not successful, so sizing and
+  fidelity of the visual side." Every variant passed the 1.1 instrument (2-15 words,
+  0 blank, 0 loops) - the instrument measured only the ceiling, so a picture could say
+  nothing and pass. 1.2.0 adds the floor: SPARSE / TINY-LABELS / TEXT-THIN flags, the
+  cold-read test by a fresh reviewer, the competitor-swap test, a 1-2 sentence lede,
+  a label plan instead of a word list, and a size plan (size to content, not slot).
+- **The director's brief made it worse, and the method let it.** The project brief
+  asked for art "the largest element", sized to fill a full-screen slot of about
+  1600x1000px, "one short lede line (shorten the current lede)" and the eyebrow
+  dropped. Every builder complied: art scaled to the slot with five marks in it. A
+  brief that dictates size or silence overrides the balance for all builders at once;
+  1.2.0 names it an anti-pattern.
+- **The 1.1.1 lesson "lead with metaphor" was wrong in its generality.** The
+  metaphors this round (a puzzle, a balance scale, a staircase of generations, a
+  kintsugi bowl) were generic - they fit any product. The accepted nested vault works
+  because its rings carry real layer names. 1.2.0 demotes the physical metaphor to
+  "only when it fails the competitor-swap test". Product-true lost again, but as
+  skeleton bars; 1.2.0 asks for real content in reduced quantity instead.
+- **Builders' source-app checks found four fidelity errors in the CURRENT sections**
+  (an assembly line where the app runs steps in parallel; a fallback-provider switch
+  and a 47ms figure healing never does; a six-axis radar where the lab scores one
+  composite; UI modes read as price tiers). Keep "verify every noun in the source
+  app": it paid off even in a failed round.
+- **One builder per section (three variants each) instead of one per variant** kept
+  five agents instead of fifteen on a loaded machine; divergence stayed real (the
+  three directions per section differed in strategy). A reasonable fallback, not
+  the default.
+- **Worktree dev servers:** Turbopack refuses a junctioned `node_modules` for `next
+  dev` as well as for builds; `next dev --webpack` works and was used for capture.
+- **Calibration debt:** the rejected captures were deleted when the owner discarded
+  the round, so 1.2.0's SPARSE threshold (45% empty) is set from the three accepted
+  illustrations only (23-33% empty). Keep the next rejected round's report.json.
