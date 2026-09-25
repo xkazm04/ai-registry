@@ -1,0 +1,148 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "hb-w9-0925",
+  "skill": "harvest",
+  "skill_version": "0.5.2",
+  "mode": "backlog",
+  "domain": null,
+  "started_at": "2026-09-25T20:50:00Z",
+  "ended_at": "2026-09-25T21:40:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 8,
+    "landed": 7,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/adaptive-fidelity-tiers",
+      "at": "2026-09-25T21:40:00Z",
+      "engine": "harvest",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/eval-harness",
+      "at": "2026-09-25T21:40:00Z",
+      "engine": "harvest",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "game-production/generative-artifact-gating",
+      "at": "2026-09-25T21:40:00Z",
+      "engine": "harvest",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/client-fetch-cache",
+      "at": "2026-09-25T21:40:00Z",
+      "engine": "harvest",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/agent-instruction-files",
+      "at": "2026-09-25T21:40:00Z",
+      "engine": "harvest",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/document-text-extraction",
+      "at": "2026-09-25T21:40:00Z",
+      "engine": "harvest",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/media-playback",
+      "at": "2026-09-25T21:40:00Z",
+      "engine": "harvest",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "media-generation/cinematic-language",
+      "at": "2026-09-25T21:40:00Z",
+      "engine": "harvest",
+      "outcome": "dispatched",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "adaptive-fidelity-tiers",
+      "technique": "per-tier-budget-tables",
+      "verdict": "better",
+      "mode": "blind-ab"
+    },
+    {
+      "subject": "eval-harness",
+      "technique": "failure-signatures-beside-the-pass-rate",
+      "verdict": "better",
+      "mode": "code"
+    },
+    {
+      "subject": "generative-artifact-gating",
+      "technique": "acquired-is-not-generated",
+      "verdict": "better",
+      "mode": "code"
+    },
+    {
+      "subject": "client-fetch-cache",
+      "technique": "sibling-entry-warmth",
+      "verdict": "better",
+      "mode": "code"
+    },
+    {
+      "subject": "agent-instruction-files",
+      "technique": "principal-tier-gating",
+      "verdict": "better",
+      "mode": "experiment"
+    },
+    {
+      "subject": "document-text-extraction",
+      "technique": "context-decided-escaping",
+      "verdict": "better",
+      "mode": "code"
+    },
+    {
+      "subject": "media-playback",
+      "technique": "sender-declared-playout-bound",
+      "verdict": "better",
+      "mode": "experiment"
+    },
+    {
+      "subject": "cinematic-language",
+      "technique": "lens-effect-language",
+      "verdict": "not-better",
+      "mode": "experiment"
+    }
+  ],
+  "files": [
+    "librarian/applied.md",
+    "librarian/harvest/backlog.jsonl",
+    "catalog.json",
+    "knowledge/software-engineering/index.json",
+    "knowledge/game-production/index.json",
+    "rules/ai-registry-software-engineering.md",
+    "rules/ai-registry-game-production.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Backlog wave 9: 8 units, 7 better (4 code: personas 91cff0d96, goat e7c0c4b, pumper 5dec4c9 shipped; pof 9ae1e6e9 on a local clone branch only, UNSHIPPED - its checkout is on the other machine), 1 not-better. $2.79 of hosted image generation spent by the media unit."
+}

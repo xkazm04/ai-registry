@@ -14,6 +14,7 @@ techniques:
   - parse-and-derive-caches
   - plural-policy-claims
   - portable-read-definitions
+  - sibling-entry-warmth
 ---
 
 # Client data fetching & caching
@@ -180,7 +181,7 @@ idempotency are [in-flight-dedup](./techniques/in-flight-dedup.md).
 Cold paints are not weather; they are decisions someone failed to make. A
 client that is fast in the small — every individual fetch quick — can still
 feel slow everywhere if every navigation starts from zero. Warmth is
-engineered at three points in time:
+engineered at three points in time, and borrowed from one place:
 
 - **After the data has been fetched once**: keep it somewhere that survives
   the view. Views die on navigation; module scope does not. A module-scoped
@@ -196,6 +197,13 @@ engineered at three points in time:
 - **After the critical paint**: data below the fold or behind a secondary
   tab does not deserve a slice of the first paint's budget. Defer its first
   load to idle time, guarded so it runs once — deferred, not forgotten.
+- **From a sibling entry**: the list row the user just clicked already holds
+  part of the detail, and often the key of the read after it. Borrowed as a
+  placeholder, typed as the summary it is, and found by entity id rather than
+  by the listing's key, it paints at once and lets dependent reads leave
+  without waiting a round trip. It is absent by construction on a deep link,
+  so the cold path stays the design. That is
+  [sibling-entry-warmth](./techniques/sibling-entry-warmth.md).
 
 Prefetch and deferral are two ends of one priority scheme — pull forward
 what intent predicts, push back what the paint does not need — and they are
@@ -261,3 +269,7 @@ The shape is [parse-and-derive-caches](./techniques/parse-and-derive-caches.md).
   binding key, fetcher and default policies in a plain value so every
   consumer (subscribe, suspend, prefetch, loader, server render) shares one
   declaration instead of re-typing it.
+- [sibling-entry-warmth](./techniques/sibling-entry-warmth.md) — warmth
+  borrowed from a list entry already in the cache: summary typed as a
+  summary, found by id across the key family, seeding dependent keys,
+  never a substitute for the detail read; the deep-link cold twin.

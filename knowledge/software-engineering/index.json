@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 233,
-  "techniques": 1804,
-  "applications": 1156,
+  "techniques": 1809,
+  "applications": 1158,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1804/1804",
+  "use_when_coverage": "1809/1809",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -290,9 +290,9 @@
    "subcategory": "feedback-and-style",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/adaptive-fidelity-tiers/adaptive-fidelity-tiers.md",
-   "digest": "sha256-b2:88b6dccff546cb65",
-   "revision": 2,
-   "changedAt": "2026-08-31",
+   "digest": "sha256-b2:d4ac343817726595",
+   "revision": 3,
+   "changedAt": "2026-09-25",
    "techniques": [
     {
      "slug": "asymmetric-tier-transitions",
@@ -336,14 +336,17 @@
      "slug": "per-tier-budget-tables",
      "status": "forged",
      "laws": [
-      "one-authority-per-vocabulary"
+      "one-authority-per-vocabulary",
+      "limits-are-derived"
      ],
      "shared_with": [],
      "use_when": [
       "adding a visual effect that has a count or complexity knob",
       "a global fidelity change would otherwise touch every component",
       "deciding what the lowest tier of an effect looks like",
-      "deciding which effects are obliged to consult the tier at all"
+      "deciding which effects are obliged to consult the tier at all",
+      "several components share one hard allocation and a tier decides how much each may take",
+      "one component's tier setting can make another component's setting unaffordable"
      ]
     },
     {
@@ -1461,8 +1464,8 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-instruction-files/agent-instruction-files.md",
-   "digest": "sha256-b2:e99024e751daaa2b",
-   "revision": 30,
+   "digest": "sha256-b2:25b61236a62604b0",
+   "revision": 31,
    "changedAt": "2026-09-25",
    "techniques": [
     {
@@ -1622,6 +1625,23 @@
       "deciding whether generated content belongs in the always-loaded file",
       "a hand edit inside a generated block keeps reappearing reverted",
       "two generators claim the same derived content"
+     ]
+    },
+    {
+     "slug": "principal-tier-gating",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an instruction file in a public or forkable repository carries workflow meant only for its maintainers",
+      "the file prescribes rituals that are true only on the owner's own machine",
+      "an agent is asked to act on a shared surface anyone can write to such as opening an issue or a pull request",
+      "a person tells the agent they have a permission the file reserves for maintainers",
+      "sections of one instruction file are marked for different audiences",
+      "deciding whether a tier rule belongs in the file or in the hosting service's own permissions"
      ]
     },
     {
@@ -5291,9 +5311,9 @@
    "subcategory": null,
    "status": "reconciled",
    "file": "knowledge/software-engineering/client-architecture/client-fetch-cache/client-fetch-cache.md",
-   "digest": "sha256-b2:c699022f81acff3b",
-   "revision": 14,
-   "changedAt": "2026-09-08",
+   "digest": "sha256-b2:20824426732ffb6a",
+   "revision": 15,
+   "changedAt": "2026-09-25",
    "techniques": [
     {
      "slug": "admission-hypothesis",
@@ -5392,6 +5412,23 @@
       "deciding whether a fetch should run before its mount",
       "hover-triggered prefetch turning into a load spike",
       "deferred fetches firing after their view unmounted"
+     ]
+    },
+    {
+     "slug": "sibling-entry-warmth",
+     "status": "forged",
+     "laws": [
+      "unknown-is-not-a-value",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a detail view opens from a list whose rows already carry part of the detail",
+      "a dependent read waits for a field the list row already holds",
+      "a detail paints a spinner for a title the user just clicked on",
+      "a borrowed list row renders zero for a count it never carried",
+      "a lookup of the list row names the list's own filter or page size",
+      "a route is warm when clicked through and cold on a shared link or a reload"
      ]
     },
     {
@@ -11709,9 +11746,9 @@
    "subcategory": "acquisition-and-ingest",
    "status": "forged",
    "file": "knowledge/software-engineering/integration/acquisition-and-ingest/document-text-extraction/document-text-extraction.md",
-   "digest": "sha256-b2:1d954936d5cf2509",
-   "revision": 1,
-   "changedAt": "2026-09-05",
+   "digest": "sha256-b2:ee97c74f3f5e0c28",
+   "revision": 2,
+   "changedAt": "2026-09-25",
    "techniques": [
     {
      "slug": "band-calibration-by-construction",
@@ -11726,6 +11763,23 @@
       "a confidence number nobody has validated",
       "building a fixture corpus for an extractor",
       "a precision curve that is flat across every threshold"
+     ]
+    },
+    {
+     "slug": "context-decided-escaping",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a converter emits Markdown or another lightweight markup from document text",
+      "text vanished or changed shape only after the output was rendered",
+      "a fix for one swallowed character escapes every occurrence of it and prices or identifiers come back with backslashes",
+      "text runs are escaped one at a time and then concatenated with emitted markup",
+      "an extracted field is later embedded in or joined to other output",
+      "a plain-text consumer strips markup from a converter's output"
      ]
     },
     {
@@ -11837,6 +11891,13 @@
      "file": "knowledge/software-engineering/integration/acquisition-and-ingest/document-text-extraction/applications/node--recognition-boundary-and-escalation.md",
      "verified_on": "2026-09-04",
      "verified_against": "node@20"
+    },
+    {
+     "stack": "rust",
+     "technique": "context-decided-escaping",
+     "file": "knowledge/software-engineering/integration/acquisition-and-ingest/document-text-extraction/applications/rust--context-decided-escaping.md",
+     "verified_on": "2026-09-25",
+     "verified_against": "rust@1.96"
     },
     {
      "stack": "rust",
@@ -13584,9 +13645,9 @@
    "subcategory": "evaluation-and-cost",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/eval-harness/eval-harness.md",
-   "digest": "sha256-b2:760f6e85ca98b0f7",
-   "revision": 35,
-   "changedAt": "2026-09-23",
+   "digest": "sha256-b2:28d7e47a320d0024",
+   "revision": 36,
+   "changedAt": "2026-09-25",
    "techniques": [
     {
      "slug": "assertion-vs-judgment",
@@ -13700,6 +13761,24 @@
       "a model upgrade landed and the harness still carries the previous model's workarounds",
       "a failing class does not move when the instruction is made stricter",
       "deciding whether a residual model failure is worth a stronger model"
+     ]
+    },
+    {
+     "slug": "failure-signatures-beside-the-pass-rate",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "unknown-is-not-a-value",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "two runs or cells report the same pass rate and the next change has to be chosen between them",
+      "a benchmark report prints a pass rate and a per-class table and nothing about how the failures failed",
+      "a scenario class is named after the property it probes and its pass rate is being read as that property's health",
+      "adding cheap automatic failure counters to a harness",
+      "a failure counter reads zero on a suite that mixes languages runners or output formats",
+      "deciding which failing cases to sample for manual attribution"
      ]
     },
     {
@@ -13958,6 +14037,13 @@
      "technique": "candidate-write-access",
      "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/eval-harness/applications/node--candidate-write-access.md",
      "verified_on": "2026-08-31",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "failure-signatures-beside-the-pass-rate",
+     "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/eval-harness/applications/node--failure-signatures-beside-the-pass-rate.md",
+     "verified_on": "2026-09-25",
      "verified_against": "node@24"
     },
     {
@@ -19671,9 +19757,9 @@
    "subcategory": "shell-and-navigation",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/media-playback/media-playback.md",
-   "digest": "sha256-b2:7b5d8df86fc6143a",
-   "revision": 5,
-   "changedAt": "2026-09-15",
+   "digest": "sha256-b2:122990080db4f70e",
+   "revision": 6,
+   "changedAt": "2026-09-25",
    "techniques": [
     {
      "slug": "committed-buffer-steering",
@@ -19762,6 +19848,22 @@
       "a producer keeps generating while nothing is being asked of it",
       "deciding whether a playback clock may wait for a producer",
       "a spliced seam between separately produced units needs patching"
+     ]
+    },
+    {
+     "slug": "sender-declared-playout-bound",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "absent-guard-is-loud"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a live stream is decoded by a receiver engine you do not own and its latency creeps up after a burst of motion",
+      "the receiver's own delay knob is set to zero and the delay does not come down",
+      "choosing the playout delay for interactive remote control or game streaming",
+      "a latency fix is verified by reading back the value that was set",
+      "a stream's delay only resets on reload"
      ]
     },
     {
@@ -37590,6 +37692,7 @@
     "agent-instruction-files/capability-coverage-contract",
     "agent-instruction-files/enforcement-demotion",
     "agent-instruction-files/host-contract-compilation",
+    "agent-instruction-files/principal-tier-gating",
     "agent-instruction-files/rewrite-behavior-pinning",
     "agent-instruction-files/substrate-coupled-expiry",
     "agent-instruction-files/workspace-ancestry-isolation",
@@ -37753,6 +37856,7 @@
     "eval-harness/certification-levels",
     "eval-harness/discriminating-task-selection",
     "eval-harness/failure-attribution",
+    "eval-harness/failure-signatures-beside-the-pass-rate",
     "eval-harness/judge-stability",
     "eval-harness/metric-role-contract",
     "eval-harness/monitor-inside-the-loop",
@@ -37857,6 +37961,7 @@
     "measurement-honesty/tuning-corpus-disjointness",
     "measurement-honesty/unelidable-measurement",
     "media-playback/generated-supply-margin",
+    "media-playback/sender-declared-playout-bound",
     "metric-forecasting/projection-presentability-gates",
     "metric-gates/counted-set-snapshot",
     "metric-gates/deterministic-proxy-gate",
@@ -38293,6 +38398,7 @@
     "docs-sync/repair-rides-the-open-page",
     "docs-sync/same-change-enforcement",
     "docs-sync/source-as-data-without-the-app",
+    "document-text-extraction/context-decided-escaping",
     "document-text-extraction/escalation-adjudication",
     "document-text-extraction/structure-saturation-guard",
     "document-text-extraction/unreadable-region-refusal",
@@ -38900,6 +39006,7 @@
     "chat-transcript/virtual-filtered-channel",
     "cicd-monitoring/deployment-history",
     "client-fetch-cache/admission-hypothesis",
+    "client-fetch-cache/sibling-entry-warmth",
     "client-fetch-cache/similarity-keyed-admission",
     "codebase-scanning/causes-beside-the-finding-count",
     "codebase-scanning/dead-code-detection",
@@ -38992,6 +39099,7 @@
     "eval-harness/comparison-modes",
     "eval-harness/discriminating-task-selection",
     "eval-harness/failure-attribution",
+    "eval-harness/failure-signatures-beside-the-pass-rate",
     "eval-harness/judge-stability",
     "eval-harness/measurement-revision",
     "eval-harness/metric-role-contract",
@@ -39324,6 +39432,7 @@
     "agent-cli-transport/thread-custody-across-resume",
     "agent-instruction-files/context-reset-redelivery",
     "agent-instruction-files/instruction-freshness",
+    "agent-instruction-files/principal-tier-gating",
     "agent-instruction-files/substrate-coupled-expiry",
     "agent-memory/addresses-not-atoms",
     "agent-memory/decay-and-forgetting",
@@ -39348,6 +39457,7 @@
     "authorization/one-accessor-per-fold-direction",
     "authorization/read-write-predicate-symmetry",
     "bounded-enumeration/required-limit-breaks-unaware-clients",
+    "client-fetch-cache/sibling-entry-warmth",
     "client-state/observed-read-subscription",
     "client-state/store-dependency-topology",
     "companion-identity/brain-adoption-consent",
@@ -39387,6 +39497,7 @@
     "dependency-declaration/progressive-resolution",
     "deterministic-prefix-caching/unknown-callable-is-nondeterministic",
     "docs-sync/earned-verification-state",
+    "document-text-extraction/context-decided-escaping",
     "document-text-extraction/extraction-yield-bands",
     "document-text-extraction/screen-then-confirm-detection",
     "document-text-extraction/unreadable-region-refusal",
@@ -39400,6 +39511,7 @@
     "engine-string-representation/dual-encoding-symbol-interner",
     "error-handling/cancellation-attribution",
     "error-handling/exit-contract-is-a-taxonomy-projection",
+    "eval-harness/failure-signatures-beside-the-pass-rate",
     "eval-harness/measurement-revision",
     "execution-state-checkpointing/runtime-bound-checkpoint",
     "extension-trust-boundary/invert-the-default-for-exposed-surface",
@@ -41090,6 +41202,78 @@
     "wizard-flows/progress-communication"
    ]
   },
+  "limits-are-derived": {
+   "statement": "A capacity limit is derived from a measured property or from another limit, and the derivation is written beside the number — a maximum entry as a multiple of the transport chunk, a transaction cap as a multiple of the entry, a per-transaction cache as the shared cache over the parallelism permit, a default page as a memory budget over a worst-case key, a rotation ceiling as the cipher's bound minus a margin for counts lost in flight. A limit chosen by feel is raised by feel, and when it is raised its consequences are not: the structure that fit under the old limit outgrows the entry it was stored in, the migration meant to escape the limit is capped by the limit it escapes, and nobody can say which. The derivation must be *computed*, not merely written — a formula in a comment beside a constant that no longer tracks its input is the failure in its most convincing disguise. Cousin of count-carries-predicate: that law binds a number to what it counts; this one binds a bound to what it is derived from.",
+   "techniques": [
+    "adaptive-fidelity-tiers/per-tier-budget-tables",
+    "admission-queue/admit-on-the-expanded-cost",
+    "admission-queue/remediation-derived-bounds",
+    "admission-queue/zero-depth-admission",
+    "agent-memory/addresses-before-compression",
+    "agent-memory/addresses-not-atoms",
+    "agent-memory/cross-context-promotion",
+    "concurrency-guards/cache-value-not-handle",
+    "convergence-loop-and-requeue/keyed-queue-with-earliest-wins",
+    "cross-instance-cache-lease/renewal-beats-a-tuned-timeout",
+    "decentralized-artifact-distribution/fail-closed-trust-dependency",
+    "deferred-finalization/correction-window-is-the-grace-period",
+    "deployment-contract/cache-immutability-licensing",
+    "deterministic-prefix-caching/running-window-replacement",
+    "embedded-tracing-collector/allocation-threshold-growth-policy",
+    "engine-string-representation/compile-time-static-string-table",
+    "fleet-orchestration/parallel-dispatch",
+    "fleet-orchestration/soft-budget-under-the-hard-cap",
+    "guest-execution-bounding/bounded-shadow-backtrace",
+    "guest-execution-bounding/budget-tier-from-observed-output",
+    "guest-execution-bounding/cost-budget-cooperative-yield",
+    "guest-execution-bounding/nested-liveness-ceilings",
+    "index-free-random-access/reversible-encoding-buys-tail-recovery",
+    "index-free-random-access/segment-then-parallelize",
+    "index-free-random-access/sorted-data-as-a-read-only-index",
+    "index-free-random-access/structure-derived-read-budget",
+    "invariant-placement/build-time-evaluation-of-cross-value-invariants",
+    "mcp-tools/catalog-projection-modes",
+    "media-playback/committed-buffer-steering",
+    "media-playback/generated-supply-margin",
+    "media-playback/self-conditioned-supply",
+    "metric-gates/deterministic-proxy-gate",
+    "model-call-outcome-integrity/one-deadline-across-attempts",
+    "modelled-performance-estimates/one-ratio-then-a-capability-cap",
+    "narrative-scroll-surface/scroll-bound-progression",
+    "native-guest-interop/aligned-native-data-cell",
+    "native-shell-integration/native-owned-stream",
+    "object-shape-representation/dictionary-mode-fallback",
+    "object-shape-representation/weak-forward-transitions-with-counted-prune",
+    "page-load-pipeline/script-cost-is-main-thread-time",
+    "paged-block-cache/one-page-size-bought-with-padding",
+    "paged-block-cache/release-order-is-the-eviction-policy",
+    "prompt-assembly/compaction-horizon-breakeven",
+    "prompt-assembly/context-ownership-regimes",
+    "prompt-assembly/elision-to-a-refetch-pointer",
+    "prompt-assembly/response-reservation-sizing",
+    "register-bytecode-execution/instruction-format-follows-program-lifetime",
+    "remote-capability-probing/buffer-by-access-latency-class",
+    "remote-capability-probing/degraded-rung-refusal-ceiling",
+    "remote-capability-probing/instrument-by-cause-not-by-hit-rate",
+    "render-mount-pipeline/edge-sorted-incremental-mount",
+    "render-mount-pipeline/mount-binders-versus-attach-binders",
+    "render-mount-pipeline/recycle-by-content-type",
+    "scale-investment-timing/execution-model-concurrency-threshold",
+    "self-healing/consume-once-mode-handoff",
+    "serving-process-topology/cache-residency-sets-the-balancing-unit",
+    "serving-process-topology/process-count-as-a-formula",
+    "streaming-output/emit-behind-the-revision-window",
+    "structured-output/constrained-decoding-is-a-shared-budget",
+    "structured-output/enumerable-domain-decoding",
+    "subscription-billing-periods/boundary-stitch-on-timezone-change",
+    "untrusted-extension-host/host-api-import-budget",
+    "usage-event-ingestion/dedupe-key-survives-soft-delete",
+    "usage-pricing-models/exact-money-with-one-rounding-boundary",
+    "watch-cache-and-resync/initial-read-strategy-behind-a-gate",
+    "windowed-inference-over-oversized-inputs/resolution-decoupled-window-mapping",
+    "windowed-inference-over-oversized-inputs/split-device-inference-and-stitching"
+   ]
+  },
   "verdict-survives-boundary": {
    "statement": "A classified outcome reaches every boundary that acts on it as a typed value. A refusal enum erased into a generic error, a server-side failure taxonomy re-derived by matching message text, a policy denial re-thrown as the last underlying failure — in each, the classification exists where it was computed and dies where it mattered. The test is what the outermost consumer can branch on; a verdict that survives only as prose has not survived.",
    "techniques": [
@@ -41205,77 +41389,6 @@
     "workflow-property-contracts/contract-driven-adapters"
    ]
   },
-  "limits-are-derived": {
-   "statement": "A capacity limit is derived from a measured property or from another limit, and the derivation is written beside the number — a maximum entry as a multiple of the transport chunk, a transaction cap as a multiple of the entry, a per-transaction cache as the shared cache over the parallelism permit, a default page as a memory budget over a worst-case key, a rotation ceiling as the cipher's bound minus a margin for counts lost in flight. A limit chosen by feel is raised by feel, and when it is raised its consequences are not: the structure that fit under the old limit outgrows the entry it was stored in, the migration meant to escape the limit is capped by the limit it escapes, and nobody can say which. The derivation must be *computed*, not merely written — a formula in a comment beside a constant that no longer tracks its input is the failure in its most convincing disguise. Cousin of count-carries-predicate: that law binds a number to what it counts; this one binds a bound to what it is derived from.",
-   "techniques": [
-    "admission-queue/admit-on-the-expanded-cost",
-    "admission-queue/remediation-derived-bounds",
-    "admission-queue/zero-depth-admission",
-    "agent-memory/addresses-before-compression",
-    "agent-memory/addresses-not-atoms",
-    "agent-memory/cross-context-promotion",
-    "concurrency-guards/cache-value-not-handle",
-    "convergence-loop-and-requeue/keyed-queue-with-earliest-wins",
-    "cross-instance-cache-lease/renewal-beats-a-tuned-timeout",
-    "decentralized-artifact-distribution/fail-closed-trust-dependency",
-    "deferred-finalization/correction-window-is-the-grace-period",
-    "deployment-contract/cache-immutability-licensing",
-    "deterministic-prefix-caching/running-window-replacement",
-    "embedded-tracing-collector/allocation-threshold-growth-policy",
-    "engine-string-representation/compile-time-static-string-table",
-    "fleet-orchestration/parallel-dispatch",
-    "fleet-orchestration/soft-budget-under-the-hard-cap",
-    "guest-execution-bounding/bounded-shadow-backtrace",
-    "guest-execution-bounding/budget-tier-from-observed-output",
-    "guest-execution-bounding/cost-budget-cooperative-yield",
-    "guest-execution-bounding/nested-liveness-ceilings",
-    "index-free-random-access/reversible-encoding-buys-tail-recovery",
-    "index-free-random-access/segment-then-parallelize",
-    "index-free-random-access/sorted-data-as-a-read-only-index",
-    "index-free-random-access/structure-derived-read-budget",
-    "invariant-placement/build-time-evaluation-of-cross-value-invariants",
-    "mcp-tools/catalog-projection-modes",
-    "media-playback/committed-buffer-steering",
-    "media-playback/generated-supply-margin",
-    "media-playback/self-conditioned-supply",
-    "metric-gates/deterministic-proxy-gate",
-    "model-call-outcome-integrity/one-deadline-across-attempts",
-    "modelled-performance-estimates/one-ratio-then-a-capability-cap",
-    "narrative-scroll-surface/scroll-bound-progression",
-    "native-guest-interop/aligned-native-data-cell",
-    "native-shell-integration/native-owned-stream",
-    "object-shape-representation/dictionary-mode-fallback",
-    "object-shape-representation/weak-forward-transitions-with-counted-prune",
-    "page-load-pipeline/script-cost-is-main-thread-time",
-    "paged-block-cache/one-page-size-bought-with-padding",
-    "paged-block-cache/release-order-is-the-eviction-policy",
-    "prompt-assembly/compaction-horizon-breakeven",
-    "prompt-assembly/context-ownership-regimes",
-    "prompt-assembly/elision-to-a-refetch-pointer",
-    "prompt-assembly/response-reservation-sizing",
-    "register-bytecode-execution/instruction-format-follows-program-lifetime",
-    "remote-capability-probing/buffer-by-access-latency-class",
-    "remote-capability-probing/degraded-rung-refusal-ceiling",
-    "remote-capability-probing/instrument-by-cause-not-by-hit-rate",
-    "render-mount-pipeline/edge-sorted-incremental-mount",
-    "render-mount-pipeline/mount-binders-versus-attach-binders",
-    "render-mount-pipeline/recycle-by-content-type",
-    "scale-investment-timing/execution-model-concurrency-threshold",
-    "self-healing/consume-once-mode-handoff",
-    "serving-process-topology/cache-residency-sets-the-balancing-unit",
-    "serving-process-topology/process-count-as-a-formula",
-    "streaming-output/emit-behind-the-revision-window",
-    "structured-output/constrained-decoding-is-a-shared-budget",
-    "structured-output/enumerable-domain-decoding",
-    "subscription-billing-periods/boundary-stitch-on-timezone-change",
-    "untrusted-extension-host/host-api-import-budget",
-    "usage-event-ingestion/dedupe-key-survives-soft-delete",
-    "usage-pricing-models/exact-money-with-one-rounding-boundary",
-    "watch-cache-and-resync/initial-read-strategy-behind-a-gate",
-    "windowed-inference-over-oversized-inputs/resolution-decoupled-window-mapping",
-    "windowed-inference-over-oversized-inputs/split-device-inference-and-stitching"
-   ]
-  },
   "absent-guard-is-loud": {
    "statement": "An optional guard is an absent guard. A check that must be configured, mounted, or switched on protects the examples and not the installations — a deployed fleet converges on the default, and the default is off. Either the guard engages on its own, or its absence is loud: a logged, visible, deliberate choice. A system that degrades to unguarded because a config row is missing, a validator was not attached, or a strict mode was not requested has made its most important decision silently — and the vendor that ships the safe mode without self-enabling it has signed the same waiver.",
    "techniques": [
@@ -41385,6 +41498,7 @@
     "mcp-tools/fluent-syntax-bounded-grammar",
     "mcp-tools/tool-identity-vs-tool-name",
     "mcp-tools/transport-selection",
+    "media-playback/sender-declared-playout-bound",
     "metric-surface-contract/fault-localizing-metric-set",
     "model-call-outcome-integrity/credential-posture-at-the-call-door",
     "model-routing/failover-path-liveness",

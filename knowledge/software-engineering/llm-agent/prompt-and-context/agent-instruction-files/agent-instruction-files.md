@@ -21,6 +21,7 @@ techniques:
   - inherited-default-ownership
   - write-back-sink-class
   - listing-tier-by-initiator
+  - principal-tier-gating
 ---
 
 # Agent instruction files
@@ -356,3 +357,8 @@ three states, the collector question that sets the class, and the audit.
   the middle tier removes the description's price without severing any
   path that begins with the name, and the hidden tier is refuted by any
   model-side start that named it.
+- [principal-tier-gating](./techniques/principal-tier-gating.md) —
+  one agent audience, several principals: tiered sections admitted on
+  conditions the acting account cannot author, fail-closed to the
+  restricted tier, the way up a change to that state; non-waivability
+  comes from the gate, not from an anti-forgery sentence.

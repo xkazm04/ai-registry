@@ -13,6 +13,7 @@ techniques:
   - structure-saturation-guard
   - band-calibration-by-construction
   - structural-amplification-caps
+  - context-decided-escaping
 ---
 
 # Document text extraction
@@ -250,3 +251,6 @@ believing it is present.
 - [structural-amplification-caps](./techniques/structural-amplification-caps.md)
   — count and payload caps on one expansion, testing the constant a cap was
   derived from, and when non-configurability is earned rather than asserted.
+- [context-decided-escaping](./techniques/context-decided-escaping.md)
+  — text that would parse as markup: escape only where it would, decided on the
+  assembled output, looking ahead only for what cannot be escaped.

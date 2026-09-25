@@ -13,6 +13,7 @@ techniques:
   - generated-supply-margin
   - committed-buffer-steering
   - self-conditioned-supply
+  - sender-declared-playout-bound
 ---
 
 # Media playback
@@ -259,3 +260,7 @@ arming, and any engine whose load is asynchronous — which is all of them.
   producer that continues its own output: plans from a reserved seam, late plans
   waited for on an owned clock and discarded on a foreign one, stale plans always
   discarded, and a settled stationary state held rather than regenerated.
+- [sender-declared-playout-bound](./techniques/sender-declared-playout-bound.md) —
+  the live stream decoded by a receiver you do not own: its adaptive buffer rises
+  fast and falls slowly, its own knobs are floors, and the bound that sets depth
+  travels on the packets from the sender; gate the applied delay, not the target.

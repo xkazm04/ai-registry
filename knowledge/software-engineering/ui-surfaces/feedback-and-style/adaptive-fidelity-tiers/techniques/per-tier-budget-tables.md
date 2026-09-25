@@ -4,9 +4,11 @@ type: technique
 subject: adaptive-fidelity-tiers
 technique: per-tier-budget-tables
 status: forged
-laws: [one-authority-per-vocabulary]
+laws: [one-authority-per-vocabulary, limits-are-derived]
 shared_with: []
-use_when: [adding a visual effect that has a count or complexity knob, a global fidelity change would otherwise touch every component, deciding what the lowest tier of an effect looks like, deciding which effects are obliged to consult the tier at all]
+applied: blind-ab
+ab_verdict: better
+use_when: [adding a visual effect that has a count or complexity knob, a global fidelity change would otherwise touch every component, deciding what the lowest tier of an effect looks like, deciding which effects are obliged to consult the tier at all, several components share one hard allocation and a tier decides how much each may take, one component's tier setting can make another component's setting unaffordable]
 ---
 
 # Per-tier budget tables
@@ -19,14 +21,17 @@ effect's own parameters, living beside the effect's implementation.
 
 The tempting alternative is a central registry: one place declaring what
 the reduced tier means for particles, for blur, for parallax, for
-everything. It fails for a reason that is easy to state and easy to
-rediscover the hard way. **What a tier costs is a fact about the effect, not
-about the tier.** Only the effect's author knows that its cost is
-superlinear in instance count and nearly flat in radius, or that its second
-gradient pass costs more than everything else combined. A central table
-forces that knowledge into a file the author does not own, does not read,
-and will not update; six months later the registry describes the effects as
-they were when someone last had a free afternoon.
+everything. As long as no hard allocation binds the effects together, it
+fails for a reason that is easy to state and easy to rediscover the hard
+way; the case where one does is
+[below](#when-the-rows-must-sum-into-one-pool). **What a tier costs is a
+fact about the effect, not about the tier.** Only the effect's author
+knows that its cost is superlinear in instance count and nearly flat in
+radius, or that its second gradient pass costs more than everything else
+combined. A central table forces that knowledge into a file the author
+does not own, does not read, and will not update; six months later the
+registry describes the effects as they were when someone last had a free
+afternoon.
 
 The central registry also imposes a coordination cost forever: adding an
 effect means editing a shared file, which means a merge conflict on every
@@ -167,6 +172,71 @@ itself the same parameters at every rung — which means it is not adaptive
 at all and either needs a real budget or does not belong in the system.
 Doing that sweep once a release is cheap and it is the only thing that
 keeps a fidelity system from decaying into a value nobody reads.
+
+## When the rows must sum into one pool
+
+Everything above assumes each effect's cost is its own business. The
+effects do share the frame, but the frame budget is enforced by the
+measurement: an effect that overspends makes frames slower, the probe sees
+it, and the tier falls. The sum is checked by observing it after the fact,
+and an overrun costs a dropped frame. That is what lets each table live
+alone, and it is why a static per-effect cost estimate summed against the
+frame deadline is the wrong addition to this system: the measured tier is
+already the authority on whether the sum fits, on the device that matters.
+
+The argument inverts when the components share one **hard** allocation:
+several models resident in one accelerator's memory, a fixed pool of
+workers or connections, a memory cap on a constrained device. There an
+overrun is not a slow frame but a failed allocation. Three things change at
+once.
+
+- **The sum cannot be measured into shape.** A tier that learns of an
+  overrun by observing it learns by crashing. The rows must be shown to fit
+  before the work is admitted, so something has to read all of them
+  together.
+- **The knobs trade across components.** Whether the largest model stays
+  resident decides how large a batch the next one may take; offloading one
+  component pays for another's longer input; quantizing one frees room for a
+  larger second. A per-component table cannot say "this row is affordable
+  only because that one gave something up", and each author, tuning alone,
+  spends room another row was counting on.
+- **A tier's row is a configuration, not a set of parameters.** The unit of
+  decision is the joint choice at a rung: which components are resident
+  together, at what precision, with what batch and input length. A joint
+  choice has one right home, a single table keyed by the shared tier
+  vocabulary with one row per rung.
+
+So separate the two facts the per-effect argument ran together. **What a
+component costs** is still a fact about the component and still has one
+authority beside it: measured footprint per model, per unit of batch, per
+unit of input. **What a rung chooses** is a joint decision and lives in the
+central table. Then compute the sum: cost every row's resident set from the
+component authorities and assert it under the bottom of the rung's capacity
+range, less a margin, in a test that runs without the hardware. A row whose
+comment restates the arithmetic in literals is the failure this avoids, in
+its most convincing form: the comment keeps saying the row fits after a
+component's measured footprint has moved, and the first to find out is a
+device at the bottom of the rung
+([limits are derived](../../../../_laws.md#limits-are-derived)).
+
+Sum over what is resident together, not over everything. A component
+offloaded before the next one runs takes turns with it rather than adding
+to it, so residency per phase is part of the row, and a check that adds
+every component's footprint will reject configurations that fit. The
+limiting case is instructive. When every component takes its turn alone,
+one engine releasing the allocation before the next one loads, nothing
+sums: the joint table has nothing to express, and each stage's requirement
+can live beside the stage again, derived from its own component's measured
+cost. Taking turns is the cheaper design wherever the swap latency is
+affordable. A central table is the price of co-residency, not of sharing
+the hardware.
+
+The test that picks the form: **if one component's row can change without
+making any other row wrong, keep the tables with the components; if
+changing it can make a different component's row unaffordable, the rows
+belong in one table.** A rung that stops fitting in a joint table is
+repaired in its joint row. Retuning one component's number alone moves the
+overrun into whichever row it was borrowing from.
 
 ## When not to use this
 
