@@ -523,3 +523,7 @@ Declined, no wave. The subject has no single-source debt: 25 applications on 5 s
 ## 2026-09-25 - /reconcile, re-dispatched on the same clock (run `rc-pa-0925b`, reconcile 1.0.1)
 
 Declined again on the premise `rc-pa-0925` already declined. The dispatching checkout was 43 behind origin and still read refresh_by 2026-10-15 for `python--amortized-compaction-cadence`. Origin reads 2026-11-05. No work for this lane until the primary checkout fast-forwards.
+
+## 2026-09-25 - /reconcile, third dispatch on the same clock (run `rc-pa-0925c`, reconcile 1.0.1)
+
+Declined a third time on the same premise. The dispatching checkout is now 45 commits behind origin, and origin still reads refresh_by 2026-11-05. Nothing has changed since `rc-pa-0925b`.
