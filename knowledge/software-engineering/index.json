@@ -2527,7 +2527,7 @@
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-runtime-assembly/agent-runtime-assembly.md",
    "digest": "sha256-b2:5ce024fa5bfd20d5",
    "revision": 25,
-   "changedAt": "2026-09-25",
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "activation-is-a-separate-mutation",
@@ -3156,8 +3156,8 @@
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/app-shell/app-shell.md",
    "digest": "sha256-b2:62a9a7fc993ea8b5",
-   "revision": 5,
-   "changedAt": "2026-09-25",
+   "revision": 6,
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "badge-and-attention",
@@ -6197,7 +6197,7 @@
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/companion/companion-identity/companion-identity.md",
    "digest": "sha256-b2:ff529a6dc44bf233",
-   "revision": 5,
+   "revision": 7,
    "changedAt": "2026-09-25",
    "techniques": [
     {
@@ -6356,8 +6356,8 @@
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/companion/companion-runtime/companion-runtime.md",
    "digest": "sha256-b2:7a0b336cac31d173",
-   "revision": 3,
-   "changedAt": "2026-09-25",
+   "revision": 4,
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "action-catalog-single-source",
@@ -7247,8 +7247,8 @@
    "status": "forged",
    "file": "knowledge/software-engineering/integration/external-systems/connector-catalog/connector-catalog.md",
    "digest": "sha256-b2:030b7f4cd9ab8b4b",
-   "revision": 2,
-   "changedAt": "2026-09-25",
+   "revision": 3,
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "adapter-normalization",
@@ -8146,8 +8146,8 @@
    "status": "reconciled",
    "file": "knowledge/software-engineering/security/identity-and-access/credential-vault/credential-vault.md",
    "digest": "sha256-b2:1c57e44b947c96ef",
-   "revision": 3,
-   "changedAt": "2026-09-25",
+   "revision": 4,
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "acquisition",
@@ -12364,7 +12364,7 @@
    "file": "knowledge/software-engineering/backend-platform/data-layer/embedded-db/embedded-db.md",
    "digest": "sha256-b2:0722fec97cff5b66",
    "revision": 15,
-   "changedAt": "2026-09-25",
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "analytical-reads-off-the-serving-store",
@@ -17821,7 +17821,7 @@
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/knowledge-registry/knowledge-registry.md",
    "digest": "sha256-b2:4f67f0d981e204d6",
-   "revision": 9,
+   "revision": 10,
    "changedAt": "2026-09-25",
    "techniques": [
     {
@@ -21300,7 +21300,7 @@
    "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/motion/motion.md",
    "digest": "sha256-b2:8d9b3eabe2f3b534",
    "revision": 10,
-   "changedAt": "2026-09-25",
+   "changedAt": "2026-09-24",
    "techniques": [
     {
      "slug": "content-bearing-degradation",
@@ -21847,7 +21847,7 @@
    "file": "knowledge/software-engineering/ui-surfaces/published-surfaces/narrative-scroll-surface/narrative-scroll-surface.md",
    "digest": "sha256-b2:fe3f94481540b4f2",
    "revision": 2,
-   "changedAt": "2026-09-25",
+   "changedAt": "2026-09-24",
    "techniques": [
     {
      "slug": "illustration-carries-the-claim",
@@ -23340,8 +23340,8 @@
    "status": "forged",
    "file": "knowledge/software-engineering/client-architecture/page-load-pipeline/page-load-pipeline.md",
    "digest": "sha256-b2:8ce99c4e6acfe0fa",
-   "revision": 1,
-   "changedAt": "2026-09-25",
+   "revision": 2,
+   "changedAt": "2026-09-24",
    "techniques": [
     {
      "slug": "discoverable-critical-resources",
@@ -24818,7 +24818,7 @@
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/prompt-assembly.md",
    "digest": "sha256-b2:ec46f604453ed55b",
-   "revision": 39,
+   "revision": 40,
    "changedAt": "2026-09-25",
    "techniques": [
     {
@@ -25868,7 +25868,7 @@
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/quality-gates.md",
    "digest": "sha256-b2:75f3f7dd88cf3601",
-   "revision": 51,
+   "revision": 52,
    "changedAt": "2026-09-25",
    "techniques": [
     {
@@ -33344,8 +33344,8 @@
    "status": "forged",
    "file": "knowledge/software-engineering/integration/external-systems/templates-scaffolding/templates-scaffolding.md",
    "digest": "sha256-b2:3dd9549b75f4f998",
-   "revision": 2,
-   "changedAt": "2026-09-25",
+   "revision": 3,
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "adoption-lifecycle",
@@ -33499,7 +33499,7 @@
    "file": "knowledge/software-engineering/llm-agent/orchestration/tenant-scoped-agent-runtime/tenant-scoped-agent-runtime.md",
    "digest": "sha256-b2:ae4ba4c01a933a35",
    "revision": 6,
-   "changedAt": "2026-09-25",
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "fail-direction-follows-deployment-mode",
