@@ -2168,7 +2168,7 @@
    "file": "knowledge/game-production/engine-integration/engine-pitfall-corpus/engine-pitfall-corpus.md",
    "digest": "sha256-b2:85a1ed1dbfd42e73",
    "revision": 3,
-   "changedAt": "2026-09-25",
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "binary-content-wall",
@@ -3042,7 +3042,7 @@
    "file": "knowledge/game-production/asset-production/sourcing-economics/image-to-3d-input-gating/image-to-3d-input-gating.md",
    "digest": "sha256-b2:add56c13658b01bd",
    "revision": 4,
-   "changedAt": "2026-09-25",
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "canonical-pose-rule",
@@ -3938,7 +3938,7 @@
    "file": "knowledge/game-production/balance-validation/procedural-level-planning/procedural-level-planning.md",
    "digest": "sha256-b2:94d17312c8f8a3c9",
    "revision": 7,
-   "changedAt": "2026-09-25",
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "algorithm-parameter-support-matrix",
@@ -4624,7 +4624,7 @@
    "file": "knowledge/game-production/craft-judgment/quality-verdict-integrity/quality-verdict-integrity.md",
    "digest": "sha256-b2:bea58008d7738651",
    "revision": 3,
-   "changedAt": "2026-09-25",
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "calibration-against-confirmed-labels-only",
@@ -4981,7 +4981,7 @@
    "file": "knowledge/game-production/asset-production/sourcing-economics/regeneration-vs-repair-economics/regeneration-vs-repair-economics.md",
    "digest": "sha256-b2:a1a7192b63247062",
    "revision": 2,
-   "changedAt": "2026-09-25",
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "best-of-n-parameter-sweep",
@@ -5213,7 +5213,7 @@
    "file": "knowledge/game-production/asset-production/surface-and-imagery/shader-budget-authoring/shader-budget-authoring.md",
    "digest": "sha256-b2:d1c4f6c93cb669e0",
    "revision": 2,
-   "changedAt": "2026-09-25",
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "channel-packing",

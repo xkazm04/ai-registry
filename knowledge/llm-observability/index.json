@@ -407,7 +407,7 @@
    "file": "knowledge/llm-observability/quality-scoring/cross-provider-benchmark-operations/cross-provider-benchmark-operations.md",
    "digest": "sha256-b2:529238b95e86e429",
    "revision": 11,
-   "changedAt": "2026-09-25",
+   "changedAt": "2026-09-22",
    "techniques": [
     {
      "slug": "async-run-queue-with-cancel",

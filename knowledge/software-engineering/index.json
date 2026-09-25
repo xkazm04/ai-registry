@@ -748,7 +748,7 @@
    "file": "knowledge/software-engineering/engineering-assessment/reporting-and-remediation/adoption-measurement/adoption-measurement.md",
    "digest": "sha256-b2:502064804797857b",
    "revision": 3,
-   "changedAt": "2026-09-25",
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "adoption-distribution-bands",
@@ -975,7 +975,7 @@
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-browser-control/agent-browser-control.md",
    "digest": "sha256-b2:0d439bfcafe8cabd",
    "revision": 3,
-   "changedAt": "2026-09-25",
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "agent-actionable-errors",
@@ -1245,7 +1245,7 @@
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-cli-transport/agent-cli-transport.md",
    "digest": "sha256-b2:7b28613fbbd62708",
    "revision": 7,
-   "changedAt": "2026-09-25",
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "availability-probe",
@@ -1444,8 +1444,8 @@
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-instruction-files/agent-instruction-files.md",
    "digest": "sha256-b2:ca0c3d338bd38810",
-   "revision": 28,
-   "changedAt": "2026-09-25",
+   "revision": 29,
+   "changedAt": "2026-09-24",
    "techniques": [
     {
      "slug": "capability-before-steering",
@@ -1862,7 +1862,7 @@
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/agent-memory.md",
    "digest": "sha256-b2:e8241bad9d3c1732",
    "revision": 45,
-   "changedAt": "2026-09-25",
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "addresses-before-compression",
@@ -5755,7 +5755,7 @@
    "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/codebase-scanning/codebase-scanning.md",
    "digest": "sha256-b2:06416fce13bc2342",
    "revision": 12,
-   "changedAt": "2026-09-25",
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "causes-beside-the-finding-count",
@@ -6197,7 +6197,7 @@
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/companion/companion-identity/companion-identity.md",
    "digest": "sha256-b2:ff529a6dc44bf233",
-   "revision": 5,
+   "revision": 7,
    "changedAt": "2026-09-25",
    "techniques": [
     {
@@ -6811,7 +6811,7 @@
    "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/concurrent-vcs/concurrent-vcs.md",
    "digest": "sha256-b2:c8742871bd3cb036",
    "revision": 5,
-   "changedAt": "2026-09-25",
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "commit-verification",
@@ -6994,7 +6994,7 @@
    "file": "knowledge/software-engineering/engineering-assessment/maturity-and-conformance/conformance-checking/conformance-checking.md",
    "digest": "sha256-b2:58a3b7c0b9efb42c",
    "revision": 10,
-   "changedAt": "2026-09-25",
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "checker-false-positive-discipline",
@@ -7943,7 +7943,7 @@
    "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/cost-metering/cost-metering.md",
    "digest": "sha256-b2:da0ce89d7cfbfe6c",
    "revision": 13,
-   "changedAt": "2026-09-25",
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "budget-enforcement",
@@ -10702,7 +10702,7 @@
    "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/design-tokens/design-tokens.md",
    "digest": "sha256-b2:165125b7a54d0de3",
    "revision": 7,
-   "changedAt": "2026-09-25",
+   "changedAt": "2026-09-24",
    "techniques": [
     {
      "slug": "cross-language-token-parity",
@@ -11360,7 +11360,7 @@
    "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/docs-sync/docs-sync.md",
    "digest": "sha256-b2:9f1343414c273528",
    "revision": 13,
-   "changedAt": "2026-09-25",
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "catch-up-markers",
@@ -13522,7 +13522,7 @@
    "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/eval-harness/eval-harness.md",
    "digest": "sha256-b2:760f6e85ca98b0f7",
    "revision": 35,
-   "changedAt": "2026-09-25",
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "assertion-vs-judgment",
@@ -14109,7 +14109,7 @@
    "file": "knowledge/software-engineering/engineering-assessment/reporting-and-remediation/executive-reporting/executive-reporting.md",
    "digest": "sha256-b2:10d6f28338b62a71",
    "revision": 3,
-   "changedAt": "2026-09-25",
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "bad-news-labelling",
@@ -14787,7 +14787,7 @@
    "file": "knowledge/software-engineering/llm-agent/orchestration/fleet-orchestration/fleet-orchestration.md",
    "digest": "sha256-b2:e63d5473ea2636c8",
    "revision": 24,
-   "changedAt": "2026-09-25",
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "absent-status-passthrough",
@@ -16080,8 +16080,8 @@
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/hitl-approval/hitl-approval.md",
    "digest": "sha256-b2:fc771b717208857b",
-   "revision": 19,
-   "changedAt": "2026-09-25",
+   "revision": 20,
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "consent-gates",
@@ -17821,7 +17821,7 @@
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/knowledge-registry/knowledge-registry.md",
    "digest": "sha256-b2:4f67f0d981e204d6",
-   "revision": 9,
+   "revision": 10,
    "changedAt": "2026-09-25",
    "techniques": [
     {
@@ -18902,7 +18902,7 @@
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/mcp-tools.md",
    "digest": "sha256-b2:faecb821952e6b9e",
    "revision": 29,
-   "changedAt": "2026-09-25",
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "ambient-selection-is-not-an-argument",
@@ -19897,7 +19897,7 @@
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/metric-gates/metric-gates.md",
    "digest": "sha256-b2:a673c17a2c4ddcea",
    "revision": 3,
-   "changedAt": "2026-09-25",
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "counted-set-snapshot",
@@ -20674,8 +20674,8 @@
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/model-routing/model-routing.md",
    "digest": "sha256-b2:1b780873cd7e5736",
-   "revision": 18,
-   "changedAt": "2026-09-25",
+   "revision": 19,
+   "changedAt": "2026-09-24",
    "techniques": [
     {
      "slug": "admission-is-not-a-tier",
@@ -23682,7 +23682,7 @@
    "file": "knowledge/software-engineering/engineering-assessment/measurement-method/people-analytics-ethics/people-analytics-ethics.md",
    "digest": "sha256-b2:2c35b13c8e7ff20c",
    "revision": 2,
-   "changedAt": "2026-09-25",
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "aggregate-vs-individual-split",
@@ -24818,7 +24818,7 @@
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/prompt-assembly.md",
    "digest": "sha256-b2:ec46f604453ed55b",
-   "revision": 39,
+   "revision": 40,
    "changedAt": "2026-09-25",
    "techniques": [
     {
@@ -25868,7 +25868,7 @@
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/quality-gates.md",
    "digest": "sha256-b2:75f3f7dd88cf3601",
-   "revision": 51,
+   "revision": 52,
    "changedAt": "2026-09-25",
    "techniques": [
     {
@@ -28065,7 +28065,7 @@
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/repo-manifest-standard/repo-manifest-standard.md",
    "digest": "sha256-b2:ae86d5eb87b1c37f",
    "revision": 11,
-   "changedAt": "2026-09-25",
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "capability-not-tool-vocabulary",
@@ -29638,7 +29638,7 @@
    "file": "knowledge/software-engineering/ui-surfaces/data-display/search/search.md",
    "digest": "sha256-b2:b76b1bab72ccfec5",
    "revision": 5,
-   "changedAt": "2026-09-25",
+   "changedAt": "2026-09-24",
    "techniques": [
     {
      "slug": "command-surface",
@@ -32017,8 +32017,8 @@
    "status": "reconciled",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/structured-output/structured-output.md",
    "digest": "sha256-b2:d51aec71411ccb2b",
-   "revision": 14,
-   "changedAt": "2026-09-25",
+   "revision": 15,
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "answer-coverage-gating",
@@ -33067,8 +33067,8 @@
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/data-display/table/table.md",
    "digest": "sha256-b2:b2b329111d190ae7",
-   "revision": 8,
-   "changedAt": "2026-09-25",
+   "revision": 12,
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "client-server-split",
@@ -35259,7 +35259,7 @@
    "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/ui-controls/ui-controls.md",
    "digest": "sha256-b2:a6af68867a07fdfa",
    "revision": 4,
-   "changedAt": "2026-09-25",
+   "changedAt": "2026-09-24",
    "techniques": [
     {
      "slug": "adoption-enforcement",
@@ -37110,7 +37110,7 @@
    "file": "knowledge/software-engineering/backend-platform/model-workflow-contracts/windowed-inference-over-oversized-inputs/windowed-inference-over-oversized-inputs.md",
    "digest": "sha256-b2:be767e8151f6602a",
    "revision": 3,
-   "changedAt": "2026-09-25",
+   "changedAt": "2026-09-22",
    "techniques": [
     {
      "slug": "axis-buffered-writeback",

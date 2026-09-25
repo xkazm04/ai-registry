@@ -174,16 +174,16 @@
     },
     {
       "name": "contest",
-      "version": "1.5.0",
+      "version": "1.7.0",
       "category": "workflow",
       "path": "skills/contest/SKILL.md",
-      "contentHash": "sha256-n1:7eb4247472554f1f",
+      "contentHash": "sha256-n1:272dd0fea63634e5",
       "adopters": [],
       "invokes30d": 0,
       "reportedInvokes": 0,
-      "lessons": 10,
+      "lessons": 11,
       "lessonsPath": "skills/contest/LESSONS.md",
-      "lessonsHash": "sha256-n1:e58db7929852792b",
+      "lessonsHash": "sha256-n1:d977b13ef7a222b6",
       "usageContributors": [],
       "runs30d": 0,
       "outcomes30d": {},
@@ -971,7 +971,7 @@
     "skills": 37,
     "practices": 8,
     "memory": 6,
-    "lessons": 285
+    "lessons": 286
   },
   "bundles": [
     {
@@ -985,7 +985,7 @@
       "techniques": 30,
       "applications": 15,
       "files": 58,
-      "contentHash": "sha256-b2:023a0274e23bbc2d"
+      "contentHash": "sha256-b2:f14d4cf371c08628"
     },
     {
       "name": "civic-intelligence",
@@ -1011,7 +1011,7 @@
       "techniques": 331,
       "applications": 142,
       "files": 529,
-      "contentHash": "sha256-b2:225ab4c7a4eaced0"
+      "contentHash": "sha256-b2:8f80079a027aa7c0"
     },
     {
       "name": "grant-funding",
@@ -1037,7 +1037,7 @@
       "techniques": 125,
       "applications": 77,
       "files": 225,
-      "contentHash": "sha256-b2:81f65c4b08f6927d"
+      "contentHash": "sha256-b2:8f22c1692ba5c2df"
     },
     {
       "name": "localization",
@@ -1050,7 +1050,7 @@
       "techniques": 119,
       "applications": 55,
       "files": 195,
-      "contentHash": "sha256-b2:5a2ef7f794eba44e"
+      "contentHash": "sha256-b2:2d5cc79e474fe296"
     },
     {
       "name": "marketing",
@@ -1063,7 +1063,7 @@
       "techniques": 183,
       "applications": 84,
       "files": 301,
-      "contentHash": "sha256-b2:67e6068490925e8b"
+      "contentHash": "sha256-b2:eb4c71d1d9833cb7"
     },
     {
       "name": "media-generation",
@@ -1076,7 +1076,7 @@
       "techniques": 146,
       "applications": 75,
       "files": 247,
-      "contentHash": "sha256-b2:cc0823a91b9f0bb3"
+      "contentHash": "sha256-b2:6e6b39eedb04190f"
     },
     {
       "name": "recruiting",
@@ -1102,7 +1102,7 @@
       "techniques": 1801,
       "applications": 1154,
       "files": 3193,
-      "contentHash": "sha256-b2:ebd4df19ab303d2f"
+      "contentHash": "sha256-b2:5cf7c78040ce1196"
     }
   ],
   "usageEvidence": {

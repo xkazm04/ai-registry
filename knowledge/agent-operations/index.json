@@ -478,7 +478,7 @@
    "file": "knowledge/agent-operations/coordination/shared-research-record/shared-research-record.md",
    "digest": "sha256-b2:1d21609d185e872b",
    "revision": 1,
-   "changedAt": "2026-09-25",
+   "changedAt": "2026-09-24",
    "techniques": [
     {
      "slug": "community-run-as-unit",

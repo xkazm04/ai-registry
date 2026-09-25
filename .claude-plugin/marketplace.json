@@ -104,7 +104,7 @@
       "name": "contest",
       "source": "./skills/contest",
       "description": "Blind design contest between CLI agent seats (Claude Code, Codex CLI, Grok CLI). Each participant you name - engine:model@effort - builds three genuinely different prototype variants of one idea in its own workspace; a cross-family panel scores every variant blind on seven dimensions (wow, clarity at scale, wayfinding, interaction, craft, concept, utility); the host adds a visual pass in a browser",
-      "version": "1.5.0",
+      "version": "1.7.0",
       "category": "workflow",
       "tags": [
         "contest",

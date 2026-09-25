@@ -26,7 +26,7 @@
    "file": "knowledge/localization/right-to-left/arabic/arabic.md",
    "digest": "sha256-b2:f69799f3ba3d58ce",
    "revision": 6,
-   "changedAt": "2026-09-25",
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "bidirectional-text-and-interpolation",
@@ -147,7 +147,7 @@
    "file": "knowledge/localization/south-and-southeast-asian/bengali/bengali.md",
    "digest": "sha256-b2:4b7b89751b28c58a",
    "revision": 4,
-   "changedAt": "2026-09-25",
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "bengali-script-and-numerals",
@@ -259,7 +259,7 @@
    "file": "knowledge/localization/east-asian/chinese/chinese.md",
    "digest": "sha256-b2:efe5bd87a41ef9f9",
    "revision": 5,
-   "changedAt": "2026-09-25",
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "character-width-and-typography",
@@ -582,7 +582,7 @@
    "file": "knowledge/localization/european/czech/czech.md",
    "digest": "sha256-b2:9868d58a1ed54bc2",
    "revision": 6,
-   "changedAt": "2026-09-25",
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "de-anglicization-constructions",
@@ -700,7 +700,7 @@
    "file": "knowledge/localization/european/english/english.md",
    "digest": "sha256-b2:3071c9ca3c71710b",
    "revision": 3,
-   "changedAt": "2026-09-25",
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "de-translationese-constructions",
@@ -849,7 +849,7 @@
    "file": "knowledge/localization/european/french/french.md",
    "digest": "sha256-b2:ac712869c96b8e09",
    "revision": 7,
-   "changedAt": "2026-09-25",
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "de-anglicization-constructions",
@@ -962,7 +962,7 @@
    "file": "knowledge/localization/european/german/german.md",
    "digest": "sha256-b2:594760045f13e411",
    "revision": 5,
-   "changedAt": "2026-09-25",
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "capitalization-and-compounds",
@@ -1071,7 +1071,7 @@
    "file": "knowledge/localization/south-and-southeast-asian/hindi/hindi.md",
    "digest": "sha256-b2:c2174841614a02dd",
    "revision": 5,
-   "changedAt": "2026-09-25",
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "de-anglicization-constructions",
@@ -1282,7 +1282,7 @@
    "file": "knowledge/localization/east-asian/japanese/japanese.md",
    "digest": "sha256-b2:1f5841865b2fb68e",
    "revision": 5,
-   "changedAt": "2026-09-25",
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "character-width-and-typography",
@@ -1393,7 +1393,7 @@
    "file": "knowledge/localization/east-asian/korean/korean.md",
    "digest": "sha256-b2:fd3bfb85f8b489ac",
    "revision": 7,
-   "changedAt": "2026-09-25",
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "counting-and-quantity",
@@ -1512,7 +1512,7 @@
    "file": "knowledge/localization/european/russian/russian.md",
    "digest": "sha256-b2:4158bac84a819b59",
    "revision": 6,
-   "changedAt": "2026-09-25",
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "de-anglicization-constructions",
@@ -1625,7 +1625,7 @@
    "file": "knowledge/localization/european/spanish/spanish.md",
    "digest": "sha256-b2:0b8bdb77a638ec84",
    "revision": 5,
-   "changedAt": "2026-09-25",
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "de-anglicization-constructions",
@@ -2133,7 +2133,7 @@
    "file": "knowledge/localization/south-and-southeast-asian/vietnamese/vietnamese.md",
    "digest": "sha256-b2:5740b3c9bd1d735e",
    "revision": 4,
-   "changedAt": "2026-09-25",
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "classifiers-and-quantity",
