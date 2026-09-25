@@ -2166,9 +2166,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/engine-integration/engine-pitfall-corpus/engine-pitfall-corpus.md",
-   "digest": "sha256-b2:6e5e7007d702564d",
-   "revision": 2,
-   "changedAt": "2026-08-30",
+   "digest": "sha256-b2:85a1ed1dbfd42e73",
+   "revision": 3,
+   "changedAt": "2026-09-25",
    "techniques": [
     {
      "slug": "binary-content-wall",
@@ -3040,9 +3040,9 @@
    "subcategory": "sourcing-economics",
    "status": "forged",
    "file": "knowledge/game-production/asset-production/sourcing-economics/image-to-3d-input-gating/image-to-3d-input-gating.md",
-   "digest": "sha256-b2:6ce8dcbc0e9aecca",
-   "revision": 3,
-   "changedAt": "2026-09-07",
+   "digest": "sha256-b2:add56c13658b01bd",
+   "revision": 4,
+   "changedAt": "2026-09-25",
    "techniques": [
     {
      "slug": "canonical-pose-rule",
@@ -3936,9 +3936,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/balance-validation/procedural-level-planning/procedural-level-planning.md",
-   "digest": "sha256-b2:aac5ad1413b16d5a",
-   "revision": 6,
-   "changedAt": "2026-09-20",
+   "digest": "sha256-b2:94d17312c8f8a3c9",
+   "revision": 7,
+   "changedAt": "2026-09-25",
    "techniques": [
     {
      "slug": "algorithm-parameter-support-matrix",
@@ -4622,9 +4622,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/craft-judgment/quality-verdict-integrity/quality-verdict-integrity.md",
-   "digest": "sha256-b2:476804c63c3162f2",
-   "revision": 2,
-   "changedAt": "2026-08-30",
+   "digest": "sha256-b2:bea58008d7738651",
+   "revision": 3,
+   "changedAt": "2026-09-25",
    "techniques": [
     {
      "slug": "calibration-against-confirmed-labels-only",
@@ -4979,9 +4979,9 @@
    "subcategory": "sourcing-economics",
    "status": "forged",
    "file": "knowledge/game-production/asset-production/sourcing-economics/regeneration-vs-repair-economics/regeneration-vs-repair-economics.md",
-   "digest": "sha256-b2:3b8f343740076888",
-   "revision": 1,
-   "changedAt": "2026-09-02",
+   "digest": "sha256-b2:a1a7192b63247062",
+   "revision": 2,
+   "changedAt": "2026-09-25",
    "techniques": [
     {
      "slug": "best-of-n-parameter-sweep",
@@ -5211,9 +5211,9 @@
    "subcategory": "surface-and-imagery",
    "status": "forged",
    "file": "knowledge/game-production/asset-production/surface-and-imagery/shader-budget-authoring/shader-budget-authoring.md",
-   "digest": "sha256-b2:5930734eba8f0280",
-   "revision": 1,
-   "changedAt": "2026-09-02",
+   "digest": "sha256-b2:d1c4f6c93cb669e0",
+   "revision": 2,
+   "changedAt": "2026-09-25",
    "techniques": [
     {
      "slug": "channel-packing",

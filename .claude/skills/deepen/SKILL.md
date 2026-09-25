@@ -3,7 +3,7 @@ name: deepen
 description: "Review and widen an existing knowledge-bundle topic via deep web research + training data: scan a domain for undercooked subjects, research the chosen ones in mandatory-counter-evidence lanes, and land gate-clean corrections, techniques and dated field applications. Runs interactively (finding-level triage), in batch (worker-per-subject under Director diff-review), or as a long-running loop with a saturation ledger. Use when a bundle's subjects should rise above the repo they were forged from, or stay current as the field moves."
 category: ai-native
 memory: project
-version: 1.2.0
+version: 1.3.1
 tags: knowledge, rkb, research, saturation, loop
 ---
 
@@ -83,6 +83,27 @@ untriaged table and the decline ledger, which is the memory that makes run N+1 c
    (depth rung L1 synthesis / L2 primary / L3 empirical; last-pass yield; clocks;
    demand; dry-streak), and banked leads with return conditions. Recompute scores
    fresh every cycle - carried-forward derived metrics drift silently.
+6. **Report, for a program** - the ledger and the subject notes are written for a
+   reader, and a dispatcher can read none of it: "landed two techniques", "went dry"
+   and "refused" look identical from outside. Write one result through the helper
+   that owns the rules (public-safe paths, a decline with its reason, unknown fields
+   rejected, atomic placement):
+
+   ```sh
+   node scripts/lib/run-result.mjs write <draft.json>   # -> librarian/runs/<run-id>/result.json
+   ```
+
+   This skill fills `mode` (`interactive` / `batch` / `loop`), `domain`, the five
+   `counts` - **`idled` is how loop mode says saturated**, which no other field can
+   express - one `subjects[]` row per subject with its engine and an `outcome` from the
+   same closed set as the counts (`landed` / `declined` / `idled` / `contended` /
+   `dispatched`; a saturated subject is `idled`), `declined[]` carrying the decline-why
+   this step already produces, `verdicts[]` for every `applied.md` row step 4 owed - at
+   the mode it was measured at, `code` / `experiment` / `blind-ab` / `simulation` /
+   `render` and nothing else - and `failure_signature` when a pass failed the same way
+   twice. It writes **`pr: null`**: this skill commits and never opens one.
+   In batch mode the **Director** writes one result for the whole batch - workers
+   write nothing, the same single-writer rule that governs their folders.
 
 ## Batch mode (Director-reviewed)
 

@@ -11905,3 +11905,176 @@ finish on the version it loaded.)
   one level up: every route. A blank capture is a finding, not a harness bug,
   until proven otherwise.
 - **Mid-flight runs: nothing to do.** No step or instrument changed.
+## 2.13.0 - 2026-09-22 - h3-timeline-extend-bridge
+
+- **The discrimination gate cannot see a timing variable.** It compares arms
+  frame by frame at matched normalised time, which is right when the variable
+  changes *what* is on screen. Span changes *when* the move happens: both arms
+  start and end on the same pinned frames, so a per-frame mean stays near seed
+  noise (0.88x, 1.16x). The operator still told the long arm apart 2/2. So did
+  the temporal profile the director had computed and the gate never read: a
+  displacement plateau across deciles 3-5, and a largest step 3-4x the median.
+  For span, pacing, onset or hold pairs, carry the temporal profile as a second
+  discrimination measure and say before triage which one the pair is expected
+  to move. One run's observation; not yet a rule.
+- **Ask one triage question per blind pair, never one per comparison.** The look
+  page shuffled X/Y per pair, and one question covered two seeds of the same
+  comparison. The single answer "Y" then meant the 22-frame arm on one seed and
+  the 73-frame arm on the other. It was unreadable, and the pairs had to be
+  re-asked. Either shuffle once per comparison or ask per pair.
+  `render-triage.mjs` would have prevented this, because it asks per pair. The
+  mistake came from hand-building a page after the sheet refused.
+- **Probe commit headroom at the Phase 6b instrument probe, not at launch.** The
+  probe checked the model files, the node's inputs and an idle queue, and all
+  passed. The first clip then died inside the text-encoder load
+  (`HostBuffer.read_file_slice failed`) at 125 of 127 GB commit. The holder was
+  an Ollama runner that `ollama ps` did not list: a process with no loaded model
+  holding 30 GB. `guard.headroom_ok()` in the consuming project's generation
+  guard would have said False at probe time. Stopping another tenant's process
+  is the operator's call, and it was asked for and granted in one question.
+
+## 2.13.0 - 2026-09-23 - thirty-million-writer-ai-slop
+
+- **A small change with a large payoff probes every size threshold.** The
+  source's best anecdote was a one-percent edit that fixed a whole voice. The
+  corpus had a rule that called any edit under a quarter of the words noise,
+  and the fleet's code carried it verbatim. A magnitude filter on human input
+  declares that small means unimportant. Add it to the Phase 6 enumeration
+  hunt: when a first-party account's payoff is tiny in size, grep the target
+  subject for "threshold", "below", "at least", and test the anecdote against
+  the number. It cost one fixture file and returned a shipped change.
+- **Check the staged diff size against what you wrote, before committing to a
+  fleet tree.** An edit to an LF file came back CRLF (autocrlf off), so a
+  150-line change staged as a 332-line rewrite of the whole file. `git diff
+  --cached --stat` beside `--ignore-cr-at-eol` shows it in one line. Normalize,
+  restage, re-run the tests.
+- **Build generated artifacts in a detached worktree even with 0 siblings on
+  the board.** The board was empty. The shared tree still held unregistered
+  WIP in skills/ and catalog.json, and an index with sibling-staged files. The
+  board only knows the sessions that claimed, and the tree knows all of them.
+
+## 2.13.0 - 2026-09-23 - ai-registry (bumped to 2.14.1 across the same change)
+
+- **Phase 9 had five human records and no machine one.** The source note, the source
+  ledger, the applied ledger, the scorecard and the subject notes are all excellent and
+  all unreadable to a program. A dispatcher could not tell the run that landed a subject
+  from the run that produced leads only - and this skill says out loud that the second
+  is a successful run, which is exactly the distinction that was being lost.
+- **The schema inherited two of this skill's hardest-won vocabularies unchanged**, which
+  is why it was cheap to adopt: `verdicts[].verdict` is Phase 7.5's
+  `better` / `not-better` / `unmeasurable` / `COVERED` verbatim, and `declined[]` is the
+  decline ledger with its reason made mandatory by the helper rather than by a rule
+  somebody remembers. A decline with no reason now fails the write.
+- **`untriaged` is still not `declined`, and the file cannot say otherwise.** There is no
+  field for the untriaged tail, deliberately: it belongs in the source note's table, where
+  `/harvest backlog` enumerates it. Giving it a count here would have created a second
+  place to look and a second number to drift.
+- **The commit that carries the result cannot name itself.** Phase 9 writes it and Phase
+  10 commits it, so `commits[]` lists the commits made up to that point. Stating that is
+  better than a second commit for one file, and much better than a sha nobody wrote.
+- **This skill's five outcomes are not the result file's five outcomes**, and closing
+  the vocabulary is what made that visible. `content` / `currency` / `lead` / `covered` /
+  `decline` is the triage table's language and it stays there; a subject row's `outcome`
+  is the counts vocabulary, so a currency reset and a new technique are both `landed`.
+  Two vocabularies that nearly overlap are worse than two that plainly do not.
+
+## 2.13.0 - 2026-09-23 - self-compact-pi-agent
+
+- **A primary can confirm a source's mechanism and refute its number in one read.**
+  The source set compaction thresholds under one vendor's price step; the fetched
+  pricing page showed this fleet's own vendor has no step at all on its current
+  models. The step being real (for some models) is what made the landing; the step
+  being a per-model, dated fact is what decided its shape: the rule reads the step
+  from the price book at session start and never carries the number. When a source
+  hardcodes a vendor constant, land the lookup, not the constant.
+- **When no fleet project owns the decision, the registry's own session records are
+  an importable arm, but they carry the target and not the floor.** Token and
+  occupancy fields make a cost replay cheap (10 s over 26,299 requests) and
+  self-checking against an earlier run's count. What a compaction costs the task is
+  not in them, so the row reached `unmeasurable` before the script ran. Check that the
+  floor is readable from the same instrument before building the arms.
+
+## 2.14.1 - 2026-09-24 - introducing-tin
+
+- **A vendor benchmark's failure regime lands when a fleet project holds a rule derived
+  from the other regime.** The announcement's numbers said an in-core text index can
+  run at 0.4 ranked queries a second; the corpus had no reason why. politicas held a
+  measured rule ("index, 52-68x") derived from rare single-term counts and about to
+  govern ranked common-word search. Measuring the gap in the project's own engine
+  replaced the fetch budget (0 of 3 spent) and authorized the amendment. The source
+  never could have: its numbers are a vendor's, taken against its competitors.
+- **Smoke the arm at a tenth of the scale before the full run, with the prediction
+  written down.** The 20k smoke falsified the stated mechanism (ranking vs counting
+  split nothing per query; match fraction did) and showed the corpus could not answer
+  the question (random token bags gave every AND and phrase zero matches). The full run
+  on that corpus would have printed a confident table about the wrong variable. Both
+  were fixed in minutes, and the landing states the corrected mechanism.
+- **The promotion read can be a measurement.** Row 1's only blocker was an unre-checked
+  premise (G2/R1). The method names a file read; here the premise lived in an engine's
+  behaviour, and no file could re-check it. Spending one paired measurement took RISK
+  to 0. Recorded as a stretch until two more runs do the same.
+- **A fleet commit's hook output is evidence; read it.** The registry's own consult
+  hook in politicas printed MODULE_NOT_FOUND under a green tick on every commit for
+  three days, after a fix that stopped it blocking and left it dead. The cause was
+  lefthook substituting `$` in `run:` lines itself. It was found only because this
+  run's commit output was read line by line rather than by its summary.
+
+## 2.14.1 - 2026-09-24 - agora
+
+- **A repository with no code can still fire the routing count, and then there is nothing
+  for forge scouts to read.** The design record came from a paper, and the repository was
+  a project page. The XL route (spec, one forge worker, the director reviewing the diff)
+  was the right one. The Phase 2d branch "dispatch /forge's Phase 0 scouts over the clone"
+  assumes a tree exists. When the clone is empty, go straight to the XL spec, and name a
+  tree that implements the pattern for the worker to reconcile against. Here that tree
+  was this registry itself.
+- **Our own instruments are a falsifying seam, and they are cheap.** The source's
+  headline (a community herding onto one lineage) was replayed against 30 days of this
+  registry's commit history in one git log. It came back `not-better`, and the reason (a
+  defect worklist empties itself when worked) became the technique's first boundary
+  before the technique shipped. A worker had written the opposite prediction into the
+  registry's own application from reading the code alone.
+- **check-anchors cannot parse an escaped quote inside an anchor quote.** `"Read \"tops\"
+  ..."` reported quote-absent on a line that holds the text. Anchor to a quote-free line.
+
+## 2.14.1 - 2026-09-24 - shadcn-lint-tailwind-design-system
+
+- **A pattern fix from the seam hunt is read against each rule's contract before it
+  spreads.** A whitespace-only anchor was a recall bug in one custom rule (every
+  `hover:` form escaped) and a documented exemption in its sibling, whose contract
+  allows state modifiers. The same bytes, opposite verdicts. Propagating the fix by
+  grep would have broken the sibling's stated behaviour.
+- **A zero-assertion guards against a dead instrument, not an inflated one.** A JSX
+  census read a tag's attributes by regex, ran into a prop holding nested JSX
+  (`icon={<X className=... />}`), and reported the child's classes as the parent's:
+  385 sites where the corrected count is 74. The number was plausible and cleared the
+  "zero call sites is BROKEN" check. Opening one matched site caught it. Before a
+  count authorizes anything, read one row that should not have matched.
+- **The declared-focus replay authorizes only when the fleet has the same mechanism.**
+  The nearest instrument here (a writable ratchet baseline) was not the source's
+  mechanism (a writable vocabulary). It showed no relocation and could confirm
+  nothing. Record such a replay as weak, keep the landing on the primary's
+  measurement, and name the instrument that would be the true replay.
+
+## 2.14.1 - 2026-09-24 - harness-token-floor
+
+- An operator's phrase can point at the wrong switch. "Deactivated by default"
+  read naturally as the harness's hide-from-model switches, and the docs call
+  those the tool for deliberately started workflows. A replay of who actually
+  started each skill refuted them: the operator names skills in prose, pastes
+  briefs with the command mid-text, one skill dispatches another by name, and a
+  product engine prompts the model. The middle tier (name only) kept every one
+  of those paths. Before landing a mechanism a dispatch names, replay the
+  initiators, not the invocation counts.
+- A config finding can be A/B-tested on the harness itself, with no tree change:
+  headless `--settings <file>` arms against the as-installed arm, reading the
+  first request's input + cache tokens. Repeats were identical to the token, so
+  n=2 per arm was a real proof and cost cents. Use it for any rule, skill, MCP
+  or settings finding before touching a consumer.
+- Build the instrument's self-test from the sweep's surprises. The first
+  delivery classifier looked only for the import line and flagged a correct
+  reverse topology as a fork. Reading the flagged file caught it. The shipped
+  checker's self-test carries that case, plus a prose-pointer negative.
+- When the fleet installer carries drift that belongs to someone else (stale
+  rule copies, an old gitignore block), add a scoped pass (`--listing-only`)
+  rather than letting this run ship their drift into twelve tracked files.

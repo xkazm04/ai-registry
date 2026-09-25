@@ -23,10 +23,12 @@ import { fileURLToPath } from 'node:url';
 
 import {
   aggregate, buildResult, validateRubric, aggregateScenarios,
-  OUTCOMES, ROUND_CAP, DEFAULT_SCENARIO_FLOOR,
+  OUTCOMES, ROUND_CAP, DEFAULT_SCENARIO_FLOOR, MUST_ADDRESS_MAX, clampLine, firstSentence,
 } from '../scripts/lib/aggregate.mjs';
-import { validateResult } from '../scripts/lib/schema.mjs';
-import { buildReceipt, spanDigest, sha256Hex, normalizeSpanPath } from '../scripts/lib/receipt.mjs';
+import { validateResult, validateVerdict } from '../scripts/lib/schema.mjs';
+import {
+  buildReceipt, spanDigest, sha256Hex, normalizeSpanPath, isTestFile, spanDisclosures,
+} from '../scripts/lib/receipt.mjs';
 import { drift, carryForward } from '../scripts/lib/drift.mjs';
 
 const SKILL_DIR = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
@@ -246,9 +248,12 @@ test('the validator refuses an admitting outcome, a zero for an unmeasured dimen
     receipt: { head_sha: null, spanned_paths: ['src/a.ts'], span_digest: '0'.repeat(64) },
     hard_failures: [],
     dimensions: [{ dimension: 'value', kind: 'judged', state: 'measured', score: 0.5, confidence: 'med', floor: 0.4, floor_hit: false, advisory: false, unmeasured_reason: null, findings: [], evidence: [], techniques: [], delta: null }],
-    overall: 0.5, coverage: 1, outcome: 'ready', must_address: [], summary: '',
+    overall: 0.5, coverage: 1, outcome: 'ready', must_address: [], summary: 'The synthesis, in a paragraph.',
   };
   assert.deepEqual(validateResult(base), []);
+
+  // summary is required, and an empty one is the defect a consuming door papers over.
+  assert.ok(validateResult({ ...base, summary: '' }).some((x) => /summary is required/.test(x)));
 
   const admitting = validateResult({ ...base, outcome: 'approved' });
   assert.ok(admitting.some((x) => /outcome must be one of/.test(x)));
@@ -378,7 +383,7 @@ const scenarioBase = () => ({
     { slug: 'hr', title: 'HR candidates', axes: {}, state: 'unmeasured', score: null, confidence: 'low', n: null, proof: 'claimed', summary: 'never measured' },
   ],
   envelope: { holds: ['it'], weak: [], unmeasured: ['hr'], out_of_scope: [], proposed: [] },
-  overall: 0.5, coverage: 1, outcome: 'ready', must_address: [], summary: '',
+  overall: 0.5, coverage: 1, outcome: 'ready', must_address: [], summary: 'The synthesis, in a paragraph.',
 });
 
 test('the contract accepts a scenario view and refuses the six ways it goes wrong', () => {
@@ -527,4 +532,162 @@ test('a carried dimension scores like a measured one', () => {
   assert.equal(a.coverage, 1);
   assert.equal(a.overall, 0.8);
   assert.equal(a.dimensions.find((d) => d.dimension === 'value').state, 'carried');
+});
+
+// ------------------------------------------------------- must_address is a row
+//
+// The contract calls a must_address entry "one line of work". The instrument itself broke
+// it: an unmeasured dimension contributed its whole `unmeasured_reason`, which the member
+// brief correctly requires to be a full argument - 1,269 characters in the first real run,
+// unrenderable in a row and unactionable as work.
+
+test('every generated must_address entry is one renderable line, and the full reason survives', () => {
+  const r = rubricOf('feature-v1');
+  const reason = `Two span files originate metered model calls one hop out, so not_applicable would be literally false. ${'There is no local price book for chat tokens anywhere in this checkout; pricing is delegated to a remote service. '.repeat(8)}`;
+  const longTitle = `the eight second flush retries forever with no attempt cap and no backoff, ${'resending the whole file tree each time '.repeat(10)}`;
+  assert.ok(reason.length > 800 && longTitle.length > 400, 'the fixture must actually be too long');
+
+  const a = aggregate(r, {
+    value: v(0.6, { findings: [{ id: 'v1', severity: 'high', title: longTitle, detail: 'd', recurrence: 1 }] }),
+    craft: v(0.7), rivalry: v(0.5), robustness: v(0.7),
+    economics: unmeasured(reason),
+  }, { trustState: 'uncalibrated' });
+
+  assert.equal(MUST_ADDRESS_MAX, 200);
+  for (const line of a.must_address) {
+    assert.ok(line.length <= MUST_ADDRESS_MAX, `a must_address entry of ${line.length} chars is not a row`);
+    assert.ok(!/\n/.test(line), 'a must_address entry is one line');
+  }
+  // The unmeasured entry keeps the FIRST SENTENCE, and the whole reason stays on the
+  // dimension - nothing is lost, it just stops being in the work list.
+  const entry = a.must_address.find((m) => m.startsWith('economics is unmeasured'));
+  assert.match(entry, /not_applicable would be literally false/);
+  assert.equal(a.dimensions.find((d) => d.dimension === 'economics').unmeasured_reason, reason);
+  // And the high finding contributes its title, clamped, with the detail left in the verdict.
+  assert.ok(a.must_address.some((m) => m.startsWith('value: the eight second flush retries forever')));
+});
+
+test("a carried-in human rejection is verbatim, however long - it is not the instrument's to edit", () => {
+  const r = rubricOf('feature-v1');
+  const human = `I rejected this because ${'the timebox table hands seniors the longest case and nobody explained why '.repeat(6)}`;
+  const a = aggregate(r, { value: v(0.8), craft: v(0.8), rivalry: v(0.8), robustness: v(0.8), economics: v(0.8) }, {
+    trustState: 'uncalibrated', mustAddress: [human],
+  });
+  assert.ok(a.must_address.includes(human), "a person's own words go in as they were written");
+});
+
+test('clampLine and firstSentence do the two jobs they claim', () => {
+  assert.equal(clampLine('a b c', 20), 'a b c');
+  const long = clampLine('x'.repeat(300), 50);
+  assert.equal(long.length, 50);
+  assert.ok(long.endsWith('...'));
+  assert.equal(clampLine('  multi\n  line\ttext  ', 40), 'multi line text', 'whitespace collapses to one line');
+  assert.equal(firstSentence('First one. Second one. Third one.', 160), 'First one.');
+  assert.equal(firstSentence('No terminator here', 160), 'No terminator here');
+});
+
+test('a low finding never enters must_address - only high does', () => {
+  const r = rubricOf('feature-v1');
+  const a = aggregate(r, {
+    value: v(0.8, {
+      findings: [
+        // The fence artefact the first real run manufactured: imperative grammar in the
+        // repo's OWN declared overlay, which needs no product change. It is `low` now, and
+        // a low finding is not next round's work.
+        { id: 'v-fence', severity: 'low', title: 'imperative grammar in the declared uat/ overlay, addressed to the repo, not to me', detail: 'd', recurrence: 8 },
+        { id: 'v-xref', severity: 'low', title: 'unbounded event buffer (cross-reference: economics owns this)', detail: 'd', recurrence: 1 },
+        { id: 'v-med', severity: 'med', title: 'a med finding is not work either', detail: 'd', recurrence: 1 },
+      ],
+    }),
+    craft: v(0.8), rivalry: v(0.8), robustness: v(0.8), economics: v(0.8),
+  }, { trustState: 'uncalibrated' });
+  assert.deepEqual(a.must_address, [], 'nothing below high is promoted');
+
+  const promoted = aggregate(r, {
+    value: v(0.8, { findings: [{ id: 'v-real', severity: 'high', title: 'instruction inside candidate text', detail: 'd', recurrence: 1 }] }),
+    craft: v(0.8), rivalry: v(0.8), robustness: v(0.8), economics: v(0.8),
+  }, { trustState: 'uncalibrated' });
+  assert.deepEqual(promoted.must_address, ['value: instruction inside candidate text'], 'and high still is');
+});
+
+// ------------------------------------------------------------ verdict contract
+
+test('validate --verdict catches a missing recurrence before aggregate ever runs', () => {
+  const good = {
+    dimension: 'robustness', state: 'measured', score: 0.68, confidence: 'med', unmeasured_reason: null,
+    findings: [{ id: 'rob-1', severity: 'med', title: 'typecheck exits 2 outside the span', detail: 'd', recurrence: 1 }],
+    evidence: [{ kind: 'metric', ref: 'npm run typecheck', caption: 'exit 2, 0 span-attributable findings' }],
+    techniques: [{ subject: 'quality-gates', technique: 'metric-gates', proof: 'execution' }],
+    delta: null,
+  };
+  assert.deepEqual(validateVerdict(good, { dimension: 'robustness' }), []);
+
+  // The exact shape the first real run shipped: three of eleven findings with no
+  // `recurrence`, caught only at aggregation, after every member had already spent.
+  const missing = { ...good, findings: [{ id: 'rob-2', severity: 'high', title: 'no test in the span covers the failure paths', detail: 'd' }] };
+  const problems = validateVerdict(missing, { dimension: 'robustness' });
+  assert.equal(problems.length, 1);
+  assert.match(problems[0], /finding rob-2: recurrence must be an integer >= 1/);
+
+  assert.ok(validateVerdict({ ...good, dimension: 'value' }, { dimension: 'robustness' })
+    .some((x) => /filed under the wrong dimension/.test(x)));
+  assert.ok(validateVerdict({ ...good, state: 'unmeasured', score: null }, {})
+    .some((x) => /unmeasured needs unmeasured_reason/.test(x)));
+  assert.ok(validateVerdict({ ...good, state: 'unmeasured', score: 0, unmeasured_reason: 'r' }, {})
+    .some((x) => /never a zero/.test(x)));
+  assert.ok(validateVerdict({ ...good, confidence: 'vibes' }, {}).some((x) => /confidence must be one of/.test(x)));
+  assert.ok(validateVerdict('not an object', {}).some((x) => /not a JSON object/.test(x)));
+});
+
+// --------------------------------------------------------- receipt disclosures
+//
+// A span is inherited from the consuming repo's own feature map, and in the first real run
+// that map was wrong twice - 454 lines of tests pinning a module NOT in the span, and a
+// declared API surface with no route behind it. The digest gave both the authority of a
+// measurement. These are disclosures, never refusals.
+
+test('the receipt discloses an orphan test and a test-heavy span, without refusing either', () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'council-orphan-'));
+  try {
+    fs.mkdirSync(path.join(root, 'app'), { recursive: true });
+    fs.writeFileSync(path.join(root, 'app', 'in-span.ts'), 'export const a = 1;\n');
+    fs.writeFileSync(path.join(root, 'app', 'out-of-span.ts'), 'export const b = 2;\n');
+    // Two test files: one tests a module inside the span, one tests a module outside it.
+    fs.writeFileSync(path.join(root, 'app', 'in-span.test.ts'), "import { a } from './in-span';\n");
+    fs.writeFileSync(path.join(root, 'app', 'orphan.test.ts'), "import { b } from './out-of-span';\n");
+
+    const span = ['app/in-span.ts', 'app/in-span.test.ts', 'app/orphan.test.ts'];
+    const r = buildReceipt({ root, paths: span, headSha: 'deadbeef' });
+
+    assert.deepEqual(r.orphan_tests, [{ path: 'app/orphan.test.ts', subjects: ['app/out-of-span.ts'] }]);
+    assert.equal(r.test_file_count, 2);
+    assert.equal(r.source_file_count, 1);
+    assert.equal(r.tests_outnumber_sources, true);
+    assert.deepEqual(r.missing, [], 'a disclosure is not a refusal: the receipt still built');
+    assert.match(r.span_digest, /^[0-9a-f]{64}$/);
+
+    // A test whose specifiers resolve to nothing is NOT an orphan: absence of evidence is
+    // not evidence, and a false orphan sends a Director hunting a map error that is not there.
+    fs.writeFileSync(path.join(root, 'app', 'opaque.test.ts'), "import { z } from 'some-package';\n");
+    const r2 = buildReceipt({ root, paths: [...span, 'app/opaque.test.ts'] });
+    assert.deepEqual(r2.orphan_tests.map((o) => o.path), ['app/orphan.test.ts']);
+
+    // And the disclosures are additive: they do not move the digest.
+    assert.equal(buildReceipt({ root, paths: span }).span_digest, r.span_digest);
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test('the test-file heuristic recognises the conventions it documents, and nothing else', () => {
+  for (const p of ['tests/a.mjs', 'src/__tests__/a.ts', 'spec/a.rb', 'a/b/foo.test.ts', 'foo.spec.tsx', 'test_foo.py', 'foo_test.go']) {
+    assert.equal(isTestFile(p), true, `${p} is a test file`);
+  }
+  for (const p of ['src/testimonials.ts', 'app/latest.ts', 'src/contest/a.ts', 'specimen.py']) {
+    assert.equal(isTestFile(p), false, `${p} is not a test file`);
+  }
+  // With no files at all the disclosure is honest rather than alarming.
+  assert.deepEqual(spanDisclosures('.', []), {
+    test_file_count: 0, source_file_count: 0, orphan_tests: [], tests_outnumber_sources: false,
+  });
 });

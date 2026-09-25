@@ -219,14 +219,20 @@ for (const r of rows) {
 const manual = rows.filter((r) => r.action === 'print snippet');
 if (manual.length) {
   console.log(`\n${manual.length} project(s) use a hook manager this script will not rewrite (${manual.map((m) => m.slug).join(', ')}).`);
-  console.log('Add the equivalent of this to the project\'s own pre-commit job:\n');
-  // WRAPPED IN `sh -c` ON PURPOSE. lefthook runs a job's `run:` directly, with no shell,
-  // so a bare `${VAR:-default}` is never expanded and a trailing `|| true` is never
-  // honoured. Pasted unwrapped into politicas, the default expanded to a literal `:-..`
-  // segment, node died on MODULE_NOT_FOUND, and lefthook read that as a failed job - so a
-  // hook whose whole contract is "this never blocks a commit" blocked every commit in that
-  // repository until someone read the stack trace. Measured 2026-09-21.
-  console.log(`  sh -c 'node "\${AI_REGISTRY_DIR:-../ai-registry}/scripts/consult-check.mjs" || true'\n`);
+  console.log('Put the managed block in a script the hook manager runs, never inline in its config.');
+  console.log('For lefthook: save the block below as .lefthook/pre-commit/ai-registry-consult.sh and add\n');
+  console.log('    - name: ai-registry-consult-check\n      script: "ai-registry-consult.sh"\n      runner: sh\n');
+  console.log(`${BODY}\n`);
+  // A SCRIPT FILE, NOT A `run:` LINE. lefthook substitutes `$` and `${` in a `run:` line
+  // itself, before any shell sees it, and knows no `:-` default: `${AI_REGISTRY_DIR:-../x}`
+  // reaches the shell as `:-../x` whether the variable is set or not, and a helper like
+  // `$d` is replaced by an (empty) environment variable of that name. Unwrapped, that
+  // blocked every politicas commit on MODULE_NOT_FOUND (2026-09-21). The `sh -c '... || true'`
+  // wrap printed here as the fix only stopped the block: the path was still mangled, node
+  // still died, and `|| true` reported it green, so the check did not run once in three
+  // days (found 2026-09-24). lefthook does not expand a script file's CONTENT - measured
+  // with the variable unset and set - and the managed block also resolves the registry from
+  // .ai/manifest.yaml, which the one-line form never did.
 }
 
 const trackedWrites = rows.filter((r) => r.state.includes('(tracked)') && r.action.startsWith('would'));

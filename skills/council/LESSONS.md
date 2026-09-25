@@ -3,6 +3,57 @@
 Append-only, newest first. One block per run, headed with the version the run **used** -
 not the bump it argues for - then the date and the project, then concise bullets.
 
+## 0.2.0 - 2026-09-22 - kp
+
+**The first field run.** One subject (`developer-case-assessment`), round 1, `use_case`,
+`feature-v1`, no overlay, no prior `state.json`, `uncalibrated`. Outcome `ready` at
+overall 0.6289 / coverage 0.90; the app's door ingested it 14 seconds later with no manual
+step. The method held - every observation below is about the method, not the verdict.
+
+- **The parts that cost real money were the parts nobody had driven.** The arithmetic, the
+  floors, the closed outcome set and the supersede rule all behaved as the authoring runs
+  claimed, because those were tested. What broke were the *joins*: a manifest key that does
+  not exist, a documented command line with no way to supply a required field, a member
+  brief naming a pack file the pack table never listed, a `lead:` instruction with no
+  destination. None of them is a hard thing to get right and none of them was reachable by
+  a `node --test`, because every one of them is a sentence pointing at something outside
+  the skill.
+- **A one-number measurement carrying two facts is where a careful Director and a careless
+  one diverge.** `npm run typecheck` exited 2 with all 33 errors in an untracked directory
+  another session left, and zero in the span. The rubric's `0` anchor says "a declared gate
+  fails over this span"; the pack recorded one number, so obeying the anchor and obeying
+  the evidence were different acts. The careless move (re-run with an exclude) was already
+  banned; nothing said what to do instead, and a ban with no alternative is a rule that
+  gets broken quietly.
+- **A prompt-injection defence that cannot tell a threat from its own evidence manufactures
+  work.** The only text the run had to fence was the repo's own `uat/` overlay - which the
+  value member's brief simultaneously orders it to reuse verbatim - and UAT files are
+  written in imperative voice. The member read it correctly as data, scored correctly, and
+  said in its own detail that nothing needed to change; the aggregate promoted it to
+  `must_address` anyway, because every `high` lands there. The severity, not the detection,
+  was the defect.
+- **Three briefs reaching one defect is structural, and only one of them was told to move
+  its score.** An unbounded client-side buffer was legitimately in robustness's hard-fail
+  check, craft's durability technique, and economics' boundedness pin - and only economics'
+  brief says "pins your score at or near 0". The house rule ("two members scoring the same
+  defect is that defect counted twice") had no ownership table behind it, so it could be
+  obeyed by every member individually and still be violated by the round.
+- **`unmeasured` worked exactly as designed, and that is worth recording as evidence rather
+  than as doctrine.** Economics came back `null` with a 1,269-character argument about what
+  was missing; coverage fell to 0.90 and the mean did not move. The renormalisation is the
+  part of this method most likely to be "simplified" by a second implementation, and this
+  is the first run where it earned its keep against a real gap.
+- **The blindness guarantee has a price and it is measurable.** Six subagents, ~882 k
+  cumulative context tokens, ~26 minutes wall clock, five members each independently reading
+  the same 716-line file. The mechanical-first ordering was load-bearing in the other
+  direction: had robustness come in under 0.50, the three judged members (~17 min and most
+  of the tokens) would not have run at all.
+- **A default that writes into a consuming repo must name a path that repo already ignores.**
+  `<repo>/.council/` was not in kp's `.gitignore`, so a vault whose own schema says "not
+  version controlled" sat in `git status` forever - while `.personas/`, where the run
+  directories already live, was ignored at line 70. The bug was choosing a fresh top-level
+  name instead of the tree the method had already been given.
+
 ## 0.1.0 - 2026-09-21 - ai-registry
 
 **Authoring run again** - the scenario/envelope change (0.2.0) was built and gated, never

@@ -1,7 +1,7 @@
 ---
 subject: docs-sync
 domain: software-engineering
-last_touched: 2026-09-03
+last_touched: 2026-09-23
 dry_streak: 0
 ---
 
@@ -301,3 +301,9 @@ worth a code change (personas, shipped), 1 came back `not-better` for the
 technique's own stated disqualifier, and 1 is **unapplied for want of a seam** -
 no project in the fleet ships prose documentation in a second language. The
 corpus is ahead of the fleet on that third one and the return condition says so.
+
+## 2026-09-23 - [[2026-09-23-1]]
+
+Lead drain (run lib-0923), L350 AMEND to `same-change-enforcement`: the counter-evidence joined the landing - a predicate imported into CI carries its flaw (any doc under the prefix passes) into a binding gate.
+
+**Impact** (stale verdicts before this landing, from the map rebuilt at the run start): personas 1.

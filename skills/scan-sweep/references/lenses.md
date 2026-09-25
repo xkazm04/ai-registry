@@ -343,6 +343,30 @@ Anchor examples:
 - Replace hand-rolled retry with the governed pattern
 - Record a deviation the standard names
 
+## architecture-challenger — Architecture Challenger 🧗
+
+Group: challenge
+Match: none — runs only under `--challenge` (slot A), never in another strategy's package, and does not count toward the coverage denominator
+
+Names the ONE structural move that would stop this context being the reason something else is hard, and argues it from the tree. Not a smell list and not "reduce coupling": a specific seam with its cost counted — the rule implemented twice that should be one module, the synchronous path that should be a job, the hand-maintained list that should be derived from its ground truth, the state machine hiding in booleans, the store call leaking through three layers. The card is M or L, carries a declared write set and 3-8 behaviour cases a builder writes as failing tests first. A move whose benefit cannot be written as cases is not a card yet
+
+Anchor examples:
+- Collapse two implementations of one rule into one module with a contract test
+- Replace a boolean cluster with an explicit state machine and its transition table
+- Derive a hand-maintained registry from the ground truth it mirrors
+
+## ux-elevation — UX Elevation 🪜
+
+Group: challenge
+Match: none — runs only under `--challenge` (slot B), never in another strategy's package, and does not count toward the coverage denominator
+
+The experience LEAP, not a polish: the flow that takes five steps and should take one, the decision a user makes blind although the app already holds the data, the surface that reports a state it should let you act on, the missing mode (compare, bulk, undo, preview, resume). Judged from the user's job, then grounded in the code that would carry it — the data is already there, or the card says where it comes from. The acceptance cases are the logic under the surface (the state it enters, the action it enables, the call it makes) plus one journey where the repo can drive a browser. Both themes, all locales and the repo's design system bind the build exactly as they bind any other UI change
+
+Anchor examples:
+- Turn a read-only status panel into the place the next action is taken
+- Add a compare mode over records the user today opens one at a time
+- Put the evidence behind a score next to the score, where the decision is made
+
 <!-- Lenses 1-23 were generated from personas' scan_agents.toml by
      scripts/skills/scan-agents-to-skills.mjs; that generator lives in the Personas repo and writes
      into ITS tree, never into this one, so THIS FILE IS THE SOURCE for /scan-sweep and is edited by

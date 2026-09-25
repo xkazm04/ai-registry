@@ -5,7 +5,7 @@
   "source": "knowledge/marketing/ (frontmatter only)",
   "subjects": 30,
   "techniques": 183,
-  "applications": 83,
+  "applications": 84,
   "laws": 10,
   "categories": [
    "search-and-content",
@@ -268,9 +268,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/marketing/content-production/brand-voice-capture/brand-voice-capture.md",
-   "digest": "sha256-b2:f940ed1114e17ed8",
-   "revision": 1,
-   "changedAt": "2026-09-09",
+   "digest": "sha256-b2:38b2f53410d2a0a3",
+   "revision": 2,
+   "changedAt": "2026-09-25",
    "techniques": [
     {
      "slug": "distil-only-what-samples-show-else-ask",
@@ -309,6 +309,7 @@
      "use_when": [
       "designing the reject flow for generated drafts",
       "deciding what a pre-send edit should teach the model",
+      "deciding whether a small pre-send edit is a typo or a voice correction",
       "building the avoid block of a draft prompt"
      ]
     },
@@ -359,6 +360,13 @@
      "technique": "editorial-voice-vs-personal-voice-split",
      "file": "knowledge/marketing/content-production/brand-voice-capture/applications/node--editorial-voice-vs-personal-voice-split.md",
      "verified_on": "2026-09-09",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "rejections-and-edits-become-constraints",
+     "file": "knowledge/marketing/content-production/brand-voice-capture/applications/node--rejections-and-edits-become-constraints.md",
+     "verified_on": "2026-09-23",
      "verified_against": "node@24"
     },
     {
@@ -1091,9 +1099,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/marketing/measurement-and-economics/goal-pacing-and-forecast/goal-pacing-and-forecast.md",
-   "digest": "sha256-b2:1e4613e0a23cb028",
-   "revision": 1,
-   "changedAt": "2026-09-09",
+   "digest": "sha256-b2:b8684b34fbca71d7",
+   "revision": 2,
+   "changedAt": "2026-09-25",
    "techniques": [
     {
      "slug": "band-and-suppressed-early-probability",
@@ -2854,9 +2862,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/marketing/paid-advertising/responsive-search-ad-craft/responsive-search-ad-craft.md",
-   "digest": "sha256-b2:6b40ac9d854548ac",
-   "revision": 1,
-   "changedAt": "2026-09-09",
+   "digest": "sha256-b2:c97e663d7c363652",
+   "revision": 2,
+   "changedAt": "2026-09-25",
    "techniques": [
     {
      "slug": "ad-strength-is-a-proxy-not-relevance",

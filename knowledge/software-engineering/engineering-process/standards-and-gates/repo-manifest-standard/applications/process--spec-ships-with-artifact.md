@@ -10,7 +10,7 @@ verified_on: 2026-08-20
 
 # Authoring the contract so it resolves in an air-gapped clone
 
-The Ascent repo (`C:\Users\kazda\kiro\ascent`) forges its own repository
+The Ascent repo forges its own repository
 standard — a `.ai/` directory carrying `manifest.yaml`, a shipped `SPEC.md`, a
 zero-dependency `doctor.mjs`, plus pointed-at memory, context index and
 guardrails. The authoring workflow around that spec is the clearest realization

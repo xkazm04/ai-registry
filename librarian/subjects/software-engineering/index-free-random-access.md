@@ -1,3 +1,8 @@
+---
+subject: index-free-random-access
+domain: software-engineering
+last_touched: 2026-09-21
+---
 # index-free-random-access
 
 `software-engineering` / `backend-platform` / `data-pipeline-semantics`

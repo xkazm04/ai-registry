@@ -10,7 +10,7 @@ verified_on: 2026-08-20
 
 # A stateless HMAC capability that carries its own window
 
-`src/lib/briefing-share.ts` in `C:\Users\kazda\kiro\ascent` mints read-only
+`src/lib/briefing-share.ts` in `ascent` mints read-only
 share tokens for the executive briefing *"so an owner can send a board member a
 briefing without giving them an account"* (`:1-6`). The framing is deliberately
 minimal: `<base64url(JSON payload)>.<HMAC-SHA256 sig>`, with the codec factored

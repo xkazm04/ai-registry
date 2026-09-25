@@ -57,7 +57,9 @@ stage boundaries are where its reliability lives. **Gathering** reads the
 world — the file tree, the dependency graph, the runtime's own records — and
 must be *tolerant*: every sensor is optional, every sensor failure is
 isolated so one crashing collector cannot take down the sweep, and every
-sensor that did not run is **reported as skipped, never as silently empty**.
+sensor that did not run is **reported as skipped, never as silently empty** —
+and the skip travels in the snapshot, so no rule downstream scores the failed
+read's empty value as an absence in the target.
 **Emission** turns the gathered snapshot into findings and must be *pure*:
 rules are functions from snapshot to findings, with no reads of their own —
 which makes them deterministic, testable against fixtures, and cheap to

@@ -1,3 +1,8 @@
+---
+subject: measurement-honesty
+domain: software-engineering
+last_touched: 2026-09-17
+---
 # measurement-honesty
 
 ## 2026-09-06 — intake sofka-0906

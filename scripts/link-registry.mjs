@@ -57,10 +57,13 @@ const RULES = path.join(ROOT, 'rules');
 if (process.argv.includes('--help') || process.argv.includes('-h')) {
   // Without this guard an unknown flag fell through to a fleet-wide write run (2026-09-14:
   // `--help` relinked every project and rewrote a rules copy and a .gitignore it was not asked to).
-  console.log('usage: node scripts/link-registry.mjs [--check] [--project <slug>]');
+  console.log('usage: node scripts/link-registry.mjs [--check] [--listing-only] [--project <slug>]');
   process.exit(0);
 }
 const checkOnly = process.argv.includes('--check');
+// --listing-only runs the listing-tier pass alone: it writes nothing but the gitignored
+// .claude/settings.local.json, so it can land beside unrelated link or .gitignore drift.
+const listingOnly = process.argv.includes('--listing-only');
 const projIdx = process.argv.indexOf('--project');
 const onlyProject = projIdx === -1 ? null : process.argv[projIdx + 1];
 const GITIGNORE_BEGIN = '# BEGIN ai-registry linked skills (managed by ai-registry/scripts/link-registry.mjs)';
@@ -159,9 +162,70 @@ const writeGitignoreBlock = (repo, skillNames, ruleNames = []) => {
   return false;
 };
 
+// ---- listing tiers -----------------------------------------------------------
+// Every linked skill publishes its description into the model's skill listing on every session,
+// and most of this lane is started by the operator typing its name (2026-09-24 replay: 204
+// skills loaded across the fleet; the model-side invocations of initiator skills were the
+// operator naming them in prose, a chain naming them, or one product engine). The harness's
+// `skillOverrides` setting has a state for that: `name-only` keeps the name listed - so prose
+// and chains still resolve - and drops the description, which is the cost (kp: 56,282 ->
+// 52,638 tokens per session start, paired, n=2 per arm, 2.1.281). The lane skill owns its tier
+// in a `listing:` frontmatter key; absent means `name-only`, and a skill that must fire on
+// relevance without being named declares `listing: on`. The tier is written to the project's
+// `.claude/settings.local.json` - machine state beside the links, never a tracked file.
+const LISTING_TIERS = new Set(['on', 'name-only', 'user-invocable-only']);
+const laneFrontmatter = (dir) => {
+  const t = fs.readFileSync(path.join(dir, 'SKILL.md'), 'utf8');
+  const fm = (t.match(/^---\r?\n([\s\S]*?)\r?\n---/) || [])[1] || '';
+  const key = (k) => (fm.match(new RegExp(`^${k}:\\s*(\\S+)\\s*$`, 'm')) || [])[1];
+  return { listing: key('listing'), disabled: key('disable-model-invocation') === 'true' };
+};
+/** The tier a skill directory asks for, or null when its own frontmatter already hides it. */
+const listingTier = (dir, who) => {
+  const fm = laneFrontmatter(dir);
+  if (fm.disabled) return null;
+  if (fm.listing && !LISTING_TIERS.has(fm.listing)) { problems.push(`${who}: listing: ${fm.listing} is not one of ${[...LISTING_TIERS].join(' | ')}`); return null; }
+  return fm.listing || 'name-only';
+};
+const tracked = (repo, rel) => {
+  try { execFileSync('git', ['-C', repo, 'ls-files', '--error-unmatch', rel], { stdio: 'ignore' }); return true; } catch { return false; }
+};
+/** Merge `wanted` into skillOverrides of <repo>/.claude/settings.local.json, preserving every
+ *  other key and entry. Returns 'current' | 'updated' | 'stale' | 'skipped:<why>'. */
+const writeListing = (repo, wanted) => {
+  if (!Object.keys(wanted).length) return 'current';
+  const rel = '.claude/settings.local.json';
+  const file = path.join(repo, rel);
+  if (tracked(repo, rel)) return 'skipped:tracked';
+  let cur = {};
+  if (fs.existsSync(file)) {
+    try { cur = JSON.parse(fs.readFileSync(file, 'utf8')); } catch { return 'skipped:unparseable'; }
+  }
+  const have = cur.skillOverrides || {};
+  const drift = Object.entries(wanted).filter(([n, v]) => have[n] !== v);
+  if (!drift.length) return 'current';
+  if (checkOnly) return 'stale';
+  const next = { ...cur, skillOverrides: { ...have, ...wanted } };
+  fs.mkdirSync(path.dirname(file), { recursive: true });
+  fs.writeFileSync(file, `${JSON.stringify(next, null, 2)}\n`);
+  return 'updated';
+};
+
 const rows = [];
 const problems = [];
 let changed = 0;
+const tiersFor = (declared, slug) => {
+  const wanted = {};
+  for (const name of declared.filter((n) => laneSkills.has(n))) {
+    const tier = listingTier(path.join(LANE, name), `${slug}/${name}`);
+    if (tier) wanted[name] = tier;
+  }
+  return wanted;
+};
+const reportListing = (slug, listing) => {
+  if (listing === 'stale') problems.push(`${slug}: .claude/settings.local.json skillOverrides do not match the lane's listing tiers`);
+  if (listing.startsWith('skipped')) problems.push(`${slug}: listing tiers not written - .claude/settings.local.json is ${listing.slice(8)}; set skillOverrides by hand or untrack the file`);
+};
 
 for (const [slug, p] of Object.entries(bridge.projects ?? {})) {
   if (onlyProject && slug !== onlyProject) continue;
@@ -169,6 +233,14 @@ for (const [slug, p] of Object.entries(bridge.projects ?? {})) {
   const manifest = path.join(p.path, '.ai', 'manifest.yaml');
   const declared = declaredSkills(manifest);
   if (declared === null) { problems.push(`${slug}: .ai/manifest.yaml has no \`skills:\` block - nothing declared, nothing linked`); continue; }
+
+  if (listingOnly) {
+    const listing = writeListing(p.path, tiersFor(declared, slug));
+    if (listing === 'updated') changed += 1;
+    reportListing(slug, listing);
+    rows.push({ slug, declared: declared.length, domains: 0, ok: 0, linked: 0, repointed: 0, removed: 0, rulesOk: 0, rulesLinked: 0, blocked: 0, gi: '-', listing });
+    continue;
+  }
 
   const skillsDir = path.join(p.path, '.claude', 'skills');
   if (!fs.existsSync(skillsDir)) { if (!checkOnly) fs.mkdirSync(skillsDir, { recursive: true }); }
@@ -245,13 +317,34 @@ for (const [slug, p] of Object.entries(bridge.projects ?? {})) {
 
   const giMoved = writeGitignoreBlock(p.path, declared.filter((n) => laneSkills.has(n)), wantRules);
   if (giMoved && checkOnly) problems.push(`${slug}: .gitignore's managed block does not match the declaration`);
-  rows.push({ slug, declared: declared.length, domains: domains.length, ...acts, gi: giMoved ? (checkOnly ? 'stale' : 'updated') : 'current' });
+
+  const listing = writeListing(p.path, tiersFor(declared, slug));
+  if (listing === 'updated') changed += 1;
+  reportListing(slug, listing);
+  rows.push({ slug, declared: declared.length, domains: domains.length, ...acts, gi: giMoved ? (checkOnly ? 'stale' : 'updated') : 'current', listing });
+}
+
+// The registry's own maintenance skills (.claude/skills here) are started by the operator by
+// name, like the lane's initiators; the same tiers apply to this checkout.
+if (!onlyProject) {
+  const own = path.join(ROOT, '.claude', 'skills');
+  const wanted = {};
+  for (const e of fs.existsSync(own) ? fs.readdirSync(own) : []) {
+    if (!fs.existsSync(path.join(own, e, 'SKILL.md'))) continue;
+    const tier = listingTier(path.join(own, e), `ai-registry/.claude/skills/${e}`);
+    if (tier) wanted[e] = tier;
+  }
+  const listing = writeListing(ROOT, wanted);
+  if (listing === 'updated') changed += 1;
+  if (listing === 'stale') problems.push('ai-registry: .claude/settings.local.json skillOverrides do not match the maintenance skills\' listing tiers');
+  if (listing.startsWith('skipped')) problems.push(`ai-registry: listing tiers not written - .claude/settings.local.json is ${listing.slice(8)}`);
+  rows.push({ slug: '(registry)', declared: Object.keys(wanted).length, domains: 0, ok: 0, linked: 0, repointed: 0, removed: 0, rulesOk: 0, rulesLinked: 0, blocked: 0, gi: '-', listing });
 }
 
 console.log(`link-registry - lane at ${path.relative(process.cwd(), LANE) || LANE}, ${laneSkills.size} skill(s)\n`);
-console.log('  project        skills  ok  new  gone  | domains  rules-ok  rules-new  | blocked  .gitignore');
+console.log('  project        skills  ok  new  gone  | domains  rules-ok  rules-new  | blocked  .gitignore  listing');
 for (const r of rows) {
-  console.log(`  ${r.slug.padEnd(14)} ${String(r.declared).padEnd(7)} ${String(r.ok).padEnd(3)} ${String(r.linked + r.repointed).padEnd(4)} ${String(r.removed).padEnd(5)} | ${String(r.domains).padEnd(8)} ${String(r.rulesOk).padEnd(9)} ${String(r.rulesLinked).padEnd(10)} | ${String(r.blocked).padEnd(8)} ${r.gi}`);
+  console.log(`  ${r.slug.padEnd(14)} ${String(r.declared).padEnd(7)} ${String(r.ok).padEnd(3)} ${String(r.linked + r.repointed).padEnd(4)} ${String(r.removed).padEnd(5)} | ${String(r.domains).padEnd(8)} ${String(r.rulesOk).padEnd(9)} ${String(r.rulesLinked).padEnd(10)} | ${String(r.blocked).padEnd(8)} ${r.gi.padEnd(11)} ${r.listing}`);
 }
 if (problems.length) {
   console.error(`\n${problems.length} problem(s):`);

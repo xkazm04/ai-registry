@@ -6,7 +6,7 @@ technique: constitution-self-model-split
 status: forged
 laws: [one-authority-per-vocabulary, deletion-is-not-repair]
 shared_with: []
-use_when: [deciding what an agent may change about itself, writing a companion's identity documents, a rule keeps getting overwritten by the agent's own learning, upgrading a shipped constitution the person may have edited, the companion can change the code of the product that ships its law]
+use_when: [deciding what an agent may change about itself, writing a companion's identity documents, a rule keeps getting overwritten by the agent's own learning, upgrading a shipped constitution the person may have edited, the companion can change the code of the product that ships its law, one document carries operator-owned and agent-owned sections]
 ---
 
 # The constitution / self-model split
@@ -38,6 +38,37 @@ Both are loaded into every context the companion reasons in, and both are read
 by the same reader — which is exactly why the reader cannot be trusted to
 maintain the distinction on its own. The distinction has to be structural: two
 files, two write paths, one of which does not exist.
+
+### One file, two authors: when the partition is by heading
+
+The structural property is the **write path**, not the file count, and a
+product sometimes has a reason to keep law and self in one document. It may
+want one artefact per agent, or want the reviewer to read a self-model
+change beside the law it sits under. A single document whose sections are
+owned by different authors meets the split only when all four of these hold:
+
+- **The heading vocabulary is closed and defined once.** The law headings
+  and the self headings are fixed lists in one place. A heading on neither
+  list belongs to nobody, and no door may write under it.
+- **Nothing can mint a heading.** The agent's grammar already targets only
+  existing sections ([anchored-identity-diffs](./anchored-identity-diffs.md)).
+  The operator's law editor must also refuse content that would introduce a
+  top-level heading. Otherwise one legitimate edit can move the boundary,
+  and text that used to sit under law can end up under self.
+- **The agent's door refuses law targets at every stage the change passes
+  through: at propose, not only at apply.** A refusal only at apply lets a
+  proposal that can never land wait in the person's review queue, and there
+  it reads as a legitimate request. For a law target, that is the
+  lane-shopping failure above. It is not blocked; it is delivered to the one
+  reader the split exists to protect, phrased as a question. The apply-time
+  check stays as well, because a proposal can be minted around the propose
+  door.
+- **Law is edited by the operator's own door directly**, never as an agent
+  proposal the operator approves. This is what keeps review collapse away:
+  no single review ever carries both law and learning.
+
+If any of the four is missing, use two files. The two-file design gets all
+four from the file boundary for free, and that is why it is the default.
 
 ## Why one blended document fails
 

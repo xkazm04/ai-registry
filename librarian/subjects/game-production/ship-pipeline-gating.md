@@ -82,7 +82,7 @@ and maturity are unchanged.
 ## Architecture re-review - 2026-09-10 (after the compression revert)
 
 Read all ten documents at their reverted bytes and re-read every consumer file the three
-applications cite (`C:/Users/kazda/kiro/pof`, `master`) as source. Reading source is not
+applications cite (`pof`, `master`) as source. Reading source is not
 executing it: no cook, no packaging run, no smoke test and no build was performed.
 
 This subject came out of the re-review in better shape than any other in my group, and
@@ -139,7 +139,7 @@ filing "this could be tighter" as a finding.
   "baseline": "44c8996585f2e5e3f36e0cb0bd1983c607cadfd7",
   "digest": "sha256:de0b345e898f6956",
   "disposition": "keep",
-  "coverage": "All 10 owned documents read at reverted bytes. Every consumer symbol cited by the three applications was re-read against the live tree at C:/Users/kazda/kiro/pof (smoke-test.ts, preflight.ts, canon-conformance.ts, ue-gates.ts). Not evaluated: no cook, packaging run, smoke test, UnrealBuildTool invocation or asset-validation commandlet was executed; the claim that a 25-second observation window catches the mass of the initialisation-crash distribution is not verified here; no non-Unreal toolchain was checked against the generalisations the subject makes about launchers and log-judged tools.",
+  "coverage": "All 10 owned documents read at reverted bytes. Every consumer symbol cited by the three applications was re-read against the live tree at pof (smoke-test.ts, preflight.ts, canon-conformance.ts, ue-gates.ts). Not evaluated: no cook, packaging run, smoke test, UnrealBuildTool invocation or asset-validation commandlet was executed; the claim that a 25-second observation window catches the mass of the initialisation-crash distribution is not verified here; no non-Unreal toolchain was checked against the generalisations the subject makes about launchers and log-judged tools.",
   "counterexamples": [
     "post-cook-process-liveness-smoke: an artifact whose real process is started under a service manager or container supervisor that reparents it, on a machine where the gate cannot enumerate descendants. Rung 1 fails, rung 2 (name match scoped to processes appearing after launch) races any concurrent build of the same configuration, and rung 4 requires changing the artifact. The technique's honest answer is 'unresolved', which is correct but leaves a whole deployment shape with no passing path.",
     "size-budget-and-growth-baseline: a pipeline whose only durable store is the build agent's local disk and whose agents are ephemeral. Every build is a first build, so the growth comparison is permanently unmeasured and the ratchet the absolute budget is supposed to backstop is the only gate in play - the technique names this in 'when not to use this' but gives no way to detect the difference between a genuinely new platform and a store that silently resets.",
@@ -147,11 +147,11 @@ filing "this could be tighter" as a finding.
   ],
   "sources": [
     {
-      "path": "C:/Users/kazda/kiro/pof src/lib/packaging/smoke-test.ts",
+      "path": "pof src/lib/packaging/smoke-test.ts",
       "result": "Confirmed the bootstrap-versus-game split (status derived from gameAlive alone at :132, bootstrapExitCode recorded and unjudged), deriveGameImage at :68, tasklist-based resolution at :77, DEFAULT_OBSERVE_MS = 25_000 at :55, and the broadcast kill (killImage at :128, taskkill /IM ... /T /F at :86). The file is still 149 lines. Read, not executed - no artifact was launched."
     },
     {
-      "path": "C:/Users/kazda/kiro/pof src/lib/packaging/preflight.ts, src/lib/balance/canon-conformance.ts, src/lib/harness/ue-gates.ts",
+      "path": "pof src/lib/packaging/preflight.ts, src/lib/balance/canon-conformance.ts, src/lib/harness/ue-gates.ts",
       "result": "Confirmed preflight.ts still has no 'unclassified' state, still reduces to one status via overallStatus (:478), and still does not reference size-budgets; confirmed the judgment-mode comments in canon-conformance.ts and ue-gates.ts. Established that preflight.ts is now 482 lines against the document's stated 443. Did not run any gate or its tests."
     }
   ],

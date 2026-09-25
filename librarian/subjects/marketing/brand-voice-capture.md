@@ -26,10 +26,12 @@ consumer workspace at `2893314` and the SEO prompt pipeline at `a47c1ecd`.
 - Deviations of the reconciled trees are recorded in the applications with the standard
   kept; the source note `librarian/sources/2026-09-09-seo-agent.md` carries the
   deviation backlog by area.
+- 2026-09-23 (intake `YuOSyRj3sXg`, [[2026-09-23-thirty-million-writer-ai-slop]]): `rejections-and-edits-become-constraints` corrected. A size threshold wrote off every edit under a quarter of the words as a typo, and a first-party ghostwriting account locates the voice in exactly those edits. The technique now classifies changed stretches by kind and banks small voice edits as their spans. Applied `code`/`better` in systedo-case (`e1ec5d46`): voice corrections banked 0/11 -> 10/11, typo and price edits 0/9 held. It converges with the media bundle's narration-voice subject, which already learns from every accepted-versus-generated delta. Both bundles now agree, so there is no boundary to state across them.
+- Untriaged from the same note, homed here: a stance ledger (which contested claims the business holds) and signature lines stored verbatim (the "examples are new sentences" rule inverts for an owner's chosen line).
 
 ## Owed
 
 - Single-stack debt: born with the stacks above; an external reconcile against a
   second tree is the next pass.
-- No `librarian/applied.md` row yet except where the source note says so; the
-  unapplied backlog is every technique here without a row.
+- `librarian/applied.md` rows: `rejections-and-edits-become-constraints` (2026-09-23, better). The
+  unapplied backlog is every other technique here without a row.

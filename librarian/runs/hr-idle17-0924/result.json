@@ -1,0 +1,26 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "hr-idle17-0924",
+  "skill": "harvest",
+  "skill_version": "0.5.2",
+  "mode": "research",
+  "domain": null,
+  "started_at": "2026-09-24T18:10:00Z",
+  "ended_at": "2026-09-24T18:13:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 0,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [],
+  "verdicts": [],
+  "files": [],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "No work at 8beea2fa, recomputed: 268 rows queued of 294, all ten sections hold queued rows (min 5, llm-observability), no domain terminal; agrees with the dispatcher's count. queue.md and coverage-gaps.md untouched since d9a07b05. Nothing dispatched."
+}

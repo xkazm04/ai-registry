@@ -311,3 +311,57 @@ per-project entries above stand; this is what only shows up across them.
 - **Parallel read-only judges with one map writer** kept the single-owner rule without
   serializing the reading. Judges' anchors were off by one line twice in 50; printing
   them back caught it.
+## 1.7.3 - 2026-09-23 - ai-registry (bumped to 1.8.1 across the same change)
+
+- **The verdicts were durable and the run was not.** Every verdict this skill produces
+  lands in `.ai/registry-map.json` and survives regeneration, which is the design. But
+  the *run* left no trace a caller could read: four pairs judged, a map that could not be
+  read, and a run that declined to judge a weak context all looked the same from outside.
+  The result file records the run; the map keeps the verdicts. Neither duplicates the other.
+- **This skill's result does not live in the registry, and saying so was the whole design
+  question.** `/conform` executes inside the consuming project, so its result lands at
+  `.ai/conform-runs/<run-id>.json` beside the consults log rather than in the registry's
+  public `librarian/runs/` lane. That also makes its paths project-relative and correct -
+  `files[]` naming `.ai/registry-map.json` is the right answer here and would be a leak
+  there.
+- **`verdicts[]` stays empty here on purpose.** It is the apply/A-B lane's field, and a
+  `conformant` / `deviation` / `not-applicable` forced into it would be a second copy of a
+  judgment that already has one home, free to disagree with it. The map is the memory; the
+  result says only that the run happened and what it cost.
+- **`conformant` and `deviation` are map states and must never become run outcomes.**
+  The closed `outcome` vocabulary makes that mechanical instead of a convention: a
+  subject row says `landed` when the pair was judged, and what the verdict WAS lives in
+  `.ai/registry-map.json`, once. The alternative was a second copy free to disagree with
+  the first, which is the failure this skill's whole memory design exists to avoid.
+
+## 1.8.2 - 2026-09-23 - personas (a --stale wave: 164 verdicts, nine workers, one writer)
+
+- **The parallel merge was stamping the wrong digest, so a wave would have re-staled itself.**
+  `scripts/experiments/merge-conform-runs.mjs` wrote `evaluatedAgainst` from the BUNDLE
+  digest, while section 4 requires the subject's own; every verdict it merged would have read
+  stale again after any change anywhere in the bundle. It also wrote no `evaluatedRevision`,
+  left `stale: true` on re-judged pairs, overwrote a recorded verdict with a worker's
+  `unknown`, and refused the whole merge on the run-result file section 5 writes into the same
+  directory. Fixed and fixture-tested before this wave used it; after the merge, 160 of 160
+  re-judged rows carried their subject digest and revision, and the stale count read 4 - the
+  four written declines. Check the writer's output fields against section 4 before any wave.
+- **Workers judge, one writer merges - the only safe shape in a shared checkout.** A sibling
+  session was committing in personas throughout. Nine workers each wrote one file under
+  `.ai/conform-runs/`, the director spot-checked seven anchors by printing them, and the map
+  was written once and committed with `--only`. `.ai/consults.jsonl` and
+  `.ai/registry-leads.jsonl` carried the sibling's uncommitted lines, so this run's lines were
+  appended and left uncommitted rather than committed with theirs.
+- **The old verdict is a lead, and it was usually wrong in some way.** Of 160: 7 deviations
+  were fixed in code, 4 dissolved (their code was deleted or the standard now excludes the
+  case), 12 conformant verdicts became deviations under the grown standard, 3 not-applicables
+  had missed code, and most standing deviations stood on new or narrower grounds. Anchor drift
+  was the bulk of the work again - whole feature directories had been renamed.
+- **One consult line per pair, not per context.** The signals collector now credits deviations
+  only from single-subject lines (a line's one figure cannot be split across the subjects it
+  names), so a per-context line would have made this wave's deviations invisible to demand.
+- **What a merge loses.** `conform-detail.json` replaces a pair's technique list wholesale; this
+  wave recorded only techniques actually read, so 442 older technique-level entries (judged
+  against the old standard) were dropped, not carried as stale. Pair verdicts are unaffected.
+- **Deleted code leaves context rows behind.** Two media-playback contexts and one
+  certification context now own no files; the context map still lists them and the registry
+  map still pairs them. The fix is the project's context map, not a verdict.

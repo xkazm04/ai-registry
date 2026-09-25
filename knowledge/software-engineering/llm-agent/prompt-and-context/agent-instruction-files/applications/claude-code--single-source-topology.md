@@ -4,8 +4,8 @@ type: application
 subject: agent-instruction-files
 technique: single-source-topology
 stack: claude-code
-verified_on: 2026-09-08
-verified_against: claude-code@2
+verified_on: 2026-09-24
+verified_against: claude-code@2.1.281
 ---
 
 # Instruction-file topology across the six-project fleet (Claude Code)
@@ -18,9 +18,9 @@ same day).
 ## The harness facts the topology rests on
 
 - Claude Code loads root `CLAUDE.md` **and** `.claude/CLAUDE.md` — both
-  are discovered locations, concatenated, not shadowed. It does **not**
-  read `AGENTS.md` natively ("Claude Code reads CLAUDE.md, not
-  AGENTS.md"); the documented bridge is a root `CLAUDE.md` containing
+  are discovered locations, concatenated, not shadowed. Until 2.1.277 it
+  did **not** read `AGENTS.md` natively ("Claude Code reads CLAUDE.md, not
+  AGENTS.md"; superseded, see the 2026-09-24 section); the documented bridge is a root `CLAUDE.md` containing
   `@AGENTS.md`, and imports expand at launch (max 4 hops) — they
   organize, they do not save context.
 - Nested `CLAUDE.md` and `.claude/rules/*.md` with `paths:` frontmatter
@@ -116,3 +116,36 @@ technique asks for — *the bridge resolves to the canonical document* — is
 the only check that would have caught it, and it is absent. Compare this
 fleet, where the bridges carry `@AGENTS.md` and one project's bridge says in
 prose what to do if a tool does not expand the import.
+
+## The harness learned to read AGENTS.md, conditionally (re-read 2026-09-24)
+
+Re-resolved against the memory documentation on 2026-09-24 at 2.1.281.
+Since 2.1.277 the harness reads `AGENTS.md` natively, and the condition is
+the part that matters for this topology: **it reads `AGENTS.md` only when no
+`CLAUDE.md`, `.claude/CLAUDE.md` or `CLAUDE.local.md` exists in the working
+directory or above it** (the default *Project instructions* value,
+`claude-md-or-agents-md`). A `CLAUDE.md` on the path therefore still
+suppresses `AGENTS.md`, and the `@AGENTS.md` bridge remains the form that
+works on every session and every version - the documentation says to keep
+it ("Keeping the import never makes Claude read `AGENTS.md` twice"). What
+changed is the repository with an `AGENTS.md` and no `CLAUDE.md` at all: it
+is now served directly, and a `CLAUDE.md` that only *tells* the agent in
+words to read `AGENTS.md` is now a worse bridge than having none, because the
+agent reads the canonical file only if it decides to open it.
+
+A delivery sweep of twelve fleet checkouts the same day classified each
+pair: six import the canonical `AGENTS.md` through `@AGENTS.md`, four have
+no `AGENTS.md`, one runs the reverse
+topology (a canonical `CLAUDE.md` with `AGENTS.md` as a test-guarded pointer
+for other tools - correct; a first-pass classifier flagged it because it
+looked only for the import) - and one had **two populated files**: a 76-line
+canonical `CLAUDE.md` and a later 52-line `AGENTS.md` carrying commands, an
+architecture map and two rules the first file lacked, with no import between
+them. Under the harness's rule that second file reached no session. A paired
+headless probe asked four questions answerable only from it, tools
+disallowed: 0/4 in both runs as the tree stood, 4/4 in both runs after its
+content was folded into the canonical file and `AGENTS.md` became a pointer,
+for 858 more tokens of floor and a 102-line file. That is the technique's
+fork, and the new rule makes the naive reading of it worse: a repository
+that adds an `AGENTS.md` beside an existing `CLAUDE.md` expecting "native
+support" gets none.

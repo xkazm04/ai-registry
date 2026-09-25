@@ -324,3 +324,20 @@ Format: `## <version used> - <YYYY-MM-DD> - <project>` followed by `- ` bullets.
 - **Two subjects described one defect from opposite sides the same day** (a compatibility
   boolean persisted beside a typed state). Concurrent workers on neighbouring subjects are
   a convergence instrument; the run note should record it even when no technique follows.
+## 1.2.0 - 2026-09-23 - ai-registry (bumped to 1.3.1 across the same change)
+
+- **"Dry is a result" was true in the ledger and invisible to a caller.** Loop mode's
+  saturation state - the honest, expensive finding this skill fought for - reached the
+  saturation ledger in prose and nothing else. A new step 6 writes `counts.idled`,
+  which is the only field in the schema that says *saturated* rather than *failed*, and
+  it is the difference between a loop that should idle until a clock and one that is
+  broken.
+- **One result per batch, written by the Director.** Workers already never commit and
+  never leave their folder; letting eight of them write eight results into one run's
+  directory would have been the same collision under a new name. The single-writer rule
+  carried over unchanged.
+- **What it does not carry.** No score, no technique count, no application total - the
+  cycle recomputes all of those and a carried-forward derived metric drifts silently,
+  which is this skill's own oldest anti-pattern. And `pr: null`, honestly: this skill
+  commits atomically per subject and opens no pull request, so the field is empty rather
+  than guessed.

@@ -4694,6 +4694,7 @@ measurement and which is an artifact of asking the wrong question.
    demands one there; the verification instrument nearly did not, because it
    felt like bookkeeping rather than evidence.
 | 2.13.0 | 2026-09-21 | `https://claude-code-from-source.com` + `github:alejandrobalderas/claude-code-from-source@a6d5e452` — an 18-chapter architecture book about an agent harness, written by an agent pipeline from shipped source maps | 1 repository. **Ingest returned 996 words; the tree holds 71,197** — a 71x ratio, and the landing page is the one surface written to be quoted. Swept operating docs and the pipeline prompt first, synthesis chapter next, README last. **0 of 3 fetches** | 16 | 10 verified in full (2 accepted + 8 catches, every one opened rather than inferred from the map) | **1 technique + 1 amendment + 1 application** | 2 rows (`0c/1e/0s/1t/0r`), both `not-better` | 1 (tracklight `13dffd6`, a task plan — no code) | **Expected yield said out loud first (low content / high catches) and it held: 8 of 16 are catches and the corpus is sharper than the source in most.** The two `not-better` verdicts are honest, not empty: row 1's precondition genuinely fails in the target tree and row 2's attack class is structurally absent from the fleet | S0/T1/A1/Asrc0/task~90L · routing count **1 NONE (System A), 0 (System B)** → stay in intake, **no forge handoff** · directions=not-run |
+| 2.13.0 | 2026-09-22 | `https://mimo.xiaomi.com/mimo-v2-6` mimo-v2-6 - open-weight release + operator question "can local models compete in our media/coding stack" | 1 web page, **client-rendered: ingest 3 words, WebFetch empty**; read via HF org page + 2 model cards + GGUF listing + 2 searches (5 fetches, budget waived as the extraction); 3 local models loaded and placement read back | 8 | 4 verified (1 accepted by opening the golden path + 2 techniques; 3 catches opened) | **1 technique** + 1 handoff plan | 1 row (`0c/1e/0s/0t/0r`), `unmeasurable` with the instrument named | 0 - the plan needs an ~11 GB download, which is the operator's call (a speculative pull was removed before) | **The dispatch's half beat the source's half.** A release page yields currency; the landing came from screening the release against this machine and then measuring the incumbents, where the "what drifts" enumeration in the benchmark golden path turned out to have no member for self-hosted placement. Last run's focus item 1 (the formula hunt) applied directly: "resident memory" sat in a bake-off step as a unit with no model. `auto=1/0/0 fp=0` | S0/T1/A0/Asrc0/task-lines 0 · routing count n/a (no repository, no design record) · directions=n/a |
 
 **Next run's declared focus.**
 1. **Add the formula to the enumeration hunt.** When prior art appears only as
@@ -4779,3 +4780,139 @@ verified by eye, take the capture under the same condition the fix targets and
 distrust a blank.** The blank frame found a site-wide defect that two earlier
 reduced-motion passes over this tree had missed, because those passes read the
 code and never looked at the page.
+
+**2026-09-22 (mimo-v2-6) - weakest stage and next focus.** Ship is still the
+stage losing most: this run's apply row is `unmeasurable` pending a download the
+operator owns, and no run in the last two shipped code (the previous row shipped a task plan). Next run's
+declared focus: **when an operator dispatch rides on a source, screen the
+source against the machine or tree it would run on before extracting from the
+source's prose** - here the screen and one placement readback produced the only
+landing, and a release page on its own would have yielded currency alone.
+
+| 2.13.0 | 2026-09-22 | `youtube:-4B8_TjUlcQ` ai-shorts-full-guide | 1 video, 2,311 words; **1 of 3 fetches** (the platform's own synthetic-content disclosure policy); 9 corpus files opened; 2 fleet trees read (gravitone, systedo-case) | 15 | 8 verified by opening their homes (1 accepted + 6 catches + 1 contradicted-and-banked) | **1 technique + 1 application** (golden path: 1 carrier added, 2 sentences corrected so they stay true) | 1 row (`0c/1e/0s/0t/0r`), `not-better` | 1 (gravitone `e40e9f1`, an applied row, no code) | Expected yield said before the table and it held: the finding sat in the demo's proudest segment. It landed on **cross-run convergence**: a banked 2026-09-08 lead's return condition fired. Ship has no code because the seam's precondition was absent by construction (0 of 82 literals). Admission `auto=1/7/0`, `fp=0`. Declared focus mostly n/a: a video has no design record and no routing count. Point 3's spirit applied, since a banked lead was re-checked against its condition before use | S0/T1/A0/Asrc0/task0 · routing n/a (video) · directions=n/a |
+
+**Weakest stage over the last ten rows: ship.** Apply rows keep arriving
+`not-better` because the chosen seam lacks the technique's precondition.
+This run shows the cost directly. The seam chosen to falsify (gravitone)
+could only confirm absence. The seam read second (systedo-case), where the
+precondition was *nearly* present, is the one that changed the landing: it
+supplied the produced-versus-captured discriminator.
+
+**Next run's declared focus.**
+1. **Before choosing a falsifying seam, check the technique's precondition
+   can occur there.** A seam where the precondition is structurally absent
+   can only return `not-better`, and it teaches the tree's shape rather than
+   the technique's. Prefer the seam where the precondition is closest to
+   holding. That is where a caught outcome can change the landing.
+2. **Read the banked leads in the home subject before scoring.** This run's
+   GAIN came from a lead two weeks old, found only because a grep for the
+   concept reached `librarian/sources/`. A lead whose return condition fires
+   is convergence that has already been paid for.
+
+| 2.13.0 | 2026-09-22 | `youtube:kqP09NfJXaQ` h3-timeline-extend-bridge - a builder's walkthrough of a timeline node pack for an open-weights first-and-last-frame video model | 1 video, 10,041 words; **1 of 3 fetches** (arXiv 2302.08113); 1 model install read (3 anchors held) + 1 fleet tree (gravitone: video README, H3 graphs, dojo ledger 17 rows, 0 on span) | 12 | 9 verified (2 accepted + 5 catches opened + 1 promoting read + 1 render proof, 6 clips) | **1 technique** (step-synchronous-windows, se) + **1 render-proven section** (generated-shot-sourcing) + 1 application | 2 rows (`0c/0e/0s/0t/1r` + 1 unapplied): render `better` on the long side, `unmeasurable` on the short | 1 (gravitone `d706a70`, an applied row, no code) | Expected yield said before the table and it held (5 catches). **Ship 0 code:** the render verdict changes what a brief should say, but the only consumer's chain lane never pins a last frame, so there is no seam to change until it does; recorded as the return condition. **The source's claim was contradicted and that was the find:** "too short a span and the bridge cuts" did not reproduce, and the real span failure (idle then snap) sat on the long side. Precondition focus met: the render seam pinned both ends in every arm. | S0/T1/A1(section, render)/Asrc0/task0 - routing n/a (video) - directions=n/a - auto=2/3/0 fp=0 |
+
+**2026-09-22 (h3-timeline-extend-bridge) - weakest stage and next focus.** Ship
+is still losing most: three rows today, three ledger commits, no code. This row's
+render also exposed an instrument gap. The discrimination gate refused both pairs
+(0.88x, 1.16x) because it measures **per-frame pixel distance at matched
+normalised time**, and the variable under test was **timing**. Two clips that
+make the same move at different moments look alike frame by frame at the ends.
+The operator nonetheless picked 2/2 on the long side, in agreement with a
+temporal measure the gate never read (a displacement plateau and a 3-4x
+max-step spike). Next run's declared focus: **when a render pair's variable is
+when something happens (span, pacing, onset, hold), gate discrimination on a
+temporal profile - displacement-from-first-frame by decile, largest step over
+median step - alongside pixel distance, and say before the operator looks which
+one the pair should move.**
+
+| 2.13.0 | 2026-09-23 | `youtube:YuOSyRj3sXg` thirty-million-writer-ai-slop - a ghostwriter's method for writing with a model (commodity / personality / original, approved language, a stance per contested claim) | 1 video, 11,490 words; **0 of 3 fetches**; 7 corpus files opened; 1 fleet tree read (systedo-case: the edit-bank seam, both callers, its tests, its applied ledger, with 0 prior rows on the seam) | 12 | 6 verified (1 accepted + 4 catches opened + 1 promoting read) | **1 correction** (technique section + decision rules, golden-path sentence) + **1 application** (`applied: code`, `ab_verdict: better`, 6/6 anchors held) | 1 row (`1c/0e/0s/0t/0r`), `better`: voice corrections banked 0/11 -> 10/11, floor 0/9 typo and price held | **1 code** (systedo-case `e1ec5d46`, not pushed) | Expected yield said before the table and it held (4 catches, 3 leads, 1 landing). The landing came from the anecdote's *size*: a one-percent edit against a corpus rule that called anything under a quarter noise. Admission `auto=1/3/0`, `fp=0`. Depth `0/0/1/0/0` (a correction, correctly: the finding inverts a rule the file states; it is not a new mechanism); routing count n/a (a video); `directions=n/a`; gate=n/a. Declared focus (temporal render discrimination) did not apply: no render-bound row |
+
+**2026-09-23 (thirty-million-writer-ai-slop) - weakest stage and next focus.**
+Ship is still the stage losing most: four of the five rows before this one
+shipped no code. This run shipped because the seam was a pure function with a
+unit suite beside it, so both arms could be imported from the tree and the
+gate could see the change. Next run's declared focus: the render-temporal
+focus above carries forward unchanged, and **when Phase 7.5 opens a seam,
+first ask whether both arms can be imported from the tree as they are**. If
+they can, the apply row is `code` at the price of a fixture file.
+
+| 2.13.0 | 2026-09-23 | `youtube:3b0U4_02bAE` self-compact-pi-agent - a builder's devlog for a self-compacting coding agent (own compaction tool + note-to-self, three thresholds set under one vendor's price step) plus a three-harness bake-off | 1 video, 6,214 words; **1 of 3 fetches** (vendor pricing page); 9 corpus files opened; 7 fleet trees grepped for a compaction trigger (none); 190 session records replayed | 12 | 7 verified (1 accepted + 4 catches opened + 1 promoting grep + 1 primary) | **1 amendment** (section + decision rule + use_when + golden-path clause) | 1 row (`0c/1e/0s/0t/0r`), `unmeasurable`: step premium +58% -> 0 on real traffic, floor (fidelity after 9 -> 187 compactions) has no instrument | 0 (no fleet project owns a compaction trigger; the seam is the registry's own session records) | Expected yield said before the table and held (5 catches). **The primary corrected the source:** this fleet's vendor bills its million-token window flat, so the step the source hardcoded is a per-model dated fact, read from the price book. The falsifying arm (the flat book) returned the unexpected result: a 272K wall still cut priced input to 0.64x, so the window is not the economic threshold on either book (lead L3). Declared focus met: both arms came from records already on disk, at the price of one script. | S0/T0/A1/Asrc0/task0 - routing n/a (video) - directions=n/a - auto=1/3/0 fp=0 |
+
+**2026-09-23 (self-compact-pi-agent) - weakest stage and next focus.** Ship is
+still losing most: five of the last six rows shipped no code. This run's zero
+has a different cause from the precondition misses: no fleet project owns the
+decision at all, so the arms had to be rebuilt from session records. The
+importable-arms focus paid (a 10-second replay over 26,299 real requests), but
+it moved only the target. The floor, what a compaction costs the task, is not
+in the records, so the verdict was `unmeasurable` before the script ran. Next
+run's declared focus: **before building the arms, check that the floor is
+readable from the same instrument as the target.** If it is not, name the floor
+instrument first, and budget for it or say up front that the row can reach
+`unmeasurable` at best.
+| 2.14.1 | 2026-09-24 | `planetscale.com/blog/introducing-tin` introducing-tin - a vendor announces a text-index extension for hosted Postgres, with a benchmark against three in-database indexes and a design section (row-locator postings, page/offset bitmaps, visibility-map counts) | 1 article, 3,534 words; **0 of 3 fetches**; 4 corpus files opened; 12 fleet trees grepped for in-database text search (rows read, not counted), 1 tree read (politicas: its measured full-text case, rule and harness) | 12 | 4 verified (1 accepted + 2 catches opened + 1 promotion read spent as a paired measurement) | **1 amendment** (section + use_when + golden-path clause) + **1 application** (`applied: experiment`, `better`, 7/7 anchors held) | 2 rows (`1c/1e/0s/0t/0r`): the technique `better` (speedup 150-234x at 0% matched -> ~1x past 23%, floor identical results 24/24 twice); the `c` is a fleet-tooling fix the seam hunt found, not a technique | **2 code** (politicas `75aa6d3` case #3b + R11a; `74eb3c0` consult hook that crashed green since 2026-09-21), + registry `7d152858` (the installer that printed the broken line); not pushed | Expected yield said before the table and held (2 catches, 3 leads, 1 landing). **The source located the gap and the fleet authorized it:** a project rule derived from rare-term counts was about to govern ranked common-word search. Declared focus met by construction: the floor was result equality between arms, read from the timing harness itself. The pre-registered prediction was falsified at the 20k smoke and corrected before landing. Admission `auto=1/8/0`, `fp=0`; row 1 cleared only after the promotion read, spent as a measurement rather than a file read (recorded as a stretch). | S0/T0/A1/Asrc0/task0 - routing n/a (article, not a repository) - directions=n/a - gate=n/a |
+
+**2026-09-24 (introducing-tin) - weakest stage and next focus.** Ship is still the
+stage losing most over the last ten rows (four shipped no code), but the rows that did
+ship share a shape this run repeated: the landing's authority came from a fleet
+project that had already made the decision the source's numbers bear on, not from
+the source. Here a vendor benchmark named a failure regime, and politicas turned out
+to hold a measured rule sitting on the other side of it. The same seam hunt produced
+the run's second ship, a gate that had crashed green for three days, which no source
+would have pointed at. Next run's declared focus: **before scoring, grep the fleet for
+a decision the source's numbers bear on (a measured rule, a benchmark, a threshold),
+and read its derivation.** A project rule derived from a narrower regime than it now
+governs is a seam the source can falsify. And read every hook's output on every fleet
+commit; a green tick is not evidence that the hook ran.
+
+| 2.14.1 | 2026-09-24 | `github:yifanzhang-pro/Agora@4ce939e` agora - a paper (arXiv:2609.18094) with a code-less project-page repo: self-directed agent sessions coordinating through an append-only git DAG of typed contributions, reuse-based evidence scores and explore slots; one 13-worker community run | 1 repo cloned (README, project page, 4 figures, no code); **1 of 3 fetches** (the paper, which was the extraction, ~6,500 words); 9 corpus files opened; 12 fleet trees grepped for a keep-if-better / leader decision; 1 tree read (personas memory-year: FINDINGS, 17 run outputs); 345 registry commits replayed for concentration | 12 (5 design + 7 claim) | 6 verified (3 design entries against opened homes, 2 promoting reads, 1 V1 placement count) | **1 subject** (5 techniques, 3 applications) via one forge worker; director amendments to 2 techniques and the golden path from the apply results; 3 catches, 3 leads | 2 rows (`1c/1e/0s/0t/0r`): explore slots `not-better` (registry fleet, falsifying: the defect worklist does not herd), resolution-bounded leaders `better` (personas ladder: 5 leader claims, 0 resolve, floor +40/64) | **1 code** (personas `bf6a039c6`: ladder resolution check + FINDINGS qualification + applied row), + registry `371582a8`, `08c9ba12`; not pushed | Declared focus (self-compact: read the floor from the same instrument as the target) **met on both rows**. The ladder's floor was a known-separated pair on the same answers.json. The concentration floor was source-driven work on the same mapper. The tin focus (grep the fleet for a decision the source's numbers bear on), appended mid-run, was met by the ladder seam. Admission `auto=1/0/1` (E4+E2 escalated, operator chose forge now), `fp=0`. `build-marketplace --check` was red in HEAD from a sibling's contest 1.4.1 bump; it was not regenerated here. | S1/T5/A0/Asrc0/task0 - paper-class, routing count 3 NONE in one system with one shared home (XL fired, forged in-session; no forge scouts, no code to scout) - directions=0/0 (no fleet project declares agent-operations; the registry is the peer and got an application instead) - gate=n/a |
+
+**2026-09-24 (agora) - weakest stage and next focus.** Ship moved again. This is the
+third row in a row with product code, and all three came from a fleet decision the
+source's numbers bear on, not from the source's own claims. This run adds a second
+pattern, and it is the one worth carrying: **the falsifying seam was this registry
+itself, and the catch was a boundary.** A technique written from a community that herded
+was tested against our own fleet's history. It came back `not-better`, and the reason
+(a defect worklist empties itself; a leaderboard does not) is now the technique's first
+boundary. Next run's declared focus: **when a source describes a system of the same class
+as one of our own instruments (the run board, the scan, the ledgers, a harness ladder),
+replay our instrument's own history against the source's headline measurement before
+writing the technique.** It costs one git log. It either confirms the mechanism or hands
+the technique its boundary before it is written.
+
+| 2.14.1 | 2026-09-24 | `youtube:tPQgw_DPIoM` shadcn-lint-tailwind-design-system - a channel demos a design-system linter for agent-written utility-class UI | 1 video, 1,583 words; primary cloned at `a89d047` (16,383 doc words + eval harness); **0 of 3 fetches** (1 search); 8 corpus files opened; 12 fleet trees censused for a shared-primitive layer; 1 tree read in depth (personas: button primitive, lint config, 2 custom rules, census format) | 11 | 5 verified (2 accepts against opened homes, 1 promotion read, 1 row falsified at its seam, 1 catch opened) | **1 technique** + **1 amendment** (section + use_when) + **1 application** (`applied: experiment`, `better`) + 1 application section (the shipped fix) | 3 rows (`1c/2e/0s/0t/0r`): call-site-ownership `better` (0 of 34 restyles seen by the project's gate, 17 on-token); the white-rule recall fix `better` (3 -> 9, floor held); the vocabulary section `unmeasurable` (instrument named) | **1 code** (personas `f9e257bcd` + applied rows `270485270`), + registry `040cf4fe`, `d0875008`, `29843d42`; not pushed | Declared focus (replay our own instrument against the headline) **met, weakly**: the copy-baseline history was the nearest same-class instrument and showed no relocation. It could not confirm the mechanism, so the amendment cites the primary's measurement and the row is `unmeasurable`. Admission `auto=2/4/0`, `fp=0`. The census instrument over-read nested JSX props (385 -> 74); caught by opening one site, not by the assertion, which only checks for zero. An escaped-regex grep returned a false "none" for the anchor in other rules; a fixed-string rerun with a positive control found it. | S0/T1/A1/Asrc0/task0 - review-class source with the primary as extraction; routing count 1 NONE (the ownership partition), stayed in intake, no handoff - directions=n/a (a lint rule over an existing primitive is coverage, not a capability) - gate=n/a |
+
+**2026-09-24 (shadcn-lint) - weakest stage and next focus.** Ship moved for the fourth
+row running, and for the fourth time the shipped change came from the seam hunt, not from
+the landed technique. The technique's own apply stopped at "filed as next change", because
+a new gate over a tree that already violates it is a ratchet, and the run treated that as
+too large to ship. It is not. A ratchet is a baseline file plus one rule entry, and personas
+already has the format (its census). The weakest stage is still **apply -> ship for a
+gate-shaped technique**. Next run's declared focus: **when the landed technique is a gate and
+the seam already violates it, ship it as a ratchet at today's count in the project's own
+baseline format, in the same session, instead of filing it.** A ratchet changes no
+behaviour on the day it lands, so it needs no larger proof than the census that set the
+baseline.
+
+| 2.14.1 | 2026-09-24 | `youtube:Jr-jyTL2MYI` + `youtube:SFh6MMe-XcM` harness-token-floor - two same-titled token-saving listicles + operator dispatch (instruction-file practice fleet-wide; skills off by default; no-degradation efficiency) | 2 videos, 7,622 words; **3 of 3 fetches** (skills, memory, costs documentation - the extraction for this class); 9 corpus files opened; 12 fleet trees surveyed; 13,649 transcript files replayed for who starts each skill; 30 headless probe sessions (skill tiers, floors, effort-flip cache, guidance fold) | 20 | 8 verified (4 accepts against opened homes and probes, 1 classifier false positive caught by reading the file, 3 catches opened) | **1 technique** + **1 application** + 1 application currency section + 1 technique re-verification + skill 0.9.0 + 9 patch bumps + 2 scripts | 3 rows (`2c/1e/0s/0t/0r`): listing tiers `better` (kp -2,416 tokens per session start, ab-paired n=2); the guidance fold `better` (0/4 -> 4/4, +858 tokens); the delivery rule `better` (1 fork -> 0) | **3 code**: athena `71d0bfd` + `64c322e`, kp `271992747`, 13 machine-state installs; registry `1dec1f05`, `35cbf0e7`; not pushed | Declared focus (replay our own instrument against the headline) **met twice, and it changed both landings**: the transcript replay refuted the hide-from-model switch the dispatch pointed at (prose, chains and one product engine start initiators by name), and re-running the 2026-09-08 cache measurement refuted a relayed "effort flip is cache-free". Admission `auto=2/0/1`, `fp=0`. Escalated: eight instruction files over target, because a trim is a rewrite and rewrite-behavior-pinning puts that inside the degradation the operator excluded. | S0/T1/A1/Asrc0/task0 - listicle batch, no design record; directions=n/a - gate=n/a |
+
+**2026-09-24 (harness-token-floor) - weakest stage and next focus.** Ship moved
+this run (three code rows, one of them fleet-wide machine state), so the stage
+losing most across the last ten rows is **apply for rewrite-shaped findings**:
+twice now (the oversized instruction files here, the ratchet the previous row
+named) a run identified a real, measured seam and escalated it because the fix
+rewrites standing text. Next run's declared focus: **when the owed change is a
+rewrite of instructions, ship its behavior pins in the session - the assertions
+the file must still satisfy, written and run against today's file - and escalate
+only the trim.** Pins change nothing on the day they land, so they need no
+larger proof than running green, and they turn the escalated rewrite into a
+gated one.
+
+**2026-09-24 (harness-token-floor, follow-up on the operator's go-ahead).** The
+declared focus written above was met in the same session: the largest escalated
+rewrite (systedo-case's 1,049-line guide) shipped with its behaviour pins first -
+18/18 before and after, 55,868 -> 39,977 tokens, `ec3ebe66` - and the user-scope
+skill tiers were applied (kp 53,866 -> 53,055). Ship for this run rises to 5 code
+rows. The pins caught nothing the repository's own quote tests and unit suite did
+not; those two caught one defect each, and a hand read found one thinned answer the
+patterns could not see. Keep the focus for the seven remaining files: pins first,
+then the repository's own structural tests, then read one run per arm by hand.

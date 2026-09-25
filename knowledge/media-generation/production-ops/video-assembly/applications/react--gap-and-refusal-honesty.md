@@ -10,7 +10,7 @@ verified_on: 2026-08-19
 
 # Gap-and-refusal honesty in the Gravitone cut and score surfaces (React/TypeScript)
 
-The Gravitone video studio (`C:\Users\mkdol\dolla\gravitone-gcloud`) realizes
+The Gravitone video studio (`gravitone`) realizes
 the technique on two sibling surfaces — the three-lane cut timeline
 (`app/_phases/cut/CutTimeline.tsx`) and the music spotting view
 (`app/_phases/score/ScoreSpotting.tsx`) — over shared clock fixtures

@@ -68,3 +68,23 @@ projects declaring this domain condition on **style** references explicitly labe
 return condition rather than simulated - three invented cases would have been an
 opinion with a table around it. This is the corpus outrunning the fleet, which is a
 state and not a miss.
+
+### 2026-09-22 - `/intake` (`ai-shorts-full-guide`), the third carrier: the register
+
+One technique landed: `footage-claims-a-camera`. The invented-referent family
+had two carriers, the element and the position. A shorts tutorial supplied the
+third: generated clips briefed in an amateur capture register, each with an
+unseen filmer's reaction line, varied clip by clip so a compilation reads as
+independent strangers. The varied signatures are the new mechanism, because
+they manufacture convergence and not only a witness. This closes the
+2026-09-08 concealment lead on its own return condition, so the finding rests
+on two runs, not one.
+
+The golden path's "met this family twice" and "root under both" became three,
+because leaving them would have made a standing sentence false.
+
+Applied to gravitone as an `experiment`, **not-better**. The trailer path
+cannot reach the register (0 of 82 literals), and the claim-free status of
+its trailers rests on the welded photoreal exclusion, not on the genre. The
+seam hunt in systedo-case supplied the produced-versus-captured boundary,
+which went into "when not to use" before landing.

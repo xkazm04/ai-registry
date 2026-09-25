@@ -3,7 +3,8 @@ name: ci-triage
 description: "Turn a red build into a located first cause and a scoped fix proposal, without scrolling the whole log or weakening the check. Use when CI fails and you need the actual reason."
 category: ci-cd
 memory: project
-version: 0.4.0
+listing: on
+version: 0.4.1
 tags: triage, failure, logs, diagnosis, proposal
 argument-hint: "[run-url-or-log]"
 ---

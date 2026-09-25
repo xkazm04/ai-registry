@@ -1,7 +1,7 @@
 ---
 subject: codebase-scanning
 domain: software-engineering
-last_touched: 2026-08-31
+last_touched: 2026-09-23
 touched_by: intake
 dry_streak: 0
 ---
@@ -144,3 +144,9 @@ immediately.
 ### 2026-09-17 - `/harvest backlog` wave 6, one technique + one application
 
 `the-narrowest-view-owns-the-number`. `ingestion-budget` already names the situation and leaves a figure stranded in it: the deterministic detectors and the model are different consumers with different appetites, the snapshot is the shared artifact and the window is a view onto it. Nothing said where the coverage figure must be computed. **Where the same evidence is restricted more than once, the figure that prices a judgment is computed at the LAST restriction.** Every earlier figure is true about a population nobody reasoned over. The measurement's most useful arm is the one that applied the unit's own rule literally and produced nothing: printing a correct coverage statement changed no consumer - same figure, same blend, same silent caveat. **The mechanism is the figure's placement, not the statement.** Admitting the same fact as a term in the figure the weight is derived from halved a model's authority and tripped a caveat that had stayed silent on a 45% view. A sub-rule that only appeared when the change was actually written: a scope statement about untrusted material is a first-party claim and belongs OUTSIDE the fence that voids that material's authority. The obvious placement puts the one sentence the model most needs to obey inside a region it was just told to evaluate rather than follow. And the bounding section, which exists because one member was mis-clustered: **a sample and a proxy are not the same restriction.** A prefix or a surface-subset is countable and reducible - a consumer told 'fourteen of thirty-one' can ask for the rest. A substituted channel is neither, and 'one of one channels read' is a number that makes the gap invisible while appearing to price it. Its honest disclosure is a refusal class, not a ratio.
+
+## 2026-09-23 - [[2026-09-23-1]]
+
+Lead drain (run lib-0923), L147 AMEND + APPLICATION. **Correction** to `sensor-pipeline`: the skip lived only in the report, so rules still scored the degraded empty value as a missing control; the failure now travels in the snapshot and absence rules it could have refuted return unknown. The acceptance test gains its other direction: never a louder report either.
+
+**Impact** (stale verdicts before this landing, from the map rebuilt at the run start): personas 2, ascent 3.

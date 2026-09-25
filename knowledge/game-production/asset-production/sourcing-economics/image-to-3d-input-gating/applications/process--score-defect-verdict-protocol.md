@@ -10,7 +10,7 @@ verified_on: 2026-08-20
 
 # The five-criterion input rubric as a one-line reply protocol
 
-How the PoF pipeline (`C:\Users\kazda\kiro\pof`) realizes the protocol: a single vision
+How the PoF pipeline (`pof`) realizes the protocol: a single vision
 call, a fixed one-line reply, a pure parser, and a shared scorecard shape.
 
 ## The prompt

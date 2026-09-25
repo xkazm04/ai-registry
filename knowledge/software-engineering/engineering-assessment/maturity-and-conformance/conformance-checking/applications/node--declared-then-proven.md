@@ -10,7 +10,7 @@ verified_on: 2026-08-20
 
 # A zero-dependency doctor that proves what the manifest declares
 
-Ascent (`C:\Users\kazda\kiro\ascent`) ships adopting repositories a `.ai/`
+Ascent (`ascent`) ships adopting repositories a `.ai/`
 standard: a `manifest.yaml` spine that *declares* the project's paths,
 capabilities and controls, and `.ai/doctor.mjs` — an executable checker that
 *proves* them. The generator lives in `src/lib/standard/doctor.ts`, which

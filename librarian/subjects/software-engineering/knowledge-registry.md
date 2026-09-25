@@ -1,7 +1,7 @@
 ---
 subject: knowledge-registry
 domain: software-engineering
-last_touched: 2026-08-27
+last_touched: 2026-09-23
 touched_by: intake
 dry_streak: 0
 ---
@@ -118,3 +118,9 @@ Two independent instances, which is what made this convergence rather than an an
 The amendment states the property consumers actually rely on - **equal digests imply equal content** - and the repair rule that decides whether a version bump is a migration or an amnesia: keep the superseded *function*, not merely the superseded prefix, and select it by the record's own prefix. That clause was written from a failed first attempt rather than from theory. Length-prefixing closed the collision and changed every digest, stranding 120 stored review records; calling them stale was false drift, and calling them not-comparable was honest but lossy - it collapsed all 120 into one state and discarded the 25 that were genuinely stale along with the 95 that were genuinely current. A target that moves while the floor falls is `not-better`, and the floor here is identical between arms rather than merely close.
 
 **The structural fact nobody designed** is better evidence than the repair: this registry already published its *skill* content hashes as `sha256-n1:`, a prefix whose whole job is to name the normalization so a reader can tell schemes apart - and its *bundle* digest as a bare `sha256:`. The discipline existed, was written down in the form of a prefix, and was applied to one of the two digests by the same authors in the same repository. Nothing detected it because both digests looked individually correct. The second structural fact is the guard: it asserted four insensitivity properties and no injectivity, and a guard built entirely out of insensitivity assertions will pass a function that maps everything to a constant.
+
+## 2026-09-23 - [[2026-09-23-1]]
+
+Lead drain (run lib-0923). L164 AMEND (`catalog-as-sync-key` now says what its citers claimed: revision orders, digest identifies, with the change count's three conditions - the source was this registry's own tooling). L165 AMEND to `lane-contracts` (a regeneration parks an orphaned verdict and re-attaches only on a measured match; the lead's "fixture proved it" did not hold - no churn fixture is committed). Machine paths removed from two applications. Proposals: `multi-project/project-identity-and-joins` park-don't-drop; `build-registry-map.mjs` `revisionsBehind` goes negative after a taxonomy move (plain subtraction, revisions counted without --follow).
+
+**Impact** (stale verdicts before this landing, from the map rebuilt at the run start): personas-web 1.

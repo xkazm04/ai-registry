@@ -118,6 +118,47 @@ has imported the third shape's rule into a provider that runs the first.
 Record the shape beside the price ratios, and re-measure it when the
 provider's API changes — for one provider it moved inside a single release.
 
+The re-measurement is worth running whenever the claim arrives second-hand.
+On 2026-09-24 two practitioner reports relayed that a vendor's newest models
+"update effort mid-conversation without breaking the cache". The same
+harness, re-measured on its two newest model families with the flip arm run
+*first* on a forked resume (so no sibling arm could have warmed it), showed
+the first shape unchanged: the flip read only the tool layer (17-19k tokens)
+and rewrote everything below it, while the same-effort arm read the whole
+prefix and wrote 38 tokens. The flip turn cost 1.7-1.9x at a near-empty
+conversation, and since the cache is a prefix, in a long conversation "below
+the tool layer" is the entire history. Clean in both repeats on one family
+and in four of five forks on the other; the fifth read everything, and one
+unexplained read is recorded, not averaged away. The relayed rule was the
+third shape's rule imported into a provider that runs the first, which is
+the error the paragraph above predicts.
+
+## The cached prefix is also a latency asset
+
+Everything above prices the prefix in money. For an interactive class the
+same prefix is also time to first token, and a switch made *for speed* can
+forfeit it. The engine that is faster per token on a trivial prompt may not
+cache across process spawns at all. On the real prompt it then pays the full
+prefill on every turn and arrives later than the incumbent it was meant to
+beat.
+
+Measured on one interactive tier (2026-09-17). On the production prompt
+(three scenarios, two reps each), an engine that won the trivial cold-spawn
+race by about two seconds reached first text 3.4 times later at the median
+than the incumbent. It kept no cache across spawns. On the incumbent, one
+process kept warm per conversation took turn two to first text in 2.2 s
+against 4.4 s for a cold spawn. That required moving the per-turn context out
+of the system layer and into the user message, so that the cached prefix stays
+byte-identical between turns. Shrinking the prompt helped too, but not
+uniformly. Moving from the full prompt to a small fixture saved 2.1 s on one
+model and 0.4 s on another whose long prefix was already served from cache.
+
+So for a slow interactive class the order of levers is: keep the prefix
+byte-stable and the process warm, then shrink the prompt family, and only then
+change the model or the engine. Measure every candidate on the real prompt, in
+its real cache state, with first-token time recorded per turn. A trivial-prompt
+benchmark measures spawn cost and says nothing about prefill.
+
 ## What this does not say
 
 Nothing here argues against routing by class — that stance stands. It

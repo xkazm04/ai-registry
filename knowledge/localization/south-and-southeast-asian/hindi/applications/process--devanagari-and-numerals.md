@@ -11,7 +11,7 @@ verified_on: 2026-08-24
 # Process — script mechanics counted in a shipped 14-locale catalog
 
 The Personas repo's Hindi style guide
-(`C:\Users\kazda\kiro\personas\docs\i18n\style-hi.md`, typography section)
+(`personas/docs/i18n/style-hi.md`, typography section)
 settles every mechanic this technique anchors by counting the shipped,
 human-reviewed portion of `src/i18n/locales/hi.json` — and its numbers are worth
 citing because they show which rules are fully settled in practice and which

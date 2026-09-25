@@ -12,7 +12,7 @@ Subject note. Part of [[index]]; graded against [[standard]].
 
 ## Touch log
 
-### 2026-09-23 - `/deepen` batch ([[2026-09-23-1]])
+### 2026-09-23 - `/deepen` batch ([[2026-09-23-3]])
 
 First sweep since the 2026-08-24 forge. Chosen on live demand the librarian scan could
 not see: its signals files dated from 2026-08-29/30, while the regenerated registry map

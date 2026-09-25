@@ -189,6 +189,9 @@ should not have to re-derive them.
   condition:** when a second independent source treats artifact-concealment as
   a technique rather than an aside, or when a managed project ships a
   generative surface that publishes to a public feed.
+  **Fired 2026-09-22** ([ai-shorts-full-guide](2026-09-22-ai-shorts-full-guide.md)):
+  a second author built a whole compilation format on it. Landed as
+  `evidence-bound-visuals/footage-claims-a-camera`.
 
 ## Phase 7.5 — applied, and the seam chosen to falsify
 

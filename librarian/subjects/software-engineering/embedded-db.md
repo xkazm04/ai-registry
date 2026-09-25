@@ -93,7 +93,7 @@ journal technique, first on the rust stack.
 
 New technique `corruption-class-response`: the corruption CLASS decides the response - a corrupt derived index detaches (drop triggers, mark stale, serve the slow path) and keeps writing; bare structural corruption quarantines the handle and stops writing, because a handle that kept writing ~50 minutes after the first structural error checkpointed pages under wrong numbers and turned a readable file into one that would not open. None of the eight existing techniques stated the split (extension-lifecycle applies the derived/canonical distinction to what to store, not to what a damaged handle may do). Source-tree application `python--corruption-class-response`. Fleet seams by scope: pumper and tracklight both admit the force; the fleet map lists both as present for the subject, so the next step is a registry-map state on the pair, not a proposal.
 
-## 2026-09-23 - `/deepen` currency lane ([[2026-09-23-1]])
+## 2026-09-23 - `/deepen` currency lane ([[2026-09-23-3]])
 
 `python--corruption-class-response` came up on its own `refresh_by` clock (2026-10-15). All ~30 anchors re-resolved against the upstream agent tree at HEAD (13,043 commits past the first read) and `verified_on` moved; the `refresh_by` override was kept (the tree moves far faster than the derived python window) at the same 43-day span. Upstream moves recorded in the application, none contradicting it: the FTS-scoped corruption check consolidated into one shared predicate, the deferred FTS retry now skips quarantined handles, and a keep-open-through-shutdown path that applies only when the WAL files were removed. Two of our own anchors were corrected (a method name and the write site of the stale marker). No technique edit. Proposal: none.
 

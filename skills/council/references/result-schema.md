@@ -88,8 +88,8 @@ measure", and those lead to opposite actions.
   "overall": 0.0 | null,                // null when nothing was measured
   "coverage": 0.0,
   "outcome": "ready" | "fail" | "incomplete" | "stalled",
-  "must_address": ["<one line of work per entry>"],
-  "summary": "<the synthesis in a paragraph>"
+  "must_address": ["<one line of work per entry, <= 200 chars when generated>"],
+  "summary": "<the synthesis in a paragraph - required, never empty>"
 }
 ```
 
@@ -146,6 +146,22 @@ its rule order is the contract - a consumer in another language mirrors it liter
 10. The proof ladder is **recorded and not enforced**. "This branch is only simulated"
     belongs in the scenario's `summary`, where a person reads it; making it a gate would be
     the instrument deciding what counts as evidence.
+
+## `must_address` is a row, and `summary` is not optional
+
+**Every entry the instrument GENERATES is one line of at most 200 characters.** An
+unmeasured dimension contributes `<dimension> is unmeasured: <first sentence of the reason,
+<= 160 chars>`; a `high` finding contributes `<dimension>: <title>`. Nothing is lost by the
+clamp - the full `unmeasured_reason` is on the dimension and the full `detail` is on the
+finding, which is where a reader who wants the argument goes. An entry **carried in** from a
+human rejection is exempt and stays verbatim: a person's own words are the highest-value
+input the method receives and the instrument has no standing to edit them.
+
+**`summary` is required and may not be empty.** `aggregate` resolves it from `--summary`,
+else `started.summary`, else the first paragraph of `<run>/report.md`, and refuses to write
+a result without one; the validator refuses an empty string. An empty summary is not a
+harmless blank - a consuming door that substitutes the subject's own description for it
+shows a person the subject's blurb labelled as what the council concluded.
 
 ## The outcome, in order
 

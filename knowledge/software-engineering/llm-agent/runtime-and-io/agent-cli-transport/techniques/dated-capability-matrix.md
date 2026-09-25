@@ -6,7 +6,7 @@ technique: dated-capability-matrix
 status: forged
 laws: [derivation-names-recomputation, unknown-is-not-a-value]
 shared_with: []
-use_when: [encoding what a given agent CLI supports, an adapter hardcodes flags a version bump may break, deciding whether a feature can rely on schema-constrained output, a capability works on one machine and not another at the same version, a feature is gated by a remotely-fetched flag payload]
+use_when: [encoding what a given agent CLI supports, an adapter hardcodes flags a version bump may break, deciding whether a feature can rely on schema-constrained output, a capability works on one machine and not another at the same version, a feature is gated by a remotely-fetched flag payload, a second agent CLI is proposed as the fast lane, a CLI pointed at a self-hosted model times out and reads as model incapacity]
 ---
 
 # The dated capability matrix
@@ -125,6 +125,59 @@ the **session** answers what was switched on when the process started.
 Comments in adapter code that pin flag semantics carry the
 same discipline in miniature: "verified against the tool's help output on
 this date" beats a bare flag every time an upgrade breaks one.
+
+## Clocks and costs are rows, measured under the served prompt
+
+Two families of rows never appear in help text, and routing decisions
+turn on them.
+
+**The tool's own clocks.** A tool in this class can impose three clocks,
+and the application's kill timer does not replace any of them:
+
+- a **run ceiling**, the wall clock the golden path already makes a row;
+- a **per-request ceiling** on each model call the child makes;
+- an **idle budget** on each call: how long a streaming response may go
+  without emitting a byte before the client abandons it.
+
+Record each one with its default, its lever, and whether a lever exists at
+all. "No flag and no config field" is a real and common cell. The idle
+budget is the one that surprises. A request that has been accepted and is
+still being worked on is abandoned as failed, from inside the child, with an
+error that reads like a network fault. It bites whenever a turn can stay
+silent for a long time. A self-hosted endpoint does this when it prefills a
+large context at local speed and then reasons without streaming. On the
+tools of this class, the client's reasoning controls are known not to reach
+every compatible endpoint.
+
+Two rules follow. **Set the per-request ceiling below the session band, and
+never equal to it.** A request ceiling copied from the session's budget
+lets one dead request hold a lane silent for the whole session. Pin the
+**gap** between the two in a test rather than either number, because they
+answer different questions. And **a timeout against a self-hosted endpoint
+is not evidence about the model** until the same task has been driven
+against the endpoint directly. Silence-budget failures and incapacity look
+identical from the lane, and the easy conclusion is the wrong one often
+enough to matter. The converse holds too: removing the silence can take a
+smaller model or more memory rather than a longer budget, so the budget row
+is the first thing to check and not the whole diagnosis.
+
+**The cost of a spawn under the prompt you actually send.** A per-call
+transport pays the system prompt on every spawn. Whether the tool reuses a
+cached prefix **across spawns** is a per-tool property. Between two tools
+that look alike it can run from almost the whole prompt to almost none of
+it. Record it as the
+cached prefix tokens per spawn, together with the time to the first visible
+output token, **measured with the production prompt** and at the p50 and
+p90, not with a trivial prompt. A trivial cold spawn measures process
+start-up. A tool can win that by seconds and still be several times slower
+once it has to re-read a large uncached prompt on every call
+([the-measurement-runs-the-served-configuration](../../../evaluation-and-cost/model-call-outcome-integrity/techniques/the-measurement-runs-the-served-configuration.md)).
+Measure this before a second tool is designed in as the "fast lane". Read
+the caching column as a diagnostic, not as the whole verdict. A tool can
+serve its prefix from cache in a warm session and still be slow to first
+text, because prefill and the fixed scaffold it adds are costs of their own.
+The row that decides the route is time to first visible text under the
+served prompt, and the caching column explains it.
 
 ## Features declare requirements; the surface follows
 

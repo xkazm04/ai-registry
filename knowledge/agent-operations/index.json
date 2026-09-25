@@ -3,17 +3,18 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "agent-operations",
   "source": "knowledge/agent-operations/ (frontmatter only)",
-  "subjects": 8,
-  "techniques": 25,
-  "applications": 12,
+  "subjects": 9,
+  "techniques": 30,
+  "applications": 15,
   "laws": 6,
   "categories": [
    "configuration-choice",
    "measurement",
-   "run-safety"
+   "run-safety",
+   "coordination"
   ],
   "layout": "nested",
-  "use_when_coverage": "25/25",
+  "use_when_coverage": "30/30",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -470,6 +471,99 @@
     }
    ]
   },
+  "shared-research-record": {
+   "category": "coordination",
+   "subcategory": null,
+   "status": "draft",
+   "file": "knowledge/agent-operations/coordination/shared-research-record/shared-research-record.md",
+   "digest": "sha256-b2:1d21609d185e872b",
+   "revision": 1,
+   "changedAt": "2026-09-25",
+   "techniques": [
+    {
+     "slug": "community-run-as-unit",
+     "status": "draft",
+     "laws": [
+      "a-ceiling-is-a-measurement-boundary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "claiming that a shared record or its views helped a fleet",
+      "reading statistics computed over one community's contributions",
+      "a mid-run change was followed by an improvement"
+     ]
+    },
+    {
+     "slug": "explicit-explore-slots",
+     "status": "draft",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "designing the frontier view parallel sessions read before choosing work",
+      "a shared record's activity concentrates on one approach",
+      "sessions keep landing the same idea within hours of each other"
+     ]
+    },
+    {
+     "slug": "independent-reuse-evidence",
+     "status": "draft",
+     "laws": [
+      "the-judge-never-grades-its-own-family"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding how a shared record credits a contribution",
+      "a participant's score rises from its own follow-ups",
+      "a verifier reverses an earlier verdict"
+     ]
+    },
+    {
+     "slug": "resolution-bounded-leaders",
+     "status": "draft",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "deciding when a new contribution replaces the leader of a shared frontier",
+      "a shared leaderboard keeps moving by tiny margins",
+      "every component of a result was selected on one development evaluator"
+     ]
+    },
+    {
+     "slug": "typed-contribution-vocabulary",
+     "status": "draft",
+     "laws": [
+      "a-refusal-is-not-a-result",
+      "measure-the-tree-not-the-summary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "defining what sessions may publish to a shared record",
+      "a record mixes hypotheses and results",
+      "deciding whether a failed attempt is worth publishing"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "community-run-as-unit",
+     "file": "knowledge/agent-operations/coordination/shared-research-record/applications/process--community-run-as-unit.md",
+     "verified_on": "2026-09-24"
+    },
+    {
+     "stack": "process",
+     "technique": "explicit-explore-slots",
+     "file": "knowledge/agent-operations/coordination/shared-research-record/applications/process--explicit-explore-slots.md",
+     "verified_on": "2026-09-24"
+    },
+    {
+     "stack": "process",
+     "technique": "resolution-bounded-leaders",
+     "file": "knowledge/agent-operations/coordination/shared-research-record/applications/process--resolution-bounded-leaders.md",
+     "verified_on": "2026-09-24"
+    }
+   ]
+  },
   "unattended-run-isolation": {
    "category": "run-safety",
    "subcategory": null,
@@ -556,6 +650,7 @@
     "model-and-effort-selection/cheapest-sufficient-tier",
     "model-and-effort-selection/instruction-defect-before-tier-escalation",
     "model-and-effort-selection/tier-risk-inversion",
+    "shared-research-record/typed-contribution-vocabulary",
     "unattended-run-isolation/no-links-into-live-trees"
    ]
   },
@@ -578,7 +673,8 @@
     "agent-benchmark-design/coverage-and-provisional-labelling",
     "agent-run-budgeting/allowance-budgeting-across-workloads",
     "agent-run-budgeting/refusal-detection-and-requeue",
-    "blind-judging-of-agent-runs/withhold-rather-than-half-judge"
+    "blind-judging-of-agent-runs/withhold-rather-than-half-judge",
+    "shared-research-record/typed-contribution-vocabulary"
    ]
   },
   "a-ceiling-is-a-measurement-boundary": {
@@ -587,7 +683,8 @@
     "agent-benchmark-design/coverage-and-provisional-labelling",
     "agent-run-budgeting/ceiling-as-measurement-boundary",
     "harness-fault-attribution/fault-signature-catalogue",
-    "model-and-effort-selection/task-shape-tier-policy"
+    "model-and-effort-selection/task-shape-tier-policy",
+    "shared-research-record/community-run-as-unit"
    ]
   },
   "the-repository-outranks-the-instruction": {
@@ -607,7 +704,8 @@
     "agent-run-budgeting/allowance-budgeting-across-workloads",
     "blind-judging-of-agent-runs/provenance-scrubbing",
     "blind-judging-of-agent-runs/withhold-rather-than-half-judge",
-    "engine-behaviour-profiles/family-diversity-as-a-control"
+    "engine-behaviour-profiles/family-diversity-as-a-control",
+    "shared-research-record/independent-reuse-evidence"
    ]
   }
  }

@@ -13,7 +13,7 @@ verified_on: 2026-08-24
 The counting technique's rules were not hypothetical in the Personas app
 (19k keys, 14 locales): three of them correspond to real shipped bugs in
 `src/i18n/locales/ja.json`, recorded as wrong→right pairs in
-`C:\Users\kazda\kiro\personas\docs\i18n\style-ja.md` (Pitfalls section) and
+`personas/docs/i18n/style-ja.md` (Pitfalls section) and
 verified there 2026-08-24.
 
 ## The compound incident: JA-NO-PLURAL-S plus a skeleton break

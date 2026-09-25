@@ -6,7 +6,7 @@ technique: socket-scoped-surface
 status: forged
 laws: [gate-sees-target, absent-guard-is-loud, verdict-survives-boundary]
 shared_with: []
-use_when: [a remote agent must drive a browser daemon that was designed for loopback, deciding whether a request is local by reading its headers, a health endpoint that returns a token, choosing which commands a paired remote agent may run]
+use_when: [a remote agent must drive a browser daemon that was designed for loopback, deciding whether a request is local by reading its headers, a health endpoint that returns a token, choosing which commands a paired remote agent may run, an embedded webview refuses host IPC from remote-origin pages and page results must reach the shell]
 ---
 
 # Socket-scoped surface
@@ -115,6 +115,46 @@ from the gate to the log and to the response hint
 ([verdict-survives-boundary](../../../../_laws.md#verdict-survives-boundary)),
 so a later analysis can aggregate by cause instead of by message text.
 
+## When the page itself must answer over the loopback
+
+A third caller shows up when the controller drives pages inside an embedded
+webview host rather than an external browser. Page-world script must then
+send results back to the shell. The obvious channel is the host's own IPC,
+and hosts in this class commonly refuse IPC from remote-origin pages unless
+an application-wide permission manifest is declared. Declaring one to admit
+a single reply command puts every command the application has behind the
+same manifest. When that is the price, the reply channel becomes a socket to
+the loopback listener the shell already runs, and the page becomes a caller
+of that listener like any other. It is also the least trusted one, because
+any page's script can open a socket to the loopback address.
+
+The rules are this technique's rules, applied to the new caller:
+
+- **A per-page credential, minted when the tab is created and never the
+  root or pairing token.** A page that could present the root credential
+  could receive root commands. The per-page credential is checked **before**
+  the socket upgrade, and replies are matched only against requests issued
+  to that page, under identifiers the page was handed and cannot guess.
+  Even a stolen credential then answers only its own questions.
+- **The credential lives where page script cannot reach it.** Inject it in
+  a script that runs before any page script, and keep it in that script's
+  closure, never on a shared object. Anything the closure uses to send it
+  must also be captured at injection time, and the socket constructor is the
+  one that gets missed. A reconnect that looks up the global constructor
+  after page scripts have run hands the credential, in the connection
+  address, to whatever the page installed there.
+- **One direction.** Requests keep reaching the page through the host's
+  own evaluation path. The socket carries answers only, so a frame sent the
+  other way has nowhere to be read.
+- **State the cost as a residual.** The script runs in the page's world, so
+  the page's own connection policy governs the socket. A site with a strict
+  content policy blocks it, and its answers arrive as timeouts. Engines
+  currently exempt the loopback address from mixed-content blocking, which
+  is what lets an encrypted page open a plain local socket. That exemption,
+  and any permission gate an engine puts on public-to-local requests, is
+  engine policy and changes with engine versions. Date it as a
+  capability row; do not treat it as a law.
+
 ## Decision rules
 
 - Remote reachability means a second listener; forward only that one; hard-fail
@@ -129,6 +169,10 @@ so a later analysis can aggregate by cause instead of by message text.
   and refuses without explanation.
 - Log every remote denial with a typed reason, asynchronously, under a rate cap
   that records what it dropped.
+- A page that answers over the loopback holds its own per-page credential,
+  checked before the upgrade and held in an injected closure, and that
+  closure also captures the socket constructor. The channel is one-way, and
+  the page's connection policy is its stated cost.
 
 ## The boundary
 

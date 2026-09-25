@@ -36,15 +36,42 @@ const hist = existsSync(histPath)
 
 // Total lens count is read from the reference, not hardcoded: a lens added to
 // lenses.md must not silently make every "22/22" row a lie.
+// `Group: challenge` lenses run only under --challenge and are NOT part of the
+// denominator (SKILL.md "Challenge mode"): a challenge run must never make a
+// context read as swept.
 let TOTAL_LENSES = 22;
+const CHALLENGE_LENSES = new Set();
 try {
   const ref = new URL('../references/lenses.md', import.meta.url);
-  const n = (readFileSync(ref, 'utf8').match(/^## [a-z-]+ /gm) ?? []).length;
+  const sections = readFileSync(ref, 'utf8').split(/^(?=## [a-z-]+ )/m).filter((s) => s.startsWith('## '));
+  for (const s of sections) if (/^Group: challenge\s*$/m.test(s)) CHALLENGE_LENSES.add(s.slice(3).split(' ')[0]);
+  const n = sections.length - CHALLENGE_LENSES.size;
   if (n > 0) TOTAL_LENSES = n;
 } catch { /* keep the fallback */ }
 
+// Challenge snapshots are tallied apart: they feed the --challenge cohort picker
+// and nothing else.
+const challenged = new Map();
+for (const h of hist) {
+  if (h.strategy !== 'challenge') continue;
+  const prev = challenged.get(h.scope);
+  if (!prev || h.at > prev) challenged.set(h.scope, h.at);
+}
+// --in-flight <cohort.json>[,<cohort.json>]: a run whose scouts are done but whose
+// snapshots are not yet written (challenge.md section 2.2, pipelining). Its hosts and
+// riders count as challenged "now" so the next cohort does not pick them again.
+for (const f of (opt('--in-flight', '') || '').split(',').filter(Boolean)) {
+  const c = JSON.parse(readFileSync(f, 'utf8'));
+  const now = new Date().toISOString();
+  for (const h of c.cohort ?? []) {
+    challenged.set(h.name, now);
+    for (const r of h.riders ?? []) challenged.set(r.name, now);
+  }
+}
+
 const byScope = new Map();
 for (const h of hist) {
+  if (h.strategy === 'challenge') continue;
   const e = byScope.get(h.scope) ?? { lenses: new Set(), findings: 0, fixed: 0, leads: 0, sweeps: 0, last: null, strategy: null, carried: 0 };
   for (const k of h.lens_keys ?? []) e.lenses.add(k);
   e.findings += h.findings ?? 0; e.fixed += h.fixed ?? 0; e.leads += h.leads ?? 0; e.sweeps += 1;
@@ -69,12 +96,13 @@ const strict = fpRecent >= 3 && trailingClean < 3;
 // auditable. Flatten both shapes; map order is group order, then context order within the group.
 const contexts = [
   ...(map.contexts ?? []),
-  ...(map.groups ?? []).flatMap((g) => g.contexts ?? []),
+  ...(map.groups ?? []).flatMap((g) => (g.contexts ?? []).map((c) => ({ group: g.name, ...c }))),
 ];
 const rows = contexts.map((c, order) => {
   const e = byScope.get(c.name);
   return {
-    name: c.name, order,
+    name: c.name, order, group: c.group ?? c.group_id ?? null,
+    challenged: challenged.get(c.name) ?? null,
     files: (c.file_paths ?? c.filePaths ?? []).length,
     lenses: e ? e.lenses.size : 0, sweeps: e ? e.sweeps : 0,
     findings: e ? e.findings : 0, fixed: e ? e.fixed : 0, leads: e ? e.leads : 0,
@@ -97,6 +125,55 @@ const reason = !next ? 'no contexts'
   : `lens coverage ${next.lenses}/${TOTAL_LENSES}, last swept ${next.age} ago`
     + (next.carried ? `, ${next.carried} carried item(s) owed first` : '');
 const strictNote = strict ? `strict: fp=${fpRecent} in last ${recent.length} rounds - auto-accept needs Method gate` : '';
+
+// --challenge: the cohort rule of references/challenge.md section 2, in one place.
+// >= 10 files; never challenged first, then oldest challenge; at most one context per
+// group; larger first among equals. A group-less context is its own group.
+// Riders (references/challenge.md section 2.1): a context under 10 files is never a host
+// while its group still has an unchallenged >= 10-file context; it rides with that group's
+// host instead (up to RIDERS per host). A group with no such host left promotes its small
+// contexts to hosts, largest first, so full coverage is reachable.
+if (has('--challenge')) {
+  const size = Math.max(1, Number(opt('--cohort', '6')) || 6);
+  const RIDERS = Math.max(0, Number(opt('--riders', '3')) || 0);
+  const onlyGroup = opt('--group', null);
+  const groupOf = (r) => r.group ?? `solo:${r.name}`;
+  const bigLeft = new Set(rows.filter((r) => r.files >= 10 && !r.challenged).map(groupOf));
+  const pool = rows
+    .filter((r) => r.files > 0 && (r.files >= 10 || (!r.challenged && !bigLeft.has(groupOf(r)))))
+    .filter((r) => !onlyGroup || r.group === onlyGroup)
+    .sort((a, b) => (a.challenged ? 1 : 0) - (b.challenged ? 1 : 0)
+      || (a.challenged && b.challenged ? Date.parse(a.challenged) - Date.parse(b.challenged) : 0)
+      || b.files - a.files || a.order - b.order);
+  const seen = new Set();
+  const cohort = [];
+  for (const r of pool) {
+    if (cohort.length >= size) break;
+    const g = r.group ?? `solo:${r.name}`;
+    if (!onlyGroup && seen.has(g)) continue;
+    seen.add(g);
+    cohort.push({ name: r.name, group: r.group, files: r.files, reason: r.challenged ? `last challenged ${r.challenged.slice(0, 10)}` : 'never challenged', riders: [] });
+  }
+  // Attach riders: unchallenged small contexts of the host's group, map order.
+  const riding = new Set(cohort.map((c) => c.name));
+  for (const c of cohort) {
+    for (const r of rows) {
+      if (c.riders.length >= RIDERS) break;
+      if (r.files > 0 && r.files < 10 && !r.challenged && !riding.has(r.name) && groupOf(r) === (c.group ?? `solo:${c.name}`)) {
+        c.riders.push({ name: r.name, files: r.files });
+        riding.add(r.name);
+      }
+    }
+  }
+  const uncovered = rows.filter((r) => r.files > 0 && !r.challenged).length;
+  if (asJson) console.log(JSON.stringify({ cohort, eligible: pool.length, uncovered }, null, 2));
+  else {
+    for (const c of cohort) console.log(`${c.name}\t${c.files} files\t${c.group ?? '-'}\t${c.reason}${c.riders.length ? `\triders: ${c.riders.map((x) => `${x.name}(${x.files})`).join(', ')}` : ''}`);
+    console.log(`${uncovered} context(s) never challenged`);
+    console.log(`\n${cohort.length} of ${pool.length} eligible contexts (>= 10 files${onlyGroup ? `, group ${onlyGroup}` : ', one per group'})`);
+  }
+  process.exit(cohort.length ? 0 : 2);
+}
 
 if (nextOnly) {
   if (!next) { console.error('no contexts in the map'); process.exit(2); }

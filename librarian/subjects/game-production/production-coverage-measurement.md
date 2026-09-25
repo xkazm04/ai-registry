@@ -83,7 +83,7 @@ the qualifications below govern this review.
 ## Architecture re-review - 2026-09-10 (after the compression revert)
 
 Read all ten documents at their reverted bytes and re-read every consumer symbol the
-three applications cite (`C:/Users/kazda/kiro/pof`, `master`) as source. Reading source is
+three applications cite (`pof`, `master`) as source. Reading source is
 not executing it: no status build, grader, audit or test was run.
 
 The model this subject describes is the sturdiest thing in my group, and the reason is
@@ -151,7 +151,7 @@ file compression as a finding.
   "baseline": "44c8996585f2e5e3f36e0cb0bd1983c607cadfd7",
   "digest": "sha256:f5c545d4ace70164",
   "disposition": "keep",
-  "coverage": "All 10 owned documents read at reverted bytes. Consumer symbols cited by the three applications re-read against the live tree at C:/Users/kazda/kiro/pof (statusModel.ts EngineClass, TRUSTED_CLASSES, UNAUDITED_ENGINE, EngineSource; readiness.ts LADDER, READINESS_NAME, readinessOf). Not evaluated: no status page was built or rendered, no grader, spec linter or audit was executed, and no test asserting the craft/readiness separation was run; the '~344-step' population figure and the measured percentages quoted in node--engine-credibility-classes (106 of 110, 95 audited steps, 43.8%) were not re-derived from data; the ceiling assignments per medium are dated market assumptions and were not re-checked against the current model market.",
+  "coverage": "All 10 owned documents read at reverted bytes. Consumer symbols cited by the three applications re-read against the live tree at pof (statusModel.ts EngineClass, TRUSTED_CLASSES, UNAUDITED_ENGINE, EngineSource; readiness.ts LADDER, READINESS_NAME, readinessOf). Not evaluated: no status page was built or rendered, no grader, spec linter or audit was executed, and no test asserting the craft/readiness separation was run; the '~344-step' population figure and the measured percentages quoted in node--engine-credibility-classes (106 of 110, 95 audited steps, 43.8%) were not re-derived from data; the ceiling assignments per medium are dated market assumptions and were not re-checked against the current model market.",
   "counterexamples": [
     "readiness-ladder: an item whose declared gate ran, failed, and was then re-declared against a different gate. The (rung, state) model gives 'blocked at whatever passed' and 'waiting at the would-be rung' but not both at once, so an item that is simultaneously condemned by one check and awaiting another renders as one of the two and the reader cannot see the other.",
     "engine-credibility-classes: a derivational producer whose external input happens to be constant across the entities it was probed on - a verifier that reads a manifest identical for two entities. The byte-identity probe returns identical outputs and misfiles it as hand-typed constants, which is the conservative direction but is a false demotion the technique does not name.",
@@ -160,11 +160,11 @@ file compression as a finding.
   ],
   "sources": [
     {
-      "path": "C:/Users/kazda/kiro/pof src/lib/status/statusModel.ts:156-171, :243-248, :299-319",
+      "path": "pof src/lib/status/statusModel.ts:156-171, :243-248, :299-319",
       "result": "Confirmed EngineClass enumerates exactly the ten classes the application lists, that TRUSTED_CLASSES is {llm, code, human} with hand-authored deliberately excluded, and that the unmatched resolution path returns UNAUDITED_ENGINE rather than a trusted default. Did not re-derive the measured percentages the module header records, and did not execute the grader."
     },
     {
-      "path": "C:/Users/kazda/kiro/pof src/lib/status/readiness.ts:26-70, :123-137, :167",
+      "path": "pof src/lib/status/readiness.ts:26-70, :123-137, :167",
       "result": "Confirmed LADDER is the single ordered source (now at :47, not the document's :26), that R5 requires grade === 'verified' AND realization?.ue === 'proven' (now :135, not :128), and that the OK colour token is reserved for R4/R5. Did not render the page or run the ramp-distinguishability test the technique asks for."
     }
   ],

@@ -72,8 +72,28 @@ next quarter. With a chokepoint, the enumeration collapses to "every path
 uses the client; the client checks" plus a short, auditable list of
 legitimate exceptions.
 
-Two path classes deserve explicit attention because they are where
+Where the chokepoint sits depends on the metered unit. When the unit is a
+model call, the client wrapper is the natural door. When the unit is a
+product action (a scan, a report, a generated document) the client cannot be
+the door. It does not know whose balance the action spends, and the
+reservation has to happen before the first byte of a streamed response
+leaves, which is before any model call exists. The chokepoint is then a
+shared gate module that every entry point to the action calls, and the
+enumeration moves with it. It is no longer "every path uses the client". It
+is "every route that reaches the paid work calls the gate".
+
+Three path classes deserve explicit attention because they are where
 enumeration typically fails:
+
+- **Twin entry points.** A second door to the same paid action, most often
+  a streaming variant built beside a request/response route, or the other
+  way round. The twin is usually written by copying the first route's
+  happy path, and the gate is the part that gets left behind, because it
+  sits in the copied route as inline code instead of being an import. The
+  check is mechanical. List the routes that reach the paid work, list the
+  importers of the gate, and investigate every route in the first list and
+  not the second, whatever its comments say. A comment asserting that a
+  path "is metered below" is not evidence of a gate.
 
 - **Unattended initiators** — schedulers, event triggers, retry loops. These
   spend without a human watching, so they carry the *hard* gates

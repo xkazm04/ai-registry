@@ -6,7 +6,7 @@ technique: generated-shot-sourcing
 status: forged
 laws: [cost-per-usable-output, refusal-is-a-state, style-is-restated-not-remembered]
 shared_with: []
-use_when: [briefing a generative video model to produce shots for a cut, deciding whether a still should be animated by a model at all or moved by the editor, deciding between text-only and image-anchored conditioning for a shot, accepting or rejecting generated clips into an assembly, handling clips that arrive with their own baked-in audio, a subject drifts steadily across a long sequence of generated shots, planning a scene that will be built by chaining extensions, a pipeline's derived durations must survive a model's fixed generation steps, animating a designed graphic whose artwork must stay exact across the shot, a walk or other cyclic movement comes back stiff from an anchored generation, minting a series of keyframes or end-frame anchors for a multi-shot sequence]
+use_when: [briefing a generative video model to produce shots for a cut, deciding whether a still should be animated by a model at all or moved by the editor, deciding between text-only and image-anchored conditioning for a shot, accepting or rejecting generated clips into an assembly, handling clips that arrive with their own baked-in audio, a subject drifts steadily across a long sequence of generated shots, planning a scene that will be built by chaining extensions, a pipeline's derived durations must survive a model's fixed generation steps, animating a designed graphic whose artwork must stay exact across the shot, a walk or other cyclic movement comes back stiff from an anchored generation, minting a series of keyframes or end-frame anchors for a multi-shot sequence, choosing the length of a bridge or of a backward or end-anchored extension, a clip pinned at both ends holds still and then snaps to its last frame]
 ---
 
 # Generated-shot sourcing
@@ -455,6 +455,48 @@ a budget rather than an escape from the clip cap:
 The honest summary for a brief: **extension is a budget denominated in the
 platform's units.** Ask what the window is, what the ceiling is, and what the
 step is, before designing a scene that assumes any of the three.
+
+## A clip pinned at both ends is paced by the model, not by its span
+
+Several extension modes fix a clip's *last* frame as well as its first: a
+bridge that regenerates the stretch between two accepted clips, a backward
+extension that must land on an accepted clip's opening, a loop closed onto its
+own head, and a shot anchored on its end frame to land a beat. In each one the
+span, meaning how long the clip is, is a separate decision from the travel,
+meaning how far the picture has to move between the two frames. The model
+does not spread the travel evenly across whatever span it is given.
+
+**Too much span does not slow the move down. It idles and then snaps.** Given
+a span well beyond what the travel needs, the model holds near the first frame
+for most of the clip, completes the move in a short late burst, and then holds
+the end frame. The burst is a near-cut inside one continuous shot. The same
+stack shows the mirror image when the end is open: the clip arrives early and
+repaints the arrival for the rest of its length. Both failures have one cause.
+Nothing asked the move to fill the span, and the model spends the surplus by
+standing still. *Measured 2026-09-22, one open-weights first-and-last-frame
+model, one small travel (a head turn), two seeds.* At 2.4x the span the travel
+was first rendered in, the displacement from the first frame sat flat for the
+middle half of the clip, and one frame step near the end was three to four
+times the median step. The operator preferred the travel-sized span on both
+seeds, blind.
+
+**Too little span was not the failure it is reported to be, at least for a
+small travel.** The practitioner report behind this section says a bridge
+starved of span cannot reach its end state and cuts to it. At a third of the
+travel's span, the same head turn came back as a fast, continuous turn with no
+cut. The operator's preference between it and the full span split by seed,
+which means the span decided less than the noise did. Treat a short span as a
+pacing choice for a travel the model can compress. Treat it as a cut risk only
+for a travel it cannot compress, such as a large camera move or a change of
+place; that half is unmeasured here.
+
+So **size the span to the travel, not to the slot.** The cheapest estimate of a
+travel's natural length is an unpinned render of the same move: the point at
+which an open-ended clip arrives is roughly the span a pinned one can fill.
+Where the timeline slot is longer than that, fill the difference in the edit,
+with a hold or a neighbouring shot, rather than handing the model the surplus
+to stand still in. Remember that the span arrives quantized and that the
+conditioning windows at each pinned end are paid out of it.
 ## The anchor imports its maker's texture
 
 A frame anchor conditions more than composition: the clip inherits the

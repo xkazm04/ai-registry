@@ -499,10 +499,19 @@ Source [[../../sources/2026-09-21-claude-code-from-source]]: an 18-chapter archi
 - **The boundary against `structured-output/output-budget-signal` is in prose, not a link-and-shrug.** Both read the same measurement - response length against the ceiling - and ask opposite questions: that one asks whether the *call* is too big, this one whether the *reservation* is. A system can hold the first and still leave the second to a default, which is exactly what the applied tree does.
 - **Application (`rust--response-reservation-sizing`, applied task, not-better).** The target tree already sets a deliberate ceiling and its input is bounded far below the window, so the technique's recurring cost there is zero. The seam returned something better: two crates size the same response and neither reads the other, a 3.91x overcommit between a 16,000-token planning budget and a 4,096 wire ceiling, and a request type with no output-ceiling field through which the derived number could ever travel.
 
-## 2026-09-23 - `/deepen` currency lane ([[2026-09-23-1]])
+## 2026-09-23 - `/deepen` currency lane ([[2026-09-23-3]])
 
 `python--amortized-compaction-cadence` refreshed before its 2026-10-15 clock; ~20 anchors re-resolved (the pass logic moved into a mixin, the doc into the site). One correction to our own text, wrong at both commits: the pass counter counts every emitted event, including failures and skipped exchanges, not successes. `refresh_by` kept, moved to 2026-11-05.
 
 Banked lead (proposal): `amortized-compaction-cadence` should say pass counters split by outcome - one total over skips and absorptions makes a quietly skipping session look healthy. Return condition: the next pass over the technique, or a fleet project owning a transcript compaction.
 
 Impact: personas carries 2 stale `deviation` verdicts on this subject (pre-existing, not moved by this landing).
+
+## 2026-09-23 - /intake self-compact-pi-agent (run `intake-3b0U4`, intake 2.13.0)
+
+Source [[../../sources/2026-09-23-self-compact-pi-agent]]: a builder's devlog for a self-compacting coding agent whose thresholds are set just under one vendor's price step. Mostly catches (the note-to-self is `compaction-checkpoint`'s model notepad; the done criterion is `task-envelope`), plus one amendment.
+
+- **compaction-horizon-breakeven** gained "When the price book moves the wall". Where a provider reprices the whole request above a prompt-length threshold, the step is a second wall below the window: compact regardless within its reserve, with the step read per model from the price book at session start. The observability bundle's price book already stated the whole-request repricing; the compaction techniques had never read it. The vendor primary showed steps are per-model and move (this fleet's vendor bills a million-token window flat), so the constant the source hardcoded is the anti-pattern.
+- **Applied row:** experiment, `unmeasurable`. A 2x step at 272K costs this checkout's real traffic +58% with no wall and nothing with one, but compactions rise 9 -> 187 and their fidelity cost has no instrument yet.
+- **Open (lead L3):** on a flat book, a 272K wall still cut priced input to 0.64x, so window-fraction thresholds are not economically neutral anywhere. This waits on a compaction-fidelity instrument before any threshold moves.
+- **Untriaged:** delivering occupancy to the model as graded notices (real gap after the promoting grep; the source's own demo shows a model reading a percentage against the window rather than the policy).

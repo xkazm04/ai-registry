@@ -12,7 +12,7 @@ verified_on: 2026-08-24
 
 How one real product recorded a Spanish register decision and managed the legacy
 drift it uncovered: the Personas fleet's per-locale style guide at
-`C:\Users\kazda\kiro\personas\docs\i18n\style-es.md`, governing the `es` locale of
+`personas/docs/i18n/style-es.md`, governing the `es` locale of
 a ~19k-key consumer catalog (`messages/es.json`) shipped in 14 locales.
 
 ## The recorded decision (ES-REGISTER in practice)

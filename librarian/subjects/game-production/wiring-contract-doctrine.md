@@ -87,7 +87,7 @@ this entry supersedes it, and it retracts the blanket `reverify` for the two Nod
 applications specifically, because their load-bearing counts are checkable and I checked
 them.
 
-Read (not executed) against the `pof` working tree at `C:\Users\kazda\kiro\pof`:
+Read (not executed) against the `pof` working tree at `pof`:
 `src/lib/catalog/pipelines/*.ts` carries **137** `wiringContract:` blocks across **33**
 pipeline files, and **137** occurrences of `wiringContractSound(` — one per declared
 block, exactly as `node--placeholder-rejection` reports.
@@ -151,11 +151,11 @@ retain reverify on their own citations.
   ],
   "sources": [
     {
-      "path": "C:/Users/kazda/kiro/pof/src/lib/catalog/pipelines/*.ts",
+      "path": "pof/src/lib/catalog/pipelines/*.ts",
       "result": "Read, not executed. Establishes 137 wiringContract: blocks across 33 pipeline files and 137 occurrences of wiringContractSound(, confirming the application's authored-equals-consumed measurement. Establishes nothing about whether any of those checks passes at runtime, and contradicts the same document's 'the count is real and has grown' narration."
     },
     {
-      "path": "C:/Users/kazda/kiro/pof/src/lib/catalog/acceptance/wiringCheckers.ts",
+      "path": "pof/src/lib/catalog/acceptance/wiringCheckers.ts",
       "result": "Read, not executed. Confirms MIN_PROSE = 12 at line 38 and the placeholder regex at line 40 verbatim. Does not establish that twelve is the right floor, nor that it was derived the way the technique says it should be."
     }
   ],

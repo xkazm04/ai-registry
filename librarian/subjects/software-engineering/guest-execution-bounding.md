@@ -1,3 +1,8 @@
+---
+subject: guest-execution-bounding
+domain: software-engineering
+last_touched: 2026-09-04
+---
 # guest-execution-bounding
 
 `software-engineering/backend-platform/language-runtime/guest-execution-bounding`

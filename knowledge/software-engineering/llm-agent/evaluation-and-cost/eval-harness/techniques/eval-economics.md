@@ -92,6 +92,36 @@ platform default happens to be, which is typically the most expensive
 option and changes without notice; the harness's own overhead becomes both
 unpredictable in cost and unstable as an instrument.
 
+## A long run persists each cell as it finishes
+
+A run that keeps its results in memory until the end prices every interruption at the
+whole run. That is tolerable for a suite that takes minutes. It is not tolerable for a
+live sweep in which every cell is a multi-turn model-against-model dialog, where one cell
+takes minutes and the sweep takes hours. Such a sweep gets killed by a wall budget, a
+host restart or an operator, and the spend already made is then lost along with the
+evidence it bought. So the first version of any sweep whose cells cost real money, and
+not a later hardening pass, carries three properties together:
+
+- **Each cell is durable the moment it finishes.** Write its artifacts and rewrite the
+  run record after every cell, atomically (write aside, then rename), because a torn
+  record that the resume path discards as unparseable loses the same hours a different
+  way. Test it at the seam: the record must already hold cells 1..k when cell k+1
+  starts. A test that only inspects the final file passes against the at-the-end form.
+- **Resume skips what is recorded, and the report covers the whole run.** A resumed run
+  reports every cell, restored and new, from the record, never only the cells this
+  process happened to execute. A run that stopped early reports as partial and cannot
+  pass.
+- **A recorded cell is keyed by what makes it the same measurement.** A cell's name
+  alone is not enough. A resume after the candidate, the judge packet or the harness
+  changed silently merges two instruments into one report. Key the record the same way
+  verdict caching is keyed above (the cell, the candidate version, the packet version),
+  and let a mismatch start the cell over.
+
+Concurrency comes with durability and does not replace it. Workers shorten the sweep, but
+cells now finish out of order, so the record and the report stay in the declared cell
+order, never completion order. Otherwise two runs of the same sweep cannot be read side
+by side.
+
 ## Tiered cadence: run the right slice at the right time
 
 The suite is not one thing that runs or does not; it is slices priced for

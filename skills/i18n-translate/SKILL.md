@@ -5,7 +5,8 @@ description: Copywriting-grade, context-aware localization for any managed app -
 argument-hint: <mode> [locale] [scope]
 memory: project
 contexts: tracked
-version: 1.6.0
+listing: on
+version: 1.6.1
 ---
 
 # i18n-translate — copywriting-grade, context-aware localization

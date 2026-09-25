@@ -6,7 +6,7 @@ technique: catalog-as-sync-key
 status: forged
 laws: [derivation-names-recomputation, count-carries-predicate]
 shared_with: []
-use_when: [consumers need to know whether their copy is current, designing a generated index, choosing a content hash for drift detection]
+use_when: [consumers need to know whether their copy is current, designing a generated index, choosing a content hash for drift detection, a consumer needs to know how far behind its verdict is]
 ---
 
 # The catalog as sync key
@@ -134,6 +134,48 @@ records still carry in order to fix a collision none of them had hit
 (`_laws.md#unknown-is-not-a-value` is about not inventing a value, not about
 discarding one you have). The old function is dated by a condition — delete it
 when no record under the old prefix remains — and by nothing else.
+
+## A digest identifies; it does not order
+
+The digest answers *is this the item I judged?* and nothing further. Two
+digests do not order, so a consumer holding a verdict one typo behind and one
+holding a verdict five rewrites behind see the same thing — *stale* — and must
+re-read the whole item to learn which. When consumers store a judgement
+against an item, and not just a copy of it, publish an **ordering beside the
+identity**: a monotonic count of the changes that have landed on the item,
+and the date of the newest. A consumer that recorded the count it judged at
+can then say how far behind it is without fetching anything. The digest stays
+the sync key; the count never decides staleness. When they disagree — a change
+landed and reverted moves the count by two and the digest by nothing — the
+digest wins, because a verdict is about content and the count is about
+history.
+
+Derive the count from the repository's own history of the item's location,
+and pin three conditions, each of which is a confident wrong answer if left
+open:
+
+- **Count the uncommitted change.** A catalog regenerated beside an
+  uncommitted edit must already carry the number the commit will produce —
+  the committed count plus one while the location is dirty. Otherwise a
+  catalog that was current when written is stale the moment the edit it
+  describes is committed, and the regenerate-and-compare check fails on one
+  side of every landing.
+- **Never count a history that is not there.** A shallow checkout — the
+  usual shape of a continuous-integration clone — answers every count with
+  the depth of the clone. Detect it, carry the previous catalog's values
+  forward, name the fallback once, and emit null where there is nothing to
+  carry. A small plausible number is worse than null, because the consumer
+  subtracts it.
+- **Match the history tool's own count, not an approximation of it.** A
+  faster derivation than one query per item is usually needed at corpus
+  scale; validate it against the per-location count on every item, because
+  an approximation that is off by one at merges is indistinguishable, to the
+  consumer computing a distance, from a real landing.
+
+The count restarts where the item's location does. A relocation that the
+count does not follow resets it, and an item's history rewritten on the
+published branch can shorten it; a consumer that finds its stored count
+*above* the published one has a reset, not a lead, and re-judges.
 
 ## Serialization is part of the contract
 

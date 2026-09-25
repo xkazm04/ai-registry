@@ -6,7 +6,7 @@ technique: tool-schema-design
 status: forged
 laws: [failure-not-empty-success, gate-sees-target, one-authority-per-vocabulary]
 shared_with: []
-use_when: [naming tools so the model picks the right one, deciding whether a constraint lives in the schema, failed calls reading as successes downstream, an argument the handler never reads, requiredness that depends on the operation, a schema crossing an endpoint that accepts a narrower subset than the one authored, a rejection the model cannot diagnose from the schema it was given]
+use_when: [naming tools so the model picks the right one, deciding whether a constraint lives in the schema, failed calls reading as successes downstream, an argument the handler never reads, requiredness that depends on the operation, a schema crossing an endpoint that accepts a narrower subset than the one authored, a rejection the model cannot diagnose from the schema it was given, proving a read-only annotation before a host auto-approves on it]
 ---
 
 # Tool schema design
@@ -299,3 +299,47 @@ they are: **unverified claims by the server about itself.** A host may relax
 friction for tools *claiming* to be read-only from servers it already
 trusts; it must never treat the claim as proof across a trust boundary. The
 annotation is a sorting hint for consent design, not a security property.
+
+### "Publish them honestly" is a test, not an intention
+
+The host's half of that rule leaves the publisher's half unsaid, and the
+publisher is the only party that can check the claim. The errors are not
+symmetric. A read annotated destructive costs one needless confirmation. A
+write annotated read-only is the error a trusting host auto-approves, so the
+dangerous direction is exactly one, and the check is aimed at it:
+
+- **Every tool carries a verdict on every axis.** An absent hint is not a
+  verdict, and a tool whose author never decided its blast radius should
+  fail to build rather than publish a default. The axes constrain each
+  other: a read-only verdict is non-destructive and idempotent by definition,
+  and a registry that lets the three disagree is publishing a contradiction.
+- **Each read-only handler is driven against a recording stand-in** for
+  whatever it calls — the backend client, the store, the process spawner —
+  and the run fails on any effectful call. An effectful-looking call that is
+  genuinely pure (a compute endpoint that happens to take a request body) is
+  allowed only when an allow-list names it **with the reason**. A read-only
+  tool that reaches nothing at all is unprobeable, and it has to declare so
+  with a reason, or its hint is unverified.
+- **The allow-list is checked in both directions.** Every allowed callee is
+  inspected for write primitives, and an entry that no read-only tool reaches
+  fails the run. An exemption list that cannot go stale is the difference
+  between an exception and a hole.
+- **What is advertised on the wire equals the registry.** Assert on the
+  listing a real client receives, not on the declaration, because the
+  listing is what the host sorts on
+  ([gate-sees-target](../../../../_laws.md#gate-sees-target)).
+
+Then fault-inject once: flip one write tool to read-only and confirm the
+guard fails **on that tool's effectful call**. A guard that passes on both
+the honest and the lying form checks nothing.
+
+State the guard's reach beside it, because its reach is narrower than its
+name. The probe drives the path that stubbed replies lead to; a branch
+reached only with real data is not driven. Classifying calls by their
+effect class (a read verb assumed safe) makes the verb itself an
+unchecked claim, and a handler that delegates to a library function the
+source scan does not follow is invisible to it. A static scan for write
+primitives is a heuristic, with false alarms and misses both. What the
+guard proves is "no read-only tool performs an effectful call on its probed
+path", and that is worth having, but it is not the whole of "this tool
+cannot write".

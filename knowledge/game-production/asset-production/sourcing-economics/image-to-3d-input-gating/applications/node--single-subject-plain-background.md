@@ -12,7 +12,7 @@ verified_against: node@24
 # Enforcing the isolation criterion at the line that spends credits
 
 The rubric in `src/lib/visual-gen/input-gate.ts` is only worth what its call site enforces.
-This is that call site, in the PoF repo (`C:\Users\kazda\kiro\pof`).
+This is that call site, in the PoF repo (`pof`).
 
 ## The gate that had no callers
 

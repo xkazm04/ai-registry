@@ -4,8 +4,8 @@
   "bundle": "media-generation",
   "source": "knowledge/media-generation/ (frontmatter only)",
   "subjects": 21,
-  "techniques": 145,
-  "applications": 73,
+  "techniques": 146,
+  "applications": 75,
   "laws": 9,
   "categories": [
    "narrative-craft",
@@ -15,7 +15,7 @@
    "production-ops"
   ],
   "layout": "nested",
-  "use_when_coverage": "145/145",
+  "use_when_coverage": "146/146",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -505,9 +505,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/research-grounding/evidence-bound-visuals/evidence-bound-visuals.md",
-   "digest": "sha256-b2:ceea6a8a8398287e",
-   "revision": 6,
-   "changedAt": "2026-09-04",
+   "digest": "sha256-b2:9c3c30c0335b8162",
+   "revision": 7,
+   "changedAt": "2026-09-25",
    "techniques": [
     {
      "slug": "anchor-removal-ablation",
@@ -566,6 +566,23 @@
       "validating scene or frame specs",
       "putting any number or dated label on screen",
       "building the text layer of a compositor"
+     ]
+    },
+    {
+     "slug": "footage-claims-a-camera",
+     "status": "forged",
+     "laws": [
+      "output-never-outruns-evidence"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "briefing a generated clip to look like phone",
+      "dashcam",
+      "doorbell or other amateur capture",
+      "building a compilation whose clips are meant to read as filmed by different people",
+      "a brief asks to degrade generated output with grain or shake so it reads as real",
+      "deciding whether a photoreal generated clip of an everyday event needs a label",
+      "writing an off-screen reaction line for a clip with no visible speaker"
      ]
     },
     {
@@ -641,6 +658,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "next",
+     "technique": "footage-claims-a-camera",
+     "file": "knowledge/media-generation/research-grounding/evidence-bound-visuals/applications/next--footage-claims-a-camera.md",
+     "verified_on": "2026-09-22",
+     "verified_against": "next@16.3.3"
+    },
     {
      "stack": "process",
      "technique": "epistemic-draw-routing",
@@ -2476,9 +2500,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/production-ops/video-assembly/video-assembly.md",
-   "digest": "sha256-b2:7e20037cad4bff46",
-   "revision": 15,
-   "changedAt": "2026-09-16",
+   "digest": "sha256-b2:35f198b574e308dd",
+   "revision": 16,
+   "changedAt": "2026-09-25",
    "techniques": [
     {
      "slug": "cut-compiled-from-source",
@@ -2558,7 +2582,9 @@
       "a pipeline's derived durations must survive a model's fixed generation steps",
       "animating a designed graphic whose artwork must stay exact across the shot",
       "a walk or other cyclic movement comes back stiff from an anchored generation",
-      "minting a series of keyframes or end-frame anchors for a multi-shot sequence"
+      "minting a series of keyframes or end-frame anchors for a multi-shot sequence",
+      "choosing the length of a bridge or of a backward or end-anchored extension",
+      "a clip pinned at both ends holds still and then snaps to its last frame"
      ]
     },
     {
@@ -2649,6 +2675,13 @@
      "technique": "generated-shot-sourcing",
      "file": "knowledge/media-generation/production-ops/video-assembly/applications/process--generated-shot-sourcing.md",
      "verified_on": "2026-09-08"
+    },
+    {
+     "stack": "python",
+     "technique": "generated-shot-sourcing",
+     "file": "knowledge/media-generation/production-ops/video-assembly/applications/python--generated-shot-sourcing.md",
+     "verified_on": "2026-09-22",
+     "verified_against": "python@3.12"
     },
     {
      "stack": "react",
@@ -3000,6 +3033,7 @@
     "evidence-bound-visuals/causal-arrow-discipline",
     "evidence-bound-visuals/epistemic-draw-routing",
     "evidence-bound-visuals/figure-must-cite-a-fact",
+    "evidence-bound-visuals/footage-claims-a-camera",
     "evidence-bound-visuals/generous-strawman-rendering",
     "evidence-bound-visuals/performer-claims-need-a-person",
     "evidence-bound-visuals/precision-limit-propagation",

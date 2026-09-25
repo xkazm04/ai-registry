@@ -1,11 +1,11 @@
 ---
 name: contest
-description: "Blind design contest between CLI agent seats (Claude Code, Codex CLI, Grok CLI). Each participant you name - engine:model@effort - builds three genuinely different prototype variants of one idea in its own workspace; a cross-family panel scores every variant blind on seven dimensions (wow, clarity at scale, wayfinding, interaction, craft, concept, utility); the host adds a visual pass in a browser; the owner declares the winner or sends a shortlist into a refinement round with their review; the winner and the design philosophies behind it land in an Obsidian vault whose pattern ledger becomes the bar in the next brief. Built for UI prototypes with a wow factor, usable for any solution design. Invoke with /contest \"<idea>\" --participants <specs> for a full round, or /contest init|run|collect|judge|verdict|refine|status <id> to drive one step."
+description: "Blind design contest between CLI agent seats (Claude Code, Codex CLI, Grok CLI). Each participant you name - engine:model@effort - builds three genuinely different prototype variants of one idea in its own workspace; a cross-family panel scores every variant blind on seven dimensions (wow, clarity at scale, wayfinding, interaction, craft, concept, utility); the host adds a visual pass in a browser; an optional reveal round lets every seat see the whole field, keep one of its own variants and master it with a comparison matrix; a router page links every blinded variant across the vault's contests; the owner declares the winner or sends a shortlist into a refinement round with their review; the winner and the design philosophies behind it land in an Obsidian vault whose pattern ledger becomes the bar in the next brief. Built for UI prototypes with a wow factor, usable for any solution design. Invoke with /contest \"<idea>\" --participants <specs> for a full round, or /contest init|run|collect|judge|reveal|router|verdict|refine|status <id> to drive one step."
 category: workflow
 memory: vault
-version: 1.4.0
+version: 1.5.0
 tags: contest, prototyping, ui, multi-model, blind-judging, vault
-argument-hint: "\"<idea>\" --participants engine:model@effort,... | init|run|collect|judge|verdict|refine|status <id>"
+argument-hint: "\"<idea>\" --participants engine:model@effort,... | init|run|collect|judge|reveal|router|verdict|refine|status <id>"
 ---
 
 # Contest - three seats, three ideas each, one blind panel
@@ -41,7 +41,7 @@ resumes by re-running the same command.
 
 ```
 /contest "<idea>" --participants claude:opus@xhigh,grok:grok-4.6@high,codex:gpt-5.6-sol@high
-/contest init|run|collect|judge|aggregate|verdict|refine|status <id>
+/contest init|run|collect|judge|aggregate|reveal|router|verdict|refine|status <id>
 ```
 
 The full form runs steps 1 to 8 below with a pause before the verdict. The step form drives one
@@ -79,6 +79,27 @@ Stage the material under a directory the host owns (`--data <dir>`): the real da
 static page can load (`data/<name>.js` setting a global, plus the same as `.json`) and a
 `data/SCHEMA.md` that names every field. A prototype scored on invented data scores as empty,
 so staging is not optional when data exists.
+
+### Design contests - when the variants are reports
+
+A backend or architecture brief runs the same instrument; a variant is a design report that opens
+in a browser. What changes is host work, all of it outside the instrument:
+
+- **Stage the real system**, not a dataset: spec, source, schema, numbers read off the machine,
+  and a `data/SCHEMA.md` carrying the honesty rules (which table is empty, which identity does not
+  exist, which snapshot is stale). Never stage personal content; stage its shape.
+- **Give the brief no menu.** Listing example bets made eight of nine variants build exactly those;
+  name the axes a bet may differ on instead.
+- **Append the owner's report bar**: the `## The bar for the report itself` section of
+  `references/design-report-craft.md`, plus the repo's design Taste, to the brief. After `init`,
+  replace the rendered template's UI-only lines (the runtime data example, "load the real data")
+  identically in every `PARTICIPANT.md`.
+- **Use a separate vault subdir** (`--vault-subdir Backend`) so the UI pattern ledger is not quoted
+  at an architecture seat.
+- **Weight verified claims over totals.** On a design brief the host's visual pass measures
+  legibility, not soundness; before recommending, check the sharpest defects a code-reading judge
+  names against `data/`.
+- The owner may skip the panel and decide on the reveal alone.
 
 ## 2. Init
 
@@ -133,9 +154,18 @@ node <skill>/scripts/contest.mjs collect --id <slug>
 Validates every workspace (variants present, notes present, stray files named), assigns blind
 letters by a hash of the contest id, copies each variant under `judging/entries/<letter>/` with
 every vendor, model and participant name **redacted** (leaks are counted and reported - a
-participant that signed its work told the panel who it was), and writes `gallery.html`: the
+participant that signed its work told the panel who it was) - except compound identifiers the
+staged `data/` itself contains (`anthropic/opus@xhigh` in a brief about judge identity), which are
+evidence and are kept and counted separately; a bare vendor word is always redacted - and writes `gallery.html`: the
 unblinded index for the host. Read the collect output before judging; a seat with zero variants
-is a rerun candidate, not an entry.
+is a rerun candidate, not an entry - and a seat that reports `completed` with zero variants is an
+infrastructure failure, so read its `stderr.log` before anything else.
+
+Collect also writes the **router**: `<arena>/<id>/router.html` for this contest, and
+`<vault>/<subdir>/router.html` over every contest registered in that vault (`router.json` beside
+it). It links only the blinded copies - never the gallery or the scoreboard, which name the seats -
+so it is the page to hand the owner for review. `router --id <slug>` rebuilds both; `reveal`,
+its collect and `verdict` refresh them.
 
 ## 5. Judge
 
@@ -178,6 +208,34 @@ and says so. Then:
 node <skill>/scripts/contest.mjs aggregate --id <slug>
 ```
 
+## 6b. Reveal - each seat keeps one variant, knowing the field
+
+Optional, after collect and before the verdict. It turns three ideas per seat into one argued
+choice per seat, and it is the round where a seat can close a defect the field exposed.
+
+```
+node <skill>/scripts/contest.mjs reveal  --id <slug> [--timeout-min 60]
+node <skill>/scripts/contest.mjs run     --id <slug>-reveal
+node <skill>/scripts/contest.mjs collect --id <slug>-reveal
+```
+
+`reveal` makes a child contest `<slug>-reveal` with one seat per participant that delivered (same
+engine, model and effort, labelled `#reveal`). Each workspace holds `own/` (that seat's variants,
+unredacted), `others/<letter>/` (every other seat's variants, blinded) and `data/`, under
+`references/reveal-brief.md`: keep one of your own, master it, deliver it as `variant-<n>/` under
+its original number, and add a section `id="reveal"` titled **Why this design** with a comparison
+matrix against at least three competing variants from two other seats, where another variant is
+better, what was taken from the field (credited by label), and why the other own variants were cut.
+
+The reveal keeps the parent's letters, so B/2 is B/2 in both rounds. After its collect, the router
+marks each seat's cut variants **eliminated** - struck through, still clickable until the verdict -
+and links the mastered version beside the kept one. A seat whose reveal delivered nothing keeps all
+its variants open. Judge the reveal with the panel when the owner wants a second opinion; the
+owner's verdict can name a mastered variant or a first-round one.
+
+Do not share the panel's scores with reveal seats: the round measures each seat's own judgement of
+the field, and a scoreboard in the workspace would turn it into chasing the judges.
+
 ## 7. Decide
 
 Present the scoreboard to the owner with a recommendation: the top variant, the runner-up,
@@ -186,8 +244,20 @@ The owner names the winner. Then:
 
 ```
 node <skill>/scripts/contest.mjs verdict --id <slug> --winner B/2 [--runner-up A/1] \
-  --note "<why, in the owner's words>" [--pattern "slug|statement|evidence"]...
+  --note "<why, in the owner's words>" [--pattern "slug|statement|evidence"]... [--design <file>]
 ```
+
+`--design` links the design doc the decision produced - the artefact the next session builds
+from - in both routers. Two other decisions are first-class:
+
+- `--combine A/2,B/3,D/3 --design <doc>` - no single winner; one design fuses several variants that
+  answer different parts of the problem. The router marks them *in the combined design* and closes
+  the contest.
+- `--shortlist A/1,C/3` with a note - the decision waits on something outside the contest (a
+  business consult, a measurement). The contest stays open, the router shows *shortlisted, decision
+  pending* and links the note, and eliminated variants stay clickable.
+
+A verdict does not need a panel: an owner deciding on the reveal reports alone is a valid contest.
 
 `verdict` unblinds, writes `contests/<id>.md`, upserts the `Contests.md` index, and updates
 `Patterns.md`: a pattern the winner carried gains a **win**, every pattern a judge named gains a
@@ -242,6 +312,31 @@ time and reported cost (the CLI's figure, never an invoice); which seats did not
 why; the panel's composition and the self-preference disclosure when it applies; the patterns
 written to the ledger; and the path of the winning artefact. A winner is promoted into a product
 by a separate, reviewed change - never by copying it out of the arena inside this run.
+
+## 9. Promote - hold the port to the winner
+
+**A winner is chosen from pixels and ported from memory, and the port is where the win is lost.**
+The first promotion measured under this method passed every gate its product had - typecheck,
+lint, tests, a 205-rule census, a production build - and carried 69 computed-style deviations
+from the winner, including all three properties the owner had named as the reason for choosing
+it. No product gate reads a computed style or drives an interaction; this step does. The full
+procedure, and the drifts it has already caught, are in **`references/promotion.md`**. In short:
+
+1. Turn each *why* in the owner's verdict into a **role** and capture the winner's contract:
+   `python <skill>/scripts/style-contract.py capture <winner> roles.json contract.json`.
+2. Render the **real** product component with the **real** stylesheet and data in a harness served
+   by the product's own dev server (a git-ignored folder), and port the look in the form the winner
+   expressed it - a stylesheet when it is gradients and pseudo-elements, not the nearest tokens.
+3. `style-contract.py check <harness> roles.json contract.json` until **0 deviations**. A structural
+   deviation is fixed in the selector and said out loud; a tolerance is never widened to pass.
+4. **Drive every interaction the owner named** in a browser and assert on what the product writes.
+   A still frame cannot tell a selected row from one with a caret in it.
+5. `scripts/side-by-side.py` for the eyes, then the **live product**, whose containers impose
+   widths no harness has.
+
+When the owner names an existing product surface as the style reference, extract it into shared
+components, migrate that surface onto them, and prove the migration with the same instrument.
+Report the before/after deviation counts; "it compiles and the tests pass" is not a promotion.
 
 ## Project overlay
 

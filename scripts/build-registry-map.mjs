@@ -113,6 +113,7 @@
  * verdict is behind, which two digests alone cannot say.
  *
  *   node scripts/build-registry-map.mjs [--check] [--project <slug>] [--top <n>]
+ *   node scripts/build-registry-map.mjs --check --json                     # the same report, for a program
  *   node scripts/build-registry-map.mjs --project <slug> --churn           # report only
  *   node scripts/build-registry-map.mjs --path <dir> [--project <slug>]    # one checkout, no fleet
  *   node scripts/build-registry-map.mjs ... --out <file> | --dry-run       # never touch the project
@@ -121,6 +122,15 @@
  * PREVIOUS map from that file when it exists (so repeated `--out` runs converge) and from
  * the project's map otherwise. `--dry-run` computes and reports, writing nothing. `--churn`
  * prints only the churn recorded by the last build (`--out` names which file) and exits.
+ *
+ * `--json` prints the report as one document on stdout instead of the table, and changes
+ * NOTHING else - not what is computed, not what is written, not the exit code. It exists
+ * because the impact table is the richest demand signal this system produces and a
+ * dispatcher could not read a word of it: "which subjects moved under which projects'
+ * verdicts" was, until 2026-09-23, available only to a human reading a padded table.
+ * Two deliberate differences from the text, both in the direction of more information:
+ * the impact list is complete rather than cut at 25 rows, and `problems[]` rides inside
+ * the document rather than on stderr. A stale map still exits 1 - that is a finding.
  */
 import fs from 'node:fs';
 import path from 'node:path';
@@ -136,6 +146,7 @@ const argAfter = (flag) => { const i = process.argv.indexOf(flag); return i === 
 const checkOnly = process.argv.includes('--check');
 const dryRun = process.argv.includes('--dry-run');
 const churnOnly = process.argv.includes('--churn');
+const asJson = process.argv.includes('--json');
 const onlyProject = argAfter('--project');
 const explicitPath = argAfter('--path');
 const outFile = argAfter('--out');
@@ -157,6 +168,13 @@ const outFile = argAfter('--out');
 const TOP = argAfter('--top') === null ? 10 : Math.max(1, Number(argAfter('--top')) || 10);
 if (outFile && !onlyProject && !explicitPath) {
   console.error('FATAL: --out names ONE file, so it needs one project: pass --project <slug> or --path <dir>.');
+  process.exit(2);
+}
+// `--churn` prints a prose report of what the last build recorded, and there is no JSON
+// form of it. Silently printing that text to a caller that asked for JSON is worse than
+// refusing: it would parse as nothing and read as an empty result.
+if (asJson && churnOnly) {
+  console.error('FATAL: --json has no churn form. Run `--churn` for the prose report, or `--json` for the build report.');
   process.exit(2);
 }
 const SCORE_FLOOR = 3.0;      // absolute sanity guard: below this there is no signal at all
@@ -714,12 +732,6 @@ if (churnOnly) {
   process.exit(0);
 }
 
-console.log(`registry map - ${rows.length} project(s), <=${TOP} subject(s) per context, kept within ${Math.round(RELATIVE_FLOOR * 100)}% of each context's best match\n`);
-console.log('  project        contexts  pairs  weak  evaluated  deviations  stale-verdicts  state    dead  stale-paths  lexical-only  orphaned  renamed  arrived');
-for (const r of rows) {
-  console.log(`  ${r.slug.padEnd(14)} ${String(r.contexts).padEnd(9)} ${String(r.pairs).padEnd(6)} ${String(r.weak).padEnd(5)} ${String(r.evaluated).padEnd(10)} ${String(r.deviations).padEnd(11)} ${String(r.staleVerdicts).padEnd(15)} ${(r.stale ? (checkOnly || dryRun ? 'STALE' : 'rebuilt') : 'current').padEnd(8)} ${String(r.dead).padEnd(5)} ${String(r.missing).padEnd(12)} ${String(r.lexical).padEnd(13)} ${String(r.orphanedVerdicts).padEnd(9)} ${String(r.renamedContexts).padEnd(8)} ${r.arrivedContexts}`);
-}
-if (outFile || dryRun) console.log(`\n  ${dryRun ? 'DRY RUN - nothing written' : `written to ${rows[0]?.outPath ?? outFile}`}${outFile ? ' (--out: the project tree was not touched)' : ''}`);
 // The impact view: which subjects moved under which projects' verdicts. This is the list a
 // registry landing owes its consumers - read it after `/deepen` or `/librarian run`, and
 // hand each line to that project's `/conform --stale`. `contexts` is how many contexts
@@ -727,35 +739,74 @@ if (outFile || dryRun) console.log(`\n  ${dryRun ? 'DRY RUN - nothing written' :
 // re-judging the landing has bought, not only the part already overdue.
 const impact = {};
 for (const r of rows) for (const [subject, ctxs] of Object.entries(r.staleBySubject)) {
-  const row = (impact[subject] ??= { where: [], contexts: 0 });
+  const row = (impact[subject] ??= { where: [], staleIn: [], contexts: 0 });
   row.where.push(`${r.slug} (${ctxs.length})`);
+  // The same pair, unpadded and unparsed, for the JSON form. The text's `where` string is
+  // a rendering; a reader that has to split it back apart is reading a table.
+  row.staleIn.push({ project: r.slug, verdicts: ctxs.length });
   row.contexts += r.subscribers[subject] ?? 0;
 }
 const impactRows = Object.entries(impact).sort((a, b) => b[1].where.length - a[1].where.length || b[1].contexts - a[1].contexts);
-if (impactRows.length) {
-  console.log(`\n  ${rows.reduce((n, r) => n + r.staleVerdicts, 0)} verdict(s) judged against a subject that has since changed, by subject:`);
-  console.log(`    ${'subject'.padEnd(36)} ${'contexts'.padEnd(9)} stale in`);
-  for (const [subject, { where, contexts }] of impactRows.slice(0, 25)) console.log(`    ${subject.padEnd(36)} ${String(contexts).padEnd(9)} ${where.join(', ')}`);
-  if (impactRows.length > 25) console.log(`    ... and ${impactRows.length - 25} more subject(s)`);
-  console.log('  Each project\'s map lists them under `staleSubjects`; `/conform --stale` re-judges them.');
-}
 const churnTotals = rows.reduce((t, r) => ({ o: t.o + r.orphanedVerdicts, rn: t.rn + r.renamedContexts, a: t.a + r.arrivedContexts }), { o: 0, rn: 0, a: 0 });
-if (churnTotals.o || churnTotals.rn || churnTotals.a) {
-  console.log(`\n  churn: ${churnTotals.o} orphaned verdict(s), ${churnTotals.rn} renamed context(s), ${churnTotals.a} arrived context(s)`);
-  for (const r of rows) if (r.orphanedVerdicts || r.renamedContexts || r.arrivedContexts) {
-    console.log(`    ${r.slug.padEnd(14)} orphanedVerdicts=${r.orphanedVerdicts}  renamedContexts=${r.renamedContexts}  arrivedContexts=${r.arrivedContexts}`);
-  }
-  console.log('  Orphans sit under `orphans[]` until adopted; `--churn` prints them. `/straighten` drains the fleet.');
-}
 const totalWeak = rows.reduce((n, r) => n + r.weak, 0);
 const totalPairs = rows.reduce((n, r) => n + r.pairs, 0);
 const totalEval = rows.reduce((n, r) => n + r.evaluated, 0);
-console.log(`\n  ${totalPairs} pair(s) mapped, ${totalEval} judged, ${totalWeak} context(s) only WEAKLY governed.`);
-console.log('  A weakly-governed context scores under half its own project median: the declared domains');
-console.log('  barely cover it. Infrastructure, or a coverage hole - and the aggregate is a forge lead.');
-console.log('  A pair\'s `state` is only ever written by a pass that read the code. This script writes `unknown`.');
-if (problems.length) { console.error(`\n${problems.length} problem(s):`); for (const p of problems) console.error(`  - ${p}`); }
+const totalStaleVerdicts = rows.reduce((n, r) => n + r.staleVerdicts, 0);
+// The one word the table's `state` column prints. Shared so the two output modes cannot
+// disagree about whether a map is stale.
+const stateOf = (r) => (r.stale ? (checkOnly || dryRun ? 'STALE' : 'rebuilt') : 'current');
+
+if (asJson) {
+  // Same numbers, same order, addressable. `problems` rides inside rather than on stderr
+  // so one read gets the whole report, and the impact list is NOT cut at 25 - the text
+  // truncates because a person is reading it, which is not a reason to starve a program.
+  console.log(JSON.stringify({
+    schema: 'rkb-registry-map-report/1',
+    generatedAt: new Date().toISOString().replace(/\.\d{3}Z$/, 'Z'),
+    mode: { check: checkOnly, dryRun, top: TOP, out: outFile ?? null },
+    thresholds: { scoreFloor: SCORE_FLOOR, relativeFloor: RELATIVE_FLOOR, strong: STRONG, weakFraction: WEAK_FRACTION, groundingFloor: GROUNDING_FLOOR },
+    projects: rows.map((r) => ({
+      slug: r.slug, contexts: r.contexts, pairs: r.pairs, weak: r.weak, evaluated: r.evaluated,
+      deviations: r.deviations, stale_verdicts: r.staleVerdicts, state: stateOf(r), dead: r.dead,
+      stale_paths: r.missing, lexical_only: r.lexical, orphaned: r.orphanedVerdicts,
+      renamed: r.renamedContexts, arrived: r.arrivedContexts,
+    })),
+    totals: {
+      projects: rows.length, pairs: totalPairs, evaluated: totalEval, weak: totalWeak,
+      stale_verdicts: totalStaleVerdicts, stale_projects: staleProjects,
+      orphaned: churnTotals.o, renamed: churnTotals.rn, arrived: churnTotals.a,
+    },
+    impact: impactRows.map(([subject, { contexts, staleIn }]) => ({ subject, contexts, stale_in: staleIn })),
+    problems,
+  }, null, 2));
+} else {
+  console.log(`registry map - ${rows.length} project(s), <=${TOP} subject(s) per context, kept within ${Math.round(RELATIVE_FLOOR * 100)}% of each context's best match\n`);
+  console.log('  project        contexts  pairs  weak  evaluated  deviations  stale-verdicts  state    dead  stale-paths  lexical-only  orphaned  renamed  arrived');
+  for (const r of rows) {
+    console.log(`  ${r.slug.padEnd(14)} ${String(r.contexts).padEnd(9)} ${String(r.pairs).padEnd(6)} ${String(r.weak).padEnd(5)} ${String(r.evaluated).padEnd(10)} ${String(r.deviations).padEnd(11)} ${String(r.staleVerdicts).padEnd(15)} ${stateOf(r).padEnd(8)} ${String(r.dead).padEnd(5)} ${String(r.missing).padEnd(12)} ${String(r.lexical).padEnd(13)} ${String(r.orphanedVerdicts).padEnd(9)} ${String(r.renamedContexts).padEnd(8)} ${r.arrivedContexts}`);
+  }
+  if (outFile || dryRun) console.log(`\n  ${dryRun ? 'DRY RUN - nothing written' : `written to ${rows[0]?.outPath ?? outFile}`}${outFile ? ' (--out: the project tree was not touched)' : ''}`);
+  if (impactRows.length) {
+    console.log(`\n  ${totalStaleVerdicts} verdict(s) judged against a subject that has since changed, by subject:`);
+    console.log(`    ${'subject'.padEnd(36)} ${'contexts'.padEnd(9)} stale in`);
+    for (const [subject, { where, contexts }] of impactRows.slice(0, 25)) console.log(`    ${subject.padEnd(36)} ${String(contexts).padEnd(9)} ${where.join(', ')}`);
+    if (impactRows.length > 25) console.log(`    ... and ${impactRows.length - 25} more subject(s)`);
+    console.log('  Each project\'s map lists them under `staleSubjects`; `/conform --stale` re-judges them.');
+  }
+  if (churnTotals.o || churnTotals.rn || churnTotals.a) {
+    console.log(`\n  churn: ${churnTotals.o} orphaned verdict(s), ${churnTotals.rn} renamed context(s), ${churnTotals.a} arrived context(s)`);
+    for (const r of rows) if (r.orphanedVerdicts || r.renamedContexts || r.arrivedContexts) {
+      console.log(`    ${r.slug.padEnd(14)} orphanedVerdicts=${r.orphanedVerdicts}  renamedContexts=${r.renamedContexts}  arrivedContexts=${r.arrivedContexts}`);
+    }
+    console.log('  Orphans sit under `orphans[]` until adopted; `--churn` prints them. `/straighten` drains the fleet.');
+  }
+  console.log(`\n  ${totalPairs} pair(s) mapped, ${totalEval} judged, ${totalWeak} context(s) only WEAKLY governed.`);
+  console.log('  A weakly-governed context scores under half its own project median: the declared domains');
+  console.log('  barely cover it. Infrastructure, or a coverage hole - and the aggregate is a forge lead.');
+  console.log('  A pair\'s `state` is only ever written by a pass that read the code. This script writes `unknown`.');
+  if (problems.length) { console.error(`\n${problems.length} problem(s):`); for (const p of problems) console.error(`  - ${p}`); }
+}
 if (checkOnly && (staleProjects || problems.length)) {
-  console.error(`\n${staleProjects} project map(s) are stale - run \`node scripts/build-registry-map.mjs\`.`);
+  if (!asJson) console.error(`\n${staleProjects} project map(s) are stale - run \`node scripts/build-registry-map.mjs\`.`);
   process.exit(1);
 }

@@ -66,6 +66,17 @@ test('detection reports the two managers it refuses to rewrite rather than mangl
  assert.match(text,/kind: 'pre-commit-framework', target: null/,'the pre-commit framework must be reported, never auto-edited');
 });
 
+test('the lefthook guidance is a script file, never a run line carrying $',t=>{
+ // lefthook substitutes $ and ${ in a run: line before any shell sees it, so an inline
+ // ${AI_REGISTRY_DIR:-...} reaches node as ":-..." and `|| true` reports the crash green.
+ const text=fs.readFileSync(SCRIPT,'utf8');
+ const printed=text.slice(text.indexOf("const manual = rows.filter"),text.indexOf('const trackedWrites'));
+ const code=printed.split('\n').filter(l=>!l.trim().startsWith('//')).join('\n');
+ assert.match(code,/script: "ai-registry-consult\.sh"/,'must point lefthook at a script file');
+ assert.doesNotMatch(code,/sh -c/,'must not print an inline sh -c run line');
+ assert.doesNotMatch(code,/run: /,'must not print a run: line at all');
+});
+
 test('check mode is the default and writes nothing',t=>{
  const {proj}=machine(t,{hooksPath:'.githooks'});
  const before=fs.existsSync(path.join(proj,'.githooks','pre-commit'));

@@ -152,11 +152,11 @@ number is knowable, so nothing downstream rests on it, but it will age.
   ],
   "sources": [
     {
-      "path": "C:/Users/kazda/kiro/pof/src/lib/visual-gen/critique-stage.ts",
+      "path": "pof/src/lib/visual-gen/critique-stage.ts",
       "result": "Read, not executed. Confirms FINISH_RESOLVES at line 61, REROLL_RESOLVES = ['empty-mesh','degenerate-bbox'] at 78, the deliberate omission of floaters, the 10-of-52 / all-ten-floaters measurement and the jinx_v32 before/after pair in the header comment, and assessStage's three disjoint lists at 140-142. Establishes that the application reports the tree exactly; establishes nothing about whether the measurements generalise beyond this generator."
     },
     {
-      "path": "C:/Users/kazda/kiro/pof/src/lib/visual-gen/best-of-n.ts and src/lib/visual-gen/finish-routing.ts",
+      "path": "pof/src/lib/visual-gen/best-of-n.ts and src/lib/visual-gen/finish-routing.ts",
       "result": "Read, not executed. Confirms DEFAULT_MAX_ATTEMPTS = 3, failureShape and ungated as a distinct third value, and the cullInterior refusal with the 211 GB trimesh.split() incident dated 2026-08-18 plus the FINISH_OUTPUT_DIR allow-list derivation. Establishes nothing about the loop's behaviour on a live generator, which was not run."
     }
   ],

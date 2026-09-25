@@ -11,7 +11,7 @@ verified_on: 2026-08-24
 # Process — plural and count agreement in the Personas ru catalog
 
 How a real 19k-key, 14-locale catalog (the Personas app,
-`C:\Users\kazda\kiro\personas`) hit the frozen-form failure and settled the
+`personas`) hit the frozen-form failure and settled the
 rephrasing doctrine that RU-FROZEN teaches. The locale's working contract is
 `docs/i18n/style-ru.md`, layered on `docs/i18n/glossary.md`.
 

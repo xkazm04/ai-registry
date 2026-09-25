@@ -10,7 +10,7 @@ verified_on: 2026-08-20
 
 # Producer-enforced suppression in a contributor-insights server module
 
-The source app (`C:\Users\kazda\kiro\ascent`) aggregates per-contributor commit
+The source app (`ascent`) aggregates per-contributor commit
 data across an org's repositories and renders it on a Contributors tab, a Teams
 tab, an Adoption brief, a CSV export and an LLM-facing copy brief. The naming
 floor lives in exactly one place: the producers.

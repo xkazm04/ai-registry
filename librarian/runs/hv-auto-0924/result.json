@@ -1,0 +1,66 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "hv-auto-0924",
+  "skill": "harvest",
+  "skill_version": "0.5.2",
+  "mode": "auto",
+  "domain": "software-engineering",
+  "started_at": "2026-09-24T18:10:00Z",
+  "ended_at": "2026-09-24T18:31:41Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 4,
+    "landed": 0,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/retry-backoff",
+      "at": "2026-09-24T18:31:41Z",
+      "engine": "harvest",
+      "outcome": "dispatched",
+      "points_before": 4,
+      "points_after": 4
+    },
+    {
+      "id": "software-engineering/optional-dependency-degradation",
+      "at": "2026-09-24T18:31:41Z",
+      "engine": "harvest",
+      "outcome": "dispatched",
+      "points_before": 0,
+      "points_after": 0
+    },
+    {
+      "id": "software-engineering/scale-investment-timing",
+      "at": "2026-09-24T18:31:41Z",
+      "engine": "harvest",
+      "outcome": "dispatched",
+      "points_before": 0,
+      "points_after": 0
+    },
+    {
+      "id": "software-engineering/model-routing",
+      "at": "2026-09-24T18:31:41Z",
+      "engine": "harvest",
+      "outcome": "dispatched",
+      "points_before": 12,
+      "points_after": 12
+    }
+  ],
+  "verdicts": [],
+  "files": [
+    "librarian/sources/2026-09-24-se-resilience-harvest-batch-1.md",
+    "librarian/sources/index.md",
+    "librarian/harvest/queue.md",
+    "librarian/harvest/specs.md",
+    "librarian/harvest/coverage-gaps.md",
+    ".claude/skills/harvest/LESSONS.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Auto pass SEC-004/033/034/044/045/046. Recount matched (268; core 57/57). 42 caught, 16 leads, 0 landed; 8 specs banked (specs.md s4) incl. a new configured-dependency-degradation subject. dispatched = subjects with banked specs. 10 older content evals still pending."
+}

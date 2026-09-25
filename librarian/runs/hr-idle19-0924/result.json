@@ -1,0 +1,26 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "hr-idle19-0924",
+  "skill": "harvest",
+  "skill_version": "0.5.2",
+  "mode": "research",
+  "domain": null,
+  "started_at": "2026-09-24T19:05:00Z",
+  "ended_at": "2026-09-24T19:09:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 0,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [],
+  "verdicts": [],
+  "files": [],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "No work at 8cc8ab33: 257 of 296 queued (agrees), all ten sections hold queued rows (min 5), no domain terminal. Premise contradicted: last drain hv-sea-0924 did NOT leave queue.md byte-identical, it mined 7 SEA rows and added SEA-056/057 (262-7+2=257)."
+}

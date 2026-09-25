@@ -33,6 +33,11 @@ const CHECK_RECIPES = step('check-recipes.mjs', { check: ['--shape-only'] });
 const RECIPE_VIEWS = step('render-recipes.mjs', { check: ['--check'], write: [] });
 const RECIPES_INDEX = step('build-recipes-index.mjs', { check: ['--check'], write: [] });
 const CHECK_BUNDLES = step('check-bundles.mjs');
+// No machine's home directory in a published lane (AGENTS.md: absolute roots live only in
+// .machine.local.json). Self-test first, so a green run is a detector that can see, not silence.
+const PUBLIC_PATHS_SELF = step('check-public-paths.mjs', { check: ['--self-test'] });
+const PUBLIC_PATHS = step('check-public-paths.mjs');
+const PUBLIC = [PUBLIC_PATHS_SELF, PUBLIC_PATHS];
 const INDEX = step('build-index.mjs', { check: ['--check'], write: [] });
 const KNOWLEDGE_RULES = step('build-knowledge-rules.mjs', { check: ['--check'], write: [] });
 const CHECK_USAGE = step('check-usage.mjs');
@@ -70,20 +75,20 @@ const CATALOG_TAIL = [HASH_STABILITY, CATALOG];
 
 const LANES = {
   // knowledge.yml: bundles -> index (+ the generated rules view) -> catalog.
-  knowledge: [CHECK_BUNDLES, INDEX, KNOWLEDGE_RULES, REVIEW_COVERAGE, ...CATALOG_TAIL],
+  knowledge: [CHECK_BUNDLES, ...PUBLIC, INDEX, KNOWLEDGE_RULES, REVIEW_COVERAGE, ...CATALOG_TAIL],
   // skills.yml `shape` job, then the catalog job skills/** also triggers.
-  skills: [CHECK_SKILLS, CLAUSES, MARKETPLACE, ...CATALOG_TAIL],
+  skills: [CHECK_SKILLS, ...PUBLIC, CLAUSES, MARKETPLACE, ...CATALOG_TAIL],
   // The gate first, then the index it presupposes - an index built over a lane that
   // failed its shape check describes a tree nobody has. recipes/ is NOT one of
   // build-catalog's five hashed lanes, so this row correctly stops before the tail.
-  recipes: [CHECK_RECIPES, RECIPE_VIEWS, RECIPES_INDEX],
+  recipes: [CHECK_RECIPES, RECIPE_VIEWS, RECIPES_INDEX],   // public paths: registry.yml runs --all on every PR
   usage: [CHECK_USAGE, CHECK_RUNS, ...CATALOG_TAIL],
   signals: [CHECK_SIGNALS],
-  practices: [SIMPLE_LANES, ...CATALOG_TAIL],
-  memory: [SIMPLE_LANES, ...CATALOG_TAIL],
+  practices: [SIMPLE_LANES, ...PUBLIC, ...CATALOG_TAIL],
+  memory: [SIMPLE_LANES, ...PUBLIC, ...CATALOG_TAIL],
   // knowledge.yml `tooling` job: scripts/** and librarian/standard.md trigger it.
   scripts: [PROJECTS, EXIT_CONTRACT, WEIGHTS, TOOL_TESTS],
-  librarian: [WEIGHTS, REVIEW_COVERAGE, COVERAGE_AGE],
+  librarian: [WEIGHTS, REVIEW_COVERAGE, COVERAGE_AGE, ...PUBLIC],
 };
 
 // --all is not the concatenation of the lane rows: the shared tail would run five
@@ -91,7 +96,7 @@ const LANES = {
 // first, then knowledge.yml's bundles, index, usage, signals and catalog.
 const ALL = [
   CHECK_SKILLS, CLAUSES, MARKETPLACE,
-  CHECK_BUNDLES, INDEX, KNOWLEDGE_RULES, REVIEW_COVERAGE, COVERAGE_AGE,
+  CHECK_BUNDLES, ...PUBLIC, INDEX, KNOWLEDGE_RULES, REVIEW_COVERAGE, COVERAGE_AGE,
   CHECK_RECIPES, RECIPE_VIEWS, RECIPES_INDEX, SIMPLE_LANES,
   CHECK_USAGE, CHECK_RUNS, CHECK_SIGNALS,
   PROJECTS, EXIT_CONTRACT, WEIGHTS, TOOL_TESTS,

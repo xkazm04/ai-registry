@@ -4,7 +4,7 @@ Precomputed 2026-07-30 from `git ls-files` (1,954 source files). Re-derive if
 the tree has moved substantially since.
 
 - **Personas project id:** `a9a1ef97`
-- **Repo root:** `C:\Users\kazda\kiro\kp`
+- **Repo root:** `kp`
 - **Bridge:** first free port at or above 17400 — probe, do not assume.
 
 ## Why this file exists

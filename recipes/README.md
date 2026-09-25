@@ -34,19 +34,19 @@ knows to find it.
 
 ## What is here
 
-133 recipes, all `seed`, across ten domains and forty-six topics. The authoritative
+141 recipes, all `seed`, across ten domains and forty-eight topics. The authoritative
 list is [`index.json`](index.json), which is generated; this table is the shape of it.
 
 | Domain | Recipes | Topics |
 | --- | --- | --- |
-| `software_engineering` | 42 | 10 |
+| `software_engineering` | 45 | 10 |
 | `sales_marketing` | 19 | 4 |
+| `general_professional` | 17 | 6 |
 | `creative_design` | 13 | 5 |
-| `general_professional` | 13 | 5 |
 | `finance_accounting` | 12 | 4 |
+| `data_ai` | 9 | 4 |
 | `legal_compliance` | 9 | 4 |
 | `customer_support` | 8 | 4 |
-| `data_ai` | 8 | 3 |
 | `product_project` | 5 | 3 |
 | `operations_logistics` | 4 | 4 |
 

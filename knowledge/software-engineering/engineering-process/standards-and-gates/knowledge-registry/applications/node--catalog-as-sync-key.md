@@ -9,7 +9,7 @@ verified_on: 2026-08-20
 
 # A catalog envelope, three hash functions, and no normalization
 
-A fleet-management service (`C:\Users\kazda\kiro\ascent`) indexes a customer-owned
+A fleet-management service indexes a customer-owned
 registry repository and regenerates `catalog.json`, the file every consuming repo
 syncs against. The envelope is textbook; the digest underneath it is the
 instructive part, because it shows both failures this technique names, live in

@@ -38,6 +38,33 @@ ordering is a computed score whose inputs are explicit:
   than observations about a finished project; the categories carry
   deliberate half-lives.
 
+**A use-based input is only as real as its writer.** Recency of last use is
+the one input the store cannot derive from its own rows at scoring time:
+something on the read path has to stamp it, and nothing in the forgetting code
+can tell whether anything does. When nothing writes it, the score still
+computes. The formula falls back to creation time, the floor holds, the
+tombstones are written, the tests over the sweep pass, and forgetting has
+quietly become decay by age, retiring the fact that is served every turn at
+exactly the rate of the one nobody has touched. Every instrument over the
+sweep reports health, because the sweep is doing what its inputs say. In one
+store the fallback was a coalesce of last use onto creation time, the
+last-use column had no writer anywhere in the tree, and the one test that
+touched it pinned it empty, so nothing could fail.
+
+Two rules close it. **The stamp belongs to the path that serves**, and it
+marks only what a recall actually delivered into context: not every candidate
+it scored, and not what a filler lane placed by clock rather than by need.
+Stamping more than was served lets the machine's own traffic finance an item's
+survival, which is the unbounded-retrieval loop described below, entered from
+the other side. And **the guard is a paired test, not an assertion over the
+column**: two items of equal age, one served by a recall and one not, then a
+sweep, and only the unserved one may fall. That test fails on the writerless
+form, which is the property a guard needs. A test that pins the column or
+checks the formula passes on both. This is the question
+[coverage-instrumentation](./coverage-instrumentation.md) asks of a counter
+(*what write would move this number, and who performs it?*), asked of a
+decay input.
+
 Two disciplines keep the score honest. It is a **derivation** — recomputable
 from its named inputs, never hand-poked into individual rows, because a
 score adjusted by hand is a ranking with an unmarked exception in it. And it

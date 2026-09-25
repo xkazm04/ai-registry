@@ -3,7 +3,7 @@ name: harvest
 description: "Drain the graded source queue in librarian/harvest/ through the /intake method, in parallel and in bulk - or, in backlog mode, drain the untriaged tail of past intake runs by measuring each candidate and landing only what comes back better: admit only sources that map to a measured live gap, mine a batch with scoped subagent miners, land what survives the intake discipline, then prove or refute the landing's impact with an A/B evaluation on a connected project. The loop that turns 100+ queued URLs into corpus mastery without turning the corpus into a feed. Use when the queue has rows and nobody is hand-feeding /intake links."
 category: ai-native
 memory: project
-version: 0.4.1
+version: 0.5.2
 tags: research, queue, batch, orchestration, evaluation, ab-test, cross-repo
 ---
 
@@ -178,6 +178,30 @@ Counts by outcome (small numbers reported plainly), scorecard delta (recompute t
 scan; never diff against a remembered number), evaluation verdicts settled or owed,
 rows parked with reasons, and the proposed next batch. In `loop` mode this report is
 what the stop rule reads.
+
+**Then write it for a program.** The prose report is what the stop rule reads *when a
+person is reading it*; unattended, none of the three halt conditions below is
+computable from anything a pass leaves behind. One file per pass fixes that, through
+the helper that owns the rules (public-safe paths, a decline with its reason, unknown
+fields rejected, atomic placement):
+
+```sh
+node scripts/lib/run-result.mjs write <draft.json>   # -> librarian/runs/<run-id>/result.json
+```
+
+Fill `mode` (`run` / `auto` / `loop` / `backlog`), the five `counts` - a pass that
+landed nothing but leads and catches has `landed: 0`, which is the stagnation rule -
+`declined[]` (never from `auto`, and **a parked row is not a decline**), `verdicts[]`
+from Phase 5's settled A/B evaluations at the mode they were measured at (`code` /
+`experiment` / `blind-ab` / `simulation` / `render`), and `failure_signature` naming the *identity*
+of any failure: the same admission refusal, the same gate red, the same miner error
+class. Attempt count is not the signal, so the signature must be the same string next
+pass or the three-pass rule cannot fire. `pr` is **null** - this skill opens none. Use
+a short `--run <id>`, keep `files[]` and `commits[].pathspec` to the registry's own
+paths, and leave outstanding evaluations out of `verdicts[]`: unevaluated is not
+`unmeasurable`, and the debt guard reads the gap. A `subjects[]` row's `outcome` is the
+counts vocabulary - `landed` / `declined` / `idled` / `contended` / `dispatched` - so
+**`mined` and `parked` are not outcomes**: a parked row never reaches a subject row at all.
 
 ## Modes - who authorizes what
 

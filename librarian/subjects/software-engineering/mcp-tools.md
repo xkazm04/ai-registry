@@ -1,7 +1,7 @@
 ---
 domain: software-engineering
 subject: mcp-tools
-last_touched: 2026-09-04
+last_touched: 2026-09-23
 touched_by: intake
 dry_streak: 0
 ---
@@ -617,3 +617,9 @@ re-litigate it.
 
 Board: 3 siblings live at Phase 1, none holding this subject; `check` clear
 immediately before the write. 0 of 3 fetches.
+
+## 2026-09-23 - [[2026-09-23-1]]
+
+Lead drain (run lib-0923). L114 AMEND + APPLICATION (`tool-schema-design`: how a publisher verifies its behaviour annotations, and where that check stops), L115 AMEND (`catalog-projection-modes`: group hiding is the one capability-losing projection - full surface by default, discovery never hidden, a hidden call refused by naming its group), L152 AMEND + APPLICATION (`authentication-and-scoping`: token identity is the minted id, never the label; a transitional dual-match names its own end). **L163 DECLINE here** - covered by `connector-catalog/catalog-as-data` (roles are for machines, categories for humans); a connector-catalog application from the personas measurement is a candidate.
+
+**Impact** (stale verdicts before this landing, from the map rebuilt at the run start): personas 1.

@@ -1,7 +1,7 @@
 ---
 subject: model-routing
 domain: software-engineering
-last_touched: 2026-09-08
+last_touched: 2026-09-23
 touched_by: intake
 dry_streak: 0
 ---
@@ -327,3 +327,18 @@ admission is discovered mid-run by a fallback that silently drops the pin along
 with the rejected schema. Note for a later run: `llm-agent/orchestration` is at
 exactly 10 children, at `MAX_CHILD_DIRS`, so nothing new can land there as a
 subject until the category is subdivided.
+
+## 2026-09-23 - [[2026-09-23-1]]
+
+Lead drain (run lib-0923), L287 AMEND to `cache-continuity` ("the cached prefix is also a latency asset") - **smaller than the lead**: the prompt family was certified on pass rate, not latency, and the saving was model-dependent (2.1 s vs 0.4 s); the lead's percentages are not in the tree and were omitted.
+
+**Impact** (stale verdicts before this landing, from the map rebuilt at the run start): personas 2.
+
+## 2026-09-24 - intake, harness token floor ([[2026-09-24-harness-token-floor]])
+
+`cache-continuity` re-verified against a relayed claim that the newest models
+flip effort without breaking the cache. With the flip-first arm run on forked
+resumes, the flip read only the tool layer and rewrote everything below it on
+both newest families (1.7-1.9x a near-empty turn; the whole history in a long
+one). The first shape holds. One fork out of five read everything, and that is
+recorded, unexplained.

@@ -82,7 +82,7 @@ and maturity are unchanged.
 ## Architecture re-review after the compression revert - 2026-09-10
 
 Read the golden path, all five techniques and both applications at their reverted bytes, then
-opened the PoF checkout at `C:/Users/kazda/kiro/pof` (HEAD `d823bffe`) to check the two
+opened the PoF checkout at `pof` (HEAD `d823bffe`) to check the two
 applications. Reading source, not executing it: no transpile run, no compile, no engine
 import.
 
@@ -141,7 +141,7 @@ not re-checked in detail and nothing suggested it had changed.
     "Event resolution requires a signature table keyed by event and owner kind with an ancestry walk, and refuses an unresolved event. An engine whose callback set is itself generated or plugin-extended has no closed table to key against, and the technique's fail-closed rule then refuses most of a legitimate graph."
   ],
   "sources": [
-    {"path": "C:/Users/kazda/kiro/pof/src/lib/blueprint-cpp-codegen.ts", "result": "Confirms resolveEventOverride is unchanged at HEAD: prefix strip, owner-kind branch on Tick with the full component signature, one EventOverride record feeding both renderers, and default: return null routing to unknownEvents. Also confirms the dedupe warning still carries nodeId. Does not establish that any emitted code compiles or runs."},
+    {"path": "pof/src/lib/blueprint-cpp-codegen.ts", "result": "Confirms resolveEventOverride is unchanged at HEAD: prefix strip, owner-kind branch on Tick with the full component signature, one EventOverride record feeding both renderers, and default: return null routing to unknownEvents. Also confirms the dedupe warning still carries nodeId. Does not establish that any emitted code compiles or runs."},
     {"path": "knowledge/game-production/engine-integration/visual-script-to-code-transpilation/visual-script-to-code-transpilation.md", "result": "Establishes that the fidelity ladder's third rung is defined only for languages with a declaration/definition split, which the parity technique's exclusion then declares irrelevant for most modern targets. Establishes the gap; does not establish what should fill it."}
   ],
   "documents": {

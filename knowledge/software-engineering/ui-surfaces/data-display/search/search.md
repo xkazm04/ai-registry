@@ -154,9 +154,9 @@ A query worth typing is often worth keeping. Two graduated forms:
 - [query-parsing](./techniques/query-parsing.md) — two grammars (user's and
   engine's), the single sanitization door, structured prefixes and chips, the
   empty-result degradation ladder.
-- [full-text-indexing](./techniques/full-text-indexing.md) — index vs scan,
-  tokenization decisions, keeping a derived index honest against its source
-  of truth.
+- [full-text-indexing](./techniques/full-text-indexing.md) — index vs scan
+  decided per result contract and query shape, tokenization decisions, keeping
+  a derived index honest against its source of truth.
 - [ranking-and-excerpts](./techniques/ranking-and-excerpts.md) — relevance
   signals and their combination, deterministic total order, snippets as
   justification.

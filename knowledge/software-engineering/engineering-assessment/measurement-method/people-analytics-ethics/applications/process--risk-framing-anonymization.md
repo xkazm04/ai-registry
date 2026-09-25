@@ -11,7 +11,7 @@ verified_on: 2026-08-20
 # A deliberate naming asymmetry, documented at the computation site
 
 The strongest realization of this technique in the source app
-(`C:\Users\kazda\kiro\ascent`) is not code — it is a doctrine comment above the
+(`ascent`) is not code — it is a doctrine comment above the
 code, written so the asymmetry survives the next engineer who notices it.
 
 ## The two panels, from the same rows

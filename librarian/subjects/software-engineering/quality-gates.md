@@ -1,7 +1,7 @@
 ---
 subject: quality-gates
 domain: software-engineering
-last_touched: 2026-09-06
+last_touched: 2026-09-23
 touched_by: deepen
 dry_streak: 0
 ---
@@ -1086,3 +1086,9 @@ The asymmetry is the whole technique and it is why the hole is closable at all: 
 The precondition is ownership, and it is the boundary rather than a caveat: a ban is available only where someone can be told to satisfy it, so `evidence-scoping`'s "emulate the structure, do not approximate it with adjacency" remains the right answer for a dependency, a vendored fork or any tree read but not controlled. The correction to `chokepoint-tag-registry` is one paragraph; its surrounding argument, including the ratchet-against-accident framing for foreign code, stands untouched.
 
 **The source supplies its own control, which is what makes this corroborated rather than asserted.** The same repository's personal-path validator is the same class of gate written *without* the discipline - it enumerates only the two path shapes it matches and guards nothing against the residual - and 32 files ship an author's `D:/tmp/...` machine path through a green run of the validator written to stop precisely that. One tree, one problem class, opposite discipline, opposite measured outcome. The two obligations in the technique (verify the blanking pass preserves offsets and does not fire on a mention inside a comment or string; give the ban its own false-positive fixtures) are taken from the disciplined gate's own self-checks, not invented.
+
+## 2026-09-23 - [[2026-09-23-1]]
+
+Lead drain (run lib-0923). L283 (filed under metric-gates) AMEND to `refusal-names-a-reachable-remedy`: the rule's own documented remedy did not clear its pattern in 3 of 5 importing files. L324 AMEND + APPLICATION to `self-reported-gate-inputs`: the ingest door recomputes and refuses on disagreement.
+
+**Impact** (stale verdicts before this landing, from the map rebuilt at the run start): gravitone 1, personas 1.

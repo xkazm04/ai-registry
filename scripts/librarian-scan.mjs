@@ -43,6 +43,7 @@ import { fileURLToPath } from 'node:url';
 import { loadTaxonomy, walkSubjects, MAX_CHILD_DIRS } from './lib/taxonomy.mjs';
 import { EXIT } from './lib/exit-codes.mjs';
 import {loadIdentities,resolveIdentity,aggregateDemand} from './lib/telemetry.mjs';
+import { dryStreaks } from './lib/run-result.mjs';
 
 const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 const KNOWLEDGE = path.join(ROOT, 'knowledge');
@@ -129,7 +130,7 @@ const identities=loadIdentities(ROOT);
 const {demandOf,witnessed,duplicateBlocks,unresolved}=aggregateDemand(contributors,(lane,id)=>resolveIdentity(identities,lane,id));
 
 // ---------------------------------------------------------------- vault (coverage memory)
-const sweptOf = {}; // `${domain}/${slug}` -> { last_swept, dry_streak }
+const sweptOf = {}; // `${domain}/${slug}` -> { last_swept }  (dry streak is computed below, never read here)
 if (fs.existsSync(path.join(VAULT, 'subjects'))) {
   for (const d of fs.readdirSync(path.join(VAULT, 'subjects'), { withFileTypes: true }).filter((e) => e.isDirectory())) {
     for (const f of mdFiles(path.join(VAULT, 'subjects', d.name))) {
@@ -146,11 +147,36 @@ if (fs.existsSync(path.join(VAULT, 'subjects'))) {
       // use_when counter that reported 0/267 over a corpus at 267/267.
       sweptOf[`${d.name}/${f.replace(/\.md$/, '')}`] = {
         last_swept: fm.last_swept ?? fm.last_touched ?? null,
-        dry_streak: Number(fm.dry_streak ?? 0) || 0,
       };
     }
   }
 }
+
+/**
+ * Dry streak - COMPUTED from what runs recorded, never read from a note.
+ *
+ * The saturation brake ("dry_streak >= 2, no clock, no event: do not re-run") used to read
+ * `dry_streak` from subject-note frontmatter. Measured 2026-09-23: 349 of 349 notes carried
+ * the field, every one read 0, and the only writer in the repository set it to 0 when it
+ * created a note. A brake that cannot fire reads exactly like a healthy one that has not -
+ * the same family as `last_swept` below and the 0/267 use_when counter. So the streak now
+ * comes from each run's `result.json` (rkb-run-result/1, `librarian/runs/<id>/result.json`):
+ * per subject, the `landed` and `idled` rows in time order, and the streak is the number of
+ * trailing `idled`. A subject no result has ever recorded reads `null` - UNKNOWN, not zero.
+ */
+const runResults = [];
+{
+  const runsDir = path.join(VAULT, 'runs');
+  if (fs.existsSync(runsDir)) {
+    for (const e of fs.readdirSync(runsDir, { withFileTypes: true }).filter((x) => x.isDirectory())) {
+      const file = path.join(runsDir, e.name, 'result.json');
+      if (!fs.existsSync(file)) continue;
+      try { runResults.push(JSON.parse(fs.readFileSync(file, 'utf8'))); } catch { /* an unreadable result is not a pass */ }
+    }
+  }
+}
+const runResultsRead = runResults.length;
+const dryOf = dryStreaks(runResults); // `${domain}/${slug}` -> trailing idled count; absent = unknown
 
 /**
  * Attention points — ONE declaration, carrying both the number and the argument for it.
@@ -413,7 +439,7 @@ for (const domain of domains) {
       demandKnown: witnessed.has(domain),
       demand,
       lastSwept: swept?.last_swept ?? null,
-      dryStreak: swept?.dry_streak ?? 0,
+      dryStreak: dryOf[key] ?? null,
       points,
       reasons,
     });
@@ -454,6 +480,8 @@ if (asJson) {
     weights: W,
     demandKnownForAnyBundle: witnessed.size > 0,
     contributors: contributors.length,
+    // the denominator for every `dryStreak`: 0 means the brake has nothing to compute from
+    runResultsRead,
     demandAggregation: {
       rule: 'consults sum (events); deviations and gone take the max across contributors (states)',
       deviationsFloor: subjects.reduce((n, s) => n + (s.demand?.deviations ?? 0), 0),

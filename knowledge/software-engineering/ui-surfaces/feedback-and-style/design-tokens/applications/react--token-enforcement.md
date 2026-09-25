@@ -76,6 +76,19 @@ surviving predictor.
   documented `rounded-input` mandate (`src/lib/utils/designTokens.ts:141-142`,
   and `INPUT_FIELD_ERROR` beside it at `:145-146`, vs `.claude/Design.md:216`) — and it can, because the exemption matrix
   excludes `src/lib/` from the rules (`no-raw-radius-classes.cjs:46-52`).
+- **The unvisited variant prefix** *(added 2026-09-24, against `a056cdc06`;
+  the rest of this document keeps its 2026-08-29 date)*:
+  `no-direct-white-colors.cjs` anchored its match on whitespace or string
+  start, so every state-variant form (`hover:bg-white/5`,
+  `group-hover:text-white`) escaped it: 15 of 25 uses in `src/` at the time,
+  12 of them `hover:`. It also reported only the first match in a string.
+  Fixed in `f9e257bcd`. The anchor now admits a variant chain, a chain
+  containing `dark:` stays allowed because it applies only under a dark theme,
+  and every match is reported. Proof `ab-paired`, same configuration, the 13
+  files holding a white class: before 3 findings, after 9. Errors stayed at
+  0 → 0 and the other rules' 10 messages were unchanged. Rule tests 59/59.
+  This is the unvisited-branch clause at the smallest scale there is, one
+  character class in an anchor.
 
 ## The migration clause, lived: the 2026-08-07 type-recipe softening
 

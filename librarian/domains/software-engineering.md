@@ -1,6 +1,6 @@
 ---
 domain: software-engineering
-last_swept: 2026-09-05
+last_swept: 2026-09-23
 layout: nested
 demand_known: true
 ---
@@ -409,7 +409,7 @@ no rule; it changes which golden path a reader lands on when the verdict is a nu
   second sighting. First `/conform` on a project with a ratchet or size gate.
 - The quality-gates split item is closed. Everything else from [[2026-09-04-1]] stands.
 
-## Run [[2026-09-23-1]] - the companion subcategory on fresh demand, four clocks
+## Run [[2026-09-23-3]] - the companion subcategory on fresh demand, four clocks
 
 The first sweep of companion-runtime and companion-identity since their 2026-08-24 forge,
 ranked on the regenerated registry map rather than the scan, whose signals were three
@@ -452,5 +452,17 @@ deviations were already fixed in the projects.
 
 - `/conform --stale` on personas: the fleet's stale verdicts are now mostly fixed code, not
   open defects - the queue measures the conform lane's lag more than the corpus.
-- A testing-isolation home (from [[2026-09-23-1]]), and a status-vocabulary application for
+- A testing-isolation home (from [[2026-09-23-3]]), and a status-vocabulary application for
   a panel whose fallback defaults to healthy.
+
+## Run [[2026-09-23-1]] - the instruments first, then table and three lead drains
+
+Four instruments were wrong before any content moved (upstream pin parsing, the signals
+deviation sum, a dry streak nothing wrote, machine paths the purity gate never looked
+for); all four fixed and gated. Then a scoped deepen of `table` (most fresh deviations:
+11 in 8 projects) and three category drains: 41 leads ruled, 30 landed across 19
+subjects, 6 covered, 5 declined. Seven apply findings at five projects: 5 better and
+shipped (not pushed), 2 not-better; five of the seven returned a condition the corrected
+rule lacked. Attention points barely moved - they measure consumer deviations, which only
+`/conform` clears. Owed: the post-merge map rebuild (223 stale verdicts before this run's
+digests moved), the other contributor's re-collect, 52 open leads.

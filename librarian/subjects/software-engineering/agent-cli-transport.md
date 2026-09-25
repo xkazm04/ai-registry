@@ -1,7 +1,7 @@
 ---
 domain: software-engineering
 subject: agent-cli-transport
-last_touched: 2026-09-15
+last_touched: 2026-09-23
 touched_by: intake
 dry_streak: 0
 ---
@@ -171,3 +171,9 @@ Source [[../../sources/2026-09-15-qwenpaw]]: a runtime that wraps coding agents 
 - **Golden path.** A paragraph closing the transport contract now names the premise as a variable.
 - **Unapplied.** athena's CLI harness removes the child's native tools (`--restricted`, `dontAsk`), so there is nothing to route, which confirms the discriminator. personas keeps native tools under skip-permissions, so a change there is a direction and goes through the peer study.
 - **Named deviation:** the source's capability catalog is an undated constant, which dated-capability-matrix rejects.
+
+## 2026-09-23 - [[2026-09-23-1]]
+
+Lead drain (run lib-0923). L286 + L364 consolidated into one landing in `dated-capability-matrix` ("Clocks and costs are rows") plus the golden path's timeout clause - **both leads over-claimed and the landing says less**: the client silence budget is the first check for a self-hosted model, not the whole diagnosis (the source's own follow-up disproved that), and time to first visible text under the real prompt decides the route, caching being the explanation. No application dated (not every cited path opened). **L123 DECLINE** - a homonym join; proposed to `authorization` / `rate-limiting` for a worker scoped there.
+
+**Impact** (stale verdicts before this landing, from the map rebuilt at the run start): systedo-case 2.

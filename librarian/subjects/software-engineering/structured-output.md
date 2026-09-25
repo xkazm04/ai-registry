@@ -1,7 +1,7 @@
 ---
 subject: structured-output
 domain: software-engineering
-last_touched: 2026-09-06
+last_touched: 2026-09-23
 touched_by: intake
 dry_streak: 0
 ---
@@ -94,3 +94,9 @@ imperative repairs and 1 declared domain across 153 exported fields.
 ### 2026-09-17 - `/harvest backlog` wave 2, amendment to graded-span-grounding
 
 New section: a resolved citation is only as primary as the file it lands on. From [[2026-09-01-awesome-game-security]] and [[2026-08-22-inside-deepwiki]]. Other bundles hold the general rule that a derived artifact is never primary evidence; the discriminator on this side is that the derived location is produced by the system under test itself (a projection, a generated index, a summary cache), so its tier is decidable mechanically from a header or a body hash, and the rule belongs in the verifier rather than in an editorial ladder. Measured on ascent's claim verifier: a guidance file and its own generated projection awarded 6 points as two agreeing documents, in sync or drifted; 0 after, with independent agreement still scoring. The exclusion is to agreement only.
+
+## 2026-09-23 - [[2026-09-23-1]]
+
+Lead drain (run lib-0923), L288 AMEND to `enumerable-domain-decoding`: a per-candidate door with a +/-k step bound does not preserve the spread between candidates. One sighting - no technique.
+
+**Impact** (stale verdicts before this landing, from the map rebuilt at the run start): systedo-case 1.

@@ -6,7 +6,7 @@ technique: full-text-indexing
 status: forged
 laws: [derivation-names-recomputation, gate-sees-target, creation-names-reaper]
 shared_with: []
-use_when: [deciding whether a corpus needs indexing, choosing what the tokenizer throws away, matches resolving to deleted rows]
+use_when: [deciding whether a corpus needs indexing, choosing what the tokenizer throws away, matches resolving to deleted rows, a text index that benchmarked fast but is slow on ranked, phrase or common-word queries]
 ---
 
 # Full-text indexing
@@ -57,6 +57,46 @@ decision has five inputs:
 The honest failure mode runs in both directions: indexing a corpus of two
 hundred names is complexity with no payer, and scanning a million-row archive
 is a latency cliff scheduled for the customer who succeeds hardest.
+
+## The index is only as fast as what the query makes it visit
+
+"An index's query cost grows roughly with the result set" is true only when
+*result set* means everything the engine must touch, and the common query
+shapes make that set far larger than what the user sees:
+
+- **A ranked page visits every match.** The best ten of a hundred thousand
+  matches cost scoring and ordering a hundred thousand, unless the index can
+  bound scores and stop early — a property of the index structure, not of
+  having one. Over 200,000 documents on one embedded engine, ranking roughly
+  halved the index's advantage over a scan at every match fraction: 21× when
+  counting a query that matched 2% of the corpus, 9× when ranking it.
+- **A phrase visits its words' conjunction.** Positions are checked after the
+  postings narrow to documents holding every word, so a phrase of two common
+  words costs what their conjunction costs, however rarely they sit adjacent.
+  In the same measurement a phrase matching 1.4% of the corpus ran no faster
+  than the scan, because its two words co-occurred in half of it.
+- **A disjunction of common terms visits nearly everything.** One frequent
+  term puts the union near the whole corpus, and there the index buys nothing:
+  about 1× once a quarter of the corpus matched, with the planner falling back
+  to the scan on its own.
+- **An exact count can visit every match too.** Unless the engine answers from
+  per-term counts or from its own structure alone, counting pays the same visit
+  — and any per-row visibility check — that returning the rows would.
+
+So index-or-scan is not decided once for "text search". It is decided per
+**result contract** — a ranked page, an exhaustive set, an exact count — and
+per query shape, at the match fractions the product's real queries reach. A
+benchmark over rare single terms measures the best end of the curve: the same
+engine and corpus that showed 150–234× at zero matches showed 1× at a quarter
+matched, and a vendor measurement at 150 million documents put an index
+without score pruning at under one ranked query a second, with a p99 near five
+minutes and disjunctions exhausting memory. Before committing a large corpus
+to an engine, time a sample of the real query mix — the common-word, phrase
+and ranked shapes included — at the real corpus size, on both arms, and check
+that both arms return the same rows. Where ranked search over common terms is
+the product, what is needed is an index that prunes by score bound or counts
+from its own structure: a capability decision like the others above, not a
+tuning one.
 
 ## Tokenization: the decisions that cannot be unmade at query time
 

@@ -2,22 +2,29 @@
 name: leonardo
 memory: none
 category: other
-description: Generate images with OpenAI gpt-image-2 (primary) or Leonardo AI (fallback), remove backgrounds, analyze with Gemini vision, and write SVG. For brand assets, UI illustrations, backgrounds, and icons.
+description: Generate images with OpenAI GPT Image 2.5 (Sunburst for detail, Flare for speed) or Leonardo AI (fallback), remove backgrounds, analyze with Gemini vision, and write SVG. For brand assets, UI illustrations, backgrounds, and icons.
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash(node *), Bash(npx *)
 argument-hint: <description of visual asset to create>
-version: 1.5.0
+listing: on
+version: 1.5.2
 ---
 
 # Leonardo — AI Image Generation & Visual Assets
 
-Generate production-quality images. **Default generator: OpenAI `gpt-image-2`**
-(snapshot `gpt-image-2-2026-04-21`) — an agentic image model that reasons about
-structure (and can web-search) before rendering and returns 2K-capable PNGs;
-needs `OPENAI_API_KEY`. **Fallback: Leonardo AI** (Lucid Origin) when no OpenAI
-key is set. Gemini vision is used for analysis and iterative refinement.
+Generate production-quality images. **Default generator: OpenAI
+`gpt-image-2.5-sunburst`** - the detail-holding half of the GPT Image 2.5 pair
+(released 2026-09-08). It reasons about structure before rendering, holds
+intricate detail through edits, and returns PNGs up to 3840px; needs
+`OPENAI_API_KEY`. Its sibling **`gpt-image-2.5-flare`** is the same family at
+roughly half the latency and cost: pass `--model gpt-image-2.5-flare` for bulk,
+drafts and ambient art. **Fallback: Leonardo AI** (which hosts `gpt-image-2`, and
+Lucid Origin) when no OpenAI key is set. Gemini vision is used for analysis and
+iterative refinement.
 
-Prefer gpt-image-2 for logos/brand marks (cleaner typography, fewer AI tells);
-use Leonardo for cheap bulk/ambient art or when only a Leonardo key is present.
+Prefer Sunburst for anything a person will look at closely - logos, brand marks,
+characters, hero illustration - and Flare when you need many candidates cheaply.
+`gpt-image-2` remains available (`--model gpt-image-2`) for reproducing an asset
+that was made with it.
 
 ## Project overlay
 
@@ -88,7 +95,7 @@ Leonardo's Lucid Origin does not support `--transparent`. Use the remove-bg pipe
 
 ## Tools
 
-### OpenAI gpt-image-2 (primary)
+### OpenAI GPT Image 2.5 (primary)
 ```bash
 node ${CLAUDE_SKILL_DIR}/tools/openai-image.mjs generate \
   --prompt "description" \
@@ -97,16 +104,33 @@ node ${CLAUDE_SKILL_DIR}/tools/openai-image.mjs generate \
   --quality high \
   [--background transparent]   # transparent for icons/illustrations
 ```
-**Model:** `gpt-image-2` (override via `OPENAI_IMAGE_MODEL`). **Sizes:** `1024x1024`, `1536x1024`, `1024x1536`, `auto`. **Quality:** `low` · `medium` · `high` · `auto`. Returns PNG inline (no polling). Native `--background transparent` (no remove-bg step needed). Edit/iterate: `openai-image.mjs edit --prompt "..." --image in.png --output out.png`. Requires `OPENAI_API_KEY`.
+**Model:** `gpt-image-2.5-sunburst` by default; `--model` wins over `OPENAI_IMAGE_MODEL`, which wins over the default. Siblings: `gpt-image-2.5-flare` (about half the latency and cost, the right pick for bulk or drafts), `gpt-image-2` (the previous generation). **Sizes:** `1024x1024`, `1536x1024`, `1024x1536`, `auto`. **Quality:** `low` · `medium` · `high` · `auto`. Returns PNG inline (no polling). Native `--background transparent` (no remove-bg step needed). Edit/iterate: `openai-image.mjs edit --prompt "..." --image in.png --output out.png [--model ...]`. Requires `OPENAI_API_KEY`.
 
-### gpt-image-2 via a Leonardo key (no OpenAI key needed)
-Leonardo hosts gpt-image-2 under its own v2 API, so it runs on `LEONARDO_API_KEY`:
+### OpenAI models via a Leonardo key (no OpenAI key needed)
+Leonardo hosts OpenAI's image models under its own v2 API, so they run on `LEONARDO_API_KEY`:
 ```bash
 node ${CLAUDE_SKILL_DIR}/tools/leonardo-gpt-image.mjs generate \
   --prompt "description" --output path.png \
   --width 1024 --height 1024 --quality MEDIUM --quantity 2
 ```
 `POST /api/rest/v2/generations` with `{ model:"gpt-image-2", public, parameters:{ prompt, width, height (×16), quantity, quality LOW|MEDIUM|HIGH, prompt_enhance } }`; retrieve via `GET /api/rest/v1/generations/{id}` → `generations_by_pk.generated_images[].url`. Use this when only a Leonardo key is present (e.g. cost-shared on Leonardo credits).
+
+**Which model this path can reach.** The `model` tag is an enum of Leonardo's own
+slugs - not OpenAI's ids, not the UUIDs the model list returns. Measured 2026-09-22
+on a paid account: `gpt-image-2` is accepted; **GPT Image 2.5 Sunburst and Flare are
+listed by the account** (with a wider quality enum, `LOW|MEDIUM|HIGH|XHIGH|MAX`) but
+every slug tried for them was refused with `value of tag "model" must be in oneOf`,
+and v1 refuses their UUID outright. So reach 2.5 through `openai-image.mjs` on an
+OpenAI key, or through Leonardo's web Studio, and pass `--model <slug>` here the day
+Leonardo publishes one. What an account can see:
+```bash
+node ${CLAUDE_SKILL_DIR}/tools/leonardo-gpt-image.mjs models --filter gpt
+```
+
+**Two token pools, and they run out separately.** `subscriptionTokens` is the web
+Studio's; `apiSubscriptionTokens` is this tool's. A 402 `Insufficient tokens` here
+while Studio still generates means the API pool is empty, not the subscription
+(`GET /api/rest/v1/me` shows both, plus each pool's renewal date).
 
 ### Leonardo Image Generation (Lucid Origin fallback)
 ```bash
@@ -145,7 +169,7 @@ node ${CLAUDE_SKILL_DIR}/tools/gemini-recognize.mjs \
 
 ## Environment
 Requires in `.env`:
-- `OPENAI_API_KEY` — primary generator (gpt-image-2); from platform.openai.com/api-keys
+- `OPENAI_API_KEY` — primary generator (GPT Image 2.5); from platform.openai.com/api-keys
 - `LEONARDO_API_KEY` — fallback generator; from app.leonardo.ai
 - `GEMINI_API_KEY` — for vision analysis
 

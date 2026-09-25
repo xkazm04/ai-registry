@@ -122,10 +122,11 @@ Three, all small, none retroactive.
    subject and single-stack retires as the proxy it always was. No backfill.
 3. **Accepted debts in the subject note.** A class-D subject will score single-stack
    forever, and two points of permanent noise on a flat board is exactly what the
-   sweep's "dry is a result" rule exists to prevent. The subject vault note may carry
-   `accepted: [single-stack]` with a dated reason; the scan reads the note already
-   (`dry_streak`) and suppresses the accepted clause. The decline is written down once
-   and stops being re-proposed every run.
+   sweep's "dry is a result" rule exists to prevent. Write the decline, with its date and reason, in the subject vault note's body. The
+   scan does NOT suppress the clause - no reader of an `accepted:` field was ever built
+   (checked 2026-09-23: none in `librarian-scan.mjs`, none in any note) - so the
+   single-stack reason stays in the worklist and the librarian declines it by reading
+   the note. The decline is written down once and stops being re-proposed every run.
 
 ## The consult path, designed alongside
 

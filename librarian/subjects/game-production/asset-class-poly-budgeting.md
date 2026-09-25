@@ -86,7 +86,7 @@ The digest binds the reviewed working-tree content, not a new runtime witness.
 ## Architecture re-review - 2026-09-10 (after the compression revert)
 
 Read all nine documents at their reverted bytes, re-read the cited consumer
-(`C:/Users/kazda/kiro/pof`, `master`) as source, and checked one external currency claim.
+(`pof`, `master`) as source, and checked one external currency claim.
 Reading source is not executing it: no mesh was generated, measured, or graded.
 
 The core doctrine survives adversarial reading intact. One authored unit, converted
@@ -157,7 +157,7 @@ lettering rule without scoping it to generated detail at generation-time density
   "baseline": "44c8996585f2e5e3f36e0cb0bd1983c607cadfd7",
   "digest": "sha256:edd3d67956a8cda2",
   "disposition": "clarify",
-  "coverage": "All 9 owned documents read at reverted bytes. The cited consumer (C:/Users/kazda/kiro/pof src/lib/visual-gen/face-budget.ts and polycount-presets.ts) was read as source and every named constant, guard and preset row was checked against the applications' claims. One external currency claim (Nanite eligibility for skinned meshes) was checked. Not evaluated: no mesh was commissioned, generated, measured or graded; the hair-density and lettering observations are historical measurements that were not reproduced; the per-class numbers' defensibility against the stated camera distance and platform target is a rendering question this review did not test; the Meshy API's current parameter semantics were not exercised against a live request.",
+  "coverage": "All 9 owned documents read at reverted bytes. The cited consumer (pof src/lib/visual-gen/face-budget.ts and polycount-presets.ts) was read as source and every named constant, guard and preset row was checked against the applications' claims. One external currency claim (Nanite eligibility for skinned meshes) was checked. Not evaluated: no mesh was commissioned, generated, measured or graded; the hair-density and lettering observations are historical measurements that were not reproduced; the per-class numbers' defensibility against the stated camera distance and platform target is a rendering question this review did not test; the Meshy API's current parameter semantics were not exercised against a live request.",
   "counterexamples": [
     "asset-class-poly-budgeting.md: the per-class table itself. The character row's rationale claims 'the highest per-asset budget in the project' while the environment row in the same table carries 60k against the character's 40k, so the table refutes its own annotation two lines apart.",
     "quad-trap-detection: an asset whose delivery is near 2x because the generator mirrored the mesh, and whose request was for quad topology. The band fires, the message names the unit trap, and the caller re-sends a halved budget - which does nothing, because the defect is a duplicated shell. The technique names the mirrored case in 'when not to use it' but the guard it offers (check whether the request asked for triangles) does not distinguish it when quads genuinely were requested.",
@@ -166,11 +166,11 @@ lettering rule without scoping it to generated detail at generation-time density
   ],
   "sources": [
     {
-      "path": "C:/Users/kazda/kiro/pof src/lib/visual-gen/face-budget.ts:29-39, :59, :109-118",
+      "path": "pof src/lib/visual-gen/face-budget.ts:29-39, :59, :109-118",
       "result": "Confirmed FACE_BUDGET_UNIT, BUDGET_OVERRUN_TOLERANCE = 1.1, QUAD_TRAP_BAND = [1.8, 2.2], the flooring conversion, and both unmeasured guards running before any arithmetic with the quoted reason strings. Establishes that node--provider-face-limit-conversion is accurate against current bytes; does not establish that the conversion matches any provider's live semantics, which the technique itself says only a measured delivery can settle."
     },
     {
-      "path": "C:/Users/kazda/kiro/pof src/lib/visual-gen/polycount-presets.ts:68-108, :180-191",
+      "path": "pof src/lib/visual-gen/polycount-presets.ts:68-108, :180-191",
       "result": "Confirmed all five preset rows match the application's table exactly, and confirmed planPartBudget guards !Number.isFinite(parts) || parts < 1 - which refutes the appended review boundary's claim that the check does not reject infinity or NaN. Fractional part counts are indeed unguarded. No budget was planned or graded."
     },
     {

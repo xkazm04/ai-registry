@@ -62,14 +62,14 @@ signals/<contributor>.json
 | `windowDays` | yes | The window `consults` covers. |
 | `stack` | yes | Capability → version this installation runs. Lifted from the repo's own `.ai/manifest.yaml`; a bare major is enough. |
 | `bundles` | yes | Bundle name → what this installation observed about it. |
-| `meta` | no | A closed set of **denominators**, never a notes field. Currently one key: `councils_projects_read`. |
+| `meta` | no | A closed set of **denominators**, never a notes field. Two keys: `councils_projects_read`, and `deviation_lines_unattributed` - consult lines whose single deviation figure spans several subjects, so it could not be credited to any one. |
 
 Inside a bundle, all four keys are optional — an installation reports what it can measure:
 
 | field | meaning |
 | --- | --- |
 | `consults` | Subject slug → how often an agent read it in the window. The knowledge analogue of `invokes30d`. |
-| `deviations` | Subject slug → how many places this repo knowingly falls short of the standard. A deviation is not a defect in the standard; it is demand pointing at it. |
+| `deviations` | Subject slug → how many places this repo knowingly falls short of the standard. A deviation is not a defect in the standard; it is demand pointing at it. It is a **state**: per project, only the latest consult line naming that one subject counts, and projects add. Summing every line credited one line's figure to each subject it named and re-counted a standing deviation on every consult. |
 | `citations` | `<subject>/<application-stem>` → `{ resolved, moved, gone }`. How many of that document's cited anchors still land in this tree. |
 | `councils` | Subject slug → `{ approved, rejected }`. How often a **person** accepted or rejected work that cited the subject, at a review gate. Every other key here counts reading; this one counts an outcome. |
 

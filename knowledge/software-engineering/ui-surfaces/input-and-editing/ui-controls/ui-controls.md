@@ -7,6 +7,7 @@ techniques:
   - control-inventory-and-discovery
   - micro-interaction-contracts
   - variant-discipline
+  - call-site-ownership
   - composition-contracts
   - adoption-enforcement
   - action-busy-states@async-ui-states
@@ -82,6 +83,17 @@ cannot see, name, or migrate. The discipline — orthogonal axes, enum over
 boolean flags, variant names as a governed vocabulary — is the
 [variant-discipline](./techniques/variant-discipline.md) technique.
 
+Closing the variant set does not close the channel on its own, because the
+channel can be crossed with nothing but legal tokens. A caller that hands a
+button a semantic background and a semantic text color has restyled it
+without touching a raw value, and the token gate passes it. What closes the
+channel is a rule about **who owns which property**: the caller places the
+control (margin, size constraints, flex and grid behaviour, position), and
+the control owns its appearance (padding, color, type, shape, effects,
+motion). That partition, the gate that enforces it, and the remedy it reads
+from the control's own variants are
+[call-site-ownership](./techniques/call-site-ownership.md).
+
 ## Composition seams are declared, not discovered
 
 What a consumer may override, what it may fill, and what it must never touch
@@ -148,6 +160,10 @@ at the library, not at the consumers.
 - [variant-discipline](./techniques/variant-discipline.md) — closed variant
   sets: enumerated axes bound to tokens, enums over boolean flags, and the
   governed lifecycle of adding or retiring a variant.
+- [call-site-ownership](./techniques/call-site-ownership.md) — the caller
+  places, the control appears: the placement/appearance partition, the gate
+  that reads the property family rather than the value, per-control grants,
+  and the remedy read from the control's own variants.
 - [composition-contracts](./techniques/composition-contracts.md) —
   controlled/uncontrolled policy, declared slots, forwarding guarantees,
   sealed internals, and the wrapper-not-fork rule.

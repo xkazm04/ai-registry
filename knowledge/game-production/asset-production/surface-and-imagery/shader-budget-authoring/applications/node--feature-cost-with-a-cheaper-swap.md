@@ -11,7 +11,7 @@ verified_against: node@24
 
 # Node: a pure material-budget estimator whose every cost names a cheaper swap
 
-PoF (`C:\Users\kazda\kiro\pof`) implements the cost half of this subject as one pure,
+PoF (`pof`) implements the cost half of this subject as one pure,
 dependency-free module: `src/lib/material-cost-estimator.ts`. Its header (lines 1–15)
 states the purpose in the form the technique argues for — the post-process side already
 had `src/lib/gpu-estimator.ts` and a GPU breakdown panel, while materials, "the more

@@ -15,6 +15,18 @@ The CTI taxonomy hint was refuted by archaeology: path-position dispatch is
 vestigial in v5 - typing migrated to DTCG $type, and the CTI transform
 survives as a compatibility surface.
 
+## 2026-09-24 - intake: the vocabulary as escape hatch
+
+Source [[2026-09-24-shadcn-lint-tailwind-design-system]]. token-enforcement gained a section:
+an allow-list gate reads an authority the gated author may legitimately write, so minting the
+wanted token is a silent fourth exit, and the primary's own drift runs show enforced projects ending
+with more variants. Applied to the fleet's copy baselines as the nearest same-class instrument:
+unmeasurable (no membership gate at error level over an agent-writable vocabulary exists here).
+The seam hunt shipped a recall fix in personas `f9e257bcd` (variant-prefixed white classes escaped a
+whitespace-anchored rule, 15 of 25 uses) and added it to `react--token-enforcement`. Banked with a
+number: the generated-scale laundering case (`p-[13px]` -> `p-3.25`), 0.05% off-ladder in personas.
+Boundary with ui-controls: a token-legal restyle is that subject's, not this one's.
+
 ## Open leads (banked, convergence rule applies)
 
 - Compare mirrors BY PATH, never by emitted name - a correct generator

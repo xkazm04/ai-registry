@@ -1,7 +1,7 @@
 ---
 domain: software-engineering
 subject: fleet-orchestration
-last_touched: 2026-09-10
+last_touched: 2026-09-23
 touched_by: intake
 dry_streak: 0
 ---
@@ -753,3 +753,9 @@ kills without the re-check the Kill path does. **Coverage:** four contexts match
 vocabulary, not precondition (two decision surfaces that are hitl-approval's, a learning
 page, a design hub); a team-assignment orchestrator is probably `pipeline-dag` first; ten
 fleet backend files belong to no context in the project's map.
+
+## 2026-09-23 - [[2026-09-23-1]]
+
+Lead drain (run lib-0923). L285 AMEND to `parallel-dispatch`: a promoted queued entry keeps its id and a spawn never lands on a live entry. **L271 COVERED** by `concurrent-vcs/isolated-index-commits`; its private-repo application declined.
+
+**Impact** (stale verdicts before this landing, from the map rebuilt at the run start): personas 14, personas-web 1.

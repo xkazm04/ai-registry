@@ -3,7 +3,7 @@ name: reconcile
 description: "Run the external-reconcile lane as its director: pick a bundle's single-stack subjects, choose world-class counterparts by class (repository, specification, public record), pin them, dispatch scoped Opus workers under docs/reconcile-brief.md, review every diff, then run the technique cycle that lands measured disproofs and two-sighting families. Portable across devices - resolves everything from the registry checkout, not from any one machine's project fleet. Use when a bundle carries single-source debt and an operator wants a wave."
 category: ai-native
 memory: project
-version: 1.0.0
+version: 1.0.1
 tags: reconcile, external-evidence, waves, cycles, dispatch
 ---
 
@@ -84,7 +84,7 @@ is kept, not optimized away.
 **7. Close out in one pass.** Gates in order (`check-bundles`, `build-index`,
 `build-catalog`); watchlist rows to `measured`/`CONSUMED`; a first-touch
 subject note per subject (frontmatter: `last_touched`, `touched_by:
-external-reconcile`, `dry_streak: 0`; body: pin, fate, sharpest sightings,
+external-reconcile`; body: pin, fate, sharpest sightings,
 technique-edit candidates banked, cross-subject proposals); a dated paragraph
 appended to the domain note - append, never regenerate; one run note
 (`librarian/runs/`) with the landed table, convergence section, deviations and

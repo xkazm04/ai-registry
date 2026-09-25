@@ -11,7 +11,7 @@ verified_on: 2026-08-24
 # Process — a counted loanword policy in a shipped Bengali catalog
 
 The Personas app's Bengali style guide
-(`C:\Users\kazda\kiro\personas\docs\i18n\style-bn.md`) is a worked realization
+(`personas/docs/i18n/style-bn.md`) is a worked realization
 of every anchor in terminology-and-loanwords, with the distinguishing feature
 this bundle's laws demand: **its rulings are grep counts against the shipped
 catalog** (`src/i18n/locales/bn.json`, ~75% human-reviewed at the 2026-07-10

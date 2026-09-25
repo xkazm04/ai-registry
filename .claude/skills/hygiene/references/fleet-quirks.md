@@ -40,6 +40,15 @@ when a run proves it stale. Slugs match `projects.json`.
   `test`, `refactor`, `perf`, `ci`, `build`). A custom type is rejected.
 - `test:unit` strips types and does not typecheck: run `npx tsc --noEmit` after touching
   a shared type.
+- **Do NOT junction `node_modules` into a worktree for `test:unit`** - run a real `npm ci`
+  (~4 min). `scripts/test-alias-loader.mjs` detects a linked checkout (a Windows junction
+  counts) and swaps `next/server` for a shim whose `NextResponse` has no constructor, so any
+  route using `new NextResponse(...)` returns 500 and reads as a real BROKEN failure, twice.
+  Measured 2026-09-21: three false interview-recording failures, green after `npm ci`.
+- The Node quality job runs `test:perf` BEFORE `test:unit`, so a red perf budget hides every
+  unit failure behind it. Greening the budget can surface weeks of unit reds at once.
+- The perf budget counts a dynamic `import()`: writing `await import(...)` does not take a
+  module off a route's graph. Never raise a ceiling to pass your own merge.
 - Code scanning is enabled and holds 100+ open alerts - cap per run applies.
 - Many parallel `autopilot/accepted-idea-delivery-to-the-main-branch-N` PRs: they often
   touch neighbouring files; after each merge re-check the next PR's mergeability.
@@ -48,7 +57,12 @@ when a run proves it stale. Slugs match `projects.json`.
 
 - lefthook blocks a commit touching a doc-coupled path without its doc or a
   `Doc-sync(...)` trailer. Update the doc or add the trailer with a real reason.
-- `typecheck` has pre-existing failures: grep the output for your own files.
+- `typecheck` and the full vitest suite were both GREEN at `origin/master` on 2026-09-21
+  (`tsc --noEmit` exit 0, 4101 tests). An older note here said typecheck had pre-existing
+  failures; that is disproved - a red typecheck is now yours until shown otherwise.
+- `sentinel.yml` is DISABLED at the repository level since 2026-09-21 (red by design until
+  `SENTINEL_STORE_RUN_ID` points at a `db:backup` store snapshot). The re-enable path is in
+  the workflow's header comment.
 - `origin/HEAD` was unset on 2026-09-15.
 
 ## personas
@@ -56,15 +70,31 @@ when a run proves it stale. Slugs match `projects.json`.
 - The primary checkout is shared by many live sessions; its commits use an
   isolated-index ritual. Workers never commit there anyway (worktree only).
 - A fresh worktree has no `node_modules` and lefthook's pre-push typecheck needs it:
-  junction it from the primary, and `rmdir` the junction before removing the worktree.
+  junction it from the primary FIRST, and `rmdir` the junction before removing the worktree.
+  Order matters: without it the hook shim runs a full `pnpm install` and leaves a REAL
+  `node_modules` (not a junction) plus a rewritten `pnpm-lock.yaml` - which then defeats a
+  `Test-Path node_modules` guard on the junction step. Before any recursive delete, check
+  `fsutil reparsepoint query node_modules`: a junction must be `rmdir`'d, a real directory
+  is safe to delete. `git checkout -- pnpm-lock.yaml` if it drifted.
+- master CI is red for documented, pre-existing reasons (rust-deny: RUSTSEC-2023-0071 rsa,
+  no fixed release; rust-no-features: glib-2.0 missing on the runner; rust-tests windows:
+  `app_lib` test binary fails to start, STATUS_ENTRYPOINT_NOT_FOUND). `rust-tests (linux)`
+  went GREEN on 2026-09-21 - do not regress it. Judge a push as "no NEW failure", job by
+  job against the tip you actually merged onto, never against an older remembered baseline.
+- `frontend-checks` cannot finish inside its 30-minute timeout and is cancelled mid
+  "Run frontend tests" - the frontend test lane is effectively unmeasured on master.
 - CodeQL runs on pull_request and a Monday cron only: an alert fixed mid-week stays open
   until the next scheduled scan. `git log -S` the flagged pattern before "fixing" it.
 
 ## tracklight
 
 - Remote repo is `xkazm04/lighttrack`. Crates are named `lighttrack-*`, not `tracklight-*`.
-- `guidance_guard` fails at HEAD for reasons unrelated to most changes - verify on a
-  clean `origin/main` worktree before attributing it.
+- `guidance_guard` PASSED 4/4 at `origin/main` on 2026-09-21 (`9a53828`, `68566b8`). An
+  older note here said it fails at HEAD; that is disproved - a red one is now yours until a
+  clean `origin/main` worktree shows otherwise.
+- A direct push to `main` prints `Bypassed rule violations ... 10 of 10 required status
+  checks are expected`: the owner's admin permission bypasses the ruleset. No flag is
+  involved and CI still runs after - but verify the pushed SHA's run yourself.
 - `cargo deny (advisories)` is a permanent, documented non-blocking red (h2 RUSTSEC).
 - The responder git-env bug above was fixed on main in `8324768` (2026-09-19); if
   `a_failed_commit_reports_false_and_leaves_the_tree_dirty` fails under the hook again,
@@ -113,3 +143,48 @@ when a run proves it stale. Slugs match `projects.json`.
 - `dependabot.yml` ignores standalone `ego-tree` bumps: a `scraper` major bump needs the
   matching `ego-tree` bump by hand in the same PR, or CI fails with mismatched `NodeRef` types.
 - Windows test jobs take 11-25 minutes; a PR merge's full verification is slow.
+- `pumper-core::host_memory_honesty::prune_drops_empty_stale_rows_not_learned_state` is a
+  second wall-clock flake on Windows runners (1 s TTL; its own comment claims a slow machine
+  cannot cross it - CI did on 2026-09-21). One rerun, never a quarantine: `.flake/register.json`
+  requires a human author for a quarantine row.
+- `deny.toml:59`'s ignore for RUSTSEC-2025-0057 (fxhash via scraper->selectors) matches
+  nothing since the scraper 0.27 bump - an `advisory-not-detected` warning, safe to delete.
+
+## personas-web
+
+- The primary checkout has NO `node_modules`, so junctioning it into a worktree yields an
+  EMPTY junction ("tsc is not recognized"). Run a real `npm ci` in the worktree.
+- The pre-push hook runs only i18n-coverage / i18n-encoding / guide-content / copy-check.
+  The real gate is `.github/workflows/ci.yml` (typecheck, lint, test:unit, guide-coverage,
+  build, check:bundle): a clean push is not a clean build here.
+- `npm run lint` sits at EXACTLY its `--max-warnings 13` ceiling. A merge must be
+  warning-neutral; one new warning turns master red. Never raise the ceiling.
+- The copy gate SKIPS in any worktree ("native-copy checker not installed") because the
+  native-copy link is gitignored. For a real verdict run
+  `node <ai-registry>/skills/native-copy/scripts/copy-check.mjs --root <worktree>`.
+- The native-copy baseline fingerprints the WHOLE string: a merge that edits any part of a
+  string already carrying an em dash reports that dash as new. Re-fingerprint only that
+  entry; never raise the baseline.
+- A guide topic edited on both sides of a merge needs every locale `_meta.json`
+  `translatedFromHash` moved to the merged English hash - after checking each locale was
+  current on both sides.
+- `test-results/.last-run.json` is TRACKED: any local Playwright run dirties it. Restore it
+  before committing.
+- The primary has sat on `chore/remove-react-virtuoso` for weeks; the name is stale (the
+  virtuoso removal shipped 2026-09-07 in `8f2e544`) and the branch now carries unrelated
+  i18n and bookkeeping work.
+
+## pof
+
+- **No CI workflows at all** (`.github/workflows` does not exist). A push has nothing to be
+  confirmed against: the commit read and a local `npm run validate` are the whole safety
+  net. Say so in the report.
+- `visual-gen-mesh-split-route.test.ts` reads `generated/meshes/props__crate.glb`, a 3.5 MB
+  GITIGNORED untracked artifact: it passes only on the owner's machine and fails in any clean
+  worktree. Not a regression - an environment dependency.
+- `POF_UPDATE_GOLDEN=1` rewrites ~47 golden files but typically only a few carry content; the
+  rest are CRLF-only. Stage the real ones and `git checkout -- .` the line-ending churn.
+- The layout-lab component suite is parallel-load flaky (a different test fails each full
+  run, all pass in isolation). Re-run named files in isolation before attributing them.
+- `gdd-compliance-evidence-age` expects `aging` and gets `stale` on origin/master - likely a
+  wall-clock date bomb, pre-existing.

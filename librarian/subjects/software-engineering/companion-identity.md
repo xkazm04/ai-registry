@@ -12,7 +12,7 @@ Subject note. Part of [[index]]; graded against [[standard]].
 
 ## Touch log
 
-### 2026-09-23 - `/deepen` batch ([[2026-09-23-1]])
+### 2026-09-23 - `/deepen` batch ([[2026-09-23-3]])
 
 First sweep since the 2026-08-24 forge, chosen on 3 fresh `deviation` verdicts in one
 project (see [[companion-runtime]] for why the scan could not rank it).
@@ -78,3 +78,9 @@ personas: 6 verdicts stale on this subject - 3 `deviation`, 1 `conformant`,
 - A separate upgrade-ladder technique (home existed). A reading that a vendor's
   whole-block rewrite tool refutes the whole-document ban (having the tool does not make it
   reviewable). Persona-drift literature (relevant, unverified, no rule needed it).
+
+## 2026-09-23 - [[2026-09-23-1]]
+
+Lead drain (run lib-0923), L126 AMEND x2 + APPLICATION. **Correction:** `constitution-self-model-split` claimed an absolute "two files"; the structural property is the write path, and one heading-partitioned document qualifies under four stated conditions (including refusing a law-targeted proposal at propose time). `anchored-identity-diffs`: whatever apply would refuse without reading the live document is refused at propose.
+
+**Impact** (stale verdicts before this landing, from the map rebuilt at the run start): none recorded.

@@ -82,7 +82,7 @@ and maturity are unchanged.
 ## Architecture re-review after the compression revert - 2026-09-10
 
 Read the golden path, all six techniques and all three applications at their reverted bytes,
-then opened the PoF checkout at `C:/Users/kazda/kiro/pof` (HEAD `d823bffe`) to check the
+then opened the PoF checkout at `pof` (HEAD `d823bffe`) to check the
 three applications. Reading source, not executing it: no evaluator run, no model call, no
 diff computed.
 
@@ -143,7 +143,7 @@ they had moved.
     "The regression diff refuses to compare across a reviewer change and treats the run as a new baseline, but the same subject requires re-grounding after any code change; a pipeline that re-grounds on every run and occasionally changes its check set can produce a sequence of baselines with no diff between any two of them, and nothing names that state."
   ],
   "sources": [
-    {"path": "C:/Users/kazda/kiro/pof/src/lib/evaluator/module-eval-prompts.ts", "result": "Confirms EVAL_PASSES, the four GROUND_TRUTH_CHECKS lines including the refusal branch, and the module-specific fifth pass appended only where tracePass is defined. Does not establish that any pass is gated on Pass 0's outcome - the dispatch is still a list, which is the deviation the application records."},
+    {"path": "pof/src/lib/evaluator/module-eval-prompts.ts", "result": "Confirms EVAL_PASSES, the four GROUND_TRUTH_CHECKS lines including the refusal branch, and the module-specific fifth pass appended only where tracePass is defined. Does not establish that any pass is gated on Pass 0's outcome - the dispatch is still a list, which is the deviation the application records."},
     {"path": "knowledge/game-production/craft-judgment/subsystem-review-doctrine/subsystem-review-doctrine.md", "result": "Establishes that the published-measures sentence carries no citation anywhere in the subject. Does not establish whether the underlying figure is right or wrong; no web source was consulted this run."}
   ],
   "documents": {

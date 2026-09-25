@@ -59,6 +59,44 @@ export const ROUND_CAP = 3;
 
 const round4 = (n) => Math.round(n * 10000) / 10000;
 
+// ------------------------------------------------------------- must_address
+//
+// `must_address` is documented as "one line of work per entry", and a consumer renders it
+// as a row. The instrument itself used to break that contract: an unmeasured dimension
+// contributed its ENTIRE `unmeasured_reason`, which the member brief correctly demands be
+// a full argument about what was missing - 1,269 characters in the first real run. The
+// result was an entry nobody could act on and no UI could render.
+//
+// So every entry the instrument GENERATES is clamped here. Nothing is lost: the full
+// reason stays on the dimension (`unmeasured_reason`) and the full finding stays in the
+// verdict (`detail`), which is where a reader who wants the argument goes.
+//
+// Entries CARRIED IN are never touched. A human rejection's reason enters `must_address`
+// verbatim and stays verbatim - it is the highest-value signal the method ever receives,
+// and truncating a person's own words to fit a row would be the instrument editing the one
+// input it has no standing to edit.
+export const MUST_ADDRESS_MAX = 200;
+export const UNMEASURED_REASON_MAX = 160;
+
+const oneLine = (s) => String(s ?? '').replace(/\s+/g, ' ').trim();
+
+/** Collapse to one line and clamp to `max` characters, breaking at a word where one is near. */
+export function clampLine(text, max = MUST_ADDRESS_MAX) {
+  const s = oneLine(text);
+  if (s.length <= max) return s;
+  const cut = s.slice(0, max - 3);
+  const sp = cut.lastIndexOf(' ');
+  const body = sp > max - 40 ? cut.slice(0, sp) : cut;
+  return `${body.replace(/[\s.,;:-]+$/, '')}...`;
+}
+
+/** The first sentence of `text` (a `.`, `!` or `?` followed by space or end), then clamped. */
+export function firstSentence(text, max = UNMEASURED_REASON_MAX) {
+  const s = oneLine(text);
+  const m = /^(.*?[.!?])(?:\s|$)/.exec(s);
+  return clampLine(m ? m[1] : s, max);
+}
+
 export function validateRubric(rubric) {
   const problems = [];
   if (!rubric || typeof rubric !== 'object') return ['rubric: not an object'];
@@ -328,15 +366,23 @@ export function aggregate(rubric, verdicts, opts = {}) {
   else if (trustState === 'trusted' && (overall === null || overall < rubric.threshold)) outcome = 'fail';
   else outcome = 'ready';
 
+  // Carried-in entries first and VERBATIM - a person's rejection reason is not the
+  // instrument's to edit. Everything after this line is generated, and generated lines are
+  // clamped to one renderable row.
   const mustAddress = [...(opts.mustAddress ?? [])];
-  for (const h of hardFailures) mustAddress.push(`hard failure ${h.code}: ${h.detail ?? ''}`.trim());
-  for (const d of bindingFloors) mustAddress.push(`${d.dimension} scored ${d.score} below its floor of ${d.floor}`);
-  for (const d of advisoryFloors) mustAddress.push(`${d.dimension} scored ${d.score} below its advisory floor of ${d.floor} (judges are ${trustState}; not gating)`);
-  if (sc) mustAddress.push(...sc.must_address);
+  const generated = [];
+  for (const h of hardFailures) generated.push(`hard failure ${h.code}: ${h.detail ?? ''}`.trim());
+  for (const d of bindingFloors) generated.push(`${d.dimension} scored ${d.score} below its floor of ${d.floor}`);
+  for (const d of advisoryFloors) generated.push(`${d.dimension} scored ${d.score} below its advisory floor of ${d.floor} (judges are ${trustState}; not gating)`);
+  if (sc) generated.push(...sc.must_address);
   for (const d of dimensions) {
-    if (d.state === 'unmeasured') mustAddress.push(`${d.dimension} is unmeasured: ${d.unmeasured_reason ?? 'no reason given'}`);
-    for (const f of d.findings) if (f?.severity === 'high') mustAddress.push(`${d.dimension}: ${f.title ?? f.id ?? 'high-severity finding'}`);
+    // The first SENTENCE of the reason. The whole reason is already on the dimension, and
+    // a work list is a list of work, not the argument behind it.
+    if (d.state === 'unmeasured') generated.push(`${d.dimension} is unmeasured: ${firstSentence(d.unmeasured_reason ?? 'no reason given')}`);
+    // A high finding contributes its TITLE. Its `detail` stays in the verdict.
+    for (const f of d.findings) if (f?.severity === 'high') generated.push(`${d.dimension}: ${f.title ?? f.id ?? 'high-severity finding'}`);
   }
+  mustAddress.push(...generated.map((line) => clampLine(line)));
 
   return {
     dimensions,

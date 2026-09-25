@@ -1,7 +1,7 @@
 ---
 domain: software-engineering
 subject: eval-harness
-last_touched: 2026-09-04
+last_touched: 2026-09-23
 touched_by: intake
 dry_streak: 0
 ---
@@ -706,3 +706,9 @@ application (N travels with the proposal to a human gate; the winner is still no
 **Coverage:** an autonomous development loop matched on "harness" is quality-gates' ground,
 and it carries two gate defects (a verifier that passes on exit 0 with audit gates piped
 through a line count; a self-reported feature status).
+
+## 2026-09-23 - [[2026-09-23-1]]
+
+Lead drain (run lib-0923), L263 AMEND to `eval-economics` (a long run persists each cell as it finishes) + APPLICATION. The lead's other half (run before polishing the output surface) **declined**: one sighting, figures unverifiable.
+
+**Impact** (stale verdicts before this landing, from the map rebuilt at the run start): personas 2, systedo-case 1.

@@ -6,7 +6,7 @@ technique: performance
 status: forged
 laws: [identity-survives-reuse, derivation-names-recomputation]
 shared_with: []
-use_when: [diagnosing the actual shape of a slow table, choosing between pagination and windowing, one selection toggle repaints every row]
+use_when: [diagnosing the actual shape of a slow table, choosing between pagination and windowing, one selection toggle repaints every row, memoized rows re-rendering after an insert or resort]
 ---
 
 # Performance
@@ -71,6 +71,33 @@ Two invariants make memoization safe instead of stale:
    save it. Pass the row its record and its own booleans ("is this row
    selected"), derived outside.
 
+   The same test applies to every *prop* the memoized row is compared on,
+   and it is the half of this invariant that identity keys do not cover. Two
+   props fail it routinely. A **position** — an index passed for a stagger
+   delay, a zebra stripe, a rank badge — changes for every row below an
+   insertion, deletion or resort, so the rows the reorder was supposed to
+   leave alone all re-render for a value most of them no longer use; keys
+   are identities, the key check passes, and the regression is invisible to
+   it. A **callback allocated per parent render** — a closure over the
+   record, written inline at the row's call site — is a new value every time
+   the container renders, so the comparison fails for every row, every
+   render, and the memoization is decoration. Derive position-dependent
+   presentation where it is consumed (or once, at the arrival edge), and hand
+   rows one stable callback that takes the identity as its argument.
+
+   "Stable" is a property of the whole chain, not of the row's call site. The
+   container's single callback is only as stable as the handler it wraps, and
+   that handler usually arrives from further up: a parent that writes it
+   inline, or one that recreates it whenever the current selection changes
+   because it reads the selection from its closure. Either one hands the
+   container a new function per render and undoes the row-level fix
+   completely. Measured on a virtualized card grid: the call-site fix alone
+   left every mounted card re-rendering under both upstream shapes, and
+   stabilizing the two upstream handlers too took re-renders on a parent
+   render that changed no card from 150 to 0. Trace the callback back to
+   where it is first created. A handler that needs changing state reads it
+   when the event fires, not from a closure that must be rebuilt to see it.
+
 Selection sets, hover state, and "last updated" markers are the classic
 memoization-defeaters: model them so that a change touches only the rows it
 names.
@@ -99,6 +126,22 @@ hundreds of mounted rows is usually fine after rung 3, thousands is not. When
 you do adopt it: fixed row height if at all possible (it collapses the math),
 overscan tuned small, and rows still keyed by identity — recycling is *reuse*,
 the exact operation positional keys corrupt under.
+
+**Check the non-destructive alternative first.** The platform can skip
+layout and paint for off-screen content while keeping it mounted (the CSS
+containment standard's `content-visibility: auto`, supported by all major
+engines since 2024), and skipped content stays in the accessibility tree and
+in keyboard order, so the heaviest losses above do not occur. Find-in-page is
+the specification's promise rather than a uniform fact — at least one major
+engine has been reported not to search skipped content — so test it where the
+surface is a lookup tool. It cuts the
+rendering half of the cost, not the mount, reconciliation and memory half,
+so it can make rung 4 unnecessary only where rendering was the budget that
+broke. And it has a precondition tables in particular miss: containment has
+no effect on internal table boxes other than cells, so it does nothing to a
+native table row. It applies to rows laid out as their own boxes (a grid- or
+block-built body), or to a chunk of rows wrapped in such a box, and it needs
+an intrinsic-size estimate per skipped box or the scrollbar lies.
 
 **Prefer rung 1 to rung 4 when both would work.** Pagination delivers the same
 bounded cost with none of the losses, and a product that "needs" tens of

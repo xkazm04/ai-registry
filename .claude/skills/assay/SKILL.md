@@ -3,7 +3,7 @@ name: assay
 description: "Mine an external source - a skills library, a repository, an article, pasted notes - for craft that belongs in the `recipes/` lane. Cross-checks every candidate against the existing corpus, gives each finding a recommended disposition (new recipe, enrich, example, lesson, lead, discard), puts the whole set in front of the operator on one screen, executes what is accepted, and remembers every deviation from its recommendation so the next run recommends better. Discarding a whole source is a successful run. Use when someone shares a skills repository, a connector's documentation, or a body of practice and asks what it means for our recipes."
 category: ai-native
 memory: project
-version: 2.2.0
+version: 2.2.1
 tags: recipes, sources, cross-check, disposition, decision-gate, taste-ledger, obsidian-memory, connector-examples, discard
 ---
 
@@ -235,7 +235,7 @@ The point of this skill is not one run. It is that the tenth run recommends what
 operator would have chosen anyway.
 
 Memory lives in the Obsidian vault beside the other skills' memory:
-`<vault>/Assay/`, where `<vault>` is `C:/Users/kazda/Documents/Obsidian/personas`
+`<vault>/Assay/`, where `<vault>` is the operator's Obsidian vault on this machine
 (the same root `Spark/`, `Perfect/` and `Architect/` use).
 
 ```

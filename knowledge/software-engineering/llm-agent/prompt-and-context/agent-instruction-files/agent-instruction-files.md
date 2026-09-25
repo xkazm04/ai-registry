@@ -20,6 +20,7 @@ techniques:
   - rewrite-behavior-pinning
   - inherited-default-ownership
   - write-back-sink-class
+  - listing-tier-by-initiator
 ---
 
 # Agent instruction files
@@ -212,6 +213,11 @@ diff. [sibling-floor-ownership](./techniques/sibling-floor-ownership.md)
 extends the standard to that half — enumerate before judging, review
 descriptions rather than bodies, and treat installing and keeping as the
 two separate decisions only one of which anybody ever makes.
+Between keeping and removing sits a third state the per-install framing
+hides: listed by name only, reachable by anything that names it and no
+longer paid for by every session - and the recorded history of *who starts*
+each entry, not how often, says which entries belong there
+([listing-tier-by-initiator](./techniques/listing-tier-by-initiator.md)).
 
 ## The funnel assumes a diff it can read
 
@@ -345,3 +351,8 @@ three states, the collector question that sets the class, and the audit.
   the installed half of the always-loaded floor: the discovery budget
   nobody authored, install versus retain as separate decisions, the
   collision and contradiction that only the whole listing reveals.
+- [listing-tier-by-initiator](./techniques/listing-tier-by-initiator.md) -
+  listed, name-only, hidden: the tier is set by who starts the capability,
+  the middle tier removes the description's price without severing any
+  path that begins with the name, and the hidden tier is refuted by any
+  model-side start that named it.

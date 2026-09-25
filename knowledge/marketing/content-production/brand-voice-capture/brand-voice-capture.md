@@ -151,10 +151,13 @@ drafts again. Rejection reasons are fixed presets rather than free text
 *because* they are counted; a free-text note rides alongside for the specific
 why. And the far more common human act is quieter than rejection: the person
 takes the draft, fixes it and sends. `rejections-and-edits-become-constraints`
-makes that edit visible - a word-level before/after distance above a
-threshold banks the pair as a style fact, the same shape as an answered
-interview question, so it feeds the next distillation. Below the threshold it
-is a typo fix and is silently discarded; the threshold is convention.
+makes that edit visible - it banks as a style fact, the same shape as an
+answered interview question, so it feeds the next distillation. What decides
+whether it banks is the *kind* of change, not its size: the corrections that
+carry a voice are one adjective, one cut hedge, one added clause of
+attribution, and a size threshold that writes everything small off as a typo
+discards exactly those. A typo, a case or diacritic fix and a corrected
+number are discarded; any other changed word banks, as its changed span.
 
 ## The sample persona is not the tenant's voice
 

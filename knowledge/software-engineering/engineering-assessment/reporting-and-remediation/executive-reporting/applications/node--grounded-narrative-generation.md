@@ -10,7 +10,7 @@ verified_on: 2026-08-20
 
 # A no-new-numbers gate around the one model-written paragraph in a board document
 
-The repository at `C:\Users\kazda\kiro\ascent` puts exactly one LLM-written
+The repository at `ascent` puts exactly one LLM-written
 paragraph into its executive briefing, and wraps it in
 `src/lib/org/briefing-narrative.ts`. The module header (`:1-28`) states the
 reasoning the technique generalizes: a briefing PDF is *"the surface most

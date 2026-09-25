@@ -3,7 +3,7 @@ name: conform
 description: "Evaluate this repository against the registry standards that govern it, one context at a time, and keep the verdicts. Reads .ai/registry-map.json (the generated join between this repo's contexts and the registry's subjects), picks the highest-value unevaluated or stale pairs, reads the governing golden path and techniques against the context's real code, and writes back conformant / deviation / not-applicable with file:line evidence - so the map becomes a standing, incrementally-completed deviation backlog instead of a one-off audit. Use to answer 'where does this repo fall short of the standard', before a hardening pass, after a bundle changes, or when a context is about to be rewritten. Invoke with /conform [context-or-path] [--subject <slug>] [--stale] [--budget <n>]."
 category: ai-native
 memory: project
-version: 1.8.0
+version: 1.8.2
 tags: conformance, deviations, registry, audit, backlog
 argument-hint: "[context-or-path] [--subject <slug>] [--stale] [--budget <n>]"
 ---
@@ -289,6 +289,32 @@ Append one line per evaluated context to `.ai/consults.jsonl` (gitignored; the r
 This is the only channel by which the registry learns which of its standards are actually
 being tested, and where they are being failed. A deviation count is the strongest demand
 signal the corpus can receive - it means somebody measured a claim against real code.
+
+**And write the run's own result, for whoever dispatched it.** Everything above is
+written for a reader; nothing tells a *program* whether this run judged four pairs,
+declined to judge any, or could not read the map. **This skill runs inside the consuming
+project, not in the registry**, so its result does not go to the registry's
+`librarian/runs/` lane - it lands beside `.ai/consults.jsonl`, in the repo it judged:
+
+```sh
+node <registry>/scripts/lib/run-result.mjs write <draft.json> \
+  --root . --path .ai/conform-runs/<run-id>.json
+```
+
+Same `rkb-run-result/1` schema, same refusals. Paths there are **project-relative** -
+this file stays in the project, so `files[]` naming `.ai/registry-map.json` is correct
+and an absolute path is still refused. Use `conform-<YYYY-MM-DD>-<n>` as the run id.
+Fill `skill_version` from this file's frontmatter, `mode` (`named` / `stale` / `arrived` /
+`unknown`), `domain: null` (a run spans whatever bundles the pairs came from),
+`counts.landed` = pairs judged, `counts.declined` = pairs deliberately left unjudged with
+their reason in `declined[]` - an unread pair left for the next run is a decline, and this
+skill's own rule is that uncertain is `unknown`, which is only honest when it is written
+down. One `subjects[]` row per subject judged, whose `outcome` is the counts vocabulary
+(`landed` / `declined` / `idled` / `contended` / `dispatched`) - **never `conformant` or
+`deviation`**, which are map states and would be a second copy of a judgment that already
+has a home. `verdicts[]` is for the apply/A-B lane and is usually **empty here**: a
+`conformant` / `deviation` / `not-applicable` verdict belongs in the map, and forcing it
+into that field would be a second, disagreeing copy. `pr: null` - step 4 commits.
 
 ### 6. Close with what the registry owes
 

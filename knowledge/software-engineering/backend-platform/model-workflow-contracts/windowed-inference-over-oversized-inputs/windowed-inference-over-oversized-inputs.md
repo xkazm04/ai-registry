@@ -3,7 +3,7 @@ layer: golden-path
 type: golden-path
 subject: windowed-inference-over-oversized-inputs
 status: forged
-use_when: [running a fixed-input-size model over a volume or image that does not fit accelerator memory, a stitched prediction shows a grid of seams or a band of not-a-number values, the same inference code must run on a laptop and on a large server, a model emits output at a different resolution than it consumes]
+use_when: [running a fixed-input-size model over a volume or image that does not fit accelerator memory, a stitched prediction shows a grid of seams or a band of not-a-number values, the same inference code must run on a laptop and on a large server, a model emits output at a different resolution than it consumes, the model iterates over steps and a windowed run shows detail that changes at a window boundary]
 techniques:
   - overlap-weighted-stitching
   - strictly-positive-blend-weights
@@ -12,6 +12,7 @@ techniques:
   - failure-driven-memory-degradation
   - axis-buffered-writeback
   - schedule-parity-by-realized-cut
+  - step-synchronous-windows
 ---
 
 # Windowed inference over oversized inputs
@@ -71,6 +72,16 @@ into whatever consumes the canvas. The rule is that **every weight is strictly
 positive everywhere the window covers**, enforced by flooring the weight map
 above zero before it is used, not by trusting the shape of the taper. This is
 [strictly-positive-blend-weights](./techniques/strictly-positive-blend-weights.md).
+
+Everything above assumes the model makes one pass. A model that **iterates** - a
+sampler, a denoiser, a multi-pass refiner - runs through the same code and still
+leaves a seam, because two windows taken through all their steps one after the
+other commit to different detail in their overlap, and blending two confident,
+different answers is a crossfade rather than an average. The weighted average is
+still the rule; it is taken **once per step** instead of once per run, with every
+window advanced one step from the shared canvas before any window takes the next,
+and per-step randomness drawn over the canvas rather than per window. This is
+[step-synchronous-windows](./techniques/step-synchronous-windows.md).
 
 ## Input coordinates and output coordinates are two systems
 
@@ -257,3 +268,6 @@ machine observed the failure, and the machine remembers it.
   - the training-time cut and the serving-time cut, the tail they round in
   opposite directions, and the realized boundaries as the identity a shared
   policy string is both too coarse and too fine to be.
+- [step-synchronous-windows](./techniques/step-synchronous-windows.md) - step-major
+  order for iterative models, one division per step, canvas-level noise, and the
+  residency the order costs.

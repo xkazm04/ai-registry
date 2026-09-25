@@ -17,7 +17,7 @@ half-sweeps refused until ruled).
 
 ## Personas — every loanword ruled, gender pinned
 
-`C:\Users\kazda\kiro\personas\docs\i18n\style-fr.md` carries a four-bucket
+`personas/docs/i18n/style-fr.md` carries a four-bucket
 loanword policy (stays-borrowed-capitalized for surface names; borrowed
 lowercase for naturalized tech vocabulary — *persona*, *twin*, *workflow*;
 always-translated — *agent*, *coffre-fort*, *déclencheur*…; never-translate —

@@ -113,7 +113,7 @@ remain, with explicit applicability and counterexamples.
 }
 ```
 
-## 2026-09-23 - `/deepen` currency lane ([[2026-09-23-1]])
+## 2026-09-23 - `/deepen` currency lane ([[2026-09-23-3]])
 
 `python--task-local-tenant-scope` refreshed before its 2026-10-15 clock; ~35 anchors re-resolved, one gone for good (the upstream ADR file was deleted with its docs tree; the claim it supported still stands from code, and the application says so). **The one substantive upstream move: multiplexing is now on by default and the explicit off is marked retired** - the application's "opt-in" framing was corrected. The non-raising home resolver still never raises. `refresh_by` kept, moved to 2026-11-05.
 
