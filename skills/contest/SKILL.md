@@ -3,7 +3,7 @@ name: contest
 description: "Blind design contest between CLI agent seats (Claude Code, Codex CLI, Grok CLI). Each participant you name - engine:model@effort - builds three genuinely different prototype variants of one idea in its own workspace; a cross-family panel scores every variant blind on seven dimensions (wow, clarity at scale, wayfinding, interaction, craft, concept, utility); the host adds a visual pass in a browser; an optional reveal round lets every seat see the whole field, keep one of its own variants and master it with a comparison matrix; a router page links every blinded variant across the vault's contests; the owner declares the winner or sends a shortlist into a refinement round with their review; the winner and the design philosophies behind it land in an Obsidian vault whose pattern ledger becomes the bar in the next brief. Built for UI prototypes with a wow factor, usable for any solution design. Invoke with /contest \"<idea>\" --participants <specs> for a full round, or /contest init|run|collect|judge|reveal|router|verdict|refine|status <id> to drive one step."
 category: workflow
 memory: vault
-version: 1.6.0
+version: 1.7.0
 tags: contest, prototyping, ui, multi-model, blind-judging, vault
 argument-hint: "\"<idea>\" --participants engine:model@effort,... | init|run|collect|judge|reveal|router|verdict|refine|status <id>"
 ---
