@@ -63,9 +63,18 @@ locally each reach is the shortest path to a working feature.
 The test that keeps the seam honest is mechanical: **the runtime's own tests run
 against doubles for all five capabilities, with no application, no interface, no
 network, and no real model.** A runtime that cannot be constructed in a test is
-not portable; it is merely well-organized inside one host.
+not portable; it is merely well-organized inside one host. One capability takes a
+condition: where the store is an embedded engine that can open a throwaway
+instance, that instance is a better double than a hand-written one, because it
+keeps the real engine's semantics — so for such a runtime the store capability
+pays for the runtime's own nouns and a second host, not for testability. And the
+direction of every import is cheapest to hold with a package boundary the build
+enforces, not with a rule a reviewer remembers.
 
-And the proof is not the test. **The proof is a second consumer.** The trap to
+And the proof is not the test. **The proof is a second consumer**, and it proves
+only the capabilities it substituted — a second channel inside the same host
+proves the turn is reachable from a second mouth, not that the runtime could
+leave. The trap to
 name explicitly, because it is the common outcome rather than the rare one: a
 second channel that *re-implements* the companion's behaviour — its own prompt
 assembly, its own memory read, its own episode write, kept aligned with the first
@@ -156,13 +165,21 @@ boundary and a language boundary intact, because the component that teaches a
 model is very often not the component that executes: where they are separate, the
 catalog crosses **as data on every request** and the far side names no kind of its
 own, which turns a generation step into a serialization step and leaves the count
-of authorities at one. It also has to survive a deploy, since a proposal waits for
+of authorities at one. Two conditions govern how hard each consumer holds the line.
+The equality between what is taught, accepted and executed holds **per producer**,
+because the model is seldom the only thing that files actions, and a check that
+assumes it is gets deleted. And a surface that shipped in the same artifact as the
+table should be made exhaustive over a generated type, while one that deploys
+independently should read tolerantly and show an unknown kind as unknown — a
+fallback that is right across a deployment boundary hides drift inside one. It also has to survive a deploy, since a proposal waits for
 a person while the catalog it was validated against is code that ships — so the
 same table is consulted again at acceptance, and a proposal whose kind the catalog
 has since dropped is retired rather than run. And one more thing the post-mortem of every
 model-composed surface eventually teaches: **anything the model can compose, a
 person must be able to reset in one action.** A surface with no reset is a
-surface whose worst generated state is permanent.
+surface whose worst generated state is permanent — and an undo to the previous
+composition, a default shown only before the first one, or a restore function
+nothing calls are each half of a reset, not one.
 [action-catalog-single-source](./techniques/action-catalog-single-source.md)
 owns it.
 
@@ -287,8 +304,10 @@ than a second application.
 ## The techniques
 
 - [host-seam-contracts](./techniques/host-seam-contracts.md) — the five host
-  capabilities and nothing more; construction-time injection; test doubles;
-  the second consumer as the only real proof.
+  capabilities and nothing more; construction-time injection; the package
+  boundary as the cheapest direction check; test doubles, and when the real
+  embedded store is the better one; the second consumer as the only real proof,
+  of what it substituted.
 - [metered-llm-seam](./techniques/metered-llm-seam.md) — one model entry point,
   leg kind as a required argument, one shared usage parser, unknown cost as a
   typed value.
@@ -298,8 +317,9 @@ than a second application.
 - [action-catalog-single-source](./techniques/action-catalog-single-source.md) —
   one declaration of the action vocabulary and four derivations; validation
   symmetry; the catalog as wire data when the teacher and the executor are
-  different processes; read versus approval-gated mutation; the proposal that
-  outlives its catalog; the reset path.
+  different processes; the pin per producer; exhaustive surfaces when they ship
+  with the table, tolerant ones when they do not; read versus approval-gated
+  mutation; the proposal that outlives its catalog; the reset path.
 - [autonomous-cycle-hosting](./techniques/autonomous-cycle-hosting.md) — cycle
   admission, single-flight, non-overlap with live turns, declared ceilings,
   propose-only mutation classes, restart safety.

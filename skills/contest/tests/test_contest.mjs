@@ -113,3 +113,79 @@ test('the contest index upserts its row and the note renders its frontmatter', (
   assert.match(note, /winner_seat: "a:b@high"/);
   assert.match(note, /\[\[Patterns#p\|p\]\]/);
 });
+
+test('plan hands seats to an outside dispatcher, and the other steps accept what it leaves behind', async () => {
+  const { spawnSync } = await import('node:child_process');
+  const fs = await import('node:fs');
+  const os = await import('node:os');
+  const path = await import('node:path');
+  const { fileURLToPath } = await import('node:url');
+  const script = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', 'scripts', 'contest.mjs');
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'contest-plan-'));
+  const cli = (...a) => {
+    const r = spawnSync(process.execPath, [script, ...a, '--vault', path.join(root, 'vault')], { cwd: root, encoding: 'utf8' });
+    assert.equal(r.status, 0, `${a[0]} failed: ${r.stderr}`);
+    return r.stdout;
+  };
+  fs.writeFileSync(path.join(root, 'BRIEF.md'), 'A small idea.\n');
+  cli('init', '--id', 'p1', '--title', 'Plan test', '--brief', 'BRIEF.md', '--participants', 'claude:opus@high,codex:gpt-x@high', '--variants', '1');
+  const planned = JSON.parse(cli('plan', '--id', 'p1'));
+  assert.equal(planned.kind, 'participants');
+  assert.equal(planned.seats.length, 2);
+  for (const s of planned.seats) {
+    assert.ok(fs.existsSync(path.join(s.cwd, 'PARTICIPANT.md')), 'the seat cwd is the prepared workspace');
+    assert.match(s.prompt, /PARTICIPANT\.md/);
+    // The dispatcher's side of the contract: a variant, a record and a final message.
+    fs.mkdirSync(path.join(s.cwd, 'variant-1'), { recursive: true });
+    fs.writeFileSync(path.join(s.cwd, 'variant-1', 'index.html'), '<title>V</title>');
+    fs.mkdirSync(s.log_dir, { recursive: true });
+    fs.writeFileSync(path.join(s.log_dir, 'record.json'), JSON.stringify({ id: s.id, spec: s.spec, outcome: 'completed', wall_s: 60 }));
+    fs.writeFileSync(path.join(s.log_dir, 'final.md'), 'done');
+  }
+  cli('collect', '--id', 'p1');
+  const judges = JSON.parse(cli('plan', '--id', 'p1', '--kind', 'judges', '--judges', 'grok:grok-9@high,claude:fable@high'));
+  assert.equal(judges.seats.length, 2);
+  const [j, j2] = judges.seats;
+  const arena = path.join(root, '.contest', 'arena', 'p1');
+  const judging = path.join(arena, 'judging');
+  const inside = (p, dir) => { const rel = path.relative(dir, p); return rel === '' || (!rel.startsWith('..') && !path.isAbsolute(rel)); };
+  const walk = (d) => fs.readdirSync(d, { withFileTypes: true, recursive: true }).filter((f) => f.isFile()).map((f) => f.name);
+  try {
+    for (const s of judges.seats) {
+      // Blind judging is structural, not a request: the judge's cwd is a staged copy outside the arena.
+      assert.ok(!inside(s.cwd, arena), `the judge cwd ${s.cwd} must be outside the arena ${arena}`);
+      assert.ok(inside(s.log_dir, arena), 'the host contract: log_dir stays inside the arena');
+      assert.ok(fs.existsSync(path.join(s.cwd, `JUDGE-${s.id}.md`)), 'plan prepares the judge brief without spawning');
+      assert.ok(fs.existsSync(path.join(s.cwd, 'entries', 'A', 'variant-1', 'index.html')), 'the staged copy holds the blinded entries');
+      // Nothing that unblinds is reachable from the cwd or one level up.
+      for (const d of [s.cwd, path.dirname(s.cwd)]) {
+        const names = walk(d);
+        for (const bad of ['blind-map.json', 'manifest.json', 'contest.json']) assert.ok(!names.includes(bad), `${bad} is reachable under ${d}`);
+      }
+    }
+    assert.notEqual(j.cwd, j2.cwd, 'each judge gets its own workspace');
+    const c = JSON.parse(fs.readFileSync(path.join(arena, 'contest.json'), 'utf8'));
+    assert.deepEqual(c.judges, ['grok:grok-9@high', 'claude:fable@high']);
+    assert.deepEqual(c.judge_workspaces, { [j.id]: j.cwd, [j2.id]: j2.cwd });
+    const dims = { wow: 7, clarity: 7, wayfinding: 7, interaction: 7, craft: 7, concept: 7, utility: 7 };
+    const verdictOf = (id) => ({ judge: id, entries: { A: { variants: [{ n: 1, scores: dims }] }, B: { variants: [{ n: 1, scores: dims }] } }, ranking: ['A/1', 'B/1'] });
+    // One judge writes its verdict file where the brief says, in the staged cwd ...
+    fs.writeFileSync(path.join(j.cwd, `verdict-${j.id}.json`), JSON.stringify(verdictOf(j.id)));
+    // ... the other leaves it only in its final message, which aggregate still recovers.
+    fs.mkdirSync(j2.log_dir, { recursive: true });
+    fs.writeFileSync(path.join(j2.log_dir, 'final.md'), `Here it is:\n${JSON.stringify(verdictOf(j2.id))}`);
+    cli('aggregate', '--id', 'p1', '--keep-workspaces');
+    assert.ok(fs.existsSync(j.cwd) && fs.existsSync(j2.cwd), '--keep-workspaces leaves the staged copies');
+    cli('aggregate', '--id', 'p1');
+    for (const s of judges.seats) {
+      assert.ok(fs.existsSync(path.join(judging, `verdict-${s.id}.json`)), `verdict-${s.id} lands in judging/`);
+      assert.ok(!fs.existsSync(s.cwd), 'a harvested workspace is deleted');
+    }
+    const board = JSON.parse(fs.readFileSync(path.join(judging, 'scoreboard.json'), 'utf8'));
+    assert.deepEqual(new Set(board.judges), new Set([j.id, j2.id]));
+    assert.deepEqual(JSON.parse(fs.readFileSync(path.join(arena, 'contest.json'), 'utf8')).judge_workspaces, {});
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true });
+    for (const s of judges.seats) fs.rmSync(s.cwd, { recursive: true, force: true });
+  }
+});

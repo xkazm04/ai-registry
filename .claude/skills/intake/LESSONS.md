@@ -11841,6 +11841,70 @@ finish on the version it loaded.)
   call, always, and verify after.** The method's own examples show the unlock on
   its own line; the temptation to chain comes from wanting one round trip.
 
+## 2.13.0 - 2026-09-23 - ecc-agent-harness
+
+- **An impossibility claim is a higher-yield target than an enumeration, and the
+  method does not currently hunt for one.** Phase 6's third hunt looks for a
+  document declaring its own completeness. A mature corpus also contains
+  sentences declaring a question *closed* - "this is not a fixable weakness of
+  the technique; it is the boundary of what a source scan can claim" - and those
+  are strictly cheaper to attack: an enumeration's missing member has to be
+  argued into existence, while an impossibility claim is settled by one working
+  counterexample. This run's headline landing was that sentence plus a CI test.
+  Proposed as a fourth bullet under Phase 6, not yet written into `SKILL.md`.
+- **Read a checker's assertion list as an enumeration and ask which direction is
+  missing.** The registry's digest guard asserted four properties, all of the
+  form "the digest ignores what it should ignore" - line endings, lone CR,
+  filesystem ordering - and none of the form "the digest distinguishes what it
+  must distinguish". A guard built entirely out of insensitivity assertions
+  passes a function that maps every input to a constant, and this one did. The
+  generalisation of the scorecard's standing "formula" focus: a property usually
+  has two directions and a test suite usually covers one.
+- **Declare the floor before the fix, and expect the first fix to fail it.** v2.11
+  added the two-number rule; this run is the first where the floor actually
+  rejected a repair. The naive fix moved the target (collision closed) and
+  destroyed 120 records' worth of staleness signal - and the destruction was
+  *invisible from the target's side*, which is the whole reason the floor has to
+  be predeclared rather than reconstructed when the row is written. Worth
+  promoting from "a rule about verdicts" to "a rule about the design of the fix".
+- **A repository that does the same thing twice, unevenly, is a natural
+  experiment and outranks one that does it well.** The method already says a
+  source implementing a good idea badly beats one implementing it well. The
+  stronger case is *both in one tree*: ECC's env gate bans the forms its matcher
+  cannot parse, its personal-path validator does not, and 32 shipped files with
+  an author's machine path measure the gap. That pairing is what let a technique
+  be corroborated from code alone with zero fetches - the control was already in
+  the clone. Look for the uneven pair deliberately.
+- **Two of four sweep workers corrected the director's framing of the tree, and
+  both corrections mattered.** One returned the real test count; one established
+  that `skills/` is 292 flat files at 353k words and that the 2,530-file figure
+  is mostly a locale mirror - which changed the placement analysis from "how do
+  they organise 2,500 documents" to "they refuse to organise them at all". The
+  brief asked for the override explicitly. Keep asking; a brief that states a
+  premise as fact buys agreement with the premise.
+- **Mid-flight runs on an earlier version: nothing to do.** No step ordering
+  changed and no instrument changed; the additions above are lesson-level and
+  await a third sighting before they become rules in `SKILL.md`.
+
+## 2.13.0 - 2026-09-24 - how-modern-browsers-work
+
+- **The operator's memory of a source is a claim about its container, and it
+  can be wrong usefully.** The article was remembered as "animated walkthroughs"
+  and carries only static images. Checking the container turned the run toward
+  the right question: how a still (a filmstrip, a before/after pair) carries a
+  process. Read the media list of a web source, not only its text, when the
+  operator names its visuals as the reason for sharing it.
+- **Parallel model workers over one contract are an instrument for the
+  contract.** Four skin authors each met the contract, and three of four named
+  the same defect in it without seeing each other. Convergence across
+  independent workers is the fastest way to find where a brief states a target
+  in the wrong units. Ask every worker for "the rule that was awkward", and
+  count the overlaps.
+- **Verify a fix by looking under the condition it targets.** The reduced-motion
+  still capture meant to confirm a local fix came back blank, and the cause was
+  one level up: every route. A blank capture is a finding, not a harness bug,
+  until proven otherwise.
+- **Mid-flight runs: nothing to do.** No step or instrument changed.
 ## 2.13.0 - 2026-09-22 - h3-timeline-extend-bridge
 
 - **The discrimination gate cannot see a timing variable.** It compares arms

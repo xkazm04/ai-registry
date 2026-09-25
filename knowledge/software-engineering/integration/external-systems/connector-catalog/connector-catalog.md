@@ -59,7 +59,12 @@ walls:
   is not the display label (labels get renamed), not the vendor's marketing
   name (those get rebranded), and not an ordinal (catalogs get resorted). A
   catalog whose consumers key on anything but the minted identity breaks the
-  first time the presentation layer is edited.
+  first time the presentation layer is edited. Deriving the key *from* a
+  label at the moment of minting is common and harmless on two conditions:
+  the mint checks the key is unused in the store, and nothing ever derives it
+  again. What breaks is the unchecked derivation — two labels that normalize
+  alike become one identity, and every lookup by that key returns whichever
+  row it meets first.
 - **Declarations are contracts, not documentation.** The row's auth schema is
   what the credential form renders, what validation enforces, what the probe
   substitutes into, and what redaction consults. The row's capability lists
@@ -114,7 +119,15 @@ admits broken credentials into the vault. This too is measured in this repo
 declared a credential field their probe never sent, and the save button
 waited on exactly that meaningless green. A gate must see its target; a
 connection test that does not send the credential tests the network, not the
-credential. Probe mechanics themselves belong to
+credential. The mirror case is a row that declares credential fields and no
+probe at all. That is sometimes correct: an incoming webhook cannot be tested
+without posting a real message, and a database may not be reachable over the
+probe's transport. Two readings of the absence are both wrong. Treating it as
+a green admits unchecked credentials under a passing mark, and holding the
+save gate shut waits on a probe that does not exist. The honest reading is a
+third outcome: the credential saves and is recorded as *unverified*. Whether
+a row may have no probe is decided when the row is authored, not when a user
+fills in the form. Probe mechanics themselves belong to
 [health-checks](../../../operations/service-operations/health-checks/health-checks.md) and the vault's probing
 technique; what belongs *here* is the alignment obligation — declaration,
 form, and probe are three readers of one schema, and the catalog is where the
@@ -161,7 +174,14 @@ get superseded, providers shut down, two rows turn out to be one service under
 different names. Because credential instances, automations, and audit history
 all reference catalog identity, retirement is never a bare delete — it is a
 lifecycle with tombstones, alias redirects for dedupe, and migration or
-explicit orphaning for dependents. The shipped side needs the mirror-image
+explicit orphaning for dependents. Every stage short of the tombstone
+narrows what the catalog *offers* and never what it *resolves*. A deprecated
+row leaves the gallery and the pickers, but a credential or automation that
+already names it must still find it, with a notice. That requires the
+enumeration door to serve two reads: one filters rows for new adoption, the
+other resolves any identity. If the lifecycle predicate is applied to the
+only list, every existing reference loses its row, and hiding the row breaks
+the uses it was meant to spare. The shipped side needs the mirror-image
 discipline: when an entry leaves the shipped catalog, something must compute
 the set difference against installed rows, or retired entries live on in
 every existing install forever, indistinguishable from supported ones. Version
@@ -182,11 +202,13 @@ A healthy connector catalog passes these checks:
    the answer is enforced rather than remembered.
 4. **The auth schema has one home** and the form, validation, probe, and
    redaction all demonstrably read it — a probe that references no declared
-   field is a detected defect, not a green light.
+   field is a detected defect, not a green light, and a row with no probe
+   saves its credentials as unverified rather than green or blocked.
 5. **Matching says "no"** — unresolvable foreign names surface as
    unresolved, and short tokens cannot vacuously claim the catalog.
 6. **Retirement is reachable** — there exists a path by which a shipped entry
-   leaves existing installs, with its dependents accounted for.
+   leaves existing installs, with its dependents accounted for, and a row
+   hidden from new adoption still resolves for the references it already has.
 
 ## The techniques
 

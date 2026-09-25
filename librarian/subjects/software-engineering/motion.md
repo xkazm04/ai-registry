@@ -1,7 +1,7 @@
 ---
 subject: motion
 domain: software-engineering
-last_touched: 2026-09-15
+last_touched: 2026-09-24
 dry_streak: 0
 ---
 
@@ -10,6 +10,18 @@ dry_streak: 0
 First touch: [[2026-08-22-4]] — the 2026-08-22 harvest wave. Class: EXTENDS.
 
 ## State
+
+Touched 2026-09-24 by [[2026-09-24-how-modern-browsers-work]] (intake). One
+amendment to `content-bearing-degradation`, "When no single frame explains": a
+trajectory gesture is correctly content-bearing, yet resolving it to its end
+state still deletes the payload. Three degraded forms, all still resolved
+states: one frame with a spatial time axis, a filmstrip, or the path with its
+direction drawn. The fleet test found two live instances in personas-web. One
+was the `reduced-motion-mechanics` engine gap: in-document vector animation
+elements are not reached by a stylesheet reset. The other was this technique's
+fourth shape (start state), reached by an unlisted path, the reduction branch
+removing the lift. Both were fixed and measured ab-paired; the evidence lives in
+narrative-scroll-surface's application.
 
 10 techniques, 4 applications on disk (no new file this run). Touched 2026-09-15 by [[2026-09-15-react-19-3]] (intake, vendor release announcement): one amendment to `reduced-motion-mechanics` (a universal reduced-motion reset does not match the generated nodes a document snapshot transition animates on, and a framework that owns the transition removes the call-site gate), one golden-path bullet, and a dated section in the React application carrying the paired experiment (applied: experiment, better; personas-web seam, not shipped because the tree has no transitions yet). The global-kill section now states that the kill fails in both directions: it over-reaches timing windows and under-reaches the transition tree.
 

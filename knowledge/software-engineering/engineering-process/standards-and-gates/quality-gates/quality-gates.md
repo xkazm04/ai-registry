@@ -30,6 +30,7 @@ techniques:
   - branch-provenance-gate
   - refusal-names-a-reachable-remedy
   - decidable-in-a-window
+  - unparseable-form-is-a-finding
 ---
 
 # Quality gates

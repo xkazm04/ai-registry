@@ -178,3 +178,16 @@ cannot catch that (it checks frontmatter against files only), and the owning
 session may still be mid-write.
 
 Unapplied: return condition in `applied.md`.
+
+### 2026-09-23 - `/conform --stale` on personas (4 pairs re-judged at revision 13)
+
+3 deviation, 1 conformant. Two old not-applicables fell because their contexts grew: an
+unset spend ceiling defaults to "no ceiling" and fails open for unattended dispatch, and a
+custom-theme draft is lost with no unsaved guard. Proposals from the judge, unplaced: (1)
+`inherited-default-override` needs a line for OR-composition - an app toggle that can force
+the inherited value on but never pin it off is an additive input, and "the control shows
+the resolved value" reads ambiguously there; (2) `save-experience` should say whether
+per-row explicit commits beside instant toggles count as one save model or the mixed model
+it rules out. **Coverage:** a settings-shaped surface over credential management is better
+governed by credential-vault or audit subjects; an appearance mirror file with a hand-synced
+key literal belongs to no context; the backend fail-open lives in a context not paired here.

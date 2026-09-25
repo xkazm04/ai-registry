@@ -1,8 +1,8 @@
 ---
 domain: software-engineering
 subject: prompt-assembly
-last_touched: 2026-09-04
-touched_by: intake
+last_touched: 2026-09-23
+touched_by: deepen
 dry_streak: 0
 ---
 
@@ -498,6 +498,14 @@ Source [[../../sources/2026-09-21-claude-code-from-source]]: an 18-chapter archi
 - **The precondition is stated rather than assumed**, because the apply step proved it matters: where input never competes with the reservation, the whole technique is free money that does not exist. That clause came back from the tree as a measured result, not as a hedge written in advance.
 - **The boundary against `structured-output/output-budget-signal` is in prose, not a link-and-shrug.** Both read the same measurement - response length against the ceiling - and ask opposite questions: that one asks whether the *call* is too big, this one whether the *reservation* is. A system can hold the first and still leave the second to a default, which is exactly what the applied tree does.
 - **Application (`rust--response-reservation-sizing`, applied task, not-better).** The target tree already sets a deliberate ceiling and its input is bounded far below the window, so the technique's recurring cost there is zero. The seam returned something better: two crates size the same response and neither reads the other, a 3.91x overcommit between a 16,000-token planning budget and a 4,096 wire ceiling, and a request type with no output-ceiling field through which the derived number could ever travel.
+
+## 2026-09-23 - `/deepen` currency lane ([[2026-09-23-3]])
+
+`python--amortized-compaction-cadence` refreshed before its 2026-10-15 clock; ~20 anchors re-resolved (the pass logic moved into a mixin, the doc into the site). One correction to our own text, wrong at both commits: the pass counter counts every emitted event, including failures and skipped exchanges, not successes. `refresh_by` kept, moved to 2026-11-05.
+
+Banked lead (proposal): `amortized-compaction-cadence` should say pass counters split by outcome - one total over skips and absorptions makes a quietly skipping session look healthy. Return condition: the next pass over the technique, or a fleet project owning a transcript compaction.
+
+Impact: personas carries 2 stale `deviation` verdicts on this subject (pre-existing, not moved by this landing).
 
 ## 2026-09-23 - /intake self-compact-pi-agent (run `intake-3b0U4`, intake 2.13.0)
 

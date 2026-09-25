@@ -4,9 +4,9 @@ type: technique
 subject: credential-vault
 technique: health-probing
 status: forged
-laws: [failure-not-empty-success, derivation-names-recomputation, one-authority-per-vocabulary]
+laws: [failure-not-empty-success, derivation-names-recomputation, one-authority-per-vocabulary, verdict-survives-boundary]
 shared_with: []
-use_when: [deciding whether could-not-reach counts as broken, a revoked credential still shows green, probing trips provider rate limits]
+use_when: [deciding whether could-not-reach counts as broken, a revoked credential still shows green, probing trips provider rate limits, deciding which provider status codes are verdicts about the credential, an offline probe overwrote the last real verdict]
 ---
 
 # Health probing
@@ -38,10 +38,58 @@ credential hides behind a stale checkmark until the 3 a.m. automation finds
 it. The two collapses fail in opposite directions; the only honest design is
 the third state, rendered as itself.
 
+The word doing the work in "silently keep the last green" is *silently*.
+Keeping the last verdict is correct: a probe that never reached the provider
+learned nothing about the credential, so it has no standing to overwrite what
+the last real answer said, and large probe systems throw an errored probe's
+result away rather than record it. What must not happen is that the
+unanswered attempt disappears. The verdict and the attempt are two facts,
+stored as two: the last verdict with its time, and the last attempt with its
+outcome, its time, and the obstacle. A could-not-reach updates the attempt
+and leaves the verdict alone, and the surface renders both — "verified four
+days ago; could not check since this morning, offline". Overwrite the verdict
+and the offline laptop paints the vault red; drop the attempt and the last
+green ages behind a checkmark nobody knows is unrefreshed. The two facts
+also need an order. Where the attempt is written only when a probe reaches no
+verdict, the next verdict must clear it, or every surface must compare the
+attempt's time with the verdict's. Otherwise a "could not check" that a later
+verdict has already answered renders beside that verdict. Every path that
+writes a verdict owes the clear, including a sweep or a gateway that
+persists results through a writer of its own.
+
 The same honesty applies inside "broken": a rejection carries its kind where
 the provider offers one — expired, revoked, insufficient scope, account
 suspended — because each routes to a different remedy, and the probe was the
 moment the evidence was fresh.
+
+### Which answers are verdicts
+
+The partition between broken and unknown is drawn over the provider's
+answers, and the status line alone does not draw it. A rejection of the
+credential's authentication is a verdict. Rate limiting, server errors and
+maintenance responses are answers about the provider, not the credential,
+and belong in unknown. The status code that does not sort cleanly is
+*forbidden*: it means insufficient scope at one provider and an exhausted
+rate limit at another — at least one major API answers a spent quota with it
+and a zero remaining-quota header. A probe that files every non-success
+status as a failure therefore records a provider outage, and every rate-limit
+window, as a credential failure. That is the collapse this technique exists
+to prevent, and it gets in through the classifier rather than the renderer.
+Classify from the typed signals the protocol carries — the authentication
+challenge's error code, the token endpoint's error field, the rate-limit
+headers — and treat an answer none of them explains as unknown, with the raw
+evidence kept for diagnosis. The success status is not a verdict either,
+where a provider carries its errors in the body: an API that answers a
+revoked token with a success status and an error flag in the payload is
+drawn green by any classifier that stops at the status line.
+
+The kind, once classified, crosses every boundary as a field
+([verdict-survives-boundary](../../../../_laws.md#verdict-survives-boundary)).
+The decay to look for is a consumer that gets the kind back by
+pattern-matching the result's message — a regular expression lifting a
+status code out of prose, a substring check for a phrase the backend
+happened to write. It shows the classification was thrown away one hop
+upstream, and it breaks the first time someone rewords the message.
 
 And "unknown" itself splits along a line worth rendering: **cannot probe
 now** (transient — offline, outage, rate limit; will resolve, carries
@@ -65,7 +113,17 @@ failure handler that converts an unreachable provider into the rejected
 outcome, because the catch clause has one path out; a persisted column typed
 as a boolean, which holds *verified* and *not verified* and has nowhere to
 put *not verified yet*; and an intermediate accessor whose declared return
-type is narrower than the store's, collapsing the state on the way out. The
+type is narrower than the store's, collapsing the state on the way out. A
+fourth narrowing survives the other three being fixed: the compatibility
+boolean kept on the result beside the typed state. Its truth table was
+chosen for one consumer, the admission gate, so "cannot probe ever" is
+usually true there so as not to block a save, and every renderer that reads
+the boolean because it is the simpler field inherits the gate's policy. The
+structural case draws the green check it did not earn, and the transient
+case draws the red cross. The retrofit trap in
+[three-state-outcomes](../../../../operations/service-operations/health-checks/techniques/three-state-outcomes.md)
+is the general form of this: the boolean is a gating shim and nothing
+else, and its collapse is documented where it is defined. The
 audit is therefore a type walk rather than a screenshot: follow one probe
 result from the call that produced it, through every type it is declared as,
 to the column that stores it, and confirm the third state is representable at
@@ -120,7 +178,9 @@ that was revoked Wednesday. So:
 Three layers, three jobs, kept distinct:
 
 1. **Current status** — one small, fast-to-read verdict per credential
-   (state + timestamp + one-line reason). What lists and badges render.
+   (state + timestamp + one-line reason), and beside it the last attempt
+   when that attempt reached no verdict (time + obstacle). What lists and
+   badges render. Only a verdict writes the verdict fields.
 2. **Last probe detail** — the full evidence of the most recent probe:
    endpoint touched, response class, latency, rejection kind, sanitized
    payload. What a human diagnoses from.

@@ -3,13 +3,14 @@ layer: golden-path
 type: golden-path
 subject: narrative-scroll-surface
 status: forged
-use_when: [building a product tour or a how-it-works page, a marketing page has become a stack of unrelated bands, deciding what an illustration on an explanatory page must prove, animating a page against the reader's scroll instead of a timer, an explanatory page must survive being read without scrolling]
+use_when: [building a product tour or a how-it-works page, a marketing page has become a stack of unrelated bands, deciding what an illustration on an explanatory page must prove, animating a page against the reader's scroll instead of a timer, an explanatory page must survive being read without scrolling, animating how a mechanism works rather than revealing a finished picture]
 techniques:
   - sequence-as-spine
   - illustration-carries-the-claim
   - scroll-bound-progression
   - no-orientation-tax
   - reveal-without-loss
+  - motion-carries-the-mechanism
 ---
 
 # Narrative scroll surface
@@ -132,6 +133,18 @@ and stay — leaves every passed station shouting at full volume behind the
 reader. The envelope, the smoothing, the collision rule and the reduced-motion
 collapse are
 [scroll-bound-progression](./techniques/scroll-bound-progression.md).
+
+Everything above is about *when* motion plays. One kind of motion on these
+pages also raises the question of *what its timing says*. When a station
+animates a mechanism, such as a reader running ahead of a stalled one or three
+steps overlapping while a fourth waits, the order and overlap on screen are
+claims about the mechanism. The last frame usually shows none of them. That
+motion is written as a short list of beats played as a pure function of time,
+so it can be stepped, scrubbed, laid out as a filmstrip and captured frame by
+frame from one source. Its art gives time a spatial axis wherever it can, so a
+still frame explains on its own. The litmus, the beat list, the degraded forms and
+the rule that an art style is only a skin over the beats are
+[motion-carries-the-mechanism](./techniques/motion-carries-the-mechanism.md).
 
 ## Every choice the page offers is an opportunity to leave
 
@@ -304,3 +317,8 @@ place, a caption states what to notice — and mechanics do not.
   is owed, why a capture or an audit taken at the top of the page is an
   instrument pointed at the wrong thing, and why the remedy that fixes a
   latching reveal does nothing for a scroll-bound one.
+- [motion-carries-the-mechanism](./techniques/motion-carries-the-mechanism.md)
+  — motion whose payload is the trajectory: timing as a claim, a spatial time
+  axis so any frame explains, one beat list feeding playback, stepping, the
+  filmstrip and frame-exact video, art styles as skins over the beats, and the
+  degraded forms in order.
