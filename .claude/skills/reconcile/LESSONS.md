@@ -178,3 +178,14 @@ the contract those runs earned; this file carries what the DIRECTOR learned runn
   `rewrite-before-the-gate` row was in the same commit. Before judging a dispatched
   subject, run `git fetch` and read the named file at `origin/main`: a scan reason
   measured on a stale checkout can be history rather than work.
+
+## 1.0.1 - 2026-09-25 - the same subject re-dispatched on the same stale clock (software-engineering/agent-runtime-assembly)
+
+- **Recording a decline does not stop the next dispatch while the scanned checkout stays
+  behind.** `agent-runtime-assembly` came back hours after `rc-ara-0925` declined it, with
+  the identical reason, because the projection still scans the primary checkout (43
+  behind origin) and both earlier results landed only on origin. The lesson above
+  (fetch, read at `origin/main`) settles each run in minutes, but it cannot end the loop.
+  The loop ends when the primary checkout is synced or the attention scan reads
+  origin. Name that in the run result so the operator sees it. Do not fast-forward a
+  shared checkout that has sibling edits in it just to quiet the scan.
