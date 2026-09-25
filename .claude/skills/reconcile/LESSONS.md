@@ -167,3 +167,14 @@ the contract those runs earned; this file carries what the DIRECTOR learned runn
   no application, the result is a dry decline that names the right lane. Do not widen a
   subject-scoped dispatch into a bundle wave, even when the bundle has debt (88
   single-stack subjects here); that wave needs the operator's approval.
+
+## 1.0.1 - 2026-09-25 - dispatched on a clock reason, again (software-engineering/prompt-assembly)
+
+- **The clock that routed the dispatch had already been cleared upstream.** Same shape as
+  the entry above, on `prompt-assembly` (25 applications, five stacks). The at-risk row,
+  `python--amortized-compaction-cadence` refresh_by 2026-10-15, was read on a checkout 38
+  commits behind origin; origin's `deepen(currency)` had re-resolved it two days earlier
+  (refresh_by 2026-11-05, outside the 30-day window), and the sibling's
+  `rewrite-before-the-gate` row was in the same commit. Before judging a dispatched
+  subject, run `git fetch` and read the named file at `origin/main`: a scan reason
+  measured on a stale checkout can be history rather than work.
