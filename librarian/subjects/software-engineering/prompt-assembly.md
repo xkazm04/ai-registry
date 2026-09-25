@@ -507,3 +507,7 @@ Source [[../../sources/2026-09-23-self-compact-pi-agent]]: a builder's devlog fo
 - **Applied row:** experiment, `unmeasurable`. A 2x step at 272K costs this checkout's real traffic +58% with no wall and nothing with one, but compactions rise 9 -> 187 and their fidelity cost has no instrument yet.
 - **Open (lead L3):** on a flat book, a 272K wall still cut priced input to 0.64x, so window-fraction thresholds are not economically neutral anywhere. This waits on a compaction-fidelity instrument before any threshold moves.
 - **Untriaged:** delivering occupancy to the model as graded notices (real gap after the promoting grep; the source's own demo shows a model reading a percentage against the window rather than the policy).
+
+## 2026-09-25 - /reconcile, dispatched on a clock (run `rc-pa-0925`, reconcile 1.0.1)
+
+Declined, no wave. The subject has no single-source debt: 25 applications on 5 stacks, read from at least six independent counterparts. The scan ranked it only for `python--amortized-compaction-cadence` near its 2026-10-15 clock, and that premise was stale: the dispatching checkout sat 38 commits behind origin, where `deepen(currency)` had already re-resolved the application on 2026-09-23 and moved refresh_by to 2026-11-05. A clock on this subject is re-verification work for `/deepen` or `/librarian`, never a reason to send it to this lane.
