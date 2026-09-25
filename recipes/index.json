@@ -3,16 +3,16 @@
   "generated_by": "scripts/build-recipes-index.mjs",
   "lane": "recipes",
   "source": "recipes/<domain>/<topic>/<slug>/recipe.json",
-  "recipes": 141,
+  "recipes": 142,
   "by_status": {
-   "seed": 141
+   "seed": 142
   },
   "by_domain": {
    "legal_compliance": 9,
    "operations_logistics": 4,
    "finance_accounting": 12,
    "data_ai": 9,
-   "software_engineering": 45,
+   "software_engineering": 46,
    "creative_design": 13,
    "general_professional": 17,
    "customer_support": 8,
@@ -1205,6 +1205,20 @@
     "notifications"
    ],
    "recommended_trigger_kind": "self_paced"
+  },
+  "open-source-bounty-contribution": {
+   "path": "recipes/software_engineering/work-intake/open-source-bounty-contribution",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "software_engineering",
+   "topic": "work-intake",
+   "title": "Open-source bounty contribution",
+   "connector_types": [
+    "source_control",
+    "research",
+    "knowledge_base"
+   ],
+   "recommended_trigger_kind": "event"
   },
   "original-2d-art-curation": {
    "path": "recipes/creative_design/visual-assets/original-2d-art-curation",
