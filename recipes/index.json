@@ -3,9 +3,9 @@
   "generated_by": "scripts/build-recipes-index.mjs",
   "lane": "recipes",
   "source": "recipes/<domain>/<topic>/<slug>/recipe.json",
-  "recipes": 142,
+  "recipes": 143,
   "by_status": {
-   "seed": 142
+   "seed": 143
   },
   "by_domain": {
    "legal_compliance": 9,
@@ -14,7 +14,7 @@
    "data_ai": 9,
    "software_engineering": 46,
    "creative_design": 13,
-   "general_professional": 17,
+   "general_professional": 18,
    "customer_support": 8,
    "sales_marketing": 19,
    "product_project": 5
@@ -1284,6 +1284,18 @@
     "analytics"
    ],
    "recommended_trigger_kind": "self_paced"
+  },
+  "paid-work-opportunity-qualification": {
+   "path": "recipes/general_professional/client-engagements/paid-work-opportunity-qualification",
+   "version": "0.1.0",
+   "status": "seed",
+   "domain": "general_professional",
+   "topic": "client-engagements",
+   "title": "Paid work opportunity qualification",
+   "connector_types": [
+    "knowledge_base"
+   ],
+   "recommended_trigger_kind": "event"
   },
   "paid-work-outcome-retrospective": {
    "path": "recipes/general_professional/client-engagements/paid-work-outcome-retrospective",

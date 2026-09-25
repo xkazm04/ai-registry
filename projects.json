@@ -84,6 +84,11 @@
         "Fox": "dolla/athena-everywhere",
         "Wolf": "kiro/athena-everywhere"
       }
+    },
+    "gigs": {
+      "checkouts": {
+        "Wolf": "kiro/gigs"
+      }
     }
   }
 }
