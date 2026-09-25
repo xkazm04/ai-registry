@@ -67,3 +67,18 @@ Append-only. One block per run: `## <version used> - <YYYY-MM-DD> - <project>`.
 - **Fixed page chrome (a cookie banner) covered the bottom of every capture.** 1.1.1
   adds `--hide <selectors>` so a run can hide overlays that are not part of the
   section.
+
+## 1.1.1 - 2026-09-25 - personas-web
+
+- **Owner picks on the /features round:** memory RUN-TWICE (transformation), AI models
+  ROUTER (mechanism), security NESTED-VAULT (physical metaphor). Across the two runs
+  the product-true family has now lost every section it entered as a silhouette or a
+  mockup (hero, platform, security) except where it drew one card that grows (tools).
+  The winners share a shape: one strong structure that reads muted, with motion that
+  shows a change (a tangle straightening, tokens sorting, rings locking). The triad
+  should lead with mechanism, transformation and metaphor, and include product-true
+  only when the real artifact is itself the claim.
+- **The picture-first budget held without owner correction:** every /features variant
+  came in at 4-6 words (budget 30) and the owner chose among them without asking for
+  less text. The budget did not need to be tighter; the word list in the spec did the
+  work.
