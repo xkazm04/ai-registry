@@ -154,3 +154,16 @@ the contract those runs earned; this file carries what the DIRECTOR learned runn
   worker had to say plainly that it was property classification rather than a conformance
   run. Ask for that sentence up front; it is the difference between evidence and the
   appearance of it.
+
+## 1.0.1 - 2026-09-25 - dispatched on a clock reason (software-engineering/agent-runtime-assembly)
+
+- **A subject can be routed to this lane on a reason the lane cannot act on.** The
+  attention projection sent `agent-runtime-assembly` here for "1 application near its
+  clock". The subject has 16 applications on five stacks and no single-stack reason, and
+  the at-risk row (`python--rewrite-before-the-gate`, refresh_by 2026-10-15) carries
+  `verified_against`, the consumer-runtime witness the brief bars external workers from
+  writing. Refreshing it is a librarian/deepen re-verification. Before profiling anything,
+  read the scan's `reasons` for the named subject: if none of them says single stack or
+  no application, the result is a dry decline that names the right lane. Do not widen a
+  subject-scoped dispatch into a bundle wave, even when the bundle has debt (88
+  single-stack subjects here); that wave needs the operator's approval.

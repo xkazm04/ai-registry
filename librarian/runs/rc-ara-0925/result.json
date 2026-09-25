@@ -1,0 +1,40 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "rc-ara-0925",
+  "skill": "reconcile",
+  "skill_version": "1.0.1",
+  "mode": "wave",
+  "domain": "software-engineering",
+  "started_at": "2026-09-25T13:12:00Z",
+  "ended_at": "2026-09-25T13:26:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 0,
+    "declined": 1,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/agent-runtime-assembly",
+      "at": "2026-09-25",
+      "engine": "reconcile",
+      "outcome": "declined",
+      "points_before": 1,
+      "points_after": 1
+    }
+  ],
+  "verdicts": [],
+  "files": [],
+  "commits": [],
+  "pr": null,
+  "declined": [
+    {
+      "id": "software-engineering/agent-runtime-assembly",
+      "reason": "No single-source debt: 16 applications on 5 stacks (neovim, next, node, python, rust). The only scan reason is a currency clock - python--rewrite-before-the-gate, refresh_by 2026-10-15 (20 days), verified_against python@3.12. That is a consumer-runtime re-verification, which the brief forbids external workers (no verified_against on lane applications); it belongs to /librarian or /deepen, not this lane."
+    }
+  ],
+  "failure_signature": null,
+  "notes": "No work at f12f94c0. librarian-scan: subject points 1, reasons ['1 application(s) near their clock'], stacks 5, deviations 0, consults 119. check-currency agrees: the one at-risk row is python--rewrite-before-the-gate (2026-10-15). Nothing dispatched, no wave proposed for this subject. The bundle itself still holds 88 single-stack subjects - that is a wave for the operator to approve with /reconcile software-engineering, not something this subject-scoped dispatch may start."
+}
