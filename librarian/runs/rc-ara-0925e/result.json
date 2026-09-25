@@ -1,0 +1,40 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "rc-ara-0925e",
+  "skill": "reconcile",
+  "skill_version": "1.0.1",
+  "mode": "wave",
+  "domain": "software-engineering",
+  "started_at": "2026-09-25T18:10:00Z",
+  "ended_at": "2026-09-25T18:20:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 0,
+    "declined": 1,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/agent-runtime-assembly",
+      "at": "2026-09-25",
+      "engine": "reconcile",
+      "outcome": "declined",
+      "points_before": 1,
+      "points_after": 1
+    }
+  ],
+  "verdicts": [],
+  "files": [],
+  "commits": [],
+  "pr": null,
+  "declined": [
+    {
+      "id": "software-engineering/agent-runtime-assembly",
+      "reason": "Fifth dispatch of this subject on the same stale reason (after rc-ara-0925, 0925b, 0925c, 0925d), again naming 95724401. The primary checkout is now 1 ahead and 50 behind origin/main. At origin 7585cd31 the at-risk row python--rewrite-before-the-gate reads verified_on 2026-09-23, refresh_by 2026-11-05, and check-currency reports 0 expired and 0 at risk across 1873 applications. No single-source debt: 16 applications on 5 stacks."
+    }
+  ],
+  "failure_signature": null,
+  "notes": "No work at origin/main 7585cd31. Nothing changed since rc-ara-0925d: the primary checkout still holds the unpushed sibling commit 95724401 plus sibling WIP, so this run neither fast-forwarded nor rebased it. The re-dispatch loop continues until the primary syncs with origin or the attention projection reads origin/main. No new lesson; the 46e9503e lesson already covers it. Recorded from a detached worktree of origin/main."
+}
