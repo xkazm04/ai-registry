@@ -10,6 +10,7 @@ techniques:
   - ask-the-authority-not-the-shadow
   - hierarchy-as-three-relations
   - phantom-capability-parameter
+  - pre-resolve-what-the-engine-cannot-await
 ---
 
 # Engine binding surface
@@ -207,3 +208,8 @@ value that is born movable and becomes immovable at a construction step
   — carrying a run-time state of the engine as a type parameter with no
   representation, what it buys at call sites, and the two states that must not
   be carried this way.
+- [pre-resolve-what-the-engine-cannot-await](./techniques/pre-resolve-what-the-engine-cannot-await.md)
+  — a synchronous engine that calls back for a resource the host can only get
+  asynchronously: block its thread if it may park, otherwise read the input ahead,
+  refuse what the scan cannot read, release only what this call opened, and release
+  when the engine's use ends rather than when the call returns.

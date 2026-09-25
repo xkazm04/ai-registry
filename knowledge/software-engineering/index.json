@@ -4,7 +4,7 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 233,
-  "techniques": 1801,
+  "techniques": 1803,
   "applications": 1155,
   "laws": 15,
   "categories": [
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1801/1801",
+  "use_when_coverage": "1803/1803",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -1443,9 +1443,9 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-instruction-files/agent-instruction-files.md",
-   "digest": "sha256-b2:ca0c3d338bd38810",
-   "revision": 29,
-   "changedAt": "2026-09-24",
+   "digest": "sha256-b2:e99024e751daaa2b",
+   "revision": 30,
+   "changedAt": "2026-09-25",
    "techniques": [
     {
      "slug": "capability-before-steering",
@@ -10094,9 +10094,9 @@
    "subcategory": "work-execution",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/work-execution/delivery-guarantees/delivery-guarantees.md",
-   "digest": "sha256-b2:3ee7f0ba195adc04",
-   "revision": 7,
-   "changedAt": "2026-09-17",
+   "digest": "sha256-b2:1023ff3ecf23d679",
+   "revision": 8,
+   "changedAt": "2026-09-25",
    "techniques": [
     {
      "slug": "atomic-claiming",
@@ -10216,13 +10216,16 @@
      "status": "forged",
      "laws": [
       "count-carries-predicate",
-      "deletion-is-not-repair"
+      "deletion-is-not-repair",
+      "unknown-is-not-a-value"
      ],
      "shared_with": [],
      "use_when": [
       "deciding what happens after the final retry",
       "events crash forever while their counter reads zero",
-      "a counter that resets itself on deploy or restart"
+      "a counter that resets itself on deploy or restart",
+      "a retry list capped at N entries with the oldest dropped",
+      "a permanently failing item retried on every run"
      ]
     },
     {
@@ -11358,9 +11361,9 @@
    "subcategory": "codebase-stewardship",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/docs-sync/docs-sync.md",
-   "digest": "sha256-b2:9f1343414c273528",
-   "revision": 13,
-   "changedAt": "2026-09-23",
+   "digest": "sha256-b2:fd96220db75846a1",
+   "revision": 14,
+   "changedAt": "2026-09-25",
    "techniques": [
     {
      "slug": "catch-up-markers",
@@ -11463,6 +11466,22 @@
       "deciding what a freshness stamp on a document is allowed to mean",
       "a rot finding was triaged away and the document still reads as current",
       "one document is current in one paragraph and two quarters stale in another"
+     ]
+    },
+    {
+     "slug": "named-duplication-points",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "one fact has to appear in several hand-written documents because each reader needs it where they already are",
+      "a figure is quoted rounded in one place and exact in another",
+      "choosing the drift check for copies that no generator can produce",
+      "a restated fact changed in one document and the others still carry the old value",
+      "an instruction file lists where a fact is repeated and nobody has checked that list"
      ]
     },
     {
@@ -12816,9 +12835,9 @@
    "subcategory": "language-runtime",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/language-runtime/engine-binding-surface/engine-binding-surface.md",
-   "digest": "sha256-b2:742cdaca978f688b",
-   "revision": 1,
-   "changedAt": "2026-09-05",
+   "digest": "sha256-b2:823cd55ac89d000b",
+   "revision": 2,
+   "changedAt": "2026-09-25",
    "techniques": [
     {
      "slug": "address-sensitive-construction",
@@ -12893,6 +12912,24 @@
       "a wrapper has a method that panics when a precondition was not met",
       "deciding whether a run-time state of a foreign runtime should become a type distinction",
       "a type parameter is being added that carries no data"
+     ]
+    },
+    {
+     "slug": "pre-resolve-what-the-engine-cannot-await",
+     "status": "forged",
+     "laws": [
+      "creation-names-reaper",
+      "absent-guard-is-loud",
+      "verdict-survives-boundary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an engine you cannot change calls back synchronously for a resource the host can only acquire asynchronously",
+      "a host layer scans the engine's input to open handles before handing it over",
+      "handles opened for one call are closed in a finally",
+      "a streamed or pending result is read after the call that started it has returned",
+      "a caller's own registration shares a name with one the host opens automatically",
+      "deciding between blocking the engine's thread and resolving ahead of it"
      ]
     }
    ],
@@ -34336,9 +34373,9 @@
    "subcategory": "build-and-release",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/build-and-release/test-input-generation/test-input-generation.md",
-   "digest": "sha256-b2:9c6c3a722cb0e638",
-   "revision": 7,
-   "changedAt": "2026-09-04",
+   "digest": "sha256-b2:53394f527e9f1b6f",
+   "revision": 8,
+   "changedAt": "2026-09-25",
    "techniques": [
     {
      "slug": "exhaustive-when-bounded",
@@ -34417,14 +34454,17 @@
      "status": "forged",
      "laws": [
       "failure-not-empty-success",
-      "one-authority-per-vocabulary"
+      "one-authority-per-vocabulary",
+      "verdict-survives-boundary"
      ],
      "shared_with": [],
      "use_when": [
       "a randomized suite only catches crashes and assertion failures",
       "deciding whether a reference implementation is worth its cost",
       "a well-formed wrong answer reached production",
-      "choosing between a recorded output and a stated property"
+      "choosing between a recorded output and a stated property",
+      "a validator or gate refuses with a reason a caller acts on",
+      "a model of an accept-or-reject system compares only the verdict"
      ]
     },
     {
@@ -37650,6 +37690,7 @@
     "docs-content-model/catalog-referential-invariants",
     "docs-sync/coupled-surface-inventory",
     "docs-sync/cross-repo-drift-detection",
+    "docs-sync/named-duplication-points",
     "docs-sync/negative-claims-are-pinned",
     "docs-sync/prose-as-an-execution-surface",
     "docs-sync/rendered-surface-coupling",
@@ -39312,6 +39353,7 @@
     "delivery-analytics/path-class-confounded-with-size",
     "delivery-analytics/post-landing-repair-density",
     "delivery-guarantees/marker-certifies-what-was-done",
+    "delivery-guarantees/retry-escalation",
     "dependency-declaration/logical-name-or-address",
     "dependency-declaration/progressive-resolution",
     "deterministic-prefix-caching/unknown-callable-is-nondeterministic",
@@ -40136,6 +40178,7 @@
     "embedded-tracing-collector/ephemeron-fixpoint-marking",
     "embedded-tracing-collector/mark-finalize-remark-sweep",
     "engine-binding-surface/capability-deferred-release",
+    "engine-binding-surface/pre-resolve-what-the-engine-cannot-await",
     "engine-host-contract/idle-aware-job-loop",
     "engine-host-contract/untraceable-jobs-as-roots",
     "entity-lifecycle/cascade-design",
@@ -40460,6 +40503,7 @@
     "docs-content-model/draft-visibility-gating",
     "docs-content-model/product-location-mapping",
     "docs-sync/coupled-surface-inventory",
+    "docs-sync/named-duplication-points",
     "docs-sync/source-as-data-without-the-app",
     "docs-sync/source-doc-mapping",
     "draft-editing/field-defaults-and-bounds",
@@ -41055,6 +41099,7 @@
     "edge-queue-policy/eviction-priority-classes",
     "edge-queue-policy/in-band-flush",
     "embedded-db/corruption-class-response",
+    "engine-binding-surface/pre-resolve-what-the-engine-cannot-await",
     "error-handling/cancellation-attribution",
     "error-handling/consumer-decides-error-shape",
     "execution-state-checkpointing/restore-semantics-belong-to-the-format",
@@ -41113,6 +41158,7 @@
     "subscription-billing-periods/hourly-pass-with-derived-idempotency",
     "subscription-proration/proration-follows-recurrence-not-price",
     "supply-chain/signature-preserving-patching",
+    "test-input-generation/model-based-oracle",
     "transactions-over-a-replicated-log/same-value-still-conflicts",
     "transactions-over-a-replicated-log/snapshot-read-plus-verify-log",
     "untrusted-extension-host/per-callback-failure-policy",
@@ -41265,6 +41311,7 @@
     "embedded-tracing-collector/root-discovery-by-counting",
     "engine-binding-surface/address-sensitive-construction",
     "engine-binding-surface/phantom-capability-parameter",
+    "engine-binding-surface/pre-resolve-what-the-engine-cannot-await",
     "engine-host-contract/null-and-blocking-executors",
     "entity-lifecycle/archive-restore-semantics",
     "error-handling/crash-capture",

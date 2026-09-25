@@ -1099,10 +1099,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 233,
-      "techniques": 1801,
+      "techniques": 1803,
       "applications": 1155,
-      "files": 3194,
-      "contentHash": "sha256-b2:0bedf604d3b1e7e5"
+      "files": 3196,
+      "contentHash": "sha256-b2:cffc5c844e27af69"
     }
   ],
   "usageEvidence": {

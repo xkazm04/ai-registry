@@ -117,6 +117,10 @@ build. Without it, "generated" is a claim in a comment header rather than
 a property of the tree, and the copies drift the first time someone edits a
 shipped file in place — which is the normal way to fix a template, because
 the shipped file is what the person is looking at.
+Where the copies are not a function of any source - the same fact restated by
+hand in different registers for different readers - there is nothing to
+regenerate; that regime's check is
+[named-duplication-points](../../../../engineering-process/codebase-stewardship/docs-sync/techniques/named-duplication-points.md).
 
 ## The second boundary is a format edge, and it sits inside the checkout
 

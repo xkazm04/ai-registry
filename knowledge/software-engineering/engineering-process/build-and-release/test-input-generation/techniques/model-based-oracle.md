@@ -4,9 +4,11 @@ type: technique
 subject: test-input-generation
 technique: model-based-oracle
 status: forged
-laws: [failure-not-empty-success, one-authority-per-vocabulary]
+laws: [failure-not-empty-success, one-authority-per-vocabulary, verdict-survives-boundary]
 shared_with: []
-use_when: [a randomized suite only catches crashes and assertion failures, deciding whether a reference implementation is worth its cost, a well-formed wrong answer reached production, choosing between a recorded output and a stated property]
+use_when: [a randomized suite only catches crashes and assertion failures, deciding whether a reference implementation is worth its cost, a well-formed wrong answer reached production, choosing between a recorded output and a stated property, a validator or gate refuses with a reason a caller acts on, a model of an accept-or-reject system compares only the verdict]
+applied: code
+ab_verdict: better
 ---
 
 # Model-based oracle
@@ -155,6 +157,76 @@ The diagnosis also wants the **smallest** disagreeing input, not the first one,
 which is why this technique pairs with a shrinking step or with
 [exhaustive-when-bounded](./exhaustive-when-bounded.md), whose enumeration
 delivers the minimal case for free.
+
+## When the answer is accept-or-reject: compare the reason
+
+Validators, admission gates, policy checks and compatibility rules answer yes or
+no, and a model of one is usually compared at that grain: the model says
+refuse, the system refused, the case passes. That comparison is blind to a whole
+class of defect - **the system that refuses for the wrong reason**. A refusal
+branch copied from its neighbour, two checks swapped, a table lookup that
+resolves a built-in property name as a row and then refuses it for a
+requirement that does not exist: each leaves the verdict right on every input
+and the reported reason wrong on some. Wherever the reason reaches anyone - a
+caller told what to fix, an agent deciding whether to retry, a person shown why
+- it is part of the observable contract, and the model has to predict it.
+
+The prediction has a particular shape: **the set of rules the input violates,
+not the one rule that fires.** A fail-first validator reports whichever
+violated rule its evaluation order reaches first. A model that predicted that
+single rule would have to encode the order, which is internal layout and
+exactly the mirroring the previous section forbids. The set costs nothing
+extra, because the model evaluates every rule independently anyway, and the
+assertion becomes membership: the reported rule must be one this input
+actually violates.
+
+The comparison then fails in four distinct ways, and each is its own finding:
+
+- **unpredicted accept** - the model refuses, the system allowed;
+- **unpredicted reject** - the model allows, the system refused;
+- **wrong rule** - the system refused for a rule this input does not violate;
+- **unclassifiable** - the refusal maps to no rule in the model's vocabulary.
+  Never a pass and never a skip ([unknown-is-not-a-value](../../../../_laws.md#unknown-is-not-a-value)),
+  but read it for what it usually is: a finding about the reason channel -
+  the system grew a refusal the model has not heard of, or the channel
+  drifted from the vocabulary - more often than about the system's logic.
+
+This pays only over combinations. A hand-written suite that violates one rule
+per case can never see a wrong rule reported where two were violated, nor a
+precedence defect, because its inputs never violate two rules at once; the
+comparison belongs with [exhaustive-when-bounded](./exhaustive-when-bounded.md)
+or a generator that composes faults.
+
+Two boundaries, both measured on a real gate.
+
+**Membership is blind to precedence, so pin the edges the contract declares.**
+Where order is itself contract - one check must run first because the later
+one would disclose what the earlier one withholds, or attempt a side effect
+the earlier one forbids - a swap keeps every verdict and keeps every reported
+rule inside the violated set, and membership passes it. Modelling the full
+order is not the fix: it fails every harmless reordering of checks the
+contract leaves unordered. Add a fifth kind instead - **precedence**: the
+reported rule must not be one the contract says comes after another rule this
+input also violates - and encode only the edges the contract states. On one
+gate, full-order matching caught the disclosing swap and also failed a harmless
+move of an unordered check; membership alone passed both; membership plus the
+declared edges caught the first and passed the second.
+
+**Recovering the rule from message prose couples the oracle to wording.** Many
+validators refuse with a sentence and nothing else, so the oracle classifies by
+substring. That works, and it has two costs that point in opposite directions:
+every reworded message now fails as unclassifiable, reporting a copy change as
+a defect, while a refusal copied whole from another branch classifies cleanly
+as that branch's rule. Prose classifiers also collide - a pattern loose enough
+to match one refusal's sentence matches a neighbour's. The repair is on the
+system's side: return the rule as a typed value beside the sentence, define
+that vocabulary once and have the oracle import it
+([one-authority-per-vocabulary](../../../../_laws.md#one-authority-per-vocabulary),
+[verdict-survives-boundary](../../../../_laws.md#verdict-survives-boundary)).
+Rewording becomes free, unclassifiable shrinks to a vocabulary check, and the
+comparison reads a value instead of a sentence. Sharing the vocabulary does not
+spend the model's independence: the two sides share the names of the rules,
+never the logic that decides which of them apply.
 
 ## Reading an agreement, when the reference is the oracle
 

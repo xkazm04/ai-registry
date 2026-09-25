@@ -162,6 +162,12 @@ found the defect in the opening section after twenty generators had missed it.
 When that cost is justified, and how to keep the model from inheriting the
 system's bugs, is [model-based-oracle](./techniques/model-based-oracle.md).
 
+For a system that answers accept-or-reject, the model's comparison unit is the
+*reason*, not the verdict: it predicts the set of rules an input violates, the
+reported rule must be among them, and only the precedence the contract declares
+is pinned - a verdict-only comparison passes every refusal made for the wrong
+reason.
+
 The oracle question has a shape of its own when the system is a pipeline of
 stages. One end-to-end target finds the least, because a crash in an early
 stage masks every defect in the stages behind it on that input - masking by

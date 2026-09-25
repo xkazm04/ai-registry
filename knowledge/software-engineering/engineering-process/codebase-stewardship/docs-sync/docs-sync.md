@@ -19,6 +19,7 @@ techniques:
   - negative-claims-are-pinned
   - prose-as-an-execution-surface
   - translations-drift-against-the-product
+  - named-duplication-points
 ---
 
 # Docs-as-code synchronization
@@ -472,3 +473,7 @@ fifteen months, invisibly.
 - [translations-drift-against-the-product](./techniques/translations-drift-against-the-product.md)
   — the second anchor; staleness relative to a stale source; the page nobody
   derived; per-page assertion scope as the durable record.
+- [named-duplication-points](./techniques/named-duplication-points.md) — facts
+  restated on purpose in hand-written prose; a reviewer for rounded copies, a
+  mechanical assertion for literal ones; the site list as a copy that rots and
+  the value census that checks it.
