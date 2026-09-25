@@ -1,0 +1,40 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "rc-ara-0925d",
+  "skill": "reconcile",
+  "skill_version": "1.0.1",
+  "mode": "wave",
+  "domain": "software-engineering",
+  "started_at": "2026-09-25T17:40:00Z",
+  "ended_at": "2026-09-25T17:50:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 0,
+    "declined": 1,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/agent-runtime-assembly",
+      "at": "2026-09-25",
+      "engine": "reconcile",
+      "outcome": "declined",
+      "points_before": 1,
+      "points_after": 1
+    }
+  ],
+  "verdicts": [],
+  "files": [],
+  "commits": [],
+  "pr": null,
+  "declined": [
+    {
+      "id": "software-engineering/agent-runtime-assembly",
+      "reason": "Fourth dispatch of this subject on the same stale reason (after rc-ara-0925, 0925b, 0925c). The dispatch names 95724401: a local-only sibling commit on top of the primary checkout, 48 commits behind origin/main. At origin b1c6621a the at-risk row python--rewrite-before-the-gate reads verified_on 2026-09-23, refresh_by 2026-11-05, and check-currency reports 0 expired and 0 at risk across 1873 applications. No single-source debt: 16 applications on 5 stacks."
+    }
+  ],
+  "failure_signature": null,
+  "notes": "No work at origin/main b1c6621a. The primary checkout still was not fast-forwarded. It now holds one unpushed sibling commit (95724401, kit 0.2.0) as well as sibling WIP (catalog.json, skills/contest/*, skills/cx/*), and this run did not push or rebase a commit it did not make. The dispatch HEAD advancing from 689b3da8 to 95724401 without a pull shows the scan reads local HEAD. Re-dispatches will continue until the primary syncs with origin or the attention projection reads origin/main. Recorded from a detached worktree of origin/main."
+}
