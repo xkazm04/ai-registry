@@ -189,3 +189,8 @@ the contract those runs earned; this file carries what the DIRECTOR learned runn
   The loop ends when the primary checkout is synced or the attention scan reads
   origin. Name that in the run result so the operator sees it. Do not fast-forward a
   shared checkout that has sibling edits in it just to quiet the scan.
+- **Why the loop does not brake itself (second sighting, `prompt-assembly`, rc-pa-0925b).**
+  The scan does read `librarian/runs/`, but its dry-streak brake counts only `landed` and
+  `idled` rows; a `declined` row is, correctly, not a pass and moves nothing. Before
+  profiling a dispatched subject, look for a `rc-*` decline of the same subject on the same
+  premise; if one exists, record the re-dispatch from a worktree cut from origin and stop.

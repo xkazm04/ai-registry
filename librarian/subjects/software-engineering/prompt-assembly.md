@@ -519,3 +519,7 @@ Source [[../../sources/2026-09-23-self-compact-pi-agent]]: a builder's devlog fo
 ## 2026-09-25 - /reconcile, dispatched on a clock (run `rc-pa-0925`, reconcile 1.0.1)
 
 Declined, no wave. The subject has no single-source debt: 25 applications on 5 stacks, read from at least six independent counterparts. The scan ranked it only for `python--amortized-compaction-cadence` near its 2026-10-15 clock, and that premise was stale: the dispatching checkout sat 38 commits behind origin, where `deepen(currency)` had already re-resolved the application on 2026-09-23 and moved refresh_by to 2026-11-05. A clock on this subject is re-verification work for `/deepen` or `/librarian`, never a reason to send it to this lane.
+
+## 2026-09-25 - /reconcile, re-dispatched on the same clock (run `rc-pa-0925b`, reconcile 1.0.1)
+
+Declined again on the premise `rc-pa-0925` already declined. The dispatching checkout was 43 behind origin and still read refresh_by 2026-10-15 for `python--amortized-compaction-cadence`. Origin reads 2026-11-05. No work for this lane until the primary checkout fast-forwards.
