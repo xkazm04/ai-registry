@@ -9,8 +9,10 @@
  *   node contest.mjs plan    --id <slug> [--kind participants|judges] [--judges <specs>] [--only <id>]
  *                            (seats as JSON, prepared but not spawned - for a host's own queue)
  *   node contest.mjs collect --id <slug>
- *   node contest.mjs judge   --id <slug> --judges <specs> [--timeout-min 30] [--force]
- *   node contest.mjs aggregate --id <slug>
+ *   node contest.mjs judge   --id <slug> --judges <specs> [--timeout-min 30] [--force] [--keep-workspaces]
+ *   node contest.mjs aggregate --id <slug> [--keep-workspaces]
+ *                            (judges work in staged copies outside the arena; aggregate harvests their
+ *                             verdicts into judging/ and deletes the copies unless --keep-workspaces)
  *   node contest.mjs verdict --id <slug> --winner <A/2> [--runner-up <B/1>] [--note <file|text>]
  *                            [--pattern "slug|statement|evidence"]... [--force]
  *   node contest.mjs verdict --id <slug> --shortlist <A/2,C/1> [--note ...] [--pattern ...]   (the owner wants another round)
@@ -314,9 +316,30 @@ async function judge() {
   aggregateVerdicts();
 }
 
-// Writes each judge's JUDGE-<id>.md and records the panel in contest.json, without spawning
-// anything - `judge` runs the seats itself, `plan --kind judges` hands them to an outside
-// dispatcher (a host app's own queue) that writes the same runs/<id>/record.json and final.md.
+// A judge runs with its permissions bypassed, so "do not look" was a request, not a wall: from
+// <arena>/judging/ the blind map was one `..` away (runs/blind-map.json, manifest.json). Each judge
+// now works in a staged copy OUTSIDE the arena that holds only the redacted entries and its own
+// brief; aggregate harvests the verdict back into judging/ and deletes the copy.
+const stageRoot = () => path.join(os.tmpdir(), 'contest-judging');
+const isStaged = (p) => { const rel = path.relative(stageRoot(), p); return !!rel && !rel.startsWith('..') && !path.isAbsolute(rel); };
+
+function stageJudgeWorkspace(c, judging, p) {
+  // Reuse the recorded workspace, so a repeated plan cannot strand a verdict a host is already writing.
+  const known = c.judge_workspaces?.[p.id];
+  let ws = known && isStaged(known) && fs.existsSync(known) ? known : null;
+  if (!ws) {
+    fs.mkdirSync(stageRoot(), { recursive: true });
+    ws = fs.mkdtempSync(path.join(stageRoot(), `${c.id}-${p.id}-`));
+  }
+  fs.rmSync(path.join(ws, 'entries'), { recursive: true, force: true });
+  copyDir(path.join(judging, 'entries'), path.join(ws, 'entries')); // redacted by collect; carries entries/<letter>/data
+  return ws;
+}
+
+// Writes each judge's JUDGE-<id>.md into its staged workspace (and a copy into judging/ for the
+// record) and records the panel in contest.json, without spawning anything - `judge` runs the
+// seats itself, `plan --kind judges` hands them to an outside dispatcher (a host app's own queue)
+// that writes the same runs/<id>/record.json and final.md.
 function prepareJudges(c, dir, judges) {
   const manifest = readJson(path.join(dir, 'manifest.json'));
   const judging = path.join(dir, 'judging');
@@ -326,13 +349,18 @@ function prepareJudges(c, dir, judges) {
     return `- **${e.letter}**: ${present.length ? present.join(', ') : '(no variants delivered - score nothing, note it in entry_note)'}`;
   }).join('\n');
   const template = read(path.join(REFERENCES, 'judge-brief.md'));
+  c.judge_workspaces ??= {};
   const seats = judges.map((p) => {
     const file = `JUDGE-${p.id}.md`;
     const verdictFile = `verdict-${p.id}.json`;
-    fs.writeFileSync(path.join(judging, file), template
+    const text = template
       .replaceAll('{{title}}', c.title).replaceAll('{{brief}}', brief).replaceAll('{{entries}}', entriesText)
-      .replaceAll('{{verdict_file}}', verdictFile).replaceAll('{{judge_id}}', p.id));
-    return { p, dir: judging, logDir: path.join(dir, 'runs', `judge-${p.id}`), prompt: `You are a judge on a blind design panel. Read ${file} in the current directory and follow it exactly; write your verdict to ${verdictFile} in the current directory. Never leave this directory. Work autonomously to the end; never ask a question.` };
+      .replaceAll('{{verdict_file}}', verdictFile).replaceAll('{{judge_id}}', p.id);
+    const ws = stageJudgeWorkspace(c, judging, p);
+    fs.writeFileSync(path.join(ws, file), text);
+    fs.writeFileSync(path.join(judging, file), text);
+    c.judge_workspaces[p.id] = ws;
+    return { p, dir: ws, logDir:path.join(dir, 'runs', `judge-${p.id}`), prompt: `You are a judge on a blind design panel. Read ${file} in the current directory and follow it exactly; write your verdict to ${verdictFile} in the current directory. Never leave this directory. Work autonomously to the end; never ask a question.` };
   });
   c.judges = [...new Set([...c.judges, ...judges.map((j) => j.spec)])];
   save(dir, c);
@@ -353,16 +381,45 @@ function recoverVerdicts(c, dir) {
   }
 }
 
+// A verdict a judge wrote in its staged workspace is copied back into judging/, where aggregate
+// reads it. The staged copy is the newer one, so it overwrites.
+function harvestVerdicts(c, dir) {
+  const judging = path.join(dir, 'judging');
+  for (const [id, ws] of Object.entries(c.judge_workspaces ?? {})) {
+    const staged = path.join(ws, `verdict-${id}.json`);
+    if (!fs.existsSync(staged)) continue;
+    fs.copyFileSync(staged, path.join(judging, `verdict-${id}.json`));
+    console.log(`judge ${id}: verdict harvested from its staged workspace`);
+  }
+}
+
+// Once a judge's verdict is in judging/ (harvested or recovered), its staged workspace has done its
+// job. --keep-workspaces leaves them for inspection. Only paths under the staging root are ever removed.
+function releaseWorkspaces(c, dir) {
+  if (opts['keep-workspaces']) return;
+  const judging = path.join(dir, 'judging');
+  let changed = false;
+  for (const [id, ws] of Object.entries(c.judge_workspaces ?? {})) {
+    if (!fs.existsSync(path.join(judging, `verdict-${id}.json`))) continue;
+    if (isStaged(ws)) fs.rmSync(ws, { recursive: true, force: true });
+    delete c.judge_workspaces[id];
+    changed = true;
+  }
+  if (changed) save(dir, c);
+}
+
 function aggregateVerdicts() {
   const { c, dir } = load();
+  harvestVerdicts(c, dir);
   recoverVerdicts(c, dir);
+  releaseWorkspaces(c, dir);
   const judging = path.join(dir, 'judging');
   const manifest = readJson(path.join(dir, 'manifest.json'));
   const expected = Object.fromEntries(Object.values(manifest.entries).map((e) => [e.letter, e.variants.filter((v) => v.present).map((v) => v.n)]));
   const verdicts = [];
-  // Panel verdicts land in judging/ (the judges' cwd); the host's own verdict lands in runs/, where a
-  // judge working inside judging/ cannot read it - the first contest's second judge cited the host's
-  // screenshots, which had been written next to the entries.
+  // Panel verdicts land in judging/ (harvested from the judges' staged workspaces); the host's own
+  // verdict lands in runs/, which no judge workspace contains - the first contest's second judge cited
+  // the host's screenshots, which had been written next to the entries.
   const verdictFiles = [judging, path.join(dir, 'runs')].flatMap((d) => (fs.existsSync(d)
     ? fs.readdirSync(d).filter((x) => /^verdict-.*\.json$/.test(x)).map((x) => path.join(d, x)) : []));
   for (const file of verdictFiles) {
@@ -553,7 +610,8 @@ function status() {
 // The seats of one kind as JSON, prepared but not spawned, for a host that runs them through its
 // own queue (Personas runs them as fleet sessions). The host owns the spawn and must leave behind
 // exactly what `run`/`judge` would: runs/<logId>/record.json (same fields as runSeats writes) and
-// runs/<logId>/final.md. Every other step then works unchanged.
+// runs/<logId>/final.md. Every other step then works unchanged. A judge seat's cwd is its staged
+// workspace outside the arena; its log_dir stays in the arena's runs/.
 function plan() {
   const { c, dir } = load();
   const kind = opts.kind ?? 'participants';
