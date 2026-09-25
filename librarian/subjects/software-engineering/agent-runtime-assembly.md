@@ -1,7 +1,7 @@
 ---
 subject: agent-runtime-assembly
 domain: software-engineering
-last_touched: 2026-09-04
+last_touched: 2026-09-23
 dry_streak: 0
 touched_by: deepen
 ---
@@ -479,3 +479,11 @@ Source [[../../sources/2026-09-21-claude-code-from-source]]: an architecture boo
 - **The scored reason it landed as an amendment rather than a lead** is that it refutes something the file asserts: the mechanical test is offered as sufficient ("a runtime that passes this test can be administered remotely"), and it returns green on a runtime compromised this way. The file's own rule survives intact, which is what makes this a widening rather than a correction - hence an amendment, per the v2 boundary-or-mechanism sort.
 - **The added audit runs from the carve-out inward, not from the configuration side.** For each standing exemption, name what determines its scope and which tier may write that determinant. A configuration-side sweep sorts keys by whether they look dangerous, and a path never does.
 - **Applied across the fleet (experiment, not-better) with a clean structural negative:** zero permission allow rules across all six managed projects - every one carries deny rules only. The attack class needs a standing allow whose scope a configurable key sets, so it is structurally absent here. Worth recording precisely because nobody designed that defence against this attack: it is a general interactive-approval stance that closes the class incidentally, and it would reopen the first time a project adds one path-scoped allow to stop being asked about a scratch directory.
+
+## 2026-09-23 - `/deepen` currency lane ([[2026-09-23-3]])
+
+`python--rewrite-before-the-gate` refreshed before its 2026-10-15 clock; ~25 anchors re-resolved. Upstream folded the trace helper into the request chain and extracted the dispatch step; middleware failures now log once per distinct failure. Three things present at the first read and missing from our text were recorded: a relay rewriter ahead of the plugin chain that names itself in the trace, a guard against a second downstream run when middleware replaces the downstream error, and a sixth execution-order step. All three deviations still hold. `refresh_by` kept, moved to 2026-11-05.
+
+Banked lead (proposal): once-per-failure log suppression should keep a count of suppressed repeats, or a constraining middleware failing on every call reads as one event per process. Return condition: next pass over the technique.
+
+Impact: no judged verdict moved.

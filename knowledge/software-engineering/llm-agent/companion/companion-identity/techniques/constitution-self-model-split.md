@@ -6,7 +6,7 @@ technique: constitution-self-model-split
 status: forged
 laws: [one-authority-per-vocabulary, deletion-is-not-repair]
 shared_with: []
-use_when: [deciding what an agent may change about itself, writing a companion's identity documents, a rule keeps getting overwritten by the agent's own learning, one document carries operator-owned and agent-owned sections]
+use_when: [deciding what an agent may change about itself, writing a companion's identity documents, a rule keeps getting overwritten by the agent's own learning, upgrading a shipped constitution the person may have edited, the companion can change the code of the product that ships its law, one document carries operator-owned and agent-owned sections]
 ---
 
 # The constitution / self-model split
@@ -142,18 +142,68 @@ wrote, and that baseline will need to change as the product changes. This is the
 one legitimate case where law is authored outside the relationship, and it needs
 a procedure or it becomes a silent overwrite of the person's own amendments.
 
-Four rules make it survivable. The baseline carries a **version stamp**, recorded
-separately from the file, so "has this installation seen the current law" is
-answerable without diffing prose. On first run the baseline is **seeded only when
-absent**. An upgrade happens **once per version bump**, is gated on the stamp, and
-**preserves the prior text** beside the new one under a timestamped name rather
-than attempting a merge — a three-way merge of a law nobody can review is worse
-than a replacement the person can undo. Between bumps the person's edits are left
-entirely alone, because the file is theirs.
+**Keep the product's grammar out of the person's law.** The action vocabulary,
+the output format, the op catalog — whatever changes because the product shipped
+a feature — is surface law, and it is assembled into the context from the
+application's own package, never written into the person's file. This is the rule
+that decides everything below. A baseline that carries the product's grammar
+changes with every feature, so its "rare" upgrades become routine, each one
+displaces whatever the person had written, and the old file *cannot* be kept
+because the running binary needs the new grammar in it.
 
-Be honest about the cost: an upgrade moves the person's amendments out of the
-live document. That is a real loss, and the mitigation is that it is loud, rare,
-versioned and recoverable — not that it does not happen.
+With the grammar out, the durable baseline is small and slow, and the upgrade
+procedure is the one package managers settled on decades ago for files that both
+a vendor and an owner edit:
+
+- The baseline carries a **version stamp** recorded separately from the file,
+  together with a **fingerprint of the text that was shipped**, so "has this
+  installation seen the current law" and "has the person changed it since" are
+  both answerable without diffing prose.
+- On first run the baseline is **seeded only when absent**.
+- On a version bump, **an untouched file is replaced silently** — its fingerprint
+  still matches what was shipped, so there is nothing of the person's to lose.
+- **A file the person has changed is not overwritten by default.** It stays live;
+  the new baseline is placed beside it and the person is *told*, in the product,
+  with the difference available — a notice they see, not a log line. Replacing
+  their text with the prior version saved aside is the fallback for the case
+  where the old file genuinely cannot work with the new build, and that case is
+  the one the grammar rule above exists to design out.
+- **No automatic merge.** A three-way merge of a law nobody reviews is worse than
+  either whole text; the tools that offer merging offer it to a person, at a
+  prompt.
+- Any copy taken before a write **must succeed before the write happens**. A
+  backup attempted and ignored on failure turns "recoverable" into "usually
+  recoverable", which is not a property.
+
+The cleaner shape removes the conflict instead of managing it: **layering.** The
+shipped baseline is read from the package at assembly time, the person's file
+holds only their own amendments, and the precedence between the two is stated in
+the text. Upgrades then never touch the person's file at all — the same shape
+that lets vendor defaults and local overrides coexist in operating-system
+configuration, and the same one the memoryless mode already relies on when it
+reads the shipped law from the package rather than the person's folder
+([brain-adoption-consent](./brain-adoption-consent.md)).
+
+Be honest about the residual cost: under replace-with-backup, an upgrade moves the
+person's amendments out of the live document. The mitigation is that it is loud,
+rare, versioned and recoverable — and each of those four is a claim to check
+against the installation, not a description of the design. "Rare" is the one that
+fails first, and it fails for the reason stated at the top of this section.
+
+### The law's upstream is part of the law
+
+"No path by which the companion can amend it" has to include the path that runs
+through the product. A companion given a coding capability over the repository its
+own application is built from — self-development, dogfooding, a debug mode that
+lets it improve the app — can edit the shipped baseline and its version stamp, and
+the next build's upgrade procedure then delivers that edit into the person's file
+as law. The amendment took two approvals of ordinary-looking work, and neither
+approval card said "constitution". So the source of the shipped baseline, its
+stamp, and the code that seeds and upgrades it are **excluded from the companion's
+writable paths**, or routed to a review the person performs as law review; the
+same holds for the gate code itself. The test is the enumerable-writers test,
+extended upstream: list every path that ends with different text in the person's
+constitution, including the ones that pass through a build.
 
 ### When two applications ship law to one self
 

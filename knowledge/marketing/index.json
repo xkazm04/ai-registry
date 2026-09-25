@@ -26,7 +26,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/marketing/search-and-content/answer-engine-visibility/answer-engine-visibility.md",
-   "digest": "sha256:9e694ef0f5511833",
+   "digest": "sha256-b2:35600b562c163d97",
    "revision": 1,
    "changedAt": "2026-09-09",
    "techniques": [
@@ -143,7 +143,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/marketing/measurement-and-economics/attribution-and-incrementality/attribution-and-incrementality.md",
-   "digest": "sha256:921ded23dab7bee6",
+   "digest": "sha256-b2:93a52de469eab4c7",
    "revision": 1,
    "changedAt": "2026-09-09",
    "techniques": [
@@ -268,7 +268,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/marketing/content-production/brand-voice-capture/brand-voice-capture.md",
-   "digest": "sha256:4d38170d51878cba",
+   "digest": "sha256-b2:38b2f53410d2a0a3",
    "revision": 2,
    "changedAt": "2026-09-23",
    "techniques": [
@@ -383,7 +383,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/marketing/paid-advertising/budget-reallocation-prescription/budget-reallocation-prescription.md",
-   "digest": "sha256:0093380477fe2afe",
+   "digest": "sha256-b2:de5bd9e259ead603",
    "revision": 1,
    "changedAt": "2026-09-09",
    "techniques": [
@@ -502,7 +502,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/marketing/local-and-zero-budget/business-profile-and-citations/business-profile-and-citations.md",
-   "digest": "sha256:1a329068de94c506",
+   "digest": "sha256-b2:e04ee1287543e329",
    "revision": 1,
    "changedAt": "2026-09-09",
    "techniques": [
@@ -616,7 +616,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/marketing/paid-advertising/campaign-anomaly-triage/campaign-anomaly-triage.md",
-   "digest": "sha256:53df8d424528b83e",
+   "digest": "sha256-b2:7347c30e41046dbb",
    "revision": 1,
    "changedAt": "2026-09-09",
    "techniques": [
@@ -752,7 +752,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/marketing/content-production/channel-native-social-and-repurposing/channel-native-social-and-repurposing.md",
-   "digest": "sha256:5a0ffc177fb88981",
+   "digest": "sha256-b2:091ee6726a8ad240",
    "revision": 1,
    "changedAt": "2026-09-09",
    "techniques": [
@@ -871,7 +871,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/marketing/measurement-and-economics/client-reporting-and-data-provenance/client-reporting-and-data-provenance.md",
-   "digest": "sha256:1da8b89f47ec6267",
+   "digest": "sha256-b2:8ab0a5e98ab28224",
    "revision": 1,
    "changedAt": "2026-09-09",
    "techniques": [
@@ -988,7 +988,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/marketing/content-production/content-brief-and-article-composition/content-brief-and-article-composition.md",
-   "digest": "sha256:849284ffca11cc19",
+   "digest": "sha256-b2:1b69d25df297813a",
    "revision": 1,
    "changedAt": "2026-09-09",
    "techniques": [
@@ -1099,7 +1099,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/marketing/measurement-and-economics/goal-pacing-and-forecast/goal-pacing-and-forecast.md",
-   "digest": "sha256:0faf9730c96c5177",
+   "digest": "sha256-b2:b8684b34fbca71d7",
    "revision": 2,
    "changedAt": "2026-09-23",
    "techniques": [
@@ -1198,7 +1198,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/marketing/content-production/grounded-marketing-generation/grounded-marketing-generation.md",
-   "digest": "sha256:de25821e85177ca0",
+   "digest": "sha256-b2:392f1acf0f7598d4",
    "revision": 1,
    "changedAt": "2026-09-09",
    "techniques": [
@@ -1318,7 +1318,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/marketing/positioning-and-proof/honest-proof-and-illustrative-data/honest-proof-and-illustrative-data.md",
-   "digest": "sha256:774a6c4760406e74",
+   "digest": "sha256-b2:5600896ec4d2a343",
    "revision": 1,
    "changedAt": "2026-09-09",
    "techniques": [
@@ -1435,7 +1435,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/marketing/search-and-content/keyword-metric-reliability/keyword-metric-reliability.md",
-   "digest": "sha256:cfab65e0842d917d",
+   "digest": "sha256-b2:3c031946f2a0d34d",
    "revision": 1,
    "changedAt": "2026-09-09",
    "techniques": [
@@ -1547,7 +1547,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/marketing/conversion-and-leads/landing-page-experiment-statistics/landing-page-experiment-statistics.md",
-   "digest": "sha256:dcc619fa4bff470a",
+   "digest": "sha256-b2:f9b614313afc981e",
    "revision": 1,
    "changedAt": "2026-09-09",
    "techniques": [
@@ -1669,7 +1669,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/marketing/conversion-and-leads/lead-quality-and-source-diagnosis/lead-quality-and-source-diagnosis.md",
-   "digest": "sha256:7e2f3983c8703ebe",
+   "digest": "sha256-b2:d1c9ced278f50d7a",
    "revision": 1,
    "changedAt": "2026-09-09",
    "techniques": [
@@ -1792,7 +1792,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/marketing/search-and-content/local-page-doorway-prevention/local-page-doorway-prevention.md",
-   "digest": "sha256:7e3371b222693b75",
+   "digest": "sha256-b2:3394edfce6761e94",
    "revision": 1,
    "changedAt": "2026-09-09",
    "techniques": [
@@ -1905,7 +1905,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/marketing/local-and-zero-budget/local-visibility-and-reputation/local-visibility-and-reputation.md",
-   "digest": "sha256:c0bcfa7c997a5cdb",
+   "digest": "sha256-b2:c9c743abc7139222",
    "revision": 1,
    "changedAt": "2026-09-09",
    "techniques": [
@@ -2028,7 +2028,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/marketing/conversion-and-leads/money-page-conversion-craft/money-page-conversion-craft.md",
-   "digest": "sha256:e89f6e67454d788b",
+   "digest": "sha256-b2:81ff70c9711d06b0",
    "revision": 1,
    "changedAt": "2026-09-09",
    "techniques": [
@@ -2141,7 +2141,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/marketing/search-and-content/on-page-and-metadata-craft/on-page-and-metadata-craft.md",
-   "digest": "sha256:35ac9537e9fd006d",
+   "digest": "sha256-b2:87a9b0e1cb50b7ec",
    "revision": 1,
    "changedAt": "2026-09-09",
    "techniques": [
@@ -2261,7 +2261,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/marketing/measurement-and-economics/performance-root-cause-diagnosis/performance-root-cause-diagnosis.md",
-   "digest": "sha256:b1b39cf34f901ac8",
+   "digest": "sha256-b2:97e7d27c65c2bc8d",
    "revision": 1,
    "changedAt": "2026-09-09",
    "techniques": [
@@ -2381,7 +2381,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/marketing/measurement-and-economics/period-comparison-significance/period-comparison-significance.md",
-   "digest": "sha256:94e071e4fe942ac7",
+   "digest": "sha256-b2:19d7b11db78bbddc",
    "revision": 1,
    "changedAt": "2026-09-09",
    "techniques": [
@@ -2502,7 +2502,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/marketing/positioning-and-proof/positioning-and-pricing-transparency/positioning-and-pricing-transparency.md",
-   "digest": "sha256:7afc6d4266b83f70",
+   "digest": "sha256-b2:171a7c40dfd6fd17",
    "revision": 1,
    "changedAt": "2026-09-09",
    "techniques": [
@@ -2621,7 +2621,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/marketing/paid-advertising/product-feed-and-catalog-spine/product-feed-and-catalog-spine.md",
-   "digest": "sha256:9c6b95f50aa0b883",
+   "digest": "sha256-b2:9303fd8860efc4da",
    "revision": 1,
    "changedAt": "2026-09-09",
    "techniques": [
@@ -2739,7 +2739,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/marketing/measurement-and-economics/profit-on-ad-spend-economics/profit-on-ad-spend-economics.md",
-   "digest": "sha256:4d8b270bb1cf63ad",
+   "digest": "sha256-b2:7cfcba924d3986e7",
    "revision": 1,
    "changedAt": "2026-09-09",
    "techniques": [
@@ -2862,7 +2862,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/marketing/paid-advertising/responsive-search-ad-craft/responsive-search-ad-craft.md",
-   "digest": "sha256:1b2bf5012643e1fe",
+   "digest": "sha256-b2:c97e663d7c363652",
    "revision": 2,
    "changedAt": "2026-09-23",
    "techniques": [
@@ -2977,7 +2977,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/marketing/search-and-content/search-intent-classification/search-intent-classification.md",
-   "digest": "sha256:72a331b20fc78ac3",
+   "digest": "sha256-b2:53c05c850e9130f7",
    "revision": 1,
    "changedAt": "2026-09-09",
    "techniques": [
@@ -3086,7 +3086,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/marketing/paid-advertising/search-term-mining/search-term-mining.md",
-   "digest": "sha256:654f5114c0714de9",
+   "digest": "sha256-b2:0904ace063044219",
    "revision": 1,
    "changedAt": "2026-09-09",
    "techniques": [
@@ -3196,7 +3196,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/marketing/search-and-content/site-architecture-and-topic-clusters/site-architecture-and-topic-clusters.md",
-   "digest": "sha256:3b2dabe474ee51ff",
+   "digest": "sha256-b2:76e9ced11d9cea5a",
    "revision": 1,
    "changedAt": "2026-09-09",
    "techniques": [
@@ -3327,7 +3327,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/marketing/conversion-and-leads/speed-to-lead-and-assisted-reply/speed-to-lead-and-assisted-reply.md",
-   "digest": "sha256:f0f94d7d16ec3d00",
+   "digest": "sha256-b2:0e44cb7eafa79d37",
    "revision": 2,
    "changedAt": "2026-09-16",
    "techniques": [
@@ -3454,7 +3454,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/marketing/local-and-zero-budget/zero-budget-channel-planning/zero-budget-channel-planning.md",
-   "digest": "sha256:5cf07c38762e47ca",
+   "digest": "sha256-b2:0b185ece14e341e1",
    "revision": 3,
    "changedAt": "2026-09-20",
    "techniques": [

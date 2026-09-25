@@ -88,7 +88,8 @@
         "hash-pinned-translation-pipeline",
         "demo-data-plane",
         "native-shell-integration",
-        "render-mount-pipeline"
+        "render-mount-pipeline",
+        "page-load-pipeline"
       ]
     },
     {

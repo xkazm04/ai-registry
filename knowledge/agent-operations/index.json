@@ -23,7 +23,7 @@
    "subcategory": null,
    "status": "draft",
    "file": "knowledge/agent-operations/measurement/agent-benchmark-design/agent-benchmark-design.md",
-   "digest": "sha256:2d930799536612b6",
+   "digest": "sha256-b2:e260565c7751f2bc",
    "revision": 1,
    "changedAt": "2026-09-17",
    "techniques": [
@@ -84,7 +84,7 @@
    "subcategory": null,
    "status": "draft",
    "file": "knowledge/agent-operations/configuration-choice/agent-run-budgeting/agent-run-budgeting.md",
-   "digest": "sha256:86f73d55547bc8b8",
+   "digest": "sha256-b2:4161b6d0638d47b3",
    "revision": 1,
    "changedAt": "2026-09-17",
    "techniques": [
@@ -150,7 +150,7 @@
    "subcategory": null,
    "status": "draft",
    "file": "knowledge/agent-operations/measurement/blind-judging-of-agent-runs/blind-judging-of-agent-runs.md",
-   "digest": "sha256:0243709cbd476824",
+   "digest": "sha256-b2:e97aac2c400be17f",
    "revision": 1,
    "changedAt": "2026-09-17",
    "techniques": [
@@ -210,7 +210,7 @@
    "subcategory": null,
    "status": "draft",
    "file": "knowledge/agent-operations/measurement/deterministic-run-verification/deterministic-run-verification.md",
-   "digest": "sha256:a0cef7907383682e",
+   "digest": "sha256-b2:9b16d2357d29240b",
    "revision": 1,
    "changedAt": "2026-09-17",
    "techniques": [
@@ -270,7 +270,7 @@
    "subcategory": null,
    "status": "draft",
    "file": "knowledge/agent-operations/configuration-choice/engine-behaviour-profiles/engine-behaviour-profiles.md",
-   "digest": "sha256:09d8c183d2741a6c",
+   "digest": "sha256-b2:7d7b0ffad1dbb5e0",
    "revision": 1,
    "changedAt": "2026-09-17",
    "techniques": [
@@ -337,7 +337,7 @@
    "subcategory": null,
    "status": "draft",
    "file": "knowledge/agent-operations/measurement/harness-fault-attribution/harness-fault-attribution.md",
-   "digest": "sha256:42b9ec8faa705146",
+   "digest": "sha256-b2:3d05883c0617a4f3",
    "revision": 1,
    "changedAt": "2026-09-17",
    "techniques": [
@@ -398,7 +398,7 @@
    "subcategory": null,
    "status": "draft",
    "file": "knowledge/agent-operations/configuration-choice/model-and-effort-selection/model-and-effort-selection.md",
-   "digest": "sha256:e5f0179466c8db89",
+   "digest": "sha256-b2:dcc6c4fef8cdb02c",
    "revision": 1,
    "changedAt": "2026-09-17",
    "techniques": [
@@ -476,7 +476,7 @@
    "subcategory": null,
    "status": "draft",
    "file": "knowledge/agent-operations/coordination/shared-research-record/shared-research-record.md",
-   "digest": "sha256:ee5c9a9cdc4c8def",
+   "digest": "sha256-b2:1d21609d185e872b",
    "revision": 1,
    "changedAt": "2026-09-24",
    "techniques": [
@@ -569,7 +569,7 @@
    "subcategory": null,
    "status": "draft",
    "file": "knowledge/agent-operations/run-safety/unattended-run-isolation/unattended-run-isolation.md",
-   "digest": "sha256:2fef9a8edb8ad35c",
+   "digest": "sha256-b2:9ae4b29d6ea5725e",
    "revision": 1,
    "changedAt": "2026-09-17",
    "techniques": [

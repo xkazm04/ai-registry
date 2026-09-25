@@ -28,7 +28,7 @@
    "subcategory": "fairness-and-defensibility",
    "status": "forged",
    "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/adverse-impact-and-proxy-neutrality/adverse-impact-and-proxy-neutrality.md",
-   "digest": "sha256:f8db4449339cd5c5",
+   "digest": "sha256-b2:0ef3b23ae0de99c8",
    "revision": 1,
    "changedAt": "2026-08-21",
    "techniques": [
@@ -141,7 +141,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/assessment/ai-assistance-detection-and-fairness/ai-assistance-detection-and-fairness.md",
-   "digest": "sha256:66372c4d859384e1",
+   "digest": "sha256-b2:d35b392d4f5a51f4",
    "revision": 1,
    "changedAt": "2026-08-21",
    "techniques": [
@@ -260,7 +260,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/assessment/ai-interviewer-brief-authoring/ai-interviewer-brief-authoring.md",
-   "digest": "sha256:a7cb79a426741c05",
+   "digest": "sha256-b2:bd1abf3c2a110a64",
    "revision": 2,
    "changedAt": "2026-09-20",
    "techniques": [
@@ -378,7 +378,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/sourcing-and-intake/application-intake-and-conversion/application-intake-and-conversion.md",
-   "digest": "sha256:0e4dd03dde26f688",
+   "digest": "sha256-b2:3f95f440e037843e",
    "revision": 1,
    "changedAt": "2026-08-21",
    "techniques": [
@@ -494,7 +494,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/assessment/assessment-instrument-validation/assessment-instrument-validation.md",
-   "digest": "sha256:94d426b772a62276",
+   "digest": "sha256-b2:57b37f2086d65243",
    "revision": 3,
    "changedAt": "2026-08-24",
    "techniques": [
@@ -618,7 +618,7 @@
    "subcategory": "fairness-and-defensibility",
    "status": "forged",
    "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/automated-screening-fairness-gates/automated-screening-fairness-gates.md",
-   "digest": "sha256:a7a720f32c1ca821",
+   "digest": "sha256-b2:2a6328e1a88ca747",
    "revision": 1,
    "changedAt": "2026-08-21",
    "techniques": [
@@ -739,7 +739,7 @@
    "subcategory": "fairness-and-defensibility",
    "status": "forged",
    "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/blind-screening-and-redaction/blind-screening-and-redaction.md",
-   "digest": "sha256:98c8988d274f43a1",
+   "digest": "sha256-b2:bd2c716a06d6f420",
    "revision": 1,
    "changedAt": "2026-08-21",
    "techniques": [
@@ -856,7 +856,7 @@
    "subcategory": "fairness-and-defensibility",
    "status": "forged",
    "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/bulk-adverse-action-governance/bulk-adverse-action-governance.md",
-   "digest": "sha256:5d415d9df91c2354",
+   "digest": "sha256-b2:378fb3581fe8b89a",
    "revision": 2,
    "changedAt": "2026-08-30",
    "techniques": [
@@ -977,7 +977,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/governance/candidate-ai-disclosure-and-explanation/candidate-ai-disclosure-and-explanation.md",
-   "digest": "sha256:af2612d5cb1c1a57",
+   "digest": "sha256-b2:6a50b1bb33a98bd8",
    "revision": 1,
    "changedAt": "2026-08-21",
    "techniques": [
@@ -1094,7 +1094,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/candidate-evidence/candidate-archetype-routing/candidate-archetype-routing.md",
-   "digest": "sha256:350a5258fe2b1a91",
+   "digest": "sha256-b2:802290adf884e2bb",
    "revision": 1,
    "changedAt": "2026-08-21",
    "techniques": [
@@ -1212,7 +1212,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/candidate-experience/candidate-communication-integrity/candidate-communication-integrity.md",
-   "digest": "sha256:472afabca4c736ef",
+   "digest": "sha256-b2:3f98f35ccffdf950",
    "revision": 3,
    "changedAt": "2026-09-20",
    "techniques": [
@@ -1336,7 +1336,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/governance/candidate-consent-and-retention/candidate-consent-and-retention.md",
-   "digest": "sha256:2657bd37f2c33b2b",
+   "digest": "sha256-b2:3c9042dc4cd9f910",
    "revision": 2,
    "changedAt": "2026-09-20",
    "techniques": [
@@ -1451,7 +1451,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/candidate-evidence/candidate-identity-and-staleness/candidate-identity-and-staleness.md",
-   "digest": "sha256:28d64d48caaf0102",
+   "digest": "sha256-b2:af63b1938908f5a8",
    "revision": 2,
    "changedAt": "2026-08-30",
    "techniques": [
@@ -1574,7 +1574,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/sourcing-and-intake/candidate-outreach-and-halt-rules/candidate-outreach-and-halt-rules.md",
-   "digest": "sha256:b8289c310a5c847d",
+   "digest": "sha256-b2:0ca67f10ca018e7a",
    "revision": 1,
    "changedAt": "2026-08-21",
    "techniques": [
@@ -1691,7 +1691,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/pipeline-operations/candidate-self-scheduling/candidate-self-scheduling.md",
-   "digest": "sha256:2c1ce9738bfbf781",
+   "digest": "sha256-b2:a652b02fce0d46eb",
    "revision": 1,
    "changedAt": "2026-08-21",
    "techniques": [
@@ -1808,7 +1808,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/candidate-experience/candidate-status-transparency/candidate-status-transparency.md",
-   "digest": "sha256:6ecbbeb713a5139c",
+   "digest": "sha256-b2:13ea157c1ded4385",
    "revision": 2,
    "changedAt": "2026-08-30",
    "techniques": [
@@ -1926,7 +1926,7 @@
    "subcategory": "fairness-and-defensibility",
    "status": "forged",
    "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/collective-and-statutory-hiring-governance/collective-and-statutory-hiring-governance.md",
-   "digest": "sha256:fc353cde89802760",
+   "digest": "sha256-b2:9bc73bfffbf52097",
    "revision": 1,
    "changedAt": "2026-08-21",
    "techniques": [
@@ -2045,7 +2045,7 @@
    "subcategory": "scoring-and-decision",
    "status": "forged",
    "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/combining-signals-into-a-hire-decision/combining-signals-into-a-hire-decision.md",
-   "digest": "sha256:0199df85d4553561",
+   "digest": "sha256-b2:dd6e5e896064ed0f",
    "revision": 1,
    "changedAt": "2026-08-21",
    "techniques": [
@@ -2166,7 +2166,7 @@
    "subcategory": "scoring-and-decision",
    "status": "forged",
    "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/comparative-shortlist-evaluation/comparative-shortlist-evaluation.md",
-   "digest": "sha256:8cfedda53b5e80a5",
+   "digest": "sha256-b2:033d47f5cc44bc7a",
    "revision": 1,
    "changedAt": "2026-08-21",
    "techniques": [
@@ -2285,7 +2285,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/measurement/compensation-banding-and-market-honesty/compensation-banding-and-market-honesty.md",
-   "digest": "sha256:267554dbff8930c4",
+   "digest": "sha256-b2:238fd58610a3c04d",
    "revision": 2,
    "changedAt": "2026-09-20",
    "techniques": [
@@ -2405,7 +2405,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/assessment/conversational-assessment-validation/conversational-assessment-validation.md",
-   "digest": "sha256:ec5483ef9bd7f6b1",
+   "digest": "sha256-b2:b5bcf4bc3ede2254",
    "revision": 2,
    "changedAt": "2026-09-20",
    "techniques": [
@@ -2523,7 +2523,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/candidate-evidence/cv-authenticity-screening/cv-authenticity-screening.md",
-   "digest": "sha256:e8705b1f18141f80",
+   "digest": "sha256-b2:98d00fd0bdd9c630",
    "revision": 1,
    "changedAt": "2026-08-21",
    "techniques": [
@@ -2644,7 +2644,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/candidate-evidence/cv-parsing-and-career-reading/cv-parsing-and-career-reading.md",
-   "digest": "sha256:926df0bcb01d2278",
+   "digest": "sha256-b2:ff82003f8cf51816",
    "revision": 1,
    "changedAt": "2026-08-21",
    "techniques": [
@@ -2764,7 +2764,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/governance/decision-audit-and-traceability/decision-audit-and-traceability.md",
-   "digest": "sha256:7b27ffc19380f982",
+   "digest": "sha256-b2:8db794780bf36de2",
    "revision": 1,
    "changedAt": "2026-08-21",
    "techniques": [
@@ -2883,7 +2883,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/candidate-experience/degrade-never-block-a-candidate/degrade-never-block-a-candidate.md",
-   "digest": "sha256:f9fba1ec37b74315",
+   "digest": "sha256-b2:8c24ae4b48410a15",
    "revision": 1,
    "changedAt": "2026-08-21",
    "techniques": [
@@ -2999,7 +2999,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/candidate-evidence/early-career-potential-assessment/early-career-potential-assessment.md",
-   "digest": "sha256:2f2491e8c5432176",
+   "digest": "sha256-b2:91460b1ae1c0b07d",
    "revision": 1,
    "changedAt": "2026-08-21",
    "techniques": [
@@ -3116,7 +3116,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/candidate-evidence/evidence-provenance-weighting/evidence-provenance-weighting.md",
-   "digest": "sha256:b6e3d384dab511dc",
+   "digest": "sha256-b2:80e6cade019364b7",
    "revision": 1,
    "changedAt": "2026-08-21",
    "techniques": [
@@ -3234,7 +3234,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/role-definition/hiring-need-as-structured-brief/hiring-need-as-structured-brief.md",
-   "digest": "sha256:de4b9cd0cbc9a92f",
+   "digest": "sha256-b2:64e421ebb1b27c71",
    "revision": 2,
    "changedAt": "2026-09-20",
    "techniques": [
@@ -3352,7 +3352,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/governance/hiring-policy-defaults-and-tiering/hiring-policy-defaults-and-tiering.md",
-   "digest": "sha256:438d88959f0cc90d",
+   "digest": "sha256-b2:b3a60728f473fb07",
    "revision": 1,
    "changedAt": "2026-08-21",
    "techniques": [
@@ -3471,7 +3471,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/measurement/honest-measurement-presentation/honest-measurement-presentation.md",
-   "digest": "sha256:3a1aaaf44c6a7043",
+   "digest": "sha256-b2:454f406cb14f16df",
    "revision": 2,
    "changedAt": "2026-09-10",
    "techniques": [
@@ -3599,7 +3599,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/candidate-evidence/hypothesis-not-verdict-soft-signals/hypothesis-not-verdict-soft-signals.md",
-   "digest": "sha256:bbafe4c69c943a74",
+   "digest": "sha256-b2:5f39514df4f7ff2c",
    "revision": 1,
    "changedAt": "2026-08-21",
    "techniques": [
@@ -3718,7 +3718,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/role-definition/inclusive-job-advertising/inclusive-job-advertising.md",
-   "digest": "sha256:caeb4b44f2b26c86",
+   "digest": "sha256-b2:34a31d51876b788d",
    "revision": 1,
    "changedAt": "2026-08-21",
    "techniques": [
@@ -3834,7 +3834,7 @@
    "subcategory": "scoring-and-decision",
    "status": "forged",
    "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/inference-labelling-and-refusal/inference-labelling-and-refusal.md",
-   "digest": "sha256:78fcfe294220a4fe",
+   "digest": "sha256-b2:92428c37cb40a005",
    "revision": 1,
    "changedAt": "2026-08-21",
    "techniques": [
@@ -3955,7 +3955,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/pipeline-operations/interview-calendar-integrity/interview-calendar-integrity.md",
-   "digest": "sha256:4eb1f3089da2d937",
+   "digest": "sha256-b2:9214ce15e555b920",
    "revision": 1,
    "changedAt": "2026-08-21",
    "techniques": [
@@ -4072,7 +4072,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/assessment/interview-round-design/interview-round-design.md",
-   "digest": "sha256:f068142266c9abb8",
+   "digest": "sha256-b2:bafb318cca61afdc",
    "revision": 1,
    "changedAt": "2026-08-21",
    "techniques": [
@@ -4193,7 +4193,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/assessment/interview-run-of-show/interview-run-of-show.md",
-   "digest": "sha256:a2c0da112153a66c",
+   "digest": "sha256-b2:2053ff039d5ee8f0",
    "revision": 1,
    "changedAt": "2026-08-21",
    "techniques": [
@@ -4307,7 +4307,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/assessment/llm-era-work-sample-design/llm-era-work-sample-design.md",
-   "digest": "sha256:6736a8a87900531a",
+   "digest": "sha256-b2:dadbb132f58c50f5",
    "revision": 1,
    "changedAt": "2026-08-21",
    "techniques": [
@@ -4424,7 +4424,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/governance/multi-jurisdiction-hiring-compliance/multi-jurisdiction-hiring-compliance.md",
-   "digest": "sha256:844eb04eb91a45a9",
+   "digest": "sha256-b2:bdcc9d56fb9a74e0",
    "revision": 1,
    "changedAt": "2026-08-21",
    "techniques": [
@@ -4539,7 +4539,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/pipeline-operations/offer-lifecycle-and-deadlines/offer-lifecycle-and-deadlines.md",
-   "digest": "sha256:fdcbad73d4312938",
+   "digest": "sha256-b2:32cfbfc337e377cc",
    "revision": 1,
    "changedAt": "2026-08-21",
    "techniques": [
@@ -4654,7 +4654,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/measurement/peer-benchmarking-under-k-anonymity/peer-benchmarking-under-k-anonymity.md",
-   "digest": "sha256:0454d4bdf72d04fd",
+   "digest": "sha256-b2:ed4ac355e385770f",
    "revision": 1,
    "changedAt": "2026-08-21",
    "techniques": [
@@ -4767,7 +4767,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/pipeline-operations/pipeline-aging-and-attention-triage/pipeline-aging-and-attention-triage.md",
-   "digest": "sha256:6790a99521a41b7a",
+   "digest": "sha256-b2:b0471adcefbe0b68",
    "revision": 2,
    "changedAt": "2026-09-20",
    "techniques": [
@@ -4883,7 +4883,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/pipeline-operations/pipeline-stage-modelling/pipeline-stage-modelling.md",
-   "digest": "sha256:576fa5b5640bae01",
+   "digest": "sha256-b2:e915d448eb862521",
    "revision": 1,
    "changedAt": "2026-08-21",
    "techniques": [
@@ -5003,7 +5003,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/governance/portable-candidate-credentials/portable-candidate-credentials.md",
-   "digest": "sha256:bfcb60246e076fd7",
+   "digest": "sha256-b2:9e282e16d3690e9e",
    "revision": 1,
    "changedAt": "2026-08-21",
    "techniques": [
@@ -5123,7 +5123,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/sourcing-and-intake/portable-hiring-records/portable-hiring-records.md",
-   "digest": "sha256:5b84ee840ee2ba5c",
+   "digest": "sha256-b2:15cfa2c72d85e3e8",
    "revision": 2,
    "changedAt": "2026-08-24",
    "techniques": [
@@ -5248,7 +5248,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/candidate-experience/pre-boarding-and-first-day-handoff/pre-boarding-and-first-day-handoff.md",
-   "digest": "sha256:fc554881ab2f24a4",
+   "digest": "sha256-b2:da930da3bf2357d6",
    "revision": 1,
    "changedAt": "2026-08-21",
    "techniques": [
@@ -5361,7 +5361,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/role-definition/pre-publish-fillability-forecast/pre-publish-fillability-forecast.md",
-   "digest": "sha256:1c120f9bd4359b7e",
+   "digest": "sha256-b2:50824597abf2865b",
    "revision": 1,
    "changedAt": "2026-08-21",
    "techniques": [
@@ -5478,7 +5478,7 @@
    "subcategory": "scoring-and-decision",
    "status": "forged",
    "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/presenting-a-score-to-a-recruiter/presenting-a-score-to-a-recruiter.md",
-   "digest": "sha256:c355831798da83f4",
+   "digest": "sha256-b2:77791969502d0cfc",
    "revision": 1,
    "changedAt": "2026-08-21",
    "techniques": [
@@ -5597,7 +5597,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/candidate-evidence/public-work-evidence-bounding/public-work-evidence-bounding.md",
-   "digest": "sha256:4b4e4ad2e004bac7",
+   "digest": "sha256-b2:132cec159e26a078",
    "revision": 1,
    "changedAt": "2026-08-21",
    "techniques": [
@@ -5719,7 +5719,7 @@
    "subcategory": "scoring-and-decision",
    "status": "forged",
    "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/recruiter-anchored-model-evaluation/recruiter-anchored-model-evaluation.md",
-   "digest": "sha256:db54d4363e8e9321",
+   "digest": "sha256-b2:00dbf484bc166d27",
    "revision": 2,
    "changedAt": "2026-09-10",
    "techniques": [
@@ -5844,7 +5844,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/measurement/recruiting-cost-and-automation-economics/recruiting-cost-and-automation-economics.md",
-   "digest": "sha256:d56d22a89ea2dfe8",
+   "digest": "sha256-b2:57516f359a02d166",
    "revision": 1,
    "changedAt": "2026-08-21",
    "techniques": [
@@ -5964,7 +5964,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/measurement/recruiting-funnel-metrics/recruiting-funnel-metrics.md",
-   "digest": "sha256:8963b255345ce37b",
+   "digest": "sha256-b2:2e46d01b1d4af8ba",
    "revision": 2,
    "changedAt": "2026-09-10",
    "techniques": [
@@ -6088,7 +6088,7 @@
    "subcategory": "fairness-and-defensibility",
    "status": "forged",
    "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/regulated-credential-gating/regulated-credential-gating.md",
-   "digest": "sha256:ff75b04da7faf6f4",
+   "digest": "sha256-b2:d1cb9f42198e2123",
    "revision": 3,
    "changedAt": "2026-08-24",
    "techniques": [
@@ -6212,7 +6212,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/candidate-experience/rejection-with-dignity/rejection-with-dignity.md",
-   "digest": "sha256:5b43b0abc94e0241",
+   "digest": "sha256-b2:814f4a7318b51875",
    "revision": 1,
    "changedAt": "2026-08-21",
    "techniques": [
@@ -6328,7 +6328,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/role-definition/requirement-inflation-control/requirement-inflation-control.md",
-   "digest": "sha256:a5b73f9ee21ad891",
+   "digest": "sha256-b2:95878fb5a2b5de3e",
    "revision": 1,
    "changedAt": "2026-08-21",
    "techniques": [
@@ -6444,7 +6444,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/role-definition/requisition-lifecycle-governance/requisition-lifecycle-governance.md",
-   "digest": "sha256:a3f723778dfdb7e0",
+   "digest": "sha256-b2:4b3e20ec04148994",
    "revision": 1,
    "changedAt": "2026-08-21",
    "techniques": [
@@ -6561,7 +6561,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/role-definition/role-intake-conversation/role-intake-conversation.md",
-   "digest": "sha256:22c19d9017a792fc",
+   "digest": "sha256-b2:623c357c1818c4df",
    "revision": 1,
    "changedAt": "2026-08-21",
    "techniques": [
@@ -6668,7 +6668,7 @@
    "subcategory": "scoring-and-decision",
    "status": "forged",
    "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/selection-score-calibration/selection-score-calibration.md",
-   "digest": "sha256:f669ec7ba0a68e98",
+   "digest": "sha256-b2:dff11163b9a17253",
    "revision": 1,
    "changedAt": "2026-08-21",
    "techniques": [
@@ -6787,7 +6787,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/sourcing-and-intake/silver-medalist-rediscovery/silver-medalist-rediscovery.md",
-   "digest": "sha256:da071ec41196f6ab",
+   "digest": "sha256-b2:02b33939b6fbed96",
    "revision": 1,
    "changedAt": "2026-08-21",
    "techniques": [
@@ -6906,7 +6906,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/candidate-evidence/skill-adjacency-and-normalization/skill-adjacency-and-normalization.md",
-   "digest": "sha256:2e86d6b49c9c00fc",
+   "digest": "sha256-b2:4afcb15fd36942fa",
    "revision": 3,
    "changedAt": "2026-08-24",
    "techniques": [
@@ -7031,7 +7031,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/measurement/small-sample-honesty-in-hiring-analytics/small-sample-honesty-in-hiring-analytics.md",
-   "digest": "sha256:adee15b12e09c223",
+   "digest": "sha256-b2:c3b68501227b54dc",
    "revision": 1,
    "changedAt": "2026-08-21",
    "techniques": [
@@ -7148,7 +7148,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/sourcing-and-intake/sourcing-campaign-honesty/sourcing-campaign-honesty.md",
-   "digest": "sha256:1736c7c4461fb8f5",
+   "digest": "sha256-b2:d1e0be8eea013c8d",
    "revision": 1,
    "changedAt": "2026-08-21",
    "techniques": [
@@ -7263,7 +7263,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/assessment/structured-interview-scorecards/structured-interview-scorecards.md",
-   "digest": "sha256:bd81ff718ea6b339",
+   "digest": "sha256-b2:53833986454b354c",
    "revision": 1,
    "changedAt": "2026-08-21",
    "techniques": [
@@ -7381,7 +7381,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/assessment/voice-interview-fidelity/voice-interview-fidelity.md",
-   "digest": "sha256:3a7d4286dd73edb6",
+   "digest": "sha256-b2:e4838dda955eb6c6",
    "revision": 1,
    "changedAt": "2026-08-21",
    "techniques": [
@@ -7500,7 +7500,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/assessment/work-sample-timeboxing-and-cost/work-sample-timeboxing-and-cost.md",
-   "digest": "sha256:d856b890c0fb4372",
+   "digest": "sha256-b2:8a073bc563b1b65b",
    "revision": 1,
    "changedAt": "2026-08-21",
    "techniques": [

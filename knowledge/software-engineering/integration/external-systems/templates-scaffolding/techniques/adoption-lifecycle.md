@@ -33,7 +33,30 @@ keep both of its edges honest:
   parameter surface declares. No free-text smuggled into an option slot, no
   interview-side invented choices. If the interview needs a question the
   template doesn't declare, the template is missing a dimension — fix it
-  there, once, for every surface.
+  there, once, for every surface. Two ways this edge leaks without anyone
+  choosing to leak it:
+  - **An escape hatch that defaults open.** A free-value "Other…" is legal
+    only on a dimension that declares one. A shared choice component whose
+    `allowCustom`-style flag defaults to *on* turns every question that
+    omitted the flag into an open vocabulary. The interview then stores
+    answers the mapping cannot bind, and nobody decided that. Such a flag
+    defaults closed, and a missing flag reads as "not declared".
+  - **An editor narrower than the value it edits.** When a sub-surface of
+    the interview (a schedule picker, a channel selector) has a smaller
+    vocabulary than the template, it has to project the template's value
+    onto its own: "hourly" gets shown as the nearest thing it offers,
+    "daily". Applying that picker with no changes must then leave the
+    source alone. This is the round-trip law bidirectional-transformation
+    work calls *GetPut*: putting back the unmodified view changes nothing.
+    An editor that re-emits its projection on a no-op apply has silently
+    rewritten the declared value to the nearest one it could draw. The
+    fixes, best first: widen the editor's vocabulary to cover the
+    template's (checked, as in
+    [template-anatomy](./template-anatomy.md)); or make the round trip
+    GetPut-safe *and* have the editor say "this value can't be shown here"
+    instead of drawing the nearest one. That last part matters because a
+    GetPut guard alone still lets a real edit to one field (the hour)
+    re-derive the field the editor cannot represent (the frequency).
 - **Downstream edge:** a single **deterministic mapping** turns the answer
   set into concrete configuration deltas over the payload. One function,
   pure in the answers and the template: same template + same answers ⇒ same
@@ -121,9 +144,26 @@ by any later hashing. The stamp is for reading, not for synchronization:
   an upgrade the adopter may accept, never an update pushed into an
   instance they have since made their own).
 
-Live template→instance coupling is the design that must be argued *for*,
-and almost never survives the argument: the instance's whole value is that
-the adopter owns it now.
+For what the template *copies* into the instance, live template→instance
+coupling is the design that has to be argued *for*, and it almost never
+wins: the whole value of the instance is that the adopter owns it now. The
+condition matters, because templates can also ship *references*: a pinned
+pointer to a component the publisher keeps maintaining and the adopter
+calls but never edits. A starter file that calls a centrally maintained
+shared workflow is the common case. For that part, live coupling at a
+chosen version *is* the design. The consumer upgrades by moving the pin,
+and the pin is a version the adopter picked, never a floating "latest"
+pushed at them. Decide per part: what the adopter will edit is copied and
+divorced; what the adopter should never have to edit is referenced and
+pinned. A template that copies a component it means to keep maintaining
+has signed up for every instance to fork it. Accepting an offer on the
+copied part is the [instance-upgrade](./instance-upgrade.md) technique.
+
+The stamp is also the only key for anything that has to find the
+instance's origin *again* later: resuming an interrupted adoption, the
+offer, a cohort query. Each of those keys on the stable id. Matching on
+display name misses on the first rename or translation. Worse, it can
+match the *wrong* entry when two templates share a name.
 
 ## Re-adoption and idempotence
 

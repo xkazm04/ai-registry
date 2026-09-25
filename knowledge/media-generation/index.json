@@ -24,7 +24,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/visual-generation/character-identity-continuity/character-identity-continuity.md",
-   "digest": "sha256:d722e34c8a79aa12",
+   "digest": "sha256-b2:1b3e132bebd8dcc9",
    "revision": 3,
    "changedAt": "2026-08-28",
    "techniques": [
@@ -116,7 +116,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/visual-generation/cinematic-language/cinematic-language.md",
-   "digest": "sha256:fb97957050b7a568",
+   "digest": "sha256-b2:d0f91a327c95da3c",
    "revision": 8,
    "changedAt": "2026-09-07",
    "techniques": [
@@ -259,7 +259,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/research-grounding/content-research-grounding/content-research-grounding.md",
-   "digest": "sha256:1d6e798c5f9f21f0",
+   "digest": "sha256-b2:108b0b0614245554",
    "revision": 3,
    "changedAt": "2026-08-29",
    "techniques": [
@@ -394,7 +394,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/narrative-craft/creator-voice-and-tone/creator-voice-and-tone.md",
-   "digest": "sha256:aa44cb07376b716c",
+   "digest": "sha256-b2:66d58043dc8787a3",
    "revision": 2,
    "changedAt": "2026-08-31",
    "techniques": [
@@ -505,7 +505,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/research-grounding/evidence-bound-visuals/evidence-bound-visuals.md",
-   "digest": "sha256:8d91cd0498c085b1",
+   "digest": "sha256-b2:9c3c30c0335b8162",
    "revision": 8,
    "changedAt": "2026-09-23",
    "techniques": [
@@ -698,7 +698,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/visual-generation/frame-direction/frame-direction.md",
-   "digest": "sha256:169a330e538eed24",
+   "digest": "sha256-b2:a6a34384ba8aa499",
    "revision": 1,
    "changedAt": "2026-08-21",
    "techniques": [
@@ -805,7 +805,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/audio-generation/generated-music-acceptance/generated-music-acceptance.md",
-   "digest": "sha256:fa10523eaebe1526",
+   "digest": "sha256-b2:3f9de82f80a6905a",
    "revision": 2,
    "changedAt": "2026-08-29",
    "techniques": [
@@ -898,7 +898,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/visual-generation/generated-output-grading/generated-output-grading.md",
-   "digest": "sha256:d2f9f05b1fbab438",
+   "digest": "sha256-b2:a433b5aafd6813f5",
    "revision": 11,
    "changedAt": "2026-09-20",
    "techniques": [
@@ -1070,7 +1070,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/visual-generation/generative-provider-routing/generative-provider-routing.md",
-   "digest": "sha256:75809ad774c29a60",
+   "digest": "sha256-b2:5f893ef4493c954f",
    "revision": 11,
    "changedAt": "2026-09-17",
    "techniques": [
@@ -1252,7 +1252,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/visual-generation/image-prompt-composition/image-prompt-composition.md",
-   "digest": "sha256:bea76c7be2d43364",
+   "digest": "sha256-b2:ab55ca3342630ee1",
    "revision": 12,
    "changedAt": "2026-09-21",
    "techniques": [
@@ -1442,7 +1442,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/production-ops/live-system-demo-film/live-system-demo-film.md",
-   "digest": "sha256:c0141940b28d7de1",
+   "digest": "sha256-b2:981bc8bbbdfae864",
    "revision": 1,
    "changedAt": "2026-09-16",
    "techniques": [
@@ -1572,7 +1572,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/audio-generation/music-prompt-composition/music-prompt-composition.md",
-   "digest": "sha256:41ed7160af5ec809",
+   "digest": "sha256-b2:2d8975c2a51e5157",
    "revision": 1,
    "changedAt": "2026-08-26",
    "techniques": [
@@ -1672,7 +1672,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/narrative-craft/narrative-engine-selection/narrative-engine-selection.md",
-   "digest": "sha256:e76146a6ffbdd34d",
+   "digest": "sha256-b2:9e9b575cdf6859a8",
    "revision": 1,
    "changedAt": "2026-08-21",
    "techniques": [
@@ -1765,7 +1765,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/production-ops/platform-format-adaptation/platform-format-adaptation.md",
-   "digest": "sha256:f3c7a1753b4f59fe",
+   "digest": "sha256-b2:cc144a5f64c0809b",
    "revision": 1,
    "changedAt": "2026-08-21",
    "techniques": [
@@ -1874,7 +1874,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/production-ops/production-pipeline-phasing/production-pipeline-phasing.md",
-   "digest": "sha256:a8f14e6aef02a9b4",
+   "digest": "sha256-b2:369bb547120f6c56",
    "revision": 4,
    "changedAt": "2026-09-01",
    "techniques": [
@@ -2000,7 +2000,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/production-ops/review-iteration-loops/review-iteration-loops.md",
-   "digest": "sha256:4e86071bf5a17b46",
+   "digest": "sha256-b2:d73259dd3f3260df",
    "revision": 10,
    "changedAt": "2026-09-20",
    "techniques": [
@@ -2195,7 +2195,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/narrative-craft/short-form-narrative-structure/short-form-narrative-structure.md",
-   "digest": "sha256:2f8fe8986f5d360f",
+   "digest": "sha256-b2:9872cb6d31504066",
    "revision": 1,
    "changedAt": "2026-08-21",
    "techniques": [
@@ -2292,7 +2292,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/audio-generation/sound-effect-generation/sound-effect-generation.md",
-   "digest": "sha256:ca3feb2c065143ff",
+   "digest": "sha256-b2:0112a4c354784706",
    "revision": 3,
    "changedAt": "2026-08-29",
    "techniques": [
@@ -2397,7 +2397,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/narrative-craft/trailer-structure/trailer-structure.md",
-   "digest": "sha256:bfabaa7ceaf32dc6",
+   "digest": "sha256-b2:6a687c5a8080a492",
    "revision": 3,
    "changedAt": "2026-09-01",
    "techniques": [
@@ -2500,7 +2500,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/production-ops/video-assembly/video-assembly.md",
-   "digest": "sha256:89f495af7a33add5",
+   "digest": "sha256-b2:35f198b574e308dd",
    "revision": 17,
    "changedAt": "2026-09-23",
    "techniques": [
@@ -2717,7 +2717,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/visual-generation/visual-style-locking/visual-style-locking.md",
-   "digest": "sha256:4de2deb6a1af4e57",
+   "digest": "sha256-b2:281e1e4a619b1b07",
    "revision": 8,
    "changedAt": "2026-09-14",
    "techniques": [

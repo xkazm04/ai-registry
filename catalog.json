@@ -136,9 +136,9 @@
       "adopters": [],
       "invokes30d": 0,
       "reportedInvokes": 0,
-      "lessons": 12,
+      "lessons": 13,
       "lessonsPath": "skills/conform/LESSONS.md",
-      "lessonsHash": "sha256-n1:349bbf430aa61497",
+      "lessonsHash": "sha256-n1:ce2cd1deb639a456",
       "usageContributors": [],
       "runs30d": 0,
       "outcomes30d": {},
@@ -174,16 +174,16 @@
     },
     {
       "name": "contest",
-      "version": "1.4.1",
+      "version": "1.7.0",
       "category": "workflow",
       "path": "skills/contest/SKILL.md",
-      "contentHash": "sha256-n1:e172ecde2da94387",
+      "contentHash": "sha256-n1:272dd0fea63634e5",
       "adopters": [],
       "invokes30d": 0,
       "reportedInvokes": 0,
-      "lessons": 10,
+      "lessons": 11,
       "lessonsPath": "skills/contest/LESSONS.md",
-      "lessonsHash": "sha256-n1:e58db7929852792b",
+      "lessonsHash": "sha256-n1:d977b13ef7a222b6",
       "usageContributors": [],
       "runs30d": 0,
       "outcomes30d": {},
@@ -334,6 +334,25 @@
       "usageContributors": [
         "wolf"
       ],
+      "runs30d": 0,
+      "outcomes30d": {},
+      "difficulty30d": null,
+      "tokensMedian30d": null,
+      "tokensBasis30d": null
+    },
+    {
+      "name": "illustrate",
+      "version": "1.1.1",
+      "category": "workflow",
+      "path": "skills/illustrate/SKILL.md",
+      "contentHash": "sha256-n1:35dc7c48b0e8b6e7",
+      "adopters": [],
+      "invokes30d": 0,
+      "reportedInvokes": 0,
+      "lessons": 4,
+      "lessonsPath": "skills/illustrate/LESSONS.md",
+      "lessonsHash": "sha256-n1:6e17369e496c1693",
+      "usageContributors": [],
       "runs30d": 0,
       "outcomes30d": {},
       "difficulty30d": null,
@@ -949,10 +968,10 @@
     }
   ],
   "counts": {
-    "skills": 36,
+    "skills": 37,
     "practices": 8,
     "memory": 6,
-    "lessons": 280
+    "lessons": 286
   },
   "bundles": [
     {
@@ -966,7 +985,7 @@
       "techniques": 30,
       "applications": 15,
       "files": 58,
-      "contentHash": "sha256:e88e46ca7ec69660"
+      "contentHash": "sha256-b2:f14d4cf371c08628"
     },
     {
       "name": "civic-intelligence",
@@ -979,7 +998,7 @@
       "techniques": 92,
       "applications": 35,
       "files": 147,
-      "contentHash": "sha256:f06c08ebbdf6cb74"
+      "contentHash": "sha256-b2:dd1f5c808cbb22e7"
     },
     {
       "name": "game-production",
@@ -992,7 +1011,7 @@
       "techniques": 331,
       "applications": 142,
       "files": 529,
-      "contentHash": "sha256:19fdebaca517ff24"
+      "contentHash": "sha256-b2:73ed26e3deefdcf7"
     },
     {
       "name": "grant-funding",
@@ -1005,7 +1024,7 @@
       "techniques": 105,
       "applications": 38,
       "files": 165,
-      "contentHash": "sha256:bb1ec251fe7f8c41"
+      "contentHash": "sha256-b2:6a0546ec04051531"
     },
     {
       "name": "llm-observability",
@@ -1018,7 +1037,7 @@
       "techniques": 125,
       "applications": 77,
       "files": 225,
-      "contentHash": "sha256:1cf8f1dee8a2e3e2"
+      "contentHash": "sha256-b2:8f22c1692ba5c2df"
     },
     {
       "name": "localization",
@@ -1031,7 +1050,7 @@
       "techniques": 119,
       "applications": 55,
       "files": 195,
-      "contentHash": "sha256:36782a08812f8af4"
+      "contentHash": "sha256-b2:2d5cc79e474fe296"
     },
     {
       "name": "marketing",
@@ -1044,7 +1063,7 @@
       "techniques": 183,
       "applications": 84,
       "files": 301,
-      "contentHash": "sha256:b40dd952d92f5be9"
+      "contentHash": "sha256-b2:eb4c71d1d9833cb7"
     },
     {
       "name": "media-generation",
@@ -1057,7 +1076,7 @@
       "techniques": 146,
       "applications": 75,
       "files": 247,
-      "contentHash": "sha256:d256cd269085ff4c"
+      "contentHash": "sha256-b2:6e6b39eedb04190f"
     },
     {
       "name": "recruiting",
@@ -1070,7 +1089,7 @@
       "techniques": 384,
       "applications": 197,
       "files": 649,
-      "contentHash": "sha256:f36c7679cd61fd22"
+      "contentHash": "sha256-b2:64c346a9a7c7f2e6"
     },
     {
       "name": "software-engineering",
@@ -1079,11 +1098,11 @@
       "okfVersion": "0.1",
       "profile": "rkb/0.1",
       "purity": "software",
-      "subjects": 232,
-      "techniques": 1790,
-      "applications": 1145,
-      "files": 3172,
-      "contentHash": "sha256:f410e31004efbdd3"
+      "subjects": 233,
+      "techniques": 1801,
+      "applications": 1155,
+      "files": 3194,
+      "contentHash": "sha256-b2:31b420b0a8d81032"
     }
   ],
   "usageEvidence": {

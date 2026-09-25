@@ -2,7 +2,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
-import {hashBundle} from './lib/bundle-hash.mjs';
+import {hashBundle, hashBundleLegacy} from './lib/bundle-hash.mjs';
 import {EXIT} from './lib/exit-codes.mjs';
 
 // Review decisions remain in existing subject notes. This only checks their
@@ -22,8 +22,14 @@ try {
    if(matches.length){
     let r;try{r=JSON.parse(matches.at(-1)[1]);}catch{errors.push(`${id}: invalid review JSON`);rows.push({...row,state:'invalid'});continue;}
     const expected=[`${slug}.md`,...['techniques','applications'].flatMap(lane=>fs.existsSync(path.join(dir,lane))?fs.readdirSync(path.join(dir,lane)).filter(f=>f.endsWith('.md')).map(f=>`${lane}/${f}`):[])].sort();
-    const current=r.digest===hashBundle(dir).hash;
-    if(r.subject!==id||!/^\d{4}-\d{2}-\d{2}$/.test(r.date??'')||!dispositions.has(r.disposition)||!/^[a-f0-9]{7,40}$/.test(r.baseline??'')||!/^sha256:[a-f0-9]{16}$/.test(r.digest??'')||!r.counterexamples?.length||!r.sources?.length)errors.push(`${id}: incomplete review metadata`);
+    // A record written under the superseded scheme is still readable: compare it with
+    // the scheme it was written under, not with the current one. Answering "cannot
+    // compare" would have been honest and lossy — it would have discarded the 25 real
+    // staleness signals among the 120 stored records to fix a collision none of them
+    // had hit. The digest's own prefix says which function to use.
+    const legacyDigest=/^sha256:[a-f0-9]{16}$/.test(r.digest??'');
+    const current=r.digest===(legacyDigest?hashBundleLegacy(dir):hashBundle(dir)).hash;
+    if(r.subject!==id||!/^\d{4}-\d{2}-\d{2}$/.test(r.date??'')||!dispositions.has(r.disposition)||!/^[a-f0-9]{7,40}$/.test(r.baseline??'')||!/^sha256(-b2)?:[a-f0-9]{16}$/.test(r.digest??'')||!r.counterexamples?.length||!r.sources?.length)errors.push(`${id}: incomplete review metadata`);
     if(current&&JSON.stringify(Object.keys(r.documents??{}).sort())!==JSON.stringify(expected))errors.push(`${id}: document decisions do not match the complete subject`);
     for(const [name,decision] of Object.entries(r.documents??{}))if(!dispositions.has(decision.disposition)||!decision.reason?.trim())errors.push(`${id}/${name}: missing disposition or reason`);
     row.state=current?'reviewed':'stale';
