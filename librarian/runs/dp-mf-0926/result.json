@@ -1,0 +1,75 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-mf-0926",
+  "skill": "deepen",
+  "skill_version": "1.3.1",
+  "mode": "interactive",
+  "domain": "software-engineering",
+  "started_at": "2026-09-26T14:05:00Z",
+  "ended_at": "2026-09-26T16:05:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 2,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/metric-forecasting",
+      "at": "2026-09-26",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": 5,
+      "points_after": 3
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "software-engineering/metric-forecasting",
+      "technique": "pace-against-a-deadline",
+      "verdict": "not-better",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/engineering-assessment/measurement-method/metric-forecasting/metric-forecasting.md",
+    "knowledge/software-engineering/engineering-assessment/measurement-method/metric-forecasting/techniques/trend-fitting-and-anchoring.md",
+    "knowledge/software-engineering/engineering-assessment/measurement-method/metric-forecasting/techniques/pace-against-a-deadline.md",
+    "knowledge/software-engineering/engineering-assessment/measurement-method/metric-forecasting/techniques/threshold-crossing-eta.md",
+    "knowledge/software-engineering/engineering-assessment/measurement-method/metric-forecasting/techniques/horizon-caps-and-flat-bands.md",
+    "knowledge/software-engineering/engineering-assessment/measurement-method/metric-forecasting/applications/rust--projection-presentability-gates.md",
+    "knowledge/software-engineering/index.json",
+    "rules/ai-registry-software-engineering.md",
+    "catalog.json",
+    "librarian/applied.md",
+    "librarian/domains/software-engineering.md",
+    "librarian/subjects/software-engineering/metric-forecasting.md"
+  ],
+  "commits": [
+    {
+      "sha": "3d5147e8",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/software-engineering/engineering-assessment/measurement-method/metric-forecasting",
+        "knowledge/software-engineering/index.json",
+        "rules/ai-registry-software-engineering.md",
+        "catalog.json"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [
+    {
+      "subject": "software-engineering/metric-forecasting",
+      "reason": "shaped target line in systedo-case pacing: the replay simulation measured not-better on the shipped data (mild weekday shape); return with a real account whose weekday shape is strong against its monthly noise"
+    },
+    {
+      "subject": "software-engineering/metric-forecasting",
+      "reason": "a metric-forecasting application for systedo-case pacing: marketing goal-pacing-and-forecast already carries it; a second copy would be a second authority"
+    }
+  ],
+  "failure_signature": null,
+  "notes": "Single stack cleared (rust; tracklight, unjoined by the map). Four conditions, none refuted. Applied: 1 not-better (simulation), 1 unapplied. 0 stale verdicts. Maps committed in 12 repos, pushed in 2; the rest diverged or gate-blocked (see subject note)."
+}

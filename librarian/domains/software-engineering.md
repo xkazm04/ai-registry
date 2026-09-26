@@ -688,3 +688,33 @@ Source-class tally (post-hoc, this run):
   that mattered.
 - A platform's KB and community pages were declined because no primary source was
   reached, and so was a PM's blog.
+
+## Run dp-mf-0926 - metric-forecasting, a rust second stack and a measured pacing condition
+
+Curator dispatch on "single stack (node)". The map joins the subject to four
+TypeScript projects. The genuine second stack came from a tree the map does
+not join: tracklight's Rust spend-forecast gate, found by searching the
+fleet's non-TypeScript code for forecasting. Five claims were attacked. None
+was refuted, four were conditioned (richer methods, the crossing range, the
+anchor, linear pacing), and the horizon cap was confirmed in direction with no
+source for its number. The anchor condition was earned by blind-lane plus
+web-lane convergence, with the Rust tree's EWMA origin as the third branch.
+The pacing condition was earned by a replay simulation through systedo-case's
+own code: no gain under a mild weekday shape, and under a strong one 27-28
+verdict flips against 3-10. One applied row is not-better (the condition),
+one unapplied. Impact: 0 stale verdicts (8 unjudged pairs, 4 projects);
+tracklight is a join miss.
+
+| subject | rung | last-pass yield | demand after | dry |
+| --- | --- | --- | --- | --- |
+| metric-forecasting | L2 | 1 application, 4 conditions, 0 refuted, 0 techniques | 0 stale (8 unjudged pairs, 4 projects) | 0 |
+
+Source-class tally (post-hoc, this run):
+- A forecasting textbook (FPP3) and a statistics journal's method paper
+  carried every accepted condition on the fit and the range. A vendor pacing
+  blog was used only as corroboration of a practice, never as the claim.
+- The fleet tree outranked both lanes on the application side. The
+  dense-zero-fill defect and burn-rate corroboration appeared in neither lane.
+- A per-project search for forecasting code outside the dominant language
+  found the second stack the map missed. A same-language join would not have
+  cleared "single stack".
