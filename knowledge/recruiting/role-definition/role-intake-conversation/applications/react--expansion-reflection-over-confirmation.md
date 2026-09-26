@@ -114,11 +114,14 @@ conversation); the call does not.
 The integration is described with care in `intake-choices.ts:42-45`:
 "Picking SENDS A NORMAL MESSAGE. The selected labels become the requestor's
 words in the transcript … and the value lands as `stated`, because they did
-say it." They clicked it; the model wrote it. The card set stays on screen
-as "the record of what was offered", but the stored transcript and the export
-keep only the picked label, so a seniority or a dealbreaker chosen from an
-offer reads, in the brief a screener inherits, exactly like one typed from
-nothing. The technique's third constraint on the stall repair — record a
+say it." They clicked it; the model wrote it. The offer is not lost
+everywhere: the message route stores the offered set on the interviewer's
+turn (`app/api/intake/[id]/message/route.ts:175`), so a pick can be
+reconstructed by matching the next requestor line against the labels. It is
+lost where it matters. The brief row lands as `stated`, and the export's
+transcript has no field for the offer, so a seniority or a dealbreaker chosen
+from an offer reads, in the brief a screener inherits, exactly like one typed
+from nothing. The technique's third constraint on the stall repair — record a
 pick as chosen from an offer, with the offer beside it — is the fix; the
 decline button above already proves the studio can make an honesty rule
 structural.

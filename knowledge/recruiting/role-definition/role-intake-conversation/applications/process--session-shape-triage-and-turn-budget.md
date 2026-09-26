@@ -6,6 +6,8 @@ technique: session-shape-triage-and-turn-budget
 stack: process
 status: forged
 verified_on: 2026-09-26
+applied: simulation
+ab_verdict: better
 ---
 
 # Shape triage and turn budget in a two-path intake engine
