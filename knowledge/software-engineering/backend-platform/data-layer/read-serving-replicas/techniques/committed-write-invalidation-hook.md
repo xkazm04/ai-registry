@@ -113,6 +113,21 @@ failure is the half-built form: the writer's own node invalidates its
 cache in-process and exactly, every other node expires on a timer, and
 the system is correct on one node and stale-up-to-the-bound on the rest.
 
+What the rule forbids is being *correct by time*, not having an expiry. An
+expiry on a stream-invalidated entry is a backstop. It bounds memory and
+bounds how long an invalidation the stream lost can go unnoticed. That is a
+second line, not a second regime, and it is admissible on two conditions:
+- Nothing counts it as the guarantee.
+- A gap in the stream is alarmed on its own, so the expiry never quietly
+  absorbs it.
+
+Vendor caching guidance recommends exactly this pairing, and the large
+published lookaside deployments pair replayable, logged invalidations with
+short expiries on their failover pools. The same deployments show that a
+stream alone is not sufficient either: a refill that races an invalidation
+needs the fill fence
+[evict-not-update-on-commit](./evict-not-update-on-commit.md) describes.
+
 ## The dispatcher is a table
 
 Every derivation a node holds is named next to the key prefix that feeds
@@ -142,3 +157,17 @@ automatic. A cluster whose replicas can be arbitrarily behind and still
 serve has no consistency story at all, whatever the client-carried index
 claims, because the index compares against the store's clock and the
 cache is behind the store.
+
+Step-down on *replication lag* is established practice: proxies and
+tablet routers shun a replica past a lag threshold. The signal here is
+different. A replica can be current in its log and behind in its caches,
+and only the invalidation queue's age sees that. No mainstream router
+measures it. Measure it at the dispatcher, beside the lag.
+
+The step-down also needs a stated policy for the moment **every** replica
+breaches at once, because then the authority receives the whole read load.
+Routers that serve lag-tolerant data keep a minimum number of lagging
+replicas in service rather than drop all read capacity. A subject whose
+derivations decide authorization cannot do that. It forwards, and the
+authority is sized for it, or it sheds load with a refusal that says why.
+Whichever it is, the design chooses it before the incident, not during it.
