@@ -380,3 +380,57 @@ Source classes, this run. Kept:
 
 Declined: placebic-explanation studies as a rule (small, one lane); secondary
 law-firm summaries of 2026 rules where the primary text was unreachable.
+
+## 2026-09-26 - deepen: candidate-archetype-routing
+
+Dispatched by the Curator lane on "never swept by the librarian". Landed (40995a7a):
+- five flipped rules, every one reached by both lanes:
+  - confidence: no inference may reach the declaration tier, because a winner's share
+    reads 1.0 on one weak signal; the threshold is derived from a labelled sample;
+  - confidence: the queue rule said "raise" where lowering shrinks the queue, and
+    "never" is withdrawn, since reviewer capacity is an input and reviewers see signals
+    before the verdict;
+  - conservative default: "understates, the honest direction" withdrawn, since
+    underprediction is bias; the fallback score is a placeholder kept out of every
+    ranking, floor and cut;
+  - weights: "only the sum catches it" refuted, since the sum guards the running
+    process and a scored golden set catches the transposition it cannot see;
+  - weights: cross-population comparison is undefined as arithmetic, but a single sort
+    makes it anyway, so it needs an allocation or a measured comparability;
+- conditions:
+  - a declaration buys a fit, not a favour, and only the candidate's act is one;
+  - the archetype is an age correlate by construction;
+  - the shield seam now points to the neighbour's membership-by-instrument-failure rule;
+- corrected claims:
+  - fitted models rarely beat round weights at hiring sample sizes;
+  - the unrouted-rate alarm is output-side, not the earliest warning;
+- three applications re-verified to 2026-09-26: one 08-20 shortfall fixed since, one
+  mostly fixed, two claims narrower than written. Three new applications (confidence,
+  self-declaration, weights).
+
+Seven `applied.md` rows:
+- four better:
+  - a keyless experiment on kp's detector: 5 of 10 labelled and single-signal
+    inferences at or above the declaration tier, 0 under a mass-scaled cap;
+  - a simulation through kp's own profile CLI: 3 of 3 saves launder a routing into
+    "self-declared";
+  - a simulation of the placeholder score on three surfaces;
+  - a mutation experiment: a transposed weight vector loads cleanly and fails 5
+    downstream tests;
+- two unmeasurable: the mixed list, and the age correlate;
+- one unapplied: queue sizing, because no fleet project has a routing review queue.
+
+Impact: kp 7 contexts, 0 stale verdicts. Nine kp deviations recorded as owed. The kp map
+and rows are committed on kp's local main (3f675ccd7, 4ca00a8d2) and not pushed, because
+kp main has diverged from origin with 63 other sessions' commits on it. Three
+single-lane or split leads banked. Yield high, dry_streak 0. See
+[[candidate-archetype-routing]].
+
+Source classes, this run. Kept:
+- statute and regulation text decided the legal questions outright. The score-
+  adjustment clause's closed list refuted the obvious hook, and the age regulation's own
+  examples supplied the real one;
+- a consumer's own test suite is a first-class counter-evidence instrument: it refuted
+  "nothing downstream can catch it" on the tree the claim was written from.
+
+Declined: an omnibus deadline known only from commentary.
