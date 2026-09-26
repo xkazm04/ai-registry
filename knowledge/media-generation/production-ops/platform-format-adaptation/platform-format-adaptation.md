@@ -41,9 +41,11 @@ The physics worth knowing for the dominant short container today: vertical
 short-form platforms standardize on a **9:16 frame** (a tall canvas around
 1080×1920). Platform UI occludes three regions, not two: a strip along the top, a
 deeper block along the bottom (caption and interaction chrome), and a **column of
-controls down the right edge** — so load-bearing text and faces live in a centered
-middle band, and the practical cross-platform safe area is meaningfully smaller
-than the canvas. Platform ceilings for "a short" have meanwhile drifted upward by
+controls down the right edge** — so load-bearing text and faces live in a middle
+band that sits slightly left of centre, because the right column takes more than
+the left margin does. The practical cross-platform safe area is meaningfully
+smaller than the canvas, and smaller again where a platform's ad-placement margins
+apply, which are the only occlusion figures any platform publishes at all. Platform ceilings for "a short" have meanwhile drifted upward by
 an order of magnitude — from around a minute to several minutes, and to tens of
 minutes on some platforms — while the work that actually succeeds in the format
 still clusters in the tens of seconds. The ceiling is a policy fact; the band is a
@@ -63,9 +65,12 @@ threshold is a per-piece business decision the template must expose, not resolve
 ## Retention is decided in the first seconds, and the curve has shapes
 
 Short-form viewing is a continuous re-decision at near-zero switching cost, and
-the distribution of that decision is brutally front-loaded: the large majority of
-abandonment happens in the **first three seconds**, and a viewer who survives them
-is disproportionately likely to survive to ten and thirty. Practitioners read the
+the distribution of that decision is front-loaded: abandonment clusters in the
+**opening seconds** — and, the half the advice leaves out, again at the end. In the
+one academic swipe study behind this section, 29% of swipes fell in a video's first
+fifth and 42% in its last, with mid-video swipes rare. The three-second percentages
+that circulate are vendor figures nobody has audited, and no platform publishes a
+three-second bar: the shape is well supported, the numbers are not. Practitioners read the
 retention curve by shape: a **cliff** (a steep early drop, then flat) means the
 hook failed and the body was fine; a mid-video cliff marks a specific broken
 moment — a topic switch without a bridge, a pace collapse; a **plateau** held high
@@ -75,11 +80,15 @@ failed, and the first-seconds region is almost always where the money is.
 
 This is why the hook is not an ornament but the format's admission fee. In the
 shortest container, the whole hook is **one sentence, delivered at second zero**
-— no branding, no wind-up, no "in this video". There are three opening shapes
-that cover the useful space — contradiction, scenario, stake — chosen by a
-property of the subject, not by taste; and one shape is banned outright, the
-announced fact ("did you know…"), because it signals that a fact is coming and
-hands the viewer a clean exit (hook-shape-selection).
+— no branding, no wind-up, no "in this video". Three spoken opening shapes —
+contradiction, scenario, stake — are the ones every studied witness used, chosen
+by a property of the subject, not by taste. They are the default set, not the
+whole space: a visual shape sits outside them, the payoff *shown* before it is
+explained. One shape is avoided by default, the announced fact ("did you
+know…"), because it prices its own payoff before the viewer has paid anything
+and hands them a clean exit. That rule is reasoned from mechanism and from the
+shape's absence in successful work. It has never been measured against the
+alternatives, and it should travel labelled that way (hook-shape-selection).
 
 ## Derivation is authorship, not surgery
 
@@ -130,20 +139,30 @@ final visual density, must emit its word budget as a **range** and hand the
 declared mode downstream rather than committing to a number it cannot defend
 (image-led-vs-narration-led).
 
-## The default viewer is silent
+## Design for the silent viewer — the surface decides how many there are
 
-The feed's default viewing condition is **sound off** — across published
-measurements a large majority of short-form viewing starts muted, with the sound
-turned on only after the clip has already earned attention. So audio is an
-enhancement layer, not the delivery layer: the hook must land as *read* text in
-the safe band at second zero, captions are a designed, load-bearing text surface
-rather than an accessibility afterthought, and any beat whose argument lives only
-in the narration is a beat most viewers never receive. Because captions are text a
-viewer checks word-for-word, they are drawn deterministically and composited —
-never left to a generative model's typography. The image-led/narration-led sound-off
-test ("could a viewer with the sound off follow the argument?") is the same
-physics read from the other side: here it is not a diagnostic but the design
-starting point (sound-off-first-design).
+The muted-majority figure that short-form advice repeats, "85% of video is
+watched without sound", is a 2016 number. It came from three publishers'
+Facebook feed video, in a feed that autoplayed muted, and it does not describe
+the vertical-short platforms. TikTok and Reels play with sound by default, and
+the only figure a platform has published points the other way: 88% of TikTok
+users *say* sound is essential, which is an attitude survey, not a measured
+share. The **surface** sets the silent share. A clip that also runs where
+autoplay is muted — a Facebook or LinkedIn feed, a YouTube home feed — starts
+silent there. On the sound-on platforms a muted minority remains, and no
+platform publishes its size.
+
+What survives is narrower and still binding. Audio is the delivery layer where
+the surface plays it, and the text layer is insurance built as seriously as the
+audio. The hook lands as *read* text in the safe band at second zero. Captions
+are a designed, load-bearing text surface rather than an accessibility
+afterthought. Any beat whose argument lives only in the narration is a beat the
+muted viewer never receives. Because captions are text a viewer checks
+word-for-word, they are drawn deterministically and composited — never left to a
+generative model's typography. The image-led/narration-led sound-off test ("could
+a viewer with the sound off follow the argument?") is the same physics read from
+the other side: a check every short should pass, and the design *starting point*
+wherever the clip's surface autoplays muted (sound-off-first-design).
 
 ## The failure modes of the naive reading
 
@@ -152,8 +171,9 @@ starting point (sound-off-first-design).
   close) inside a container whose viewers left during the wind-up.
 - **The crop as adaptation** — same content, same composition, sliced to 9:16;
   edges gone, text under platform UI, wide-format pacing at vertical attention.
-- **The amputated clip** — see above; the single most common derived-short
-  defect, and invisible to its author by construction.
+- **The amputated clip** — see above; the derived-short defect that practitioners,
+  and the clipping tools themselves, warn about most, and invisible to its author
+  by construction.
 - **The ceiling as the target** — writing to the platform's maximum allowed
   duration instead of the measured band where the format's successful work
   lives.

@@ -11,21 +11,37 @@ use_when: [designing captions or on-screen text for a vertical short, reviewing 
 
 # Sound-off-first design
 
-The feed's default viewing condition is silence. Published measurements of
-sound-off viewing disagree on the exact share — the credible range is wide,
-roughly two-thirds to the mid-eighties percent — but they agree on the shape:
-**a large majority of short-form views begin muted**, and sound is turned on
-only after the clip has already earned attention. The technique is to invert
-the audio-first habit: design the clip so that a silent viewer receives the
-whole argument, and treat narration as an enhancement layer for the minority
-who opt in.
+A silent viewer must receive the whole argument. How many silent viewers there
+are is set by the **surface**, not by "the feed". The widely repeated muted
+majority, the 69–85% figures, traces to 2016 Facebook feed video. That feed
+autoplayed muted, and the figures were three publishers' reports of their own
+views. It is not a measurement of the vertical-short platforms. TikTok and Reels
+autoplay with sound on. The one figure a platform has published is an attitude
+survey pointing the other way: 88% of TikTok users say sound is essential. No
+platform publishes a measured muted share for TikTok, Reels or Shorts.
+
+So the technique has two strengths:
+
+- **Where the surface autoplays muted** — a Facebook or LinkedIn feed, a YouTube
+  home feed, an embedded player — the silent viewer is the default. Invert the
+  audio-first habit: design so the argument arrives silently, and treat narration
+  as the upgrade for the viewer who unmutes.
+- **Where the surface plays sound** — TikTok, Reels, the Shorts player — audio is
+  the delivery layer, and the silent viewer is a minority of unknown size. The
+  text layer is still designed rather than transcribed, as insurance: the hook
+  still rides as text, and nothing load-bearing may be *only* said. What changes
+  is the priority. The audio is no longer an afterthought for "the minority who
+  opt in".
+
+A derived clip usually ships to both kinds of surface at once, which is why the
+silent pass stays in the procedure for every short.
 
 Working audio-first and captioning afterward fails structurally, not
-cosmetically: the hook arrives as speech the viewer never hears, the caption
+cosmetically: the hook arrives as speech the muted viewer never hears, the caption
 track is a transcript rather than a designed surface, and the beats whose
-evidence is verbal simply do not exist for most of the audience. A clip that
-tests well in an edit bay with speakers on and dies in the feed is the
-signature of this failure.
+evidence is verbal simply do not exist for that viewer. A clip that tests well in
+an edit bay with speakers on and dies on a muted-autoplay feed is the signature of
+this failure.
 
 ## The text layer is designed, not transcribed
 
@@ -54,8 +70,10 @@ signature of this failure.
 3. **Audit caption placement against the occlusion map** of the format
    template — top strip, bottom block, right-edge column — at the canvas the
    platform actually renders, not the editor's full frame.
-4. **Then add sound as an upgrade**: narration, music, and sound design for
-   the viewer who unmutes — rewarding, never required.
+4. **Then build the sound**: narration, music and sound design. On a
+   muted-autoplay surface this is the upgrade for the viewer who unmutes. On a
+   sound-on surface it is what most viewers actually receive, so it gets the
+   same care as the text layer. It is never *required* for the argument.
 
 ## Decision rules
 
@@ -63,10 +81,14 @@ signature of this failure.
   already carry the argument. When it is narration-led, the words must reach
   the screen: the caption layer is load-bearing and budgeted as design work,
   not export work.
-- **When measuring locally**, treat the sound-off share as a parameter of your
-  audience and format, not a universal constant — published figures spread by
-  double digits and mix platforms, autoplay policies, and ad contexts. Until
-  measured, carry it as an assumed range, marked as assumed.
+- **When measuring locally**, treat the sound-off share as a parameter of the
+  *surface* and the audience, not a universal constant. The published figures mix
+  platforms, autoplay policies and ad contexts, and the famous one measures a feed
+  these clips mostly do not run in. Until measured, carry it per surface as an
+  assumed range, marked as assumed — never one number for "short-form".
+- **When a template or a brief cites a muted-majority figure**, check which
+  surface it measured before letting it set priorities. A 2016 Facebook-feed
+  figure can decide a Facebook-feed clip, not a TikTok one.
 - **When a music-driven or performance format is the container** — where the
   audio *is* the content and the platform culture is sound-on — the inversion
   does not apply; declare the exception in the template rather than silently

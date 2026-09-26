@@ -55,6 +55,36 @@ n=3, two from the same creator" is honest and usable; the same rule stated
 bare is a future incident. When two of three witnesses share an author, say
 so — the pattern may be a house habit, not the format.
 
+## Say how the sample was drawn
+
+"Measured on real successful work" hides a selection step, and the selection
+decides what the measurement can support. A sample of hand-picked successes, or
+of outliers ranked by views against their own channel's median, is selected on
+the outcome. What it can show is what successes *share*. It cannot show what
+*separates* them from failures, because no failure was in the sample. Three
+readings go wrong without the draw rule:
+
+- **Absence read as underperformance.** "None of the good examples opens with
+  X" is a fact about the sample. Whether X fails is a separate question the
+  sample cannot answer.
+- **Shared read as causal.** A parameter every witness has (a one-sentence hook,
+  n=3) is MEASURED as a description and INFERRED as a cause. Grade the two
+  claims separately.
+- **A band censored by its era.** Witnesses made while a platform ceiling sat at
+  sixty seconds cannot show what happens past sixty seconds. A band measured on
+  them ends at the old ceiling because the ceiling ended it. Record when the
+  witnesses were made and which ceiling applied.
+
+So the template records its **draw rule** next to its sample size: how the
+witnesses were chosen, from which channels, made when. Outlier ranking is a
+sound way to choose what to *study*. Rank by the median, within one format, one
+platform and one era, because a mean is dragged by one old hit and mixing Shorts
+with long-form distorts both. It is not a way to certify what *works*: an outlier
+at dozens of times its channel's median is partly topic, timing and luck by
+construction. A parameter only earns a causal grade when the sample includes the
+format's non-successes, or when a local run varies the parameter and watches the
+curve.
+
 ## The refusal rule
 
 **When no measurement exists, do not write the parameter.** A machine-readable

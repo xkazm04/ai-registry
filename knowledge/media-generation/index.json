@@ -5,7 +5,7 @@
   "source": "knowledge/media-generation/ (frontmatter only)",
   "subjects": 21,
   "techniques": 146,
-  "applications": 76,
+  "applications": 77,
   "laws": 9,
   "categories": [
    "narrative-craft",
@@ -1765,9 +1765,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/production-ops/platform-format-adaptation/platform-format-adaptation.md",
-   "digest": "sha256-b2:cc144a5f64c0809b",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:b1dc383bf61b504c",
+   "revision": 2,
+   "changedAt": "2026-09-26",
    "techniques": [
     {
      "slug": "derived-short-contract",
@@ -1850,6 +1850,13 @@
    ],
    "applications": [
     {
+     "stack": "next",
+     "technique": "format-as-measured-template",
+     "file": "knowledge/media-generation/production-ops/platform-format-adaptation/applications/next--format-as-measured-template.md",
+     "verified_on": "2026-09-26",
+     "verified_against": "next@16.3.3"
+    },
+    {
      "stack": "process",
      "technique": "derived-short-contract",
      "file": "knowledge/media-generation/production-ops/platform-format-adaptation/applications/process--derived-short-contract.md",
@@ -1865,7 +1872,8 @@
      "stack": "process",
      "technique": "sound-off-first-design",
      "file": "knowledge/media-generation/production-ops/platform-format-adaptation/applications/process--sound-off-first-design.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-26",
+     "refresh_by": "2026-12-26"
     }
    ]
   },
