@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 233,
   "techniques": 1813,
-  "applications": 1168,
+  "applications": 1170,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -12094,9 +12094,9 @@
    "subcategory": "input-and-editing",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/drag-drop/drag-drop.md",
-   "digest": "sha256-b2:117debc61b2131f0",
-   "revision": 3,
-   "changedAt": "2026-08-24",
+   "digest": "sha256-b2:365d1cef14725dc3",
+   "revision": 4,
+   "changedAt": "2026-09-26",
    "techniques": [
     {
      "slug": "cross-surface-handoff",
@@ -12109,7 +12109,8 @@
      "use_when": [
       "designing a handoff where surfaces share nothing",
       "a drop silently does nothing between two surfaces",
-      "one side stays haunted after the drag ends"
+      "one side stays haunted after the drag ends",
+      "drops work on the dev server but not in the desktop host"
      ]
     },
     {
@@ -12184,9 +12185,23 @@
     },
     {
      "stack": "react",
+     "technique": "keyboard-alternatives",
+     "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/drag-drop/applications/react--keyboard-alternatives.md",
+     "verified_on": "2026-09-26",
+     "verified_against": "react@19.2"
+    },
+    {
+     "stack": "react",
      "technique": "ownership-boundaries",
      "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/drag-drop/applications/react--ownership-boundaries.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "rust",
+     "technique": "cross-surface-handoff",
+     "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/drag-drop/applications/rust--cross-surface-handoff.md",
+     "verified_on": "2026-09-26",
+     "verified_against": "rust@1.96.1"
     }
    ]
   },
