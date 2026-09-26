@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 233,
   "techniques": 1813,
-  "applications": 1189,
+  "applications": 1191,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -35017,9 +35017,9 @@
    "subcategory": "evaluation-and-cost",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/time-travel-replay/time-travel-replay.md",
-   "digest": "sha256-b2:138fd12f5cb3022b",
-   "revision": 4,
-   "changedAt": "2026-09-02",
+   "digest": "sha256-b2:798a88c318279127",
+   "revision": 5,
+   "changedAt": "2026-09-26",
    "techniques": [
     {
      "slug": "accrual-overlays",
@@ -35107,15 +35107,31 @@
    "applications": [
     {
      "stack": "react",
+     "technique": "renderer-reuse",
+     "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/time-travel-replay/applications/react--renderer-reuse.md",
+     "verified_on": "2026-09-26",
+     "verified_against": "react@19"
+    },
+    {
+     "stack": "react",
      "technique": "timeline-derivation",
      "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/time-travel-replay/applications/react--timeline-derivation.md",
-     "verified_on": "2026-08-18"
+     "verified_on": "2026-09-26",
+     "verified_against": "react@19"
     },
     {
      "stack": "react",
      "technique": "transport-and-time-mapping",
      "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/time-travel-replay/applications/react--transport-and-time-mapping.md",
-     "verified_on": "2026-08-18"
+     "verified_on": "2026-09-26",
+     "verified_against": "react@19"
+    },
+    {
+     "stack": "rust",
+     "technique": "timeline-derivation",
+     "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/time-travel-replay/applications/rust--timeline-derivation.md",
+     "verified_on": "2026-09-26",
+     "verified_against": "rust@1.96"
     }
    ]
   },
