@@ -91,7 +91,9 @@ instance of exactly that (see the deviations register): a refresh that rewrote
 nine columns of every shipped row on every launch, where the one operator
 customization that survived did so only because its column was accidentally
 missing from the rewrite list. An ownership contract that is an accident of a
-hand-maintained column list is not a contract. The deliberate version —
+hand-maintained column list is not a contract. Two writers is also a floor,
+not a count. An import flow that appends to a shipped row's list is a third
+writer, and the same refresh erased its entries too. The deliberate version —
 column-level ownership, revision-gated refresh, edits detectable and
 mergeable — is the
 [shipped-vs-operator-ownership](./techniques/shipped-vs-operator-ownership.md)
@@ -199,7 +201,10 @@ A healthy connector catalog passes these checks:
    nothing.
 3. **The ownership contract is explicit** — for every column, you can say
    whether vendor refresh or operator edit wins, and the refresh is gated so
-   the answer is enforced rather than remembered.
+   the answer is enforced rather than remembered. A list column that
+   features append to is owned per element. A deleted shipped row stays
+   deleted. Every statement of the refresh keys on the same vendor-minted
+   identity.
 4. **The auth schema has one home** and the form, validation, probe, and
    redaction all demonstrably read it — a probe that references no declared
    field is a detected defect, not a green light, and a row with no probe
