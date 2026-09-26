@@ -6,6 +6,8 @@ technique: keyboard-alternatives
 stack: react
 verified_on: 2026-09-26
 verified_against: react@19.2
+applied: simulation
+ab_verdict: better
 ---
 
 # goat's dnd-kit boards: the keyboard path is announced and never wired

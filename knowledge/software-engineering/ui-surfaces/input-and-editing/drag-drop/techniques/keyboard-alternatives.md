@@ -109,7 +109,9 @@ floor. Someone who can point and click but cannot sustain a drag is not served
 by arrow keys. The dragging-movements criterion (WCAG 2.2 SC 2.5.7, level AA)
 asks that every dragging operation can also be done with a **single pointer
 and no drag**, such as a click or a tap. So at least one alternative must be
-a clickable control. The criterion exempts a drag that is essential and a drag
+a clickable control. It does not have to live on the drag surface: an editor
+reached by a click that sets the same field satisfies it, provided it runs the
+same operation. Judge the operation, not the board. The criterion exempts a drag that is essential and a drag
 the user agent owns rather than the author, such as a file dropped from the
 operating system. Even the mirror is expensive for some populations — a
 fifty-step arrow journey is no gift. Offer *operation-shaped*

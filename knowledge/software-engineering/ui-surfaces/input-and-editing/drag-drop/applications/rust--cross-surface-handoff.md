@@ -6,6 +6,8 @@ technique: cross-surface-handoff
 stack: rust
 verified_on: 2026-09-26
 verified_against: rust@1.96.1
+applied: simulation
+ab_verdict: better
 ---
 
 # Cross-surface handoff at the host boundary — Tauri v2's either/or

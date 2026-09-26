@@ -39,7 +39,9 @@ That definition decides when *not* to use it:
   hard for anyone with limited motor precision. Every drop must have a
   non-drag equivalent, and it must be one that **both a keyboard and a single
   pointer** can operate. A click or tap path is owed to people who can point
-  but cannot hold a drag, and a keyboard-only mirror does not provide it. The
+  but cannot hold a drag, and a keyboard-only mirror does not provide it. That
+  path may live elsewhere, for example an editor that sets the same field; what
+  counts is the operation, not the surface. The
   only exemptions are a drag that is essential and a drag the user agent owns,
   such as a file dropped from the operating system. See
   [keyboard-alternatives](./techniques/keyboard-alternatives.md),

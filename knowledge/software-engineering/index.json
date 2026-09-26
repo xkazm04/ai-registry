@@ -12094,8 +12094,8 @@
    "subcategory": "input-and-editing",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/drag-drop/drag-drop.md",
-   "digest": "sha256-b2:365d1cef14725dc3",
-   "revision": 4,
+   "digest": "sha256-b2:31c96c1f832f7148",
+   "revision": 5,
    "changedAt": "2026-09-26",
    "techniques": [
     {
