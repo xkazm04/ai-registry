@@ -996,3 +996,52 @@ Source-class tally (post-hoc, this run):
 - The seam lane's report was right about everything it read. It missed the one tree
   that cites the subject by name, because it searched behaviour words, not the slug.
   In a fleet whose code cites registry subjects, grep the subject slug first.
+
+## Run dp-ua0926 - usage-analytics, a next second stack and consent before the first flush
+
+This was a Curator dispatch on "single stack (react)". All four applications came
+from personas' desktop analytics layer, so the subject assumed a session with an
+orderly shutdown and an opt-out toggle. The map joins the subject to seven
+projects, all React or Next. Two of those projects have judged verdicts: personas
+`lib-analytics` (deviation) and systedo-case (not-applicable). The next seams were
+kp's one-door vendor tracker and personas-web's consent-gated metric wrappers.
+
+Two code fixes, one per tree:
+- kp `4a3ae0e38`: the vocabulary moved from a comment to a type, measured by
+  `tsc --noEmit` (A 2 errors, B 0).
+- personas-web `0af04d2`: the feature request's typed text is no longer sent as a
+  metric attribute.
+
+Two rules flipped:
+- Consent before the first flush where the device-access rule applies. The
+  regulator text was quoted verbatim, and the blind lane converged.
+- A browser page has no orderly shutdown, so the summary is re-sent cumulatively
+  on each hide. Three lanes converged, and the session-resume run had landed the
+  same platform fact.
+
+Two claims were corrected: an unsourced cost ratio, and "strongest privacy
+property available". Three conditions were added: what a summary gives up,
+activation discovered then frozen, and content blockers. 0 new techniques.
+
+Applied: 2 code `better` (kp, personas-web), 1 simulation `better` (consent,
+across personas, personas-web and kp), 1 `unmeasurable` (cost ratio; the
+instrument is in the vendor dashboard), and 3 unapplied (the web accumulator,
+small-cell suppression, and discovered activation, none of which has a fleet
+seam). Impact: personas `lib-analytics` and systedo-case `platform-ops-api` are
+now stale. Maps were rebuilt for those 2 projects only and committed unpushed.
+
+| subject | rung | last-pass yield | demand after | dry |
+| --- | --- | --- | --- | --- |
+| usage-analytics | L3 | 2 applications (next), 2 flipped rules (consent before first flush; no orderly shutdown in a browser), 2 corrections, 3 conditions, 2 code fixes (unpushed), 0 techniques | 2 stale (personas lib-analytics, systedo-case platform-ops-api); personas' per-visit sends and default-on telemetry are the owner's calls | 0 |
+
+Source-class tally (post-hoc, this run):
+- Regulator text beat everything else on the consent question. The joint guidance
+  PDF stated each scope point in one sentence. The national regulator's page came
+  through a summarizer, so only its exact fragments were used.
+- The browser vendor's own platform docs, and a reference site modified in 2026,
+  decided the web flush. That is the same class that decided it for session-resume.
+- A vendor blog was the only counter source on activation. It landed only because
+  the blind lane converged independently.
+- The trees supplied both code findings, and no lane predicted either one. The
+  most dangerous line in one tree was the one its own doc cited as the good
+  example.

@@ -1,0 +1,79 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-ua0926",
+  "skill": "deepen",
+  "skill_version": "1.3.1",
+  "mode": "interactive",
+  "domain": "software-engineering",
+  "started_at": "2026-09-26T15:05:00Z",
+  "ended_at": "2026-09-26T15:45:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/usage-analytics",
+      "at": "2026-09-26",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "software-engineering/usage-analytics",
+      "technique": "privacy-scrubbing",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "software-engineering/usage-analytics",
+      "technique": "privacy-scrubbing",
+      "verdict": "better",
+      "mode": "code"
+    },
+    {
+      "subject": "software-engineering/usage-analytics",
+      "technique": "event-taxonomy",
+      "verdict": "better",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/operations/service-operations/usage-analytics/usage-analytics.md",
+    "knowledge/software-engineering/operations/service-operations/usage-analytics/techniques/privacy-scrubbing.md",
+    "knowledge/software-engineering/operations/service-operations/usage-analytics/techniques/batching-and-quota.md",
+    "knowledge/software-engineering/operations/service-operations/usage-analytics/techniques/sink-abstraction.md",
+    "knowledge/software-engineering/operations/service-operations/usage-analytics/techniques/activation-and-funnel-honesty.md",
+    "knowledge/software-engineering/operations/service-operations/usage-analytics/applications/next--privacy-scrubbing.md",
+    "knowledge/software-engineering/operations/service-operations/usage-analytics/applications/next--event-taxonomy.md",
+    "knowledge/software-engineering/index.json",
+    "rules/ai-registry-software-engineering.md",
+    "catalog.json",
+    "librarian/applied.md",
+    "librarian/domains/software-engineering.md",
+    "librarian/subjects/software-engineering/usage-analytics.md"
+  ],
+  "commits": [
+    {
+      "sha": "52ae516a",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/software-engineering/operations/service-operations/usage-analytics",
+        "knowledge/software-engineering/index.json",
+        "rules/ai-registry-software-engineering.md",
+        "catalog.json"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Single stack cleared (next). 2 flipped rules, 2 corrections, 3 conditions, 0 techniques. Applied: 2 code better, 1 sim better, 1 unmeasurable, 3 unapplied. Project commits unpushed (kp, personas-web, personas, systedo-case). 2 stale verdicts."
+}
