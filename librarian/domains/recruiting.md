@@ -318,3 +318,33 @@ Source classes, this run: regulation text and a court's own judgment read verbat
 decided the two flips and the review-basis rewrite. Law-firm summaries carried the
 2027 state dates and were marked secondary. A search summary's "growing body of
 regulation" framing did not survive the federal register.
+
+## 2026-09-26 - deepen: blind-screening-and-redaction
+
+Dispatched by the Curator lane on "never swept by the librarian". Landed
+(25e28026, fbcac201):
+- two refutations:
+  - the field evidence's sign follows the screeners' baseline; "discouraging"
+    is gone;
+  - under-masking is not rare, because a model reader recovers identity from
+    what the mask never removed;
+- two flips in name-versus-role: one skill term is not a headline, and a lone
+  name token is masked only where it reads as the person;
+- seven conditions: the audition headline, the framed experiment, the empty
+  field, span tagger versus generative redactor, tier-2 side channels,
+  personal data held by the controller (dated 2026-09), and the name-found
+  flag's false detection;
+- one converged technique, identity-twin-mask-invariance, with a process
+  application;
+- all three applications re-verified to 2026-09-26.
+
+Five `applied.md` rows:
+- three code rows better, in kp 4433df0c5: 8 → 6 of 9 planted twins diverge,
+  all six in the stated gap;
+- one unapplied: kp already makes only the procedural claim;
+- one unmeasurable: a distributional lane is needed.
+
+Impact: no kp context pairs the subject, although `cv-extraction` holds the
+redactor. That is a matcher miss, recorded in the subject note. Three
+single-lane leads banked. Yield high, dry_streak 0. See
+[[blind-screening-and-redaction]].
