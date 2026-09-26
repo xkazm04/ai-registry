@@ -489,3 +489,37 @@ Source-class tally (post-hoc, this run):
   coercion, zero as unset).
 - One developer blog was the only written source for the mutable-order skip. It was
   accepted only because the tree measured the same thing.
+
+## Run dp-cg-0926 - canvas-graph, a second tree where a second stack does not exist
+
+Curator dispatch on "single stack (react)". The finding cannot be cleared from this
+fleet: every canvas surface is React-hosted and the Rust trees draw none. The pass widened
+across trees instead. kp's PlantUML renderer (elkjs, read-only) joined as two
+applications, and two experiments on its 15 committed diagrams measured:
+- reordering the same graph re-placed boxes in 14 of 15 diagrams, while reruns moved 0;
+- straight edges would cross a foreign node 16 of 189 times, against 0 for the engine's
+  routes.
+
+Four claims flipped: order is input, engine routes are the geometry, nodes may read a
+stepped zoom, and the engine-driven layout inputs. Five were conditioned: the render
+ladder is retained-mode, the commit cadence exists to protect subscription isolation,
+fixed anchors are force-only, force engines often ship a fixed seed, and the region's role
+must be nameable. No new technique. Both 2026-08-18 personas applications cited a camera
+deleted on 2026-08-23. Those citations are repinned to the last commit that had it, and
+twelve drifted line ranges and one misquote are fixed. Scan points stayed at 5 through the
+landing (single stack stands). The subject note clears "never swept". kp now joins the
+subject on 2 contexts. Personas carries 1 stale verdict and its map was not rebuilt
+(another session's uncommitted map rewrite).
+
+| subject | rung | last-pass yield | demand after | dry |
+| --- | --- | --- | --- | --- |
+| canvas-graph | L3 | 2 applications, 2 re-verified, 4 flips, 5 conditions, 0 techniques | personas 1 stale; kp newly joined; 10 unjudged contexts | 0 |
+
+Source-class tally (post-hoc, this run):
+- Library source code and vendor docs did the conditioning: the leading node editor's
+  event handler, the ELK option reference, the d3-force docs, and a whiteboard engine's
+  performance page.
+- The ARIA spec and the APG settled the accessibility conditions.
+- The consumer tree's own experiments carried both flips that have numbers.
+- Search excerpts that were never fetched were landed only as soft wording, and each is
+  flagged in the subject note.
