@@ -47,6 +47,33 @@ it is a functional one:
 - **A chart draws it at the floor.** Which reads as a measured catastrophe,
   and is the most persuasive lie in the set.
 
+*(Conditioned 2026-09-26.)* "Spare nothing" is true of zero and too strong
+as a whole. Two candidates do lie outside the range, and each fails at a hop:
+- **A negative is outside the range of a size or an elapsed duration.**
+  Established platform interfaces use minus one for "length not known". It
+  stays outside only until somebody takes a difference: a signed change,
+  a delta between two readings, a regression residual. There minus one is a
+  real value.
+- **Not-a-number is outside every range**, and it fails in two places:
+  - The commonest wire format has no literal for it. One widespread writer
+    turns it into a null without complaint, and another writes a token the
+    strict readers reject.
+  - A rate computed as nothing over nothing produces it on its own. A system
+    that used it as its marker has had to reserve one specific bit pattern so
+    it can tell its marker from an honest arithmetic result.
+
+The test is therefore not only "outside the range" but "outside the range
+**at every hop the value takes**". That is rarely true, which is why the
+field is still nullable.
+
+The test also runs the other way. **When the true value is zero, zero is the
+value.** A run on hardware nobody bills for costs nothing, and publishing
+that as absent would let a fallback price it at somebody else's rate. What
+must not happen is the same zero being "free" on one surface and "unpriced"
+on another. The absent state keeps its one meaning, a missing input. A
+distinction the product wants to draw, such as "free" as opposed to "nothing
+to bill", goes in the basis field, not in the absence.
+
 So: **where the domain has no free value, the field is nullable.** A nullable
 field is a modest cost paid at every read site, in exchange for the guarantee
 that no read site can silently mistake absence for a reading. Where absence
@@ -151,6 +178,12 @@ schema check.
   by accident.
 - **When sorting or thresholding, exclude the absent rather than placing
   them.** They are not at either end of the ranking; they are not in it.
+- **When a sum has absent terms, publish it as a floor and say so.** The sum
+  of the priced part is a lower bound when the missing terms are
+  non-negative. Label it as one, beside a count of what was left out, and
+  never show a floor that no term is missing from.
+- **When the true value is zero, emit zero.** Keep the absent state for a
+  missing input only, on every surface that folds into the same figure.
 - **When a derived label's input is absent, the label is absent.** Deriving
   from a default propagates the fabrication into a field that no longer looks
   numeric.

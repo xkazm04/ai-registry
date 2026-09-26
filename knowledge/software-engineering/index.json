@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 233,
   "techniques": 1813,
-  "applications": 1172,
+  "applications": 1174,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -21241,9 +21241,9 @@
    "subcategory": "measurement-method",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-assessment/measurement-method/modelled-performance-estimates/modelled-performance-estimates.md",
-   "digest": "sha256-b2:16f70ca8388660da",
-   "revision": 2,
-   "changedAt": "2026-09-09",
+   "digest": "sha256-b2:50098d421810102e",
+   "revision": 3,
+   "changedAt": "2026-09-26",
    "techniques": [
     {
      "slug": "one-ratio-then-a-capability-cap",
@@ -21308,6 +21308,20 @@
     }
    ],
    "applications": [
+    {
+     "stack": "next",
+     "technique": "refuse-rather-than-emit-a-sentinel",
+     "file": "knowledge/software-engineering/engineering-assessment/measurement-method/modelled-performance-estimates/applications/next--refuse-rather-than-emit-a-sentinel.md",
+     "verified_on": "2026-09-26",
+     "verified_against": "next@16"
+    },
+    {
+     "stack": "react",
+     "technique": "provenance-travels-with-the-value",
+     "file": "knowledge/software-engineering/engineering-assessment/measurement-method/modelled-performance-estimates/applications/react--provenance-travels-with-the-value.md",
+     "verified_on": "2026-09-26",
+     "verified_against": "react@19"
+    },
     {
      "stack": "rust",
      "technique": "one-ratio-then-a-capability-cap",
