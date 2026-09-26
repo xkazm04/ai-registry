@@ -3,7 +3,7 @@ name: hygiene
 description: "Start-of-day fleet sweep before any development: scan every project registered on this machine for open pull requests, merged or abandoned branches and worktrees, a red default branch, and open GitHub security alerts (code scanning, secret scanning, Dependabot). Cleans up what is mechanical itself, then dispatches one Sonnet worker per project to ship, repair, merge, delete or fix the rest onto main/master, and hands back only what needs a human. Use at the start of a day, or when branches, PRs and alerts have piled up across the fleet."
 category: ai-native
 memory: project
-version: 1.0.5
+version: 1.0.6
 tags: fleet, hygiene, pull-requests, branches, worktrees, security-alerts, ship, dispatch, sonnet-workers, start-of-day
 ---
 
@@ -162,7 +162,17 @@ there is none.
 
 Record every dispatch in `<plan dir>/dispatch.jsonl` - one line per worker with `slug`,
 the agent id from the spawn result, and the dispatch time. It is the only way back to a
-worker that dies mid-run.
+worker that dies mid-run - **inside this session only**: a new session's `SendMessage` to
+that id answers "No transcript found" (2026-09-26, reaching the 2026-09-24 ascent worker).
+
+Save each worker's report to `<plan dir>/reports/<slug>.md` the moment it arrives, before
+starting the next worker. A director that dies otherwise takes every report with it: the
+2026-09-24 run dispatched ten workers and left no report, no verify and no record of what
+they shipped.
+
+A project whose previous-run worker died mid-item (its `C:/t/hyg-<slug>-*` worktrees are
+still there, and the scan lists them as stale WIP) gets no worker until the owner clears
+them. Say so in `dispatch.jsonl` and in the report.
 
 While workers run, do not touch their repositories. Wait for the notifications. A
 notification whose text is not the fenced JSON report means the worker is still going

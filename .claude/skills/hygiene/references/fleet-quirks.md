@@ -32,6 +32,14 @@ when a run proves it stale. Slugs match `projects.json`.
   "fails under the hook, passes by hand" is the same bug until proven otherwise.
 - Every SHA in the report is copied from git output, never typed: kp 2026-09-19 reported a
   PR head whose second half was invented.
+- Majors that are not bumps, fleet-wide as of 2026-09-26: **ESLint 10** breaks
+  `eslint-plugin-react` (bundled by `eslint-config-next`, no release supports it -
+  `contextOrFilename.getFilename is not a function`); **TypeScript 7** is the native-port line
+  without the classic compiler API and outside `@typescript-eslint`'s peer range; **sqlx 0.9**
+  rejects every non-`'static` query string (`SqlSafeStr`), turning the bump into a per-site
+  injection audit (tracklight 90 sites, pumper 31). Comment the located cause, leave open.
+- A dependabot PR's recorded CI failure can be weeks stale (tracklight #22 was 52 commits
+  behind a green main). Rebase it in a scratch worktree before trusting the red.
 
 ## kp
 
@@ -47,6 +55,14 @@ when a run proves it stale. Slugs match `projects.json`.
   Measured 2026-09-21: three false interview-recording failures, green after `npm ci`.
 - The Node quality job runs `test:perf` BEFORE `test:unit`, so a red perf budget hides every
   unit failure behind it. Greening the budget can surface weeks of unit reds at once.
+- `test:skills` runs before both: a stale assertion in a `.claude/skills/*` test masked the
+  perf-budget red for days (2026-09-26, a glyph floor missed by `606f9bffb`).
+- The pre-push hook does NOT run `docs:check`; CI's `Doc sync` job does. A source-only change
+  under a doc-coupled feature path passes the hook and fails CI - add the feature doc note.
+- `test_llm_claude_cli_adapter`'s bind test resolves the real `claude` binary via
+  `shutil.which`: green on this box, red on runners. Not a flake to rerun.
+- ADR numbers collide across branches (`capture/adr-0008-*` vs the accepted 0008 on main):
+  renumbering is the owner's call.
 - The perf budget counts a dynamic `import()`: writing `await import(...)` does not take a
   module off a route's graph. Never raise a ceiling to pass your own merge.
 - Code scanning is enabled and holds 100+ open alerts - cap per run applies.
@@ -96,6 +112,10 @@ when a run proves it stale. Slugs match `projects.json`.
   checks are expected`: the owner's admin permission bypasses the ruleset. No flag is
   involved and CI still runs after - but verify the pushed SHA's run yourself.
 - `cargo deny (advisories)` is a permanent, documented non-blocking red (h2 RUSTSEC).
+- axum 0.8 route paths (`{name}`, not `:name`) are mirrored in `crates/contract`'s Endpoint
+  table (a bijection test), two `:segment` parsers and generated `docs/API.md`. Substitute
+  inside string literals only: a file-wide `:(w+)` regex turns `Type::Variant` into `Type:{Variant}`.
+- `scripts/gates.sh` mirrors every CI job except the three service-backed conformance suites.
 - The responder git-env bug above was fixed on main in `8324768` (2026-09-19); if
   `a_failed_commit_reports_false_and_leaves_the_tree_dirty` fails under the hook again,
   check for a new unscrubbed git spawn before calling it a flake.
@@ -115,6 +135,9 @@ when a run proves it stale. Slugs match `projects.json`.
 - Vercel deploys every push to `master`: merging is a production deploy.
 - Node 24.x on Vercel; keep the repo on 24.
 - `smoke.yml` has historically never fired - its absence from a check rollup is not a failure.
+- The 2026-09-24 worker died mid-#23 and left `C:/t/hyg-ascent-pr23` (an unpushed local merge
+  `24ffcf18`, plus prisma migration files that differ only by line endings) and
+  `C:/t/hyg-ascent-defbranch`. Until the owner clears them, no worker takes ascent.
 
 ## gravitone
 
@@ -149,6 +172,12 @@ when a run proves it stale. Slugs match `projects.json`.
   requires a human author for a quarantine row.
 - `deny.toml:59`'s ignore for RUSTSEC-2025-0057 (fxhash via scraper->selectors) matches
   nothing since the scraper 0.27 bump - an `advisory-not-detected` warning, safe to delete.
+- **The September moonshot wave (N01-N36, ~225 commits, 2026-09-01..09-14) is on NO default
+  branch.** It survives only on `origin/autopilot/project-kpi-and-coverage-stewardship` (#39)
+  and `origin/chore/deny-licenses-publish-false` (#38, closed 2026-09-26): master moved on from
+  `4a5905a` without it. Never delete either branch; never rebase a PR off that fork - rebuild
+  its own commit on master instead (#44).
+- `gh pr create` with `Closes #N` closes #N the moment the new PR merges, before any comment.
 
 ## personas-web
 
@@ -170,9 +199,13 @@ when a run proves it stale. Slugs match `projects.json`.
   current on both sides.
 - `test-results/.last-run.json` is TRACKED: any local Playwright run dirties it. Restore it
   before committing.
-- The primary has sat on `chore/remove-react-virtuoso` for weeks; the name is stale (the
-  virtuoso removal shipped 2026-09-07 in `8f2e544`) and the branch now carries unrelated
-  i18n and bookkeeping work.
+- `check:bundle` can fail from a uniform shared-bundle shift (every route +N KB) caused by an
+  unrelated feature merge; the route with the least headroom trips. Diff
+  `route-bundle-stats.json` between the last green and the red commit: a uniform shift is
+  re-baselined with `npm run check:bundle -- --update` off a clean build (precedent `3f21951`,
+  2026-09-26 `7afe503`); a route-specific growth is a real regression.
+- Two branches named `growth/persona-gallery` exist: origin's (F2) and a local one 2 commits
+  ahead (F3/F4, both "cloud", likely superseded by the 2026-09-14 no-cloud decision).
 
 ## pof
 

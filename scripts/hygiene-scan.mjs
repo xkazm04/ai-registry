@@ -432,24 +432,7 @@ async function scanProject(slug, proj) {
   const missesTip = () => tipIds.size > 0 && !(runs.data ?? []).some((r) => tipIds.has(r.databaseId));
   if (missesTip()) runs = await listBranchRuns();
   if (missesTip()) P.problems.push(`gh run list --branch ${P.defaultBranch} served a stale page twice (no run for tip ${P.defaultSha?.slice(0, 8)}); per-workflow history below may be out of date`);
-  // Only a run that actually reached a verdict says anything about the branch. In flight says
-  // "not yet"; cancelled and skipped say "never ran" - personas' tip push cancelled the run
-  // before it, and taking that cancellation as the answer read a branch that had been failing
-  // since the day before as green. So per workflow: the newest run carrying a real verdict, the
-  // tip's if it has one, falling back to the newest run of any kind only when none does.
-  const newestFirst = (rs) => [...(rs ?? [])].sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt));
-  const VERDICT = new Set(['success', ...RED_CONCLUSIONS]);
-  const workflows = new Set([...(runs.data ?? []), ...(tipRuns.data ?? [])].map((r) => r.workflowName));
-  const latest = new Map();
-  for (const workflow of workflows) {
-    const forThis = (rs) => newestFirst(rs).filter((r) => r.workflowName === workflow);
-    const tip = forThis(tipRuns.data);
-    const any = forThis(runs.data);
-    const decided = (rs) => rs.find((r) => r.status === 'completed' && VERDICT.has(r.conclusion));
-    const pick = decided(tip) ?? decided(any) ?? tip[0] ?? any[0];
-    if (pick) latest.set(workflow, pick);
-  }
-  P.defaultCi = [...latest.values()].map((r) => ({
+  P.defaultCi = pickDefaultCi(runs.data, tipRuns.data, P.defaultSha).map((r) => ({
     workflow: r.workflowName, status: r.status, conclusion: r.conclusion || null, id: r.databaseId, event: r.event,
     onTip: r.headSha === P.defaultSha, ageMin: minutesSince(Date.parse(r.createdAt)),
   }));
@@ -494,6 +477,39 @@ const ridesText = (b) => (b?.ridesUnpushed > 0
   : '');
 const CONTENT_ON_DEFAULT = new Set(['merged', 'squash-merged', 'patch-on-default', 'on-local-default']);
 const RED_CONCLUSIONS = new Set(['failure', 'timed_out', 'startup_failure']);
+
+/**
+ * The default branch's latest verdict per workflow AND per trigger (push vs everything else).
+ *
+ * Only a run that actually reached a verdict says anything about the branch. In flight says
+ * "not yet"; cancelled and skipped say "never ran" - personas' tip push cancelled the run
+ * before it, and taking that cancellation as the answer read a branch that had been failing
+ * since the day before as green. So per key: the newest run carrying a real verdict, the
+ * tip's if it has one, falling back to the newest run of any kind only when none does.
+ *
+ * The trigger is part of the key because splitRed reads push runs as the gate and every
+ * other event as a signal. Keyed on the workflow name alone, a nightly schedule run of the
+ * same workflow on the same tip outranked the failed push run by being newer: personas-web's
+ * `CI` failed its bundle gate on push on 2026-09-25, the 03:29 schedule run failed the same
+ * way, and the table read "green (signals red)" with no worker action for a red gate.
+ */
+export function pickDefaultCi(branchRuns = [], tipRuns = [], defaultSha = null) {
+  const newestFirst = (rs) => [...(rs ?? [])].sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt));
+  const VERDICT = new Set(['success', ...RED_CONCLUSIONS]);
+  const keyOf = (r) => `${r.workflowName}\u0000${!r.event || r.event === 'push' ? 'push' : 'other'}`;
+  const tipOnly = (tipRuns ?? []).filter((r) => !defaultSha || r.headSha === defaultSha);
+  const keys = new Set([...(branchRuns ?? []), ...tipOnly].map(keyOf));
+  const picks = [];
+  for (const key of keys) {
+    const forThis = (rs) => newestFirst(rs).filter((r) => keyOf(r) === key);
+    const tip = forThis(tipOnly);
+    const any = forThis(branchRuns);
+    const decided = (rs) => rs.find((r) => r.status === 'completed' && VERDICT.has(r.conclusion));
+    const pick = decided(tip) ?? decided(any) ?? tip[0] ?? any[0];
+    if (pick) picks.push(pick);
+  }
+  return picks;
+}
 
 /**
  * Split the default branch's latest red runs into the GATE (blocks merges) and SIGNALS

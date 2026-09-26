@@ -273,3 +273,48 @@ with the lesson here saying why.
   stale knowledge indexes in bundles this run never touched, while another session had
   `check-bundles.mjs` and `build-registry-map.mjs` open. Regenerating them would have swept
   their work into the run's commit. Report the failure, commit only your own paths.
+
+## 1.0.5-1.0.6 - 2026-09-26 - fifth live run (13 projects, 3 mechanical, 9 workers, ascent held)
+
+- **The 2026-09-24 run left no report at all.** Ten workers dispatched, `dispatch.jsonl`
+  written, then nothing: no `report.md`, no verify, no LESSONS entry. Its ascent worker died
+  mid-PR-#23 with an unpushed local merge in `C:/t/hyg-ascent-pr23`, and two days later a
+  `SendMessage` to its agent id from this session answered "No transcript found": the resume
+  path in Phase 3 only works inside the session that spawned the worker. Workers' reports now
+  go to `<plan dir>/reports/` as they arrive, and a project with a dead predecessor's worktrees
+  gets no worker (1.0.6). The ascent leftovers turned out to be EOL-only diffs on prisma
+  migrations plus the unpushed merge, which is still the operator's call.
+- **A newer scheduled run of the same workflow hid a red push run.** `defaultCi` kept one run
+  per workflow NAME, preferring the tip's newest verdict. personas-web's `CI` failed its bundle
+  gate on push (2026-09-25 08:49), the 03:29 nightly failed the same way on the same tip and
+  won by being newer, and `splitRed` then read the only surviving run as a schedule signal:
+  table "green (signals red)", no worker action for a red gate. The worker noticed and fixed
+  master anyway. `pickDefaultCi` now keys on workflow and trigger (push vs other), so the push
+  verdict decides the gate and a scheduled red stays a signal beside it. Controls, before and
+  after: systedo-case RED, ascent signal-only, gravitone and goat green, all unchanged; the fix
+  also surfaced a second masked push red (systedo-case `Supply chain`, non-required, a signal).
+  Same shape as 2026-09-21: every wrong version reads calmer than the truth.
+- **A worker's repair can uncover a lost history, not just a stuck PR.** pumper's #38 and #39
+  both fork from `4a5905a` (2026-09-01) and carry ~225 commits - the whole N01-N36 moonshot
+  wave, ~112k lines, e.g. `clients/cli/` - that are on neither origin/master nor local master.
+  The director confirmed it from git (`git branch -a --contains`, files absent on master) before
+  reporting it as the top operator item. Two remote branches are the only copy; the worker
+  rebuilt #38's one commit on master as #44 instead of rebasing onto the fork. A branch that is
+  "only" the head of a closed PR can be the last holder of real work: never mechanical there.
+- **`triage-branch` rows recur because nothing remembers a verdict.** pof `backlog/c33` was
+  left for the same reason (its own commit says "never for the active branch as-is") on
+  2026-09-21 and again today; kp's 18 triage rows were all left, tracklight's 3 too. Each
+  costs a worker reading the same commits again. Open: a per-sha "left, because" ledger the
+  scan honours until the branch tip moves.
+- **A dead ecosystem major reads like 29 separate repair jobs.** ESLint 10 (politicas #28, kp
+  #71), TypeScript 7 (politicas #20) and sqlx 0.9 (tracklight #30, pumper #37) were each
+  diagnosed from scratch by a different worker. Now a fleet-wide quirk.
+- **My own verifier lied on its first run.** It trimmed `git status --porcelain` output as a
+  whole, which stripped the first line's leading status space, so `.gitignore` became
+  `gitignore` and eight clean primaries read "dirty DIFF". Split porcelain output into lines
+  before trimming anything. The two real differences (kp, personas) were sibling sessions'
+  live work, judged by path and mtime against what each worker touched.
+- **A push nobody reported can be the owner's.** pof's origin/master jumped by its 127
+  unpushed commits at 11:39Z, 27 minutes after its worker finished with no changes; blaming the
+  worker was the obvious read. The push event time against the worker's
+  window settled it.

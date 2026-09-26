@@ -3,7 +3,7 @@
 // fleet (see .claude/skills/hygiene/LESSONS.md). The planner is pure: fixtures in, actions out.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { planActions, denyBlocksPush, splitRed } from '../hygiene-scan.mjs';
+import { planActions, denyBlocksPush, splitRed, pickDefaultCi } from '../hygiene-scan.mjs';
 
 const HOUR = 60;
 
@@ -139,6 +139,32 @@ test('only a push-triggered red run is a worker repair; scheduled or dispatched 
   assert.equal(A.find((a) => a.kind === 'non-gate-workflow-red')?.class, 'operator');
   const B = planActions(project({ defaultCi: [run('CI', 'push')] }));
   assert.equal(B.find((a) => a.kind === 'default-branch-red')?.class, 'worker');
+});
+
+test('a newer scheduled run of the same workflow does not hide a red push run on the tip', () => {
+  // 2026-09-26, personas-web: CI failed on push (08:49) and again on schedule (03:29 next day),
+  // both on tip aeee9a4b. Keyed on workflow name alone the schedule run won, and the table read
+  // "green (signals red)" with no worker action for a red gate.
+  const r = (id, event, conclusion, createdAt, headSha = 'tip', status = 'completed') =>
+    ({ databaseId: id, workflowName: 'CI', event, conclusion, status, createdAt, headSha });
+  const push = r(36114992503, 'push', 'failure', '2026-09-25T08:49:10Z');
+  const nightly = r(36214959119, 'schedule', 'failure', '2026-09-26T03:29:33Z');
+  const picked = pickDefaultCi([nightly, push], [nightly, push], 'tip');
+  assert.deepEqual(picked.map((p) => p.databaseId).sort(), [36114992503, 36214959119]);
+  const ci = picked.map((p) => ({ workflow: p.workflowName, event: p.event, status: p.status, conclusion: p.conclusion, id: p.databaseId, onTip: true }));
+  assert.equal(splitRed(ci).gate.length, 1, 'the push failure is the gate');
+  assert.equal(planActions(project({ defaultCi: ci })).find((a) => a.kind === 'default-branch-red')?.class, 'worker');
+  // A green push verdict stays green even when the nightly of the same workflow is red: a signal.
+  const green = pickDefaultCi([nightly, r(1, 'push', 'success', '2026-09-25T08:49:10Z')], [], 'tip');
+  const greenCi = green.map((p) => ({ workflow: p.workflowName, event: p.event, status: p.status, conclusion: p.conclusion, id: p.databaseId }));
+  assert.deepEqual([splitRed(greenCi).gate.length, splitRed(greenCi).signal.length], [0, 1]);
+  // Unchanged: per key, the tip's decided run beats a newer in-flight or cancelled one, and an
+  // older decided run stands in when the tip has none.
+  const inflight = r(9, 'push', null, '2026-09-26T09:00:00Z', 'tip', 'in_progress');
+  const cancelled = r(8, 'push', 'cancelled', '2026-09-26T08:00:00Z');
+  assert.deepEqual(pickDefaultCi([inflight, cancelled, push], [inflight, cancelled, push], 'tip').map((p) => p.databaseId), [36114992503]);
+  const older = r(7, 'push', 'failure', '2026-09-20T00:00:00Z', 'old');
+  assert.deepEqual(pickDefaultCi([inflight, older], [inflight], 'tip').map((p) => p.databaseId), [7]);
 });
 
 test('a push-denied repo keeps only server-side merges with the worker', () => {
