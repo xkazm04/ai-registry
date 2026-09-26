@@ -54,6 +54,30 @@ The feed shape belongs to the live pipeline, not to replay: replay adapts
 imitated. A replay-first event shape that the live path must then adapt to
 inverts the imitation and puts the authority in the copy.
 
+## Reuse is decided at the record's layer
+
+The rule holds exactly where the record sits at the live feed's layer or
+below it. A demo file of the server's messages plays through the live
+client's own parser, and that is reuse at its purest. It stops holding when
+what was recorded is the *rendered output* - DOM mutations, terminal bytes.
+There is no live renderer upstream of those to reuse, so a dedicated player is
+the norm, and fidelity then rests on how completely the output was captured,
+not on sharing components. Two consequences:
+
+- **Every translation between the record and the renderer is the live one.**
+  When the live surface shows a parsed projection of what the wire carried
+  (a provider's stream reduced to display lines) and the record keeps the raw
+  wire, a replay that renders the raw record through shared components has
+  still diverged: the components agree, the content does not. The replay feed
+  runs the live parser, or the record keeps what the live surface showed.
+- **A record read by a newer pipeline states the version skew.** Input-level
+  records replay only through the code that produced them, and a changed rule
+  desyncs everything after the first step it touches. Output-level records survive code changes
+  but not a player newer than their capture. Stamp the record with the schema
+  and producer version, read old versions through an upcaster or refuse them
+  by name, and never render a record the current feed half-understands as if
+  it were whole.
+
 ## What must be injected for the components to be reusable
 
 Live components acquire habits that break under a synthetic clock. Each must
@@ -81,6 +105,12 @@ page anyone. The rule: **effects belong to the feed, not the components** —
 the live feed carries effect authority; the replay feed runs the same
 components with effects inert. If an effect lives inside a shared component,
 it will fire under replay eventually; hoist it.
+
+The strongest form of the gate covers the run's own calls. A replay reads a
+model's responses and a tool's results from the record and never makes the
+call again. A re-called model answers differently, and a re-executed tool
+sends the email twice. "Run again from this step" is a new run with its own
+identity, linked to the one it forked from, and never a mode of the replay.
 
 Interactive affordances — cancel, retry, approve — are real controls live and
 nonsense against history. They are **capability-flagged through the feed**

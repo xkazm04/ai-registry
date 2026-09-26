@@ -57,6 +57,27 @@ answer — is falsified. The resolution is **disclosed compression**:
   timeline keeps true record time, and turning compression off restores
   honest tempo without re-deriving anything.
 
+Three conditions came out of the tools that already do this:
+
+- **Compression is a toggle, never the only way to watch.** What the
+  compressor calls idle is only *nothing recorded*. Session-replay tools have
+  skipped real activity their capture missed, and in an agent run a
+  silence is often a wait on a model or a tool, which can be exactly what
+  the viewer opened replay to see. Default it off where the replay is
+  evidence, and label a skipped stretch "no record", not "idle".
+- **The compressed-to-record map is measured, and everything goes through
+  it.** Once playback runs on a shortened axis, every seek, marker and quoted
+  time has to cross the same map back to record time. One player takes its
+  start position in record time and its markers in compressed time. Another
+  predicted positions on a compressed video instead of measuring them and
+  drifted by minutes, and no test caught it because the prediction agreed
+  with itself.
+- **The genre sets the default.** Terminal-cast players cap idle time
+  silently, by design, from a limit the recording itself carries. That fits
+  a demo. A replay that is evidence does not inherit it, and fast-forwarding
+  through a painted, marked region keeps order and tempo legible where a cut
+  keeps neither.
+
 ## The transport state machine
 
 Small, closed, and explicit: `idle → playing ⇄ paused → ended`, with `seek`
@@ -68,7 +89,9 @@ naive implementations are the ones that carry the contract:
   knowing its gaps.
 - **seek during play** resumes playing from the target; **seek while
   paused** stays paused — the gesture moves the viewpoint, never toggles
-  intent.
+  intent. This is the media element's own contract: its seek never touches
+  the paused state. The one exception is a seek to the end while playing,
+  which ends playback like any other arrival there.
 - **ended** is not closed: the playhead sits at the end, the whole run is
   scrubbable, and replaying is one gesture. The second viewing — the one
   where the viewer knows what to look for — is the point of the feature.

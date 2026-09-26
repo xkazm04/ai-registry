@@ -4,98 +4,85 @@ type: application
 subject: time-travel-replay
 technique: timeline-derivation
 stack: react
-verified_on: 2026-08-18
+verified_on: 2026-09-26
+verified_against: react@19
+applied: code
+ab_verdict: better
 ---
 
-# useReplayTimeline — where the execution replay's timeline comes from, and where it is invented
+# useReplayTimeline — a tempo fix that tested green and never reached the Replay tab
+
+Re-verified 2026-09-26 against `personas` master at `a8cb3aa62` (React
+`^19.2.6`), and after this run's fix. The first version of this document
+(2026-08-18) recorded log lines stamped by index; the fix it proposed landed
+on 2026-09-02 and was undone by an unrelated change two weeks later, without
+a failing test. That history is the lesson, so it is kept.
 
 `src/hooks/execution/useReplayTimeline.ts` derives the sandbox's timeline
-from two records: `execution.tool_steps` (a `ToolCallStep[]` with recorded
-`started_at_ms` / `ended_at_ms`, `src/lib/bindings/ToolCallStep.ts`) and the
-persisted execution log fetched by `getExecutionLog` (`ReplaySandbox.tsx:39`).
-The two halves land on opposite sides of the technique.
+from two records: `execution.tool_steps` (recorded `started_at_ms` /
+`ended_at_ms` per step) and a page of the execution log fetched by
+`getExecutionLogLines` (`ReplaySandbox.tsx:45`). The record's writer and
+reader are described in [rust--timeline-derivation](./rust--timeline-derivation.md).
 
-## The recorded half: tool steps
+## The tempo: recorded, then lost at the reader
 
-Tool-step state at the playhead is a pure positional derivation (`:139-153`):
-`completedSteps` = ended ≤ *t*, `activeStep` = started ≤ *t* < ended (or
-never ended), `pendingSteps` = started > *t*. Nothing is stored; the three
-lists are memoized folds over the record and `currentMs`. Boundaries for
-stepping (`:199-206`) are the union of recorded start/end stamps plus `0` and
-`totalMs`, sorted — the "ordered by recorded time" rule, with the honest
-consequence that an unclosed step (`ended_at_ms == null`) stays *active
-until the end* rather than being assigned a duration (`:146`).
+`parseLogTimestamps` (`:219`) reads the `[rfc3339]` prefix the engine logger
+writes on every line, anchored by `LOG_TIMESTAMP_RE` (`:202`). Lines are
+placed at the time they were written; unstamped continuation lines are
+interpolated between their stamped neighbours and carry `recorded: false`
+(`:22`). Only a log with no stamps at all falls back to the old even spread,
+`(index / Math.max(texts.length - 1, 1)) * totalMs` (`:265`). Silences are
+computed only from recorded lines (`findSilences`, `:316`), with a floor of
+2 s or 2% of the run, and the scrubber hatches them only when the tempo was
+recorded (`TimelineScrubber.tsx:138`). That is the technique's gap rule done
+properly: an apportioned gap is never shown as a silence.
 
-## The invented half: log lines
+On 2026-09-17 the replay switched from the full-file read to the paged
+`get_execution_log_lines`, which served the text after `[STDOUT] ` with the
+stamp cut off. The parser found nothing and took the fallback on every run:
+0 of 523 stdout-bearing logs on the operator's machine reached the timeline
+with a tempo, the hatching and skip-silence were unreachable, and a
+cancelled run (no `duration_ms`, `totalMs = durationMs ?? recordedSpanMs ?? 0`,
+`:358`) lost its timeline. The hook's tests stayed green because they fed a
+whole stamped log string; no test fed the page the Replay tab receives.
 
-`buildTimelineLines` (`:75-85`) is the deviation the technique's gap rule
-exists for. Each line is stamped
+The fix, in this run (personas `281c02dc3`): the replay asks for a stamped page (`ReplaySandbox.tsx:45`,
+the command's opt-in `stamped` flag), the parser strips the stamp from the
+display text so the terminal shows what it showed before, and a new test
+block feeds a page in the command's exact shape, chrono's
+`2026-09-26T10:00:00.000000100+00:00` included. Its display-text test fails
+against the unmodified parser, and the bare-page test pins why the flag
+exists. Measured over the same 523 logs, the stamped page gives 523 of 523 a
+recorded tempo and 3,445 disclosed silences.
 
-```ts
-timestamp_ms: (index / Math.max(raw.length - 1, 1)) * totalMs
-```
+## Still open
 
-— **evenly spread across the run's total duration**. The `TimelineLogLine`
-type documents the field as "Estimated timestamp in ms from execution start"
-(`:16`), but nothing downstream carries that estimate to the viewer: the
-terminal panel (`ReplayTerminalPanel.tsx`) renders lines appearing at the
-playhead with no estimate marking, the scrubber shows no reconstructed
-region, and the lines-counter reads as measured (`lines_counter`, `:145`).
-The result is the technique's *interpolation* failure exactly: a run that
-emitted 2,000 lines in its first ten seconds and then waited nine minutes
-plays back as a steady trickle for nine and a half minutes. Tempo — the
-thing a viewer opens replay to read — is fabricated, and the fabrication is
-disclosed only in a type comment.
+- **Load failure reads as an empty log.** `getExecutionLogLines` failure is
+  `silentCatch`'d (`ReplaySandbox.tsx:49`), `logLines` stays null, and the
+  terminal says "scrub forward" (`ReplayTerminalPanel.tsx:256`) as if the run
+  were short. The reader adds to it: an unopenable file returns `Ok(vec![])`.
+  A blind recorder and an idle run still render identically.
+- **The page does not say it is a page.** The replay asks for the first 500
+  stdout lines and the counter reads `N/500` (`ReplayTerminalPanel.tsx:185`)
+  with no notice. 20 of the 523 logs are longer, and for them the page ends
+  between 52% and 99% of the way through the recorded span.
+- **Interpolated lines look recorded.** `recorded: false` exists on every
+  line but the terminal panel's line type does not accept it, so a
+  continuation line placed by interpolation renders like a stamped one.
 
-**The record already contains the truth the derivation discards.** The
-execution log writer stamps every line —
-`writeln!(w, "[{timestamp}] {msg}")` with an RFC3339 UTC stamp,
-`src-tauri/engine/src/logger.rs:60-62` — and `get_execution_log`
-(`src-tauri/src/commands/execution/executions.rs:633-658`) returns the file
-verbatim (secret-masked, not restructured). So `logContent` arrives with a
-real timestamp at the head of each line, and `buildTimelineLines` overwrites
-it with an index-proportional guess. This is the interpolation the technique
-forbids at its most avoidable: not "the evidence is missing, so we
-reconstruct", but "the evidence is present, so we ignore it". The fix is a
-parse of the leading `[…]` stamp relative to `execution.started_at`, falling
-back to the current interpolation *only for unstamped lines* — and rendering
-those as *ordering known, timing reconstructed* per the estimate-labeling
-technique. Doing this also makes log-track gaps real: dense bursts and idle
-stretches become visible on the scrubber for the first time.
+## Steps and cost
 
-## Gaps and coverage
+Unclosed steps are now bounded rather than left open to the end:
+`buildToolStepSpans` (`:183`) ends an open step at the next step's start, or
+the run's end for the last one (`const bound`, `:191`), and marks it
+`inferred_end: true`. Steps the engine closed itself at persist time arrive
+with no such mark, and that part of the defect sits in the writer.
 
-Because line timestamps are interpolated, **the log track cannot have gaps**
-— every idle stretch is filled with proportionally-spaced lines. The
-tool-step track *can* show gaps (steps are markers on the scrubber,
-`TimelineScrubber.tsx:120-145`), but nothing renders the space between them
-as disclosed silence versus dense activity; it's the same bar fill either
-way. So the derivation neither interpolates the step track (good) nor
-discloses its gaps (missing).
-
-Derivation failure is spelled the same as empty success in one place:
-`getExecutionLog` failure is `silentCatch`'d and logged (`ReplaySandbox.tsx:43`),
-leaving `logContent === null` → `allLines = []` → a terminal panel that says
-"scrub forward" (`ReplayTerminalPanel.tsx:185`) as if the log were simply
-short. A run whose log could not load and a run that emitted nothing render
-identically.
-
-## The accrual is a derivation of a derivation
-
-`accumulatedCost` (`:155-165`) is not a fold over recorded per-step costs
-(none are recorded on `ToolCallStep`); it apportions `execution.cost_usd` by
-*fraction of steps completed* plus a linear share of the active step. The
-panel discloses this — `ReplayCostPanel.tsx:41-46` prefixes the figure with
-`~` and its comment states the convention — which is the right instinct
-(per-datum, at the number), and by construction it reconciles to the settled
-total at *t = end*. Two things it does not do: state *what* the estimate is
-apportioned by (the viewer sees `~$0.0231`, not "estimated by step
-progress"), and coarsen its precision to match the evidence (four decimals
-of an apportionment). The dashed-curve `CostAccrualOverlay.tsx:95-107`
-comment is the more careful sibling: it explains that the curve *shape* is
-always a `* 0.95` proportional reconstruction regardless of whether span
-timing was captured — the per-trace `isSynthetic` badge from
-`SyntheticTrace.ts` labels a *different* fact than the one the curve
-fabricates. That per-trace-not-per-datum labeling gap is tracing's
-registered deviation (the consumer's deviation register#w5-tracing`);
-replay inherits it and adds the interpolated log track on top.
+`accumulatedCost` (`:413`) still apportions `execution.cost_usd` by step
+progress, because no per-step cost is recorded. `ReplayCostPanel.tsx:46`
+prefixes it with `~`, which is the right instinct at the right place, but it
+prints four decimals of an apportionment (`precision: 4`,
+`libs/useReplayState.ts:15`) and never says what the estimate is apportioned
+by. `CostAccrualOverlay.tsx:41` now decides its dashed "estimated" treatment
+per curve anchor (`curveIsEstimated`) rather than per trace. The comment at
+`:113-118` still describes the older per-trace meaning.

@@ -24,9 +24,18 @@ the hunt for the moment things turned. A scrubber that stutters for 300ms
 per sample does not merely feel slow; it **trains users not to scrub**, and
 they stop within a session or two. The feature then survives organizationally
 (the button exists, the demo works) while being dead in practice — worse
-than absent, because its existence blocks anyone from proposing it. Budget
-accordingly: scrub feedback belongs in the perceptual-immediacy class
-(~100ms), and the budget is per *sample*, not per gesture.
+than absent, because its existence blocks anyone from proposing it. That
+account is reasoned, not measured, and the budget does not need it. The
+budget is per *sample*, not per gesture, and it has two parts, because a
+drag is not a click:
+
+- a **discrete seek** (a click on the bar, a key press) belongs in the
+  perceptual-immediacy class, about 100ms;
+- a **drag** is animation, not a response. Perception-of-immediacy models
+  exclude drags from the 100ms class and give them a frame budget, and people
+  notice drag latency far below 100ms. The playhead and the cheap layer
+  track the pointer at frame rate, and the full surface catches up within
+  about 100ms of the pointer resting.
 
 ## Making position evaluation cheap
 
@@ -53,12 +62,19 @@ None is ever authoritative: a suspicious frame is settled by re-folding from
 zero, and the two must agree. A keyframe store that can disagree with the
 fold it summarizes — and win — is a corrupted replay with no arbiter.
 
+The commonest way to disagree is a code change, not corruption. A snapshot
+folded by last month's derivation, joined to this month's tail, yields a
+state neither version would produce, and event-sourced systems have shipped
+exactly that. Each keyframe carries the version of the derivation that
+folded it, and a mismatch discards the keyframe and re-folds from the
+record. A cache that outlives its derivation is not a cache.
+
 ## Preview-then-settle
 
 The scrub interaction itself is two-phase, because not all of the surface
 is equally cheap:
 
-- **While dragging**: update the cheap layer every sample — playhead
+- **While dragging**: update the cheap layer every frame — playhead
   readout, accrual overlays (prefix lookups), scrubber shading, a
   lightweight frame preview if one is precomputed. This layer must never
   miss the budget.

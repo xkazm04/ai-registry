@@ -85,6 +85,12 @@ a restyle lands on one surface and not the other, and within two quarters
 to manage but a certainty to design away — two hand-maintained presentations
 of one event vocabulary are the drift the one-authority law describes
 ([one-authority-per-vocabulary](../../../_laws.md#one-authority-per-vocabulary)).
+The rule is decided at the record's layer. It holds when the record sits at
+or below the live feed, and then every translation from record to screen is
+the live one, parser included. A record of rendered output has no live
+renderer upstream of it, so it gets a dedicated player whose fidelity is
+its capture. Neither kind re-makes the run's calls: a replay reads the
+model's answers and the tools' results, and never asks again.
 The seam that makes reuse possible — a feed abstraction upstream of
 rendering, time injected rather than read from the wall clock, side effects
 gated — is owned by [renderer-reuse](./techniques/renderer-reuse.md).
@@ -92,7 +98,7 @@ gated — is owned by [renderer-reuse](./techniques/renderer-reuse.md).
 ## The timeline is derived, never authored
 
 Everything the scrubber shows comes from **persisted, timestamped records** —
-event logs, spans, transcript entries — by a stated derivation. Two rules
+event logs, spans, transcript entries — by a stated derivation. Three rules
 carry the honesty:
 
 - **Gaps in the record are gaps on the scrubber.** A stretch with no records
@@ -103,6 +109,10 @@ carry the honesty:
   record ([derivation-names-recomputation](../../../_laws.md#derivation-names-recomputation)),
   rebuilt from it at any time, never a second store that can drift from the
   events it was built from.
+- **The derivation starts at the reader.** The command that pages, filters
+  or reshapes the record on its way to the timeline is part of the
+  derivation, gets tested in the shape it returns, and states what part of
+  the run it served.
 
 Ordering ties, unclosed items, clock anomalies, and the merge of several
 record streams onto one axis are owned by
@@ -125,7 +135,11 @@ transport's honesty rule: **compress dead air with a marker, never
 silently.** A run with eighteen idle minutes should not cost eighteen viewer
 minutes — but the compression must announce itself on the scrubber and in
 passing ("skipped 18m idle"), so elapsed time keeps its predicate
-([count-carries-predicate](../../../_laws.md#count-carries-predicate)). The
+([count-carries-predicate](../../../_laws.md#count-carries-predicate)).
+Compression is also a toggle and never the only way to watch. The
+compressor sees only what was recorded, and in an agent run a silence
+is often a model or a tool at work. Where a replay is evidence, it starts
+switched off. The
 transport vocabulary itself — play/pause affordances, keyboard conventions,
 scrubber grammar — is the same one media surfaces use
 ([media-playback](../../../ui-surfaces/shell-and-navigation/media-playback/media-playback.md)); replay adopts it
