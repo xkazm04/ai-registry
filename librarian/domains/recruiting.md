@@ -156,3 +156,24 @@ Six `applied.md` rows: four better (three simulation, one experiment), one
 unmeasurable, one unapplied. Impact: kp 4 contexts, 0 stale verdicts. Single-stack
 debt for this subject: cleared. Three single-lane leads banked. Yield high,
 dry_streak 0. See [[recruiting-funnel-metrics]].
+
+## 2026-09-26 - deepen: role-intake-conversation
+
+Dispatched by the Curator lane on "single stack (process)". Landed (1000fda4):
+- a react application of expansion-reflection (second stack), read from the
+  real intake studio: the card set's decline is structural, but the voice call
+  hands the requestor's pause to a 500 ms silence detector;
+- one flipped golden-path rule: deleting a proxy from the text is the weakest
+  lever, and removal binds only in what screens;
+- a new golden-path section: one requestor is one source;
+- three conditions on expansion-reflection: the ratio, pick provenance, the
+  pause as a parameter;
+- five corrected claims: context reinstatement, laddering, two mistake-frequency
+  claims, stacked questions;
+- both process applications re-verified to 2026-09-26, two wrong deviations
+  from 2026-08-20 withdrawn.
+
+Six `applied.md` rows: three better (all simulation, on the tree's own engine
+and rubric code), three unmeasurable. Impact: kp 2 contexts, 0 stale verdicts.
+Single-stack debt for this subject: cleared (points 5 -> 3). Two leads banked.
+Yield high, dry_streak 0. See [[role-intake-conversation]].
