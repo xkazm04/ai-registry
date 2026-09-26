@@ -898,3 +898,54 @@ Source-class tally (post-hoc, this run):
 - The blind lane's "(last term, last index)" and "backups need the old shares" both
   converged with sources. Its "generate-root necessarily stays unauthenticated" was already
   stale: one implementation authenticates it by default since 2.0.0.
+
+## Run dp-pa-0926 - priced-authority, a next second stack where the whole product is the never-persisted class
+
+Curator dispatch on "single stack (go)". The fleet map joins the subject to
+two projects. kp's `auth-session-rbac` is a real issuer: every session is a
+signed 7-day cookie that no table records. Personas' `commands-credentials`
+is the holder's side, which the subject's boundary gives to the credential
+vault, so it is a boundary join and not a seam.
+
+Seven claims were attacked against OpenBao at the pinned commit and at main
+`a87e8099`:
+- **Two refuted as levers.** Rotating the barrier key keeps old keys, so it
+  kills no batch token. Disabling the auth method has no check in the tree.
+- **One refuted as reference behaviour, three times.** Wrap tokens are
+  orphans. The inline token is never persisted, not persisted and then
+  revoked. A marked token looks up as not-found, with no state named.
+- **Conditions.** A self-describing token is as revocable as the live state
+  checked per use. A denylist fails open where a ledger fails closed. A
+  login's third write is its expiration entry. The signed wrap format is
+  reachable by header. Identity means the identity record, and the
+  collector is whoever holds the wrap.
+- **One deviation read from code.** The in-memory revocation shadow is
+  cleared under `entry.ID` after being claimed on `saltedID`. It is
+  recorded in the Go application and not reproduced.
+
+Convergence: the blind lane, the tree and the web lane each reached "an
+operator session must not be stateless", "a denylist fails open", and
+"identity-only re-read revokes by principal, not by device". That
+convergence placed the golden-path rewrite. 0 new techniques.
+
+Applied: 1 code `better` in kp (`460e805b`, the signed-in gate now re-reads
+the account), and 3 unapplied with return conditions. Impact: 0 stale
+verdicts. The kp and personas maps are rebuilt and committed locally,
+unpushed, on diverged branches.
+
+| subject | rung | last-pass yield | demand after | dry |
+| --- | --- | --- | --- | --- |
+| priced-authority | L3 | 1 application (next), 2 levers refuted, 3 reference claims corrected, 8 conditions, 1 retracted "no deviation", 1 code fix, 0 techniques | 0 stale (3 unjudged pairs, 2 projects) | 0 |
+
+Source-class tally (post-hoc, this run):
+- Raw source at a pinned commit and at main settled every refutation. The
+  vendor doc on key rotation was the one prose source that decided a claim,
+  and only because it described the code's keyring.
+- An RFC (7009, section 3) and a community cheat sheet framed the stateless
+  alternatives. Neither decided anything alone.
+- The denylist-fails-open claim had no vendor or standards source. It
+  landed on the tree's own code comment plus two independent lanes, never
+  on the one secondary issue found.
+- The run's own first count of "routes without a capability check" matched
+  only the require* gate names and missed `can()`. A route read caught it. The
+  recount covers every capability reader, and the application cites it.

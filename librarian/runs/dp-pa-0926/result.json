@@ -1,0 +1,85 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-pa-0926",
+  "skill": "deepen",
+  "skill_version": "1.3.1",
+  "mode": "interactive",
+  "domain": "software-engineering",
+  "started_at": "2026-09-26T14:30:00Z",
+  "ended_at": "2026-09-26T15:15:16Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 2,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/priced-authority",
+      "at": "2026-09-26",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "software-engineering/priced-authority",
+      "technique": "never-persisted-token-class",
+      "verdict": "better",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/secret-custody-and-issuance/priced-authority/priced-authority.md",
+    "knowledge/software-engineering/secret-custody-and-issuance/priced-authority/techniques/approver-not-requester.md",
+    "knowledge/software-engineering/secret-custody-and-issuance/priced-authority/techniques/inline-auth-cannot-lease.md",
+    "knowledge/software-engineering/secret-custody-and-issuance/priced-authority/techniques/never-persisted-token-class.md",
+    "knowledge/software-engineering/secret-custody-and-issuance/priced-authority/techniques/single-use-cubbyhole-wrap.md",
+    "knowledge/software-engineering/secret-custody-and-issuance/priced-authority/techniques/write-ahead-revocation-marker.md",
+    "knowledge/software-engineering/secret-custody-and-issuance/priced-authority/applications/next--never-persisted-token-class.md",
+    "knowledge/software-engineering/secret-custody-and-issuance/priced-authority/applications/go--never-persisted-token-class.md",
+    "knowledge/software-engineering/secret-custody-and-issuance/priced-authority/applications/go--secondary-index-before-primary.md",
+    "knowledge/software-engineering/secret-custody-and-issuance/priced-authority/applications/go--single-use-cubbyhole-wrap.md",
+    "knowledge/software-engineering/index.json",
+    "rules/ai-registry-software-engineering.md",
+    "catalog.json",
+    "librarian/applied.md",
+    "librarian/domains/software-engineering.md",
+    "librarian/subjects/software-engineering/priced-authority.md"
+  ],
+  "commits": [
+    {
+      "sha": "ada3e95f",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/software-engineering/secret-custody-and-issuance/priced-authority"
+      ]
+    },
+    {
+      "sha": "fc47c546",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/software-engineering/index.json",
+        "rules/ai-registry-software-engineering.md",
+        "catalog.json"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [
+    {
+      "subject": "software-engineering/priced-authority",
+      "reason": "personas commands-credentials join: the holder side of a credential (OAuth/CLI capture), which the subject boundary assigns to credential-vault; a boundary join, not a seam"
+    },
+    {
+      "subject": "software-engineering/priced-authority",
+      "reason": "fix on kp unmerged per-session revocation branch (fails open, iat as device id): owned by another session and not landed; return when it lands"
+    }
+  ],
+  "failure_signature": null,
+  "notes": "Single stack cleared (next). 2 levers refuted, 3 reference claims corrected, 8 conditions, 1 retracted no-deviation. kp fix 460e805b better; kp map, kp applied row and personas map committed locally, unpushed (diverged)."
+}
