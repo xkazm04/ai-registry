@@ -466,3 +466,26 @@ shipped (not pushed), 2 not-better; five of the seven returned a condition the c
 rule lacked. Attention points barely moved - they measure consumer deviations, which only
 `/conform` clears. Owed: the post-merge map rebuild (223 stale verdicts before this run's
 digests moved), the other contributor's re-collect, 52 open leads.
+
+## Run dp-be0926 - bounded-enumeration, a second stack and no absolute left standing
+
+Curator dispatch on "single stack (go)". A Rust data service's paging surface was read and
+measured. It gave the second stack, and it gave the one measurement: a newest-first walk
+over a mutable `updated_at` misses a record updated mid-walk, and a change feed from the
+walk's high-water mark recovers it. Six claims were attacked. One was refuted as stated
+("a consistent view is unbounded by construction"); five were conditioned, and no new
+technique was earned (every convergence was a condition on an existing one). Scan points
+went from 5 to 0, after the landing plus this subject's first note. Seven joined
+maps were rebuilt: 10 pairs, all `unknown`, 0 stale verdicts.
+
+| subject | rung | last-pass yield | demand after | dry |
+| --- | --- | --- | --- | --- |
+| bounded-enumeration | L3 | 2 applications, 1 refuted-as-stated, 5 conditions, 0 techniques | 0 stale (10 unjudged pairs, 7 projects) | 0 |
+
+Source-class tally (post-hoc, this run):
+- The keyset reference text and the policy engine's own source code carried the
+  accepted claims.
+- The published API-design conventions did the refuting (opaque tokens, over-max
+  coercion, zero as unset).
+- One developer blog was the only written source for the mutable-order skip. It was
+  accepted only because the tree measured the same thing.
