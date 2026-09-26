@@ -103,3 +103,20 @@ switch can fail to turn off after a calibration apply. It is not fixed, because 
 held by a sibling. Single-stack debt for this subject: cleared (points 5 -> 3). Two
 single-lane leads banked. Yield high, dry_streak 0. See
 [[hiring-policy-defaults-and-tiering]].
+
+## 2026-09-26 - deepen: early-career-potential-assessment
+
+Dispatched by the Curator lane on "single stack (process)". Landed:
+- a react application (the second stack, read from the real tree);
+- eight golden-path claims conditioned on converged web and blind lanes (grades for new
+  graduates, observation as provenance not validity, the artifact heuristic, internship
+  access, velocity, computable domain distance, documentary dates, career stage as an
+  age proxy);
+- one flipped rule: an unmeasured input the candidate could supply takes the lowest
+  measured rung, not a reweight;
+- all three process applications re-verified to 2026-09-26, one false attribution
+  corrected.
+
+Five `applied.md` rows: one better (simulation, 3 real cases), two unmeasurable, two
+unapplied. Single-stack debt for this subject: cleared. Five single-lane leads banked.
+Yield high, dry_streak 0. See [[early-career-potential-assessment]].

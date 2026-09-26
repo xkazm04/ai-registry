@@ -5,6 +5,8 @@ subject: early-career-potential-assessment
 technique: readiness-rubric-replacing-years
 stack: process
 verified_on: 2026-09-26
+applied: simulation
+ab_verdict: better
 ---
 
 # The readiness rubric in a Python matching pipeline
