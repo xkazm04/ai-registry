@@ -1,0 +1,99 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-aic-0926",
+  "skill": "deepen",
+  "skill_version": "1.4.0",
+  "mode": "interactive",
+  "domain": "recruiting",
+  "started_at": "2026-09-26T15:48:04Z",
+  "ended_at": "2026-09-26T16:20:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 5,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "recruiting/application-intake-and-conversion",
+      "at": "2026-09-26",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": 3,
+      "points_after": 0
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "recruiting/application-intake-and-conversion",
+      "technique": "merge-dont-drop-on-reapplication",
+      "verdict": "better",
+      "mode": "code"
+    },
+    {
+      "subject": "recruiting/application-intake-and-conversion",
+      "technique": "always-live-submit-that-names-the-blocker",
+      "verdict": "better",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/recruiting/sourcing-and-intake/application-intake-and-conversion/application-intake-and-conversion.md",
+    "knowledge/recruiting/sourcing-and-intake/application-intake-and-conversion/techniques/always-live-submit-that-names-the-blocker.md",
+    "knowledge/recruiting/sourcing-and-intake/application-intake-and-conversion/techniques/eligibility-gate-versus-bot-defence.md",
+    "knowledge/recruiting/sourcing-and-intake/application-intake-and-conversion/techniques/merge-dont-drop-on-reapplication.md",
+    "knowledge/recruiting/sourcing-and-intake/application-intake-and-conversion/techniques/recoverable-decline-and-no-dead-ends.md",
+    "knowledge/recruiting/sourcing-and-intake/application-intake-and-conversion/techniques/speed-to-lead-acknowledgement.md",
+    "knowledge/recruiting/sourcing-and-intake/application-intake-and-conversion/techniques/tonally-neutral-eligibility-questions.md",
+    "knowledge/recruiting/sourcing-and-intake/application-intake-and-conversion/applications/node--merge-dont-drop-on-reapplication.md",
+    "knowledge/recruiting/sourcing-and-intake/application-intake-and-conversion/applications/react--always-live-submit-that-names-the-blocker.md",
+    "knowledge/recruiting/sourcing-and-intake/application-intake-and-conversion/applications/react--tonally-neutral-eligibility-questions.md",
+    "knowledge/recruiting/sourcing-and-intake/application-intake-and-conversion/applications/node--eligibility-gate-versus-bot-defence.md",
+    "knowledge/recruiting/sourcing-and-intake/application-intake-and-conversion/applications/node--speed-to-lead-acknowledgement.md",
+    "knowledge/recruiting/sourcing-and-intake/application-intake-and-conversion/applications/node--recoverable-decline-and-no-dead-ends.md",
+    "knowledge/recruiting/index.json",
+    "rules/ai-registry-recruiting.md",
+    "catalog.json",
+    "librarian/applied.md",
+    "librarian/domains/recruiting.md",
+    "librarian/subjects/recruiting/application-intake-and-conversion.md"
+  ],
+  "commits": [
+    {
+      "sha": "2a527bf0",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/recruiting",
+        "rules/ai-registry-recruiting.md",
+        "catalog.json"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [
+    {
+      "subject": "recruiting/application-intake-and-conversion",
+      "reason": "U.S. pre-offer disability self-identification rescinded in September 2026: law-firm summaries only, one lane, not verified against the Federal Register; banked as a lead"
+    },
+    {
+      "subject": "recruiting/application-intake-and-conversion",
+      "reason": "UK draft guidance placing human-set rules outside automated decision-making: a secondary summary, unverified against the regulator's text"
+    },
+    {
+      "subject": "recruiting/application-intake-and-conversion",
+      "reason": "the AI Act's delayed employment dates and a U.S. state law's replacement: law-firm summaries only"
+    },
+    {
+      "subject": "recruiting/application-intake-and-conversion",
+      "reason": "record-linkage review bands as a citation in the merge technique: blind lane only, removed before commit"
+    },
+    {
+      "subject": "recruiting/application-intake-and-conversion",
+      "reason": "\"bots skip natively hidden inputs\" as a rule: both lanes call it unmeasured, so the technique states it as plausible and unmeasured instead"
+    }
+  ],
+  "failure_signature": null,
+  "notes": "Four unmeasurable applied rows (decoy, verification lever, speed-to-lead, form length), instruments named. kp fix 327e40e00, map dc4c7cc24, rows 4287bd354 on kp local main, not pushed: it carries other sessions' unpushed commits. kp 6 contexts, 0 stale. 6 kp deviations recorded."
+}

@@ -262,3 +262,31 @@ Source classes, this run. Kept:
 
 Declined: two unverified secondary summaries (bullets vs prose, demonstration
 copying).
+
+## 2026-09-26 - deepen: application-intake-and-conversion
+
+Dispatched by the Curator lane on "never swept by the librarian". Landed (2a527bf0):
+- one flipped technique rule, converged in the tree, the blind lane and a code
+  A/B: merge-dont-drop. A match identifies and only the issued token writes. The
+  consumer had closed this on one door after an impostor-merge incident; its
+  quick form still merged a name-matched contactless entry, set the typed address
+  as contact of record and mailed it the status link. Fixed in kp 327e40e00;
+- two flips on converged web and blind lanes: form length is a real cost (the
+  golden path had said a longer honest form converts serious applicants better);
+  a summary of every blocker replaces "report one blocker";
+- six conditioned claims: speed-to-lead's minute scale is sales evidence,
+  disabled-button reach by navigation mode, the decoy is a signal never an
+  eligibility decline, verification as the faking lever, the knockout law's
+  jurisdictional reach, the mis-tap "known rate";
+- three node applications (every technique now has one) and all three existing
+  ones re-verified, one false fallback claim and one stale deviation withdrawn.
+
+Six `applied.md` rows: one better (code), one better (simulation), four
+unmeasurable with their instruments named. Impact: kp 6 contexts, 0 stale
+verdicts. Six kp deviations recorded as owed. Two leads banked. Yield high,
+dry_streak 0. See [[application-intake-and-conversion]].
+
+Source classes, this run: design-standard component pages and a controlled study
+read from its PDF decided the validation rows, and the study's web summary had
+inverted its finding; law-firm summaries were declined every time they stood
+alone.
