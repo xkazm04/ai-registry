@@ -6,7 +6,7 @@ technique: persist-before-provision
 status: forged
 laws: [creation-names-reaper, failure-not-empty-success]
 shared_with: []
-use_when: [ordering the lease write against the remote create, issuing from a node whose storage is read-only or degraded, a credential exists remotely that no local record accounts for, deciding what a caller receives when the ledger write fails]
+use_when: [ordering the lease write against the remote create, issuing from a node whose storage is read-only or degraded, a credential exists remotely that no local record accounts for, deciding what a caller receives when the ledger write fails, delivering a minted token through a file, claim slot or cache after the row that makes it valid]
 ---
 
 # Persist before provision
@@ -48,6 +48,20 @@ completed with the credential's identity and the computed expiry. On the
 remote's failure, the placeholder is deleted, and if the delete fails the
 placeholder stays as a witness that a sweep can inspect and discard, because
 a record with no credential identity is provably harmless.
+
+Mature issuers commonly skip the placeholder. They create remotely, then
+register the lease, and the register step revokes the just-created credential
+on any failure. That order meets the decision rules below for every failure the issuer lives
+through. What it leaves open is the crash between the two steps: nothing
+survives the dead process to name the credential. Only a placeholder or the
+remote's own expiry closes that window. So the placeholder is required where
+the remote artifact never expires on its own. Where it does expire on its own,
+the placeholder is a choice, and the remote expiry is the reaper for the crash
+case, as long as a lost record costs no more than an early death at the
+backstop. The compensation must also be armed before the first step that can
+fail. A register step that validates, generates an id or resolves a scope
+before it installs its revoke-on-error has failures the compensation never
+sees.
 
 Where the storage layer refuses writes as a class rather than as an event —
 a read-serving replica that forwards writes to a leader — the refusal arrives
@@ -98,6 +112,30 @@ if the caller's authority cannot be recorded, then a credential minted for it
 cannot be recorded either, and the issuer refuses the mint or revokes it in
 the same request and errors. An issuer that lets a non-persisted authority
 mint a persisted lease has created a credential whose parent no ledger holds.
+
+## When the issuer is also the verifier
+
+An issuer that mints tokens for its own API, and checks them against its own
+store on every request, makes no remote call. The record is the credential:
+inserting the row is what makes the token authenticate. The ordering rule does
+not disappear here. It moves to the one effect left, the **handout** of the
+plaintext. Stores that keep only a hash can deliver the plaintext exactly once,
+and it often travels through a second carrier: a file written after the
+insert, a single-use claim slot a pairing ceremony polls, or a process cache.
+If that carrier fails or expires after the insert, the result is the naive
+order's failure in a new shape. A credential authenticates, and nobody holds
+it.
+
+The rule carries over directly. Treat a failed handout like a failed lease
+completion: revoke the row you just inserted, using the identity still in hand,
+and return an error. Give every carrier that can expire no longer a life than
+the row it delivers. A claim window that closes on an unclaimed token revokes
+that token's row. It must not simply drop the plaintext. An approval that
+arrives after its claim window refuses before the insert. A mint guarded by a
+check-then-act cache holds the guard across the insert, or overlapping first
+calls each mint a row and only one row finds a holder. Minting the row
+disabled and enabling it on a confirmed claim is the stricter form, for
+carriers whose delivery can be confirmed.
 
 ## When not to apply it
 

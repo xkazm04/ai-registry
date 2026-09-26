@@ -5,7 +5,7 @@ subject: dynamic-secret-lifecycle
 technique: persist-before-provision
 stack: go
 status: forged
-verified_on: 2026-09-02
+verified_on: 2026-09-26
 verified_against: go@1.27
 ---
 
@@ -52,20 +52,31 @@ it loads the WAL entries from any failed rotations. The comment gives the
 reason - the loader must be able to delete from storage - and the shape is
 the technique's: prove writability with a real write, not a status read.
 
-## Deviation: the core does not revoke when the lease write fails
+## The event case: compensated inside Register, armed late
 
 The backend's check covers the class case (a node that cannot write at all).
 The event case - the remote create succeeded and the lease write then fails
-- lands in `internal/vault/request_handling.go:1552-1557`: `expiration.Register`
-fails, the error is logged, `ErrInternalError` is returned, and the secret the
-backend just created is not revoked. The remote user now exists with no
-lease. The same file does better for tokens: `request_handling.go:1637-1645`
-and `2500-2505` call `tokenStore.revokeOrphan` on registration failure before
-returning the error. The standard's rule - attempt the revoke immediately
-with the identity in hand, then error - is what the token path does and the
-secret path does not. The request runs under a storage transaction
-(`path_creds_create.go:76-80`, `EndTxStorage` at line 242), which rolls back
-the backend's own writes but cannot reach the remote.
+- reaches `internal/vault/request_handling.go:1552-1557`, which logs and
+returns `ErrInternalError`. The revoke happens one call deeper.
+`ExpirationManager.Register` (`internal/vault/expiration.go:1483`) installs a
+deferred rollback at `:1543-1567`: on any error it routes a `RevokeRequest`
+for the just-generated secret, deletes the lease entry and its token index,
+and appends any cleanup failure to the returned error. That is the standard's
+rule - revoke immediately with the identity in hand, then error - applied by
+the core for every backend. Token registration does the same at its own call
+sites (`request_handling.go:1637-1645`, `2500-2505`, `tokenStore.revokeOrphan`).
+
+The residue is narrower than a missing compensation. The defer is armed only
+after four early returns (`expiration.go:1486-1511`): no token entry on the
+request, `Secret.Validate()` failing, the lease-id random draw failing, and no
+namespace in the context. Each of them returns an error after the backend has
+already created the remote user, and none of them revokes it. The request's
+storage transaction (`path_creds_create.go:76-80`, `EndTxStorage` at line 242)
+rolls back the backend's own writes but cannot reach the remote.
+
+*Corrected 2026-09-26.* This section previously said the secret path does not
+revoke on a failed lease write. At this same commit it does, inside
+`Register`. The earlier reading stopped at the call site.
 
 The RabbitMQ engine handles its own partial failure the standard's way:
 `path_role_create.go:136-150` defers a `DeleteUser` that runs unless

@@ -41,7 +41,11 @@ is the one the lease stored at creation
 username, a serial, a resource name — and not a value re-derived from
 configuration that may have changed, because a revoke that computes the wrong
 identity finds nothing, reports absent, and succeeds against the wrong
-target. Absent must mean *this* identity is absent.
+target. Absent must mean *this* identity is absent **in the system it was
+created in**. A revoke that reads the connection from the role's current
+configuration, not from the lease, reports absent after an operator repoints
+the role at a different endpoint, and the credential it was meant to drop
+stays live where it was made.
 
 The mirror case is a revoke against a target that is present but already
 past its own expiry. Adding it to a published revocation artifact does
@@ -122,7 +126,12 @@ artifact that is the only enforcement left for those artifacts
 expired key is not the problem; deleting it removes the visibility of the
 revocations it guards). The key stays until every artifact it signed is past
 expiry plus buffer, and its removal is an operator's explicit act with that
-condition checked, never a side effect of a sweep. The issuer record itself
+condition checked, never a side effect of a sweep. Often that condition is
+already met the moment the issuer expires. It is met when the issuer refuses
+to sign an artifact past its own not-after, which is the default in common
+authorities, and no other certificate carries the same key. The rule bites
+where artifacts were allowed to outlive their issuer, or where the key was
+reissued or cross-signed under a later certificate. The issuer record itself
 may be pruned once its own expiry plus a buffer measured in months has
 passed — with one exception the sweep enforces rather than assumes: the
 issuer currently designated as the default is never removed by the sweep,

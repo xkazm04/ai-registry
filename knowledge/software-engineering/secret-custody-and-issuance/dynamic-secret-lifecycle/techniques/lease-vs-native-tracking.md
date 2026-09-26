@@ -85,9 +85,14 @@ Native tracking itself has a cost — one write per artifact and a store that
 the sweep must walk — and at the volumes where a certificate is issued per
 connection or per minute, an operator may need to opt out of it too. A role
 that stores nothing issues the artifact and keeps no record of it. The price
-is stated where the switch is: an artifact the issuer never recorded cannot
-be enumerated and cannot be revoked by identity, because the issuer holds
-nothing to build a revocation entry from. The mode is therefore for
+is stated where the switch is. The issuer cannot enumerate an artifact it
+never recorded, so it cannot find it to revoke. That is not the same as
+unrevocable. A revocation entry needs only the artifact's identity, and an
+issuer can still revoke an artifact **presented to it** once it verifies its
+own signature on it. A leaked certificate whose holder or finder hands it over
+can be revoked, and one nobody hands over cannot. A switch whose help text says
+"cannot be revoked" overstates the cost and pushes operators away from a mode
+whose real price is enumeration. The mode is therefore for
 artifacts that are non-sensitive or short-lived enough that revocation is
 meaningless before expiry, and the role that enables it says so; a role that
 stores nothing and also asks for a lease is contradictory, and the issuer
@@ -107,6 +112,14 @@ the lease as an opt-in on the issuing configuration, state its cost there,
 and keep native tracking on regardless — a leased certificate is still
 recorded natively, because the lease may be revoked before expiry and the
 native record is what the revocation artifact is built from.
+
+When callers already depend on a lease duration in the response, a
+self-expiring artifact may be leased with a revocation callback that does
+nothing. That covers short-lived federated credentials, which a remote
+authority ends on its own clock and cannot revoke by identity. The lease
+there is a lifetime contract with the client, not a reaper. It still costs an
+index entry and a restore, and the issuer says which of the two jobs it is
+doing.
 
 When the native store's sweep is disabled or unscheduled, the store grows
 without bound and the issuer's list operations are the first to fail;
