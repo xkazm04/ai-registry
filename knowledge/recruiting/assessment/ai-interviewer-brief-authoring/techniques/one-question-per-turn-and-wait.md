@@ -48,7 +48,9 @@ waiting explicitly — the wait is the half that gets dropped:
   leading probe wearing a helpful hat, and candidates take offered answers.
 - **Silence belongs to the candidate.** After a question, and after an answer that
   seems to have ended, the interviewer does not fill the pause. A few seconds of
-  quiet reliably produces the more honest continuation; the rescue instinct —
+  quiet produces longer, more complete continuations and fewer non-answers — the
+  wait-time evidence is consistent on that, though it comes from classrooms and
+  child interviews and says nothing about honesty; the rescue instinct —
   offering a hint, rephrasing, answering for them — cuts that sentence off. A
   candidate using silence to think is not a candidate who cannot answer, and
   [uncertainty about which one it is resolves toward the candidate](../../../_laws.md#uncertainty-resolves-toward-the-candidate).
@@ -101,6 +103,11 @@ The rule is usually written and usually obeyed at the sentence level while being
 violated at the turn level: the interviewer asks one question, receives the
 answer, and immediately asks a follow-up plus a new topic in the same turn.
 Checking compliance means counting question marks *and* counting distinct askable
-propositions per turn — the second number is the real one. The other quiet
-failure is a brief that forbids stacking without authorising interruption, which
-trades one coverage failure for another.
+propositions per turn — the second number is the real one. A detector that counts
+question marks is a lower bound and must be labelled as one: the commonest stacked
+turn is "why X, and what would you change?" — two askable propositions, one
+question mark. The fixtures that define a *passing* interview need the stricter
+count applied to them too, because a hand-written passing transcript that stacks
+teaches every check built on it that stacking passes. The other quiet failure is a
+brief that forbids stacking without authorising interruption, which trades one
+coverage failure for another.

@@ -25,7 +25,9 @@ Two failures converge on the same remedy.
 proper noun passes through a recogniser that has no idea what a technology name
 is. Framework names collapse into ordinary words, product names become
 homophones, and the corruption is worst on exactly the terms a scorecard most
-wants: the specific, low-frequency ones. A faithfully quoted transcript can
+wants: the specific, low-frequency ones — one recent measurement put a current
+open recogniser's error rate on named entities at more than four times its rate
+on the words around them. A faithfully quoted transcript can
 faithfully quote a mishearing, and a near-verbatim evidence discipline will then
 carry it into a rating, an explanation, and eventually into something a candidate
 reads about themselves. Worse, the interviewer typically echoes the corrupted
@@ -62,10 +64,20 @@ entire brief.
 - **Place it before the wrap-up, not as the wrap-up.** It needs a turn where the
   candidate can still correct at length. Merged into "any questions for us?" it
   gets a polite "yes, that's right" and measures nothing.
-- **Make correction the expected response, not the exceptional one.** "Let me
-  check I have these right — correct me where I'm off" invites the correction. "I
-  heard X, Y and Z, is that correct?" invites agreement, and candidates agree with
-  interviewers.
+- **Make correction the expected response, not the exceptional one.** Respondents
+  favour "yes" on a confirmation probe — measured with an automated interviewer in
+  2025 — and the likelier failure is quieter still: a listed item that is wrong is
+  more often let pass than either confirmed or corrected. "Let me check I have
+  these right — correct me where I'm off" is the obvious counter-framing; no study
+  has yet shown it raises correction rates, so treat it as a design choice, not a
+  remedy.
+- **A blanket "yes" confirms the list was heard, not each item on it.** A read-back
+  of five items answered with one assent is five unexamined items. Make each item
+  answerable on its own — short groups, or a pause the candidate can use per item
+  — and when one is uncertain, ask the candidate to name it rather than to agree
+  with a guess. Then fix it at the source, in the brief: discounting blanket
+  assent afterwards, in the scorer, throws away every correctly heard item along
+  with the misheard one.
 - **A correction supersedes everything earlier in the transcript.** State this in
   the brief and state it again wherever the transcript is consumed: the corrected
   form wins over any earlier occurrence, including more numerous earlier

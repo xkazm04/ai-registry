@@ -13,17 +13,31 @@ use_when: [writing the probing rules of an interviewer brief, an answer was thin
 
 When an answer is thin, the follow-up asks something *smaller* inside the same
 topic. It does not ask the same question again, and it does not ask a bigger one.
-A verbatim re-ask is the single most damaging conversational move an interviewer
-makes, and it is the one an untrained interviewer reaches for first.
+A verbatim re-ask is the move an untrained interviewer reaches for first, and in a
+competency interview it is the wrong one.
+
+That is a deliberate departure from a mature doctrine, and it should be written
+knowing so. Standardised survey interviewing *prescribes* the verbatim repeat —
+"repeat it exactly as written" is a field-manual instruction — because it is the
+only probe that adds nothing of the interviewer's own, and a survey item has an
+answer set the respondent is steering toward. A competency question has no answer
+set; the respondent who gave a thin answer often does not know what kind of
+answer was wanted, and a repeat does not tell them. Where the survey doctrine was
+tested against a looser, clarifying style, the looser style was far more accurate
+for respondents whose situation fit the question awkwardly, and no better for the
+rest, at several times the length. The narrowing ladder is this subject's version
+of that clarifying move, and it inherits the risk the survey doctrine was built
+to avoid — see "Rules for the brief".
 
 ## Why repetition is worse than moving on
 
-A repeated question carries a message the interviewer did not intend to send: *you
-failed that*. It is a verdict delivered by structure rather than words, which is
-why it survives briefs that carefully ban verdicts in prose. The candidate now
-knows they are behind, and interview anxiety depresses performance for the rest of
-the conversation — most sharply for the least confident, which makes this a
-fairness defect and not merely an awkward moment.
+A repeated question can carry a message the interviewer did not intend to send:
+*you failed that*. It is a verdict delivered by structure rather than words, which
+is why it survives briefs that carefully ban verdicts in prose. The candidate now
+believes they are behind, and anxiety costs interview performance — modestly, but
+in a direction the job does not share, since interview anxiety barely predicts
+performance in the role. That makes it a fairness defect and not merely an
+awkward moment.
 
 It is also uninformative. There are at least three reasons an answer came back
 thin: the candidate lacks the experience, the candidate has it but did not
@@ -51,9 +65,13 @@ rung — not to the bottom.
 
 Rungs 3 and 4 are where a lived claim separates from a rehearsed one. Someone who
 did the work has details and they are irregular; someone who has read about the
-work has structure and no grit. That is why narrowing is both the fairer move and
-the better probe — it is not a concession to nervous candidates, it is the
-technique that produces the strongest evidence in the transcript.
+work has structure and no grit. That is the case for narrowing as the better
+probe as well as the fairer one — and it is a practitioner's case, not a measured
+one: research on probing in structured employment interviews is close to
+nonexistent, and the one line of it that exists found probing *increased*
+faking, because applicants read the probe as a cue to what mattered. Narrowing
+earns its place by being planned and even-handed, not by being assumed to
+extract truth.
 
 ## Rules for the brief
 
@@ -63,6 +81,12 @@ technique that produces the strongest evidence in the transcript.
 - **The probe is neutral about content and directive about topic.** It may say
   *what to talk about*; it may never suggest what the answer is. Any follow-up
   that could be answered "yes, that" is leading and is a defect.
+- **The rungs are written before the interview, per item, and every candidate
+  gets the same ones.** A narrowing question improvised live is authored by the
+  interviewer, and whatever it emphasises is a cue. Planned neutral probes,
+  applied equally across applicants, is the structured-interview literature's own
+  recommendation for exactly this reason; it is also what keeps a thin-answer
+  follow-up from being a signal that only the weaker candidates receive.
 - **Verify claims with the same neutral instrument.** Where a candidate states a
   number, a scope, or an ownership claim, the narrowing question is asked of
   strong claims and weak ones alike — over what period, measured how, what was
@@ -73,7 +97,10 @@ technique that produces the strongest evidence in the transcript.
 - **Stop on coverage, not on count.** The topic is done when there is enough
   material to score it, which may be one turn or four. A fixed follow-up count
   produces interviewers that pad an already-answered topic and abandon an
-  unanswered one.
+  unanswered one. Human interviewers do the padding unprompted: in a 2025 field
+  experiment over roughly seventy thousand applications, recruiters asked more
+  follow-ups than the automated interviewer, concentrated on answers that already
+  held enough.
 - **Never announce how many questions remain.** It converts the conversation into
   a countdown, invites the candidate to ration their answers, and — because
   coverage rather than count decides length — it is a number the interviewer

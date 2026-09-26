@@ -34,7 +34,17 @@ struggled produces a transcript with no such turn, and the axis is then either
 scored on nothing or quietly imputed from general impression — which is
 [absence of evidence rendering as evidence](../../../_laws.md#absence-of-evidence-is-not-evidence).
 A mandatory hint manufactures the observation for everyone, on purpose, at a cost
-of one turn.
+of one turn. The dynamic-assessment literature — the discipline that measures
+learning from help given in the room — agrees on the mandatory half: in a review
+of two dozen studies, the assessments whose help was *not* contingent on the
+learner's response predicted better than those that helped only on struggle.
+
+It does not support reading much into the observation. That literature scores
+learning potential across several graded prompts — how many hints a person needed,
+over several items — and even then its incremental validity is modest. One hint
+yields one observation with three or four possible outcomes, confounded by how
+good the hint was, how hard the item was and how close the candidate already
+stood. That is a note, not a rating.
 
 The hint must be delivered without announcing itself as an instrument (see
 praise-and-verdict-suppression): it is offered the way a colleague offers a
@@ -53,8 +63,8 @@ written in the brief as a small block rather than scattered:
   for the record.
 - **Never penalise nerves.** Hesitation, restarts, filler, a long pause, a shaky
   voice — none is evidence about competence. Anxiety depresses observable
-  interview behaviour and does so hardest on the least confident, so scoring it
-  imports a bias that has nothing to do with the job.
+  interview behaviour while barely predicting how the person performs in the job,
+  so scoring it imports variance that has nothing to do with the job.
 - **Never penalise imperfect language.** Where the conversation happens in a
   language that is not the candidate's first, fluency is only a competency if the
   role actually requires it at that level. Grammar, accent, and vocabulary
@@ -76,6 +86,17 @@ written in the brief as a small block rather than scattered:
 - **What happened after the hint is what gets recorded.** Did the candidate take
   it, extend it, question it, or ignore it? That turn is the evidence; the hint
   itself is not.
+- **One hint supports a recorded observation, not a scale rating.** Where the
+  rubric scores coachability on a multi-point scale, the axis needs more than one
+  hint event — a short graded ladder inside one item, or one hint in each of
+  several items — before a number is written. With one event, record the outcome
+  in words and label the axis low-reliability wherever the number would otherwise
+  be read.
+- **A hint that never happened leaves the axis unassessed, not average.** A
+  scorer that fills a missing observation with the scale's midpoint has read
+  absence of evidence as a middling result, and the midpoint is then averaged into
+  everything downstream. Where the conversation's own record can show whether the
+  hint turn occurred, the scorer consults it before writing the axis at all.
 - **If the rubric has no learning or coachability axis, the hint is still worth
   one turn** as an anxiety floor — but it should not then be mined for a rating,
   because a rating needs an axis it was designed for.

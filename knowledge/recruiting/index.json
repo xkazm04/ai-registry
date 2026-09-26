@@ -5,7 +5,7 @@
   "source": "knowledge/recruiting/ (frontmatter only)",
   "subjects": 64,
   "techniques": 384,
-  "applications": 209,
+  "applications": 211,
   "laws": 11,
   "categories": [
    "role-definition",
@@ -270,9 +270,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/assessment/ai-interviewer-brief-authoring/ai-interviewer-brief-authoring.md",
-   "digest": "sha256-b2:bd1abf3c2a110a64",
-   "revision": 2,
-   "changedAt": "2026-09-20",
+   "digest": "sha256-b2:326772ee23e9392b",
+   "revision": 3,
+   "changedAt": "2026-09-26",
    "techniques": [
     {
      "slug": "closing-read-back",
@@ -367,19 +367,34 @@
      "stack": "node",
      "technique": "mandatory-coachability-hint",
      "file": "knowledge/recruiting/assessment/ai-interviewer-brief-authoring/applications/node--mandatory-coachability-hint.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-26",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "one-question-per-turn-and-wait",
+     "file": "knowledge/recruiting/assessment/ai-interviewer-brief-authoring/applications/node--one-question-per-turn-and-wait.md",
+     "verified_on": "2026-09-26",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
      "technique": "praise-and-verdict-suppression",
      "file": "knowledge/recruiting/assessment/ai-interviewer-brief-authoring/applications/process--praise-and-verdict-suppression.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-26"
     },
     {
      "stack": "process",
      "technique": "rule-ordering-adjacency-and-form",
      "file": "knowledge/recruiting/assessment/ai-interviewer-brief-authoring/applications/process--rule-ordering-adjacency-and-form.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-26"
+    },
+    {
+     "stack": "python",
+     "technique": "closing-read-back",
+     "file": "knowledge/recruiting/assessment/ai-interviewer-brief-authoring/applications/python--closing-read-back.md",
+     "verified_on": "2026-09-26",
+     "verified_against": "python@3.12"
     }
    ]
   },
