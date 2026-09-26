@@ -28,9 +28,9 @@
    "subcategory": "fairness-and-defensibility",
    "status": "forged",
    "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/adverse-impact-and-proxy-neutrality/adverse-impact-and-proxy-neutrality.md",
-   "digest": "sha256-b2:0ef3b23ae0de99c8",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:95d0051101c42c8d",
+   "revision": 2,
+   "changedAt": "2026-09-26",
    "techniques": [
     {
      "slug": "cohort-shield-is-not-a-protected-class-test",
@@ -120,19 +120,21 @@
      "stack": "node",
      "technique": "cohort-shield-is-not-a-protected-class-test",
      "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/adverse-impact-and-proxy-neutrality/applications/node--cohort-shield-is-not-a-protected-class-test.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-26",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "selection-rate-ratio-testing",
      "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/adverse-impact-and-proxy-neutrality/applications/node--selection-rate-ratio-testing.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-26",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
      "technique": "name-and-proxy-neutrality-perturbation-testing",
      "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/adverse-impact-and-proxy-neutrality/applications/process--name-and-proxy-neutrality-perturbation-testing.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-26"
     }
    ]
   },

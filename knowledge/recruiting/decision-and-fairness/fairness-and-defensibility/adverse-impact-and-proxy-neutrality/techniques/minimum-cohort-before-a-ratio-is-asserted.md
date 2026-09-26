@@ -30,13 +30,24 @@ convention with reasons rather than a law of statistics.
   not the point at which it becomes precise. Treat it as the boundary of
   admissibility, never as a quality bar.
 - It is a recognisable number. A floor a reviewer has seen before does not
-  itself become the argument.
+  itself become the argument. No regulation codifies it; the floors that are
+  codified are shares, not counts — a group below a small percentage of the
+  relevant pool may be excluded from a computation, and the exclusion is
+  disclosed.
 
 Raise the floor where the base rate is extreme. At a 3% selection rate, thirty
 considered candidates yields an expected one selection, and a ratio built on
 one person is arithmetic, not evidence. The honest secondary rule is a floor on
-the numerator too: **at least five selected in each compared group**, or the
-rate is too-small regardless of how many were considered.
+**expected** selections: **at least five expected in each compared group** at
+the pooled rate — the classical validity condition for an approximate test is
+about expected counts — and below it, switch to an exact test rather than
+withhold the rate.
+
+**Never put the floor on observed selections.** A minimum on how many *were*
+selected conditions on the outcome, and it hides exactly the group nobody
+selected: zero of a hundred against fifty of a hundred is the most severe
+result a gate can produce (p ≈ 10⁻¹⁹), and an observed-count floor reports it
+as too small to assess.
 
 ## Two qualifying groups, minimum
 
