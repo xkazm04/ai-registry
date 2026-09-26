@@ -1,0 +1,80 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-nes-0926",
+  "skill": "deepen",
+  "skill_version": "1.3.1",
+  "mode": "interactive",
+  "domain": "media-generation",
+  "started_at": "2026-09-26T12:00:00Z",
+  "ended_at": "2026-09-26T13:40:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "media-generation/narrative-engine-selection",
+      "at": "2026-09-26",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": 5,
+      "points_after": 0
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "media-generation/narrative-engine-selection",
+      "technique": "fit-vs-hazard-axes",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "media-generation/narrative-engine-selection",
+      "technique": "no-engine-means-no-video",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "media-generation/narrative-engine-selection",
+      "technique": "no-engine-means-no-video",
+      "verdict": "better",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/media-generation/narrative-craft/narrative-engine-selection/narrative-engine-selection.md",
+    "knowledge/media-generation/narrative-craft/narrative-engine-selection/techniques/adjudication-honesty-tells.md",
+    "knowledge/media-generation/narrative-craft/narrative-engine-selection/techniques/engine-catalogue-by-viewer-pleasure.md",
+    "knowledge/media-generation/narrative-craft/narrative-engine-selection/techniques/fit-vs-hazard-axes.md",
+    "knowledge/media-generation/narrative-craft/narrative-engine-selection/techniques/no-engine-means-no-video.md",
+    "knowledge/media-generation/narrative-craft/narrative-engine-selection/applications/process--adjudication-honesty-tells.md",
+    "knowledge/media-generation/narrative-craft/narrative-engine-selection/applications/process--engine-arbitration-order.md",
+    "knowledge/media-generation/narrative-craft/narrative-engine-selection/applications/next--fit-vs-hazard-axes.md",
+    "knowledge/media-generation/narrative-craft/narrative-engine-selection/applications/process--fit-vs-hazard-axes.md",
+    "librarian/applied.md",
+    "librarian/domains/media-generation.md",
+    "librarian/subjects/media-generation/narrative-engine-selection.md"
+  ],
+  "commits": [
+    {
+      "sha": "b8bdc11b",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/media-generation",
+        "catalog.json",
+        "rules/ai-registry-media-generation.md",
+        "librarian/applied.md",
+        "librarian/domains/media-generation.md",
+        "librarian/subjects/media-generation/narrative-engine-selection.md"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "First counter-evidence pass: 5 golden-path rules conditioned, none refuted, no new technique. A next application cleared the single-stack flag; the single tree remains. The map dry-run found 0 joins, so no project maps were written. 2 applied rows are unapplied."
+}
