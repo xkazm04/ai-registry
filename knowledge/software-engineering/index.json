@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 233,
   "techniques": 1813,
-  "applications": 1170,
+  "applications": 1171,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -12313,9 +12313,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/secret-custody-and-issuance/dynamic-secret-lifecycle/dynamic-secret-lifecycle.md",
-   "digest": "sha256-b2:7bdbed7832592b66",
-   "revision": 1,
-   "changedAt": "2026-09-02",
+   "digest": "sha256-b2:9d26f7a6264acd94",
+   "revision": 2,
+   "changedAt": "2026-09-26",
    "techniques": [
     {
      "slug": "expiry-buffer-beyond-lease",
@@ -12375,7 +12375,9 @@
       "ordering the lease write against the remote create",
       "issuing from a node whose storage is read-only or degraded",
       "a credential exists remotely that no local record accounts for",
-      "deciding what a caller receives when the ledger write fails"
+      "deciding what a caller receives when the ledger write fails",
+      "delivering a minted token through a file",
+      "claim slot or cache after the row that makes it valid"
      ]
     },
     {
@@ -12414,14 +12416,14 @@
      "stack": "go",
      "technique": "lease-vs-native-tracking",
      "file": "knowledge/software-engineering/secret-custody-and-issuance/dynamic-secret-lifecycle/applications/go--lease-vs-native-tracking.md",
-     "verified_on": "2026-09-02",
+     "verified_on": "2026-09-26",
      "verified_against": "go@1.27"
     },
     {
      "stack": "go",
      "technique": "persist-before-provision",
      "file": "knowledge/software-engineering/secret-custody-and-issuance/dynamic-secret-lifecycle/applications/go--persist-before-provision.md",
-     "verified_on": "2026-09-02",
+     "verified_on": "2026-09-26",
      "verified_against": "go@1.27"
     },
     {
@@ -12430,6 +12432,13 @@
      "file": "knowledge/software-engineering/secret-custody-and-issuance/dynamic-secret-lifecycle/applications/go--wal-per-external-side-effect.md",
      "verified_on": "2026-09-02",
      "verified_against": "go@1.27"
+    },
+    {
+     "stack": "rust",
+     "technique": "persist-before-provision",
+     "file": "knowledge/software-engineering/secret-custody-and-issuance/dynamic-secret-lifecycle/applications/rust--persist-before-provision.md",
+     "verified_on": "2026-09-26",
+     "verified_against": "rust@1"
     }
    ]
   },
