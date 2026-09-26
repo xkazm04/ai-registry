@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 233,
   "techniques": 1813,
-  "applications": 1175,
+  "applications": 1176,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -22179,9 +22179,9 @@
    "subcategory": "published-surfaces",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/published-surfaces/narrative-scroll-surface/narrative-scroll-surface.md",
-   "digest": "sha256-b2:fe3f94481540b4f2",
-   "revision": 2,
-   "changedAt": "2026-09-24",
+   "digest": "sha256-b2:e93abcf9f70a6c36",
+   "revision": 3,
+   "changedAt": "2026-09-26",
    "techniques": [
     {
      "slug": "illustration-carries-the-claim",
@@ -22241,7 +22241,8 @@
       "sections of a page appear as the reader scrolls to them",
       "a whole-page capture of an animated page comes out empty",
       "an accessibility sweep of a scroll-driven page finds nothing to report",
-      "deciding whether a reveal may mount its content"
+      "deciding whether a reveal may mount its content",
+      "a printed explanatory page comes out blank below the first screen"
      ]
     },
     {
@@ -22277,6 +22278,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "next",
+     "technique": "reveal-without-loss",
+     "file": "knowledge/software-engineering/ui-surfaces/published-surfaces/narrative-scroll-surface/applications/next--reveal-without-loss.md",
+     "verified_on": "2026-09-26",
+     "verified_against": "next@16.3.3"
+    },
     {
      "stack": "react",
      "technique": "motion-carries-the-mechanism",

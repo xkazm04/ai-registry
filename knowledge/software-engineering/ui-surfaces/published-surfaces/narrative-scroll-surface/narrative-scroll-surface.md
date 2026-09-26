@@ -223,7 +223,10 @@ has a symptom that does not look like a bug:
 - **An orientation tax.** Symptom: the page's first screen contains a
   decision. Or, measurably: the navigation's entries cannot be read at rest.
 - **Reveal that removed.** Symptom: a whole-page capture is mostly empty, or
-  the served markup does not contain the page's own argument.
+  the served markup does not contain the page's own argument, or the page
+  prints blank below its first screen when scripts are on. Print matches no
+  motion preference, so the reduced-motion rendering never reaches it unless
+  something routes it there.
 
 ## Where this subject stops
 
@@ -289,10 +292,18 @@ place, a caption states what to notice — and mechanics do not.
 - **A jump moves focus, not only scroll.** A reader who activates an index
   entry and receives only a scroll is left with their focus in the index,
   reading a list, while the visual reader is looking at the station.
-- **Motion driven by the reader is exempt from the stop-control obligation
-  that self-starting motion carries** — it stops when the reader stops — but
-  it is not exempt from the preference. Scroll-bound and self-starting are
-  different lifecycles, and only one of them owes a visible pause.
+- **Motion bound to the reader's position is exempt from the stop-control
+  obligation that self-starting motion carries** — it stops when the reader
+  stops — but it is not exempt from the preference. Scroll-bound and
+  self-starting are different lifecycles, and only one of them owes a visible
+  pause. The exemption is narrower than "the reader caused it". Motion
+  *triggered* by scrolling something into view is self-starting: the
+  accessibility guidance counts scrolling an element into view as an indirect
+  interaction, and motion started that way starts automatically. An entrance
+  that is over within five seconds owes no pause. A loop that starts on
+  arrival and keeps running does, whatever set it off. A smoothed curve that
+  keeps moving after the wheel stops stays reader-bound only while its tail
+  is short.
 
 ## The techniques
 
@@ -306,8 +317,10 @@ place, a caption states what to notice — and mechanics do not.
   copy, and the once-per-page rationing of flourish.
 - [scroll-bound-progression](./techniques/scroll-bound-progression.md) —
   per-station progress, the in-then-out envelope peaking at the reading
-  moment, spring smoothing over raw offset, per-column curves, the
-  paint-collision check for peaks above rest, and the reduced-motion collapse.
+  moment, spring smoothing wherever progress is sampled in script (and which
+  clock that is, read off the page), per-column curves, the paint-collision
+  check for peaks above rest, and the reduced-motion collapse that a library
+  switch does not deliver.
 - [no-orientation-tax](./techniques/no-orientation-tax.md) — the index as a
   you-are-here readout, legibility at rest as the test of whether entries are
   destinations, one reading direction, deep links that land on a station, and
@@ -315,8 +328,9 @@ place, a caption states what to notice — and mechanics do not.
 - [reveal-without-loss](./techniques/reveal-without-loss.md) — reveal as
   appearance over present content, the readers who never scroll and what each
   is owed, why a capture or an audit taken at the top of the page is an
-  instrument pointed at the wrong thing, and why the remedy that fixes a
-  latching reveal does nothing for a scroll-bound one.
+  instrument pointed at the wrong thing, why the remedy that fixes a
+  latching reveal does nothing for a scroll-bound or toggling one, and why
+  print needs its own route to the resolved state.
 - [motion-carries-the-mechanism](./techniques/motion-carries-the-mechanism.md)
   — motion whose payload is the trajectory: timing as a claim, a spatial time
   axis so any frame explains, one beat list feeding playback, stepping, the

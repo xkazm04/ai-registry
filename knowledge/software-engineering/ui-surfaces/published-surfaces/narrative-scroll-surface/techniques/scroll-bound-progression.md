@@ -97,6 +97,25 @@ Tune the lag by feel and then state it once, centrally. A stiffness number
 inlined per component is how a page ends up with six subtly different
 personalities.
 
+**The strobe belongs to one clock, and so does the spring.** A curve
+recomputed in script from a scroll event trails the scroll the reader already
+sees. Browsers move the visible scroll position off the main thread, and the
+event arrives after it. That trailing is the strobe, and smoothing is the
+remedy for it. A timeline the browser drives natively is a different case: a
+scroll-driven animation declared in the stylesheet, or a library path that
+hands progress to one. It is synchronized with the scroll by construction, and
+putting a spring in front of it brings back the lag the native path removed.
+So smoothing is owed wherever progress is sampled in script. With a native
+timeline it is a matter of feel, and it has a price.
+
+Which clock a page runs on is a fact to read from the page, not something to
+infer from a library's documentation. The page's running-animation list names
+the timeline of every animation. One measured station was written against a
+library that documents its offsets as eligible for the native path. Every one
+of its properties ran on the document clock, and 0 ran on a scroll timeline.
+A stylesheet scroll-driven animation checked on the same instrument showed its
+view timeline. So on that page the spring was earning its keep.
+
 ## Different weights get different curves
 
 Within one station, elements do not all deserve the same gesture. The
@@ -158,6 +177,17 @@ Turning off motion must never remove content
 ([deletion-is-not-repair](../../../../_laws.md#deletion-is-not-repair)); the
 resolved end state is the content, and the motion was only the route to it.
 
+This collapse is stricter than the vestibular rule, and it has to be authored.
+It is not inherited from a switch. Platform guidance treats a dissolve as a
+muted animation and not a vestibular trigger. An animation library's common
+reduced mode follows that guidance: it stops transforms and keeps opacity
+animating. For vestibular safety that is right. It does not make anything
+present. An entry state at zero opacity still waits for its trigger, so the
+reader who asked for less motion still has to scroll before the content
+exists. One measured page wrapped in such a mode had 40 of 40 cells of its
+evidence grid hidden at the top under the reduced preference. The collapse
+here is a presence rule: resolved, visible, and independent of position.
+
 Check the preference at the point where the gesture is composed, not inside
 every property, and make sure the collapse is the *first* thing decided — a
 subscription created and then bypassed is still a subscription.
@@ -210,7 +240,12 @@ specifics beyond the general rule:
 - A timer anywhere in the station's gesture.
 - Page-level progress as a station's input.
 - An envelope with no out phase.
-- Visible properties driven from raw scroll position without smoothing.
+- Visible properties driven without smoothing from scroll position sampled in
+  script.
+- A spring put in front of a timeline the browser already drives, without
+  naming the synchronization it gives up.
+- A claim about which clock a station runs on that nobody read off the page.
+- A library's reduced-motion switch taken as the collapse.
 - Several elements of one station animated from several different inputs.
 - A peak scale factor that no measurement derives.
 - A reduced-motion path that collapses to the initial state.
