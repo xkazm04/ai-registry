@@ -667,8 +667,8 @@
    "subcategory": "fairness-and-defensibility",
    "status": "forged",
    "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/automated-screening-fairness-gates/automated-screening-fairness-gates.md",
-   "digest": "sha256-b2:a371337f806367c8",
-   "revision": 2,
+   "digest": "sha256-b2:211a0516170db8f6",
+   "revision": 3,
    "changedAt": "2026-09-26",
    "techniques": [
     {

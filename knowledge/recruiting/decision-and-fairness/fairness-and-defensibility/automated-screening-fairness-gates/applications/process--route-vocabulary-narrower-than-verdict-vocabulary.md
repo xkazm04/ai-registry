@@ -6,6 +6,8 @@ technique: route-vocabulary-narrower-than-verdict-vocabulary
 stack: process
 status: forged
 verified_on: 2026-09-26
+applied: code
+ab_verdict: better
 ---
 
 # Two vocabularies in one prompt pipeline

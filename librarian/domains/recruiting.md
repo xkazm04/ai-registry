@@ -290,3 +290,31 @@ Source classes, this run: design-standard component pages and a controlled study
 read from its PDF decided the validation rows, and the study's web summary had
 inverted its finding; law-firm summaries were declined every time they stood
 alone.
+
+## 2026-09-26 - deepen: automated-screening-fairness-gates
+
+Dispatched by the Curator lane on "never swept by the librarian". Landed (60b1b9c0):
+- two flips on converged web and blind lanes. First, the shield's members are named by
+  the instrument's failure at any age, not by a career-stage label, because "college
+  student" and "recent college graduate" are named age terms and the ADEA polices
+  younger over older. Second, the recommendation stays in the record and is revealed
+  after the reviewer's own reading;
+- one new rule from the tree, measured in code: a trust-the-machine setting relaxes the
+  confidence narrowing and nothing else. kp's screening auto gate advanced shielded and
+  unknown-archetype candidates on the model's standing recommendation; fixed in kp
+  0faded607, 4 of 4 before, 0 after;
+- four conditioned claims: the human-review basis named, the regulatory direction dated
+  both ways, retention per jurisdiction, self-reported confidence a weak brake;
+- a node application of fail-closed-on-an-unclassifiable-candidate, and all three
+  existing applications re-verified. Four claims were wrong from the start, including
+  "one actionable field" and "no mechanism to add a cohort".
+
+Four `applied.md` rows: one better (code), one better (simulation), two unmeasurable
+with their instruments named. Impact: kp 8 contexts, 0 stale verdicts. Eight kp
+deviations recorded as owed. Three leads banked. Yield high, dry_streak 0. See
+[[automated-screening-fairness-gates]].
+
+Source classes, this run: regulation text and a court's own judgment read verbatim
+decided the two flips and the review-basis rewrite. Law-firm summaries carried the
+2027 state dates and were marked secondary. A search summary's "growing body of
+regulation" framing did not survive the federal register.

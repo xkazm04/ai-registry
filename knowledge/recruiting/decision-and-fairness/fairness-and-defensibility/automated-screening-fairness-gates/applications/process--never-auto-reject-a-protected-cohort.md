@@ -6,6 +6,8 @@ technique: never-auto-reject-a-protected-cohort
 stack: process
 status: forged
 verified_on: 2026-09-26
+applied: simulation
+ab_verdict: better
 ---
 
 # The shield in a spawned Python screening pipeline
