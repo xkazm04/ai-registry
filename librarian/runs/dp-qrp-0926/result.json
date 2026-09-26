@@ -57,7 +57,7 @@
   ],
   "commits": [
     {
-      "sha": "30b6b85b",
+      "sha": "93e38c2d",
       "branch": "main",
       "pathspec": [
         "knowledge/software-engineering/operations/service-operations/quorum-and-recovery-procedures",
