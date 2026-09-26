@@ -7,6 +7,8 @@ stack: node
 status: forged
 verified_on: 2026-09-26
 verified_against: node@24
+applied: simulation
+ab_verdict: better
 ---
 
 # Four momentum series as a first-match partition

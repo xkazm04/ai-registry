@@ -136,3 +136,23 @@ Dispatched by the Curator lane on "single stack (process)". Landed (b891e20f):
 Five `applied.md` rows: three better (code, experiment, simulation), two
 unapplied. Impact: kp 2 contexts, 0 stale verdicts. Single-stack debt for this
 subject: cleared. Yield high, dry_streak 0. See [[cv-authenticity-screening]].
+
+## 2026-09-26 - deepen: recruiting-funnel-metrics
+
+Dispatched by the Curator lane on "single stack (node)". Landed (d998700a):
+- a react application of the dwell technique (second stack), read from the real
+  tree;
+- a node application of the time-to-hire technique: a windowed duration drawn
+  from a creation cohort is capped by the window;
+- two flipped rules:
+  - offer acceptance: on a transition-dated window, resolved exceeding extended
+    is not a defect, and pending is a stock;
+  - forecast: the estimators' spread is not an interval (coverage 2-49% against
+    known truth);
+- six conditioned claims and three unsourced figures removed;
+- all three node applications re-verified to 2026-09-26.
+
+Six `applied.md` rows: four better (three simulation, one experiment), one
+unmeasurable, one unapplied. Impact: kp 4 contexts, 0 stale verdicts. Single-stack
+debt for this subject: cleared. Three single-lane leads banked. Yield high,
+dry_streak 0. See [[recruiting-funnel-metrics]].
