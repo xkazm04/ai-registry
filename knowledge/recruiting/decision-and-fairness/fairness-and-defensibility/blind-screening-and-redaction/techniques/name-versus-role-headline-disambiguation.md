@@ -43,8 +43,14 @@ default must be chosen on which error is survivable.
 ## The procedure
 
 1. **Test the candidate span against role vocabulary first.** A span containing
-   an occupational noun, a seniority modifier or a skill term is a role
-   headline, not a name, regardless of its position. Do not build a bespoke
+   a seniority modifier, or one whose tokens are *mostly* occupational nouns and
+   skill terms, is a role headline, not a name, regardless of its position. One
+   vocabulary hit is not enough. Surnames are words too, and a person whose
+   surname is a programming language or a trade carries exactly one skill term
+   in a two-token line. An any-hit rule files that person as a headline, their
+   name is never detected, and they get a partial blind run where an otherwise
+   identical twin gets a full one. Require the vocabulary to cover most of the
+   line. Do not build a bespoke
    stop-list for this: **reuse the same role and seniority vocabulary the
    scoring side already uses.** One vocabulary means the redactor's notion of
    "this looks like a role" cannot drift away from the assessment's, and every
@@ -62,9 +68,18 @@ default must be chosen on which error is survivable.
    the manifest will show a zero name count on a document that plainly belongs to
    someone. A destroyed headline is silent and unrecoverable. Choose the loud
    error.
-5. **Mask names found anywhere else in the document with full aggression.** The
-   caution in this technique is scoped to the headline slot only. In the body, a
-   name is a name.
+5. **Mask the full name anywhere in the document; mask a lone token of it only
+   where it reads as the person.** The caution does not end at the headline
+   slot. In the body, the full name is always a name. A lone given name or
+   surname is also a word, and which names are words depends on the language.
+   A month abbreviation takes the candidate's employment dates with it. A
+   programming language takes the skills line, a glued-hyphen compound takes a
+   term of art, and an employer takes the work history. Each loss falls on that
+   candidate alone. Keep a lone token that the scoring vocabulary reads as
+   evidence: a date, a skill, a compound. Mask it after a salutation or an
+   honorific, where it is a person again. Prove the result with
+   identity twins, a sibling technique, because each of these collisions was
+   found one candidate at a time.
 
 ## Decision rules for the neighbouring hard cases
 
@@ -100,7 +115,12 @@ default must be chosen on which error is survivable.
   organisation.** The category of the placeholder is part of the meaning, per
   [absence of evidence is not
   evidence](../../../../_laws.md#absence-of-evidence-is-not-evidence): typing it
-  wrongly tells the assessor a person stood where a company stood.
+  wrongly tells the assessor a person stood where a company stood. The reverse
+  collision is not decidable by shape: a candidate's surname that is also a
+  well-known employer in their history looks exactly like a self-named firm.
+  Masking it costs that candidate an employer name that an otherwise identical
+  document keeps. Choose the policy, and record the loss as a known gap in the
+  twin suite rather than letting it pass silently.
 - **When the document is in a language the vocabulary lists do not cover,
   escalate rather than degrade.** A masker running with the wrong language's
   vocabulary has both halves of its judgment wrong at once, and the honest
@@ -108,13 +128,25 @@ default must be chosen on which error is survivable.
 
 ## What this technique is not
 
-It is not a general named-entity problem to be solved by throwing a stronger
-extractor at it. A stronger extractor makes the same class of error less often
-and just as silently, and it introduces a new one: an extractor good enough to
-find names is good enough to *infer* attributes, which is a capability a blind
-pipeline must not exercise. The value here is in the stated defaults and the
-recorded exclusions — the decisions someone can argue with — not in the
-accuracy of the classifier.
+It is not a named-entity problem that a stronger extractor makes disappear, but
+a stronger extractor is not the wrong move either:
+- **The differences are large.** Measured recall across rule-based, tagging and
+  generative de-identifiers differs by large margins.
+- **A weaker extractor's misses fall unevenly.** Its misses are not only more
+  frequent: they fall disproportionately on some demographic groups' names.
+  That is under-masking correlated with the very attribute the mask exists to
+  hide, so staying with the weaker tool is not the neutral choice.
+- **A span tagger infers nothing.** A tagger that outputs only boundaries and a
+  label does not infer attributes, so layer one as a recall pass over the
+  patterns.
+- **The objection holds for a generative model.** It applies where the
+  model's output or context reaches the assessment. A redactor that can write
+  text can write an inference, and an inferred protected attribute is itself
+  special-category data where data-protection law reaches.
+
+Whichever extractor finds the names, the value here is in the stated defaults
+and the recorded exclusions, the decisions someone can argue with. The proof is
+in the identity-twin suite, not in the classifier's headline accuracy.
 
 ## When not to use this
 

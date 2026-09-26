@@ -4,7 +4,7 @@
   "bundle": "recruiting",
   "source": "knowledge/recruiting/ (frontmatter only)",
   "subjects": 64,
-  "techniques": 384,
+  "techniques": 385,
   "applications": 215,
   "laws": 11,
   "categories": [
@@ -19,7 +19,7 @@
    "measurement"
   ],
   "layout": "nested",
-  "use_when_coverage": "384/384",
+  "use_when_coverage": "385/385",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -796,9 +796,9 @@
    "subcategory": "fairness-and-defensibility",
    "status": "forged",
    "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/blind-screening-and-redaction/blind-screening-and-redaction.md",
-   "digest": "sha256-b2:bd2c716a06d6f420",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:919a2604a2b88047",
+   "revision": 2,
+   "changedAt": "2026-09-26",
    "techniques": [
     {
      "slug": "disclose-the-redaction-to-the-assessor",
@@ -841,6 +841,20 @@
       "defining what a redactor removes",
       "auditing an existing mask for gaps",
       "choosing a per-role masking level"
+     ]
+    },
+    {
+     "slug": "identity-twin-mask-invariance",
+     "status": "forged",
+     "laws": [
+      "meaning-does-not-live-in-a-label",
+      "absence-of-evidence-is-not-evidence"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "testing a redactor before trusting its blind claim",
+      "a masking fix was made for one candidate's name",
+      "choosing names for a redactor test suite"
      ]
     },
     {
@@ -892,19 +906,20 @@
      "stack": "node",
      "technique": "reattach-identity-only-after-the-verdict",
      "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/blind-screening-and-redaction/applications/node--reattach-identity-only-after-the-verdict.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-26",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
      "technique": "fail-closed-on-an-unmaskable-document",
      "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/blind-screening-and-redaction/applications/process--fail-closed-on-an-unmaskable-document.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-26"
     },
     {
      "stack": "process",
      "technique": "identity-signal-inventory",
      "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/blind-screening-and-redaction/applications/process--identity-signal-inventory.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-26"
     }
    ]
   },
@@ -7917,6 +7932,7 @@
     "automated-screening-fairness-gates/fail-closed-on-an-unclassifiable-candidate",
     "automated-screening-fairness-gates/route-vocabulary-narrower-than-verdict-vocabulary",
     "blind-screening-and-redaction/identity-signal-inventory",
+    "blind-screening-and-redaction/identity-twin-mask-invariance",
     "blind-screening-and-redaction/name-versus-role-headline-disambiguation",
     "candidate-archetype-routing/conservative-default-and-the-unrouted-state",
     "candidate-archetype-routing/one-registry-shared-across-runtimes",
@@ -8129,6 +8145,7 @@
     "automated-screening-fairness-gates/fail-closed-on-an-unclassifiable-candidate",
     "automated-screening-fairness-gates/never-auto-reject-a-protected-cohort",
     "blind-screening-and-redaction/identity-signal-inventory",
+    "blind-screening-and-redaction/identity-twin-mask-invariance",
     "blind-screening-and-redaction/name-versus-role-headline-disambiguation",
     "blind-screening-and-redaction/preserve-substance-while-masking-identity",
     "bulk-adverse-action-governance/unscored-excluded-never-coerced",

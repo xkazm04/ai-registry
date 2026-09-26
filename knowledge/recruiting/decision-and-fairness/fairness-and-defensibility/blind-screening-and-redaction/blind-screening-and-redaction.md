@@ -11,6 +11,7 @@ techniques:
   - fail-closed-on-an-unmaskable-document
   - disclose-the-redaction-to-the-assessor
   - reattach-identity-only-after-the-verdict
+  - identity-twin-mask-invariance
 ---
 
 # Blind screening and redaction
@@ -37,19 +38,36 @@ calls live entirely in the second half.
 A principal practitioner deploys this instrument with its evidence base stated,
 not with its marketing.
 
-The largest field evidence is discouraging. A national employment agency ran
-anonymised applications against a control arm at scale; anonymisation did not
-raise minority interview and hire rates and, among the participating firms,
-lowered them. The mechanism matters more than the sign: masking removed the
-context that let a *favourably disposed* recruiter read an employment gap or an
-unfamiliar institution charitably. Where a reader was going to discount a
-candidate, the mask helped; where a reader was going to make allowances, the
-mask took the allowances away, and the second effect was larger. A separate
-randomised shortlisting trial inside a large public service found the same
-shape: de-identification removed an existing thumb *on the candidate's side* of
-the scale. And the canonical screened-audition result that virtually every
-blind-hiring pitch cites has been re-examined; its headline figure does not
-survive its own standard errors, and some raw cells point the other way.
+The field evidence is mixed, and its sign follows the screeners. The largest
+trial, run by a national employment agency across several hundred volunteering
+firms, found that anonymised applications *widened* the minority interview gap.
+The hiring gap moved the same way, but that estimate is only weakly
+significant. The mechanism matters more than the sign. The firms that
+volunteered were already favourably disposed, and masking removed the context
+that let those recruiters read an employment gap or an unfamiliar institution
+charitably. That re-valuation explains a little over half of the widened gap.
+A framed shortlisting experiment inside a large public service found the same
+shape, on a hypothetical role with participants who knew they were in a study.
+Identified candidates from under-represented groups were already favoured, and
+de-identification removed the thumb *on their side* of the scale.
+
+Elsewhere the sign flips:
+- A municipal randomised trial raised interview rates for women and for
+  candidates of non-Western origin, and job offers for women.
+- A non-randomised national pilot sharply raised migrants' invitations. It also
+  removed an affirmative practice some employers had applied to women.
+- A real-process pilot in another public service found no effect for visible
+  minorities.
+
+A 2025 synthesis reads the pattern plainly: anonymisation reduces discrimination
+only where discrimination is high. So the first question is which of three
+conditions holds: discrimination, affirmative consideration, or equal
+treatment. Gains at the callback often fail to carry through to offers. And the
+canonical screened-audition result that virtually every blind-hiring pitch cites
+is weaker than the pitch. The popular headline figure outruns the published
+estimates, which the authors themselves flagged as imprecise, with one
+persistent effect in the opposite direction. A screen over a whole audition is
+also a different intervention from masking a document.
 
 None of that makes blind screening worthless. It relocates the claim. What
 survives scrutiny is a **procedural** claim, and it is a real one:
@@ -59,8 +77,9 @@ survives scrutiny is a **procedural** claim, and it is a real one:
 
 That is verifiable, auditable, defensible to a regulator, and meaningful to a
 candidate who suspects a name cost them a screen. What does not survive is the
-outcome claim — that masking will change who gets hired, in your organisation,
-in your direction. Where a team wants the outcome claim, they must measure it,
+outcome claim: that masking will change who gets hired, in your organisation,
+in your direction. The direction depends on a baseline you have not measured.
+Where a team wants the outcome claim, they must measure it,
 and measuring it is a different technique owned by a sibling subject: proving a
 name makes no difference to a score is done by **perturbation** — scoring the
 same document twice with the identity varied and comparing — not by masking.
@@ -98,11 +117,26 @@ unknown. Mask every organisation name and the assessor loses the ability to tell
 a two-person effort from a fifty-team programme. Mask a role headline as though
 it were a name and the document loses the single line that says what this person
 does. In each case the score comes back lower — and lower for reasons that have
-nothing to do with the candidate. Note the direction: **over-masking is not a
-neutral safety margin, it is an adverse action with no author.**
+nothing to do with the candidate. Measured on résumés, stripping gendered
+wording past a point degrades the screening itself. Note the direction:
+**over-masking is not a neutral safety margin, it is an adverse action with no
+author.**
 
-Under-masking is the failure everyone anticipates, and it is the less common one
-in practice precisely because it is the one people test for.
+Under-masking is the failure everyone anticipates. It is more common than its
+tests suggest, for two reasons:
+- **The tests check explicit identifiers against a few common names, and the
+  misses cluster elsewhere.** A redactor's misses fall on particular names and
+  inflections. Published name de-identification methods show recall gaps
+  across most demographic dimensions.
+- **A model reader recovers what the mask never meant to remove.** Gender
+  stays predictable from de-named, de-gendered résumés well above chance.
+  Current models recover ethnicity from language fields and gender from hobbies
+  with no identifier present.
+
+Masking the direct identifiers still matters. Removing the name removes most of
+a name's measured effect on a model's score. But it does not make the document
+anonymous, and the proof that a score is invariant comes from perturbation, not
+from the mask.
 
 So the governing rule of the whole subject is: **remove the binding to a person;
 preserve everything that carries capability.** Where a token does both, the
@@ -120,13 +154,25 @@ gives the only decision rule that scales:
 | **Protected-attribute markers** | gendered terms and pronouns, age and birth year, nationality, marital and family status, religious or political affiliation, military service | Masked by default. A removal here is almost never load-bearing for capability. |
 | **Correlates** | institution names, neighbourhood, hobbies, association memberships, the document's own language, graduation years | Per-role decision. This is where masking begins eating substance. |
 
+Masking a tier-2 marker from the assessor does not delete it from the process.
+Some duties depend on it: a veteran preference, a guaranteed-interview scheme
+for disabled applicants who opt in, an adjustment request for the assessment
+itself. There the marker travels to the people who discharge the duty on a
+separate channel, and a default mask with no such channel breaks the duty.
+Military service is also often work experience: mask the status, and keep the
+role, the duration and the scope.
+
 Not every signal is removed by editing spans. Some are removed by **choosing what
 you send**: the reliable way to keep a photograph, a signature and a document's
 visual styling away from an assessor is to hand over extracted, masked text
 rather than the original artifact. Channel substitution is the strongest tool in
 the kit precisely because it does not depend on the redactor recognising
 anything — but it is also why the fallback to sending the original must be
-closed off, since the fallback silently restores every signal at once.
+closed off, since the fallback silently restores every signal at once. It has a
+cost of its own. Where the assessor is a model, extracted text travels inside
+the prompt rather than beside it, so the candidate's text must be fenced and
+unable to close its own block. The move that removes the photograph is the
+same move that opens that surface.
 
 The third tier is where teams go wrong in both directions. Masking institution
 names removes a genuine class and age signal — and also removes the reader's
@@ -151,7 +197,10 @@ is read as a deficiency. A typed placeholder is the difference between "this
 candidate lists no employer" and "an employer name stood here". Separately,
 masking a screening copy is a fairness control, not a privacy guarantee: it says
 nothing about retention or re-identification of the stored original, which a
-governance sibling owns.
+governance sibling owns. As of 2026-09, Europe's highest court and data-protection
+regulators read it the same way. An employer that holds the original still
+processes personal data when it processes the masked copy. Monitoring for bias
+legitimately needs identity data, held apart from the screener.
 
 **A mask is irreversible downstream; a masked assessment is discardable.** You
 cannot un-see an identity that leaked into an assessor's context, but you can
@@ -195,7 +244,10 @@ infer or reconstruct anything that was masked.** A capable reader — human or
 model — will happily guess a gender from a hobby, a nationality from a language,
 an age from a technology generation. A blind pipeline that permits reconstruction
 has masked the page and not the process, and its identity fields must come back
-empty rather than filled with a guess.
+empty rather than filled with a guess. An empty field proves what the reader
+said, not what it used. Anti-bias instructions fail once realistic context
+surrounds the document, so the score's invariance is proven by perturbation or
+not at all.
 
 **Ordering is a fairness property.** Redaction happens before the assessment;
 identity is re-attached only after the verdict is sealed. The dangerous version
@@ -225,7 +277,16 @@ that is a fairness fact wearing a caching costume.
 - **Aggressiveness as a dial.** Teams under-confident in a redactor turn it up,
   and get a document that scores badly for reasons no one can name.
 - **Blind on the page, identified everywhere else.** Metadata, file naming, the
-  surrounding record, and the assessor's own memory of last week's screen.
+  surrounding record, and the assessor's own memory of last week's screen. It
+  also covers any enrichment keyed on identity, such as fetching a public
+  profile by the candidate's handle to add context. That step sits beside the
+  mask, so blind mode must drop the key before the enrichment runs.
+- **A mask whose errors follow the name.** A redactor tested on a handful of
+  common names passes, and then fails for particular people. A given name that
+  is a month takes the dates. A surname that is a skill defeats name detection.
+  A feminine inflection escapes an age pattern written for the masculine. Each
+  failure is an unequal instrument labelled as an equalising one, and each is
+  found one candidate at a time unless identity twins are in the suite.
 - **Sending the original away to prepare it.** Any hop that handles the unmasked
   document is a hop where identity can reach the assessor, so blind mode must
   fail closed rather than route the original through an uncontrolled channel.

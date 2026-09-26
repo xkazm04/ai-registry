@@ -4,70 +4,89 @@ type: application
 subject: blind-screening-and-redaction
 technique: fail-closed-on-an-unmaskable-document
 stack: process
-verified_on: 2026-08-20
+verified_on: 2026-09-26
 ---
 
 # Refusing the upload, and the three honest states (Python pipeline)
 
 ## The refusal, enforced at the send
 
-`pipeline/jobfit/gemini.py:528-548` is the fail-closed boundary, and its comment
+`pipeline/jobfit/gemini.py:708-727` is the fail-closed boundary, and its comment
 records the incident that produced it:
 
 > `blind_text is None` means blind was OFF (upload the file for full fidelity).
 > A NON-None but empty/blank value means blind was REQUESTED but the CV couldn't
-> be text-extracted (encrypted/scanned/unsupported PDF) — falling back to the
-> file upload here would send the original name/contact/photo to the model and
-> defeat blind mode entirely. FAIL CLOSED rather than leak: the previous code
-> collapsed both cases to `blind = False` and silently uploaded the file.
+> be text-extracted (encrypted/scanned/unsupported PDF) — falling back to the file
+> upload here would send the original name/contact/photo to the model and defeat
+> blind mode entirely. FAIL CLOSED rather than leak: the previous code collapsed
+> both cases to `blind = False` and silently uploaded the file.
 
 Two design points the standard calls for are visible here. First, **the check
-lives at the send**, not at the caller: `blind_requested = blind_text is not
-None` distinguishes "not asked for" from "asked for and unavailable" at the one
-place that could actually transmit the original. Second, the refusal is a raised
-`RuntimeError` with a *typed, actionable* message — it names the likely cause
-(encrypted, scanned, or unsupported document) and states the only safe way
-forward ("Disable blind screening for this CV to proceed") rather than emitting a
-generic failure.
+lives at the send**, not at the caller. `blind_requested = blind_text is not
+None` (`:718`) distinguishes "not asked for" from "asked for and unavailable" at
+the one place that could actually transmit the original. Second, the refusal is
+**typed**. It raises `GeminiError` with `subtype="blind_unavailable"`, one of
+the module's closed set of failure subtypes (`:52`), mapped to an
+invalid-input code the route can render (`:65`). Its message names the likely
+cause (an encrypted, scanned or unsupported document) and states the only safe
+way forward: "Disable blind screening for this CV to proceed".
 
-The blind prompt clause at `gemini.py:549-556` closes the other half — the
-assessor is told the identity has been redacted to placeholders, instructed "do
-NOT infer or guess any redacted identity", and required to "set `profile.name` to
-null". Blind mode also switches the CV from an attached file to an inline text
-block (`:582-590`), which is what removes the photo without any pattern for it.
+The blind prompt clause at `:728-731` closes the other half. The assessor is
+told the identity has been redacted to placeholders, instructed "do NOT infer or
+guess any redacted identity", and required to "set profile.name to null". Blind
+mode also switches the CV from an attached file to an inline text block, which
+is what removes the photo without any pattern for it. The send at `:820` passes
+`file=None if blind`.
+
+## What channel substitution costs
+
+Moving the CV from an attachment into the prompt makes it prompt text. A CV
+could then carry a marker that closes its own block and addresses the model as
+instructions. Commit `b64e23f82` fenced the blind block: the redacted text is
+capped, then passed through `defuse_fence_markers` between
+`<<<CV_TEXT_BEGIN>>>` and `<<<CV_TEXT_END>>>` (`:780-792`). The comment accepts
+the cosmetic cost that a pasted `>>>` comes back spaced out. The substitution
+that removes the photo is also the one that opens the injection surface, so the
+fence is part of the blind path, not an add-on.
 
 ## The three states, spelled differently
 
-`pipeline/jobfit/pipeline.py:142-169` is the clearest realization of the
-three-outcome rule in the repo. One branch per state, each with its own
-recruiter-visible note:
+`pipeline/jobfit/pipeline.py:178-228` is the clearest realization of the
+three-outcome rule in the repo. There is one branch per state, and each now
+emits a coded `Finding` with a severity and a scope, not free prose:
 
-- **Masked** (`:150-153`) — text was redacted *and* `redaction.name_detected` is
+- **Masked** (`:188-199`). Text was redacted *and* `redaction.name_detected` is
   true: "Blind screening active — identity redacted before scoring
-  (<categories>)."
-- **Partially masked** (`:154-168`) — text was redacted but no name was found.
+  (<categories>)." It is coded `blind_redaction_applied`, severity `ok`.
+- **Partially masked** (`:201-217`). Text was redacted but no name was found.
   The comment is the craft: "NEVER claim 'identity redacted' here — that is a
-  false fairness/compliance statement." The note instead reads "Blind screening
-  PARTIAL — no candidate name detected to redact (redacted: …); the name may have
-  reached the model. Verify manually." It also names the second misreading it
-  prevents — that the recruiter would otherwise read the missing name as
-  "anonymous candidate" rather than "redaction miss".
-- **Refused** (`:169-174`) — nothing extractable: "Blind screening could not run:
-  no extractable text to redact … Analysis halted to avoid sending the original
-  file to the model."
+  false fairness/compliance statement." The note reads "Blind screening PARTIAL
+  — no candidate name detected to redact (redacted: …); the name may have
+  reached the model. Verify manually." It is coded `blind_redaction_partial`,
+  severity `warn`. The comment also names the second misreading it prevents:
+  the recruiter would otherwise read the missing name as "anonymous candidate"
+  rather than "redaction miss".
+- **Refused** (`:218-228`). Nothing extractable: "Blind screening could not
+  run: no extractable text to redact … Analysis halted to avoid sending the
+  original file to the model." It is coded `blind_redaction_unavailable`,
+  severity `blocker`.
 
 The guard on the first branch is the load-bearing part: the note is emitted only
-when there is redacted text *and* a name was actually found, so the claim can
-never outrun the mask.
+when there is redacted text *and* a name was found, so the claim can never
+outrun the mask. The guard is only as good as the detector behind it. Until
+2026-08-22 a section header detected as the name satisfied it. See the
+inventory application.
 
 ## Where the standard is not met
 
-- **The refusal parks rather than routes.** The raised error halts the analysis;
-  there is no defined human-review fallback or candidate-facing path, so an
-  unmaskable document depends on someone noticing the failed run. The standard
-  requires the application to keep moving on an identified human path.
-- **No out-of-vocabulary language refusal.** A document in a language outside the
-  two the patterns cover is masked with the wrong vocabulary and proceeds as a
-  full "masked" state; the standard escalates instead.
-- **The refusal is not counted.** Nothing tracks a refusal rate over time, so a
-  redactor or intake regression that raises it stays invisible.
+- **The refusal parks rather than routes.** The typed error halts the analysis,
+  and there is no defined human-review fallback or candidate-facing path. An
+  unmaskable document depends on someone noticing the failed run and disabling
+  blind mode for it. The standard requires the application to keep moving on
+  an identified human path.
+- **No out-of-vocabulary language refusal.** A document outside English and
+  Czech gets its gendered and age markers matched with the wrong vocabulary and
+  proceeds as a full "masked" state. The standard escalates instead.
+- **The refusal is coded but not counted.** `blind_redaction_unavailable` makes
+  a refusal machine-readable, but nothing aggregates a refusal rate over time,
+  so a redactor or intake regression that raises it stays invisible.

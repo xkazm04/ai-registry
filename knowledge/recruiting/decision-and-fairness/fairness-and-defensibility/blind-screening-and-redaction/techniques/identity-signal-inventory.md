@@ -43,7 +43,14 @@ citizenship statements. Marital and family status. Military service status.
 Religious and political affiliation. Health and disability statements. Default:
 masked. These almost never carry capability, so removal is nearly free — which
 is exactly why they are the tier most often forgotten rather than most often
-argued about.
+argued about. "Masked" means masked from the assessor, not deleted from the
+process. Some duties depend on the marker: a veteran preference, a
+guaranteed-interview scheme for disabled applicants who opt in, an adjustment
+request for the assessment itself. Where one applies, the inventory records a
+separate channel that carries the marker to whoever discharges the duty, and
+a default mask with no such channel breaks it. Military service is also often
+work experience: the status is the marker, and the role, duration and scope
+are substance.
 
 Tier 1 also contains the entries no pattern can reach — a photograph, a
 signature image, the visual styling of the page. These are masked by **channel
@@ -109,6 +116,17 @@ step a caller can forget to take. An explicit flag makes the fail-open case
 impossible to miss by omission, and the mild redundancy is the cheapest
 insurance in the subject. When it is false, the pipeline may still proceed, but
 it may not say the document was redacted.
+
+The flag guards against omission, not against a wrong detection. It records
+that *a* name was masked, not that *the candidate's* name was. A detector that
+returns a section header as the name ("Personal details", in any of the corpus's
+languages) sets the flag true. It masks the header words everywhere. The real
+name on the next line reaches the assessor under an "identity redacted" note, and
+the header is later re-attached as the candidate's name. That is the fail-open
+case the flag was built to prevent, entered through the other door. So pin false
+detections next to the missed ones. Headers, role headlines, and names wrapped
+in academic titles each get a test that asserts the detected name is the
+person's, not merely that one was found.
 
 ## Where absence bites
 
