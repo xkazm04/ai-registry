@@ -26,10 +26,13 @@ the candidate in front of it.**
 - **It communicates nothing.** The candidate sees a form that appears
   complete and a button that does not respond. The most common next action is
   to leave.
-- **It is invisible to assistive technology in the way that matters.** A
-  disabled control is often skipped in navigation entirely, so a screen-reader
-  user reaches the end of the form and finds no submit at all. There is no
-  recovery from a control you cannot perceive.
+- **It fails assistive technology in two different ways.** A native disabled
+  control leaves the tab order, so a keyboard user, or a screen-reader user
+  tabbing through the form in focus mode, can reach the end and never meet
+  it. In browse mode a screen reader does find it, announced as "unavailable"
+  or "dimmed" with no reason attached. Neither mode gets told what to fix. The
+  public-sector design standard advises against disabled buttons outright
+  (GOV.UK Design System, Button).
 - **It hides the real blocker.** The reason is usually a field far above the
   fold, or an upload that failed silently, or a validator disagreeing with a
   phone number format from another country. Nothing on screen points there.
@@ -43,15 +46,23 @@ the candidate in front of it.**
 
 1. **Activation always does something.** Every press produces a visible
    response: a submission, or a named blocker. Never nothing.
-2. **Validate the whole form, report one blocker.** Compute every problem, but
-   lead with the first one in document order. A list of eleven errors is a
-   wall; one instruction is an action. Keep the rest available (a count, an
-   inline marker on each field) so the candidate is not surprised by a second
-   round.
-3. **Move focus to the blocking field and announce it.** Scrolling is not
-   enough; the keyboard and the screen reader must land there too. The
-   announcement is what makes this technique accessible rather than merely
-   polite.
+2. **Validate the whole form and show every blocker, leading with the
+   first.** Put a summary at the top that lists each problem in document
+   order, each item linked to its field, and repeat each message inline next
+   to the field (GOV.UK Design System, Error summary: "Always show an error
+   summary when there is a validation error, even if there's only one").
+   Revealing one error per submit is not the better-supported choice. In a
+   controlled comparison, embedded all-at-once and one-by-one performed the
+   same, and one-by-one won only inside modal dialogs (Bargas-Avila et al.,
+   2007). Its cost is a submit round-trip per error. *Condition:* on a
+   one-screen form with two or three controls, jumping to the first missing
+   control is the whole summary, and the difference vanishes.
+3. **Move focus to the summary, or on a one-screen form to the blocking field,
+   and announce it.** Scrolling is not enough; the keyboard and the screen
+   reader must land there too. The announcement is what makes this technique
+   accessible rather than merely polite. Mark each failing field invalid in
+   the accessibility tree as well, so a user who navigates by field hears it
+   there.
 4. **Say what is wrong in terms of the fact, not the validator.** "A contact
    number we can reach you on" beats "invalid format". Never assert something
    the record does not hold — if the upload failed, say the upload failed;
@@ -109,7 +120,10 @@ state is the wrong place to enforce a data invariant, and using it that way
 costs the candidate the one affordance they needed.
 
 While a submission is genuinely in flight, the control stays present and
-communicates progress rather than absence. If the in-flight state lasts long
+communicates progress rather than absence. If the in-flight state uses the
+native disabled attribute, focus falls off the button the moment it is
+pressed. Put it back when the request fails, on the error or on the button,
+or a keyboard user is left somewhere in the page with only an announcement. If the in-flight state lasts long
 enough for a candidate to wonder, that is a latency defect surfacing as a
 user-experience defect, and disabling the button hides it from both of you.
 

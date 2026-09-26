@@ -64,7 +64,10 @@ went down, which is what the control was installed to do.
 1. **A bot signal never renders a human-readable rejection reason.** It either
    accepts silently into a quarantine lane, or fails in a way that is
    indistinguishable from an ordinary network error. Explaining the trap
-   removes the trap.
+   removes the trap. Above all it never borrows the eligibility decline.
+   Mimicking a knockout does hide the trap from a script, but it tells the
+   human who tripped it by accident that they do not qualify, which is the
+   worst message this surface can send.
 2. **An eligibility failure never routes through the spam path.** It gets the
    full treatment: named reason, in-place correction, an audited record, an
    alternative offered.
@@ -73,7 +76,8 @@ went down, which is what the control was installed to do.
    review; they do not decline it. Where the signal is ambiguous and the
    outcome adverse, the decision
    [resolves toward the candidate](../../../_laws.md#uncertainty-resolves-toward-the-candidate).
-   Only signals no human can trip by accident may act alone.
+   Only signals no human can trip by accident may act alone, and a filled
+   decoy field is not one of them: autofill trips it (below).
 4. **What silence means depends on who guaranteed the question was asked.**
    This is the distinction most gates get wrong by being uniformly strict or
    uniformly lenient, and it has exactly two cases:
@@ -103,11 +107,14 @@ went down, which is what the control was installed to do.
 
 ## Traps must survive a restyle
 
-The cheapest effective bot control is a decoy field that a human never sees
-and a naive script always fills. Its entire value depends on remaining
-invisible to people and visible to machines, and its entire fragility is that
-invisibility is usually implemented in exactly the layer that gets rewritten.
-Three failure histories, all common:
+The cheapest bot control is a decoy field that a human never sees and a naive
+script always fills. Its reach is narrow. It stops scripts that post without
+rendering the page. A headless browser computes layout and skips an
+off-screen field, so the decoy is a first layer, never the only one. Its
+entire value depends on remaining invisible to people and visible to
+machines, and its entire fragility is that invisibility is usually
+implemented in exactly the layer that gets rewritten. Three failure
+histories, all common:
 
 - A redesign swaps the styling system, the hiding rule silently stops
   applying, and the decoy becomes a visible field that real candidates
@@ -118,25 +125,37 @@ Three failure histories, all common:
   disproportionately blocks assistive-technology users is not a spam control;
   it is an accessibility exclusion with a security justification.
 - The field is named something a password manager or browser recognises, and
-  autofill completes it for everyone.
+  autofill completes it for everyone. Turning autofill off does not prevent
+  this. Browsers classify a field by its name, id and label and fill it
+  whatever the page asks, and password managers run heuristics of their own.
+  The "don't fill" attribute is a request that the filler is free to ignore,
+  and it is ignored for exactly the field types a decoy tends to imitate
+  (company, website, url, a second email).
 
 The construction that survives all three: a *real* input, pulled out of the
 visual tree by a positioning rule attached to the element itself rather than
 by a theme class a redesign can drop; removed from the accessibility tree
-explicitly; removed from the tab order; and with autofill turned off. Notably
-it must **not** be a natively hidden input type — indiscriminate form-fillers
-routinely skip those, which is the whole population the trap is for. The field
-must be reachable by a script and unreachable by a person, and every one of
-those four properties is doing part of that work.
+explicitly; removed from the tab order (which is what keeps an
+accessibility-tree removal from hiding a focusable element); and carrying a
+name, id **and visible label** that no autofill heuristic claims, plus the
+password managers' own ignore markers. The autofill-off attribute stays, but as
+a courtesy, not a control. It is usually built as a visible-type input rather
+than a natively hidden one, on the reasoning that form-fillers pass hidden
+inputs through untouched. That reasoning is plausible and unmeasured.
 
-So: hide by a mechanism that does not depend on a visual theme, name the field
-something no autofill heuristic will claim, mark it inert to assistive
+So: hide by a mechanism that does not depend on a visual theme, name and label
+the field so no autofill heuristic will claim it, mark it inert to assistive
 technology explicitly, and — because all three of the failures above are
 silent — pin the invariant as a test. "The decoy is not perceivable and is
 not filled by a legitimate submission" is testable in a way that "remember to
-keep this hidden" is not. Pair it with a submission-side check: if the decoy is
-being tripped at a rate far above your expected junk volume, something in the
-page changed and the control is now eating people.
+keep this hidden" is not. Pin the positioning rule too, since it is the
+property a restyle removes. Pair it with a submission-side check: record
+every trip, and if the decoy is being tripped at a rate far above your
+expected junk volume, something in the page changed and the control is now
+eating people. A trip nobody records makes that check impossible. A trip is
+a reason to quarantine for review, never a decline, and a real person who
+trips it must not loop back into the same result on retry: clear the field
+on every retry.
 
 ## Layering, cheapest first
 

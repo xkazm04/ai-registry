@@ -5,7 +5,7 @@
   "source": "knowledge/recruiting/ (frontmatter only)",
   "subjects": 64,
   "techniques": 384,
-  "applications": 211,
+  "applications": 214,
   "laws": 11,
   "categories": [
    "role-definition",
@@ -403,9 +403,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/sourcing-and-intake/application-intake-and-conversion/application-intake-and-conversion.md",
-   "digest": "sha256-b2:3f95f440e037843e",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:829940bcb64cbbe0",
+   "revision": 2,
+   "changedAt": "2026-09-26",
    "techniques": [
     {
      "slug": "always-live-submit-that-names-the-blocker",
@@ -496,21 +496,45 @@
    "applications": [
     {
      "stack": "node",
+     "technique": "eligibility-gate-versus-bot-defence",
+     "file": "knowledge/recruiting/sourcing-and-intake/application-intake-and-conversion/applications/node--eligibility-gate-versus-bot-defence.md",
+     "verified_on": "2026-09-26",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
      "technique": "merge-dont-drop-on-reapplication",
      "file": "knowledge/recruiting/sourcing-and-intake/application-intake-and-conversion/applications/node--merge-dont-drop-on-reapplication.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-26",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "recoverable-decline-and-no-dead-ends",
+     "file": "knowledge/recruiting/sourcing-and-intake/application-intake-and-conversion/applications/node--recoverable-decline-and-no-dead-ends.md",
+     "verified_on": "2026-09-26",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "speed-to-lead-acknowledgement",
+     "file": "knowledge/recruiting/sourcing-and-intake/application-intake-and-conversion/applications/node--speed-to-lead-acknowledgement.md",
+     "verified_on": "2026-09-26",
+     "verified_against": "node@24"
     },
     {
      "stack": "react",
      "technique": "always-live-submit-that-names-the-blocker",
      "file": "knowledge/recruiting/sourcing-and-intake/application-intake-and-conversion/applications/react--always-live-submit-that-names-the-blocker.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-26",
+     "verified_against": "react@19"
     },
     {
      "stack": "react",
      "technique": "tonally-neutral-eligibility-questions",
      "file": "knowledge/recruiting/sourcing-and-intake/application-intake-and-conversion/applications/react--tonally-neutral-eligibility-questions.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-26",
+     "verified_against": "react@19"
     }
    ]
   },

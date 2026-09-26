@@ -23,7 +23,13 @@ left without a next step**.
 ## Recoverable in place
 
 Gate questions are answered on phones, with thumbs, at speed. A mis-tap is not
-an edge case; it is a routine event with a known rate. If a single tap can
+an edge case; it is a routine event. Lab error rates for one-handed thumb taps
+rise steeply as targets shrink below about 9-10 mm (Parhi, Karlson &
+Bederson, 2006). No field rate exists for form toggles, and none is needed: the
+argument is for making the correction cheap, not for estimating how often it
+is used. A consequential yes/no gets targets of at least 24 CSS px with spacing
+(WCAG 2.2, 2.5.8), ideally 44-48, and the chosen answer stays visibly
+selected. If a single tap can
 write a permanently declined record that the candidate cannot retry past, the
 system has converted a motor slip into a hiring outcome.
 
@@ -105,7 +111,11 @@ logged and never changes the verdict that was already reached and audited.
 ## Automation may route; only a person may end
 
 A gate may stop this application from proceeding automatically. It may not be
-the last word on the candidate. The practical shape:
+the last word on the candidate. That is this registry's law and a design
+default. It is stricter than the law in some places: EU data-protection law
+prohibits a solely automated rejection in principle, the UK permits one with
+safeguards (information, representations, human intervention, contest), and
+the U.S. has no general rule. The practical shape:
 
 - The machine-actionable outcomes are **proceed** and **hold**. Anything the
   gate reads as a decline is a *recommendation* that parks at a human-visible

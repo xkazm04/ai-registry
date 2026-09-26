@@ -33,7 +33,9 @@ wrong.
 
 A repeat submission from the same person to the same role **merges into the
 existing record**, updating what it carries and leaving alone what it does
-not. Field by field:
+not, **once it has proved it is that person** (below). A repeat that cannot
+prove it is still answered, and it still reaches the candidate. It just does
+not write. Field by field, for a proven repeat:
 
 - **Present and different in the new submission → update**, retaining the
   prior value in history. The candidate's latest declaration is their current
@@ -75,27 +77,60 @@ The same reasoning bars the tempting shortcut of deleting the old record and
 inserting a new one: that is a rebuild with no rollback and it takes the
 process history with it.
 
-## Identity: match conservatively, ask when unsure
+## Identity decides which record; only proof decides whether it may change
 
-Merging requires knowing it is the same person, and getting that wrong in the
-wrong direction merges two different candidates — a privacy incident, not a
-data-quality one. Identity has a strict precedence order, and using it in the
-wrong order is where the damage happens:
+Merging asks two questions that look like one. **Which record is this?** is
+identity. **May this submission change it?** is authority. A match answers the
+first and never the second. Getting identity wrong merges two different
+candidates, which is a privacy incident. Getting authority wrong is worse and
+easier. A name is public, since a single post announcing a new application is
+enough, and an address is not a secret either. A merge that writes on a match
+lets anyone who knows those two things:
+
+- set the applicant's contact of record to an address the caller controls;
+- receive the record's own links there;
+- overwrite the profile a reviewer scores;
+- re-extend the retention clock on data the candidate may want gone.
+
+Identity has a strict precedence order, and each rung carries a different
+authority:
 
 1. **A token you issued** — the opaque identifier carried by the enrichment
    link in your own acknowledgement, scoped to one application. This is the
-   strongest signal you will ever have, and it removes the requirement that
-   the candidate re-type the *exact* address they used before, which is a
-   coin-flip in practice. Validate its shape, confirm it belongs to this role,
-   and degrade silently to the next rule if it is stale or mismatched — never
-   error at the candidate over a link that expired.
+   strongest signal you will ever have and **the only one that authorises the
+   merge's writes**, because only the person who received your message holds
+   it. It also removes the requirement that the candidate re-type the *exact*
+   address they used before, which is a coin-flip in practice. Validate its
+   shape, confirm it belongs to this role, and degrade silently to the next
+   rule if it is stale or mismatched — never error at the candidate over a
+   link that expired.
 2. **A contact address**, normalised. Two real people can share a name; an
    address is theirs. Address-first matching is what stops two same-named
-   applicants from collapsing onto one record.
+   applicants from collapsing onto one record. On a public surface it
+   identifies and authorises nothing. On an authenticated integration that
+   vouches for its payload it may fill empty fields, never overwrite.
 3. **A normalised name**, only as a fallback where no address was captured.
+   It identifies and never authorises a write, on any surface.
 4. **Nothing.** An anonymous submission with neither is not matched at all —
    each gets its own record, because you cannot tell two anonymous applicants
    apart and guessing merges strangers.
+
+**The unproven repeat.** A match without proof is acknowledged honestly ("you
+have already applied for this role"). It writes nothing to the record: no
+field, no event, no consent refresh. The record's own links are re-sent to
+the address **already on file**, never to the one just typed, and throttled
+per record, so a stranger can cause at most one message a day and it reaches
+the real candidate. The response copy must not reveal whether an address is
+on file. The real candidate loses nothing they own, because the update path
+is one click away in that message. What is lost is deliberate. A contactless
+applicant cannot make themselves reachable by typing an address; they do it
+through the token walk or a recruiter. This is the asymmetry below, applied
+to writes.
+
+**Every door states its proof, and the doors must agree.** When one surface
+is tightened, check its siblings. The common leak is a quick form or a
+secondary door that still merges on the old trust, so the same impostor
+submission, sent to the other door, does what the tightened one refuses.
 
 Treat weak signals — a common name, a shared household phone, the same
 employer — as *candidates for* a merge that a human confirms, never as a
@@ -123,9 +158,11 @@ because the record already existed:
 
 The most valuable merge in practice is the one that makes a previously
 unreachable record reachable — a submission that finally carries a contact
-address. That case has a second obligation: the original acknowledgement had
-nowhere to go, so send it now, to the address just captured. Backfilling
+address. It is also the one an impostor wants most, so it is a proven merge
+or none. With proof, it has a second obligation: the original acknowledgement
+had nowhere to go, so send it now, to the address just captured. Backfilling
 contact silently leaves the candidate believing nothing was received.
+Without proof, the address is not captured at all, and nothing is sent to it.
 
 ## Cases that are not merges
 
