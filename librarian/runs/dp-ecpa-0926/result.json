@@ -1,0 +1,100 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-ecpa-0926",
+  "skill": "deepen",
+  "skill_version": "1.4.0",
+  "mode": "interactive",
+  "domain": "recruiting",
+  "started_at": "2026-09-26T12:35:00Z",
+  "ended_at": "2026-09-26T14:05:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 5,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "recruiting/early-career-potential-assessment",
+      "at": "2026-09-26",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": 5,
+      "points_after": 0
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "early-career-potential-assessment",
+      "technique": "readiness-rubric-replacing-years",
+      "verdict": "better",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/recruiting/candidate-evidence/early-career-potential-assessment/early-career-potential-assessment.md",
+    "knowledge/recruiting/candidate-evidence/early-career-potential-assessment/techniques/readiness-rubric-replacing-years.md",
+    "knowledge/recruiting/candidate-evidence/early-career-potential-assessment/techniques/shipped-artifact-as-primary-evidence.md",
+    "knowledge/recruiting/candidate-evidence/early-career-potential-assessment/techniques/domain-distance-grading.md",
+    "knowledge/recruiting/candidate-evidence/early-career-potential-assessment/techniques/symmetric-discount-across-populations.md",
+    "knowledge/recruiting/candidate-evidence/early-career-potential-assessment/applications/react--explainable-potential-breakdown.md",
+    "knowledge/recruiting/candidate-evidence/early-career-potential-assessment/applications/process--readiness-rubric-replacing-years.md",
+    "knowledge/recruiting/candidate-evidence/early-career-potential-assessment/applications/process--symmetric-discount-across-populations.md",
+    "knowledge/recruiting/candidate-evidence/early-career-potential-assessment/applications/process--transferable-meta-skill-credit.md",
+    "knowledge/recruiting/index.json",
+    "rules/ai-registry-recruiting.md",
+    "catalog.json",
+    "librarian/applied.md",
+    "librarian/domains/recruiting.md",
+    "librarian/subjects/recruiting/early-career-potential-assessment.md"
+  ],
+  "commits": [
+    {
+      "sha": "7b98e773",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/recruiting",
+        "rules/ai-registry-recruiting.md",
+        "catalog.json"
+      ]
+    },
+    {
+      "sha": "99de25f8",
+      "branch": "main",
+      "pathspec": [
+        "librarian/applied.md",
+        "librarian/domains/recruiting.md",
+        "librarian/subjects/recruiting/early-career-potential-assessment.md",
+        "knowledge/recruiting",
+        "catalog.json"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [
+    {
+      "subject": "recruiting/early-career-potential-assessment",
+      "reason": "far transfer is weak, so a far distance band should cost something: web lane only (Sala and Gobet; occupation-specific human capital); return with a second lane or a consumer holding switcher outcome data"
+    },
+    {
+      "subject": "recruiting/early-career-potential-assessment",
+      "reason": "shrinkage: an empirical-Bayes midpoint on a thin file does move, and ranking by point estimate gives a winner's curse: blind lane only; return with a web lane on shrinkage in selection scoring"
+    },
+    {
+      "subject": "recruiting/early-career-potential-assessment",
+      "reason": "joint versus separate evaluation (Bohnet, van Geen and Bazerman 2016) against visible separation beating interleaving: blind lane only; return with a web lane on the evaluation-mode literature"
+    },
+    {
+      "subject": "recruiting/early-career-potential-assessment",
+      "reason": "minting only upward caps an instrument's validity and rewards retakes: blind lane only; return with a consumer whose live case allows attempts to be counted"
+    },
+    {
+      "subject": "recruiting/early-career-potential-assessment",
+      "reason": "validated novice instruments and Pareto-optimal composites: blind lane only, and it belongs to the assessment subjects, not this one"
+    }
+  ],
+  "failure_signature": null,
+  "notes": "Single-stack cleared (react, kp 5c3d1f0cd); eight claims conditioned on converged lanes; one rule flipped by a 3-case simulation on kp eval CVs; process applications re-verified. kp map pairs all unknown, no stale verdict; kp code unchanged (live sibling)."
+}
