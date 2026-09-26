@@ -14,8 +14,10 @@ use_when: [defining the operation apart from its gesture, no key starts a drag o
 A drag is a gesture wrapped around an operation — *move X to position P* /
 *into container C*. And on the dominant platforms this is not an
 enhancement question: **the native drag machinery has no keyboard entry
-point at all** — no key combination starts a drag on a focused draggable;
-this has been measured, not assumed. Focusing the item, labeling it,
+point at all** — no browser starts a drag from a key on a focused draggable;
+this has been measured, not assumed. (A screen reader's own drag commands
+are the one exception. They belong to the reader rather than the page, and
+they are unreliable on web content, so do not design for them.) Focusing the item, labeling it,
 decorating it with grab semantics changes nothing: the gesture simply
 cannot be entered without a pointer. So the keyboard path is necessarily a
 **second control invoking the same operation**, not a focusable version of
@@ -78,8 +80,13 @@ itself through the assistive layer's live announcements:
   rejection that is only drawn is a rejection a non-visual user never hears;
 - on cancel: that the item returned, and to where.
 
-The draggable item itself declares its grabbed/not-grabbed state through the
-accessibility layer, so its mode is inspectable, not only narrated.
+The draggable item's mode should be inspectable, not only narrated. However,
+the accessibility attributes that were designed for this, a grabbed state on
+the item and a drop-effect state on targets, were deprecated in ARIA 1.1 and
+have no replacement. Do not reach for them. What works today is the grab
+control itself: a button whose pressed state is true while the item is held,
+a role description that names it as draggable, and a description that points
+at the grab-time instructions. The narration carries everything else.
 
 The inverse discipline matters as much: **never declare what cannot be
 operated.** A grip element that announces itself as a button to assistive
@@ -87,12 +94,25 @@ technology but cannot receive focus or respond to a key is a *false
 affordance* — worse than an unlabeled decoration, because it promises a
 control that does not exist and spends the user's effort discovering the
 lie. Semantics follow capability; add the role and the label in the same
-change that adds the focusability and the handler, never ahead of it.
+change that adds the focusability and the handler, never ahead of it. A drag
+library does not exempt you from this. It usually ships the semantics (role,
+tab stop, instructions) with every draggable, while the keyboard input is a
+separate registration. Shipping the first without the second produces the
+false affordance on every item at once. The drop-resolution strategy has to
+serve the keyboard too: one that locates targets from pointer coordinates
+finds nothing when a key moves the item.
 
 ## Alternatives beyond the mirror
 
-The grab-move-drop mirror is the floor, and for some populations it is still
-expensive — a fifty-step arrow journey is no gift. Offer *operation-shaped*
+The grab-move-drop mirror is the keyboard floor, and it is not the whole
+floor. Someone who can point and click but cannot sustain a drag is not served
+by arrow keys. The dragging-movements criterion (WCAG 2.2 SC 2.5.7, level AA)
+asks that every dragging operation can also be done with a **single pointer
+and no drag**, such as a click or a tap. So at least one alternative must be
+a clickable control. The criterion exempts a drag that is essential and a drag
+the user agent owns rather than the author, such as a file dropped from the
+operating system. Even the mirror is expensive for some populations — a
+fifty-step arrow journey is no gift. Offer *operation-shaped*
 alternatives where the surface's verbs allow, and route them through the
 same statement path:
 

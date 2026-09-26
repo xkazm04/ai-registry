@@ -37,7 +37,12 @@ That definition decides when *not* to use it:
   the only route to an operation. It is invisible (nothing on screen says "you
   can drag this" until affordances say it), it is pointer-biased, and it is
   hard for anyone with limited motor precision. Every drop must have a
-  non-drag equivalent — see [keyboard-alternatives](./techniques/keyboard-alternatives.md),
+  non-drag equivalent, and it must be one that **both a keyboard and a single
+  pointer** can operate. A click or tap path is owed to people who can point
+  but cannot hold a drag, and a keyboard-only mirror does not provide it. The
+  only exemptions are a drag that is essential and a drag the user agent owns,
+  such as a file dropped from the operating system. See
+  [keyboard-alternatives](./techniques/keyboard-alternatives.md),
   which is part of the feature, not a compliance appendix.
 - **Beware of it on touch-primary surfaces**, where a sustained drag fights
   the scroll gesture for the same finger. If the surface is mostly consumed on
@@ -151,7 +156,11 @@ is. Cross-surface drops need a negotiated payload contract (the source
 declares what it is carrying; the target declares what it accepts), explicit
 copy-versus-move semantics, and dwell behaviors (hover-to-open a folder or
 tab) whose timers are created and destroyed with the discipline of any other
-mode resource. That is the
+mode resource. When the page runs inside a desktop host, the host is one of the
+surfaces. It receives every drag from the operating system first, and its
+configuration decides whether the page sees the drop at all. In some hosts that
+applies to drags inside the page too. A drop zone proven on a development
+server was proven on the other branch. That is the
 [cross-surface-handoff](./techniques/cross-surface-handoff.md) technique.
 
 ## The techniques
@@ -167,4 +176,4 @@ mode resource. That is the
 - [keyboard-alternatives](./techniques/keyboard-alternatives.md) — grab/move/drop
   without a pointer; the announcement contract.
 - [cross-surface-handoff](./techniques/cross-surface-handoff.md) — payload
-  negotiation across panels, copy-vs-move, dwell-to-open.
+  negotiation across panels, copy-vs-move, dwell-to-open, the host boundary.
