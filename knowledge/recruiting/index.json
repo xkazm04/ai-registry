@@ -5,7 +5,7 @@
   "source": "knowledge/recruiting/ (frontmatter only)",
   "subjects": 64,
   "techniques": 384,
-  "applications": 203,
+  "applications": 205,
   "laws": 11,
   "categories": [
    "role-definition",
@@ -2542,9 +2542,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/candidate-evidence/cv-authenticity-screening/cv-authenticity-screening.md",
-   "digest": "sha256-b2:98d00fd0bdd9c630",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:88fc8c91f73855a8",
+   "revision": 2,
+   "changedAt": "2026-09-26",
    "techniques": [
     {
      "slug": "a-screen-is-not-a-verdict",
@@ -2642,19 +2642,32 @@
      "stack": "process",
      "technique": "a-screen-is-not-a-verdict",
      "file": "knowledge/recruiting/candidate-evidence/cv-authenticity-screening/applications/process--a-screen-is-not-a-verdict.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-26"
     },
     {
      "stack": "process",
      "technique": "document-as-data-never-as-instructions",
      "file": "knowledge/recruiting/candidate-evidence/cv-authenticity-screening/applications/process--document-as-data-never-as-instructions.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-26"
     },
     {
      "stack": "process",
      "technique": "ground-the-model-against-a-deterministic-prepass",
      "file": "knowledge/recruiting/candidate-evidence/cv-authenticity-screening/applications/process--ground-the-model-against-a-deterministic-prepass.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-26"
+    },
+    {
+     "stack": "process",
+     "technique": "hidden-text-and-smuggling-detection",
+     "file": "knowledge/recruiting/candidate-evidence/cv-authenticity-screening/applications/process--hidden-text-and-smuggling-detection.md",
+     "verified_on": "2026-09-26"
+    },
+    {
+     "stack": "react",
+     "technique": "a-screen-is-not-a-verdict",
+     "file": "knowledge/recruiting/candidate-evidence/cv-authenticity-screening/applications/react--a-screen-is-not-a-verdict.md",
+     "verified_on": "2026-09-26",
+     "verified_against": "react@19"
     }
    ]
   },

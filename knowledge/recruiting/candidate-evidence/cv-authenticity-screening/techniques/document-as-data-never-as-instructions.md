@@ -60,15 +60,25 @@ The clause is necessary and insufficient. Reinforce it with structure:
 
 - **Fence the untrusted regions.** Wrap supplied text in explicit delimiters that
   the instructions name, so the boundary is a stated fact rather than an
-  inference from position. Where the risk warrants it, use per-run unpredictable
-  fence markers so document content cannot forge a closing delimiter.
+  inference from position. Document content must not be able to forge a
+  closing delimiter. Either use per-run unpredictable fence markers, or keep
+  the markers fixed and defuse their shape inside the content, escaping any
+  run of the delimiter's characters before it is fenced. The second is
+  deterministic and testable. Neither has a published measurement: they close
+  a structural hole, they do not lower a rate. Fence *every* supplied channel
+  the same way, and every mode. A fence that exists only on the candidate's
+  text, or only in the mode where the text is inlined, leaves the posting and
+  the other mode open.
 - **Put instructions before and after the data.** Content nearest the end of a
   long context exerts disproportionate influence; a restatement of the standing
   clause after the document closes the cheapest attack.
-- **Constrain the output shape.** A closed schema with an enumerated verdict
-  vocabulary means a successful injection cannot invent a new outcome — it can
-  only lie within the shape, which is far more detectable than free text that
-  can say anything.
+- **Constrain the output shape, and know who enforces it.** A closed schema
+  with an enumerated verdict vocabulary means a successful injection cannot
+  invent a new outcome — it can only lie within the shape, which is far more
+  detectable than free text that can say anything. A schema *described in the
+  prompt* is itself only an instruction. The bound is real when the provider
+  enforces the schema on generation, or when your own validator rejects what
+  falls outside it.
 - **Never let document content reach an execution surface.** Nothing extracted
   from a supplied document becomes a tool argument, a query, a routing decision
   or a prompt for a subsequent stage without validation against the store or the
@@ -114,7 +124,15 @@ Say it in the design documents and say it to operators: **a model cannot be made
 immune to this.** Instruction-following and instruction-resistance are the same
 capability pointed in different directions, and no prompt clause, fence, or
 delimiter scheme reduces the success rate to zero. Published evaluations of
-every mitigation family show reduction, not elimination.
+every mitigation family show reduction, not elimination, and defences that
+reported near-zero success against fixed attacks have fallen to adaptive ones.
+
+The system-design defences that *can* offer guarantees do so by constraining
+consequences: which tools an injected text can reach, where data can flow.
+They are worth having, and they are the reason the blast-radius rule below is
+achievable. But they make no claim about the model's judgment, and an
+analyzer's score and narrative *are* its judgment. A guarantee over actions is
+not a guarantee over the reading.
 
 The strongest form of this admission is to write it **into the clause itself**,
 addressed to whoever maintains the analyzer: *this is a soft instruction; a

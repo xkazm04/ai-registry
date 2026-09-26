@@ -60,6 +60,15 @@ first competence:
   can say so plainly — because the artifact, not an inference about intent, is
   the evidence.
 
+  Know which attack actually arrives. The first large measurement over real
+  application documents (2026) found hidden content in around one document in a
+  hundred, and found that nine in ten of those hid *keywords and skills* aimed at
+  the matcher. Only the remainder carried instructions aimed at a model. A
+  screen that only looks for imperative sentences is watching the rarer attack
+  and missing the common one. That study found the hidden text by rendering the
+  page (tiny type, text the colour of its background), not by inspecting
+  characters.
+
 Systems fail by collapsing these. Buzzword density is treated as evidence of
 lying (it is evidence of nothing but density). A layout artifact is treated as
 smuggling. An injection attempt is quietly filtered and the run continues as
@@ -75,21 +84,30 @@ adverse, and must not be scored.**
 
 The reasons are not squeamishness, they are correctness:
 
-- **The detectors do not work at the accuracy the decision requires.** Text-origin
-  classifiers on short, formulaic, heavily-edited documents produce false-positive
-  rates that would be unacceptable at any hiring gate, and they misfire
-  systematically on non-native writers and on anyone using assistive writing
-  tools — which converts a "fraud" signal into a proxy for national origin and
-  disability. That is the exact failure mode the fairness work in this domain
-  exists to prevent.
+- **The detectors do not work on the documents a hiring pipeline receives.** The
+  argument is narrower than it was, and it should be made narrowly. The best
+  text-origin classifiers of 2025-26 are genuinely accurate on *unedited* human
+  prose, with false-positive rates well under one percent in independent
+  evaluation. That is not the input here. A career document is short,
+  formulaic and, very often, human-written and then lightly polished with a
+  tool, and lightly polished human text is exactly where the same detectors
+  fire on a large share of honest documents. Paraphrasing tools defeat them in
+  the other direction. Whether they misfire on non-native writers now depends on
+  the detector: older and perplexity-based tools do, some current ones measure
+  clean. And no evaluation on career documents exists at all. A gate built on
+  an instrument never validated for its input, whose known failure converts a
+  "fraud" signal into a proxy for national origin and disability, is the exact
+  failure mode the fairness work in this domain exists to prevent.
 - **The behaviour is universal and endorsed.** Drafting help is now recommended
   by career services, bundled into the editors people write in, and often the
   only reason a strong candidate writing in their second language clears a
   keyword filter at all.
-- **It is off-target.** The question a hiring process asks is whether the claims
-  are true and the person can do the work. How the sentences were composed is
-  orthogonal to both. A machine-drafted document describing real work is honest;
-  a hand-typed document inventing an employer is not.
+- **It is off-target, and this is the reason that survives a better detector.**
+  The question a hiring process asks is whether the claims are true and the
+  person can do the work. How the sentences were composed is orthogonal to both.
+  A machine-drafted document describing real work is honest; a hand-typed
+  document inventing an employer is not. A perfect detector would answer the
+  wrong question perfectly.
 
 The seam matters and is easy to get wrong: detecting *delegated work-samples* —
 where the artifact under assessment was supposed to demonstrate the candidate's
@@ -192,12 +210,18 @@ detectable at all.
   document text as data reduces compliance; it does not eliminate it. Any design
   whose safety rests on the model not being persuaded has no safety property at
   all — which is precisely why the grounding pre-pass, not the prompt, is the
-  control.
-- **Punishing the artifact of a tool.** Ligatures, hyphenation, invisible layout
-  characters and multi-column reflow all produce text that looks tampered with.
-  A screen that cannot distinguish a document generator's normal output from
-  deliberate smuggling will accuse the innocent far more often than it catches
-  the guilty.
+  control. The design-level defences that do offer guarantees constrain what
+  injected text can *cause* (which tools run, where data flows). They say
+  nothing about what the model *concludes*, and a screener's output is a
+  conclusion. Defences that reported near-zero attack success were broken by
+  adaptive attackers at high rates in 2025 evaluations. For this subject, every
+  family still reduces the risk and none removes it.
+- **Punishing the artifact of a tool, or of a script.** Ligatures, hyphenation,
+  invisible layout characters and multi-column reflow all produce text that
+  looks tampered with, and so does correctly spelled text in several of the
+  world's writing systems. A screen that cannot distinguish a document
+  generator's normal output, or a Persian word, from deliberate smuggling will
+  accuse the innocent far more often than it catches the guilty.
 - **Letting a flag become permanent.** A flag is bound to one document version
   and one screen version. Re-uploaded content does not inherit it; a
   re-screened document under a new rule set gets a new reading, not a

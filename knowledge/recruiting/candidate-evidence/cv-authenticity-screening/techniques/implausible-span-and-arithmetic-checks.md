@@ -38,6 +38,18 @@ never are.
 - **Volume against time.** A skill inventory or certification list whose
   acquisition would exceed the available years is a soft version of the same
   arithmetic, and should be worded far more softly.
+- **Tenure against the technology's age.** Claimed years with a named
+  technology set against the time since that technology existed. It is
+  practitioner lore rather than an evaluated check (nothing has measured it),
+  and it runs only under three conditions. First, the release table carries
+  the *earliest* date a practitioner could have used the thing: internal use
+  before the public release, the predecessor it grew out of, and the name it
+  had before a rename. Second, only a gap of years fires, never a gap of
+  months. Third, the wording carries its most common innocent cause: postings
+  themselves demand more years of a technology than it has existed, and
+  candidates mirror the posting. The output is an interview question about
+  what the candidate did before the brand existed, which often has a good
+  answer.
 
 ## Overlaps are ordinary life
 
