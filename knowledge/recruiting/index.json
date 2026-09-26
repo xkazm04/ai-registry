@@ -5,7 +5,7 @@
   "source": "knowledge/recruiting/ (frontmatter only)",
   "subjects": 64,
   "techniques": 384,
-  "applications": 198,
+  "applications": 200,
   "laws": 11,
   "categories": [
    "role-definition",
@@ -1219,9 +1219,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/candidate-experience/candidate-communication-integrity/candidate-communication-integrity.md",
-   "digest": "sha256-b2:3f98f35ccffdf950",
-   "revision": 3,
-   "changedAt": "2026-09-20",
+   "digest": "sha256-b2:75f174a46727ffbc",
+   "revision": 4,
+   "changedAt": "2026-09-26",
    "techniques": [
     {
      "slug": "bounce-receipt-supersedes-a-green-send",
@@ -1319,7 +1319,7 @@
      "stack": "node",
      "technique": "bounce-receipt-supersedes-a-green-send",
      "file": "knowledge/recruiting/candidate-experience/candidate-communication-integrity/applications/node--bounce-receipt-supersedes-a-green-send.md",
-     "verified_on": "2026-08-30",
+     "verified_on": "2026-09-26",
      "verified_against": "node@24"
     },
     {
@@ -1335,6 +1335,18 @@
      "file": "knowledge/recruiting/candidate-experience/candidate-communication-integrity/applications/node--terminal-delivery-status-vocabulary.md",
      "verified_on": "2026-08-30",
      "verified_against": "node@24"
+    },
+    {
+     "stack": "spec",
+     "technique": "bounce-receipt-supersedes-a-green-send",
+     "file": "knowledge/recruiting/candidate-experience/candidate-communication-integrity/applications/spec--bounce-receipt-supersedes-a-green-send.md",
+     "verified_on": "2026-09-26"
+    },
+    {
+     "stack": "spec",
+     "technique": "terminal-delivery-status-vocabulary",
+     "file": "knowledge/recruiting/candidate-experience/candidate-communication-integrity/applications/spec--terminal-delivery-status-vocabulary.md",
+     "verified_on": "2026-09-26"
     }
    ]
   },

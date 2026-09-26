@@ -5,7 +5,7 @@ subject: candidate-communication-integrity
 technique: bounce-receipt-supersedes-a-green-send
 stack: node
 status: forged
-verified_on: 2026-08-30
+verified_on: 2026-09-26
 verified_against: node@24
 ---
 
@@ -40,6 +40,26 @@ folding onto nothing "used to be dropped too, which made a relay talking a
 different ref/kind vocabulary look exactly like silence". Keeping and flagging it
 turns an invisible identifier mismatch into a visible integration fault.
 
+## The receipt that names nothing, split off
+
+The recording core now lives in `app/_lib/comms-receipt.ts`. It was lifted out
+when an edge drain became a second door onto the same fact, and it splits the
+unmatched case in two. The split is the technique's yours-or-foreign condition,
+arrived at in the field first. A receipt whose `ref` names a real pipeline entry
+or submission, but no matching send, is stored in that entry's team and answered
+`no_matching_send`: an integration fault with an owner. A receipt whose `ref`
+names nothing in the install is answered `unknown_ref` and stored **nowhere**.
+The comment records the incident that forced it. Such receipts "used to be
+written into the DEFAULT team's outbox", so a foreign ref scheme "filled ONE
+team's Comms Center with red unmatched receipts about candidates that team has
+never heard of".
+
+Both doors authenticate the caller (a shared secret plus a freshness window on
+the live callback, a signed envelope on the drain). So an `unknown_ref` here is
+never backscatter. It is the configured relay speaking references kp never
+issued, which is the wholesale form of the drift the orphan state exists to
+expose.
+
 ## Attribution is an admitted heuristic
 
 A relay bounce is keyed only by `(ref, kind)` and carries no message identity, so
@@ -49,7 +69,11 @@ and the proper repair in the comment: threading the outbox row id through the
 send envelope and echoing it in the callback — blocked at the time because "the
 envelope lives in `comms-dispatch.ts`, owned by a prior wave, and the receipt row
 has no id column". A weak join labelled as a heuristic in the place it happens is
-the difference between known debt and an invented fact.
+the difference between known debt and an invented fact. The repair is now half
+built. `app/_lib/comms-envelope.ts` mints a `messageId` once per logical message,
+stable across retries, and sends it out as the `Idempotency-Key` header. The
+callback still reads only `ref`, `kind` and `outcome`, so nothing echoes it back
+and the heuristic still decides (`pickBounceTarget`, `app/_lib/comms-view.ts`).
 
 ## One verdict function, born from two surfaces disagreeing
 
@@ -92,3 +116,18 @@ database so the bare runner loads it directly.
 - **No propagation of a late correction.** A `sent` row that later bounces
   changes what every surface renders, but nobody who already read the green tick
   is told; the correction is a re-read, not an event.
+- **The attempt is stamped at its outcome, not its start.** `WebhookChannel.send`
+  (`app/_lib/comms.ts`) writes the `sent` row after `deliver()` returns, retry
+  ladder included. `pickBounceTarget` skips any send stamped after the bounce ("a
+  bounce can't concern a later send"). Suppose kp gives up waiting on the first
+  POST, the relay had in fact accepted it and bounced it, and the callback lands
+  before kp's retry records the row. Then the receipt binds to the *previous*
+  same-kind send, or to nothing, and the bounced message keeps its green tick.
+  The `comms-receipt.ts` comment that orphan state "self-heals if the send
+  arrives out of order" does not hold when the send's own stamp is the later one.
+  This was read from the tree at `17619a52`, not reproduced. The window is
+  narrow, and the half-built `messageId` echo would close it.
+- **Foreign receipts leave no trace in the install.** An `unknown_ref` answer
+  reaches the relay and nowhere else. If the relay switched reference schemes
+  wholesale, every real bounce would take that path, and kp's operator would see
+  a quiet Comms Center.
