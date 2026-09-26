@@ -166,3 +166,14 @@ diagonal placement value and the wide-shot light-layer rule with a dojo applicat
 character-identity-continuity, frame-direction (jump quota), generative-provider-routing
 (pending the local-tier experiment), visual-style-locking (three), image-prompt-composition.
 The bundle does not declare `next` as a stack, so a tree on that framework binds as `node`.
+
+## 2026-09-26 - deepen, short-form-narrative-structure
+
+Dispatched on the single-stack clause the 2026-08-27 sweep declined. The second
+stack was in the one joined tree all along: its code (`next`), not its doctrine.
+One application landed with a code apply in the tree, five conditions and two
+evidence notes landed across the golden path and three techniques, both
+`process` applications re-resolved. Points 5 -> 3; "never swept" remains, and
+the single-*tree* clause stands - `systedo-case` has no script seam. Detail in
+[[short-form-narrative-structure]]. The other three process-only narrative
+subjects likely have the same second stack in the same tree's script step.
