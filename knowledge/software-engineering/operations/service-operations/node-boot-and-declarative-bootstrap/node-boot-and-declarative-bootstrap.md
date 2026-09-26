@@ -61,6 +61,10 @@ tells the operator "this node would start" is a gate, and per
 the real order, as non-fatal spans that continue past a failure so the operator sees every
 red rather than the first. When the check list and the boot order are two lists, they diverge
 at exactly the step somebody added last; the standard is that the check list *is* the graph.
+Two edges are easy to get backwards. A verify-only run is usually made beside the live node,
+whose port it cannot bind, so address-in-use there reads as *held* rather than as a failure.
+And "listening" is a readiness claim, logged from the bound socket after the bind rather than
+from the configured address before it.
 The procedure, the verify-only discipline and the diagnostic contract are
 [ordered-boot-dag](./techniques/ordered-boot-dag.md).
 
@@ -82,10 +86,13 @@ not the value the node runs on. The standard is a **declared partition**: every 
 reloadable or restart-only in the one place keys are defined
 ([one-authority-per-vocabulary](../../../_laws.md#one-authority-per-vocabulary)), a reload
 applies the first set and reports the second as *ignored, restart required* — never as
-applied. One more rule carries the operational weight: **a reload whose configuration fails
-to parse still runs the safe reload functions.** Reopening a rotated log file must not depend
-on the operator having written a syntactically valid file that morning, because the reload
-that reopens sinks is the one that runs from a rotation hook at three in the morning. Which
+applied. One more rule carries the operational weight: **the safe reload functions never
+depend on the parse.** Reopening a rotated log file must not depend on the operator having
+written a syntactically valid file that morning, because the reload that reopens sinks is the
+one that runs from a rotation hook at three in the morning. There are two honest shapes: a
+reload whose file fails to parse still runs the safe functions, or the safe functions answer
+a trigger of their own that never reads the file. Only the shared trigger with an
+all-or-nothing abort is wrong. Which
 keys fall where, how the partition is declared, and what a reload reports are
 [reload-partition](./techniques/reload-partition.md).
 
@@ -107,7 +114,11 @@ proceed, because a half-applied bootstrap is not a state anyone can reason about
 may have a root policy and no authentication method, or an audit sink pointed at a path that
 does not exist. The alternative, re-running bootstrap until it succeeds, is continual
 re-initialisation, and it silently converts every later edit an operator makes into a value
-the next restart will revert. Third, the **bootstrap credential is revoked on every exit
+the next restart will revert. The marker is for a sequence the store cannot commit as one
+unit. When every effect lands in one store transaction (a seed of default rows is the common
+case), the transaction is the marker: a failure rolls back to "never ran" and the next start
+seeds again. What has neither is the usual bug, a seed detected by emptiness and written row
+by row, which a crash turns into a partial book served forever. Third, the **bootstrap credential is revoked on every exit
 path**, including the failing one: the sequence obtains a privileged credential, applies its
 requests with it, and revokes it in a finalizer that runs whether the last request succeeded
 or the third one failed. This requires that the node can reach an unsealed state without a
@@ -134,6 +145,9 @@ stored record is created, a stored configuration-born record with no configurati
 removed, and a conflict — the same name existing as an API-born object — fails startup loudly
 rather than adopting or overwriting. The mismatch never resolves silently, because a silent
 resolution is a decision about which authority wins made by whichever code path ran last.
+The one exception is declared, not defaulted: a kind whose every name the configuration owns,
+where API edits are documented as overwritten at the next start and each overwrite is logged.
+That fits views and layouts. It never fits a kind that acts on the host or keeps a trail.
 The record type, the reconciliation and the refusal are
 [config-objects-are-api-immutable](./techniques/config-objects-are-api-immutable.md).
 

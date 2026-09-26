@@ -6,7 +6,7 @@ technique: ordered-boot-dag
 status: forged
 laws: [creation-names-reaper, gate-sees-target]
 shared_with: []
-use_when: [adding a startup step to a stateful node, a verify-only or dry-run mode leaks a lock or a listener, writing a startup diagnostic tool, a component reads a value that is nil at boot, deciding where in startup a new subsystem is constructed]
+use_when: [adding a startup step to a stateful node, a startup log announces listening before the port is bound, a config test fails because the live node holds the port, a verify-only or dry-run mode leaks a lock or a listener, writing a startup diagnostic tool, a component reads a value that is nil at boot, deciding where in startup a new subsystem is constructed]
 ---
 
 # Ordered boot DAG
@@ -82,6 +82,19 @@ attempted, before bootstrap, before a request is served. The bind is admissible 
 only because its close was deferred at the bind; a verify-only mode that binds and returns
 without that deferral has turned a check into an outage for the real start that follows.
 Its output is the same span list the diagnostic produces, which is the next section.
+
+The bind rung carries one condition the others do not: **a verify-only run is usually made
+beside the live node**, to check a configuration before reloading or restarting onto it, and
+the live node holds the port. An address-in-use result on that rung is therefore reported as
+*held, possibly by the running node* and does not fail the check, or the rung can be skipped
+by name for a live node. A check that fails whenever the node it guards is running fails at
+exactly the moment the operator needs it, and teaches them to stop running it.
+
+The same ordering governs what the node *says*. A line announcing that the node is listening
+is a readiness claim, and it is logged from the bound socket after the bind succeeds. Logging it
+from the configured address before the bind means that a process that is about to die on a
+held port has already said it is serving, and a port-zero bind reports a port that does not
+exist.
 
 ## The diagnostic replays the graph as non-fatal spans
 

@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 233,
   "techniques": 1813,
-  "applications": 1176,
+  "applications": 1178,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -22710,9 +22710,9 @@
    "subcategory": "service-operations",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/service-operations/node-boot-and-declarative-bootstrap/node-boot-and-declarative-bootstrap.md",
-   "digest": "sha256-b2:12254224c07cdd4c",
-   "revision": 1,
-   "changedAt": "2026-09-02",
+   "digest": "sha256-b2:134e2d0f64cb5bda",
+   "revision": 2,
+   "changedAt": "2026-09-26",
    "techniques": [
     {
      "slug": "config-objects-are-api-immutable",
@@ -22739,6 +22739,7 @@
      "shared_with": [],
      "use_when": [
       "a fresh node must configure its own policy and auth without a human",
+      "a first-start seed of default rows is detected by an empty table",
       "a provisioner stores a root credential returned by initialisation",
       "deciding what a node does when bootstrap failed halfway last time",
       "a bootstrap that re-runs on every start reverts operator edits"
@@ -22755,6 +22756,8 @@
      "shared_with": [],
      "use_when": [
       "adding a startup step to a stateful node",
+      "a startup log announces listening before the port is bound",
+      "a config test fails because the live node holds the port",
       "a verify-only or dry-run mode leaks a lock or a listener",
       "writing a startup diagnostic tool",
       "a component reads a value that is nil at boot",
@@ -22827,6 +22830,20 @@
      "file": "knowledge/software-engineering/operations/service-operations/node-boot-and-declarative-bootstrap/applications/go--ordered-boot-dag.md",
      "verified_on": "2026-09-02",
      "verified_against": "go@1.27"
+    },
+    {
+     "stack": "rust",
+     "technique": "once-only-bootstrap-with-marker",
+     "file": "knowledge/software-engineering/operations/service-operations/node-boot-and-declarative-bootstrap/applications/rust--once-only-bootstrap-with-marker.md",
+     "verified_on": "2026-09-26",
+     "verified_against": "rust@1.96"
+    },
+    {
+     "stack": "rust",
+     "technique": "ordered-boot-dag",
+     "file": "knowledge/software-engineering/operations/service-operations/node-boot-and-declarative-bootstrap/applications/rust--ordered-boot-dag.md",
+     "verified_on": "2026-09-26",
+     "verified_against": "rust@1.96"
     }
    ]
   },
