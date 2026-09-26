@@ -5,7 +5,7 @@ subject: ai-assistance-detection-and-fairness
 technique: behaviour-matched-peer-test-for-over-reliance
 stack: process
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-09-26
 ---
 
 # The matched-peer fairness gate in the dev-case submission eval (Python)
@@ -15,11 +15,11 @@ verified_on: 2026-08-20
 a landscape of synthetic candidate behaviours and gates the result. Its FAIRNESS
 gate is the technique implemented literally, and its module docstring states the
 premise the standard argues for: "Code is assumed LLM-generated, so the score
-must track VERIFICATION/JUDGMENT, never AI use" (`:9-11`).
+must track VERIFICATION/JUDGMENT, never AI use" (`:12-13`).
 
 ## The matched-peer definition, in code
 
-`_overreliance_from_tool_use` (`:238-266`) is the definition:
+`_overreliance_from_tool_use` (`:258-285`) is the definition:
 
 ```python
 def _peer_flagged(r: Row) -> bool:
@@ -47,79 +47,98 @@ there the key has to come from an artifact-anchored behaviour (the canary
 verdicts), which is why the standard insists the flag's basis be stateable as an
 observable behaviour before the test is possible at all.
 
+## The same rule, applied to the score gap
+
+The non-inferiority check uses the same peer. `fairness` (`:288-320`) compares
+model-using verifiers with verifiers who did not use a model
+(`non_ai_verifiers`, `:301`), and the comment records why the comparator changed
+on 2026-08-21: measured against non-verifiers, the check "folds in the
+verification lead the gate above deliberately rewards, so an evaluator that
+really does dock AI users passes: with non-AI-verifiers 90, ai-verifiers 70,
+non-verifiers 70, the AI gap reads 0 while the true penalty is 20"
+(`:293-298`). That is the technique's two-by-two table, with the bug it exists
+to prevent written out in numbers.
+
 ## The vacuous-invariant lesson
 
-`:242-247` records the failure the standard names as the way this test is faked:
+The docstring (`:262-264`) records the failure the standard names as the way this
+test is faked:
 
 > Over-reliance flags are only ever assigned on the LLM path: the deterministic
-> `assess_tooling` fallback hardcodes `overRelianceFlags=[]`, so an invariant
-> guarded by `source=="deterministic"` can never fire (it was vacuously True).
+> assess_tooling fallback hardcodes overRelianceFlags=[], so an invariant
+> guarded by source=="deterministic" can never fire (it was vacuously True).
 
 Hence `flag_rows = [r for r in done if r.source != SOURCE_DETERMINISTIC]`
-(`:257`): the check runs only on the path that actually assigns flags. This was
+(`:272`): the check runs only on the path that actually assigns flags. This was
 an upward lesson for the standard — a fairness invariant that structurally
 cannot fail reports a permanent green that reads as evidence.
 
-The flag's own basis is set upstream in `reflect.py`'s prompt, which is
-"explicit — flag over-reliance ONLY from concrete evidence (a large unverified
-dump), NEVER from tool use itself" (`:248-250`). That is the standard's
-artifact-anchored flag wording enforced at the point of generation rather than
-audited afterwards.
+The flag's own basis is set in `assess_tooling`'s prompt in `reflect.py`
+(`:280-282`): "Only flag over-reliance with concrete evidence (e.g. large
+unverified dumps), never from tool use itself; absence of evidence is not
+failure." That is the standard's artifact-anchored flag wording enforced at the
+point of generation rather than audited afterwards.
 
 ## Thresholds with rationale, declared in advance
 
-`:58-74` is the threshold block, and every constant carries why it exists:
+`:62-79` is the threshold block, and every constant carries why it exists:
 
 | constant | value | role |
 | --- | --- | --- |
 | `MIN_GROUP_N` | 3 | below this, no verdict — inconclusive |
 | `MIN_VERIFY_MARGIN` | 5.0 | verifiers must *lead* non-verifiers on judgment |
-| `AI_PENALTY_TOLERANCE` | 2.0 | AI-verifiers may sit at most this far below |
+| `AI_PENALTY_TOLERANCE` | 2.0 | AI-verifiers may sit at most this far below their non-AI peers |
 | `MIN_DISCRIMINATION_MARGIN` | 5.0 | strong must beat weak and the gamer |
 
-The comment justifies the numbers against measured behaviour rather than taste:
-"The deterministic landscape clears them comfortably (verify lead ~18.8,
-strong-vs-weak ~8.9, strong-vs-gamer ~7.5), leaving headroom for the noisier
-`--judge`/LLM path while still rejecting a tie" (`:68-70`).
+The comment justifies the numbers against a dated measurement rather than taste:
+"commit path, --count 48, 2026-09-23: verify lead 37.5, strong-vs-weak 13.5,
+strong-vs-gamer 12.0 on the weighted case score", "leaving headroom for the
+noisier --judge/LLM path while still rejecting a tie" (`:72-75`). The inline
+comment on `AI_PENALTY_TOLERANCE` (`:78`) still says "below non-verifiers";
+the code compares with non-AI verifiers.
 
 The lead/non-inferiority asymmetry the standard insists on is two separate
-helpers. `_lead_verdict` (`:77`) rejects a tie; `_not_below_verdict` (`:87`)
-accepts one, and says why in its docstring: "a tie passes (that is the whole
+helpers. `_lead_verdict` (`:82`) rejects a tie; `_not_below_verdict` (`:92`)
+accepts one, and says why in its docstring: "A tie passes (that is the whole
 point of 'AI use is not penalised') … Unlike a lead check this does NOT require
-AI-verifiers to BEAT non-verifiers — only to not be punished for AI use."
+AI-verifiers to BEAT their non-AI peers — only to not be punished for AI use."
 
-**Deviation.** `MIN_GROUP_N = 3` is a harness floor for a synthetic landscape of
-six behaviours, not a defensible cohort size for a live fairness claim. The
-standard's rule stands: a floor derived from the difference you need to detect,
-realistically in the low double digits per cell. Nothing here should be read as
-licence to certify a real cohort of three.
+**Deviation.** `MIN_GROUP_N = 3` is a harness floor for a synthetic landscape,
+not a defensible cohort size for a live fairness claim. The standard's rule
+stands: a floor derived from the difference you need to detect, realistically in
+the low double digits per cell. Nothing here should be read as licence to
+certify a real cohort of three. The discrimination gate's named
+`careful_verifier` control (`:362`, `:376`) is satisfied by one row, with no
+floor at all.
 
 ## The four-way collapse
 
-`_gate_status` (`:105-127`) is the four-outcome vocabulary with its precedence
+`_gate_status` (`:110-127`) is the four-outcome vocabulary with its precedence
 rule spelled out — "a real signal always wins over the absence of one" —
 resolving `fail` → `inconclusive` → `not_evaluable` → `pass`, and closing with
-the line that is the spine of the whole subject:
+the line that is the spine of the whole subject (`:120`):
 
-> `not_evaluable` is deliberately distinct from `fail`: 'no data' must never
-> read as 'unfair'.
+> not_evaluable is deliberately distinct from fail: 'no data' must never read
+> as 'unfair'.
 
-`_evaluable` (`:98`) separates the two withheld verdicts by cohort emptiness:
+`_evaluable` (`:102`) separates the two withheld verdicts by cohort emptiness:
 1..`MIN_GROUP_N`-1 rows is a thin-but-present cohort (inconclusive), 0 rows is
-no data (not evaluable). `_cohort_warnings` (`:130`) surfaces every thin cohort
+no data (not evaluable). `_cohort_warnings` (`:134`) surfaces every thin cohort
 in the report even when the gate resolved on its other checks, so a too-small
 run is always visibly flagged rather than quietly passing.
 
 `--strict` implements the gating rule exactly as the standard states it: fail
 and inconclusive exit non-zero, `not_evaluable` does not, because "absence of
 data is not a fairness violation, so an empty run can't be misread as an
-unfair/non-discriminating evaluator" (`:23-26`).
+unfair/non-discriminating evaluator" (`:28-30`).
 
 ## What the gate does not cover
 
 Two gaps worth naming. The FAIRNESS gate runs over synthetic scenarios, so it
 certifies the *evaluator*, not any real cohort — the standard's cohort-level
-invariant over live candidates is not implemented anywhere in this repo. And the
-QUALITY check (`--judge`) asks an LLM whether the evaluation unfairly penalises
-AI use, which is a useful smell test but is a model grading a pipeline it shares
-a family with; it is not a substitute for the measured margins beside it.
+invariant over live candidates is not implemented anywhere in this repo
+(`app/_lib/adverse-impact.ts:7-11` says it does not run on stored candidates,
+and `app/_lib/devcase-cohort.ts` aggregates probe misses only). And the QUALITY
+check (`--judge`) asks an LLM whether the evaluation unfairly penalises AI use,
+which is a useful smell test but is a model grading a pipeline it shares a
+family with; it is not a substitute for the measured margins beside it.

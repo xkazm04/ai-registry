@@ -5,7 +5,7 @@
   "source": "knowledge/recruiting/ (frontmatter only)",
   "subjects": 64,
   "techniques": 384,
-  "applications": 208,
+  "applications": 209,
   "laws": 11,
   "categories": [
    "role-definition",
@@ -141,9 +141,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/assessment/ai-assistance-detection-and-fairness/ai-assistance-detection-and-fairness.md",
-   "digest": "sha256-b2:d35b392d4f5a51f4",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:a76f9c0d03d93064",
+   "revision": 2,
+   "changedAt": "2026-09-26",
    "techniques": [
     {
      "slug": "behaviour-matched-peer-test-for-over-reliance",
@@ -236,22 +236,30 @@
    ],
    "applications": [
     {
+     "stack": "node",
+     "technique": "observed-process-is-supporting-not-load-bearing",
+     "file": "knowledge/recruiting/assessment/ai-assistance-detection-and-fairness/applications/node--observed-process-is-supporting-not-load-bearing.md",
+     "verified_on": "2026-09-26",
+     "verified_against": "node@24"
+    },
+    {
      "stack": "process",
      "technique": "behaviour-matched-peer-test-for-over-reliance",
      "file": "knowledge/recruiting/assessment/ai-assistance-detection-and-fairness/applications/process--behaviour-matched-peer-test-for-over-reliance.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-26"
     },
     {
      "stack": "process",
      "technique": "planted-canary-with-real-ground-truth",
      "file": "knowledge/recruiting/assessment/ai-assistance-detection-and-fairness/applications/process--planted-canary-with-real-ground-truth.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-26"
     },
     {
      "stack": "react",
      "technique": "never-penalise-tool-use-invariant",
      "file": "knowledge/recruiting/assessment/ai-assistance-detection-and-fairness/applications/react--never-penalise-tool-use-invariant.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-26",
+     "verified_against": "react@19"
     }
    ]
   },
