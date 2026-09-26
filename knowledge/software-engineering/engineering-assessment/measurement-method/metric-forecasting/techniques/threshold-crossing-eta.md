@@ -109,6 +109,19 @@ point: earliest and latest crossing under the slope's uncertainty. Where it is
 not, a range fabricated from a two-point fit is worse than a single date,
 because a range reads as a considered interval.
 
+"Confidence" here does not mean the coefficient of determination. That figure
+says how well the line describes the past. A crossing range needs to say where
+the crossing could fall. The construction is the **inverse-prediction
+(calibration) interval** on the crossing time: solve for the times at which the
+line's own prediction interval meets the target. It is asymmetric, and it
+wanders in a way a point date hides; the point estimate of a crossing time has
+no finite variance at all. It also abstains without being told to. When the
+slope cannot be told apart from zero at the chosen level, the interval stops
+being finite: it becomes the whole axis, or two open rays. That is the
+statistical form of "no date". Render it as the flat or withheld state, never
+as a date inside a very wide band. Gate the range on that property, not on a
+goodness-of-fit threshold.
+
 ## Decision rules
 
 - **When the last sample is stale, still measure from now.** Staleness pushes

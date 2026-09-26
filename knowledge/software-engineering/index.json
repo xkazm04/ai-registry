@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 233,
   "techniques": 1813,
-  "applications": 1171,
+  "applications": 1172,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20068,9 +20068,9 @@
    "subcategory": "measurement-method",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-assessment/measurement-method/metric-forecasting/metric-forecasting.md",
-   "digest": "sha256-b2:49a8bbc32dac3476",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:40bc666cc27ebc42",
+   "revision": 2,
+   "changedAt": "2026-09-26",
    "techniques": [
     {
      "slug": "fit-confidence-honesty",
@@ -20171,6 +20171,13 @@
      "technique": "trend-fitting-and-anchoring",
      "file": "knowledge/software-engineering/engineering-assessment/measurement-method/metric-forecasting/applications/node--trend-fitting-and-anchoring.md",
      "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "rust",
+     "technique": "projection-presentability-gates",
+     "file": "knowledge/software-engineering/engineering-assessment/measurement-method/metric-forecasting/applications/rust--projection-presentability-gates.md",
+     "verified_on": "2026-09-26",
+     "verified_against": "rust@1.96.1"
     }
    ]
   },

@@ -23,8 +23,11 @@ Everything a pace surface needs comes from three computations, in this order:
 
 1. **Where the target line says we should be today** — baseline plus the
    fraction of the goal's duration already elapsed, times the total distance.
-   This is a pure calendar computation, with no dependence on the metric's
-   history at all.
+   For a level metric this is a pure calendar computation, with no dependence
+   on the metric's history at all. For a flow metric whose days are not
+   interchangeable, the fraction is the *expected* share of the period
+   elapsed, not the calendar share. See below for when that difference earns
+   its place.
 2. **Where we actually are** — the last real observation, the same anchor the
    projection uses.
 3. **Where the projection lands at the deadline** — the anchored ray evaluated
@@ -37,6 +40,48 @@ against a target of Y. Both are worth reporting and they routinely disagree —
 a goal can be behind today and projected to make it, which is the single most
 useful thing a pace surface can say, and it is invisible if only one of the
 two is computed.
+
+## The target line has the metric's shape, or none
+
+A goal on a flow metric (revenue this month, signups this quarter) resets to
+zero each period, so the baseline trap below cannot occur. It has a different
+one. When its days carry a shape, such as dead weekends, a Friday peak or a
+month-end close, a calendar line reads "behind" on every trough and "ahead"
+on every peak. The current verdict then flips on the calendar, not on the
+work. The shaped line is the goal times **the weight of the elapsed days over
+the weight of the whole period**, with weights learned from the metric's own
+trailing whole cycles. The mechanics, the history floor and the fallback to
+flat weights are in
+[weekday-weighted month-end projection](../../../../../marketing/measurement-and-economics/goal-pacing-and-forecast/techniques/weekday-weighted-month-end-projection.md).
+The required rate follows the same shape: the shortfall is divided by the
+weight still ahead, then shared out by each remaining day's weight. A flat
+per-day figure asks a Saturday for a Tuesday's work.
+
+Measured on 2026-09-26 by replaying 21 closed months day by day through one
+product's own pacing code, 617 replays per arm, with the same projection in
+both arms and only the target line changed:
+
+| Series | Calendar line: flips, wrong at month end | Shaped line: flips, wrong at month end |
+| --- | --- | --- |
+| Mild weekday shape (days within ±10%) | 2–4, 0.8–1.1% | 4, 1.3–1.8% |
+| Strong business-days shape (weekend days a quarter of a weekday) | 27–28, 7.1–7.3% (11–12% in the first ten days) | 3–10, 1.6–4.9% |
+| Three real, bursty daily series | never disagreed with the shaped line | — |
+
+So **weight the line when the shape is large against the metric's
+period-to-period noise.** Below that, the calendar line is the simpler honest
+one and was marginally ahead.
+
+One consequence surprises implementations. When the projection is itself the
+shaped run-rate (the banked amount scaled by whole-period weight over elapsed
+weight), the shaped current verdict and the forecast verdict are the same
+inequality. They cannot disagree; across every replay above they never did.
+"Behind today, projected to make it" then needs a projection that knows
+something the current position does not, such as a trend term or a scheduled
+driver. On a surface whose projection is only the shaped run-rate, a calendar
+badge that disagrees with the projection is reporting the weekday mix, not
+news. Under the strong shape the projection was right on 39 of the 43 replays
+where the two disagreed (28 of 42 against a trailing-median goal). Show one verdict, or label the calendar one as the
+plan's flat assumption.
 
 ## The required rate is the output that matters
 
@@ -118,6 +163,11 @@ history a team already reported on.
 - **When the required rate has never been sustained historically, say
   "unreachable at any observed pace".**
 - **When no creation-time baseline exists, refuse the progress percentage.**
+- **When a flow metric's within-period shape is large against its noise,
+  pace against the expected cumulative share, not the calendar.** When it is
+  mild, the calendar line is enough.
+- **When the projection is only the shaped run-rate, do not present its
+  disagreement with a calendar badge as a second opinion.**
 - **When the projection is not presentable, the current verdict still is.**
   "Behind by 6 points today" needs no fit; only the forecast verdict does.
 

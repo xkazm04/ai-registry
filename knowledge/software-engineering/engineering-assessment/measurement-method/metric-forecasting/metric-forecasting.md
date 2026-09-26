@@ -71,7 +71,7 @@ to eight sparse points does not buy accuracy; it buys the appearance of rigour,
 which is the specific failure this subject exists to prevent. Spend the effort
 on the gates instead.
 
-Two rules about the fitted line are not negotiable, and both are covered by
+Two rules about the fitted line hold by default, and both are covered by
 [trend-fitting-and-anchoring](./techniques/trend-fitting-and-anchoring.md):
 the ray is anchored at **the last actual observation, not at the fitted value
 for that date**, so the projection visibly continues the series a reader can
@@ -79,6 +79,15 @@ see rather than starting from a phantom point beside it; and the x-axis is
 **elapsed time, not sample index**, because samples arrive irregularly and an
 index-based slope silently reports "per sample" while the label says "per
 week".
+
+The anchor rule assumes the last observation is signal. Where one re-scan
+of unchanged material can move the metric by as much as the last point sits
+off the line — the same noise that sizes the flat band below — the anchor
+carries that noise into every projected value and moves the estimated date by
+residual over slope. A last point far outside that noise is one unconfirmed
+sample: draw the gap and start from the fit, or hold the date until the next
+observation confirms the level. A metric whose daily values are mostly noise
+can skip the choice entirely, starting from a smoothed level.
 
 ## An estimate is measured from now, not from the last sample
 
@@ -157,6 +166,16 @@ to **a moving target line** — the trajectory that would land exactly on the
 goal at the deadline — and reports the signed gap between them plus the
 remedy: the gain still required per remaining period.
 
+That line is straight only when the days are interchangeable. A level metric
+(a score, a coverage percentage) earns a calendar line. A flow metric summed
+over the period (revenue, signups, tickets closed this month) whose days carry
+a strong shape, such as dead weekends or a Friday peak, earns the *expected
+cumulative* line: the goal times the weight of the days elapsed over the
+weight of the whole period. A calendar line on that metric reads "behind"
+every Monday for reasons that have nothing to do with the work. The shape has
+to be large against the metric's own noise before it earns a place. Below
+that, the calendar line is the honest one.
+
 That remedy figure is what makes pacing actionable where a bare verdict is
 not. "Behind" prompts an argument; "behind — needs 3.1 points per week for the
 remaining five weeks, against a current pace of 1.4" prompts a decision. The
@@ -213,7 +232,8 @@ as a plan.
 - **An estimate anchored on the last sample.** Estimates are measured from
   now.
 - **A ray that starts beside the last dot.** Anchor on the observation, not on
-  the fitted value.
+  the fitted value — unless that observation is an unconfirmed outlier, and
+  then the gap is drawn, not hidden.
 - **An unbounded horizon.** Every projection has a date past which it stops
   claiming.
 - **A pace verdict over a ratio with no baseline.** Without a creation-time

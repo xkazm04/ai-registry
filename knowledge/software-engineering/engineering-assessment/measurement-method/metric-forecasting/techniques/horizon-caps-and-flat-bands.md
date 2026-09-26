@@ -39,6 +39,13 @@ point is not signal. Where that noise is unknown, the practical starting point
 is the smallest change the surface can even display — a slope that cannot move
 the rendered value within the visible horizon is flat by definition.
 
+The noise decides the band's *form* as well as its size. A bounded score
+whose re-scan jitter is roughly constant takes an absolute band, points per
+week. An unbounded counter whose day-to-day noise grows with its level (spend,
+call volume, queue depth) takes a band that is a **fraction of the level**.
+An absolute band calls every large account's ordinary wobble a trend and
+every small account's real doubling flat.
+
 The band is one constant, referenced everywhere. "Flat" meaning one thing on
 the chart and another in the digest is
 [one vocabulary with two hand-maintained definitions](../../../../_laws.md#one-authority-per-vocabulary),
