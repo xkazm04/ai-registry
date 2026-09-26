@@ -949,3 +949,50 @@ Source-class tally (post-hoc, this run):
 - The run's own first count of "routes without a capability check" matched
   only the require* gate names and missed `can()`. A route read caught it. The
   recount covers every capability reader, and the application cites it.
+
+## Run dp-sr0926 - session-resume, a next second stack and the acknowledgment that stamps what was shown
+
+This was a Curator dispatch on "single stack (react)". Both applications came from
+personas' home welcome. The map joined the subject to two contexts: personas
+`home-welcome` (a deviation verdict) and a lexical ascent match. The real next seams
+were elsewhere:
+- politicas' `/schranka` inbox (a local anchor plus a seen watermark).
+- ascent's Alerts chip and live ledger (two per-member anchors on the server). The
+  ledger cites this subject in its own source.
+
+The seam lane missed the ledger, and a grep for the subject slug found it. Two
+anchor defects were fixed in the trees:
+- politicas `6f6f97a`: the visit was stamped on open, before the fetch.
+- ascent `9789b04b`: acknowledgment stamped the clock, over a view loaded earlier.
+
+Six techniques were conditioned, and the golden path carries all of it. The golden
+path also fixed its own freshness states, which it had defined by age while its
+technique splits them by cause. 0 new techniques.
+
+Applied: 2 code `better` (politicas, ascent), 3 simulation `better`, 2 simulation
+`not-better`, 1 unapplied (no fleet web app writes a departure anchor). Impact:
+personas' one verdict (`home-welcome`) is now stale; ascent has 0 judged pairs.
+Maps were rebuilt for the 2 joined projects only (`--project`) and committed
+unpushed.
+
+| subject | rung | last-pass yield | demand after | dry |
+| --- | --- | --- | --- | --- |
+| session-resume | L3 | 2 applications (next), 1 flipped rule (acknowledgment through what was shown), 5 conditions, 1 golden-path contradiction fixed, 2 code fixes (unpushed), 0 techniques | 1 stale (personas home-welcome); the real ascent seams are unjoined | 0 |
+
+Source-class tally (post-hoc, this run):
+- The trees decided the one flipped rule. No source in either web lane named the
+  acknowledgment-clock skip. Two surfaces in one tree made the same mistake, and a
+  third (personas' channel watermark) had already avoided it.
+- Vendor platform docs (a page-lifecycle guide, an unload deprecation timeline
+  updated 2026-06-29, the framework's own preserving-UI-state guide) dated three
+  claims exactly. Use this class first for any claim about which browser event fires.
+- Specs and API references (a chat protocol, a code host's notifications API, RFC
+  5861/9111) settled storage and vocabulary. UX research and a 2018 product
+  announcement carried the pull-surface condition only together with the blind
+  lane and the trees.
+- The blind lane was the cheapest convergence again. It reached draft-in-place,
+  server-held anchors, "caught up only where news was expected" and data-derived
+  acknowledgment without a search.
+- The seam lane's report was right about everything it read. It missed the one tree
+  that cites the subject by name, because it searched behaviour words, not the slug.
+  In a fleet whose code cites registry subjects, grep the subject slug first.
