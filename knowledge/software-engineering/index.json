@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 233,
   "techniques": 1813,
-  "applications": 1163,
+  "applications": 1165,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -4782,9 +4782,9 @@
    "subcategory": "data-display",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/data-display/canvas-graph/canvas-graph.md",
-   "digest": "sha256-b2:de04d3ae6ea0cc73",
-   "revision": 4,
-   "changedAt": "2026-09-20",
+   "digest": "sha256-b2:59c31182b8b6b4db",
+   "revision": 5,
+   "changedAt": "2026-09-26",
    "techniques": [
     {
      "slug": "canvas-accessibility",
@@ -4822,7 +4822,8 @@
      "use_when": [
       "edges floating a few pixels off their nodes",
       "deciding which edges deserve ink in the current view",
-      "hit-testing a one-pixel-wide edge"
+      "hit-testing a one-pixel-wide edge",
+      "drawing edges for a diagram a layout engine already routed"
      ]
     },
     {
@@ -4838,7 +4839,9 @@
       "user-placed nodes shift after a reload",
       "choosing between layered and force-directed",
       "one arrival re-seats the whole picture",
-      "a generated layout renders differently on the server and the client"
+      "a generated layout renders differently on the server and the client",
+      "a diagram re-lays itself when only the source order changed",
+      "labels overflow the boxes a layout engine placed"
      ]
     },
     {
@@ -4853,7 +4856,8 @@
       "a canvas stutters on every pan gesture",
       "deciding whether nodes may see the transform",
       "labels pop in and out while zooming",
-      "an idle canvas keeps the machine warm"
+      "an idle canvas keeps the machine warm",
+      "budgeting a canvas that repaints every frame"
      ]
     },
     {
@@ -4882,6 +4886,20 @@
     },
     {
      "stack": "react",
+     "technique": "edge-management",
+     "file": "knowledge/software-engineering/ui-surfaces/data-display/canvas-graph/applications/react--edge-management.md",
+     "verified_on": "2026-09-26",
+     "verified_against": "react@19.3"
+    },
+    {
+     "stack": "react",
+     "technique": "graph-layout",
+     "file": "knowledge/software-engineering/ui-surfaces/data-display/canvas-graph/applications/react--graph-layout--kp.md",
+     "verified_on": "2026-09-26",
+     "verified_against": "react@19.3"
+    },
+    {
+     "stack": "react",
      "technique": "graph-layout",
      "file": "knowledge/software-engineering/ui-surfaces/data-display/canvas-graph/applications/react--graph-layout.md",
      "verified_on": "2026-09-20",
@@ -4891,13 +4909,15 @@
      "stack": "react",
      "technique": "render-budget",
      "file": "knowledge/software-engineering/ui-surfaces/data-display/canvas-graph/applications/react--render-budget.md",
-     "verified_on": "2026-08-18"
+     "verified_on": "2026-09-26",
+     "verified_against": "react@19.2"
     },
     {
      "stack": "react",
      "technique": "viewport-transform",
      "file": "knowledge/software-engineering/ui-surfaces/data-display/canvas-graph/applications/react--viewport-transform.md",
-     "verified_on": "2026-08-18"
+     "verified_on": "2026-09-26",
+     "verified_against": "react@19.2"
     }
    ]
   },
