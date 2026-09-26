@@ -142,6 +142,15 @@
         "recruiting-funnel-metrics",
         "small-sample-honesty-in-hiring-analytics"
       ]
+    },
+    {
+      "id": "candidate-self-presentation",
+      "title": "Candidate self-presentation",
+      "order": 10,
+      "subjects": [
+        "cv-content-construction",
+        "cv-presentation-and-parseability"
+      ]
     }
   ]
 }
