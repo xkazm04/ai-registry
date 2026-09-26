@@ -1,0 +1,59 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-cc-0926",
+  "skill": "deepen",
+  "skill_version": "1.3.1",
+  "mode": "interactive",
+  "domain": "software-engineering",
+  "started_at": "2026-09-26T12:55:00Z",
+  "ended_at": "2026-09-26T14:05:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/connector-catalog",
+      "at": "2026-09-26",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": 0,
+      "points_after": 0
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "software-engineering/connector-catalog",
+      "technique": "shipped-vs-operator-ownership",
+      "verdict": "better",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/integration/external-systems/connector-catalog/connector-catalog.md",
+    "knowledge/software-engineering/integration/external-systems/connector-catalog/techniques/shipped-vs-operator-ownership.md",
+    "knowledge/software-engineering/integration/external-systems/connector-catalog/applications/rust--shipped-vs-operator-ownership.md",
+    "librarian/applied.md",
+    "librarian/domains/software-engineering.md",
+    "librarian/subjects/software-engineering/connector-catalog.md"
+  ],
+  "commits": [
+    {
+      "sha": "1ecb1aab",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/software-engineering",
+        "catalog.json",
+        "rules/ai-registry-software-engineering.md"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "single stack cleared: next, react, rust. 6 claims: 0 refuted, 5 conditioned, 0 techniques. Code apply pushed to personas. 3 unapplied. Maps: personas 4 stale, ascent 1 stale, committed unpushed (diverged / not our commits). 3 leads."
+}

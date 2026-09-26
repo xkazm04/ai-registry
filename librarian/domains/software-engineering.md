@@ -659,3 +659,32 @@ Source-class tally (post-hoc, this run):
   converse and the three-table disagreement appeared in neither lane. A lane summary's
   "never persisted" claim did not survive a known-positive check, and it was narrowed in
   the note.
+## Run dp-cc-0926 - connector-catalog, a rust second stack and a third writer
+
+A Curator dispatch on "single stack (react)". The `next` application is the react family.
+This scan scored the subject 0 points both before and after the pass, so the dispatcher's
+lens and the scan's lens disagree on what counts as a second stack. The second stack came
+from a desktop app's Rust boot seeder, on the one technique with no application. The
+canonical clobber was re-verified unchanged.
+
+Five writers were enumerated. The replay showed four losses: the import writer's appends,
+a label edit, a rename (the split key made it an unmarked fork), and a deletion (the row
+was resurrected). The live store testified exactly as the conditioned audit predicts.
+
+Six claims were attacked: 0 refuted, 5 conditioned, 1 confirmed with a refinement, and 0
+techniques earned. The blind lane was wrong once, predicting a duplicate row on rename,
+and the replay caught it. One `code` apply was pushed to the project.
+
+| subject | rung | last-pass yield | demand after | dry |
+| --- | --- | --- | --- | --- |
+| connector-catalog | L3 | 1 application, 8 conditions, 1 code fix pushed, 0 techniques | 5 stale (personas 4, ascent 1) | 0 |
+
+Source-class tally (post-hoc, this run):
+
+- Accepted claims rested on package-manager policy and manual pages, a declarative
+  platform's own reference text, and an infrastructure tool's language docs.
+- One official doc site blocked the fetch. Its raw source repository served the same
+  page, and the fetch tool's summary of the rendered page had truncated the one table
+  that mattered.
+- A platform's KB and community pages were declined because no primary source was
+  reached, and so was a PM's blog.
