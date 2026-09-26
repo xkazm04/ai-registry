@@ -348,3 +348,35 @@ Impact: no kp context pairs the subject, although `cv-extraction` holds the
 redactor. That is a matcher miss, recorded in the subject note. Three
 single-lane leads banked. Yield high, dry_streak 0. See
 [[blind-screening-and-redaction]].
+
+## 2026-09-26 - deepen: candidate-ai-disclosure-and-explanation
+
+Dispatched by the Curator lane on "never swept by the librarian". Landed (f05c806d):
+- two flipped rules:
+  - attribution: an operator identity is necessary, not sufficient; a
+    machine-selected, person-approved decision renders as two facts, never an
+    upgrade, and the promise-reconciliation test is rewritten;
+  - consent: an expired basis triggers erasure, it does not blank the subject's
+    view while the record exists; the rule is parity with every internal reader;
+- conditions: rank cut-offs have no threshold; a conjunctive floor reads
+  "below", never "required"; contestable is not recourse; caveats sealed with
+  the pair cross with it; trade secrecy goes to the authority; review "at any
+  point" is bounded by retention; notice brevity is a budget, not a proven gain;
+- all three applications re-verified to 2026-09-26 with witnesses, and three new
+  node applications (attribution, decisive facts, the review right).
+
+Four `applied.md` rows, all better: two code rows in kp cf6cb58aa (the approval
+beside the machine's selection; the staleness caveat) and two simulations
+(consent parity; the review right's retention edge). Impact: kp 3 contexts,
+0 stale verdicts. Seven kp deviations owed. The 2026 regime matrix is banked
+for multi-jurisdiction-hiring-compliance, not landed here. Yield high,
+dry_streak 0. See [[candidate-ai-disclosure-and-explanation]].
+
+Source classes, this run. Kept:
+- court judgments and regulator guidelines decided the two flips outright; the
+  access guideline's worked example matched the consumer's case almost exactly;
+- a consumer tree's own comments are primary evidence of what its record holds,
+  and outran the literature on the caveat.
+
+Declined: placebic-explanation studies as a rule (small, one lane); secondary
+law-firm summaries of 2026 rules where the primary text was unreachable.
