@@ -28,6 +28,15 @@ reviewable, editable artifact, approved **before any prose exists** —
 approving prose is approving a thousand decisions at once; approving a
 three-line question stack is approving the three that matter.
 
+The generation research agrees on the direction, not on this artifact:
+long-form story generators that build an explicit plan first and draft
+against it are judged coherent substantially more often than drafting the
+same model straight from a premise (+14 points on overall plot coherence,
++20 on relevance to the premise — Yang et al., 2022, where the plan works
+together with reranking and revision). No published evaluation yet ties a
+*question* stack to measured viewer retention; the transfer is an
+inference, and the retention graph is where to check it.
+
 ## Procedure
 
 1. **Derive the stack from the tension, not the topic.** Each question must
@@ -38,7 +47,12 @@ three-line question stack is approving the three that matter.
 2. **Size the stack to the runtime: roughly one question per 60–90 seconds
    of essay body.** Under three minutes, exactly **one** question — measured
    short-form practice is unanimous on this, and it is placed inside the
-   first 12 seconds. Around fifteen to twenty minutes, three. (The 4–8
+   first 12 seconds. In a feed-served short that deadline is for the
+   *spoken question*, not for the gap: the swipe decision is made in the
+   first second or two, and the platforms measure exactly that moment
+   (viewed versus swiped away). The frame and the first line must already
+   carry the collision — a paired observation, a contradiction — so that
+   the question at second ten names a gap the viewer is already holding. Around fifteen to twenty minutes, three. (The 4–8
    minute middle is under-evidenced; interpolate and verify against
    retention, don't assume.)
 3. **Order the questions causally.** The answer to question one should

@@ -5,10 +5,14 @@ subject: short-form-narrative-structure
 technique: question-stack-architecture
 stack: process
 status: forged
-verified_on: 2026-08-19
+verified_on: 2026-09-26
 ---
 
 # Question stack as a pipeline artifact — a video-studio script step
+
+*Re-resolved 2026-09-26 at commit `3ee32c6`: the pattern study and the
+craft baseline are unchanged since they were written (`31d1777`), and
+every line range cited below still lands on the passage quoted.*
 
 How one generative video studio (repo: `gravitone-gcloud`) turned the
 question stack from writing advice into a pipeline contract for its

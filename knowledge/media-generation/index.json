@@ -5,7 +5,7 @@
   "source": "knowledge/media-generation/ (frontmatter only)",
   "subjects": 21,
   "techniques": 146,
-  "applications": 75,
+  "applications": 76,
   "laws": 9,
   "categories": [
    "narrative-craft",
@@ -2195,9 +2195,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/narrative-craft/short-form-narrative-structure/short-form-narrative-structure.md",
-   "digest": "sha256-b2:9872cb6d31504066",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:dd5bc32ae4e71fbb",
+   "revision": 2,
+   "changedAt": "2026-09-26",
    "techniques": [
     {
      "slug": "but-therefore-beat-linking",
@@ -2274,16 +2274,23 @@
    ],
    "applications": [
     {
+     "stack": "next",
+     "technique": "but-therefore-beat-linking",
+     "file": "knowledge/media-generation/narrative-craft/short-form-narrative-structure/applications/next--but-therefore-beat-linking.md",
+     "verified_on": "2026-09-26",
+     "verified_against": "next@16.3.3"
+    },
+    {
      "stack": "process",
      "technique": "question-stack-architecture",
      "file": "knowledge/media-generation/narrative-craft/short-form-narrative-structure/applications/process--question-stack-architecture.md",
-     "verified_on": "2026-08-19"
+     "verified_on": "2026-09-26"
     },
     {
      "stack": "process",
      "technique": "reversal-anatomy",
      "file": "knowledge/media-generation/narrative-craft/short-form-narrative-structure/applications/process--reversal-anatomy.md",
-     "verified_on": "2026-08-19"
+     "verified_on": "2026-09-26"
     }
    ]
   },

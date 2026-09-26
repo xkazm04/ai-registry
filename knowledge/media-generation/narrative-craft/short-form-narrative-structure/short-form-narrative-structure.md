@@ -77,10 +77,20 @@ explainer states its entire thesis inside the first minute and spends the
 remaining 90-plus percent of runtime on why the answer is stranger than it
 sounds; a sixty-second physics short can answer its title question in its
 second word and lose nothing, because one line immediately reopens the gap
-at a deeper level. Withholding the conclusion does not create tension — it
-creates the suspicion that there is no conclusion. The tension that
-sustains factual work is *how can that be true*, and that tension survives
-full disclosure of *what* is true.
+at a deeper level. The tension that sustains factual work is *how can that
+be true*, and that tension survives full disclosure of *what* is true. The
+learning evidence points the same way: cues that announce a piece's
+structure before the material improve retention across more than a hundred
+studies (signaling, g ≈ 0.5 — Schneider et al., 2018).
+
+The rule has a boundary, and the boundary is declared, not felt. When the
+answer genuinely *is* the gap — a ruling among stated candidates, a
+paradox whose resolution is the payoff — withholding it is the format, and
+fiction research on spoilers is at least split on whether knowing an
+outcome costs suspense. What fails is withholding *silently*: a piece that
+hides its conclusion without saying one is coming reads as having none.
+A reveal format says so out loud ("one of these is the actual answer") and
+is then held to paying it (scqa-opening).
 
 ## Structure scales with runtime; the grammar does not
 
@@ -127,10 +137,19 @@ outputs, not its hidden reasoning.
 ## Delivery is a consequence, not a dial
 
 Delivery mechanics are real but strictly downstream of composition.
-Measured across strong practitioners, factual narration runs **roughly
-200–250 words per minute**, so a 130-second piece budgets about 425–525
-words — and the budget must be stated in **essay time, not runtime**,
-because sponsor reads and front matter can consume a third of the clock.
+The rate is a choice with a price, not a constant. Four fast, dense,
+narration-led explainers measure **roughly 200–250 words per minute**, so
+a 130-second piece in that register budgets about 425–525 words. That is
+the top of the range, not its middle: conventional voiceover is planned at
+150–160, and an image-led piece — where the picture carries beats the
+narration leaves unsaid — budgets lower still. Faster, enthusiastic
+delivery tracks higher engagement in large-scale course-video data
+(Guo, Kim & Rubin, 2014), while speeding the same material up costs
+retention (g ≈ −0.4 across twelve studies, 2025) and captions soften that
+cost. So pick the rate from the register and the audience's load — slower
+for technical content, busy visuals, or older viewers, captions at the
+fast end — and state the budget in **essay time, not runtime**, because
+sponsor reads and front matter can consume a third of the clock.
 Surface statistics like hedge density, second-person address, and numeric
 density are consequences of the subject and the chosen structure — a fully
 knowable subject hedges near zero, a genuinely uncertain one should say so
@@ -151,13 +170,18 @@ the best factual work is funny without ever stopping to be funny.
 
 - **The wiki timeline** — beats joined by "and then". Test it mechanically;
   never trust the feeling that it flows.
-- **The withheld answer** — mystery-novel structure applied to explanation.
+- **The withheld answer** — mystery-novel structure applied to explanation,
+  without the declaration that makes a reveal format honest.
 - **Facts with no owner question** — material that answers nothing anyone
   asked; it belongs in a different video or in none.
 - **The unearned reversal** — "but it's not that simple!" with no mechanism
   behind it; surprise asserted rather than engineered.
 - **The recap ending** — telling viewers what they just heard, which they
-  know; the one ending strong practitioners categorically refuse.
+  know; the ending strong practitioners of short factual work refuse.
+  It is a description of their practice, not a law of learning: when the
+  piece's job is that viewers retain several parts and act on them later,
+  a closing retrieval prompt earns the slot a passive recap wastes
+  (reframe-close).
 - **Two theses** — each halves the other's payment.
 - **Explaining without implying** — long stretches of mechanism with no
   moment of reflection saying why it matters. Momentum and meaning are
