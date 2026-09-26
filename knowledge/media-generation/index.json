@@ -5,7 +5,7 @@
   "source": "knowledge/media-generation/ (frontmatter only)",
   "subjects": 21,
   "techniques": 146,
-  "applications": 77,
+  "applications": 79,
   "laws": 9,
   "categories": [
    "narrative-craft",
@@ -1672,9 +1672,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/narrative-craft/narrative-engine-selection/narrative-engine-selection.md",
-   "digest": "sha256-b2:9e9b575cdf6859a8",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:ee7e639af1a17478",
+   "revision": 2,
+   "changedAt": "2026-09-26",
    "techniques": [
     {
      "slug": "adjudication-honesty-tells",
@@ -1747,16 +1747,29 @@
    ],
    "applications": [
     {
+     "stack": "next",
+     "technique": "fit-vs-hazard-axes",
+     "file": "knowledge/media-generation/narrative-craft/narrative-engine-selection/applications/next--fit-vs-hazard-axes.md",
+     "verified_on": "2026-09-26",
+     "verified_against": "next@16"
+    },
+    {
      "stack": "process",
      "technique": "adjudication-honesty-tells",
      "file": "knowledge/media-generation/narrative-craft/narrative-engine-selection/applications/process--adjudication-honesty-tells.md",
-     "verified_on": "2026-08-19"
+     "verified_on": "2026-09-26"
     },
     {
      "stack": "process",
      "technique": "engine-arbitration-order",
      "file": "knowledge/media-generation/narrative-craft/narrative-engine-selection/applications/process--engine-arbitration-order.md",
-     "verified_on": "2026-08-19"
+     "verified_on": "2026-09-26"
+    },
+    {
+     "stack": "process",
+     "technique": "fit-vs-hazard-axes",
+     "file": "knowledge/media-generation/narrative-craft/narrative-engine-selection/applications/process--fit-vs-hazard-axes.md",
+     "verified_on": "2026-09-26"
     }
    ]
   },

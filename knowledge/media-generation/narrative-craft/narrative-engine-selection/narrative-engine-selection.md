@@ -25,8 +25,8 @@ share are arranged into different causal chains serving different pleasures.
 The naive reading treats structure as a template to fill: pick "listicle" or
 "explainer," pour the research in, publish. That reading produces the single
 most common defect in factual video — the wiki timeline, a sequence of true
-statements connected only by "and then," which a viewer abandons because
-nothing in it obligates the next beat. The principal reading is that structure
+statements connected only by "and then," which gives a viewer no reason to
+take the next beat because nothing in it obligates one. The principal reading is that structure
 is a *machine with a contract*: each engine takes material of a particular
 shape, converts it into a specific viewer pleasure, and fails in a specific,
 nameable way when fed material of the wrong shape. Selection is therefore not
@@ -52,7 +52,11 @@ at forty seconds and at eighteen minutes; what changes with length is the
 budget — how many reversals, rungs, or candidate theories fit — not the
 contract. This matters practically: a catalogue that files structures under
 "short-form formats" and "long-form formats" duplicates every machine and
-loses the compression rules that actually vary with length.
+loses the compression rules that actually vary with length. The invariance
+holds for the middle of the machine, not its ends: a feed-served short
+arrives with no clicked promise to pay off and is rewarded for a close that
+loops back into its opening, so the entry and the exit are designed per
+surface even when the engine between them is unchanged.
 
 And engines compose. A long argument may run one engine as its spine and
 another as its final act. Treat the catalogue as a vocabulary, not a menu of
@@ -82,8 +86,12 @@ produces its most confident output exactly where confidence is least earned.
 These two axes must never be averaged into one score. The most dangerous cell
 is high fit, high hazard: the engine snaps on cleanly, the script reads well,
 and the damage lives in what the shape implies rather than in any sentence a
-reviewer could flag. A hazard note is not a fit downgrade and not a veto — it
-is a second, orthogonal finding that the arbitration step consumes first.
+reviewer could flag. That is not only an editorial worry: defamation law
+recognizes meaning carried by arrangement, where literally true statements
+imply a damaging fact and the presentation signals that the author endorses
+the inference — and a verdict beat is that signal by construction. A hazard
+note is not a fit downgrade and not a veto — it is a second, orthogonal
+finding that the arbitration step consumes first.
 
 ## When several engines fit, arbitrate; when none fits, stop
 
@@ -119,20 +127,37 @@ strongest form, or pre-excluded by construction? A skeleton can be clean while
 the execution is polemic wearing the costume of analysis — so take structure
 and honesty standards from different exemplars when necessary, and never
 encode a persuasion technique as an explanation technique because it arrived
-inside a well-shaped video.
+inside a well-shaped video. No single tell is sufficient. A refuted steel-man
+is also the most persuasive shape an argument can take, so a rigged script
+can carry one; and putting a settled premise on trial as a live candidate is
+false balance, which shifts a viewer's sense of the evidence even when the
+weights are stated. Every candidate owes its weight on screen, not just its
+presence.
 
 ## Selection is verifiable after the fact
 
 An engine choice is a testable claim about the script it produces, and cheap
 mechanical diagnostics catch a broken or faked selection without judging the
-subject. Causal-opener density — the share of sentences opening with but, so,
-because, therefore — measures how much a script *derives* rather than asserts;
-it is a property of the writer and the engine, not of length, and a verdict
-engine running at the bottom of the observed range is announcing theories
-rather than weighing them. Turn count per minute measures whether the viewer
-is ever allowed to settle. And the and-then count must be zero: a single beat
-joined to the next by pure sequence is the wiki timeline surfacing inside
-whatever engine was claimed. A selection pipeline that never re-measures its
+subject — but they differ in what they can prove. The and-then count is the
+strong one and it must be zero: a beat joined to the next by pure sequence is
+the wiki timeline surfacing inside whatever engine was claimed. It is also
+gameable in the dangerous direction. A zero reached by writing "therefore"
+where the research holds only sequence has not removed the timeline; it has
+asserted a causation the evidence never contained. And viewers read adjacent
+beats as causal by default, connector or not, so where the finding is that
+one thing did *not* cause the next, the script has to say so aloud. Turn
+count per minute measures whether the viewer is ever allowed to settle.
+Causal-opener density — the share of sentences opening with a causal or
+additive connector, "and" included, which is how the observed 15–40% band was
+counted — is the weak one. It measures how *explicitly* a script marks its
+links, and explicitness is as much the writer's voice as the argument: two
+writers on one engine at comparable quality measured 14.6 and 32.0
+connectives per thousand words, essay-quality research finds no cohesion
+index (connectives included) that predicts rated quality, and roughly half the
+relations between adjacent sentences in annotated English carry no connector
+at all. Compare it within one writer and register, and read a low score as a
+reason to read the script — never as the finding that theories were announced
+rather than weighed. A selection pipeline that never re-measures its
 own output will drift back to lists, because lists are what unstructured
 material becomes by default.
 

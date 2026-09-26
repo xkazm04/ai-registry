@@ -88,6 +88,29 @@ in six days, and no installation has ever reported consulting it. Whether that i
 
 ## Dispatched
 
+### 2026-09-26 - `/deepen` on one subject, landed
+
+- [[narrative-engine-selection]] - dispatched on "single stack (process)",
+  the clause this note declined for `/deepen` on 2026-08-28. The clause did
+  not earn the run. The subject's first counter-evidence pass did. The stack
+  flag cleared anyway, because the seam was in the studio's `next` app code
+  (the sibling's same-day finding, confirmed here). The single-tree clause
+  stands and is still `/reconcile`'s. Five golden-path
+  rules gained conditions and none was refuted outright.
+  - Density is now voice, within-writer only. The registry had dropped "and"
+    from the definition the band was counted with.
+  - The steel-man is weak evidence on its own.
+  - A settled premise staged as a candidate is false balance.
+  - The AND-THEN zero is gameable, so a non-link is spoken.
+  - Hazard now names defamation by implication and verdict levels.
+
+  Two new applications, both for fit-vs-hazard. One is process, a
+  simulation with verdict better. The other is `next`: the hazard field is
+  stored but not required and never rendered. Both old applications were
+  re-verified. Zero stale
+  verdicts, since no map joins the subject. One cross-subject proposal
+  banked for [[creator-voice-and-tone]]: the same density claim.
+
 ### 2026-08-28 - one worker, landed
 
 - [[generated-output-grading]] - the banked proposal adjudicated as an

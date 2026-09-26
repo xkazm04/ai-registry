@@ -5,14 +5,14 @@ subject: narrative-engine-selection
 technique: adjudication-honesty-tells
 stack: process
 status: forged
-verified_on: 2026-08-19
+verified_on: 2026-09-26
 ---
 
 # Adjudication honesty tells in a video-studio methodic (process)
 
 The source studio's `knowledge/ENGINES.md` carries the tells as a dedicated
 subsection of the Adjudication engine entry — "D-honest vs D-rigged — the
-distinction the generator must know" (`knowledge/ENGINES.md:168-209`) — and
+distinction the generator must know" (`knowledge/ENGINES.md:167-209`) — and
 it is the frankest part of the file: it states the three tells, then audits
 its own asset schema against them and reports that the rigged path is the
 default.
@@ -63,8 +63,14 @@ Two adjacent parts of the file complete the technique's picture:
   AND-THEN count ("must be **zero**"), all MEASURED over the n=10 pooled
   corpus. The one adjudication witness ran 15% causal-opener density — the
   lowest of ten sources, against 38% for a comparably contested subject —
-  and the file draws the technique's exact conclusion: "a low score on this
-  engine is a signal the theories are being announced rather than weighed."
+  and the file draws the conclusion the technique once shared: "a low score
+  on this engine is a signal the theories are being announced rather than
+  weighed." The technique now bounds that reading, and the counter-datum is
+  in the same tree: `knowledge/TONE.md:20-32` sets two economics explainers
+  "at comparable quality" side by side at 14.6 and 32.0 connectives per
+  thousand words and concludes "Same engine. Unmistakably different people."
+  The measure the diagnostics table reads as argument, the tone file reads
+  as voice.
 - **Skeleton vs execution** (`:216-225`): the adjudication witness itself is
   filed with its skeleton catalogued and its execution explicitly rejected —
   uncited "study after study" sourcing, group attribution of individual
@@ -82,3 +88,25 @@ provenance. Deviation, self-reported: none of the tells is machine-enforced
 what *should* be stated, not what the render did with it" (`:202-204`). The
 standard holds: until the weighing is stored, every adjudication render is
 unaudited by default and may not be reported as honest.
+
+## Re-read 2026-09-26
+
+`ENGINES.md` is unchanged since 2026-08-12 and every citation above still
+resolves. The deviation stands: no `candidates[]` exists in the notebook
+schema or its validator. What moved is the render surface. The adjudication
+render's check list (`app/_phases/script/renders.ts:99-105`) now shows the
+three tells as named rows marked `pass`, each with a one-line reason, and a
+`steel-man present` row. These are stated in a hand-written render fixture,
+not computed from stored weighing, so they display the audit the technique
+asks for without making it enforceable.
+
+Two rows on that list meet this pass's corrections. `causal-opener density
+≥ 30%` (`:103`) is honestly marked `unmeasured`, but its threshold is a
+cross-writer absolute. The tree's own comparable-quality long-form witness
+runs 24% (`knowledge/templates/short-educational-video/steps/01-script/PATTERNS.md:430-431`),
+and the template parameters repeat the announced-not-weighed inference
+(`knowledge/templates/mid-educational-video/steps/01-script/params.json:90`).
+`steel-man present` passing is, per tell 3 as now written, weak evidence of
+honesty unless its weight and an open outcome go with it. Here the tell-2
+row beside it carries the weight, which is the reading the technique asks
+for.

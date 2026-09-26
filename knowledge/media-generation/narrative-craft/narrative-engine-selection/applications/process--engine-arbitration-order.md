@@ -5,7 +5,7 @@ subject: narrative-engine-selection
 technique: engine-arbitration-order
 stack: process
 status: forged
-verified_on: 2026-08-19
+verified_on: 2026-09-26
 ---
 
 # Arbitration order in a video-studio methodic (process)

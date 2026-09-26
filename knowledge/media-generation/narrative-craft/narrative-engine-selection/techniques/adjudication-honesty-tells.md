@@ -32,6 +32,15 @@ question assumes"? If the premise was tested and survived, that test belongs
 on screen; if it was never offered as a candidate, the adjudication starts
 one step too late.
 
+The tell has a boundary: it applies to a premise that is actually
+contestable. When the premise is settled by a lopsided evidence base,
+staging it as one candidate among equals is false balance, and false
+balance distorts an audience's sense of where the evidence lies even when
+the audience is also handed the weights (Koehler, 2016; Dixon & Clarke,
+2013). There the honest move is to show the test the premise passed and how
+lopsided the result was, not to seat it in a contest it cannot lose or win
+on the merits.
+
 ## Tell 2 — can any candidate beat the author's prior?
 
 If the candidate theories are three framings of one conclusion, the weighing
@@ -52,10 +61,17 @@ path — reached by following the rules correctly.
 A challenge phrased as "name an X — but you may not cite [the most common X]"
 is unfalsifiable by construction: the strongest counter-case has been removed
 before the contest. Honest adjudication states the strongest opposing case in
-its own strongest form — the steel-man — and this is the single most reliable
-honesty signal the engine has. Check the script for exclusion clauses
-attached to its challenges, and check whether the opposing case, as its best
-advocate would state it, appears anywhere on screen.
+its own strongest form — the steel-man. Check the script for exclusion
+clauses attached to its challenges, and check whether the opposing case, as
+its best advocate would state it, appears anywhere on screen.
+
+A missing steel-man is strong evidence of rigging; a present one is weak
+evidence of honesty. Refutational two-sided messages are more credible and
+more persuasive than one-sided ones (O'Keefe, 1999), so the steel-man that is
+raised and then knocked down is also the best persuasion move the engine
+has, and a rigged script can carry one. It signals honesty only with its
+weight stated and its outcome genuinely open — which is tell 2's question,
+so read the two together.
 
 ## Making the tells enforceable
 
@@ -79,12 +95,18 @@ Two supporting checks:
   it must rest on a filed action or a published admission — the weighing is
   an argument; the verdict is an assertion about people, and the in-video
   weighing is not evidence of the grade that assertion requires.
-- **Causal-connector density corroborates.** A script that adjudicates should
-  derive densely — but/so/because/therefore. Measured across a ten-video
-  corpus, the one adjudication witness ran the *lowest* connector density of
-  all ten sources; on this engine, a low score signals theories being
-  announced rather than weighed. It is a corroborating measurement, not a
-  tell — a rigged script can be connective-dense.
+- **Causal-connector density is a prompt to read, not a corroboration.** A
+  script that adjudicates should derive, and across a ten-video corpus the
+  one adjudication witness ran the *lowest* opener density of all ten
+  sources (counting sentences opened by but/so/and/because/therefore). But
+  the count measures how explicitly links are marked, and that is largely
+  the writer's voice: two same-engine writers of comparable quality in the
+  same corpus ran 14.6 and 32.0 connectives per thousand words, and no
+  cohesion index, connectives included, predicts rated essay quality
+  (McNamara, Crossley & McCarthy, 2010). Readers infer causal links that
+  are never marked, so a low count does not show the weighing was skipped.
+  Compare a script against the same writer's other work, never against a
+  cross-writer band — and a rigged script can be connective-dense.
 
 ## When not to use
 
