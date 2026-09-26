@@ -584,3 +584,38 @@ Source-class tally (post-hoc, this run):
   only for dating, never as the claim itself.
 - The blind lane reached the host rule, the platform split and the test blindness
   unprompted. That convergence is what placed the condition at technique level.
+
+## Run dp-dsl-0926 - dynamic-secret-lifecycle, a rust second stack where the issuer is its own verifier
+
+Curator dispatch on "single stack (go)". The one real join is Personas'
+api-key-management; pumper's join is a same-word match. The Rust backend
+mints its own management-API keys and verifies them against the same table,
+which exposed the case the subject had not named: the record is the
+credential, so the effect that can fail is the plaintext handout. Nine claims
+were attacked:
+- two refuted: renewal past the maximum "refused", and store-nothing
+  "unrevocable";
+- five conditioned: persist-first order, the backstop's reach, absent-target
+  identity, signing-key retention, and the no-op lease.
+
+One widening was earned by tree-plus-blind-lane convergence
+(persist-before-provision, issuer-as-verifier). A phantom deviation in the Go
+application was retracted: the core does revoke on a failed lease write, one
+call deeper than the call site. One applied row is simulation `better`, and
+four are unapplied with return conditions. Impact: 0 stale verdicts (2
+unjudged pairs, 2 projects). The personas map rebuild is owed; pumper's is
+committed locally and unpushed on a diverged master.
+
+| subject | rung | last-pass yield | demand after | dry |
+| --- | --- | --- | --- | --- |
+| dynamic-secret-lifecycle | L2 | 1 application, 1 widening, 2 refuted, 5 conditions, 1 retraction, 0 techniques | 0 stale (2 unjudged pairs, 2 projects) | 0 |
+
+Source-class tally (post-hoc, this run):
+- Source at the application's own pinned commit, fetched raw, settled both
+  refutations and the retraction. The help text of a switch overstated its
+  own price, and the code under it is what the correction cites.
+- A standards body's ballot page and a database's own reference page carried
+  the backstop and short-lived-certificate conditions. A search summary of
+  vendor commentary was not relied on.
+- The joined tree outranked both lanes on the application side: the
+  unclaimed-pairing orphan and the system-key race appeared in neither lane.

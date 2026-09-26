@@ -1,0 +1,84 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-dsl-0926",
+  "skill": "deepen",
+  "skill_version": "1.3.1",
+  "mode": "interactive",
+  "domain": "software-engineering",
+  "started_at": "2026-09-26T13:40:00Z",
+  "ended_at": "2026-09-26T15:10:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 2,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/dynamic-secret-lifecycle",
+      "at": "2026-09-26",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": 5,
+      "points_after": 3
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "software-engineering/dynamic-secret-lifecycle",
+      "technique": "persist-before-provision",
+      "verdict": "better",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/secret-custody-and-issuance/dynamic-secret-lifecycle/dynamic-secret-lifecycle.md",
+    "knowledge/software-engineering/secret-custody-and-issuance/dynamic-secret-lifecycle/techniques/persist-before-provision.md",
+    "knowledge/software-engineering/secret-custody-and-issuance/dynamic-secret-lifecycle/techniques/ttl-ladder-derivation.md",
+    "knowledge/software-engineering/secret-custody-and-issuance/dynamic-secret-lifecycle/techniques/lease-vs-native-tracking.md",
+    "knowledge/software-engineering/secret-custody-and-issuance/dynamic-secret-lifecycle/techniques/expiry-buffer-beyond-lease.md",
+    "knowledge/software-engineering/secret-custody-and-issuance/dynamic-secret-lifecycle/techniques/idempotent-revoke-and-give-up.md",
+    "knowledge/software-engineering/secret-custody-and-issuance/dynamic-secret-lifecycle/applications/rust--persist-before-provision.md",
+    "knowledge/software-engineering/secret-custody-and-issuance/dynamic-secret-lifecycle/applications/go--persist-before-provision.md",
+    "knowledge/software-engineering/secret-custody-and-issuance/dynamic-secret-lifecycle/applications/go--lease-vs-native-tracking.md",
+    "knowledge/software-engineering/index.json",
+    "rules/ai-registry-software-engineering.md",
+    "catalog.json",
+    "librarian/applied.md",
+    "librarian/domains/software-engineering.md",
+    "librarian/subjects/software-engineering/dynamic-secret-lifecycle.md"
+  ],
+  "commits": [
+    {
+      "sha": "c9e9f37a",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/software-engineering/secret-custody-and-issuance/dynamic-secret-lifecycle"
+      ]
+    },
+    {
+      "sha": "997ebbf5",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/software-engineering/index.json",
+        "rules/ai-registry-software-engineering.md",
+        "catalog.json"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [
+    {
+      "subject": "software-engineering/dynamic-secret-lifecycle",
+      "reason": "code fix in personas (revoke on handout failure, system-key mutex across the mint): spans the app and engine crates and owes a cargo test the shared checkout could not give; return with a warm target dir"
+    },
+    {
+      "subject": "software-engineering/dynamic-secret-lifecycle",
+      "reason": "pumper e2e-data-integrity join: a same-word match (dynamic, degraded, target), no credential issuance in those paths"
+    }
+  ],
+  "failure_signature": null,
+  "notes": "Single stack cleared (rust). Two refutations (renewal past max trimmed; store-nothing revocable when presented), five conditions, one widening, a phantom go deviation retracted. Pumper map committed locally at 7c5a88d, unpushed (diverged); personas map owed."
+}
