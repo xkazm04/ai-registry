@@ -784,3 +784,41 @@ Source-class tally (post-hoc, this run):
 - A test binary in the shared cargo target, built in a deleted worktree, failed a fixture
   test on a path baked in at compile time. It read as a regression until the baked path
   was found in the binary. `cargo clean -p <crate>` cleared it.
+
+## Run dp-skh-0926 - seal-and-key-hierarchy, a rust and a node second stack, the shipped plural seal refuses the threshold pair
+
+Curator dispatch on "single stack (go)". Two real trees were read as the
+subject's seal and keyring layers. Personas' Rust master-key custody holds
+two custodies of one root: the keychain, and a wrapped file written on every
+first run. kp's at-rest envelope has two slots and no term, and retires keys
+by a rewrite sweep. Six claims were attacked:
+- one refuted: the automatic-plus-threshold pair is "the common deployment";
+  the shipped plural seal forbids it;
+- five conditioned: the weakest seal is the weakest whose entry exists; a
+  third rotation design is landed and blocks rotation during a seal outage;
+  a small store may rewrite but must keep the term; the nonce budget binds
+  random nonces at a real rate; recovery shares cross to unseal shares only
+  in a declared migration.
+
+No new technique. Every convergence was a condition. Three applied rows (two
+simulation `better`, one simulation `not-better`) and three unapplied with
+return conditions. Impact: 0 stale verdicts (3 unjudged pairs, 2 projects).
+The kp, personas and tracklight maps are committed locally and unpushed, on
+diverged branches.
+
+| subject | rung | last-pass yield | demand after | dry |
+| --- | --- | --- | --- | --- |
+| seal-and-key-hierarchy | L2 | 2 applications, 1 refuted, 5 conditions, 0 techniques | 0 stale (3 unjudged pairs, 2 projects) | 0 |
+
+Source-class tally (post-hoc, this run):
+- A vendor's product docs, fetched raw, carried the refutation and two
+  conditions. The lane's quotes were re-checked against the raw download, and
+  one that was not found there was banked, not used.
+- A project's own CHANGELOG settled "landed or designed" faster than its RFC
+  index, and surfaced a shipped defect that became a test rule.
+- The standard's PDF and its revision-call pages scoped the nonce budget. The
+  extended-nonce figure came only through a page summary and was not used as
+  a number.
+- The real trees outranked both lanes on the application side: the key file
+  written despite the fail-closed policy, and the unswept decoupled key,
+  appeared in neither lane.
