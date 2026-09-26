@@ -86,3 +86,20 @@ Dispatched by the Curator lane on "single stack (node)". Landed:
 Two `applied.md` rows, both better (one code in kp, one simulation). Single-stack debt
 for this subject: cleared (points 5 -> 3). Four single-lane leads banked. Yield high,
 dry_streak 0. See [[candidate-communication-integrity]].
+
+## 2026-09-26 - deepen: hiring-policy-defaults-and-tiering
+
+Dispatched by the Curator lane on "single stack (node)". Landed:
+- a react application of the baseline technique (second stack);
+- a node application of the role-family technique;
+- the policy-version rule flipped by three-way convergence: digest resolved values and
+  omit only at the inert value;
+- four conditioned absolutes: the default effect, knockouts, the direction of review for
+  role-family bars, and pinning with tier-honest writes.
+
+All three existing node applications were re-verified to 2026-09-26. Four `applied.md`
+rows, all simulation, all better. One found a live consumer defect: the auto-reject
+switch can fail to turn off after a calibration apply. It is not fixed, because kp was
+held by a sibling. Single-stack debt for this subject: cleared (points 5 -> 3). Two
+single-lane leads banked. Yield high, dry_streak 0. See
+[[hiring-policy-defaults-and-tiering]].

@@ -1,0 +1,106 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-hpdt-0926",
+  "skill": "deepen",
+  "skill_version": "1.4.0",
+  "mode": "interactive",
+  "domain": "recruiting",
+  "started_at": "2026-09-26T12:36:49Z",
+  "ended_at": "2026-09-26T12:58:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 2,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "recruiting/hiring-policy-defaults-and-tiering",
+      "at": "2026-09-26",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": 5,
+      "points_after": 3
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "hiring-policy-defaults-and-tiering",
+      "technique": "policy-version-sealed-into-every-decision",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "hiring-policy-defaults-and-tiering",
+      "technique": "organisation-baseline-with-a-team-override",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "hiring-policy-defaults-and-tiering",
+      "technique": "per-role-family-threshold-overrides",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "hiring-policy-defaults-and-tiering",
+      "technique": "automation-ships-off-by-default",
+      "verdict": "better",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/recruiting/governance/hiring-policy-defaults-and-tiering/hiring-policy-defaults-and-tiering.md",
+    "knowledge/recruiting/governance/hiring-policy-defaults-and-tiering/techniques/a-default-is-a-policy-position.md",
+    "knowledge/recruiting/governance/hiring-policy-defaults-and-tiering/techniques/automation-ships-off-by-default.md",
+    "knowledge/recruiting/governance/hiring-policy-defaults-and-tiering/techniques/organisation-baseline-with-a-team-override.md",
+    "knowledge/recruiting/governance/hiring-policy-defaults-and-tiering/techniques/per-role-family-threshold-overrides.md",
+    "knowledge/recruiting/governance/hiring-policy-defaults-and-tiering/techniques/policy-version-sealed-into-every-decision.md",
+    "knowledge/recruiting/governance/hiring-policy-defaults-and-tiering/applications/react--organisation-baseline-with-a-team-override.md",
+    "knowledge/recruiting/governance/hiring-policy-defaults-and-tiering/applications/node--per-role-family-threshold-overrides.md",
+    "knowledge/recruiting/governance/hiring-policy-defaults-and-tiering/applications/node--automation-ships-off-by-default.md",
+    "knowledge/recruiting/governance/hiring-policy-defaults-and-tiering/applications/node--organisation-baseline-with-a-team-override.md",
+    "knowledge/recruiting/governance/hiring-policy-defaults-and-tiering/applications/node--policy-version-sealed-into-every-decision.md",
+    "knowledge/recruiting/index.json",
+    "rules/ai-registry-recruiting.md",
+    "catalog.json",
+    "librarian/applied.md",
+    "librarian/domains/recruiting.md",
+    "librarian/subjects/recruiting/hiring-policy-defaults-and-tiering.md"
+  ],
+  "commits": [
+    {
+      "sha": "96043f39",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/recruiting",
+        "rules/ai-registry-recruiting.md",
+        "catalog.json"
+      ]
+    },
+    {
+      "sha": "9aea4066",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/recruiting",
+        "rules/ai-registry-recruiting.md",
+        "catalog.json"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [
+    {
+      "subject": "recruiting/hiring-policy-defaults-and-tiering",
+      "reason": "a regulator's 'a right-to-work rejection is not a decision' line as a citation: reachable only through a law firm's summary, the regulator page fetched did not contain it"
+    },
+    {
+      "subject": "recruiting/hiring-policy-defaults-and-tiering",
+      "reason": "EU high-risk classification of knockout questions in the golden path: sourced only from vendor commentary on draft guidelines, and a deterministic human-authored rule may not be an AI system"
+    }
+  ],
+  "failure_signature": null,
+  "notes": "Single-stack cleared (react app). Version rule flipped on three-way convergence; four absolutes conditioned. Live kp defect: after a calibration apply, auto-reject off from the rules screen does not take effect. Recorded, not fixed: kp held by a sibling."
+}
