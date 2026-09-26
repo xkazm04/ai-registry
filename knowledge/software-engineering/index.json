@@ -21241,8 +21241,8 @@
    "subcategory": "measurement-method",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-assessment/measurement-method/modelled-performance-estimates/modelled-performance-estimates.md",
-   "digest": "sha256-b2:50098d421810102e",
-   "revision": 3,
+   "digest": "sha256-b2:6e43ae4c581247e7",
+   "revision": 4,
    "changedAt": "2026-09-26",
    "techniques": [
     {

@@ -7,6 +7,8 @@ stack: next
 status: forged
 verified_on: 2026-09-26
 verified_against: next@16
+applied: simulation
+ab_verdict: better
 ---
 
 # A usage page whose cost is null for want of a rate, zero for a free engine, and the one place those collide

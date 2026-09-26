@@ -619,3 +619,43 @@ Source-class tally (post-hoc, this run):
   vendor commentary was not relied on.
 - The joined tree outranked both lanes on the application side: the
   unclaimed-pairing orphan and the system-key race appeared in neither lane.
+
+## Run dp-mpe-0926 - modelled-performance-estimates, a next and a react second stack, and zero turned out to be a price
+
+Curator dispatch on "single stack (rust)". The three joined trees gave two new stacks:
+ascent's usage page (next) and personas' preflight estimates (react). goat's one seam is
+dead code. Six claims were attacked, and all six were conditioned; none was refuted
+outright:
+- the ceiling (bound-type models only; name the class);
+- the interval (measured residuals give one, inside the calibrated population);
+- the sentinel (true of zero; negatives and not-a-number fail at a hop);
+- the one ratio (absolute terms go in the numerator first);
+- the band edge (documented slack is larger and often absolute);
+- per-category entries (shrink thin ones toward the fixed default).
+
+The web lane and the blind lane converged on all six. The two structural ones landed as
+technique text, but as conditions, so no new technique was earned. The tree added what no
+lane predicted: zero as a true value (ascent prices local inference at zero, and its meter
+lanes contradict that), and three disagreeing price tables in one app (personas). One
+applied row is simulation `better`, two are simulation `unmeasurable` and one is
+unapplied. Impact: 0 stale verdicts. No context in the three joined projects pairs with
+the subject. goat's map was committed locally, unpushed on a diverged main. The ascent and
+personas map rebuilds are owed, because other sessions hold those files.
+
+| subject | rung | last-pass yield | demand after | dry |
+| --- | --- | --- | --- | --- |
+| modelled-performance-estimates | L2 | 2 applications, 6 conditions, 0 techniques | 0 stale (0 pairs, 3 candidate projects) | 0 |
+
+Source-class tally (post-hoc, this run):
+- Primary papers carried every accepted upper-layer condition: the roofline paper's own
+  framing against predictive models, a multilevel-modelling paper's cross-validation
+  table, and a conformal-prediction tutorial. Runtime source and READMEs, fetched raw,
+  carried the slack figures. One remembered default (0.9) was stale against the
+  source (0.92).
+- The blind lane reached all six conditions without search, and it proposed the fix
+  (numerator, shrinkage) before the web lane had its sources. That is agreement on the
+  training-data side, and it is why both landed as technique text.
+- The joined trees outranked both lanes on the application side. The zero-is-a-price
+  converse and the three-table disagreement appeared in neither lane. A lane summary's
+  "never persisted" claim did not survive a known-positive check, and it was narrowed in
+  the note.
