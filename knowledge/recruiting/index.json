@@ -5,7 +5,7 @@
   "source": "knowledge/recruiting/ (frontmatter only)",
   "subjects": 64,
   "techniques": 384,
-  "applications": 201,
+  "applications": 202,
   "laws": 11,
   "categories": [
    "role-definition",
@@ -3371,8 +3371,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/governance/hiring-policy-defaults-and-tiering/hiring-policy-defaults-and-tiering.md",
-   "digest": "sha256-b2:3ae334ecc8021c50",
-   "revision": 2,
+   "digest": "sha256-b2:d655121ee410899c",
+   "revision": 3,
    "changedAt": "2026-09-26",
    "techniques": [
     {
@@ -3476,6 +3476,13 @@
      "stack": "node",
      "technique": "organisation-baseline-with-a-team-override",
      "file": "knowledge/recruiting/governance/hiring-policy-defaults-and-tiering/applications/node--organisation-baseline-with-a-team-override.md",
+     "verified_on": "2026-09-26",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "per-role-family-threshold-overrides",
+     "file": "knowledge/recruiting/governance/hiring-policy-defaults-and-tiering/applications/node--per-role-family-threshold-overrides.md",
      "verified_on": "2026-09-26",
      "verified_against": "node@24"
     },

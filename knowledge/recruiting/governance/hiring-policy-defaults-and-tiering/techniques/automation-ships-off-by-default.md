@@ -119,9 +119,11 @@ produced by itself.
 - **Not for statutory or safety gates.** Where a check must run — a credential
   verification, a jurisdictional restriction — it is not a toggle at all. Do not model a
   requirement as a default-off feature; model it as a constraint no layer can clear.
-- **Not unchanged for a knockout on a declared, objective answer.** Rejecting a candidate
-  who answered "no" to a job-required eligibility question is a different capability from
-  score-based rejection, and regulators and the vendors that document the feature treat it
+- **Not unchanged for a knockout on a declared, objective answer.** A question the law
+  imposes on every hire, such as right to work, falls under the previous bullet. Rejecting
+  a candidate who answered "no" to a job-required eligibility question is a different
+  capability from score-based rejection, and regulators and the vendors that document the
+  feature treat it
 as one. Such
   questions include a stated right to work, a licence held, or a minimum age. The rule
   that survives is narrower, and it still holds. No knockout ships pre-written: each one is

@@ -7,6 +7,8 @@ stack: node
 status: forged
 verified_on: 2026-09-26
 verified_against: node@24
+applied: simulation
+ab_verdict: better
 ---
 
 # The shipped screening rule in a TypeScript policy module
@@ -112,3 +114,33 @@ defense-in-depth posture the fairness-gate subject applies to the reject path.
 - The standard's stronger reading is nonetheless met in practice further down the stack:
   even with the switch on, `screen-wave.ts` refuses to commit without an approval token
   echoed from a preview (`:276-290`), so the toggle enables a *proposal*, not an execution.
+
+## Applied
+
+Simulation, 2026-09-26, recorded in `librarian/applied.md`. The subject is the knockout
+condition the technique gained on this date. The seam is outside the screening rule.
+Both public apply routes reject an applicant whose knockout answers are not all
+explicitly `true` (`failedKoStepIds` in `app/_lib/apply-intake.ts`, called from
+`app/api/apply/[id]/route.ts` and the quick-apply route). The questions come from the
+job's own script: `ko_auth` on every job, `ko_mode` when the job declares a work mode,
+and `ko_lang` when it declares languages. The three questions were walked under A and B.
+A is the absolute as first written: auto-reject ships off, always. B is the condition: a
+statutory question is a constraint; a declared, objective knockout is its own capability,
+ships unwritten, and owes a stated job-relatedness, a notice and a route to a person.
+
+- `ko_auth` (right to work). A sees an automated rejection that ships on in every job,
+  which is a violation. B sees a statutory constraint, which is correct as shipped.
+- `ko_mode` (on-site, hybrid or remote). A: a violation. B: authored through a field the
+  recruiter set, so it is acceptable as written, but the decline owes the candidate a
+  route. The candidate reads "this role isn't the right fit right now", which names no
+  gate and offers no person.
+- `ko_lang` (required languages). A: a violation. B: the same route gap, plus the
+  missing job-relatedness. A language requirement is where a knockout most easily becomes
+  a national-origin proxy, and nothing beside the job's language field says why the role
+  needs it.
+
+A returns one verdict for three different things, and that verdict is wrong for the
+first. B separates them and finds two actionable gaps. Every decline is already audited:
+an entry-less `ko_declined` event names the role and the gate. **Falsifier:** a knockout
+in this tree that reads a score, a parsed CV or an inferred attribute. Under B that is the
+table's last row and would have to ship off. None was found in the apply routes.
