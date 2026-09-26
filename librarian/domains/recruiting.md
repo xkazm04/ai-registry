@@ -202,3 +202,24 @@ A/B test), simulation better (1 of 3 surfaces moves: no identity binding),
 unapplied (no fleet origin detector). Impact: kp 3 contexts, 0 stale verdicts.
 Seven kp deviations recorded as owed. Three single-lane leads banked. Yield high,
 dry_streak 0. See [[ai-assistance-detection-and-fairness]].
+
+## 2026-09-26 - deepen: adverse-impact-and-proxy-neutrality
+
+Dispatched by the Curator lane on "never swept by the librarian". Landed (744db88f):
+- two flipped rules:
+  - minimum-cohort: the secondary floor is on expected selections, never on
+    observed ones (0/100 vs 50/100 was suppressed);
+  - selection-rate: "believe the shortfall" is refuted, because shortfall is
+    scale-bound and read as a share of the group beside a mid-P test;
+- five conditions: mid-P over the conditional exact test, a multiple-comparison
+  policy, "may not constitute", aggregate-only inference, and several names per
+  group plus dialect as a proxy;
+- one tree-measured widening: the neutrality suite covers every candidate-typed
+  function and is proven able to fail;
+- the federal enforcement posture dated to 2026-09;
+- all three applications re-verified to 2026-09-26.
+
+Five `applied.md` rows: three better (a code row in kp 3aae8e801, a simulation,
+and an experiment reproducing a planted mutation), two unapplied. Impact: kp 5
+contexts, 0 stale verdicts. Four single-lane leads banked. Yield high,
+dry_streak 0. See [[adverse-impact-and-proxy-neutrality]].

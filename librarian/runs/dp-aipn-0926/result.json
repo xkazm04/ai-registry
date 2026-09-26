@@ -1,0 +1,77 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-aipn-0926",
+  "skill": "deepen",
+  "skill_version": "1.3.1",
+  "mode": "interactive",
+  "domain": "recruiting",
+  "started_at": "2026-09-26T15:20:00Z",
+  "ended_at": "2026-09-26T15:50:57Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "recruiting/adverse-impact-and-proxy-neutrality",
+      "at": "2026-09-26",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "recruiting/adverse-impact-and-proxy-neutrality",
+      "technique": "selection-rate-ratio-testing",
+      "verdict": "better",
+      "mode": "code"
+    },
+    {
+      "subject": "recruiting/adverse-impact-and-proxy-neutrality",
+      "technique": "minimum-cohort-before-a-ratio-is-asserted",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "recruiting/adverse-impact-and-proxy-neutrality",
+      "technique": "name-and-proxy-neutrality-perturbation-testing",
+      "verdict": "better",
+      "mode": "experiment"
+    }
+  ],
+  "files": [
+    "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/adverse-impact-and-proxy-neutrality/adverse-impact-and-proxy-neutrality.md",
+    "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/adverse-impact-and-proxy-neutrality/techniques/selection-rate-ratio-testing.md",
+    "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/adverse-impact-and-proxy-neutrality/techniques/minimum-cohort-before-a-ratio-is-asserted.md",
+    "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/adverse-impact-and-proxy-neutrality/techniques/name-and-proxy-neutrality-perturbation-testing.md",
+    "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/adverse-impact-and-proxy-neutrality/applications/node--selection-rate-ratio-testing.md",
+    "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/adverse-impact-and-proxy-neutrality/applications/node--cohort-shield-is-not-a-protected-class-test.md",
+    "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/adverse-impact-and-proxy-neutrality/applications/process--name-and-proxy-neutrality-perturbation-testing.md",
+    "knowledge/recruiting/index.json",
+    "catalog.json",
+    "librarian/applied.md",
+    "librarian/domains/recruiting.md",
+    "librarian/subjects/recruiting/adverse-impact-and-proxy-neutrality.md"
+  ],
+  "commits": [
+    {
+      "sha": "744db88f",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/adverse-impact-and-proxy-neutrality",
+        "knowledge/recruiting/index.json",
+        "catalog.json"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "First sweep. 2 flipped rules, 5 conditions, 1 tree-measured widening, 0 techniques. Applied: code, simulation, experiment better; 2 unapplied. kp 3aae8e801, 69645cad6, 5e1582a03 committed, not pushed. 0 stale verdicts on this subject."
+}
