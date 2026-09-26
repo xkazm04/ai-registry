@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 233,
   "techniques": 1813,
-  "applications": 1178,
+  "applications": 1180,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -29871,9 +29871,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/secret-custody-and-issuance/seal-and-key-hierarchy/seal-and-key-hierarchy.md",
-   "digest": "sha256-b2:fa4d5b2b78b53dbe",
-   "revision": 2,
-   "changedAt": "2026-09-03",
+   "digest": "sha256-b2:044e6e9d3f3395f0",
+   "revision": 3,
+   "changedAt": "2026-09-26",
    "techniques": [
     {
      "slug": "any-one-seal-unseals",
@@ -29974,8 +29974,9 @@
      "stack": "go",
      "technique": "any-one-seal-unseals",
      "file": "knowledge/software-engineering/secret-custody-and-issuance/seal-and-key-hierarchy/applications/go--any-one-seal-unseals.md",
-     "verified_on": "2026-09-02",
-     "verified_against": "go@1.27"
+     "verified_on": "2026-09-26",
+     "verified_against": "go@1.27",
+     "refresh_by": "2026-12-26"
     },
     {
      "stack": "go",
@@ -29990,6 +29991,20 @@
      "file": "knowledge/software-engineering/secret-custody-and-issuance/seal-and-key-hierarchy/applications/go--per-tenant-seal-chain.md",
      "verified_on": "2026-09-02",
      "verified_against": "go@1.27"
+    },
+    {
+     "stack": "node",
+     "technique": "append-only-keyring-rotation",
+     "file": "knowledge/software-engineering/secret-custody-and-issuance/seal-and-key-hierarchy/applications/node--append-only-keyring-rotation.md",
+     "verified_on": "2026-09-26",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "rust",
+     "technique": "any-one-seal-unseals",
+     "file": "knowledge/software-engineering/secret-custody-and-issuance/seal-and-key-hierarchy/applications/rust--any-one-seal-unseals.md",
+     "verified_on": "2026-09-26",
+     "verified_against": "rust@1"
     }
    ]
   },
