@@ -223,3 +223,42 @@ Five `applied.md` rows: three better (a code row in kp 3aae8e801, a simulation,
 and an experiment reproducing a planted mutation), two unapplied. Impact: kp 5
 contexts, 0 stale verdicts. Four single-lane leads banked. Yield high,
 dry_streak 0. See [[adverse-impact-and-proxy-neutrality]].
+
+## 2026-09-26 - deepen: ai-interviewer-brief-authoring
+
+Dispatched by the Curator lane on "never swept by the librarian". Landed (e1e199ba):
+- three flipped rules:
+  - rule-ordering: "last is most reliable" becomes out of the middle, with the end
+    found by measurement on the engine; declared rank withdrawn as a lever;
+  - narrowing: "a verbatim re-ask is the single most damaging move" withdrawn,
+    because survey doctrine prescribes it; rungs are planned per item and applied
+    to every candidate;
+  - coachability: one hint is one observation, not a scale rating; a missing hint
+    is unassessed, not average;
+- one new golden-path idea: proximity is not position, because in a conversation
+  the brief recedes and a per-turn rule is re-stated where the turn is made;
+- three conditions:
+  - praise is safe by distribution, not vocabulary;
+  - a read-back's blanket yes confirms the list, not each item;
+  - condensed density is a runtime observation;
+- corrected claims: anxiety is modest and costs validity; silence yields longer
+  answers, not more honest ones;
+- all three applications re-verified to 2026-09-26, two 08-20 claims withdrawn,
+  and two new applications (python read-back, node one-question).
+
+Five `applied.md` rows: two better (a simulation, and a keyless experiment with
+the tree's own praise detectors over its golden "passing" transcripts: 4 of 8
+turns carry praise, 0 flagged), one not-better (a scorer-side discount of blanket
+read-back assent fixes 1 case in 3 and costs 2), two unmeasurable. Impact: kp 2
+contexts, 0 stale verdicts. The subject's main seams sit in no kp context, which
+is a context-scan lead. Eight kp deviations recorded as owed. Three single-lane
+leads banked. Yield high, dry_streak 0. See [[ai-interviewer-brief-authoring]].
+
+Source classes, this run. Kept:
+- primary papers and field manuals beat commentary; the survey-methodology field
+  manual decided the re-ask question outright;
+- vendor prompting guides are primary for their own models and disagree with each
+  other, which is itself the finding.
+
+Declined: two unverified secondary summaries (bullets vs prose, demonstration
+copying).
