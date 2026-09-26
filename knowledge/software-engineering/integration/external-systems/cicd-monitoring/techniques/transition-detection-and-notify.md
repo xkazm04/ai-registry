@@ -75,9 +75,20 @@ dead data.
 ## Notification identity and class
 
 Each emitted event carries a dedup identity — (entity identity,
-destination class) — and a **class** from a small closed set: started,
-succeeded, failed, fixed (failure → success, the highest-value class and
-the one naive implementations miss). Downstream policy is per-class user
+**attempt**, destination class) — and a **class** from a small closed set:
+started, succeeded, failed, fixed (failure → success, the highest-value
+class and the one naive implementations miss), and needs-action (entry
+into a parked state such as a manual gate or a pending approval; see
+provider-capability-honesty's `waiting`). The attempt belongs in the key
+because run ids are reused: a re-run or a retried job sends a finished
+run back through pending under the same id. Keyed on (run, failed)
+alone, the second failure of a re-run is dropped as a duplicate of the
+first, and it is often the one that matters, because it says the retry
+did not help. The same reuse makes terminal → active a legitimate
+transition (a reopen), to be emitted as a start of the new attempt rather
+than discarded as noise. Where the provider exposes no attempt number,
+the run's last-updated stamp at the terminal observation stands in for
+it. Downstream policy is per-class user
 preference: failures interrupt, fixes reassure, successes are usually
 display-only, starts are almost never worth an interruption. Two
 boundaries with neighboring subjects:
@@ -105,5 +116,7 @@ boundaries with neighboring subjects:
 - `fixed` is a first-class transition class — a monitor that announces
   failures but not recoveries teaches users that red is permanent and the
   monitor is only bad news.
+- Dedup on (entity, attempt, class), never (entity, class): run ids are
+  reused across re-runs, and a repeat failure is news.
 - Per-class preferences are data (persisted, per user), consulted at emit
   time, defaulting to the quiet side for everything except failures.

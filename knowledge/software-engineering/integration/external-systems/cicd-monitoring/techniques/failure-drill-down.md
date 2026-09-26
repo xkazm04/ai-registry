@@ -78,6 +78,18 @@ the provider supports ranged/incremental fetches or only whole-log reads
 is a capability fact (see provider-capability-honesty); when only whole
 reads exist, the refreshing tail costs a full transfer per refresh, which
 argues for a slower detail cadence, honestly labeled with data age.
+Whole reads are the default case, not the exception. Checked 2026-09-26:
+neither major provider documents a tail, offset, or range on its public
+job-log read. One answers with a redirect to the full text that expires
+within a minute; the other returns the whole trace. A monitor's tail is
+therefore usually cut on the monitor's side after a full transfer. The
+bound protects the display and any process boundary the text crosses,
+not the network. Sending a range header anyway is harmless only if the
+cut is unconditional, and the fallback on a refused range must not also
+fire on an auth error. **The bound travels with the data**: the side that
+cuts returns the text together with whether it cut and from how much,
+because a caller handed a bare string cannot render the truncation marker
+honestly.
 
 ## Identity down the ladder
 
@@ -94,7 +106,8 @@ deployment-history) is what relates attempts of the same name over time.
 - Red opens to the failure: failed stage expanded, failed job selected,
   tail loading — zero-click triage as the default posture.
 - Tail bounds are visible and constant; the full log is a link, not a
-  mirror.
+  mirror. The fetch returns (text, truncated, size), never a bare cut
+  string.
 - Distinguish empty output / still buffering / fetch failed — three
   states, three renderings.
 - Keep the same status vocabulary at every rung (one mapping, applied at

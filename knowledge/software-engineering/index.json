@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 233,
   "techniques": 1813,
-  "applications": 1165,
+  "applications": 1168,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -5235,9 +5235,9 @@
    "subcategory": "external-systems",
    "status": "forged",
    "file": "knowledge/software-engineering/integration/external-systems/cicd-monitoring/cicd-monitoring.md",
-   "digest": "sha256-b2:b2b23cb5f5be38ea",
-   "revision": 1,
-   "changedAt": "2026-09-05",
+   "digest": "sha256-b2:9e90f40ea1202648",
+   "revision": 2,
+   "changedAt": "2026-09-26",
    "techniques": [
     {
      "slug": "deployment-history",
@@ -5329,13 +5329,13 @@
      "stack": "react",
      "technique": "failure-drill-down",
      "file": "knowledge/software-engineering/integration/external-systems/cicd-monitoring/applications/react--failure-drill-down.md",
-     "verified_on": "2026-08-18"
+     "verified_on": "2026-09-26"
     },
     {
      "stack": "react",
      "technique": "liveness-scoped-polling",
      "file": "knowledge/software-engineering/integration/external-systems/cicd-monitoring/applications/react--liveness-scoped-polling.md",
-     "verified_on": "2026-08-18"
+     "verified_on": "2026-09-26"
     },
     {
      "stack": "react",
@@ -5348,6 +5348,27 @@
      "technique": "transition-detection-and-notify",
      "file": "knowledge/software-engineering/integration/external-systems/cicd-monitoring/applications/react--transition-detection-and-notify.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "rust",
+     "technique": "deployment-history",
+     "file": "knowledge/software-engineering/integration/external-systems/cicd-monitoring/applications/rust--deployment-history.md",
+     "verified_on": "2026-09-26",
+     "verified_against": "rust@1"
+    },
+    {
+     "stack": "rust",
+     "technique": "failure-drill-down",
+     "file": "knowledge/software-engineering/integration/external-systems/cicd-monitoring/applications/rust--failure-drill-down.md",
+     "verified_on": "2026-09-26",
+     "verified_against": "rust@1"
+    },
+    {
+     "stack": "rust",
+     "technique": "remote-action-consent",
+     "file": "knowledge/software-engineering/integration/external-systems/cicd-monitoring/applications/rust--remote-action-consent.md",
+     "verified_on": "2026-09-26",
+     "verified_against": "rust@1"
     }
    ]
   },

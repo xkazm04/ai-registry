@@ -70,16 +70,28 @@ windows are declared beside the number, and comparisons hold ref and
 pipeline constant — folding feature-branch runs into the main-line
 success rate manufactures noise in both directions.
 
-## Terminal is immutable — cache accordingly
+## Terminal per attempt — cache accordingly
 
-A finished run never changes. History pages are therefore cached hard,
-keyed by run id, effectively forever — none of the liveness polling that
-live status needs applies here (the client-fetch-cache subject owns the
-mechanics; this is its easiest case). The only volatile row is the
-newest page boundary, where new runs append; refresh windows from the
-top, never re-fetch the tail. This asymmetry is the budget's best
-friend: the expensive surface (long history) is the static one, and the
-dynamic surface (the head) is one page.
+A finished *attempt* never changes; a finished run id can. The major
+providers reopen a run under the id it already had. A re-run keeps the id
+and counts attempts, and a retried job in a finished pipeline sends the
+same pipeline id back through pending. (Checked 2026-09-26: one provider
+allows up to 50 re-runs within 30 days of the first run and serves each
+attempt at its own address; the other mints a new job id and reuses the
+pipeline id.) So the cache key is **(run id, attempt)**, and where the
+provider has no attempt number, the key is the run id plus the run's
+last-updated stamp. A history row cached by bare run id shows the red of
+attempt 1 beside the green of attempt 2 for as long as the cache lives.
+
+With that key, history pages are still cached hard - none of the liveness
+polling that live status needs applies (the client-fetch-cache subject
+owns the mechanics; this is its easiest case). The volatile region is the
+newest page boundary, where new runs append, **plus any run still inside
+the provider's re-run window**. Refresh windows from the top, re-check
+recent terminal rows by their updated stamp in the same collection call,
+and never re-fetch the deep tail. The asymmetry still pays the budget:
+the expensive surface (long history) is the static one, and the dynamic
+surface is the head page plus the re-run window.
 
 One honesty rule inherited from the provider relationship: history
 windows are *windows*. Providers cap retention and page depth; the
@@ -96,4 +108,10 @@ over a window says so — the predicate again.
   transitions, not tables.
 - Every rate, median, and streak carries window + filter, rendered, not
   implied.
-- Cache terminal runs by id indefinitely; poll only the head page.
+- Cache terminal attempts by (run id, attempt) indefinitely; poll the head
+  page, and treat a terminal run inside the provider's re-run window as
+  able to reopen.
+- The run log must receive every event the environment fold depends on -
+  including removals. A fold over a log that never hears "undeployed"
+  labels a deliberate removal as a failure (witnessed in the rust
+  application).

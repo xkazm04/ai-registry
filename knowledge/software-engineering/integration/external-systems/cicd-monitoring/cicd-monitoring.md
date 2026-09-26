@@ -51,7 +51,12 @@ owner's side:
   the API next. Politeness budgets themselves are
   [rate-limiting](../../../backend-platform/resilience/rate-limiting/rate-limiting.md)'s subject; this
   subject's obligation is to *deserve* the budget by only asking questions
-  whose answers can still change.
+  whose answers can still change. The price of a poll is a provider fact,
+  not a constant. Where the provider answers conditional requests, an
+  unchanged answer can be nearly free (on one major provider an
+  authorized 304 does not count against the primary limit, checked
+  2026-09-26). Where the public API documents no conditional support,
+  every poll costs full price.
 - **Acting is not observing.** The monitor inevitably grows buttons —
   retry, trigger, deploy — and the moment it does, it stops being a window
   and becomes a hand reaching into a system other people depend on. A
@@ -64,16 +69,27 @@ owner's side:
 Polling cadence is gated by two liveness tests, and both must pass: **is
 anything still running** (the watched state can still change) and **is
 anyone still looking** (the answer can still matter). A pipeline in a
-terminal state stops being polled the moment the terminal snapshot lands; a
-hidden or navigated-away view suspends its clock. The interval names its
+terminal state stops being *detail*-polled the moment the terminal snapshot
+lands, but it is terminal only for that attempt. Providers reopen a
+finished run under the same id when someone re-runs or retries it, so the
+collection poll at idle cadence keeps watching it. A **parked** pipeline
+(a manual gate, a pending approval, a delayed schedule) is not running and
+not finished; it waits, sometimes for days, for an outside act, and polls
+at idle cadence. A hidden or navigated-away view suspends its clock. The interval names its
 reaper at creation — terminal state, view teardown, lost visibility — per
 [creation-names-reaper](../../../_laws.md#creation-names-reaper); the classic
 defect is a timer keyed to view mount that outlives every reason it was
 started. When the provider offers a push channel, push demotes polling to a
 fallback ([realtime-events](../../../client-architecture/realtime-events/realtime-events.md),
-[webhook-ingestion](../../../backend-platform/resilience/webhook-ingestion/webhook-ingestion.md)); most
-observer-side monitors never get one, which is why the discipline is stated
-for polling first. Cadence tiers, the stop conditions, and the
+[webhook-ingestion](../../../backend-platform/resilience/webhook-ingestion/webhook-ingestion.md)).
+Both major providers offer pipeline and job webhooks. Observer-side
+monitors rarely get to use them: registering one needs admin rights on the
+watched repository, which the observer usually lacks, and delivery needs a
+publicly reachable endpoint, which a desktop or CLI monitor does not have.
+Even where push is available it is a hint, not a record: one provider does
+not redeliver a failed delivery on its own (checked 2026-09-26), so polling
+stays as the reconciliation loop. That is why the discipline is stated for
+polling first. Cadence tiers, the stop conditions, and the
 last-poll-must-see-the-end subtlety are
 [liveness-scoped-polling](./techniques/liveness-scoped-polling.md).
 
@@ -139,9 +155,13 @@ normal"** — the question every red row and every slow run actually poses.
 The standard places recent runs beside live state (duration against
 typical, results as a streak, who triggered what) and, for deploy targets,
 a per-environment view: what version is where, since when, put there by
-which run. Terminal runs are immutable, so history is cached hard and
-fetched lazily — it needs none of the liveness polling that live status
-does ([client-fetch-cache](../../../client-architecture/client-fetch-cache/client-fetch-cache.md)).
+which run. A terminal *attempt* is immutable, so history keyed by (run,
+attempt) is cached hard and fetched lazily - it needs none of the liveness
+polling that live status does
+([client-fetch-cache](../../../client-architecture/client-fetch-cache/client-fetch-cache.md)).
+A run id is not immutable: re-runs and retries reuse it within the
+provider's re-run window, so a cache keyed by bare run id keeps the stale
+verdict of the first attempt.
 Any rate or streak shown carries its window and filter
 ([count-carries-predicate](../../../_laws.md#count-carries-predicate)); a
 "success rate" with no denominator is decoration. The two shapes of

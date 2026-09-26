@@ -29,9 +29,11 @@ the operator precisely when they are firing actions at a broken build.
 
 Each adapter ships a declared capability set — flags, not code paths
 discovered by trying: *can retry job*, *can retry pipeline*, *can cancel*,
-*can trigger with parameters*, *serves log tails*, *reports stages*,
-*models environments*, *supports push*. The consuming surface renders
-from the declaration:
+*can trigger with parameters*, *trigger returns the run id*, *serves log
+tails*, *reports stages*, *models environments*, *supports push*,
+*answers conditional requests*. The last two are budget facts, not UI
+facts: they decide what the polling loop can afford. The consuming surface
+renders from the declaration:
 
 - **Absent capability → absent affordance.** No button, or a
   disabled-with-reason control when discoverability matters ("this
@@ -63,8 +65,22 @@ and each provider has states the others lack. The discipline, per
 
 - **One canonical status set**, owned by the monitor, small, closed, and
   chosen for what the *display and transition layers* need (queued,
-  running, succeeded, failed, canceled, skipped, unknown — destination
-  classes for notification, colors for display).
+  running, **waiting**, succeeded, failed, canceled, skipped, unknown —
+  destination classes for notification, colors for display). `waiting`
+  is the parked class: a manual gate, a pending approval, a delayed
+  schedule, a held resource. It is not running (no spinner, no "stuck"
+  timeout), and it is not queued (a human or a clock has to act). Its
+  transition in is the one worth a "needs you" notification, which is
+  neither a failure nor a start.
+- **Map the provider's lifecycle, not its strings.** One provider splits
+  a run's state over two fields (a status axis and a conclusion that is
+  null until completion), and its run filter accepts values from both.
+  Map the *pair*, because a single-string table keyed on either field
+  loses half the state. Transitional states are non-terminal: a
+  `canceling` mapped to `canceled` fires the terminal transition while
+  jobs are still running. Vocabularies grow between releases (checked
+  2026-09-26, one provider's pipeline set holds 13 values, two of them
+  recent), which is what the catch-all below is for.
 - **One mapping table per provider**, data not scattered conditionals,
   from raw provider strings to canonical members.
 - **An explicit catch-all to `unknown`.** Providers add states between
@@ -99,7 +115,9 @@ site, and the monitor becomes decoration.
   discovery-by-failure is banned.
 - Missing capability: hide, or disable with the reason; emulating:
   relabel the action as what it really does.
-- One canonical status vocabulary; per-provider mapping tables; explicit
+- One canonical status vocabulary with a parked `waiting` member;
+  per-provider mapping tables over the provider's full lifecycle (both
+  axes where it has two, transitional states as non-terminal); explicit
   catch-all to a rendered `unknown`; raw string preserved beside the
   canonical member.
 - Never fabricate structure (stages, environments) a provider does not

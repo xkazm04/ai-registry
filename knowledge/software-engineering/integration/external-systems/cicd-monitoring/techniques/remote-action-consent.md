@@ -27,7 +27,11 @@ The ladder:
 
 - **Retry a job** — small blast: re-runs work that already failed, output
   supersedes a failure. A plain action; in-flight disarm (below) is the
-  only guard it needs.
+  only guard it needs — **unless the retry carries dependents**. At least
+  one major provider's "re-run failed jobs" re-runs the failed jobs *and
+  the jobs that depend on them* (checked 2026-09-26). A failed test job
+  upstream of a deploy job is a deploy on retry, so the retry's rung is
+  the highest rung among its dependents.
 - **Cancel a run** — small-to-medium: destroys in-progress work but
   nothing deployed. One lightweight confirm, naming the run.
 - **Trigger a pipeline** — medium: consumes shared runner capacity and
@@ -56,8 +60,17 @@ confirmation for a request that can only fail
 ## Fire, then watch — never assume
 
 The action request returns an acknowledgment — typically the identifier of
-the run it created or affected. What happens next is the rule that keeps
-the monitor honest:
+the run it created or affected, but not always, and the adapter has to
+know which (a declared capability, see provider-capability-honesty).
+Checked 2026-09-26: one major provider's manual-dispatch endpoint
+returned no body at all until February 2026 and still does unless the
+caller opts in to run details; its re-run endpoints return no body and
+reuse the existing run id, so the thing to watch is (that id, the next
+attempt); the other provider's cancel returns success whatever state the
+pipeline was in. Where no id comes back, correlate by the narrowest
+filter the provider offers (event, ref, actor, created after the click),
+and render the match as a match, not as certainty. What happens next is
+the rule that keeps the monitor honest:
 
 - **The identifier joins the polling set**, and the settling cadence tier
   engages (fast first polls — the user is certainly watching).
@@ -101,7 +114,13 @@ button with extra steps for whoever compromises the display tier.
 - Echo inputs at the confirm for parameterized actions — the wrong-inputs
   failure outnumbers the wrong-button failure.
 - Return-value is an id, not an outcome; join it to the polling set and
-  render "requested" until observed.
+  render "requested" until observed. An acknowledgment that carries no id
+  (or reuses one) is a capability fact, handled by correlation or by
+  (id, next attempt).
+- A fallback that performs a *different* act when the confirmed one fails
+  (a commit to a default branch where an API registration failed) is a
+  new action on its own rung. Fail the confirmed act and offer the
+  fallback with its own consent. Never take it silently on any error.
 - Disarm from click to acknowledgment, always.
 - Disabled-with-reason beats confirm-then-fail for actions the provider
   will refuse.

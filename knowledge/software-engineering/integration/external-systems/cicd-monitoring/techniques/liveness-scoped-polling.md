@@ -17,10 +17,24 @@ exactly while running it can still change something. Two independent
 liveness gates, both required:
 
 - **State liveness** — at least one watched entity is in a non-terminal
-  state. A finished pipeline's status is immutable; polling it again is a
-  request whose answer is already known. The gate is computed from the
-  freshest snapshot, so each poll re-decides whether there will be a next
-  one.
+  state. A finished attempt's status is fixed, so polling its detail again
+  is a request whose answer is already known. The gate is computed from
+  the freshest snapshot, so each poll re-decides whether there will be a
+  next one. The state split has three sides, not two:
+  - **progressing** (queued, preparing, running, canceling) - will change
+    on its own, soon: active cadence.
+  - **parked** (waiting for a manual action, for an approval, for a
+    schedule, for a resource) - non-terminal, and it will not move until
+    something outside the pipeline acts. That can take days; approval
+    waits of up to 30 days are documented. Parked entities poll at the
+    idle tier. At active cadence they burn budget for days, and dropped
+    from the loop they never report their ending.
+  - **terminal for this attempt** - detail polling stops. The run id can
+    still reopen (a re-run or a retried job reuses it; see
+    deployment-history), so the *collection* poll at idle cadence is what
+    notices a terminal row going live again. A loop that removes a
+    finished run from every poll never sees a retry that someone started
+    in the provider's own UI.
 - **Attention liveness** — the surface displaying the answer is mounted
   and visible. A hidden window, a navigated-away view, a background tab
   is a reader who left; the clock suspends and resumes with attention.
@@ -80,11 +94,19 @@ progress. The standard is tiered cadence, declared as data:
   regain or manual refresh instead of on a timer.
 - **suspended** — attention gate closed: no requests at all.
 
-Two refinements that separate adequate from polite: **batch shape** — poll
-the collection endpoint once rather than N per-entity endpoints, and only
-descend to per-entity detail for rows in flight; **jitter** — when many
-entities or many app instances share a provider, a fixed period
-synchronizes them into request spikes; add noise.
+Three refinements that separate adequate from polite: **batch shape** —
+poll the collection endpoint once rather than N per-entity endpoints, and
+only descend to per-entity detail for rows in flight; **jitter** — when
+many entities or many app instances share a provider, a fixed period
+synchronizes them into request spikes; add noise; **conditional
+requests** — where the provider returns an entity tag, send it back
+(`If-None-Match`). A 304 is cheap to serve, and on at least one major
+provider an authorized 304 does not count against the primary rate limit
+(checked 2026-09-26). Where the public API documents no conditional
+support, every poll is a full charge. That is a capability fact per
+provider (see provider-capability-honesty), and it moves the cadence
+arithmetic: a free unchanged answer makes a faster idle tier affordable
+on one provider and not on the other.
 
 ## Refresh on regain, not on schedule
 
@@ -99,6 +121,10 @@ when it matters, cheaper when it does not.
 
 - Every poll loop re-derives "should there be a next poll" from the data
   it just fetched; no external flag is trusted over the snapshot.
+- Classify each watched state as progressing, parked, or terminal for
+  this attempt. Only progressing earns active cadence. Parked stays in
+  the loop at idle cadence, and a terminal row leaves detail polling but
+  not the collection poll.
 - Stop conditions run after processing, so the terminal transition is
   always observed and emitted before the loop dies.
 - Cadence is a declared tier table, not scattered literals; the settling

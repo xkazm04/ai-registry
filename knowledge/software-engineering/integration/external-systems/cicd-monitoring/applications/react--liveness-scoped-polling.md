@@ -4,7 +4,7 @@ type: application
 subject: cicd-monitoring
 technique: liveness-scoped-polling
 stack: react
-verified_on: 2026-08-18
+verified_on: 2026-09-26
 ---
 
 # Liveness-scoped polling — the pipeline viewer's refresh loop (Personas)
@@ -19,9 +19,9 @@ gates disagree with each other.
 |---|---|
 | State-liveness gate | `src/features/plugins/gitlab/components/GitLabPipelineViewer.tsx:49-62` — `usePolling(refreshActivePipeline, { ...POLLING_CONFIG.pipelineRefresh, enabled: !!projectId && !!activePipelineId && isRunning })`. `enabled` is the narrowest true condition; a terminal snapshot flips `isRunning` false and the next render disposes the ticker |
 | Attention-liveness gate | `src/lib/polling/pollingCoordinator.ts` — every bucket pauses on `visibilitychange` hidden (`:185`, `:206-208`; opt-out via `runWhileHidden`, unused here) and **fires immediately on regain** (`:14-16`) — the refresh-on-regain rule, for free, for every consumer |
-| Cadence as declared data | `src/hooks/utility/timing/usePolling.ts:6-19` `POLLING_CONFIG.pipelineRefresh = { interval: 5_000, maxBackoff: 30_000 }`; rounded to the coordinator's 5s bucket. Six named cadences, all landing on a bucket — the technique's "tier table, not literals" |
-| Failure backoff without desync | `usePolling.ts:68-84` — consecutive errors double the ticker's `nextEligibleAt` up to `maxBackoff` via a `shouldRun` predicate, so the shared bucket keeps its heartbeat and only this ticker skips |
-| Reaper named at creation | `usePolling.ts:86-94` — the effect that registers the ticker returns `handle.dispose()`; unmount and `enabled` flip both reap through the same door |
+| Cadence as declared data | `src/hooks/utility/timing/usePolling.ts:6-19` (line 18 at the 2026-09-26 re-read) `POLLING_CONFIG.pipelineRefresh = { interval: 5_000, maxBackoff: 30_000 }`; rounded to the coordinator's 5s bucket. Six named cadences, all landing on a bucket — the technique's "tier table, not literals" |
+| Failure backoff without desync | `usePolling.ts:107-148` — consecutive errors double the ticker's `nextEligibleAt` up to `maxBackoff` via a `shouldRun` predicate, so the shared bucket keeps its heartbeat and only this ticker skips |
+| Reaper named at creation | `usePolling.ts:143-151` — the effect that registers the ticker returns `handle.dispose()`; unmount and `enabled` flip both reap through the same door |
 | Poll result feeds the gate | `gitlabRefreshPipeline` (`src/stores/slices/system/gitlabSlice.ts:436-451`) writes the fresh pipeline into `gitlabActivePipeline`, from which `isRunning` is derived on the next render — the loop's own catch decides whether there is a next poll |
 
 ## Judgment calls worth copying
@@ -59,14 +59,18 @@ gates disagree with each other.
   collection-poll-then-descend shape is inverted: detail is polled, the
   collection is not.
 - **No settling tier.** After `gitlabTriggerPipelineAction` the returned
-  pipeline becomes active (`gitlabSlice.ts:410-415`); if the provider
+  pipeline becomes active (`gitlabSlice.ts:406-416`); if the provider
   reports it `created` rather than `pending`, the gate is closed from the
   first render and the user watches a frozen row until manual refresh.
 - **The loop can never start today.** `gitlab_list_pipelines`,
-  `gitlab_get_pipeline`, `gitlab_list_pipeline_jobs`, `gitlab_get_job_log`
-  and `gitlab_trigger_pipeline` are all listed as `UnregisteredCommand`
-  in `src/lib/commandNames.overrides.ts:17-21` and appear in **zero** Rust
-  files (`git log -S` across the whole history: never implemented).
+  `gitlab_get_pipeline`, `gitlab_list_pipeline_jobs` and
+  `gitlab_trigger_pipeline` are listed as `UnregisteredCommand` in
+  `src/lib/commandNames.overrides.ts:17-20` and appear in **zero** Rust
+  files; they have been on that list since `50c0eb1463` (2026-03-13).
+  *Corrected 2026-09-26:* the 2026-08-18 read listed `gitlab_get_job_log`
+  as a fifth. It was implemented on 2026-09-17 (`716fe3bfa8`, see the rust
+  failure-drill-down application), so the log rung has a backend and the
+  loop above it still does not.
   `activePipelineId` requires a successful select, which requires a
   registered command — so `enabled` is false forever. The exemplar loop is
   a correct shape wrapped around a backend that does not exist; see the
