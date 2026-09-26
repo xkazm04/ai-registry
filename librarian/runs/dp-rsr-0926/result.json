@@ -1,0 +1,61 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-rsr-0926",
+  "skill": "deepen",
+  "skill_version": "1.3.1",
+  "mode": "interactive",
+  "domain": "software-engineering",
+  "started_at": "2026-09-26T14:20:00Z",
+  "ended_at": "2026-09-26T15:30:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/read-serving-replicas",
+      "at": "2026-09-26",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [],
+  "files": [
+    "knowledge/software-engineering/backend-platform/data-layer/read-serving-replicas/read-serving-replicas.md",
+    "knowledge/software-engineering/backend-platform/data-layer/read-serving-replicas/techniques/client-carried-index.md",
+    "knowledge/software-engineering/backend-platform/data-layer/read-serving-replicas/techniques/forward-on-storage-error.md",
+    "knowledge/software-engineering/backend-platform/data-layer/read-serving-replicas/techniques/committed-write-invalidation-hook.md",
+    "knowledge/software-engineering/backend-platform/data-layer/read-serving-replicas/techniques/evict-not-update-on-commit.md",
+    "knowledge/software-engineering/backend-platform/data-layer/read-serving-replicas/applications/go--client-carried-index.md",
+    "knowledge/software-engineering/backend-platform/data-layer/read-serving-replicas/applications/node--client-carried-index.md",
+    "knowledge/software-engineering/backend-platform/data-layer/read-serving-replicas/applications/node--forward-on-storage-error.md",
+    "knowledge/software-engineering/index.json",
+    "rules/ai-registry-software-engineering.md",
+    "catalog.json",
+    "librarian/applied.md",
+    "librarian/domains/software-engineering.md",
+    "librarian/subjects/software-engineering/read-serving-replicas.md"
+  ],
+  "commits": [
+    {
+      "sha": "1f164c9e",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/software-engineering/backend-platform/data-layer/read-serving-replicas",
+        "knowledge/software-engineering/index.json",
+        "rules/ai-registry-software-engineering.md",
+        "catalog.json"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Single stack cleared (node, emdash). go client-carried-index corrected: openbao shipped index headers 2026-09-09. 4 techniques conditioned, 0 new. 4 unapplied (no replica seam in fleet). 0 stale. Maps committed in 5 repos, pushed in none."
+}

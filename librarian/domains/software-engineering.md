@@ -822,3 +822,39 @@ Source-class tally (post-hoc, this run):
 - The real trees outranked both lanes on the application side: the key file
   written despite the fail-closed policy, and the unswept decoupled key,
   appeared in neither lane.
+
+## Run dp-rsr-0926 - read-serving-replicas, a node second stack and the index headers that landed
+
+This was a Curator dispatch on "single stack (go)". All three applications came from one
+openbao read on 2026-09-02. Re-reading openbao at HEAD turned up the run's first finding:
+the index-header middleware the go application called unlanded shipped on 2026-09-09. The
+application was rewritten against it, and verified_on moved. emdash (banked "PARTIAL,
+close" by the 2026-09-03 design read) supplied the node stack: the D1 bookmark cookie, and a
+Durable Object replica whose statement classifier is backed by the store's readonly
+refusal. The same read corrected that design read's A8, whose post-write window belongs to
+the Postgres adapter, not D1.
+
+Four techniques were conditioned, each by two or more lanes, and the golden path carries
+them. 0 new techniques. Applied: 4 unapplied rows, because no fleet tree reads from a
+replica (seam search over twelve trees with a control; the one hit was a URL-sync flag).
+Impact: 0 verdicts, 0 stale. Maps were rebuilt for the 5 joined projects only, committed,
+and left unpushed. Every default branch was already far ahead of origin with other
+sessions' work.
+
+| subject | rung | last-pass yield | demand after | dry |
+| --- | --- | --- | --- | --- |
+| read-serving-replicas | L2 | 2 applications (node), 1 application corrected (go, landed upstream), 4 techniques conditioned, 0 new | 0 stale; 6 unjudged lexical pairs, 0 real seams | 0 |
+
+Source-class tally (post-hoc, this run):
+- Re-reading the source tree at HEAD beat everything else. A 24-day-old application
+  describing an RFC was wrong about the one fact it hedged on. For a subject forged from a
+  design record, check the upstream log for the feature before any research lane.
+- Code comments in the second tree carried two of the conditions verbatim: the
+  last-wins hazard, and "only affects latency, never correctness". A tree that documents
+  its own tradeoffs is worth a full lane.
+- Official database docs carried the counter-evidence, and every quote was grep-checked
+  against the raw page. One WebFetch paraphrase of a vendor sentence was not on the page
+  and was dropped. The paraphrase hazard recurred.
+- The blind lane converged on four of the five refinements, including "carry the maximum",
+  and was unsure about exactly what the other lanes had to fetch (WAIT FOR LSN's version,
+  cache Set-Cookie defaults).
