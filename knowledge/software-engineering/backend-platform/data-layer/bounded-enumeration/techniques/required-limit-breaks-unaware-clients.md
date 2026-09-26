@@ -50,6 +50,16 @@ required is what turns the choice into configuration; the default of that
 setting is a separate decision, and the argument above says which way it
 should lean where the collection can be large.
 
+A third posture is how most endpoints actually migrate: **opt in by
+presence.** The legacy request (no position parameter) keeps its old shape
+and is clamped. A request that carries the position parameter, even blank,
+gets a paged shape with a continuation field. That keeps every legacy
+parser working. It exists because a bare-array response has nowhere to put
+"there is more", so the has-more signal needs a new shape. It is still the
+clamped posture for every caller that has not opted in. Their truncation
+stays silent, and the operator's per-path decision above still has to be
+made for them.
+
 ## Zero, negative, and absent are three different things
 
 The limit parameter has three non-positive states, and collapsing any two
@@ -65,7 +75,25 @@ not a number of items and a client that sends one has misread the
 parameter; and an explicit number above the ceiling is refused rather than
 clamped, because the client stated an intent the policy cannot honor and a
 silent clamp would tell it that intent was met. Zero clamps, negative and
-over-ceiling refuse. The failure to avoid
+over-ceiling refuse.
+
+That split is one defensible posture, and it is the minority one. The
+widely used conventions coerce an over-ceiling request down to the maximum.
+The coercion is only silent when nothing tells the client there is more. A
+response that carries a continuation, which the client terminates on
+("stop when there is no next position"), makes an over-ceiling clamp as
+visible as a short page, and the client simply iterates. So the refusal is
+the rule where the response has nowhere to carry the signal (a bare array),
+or where the caller compares what it got against what it sent. Where the
+continuation is always present and documented as the only end signal,
+clamping is admissible.
+
+Zero has a second trap: a wire format whose integers have no presence bit
+cannot tell zero from absent. There, zero *is* absent and resolves to the
+default, never to "unlimited", and to "the ceiling" only where the default
+is the ceiling. A clamp with a floor of one turns a zero into a page of
+one. That is harmless to a client that follows the continuation, and a
+silent one-row listing to one that does not. The failure to avoid
 is the one [unknown-is-not-a-value](../../../../_laws.md#unknown-is-not-a-value)
 names: an absent parameter zero-filled by the deserializer, then read by a
 handler for whom zero means unlimited, so that "the client said nothing"
@@ -103,7 +131,9 @@ the limit was clamped to a ceiling the client did not compute — the client
 compares against the number it *sent*, which may be larger than the number
 it *got*, and it stops early. Stopping on "empty page" is right for
 unfiltered listings and needs one amendment for filtered ones, which
-filter-after-return-under-limit supplies.
+filter-after-return-under-limit supplies. Where the server returns a
+continuation, the loop ends when the continuation is absent, and neither a
+short nor an empty page ends it.
 
 ## Decision rules
 
@@ -118,7 +148,13 @@ complete is a data-loss bug with no error.
 
 When parsing the limit, keep absent, zero and negative distinct, because a
 zero-filled absence read as "unlimited" turns a client that said nothing
-into a client that asked for everything.
+into a client that asked for everything. Where the wire format cannot
+distinguish zero from absent, resolve zero as absent.
+
+When a request asks for more than the ceiling, refuse it unless every
+response carries a continuation the client is documented to terminate on,
+because a clamp is silent exactly when the response has nowhere to say
+"there is more".
 
 When a client cannot know its ceiling, give it a `max` literal that the
 server resolves to the applicable ceiling, and reserve the word, because a

@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 233,
   "techniques": 1813,
-  "applications": 1161,
+  "applications": 1163,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -4345,9 +4345,9 @@
    "subcategory": "data-layer",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/data-layer/bounded-enumeration/bounded-enumeration.md",
-   "digest": "sha256-b2:860f698a24258a38",
-   "revision": 2,
-   "changedAt": "2026-09-03",
+   "digest": "sha256-b2:4ec15f52e99e1903",
+   "revision": 3,
+   "changedAt": "2026-09-26",
    "techniques": [
     {
      "slug": "after-plus-limit-not-cursor",
@@ -4460,6 +4460,20 @@
      "file": "knowledge/software-engineering/backend-platform/data-layer/bounded-enumeration/applications/go--required-limit-breaks-unaware-clients.md",
      "verified_on": "2026-09-02",
      "verified_against": "go@1.27"
+    },
+    {
+     "stack": "rust",
+     "technique": "after-plus-limit-not-cursor",
+     "file": "knowledge/software-engineering/backend-platform/data-layer/bounded-enumeration/applications/rust--after-plus-limit-not-cursor.md",
+     "verified_on": "2026-09-26",
+     "verified_against": "rust@1"
+    },
+    {
+     "stack": "rust",
+     "technique": "declare-the-inconsistency",
+     "file": "knowledge/software-engineering/backend-platform/data-layer/bounded-enumeration/applications/rust--declare-the-inconsistency.md",
+     "verified_on": "2026-09-26",
+     "verified_against": "rust@1"
     }
    ]
   },

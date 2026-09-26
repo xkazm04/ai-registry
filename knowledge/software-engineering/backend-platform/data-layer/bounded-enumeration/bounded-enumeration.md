@@ -68,38 +68,48 @@ work hardest.
 
 The consequences of that stance form the spine of the subject:
 
-1. **Position is `after` plus `limit`, never an opaque cursor.** A cursor is a
-   server-minted token whose contents the client cannot inspect and whose
-   next value the server must compute — and when a page is filtered to what
-   the caller may see, the cursor is computed from a key the caller may not
-   see, which is a leak by construction. A key the caller already received is
-   a position that cannot disclose anything new (see
-   after-plus-limit-not-cursor).
+1. **Position is `after` plus `limit`, computed from what was delivered.**
+   A cursor minted from the last key the server *examined* leaks when the
+   page is filtered to what the caller may see: that key may be one the
+   caller may not see, and a decodable token carries it out. A key the
+   caller already received cannot disclose anything new (see
+   after-plus-limit-not-cursor). When the listing is not sorted by its key,
+   the position is the sort tuple of the last delivered row, with a unique
+   tiebreak. It may travel as a token, and a malformed one is refused rather
+   than read as "start".
 2. **The default page is derived from a memory budget.** Worst-case key
    length times the number of keys one request may hold is bytes pinned per
    request, and that product, not a round number, is where the default comes
    from. The arithmetic is written beside the number so the next operator
    recomputes it (see page-size-from-memory-budget).
 3. **The contract says what a page can miss.** Pages are not bound to a
-   transaction unless the subject says they are, and they are usually not; an
-   entry created between two pages may appear in neither or in both, and a
-   caller who needs a consistent view is asking for a different, unbounded
-   operation. Writing that sentence into the contract is cheaper than
+   transaction unless the subject says they are, and they are usually not.
+   An entry created between two pages may appear in neither or in both.
+   When the listing is sorted by a value writes change, an entry updated
+   mid-walk can be skipped outright. A caller who needs a consistent view is
+   asking for a different operation: pages at a pinned version where the
+   store keeps history, or a change feed replayed from the walk's
+   high-water mark. Writing that sentence into the contract is cheaper than
    discovering it in a bug tracker (see declare-the-inconsistency).
 4. **A required limit breaks clients that do not know about limits, and that
    is the choice being made.** Making the limit mandatory converts every
    legacy full-list caller into a failing caller; clamping preserves them and
    silently truncates. Neither is free. The operator picks per path, and a
    `max` literal exists so a client that does not know its own ceiling can
-   still iterate until the page comes back empty (see
-   required-limit-breaks-unaware-clients).
+   still iterate until the page comes back empty. A clamp stops being silent
+   only when every response carries a continuation the client terminates on
+   (see required-limit-breaks-unaware-clients).
 5. **Deny absorbs; the lowest limit wins; recursion is a separate verb.**
    When several policies apply, an explicit deny empties the capability set
    regardless of what else was granted, and the pagination ceiling is the
-   minimum of every ceiling present. A recursive listing is not a flag on
-   the list verb but a verb of its own with its own capability, because its
+   minimum of every ceiling present. Because grants usually union, that
+   minimum is a guardrail: adding a policy can shrink a caller's page, and
+   the policy language says so. A recursive listing is not a flag on the
+   list verb but a verb of its own with its own capability, because its
    cost class is different and a policy that granted the flat list did not
-   grant the tree (see deny-absorbs-and-lowest-limit-wins).
+   grant the tree. The exception is a policy language that can condition a
+   grant on the flag, where an unconditioned grant reads narrow (see
+   deny-absorbs-and-lowest-limit-wins).
 6. **Filtering a page to accessible keys is admissible only under a limit.**
    Per-key accessibility is an authorization evaluation per key, so the cost
    of filtering a page is the limit times an evaluation, which is bounded
@@ -142,8 +152,10 @@ one" (here).
 
 ## What "done" looks like for this subject
 
-An enumeration layer meets the bar when every list path takes a position key
-and a limit and no path takes a cursor; when the store's interface exposes a
+An enumeration layer meets the bar when every list path takes a position and
+a limit, and no position is computed from anything but the last row
+delivered; when a malformed position is refused rather than read as the
+start; when the store's interface exposes a
 seek and the stores that cannot seek carry the documented fallback rather
 than a silent full scan; when the default page size is a derived number with
 its arithmetic recorded beside it and overridable at deploy time; when the

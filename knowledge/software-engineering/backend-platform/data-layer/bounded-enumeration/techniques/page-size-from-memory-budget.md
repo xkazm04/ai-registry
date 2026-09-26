@@ -94,6 +94,19 @@ the read path only on backends that seek. An operator running the fallback
 backend over a large collection has a memory problem the page size cannot
 fix, and the honest number tells them which problem they have.
 
+## Or bound the bytes directly
+
+The derivation divides by the *worst-case* key because the page is sized
+before any key is read. A server that builds the page itself can measure
+instead: accumulate the serialized size while filling the page, stop at
+the byte budget, and return a continuation. The page is then bounded
+exactly by the number the budget was about, and a page of short keys is no
+longer penalized for the longest key the store allows. The count derived
+above survives as the default and the ceiling on entries. The byte cap is
+a second, tighter stop. It is admissible only where the client terminates
+on the continuation and never on a short page, because a byte-capped page
+is short whenever the keys are long.
+
 ## Write it beside the number
 
 The page size is a configuration value with its arithmetic in the comment

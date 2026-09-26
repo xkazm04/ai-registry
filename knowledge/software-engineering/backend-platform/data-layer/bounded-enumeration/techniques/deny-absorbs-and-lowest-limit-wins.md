@@ -55,6 +55,23 @@ is the failure [one-authority-per-vocabulary](../../../../_laws.md#one-authority
 describes for a vocabulary maintained in two places: the effective limit
 is defined by whichever copy was read last.
 
+The justification needs one correction, because "permissions intersect"
+is not how most policy languages combine grants. Across a caller's
+policies, grants usually *union*: a second policy adds capabilities, and
+only guardrail layers (an organization-wide boundary, a permission
+ceiling) intersect. Taking the minimum ceiling across unioned grants is
+therefore a guardrail rule applied inside a grant layer, and it has a
+consequence the operator must know. **The ceiling is non-monotonic in
+grants.** A caller with an uncapped list grant who gains a second policy
+that caps the same path at ten now pages at ten. Adding a policy took
+something away. The minimum is still the right merge, for the reason
+above: the ceiling bounds cost, and no grant should widen a cost bound
+another author set. But it is a guardrail, so say so. Either keep ceilings
+in a layer that is documented to intersect while grants union, or state
+beside the policy language that a ceiling anywhere caps the path
+everywhere. Otherwise an operator who adds a narrow policy to grant one
+more capability will be surprised by the smaller page.
+
 A ceiling stated on one policy and absent from another is not a tie. Absent
 means "this policy does not speak to the ceiling", and the minimum is taken
 over the policies that do; a merge that treats absence as zero produces
@@ -97,6 +114,21 @@ The flat verb never accepts a flag that changes its cost class, because a
 capability's meaning must not depend on a parameter the policy language
 cannot see.
 
+That last clause is the real rule, and it admits one alternative. Some
+policy languages expose request parameters as conditions on a grant: the
+prefix, the delimiter that makes a listing flat or recursive, the requested
+page size. There, a recursive flag is governable. A policy can grant the
+list and deny it when the delimiter is absent, or cap the page by
+conditioning on the size parameter. Nothing widens without review, because
+the reviewer can see the flag. A flat key space listed in one key order
+also pages a recursive listing like any other, so its cost class per
+request does not change. The separate verb remains the rule where the
+policy language cannot condition on the parameter. The flag is admissible
+only where it can, *and* where the default of an unconditioned grant is
+the narrow reading. A grant that says nothing about the delimiter and
+thereby allows the whole subtree is the widening this section refuses,
+arriving through a condition nobody wrote.
+
 The same rule governs any other flag that removes a bound: "consistent",
 "all", "include-hidden". Each is a different operation with a different
 cost, and a different operation gets a different word in the vocabulary,
@@ -105,8 +137,10 @@ which the scope registry owns and this technique populates.
 ## Decision rules
 
 When merging policies that state a page ceiling, take the minimum over the
-policies that state one, because a ceiling is a permission and permissions
-intersect.
+policies that state one, because a ceiling bounds cost and no grant may
+widen a bound another author set. Document it as a guardrail, because
+where grants union the minimum makes a caller's ceiling shrink when a
+policy is added.
 
 When any applicable policy explicitly denies the path, empty the whole
 capability set including the ceiling, because a limit on a forbidden
@@ -116,8 +150,9 @@ When a policy is silent on the ceiling, exclude it from the minimum rather
 than reading its silence as zero, because absent is not a value.
 
 When adding a recursive or otherwise unbounded listing, mint a separate
-verb with its own capability, because a flag on the flat verb widens every
-grant of the flat verb without review.
+verb with its own capability unless the policy language can condition a
+grant on the flag and an unconditioned grant reads narrow, because a flag
+the policy cannot see widens every grant of the flat verb without review.
 
 When carrying the merged ceiling to the handler, carry it as a typed field
 of the authorization result computed on this request, because a copy
