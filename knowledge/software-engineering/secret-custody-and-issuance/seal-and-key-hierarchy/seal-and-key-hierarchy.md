@@ -51,10 +51,12 @@ service that decrypts on request, a hardware module, or a static key handed to
 the process by its environment.
 
 Three layers exist because three different things have to rotate, and each has
-a different cost. The data key must rotate often, because an authenticated
-cipher has a hard operation budget per key and a busy server spends it in
-weeks; so its rotation must be cheap, online, quorum-free, and must never touch
-existing ciphertext. That is [append-only-keyring-rotation](./techniques/append-only-keyring-rotation.md):
+a different cost. On a busy server the data key must rotate often, because an
+authenticated cipher with random nonces has a hard operation budget per key
+and such a server spends it in weeks; so its rotation must be cheap, online,
+quorum-free, and must never touch existing ciphertext. A store that writes a
+few hundred secrets in its life, or a cipher without a random-nonce budget,
+removes the urgency but not the rotation. That is [append-only-keyring-rotation](./techniques/append-only-keyring-rotation.md):
 add a term, start writing under it, keep every old term for reads. The root key
 rotates rarely, because it is the key an operator would need to steal to open
 the store, and its rotation means re-wrapping the keyring under a new root and
@@ -68,7 +70,11 @@ issue themselves the new set. A design with two layers forces one of these
 rotations to pay the cost of another: either every data-key rotation becomes
 a ceremony, or every root rotation re-encrypts the corpus. The naive reading,
 "rotation means re-encrypting", is the reading that makes rotation so
-expensive that it never happens.
+expensive that it never happens. For a store of tens or thousands of secrets
+the reading is cheap enough to be true: one transaction rewrites everything.
+There the layer can go, and the term cannot. A ciphertext that does not name
+its key strands rows at the second rotation and fails in a way
+indistinguishable from corruption.
 
 Rotation is triggered by measurement, not by calendar alone. The server counts
 the cipher operations it performs cluster-wide and rotates the data key before
@@ -107,9 +113,12 @@ declared priority order: the first seal that can produce the root wins, and
 the others are never consulted. The two-seal form, an automatic primary with a
 human-held threshold behind it, is a strict subset of the N-seal form, and a
 design that special-cases two seals will be rewritten when the third arrives.
-The rule that governs the choice of seals is that they must fail
-independently, because the store's confidentiality is exactly that of its
-**weakest** seal: an attacker needs any one of them, not all of them. This is
+That form is still a design. The plural seal that has shipped accepts
+automatic seals only. The rule that governs the choice of seals is that they
+must fail independently, because the store's confidentiality is exactly that
+of its **weakest** seal: an attacker needs any one of them, not all of them.
+The weakest seal is the weakest one whose entry exists. A policy that refuses
+to use a weak custody, while its entry is still written, protects nothing. This is
 [any-one-seal-unseals](./techniques/any-one-seal-unseals.md).
 
 ## A break-glass credential authorizes; it does not decrypt
@@ -125,7 +134,10 @@ recovery key double as an unseal key when the primary service is down, which
 sounds like resilience and is in fact a second, weaker custody of the root
 added by accident. A break-glass unseal path is a *seal*, declared as one,
 holding its own encryption of the root, and subject to the weakest-seal rule
-above. This is [recovery-key-is-not-unseal-key](./techniques/recovery-key-is-not-unseal-key.md).
+above. The one sanctioned crossing is a declared migration from an automatic
+seal to a threshold seal. It carries the recovery shares over as the new
+seal's unseal shares and removes the old seal in the same step, and the
+share set is re-issued afterward. This is [recovery-key-is-not-unseal-key](./techniques/recovery-key-is-not-unseal-key.md).
 
 ## The seal exists before storage is readable
 
