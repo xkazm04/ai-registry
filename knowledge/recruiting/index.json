@@ -5,7 +5,7 @@
   "source": "knowledge/recruiting/ (frontmatter only)",
   "subjects": 64,
   "techniques": 384,
-  "applications": 200,
+  "applications": 201,
   "laws": 11,
   "categories": [
    "role-definition",
@@ -3371,9 +3371,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/governance/hiring-policy-defaults-and-tiering/hiring-policy-defaults-and-tiering.md",
-   "digest": "sha256-b2:b3a60728f473fb07",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:3ae334ecc8021c50",
+   "revision": 2,
+   "changedAt": "2026-09-26",
    "techniques": [
     {
      "slug": "a-default-is-a-policy-position",
@@ -3469,19 +3469,29 @@
      "stack": "node",
      "technique": "automation-ships-off-by-default",
      "file": "knowledge/recruiting/governance/hiring-policy-defaults-and-tiering/applications/node--automation-ships-off-by-default.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-26",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "organisation-baseline-with-a-team-override",
      "file": "knowledge/recruiting/governance/hiring-policy-defaults-and-tiering/applications/node--organisation-baseline-with-a-team-override.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-26",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "policy-version-sealed-into-every-decision",
      "file": "knowledge/recruiting/governance/hiring-policy-defaults-and-tiering/applications/node--policy-version-sealed-into-every-decision.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-26",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "react",
+     "technique": "organisation-baseline-with-a-team-override",
+     "file": "knowledge/recruiting/governance/hiring-policy-defaults-and-tiering/applications/react--organisation-baseline-with-a-team-override.md",
+     "verified_on": "2026-09-26",
+     "verified_against": "react@19"
     }
    ]
   },

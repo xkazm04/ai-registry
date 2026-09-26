@@ -38,19 +38,38 @@ on any machine, or the version is noise.
 Two opposing properties must both hold, and getting one without the other is the common
 failure:
 
-- **Adding a new policy dimension must leave existing versions byte-identical.** Achieve
-  this by **omitting absent values from the canonical form** rather than serialising them as
-  null or as a type default. If every field is serialised, shipping a new knob changes the
-  digest for every organisation that has never set it, invalidating every in-flight approval
-  and forcing re-review of work nobody touched. Recruiters learn that the system randomly
-  discards their approvals and stop trusting the mechanism that exists to protect them.
-- **Changing a dimension that is in use must change the version.** The mirror property, and
-  the reason the version is derived from content rather than being an integer someone
+- **Adding a new policy dimension must leave a version byte-identical wherever it changes
+  nothing.** Achieve this by **omitting a dimension whose resolved value reproduces the
+  behaviour from before the dimension existed**. Call that value the inert value: off,
+  zero, or an empty map. Do not serialise it as null or as a type default. If every field is
+  serialised, shipping a new knob changes the digest for every organisation it does not
+  affect. That invalidates every in-flight approval and forces re-review of work nobody
+  touched. Recruiters learn that the system randomly discards their approvals and stop
+  trusting the mechanism that exists to protect them.
+- **Changing what a dimension does must change the version.** This is the mirror property,
+  and the reason the version is derived from content rather than being an integer someone
   remembers to increment. A bar that moved between review and approval must break the seal.
+  So must a new dimension that ships with a *non-inert* default, and so must a change to an
+  existing shipped default. In both cases the effective rulebook changed for every
+  organisation that never set the value, even though nobody touched their stored
+  configuration.
 
-State the rule as one sentence in the code that computes it: *absent means omitted, present
-means included, so a new dimension is invisible until someone sets it and a live dimension
-is decisive the moment it changes.*
+The trap sits between the two properties. "Omit absent values" sounds like the first
+property and breaks the second. A default resolved at the point of use is absent from
+storage and present in behaviour. A digest keyed on storage therefore stays still while
+the rulebook moves under a sealed approval. Measured against one real version builder, it
+got two of three cases wrong in opposite directions. It kept the version for a workspace
+that now spared a share of its rejections by default. It moved the version for a
+workspace that had explicitly switched the new dimension off and whose behaviour had not
+changed. Schema-evolution practice outside hiring reaches the same rule: a change to what
+an unset value *means* is a breaking change, even when no byte on the wire moves.
+
+State the rule as one sentence in the code that computes it: *the digest is over resolved
+values, and a dimension is omitted only at its inert value, so a new dimension is
+invisible until it does something and a live dimension is decisive the moment it
+changes.* Where a new dimension must ship active, accept the one-time version change and
+say so in the release. The alternative is approvals redeemed against a rulebook their
+reviewers never saw.
 
 ## The procedure
 
@@ -95,12 +114,19 @@ is decisive the moment it changes.*
 - **When the version changes while a human is reviewing, invalidate the review.** Not a
   warning, not a merge — a fresh review. The reviewer's judgment was formed over a set the
   new policy may reshape.
-- **When adding a configuration field, verify that the version of an untouched organisation
-  does not move.** Make this a test, because the regression is silent and its symptom appears
-  in a different system a week later.
+- **When adding a configuration field, test both directions for an untouched
+  organisation.** If the field's default is inert, the version must not move. If the
+  default is active, it must. Pin both as tests, because each regression is silent and its
+  symptom appears in a different system a week later.
 - **When a field is removed from policy, treat it like a change to a live dimension for
-  anyone who had set it, and like nothing for everyone else.** The omit-absent rule gives you
-  this for free, which is the second argument for it.
+  anyone whose resolved value was not inert, and like nothing for everyone else.** The
+  omit-when-inert rule gives you this for free. Anyone left running on an active default
+  counts as having set it.
+- **When one approval authorises many records, every record carries the exact version
+  string the approval signed.** Values that differ per subject, such as the floor that
+  applied to this candidate's role family, go in the record's snapshotted inputs. They
+  never go into a per-record variant of the version. A per-record variant cannot be joined
+  back to the approval that authorised it, or to the other records of the same run.
 - **When two systems compute the version — say a pipeline and an application layer — pin
   byte-equality with a shared fixture tested from both sides.** A canonical form implemented
   twice is two canonical forms until proven otherwise, and the divergence appears as

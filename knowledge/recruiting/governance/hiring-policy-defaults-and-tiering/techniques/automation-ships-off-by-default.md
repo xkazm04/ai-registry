@@ -119,6 +119,17 @@ produced by itself.
 - **Not for statutory or safety gates.** Where a check must run — a credential
   verification, a jurisdictional restriction — it is not a toggle at all. Do not model a
   requirement as a default-off feature; model it as a constraint no layer can clear.
+- **Not unchanged for a knockout on a declared, objective answer.** Rejecting a candidate
+  who answered "no" to a job-required eligibility question is a different capability from
+  score-based rejection, and regulators and the vendors that document the feature treat it
+as one. Such
+  questions include a stated right to work, a licence held, or a minimum age. The rule
+  that survives is narrower, and it still holds. No knockout ships pre-written: each one is
+  a question an administrator authors, per requisition family, with the criterion's
+  job-relatedness stated beside it. Each needs a notice and a route to a person, because a
+  declared answer can be mistaken and a criterion can be wrong for the role. A knockout
+  that consults a score, a parsed CV or an inferred attribute is not a knockout. It is the
+  last row of the table, and it ships off.
 - **Not as an excuse to leave the enabled path untested.** The off default protects
   adopters, not the code. The enabled path is the one that will run at the largest and most
   motivated customers, and it deserves the heavier test suite.

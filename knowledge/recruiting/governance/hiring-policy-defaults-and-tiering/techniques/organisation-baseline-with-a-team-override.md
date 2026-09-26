@@ -54,7 +54,10 @@ as the company baseline, and a per-team override expressed as a sparse delta aga
    and role-family adjustments are typically overridable. Enforce it on write — a delta
    containing a non-overridable key is rejected, not silently ignored.
 3. **Bound the deltas.** An override may usually only move a value in the *safer*
-   direction, or within a stated band around the baseline. A team that needs to go outside
+   direction, or within a stated band around the baseline. "Safer" means the direction that
+   exposes fewer candidates to automated adverse action. For a reject-below threshold that
+   is down, not up, so declare the direction per key rather than assuming "higher is
+   stricter is safer". A team that needs to go outside
    the band is asking for a policy change, and that request should reach the person who owns
    the baseline rather than being satisfiable locally.
 4. **Record every write with its actor and its previous value**
@@ -122,7 +125,9 @@ allows duplicates, the policy must too.
   different kind of work. Folding it into the baseline, or into a role-family adjustment,
   serves more people and leaves fewer exceptions.
 - **When an override would weaken a protection, refuse it at the layer.** Safety values move
-  one way from below: a team may be stricter than the baseline, never more permissive. This
+  one way from below: a team may be more protective than the baseline, never less.
+  Protective means fewer people exposed to automated adverse action. It does not mean a
+  higher bar. This
   turns the tiering into a ratchet and removes the most common abuse.
 - **When a delta and the baseline conflict on a key the baseline later removes, drop the
   delta and log it.** An orphaned override is a live rule pointing at a dimension that no
@@ -131,6 +136,25 @@ allows duplicates, the policy must too.
   copies.** Compute each team's delta against the new baseline and store only that. Seeding
   copies preserves the fragmentation you migrated to fix, with a governance layer on top of
   it.
+- **When the baseline changes, show every team's effective change before it lands.** A
+  sparse delta's strength is also its hazard. A baseline edit moves every team that did
+  not set the key, including teams that looked at the old value and accepted it. Render
+  the per-team effective diff as part of the change, and let a team **pin** a value it
+  accepted knowingly. A pin is an override whose value happens to equal the baseline's,
+  stored explicitly, so it does not move. Three states per key, inherit, override and
+  pin, are the minimum. With two, "inherited" and "chose the same number" collapse into
+  one state, and a normalisation pass will prune the second as redundant.
+- **When a settings surface shows the effective value, it writes the tier it shows, or it
+  says which tier it writes.** A screen that renders a team's resolved policy and saves to
+  the organisation row beneath it has a save that succeeds and changes nothing for the
+  person who made it. When the value is an automation switch, the screen can report "off"
+  as saved while the team runs with it on. Every writer of a phase must also agree on the
+  tier. One writer defaulting to the organisation and another to the team is the same
+  defect, split across two code paths.
+- **When an automated apply writes a team value, it writes a delta.** A tool that accepts a
+  recommendation by reading the team's effective policy, changing one key and saving the
+  whole object creates the full copy this technique exists to prevent. The first
+  accepted recommendation forks the policy, and nobody decided to.
 - **When a team is deleted or re-organised, its delta does not silently move.** Re-parenting
   a team under a different part of the organisation changes which baseline it inherits, and
   that is a policy change that needs an actor.

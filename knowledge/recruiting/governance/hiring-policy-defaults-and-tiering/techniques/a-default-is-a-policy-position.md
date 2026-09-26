@@ -26,19 +26,25 @@ through a path that leaves a record.
 
 ## The evidence for the premise
 
-Nobody needs a study to accept that most settings are never touched, but two structural
-facts make hiring configuration worse than the average case, and both are worth naming
-when someone argues that the customer will tune it:
+The study evidence is strong on average and uneven in detail. A meta-analysis of default
+effects found a large pooled effect with wide variation, and it did not find one
+universal rate. The popular software figure, "under five percent of users change
+settings", is an anecdote with no stated sample. Defaults weaken where the decider is
+expert, owes a review, or can see that the default works against them. A hiring suite's
+buyer configures it once, in an implementation project, and that project's choices are the
+real default. So the claim is not "nobody tunes". It is that the conditions which weaken a
+default are mostly absent in hiring configuration. Two structural facts explain why, and
+both are worth naming when someone argues that the customer will tune it:
 
 - **The accountable person and the capable person are different people.** The person who
   owns the organisation's fairness posture usually does not have the administrative access
   or the vocabulary to move a screening threshold; the person who has both usually does
   not believe the value is theirs to move. The gap is where shipped values survive.
-- **The feedback signal for a bad default points one way only.** A default that is too
-  strict produces a visible complaint — the queue is empty, the shortlist is thin, someone
-  escalates. A default that is too permissive produces nothing: the rejected candidate does
-  not know, the recruiter sees a plausible list, and the defect is invisible to everyone
-  with the power to fix it. So the errors that survive are systematically the harmful
+- **The feedback signal for a bad default points one way only.** A default that errs
+  against the organisation's throughput produces a visible complaint — the queue is empty,
+  the shortlist is thin, someone escalates. A default that errs against a candidate
+  produces nothing: the rejected candidate does not know, the recruiter sees a plausible
+  list, and the defect is invisible to everyone with the power to fix it. So the errors that survive are systematically the harmful
   ones.
 
 ## The procedure
