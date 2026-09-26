@@ -5,7 +5,7 @@
   "source": "knowledge/recruiting/ (frontmatter only)",
   "subjects": 64,
   "techniques": 385,
-  "applications": 216,
+  "applications": 219,
   "laws": 11,
   "categories": [
    "role-definition",
@@ -1062,9 +1062,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/governance/candidate-ai-disclosure-and-explanation/candidate-ai-disclosure-and-explanation.md",
-   "digest": "sha256-b2:6a50b1bb33a98bd8",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:27f52910bd5ead7e",
+   "revision": 2,
+   "changedAt": "2026-09-26",
    "techniques": [
     {
      "slug": "allowlist-of-candidate-visible-decisions",
@@ -1158,19 +1158,43 @@
      "stack": "node",
      "technique": "allowlist-of-candidate-visible-decisions",
      "file": "knowledge/recruiting/governance/candidate-ai-disclosure-and-explanation/applications/node--allowlist-of-candidate-visible-decisions.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-26",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "decisive-facts-not-the-rationale",
+     "file": "knowledge/recruiting/governance/candidate-ai-disclosure-and-explanation/applications/node--decisive-facts-not-the-rationale.md",
+     "verified_on": "2026-09-26",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "held-data-derived-from-what-exists",
      "file": "knowledge/recruiting/governance/candidate-ai-disclosure-and-explanation/applications/node--held-data-derived-from-what-exists.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-26",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "right-to-request-a-human-review",
+     "file": "knowledge/recruiting/governance/candidate-ai-disclosure-and-explanation/applications/node--right-to-request-a-human-review.md",
+     "verified_on": "2026-09-26",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "three-state-attribution-that-fails-to-unknown",
+     "file": "knowledge/recruiting/governance/candidate-ai-disclosure-and-explanation/applications/node--three-state-attribution-that-fails-to-unknown.md",
+     "verified_on": "2026-09-26",
+     "verified_against": "node@24"
     },
     {
      "stack": "react",
      "technique": "disclosure-at-the-point-of-submission",
      "file": "knowledge/recruiting/governance/candidate-ai-disclosure-and-explanation/applications/react--disclosure-at-the-point-of-submission.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-26",
+     "verified_against": "react@19"
     }
    ]
   },

@@ -25,12 +25,21 @@ their data that fed it.
 
 ## Why the pair beats the prose
 
-The pair is *contestable*. A person who sees "your application scored 58 against
-a required 65 for this role, computed from the skills and experience in your
-submitted history" can do something: identify data that was wrong, ask whether a
-qualification was missed, request review, decide whether to reapply. That is the
-operative standard for a meaningful explanation — not that the person
-understands the mechanism, but that they can act on the account.
+The pair is *contestable*. A person who sees "your application scored 58, below
+the screening threshold of 65 for this role, computed from the skills and
+experience in your submitted history" can do something: identify data that was
+wrong, ask whether a qualification was missed, request review, decide whether to
+reapply. That is the operative standard for a meaningful explanation — not that
+the person understands the mechanism, but that they can act on the account. The
+highest court to rule on it named this form as one that may suffice: telling the
+person how far a variation in the data taken into account would have changed
+the result.
+
+Contestable is not the same as actionable. The pair tells a person that they
+fell short and which of their data was read. It does not tell them what to
+change, and a score gap names no feature and no action. The recourse literature
+defines recourse as a change the person can make that flips the outcome, and the
+pair is not that. Do not present it as advice.
 
 The prose is not contestable, because it is argument rather than fact. It also
 carries three specific hazards: it names a second person, it is written in the
@@ -60,7 +69,28 @@ likely to contain a plausible reason that was never the reason.
 
 - **A score shown to a candidate always appears with its threshold.** A bare
   number is uninterpretable and reads as a grade on the person. The pair is the
-  unit; never ship half of it.
+  unit; never ship half of it. Rejected applicants given performance feedback
+  report lower self-evaluation than those told only the outcome, so the pair is
+  framed as a fact about the application, never about the person. Withholding
+  it is not the remedy: a generated score is the person's own data.
+- **The pair exists only where the rule had a fixed threshold.** Under a
+  rank-based cut-off, such as top N or bottom percent, the effective threshold
+  is whatever the Nth applicant scored. It is set by other people's data, and
+  stating it as "required" either invents a number or discloses a comparison.
+  State the rule as it ran ("the lowest-scoring tenth of this round, and below
+  the floor of 65") and the person's own score. Under a conjunctive rule, a
+  fixed floor AND a rank arm, the floor alone is a valid counterfactual,
+  because clearing it would have changed the outcome. Show it as "below the
+  threshold", never as "the threshold you needed", because others under it may
+  have advanced.
+- **The caveats sealed with the facts cross with them.** If the record carries
+  a fact that weakens the comparison, the candidate sees it beside the pair.
+  Examples are a score computed before the requirements last changed, or an
+  input that was a model's reading rather than a measurement. A clean pair
+  shown without the caveat makes a stronger claim than the record does, and
+  the caveat is often the most contestable fact the person could be given.
+  Observed 2026-09-26: a tree sealed a staleness flag with every batch decline
+  for its own audit trail, and dropped it at the candidate boundary.
 - **Never surface a rank or a comparison to other applicants.** "Stronger
   candidates applied" explains the outcome by disclosing others. If the true
   reason is comparative, say the structural fact at the level you can say it —
@@ -73,7 +103,11 @@ likely to contain a plausible reason that was never the reason.
 - **Trade secrecy narrows the mechanism, never the facts.** Confidentiality can
   keep the formula private; it cannot withhold which of the person's own data
   was used and what was decisive. Wholesale refusal on secrecy grounds is not a
-  defensible position.
+  defensible position. Nor is the controller the judge of its own claim. Where
+  secrecy is asserted against an access request, the contested material goes
+  to the supervisory authority or court, which balances it against the
+  person's right and, in the same exercise, against other applicants' data.
+  The narrowing is decided case by case, not by policy.
 - **An inference is labelled as one.** If a decisive input was itself a model's
   reading of a document rather than a recorded fact, the explanation must say so
   in the grammar of a hypothesis, not of a measurement.

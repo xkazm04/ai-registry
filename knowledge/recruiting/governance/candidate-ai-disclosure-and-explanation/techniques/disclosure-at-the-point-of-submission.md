@@ -48,7 +48,13 @@ to request an alternative process, an accommodation, or a human review.
   every rejection", confirm that no threshold, no batch policy and no timeout
   can produce a decline without a human act. If one can, either close it or
   weaken the sentence. Copy is the cheapest place to make a promise and the
-  most expensive place to break one.
+  most expensive place to break one. A human act is not enough on its own. The
+  act must be one that could have changed this person's outcome. A person who
+  approves a machine-selected set they could not edit, or applies whatever the
+  system produced, leaves the decision automated in the eyes of the doctrine
+  the sentence invokes. Where the machine selects and a person approves, say
+  so. That sentence is true, and the candidate's own decision history can then
+  show the same two facts.
 - **State the enforced retention window, not the intended one.** Read the number
   from the same configuration the deletion path reads, so the two cannot drift.
 - **Legal assertions never render from a default.** If the applicable regime is
@@ -63,8 +69,13 @@ to request an alternative process, an accommodation, or a human review.
   consent record are a separate artifact owned by the consent-and-retention
   practice. Do not conflate a rendered paragraph with a recorded agreement.
 - **The register is plain and short.** A notice nobody finishes reading is a
-  notice nobody received. Three to five sentences beats a page, and a page that
-  needs a lawyer to parse fails the intelligibility standard on its face.
+  notice nobody received. A page that needs a lawyer to parse fails the
+  intelligibility standard on its face. Treat "three to five sentences" as a
+  legibility budget, not a proven comprehension gain. Controlled studies of
+  simplified disclosures found little or no improvement in understanding. What
+  the first layer must hold is set by content, not length: the processing with
+  the most impact on the person and anything that would surprise them. Fuller
+  detail stays one link away.
 
 ## Placement and timing
 

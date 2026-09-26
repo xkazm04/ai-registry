@@ -41,7 +41,14 @@ that cannot be established. Both directions fail away from the flattering claim.
 - **A person decided** requires an actor identity in the sealed record — an
   operator reference, not merely a session, a request or an interactive context.
   Interactivity is not identity: a decision taken during a human's session but
-  written by a policy pass is an automated decision.
+  written by a policy pass is an automated decision. Identity is necessary and
+  not sufficient. The data-protection doctrine on automated decisions treats
+  human involvement as real only when the person had the authority and
+  competence to change the outcome, considered the relevant data, and did not
+  simply apply what the system produced. Someone who routinely applies machine
+  output "without any actual influence on the result" leaves the decision solely
+  automated. A named operator on a record is evidence of who acted, not of
+  whether they decided.
 - **The automated process decided** requires that the record positively marks
   the actor as the process. This is the honest state for a threshold
   application, a batch policy pass, a scheduled expiry.
@@ -53,6 +60,37 @@ that cannot be established. Both directions fail away from the flattering claim.
 A null actor rendering as a default person is the specific bug this technique
 exists to prevent, and it is almost always introduced by a display helper that
 falls back to a friendly string when a lookup misses.
+
+## Selection and approval are two facts
+
+The commonest real shape in assisted hiring is neither pure state. A machine
+selects, a person approves, and the decision applies. Examples are a batch
+decline over a reviewed and signed set, or a recommended reject that parks at a
+human gate. Three states force a choice between two false renderings. "A person
+decided" upgrades the machine's selection. A bare "automated" hides an approval
+the organisation's own notice may promise.
+
+Render both facts: **the automated process selected, and a person approved**.
+Attribution stays with the machine, so the approval never upgrades it. The
+approval is a second fact beside it, shown only when the record seals a named
+approver. A placeholder, a role or a missing approver shows nothing. As with the
+three states, *whether* a person approved crosses and *which* person does not.
+
+An approval earns the line only if it could have changed this person's outcome.
+The approver saw the set, and could remove any individual from it before it
+applied. An approval of a count, or of a list nobody could edit, is the token
+gesture the doctrine above excludes. There the honest rendering is "automated",
+and the notice's human-decision clause is false until the approval becomes real.
+Whether an approval is real is measurable. A queue whose approvers never remove
+anyone has the shape of a rubber stamp, and that is the calibration practice's
+question to answer.
+
+Observed 2026-09-26 in one tree. Its notice said a rejection is always a
+person's. The same candidate's history showed their batch decline as
+"Automated" and nothing else, although every committed batch sealed a named
+approver who could spare individuals. The candidate saw a contradiction the
+record did not contain. Rendering the approval beside the machine's selection
+removed it without upgrading anything.
 
 ## Reversal binds to the reverser
 
@@ -84,8 +122,11 @@ retroactively marking the original as human-decided because a human later looked
   as a pass.
 - **Reconcile attribution against the disclosure promise in test.** If the
   submission notice says no adverse outcome is decided automatically, assert
-  that no adverse decision kind can render with automated attribution. That
-  test, not the copy, is what makes the promise true.
+  that every adverse decision kind the machine can select renders with its
+  approval, and that the path producing it refuses to apply without a named
+  approver. Asserting instead that no adverse kind renders as automated pushes
+  the fix toward upgrading attribution, which is the one direction this
+  technique forbids. That test, not the copy, is what makes the promise true.
 
 ## When not to use this
 
