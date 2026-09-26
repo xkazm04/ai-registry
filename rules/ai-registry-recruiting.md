@@ -1,6 +1,6 @@
 # Recruiting - the subjects this registry carries
 
-`recruiting` - 64 subjects, 384 techniques, 214 applications.
+`recruiting` - 64 subjects, 384 techniques, 215 applications.
 Slugs only; resolve one through `index.json` as the access rule beside this file describes.
 
 ### role-definition

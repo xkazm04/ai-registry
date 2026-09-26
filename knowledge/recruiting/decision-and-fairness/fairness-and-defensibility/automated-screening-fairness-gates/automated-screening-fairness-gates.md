@@ -70,15 +70,30 @@ that produces unattended rejections.
 The model may *recommend* reject; the machine-actionable route admits only advance or
 hold; only a person applies a rejection. This is not squeamishness. It is the shape
 that the [no adverse outcome is solely automated](../../../_laws.md#no-adverse-outcome-is-solely-automated)
-law forces on any implementation, and it is also what a growing body of employment-AI
-regulation asks a deployer to demonstrate: that a competent person with the authority
-and the information to decide otherwise stood between the tool and the outcome. A
-signature at the end of a queue is not that person. Regulators and courts in more than
-one jurisdiction have now said plainly that a human who confirms a ranking without
-independently reviewing what it was computed from does not break the chain of automated
-decision-making — the review has to be capable of changing the answer. Which means the
+law forces on any implementation. Where the law asks for the same thing, it asks for a
+competent person with the authority and the information to decide otherwise, standing
+between the tool and the outcome. A signature at the end of a queue is not that person.
+EU data-protection guidance says a person who routinely applies automated output
+"without any actual influence on the result" leaves the decision solely automated, and
+that meaningful oversight needs "the authority and competence to change the decision"
+and consideration of "all the relevant data" (WP251, adopted by the EDPB). A Dutch
+appellate court applied that test in 2023 and found staff review no more than symbolic.
+The UK's 2025 data act defines a solely automated decision as one with "no meaningful
+human involvement". The CJEU went further upstream in 2023: a score that the
+decision-maker "draws strongly" on is itself the automated decision. Which means the
 design question is not "did a human click" but "was there anything for the human to
 look at, and could the click have gone the other way".
+
+The law is not moving in one direction, and a design that rests on a mandate should say
+which one. Checked 2026-09-26: the EU restricts solely automated decisions now through
+GDPR Article 22, and the
+AI Act's oversight and deployer duties reach recruitment on 2027-12-02, after the 2026
+omnibus delay. Colorado's replacement act and California's privacy-agency rules, both
+effective 2027, give human review or appeal after an adverse outcome, on request. The UK
+narrowed its restriction in 2025 to decisions that involve special-category data. US
+federal policy has retreated from disparate-impact enforcement, and private suits
+continue. The design stands without any of them, because the law it rests on is the
+subject's own.
 
 The strongest version of this design goes one step further than the table: **even a
 rejection that clears every fairness rule is not applied by the machine.** Clearing the
@@ -119,14 +134,27 @@ into a fairness incident. Turning it on should be an explicit act with an owner.
 ## Shielded cohorts: a set with exactly one source
 
 Some cohorts must never be routed to an adverse outcome unattended, no matter how the
-score lands. The usual members are candidates whose evidence is structurally thin
-rather than weak — early-career and career-changing candidates, returners after a gap,
-candidates whose experience was acquired outside the shapes the parser recognizes — plus
-any cohort the organization has an affirmative obligation toward. What they share is
-that the score is *least valid* exactly where it is most confident: a rubric trained on
-conventional careers reads an unconventional one as a low score, not as a low-evidence
-one, which is the [absence of evidence is not evidence](../../../_laws.md#absence-of-evidence-is-not-evidence)
+score lands. The members are candidates whose evidence is structurally thin rather than
+weak — a career the parser could not read, a classifier that fell to its default with
+no signal, experience acquired outside the shapes the rubric recognizes, a gap the
+scorer reads as absence — plus any cohort the organization has an affirmative
+obligation toward. What they share is that the score is *least valid* exactly where it
+is most confident: a rubric trained on conventional careers reads an unconventional one
+as a low score, not as a low-evidence one, which is the [absence of evidence is not evidence](../../../_laws.md#absence-of-evidence-is-not-evidence)
 failure wearing a decision's clothes.
+
+**Name the membership by the instrument's failure, not by a career-stage label.** The
+obvious members are early-career candidates, and that label is where the shield turns
+on the people it does not cover. US age law forbids favouring younger applicants over
+older ones, and its own regulation names "college student" and "recent college
+graduate" as age terms. A shield keyed to students and recent graduates gives younger
+applicants a human reviewer and leaves experienced applicants, who skew older, to the
+automated path, which is a different procedure by an age proxy. EU equal-treatment law
+protects every age and asks for a documented justification for any different
+treatment. So state the reason for each member as a sign that the instrument cannot
+read this candidate, and let that sign apply at any age: a long, non-linear career the
+parser mangles qualifies on the same terms as a thin first CV. Then measure the shield's
+own effect in the aggregate lane, by age band where the data lawfully exists.
 
 Two rules make the shield real:
 
@@ -182,7 +210,15 @@ optimistic action is the one a guess should not buy — and it may attach a huma
 flag to whatever the machine did produce, so the person who picks it up knows the machine
 was guessing. It may never authorize a rejection, at any value, because that path does not
 exist. Set the floor high enough to mean something and state it in the same policy table
-as the thresholds.
+as the thresholds, and treat it as a weak brake: models that state their confidence are
+measurably overconfident, and calibration can differ between groups of people. Check the
+floor against real outcomes by subgroup before trusting it, and do not show the number to
+a reviewer as a measurement.
+
+A setting that lets a workspace trust the machine's advance verdicts relaxes the route,
+and it may relax only the confidence narrowing. The route says *hold*, not *why*, so the
+relaxation re-derives the shield itself before it acts. Otherwise the shielded candidate
+the route held is advanced by the model's standing recommendation.
 
 ## Enforce twice, and record the refusal
 
@@ -204,9 +240,12 @@ That record does three jobs no other artifact does: it keeps the candidate's fil
 reading as though nothing happened; it *demonstrates* to an auditor that the boundary
 operates, which no policy document can; and it is a defect report about whichever caller
 keeps proposing what it may not do — one you would otherwise never receive, because the
-gate is quietly correcting it. Retention horizons of several years are now the norm for
-this class of record in at least one major jurisdiction, so design the event as long-lived
-and store structured facts rather than a rendered sentence.
+gate is quietly correcting it. Design the event as long-lived and store structured facts
+rather than a rendered sentence, and set its retention per jurisdiction. California keeps
+employment records, expressly including automated-decision-system data, for four years
+(rules effective 2025-10-01). The EU AI Act sets a six-month floor for deployer logs, and
+GDPR's storage limitation caps retention unless you can justify it, typically by the
+local claims period. One global horizon is wrong in one direction or the other.
 
 ## Where this subject ends
 
@@ -236,7 +275,13 @@ facts must be in that log, because they bind a person's identity to a hiring out
   reaches around.
 - **The rubber stamp** — a human queue so large, so uninformative, or so deadline-driven
   that approval is a formality; oversight that could not have gone the other way is not
-  oversight.
+  oversight. A reviewer shown the machine's verdict before forming their own tends to
+  follow it, including when they think it is poor.
+- **The label shield** — a shield keyed to a career-stage label, which protects by an age
+  proxy and leaves the older unread career on the automated path.
+- **The relaxed gate that cannot see why** — a trust-the-machine setting that acts on the
+  recommendation after the route held, and so advances the shielded candidate the route
+  protected.
 - **The silent refusal** — a blocked rejection that leaves no record, so the boundary
   cannot be demonstrated and the misbehaving caller is never found.
 - **The zero nobody computed** — an absent score coerced to a number and compared to a

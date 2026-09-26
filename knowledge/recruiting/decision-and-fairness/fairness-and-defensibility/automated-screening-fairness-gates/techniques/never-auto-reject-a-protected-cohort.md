@@ -16,10 +16,10 @@ use_when: [adding auto-reject or auto-advance to a screening pipeline, defining 
 Some candidates are systematically misread by any scoring instrument, and the misreading
 is not noise — it is directional. A candidate whose evidence is thin *in the shapes the
 instrument recognizes* scores like a candidate whose evidence is weak, and the two are
-completely different people. Early-career candidates, career changers, returners after a
-gap, candidates trained outside the conventional pathways, candidates whose work lives
-in places the parser cannot read: the score is least valid precisely where it is most
-decisive. Treating that low score as an actionable rejection is the
+completely different people. A first CV with little on it, a career the parser mangled,
+a classifier that fell to its default with no signal, a returner's gap read as absence,
+work that lives in places the parser cannot read: the score is least valid precisely
+where it is most decisive. Treating that low score as an actionable rejection is the
 [absence of evidence](../../../../_laws.md#absence-of-evidence-is-not-evidence) failure with
 an outcome attached.
 
@@ -54,7 +54,12 @@ stage transition.
    to recommend a hard reject. The prompt instruction is the weakest of the three
    placements and it is still worth having: it makes the model's rationale usable by the
    human who receives the hold, instead of a rejection argument the reviewer must
-   discount.
+   discount. It also has a cost. The instruction changes what the reviewers of the
+   *unshielded* candidates are shown: they alone see reject recommendations, and
+   reviewers tend to follow what they are shown. One US court has treated a screening
+   tool's recommendations as open to an age claim whatever weight the employer placed
+   on them. So count reject recommendations by cohort in the aggregate lane, not only
+   rejections.
 5. **Override after the score.** Re-check membership on the returned verdict and force
    the outcome to hold if the verdict is adverse. This override is not reachable by the
    model, the prompt, the rubric, or any confidence value — it is applied to the result,
@@ -107,11 +112,25 @@ cohort:
   contains nothing that would let a person evaluate that claim, automation should not be
   making it.
 
+**A career-stage label is not a failure of the instrument, and it is an age proxy.** The
+easy members to name are early-career candidates, and the easy way to name them is a
+label: student, recent graduate, a band of years of experience. US age-discrimination
+regulation lists "college student" and "recent college graduate" among the terms that
+signal age, and US age law forbids favouring younger applicants over older ones, not the
+reverse. EU equal-treatment law protects every age and needs a documented, proportionate
+aim for any difference. A shield keyed to those labels hands younger candidates a person
+and older ones the automated path. So restate every member as the failure it stands for:
+not "students" but "a record too thin for the rubric to read", not "career changers" but
+"experience the rubric does not map". Let each test fire at any age, including the long,
+non-linear career the parser mangles. Then measure the shield's effect by age band, in
+aggregate, where that data lawfully exists.
+
 Do not implement the shield off protected-characteristic inference. A system that guesses
 someone's age, ethnicity or disability status in order to protect them has created a
 sensitive classification that did not previously exist, and it will be wrong often
-enough to protect the wrong people while stigmatizing the right ones. Shield on career
-shape, which the candidate's own evidence states, not on inferred identity. Adverse-
+enough to protect the wrong people while stigmatizing the right ones. Shield on what the
+candidate's own evidence failed to show the instrument, not on inferred identity and not
+on a career-stage label. Adverse-
 impact monitoring across protected characteristics is a separate, aggregate,
 statistically-governed practice — it belongs in the measurement lane and it never feeds
 a per-candidate branch.
