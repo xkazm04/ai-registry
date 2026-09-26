@@ -15,16 +15,29 @@ A cluster under a consensus log has one failure it cannot heal: enough peers gon
 that no leader can be elected, or a corrupt entry that every peer applies and every
 peer crashes on. Both states are stable. The self-healing ladder has nothing to
 select from because no node can commit anything, and the ordinary API is unreachable
-because the API needs a leader. Recovery mode is the procedure for that state, and
-the technique is about the three things it must do that a naive "start with a flag"
+because the API needs a leader. Recovery mode is the procedure for the second of
+those states, where storage itself needs repair (the first has its own path,
+below). The technique is about the three things it must do that a naive "start with a flag"
 misses: shrink the cluster deliberately, mint a credential that cannot outlive the
 procedure, and treat growing back as part of the exit.
 
 ## Shrink to one, on purpose
 
-The rule: **when no quorum can form, run one node with its peer set forcibly reduced
-to itself, because a recovery process that waits for a quorum waits forever and a
-recovery process that runs beside a partial quorum races it.** The node starts with
+The first decision is which of two recoveries the outage needs. Where the surviving
+peers are healthy and only too few, the documented path keeps all of them: the
+operator stops them, writes the surviving membership into each one's recovery file,
+and restarts them. They elect among themselves by the consensus layer's own rule
+(last log term, then last log index), and no single node is chosen. That forced
+membership change commits every entry in the survivors' logs, including entries that
+were still being replicated. Its own vendor calls it a last resort for exactly that
+reason. It is still the documented tool for a *quorum* outage. Recovery mode is for
+the other case: storage itself must be repaired, because an entry every peer crashes
+on, or a bug, stops the ordinary server from starting at all.
+
+The rule, for that case: **when storage must be repaired and no quorum can form, run
+one node with its peer set forcibly reduced to itself, because a recovery process
+that waits for a quorum waits forever and a recovery process that runs beside a
+partial quorum races it.** The node starts with
 the log's membership overwritten to a single voter - itself - so it can become leader
 of a cluster of one and apply what it needs to. This is not a configuration the
 operator edits by hand; it is what recovery mode *means*, and the mode does it on
@@ -60,10 +73,13 @@ consult.
 The difference from a root credential is that the recovery credential is **never
 persisted**. It lives in the recovery process's memory as a single value; the process
 validates a request by comparing against it, not by lookup in a store that recovery
-mode may be repairing; and exactly one exists at a time - running the ritual again
-replaces it, so a credential the operator has lost is invalidated by minting its
-successor. Restart the process and the credential is gone; the operator re-runs the
-ritual. The rule: **when a
+mode may be repairing; and exactly one exists per process. The ritual cannot run a
+second time in the same process, because the ritual *is* the unseal, and an unsealed
+recovery process refuses to start it again. A credential the operator has lost is
+therefore replaced by restarting the process and re-running the ritual. Restart is
+the one path, and it is also what destroys the lost value. (An in-process "mint a
+successor" would need a second unseal-equivalent path, and the reference
+implementation has none.) The rule: **when a
 credential authorises access below the barrier, bind its lifetime to the process that
 issued it, because a persisted credential would survive into the ordinary server and
 become the one root-equivalent secret that no rotation retires.** The reaper is named

@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 233,
   "techniques": 1813,
-  "applications": 1183,
+  "applications": 1185,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -26890,9 +26890,9 @@
    "subcategory": "service-operations",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/service-operations/quorum-and-recovery-procedures/quorum-and-recovery-procedures.md",
-   "digest": "sha256-b2:c7343c956ae07e3c",
-   "revision": 2,
-   "changedAt": "2026-09-03",
+   "digest": "sha256-b2:adce67260d401a6a",
+   "revision": 3,
+   "changedAt": "2026-09-26",
    "techniques": [
     {
      "slug": "cancel-leaves-prior-state-valid",
@@ -26921,7 +26921,8 @@
       "copying a store's contents offline from one backend to another",
       "two operators might run the same migration",
       "deciding which keys a backend copy must skip",
-      "the server must refuse to start during a migration"
+      "the server must refuse to start during a migration",
+      "an operator tool rewrites a live store's entries in place"
      ]
     },
     {
@@ -26936,7 +26937,8 @@
       "designing a multi-share submission endpoint",
       "a share arrives for an attempt that may no longer exist",
       "deciding when newly rotated root material becomes the live material",
-      "an operator asks how far along a rotation is"
+      "an operator asks how far along a rotation is",
+      "deciding when a rotated master secret may be retired"
      ]
     },
     {
@@ -27006,6 +27008,20 @@
      "file": "knowledge/software-engineering/operations/service-operations/quorum-and-recovery-procedures/applications/go--pick-highest-applied-index.md",
      "verified_on": "2026-09-02",
      "verified_against": "go@1.27"
+    },
+    {
+     "stack": "node",
+     "technique": "migration-lock-in-source",
+     "file": "knowledge/software-engineering/operations/service-operations/quorum-and-recovery-procedures/applications/node--migration-lock-in-source.md",
+     "verified_on": "2026-09-26",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "nonce-progress-verify",
+     "file": "knowledge/software-engineering/operations/service-operations/quorum-and-recovery-procedures/applications/node--nonce-progress-verify.md",
+     "verified_on": "2026-09-26",
+     "verified_against": "node@24"
     }
    ]
   },

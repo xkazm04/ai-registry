@@ -6,7 +6,7 @@ technique: migration-lock-in-source
 status: forged
 laws: [gate-sees-target, absent-guard-is-loud]
 shared_with: []
-use_when: [copying a store's contents offline from one backend to another, two operators might run the same migration, deciding which keys a backend copy must skip, the server must refuse to start during a migration]
+use_when: [copying a store's contents offline from one backend to another, two operators might run the same migration, deciding which keys a backend copy must skip, the server must refuse to start during a migration, an operator tool rewrites a live store's entries in place]
 ---
 
 # The migration lock lives in the source
@@ -108,3 +108,25 @@ procedure is a membership change. Nor is this the path for a backend's *internal
 format migration on version upgrade, which runs inside the serving process at unseal
 with the barrier open. This technique is the cold copy, run with the server stopped,
 by an operator who may not be able to read what they are moving.
+
+## The in-place rewrite: the store's write lock is the lock
+
+One procedure sits between those cases and is routinely run without either protection:
+an operator's tool that rewrites the entries of **one** store in place, such as
+re-encrypting every stored secret under a rotated key, while the server keeps serving.
+No copy means no destination to corrupt and no reserved keys to skip. Nothing drains, so
+stopping the server buys nothing. The single-writer rule survives, though, and moves.
+The rule: **when a repair rewrites a live store in place, read each entry and write it
+back inside one write transaction of that store (or write back with a compare-and-set on
+the value read), because a pass that reads now and writes later reverts every value the
+server committed in between.** A store with its own write lock needs no reserved-key lock
+and no boot refusal: its transaction is the migration lock, exactly as the exemption
+above lets a single-file store's own file lock stand in for one. The cost is that
+serving writers stall for the transaction's length. So a pass that could outlast the
+writers' busy wait is cut into batches, and each batch carries the compare-and-set.
+
+The failure is silent, which is why it is worth a rule. Nothing is unreadable
+afterwards: the reverted value decrypts cleanly under the new key. It is simply the
+value from before the operator's edit. Measured beside a live writer, the
+read-then-write shape lost committed values in every pass. One transaction around the
+read lost none.
