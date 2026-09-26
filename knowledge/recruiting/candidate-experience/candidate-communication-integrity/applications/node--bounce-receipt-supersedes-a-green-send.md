@@ -7,6 +7,8 @@ stack: node
 status: forged
 verified_on: 2026-09-26
 verified_against: node@24
+applied: code
+ab_verdict: better
 ---
 
 # Append-only outbox with read-time supersession
@@ -127,7 +129,10 @@ database so the bare runner loads it directly.
   arrives out of order" does not hold when the send's own stamp is the later one.
   This was read from the tree at `17619a52`, not reproduced. The window is
   narrow, and the half-built `messageId` echo would close it.
-- **Foreign receipts leave no trace in the install.** An `unknown_ref` answer
-  reaches the relay and nowhere else. If the relay switched reference schemes
-  wholesale, every real bounce would take that path, and kp's operator would see
-  a quiet Comms Center.
+- **Foreign receipts left no trace in the install; closed 2026-09-26.** An
+  `unknown_ref` answer reached the relay and nowhere else. If the relay switched
+  reference schemes wholesale, every real bounce would take that path, and kp's
+  operator would see a quiet Comms Center. Each one now increments a per-process
+  count (`foreignReceipts` on `GET /api/ops`) and writes a line to
+  `comms-foreign-receipts.log`, still filed into no tenant. The count is
+  per-process: a restart zeroes it, and only the log line survives.

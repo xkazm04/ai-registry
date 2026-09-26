@@ -71,3 +71,18 @@ rubber-stamping; small cohorts "unmeasurable by definition"), two converged cond
 signed-set technique, and all three node applications re-verified to 2026-09-26. Three
 `applied.md` rows (two better, one unmeasurable). Single-stack debt for this subject: cleared.
 Yield high, dry_streak 0. See [[bulk-adverse-action-governance]].
+
+## 2026-09-26 - deepen: candidate-communication-integrity
+
+Dispatched by the Curator lane on "single stack (node)". Landed:
+- two spec applications pinned to the SMTP and delivery-status RFCs (second stack,
+  primary class B);
+- three conditioned absolutes: ordering binds to the attempt, not to arrival; an
+  unmatched receipt is a fault only when it names something you issued; retention is
+  symmetric rather than never pruned;
+- delivered and delayed as vocabulary members;
+- the node bounce application re-verified to 2026-09-26.
+
+Two `applied.md` rows, both better (one code in kp, one simulation). Single-stack debt
+for this subject: cleared (points 5 -> 3). Four single-lane leads banked. Yield high,
+dry_streak 0. See [[candidate-communication-integrity]].

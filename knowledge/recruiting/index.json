@@ -1219,8 +1219,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/candidate-experience/candidate-communication-integrity/candidate-communication-integrity.md",
-   "digest": "sha256-b2:75f174a46727ffbc",
-   "revision": 4,
+   "digest": "sha256-b2:1e9e47936aa7eedc",
+   "revision": 5,
    "changedAt": "2026-09-26",
    "techniques": [
     {

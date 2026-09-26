@@ -1,0 +1,89 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-cci-0926",
+  "skill": "deepen",
+  "skill_version": "1.4.0",
+  "mode": "interactive",
+  "domain": "recruiting",
+  "started_at": "2026-09-26T12:10:00Z",
+  "ended_at": "2026-09-26T13:30:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 4,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "recruiting/candidate-communication-integrity",
+      "at": "2026-09-26",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": 5,
+      "points_after": 3
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "candidate-communication-integrity",
+      "technique": "candidate-communication-integrity",
+      "verdict": "better",
+      "mode": "code"
+    },
+    {
+      "subject": "candidate-communication-integrity",
+      "technique": "bounce-receipt-supersedes-a-green-send",
+      "verdict": "better",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/recruiting/candidate-experience/candidate-communication-integrity/candidate-communication-integrity.md",
+    "knowledge/recruiting/candidate-experience/candidate-communication-integrity/techniques/terminal-delivery-status-vocabulary.md",
+    "knowledge/recruiting/candidate-experience/candidate-communication-integrity/techniques/bounce-receipt-supersedes-a-green-send.md",
+    "knowledge/recruiting/candidate-experience/candidate-communication-integrity/techniques/dead-letter-escalation-and-orphan-receipts.md",
+    "knowledge/recruiting/candidate-experience/candidate-communication-integrity/applications/spec--terminal-delivery-status-vocabulary.md",
+    "knowledge/recruiting/candidate-experience/candidate-communication-integrity/applications/spec--bounce-receipt-supersedes-a-green-send.md",
+    "knowledge/recruiting/candidate-experience/candidate-communication-integrity/applications/node--bounce-receipt-supersedes-a-green-send.md",
+    "knowledge/recruiting/index.json",
+    "rules/ai-registry-recruiting.md",
+    "catalog.json",
+    "librarian/applied.md",
+    "librarian/domains/recruiting.md",
+    "librarian/subjects/recruiting/candidate-communication-integrity.md"
+  ],
+  "commits": [
+    {
+      "sha": "d97ebca1",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/recruiting",
+        "rules/ai-registry-recruiting.md",
+        "catalog.json"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [
+    {
+      "subject": "recruiting/candidate-communication-integrity",
+      "reason": "blind-case tension (a surface with no record claims sent from the capability bit, against default-unknown-to-pessimistic): one lane, reasoning only, and the node application already records it as an invariant held by convention"
+    },
+    {
+      "subject": "recruiting/candidate-communication-integrity",
+      "reason": "a statutory language mandate outranking the candidate's locale choice: one lane, law-firm commentary only; return with the statute's own text or a consumer hiring in a mandated-language jurisdiction"
+    },
+    {
+      "subject": "recruiting/candidate-communication-integrity",
+      "reason": "retracting the send marker when a later bounce overturns the acceptance: reasoning only; return with a consumer whose sequencing reads the marker"
+    },
+    {
+      "subject": "recruiting/candidate-communication-integrity",
+      "reason": "an old do-not-contact objection not blocking transactional messages about a later self-submitted application: two weak lanes, the regulation cited from memory; return with the primary text"
+    }
+  ],
+  "failure_signature": null,
+  "notes": "Single-stack cleared with two spec applications pinned to the mail RFCs; three absolutes conditioned on converged lanes; kp apply (0aabc0da) and map (11da7e2f6) committed on kp main, not pushed: kp main is diverged by a live sibling."
+}
